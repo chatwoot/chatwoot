@@ -408,12 +408,9 @@ export default {
       <label>{{ $t('CONTACT_FORM.FORM.COMPANY_NAME.LABEL') }}</label>
       <CompanySelector
         :model-value="companyId"
-        :selected-name="companyId ? companyName : ''"
+        :selected-name="companyName"
         @select="onCompanySelect"
       />
-      <span v-if="!companyId && companyName" class="text-xs text-n-slate-11">
-        {{ $t('COMPANIES.SELECTOR.UNLINKED_NAME', { name: companyName }) }}
-      </span>
     </div>
     <woot-input
       v-else

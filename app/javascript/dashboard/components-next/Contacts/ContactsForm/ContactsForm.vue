@@ -314,26 +314,14 @@ defineExpose({
           />
           <div
             v-else-if="item.key === 'COMPANY_NAME' && hasCompaniesFeature"
-            class="flex flex-col min-w-0 gap-1"
+            class="min-w-0"
           >
             <CompanySelector
               :model-value="state.companyId"
-              :selected-name="
-                state.companyId ? state.additionalAttributes.companyName : ''
-              "
+              :selected-name="state.additionalAttributes.companyName"
               :is-details-view="isDetailsView"
               @select="handleCompanySelection"
             />
-            <span
-              v-if="!state.companyId && state.additionalAttributes.companyName"
-              class="text-xs text-n-slate-11"
-            >
-              {{
-                t('COMPANIES.SELECTOR.UNLINKED_NAME', {
-                  name: state.additionalAttributes.companyName,
-                })
-              }}
-            </span>
           </div>
           <Input
             v-else

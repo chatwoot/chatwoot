@@ -27,8 +27,7 @@
     },
     "SELECTOR": {
       "PLACEHOLDER": "Select company",
-      "CREATE_OPTION": "Add \"{name}\"",
-      "UNLINKED_NAME": "Unlinked company name: {name}. Select or add a company to link this contact."
+      "CREATE_OPTION": "Add \"{name}\""
     },
     "CREATE": {
       "TITLE": "Add company details",

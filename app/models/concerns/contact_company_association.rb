@@ -4,6 +4,7 @@ module ContactCompanyAssociation
   included do
     belongs_to :company, optional: true, counter_cache: true
 
+    before_validation :associate_company_from_name, if: :should_associate_company_from_name?
     before_save :sync_company_name_from_company, if: :will_save_change_to_company_id?
     after_commit :associate_company_from_email, on: [:create, :update], if: :should_associate_company?
     after_update_commit :record_company_activity, if: :saved_change_to_last_activity_at?
@@ -21,6 +22,16 @@ module ContactCompanyAssociation
   end
 
   private
+
+  def should_associate_company_from_name?
+    account.feature_enabled?('companies') && company_id.nil? && company_id_was.nil? &&
+      additional_attributes&.dig('company_name').present?
+  end
+
+  def associate_company_from_name
+    name = additional_attributes['company_name'].strip
+    self.company = account.companies.where('LOWER(name) = ?', name.downcase).first || account.companies.create!(name: name)
+  end
 
   def should_associate_company?
     email.present? &&
