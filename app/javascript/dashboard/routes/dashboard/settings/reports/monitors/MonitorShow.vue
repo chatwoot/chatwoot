@@ -122,12 +122,10 @@ const chartData = computed(() => ({
     },
   ],
 }));
-const errorText = code =>
-  t(
-    te(`MONITORS.ERRORS.${code}`)
-      ? `MONITORS.ERRORS.${code}`
-      : 'MONITORS.ERRORS.fetch_failed'
-  );
+const errorText = code => {
+  const key = `MONITORS.ERRORS.${code}`;
+  return t(te(key) || te(key, 'en') ? key : 'MONITORS.ERRORS.fetch_failed');
+};
 
 const fetchReport = async () => {
   const requested = {

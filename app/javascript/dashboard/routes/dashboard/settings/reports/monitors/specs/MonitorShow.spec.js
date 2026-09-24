@@ -1,13 +1,16 @@
 import { shallowMount, flushPromises } from '@vue/test-utils';
 import { computed, reactive, ref } from 'vue';
+import { createI18n } from 'vue-i18n';
 import MonitorShow from '../MonitorShow.vue';
 import MonitorsAPI from 'dashboard/api/monitors';
+import report from 'dashboard/i18n/locale/en/report.json';
 
 const state = vi.hoisted(() => ({
   route: null,
   refresh: null,
   account: null,
   shouldPoll: null,
+  i18n: null,
 }));
 vi.mock('vue-router', async importOriginal => ({
   ...(await importOriginal()),
@@ -26,7 +29,7 @@ vi.mock('dashboard/composables/useAdmin', () => ({
 }));
 vi.mock('vue-i18n', async importOriginal => ({
   ...(await importOriginal()),
-  useI18n: () => ({ t: key => key, te: () => true, locale: ref('en') }),
+  useI18n: () => state.i18n,
 }));
 vi.mock('dashboard/components-next/dialog/Dialog.vue', () => ({
   default: {
@@ -83,6 +86,7 @@ describe('MonitorShow', () => {
     vi.setSystemTime(new Date('2026-09-22T12:00:00Z'));
     state.route = reactive({ params: { accountId: '1', monitorId: '10' } });
     state.account = reactive({ reporting_timezone: 'UTC' });
+    state.i18n = { t: key => key, te: () => true, locale: ref('en') };
     MonitorsAPI.timeseries.mockReset();
     MonitorsAPI.update.mockReset();
     MonitorsAPI.resume.mockReset();
@@ -421,4 +425,32 @@ describe('MonitorShow', () => {
       'MONITORS.ERRORS.provider_busy'
     );
   });
+
+  it.each([
+    'not_configured',
+    'monthly_limit',
+    'provider_busy',
+    'unknown_error',
+  ])(
+    'uses the English fallback for %s when the current locale has no monitor translations',
+    async code => {
+      state.i18n = createI18n({
+        legacy: false,
+        locale: 'fr',
+        fallbackLocale: 'en',
+        messages: { en: report, fr: {} },
+        missingWarn: false,
+        fallbackWarn: false,
+      }).global;
+      MonitorsAPI.timeseries.mockRejectedValue({
+        response: { data: { error: code } },
+      });
+      wrapper = shallowMount(MonitorShow, mountOptions);
+      await flushPromises();
+
+      expect(wrapper.find('[role="alert"]').text()).toBe(
+        report.MONITORS.ERRORS[code] || report.MONITORS.ERRORS.fetch_failed
+      );
+    }
+  );
 });
