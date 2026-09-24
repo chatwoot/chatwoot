@@ -8,6 +8,7 @@ import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import MonitorsAPI from 'dashboard/api/monitors';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import MonitorActionDialog from './MonitorActionDialog.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import MonitorForm from './MonitorForm.vue';
@@ -135,7 +136,7 @@ watch(
     <Button :label="t('MONITORS.RETRY')" @click="fetchMonitors" />
   </div>
   <MonitorsEmptyState v-else-if="!meta.total_count" @create="openForm" />
-  <div v-else class="flex flex-col gap-3">
+  <template v-else>
     <div class="flex flex-col divide-y divide-n-weak border-t border-n-weak">
       <MonitorListItem
         v-for="monitor in monitors"
@@ -145,23 +146,16 @@ watch(
         @action="action => actionDialog.open(action, monitor)"
       />
     </div>
-    <div class="mt-3 flex justify-end gap-2">
-      <Button
-        v-if="page > 1"
-        slate
-        faded
-        :label="t('MONITORS.PREVIOUS')"
-        @click="page -= 1"
+    <footer v-if="meta.total_count > PAGE_SIZE" class="sticky bottom-0 z-10">
+      <PaginationFooter
+        v-model:current-page="page"
+        current-page-info="MONITORS.LIST.PAGINATION"
+        :total-items="meta.total_count"
+        :items-per-page="PAGE_SIZE"
+        class="!px-0"
       />
-      <Button
-        v-if="page * PAGE_SIZE < meta.total_count"
-        slate
-        faded
-        :label="t('MONITORS.NEXT')"
-        @click="page += 1"
-      />
-    </div>
-  </div>
+    </footer>
+  </template>
   <MonitorActionDialog
     v-if="isAdmin"
     :key="`actions-${accountId}`"

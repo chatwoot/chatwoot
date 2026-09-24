@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { defineComponent, nextTick, ref } from 'vue';
+import { defineComponent, nextTick } from 'vue';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { useMonitorRefresh } from '../useMonitorRefresh';
@@ -8,14 +8,10 @@ describe('useMonitorRefresh', () => {
   let wrapper;
   let refresh;
   let visibility;
-  let pollingEnabled;
   let monitorId;
   const RefreshHost = defineComponent({
     setup() {
-      useMonitorRefresh(refresh, {
-        monitorId,
-        shouldPoll: () => pollingEnabled.value,
-      });
+      useMonitorRefresh(refresh, { monitorId });
       return () => null;
     },
   });
@@ -28,7 +24,6 @@ describe('useMonitorRefresh', () => {
       () => visibility
     );
     refresh = vi.fn();
-    pollingEnabled = ref(true);
     monitorId = null;
     wrapper = mount(RefreshHost);
     await nextTick();
@@ -98,19 +93,6 @@ describe('useMonitorRefresh', () => {
     emitter.emit(BUS_EVENTS.WEBSOCKET_RECONNECT);
     expect(refresh).toHaveBeenCalledOnce();
 
-    await vi.advanceTimersByTimeAsync(30000);
-    expect(refresh).toHaveBeenCalledTimes(2);
-  });
-
-  it('skips periodic requests for a fixed range while retaining events and restoring preset polling', async () => {
-    pollingEnabled.value = false;
-
-    await vi.advanceTimersByTimeAsync(60000);
-    expect(refresh).not.toHaveBeenCalled();
-    emitter.emit(BUS_EVENTS.MONITOR_UPDATED, { account_id: 1 });
-    expect(refresh).toHaveBeenCalledOnce();
-
-    pollingEnabled.value = true;
     await vi.advanceTimersByTimeAsync(30000);
     expect(refresh).toHaveBeenCalledTimes(2);
   });

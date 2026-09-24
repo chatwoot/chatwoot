@@ -6,10 +6,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 const REFRESH_INTERVAL_MS = 30000;
 const REFRESH_THROTTLE_MS = 2000;
 
-export function useMonitorRefresh(
-  refresh,
-  { monitorId = null, shouldPoll = () => true } = {}
-) {
+export function useMonitorRefresh(refresh, { monitorId = null } = {}) {
   // The throttle's trailing call can still fire after the page is gone.
   let isActive = true;
   const isVisible = () => document.visibilityState === 'visible';
@@ -27,9 +24,7 @@ export function useMonitorRefresh(
     if (isVisible()) refreshOnReturn();
   };
 
-  useIntervalFn(() => {
-    if (shouldPoll()) refreshIfVisible();
-  }, REFRESH_INTERVAL_MS);
+  useIntervalFn(refreshIfVisible, REFRESH_INTERVAL_MS);
   useEventListener(window, 'focus', onReturn);
   useEventListener(document, 'visibilitychange', onReturn);
   useEmitter(BUS_EVENTS.WEBSOCKET_RECONNECT, throttledRefresh);

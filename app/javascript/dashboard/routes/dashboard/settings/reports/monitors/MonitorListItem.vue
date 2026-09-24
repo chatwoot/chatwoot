@@ -52,7 +52,7 @@ const monitorRoute = computed(() =>
             "
           >
             <template #icon>
-              <Icon v-if="isPaused" icon="i-lucide-pause" class="size-3" />
+              <Icon v-if="isPaused" icon="i-ph-pause" class="size-3" />
               <span v-else class="size-1.5 rounded-full bg-n-teal-9" />
             </template>
           </Label>
@@ -103,7 +103,7 @@ const monitorRoute = computed(() =>
         />
         <Button
           v-tooltip.top="isPaused ? t('MONITORS.RESUME') : t('MONITORS.PAUSE')"
-          :icon="isPaused ? 'i-lucide-play' : 'i-lucide-pause'"
+          :icon="isPaused ? 'i-ph-play' : 'i-ph-pause'"
           slate
           sm
           :aria-label="isPaused ? t('MONITORS.RESUME') : t('MONITORS.PAUSE')"

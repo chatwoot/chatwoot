@@ -9,7 +9,6 @@ const state = vi.hoisted(() => ({
   route: null,
   refresh: null,
   account: null,
-  shouldPoll: null,
   i18n: null,
 }));
 vi.mock('vue-router', async importOriginal => ({
@@ -39,9 +38,8 @@ vi.mock('dashboard/components-next/dialog/Dialog.vue', () => ({
   },
 }));
 vi.mock('../useMonitorRefresh', () => ({
-  useMonitorRefresh: (refresh, { shouldPoll }) => {
+  useMonitorRefresh: refresh => {
     state.refresh = refresh;
-    state.shouldPoll = shouldPoll;
   },
 }));
 vi.mock('dashboard/api/monitors', () => ({
@@ -78,10 +76,6 @@ const mountOptions = {
       Dialog: false,
       MonitorActionDialog: false,
       TextArea: false,
-      Popover: {
-        template: '<div><slot :is-open="true" /><slot name="content" /></div>',
-        methods: { hide: vi.fn() },
-      },
     },
   },
 };
@@ -125,9 +119,9 @@ describe('MonitorShow', () => {
     it('refreshes the current monitor after a successful retry', async () => {
       MonitorsAPI.retry.mockResolvedValue({ data: {} });
       wrapper
-        .findAllComponents({ name: 'Button' })
-        .find(button => button.props('label') === 'MONITORS.RETRY')
-        .vm.$emit('click');
+        .findAllComponents({ name: 'Banner' })
+        .find(banner => banner.props('actionLabel') === 'MONITORS.RETRY')
+        .vm.$emit('action');
       await flushPromises();
 
       expect(MonitorsAPI.retry).toHaveBeenCalledWith(
@@ -148,11 +142,11 @@ describe('MonitorShow', () => {
       );
       const retryButton = () =>
         wrapper
-          .findAllComponents({ name: 'Button' })
-          .find(button => button.props('label') === 'MONITORS.RETRY');
-      retryButton().vm.$emit('click');
+          .findAllComponents({ name: 'Banner' })
+          .find(banner => banner.props('actionLabel') === 'MONITORS.RETRY');
+      retryButton().vm.$emit('action');
       await wrapper.vm.$nextTick();
-      retryButton().vm.$emit('click');
+      retryButton().vm.$emit('action');
 
       expect(MonitorsAPI.retry).toHaveBeenCalledTimes(1);
       expect(retryButton().props('isLoading')).toBe(true);
@@ -166,9 +160,9 @@ describe('MonitorShow', () => {
         response: { data: { error: 'monthly_limit' } },
       });
       wrapper
-        .findAllComponents({ name: 'Button' })
-        .find(button => button.props('label') === 'MONITORS.RETRY')
-        .vm.$emit('click');
+        .findAllComponents({ name: 'Banner' })
+        .find(banner => banner.props('actionLabel') === 'MONITORS.RETRY')
+        .vm.$emit('action');
       await flushPromises();
 
       expect(wrapper.find('[role="alert"]').text()).toBe(
@@ -196,9 +190,9 @@ describe('MonitorShow', () => {
             })
         );
         wrapper
-          .findAllComponents({ name: 'Button' })
-          .find(button => button.props('label') === 'MONITORS.RETRY')
-          .vm.$emit('click');
+          .findAllComponents({ name: 'Banner' })
+          .find(banner => banner.props('actionLabel') === 'MONITORS.RETRY')
+          .vm.$emit('action');
         const signal = MonitorsAPI.retry.mock.lastCall[1];
         if (navigation === 'unmount') {
           wrapper.unmount();
@@ -224,101 +218,29 @@ describe('MonitorShow', () => {
     );
   });
 
-  it('uses only the applied range to control polling', async () => {
-    wrapper = shallowMount(MonitorShow, mountOptions);
-    await flushPromises();
-    expect(state.shouldPoll()).toBe(true);
-
-    wrapper
-      .findComponent({ name: 'MonitorChartFilters' })
-      .vm.$emit('update:modelValue', {
-        range: 'custom',
-        from: '2026-09-16',
-        to: '2026-09-22',
-        interval: 'day',
-      });
-    await flushPromises();
-    expect(state.shouldPoll()).toBe(false);
-
-    wrapper
-      .findComponent({ name: 'MonitorChartFilters' })
-      .vm.$emit('update:modelValue', { range: 30, interval: 'day' });
-    await flushPromises();
-    expect(state.shouldPoll()).toBe(true);
-  });
-
-  it.each(['2026-09-20T12:00:00Z', '2026-08-22T12:00:00Z'])(
-    'ends custom dates at the pause at %s and keeps the applied dates after resume',
-    async pauseTime => {
-      let paused = true;
-      MonitorsAPI.timeseries.mockImplementation(async (id, params) => {
-        const response = responseFor(params);
-        response.data.monitor.paused_at = paused
-          ? Date.parse(pauseTime) / 1000
-          : null;
-        return response;
-      });
-      const pauseDate = pauseTime.slice(0, 10);
-      const since = Date.parse(`${pauseDate}T00:00:00Z`) / 1000 - 6 * 86400;
-      wrapper = shallowMount(MonitorShow, mountOptions);
-      await flushPromises();
-      wrapper
-        .findComponent({ name: 'MonitorChartFilters' })
-        .vm.$emit('update:modelValue', {
-          range: 'custom',
-          from: new Date(since * 1000).toISOString().slice(0, 10),
-          to: pauseDate,
-          interval: 'day',
-        });
-      await flushPromises();
-      expect(MonitorsAPI.timeseries.mock.lastCall[1]).toMatchObject({
-        since,
-        until: Date.parse(pauseTime) / 1000,
-      });
-      expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(true);
-
-      paused = false;
-      await state.refresh();
-      await flushPromises();
-      expect(MonitorsAPI.timeseries.mock.lastCall[1]).toMatchObject({
-        since,
-        until: Date.parse(`${pauseDate}T00:00:00Z`) / 1000 + 86400,
-      });
-    }
-  );
-
-  it('uses the account timezone for custom calendar dates across daylight saving', async () => {
-    state.account.reporting_timezone = 'America/New_York';
+  it('requests the selected preset range ending now', async () => {
     wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
     wrapper
       .findComponent({ name: 'MonitorChartFilters' })
-      .vm.$emit('update:modelValue', {
-        range: 'custom',
-        from: '2026-03-05',
-        to: '2026-03-11',
-        interval: 'day',
-      });
+      .vm.$emit('update:modelValue', { range: 15, interval: 'hour' });
     await flushPromises();
 
-    expect(MonitorsAPI.timeseries.mock.lastCall[1]).toMatchObject({
-      since: Date.parse('2026-03-05T05:00:00Z') / 1000,
-      until: Date.parse('2026-03-12T04:00:00Z') / 1000,
-      timezone: 'America/New_York',
+    const now = Date.now() / 1000;
+    expect(MonitorsAPI.timeseries.mock.lastCall[1]).toEqual({
+      since: now - 15 * 86400,
+      until: now,
+      interval: 'hour',
+      timezone: 'UTC',
     });
   });
 
   it.each(['monitor', 'account'])(
-    'loads applied custom filters after %s navigation',
+    'keeps the applied filters after %s navigation',
     async destination => {
       wrapper = shallowMount(MonitorShow, mountOptions);
       await flushPromises();
-      const applied = {
-        range: 'custom',
-        from: '2026-09-16',
-        to: '2026-09-22',
-        interval: 'day',
-      };
+      const applied = { range: 30, interval: 'six_hours' };
       wrapper
         .findComponent({ name: 'MonitorChartFilters' })
         .vm.$emit('update:modelValue', applied);
@@ -334,7 +256,6 @@ describe('MonitorShow', () => {
         params,
       ]);
       expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(true);
-      expect(state.shouldPoll()).toBe(false);
       expect(
         wrapper
           .findComponent({ name: 'MonitorChartFilters' })
@@ -342,100 +263,6 @@ describe('MonitorShow', () => {
       ).toEqual(applied);
     }
   );
-
-  it('extends a custom range ending today as time passes', async () => {
-    wrapper = shallowMount(MonitorShow, mountOptions);
-    await flushPromises();
-    wrapper
-      .findComponent({ name: 'MonitorChartFilters' })
-      .vm.$emit('update:modelValue', {
-        range: 'custom',
-        from: '2026-09-16',
-        to: '2026-09-22',
-        interval: 'day',
-      });
-    await flushPromises();
-    expect(MonitorsAPI.timeseries.mock.lastCall[1].until).toBe(
-      Date.now() / 1000
-    );
-
-    vi.setSystemTime(new Date('2026-09-22T15:00:00Z'));
-    await state.refresh();
-    expect(MonitorsAPI.timeseries.mock.lastCall[1].until).toBe(
-      Date.parse('2026-09-22T15:00:00Z') / 1000
-    );
-
-    vi.setSystemTime(new Date('2026-09-23T09:00:00Z'));
-    await state.refresh();
-    expect(MonitorsAPI.timeseries.mock.lastCall[1].until).toBe(
-      Date.parse('2026-09-23T00:00:00Z') / 1000
-    );
-  });
-
-  it('loads a valid default range when the destination paused before the applied custom range', async () => {
-    MonitorsAPI.timeseries.mockImplementation((id, params) => {
-      const response = responseFor(params);
-      if (id === '20')
-        response.data.monitor.paused_at =
-          Date.parse('2026-08-20T12:00:00Z') / 1000;
-      return Promise.resolve(response);
-    });
-    wrapper = shallowMount(MonitorShow, mountOptions);
-    await flushPromises();
-    wrapper
-      .findComponent({ name: 'MonitorChartFilters' })
-      .vm.$emit('update:modelValue', {
-        range: 'custom',
-        from: '2026-09-16',
-        to: '2026-09-22',
-        interval: 'day',
-      });
-    await flushPromises();
-    state.route.params.monitorId = '20';
-    await flushPromises();
-
-    const boundary = Date.parse('2026-08-20T12:00:00Z') / 1000;
-    expect(MonitorsAPI.timeseries.mock.lastCall[1]).toMatchObject({
-      since: boundary - 7 * 86400,
-      until: boundary,
-    });
-    expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(true);
-    expect(
-      wrapper.findComponent({ name: 'MonitorChartFilters' }).props('modelValue')
-        .range
-    ).toBe(7);
-  });
-
-  it('shortens the applied custom range when the destination paused inside it', async () => {
-    const pausedAt = Date.parse('2026-09-20T12:00:00Z') / 1000;
-    MonitorsAPI.timeseries.mockImplementation((id, params) => {
-      const response = responseFor(params);
-      if (id === '20') response.data.monitor.paused_at = pausedAt;
-      return Promise.resolve(response);
-    });
-    wrapper = shallowMount(MonitorShow, mountOptions);
-    await flushPromises();
-    wrapper
-      .findComponent({ name: 'MonitorChartFilters' })
-      .vm.$emit('update:modelValue', {
-        range: 'custom',
-        from: '2026-09-10',
-        to: '2026-09-22',
-        interval: 'day',
-      });
-    await flushPromises();
-    state.route.params.monitorId = '20';
-    await flushPromises();
-
-    expect(MonitorsAPI.timeseries.mock.lastCall[1]).toMatchObject({
-      since: Date.parse('2026-09-10T00:00:00Z') / 1000,
-      until: pausedAt,
-    });
-    expect(
-      wrapper.findComponent({ name: 'MonitorChartFilters' }).props('modelValue')
-        .to
-    ).toBe('2026-09-20');
-  });
 
   it('edits both name and description using the version shown when the editor opened', async () => {
     wrapper = shallowMount(MonitorShow, mountOptions);

@@ -2,13 +2,13 @@
 import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useLocale } from 'shared/composables/useLocale';
 import MonitorsAPI from 'dashboard/api/monitors';
 import BarChart from 'shared/components/charts/BarChart.vue';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ReportHeader from '../components/ReportHeader.vue';
@@ -17,12 +17,6 @@ import MonitorDrilldown from './MonitorDrilldown.vue';
 import MonitorActionDialog from './MonitorActionDialog.vue';
 import MonitorUsageWarning from './MonitorUsageWarning.vue';
 import { useMonitorRefresh } from './useMonitorRefresh';
-import {
-  CUSTOM_RANGE,
-  DEFAULT_FILTERS,
-  MIN_RANGE_DAYS,
-  shiftDate,
-} from './monitorFilters';
 
 const DAY_IN_SECONDS = 86400;
 const CHART_TICK_COUNT = 5;
@@ -41,10 +35,10 @@ const {
 } = useAbortableRequest();
 
 const monitorId = computed(() => route.params.monitorId);
-const filters = ref({ ...DEFAULT_FILTERS });
+const filters = ref({ range: 7, interval: 'day' });
 const collectionEndsAt = ref(null);
 const result = ref(null);
-const displayed = ref(null);
+const displayedParams = ref(null);
 const drilldown = ref(null);
 const actionDialog = ref(null);
 const error = ref('');
@@ -64,42 +58,17 @@ const formatTimestamp = (timestamp, options) =>
     timeZone: timezone.value,
     ...options,
   }).format(new Date(timestamp * 1000));
-const startOfDay = date =>
-  zonedTimeToUtc(`${date}T00:00:00`, timezone.value).getTime() / 1000;
-
-// A paused monitor stops collecting, so every range ends at the pause instead of now.
-const requestParams = ({ range, from, to, interval }) => {
-  const end = collectionEndsAt.value || Math.floor(Date.now() / 1000);
-  const params = { interval, timezone: timezone.value };
-  if (range !== CUSTOM_RANGE) {
-    return { ...params, since: end - range * DAY_IN_SECONDS, until: end };
-  }
+// A paused monitor stops collecting, so the range ends at the pause instead of now.
+const requestParams = ({ range, interval }) => {
+  const until = collectionEndsAt.value || Math.floor(Date.now() / 1000);
   return {
-    ...params,
-    since: startOfDay(from),
-    until: Math.min(startOfDay(shiftDate(to, 1)), end),
+    since: until - range * DAY_IN_SECONDS,
+    until,
+    interval,
+    timezone: timezone.value,
   };
 };
 
-const filterSummary = computed(() => {
-  if (!displayed.value) return '';
-  const { range, from, to, interval } = displayed.value.filters;
-  const dateOptions = { dateStyle: 'medium' };
-  const lastDaysKey = monitor.value.paused_at
-    ? 'MONITORS.LAST_DAYS_BEFORE_PAUSE'
-    : 'MONITORS.LAST_DAYS';
-  const rangeLabel =
-    range === CUSTOM_RANGE
-      ? t('MONITORS.CUSTOM_RANGE_SUMMARY', {
-          from: formatTimestamp(startOfDay(from), dateOptions),
-          to: formatTimestamp(startOfDay(to), dateOptions),
-        })
-      : t(lastDaysKey, { count: range });
-  return t('MONITORS.FILTER_SUMMARY', {
-    range: rangeLabel,
-    interval: t(`MONITORS.INTERVALS.${interval.toUpperCase()}`),
-  });
-});
 const pausedAtLabel = computed(() =>
   formatTimestamp(monitor.value.paused_at, {
     dateStyle: 'medium',
@@ -138,17 +107,28 @@ const errorText = code => {
     key && (te(key) || te(key, 'en')) ? key : 'MONITORS.ERRORS.FETCH_FAILED'
   );
 };
+const statusText = computed(() => {
+  if (monitor.value.paused_at) {
+    return t('MONITORS.PAUSED_HELP', { time: pausedAtLabel.value });
+  }
+  const { state } = monitor.value.processing;
+  return state === 'live' ? '' : t(`MONITORS.STATES.${state.toUpperCase()}`);
+});
+const canRetry = computed(
+  () =>
+    isAdmin.value &&
+    monitor.value.processing.errors &&
+    !monitor.value.paused_at &&
+    !result.value.usage?.limit_reached
+);
 
 const fetchReport = async () => {
-  const requested = {
-    filters: filters.value,
-    params: requestParams(filters.value),
-  };
+  const params = requestParams(filters.value);
   const requestedAccount = accountId.value;
   const requestedMonitor = monitorId.value;
   try {
     const response = await run(signal =>
-      MonitorsAPI.timeseries(requestedMonitor, requested.params, signal)
+      MonitorsAPI.timeseries(requestedMonitor, params, signal)
     );
     if (
       !response ||
@@ -160,18 +140,6 @@ const fetchReport = async () => {
     const pausedAt = data.monitor.paused_at || null;
     if (pausedAt !== collectionEndsAt.value) {
       collectionEndsAt.value = pausedAt;
-      const { range, from, to } = filters.value;
-      const lastDate =
-        pausedAt &&
-        formatInTimeZone((pausedAt - 1) * 1000, timezone.value, 'yyyy-MM-dd');
-      // A pause inside the applied custom range shortens it, falling back to the default when too short.
-      if (range === CUSTOM_RANGE && lastDate && to > lastDate) {
-        filters.value =
-          lastDate < shiftDate(from, MIN_RANGE_DAYS - 1)
-            ? { ...DEFAULT_FILTERS }
-            : { ...filters.value, to: lastDate };
-        return;
-      }
       await fetchReport();
       return;
     }
@@ -187,7 +155,7 @@ const fetchReport = async () => {
       }
     }
     result.value = data;
-    displayed.value = requested;
+    displayedParams.value = params;
     refreshedAt.value = formatTimestamp(Date.now() / 1000, {
       timeStyle: 'medium',
     });
@@ -204,7 +172,7 @@ const openBucket = ({ pointIndex }) => {
   drilldown.value = {
     bucket,
     request: {
-      ...displayed.value.params,
+      ...displayedParams.value,
       monitorId: monitorId.value,
       bucket_start: bucket.start,
       data_revision: result.value.data_revision,
@@ -225,7 +193,7 @@ watch(
     abortRetry();
     actionDialog.value?.close();
     result.value = null;
-    displayed.value = null;
+    displayedParams.value = null;
     collectionEndsAt.value = null;
     drilldown.value = null;
     notice.value = '';
@@ -239,7 +207,6 @@ watch(isAdmin, () => {
 });
 useMonitorRefresh(fetchReport, {
   monitorId: () => Number(monitorId.value),
-  shouldPoll: () => filters.value.range !== CUSTOM_RANGE,
 });
 
 const openAction = nextAction =>
@@ -303,7 +270,7 @@ const duplicate = () =>
         slate
         faded
         size="sm"
-        icon="i-lucide-copy"
+        icon="i-woot-clone"
         :aria-label="t('MONITORS.DUPLICATE')"
         @click="duplicate"
       />
@@ -313,7 +280,7 @@ const duplicate = () =>
         slate
         faded
         size="sm"
-        icon="i-lucide-pause"
+        icon="i-ph-pause"
         :aria-label="t('MONITORS.PAUSE')"
         @click="openAction('pause')"
       />
@@ -323,7 +290,7 @@ const duplicate = () =>
         slate
         faded
         size="sm"
-        icon="i-lucide-play"
+        icon="i-ph-play"
         :aria-label="t('MONITORS.RESUME')"
         @click="openAction('resume')"
       />
@@ -339,98 +306,92 @@ const duplicate = () =>
     </div>
   </ReportHeader>
   <MonitorUsageWarning :usage="result?.usage" />
-  <p v-if="error" role="alert" class="text-sm text-n-ruby-11">{{ error }}</p>
-  <p v-if="notice" role="status" class="text-sm text-n-slate-11">
-    {{ notice }}
-  </p>
-  <div class="rounded-xl border border-n-weak bg-n-solid-1 p-5">
-    <div class="flex flex-wrap items-center justify-between gap-3">
-      <p class="m-0 text-sm text-n-slate-11">
-        {{ t('MONITORS.MATCHING_CONVERSATIONS') }}
+  <div class="flex flex-col gap-4">
+    <Banner v-if="error" color="ruby" role="alert">{{ error }}</Banner>
+    <Banner v-if="notice" color="blue" role="status">{{ notice }}</Banner>
+    <Banner
+      v-if="monitor && (statusText || monitor.processing.errors)"
+      :color="monitor.processing.errors ? 'amber' : 'slate'"
+      :action-label="canRetry ? t('MONITORS.RETRY') : null"
+      :is-loading="isRetrying"
+      @action="retry"
+    >
+      <p v-if="statusText" role="status" class="m-0 font-medium">
+        {{ statusText }}
       </p>
-      <div class="ms-auto flex min-w-0 items-center gap-2">
-        <span class="text-end text-xs text-n-slate-11">
-          {{ filterSummary }}
-        </span>
-        <MonitorChartFilters
-          :key="`${accountId}/${monitorId}`"
-          v-model="filters"
-          :timezone="timezone"
-          :paused-at="monitor?.paused_at"
-          :is-loading="isPending"
-        />
-      </div>
-    </div>
-    <div v-if="!result && isPending" class="flex justify-center py-20">
-      <Spinner />
-    </div>
-    <template v-if="result">
-      <p class="mb-1 mt-2 text-3xl font-semibold text-n-slate-12">
-        {{ result.total_count }}
-      </p>
-      <p class="text-xs text-n-slate-11">{{ t('MONITORS.TIME_BASIS_HELP') }}</p>
-      <p v-if="monitor.paused_at" role="status" class="text-sm text-n-slate-11">
-        {{ t('MONITORS.PAUSED_HELP', { time: pausedAtLabel }) }}
-      </p>
-      <p
-        v-else-if="monitor.processing.state !== 'live'"
-        role="status"
-        class="text-sm text-n-slate-11"
-      >
-        {{ t(`MONITORS.STATES.${monitor.processing.state.toUpperCase()}`) }}
-      </p>
-      <div
-        v-if="monitor.processing.errors"
-        class="mb-4 flex flex-wrap items-center justify-between gap-3"
-      >
-        <div role="alert">
-          <p
-            v-for="code in monitor.processing.error_codes"
-            :key="code"
-            class="m-0 text-sm text-n-amber-11"
-          >
-            {{ errorText(code) }}
-          </p>
-        </div>
-        <Button
-          v-if="isAdmin && !monitor.paused_at && !result.usage?.limit_reached"
-          slate
-          faded
-          :label="t('MONITORS.RETRY')"
-          :is-loading="isRetrying"
-          :disabled="isRetrying"
-          @click="retry"
-        />
-      </div>
-      <BarChart
-        :data="chartData"
-        :aria-label="t('MONITORS.MATCHING_CONVERSATIONS')"
-        :height="320"
-        :y-step-size="countStep"
-        :clickable="isAdmin"
-        timeseries
-        @item-click="openBucket"
-      />
-      <p class="mb-0 mt-4 text-xs text-n-slate-11">
-        {{
-          monitor.paused_at
-            ? t('MONITORS.COLLECTED_UNTIL', { time: pausedAtLabel })
-            : t('MONITORS.REFRESHED', { time: refreshedAt })
-        }}
-        <button
-          v-if="result.buckets.some(bucket => !bucket.covered)"
-          v-tooltip.top="t('MONITORS.COVERAGE_HELP')"
-          type="button"
-          :aria-label="t('MONITORS.COVERAGE_HELP')"
-          class="ms-1 inline-flex size-6 items-center justify-center rounded p-0 align-middle text-n-amber-11 hover:text-n-amber-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-n-brand"
+      <div v-if="monitor.processing.errors" role="alert">
+        <p
+          v-for="code in monitor.processing.error_codes"
+          :key="code"
+          class="m-0"
         >
-          <span
-            class="i-lucide-triangle-alert size-3.5 shrink-0"
-            aria-hidden="true"
-          />
-        </button>
-      </p>
-    </template>
+          {{ errorText(code) }}
+        </p>
+      </div>
+    </Banner>
+    <div class="rounded-xl border border-n-weak bg-n-solid-1 p-5">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center gap-1.5">
+            <span class="text-body-main text-n-slate-11">
+              {{ t('MONITORS.MATCHING_CONVERSATIONS') }}
+            </span>
+            <button
+              v-tooltip.top="t('MONITORS.TIME_BASIS_HELP')"
+              type="button"
+              :aria-label="t('MONITORS.TIME_BASIS_HELP')"
+              class="inline-flex size-5 items-center justify-center rounded p-0 text-n-slate-10 hover:text-n-slate-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-n-brand"
+            >
+              <span
+                class="i-lucide-info size-3.5 shrink-0"
+                aria-hidden="true"
+              />
+            </button>
+          </div>
+          <span v-if="result" class="text-3xl font-semibold text-n-slate-12">
+            {{ result.total_count }}
+          </span>
+        </div>
+        <MonitorChartFilters
+          v-model="filters"
+          :paused-at="monitor?.paused_at"
+        />
+      </div>
+      <div v-if="!result && isPending" class="flex justify-center py-20">
+        <Spinner />
+      </div>
+      <template v-if="result">
+        <BarChart
+          class="mt-4"
+          :data="chartData"
+          :aria-label="t('MONITORS.MATCHING_CONVERSATIONS')"
+          :height="320"
+          :y-step-size="countStep"
+          :clickable="isAdmin"
+          timeseries
+          @item-click="openBucket"
+        />
+        <p class="mb-0 mt-4 flex items-center gap-1 text-xs text-n-slate-11">
+          {{
+            monitor.paused_at
+              ? t('MONITORS.COLLECTED_UNTIL', { time: pausedAtLabel })
+              : t('MONITORS.REFRESHED', { time: refreshedAt })
+          }}
+          <button
+            v-if="result.buckets.some(bucket => !bucket.covered)"
+            v-tooltip.top="t('MONITORS.COVERAGE_HELP')"
+            type="button"
+            :aria-label="t('MONITORS.COVERAGE_HELP')"
+            class="inline-flex size-5 items-center justify-center rounded p-0 text-n-amber-11 hover:text-n-amber-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-n-brand"
+          >
+            <span
+              class="i-lucide-triangle-alert size-3.5 shrink-0"
+              aria-hidden="true"
+            />
+          </button>
+        </p>
+      </template>
+    </div>
   </div>
   <MonitorDrilldown
     v-if="drilldown"
