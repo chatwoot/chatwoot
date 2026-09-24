@@ -6,7 +6,7 @@ module ContactCompanyAssociation
 
     before_save :sync_company_name_from_company, if: :will_save_change_to_company_id?
     after_commit :associate_company_from_email, on: [:create, :update], if: :should_associate_company?
-    after_update_commit :record_company_activity, if: -> { saved_change_to_last_activity_at? || saved_change_to_company_id? }
+    after_update_commit :record_company_activity, if: :saved_change_to_last_activity_at?
 
     scope :order_on_company_name, lambda { |direction|
       order(
