@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeUnmount, ref, watch } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import MonitorsAPI from 'dashboard/api/monitors';
 import { useReportDrilldown } from '../composables/useReportDrilldown';
@@ -9,20 +9,13 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
-  request: { type: Object, default: null },
-  label: { type: String, default: '' },
+  request: { type: Object, required: true },
+  title: { type: String, required: true },
+  count: { type: Number, required: true },
 });
 const emit = defineEmits(['close', 'changed']);
 const { t } = useI18n();
 const panel = ref(null);
-const fetcher = async params => {
-  try {
-    return await MonitorsAPI.conversations(params);
-  } catch (error) {
-    if (error.response?.status === 409) emit('changed');
-    throw error;
-  }
-};
 const {
   records,
   isFetching,
@@ -32,27 +25,31 @@ const {
   open,
   close,
   loadMore,
-} = useReportDrilldown(fetcher);
-onBeforeUnmount(close);
-watch(
-  () => props.request,
-  request => {
-    close();
-    if (!request) {
-      panel.value?.close();
-      return;
-    }
-    panel.value?.open();
-    open(request);
-  }
+} = useReportDrilldown(params =>
+  MonitorsAPI.conversations(params).catch(error => {
+    if (error.response?.status === 409) emit('changed');
+    throw error;
+  })
 );
+
+onMounted(() => {
+  panel.value.open();
+  open(props.request);
+});
+onBeforeUnmount(close);
 </script>
 
 <template>
-  <SidePanel ref="panel" :title="label" width="xl" @close="emit('close')">
+  <SidePanel
+    ref="panel"
+    :title="title"
+    :description="t('REPORT.DRILLDOWN.RESULT_COUNT_CONVERSATION', { count })"
+    width="xl"
+    @after-leave="emit('close')"
+  >
     <div v-if="isFetching" class="flex justify-center py-20"><Spinner /></div>
     <p v-else-if="hasError" role="alert" class="text-n-ruby-11">
-      {{ t('MONITORS.ERRORS.fetch_failed') }}
+      {{ t('REPORT.DRILLDOWN.ERROR') }}
     </p>
     <p v-else-if="!records.length" class="text-n-slate-11">
       {{ t('REPORT.DRILLDOWN.EMPTY') }}

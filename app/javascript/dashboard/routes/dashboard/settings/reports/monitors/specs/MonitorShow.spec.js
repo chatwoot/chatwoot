@@ -26,7 +26,7 @@ vi.mock('dashboard/composables/useAdmin', () => ({
 }));
 vi.mock('vue-i18n', async importOriginal => ({
   ...(await importOriginal()),
-  useI18n: () => ({ t: key => key, te: () => true }),
+  useI18n: () => ({ t: key => key, te: () => true, locale: ref('en') }),
 }));
 vi.mock('dashboard/components-next/dialog/Dialog.vue', () => ({
   default: {
@@ -95,34 +95,31 @@ describe('MonitorShow', () => {
     vi.useRealTimers();
   });
 
-  it('uses only the applied range to control polling and constrains date inputs to 7–30 days', async () => {
+  it('uses only the applied range to control polling', async () => {
     wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
     expect(state.shouldPoll()).toBe(true);
-    await wrapper.find('select').setValue('custom');
-    expect(state.shouldPoll()).toBe(true);
-    const inputs = wrapper.findAllComponents({ name: 'Input' });
-    expect(inputs[0].attributes()).toMatchObject({
-      min: '2026-08-24',
-      max: '2026-09-16',
-    });
-    expect(inputs[1].attributes()).toMatchObject({
-      min: '2026-09-22',
-      max: '2026-09-22',
-    });
 
-    await wrapper.find('form').trigger('submit');
+    wrapper
+      .findComponent({ name: 'MonitorChartFilters' })
+      .vm.$emit('update:modelValue', {
+        range: 'custom',
+        from: '2026-09-16',
+        to: '2026-09-22',
+        interval: 'day',
+      });
     await flushPromises();
     expect(state.shouldPoll()).toBe(false);
-    await wrapper.find('select').setValue('30');
-    expect(state.shouldPoll()).toBe(false);
-    await wrapper.find('form').trigger('submit');
+
+    wrapper
+      .findComponent({ name: 'MonitorChartFilters' })
+      .vm.$emit('update:modelValue', { range: 30, interval: 'day' });
     await flushPromises();
     expect(state.shouldPoll()).toBe(true);
   });
 
   it.each(['2026-09-20T12:00:00Z', '2026-08-22T12:00:00Z'])(
-    'caps custom dates at the pause at %s and preserves the applied range after resume',
+    'ends custom dates at the pause at %s and keeps the applied dates after resume',
     async pauseTime => {
       let paused = true;
       MonitorsAPI.timeseries.mockImplementation(async (id, params) => {
@@ -132,27 +129,32 @@ describe('MonitorShow', () => {
           : null;
         return response;
       });
+      const pauseDate = pauseTime.slice(0, 10);
+      const since = Date.parse(`${pauseDate}T00:00:00Z`) / 1000 - 6 * 86400;
       wrapper = shallowMount(MonitorShow, mountOptions);
       await flushPromises();
-      await wrapper.find('select').setValue('custom');
-      const inputs = wrapper.findAllComponents({ name: 'Input' });
-      expect(inputs[1].attributes('max')).toBe(pauseTime.slice(0, 10));
-      await wrapper.find('form').trigger('submit');
+      wrapper
+        .findComponent({ name: 'MonitorChartFilters' })
+        .vm.$emit('update:modelValue', {
+          range: 'custom',
+          from: new Date(since * 1000).toISOString().slice(0, 10),
+          to: pauseDate,
+          interval: 'day',
+        });
       await flushPromises();
-      const selected = { ...MonitorsAPI.timeseries.mock.lastCall[1] };
-      expect(selected).toMatchObject({
-        since:
-          Date.parse(`${pauseTime.slice(0, 10)}T00:00:00Z`) / 1000 - 6 * 86400,
+      expect(MonitorsAPI.timeseries.mock.lastCall[1]).toMatchObject({
+        since,
         until: Date.parse(pauseTime) / 1000,
       });
       expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(true);
 
-      const calls = MonitorsAPI.timeseries.mock.calls.length;
       paused = false;
       await state.refresh();
       await flushPromises();
-      expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(calls + 1);
-      expect(MonitorsAPI.timeseries.mock.lastCall[1]).toEqual(selected);
+      expect(MonitorsAPI.timeseries.mock.lastCall[1]).toMatchObject({
+        since,
+        until: Date.parse(`${pauseDate}T00:00:00Z`) / 1000 + 86400,
+      });
     }
   );
 
@@ -160,11 +162,14 @@ describe('MonitorShow', () => {
     state.account.reporting_timezone = 'America/New_York';
     wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
-    await wrapper.find('select').setValue('custom');
-    const inputs = wrapper.findAllComponents({ name: 'Input' });
-    inputs[0].vm.$emit('update:modelValue', '2026-03-05');
-    inputs[1].vm.$emit('update:modelValue', '2026-03-11');
-    await wrapper.find('form').trigger('submit');
+    wrapper
+      .findComponent({ name: 'MonitorChartFilters' })
+      .vm.$emit('update:modelValue', {
+        range: 'custom',
+        from: '2026-03-05',
+        to: '2026-03-11',
+        interval: 'day',
+      });
     await flushPromises();
 
     expect(MonitorsAPI.timeseries.mock.lastCall[1]).toMatchObject({
@@ -175,18 +180,21 @@ describe('MonitorShow', () => {
   });
 
   it.each(['monitor', 'account'])(
-    'loads applied custom filters after %s navigation with an invalid draft',
+    'loads applied custom filters after %s navigation',
     async destination => {
       wrapper = shallowMount(MonitorShow, mountOptions);
       await flushPromises();
-      await wrapper.find('select').setValue('custom');
-      await wrapper.find('form').trigger('submit');
-      await flushPromises();
-      const applied = { ...MonitorsAPI.timeseries.mock.lastCall[1] };
+      const applied = {
+        range: 'custom',
+        from: '2026-09-16',
+        to: '2026-09-22',
+        interval: 'day',
+      };
       wrapper
-        .findAllComponents({ name: 'Input' })[0]
-        .vm.$emit('update:modelValue', '');
-      await wrapper.vm.$nextTick();
+        .findComponent({ name: 'MonitorChartFilters' })
+        .vm.$emit('update:modelValue', applied);
+      await flushPromises();
+      const params = { ...MonitorsAPI.timeseries.mock.lastCall[1] };
 
       if (destination === 'account') state.route.params.accountId = '2';
       state.route.params.monitorId = '20';
@@ -194,67 +202,44 @@ describe('MonitorShow', () => {
 
       expect(MonitorsAPI.timeseries.mock.lastCall.slice(0, 2)).toEqual([
         '20',
-        applied,
+        params,
       ]);
       expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(true);
       expect(state.shouldPoll()).toBe(false);
       expect(
-        wrapper.findAllComponents({ name: 'Input' })[0].props('modelValue')
-      ).toBe('2026-09-16');
+        wrapper
+          .findComponent({ name: 'MonitorChartFilters' })
+          .props('modelValue')
+      ).toEqual(applied);
     }
   );
 
-  it('rejects future custom dates and caps today at the current time', async () => {
+  it('extends a custom range ending today as time passes', async () => {
     wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
-    await wrapper.find('select').setValue('custom');
-    const inputs = wrapper.findAllComponents({ name: 'Input' });
-    inputs[1].vm.$emit('update:modelValue', '2026-09-23');
-    await wrapper.find('form').trigger('submit');
-    await flushPromises();
-    expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(1);
-    expect(wrapper.find('[role="alert"]').text()).toBe(
-      'MONITORS.CUSTOM_RANGE_BOUNDARY_ERROR'
-    );
-
-    inputs[1].vm.$emit('update:modelValue', '2026-09-22');
-    await wrapper.find('form').trigger('submit');
+    wrapper
+      .findComponent({ name: 'MonitorChartFilters' })
+      .vm.$emit('update:modelValue', {
+        range: 'custom',
+        from: '2026-09-16',
+        to: '2026-09-22',
+        interval: 'day',
+      });
     await flushPromises();
     expect(MonitorsAPI.timeseries.mock.lastCall[1].until).toBe(
       Date.now() / 1000
     );
-  });
 
-  it('uses the account-local collection date rather than UTC for the date limit', async () => {
-    state.account.reporting_timezone = 'Pacific/Kiritimati';
-    wrapper = shallowMount(MonitorShow, mountOptions);
-    await flushPromises();
-    await wrapper.find('select').setValue('custom');
-    expect(
-      wrapper.findAllComponents({ name: 'Input' })[1].attributes('max')
-    ).toBe('2026-09-23');
-  });
+    vi.setSystemTime(new Date('2026-09-22T15:00:00Z'));
+    await state.refresh();
+    expect(MonitorsAPI.timeseries.mock.lastCall[1].until).toBe(
+      Date.parse('2026-09-22T15:00:00Z') / 1000
+    );
 
-  it('rejects custom dates after the pause date', async () => {
-    MonitorsAPI.timeseries.mockImplementation((id, params) => {
-      const response = responseFor(params);
-      response.data.monitor.paused_at =
-        Date.parse('2026-09-20T12:00:00Z') / 1000;
-      return Promise.resolve(response);
-    });
-    wrapper = shallowMount(MonitorShow, mountOptions);
-    await flushPromises();
-    const calls = MonitorsAPI.timeseries.mock.calls.length;
-    await wrapper.find('select').setValue('custom');
-    const inputs = wrapper.findAllComponents({ name: 'Input' });
-    inputs[1].vm.$emit('update:modelValue', '2026-09-21');
-    await wrapper.find('form').trigger('submit');
-    await flushPromises();
-
-    expect(inputs[1].attributes('max')).toBe('2026-09-20');
-    expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(calls);
-    expect(wrapper.find('[role="alert"]').text()).toBe(
-      'MONITORS.CUSTOM_RANGE_BOUNDARY_ERROR'
+    vi.setSystemTime(new Date('2026-09-23T09:00:00Z'));
+    await state.refresh();
+    expect(MonitorsAPI.timeseries.mock.lastCall[1].until).toBe(
+      Date.parse('2026-09-23T00:00:00Z') / 1000
     );
   });
 
@@ -268,8 +253,14 @@ describe('MonitorShow', () => {
     });
     wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
-    await wrapper.find('select').setValue('custom');
-    await wrapper.find('form').trigger('submit');
+    wrapper
+      .findComponent({ name: 'MonitorChartFilters' })
+      .vm.$emit('update:modelValue', {
+        range: 'custom',
+        from: '2026-09-16',
+        to: '2026-09-22',
+        interval: 'day',
+      });
     await flushPromises();
     state.route.params.monitorId = '20';
     await flushPromises();
@@ -280,34 +271,41 @@ describe('MonitorShow', () => {
       until: boundary,
     });
     expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(true);
-    expect(wrapper.find('select').element.value).toBe('7');
+    expect(
+      wrapper.findComponent({ name: 'MonitorChartFilters' }).props('modelValue')
+        .range
+    ).toBe(7);
   });
 
-  it('rejects custom ranges outside 7–30 calendar days without replacing the displayed report', async () => {
+  it('shortens the applied custom range when the destination paused inside it', async () => {
+    const pausedAt = Date.parse('2026-09-20T12:00:00Z') / 1000;
+    MonitorsAPI.timeseries.mockImplementation((id, params) => {
+      const response = responseFor(params);
+      if (id === '20') response.data.monitor.paused_at = pausedAt;
+      return Promise.resolve(response);
+    });
     wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
-    await wrapper.find('select').setValue('custom');
-    const inputs = wrapper.findAllComponents({ name: 'Input' });
-    inputs[0].vm.$emit('update:modelValue', '2026-08-23');
-    inputs[1].vm.$emit('update:modelValue', '2026-09-22');
-    await wrapper.find('form').trigger('submit');
+    wrapper
+      .findComponent({ name: 'MonitorChartFilters' })
+      .vm.$emit('update:modelValue', {
+        range: 'custom',
+        from: '2026-09-10',
+        to: '2026-09-22',
+        interval: 'day',
+      });
+    await flushPromises();
+    state.route.params.monitorId = '20';
     await flushPromises();
 
-    expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(1);
-    expect(wrapper.find('[role="alert"]').text()).toBe(
-      'MONITORS.CUSTOM_RANGE_HELP'
-    );
-    expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(true);
-
-    inputs[0].vm.$emit('update:modelValue', '2026-09-20');
-    await wrapper.find('form').trigger('submit');
-    expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(1);
-
-    inputs[0].vm.$emit('update:modelValue', '2026-08-24');
-    await wrapper.find('form').trigger('submit');
-    await flushPromises();
-    expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(2);
-    expect(wrapper.find('[role="alert"]').exists()).toBe(false);
+    expect(MonitorsAPI.timeseries.mock.lastCall[1]).toMatchObject({
+      since: Date.parse('2026-09-10T00:00:00Z') / 1000,
+      until: pausedAt,
+    });
+    expect(
+      wrapper.findComponent({ name: 'MonitorChartFilters' }).props('modelValue')
+        .to
+    ).toBe('2026-09-20');
   });
 
   it('drills into the displayed chart snapshot while a refresh is pending', async () => {
@@ -333,9 +331,9 @@ describe('MonitorShow', () => {
     ).toMatchObject(original);
     finish(responseFor(MonitorsAPI.timeseries.mock.calls[1][1]));
     await flushPromises();
-    expect(
-      wrapper.findComponent({ name: 'MonitorDrilldown' }).props('request')
-    ).toBeNull();
+    expect(wrapper.findComponent({ name: 'MonitorDrilldown' }).exists()).toBe(
+      false
+    );
   });
 
   it('closes a rolling edge bucket when its population changes without a membership revision', async () => {
@@ -349,12 +347,12 @@ describe('MonitorShow', () => {
     await state.refresh();
     await flushPromises();
 
-    expect(
-      wrapper.findComponent({ name: 'MonitorDrilldown' }).props('request')
-    ).toBeNull();
+    expect(wrapper.findComponent({ name: 'MonitorDrilldown' }).exists()).toBe(
+      false
+    );
   });
 
-  it('cannot restore an old account response after a route change with invalid draft dates', async () => {
+  it('cannot restore an old account response after a route change', async () => {
     wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
     const params = { ...MonitorsAPI.timeseries.mock.calls[0][1] };
@@ -368,10 +366,6 @@ describe('MonitorShow', () => {
       });
     });
     state.refresh();
-    await wrapper.findAll('select')[0].setValue('custom');
-    const inputs = wrapper.findAllComponents({ name: 'Input' });
-    inputs[0].vm.$emit('update:modelValue', '');
-    await wrapper.vm.$nextTick();
     state.route.params.accountId = '2';
     state.route.params.monitorId = '20';
     await wrapper.vm.$nextTick();
@@ -411,5 +405,20 @@ describe('MonitorShow', () => {
     expect(
       wrapper.findComponent({ name: 'MonitorDrilldown' }).props('request').until
     ).toBe(pausedAt);
+  });
+
+  it('keeps the last chart when a refresh fails', async () => {
+    wrapper = shallowMount(MonitorShow, mountOptions);
+    await flushPromises();
+    MonitorsAPI.timeseries.mockRejectedValue({
+      response: { data: { error: 'provider_busy' } },
+    });
+    await state.refresh();
+    await flushPromises();
+
+    expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(true);
+    expect(wrapper.find('[role="alert"]').text()).toBe(
+      'MONITORS.ERRORS.provider_busy'
+    );
   });
 });
