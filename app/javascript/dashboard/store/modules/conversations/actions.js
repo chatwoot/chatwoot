@@ -429,6 +429,12 @@ const actions = {
     }
   },
 
+  getContactInfoRequestAvailability: async (_, conversationId) => {
+    const { data } =
+      await ConversationApi.getContactInfoRequestAvailability(conversationId);
+    return data;
+  },
+
   requestContactInfo: async ({ commit }, conversationId) => {
     const { data } = await ConversationApi.requestContactInfo(conversationId);
     commit(types.ADD_MESSAGE, data);

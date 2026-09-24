@@ -120,6 +120,10 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationId}/transcript`, { email });
   }
 
+  getContactInfoRequestAvailability(conversationId) {
+    return axios.get(`${this.url}/${conversationId}/contact_info_request`);
+  }
+
   requestContactInfo(conversationId) {
     return axios.post(`${this.url}/${conversationId}/contact_info_request`);
   }

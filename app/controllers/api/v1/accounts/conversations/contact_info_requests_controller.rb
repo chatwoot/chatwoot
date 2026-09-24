@@ -1,8 +1,17 @@
 class Api::V1::Accounts::Conversations::ContactInfoRequestsController < Api::V1::Accounts::Conversations::BaseController
+  rescue_from CustomExceptions::WhatsappContactInfoRequestError do |error|
+    render json: { error: error.message }, status: error.http_status
+  end
+
+  def show
+    availability = Whatsapp::ContactInfoRequestEligibilityService.new(conversation: @conversation).availability
+    raise CustomExceptions::WhatsappContactInfoRequestError, { reason: availability[:reason] } unless availability[:available]
+
+    render json: availability
+  end
+
   def create
     @message = Whatsapp::ContactInfoRequestService.new(conversation: @conversation, sender: Current.user).perform
     render 'api/v1/accounts/conversations/messages/create'
-  rescue CustomExceptions::WhatsappContactInfoRequestError => e
-    render json: { error: e.message }, status: e.http_status
   end
 end

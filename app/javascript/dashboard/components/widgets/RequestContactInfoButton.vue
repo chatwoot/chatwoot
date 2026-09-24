@@ -57,15 +57,23 @@ const tooltip = computed(() =>
 );
 
 const requestContactInfo = async () => {
-  if (capability.value.delivery_mode === 'template') {
-    emit('requestTemplate');
-    return;
-  }
-
+  const conversationId = currentChat.value.id;
   isRequesting.value = true;
   try {
-    await store.dispatch('requestContactInfo', currentChat.value.id);
+    const availability = await store.dispatch(
+      'getContactInfoRequestAvailability',
+      conversationId
+    );
+    if (currentChat.value.id !== conversationId) return;
+
+    if (availability.delivery_mode === 'template') {
+      emit('requestTemplate');
+      return;
+    }
+
+    await store.dispatch('requestContactInfo', conversationId);
   } catch (error) {
+    if (currentChat.value.id !== conversationId) return;
     useAlert(error?.response?.data?.error || t('CONVERSATION.MESSAGE_ERROR'));
   } finally {
     isRequesting.value = false;
