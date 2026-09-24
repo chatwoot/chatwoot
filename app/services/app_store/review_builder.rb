@@ -1,5 +1,5 @@
 class AppStore::ReviewBuilder
-  pattr_initialize [:review_payload!, :channel!]
+  pattr_initialize [:review_payload!, :channel!, { sync_started_at: nil }]
 
   def perform
     return if review_id.blank?
@@ -11,6 +11,7 @@ class AppStore::ReviewBuilder
         @conversation.with_lock do
           upsert_review_message
           build_response_message if response_body.present?
+          remove_deleted_response if response_removed?
         end
       end
     end
@@ -98,6 +99,8 @@ class AppStore::ReviewBuilder
   def upsert_review_message
     message = @conversation.messages.find_by(source_id: review_id)
     if message
+      return if message.content_attributes['deleted']
+
       message.update!(content: message_content, content_attributes: review_metadata)
       return
     end
@@ -120,6 +123,8 @@ class AppStore::ReviewBuilder
 
     message = @conversation.messages.find_by(source_id: response_id)
     if message
+      return if message.content_attributes['deleted']
+
       message.update!(content: response_body, content_attributes: response_metadata, updated_at: response_created_at)
       return
     end
@@ -135,6 +140,21 @@ class AppStore::ReviewBuilder
       created_at: response_created_at,
       updated_at: response_created_at
     )
+  end
+
+  def response_removed?
+    relationship = review.dig('relationships', 'response')
+    relationship&.key?('data') && relationship['data'].nil?
+  end
+
+  def remove_deleted_response
+    @conversation.messages.outgoing.where(private: false).where.not(source_id: nil)
+                 .where('updated_at <= ?', sync_started_at || Time.current).find_each do |message|
+      next if message.content_attributes.dig('app_store', 'response_deleted')
+
+      metadata = message.content_attributes.deep_merge('deleted' => true, 'app_store' => { 'response_deleted' => true })
+      message.update!(content: I18n.t('conversations.messages.deleted'), content_attributes: metadata)
+    end
   end
 
   def message_content

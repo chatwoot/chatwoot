@@ -313,7 +313,9 @@ export default {
           message.source_id || appStoreAttributes.response_id;
 
         return (
-          message.message_type === MESSAGE_TYPE.OUTGOING && hasAppStoreResponse
+          message.message_type === MESSAGE_TYPE.OUTGOING &&
+          hasAppStoreResponse &&
+          !appStoreAttributes.response_deleted
         );
       });
     },

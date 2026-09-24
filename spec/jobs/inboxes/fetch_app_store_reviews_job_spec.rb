@@ -27,7 +27,7 @@ RSpec.describe Inboxes::FetchAppStoreReviewsJob do
 
   it 'fetches reviews, builds messages, and updates the sync timestamp' do
     allow(channel).to receive(:fetch_reviews).and_return([review_payload])
-    allow(AppStore::ReviewBuilder).to receive(:new).with(review_payload: review_payload, channel: channel).and_return(review_builder)
+    allow(AppStore::ReviewBuilder).to receive(:new).with(hash_including(review_payload: review_payload, channel: channel)).and_return(review_builder)
 
     described_class.perform_now(channel)
 

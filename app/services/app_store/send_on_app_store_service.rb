@@ -59,8 +59,10 @@ class AppStore::SendOnAppStoreService < Base::SendOnChannelService
   def update_existing_response_message(response_message, source_id)
     content_attributes = (response_message.content_attributes || {}).deep_merge(
       'external_echo' => true,
+      'deleted' => false,
       'app_store' => {
-        'response_id' => source_id
+        'response_id' => source_id,
+        'response_deleted' => false
       }
     )
 
