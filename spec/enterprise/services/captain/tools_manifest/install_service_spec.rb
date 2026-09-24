@@ -96,8 +96,19 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       tools = install(revision: latest_revision)
 
       expect(tools.map(&:id)).to match_array(existing_ids)
-      expect(WebMock).to have_requested(:get, manifest_url).once
+      expect(WebMock).to have_requested(:get, manifest_url).twice
       expect(assistant.custom_tools.count).to eq(2)
+    end
+
+    it 'restores tools deleted from an install at the same commit' do
+      kept_tool, deleted_tool = install
+      deleted_tool.destroy!
+
+      tools = install(revision: latest_revision)
+
+      expect(tools.map { |tool| tool.source_metadata['tool_id'] }).to contain_exactly('get_order', 'cancel_order')
+      expect(tools.map(&:id)).to include(kept_tool.id)
+      expect(tools.map { |tool| tool.source_metadata['installation_id'] }.uniq).to eq([kept_tool.source_metadata['installation_id']])
     end
 
     it 'treats differently capitalized sources as the same toolset' do
