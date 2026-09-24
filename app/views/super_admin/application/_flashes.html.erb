@@ -12,7 +12,7 @@ This partial renders flash messages on every page.
 %>
 
 <% if flash.any? %>
-  <div class="flashes">
+  <div class="flashes <%= "flashes--toast" if content_for?(:toast_flashes) %>">
     <% flash.each do |key, value| -%>
       <div class="flash flash-<%= key %>"><%= value.to_s.html_safe %></div>
     <% end -%>

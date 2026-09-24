@@ -17,6 +17,7 @@ as well as a link to its edit page.
 %>
 
 <% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
+<% content_for(:toast_flashes, "true") %>
 
 <header class="main-content__header" role="banner">
   <h1 class="main-content__page-title">
