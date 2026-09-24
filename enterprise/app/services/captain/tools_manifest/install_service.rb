@@ -10,7 +10,8 @@ class Captain::ToolsManifest::InstallService
   SOURCE = 'github'.freeze
   CONFIGURATION_SECTIONS = %w[inputs secrets].freeze
   NUMBER_PATTERN = /\A-?\d+(\.\d+)?\z/
-  # Values are filled into templates after they were checked, so new Liquid would only fail at call time
+  # Inputs are filled into URL and request templates after those were checked, so new Liquid would only fail at
+  # call time. Secrets are only used in auth_config, which is never rendered, so they may contain these characters.
   LIQUID_DELIMITER_PATTERN = /\{\{|\{%/
 
   # Installed at this commit with every manifest tool present, so there is nothing to add or update
@@ -88,7 +89,7 @@ class Captain::ToolsManifest::InstallService
     raise InstallError, "Unknown #{section}: #{unknown_names.join(', ')}" if unknown_names.any?
 
     invalid = values.find do |name, value|
-      (value.is_a?(String) && value.match?(LIQUID_DELIMITER_PATTERN)) || !valid_value?(definitions[name], value)
+      (section == 'inputs' && value.is_a?(String) && value.match?(LIQUID_DELIMITER_PATTERN)) || !valid_value?(definitions[name], value)
     end
     raise InstallError, "#{definitions[invalid.first]['label']} has an invalid value" if invalid
   end
