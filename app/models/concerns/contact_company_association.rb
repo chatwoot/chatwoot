@@ -4,6 +4,7 @@ module ContactCompanyAssociation
   included do
     belongs_to :company, optional: true, counter_cache: true
 
+    # TODO: Remove this callback and its name-association methods after legacy company names are migrated.
     before_validation :associate_company_from_name, if: :should_associate_company_from_name?
     before_save :sync_company_name_from_company, if: :will_save_change_to_company_id?
     after_commit :associate_company_from_email, on: [:create, :update], if: :should_associate_company?
@@ -29,7 +30,6 @@ module ContactCompanyAssociation
   end
 
   def associate_company_from_name
-    # TODO: Remove this legacy free-text name bridge after Companies is fully rolled out.
     name = additional_attributes['company_name'].strip
     self.company = account.companies.where('LOWER(name) = ?', name.downcase).first || account.companies.create!(name: name)
   end

@@ -404,11 +404,12 @@ export default {
         </div>
       </div>
     </div>
-    <div v-if="hasCompaniesFeature" class="w-full">
+    <div v-if="hasCompaniesFeature" class="w-full mb-4">
       <label>{{ $t('CONTACT_FORM.FORM.COMPANY_NAME.LABEL') }}</label>
       <CompanySelector
         :model-value="companyId"
         :selected-name="companyName"
+        full-height
         @select="onCompanySelect"
       />
     </div>
