@@ -163,7 +163,10 @@ class Captain::ToolsManifest::Validator
       value = tool[field].to_json
       value.scan(INSTALL_PLACEHOLDER_PATTERN).each do |section, name|
         ensure!(manifest[section.downcase]&.key?(name), "#{id} #{field} uses undeclared placeholder #{section}.#{name}")
-        # Only auth_config is hidden from agents, so secrets filled in anywhere else would be readable by them
+        # Only auth_config is hidden from agents, so secrets filled in anywhere else would be readable by them.
+        # Known limitation: inputs, including ones a manifest declares as type password, may still be used in
+        # endpoint_url and request_template, which agents in the account can read. Credentials belong in secrets;
+        # restricting password-type inputs the same way can come in a later version.
         ensure!(section.casecmp?('inputs') || field == 'auth_config', "#{id} #{field} cannot use secrets; put credentials in auth_config")
       end
       ensure!(value.gsub(INSTALL_PLACEHOLDER_PATTERN, '').exclude?('${{'), "#{id} #{field} has an invalid install-time placeholder")
