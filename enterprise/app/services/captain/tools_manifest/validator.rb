@@ -23,6 +23,7 @@ class Captain::ToolsManifest::Validator
                  request_template response_template enabled].freeze
   REQUIRED_TOOL_TEXT_LIMITS = { 'title' => 100, 'description' => 500, 'endpoint_url' => 2000, 'auth_type' => 50 }.freeze
   TOOL_DEFAULTS = { 'auth_config' => {}, 'param_schema' => [], 'enabled' => true }.freeze
+  AUTH_CONFIG_KEYS = { 'bearer' => %w[token], 'basic' => %w[username password], 'api_key' => %w[name key] }.freeze
   FIELD_DEFAULTS = { 'type' => 'string', 'required' => false }.freeze
   INSTALL_PLACEHOLDER_FIELDS = %w[endpoint_url auth_config request_template].freeze
   CALL_PLACEHOLDER_FIELDS = %w[endpoint_url request_template].freeze
@@ -120,6 +121,14 @@ class Captain::ToolsManifest::Validator
     http_methods = Captain::CustomTool.http_methods.keys
     ensure!(http_methods.include?(tool['http_method']), "#{id} http_method must be one of: #{http_methods.join(', ')}")
     validate_optional_tool_fields!(tool, id)
+    validate_auth_config!(tool, id)
+  end
+
+  # Custom tools build auth headers from these keys, so a missing one only fails when the tool runs
+  def validate_auth_config!(tool, id)
+    required_keys = AUTH_CONFIG_KEYS.fetch(tool['auth_type'], [])
+    present = required_keys.all? { |key| tool.dig('auth_config', key).is_a?(String) && tool.dig('auth_config', key).present? }
+    ensure!(present, "#{id} auth_config must include #{required_keys.join(' and ')} for #{tool['auth_type']}")
   end
 
   def validate_optional_tool_fields!(tool, id)

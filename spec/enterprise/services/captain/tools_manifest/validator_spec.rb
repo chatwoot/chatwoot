@@ -157,6 +157,12 @@ RSpec.describe Captain::ToolsManifest::Validator do
       expect_invalid(yaml, /get_order http_method must be one of/)
     end
 
+    it 'rejects an auth_config missing credentials for its auth_type' do
+      manifest['tools'].first['auth_config'].delete('name')
+
+      expect_invalid(yaml, /get_order auth_config must include name and key for api_key/)
+    end
+
     it 'rejects undeclared install-time placeholders' do
       manifest['tools'].first['endpoint_url'] = 'https://${{ inputs.store }}/orders/{{ order_id }}'
 
