@@ -186,6 +186,16 @@ RSpec.describe Captain::ToolsManifest::Validator do
       end
     end
 
+    it 'only allows secrets in auth_config, which agents cannot read' do
+      tool = manifest['tools'].first
+      tool['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{ order_id }}.json?token=${{ secrets.access_token }}'
+      expect_invalid(manifest.to_yaml, /get_order endpoint_url cannot use secrets/)
+
+      tool['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{ order_id }}.json'
+      tool['request_template'] = '{"token": "${{ secrets.access_token }}", "id": "{{ order_id }}"}'
+      expect_invalid(manifest.to_yaml, /get_order request_template cannot use secrets/)
+    end
+
     it 'rejects undeclared install-time placeholders' do
       manifest['tools'].first['endpoint_url'] = 'https://${{ inputs.store }}/orders/{{ order_id }}'
 

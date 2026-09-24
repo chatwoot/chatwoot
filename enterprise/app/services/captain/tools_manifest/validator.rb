@@ -161,6 +161,8 @@ class Captain::ToolsManifest::Validator
       value = tool[field].to_json
       value.scan(INSTALL_PLACEHOLDER_PATTERN).each do |section, name|
         ensure!(manifest[section.downcase]&.key?(name), "#{id} #{field} uses undeclared placeholder #{section}.#{name}")
+        # Only auth_config is hidden from agents, so secrets filled in anywhere else would be readable by them
+        ensure!(section.casecmp?('inputs') || field == 'auth_config', "#{id} #{field} cannot use secrets; put credentials in auth_config")
       end
       ensure!(value.gsub(INSTALL_PLACEHOLDER_PATTERN, '').exclude?('${{'), "#{id} #{field} has an invalid install-time placeholder")
     end
