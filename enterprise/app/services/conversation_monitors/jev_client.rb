@@ -16,6 +16,8 @@ class ConversationMonitors::JevClient
     usage.reserve!(body.bytesize)
     started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     response = connection.post(ConversationMonitors::Configuration.endpoint, body)
+    # Rejected requests do not reach the model, but still consume a monthly call credit.
+    reconcile_usage(usage, body.bytesize, 0) if response.status.between?(400, 499)
     data = parse_response(response)
     reconcile_usage(usage, body.bytesize, data.fetch('usage').fetch('input_tokens'))
     instrument(data, started, monitors.size)

@@ -86,6 +86,16 @@ RSpec.describe ConversationMonitors::JevClient do
     expect(WebMock).to have_requested(:post, endpoint).once
   end
 
+  { 401 => 'credentials_invalid', 429 => 'provider_busy' }.each do |status, code|
+    it "releases token capacity after a #{status} rejection while retaining the call credit" do
+      stub_request(:post, endpoint).to_return(status: status)
+
+      expect { evaluate }.to raise_error(CustomExceptions::MonitorEvaluationError, code)
+      expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1)
+      expect(Redis::Alfred.get(token_key).to_i).to eq(0)
+    end
+  end
+
   it 'uses the shared installation credential and the OpenRouter System One contract' do
     result = evaluate
 
