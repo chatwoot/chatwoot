@@ -72,3 +72,10 @@ document.addEventListener('click', event => {
 document.addEventListener('keydown', event => {
   if (event.key === 'Escape') closeDropdowns();
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const url = new URL(window.location.href);
+  if (!url.searchParams.has('suppression')) return;
+  url.searchParams.delete('suppression');
+  window.history.replaceState(window.history.state, '', url);
+});
