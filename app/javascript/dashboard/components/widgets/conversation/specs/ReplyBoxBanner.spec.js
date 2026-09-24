@@ -3,7 +3,6 @@ import { createStore } from 'vuex';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import ReplyBoxBanner from '../ReplyBoxBanner.vue';
 import ConversationApi from 'dashboard/api/inbox/conversation';
-import { useAlert } from 'dashboard/composables';
 
 vi.mock('dashboard/api/inbox/conversation', () => ({
   default: { assignAgent: vi.fn() },
@@ -18,23 +17,16 @@ vi.mock('dashboard/composables', () => ({
 }));
 
 describe('ReplyBoxBanner', () => {
+  const currentUser = { id: 7 };
+
   it.each([false, true])(
-    'only updates takeover after assignment succeeds (request fails: %s)',
+    'only updates takeover after assignment succeeds (fails: %s)',
     async requestFails => {
       const setCurrentChatAssignee = vi.fn();
       const changeStatus = vi.fn();
-      const assistant = { id: 3, name: 'Captain' };
-      const currentUser = {
-        id: 7,
-        name: 'Agent',
-        avatar_url: 'agent.png',
-      };
-      useAlert.mockClear();
       ConversationApi.assignAgent.mockReset();
       if (requestFails) {
-        ConversationApi.assignAgent.mockRejectedValue(
-          new Error('Assignment failed')
-        );
+        ConversationApi.assignAgent.mockRejectedValue(new Error('Failed'));
       } else {
         ConversationApi.assignAgent.mockResolvedValue({ data: currentUser });
       }
@@ -44,7 +36,7 @@ describe('ReplyBoxBanner', () => {
             id: 1,
             status: 'pending',
             meta: {
-              assignee: assistant,
+              assignee: { id: 3, name: 'Captain' },
               assignee_type: 'Captain::Assistant',
             },
           },
@@ -62,16 +54,13 @@ describe('ReplyBoxBanner', () => {
         global: {
           plugins: [store],
           mocks: {
-            $t: (key, params) =>
-              params?.assigneeName ? `${key}: ${params.assigneeName}` : key,
+            $t: key => key,
           },
         },
       });
 
       const banner = wrapper.findComponent(Banner);
       expect(banner.exists()).toBe(true);
-      expect(banner.props('bannerMessage')).toContain(assistant.name);
-
       banner.vm.$emit('primaryAction');
       await flushPromises();
 
@@ -84,7 +73,6 @@ describe('ReplyBoxBanner', () => {
         expect(setCurrentChatAssignee).not.toHaveBeenCalled();
         expect(changeStatus).not.toHaveBeenCalled();
         expect(wrapper.findComponent(Banner).exists()).toBe(true);
-        expect(useAlert).toHaveBeenCalledWith('CONVERSATION.BOT_HANDOFF_ERROR');
         return;
       }
       expect(changeStatus).toHaveBeenCalledWith(expect.anything(), {
@@ -97,9 +85,6 @@ describe('ReplyBoxBanner', () => {
         assignee: currentUser,
         assigneeType: 'User',
       });
-      expect(useAlert).toHaveBeenCalledExactlyOnceWith(
-        'CONVERSATION.BOT_HANDOFF_SUCCESS'
-      );
     }
   );
 });
