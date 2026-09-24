@@ -16,10 +16,13 @@ class Captain::ToolsManifest::GithubSource
   def initialize(source)
     raise SourceError, INVALID_SOURCE_MESSAGE unless source.is_a?(String)
 
-    owner, repository, @path = parse(source.strip)
-    raise SourceError, INVALID_SOURCE_MESSAGE unless [owner, repository, @path].all? { |segment| valid_segment?(segment) }
+    owner, repository, @folder = parse(source.strip)
+    raise SourceError, INVALID_SOURCE_MESSAGE unless [owner, repository, @folder].all? { |segment| valid_segment?(segment) }
 
-    @repository = "#{owner}/#{repository}"
+    # GitHub ignores case in owner and repository names, so the stored identity is lowercase to avoid
+    # duplicate installs. Folder names are case-sensitive on GitHub, so downloads keep the folder as typed.
+    @repository = "#{owner}/#{repository}".downcase
+    @path = @folder.downcase
   end
 
   def latest_revision
@@ -30,7 +33,7 @@ class Captain::ToolsManifest::GithubSource
   end
 
   def manifest(revision)
-    fetch("#{RAW_URL}/#{repository}/#{revision}/#{path}/#{MANIFEST_FILE}")
+    fetch("#{RAW_URL}/#{repository}/#{revision}/#{@folder}/#{MANIFEST_FILE}")
   end
 
   private

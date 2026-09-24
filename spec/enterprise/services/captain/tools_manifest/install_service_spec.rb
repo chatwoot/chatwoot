@@ -100,6 +100,15 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       expect(assistant.custom_tools.count).to eq(2)
     end
 
+    it 'treats differently capitalized sources as the same toolset' do
+      existing_ids = install.map(&:id)
+
+      tools = install(source: 'Chatwoot/Support-Tools/shopify', revision: latest_revision)
+
+      expect(tools.map(&:id)).to match_array(existing_ids)
+      expect(assistant.custom_tools.count).to eq(2)
+    end
+
     context 'when a different commit is already installed' do
       let!(:installed_tools) do
         stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{older_revision}/shopify/toolset.yml")
