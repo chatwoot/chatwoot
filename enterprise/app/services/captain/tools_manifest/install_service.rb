@@ -11,6 +11,13 @@ class Captain::ToolsManifest::InstallService
   CONFIGURATION_SECTIONS = %w[inputs secrets].freeze
   NUMBER_PATTERN = /\A-?\d+(\.\d+)?\z/
 
+  # Installed at this commit with every manifest tool present, so there is nothing to add or update
+  def self.complete?(tools, manifest, revision)
+    tools.any? &&
+      tools.all? { |tool| tool.source_metadata['revision'] == revision } &&
+      (manifest['tools'].pluck('id') - tools.map { |tool| tool.source_metadata['tool_id'] }).empty?
+  end
+
   def initialize(assistant:, source:, configuration:, revision: nil)
     @assistant = assistant
     @source = source
@@ -27,7 +34,7 @@ class Captain::ToolsManifest::InstallService
     revision = @revision || @github_source.latest_revision
     manifest_source = @github_source.manifest(revision)
     manifest = Captain::ToolsManifest::Validator.new(manifest_source).perform
-    return installed_tools if complete_install?(installed_tools, manifest, revision)
+    return installed_tools if self.class.complete?(installed_tools, manifest, revision)
 
     values = configuration_values!(manifest)
 
@@ -35,13 +42,6 @@ class Captain::ToolsManifest::InstallService
   end
 
   private
-
-  # Installed at this commit with every manifest tool present, so there is nothing to add or update
-  def complete_install?(tools, manifest, revision)
-    tools.any? &&
-      tools.all? { |tool| tool.source_metadata['revision'] == revision } &&
-      (manifest['tools'].pluck('id') - tools.map { |tool| tool.source_metadata['tool_id'] }).empty?
-  end
 
   def installed_tools
     @installed_tools ||= @assistant.custom_tools.from_github(@github_source.repository, @github_source.path).to_a
@@ -107,7 +107,7 @@ class Captain::ToolsManifest::InstallService
       # Serializes installs on the assistant; tools are re-read under the lock so a concurrent install is seen
       Captain::Assistant.lock.find(@assistant.id)
       current_tools = @assistant.custom_tools.from_github(@github_source.repository, @github_source.path).to_a
-      next current_tools if complete_install?(current_tools, manifest, revision)
+      next current_tools if self.class.complete?(current_tools, manifest, revision)
 
       save_tools!(manifest, values, current_tools, source_metadata(manifest, revision, manifest_source, current_tools))
     end
