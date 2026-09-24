@@ -269,8 +269,8 @@ const resetForm = () => {
 };
 
 watch(
-  () => props.contactData?.id,
-  id => {
+  () => [props.contactData?.id, props.contactData?.companyId],
+  ([id]) => {
     if (id) prepareStateBasedOnProps();
   },
   { immediate: true }

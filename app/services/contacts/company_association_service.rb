@@ -6,7 +6,7 @@ class Contacts::CompanyAssociationService
     name = contact.additional_attributes['company_name']&.strip
     return if name.blank? || name.length > Limits::COMPANY_NAME_LENGTH_LIMIT
 
-    contact.company = contact.account.companies.find_or_create_by!(name: name)
+    contact.company = contact.account.companies.where('LOWER(name) = ?', name.downcase).first_or_create!(name: name)
   end
 
   def associate_company_from_email(contact)
