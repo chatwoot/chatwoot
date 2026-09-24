@@ -2,6 +2,7 @@ class Inboxes::FetchAppStoreReviewsJob < ApplicationJob
   queue_as :scheduled_jobs
 
   def perform(channel)
+    return if channel.account.suspended?
     return unless channel.account.feature_enabled?(:channel_app_store)
 
     with_sync_lock(channel) do
