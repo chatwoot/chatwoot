@@ -29,6 +29,8 @@ const INPUT_TYPES = { password: 'password', number: 'number' };
 const dialogRef = ref(null);
 const source = ref('');
 const preview = ref(null);
+// The source exactly as previewed; preview returns a lowercase identity, but GitHub folder names are case-sensitive
+const previewedSource = ref('');
 const values = reactive({ inputs: {}, secrets: {} });
 const isInstalling = ref(false);
 // A slow preview must not land in a dialog that was closed or reopened for another source
@@ -91,6 +93,7 @@ const selectOptions = field =>
 const reset = () => {
   source.value = '';
   preview.value = null;
+  previewedSource.value = '';
   values.inputs = {};
   values.secrets = {};
 };
@@ -104,16 +107,19 @@ const open = () => {
 const close = () => dialogRef.value.close();
 
 const loadPreview = async () => {
-  if (!source.value.trim()) return;
+  const requestedSource = source.value.trim();
+  if (!requestedSource) return;
 
   try {
     const response = await runPreview(signal =>
       ToolsManifestAPI.preview(
-        { assistantId: props.assistantId, source: source.value.trim() },
+        { assistantId: props.assistantId, source: requestedSource },
         { signal }
       )
     );
     if (!response) return;
+
+    previewedSource.value = requestedSource;
 
     const { data } = response;
     values.inputs = {};
@@ -137,7 +143,7 @@ const install = async () => {
   try {
     await ToolsManifestAPI.install({
       assistantId: props.assistantId,
-      source: sourceIdentifier.value,
+      source: previewedSource.value,
       // Pin to the previewed commit so a newer push can't install tools that were never reviewed
       revision: preview.value.revision,
       configuration: values,
