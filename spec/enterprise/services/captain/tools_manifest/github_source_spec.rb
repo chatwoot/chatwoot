@@ -79,6 +79,13 @@ RSpec.describe Captain::ToolsManifest::GithubSource do
       expect(described_class.new('Chatwoot/Support-Tools/Shopify').manifest(revision)).to eq('kind: captain_toolset')
     end
 
+    it 'stops downloading a manifest larger than 256 KiB' do
+      stub_request(:get, manifest_url).to_return(status: 200, body: 'a' * (256.kilobytes + 1))
+
+      expect { described_class.new('chatwoot/support-tools/shopify').manifest(revision) }
+        .to raise_error(described_class::SourceError, /larger than 256 KiB/)
+    end
+
     it 'raises when the manifest cannot be fetched' do
       stub_request(:get, manifest_url).to_return(status: 404, body: 'Not Found')
 
