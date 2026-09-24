@@ -73,9 +73,10 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     unless query.is_a?(String) && query.strip.present? && query.length <= SEARCH_QUERY_MAX_LENGTH
       return render_could_not_create_error('q must be a non-empty string of at most 200 characters')
     end
-    if params.key?(:before) && !(params[:before].is_a?(String) && params[:before].match?(/\A[1-9]\d{0,9}\z/))
-      render_could_not_create_error('before must be a positive message ID')
-    end
+
+    return unless params.key?(:before) && !(params[:before].is_a?(String) && params[:before].match?(/\A[1-9]\d{0,9}\z/))
+
+    render_could_not_create_error('before must be a positive message ID')
   end
 
   def message
