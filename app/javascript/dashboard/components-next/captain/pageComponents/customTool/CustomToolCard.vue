@@ -44,6 +44,10 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  sourceMetadata: {
+    type: Object,
+    default: null,
+  },
 });
 
 const emit = defineEmits(['action', 'toggle']);
@@ -94,6 +98,12 @@ const authTypeLabel = computed(() => {
     `CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_TYPES.${props.authType.toUpperCase()}`
   );
 });
+
+const sourceIdentifier = computed(() =>
+  props.sourceMetadata
+    ? `${props.sourceMetadata.repository}/${props.sourceMetadata.path}`
+    : ''
+);
 </script>
 
 <template>
@@ -150,6 +160,13 @@ const authTypeLabel = computed(() => {
         >
           <i class="i-lucide-lock text-base" />
           {{ authTypeLabel }}
+        </span>
+        <span
+          v-if="sourceIdentifier"
+          class="text-sm shrink-0 text-n-slate-11 inline-flex items-center gap-1 font-mono"
+        >
+          <i class="i-lucide-github text-base" />
+          {{ sourceIdentifier }}
         </span>
       </div>
       <span
