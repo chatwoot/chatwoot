@@ -181,6 +181,12 @@ RSpec.describe Captain::ToolsManifest::Validator do
       expect_invalid(yaml, /undeclared parameter order_number/)
     end
 
+    it 'rejects invalid Liquid in the endpoint URL' do
+      manifest['tools'].first['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{ order_id'
+
+      expect_invalid(yaml, /get_order endpoint_url is not valid Liquid/)
+    end
+
     it 'rejects invalid Liquid in the response template' do
       manifest['tools'].first['response_template'] = 'Order {{ response.id '
 

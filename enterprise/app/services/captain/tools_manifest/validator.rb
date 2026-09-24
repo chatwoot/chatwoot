@@ -27,6 +27,7 @@ class Captain::ToolsManifest::Validator
   FIELD_DEFAULTS = { 'type' => 'string', 'required' => false }.freeze
   INSTALL_PLACEHOLDER_FIELDS = %w[endpoint_url auth_config request_template].freeze
   CALL_PLACEHOLDER_FIELDS = %w[endpoint_url request_template].freeze
+  LIQUID_FIELDS = %w[endpoint_url request_template response_template].freeze
 
   def initialize(source)
     @source = source
@@ -162,12 +163,13 @@ class Captain::ToolsManifest::Validator
     end
   end
 
+  # Custom tools render these with strict Liquid at call time, so a syntax error would fail on every run
   def validate_liquid!(tool, id)
-    return if tool['response_template'].blank?
-
-    Liquid::Template.parse(tool['response_template'], error_mode: :strict)
-  rescue Liquid::SyntaxError => e
-    raise InvalidManifestError, "#{id} response_template is not valid Liquid: #{e.message}"
+    LIQUID_FIELDS.each do |field|
+      Liquid::Template.parse(tool[field], error_mode: :strict) if tool[field].present?
+    rescue Liquid::SyntaxError => e
+      raise InvalidManifestError, "#{id} #{field} is not valid Liquid: #{e.message}"
+    end
   end
 
   def normalize(manifest)
