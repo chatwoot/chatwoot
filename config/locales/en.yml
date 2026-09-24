@@ -508,6 +508,8 @@ en:
         reserved: '%{name} is managed by Chatwoot and cannot be set'
         invalid_value: 'value for %{name} must be fixed text up to 1 KiB, without placeholders or control characters'
     tools_manifest:
+      invalid_source: 'Enter a public GitHub URL or owner/repository/folder on the default branch'
+      invalid_manifest: "This toolset's manifest is invalid"
       invalid_configuration: 'Invalid configuration'
   public_portal:
     search:

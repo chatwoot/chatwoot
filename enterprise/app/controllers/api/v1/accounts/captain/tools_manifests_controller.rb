@@ -1,19 +1,12 @@
 class Api::V1::Accounts::Captain::ToolsManifestsController < Api::V1::Accounts::BaseController
-  INSTALL_ERRORS = [
-    Captain::ToolsManifest::GithubSource::SourceError,
-    Captain::ToolsManifest::Validator::InvalidManifestError,
-    Captain::ToolsManifest::InstallService::InstallError,
-    Captain::CustomTool::LimitExceededError
-  ].freeze
-
   before_action :ensure_custom_tools_enabled
   before_action -> { check_authorization(Captain::CustomTool) }
   before_action :set_assistant
 
-  rescue_from(*INSTALL_ERRORS) do |error|
-    Rails.logger.info("[Captain::ToolsManifest] #{error.class}: #{error.message}")
-    render json: { error: I18n.t('captain.tools_manifest.invalid_configuration') }, status: :unprocessable_content
-  end
+  rescue_from(Captain::ToolsManifest::GithubSource::SourceError) { |error| render_install_error(error, 'invalid_source') }
+  rescue_from(Captain::ToolsManifest::Validator::InvalidManifestError) { |error| render_install_error(error, 'invalid_manifest') }
+  rescue_from(Captain::ToolsManifest::InstallService::InstallError) { |error| render_install_error(error, 'invalid_configuration') }
+  rescue_from(Captain::CustomTool::LimitExceededError) { |error| render json: { error: error.message }, status: :unprocessable_content }
 
   def preview
     @github_source = Captain::ToolsManifest::GithubSource.new(params[:source])
@@ -37,6 +30,12 @@ class Api::V1::Accounts::Captain::ToolsManifestsController < Api::V1::Accounts::
     return if Current.account.feature_enabled?('custom_tools') || Current.account.feature_enabled?('captain_integration_v2')
 
     render json: { error: 'Custom tools are not enabled for this account' }, status: :forbidden
+  end
+
+  # The detailed reason is for logs; users get a short translated message
+  def render_install_error(error, message_key)
+    Rails.logger.info("[Captain::ToolsManifest] #{error.class}: #{error.message}")
+    render json: { error: I18n.t("captain.tools_manifest.#{message_key}") }, status: :unprocessable_content
   end
 
   def set_assistant
