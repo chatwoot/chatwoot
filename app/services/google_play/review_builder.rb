@@ -13,7 +13,7 @@ class GooglePlay::ReviewBuilder
     ActiveRecord::Base.transaction(requires_new: true) do
       build_contact_inbox
       build_conversation
-      if developer_comment.present? && developer_comment.dig('lastModified', 'seconds').to_i < user_comment.dig('lastModified', 'seconds').to_i
+      if developer_comment.present? && comment_timestamp(developer_comment) < comment_timestamp(user_comment)
         build_developer_message
         build_user_message
       else
@@ -41,6 +41,10 @@ class GooglePlay::ReviewBuilder
     Array(review['comments']).filter_map { |comment| comment[key] }
   end
 
+  def comment_timestamp(comment)
+    Channel::GooglePlay.review_timestamp(comment.fetch('lastModified'))
+  end
+
   def review_id
     review['reviewId']
   end
@@ -55,13 +59,13 @@ class GooglePlay::ReviewBuilder
 
   # A new lastModified timestamp (edited review) yields a new message in the same conversation
   def user_message_source_id
-    "#{review_id}::#{user_comment.dig('lastModified', 'seconds')}"
+    "#{review_id}::#{comment_timestamp(user_comment).strftime('%s.%N')}"
   end
 
   # Must match the format `Channel::GooglePlay#reply_to_review` returns so replies sent through
   # Chatwoot are not duplicated when the review is re-fetched.
   def developer_message_source_id
-    "#{review_id}::reply::#{developer_comment.dig('lastModified', 'seconds')}"
+    "#{review_id}::reply::#{comment_timestamp(developer_comment).strftime('%s.%N')}"
   end
 
   def build_contact_inbox
@@ -95,7 +99,7 @@ class GooglePlay::ReviewBuilder
       message_type: :incoming,
       source_id: user_message_source_id,
       content: message_content,
-      created_at: Time.at(user_comment.fetch('lastModified').fetch('seconds').to_i).utc,
+      created_at: comment_timestamp(user_comment),
       content_attributes: review_metadata
     )
   end
@@ -111,7 +115,7 @@ class GooglePlay::ReviewBuilder
       message_type: :outgoing,
       source_id: developer_message_source_id,
       content: text,
-      created_at: Time.at(developer_comment.fetch('lastModified').fetch('seconds').to_i).utc,
+      created_at: comment_timestamp(developer_comment),
       content_attributes: { external_echo: true },
       status: :sent
     )

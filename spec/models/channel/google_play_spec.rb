@@ -96,14 +96,14 @@ RSpec.describe Channel::GooglePlay do
       allow(channel).to receive(:access_token).and_return('test-token')
     end
 
-    it 'returns a source_id composed from the review id and lastEdited.seconds' do
+    it 'returns a source_id composed from the review id and the full lastEdited timestamp' do
       stub_request(:post, url).to_return(
         status: 200,
-        body: { result: { replyText: 'thanks', lastEdited: { seconds: '1779000000', nanos: 0 } } }.to_json,
+        body: { result: { replyText: 'thanks', lastEdited: { seconds: '1779000000', nanos: 123_456_789 } } }.to_json,
         headers: { 'Content-Type' => 'application/json' }
       )
 
-      expect(channel.reply_to_review('REV-1', 'thanks')).to eq('REV-1::reply::1779000000')
+      expect(channel.reply_to_review('REV-1', 'thanks')).to eq('REV-1::reply::1779000000.123456789')
     end
 
     it 'sends the validated reply text unchanged' do

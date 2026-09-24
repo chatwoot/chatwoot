@@ -32,7 +32,7 @@ RSpec.describe GooglePlay::ReviewBuilder do
 
     message = Message.last
     expect(message.message_type).to eq 'incoming'
-    expect(message.source_id).to eq 'rev-abc::1779000000'
+    expect(message.source_id).to eq 'rev-abc::1779000000.000000000'
     expect(message.content).to include('★★★★☆ (4/5)')
     expect(message.content).to include('Great app, but crashes sometimes.')
     expect(message.content).to include('Galaxy A15 • v4.5.0 • Android 33')
@@ -44,7 +44,7 @@ RSpec.describe GooglePlay::ReviewBuilder do
     )
   end
 
-  it 'is idempotent for the same userComment lastModified seconds' do
+  it 'is idempotent for the same userComment timestamp' do
     described_class.new(review: base_review, channel: channel).perform
 
     expect do
@@ -52,17 +52,19 @@ RSpec.describe GooglePlay::ReviewBuilder do
     end.not_to change(Message, :count)
   end
 
-  it 'creates a new incoming message when the reviewer edits (new lastModified)' do
+  it 'creates a new incoming message for an edit within the same second' do
     described_class.new(review: base_review, channel: channel).perform
 
     edited = base_review.deep_dup
-    edited['comments'].first['userComment']['lastModified']['seconds'] = '1779999999'
+    edited['comments'].first['userComment']['lastModified']['nanos'] = 123_456_789
     edited['comments'].first['userComment']['text'] = 'Edited review'
 
     expect do
       described_class.new(review: edited, channel: channel).perform
     end.to change(Message, :count).by(1)
                                   .and(not_change(Conversation, :count))
+    expect(Message.incoming.last.source_id).to eq('rev-abc::1779000000.123456789')
+    expect { described_class.new(review: edited, channel: channel).perform }.not_to change(Message, :count)
   end
 
   it 'skips entirely when the user comment text is blank' do
@@ -90,7 +92,7 @@ RSpec.describe GooglePlay::ReviewBuilder do
 
       outgoing = Message.outgoing.last
       expect(outgoing.content).to eq('Thanks for the feedback!')
-      expect(outgoing.source_id).to eq('rev-abc::reply::1779100000')
+      expect(outgoing.source_id).to eq('rev-abc::reply::1779100000.000000000')
       expect(outgoing.status).to eq('sent')
     end
 
@@ -106,12 +108,12 @@ RSpec.describe GooglePlay::ReviewBuilder do
       conversation = create(:conversation, inbox: inbox, account: channel.account,
                                            contact_inbox: create(:contact_inbox, inbox: inbox, source_id: 'rev-abc'))
       create(:message, conversation: conversation, account: channel.account, inbox: inbox,
-                       message_type: :outgoing, source_id: 'rev-abc::reply::1779100000', content: 'sent via chatwoot')
+                       message_type: :outgoing, source_id: 'rev-abc::reply::1779100000.000000000', content: 'sent via chatwoot')
 
       expect do
         described_class.new(review: review_with_reply, channel: channel).perform
       end.to change(Message, :count).by(1) # the incoming user message only
-      expect(Message.outgoing.where(source_id: 'rev-abc::reply::1779100000').count).to eq(1)
+      expect(Message.outgoing.where(source_id: 'rev-abc::reply::1779100000.000000000').count).to eq(1)
     end
   end
 

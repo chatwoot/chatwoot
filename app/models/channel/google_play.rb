@@ -36,6 +36,10 @@ class Channel::GooglePlay < ApplicationRecord
   # associated inbox is guaranteed to be visible.
   after_create_commit :enqueue_initial_review_fetch
 
+  def self.review_timestamp(timestamp)
+    Time.at(timestamp.fetch('seconds').to_i, timestamp.fetch('nanos', 0), :nanosecond).utc
+  end
+
   def name
     'Google PlayStore'
   end
@@ -72,7 +76,7 @@ class Channel::GooglePlay < ApplicationRecord
     )
     raise "Google Play reply failed (#{response.code}): #{response.body}" unless response.success?
 
-    last_edited = response.parsed_response.dig('result', 'lastEdited', 'seconds')
+    last_edited = self.class.review_timestamp(response.parsed_response.fetch('result').fetch('lastEdited')).strftime('%s.%N')
     "#{review_id}::reply::#{last_edited}"
   end
 
