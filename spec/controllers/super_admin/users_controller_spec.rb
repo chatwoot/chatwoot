@@ -288,6 +288,14 @@ RSpec.describe 'Super Admin Users API', type: :request do
         expect(button['disabled']).to be_nil
       end
 
+      it 'confirms the unblock in an in-app dialog' do
+        get "/super_admin/users/#{user.id}", params: { suppression: 'bounce' }
+
+        dialog = Nokogiri::HTML(response.body).at_css('dialog#unblock-email-dialog')
+        expect(dialog.text).to include('Unblock bounced@example.com?')
+        expect(dialog.at_css("form[action='/super_admin/users/#{user.id}/clear_email_suppression']")).to be_present
+      end
+
       it 'shows a disabled clear button after a complaint check' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'complaint' }
 

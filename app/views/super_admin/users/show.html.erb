@@ -46,15 +46,9 @@ as well as a link to its edit page.
                   data: { pending_label: t("super_admin.users.email_suppression.pending.check") },
                 ) %>
           <% if params[:suppression] == "bounce" %>
-            <%= button_to(
-                    t("super_admin.users.email_suppression.clear_button"),
-                    [:clear_email_suppression, namespace, page.resource.becomes(User)],
-                    method: :post,
-                    class: item_class,
-                    form_class: "block",
-                    data: { confirm: t("super_admin.users.email_suppression.clear_confirm"),
-                            pending_label: t("super_admin.users.email_suppression.pending.clear") },
-                  ) %>
+            <button type="button" class="<%= item_class %>" data-dialog-open="unblock-email-dialog">
+              <%= t("super_admin.users.email_suppression.clear_button") %>
+            </button>
           <% elsif params[:suppression] == "complaint" %>
             <button type="button" class="<%= item_class %>" disabled title="<%= t("super_admin.users.email_suppression.complaint_hint") %>">
               <%= t("super_admin.users.email_suppression.clear_button") %>
@@ -78,6 +72,28 @@ as well as a link to its edit page.
                 ) unless page.resource.confirmed? %>
         </div>
       </details>
+      <% if params[:suppression] == "bounce" %>
+        <dialog id="unblock-email-dialog" class="w-full max-w-md p-6 rounded-lg border border-slate-100 shadow-xl backdrop:bg-black/40">
+          <h2 class="text-base font-medium text-slate-900">
+            <%= t("super_admin.users.email_suppression.clear_dialog.title", email: page.resource.email) %>
+          </h2>
+          <p class="mt-2 text-sm text-slate-600"><%= t("super_admin.users.email_suppression.clear_dialog.body") %></p>
+          <div class="mt-6 flex justify-end gap-2">
+            <form method="dialog">
+              <button class="reset-base px-4 py-2 text-sm font-medium text-slate-700 border border-slate-200 rounded-md cursor-pointer hover:bg-slate-50">
+                <%= t("super_admin.users.email_suppression.clear_dialog.cancel") %>
+              </button>
+            </form>
+            <%= button_to(
+                    t("super_admin.users.email_suppression.clear_dialog.confirm"),
+                    [:clear_email_suppression, namespace, page.resource.becomes(User)],
+                    method: :post,
+                    class: "button",
+                    data: { pending_label: t("super_admin.users.email_suppression.pending.clear") },
+                  ) %>
+          </div>
+        </dialog>
+      <% end %>
     <% else %>
       <%= button_to(
               t("super_admin.users.resend_confirmation.button"),

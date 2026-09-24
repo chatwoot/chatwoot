@@ -52,3 +52,9 @@ const initializePendingActions = () => {
 };
 
 document.addEventListener('DOMContentLoaded', initializePendingActions);
+
+document.addEventListener('click', event => {
+  const trigger = event.target.closest('[data-dialog-open]');
+  if (!trigger) return;
+  document.getElementById(trigger.dataset.dialogOpen)?.showModal();
+});

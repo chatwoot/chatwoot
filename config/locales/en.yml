@@ -705,7 +705,11 @@ en:
         menu: 'Email'
         check_button: 'Check email delivery'
         clear_button: 'Unblock email'
-        clear_confirm: 'Unblock emails to this address?'
+        clear_dialog:
+          title: 'Unblock %{email}?'
+          body: 'Chatwoot will send emails to this address again. If the next one bounces, it gets blocked again.'
+          cancel: 'Cancel'
+          confirm: 'Unblock'
         complaint_hint: 'Blocked after a spam complaint. Escalate to engineering.'
         test_email_button: 'Send test email'
         pending:
