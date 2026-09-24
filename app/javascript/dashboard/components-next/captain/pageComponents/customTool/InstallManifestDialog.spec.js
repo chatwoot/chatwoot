@@ -57,9 +57,7 @@ const mountDialog = () =>
 
 const loadPreview = async (wrapper, data) => {
   mocks.preview.mockResolvedValue({ data });
-  await wrapper
-    .find('input')
-    .setValue('https://github.com/chatwoot/support-tools/tree/main/shopify');
+  await wrapper.find('input').setValue(' Chatwoot/Support-Tools/Shopify ');
   await wrapper.findAll('button').at(-1).trigger('click');
   await flushPromises();
 };
@@ -81,7 +79,8 @@ describe('InstallManifestDialog', () => {
 
     expect(mocks.install).toHaveBeenCalledWith({
       assistantId: 7,
-      source: 'chatwoot/support-tools/shopify',
+      // Sent as entered: the preview's identity is lowercase, but GitHub folder names are case-sensitive
+      source: 'Chatwoot/Support-Tools/Shopify',
       revision: previewData.revision,
       configuration: { inputs: {}, secrets: { access_token: 'shpat_secret' } },
     });
