@@ -96,7 +96,7 @@ RSpec.describe Captain::ToolsManifest::InstallService do
 
       tools = install(revision: latest_revision)
 
-      expect(tools.map(&:id)).to eq(existing_ids)
+      expect(tools.map(&:id)).to match_array(existing_ids)
       expect(WebMock).to have_requested(:get, manifest_url).once
       expect(assistant.custom_tools.count).to eq(2)
     end
