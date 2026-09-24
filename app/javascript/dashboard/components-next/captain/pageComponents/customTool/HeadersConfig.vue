@@ -17,6 +17,7 @@ const rows = ref(
 const showErrors = ref(false);
 
 const isMissingName = row => !row.name.trim() && !!row.value;
+const hasNameError = row => showErrors.value && isMissingName(row);
 
 watch(
   rows,
@@ -53,11 +54,11 @@ defineExpose({ validate });
           v-model="row.name"
           :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.HEADERS.NAME_PLACEHOLDER')"
           :message="
-            showErrors && isMissingName(row)
+            hasNameError(row)
               ? t('CAPTAIN.CUSTOM_TOOLS.FORM.HEADERS.NAME_REQUIRED')
               : ''
           "
-          message-type="error"
+          :message-type="hasNameError(row) ? 'error' : 'info'"
           class="flex-1 [&_input]:font-mono"
         />
         <Input

@@ -55,6 +55,22 @@ describe('HeadersConfig', () => {
     expect(lastEmittedHeaders(wrapper)).toEqual({ 'X-Tenant': 'acme' });
   });
 
+  it('only marks the name invalid after a failed validation', async () => {
+    const wrapper = mountHeaders();
+
+    await wrapper.find('[data-test="add-header"]').trigger('click');
+    const nameInput = () => wrapper.findAll('input')[0];
+    expect(nameInput().classes()).not.toContain('error');
+
+    await wrapper.findAll('input')[1].setValue('orphan');
+    wrapper.vm.validate();
+    await nextTick();
+    expect(nameInput().classes()).toContain('error');
+
+    await nameInput().setValue('hello-world');
+    expect(nameInput().classes()).not.toContain('error');
+  });
+
   it('ignores empty rows and flags a value without a name', async () => {
     const wrapper = mountHeaders();
 
