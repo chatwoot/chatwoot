@@ -7,11 +7,11 @@ $flashes: (
 ) !default;
 
 .flashes {
-  bottom: 1.5rem;
   max-width: 26rem;
   pointer-events: none;
   position: fixed;
   right: 1.5rem;
+  top: 4.5rem;
   width: calc(100% - 2rem);
   z-index: 50;
 }
