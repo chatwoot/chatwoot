@@ -111,6 +111,18 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       expect(tools.map { |tool| tool.source_metadata['installation_id'] }.uniq).to eq([kept_tool.source_metadata['installation_id']])
     end
 
+    it 'returns the tools installed by a concurrent request instead of duplicating them' do
+      existing_ids = install.map(&:id)
+      service = described_class.new(assistant: assistant, source: 'chatwoot/support-tools/shopify', configuration: configuration)
+      # Simulates a request that looked up installed tools before another install committed
+      allow(service).to receive(:installed_tools).and_return([])
+
+      tools = service.perform
+
+      expect(tools.map(&:id)).to match_array(existing_ids)
+      expect(assistant.custom_tools.count).to eq(2)
+    end
+
     it 'treats differently capitalized sources as the same toolset' do
       existing_ids = install.map(&:id)
 
