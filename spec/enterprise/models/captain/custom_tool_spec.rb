@@ -210,6 +210,21 @@ RSpec.describe Captain::CustomTool, type: :model do
       expect(tool.errors[:auth_config]).to include('X API Key is not a valid header name')
     end
 
+    it 'is invalid when the API key header name is one Chatwoot sets itself' do
+      %w[X-Chatwoot-Account-Id x-chatwoot-custom Content-Type host].each do |name|
+        tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => name, 'key' => 'secret' })
+
+        expect(tool).not_to be_valid, "expected #{name} to be rejected"
+        expect(tool.errors[:auth_config]).to include("#{name} is managed by Chatwoot and cannot be set")
+      end
+    end
+
+    it 'allows Authorization as the API key header name' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => 'Authorization', 'key' => 'Token secret' })
+
+      expect(tool).to be_valid
+    end
+
     it 'is invalid when a credential contains control characters' do
       tool = build(:captain_custom_tool, account: account, auth_type: 'bearer', auth_config: { 'token' => "secret\r\nX-Injected: 1" })
 
