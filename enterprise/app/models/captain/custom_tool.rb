@@ -136,10 +136,16 @@ class Captain::CustomTool < ApplicationRecord
   # Auth values become request headers, and the HTTP client rejects unsafe ones on every call
   def validate_auth_config
     config = auth_config.to_h
-    if auth_api_key? && config['name'].is_a?(String) && !HEADER_NAME_PATTERN.match?(config['name'])
-      errors.add(:auth_config, I18n.t('captain.custom_tool.headers.invalid_name', name: config['name']))
-    end
+    validate_api_key_name(config['name']) if auth_api_key? && config['name'].is_a?(String)
     errors.add(:auth_config, :invalid) if config.values.any? { |value| value.is_a?(String) && value.match?(/[[:cntrl:]]/) }
+  end
+
+  # HttpTool sets reserved headers after auth, so they would overwrite the key. Authorization is the credential's own header.
+  def validate_api_key_name(name)
+    return errors.add(:auth_config, I18n.t('captain.custom_tool.headers.invalid_name', name: name)) unless HEADER_NAME_PATTERN.match?(name)
+    return if name.casecmp?('authorization') || !reserved_header?(name.downcase)
+
+    errors.add(:auth_config, I18n.t('captain.custom_tool.headers.reserved', name: name))
   end
 
   def validate_header(name, value)
