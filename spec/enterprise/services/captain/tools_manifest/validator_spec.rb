@@ -159,6 +159,12 @@ RSpec.describe Captain::ToolsManifest::Validator do
       expect_invalid(yaml, /Duplicate tool id: get_order/)
     end
 
+    it 'rejects an unsupported auth type' do
+      manifest['tools'].first['auth_type'] = 'oauth2'
+
+      expect_invalid(yaml, /get_order auth_type must be one of/)
+    end
+
     it 'rejects an unsupported HTTP method' do
       manifest['tools'].first['http_method'] = 'HEAD'
 

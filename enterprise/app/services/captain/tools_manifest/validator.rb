@@ -20,7 +20,9 @@ class Captain::ToolsManifest::Validator
   FIELD_TYPES = %w[string password number boolean select].freeze
   TOOL_KEYS = %w[id title description http_method endpoint_url auth_type auth_config param_schema
                  request_template response_template enabled].freeze
-  REQUIRED_TOOL_TEXT_LIMITS = { 'title' => 100, 'description' => 500, 'endpoint_url' => 2000, 'auth_type' => 50 }.freeze
+  REQUIRED_TOOL_TEXT_LIMITS = { 'title' => 100, 'description' => 500, 'endpoint_url' => 2000 }.freeze
+  # Tool fields whose values must be one of the custom tool model's enum values
+  TOOL_ENUM_FIELDS = { 'http_method' => :http_methods, 'auth_type' => :auth_types }.freeze
   TOOL_DEFAULTS = { 'auth_config' => {}, 'param_schema' => [], 'enabled' => true }.freeze
   AUTH_CONFIG_KEYS = { 'bearer' => %w[token], 'basic' => %w[username password], 'api_key' => %w[name key] }.freeze
   FIELD_DEFAULTS = { 'type' => 'string', 'required' => false }.freeze
@@ -99,9 +101,7 @@ class Captain::ToolsManifest::Validator
 
   # A select without choices can never be given a valid value, so the toolset could not be installed
   def validate_select_options!(name, definition)
-    return unless definition['type'] == 'select'
-
-    ensure!(definition['options'].present?, "#{name} options must list at least one choice for select")
+    ensure!(definition['type'] != 'select' || definition['options'].present?, "#{name} options must list at least one choice for select")
   end
 
   def validate_tools!(manifest)
@@ -128,8 +128,10 @@ class Captain::ToolsManifest::Validator
     REQUIRED_TOOL_TEXT_LIMITS.each do |field, max_length|
       ensure!(text?(tool[field], max_length), "#{id} #{field} must be 1-#{max_length} characters")
     end
-    http_methods = Captain::CustomTool.http_methods.keys
-    ensure!(http_methods.include?(tool['http_method']), "#{id} http_method must be one of: #{http_methods.join(', ')}")
+    TOOL_ENUM_FIELDS.each do |field, enum|
+      allowed = Captain::CustomTool.public_send(enum).keys
+      ensure!(allowed.include?(tool[field]), "#{id} #{field} must be one of: #{allowed.join(', ')}")
+    end
     validate_optional_tool_fields!(tool, id)
     validate_auth_config!(tool, id)
     Array(tool['param_schema']).each do |param|
@@ -212,9 +214,7 @@ class Captain::ToolsManifest::Validator
 
   def boolean?(value) = [true, false].include?(value)
 
-  def optional!(value, valid, message)
-    ensure!(value.nil? || valid, message)
-  end
+  def optional!(value, valid, message) = ensure!(value.nil? || valid, message)
 
   def ensure!(condition, message)
     raise InvalidManifestError, message unless condition
