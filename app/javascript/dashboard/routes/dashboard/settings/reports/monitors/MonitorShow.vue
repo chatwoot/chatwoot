@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -9,10 +9,12 @@ import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useLocale } from 'shared/composables/useLocale';
 import MonitorsAPI from 'dashboard/api/monitors';
 import BarChart from 'shared/components/charts/BarChart.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import MonitorChartFilters from './MonitorChartFilters.vue';
 import MonitorDrilldown from './MonitorDrilldown.vue';
+import MonitorActionDialog from './MonitorActionDialog.vue';
 import MonitorUsageWarning from './MonitorUsageWarning.vue';
 import { useMonitorRefresh } from './useMonitorRefresh';
 import {
@@ -27,10 +29,12 @@ const CHART_TICK_COUNT = 5;
 
 const { t, te } = useI18n();
 const route = useRoute();
-const { accountId, currentAccount } = useAccount();
+const router = useRouter();
+const { accountId, currentAccount, accountScopedRoute } = useAccount();
 const { isAdmin } = useAdmin();
 const { resolvedLocale } = useLocale();
 const { run, abort, isPending } = useAbortableRequest();
+const { run: runRetry, abort: abortRetry } = useAbortableRequest();
 
 const monitorId = computed(() => route.params.monitorId);
 const filters = ref({ ...DEFAULT_FILTERS });
@@ -38,6 +42,7 @@ const collectionEndsAt = ref(null);
 const result = ref(null);
 const displayed = ref(null);
 const drilldown = ref(null);
+const actionDialog = ref(null);
 const error = ref('');
 const notice = ref('');
 const refreshedAt = ref('');
@@ -188,6 +193,7 @@ const fetchReport = async () => {
 };
 
 const openBucket = ({ pointIndex }) => {
+  if (!isAdmin.value) return;
   const bucket = result.value.buckets[pointIndex];
   if (!bucket?.count) return;
   drilldown.value = {
@@ -211,6 +217,8 @@ watch(
   [accountId, monitorId, timezone],
   () => {
     abort();
+    abortRetry();
+    actionDialog.value?.close();
     result.value = null;
     displayed.value = null;
     collectionEndsAt.value = null;
@@ -228,6 +236,41 @@ useMonitorRefresh(fetchReport, {
   monitorId: () => Number(monitorId.value),
   shouldPoll: () => filters.value.range !== CUSTOM_RANGE,
 });
+
+const openAction = nextAction =>
+  actionDialog.value.open(nextAction, {
+    ...monitor.value,
+    id: monitorId.value,
+  });
+const onActionSaved = action => {
+  if (action === 'delete')
+    router.push(accountScopedRoute('monitor_reports_index'));
+  else fetchReport();
+};
+const onMonitorChanged = message => {
+  notice.value = message;
+  fetchReport();
+};
+const retry = async () => {
+  try {
+    await runRetry(async signal => {
+      await MonitorsAPI.retry(monitorId.value, signal);
+      if (signal.aborted) return;
+      notice.value = t('MONITORS.RETRY_STARTED');
+      fetchReport();
+    });
+  } catch (failure) {
+    error.value = errorText(failure.response?.data?.error);
+  }
+};
+const duplicate = () =>
+  router.push(
+    accountScopedRoute(
+      'monitor_reports_index',
+      {},
+      { condition: monitor.value.condition }
+    )
+  );
 </script>
 
 <template>
@@ -235,7 +278,52 @@ useMonitorRefresh(fetchReport, {
     :header-title="monitor?.name || t('MONITORS.TITLE')"
     :header-description="monitor?.condition || ''"
     has-back-button
-  />
+  >
+    <div v-if="monitor && isAdmin" class="flex flex-wrap justify-end gap-2">
+      <Button
+        v-tooltip.bottom="t('MONITORS.EDIT')"
+        slate
+        faded
+        icon="i-woot-edit-pen"
+        :aria-label="t('MONITORS.EDIT')"
+        @click="openAction('edit')"
+      />
+      <Button
+        v-tooltip.bottom="t('MONITORS.DUPLICATE')"
+        slate
+        faded
+        icon="i-lucide-copy"
+        :aria-label="t('MONITORS.DUPLICATE')"
+        @click="duplicate"
+      />
+      <Button
+        v-if="!monitor.paused_at"
+        v-tooltip.bottom="t('MONITORS.PAUSE')"
+        slate
+        faded
+        icon="i-lucide-pause"
+        :aria-label="t('MONITORS.PAUSE')"
+        @click="openAction('pause')"
+      />
+      <Button
+        v-if="monitor.paused_at"
+        v-tooltip.bottom="t('MONITORS.RESUME')"
+        slate
+        faded
+        icon="i-lucide-play"
+        :aria-label="t('MONITORS.RESUME')"
+        @click="openAction('resume')"
+      />
+      <Button
+        v-tooltip.bottom="t('MONITORS.DELETE')"
+        ruby
+        faded
+        icon="i-woot-bin"
+        :aria-label="t('MONITORS.DELETE')"
+        @click="openAction('delete')"
+      />
+    </div>
+  </ReportHeader>
   <MonitorUsageWarning :usage="result?.usage" />
   <p v-if="error" role="alert" class="text-sm text-n-ruby-11">{{ error }}</p>
   <p v-if="notice" role="status" class="text-sm text-n-slate-11">
@@ -290,6 +378,13 @@ useMonitorRefresh(fetchReport, {
             {{ errorText(code) }}
           </p>
         </div>
+        <Button
+          v-if="isAdmin && !monitor.paused_at && !result.usage?.limit_reached"
+          slate
+          faded
+          :label="t('MONITORS.RETRY')"
+          @click="retry"
+        />
       </div>
       <BarChart
         :data="chartData"
@@ -328,5 +423,12 @@ useMonitorRefresh(fetchReport, {
     :count="drilldown.bucket.count"
     @close="drilldown = null"
     @changed="resultsChanged"
+  />
+  <MonitorActionDialog
+    v-if="isAdmin"
+    :key="`${accountId}/${monitorId}`"
+    ref="actionDialog"
+    @saved="onActionSaved"
+    @changed="onMonitorChanged"
   />
 </template>
