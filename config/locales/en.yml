@@ -507,6 +507,8 @@ en:
         invalid_name: '%{name} is not a valid header name'
         reserved: '%{name} is managed by Chatwoot and cannot be set'
         invalid_value: 'value for %{name} must be fixed text up to 1 KiB, without placeholders or control characters'
+    tools_manifest:
+      invalid_configuration: 'Invalid configuration'
   public_portal:
     search:
       search_placeholder: Search for article by title or body...

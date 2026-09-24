@@ -101,6 +101,10 @@ Rails.application.routes.draw do
             resources :custom_tools do
               post :test, on: :collection
             end
+            resource :tools_manifest, only: [] do
+              post :preview
+              post :install
+            end
             resources :documents, only: [:index, :show, :create, :destroy] do
               post :sync, on: :member
               get :drilldown, on: :member
