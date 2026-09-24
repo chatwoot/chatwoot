@@ -184,7 +184,37 @@ RSpec.describe Captain::ToolsManifest::Validator do
     it 'rejects call-time placeholders without a matching parameter' do
       manifest['tools'].first['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{ order_number }}'
 
-      expect_invalid(yaml, /undeclared parameter order_number/)
+      expect_invalid(yaml, /get_order endpoint_url uses undefined variable order_number/)
+    end
+
+    it 'rejects undeclared variables in any Liquid form' do
+      tool = manifest['tools'].first
+      tool['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{- order_id -}}{{- missing -}}'
+      expect_invalid(manifest.to_yaml, /get_order endpoint_url uses undefined variable missing/)
+
+      tool['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{ order_id }}'
+      tool['request_template'] = '{% if missing %}{"id": "{{ order_id }}"}{% endif %}'
+      expect_invalid(manifest.to_yaml, /get_order request_template uses undefined variable missing/)
+    end
+
+    it 'rejects unknown Liquid filters' do
+      manifest['tools'].first['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{ order_id | typoo }}'
+
+      expect_invalid(yaml, /get_order endpoint_url uses undefined filter typoo/)
+    end
+
+    it 'rejects response template variables other than response and r' do
+      manifest['tools'].first['response_template'] = 'Order {{ result.id }}'
+
+      expect_invalid(yaml, /get_order response_template uses undefined variable result/)
+    end
+
+    it 'accepts loops, known filters and install-time placeholders in templates' do
+      tool = manifest['tools'].first
+      tool['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{ order_id | url_encode }}'
+      tool['response_template'] = '{% for item in response.items %}{{ item.name | upcase }}{% endfor %} {{ r.status | default: "open" }}'
+
+      expect(validate['tools'].first['response_template']).to include('{% for item')
     end
 
     it 'rejects invalid Liquid in the endpoint URL' do

@@ -14,7 +14,6 @@ class Captain::ToolsManifest::Validator
   TOOL_ID_PATTERN = /\A[a-z][a-z0-9_]*\z/
   FIELD_NAME_PATTERN = /\A[a-z][a-z0-9_]*\z/i
   INSTALL_PLACEHOLDER_PATTERN = /\$\{\{\s*(inputs|secrets)\.([a-z][a-z0-9_]*)\s*\}\}/i
-  CALL_PLACEHOLDER_PATTERN = /(?<!\$)\{\{\s*([A-Za-z_]\w*)/
 
   ROOT_KEYS = %w[version kind name description category headers inputs secrets tools].freeze
   FIELD_KEYS = %w[label type placeholder required options].freeze
@@ -28,8 +27,8 @@ class Captain::ToolsManifest::Validator
   # LLM providers receive parameter types as written, so anything else makes the tool definition invalid
   PARAM_TYPES = %w[string integer number boolean array object].freeze
   INSTALL_PLACEHOLDER_FIELDS = %w[endpoint_url auth_config request_template].freeze
-  CALL_PLACEHOLDER_FIELDS = %w[endpoint_url request_template].freeze
   LIQUID_FIELDS = %w[endpoint_url request_template response_template].freeze
+  RESPONSE_VARIABLES = %w[response r].freeze
 
   def initialize(source)
     @source = source
@@ -113,7 +112,6 @@ class Captain::ToolsManifest::Validator
     reject_unknown_keys!(tool, TOOL_KEYS, "tool #{id}")
     validate_tool_fields!(tool, id)
     validate_install_placeholders!(tool, id, manifest)
-    validate_call_placeholders!(tool, id)
     validate_liquid!(tool, id)
   end
 
@@ -159,21 +157,16 @@ class Captain::ToolsManifest::Validator
     end
   end
 
-  def validate_call_placeholders!(tool, id)
-    param_names = Array(tool['param_schema']).pluck('name')
-    CALL_PLACEHOLDER_FIELDS.each do |field|
-      tool[field].to_s.scan(CALL_PLACEHOLDER_PATTERN).flatten.each do |name|
-        ensure!(param_names.include?(name), "#{id} #{field} uses undeclared parameter #{name}")
-      end
-    end
-  end
-
-  # Custom tools render these with strict Liquid at call time, so a syntax error would fail on every run
+  # Install-time placeholders are filled in before the tool runs, so they are stubbed out first
   def validate_liquid!(tool, id)
+    params = Array(tool['param_schema']).pluck('name')
     LIQUID_FIELDS.each do |field|
-      Liquid::Template.parse(tool[field], error_mode: :strict) if tool[field].present?
-    rescue Liquid::SyntaxError => e
-      raise InvalidManifestError, "#{id} #{field} is not valid Liquid: #{e.message}"
+      next if tool[field].blank?
+
+      variables = field == 'response_template' ? RESPONSE_VARIABLES : params
+      source = tool[field].gsub(INSTALL_PLACEHOLDER_PATTERN, 'x')
+      error = Captain::ToolsManifest::TemplateChecker.error_for(source, variables)
+      ensure!(error.nil?, "#{id} #{field} #{error}")
     end
   end
 
