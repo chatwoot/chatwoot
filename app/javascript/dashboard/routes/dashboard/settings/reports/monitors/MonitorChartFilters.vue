@@ -167,7 +167,7 @@ const apply = () => {
             class="m-0 w-full rounded-lg border border-n-weak bg-n-solid-1 text-sm text-n-slate-12"
           >
             <option v-for="value in INTERVALS" :key="value" :value="value">
-              {{ t(`MONITORS.INTERVALS.${value}`) }}
+              {{ t(`MONITORS.INTERVALS.${value.toUpperCase()}`) }}
             </option>
           </select>
         </label>

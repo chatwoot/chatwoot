@@ -32,7 +32,15 @@ vi.mock('dashboard/api/monitors', () => ({
 describe('MonitorForm preview cooldown', () => {
   let wrapper;
   beforeEach(() => {
-    vi.useFakeTimers({ toFake: ['Date', 'setInterval', 'clearInterval'] });
+    vi.useFakeTimers({
+      toFake: [
+        'Date',
+        'setInterval',
+        'clearInterval',
+        'setTimeout',
+        'clearTimeout',
+      ],
+    });
     vi.setSystemTime(new Date('2026-09-22T12:00:00Z'));
     state.accountId = ref(1);
     state.now = ref(Date.now());
@@ -142,7 +150,57 @@ describe('MonitorForm preview cooldown', () => {
     await vi.advanceTimersByTimeAsync(2000);
 
     expect(wrapper.find('[role="alert"]').text()).toBe(
-      'MONITORS.ERRORS.provider_busy'
+      'MONITORS.ERRORS.PROVIDER_BUSY'
+    );
+  });
+
+  it('waits for each status response before checking again', async () => {
+    let finish;
+    MonitorsAPI.previewStatus.mockImplementation(
+      () =>
+        new Promise(resolve => {
+          finish = resolve;
+        })
+    );
+    await wrapper.find('textarea').setValue('Refunds');
+    wrapper.findComponent({ name: 'Button' }).vm.$emit('click');
+    await flushPromises();
+    await vi.advanceTimersByTimeAsync(6000);
+    expect(MonitorsAPI.previewStatus).toHaveBeenCalledTimes(1);
+
+    finish({ data: { status: 'pending' } });
+    await vi.advanceTimersByTimeAsync(1500);
+    expect(MonitorsAPI.previewStatus).toHaveBeenCalledTimes(2);
+  });
+
+  it('shows a preview failure when the status request fails', async () => {
+    MonitorsAPI.previewStatus.mockRejectedValue(new Error('network'));
+    await wrapper.find('textarea').setValue('Refunds');
+    wrapper.findComponent({ name: 'Button' }).vm.$emit('click');
+    await flushPromises();
+
+    expect(wrapper.find('[role="alert"]').text()).toBe(
+      'MONITORS.PREVIEW_FAILED'
+    );
+  });
+
+  it('opens prefilled with an example name and condition', async () => {
+    wrapper.vm.open({ name: 'Refunds', condition: 'Mentions refunds' });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find('textarea').element.value).toBe('Mentions refunds');
+    expect(wrapper.findComponent({ name: 'Input' }).props('modelValue')).toBe(
+      'Refunds'
+    );
+  });
+
+  it('opens a duplicate with only the condition', async () => {
+    wrapper.vm.open({ condition: 'Mentions refunds' });
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find('textarea').element.value).toBe('Mentions refunds');
+    expect(wrapper.findComponent({ name: 'Input' }).props('modelValue')).toBe(
+      ''
     );
   });
 });

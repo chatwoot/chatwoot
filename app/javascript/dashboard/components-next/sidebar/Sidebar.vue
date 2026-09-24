@@ -72,7 +72,7 @@ const isFeatureEnabledonAccount = useMapGetter(
 
 const isMonitorsAvailable = computed(
   () =>
-    isEnterprise &&
+    (isOnChatwootCloud.value || isEnterprise) &&
     [FEATURE_FLAGS.REPORTS, FEATURE_FLAGS.CONVERSATION_MONITORS].every(flag =>
       isFeatureEnabledonAccount.value(accountId.value, flag)
     )

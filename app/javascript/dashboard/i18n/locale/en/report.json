@@ -2,17 +2,17 @@
   "MONITORS": {
     "TITLE": "Monitors",
     "LIST": {
-      "MONITOR": "Monitor",
-      "CONVERSATIONS": "Conversations",
+      "CONVERSATIONS_COUNT": "{count} conversation | {count} conversations",
       "CONVERSATIONS_HELP": "Count of conversations matching this monitor in the last 7 days.",
-      "STATUS": "Status",
-      "RUNNING": "Running"
+      "RUNNING": "Running",
+      "FETCH_FAILED": "Could not load monitors. Please try again."
     },
     "DESCRIPTION": "Follow the themes that matter across your customer conversations.",
     "CREATE": "Create monitor",
     "PREVIEW": "Preview matches",
     "PREVIEW_COOLDOWN": "You can preview again in {seconds}s.",
-    "PREVIEW_HELP": "{matches} matches in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan.",
+    "PREVIEW_FAILED": "Could not preview matches. Please try again.",
+    "PREVIEW_HELP": "{count} match in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan. | {count} matches in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan.",
     "NAME": "Name",
     "NAME_PLACEHOLDER": "Refund conversations",
     "CONDITION": "Which conversations should this monitor find?",
@@ -21,13 +21,22 @@
     "EMPTY_TITLE": "Turn conversations into a trend you can follow",
     "EMPTY_DESCRIPTION": "Describe a topic in plain English. A monitor finds matching conversations and keeps its chart updated as new customer messages arrive.",
     "ADMIN_HELP": "Ask an administrator to create your first monitor.",
+    "EXAMPLES_TITLE": "Try an example",
     "EXAMPLES": {
-      "REFUNDS": "All conversations mentioning refunds",
-      "BSUID": "All conversations related to WhatsApp BSUID",
-      "AUTOMATIONS": "All conversations related to automations from a self-hosted customer"
+      "REFUNDS": {
+        "NAME": "Refund conversations",
+        "CONDITION": "All conversations mentioning refunds"
+      },
+      "BSUID": {
+        "NAME": "WhatsApp BSUID",
+        "CONDITION": "All conversations related to WhatsApp BSUID"
+      },
+      "AUTOMATIONS": {
+        "NAME": "Self-hosted automations",
+        "CONDITION": "All conversations related to automations from a self-hosted customer"
+      }
     },
     "MATCHING_CONVERSATIONS": "Matching conversations created",
-    "LAST_SEVEN_DAYS": "Last seven days",
     "LAST_DAYS": "Last {count} day | Last {count} days",
     "LAST_DAYS_BEFORE_PAUSE": "{count} day before pause | {count} days before pause",
     "CUSTOM_RANGE": "Custom range",
@@ -40,7 +49,11 @@
     "FROM": "From",
     "TO": "To",
     "INTERVAL": "Group by",
-    "INTERVALS": { "hour": "1 hour", "six_hours": "6 hours", "day": "1 day" },
+    "INTERVALS": {
+      "HOUR": "1 hour",
+      "SIX_HOURS": "6 hours",
+      "DAY": "1 day"
+    },
     "APPLY": "Apply",
     "EDIT": "Edit",
     "UPDATE": "Update",
@@ -73,34 +86,34 @@
       "REACHED_AT": "Limit reached on {time}."
     },
     "STATES": {
-      "scanning": "Checking recent conversations",
-      "processing": "Checking conversations",
-      "rechecking": "Rechecking conversations with the updated description",
-      "live": "Up to date",
-      "delayed": "Updates are delayed",
-      "needs_attention": "Needs attention",
-      "paused": "Paused",
-      "catching_up": "Checking the paused period"
+      "SCANNING": "Checking recent conversations",
+      "PROCESSING": "Checking conversations",
+      "RECHECKING": "Rechecking conversations with the updated description",
+      "LIVE": "Up to date",
+      "DELAYED": "Updates are delayed",
+      "NEEDS_ATTENTION": "Needs attention",
+      "PAUSED": "Paused",
+      "CATCHING_UP": "Checking the paused period"
     },
     "ERRORS": {
-      "fetch_failed": "Could not load this monitor. Refresh to try again.",
-      "save_failed": "Could not save the monitor. Check the name and condition, then try again.",
-      "not_configured": "Configure the OpenRouter connection, then click Retry.",
-      "credentials_invalid": "The OpenRouter connection needs attention. Ask your installation administrator to check its credentials.",
-      "provider_credits_exhausted": "The OpenRouter account has insufficient credits. Ask your installation administrator to check its balance, then retry.",
-      "invalid_request": "The evaluation request needs attention. Contact your installation administrator.",
-      "invalid_response": "The evaluation provider returned an incomplete result. Affected conversations have not been counted.",
-      "provider_busy": "The evaluation provider is busy. Pending conversations need another evaluation.",
-      "provider_unavailable": "The evaluation provider is temporarily unavailable. Updates may be delayed.",
-      "budget_limit": "The daily evaluation allowance has been reached. Pending work will resume after it resets.",
-      "monthly_limit": "This account has reached its monthly monitor allowance. Pending evaluations will resume next month.",
-      "context_limit": "Some conversations are too long to evaluate completely. They are excluded from the results.",
-      "no_text": "Some conversations do not have public text to evaluate. They are excluded from the results.",
-      "invalid_parameters": "Check the name, condition, date range, and interval.",
-      "too_many_buckets": "Choose a shorter date range or a larger interval. A chart can show up to 744 bars.",
-      "monitor_limit": "This account has reached its active monitor limit. Pause a monitor before creating another.",
-      "monitor_paused": "This monitor is paused and no longer checks conversations.",
-      "monitor_changed": "This monitor changed in another session. Its current state has been refreshed. Try again."
+      "FETCH_FAILED": "Could not load this monitor. Refresh to try again.",
+      "SAVE_FAILED": "Could not save the monitor. Check the name and condition, then try again.",
+      "NOT_CONFIGURED": "Configure the OpenRouter connection, then click Retry.",
+      "CREDENTIALS_INVALID": "The OpenRouter connection needs attention. Ask your installation administrator to check its credentials.",
+      "PROVIDER_CREDITS_EXHAUSTED": "The OpenRouter account has insufficient credits. Ask your installation administrator to check its balance, then retry.",
+      "INVALID_REQUEST": "The evaluation request needs attention. Contact your installation administrator.",
+      "INVALID_RESPONSE": "The evaluation provider returned an incomplete result. Affected conversations have not been counted.",
+      "PROVIDER_BUSY": "The evaluation provider is busy. Pending conversations need another evaluation.",
+      "PROVIDER_UNAVAILABLE": "The evaluation provider is temporarily unavailable. Updates may be delayed.",
+      "BUDGET_LIMIT": "The daily evaluation allowance has been reached. Pending work will resume after it resets.",
+      "MONTHLY_LIMIT": "This account has reached its monthly monitor allowance. Pending evaluations will resume next month.",
+      "CONTEXT_LIMIT": "Some conversations are too long to evaluate completely. They are excluded from the results.",
+      "NO_TEXT": "Some conversations do not have public text to evaluate. They are excluded from the results.",
+      "INVALID_PARAMETERS": "Check the name, condition, date range, and interval.",
+      "TOO_MANY_BUCKETS": "Choose a shorter date range or a larger interval. A chart can show up to 744 bars.",
+      "MONITOR_LIMIT": "This account has reached its active monitor limit. Pause a monitor before creating another.",
+      "MONITOR_PAUSED": "This monitor is paused and no longer checks conversations.",
+      "MONITOR_CHANGED": "This monitor changed in another session. Its current state has been refreshed. Try again."
     }
   },
   "REPORT": {

@@ -108,6 +108,7 @@ describe('MonitorShow', () => {
       MonitorsAPI.timeseries.mockImplementation(async (id, params) => {
         const response = responseFor(params);
         response.data.monitor.processing = {
+          state: 'needs_attention',
           errors: 1,
           error_codes: ['provider_busy'],
         };
@@ -133,6 +134,29 @@ describe('MonitorShow', () => {
       expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(2);
     });
 
+    it('sends one retry while the first is still pending', async () => {
+      let finish;
+      MonitorsAPI.retry.mockImplementation(
+        () =>
+          new Promise(resolve => {
+            finish = resolve;
+          })
+      );
+      const retryButton = () =>
+        wrapper
+          .findAllComponents({ name: 'Button' })
+          .find(button => button.props('label') === 'MONITORS.RETRY');
+      retryButton().vm.$emit('click');
+      await wrapper.vm.$nextTick();
+      retryButton().vm.$emit('click');
+
+      expect(MonitorsAPI.retry).toHaveBeenCalledTimes(1);
+      expect(retryButton().props('isLoading')).toBe(true);
+      finish({ data: {} });
+      await flushPromises();
+      expect(retryButton().props('isLoading')).toBe(false);
+    });
+
     it('shows a retry failure on the current monitor', async () => {
       MonitorsAPI.retry.mockRejectedValue({
         response: { data: { error: 'monthly_limit' } },
@@ -144,7 +168,7 @@ describe('MonitorShow', () => {
       await flushPromises();
 
       expect(wrapper.find('[role="alert"]').text()).toBe(
-        'MONITORS.ERRORS.monthly_limit'
+        'MONITORS.ERRORS.MONTHLY_LIMIT'
       );
       expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(1);
     });
@@ -191,7 +215,7 @@ describe('MonitorShow', () => {
 
         expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(calls);
         expect(wrapper.text()).not.toContain('MONITORS.RETRY_STARTED');
-        expect(wrapper.text()).not.toContain('MONITORS.ERRORS.monthly_limit');
+        expect(wrapper.text()).not.toContain('MONITORS.ERRORS.MONTHLY_LIMIT');
       }
     );
   });
@@ -611,6 +635,32 @@ describe('MonitorShow', () => {
     }
   );
 
+  it('clears a stale conflict notice once an action succeeds', async () => {
+    wrapper = shallowMount(MonitorShow, mountOptions);
+    await flushPromises();
+    const pauseButton = () =>
+      wrapper
+        .findAllComponents({ name: 'Button' })
+        .find(button => button.attributes('aria-label') === 'MONITORS.PAUSE');
+    MonitorsAPI.update.mockRejectedValueOnce({
+      response: { data: { error: 'monitor_changed' } },
+    });
+    pauseButton().vm.$emit('click');
+    await wrapper.vm.$nextTick();
+    wrapper.findComponent({ name: 'Dialog' }).vm.$emit('confirm');
+    await flushPromises();
+    expect(wrapper.find('[role="status"]').text()).toBe(
+      'MONITORS.ERRORS.MONITOR_CHANGED'
+    );
+
+    MonitorsAPI.update.mockResolvedValueOnce({ data: {} });
+    pauseButton().vm.$emit('click');
+    await wrapper.vm.$nextTick();
+    wrapper.findComponent({ name: 'Dialog' }).vm.$emit('confirm');
+    await flushPromises();
+    expect(wrapper.text()).not.toContain('MONITORS.ERRORS.MONITOR_CHANGED');
+  });
+
   it('keeps the last chart when a refresh fails', async () => {
     wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
@@ -622,7 +672,7 @@ describe('MonitorShow', () => {
 
     expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(true);
     expect(wrapper.find('[role="alert"]').text()).toBe(
-      'MONITORS.ERRORS.provider_busy'
+      'MONITORS.ERRORS.PROVIDER_BUSY'
     );
   });
 });

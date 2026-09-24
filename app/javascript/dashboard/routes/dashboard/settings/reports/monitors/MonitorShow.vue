@@ -34,7 +34,11 @@ const { accountId, currentAccount, accountScopedRoute } = useAccount();
 const { isAdmin } = useAdmin();
 const { resolvedLocale } = useLocale();
 const { run, abort, isPending } = useAbortableRequest();
-const { run: runRetry, abort: abortRetry } = useAbortableRequest();
+const {
+  run: runRetry,
+  abort: abortRetry,
+  isPending: isRetrying,
+} = useAbortableRequest();
 
 const monitorId = computed(() => route.params.monitorId);
 const filters = ref({ ...DEFAULT_FILTERS });
@@ -93,7 +97,7 @@ const filterSummary = computed(() => {
       : t(lastDaysKey, { count: range });
   return t('MONITORS.FILTER_SUMMARY', {
     range: rangeLabel,
-    interval: t(`MONITORS.INTERVALS.${interval}`),
+    interval: t(`MONITORS.INTERVALS.${interval.toUpperCase()}`),
   });
 });
 const pausedAtLabel = computed(() =>
@@ -127,12 +131,10 @@ const chartData = computed(() => ({
     },
   ],
 }));
-const errorText = code =>
-  t(
-    te(`MONITORS.ERRORS.${code}`)
-      ? `MONITORS.ERRORS.${code}`
-      : 'MONITORS.ERRORS.fetch_failed'
-  );
+const errorText = code => {
+  const key = code && `MONITORS.ERRORS.${code.toUpperCase()}`;
+  return t(key && te(key) ? key : 'MONITORS.ERRORS.FETCH_FAILED');
+};
 
 const fetchReport = async () => {
   const requested = {
@@ -243,15 +245,19 @@ const openAction = nextAction =>
     id: monitorId.value,
   });
 const onActionSaved = action => {
-  if (action === 'delete')
+  if (action === 'delete') {
     router.push(accountScopedRoute('monitor_reports_index'));
-  else fetchReport();
+    return;
+  }
+  notice.value = '';
+  fetchReport();
 };
 const onMonitorChanged = message => {
   notice.value = message;
   fetchReport();
 };
 const retry = async () => {
+  if (isRetrying.value) return;
   try {
     await runRetry(async signal => {
       await MonitorsAPI.retry(monitorId.value, signal);
@@ -284,6 +290,7 @@ const duplicate = () =>
         v-tooltip.bottom="t('MONITORS.EDIT')"
         slate
         faded
+        size="sm"
         icon="i-woot-edit-pen"
         :aria-label="t('MONITORS.EDIT')"
         @click="openAction('edit')"
@@ -292,6 +299,7 @@ const duplicate = () =>
         v-tooltip.bottom="t('MONITORS.DUPLICATE')"
         slate
         faded
+        size="sm"
         icon="i-lucide-copy"
         :aria-label="t('MONITORS.DUPLICATE')"
         @click="duplicate"
@@ -301,6 +309,7 @@ const duplicate = () =>
         v-tooltip.bottom="t('MONITORS.PAUSE')"
         slate
         faded
+        size="sm"
         icon="i-lucide-pause"
         :aria-label="t('MONITORS.PAUSE')"
         @click="openAction('pause')"
@@ -310,6 +319,7 @@ const duplicate = () =>
         v-tooltip.bottom="t('MONITORS.RESUME')"
         slate
         faded
+        size="sm"
         icon="i-lucide-play"
         :aria-label="t('MONITORS.RESUME')"
         @click="openAction('resume')"
@@ -318,6 +328,7 @@ const duplicate = () =>
         v-tooltip.bottom="t('MONITORS.DELETE')"
         ruby
         faded
+        size="sm"
         icon="i-woot-bin"
         :aria-label="t('MONITORS.DELETE')"
         @click="openAction('delete')"
@@ -363,7 +374,7 @@ const duplicate = () =>
         role="status"
         class="text-sm text-n-slate-11"
       >
-        {{ t(`MONITORS.STATES.${monitor.processing.state}`) }}
+        {{ t(`MONITORS.STATES.${monitor.processing.state.toUpperCase()}`) }}
       </p>
       <div
         v-if="monitor.processing.errors"
@@ -383,6 +394,8 @@ const duplicate = () =>
           slate
           faded
           :label="t('MONITORS.RETRY')"
+          :is-loading="isRetrying"
+          :disabled="isRetrying"
           @click="retry"
         />
       </div>
