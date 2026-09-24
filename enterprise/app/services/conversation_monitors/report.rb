@@ -1,6 +1,7 @@
 class ConversationMonitors::Report
   def initialize(monitor, params)
     @monitor = monitor
+    @collection_ends_at = monitor.paused_at || Time.current
     @params = params
     @buckets = ConversationMonitors::Buckets.new(params, default_timezone: monitor.account.reporting_timezone || 'UTC')
   end
@@ -34,6 +35,7 @@ class ConversationMonitors::Report
   private
 
   def covered?(range, index)
+    return false if range.end > @collection_ends_at
     return false if range.begin < @monitor.history_since || @incomplete_buckets.key?(index)
 
     @gaps ||= @monitor.scans.select(&:incomplete?)
