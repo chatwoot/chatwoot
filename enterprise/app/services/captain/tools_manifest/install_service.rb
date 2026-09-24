@@ -54,16 +54,28 @@ class Captain::ToolsManifest::InstallService
     unknown_sections = configuration.keys - CONFIGURATION_SECTIONS
     raise InstallError, "Unknown configuration sections: #{unknown_sections.join(', ')}" if unknown_sections.any?
 
-    CONFIGURATION_SECTIONS.index_with { |section| section_values!(manifest[section], configuration.fetch(section, {}), section) }
+    auth_fields = auth_field_names(manifest)
+    CONFIGURATION_SECTIONS.index_with do |section|
+      section_values!(manifest[section], configuration.fetch(section, {}), section, auth_fields[section])
+    end
   end
 
-  def section_values!(definitions, values, section)
+  # Fields filled into auth_config must have a value even when optional, or the tool would send blank credentials
+  def auth_field_names(manifest)
+    pattern = Captain::ToolsManifest::Validator::INSTALL_PLACEHOLDER_PATTERN
+    placeholders = manifest['tools'].flat_map { |tool| tool['auth_config'].to_json.scan(pattern) }
+    CONFIGURATION_SECTIONS.index_with { |section| placeholders.filter_map { |kind, name| name if kind.downcase == section } }
+  end
+
+  def section_values!(definitions, values, section, auth_fields)
     raise InstallError, "#{section} must be an object" unless values.is_a?(Hash)
 
     validate_values!(definitions, values, section)
 
     # blank? would treat false as missing, which is a valid value for a boolean
-    missing = definitions.find { |name, definition| definition['required'] && values[name].to_s.strip.empty? }
+    missing = definitions.find do |name, definition|
+      (definition['required'] || auth_fields.include?(name)) && values[name].to_s.strip.empty?
+    end
     raise InstallError, "#{missing.last['label']} is required" if missing
 
     values
