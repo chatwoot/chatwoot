@@ -6,6 +6,7 @@
     "LAST_DAYS_BEFORE_PAUSE": "{days} days before pause",
     "CUSTOM_RANGE": "Custom range",
     "CUSTOM_RANGE_HELP": "Choose a range of 7 to 30 days, including the start and end dates.",
+    "CUSTOM_RANGE_BOUNDARY_ERROR": "Choose dates on or before {date}.",
     "DATE_RANGE": "Date range",
     "FILTERS": "Chart filters",
     "FILTER_SUMMARY": "{range} · {interval}",

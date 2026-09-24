@@ -36,18 +36,38 @@ const timezone = computed(
 );
 const MIN_RANGE_DAYS = 7;
 const MAX_RANGE_DAYS = 30;
+const offsetDate = (date, days) =>
+  date ? format(addDays(new Date(`${date}T12:00:00`), days), 'yyyy-MM-dd') : '';
 const today = formatInTimeZone(new Date(), timezone.value, 'yyyy-MM-dd');
-const startDate = ref(
-  format(
-    addDays(new Date(`${today}T12:00:00`), 1 - MIN_RANGE_DAYS),
-    'yyyy-MM-dd'
-  )
-);
+const startDate = ref(offsetDate(today, 1 - MIN_RANGE_DAYS));
 const endDate = ref(today);
 const request = ref(null);
 const displayedRequest = ref(null);
 const displayedRangeDays = ref('7');
 const collectionEndsAt = ref(null);
+const now = ref(Date.now());
+const dateFor = timestamp =>
+  formatInTimeZone(new Date(timestamp * 1000), timezone.value, 'yyyy-MM-dd');
+const collectionEndDate = computed(() =>
+  dateFor(collectionEndsAt.value || now.value / 1000)
+);
+const maxEndDate = computed(
+  () =>
+    [offsetDate(startDate.value, MAX_RANGE_DAYS - 1), collectionEndDate.value]
+      .filter(Boolean)
+      .sort()[0]
+);
+const maxStartDate = computed(() =>
+  offsetDate(
+    [endDate.value, collectionEndDate.value].filter(Boolean).sort()[0],
+    1 - MIN_RANGE_DAYS
+  )
+);
+const calendarDays = (start, end) =>
+  differenceInCalendarDays(
+    new Date(`${end}T12:00:00`),
+    new Date(`${start}T12:00:00`)
+  ) + 1;
 const activeRangeDays = ref('7');
 const filterPopover = ref(null);
 const filterTrigger = ref(null);
@@ -96,6 +116,7 @@ const filterSummary = computed(() => {
   });
 });
 const focusFilters = async () => {
+  now.value = Date.now();
   await nextTick();
   rangeSelect.value?.focus();
 };
@@ -150,28 +171,46 @@ const errorText = code =>
       : 'MONITORS.ERRORS.fetch_failed'
   );
 
-const fetchReport = async () => {
-  if (!request.value) return;
-  if (activeRangeDays.value !== 'custom') {
-    const until = collectionEndsAt.value || Math.floor(Date.now() / 1000);
-    request.value = {
-      ...request.value,
-      until,
-      since: until - Number(activeRangeDays.value) * 86400,
-    };
-  }
-  if (collectionEndsAt.value) {
-    request.value = {
-      ...request.value,
-      until: Math.min(request.value.until, collectionEndsAt.value),
-    };
-    if (request.value.since >= request.value.until) {
-      error.value = errorText('invalid_parameters');
-      result.value = null;
-      drilldown.value = null;
+const resetDraftFilters = () => {
+  rangeDays.value = activeRangeDays.value;
+  interval.value = request.value?.interval || 'day';
+  endDate.value =
+    activeRangeDays.value === 'custom'
+      ? dateFor(request.value.until - 1)
+      : collectionEndDate.value;
+  startDate.value =
+    activeRangeDays.value === 'custom'
+      ? dateFor(request.value.since)
+      : offsetDate(endDate.value, 1 - MIN_RANGE_DAYS);
+};
+
+const boundAppliedRequest = () => {
+  now.value = Date.now();
+  const boundary = collectionEndsAt.value || Math.floor(now.value / 1000);
+  if (activeRangeDays.value === 'custom') {
+    const until = Math.min(request.value.until, boundary);
+    if (until === request.value.until) return;
+    if (
+      calendarDays(dateFor(request.value.since), dateFor(until - 1)) >=
+      MIN_RANGE_DAYS
+    ) {
+      request.value = { ...request.value, until };
+      resetDraftFilters();
       return;
     }
+    activeRangeDays.value = '7';
+    resetDraftFilters();
   }
+  request.value = {
+    ...request.value,
+    until: boundary,
+    since: boundary - Number(activeRangeDays.value) * 86400,
+  };
+};
+
+const fetchReport = async () => {
+  if (!request.value) return;
+  boundAppliedRequest();
   const requestedFilters = { ...request.value };
   const requestedRangeDays = activeRangeDays.value;
   const requestedAccount = accountId.value;
@@ -188,6 +227,8 @@ const fetchReport = async () => {
       return;
     const wasPaused = Boolean(collectionEndsAt.value);
     collectionEndsAt.value = response.data.monitor.paused_at || null;
+    if (!result.value && activeRangeDays.value !== 'custom')
+      resetDraftFilters();
     if (
       wasPaused &&
       !collectionEndsAt.value &&
@@ -198,9 +239,9 @@ const fetchReport = async () => {
     }
     if (
       collectionEndsAt.value &&
-      (activeRangeDays.value === 'custom'
-        ? requestedFilters.until > collectionEndsAt.value
-        : requestedFilters.until !== collectionEndsAt.value)
+      (requestedFilters.until > collectionEndsAt.value ||
+        (activeRangeDays.value !== 'custom' &&
+          requestedFilters.until !== collectionEndsAt.value))
     ) {
       await fetchReport();
       return;
@@ -234,13 +275,10 @@ const fetchReport = async () => {
 };
 
 const applyFilters = () => {
+  now.value = Date.now();
   filterError.value = '';
   if (rangeDays.value === 'custom') {
-    const days =
-      differenceInCalendarDays(
-        new Date(`${endDate.value}T12:00:00`),
-        new Date(`${startDate.value}T12:00:00`)
-      ) + 1;
+    const days = calendarDays(startDate.value, endDate.value);
     if (
       !Number.isFinite(days) ||
       days < MIN_RANGE_DAYS ||
@@ -249,14 +287,24 @@ const applyFilters = () => {
       filterError.value = t('MONITORS.CUSTOM_RANGE_HELP');
       return;
     }
+    if (endDate.value > collectionEndDate.value) {
+      filterError.value = t('MONITORS.CUSTOM_RANGE_BOUNDARY_ERROR', {
+        date: collectionEndDate.value,
+      });
+      return;
+    }
   }
-  const until =
+  const requestedUntil =
     rangeDays.value === 'custom'
       ? zonedTimeToUtc(
           `${format(addDays(new Date(`${endDate.value}T12:00:00`), 1), 'yyyy-MM-dd')}T00:00:00`,
           timezone.value
         ).getTime() / 1000
       : Math.floor(Date.now() / 1000);
+  const until = Math.min(
+    requestedUntil,
+    collectionEndsAt.value || Math.floor(now.value / 1000)
+  );
   const since =
     rangeDays.value === 'custom'
       ? zonedTimeToUtc(
@@ -289,15 +337,25 @@ watch(
     collectionEndsAt.value = null;
     drilldown.value = null;
     notice.value = '';
+    error.value = '';
+    filterError.value = '';
     filterPopover.value?.hide();
-    applyFilters();
+    request.value = {
+      ...request.value,
+      interval: request.value?.interval || 'day',
+      timezone: timezone.value,
+    };
+    resetDraftFilters();
+    fetchReport();
   },
   { immediate: true }
 );
 watch(isAdmin, () => {
   drilldown.value = null;
 });
-useMonitorRefresh(fetchReport);
+useMonitorRefresh(fetchReport, {
+  shouldPoll: () => activeRangeDays.value !== 'custom',
+});
 
 const openBucket = ({ pointIndex }) => {
   if (!isAdmin.value) return;
@@ -397,11 +455,15 @@ const resultsChanged = () => {
                   v-model="startDate"
                   type="date"
                   :label="t('MONITORS.FROM')"
+                  :min="offsetDate(endDate, 1 - MAX_RANGE_DAYS)"
+                  :max="maxStartDate"
                 />
                 <Input
                   v-model="endDate"
                   type="date"
                   :label="t('MONITORS.TO')"
+                  :min="offsetDate(startDate, MIN_RANGE_DAYS - 1)"
+                  :max="maxEndDate"
                 />
                 <p v-if="!filterError" class="m-0 text-xs text-n-slate-11">
                   {{ t('MONITORS.CUSTOM_RANGE_HELP') }}

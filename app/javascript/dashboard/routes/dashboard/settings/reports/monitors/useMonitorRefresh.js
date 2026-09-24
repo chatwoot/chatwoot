@@ -6,7 +6,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 const REFRESH_INTERVAL_MS = 30000;
 const REFRESH_THROTTLE_MS = 2000;
 
-export function useMonitorRefresh(refresh) {
+export function useMonitorRefresh(refresh, { shouldPoll = () => true } = {}) {
   let isMounted = false;
   const visibleRefresh = () => {
     if (isMounted && document.visibilityState === 'visible') refresh();
@@ -16,7 +16,9 @@ export function useMonitorRefresh(refresh) {
     REFRESH_THROTTLE_MS,
     true
   );
-  useIntervalFn(visibleRefresh, REFRESH_INTERVAL_MS);
+  useIntervalFn(() => {
+    if (shouldPoll()) visibleRefresh();
+  }, REFRESH_INTERVAL_MS);
   useEventListener(window, 'focus', throttledRefresh);
   useEventListener(document, 'visibilitychange', throttledRefresh);
   const events = [BUS_EVENTS.MONITOR_UPDATED, BUS_EVENTS.WEBSOCKET_RECONNECT];
