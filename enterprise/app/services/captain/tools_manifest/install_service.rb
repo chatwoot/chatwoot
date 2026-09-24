@@ -46,18 +46,37 @@ class Captain::ToolsManifest::InstallService
   end
 
   def latest_revision
-    revision = fetch("https://api.github.com/repos/#{@repository}/commits/HEAD", headers: { 'Accept' => 'application/vnd.github.sha' }).strip
+    revision = fetch_latest_revision.strip
     raise InstallError, "Could not resolve the latest commit of #{@repository}" unless REVISION_PATTERN.match?(revision)
 
     revision
   end
 
+  # The token only raises the GitHub API rate limit, so an expired or revoked one falls back to an unauthenticated lookup
+  def fetch_latest_revision
+    url = "https://api.github.com/repos/#{@repository}/commits/HEAD"
+    headers = { 'Accept' => 'application/vnd.github.sha' }
+    token = GlobalConfigService.load('CAPTAIN_TOOLS_GITHUB_TOKEN', nil)
+    return fetch(url, headers: headers) if token.blank?
+
+    fetch!(url, headers: headers.merge('Authorization' => "Bearer #{token}"))
+  rescue SafeFetch::HttpError => e
+    raise InstallError, "Could not fetch #{url}: #{e.message}" unless token.present? && e.message.start_with?('401')
+
+    Rails.logger.warn('[Captain::ToolsManifest] CAPTAIN_TOOLS_GITHUB_TOKEN was rejected by GitHub, retrying without it')
+    fetch(url, headers: headers)
+  end
+
   def fetch(url, headers: {})
+    fetch!(url, headers: headers)
+  rescue SafeFetch::Error => e
+    raise InstallError, "Could not fetch #{url}: #{e.message}"
+  end
+
+  def fetch!(url, headers:)
     SafeFetch.fetch(url, headers: headers, max_bytes: Captain::ToolsManifest::Validator::MAX_BYTES, validate_content_type: false) do |result|
       return result.tempfile.read
     end
-  rescue SafeFetch::Error => e
-    raise InstallError, "Could not fetch #{url}: #{e.message}"
   end
 
   def installed_tools

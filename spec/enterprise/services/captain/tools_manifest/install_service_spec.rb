@@ -134,6 +134,34 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       end
     end
 
+    context 'with a GitHub token configured' do
+      before { create(:installation_config, name: 'CAPTAIN_TOOLS_GITHUB_TOKEN', value: 'github_pat_valid') }
+
+      it 'authenticates the latest commit lookup but not the manifest download' do
+        install
+
+        expect(WebMock).to have_requested(:get, latest_commit_url).with(headers: { 'Authorization' => 'Bearer github_pat_valid' })
+        expect(WebMock).to(have_requested(:get, manifest_url).with { |request| !request.headers.key?('Authorization') })
+      end
+
+      it 'falls back to an unauthenticated lookup when GitHub rejects the token' do
+        stub_request(:get, latest_commit_url)
+          .with(headers: { 'Authorization' => 'Bearer github_pat_valid' })
+          .to_return(status: 401, body: 'Bad credentials')
+
+        tools = install
+
+        expect(tools.first.source_metadata['revision']).to eq(latest_revision)
+        expect(WebMock).to(have_requested(:get, latest_commit_url).with { |request| !request.headers.key?('Authorization') })
+      end
+    end
+
+    it 'looks up the latest commit without a token when none is configured' do
+      install
+
+      expect(WebMock).to(have_requested(:get, latest_commit_url).with { |request| !request.headers.key?('Authorization') })
+    end
+
     it 'rejects a source that is not owner/repository/folder' do
       expect { install(source: 'chatwoot/support-tools') }.to raise_error(described_class::InstallError, %r{owner/repository/folder})
     end
