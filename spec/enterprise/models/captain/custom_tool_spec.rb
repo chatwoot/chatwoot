@@ -225,6 +225,13 @@ RSpec.describe Captain::CustomTool, type: :model do
       expect(tool).to be_valid
     end
 
+    it 'is invalid when a basic auth username contains a colon' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'basic', auth_config: { 'username' => 'acme:ops', 'password' => 'secret' })
+
+      expect(tool).not_to be_valid
+      expect(tool.errors[:auth_config]).to be_present
+    end
+
     it 'is invalid when a credential contains control characters' do
       tool = build(:captain_custom_tool, account: account, auth_type: 'bearer', auth_config: { 'token' => "secret\r\nX-Injected: 1" })
 
