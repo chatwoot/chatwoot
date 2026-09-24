@@ -72,6 +72,26 @@
         },
         "UPDATE_BUTTON": "Save Changes"
       },
+      "AUTO_RESOLVE_PENDING": {
+        "TITLE": "Auto-resolve pending conversations",
+        "NOTE": "Automatically resolve conversations that stay in the pending status without any activity for a certain period, independently of the setting for open conversations.",
+        "DURATION": {
+          "LABEL": "Inactivity duration",
+          "HELP": "Time period of inactivity after which a pending conversation is auto-resolved",
+          "PLACEHOLDER": "30",
+          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "API": {
+            "SUCCESS": "Pending auto resolve settings updated successfully",
+            "ERROR": "Failed to update pending auto resolve settings"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "This conversation was marked resolved by the system due to inactivity",
+          "HELP": "Message sent to the customer after a pending conversation is auto-resolved"
+        },
+        "UPDATE_BUTTON": "Save Changes"
+      },
       "NAME": {
         "LABEL": "Account name",
         "PLACEHOLDER": "Your account name",
