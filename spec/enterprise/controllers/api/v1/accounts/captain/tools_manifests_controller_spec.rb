@@ -68,6 +68,16 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
                                              http_method: 'GET' }])
     end
 
+    it 'reports optional fields used for authentication as required' do
+      manifest['secrets']['access_token']['required'] = false
+      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{revision}/shopify/toolset.yml")
+        .to_return(status: 200, body: manifest.to_yaml)
+
+      post "#{base_url}/preview", params: { assistant_id: assistant.id, source: source }, headers: admin.create_new_auth_token, as: :json
+
+      expect(json_response[:fields].find { |field| field[:name] == 'access_token' }[:required]).to be(true)
+    end
+
     it 'reports an installed toolset as up to date' do
       Captain::ToolsManifest::InstallService.new(assistant: assistant, source: source, configuration: configuration.deep_stringify_keys).perform
 

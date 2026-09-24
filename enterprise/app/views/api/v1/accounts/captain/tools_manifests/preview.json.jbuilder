@@ -13,7 +13,7 @@ json.fields fields do |(section, name, definition)|
   json.label definition['label']
   json.type definition['type']
   json.placeholder definition['placeholder']
-  json.required definition['required']
+  json.required definition['required'] || @auth_fields[section].include?(name)
   json.options definition['options']
 end
 json.tools @manifest['tools'] do |tool|
