@@ -1397,6 +1397,7 @@
           "NAME_PLACEHOLDER": "Header name (e.g., cal-api-version)",
           "VALUE_PLACEHOLDER": "Header value",
           "NAME_REQUIRED": "Header name is required",
+          "NAME_DUPLICATE": "Header names must be unique",
           "ADD": "Add Header"
         },
         "PARAMETERS": {

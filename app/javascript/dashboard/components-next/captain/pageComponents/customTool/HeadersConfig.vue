@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -16,8 +16,24 @@ const rows = ref(
 );
 const showErrors = ref(false);
 
+const normalizedName = row => row.name.trim().toLowerCase();
 const isMissingName = row => !row.name.trim() && !!row.value;
-const hasNameError = row => showErrors.value && isMissingName(row);
+
+// Rows collapse into an object keyed by name, so repeats would silently drop values
+const duplicateNames = computed(() => {
+  const names = rows.value.map(normalizedName).filter(Boolean);
+  return new Set(names.filter((name, index) => names.indexOf(name) !== index));
+});
+const isDuplicateName = row => duplicateNames.value.has(normalizedName(row));
+
+const nameError = row => {
+  if (!showErrors.value) return '';
+  if (isMissingName(row))
+    return t('CAPTAIN.CUSTOM_TOOLS.FORM.HEADERS.NAME_REQUIRED');
+  if (isDuplicateName(row))
+    return t('CAPTAIN.CUSTOM_TOOLS.FORM.HEADERS.NAME_DUPLICATE');
+  return '';
+};
 
 watch(
   rows,
@@ -37,7 +53,7 @@ const removeHeader = index => rows.value.splice(index, 1);
 
 const validate = () => {
   showErrors.value = true;
-  return !rows.value.some(isMissingName);
+  return !rows.value.some(row => isMissingName(row) || isDuplicateName(row));
 };
 
 defineExpose({ validate });
@@ -53,12 +69,8 @@ defineExpose({ validate });
         <Input
           v-model="row.name"
           :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.HEADERS.NAME_PLACEHOLDER')"
-          :message="
-            hasNameError(row)
-              ? t('CAPTAIN.CUSTOM_TOOLS.FORM.HEADERS.NAME_REQUIRED')
-              : ''
-          "
-          :message-type="hasNameError(row) ? 'error' : 'info'"
+          :message="nameError(row)"
+          :message-type="nameError(row) ? 'error' : 'info'"
           class="flex-1 [&_input]:font-mono"
         />
         <Input

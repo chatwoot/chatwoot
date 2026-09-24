@@ -71,6 +71,22 @@ describe('HeadersConfig', () => {
     expect(nameInput().classes()).not.toContain('error');
   });
 
+  it('flags header names that repeat, ignoring case', async () => {
+    const wrapper = mountHeaders();
+
+    await wrapper.find('[data-test="add-header"]').trigger('click');
+    await wrapper.find('[data-test="add-header"]').trigger('click');
+    const inputs = wrapper.findAll('input');
+    await inputs[0].setValue('X-Tenant');
+    await inputs[1].setValue('a');
+    await inputs[2].setValue(' x-tenant ');
+    await inputs[3].setValue('b');
+
+    expect(wrapper.vm.validate()).toBe(false);
+    await nextTick();
+    expect(wrapper.text().match(/NAME_DUPLICATE/g)).toHaveLength(2);
+  });
+
   it('ignores empty rows and flags a value without a name', async () => {
     const wrapper = mountHeaders();
 
