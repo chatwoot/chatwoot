@@ -4,7 +4,7 @@
   account_user = @resource&.account_users&.first
   inviter = account_user&.inviter
   account_name = account_user&.account&.name
-  is_saml_account = account_user&.account&.saml_enabled?
+  is_saml_account = account_user&.account&.try(:saml_enabled?) || false
   invited_user = inviter.present? && @resource.unconfirmed_email.blank?
 
   eyebrow = 'Welcome'
