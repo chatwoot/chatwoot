@@ -106,7 +106,8 @@ class Captain::ToolsManifest::InstallService
     unknown_names = values.keys - definitions.keys
     raise InstallError, "Unknown #{section}: #{unknown_names.join(', ')}" if unknown_names.any?
 
-    missing = definitions.find { |name, definition| definition['required'] && values[name].blank? }
+    # blank? would treat false as missing, which is a valid value for a boolean
+    missing = definitions.find { |name, definition| definition['required'] && values[name].to_s.strip.empty? }
     raise InstallError, "#{missing.last['label']} is required" if missing
 
     values

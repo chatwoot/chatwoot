@@ -175,6 +175,14 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       expect { install }.to raise_error(described_class::InstallError, /Admin API access token is required/)
     end
 
+    it 'accepts false for a required boolean value' do
+      manifest['inputs']['sandbox'] = { 'label' => 'Sandbox mode', 'type' => 'boolean', 'required' => true }
+      stub_request(:get, manifest_url).to_return(status: 200, body: manifest.to_yaml)
+      configuration['inputs']['sandbox'] = false
+
+      expect(install.size).to eq(2)
+    end
+
     it 'rejects values the manifest does not declare' do
       configuration['inputs']['region'] = 'us'
 
