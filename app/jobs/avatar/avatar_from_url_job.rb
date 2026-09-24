@@ -55,9 +55,7 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
     raise SafeFetch::FetchError, 'Invalid file' unless valid_file?(avatar_file)
 
     content_type = resolved_content_type(avatar_file)
-    unless ALLOWED_CONTENT_TYPES.include?(content_type)
-      raise SafeFetch::UnsupportedContentTypeError, "content-type not allowed: #{content_type}"
-    end
+    raise SafeFetch::UnsupportedContentTypeError, "content-type not allowed: #{content_type}" unless ALLOWED_CONTENT_TYPES.include?(content_type)
 
     avatarable.avatar.attach(
       io: avatar_file.tempfile,
