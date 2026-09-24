@@ -30,6 +30,11 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
 
   def test
     tool = assistant_custom_tools.new(custom_tool_params.merge(account: Current.account))
+    tool.validate
+    # Only the request-shaping fields matter here, so a draft without a title can still be tested
+    request_errors = tool.errors.full_messages_for(:endpoint_url) + tool.errors.full_messages_for(:headers)
+    return render json: { error: request_errors.to_sentence }, status: :unprocessable_content if request_errors.any?
+
     body = execute_test_request(tool)
     render json: { status: 200, body: body.to_s.truncate(500) }
   rescue StandardError => e

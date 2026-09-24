@@ -228,6 +228,49 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/{account.id}/captain/custom_tools/test' do
+    before { allow(Resolv).to receive(:getaddresses).and_return(['93.184.216.34']) }
+
+    it 'sends the custom headers with the test request' do
+      stub_request(:get, 'https://api.example.com/health')
+        .with(headers: { 'cal-api-version' => '2024-08-13' })
+        .to_return(status: 200, body: 'ok')
+
+      post "/api/v1/accounts/#{account.id}/captain/custom_tools/test?assistant_id=#{assistant.id}",
+           params: { custom_tool: { endpoint_url: 'https://api.example.com/health', http_method: 'GET',
+                                    headers: { 'cal-api-version' => '2024-08-13' } } },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(WebMock).to have_requested(:get, 'https://api.example.com/health')
+        .with(headers: { 'cal-api-version' => '2024-08-13' })
+    end
+
+    it 'rejects reserved headers without sending the request' do
+      post "/api/v1/accounts/#{account.id}/captain/custom_tools/test?assistant_id=#{assistant.id}",
+           params: { custom_tool: { endpoint_url: 'https://api.example.com/health', http_method: 'GET',
+                                    headers: { 'Host' => 'internal.example.com' } } },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(json_response[:error]).to include('Host')
+      expect(WebMock).not_to have_requested(:any, /.*/)
+    end
+
+    it 'rejects unsafe endpoint URLs without sending the request' do
+      post "/api/v1/accounts/#{account.id}/captain/custom_tools/test?assistant_id=#{assistant.id}",
+           params: { custom_tool: { endpoint_url: 'http://api.example.com/health', http_method: 'GET' } },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(json_response[:error]).to include('HTTPS')
+      expect(WebMock).not_to have_requested(:any, /.*/)
+    end
+  end
+
   describe 'PATCH /api/v1/accounts/{account.id}/captain/custom_tools/{id}' do
     let(:custom_tool) { create(:captain_custom_tool, account: account, assistant: assistant) }
     let(:update_attributes) do
