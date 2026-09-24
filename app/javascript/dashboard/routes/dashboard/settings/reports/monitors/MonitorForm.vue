@@ -28,6 +28,7 @@ const now = useTimestamp({ interval: 1000 });
 const previewAvailableAt = ref(0);
 // Bumped on every reset so a late response for an older condition is ignored.
 let previewGeneration = 0;
+let dialogGeneration = 0;
 
 const previewCooldown = computed(() =>
   Math.max(0, Math.ceil((previewAvailableAt.value - now.value) / 1000))
@@ -79,7 +80,10 @@ const { pause, resume } = useTimeoutPoll(
 );
 watch(previewToken, token => (token ? resume() : pause()));
 watch(condition, resetPreview);
-onBeforeUnmount(resetPreview);
+onBeforeUnmount(() => {
+  dialogGeneration += 1;
+  resetPreview();
+});
 
 const previewMatches = async () => {
   if (!canPreview.value) return;
@@ -108,11 +112,16 @@ const previewMatches = async () => {
 };
 
 const open = (prefill = {}) => {
+  dialogGeneration += 1;
   name.value = prefill.name || '';
   condition.value = prefill.condition || '';
   error.value = '';
   resetPreview();
   dialog.value.open();
+};
+const onClose = () => {
+  dialogGeneration += 1;
+  resetPreview();
 };
 
 const create = async () => {
@@ -120,15 +129,19 @@ const create = async () => {
   isSaving.value = true;
   error.value = '';
   const requestedAccount = accountId.value;
+  const generation = dialogGeneration;
   try {
     const { data } = await MonitorsAPI.create({
       name: name.value.trim(),
       condition: condition.value.trim(),
     });
-    if (requestedAccount !== accountId.value) return;
+    if (requestedAccount !== accountId.value || generation !== dialogGeneration)
+      return;
     dialog.value.close();
     emit('created', data);
   } catch (failure) {
+    if (requestedAccount !== accountId.value || generation !== dialogGeneration)
+      return;
     error.value = errorText(
       failure.response?.data?.error,
       'MONITORS.ERRORS.SAVE_FAILED'
@@ -150,7 +163,7 @@ defineExpose({ open });
     :disable-confirm-button="!isValid || isSaving"
     :is-loading="isSaving"
     @confirm="create"
-    @close="resetPreview"
+    @close="onClose"
   >
     <form class="flex flex-col gap-5" @submit.prevent="create">
       <Input

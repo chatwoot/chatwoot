@@ -26,7 +26,7 @@ vi.mock('dashboard/components-next/dialog/Dialog.vue', () => ({
   },
 }));
 vi.mock('dashboard/api/monitors', () => ({
-  default: { preview: vi.fn(), previewStatus: vi.fn() },
+  default: { create: vi.fn(), preview: vi.fn(), previewStatus: vi.fn() },
 }));
 
 describe('MonitorForm preview cooldown', () => {
@@ -46,6 +46,7 @@ describe('MonitorForm preview cooldown', () => {
     state.now = ref(Date.now());
     MonitorsAPI.preview.mockReset();
     MonitorsAPI.previewStatus.mockReset();
+    MonitorsAPI.create.mockReset();
     MonitorsAPI.preview.mockResolvedValue({
       data: { token: 'preview-token', retry_after: 30 },
     });
@@ -202,5 +203,28 @@ describe('MonitorForm preview cooldown', () => {
     expect(wrapper.findComponent({ name: 'Input' }).props('modelValue')).toBe(
       ''
     );
+  });
+
+  it('keeps a reopened form when an earlier create request finishes', async () => {
+    let finish;
+    MonitorsAPI.create.mockImplementationOnce(
+      () =>
+        new Promise(resolve => {
+          finish = resolve;
+        })
+    );
+    wrapper.vm.open({ name: 'Old', condition: 'Old condition' });
+    wrapper.findComponent({ name: 'Dialog' }).vm.$emit('confirm');
+    await wrapper.vm.$nextTick();
+    wrapper.findComponent({ name: 'Dialog' }).vm.$emit('close');
+    wrapper.vm.open({ name: 'New', condition: 'New condition' });
+    finish({ data: { id: 42 } });
+    await flushPromises();
+
+    expect(wrapper.emitted('created')).toBeUndefined();
+    expect(wrapper.findComponent({ name: 'Input' }).props('modelValue')).toBe(
+      'New'
+    );
+    expect(wrapper.find('textarea').element.value).toBe('New condition');
   });
 });
