@@ -144,6 +144,7 @@ defineExpose({ open });
 <template>
   <Dialog
     ref="dialog"
+    overflow-y-auto
     :title="t('MONITORS.CREATE')"
     :confirm-button-label="t('MONITORS.CREATE')"
     :disable-confirm-button="!isValid || isSaving"
