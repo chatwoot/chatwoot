@@ -8,7 +8,11 @@ RSpec.describe Captain::CustomTool, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:endpoint_url) }
-    it { is_expected.to define_enum_for(:http_method).with_values('GET' => 'GET', 'POST' => 'POST').backed_by_column_of_type(:string) }
+
+    it {
+      expect(subject).to define_enum_for(:http_method).with_values('GET' => 'GET', 'POST' => 'POST', 'PUT' => 'PUT', 'PATCH' => 'PATCH',
+                                                                   'DELETE' => 'DELETE').backed_by_column_of_type(:string)
+    }
 
     it {
       expect(subject).to define_enum_for(:auth_type).with_values('none' => 'none', 'bearer' => 'bearer', 'basic' => 'basic',

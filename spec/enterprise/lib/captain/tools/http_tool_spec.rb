@@ -28,10 +28,12 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
       expect(tool.available_in_reply_suggestion?).to be true
     end
 
-    it 'rejects POST tools' do
-      custom_tool.update!(http_method: 'POST')
+    it 'rejects tools that change data' do
+      %w[POST PUT PATCH DELETE].each do |http_method|
+        custom_tool.update!(http_method: http_method)
 
-      expect(tool.available_in_reply_suggestion?).to be false
+        expect(tool.available_in_reply_suggestion?).to be(false), "expected #{http_method} to be rejected"
+      end
     end
   end
 
@@ -74,6 +76,41 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
         expect(result).to eq('{"created": true}')
         expect(WebMock).to have_requested(:post, 'https://example.com/orders')
           .with(body: '{"order_id": "123"}')
+      end
+    end
+
+    context 'with PUT and PATCH requests' do
+      it 'sends the rendered body as JSON' do
+        %w[PUT PATCH].each do |http_method|
+          custom_tool.update!(
+            http_method: http_method,
+            endpoint_url: 'https://example.com/orders/123',
+            request_template: '{"status": "{{ status }}"}',
+            response_template: nil
+          )
+          stub_request(http_method.downcase.to_sym, 'https://example.com/orders/123').to_return(status: 200, body: '{"updated": true}')
+
+          result = tool.perform(tool_context, status: 'shipped')
+
+          expect(result).to eq('{"updated": true}')
+          expect(WebMock).to have_requested(http_method.downcase.to_sym, 'https://example.com/orders/123')
+            .with(body: '{"status": "shipped"}', headers: { 'Content-Type' => 'application/json' })
+        end
+      end
+    end
+
+    context 'with DELETE request' do
+      it 'sends the request without a body when there is no request template' do
+        custom_tool.update!(http_method: 'DELETE', endpoint_url: 'https://example.com/orders/123', response_template: nil)
+        sent_request = nil
+        stub_request(:delete, 'https://example.com/orders/123')
+          .with { |request| sent_request = request }
+          .to_return(status: 204, body: '')
+
+        tool.perform(tool_context)
+
+        expect(sent_request.body).to be_blank
+        expect(sent_request.headers).not_to have_key('Content-Type')
       end
     end
 

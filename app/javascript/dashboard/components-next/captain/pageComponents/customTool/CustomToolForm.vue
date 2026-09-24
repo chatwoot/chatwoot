@@ -85,10 +85,11 @@ const validationRules = {
   auth_type: { required },
 };
 
-const httpMethodOptions = computed(() => [
-  { value: 'GET', label: 'GET' },
-  { value: 'POST', label: 'POST' },
-]);
+const HTTP_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
+const httpMethodOptions = HTTP_METHODS.map(method => ({
+  value: method,
+  label: method,
+}));
 
 const authTypeOptions = computed(() => [
   { value: 'none', label: t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_TYPES.NONE') },
@@ -115,7 +116,7 @@ const sectionSummaries = computed(() => {
   };
 });
 
-const isPost = computed(() => state.http_method === 'POST');
+const hasRequestBody = computed(() => state.http_method !== 'GET');
 
 const v$ = useVuelidate(validationRules, state);
 
@@ -218,7 +219,7 @@ const handleTest = async () => {
     />
 
     <div class="flex gap-2">
-      <div class="flex flex-col gap-1 w-28">
+      <div class="flex flex-col gap-1 w-32">
         <label class="mb-0.5 text-sm font-medium text-n-slate-12">
           {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.HTTP_METHOD.LABEL') }}
         </label>
@@ -297,7 +298,7 @@ const handleTest = async () => {
       <ToolFormSection
         v-model:open="openSections.templates"
         :title="
-          isPost
+          hasRequestBody
             ? t('CAPTAIN.CUSTOM_TOOLS.FORM.SECTIONS.TEMPLATES')
             : t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL')
         "
@@ -307,7 +308,7 @@ const handleTest = async () => {
           {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.SECTIONS.TEMPLATES_HELP_TEXT') }}
         </p>
         <TextArea
-          v-if="isPost"
+          v-if="hasRequestBody"
           v-model="state.request_template"
           :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.LABEL')"
           :placeholder="
@@ -320,7 +321,9 @@ const handleTest = async () => {
         <TextArea
           v-model="state.response_template"
           :label="
-            isPost ? t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL') : ''
+            hasRequestBody
+              ? t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL')
+              : ''
           "
           :placeholder="
             t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.PLACEHOLDER')

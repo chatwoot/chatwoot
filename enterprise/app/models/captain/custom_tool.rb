@@ -68,7 +68,7 @@ class Captain::CustomTool < ApplicationRecord
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
 
-  enum :http_method, %w[GET POST].index_by(&:itself), validate: true
+  enum :http_method, %w[GET POST PUT PATCH DELETE].index_by(&:itself), validate: true
   enum :auth_type, %w[none bearer basic api_key].index_by(&:itself), default: :none, validate: true, prefix: :auth
 
   before_validation :generate_slug

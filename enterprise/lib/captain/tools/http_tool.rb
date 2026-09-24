@@ -38,13 +38,13 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   # Route through SafeFetch so custom tool requests share the app's centralized HTTP
   # fetching (resolution, timeouts, response size limits, and redirect handling).
   def execute_http_request(url, body, tool_context)
-    json_body = body if @custom_tool.http_method == 'POST'
+    json_body = body unless @custom_tool.http_method == 'GET'
     auth_headers = @custom_tool.build_auth_headers
 
     response_body = +''
     SafeFetch.fetch(
       url,
-      method: @custom_tool.http_method == 'POST' ? :post : :get,
+      method: @custom_tool.http_method.downcase.to_sym,
       body: json_body,
       headers: request_headers(tool_context, json_body, auth_headers),
       sensitive_headers: auth_headers.keys + @custom_tool.headers.keys,
