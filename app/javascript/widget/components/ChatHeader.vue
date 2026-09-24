@@ -11,6 +11,7 @@ const props = defineProps({
   title: { type: String, default: '' },
   showPopoutButton: { type: Boolean, default: false },
   showBackButton: { type: Boolean, default: false },
+  backRouteName: { type: String, default: 'home' },
   availableAgents: { type: Array, default: () => [] },
 });
 
@@ -20,16 +21,19 @@ const router = useRouter();
 const { isOnline } = useAvailability(availableAgents);
 
 const onBackButtonClick = () => {
-  router.replace({ name: 'home' });
+  router.replace({ name: props.backRouteName });
 };
 </script>
 
 <template>
-  <header class="flex justify-between w-full p-5 bg-n-background gap-2">
+  <header
+    class="flex justify-between w-full p-5 gap-2 bg-n-solid-1 border-b border-n-weak dark:border-n-strong"
+  >
     <div class="flex items-center">
       <button
         v-if="showBackButton"
         class="px-2 ltr:-ml-3 rtl:-mr-3"
+        :aria-label="$t('BACK')"
         @click="onBackButtonClick"
       >
         <FluentIcon

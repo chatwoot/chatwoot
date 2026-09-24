@@ -1,5 +1,6 @@
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
+import { isMultipleConversationsEnabled } from 'widget/helpers/utils';
 
 import getUuid from '../../../helpers/uuid';
 export const createTemporaryMessage = ({ attachments, content, replyTo }) => {
@@ -53,3 +54,8 @@ export const getNonDeletedMessages = ({ messages }) => {
     item => !(item.content_attributes && item.content_attributes.deleted)
   );
 };
+
+// A response can arrive after the visitor moved to another conversation.
+export const hasLeftConversation = (rootState, conversationId) =>
+  isMultipleConversationsEnabled() &&
+  rootState.conversationAttributes.id !== conversationId;

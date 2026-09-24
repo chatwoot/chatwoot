@@ -513,6 +513,7 @@ Rails.application.routes.draw do
             post :toggle_typing
             post :transcript
             get  :toggle_status
+            get  :list
           end
         end
         resource :contact, only: [:show, :update] do

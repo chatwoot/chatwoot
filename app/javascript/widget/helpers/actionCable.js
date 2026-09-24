@@ -1,7 +1,10 @@
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
 import { playNewMessageNotificationInWidget } from 'widget/helpers/WidgetAudioNotificationHelper';
 import { ON_AGENT_MESSAGE_RECEIVED } from '../constants/widgetBusEvents';
-import { IFrameHelper } from 'widget/helpers/utils';
+import {
+  IFrameHelper,
+  isMultipleConversationsEnabled,
+} from 'widget/helpers/utils';
 import { shouldTriggerMessageUpdateEvent } from './IframeEventHelper';
 import { CHATWOOT_ON_MESSAGE } from '../constants/sdkEvents';
 import { emitter } from '../../shared/helpers/mitt';
@@ -39,6 +42,31 @@ class ActionCableConnector extends BaseActionCableConnector {
     // Re-fetch conversation attributes so a status change (e.g. auto-resolve)
     // that happened while disconnected is reflected, keeping the reply box state correct.
     this.app.$store.dispatch('conversationAttributes/getAttributes');
+    this.refreshConversationList();
+  };
+
+  refreshConversationList = () => {
+    if (!isMultipleConversationsEnabled()) return;
+    this.app.$store.dispatch('conversationList/fetch');
+  };
+
+  // A message for another conversation takes over the screen only when nothing is being viewed.
+  showsInActiveConversation = message => {
+    const { getters, dispatch } = this.app.$store;
+    const activeConversationId =
+      getters['conversationAttributes/getConversationParams'].id;
+    if (message.conversation_id === activeConversationId) return true;
+    if (!isMultipleConversationsEnabled()) return !activeConversationId;
+
+    const isViewingConversation =
+      activeConversationId &&
+      (getters['appConfig/getIsWidgetOpen'] || !IFrameHelper.isIFrame());
+    if (isViewingConversation) {
+      dispatch('conversationList/fetch');
+      return false;
+    }
+    dispatch('conversationList/open', message.conversation_id);
+    return true;
   };
 
   setLastMessageId = () => {
@@ -54,16 +82,18 @@ class ActionCableConnector extends BaseActionCableConnector {
       this.app.$store.dispatch('campaign/resetCampaign');
     }
     this.app.$store.dispatch('conversationAttributes/update', data);
+    this.refreshConversationList();
   };
 
   onMessageCreated = data => {
-    if (isMessageInActiveConversation(this.app.$store.getters, data)) {
-      return;
-    }
+    const showsInActiveConversation = this.showsInActiveConversation(data);
+    if (!showsInActiveConversation && !isMultipleConversationsEnabled()) return;
 
-    this.app.$store
-      .dispatch('conversation/addOrUpdateMessage', data)
-      .then(() => emitter.emit(ON_AGENT_MESSAGE_RECEIVED));
+    if (showsInActiveConversation) {
+      this.app.$store
+        .dispatch('conversation/addOrUpdateMessage', data)
+        .then(() => emitter.emit(ON_AGENT_MESSAGE_RECEIVED));
+    }
 
     IFrameHelper.sendMessage({
       event: 'onEvent',
@@ -92,6 +122,10 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onConversationCreated = () => {
+    if (isMultipleConversationsEnabled()) {
+      this.refreshConversationList();
+      return;
+    }
     this.app.$store.dispatch('conversationAttributes/getAttributes');
   };
 

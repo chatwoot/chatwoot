@@ -52,9 +52,22 @@ export default {
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
       messageCount: 'conversation/getMessageCount',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
+      otherConversationsUnreadCount: 'conversationList/getUnreadCount',
+      latestConversation: 'conversationList/getLatestConversation',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
       showUnreadMessagesDialog: 'appConfig/getShowUnreadMessagesDialog',
     }),
+    totalUnreadCount() {
+      return this.unreadMessageCount + this.otherConversationsUnreadCount;
+    },
+    // Only a single-conversation widget takes over the screen while its first thread loads.
+    isLoadingFirstThread() {
+      return (
+        !this.hasMultipleConversationsEnabled &&
+        !this.conversationSize &&
+        this.isFetchingList
+      );
+    },
     isIFrame() {
       return IFrameHelper.isIFrame();
     },
@@ -76,7 +89,7 @@ export default {
     },
     // Keep the notification dot in sync with the unread count. The SDK ignores
     // dot updates while the bubble is hidden, so refresh it when it is back.
-    unreadMessageCount() {
+    totalUnreadCount() {
       this.handleUnreadNotificationDot();
     },
     hideMessageBubble() {
@@ -99,7 +112,7 @@ export default {
       this.registerListeners();
       this.sendLoadedEvent();
     } else {
-      this.fetchOldConversations();
+      this.loadConversations();
       this.fetchAvailableAgents(websiteToken);
       this.setLocale(getLocale(window.location.search));
     }
@@ -107,7 +120,9 @@ export default {
       this.registerListeners();
       this.sendRNWebViewLoadedEvent();
     }
-    this.$store.dispatch('conversationAttributes/getAttributes');
+    if (!this.hasMultipleConversationsEnabled) {
+      this.$store.dispatch('conversationAttributes/getAttributes');
+    }
     this.registerUnreadEvents();
     this.registerCampaignEvents();
   },
@@ -126,6 +141,17 @@ export default {
       'resetCampaign',
     ]),
     ...mapActions('agent', ['fetchAvailableAgents']),
+    // Decide the opening screen while the widget is still closed so it does not jump from Home.
+    async loadConversations() {
+      if (!this.hasMultipleConversationsEnabled) {
+        return this.fetchOldConversations();
+      }
+      await this.$store.dispatch('conversationList/load');
+      if (this.latestConversation?.status !== 'resolved' && this.messageCount) {
+        this.router.replace({ name: 'messages' });
+      }
+      return undefined;
+    },
     setWidgetColorVariable(widgetColor) {
       if (widgetColor) {
         document.documentElement.style.setProperty(
@@ -186,7 +212,10 @@ export default {
       });
     },
     registerCampaignEvents() {
-      emitter.on(ON_CAMPAIGN_MESSAGE_CLICK, () => {
+      emitter.on(ON_CAMPAIGN_MESSAGE_CLICK, async () => {
+        if (this.hasMultipleConversationsEnabled) {
+          await this.$store.dispatch('conversationList/startNew');
+        }
         if (this.shouldShowPreChatForm) {
           this.router.replace({ name: 'prechat-form' });
         } else {
@@ -214,7 +243,7 @@ export default {
         this.campaignsSnoozedTill && this.campaignsSnoozedTill > Date.now();
       const isCampaignReadyToExecute =
         !isEmptyObject(activeCampaign) &&
-        !messageCount &&
+        (this.hasMultipleConversationsEnabled || !messageCount) &&
         !shouldSnoozeCampaign;
       if (this.isIFrame && isCampaignReadyToExecute) {
         this.router.replace({ name: 'campaigns' }).then(() => {
@@ -248,11 +277,10 @@ export default {
       }
     },
     handleUnreadNotificationDot() {
-      const { unreadMessageCount } = this;
       if (this.isIFrame) {
         IFrameHelper.sendMessage({
           event: 'handleNotificationDot',
-          unreadMessageCount,
+          unreadMessageCount: this.totalUnreadCount,
         });
       }
     },
@@ -277,7 +305,7 @@ export default {
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
-          this.fetchOldConversations().then(() => this.setUnreadView());
+          this.loadConversations().then(() => this.setUnreadView());
           this.fetchAvailableAgents(websiteToken);
           this.setAppConfig(message);
           this.$store.dispatch('contacts/get');
@@ -332,6 +360,7 @@ export default {
           this.$store.dispatch('appConfig/toggleWidgetOpen', message.isOpen);
 
           const shouldShowMessageView =
+            !this.hasMultipleConversationsEnabled &&
             ['home'].includes(this.$route.name) &&
             message.isOpen &&
             this.messageCount;
@@ -372,8 +401,8 @@ export default {
 
 <template>
   <div
-    v-if="!conversationSize && isFetchingList"
-    class="flex items-center justify-center flex-1 h-full bg-n-background"
+    v-if="isLoadingFirstThread"
+    class="flex items-center justify-center flex-1 h-full bg-n-surface-1"
     :class="{ dark: prefersDarkMode }"
   >
     <Spinner size="" />
@@ -386,7 +415,7 @@ export default {
       'is-widget-right': isRightAligned,
       'is-bubble-hidden': hideMessageBubble,
       'is-flat-design': isWidgetStyleFlat,
-      'bg-n-slate-2 dark:bg-n-solid-1': !isUnreadOrCampaignView,
+      'bg-n-surface-1': !isUnreadOrCampaignView,
       dark: prefersDarkMode,
     }"
   >

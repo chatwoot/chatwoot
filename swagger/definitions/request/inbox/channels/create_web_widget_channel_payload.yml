@@ -62,5 +62,5 @@ properties:
     description: Enabled widget feature flags
     items:
       type: string
-      enum: ['attachments', 'emoji_picker', 'end_conversation', 'use_inbox_avatar_for_bot', 'allow_mobile_webview']
+      enum: ['attachments', 'emoji_picker', 'end_conversation', 'use_inbox_avatar_for_bot', 'allow_mobile_webview', 'multiple_conversations']
     example: ['attachments', 'emoji_picker', 'end_conversation']

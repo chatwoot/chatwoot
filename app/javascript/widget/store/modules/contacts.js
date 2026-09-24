@@ -1,4 +1,7 @@
-import { sendMessage } from 'widget/helpers/utils';
+import {
+  sendMessage,
+  isMultipleConversationsEnabled,
+} from 'widget/helpers/utils';
 import ContactsAPI from '../../api/contacts';
 import { SET_USER_ERROR } from '../../constants/errorTypes';
 import { setHeader } from '../../helpers/axios';
@@ -78,9 +81,13 @@ export const actions = {
       updateWidgetAuthToken(widgetAuthToken);
       dispatch('get');
       if (identifierHash || widgetAuthToken) {
-        dispatch('conversation/clearConversations', {}, { root: true });
-        dispatch('conversation/fetchOldConversations', {}, { root: true });
-        dispatch('conversationAttributes/getAttributes', {}, { root: true });
+        if (isMultipleConversationsEnabled()) {
+          dispatch('conversationList/load', {}, { root: true });
+        } else {
+          dispatch('conversation/clearConversations', {}, { root: true });
+          dispatch('conversation/fetchOldConversations', {}, { root: true });
+          dispatch('conversationAttributes/getAttributes', {}, { root: true });
+        }
       }
     } catch (error) {
       const data = parseErrorData(error);

@@ -11,8 +11,13 @@ import {
 } from 'widget/api/conversation';
 
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
-import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
+import {
+  createTemporaryMessage,
+  getNonDeletedMessages,
+  hasLeftConversation,
+} from './helpers';
 import { emitter } from 'shared/helpers/mitt';
+import { isMultipleConversationsEnabled } from 'widget/helpers/utils';
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
@@ -21,7 +26,11 @@ export const actions = {
       const { messages } = data;
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
-      dispatch('conversationAttributes/getAttributes', {}, { root: true });
+      if (isMultipleConversationsEnabled()) {
+        dispatch('conversationList/open', data.id, { root: true });
+      } else {
+        dispatch('conversationAttributes/getAttributes', {}, { root: true });
+      }
       // Emit event to notify that conversation is created and show the chat screen
       emitter.emit(ON_CONVERSATION_CREATED);
     } catch (error) {
@@ -41,13 +50,14 @@ export const actions = {
     });
   },
   sendMessageWithData: async (
-    { commit },
+    { commit, dispatch, rootState },
     { message, pendingCustomAttributes = {}, pendingLabels = [] }
   ) => {
     const { id, content, replyTo, meta = {} } = message;
     const hasPendingMetadata =
       Object.keys(pendingCustomAttributes).length > 0 ||
       pendingLabels.length > 0;
+    const conversationId = rootState.conversationAttributes.id;
 
     commit('pushMessageToConversation', message);
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
@@ -58,6 +68,10 @@ export const actions = {
           : undefined,
         labels: hasPendingMetadata ? pendingLabels : undefined,
       });
+      if (hasLeftConversation(rootState, conversationId)) {
+        commit('deleteMessage', id);
+        return;
+      }
       if (hasPendingMetadata) {
         commit('clearPendingConversationMetadata');
       }
@@ -65,7 +79,14 @@ export const actions = {
       // [VITE] Don't delete this manually, since `pushMessageToConversation` does the replacement for us anyway
       // commit('deleteMessage', message.id);
       commit('pushMessageToConversation', { ...data, status: 'sent' });
+      if (isMultipleConversationsEnabled() && !conversationId) {
+        dispatch('conversationList/open', data.conversation_id, { root: true });
+      }
     } catch (error) {
+      if (hasLeftConversation(rootState, conversationId)) {
+        commit('deleteMessage', id);
+        return;
+      }
       commit('pushMessageToConversation', { ...message, status: 'failed' });
       commit('updateMessageMeta', {
         id,
@@ -78,7 +99,10 @@ export const actions = {
     commit('setLastMessageId');
   },
 
-  sendAttachment: async ({ commit, state: conversationState }, params) => {
+  sendAttachment: async (
+    { commit, dispatch, rootState, state: conversationState },
+    params
+  ) => {
     const {
       attachment: { thumbUrl, fileType },
       meta = {},
@@ -97,6 +121,7 @@ export const actions = {
     const hasPendingMetadata =
       Object.keys(pendingCustomAttributes).length > 0 ||
       pendingLabels.length > 0;
+    const conversationId = rootState.conversationAttributes.id;
 
     commit('pushMessageToConversation', tempMessage);
     try {
@@ -106,6 +131,10 @@ export const actions = {
           : undefined,
         labels: hasPendingMetadata ? pendingLabels : undefined,
       });
+      if (hasLeftConversation(rootState, conversationId)) {
+        commit('deleteMessage', tempMessage.id);
+        return;
+      }
       if (hasPendingMetadata) {
         commit('clearPendingConversationMetadata');
       }
@@ -114,7 +143,14 @@ export const actions = {
         tempId: tempMessage.id,
       });
       commit('pushMessageToConversation', { ...data, status: 'sent' });
+      if (isMultipleConversationsEnabled() && !conversationId) {
+        dispatch('conversationList/open', data.conversation_id, { root: true });
+      }
     } catch (error) {
+      if (hasLeftConversation(rootState, conversationId)) {
+        commit('deleteMessage', tempMessage.id);
+        return;
+      }
       commit('pushMessageToConversation', { ...tempMessage, status: 'failed' });
       commit('updateMessageMeta', {
         id: tempMessage.id,
@@ -123,29 +159,34 @@ export const actions = {
       // Show error
     }
   },
-  fetchOldConversations: async ({ commit }, { before } = {}) => {
+  fetchOldConversations: async ({ commit, rootState }, { before } = {}) => {
+    const conversationId = rootState.conversationAttributes.id;
     try {
       commit('setConversationListLoading', true);
       const {
         data: { payload, meta },
       } = await getMessagesAPI({ before });
+      if (hasLeftConversation(rootState, conversationId)) return;
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
       commit('setMessagesInConversation', formattedMessages);
-      commit('setConversationListLoading', false);
     } catch (error) {
+      // Ignore error
+    } finally {
       commit('setConversationListLoading', false);
     }
   },
 
-  syncLatestMessages: async ({ state, commit }) => {
+  syncLatestMessages: async ({ state, commit, rootState }) => {
+    const conversationId = rootState.conversationAttributes.id;
     try {
       const { lastMessageId, conversations } = state;
 
       const {
         data: { payload, meta },
       } = await getMessagesAPI({ after: lastMessageId });
+      if (hasLeftConversation(rootState, conversationId)) return;
 
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
@@ -194,7 +235,7 @@ export const actions = {
     }
   },
 
-  setUserLastSeen: async ({ commit, getters: appGetters }) => {
+  setUserLastSeen: async ({ commit, getters: appGetters, rootState }) => {
     if (!appGetters.getConversationSize) {
       return;
     }
@@ -202,6 +243,9 @@ export const actions = {
     const lastSeen = Date.now() / 1000;
     try {
       commit('setMetaUserLastSeenAt', lastSeen);
+      commit('conversationList/markRead', rootState.conversationAttributes.id, {
+        root: true,
+      });
       await setUserLastSeenAt({ lastSeen });
     } catch (error) {
       // IgnoreError

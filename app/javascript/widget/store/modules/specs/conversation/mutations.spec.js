@@ -172,11 +172,13 @@ describe('#mutations', () => {
     it('clears conversations and pending metadata', () => {
       const state = {
         conversations: { 1: { id: 1 } },
+        uiFlags: { allMessagesLoaded: true },
         pendingCustomAttributes: { plan: 'enterprise' },
         pendingLabels: ['vip'],
       };
       mutations.clearConversations(state);
       expect(state.conversations).toEqual({});
+      expect(state.uiFlags.allMessagesLoaded).toBe(false);
       expect(state.pendingCustomAttributes).toEqual({});
       expect(state.pendingLabels).toEqual([]);
     });

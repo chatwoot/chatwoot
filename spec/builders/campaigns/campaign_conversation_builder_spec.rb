@@ -28,5 +28,18 @@ describe Campaigns::CampaignConversationBuilder do
 
       expect(campaign_conversation).to be_nil
     end
+
+    it 'creates another conversation when the widget supports multiple conversations' do
+      inbox.channel.update!(multiple_conversations: true)
+      create(:conversation, contact_inbox_id: contact_inbox.id, inbox: inbox, account: account)
+
+      campaign_conversation = described_class.new(
+        contact_inbox_id: contact_inbox.id,
+        campaign_display_id: campaign.display_id
+      ).perform
+
+      expect(campaign_conversation.campaign_id).to eq(campaign.id)
+      expect(contact_inbox.conversations.count).to eq(2)
+    end
   end
 end

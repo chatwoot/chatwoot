@@ -1,4 +1,7 @@
 import { mutations } from '../../conversationAttributes';
+import { setActiveConversationId } from 'widget/helpers/axios';
+
+vi.mock('widget/helpers/axios');
 
 describe('#mutations', () => {
   describe('#SET_CONVERSATION_ATTRIBUTES', () => {
@@ -9,6 +12,7 @@ describe('#mutations', () => {
         status: 'open',
       });
       expect(state).toEqual({ id: 1, status: 'open' });
+      expect(setActiveConversationId).toBeCalledWith(1);
     });
   });
 
@@ -39,6 +43,7 @@ describe('#mutations', () => {
         status: 'open',
       });
       expect(state).toEqual({ id: '', status: '' });
+      expect(setActiveConversationId).toBeCalledWith(null);
     });
   });
 });

@@ -166,7 +166,7 @@ function onSelect() {
 <template>
   <div class="relative mt-2 phone-input--wrap">
     <div
-      class="flex items-center justify-start outline-none phone-input rounded-lg box-border bg-n-background dark:bg-n-alpha-2 border-none outline outline-1 outline-offset-[-1px] text-sm w-full text-n-slate-12 focus-within:outline-n-brand focus-within:ring-1 focus-within:ring-n-brand"
+      class="flex items-center justify-start outline-none phone-input rounded-lg box-border bg-n-surface-2 dark:bg-n-alpha-2 border-none outline outline-1 outline-offset-[-1px] text-sm w-full text-n-slate-12 focus-within:outline-n-brand focus-within:ring-1 focus-within:ring-n-brand"
       :class="{
         'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9':
           hasErrorInPhoneInput,
@@ -203,14 +203,12 @@ function onSelect() {
       v-if="showDropdown"
       ref="dropdownRef"
       v-on-clickaway="closeDropdown"
-      class="country-dropdown absolute bg-n-background text-n-slate-12 dark:bg-n-solid-3 z-10 h-48 px-0 pt-0 pb-1 pl-1 pr-1 overflow-y-auto rounded-lg shadow-lg top-12 w-full min-w-24 max-w-[14.8rem]"
+      class="country-dropdown absolute bg-n-solid-1 text-n-slate-12 dark:bg-n-solid-3 z-10 h-48 px-0 pt-0 pb-1 pl-1 pr-1 overflow-y-auto rounded-lg shadow-lg top-12 w-full min-w-24 max-w-[14.8rem]"
       @keydown.up="moveSelectionUp"
       @keydown.down="moveSelectionDown"
       @keydown.enter="onSelect"
     >
-      <div
-        class="sticky top-0 bg-n-background text-n-slate-12 dark:bg-n-solid-3"
-      >
+      <div class="sticky top-0 bg-n-solid-1 text-n-slate-12 dark:bg-n-solid-3">
         <input
           ref="searchbarRef"
           v-model="searchCountry"

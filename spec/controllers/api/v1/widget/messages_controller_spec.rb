@@ -245,6 +245,86 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
     end
   end
 
+  describe 'with multiple conversations enabled' do
+    let!(:older_conversation) do
+      create(:conversation, contact: contact, account: account, inbox: web_widget.inbox, contact_inbox: contact_inbox,
+                            created_at: 1.day.ago, last_activity_at: 1.day.ago)
+    end
+
+    before do
+      web_widget.update!(multiple_conversations: true)
+      create(:message, account: account, inbox: web_widget.inbox, conversation: older_conversation, content: 'older thread')
+    end
+
+    it 'returns the messages of the requested conversation' do
+      get api_v1_widget_messages_url,
+          params: { website_token: web_widget.website_token, conversation_id: older_conversation.display_id },
+          headers: { 'X-Auth-Token' => token },
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['payload'].pluck('conversation_id').uniq).to eq([older_conversation.display_id])
+    end
+
+    it 'returns no messages when no conversation is named' do
+      get api_v1_widget_messages_url,
+          params: { website_token: web_widget.website_token },
+          headers: { 'X-Auth-Token' => token },
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['payload']).to be_empty
+    end
+
+    it 'returns not found for a conversation that does not belong to the visitor' do
+      other_conversation = create(:conversation, account: account, inbox: web_widget.inbox)
+
+      get api_v1_widget_messages_url,
+          params: { website_token: web_widget.website_token, conversation_id: other_conversation.display_id },
+          headers: { 'X-Auth-Token' => token },
+          as: :json
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'appends the message to the named conversation instead of the latest one' do
+      post api_v1_widget_messages_url,
+           params: { website_token: web_widget.website_token, conversation_id: older_conversation.display_id, message: { content: 'reply' } },
+           headers: { 'X-Auth-Token' => token },
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['conversation_id']).to eq(older_conversation.display_id)
+      expect(older_conversation.reload.messages.last.content).to eq('reply')
+    end
+
+    it 'starts a new conversation when no conversation is named, even though an open one exists' do
+      expect do
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: { content: 'a fresh question' } },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+      end.to change(Conversation, :count).by(1)
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['conversation_id']).not_to eq(conversation.display_id)
+    end
+
+    it 'rejects replies to a named resolved conversation when the inbox does not allow them' do
+      web_widget.inbox.update!(allow_messages_after_resolved: false)
+      older_conversation.resolved!
+
+      expect do
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, conversation_id: older_conversation.display_id, message: { content: 'reply' } },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+      end.to not_change(Conversation, :count).and not_change(Message, :count)
+
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
   describe 'PUT /api/v1/widget/messages' do
     context 'when put request targets a message from another visitor in the same inbox' do
       it 'does not update the foreign message' do

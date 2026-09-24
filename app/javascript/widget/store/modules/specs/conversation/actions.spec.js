@@ -7,6 +7,7 @@ vi.mock('widget/helpers/axios');
 
 const commit = vi.fn();
 const dispatch = vi.fn();
+const rootState = { conversationAttributes: { id: 1 } };
 
 describe('#actions', () => {
   describe('#createConversation', () => {
@@ -164,7 +165,7 @@ describe('#actions', () => {
       const state = { pendingCustomAttributes: {}, pendingLabels: [] };
 
       actions.sendAttachment(
-        { commit, dispatch, state },
+        { commit, dispatch, rootState, state },
         { attachment, replyTo: 135 }
       );
       spy.mockRestore();
@@ -192,14 +193,19 @@ describe('#actions', () => {
       API.post.mockResolvedValue({ data: { success: true } });
       await actions.setUserLastSeen({
         commit,
+        rootState,
         getters: { getConversationSize: 2 },
       });
       expect(commit.mock.calls[0][0]).toEqual('setMetaUserLastSeenAt');
+      expect(commit).toBeCalledWith('conversationList/markRead', 1, {
+        root: true,
+      });
     });
     it('sends correct mutations', async () => {
       API.post.mockResolvedValue({ data: { success: true } });
       await actions.setUserLastSeen({
         commit,
+        rootState,
         getters: { getConversationSize: 0 },
       });
       expect(commit.mock.calls).toEqual([]);
@@ -265,7 +271,108 @@ describe('#actions', () => {
     });
   });
 
+  describe('#sendMessageWithData', () => {
+    const message = { id: 'temp-1', content: 'hello', meta: {} };
+    let windowSpy;
+
+    beforeEach(() => {
+      windowSpy = vi.spyOn(window, 'window', 'get');
+      windowSpy.mockImplementation(() => ({
+        WOOT_WIDGET: { $root: { $i18n: { locale: 'en' } } },
+        location: { search: '' },
+        chatwootWebChannel: { enabledFeatures: ['multiple_conversations'] },
+      }));
+    });
+
+    afterEach(() => windowSpy.mockRestore());
+
+    it('opens the conversation created by the first message', async () => {
+      API.post.mockResolvedValue({ data: { id: 9, conversation_id: 55 } });
+      const draftRootState = { conversationAttributes: { id: '' } };
+
+      await actions.sendMessageWithData(
+        { commit, dispatch, rootState: draftRootState },
+        { message }
+      );
+
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
+        id: 9,
+        conversation_id: 55,
+        status: 'sent',
+      });
+      expect(dispatch).toBeCalledWith('conversationList/open', 55, {
+        root: true,
+      });
+    });
+
+    it('drops the reply when the visitor moved to another conversation meanwhile', async () => {
+      const movingRootState = { conversationAttributes: { id: 1 } };
+      API.post.mockImplementationOnce(async () => {
+        movingRootState.conversationAttributes.id = 2;
+        return { data: { id: 9, conversation_id: 1 } };
+      });
+
+      await actions.sendMessageWithData(
+        { commit, dispatch, rootState: movingRootState },
+        { message }
+      );
+
+      expect(commit).toBeCalledWith('deleteMessage', 'temp-1');
+      expect(commit).not.toBeCalledWith('pushMessageToConversation', {
+        id: 9,
+        conversation_id: 1,
+        status: 'sent',
+      });
+    });
+
+    it('keeps the reply in the thread with multiple conversations disabled', async () => {
+      windowSpy.mockImplementation(() => ({
+        WOOT_WIDGET: { $root: { $i18n: { locale: 'en' } } },
+        location: { search: '' },
+      }));
+      const movingRootState = { conversationAttributes: { id: 1 } };
+      API.post.mockImplementationOnce(async () => {
+        movingRootState.conversationAttributes.id = 2;
+        return { data: { id: 9, conversation_id: 1 } };
+      });
+
+      await actions.sendMessageWithData(
+        { commit, dispatch, rootState: movingRootState },
+        { message }
+      );
+
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
+        id: 9,
+        conversation_id: 1,
+        status: 'sent',
+      });
+      expect(dispatch).not.toBeCalled();
+    });
+  });
+
   describe('#fetchOldConversations', () => {
+    it('ignores a page that arrives after moving to another conversation', async () => {
+      window.chatwootWebChannel = {
+        enabledFeatures: ['multiple_conversations'],
+      };
+      const movingRootState = { conversationAttributes: { id: 1 } };
+      API.get.mockImplementationOnce(async () => {
+        movingRootState.conversationAttributes.id = 2;
+        return { data: { payload: [{ id: 1 }], meta: {} } };
+      });
+
+      await actions.fetchOldConversations(
+        { commit, rootState: movingRootState },
+        {}
+      );
+
+      expect(commit.mock.calls).toEqual([
+        ['setConversationListLoading', true],
+        ['setConversationListLoading', false],
+      ]);
+      delete window.chatwootWebChannel;
+    });
+
     it('sends correct actions', async () => {
       API.get.mockResolvedValue({
         data: {
@@ -286,7 +393,7 @@ describe('#actions', () => {
           },
         },
       });
-      await actions.fetchOldConversations({ commit }, {});
+      await actions.fetchOldConversations({ commit, rootState }, {});
       expect(commit.mock.calls).toEqual([
         ['setConversationListLoading', true],
         ['conversation/setMetaUserLastSeenAt', 1466424490, { root: true }],
@@ -349,7 +456,7 @@ describe('#actions', () => {
           },
         },
       });
-      await actions.syncLatestMessages({ state, commit }, {});
+      await actions.syncLatestMessages({ state, commit, rootState }, {});
       expect(commit.mock.calls).toEqual([
         ['conversation/setMetaUserLastSeenAt', 1466424490, { root: true }],
         [
@@ -431,7 +538,7 @@ describe('#actions', () => {
           },
         },
       });
-      await actions.syncLatestMessages({ state, commit }, {});
+      await actions.syncLatestMessages({ state, commit, rootState }, {});
 
       expect(commit.mock.calls).toEqual([
         ['conversation/setMetaUserLastSeenAt', 14664223490, { root: true }],
@@ -504,7 +611,7 @@ describe('#actions', () => {
           },
         },
       });
-      await actions.syncLatestMessages({ state, commit }, {});
+      await actions.syncLatestMessages({ state, commit, rootState }, {});
 
       expect(commit.mock.calls).toEqual([]);
     });

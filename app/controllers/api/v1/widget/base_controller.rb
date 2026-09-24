@@ -16,8 +16,13 @@ class Api::V1::Widget::BaseController < ApplicationController
     end
   end
 
+  # With multiple conversations the widget names the conversation it acts on; no id means a new one.
   def conversation
-    @conversation ||= conversations.last
+    @conversation ||= if params[:conversation_id].present?
+                        conversations.find_by!(display_id: params[:conversation_id])
+                      elsif !@web_widget.multiple_conversations?
+                        conversations.last
+                      end
   end
 
   def create_conversation
