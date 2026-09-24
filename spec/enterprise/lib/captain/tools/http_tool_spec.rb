@@ -215,6 +215,67 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
       end
     end
 
+    context 'when combining every header source' do
+      let(:conversation) { create(:conversation, account: account) }
+      let(:state) do
+        {
+          account_id: account.id,
+          assistant_id: assistant.id,
+          conversation: { id: conversation.id, display_id: conversation.display_id },
+          contact_inbox: { id: conversation.contact_inbox.id, hmac_verified: true }
+        }
+      end
+      let(:sent_request) { {} }
+
+      before do
+        custom_tool.update!(
+          http_method: 'POST',
+          endpoint_url: 'https://example.com/orders/{{ order_id }}',
+          request_template: '{"order_id": "{{ order_id }}"}',
+          auth_type: 'api_key',
+          auth_config: { 'name' => 'X-API-Key', 'key' => 'secret' },
+          headers: { 'cal-api-version' => '2024-08-13', 'Accept' => 'application/json' },
+          response_template: nil
+        )
+        stub_request(:post, 'https://example.com/orders/42')
+          .with do |request|
+            sent_request.merge!(headers: request.headers, body: request.body)
+            true
+          end
+          .to_return(status: 200, body: '{"ok": true}')
+      end
+
+      it 'sends exactly the expected headers and body' do
+        tool.perform(Struct.new(:state).new(state), order_id: '42')
+
+        expect(sent_request[:body]).to eq('{"order_id": "42"}')
+        expect(sent_request[:headers]).to eq(
+          'Accept' => 'application/json',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent' => 'Ruby',
+          'Host' => 'example.com',
+          'Cal-Api-Version' => '2024-08-13',
+          'X-Api-Key' => 'secret',
+          'X-Chatwoot-Account-Id' => account.id.to_s,
+          'X-Chatwoot-Assistant-Id' => assistant.id.to_s,
+          'X-Chatwoot-Tool-Slug' => custom_tool.slug,
+          'X-Chatwoot-Conversation-Id' => conversation.id.to_s,
+          'X-Chatwoot-Conversation-Display-Id' => conversation.display_id.to_s,
+          'X-Chatwoot-Contact-Inbox-Id' => conversation.contact_inbox.id.to_s,
+          'X-Chatwoot-Contact-Inbox-Verified' => 'true',
+          'Content-Type' => 'application/json'
+        )
+      end
+
+      it 'uses the API key when a custom header has the same name in a different case' do
+        custom_tool.update!(headers: { 'x-api-key' => 'custom' })
+
+        tool.perform(Struct.new(:state).new(state), order_id: '42')
+
+        expect(sent_request[:headers].select { |name, _| name.casecmp?('x-api-key') }).to eq('X-Api-Key' => 'secret')
+      end
+    end
+
     context 'with response template' do
       before do
         custom_tool.update!(
