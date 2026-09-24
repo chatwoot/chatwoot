@@ -183,6 +183,31 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       expect(install.size).to eq(2)
     end
 
+    context 'with typed configuration values' do
+      before do
+        manifest['inputs'].merge!(
+          'region' => { 'label' => 'Region', 'type' => 'select', 'options' => %w[us eu] },
+          'page_size' => { 'label' => 'Page size', 'type' => 'number' }
+        )
+        stub_request(:get, manifest_url).to_return(status: 200, body: manifest.to_yaml)
+      end
+
+      it 'accepts values matching their declared types' do
+        configuration['inputs'].merge!('region' => 'eu', 'page_size' => '42')
+
+        expect(install.size).to eq(2)
+      end
+
+      it 'rejects values that do not match their declared types' do
+        [{ 'region' => 'apac' }, { 'page_size' => 'many' }, { 'shop_domain' => { 'host' => 'acme' } }].each do |values|
+          invalid_configuration = configuration.deep_merge('inputs' => values)
+
+          expect { install(configuration: invalid_configuration) }
+            .to raise_error(described_class::InstallError, /has an invalid value/), "expected #{values} to be rejected"
+        end
+      end
+    end
+
     it 'rejects values the manifest does not declare' do
       configuration['inputs']['region'] = 'us'
 

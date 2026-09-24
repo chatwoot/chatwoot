@@ -14,6 +14,7 @@ class Captain::ToolsManifest::InstallService
   MANIFEST_FILE = 'toolset.yml'.freeze
   REQUEST_TIMEOUT = 10
   CONFIGURATION_SECTIONS = %w[inputs secrets].freeze
+  NUMBER_PATTERN = /\A-?\d+(\.\d+)?\z/
 
   def initialize(assistant:, source:, configuration:, revision: nil)
     @assistant = assistant
@@ -103,14 +104,34 @@ class Captain::ToolsManifest::InstallService
   def section_values!(definitions, values, section)
     raise InstallError, "#{section} must be an object" unless values.is_a?(Hash)
 
-    unknown_names = values.keys - definitions.keys
-    raise InstallError, "Unknown #{section}: #{unknown_names.join(', ')}" if unknown_names.any?
+    validate_values!(definitions, values, section)
 
     # blank? would treat false as missing, which is a valid value for a boolean
     missing = definitions.find { |name, definition| definition['required'] && values[name].to_s.strip.empty? }
     raise InstallError, "#{missing.last['label']} is required" if missing
 
     values
+  end
+
+  def validate_values!(definitions, values, section)
+    unknown_names = values.keys - definitions.keys
+    raise InstallError, "Unknown #{section}: #{unknown_names.join(', ')}" if unknown_names.any?
+
+    invalid = values.find { |name, value| !valid_value?(definitions[name], value) }
+    raise InstallError, "#{definitions[invalid.first]['label']} has an invalid value" if invalid
+  end
+
+  # Values are interpolated into URLs, auth and request bodies, so they must match the declared type.
+  # Numbers may arrive as strings from form inputs; empty optional values are handled by the required check.
+  def valid_value?(definition, value)
+    return true if value.nil? || value == ''
+
+    case definition['type']
+    when 'boolean' then [true, false].include?(value)
+    when 'number' then value.is_a?(Numeric) || value.to_s.match?(NUMBER_PATTERN)
+    when 'select' then Array(definition['options']).include?(value)
+    else value.is_a?(String)
+    end
   end
 
   def source_metadata(manifest, revision, manifest_source)
