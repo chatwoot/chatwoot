@@ -16,7 +16,6 @@ import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/componen
 import CopilotEditorSection from './CopilotEditorSection.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
 import ReplyBoxBanner from './ReplyBoxBanner.vue';
-import GooglePlayReplyNotice from './GooglePlayReplyNotice.vue';
 import QuotedEmailPreview from './QuotedEmailPreview.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
@@ -72,7 +71,6 @@ export default {
     AttachmentPreview,
     AudioRecorder,
     ReplyBoxBanner,
-    GooglePlayReplyNotice,
     EmojiIconPicker,
     MessageSignatureMissingAlert,
     ReplyBottomPanel,
@@ -165,7 +163,6 @@ export default {
   data() {
     return {
       message: '',
-      editingGooglePlaySourceId: null,
       inReplyTo: {},
       isFocused: false,
       showEmojiPicker: false,
@@ -208,29 +205,6 @@ export default {
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
-    latestGooglePlayReply() {
-      if (!this.isAGooglePlayChannel) return null;
-      return this.currentChat.messages?.findLast(
-        item => item.message_type === 1 && !item.private
-      );
-    },
-    hasGooglePlayReply() {
-      const reply = this.latestGooglePlayReply;
-      return !!reply?.source_id && reply.status === 'sent';
-    },
-    isEditingGooglePlayReply() {
-      return (
-        this.hasGooglePlayReply &&
-        this.editingGooglePlaySourceId === this.latestGooglePlayReply.source_id
-      );
-    },
-    showGooglePlayReplyNotice() {
-      return (
-        this.hasGooglePlayReply &&
-        !this.isPrivate &&
-        !this.isEditingGooglePlayReply
-      );
-    },
     isMacrosEnabled() {
       return this.isFeatureEnabledonAccount(
         this.accountId,
@@ -568,7 +542,6 @@ export default {
   watch: {
     currentChat(conversation, oldConversation) {
       if (oldConversation && oldConversation.id !== conversation.id) {
-        this.editingGooglePlaySourceId = null;
         // Only update email fields when switching to a completely different conversation (by ID)
         // This prevents overwriting user input (e.g., CC/BCC fields) when performing actions
         // like self-assign or other updates that do not actually change the conversation context
@@ -984,7 +957,6 @@ export default {
           });
     },
     async onSendReply() {
-      if (this.showGooglePlayReplyNotice) return;
       const undefinedVariables = getUndefinedVariablesInMessage({
         message: this.message,
         variables: this.messageVariables,
@@ -1044,19 +1016,6 @@ export default {
         ...messagePayload,
       });
       this.hideContentTemplatesModal();
-    },
-    editGooglePlayReply() {
-      this.editingGooglePlaySourceId = this.latestGooglePlayReply.source_id;
-      this.setReplyMode(REPLY_EDITOR_MODES.REPLY);
-      this.$nextTick(() => {
-        this.message = this.latestGooglePlayReply.content;
-        this.messageEditor?.focusEditorInputField();
-      });
-    },
-    cancelGooglePlayReplyEdit() {
-      this.editingGooglePlaySourceId = null;
-      this.message = '';
-      this.removeFromDraft();
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       // Clear attachments when switching between private note and reply modes
@@ -1379,18 +1338,7 @@ export default {
 
 <template>
   <ReplyBoxBanner :message="message" :is-on-private-note="isOnPrivateNote" />
-  <GooglePlayReplyNotice
-    v-if="showGooglePlayReplyNotice || (isEditingGooglePlayReply && !isPrivate)"
-    :editing="isEditingGooglePlayReply"
-    @edit="editGooglePlayReply"
-    @note="setReplyMode('NOTE')"
-    @cancel="cancelGooglePlayReplyEdit"
-  />
-  <div
-    v-if="!showGooglePlayReplyNotice"
-    class="reply-box"
-    :class="replyBoxClass"
-  >
+  <div class="reply-box" :class="replyBoxClass">
     <ReplyTopPanel
       :mode="replyType"
       :conversation-id="conversationId"
