@@ -133,6 +133,28 @@ describe('InstallManifestDialog', () => {
     expect(mocks.alert).not.toHaveBeenCalled();
   });
 
+  it('does not treat built-in object property names as filled', async () => {
+    const wrapper = mountDialog();
+    await loadPreview(wrapper, {
+      ...previewData,
+      fields: [
+        {
+          name: 'constructor',
+          section: 'inputs',
+          label: 'Store',
+          type: 'string',
+          placeholder: null,
+          required: true,
+          options: null,
+        },
+      ],
+    });
+
+    expect(
+      wrapper.findAll('button').at(-1).attributes('disabled')
+    ).toBeDefined();
+  });
+
   it('disables installing when the latest commit is already installed', async () => {
     const wrapper = mountDialog();
     await loadPreview(wrapper, {

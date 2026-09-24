@@ -31,7 +31,9 @@ const source = ref('');
 const preview = ref(null);
 // The source exactly as previewed; preview returns a lowercase identity, but GitHub folder names are case-sensitive
 const previewedSource = ref('');
-const values = reactive({ inputs: {}, secrets: {} });
+// Prototype-free, so field names like "constructor" don't read inherited values and look already filled
+const emptyValues = () => Object.create(null);
+const values = reactive({ inputs: emptyValues(), secrets: emptyValues() });
 const isInstalling = ref(false);
 // A slow preview must not land in a dialog that was closed or reopened for another source
 const {
@@ -94,8 +96,8 @@ const reset = () => {
   source.value = '';
   preview.value = null;
   previewedSource.value = '';
-  values.inputs = {};
-  values.secrets = {};
+  values.inputs = emptyValues();
+  values.secrets = emptyValues();
 };
 
 // Bumped on every open, so an install finishing after the dialog was reopened doesn't act on the new session
@@ -126,8 +128,8 @@ const loadPreview = async () => {
     previewedSource.value = requestedSource;
 
     const { data } = response;
-    values.inputs = {};
-    values.secrets = {};
+    values.inputs = emptyValues();
+    values.secrets = emptyValues();
     data.fields
       .filter(field => field.type === 'boolean')
       .forEach(field => {
