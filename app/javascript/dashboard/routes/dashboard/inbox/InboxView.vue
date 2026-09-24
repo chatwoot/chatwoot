@@ -1,9 +1,13 @@
 <script setup>
-import { computed, ref, watch, onMounted } from 'vue';
+import { computed, ref, watch, onMounted, provide } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import {
+  CONTACT_CONVERSATION_NAVIGATION,
+  useContactConversationNavigation,
+} from 'dashboard/composables/useContactConversationNavigation';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { emitter } from 'shared/helpers/mitt';
@@ -19,6 +23,7 @@ const route = useRoute();
 const router = useRouter();
 const store = useStore();
 const { uiSettings } = useUISettings();
+provide(CONTACT_CONVERSATION_NAVIGATION, useContactConversationNavigation());
 
 const isConversationLoading = ref(false);
 

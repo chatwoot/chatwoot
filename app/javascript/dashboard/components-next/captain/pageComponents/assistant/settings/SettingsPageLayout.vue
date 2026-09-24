@@ -2,8 +2,6 @@
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { useAccount } from 'dashboard/composables/useAccount';
 import { useMapGetter } from 'dashboard/composables/store';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import SettingsHeader from 'dashboard/components-next/captain/pageComponents/settings/SettingsHeader.vue';
@@ -23,14 +21,9 @@ defineProps({
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
-const { isCloudFeatureEnabled } = useAccount();
 
 const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 const isFetching = computed(() => uiFlags.value.fetchingItem);
-
-const isCaptainV2Enabled = computed(() =>
-  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_V2)
-);
 
 const tabs = computed(() => {
   const items = [
@@ -56,24 +49,22 @@ const tabs = computed(() => {
     },
   ];
 
-  if (isCaptainV2Enabled.value) {
-    items.push(
-      {
-        id: 'captain_assistants_guardrails_index',
-        icon: 'i-lucide-shield-check',
-        label: t(
-          'CAPTAIN.ASSISTANTS.SETTINGS.CONTROL_ITEMS.OPTIONS.GUARDRAILS.TITLE'
-        ),
-      },
-      {
-        id: 'captain_assistants_guidelines_index',
-        icon: 'i-lucide-message-square-text',
-        label: t(
-          'CAPTAIN.ASSISTANTS.SETTINGS.CONTROL_ITEMS.OPTIONS.RESPONSE_GUIDELINES.TITLE'
-        ),
-      }
-    );
-  }
+  items.push(
+    {
+      id: 'captain_assistants_guardrails_index',
+      icon: 'i-lucide-shield-check',
+      label: t(
+        'CAPTAIN.ASSISTANTS.SETTINGS.CONTROL_ITEMS.OPTIONS.GUARDRAILS.TITLE'
+      ),
+    },
+    {
+      id: 'captain_assistants_guidelines_index',
+      icon: 'i-lucide-message-square-text',
+      label: t(
+        'CAPTAIN.ASSISTANTS.SETTINGS.CONTROL_ITEMS.OPTIONS.RESPONSE_GUIDELINES.TITLE'
+      ),
+    }
+  );
 
   return items;
 });
@@ -102,7 +93,7 @@ const activeTab = computed({
       <VerticalTabs
         v-model="activeTab"
         :tabs="tabs"
-        content-class="max-w-[45rem] pb-8"
+        content-class="max-w-[45rem] pb-24 lg:pb-8"
       >
         <template #[activeTab]>
           <div class="flex flex-col w-full gap-6">

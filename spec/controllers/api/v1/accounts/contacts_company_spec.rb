@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Enterprise Contacts API', type: :request do
+RSpec.describe 'Contacts company API', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
 

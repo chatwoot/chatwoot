@@ -4,8 +4,6 @@ import { useI18n } from 'vue-i18n';
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { usePolicy } from 'dashboard/composables/usePolicy';
 import MessageList from './MessageList.vue';
 import PlaygroundTestSetup from './PlaygroundTestSetup.vue';
 import { usePlaygroundSession } from './usePlaygroundSession';
@@ -19,8 +17,6 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const { isFeatureFlagEnabled } = usePolicy();
-const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
 const isBelowXL = useBreakpoints(breakpointsTailwind).smaller('xl');
 
 const messages = ref([]);
@@ -41,7 +37,8 @@ const isSendDisabled = computed(
   () =>
     !newMessage.value.trim() ||
     isLoading.value ||
-    (isV2.value && (session.isInitializing || Boolean(session.loadError)))
+    session.isInitializing ||
+    Boolean(session.loadError)
 );
 
 const formatMessagesForApi = () => {
@@ -96,35 +93,23 @@ watch(
     if (oldId && newId !== oldId) {
       resetConversation();
       setupInstanceKey.value += 1;
-      if (isV2.value) {
-        isSetupOpen.value = true;
-        session.reset();
-      }
+      isSetupOpen.value = true;
+      session.reset();
     }
   }
 );
 
-watch(
-  isV2,
-  enabled => {
-    if (enabled) session.initialize();
-  },
-  { immediate: true }
-);
+session.initialize();
 
 const sendMessage = async () => {
-  if (
-    !newMessage.value.trim() ||
-    isLoading.value ||
-    (isV2.value && session.isInitializing)
-  ) {
+  if (!newMessage.value.trim() || isLoading.value || session.isInitializing) {
     return;
   }
-  if (isV2.value && session.loadError) {
+  if (session.loadError) {
     pushAssistantError(session.loadError);
     return;
   }
-  if (isV2.value && !session.isValid) {
+  if (!session.isValid) {
     pushAssistantError(t('CAPTAIN.PLAYGROUND.SETUP.INVALID_CONFIGURATION'));
     return;
   }
@@ -137,7 +122,7 @@ const sendMessage = async () => {
   messages.value.push(userMessage);
   const currentMessage = newMessage.value;
   const requestVersion = conversationVersion;
-  const setupSummary = isV2.value ? session.configurationSummary() : undefined;
+  const setupSummary = session.configurationSummary();
   newMessage.value = '';
 
   try {
@@ -146,7 +131,7 @@ const sendMessage = async () => {
       assistantId: props.assistantId,
       messageContent: currentMessage,
       messageHistory: formatMessagesForApi(),
-      playgroundConfig: isV2.value ? session.playgroundConfig : undefined,
+      playgroundConfig: session.playgroundConfig,
     });
     if (requestVersion !== conversationVersion) return;
 
@@ -183,10 +168,9 @@ const handleEnterKey = event => {
 
 <template>
   <div
-    class="h-full rounded-xl border border-n-weak text-n-slate-11"
-    :class="isV2 ? 'flex overflow-hidden' : 'flex flex-col'"
+    class="flex h-full overflow-hidden rounded-xl border border-n-weak text-n-slate-11"
   >
-    <div class="flex min-w-0 flex-1 flex-col py-6">
+    <div class="flex min-w-0 flex-1 flex-col pt-6 pb-16 xl:pb-6">
       <div class="mb-8 px-6">
         <div class="mb-1 flex items-center justify-between gap-3">
           <h3 class="text-lg font-medium">
@@ -202,7 +186,6 @@ const handleEnterKey = event => {
               @click="resetConversation"
             />
             <NextButton
-              v-if="isV2"
               ghost
               sm
               slate
@@ -244,7 +227,7 @@ const handleEnterKey = event => {
     </div>
 
     <aside
-      v-if="isV2 && isSetupOpen && !isBelowXL"
+      v-if="isSetupOpen && !isBelowXL"
       aria-labelledby="playground-test-setup-title"
       class="flex w-[36rem] flex-none flex-col border-s border-n-weak bg-n-surface-1 text-n-slate-12"
     >
@@ -288,7 +271,7 @@ const handleEnterKey = event => {
     </aside>
 
     <SidePanel
-      v-if="isV2 && isBelowXL"
+      v-if="isBelowXL"
       ref="setupPanelRef"
       width="lg"
       :title="t('CAPTAIN.PLAYGROUND.SETUP.TITLE')"

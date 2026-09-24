@@ -96,7 +96,6 @@ RSpec.describe Account do
       account = create(:account)
 
       expect(account).not_to be_feature_enabled('captain_integration')
-      expect(account).not_to be_feature_enabled('captain_integration_v2')
       expect(account.captain_models).to be_nil
     end
   end
@@ -179,7 +178,8 @@ RSpec.describe Account do
         feature_whatsapp_reconfigure: 1 << 3,
         feature_whatsapp_embedded_signup_inbox_creation: 1 << 4,
         feature_delayed_automations: 1 << 5,
-        feature_audit_log_ip_address: 1 << 6
+        feature_audit_log_ip_address: 1 << 6,
+        feature_captain_classifier: 1 << 7
       )
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)
@@ -471,7 +471,7 @@ RSpec.describe Account do
       end
 
       it 'returns GPT-5.2 for assistant when Captain V2 is enabled' do
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
 
         expect(account.captain_preferences[:models]['assistant']).to eq('gpt-5.2')
         expect(account.reload.captain_models).to be_nil

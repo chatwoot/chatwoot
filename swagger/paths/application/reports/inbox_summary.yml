@@ -3,6 +3,7 @@ tags:
 operationId: get-inbox-summary-report
 summary: Get conversation statistics grouped by inbox
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: |
   Get conversation statistics grouped by inbox for a given date range.

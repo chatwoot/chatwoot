@@ -49,6 +49,43 @@ class Rack::Attack
       nil
     end
 
+    # Keep API tokens in the same bucket regardless of which header carries them.
+    def api_user_identifier(mask_token: false)
+      scheme, token = ActionDispatch::Request.new(env).authorization.to_s.split(' ', 2)
+      if scheme&.casecmp?('Bearer')
+        identifier = bearer_user_identifier(token)
+        return mask_api_token(identifier) if mask_token && identifier == token
+
+        return identifier
+      end
+
+      legacy_user_identifier(mask_token: mask_token)
+    end
+
+    def mask_api_token(token)
+      "#{token[0..4]}...[REDACTED]" if token.present?
+    end
+
+    def legacy_user_identifier(mask_token:)
+      user_uid = get_header('HTTP_UID').presence
+      return user_uid if user_uid
+
+      token = get_header('HTTP_API_ACCESS_TOKEN').presence || get_header('api_access_token').presence
+      mask_token ? mask_api_token(token) : token
+    end
+
+    def bearer_user_identifier(token)
+      credentials = JSON.parse(Base64.strict_decode64(token.to_s.split.last.to_s))
+      # Dashboard Bearer credentials must retain the existing UID-based bucket.
+      if credentials.is_a?(Hash) && credentials.values_at('uid', 'client', 'access-token').all?(&:present?)
+        get_header('HTTP_UID').presence || credentials['uid']
+      else
+        token.presence
+      end
+    rescue ArgumentError, JSON::ParserError
+      token.presence
+    end
+
     # include_header only for sign-in, which merges the 'email' header into params;
     # reset/resend read params only, so honoring it there lets a spoofed header
     # exhaust a victim's bucket.
@@ -303,33 +340,25 @@ class Rack::Attack
     [(reports_api_user_level_limit / 10), 1].max
   ).to_i
 
-  # Throttle drilldown requests by individual user (based on uid)
+  # Throttle drilldown requests by dashboard UID or API token
   throttle('/api/v2/accounts/:account_id/reports/drilldown/user',
            limit: reports_drilldown_api_user_level_limit, period: 1.minute) do |req|
     match_data = %r{\A/api/v2/accounts/(?<account_id>\d+)/reports/drilldown\z}.match(req.path_without_extensions)
     next unless match_data.present? && req.get?
 
-    # Extract user identification (uid for web, api_access_token for API requests)
-    user_uid = req.get_header('HTTP_UID')
-    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
-
-    # Use uid if present, otherwise fallback to api_access_token for tracking
-    user_identifier = user_uid.presence || api_access_token.presence
+    user_identifier = req.api_user_identifier
 
     "#{user_identifier}:#{match_data[:account_id]}" if user_identifier.present?
   end
 
-  # Throttle by individual user (based on uid)
+  # Throttle by dashboard UID or API token
   throttle('/api/v2/accounts/:account_id/reports/user', limit: reports_api_user_level_limit, period: 1.minute) do |req|
     match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
-    # Extract user identification (uid for web, api_access_token for API requests)
-    user_uid = req.get_header('HTTP_UID')
-    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+    next if match_data.blank?
 
-    # Use uid if present, otherwise fallback to api_access_token for tracking
-    user_identifier = user_uid.presence || api_access_token.presence
+    user_identifier = req.api_user_identifier
 
-    "#{user_identifier}:#{match_data[:account_id]}" if match_data.present? && user_identifier.present?
+    "#{user_identifier}:#{match_data[:account_id]}" if user_identifier.present?
   end
 
   ## Prevent abuse of reports api at account level
@@ -344,9 +373,7 @@ class Rack::Attack
     match_data = %r{/api/v1/accounts/(?<account_id>\d+)/conversations/meta}.match(req.path)
     next unless match_data.present? && req.get?
 
-    user_uid = req.get_header('HTTP_UID')
-    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
-    user_identifier = user_uid.presence || api_access_token.presence
+    user_identifier = req.api_user_identifier
 
     "#{user_identifier}:#{match_data[:account_id]}" if user_identifier.present?
   end
@@ -358,14 +385,7 @@ end
 ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start, _finish, _request_id, payload|
   req = payload[:request]
 
-  user_uid = req.get_header('HTTP_UID')
-  api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
-
-  # Mask the token if present
-  masked_api_token = api_access_token.present? ? "#{api_access_token[0..4]}...[REDACTED]" : nil
-
-  # Use uid if present, otherwise fallback to masked api_access_token for tracking
-  user_identifier = user_uid.presence || masked_api_token.presence || 'unknown_user'
+  user_identifier = req.api_user_identifier(mask_token: true) || 'unknown_user'
 
   # Extract account ID if present
   account_match = %r{/accounts/(?<account_id>\d+)}.match(req.path)
