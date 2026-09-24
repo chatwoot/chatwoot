@@ -1,30 +1,24 @@
 /* global axios */
 import ApiClient from './ApiClient';
 
-export const buildContactParams = (page, sortAttr, label, search) => {
-  let params = `include_contact_inboxes=false&page=${page}&sort=${sortAttr}`;
-  if (search) {
-    params = `${params}&q=${search}`;
-  }
-  if (label) {
-    params = `${params}&labels[]=${label}`;
-  }
-  return params;
-};
+export const buildContactParams = (page, sortAttr, label, search) => ({
+  include_contact_inboxes: false,
+  page,
+  sort: sortAttr,
+  ...(search ? { q: search } : {}),
+  ...(label ? { labels: [label].flat() } : {}),
+});
 
 class ContactAPI extends ApiClient {
   constructor() {
     super('contacts', { accountScoped: true });
   }
 
-  get(page, sortAttr = 'name', label = '') {
-    let requestURL = `${this.url}?${buildContactParams(
-      page,
-      sortAttr,
-      label,
-      ''
-    )}`;
-    return axios.get(requestURL);
+  get(page, sortAttr = 'name', label = '', options = {}) {
+    return axios.get(this.url, {
+      params: buildContactParams(page, sortAttr, label, ''),
+      signal: options.signal,
+    });
   }
 
   show(id) {
@@ -35,9 +29,17 @@ class ContactAPI extends ApiClient {
     return axios.patch(`${this.url}/${id}?include_contact_inboxes=false`, data);
   }
 
-  getConversations(contactId, { inboxId } = {}) {
-    const params = inboxId ? { inbox_id: inboxId } : {};
+  getConversations(contactId, { inboxId, conversationId } = {}) {
+    const params = {};
+    if (inboxId) params.inbox_id = inboxId;
+    if (conversationId) params.conversation_id = conversationId;
     return axios.get(`${this.url}/${contactId}/conversations`, { params });
+  }
+
+  getAttachments(contactId, page = 1) {
+    return axios.get(`${this.url}/${contactId}/attachments`, {
+      params: { page },
+    });
   }
 
   getContactableInboxes(contactId) {
@@ -60,24 +62,24 @@ class ContactAPI extends ApiClient {
   }
 
   search(search = '', page = 1, sortAttr = 'name', label = '', options = {}) {
-    let requestURL = `${this.url}/search?${buildContactParams(
-      page,
-      sortAttr,
-      label,
-      search
-    )}`;
-    return axios.get(requestURL, { signal: options.signal });
+    return axios.get(`${this.url}/search`, {
+      params: buildContactParams(page, sortAttr, label, search),
+      signal: options.signal,
+    });
   }
 
   active(page = 1, sortAttr = 'name') {
-    let requestURL = `${this.url}/active?${buildContactParams(page, sortAttr)}`;
-    return axios.get(requestURL);
+    return axios.get(`${this.url}/active`, {
+      params: buildContactParams(page, sortAttr),
+    });
   }
 
   // eslint-disable-next-line default-param-last
-  filter(page = 1, sortAttr = 'name', queryPayload) {
-    let requestURL = `${this.url}/filter?${buildContactParams(page, sortAttr)}`;
-    return axios.post(requestURL, queryPayload);
+  filter(page = 1, sortAttr = 'name', queryPayload, options = {}) {
+    return axios.post(`${this.url}/filter`, queryPayload, {
+      params: buildContactParams(page, sortAttr),
+      signal: options.signal,
+    });
   }
 
   importContacts(file) {

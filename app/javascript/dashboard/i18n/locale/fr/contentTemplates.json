@@ -8,7 +8,7 @@
     "PICKER": {
       "SEARCH_PLACEHOLDER": "Rechercher des modèles",
       "NO_TEMPLATES_FOUND": "Aucun modèle trouvé pour",
-      "NO_CONTENT": "No content",
+      "NO_CONTENT": "Aucun contenu",
       "HEADER": "En-tête",
       "BODY": "Corps",
       "FOOTER": "Pied de page",
@@ -28,7 +28,7 @@
       "TYPES": {
         "MEDIA": "Média",
         "QUICK_REPLY": "Réponse rapide",
-        "CALL_TO_ACTION": "Call to Action",
+        "CALL_TO_ACTION": "Appel à l'action",
         "TEXT": "Texte"
       }
     },

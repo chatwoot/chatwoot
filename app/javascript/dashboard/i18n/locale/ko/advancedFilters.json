@@ -19,6 +19,10 @@
       "OR": "혹은"
     },
     "INPUT_PLACEHOLDER": "값을 입력하십시오",
+    "MULTI_VALUE_INPUT_PLACEHOLDER": "Type a value, then press Enter to add more",
+    "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Type a value",
+    "CONTACT_SEARCH_PLACEHOLDER": "연락처 검색",
+    "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "동일한",
       "not_equal_to": "비동일한",
@@ -49,6 +53,7 @@
       "ASSIGNEE_NAME": "담당자 이름",
       "INBOX_NAME": "받은 메시지함 이름",
       "TEAM_NAME": "팀 이름",
+      "CONTACT": "연락처",
       "CONVERSATION_IDENTIFIER": "대화 식별자",
       "CAMPAIGN_NAME": "캠페인 이름",
       "LABELS": "라벨",

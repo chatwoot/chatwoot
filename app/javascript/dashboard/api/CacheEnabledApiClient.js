@@ -5,7 +5,22 @@ import ApiClient from './ApiClient';
 class CacheEnabledApiClient extends ApiClient {
   constructor(resource, options = {}) {
     super(resource, options);
-    this.dataManager = new DataManager(this.accountIdFromRoute);
+    this.accountDataManager = null;
+  }
+
+  // These clients are module level singletons, so they are constructed before the router
+  // has settled on an account: a boot at /app redirects to /app/accounts/:id without
+  // re-evaluating the bundle. Resolving the store once in the constructor therefore pointed
+  // every account at a single `cw-store-` database, where a shared default cache key could
+  // hand one account another's rows. The account has to come from the route at read time.
+  get dataManager() {
+    const accountId = this.accountIdFromRoute;
+
+    if (this.accountDataManager?.accountId !== accountId) {
+      this.accountDataManager = new DataManager(accountId);
+    }
+
+    return this.accountDataManager;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -69,7 +84,7 @@ class CacheEnabledApiClient extends ApiClient {
     try {
       await this.dataManager.initDb();
 
-      this.dataManager.replace({
+      await this.dataManager.replace({
         modelName: this.cacheModelName,
         data: this.extractDataFromResponse(response),
       });

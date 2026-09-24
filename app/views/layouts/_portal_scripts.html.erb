@@ -67,6 +67,11 @@ html.light {
 #category-block:hover #category-name  {
   color: var(--dynamic-hover-color);
 }
+/* Recommended topic pills in the classic hero */
+.recommended-pill:hover {
+  border-color: var(--dynamic-hover-color);
+  color: var(--dynamic-hover-color);
+}
 </style>
 
 <script>
@@ -89,5 +94,9 @@ html.light {
   };
 </script>
 <% if @portal.channel_web_widget.present? && !@is_plain_layout_enabled %>
+<script>
+  window.chatwootSettings = window.chatwootSettings || {};
+  window.chatwootSettings.locale = '<%= @locale %>';
+</script>
 <%= @portal.channel_web_widget.web_widget_script.html_safe %>
 <% end %>

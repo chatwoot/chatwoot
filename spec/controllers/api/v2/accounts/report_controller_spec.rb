@@ -233,6 +233,107 @@ RSpec.describe 'Reports API', type: :request do
     end
   end
 
+  describe 'GET /api/v2/accounts/:account_id/reports/drilldown' do
+    let(:params) do
+      super().merge(
+        metric: 'conversations_count',
+        type: :account,
+        since: start_of_today.to_s,
+        until: end_of_today.to_s,
+        bucket_timestamp: start_of_today.to_s,
+        group_by: 'day'
+      )
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/drilldown"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'returns unauthorized for agents' do
+        get "/api/v2/accounts/#{account.id}/reports/drilldown",
+            params: params,
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns drilldown records for the selected bucket' do
+        get "/api/v2/accounts/#{account.id}/reports/drilldown",
+            params: params,
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+
+        expect(json_response['meta']['metric']).to eq('conversations_count')
+        expect(json_response['meta']['record_type']).to eq('conversation')
+        expect(json_response['meta']['total_count']).to eq(10)
+        expect(json_response['payload'].first['conversation']).to include('display_id', 'contact_name', 'inbox_name')
+      end
+
+      it 'returns unprocessable entity for missing bucket timestamp' do
+        get "/api/v2/accounts/#{account.id}/reports/drilldown",
+            params: params.except(:bucket_timestamp),
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns unprocessable entity for invalid bucket timestamp' do
+        get "/api/v2/accounts/#{account.id}/reports/drilldown",
+            params: params.merge(bucket_timestamp: 'abc'),
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns unprocessable entity for bucket timestamp outside the requested range' do
+        get "/api/v2/accounts/#{account.id}/reports/drilldown",
+            params: params.merge(bucket_timestamp: end_of_today.to_s),
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns drilldown records for a partial first weekly bucket' do
+        range_start = Time.zone.local(2026, 5, 20, 12)
+        range_end = Time.zone.local(2026, 5, 27, 12)
+        week_start = range_start.beginning_of_week(:sunday)
+
+        get "/api/v2/accounts/#{account.id}/reports/drilldown",
+            params: params.merge(
+              since: range_start.to_i.to_s,
+              until: range_end.to_i.to_s,
+              bucket_timestamp: week_start.to_i.to_s,
+              group_by: 'week'
+            ),
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns unprocessable entity for unsupported drilldown type' do
+        get "/api/v2/accounts/#{account.id}/reports/drilldown",
+            params: params.merge(type: :unsupported),
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
+
   describe 'GET /api/v2/accounts/:account_id/reports/agents' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

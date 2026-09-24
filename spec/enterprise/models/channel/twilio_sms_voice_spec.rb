@@ -38,6 +38,19 @@ RSpec.describe Channel::TwilioSms do
     end
   end
 
+  describe '#inbound_calls_enabled?' do
+    it 'returns true by default when nothing has been toggled' do
+      channel = create(:channel_twilio_sms, :with_voice, account: account)
+      expect(channel.inbound_calls_enabled?).to be true
+    end
+
+    it 'returns false only when explicitly disabled in provider_config' do
+      channel = create(:channel_twilio_sms, :with_voice, account: account,
+                                                         provider_config: { 'inbound_calls_enabled' => false })
+      expect(channel.inbound_calls_enabled?).to be false
+    end
+  end
+
   describe '#voice_call_webhook_url' do
     it 'returns the webhook URL based on phone number' do
       channel = create(:channel_twilio_sms, :with_voice)
@@ -51,6 +64,23 @@ RSpec.describe Channel::TwilioSms do
       channel = create(:channel_twilio_sms, :with_voice)
       digits = channel.phone_number.delete_prefix('+')
       expect(channel.voice_status_webhook_url).to include(digits)
+    end
+  end
+
+  describe '#basic_auth_credentials' do
+    it 'uses the API key pair when api_key_sid and api_key_secret are present' do
+      channel = build(:channel_twilio_sms, :with_voice, account: account)
+      expect(channel.basic_auth_credentials).to eq([channel.api_key_sid, channel.api_key_secret])
+    end
+
+    it 'pairs api_key_sid with auth_token when api_key_secret is blank' do
+      channel = build(:channel_twilio_sms, account: account, api_key_sid: 'SK123', auth_token: 'api_key_secret_in_auth_token')
+      expect(channel.basic_auth_credentials).to eq(%w[SK123 api_key_secret_in_auth_token])
+    end
+
+    it 'falls back to account_sid and auth_token without an API key' do
+      channel = build(:channel_twilio_sms, account: account, account_sid: 'AC123', auth_token: 'auth_token_value')
+      expect(channel.basic_auth_credentials).to eq(%w[AC123 auth_token_value])
     end
   end
 

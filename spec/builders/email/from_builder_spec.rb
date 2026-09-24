@@ -28,6 +28,22 @@ RSpec.describe Email::FromBuilder do
           expect(result).to include(agent.available_name)
           expect(result).to include('support@example.com')
         end
+
+        it 'uses the sender locale for the friendly name' do
+          agent.update!(ui_settings: { 'locale' => 'de' })
+
+          result = described_class.new(inbox: inbox, message: current_message).build
+
+          expect(result).to eq("#{agent.available_name} von #{inbox.sanitized_business_name} <support@example.com>")
+        end
+
+        it 'falls back to the account locale when the sender locale is not set' do
+          account.update!(locale: :de)
+
+          result = described_class.new(inbox: inbox, message: current_message).build
+
+          expect(result).to eq("#{agent.available_name} von #{inbox.sanitized_business_name} <support@example.com>")
+        end
       end
 
       context 'with professional inbox' do

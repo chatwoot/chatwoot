@@ -1,5 +1,5 @@
 # Service to handle phone number normalization for WhatsApp messages
-# Currently supports Brazil and Argentina phone number format variations
+# Currently supports Brazil, Argentina, and Mexico phone number format variations
 # Supports both WhatsApp Cloud API and Twilio WhatsApp providers
 class Whatsapp::PhoneNumberNormalizationService
   def initialize(inbox)
@@ -19,14 +19,23 @@ class Whatsapp::PhoneNumberNormalizationService
     normalizer = find_normalizer_for_country(clean_number)
     return raw_number unless normalizer
 
-    # Normalize the clean number
-    normalized_clean_number = normalizer.normalize(clean_number)
-
-    # Format for provider and check for existing contact
-    provider_format = format_for_provider(normalized_clean_number, provider)
-    existing_contact_inbox = find_existing_contact_inbox(provider_format)
+    # The contact may already be stored under any of the country's equivalent formats
+    existing_contact_inbox = normalizer.variants(clean_number).lazy
+                                       .filter_map { |number| find_existing_contact_inbox(format_for_provider(number, provider)) }
+                                       .first
 
     existing_contact_inbox&.source_id || raw_number
+  end
+
+  # Keep the provider value first so exact contact matches always win. Each
+  # country normalizer explicitly opts into contact-safe alternatives; source-id
+  # normalization alone is not enough because the alternate may be another
+  # valid number (for example an Argentina landline without the mobile 9).
+  def phone_number_candidates(clean_number)
+    normalizer = find_normalizer_for_country(clean_number)
+    return [clean_number] unless normalizer
+
+    normalizer.contact_candidates(clean_number)
   end
 
   private
@@ -64,6 +73,7 @@ class Whatsapp::PhoneNumberNormalizationService
 
   NORMALIZERS = [
     Whatsapp::PhoneNormalizers::BrazilPhoneNormalizer,
-    Whatsapp::PhoneNormalizers::ArgentinaPhoneNormalizer
+    Whatsapp::PhoneNormalizers::ArgentinaPhoneNormalizer,
+    Whatsapp::PhoneNormalizers::MexicoPhoneNormalizer
   ].freeze
 end

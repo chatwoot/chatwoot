@@ -7,6 +7,37 @@
     "LEARN_MORE": "معرفة المزيد عن سجلات المراجعة",
     "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
     "SIDEBAR_TXT": "<p><b>سجلات التدقيق</b> </p><p> سجلات التدقيق هي مسارات للأحداث والإجراءات في نظام Chatwoot. </p>",
+    "COUNT": "{n} event | {n} events",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Search by name or email",
+      "ALL_EVENTS": "All events",
+      "DATE_RANGE": "Date range",
+      "CLEAR_ALL": "مسح التصفيات",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Access",
+        "AGENTS_TEAMS": "Agents & teams",
+        "CONFIGURATION": "الإعدادات",
+        "CONVERSATIONS": "المحادثات"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Sign in / sign out",
+        "AGENTS": "الوكلاء",
+        "TEAMS": "الفرق",
+        "TEAM_MEMBERS": "Team members",
+        "INBOX_MEMBERS": "Inbox collaborators",
+        "ACCOUNT": "إعدادات الحساب",
+        "INBOXES": "قنوات التواصل",
+        "WEBHOOKS": "Webhook",
+        "AUTOMATION_RULES": "Automation rules",
+        "MACROS": "ماكروس",
+        "CONVERSATION_DELETIONS": "Conversation deletions",
+        "MESSAGE_DELETIONS": "Message deletions"
+      },
+      "SORT": {
+        "NEWEST": "Newest first",
+        "OLDEST": "Oldest first"
+      }
+    },
     "LIST": {
       "404": "لا توجد سجلات تدقيق متاحة في هذا الحساب.",
       "TITLE": "إدارة سجلات التدقيق",
@@ -72,6 +103,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} deleted conversation #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
     }
   }
 }

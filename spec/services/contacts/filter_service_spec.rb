@@ -68,6 +68,27 @@ describe Contacts::FilterService do
       cs_contact.update!(custom_attributes: { customer_type: 'platinum', signed_in_at: '2022-01-19', lifetime_value: '120.50' })
     end
 
+    it 'filters a checkbox custom attribute that shares a conversation attribute name' do
+      create(:custom_attribute_definition,
+             attribute_key: 'status',
+             account: account,
+             attribute_model: 'contact_attribute',
+             attribute_display_type: 'checkbox')
+      en_contact.update!(custom_attributes: en_contact.custom_attributes.merge('status' => true))
+      params[:payload] = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [true],
+          query_operator: nil
+        }.with_indifferent_access
+      ]
+
+      result = filter_service.new(account, first_user, params).perform
+
+      expect(result[:contacts]).to contain_exactly(en_contact)
+    end
+
     context 'with standard attributes - name' do
       it 'filter contacts by name' do
         params[:payload] = [
@@ -408,6 +429,25 @@ describe Contacts::FilterService do
         expect(result[:contacts].pluck(:id)).to include(el_contact.id)
       end
 
+      it 'filters timestamps by their calendar date in the saved timezone' do
+        account.contacts.each { |contact| contact.update!(created_at: Time.utc(2026, 9, 10)) }
+        en_contact.update!(created_at: Time.utc(2026, 9, 8, 0, 49))
+        el_contact.update!(created_at: Time.utc(2026, 9, 8, 3))
+        params[:payload] = [
+          {
+            attribute_key: 'created_at',
+            filter_operator: 'is_less_than',
+            values: ['2026-09-08'],
+            timezone: 'America/Sao_Paulo',
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(account, first_user, params).perform
+
+        expect(result[:contacts]).to contain_exactly(en_contact)
+      end
+
       it 'binds custom date comparison values as dates' do
         date_value = '2024-01-01'
         params[:payload] = [
@@ -458,6 +498,52 @@ describe Contacts::FilterService do
         result = filter_service.new(account, first_user, params).perform
 
         expect(result[:contacts].pluck(:id)).to eq([cs_contact.id])
+      end
+
+      it 'filters custom date attributes by days before' do
+        cs_contact.update!(custom_attributes: cs_contact.custom_attributes.merge('signed_in_at' => (Time.zone.today - 4.days).to_s))
+        el_contact.update!(custom_attributes: el_contact.custom_attributes.merge('signed_in_at' => (Time.zone.today - 2.days).to_s))
+        params[:payload] = [
+          {
+            attribute_key: 'signed_in_at',
+            filter_operator: 'days_before',
+            values: [3],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(account, first_user, params).perform
+
+        expect(result[:contacts].pluck(:id)).to include(cs_contact.id)
+        expect(result[:contacts].pluck(:id)).not_to include(el_contact.id)
+      end
+
+      it 'rejects blank custom numeric values' do
+        params[:payload] = [
+          {
+            attribute_key: 'lifetime_value',
+            values: [''],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(account, first_user, params).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidValue)
+      end
+
+      it 'rejects non-finite custom numeric values' do
+        %w[Infinity NaN].each do |value|
+          params[:payload] = [
+            {
+              attribute_key: 'lifetime_value',
+              filter_operator: 'is_greater_than',
+              values: [value],
+              query_operator: nil
+            }.with_indifferent_access
+          ]
+
+          expect { filter_service.new(account, first_user, params).perform }
+            .to raise_error(CustomExceptions::CustomFilter::InvalidValue)
+        end
       end
 
       it 'rejects invalid custom date comparison values' do

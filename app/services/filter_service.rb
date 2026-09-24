@@ -2,6 +2,7 @@ require 'json'
 
 class FilterService
   include Filters::FilterHelper
+  include Filters::DateFilterHelper
   include Filters::CustomAttributeFilterHelper
   include CustomExceptions::CustomFilter
 
@@ -9,6 +10,7 @@ class FilterService
   ATTRIBUTE_TYPES = {
     date: 'date', text: 'text', number: 'numeric', link: 'text', list: 'text', checkbox: 'boolean'
   }.with_indifferent_access
+  STRING_VALUE_ATTRIBUTES = %w[status priority].freeze
 
   def initialize(params, user)
     @params = params
@@ -88,31 +90,30 @@ class FilterService
     attribute_type = custom_attribute(attribute_key, @account, attribute_model).try(:attribute_display_type)
     attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type] || standard_attribute_data_type(attribute_key)
 
-    @filter_values["value_#{current_index}"] = coerce_lt_gt_value(
+    filter_value = coerce_lt_gt_value(
       query_hash['values'][0],
       attribute_data_type,
       attribute_key
     )
+
+    timezone_operation = timezone_aware_filter_operation(query_hash, current_index, filter_value)
+    return timezone_operation if timezone_operation
+
+    @filter_values["value_#{current_index}"] = filter_value
     operator = query_hash['filter_operator'] == 'is_less_than' ? '<' : '>'
     "#{operator} :value_#{current_index}"
   end
 
-  def days_before_filter_query(query_hash, current_index)
-    date = Time.zone.today - query_hash['values'][0].to_i.days
-    updated_query_hash = query_hash.with_indifferent_access.merge(
-      values: [date.strftime],
-      filter_operator: 'is_less_than'
-    )
-
-    lt_gt_filter_query(updated_query_hash, current_index)
-  end
-
+  # Computes mine/unassigned/all counts in one scan of the filtered set instead of
+  # three separate COUNT queries.
   def set_count_for_all_conversations
-    [
-      @conversations.assigned_to(@user).count,
-      @conversations.unassigned.count,
-      @conversations.count
-    ]
+    counts = @conversations.except(:includes, :order).pick(
+      Arel.sql(ActiveRecord::Base.sanitize_sql_array(['COUNT(*) FILTER (WHERE assignee_id = ?)', @user.id])),
+      Arel.sql('COUNT(*) FILTER (WHERE assignee_id IS NULL AND assignee_agent_bot_id IS NULL)'),
+      Arel.sql('COUNT(*)')
+    )
+    # pick short-circuits to nil on a none relation (e.g. permission scope with no access)
+    counts ? counts.map(&:to_i) : [0, 0, 0]
   end
 
   def tag_filter_query(query_hash, current_index)
@@ -152,7 +153,10 @@ class FilterService
     when 'date'
       Date.iso8601(raw_value.to_s)
     when 'numeric'
-      BigDecimal(raw_value.to_s)
+      decimal = BigDecimal(raw_value.to_s)
+      raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key) unless decimal.finite?
+
+      decimal
     else
       raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key)
     end
@@ -186,8 +190,20 @@ class FilterService
   end
 
   def validate_query_operator
-    @params[:payload].each do |query_hash|
+    @params[:payload].each_with_index do |query_hash, index|
       validate_single_condition(query_hash)
+      validate_string_values(query_hash)
+      next unless index == @params[:payload].length - 1
+
+      raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) if query_hash['query_operator'].present?
     end
+  end
+
+  def validate_string_values(query_hash)
+    return unless STRING_VALUE_ATTRIBUTES.include?(query_hash['attribute_key'])
+    return unless @filters[filter_config[:entity].downcase.pluralize].key?(query_hash['attribute_key'])
+    return if query_hash['values'].is_a?(Array) && query_hash['values'].all?(String)
+
+    raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash['attribute_key'])
   end
 end

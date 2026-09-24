@@ -65,6 +65,11 @@ RSpec.describe Contact do
       expect { contact.update!(phone_number: '123456789') }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
+    it 'will throw error when text is prefixed to a valid phone number' do
+      contact = create(:contact)
+      expect { contact.update!(phone_number: 'abc+12312312321') }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
     it 'updates phone number when adding valid phone number' do
       contact = create(:contact)
       expect(contact.update!(phone_number: '+12312312321')).to be true

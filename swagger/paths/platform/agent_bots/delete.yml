@@ -4,6 +4,7 @@ operationId: delete-an-agent-bot
 summary: Delete an AgentBot
 description: Delete an AgentBot
 security:
+  - platformAppBearerAuth: []
   - platformAppApiKey: []
 responses:
   '200':

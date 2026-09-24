@@ -17,7 +17,7 @@ StandardInput=null
 SyslogIdentifier=%p
 LimitNOFILE=65536
 
-MemoryMax=1.2G
+MemoryMax=60%
 MemoryHigh=infinity
 MemorySwapMax=0
 OOMPolicy=stop
