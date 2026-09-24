@@ -126,6 +126,27 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when the email was sent in the past (backfill or delayed IMAP fetch)' do
+      let(:original_send_time) { 20.days.ago.change(usec: 0) }
+      let(:inbound_mail) do
+        Mail.new.tap do |mail|
+          mail.from = 'email@gmail.com'
+          mail.to = 'imap@gmail.com'
+          mail.subject = 'Old email fetched late'
+          mail.date = original_send_time
+          mail.content_type = 'text/plain'
+          mail.body = 'Body text'
+        end
+      end
+
+      it 'uses the mail Date header for created_at instead of the processing time' do
+        class_instance.process(inbound_mail, channel)
+
+        message = conversation.messages.last
+        expect(message.created_at).to be_within(1.second).of(original_send_time)
+      end
+    end
+
     context 'when a new email with invalid from' do
       let(:inbound_mail) { create_inbound_email_from_mail(from: 'invalidemail', to: 'imap@gmail.com', subject: 'Hello!') }
 
