@@ -88,6 +88,47 @@ describe('MonitorChartFilters', () => {
     expect(wrapper.emitted('update:modelValue')).toBeUndefined();
   });
 
+  it.each([
+    ['UTC', '2026-09-20T00:00:00Z'],
+    ['America/Los_Angeles', '2026-09-20T07:00:00Z'],
+  ])(
+    'excludes the pause day when collection stopped at midnight in %s',
+    async (timezone, pausedAt) => {
+      wrapper = shallowMount(MonitorChartFilters, {
+        props: {
+          modelValue: { range: 7, interval: 'day' },
+          timezone,
+          pausedAt: Date.parse(pausedAt) / 1000,
+        },
+        global,
+      });
+      wrapper.findComponent({ name: 'Popover' }).vm.$emit('show');
+      await wrapper.find('select').setValue('custom');
+      const inputs = wrapper.findAllComponents({ name: 'Input' });
+
+      expect(inputs[1].attributes('max')).toBe('2026-09-19');
+      inputs[1].vm.$emit('update:modelValue', '2026-09-20');
+      await wrapper.find('form').trigger('submit');
+      expect(wrapper.find('[role="alert"]').text()).toBe(
+        'MONITORS.CUSTOM_RANGE_BOUNDARY_ERROR'
+      );
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined();
+
+      inputs[1].vm.$emit('update:modelValue', '2026-09-19');
+      await wrapper.find('form').trigger('submit');
+      expect(wrapper.emitted('update:modelValue')).toEqual([
+        [
+          {
+            range: 'custom',
+            from: '2026-09-13',
+            to: '2026-09-19',
+            interval: 'day',
+          },
+        ],
+      ]);
+    }
+  );
+
   it('rejects ranges outside 7–30 calendar days and applies valid ones', async () => {
     wrapper = shallowMount(MonitorChartFilters, {
       props: { modelValue: { range: 7, interval: 'day' }, timezone: 'UTC' },

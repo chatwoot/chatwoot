@@ -32,7 +32,7 @@ const now = ref(Date.now());
 
 const lastDate = computed(() =>
   formatInTimeZone(
-    props.pausedAt ? props.pausedAt * 1000 : now.value,
+    props.pausedAt ? (props.pausedAt - 1) * 1000 : now.value,
     props.timezone,
     'yyyy-MM-dd'
   )
