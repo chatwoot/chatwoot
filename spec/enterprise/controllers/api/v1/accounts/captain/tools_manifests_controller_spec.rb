@@ -79,7 +79,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
       post "#{base_url}/preview", params: { assistant_id: assistant.id, source: 'not-a-source' }, headers: admin.create_new_auth_token, as: :json
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(json_response[:error]).to eq('Invalid configuration')
+      expect(json_response[:error]).to eq('Enter a public GitHub URL or owner/repository/folder on the default branch')
     end
 
     it 'returns unprocessable entity for an invalid manifest' do
@@ -89,7 +89,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
       post "#{base_url}/preview", params: { assistant_id: assistant.id, source: source }, headers: admin.create_new_auth_token, as: :json
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(json_response[:error]).to eq('Invalid configuration')
+      expect(json_response[:error]).to eq("This toolset's manifest is invalid")
     end
   end
 
@@ -140,6 +140,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
                                   headers: admin.create_new_auth_token, as: :json
 
       expect(response).to have_http_status(:unprocessable_entity)
+      expect(json_response[:error]).to eq(I18n.t('captain.custom_tool.limit_exceeded', limit: Captain::CustomTool::MAX_PER_ASSISTANT))
     end
   end
 end
