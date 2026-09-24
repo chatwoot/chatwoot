@@ -1273,6 +1273,26 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "INSTALL_MANIFEST": {
+        "BUTTON": "Install manifest",
+        "TITLE": "Install from GitHub",
+        "DESCRIPTION": "Install a Captain toolset from a public GitHub repository.",
+        "SOURCE_LABEL": "Toolset",
+        "SOURCE_PLACEHOLDER": "owner/repository/folder or a GitHub URL",
+        "SOURCE_HELP": "Installs the latest commit on the repository's default branch.",
+        "VERSION_LABEL": "v{version} · {revision}",
+        "UPDATE_NOTE": "A different version is installed. Updating replaces its tools and keeps whether each one is enabled. Enter the secrets again.",
+        "TOOLS_LABEL": "Tools",
+        "CONFIGURATION_LABEL": "Configuration",
+        "CONTINUE": "Continue",
+        "BACK": "Back",
+        "INSTALL": "Install",
+        "UPDATE": "Update",
+        "ALREADY_INSTALLED": "Already installed",
+        "SUCCESS_MESSAGE": "Toolset installed",
+        "ERROR_MESSAGE": "Could not install the toolset",
+        "PREVIEW_ERROR": "Could not load the toolset"
+      },
       "ASSISTANT_TOOLS_BANNER": {
         "MESSAGE": "Custom tools are now managed per assistant. Switch assistants to customize their tools.",
         "LEARN_MORE": "Learn more",

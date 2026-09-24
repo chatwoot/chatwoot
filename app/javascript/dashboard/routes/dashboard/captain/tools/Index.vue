@@ -16,6 +16,9 @@ import CustomToolCard from 'dashboard/components-next/captain/pageComponents/cus
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import AssistantToolsBanner from 'dashboard/components-next/captain/pageComponents/customTool/AssistantToolsBanner.vue';
+import InstallManifestDialog from 'dashboard/components-next/captain/pageComponents/customTool/InstallManifestDialog.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+import Policy from 'dashboard/components/policy.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -36,6 +39,7 @@ const customToolsMeta = useMapGetter('captainCustomTools/getMeta');
 
 const createDialogRef = ref(null);
 const deleteDialogRef = ref(null);
+const installManifestDialogRef = ref(null);
 const disableDialogRef = ref(null);
 const selectedTool = ref(null);
 const dialogType = ref('');
@@ -219,6 +223,22 @@ watch(
     @update:current-page="onPageChange"
     @click="openCreateDialog"
   >
+    <template #headerActions>
+      <Policy
+        v-if="!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)"
+        :permissions="['administrator']"
+      >
+        <Button
+          :label="$t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.BUTTON')"
+          icon="i-lucide-github"
+          size="sm"
+          faded
+          slate
+          @click="installManifestDialogRef.open()"
+        />
+      </Policy>
+    </template>
+
     <template #paywall>
       <CaptainPaywall feature-prefix="CAPTAIN.CUSTOM_TOOLS" />
     </template>
@@ -244,6 +264,7 @@ watch(
           :auth-type="tool.auth_type"
           :param-schema="tool.param_schema"
           :enabled="tool.enabled"
+          :source-metadata="tool.source_metadata"
           :is-updating="pendingToggleIds.has(tool.id)"
           :created-at="tool.created_at"
           :updated-at="tool.updated_at"
@@ -253,6 +274,12 @@ watch(
       </div>
     </template>
   </PageLayout>
+
+  <InstallManifestDialog
+    ref="installManifestDialogRef"
+    :assistant-id="assistantId"
+    @installed="fetchCustomTools()"
+  />
 
   <CreateCustomToolDialog
     v-if="dialogType"
