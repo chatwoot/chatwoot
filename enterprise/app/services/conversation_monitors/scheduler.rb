@@ -35,8 +35,8 @@ class ConversationMonitors::Scheduler
     enqueue { ConversationMonitors::ScanJob.perform_later(scan_id) }
   end
 
-  def self.start_recheck(monitor_id)
-    enqueue { ConversationMonitors::RetryJob.perform_later(monitor_id) }
+  def self.start_recheck(monitor_id, requested_at)
+    enqueue { ConversationMonitors::RetryJob.perform_later(monitor_id, requested_at) }
   end
 
   def self.enqueue

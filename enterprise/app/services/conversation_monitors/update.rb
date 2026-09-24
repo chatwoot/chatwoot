@@ -11,7 +11,7 @@ class ConversationMonitors::Update
       @monitor.scans.order(:id).lock.load
       @monitor.with_lock { update_monitor }
     end
-    ConversationMonitors::Scheduler.start_recheck(@monitor.id) if @condition_changed
+    ConversationMonitors::Scheduler.start_recheck(@monitor.id, @monitor.recheck_requested_at) if @condition_changed
     ConversationMonitors::BroadcastJob.schedule(@monitor.id)
     @monitor
   end

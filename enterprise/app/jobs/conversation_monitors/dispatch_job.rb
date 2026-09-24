@@ -15,7 +15,7 @@ class ConversationMonitors::DispatchJob < ApplicationJob
 
   def dispatch_account(account)
     account.conversation_monitors.active.where.not(recheck_requested_at: nil).find_each do |monitor|
-      ConversationMonitors::RetryJob.perform_later(monitor.id)
+      ConversationMonitors::RetryJob.perform_later(monitor.id, monitor.recheck_requested_at)
     end
     dispatch_scans(account)
     ConversationMonitors::WorkItem.due.where(account_id: account.id).order(:due_at).limit(PER_ACCOUNT_BATCH).pluck(:conversation_id).each do |id|

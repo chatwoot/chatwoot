@@ -15,7 +15,7 @@ class ConversationMonitors::Resume
       end
     end
     ConversationMonitors::Scheduler.start_scan(@scan.id) if @mode == 'catch_up'
-    ConversationMonitors::Scheduler.start_recheck(@monitor.id) if @monitor.recheck_requested_at
+    ConversationMonitors::Scheduler.start_recheck(@monitor.id, @monitor.recheck_requested_at) if @monitor.recheck_requested_at
     ConversationMonitors::BroadcastJob.schedule(@monitor.id)
     @monitor
   end

@@ -110,6 +110,8 @@ RSpec.describe ConversationMonitors::Update do
     described_class.new(monitor, { 'condition' => 'Shipping questions' }, collection_version: 0).perform
     allow(ConversationMonitors::RetryJob).to receive(:perform_later).and_call_original
 
-    expect { ConversationMonitors::DispatchJob.perform_now }.to have_enqueued_job(ConversationMonitors::RetryJob).with(monitor.id)
+    expect { ConversationMonitors::DispatchJob.perform_now }.to have_enqueued_job(ConversationMonitors::RetryJob).with(
+      monitor.id, monitor.reload.recheck_requested_at
+    )
   end
 end
