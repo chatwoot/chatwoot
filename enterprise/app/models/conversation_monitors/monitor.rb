@@ -31,13 +31,13 @@ class ConversationMonitors::Monitor < ApplicationRecord
     account.conversations.where(id: evaluations.where(status: 'matched').select(:conversation_id))
   end
 
-  def eligible_activity?(work, evaluation)
+  def eligible_activity?(activity_at, evaluation = nil)
     return true if evaluation&.requested_version == collection_version
-    return false unless work.activity_at
-    return true if work.activity_at >= (resumed_at || created_at)
+    return false unless activity_at
+    return true if activity_at >= (resumed_at || created_at)
     return false unless resumed_at
 
     scans.where(collection_version: collection_version, kind: 'catch_up')
-         .exists?(['started_at <= ? AND ended_at > ?', work.activity_at, work.activity_at])
+         .exists?(['started_at <= ? AND ended_at > ?', activity_at, activity_at])
   end
 end

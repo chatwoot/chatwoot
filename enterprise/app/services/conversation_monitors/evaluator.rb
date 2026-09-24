@@ -40,7 +40,7 @@ class ConversationMonitors::Evaluator
     evaluations = ConversationMonitors::Evaluation.where(conversation_id: @work.conversation_id).index_by(&:monitor_id)
     @work.account.conversation_monitors.active.reject do |monitor|
       evaluation = evaluations[monitor.id]
-      !monitor.eligible_activity?(@work, evaluation) || (evaluation && (evaluation.status == 'matched' ||
+      !monitor.eligible_activity?(@work.activity_at, evaluation) || (evaluation && (evaluation.status == 'matched' ||
         (evaluation.status == 'unmatched' && evaluation.input_revision >= @snapshot[:revision])))
     end
   end

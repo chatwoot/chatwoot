@@ -25,9 +25,12 @@ module ConversationMonitors::MessageTracking
   def catch_up_monitor_activation
     return unless (incoming? || outgoing?) && !private?
 
-    # A new monitor must see messages committing after activation, even when
-    # another monitor already tracked the message before this transaction committed.
-    conversation.account.conversation_monitors.active.where(created_at: @monitor_activation_boundary..).find_each do |monitor|
+    # Creation or catch-up scans can finish before this message commits.
+    # Enroll late commits while preserving each resumed monitor's activity window.
+    monitors = conversation.account.conversation_monitors.active
+    monitors.where('created_at >= :boundary OR resumed_at >= :boundary', boundary: @monitor_activation_boundary).find_each do |monitor|
+      next if monitor.resumed_at && !monitor.eligible_activity?(created_at)
+
       work = ConversationMonitors::Scheduler.request_for_monitor(conversation, monitor, monitor.collection_version)
       @monitor_work_requested = true if work
     end
