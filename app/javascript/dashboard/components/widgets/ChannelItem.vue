@@ -84,7 +84,9 @@ const isComingSoon = computed(() => {
 });
 
 const isBeta = computed(() => {
-  return ['tiktok', 'voice', 'whatsapp_call'].includes(props.channel.key);
+  return ['google_play', 'tiktok', 'voice', 'whatsapp_call'].includes(
+    props.channel.key
+  );
 });
 
 const canRequestTiktokAccess = computed(() => {

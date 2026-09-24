@@ -67,6 +67,7 @@ class Message < ApplicationRecord
   before_validation :prevent_message_flooding
   before_save :ensure_processed_message_content
   before_save :ensure_in_reply_to
+  around_save :enforce_google_play_reply, if: :google_play_reply_submission?
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -75,6 +76,9 @@ class Message < ApplicationRecord
   validates_with JsonSchemaValidator,
                  schema: TEMPLATE_PARAMS_SCHEMA,
                  attribute_resolver: ->(record) { record.additional_attributes }
+
+  validates :content, presence: true, length: { maximum: Channel::GooglePlay::MAX_REPLY_LENGTH }, if: :google_play_public_reply?
+  validate :google_play_reply_attachments, if: :google_play_public_reply?
 
   validates :content_type, presence: true
   validates :content, length: { maximum: 150_000 }
@@ -285,6 +289,29 @@ class Message < ApplicationRecord
   end
 
   private
+
+  def google_play_public_reply?
+    inbox&.google_play? && !private? && (outgoing? || template?) && source_id.blank?
+  end
+
+  def google_play_reply_submission?
+    google_play_public_reply? && !failed? && (new_record? || will_save_change_to_status?)
+  end
+
+  def google_play_reply_attachments
+    errors.add(:attachments, 'are not supported for Google Play replies') if attachments.any?
+  end
+
+  def enforce_google_play_reply
+    # save already runs in a transaction; hold the row lock until it commits.
+    Conversation.lock.find(conversation_id)
+    if conversation.messages.where(message_type: [:outgoing, :template], private: false).where.not(status: :failed).where.not(id: id).exists?
+      errors.add(:base, 'This Google Play review already has a reply')
+      raise ActiveRecord::RecordInvalid, self
+    end
+
+    yield
+  end
 
   def prevent_message_flooding
     # Added this to cover the validation specs in messages

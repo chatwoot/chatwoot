@@ -100,7 +100,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def allowed_channel_types
-    %w[web_widget api email line telegram whatsapp sms google_play]
+    %w[web_widget api email line telegram whatsapp sms]
   end
 
   def update_inbox_working_hours

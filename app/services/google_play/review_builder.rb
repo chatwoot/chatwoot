@@ -13,8 +13,13 @@ class GooglePlay::ReviewBuilder
     ActiveRecord::Base.transaction(requires_new: true) do
       build_contact_inbox
       build_conversation
-      build_user_message
-      build_developer_message if developer_comment.present?
+      if developer_comment.present? && developer_comment.dig('lastModified', 'seconds').to_i < user_comment.dig('lastModified', 'seconds').to_i
+        build_developer_message
+        build_user_message
+      else
+        build_user_message
+        build_developer_message if developer_comment.present?
+      end
     end
   end
 
@@ -90,6 +95,7 @@ class GooglePlay::ReviewBuilder
       message_type: :incoming,
       source_id: user_message_source_id,
       content: message_content,
+      created_at: Time.at(user_comment.fetch('lastModified').fetch('seconds').to_i).utc,
       content_attributes: review_metadata
     )
   end
@@ -105,6 +111,8 @@ class GooglePlay::ReviewBuilder
       message_type: :outgoing,
       source_id: developer_message_source_id,
       content: text,
+      created_at: Time.at(developer_comment.fetch('lastModified').fetch('seconds').to_i).utc,
+      content_attributes: { external_echo: true },
       status: :sent
     )
   end

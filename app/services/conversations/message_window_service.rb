@@ -8,7 +8,7 @@ class Conversations::MessageWindowService
 
   def can_reply?
     if @conversation.inbox.google_play?
-      return !@conversation.messages.outgoing.where(private: false).where.not(source_id: [nil, '']).where.not(status: :failed).exists?
+      return !@conversation.messages.where(message_type: [:outgoing, :template], private: false).where.not(status: :failed).exists?
     end
 
     return true if messaging_window.blank?

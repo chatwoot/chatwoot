@@ -40,19 +40,21 @@ class GooglePlay::CallbacksController < ApplicationController
   end
 
   def create_channel_with_inbox(token)
-    ActiveRecord::Base.transaction do
-      channel = Channel::GooglePlay.create!(
-        account: account,
-        app_id: state_payload[:app_id],
-        provider_config: {
-          access_token: token.token,
-          refresh_token: token.refresh_token,
-          expires_on: (Time.current.utc + 1.hour).to_s
-        }
-      )
-      # Return the newly created inbox directly — `channel.inbox` is unreliable here because the polymorphic
-      # has_one cache is not always populated by `account.inboxes.create!`.
-      account.inboxes.create!(account: account, channel: channel, name: state_payload[:inbox_name])
+    account.with_lock do
+      channel = account.google_play_channels.find_or_initialize_by(app_id: state_payload[:app_id])
+      channel.provider_config = token_config(token, channel)
+      channel.verify_app_access!
+      channel.last_synced_at = nil
+      channel.save!
+      channel.inbox || account.inboxes.create!(channel: channel, name: state_payload[:inbox_name])
     end
+  end
+
+  def token_config(token, channel)
+    {
+      access_token: token.token,
+      refresh_token: token.refresh_token.presence || channel.provider_config['refresh_token'],
+      expires_on: token.expires_at && Time.at(token.expires_at).utc.to_s
+    }
   end
 end

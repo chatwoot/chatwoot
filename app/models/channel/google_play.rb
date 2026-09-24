@@ -25,9 +25,6 @@ class Channel::GooglePlay < ApplicationRecord
   # Google Play caps a developer reply at 350 characters
   MAX_REPLY_LENGTH = 350
   REVIEWS_PAGE_SIZE = 100
-  # Safety bound — at 100 per page this covers 5,000 reviews. The API only retains the last 7
-  # days, so this is far above any realistic volume and just prevents runaway loops.
-  MAX_REVIEW_PAGES = 50
   # Each inbox is synced at most once per this window. The cron runs more frequently
   # so a missed window retries on the next tick.
   SYNC_INTERVAL = 1.hour
@@ -53,7 +50,7 @@ class Channel::GooglePlay < ApplicationRecord
     reviews = []
     page_token = nil
 
-    MAX_REVIEW_PAGES.times do
+    loop do
       parsed = fetch_reviews_page(page_token)
       reviews.concat(parsed['reviews'] || [])
 
@@ -71,12 +68,16 @@ class Channel::GooglePlay < ApplicationRecord
     response = HTTParty.post(
       "#{API_BASE_URL}/applications/#{app_id}/reviews/#{review_id}:reply",
       headers: authorization_headers.merge('Content-Type' => 'application/json'),
-      body: { replyText: reply_text.to_s.truncate(MAX_REPLY_LENGTH) }.to_json
+      body: { replyText: reply_text }.to_json
     )
     raise "Google Play reply failed (#{response.code}): #{response.body}" unless response.success?
 
     last_edited = response.parsed_response.dig('result', 'lastEdited', 'seconds')
     "#{review_id}::reply::#{last_edited}"
+  end
+
+  def verify_app_access!
+    fetch_reviews_page(nil)
   end
 
   private

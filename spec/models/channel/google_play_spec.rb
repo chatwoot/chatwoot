@@ -106,15 +106,15 @@ RSpec.describe Channel::GooglePlay do
       expect(channel.reply_to_review('REV-1', 'thanks')).to eq('REV-1::reply::1779000000')
     end
 
-    it 'truncates the reply text to MAX_REPLY_LENGTH' do
+    it 'sends the validated reply text unchanged' do
       stub_request(:post, url).to_return(status: 200,
                                          body: { result: { lastEdited: { seconds: '1' } } }.to_json,
                                          headers: { 'Content-Type' => 'application/json' })
 
-      channel.reply_to_review('REV-1', 'a' * 500)
+      channel.reply_to_review('REV-1', 'a' * 350)
 
       expect(WebMock).to(have_requested(:post, url).with do |req|
-        JSON.parse(req.body)['replyText'].length <= described_class::MAX_REPLY_LENGTH
+        JSON.parse(req.body)['replyText'] == 'a' * 350
       end)
     end
 

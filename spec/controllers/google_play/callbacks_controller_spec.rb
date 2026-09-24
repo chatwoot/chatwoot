@@ -12,6 +12,9 @@ RSpec.describe 'GooglePlay::CallbacksController', type: :request do
   before do
     create(:installation_config, name: 'GOOGLE_OAUTH_CLIENT_ID', value: 'client-id-123', locked: false)
     create(:installation_config, name: 'GOOGLE_OAUTH_CLIENT_SECRET', value: 'client-secret', locked: false)
+    stub_request(:get, 'https://androidpublisher.googleapis.com/androidpublisher/v3/applications/com.example.app/reviews')
+      .with(query: { maxResults: '100' }, headers: { 'Authorization' => 'Bearer play-access-token' })
+      .to_return(status: 200, body: '{}', headers: { 'Content-Type' => 'application/json' })
     GlobalConfig.clear_cache
   end
 
