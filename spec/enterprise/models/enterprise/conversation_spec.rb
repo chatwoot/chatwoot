@@ -9,7 +9,6 @@ RSpec.describe Conversation, type: :model do
     let(:ca_contact) { create(:contact, account: account, additional_attributes: { 'country_code' => 'CA' }) }
 
     before do
-      account.enable_features!('captain_integration')
       create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
       assistant.update!(config: assistant.config.merge('audience' => {
                                                          'attribute_key' => 'country_code', 'filter_operator' => 'equal_to', 'values' => ['US']
@@ -28,26 +27,6 @@ RSpec.describe Conversation, type: :model do
 
       expect(conversation.status).to eq('open')
       expect(conversation.ai_assignee).to be_nil
-    end
-
-    context 'when Captain entitlement is disabled but credits remain' do
-      before do
-        account.disable_features!('captain_integration')
-        allow(account).to receive(:usage_limits).and_return(captain: { responses: { current_available: 10 } })
-      end
-
-      it 'keeps a new conversation open without Captain ownership' do
-        conversation = create(:conversation, account: account, inbox: inbox, contact: us_contact)
-
-        expect(inbox.captain_active?).to be(false)
-        expect(conversation).to have_attributes(status: 'open', ai_assignee: nil)
-      end
-
-      it 'does not assign Captain to an explicitly pending conversation' do
-        conversation = create(:conversation, account: account, inbox: inbox, contact: us_contact, status: :pending)
-
-        expect(conversation).to have_attributes(status: 'pending', ai_assignee: nil)
-      end
     end
 
     it 'notifies assignment changes when only the AI owner type changes' do

@@ -29,20 +29,10 @@ module Enterprise::Message
 
   private
 
-  def reopen_conversation
-    if incoming? && !conversation.muted? && (conversation.snoozed? || conversation.resolved?) &&
-       conversation.ai_assignee_type == 'Captain::Assistant' && !conversation.inbox.captain_active?
-      conversation.ai_assignee = nil
-    end
-
-    super
-  end
-
   def reopen_resolved_conversation
     assistant = conversation.inbox.captain_assistant
 
     return super if assistant.blank? || conversation.inbox.external_bot_active?
-
     return conversation.open! unless assistant.engages?(conversation.contact, conversation)
 
     super

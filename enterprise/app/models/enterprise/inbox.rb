@@ -13,7 +13,7 @@ module Enterprise::Inbox
   end
 
   def captain_active?
-    account.feature_enabled?('captain_integration') && captain_assistant.present? && more_responses?
+    captain_assistant.present? && more_responses?
   end
 
   private
