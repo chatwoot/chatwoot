@@ -132,6 +132,16 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       expect(assistant.custom_tools.count).to eq(2)
     end
 
+    it 'treats folders that differ only by case as separate toolsets' do
+      install
+      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{latest_revision}/Shopify/toolset.yml")
+        .to_return(status: 200, body: manifest.to_yaml)
+
+      install(source: 'chatwoot/support-tools/Shopify')
+
+      expect(assistant.custom_tools.count).to eq(4)
+    end
+
     context 'when a different commit is already installed' do
       let!(:installed_tools) do
         stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{older_revision}/shopify/toolset.yml")

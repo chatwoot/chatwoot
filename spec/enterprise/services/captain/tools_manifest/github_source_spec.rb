@@ -17,10 +17,10 @@ RSpec.describe Captain::ToolsManifest::GithubSource do
       expect([source.repository, source.path]).to eq(['chatwoot/support-tools', 'shopify'])
     end
 
-    it 'identifies the source in lowercase' do
+    it 'lowercases the repository but keeps the case-sensitive folder' do
       source = described_class.new('Chatwoot/Support-Tools/Shopify')
 
-      expect([source.repository, source.path]).to eq(['chatwoot/support-tools', 'shopify'])
+      expect([source.repository, source.path]).to eq(['chatwoot/support-tools', 'Shopify'])
     end
 
     it 'accepts a GitHub folder URL' do
