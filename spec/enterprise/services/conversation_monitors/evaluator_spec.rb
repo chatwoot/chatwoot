@@ -38,6 +38,45 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(ConversationMonitors::DailyUsage.find_by!(account: account).calls_count).to eq(1)
   end
 
+  context 'when a monitor uses a legacy model alias' do
+    let(:monitor) { create(:conversation_monitor, account: account, model: 'jev-1.13.0') }
+
+    it 'shares one provider request and credit with the canonical model without changing stored model names' do
+      evaluate.call
+
+      expect(WebMock).to have_requested(:post, endpoint).with { |request|
+        body = JSON.parse(request.body)
+        body['model'] == 'typesafe/jev-1.13' && body['questions'].keys.sort == [monitor.id.to_s, second.id.to_s].sort
+      }.once
+      expect(WebMock).to have_requested(:post, endpoint).once
+      expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1)
+      expect(monitor.reload.model).to eq('jev-1.13.0')
+      expect(second.reload.model).to eq('typesafe/jev-1.13')
+      expect(monitor.evaluations.sole.status).to eq('matched')
+      expect(second.evaluations.sole.status).to eq('unmatched')
+    end
+
+    it 'keeps a different provider model in a separate request' do
+      other = create(:conversation_monitor, account: account, model: 'other/provider-model', created_at: 1.minute.ago)
+      batches = {}
+      stub_request(:post, endpoint).to_return do |request|
+        body = JSON.parse(request.body)
+        batches[body['model']] = body['questions'].keys
+        values = body['questions'].keys.index_with { { type: 'noul', noul: 0.9 } }
+        { status: 200, body: response_body.merge(model: body['model'], answers: values).to_json }
+      end
+
+      evaluate.call
+
+      expect(batches.keys).to contain_exactly('typesafe/jev-1.13', 'other/provider-model')
+      expect(batches['typesafe/jev-1.13']).to contain_exactly(monitor.id.to_s, second.id.to_s)
+      expect(batches['other/provider-model']).to eq([other.id.to_s])
+      expect(WebMock).to have_requested(:post, endpoint).twice
+      expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(2)
+      expect(other.evaluations.sole).to have_attributes(status: 'matched', model: 'other/provider-model')
+    end
+  end
+
   { 20 => [20], 21 => [20, 1] }.each do |count, batch_sizes|
     it "evaluates #{count} conditions in batches of #{batch_sizes.join(' and ')} with one credit per call" do
       monitors = [monitor, second] + create_list(:conversation_monitor, count - 2, account: account, created_at: 1.minute.ago)
@@ -239,6 +278,29 @@ RSpec.describe ConversationMonitors::Evaluator do
 
     expect(work.reload.due_at).to be_nil
     expect(monitor.evaluations.sole.error_code).to eq('credentials_invalid')
+  end
+
+  it 'recovers missing-key errors through manual retry after the connection is configured' do
+    with_modified_env(CAPTAIN_OPENROUTER_API_KEY: nil) do
+      config = InstallationConfig.find_by!(name: 'CAPTAIN_OPENROUTER_API_KEY')
+      config.update!(value: nil)
+      evaluate.call
+
+      expect(monitor.evaluations.sole).to have_attributes(status: 'error', error_code: 'not_configured')
+      expect(WebMock).not_to have_requested(:post, endpoint)
+
+      config.update!(value: 'test-key')
+      ConversationMonitors::DispatchJob.perform_now
+      expect(work.reload.due_at).to be_nil
+      ConversationMonitors::RetryJob.perform_now(monitor.id)
+      expect(work.reload.due_at).to be_present
+      work.update!(due_at: Time.current)
+      evaluate.call
+
+      expect(monitor.evaluations.sole).to have_attributes(status: 'matched', error_code: nil)
+      expect(WebMock).to have_requested(:post, endpoint).once
+      expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1)
+    end
   end
 
   it 'does not evaluate or spend credits when reports access is disabled' do

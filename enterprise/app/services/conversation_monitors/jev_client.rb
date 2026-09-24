@@ -24,6 +24,10 @@ class ConversationMonitors::JevClient
     raise CustomExceptions::MonitorEvaluationError, 'provider_unavailable'
   end
 
+  def self.resolve_model(model)
+    MODEL_ALIASES.fetch(model, model)
+  end
+
   def self.score(answer)
     value = answer.is_a?(Hash) && answer['noul']
     return value if answer.is_a?(Hash) && answer['type'] == 'noul' && value.is_a?(Numeric) && value.finite? && value.between?(0, 1)
@@ -34,7 +38,7 @@ class ConversationMonitors::JevClient
   private
 
   def request_body(state, monitors)
-    model = MODEL_ALIASES.fetch(monitors.first.model, monitors.first.model)
+    model = self.class.resolve_model(monitors.first.model)
     { model: model, state: state, questions: questions(monitors) }.to_json
   end
 

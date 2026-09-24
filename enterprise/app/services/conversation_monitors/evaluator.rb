@@ -48,7 +48,7 @@ class ConversationMonitors::Evaluator
   def evaluate
     message_limit = ConversationMonitors::Configuration::LIVE_MESSAGE_LIMIT unless @snapshot[:full_history]
     state = ConversationMonitors::ContextBuilder.new(@work.conversation, message_limit: message_limit).build
-    @monitors.group_by(&:model).each_value do |monitors|
+    @monitors.group_by { |monitor| ConversationMonitors::JevClient.resolve_model(monitor.model) }.each_value do |monitors|
       monitors.each_slice(QUESTIONS_PER_REQUEST) { |batch| evaluate_batch(state, batch) }
     end
   rescue CustomExceptions::MonitorEvaluationError => e
