@@ -50,7 +50,8 @@ class Captain::CustomTool < ApplicationRecord
   # Control characters, or install-time (${{ }}) and call-time ({{ }}) placeholders
   INVALID_HEADER_VALUE_PATTERN = /[[:cntrl:]]|\{\{/
   RESERVED_HEADERS = %w[authorization host content-length content-type].freeze
-  RESERVED_HEADER_PREFIX = 'x-chatwoot-'.freeze
+  # Any name starting with x-chatwoot, dash or not, is reserved for headers Chatwoot sets
+  RESERVED_HEADER_PREFIX = 'x-chatwoot'.freeze
   PARAM_SCHEMA_VALIDATION = {
     'type': 'array',
     'items': {
