@@ -14,7 +14,9 @@ class Api::V1::Accounts::Captain::ToolsManifestsController < Api::V1::Accounts::
     @github_source = Captain::ToolsManifest::GithubSource.new(params[:source])
     @revision = @github_source.latest_revision
     @manifest = Captain::ToolsManifest::Validator.new(@github_source.manifest(@revision)).perform
-    @installed_revision = @assistant.custom_tools.from_github(@github_source.repository, @github_source.path).first&.source_metadata&.dig('revision')
+    installed_tools = @assistant.custom_tools.from_github(@github_source.repository, @github_source.path).to_a
+    @installed_revision = installed_tools.first&.source_metadata&.fetch('revision')
+    @up_to_date = Captain::ToolsManifest::InstallService.complete?(installed_tools, @manifest, @revision)
   end
 
   def install

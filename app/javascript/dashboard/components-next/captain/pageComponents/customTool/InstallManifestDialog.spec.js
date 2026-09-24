@@ -27,6 +27,7 @@ const previewData = {
   path: 'shopify',
   revision: 'a'.repeat(40),
   installed_revision: null,
+  up_to_date: false,
   fields: [
     {
       name: 'access_token',
@@ -107,6 +108,7 @@ describe('InstallManifestDialog', () => {
     await loadPreview(wrapper, {
       ...previewData,
       installed_revision: previewData.revision,
+      up_to_date: true,
     });
 
     const installButton = wrapper.findAll('button').at(-1);
@@ -114,5 +116,24 @@ describe('InstallManifestDialog', () => {
       'CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.ALREADY_INSTALLED'
     );
     expect(installButton.attributes('disabled')).toBeDefined();
+  });
+
+  it('offers a reinstall when tools are missing at the installed commit', async () => {
+    const wrapper = mountDialog();
+    await loadPreview(wrapper, {
+      ...previewData,
+      installed_revision: previewData.revision,
+      up_to_date: false,
+    });
+    await wrapper.find('input[type="password"]').setValue('shpat_secret');
+
+    const installButton = wrapper.findAll('button').at(-1);
+    expect(installButton.text()).toContain(
+      'CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.REINSTALL'
+    );
+    expect(installButton.attributes('disabled')).toBeUndefined();
+    expect(wrapper.text()).toContain(
+      'CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.REINSTALL_NOTE'
+    );
   });
 });

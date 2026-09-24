@@ -1288,6 +1288,8 @@
         "BACK": "Back",
         "INSTALL": "Install",
         "UPDATE": "Update",
+        "REINSTALL": "Reinstall",
+        "REINSTALL_NOTE": "Some tools from this toolset were deleted. Reinstalling adds them back and keeps whether each one is enabled. Enter the secrets again.",
         "ALREADY_INSTALLED": "Already installed",
         "SUCCESS_MESSAGE": "Toolset installed",
         "ERROR_MESSAGE": "Could not install the toolset",

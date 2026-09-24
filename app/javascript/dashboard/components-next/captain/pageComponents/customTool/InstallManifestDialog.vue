@@ -38,14 +38,26 @@ const {
   isPending: isLoadingPreview,
 } = useAbortableRequest();
 
-const isInstalled = computed(
+const isInstalled = computed(() => !!preview.value?.up_to_date);
+// Installed at this commit but some tools were deleted; reinstalling adds them back
+const isReinstall = computed(
   () =>
     !!preview.value &&
+    !isInstalled.value &&
     preview.value.installed_revision === preview.value.revision
 );
 const isUpdate = computed(
-  () => !!preview.value?.installed_revision && !isInstalled.value
+  () =>
+    !!preview.value?.installed_revision &&
+    preview.value.installed_revision !== preview.value.revision
 );
+const installNote = computed(() => {
+  if (isReinstall.value)
+    return t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.REINSTALL_NOTE');
+  if (isUpdate.value)
+    return t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.UPDATE_NOTE');
+  return '';
+});
 const hasMissingRequiredValues = computed(() =>
   preview.value.fields.some(
     field =>
@@ -57,6 +69,8 @@ const hasMissingRequiredValues = computed(() =>
 const installLabel = computed(() => {
   if (isInstalled.value)
     return t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.ALREADY_INSTALLED');
+  if (isReinstall.value)
+    return t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.REINSTALL');
   if (isUpdate.value) return t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.UPDATE');
   return t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.INSTALL');
 });
@@ -202,11 +216,11 @@ defineExpose({ open });
       </div>
 
       <div
-        v-if="isUpdate"
+        v-if="installNote"
         class="flex items-start gap-2 px-3 py-2 text-xs rounded-lg bg-n-amber-2 text-n-amber-11"
       >
         <i class="i-lucide-info size-3.5 mt-0.5 shrink-0" />
-        {{ t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.UPDATE_NOTE') }}
+        {{ installNote }}
       </div>
 
       <div class="flex flex-col gap-2">

@@ -55,7 +55,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
       post "#{base_url}/preview", params: { assistant_id: assistant.id, source: source }, headers: admin.create_new_auth_token, as: :json
 
       expect(response).to have_http_status(:success)
-      expect(json_response).to include(name: 'Shopify Support Tools', version: '1.2.0', revision: revision, installed_revision: nil,
+      expect(json_response).to include(name: 'Shopify Support Tools', version: '1.2.0', revision: revision,
+                                       installed_revision: nil, up_to_date: false,
                                        repository: 'chatwoot/support-tools', path: 'shopify')
       expect(json_response[:fields]).to eq([
                                              { name: 'shop_domain', section: 'inputs', label: 'Shopify store domain', type: 'string',
@@ -67,12 +68,24 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
                                              http_method: 'GET' }])
     end
 
-    it 'returns the installed commit when the toolset is already installed' do
+    it 'reports an installed toolset as up to date' do
       Captain::ToolsManifest::InstallService.new(assistant: assistant, source: source, configuration: configuration.deep_stringify_keys).perform
 
       post "#{base_url}/preview", params: { assistant_id: assistant.id, source: source }, headers: admin.create_new_auth_token, as: :json
 
-      expect(json_response[:installed_revision]).to eq(revision)
+      expect(json_response).to include(installed_revision: revision, up_to_date: true)
+    end
+
+    it 'reports a toolset with deleted tools as not up to date' do
+      manifest['tools'] << manifest['tools'].first.deep_dup.merge('id' => 'cancel_order', 'title' => 'Cancel Order')
+      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{revision}/shopify/toolset.yml")
+        .to_return(status: 200, body: manifest.to_yaml)
+      Captain::ToolsManifest::InstallService.new(assistant: assistant, source: source, configuration: configuration.deep_stringify_keys).perform
+      assistant.custom_tools.find_by!(title: 'Cancel Order').destroy!
+
+      post "#{base_url}/preview", params: { assistant_id: assistant.id, source: source }, headers: admin.create_new_auth_token, as: :json
+
+      expect(json_response).to include(installed_revision: revision, up_to_date: false)
     end
 
     it 'returns unprocessable entity for an invalid source' do
