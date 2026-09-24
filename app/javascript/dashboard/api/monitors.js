@@ -21,8 +21,10 @@ class MonitorsAPI extends ApiClient {
     });
   }
 
-  retry(id) {
-    return axios.post(`${this.url}/${id}/retry_evaluations`);
+  retry(id, signal) {
+    return axios.post(`${this.url}/${id}/retry_evaluations`, undefined, {
+      signal,
+    });
   }
 
   resume(id, params) {

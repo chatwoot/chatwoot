@@ -45,7 +45,12 @@ vi.mock('../useMonitorRefresh', () => ({
   },
 }));
 vi.mock('dashboard/api/monitors', () => ({
-  default: { timeseries: vi.fn(), update: vi.fn(), resume: vi.fn() },
+  default: {
+    timeseries: vi.fn(),
+    update: vi.fn(),
+    resume: vi.fn(),
+    retry: vi.fn(),
+  },
 }));
 
 const responseFor = (params, count = 2) => ({
@@ -71,6 +76,8 @@ const mountOptions = {
     renderStubDefaultSlot: true,
     stubs: {
       Dialog: false,
+      MonitorActionDialog: false,
+      TextArea: false,
       Popover: {
         template: '<div><slot :is-open="true" /><slot name="content" /></div>',
         methods: { hide: vi.fn() },
@@ -90,6 +97,7 @@ describe('MonitorShow', () => {
     MonitorsAPI.timeseries.mockReset();
     MonitorsAPI.update.mockReset();
     MonitorsAPI.resume.mockReset();
+    MonitorsAPI.retry.mockReset();
     MonitorsAPI.timeseries.mockImplementation((id, params) =>
       Promise.resolve(responseFor(params))
     );
@@ -97,6 +105,123 @@ describe('MonitorShow', () => {
   afterEach(() => {
     wrapper?.unmount();
     vi.useRealTimers();
+  });
+
+  describe('retry evaluations', () => {
+    beforeEach(async () => {
+      MonitorsAPI.timeseries.mockImplementation(async (id, params) => {
+        const response = responseFor(params);
+        response.data.monitor.processing = {
+          state: 'needs_attention',
+          errors: 1,
+          error_codes: ['provider_busy'],
+        };
+        return response;
+      });
+      wrapper = shallowMount(MonitorShow, mountOptions);
+      await flushPromises();
+    });
+
+    it('refreshes the current monitor after a successful retry', async () => {
+      MonitorsAPI.retry.mockResolvedValue({ data: {} });
+      wrapper
+        .findAllComponents({ name: 'Button' })
+        .find(button => button.props('label') === 'MONITORS.RETRY')
+        .vm.$emit('click');
+      await flushPromises();
+
+      expect(MonitorsAPI.retry).toHaveBeenCalledWith(
+        '10',
+        expect.any(AbortSignal)
+      );
+      expect(wrapper.text()).toContain('MONITORS.RETRY_STARTED');
+      expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(2);
+    });
+
+    it('sends one retry while the first is still pending', async () => {
+      let finish;
+      MonitorsAPI.retry.mockImplementation(
+        () =>
+          new Promise(resolve => {
+            finish = resolve;
+          })
+      );
+      const retryButton = () =>
+        wrapper
+          .findAllComponents({ name: 'Button' })
+          .find(button => button.props('label') === 'MONITORS.RETRY');
+      retryButton().vm.$emit('click');
+      await wrapper.vm.$nextTick();
+      retryButton().vm.$emit('click');
+
+      expect(MonitorsAPI.retry).toHaveBeenCalledTimes(1);
+      expect(retryButton().props('isLoading')).toBe(true);
+      finish({ data: {} });
+      await flushPromises();
+      expect(retryButton().props('isLoading')).toBe(false);
+    });
+
+    it('shows a retry failure on the current monitor', async () => {
+      MonitorsAPI.retry.mockRejectedValue({
+        response: { data: { error: 'monthly_limit' } },
+      });
+      wrapper
+        .findAllComponents({ name: 'Button' })
+        .find(button => button.props('label') === 'MONITORS.RETRY')
+        .vm.$emit('click');
+      await flushPromises();
+
+      expect(wrapper.find('[role="alert"]').text()).toBe(
+        'MONITORS.ERRORS.MONTHLY_LIMIT'
+      );
+      expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(1);
+    });
+
+    it.each([
+      ['success', 'monitor'],
+      ['failure', 'monitor'],
+      ['success', 'account'],
+      ['failure', 'account'],
+      ['success', 'return'],
+      ['failure', 'return'],
+      ['success', 'unmount'],
+    ])(
+      'discards a late %s after %s navigation',
+      async (outcome, navigation) => {
+        let complete;
+        MonitorsAPI.retry.mockImplementation(
+          () =>
+            new Promise((resolve, reject) => {
+              complete = outcome === 'success' ? resolve : reject;
+            })
+        );
+        wrapper
+          .findAllComponents({ name: 'Button' })
+          .find(button => button.props('label') === 'MONITORS.RETRY')
+          .vm.$emit('click');
+        const signal = MonitorsAPI.retry.mock.lastCall[1];
+        if (navigation === 'unmount') {
+          wrapper.unmount();
+        } else if (navigation === 'account') {
+          state.route.params.accountId = '2';
+        } else {
+          state.route.params.monitorId = '11';
+        }
+        await flushPromises();
+        if (navigation === 'return') {
+          state.route.params.monitorId = '10';
+          await flushPromises();
+        }
+        expect(signal.aborted).toBe(true);
+        const calls = MonitorsAPI.timeseries.mock.calls.length;
+        complete({ data: {}, response: { data: { error: 'monthly_limit' } } });
+        await flushPromises();
+
+        expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(calls);
+        expect(wrapper.text()).not.toContain('MONITORS.RETRY_STARTED');
+        expect(wrapper.text()).not.toContain('MONITORS.ERRORS.MONTHLY_LIMIT');
+      }
+    );
   });
 
   it('uses only the applied range to control polling', async () => {
@@ -312,6 +437,35 @@ describe('MonitorShow', () => {
     ).toBe('2026-09-20');
   });
 
+  it('edits both name and description using the version shown when the editor opened', async () => {
+    wrapper = shallowMount(MonitorShow, mountOptions);
+    await flushPromises();
+    wrapper
+      .findAllComponents({ name: 'Button' })
+      .find(button => button.attributes('aria-label') === 'MONITORS.EDIT')
+      .vm.$emit('click');
+    await wrapper.vm.$nextTick();
+    wrapper
+      .findComponent({ name: 'Input' })
+      .vm.$emit('update:modelValue', ' Payments ');
+    await wrapper.find('textarea').setValue(' Conversations about payments ');
+    MonitorsAPI.timeseries.mockImplementation((id, params) => {
+      const response = responseFor(params);
+      response.data.monitor.collection_version = 1;
+      return Promise.resolve(response);
+    });
+    await state.refresh();
+    MonitorsAPI.update.mockResolvedValue({ data: {} });
+    wrapper.findComponent({ name: 'Dialog' }).vm.$emit('confirm');
+    await flushPromises();
+
+    expect(MonitorsAPI.update).toHaveBeenCalledWith('10', {
+      name: 'Payments',
+      condition: 'Conversations about payments',
+      collection_version: 0,
+    });
+  });
+
   it('drills into the displayed chart snapshot while a refresh is pending', async () => {
     wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
@@ -409,6 +563,106 @@ describe('MonitorShow', () => {
     expect(
       wrapper.findComponent({ name: 'MonitorDrilldown' }).props('request').until
     ).toBe(pausedAt);
+    const labels = wrapper
+      .findAllComponents({ name: 'Button' })
+      .map(button => button.attributes('aria-label'));
+    expect(labels).not.toContain('MONITORS.PAUSE');
+    expect(labels).toContain('MONITORS.DELETE');
+  });
+
+  it('pauses through the confirmation dialog and retains the chart', async () => {
+    wrapper = shallowMount(MonitorShow, mountOptions);
+    await flushPromises();
+    MonitorsAPI.update.mockResolvedValue({ data: {} });
+    const pausedAt = Math.ceil(Date.now() / 1000) + 1;
+    MonitorsAPI.timeseries.mockImplementation((id, params) => {
+      const response = responseFor(params);
+      response.data.monitor.paused_at = pausedAt;
+      response.data.monitor.processing.state = 'paused';
+      return Promise.resolve(response);
+    });
+    wrapper
+      .findAllComponents({ name: 'Button' })
+      .find(button => button.attributes('aria-label') === 'MONITORS.PAUSE')
+      .vm.$emit('click');
+    await wrapper.vm.$nextTick();
+    wrapper.findComponent({ name: 'Dialog' }).vm.$emit('confirm');
+    await flushPromises();
+
+    expect(MonitorsAPI.update).toHaveBeenCalledWith('10', { paused: true });
+    expect(MonitorsAPI.timeseries.mock.lastCall[1].until).toBe(pausedAt);
+    expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(true);
+    expect(wrapper.text()).toContain('MONITORS.PAUSED_HELP');
+  });
+
+  it.each(['catch_up', 'from_now'])(
+    'resumes with the selected %s mode and restores the live date range',
+    async mode => {
+      let paused = true;
+      const pausedAt = Math.floor(Date.now() / 1000) - 86400;
+      MonitorsAPI.timeseries.mockImplementation((id, params) => {
+        const response = responseFor(params);
+        response.data.monitor.paused_at = paused ? pausedAt : null;
+        response.data.monitor.collection_version = paused ? 1 : 2;
+        response.data.monitor.processing.state = paused ? 'paused' : 'live';
+        return Promise.resolve(response);
+      });
+      MonitorsAPI.resume.mockImplementation(async () => {
+        paused = false;
+        return { data: {} };
+      });
+      wrapper = shallowMount(MonitorShow, mountOptions);
+      await flushPromises();
+      wrapper
+        .findAllComponents({ name: 'Button' })
+        .find(button => button.attributes('aria-label') === 'MONITORS.RESUME')
+        .vm.$emit('click');
+      await wrapper.vm.$nextTick();
+      expect(wrapper.findAll('input[type="radio"]')).toHaveLength(2);
+      await wrapper.find(`input[value="${mode}"]`).setValue();
+      wrapper.findComponent({ name: 'Dialog' }).vm.$emit('confirm');
+      await flushPromises();
+
+      expect(MonitorsAPI.resume).toHaveBeenCalledWith('10', {
+        mode,
+        collection_version: 1,
+      });
+      expect(MonitorsAPI.timeseries.mock.lastCall[1].until).toBe(
+        Math.floor(Date.now() / 1000)
+      );
+      expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(true);
+      expect(
+        wrapper
+          .findAllComponents({ name: 'Button' })
+          .map(button => button.attributes('aria-label'))
+      ).toContain('MONITORS.PAUSE');
+    }
+  );
+
+  it('clears a stale conflict notice once an action succeeds', async () => {
+    wrapper = shallowMount(MonitorShow, mountOptions);
+    await flushPromises();
+    const pauseButton = () =>
+      wrapper
+        .findAllComponents({ name: 'Button' })
+        .find(button => button.attributes('aria-label') === 'MONITORS.PAUSE');
+    MonitorsAPI.update.mockRejectedValueOnce({
+      response: { data: { error: 'monitor_changed' } },
+    });
+    pauseButton().vm.$emit('click');
+    await wrapper.vm.$nextTick();
+    wrapper.findComponent({ name: 'Dialog' }).vm.$emit('confirm');
+    await flushPromises();
+    expect(wrapper.find('[role="status"]').text()).toBe(
+      'MONITORS.ERRORS.MONITOR_CHANGED'
+    );
+
+    MonitorsAPI.update.mockResolvedValueOnce({ data: {} });
+    pauseButton().vm.$emit('click');
+    await wrapper.vm.$nextTick();
+    wrapper.findComponent({ name: 'Dialog' }).vm.$emit('confirm');
+    await flushPromises();
+    expect(wrapper.text()).not.toContain('MONITORS.ERRORS.MONITOR_CHANGED');
   });
 
   it('keeps the last chart when a refresh fails', async () => {
@@ -422,7 +676,7 @@ describe('MonitorShow', () => {
 
     expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(true);
     expect(wrapper.find('[role="alert"]').text()).toBe(
-      'MONITORS.ERRORS.provider_busy'
+      'MONITORS.ERRORS.PROVIDER_BUSY'
     );
   });
 
@@ -449,7 +703,8 @@ describe('MonitorShow', () => {
       await flushPromises();
 
       expect(wrapper.find('[role="alert"]').text()).toBe(
-        report.MONITORS.ERRORS[code] || report.MONITORS.ERRORS.fetch_failed
+        report.MONITORS.ERRORS[code.toUpperCase()] ||
+          report.MONITORS.ERRORS.FETCH_FAILED
       );
     }
   );
