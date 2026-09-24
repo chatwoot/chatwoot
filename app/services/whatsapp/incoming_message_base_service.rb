@@ -4,21 +4,23 @@
 class Whatsapp::IncomingMessageBaseService
   include ::Whatsapp::IncomingMessageServiceHelpers
   include ::Whatsapp::IncomingMessageIdentifierHelper
+  include ::Whatsapp::IncomingContactMessageHandler
 
-  pattr_initialize [:inbox!, :params!, :outgoing_echo]
+  pattr_initialize [:inbox!, :params!, :outgoing_echo, { locked_sender_id: nil }]
 
   def perform
     processed_params
 
-    if processed_params.try(:[], :statuses).present?
-      process_statuses
-    elsif messages_data.present?
-      process_messages
-    end
+    return process_statuses if processed_params.try(:[], :statuses).present?
+
+    process_identity_change_messages
+    return process_messages if messages_data.present?
   end
 
   # Returns messages array for both regular messages and echo events
   def messages_data
+    return @messages_data if defined?(@messages_data)
+
     @processed_params&.dig(:messages) || @processed_params&.dig(:message_echoes)
   end
 
@@ -57,12 +59,12 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def update_message_with_status(message, status)
-    message.status = status[:status]
-    if status[:status] == 'failed' && status[:errors].present?
-      error = status[:errors]&.first
-      message.external_error = "#{error[:code]}: #{error[:title]}"
-    end
-    message.save!
+    external_error = if status[:status] == 'failed' && status[:errors].present?
+                       error = status[:errors]&.first
+                       "#{error[:code]}: #{error[:title]}"
+                     end
+
+    Messages::StatusUpdateService.new(message, status[:status], external_error).perform
   end
 
   def create_messages
@@ -88,15 +90,6 @@ class Whatsapp::IncomingMessageBaseService
     @message.save!
   end
 
-  def create_contact_messages(message)
-    message['contacts'].each do |contact|
-      # Pass source_id from parent message since contact objects don't have :id
-      create_message(contact, source_id: message[:id], content_attributes_source: message)
-      attach_contact(contact)
-      @message.save!
-    end
-  end
-
   def create_regular_message(message)
     create_message(message, source_id: message[:id])
     attach_files
@@ -113,9 +106,17 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def set_conversation
-    # Scope reuse to the contact across all its contact_inboxes in this inbox: WhatsApp coexistence
-    # gives one contact multiple source_ids (phone + BSUID), so reopen must not be limited to a single contact_inbox.
-    conversations = @contact.conversations.where(inbox_id: @inbox.id)
+    # Reuse is scoped to the contact inbox that resolved this message, never to the contact. A contact
+    # can hold unrelated WhatsApp identities in the same inbox, either from coexistence or from a
+    # dashboard merge, and a contact wide lookup cannot tell them apart: it would answer one identity
+    # through another one's source id. The conversation opened under a previous identity stays where it
+    # is and remains reachable under previous conversations.
+    #
+    # Only where an identifier can be replied to, though. 360Dialog always sends the destination in
+    # `to` and has no way to address one, so anchoring a thread there would produce a conversation
+    # nobody can answer. That provider keeps the contact wide reuse it had, which lands every message
+    # on the phone backed thread it can actually reply through.
+    conversations = addressable_identifiers? ? @contact_inbox.conversations : @contact.conversations.where(inbox_id: @inbox.id)
     # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
     @conversation = if @inbox.lock_to_single_conversation
                       conversations.last
@@ -193,43 +194,26 @@ class Whatsapp::IncomingMessageBaseService
     content_attrs
   end
 
-  def attach_contact(contact)
-    phones = contact[:phones]
-    phones = [{ phone: 'Phone number is not available' }] if phones.blank?
-
-    name_info = contact['name'] || {}
-    contact_meta = {
-      firstName: name_info['first_name'],
-      lastName: name_info['last_name']
-    }.compact
-
-    phones.each do |phone|
-      @message.attachments.new(
-        account_id: @message.account_id,
-        file_type: file_content_type(message_type),
-        fallback_title: phone[:phone].to_s,
-        meta: contact_meta
-      )
-    end
-  end
-
   def update_contact_with_profile_name(contact_params)
     profile_name = contact_params.dig(:profile, :name)
     return if profile_name.blank?
     return if @contact.name == profile_name
 
-    # Only update if current name exactly matches the phone number or formatted phone number
+    # Only update if current name exactly matches a phone number candidate
     return unless contact_name_matches_phone_number?
 
     @contact.update!(name: profile_name)
   end
 
   def contact_name_matches_phone_number?
-    message_phone_number = whatsapp_phone_number(messages_data.first[:from])
-    return false if message_phone_number.blank?
+    return false if (message_phone_number = whatsapp_phone_number(messages_data.first[:from])).blank?
 
-    phone_number = "+#{message_phone_number}"
-    formatted_phone_number = TelephoneNumber.parse(phone_number).international_number
-    @contact.name == phone_number || @contact.name == formatted_phone_number
+    phone_number_candidates(message_phone_number).any? do |number|
+      phone_number = "+#{number}"
+      formatted_phone_number = TelephoneNumber.parse(phone_number).international_number
+      @contact.name == phone_number || @contact.name == formatted_phone_number
+    end
   end
 end
+
+Whatsapp::IncomingMessageBaseService.prepend_mod_with('Whatsapp::IncomingMessageBaseService')

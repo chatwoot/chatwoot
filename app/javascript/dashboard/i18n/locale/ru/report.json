@@ -23,12 +23,14 @@
         "NAME": "Время первого ответа",
         "DESC": "(Среднее)",
         "INFO_TEXT": "Общее количество диалогов для расчета:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Время первого ответа — {metricValue} (на основе {conversationCount} сообщений)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
         "DESC": "(Среднее)",
         "INFO_TEXT": "Общее количество диалогов для расчета:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Время на решение {metricValue} (основано на {conversationCount} разговорах)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Время ожидания клиента",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Время ожидания {metricValue} (на основе {conversationCount} ответов)",
         "DESC": ""
       }
@@ -129,7 +133,6 @@
       "ERROR": "Could not load records. Please try again.",
       "ADMIN_ONLY": "Only administrators can drill down into report records.",
       "LOAD_MORE": "Загрузить ещё",
-      "CLOSE": "Close details",
       "PREVIOUS_BUCKET": "Previous bar",
       "NEXT_BUCKET": "Next bar",
       "UNKNOWN_CONTACT": "Unknown contact",
@@ -545,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Обзор",
     "LIVE": "Онлайн",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Открытые диалоги",
       "LOADING_MESSAGE": "Загрузка метрик диалогов...",

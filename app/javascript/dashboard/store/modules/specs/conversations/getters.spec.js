@@ -102,6 +102,18 @@ describe('#getters', () => {
       ]);
     });
 
+    it('uses latest activity to order conversations with the same priority', () => {
+      const state = {
+        allConversations: [conversations[2], conversations[1]],
+        chatSortFilter: 'priority_desc',
+      };
+
+      expect(getters.getAllConversations(state)).toEqual([
+        conversations[1],
+        conversations[2],
+      ]);
+    });
+
     it('returns conversations ordered by priority in ascending order if chatStatusFilter = priority_asc', () => {
       const state = {
         allConversations: [...conversations],
@@ -123,6 +135,19 @@ describe('#getters', () => {
       expect(getters.getAllConversations(state)).toEqual([
         conversations[1],
         conversations[3],
+        conversations[2],
+        conversations[0],
+      ]);
+    });
+
+    it('returns waiting conversations before non-waiting conversations when sorting by shortest wait', () => {
+      const state = {
+        allConversations: [...conversations],
+        chatSortFilter: 'waiting_since_desc',
+      };
+      expect(getters.getAllConversations(state)).toEqual([
+        conversations[3],
+        conversations[1],
         conversations[2],
         conversations[0],
       ]);
@@ -719,6 +744,88 @@ describe('#getters', () => {
         mockConversations[1],
         mockConversations[2],
       ]);
+    });
+
+    it('sorts filtered conversations by unread count and then latest activity', () => {
+      const state = {
+        allConversations: [
+          { ...mockConversations[0], unread_count: 1 },
+          { ...mockConversations[1], unread_count: 2 },
+          { ...mockConversations[2], unread_count: 2 },
+        ],
+        chatSortFilter: 'unread',
+        appliedFilters: [],
+      };
+
+      const result = getters.getFilteredConversations(
+        state,
+        {},
+        {},
+        mockRootGetters
+      );
+
+      expect(result.map(conversation => conversation.id)).toEqual([3, 2, 1]);
+    });
+  });
+
+  describe('#getAppliedContactFilter', () => {
+    const contactFilter = {
+      attribute_key: 'contact_id',
+      attribute_model: 'standard',
+      filter_operator: 'equal_to',
+      query_operator: 'and',
+      values: [{ id: 7, name: 'Jane Doe' }],
+    };
+
+    it('returns the contact a lone contact filter scopes the list to', () => {
+      expect(
+        getters.getAppliedContactFilter({ appliedFilters: [contactFilter] })
+      ).toEqual({ id: 7, name: 'Jane Doe' });
+    });
+
+    it('returns null when no filters are applied', () => {
+      expect(
+        getters.getAppliedContactFilter({ appliedFilters: [] })
+      ).toBeNull();
+    });
+
+    it('returns null when the applied filter is not a contact filter', () => {
+      const state = {
+        appliedFilters: [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['pending'],
+          },
+        ],
+      };
+
+      expect(getters.getAppliedContactFilter(state)).toBeNull();
+    });
+
+    it('returns null when the contact filter is combined with another filter', () => {
+      const state = {
+        appliedFilters: [
+          contactFilter,
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['open'],
+          },
+        ],
+      };
+
+      expect(getters.getAppliedContactFilter(state)).toBeNull();
+    });
+
+    it('returns null for the single select shape the filter modal builds', () => {
+      const state = {
+        appliedFilters: [
+          { ...contactFilter, values: { id: 7, name: 'Jane Doe' } },
+        ],
+      };
+
+      expect(getters.getAppliedContactFilter(state)).toBeNull();
     });
   });
 });

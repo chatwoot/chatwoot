@@ -4,6 +4,7 @@ operationId: add-new-agent-to-inbox
 summary: Add a New Agent
 description: Add a new Agent to Inbox
 security:
+  - userBearerAuth: []
   - userApiKey: []
 requestBody:
   required: true

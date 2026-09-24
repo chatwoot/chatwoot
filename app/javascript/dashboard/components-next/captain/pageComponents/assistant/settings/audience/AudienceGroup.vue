@@ -123,7 +123,6 @@ defineExpose({ validate });
           v-model:values="child.values"
           :filter-types="filterTypes"
           :show-query-operator="false"
-          searchable-attributes
           @remove="removeChild(index)"
         />
       </template>

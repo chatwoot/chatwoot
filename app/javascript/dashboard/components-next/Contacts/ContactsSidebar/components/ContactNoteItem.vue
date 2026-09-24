@@ -2,6 +2,7 @@
 import { useTemplateRef, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { useToggle } from '@vueuse/core';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useAssetUrl } from 'shared/composables/useAssetUrl';
@@ -28,6 +29,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['delete']);
+
+const exactTimestamp = useExactTimestamp();
+
 const noteContentRef = useTemplateRef('noteContentRef');
 const needsCollapse = ref(false);
 const [isExpanded, toggleExpanded] = useToggle();
@@ -64,7 +68,13 @@ onMounted(() => {
           <span class="inline-flex items-center gap-1 text-sm text-n-slate-11">
             <span class="font-medium text-n-slate-12">{{ writtenBy }}</span>
             {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.WROTE') }}
-            <span class="font-medium text-n-slate-12">
+            <span
+              v-tooltip.top="{
+                content: exactTimestamp(note.createdAt),
+                delay: { show: 500, hide: 0 },
+              }"
+              class="font-medium text-n-slate-12"
+            >
               {{ dynamicTime(note.createdAt) }}
             </span>
           </span>

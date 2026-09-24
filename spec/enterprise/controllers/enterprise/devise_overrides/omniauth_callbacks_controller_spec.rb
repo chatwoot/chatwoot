@@ -18,6 +18,8 @@ RSpec.describe 'Enterprise SAML OmniAuth Callbacks', type: :request do
 
   before do
     allow(ChatwootApp).to receive(:enterprise?).and_return(true)
+    allow(GlobalConfigService).to receive(:load).and_call_original
+    allow(GlobalConfigService).to receive(:load).with('FRONTEND_URL', 'http://localhost:3000').and_return('http://www.example.com')
     account.enable_features!('saml')
     saml_settings
   end

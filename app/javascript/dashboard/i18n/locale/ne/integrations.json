@@ -135,7 +135,23 @@
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
         "BODY": "यस एकीकरणसँग, तपाईंका सबै आउने कुराकानीहरू तपाईंको Slack workspace भित्रको ***{selectedChannelName}*** च्यानलमा sync हुनेछन्। तपाईं च्यानलमै बसेर आफ्ना सबै ग्राहक कुराकानीहरू व्यवस्थापन गर्न सक्नुहुन्छ र कहिल्यै कुनै सन्देश छुटाउनु पर्दैन।\n\nयस एकीकरणका मुख्य सुविधाहरू यस्ता छन्:\n\n**Slack भित्रैबाट कुराकानीहरूलाई जवाफ दिनुहोस्:** ***{selectedChannelName}*** Slack च्यानलमा रहेको कुनै कुराकानीलाई जवाफ दिन, आफ्नो सन्देश टाइप गर्नुहोस् र यसलाई thread को रूपमा पठाउनुहोस्। यसले Chatwoot मार्फत ग्राहकलाई जवाफ सिर्जना गर्नेछ। यति नै सजिलो!\n\n **निजी नोटहरू सिर्जना गर्नुहोस्:** यदि तपाईं reply को सट्टा निजी नोटहरू सिर्जना गर्न चाहनुहुन्छ भने, आफ्नो सन्देशको सुरुमा ***`note:`*** लेख्नुहोस्। यसले तपाईंको सन्देश निजी नै रहन्छ र ग्राहकलाई देखिँदैन भन्ने सुनिश्चित गर्छ।\n\n**एजेन्ट प्रोफाइललाई associate गर्नुहोस्:** यदि Slack मा reply गर्ने व्यक्तिको Chatwoot मा उही email अन्तर्गत एजेन्ट प्रोफाइल छ भने, reply हरू स्वतः त्यही एजेन्ट प्रोफाइलसँग associate हुनेछन्। यसको अर्थ तपाईंले कसले के भन्यो र कहिले भन्यो भनेर सजिलै ट्र्याक गर्न सक्नुहुन्छ। अर्कोतर्फ, reply गर्ने व्यक्तिसँग कुनै associated एजेन्ट प्रोफाइल छैन भने, ग्राहकलाई reply हरू bot profile बाट आएको रूपमा देखिनेछन्.",
+        "BODY_ALERT": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace, so your team can pick them up as soon as they come in.\n\nThis integration is set to **Alerts only**, which means the Slack thread is a safe space for internal discussion. Anything your team posts there stays in Slack and is never sent to the customer.\n\n**Respond to the customer from Chatwoot:** Open the conversation from the link shared in the thread and reply from the Chatwoot dashboard. Replies and private notes added in Chatwoot keep appearing in the Slack thread, so everyone stays in the loop.",
         "SELECTED": "छानिएको"
+      },
+      "MESSAGE_MODE": {
+        "TITLE": "Slack thread behaviour",
+        "DESCRIPTION": "Decide whether replies in the Slack thread reach the customer or stay internal.",
+        "OPTIONS": {
+          "TWO_WAY": {
+            "LABEL": "Two-way sync",
+            "DESCRIPTION": "Replies in the Slack thread are sent to the customer. Start a message with `note:` to keep it internal."
+          },
+          "ALERT": {
+            "LABEL": "Alerts only",
+            "DESCRIPTION": "Conversations are posted to Slack for internal discussion only. Nothing in the thread reaches the customer."
+          }
+        },
+        "UPDATE_SUCCESS": "The Slack thread behaviour is updated successfully"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "च्यानल छान्नुहोस्",
@@ -411,8 +427,8 @@
         "DISMISS": "Dismiss"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "{count} FAQs are pending review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
-        "ACTION": "Review FAQs",
+        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
+        "ACTION": "Review suggestions",
         "DISMISS": "Dismiss"
       },
       "RANGES": {
@@ -423,31 +439,33 @@
       "METRICS": {
         "HANDLED": {
           "LABEL": "Conversations handled",
-          "HINT": "Distinct conversations this assistant replied in."
+          "HINT": "Conversations where Captain replied to the customer or handed the conversation to your team."
         },
         "AUTO_RESOLUTION": {
           "LABEL": "Auto-resolution rate",
-          "HINT": "Share of handled conversations closed without a human reply."
+          "HINT": "The share of handled conversations Captain resolved without help from your team. Higher means Captain resolved more on its own."
         },
         "HANDOFF": {
           "LABEL": "Handoff rate",
-          "HINT": "Share of handled conversations escalated to a human agent."
+          "HINT": "The share of handled conversations Captain passed to your team. Lower means fewer conversations needed an agent."
         },
         "HOURS_SAVED": {
           "LABEL": "Time saved",
-          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
+          "HINT": "An estimate of how much agent reply time Captain saved.",
+          "NOTE": "Based on two minutes saved for each public Captain reply."
         },
         "REOPEN": {
           "LABEL": "Reopen rate",
-          "HINT": "Auto-resolved conversations that were reopened afterwards."
+          "HINT": "The share of Captain-resolved conversations that customers returned to later.",
+          "NOTE": "Lower means more resolutions stayed resolved."
         },
         "DEPTH": {
           "LABEL": "Messages / conversation",
-          "HINT": "Average replies the assistant sends per conversation."
+          "HINT": "The average number of replies Captain sent in each conversation it handled.",
+          "NOTE": "A lower number can mean quicker answers, but complex questions may need more replies."
         }
       },
       "DRILLDOWN": {
-        "CLOSE": "Close details",
         "EMPTY": "No records found for this metric.",
         "ERROR": "Could not load records. Please try again.",
         "LOAD_MORE": "Load more",
@@ -457,7 +475,7 @@
         "TITLE": "Knowledge coverage",
         "COVERAGE": "{pct}% approved",
         "APPROVED": "Approved FAQs",
-        "PENDING": "Pending FAQs",
+        "SUGGESTIONS": "FAQ suggestions",
         "DOCUMENTS": "कागजातहरू"
       },
       "LINKS": {
@@ -472,6 +490,95 @@
         "BILLING": {
           "TITLE": "बिलिङ",
           "DESCRIPTION": "Manage credits and plan"
+        }
+      },
+      "V2": {
+        "EMPTY": "No data available for this period.",
+        "SUMMARY": {
+          "GREETING": "Hello, {name}!",
+          "DEFAULT_NAME": "there",
+          "EMPTY": "Captain's performance summary will appear here when enough activity is available.",
+          "PREVIOUS": "Previous summary point",
+          "NEXT": "Next summary point"
+        },
+        "UNITS": {
+          "DAYS": "{value}d",
+          "HOURS": "{value}h",
+          "MINUTES": "{value} min"
+        },
+        "METRICS": {
+          "TIME_SAVED": {
+            "LABEL": "Saved in agent effort and time"
+          },
+          "DURABLE": {
+            "LABEL": "Captain resolutions remained closed",
+            "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
+            "NOTE": "Only resolutions old enough to observe for seven days are included."
+          },
+          "MEDIAN_RESOLUTION": {
+            "LABEL": "Median resolution time",
+            "HINT": "The typical time from when a conversation reached Captain until it was resolved.",
+            "NOTE": "Lower means customers generally got resolved sooner."
+          },
+          "DEPTH": {
+            "LABEL": "Messages per conversation"
+          },
+          "OF_TOTAL": "of {total}"
+        },
+        "RESOLUTION_FLOW": {
+          "ARIA_LABEL": "Flow of handled conversations through Captain and team outcomes",
+          "NODES": {
+            "HANDLED": "Handled",
+            "RESOLVED_BY_CAPTAIN": "Resolved by Captain",
+            "HANDED_OFF": "Handed off",
+            "CLOSED_WITH_TEAM": "Closed with team",
+            "REOPENED": "Reopened in 7d",
+            "STAYED_CLOSED": "Stayed closed",
+            "OTHER_REASONS": "Other reasons"
+          }
+        },
+        "HANDOFF_REASONS": {
+          "TITLE": "Handoff reasons",
+          "CUSTOMER_REQUEST": "Customer requested",
+          "MISSING_KNOWLEDGE": "Missing knowledge",
+          "UNSUPPORTED_REQUEST": "Unsupported request",
+          "POLICY_RESTRICTION": "Policy restriction",
+          "TOOL_FAILURE": "Tool failure",
+          "PENDING_CLARIFICATION": "Pending customer clarification",
+          "PERCENTAGE": "({value}%)",
+          "USAGE_LIMIT": "Usage limit",
+          "UNCLASSIFIED": "Unclassified"
+        },
+        "RESOLUTION_TREND": {
+          "TITLE": "Resolution trend",
+          "CONVERSATION_COUNT": "Conversation count",
+          "RESOLUTION_RATE": "Resolution rate",
+          "CURRENT_PERIOD": "Current period",
+          "PREVIOUS_PERIOD": "Previous period",
+          "HANDLED": "Handled",
+          "RESOLVED": "Resolved by Captain",
+          "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period",
+          "RATE_ARIA_LABEL": "Current and previous Captain resolution rates"
+        },
+        "CSAT": {
+          "TITLE": "Captain CSAT",
+          "AUTONOMOUS": "Captain-resolved conversations",
+          "AUTONOMOUS_HINT": "The average customer rating for conversations Captain resolved without help from your team.",
+          "ASSISTED": "Captain-assisted conversations",
+          "ASSISTED_HINT": "The average customer rating when Captain helped before your team resolved the conversation.",
+          "VS_HUMANS": "{value} vs humans"
+        },
+        "USAGE": {
+          "TITLE": "Usage",
+          "CREDITS": "Credits",
+          "DOCUMENTS": "कागजातहरू",
+          "USED": "({percentage}% used)",
+          "VALUE": "{used}/{total}",
+          "REFRESH": "Refresh usage",
+          "BUY_MORE": "थप क्रेडिटहरू किन्नुहोस्"
+        },
+        "KNOWLEDGE": {
+          "REVIEW": "Review FAQs"
         }
       }
     },
@@ -592,12 +699,43 @@
           "PLACEHOLDER": "स्वागत सन्देश प्रविष्ट गर्नुहोस्"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "ह्यान्डअफ सन्देश",
+          "LABEL": "Handoff message",
           "PLACEHOLDER": "ह्यान्डअफ सन्देश प्रविष्ट गर्नुहोस्"
         },
         "RESOLUTION_MESSAGE": {
           "LABEL": "समाधान सन्देश",
           "PLACEHOLDER": "समाधान सन्देश प्रविष्ट गर्नुहोस्"
+        },
+        "INACTIVITY_RESOLUTION": {
+          "TITLE": "When customers stop replying",
+          "DESCRIPTION": "Choose how Captain handles the conversation.",
+          "MODE_LABEL": "Action when the customer stops replying",
+          "REVIEW_AFTER": "Review after",
+          "RESOLVE_AFTER": "Resolve after",
+          "ALWAYS_WARNING": "Captain will resolve every conversation after the selected time without reviewing it. Some conversations that still need help may be closed.",
+          "PENDING_INFO": "The conversation remains pending until the customer replies.",
+          "RESOLUTION_MESSAGE": {
+            "TITLE": "Send a message when resolving",
+            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation."
+          },
+          "MODES": {
+            "DISABLED": {
+              "LABEL": "Wait for the customer",
+              "DESCRIPTION": "Captain does not resolve the conversation. Captain can still hand it off if the customer asks."
+            },
+            "LEGACY": {
+              "LABEL": "Always resolve",
+              "DESCRIPTION": "Captain resolves every conversation after the selected time."
+            },
+            "EVALUATED": {
+              "LABEL": "Let Captain review it (recommended)",
+              "DESCRIPTION": "Captain decides whether to resolve the conversation or hand it off."
+            }
+          },
+          "DURATION_HOURS_ARIA_LABEL": "Hours before action",
+          "DURATION_MINUTES_ARIA_LABEL": "Minutes before action",
+          "DURATION_HOURS_SHORT": "{count} h",
+          "DURATION_MINUTES_SHORT": "{count} min"
         },
         "INSTRUCTIONS": {
           "LABEL": "निर्देशनहरू",
@@ -609,6 +747,48 @@
           "ALLOW_MEMORIES": "ग्राहक अन्तरक्रियाबाट मुख्य विवरणहरू सम्झनाहरूको रूपमा समात्नुहोस्।",
           "ALLOW_CITATIONS": "उत्तरहरूमा स्रोत उद्धरणहरू समावेश गर्नुहोस्",
           "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
+        },
+        "AUDIENCE": {
+          "EVERYONE": {
+            "LABEL": "Everyone",
+            "DESC": "Captain responds to every conversation in connected inboxes."
+          },
+          "SPECIFIC": {
+            "LABEL": "Specific audience",
+            "DESC": "Captain responds only to customers who match the conditions below."
+          },
+          "ADD_CONDITION": "Add condition",
+          "ADD_GROUP": "Add condition group",
+          "EMPTY_TITLE": "No conditions yet",
+          "EMPTY_BODY": "Add a condition to target specific customers, or a condition group to combine conditions with different and/or logic.",
+          "EMPTY_ERROR": "Add at least one condition for a specific audience.",
+          "MATCH_PREFIX": "Match",
+          "MATCH_SUFFIX": "of the following",
+          "MATCH_ALL": "सबै",
+          "MATCH_ANY": "any",
+          "GROUP_CONTACT": "Contact attributes",
+          "GROUP_CONVERSATION": "Conversation",
+          "GROUP_CUSTOM": "Custom attributes",
+          "BROWSER_LANGUAGE": "Browser language",
+          "CONVERSATION_LANGUAGE": "First message language",
+          "LOGGED_IN": "Logged-in user",
+          "LOGGED_IN_TRUE": "हो",
+          "LOGGED_IN_FALSE": "होइन"
+        },
+        "SCHEDULE": {
+          "ALWAYS": {
+            "LABEL": "Anytime",
+            "DESC": "Captain responds to every conversation, regardless of time."
+          },
+          "BUSINESS_HOURS": {
+            "LABEL": "During business hours",
+            "DESC": "Captain responds only within each inbox's business hours."
+          },
+          "OUTSIDE_BUSINESS_HOURS": {
+            "LABEL": "Outside business hours",
+            "DESC": "Captain responds only when each inbox is closed."
+          },
+          "HINT": "Inboxes without business hours configured are always covered."
         }
       },
       "EDIT": {
@@ -625,7 +805,16 @@
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "प्रणाली सेटिङहरू",
-          "DESCRIPTION": "कुराकानी समाप्त गर्दा वा मानवमा हस्तान्तरण गर्दा सहायकले के भन्छ अनुकूलित गर्नुहोस्।"
+          "DESCRIPTION": "कुराकानी समाप्त गर्दा वा मानवमा हस्तान्तरण गर्दा सहायकले के भन्छ अनुकूलित गर्नुहोस्।",
+          "DESCRIPTION_V2": "Manage what Captain does when customers stop replying and set the handoff message."
+        },
+        "AUDIENCE": {
+          "TITLE": "Audience",
+          "DESCRIPTION": "Choose whether this assistant responds to everyone or only to a specific audience."
+        },
+        "SCHEDULE": {
+          "TITLE": "Schedule",
+          "DESCRIPTION": "Choose when Captain replies. Outside this window, conversations are handed to your team."
         },
         "CONTROL_ITEMS": {
           "TITLE": "रमाइलो कुरा",
@@ -794,6 +983,11 @@
           "CANCEL": "रद्द गर्नुहोस्",
           "UPDATE": "परिवर्तनहरू अद्यावधिक गर्नुहोस्"
         },
+        "STATUS": {
+          "ENABLED": "सक्षम",
+          "DISABLED": "असक्षम",
+          "TOGGLE": "Toggle {title}"
+        },
         "LIST": {
           "SEARCH_PLACEHOLDER": "खोज्नुहोस्..."
         },
@@ -808,6 +1002,11 @@
             "SUCCESS": "परिदृश्यहरू सफलतापूर्वक अद्यावधिक गरियो",
             "ERROR": "परिदृश्यहरू अद्यावधिक गर्दा त्रुटि आयो, कृपया फेरि प्रयास गर्नुहोस्।"
           },
+          "TOGGLE": {
+            "ENABLED": "Scenario enabled successfully",
+            "DISABLED": "Scenario disabled successfully",
+            "ERROR": "There was an error updating the scenario status, please try again."
+          },
           "DELETE": {
             "SUCCESS": "परिदृश्यहरू सफलतापूर्वक हटाइयो",
             "ERROR": "परिदृश्यहरू हटाउँदा त्रुटि आयो, कृपया फेरि प्रयास गर्नुहोस्।"
@@ -819,6 +1018,8 @@
       "HEADER": "कागजातहरू",
       "ADD_NEW": "नयाँ कागजात सिर्जना गर्नुहोस्",
       "FAQ_COUNT": "{n} FAQ | {n} FAQs",
+      "USED_IN_CONVERSATIONS": "Used in {n} conversation | Used in {n} conversations",
+      "NO_USED_CONVERSATIONS": "No conversations found for this document.",
       "SELECTED": "{count} चयन गरियो",
       "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
       "UNSELECT_ALL": "सबै चयन हटाउनुहोस् ({count})",
@@ -856,7 +1057,8 @@
         },
         "SORT": {
           "RECENTLY_UPDATED": "Recently updated",
-          "RECENTLY_CREATED": "Recently created"
+          "RECENTLY_CREATED": "Recently created",
+          "MOST_USED": "Most used in conversations"
         },
         "SEARCH_PLACEHOLDER": "Search..."
       },
@@ -884,6 +1086,7 @@
         "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
         "SOURCE": "Source",
         "GENERATED_FAQS": "Generated FAQs",
+        "USED_IN_CONVERSATIONS": "Used in conversations",
         "LAST_UPDATED": "Last updated",
         "NOT_AVAILABLE": "Not available",
         "CONTENT_TAB": "Crawled content",
@@ -970,6 +1173,22 @@
       "OPTIONS": {
         "EDIT_TOOL": "उपकरण सम्पादन गर्नुहोस्",
         "DELETE_TOOL": "उपकरण हटाउनुहोस्"
+      },
+      "STATUS": {
+        "ENABLED": "सक्षम",
+        "DISABLED": "असक्षम",
+        "TOGGLE": "Toggle {title}"
+      },
+      "TOGGLE": {
+        "ENABLED": "Tool enabled successfully",
+        "DISABLED": "Tool disabled successfully",
+        "ERROR": "Failed to update tool status"
+      },
+      "DISABLE_CONFIRMATION": {
+        "TITLE": "Disable {title}?",
+        "DESCRIPTION_ONE": "This tool is used by {count} enabled scenario. Disabling it may cause that scenario to stop working as expected.",
+        "DESCRIPTION_OTHER": "This tool is used by {count} enabled scenarios. Disabling it may cause those scenarios to stop working as expected.",
+        "CONFIRM": "Disable tool"
       },
       "CREATE": {
         "TITLE": "कस्टम उपकरण बनाउनुहोस्",
@@ -1085,8 +1304,8 @@
     },
     "RESPONSES": {
       "HEADER": "FAQ",
-      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "नयाँ FAQ सिर्जना गर्नुहोस्",
+      "NO_USED_CONVERSATIONS": "No conversations found for this FAQ.",
       "DOCUMENTABLE": {
         "CONVERSATION": "कुराकानी #{id}"
       },
@@ -1094,12 +1313,10 @@
       "SELECT_ALL": "सबै चयन गर्नुहोस् ({count})",
       "UNSELECT_ALL": "सबै चयन हटाउनुहोस् ({count})",
       "SEARCH_PLACEHOLDER": "FAQs खोज्नुहोस्...",
-      "BULK_APPROVE_BUTTON": "स्वीकृत गर्नु",
-      "BULK_DELETE_BUTTON": "मेटाउनु",
-      "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQ सफलतापूर्वक स्वीकृत भयो",
-        "ERROR_MESSAGE": "FAQ स्वीकृत गर्दा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQs. Please try again."
       },
+      "BULK_DELETE_BUTTON": "मेटाउनु",
       "BULK_DELETE": {
         "TITLE": "FAQ मेटाउने?",
         "DESCRIPTION": "के तपाईं चयनित FAQ मेटाउन निश्चित हुनुहुन्छ? यो कार्य पूर्ववत गर्न सकिँदैन।",
@@ -1114,20 +1331,9 @@
         "SUCCESS_MESSAGE": "FAQ सफलतापूर्वक मेटाइयो",
         "ERROR_MESSAGE": "FAQ मेटाउँदा त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्।"
       },
-      "FILTER": {
-        "ASSISTANT": "सहायक: {selected}",
-        "STATUS": "स्थिति: {selected}",
-        "ALL_ASSISTANTS": "सबै"
-      },
-      "STATUS": {
-        "TITLE": "स्थिति",
-        "PENDING": "प्रतीक्षा अवस्थामा",
-        "APPROVED": "स्वीकृत",
-        "ALL": "सबै"
-      },
-      "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+      "SUGGESTIONS_BANNER": {
+        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
+        "ACTION": "Review suggestions"
       },
       "FORM_DESCRIPTION": "ज्ञान आधारमा प्रश्न र यसको सम्बन्धित उत्तर थप्नुहोस् र सम्बन्धित सहायक चयन गर्नुहोस्।",
       "CREATE": {
@@ -1160,13 +1366,49 @@
       },
       "EMPTY_STATE": {
         "TITLE": "कुनै FAQ फेला परेन",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQ ले तपाईंको सहायकलाई ग्राहकका प्रश्नहरूमा छिटो र सही उत्तर दिन मद्दत गर्छ। यी स्वचालित रूपमा वा म्यानुअली थप्न सकिन्छ।",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "क्याप्टेन FAQ",
           "NOTE": "Captain FAQs ले सामान्य ग्राहक प्रश्नहरू पत्ता लगाउँछ—तपाईंको ज्ञान आधारमा नभएका वा बारम्बार सोधिने—र समर्थन सुधार गर्न सम्बन्धित FAQs सिर्जना गर्छ। तपाईं प्रत्येक सुझाव समीक्षा गर्न सक्नुहुन्छ र स्वीकृत वा अस्वीकृत गर्ने निर्णय लिन सक्नुहुन्छ।"
         }
+      }
+    },
+    "FAQ_SUGGESTIONS": {
+      "HEADER": "FAQ suggestions",
+      "SEARCH_PLACEHOLDER": "Search suggestions...",
+      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
+      "QUEUE_HINT": "Ranked by customer demand",
+      "SOURCE_COUNT": "{count} conversation | {count} conversations",
+      "REVIEW": "Review sources",
+      "APPROVE": "स्वीकृत गर्नु",
+      "APPROVE_FAQ": "Approve FAQ",
+      "DISMISS": "Dismiss",
+      "SAVE": "परिवर्तनहरू बचत गर्नुहोस्",
+      "DETAILS": {
+        "TITLE": "Review FAQ suggestion",
+        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
+        "SOURCES": "Source conversations",
+        "SOURCE_PROGRESS": "{visible} of {total}",
+        "NO_SOURCES": "No accessible source conversations were found.",
+        "RETRY": "Retry"
+      },
+      "EMPTY_STATE": {
+        "TITLE": "The review queue is clear",
+        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
+        "CLEAR_SEARCH": "Clear search"
+      },
+      "SUCCESS": {
+        "APPROVED": "FAQ approved and added to Captain's knowledge.",
+        "DISMISSED": "Suggestion dismissed.",
+        "SAVED": "Suggestion updated."
+      },
+      "ERRORS": {
+        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
+        "LOAD_DETAILS": "There was an error loading the source conversations.",
+        "APPROVE": "There was an error approving the FAQ. Please try again.",
+        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
+        "SAVE": "There was an error saving the suggestion. Please try again."
       }
     },
     "INBOXES": {

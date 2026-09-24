@@ -8,8 +8,6 @@ class Captain::Conversation::ResponseSchedulerService
   end
 
   def perform
-    track_captain_engagement
-
     wait_time = attachment_wait_time
     return Captain::Conversation::ResponseBuilderJob.perform_later(*job_args) if wait_time.zero?
 
@@ -22,16 +20,6 @@ class Captain::Conversation::ResponseSchedulerService
     args = [@conversation, @assistant]
     args << @message.id if captain_v2_enabled?
     args
-  end
-
-  def track_captain_engagement
-    return unless captain_v2_enabled?
-
-    Captain::ConversationEvents.engaged(
-      conversation: @conversation,
-      assistant: @assistant,
-      at: @message.created_at
-    )
   end
 
   def captain_v2_enabled?

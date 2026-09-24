@@ -23,12 +23,14 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( ממוצע )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( ממוצע )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "זמן המתנת לקוח",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "זמן ההמתנה הוא {metricValue} (מבוסס על {conversationCount} תגובות)",
         "DESC": ""
       }
@@ -129,7 +133,6 @@
       "ERROR": "Could not load records. Please try again.",
       "ADMIN_ONLY": "Only administrators can drill down into report records.",
       "LOAD_MORE": "טען עוד",
-      "CLOSE": "Close details",
       "PREVIOUS_BUCKET": "Previous bar",
       "NEXT_BUCKET": "Next bar",
       "UNKNOWN_CONTACT": "Unknown contact",
@@ -545,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "סקירה כללית",
     "LIVE": "לחיות",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "שיחות פתוחות",
       "LOADING_MESSAGE": "טוען מדדי שיחה...",

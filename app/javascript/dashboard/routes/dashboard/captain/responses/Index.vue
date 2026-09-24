@@ -23,6 +23,7 @@ import CreateResponseDialog from 'dashboard/components-next/captain/pageComponen
 import ResponsePageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/ResponsePageEmptyState.vue';
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
+import ConversationUsageDrawer from 'dashboard/components-next/captain/pageComponents/ConversationUsageDrawer.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -35,6 +36,8 @@ const responses = useMapGetter('captainResponses/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 
 const selectedResponse = ref(null);
+const usageResponse = ref(null);
+const showResponseUsage = ref(false);
 const deleteDialog = ref(null);
 const bulkDeleteDialog = ref(null);
 
@@ -87,6 +90,19 @@ const handleCreateClose = () => {
   dialogType.value = '';
   selectedResponse.value = null;
 };
+
+const handleShowResponseUsage = id => {
+  usageResponse.value =
+    responses.value.find(response => response.id === id) || null;
+  showResponseUsage.value = Boolean(usageResponse.value);
+};
+
+const handleResponseUsageClose = () => {
+  showResponseUsage.value = false;
+};
+
+const fetchResponseUsage = ({ resourceId, ...params }) =>
+  CaptainResponseAPI.getDrilldown({ responseId: resourceId, ...params });
 
 const updateURLWithFilters = (page, search) => {
   const query = {
@@ -184,6 +200,9 @@ const fetchResponseAfterBulkAction = () => {
 const onPageChange = page => {
   const hadSelection = bulkSelectedIds.value.size > 0;
 
+  showResponseUsage.value = false;
+  usageResponse.value = null;
+
   fetchResponses(page);
 
   if (hadSelection) {
@@ -230,6 +249,8 @@ watch(
   selectedAssistantId,
   () => {
     selectedResponse.value = null;
+    usageResponse.value = null;
+    showResponseUsage.value = false;
     bulkSelectedIds.value = new Set();
     store.dispatch('captainResponses/setRecords', {
       records: [],
@@ -343,6 +364,7 @@ onUnmounted(() => {
           :status="response.status"
           :created-at="response.created_at"
           :updated-at="response.updated_at"
+          :used-in-conversations-count="response.used_in_conversations_count"
           :is-selected="bulkSelectedIds.has(response.id)"
           :selectable="hoveredCard === response.id || bulkSelectedIds.size > 0"
           :show-menu="!bulkSelectedIds.has(response.id)"
@@ -351,9 +373,20 @@ onUnmounted(() => {
           @navigate="handleNavigationAction"
           @select="handleCardSelect"
           @hover="isHovered => handleCardHover(isHovered, response.id)"
+          @view-conversations="handleShowResponseUsage"
         />
       </div>
     </template>
+
+    <ConversationUsageDrawer
+      :open="showResponseUsage"
+      :resource-id="usageResponse?.id"
+      :title="usageResponse?.question || ''"
+      :conversation-count="usageResponse?.used_in_conversations_count || 0"
+      :fetcher="fetchResponseUsage"
+      empty-state-key="CAPTAIN.RESPONSES.NO_USED_CONVERSATIONS"
+      @close="handleResponseUsageClose"
+    />
 
     <DeleteDialog
       v-if="selectedResponse"

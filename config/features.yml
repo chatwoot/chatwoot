@@ -228,8 +228,7 @@
   chatwoot_internal: true
 - name: companies
   display_name: Companies
-  enabled: false
-  premium: true
+  enabled: true
 - name: channel_tiktok
   display_name: TikTok Channel
   enabled: true
@@ -263,6 +262,7 @@
 - name: whatsapp_reconfigure
   display_name: WhatsApp Reconfigure
   enabled: false
+  deprecated: true
   column: feature_flags_ext_1
 - name: whatsapp_embedded_signup_inbox_creation
   display_name: WhatsApp Embedded Signup Flow
@@ -270,5 +270,15 @@
   column: feature_flags_ext_1
 - name: delayed_automations
   display_name: Delayed Automations
+  enabled: false
+  column: feature_flags_ext_1
+- name: audit_log_ip_address
+  display_name: Audit Log IP Address
+  help_url: https://chwt.app/hc/audit-logs
+  enabled: false
+  premium: true
+  column: feature_flags_ext_1
+- name: captain_classifier
+  display_name: Captain Classifier
   enabled: false
   column: feature_flags_ext_1

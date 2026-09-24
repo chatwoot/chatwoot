@@ -7,6 +7,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  name: {
+    type: String,
+    default: '',
+  },
   label: {
     type: String,
     required: true,
@@ -71,7 +75,7 @@ const handleChange = () => {
           :id="`${id}`"
           :checked="isActive"
           :value="id"
-          :name="id"
+          :name="name || id"
           :disabled="disabled"
           type="radio"
           class="shadow cursor-pointer grid place-items-center border-2 border-n-strong appearance-none rounded-full w-5 h-5 checked:bg-n-brand before:content-[''] before:bg-n-brand before:border-4 before:rounded-full before:border-n-strong checked:before:w-[18px] checked:before:h-[18px] checked:border checked:border-n-brand"
