@@ -7,12 +7,11 @@ $flashes: (
 ) !default;
 
 .flashes {
-  left: 50%;
-  max-width: 40rem;
+  bottom: 1.5rem;
+  max-width: 26rem;
   pointer-events: none;
   position: fixed;
-  top: 4.5rem;
-  transform: translateX(-50%);
+  right: 1.5rem;
   width: calc(100% - 2rem);
   z-index: 50;
 }
@@ -35,7 +34,7 @@ $flashes: (
     margin-bottom: $base-spacing / 2;
     padding: $base-spacing / 2;
     pointer-events: auto;
-    text-align: center;
+    text-align: left;
 
     &:hover {
       animation-play-state: paused;
