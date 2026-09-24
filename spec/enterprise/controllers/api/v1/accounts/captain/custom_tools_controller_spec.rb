@@ -217,6 +217,28 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(Captain::CustomTool.find(json_response[:id]).headers).to eq('X-Tenant-Id' => 'acme')
       end
 
+      it 'accepts an empty headers object' do
+        post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
+             params: valid_attributes.deep_merge(custom_tool: { headers: {} }),
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'rejects headers that are not an object' do
+        [['X-Tenant-Id'], 'X-Tenant-Id: acme', nil].each do |headers|
+          post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
+               params: valid_attributes.deep_merge(custom_tool: { headers: headers }),
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity), "expected #{headers.inspect} to be rejected"
+          expect(json_response[:error]).to eq('Headers must be an object of header names and values')
+        end
+        expect(assistant.custom_tools.count).to eq(0)
+      end
+
       it 'rejects invalid headers' do
         post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
              params: valid_attributes.deep_merge(custom_tool: { headers: { 'Host' => 'internal.example.com' } }),

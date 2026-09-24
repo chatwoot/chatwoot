@@ -5,6 +5,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   before_action -> { check_authorization(Captain::CustomTool) }
   before_action :set_current_page, only: [:index]
   before_action :set_custom_tool, only: [:show, :update, :destroy]
+  before_action :validate_headers_param, only: [:create, :update, :test]
 
   def index
     @custom_tools_count = assistant_custom_tools.count
@@ -51,6 +52,14 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
     return if Current.account.feature_enabled?('custom_tools') || Current.account.feature_enabled?('captain_integration_v2')
 
     render json: { error: 'Custom tools are not enabled for this account' }, status: :forbidden
+  end
+
+  # permit(headers: {}) silently drops non-object values, so reject them before they are filtered out
+  def validate_headers_param
+    return unless params[:custom_tool]&.key?(:headers)
+    return if params[:custom_tool][:headers].is_a?(ActionController::Parameters)
+
+    render_could_not_create_error("#{Captain::CustomTool.human_attribute_name(:headers)} #{I18n.t('captain.custom_tool.headers.invalid')}")
   end
 
   def set_custom_tool
