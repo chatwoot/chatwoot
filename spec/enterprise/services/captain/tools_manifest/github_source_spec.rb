@@ -16,6 +16,12 @@ RSpec.describe Captain::ToolsManifest::GithubSource do
       expect([source.repository, source.path]).to eq(['chatwoot/support-tools', 'shopify'])
     end
 
+    it 'identifies the source in lowercase' do
+      source = described_class.new('Chatwoot/Support-Tools/Shopify')
+
+      expect([source.repository, source.path]).to eq(['chatwoot/support-tools', 'shopify'])
+    end
+
     it 'rejects unsupported sources' do
       ['chatwoot/support-tools', 'chatwoot/support-tools/..', 'chatwoot/support-tools/shopify/extra',
        'https://github.com/chatwoot/support-tools/tree/main/shopify', nil].each do |source|
@@ -64,6 +70,13 @@ RSpec.describe Captain::ToolsManifest::GithubSource do
 
       expect(described_class.new('chatwoot/support-tools/shopify').manifest(revision)).to eq('kind: captain_toolset')
       expect(WebMock).to(have_requested(:get, manifest_url).with { |request| !request.headers.key?('Authorization') })
+    end
+
+    it 'downloads the manifest from the folder as it was typed' do
+      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{revision}/Shopify/toolset.yml")
+        .to_return(status: 200, body: 'kind: captain_toolset')
+
+      expect(described_class.new('Chatwoot/Support-Tools/Shopify').manifest(revision)).to eq('kind: captain_toolset')
     end
 
     it 'raises when the manifest cannot be fetched' do
