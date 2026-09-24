@@ -75,6 +75,10 @@ export function useCampaignHistory() {
       await run(async signal => {
         requestSignal = signal;
         let oldestFetchedTime;
+        let pageMeta;
+        const merged = new Map(
+          recipients.value.map(recipient => [recipient.id, recipient])
+        );
         do {
           // Each page needs the cursor returned by the previous request.
           // eslint-disable-next-line no-await-in-loop
@@ -86,25 +90,24 @@ export function useCampaignHistory() {
             }
           );
           if (signal.aborted) return;
-          const merged = new Map(
-            [...recipients.value, ...data.payload].map(recipient => [
-              recipient.id,
-              recipient,
-            ])
+          data.payload.forEach(recipient =>
+            merged.set(recipient.id, recipient)
           );
-          recipients.value = [...merged.values()].sort(
-            (a, b) => b.sent_at - a.sent_at || b.id - a.id
-          );
-          if (updatePagination) nextBefore.value = data.meta.next_before;
+          pageMeta = data.meta;
           before = data.meta.next_before;
           oldestFetchedTime = data.payload.at(-1)?.sent_at;
-          firstMessageId.value = data.meta.first_message_id;
-          hasLoaded.value = true;
         } while (
           before !== null &&
           oldestFetchedTime >=
             (refresh ? refreshUntil : oldestMessageTime.value)
         );
+        // Publish a complete load so failed pages cannot advance retry boundaries.
+        recipients.value = [...merged.values()].sort(
+          (a, b) => b.sent_at - a.sent_at || b.id - a.id
+        );
+        if (updatePagination) nextBefore.value = pageMeta.next_before;
+        firstMessageId.value = pageMeta.first_message_id;
+        hasLoaded.value = true;
       });
     } catch (error) {
       hasError.value = true;

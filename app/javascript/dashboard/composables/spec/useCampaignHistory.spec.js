@@ -120,6 +120,62 @@ describe('useCampaignHistory retry', () => {
     }
   );
 
+  it.each([false, true])(
+    'retries every required page after a partial load fails, refresh=%s',
+    async refresh => {
+      if (refresh) {
+        ConversationApi.getCampaignHistory.mockResolvedValueOnce({
+          data: {
+            payload: [{ id: 10, sent_at: 90, source_id: 'campaign-10' }],
+            meta: { next_before: null, first_message_id: 1 },
+          },
+        });
+        history = scope.run(() => useCampaignHistory());
+        await flushPromises();
+      }
+      const firstPage = {
+        data: {
+          payload: [{ id: 30, sent_at: 300, source_id: 'campaign-30' }],
+          meta: { next_before: 30, first_message_id: 1 },
+        },
+      };
+      ConversationApi.getCampaignHistory
+        .mockResolvedValueOnce(firstPage)
+        .mockRejectedValueOnce(new Error('Second page failed'));
+      if (refresh) {
+        chat.value.messages.push({ id: 2, created_at: 400 });
+      } else {
+        history = scope.run(() => useCampaignHistory());
+      }
+      await flushPromises();
+      expect(history.campaignHistoryError.value).toBe(true);
+      expect(history.visibleCampaignHistory.value.map(item => item.id)).toEqual(
+        refresh ? [10] : []
+      );
+      ConversationApi.getCampaignHistory
+        .mockResolvedValueOnce(firstPage)
+        .mockResolvedValueOnce({
+          data: {
+            payload: [
+              { id: 20, sent_at: 200, source_id: 'campaign-20' },
+              { id: 10, sent_at: 90, source_id: 'campaign-10' },
+            ],
+            meta: { next_before: null, first_message_id: 1 },
+          },
+        });
+      chat.value.messages.push({ id: 3, created_at: 500 });
+      await flushPromises();
+      expect(ConversationApi.getCampaignHistory).toHaveBeenLastCalledWith(1, {
+        before: 30,
+        signal: expect.any(AbortSignal),
+      });
+      expect(history.campaignHistoryError.value).toBe(false);
+      expect(history.visibleCampaignHistory.value.map(item => item.id)).toEqual(
+        [30, 20, 10]
+      );
+    }
+  );
+
   it('clears the failed refresh mode when switching conversations', async () => {
     ConversationApi.getCampaignHistory.mockResolvedValueOnce({
       data: {
