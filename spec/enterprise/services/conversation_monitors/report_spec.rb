@@ -47,6 +47,46 @@ RSpec.describe ConversationMonitors::Report do
     expect(report.timeseries[:buckets].pluck(:covered)).to eq([true, false])
   end
 
+  it 'marks a completed bucket as uncovered while eligible work has not produced an evaluation' do
+    conversation = create(:conversation, account: monitor.account, created_at: 1.day.ago)
+    ConversationMonitors::WorkItem.for_conversation(conversation).request!(activity_at: Time.current)
+    report = described_class.new(monitor, since: 1.day.ago.beginning_of_day.to_i, until: Time.current.beginning_of_day.to_i,
+                                          interval: 'day', timezone: 'UTC')
+
+    expect(report.timeseries[:buckets]).to contain_exactly(include(count: 0, covered: false))
+  end
+
+  it 'does not mark a completed bucket as uncovered for work already evaluated by this monitor' do
+    conversation = create(:conversation, account: monitor.account, created_at: 1.day.ago)
+    work = ConversationMonitors::WorkItem.for_conversation(conversation)
+    work.request!(activity_at: Time.current)
+    monitor.evaluations.create!(account: monitor.account, conversation: conversation, status: 'matched', input_revision: work.revision)
+    report = described_class.new(monitor, since: 1.day.ago.beginning_of_day.to_i, until: Time.current.beginning_of_day.to_i,
+                                          interval: 'day', timezone: 'UTC')
+
+    expect(report.timeseries[:buckets]).to contain_exactly(include(count: 1, covered: true))
+  end
+
+  it 'marks an unmatched evaluation as uncovered when newer work is still queued' do
+    conversation = create(:conversation, account: monitor.account, created_at: 1.day.ago)
+    work = ConversationMonitors::WorkItem.for_conversation(conversation)
+    work.request!(activity_at: Time.current)
+    monitor.evaluations.create!(account: monitor.account, conversation: conversation, status: 'unmatched', input_revision: work.revision - 1)
+    report = described_class.new(monitor, since: 1.day.ago.beginning_of_day.to_i, until: Time.current.beginning_of_day.to_i,
+                                          interval: 'day', timezone: 'UTC')
+
+    expect(report.timeseries[:buckets]).to contain_exactly(include(count: 0, covered: false))
+  end
+
+  it 'ignores shared work queued for activity before this monitor became active' do
+    conversation = create(:conversation, account: monitor.account, created_at: 4.days.ago)
+    ConversationMonitors::WorkItem.for_conversation(conversation).request!(activity_at: 3.days.ago)
+    report = described_class.new(monitor, since: 4.days.ago.beginning_of_day.to_i, until: 3.days.ago.beginning_of_day.to_i,
+                                          interval: 'day', timezone: 'UTC')
+
+    expect(report.timeseries[:buckets]).to contain_exactly(include(count: 0, covered: true))
+  end
+
   it 'preserves historical coverage and marks partial and full post-pause buckets as uncovered' do
     monitor.update!(paused_at: 90.minutes.ago)
     report = described_class.new(monitor, since: 3.hours.ago.to_i, until: Time.current.to_i, interval: 'hour', timezone: 'UTC')

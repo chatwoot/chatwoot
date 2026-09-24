@@ -31,6 +31,28 @@ class ConversationMonitors::Monitor < ApplicationRecord
     account.conversations.where(id: evaluations.where(status: 'matched').select(:conversation_id))
   end
 
+  def pending_work_items
+    work_items = ConversationMonitors::WorkItem.joins(:conversation)
+                                               .joins('LEFT JOIN conversation_monitor_evaluations monitor_evaluations ON ' \
+                                                      'monitor_evaluations.conversation_id = conversation_monitor_work_items.conversation_id ' \
+                                                      "AND monitor_evaluations.monitor_id = #{id}")
+                                               .where(account_id: account_id, conversations: { account_id: account_id })
+                                               .where.not(due_at: nil)
+    work_items.where(<<~SQL.squish, collection_version, resumed_at || created_at, id, collection_version)
+      (monitor_evaluations.id IS NULL OR
+        (monitor_evaluations.status != 'matched' AND
+         (monitor_evaluations.status != 'unmatched' OR
+          monitor_evaluations.input_revision < conversation_monitor_work_items.revision)))
+      AND (monitor_evaluations.requested_version = ? OR
+           conversation_monitor_work_items.activity_at >= ? OR
+           EXISTS (SELECT 1 FROM conversation_monitor_scans scans
+                   WHERE scans.monitor_id = ? AND scans.collection_version = ?
+                     AND scans.kind = 'catch_up'
+                     AND scans.started_at <= conversation_monitor_work_items.activity_at
+                     AND scans.ended_at > conversation_monitor_work_items.activity_at))
+    SQL
+  end
+
   def eligible_activity?(activity_at, evaluation = nil)
     return true if evaluation&.requested_version == collection_version
     return false unless activity_at

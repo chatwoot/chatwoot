@@ -9,8 +9,10 @@ class ConversationMonitors::Report
   end
 
   def timeseries
-    counts = bucket_counts('matched')
-    @incomplete_buckets = bucket_counts(%w[pending error skipped])
+    counts = bucket_counts(evaluation_scope('matched'))
+    @incomplete_buckets = bucket_counts(evaluation_scope(%w[pending error skipped]))
+    @incomplete_buckets.merge!(bucket_counts(@monitor.pending_work_items.where(conversations: { created_at: @buckets.since...@buckets.until_time })
+                                                                    .select('conversations.created_at')))
     {
       time_basis: 'conversation_created_at', timezone: @buckets.timezone, interval: @buckets.interval,
       data_revision: @monitor.data_revision, total_count: counts.values.sum,
@@ -55,9 +57,12 @@ class ConversationMonitors::Report
     page
   end
 
-  def bucket_counts(statuses)
-    conversations = @monitor.account.conversations.where(id: @monitor.evaluations.where(status: statuses).select(:conversation_id))
-    scope = conversations.where(created_at: @buckets.since...@buckets.until_time).select(:created_at)
+  def evaluation_scope(statuses)
+    @monitor.account.conversations.where(id: @monitor.evaluations.where(status: statuses).select(:conversation_id))
+            .where(created_at: @buckets.since...@buckets.until_time).select(:created_at)
+  end
+
+  def bucket_counts(scope)
     boundaries = @buckets.ranges.map { |range| range.begin.to_i }.join(',')
     sql = <<~SQL.squish
       SELECT width_bucket(EXTRACT(EPOCH FROM matching.created_at)::double precision,
