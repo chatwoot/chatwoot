@@ -49,5 +49,14 @@ RSpec.describe Channel::FacebookPage do
 
       channel.subscribe
     end
+
+    it 'logs an error when the subscription fails' do
+      allow(Facebook::Messenger::Subscriptions).to receive(:subscribe).and_raise(StandardError, 'boom')
+      allow(Rails.logger).to receive(:error)
+
+      channel.subscribe
+
+      expect(Rails.logger).to have_received(:error).with(a_string_including("Failed to subscribe page #{channel.page_id}"))
+    end
   end
 end

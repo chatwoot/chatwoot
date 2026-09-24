@@ -53,7 +53,7 @@ class Channel::Instagram < ApplicationRecord
   rescue StandardError => e
     raise if unified_login?
 
-    Rails.logger.debug { "Rescued: #{e.inspect}" }
+    Rails.logger.error("[Channel::Instagram] Failed to subscribe account #{instagram_id} to webhooks: #{e.inspect}")
     true
   end
 
@@ -83,7 +83,7 @@ class Channel::Instagram < ApplicationRecord
     )
     true
   rescue StandardError => e
-    Rails.logger.debug { "Rescued: #{e.inspect}" }
+    Rails.logger.error("[Channel::Instagram] Failed to unsubscribe account #{instagram_id} from webhooks: #{e.inspect}")
     true
   end
 
