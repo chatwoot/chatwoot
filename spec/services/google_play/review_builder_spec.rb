@@ -46,6 +46,7 @@ RSpec.describe GooglePlay::ReviewBuilder do
 
   it 'is idempotent for the same userComment timestamp' do
     described_class.new(review: base_review, channel: channel).perform
+    expect(Message.incoming.last.conversation.created_at).to eq(Message.incoming.last.created_at)
 
     expect do
       described_class.new(review: base_review, channel: channel).perform
@@ -87,13 +88,15 @@ RSpec.describe GooglePlay::ReviewBuilder do
                   ])
     end
 
-    it 'mirrors the developer comment as an outgoing message' do
+    it 'mirrors an earlier developer comment and uses its timestamp for the conversation' do
+      review_with_reply['comments'].last['developerComment']['lastModified']['seconds'] = '1778000000'
       described_class.new(review: review_with_reply, channel: channel).perform
 
       outgoing = Message.outgoing.last
       expect(outgoing.content).to eq('Thanks for the feedback!')
-      expect(outgoing.source_id).to eq('rev-abc::reply::1779100000.000000000')
+      expect(outgoing.source_id).to eq('rev-abc::reply::1778000000.000000000')
       expect(outgoing.status).to eq('sent')
+      expect(outgoing.conversation.created_at).to eq(outgoing.created_at)
     end
 
     it 'is idempotent and does not duplicate the outgoing reply' do

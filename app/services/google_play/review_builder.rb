@@ -85,6 +85,7 @@ class GooglePlay::ReviewBuilder
       inbox_id: inbox.id,
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id,
+      created_at: [user_comment, developer_comment].compact.map { |comment| comment_timestamp(comment) }.min,
       additional_attributes: { source: 'google_play', app_id: channel.app_id }
     )
   end
