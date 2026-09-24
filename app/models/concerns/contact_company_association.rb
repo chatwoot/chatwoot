@@ -29,6 +29,7 @@ module ContactCompanyAssociation
   end
 
   def associate_company_from_name
+    # TODO: Remove this legacy free-text name bridge after Companies is fully rolled out.
     name = additional_attributes['company_name'].strip
     self.company = account.companies.where('LOWER(name) = ?', name.downcase).first || account.companies.create!(name: name)
   end
