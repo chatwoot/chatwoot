@@ -103,6 +103,10 @@ class Captain::CustomTool < ApplicationRecord
   validate :validate_headers
 
   scope :enabled, -> { where(enabled: true) }
+  scope :from_github, lambda { |repository, path|
+    where("source_metadata->>'source' = 'github'")
+      .where("source_metadata->>'repository' = ? AND source_metadata->>'path' = ?", repository, path)
+  }
 
   def to_tool_metadata
     {

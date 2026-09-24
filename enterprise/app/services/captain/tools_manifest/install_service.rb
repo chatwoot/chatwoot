@@ -1,18 +1,13 @@
 # Installs a toolset from a public GitHub repository onto an assistant.
 #
-# The toolset is addressed as owner/repository/folder and pinned to a commit: the
-# given revision, or the latest commit on the default branch. Installing the same
-# commit again is a no-op. Installing another commit updates the existing tools in
-# place, matched by manifest tool id, so slugs and the user-owned enabled flag stay.
+# The toolset is pinned to a commit: the given revision, or the latest commit on the
+# default branch. Installing the same commit again is a no-op. Installing another
+# commit updates the existing tools in place, matched by manifest tool id, so slugs
+# and the user-owned enabled flag stay.
 class Captain::ToolsManifest::InstallService
   class InstallError < StandardError; end
 
   SOURCE = 'github'.freeze
-  SOURCE_PATTERN = %r{\A([\w.-]+)/([\w.-]+)/([\w.-]+)\z}
-  DOT_SEGMENT_PATTERN = /\A\.+\z/
-  REVISION_PATTERN = /\A[0-9a-f]{40}\z/
-  MANIFEST_FILE = 'toolset.yml'.freeze
-  REQUEST_TIMEOUT = 10
   CONFIGURATION_SECTIONS = %w[inputs secrets].freeze
   NUMBER_PATTERN = /\A-?\d+(\.\d+)?\z/
 
@@ -24,11 +19,15 @@ class Captain::ToolsManifest::InstallService
   end
 
   def perform
-    parse_source!
-    revision = @revision || latest_revision
+    @github_source = Captain::ToolsManifest::GithubSource.new(@source)
+    if @revision && !Captain::ToolsManifest::GithubSource::REVISION_PATTERN.match?(@revision)
+      raise InstallError, 'Revision must be a full 40-character commit SHA'
+    end
+
+    revision = @revision || @github_source.latest_revision
     return installed_tools if installed_tools.any? && installed_tools.all? { |tool| tool.source_metadata['revision'] == revision }
 
-    manifest_source = fetch("https://raw.githubusercontent.com/#{@repository}/#{revision}/#{@path}/#{MANIFEST_FILE}")
+    manifest_source = @github_source.manifest(revision)
     manifest = Captain::ToolsManifest::Validator.new(manifest_source).perform
     values = configuration_values!(manifest)
 
@@ -37,58 +36,8 @@ class Captain::ToolsManifest::InstallService
 
   private
 
-  def parse_source!
-    owner, repository, path = SOURCE_PATTERN.match(@source.to_s)&.captures
-    segments = [owner, repository, path]
-    raise InstallError, 'Source must be owner/repository/folder' if owner.nil? || segments.any? { |segment| segment.match?(DOT_SEGMENT_PATTERN) }
-    raise InstallError, 'Revision must be a full 40-character commit SHA' if @revision && !REVISION_PATTERN.match?(@revision)
-
-    @repository = "#{owner}/#{repository}"
-    @path = path
-  end
-
-  def latest_revision
-    revision = fetch_latest_revision.strip
-    raise InstallError, "Could not resolve the latest commit of #{@repository}" unless REVISION_PATTERN.match?(revision)
-
-    revision
-  end
-
-  # The token only raises the GitHub API rate limit, so an expired or revoked one falls back to an unauthenticated lookup
-  def fetch_latest_revision
-    url = "https://api.github.com/repos/#{@repository}/commits/HEAD"
-    headers = { 'Accept' => 'application/vnd.github.sha' }
-    token = GlobalConfigService.load('CAPTAIN_TOOLS_GITHUB_TOKEN', nil)
-    response = get(url, token.present? ? headers.merge('Authorization' => "Bearer #{token}") : headers)
-    if token.present? && response.code == 401
-      Rails.logger.warn('[Captain::ToolsManifest] CAPTAIN_TOOLS_GITHUB_TOKEN was rejected by GitHub, retrying without it')
-      response = get(url, headers)
-    end
-    body!(response, url)
-  end
-
-  def fetch(url)
-    body!(get(url), url)
-  end
-
-  # Only GitHub's own hosts are requested and path segments are validated, so SafeFetch's SSRF checks aren't needed
-  def get(url, headers = {})
-    HTTParty.get(url, headers: headers, timeout: REQUEST_TIMEOUT)
-  rescue HTTParty::Error, SocketError, Timeout::Error, SystemCallError, OpenSSL::SSL::SSLError => e
-    raise InstallError, "Could not fetch #{url}: #{e.message}"
-  end
-
-  def body!(response, url)
-    raise InstallError, "Could not fetch #{url}: #{response.code}" unless response.success?
-
-    response.body
-  end
-
   def installed_tools
-    @installed_tools ||= @assistant.custom_tools
-                                   .where("source_metadata->>'source' = ?", SOURCE)
-                                   .where("source_metadata->>'repository' = ? AND source_metadata->>'path' = ?", @repository, @path)
-                                   .to_a
+    @installed_tools ||= @assistant.custom_tools.from_github(@github_source.repository, @github_source.path).to_a
   end
 
   def configuration_values!(manifest)
@@ -137,12 +86,12 @@ class Captain::ToolsManifest::InstallService
   def source_metadata(manifest, revision, manifest_source)
     {
       'source' => SOURCE,
-      'repository' => @repository,
-      'path' => @path,
+      'repository' => @github_source.repository,
+      'path' => @github_source.path,
       'revision' => revision,
       'version' => manifest['version'],
       'manifest_digest' => "sha256:#{Digest::SHA256.hexdigest(manifest_source)}",
-      'installation_id' => installed_tools.first&.source_metadata&.dig('installation_id') || SecureRandom.uuid
+      'installation_id' => installed_tools.first&.source_metadata&.fetch('installation_id') || SecureRandom.uuid
     }
   end
 
