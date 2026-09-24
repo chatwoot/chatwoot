@@ -7,7 +7,7 @@ RSpec.describe Captain::Conversation::ResolutionMessageService do
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:assistant_config) { { 'resolution_message' => 'Thanks for contacting us.' } }
 
-  before { account.enable_features('captain_integration_v2') }
+  before { account.enable_features('captain_integration') }
 
   it 'creates the configured public resolution message' do
     message = described_class.new(conversation: conversation, assistant: assistant).perform
