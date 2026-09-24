@@ -5,6 +5,7 @@ json.repository @github_source.repository
 json.path @github_source.path
 json.revision @revision
 json.installed_revision @installed_revision
+json.up_to_date @up_to_date
 fields = %w[inputs secrets].flat_map { |section| @manifest[section].map { |name, definition| [section, name, definition] } }
 json.fields fields do |(section, name, definition)|
   json.name name
