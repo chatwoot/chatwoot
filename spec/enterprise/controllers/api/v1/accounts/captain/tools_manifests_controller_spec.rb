@@ -147,6 +147,18 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
       end
     end
 
+    it 'installs a manifest without inputs or secrets when configuration is omitted' do
+      tool = manifest['tools'].first.merge('endpoint_url' => 'https://api.example.com/orders/{{ order_id }}.json', 'auth_type' => 'none')
+      fieldless_manifest = manifest.except('inputs', 'secrets').merge('tools' => [tool.except('auth_config')])
+      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{revision}/shopify/toolset.yml")
+        .to_return(status: 200, body: fieldless_manifest.to_yaml)
+
+      post "#{base_url}/install", params: { assistant_id: assistant.id, source: source }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(assistant.custom_tools.count).to eq(1)
+    end
+
     it 'returns unprocessable entity for unknown configuration sections' do
       post "#{base_url}/install", params: { assistant_id: assistant.id, source: source, configuration: configuration.merge(typo: {}) },
                                   headers: admin.create_new_auth_token, as: :json
