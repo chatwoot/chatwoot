@@ -20,6 +20,13 @@ class Captain::ToolsManifest::InstallService
       (manifest['tools'].pluck('id') - tools.map { |tool| tool.source_metadata['tool_id'] }).empty?
   end
 
+  # Fields filled into auth_config must have a value even when optional, or the tool would send blank credentials
+  def self.auth_field_names(manifest)
+    pattern = Captain::ToolsManifest::Validator::INSTALL_PLACEHOLDER_PATTERN
+    placeholders = manifest['tools'].flat_map { |tool| tool['auth_config'].to_json.scan(pattern) }
+    CONFIGURATION_SECTIONS.index_with { |section| placeholders.filter_map { |kind, name| name if kind.downcase == section } }
+  end
+
   def initialize(assistant:, source:, configuration:, revision: nil)
     @assistant = assistant
     @source = source
@@ -56,17 +63,10 @@ class Captain::ToolsManifest::InstallService
     unknown_sections = configuration.keys - CONFIGURATION_SECTIONS
     raise InstallError, "Unknown configuration sections: #{unknown_sections.join(', ')}" if unknown_sections.any?
 
-    auth_fields = auth_field_names(manifest)
+    auth_fields = self.class.auth_field_names(manifest)
     CONFIGURATION_SECTIONS.index_with do |section|
       section_values!(manifest[section], configuration.fetch(section, {}), section, auth_fields[section])
     end
-  end
-
-  # Fields filled into auth_config must have a value even when optional, or the tool would send blank credentials
-  def auth_field_names(manifest)
-    pattern = Captain::ToolsManifest::Validator::INSTALL_PLACEHOLDER_PATTERN
-    placeholders = manifest['tools'].flat_map { |tool| tool['auth_config'].to_json.scan(pattern) }
-    CONFIGURATION_SECTIONS.index_with { |section| placeholders.filter_map { |kind, name| name if kind.downcase == section } }
   end
 
   def section_values!(definitions, values, section, auth_fields)
