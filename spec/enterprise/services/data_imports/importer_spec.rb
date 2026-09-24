@@ -32,6 +32,35 @@ RSpec.describe DataImports::Importer do
     allow(client).to receive(:retrieve_contact).with('contact_1').and_return(contact_payload)
   end
 
+  %w[bulk fallback].product(%w[reports conversation_monitors]).each do |path, feature|
+    it "recovers historical #{path} imports after #{feature} is reenabled" do
+      account.disable_features!(feature)
+      allow(importer).to receive(:bulk_write_message_entries).and_raise(ActiveRecord::StatementInvalid) if path == 'fallback'
+      create(:installation_config, name: 'CAPTAIN_OPENROUTER_API_KEY', value: 'test-key')
+      endpoint = ConversationMonitors::Configuration.endpoint
+      response = { model: monitor.model, answers: { monitor.id.to_s => { type: 'noul', noul: 0.95 } }, usage: { input_tokens: 100 } }
+      stub_request(:post, endpoint).to_return(status: 200, body: response.to_json)
+
+      importer.perform
+
+      conversation = account.conversations.sole
+      work = ConversationMonitors::WorkItem.find_by!(conversation: conversation)
+      expect(monitor.evaluations.sole).to have_attributes(status: 'pending', requested_version: monitor.collection_version)
+      expect(work).to have_attributes(due_at: be_present, full_history_revision: be > work.processed_revision)
+      work.update!(due_at: Time.current)
+      ConversationMonitors::Evaluator.new(work).perform
+      expect(WebMock).not_to have_requested(:post, endpoint)
+      expect { ConversationMonitors::DispatchJob.perform_now }.not_to have_enqueued_job(ConversationMonitors::ProcessJob)
+
+      account.enable_features!(feature)
+      expect { ConversationMonitors::DispatchJob.perform_now }.to have_enqueued_job(ConversationMonitors::ProcessJob).with(conversation.id)
+      ConversationMonitors::Evaluator.new(work.reload).perform
+
+      expect(monitor.evaluations.sole.status).to eq('matched')
+      expect(WebMock).to have_requested(:post, endpoint).once
+    end
+  end
+
   %w[bulk fallback].each do |path|
     it "enrolls historical conversations after the initial scan using the #{path} import path" do
       allow(importer).to receive(:bulk_write_message_entries).and_raise(ActiveRecord::StatementInvalid) if path == 'fallback'
