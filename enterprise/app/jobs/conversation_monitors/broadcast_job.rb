@@ -12,7 +12,7 @@ class ConversationMonitors::BroadcastJob < ApplicationJob
   def perform(monitor_id)
     # Release the coalescing window before reading so later results can queue another update.
     Redis::Alfred.delete("conversation_monitors:broadcast:#{monitor_id}")
-    monitor = ConversationMonitors::Monitor.visible.find_by(id: monitor_id)
+    monitor = ConversationMonitors::Monitor.find_by(id: monitor_id)
     return unless monitor && ConversationMonitors::Configuration.enabled?(monitor.account)
 
     tokens = monitor.account.account_users.includes(:user, :custom_role).filter_map do |membership|
@@ -21,8 +21,8 @@ class ConversationMonitors::BroadcastJob < ApplicationJob
     end
     return unless tokens.any?
 
-    ActionCableBroadcastJob.perform_later(tokens, 'monitor.updated', {
-                                            account_id: monitor.account_id, monitor_id: monitor.id, data_revision: monitor.data_revision
-                                          })
+    payload = { account_id: monitor.account_id, monitor_id: monitor.id, data_revision: monitor.data_revision }
+    payload[:deleted] = true if monitor.deleted_at
+    ActionCableBroadcastJob.perform_later(tokens, 'monitor.updated', payload)
   end
 end

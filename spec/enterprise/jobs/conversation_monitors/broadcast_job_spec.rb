@@ -29,6 +29,17 @@ RSpec.describe ConversationMonitors::BroadcastJob do
     )
   end
 
+  it 'broadcasts a tombstone after the monitor is soft deleted' do
+    account.enable_features!('reports', 'conversation_monitors')
+    admin = create(:user, account: account, role: :administrator)
+    monitor.update!(deleted_at: Time.current, data_revision: 1)
+
+    expect { described_class.perform_now(monitor.id) }.to have_enqueued_job(ActionCableBroadcastJob).with(
+      [admin.pubsub_token], 'monitor.updated',
+      { account_id: account.id, monitor_id: monitor.id, data_revision: 1, deleted: true }
+    )
+  end
+
   it 'only broadcasts minimal invalidations to currently authorized report viewers' do
     account.enable_features!('reports', 'conversation_monitors')
     admin = create(:user, account: account, role: :administrator)

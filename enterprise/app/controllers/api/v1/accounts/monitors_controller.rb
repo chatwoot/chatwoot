@@ -75,6 +75,7 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
 
   def destroy
     @monitor.with_lock { @monitor.update!(deleted_at: Time.current, data_revision: @monitor.data_revision + 1) }
+    ConversationMonitors::BroadcastJob.perform_later(@monitor.id)
     head :no_content
   end
 

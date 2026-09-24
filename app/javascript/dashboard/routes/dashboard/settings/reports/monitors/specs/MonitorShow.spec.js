@@ -8,13 +8,15 @@ import report from 'dashboard/i18n/locale/en/report.json';
 const state = vi.hoisted(() => ({
   route: null,
   refresh: null,
+  refreshOptions: null,
+  router: null,
   account: null,
   i18n: null,
 }));
 vi.mock('vue-router', async importOriginal => ({
   ...(await importOriginal()),
   useRoute: () => state.route,
-  useRouter: () => ({ push: vi.fn() }),
+  useRouter: () => state.router,
 }));
 vi.mock('dashboard/composables/useAccount', () => ({
   useAccount: () => ({
@@ -38,8 +40,9 @@ vi.mock('dashboard/components-next/dialog/Dialog.vue', () => ({
   },
 }));
 vi.mock('../useMonitorRefresh', () => ({
-  useMonitorRefresh: refresh => {
+  useMonitorRefresh: (refresh, options) => {
     state.refresh = refresh;
+    state.refreshOptions = options;
   },
 }));
 vi.mock('dashboard/api/monitors', () => ({
@@ -87,6 +90,7 @@ describe('MonitorShow', () => {
     vi.setSystemTime(new Date('2026-09-22T12:00:00Z'));
     state.route = reactive({ params: { accountId: '1', monitorId: '10' } });
     state.account = reactive({ reporting_timezone: 'UTC' });
+    state.router = { push: vi.fn(), replace: vi.fn() };
     state.i18n = { t: key => key, te: () => true, locale: ref('en') };
     MonitorsAPI.timeseries.mockReset();
     MonitorsAPI.update.mockReset();
@@ -232,6 +236,19 @@ describe('MonitorShow', () => {
       until: now,
       interval: 'hour',
       timezone: 'UTC',
+    });
+  });
+
+  it('clears the deleted monitor and leaves its detail route on a tombstone event', async () => {
+    wrapper = shallowMount(MonitorShow, mountOptions);
+    await flushPromises();
+
+    state.refreshOptions.onDeleted();
+    await flushPromises();
+
+    expect(wrapper.findComponent({ name: 'BarChart' }).exists()).toBe(false);
+    expect(state.router.replace).toHaveBeenCalledWith({
+      name: 'monitor_reports_index',
     });
   });
 

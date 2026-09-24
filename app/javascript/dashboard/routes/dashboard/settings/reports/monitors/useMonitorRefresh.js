@@ -6,7 +6,10 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 const REFRESH_INTERVAL_MS = 30000;
 const REFRESH_THROTTLE_MS = 2000;
 
-export function useMonitorRefresh(refresh, { monitorId = null } = {}) {
+export function useMonitorRefresh(
+  refresh,
+  { monitorId = null, onDeleted } = {}
+) {
   // The throttle's trailing call can still fire after the page is gone.
   let isActive = true;
   const isVisible = () => document.visibilityState === 'visible';
@@ -30,7 +33,12 @@ export function useMonitorRefresh(refresh, { monitorId = null } = {}) {
   useEmitter(BUS_EVENTS.WEBSOCKET_RECONNECT, throttledRefresh);
   useEmitter(BUS_EVENTS.MONITOR_UPDATED, data => {
     const scopedId = toValue(monitorId);
-    if (!scopedId || data.monitor_id === scopedId) throttledRefresh();
+    if (scopedId && data.monitor_id !== scopedId) return;
+    if (scopedId && data.deleted && onDeleted) {
+      onDeleted();
+      return;
+    }
+    throttledRefresh();
   });
   onBeforeUnmount(() => {
     isActive = false;

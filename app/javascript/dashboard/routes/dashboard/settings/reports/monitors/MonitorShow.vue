@@ -207,6 +207,12 @@ watch(isAdmin, () => {
 });
 useMonitorRefresh(fetchReport, {
   monitorId: () => Number(monitorId.value),
+  onDeleted: () => {
+    abort();
+    result.value = null;
+    drilldown.value = null;
+    router.replace(accountScopedRoute('monitor_reports_index'));
+  },
 });
 
 const openAction = nextAction =>

@@ -9,9 +9,10 @@ describe('useMonitorRefresh', () => {
   let refresh;
   let visibility;
   let monitorId;
+  let onDeleted;
   const RefreshHost = defineComponent({
     setup() {
-      useMonitorRefresh(refresh, { monitorId });
+      useMonitorRefresh(refresh, { monitorId, onDeleted });
       return () => null;
     },
   });
@@ -25,6 +26,7 @@ describe('useMonitorRefresh', () => {
     );
     refresh = vi.fn();
     monitorId = null;
+    onDeleted = vi.fn();
     wrapper = mount(RefreshHost);
     await nextTick();
   });
@@ -56,6 +58,26 @@ describe('useMonitorRefresh', () => {
     expect(refresh).not.toHaveBeenCalled();
     emitter.emit(BUS_EVENTS.MONITOR_UPDATED, { account_id: 1, monitor_id: 2 });
     expect(refresh).toHaveBeenCalledOnce();
+  });
+
+  it('handles a matching deletion immediately without refreshing a removed monitor', () => {
+    wrapper.unmount();
+    monitorId = 2;
+    wrapper = mount(RefreshHost);
+
+    emitter.emit(BUS_EVENTS.MONITOR_UPDATED, {
+      account_id: 1,
+      monitor_id: 3,
+      deleted: true,
+    });
+    expect(onDeleted).not.toHaveBeenCalled();
+    emitter.emit(BUS_EVENTS.MONITOR_UPDATED, {
+      account_id: 1,
+      monitor_id: 2,
+      deleted: true,
+    });
+    expect(onDeleted).toHaveBeenCalledOnce();
+    expect(refresh).not.toHaveBeenCalled();
   });
 
   it('keeps the final evaluation update when it arrives during the refresh throttle', async () => {

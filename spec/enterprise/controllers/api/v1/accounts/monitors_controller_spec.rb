@@ -195,7 +195,7 @@ RSpec.describe 'Monitors API', type: :request do
     patch "#{base}/#{monitor.id}", headers: headers, params: { condition: 'a new condition', collection_version: 0 }, as: :json
     expect(response).to have_http_status(:ok)
     expect(monitor.reload.condition).to eq('a new condition')
-    delete "#{base}/#{monitor.id}", headers: headers
+    expect { delete "#{base}/#{monitor.id}", headers: headers }.to have_enqueued_job(ConversationMonitors::BroadcastJob).with(monitor.id)
     expect(response).to have_http_status(:no_content)
     get "#{base}/#{monitor.id}", headers: headers
     expect(response).to have_http_status(:not_found)
