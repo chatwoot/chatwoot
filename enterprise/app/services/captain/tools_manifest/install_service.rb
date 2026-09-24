@@ -1,9 +1,9 @@
 # Installs a toolset from a public GitHub repository onto an assistant.
 #
 # The toolset is pinned to a commit: the given revision, or the latest commit on the
-# default branch. Installing the same commit again is a no-op. Installing another
-# commit updates the existing tools in place, matched by manifest tool id, so slugs
-# and the user-owned enabled flag stay.
+# default branch. Installing the same commit again is a no-op once every tool is
+# present. Otherwise the existing tools are updated in place, matched by manifest
+# tool id so slugs and the user-owned enabled flag stay, and missing ones are added.
 class Captain::ToolsManifest::InstallService
   class InstallError < StandardError; end
 
@@ -25,16 +25,23 @@ class Captain::ToolsManifest::InstallService
     end
 
     revision = @revision || @github_source.latest_revision
-    return installed_tools if installed_tools.any? && installed_tools.all? { |tool| tool.source_metadata['revision'] == revision }
-
     manifest_source = @github_source.manifest(revision)
     manifest = Captain::ToolsManifest::Validator.new(manifest_source).perform
+    return installed_tools if complete_install?(installed_tools, manifest, revision)
+
     values = configuration_values!(manifest)
 
     install!(manifest, values, source_metadata(manifest, revision, manifest_source))
   end
 
   private
+
+  # Installed at this commit with every manifest tool present, so there is nothing to add or update
+  def complete_install?(tools, manifest, revision)
+    tools.any? &&
+      tools.all? { |tool| tool.source_metadata['revision'] == revision } &&
+      (manifest['tools'].pluck('id') - tools.map { |tool| tool.source_metadata['tool_id'] }).empty?
+  end
 
   def installed_tools
     @installed_tools ||= @assistant.custom_tools.from_github(@github_source.repository, @github_source.path).to_a
