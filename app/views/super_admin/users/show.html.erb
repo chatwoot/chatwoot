@@ -50,10 +50,17 @@ as well as a link to its edit page.
             <button type="button" class="<%= item_class %>" data-dialog-open="unblock-email-dialog">
               <%= t("super_admin.users.email_suppression.clear_button") %>
             </button>
-          <% elsif params[:suppression] == "complaint" %>
-            <button type="button" class="<%= item_class %>" disabled title="<%= t("super_admin.users.email_suppression.complaint_hint") %>">
-              <%= t("super_admin.users.email_suppression.clear_button") %>
-            </button>
+          <% else %>
+            <% unblock_hint = case params[:suppression]
+                              when "complaint" then t("super_admin.users.email_suppression.complaint_hint")
+                              when "not_suppressed" then t("super_admin.users.email_suppression.not_blocked_hint")
+                              else t("super_admin.users.email_suppression.check_first_hint")
+                              end %>
+            <span class="block cursor-not-allowed" title="<%= unblock_hint %>">
+              <button type="button" class="<%= item_class %> pointer-events-none" disabled>
+                <%= t("super_admin.users.email_suppression.clear_button") %>
+              </button>
+            </span>
           <% end %>
           <%= button_to(
                   t("super_admin.users.email_suppression.test_email_button"),

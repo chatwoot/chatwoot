@@ -258,12 +258,15 @@ RSpec.describe 'Super Admin Users API', type: :request do
         with_modified_env(SES_SUPPRESSION_ROLE_ARN: 'arn:aws:iam::123456789012:role/test') { example.run }
       end
 
-      it 'shows check and test buttons but not clear before a check' do
+      it 'shows a disabled unblock with a hint before a check' do
         get "/super_admin/users/#{user.id}"
 
+        doc = Nokogiri::HTML(response.body)
+        button = doc.at_css('.main-content__header button:contains("Unblock email")')
+        expect(button['disabled']).to be_present
+        expect(button.parent['title']).to eq('Check email delivery first.')
         expect(response.body).to include('Check email delivery')
         expect(response.body).to include('Send test email')
-        expect(response.body).not_to include('Unblock email')
       end
 
       it 'moves resend confirmation into the email menu for unconfirmed users' do
@@ -290,12 +293,20 @@ RSpec.describe 'Super Admin Users API', type: :request do
         expect(dialog.at_css("form[action='/super_admin/users/#{user.id}/clear_email_suppression']")).to be_present
       end
 
+      it 'explains why unblock is disabled when the address is not blocked' do
+        get "/super_admin/users/#{user.id}", params: { suppression: 'not_suppressed' }
+
+        button = Nokogiri::HTML(response.body).at_css('.main-content__header button:contains("Unblock email")')
+        expect(button['disabled']).to be_present
+        expect(button.parent['title']).to eq('Emails to this address are not blocked.')
+      end
+
       it 'shows a disabled clear button after a complaint check' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'complaint' }
 
         button = Nokogiri::HTML(response.body).at_css('button:contains("Unblock email")')
         expect(button['disabled']).to be_present
-        expect(button['title']).to eq('Blocked after a spam complaint. Escalate to engineering.')
+        expect(button.parent['title']).to eq('Blocked after a spam complaint. Escalate to engineering.')
       end
 
       it 'reports an address that is not suppressed' do

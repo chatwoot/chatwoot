@@ -711,6 +711,8 @@ en:
           cancel: 'Cancel'
           confirm: 'Unblock'
         complaint_hint: 'Blocked after a spam complaint. Escalate to engineering.'
+        check_first_hint: 'Check email delivery first.'
+        not_blocked_hint: 'Emails to this address are not blocked.'
         test_email_button: 'Send test email'
         pending:
           check: 'Checking…'
