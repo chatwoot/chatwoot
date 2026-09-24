@@ -53,8 +53,22 @@ const initializePendingActions = () => {
 
 document.addEventListener('DOMContentLoaded', initializePendingActions);
 
+const closeDropdowns = except => {
+  document.querySelectorAll('details[data-dropdown][open]').forEach(menu => {
+    if (menu !== except) menu.removeAttribute('open');
+  });
+};
+
 document.addEventListener('click', event => {
   const trigger = event.target.closest('[data-dialog-open]');
-  if (!trigger) return;
-  document.getElementById(trigger.dataset.dialogOpen)?.showModal();
+  if (trigger) {
+    closeDropdowns();
+    document.getElementById(trigger.dataset.dialogOpen)?.showModal();
+    return;
+  }
+  closeDropdowns(event.target.closest('details[data-dropdown]'));
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') closeDropdowns();
 });

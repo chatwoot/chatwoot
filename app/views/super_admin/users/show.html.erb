@@ -31,7 +31,7 @@ as well as a link to its edit page.
           ) if authorized_action? page.resource, :edit %>
     <% if Email::SesSuppressionService.configured? %>
       <% item_class = "reset-base w-full text-left px-3 py-2 text-sm text-slate-800 cursor-pointer hover:bg-slate-50 active:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent aria-busy:opacity-100 aria-busy:cursor-wait aria-busy:bg-slate-50" %>
-      <details class="relative" <%= "open" if params[:suppression].in?(%w[bounce complaint]) %>>
+      <details class="relative" data-dropdown>
         <summary class="button list-none [&::-webkit-details-marker]:hidden">
           <%= t("super_admin.users.email_suppression.menu") %>
           <svg class="ml-1 w-3 h-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>

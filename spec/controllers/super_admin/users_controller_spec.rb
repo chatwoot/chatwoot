@@ -274,12 +274,6 @@ RSpec.describe 'Super Admin Users API', type: :request do
         expect(Nokogiri::HTML(response.body).at_css('.main-content__header details button:contains("Resend confirmation email")')).to be_present
       end
 
-      it 'opens the email menu after a bounce check' do
-        get "/super_admin/users/#{user.id}", params: { suppression: 'bounce' }
-
-        expect(Nokogiri::HTML(response.body).at_css('.main-content__header details').key?('open')).to be(true)
-      end
-
       it 'shows an active clear button after a bounce check' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'bounce' }
 
