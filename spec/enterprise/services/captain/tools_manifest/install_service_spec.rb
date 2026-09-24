@@ -230,6 +230,15 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       end
     end
 
+    it 'rejects values containing Liquid delimiters' do
+      ['acme.myshopify.com/{{ missing }}', 'acme{% if x %}'].each do |value|
+        invalid_configuration = configuration.deep_merge('inputs' => { 'shop_domain' => value })
+
+        expect { install(configuration: invalid_configuration) }
+          .to raise_error(described_class::InstallError, /Shopify store domain has an invalid value/), "expected #{value} to be rejected"
+      end
+    end
+
     it 'rejects values the manifest does not declare' do
       configuration['inputs']['region'] = 'us'
 
