@@ -21,6 +21,10 @@ module SsoAuthenticatable
     "#{ENV.fetch('FRONTEND_URL', nil)}/app/login?email=#{encoded_email}&sso_auth_token=#{generate_sso_auth_token}"
   end
 
+  def sso_auth_token_impersonation?(token)
+    ::Redis::Alfred.get(sso_token_key(token)).to_s.start_with?('impersonation')
+  end
+
   def sso_auth_token_impersonator_id(token)
     value = ::Redis::Alfred.get(sso_token_key(token)).to_s
     value.delete_prefix('impersonation:').to_i if value.start_with?('impersonation:')

@@ -396,10 +396,26 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
       expect(user.reload.tokens[response.headers['client']]['impersonated_by']).to eq(super_admin.id)
     end
 
+    it 'treats a token minted before super admin attribution as impersonation' do
+      sso_token = SecureRandom.hex(32)
+      Redis::Alfred.setex(format(Redis::RedisKeys::USER_SSO_AUTH_TOKEN, user_id: user.id, token: sso_token), 'impersonation', 5.minutes)
+
+      expect do
+        post :create, params: { email: user.email, sso_auth_token: sso_token }
+      end.not_to change(user.user_sessions, :count)
+
+      token_entry = user.reload.tokens[response.headers['client']]
+      expect(token_entry['impersonation']).to be(true)
+      expect(token_entry).not_to have_key('impersonated_by')
+      expect(token_entry['expiry']).to be < 3.days.from_now.to_i
+    end
+
     it 'does not mark the session token for a regular SSO login' do
       post :create, params: { email: user.email, sso_auth_token: user.generate_sso_auth_token }
 
-      expect(user.reload.tokens[response.headers['client']]).not_to have_key('impersonated_by')
+      token_entry = user.reload.tokens[response.headers['client']]
+      expect(token_entry).not_to have_key('impersonation')
+      expect(token_entry).not_to have_key('impersonated_by')
     end
 
     it 'creates a normal UserSession row for regular SSO login' do

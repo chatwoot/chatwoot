@@ -30,7 +30,7 @@ module Enterprise::DeviseOverrides::SessionsController
 
   def impersonation_session?
     token_entry = @resource&.tokens&.dig(@token&.client) || {}
-    (token_entry['impersonated_by'] || token_entry[:impersonated_by]).present?
+    token_entry['impersonation'] || token_entry[:impersonation]
   end
 
   def create_audit_event(action)

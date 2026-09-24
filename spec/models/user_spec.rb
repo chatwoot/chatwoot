@@ -98,6 +98,8 @@ RSpec.describe User do
     it 'does not treat a regular sso token as impersonation' do
       sso_auth_token = user.generate_sso_auth_token
 
+      expect(user.sso_auth_token_impersonation?(sso_auth_token)).to be false
+
       expect(user.sso_auth_token_impersonator_id(sso_auth_token)).to be_nil
     end
   end
