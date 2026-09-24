@@ -208,6 +208,14 @@ RSpec.describe 'Accounts API', type: :request do
 
         expect(response.parsed_body['latest_chatwoot_version']).to eq('4.16.1')
       end
+
+      it 'exposes the reporting timezone as an IANA identifier for browser reports' do
+        account.update!(reporting_timezone: 'Pacific Time (US & Canada)')
+
+        get "/api/v1/accounts/#{account.id}", headers: admin.create_new_auth_token, as: :json
+
+        expect(response.parsed_body['reporting_timezone']).to eq('America/Los_Angeles')
+      end
     end
 
     context 'when API and webhook access is disabled for the account' do
