@@ -4,6 +4,31 @@ RSpec.describe ConversationMonitors::BroadcastJob do
   let(:account) { create(:account) }
   let(:monitor) { create(:conversation_monitor, account: account) }
 
+  %w[reports conversation_monitors enterprise].each do |feature|
+    it "does not broadcast if #{feature} is disabled after scheduling" do
+      account.enable_features!('reports', 'conversation_monitors')
+      create(:user, account: account, role: :administrator)
+      described_class.schedule(monitor.id)
+      if feature == 'enterprise'
+        allow(ChatwootApp).to receive(:enterprise?).and_return(false)
+      else
+        account.disable_features!(feature)
+      end
+
+      expect { described_class.perform_now(monitor.id) }.not_to have_enqueued_job(ActionCableBroadcastJob)
+    end
+  end
+
+  it 'broadcasts pause updates while the feature remains enabled' do
+    account.enable_features!('reports', 'conversation_monitors')
+    admin = create(:user, account: account, role: :administrator)
+    monitor.update!(paused_at: Time.current)
+
+    expect { described_class.perform_now(monitor.id) }.to have_enqueued_job(ActionCableBroadcastJob).with(
+      [admin.pubsub_token], 'monitor.updated', { account_id: account.id, monitor_id: monitor.id, data_revision: 0 }
+    )
+  end
+
   it 'only broadcasts minimal invalidations to currently authorized report viewers' do
     account.enable_features!('reports', 'conversation_monitors')
     admin = create(:user, account: account, role: :administrator)

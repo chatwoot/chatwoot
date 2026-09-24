@@ -13,7 +13,7 @@ class ConversationMonitors::BroadcastJob < ApplicationJob
     # Release the coalescing window before reading so later results can queue another update.
     Redis::Alfred.delete("conversation_monitors:broadcast:#{monitor_id}")
     monitor = ConversationMonitors::Monitor.visible.find_by(id: monitor_id)
-    return unless monitor&.account&.feature_enabled?('conversation_monitors')
+    return unless monitor && ConversationMonitors::Configuration.enabled?(monitor.account)
 
     tokens = monitor.account.account_users.includes(:user, :custom_role).filter_map do |membership|
       context = { user: membership.user, account: monitor.account, account_user: membership }

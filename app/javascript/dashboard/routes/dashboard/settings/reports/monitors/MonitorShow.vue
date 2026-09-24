@@ -131,6 +131,7 @@ const chartData = computed(() => ({
     },
   ],
 }));
+
 const errorText = code => {
   const key = code && `MONITORS.ERRORS.${code.toUpperCase()}`;
   return t(key && te(key) ? key : 'MONITORS.ERRORS.FETCH_FAILED');

@@ -14,7 +14,8 @@ class ConversationMonitors::Scheduler
     item = ConversationMonitors::WorkItem.for_conversation(conversation)
     item.with_lock do
       monitor.with_lock do
-        return unless monitor.collecting? && monitor.collection_version == version
+        # Persist eligible imports while disabled; the evaluator enforces feature availability.
+        return unless monitor.paused_at.nil? && monitor.deleted_at.nil? && monitor.collection_version == version
 
         evaluation = monitor.evaluations.find_or_initialize_by(conversation_id: conversation.id, account_id: conversation.account_id)
         return item if evaluation.status == 'matched'

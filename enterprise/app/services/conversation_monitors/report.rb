@@ -3,7 +3,9 @@ class ConversationMonitors::Report
     @monitor = monitor
     @collection_ends_at = monitor.paused_at || Time.current
     @params = params
-    @buckets = ConversationMonitors::Buckets.new(params, default_timezone: monitor.account.reporting_timezone || 'UTC')
+    timezone = monitor.account.reporting_timezone
+    default_timezone = timezone.present? ? ActiveSupport::TimeZone[timezone].tzinfo.name : 'UTC'
+    @buckets = ConversationMonitors::Buckets.new(params, default_timezone: default_timezone)
   end
 
   def timeseries

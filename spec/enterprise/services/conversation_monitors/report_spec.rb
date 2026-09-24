@@ -8,6 +8,39 @@ RSpec.describe ConversationMonitors::Report do
     monitor.initial_scan.update!(enumerated_at: 1.day.ago)
   end
 
+  {
+    'Pacific Time (US & Canada)' => 'America/Los_Angeles', 'Asia/Kolkata' => 'Asia/Kolkata', nil => 'UTC', '' => 'UTC'
+  }.each do |stored, expected|
+    it "uses the normalized account timezone when omitted from the request (#{stored.inspect})" do
+      monitor.account.update!(reporting_timezone: stored)
+      report = described_class.new(monitor, since: 1.day.ago.to_i, until: Time.current.to_i, interval: 'day')
+
+      expect(report.timeseries[:timezone]).to eq(expected)
+    end
+  end
+
+  it 'uses account-local day boundaries for both the chart and drilldown' do
+    monitor.account.update!(reporting_timezone: 'Pacific Time (US & Canada)')
+    params = { since: Time.utc(2026, 9, 23, 7).to_i, until: Time.utc(2026, 9, 24, 7).to_i, interval: 'day' }
+    report = described_class.new(monitor, params.merge(bucket_start: params[:since]))
+
+    expect(report.timeseries[:buckets]).to contain_exactly(include(start: params[:since], end: params[:until]))
+    expect(report.conversations[:meta][:bucket]).to eq(params.slice(:since, :until))
+  end
+
+  it 'preserves explicit IANA timezone overrides' do
+    monitor.account.update!(reporting_timezone: 'Pacific Time (US & Canada)')
+    report = described_class.new(monitor, since: 1.day.ago.to_i, until: Time.current.to_i, interval: 'day', timezone: 'Asia/Tokyo')
+
+    expect(report.timeseries[:timezone]).to eq('Asia/Tokyo')
+  end
+
+  it 'continues rejecting explicit Rails timezone aliases' do
+    expect do
+      described_class.new(monitor, since: 1.day.ago.to_i, until: Time.current.to_i, interval: 'day', timezone: 'Pacific Time (US & Canada)')
+    end.to(raise_error { |error| expect(error.class.name).to eq('CustomExceptions::MonitorParametersError') })
+  end
+
   it 'marks future buckets as uncovered' do
     report = described_class.new(monitor, since: 1.hour.ago.to_i, until: 1.hour.from_now.to_i, interval: 'hour', timezone: 'UTC')
 
