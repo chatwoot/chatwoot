@@ -249,7 +249,10 @@ export default {
           social_profiles: socialProfileUserNames,
         },
       };
-      if (this.hasCompaniesFeature) contactObject.company_id = this.companyId;
+      if (this.hasCompaniesFeature) {
+        contactObject.company_id = this.companyId;
+        contactObject.resolve_legacy_company = true;
+      }
       if (this.avatarFile) {
         contactObject.avatar = this.avatarFile;
         contactObject.isFormData = true;

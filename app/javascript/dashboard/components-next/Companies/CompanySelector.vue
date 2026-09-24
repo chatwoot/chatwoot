@@ -28,6 +28,7 @@ const emit = defineEmits(['select']);
 const { t } = useI18n();
 
 const CREATE_PREFIX = 'create:';
+const CLEAR_LEGACY = 'clear:legacy';
 
 const options = ref([]);
 const searchQuery = ref('');
@@ -53,6 +54,13 @@ const createOption = computed(() => {
 
 const comboboxOptions = computed(() => {
   const list = [...options.value];
+
+  if (!props.modelValue && props.selectedName) {
+    list.unshift({
+      label: t('COMPANIES.SELECTOR.CLEAR'),
+      value: CLEAR_LEGACY,
+    });
+  }
 
   // Keep the linked company visible even when it is not in the loaded results.
   if (
@@ -113,6 +121,11 @@ const createCompany = async company => {
 };
 
 const handleSelect = value => {
+  if (value === CLEAR_LEGACY) {
+    emit('select', { id: '', name: '' });
+    return;
+  }
+
   if (typeof value === 'string' && value.startsWith(CREATE_PREFIX)) {
     createDialogRef.value?.open({ name: value.slice(CREATE_PREFIX.length) });
     // Drop the transient "Add …" option so the button label doesn't stick to

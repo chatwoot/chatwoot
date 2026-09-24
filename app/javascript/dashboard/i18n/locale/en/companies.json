@@ -27,7 +27,8 @@
     },
     "SELECTOR": {
       "PLACEHOLDER": "Select company",
-      "CREATE_OPTION": "Add \"{name}\""
+      "CREATE_OPTION": "Add \"{name}\"",
+      "CLEAR": "Clear company name"
     },
     "CREATE": {
       "TITLE": "Add company details",
