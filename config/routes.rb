@@ -399,6 +399,10 @@ Rails.application.routes.draw do
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
+            resource :stripe, controller: 'stripe', only: [:show, :destroy] do
+              post :auth
+              get :customer
+            end
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:show, :create, :update, :destroy] do
               member do
@@ -691,6 +695,9 @@ Rails.application.routes.draw do
     resource :callback, only: [:show]
   end
 
+  namespace :stripe do
+    resource :callback, only: [:show]
+  end
   namespace :linear do
     resource :callback, only: [:show]
   end
