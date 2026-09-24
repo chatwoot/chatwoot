@@ -101,7 +101,8 @@ class Captain::ToolsManifest::Validator
 
   # A select without choices can never be given a valid value, so the toolset could not be installed
   def validate_select_options!(name, definition)
-    ensure!(definition['type'] != 'select' || definition['options'].present?, "#{name} options must list at least one choice for select")
+    usable = Array(definition['options']).any?(&:present?)
+    ensure!(definition['type'] != 'select' || usable, "#{name} options must list at least one choice for select")
   end
 
   def validate_tools!(manifest)
@@ -219,7 +220,5 @@ class Captain::ToolsManifest::Validator
 
   def optional!(value, valid, message) = ensure!(value.nil? || valid, message)
 
-  def ensure!(condition, message)
-    raise InvalidManifestError, message unless condition
-  end
+  def ensure!(condition, message) = condition || raise(InvalidManifestError, message)
 end

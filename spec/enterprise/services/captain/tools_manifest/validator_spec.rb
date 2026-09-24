@@ -139,6 +139,9 @@ RSpec.describe Captain::ToolsManifest::Validator do
 
       manifest['inputs']['region']['options'] = []
       expect_invalid(manifest.to_yaml, /region options must list at least one choice for select/)
+
+      manifest['inputs']['region']['options'] = ['', '  ']
+      expect_invalid(manifest.to_yaml, /region options must list at least one choice for select/)
     end
 
     it 'rejects unknown tool fields' do
