@@ -4,10 +4,7 @@ class Api::V1::Accounts::Conversations::ContactInfoRequestsController < Api::V1:
   end
 
   def show
-    availability = Whatsapp::ContactInfoRequestEligibilityService.new(conversation: @conversation).availability
-    raise CustomExceptions::WhatsappContactInfoRequestError, { reason: availability[:reason] } unless availability[:available]
-
-    render json: availability
+    render json: Whatsapp::ContactInfoRequestEligibilityService.new(conversation: @conversation).availability
   end
 
   def create

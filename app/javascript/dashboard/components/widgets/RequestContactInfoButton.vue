@@ -1,5 +1,7 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useInbox } from 'dashboard/composables/useInbox';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
@@ -15,9 +17,9 @@ const contactById = useMapGetter('contacts/getContact');
 
 const isRequesting = ref(false);
 
-const capability = computed(
-  () => currentChat.value?.contact_info_request || {}
-);
+const capability = ref({});
+const { isAWhatsAppCloudChannel } = useInbox();
+const { run, abort, isPending } = useAbortableRequest();
 
 const currentContact = computed(() => {
   const senderId = currentChat.value?.meta?.sender?.id;
@@ -45,36 +47,78 @@ const showButton = computed(
 
 const isDisabled = computed(
   () =>
+    isPending.value ||
     isRequesting.value ||
     hasPendingRequest.value ||
     capability.value.reason === 'pending_request'
 );
 
 const tooltip = computed(() =>
-  hasPendingRequest.value
+  hasPendingRequest.value || capability.value.reason === 'pending_request'
     ? t('CONVERSATION.REQUEST_CONTACT_INFO.PENDING_ACTION')
     : t('CONVERSATION.REQUEST_CONTACT_INFO.ACTION')
 );
 
+const requestStates = computed(() =>
+  (currentChat.value?.messages || [])
+    .filter(message => message.content_attributes?.whatsapp_contact_info)
+    .map(
+      message =>
+        `${message.id}:${message.status}:${message.content_attributes.whatsapp_contact_info.state}`
+    )
+    .join(',')
+);
+
+const fetchAvailability = async () => {
+  abort();
+  capability.value = {};
+  const conversationId = currentChat.value?.id;
+  if (
+    !conversationId ||
+    !isAWhatsAppCloudChannel.value ||
+    currentContact.value.phone_number
+  )
+    return;
+
+  try {
+    const availability = await run(signal =>
+      store.dispatch('getContactInfoRequestAvailability', {
+        conversationId,
+        signal,
+      })
+    );
+    if (availability) capability.value = availability;
+  } catch (error) {
+    useAlert(error?.response?.data?.error || t('CONVERSATION.MESSAGE_ERROR'));
+  }
+};
+
+watch(
+  [
+    currentChat,
+    isAWhatsAppCloudChannel,
+    () => currentContact.value.phone_number,
+    () => currentChat.value?.can_reply,
+    requestStates,
+  ],
+  fetchAvailability,
+  { immediate: true }
+);
+
 const requestContactInfo = async () => {
+  if (capability.value.delivery_mode === 'template') {
+    emit('requestTemplate');
+    return;
+  }
+
   const conversationId = currentChat.value.id;
   isRequesting.value = true;
   try {
-    const availability = await store.dispatch(
-      'getContactInfoRequestAvailability',
-      conversationId
-    );
-    if (currentChat.value.id !== conversationId) return;
-
-    if (availability.delivery_mode === 'template') {
-      emit('requestTemplate');
-      return;
-    }
-
     await store.dispatch('requestContactInfo', conversationId);
   } catch (error) {
     if (currentChat.value.id !== conversationId) return;
     useAlert(error?.response?.data?.error || t('CONVERSATION.MESSAGE_ERROR'));
+    fetchAvailability();
   } finally {
     isRequesting.value = false;
   }

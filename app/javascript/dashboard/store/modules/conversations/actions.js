@@ -429,9 +429,13 @@ const actions = {
     }
   },
 
-  getContactInfoRequestAvailability: async (_, conversationId) => {
-    const { data } =
-      await ConversationApi.getContactInfoRequestAvailability(conversationId);
+  getContactInfoRequestAvailability: async (_, { conversationId, signal }) => {
+    const { data } = await ConversationApi.getContactInfoRequestAvailability(
+      conversationId,
+      {
+        signal,
+      }
+    );
     return data;
   },
 
