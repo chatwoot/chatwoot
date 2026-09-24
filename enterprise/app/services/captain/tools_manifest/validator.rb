@@ -120,6 +120,7 @@ class Captain::ToolsManifest::Validator
     reject_unknown_keys!(tool, TOOL_KEYS, "tool #{id}")
     validate_tool_fields!(tool, id)
     validate_install_placeholders!(tool, id, manifest)
+    validate_auth_liquid!(tool, id)
     validate_liquid!(tool, id)
   end
 
@@ -163,6 +164,12 @@ class Captain::ToolsManifest::Validator
       end
       ensure!(value.gsub(INSTALL_PLACEHOLDER_PATTERN, '').exclude?('${{'), "#{id} #{field} has an invalid install-time placeholder")
     end
+  end
+
+  # Auth values are only filled in at install and never rendered, so any other Liquid would be sent literally
+  def validate_auth_liquid!(tool, id)
+    auth_liquid = tool['auth_config'].to_json.gsub(INSTALL_PLACEHOLDER_PATTERN, '').match?(/\{\{|\{%/)
+    ensure!(!auth_liquid, "#{id} auth_config cannot contain Liquid; use ${{ inputs.name }} or ${{ secrets.name }}")
   end
 
   # Install-time placeholders are filled in before the tool runs, so they are stubbed out first

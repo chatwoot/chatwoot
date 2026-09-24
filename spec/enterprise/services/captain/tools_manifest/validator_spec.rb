@@ -177,6 +177,15 @@ RSpec.describe Captain::ToolsManifest::Validator do
       expect_invalid(yaml, /get_order parameter order_id type must be one of/)
     end
 
+    it 'rejects Liquid in auth_config, which is never rendered at call time' do
+      ['{{ order_id }}', '{{ secrets.access_token }}'].each do |key|
+        manifest['tools'].first['auth_config']['key'] = key
+
+        expect { validate(manifest.to_yaml) }
+          .to raise_error(described_class::InvalidManifestError, /get_order auth_config cannot contain Liquid/), "expected #{key} to be rejected"
+      end
+    end
+
     it 'rejects undeclared install-time placeholders' do
       manifest['tools'].first['endpoint_url'] = 'https://${{ inputs.store }}/orders/{{ order_id }}'
 
