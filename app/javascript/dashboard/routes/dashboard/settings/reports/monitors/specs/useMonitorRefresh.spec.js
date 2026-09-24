@@ -9,6 +9,16 @@ describe('useMonitorRefresh', () => {
   let refresh;
   let visibility;
   let pollingEnabled;
+  let monitorId;
+  const RefreshHost = defineComponent({
+    setup() {
+      useMonitorRefresh(refresh, {
+        monitorId,
+        shouldPoll: () => pollingEnabled.value,
+      });
+      return () => null;
+    },
+  });
 
   beforeEach(async () => {
     vi.useFakeTimers();
@@ -19,16 +29,8 @@ describe('useMonitorRefresh', () => {
     );
     refresh = vi.fn();
     pollingEnabled = ref(true);
-    wrapper = mount(
-      defineComponent({
-        setup() {
-          useMonitorRefresh(refresh, {
-            shouldPoll: () => pollingEnabled.value,
-          });
-          return () => null;
-        },
-      })
-    );
+    monitorId = null;
+    wrapper = mount(RefreshHost);
     await nextTick();
   });
 
@@ -48,6 +50,17 @@ describe('useMonitorRefresh', () => {
 
     await vi.advanceTimersByTimeAsync(2000);
     expect(refresh).toHaveBeenCalledTimes(2);
+  });
+
+  it('ignores other monitors when scoped to one', () => {
+    wrapper.unmount();
+    monitorId = 2;
+    wrapper = mount(RefreshHost);
+
+    emitter.emit(BUS_EVENTS.MONITOR_UPDATED, { account_id: 1, monitor_id: 3 });
+    expect(refresh).not.toHaveBeenCalled();
+    emitter.emit(BUS_EVENTS.MONITOR_UPDATED, { account_id: 1, monitor_id: 2 });
+    expect(refresh).toHaveBeenCalledOnce();
   });
 
   it('keeps the final evaluation update when it arrives during the refresh throttle', async () => {
@@ -71,6 +84,13 @@ describe('useMonitorRefresh', () => {
 
     visibility = 'visible';
     document.dispatchEvent(new Event('visibilitychange'));
+    expect(refresh).toHaveBeenCalledOnce();
+  });
+
+  it('refreshes once when returning to the tab fires both focus and visibility events', () => {
+    document.dispatchEvent(new Event('visibilitychange'));
+    window.dispatchEvent(new Event('focus'));
+
     expect(refresh).toHaveBeenCalledOnce();
   });
 

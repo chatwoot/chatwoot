@@ -79,9 +79,9 @@ class ActionCableConnector extends BaseActionCableConnector {
     emitter.emit(BUS_EVENTS.WEBSOCKET_RECONNECT);
   };
 
+  // eslint-disable-next-line class-methods-use-this
   onMonitorUpdated = data => {
-    if (this.isAValidEvent(data))
-      emitter.emit(BUS_EVENTS.MONITOR_UPDATED, data);
+    emitter.emit(BUS_EVENTS.MONITOR_UPDATED, data);
   };
 
   // eslint-disable-next-line class-methods-use-this

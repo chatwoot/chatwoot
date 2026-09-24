@@ -1,156 +1,115 @@
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { addDays, differenceInCalendarDays, format } from 'date-fns';
 import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
+import { useLocale } from 'shared/composables/useLocale';
 import MonitorsAPI from 'dashboard/api/monitors';
 import BarChart from 'shared/components/charts/BarChart.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import Input from 'dashboard/components-next/input/Input.vue';
-import Popover from 'dashboard/components-next/popover/Popover.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ReportHeader from '../components/ReportHeader.vue';
+import MonitorChartFilters from './MonitorChartFilters.vue';
 import MonitorDrilldown from './MonitorDrilldown.vue';
 import MonitorActionDialog from './MonitorActionDialog.vue';
 import MonitorUsageWarning from './MonitorUsageWarning.vue';
 import { useMonitorRefresh } from './useMonitorRefresh';
+import {
+  CUSTOM_RANGE,
+  DEFAULT_FILTERS,
+  MIN_RANGE_DAYS,
+  shiftDate,
+} from './monitorFilters';
+
+const DAY_IN_SECONDS = 86400;
+const CHART_TICK_COUNT = 5;
 
 const { t, te } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const { accountId, currentAccount, accountScopedRoute } = useAccount();
 const { isAdmin } = useAdmin();
+const { resolvedLocale } = useLocale();
 const { run, abort, isPending } = useAbortableRequest();
 const { run: runRetry, abort: abortRetry } = useAbortableRequest();
+
+const monitorId = computed(() => route.params.monitorId);
+const filters = ref({ ...DEFAULT_FILTERS });
+const collectionEndsAt = ref(null);
 const result = ref(null);
+const displayed = ref(null);
+const drilldown = ref(null);
+const actionDialog = ref(null);
 const error = ref('');
 const notice = ref('');
-const rangeDays = ref('7');
-const interval = ref('day');
+const refreshedAt = ref('');
+
+const monitor = computed(() => result.value?.monitor);
 const timezone = computed(
   () =>
     currentAccount.value?.reporting_timezone ||
     currentAccount.value?.custom_attributes?.timezone ||
     Intl.DateTimeFormat().resolvedOptions().timeZone
 );
-const MIN_RANGE_DAYS = 7;
-const MAX_RANGE_DAYS = 30;
-const offsetDate = (date, days) =>
-  date ? format(addDays(new Date(`${date}T12:00:00`), days), 'yyyy-MM-dd') : '';
-const today = formatInTimeZone(new Date(), timezone.value, 'yyyy-MM-dd');
-const startDate = ref(offsetDate(today, 1 - MIN_RANGE_DAYS));
-const endDate = ref(today);
-const request = ref(null);
-const displayedRequest = ref(null);
-const displayedRangeDays = ref('7');
-const collectionEndsAt = ref(null);
-const now = ref(Date.now());
-const dateFor = timestamp =>
-  formatInTimeZone(new Date(timestamp * 1000), timezone.value, 'yyyy-MM-dd');
-const collectionEndDate = computed(() =>
-  dateFor(collectionEndsAt.value || now.value / 1000)
-);
-const maxEndDate = computed(
-  () =>
-    [offsetDate(startDate.value, MAX_RANGE_DAYS - 1), collectionEndDate.value]
-      .filter(Boolean)
-      .sort()[0]
-);
-const maxStartDate = computed(() =>
-  offsetDate(
-    [endDate.value, collectionEndDate.value].filter(Boolean).sort()[0],
-    1 - MIN_RANGE_DAYS
-  )
-);
-const calendarDays = (start, end) =>
-  differenceInCalendarDays(
-    new Date(`${end}T12:00:00`),
-    new Date(`${start}T12:00:00`)
-  ) + 1;
-const activeRangeDays = ref('7');
-const filterPopover = ref(null);
-const filterTrigger = ref(null);
-const filterForm = ref(null);
-const rangeSelect = ref(null);
-const filterError = ref('');
-const drilldown = ref(null);
-const drilldownLabel = ref('');
-const refreshedAt = ref(null);
-const actionDialog = ref(null);
-const monitor = computed(() => result.value?.monitor);
-const monitorId = computed(() => route.params.monitorId);
-const groupingOptions = computed(() => [
-  { value: 'hour', label: t('MONITORS.INTERVALS.hour') },
-  { value: 'six_hours', label: t('MONITORS.INTERVALS.six_hours') },
-  { value: 'day', label: t('MONITORS.INTERVALS.day') },
-]);
-const filterSummary = computed(() => {
-  if (!displayedRequest.value) return '';
-  let range;
-  if (displayedRangeDays.value === 'custom') {
-    const dateOptions = {
-      timeZone: displayedRequest.value.timezone,
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    };
-    range = t('MONITORS.CUSTOM_RANGE_SUMMARY', {
-      from: new Date(displayedRequest.value.since * 1000).toLocaleDateString(
-        undefined,
-        dateOptions
-      ),
-      to: new Date(
-        (displayedRequest.value.until - 1) * 1000
-      ).toLocaleDateString(undefined, dateOptions),
-    });
-  } else {
-    range = monitor.value?.paused_at
-      ? t('MONITORS.LAST_DAYS_BEFORE_PAUSE', { days: displayedRangeDays.value })
-      : t('MONITORS.LAST_DAYS', { days: displayedRangeDays.value });
+
+const formatTimestamp = (timestamp, options) =>
+  new Intl.DateTimeFormat(resolvedLocale.value, {
+    timeZone: timezone.value,
+    ...options,
+  }).format(new Date(timestamp * 1000));
+const startOfDay = date =>
+  zonedTimeToUtc(`${date}T00:00:00`, timezone.value).getTime() / 1000;
+
+// A paused monitor stops collecting, so every range ends at the pause instead of now.
+const requestParams = ({ range, from, to, interval }) => {
+  const end = collectionEndsAt.value || Math.floor(Date.now() / 1000);
+  const params = { interval, timezone: timezone.value };
+  if (range !== CUSTOM_RANGE) {
+    return { ...params, since: end - range * DAY_IN_SECONDS, until: end };
   }
+  return {
+    ...params,
+    since: startOfDay(from),
+    until: Math.min(startOfDay(shiftDate(to, 1)), end),
+  };
+};
+
+const filterSummary = computed(() => {
+  if (!displayed.value) return '';
+  const { range, from, to, interval } = displayed.value.filters;
+  const dateOptions = { dateStyle: 'medium' };
+  const lastDaysKey = monitor.value.paused_at
+    ? 'MONITORS.LAST_DAYS_BEFORE_PAUSE'
+    : 'MONITORS.LAST_DAYS';
+  const rangeLabel =
+    range === CUSTOM_RANGE
+      ? t('MONITORS.CUSTOM_RANGE_SUMMARY', {
+          from: formatTimestamp(startOfDay(from), dateOptions),
+          to: formatTimestamp(startOfDay(to), dateOptions),
+        })
+      : t(lastDaysKey, { count: range });
   return t('MONITORS.FILTER_SUMMARY', {
-    range,
-    interval: groupingOptions.value.find(
-      option => option.value === displayedRequest.value.interval
-    ).label,
+    range: rangeLabel,
+    interval: t(`MONITORS.INTERVALS.${interval}`),
   });
 });
-const focusFilters = async () => {
-  now.value = Date.now();
-  await nextTick();
-  rangeSelect.value?.focus();
-};
-const restoreFilterFocus = () => {
-  if (filterForm.value?.contains(document.activeElement)) {
-    filterTrigger.value?.$el.focus();
-  }
-};
 const pausedAtLabel = computed(() =>
-  monitor.value?.paused_at
-    ? new Date(monitor.value.paused_at * 1000).toLocaleString(undefined, {
-        timeZone: result.value.timezone,
-      })
-    : ''
+  formatTimestamp(monitor.value.paused_at, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  })
 );
-const CHART_TICK_COUNT = 5;
+const counts = computed(
+  () => result.value?.buckets.map(bucket => bucket.count) || []
+);
 const countStep = computed(() =>
-  Math.max(
-    1,
-    Math.ceil(
-      Math.max(
-        0,
-        ...(result.value?.buckets.map(bucket => bucket.count) || [])
-      ) / CHART_TICK_COUNT
-    )
-  )
+  Math.max(1, Math.ceil(Math.max(0, ...counts.value) / CHART_TICK_COUNT))
 );
-const labelFor = bucket =>
-  new Date(bucket.start * 1000).toLocaleString(undefined, {
-    timeZone: result.value.timezone,
+const bucketLabel = bucket =>
+  formatTimestamp(bucket.start, {
     month: 'short',
     day: 'numeric',
     ...(result.value.interval !== 'day'
@@ -158,13 +117,13 @@ const labelFor = bucket =>
       : {}),
   });
 const chartData = computed(() => ({
-  categories: result.value?.buckets.map(labelFor) || [],
+  categories: result.value?.buckets.map(bucketLabel) || [],
   series: [
     {
       id: 'matches',
       label: t('MONITORS.MATCHING_CONVERSATIONS'),
       color: 'rgb(var(--blue-9))',
-      data: result.value?.buckets.map(bucket => bucket.count) || [],
+      data: counts.value,
     },
   ],
 }));
@@ -175,53 +134,16 @@ const errorText = code =>
       : 'MONITORS.ERRORS.fetch_failed'
   );
 
-const resetDraftFilters = () => {
-  rangeDays.value = activeRangeDays.value;
-  interval.value = request.value?.interval || 'day';
-  endDate.value =
-    activeRangeDays.value === 'custom'
-      ? dateFor(request.value.until - 1)
-      : collectionEndDate.value;
-  startDate.value =
-    activeRangeDays.value === 'custom'
-      ? dateFor(request.value.since)
-      : offsetDate(endDate.value, 1 - MIN_RANGE_DAYS);
-};
-
-const boundAppliedRequest = () => {
-  now.value = Date.now();
-  const boundary = collectionEndsAt.value || Math.floor(now.value / 1000);
-  if (activeRangeDays.value === 'custom') {
-    const until = Math.min(request.value.until, boundary);
-    if (until === request.value.until) return;
-    if (
-      calendarDays(dateFor(request.value.since), dateFor(until - 1)) >=
-      MIN_RANGE_DAYS
-    ) {
-      request.value = { ...request.value, until };
-      resetDraftFilters();
-      return;
-    }
-    activeRangeDays.value = '7';
-    resetDraftFilters();
-  }
-  request.value = {
-    ...request.value,
-    until: boundary,
-    since: boundary - Number(activeRangeDays.value) * 86400,
-  };
-};
-
 const fetchReport = async () => {
-  if (!request.value) return;
-  boundAppliedRequest();
-  const requestedFilters = { ...request.value };
-  const requestedRangeDays = activeRangeDays.value;
+  const requested = {
+    filters: filters.value,
+    params: requestParams(filters.value),
+  };
   const requestedAccount = accountId.value;
   const requestedMonitor = monitorId.value;
   try {
     const response = await run(signal =>
-      MonitorsAPI.timeseries(requestedMonitor, requestedFilters, signal)
+      MonitorsAPI.timeseries(requestedMonitor, requested.params, signal)
     );
     if (
       !response ||
@@ -229,129 +151,80 @@ const fetchReport = async () => {
       requestedMonitor !== monitorId.value
     )
       return;
-    const wasPaused = Boolean(collectionEndsAt.value);
-    collectionEndsAt.value = response.data.monitor.paused_at || null;
-    if (!result.value && activeRangeDays.value !== 'custom')
-      resetDraftFilters();
-    if (
-      wasPaused &&
-      !collectionEndsAt.value &&
-      activeRangeDays.value !== 'custom'
-    ) {
-      await fetchReport();
-      return;
-    }
-    if (
-      collectionEndsAt.value &&
-      (requestedFilters.until > collectionEndsAt.value ||
-        (activeRangeDays.value !== 'custom' &&
-          requestedFilters.until !== collectionEndsAt.value))
-    ) {
+    const { data } = response;
+    const pausedAt = data.monitor.paused_at || null;
+    if (pausedAt !== collectionEndsAt.value) {
+      collectionEndsAt.value = pausedAt;
+      const { range, from, to } = filters.value;
+      const lastDate =
+        pausedAt &&
+        formatInTimeZone((pausedAt - 1) * 1000, timezone.value, 'yyyy-MM-dd');
+      // A pause inside the applied custom range shortens it, falling back to the default when too short.
+      if (range === CUSTOM_RANGE && lastDate && to > lastDate) {
+        filters.value =
+          lastDate < shiftDate(from, MIN_RANGE_DAYS - 1)
+            ? { ...DEFAULT_FILTERS }
+            : { ...filters.value, to: lastDate };
+        return;
+      }
       await fetchReport();
       return;
     }
     if (drilldown.value) {
-      const selected = result.value.buckets.find(
-        bucket => bucket.start === drilldown.value.bucket_start
-      );
-      const updated = response.data.buckets.find(
-        bucket => bucket.start === drilldown.value.bucket_start
-      );
+      const { bucket, request } = drilldown.value;
+      const updated = data.buckets.find(item => item.start === bucket.start);
       if (
-        response.data.data_revision !== drilldown.value.data_revision ||
-        !updated ||
-        updated.count !== selected.count
+        data.data_revision !== request.data_revision ||
+        updated?.count !== bucket.count
       ) {
         drilldown.value = null;
         notice.value = t('MONITORS.RESULTS_UPDATED');
       }
     }
-    result.value = response.data;
-    displayedRequest.value = requestedFilters;
-    displayedRangeDays.value = requestedRangeDays;
-    refreshedAt.value = new Date().toLocaleTimeString();
+    result.value = data;
+    displayed.value = requested;
+    refreshedAt.value = formatTimestamp(Date.now() / 1000, {
+      timeStyle: 'medium',
+    });
     error.value = '';
   } catch (failure) {
     error.value = errorText(failure.response?.data?.error);
-    result.value = null;
-    drilldown.value = null;
   }
 };
 
-const applyFilters = () => {
-  now.value = Date.now();
-  filterError.value = '';
-  if (rangeDays.value === 'custom') {
-    const days = calendarDays(startDate.value, endDate.value);
-    if (
-      !Number.isFinite(days) ||
-      days < MIN_RANGE_DAYS ||
-      days > MAX_RANGE_DAYS
-    ) {
-      filterError.value = t('MONITORS.CUSTOM_RANGE_HELP');
-      return;
-    }
-    if (endDate.value > collectionEndDate.value) {
-      filterError.value = t('MONITORS.CUSTOM_RANGE_BOUNDARY_ERROR', {
-        date: collectionEndDate.value,
-      });
-      return;
-    }
-  }
-  const requestedUntil =
-    rangeDays.value === 'custom'
-      ? zonedTimeToUtc(
-          `${format(addDays(new Date(`${endDate.value}T12:00:00`), 1), 'yyyy-MM-dd')}T00:00:00`,
-          timezone.value
-        ).getTime() / 1000
-      : Math.floor(Date.now() / 1000);
-  const until = Math.min(
-    requestedUntil,
-    collectionEndsAt.value || Math.floor(now.value / 1000)
-  );
-  const since =
-    rangeDays.value === 'custom'
-      ? zonedTimeToUtc(
-          `${startDate.value}T00:00:00`,
-          timezone.value
-        ).getTime() / 1000
-      : until - Number(rangeDays.value) * 86400;
-  if (!Number.isFinite(since) || !Number.isFinite(until) || since >= until) {
-    filterError.value = errorText('invalid_parameters');
-    return;
-  }
-  request.value = {
-    since,
-    until,
-    interval: interval.value,
-    timezone: timezone.value,
+const openBucket = ({ pointIndex }) => {
+  if (!isAdmin.value) return;
+  const bucket = result.value.buckets[pointIndex];
+  if (!bucket?.count) return;
+  drilldown.value = {
+    bucket,
+    request: {
+      ...displayed.value.params,
+      monitorId: monitorId.value,
+      bucket_start: bucket.start,
+      data_revision: result.value.data_revision,
+    },
   };
-  activeRangeDays.value = rangeDays.value;
+};
+const resultsChanged = () => {
   drilldown.value = null;
-  filterPopover.value?.hide();
+  notice.value = t('MONITORS.RESULTS_UPDATED');
   fetchReport();
 };
 
+watch(filters, fetchReport);
 watch(
   [accountId, monitorId, timezone],
   () => {
     abort();
     abortRetry();
+    actionDialog.value?.close();
     result.value = null;
-    displayedRequest.value = null;
+    displayed.value = null;
     collectionEndsAt.value = null;
     drilldown.value = null;
     notice.value = '';
     error.value = '';
-    filterError.value = '';
-    filterPopover.value?.hide();
-    actionDialog.value?.close();
-    request.value = {
-      ...request.value,
-      interval: request.value?.interval || 'day',
-      timezone: timezone.value,
-    };
-    resetDraftFilters();
     fetchReport();
   },
   { immediate: true }
@@ -360,26 +233,10 @@ watch(isAdmin, () => {
   drilldown.value = null;
 });
 useMonitorRefresh(fetchReport, {
-  shouldPoll: () => activeRangeDays.value !== 'custom',
+  monitorId: () => Number(monitorId.value),
+  shouldPoll: () => filters.value.range !== CUSTOM_RANGE,
 });
 
-const openBucket = ({ pointIndex }) => {
-  if (!isAdmin.value) return;
-  const bucket = result.value.buckets[pointIndex];
-  if (!bucket || !bucket.count) return;
-  drilldownLabel.value = `${labelFor(bucket)} · ${bucket.count}`;
-  drilldown.value = {
-    ...displayedRequest.value,
-    monitorId: monitorId.value,
-    bucket_start: bucket.start,
-    data_revision: result.value.data_revision,
-  };
-};
-const resultsChanged = () => {
-  drilldown.value = null;
-  notice.value = t('MONITORS.RESULTS_UPDATED');
-  fetchReport();
-};
 const openAction = nextAction =>
   actionDialog.value.open(nextAction, {
     ...monitor.value,
@@ -481,111 +338,13 @@ const duplicate = () =>
         <span class="text-end text-xs text-n-slate-11">
           {{ filterSummary }}
         </span>
-        <Popover
-          ref="filterPopover"
-          @show="focusFilters"
-          @hide="restoreFilterFocus"
-        >
-          <template #default="{ isOpen }">
-            <Button
-              ref="filterTrigger"
-              v-tooltip.bottom="t('MONITORS.FILTERS')"
-              slate
-              ghost
-              size="sm"
-              icon="i-lucide-list-filter"
-              class="shrink-0"
-              :aria-label="t('MONITORS.FILTERS')"
-              :aria-expanded="isOpen"
-              aria-haspopup="dialog"
-              aria-controls="monitor-chart-filters"
-            />
-          </template>
-          <template #content>
-            <form
-              id="monitor-chart-filters"
-              ref="filterForm"
-              role="dialog"
-              :aria-label="t('MONITORS.FILTERS')"
-              class="flex w-full flex-col gap-4 p-4 md:w-72"
-              @submit.prevent="applyFilters"
-            >
-              <p class="m-0 text-sm font-medium text-n-slate-12">
-                {{ t('MONITORS.FILTERS') }}
-              </p>
-              <label class="flex flex-col gap-2 text-sm text-n-slate-12">
-                {{ t('MONITORS.DATE_RANGE') }}
-                <select
-                  ref="rangeSelect"
-                  v-model="rangeDays"
-                  class="m-0 w-full rounded-lg border border-n-weak bg-n-solid-1 text-sm text-n-slate-12"
-                >
-                  <option
-                    v-for="days in [MIN_RANGE_DAYS, MAX_RANGE_DAYS]"
-                    :key="days"
-                    :value="String(days)"
-                  >
-                    {{
-                      monitor?.paused_at
-                        ? t('MONITORS.LAST_DAYS_BEFORE_PAUSE', { days })
-                        : t('MONITORS.LAST_DAYS', { days })
-                    }}
-                  </option>
-                  <option value="custom">
-                    {{ t('MONITORS.CUSTOM_RANGE') }}
-                  </option>
-                </select>
-              </label>
-              <template v-if="rangeDays === 'custom'">
-                <Input
-                  v-model="startDate"
-                  type="date"
-                  :label="t('MONITORS.FROM')"
-                  :min="offsetDate(endDate, 1 - MAX_RANGE_DAYS)"
-                  :max="maxStartDate"
-                />
-                <Input
-                  v-model="endDate"
-                  type="date"
-                  :label="t('MONITORS.TO')"
-                  :min="offsetDate(startDate, MIN_RANGE_DAYS - 1)"
-                  :max="maxEndDate"
-                />
-                <p v-if="!filterError" class="m-0 text-xs text-n-slate-11">
-                  {{ t('MONITORS.CUSTOM_RANGE_HELP') }}
-                </p>
-              </template>
-              <label class="flex flex-col gap-2 text-sm text-n-slate-12">
-                {{ t('MONITORS.INTERVAL') }}
-                <select
-                  v-model="interval"
-                  class="m-0 w-full rounded-lg border border-n-weak bg-n-solid-1 text-sm text-n-slate-12"
-                >
-                  <option
-                    v-for="option in groupingOptions"
-                    :key="option.value"
-                    :value="option.value"
-                  >
-                    {{ option.label }}
-                  </option>
-                </select>
-              </label>
-              <p
-                v-if="filterError"
-                role="alert"
-                class="m-0 text-xs text-n-ruby-11"
-              >
-                {{ filterError }}
-              </p>
-              <Button
-                type="submit"
-                size="sm"
-                :label="t('MONITORS.APPLY')"
-                :is-loading="isPending"
-              />
-            </form>
-          </template>
-        </Popover>
+        <MonitorChartFilters
+          :key="`${accountId}/${monitorId}`"
+          v-model="filters"
+          :timezone="timezone"
+          :paused-at="monitor?.paused_at"
+          :is-loading="isPending"
+        />
       </div>
     </div>
     <div v-if="!result && isPending" class="flex justify-center py-20">
@@ -658,9 +417,10 @@ const duplicate = () =>
     </template>
   </div>
   <MonitorDrilldown
-    v-if="isAdmin"
-    :request="drilldown"
-    :label="drilldownLabel"
+    v-if="drilldown"
+    :request="drilldown.request"
+    :title="bucketLabel(drilldown.bucket)"
+    :count="drilldown.bucket.count"
     @close="drilldown = null"
     @changed="resultsChanged"
   />
