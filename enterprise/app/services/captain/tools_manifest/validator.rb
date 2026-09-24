@@ -94,6 +94,14 @@ class Captain::ToolsManifest::Validator
     optional!(definition['placeholder'], text?(definition['placeholder'], 200), "#{name} placeholder must be up to 200 characters")
     optional!(definition['required'], boolean?(definition['required']), "#{name} required must be true or false")
     optional!(definition['options'], list_of?(definition['options'], String), "#{name} options must be a list of strings")
+    validate_select_options!(name, definition)
+  end
+
+  # A select without choices can never be given a valid value, so the toolset could not be installed
+  def validate_select_options!(name, definition)
+    return unless definition['type'] == 'select'
+
+    ensure!(definition['options'].present?, "#{name} options must list at least one choice for select")
   end
 
   def validate_tools!(manifest)

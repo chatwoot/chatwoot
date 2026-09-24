@@ -133,6 +133,14 @@ RSpec.describe Captain::ToolsManifest::Validator do
       expect_invalid(yaml, /access_token type must be one of/)
     end
 
+    it 'rejects select fields without options' do
+      manifest['inputs']['region'] = { 'label' => 'Region', 'type' => 'select' }
+      expect_invalid(manifest.to_yaml, /region options must list at least one choice for select/)
+
+      manifest['inputs']['region']['options'] = []
+      expect_invalid(manifest.to_yaml, /region options must list at least one choice for select/)
+    end
+
     it 'rejects unknown tool fields' do
       manifest['tools'].first['timeout'] = 5
 
