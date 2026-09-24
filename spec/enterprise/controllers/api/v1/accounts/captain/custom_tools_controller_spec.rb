@@ -281,6 +281,18 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
       expect(WebMock).not_to have_requested(:any, /.*/)
     end
 
+    it 'rejects invalid auth config without sending the request' do
+      post "/api/v1/accounts/#{account.id}/captain/custom_tools/test?assistant_id=#{assistant.id}",
+           params: { custom_tool: { endpoint_url: 'https://api.example.com/health', http_method: 'GET',
+                                    auth_type: 'api_key', auth_config: { name: 'Content-Type', key: 'secret' } } },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(json_response[:error]).to include('Content-Type')
+      expect(WebMock).not_to have_requested(:any, /.*/)
+    end
+
     it 'rejects unsafe endpoint URLs without sending the request' do
       post "/api/v1/accounts/#{account.id}/captain/custom_tools/test?assistant_id=#{assistant.id}",
            params: { custom_tool: { endpoint_url: 'http://api.example.com/health', http_method: 'GET' } },
