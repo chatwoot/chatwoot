@@ -38,6 +38,24 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(ConversationMonitors::DailyUsage.find_by!(account: account).calls_count).to eq(1)
   end
 
+  it 'persists successful answers without another provider call when Redis reconciliation fails' do
+    redis = Redis::Alfred.with { |connection| connection }
+    allow(redis).to receive(:incrby).and_raise(Redis::CannotConnectError, 'test outage')
+
+    evaluate.call
+
+    expect(monitor.evaluations.sole).to have_attributes(status: 'matched', score: 0.95)
+    expect(second.evaluations.sole).to have_attributes(status: 'unmatched', score: 0.05)
+    expect(work.reload).to have_attributes(due_at: nil, lease_token: nil, lease_expires_at: nil, processed_revision: work.revision)
+
+    travel 3.minutes
+    expect { ConversationMonitors::DispatchJob.perform_now }.not_to have_enqueued_job(ConversationMonitors::ProcessJob)
+    ConversationMonitors::ProcessJob.perform_now(conversation.id)
+
+    expect(WebMock).to have_requested(:post, endpoint).once
+    expect(ConversationMonitors::DailyUsage.find_by!(account: account).calls_count).to eq(1)
+  end
+
   context 'when a monitor uses a legacy model alias' do
     let(:monitor) { create(:conversation_monitor, account: account, model: 'jev-1.13.0') }
 

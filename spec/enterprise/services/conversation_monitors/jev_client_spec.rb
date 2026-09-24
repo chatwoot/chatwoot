@@ -26,6 +26,48 @@ RSpec.describe ConversationMonitors::JevClient do
 
   after { Redis::Alfred.delete(token_key) }
 
+  context 'when reconciling a successful response' do
+    let(:usage) { ConversationMonitors::Usage.new(account.id) }
+
+    before do
+      allow(ConversationMonitors::Usage).to receive(:new).with(account.id).and_return(usage)
+      allow(Rails.logger).to receive(:warn)
+    end
+
+    [Redis::CannotConnectError, Redis::TimeoutError, ConnectionPool::TimeoutError].each do |error_class|
+      it "preserves the response and reservation after #{error_class.name}" do
+        allow(usage).to receive(:reconcile!).and_raise(error_class, 'test outage')
+        reserved_bytes = nil
+        stub_request(:post, endpoint).to_return do |request|
+          reserved_bytes = request.body.bytesize
+          { status: 200, body: response_body.to_json }
+        end
+
+        expect(evaluate).to eq(response_body.deep_stringify_keys)
+        expect(Redis::Alfred.get(token_key).to_i).to eq(reserved_bytes)
+        expect(usage.snapshot[:used]).to eq(1)
+        expect(WebMock).to have_requested(:post, endpoint).once
+        expect(Rails.logger).to have_received(:warn).with(
+          "Conversation monitor token reconciliation failed: account_id=#{account.id} error=#{error_class.name}"
+        )
+      end
+    end
+
+    it 'does not swallow unrelated accounting errors' do
+      allow(usage).to receive(:reconcile!).and_raise(ArgumentError, 'invalid adjustment')
+
+      expect { evaluate }.to raise_error(ArgumentError, 'invalid adjustment')
+    end
+  end
+
+  it 'does not call the provider when Redis cannot reserve the token budget' do
+    allow(Redis::Alfred).to receive(:with).and_raise(Redis::CannotConnectError, 'test outage')
+
+    expect { evaluate }.to raise_error(Redis::CannotConnectError)
+    expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(0)
+    expect(WebMock).not_to have_requested(:post, endpoint)
+  end
+
   it 'releases the reservation and never calls the provider when credit persistence fails' do
     allow(ConversationMonitors::DailyUsage).to receive(:record_call!).and_raise(ActiveRecord::StatementInvalid)
 

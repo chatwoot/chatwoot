@@ -17,7 +17,7 @@ class ConversationMonitors::JevClient
     started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     response = connection.post(ConversationMonitors::Configuration.endpoint, body)
     data = parse_response(response)
-    usage.reconcile!(body.bytesize, data.fetch('usage').fetch('input_tokens'))
+    reconcile_usage(usage, body.bytesize, data.fetch('usage').fetch('input_tokens'))
     instrument(data, started, monitors.size)
     data
   rescue Faraday::Error
@@ -36,6 +36,13 @@ class ConversationMonitors::JevClient
   end
 
   private
+
+  def reconcile_usage(usage, reserved, used)
+    usage.reconcile!(reserved, used)
+  rescue Redis::BaseError, ConnectionPool::TimeoutError => e
+    # Keep the successful response without retrying or refunding an uncertain token adjustment.
+    Rails.logger.warn("Conversation monitor token reconciliation failed: account_id=#{@account_id} error=#{e.class.name}")
+  end
 
   def request_body(state, monitors)
     model = self.class.resolve_model(monitors.first.model)
