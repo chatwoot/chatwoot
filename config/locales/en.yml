@@ -718,8 +718,8 @@ en:
           send: 'Sending…'
         check:
           not_suppressed: 'Emails to %{email} are not blocked.'
-          bounce: 'Emails to %{email} are blocked because one bounced on %{since}. Unblock it, then send a test email.'
-          complaint: 'Emails to %{email} are blocked because the user marked one as spam on %{since}. Escalate to engineering.'
+          bounce: 'Emails to %{email} have been blocked since %{since} because the address bounced. Unblock it, then send a test email.'
+          complaint: 'Emails to %{email} have been blocked since %{since} because of a spam complaint. Escalate to engineering.'
           unavailable: "Couldn't check delivery for %{email}. Try again, or escalate to engineering."
         clear:
           success: 'Unblocked %{email}. Send a test email to confirm delivery.'

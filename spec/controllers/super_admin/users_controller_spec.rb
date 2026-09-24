@@ -315,7 +315,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
         post "/super_admin/users/#{user.id}/check_email_suppression"
 
         expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=bounce")
-        expect(flash[:alert]).to eq('Emails to bounced@example.com are blocked because one bounced on 1 Sep 2026 (5 days ago). ' \
+        expect(flash[:alert]).to eq('Emails to bounced@example.com have been blocked since 1 Sep 2026 (5 days ago) because the address bounced. ' \
                                     'Unblock it, then send a test email.')
       end
 
@@ -327,7 +327,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
         post "/super_admin/users/#{user.id}/check_email_suppression"
 
         expect(response).to redirect_to("/super_admin/users/#{user.id}?suppression=complaint")
-        expect(flash[:error]).to eq('Emails to bounced@example.com are blocked because the user marked one as spam on 1 Sep 2026 (5 days ago). ' \
+        expect(flash[:error]).to eq('Emails to bounced@example.com have been blocked since 1 Sep 2026 (5 days ago) because of a spam complaint. ' \
                                     'Escalate to engineering.')
       end
 
