@@ -145,6 +145,33 @@ describe('#actions', () => {
         [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
       ]);
     });
+
+    it('preserves blank company_id when updating with form data', async () => {
+      axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
+
+      await actions.update(
+        { commit },
+        {
+          id: contactList[0].id,
+          isFormData: true,
+          name: contactList[0].name,
+          companyId: '',
+          avatar: 'avatar-file',
+          additionalAttributes: {
+            companyName: '',
+            socialProfiles: {},
+          },
+        }
+      );
+
+      const lastPatchCall =
+        axios.patch.mock.calls[axios.patch.mock.calls.length - 1];
+      const formData = lastPatchCall[1];
+
+      expect(formData).toBeInstanceOf(FormData);
+      expect(formData.has('company_id')).toBe(true);
+      expect(formData.get('company_id')).toBe('');
+    });
   });
 
   describe('#create', () => {

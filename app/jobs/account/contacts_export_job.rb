@@ -20,7 +20,7 @@ class Account::ContactsExportJob < ApplicationJob
     contacts_to_export = contacts.to_a
     preload_contact_labels(contacts_to_export) if headers.include?(LABELS_COLUMN)
 
-    csv_data = CSV.generate do |csv|
+    csv_data = CSVSafe.generate do |csv|
       csv << headers
       contacts_to_export.each do |contact|
         csv << headers.map { |header| value_for_header(contact, header) }

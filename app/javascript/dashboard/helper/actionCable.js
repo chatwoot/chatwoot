@@ -12,23 +12,37 @@ import {
   isLocalWhatsappCall,
 } from 'dashboard/composables/useWhatsappCallSession';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
+import { markCallDismissed, isLocalCall } from 'dashboard/helper/voice';
 import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const { isImpersonating } = useImpersonation();
 const UNREAD_COUNTS_REFETCH_THROTTLE_MS = 5000;
+const HANDOFF_ALERT_WINDOW_MS = 2500;
+const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS = 30000;
+const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS = 15000;
+const MENTION_UNREAD_COUNTS_REFETCH_DELAY_MS =
+  UNREAD_COUNTS_REFETCH_THROTTLE_MS;
+const getFilteredUnreadCountsRefreshRetryDelay = () =>
+  FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS +
+  Math.random() * FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS;
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
     const { websocketURL = '' } = window.chatwootConfig || {};
     super(app, pubsubToken, websocketURL);
     this.CancelTyping = [];
+    this.pendingHandoffAlerts = new Map();
     this.lastUnreadCountsFetchAt = null;
     this.unreadCountsFetchTimer = null;
+    this.mentionUnreadCountsFetchTimer = null;
+    this.mentionUnreadCountsRetryTimer = null;
+    this.filteredUnreadCountsRetryTimer = null;
     this.events = {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
       'conversation.created': this.onConversationCreated,
+      'conversation.bot_handoff': this.onConversationBotHandoff,
       'conversation.status_changed': this.onStatusChange,
       'user:logout': this.onLogout,
       'page:reload': this.onReload,
@@ -49,8 +63,10 @@ class ActionCableConnector extends BaseActionCableConnector {
         this.onConversationUnreadCountChanged,
       'account.cache_invalidated': this.onCacheInvalidate,
       'account.enrichment_completed': this.onEnrichmentCompleted,
+      'account.billing_updated': this.onBillingUpdated,
       'copilot.message.created': this.onCopilotMessageCreated,
       'voice_call.incoming': this.onVoiceCallIncoming,
+      'voice_call.accepted': this.onVoiceCallAccepted,
       'voice_call.outbound_connected': this.onVoiceCallOutboundConnected,
       'voice_call.outbound_accepted': this.onVoiceCallOutboundAccepted,
       'voice_call.ended': this.onVoiceCallEnded,
@@ -106,6 +122,60 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.fetchConversationStats();
   };
 
+  onConversationBotHandoff = data => {
+    // Trust the handoff event, not its request's performer: a bot handoff can
+    // run inside an agent-authenticated API request.
+    const key = `${data.account_id}:${data.id}`;
+    if (this.pendingHandoffAlerts.has(key)) return;
+
+    // One fixed window lets the normal store absorb assignment/status updates,
+    // even assignments delivered before the handoff. Duplicates do not extend it.
+    // Late assignments intentionally do not resurrect alerts after this window.
+    this.pendingHandoffAlerts.set(
+      key,
+      setTimeout(() => {
+        this.pendingHandoffAlerts.delete(key);
+        if (!this.isAValidEvent(data)) return;
+        this.alertOnSettledHandoff(data);
+      }, HANDOFF_ALERT_WINDOW_MS)
+    );
+  };
+
+  alertOnSettledHandoff = handoff => {
+    const stored = this.app.$store.getters.getConversationById(handoff.id);
+    // Fall back to the handoff snapshot when local state is missing or older.
+    const conversation =
+      stored?.updated_at >= handoff.updated_at ? stored : handoff;
+    if (conversation.status !== 'open') return;
+
+    const { assignment, meta } = conversation;
+    const hasAssignmentChange =
+      assignment?.updated_at > handoff.updated_at ||
+      meta?.assignee?.id !== handoff.meta?.assignee?.id ||
+      meta?.assignee_type !== handoff.meta?.assignee_type;
+
+    if (hasAssignmentChange) {
+      // Unrelated updates (e.g. out-of-office messages) must not cancel alerts.
+      // A changed owner needs a matching automatic assignment since the handoff,
+      // even if a refreshed status payload exposes it before the assignment event.
+      if (
+        !assignment?.automatic ||
+        assignment.updated_at < handoff.updated_at ||
+        assignment.assignee_id !== meta?.assignee?.id ||
+        assignment.assignee_type !== meta?.assignee_type
+      ) {
+        return;
+      }
+    }
+    DashboardAudioNotificationHelper.onConversationBotHandoff(conversation);
+  };
+
+  disconnect() {
+    this.pendingHandoffAlerts.forEach(clearTimeout);
+    this.pendingHandoffAlerts.clear();
+    super.disconnect();
+  }
+
   onConversationRead = data => {
     this.app.$store.dispatch('updateConversation', data);
   };
@@ -140,7 +210,12 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onConversationUnreadCountChanged = () => {
+    this.refreshConversationUnreadCountsWithFilteredRetry();
+  };
+
+  refreshConversationUnreadCountsWithFilteredRetry = () => {
     this.throttledFetchConversationUnreadCounts();
+    this.scheduleFilteredUnreadCountsRetry();
   };
 
   throttledFetchConversationUnreadCounts = () => {
@@ -171,6 +246,51 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.unreadCountsFetchTimer = null;
   };
 
+  scheduleMentionUnreadCountsFetch = () => {
+    if (!this.isFilteredUnreadCountsEnabled()) return;
+
+    // Mention invalidation runs through the async dispatcher, and stale snapshots
+    // can be served until the filtered-count backend refresh window opens.
+    this.scheduleUnreadCountsFetchAfter(
+      'mentionUnreadCountsFetchTimer',
+      MENTION_UNREAD_COUNTS_REFETCH_DELAY_MS
+    );
+    this.scheduleUnreadCountsFetchAfter(
+      'mentionUnreadCountsRetryTimer',
+      getFilteredUnreadCountsRefreshRetryDelay(),
+      { reset: true }
+    );
+  };
+
+  scheduleFilteredUnreadCountsRetry = () => {
+    if (!this.isFilteredUnreadCountsEnabled()) return;
+
+    // Filtered snapshots can intentionally stay stale until the backend
+    // refresh window opens.
+    this.scheduleUnreadCountsFetchAfter(
+      'filteredUnreadCountsRetryTimer',
+      getFilteredUnreadCountsRefreshRetryDelay(),
+      { reset: true }
+    );
+  };
+
+  scheduleUnreadCountsFetchAfter = (
+    timerName,
+    delay,
+    { reset = false } = {}
+  ) => {
+    if (this[timerName]) {
+      if (!reset) return;
+
+      clearTimeout(this[timerName]);
+    }
+
+    this[timerName] = setTimeout(() => {
+      this[timerName] = null;
+      this.throttledFetchConversationUnreadCounts();
+    }, delay);
+  };
+
   fetchConversationUnreadCounts = () => {
     if (!this.isConversationUnreadCountsEnabled()) return;
 
@@ -186,6 +306,17 @@ class ActionCableConnector extends BaseActionCableConnector {
     return isFeatureEnabled?.(
       accountId,
       FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS
+    );
+  };
+
+  isFilteredUnreadCountsEnabled = () => {
+    const accountId = this.app.$store.getters.getCurrentAccountId;
+    const isFeatureEnabled =
+      this.app.$store.getters['accounts/isFeatureEnabledonAccount'];
+
+    return (
+      isFeatureEnabled?.(accountId, FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS) &&
+      isFeatureEnabled?.(accountId, FEATURE_FLAGS.UNREAD_COUNT_FOR_FILTERS)
     );
   };
 
@@ -212,6 +343,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onConversationMentioned = data => {
     this.app.$store.dispatch('addMentions', data);
+    this.scheduleMentionUnreadCountsFetch();
   };
 
   clearTimer = conversationId => {
@@ -268,11 +400,27 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('accounts/get', { silent: true });
   };
 
+  onBillingUpdated = data => {
+    this.app.$store.dispatch('accounts/get', {
+      accountId: data.account_id,
+      silent: true,
+    });
+  };
+
   onCacheInvalidate = data => {
     const keys = data.cache_keys;
     this.app.$store.dispatch('labels/revalidate', { newKey: keys.label });
     this.app.$store.dispatch('inboxes/revalidate', { newKey: keys.inbox });
     this.app.$store.dispatch('teams/revalidate', { newKey: keys.team });
+    this.app.$store.dispatch('revalidateCannedResponses', {
+      newKey: keys.canned_response,
+    });
+
+    if (this.isFilteredUnreadCountsEnabled()) {
+      // Inbox/team/label visibility changes can change the accessible set used
+      // by filtered unread counts even when no conversation row changes.
+      this.refreshConversationUnreadCountsWithFilteredRetry();
+    }
   };
 
   onVoiceCallIncoming = data => {
@@ -292,8 +440,32 @@ class ActionCableConnector extends BaseActionCableConnector {
       provider: VOICE_CALL_PROVIDERS.WHATSAPP,
       sdpOffer: data.sdp_offer,
       iceServers: data.ice_servers,
+      recordingEnabled: data.recording_enabled !== false,
       caller: data.caller,
     });
+  };
+
+  // Inbound call accepted (in this tab or a sibling tab/window on the same
+  // account, on either provider). Broadcast is account-wide, so drop the
+  // ringing card everywhere except the tab that actually owns the now-active
+  // call — removing an active call here would tear down its live WebRTC
+  // session. Check isLocalWhatsappCall/isLocalCall (both set synchronously
+  // before their respective accept/join API calls) rather than the store's
+  // isActive flag, which this tab may not have set yet.
+  // Mark dismissed regardless of locality: the ringing message.created for
+  // this call is queued through ActionCableBroadcastJob and can still be
+  // delivered after this (synchronous) broadcast, which would otherwise
+  // re-add the call as ringing once it finally arrives.
+  // eslint-disable-next-line class-methods-use-this
+  onVoiceCallAccepted = data => {
+    if (!data?.provider) return;
+    markCallDismissed(data.call_id);
+    const isLocal =
+      data.provider === VOICE_CALL_PROVIDERS.WHATSAPP
+        ? isLocalWhatsappCall(data.id)
+        : isLocalCall(data.call_id);
+    if (isLocal) return;
+    useCallsStore().removeCall(data.call_id);
   };
 
   // `connect` is the WebRTC tunnel-ready signal (fires ~20s before pickup
@@ -326,12 +498,22 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   // eslint-disable-next-line class-methods-use-this
   onVoiceCallEnded = async data => {
-    if (data?.provider !== VOICE_CALL_PROVIDERS.WHATSAPP) return;
+    if (!Object.values(VOICE_CALL_PROVIDERS).includes(data?.provider)) return;
+    // A still-queued ringing message.created (see onVoiceCallAccepted) must not
+    // resurrect a call that has already ended.
+    markCallDismissed(data.call_id);
     // The store entry should always be removed for this account-wide broadcast,
     // but the WebRTC/recorder teardown must only run for the call this tab owns
     // — otherwise an unrelated agent's call ending would stop this tab's
-    // recorder and upload its chunks against the wrong call id.
-    if (isLocalWhatsappCall(data.id)) {
+    // recorder and upload its chunks against the wrong call id. For Twilio,
+    // removeCall's own isActive check already scopes teardown to the owning
+    // tab (via TwilioVoiceClient.endClientCall in teardownByProvider), so no
+    // extra guard is needed here — only WhatsApp's recorder upload must be
+    // awaited before the store entry (and its in-memory chunks) is wiped.
+    if (
+      data.provider === VOICE_CALL_PROVIDERS.WHATSAPP &&
+      isLocalWhatsappCall(data.id)
+    ) {
       // Await upload before removeCall — the store's sync teardown would otherwise
       // wipe the recorder chunks before they reach the server.
       try {

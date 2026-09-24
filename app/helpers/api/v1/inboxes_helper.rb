@@ -115,10 +115,4 @@ module Api::V1::InboxesHelper
       'app_store' => Current.account.app_store_channels
     }[permitted_params[:channel][:type]]
   end
-
-  def validate_limit
-    return unless Current.account.inboxes.count >= Current.account.usage_limits[:inboxes]
-
-    render_payment_required('Account limit exceeded. Upgrade to a higher plan')
-  end
 end

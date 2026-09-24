@@ -53,7 +53,7 @@ class Contact < ApplicationRecord
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
-            format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
+            format: { with: /\A\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   belongs_to :account
   has_many :conversations, dependent: :destroy_async
@@ -67,6 +67,7 @@ class Contact < ApplicationRecord
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
+  include ContactCompanyAssociation
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -83,16 +84,6 @@ class Contact < ApplicationRecord
       Arel::Nodes::SqlLiteral.new(
         sanitize_sql_for_order("\"contacts\".\"created_at\" #{direction}
           NULLS LAST")
-      )
-    )
-  }
-  scope :order_on_company_name, lambda { |direction|
-    order(
-      Arel::Nodes::SqlLiteral.new(
-        sanitize_sql_for_order(
-          "\"contacts\".\"additional_attributes\"->>'company_name' #{direction}
-          NULLS LAST"
-        )
       )
     )
   }
@@ -148,7 +139,7 @@ class Contact < ApplicationRecord
   end
 
   def push_event_data
-    {
+    data = {
       additional_attributes: additional_attributes,
       custom_attributes: custom_attributes,
       email: email,
@@ -160,6 +151,8 @@ class Contact < ApplicationRecord
       blocked: blocked,
       type: 'contact'
     }
+    data[:company_id] = company_id if account.feature_enabled?('companies')
+    data
   end
 
   def webhook_data
@@ -204,7 +197,7 @@ class Contact < ApplicationRecord
   def phone_number_format
     return if phone_number.blank?
 
-    self.phone_number = phone_number_was unless phone_number.match?(/\+[1-9]\d{1,14}\z/)
+    self.phone_number = phone_number_was unless phone_number.match?(/\A\+[1-9]\d{1,14}\z/)
   end
 
   def email_format

@@ -7,6 +7,7 @@ import de from './locale/de.json';
 import el from './locale/el.json';
 import en from './locale/en.json';
 import es from './locale/es.json';
+import et from './locale/et.json';
 import fa from './locale/fa.json';
 import fi from './locale/fi.json';
 import fr from './locale/fr.json';
@@ -29,12 +30,14 @@ import pt_BR from './locale/pt_BR.json';
 import ro from './locale/ro.json';
 import ru from './locale/ru.json';
 import sk from './locale/sk.json';
+import sl from './locale/sl.json';
 import sr from './locale/sr.json';
 import sv from './locale/sv.json';
 import ta from './locale/ta.json';
 import th from './locale/th.json';
 import tr from './locale/tr.json';
 import uk from './locale/uk.json';
+import uz from './locale/uz.json';
 import vi from './locale/vi.json';
 import zh_CN from './locale/zh_CN.json';
 import zh_TW from './locale/zh_TW.json';
@@ -49,6 +52,7 @@ export default {
   el,
   en,
   es,
+  et,
   fa,
   fi,
   fr,
@@ -71,12 +75,14 @@ export default {
   ro,
   ru,
   sk,
+  sl,
   sr,
   sv,
   ta,
   th,
   tr,
   uk,
+  uz,
   vi,
   zh_CN,
   zh_TW,

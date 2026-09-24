@@ -26,6 +26,17 @@ RSpec.describe 'Webhooks API', type: :request do
         expect(response.parsed_body['payload']['webhooks'].count).to eql account.webhooks.count
       end
     end
+
+    context 'when api_and_webhooks feature is disabled' do
+      it 'allows session authenticated admins to manage webhooks' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        account.disable_features!('api_and_webhooks')
+        get "/api/v1/accounts/#{account.id}/webhooks",
+            headers: administrator.create_new_auth_token,
+            as: :json
+        expect(response).to have_http_status(:success)
+      end
+    end
   end
 
   describe 'POST /api/v1/accounts/<account_id>/webhooks' do

@@ -20,9 +20,9 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     call_api('terminate_call', call_action_body(call_id, 'terminate'))
   end
 
-  def send_call_permission_request(to_phone_number, body_text = I18n.t('conversations.messages.whatsapp.call_permission_request_body'))
+  def send_call_permission_request(recipient, body_text = I18n.t('conversations.messages.whatsapp.call_permission_request_body'))
     response = HTTParty.post(
-      "#{calls_phone_id_path}/messages", headers: api_headers, body: permission_request_body(to_phone_number, body_text)
+      "#{calls_phone_id_path}/messages", headers: api_headers, body: permission_request_body(recipient, body_text)
     )
 
     unless response.success?
@@ -33,9 +33,9 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     response.parsed_response
   end
 
-  def initiate_call(to_phone_number, sdp_offer)
+  def initiate_call(recipient, sdp_offer)
     response = HTTParty.post(
-      "#{calls_phone_id_path}/calls", headers: api_headers, body: initiate_call_body(to_phone_number, sdp_offer)
+      "#{calls_phone_id_path}/calls", headers: api_headers, body: initiate_call_body(recipient, sdp_offer)
     )
     process_initiate_call_response(response)
   end
@@ -51,9 +51,9 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     return true if response.success?
 
     parsed = response.parsed_response.is_a?(Hash) ? response.parsed_response : {}
-    message = parsed.dig('error', 'error_user_msg') || parsed.dig('error', 'message') || 'Failed to update calling status'
+    error = parsed['error'].is_a?(Hash) ? parsed['error'] : {}
     Rails.logger.error "[WHATSAPP CALL] update_calling_status failed: status=#{response.code} body=#{response.body}"
-    raise message
+    raise meta_error_message(error, 'Failed to update calling status')
   end
 
   private
@@ -78,9 +78,9 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     response.success?
   end
 
-  def permission_request_body(to_phone_number, body_text)
+  def permission_request_body(recipient, body_text)
     {
-      messaging_product: 'whatsapp', recipient_type: 'individual', to: to_phone_number,
+      messaging_product: 'whatsapp', recipient_type: 'individual', **recipient_params(recipient),
       type: 'interactive',
       interactive: {
         type: 'call_permission_request',
@@ -90,11 +90,15 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     }.to_json
   end
 
-  def initiate_call_body(to_phone_number, sdp_offer)
+  def initiate_call_body(recipient, sdp_offer)
     {
-      messaging_product: 'whatsapp', to: to_phone_number, action: 'connect',
+      messaging_product: 'whatsapp', **call_recipient_params(recipient), action: 'connect',
       session: { sdp: sdp_offer, sdp_type: 'offer' }
     }.to_json
+  end
+
+  def call_recipient_params(recipient)
+    recipient.to_s.match?(RegexHelper::WHATSAPP_BSUID_REGEX) ? { recipient: recipient } : { to: recipient }
   end
 
   def process_initiate_call_response(response)
@@ -102,11 +106,18 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
 
     Rails.logger.error "[WHATSAPP CALL] initiate_call failed: status=#{response.code} body=#{response.body}"
     parsed = response.parsed_response.is_a?(Hash) ? response.parsed_response : {}
-    error_code = parsed.dig('error', 'code')
-    error_msg = parsed.dig('error', 'error_user_msg') || 'Failed to initiate call'
+    error = parsed['error'].is_a?(Hash) ? parsed['error'] : {}
+    error_code = error['code']
+    error_msg = meta_error_message(error, 'Failed to initiate call')
 
     raise Voice::CallErrors::NoCallPermission, error_msg if error_code == Voice::CallErrors::NO_CALL_PERMISSION_CODE
 
     raise Voice::CallErrors::CallFailed, error_msg
+  end
+
+  # Meta often returns a blank error_user_msg (e.g. code 131044 business-eligibility);
+  # an empty string is truthy, so `||` would surface it. Prefer the first non-blank field.
+  def meta_error_message(error, default)
+    error['error_user_msg'].presence || error['message'].presence || error['error_user_title'].presence || default
   end
 end

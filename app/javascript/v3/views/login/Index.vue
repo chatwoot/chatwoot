@@ -1,6 +1,7 @@
 <script>
 // utils and composables
 import { login } from '../../api/auth';
+import { getLoginRedirectURL } from '../../helpers/AuthHelper';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { required, email } from '@vuelidate/validators';
@@ -30,6 +31,7 @@ const ERROR_MESSAGES = {
 
 const IMPERSONATION_URL_SEARCH_KEY = 'impersonation';
 const USER_NOT_CONFIRMED_ERROR_CODE = 'user_not_confirmed';
+const AUTH_ERROR_TOAST_DURATION = 6000;
 
 export default {
   components: {
@@ -72,6 +74,7 @@ export default {
       error: '',
       mfaRequired: false,
       mfaToken: null,
+      verificationChannel: null,
       sessionsLimitReached: false,
       limitedSessions: [],
     };
@@ -111,16 +114,21 @@ export default {
     if (this.ssoAuthToken) {
       this.submitLogin();
     }
+  },
+  mounted() {
     if (this.authError) {
-      const messageKey = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
-      // Use a method to get the translated text to avoid dynamic key warning
-      const translatedMessage = this.getTranslatedMessage(messageKey);
-      useAlert(translatedMessage);
-      // wait for idle state
-      this.requestIdleCallbackPolyfill(() => {
-        // Remove the error query param from the url
-        const { query } = this.$route;
-        this.$router.replace({ query: { ...query, error: undefined } });
+      // Wait for the sibling snackbar to mount and subscribe to toast events.
+      this.$nextTick(() => {
+        const messageKey = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
+        // Use a method to get the translated text to avoid dynamic key warning
+        const translatedMessage = this.getTranslatedMessage(messageKey);
+        useAlert(translatedMessage, { duration: AUTH_ERROR_TOAST_DURATION });
+        // wait for idle state
+        this.requestIdleCallbackPolyfill(() => {
+          // Remove the error query param from the url
+          const { query } = this.$route;
+          this.$router.replace({ query: { ...query, error: undefined } });
+        });
       });
     }
   },
@@ -185,6 +193,7 @@ export default {
             this.loginApi.showLoading = false;
             this.mfaRequired = true;
             this.mfaToken = result.mfaToken;
+            this.verificationChannel = result.verificationChannel || null;
             return;
           }
 
@@ -228,15 +237,21 @@ export default {
 
       this.submitLogin();
     },
-    handleMfaVerified() {
-      // MFA verification successful, continue with login
+    handleMfaVerified(data) {
+      // Verification successful; honor the requested account/conversation link
+      // the same way the direct-login path does, instead of always going to /app.
       this.handleImpersonation();
-      window.location = '/app';
+      window.location = getLoginRedirectURL({
+        ssoAccountId: this.ssoAccountId,
+        ssoConversationId: this.ssoConversationId,
+        user: data?.data,
+      });
     },
     handleMfaCancel() {
       // User cancelled MFA, reset state
       this.mfaRequired = false;
       this.mfaToken = null;
+      this.verificationChannel = null;
       this.credentials.password = '';
     },
     retryLoginWithParams(extraParams) {
@@ -256,6 +271,13 @@ export default {
       this.loginApi.showLoading = true;
       login(credentials)
         .then(result => {
+          if (result?.mfaRequired) {
+            this.loginApi.showLoading = false;
+            this.mfaRequired = true;
+            this.mfaToken = result.mfaToken;
+            this.verificationChannel = result.verificationChannel || null;
+            return;
+          }
           if (result?.sessionsLimitReached) {
             this.loginApi.showLoading = false;
             this.sessionsLimitReached = true;
@@ -329,6 +351,7 @@ export default {
     <section v-else-if="mfaRequired" class="mt-11">
       <MfaVerification
         :mfa-token="mfaToken"
+        :verification-channel="verificationChannel"
         @verified="handleMfaVerified"
         @cancel="handleMfaCancel"
       />

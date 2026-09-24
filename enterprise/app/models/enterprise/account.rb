@@ -55,7 +55,7 @@ module Enterprise::Account
 
   def captain_document_sync_interval(sync_intervals = Enterprise::Account.captain_document_sync_intervals)
     plan = custom_attributes['plan_name']
-    plan = 'enterprise' if plan.blank? && ChatwootApp.self_hosted_enterprise?
+    plan = 'enterprise' if plan.blank? && ChatwootApp.self_hosted_paid?
     return nil if plan.blank?
 
     interval_hours = sync_intervals[plan.downcase]
@@ -68,7 +68,42 @@ module Enterprise::Account
     saml_settings&.saml_enabled? || false
   end
 
+  def api_and_webhooks_enabled?
+    return true unless ChatwootApp.chatwoot_cloud?
+
+    feature_enabled?('api_and_webhooks')
+  end
+
+  def billing_currency
+    # Feature off => everyone is billed in USD (legacy behaviour).
+    return Enterprise::Billing::Currencies::DEFAULT unless Enterprise::Billing::Currencies.enabled?
+
+    stored = custom_attributes&.dig('billing_currency')
+    return Enterprise::Billing::Currencies.normalize(stored) if Enterprise::Billing::Currencies.supported?(stored)
+
+    # Existing Stripe customers stay on USD (webhook backfills the real currency);
+    # only brand-new accounts infer from locale, so existing pt_BR users aren't charged BRL.
+    return Enterprise::Billing::Currencies::DEFAULT if custom_attributes&.dig('stripe_customer_id').present?
+
+    Enterprise::Billing::Currencies.for_locale(locale)
+  end
+
+  # New accounts whose locale maps to a non-USD currency get to pick USD or that
+  # currency before the Stripe customer is created; everyone else proceeds in USD.
+  def billing_currency_selection_required?
+    return false unless Enterprise::Billing::Currencies.enabled?
+    return false if custom_attributes&.dig('stripe_customer_id').present?
+    return false if Enterprise::Billing::Currencies.supported?(custom_attributes&.dig('billing_currency'))
+
+    Enterprise::Billing::Currencies.for_locale(locale) != Enterprise::Billing::Currencies::DEFAULT
+  end
+
   private
+
+  def enable_default_features
+    super
+    enable_features('captain_integration', 'captain_integration_v2') if ChatwootApp.self_hosted_paid?
+  end
 
   def sync_assignment_features
     if feature_enabled?('assignment_v2')
@@ -81,6 +116,10 @@ module Enterprise::Account
   end
 
   def business_or_enterprise_plan?
+    if billing_provider == 'shopify'
+      return Enterprise::Billing::PlanConfiguration.current_plan(self)&.fetch('features', [])&.include?('advanced_assignment')
+    end
+
     plan_name = custom_attributes['plan_name']
     %w[Business Enterprise].include?(plan_name)
   end

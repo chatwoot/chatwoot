@@ -13,8 +13,12 @@ const buildContactFormData = contactParams => {
   const formData = new FormData();
   const { additional_attributes = {}, ...contactProperties } = contactParams;
   Object.keys(contactProperties).forEach(key => {
-    if (contactProperties[key]) {
-      formData.append(key, contactProperties[key]);
+    const value = contactProperties[key];
+    const shouldAppendBlankCompanyId =
+      key === 'company_id' && value !== undefined;
+
+    if (value || shouldAppendBlankCompanyId) {
+      formData.append(key, value ?? '');
     }
   });
   const { social_profiles, ...additionalAttributesProperties } =

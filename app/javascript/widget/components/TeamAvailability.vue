@@ -43,7 +43,7 @@ const startConversation = () => {
             : $t('START_CONVERSATION')
         }}
       </span>
-      <i class="i-lucide-chevron-right size-5 mt-px" />
+      <i class="i-lucide-chevron-right size-5 mt-px rtl:rotate-180" />
     </button>
   </div>
 </template>

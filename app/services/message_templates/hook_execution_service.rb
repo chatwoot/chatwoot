@@ -38,6 +38,8 @@ class MessageTemplates::HookExecutionService
   def should_send_greeting?
     return false if conversation.campaign.present?
     return false if review_inbox_or_tweet_conversation?
+    # should not send for outbound messages
+    return false unless message.incoming?
 
     first_message_from_contact? && inbox.greeting_enabled? && inbox.greeting_message.present?
   end
@@ -53,6 +55,8 @@ class MessageTemplates::HookExecutionService
   # TODO: we should be able to reduce this logic once we have a toggle for email collect messages
   def should_send_email_collect?
     return false if conversation.campaign.present?
+    # Only react to a contact's incoming message, not to the template messages this hook creates.
+    return false unless message.incoming?
 
     !contact_has_email? && inbox.web_widget? && !email_collect_was_sent?
   end

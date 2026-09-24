@@ -32,6 +32,24 @@ describe Messages::Facebook::MessageBuilder do
       expect(message.content).to eq('facebook message')
     end
 
+    it 'uses the full profile name when separate name fields are absent' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return({ name: 'Sample Customer' }.with_indifferent_access)
+
+      message_builder
+
+      expect(facebook_channel.inbox.contacts.first.name).to eq('Sample Customer')
+    end
+
+    it 'does not add a placeholder surname to a single-part name' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return({ first_name: 'SingleName' }.with_indifferent_access)
+
+      message_builder
+
+      expect(facebook_channel.inbox.contacts.first.name).to eq('SingleName')
+    end
+
     it 'increments channel authorization_error_count when error is thrown' do
       allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
       allow(fb_object).to receive(:get_object).and_raise(Koala::Facebook::AuthenticationError.new(500, 'Error validating access token'))
@@ -140,6 +158,66 @@ describe Messages::Facebook::MessageBuilder do
       end
     end
 
+    context 'when message contains a sticker attachment' do
+      let(:sticker_url) { 'https://scontent.xx.fbcdn.net/sticker.png' }
+      let(:sticker_message_object) do
+        {
+          messaging: {
+            sender: { id: '3383290475046708' },
+            recipient: { id: facebook_channel.page_id },
+            timestamp: 1_772_452_164_516,
+            message: {
+              mid: 'm_sticker_test',
+              attachments: [
+                { type: 'image', payload: { url: sticker_url } },
+                { type: 'sticker', payload: { url: sticker_url } }
+              ]
+            }
+          }
+        }.to_json
+      end
+      let(:sticker_message) { Integrations::Facebook::MessageParser.new(sticker_message_object) }
+
+      before do
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return(
+          { first_name: 'Jane', last_name: 'Dae', profile_pic: 'https://chatwoot-assets.local/sample.png' }.with_indifferent_access
+        )
+        stub_request(:get, sticker_url).to_return(status: 200, body: 'sticker_data', headers: { 'Content-Type' => 'image/png' })
+      end
+
+      it 'stores the sticker as a single image attachment' do
+        described_class.new(sticker_message, facebook_channel.inbox).perform
+
+        message = facebook_channel.inbox.messages.find_by(source_id: 'm_sticker_test')
+        expect(message.attachments.count).to eq(1)
+        expect(message.attachments.first.file_type).to eq('image')
+        expect(message.attachments.first.external_url).to eq(sticker_url)
+      end
+
+      it 'keeps duplicate non-sticker attachments that share a URL' do
+        duplicate_image_object = {
+          messaging: {
+            sender: { id: '3383290475046708' },
+            recipient: { id: facebook_channel.page_id },
+            message: {
+              mid: 'm_duplicate_image_test',
+              attachments: [
+                { type: 'image', payload: { url: sticker_url } },
+                { type: 'image', payload: { url: sticker_url } }
+              ]
+            }
+          }
+        }.to_json
+        duplicate_image_message = Integrations::Facebook::MessageParser.new(duplicate_image_object)
+
+        described_class.new(duplicate_image_message, facebook_channel.inbox).perform
+
+        message = facebook_channel.inbox.messages.find_by(source_id: 'm_duplicate_image_test')
+        expect(message.attachments.count).to eq(2)
+      end
+    end
+
     [
       {
         source_id: 'm_fallback_test',
@@ -152,6 +230,12 @@ describe Messages::Facebook::MessageBuilder do
         attachment: { type: 'share', title: 'Shared Facebook post', payload: { url: 'https://www.facebook.com/example/posts/123' } },
         title: 'Shared Facebook post',
         url: 'https://www.facebook.com/example/posts/123'
+      },
+      {
+        source_id: 'm_post_test',
+        attachment: { type: 'post', payload: { title: 'Shared post caption', url: 'https://www.facebook.com/example/posts/456' } },
+        title: 'Shared post caption',
+        url: 'https://www.facebook.com/example/posts/456'
       }
     ].each do |message_data|
       it "stores #{message_data[:attachment][:type]} attachments as fallback links" do
@@ -176,6 +260,38 @@ describe Messages::Facebook::MessageBuilder do
         expect(attachment.file_type).to eq('fallback')
         expect(attachment.fallback_title).to eq(message_data[:title])
         expect(attachment.external_url).to eq(message_data[:url])
+      end
+    end
+
+    context 'when message is a postback' do
+      let(:postback_message_object) do
+        {
+          messaging: {
+            sender: { id: '3383290475046708' },
+            recipient: { id: facebook_channel.page_id },
+            timestamp: 1_772_452_164_516,
+            postback: {
+              title: 'Get Started',
+              payload: 'GET_STARTED_PAYLOAD'
+            }
+          }
+        }.to_json
+      end
+      let(:postback_message) { Integrations::Facebook::MessageParser.new(postback_message_object) }
+
+      before do
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return(
+          { first_name: 'Jane', last_name: 'Dae', profile_pic: 'https://chatwoot-assets.local/sample.png' }.with_indifferent_access
+        )
+      end
+
+      it 'creates an incoming message using the postback title' do
+        described_class.new(postback_message, facebook_channel.inbox).perform
+
+        message = facebook_channel.inbox.messages.last
+        expect(message).to be_present
+        expect(message.content).to eq('Get Started')
       end
     end
 
