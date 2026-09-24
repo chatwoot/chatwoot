@@ -4,6 +4,9 @@
 #
 # This is deliberately not comprehensive: branches the test render does not take (else, unless)
 # go unchecked. It catches the common mistakes, which is good enough; runtime errors surface the rest.
+#
+# Templates are checked before install values are filled in. Put ${{ }} placeholders directly in the URL or
+# body, not inside a Liquid expression: a value like "Bob's Store" inside {{ '${{ inputs.x }}' }} would break it.
 class Captain::ToolsManifest::TemplateChecker
   STRICT_ERRORS = [Liquid::UndefinedVariable, Liquid::UndefinedFilter].freeze
 
