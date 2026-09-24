@@ -163,6 +163,12 @@ RSpec.describe Captain::ToolsManifest::Validator do
       expect_invalid(yaml, /get_order auth_config must include name and key for api_key/)
     end
 
+    it 'rejects unsupported parameter types' do
+      manifest['tools'].first['param_schema'].first['type'] = 'file'
+
+      expect_invalid(yaml, /get_order parameter order_id type must be one of/)
+    end
+
     it 'rejects undeclared install-time placeholders' do
       manifest['tools'].first['endpoint_url'] = 'https://${{ inputs.store }}/orders/{{ order_id }}'
 

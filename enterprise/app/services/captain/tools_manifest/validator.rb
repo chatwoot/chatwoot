@@ -25,6 +25,8 @@ class Captain::ToolsManifest::Validator
   TOOL_DEFAULTS = { 'auth_config' => {}, 'param_schema' => [], 'enabled' => true }.freeze
   AUTH_CONFIG_KEYS = { 'bearer' => %w[token], 'basic' => %w[username password], 'api_key' => %w[name key] }.freeze
   FIELD_DEFAULTS = { 'type' => 'string', 'required' => false }.freeze
+  # LLM providers receive parameter types as written, so anything else makes the tool definition invalid
+  PARAM_TYPES = %w[string integer number boolean array object].freeze
   INSTALL_PLACEHOLDER_FIELDS = %w[endpoint_url auth_config request_template].freeze
   CALL_PLACEHOLDER_FIELDS = %w[endpoint_url request_template].freeze
   LIQUID_FIELDS = %w[endpoint_url request_template response_template].freeze
@@ -123,6 +125,9 @@ class Captain::ToolsManifest::Validator
     ensure!(http_methods.include?(tool['http_method']), "#{id} http_method must be one of: #{http_methods.join(', ')}")
     validate_optional_tool_fields!(tool, id)
     validate_auth_config!(tool, id)
+    Array(tool['param_schema']).each do |param|
+      ensure!(PARAM_TYPES.include?(param['type']), "#{id} parameter #{param['name']} type must be one of: #{PARAM_TYPES.join(', ')}")
+    end
   end
 
   # Custom tools build auth headers from these keys, so a missing one only fails when the tool runs
@@ -191,17 +196,11 @@ class Captain::ToolsManifest::Validator
     ensure!(unknown_keys.empty?, "Unknown #{context} fields: #{unknown_keys.join(', ')}")
   end
 
-  def text?(value, max_length)
-    value.is_a?(String) && value.length.between?(1, max_length)
-  end
+  def text?(value, max_length) = value.is_a?(String) && value.length.between?(1, max_length)
 
-  def list_of?(value, type)
-    value.is_a?(Array) && value.all?(type)
-  end
+  def list_of?(value, type) = value.is_a?(Array) && value.all?(type)
 
-  def boolean?(value)
-    [true, false].include?(value)
-  end
+  def boolean?(value) = [true, false].include?(value)
 
   def optional!(value, valid, message)
     ensure!(value.nil? || valid, message)
