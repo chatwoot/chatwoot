@@ -165,7 +165,7 @@ RSpec.describe Captain::CustomTool, type: :model do
       end
 
       it 'is invalid with reserved headers regardless of case' do
-        %w[authorization Host content-length content-type X-Chatwoot-Account-Id].each do |name|
+        %w[authorization Host content-length content-type X-Chatwoot-Account-Id X-Chatwoot X-ChatwootToken].each do |name|
           tool = build(:captain_custom_tool, account: account, headers: { name => 'value' })
 
           expect(tool).not_to be_valid, "expected #{name} to be rejected"
@@ -211,7 +211,7 @@ RSpec.describe Captain::CustomTool, type: :model do
     end
 
     it 'is invalid when the API key header name is one Chatwoot sets itself' do
-      %w[X-Chatwoot-Account-Id x-chatwoot-custom Content-Type host].each do |name|
+      %w[X-Chatwoot-Account-Id x-chatwoot-custom X-Chatwoot X-ChatwootToken Content-Type host].each do |name|
         tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => name, 'key' => 'secret' })
 
         expect(tool).not_to be_valid, "expected #{name} to be rejected"
