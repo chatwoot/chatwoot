@@ -194,6 +194,30 @@ RSpec.describe Captain::CustomTool, type: :model do
     end
   end
 
+  describe 'auth_config validation' do
+    let(:account) { create(:account) }
+
+    it 'is valid with a proper API key header' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => 'X-API-Key', 'key' => 'secret' })
+
+      expect(tool).to be_valid
+    end
+
+    it 'is invalid when the API key header name is not a valid header name' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => 'X API Key', 'key' => 'secret' })
+
+      expect(tool).not_to be_valid
+      expect(tool.errors[:auth_config]).to include('X API Key is not a valid header name')
+    end
+
+    it 'is invalid when a credential contains control characters' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'bearer', auth_config: { 'token' => "secret\r\nX-Injected: 1" })
+
+      expect(tool).not_to be_valid
+      expect(tool.errors[:auth_config]).to be_present
+    end
+  end
+
   describe 'source_metadata validation' do
     let(:account) { create(:account) }
     let(:source_metadata) do

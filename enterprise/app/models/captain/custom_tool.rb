@@ -101,6 +101,7 @@ class Captain::CustomTool < ApplicationRecord
                  schema: SOURCE_METADATA_VALIDATION,
                  attribute_resolver: ->(record) { record.source_metadata }
   validate :validate_headers
+  validate :validate_auth_config
 
   scope :enabled, -> { where(enabled: true) }
   scope :from_github, lambda { |repository, path|
@@ -130,6 +131,15 @@ class Captain::CustomTool < ApplicationRecord
     names = headers.keys.map(&:downcase)
     errors.add(:headers, I18n.t('captain.custom_tool.headers.duplicate')) if names.uniq.size != names.size
     headers.each { |name, value| validate_header(name, value) }
+  end
+
+  # Auth values become request headers, and the HTTP client rejects unsafe ones on every call
+  def validate_auth_config
+    config = auth_config.to_h
+    if auth_api_key? && config['name'].is_a?(String) && !HEADER_NAME_PATTERN.match?(config['name'])
+      errors.add(:auth_config, I18n.t('captain.custom_tool.headers.invalid_name', name: config['name']))
+    end
+    errors.add(:auth_config, :invalid) if config.values.any? { |value| value.is_a?(String) && value.match?(/[[:cntrl:]]/) }
   end
 
   def validate_header(name, value)
