@@ -19,7 +19,6 @@ module Enterprise::Concerns::Account
     has_many :conversation_outcomes, dependent: :destroy_async
 
     has_many :copilot_threads, dependent: :destroy_async
-    has_many :companies, dependent: :destroy_async
     has_many :calls, dependent: :destroy_async
 
     has_one :saml_settings, dependent: :destroy_async, class_name: 'AccountSamlSettings'
