@@ -7871,6 +7871,107 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages/search": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "$ref": "#/components/parameters/conversation_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Messages"
+        ],
+        "operationId": "search-conversation-messages",
+        "summary": "Search messages in a conversation",
+        "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Search the entire conversation history for a case-insensitive literal substring. Includes private notes and requires permission to view the conversation. Returns up to 20 results, ordered by descending message ID.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "description": "Word or phrase to find. Whitespace-only queries are rejected."
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9999999999
+            },
+            "description": "Return matches with an ID lower than this message ID. Use the last result ID to fetch the next page."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matching messages",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "has_more": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
+                    "payload": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "content": {
+                            "type": "string"
+                          },
+                          "private": {
+                            "type": "boolean"
+                          },
+                          "created_at": {
+                            "type": "integer",
+                            "description": "Unix timestamp in seconds"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "422": {
+            "description": "Invalid query or message cursor"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages/{message_id}": {
       "parameters": [
         {
