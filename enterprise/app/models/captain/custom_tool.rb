@@ -14,6 +14,7 @@
 #  request_template  :text
 #  response_template :text
 #  slug              :string           not null
+#  source_metadata   :jsonb
 #  title             :string           not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
@@ -64,6 +65,22 @@ class Captain::CustomTool < ApplicationRecord
       'additionalProperties': false
     }
   }.to_json.freeze
+  # Present only on tools installed from a public GitHub manifest
+  SOURCE_METADATA_VALIDATION = {
+    'type': %w[object null],
+    'properties': {
+      'source': { 'const': 'github' },
+      'repository': { 'type': 'string', 'pattern': '^[\\w.-]+/[\\w.-]+$' },
+      'path': { 'type': 'string', 'pattern': '^[\\w.-]+$' },
+      'tool_id': { 'type': 'string', 'pattern': '^[a-z][a-z0-9_]*$' },
+      'revision': { 'type': 'string', 'pattern': '^[0-9a-f]{40}$' },
+      'version': { 'type': 'string', 'minLength': 1 },
+      'manifest_digest': { 'type': 'string', 'pattern': '^sha256:[0-9a-f]{64}$' },
+      'installation_id': { 'type': 'string', 'format': 'uuid' }
+    },
+    'required': %w[source repository path tool_id revision version manifest_digest installation_id],
+    'additionalProperties': false
+  }.to_json.freeze
 
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
@@ -80,6 +97,9 @@ class Captain::CustomTool < ApplicationRecord
   validates_with JsonSchemaValidator,
                  schema: PARAM_SCHEMA_VALIDATION,
                  attribute_resolver: ->(record) { record.param_schema }
+  validates_with JsonSchemaValidator,
+                 schema: SOURCE_METADATA_VALIDATION,
+                 attribute_resolver: ->(record) { record.source_metadata }
   validate :validate_headers
 
   scope :enabled, -> { where(enabled: true) }

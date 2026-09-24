@@ -194,6 +194,54 @@ RSpec.describe Captain::CustomTool, type: :model do
     end
   end
 
+  describe 'source_metadata validation' do
+    let(:account) { create(:account) }
+    let(:source_metadata) do
+      {
+        'source' => 'github',
+        'repository' => 'chatwoot/support-tools',
+        'path' => 'shopify',
+        'tool_id' => 'get_order',
+        'revision' => 'a' * 40,
+        'version' => '1.2.0',
+        'manifest_digest' => "sha256:#{'b' * 64}",
+        'installation_id' => SecureRandom.uuid
+      }
+    end
+
+    it 'is valid without source metadata' do
+      expect(build(:captain_custom_tool, account: account, source_metadata: nil)).to be_valid
+    end
+
+    it 'is valid with complete GitHub source metadata' do
+      expect(build(:captain_custom_tool, account: account, source_metadata: source_metadata)).to be_valid
+    end
+
+    it 'is invalid with an unsupported source' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.merge('source' => 'gitlab'))
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid with an abbreviated revision' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.merge('revision' => 'abc1234'))
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid when a field is missing' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.except('tool_id'))
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid with unknown fields' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.merge('category' => 'Commerce'))
+
+      expect(tool).not_to be_valid
+    end
+  end
+
   describe 'scopes' do
     let(:account) { create(:account) }
 
