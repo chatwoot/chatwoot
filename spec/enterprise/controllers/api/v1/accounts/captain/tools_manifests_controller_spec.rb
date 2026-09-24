@@ -124,6 +124,16 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
       expect(assistant.custom_tools.first.auth_config).to eq('token' => 'shpat_secret')
     end
 
+    it 'returns unprocessable entity when the revision is not a string' do
+      [123, { sha: revision }].each do |invalid_revision|
+        post "#{base_url}/install", params: { assistant_id: assistant.id, source: source, revision: invalid_revision, configuration: configuration },
+                                    headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity), "expected #{invalid_revision.inspect} to be rejected"
+        expect(json_response[:error]).to eq('Invalid configuration')
+      end
+    end
+
     it 'returns unprocessable entity when the configuration is not an object' do
       ['inputs', ['inputs']].each do |invalid_configuration|
         post "#{base_url}/install", params: { assistant_id: assistant.id, source: source, configuration: invalid_configuration },
