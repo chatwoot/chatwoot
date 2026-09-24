@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe Inboxes::FetchGooglePlayReviewInboxesJob do
   include ActiveJob::TestHelper
 
-  before { clear_enqueued_jobs }
-
   let!(:due_channel) { create(:channel_google_play, last_synced_at: 2.hours.ago) }
   let!(:fresh_channel) { create(:channel_google_play, last_synced_at: 5.minutes.ago) }
   let!(:never_synced_channel) { create(:channel_google_play, last_synced_at: nil) }

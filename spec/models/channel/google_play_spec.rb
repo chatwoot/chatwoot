@@ -53,7 +53,7 @@ RSpec.describe Channel::GooglePlay do
     let(:base_url) { "#{described_class::API_BASE_URL}/applications/#{channel.app_id}/reviews" }
 
     before do
-      allow_any_instance_of(described_class).to receive(:access_token).and_return('test-token')
+      allow(channel).to receive(:access_token).and_return('test-token')
     end
 
     it 'returns the reviews list for a single page' do
@@ -93,7 +93,7 @@ RSpec.describe Channel::GooglePlay do
     let(:url) { "#{described_class::API_BASE_URL}/applications/#{channel.app_id}/reviews/REV-1:reply" }
 
     before do
-      allow_any_instance_of(described_class).to receive(:access_token).and_return('test-token')
+      allow(channel).to receive(:access_token).and_return('test-token')
     end
 
     it 'returns a source_id composed from the review id and lastEdited.seconds' do
