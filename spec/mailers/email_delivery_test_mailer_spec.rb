@@ -15,6 +15,14 @@ RSpec.describe EmailDeliveryTestMailer do
     expect(mail.body.encoded).not_to include('http')
   end
 
+  it 'uses the installation brand name' do
+    allow(GlobalConfig).to receive(:get_value).and_call_original
+    allow(GlobalConfig).to receive(:get_value).with('BRAND_NAME').and_return('Acme')
+
+    expect(mail.subject).to eq('Test email from Acme support')
+    expect(mail.body.encoded).to include('This is a test email from Acme support')
+  end
+
   it 'does not send when SMTP is not configured' do
     with_modified_env('SMTP_ADDRESS' => nil) do
       expect(mail).to be_a(ActionMailer::Base::NullMail)
