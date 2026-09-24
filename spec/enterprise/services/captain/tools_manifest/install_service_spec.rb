@@ -239,6 +239,12 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       end
     end
 
+    it 'allows Liquid delimiters in secrets, which are only used in auth_config' do
+      configuration['secrets']['access_token'] = 'shpat_{{abc{%def'
+
+      expect(install.first.auth_config['key']).to eq('shpat_{{abc{%def')
+    end
+
     it 'rejects values the manifest does not declare' do
       configuration['inputs']['region'] = 'us'
 
