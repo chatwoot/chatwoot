@@ -6,11 +6,12 @@ class CaptainToolsManifest extends ApiClient {
     super('captain/tools_manifest', { accountScoped: true });
   }
 
-  preview({ assistantId, source }) {
-    return axios.post(`${this.url}/preview`, {
-      assistant_id: assistantId,
-      source,
-    });
+  preview({ assistantId, source }, { signal } = {}) {
+    return axios.post(
+      `${this.url}/preview`,
+      { assistant_id: assistantId, source },
+      { signal }
+    );
   }
 
   install({ assistantId, source, revision, configuration }) {

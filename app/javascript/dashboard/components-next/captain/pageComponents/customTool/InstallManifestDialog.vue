@@ -2,6 +2,7 @@
 import { computed, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import ToolsManifestAPI from 'dashboard/api/captain/toolsManifest';
 
@@ -29,8 +30,13 @@ const dialogRef = ref(null);
 const source = ref('');
 const preview = ref(null);
 const values = reactive({ inputs: {}, secrets: {} });
-const isLoadingPreview = ref(false);
 const isInstalling = ref(false);
+// A slow preview must not land in a dialog that was closed or reopened for another source
+const {
+  run: runPreview,
+  abort: abortPreview,
+  isPending: isLoadingPreview,
+} = useAbortableRequest();
 
 const isInstalled = computed(
   () =>
@@ -76,6 +82,7 @@ const reset = () => {
 };
 
 const open = () => {
+  abortPreview();
   reset();
   dialogRef.value.open();
 };
@@ -85,12 +92,16 @@ const close = () => dialogRef.value.close();
 const loadPreview = async () => {
   if (!source.value.trim()) return;
 
-  isLoadingPreview.value = true;
   try {
-    const { data } = await ToolsManifestAPI.preview({
-      assistantId: props.assistantId,
-      source: source.value.trim(),
-    });
+    const response = await runPreview(signal =>
+      ToolsManifestAPI.preview(
+        { assistantId: props.assistantId, source: source.value.trim() },
+        { signal }
+      )
+    );
+    if (!response) return;
+
+    const { data } = response;
     values.inputs = {};
     values.secrets = {};
     data.fields
@@ -104,8 +115,6 @@ const loadPreview = async () => {
       parseAPIErrorResponse(error) ||
         t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.PREVIEW_ERROR')
     );
-  } finally {
-    isLoadingPreview.value = false;
   }
 };
 
@@ -157,6 +166,7 @@ defineExpose({ open });
     :show-cancel-button="false"
     :show-confirm-button="false"
     @confirm="onEnter"
+    @close="abortPreview"
   >
     <div v-if="!preview" class="flex flex-col gap-2">
       <Input

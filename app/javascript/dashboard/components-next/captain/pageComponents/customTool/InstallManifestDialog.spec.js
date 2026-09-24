@@ -87,6 +87,21 @@ describe('InstallManifestDialog', () => {
     expect(wrapper.emitted('installed')).toHaveLength(1);
   });
 
+  it('cancels a pending preview when the dialog closes', async () => {
+    let previewSignal;
+    mocks.preview.mockImplementation((_, { signal }) => {
+      previewSignal = signal;
+      return new Promise(() => {});
+    });
+    const wrapper = mountDialog();
+    await wrapper.find('input').setValue('chatwoot/support-tools/shopify');
+    await wrapper.findAll('button').at(-1).trigger('click');
+
+    wrapper.findComponent(DialogStub).vm.$emit('close');
+
+    expect(previewSignal.aborted).toBe(true);
+  });
+
   it('disables installing when the latest commit is already installed', async () => {
     const wrapper = mountDialog();
     await loadPreview(wrapper, {
