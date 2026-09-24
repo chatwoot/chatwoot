@@ -26,32 +26,3 @@ $flashes: (
     }
   }
 }
-
-@keyframes flash-fade-out {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
-.flashes--toast {
-  max-width: 26rem;
-  pointer-events: none;
-  position: fixed;
-  right: 1.5rem;
-  top: 4.5rem;
-  width: calc(100% - 2rem);
-  z-index: 50;
-
-  .flash {
-    animation: flash-fade-out 0.3s ease 8s forwards;
-    border-radius: $base-border-radius;
-    box-shadow: 0 4px 12px rgba($black, 0.12);
-    pointer-events: auto;
-    text-align: left;
-
-    &:hover {
-      animation-play-state: paused;
-    }
-  }
-}

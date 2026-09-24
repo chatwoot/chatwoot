@@ -312,13 +312,13 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         post "/super_admin/users/#{user.id}/check_email_suppression"
         follow_redirect!
-        expect(Nokogiri::HTML(response.body).at_css('.flashes.flashes--toast')).to be_present
+        expect(Nokogiri::HTML(response.body).at_css('.flashes[data-toast-flashes]')).to be_present
 
         post '/super_admin/users', params: { user: { email: '' } }
         follow_redirect!
         flashes = Nokogiri::HTML(response.body).at_css('.flashes')
         expect(flashes).to be_present
-        expect(flashes['class']).not_to include('flashes--toast')
+        expect(flashes.key?('data-toast-flashes')).to be(false)
       end
 
       it 'reports a bounce with its date' do

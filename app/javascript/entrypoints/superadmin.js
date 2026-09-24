@@ -86,3 +86,19 @@ document.addEventListener('DOMContentLoaded', () => {
   url.searchParams.delete('suppression');
   window.history.replaceState(window.history.state, '', url);
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-toast-flashes] .flash').forEach(toast => {
+    let timer;
+    const hide = () => {
+      toast.classList.add('opacity-0');
+      setTimeout(() => toast.classList.add('invisible'), 300);
+    };
+    const schedule = () => {
+      timer = setTimeout(hide, 8000);
+    };
+    toast.addEventListener('mouseenter', () => clearTimeout(timer));
+    toast.addEventListener('mouseleave', schedule);
+    schedule();
+  });
+});
