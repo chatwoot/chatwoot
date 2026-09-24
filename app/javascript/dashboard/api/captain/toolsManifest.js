@@ -13,10 +13,11 @@ class CaptainToolsManifest extends ApiClient {
     });
   }
 
-  install({ assistantId, source, configuration }) {
+  install({ assistantId, source, revision, configuration }) {
     return axios.post(`${this.url}/install`, {
       assistant_id: assistantId,
       source,
+      revision,
       configuration,
     });
   }

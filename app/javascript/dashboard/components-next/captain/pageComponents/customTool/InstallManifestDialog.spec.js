@@ -81,6 +81,7 @@ describe('InstallManifestDialog', () => {
     expect(mocks.install).toHaveBeenCalledWith({
       assistantId: 7,
       source: 'chatwoot/support-tools/shopify',
+      revision: previewData.revision,
       configuration: { inputs: {}, secrets: { access_token: 'shpat_secret' } },
     });
     expect(wrapper.emitted('installed')).toHaveLength(1);

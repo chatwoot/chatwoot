@@ -115,6 +115,8 @@ const install = async () => {
     await ToolsManifestAPI.install({
       assistantId: props.assistantId,
       source: sourceIdentifier.value,
+      // Pin to the previewed commit so a newer push can't install tools that were never reviewed
+      revision: preview.value.revision,
       configuration: values,
     });
     useAlert(t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.SUCCESS_MESSAGE'));
