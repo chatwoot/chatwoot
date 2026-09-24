@@ -355,6 +355,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
       end
 
       it 'clears the suppression and logs who did it' do
+        allow(suppression).to receive(:lookup).with(user.email).and_return(status: :bounce, since: 1.day.ago)
         allow(suppression).to receive(:clear!)
         allow(Rails.logger).to receive(:info)
 
@@ -365,7 +366,38 @@ RSpec.describe 'Super Admin Users API', type: :request do
         expect(flash[:notice]).to eq('Unblocked bounced@example.com. Send a test email to confirm delivery.')
       end
 
+      it 'refuses to clear a complaint suppression' do
+        allow(suppression).to receive(:lookup).with(user.email).and_return(status: :complaint, since: 1.day.ago)
+        allow(suppression).to receive(:clear!)
+
+        post "/super_admin/users/#{user.id}/clear_email_suppression"
+
+        expect(suppression).not_to have_received(:clear!)
+        expect(flash[:error]).to include('because of a spam complaint. Escalate to engineering.')
+      end
+
+      it 'reports an address that is no longer blocked without clearing it' do
+        allow(suppression).to receive(:lookup).with(user.email).and_return(status: :not_suppressed)
+        allow(suppression).to receive(:clear!)
+
+        post "/super_admin/users/#{user.id}/clear_email_suppression"
+
+        expect(suppression).not_to have_received(:clear!)
+        expect(flash[:notice]).to eq('Emails to bounced@example.com are not blocked.')
+      end
+
+      it 'does not clear when the lookup fails' do
+        allow(suppression).to receive(:lookup).with(user.email).and_return(status: :unavailable)
+        allow(suppression).to receive(:clear!)
+
+        post "/super_admin/users/#{user.id}/clear_email_suppression"
+
+        expect(suppression).not_to have_received(:clear!)
+        expect(flash[:alert]).to eq("Couldn't check delivery for bounced@example.com. Try again, or escalate to engineering.")
+      end
+
       it 'reports a failed clear' do
+        allow(suppression).to receive(:lookup).with(user.email).and_return(status: :bounce, since: 1.day.ago)
         allow(suppression).to receive(:clear!).and_raise(StandardError, 'boom')
 
         post "/super_admin/users/#{user.id}/clear_email_suppression"

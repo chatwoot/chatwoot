@@ -67,16 +67,17 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
 
   def check_email_suppression
     user = requested_resource
-    result = Email::SesSuppressionService.new.lookup(user.email)
-    message = I18n.t("super_admin.users.email_suppression.check.#{result[:status]}",
-                     email: ERB::Util.html_escape(user.email), since: suppressed_since(result[:since]))
-    redirect_to super_admin_user_path(user, suppression: result[:status]), flash: { SUPPRESSION_FLASH_TYPES.fetch(result[:status]) => message }
+    redirect_with_suppression_result(user, Email::SesSuppressionService.new.lookup(user.email))
   end
 
   def clear_email_suppression
     user = requested_resource
+    service = Email::SesSuppressionService.new
+    result = service.lookup(user.email)
+    return redirect_with_suppression_result(user, result) unless result[:status] == :bounce
+
     begin
-      Email::SesSuppressionService.new.clear!(user.email)
+      service.clear!(user.email)
     rescue StandardError => e
       message = I18n.t('super_admin.users.email_suppression.clear.failed',
                        email: ERB::Util.html_escape(user.email), error: ERB::Util.html_escape(e.message))
@@ -113,6 +114,12 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   end
 
   private
+
+  def redirect_with_suppression_result(user, result)
+    message = I18n.t("super_admin.users.email_suppression.check.#{result[:status]}",
+                     email: ERB::Util.html_escape(user.email), since: suppressed_since(result[:since]))
+    redirect_to super_admin_user_path(user, suppression: result[:status]), flash: { SUPPRESSION_FLASH_TYPES.fetch(result[:status]) => message }
+  end
 
   def suppressed_since(time)
     return if time.blank?
