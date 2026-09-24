@@ -177,6 +177,44 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
       end
     end
 
+    context 'with custom headers' do
+      before do
+        custom_tool.update!(
+          auth_type: 'bearer',
+          auth_config: { 'token' => 'secret_bearer_token' },
+          headers: { 'Accept' => 'application/vnd.api+json', 'cal-api-version' => '2024-08-13' },
+          endpoint_url: 'https://example.com/data',
+          response_template: nil
+        )
+      end
+
+      it 'sends the headers alongside authentication' do
+        stub_request(:get, 'https://example.com/data').to_return(status: 200, body: '{"ok": true}')
+
+        tool.perform(tool_context, order_id: '123')
+
+        expect(WebMock).to have_requested(:get, 'https://example.com/data')
+          .with(headers: { 'Accept' => 'application/vnd.api+json', 'cal-api-version' => '2024-08-13',
+                           'Authorization' => 'Bearer secret_bearer_token' })
+      end
+
+      it 'strips the headers on cross-origin redirects' do
+        redirect_url = 'http://example.com/data'
+        redirected_headers = nil
+        stub_request(:get, 'https://example.com/data').to_return(status: 302, headers: { 'Location' => redirect_url })
+        stub_request(:get, redirect_url)
+          .with do |request|
+            redirected_headers = request.headers.transform_keys(&:downcase)
+            true
+          end
+          .to_return(status: 200, body: '{"ok": false}')
+
+        tool.perform(tool_context)
+
+        expect(redirected_headers).not_to include('cal-api-version')
+      end
+    end
+
     context 'with response template' do
       before do
         custom_tool.update!(

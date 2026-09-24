@@ -72,6 +72,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
       :auth_type,
       :enabled,
       auth_config: {},
+      headers: {},
       param_schema: [:name, :type, :description, :required]
     )
   end

@@ -101,6 +101,93 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(tool).to be_valid
       end
     end
+
+    describe 'headers validation' do
+      let(:account) { create(:account) }
+
+      it 'defaults to empty headers' do
+        expect(build(:captain_custom_tool, account: account).headers).to eq({})
+      end
+
+      it 'is valid with static headers' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'Accept' => 'application/json', 'X-Tenant-Id' => 'acme' })
+
+        expect(tool).to be_valid
+      end
+
+      it 'allows non-standard header names without an X- prefix' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'cal-api-version' => '2024-08-13' })
+
+        expect(tool).to be_valid
+      end
+
+      it 'is invalid when headers is not an object' do
+        tool = build(:captain_custom_tool, account: account, headers: nil)
+
+        expect(tool).not_to be_valid
+        expect(tool.errors[:headers]).to be_present
+      end
+
+      it 'is invalid with an invalid header name' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X Tenant' => 'acme' })
+
+        expect(tool).not_to be_valid
+        expect(tool.errors[:headers]).to be_present
+      end
+
+      it 'is invalid when a header value is not a string' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Retries' => 3 })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid when a header value contains a line break' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => "acme\r\nX-Injected: 1" })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid with more than the maximum number of headers' do
+        headers = (1..(Captain::CustomTool::MAX_HEADERS + 1)).to_h { |index| ["X-Header-#{index}", 'value'] }
+        tool = build(:captain_custom_tool, account: account, headers: headers)
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid with header names that differ only by case' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => 'a', 'x-tenant' => 'b' })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid with reserved headers regardless of case' do
+        %w[authorization Host content-length content-type X-Chatwoot-Account-Id].each do |name|
+          tool = build(:captain_custom_tool, account: account, headers: { name => 'value' })
+
+          expect(tool).not_to be_valid, "expected #{name} to be rejected"
+        end
+      end
+
+      it 'is invalid when a header value is longer than 1 KiB' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => 'a' * 1025 })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid when a header value contains a control character' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => "acme\u0000" })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid when a header value contains a placeholder' do
+        ['acme {{ order_id }}', '${{ secrets.token }}'].each do |value|
+          tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => value })
+
+          expect(tool).not_to be_valid, "expected #{value} to be rejected"
+        end
+      end
+    end
   end
 
   describe 'scopes' do

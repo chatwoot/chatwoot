@@ -47,7 +47,7 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
       method: @custom_tool.http_method == 'POST' ? :post : :get,
       body: json_body,
       headers: request_headers(tool_context, json_body, auth_headers),
-      sensitive_headers: auth_headers.keys,
+      sensitive_headers: auth_headers.keys + @custom_tool.headers.keys,
       http_basic_authentication: @custom_tool.build_basic_auth_credentials,
       max_bytes: MAX_RESPONSE_SIZE,
       validate_content_type: false
@@ -56,7 +56,7 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   end
 
   def request_headers(tool_context, json_body, auth_headers)
-    headers = auth_headers.dup
+    headers = @custom_tool.headers.merge(auth_headers)
     headers.merge!(@custom_tool.build_metadata_headers(tool_context&.state || {}))
     headers['Content-Type'] = 'application/json' if json_body.present?
     headers

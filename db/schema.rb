@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_17_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_24_100000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -454,6 +454,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_17_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "assistant_id"
+    t.jsonb "headers", default: {}, null: false
     t.index ["account_id"], name: "index_captain_custom_tools_on_account_id"
     t.index ["assistant_id", "slug"], name: "index_captain_custom_tools_on_assistant_id_and_slug", unique: true
   end

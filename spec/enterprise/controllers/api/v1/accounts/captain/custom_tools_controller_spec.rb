@@ -100,6 +100,20 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
       expect(response).to have_http_status(:success)
       expect(json_response[:enabled_scenarios_count]).to eq(1)
     end
+
+    it 'returns headers only to administrators' do
+      custom_tool.update!(headers: { 'X-Tenant-Id' => 'acme' })
+
+      get "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
+          headers: admin.create_new_auth_token,
+          as: :json
+      expect(json_response[:headers]).to eq({ 'X-Tenant-Id': 'acme' })
+
+      get "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
+          headers: agent.create_new_auth_token,
+          as: :json
+      expect(json_response).not_to have_key(:headers)
+    end
   end
 
   describe 'POST /api/v1/accounts/{account.id}/captain/custom_tools' do
@@ -191,6 +205,25 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
           expect(response).to have_http_status(:unprocessable_entity)
         end
+      end
+
+      it 'creates a custom tool with static headers' do
+        post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
+             params: valid_attributes.deep_merge(custom_tool: { headers: { 'X-Tenant-Id' => 'acme' } }),
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Captain::CustomTool.find(json_response[:id]).headers).to eq('X-Tenant-Id' => 'acme')
+      end
+
+      it 'rejects invalid headers' do
+        post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
+             params: valid_attributes.deep_merge(custom_tool: { headers: { 'Host' => 'internal.example.com' } }),
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
