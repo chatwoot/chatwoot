@@ -4,6 +4,7 @@ operationId: conversationFilter
 description: Filter conversations with custom filter options and pagination
 summary: Conversations Filter
 security:
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - name: page

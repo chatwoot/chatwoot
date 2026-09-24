@@ -4,6 +4,7 @@ operationId: add-new-automation-rule-to-account
 summary: Add a new automation rule
 description: Add a new automation rule to account
 security:
+  - userBearerAuth: []
   - userApiKey: []
 requestBody:
   required: true

@@ -75,6 +75,10 @@ class Channel::TwilioSms < ApplicationRecord
     end
   end
 
+  def basic_auth_credentials
+    api_key_sid.present? ? [api_key_sid, auth_token] : [account_sid, auth_token]
+  end
+
   private
 
   def send_message_from
