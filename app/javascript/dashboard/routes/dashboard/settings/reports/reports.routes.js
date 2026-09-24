@@ -1,5 +1,6 @@
 import { frontendURL } from '../../../../helper/URLHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 
 import ReportsWrapper from './components/ReportsWrapper.vue';
 import Index from './Index.vue';
@@ -23,10 +24,17 @@ import CsatResponses from './CsatResponses.vue';
 import BotReports from './BotReports.vue';
 import LiveReports from './LiveReports.vue';
 import SLAReports from './SLAReports.vue';
+import MonitorShow from './monitors/MonitorShow.vue';
 
 const meta = {
   featureFlag: FEATURE_FLAGS.REPORTS,
   permissions: ['administrator', 'report_manage'],
+};
+
+const monitorsMeta = {
+  ...meta,
+  featureFlag: FEATURE_FLAGS.CONVERSATION_MONITORS,
+  installationTypes: [INSTALLATION_TYPES.ENTERPRISE, INSTALLATION_TYPES.CLOUD],
 };
 
 const oldReportRoutes = [
@@ -114,6 +122,12 @@ export default {
       path: frontendURL('accounts/:accountId/reports'),
       component: ReportsWrapper,
       children: [
+        {
+          path: 'monitors/:monitorId',
+          name: 'monitor_reports_show',
+          meta: monitorsMeta,
+          component: MonitorShow,
+        },
         {
           path: '',
           redirect: to => {
