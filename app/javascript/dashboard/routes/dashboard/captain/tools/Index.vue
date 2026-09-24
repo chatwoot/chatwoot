@@ -21,10 +21,7 @@ const store = useStore();
 const route = useRoute();
 const assistantId = computed(() => route.params.assistantId);
 const { t } = useI18n();
-const { isFeatureFlagEnabled, shouldShowPaywall } = usePolicy();
-
-const SOFT_LIMIT = 10;
-const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
+const { shouldShowPaywall } = usePolicy();
 
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
 const { run, isPending: isFetchingTools } = useAbortableRequest();
@@ -36,10 +33,6 @@ const isFetching = computed(
   () => uiFlags.value.fetchingList || isFetchingTools.value
 );
 const customToolsMeta = useMapGetter('captainCustomTools/getMeta');
-
-const showSoftLimitWarning = computed(
-  () => !isV2.value && customToolsMeta.value.totalCount > SOFT_LIMIT
-);
 
 const createDialogRef = ref(null);
 const deleteDialogRef = ref(null);
@@ -240,13 +233,6 @@ watch(
 
     <template #body>
       <div class="flex flex-col gap-4">
-        <div
-          v-if="showSoftLimitWarning"
-          class="flex items-center gap-2 px-4 py-3 text-sm rounded-lg bg-n-amber-2 text-n-amber-11"
-        >
-          <span class="i-lucide-triangle-alert size-4 shrink-0" />
-          {{ $t('CAPTAIN.CUSTOM_TOOLS.SOFT_LIMIT_WARNING') }}
-        </div>
         <CustomToolCard
           v-for="tool in customTools"
           :id="tool.id"

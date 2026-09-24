@@ -69,7 +69,6 @@ RSpec.describe Account do
       account = create(:account)
 
       expect(account).not_to be_feature_enabled('captain_integration')
-      expect(account).not_to be_feature_enabled('captain_integration_v2')
       expect(account.captain_models).to be_nil
     end
   end
@@ -446,7 +445,7 @@ RSpec.describe Account do
       end
 
       it 'returns GPT-5.2 for assistant when Captain V2 is enabled' do
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
 
         expect(account.captain_preferences[:models]['assistant']).to eq('gpt-5.2')
         expect(account.reload.captain_models).to be_nil
