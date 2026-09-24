@@ -52,28 +52,37 @@ class Captain::ToolsManifest::GithubSource
     url = "#{API_URL}#{path}"
     headers = { 'Accept' => accept }
     token = GlobalConfigService.load('CAPTAIN_TOOLS_GITHUB_TOKEN', nil)
-    response = get(url, token.present? ? headers.merge('Authorization' => "Bearer #{token}") : headers)
-    if token.present? && response.code == 401
+    code, body = get(url, token.present? ? headers.merge('Authorization' => "Bearer #{token}") : headers)
+    if token.present? && code == 401
       Rails.logger.warn('[Captain::ToolsManifest] CAPTAIN_TOOLS_GITHUB_TOKEN was rejected by GitHub, retrying without it')
-      response = get(url, headers)
+      code, body = get(url, headers)
     end
-    body!(response, url)
+    body!(code, body, url)
   end
 
   def fetch(url)
-    body!(get(url), url)
+    body!(*get(url), url)
   end
 
-  # Only GitHub's own hosts are requested and path segments are validated, so SafeFetch's SSRF checks aren't needed
+  # Only GitHub's own hosts are requested and path segments are validated, so SafeFetch's SSRF checks aren't needed.
+  # The body is streamed so an oversized file is abandoned at the manifest limit instead of loaded into memory.
   def get(url, headers = {})
-    HTTParty.get(url, headers: headers, timeout: REQUEST_TIMEOUT)
+    body = +''
+    response = HTTParty.get(url, headers: headers, timeout: REQUEST_TIMEOUT, stream_body: true) do |fragment|
+      # Redirects stream their own fragments; only the final response's body is kept
+      next unless fragment.code == 200
+
+      body << fragment
+      raise SourceError, "#{url} is larger than 256 KiB" if body.bytesize > Captain::ToolsManifest::Validator::MAX_BYTES
+    end
+    [response.code, body]
   rescue HTTParty::Error, SocketError, Timeout::Error, SystemCallError, OpenSSL::SSL::SSLError => e
     raise SourceError, "Could not fetch #{url}: #{e.message}"
   end
 
-  def body!(response, url)
-    raise SourceError, "Could not fetch #{url}: #{response.code}" unless response.success?
+  def body!(code, body, url)
+    raise SourceError, "Could not fetch #{url}: #{code}" unless (200..299).cover?(code)
 
-    response.body
+    body
   end
 end
