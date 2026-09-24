@@ -21,10 +21,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  fullHeight: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const emit = defineEmits(['select']);
@@ -141,8 +137,6 @@ const handleSelect = value => {
     use-api-results
     class="[&>div>div_ul]:max-h-56"
     :class="{
-      '[&>div>button]:h-8': !fullHeight,
-      '[&>div>button]:h-10': fullHeight,
       '[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:!outline-transparent':
         !isDetailsView,
       '[&>div>button]:!bg-n-alpha-black2': isDetailsView,

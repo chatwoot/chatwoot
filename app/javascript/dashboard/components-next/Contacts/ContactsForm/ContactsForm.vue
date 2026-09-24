@@ -320,6 +320,7 @@ defineExpose({
               :model-value="state.companyId"
               :selected-name="state.additionalAttributes.companyName"
               :is-details-view="isDetailsView"
+              class="[&>div>button]:h-8"
               @select="handleCompanySelection"
             />
           </div>

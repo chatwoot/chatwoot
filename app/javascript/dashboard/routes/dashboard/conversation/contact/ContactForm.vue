@@ -409,7 +409,7 @@ export default {
       <CompanySelector
         :model-value="companyId"
         :selected-name="companyName"
-        full-height
+        class="[&>div>button]:h-10"
         @select="onCompanySelect"
       />
     </div>
