@@ -22,6 +22,8 @@ class Voice::VoipPushService
   RING_EXPIRY_SECONDS = 45
   APPLE = 'apns_voip'.freeze
   ANDROID = 'fcm'.freeze
+  # Android deliveries in flight at once per call
+  ANDROID_BATCH_SIZE = 20
 
   def perform(action)
     case action
@@ -34,7 +36,10 @@ class Voice::VoipPushService
 
   # Both platforms and every device go out at the same time, so no phone waits on another
   # device's round trip. Network work runs in the threads; the database is touched only here.
+  # The call is re-read first: a terminate that overtook the ring leaves nothing to ring for.
   def ring
+    return unless call.reload.ringing?
+
     apple, android = devices_to_ring
     return if apple.empty? && android.empty?
 
@@ -102,8 +107,11 @@ class Voice::VoipPushService
     (call.meta || {}).fetch('rung_devices', {})
   end
 
+  # Merged into the column in place, so a webhook writing other meta keys meanwhile keeps them
   def remember_rung_devices(apple, android)
-    call.update!(meta: (call.meta || {}).merge('rung_devices' => { APPLE => apple, ANDROID => android }))
+    rung = { 'rung_devices' => { APPLE => apple, ANDROID => android } }
+    Call.where(id: call.id).update_all(["meta = COALESCE(meta, '{}'::jsonb) || ?::jsonb", rung.to_json]) # rubocop:disable Rails/SkipsModelValidations
+    call.reload
   end
 
   # A device the platform no longer knows is removed so it stops costing a request per ring
@@ -208,10 +216,12 @@ class Voice::VoipPushService
     return [] if tokens.empty?
 
     client = Notification::FcmService.new(config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')).fcm_client
-    tokens.map { |token| Thread.new { with_rails { deliver_android(client, token, data, kind) } } }
-          .map(&:value)
-          .zip(tokens)
-          .filter_map { |result, token| token if result == :gone }
+    tokens.each_slice(ANDROID_BATCH_SIZE).flat_map do |batch|
+      batch.map { |token| Thread.new { with_rails { deliver_android(client, token, data, kind) } } }
+           .map(&:value)
+           .zip(batch)
+           .filter_map { |result, token| token if result == :gone }
+    end
   end
 
   def deliver_android(client, token, data, kind)
