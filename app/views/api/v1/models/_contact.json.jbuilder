@@ -1,5 +1,6 @@
-json.additional_attributes resource.additional_attributes
+json.additional_attributes resource.additional_attributes_with_canonical_country
 json.availability_status resource.availability_status
+json.country_code resource.canonical_country_code
 json.email resource.email
 json.id resource.id
 json.name resource.name
