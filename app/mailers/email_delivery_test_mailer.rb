@@ -1,9 +1,9 @@
 class EmailDeliveryTestMailer < ApplicationMailer
-  def delivery_test(user)
+  def delivery_test(email, name)
     return unless smtp_config_set_or_development?
 
-    @user = user
-    send_mail_with_liquid(to: user.email, subject: I18n.t('super_admin.users.email_suppression.test_email.subject', brand_name: brand_name))
+    @recipient_name = name.presence || email
+    send_mail_with_liquid(to: email, subject: I18n.t('super_admin.users.email_suppression.test_email.subject', brand_name: brand_name))
   end
 
   private
@@ -13,6 +13,6 @@ class EmailDeliveryTestMailer < ApplicationMailer
   end
 
   def liquid_locals
-    super.merge(brand_name: brand_name, recipient_name: @user.name.presence || @user.email)
+    super.merge(brand_name: brand_name, recipient_name: @recipient_name)
   end
 end

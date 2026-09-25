@@ -485,7 +485,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         expect do
           post "/super_admin/users/#{user.id}/send_test_email"
-        end.to have_enqueued_mail(EmailDeliveryTestMailer, :delivery_test).with(user)
+        end.to have_enqueued_mail(EmailDeliveryTestMailer, :delivery_test).with(user.email, user.name)
 
         expect(Rails.logger).to have_received(:info).with(a_string_including('ses_test_email_sent', super_admin.email, user.email))
         expect(flash[:notice]).to eq('Test email on its way to bounced@example.com. Ask the user to check their inbox and spam folder.')

@@ -4,8 +4,7 @@ require Rails.root.join 'spec/mailers/administrator_notifications/shared/smtp_co
 RSpec.describe EmailDeliveryTestMailer do
   include_context 'with smtp config'
 
-  let(:user) { create(:user, name: 'Jane Agent', email: 'agent@example.com') }
-  let(:mail) { described_class.delivery_test(user).message }
+  let(:mail) { described_class.delivery_test('agent@example.com', 'Jane Agent').message }
 
   it 'sends a branded test email to the user' do
     expect(mail.to).to eq(['agent@example.com'])
@@ -21,6 +20,10 @@ RSpec.describe EmailDeliveryTestMailer do
 
     expect(mail.subject).to eq('Test email from Acme support')
     expect(mail.body.encoded).to include('Test email from Acme')
+  end
+
+  it 'greets by address when the name is blank' do
+    expect(described_class.delivery_test('agent@example.com', '').message.body.encoded).to include('Hi agent@example.com,')
   end
 
   it 'does not send when SMTP is not configured' do

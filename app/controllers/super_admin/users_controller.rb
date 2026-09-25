@@ -95,7 +95,7 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
     user = requested_resource
     return if redirect_if_email_blocked(user)
 
-    EmailDeliveryTestMailer.delivery_test(user).deliver_later
+    EmailDeliveryTestMailer.delivery_test(user.email, user.name).deliver_later
     log_email_diagnostic('ses_test_email_sent', user)
     redirect_to super_admin_user_path(user),
                 notice: I18n.t('super_admin.users.email_suppression.test_email.queued', email: ERB::Util.html_escape(user.email))
