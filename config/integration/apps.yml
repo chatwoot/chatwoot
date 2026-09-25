@@ -17,6 +17,12 @@ webhooks:
   action: /webhook
   hook_type: account
   allow_multiple_hooks: true
+sdks:
+  id: sdks
+  logo: sdks.svg
+  i18n_key: sdks
+  hook_type: account
+  allow_multiple_hooks: true
 dashboard_apps:
   id: dashboard_apps
   logo: dashboard_apps.png

@@ -4,6 +4,8 @@ import SettingsWrapper from '../SettingsWrapper.vue';
 import IntegrationHooks from './IntegrationHooks.vue';
 import Index from './Index.vue';
 import Webhook from './Webhooks/Index.vue';
+import SDKs from './SDKs/Index.vue';
+import SDKDetails from './SDKs/Details.vue';
 import DashboardApps from './DashboardApps/Index.vue';
 import Slack from './Slack.vue';
 import Linear from './Linear.vue';
@@ -30,6 +32,33 @@ export default {
           path: 'dashboard_apps',
           component: DashboardApps,
           name: 'settings_integrations_dashboard_apps',
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'sdks/new',
+          component: SDKDetails,
+          name: 'settings_integrations_sdk_new',
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'sdks/:sdkAppId',
+          component: SDKDetails,
+          name: 'settings_integrations_sdk_details',
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'sdks',
+          component: SDKs,
+          name: 'settings_integrations_sdks',
           meta: {
             featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['administrator'],

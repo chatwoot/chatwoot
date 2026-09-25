@@ -72,7 +72,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def toggle_status
-    return head :forbidden unless @web_widget.end_conversation?
+    return head :forbidden unless @web_widget.inbox.api? || @web_widget.end_conversation?
 
     unless conversation.resolved?
       conversation.status = :resolved

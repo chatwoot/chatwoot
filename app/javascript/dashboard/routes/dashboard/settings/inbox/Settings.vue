@@ -23,7 +23,6 @@ import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
-import MobileAppsPage from './settingsPage/MobileAppsPage.vue';
 import VoiceConfigurationPage from './settingsPage/VoiceConfigurationPage.vue';
 import WhatsappCallingPage from './settingsPage/WhatsappCallingPage.vue';
 import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vue';
@@ -59,7 +58,6 @@ export default {
     BotConfiguration,
     CollaboratorsPage,
     ConfigurationPage,
-    MobileAppsPage,
     VoiceConfigurationPage,
     WhatsappCallingPage,
     CustomerSatisfactionPage,
@@ -213,10 +211,6 @@ export default {
       if (this.isAWebWidgetInbox) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
-          {
-            key: 'mobile-apps',
-            name: this.$t('INBOX_MGMT.MOBILE_APPS.TAB'),
-          },
           {
             key: 'pre-chat-form',
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
@@ -1447,9 +1441,6 @@ export default {
         </div>
         <div v-if="selectedTabKey === 'csat'">
           <CustomerSatisfactionPage :inbox="inbox" />
-        </div>
-        <div v-if="selectedTabKey === 'mobile-apps'" class="mx-6 max-w-4xl">
-          <MobileAppsPage :inbox="inbox" />
         </div>
         <div v-if="selectedTabKey === 'pre-chat-form'">
           <PreChatFormSettings :inbox="inbox" />

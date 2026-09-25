@@ -16,8 +16,9 @@ class MobilePush::ApnsService
   private
 
   def build_connection
-    app = delivery.mobile_push_device.mobile_app
-    options = { auth_method: :token, cert_path: StringIO.new(app.private_key), key_id: app.key_id, team_id: app.team_id, connect_timeout: 5 }
+    configuration = delivery.mobile_push_device.sdk_app.ios_configuration
+    options = { auth_method: :token, cert_path: StringIO.new(configuration.private_key), key_id: configuration.key_id,
+                team_id: configuration.team_id, connect_timeout: 5 }
     return Apnotic::Connection.development(options) if delivery.mobile_push_device.environment == 'development'
 
     Apnotic::Connection.new(options)
@@ -25,9 +26,8 @@ class MobilePush::ApnsService
 
   def notification
     device = delivery.mobile_push_device
-    app = device.mobile_app
     Apnotic::Notification.new(device.device_token).tap do |push|
-      push.topic = app.bundle_id
+      push.topic = device.sdk_app.ios_configuration.bundle_id
       push.push_type = 'alert'
       push.priority = '10'
       push.apns_id = delivery.apns_id
@@ -39,11 +39,11 @@ class MobilePush::ApnsService
   end
 
   def destination
-    { chatwoot: { inbox_id: delivery.mobile_push_device.mobile_app.inbox_id, conversation_id: delivery.message&.conversation&.display_id } }
+    { chatwoot: { inbox_id: delivery.mobile_push_device.sdk_app.inbox_id, conversation_id: delivery.message&.conversation&.display_id } }
   end
 
   def alert
-    { title: delivery.mobile_push_device.mobile_app.name, body: I18n.t(delivery.message_id ? 'mobile_push.reply' : 'mobile_push.test') }
+    { title: delivery.mobile_push_device.sdk_app.name, body: I18n.t(delivery.message_id ? 'mobile_push.reply' : 'mobile_push.test') }
   end
 
   def record_response(response)

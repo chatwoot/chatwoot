@@ -419,6 +419,10 @@ en:
     online:
       delete: '%{contact_name} is Online, please try again later'
   integration_apps:
+    sdks:
+      name: SDKs
+      description: Connect your mobile apps to Chatwoot.
+      short_description: Connect your mobile apps to Chatwoot.
     # Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: 'Dashboard Apps'

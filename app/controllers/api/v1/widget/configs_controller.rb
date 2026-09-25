@@ -28,7 +28,8 @@ class Api::V1::Widget::ConfigsController < Api::V1::Widget::BaseController
   def build_contact
     return if @contact.present?
 
-    @contact_inbox = @web_widget.create_contact_inbox(additional_attributes)
+    @contact_inbox = ::ContactInboxWithContactBuilder.new(inbox: @web_widget.inbox,
+                                                          contact_attributes: { additional_attributes: additional_attributes }).perform
     @contact = @contact_inbox.contact
   end
 

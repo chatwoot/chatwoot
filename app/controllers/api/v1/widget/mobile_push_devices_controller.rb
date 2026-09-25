@@ -1,16 +1,17 @@
 class Api::V1::Widget::MobilePushDevicesController < Api::V1::Widget::BaseController
   before_action :validate_session
   before_action :validate_device_fields, only: :create
+  before_action :validate_ios_configuration, only: :create
 
   def create
-    attributes = params.permit(:device_token, :environment, :name)
-    app = @web_widget.inbox.mobile_app
-    raise ActiveRecord::RecordNotFound unless app
+    attributes = params.permit(:platform, :device_token, :environment, :name)
+    configuration = @sdk_app
 
     device = if params.key?(:device_id)
-               @contact_inbox.mobile_push_devices.where(mobile_app: app).find(params[:device_id])
+               @contact_inbox.mobile_push_devices.where(sdk_app: configuration).find(params[:device_id])
              else
-               app.mobile_push_devices.find_or_initialize_by(device_token: attributes[:device_token], environment: attributes[:environment])
+               configuration.mobile_push_devices.find_or_initialize_by(device_token: attributes[:device_token],
+                                                                       environment: attributes[:environment], platform: attributes[:platform])
              end
     if device.persisted? && device.contact_inbox_id != @contact_inbox.id
       render_could_not_create_error('Unregister this device from its previous session before registering it again')
@@ -22,14 +23,20 @@ class Api::V1::Widget::MobilePushDevicesController < Api::V1::Widget::BaseContro
   end
 
   def destroy
-    @contact_inbox.mobile_push_devices.find(params[:id]).destroy!
+    @contact_inbox.mobile_push_devices.where(sdk_app: @sdk_app).find(params[:id]).destroy!
     head :no_content
   end
 
   private
 
+  def validate_ios_configuration
+    return if @sdk_app.ios_configuration
+
+    render_could_not_create_error('Configure iOS push notifications for this SDK app first')
+  end
+
   def validate_device_fields
-    unless params.permit(:device_token, :environment, :name).values.all?(String)
+    unless params.permit(:platform, :device_token, :environment, :name).values.all?(String)
       render_could_not_create_error('Device fields must be strings')
       return
     end
@@ -39,6 +46,8 @@ class Api::V1::Widget::MobilePushDevicesController < Api::V1::Widget::BaseContro
   end
 
   def validate_session
+    raise ActiveRecord::RecordNotFound unless @sdk_app
+
     return if auth_token_params[:inbox_id] == @web_widget.inbox.id
 
     render json: { error: 'Invalid customer session' }, status: :unauthorized
