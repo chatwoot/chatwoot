@@ -243,6 +243,49 @@ describe('Widget ActionCableConnector', () => {
     });
   });
 
+  describe('typing indicator', () => {
+    const typing = conversationId => ({
+      conversation: { id: conversationId },
+      is_private: false,
+    });
+
+    beforeEach(() => {
+      app.$store.getters = {
+        'conversationAttributes/getConversationParams': { id: 1 },
+      };
+    });
+
+    it('keeps it when an agent stops typing in another conversation', () => {
+      connector.onTypingOn(typing(1));
+      mockDispatch.mockClear();
+
+      connector.onTypingOff(typing(2));
+
+      expect(mockDispatch).not.toBeCalled();
+    });
+
+    it('clears it when the agent stops typing in the conversation on screen', () => {
+      connector.onTypingOn(typing(1));
+      connector.onTypingOff(typing(1));
+
+      expect(mockDispatch).toHaveBeenLastCalledWith(
+        'conversation/toggleAgentTyping',
+        { status: 'off' }
+      );
+    });
+
+    it('clears it on its own after 30 seconds', () => {
+      connector.onTypingOn(typing(1));
+      mockDispatch.mockClear();
+
+      vi.advanceTimersByTime(30000);
+
+      expect(mockDispatch).toBeCalledWith('conversation/toggleAgentTyping', {
+        status: 'off',
+      });
+    });
+  });
+
   it('re-fetches conversation attributes on reconnect so a status change missed while disconnected is reflected', () => {
     connector.onReconnect();
 

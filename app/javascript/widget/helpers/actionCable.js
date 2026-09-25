@@ -153,14 +153,15 @@ class ActionCableConnector extends BaseActionCableConnector {
     ActionCableConnector.refreshConnector(pubsubToken);
   };
 
-  onTypingOn = data => {
+  isTypingInAnotherConversation = data => {
     const activeConversationId =
       this.app.$store.getters['conversationAttributes/getConversationParams']
         .id;
-    const isUserTypingOnAnotherConversation =
-      data.conversation && data.conversation.id !== activeConversationId;
+    return data?.conversation && data.conversation.id !== activeConversationId;
+  };
 
-    if (isUserTypingOnAnotherConversation || data.is_private) {
+  onTypingOn = data => {
+    if (this.isTypingInAnotherConversation(data) || data.is_private) {
       return;
     }
     this.clearTimer();
@@ -170,7 +171,8 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.initTimer();
   };
 
-  onTypingOff = () => {
+  onTypingOff = data => {
+    if (this.isTypingInAnotherConversation(data)) return;
     this.clearTimer();
     this.app.$store.dispatch('conversation/toggleAgentTyping', {
       status: 'off',
