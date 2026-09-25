@@ -2,6 +2,8 @@ class ConversationMonitors::Scheduler
   def self.request(conversation, invalidate: false, activity_at: Time.current, full_history: false)
     # Record work even while disabled if monitors exist: reenabling must catch up.
     account = conversation.account
+    return unless account # Async cleanup can destroy an account before its messages.
+
     monitors = invalidate ? account.conversation_monitors.visible : account.conversation_monitors.active
     return unless monitors.exists?
 
