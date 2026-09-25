@@ -66,6 +66,12 @@ const showSamlSection = computed(
           {{ $t('SECURITY_SETTINGS.SAML_DISABLED_MESSAGE') }}
         </div>
       </template>
+      <div
+        v-if="!isMfaAvailable && !showSamlSection"
+        class="mt-6 text-sm text-slate-600"
+      >
+        {{ $t('SECURITY_SETTINGS.NO_SETTINGS_AVAILABLE') }}
+      </div>
     </template>
   </SettingsLayout>
 </template>
