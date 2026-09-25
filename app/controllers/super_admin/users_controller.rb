@@ -60,6 +60,8 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
     if user.confirmed?
       redirect_back(fallback_location: super_admin_user_path(user), alert: I18n.t('super_admin.users.resend_confirmation.already_confirmed'))
     else
+      return if redirect_if_email_blocked(user)
+
       user.send_confirmation_instructions
       redirect_back(fallback_location: super_admin_user_path(user), notice: I18n.t('super_admin.users.resend_confirmation.sent'))
     end

@@ -293,6 +293,36 @@ RSpec.describe 'Super Admin Users API', type: :request do
         expect(dialog.at_css("form[action='/super_admin/users/#{user.id}/clear_email_suppression']")).to be_present
       end
 
+      it 'disables resend confirmation while the address is blocked' do
+        unconfirmed = create(:user, skip_confirmation: false)
+
+        get "/super_admin/users/#{unconfirmed.id}", params: { suppression: 'bounce' }
+
+        button = Nokogiri::HTML(response.body).at_css('.main-content__header button:contains("Resend confirmation email")')
+        expect(button['disabled']).to be_present
+      end
+
+      it 'refuses to resend confirmation to a blocked address' do
+        unconfirmed = create(:user, skip_confirmation: false)
+        allow(suppression).to receive(:lookup).with(unconfirmed.email).and_return(status: :bounce, since: 1.day.ago)
+        ActiveJob::Base.queue_adapter.enqueued_jobs.clear
+
+        post "/super_admin/users/#{unconfirmed.id}/resend_confirmation"
+
+        expect(ActiveJob::Base.queue_adapter.enqueued_jobs.count { |job| job[:job].to_s == 'ActionMailer::MailDeliveryJob' }).to eq(0)
+        expect(flash[:alert]).to include('because the address bounced')
+      end
+
+      it 'resends confirmation when the address is not blocked' do
+        unconfirmed = create(:user, skip_confirmation: false)
+        allow(suppression).to receive(:lookup).with(unconfirmed.email).and_return(status: :not_suppressed)
+        ActiveJob::Base.queue_adapter.enqueued_jobs.clear
+
+        post "/super_admin/users/#{unconfirmed.id}/resend_confirmation"
+
+        expect(ActiveJob::Base.queue_adapter.enqueued_jobs.count { |job| job[:job].to_s == 'ActionMailer::MailDeliveryJob' }).to be >= 1
+      end
+
       it 'disables the test email while the address is blocked' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'complaint' }
 
