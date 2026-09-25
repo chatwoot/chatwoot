@@ -87,6 +87,57 @@ RSpec.describe Llm::FeatureRouter do
       )
     end
 
+    context 'with a custom endpoint on a self-hosted installation' do
+      before do
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://api.groq.com/openai/v1')
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'llama-3.3-70b-versatile')
+      end
+
+      %w[editor label_suggestion].each do |feature|
+        it "uses the installation model for #{feature}" do
+          resolved = described_class.resolve(feature: feature, account: account)
+
+          expect(resolved).to eq(
+            feature: feature,
+            provider: 'openai',
+            model: 'llama-3.3-70b-versatile',
+            source: :installation_override
+          )
+        end
+      end
+
+      it 'keeps account overrides ahead of the installation model' do
+        account.update!(captain_models: { 'editor' => 'gpt-4.1' })
+
+        resolved = described_class.resolve(feature: 'editor', account: account)
+
+        expect(resolved).to include(model: 'gpt-4.1', source: :account_override)
+      end
+
+      it 'keeps the feature default on Chatwoot Cloud' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+
+        resolved = described_class.resolve(feature: 'editor', account: account)
+
+        expect(resolved).to include(model: 'gpt-4.1-mini', source: :default)
+      end
+
+      it 'does not extend the installation model to other features' do
+        resolved = described_class.resolve(feature: 'assistant', account: account)
+
+        expect(resolved[:source]).to eq(:default)
+      end
+    end
+
+    it 'keeps the editor default when no custom endpoint is configured' do
+      InstallationConfig.where(name: 'CAPTAIN_OPEN_AI_ENDPOINT').destroy_all
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
+
+      resolved = described_class.resolve(feature: 'editor', account: account)
+
+      expect(resolved).to include(model: 'gpt-4.1-mini', source: :default)
+    end
+
     it 'resolves GPT-5.2 as the assistant default when Captain V2 is enabled without storing an account override' do
       account.enable_features!('captain_integration')
 
