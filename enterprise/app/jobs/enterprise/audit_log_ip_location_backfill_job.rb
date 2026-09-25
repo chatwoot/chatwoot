@@ -1,5 +1,5 @@
 class Enterprise::AuditLogIpLocationBackfillJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   BATCH_SIZE = 500
   BATCH_DELAY = 5.seconds

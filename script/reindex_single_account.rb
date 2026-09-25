@@ -39,7 +39,7 @@ index_name = Message.searchkick_index.name
 batch_count = 0
 
 messages.find_in_batches(batch_size: 1000).with_index do |batch, index|
-  Searchkick::BulkReindexJob.set(queue: :bulk_reindex_low).perform_later(
+  Searchkick::BulkReindexJob.set(queue: :within_1_day).perform_later(
     class_name: 'Message',
     index_name: index_name,
     batch_id: index,

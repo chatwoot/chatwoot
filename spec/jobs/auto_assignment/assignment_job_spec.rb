@@ -104,7 +104,7 @@ RSpec.describe AutoAssignment::AssignmentJob, type: :job do
 
   describe 'job configuration' do
     it 'is queued in the default queue' do
-      expect(described_class.queue_name).to eq('default')
+      expect(described_class.queue_name).to eq('within_1_minute')
     end
   end
 end

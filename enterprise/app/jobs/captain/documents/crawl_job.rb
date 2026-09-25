@@ -1,5 +1,5 @@
 class Captain::Documents::CrawlJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform(document)
     if document.pdf_document?

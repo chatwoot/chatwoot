@@ -13,7 +13,7 @@ RSpec.describe DeleteObjectJob, type: :job do
 
       it 'enqueues on the low queue' do
         expect { described_class.perform_later(inbox) }
-          .to have_enqueued_job(described_class).with(inbox).on_queue('low')
+          .to have_enqueued_job(described_class).with(inbox).on_queue('within_10_minutes')
       end
 
       it 'pre-deletes heavy associations and then destroys the object' do

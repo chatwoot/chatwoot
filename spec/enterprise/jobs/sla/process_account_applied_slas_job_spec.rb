@@ -17,7 +17,7 @@ RSpec.describe Sla::ProcessAccountAppliedSlasJob do
 
     it 'enqueues the job' do
       expect { described_class.perform_later(account) }.to have_enqueued_job(described_class)
-        .on_queue('medium')
+        .on_queue('within_1_minute')
         .with(account)
     end
 

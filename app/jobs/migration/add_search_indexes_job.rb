@@ -1,6 +1,6 @@
 # Delete migration and spec after 2 consecutive releases.
 class Migration::AddSearchIndexesJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_10_minutes
 
   def perform
     ActiveRecord::Migration[6.1].add_index(:messages, [:account_id, :inbox_id], algorithm: :concurrently)

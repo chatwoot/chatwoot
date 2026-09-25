@@ -1,5 +1,5 @@
 class Sla::TriggerSlasForAccountsJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_1_minute
 
   def perform
     # SLA is a premium feature; skip accounts that have policies left over from a downgrade.

@@ -9,7 +9,7 @@ RSpec.describe Enterprise::CreateStripeCustomerJob, type: :job do
   it 'queues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(account)
-      .on_queue('default')
+      .on_queue('within_1_minute')
   end
 
   it 'executes perform' do

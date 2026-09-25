@@ -18,7 +18,7 @@ describe Messages::SendEmailNotificationService do
       end
 
       it 'enqueues ConversationReplyEmailJob' do
-        expect { service.perform }.to have_enqueued_job(ConversationReplyEmailJob).with(conversation.id, message.id).on_queue('mailers')
+        expect { service.perform }.to have_enqueued_job(ConversationReplyEmailJob).with(conversation.id, message.id).on_queue('within_1_minute')
       end
 
       it 'atomically sets redis key to prevent duplicate emails' do

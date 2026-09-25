@@ -1,5 +1,5 @@
 class Enterprise::AuditLogSessionIpLookupJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   # Every row of a sign-in carries the same address, so one lookup covers the batch.
   def perform(audit_ids, remote_address)

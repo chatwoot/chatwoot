@@ -1,5 +1,5 @@
 class Migration::CompanyAccountBatchJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform(account)
     account.contacts

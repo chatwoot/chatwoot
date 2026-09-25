@@ -49,7 +49,7 @@ RSpec.describe DataImports::Freshdesk::ImportJob do
 
       expect do
         described_class.perform_now(data_import, run_id)
-      end.to have_enqueued_job(DataImports::Freshdesk::ContactsPageJob).with(data_import, 2, run_id).on_queue('low')
+      end.to have_enqueued_job(DataImports::Freshdesk::ContactsPageJob).with(data_import, 2, run_id).on_queue('within_10_minutes')
 
       expect(importer).to have_received(:start!)
     end

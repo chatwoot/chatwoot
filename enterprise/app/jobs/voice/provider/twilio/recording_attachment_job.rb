@@ -1,5 +1,5 @@
 class Voice::Provider::Twilio::RecordingAttachmentJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   retry_on Down::Error, wait: 5.seconds, attempts: 3
 

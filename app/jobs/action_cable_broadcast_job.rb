@@ -1,5 +1,5 @@
 class ActionCableBroadcastJob < ApplicationJob
-  queue_as :critical
+  queue_as :within_5_seconds
   include Events::Types
 
   CONVERSATION_UPDATE_EVENTS = [

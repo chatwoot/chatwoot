@@ -1,5 +1,5 @@
 class Conversations::UserMentionJob < ApplicationJob
-  queue_as :default
+  queue_as :within_1_minute
 
   def perform(mentioned_user_ids, conversation_id, account_id)
     mentioned_user_ids.each do |mentioned_user_id|

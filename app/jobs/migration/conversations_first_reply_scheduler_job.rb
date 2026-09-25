@@ -1,6 +1,6 @@
 # Delete migration and spec after 2 consecutive releases.
 class Migration::ConversationsFirstReplySchedulerJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_10_minutes
 
   def perform(account)
     account.conversations.each do |conversation|

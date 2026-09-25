@@ -1,5 +1,5 @@
 class Enterprise::CreateStripeCustomerJob < ApplicationJob
-  queue_as :default
+  queue_as :within_1_minute
 
   def perform(account)
     Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform

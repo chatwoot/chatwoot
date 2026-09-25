@@ -1,5 +1,5 @@
 class Sla::ProcessAccountAppliedSlasJob < ApplicationJob
-  queue_as :medium
+  queue_as :within_1_minute
 
   def perform(account)
     # The scheduler filters on the feature, but this job can already be queued when a plan is downgraded.

@@ -1,5 +1,5 @@
 class SlackUnfurlJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform(params)
     @params = params

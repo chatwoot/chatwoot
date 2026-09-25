@@ -1,7 +1,7 @@
 require 'net/imap'
 
 class Inboxes::FetchImapEmailsJob < MutexApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_1_minute
 
   def perform(channel, interval = 1)
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Job started for inbox #{channel.inbox.id}"

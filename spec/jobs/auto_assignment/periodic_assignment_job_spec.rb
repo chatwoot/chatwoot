@@ -117,7 +117,7 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
 
   describe 'job configuration' do
     it 'is queued in the scheduled_jobs queue' do
-      expect(described_class.queue_name).to eq('scheduled_jobs')
+      expect(described_class.queue_name).to eq('within_10_minutes')
     end
   end
 end

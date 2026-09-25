@@ -1,5 +1,5 @@
 class Captain::Documents::ResponseBuilderJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform(document, options = {})
     reset_previous_responses(document)

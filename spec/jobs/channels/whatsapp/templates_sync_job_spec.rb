@@ -6,7 +6,7 @@ RSpec.describe Channels::Whatsapp::TemplatesSyncJob do
   it 'enqueues the job' do
     stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
     expect { described_class.perform_later(channel_whatsapp) }.to have_enqueued_job(described_class)
-      .on_queue('low')
+      .on_queue('within_10_minutes')
   end
 
   context 'when called' do

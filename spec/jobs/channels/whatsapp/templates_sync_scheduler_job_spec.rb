@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Channels::Whatsapp::TemplatesSyncSchedulerJob do
   it 'enqueues the job' do
     expect { described_class.perform_later }.to have_enqueued_job(described_class)
-      .on_queue('low')
+      .on_queue('within_10_minutes')
   end
 
   context 'when called' do
@@ -14,13 +14,13 @@ RSpec.describe Channels::Whatsapp::TemplatesSyncSchedulerJob do
       synced_old = create(:channel_whatsapp, sync_templates: false, message_templates_last_updated: 4.hours.ago)
       described_class.perform_now
       expect(Channels::Whatsapp::TemplatesSyncJob).not_to(
-        have_been_enqueued.with(synced_recently).on_queue('low')
+        have_been_enqueued.with(synced_recently).on_queue('within_10_minutes')
       )
       expect(Channels::Whatsapp::TemplatesSyncJob).to(
-        have_been_enqueued.with(synced_old).on_queue('low')
+        have_been_enqueued.with(synced_old).on_queue('within_10_minutes')
       )
       expect(Channels::Whatsapp::TemplatesSyncJob).to(
-        have_been_enqueued.with(non_synced).on_queue('low')
+        have_been_enqueued.with(non_synced).on_queue('within_10_minutes')
       )
     end
 
@@ -37,7 +37,7 @@ RSpec.describe Channels::Whatsapp::TemplatesSyncSchedulerJob do
       described_class.perform_now
 
       expect(Channels::Whatsapp::TemplatesSyncJob).not_to(
-        have_been_enqueued.with(suspended_channel).on_queue('low')
+        have_been_enqueued.with(suspended_channel).on_queue('within_10_minutes')
       )
     end
 
@@ -49,13 +49,13 @@ RSpec.describe Channels::Whatsapp::TemplatesSyncSchedulerJob do
       synced_old = create(:channel_whatsapp, sync_templates: false, message_templates_last_updated: 6.hours.ago)
       described_class.perform_now
       expect(Channels::Whatsapp::TemplatesSyncJob).not_to(
-        have_been_enqueued.with(synced_recently).on_queue('low')
+        have_been_enqueued.with(synced_recently).on_queue('within_10_minutes')
       )
       expect(Channels::Whatsapp::TemplatesSyncJob).to(
-        have_been_enqueued.with(synced_old).on_queue('low')
+        have_been_enqueued.with(synced_old).on_queue('within_10_minutes')
       )
       expect(Channels::Whatsapp::TemplatesSyncJob).to(
-        have_been_enqueued.with(non_synced).on_queue('low')
+        have_been_enqueued.with(non_synced).on_queue('within_10_minutes')
       )
     end
   end

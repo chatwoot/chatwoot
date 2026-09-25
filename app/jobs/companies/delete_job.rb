@@ -1,5 +1,5 @@
 class Companies::DeleteJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   BATCH_SIZE = 1000
   CONTACT_COMPANY_CLEAR_SQL = <<~SQL.squish.freeze

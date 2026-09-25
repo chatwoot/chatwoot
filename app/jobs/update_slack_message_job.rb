@@ -1,5 +1,5 @@
 class UpdateSlackMessageJob < MutexApplicationJob
-  queue_as :medium
+  queue_as :within_1_minute
   retry_on LockAcquisitionError, wait: 1.second, attempts: 8
 
   def perform(message, hook)

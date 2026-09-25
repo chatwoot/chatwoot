@@ -1,4 +1,4 @@
-Searchkick.queue_name = :async_database_migration if ENV.fetch('OPENSEARCH_URL', '').present?
+Searchkick.queue_name = :within_1_day if ENV.fetch('OPENSEARCH_URL', '').present?
 
 api_key = ENV.fetch('OPENSEARCH_API_KEY', '').presence || ENV.fetch('ELASTICSEARCH_API_KEY', '').presence
 access_key_id = ENV.fetch('OPENSEARCH_AWS_ACCESS_KEY_ID', '')

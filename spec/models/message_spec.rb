@@ -455,7 +455,9 @@ RSpec.describe Message do
         ActiveJob::Base.queue_adapter = :test
         allow(Redis::Alfred).to receive(:set).and_return(true)
         perform_enqueued_jobs(only: SendReplyJob) do
-          expect { message.save! }.to have_enqueued_job(ConversationReplyEmailJob).with(message.conversation.id, kind_of(Integer)).on_queue('mailers')
+          expect { message.save! }.to have_enqueued_job(ConversationReplyEmailJob)
+            .with(message.conversation.id, kind_of(Integer))
+            .on_queue('within_1_minute')
         end
       end
 

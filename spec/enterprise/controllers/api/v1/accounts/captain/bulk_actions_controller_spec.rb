@@ -134,7 +134,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
                  params: sync_params,
                  headers: admin.create_new_auth_token,
                  as: :json
-          end.to have_enqueued_job(Captain::Documents::PerformSyncJob).on_queue('low').exactly(documents.size).times
+          end.to have_enqueued_job(Captain::Documents::PerformSyncJob).on_queue('within_10_minutes').exactly(documents.size).times
 
           documents.each do |document|
             expect(document.reload).to have_attributes(
@@ -186,7 +186,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
                params: sync_params.merge(ids: [syncing_document.id]),
                headers: admin.create_new_auth_token,
                as: :json
-        end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(syncing_document).on_queue('low')
+        end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(syncing_document).on_queue('within_10_minutes')
 
         expect(response).to have_http_status(:ok)
         expect(json_response).to eq({ ids: [syncing_document.id], count: 1 })

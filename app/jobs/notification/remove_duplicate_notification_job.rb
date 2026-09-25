@@ -1,5 +1,5 @@
 class Notification::RemoveDuplicateNotificationJob < ApplicationJob
-  queue_as :default
+  queue_as :within_1_minute
 
   def perform(notification)
     return unless notification.is_a?(Notification)

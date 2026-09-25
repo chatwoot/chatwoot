@@ -1,5 +1,5 @@
 class AgentBots::WebhookJob < WebhookJob
-  queue_as :high
+  queue_as :within_5_seconds
   retry_on Webhooks::Trigger::RetryableError, wait: 3.seconds, attempts: 3 do |job, error|
     url, payload, webhook_type = job.arguments
     kwargs = job.arguments.last.is_a?(Hash) ? job.arguments.last : {}

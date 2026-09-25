@@ -2,7 +2,7 @@
 # let's break this logic and clean this up in future
 
 class DataImportJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
   retry_on ActiveStorage::FileNotFoundError, wait: 1.minute, attempts: 3
 
   LABELS_DELIMITER = ','.freeze

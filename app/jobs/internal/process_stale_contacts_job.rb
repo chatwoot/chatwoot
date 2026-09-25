@@ -5,7 +5,7 @@
 # - are older than 30 days
 
 class Internal::ProcessStaleContactsJob < ApplicationJob
-  queue_as :housekeeping
+  queue_as :within_1_day
 
   # Number of day-based groups to split accounts into
   DISTRIBUTION_GROUPS = 5

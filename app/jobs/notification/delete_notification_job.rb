@@ -1,5 +1,5 @@
 class Notification::DeleteNotificationJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform(user, account, type: :all)
     notifications = user.notifications.where(account_id: account.id)

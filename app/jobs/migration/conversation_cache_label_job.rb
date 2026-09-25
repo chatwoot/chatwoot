@@ -1,5 +1,5 @@
 class Migration::ConversationCacheLabelJob < ApplicationJob
-  queue_as :async_database_migration
+  queue_as :within_1_day
 
   def perform(account)
     account.conversations.find_in_batches(batch_size: 100) do |conversation_batch|

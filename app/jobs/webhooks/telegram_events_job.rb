@@ -1,5 +1,5 @@
 class Webhooks::TelegramEventsJob < ApplicationJob
-  queue_as :default
+  queue_as :within_5_seconds
 
   def perform(params = {})
     return unless params[:bot_token]

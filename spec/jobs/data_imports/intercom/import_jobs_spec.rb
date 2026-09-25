@@ -30,7 +30,7 @@ RSpec.describe DataImports::Intercom::ImportJob do
 
       expect do
         described_class.perform_now(data_import, run_id)
-      end.to have_enqueued_job(DataImports::Intercom::ContactsPageJob).with(data_import, 'contact-cursor', run_id).on_queue('low')
+      end.to have_enqueued_job(DataImports::Intercom::ContactsPageJob).with(data_import, 'contact-cursor', run_id).on_queue('within_10_minutes')
 
       expect(importer).to have_received(:start!)
     end

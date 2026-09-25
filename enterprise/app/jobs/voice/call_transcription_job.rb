@@ -1,5 +1,5 @@
 class Voice::CallTranscriptionJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   # A recording OpenAI rejects (corrupt/unsupported audio) or credentials it refuses
   # will never succeed on retry — drop the job instead of hammering the API.

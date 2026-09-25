@@ -1,7 +1,7 @@
 class Campaigns::UpdateRecipientStatusJob < ApplicationJob
   class RecipientNotFoundError < StandardError; end
 
-  queue_as :low
+  queue_as :within_10_minutes
   retry_on RecipientNotFoundError, wait: ->(executions) { executions * 2.seconds }, attempts: 5 do |job, _error|
     Rails.logger.warn "Campaign recipient status could not be reconciled for inbox #{job.arguments.first}"
   end

@@ -1,7 +1,7 @@
 class HookJob < MutexApplicationJob
   retry_on LockAcquisitionError, wait: 3.seconds, attempts: 3
 
-  queue_as :medium
+  queue_as :within_1_minute
 
   INTEGRATION_PROCESSORS = {
     'slack' => :process_slack_integration,

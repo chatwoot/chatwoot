@@ -18,7 +18,7 @@ RSpec.describe Enterprise::Whatsapp::IncomingMessageBaseService do
         inbox: channel.inbox,
         params: { 'statuses' => [status] }.with_indifferent_access
       ).perform
-    end.to have_enqueued_job(Campaigns::UpdateRecipientStatusJob).with(channel.inbox.id, status).on_queue('low')
+    end.to have_enqueued_job(Campaigns::UpdateRecipientStatusJob).with(channel.inbox.id, status).on_queue('within_10_minutes')
   end
 
   it 'does not update a recipient from another inbox' do

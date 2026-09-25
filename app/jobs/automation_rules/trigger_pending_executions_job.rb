@@ -1,5 +1,5 @@
 class AutomationRules::TriggerPendingExecutionsJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_10_minutes
 
   DEFAULT_SWEEP_LIMIT = 1000
 

@@ -14,7 +14,7 @@ RSpec.describe Webhooks::TwilioDeliveryStatusJob do
   it 'queues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(params)
-      .on_queue('low')
+      .on_queue('within_10_minutes')
   end
 
   it 'calls the Twilio::DeliveryStatusService' do

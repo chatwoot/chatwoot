@@ -1,7 +1,7 @@
 class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   CAPTAIN_INFERENCE_RESOLVE_ACTIVITY_REASON = 'no outstanding questions'.freeze
   CAPTAIN_INFERENCE_HANDOFF_ACTIVITY_REASON = 'pending clarification from customer'.freeze
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform(inbox)
     @captain_assistant = inbox.captain_assistant

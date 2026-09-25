@@ -1,5 +1,5 @@
 class SendReplyJob < ApplicationJob
-  queue_as :high
+  queue_as :within_5_seconds
 
   CHANNEL_SERVICES = {
     'Channel::TwitterProfile' => ::Twitter::SendOnTwitterService,

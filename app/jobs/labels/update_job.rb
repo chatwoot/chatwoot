@@ -1,5 +1,5 @@
 class Labels::UpdateJob < ApplicationJob
-  queue_as :default
+  queue_as :within_1_minute
 
   def perform(new_label_title, old_label_title, account_id)
     Labels::UpdateService.new(

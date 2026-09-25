@@ -1,5 +1,5 @@
 class Inboxes::UpdateWidgetPreChatCustomFieldsJob < ApplicationJob
-  queue_as :default
+  queue_as :within_1_minute
 
   def perform(account, custom_attribute)
     attribute_key = custom_attribute['attribute_key']

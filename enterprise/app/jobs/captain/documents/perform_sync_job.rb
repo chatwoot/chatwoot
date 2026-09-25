@@ -1,5 +1,5 @@
 class Captain::Documents::PerformSyncJob < MutexApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   # A single page fetch + fingerprint compare should complete in seconds.
   # 10 minutes is generous headroom — if still "syncing" after that, the worker likely died mid-run.

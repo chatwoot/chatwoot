@@ -1,5 +1,5 @@
 class MacrosExecutionJob < ApplicationJob
-  queue_as :medium
+  queue_as :within_1_minute
 
   def perform(macro, conversation_ids:, user:)
     account = macro.account

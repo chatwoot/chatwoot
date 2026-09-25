@@ -13,7 +13,7 @@ class DeviceVerification::ChallengeService
     code = format('%06d', SecureRandom.random_number(10**6))
     ::Redis::Alfred.setex(self.class.code_key(user, jti), self.class.digest_for(code, jti), CODE_TTL)
     Enterprise::DeviceVerificationMailer.verification_code(user, DeviceVerification.encrypt_code(code), request_meta || {})
-                                        .deliver_later(queue: 'critical')
+                                        .deliver_later(queue: 'within_5_seconds')
     DeviceVerification::TokenService.new(user: user, jti: jti).generate_token
   rescue StandardError
     # The challenge could not be dispatched (e.g. queue outage). Release the stored

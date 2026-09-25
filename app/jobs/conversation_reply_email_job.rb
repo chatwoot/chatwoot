@@ -1,5 +1,5 @@
 class ConversationReplyEmailJob < ApplicationJob
-  queue_as :mailers
+  queue_as :within_1_minute
 
   def perform(conversation_id, last_queued_id)
     conversation = Conversation.find(conversation_id)

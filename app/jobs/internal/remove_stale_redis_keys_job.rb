@@ -3,7 +3,7 @@
 # should result in 50% redis mem size reduction
 
 class Internal::RemoveStaleRedisKeysJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_10_minutes
 
   def perform
     Account.find_in_batches(batch_size: 100) do |accounts|

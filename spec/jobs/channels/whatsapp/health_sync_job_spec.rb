@@ -13,7 +13,7 @@ RSpec.describe Channels::Whatsapp::HealthSyncJob do
 
   it 'enqueues on the low priority queue' do
     expect { described_class.perform_later(whatsapp_channel) }
-      .to have_enqueued_job(described_class).with(whatsapp_channel).on_queue('low')
+      .to have_enqueued_job(described_class).with(whatsapp_channel).on_queue('within_10_minutes')
   end
 
   it 'synchronizes the channel health status' do

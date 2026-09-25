@@ -1,5 +1,5 @@
 class Account::ContactsExportJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   LABELS_COLUMN = 'labels'.freeze
   LABELS_DELIMITER = ','.freeze

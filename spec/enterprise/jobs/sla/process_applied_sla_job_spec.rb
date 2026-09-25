@@ -10,7 +10,7 @@ RSpec.describe Sla::ProcessAppliedSlaJob do
     it 'enqueues the job' do
       expect { described_class.perform_later(applied_sla) }.to have_enqueued_job(described_class)
         .with(applied_sla)
-        .on_queue('medium')
+        .on_queue('within_1_minute')
     end
 
     it 'calls the EvaluateAppliedSlaService' do

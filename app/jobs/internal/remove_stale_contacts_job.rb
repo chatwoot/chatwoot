@@ -5,7 +5,7 @@
 # - are older than 30 days
 
 class Internal::RemoveStaleContactsJob < ApplicationJob
-  queue_as :housekeeping
+  queue_as :within_1_day
 
   def perform(account, batch_size = 1000)
     Internal::RemoveStaleContactsService.new(account: account).perform(batch_size)

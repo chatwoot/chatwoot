@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Channels::Whatsapp::HealthSyncSchedulerJob do
   it 'enqueues on the low priority queue' do
-    expect { described_class.perform_later }.to have_enqueued_job(described_class).on_queue('low')
+    expect { described_class.perform_later }.to have_enqueued_job(described_class).on_queue('within_10_minutes')
   end
 
   it 'schedules stale and unchecked active Cloud API channels' do
@@ -45,11 +45,11 @@ RSpec.describe Channels::Whatsapp::HealthSyncSchedulerJob do
 
     described_class.perform_now
 
-    expect(Channels::Whatsapp::HealthSyncJob).to have_been_enqueued.with(unchecked).on_queue('low')
-    expect(Channels::Whatsapp::HealthSyncJob).to have_been_enqueued.with(stale).on_queue('low')
-    expect(Channels::Whatsapp::HealthSyncJob).not_to have_been_enqueued.with(recent).on_queue('low')
-    expect(Channels::Whatsapp::HealthSyncJob).not_to have_been_enqueued.with(non_cloud).on_queue('low')
-    expect(Channels::Whatsapp::HealthSyncJob).not_to have_been_enqueued.with(suspended).on_queue('low')
+    expect(Channels::Whatsapp::HealthSyncJob).to have_been_enqueued.with(unchecked).on_queue('within_10_minutes')
+    expect(Channels::Whatsapp::HealthSyncJob).to have_been_enqueued.with(stale).on_queue('within_10_minutes')
+    expect(Channels::Whatsapp::HealthSyncJob).not_to have_been_enqueued.with(recent).on_queue('within_10_minutes')
+    expect(Channels::Whatsapp::HealthSyncJob).not_to have_been_enqueued.with(non_cloud).on_queue('within_10_minutes')
+    expect(Channels::Whatsapp::HealthSyncJob).not_to have_been_enqueued.with(suspended).on_queue('within_10_minutes')
   end
 
   it 'schedules unchecked and oldest channels first when the batch is limited' do
@@ -78,8 +78,8 @@ RSpec.describe Channels::Whatsapp::HealthSyncSchedulerJob do
 
     described_class.perform_now
 
-    expect(Channels::Whatsapp::HealthSyncJob).to have_been_enqueued.with(unchecked).on_queue('low')
-    expect(Channels::Whatsapp::HealthSyncJob).to have_been_enqueued.with(older).on_queue('low')
-    expect(Channels::Whatsapp::HealthSyncJob).not_to have_been_enqueued.with(newer).on_queue('low')
+    expect(Channels::Whatsapp::HealthSyncJob).to have_been_enqueued.with(unchecked).on_queue('within_10_minutes')
+    expect(Channels::Whatsapp::HealthSyncJob).to have_been_enqueued.with(older).on_queue('within_10_minutes')
+    expect(Channels::Whatsapp::HealthSyncJob).not_to have_been_enqueued.with(newer).on_queue('within_10_minutes')
   end
 end

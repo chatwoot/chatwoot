@@ -11,7 +11,7 @@ RSpec.describe Webhooks::LineEventsJob do
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(params: params)
-      .on_queue('default')
+      .on_queue('within_5_seconds')
   end
 
   context 'when invalid params' do
