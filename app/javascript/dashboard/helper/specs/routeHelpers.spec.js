@@ -142,6 +142,51 @@ describe('#validateLoggedInRoutes', () => {
   });
 });
 
+describe('suspended account routes', () => {
+  describe.each([undefined, null, 'non_payment', 'spam', 'other'])(
+    'with suspension category %s',
+    category => {
+      it.each(['administrator', 'agent', 'custom_role'])(
+        'restricts billing access for %s',
+        permission => {
+          const user = {
+            accounts: [
+              {
+                id: 1,
+                status: 'suspended',
+                suspension_category: category,
+                permissions: [permission],
+              },
+            ],
+          };
+          const canAccessBilling =
+            permission === 'administrator' &&
+            [undefined, null, 'non_payment'].includes(category);
+
+          expect(
+            validateLoggedInRoutes(
+              { name: 'billing_settings_index', params: { accountId: 1 } },
+              user
+            )
+          ).toBe(canAccessBilling ? null : 'accounts/1/suspended');
+          expect(
+            validateLoggedInRoutes(
+              { name: 'account_suspended', params: { accountId: 1 } },
+              user
+            )
+          ).toBeNull();
+          expect(
+            validateLoggedInRoutes(
+              { name: 'home', params: { accountId: 1 } },
+              user
+            )
+          ).toBe('accounts/1/suspended');
+        }
+      );
+    }
+  );
+});
+
 describe('isAConversationRoute', () => {
   it('returns true if conversation route name is provided', () => {
     expect(isAConversationRoute('inbox_conversation')).toBe(true);
