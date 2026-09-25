@@ -23,6 +23,8 @@ import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
+import BandwidthConfiguration from './settingsPage/BandwidthConfiguration.vue';
+import InboxReconnectionRequired from './components/InboxReconnectionRequired.vue';
 import VoiceConfigurationPage from './settingsPage/VoiceConfigurationPage.vue';
 import WhatsappCallingPage from './settingsPage/WhatsappCallingPage.vue';
 import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vue';
@@ -58,6 +60,8 @@ export default {
     BotConfiguration,
     CollaboratorsPage,
     ConfigurationPage,
+    BandwidthConfiguration,
+    InboxReconnectionRequired,
     VoiceConfigurationPage,
     WhatsappCallingPage,
     CustomerSatisfactionPage,
@@ -169,6 +173,9 @@ export default {
     shouldShowWhatsAppConfiguration() {
       return this.isAWhatsAppCloudChannel;
     },
+    isBandwidthInbox() {
+      return this.inbox.channel_type === INBOX_TYPES.SMS;
+    },
     shouldShowTwilioHealth() {
       return this.isATwilioChannel && this.inbox.medium === 'sms';
     },
@@ -220,6 +227,7 @@ export default {
 
       if (
         this.isATwilioChannel ||
+        this.isBandwidthInbox ||
         this.isALineChannel ||
         this.isAPIInbox ||
         (this.isAnEmailChannel && !this.inbox.provider) ||
@@ -805,6 +813,18 @@ export default {
     </SettingIntroBanner>
     <section class="w-full overflow-auto py-8">
       <div class="max-w-7xl mx-auto w-full">
+        <InboxReconnectionRequired
+          v-if="isBandwidthInbox && !inbox.bandwidth_oauth_enabled"
+          :description="
+            $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.OAUTH.LEGACY_DESCRIPTION')
+          "
+          :action-label="$t('INBOX_MGMT.ADD.SMS.BANDWIDTH.OAUTH.MIGRATE')"
+          class="mx-6 mb-4"
+          :class="bannerMaxWidth"
+          @reauthorize="
+            onTabChange(tabs.findIndex(tab => tab.key === 'configuration'))
+          "
+        />
         <MicrosoftReauthorize
           v-if="microsoftUnauthorized"
           :inbox="inbox"
@@ -1412,7 +1432,12 @@ export default {
           class="mx-6"
           :class="isAWebWidgetInbox ? 'max-w-7xl' : 'max-w-4xl'"
         >
-          <ConfigurationPage :inbox="inbox" />
+          <BandwidthConfiguration
+            v-if="isBandwidthInbox"
+            :key="inbox.id"
+            :inbox="inbox"
+          />
+          <ConfigurationPage v-else :inbox="inbox" />
         </div>
         <div
           v-if="selectedTabKey === 'voice-configuration'"

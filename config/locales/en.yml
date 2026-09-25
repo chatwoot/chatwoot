@@ -75,6 +75,9 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    bandwidth:
+      invalid_configuration: 'Provide a valid Bandwidth account ID, application ID, client ID, and client secret.'
+      authentication_failed: 'Unable to authenticate with Bandwidth. Check your client ID and client secret, then try again.'
     account:
       not_authorized: You are not authorized to access this account
       email_limit_exceeded: The daily email limit for this account has been reached
