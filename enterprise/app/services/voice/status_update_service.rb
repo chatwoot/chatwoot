@@ -40,14 +40,17 @@ class Voice::StatusUpdateService
   # client placing a call shows that moment. The message is rebroadcast so clients get
   # the change even when the call's status does not move.
   def record_provider_status(call)
-    return if call.terminal?
-
     provider_status = call_status.to_s.downcase
-    return if provider_status.blank? || call.provider_status == provider_status
-    return if stale_provider_status?(call.provider_status, provider_status)
+    return if provider_status.blank?
 
-    call.update!(provider_status: provider_status)
-    call.message&.touch # rubocop:disable Rails/SkipsModelValidations
+    # Callbacks for one call can run at the same time; the check and the write share the row lock
+    call.with_lock do
+      next if call.terminal? || call.provider_status == provider_status
+      next if stale_provider_status?(call.provider_status, provider_status)
+
+      call.update!(provider_status: provider_status)
+      call.message&.touch # rubocop:disable Rails/SkipsModelValidations
+    end
   end
 
   # A delayed callback for an earlier stage does not move the status backwards

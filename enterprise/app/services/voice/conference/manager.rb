@@ -89,8 +89,8 @@ class Voice::Conference::Manager
   end
 
   # An agent leg leaving a live call ends it only when no other agent remains; the contact
-  # is then hung up too. A phone can drop its leg without ever sending DELETE conference:
-  # the app was killed, the network went, or the OS ended the call.
+  # is hung up first and the call completes after. A phone can drop its leg without ever
+  # sending DELETE conference: the app was killed, the network went, or the OS ended the call.
   def handle_leave!
     case call.status
     when 'ringing'
@@ -98,22 +98,26 @@ class Voice::Conference::Manager
     when 'in_progress'
       return if agent_participant? && other_agents_remain?
 
-      status_manager.process_status_update('completed', timestamp: now)
       hang_up_contact! if agent_participant?
+      status_manager.process_status_update('completed', timestamp: now)
     end
   end
 
+  # When Twilio cannot say who is left, the call stays live: its conference end callback
+  # completes it once everyone has gone
   def other_agents_remain?
     conference_service.agents_remain?(leaving_label: participant_label)
   rescue StandardError => e
     Rails.logger.error("[VOICE] call #{call.id}: could not list conference participants: #{e.class}: #{e.message}")
-    false
+    true
   end
 
+  # The conference must end even if Twilio is briefly unreachable, so a failed attempt is retried by a job
   def hang_up_contact!
     conference_service.end_conference
   rescue StandardError => e
     Rails.logger.error("[VOICE] call #{call.id}: could not end conference after agent leave: #{e.class}: #{e.message}")
+    Voice::EndConferenceJob.perform_later(call.id)
   end
 
   def conference_service
