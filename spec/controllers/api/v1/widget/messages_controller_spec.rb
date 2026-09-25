@@ -266,9 +266,9 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       expect(response.parsed_body['payload'].pluck('conversation_id').uniq).to eq([older_conversation.display_id])
     end
 
-    it 'returns no messages when no conversation is named' do
+    it 'returns no messages for a new conversation' do
       get api_v1_widget_messages_url,
-          params: { website_token: web_widget.website_token },
+          params: { website_token: web_widget.website_token, conversation_id: '' },
           headers: { 'X-Auth-Token' => token },
           as: :json
 
@@ -298,16 +298,27 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       expect(older_conversation.reload.messages.last.content).to eq('reply')
     end
 
-    it 'starts a new conversation when no conversation is named, even though an open one exists' do
+    it 'starts a new conversation when asked for one, even though an open one exists' do
       expect do
         post api_v1_widget_messages_url,
-             params: { website_token: web_widget.website_token, message: { content: 'a fresh question' } },
+             params: { website_token: web_widget.website_token, conversation_id: '', message: { content: 'a fresh question' } },
              headers: { 'X-Auth-Token' => token },
              as: :json
       end.to change(Conversation, :count).by(1)
 
       expect(response).to have_http_status(:success)
       expect(response.parsed_body['conversation_id']).not_to eq(conversation.display_id)
+    end
+
+    it 'keeps widgets loaded before the feature was enabled on the latest conversation' do
+      expect do
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: { content: 'still the same chat' } },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+      end.not_to change(Conversation, :count)
+
+      expect(response.parsed_body['conversation_id']).to eq(contact_inbox.conversations.last.display_id)
     end
 
     it 'rejects replies to a named resolved conversation when the inbox does not allow them' do

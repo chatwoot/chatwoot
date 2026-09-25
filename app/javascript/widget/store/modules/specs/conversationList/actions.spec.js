@@ -208,6 +208,14 @@ describe('#actions', () => {
     });
   });
 
+  describe('#updateLastMessage', () => {
+    it('updates the row of the message conversation', () => {
+      const message = { id: 40, conversation_id: 2 };
+      actions.updateLastMessage({ commit }, message);
+      expect(commit).toBeCalledWith('setLastMessage', message);
+    });
+  });
+
   describe('#startNew', () => {
     it('clears the active conversation and its thread', async () => {
       await actions.startNew({ commit, dispatch });

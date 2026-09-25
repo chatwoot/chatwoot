@@ -20,37 +20,38 @@ import { emitter } from 'shared/helpers/mitt';
 import { isMultipleConversationsEnabled } from 'widget/helpers/utils';
 
 // A new thread has no id until its first message creates the conversation, so messages sent
-// meanwhile wait for that request and post to the conversation it created.
-let newConversationRequest = null;
+// meanwhile from the same thread wait for that request and post to the conversation it created.
+let pendingCreation = null;
 
 const postToThread = ({ commit, rootState }, post) => {
-  if (
-    !isMultipleConversationsEnabled() ||
-    rootState.conversationAttributes.id
-  ) {
+  const { conversationAttributes, conversationList } = rootState;
+  if (!isMultipleConversationsEnabled() || conversationAttributes.id) {
     return post();
   }
-  if (newConversationRequest) {
-    return newConversationRequest.then(({ data }) =>
+  if (pendingCreation?.thread === conversationList.thread) {
+    return pendingCreation.request.then(({ data }) =>
       post(data.conversation_id)
     );
   }
-  const request = post();
+  const creation = { thread: conversationList.thread, request: post() };
+  pendingCreation = creation;
   commit('setConversationUIFlag', { isCreating: true });
   const clear = () => {
-    newConversationRequest = null;
+    if (pendingCreation !== creation) return;
+    pendingCreation = null;
     commit('setConversationUIFlag', { isCreating: false });
   };
-  request.then(clear, clear);
-  newConversationRequest = request;
-  return request;
+  creation.request.then(clear, clear);
+  return creation.request;
 };
 
 export const actions = {
-  createConversation: async ({ commit, dispatch }, params) => {
+  createConversation: async ({ commit, dispatch, rootState }, params) => {
+    const { thread } = rootState.conversationList;
     commit('setConversationUIFlag', { isCreating: true });
     try {
       const { data } = await createConversationAPI(params);
+      if (hasLeftConversation(rootState, thread)) return;
       const { messages } = data;
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
@@ -64,7 +65,10 @@ export const actions = {
     } catch (error) {
       // Ignore error
     } finally {
-      commit('setConversationUIFlag', { isCreating: false });
+      // Leaving the thread already reset it; another thread may be creating by now.
+      if (!hasLeftConversation(rootState, thread)) {
+        commit('setConversationUIFlag', { isCreating: false });
+      }
     }
   },
   sendMessage: async ({ dispatch, state: conversationState }, params) => {
@@ -87,7 +91,8 @@ export const actions = {
       pendingLabels.length > 0;
     const { thread } = rootState.conversationList;
 
-    commit('pushMessageToConversation', message);
+    // A retried message arrives marked failed; in progress again, the sent copy replaces it.
+    commit('pushMessageToConversation', { ...message, status: 'in_progress' });
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
     try {
       const { data } = await postToThread(

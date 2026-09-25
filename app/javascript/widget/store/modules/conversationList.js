@@ -98,6 +98,10 @@ export const actions = {
     commit('markRead', id);
   },
 
+  updateLastMessage: ({ commit }, message) => {
+    commit('setLastMessage', message);
+  },
+
   startNew: async ({ commit, dispatch }) => {
     commit('switchThread');
     await dispatch(
@@ -119,6 +123,17 @@ export const mutations = {
     $state.page = page;
     $state.hasNextPage = hasNextPage;
     $state.unreadCount = unreadCount;
+  },
+  // Ids only grow, so an older message arriving late cannot replace a newer preview.
+  setLastMessage($state, message) {
+    const record = findRecord($state, message.conversation_id);
+    if (!record || record.last_message?.id > message.id) return;
+    record.last_message = message;
+    record.last_activity_at = message.created_at;
+    $state.records = [
+      record,
+      ...$state.records.filter(item => item !== record),
+    ];
   },
   switchThread($state) {
     $state.thread += 1;

@@ -73,14 +73,41 @@ describe('Widget ActionCableConnector', () => {
       delete window.chatwootWebChannel;
     });
 
-    it('renders a message for the conversation on screen', () => {
+    it('renders a message for the conversation on screen and keeps its row current', () => {
       connector.onMessageCreated({ ...message, conversation_id: 1 });
 
       expect(mockDispatch).toBeCalledWith('conversation/addOrUpdateMessage', {
         ...message,
         conversation_id: 1,
       });
+      expect(mockDispatch).toBeCalledWith(
+        'conversationList/updateLastMessage',
+        {
+          ...message,
+          conversation_id: 1,
+        }
+      );
       expect(mockDispatch).not.toBeCalledWith('conversationList/fetch');
+    });
+
+    it('applies message updates only to the conversation on screen', () => {
+      connector.onMessageUpdated({ ...message, conversation_id: 1 });
+      connector.onMessageUpdated(message);
+
+      expect(mockDispatch.mock.calls).toEqual([
+        ['conversation/addOrUpdateMessage', { ...message, conversation_id: 1 }],
+      ]);
+    });
+
+    it('ignores message updates of earlier conversations on a new thread', () => {
+      app.$store.getters = {
+        ...getters,
+        'conversationAttributes/getConversationParams': { id: '' },
+      };
+
+      connector.onMessageUpdated(message);
+
+      expect(mockDispatch).not.toBeCalled();
     });
 
     it('switches to the conversation of a new message while the widget is closed', () => {
@@ -122,6 +149,23 @@ describe('Widget ActionCableConnector', () => {
       expect(mockDispatch).toBeCalledWith(
         'conversation/addOrUpdateMessage',
         message
+      );
+    });
+
+    it('never lets the visitor own messages from elsewhere take over a new thread', () => {
+      app.$store.getters = {
+        ...getters,
+        'conversationAttributes/getConversationParams': { id: '' },
+      };
+      const ownMessage = { ...message, message_type: 0 };
+
+      connector.onMessageCreated(ownMessage);
+
+      expect(mockDispatch).toBeCalledWith('conversationList/fetch');
+      expect(mockDispatch).not.toBeCalledWith('conversationList/open', 2);
+      expect(mockDispatch).not.toBeCalledWith(
+        'conversation/addOrUpdateMessage',
+        ownMessage
       );
     });
 
@@ -175,6 +219,19 @@ describe('Widget ActionCableConnector', () => {
 
       expect(mockDispatch).not.toBeCalled();
       expect(IFrameHelper.sendMessage).not.toBeCalled();
+    });
+
+    it('applies message updates while no conversation is known yet', () => {
+      app.$store.getters = {
+        'conversationAttributes/getConversationParams': { id: '' },
+      };
+
+      connector.onMessageUpdated({ id: 10, conversation_id: 2 });
+
+      expect(mockDispatch).toBeCalledWith('conversation/addOrUpdateMessage', {
+        id: 10,
+        conversation_id: 2,
+      });
     });
 
     it('moves to a newly created conversation', () => {
