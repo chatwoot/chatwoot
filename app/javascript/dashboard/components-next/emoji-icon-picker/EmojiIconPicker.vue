@@ -22,7 +22,7 @@ import {
 } from 'shared/components/emoji/pickerHelper';
 
 const props = defineProps({
-  // 'both' shows Icons + Emojis tabs; 'emoji' shows only the emoji panel.
+  // 'both' shows Icons + Emojis tabs; 'emoji' or 'icon' shows only that panel.
   mode: {
     type: String,
     default: PICKER_MODE.BOTH,
@@ -53,10 +53,15 @@ const showHeader = computed(
   () => showTabs.value || (props.showRemoveButton && props.value)
 );
 
+const SINGLE_MODE_TAB = {
+  [PICKER_MODE.EMOJI]: PICKER_TAB.EMOJIS,
+  [PICKER_MODE.ICON]: PICKER_TAB.ICONS,
+};
 const activeTab = ref(
-  props.value && !isIconValue(props.value)
-    ? PICKER_TAB.EMOJIS
-    : PICKER_TAB.ICONS
+  SINGLE_MODE_TAB[props.mode] ||
+    (props.value && !isIconValue(props.value)
+      ? PICKER_TAB.EMOJIS
+      : PICKER_TAB.ICONS)
 );
 
 const tabs = computed(() => [
@@ -180,8 +185,9 @@ const selectEmoji = emoji => {
 
     <!-- Icons panel -->
     <div
-      v-if="showTabs && activeTab === PICKER_TAB.ICONS"
+      v-if="activeTab === PICKER_TAB.ICONS"
       class="flex flex-col gap-1.5"
+      :class="{ 'pt-2': !showHeader }"
       :style="iconHoverStyle"
     >
       <ColorPalette v-model="selectedColor" />
@@ -253,7 +259,7 @@ const selectEmoji = emoji => {
 
     <!-- Emojis panel -->
     <div
-      v-if="!showTabs || activeTab === PICKER_TAB.EMOJIS"
+      v-if="activeTab === PICKER_TAB.EMOJIS"
       class="flex flex-col gap-1.5"
       :class="{ 'pt-2': !showHeader }"
     >

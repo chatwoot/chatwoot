@@ -16,6 +16,7 @@
     "PREVIEW_HELP": "{count} match in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan. | {count} matches in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan.",
     "NAME": "Name",
     "NAME_PLACEHOLDER": "Refund conversations",
+    "CHOOSE_ICON": "Choose icon",
     "CONDITION": "Which conversations should this monitor find?",
     "CONDITION_PLACEHOLDER": "All conversations mentioning refunds",
     "CREATE_HELP": "We will check conversations created in the last seven days, then keep checking new customer messages. Public replies and configured customer attributes provide context. Private notes are excluded.",

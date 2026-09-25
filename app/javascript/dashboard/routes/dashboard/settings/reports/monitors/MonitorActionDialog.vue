@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import MonitorsAPI from 'dashboard/api/monitors';
 import Input from 'dashboard/components-next/input/Input.vue';
+import MonitorIconPicker from './MonitorIconPicker.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
@@ -14,6 +15,8 @@ const monitor = ref(null);
 const action = ref('');
 const newName = ref('');
 const newCondition = ref('');
+const newIcon = ref('');
+const newIconColor = ref('');
 const actionError = ref('');
 const resumeMode = ref('catch_up');
 const isSaving = ref(false);
@@ -50,6 +53,8 @@ const open = (nextAction, targetMonitor) => {
   monitor.value = { ...targetMonitor };
   newName.value = targetMonitor.name;
   newCondition.value = targetMonitor.condition;
+  newIcon.value = targetMonitor.icon;
+  newIconColor.value = targetMonitor.icon_color;
   actionError.value = '';
   resumeMode.value = 'catch_up';
   dialog.value.open();
@@ -69,6 +74,8 @@ const submit = () => {
     return MonitorsAPI.update(id, {
       name: newName.value.trim(),
       condition: newCondition.value.trim(),
+      icon: newIcon.value,
+      icon_color: newIconColor.value,
       collection_version: collectionVersion,
     });
   }
@@ -115,7 +122,19 @@ defineExpose({ open, close });
     @confirm="saveAction"
   >
     <div v-if="action === 'edit'" class="flex flex-col gap-4">
-      <Input v-model="newName" :label="t('MONITORS.NAME')" maxlength="100" />
+      <Input
+        v-model="newName"
+        :label="t('MONITORS.NAME')"
+        maxlength="100"
+        custom-input-class="!ps-12"
+      >
+        <template #prefix>
+          <MonitorIconPicker
+            v-model:icon="newIcon"
+            v-model:color="newIconColor"
+          />
+        </template>
+      </Input>
       <TextArea
         id="monitor-edit-condition"
         v-model="newCondition"

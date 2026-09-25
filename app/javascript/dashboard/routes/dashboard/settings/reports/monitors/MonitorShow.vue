@@ -10,6 +10,7 @@ import MonitorsAPI from 'dashboard/api/monitors';
 import BarChart from 'shared/components/charts/BarChart.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import MonitorChartFilters from './MonitorChartFilters.vue';
@@ -261,6 +262,14 @@ const duplicate = () =>
     :header-description="monitor?.condition || ''"
     has-back-button
   >
+    <template #icon>
+      <EmojiIcon
+        v-if="monitor?.icon"
+        :value="monitor.icon"
+        :color="monitor.icon_color"
+        class="size-6 text-xl"
+      />
+    </template>
     <div v-if="monitor && isAdmin" class="flex flex-wrap justify-end gap-2">
       <Button
         v-tooltip.bottom="t('MONITORS.EDIT')"

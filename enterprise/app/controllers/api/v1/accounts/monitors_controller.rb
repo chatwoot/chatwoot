@@ -136,7 +136,8 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   end
 
   def update_params
-    attributes = params.permit(:name, :condition, :paused).to_h
+    validate_icon_parameters!
+    attributes = params.permit(:name, :condition, :paused, :icon, :icon_color).to_h
     valid_text = { 'name' => 100, 'condition' => 2000 }.slice(*params.keys).all? do |key, limit|
       valid_text_parameter?(key, limit)
     end
@@ -149,6 +150,14 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   def valid_text_parameter?(key, limit)
     value = params[key]
     value.is_a?(String) && value.strip.present? && value.length <= limit
+  end
+
+  # Same shape as team icons: an icon name or emoji, tinted with an optional hex color.
+  def validate_icon_parameters!
+    icon, color = params.values_at(:icon, :icon_color)
+    valid = (icon.nil? || (icon.is_a?(String) && icon.length <= 50)) &&
+            (color.nil? || (color.is_a?(String) && color.match?(/\A(#\h{6})?\z/)))
+    raise CustomExceptions::MonitorParametersError, 'invalid_parameters' unless valid
   end
 
   def ensure_enabled
@@ -168,7 +177,8 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   end
 
   def create_params
-    attributes = params.permit(:name, :condition).to_h
+    validate_icon_parameters!
+    attributes = params.permit(:name, :condition, :icon, :icon_color).to_h
     valid = { 'name' => 100, 'condition' => 2000 }.all? { |key, limit| valid_text_parameter?(key, limit) }
     raise CustomExceptions::MonitorParametersError, 'invalid_parameters' unless valid
 

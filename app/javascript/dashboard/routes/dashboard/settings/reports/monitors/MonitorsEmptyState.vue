@@ -8,7 +8,15 @@ import MonitorListItem from './MonitorListItem.vue';
 
 const emit = defineEmits(['create']);
 
-const PREVIEW_COUNTS = [128, 64, 37];
+const PREVIEW_ROWS = [
+  {
+    recent_count: 128,
+    icon: 'money-dollar-circle-line',
+    icon_color: '#22C55E',
+  },
+  { recent_count: 64, icon: 'chat-3-line', icon_color: '#3B82F6' },
+  { recent_count: 37, icon: 'settings-3-line', icon_color: '#8B5CF6' },
+];
 
 const { t } = useI18n();
 const { isAdmin } = useAdmin();
@@ -30,8 +38,8 @@ const examples = computed(() => [
 const previewMonitors = computed(() =>
   examples.value.map((example, index) => ({
     ...example,
+    ...PREVIEW_ROWS[index],
     id: index + 1,
-    recent_count: PREVIEW_COUNTS[index],
     paused_at: null,
   }))
 );
