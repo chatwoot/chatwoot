@@ -126,6 +126,24 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
       GlobalConfig.clear_cache
     end
 
+    it 'allows login when the OAuth credentials exceed the cookie session limit' do
+      with_modified_env FRONTEND_URL: 'http://www.example.com' do
+        create(:user, email: 'test@example.com')
+        set_omniauth_config('test@example.com')
+        OmniAuth.config.mock_auth[:google_oauth2].credentials = {
+          token: 'a' * 3000,
+          refresh_token: 'b' * 1000,
+          id_token: 'c' * 2000
+        }
+
+        get '/omniauth/google_oauth2/callback'
+
+        expect(response).to redirect_to('http://www.example.com/auth/google_oauth2/callback')
+        follow_redirect!
+        expect(response).to redirect_to(%r{/app/login\?email=.+&sso_auth_token=.+$})
+      end
+    end
+
     it 'allows login' do
       with_modified_env FRONTEND_URL: 'http://www.example.com' do
         create(:user, email: 'test@example.com')

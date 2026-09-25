@@ -1,6 +1,11 @@
 class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
   include EmailHelper
 
+  def redirect_callbacks
+    request.env['omniauth.auth'] = session_safe_auth_hash(request.env['omniauth.auth'])
+    super
+  end
+
   def omniauth_success
     get_resource_from_auth_hash
 
@@ -8,6 +13,12 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   private
+
+  def session_safe_auth_hash(auth_hash)
+    auth_hash.slice('provider', 'uid').merge(
+      'info' => auth_hash.fetch('info', {}).slice('email', 'name', 'image', 'email_verified')
+    )
+  end
 
   def sign_in_user
     # Capture before skip_confirmation! sets confirmed_at, which would
