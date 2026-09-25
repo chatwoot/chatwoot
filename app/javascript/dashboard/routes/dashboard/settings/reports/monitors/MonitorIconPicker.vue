@@ -19,7 +19,7 @@ const isOpen = ref(false);
 
 const select = selected => {
   icon.value = selected.value;
-  color.value = selected.color;
+  color.value = selected.type === 'icon' ? selected.color : '';
   isOpen.value = false;
 };
 </script>
@@ -47,7 +47,6 @@ const select = selected => {
       </Button>
       <EmojiIconPicker
         v-if="isOpen"
-        mode="icon"
         class="start-0 top-full mt-1"
         :value="icon"
         :color="color"
