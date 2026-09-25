@@ -22,6 +22,23 @@ describe Notification::FcmService do
       expect(FCM).to have_received(:new).with('test_token', anything, project_id)
     end
 
+    it 'gives the client the cached token instead of letting it fetch one per send' do
+      client = fcm_service.fcm_client
+
+      expect(client.jwt_token).to eq('test_token')
+    end
+
+    it 'shares the token across instances through the cache' do
+      allow(Rails.cache).to receive(:read).and_return(token_info)
+      allow(Rails.cache).to receive(:write)
+      other = described_class.new(project_id, credentials)
+      allow(other).to receive(:generate_token)
+
+      other.fcm_client
+
+      expect(other).not_to have_received(:generate_token)
+    end
+
     it 'generates a new token if expired' do
       allow(fcm_service).to receive(:generate_token).and_return(token_info)
       allow(fcm_service).to receive(:token_expired?).and_return(true)

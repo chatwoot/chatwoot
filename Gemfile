@@ -282,3 +282,5 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
+
+gem "apnotic", "~> 1.8"

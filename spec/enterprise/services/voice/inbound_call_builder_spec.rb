@@ -66,6 +66,20 @@ RSpec.describe Voice::InboundCallBuilder do
     end
   end
 
+  context 'when ringing phones' do
+    it 'enqueues the ring push once the call is committed, when the account has the feature' do
+      account.enable_features!('mobile_voice_push')
+
+      call = nil
+      expect { call = perform_builder }.to have_enqueued_job(Voice::VoipPushJob).with(kind_of(Integer), 'ring')
+      expect(call).to be_ringing
+    end
+
+    it 'does not ring phones without the feature' do
+      expect { perform_builder }.not_to have_enqueued_job(Voice::VoipPushJob)
+    end
+  end
+
   context 'when a Call already exists for the call_sid' do
     let(:existing_call) do
       conversation = create(:conversation, account: account, inbox: inbox)

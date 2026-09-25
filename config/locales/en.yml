@@ -75,6 +75,8 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    notification_subscription:
+      voip_attributes_required: A VoIP push subscription needs a device_id and a push_token
     account:
       not_authorized: You are not authorized to access this account
       email_limit_exceeded: The daily email limit for this account has been reached
