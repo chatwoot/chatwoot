@@ -142,4 +142,18 @@ export const mutations = {
     $state.pendingCustomAttributes = {};
     $state.pendingLabels = [];
   },
+
+  setInitialMessage($state, initialMessage) {
+    $state.initialMessage = initialMessage;
+  },
+
+  clearInitialMessage($state) {
+    $state.initialMessage = '';
+    $state.isInitialMessageEdited = false;
+  },
+
+  updateInitialMessage($state, initialMessage) {
+    $state.initialMessage = initialMessage;
+    $state.isInitialMessageEdited = !!initialMessage;
+  },
 };

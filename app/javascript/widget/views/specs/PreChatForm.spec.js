@@ -2,6 +2,12 @@ import { shallowMount, flushPromises } from '@vue/test-utils';
 import { createStore } from 'vuex';
 import PreChatFormView from '../PreChatForm.vue';
 
+const routerReplace = vi.fn();
+
+vi.mock('vue-router', () => ({
+  useRouter: () => ({ replace: routerReplace }),
+}));
+
 global.chatwootWebChannel = {
   preChatFormEnabled: true,
   preChatFormOptions: { pre_chat_fields: [], pre_chat_message: '' },
@@ -9,19 +15,26 @@ global.chatwootWebChannel = {
 
 describe('PreChatForm view', () => {
   let createConversation;
+  let clearInitialMessage;
   let setCustomAttributes;
   let updateContact;
   let store;
 
   beforeEach(() => {
+    routerReplace.mockClear();
     createConversation = vi.fn();
+    clearInitialMessage = vi.fn();
     setCustomAttributes = vi.fn();
     updateContact = vi.fn();
     store = createStore({
       modules: {
         conversation: {
           namespaced: true,
-          actions: { createConversation, clearConversations: vi.fn() },
+          actions: {
+            createConversation,
+            clearConversations: vi.fn(),
+            clearInitialMessage,
+          },
         },
         conversationAttributes: {
           namespaced: true,
@@ -85,5 +98,14 @@ describe('PreChatForm view', () => {
     });
     expect(createConversation).not.toHaveBeenCalled();
     expect(setCustomAttributes).not.toHaveBeenCalled();
+  });
+
+  it('clears the initial message after conversation creation succeeds', () => {
+    const wrapper = mountView();
+
+    wrapper.vm.handleConversationCreated();
+
+    expect(routerReplace).toHaveBeenCalledWith({ name: 'messages' });
+    expect(clearInitialMessage).toHaveBeenCalled();
   });
 });
