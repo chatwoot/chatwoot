@@ -15,8 +15,10 @@ class Voice::StatusUpdateService
     'canceled' => 'failed'
   }.freeze
 
-  # Twilio's statuses in the order it fires them; callbacks can arrive out of order
+  # Twilio's statuses in the order it fires them; callbacks can arrive out of order. Every
+  # status that ends the call outranks the live ones, so none of them can follow it.
   PROVIDER_STATUS_ORDER = %w[queued initiated ringing in-progress].freeze
+  TERMINAL_PROVIDER_STATUSES = %w[completed busy no-answer failed canceled].freeze
 
   def perform
     normalized_status = normalize_status(call_status)
@@ -55,11 +57,17 @@ class Voice::StatusUpdateService
 
   # A delayed callback for an earlier stage does not move the status backwards
   def stale_provider_status?(current, incoming)
-    current_rank = PROVIDER_STATUS_ORDER.index(current)
-    incoming_rank = PROVIDER_STATUS_ORDER.index(incoming)
+    current_rank = provider_status_rank(current)
+    incoming_rank = provider_status_rank(incoming)
     return false if current_rank.nil? || incoming_rank.nil?
 
     incoming_rank < current_rank
+  end
+
+  def provider_status_rank(status)
+    return PROVIDER_STATUS_ORDER.size if TERMINAL_PROVIDER_STATUSES.include?(status)
+
+    PROVIDER_STATUS_ORDER.index(status)
   end
 
   def normalize_status(status)
