@@ -1,8 +1,20 @@
 class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
+  SEARCH_PAGE_SIZE = 20
+  SEARCH_QUERY_MAX_LENGTH = 200
+
   before_action :ensure_api_inbox, only: :update
+  before_action :validate_search_params, only: :search
 
   def index
     @messages = message_finder.perform
+  end
+
+  def search
+    messages = @conversation.messages.where('content ILIKE ?', "%#{Message.sanitize_sql_like(params[:q].strip)}%")
+    messages = messages.where('id < ?', params[:before].to_i) if params[:before].present?
+    @messages = messages.reorder(id: :desc).limit(SEARCH_PAGE_SIZE + 1).to_a
+    @has_more = @messages.length > SEARCH_PAGE_SIZE
+    @messages = @messages.first(SEARCH_PAGE_SIZE)
   end
 
   def create
@@ -55,6 +67,17 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   private
+
+  def validate_search_params
+    query = params[:q]
+    unless query.is_a?(String) && query.strip.present? && query.length <= SEARCH_QUERY_MAX_LENGTH
+      return render_could_not_create_error('q must be a non-empty string of at most 200 characters')
+    end
+
+    return unless params.key?(:before) && !(params[:before].is_a?(String) && params[:before].match?(/\A[1-9]\d{0,9}\z/))
+
+    render_could_not_create_error('before must be a positive message ID')
+  end
 
   def message
     @message ||= @conversation.messages.find(permitted_params[:id])

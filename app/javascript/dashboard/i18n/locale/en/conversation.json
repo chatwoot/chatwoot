@@ -1,5 +1,14 @@
 {
   "CONVERSATION": {
+    "IN_CONVERSATION_SEARCH": {
+      "TITLE": "Search in conversation",
+      "PLACEHOLDER": "Search words in this conversation",
+      "SUBMIT": "Search",
+      "HINT": "Enter a word or phrase and press Enter to search the entire conversation.",
+      "EMPTY": "No messages found.",
+      "ERROR": "Could not search messages. Please try again.",
+      "JUMP_ERROR": "Could not load the message. Please try again."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",

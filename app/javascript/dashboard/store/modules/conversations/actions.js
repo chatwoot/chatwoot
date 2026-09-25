@@ -25,6 +25,7 @@ import {
 
 // Page size MessageFinder uses when walking backwards through a conversation.
 const MESSAGES_PER_PAGE = 20;
+const MESSAGE_ID_UPPER_BOUND = 2_147_483_648;
 
 const pendingHistoryRequests = new Map();
 
@@ -202,6 +203,41 @@ const actions = {
 
     pendingHistoryRequests.set(requestKey, request);
     return request;
+  },
+
+  async fetchMessagesThrough({ state, commit }, { conversationId, messageId }) {
+    const chat = state.allConversations.find(c => c.id === conversationId);
+    if (!chat || chat.messages.some(message => message.id === messageId))
+      return;
+
+    // Fill the gap to the loaded history, including ranges larger than the
+    // finder limit, so jumping to an old result does not hide intervening replies.
+    const before = Math.min(
+      MESSAGE_ID_UPPER_BOUND,
+      ...chat.messages
+        .filter(message => Number.isInteger(message.id))
+        .map(message => message.id)
+    );
+    let after = messageId;
+    const messages = [];
+    while (after < before) {
+      // Each request needs the cursor returned by the previous page.
+      // eslint-disable-next-line no-await-in-loop
+      const response = await MessageApi.getPreviousMessages({
+        conversationId,
+        after,
+        before,
+      });
+      const { payload } = response.data;
+      if (state.selectedChatId !== conversationId) return;
+      if (!payload.length) break;
+      messages.push(...payload);
+      after = Math.max(...payload.map(message => message.id)) + 1;
+    }
+    commit(types.SET_PREVIOUS_CONVERSATIONS, {
+      id: conversationId,
+      data: messages.sort((a, b) => a.created_at - b.created_at || a.id - b.id),
+    });
   },
 
   fetchAllAttachments: async ({ commit }, conversationId) => {

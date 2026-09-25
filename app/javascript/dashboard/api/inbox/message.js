@@ -88,6 +88,13 @@ class MessageApi extends ApiClient {
     });
   }
 
+  search(conversationId, { q, before }, { signal } = {}) {
+    return axios.get(`${this.url}/${conversationId}/messages/search`, {
+      params: { q, before },
+      signal,
+    });
+  }
+
   delete(conversationID, messageId) {
     return axios.delete(`${this.url}/${conversationID}/messages/${messageId}`);
   }
