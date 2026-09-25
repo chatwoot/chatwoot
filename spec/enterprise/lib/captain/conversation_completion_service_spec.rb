@@ -32,7 +32,7 @@ RSpec.describe Captain::ConversationCompletionService do
       it 'uses the internal GPT-4.1 route on Chatwoot Cloud' do
         allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(false)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
         allow(mock_context).to receive(:chat).with(model: 'gpt-4.1').and_return(mock_chat)
 
         expect(service.perform).to include(complete: true)

@@ -147,13 +147,17 @@ class Rack::Attack
   end
 
   # ### Prevent Brute-Force Login Attacks ###
-  # Exclude MFA verification attempts from regular login throttling
+  # Exclude MFA verification and enforced MFA setup attempts from regular login throttling
   throttle('login/ip', limit: 5, period: 5.minutes) do |req|
-    req.ip if req.path_without_extensions == '/auth/sign_in' && req.post? && req.auth_param('mfa_token').blank?
+    if req.path_without_extensions == '/auth/sign_in' && req.post? && req.auth_param('mfa_token').blank? &&
+       req.auth_param('mfa_setup_token').blank?
+      req.ip
+    end
   end
 
   throttle('login/email', limit: 10, period: 15.minutes) do |req|
-    if req.path_without_extensions == '/auth/sign_in' && req.post? && req.auth_param('mfa_token').blank?
+    if req.path_without_extensions == '/auth/sign_in' && req.post? && req.auth_param('mfa_token').blank? &&
+       req.auth_param('mfa_setup_token').blank?
       req.normalized_auth_email(include_header: true)
     end
   end
@@ -198,6 +202,16 @@ class Rack::Attack
   throttle('mfa_login/token', limit: 10, period: 1.minute) do |req|
     # Track by MFA token to prevent brute force on a specific token
     req.auth_param('mfa_token') if req.path_without_extensions == '/auth/sign_in' && req.post?
+  end
+
+  # Separate rate limiting for enforced MFA setup verification attempts
+  throttle('mfa_setup_login/ip', limit: 10, period: 1.minute) do |req|
+    req.ip if req.path_without_extensions == '/auth/sign_in' && req.post? && req.auth_param('mfa_setup_token').present?
+  end
+
+  throttle('mfa_setup_login/token', limit: 10, period: 1.minute) do |req|
+    # Track by setup token to prevent brute force on a specific token
+    req.auth_param('mfa_setup_token') if req.path_without_extensions == '/auth/sign_in' && req.post?
   end
 
   ## Prevent Brute-Force Signup Attacks ###
