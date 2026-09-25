@@ -7,7 +7,7 @@ export const ACTION_PARAMETERS_REQUIRED = 'ACTION_PARAMETERS_REQUIRED';
 export const ATLEAST_ONE_CONDITION_REQUIRED = 'ATLEAST_ONE_CONDITION_REQUIRED';
 export const ATLEAST_ONE_ACTION_REQUIRED = 'ATLEAST_ONE_ACTION_REQUIRED';
 
-const isEmptyValue = value => {
+export const isEmptyValue = value => {
   if (value === null || value === undefined || value === '') {
     return true;
   }
