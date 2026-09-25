@@ -26,6 +26,9 @@ class AutomationRules::ConditionsFilterService < FilterService
     return false unless rule_valid?
 
     @attribute_changed_query_filter = []
+    @captain_answers = Captain::AutomationConditionService.new(
+      conditions: @rule.conditions, conversation: @conversation, message: @options[:message]
+    ).perform
 
     @rule.conditions.each_with_index do |query_hash, current_index|
       @attribute_changed_query_filter << query_hash and next if query_hash['filter_operator'] == 'attribute_changed'
@@ -65,7 +68,9 @@ class AutomationRules::ConditionsFilterService < FilterService
     contact_filter = @contact_filters[query_hash['attribute_key']]
     message_filter = @message_filters[query_hash['attribute_key']]
 
-    if conversation_filter
+    if query_hash['attribute_key'] == Captain::AutomationConditionService::ATTRIBUTE_KEY
+      @query_string += captain_query_string(query_hash, current_index)
+    elsif conversation_filter
       @query_string += conversation_query_string('conversations', conversation_filter, query_hash.with_indifferent_access, current_index)
     elsif contact_filter
       @query_string += contact_query_string(contact_filter, query_hash.with_indifferent_access, current_index)
@@ -106,6 +111,12 @@ class AutomationRules::ConditionsFilterService < FilterService
     else
       @attribute_changed_records + (current_attribute_changed_record | records)
     end
+  end
+
+  # Captain's answer is bound as a boolean so it takes part in the AND/OR chain like any SQL condition.
+  def captain_query_string(query_hash, current_index)
+    @filter_values["value_#{current_index}"] = @captain_answers[current_index]
+    " :value_#{current_index} #{query_hash['query_operator']} "
   end
 
   def message_query_string(current_filter, query_hash, current_index)

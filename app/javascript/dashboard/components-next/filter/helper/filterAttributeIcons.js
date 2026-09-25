@@ -32,6 +32,7 @@ const ATTRIBUTE_ICONS = {
   content: 'i-lucide-message-square-text',
   mail_subject: 'i-lucide-mail-open',
   conversation_language: 'i-lucide-languages',
+  captain_condition: 'i-ph-sparkle-fill',
   // Shared
   labels: 'i-lucide-tags',
   created_at: 'i-lucide-calendar',

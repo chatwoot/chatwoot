@@ -83,6 +83,56 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       end
     end
 
+    context 'when conditions include a Captain condition' do
+      let(:captain_condition) do
+        { 'values': ['the customer wants a refund'], 'attribute_key': 'captain_condition', 'query_operator': nil, 'filter_operator': 'detects' }
+      end
+      let(:captain_answers) { { 1 => true } }
+
+      before do
+        account.enable_features!('captain_classifier')
+        allow(Captain::AutomationConditionService).to receive(:new)
+          .and_return(instance_double(Captain::AutomationConditionService, perform: captain_answers))
+      end
+
+      it 'passes the rule conditions and the message to Captain' do
+        rule.update!(conditions: [captain_condition])
+
+        described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform
+
+        expect(Captain::AutomationConditionService).to have_received(:new)
+          .with(conditions: rule.conditions, conversation: conversation, message: message)
+      end
+
+      it 'combines a detected condition with the other conditions using AND' do
+        rule.update!(conditions: [
+                       { 'values': ['open'], 'attribute_key': 'status', 'query_operator': 'AND', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+      end
+
+      it 'does not match when Captain does not detect the condition' do
+        rule.update!(conditions: [
+                       { 'values': ['open'], 'attribute_key': 'status', 'query_operator': 'AND', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+        captain_answers[1] = false
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+      end
+
+      it 'lets a detected condition satisfy an OR chain on its own' do
+        rule.update!(conditions: [
+                       { 'values': ['resolved'], 'attribute_key': 'status', 'query_operator': 'OR', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+      end
+    end
+
     context 'when conditions based on messages attributes' do
       context 'when filter_operator is equal_to' do
         before do

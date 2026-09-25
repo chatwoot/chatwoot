@@ -18,6 +18,7 @@ import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 import {
   AUTOMATION_RULE_EVENTS,
   AUTOMATION_ACTION_TYPES,
+  CAPTAIN_CONDITION,
   DEFAULT_DELAY_MINUTES,
 } from './constants';
 import AutomationRunTypeSelector from './components/AutomationRunTypeSelector.vue';
@@ -95,6 +96,9 @@ const isEditMode = computed(() => props.mode === 'edit');
 
 const allowsDelayedExecution = computed(() =>
   isCloudFeatureEnabled(FEATURE_FLAGS.DELAYED_AUTOMATIONS)
+);
+const allowsCaptainConditions = computed(() =>
+  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_CLASSIFIER)
 );
 
 // The wait lives here rather than in the wait section so that switching between the two run
@@ -221,7 +225,12 @@ const filterTypes = computed(() => {
   const event = eventName.value;
   if (!event || !props.automationTypes[event]) return [];
 
-  const attributes = getTranslatedAttributes(props.automationTypes, event);
+  const attributes = getTranslatedAttributes(
+    props.automationTypes,
+    event
+  ).filter(
+    attr => attr.key !== CAPTAIN_CONDITION.key || allowsCaptainConditions.value
+  );
 
   return attributes.map(attr => {
     if (attr.disabled) {
@@ -253,6 +262,9 @@ const filterTypes = computed(() => {
         attributeDisplayType: attr.attributeDisplayType,
       }),
       inputType: mappedInputType,
+      placeholder: attr.placeholder
+        ? t(`AUTOMATION.CONDITION.PLACEHOLDERS.${attr.placeholder}`)
+        : undefined,
       options,
       filterOperators,
       dataType: 'text',

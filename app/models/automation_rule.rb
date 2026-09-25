@@ -32,6 +32,7 @@ class AutomationRule < ApplicationRecord
   has_many_attached :files
 
   validate :json_conditions_format
+  validate :captain_conditions_feature
   validate :json_actions_format
   validate :query_operator_presence
   validate :query_operator_value
@@ -48,7 +49,7 @@ class AutomationRule < ApplicationRecord
 
   def conditions_attributes
     %w[content email country_code status message_type browser_language assignee_id team_id referer city company_name inbox_id
-       mail_subject phone_number priority conversation_language labels private_note]
+       mail_subject phone_number priority conversation_language labels private_note captain_condition]
   end
 
   def actions_attributes
@@ -81,6 +82,13 @@ class AutomationRule < ApplicationRecord
     conditions = attributes - conditions_attributes
     conditions -= account.custom_attribute_definitions.pluck(:attribute_key)
     errors.add(:conditions, "Automation conditions #{conditions.join(',')} not supported.") if conditions.any?
+  end
+
+  def captain_conditions_feature
+    return if conditions.blank? || account.feature_enabled?('captain_classifier')
+    return if conditions.none? { |obj| obj['attribute_key'] == Captain::AutomationConditionService::ATTRIBUTE_KEY }
+
+    errors.add(:conditions, 'Captain conditions require the Captain Classifier feature.')
   end
 
   def json_actions_format

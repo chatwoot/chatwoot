@@ -2,6 +2,7 @@ import { nextTick, reactive } from 'vue';
 import { shallowMount } from '@vue/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import AutomationRuleForm from './AutomationRuleForm.vue';
+import AutomationInstantTrigger from './components/AutomationInstantTrigger.vue';
 import AutomationRunTypeSelector from './components/AutomationRunTypeSelector.vue';
 import AutomationWaitCondition from './components/AutomationWaitCondition.vue';
 
@@ -9,8 +10,12 @@ vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
 }));
 
+const { isCloudFeatureEnabled } = vi.hoisted(() => ({
+  isCloudFeatureEnabled: vi.fn(() => true),
+}));
+
 vi.mock('dashboard/composables/useAccount', () => ({
-  useAccount: () => ({ isCloudFeatureEnabled: () => true }),
+  useAccount: () => ({ isCloudFeatureEnabled }),
 }));
 
 vi.mock('dashboard/components-next/filter/operators', () => ({
@@ -27,7 +32,29 @@ const automationTypes = Object.fromEntries(
   ].map(event => [event, { conditions: [] }])
 );
 
+const captainAutomationTypes = {
+  ...automationTypes,
+  conversation_created: {
+    conditions: [
+      {
+        key: 'captain_condition',
+        name: 'CAPTAIN',
+        inputType: 'plain_text',
+        placeholder: 'CAPTAIN',
+        filterOperators: [{ value: 'detects', label: 'Detects' }],
+      },
+      {
+        key: 'status',
+        name: 'STATUS',
+        inputType: 'multi_select',
+        filterOperators: [{ value: 'equal_to', label: 'Equal to' }],
+      },
+    ],
+  },
+};
+
 const triggerStub = {
+  props: ['filterTypes'],
   template: '<div />',
   methods: {
     resetValidation: vi.fn(),
@@ -90,12 +117,12 @@ const buildAutomation = ({ delayed = false } = {}) => ({
 
 const panelOpen = vi.fn();
 
-const mountComponent = ({ mode, automation }) =>
+const mountComponent = ({ mode, automation, types = automationTypes }) =>
   shallowMount(AutomationRuleForm, {
     props: {
       mode,
       automation,
-      automationTypes,
+      automationTypes: types,
       getConditionDropdownValues: vi.fn(() => []),
       getActionDropdownValues: vi.fn(() => []),
       appendNewCondition: vi.fn(),
@@ -144,6 +171,35 @@ describe('AutomationRuleForm', () => {
     await nextTick();
 
     expect(panelOpen).toHaveBeenCalled();
+  });
+
+  it('offers the Captain condition when the account has the classifier feature', () => {
+    const wrapper = mountComponent({
+      mode: 'create',
+      automation: buildAutomation(),
+      types: captainAutomationTypes,
+    });
+
+    const keys = wrapper
+      .findComponent(AutomationInstantTrigger)
+      .props('filterTypes')
+      .map(filter => filter.attributeKey);
+    expect(keys).toEqual(['captain_condition', 'status']);
+  });
+
+  it('hides the Captain condition without the classifier feature', () => {
+    isCloudFeatureEnabled.mockReturnValue(false);
+    const wrapper = mountComponent({
+      mode: 'create',
+      automation: buildAutomation(),
+      types: captainAutomationTypes,
+    });
+
+    const keys = wrapper
+      .findComponent(AutomationInstantTrigger)
+      .props('filterTypes')
+      .map(filter => filter.attributeKey);
+    expect(keys).toEqual(['status']);
   });
 
   it('restores unsaved wait conditions after switching a new rule to instant and back', async () => {
