@@ -52,6 +52,7 @@ export const FEATURE_FLAGS = {
   CAPTAIN_DOCUMENT_AUTO_SYNC: 'captain_document_auto_sync',
   SAML: 'saml',
   COMPANIES: 'companies',
+  COMPANY_ENRICHMENT: 'company_enrichment',
   ADVANCED_SEARCH: 'advanced_search',
   CONVERSATION_REQUIRED_ATTRIBUTES: 'conversation_required_attributes',
   CONVERSATION_UNREAD_COUNTS: 'conversation_unread_counts',
@@ -68,4 +69,9 @@ export const PREMIUM_FEATURES = [
   FEATURE_FLAGS.SAML,
   FEATURE_FLAGS.CONVERSATION_REQUIRED_ATTRIBUTES,
   FEATURE_FLAGS.ADVANCED_ASSIGNMENT,
+  FEATURE_FLAGS.COMPANY_ENRICHMENT,
 ];
+
+// Paid on Chatwoot Cloud but free on self-hosted installs: cloud accounts without
+// the flag still see the entry and get a paywall; self-hosted installs are unaffected.
+export const CLOUD_PAYWALLED_FEATURES = [FEATURE_FLAGS.COMPANIES];

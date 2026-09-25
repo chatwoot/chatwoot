@@ -6,7 +6,7 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::BaseController
   sort_on :last_activity_at, internal_name: :order_on_last_activity_at, type: :scope, scope_params: [:direction]
   sort_on :contacts_count, internal_name: :order_on_contacts_count, type: :scope, scope_params: [:direction]
 
-  RESULTS_PER_PAGE = 25
+  RESULTS_PER_PAGE = 50
 
   before_action :ensure_companies_enabled!
   before_action :check_authorization

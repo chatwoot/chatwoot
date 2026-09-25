@@ -80,7 +80,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="hasCompanyAttributes" class="flex flex-col gap-6 px-6 py-6">
+  <div v-if="hasCompanyAttributes" class="flex flex-col gap-6">
     <div v-if="!hasNoUsedAttributes" class="flex flex-col gap-2">
       <CompanyCustomAttributeItem
         v-for="attribute in usedAttributes"
@@ -136,7 +136,7 @@ onMounted(() => {
     </div>
   </div>
 
-  <p v-else class="px-6 py-10 text-sm leading-6 text-center text-n-slate-11">
+  <p v-else class="text-sm text-n-slate-11">
     {{ t('COMPANIES.DETAIL.ATTRIBUTES.EMPTY_STATE') }}
   </p>
 </template>
