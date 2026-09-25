@@ -97,7 +97,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
       end
 
       it 'shows the Captain V2 assistant default in the model selector', if: ChatwootApp.enterprise? do
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
         sign_in(super_admin, scope: :super_admin)
 
         get "/super_admin/accounts/#{account.id}/edit"

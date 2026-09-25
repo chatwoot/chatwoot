@@ -4,6 +4,7 @@ post:
   operationId: updateAgentBot
   summary: Add or remove agent bot
   security:
+    - userBearerAuth: []
     - userApiKey: []
   description: To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null
   parameters:
