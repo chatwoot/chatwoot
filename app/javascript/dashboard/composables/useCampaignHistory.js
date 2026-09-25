@@ -20,6 +20,8 @@ export function useCampaignHistory() {
   const hasError = ref(false);
   const failedRefresh = ref(false);
   let refreshRequested = false;
+  // Loaded history per conversation, so switching back reveals the timeline without a spinner.
+  const cache = new Map();
 
   const enabled = computed(
     () =>
@@ -108,6 +110,11 @@ export function useCampaignHistory() {
         if (updatePagination) nextBefore.value = pageMeta.next_before;
         firstMessageId.value = pageMeta.first_message_id;
         hasLoaded.value = true;
+        cache.set(conversationId, {
+          recipients: recipients.value,
+          nextBefore: nextBefore.value,
+          firstMessageId: firstMessageId.value,
+        });
       });
     } catch (error) {
       hasError.value = true;
@@ -126,16 +133,19 @@ export function useCampaignHistory() {
       () => currentChat.value.meta?.sender?.id,
       enabled,
     ],
-    () => {
+    ([conversationId], [previousId] = []) => {
       abort();
       refreshRequested = false;
-      recipients.value = [];
-      nextBefore.value = null;
-      firstMessageId.value = null;
-      hasLoaded.value = false;
+      // Same conversation with a new sender or gate: what was loaded no longer applies.
+      if (conversationId === previousId) cache.delete(conversationId);
+      const cached = cache.get(conversationId);
+      recipients.value = cached?.recipients ?? [];
+      nextBefore.value = cached?.nextBefore ?? null;
+      firstMessageId.value = cached?.firstMessageId ?? null;
+      hasLoaded.value = Boolean(cached);
       hasError.value = false;
       failedRefresh.value = false;
-      loadCampaignHistory();
+      loadCampaignHistory({ refresh: Boolean(cached) });
     },
     { immediate: true }
   );
@@ -146,8 +156,10 @@ export function useCampaignHistory() {
   });
 
   watch(
-    () => currentChat.value.messages?.at(-1)?.id,
-    (messageId, previousId) => {
+    () => [currentChat.value.id, currentChat.value.messages?.at(-1)?.id],
+    ([conversationId, messageId], [previousConversationId, previousId]) => {
+      // A switch already loads the new conversation; only react to messages arriving in this one.
+      if (conversationId !== previousConversationId) return;
       if (
         (isPending.value || hasLoaded.value || hasError.value) &&
         messageId > (previousId ?? 0)
@@ -160,6 +172,10 @@ export function useCampaignHistory() {
   return {
     visibleCampaignHistory,
     isCampaignHistoryLoading: isPending,
+    // The timeline waits for the first page so campaigns never pop in between rendered messages.
+    isCampaignHistoryReady: computed(
+      () => !enabled.value || hasLoaded.value || hasError.value
+    ),
     campaignHistoryError: hasError,
     hasMoreCampaignHistory: computed(
       () =>

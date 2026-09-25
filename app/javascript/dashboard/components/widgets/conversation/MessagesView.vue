@@ -213,8 +213,12 @@ export default {
     shouldShowSpinner() {
       return (
         (this.currentChat && this.currentChat.dataFetched === undefined) ||
-        (!this.listLoadingStatus && this.isLoadingPrevious)
+        (!this.listLoadingStatus && this.isLoadingPrevious) ||
+        !this.isCampaignHistoryReady
       );
+    },
+    timelineMessages() {
+      return this.isCampaignHistoryReady ? this.getMessages : [];
     },
     // Check there is a instagram inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
@@ -313,6 +317,10 @@ export default {
   },
 
   watch: {
+    isCampaignHistoryReady(ready) {
+      if (!ready) return;
+      this.onScrollToMessage({ messageId: this.$route.query.messageId });
+    },
     visibleCampaignHistory() {
       if (!this.conversationPanel) return;
       const conversationId = this.currentChat.id;
@@ -587,7 +595,7 @@ export default {
       :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"
       :inbox-supports-reply-to="inboxSupportsReplyTo"
-      :messages="getMessages"
+      :messages="timelineMessages"
       :campaign-history="visibleCampaignHistory"
       @retry="handleMessageRetry"
     >
