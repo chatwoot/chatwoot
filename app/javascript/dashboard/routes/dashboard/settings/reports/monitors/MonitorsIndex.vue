@@ -105,10 +105,7 @@ watch(
 <template>
   <section class="flex h-full w-full flex-col overflow-hidden bg-n-surface-1">
     <main class="flex-1 overflow-y-auto px-6">
-      <div
-        class="mx-auto w-full pb-6"
-        :class="meta.total_count ? 'max-w-5xl' : 'max-w-7xl'"
-      >
+      <div class="mx-auto w-full max-w-5xl pb-6">
         <ReportHeader
           :header-title="t('MONITORS.TITLE')"
           :header-description="t('MONITORS.DESCRIPTION')"
