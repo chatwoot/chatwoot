@@ -15,6 +15,9 @@ class Voice::StatusUpdateService
     'canceled' => 'failed'
   }.freeze
 
+  # Twilio's statuses in the order it fires them; callbacks can arrive out of order
+  PROVIDER_STATUS_ORDER = %w[queued initiated ringing in-progress].freeze
+
   def perform
     normalized_status = normalize_status(call_status)
     return if normalized_status.blank?
@@ -41,9 +44,19 @@ class Voice::StatusUpdateService
 
     provider_status = call_status.to_s.downcase
     return if provider_status.blank? || call.provider_status == provider_status
+    return if stale_provider_status?(call.provider_status, provider_status)
 
     call.update!(provider_status: provider_status)
     call.message&.touch # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  # A delayed callback for an earlier stage does not move the status backwards
+  def stale_provider_status?(current, incoming)
+    current_rank = PROVIDER_STATUS_ORDER.index(current)
+    incoming_rank = PROVIDER_STATUS_ORDER.index(incoming)
+    return false if current_rank.nil? || incoming_rank.nil?
+
+    incoming_rank < current_rank
   end
 
   def normalize_status(status)

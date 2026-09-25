@@ -19,16 +19,11 @@ class Voice::Provider::Twilio::ConferenceService
     in_progress_conferences.each { |conf| client.conferences(conf.sid).update(status: 'completed') }
   end
 
-  # The agent leg is gone; unless another agent is still on the call, the contact would be
-  # left alone in the conference, so it is ended for them too
-  def end_conference_unless_agents_remain(leaving_label:)
-    return if call.conference_sid.blank?
+  # Whether an agent other than the one leaving is still on the conference
+  def agents_remain?(leaving_label:)
+    return false if call.conference_sid.blank?
 
-    in_progress_conferences.each do |conf|
-      next if other_agent_present?(conf.sid, leaving_label)
-
-      client.conferences(conf.sid).update(status: 'completed')
-    end
+    in_progress_conferences.any? { |conf| other_agent_present?(conf.sid, leaving_label) }
   end
 
   private

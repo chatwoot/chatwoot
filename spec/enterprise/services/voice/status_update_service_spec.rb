@@ -82,6 +82,13 @@ RSpec.describe Voice::StatusUpdateService do
     expect(message.reload.updated_at).to be > touched_at
   end
 
+  it 'ignores a delayed callback for an earlier stage' do
+    described_class.new(account: account, call_sid: call_sid, call_status: 'ringing').perform
+    described_class.new(account: account, call_sid: call_sid, call_status: 'initiated').perform
+
+    expect(call.reload.provider_status).to eq('ringing')
+  end
+
   it 'leaves the provider status alone once the call has ended' do
     call.update!(status: 'completed')
 
