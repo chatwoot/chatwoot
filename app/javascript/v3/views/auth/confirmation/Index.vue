@@ -1,12 +1,16 @@
 <script>
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { verifyPasswordToken } from '../../../api/auth';
-import { getLoginRedirectURL } from '../../../helpers/AuthHelper';
+import {
+  getLoginRedirectURL,
+  getMfaSignInURL,
+} from '../../../helpers/AuthHelper';
 import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: { Spinner },
   props: {
+    ssoAccountId: { type: String, default: '' },
     confirmationToken: {
       type: String,
       default: '',
@@ -26,9 +30,15 @@ export default {
           confirmationToken: this.confirmationToken,
         });
         window.location =
-          user?.redirectUrl ||
+          (user?.redirectUrl &&
+            getMfaSignInURL({
+              loginUrl: user.redirectUrl,
+              redirectUrl: this.redirectUrl,
+              ssoAccountId: this.ssoAccountId,
+            })) ||
           getLoginRedirectURL({
             user,
+            ssoAccountId: this.ssoAccountId,
             redirectUrl: this.redirectUrl,
           });
       } catch (error) {

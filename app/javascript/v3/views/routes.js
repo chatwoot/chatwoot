@@ -54,6 +54,7 @@ export default [
     props: route => ({
       config: route.query.config,
       confirmationToken: route.query.confirmation_token,
+      ssoAccountId: route.query.sso_account_id,
       redirectUrl: route.query.route_url,
     }),
   },

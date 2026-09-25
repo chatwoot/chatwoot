@@ -6,7 +6,7 @@ import FormInput from '../../../components/Form/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { setNewPassword } from '../../../api/auth';
-import { getLoginRedirectURL } from 'v3/helpers/AuthHelper';
+import { getLoginRedirectURL, getMfaSignInURL } from 'v3/helpers/AuthHelper';
 
 export default {
   components: {
@@ -77,7 +77,12 @@ export default {
       setNewPassword(credentials)
         .then(user => {
           window.location =
-            user?.redirectUrl ||
+            (user?.redirectUrl &&
+              getMfaSignInURL({
+                loginUrl: user.redirectUrl,
+                redirectUrl: this.redirectUrl,
+                ssoAccountId: this.ssoAccountId,
+              })) ||
             (this.redirectUrl
               ? getLoginRedirectURL({
                   redirectUrl: this.redirectUrl,

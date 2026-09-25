@@ -325,6 +325,7 @@ export default {
       window.location = getLoginRedirectURL({
         ssoAccountId: this.ssoAccountId,
         ssoConversationId: this.ssoConversationId,
+        redirectUrl: this.redirectUrl,
         user: data?.data,
       });
     },
