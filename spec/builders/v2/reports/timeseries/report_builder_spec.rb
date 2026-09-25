@@ -32,8 +32,7 @@ describe V2::Reports::Timeseries::ReportBuilder do
 
     before do
       travel_to current_time
-      conversation.label_list.add(label.title)
-      conversation.save!
+      conversation.add_labels([label.title])
       create(:reporting_event, name: 'first_response', value: 80, value_in_business_hours: 10, account: account, created_at: Time.zone.now,
                                conversation: conversation, inbox: inbox)
       create(:reporting_event, name: 'first_response', value: 100, value_in_business_hours: 20, account: account, created_at: 1.hour.ago)
