@@ -17,7 +17,7 @@ describe('MonitorsEmptyState', () => {
     const wrapper = shallowMount(MonitorsEmptyState);
 
     wrapper.findComponent({ name: 'Button' }).vm.$emit('click');
-    await wrapper.findAll('button')[1].trigger('click');
+    await wrapper.findAll('button')[0].trigger('click');
 
     expect(wrapper.emitted('create')).toEqual([
       [],
@@ -28,11 +28,15 @@ describe('MonitorsEmptyState', () => {
         },
       ],
     ]);
-    expect(wrapper.findAll('button')).toHaveLength(6);
+    expect(wrapper.findAll('button')).toHaveLength(4);
     expect(wrapper.text()).toContain('MONITORS.EMPTY_TITLE');
     expect(wrapper.text()).toContain('MONITORS.EXAMPLES.FEATURE_REQUESTS.NAME');
     expect(wrapper.text()).toContain(
       'MONITORS.EXAMPLES.FEATURE_REQUESTS.BENEFIT'
+    );
+    expect(wrapper.text()).not.toContain('MONITORS.EXAMPLES.LOGIN_PROBLEMS');
+    expect(wrapper.text()).not.toContain(
+      'MONITORS.EXAMPLES.COMPETITOR_MENTIONS'
     );
     expect(wrapper.text()).not.toContain('MONITORS.ADMIN_HELP');
   });

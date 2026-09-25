@@ -24,20 +24,10 @@
     "ADMIN_HELP": "Ask an administrator to create your first monitor.",
     "EXAMPLES_TITLE": "Start with a template",
     "EXAMPLES": {
-      "LOGIN_PROBLEMS": {
-        "NAME": "Login problems",
-        "CONDITION": "A customer says they cannot sign in to their account, including failed password resets or verification codes that never arrive. Exclude requests to change a password while already signed in.",
-        "BENEFIT": "See when login complaints start increasing."
-      },
       "MISSING_ORDER_UPDATES": {
         "NAME": "Missing order updates",
         "CONDITION": "A customer says an order confirmation, shipping update, or delivery notice did not arrive or was sent for the wrong order. Exclude questions about parcel location when the customer received tracking information.",
         "BENEFIT": "Track recurring delivery communication problems."
-      },
-      "COMPETITOR_MENTIONS": {
-        "NAME": "Competitor mentions",
-        "CONDITION": "A customer compares us with a competing product, says they are evaluating one, or mentions they may switch. Exclude customers asking how to import data after switching to us.",
-        "BENEFIT": "Find conversations worth following up on."
       },
       "FEATURE_REQUESTS": {
         "NAME": "Feature requests",
