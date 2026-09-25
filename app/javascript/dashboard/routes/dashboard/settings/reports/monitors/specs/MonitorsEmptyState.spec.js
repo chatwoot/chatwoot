@@ -12,15 +12,13 @@ vi.mock('vue-i18n', async importOriginal => ({
 }));
 
 describe('MonitorsEmptyState', () => {
-  it('lets an administrator create a monitor or start from an example', async () => {
+  it('lets an administrator start from a template', async () => {
     state.isAdmin = ref(true);
     const wrapper = shallowMount(MonitorsEmptyState);
 
-    wrapper.findComponent({ name: 'Button' }).vm.$emit('click');
     await wrapper.findAll('button')[1].trigger('click');
 
     expect(wrapper.emitted('create')).toEqual([
-      [],
       [
         {
           name: 'MONITORS.EXAMPLES.MISSING_ORDER_UPDATES.NAME',
@@ -29,8 +27,9 @@ describe('MonitorsEmptyState', () => {
       ],
     ]);
     expect(wrapper.findAll('button')).toHaveLength(6);
-    expect(wrapper.findAllComponents({ name: 'MonitorListItem' })).toHaveLength(
-      3
+    expect(wrapper.text()).toContain('MONITORS.EXAMPLES.FEATURE_REQUESTS.NAME');
+    expect(wrapper.text()).toContain(
+      'MONITORS.EXAMPLES.FEATURE_REQUESTS.BENEFIT'
     );
     expect(wrapper.text()).not.toContain('MONITORS.ADMIN_HELP');
   });
