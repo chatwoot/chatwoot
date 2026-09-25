@@ -707,7 +707,7 @@ en:
         clear_button: 'Unblock email'
         clear_dialog:
           title: 'Unblock %{email}?'
-          body: 'Chatwoot will send emails to this address again. If the next one bounces, it gets blocked again.'
+          body: '%{brand_name} will send emails to this address again. If the next one bounces, it gets blocked again.'
           cancel: 'Cancel'
           confirm: 'Unblock'
         complaint_hint: 'Blocked after a spam complaint. Escalate to engineering.'

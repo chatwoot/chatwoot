@@ -285,11 +285,21 @@ RSpec.describe 'Super Admin Users API', type: :request do
         expect(button['disabled']).to be_nil
       end
 
+      it 'uses the installation brand in the unblock dialog' do
+        allow(GlobalConfig).to receive(:get_value).and_call_original
+        allow(GlobalConfig).to receive(:get_value).with('BRAND_NAME').and_return('Acme')
+
+        get "/super_admin/users/#{user.id}", params: { suppression: 'bounce' }
+
+        expect(Nokogiri::HTML(response.body).at_css('dialog#unblock-email-dialog').text).to include('Acme will send emails')
+      end
+
       it 'confirms the unblock in an in-app dialog' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'bounce' }
 
         dialog = Nokogiri::HTML(response.body).at_css('dialog#unblock-email-dialog')
         expect(dialog.text).to include('Unblock bounced@example.com?')
+        expect(dialog.text).to include('Chatwoot will send emails to this address again.')
         expect(dialog.at_css("form[action='/super_admin/users/#{user.id}/clear_email_suppression']")).to be_present
       end
 

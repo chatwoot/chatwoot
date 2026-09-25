@@ -103,7 +103,7 @@ as well as a link to its edit page.
           <h2 class="text-base font-medium text-slate-900">
             <%= t("super_admin.users.email_suppression.clear_dialog.title", email: page.resource.email) %>
           </h2>
-          <p class="mt-2 text-sm text-slate-600"><%= t("super_admin.users.email_suppression.clear_dialog.body") %></p>
+          <p class="mt-2 text-sm text-slate-600"><%= t("super_admin.users.email_suppression.clear_dialog.body", brand_name: GlobalConfig.get_value("BRAND_NAME").presence || "Chatwoot") %></p>
           <div class="mt-6 flex justify-end gap-2">
             <form method="dialog">
               <button class="reset-base px-4 py-2 text-sm font-medium text-slate-700 border border-slate-200 rounded-md cursor-pointer hover:bg-slate-50">
