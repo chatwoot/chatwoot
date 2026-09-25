@@ -25,10 +25,17 @@ describe('MonitorsEmptyState', () => {
         {
           name: 'MONITORS.EXAMPLES.MISSING_ORDER_UPDATES.NAME',
           condition: 'MONITORS.EXAMPLES.MISSING_ORDER_UPDATES.CONDITION',
+          icon: 'truck-line',
+          icon_color: '#3B82F6',
         },
       ],
     ]);
     expect(wrapper.findAll('button')).toHaveLength(4);
+    expect(
+      wrapper
+        .findAll('button')
+        .every(button => button.findComponent({ name: 'EmojiIcon' }).exists())
+    ).toBe(true);
     expect(wrapper.text()).toContain('MONITORS.EMPTY_TITLE');
     expect(wrapper.text()).toContain('MONITORS.EXAMPLES.FEATURE_REQUESTS.NAME');
     expect(wrapper.text()).toContain(
