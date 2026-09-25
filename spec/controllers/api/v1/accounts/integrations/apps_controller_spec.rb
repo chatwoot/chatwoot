@@ -152,6 +152,15 @@ RSpec.describe 'Integration Apps API', type: :request do
         expect(app['name']).to eql('Slack')
       end
 
+      it 'returns not found for an app that does not exist' do
+        get api_v1_account_integrations_app_url(account_id: account.id, id: 'nonexistent-app'),
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(response.parsed_body['error']).to eq 'Resource could not be found'
+      end
+
       it 'returns not found for Shopify when the client ID is missing' do
         account.enable_features('shopify_integration')
         allow(GlobalConfigService).to receive(:load)

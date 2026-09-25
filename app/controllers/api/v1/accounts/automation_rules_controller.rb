@@ -2,7 +2,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   include AttachmentConcern
 
   before_action :check_authorization
-  before_action :fetch_automation_rule, only: [:show, :update, :destroy, :clone]
+  before_action :fetch_automation_rule, only: [:show, :update, :destroy]
   before_action :ensure_execution_delay_allowed, only: [:create, :update]
 
   def index
@@ -85,6 +85,6 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   end
 
   def fetch_automation_rule
-    @automation_rule = Current.account.automation_rules.find_by(id: params[:id])
+    @automation_rule = Current.account.automation_rules.find(params[:id])
   end
 end
