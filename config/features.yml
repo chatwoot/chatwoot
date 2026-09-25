@@ -284,3 +284,8 @@
   display_name: Captain Classifier
   enabled: false
   column: feature_flags_ext_1
+- name: conversation_monitors
+  display_name: Conversation Monitors
+  enabled: false
+  premium: true
+  column: feature_flags_ext_1
