@@ -10,6 +10,7 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   def validate_conversation_id
     return unless params.key?(:conversation_id)
+    return if params[:conversation_id].is_a?(Integer) && params[:conversation_id].positive?
     return if params[:conversation_id].is_a?(String) && params[:conversation_id].match?(/\A[1-9]\d*\z/)
 
     render json: { error: 'Invalid conversation ID' }, status: :unprocessable_entity

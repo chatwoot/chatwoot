@@ -102,6 +102,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
   def validate_list_page
     return unless params.key?(:page)
+    return if params[:page].is_a?(Integer) && params[:page].positive?
     return if params[:page].is_a?(String) && params[:page].match?(/\A[1-9]\d*\z/)
 
     render json: { error: 'Invalid conversation page' }, status: :unprocessable_entity
