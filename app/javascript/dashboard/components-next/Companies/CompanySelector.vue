@@ -56,7 +56,7 @@ const comboboxOptions = computed(() => {
 
   if (!props.modelValue && props.selectedName) {
     list.unshift({
-      label: t('COMPANIES.SELECTOR.CLEAR'),
+      label: props.selectedName,
       value: '',
     });
   }
