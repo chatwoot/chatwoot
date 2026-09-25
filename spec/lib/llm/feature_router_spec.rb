@@ -88,7 +88,7 @@ RSpec.describe Llm::FeatureRouter do
     end
 
     it 'resolves GPT-5.2 as the assistant default when Captain V2 is enabled without storing an account override' do
-      account.enable_features!('captain_integration_v2')
+      account.enable_features!('captain_integration')
 
       resolved = described_class.resolve(feature: 'assistant', account: account)
 
@@ -102,7 +102,7 @@ RSpec.describe Llm::FeatureRouter do
     end
 
     it 'keeps account model overrides ahead of the Captain V2 default' do
-      account.enable_features!('captain_integration_v2')
+      account.enable_features!('captain_integration')
       account.update!(captain_models: { 'assistant' => 'gpt-5.1' })
 
       resolved = described_class.resolve(feature: 'assistant', account: account)

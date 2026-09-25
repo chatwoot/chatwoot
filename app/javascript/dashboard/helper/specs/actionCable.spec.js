@@ -104,6 +104,31 @@ describe('ActionCableConnector - Copilot Tests', () => {
     });
   });
 
+  describe('monitor.updated', () => {
+    it('forwards updates for the active account', () => {
+      const data = { account_id: 1, monitor_id: 2, data_revision: 3 };
+
+      actionCable.onReceived({ event: 'monitor.updated', data });
+
+      expect(emitter.emit).toHaveBeenCalledWith(
+        BUS_EVENTS.MONITOR_UPDATED,
+        data
+      );
+    });
+
+    it('ignores updates from another account', () => {
+      actionCable.onReceived({
+        event: 'monitor.updated',
+        data: { account_id: 2, monitor_id: 2 },
+      });
+
+      expect(emitter.emit).not.toHaveBeenCalledWith(
+        BUS_EVENTS.MONITOR_UPDATED,
+        expect.anything()
+      );
+    });
+  });
+
   describe('conversation unread count event handlers', () => {
     it('should register the conversation.unread_count_changed event handler', () => {
       expect(Object.keys(actionCable.events)).toContain(

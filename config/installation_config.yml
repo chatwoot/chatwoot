@@ -199,6 +199,15 @@
   display_title: 'Embedding Model (optional)'
   description: 'The embedding model configured for use in Captain AI. Default: text-embedding-3-small'
   locked: false
+- name: CAPTAIN_OPENROUTER_API_KEY
+  display_title: 'OpenRouter API Key'
+  description: 'The OpenRouter API key used by Captain Classifier and conversation monitors.'
+  locked: false
+  type: secret
+- name: CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT
+  display_title: 'OpenRouter Decision Model Endpoint'
+  description: 'The OpenRouter API base URL for Captain Classifier and conversation monitors. Example: https://openrouter.ai/api'
+  locked: false
 - name: CAPTAIN_FIRECRAWL_API_KEY
   display_title: 'FireCrawl API Key (optional)'
   description: 'The FireCrawl API key for the Captain AI service'
@@ -296,7 +305,9 @@
   value: self-hosted
   description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
 - name: DEVICE_VERIFICATION_ENABLED
+  display_title: 'Device Verification'
   value: false
+  type: boolean
   description: 'Require an emailed code to complete password sign-ins from unrecognized devices (Chatwoot Cloud only)'
 - name: CLOUD_ANALYTICS_TOKEN
   value:

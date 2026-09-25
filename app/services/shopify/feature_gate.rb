@@ -9,7 +9,7 @@ class Shopify::FeatureGate
   end
 
   def self.globally_enabled?
-    configured_value = GlobalConfigService.load(GLOBAL_CONFIG, 'false')
+    configured_value = ENV.fetch(GLOBAL_CONFIG) { GlobalConfig.get(GLOBAL_CONFIG)[GLOBAL_CONFIG] }
     ActiveModel::Type::Boolean.new.cast(configured_value)
   end
 end

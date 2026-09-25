@@ -58,7 +58,6 @@ class Captain::Llm::ConversationFaqContentService
     {
       product_name: assistant.config['product_name'],
       assistant_description: assistant.description,
-      instructions: assistant.config['instructions'],
       response_guidelines: assistant.response_guidelines,
       guardrails: assistant.guardrails
     }.compact

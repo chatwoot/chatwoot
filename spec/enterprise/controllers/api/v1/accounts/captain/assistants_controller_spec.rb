@@ -255,39 +255,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(assistant.reload.config).to include('product_name' => 'Chatwoot', 'auto_resolve_mode' => 'disabled')
       end
 
-      it 'keeps inactivity timer settings behind Captain V2' do
-        account.disable_features!('captain_integration_v2')
-        assistant.update!(
-          config: {
-            'auto_resolve_mode' => 'evaluated',
-            'auto_resolve_after' => 60,
-            'send_inactivity_resolution_message' => true
-          }
-        )
-
-        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
-              params: {
-                assistant: {
-                  config: {
-                    auto_resolve_mode: 'disabled',
-                    auto_resolve_after: 90,
-                    send_inactivity_resolution_message: false
-                  }
-                }
-              },
-              headers: admin.create_new_auth_token,
-              as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(assistant.reload.config).to include(
-          'auto_resolve_mode' => 'disabled',
-          'auto_resolve_after' => 60,
-          'send_inactivity_resolution_message' => true
-        )
-      end
-
       it 'updates inactive conversation settings for Captain v2' do
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
 
         patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
               params: {

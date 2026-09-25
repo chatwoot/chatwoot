@@ -10,16 +10,18 @@ RSpec.describe 'Public Articles API', type: :request do
 
     context 'with help_center_embedding_search feature' do
       it 'get all articles with searched text query using vector search if enabled' do
-        allow(Article).to receive(:vector_search)
+        allow(Article).to receive(:vector_search).and_return(Article.none)
         get "/hc/#{portal.slug}/en/articles.json", params: { query: 'funny' }
+        expect(response).to have_http_status(:ok)
         expect(Article).to have_received(:vector_search)
       end
 
       it 'does not use vector search for whitespace-only queries' do
-        allow(Article).to receive(:vector_search)
+        allow(Article).to receive(:vector_search).and_return(Article.none)
 
         get "/hc/#{portal.slug}/en/articles.json", params: { query: '   ' }
 
+        expect(response).to have_http_status(:ok)
         expect(Article).not_to have_received(:vector_search)
       end
     end

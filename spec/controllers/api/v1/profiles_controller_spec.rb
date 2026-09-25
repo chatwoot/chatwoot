@@ -73,6 +73,43 @@ RSpec.describe 'Profile API', type: :request do
         expect(response.parsed_body['access_token']).to eq(agent.access_token.token)
       end
     end
+
+    context 'when the account enforces MFA' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+        account.update!(enforce_mfa: true)
+      end
+
+      it 'blocks api_access_token requests from non-enrolled users' do
+        get '/api/v1/profile',
+            headers: { api_access_token: agent.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error_code']).to eq('mfa_enrollment_required')
+      end
+
+      it 'allows enrolled users over api_access_token' do
+        agent.enable_two_factor!
+        agent.update!(otp_required_for_login: true)
+
+        get '/api/v1/profile',
+            headers: { api_access_token: agent.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'does not gate session-authenticated requests' do
+        get '/api/v1/profile',
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+    end
   end
 
   describe 'PUT /api/v1/profile' do

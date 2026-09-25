@@ -222,7 +222,7 @@ const handleEnterKey = event => {
   <div
     class="flex h-full overflow-hidden rounded-xl border border-n-weak text-n-slate-11"
   >
-    <div class="flex min-w-0 flex-1 flex-col py-6">
+    <div class="flex min-w-0 flex-1 flex-col pt-6 pb-16 xl:pb-6">
       <div class="mb-8 px-6">
         <div class="mb-1 flex items-center justify-between gap-3">
           <h3 class="text-lg font-medium">
