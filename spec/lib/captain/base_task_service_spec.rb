@@ -383,6 +383,20 @@ RSpec.describe Captain::BaseTaskService do
     end
   end
 
+  describe '#api_base' do
+    before { InstallationConfig.where(name: 'CAPTAIN_OPEN_AI_ENDPOINT').destroy_all }
+
+    it 'appends the version segment to a bare endpoint' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://proxy.example.com/')
+      expect(service.send(:api_base)).to eq('https://proxy.example.com/v1')
+    end
+
+    it 'does not append a second /v1 to an endpoint that already has one' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://openrouter.ai/api/v1')
+      expect(service.send(:api_base)).to eq('https://openrouter.ai/api/v1')
+    end
+  end
+
   describe '#prompt_from_file' do
     it 'reads prompt from file' do
       service
