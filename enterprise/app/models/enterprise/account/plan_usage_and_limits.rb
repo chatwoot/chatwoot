@@ -32,7 +32,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   def email_transcript_enabled?
     return current_billing_plan.present? if shopify_billing?
 
-    default_plan = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')&.value&.first
+    default_plan = Enterprise::Billing::PlanConfiguration.default_plan
     return true if default_plan.blank?
 
     plan_name.present? && plan_name != default_plan['name']
@@ -103,7 +103,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   def free_plan?
     return false if shopify_billing?
 
-    default_plan = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')&.value&.first
+    default_plan = Enterprise::Billing::PlanConfiguration.default_plan
     default_plan.present? && plan_name&.downcase == default_plan['name']&.downcase
   end
 

@@ -21,9 +21,7 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
   before do
     account.enable_features!('shopify_integration')
     allow(GlobalConfigService).to receive(:load).and_call_original
-    allow(GlobalConfigService).to receive(:load)
-      .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-      .and_return(true)
+    InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
     allow(GlobalConfigService).to receive(:load)
       .with('SHOPIFY_CLIENT_SECRET', nil)
       .and_return(client_secret)
@@ -41,9 +39,7 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
 
   it 'processes redaction when the installation switch is disabled' do
     hook
-    allow(GlobalConfigService).to receive(:load)
-      .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-      .and_return(false)
+    InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
 
     expect do
       post '/webhooks/shopify', params: body, headers: headers
@@ -61,9 +57,7 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
   end
 
   it 'authenticates and acknowledges every compliance topic when the installation switch is disabled' do
-    allow(GlobalConfigService).to receive(:load)
-      .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-      .and_return(false)
+    InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
 
     Webhooks::ShopifyController::COMPLIANCE_TOPICS.each do |topic|
       headers['X-Shopify-Topic'] = topic
@@ -144,9 +138,7 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
 
   it 'does not process normal events when the installation switch is disabled' do
     headers['X-Shopify-Topic'] = 'orders/create'
-    allow(GlobalConfigService).to receive(:load)
-      .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-      .and_return(false)
+    InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
 
     post '/webhooks/shopify', params: body, headers: headers
 
@@ -191,9 +183,7 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
 
     it 'delegates uninstall cleanup when the installation switch is disabled' do
       hook
-      allow(GlobalConfigService).to receive(:load)
-        .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-        .and_return(false)
+      InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
       allow(Shopify::UninstallationService).to receive(:new)
         .with(hook: hook, occurred_at: Time.iso8601(triggered_at))
         .and_return(uninstallation_service)

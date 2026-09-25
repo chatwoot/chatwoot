@@ -90,6 +90,44 @@ describe('#validateLoggedInRoutes', () => {
       });
     });
     describe('when account is active', () => {
+      describe('when Shopify billing is required', () => {
+        const shopifyAccount = {
+          id: 1,
+          role: 'administrator',
+          permissions: ['administrator'],
+          status: 'active',
+          billing_provider: 'shopify',
+          shopify_integration: true,
+          subscription_status: 'pending',
+        };
+
+        it('redirects an administrator to billing', () => {
+          expect(
+            validateLoggedInRoutes(
+              {
+                name: 'conversations',
+                params: { accountId: 1 },
+                meta: { permissions: ['administrator'] },
+              },
+              { accounts: [shopifyAccount] }
+            )
+          ).toEqual('accounts/1/settings/billing');
+        });
+
+        it('allows the billing page', () => {
+          expect(
+            validateLoggedInRoutes(
+              {
+                name: 'billing_settings_index',
+                params: { accountId: 1 },
+                meta: { permissions: ['administrator'] },
+              },
+              { accounts: [shopifyAccount] }
+            )
+          ).toBeNull();
+        });
+      });
+
       describe('when route is accessible', () => {
         it('returns null (no action required)', () => {
           expect(
