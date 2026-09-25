@@ -3,7 +3,7 @@ import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAlert } from 'dashboard/composables';
-import SectionLayout from './SectionLayout.vue';
+import SectionLayout from '../../account/components/SectionLayout.vue';
 import Switch from 'next/switch/Switch.vue';
 
 const { t } = useI18n();
