@@ -40,10 +40,17 @@ export default {
     isSLAEnabled() {
       return this.isFeatureEnabledonAccount(this.accountId, FEATURE_FLAGS.SLA);
     },
-    isVoiceEnabled() {
-      return this.isFeatureEnabledonAccount(
-        this.accountId,
-        FEATURE_FLAGS.CHANNEL_VOICE
+    // Missed-call notifications are produced only where phones are rung for calls
+    isMissedCallNotificationEnabled() {
+      return (
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.CHANNEL_VOICE
+        ) &&
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.MOBILE_VOICE_PUSH
+        )
       );
     },
     filteredNotificationTypes() {
@@ -59,7 +66,7 @@ export default {
           return false;
         }
         if (
-          !this.isVoiceEnabled &&
+          !this.isMissedCallNotificationEnabled &&
           notification.value === 'voice_call_missed'
         ) {
           return false;
