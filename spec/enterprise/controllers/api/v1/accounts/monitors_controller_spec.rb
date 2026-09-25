@@ -251,7 +251,7 @@ RSpec.describe 'Monitors API', type: :request do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body).to eq('error' => 'invalid_parameters')
     end
-    expect(monitor.reload).to have_attributes(icon: '', icon_color: '')
+    expect(monitor.reload).to have_attributes(icon: 'chat-3-line', icon_color: '#3B82F6')
   end
 
   it 'rejects invalid descriptions and stale edits without replacing the current rule' do
