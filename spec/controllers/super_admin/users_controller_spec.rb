@@ -293,6 +293,21 @@ RSpec.describe 'Super Admin Users API', type: :request do
         expect(dialog.at_css("form[action='/super_admin/users/#{user.id}/clear_email_suppression']")).to be_present
       end
 
+      it 'disables the test email while the address is blocked' do
+        get "/super_admin/users/#{user.id}", params: { suppression: 'complaint' }
+
+        button = Nokogiri::HTML(response.body).at_css('.main-content__header button:contains("Send test email")')
+        expect(button['disabled']).to be_present
+        expect(button.parent['title']).to eq('Blocked after a spam complaint. Emails to this address are dropped.')
+      end
+
+      it 'keeps the test email available when the address is not blocked' do
+        get "/super_admin/users/#{user.id}", params: { suppression: 'not_suppressed' }
+
+        button = Nokogiri::HTML(response.body).at_css('.main-content__header button:contains("Send test email")')
+        expect(button['disabled']).to be_nil
+      end
+
       it 'explains why unblock is disabled when the address is not blocked' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'not_suppressed' }
 

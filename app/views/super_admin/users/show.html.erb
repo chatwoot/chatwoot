@@ -62,14 +62,22 @@ as well as a link to its edit page.
               </button>
             </span>
           <% end %>
-          <%= button_to(
-                  t("super_admin.users.email_suppression.test_email_button"),
-                  [:send_test_email, namespace, page.resource.becomes(User)],
-                  method: :post,
-                  class: item_class,
-                  form_class: "block",
-                  data: { pending_label: t("super_admin.users.email_suppression.pending.send") },
-                ) %>
+          <% if params[:suppression].in?(%w[bounce complaint]) %>
+            <span class="block cursor-not-allowed" title="<%= t("super_admin.users.email_suppression.test_email_blocked_hint.#{params[:suppression]}") %>">
+              <button type="button" class="<%= item_class %> pointer-events-none" disabled>
+                <%= t("super_admin.users.email_suppression.test_email_button") %>
+              </button>
+            </span>
+          <% else %>
+            <%= button_to(
+                    t("super_admin.users.email_suppression.test_email_button"),
+                    [:send_test_email, namespace, page.resource.becomes(User)],
+                    method: :post,
+                    class: item_class,
+                    form_class: "block",
+                    data: { pending_label: t("super_admin.users.email_suppression.pending.send") },
+                  ) %>
+          <% end %>
           <%= button_to(
                   t("super_admin.users.resend_confirmation.button"),
                   [:resend_confirmation, namespace, page.resource.becomes(User)],

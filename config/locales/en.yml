@@ -713,6 +713,9 @@ en:
         complaint_hint: 'Blocked after a spam complaint. Escalate to engineering.'
         check_first_hint: 'Check email delivery first.'
         not_blocked_hint: 'Emails to this address are not blocked.'
+        test_email_blocked_hint:
+          bounce: 'Unblock the address first. Emails to blocked addresses are dropped.'
+          complaint: 'Blocked after a spam complaint. Emails to this address are dropped.'
         test_email_button: 'Send test email'
         pending:
           check: 'Checking…'
