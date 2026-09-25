@@ -4,8 +4,9 @@
 class Voice::RingingTimeoutService
   pattr_initialize [:call!]
 
-  # Meta drops an unanswered call after 30 to 60 s; Twilio rings until the caller gives up
-  RING_TIMEOUT_SECONDS = { 'twilio' => 60, 'whatsapp' => 45 }.freeze
+  # Meta's carrier ring lasts up to about 60 s; Twilio rings until the caller gives up. The
+  # window is the provider's own, so a call is never ended here while the caller still hears it ring
+  RING_TIMEOUT_SECONDS = { 'twilio' => 60, 'whatsapp' => 60 }.freeze
 
   # Calls still ringing past their provider's timeout, on the accounts that ring phones
   def self.overdue
