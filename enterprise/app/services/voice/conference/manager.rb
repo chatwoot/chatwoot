@@ -1,5 +1,5 @@
 class Voice::Conference::Manager
-  pattr_initialize [:call!, :event!, :participant_label]
+  pattr_initialize [:call!, :event!, :participant_label, :participant_call_sid]
 
   AGENT_LABEL_PATTERN = /\Aagent-(\d+)-account-(\d+)\z/
 
@@ -107,10 +107,10 @@ class Voice::Conference::Manager
   # the contact does not leave a conference on their own, so an unknown answer cannot be
   # allowed to stand
   def other_agents_remain?
-    conference_service.agents_remain?(leaving_label: participant_label)
+    conference_service.agents_remain?(leaving_call_sid: participant_call_sid)
   rescue StandardError => e
     Rails.logger.error("[VOICE] call #{call.id}: could not list conference participants: #{e.class}: #{e.message}")
-    Voice::EndConferenceJob.perform_later(call.id, leaving_label: participant_label)
+    Voice::EndConferenceJob.perform_later(call.id, leaving_call_sid: participant_call_sid)
     true
   end
 

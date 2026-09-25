@@ -17,8 +17,8 @@ RSpec.describe Voice::Conference::Manager do
     allow(Voice::Provider::Twilio::ConferenceService).to receive(:new).and_return(conference)
   end
 
-  def leave(label)
-    described_class.new(call: call, event: 'leave', participant_label: label).process
+  def leave(label, call_sid: 'CA-leaving')
+    described_class.new(call: call, event: 'leave', participant_label: label, participant_call_sid: call_sid).process
   end
 
   describe 'an agent leg leaving a live call' do
@@ -26,7 +26,7 @@ RSpec.describe Voice::Conference::Manager do
       leave(agent_label)
 
       expect(call.reload.status).to eq('completed')
-      expect(conference).to have_received(:agents_remain?).with(leaving_label: agent_label)
+      expect(conference).to have_received(:agents_remain?).with(leaving_call_sid: 'CA-leaving')
       expect(conference).to have_received(:end_conference)
     end
 
@@ -42,7 +42,7 @@ RSpec.describe Voice::Conference::Manager do
     it 'keeps the call live and rechecks by job when Twilio cannot say who is left' do
       allow(conference).to receive(:agents_remain?).and_raise(Twilio::REST::TwilioError)
 
-      expect { leave(agent_label) }.to have_enqueued_job(Voice::EndConferenceJob).with(call.id, leaving_label: agent_label)
+      expect { leave(agent_label) }.to have_enqueued_job(Voice::EndConferenceJob).with(call.id, leaving_call_sid: 'CA-leaving')
       expect(call.reload.status).to eq('in_progress')
       expect(conference).not_to have_received(:end_conference)
     end

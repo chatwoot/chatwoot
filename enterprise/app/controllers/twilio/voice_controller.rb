@@ -45,7 +45,8 @@ class Twilio::VoiceController < ApplicationController
     Voice::Conference::Manager.new(
       call: call,
       event: event,
-      participant_label: participant_label
+      participant_label: participant_label,
+      participant_call_sid: twilio_call_sid
     ).process
 
     head :no_content

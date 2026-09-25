@@ -31,9 +31,9 @@ RSpec.describe Voice::EndConferenceJob do
   it 'leaves the conference running when another agent is still on the call' do
     allow(conference).to receive(:agents_remain?).and_return(true)
 
-    described_class.perform_now(call.id, leaving_label: 'agent-1-account-1')
+    described_class.perform_now(call.id, leaving_call_sid: 'CA-agent-1')
 
-    expect(conference).to have_received(:agents_remain?).with(leaving_label: 'agent-1-account-1')
+    expect(conference).to have_received(:agents_remain?).with(leaving_call_sid: 'CA-agent-1')
     expect(conference).not_to have_received(:end_conference)
   end
 
@@ -41,7 +41,7 @@ RSpec.describe Voice::EndConferenceJob do
     live = create(:call, conversation: conversation, status: 'in_progress', started_at: 1.minute.ago)
     allow(ActionCable.server).to receive(:broadcast)
 
-    described_class.perform_now(live.id, leaving_label: 'agent-1-account-1')
+    described_class.perform_now(live.id, leaving_call_sid: 'CA-agent-1')
 
     expect(conference).to have_received(:end_conference)
     expect(live.reload.status).to eq('completed')
