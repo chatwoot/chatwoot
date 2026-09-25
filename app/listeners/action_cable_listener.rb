@@ -137,7 +137,7 @@ class ActionCableListener < BaseListener
     # rules) by performed_by. The V2 AssignmentService also dispatches an event with
     # user (the assigned agent, NOT the performer). Neither requires inferring
     # automation from a missing Current.user.
-    automatic_assignment = [Inbox, AssignmentPolicy, AutomationRule].include?(event.data[:performed_by].class) || event.data[:user].present?
+    automatic_assignment = [Inbox, AssignmentPolicy, AutomationRule, Team].include?(event.data[:performed_by].class) || event.data[:user].present?
     broadcast_to_inbox_members(event, ASSIGNEE_CHANGED, automatic_assignment: automatic_assignment)
   end
 
