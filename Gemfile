@@ -54,6 +54,7 @@ gem 'csv-safe'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
+gem 'aws-sdk-sesv2', require: false
 gem 'azure-blob', require: false
 gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
