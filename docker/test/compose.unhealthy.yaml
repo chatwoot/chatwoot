@@ -1,0 +1,5 @@
+# Test-only overlay: a release whose web replicas never pass their healthcheck.
+services:
+  rails:
+    healthcheck:
+      test: ['CMD', 'false']

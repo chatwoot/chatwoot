@@ -11,7 +11,7 @@ ExecStart=/bin/bash -lc 'bin/rails server -p $PORT -e $RAILS_ENV'
 
 Restart=always
 RestartSec=1
-TimeoutStopSec=30
+TimeoutStopSec=60
 KillMode=mixed
 StandardInput=null
 SyslogIdentifier=%p

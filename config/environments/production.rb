@@ -44,6 +44,8 @@ Rails.application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = ActiveModel::Type::Boolean.new.cast(ENV.fetch('FORCE_SSL', false))
+  # Container healthchecks probe /health* over plain HTTP on 127.0.0.1, so they must not be redirected to HTTPS.
+  config.ssl_options = { redirect: { exclude: ->(request) { request.path.start_with?('/health') } } }
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.

@@ -11,7 +11,7 @@ ExecStart=/bin/bash -lc 'dotenv bundle exec sidekiq -C config/sidekiq.yml'
 
 Restart=always
 RestartSec=1
-TimeoutStopSec=30
+TimeoutStopSec=150
 KillMode=mixed
 StandardInput=null
 SyslogIdentifier=%p

@@ -5,7 +5,10 @@
 ---
 :verbose: false
 :concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 10) %>
-:timeout: 25
+# On SIGTERM Sidekiq stops fetching and waits up to this many seconds for running jobs to finish.
+# Jobs still running after the timeout are pushed back to their queue, so keep the container/unit
+# stop timeout (WORKER_STOP_GRACE_PERIOD / TimeoutStopSec) larger than this value.
+:timeout: <%= ENV.fetch("SIDEKIQ_SHUTDOWN_TIMEOUT", 120) %>
 :max_retries: 3
 
 # Sidekiq will run this file through ERB when reading it so you can

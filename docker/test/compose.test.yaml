@@ -1,0 +1,11 @@
+# Test-only overrides for docker/test/zero_downtime_test.sh. Never used in production.
+services:
+  postgres:
+    environment:
+      - POSTGRES_PASSWORD=zdt-test-password
+
+  sidekiq:
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml', '-r', '/zdt/load_test_job.rb']
+    volumes:
+      - ./docker/test:/zdt:ro
+      - ./docker/test/results:/zdt-results

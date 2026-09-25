@@ -1,0 +1,5 @@
+# Test-only overlay: a migration that always fails, applied to the migrate service.
+services:
+  migrate:
+    volumes:
+      - ./docker/test/bad_migration.rb:/app/db/migrate/20991231235959_zdt_bad_migration.rb:ro

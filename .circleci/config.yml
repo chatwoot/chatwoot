@@ -357,6 +357,20 @@ jobs:
           command: |
             echo "All main jobs passed; build job kept only for GitHub required check compatibility."
 
+  # Builds the production image and proves the deploy path is zero-downtime: rolling update under load
+  # (no non-200 responses, no dropped or duplicated jobs), plus failing migration / unhealthy release
+  # scenarios that must leave the running containers untouched.
+  zero-downtime-deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Build production image
+          command: docker build -f docker/Dockerfile -t chatwoot-local:zdt .
+      - run:
+          name: Rolling deploy, bad migration and unhealthy release tests
+          command: CHATWOOT_IMAGE=chatwoot-local:zdt docker/test/zero_downtime_test.sh
+
 workflows:
   version: 2
   build:
@@ -368,7 +382,9 @@ workflows:
           requires:
             - frontend-tests
             - backend-tests
+      - zero-downtime-deploy
       - build:
           requires:
             - lint
             - coverage
+            - zero-downtime-deploy
