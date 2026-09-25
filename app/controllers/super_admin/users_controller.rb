@@ -91,6 +91,8 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
 
   def send_test_email
     user = requested_resource
+    return if redirect_if_email_blocked(user)
+
     EmailDeliveryTestMailer.delivery_test(user).deliver_later
     log_email_diagnostic('ses_test_email_sent', user)
     redirect_to super_admin_user_path(user),
@@ -114,6 +116,16 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   end
 
   private
+
+  def redirect_if_email_blocked(user)
+    return false unless Email::SesSuppressionService.configured?
+
+    result = Email::SesSuppressionService.new.lookup(user.email)
+    return false unless result[:status].in?(%i[bounce complaint])
+
+    redirect_with_suppression_result(user, result)
+    true
+  end
 
   def redirect_with_suppression_result(user, result)
     message = I18n.t("super_admin.users.email_suppression.check.#{result[:status]}",

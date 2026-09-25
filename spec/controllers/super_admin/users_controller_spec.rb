@@ -431,7 +431,26 @@ RSpec.describe 'Super Admin Users API', type: :request do
         expect(flash[:error]).to eq("Couldn't unblock bounced@example.com (boom). Escalate to engineering.")
       end
 
+      it 'does not queue a test email to a blocked address' do
+        allow(suppression).to receive(:lookup).with(user.email).and_return(status: :complaint, since: 1.day.ago)
+
+        expect do
+          post "/super_admin/users/#{user.id}/send_test_email"
+        end.not_to have_enqueued_mail(EmailDeliveryTestMailer, :delivery_test)
+
+        expect(flash[:error]).to include('because of a spam complaint')
+      end
+
+      it 'still queues the test email when the lookup fails' do
+        allow(suppression).to receive(:lookup).with(user.email).and_return(status: :unavailable)
+
+        expect do
+          post "/super_admin/users/#{user.id}/send_test_email"
+        end.to have_enqueued_mail(EmailDeliveryTestMailer, :delivery_test)
+      end
+
       it 'queues a test email and logs who sent it' do
+        allow(suppression).to receive(:lookup).with(user.email).and_return(status: :not_suppressed)
         allow(Rails.logger).to receive(:info)
 
         expect do
