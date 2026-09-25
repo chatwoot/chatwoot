@@ -152,7 +152,7 @@ const handleSeeOriginal = () => {
           <Letter
             v-if="showQuotedMessage"
             :key="`letter-quoted-${translationKeySuffix}`"
-            class-name="prose prose-bubble !max-w-none letter-render"
+            class-name="prose prose-bubble !max-w-none letter-render email-light-canvas"
             :allowed-css-properties="[
               ...allowedCssProperties,
               'transform',
@@ -164,7 +164,7 @@ const handleSeeOriginal = () => {
           <Letter
             v-else
             :key="`letter-unquoted-${translationKeySuffix}`"
-            class-name="prose prose-bubble !max-w-none letter-render"
+            class-name="prose prose-bubble !max-w-none letter-render email-light-canvas"
             :html="unquotedHTML"
             :allowed-css-properties="[
               ...allowedCssProperties,
@@ -211,6 +211,17 @@ const handleSeeOriginal = () => {
 </template>
 
 <style lang="scss">
+// HTML email colors are authored for a light canvas. Keep that canvas in dark mode
+// rather than overriding the sender's inline text colors (or colored backgrounds).
+// Scope the prose tokens too so unstyled text does not turn light on the canvas.
+body.dark .email-light-canvas {
+  --slate-11: 96 100 108;
+  --slate-12: 28 32 36;
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 12px;
+}
+
 // Tailwind resets break the rendering of google drive link in Gmail messages
 // This fixes it using https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors
 
