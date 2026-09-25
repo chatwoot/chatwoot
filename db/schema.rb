@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_22_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_25_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -342,6 +342,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_22_000000) do
     t.index ["account_id", "conversation_id"], name: "index_calls_on_account_id_and_conversation_id"
     t.index ["account_id", "created_at"], name: "index_calls_on_account_id_and_created_at"
     t.index ["message_id"], name: "index_calls_on_message_id"
+    t.index ["provider", "created_at"], name: "index_calls_ringing_on_provider_and_created_at", where: "((status)::text = 'ringing'::text)"
     t.index ["provider", "provider_call_id"], name: "index_calls_on_provider_and_provider_call_id", unique: true
   end
 

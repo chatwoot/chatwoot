@@ -43,7 +43,8 @@ class Notification < ApplicationRecord
     participating_conversation_new_message: 5,
     sla_missed_first_response: 6,
     sla_missed_next_response: 7,
-    sla_missed_resolution: 8
+    sla_missed_resolution: 8,
+    voice_call_missed: 9
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -76,7 +77,7 @@ class Notification < ApplicationRecord
   end
 
   def fcm_push_data
-    {
+    data = {
       id: id,
       notification_type: notification_type,
       primary_actor_id: primary_actor_id,
@@ -84,6 +85,8 @@ class Notification < ApplicationRecord
       primary_actor: primary_actor.push_event_data.with_indifferent_access.slice('conversation_id', 'id'),
       account_id: account_id
     }
+    data[:call] = missed_call_push_data if notification_type == 'voice_call_missed'
+    data
   end
 
   # rubocop:disable Metrics/MethodLength
@@ -96,7 +99,8 @@ class Notification < ApplicationRecord
       'conversation_mention' => 'notifications.notification_title.conversation_mention',
       'sla_missed_first_response' => 'notifications.notification_title.sla_missed_first_response',
       'sla_missed_next_response' => 'notifications.notification_title.sla_missed_next_response',
-      'sla_missed_resolution' => 'notifications.notification_title.sla_missed_resolution'
+      'sla_missed_resolution' => 'notifications.notification_title.sla_missed_resolution',
+      'voice_call_missed' => 'notifications.notification_title.voice_call_missed'
     }
 
     i18n_key = notification_title_map[notification_type]
@@ -104,6 +108,8 @@ class Notification < ApplicationRecord
 
     if notification_type == 'conversation_creation'
       I18n.t(i18n_key, display_id: conversation.display_id, inbox_name: primary_actor.inbox.name)
+    elsif notification_type == 'voice_call_missed'
+      I18n.t(i18n_key, inbox_name: primary_actor.inbox.name)
     elsif %w[conversation_assignment assigned_conversation_new_message participating_conversation_new_message
              conversation_mention].include?(notification_type)
       I18n.t(i18n_key, display_id: conversation.display_id)
@@ -121,6 +127,8 @@ class Notification < ApplicationRecord
       message_body(secondary_actor)
     when 'conversation_assignment', 'sla_missed_next_response', 'sla_missed_resolution'
       message_body((conversation.messages.incoming.last || conversation.messages.outgoing.last))
+    when 'voice_call_missed'
+      missed_call_body
     else
       ''
     end
@@ -131,6 +139,12 @@ class Notification < ApplicationRecord
   end
 
   private
+
+  # The caller, the way a phone's call log names them
+  def missed_call_body
+    contact = conversation.contact
+    [contact&.name, contact&.phone_number].compact_blank.join(' · ')
+  end
 
   def message_body(actor)
     sender_name = sender_name(actor)
@@ -196,6 +210,14 @@ class Notification < ApplicationRecord
 
   def set_last_activity_at
     self.last_activity_at = created_at
+  end
+
+  # Enough for the app to show the missed call without a lookup
+  def missed_call_push_data
+    call = secondary_actor.try(:call)
+    return if call.blank?
+
+    call.push_event_data.slice(:id, :provider_call_id, :provider, :status, :from_number)
   end
 
   def primary_actor_data

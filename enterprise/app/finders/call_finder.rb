@@ -22,15 +22,37 @@ class CallFinder
   private
 
   # Admins and report managers see the whole account; everyone else only sees
-  # calls they handled within conversations they can still access.
+  # calls they handled within conversations they can still access, plus, when asking
+  # for ringing calls, the ones still waiting for them to answer.
   def filter_by_visibility
     return if account_wide_access?
 
-    @calls = @calls.where(accepted_by_agent_id: @current_user.id, conversation_id: accessible_conversations)
+    own = @calls.where(accepted_by_agent_id: @current_user.id, conversation_id: accessible_conversations)
+    @calls = ringing_requested? ? own.or(ringing_for_current_user) : own
+  end
+
+  # An unanswered inbound call is visible to the agents it can ring: the assignee if the
+  # conversation has one, otherwise the inbox's members, within the conversations the
+  # agent's role lets them see. A phone that lost its socket asks for these on launch
+  # and on return to the foreground.
+  def ringing_for_current_user
+    @calls.where(status: 'ringing', accepted_by_agent_id: nil, direction: :incoming)
+          .where(inbox_id: @current_user.inboxes.where(account_id: @current_account.id).select(:id))
+          .where(conversation_id: permitted_conversations.where(assignee_id: [nil, @current_user.id]).select(:id))
+  end
+
+  def ringing_requested?
+    @params[:status].present? && Call.status_from_display(@params[:status]) == 'ringing'
   end
 
   def accessible_conversations
-    Conversations::PermissionFilterService.new(@current_account.conversations, @current_user, @current_account).perform.select(:id)
+    permitted_conversations.select(:id)
+  end
+
+  def permitted_conversations
+    @permitted_conversations ||= Conversations::PermissionFilterService.new(
+      @current_account.conversations, @current_user, @current_account
+    ).perform
   end
 
   def account_wide_access?

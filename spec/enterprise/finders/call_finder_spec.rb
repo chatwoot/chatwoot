@@ -56,6 +56,80 @@ describe CallFinder do
     end
   end
 
+  describe 'ringing calls' do
+    let(:other_agent) { create(:user, account: account, role: :agent) }
+    let(:other_inbox) { create(:inbox, account: account) }
+
+    def ringing_call(conversation)
+      create(:call, account: account, inbox: conversation.inbox, conversation: conversation, contact: conversation.contact,
+                    status: 'ringing', accepted_by_agent: nil)
+    end
+
+    it 'shows an inbox member an unassigned call still ringing in their inbox' do
+      call = ringing_call(conversation)
+
+      result = perform(agent, status: 'ringing')
+      expect(result[:calls].map(&:id)).to contain_exactly(call.id)
+    end
+
+    it 'hides an unassigned ringing call from a custom-role agent limited to their own conversations' do
+      custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
+      account.account_users.find_by(user_id: agent.id).update!(custom_role: custom_role)
+      ringing_call(conversation)
+
+      result = perform(agent, status: 'ringing')
+      expect(result[:calls]).to be_empty
+    end
+
+    it 'shows the assignee a ringing call in a conversation assigned to them' do
+      conversation.update!(assignee: agent)
+      call = ringing_call(conversation)
+
+      expect(perform(agent, status: 'ringing')[:calls].map(&:id)).to contain_exactly(call.id)
+    end
+
+    it 'hides a ringing call whose conversation is assigned to someone else' do
+      conversation.update!(assignee: other_agent)
+      ringing_call(conversation)
+
+      expect(perform(agent, status: 'ringing')[:calls]).to be_empty
+    end
+
+    it 'hides a ringing call in an inbox the agent is not a member of' do
+      ringing_call(create(:conversation, account: account, inbox: other_inbox))
+
+      expect(perform(agent, status: 'ringing')[:calls]).to be_empty
+    end
+
+    it 'hides a ringing call another agent has already claimed' do
+      call = ringing_call(conversation)
+      call.update!(accepted_by_agent: other_agent)
+
+      expect(perform(agent, status: 'ringing')[:calls]).to be_empty
+    end
+
+    it 'hides an outbound call that is still ringing' do
+      call = ringing_call(conversation)
+      call.update!(direction: :outgoing)
+
+      expect(perform(agent, status: 'ringing')[:calls]).to be_empty
+    end
+
+    it 'does not widen the history when ringing calls are not asked for' do
+      ringing_call(conversation)
+
+      expect(perform(agent)[:calls]).to be_empty
+    end
+
+    it 'keeps the agent\'s own accepted ringing calls alongside' do
+      own = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
+                          status: 'ringing', accepted_by_agent: agent)
+      waiting = ringing_call(conversation)
+
+      expect(perform(agent, status: 'ringing')[:calls].map(&:id)).to contain_exactly(own.id, waiting.id)
+    end
+  end
+
   describe 'filters' do
     let(:inbox2) { create(:inbox, account: account) }
     let(:conversation2) { create(:conversation, account: account, inbox: inbox2) }
