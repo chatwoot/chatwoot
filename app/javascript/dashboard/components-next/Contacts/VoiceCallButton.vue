@@ -146,7 +146,11 @@ const startCall = async (inboxId, conversationIdHint = null) => {
     try {
       await startWhatsappCall(inboxId, conversationIdHint);
     } catch (error) {
-      useAlert(error?.message || t('CONTACT_PANEL.CALL_FAILED'));
+      useAlert(
+        error?.response?.data?.error ||
+          error?.message ||
+          t('CONTACT_PANEL.CALL_FAILED')
+      );
     }
     return;
   }

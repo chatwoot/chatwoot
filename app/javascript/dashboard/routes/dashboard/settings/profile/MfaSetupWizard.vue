@@ -44,6 +44,7 @@ const setupStep = ref('qr');
 const qrCodeUrl = ref('');
 const verificationCode = ref('');
 const verificationError = ref('');
+const isVerifying = ref(false);
 const backupCodesConfirmed = ref(false);
 
 // Generate QR code from provisioning URI
@@ -76,16 +77,26 @@ watch(
   { immediate: true }
 );
 
-const verifyCode = async () => {
+// The parent verifies asynchronously; the wizard advances to the backup step
+// only when backup codes arrive (see the watcher below), so a slow or failed
+// verification never strands the user past the OTP form.
+const verifyCode = () => {
+  if (isVerifying.value) return;
+
+  isVerifying.value = true;
   verificationError.value = '';
-  try {
-    emit('verify', verificationCode.value);
-    setupStep.value = 'backup';
-    verificationCode.value = '';
-  } catch (error) {
-    verificationError.value = t('MFA_SETTINGS.SETUP.INVALID_CODE');
-  }
+  emit('verify', verificationCode.value);
+  verificationCode.value = '';
 };
+
+watch(
+  () => props.backupCodes,
+  codes => {
+    if (codes?.length && props.showSetup && !props.mfaEnabled) {
+      setupStep.value = 'backup';
+    }
+  }
+);
 
 const copySecret = async () => {
   await copyTextToClipboard(props.secretKey);
@@ -110,6 +121,10 @@ const downloadBackupCodes = () => {
 };
 
 const cancelSetup = () => {
+  // A pending verification may already have activated MFA server-side;
+  // stay mounted so the response can advance to the backup-code step.
+  if (isVerifying.value) return;
+
   setupStep.value = 'qr';
   verificationCode.value = '';
   verificationError.value = '';
@@ -131,13 +146,17 @@ watch(
       setupStep.value = 'qr';
       verificationCode.value = '';
       verificationError.value = '';
+      isVerifying.value = false;
       backupCodesConfirmed.value = false;
     }
   }
 );
 
-// Handle verification error
+// Handle verification error. The wizard advances optimistically when the
+// verify event is emitted, so roll the step back for a retry.
 const handleVerificationError = error => {
+  setupStep.value = 'qr';
+  isVerifying.value = false;
   verificationError.value = error || t('MFA_SETTINGS.SETUP.INVALID_CODE');
 };
 
@@ -225,12 +244,14 @@ defineExpose({
               faded
               color="slate"
               class="flex-1"
+              :disabled="isVerifying"
               :label="$t('MFA_SETTINGS.SETUP.CANCEL')"
               @click="cancelSetup"
             />
             <Button
               class="flex-1"
-              :disabled="verificationCode.length !== 6"
+              :disabled="verificationCode.length !== 6 || isVerifying"
+              :is-loading="isVerifying"
               :label="$t('MFA_SETTINGS.SETUP.VERIFY_BUTTON')"
               @click="verifyCode"
             />

@@ -12,10 +12,6 @@ class Captain::Playground::Configuration
     end
   end
 
-  def self.reject_v1!
-    raise Invalid, { 'playground_config' => ['is only available with Captain V2'] }
-  end
-
   attr_reader :assistant, :knowledge_text, :response_guidelines, :guardrails
 
   def initialize(assistant:, params:)

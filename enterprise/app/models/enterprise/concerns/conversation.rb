@@ -1,5 +1,6 @@
 module Enterprise::Concerns::Conversation
   extend ActiveSupport::Concern
+  include ConversationMonitors::ConversationTracking
 
   included do
     belongs_to :sla_policy, optional: true

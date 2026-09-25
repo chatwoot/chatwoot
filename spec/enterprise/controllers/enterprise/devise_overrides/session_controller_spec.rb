@@ -25,6 +25,25 @@ RSpec.describe 'Enterprise Audit API', type: :request do
         expect(json_response['errors']).to include(I18n.t('messages.login_saml_user'))
       end
 
+      it 'prevents login when the email is whitespace-padded' do
+        params = { email: "  #{saml_user.email.upcase}  ", password: 'Password1!' }
+
+        post new_user_session_url, params: params, as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.parsed_body['errors']).to include(I18n.t('messages.login_saml_user'))
+      end
+
+      it 'prevents login when the email is padded in the body and the password is a header' do
+        post new_user_session_url,
+             params: { email: "  #{saml_user.email}  " },
+             headers: { 'password' => 'Password1!' },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.parsed_body['errors']).to include(I18n.t('messages.login_saml_user'))
+      end
+
       it 'allows login with valid SSO token' do
         valid_token = saml_user.generate_sso_auth_token
         params = { email: saml_user.email, sso_auth_token: valid_token, password: 'Password1!' }
@@ -93,6 +112,40 @@ RSpec.describe 'Enterprise Audit API', type: :request do
       ensure
         ActiveSupport::Notifications.unsubscribe(subscriber)
       end
+
+      it 'enqueues one ip lookup for the whole batch' do
+        account.enable_features!(:ip_lookup)
+
+        expect do
+          post new_user_session_url, params: { email: user.email, password: 'Password1!' }, as: :json
+        end.to have_enqueued_job(Enterprise::AuditLogSessionIpLookupJob).exactly(:once)
+      end
+
+      it 'does not enqueue a lookup when no account has opted in' do
+        expect do
+          post new_user_session_url, params: { email: user.email, password: 'Password1!' }, as: :json
+        end.not_to have_enqueued_job(Enterprise::AuditLogSessionIpLookupJob)
+      end
+
+      it 'signs in even when the lookup cannot be enqueued' do
+        account.enable_features!(:ip_lookup)
+        allow(Enterprise::AuditLogSessionIpLookupJob).to receive(:perform_later).and_raise(StandardError.new('redis down'))
+
+        expect do
+          post new_user_session_url, params: { email: user.email, password: 'Password1!' }, as: :json
+        end.to change(Enterprise::AuditLog, :count).by(4)
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'still shares a request uuid when the request id sanitizes to blank' do
+        post new_user_session_url, params: { email: user.email, password: 'Password1!' },
+                                   headers: { 'X-Request-Id' => '!!!' }, as: :json
+
+        uuids = user.reload.audits.where(action: 'sign_in').pluck(:request_uuid).uniq
+        expect(uuids.length).to eq(1)
+        expect(uuids.first).to be_present
+      end
     end
 
     context 'with blank email' do
@@ -117,6 +170,17 @@ RSpec.describe 'Enterprise Audit API', type: :request do
         expect(user.audits.last.action).to eq('sign_out')
         expect(user.audits.last.associated_id).to eq(account.id)
         expect(user.audits.last.associated_type).to eq('Account')
+      end
+
+      it 'signs out and revokes the token even when the lookup cannot be enqueued' do
+        account.enable_features!(:ip_lookup)
+        allow(Enterprise::AuditLogSessionIpLookupJob).to receive(:perform_later).and_raise(StandardError.new('redis down'))
+        auth_headers = user.create_new_auth_token
+
+        delete '/auth/sign_out', headers: auth_headers
+
+        expect(response).to have_http_status(:success)
+        expect(user.reload.tokens).to be_empty
       end
     end
   end

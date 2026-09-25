@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useCaptain } from 'dashboard/composables/useCaptain';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import {
   isAbortError,
   useAbortableRequest,
@@ -24,10 +25,15 @@ import ResolutionTrendCard from './ResolutionTrendCard.vue';
 import CsatCard from './CsatCard.vue';
 import UsageCard from './UsageCard.vue';
 import KnowledgeCoverageCard from './KnowledgeCoverageCard.vue';
+import OverviewDrilldownDrawer from './OverviewDrilldownDrawer.vue';
+import { DRILLDOWN_METRICS } from './drilldownMetrics';
 
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
+const { checkPermissions } = usePolicy();
+const canDrilldown = computed(() => checkPermissions(['administrator']));
+const selectedDrilldown = ref(null);
 const currentUser = useMapGetter('getCurrentUser');
 const { responseLimits, documentLimits, isFetchingLimits, fetchLimits } =
   useCaptain();
@@ -50,6 +56,11 @@ const SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
 const DURATION_DAY_THRESHOLD_HOURS = 100;
 
 const assistantId = computed(() => route.params.assistantId);
+const statsStartDate = computed(() =>
+  overview.value?.tracking_started_at
+    ? new Date(overview.value.tracking_started_at)
+    : null
+);
 const userName = computed(
   () =>
     currentUser.value?.name?.split(' ')[0] ||
@@ -128,6 +139,7 @@ const fetchKnowledge = async () => {
 watch(
   [selectedRange, assistantId],
   () => {
+    selectedDrilldown.value = null;
     fetchReport();
     fetchSummary();
   },
@@ -191,7 +203,7 @@ const metricFor = ({
   valueClass = 'text-n-slate-12',
 }) => {
   const data = overview.value?.[key];
-  if (!data) {
+  if (!data || data.current === null) {
     return {
       key,
       label,
@@ -207,17 +219,21 @@ const metricFor = ({
     };
   }
 
+  const trend =
+    data.trend === null
+      ? ''
+      : formatTrend?.(data.trend) || `${signed(data.trend)}${trendSuffix}`;
+
   return {
     key,
+    clickable: canDrilldown.value && Object.hasOwn(DRILLDOWN_METRICS, key),
     label,
     hint,
     hintNote,
     value: formatValue(data.current),
-    trend: formatTrend
-      ? formatTrend(data.trend)
-      : `${signed(data.trend)}${trendSuffix}`,
+    trend,
     trendGood: trendGood(data.trend, direction),
-    trendUp: data.trend === 0 ? null : data.trend > 0,
+    trendUp: data.trend === null || data.trend === 0 ? null : data.trend > 0,
     supportingValue,
     supportingText,
     valueClass,
@@ -228,18 +244,21 @@ const handledCount = computed(
   () => overview.value?.conversations_handled?.current || 0
 );
 
-const featuredMetrics = computed(() => [
-  metricFor({
-    key: 'hours_saved',
-    label: t('CAPTAIN.OVERVIEW.V2.METRICS.TIME_SAVED.LABEL'),
-    hint: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.HINT'),
-    hintNote: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.NOTE'),
-    formatValue: formatDuration,
-    formatTrend: formatDurationTrend,
-    direction: TREND_DIRECTIONS.UP,
-    valueClass: 'text-n-iris-11',
-  }),
-  metricFor({
+const featuredMetrics = computed(() => {
+  const items = [
+    metricFor({
+      key: 'hours_saved',
+      label: t('CAPTAIN.OVERVIEW.V2.METRICS.TIME_SAVED.LABEL'),
+      hint: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.HINT'),
+      hintNote: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.NOTE'),
+      formatValue: formatDuration,
+      formatTrend: formatDurationTrend,
+      direction: TREND_DIRECTIONS.UP,
+      valueClass: 'text-n-iris-11',
+    }),
+  ];
+
+  const durableMetric = metricFor({
     key: 'durable_resolution_rate',
     label: t('CAPTAIN.OVERVIEW.V2.METRICS.DURABLE.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.V2.METRICS.DURABLE.HINT'),
@@ -248,8 +267,19 @@ const featuredMetrics = computed(() => [
     direction: TREND_DIRECTIONS.UP,
     trendSuffix: '%',
     valueClass: 'text-n-iris-11',
-  }),
-]);
+  });
+
+  if (overview.value?.durable_resolution_rate?.current === null) {
+    durableMetric.clickable = false;
+    durableMetric.valueClass = 'text-n-slate-11';
+    durableMetric.hint = t(
+      'CAPTAIN.OVERVIEW.V2.METRICS.DURABLE.NOT_APPLICABLE_HINT'
+    );
+    durableMetric.hintNote = '';
+  }
+
+  return [...items, durableMetric];
+});
 
 const metrics = computed(() => [
   metricFor({
@@ -341,7 +371,11 @@ const reviewFaqs = () =>
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
   >
     <template #headerActions>
-      <RangeSelector v-model="selectedRange" />
+      <RangeSelector
+        v-if="statsStartDate"
+        v-model="selectedRange"
+        :stats-start-date="statsStartDate"
+      />
     </template>
     <template #paywall>
       <CaptainPaywall />
@@ -358,11 +392,14 @@ const reviewFaqs = () =>
           :metrics="metrics"
           :loading="isFetchingReport"
           :summary-loading="isFetchingSummary"
+          @metric-click="selectedDrilldown = $event"
         />
 
         <ResolutionFlowCard
           :flow="resolutionFlow"
           :loading="isFetchingReport"
+          :can-drilldown="canDrilldown"
+          @drilldown="selectedDrilldown = $event"
         />
 
         <div class="grid gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(18rem,1fr)]">
@@ -395,6 +432,14 @@ const reviewFaqs = () =>
 
         <QuickLinks />
       </div>
+
+      <OverviewDrilldownDrawer
+        v-if="canDrilldown && selectedDrilldown"
+        :assistant-id="assistantId"
+        :metric="selectedDrilldown"
+        :range="selectedRange"
+        @close="selectedDrilldown = null"
+      />
     </template>
   </PageLayout>
 </template>

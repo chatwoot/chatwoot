@@ -238,7 +238,7 @@ class Seeders::Reports::ReportDataSeeder
 
   # One assistant, bound to a single web inbox (the first one), as the overview page expects.
   def create_assistant
-    @account.enable_features!('captain_integration', 'captain_integration_v2')
+    @account.enable_features!('captain_integration')
     @assistant_inbox = @inboxes.first
     @assistant = Captain::Assistant.create!(
       account: @account,
