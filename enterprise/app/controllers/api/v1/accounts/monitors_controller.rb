@@ -156,9 +156,19 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   # Same shape as team icons: an icon name or emoji, tinted with an optional hex color.
   def validate_icon_parameters!
     icon, color = params.values_at(:icon, :icon_color)
-    valid = (!params.key?(:icon) || (icon.is_a?(String) && icon.length <= 50)) &&
+    valid = (!params.key?(:icon) || valid_icon_parameter?(icon)) &&
             (!params.key?(:icon_color) || (color.is_a?(String) && color.match?(/\A(#\h{6})?\z/)))
     raise CustomExceptions::MonitorParametersError, 'invalid_parameters' unless valid
+  end
+
+  def valid_icon_parameter?(icon)
+    return false unless icon.is_a?(String) && icon.length <= 50
+    return true if icon.match?(/\A[a-z][a-z0-9]*(?:-[a-z0-9]+)*-(?:line|fill)\z/)
+
+    # gemoji defines this method; Emoji is not an ActiveRecord model.
+    # rubocop:disable Rails/DynamicFindBy
+    Emoji.find_by_unicode(icon).present?
+    # rubocop:enable Rails/DynamicFindBy
   end
 
   def ensure_enabled
