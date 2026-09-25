@@ -1,0 +1,4 @@
+{
+  "aps": {"alert": {"title": "Chatwoot push demo", "body": "Simulated support reply"}, "sound": "default"},
+  "chatwoot": {"inbox_id": 1, "conversation_id": 1}
+}

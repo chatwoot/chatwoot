@@ -4,8 +4,16 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   before_action :set_web_widget
   before_action :set_contact
+  before_action :validate_conversation_id
 
   private
+
+  def validate_conversation_id
+    return unless params.key?(:conversation_id)
+    return if params[:conversation_id].is_a?(String) && params[:conversation_id].match?(/\A[1-9]\d*\z/)
+
+    render json: { error: 'Invalid conversation ID' }, status: :unprocessable_entity
+  end
 
   def conversations
     if @contact_inbox.hmac_verified?
@@ -18,7 +26,7 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   # With multiple conversations the widget names the conversation it acts on; no id means a new one.
   def conversation
-    @conversation ||= if params[:conversation_id].present?
+    @conversation ||= if params.key?(:conversation_id)
                         conversations.find_by!(display_id: params[:conversation_id])
                       elsif !@web_widget.multiple_conversations?
                         conversations.last

@@ -312,6 +312,9 @@ Rails.application.routes.draw do
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resource :branded_email_layout, only: [:show, :update]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
+            resource :mobile_app, only: [:show, :update, :destroy], controller: :inbox_mobile_apps do
+              post :test_notification
+            end
             get :assignable_agents, on: :member
             get :campaigns, on: :member
             get :agent_bot, on: :member
@@ -514,6 +517,7 @@ Rails.application.routes.draw do
       resource :notification_subscriptions, only: [:create, :destroy]
 
       namespace :widget do
+        resources :mobile_push_devices, only: [:create, :destroy]
         resource :direct_uploads, only: [:create]
         resource :config, only: [:create]
         resources :campaigns, only: [:index]
@@ -521,6 +525,7 @@ Rails.application.routes.draw do
         resources :messages, only: [:index, :create, :update]
         resources :conversations, only: [:index, :create] do
           collection do
+            get :history
             post :destroy_custom_attributes
             post :set_custom_attributes
             post :update_last_seen

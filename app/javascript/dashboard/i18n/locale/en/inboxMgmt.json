@@ -1635,6 +1635,45 @@
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
       "VOICE": "Voice"
+    },
+    "MOBILE_APPS": {
+      "TAB": "Mobile apps",
+      "TITLE": "iOS push notifications",
+      "DESCRIPTION": "Notify customers when your team replies, even when your iOS app is closed. Configure the Apple credentials for the app connected to this Website inbox.",
+      "FIELDS": {
+        "NAME": "App name",
+        "BUNDLE_ID": "Bundle ID",
+        "TEAM_ID": "Apple Team ID",
+        "KEY_ID": "APNs Key ID"
+      },
+      "PRIVATE_KEY": "APNs private key (.p8)",
+      "KEY_HELP": "Upload the APNs signing key from your Apple Developer account. It is encrypted and stored only on the server.",
+      "KEY_SAVED": "A signing key is saved. Upload a new file only to replace it.",
+      "SAVE": "Save configuration",
+      "SAVED": "Push configuration saved.",
+      "LOADING": "Loading configuration…",
+      "ERROR": "Unable to load or save mobile push settings.",
+      "KEY_TOO_LARGE": "Choose an APNs key file smaller than 8 KB.",
+      "DEVICES": "Registered devices",
+      "REFRESH": "Refresh status",
+      "NO_DEVICES": "No devices registered yet. Run the iOS test app and enable notifications.",
+      "SEND_TEST": "Send test notification",
+      "QUEUED": "Test notification queued. Refresh status to see the APNs response.",
+      "DELIVERY_HELP": "Accepted means Apple accepted the request. Confirm that the notification appears on the device to verify delivery.",
+      "ENVIRONMENTS": {
+        "DEVELOPMENT": "Development (APNs sandbox)",
+        "PRODUCTION": "Production (TestFlight / App Store)"
+      },
+      "STATUSES": {
+        "PENDING": "Queued",
+        "ACCEPTED": "Accepted by APNs",
+        "REJECTED": "Rejected"
+      },
+      "REMOVE": "Remove configuration",
+      "CONFIRM_REMOVE": "Confirm removal",
+      "REMOVE_HELP": "This removes the saved credentials and device registrations. Devices will need to register again after you add a configuration.",
+      "CANCEL": "Cancel",
+      "INVALID_DEVICE": "Token invalid. Register this device again."
     }
   }
 }

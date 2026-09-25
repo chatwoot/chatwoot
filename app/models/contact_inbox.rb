@@ -32,6 +32,7 @@ class ContactInbox < ApplicationRecord
   belongs_to :inbox
 
   has_many :conversations, dependent: :destroy_async
+  has_many :mobile_push_devices, dependent: :destroy
 
   # contact_inboxes that are not associated with any conversation
   scope :stale_without_conversations, lambda { |time_period|

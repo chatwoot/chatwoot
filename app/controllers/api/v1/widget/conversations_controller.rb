@@ -1,8 +1,16 @@
 class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
+  before_action :validate_history_cursor, only: [:history]
   before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
 
   RESULTS_PER_PAGE = 25
+  def history
+    @unread_count = Message.where(conversation_id: conversations.select(:id), message_type: :outgoing, private: false)
+                           .joins(:conversation)
+                           .where('messages.created_at > COALESCE(conversations.contact_last_seen_at, ?)', Time.zone.at(0)).count
+    @history = conversations.order(created_at: :desc).limit(30)
+    @history = @history.where('conversations.id < ?', params[:before]) if params[:before].present?
+  end
 
   def index
     @conversation = conversation
@@ -84,6 +92,13 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   private
+
+  def validate_history_cursor
+    return unless params.key?(:before)
+    return if params[:before].is_a?(String) && params[:before].match?(/\A[1-9]\d*\z/)
+
+    render json: { error: 'Invalid conversation cursor' }, status: :unprocessable_entity
+  end
 
   def send_transcript_email
     return if conversation.contact&.email.blank?

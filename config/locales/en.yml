@@ -30,6 +30,9 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  mobile_push:
+    reply: "You have a new support reply"
+    test: "Your support notifications are working"
   hello: 'Hello world'
   inbox:
     reauthorization:
