@@ -118,6 +118,32 @@ RSpec.describe Voice::VoipPushService do
       expect(call.reload.meta).to include('twilio_conference_sid' => 'CF999', 'rung_devices' => { 'apns_voip' => ['apple-1'], 'fcm' => [] })
     end
 
+    it 'records the agents chosen for the ring even when none of them has a phone' do
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.meta['ring_recipient_ids']).to contain_exactly(agent.id, other_agent.id)
+    end
+
+    it 'follows the ring with a cancel when the call ended while the pushes were in flight' do
+      subscribe(agent, 'fcm', 'android-1', platform: 'Android')
+      allow(fcm_client).to receive(:send_v1) do
+        Call.where(id: call.id).update_all(status: 'rejected') # rubocop:disable Rails/SkipsModelValidations
+        { status_code: 200, body: '' }
+      end
+
+      described_class.new(call: call).perform('ring')
+
+      expect(fcm_client).to have_received(:send_v1).with(hash_including(data: hash_including('type' => 'voice_call.cancel'))).once
+    end
+
+    it 'fails loudly on an APNs environment it does not know' do
+      config['APNS_VOIP_ENVIRONMENT'] = 'prod'
+      subscribe(agent, 'apns_voip', 'apple-1')
+
+      expect { described_class.new(call: call).perform('ring') }.to raise_error(ArgumentError, /APNS_VOIP_ENVIRONMENT/)
+      expect(apple_connection).not_to have_received(:push)
+    end
+
     it 'sends to Android phones a batch at a time' do
       stub_const('Voice::VoipPushService::ANDROID_BATCH_SIZE', 2)
       5.times { |i| subscribe(agent, 'fcm', "android-#{i}", platform: 'Android') }

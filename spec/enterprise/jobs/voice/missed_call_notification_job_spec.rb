@@ -44,6 +44,16 @@ RSpec.describe Voice::MissedCallNotificationJob do
     expect(missed_calls_for(other_agent).count).to eq(1)
   end
 
+  it 'records it for the agents whose phones rang even after the conversation was reassigned' do
+    call.update!(meta: { 'ring_recipient_ids' => [agent.id] })
+    conversation.update!(assignee: other_agent)
+
+    described_class.perform_now(call.id)
+
+    expect(missed_calls_for(agent).count).to eq(1)
+    expect(missed_calls_for(other_agent).count).to eq(0)
+  end
+
   it 'does not record the same missed call twice' do
     described_class.perform_now(call.id)
     described_class.perform_now(call.id)

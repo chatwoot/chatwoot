@@ -6,7 +6,7 @@ class Voice::MissedCallNotificationJob < ApplicationJob
     call = Call.find_by(id: call_id)
     return if call.blank? || !call.incoming? || call.status != 'no_answer' || call.message.blank?
 
-    Voice::VoipPushService.recipients_for(call).each do |user|
+    recipients(call).each do |user|
       next if user.notifications.exists?(notification_type: 'voice_call_missed', secondary_actor: call.message)
 
       NotificationBuilder.new(
@@ -17,5 +17,17 @@ class Voice::MissedCallNotificationJob < ApplicationJob
         secondary_actor: call.message
       ).perform
     end
+  end
+
+  private
+
+  # The agents the ring went to, as recorded when it was sent; a reassignment since then
+  # does not change who missed the call. A call that never rang falls back to the same
+  # choice the ring would have made.
+  def recipients(call)
+    ids = call.meta&.dig('ring_recipient_ids')
+    return Voice::VoipPushService.recipients_for(call) if ids.nil?
+
+    call.account.users.where(id: ids)
   end
 end
