@@ -13,32 +13,42 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
   end
 
   describe '#perform' do
-    context 'with conversation monitors' do
-      it 'grants the feature on Business and Enterprise and removes it on downgrade' do
+    context 'with conversation monitors and Captain Classifier' do
+      it 'grants both features on Business and Enterprise' do
         account.update!(custom_attributes: { 'plan_name' => 'Startups' })
         described_class.new(account: account).perform
         expect(account.reload).not_to be_feature_enabled('conversation_monitors')
+        expect(account).not_to be_feature_enabled('captain_classifier')
 
         account.update!(custom_attributes: { 'plan_name' => 'Business' })
         described_class.new(account: account).perform
         expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
 
         account.update!(custom_attributes: { 'plan_name' => 'Enterprise' })
         described_class.new(account: account).perform
         expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+      end
+
+      it 'removes both features on downgrade' do
+        account.update!(custom_attributes: { 'plan_name' => 'Business' })
+        described_class.new(account: account).perform
 
         account.update!(custom_attributes: { 'plan_name' => 'Hacker' })
         described_class.new(account: account).perform
         expect(account.reload).not_to be_feature_enabled('conversation_monitors')
+        expect(account).not_to be_feature_enabled('captain_classifier')
       end
 
       it 'keeps a manually managed grant after a downgrade' do
         account.update!(custom_attributes: { 'plan_name' => 'Hacker' })
-        Internal::Accounts::InternalAttributesService.new(account).manually_managed_features = ['conversation_monitors']
+        Internal::Accounts::InternalAttributesService.new(account).manually_managed_features = %w[conversation_monitors captain_classifier]
 
         described_class.new(account: account).perform
 
         expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
       end
     end
 
@@ -190,23 +200,27 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         expect(account.internal_attributes['shopify_managed_features']).to contain_exactly('audit_logs')
       end
 
-      it 'leaves a pre-existing monitor grant alone when the Shopify catalog does not manage it' do
-        account.enable_features!('conversation_monitors')
+      it 'leaves pre-existing grants alone when the Shopify catalog does not manage them' do
+        account.enable_features!('conversation_monitors', 'captain_classifier')
 
         described_class.new(account: account).perform
 
         expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
       end
 
-      it 'uses the Shopify plan catalog to grant and revoke monitors' do
-        shopify_config.update!(value: [shopify_plans.first.merge('features' => %w[audit_logs conversation_monitors]), shopify_plans.second])
+      it 'uses the Shopify plan catalog to grant and revoke both features' do
+        features = %w[audit_logs conversation_monitors captain_classifier]
+        shopify_config.update!(value: [shopify_plans.first.merge('features' => features), shopify_plans.second])
         described_class.new(account: account).perform
         expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
 
         shopify_config.update!(value: shopify_plans)
         described_class.new(account: account).perform
 
         expect(account.reload).not_to be_feature_enabled('conversation_monitors')
+        expect(account).not_to be_feature_enabled('captain_classifier')
       end
 
       it 'rejects an unknown Shopify plan instead of guessing entitlements' do

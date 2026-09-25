@@ -32,11 +32,12 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     advanced_assignment
     custom_tools
     conversation_monitors
+    captain_classifier
   ].freeze
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
   PREMIUM_PLAN_FEATURES = (STARTUP_PLAN_FEATURES + BUSINESS_PLAN_FEATURES + ENTERPRISE_PLAN_FEATURES).freeze
-  # Shopify grants monitors only when its plan catalog lists the feature.
-  SHOPIFY_BASE_MANAGED_FEATURES = (PREMIUM_PLAN_FEATURES - %w[conversation_monitors] + %w[channel_tiktok]).freeze
+  # Shopify grants these features only when its plan catalog lists them.
+  SHOPIFY_BASE_MANAGED_FEATURES = (PREMIUM_PLAN_FEATURES - %w[conversation_monitors captain_classifier] + %w[channel_tiktok]).freeze
 
   pattr_initialize [:account!, { shopify_lifecycle_cleanup: false }]
 
