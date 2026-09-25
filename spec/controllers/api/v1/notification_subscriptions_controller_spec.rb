@@ -57,6 +57,21 @@ RSpec.describe 'Notifications Subscriptions API', type: :request do
         expect(json_response['identifier']).to eq('voip:phone-1')
       end
 
+      it 'rejects a VoIP push token that names no device' do
+        post '/api/v1/notification_subscriptions',
+             params: {
+               notification_subscription: {
+                 subscription_type: 'apns_voip',
+                 'subscription_attributes': { push_token: 'voip-token', devicePlatform: 'iOS' }
+               }
+             },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(NotificationSubscription.apns_voip.count).to eq(0)
+      end
+
       it 'returns existing notification subscription if subscription exists' do
         subscription = create(:notification_subscription, user: agent)
         post '/api/v1/notification_subscriptions',
