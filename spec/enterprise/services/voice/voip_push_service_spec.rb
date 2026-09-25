@@ -124,6 +124,20 @@ RSpec.describe Voice::VoipPushService do
       expect(call.reload.meta['ring_recipient_ids']).to contain_exactly(agent.id, other_agent.id)
     end
 
+    it 'rings and records the same agents even if the conversation is reassigned meanwhile' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      subscribe(other_agent, 'apns_voip', 'apple-2')
+      allow(NotificationSubscription).to receive(:fcm).and_wrap_original do |original|
+        conversation.update!(assignee: other_agent)
+        original.call
+      end
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.meta['ring_recipient_ids']).to contain_exactly(agent.id, other_agent.id)
+      expect(apple_connection).to have_received(:push).twice
+    end
+
     it 'follows the ring with a cancel when the call ended while the pushes were in flight' do
       subscribe(agent, 'fcm', 'android-1', platform: 'Android')
       allow(fcm_client).to receive(:send_v1) do

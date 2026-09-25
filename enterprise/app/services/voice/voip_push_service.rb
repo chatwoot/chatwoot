@@ -79,14 +79,10 @@ class Voice::VoipPushService
 
   # MARK: recipients and devices
 
-  # The assignee if the conversation has one, otherwise everyone who could be assigned
-  # the inbox. Presence is not consulted: a locked phone is offline on the socket and
-  # is exactly the device this push exists for.
+  # The assignee if the conversation has one, otherwise everyone assignable to the inbox,
+  # resolved once per ring so the devices rung and the agents recorded are one set
   def recipients
-    assignee = call.conversation.assignee
-    return [assignee] if assignee
-
-    call.inbox.assignable_agents
+    @recipients ||= call.conversation.assignee.then { |assignee| assignee ? [assignee] : call.inbox.assignable_agents.to_a }
   end
 
   def apple_tokens
