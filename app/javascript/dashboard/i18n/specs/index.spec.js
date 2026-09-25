@@ -12,7 +12,7 @@ const localeFiles = import.meta.glob('../locale/*/*.json', {
 const sortStrings = values =>
   [...values].sort((left, right) => left.localeCompare(right));
 
-const FALLBACK_KEY = 'HELP_CENTER.PORTAL.DRAFT_LOCALE.API.SUCCESS_MESSAGE';
+const FALLBACK_KEY = 'AUDIT_LOGS.LIST.TABLE_HEADER.LOCATION';
 
 const flattenLeafTranslations = (value, prefix = '', out = new Map()) => {
   if (value && typeof value === 'object' && !Array.isArray(value)) {
@@ -46,16 +46,16 @@ describe('dashboard i18n', () => {
     });
   });
 
-  it('keeps the locale allowlist in sync with locale folders on disk', () => {
+  it('has translation files for every enabled dashboard locale', () => {
     const localeFolders = new Set(
       Object.keys(localeFiles)
         .map(filePath => filePath.match(/^\.\.\/locale\/([^/]+)\//)?.[1])
         .filter(Boolean)
     );
 
-    expect(sortStrings([...localeFolders])).toEqual(
-      sortStrings(SUPPORTED_DASHBOARD_LOCALES)
-    );
+    SUPPORTED_DASHBOARD_LOCALES.forEach(locale => {
+      expect(localeFolders.has(locale)).toBe(true);
+    });
   });
 
   it('loads every allowed locale file that exists on disk', () => {
@@ -144,9 +144,9 @@ describe('dashboard i18n', () => {
         messages,
       });
 
-      expect(
-        i18n.global.t('HELP_CENTER.PORTAL.DRAFT_LOCALE.API.SUCCESS_MESSAGE')
-      ).toBe(englishLeaves.get(FALLBACK_KEY));
+      expect(i18n.global.t('AUDIT_LOGS.LIST.TABLE_HEADER.LOCATION')).toBe(
+        englishLeaves.get(FALLBACK_KEY)
+      );
     });
   });
 });

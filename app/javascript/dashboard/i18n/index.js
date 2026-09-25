@@ -1,10 +1,7 @@
-// Keep bundled dashboard locales explicit so adding a language stays deliberate.
+// Keep this list aligned with enabled languages in config/initializers/languages.rb.
 export const SUPPORTED_DASHBOARD_LOCALES = Object.freeze([
-  'am',
   'ar',
-  'az',
   'bg',
-  'bn',
   'ca',
   'cs',
   'da',
@@ -17,21 +14,15 @@ export const SUPPORTED_DASHBOARD_LOCALES = Object.freeze([
   'fi',
   'fr',
   'he',
-  'hi',
-  'hr',
   'hu',
-  'hy',
   'id',
   'is',
   'it',
   'ja',
-  'ka',
   'ko',
   'lt',
   'lv',
   'ml',
-  'ms',
-  'ne',
   'nl',
   'no',
   'pl',
@@ -39,22 +30,16 @@ export const SUPPORTED_DASHBOARD_LOCALES = Object.freeze([
   'pt_BR',
   'ro',
   'ru',
-  'sh',
   'sk',
   'sl',
-  'sq',
   'sr',
   'sv',
   'ta',
   'th',
-  'tl',
   'tr',
   'uk',
-  'ur',
-  'ur_IN',
   'uz',
   'vi',
-  'zh',
   'zh_CN',
   'zh_TW',
 ]);
@@ -109,12 +94,17 @@ export const LOCALE_MODULES = Object.freeze([
   'yearInReview',
 ]);
 
-const localeFiles = import.meta.glob('./locale/*/*.json', {
-  eager: true,
-  import: 'default',
-});
+const localeFiles = import.meta.glob(
+  [
+    './locale/{ar,bg,ca,cs,da,de,el,en,es,et}/*.json',
+    './locale/{fa,fi,fr,he,hu,id,is,it,ja,ko}/*.json',
+    './locale/{lt,lv,ml,nl,no,pl,pt,pt_BR,ro,ru}/*.json',
+    './locale/{sk,sl,sr,sv,ta,th,tr,uk,uz,vi}/*.json',
+    './locale/{zh_CN,zh_TW}/*.json',
+  ],
+  { eager: true, import: 'default' }
+);
 
-const allowedLocales = new Set(SUPPORTED_DASHBOARD_LOCALES);
 const allowedModules = new Set(LOCALE_MODULES);
 
 const messages = Object.fromEntries(
@@ -133,7 +123,7 @@ Object.entries(localeFiles)
 
     const [, locale, moduleName] = match;
 
-    if (!allowedLocales.has(locale) || !allowedModules.has(moduleName)) {
+    if (!allowedModules.has(moduleName)) {
       return;
     }
 
