@@ -59,6 +59,33 @@ RSpec.describe Account do
     end
   end
 
+  describe '#enforce_mfa?' do
+    let(:account) { create(:account) }
+
+    before do
+      skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+    end
+
+    it 'returns false by default' do
+      expect(account.enforce_mfa?).to be false
+    end
+
+    it 'returns true when setting enabled' do
+      account.update!(enforce_mfa: true)
+      expect(account.reload.enforce_mfa?).to be true
+    end
+
+    it 'rejects non-boolean values via settings schema' do
+      expect { account.update!(enforce_mfa: 'true') }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'returns false when MFA feature is unavailable' do
+      account.update!(enforce_mfa: true)
+      allow(Chatwoot).to receive(:mfa_enabled?).and_return(false)
+      expect(account.enforce_mfa?).to be false
+    end
+  end
+
   describe 'captain defaults for new accounts' do
     it 'does not store Captain model overrides or enable premium Captain features' do
       InstallationConfig.find_or_initialize_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').update!(
