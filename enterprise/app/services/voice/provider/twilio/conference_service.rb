@@ -22,14 +22,33 @@ class Voice::Provider::Twilio::ConferenceService
   def end_conference
     return if call.conference_sid.blank?
 
-    client = call.inbox.channel.client
-    client
-      .conferences
-      .list(friendly_name: call.conference_sid, status: 'in-progress')
-      .each { |conf| client.conferences(conf.sid).update(status: 'completed') }
+    in_progress_conferences.each { |conf| client.conferences(conf.sid).update(status: 'completed') }
+  end
+
+  # Whether an agent leg other than the one leaving is still on the conference. Legs are
+  # told apart by call SID: an agent who reconnected carries the same label as the leg
+  # that left.
+  def agents_remain?(leaving_call_sid:)
+    return false if call.conference_sid.blank?
+
+    in_progress_conferences.any? { |conf| other_agent_present?(conf.sid, leaving_call_sid) }
   end
 
   private
+
+  def client
+    @client ||= call.inbox.channel.client
+  end
+
+  def in_progress_conferences
+    client.conferences.list(friendly_name: call.conference_sid, status: 'in-progress')
+  end
+
+  def other_agent_present?(conference_sid, leaving_call_sid)
+    client.conferences(conference_sid).participants.list.any? do |participant|
+      participant.label.to_s.start_with?('agent-') && participant.call_sid != leaving_call_sid
+    end
+  end
 
   def claim_call!(user)
     call.with_lock do
