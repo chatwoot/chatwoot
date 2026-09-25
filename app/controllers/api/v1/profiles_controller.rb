@@ -1,5 +1,10 @@
 class Api::V1::ProfilesController < Api::BaseController
+  include MfaEnforcementGuard
+
   before_action :set_user
+  # show leaks pubsub_token, which grants realtime access; the rest of the
+  # profile surface is equally off-limits to a token that MFA enforcement blocks.
+  before_action :check_user_mfa_enforcement, if: :authenticate_by_access_token?
 
   def show; end
 

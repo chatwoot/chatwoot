@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { matchesFilters } from '../filterHelpers';
+import { createFiltersMatcher, matchesFilters } from '../filterHelpers';
 
 // SAMPLE PAYLOAD
 //
@@ -92,6 +92,24 @@ import { matchesFilters } from '../filterHelpers';
 // },
 
 describe('filterHelpers', () => {
+  it.each([0, false, 42])(
+    'preserves custom attribute value %s when filtering',
+    value => {
+      const conversation = { custom_attributes: { custom_value: value } };
+      const filter = {
+        attribute_key: 'custom_value',
+        filter_operator: 'equal_to',
+        values: [value],
+      };
+      expect(matchesFilters(conversation, [filter])).toBe(true);
+      expect(
+        matchesFilters(conversation, [
+          { ...filter, filter_operator: 'not_equal_to' },
+        ])
+      ).toBe(false);
+      expect(matchesFilters({ custom_attributes: {} }, [filter])).toBe(false);
+    }
+  );
   describe('#matchesFilters', () => {
     it('returns true by default when no filters are provided', () => {
       const conversation = {};
@@ -1798,6 +1816,93 @@ describe('filterHelpers', () => {
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+  });
+
+  describe('date filters with a saved timezone', () => {
+    afterEach(() => {
+      vi.useRealTimers();
+      vi.restoreAllMocks();
+    });
+
+    it.each(['created_at', 'last_activity_at'])(
+      'compares %s against a precomputed UTC boundary',
+      attributeKey => {
+        const formatSpy = vi.spyOn(
+          Intl.DateTimeFormat.prototype,
+          'formatToParts'
+        );
+        const matches = createFiltersMatcher([
+          {
+            attribute_key: attributeKey,
+            filter_operator: 'is_less_than',
+            values: ['2026-09-08'],
+            timezone: 'America/Sao_Paulo',
+            query_operator: 'and',
+          },
+        ]);
+        formatSpy.mockClear();
+
+        expect(
+          matches({ [attributeKey]: Date.parse('2026-09-08T00:49:00Z') / 1000 })
+        ).toBe(true);
+        expect(
+          matches({ [attributeKey]: Date.parse('2026-09-08T03:00:00Z') / 1000 })
+        ).toBe(false);
+        expect(formatSpy).not.toHaveBeenCalled();
+      }
+    );
+
+    // Santiago skips 2026-09-06 00:00, so the day starts at 01:00 (04:00 UTC), matching Rails.
+    it.each([
+      ['is_less_than', '2026-09-06', '2026-09-06T03:30:00Z', true],
+      ['is_less_than', '2026-09-06', '2026-09-06T04:00:00Z', false],
+      ['is_greater_than', '2026-09-05', '2026-09-06T03:30:00Z', false],
+      ['is_greater_than', '2026-09-05', '2026-09-06T04:00:00Z', true],
+    ])(
+      'starts the local day after a skipped midnight for %s %s',
+      (filterOperator, value, timestamp, expected) => {
+        const matches = createFiltersMatcher([
+          {
+            attribute_key: 'created_at',
+            filter_operator: filterOperator,
+            values: [value],
+            timezone: 'America/Santiago',
+            query_operator: 'and',
+          },
+        ]);
+
+        expect(matches({ created_at: Date.parse(timestamp) / 1000 })).toBe(
+          expected
+        );
+      }
+    );
+
+    it('uses the local current date for days_before without per-row formatting', () => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date('2026-09-10T00:49:00Z'));
+      const formatSpy = vi.spyOn(
+        Intl.DateTimeFormat.prototype,
+        'formatToParts'
+      );
+      const matches = createFiltersMatcher([
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'days_before',
+          values: [1],
+          timezone: 'America/Sao_Paulo',
+          query_operator: 'and',
+        },
+      ]);
+      formatSpy.mockClear();
+
+      expect(
+        matches({ created_at: Date.parse('2026-09-08T00:49:00Z') / 1000 })
+      ).toBe(true);
+      expect(
+        matches({ created_at: Date.parse('2026-09-08T03:00:00Z') / 1000 })
+      ).toBe(false);
+      expect(formatSpy).not.toHaveBeenCalled();
     });
   });
 

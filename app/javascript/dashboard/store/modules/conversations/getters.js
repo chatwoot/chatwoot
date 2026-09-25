@@ -1,7 +1,7 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { applyPageFilters, applyRoleFilter, sortComparator } from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
-import { matchesFilters } from './helpers/filterHelpers';
+import { createFiltersMatcher } from './helpers/filterHelpers';
 import {
   getUserPermissions,
   getUserRole,
@@ -19,7 +19,7 @@ const getters = {
     return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
   },
   getFilteredConversations: (
-    { allConversations, chatSortFilter, appliedFilters },
+    { allConversations, chatSortFilter, appliedFilters, appliedFiltersSortBy },
     _,
     __,
     rootGetters
@@ -30,13 +30,11 @@ const getters = {
 
     const permissions = getUserPermissions(currentUser, currentAccountId);
     const userRole = getUserRole(currentUser, currentAccountId);
+    const matchesFilters = createFiltersMatcher(appliedFilters);
 
     return allConversations
       .filter(conversation => {
-        const matchesFilterResult = matchesFilters(
-          conversation,
-          appliedFilters
-        );
+        const matchesFilterResult = matchesFilters(conversation);
         const allowedForRole = applyRoleFilter(
           conversation,
           userRole,
@@ -46,7 +44,9 @@ const getters = {
 
         return matchesFilterResult && allowedForRole;
       })
-      .sort((a, b) => sortComparator(a, b, chatSortFilter));
+      .sort((a, b) =>
+        sortComparator(a, b, appliedFiltersSortBy || chatSortFilter)
+      );
   },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
     const selectedChat = allConversations.find(
@@ -93,9 +93,17 @@ const getters = {
   getAppliedConversationFilters: _state => {
     return _state.appliedFilters;
   },
+  getAppliedContactFilter: ({ appliedFilters }) => {
+    const [filter, ...rest] = appliedFilters;
+    if (rest.length || filter?.attribute_key !== 'contact_id') return null;
+
+    return filter.values?.[0] ?? null;
+  },
   getAppliedConversationFiltersQuery: _state => {
     const hasAppliedFilters = _state.appliedFilters.length !== 0;
-    return hasAppliedFilters ? filterQueryGenerator(_state.appliedFilters) : [];
+    return hasAppliedFilters
+      ? filterQueryGenerator(_state.appliedFilters, { useLocalTimezone: false })
+      : [];
   },
   getUnAssignedChats: _state => activeFilters => {
     return _state.allConversations.filter(conversation => {

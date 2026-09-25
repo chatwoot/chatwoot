@@ -1,6 +1,11 @@
 <script>
+import { provide } from 'vue';
 import { mapGetters } from 'vuex';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import {
+  CONTACT_CONVERSATION_NAVIGATION,
+  useContactConversationNavigation,
+} from 'dashboard/composables/useContactConversationNavigation';
 import { useAccount } from 'dashboard/composables/useAccount';
 import ChatList from '../../../components/ChatList.vue';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
@@ -54,12 +59,18 @@ export default {
     },
   },
   setup() {
-    const { uiSettings, updateUISettings } = useUISettings();
+    const { uiSettings, updateUISettings, isOnExpandedLayout } =
+      useUISettings();
     const { accountId } = useAccount();
+    provide(
+      CONTACT_CONVERSATION_NAVIGATION,
+      useContactConversationNavigation()
+    );
 
     return {
       uiSettings,
       updateUISettings,
+      isOnExpandedLayout,
       accountId,
     };
   },
@@ -79,15 +90,6 @@ export default {
     showMessageView() {
       return this.conversationId ? true : !this.isOnExpandedLayout;
     },
-    isOnExpandedLayout() {
-      const {
-        LAYOUT_TYPES: { CONDENSED },
-      } = wootConstants;
-      const { conversation_display_type: conversationDisplayType = CONDENSED } =
-        this.uiSettings;
-      return conversationDisplayType !== CONDENSED;
-    },
-
     shouldShowSidebar() {
       if (!this.currentChat.id) {
         return false;

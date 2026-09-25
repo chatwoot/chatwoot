@@ -95,7 +95,9 @@ fr:
     saml:
       feature_not_enabled: La fonctionnalité SAML n'est pas activée pour ce compte
       sso_not_enabled: SAML SSO n'est pas activé pour cette installation
+      multi_account_invitation_not_allowed: Users associated with another account cannot be added while SAML is enabled
     conversations:
+      resolved: Conversation is resolved and does not accept new messages
       unread_counts:
         feature_not_enabled: La fonctionnalité de comptage des conversations non lues n'est pas activée pour ce compte
     data_import:
@@ -148,6 +150,7 @@ fr:
         already_ended: 'Cet appel est déjà terminé'
         already_accepted: 'Appel déjà accepté par un autre agent'
         no_recording: 'Aucun fichier d''enregistrement fourni'
+        recording_disabled: 'Call recording is disabled for this inbox'
         no_message: 'L''appel n''a pas de message associé'
         sdp_offer_required: 'sdp_offer est requis'
         contact_phone_required: 'Le numéro de téléphone du contact est requis'
@@ -411,7 +414,7 @@ fr:
     shopify:
       name: 'Shopify'
       short_description: 'Accédez aux détails de la commande et aux données client de votre boutique Shopify.'
-      description: 'Connectez votre boutique Shopify pour accéder aux détails des commandes, aux informations sur les clients et aux données des produits directement dans vos conversations, afin d''aider votre équipe de support à fournir une assistance plus rapide et plus contextuelle à vos clients.'
+      description: 'Connectez votre boutique Shopify pour accéder aux détails des commandes, aux informations sur les clients et aux données des produits directement dans vos conversations, afin d’aider votre équipe de support à fournir une assistance plus rapide et plus contextuelle à vos clients.'
     leadsquared:
       name: 'LeadSquared'
       short_description: 'Synchronisez vos contacts et conversations avec LeadSquared CRM.'
@@ -428,6 +431,8 @@ fr:
       completed_tool_call: 'Appel d’outil %{function_name} terminé'
       invalid_tool_call: 'Appel d’outil invalide'
       tool_not_available: 'Outil non disponible'
+      reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
+      reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
     documents:
       limit_exceeded: 'Limite de documents dépassée'
       pdf_format_error: 'doit être un fichier PDF'
@@ -614,16 +619,21 @@ fr:
         empty: 'Aucun historique de suspension enregistré.'
     captain_model_overrides:
       form:
-        helper_text: 'Laissez un modèle vide pour utiliser la valeur par défaut de YAML pour cette fonctionnalité IA.'
+        helper_text: 'Leave a model blank to use the default routing for that AI feature.'
+        customer_features: 'Customer features'
+        internal_features: 'Internal features'
         use_default: 'Utiliser par défaut : %{model} (%{model_id})'
+        use_installation_model: 'Use installation model: %{model} (%{model_id})'
       show:
         summary: 'Voir le routage du modèle'
         provider: 'Fournisseur'
         model: 'Modèle'
       sources:
         account_override: 'Surcharge du compte'
+        installation_override: 'Installation setting'
         default: 'Par défaut'
       features:
+        conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Éditeur'
         assistant: 'Assistant'
         copilot: 'Copilot'
@@ -643,3 +653,8 @@ fr:
       subscriptions_deleted:
         one: "%{count} abonnement supprimé. L'appareil de l'utilisateur se réinscrira lors du prochain lancement de l'application."
         other: "%{count} abonnements supprimés. Les appareils de l'utilisateur se réinscriront lors du prochain lancement de l'application."
+    users:
+      resend_confirmation:
+        button: 'Resend confirmation email'
+        sent: 'Confirmation email sent.'
+        already_confirmed: 'User is already confirmed.'

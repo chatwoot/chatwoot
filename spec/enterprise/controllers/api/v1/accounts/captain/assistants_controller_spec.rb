@@ -255,39 +255,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(assistant.reload.config).to include('product_name' => 'Chatwoot', 'auto_resolve_mode' => 'disabled')
       end
 
-      it 'keeps inactivity timer settings behind Captain V2' do
-        account.disable_features!('captain_integration_v2')
-        assistant.update!(
-          config: {
-            'auto_resolve_mode' => 'evaluated',
-            'auto_resolve_after' => 60,
-            'send_inactivity_resolution_message' => true
-          }
-        )
-
-        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
-              params: {
-                assistant: {
-                  config: {
-                    auto_resolve_mode: 'disabled',
-                    auto_resolve_after: 90,
-                    send_inactivity_resolution_message: false
-                  }
-                }
-              },
-              headers: admin.create_new_auth_token,
-              as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(assistant.reload.config).to include(
-          'auto_resolve_mode' => 'disabled',
-          'auto_resolve_after' => 60,
-          'send_inactivity_resolution_message' => true
-        )
-      end
-
       it 'updates inactive conversation settings for Captain v2' do
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
 
         patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
               params: {
@@ -508,7 +477,6 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         ]
       }
     end
-    let(:chat_service) { instance_double(Captain::Llm::AssistantChatService) }
     let(:agent_runner_service) { instance_double(Captain::Assistant::AgentRunnerService) }
 
     context 'when it is an un-authenticated user' do
@@ -521,69 +489,17 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       end
     end
 
-    context 'when captain v2 is disabled' do
-      it 'generates a response with the legacy assistant chat service' do
-        allow(Captain::Llm::AssistantChatService).to receive(:new).with(
-          assistant: assistant,
-          source: 'playground'
-        ).and_return(chat_service)
-        allow(chat_service).to receive(:generate_response).and_return({ content: 'Assistant response' })
-        expect(Captain::Assistant::AgentRunnerService).not_to receive(:new)
-
-        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: valid_params,
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(chat_service).to have_received(:generate_response).with(
-          additional_message: valid_params[:message_content],
-          message_history: valid_params[:message_history]
-        )
-        expect(json_response[:content]).to eq('Assistant response')
-      end
-
-      it 'uses empty array as default' do
-        params_without_history = { message_content: 'Hello assistant' }
-        allow(Captain::Llm::AssistantChatService).to receive(:new).with(
-          assistant: assistant,
-          source: 'playground'
-        ).and_return(chat_service)
-        allow(chat_service).to receive(:generate_response).and_return({ content: 'Assistant response' })
-        expect(Captain::Assistant::AgentRunnerService).not_to receive(:new)
-
-        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: params_without_history,
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(chat_service).to have_received(:generate_response).with(
-          additional_message: params_without_history[:message_content],
-          message_history: []
-        )
-      end
-
-      it 'rejects enhanced playground configuration' do
-        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: valid_params.merge(playground_config: { scenario_ids: [] }),
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response[:errors]).to eq(playground_config: ['is only available with Captain V2'])
-      end
-    end
-
     context 'when captain v2 is enabled' do
+      let(:run_options) { Captain::Assistant::AgentRunnerService::RunOptions.new(source: 'playground') }
+
       before do
-        account.enable_features('captain_integration_v2')
+        account.enable_features('captain_integration')
       end
 
       it 'generates a response with the agent runner service' do
         allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
           assistant: assistant,
-          source: 'playground'
+          run_options: run_options
         ).and_return(agent_runner_service)
         allow(agent_runner_service).to receive(:generate_response).and_return(
           {
@@ -591,7 +507,6 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
             response_parts: [{ text: 'Assistant response', citation_indexes: [] }]
           }
         )
-        expect(Captain::Llm::AssistantChatService).not_to receive(:new)
 
         post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
              params: valid_params,
@@ -613,7 +528,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         }
         allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
           assistant: assistant,
-          source: 'playground'
+          run_options: run_options
         ).and_return(agent_runner_service)
         allow(agent_runner_service).to receive(:generate_response).and_return({ response: 'Assistant response' })
 

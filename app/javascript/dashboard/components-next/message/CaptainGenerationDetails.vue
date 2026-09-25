@@ -21,7 +21,7 @@ const { isCloudFeatureEnabled } = useAccount();
 const isOpen = ref(false);
 
 const showSparkle = computed(() =>
-  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_V2)
+  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN)
 );
 
 const session = computed(() =>

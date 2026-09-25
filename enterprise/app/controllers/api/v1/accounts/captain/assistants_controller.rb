@@ -28,23 +28,13 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def playground
-    response = if captain_v2_enabled?
-                 generate_v2_playground_response
-               else
-                 Captain::Playground::Configuration.reject_v1! if playground_configuration_supplied?
-                 Captain::Llm::AssistantChatService.new(assistant: @assistant, source: 'playground').generate_response(
-                   additional_message: playground_params[:message_content],
-                   message_history: message_history
-                 )
-               end
-
-    render json: response
+    render json: generate_v2_playground_response
   rescue Captain::Playground::Configuration::Invalid => e
     render json: { error: e.message, errors: e.errors }, status: :unprocessable_entity
   end
 
   def tools
-    assistant = Captain::Assistant.new(account: Current.account)
+    assistant = account_assistants.find(params[:assistant_id])
     @tools = assistant.available_agent_tools
   end
 
@@ -131,9 +121,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
       :resolution_message, :instructions, :temperature, :auto_resolve_mode,
       :response_window
     ]
-    if Current.account.feature_enabled?('captain_integration_v2')
-      assistant_config_attributes += [:auto_resolve_after, :send_inactivity_resolution_message]
-    end
+    assistant_config_attributes += [:auto_resolve_after, :send_inactivity_resolution_message]
 
     permitted = params.require(:assistant).permit(:name, :description,
                                                   config: assistant_config_attributes)
@@ -181,7 +169,8 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def default_v2_playground_response
-    Captain::Assistant::AgentRunnerService.new(assistant: @assistant, source: 'playground').generate_response(
+    run_options = Captain::Assistant::AgentRunnerService::RunOptions.new(source: 'playground')
+    Captain::Assistant::AgentRunnerService.new(assistant: @assistant, run_options: run_options).generate_response(
       message_history: playground_message_history
     )
   end
@@ -214,9 +203,5 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     return history if history.last == current_user_message
 
     history + [current_user_message]
-  end
-
-  def captain_v2_enabled?
-    @assistant.account.feature_enabled?('captain_integration_v2')
   end
 end

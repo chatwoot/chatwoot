@@ -182,12 +182,6 @@
 # End of Microsoft Email Channel Config
 
 # MARK: Captain Config
-- name: ENABLE_CAPTAIN_CONVERSATION_ASSIGNMENT
-  display_title: 'Enable Captain Conversation Assignment'
-  description: 'Enable assigning conversations to Captain assistants.'
-  value: false
-  locked: true
-  type: boolean
 - name: CAPTAIN_OPEN_AI_API_KEY
   display_title: 'OpenAI API Key'
   description: 'The API key used to authenticate requests to OpenAI services for Captain AI.'
@@ -204,6 +198,15 @@
 - name: CAPTAIN_EMBEDDING_MODEL
   display_title: 'Embedding Model (optional)'
   description: 'The embedding model configured for use in Captain AI. Default: text-embedding-3-small'
+  locked: false
+- name: CAPTAIN_OPENROUTER_API_KEY
+  display_title: 'OpenRouter API Key'
+  description: 'The OpenRouter API key used by Captain Classifier and conversation monitors.'
+  locked: false
+  type: secret
+- name: CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT
+  display_title: 'OpenRouter Decision Model Endpoint'
+  description: 'The OpenRouter API base URL for Captain Classifier and conversation monitors. Example: https://openrouter.ai/api'
   locked: false
 - name: CAPTAIN_FIRECRAWL_API_KEY
   display_title: 'FireCrawl API Key (optional)'
@@ -271,6 +274,12 @@
   display_title: 'Cloud Plans'
   value:
   description: 'Config to store stripe plans for cloud'
+- name: CHATWOOT_SHOPIFY_PLANS
+  display_title: 'Shopify Plans'
+  value: []
+  locked: true
+  description: 'Locked Shopify App Pricing plan catalog with plan handles, features, and fixed limits'
+  type: code
 - name: CAPTAIN_TOPUP_OPTIONS
   display_title: 'Captain Topup Options'
   value: {}
@@ -295,6 +304,11 @@
 - name: DEPLOYMENT_ENV
   value: self-hosted
   description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
+- name: DEVICE_VERIFICATION_ENABLED
+  display_title: 'Device Verification'
+  value: false
+  type: boolean
+  description: 'Require an emailed code to complete password sign-ins from unrecognized devices (Chatwoot Cloud only)'
 - name: CLOUD_ANALYTICS_TOKEN
   value:
   display_title: 'Analytics Token'
@@ -443,6 +457,12 @@
 ## ------ End of Configs added for Slack ------ ##
 
 # ------- Shopify Integration Config ------- #
+- name: ENABLE_SHOPIFY_INTEGRATION
+  display_title: 'Enable Shopify Integration'
+  value: false
+  description: 'Enable Shopify OAuth, account integration APIs, webhooks, and dashboard surfaces'
+  locked: false
+  type: boolean
 - name: SHOPIFY_CLIENT_ID
   display_title: 'Shopify Client ID'
   description: 'The Client ID (API Key) from your Shopify Partner account'
@@ -453,6 +473,28 @@
   description: 'The Client Secret (API Secret Key) from your Shopify Partner account'
   locked: false
   type: secret
+- name: SHOPIFY_APP_STORE_URL
+  display_title: 'Shopify App Store URL'
+  description: 'The Shopify App Store listing URL (e.g., https://apps.shopify.com/your-app)'
+  locked: false
+- name: SHOPIFY_PARTNER_ORGANIZATION_ID
+  display_title: 'Shopify Partner Organization ID'
+  description: 'The numeric organization ID used to access the Shopify Partner API'
+  locked: false
+- name: SHOPIFY_PARTNER_APP_ID
+  display_title: 'Shopify Partner App ID'
+  description: 'The Shopify App GID used to query managed pricing subscriptions'
+  locked: false
+- name: SHOPIFY_PARTNER_ACCESS_TOKEN
+  display_title: 'Shopify Partner Access Token'
+  description: 'The Partner API token with Manage apps permission'
+  locked: false
+  type: secret
+- name: SHOPIFY_PARTNER_API_VERSION
+  display_title: 'Shopify Partner API Version'
+  description: 'The pinned Partner API version used for managed pricing'
+  value: '2026-07'
+  locked: false
 # ------- End of Shopify Related Config ------- #
 
 # ------- Instagram Channel Related Config ------- #

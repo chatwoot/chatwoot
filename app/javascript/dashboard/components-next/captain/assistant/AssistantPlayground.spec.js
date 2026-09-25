@@ -1,4 +1,4 @@
-import { computed, nextTick, reactive, ref } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 import { flushPromises, shallowMount } from '@vue/test-utils';
 import AssistantPlayground from './AssistantPlayground.vue';
 
@@ -6,7 +6,6 @@ const mocks = vi.hoisted(() => ({
   playground: vi.fn(),
   initialize: vi.fn(),
   reset: vi.fn(),
-  isFeatureFlagEnabled: vi.fn(),
   loadError: '',
 }));
 
@@ -16,10 +15,6 @@ vi.mock('vue-i18n', () => ({
 
 vi.mock('dashboard/api/captain/assistant', () => ({
   default: { playground: mocks.playground },
-}));
-
-vi.mock('dashboard/composables/usePolicy', () => ({
-  usePolicy: () => ({ isFeatureFlagEnabled: mocks.isFeatureFlagEnabled }),
 }));
 
 vi.mock('./usePlaygroundSession', () => ({
@@ -57,8 +52,6 @@ const MessageListStub = {
   template: '<div data-test="messages" />',
 };
 
-let featureState;
-
 const deferred = () => {
   let resolve;
   const promise = new Promise(resolvePromise => {
@@ -82,8 +75,6 @@ const mountPlayground = (assistantId = 7) =>
 describe('AssistantPlayground', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    featureState = reactive({ isV2: true });
-    mocks.isFeatureFlagEnabled.mockImplementation(() => featureState.isV2);
     mocks.loadError = '';
     mocks.playground.mockResolvedValue({
       data: {
@@ -176,40 +167,6 @@ describe('AssistantPlayground', () => {
     expect(
       wrapper.getComponent({ name: 'PlaygroundTestSetup' }).vm.$.vnode.key
     ).toBe(keyBefore + 1);
-  });
-
-  it('keeps the legacy playground UI and request contract unchanged', async () => {
-    featureState.isV2 = false;
-    const wrapper = mountPlayground();
-    await wrapper.get('input').setValue('Hello');
-    await wrapper.get('input').trigger('keydown', { key: 'Enter' });
-    await flushPromises();
-
-    expect(mocks.initialize).not.toHaveBeenCalled();
-    expect(
-      wrapper.findComponent({ name: 'PlaygroundTestSetup' }).exists()
-    ).toBe(false);
-    expect(wrapper.find('[data-icon="i-lucide-rotate-ccw"]').exists()).toBe(
-      true
-    );
-    expect(wrapper.find('[data-icon="i-lucide-settings-2"]').exists()).toBe(
-      false
-    );
-    expect(mocks.playground).toHaveBeenCalledWith(
-      expect.objectContaining({ playgroundConfig: undefined })
-    );
-  });
-
-  it('initializes saved setup when the V2 feature becomes available after mount', async () => {
-    featureState.isV2 = false;
-    mountPlayground();
-
-    expect(mocks.initialize).not.toHaveBeenCalled();
-
-    featureState.isV2 = true;
-    await nextTick();
-
-    expect(mocks.initialize).toHaveBeenCalledOnce();
   });
 
   it('clears messages and resets session state when assistants change', async () => {
