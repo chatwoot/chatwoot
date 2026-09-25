@@ -43,6 +43,15 @@ RSpec.describe Conversations::EventDataPresenter do
       # the exceptions are the values that would be added in enterprise edition.
       expect(presenter.push_data.except(:applied_sla, :sla_events)).to include(expected_data)
     end
+
+    it 'returns labels from the cached label list without loading the tag list' do
+      conversation.update_labels(%w[runner lead])
+      reloaded_conversation = Conversation.find(conversation.id)
+      allow(reloaded_conversation).to receive(:label_list).and_call_original
+
+      expect(described_class.new(reloaded_conversation).push_data[:labels]).to eq(%w[runner lead])
+      expect(reloaded_conversation).not_to have_received(:label_list)
+    end
   end
 
   describe '#webhook_data' do
