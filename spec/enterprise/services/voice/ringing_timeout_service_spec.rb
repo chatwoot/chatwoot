@@ -25,11 +25,11 @@ RSpec.describe Voice::RingingTimeoutService do
                     created_at: age.ago)
     end
 
-    it 'returns Twilio calls ringing for more than 60 s and WhatsApp calls ringing for more than 45 s' do
+    it 'returns Twilio and WhatsApp calls ringing for more than 60 s' do
       overdue_twilio = ringing(:twilio, 61.seconds)
-      overdue_whatsapp = ringing(:whatsapp, 46.seconds)
+      overdue_whatsapp = ringing(:whatsapp, 61.seconds)
       ringing(:twilio, 59.seconds)
-      ringing(:whatsapp, 44.seconds)
+      ringing(:whatsapp, 59.seconds)
 
       expect(described_class.overdue).to contain_exactly(overdue_twilio, overdue_whatsapp)
     end
