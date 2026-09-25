@@ -28,9 +28,21 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def playground
-    render json: generate_v2_playground_response
-  rescue Captain::Playground::Configuration::Invalid => e
-    render json: { error: e.message, errors: e.errors }, status: :unprocessable_entity
+    request_id = playground_params[:request_id].presence || SecureRandom.uuid
+
+    Captain::Playground::ResponseJob.perform_later(
+      assistant: @assistant,
+      user: Current.user,
+      request_id: request_id,
+      request: {
+        message_content: playground_params[:message_content],
+        message_history: message_history,
+        playground_config: playground_configuration,
+        playground_config_supplied: playground_configuration_supplied?
+      }
+    )
+
+    render json: { request_id: request_id }, status: :accepted
   end
 
   def tools
@@ -148,7 +160,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
   def playground_params
     params.require(:assistant).permit(
-      :message_content,
+      :message_content, :request_id,
       message_history: [:role, :content, :agent_name],
       playground_config: [
         :knowledge_text,
@@ -158,28 +170,8 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     )
   end
 
-  def generate_v2_playground_response
-    return default_v2_playground_response unless playground_configuration_params
-
-    Captain::Playground::Runner.new(
-      assistant: @assistant,
-      configuration_params: playground_configuration_params,
-      message_history: playground_message_history
-    ).generate_response
-  end
-
-  def default_v2_playground_response
-    run_options = Captain::Assistant::AgentRunnerService::RunOptions.new(source: 'playground')
-    Captain::Assistant::AgentRunnerService.new(assistant: @assistant, run_options: run_options).generate_response(
-      message_history: playground_message_history
-    )
-  end
-
-  def playground_configuration_params
-    return unless playground_configuration_supplied?
-
-    params[:playground_config] || params[:assistant]&.[](:playground_config) ||
-      raise(Captain::Playground::Configuration::Invalid, { 'playground_config' => ['must be an object'] })
+  def playground_configuration
+    playground_params[:playground_config]&.to_h
   end
 
   def playground_configuration_supplied? = params.key?(:playground_config) || params[:assistant]&.key?(:playground_config)
@@ -192,16 +184,5 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
         agent_name: message[:agent_name]
       }.compact
     end
-  end
-
-  def playground_message_history
-    history = message_history
-    current_message = playground_params[:message_content]
-    return history if current_message.blank?
-
-    current_user_message = { role: 'user', content: current_message }
-    return history if history.last == current_user_message
-
-    history + [current_user_message]
   end
 end

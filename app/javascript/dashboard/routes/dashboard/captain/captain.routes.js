@@ -83,7 +83,7 @@ const assistantRoutes = [
     path: frontendURL('accounts/:accountId/captain/:assistantId/playground'),
     component: AssistantPlaygroundIndex,
     name: 'captain_assistants_playground_index',
-    meta,
+    meta: metaV2,
   },
   {
     path: frontendURL('accounts/:accountId/captain/:assistantId/inboxes'),
