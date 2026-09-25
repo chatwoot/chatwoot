@@ -13,6 +13,13 @@
       "MESSAGES": "Messages",
       "ARTICLES": "Articles"
     },
+    "COUNT_BADGE": "({count})",
+    "COUNT_PENDING": "(…)",
+    "COUNT_UNKNOWN": "(—)",
+    "COUNTS_LOADING": "Loading result counts",
+    "COUNTS_UNAVAILABLE": "Result counts are unavailable.",
+    "RESULTS_UNAVAILABLE": "Some search results could not be loaded.",
+    "RETRY": "Retry",
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Searching",

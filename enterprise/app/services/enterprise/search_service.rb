@@ -1,21 +1,58 @@
 module Enterprise::SearchService
-  def advanced_search
+  def available_types
+    permissions = account_user.permissions
+    return super if permissions.intersect?(%w[agent administrator])
+
+    allowed = []
+    allowed << 'contacts' if permissions.include?('contact_manage')
+    allowed << 'articles' if permissions.include?('knowledge_base_manage')
+    allowed.push('conversations', 'messages') if permissions.intersect?(%w[conversation_manage conversation_unassigned_manage
+                                                                           conversation_participating_manage])
+    super & allowed
+  end
+
+  def countable_types
+    restricted_conversation_access? ? super - %w[conversations messages] : super
+  end
+
+  def advanced_search(count: false)
     where_conditions = build_where_conditions
     apply_filters(where_conditions)
 
-    Message.search(
+    results = Message.search(
       search_query,
       fields: %w[content attachments.transcribed_text content_attributes.email.subject],
       where: where_conditions,
-      # id breaks created_at ties so results stay stable across page fetches;
-      # unmapped_type covers documents indexed before id was added
-      order: { created_at: :desc, id: { order: :desc, unmapped_type: 'long' } },
-      page: params[:page] || 1,
-      per_page: 15
+      **advanced_search_options(count: count)
     )
+    return results.total_count if count
+    return results.to_a unless restricted_conversation_access?
+
+    scope = current_account.messages.where(conversation_id: accessible_conversations.select(:id))
+    Search::PermissionScopedMessages.new(search: results, scope: scope).records(page: params[:page], per_page: page_size)
   end
 
   private
+
+  def advanced_search_options(count:)
+    return { limit: 0, load: false, body_options: { track_total_hits: true } } if count
+
+    # id breaks created_at ties; unmapped_type supports older indexed documents.
+    order = { created_at: :desc, id: { order: :desc, unmapped_type: 'long' } }
+    return { order: order, page: params[:page] || 1, per_page: page_size } unless restricted_conversation_access?
+
+    { order: order, limit: Search::PermissionScopedMessages::BATCH_SIZE, scroll: '1m', load: false, select: [] }
+  end
+
+  def message_base_query
+    query = super
+    restricted_conversation_access? ? query.where(conversation_id: accessible_conversations.select(:id)) : query
+  end
+
+  def restricted_conversation_access?
+    permissions = account_user.permissions
+    permissions.include?('custom_role') && permissions.exclude?('conversation_manage')
+  end
 
   def build_where_conditions
     conditions = { account_id: current_account.id }
