@@ -287,5 +287,39 @@ RSpec.describe AutomationRules::ConditionsFilterService do
         expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
       end
     end
+
+    context 'when conditions based on a list custom attribute with several values' do
+      before do
+        create(:custom_attribute_definition, account: account, attribute_key: 'customer_type', attribute_model: 'contact_attribute',
+                                             attribute_display_type: 'list', attribute_values: %w[Silver Gold Platinum])
+        conversation.contact.update!(custom_attributes: { customer_type: 'Platinum' })
+        rule.conditions = [
+          { 'values': %w[Gold Platinum], 'attribute_key': 'customer_type', 'custom_attribute_type': 'contact_attribute',
+            'query_operator': nil, 'filter_operator': 'equal_to' }
+        ]
+        rule.save
+      end
+
+      it 'matches when the contact holds any of the listed values' do
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+      end
+
+      it 'returns false when the contact holds none of them' do
+        conversation.contact.update!(custom_attributes: { customer_type: 'Silver' })
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+      end
+
+      it 'excludes every listed value with not_equal_to' do
+        rule.update!(conditions: [
+                       { 'values': %w[Gold Platinum], 'attribute_key': 'customer_type', 'custom_attribute_type': 'contact_attribute',
+                         'query_operator': nil, 'filter_operator': 'not_equal_to' }
+                     ])
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+        conversation.contact.update!(custom_attributes: { customer_type: 'Silver' })
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+        conversation.contact.update!(custom_attributes: {})
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+      end
+    end
   end
 end
