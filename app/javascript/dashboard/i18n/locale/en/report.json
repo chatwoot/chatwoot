@@ -24,17 +24,29 @@
     "ADMIN_HELP": "Ask an administrator to create your first monitor.",
     "EXAMPLES_TITLE": "Try an example",
     "EXAMPLES": {
-      "REFUNDS": {
-        "NAME": "Refund conversations",
-        "CONDITION": "All conversations mentioning refunds"
+      "LOGIN_PROBLEMS": {
+        "NAME": "Login problems",
+        "CONDITION": "A customer says they cannot sign in to their account, including failed password resets or verification codes that never arrive. Exclude requests to change a password while already signed in."
       },
-      "BSUID": {
-        "NAME": "WhatsApp BSUID",
-        "CONDITION": "All conversations related to WhatsApp BSUID"
+      "MISSING_ORDER_UPDATES": {
+        "NAME": "Missing order updates",
+        "CONDITION": "A customer says an order confirmation, shipping update, or delivery notice did not arrive or was sent for the wrong order. Exclude questions about parcel location when the customer received tracking information."
       },
-      "AUTOMATIONS": {
-        "NAME": "Self-hosted automations",
-        "CONDITION": "All conversations related to automations from a self-hosted customer"
+      "COMPETITOR_MENTIONS": {
+        "NAME": "Competitor mentions",
+        "CONDITION": "A customer compares us with a competing product, says they are evaluating one, or mentions they may switch. Exclude customers asking how to import data after switching to us."
+      },
+      "FEATURE_REQUESTS": {
+        "NAME": "Feature requests",
+        "CONDITION": "A customer asks for a capability the product does not currently offer. Exclude questions about how to use a feature that already exists."
+      },
+      "REFUND_REQUESTS": {
+        "NAME": "Refund requests",
+        "CONDITION": "A customer asks for money back on a payment already made, including duplicate charges or refunds after cancellation. Exclude questions about the refund policy and requests for a discount."
+      },
+      "CANCELLATION_INTENT": {
+        "NAME": "Cancellation intent",
+        "CONDITION": "A customer says they intend to cancel, will not renew, or plan to stop using the product. Exclude requests to reduce seats or downgrade, and cancellations withdrawn in the same conversation."
       }
     },
     "MATCHING_CONVERSATIONS": "Matching conversations created",

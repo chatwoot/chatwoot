@@ -23,11 +23,15 @@ describe('MonitorsEmptyState', () => {
       [],
       [
         {
-          name: 'MONITORS.EXAMPLES.BSUID.NAME',
-          condition: 'MONITORS.EXAMPLES.BSUID.CONDITION',
+          name: 'MONITORS.EXAMPLES.MISSING_ORDER_UPDATES.NAME',
+          condition: 'MONITORS.EXAMPLES.MISSING_ORDER_UPDATES.CONDITION',
         },
       ],
     ]);
+    expect(wrapper.findAll('button')).toHaveLength(6);
+    expect(wrapper.findAllComponents({ name: 'MonitorListItem' })).toHaveLength(
+      3
+    );
     expect(wrapper.text()).not.toContain('MONITORS.ADMIN_HELP');
   });
 
