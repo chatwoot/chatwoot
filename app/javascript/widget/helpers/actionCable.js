@@ -58,6 +58,11 @@ class ActionCableConnector extends BaseActionCableConnector {
     if (message.conversation_id === activeConversationId) return true;
     if (!isMultipleConversationsEnabled()) return !activeConversationId;
 
+    // The new thread on screen is still being saved, so this is the conversation it became.
+    if (!activeConversationId && getters['conversation/getIsCreating']) {
+      dispatch('conversationList/attach', message.conversation_id);
+      return true;
+    }
     const isViewingConversation =
       activeConversationId &&
       (getters['appConfig/getIsWidgetOpen'] || !IFrameHelper.isIFrame());

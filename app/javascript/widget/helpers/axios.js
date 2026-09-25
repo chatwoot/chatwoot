@@ -15,7 +15,13 @@ export const setActiveConversationId = id => {
 };
 
 API.interceptors.request.use(config => {
-  if (!activeConversationId || !isMultipleConversationsEnabled()) return config;
+  if (
+    !activeConversationId ||
+    !isMultipleConversationsEnabled() ||
+    config.params?.conversation_id
+  ) {
+    return config;
+  }
   return {
     ...config,
     params: { ...config.params, conversation_id: activeConversationId },

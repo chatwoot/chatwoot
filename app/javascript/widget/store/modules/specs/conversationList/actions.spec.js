@@ -96,20 +96,63 @@ describe('#actions', () => {
       await actions.load({ state: { records: [] }, dispatch });
       expect(dispatch.mock.calls).toEqual([['startNew'], ['fetch']]);
     });
+
+    it('opens nothing when the visitor switched threads while the list loaded', async () => {
+      const state = { records, thread: 1 };
+      dispatch.mockImplementation(async action => {
+        if (action === 'fetch') state.thread += 1;
+      });
+
+      await actions.load({ state, dispatch });
+
+      expect(dispatch).not.toBeCalledWith('open', 2);
+    });
   });
 
   describe('#open', () => {
-    it('switches the thread to the selected conversation', async () => {
-      const rootState = { conversationAttributes: { id: 3 } };
+    it('clears the thread on screen, attaches the selected conversation and loads it', async () => {
+      const rootState = { conversationAttributes: { id: '' } };
       await actions.open(
-        { state: { records }, commit, dispatch, rootState },
+        { state: { thread: 1 }, commit, dispatch, rootState },
         2
       );
 
+      expect(commit.mock.calls).toEqual([['switchThread']]);
       expect(dispatch.mock.calls).toEqual([
         ['conversation/clearConversations', {}, { root: true }],
+        ['attach', 2],
         ['conversation/fetchOldConversations', {}, { root: true }],
       ]);
+    });
+
+    it('skips loading messages when another thread took the screen meanwhile', async () => {
+      const state = { thread: 1 };
+      const rootState = { conversationAttributes: { id: '' } };
+      dispatch.mockImplementation(async action => {
+        if (action === 'attach') state.thread += 1;
+      });
+
+      await actions.open({ state, commit, dispatch, rootState }, 2);
+
+      expect(dispatch).not.toBeCalledWith(
+        'conversation/fetchOldConversations',
+        {},
+        { root: true }
+      );
+    });
+
+    it('does nothing when the conversation is already open', async () => {
+      const rootState = { conversationAttributes: { id: 2 } };
+      await actions.open({ state: {}, commit, dispatch, rootState }, 2);
+      expect(commit).not.toBeCalled();
+      expect(dispatch).not.toBeCalled();
+    });
+  });
+
+  describe('#attach', () => {
+    it('shows the conversation in the thread on screen', async () => {
+      await actions.attach({ state: { records }, commit, dispatch }, 2);
+
       expect(commit.mock.calls).toEqual([
         [
           'conversationAttributes/SET_CONVERSATION_ATTRIBUTES',
@@ -119,30 +162,16 @@ describe('#actions', () => {
         ['conversation/setMetaUserLastSeenAt', 20, { root: true }],
         ['markRead', 2],
       ]);
+      expect(dispatch).not.toBeCalled();
     });
 
-    it('keeps the current thread when no conversation was open yet', async () => {
-      const rootState = { conversationAttributes: { id: '' } };
-      await actions.open(
-        { state: { records }, commit, dispatch, rootState },
-        2
-      );
-
-      expect(dispatch).not.toBeCalledWith(
-        'conversation/clearConversations',
-        {},
-        { root: true }
-      );
-    });
-
-    it('refreshes the list before opening a conversation it does not know yet', async () => {
-      const rootState = { conversationAttributes: { id: '' } };
+    it('refreshes the list before attaching a conversation it does not know yet', async () => {
       const state = { records: [] };
       dispatch.mockImplementation(async action => {
         if (action === 'fetch') state.records = records;
       });
 
-      await actions.open({ state, commit, dispatch, rootState }, 2);
+      await actions.attach({ state, commit, dispatch }, 2);
 
       expect(commit.mock.calls[0]).toEqual([
         'conversationAttributes/SET_CONVERSATION_ATTRIBUTES',
@@ -157,20 +186,32 @@ describe('#actions', () => {
       );
     });
 
-    it('does nothing when the conversation is already open', async () => {
-      const rootState = { conversationAttributes: { id: 2 } };
-      await actions.open(
-        { state: { records }, commit, dispatch, rootState },
-        2
-      );
-      expect(commit).not.toBeCalled();
-      expect(dispatch).not.toBeCalled();
+    it('stops when another thread took the screen while the list loaded', async () => {
+      const state = { records: [], thread: 1 };
+      dispatch.mockImplementation(async action => {
+        if (action === 'fetch') {
+          state.records = records;
+          state.thread += 1;
+        }
+      });
+
+      await actions.attach({ state, commit, dispatch }, 2);
+
+      expect(commit.mock.calls).toEqual([
+        [
+          'conversationAttributes/SET_CONVERSATION_ATTRIBUTES',
+          { id: 2 },
+          { root: true },
+        ],
+      ]);
+      expect(dispatch.mock.calls).toEqual([['fetch']]);
     });
   });
 
   describe('#startNew', () => {
     it('clears the active conversation and its thread', async () => {
-      await actions.startNew({ dispatch });
+      await actions.startNew({ commit, dispatch });
+      expect(commit.mock.calls).toEqual([['switchThread']]);
       expect(dispatch.mock.calls).toEqual([
         [
           'conversationAttributes/clearConversationAttributes',

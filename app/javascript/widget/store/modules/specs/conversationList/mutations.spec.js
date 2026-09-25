@@ -35,6 +35,14 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#switchThread', () => {
+    it('moves to the next thread', () => {
+      const state = { thread: 1 };
+      mutations.switchThread(state);
+      expect(state.thread).toBe(2);
+    });
+  });
+
   describe('#markRead', () => {
     it('clears the conversation and drops it from the unread total once', () => {
       const state = { records: [{ id: 1, unread_count: 4 }], unreadCount: 2 };

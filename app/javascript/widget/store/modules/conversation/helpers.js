@@ -56,6 +56,6 @@ export const getNonDeletedMessages = ({ messages }) => {
 };
 
 // A response can arrive after the visitor moved to another conversation.
-export const hasLeftConversation = (rootState, conversationId) =>
+export const hasLeftConversation = (rootState, thread) =>
   isMultipleConversationsEnabled() &&
-  rootState.conversationAttributes.id !== conversationId;
+  rootState.conversationList.thread !== thread;

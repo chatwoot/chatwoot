@@ -7,7 +7,10 @@ vi.mock('widget/helpers/axios');
 
 const commit = vi.fn();
 const dispatch = vi.fn();
-const rootState = { conversationAttributes: { id: 1 } };
+const rootState = {
+  conversationAttributes: { id: 1 },
+  conversationList: { thread: 0 },
+};
 
 describe('#actions', () => {
   describe('#createConversation', () => {
@@ -286,9 +289,12 @@ describe('#actions', () => {
 
     afterEach(() => windowSpy.mockRestore());
 
-    it('opens the conversation created by the first message', async () => {
+    it('attaches the conversation created by the first message', async () => {
       API.post.mockResolvedValue({ data: { id: 9, conversation_id: 55 } });
-      const draftRootState = { conversationAttributes: { id: '' } };
+      const draftRootState = {
+        conversationAttributes: { id: '' },
+        conversationList: { thread: 0 },
+      };
 
       await actions.sendMessageWithData(
         { commit, dispatch, rootState: draftRootState },
@@ -300,15 +306,99 @@ describe('#actions', () => {
         conversation_id: 55,
         status: 'sent',
       });
-      expect(dispatch).toBeCalledWith('conversationList/open', 55, {
+      expect(dispatch).toBeCalledWith('conversationList/attach', 55, {
         root: true,
       });
     });
 
+    it('posts messages sent before the first one is saved to the conversation it created', async () => {
+      const draftRootState = {
+        conversationAttributes: { id: '' },
+        conversationList: { thread: 0 },
+      };
+      let saveFirst;
+      API.post
+        .mockImplementationOnce(
+          () =>
+            new Promise(resolve => {
+              saveFirst = () =>
+                resolve({ data: { id: 9, conversation_id: 55 } });
+            })
+        )
+        .mockResolvedValueOnce({ data: { id: 10, conversation_id: 55 } });
+      dispatch.mockImplementation(action => {
+        if (action === 'conversationList/attach') {
+          draftRootState.conversationAttributes.id = 55;
+        }
+      });
+
+      const first = actions.sendMessageWithData(
+        { commit, dispatch, rootState: draftRootState },
+        { message }
+      );
+      const second = actions.sendMessageWithData(
+        { commit, dispatch, rootState: draftRootState },
+        { message: { id: 'temp-2', content: 'are you there?', meta: {} } }
+      );
+      expect(API.post).toHaveBeenCalledTimes(1);
+      expect(commit).toBeCalledWith('setConversationUIFlag', {
+        isCreating: true,
+      });
+
+      saveFirst();
+      await Promise.all([first, second]);
+
+      expect(API.post).toHaveBeenCalledTimes(2);
+      expect(API.post.mock.calls[0][2]).toEqual({
+        params: { conversation_id: undefined },
+      });
+      expect(API.post.mock.calls[1][2]).toEqual({
+        params: { conversation_id: 55 },
+      });
+      expect(commit).toBeCalledWith('setConversationUIFlag', {
+        isCreating: false,
+      });
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
+        id: 10,
+        conversation_id: 55,
+        status: 'sent',
+      });
+      expect(dispatch).toHaveBeenCalledTimes(1);
+    });
+
+    it('fails the waiting messages when the first one could not be saved', async () => {
+      const draftRootState = {
+        conversationAttributes: { id: '' },
+        conversationList: { thread: 0 },
+      };
+      API.post.mockRejectedValueOnce(new Error('offline'));
+      const waiting = { id: 'temp-2', content: 'are you there?', meta: {} };
+
+      await Promise.all([
+        actions.sendMessageWithData(
+          { commit, dispatch, rootState: draftRootState },
+          { message }
+        ),
+        actions.sendMessageWithData(
+          { commit, dispatch, rootState: draftRootState },
+          { message: waiting }
+        ),
+      ]);
+
+      expect(API.post).toHaveBeenCalledTimes(1);
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
+        ...waiting,
+        status: 'failed',
+      });
+    });
+
     it('drops the reply when the visitor moved to another conversation meanwhile', async () => {
-      const movingRootState = { conversationAttributes: { id: 1 } };
+      const movingRootState = {
+        conversationAttributes: { id: 1 },
+        conversationList: { thread: 0 },
+      };
       API.post.mockImplementationOnce(async () => {
-        movingRootState.conversationAttributes.id = 2;
+        movingRootState.conversationList.thread = 1;
         return { data: { id: 9, conversation_id: 1 } };
       });
 
@@ -330,9 +420,12 @@ describe('#actions', () => {
         WOOT_WIDGET: { $root: { $i18n: { locale: 'en' } } },
         location: { search: '' },
       }));
-      const movingRootState = { conversationAttributes: { id: 1 } };
+      const movingRootState = {
+        conversationAttributes: { id: 1 },
+        conversationList: { thread: 0 },
+      };
       API.post.mockImplementationOnce(async () => {
-        movingRootState.conversationAttributes.id = 2;
+        movingRootState.conversationList.thread = 1;
         return { data: { id: 9, conversation_id: 1 } };
       });
 
@@ -355,9 +448,12 @@ describe('#actions', () => {
       window.chatwootWebChannel = {
         enabledFeatures: ['multiple_conversations'],
       };
-      const movingRootState = { conversationAttributes: { id: 1 } };
+      const movingRootState = {
+        conversationAttributes: { id: 1 },
+        conversationList: { thread: 0 },
+      };
       API.get.mockImplementationOnce(async () => {
-        movingRootState.conversationAttributes.id = 2;
+        movingRootState.conversationList.thread = 1;
         return { data: { payload: [{ id: 1 }], meta: {} } };
       });
 

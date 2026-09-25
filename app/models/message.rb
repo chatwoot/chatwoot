@@ -117,6 +117,7 @@ class Message < ApplicationRecord
 
   scope :created_since, ->(datetime) { where('created_at > ?', datetime) }
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
+  scope :not_deleted, -> { where("((messages.content_attributes #>> '{}')::jsonb ->> 'deleted') IS DISTINCT FROM 'true'") }
   scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('created_at desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
   scope :voice_calls, -> { where(content_type: :voice_call) }

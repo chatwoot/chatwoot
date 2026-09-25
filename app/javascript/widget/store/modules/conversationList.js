@@ -5,6 +5,8 @@ const state = {
   page: 0,
   hasNextPage: false,
   unreadCount: 0,
+  // Bumped whenever another thread takes the screen, so late responses can tell they are stale.
+  thread: 0,
   uiFlags: {
     isFetching: false,
   },
@@ -53,7 +55,9 @@ export const actions = {
   // Records are newest-activity first, so the first match is the most recent one.
   load: async ({ state: listState, dispatch }) => {
     await dispatch('startNew');
+    const { thread } = listState;
     await dispatch('fetch');
+    if (listState.thread !== thread) return;
     const conversation =
       listState.records.find(record => record.unread_count > 0) ||
       listState.records.find(record => record.status !== 'resolved') ||
@@ -62,11 +66,19 @@ export const actions = {
   },
 
   open: async ({ state: listState, commit, dispatch, rootState }, id) => {
-    const previousId = rootState.conversationAttributes.id;
-    if (previousId === id) return;
-    if (previousId) {
-      dispatch('conversation/clearConversations', {}, { root: true });
-    }
+    if (rootState.conversationAttributes.id === id) return;
+    commit('switchThread');
+    const { thread } = listState;
+    dispatch('conversation/clearConversations', {}, { root: true });
+    await dispatch('attach', id);
+    if (listState.thread !== thread) return;
+    await dispatch('conversation/fetchOldConversations', {}, { root: true });
+  },
+
+  // Points the thread on screen at a conversation, which is also how a new thread takes the
+  // conversation its first message created.
+  attach: async ({ state: listState, commit, dispatch }, id) => {
+    const { thread } = listState;
     if (!findRecord(listState, id)) {
       commit(
         'conversationAttributes/SET_CONVERSATION_ATTRIBUTES',
@@ -74,6 +86,7 @@ export const actions = {
         { root: true }
       );
       await dispatch('fetch');
+      if (listState.thread !== thread) return;
     }
     const record = findRecord(listState, id) || { id };
     commit('conversationAttributes/SET_CONVERSATION_ATTRIBUTES', record, {
@@ -83,10 +96,10 @@ export const actions = {
       root: true,
     });
     commit('markRead', id);
-    await dispatch('conversation/fetchOldConversations', {}, { root: true });
   },
 
-  startNew: async ({ dispatch }) => {
+  startNew: async ({ commit, dispatch }) => {
+    commit('switchThread');
     await dispatch(
       'conversationAttributes/clearConversationAttributes',
       {},
@@ -106,6 +119,9 @@ export const mutations = {
     $state.page = page;
     $state.hasNextPage = hasNextPage;
     $state.unreadCount = unreadCount;
+  },
+  switchThread($state) {
+    $state.thread += 1;
   },
   setFetching($state, isFetching) {
     $state.uiFlags.isFetching = isFetching;

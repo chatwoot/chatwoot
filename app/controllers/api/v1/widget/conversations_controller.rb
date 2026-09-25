@@ -104,6 +104,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
            .where(conversation_id: conversation_ids)
            .outgoing
            .where(private: false)
+           .not_deleted
            .where('messages.created_at > COALESCE(conversations.contact_last_seen_at, to_timestamp(0))')
            .reorder(nil)
   end
@@ -111,6 +112,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   def last_messages_for(conversations)
     Message.where(conversation_id: conversations.map(&:id))
            .chat
+           .not_deleted
            .select('DISTINCT ON (conversation_id) messages.*')
            .reorder(:conversation_id, created_at: :desc, id: :desc)
            .includes(:attachments, :sender)

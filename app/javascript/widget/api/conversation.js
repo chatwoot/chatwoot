@@ -9,24 +9,28 @@ const createConversationAPI = async content => {
 const sendMessageAPI = async (
   content,
   replyTo = null,
-  { customAttributes, labels } = {}
+  { customAttributes, labels, conversationId } = {}
 ) => {
   const urlData = endPoints.sendMessage(content, replyTo, {
     customAttributes,
     labels,
   });
-  return API.post(urlData.url, urlData.params);
+  return API.post(urlData.url, urlData.params, {
+    params: { conversation_id: conversationId },
+  });
 };
 
 const sendAttachmentAPI = async (
   attachment,
-  { customAttributes, labels } = {}
+  { customAttributes, labels, conversationId } = {}
 ) => {
   const urlData = endPoints.sendAttachment(attachment, {
     customAttributes,
     labels,
   });
-  return API.post(urlData.url, urlData.params);
+  return API.post(urlData.url, urlData.params, {
+    params: { conversation_id: conversationId },
+  });
 };
 
 const getMessagesAPI = async ({ before, after }) => {

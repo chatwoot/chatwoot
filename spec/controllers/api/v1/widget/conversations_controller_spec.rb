@@ -105,6 +105,20 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(older['last_message']['content']).to eq('old reply')
     end
 
+    it 'skips deleted messages like the widget thread does' do
+      create(:message, account: account, inbox: web_widget.inbox, conversation: conversation, content: 'This message was deleted',
+                       message_type: :outgoing, content_attributes: { deleted: true })
+
+      get '/api/v1/widget/conversations/list',
+          headers: { 'X-Auth-Token' => token },
+          params: { website_token: web_widget.website_token },
+          as: :json
+
+      latest = response.parsed_body['payload'].first
+      expect(latest['unread_count']).to eq(1)
+      expect(latest['last_message']['content']).to eq('agent reply')
+    end
+
     it 'counts the conversations with unread messages across all pages' do
       stub_const('Api::V1::Widget::ConversationsController::RESULTS_PER_PAGE', 1)
 

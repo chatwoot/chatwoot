@@ -142,12 +142,17 @@ export default {
     ]),
     ...mapActions('agent', ['fetchAvailableAgents']),
     // Decide the opening screen while the widget is still closed so it does not jump from Home.
+    // Only Home is replaced; a campaign, unread preview or the visitor may have moved on meanwhile.
     async loadConversations() {
       if (!this.hasMultipleConversationsEnabled) {
         return this.fetchOldConversations();
       }
       await this.$store.dispatch('conversationList/load');
-      if (this.latestConversation?.status !== 'resolved' && this.messageCount) {
+      if (
+        this.$route.name === 'home' &&
+        this.latestConversation?.status !== 'resolved' &&
+        this.messageCount
+      ) {
         this.router.replace({ name: 'messages' });
       }
       return undefined;

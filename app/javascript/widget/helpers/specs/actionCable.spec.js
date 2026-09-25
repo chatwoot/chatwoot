@@ -108,6 +108,23 @@ describe('Widget ActionCableConnector', () => {
       expect(mockDispatch).toBeCalledWith('conversationList/open', 2);
     });
 
+    it('attaches the conversation a new thread became while its first message is saved', () => {
+      app.$store.getters = {
+        ...getters,
+        'conversationAttributes/getConversationParams': { id: '' },
+        'conversation/getIsCreating': true,
+      };
+
+      connector.onMessageCreated(message);
+
+      expect(mockDispatch).toBeCalledWith('conversationList/attach', 2);
+      expect(mockDispatch).not.toBeCalledWith('conversationList/open', 2);
+      expect(mockDispatch).toBeCalledWith(
+        'conversation/addOrUpdateMessage',
+        message
+      );
+    });
+
     it('only refreshes the list when the visitor is viewing another conversation', () => {
       app.$store.getters = { ...getters, 'appConfig/getIsWidgetOpen': true };
 

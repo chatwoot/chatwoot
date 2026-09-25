@@ -27,6 +27,19 @@ describe('widget API client', () => {
     expect(config.params).toEqual({ before: 7, conversation_id: 42 });
   });
 
+  it('keeps the conversation a request already names', async () => {
+    window.chatwootWebChannel = { enabledFeatures: ['multiple_conversations'] };
+    setActiveConversationId(42);
+
+    const { config } = await API.post(
+      '/api/v1/widget/messages',
+      {},
+      { params: { conversation_id: 7 } }
+    );
+
+    expect(config.params).toEqual({ conversation_id: 7 });
+  });
+
   it('leaves requests untouched when multiple conversations are disabled', async () => {
     setActiveConversationId(42);
 
