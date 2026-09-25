@@ -193,7 +193,7 @@ defineExpose({ open });
         @click="previewMatches"
       />
       <p v-if="previewCooldown" class="m-0 text-sm text-n-slate-11">
-        {{ t('MONITORS.PREVIEW_COOLDOWN', { seconds: previewCooldown }) }}
+        {{ t('MONITORS.PREVIEW_COOLDOWN', { count: previewCooldown }) }}
       </p>
       <div v-if="preview" class="flex flex-col gap-2">
         <p class="text-sm text-n-slate-11">

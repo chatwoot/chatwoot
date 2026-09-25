@@ -14,7 +14,7 @@ vi.mock('dashboard/composables/useAccount', () => ({
 vi.mock('vue-i18n', async importOriginal => ({
   ...(await importOriginal()),
   useI18n: () => ({
-    t: (key, params) => (params?.seconds ? `${key}:${params.seconds}` : key),
+    t: (key, params) => (params?.count ? `${key}:${params.count}` : key),
     te: () => true,
   }),
 }));

@@ -37,7 +37,7 @@ const monitorRoute = computed(() =>
       >
         <Icon icon="i-lucide-monitor" class="size-4 text-n-slate-11" />
       </span>
-      <span class="flex min-w-0 flex-col gap-1.5">
+      <span class="flex min-w-0 flex-col gap-0.5">
         <span class="flex min-w-0 items-center gap-2">
           <span class="truncate text-heading-3 text-n-slate-12">
             {{ monitor.name }}
@@ -68,7 +68,7 @@ const monitorRoute = computed(() =>
     <div class="relative flex shrink-0 items-center justify-end">
       <span
         v-tooltip.top="t('MONITORS.LIST.CONVERSATIONS_HELP')"
-        class="flex flex-col items-end gap-1.5 transition-opacity"
+        class="flex flex-col items-end gap-1 transition-opacity"
         :class="{
           '[@media(hover:hover)]:group-hover:opacity-0 [@media(hover:hover)]:group-focus-within:opacity-0':
             showActions,

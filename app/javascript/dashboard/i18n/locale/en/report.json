@@ -11,7 +11,7 @@
     "DESCRIPTION": "Follow the themes that matter across your customer conversations.",
     "CREATE": "Create monitor",
     "PREVIEW": "Preview matches",
-    "PREVIEW_COOLDOWN": "You can preview again in {seconds}s.",
+    "PREVIEW_COOLDOWN": "You can preview again in {count} second. | You can preview again in {count} seconds.",
     "PREVIEW_FAILED": "Could not preview matches. Please try again.",
     "PREVIEW_HELP": "{count} match in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan. | {count} matches in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan.",
     "NAME": "Name",
