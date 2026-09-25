@@ -3,8 +3,6 @@ import { computed, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { maxValue, minLength, minValue, required } from '@vuelidate/validators';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { useAccount } from 'dashboard/composables/useAccount';
 
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -24,19 +22,12 @@ const props = defineProps({
 const emit = defineEmits(['submit']);
 
 const { t } = useI18n();
-const { isCloudFeatureEnabled } = useAccount();
-
-const isCaptainV2Enabled = computed(() =>
-  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_V2)
-);
-
 const MIN_INACTIVITY_MINUTES = 5;
 const MAX_INACTIVITY_MINUTES = 24 * 60;
 
 const initialState = {
   handoffMessage: '',
   resolutionMessage: '',
-  instructions: '',
   autoResolveMode: 'evaluated',
   inactivityThresholdMinutes: 60,
   sendInactivityResolutionMessage: true,
@@ -86,7 +77,6 @@ const initialActionTimingLabel = computed(() =>
 const validationRules = {
   handoffMessage: { minLength: minLength(1) },
   resolutionMessage: { minLength: minLength(1) },
-  instructions: { minLength: minLength(1) },
   inactivityThresholdMinutes: {
     required,
     minValue: minValue(MIN_INACTIVITY_MINUTES),
@@ -103,7 +93,6 @@ const getErrorMessage = field => {
 const formErrors = computed(() => ({
   handoffMessage: getErrorMessage('handoffMessage'),
   resolutionMessage: getErrorMessage('resolutionMessage'),
-  instructions: getErrorMessage('instructions'),
   inactivityThresholdMinutes: getErrorMessage('inactivityThresholdMinutes'),
 }));
 
@@ -111,7 +100,6 @@ const updateStateFromAssistant = assistant => {
   const { config = {} } = assistant;
   state.handoffMessage = config.handoff_message;
   state.resolutionMessage = config.resolution_message;
-  state.instructions = config.instructions;
   state.autoResolveMode = config.auto_resolve_mode ?? 'evaluated';
   state.inactivityThresholdMinutes = config.auto_resolve_after ?? 60;
   state.sendInactivityResolutionMessage =
@@ -119,10 +107,6 @@ const updateStateFromAssistant = assistant => {
 };
 
 const fieldsToValidate = () => {
-  if (!isCaptainV2Enabled.value) {
-    return ['handoffMessage', 'resolutionMessage', 'instructions'];
-  }
-
   const fields = ['handoffMessage'];
   if (shouldShowInactivityDuration.value) {
     fields.push('inactivityThresholdMinutes');
@@ -144,17 +128,12 @@ const handleSystemMessagesUpdate = async () => {
     },
   };
 
-  if (isCaptainV2Enabled.value) {
-    Object.assign(payload.config, {
-      auto_resolve_mode: state.autoResolveMode,
-      auto_resolve_after: state.inactivityThresholdMinutes,
-      send_inactivity_resolution_message: state.sendInactivityResolutionMessage,
-      resolution_message: state.resolutionMessage,
-    });
-  } else {
-    payload.config.resolution_message = state.resolutionMessage;
-    payload.config.instructions = state.instructions;
-  }
+  Object.assign(payload.config, {
+    auto_resolve_mode: state.autoResolveMode,
+    auto_resolve_after: state.inactivityThresholdMinutes,
+    send_inactivity_resolution_message: state.sendInactivityResolutionMessage,
+    resolution_message: state.resolutionMessage,
+  });
 
   emit('submit', payload);
 };
@@ -171,7 +150,6 @@ watch(
 <template>
   <div class="flex flex-col gap-6">
     <SettingsToggleSection
-      v-if="isCaptainV2Enabled"
       hide-toggle
       :header="t('CAPTAIN.ASSISTANTS.FORM.INACTIVITY_RESOLUTION.TITLE')"
       :description="
@@ -324,27 +302,6 @@ watch(
         />
       </template>
     </SettingsToggleSection>
-
-    <Editor
-      v-if="!isCaptainV2Enabled"
-      v-model="state.resolutionMessage"
-      :label="t('CAPTAIN.ASSISTANTS.FORM.RESOLUTION_MESSAGE.LABEL')"
-      :placeholder="t('CAPTAIN.ASSISTANTS.FORM.RESOLUTION_MESSAGE.PLACEHOLDER')"
-      :message="formErrors.resolutionMessage"
-      :message-type="formErrors.resolutionMessage ? 'error' : 'info'"
-      class="z-0"
-    />
-
-    <Editor
-      v-if="!isCaptainV2Enabled"
-      v-model="state.instructions"
-      :label="t('CAPTAIN.ASSISTANTS.FORM.INSTRUCTIONS.LABEL')"
-      :placeholder="t('CAPTAIN.ASSISTANTS.FORM.INSTRUCTIONS.PLACEHOLDER')"
-      :message="formErrors.instructions"
-      :max-length="20000"
-      :message-type="formErrors.instructions ? 'error' : 'info'"
-      class="z-0"
-    />
 
     <div>
       <Button

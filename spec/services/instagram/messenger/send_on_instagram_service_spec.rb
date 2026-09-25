@@ -121,28 +121,37 @@ describe Instagram::Messenger::SendOnInstagramService do
       context 'with message_tag HUMAN_AGENT' do
         before do
           InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
+          GlobalConfig.clear_cache
         end
 
-        it 'if message is sent from chatwoot and is outgoing' do
-          message = create(:message, message_type: 'outgoing', inbox: instagram_messenger_inbox, account: account, conversation: conversation)
+        it 'tags a human agent reply sent after the 24-hour window with HUMAN_AGENT' do
+          travel_to(25.hours.from_now) do
+            message = create(:message, message_type: 'outgoing', inbox: instagram_messenger_inbox, account: account, conversation: conversation)
+            described_class.new(message: message).perform
+          end
 
-          allow(HTTParty).to receive(:post).with(
-            {
-              recipient: { id: contact.get_source_id(instagram_messenger_inbox.id) },
-              message: {
-                text: message.content
-              },
-              messaging_type: 'MESSAGE_TAG',
-              tag: 'HUMAN_AGENT'
-            }
-          ).and_return(
-            {
-              'message_id': 'anyrandommessageid1234567890'
-            }
+          expect(HTTParty).to have_received(:post).with(
+            anything, hash_including(body: hash_including(messaging_type: 'MESSAGE_TAG', tag: 'HUMAN_AGENT'))
           )
+        end
 
+        it 'does not tag a human agent reply inside the 24-hour window' do
+          message = create(:message, message_type: 'outgoing', inbox: instagram_messenger_inbox, account: account, conversation: conversation)
           described_class.new(message: message).perform
+
           expect(HTTParty).to have_received(:post)
+          expect(HTTParty).not_to have_received(:post).with(anything, hash_including(body: hash_including(:tag)))
+        end
+
+        it 'does not tag an agent bot reply sent after the 24-hour window' do
+          travel_to(25.hours.from_now) do
+            message = create(:message, message_type: 'outgoing', sender: create(:agent_bot, account: account),
+                                       inbox: instagram_messenger_inbox, account: account, conversation: conversation)
+            described_class.new(message: message).perform
+          end
+
+          expect(HTTParty).to have_received(:post)
+          expect(HTTParty).not_to have_received(:post).with(anything, hash_including(body: hash_including(:tag)))
         end
       end
     end

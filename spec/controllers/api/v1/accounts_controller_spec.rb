@@ -208,6 +208,14 @@ RSpec.describe 'Accounts API', type: :request do
 
         expect(response.parsed_body['latest_chatwoot_version']).to eq('4.16.1')
       end
+
+      it 'exposes the reporting timezone as an IANA identifier for browser reports' do
+        account.update!(reporting_timezone: 'Pacific Time (US & Canada)')
+
+        get "/api/v1/accounts/#{account.id}", headers: admin.create_new_auth_token, as: :json
+
+        expect(response.parsed_body['reporting_timezone']).to eq('America/Los_Angeles')
+      end
     end
 
     context 'when API and webhook access is disabled for the account' do
@@ -272,6 +280,75 @@ RSpec.describe 'Accounts API', type: :request do
     let(:account) { create(:account) }
     let(:agent) { create(:user, account: account, role: :agent) }
     let(:admin) { create(:user, account: account, role: :administrator) }
+
+    context 'with mfa enforcement setting' do
+      before do
+        skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+      end
+
+      it 'allows administrators to enable enforce_mfa via session auth' do
+        patch "/api/v1/accounts/#{account.id}",
+              params: { enforce_mfa: true },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(account.reload.enforce_mfa?).to be true
+      end
+
+      it 'ignores enforce_mfa when mfa feature unavailable' do
+        allow(Chatwoot).to receive(:mfa_enabled?).and_return(false)
+
+        patch "/api/v1/accounts/#{account.id}",
+              params: { enforce_mfa: true },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(account.reload.settings['enforce_mfa']).to be_nil
+      end
+
+      it 'blocks an unenrolled admin token from updating the account' do
+        account.update!(enforce_mfa: true)
+
+        patch "/api/v1/accounts/#{account.id}",
+              params: { enforce_mfa: false },
+              headers: { api_access_token: admin.access_token.token },
+              as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error_code']).to eq('mfa_enrollment_required')
+        expect(account.reload.enforce_mfa?).to be true
+      end
+
+      it 'blocks account creation with an enforcement-pending token' do
+        account.update!(enforce_mfa: true)
+
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          post '/api/v1/accounts',
+               params: { account_name: 'new team', email: admin.email, user_full_name: admin.name },
+               headers: { api_access_token: admin.access_token.token },
+               as: :json
+        end
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error_code']).to eq('mfa_enrollment_required')
+      end
+
+      it 'does not block account creation for saml users' do
+        account.update!(enforce_mfa: true)
+        admin.update!(provider: 'saml')
+
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          post '/api/v1/accounts',
+               params: { account_name: 'new team', email: admin.email, user_full_name: admin.name },
+               headers: { api_access_token: admin.access_token.token },
+               as: :json
+        end
+
+        expect(response).not_to have_http_status(:forbidden)
+      end
+    end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

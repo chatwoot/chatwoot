@@ -199,6 +199,15 @@
   display_title: 'Embedding Model (optional)'
   description: 'The embedding model configured for use in Captain AI. Default: text-embedding-3-small'
   locked: false
+- name: CAPTAIN_OPENROUTER_API_KEY
+  display_title: 'OpenRouter API Key'
+  description: 'The OpenRouter API key used by Captain Classifier and conversation monitors.'
+  locked: false
+  type: secret
+- name: CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT
+  display_title: 'OpenRouter Decision Model Endpoint'
+  description: 'The OpenRouter API base URL for Captain Classifier and conversation monitors. Example: https://openrouter.ai/api'
+  locked: false
 - name: CAPTAIN_FIRECRAWL_API_KEY
   display_title: 'FireCrawl API Key (optional)'
   description: 'The FireCrawl API key for the Captain AI service'

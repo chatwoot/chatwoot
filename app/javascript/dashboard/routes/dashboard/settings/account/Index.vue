@@ -1,6 +1,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { parseBoolean } from '@chatwoot/utils';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -15,6 +16,7 @@ import AccountId from './components/AccountId.vue';
 import BuildInfo from './components/BuildInfo.vue';
 import AccountDelete from './components/AccountDelete.vue';
 import AudioTranscription from './components/AudioTranscription.vue';
+import EnforceMfa from './components/EnforceMfa.vue';
 import SectionLayout from './components/SectionLayout.vue';
 
 export default {
@@ -25,6 +27,7 @@ export default {
     BuildInfo,
     AccountDelete,
     AudioTranscription,
+    EnforceMfa,
     SectionLayout,
     WithLabel,
     NextInput,
@@ -67,6 +70,9 @@ export default {
         this.accountId,
         FEATURE_FLAGS.CAPTAIN
       );
+    },
+    isMfaAvailable() {
+      return parseBoolean(window.chatwootConfig?.isMfaEnabled);
     },
     languagesSortedByCode() {
       const enabledLanguages = [...this.enabledLanguages];
@@ -248,6 +254,7 @@ export default {
       <woot-loading-state v-if="uiFlags.isFetchingItem" />
     </div>
     <AudioTranscription v-if="showAudioTranscriptionConfig" />
+    <EnforceMfa v-if="isMfaAvailable" />
     <AccountId />
     <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
       <AccountDelete />
