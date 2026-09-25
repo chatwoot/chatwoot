@@ -241,7 +241,7 @@
 # ------- Context.dev Config ------- #
 - name: CONTEXT_DEV_API_KEY
   display_title: 'Context.dev API Key'
-  description: 'API key for Context.dev branding service used during account onboarding'
+  description: 'API key for Context.dev, used for account onboarding branding and company profile enrichment'
   type: secret
 # ------- End of Context.dev Config ------- #
 

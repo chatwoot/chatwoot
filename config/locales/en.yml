@@ -134,6 +134,11 @@ en:
         invalid: must be a valid domain name
       search:
         query_missing: Specify search string with parameter q
+      enrichment:
+        plan_required: Company enrichment is available on the Business and Enterprise plans
+        not_configured: Company enrichment is not configured for this installation
+        domain_missing: Add a domain to the company before refreshing its profile
+        not_found: Could not find profile information for this company's domain
     messages:
       search:
         time_range_limit_exceeded: 'Search is limited to the last %{days} days'

@@ -238,8 +238,13 @@ Rails.application.routes.draw do
                   get :search
                 end
               end
-              resources :conversations, only: [:index]
+              resources :conversations, only: [:index] do
+                collection do
+                  post :filter
+                end
+              end
               resources :notes, only: [:index]
+              resource :enrichment, only: [:create] if ChatwootApp.enterprise?
             end
           end
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do

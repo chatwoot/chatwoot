@@ -289,3 +289,8 @@
   enabled: false
   premium: true
   column: feature_flags_ext_1
+- name: company_enrichment
+  display_name: Company Enrichment
+  enabled: false
+  premium: true
+  column: feature_flags_ext_1

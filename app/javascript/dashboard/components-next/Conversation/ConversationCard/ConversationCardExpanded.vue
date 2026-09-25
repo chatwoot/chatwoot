@@ -23,6 +23,9 @@ const props = defineProps({
   showAssignee: { type: Boolean, default: false },
   showInboxName: { type: Boolean, default: false },
   isInboxView: { type: Boolean, default: false },
+  selectable: { type: Boolean, default: true },
+  // Leads with the conversation (id, contact, message) instead of the status icons.
+  conversationFirst: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -31,6 +34,28 @@ const emit = defineEmits([
   'click',
   'contextmenu',
 ]);
+// Explicit positions for the conversation-first layout; the default layout keeps DOM order.
+const CONVERSATION_FIRST_ORDER = {
+  id: 'order-1',
+  avatar: 'order-2',
+  name: 'order-3',
+  dividerAfterName: 'order-4',
+  priority: 'order-5',
+  assignee: 'order-6',
+  status: 'order-7',
+  // Message and inbox need room; below lg the row keeps only id, contact and status icons.
+  dividerAfterStatus: 'order-8 max-lg:hidden',
+  content: 'order-9 max-lg:hidden',
+  dividerBeforeInbox: 'order-10 ms-auto max-lg:hidden',
+  inbox: 'order-11 max-lg:hidden',
+};
+const CONVERSATION_FIRST_DIVIDERS = [
+  'dividerAfterName',
+  'dividerAfterStatus',
+  'dividerBeforeInbox',
+];
+const orderClass = key =>
+  props.conversationFirst ? CONVERSATION_FIRST_ORDER[key] : '';
 
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
 const showLabelsSection = computed(() => props.chat.labels?.length > 0);
@@ -84,17 +109,35 @@ const selectedModel = computed({
   >
     <!-- LEFT SECTION -->
     <div class="flex items-center gap-2 min-w-0 flex-1">
-      <div class="flex items-center justify-center flex-shrink-0" @click.stop>
+      <template v-if="conversationFirst">
+        <div
+          v-for="divider in CONVERSATION_FIRST_DIVIDERS"
+          :key="divider"
+          class="w-px h-3 bg-n-slate-6 flex-shrink-0"
+          :class="orderClass(divider)"
+        />
+      </template>
+      <div
+        v-if="selectable"
+        class="flex items-center justify-center flex-shrink-0"
+        @click.stop
+      >
         <Checkbox v-model="selectedModel" />
       </div>
 
-      <div class="w-px h-3 bg-n-slate-6 flex-shrink-0" />
+      <div v-if="selectable" class="w-px h-3 bg-n-slate-6 flex-shrink-0" />
 
-      <div class="w-4 flex items-center justify-center flex-shrink-0">
+      <div
+        class="w-4 flex items-center justify-center flex-shrink-0"
+        :class="orderClass('priority')"
+      >
         <CardPriorityIcon :priority="chat.priority" show-empty />
       </div>
 
-      <div class="w-4 flex items-center justify-center flex-shrink-0">
+      <div
+        class="w-4 flex items-center justify-center flex-shrink-0"
+        :class="orderClass('assignee')"
+      >
         <Avatar
           v-if="showAssignee && assignee.name"
           v-tooltip.top="{
@@ -114,18 +157,28 @@ const selectedModel = computed({
         />
       </div>
 
-      <div class="w-4 flex items-center justify-center flex-shrink-0">
+      <div
+        class="w-4 flex items-center justify-center flex-shrink-0"
+        :class="orderClass('status')"
+      >
         <CardStatusIcon :status="chat.status" show-empty />
       </div>
 
-      <div class="w-px h-3 bg-n-slate-6 flex-shrink-0" />
+      <div
+        v-if="!conversationFirst"
+        class="w-px h-3 bg-n-slate-6 flex-shrink-0"
+      />
 
-      <div v-if="!isInboxView && showInboxName" class="w-20 flex-shrink-0">
+      <div
+        v-if="!isInboxView && showInboxName"
+        class="w-20 flex-shrink-0"
+        :class="orderClass('inbox')"
+      >
         <InboxName v-if="showInboxName" :inbox="inbox" class="min-w-0" />
       </div>
 
       <div
-        v-if="!isInboxView && showInboxName"
+        v-if="!isInboxView && showInboxName && !conversationFirst"
         class="w-px h-3 bg-n-slate-6 flex-shrink-0"
       />
 
@@ -135,6 +188,7 @@ const selectedModel = computed({
           delay: { show: 500, hide: 0 },
         }"
         class="h-6 flex items-center gap-1 max-w-20 w-full min-w-0 flex-shrink-0"
+        :class="orderClass('id')"
       >
         <Icon
           icon="i-woot-hash"
@@ -146,6 +200,7 @@ const selectedModel = computed({
       </div>
 
       <CardAvatar
+        :class="orderClass('avatar')"
         :contact="currentContact"
         :selected="false"
         :enable-selection="false"
@@ -154,11 +209,13 @@ const selectedModel = computed({
 
       <h4
         class="text-heading-3 my-0 capitalize truncate text-n-slate-12 font-medium w-32 flex-shrink-0"
+        :class="orderClass('name')"
       >
         {{ currentContact.name }}
       </h4>
 
       <CardContent
+        :class="orderClass('content')"
         :last-message="lastMessageInChat"
         :voice-call-status="voiceCallData.status"
         :voice-call-direction="voiceCallData.direction"

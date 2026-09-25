@@ -82,7 +82,7 @@ const showDivider = index => {
       <button
         :ref="el => (tabRefs[index] = el)"
         type="button"
-        class="relative z-10 px-4 truncate py-1.5 text-sm border-0 outline-1 outline-transparent rounded-lg transition-all duration-200 ease-out hover:text-n-brand active:scale-[1.02]"
+        class="relative z-10 inline-flex items-center gap-1.5 px-4 truncate py-1.5 text-sm border-0 outline-1 outline-transparent rounded-lg transition-all duration-200 ease-out hover:text-n-brand active:scale-[1.02]"
         :class="[
           activeTab === index
             ? 'text-n-blue-11 scale-100'
@@ -90,6 +90,7 @@ const showDivider = index => {
         ]"
         @click="selectTab(index)"
       >
+        <span v-if="tab.icon" :class="tab.icon" class="size-4 shrink-0" />
         {{ tab.label }} {{ tab.count ? `(${tab.count})` : '' }}
       </button>
       <div

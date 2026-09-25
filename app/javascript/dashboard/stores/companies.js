@@ -3,6 +3,8 @@ import CompanyAPI from 'dashboard/api/companies';
 import { createStore } from 'dashboard/store/storeFactory';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 import snakecaseKeys from 'snakecase-keys';
+import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
 const createInitialUIFlags = () => ({
   fetchingList: false,
@@ -11,6 +13,7 @@ const createInitialUIFlags = () => ({
   creatingItem: false,
   deletingItem: false,
   deletingAvatar: false,
+  enrichingItem: false,
   deletingCustomAttributes: false,
   fetchingContacts: false,
   fetchingConversations: false,
@@ -21,7 +24,10 @@ const createInitialUIFlags = () => ({
 });
 
 const camelizeCompany = data =>
-  camelcaseKeys(data || {}, { deep: true, stopPaths: ['custom_attributes'] });
+  camelcaseKeys(data || {}, {
+    deep: true,
+    stopPaths: ['custom_attributes', 'additional_attributes'],
+  });
 
 const camelizeContact = data =>
   camelcaseKeys(data || {}, {
@@ -74,7 +80,9 @@ export const useCompaniesStore = createStore({
     companyContacts: [],
     companyContactsMeta: {},
     companyConversations: [],
+    companyConversationsMeta: {},
     companyNotes: [],
+    companyNotesMeta: {},
     contactSearchResults: [],
     contactSearchMeta: {},
     activeContactSearchQuery: '',
@@ -231,6 +239,21 @@ export const useCompaniesStore = createStore({
       }
     },
 
+    async enrich(companyId) {
+      this.setUIFlag({ enrichingItem: true });
+      try {
+        const {
+          data: { payload },
+        } = await CompanyAPI.enrich(companyId);
+        const company = camelizeCompany(payload);
+        this.upsertCompanyRecord(company);
+        return company;
+      } finally {
+        // Errors are rethrown as-is so callers can tell a plan restriction (403) apart.
+        this.setUIFlag({ enrichingItem: false });
+      }
+    },
+
     async deleteCompanyAvatar(companyId) {
       this.setUIFlag({ deletingAvatar: true });
       this.ensureActiveCompanyContext(companyId);
@@ -248,7 +271,7 @@ export const useCompaniesStore = createStore({
       }
     },
 
-    async getCompanyContacts(companyId, page = 1) {
+    async getCompanyContacts(companyId, page = 1, query = undefined) {
       this.setUIFlag({ fetchingContacts: true });
       this.ensureActiveCompanyContext(companyId);
       const activeCompanyId = Number(companyId);
@@ -258,7 +281,7 @@ export const useCompaniesStore = createStore({
       try {
         const {
           data: { payload, meta },
-        } = await CompanyAPI.listContacts(companyId, page);
+        } = await CompanyAPI.listContacts(companyId, page, query);
         const contacts = camelizeContact(payload);
         const normalizedMeta = normalizeMeta(meta);
 
@@ -271,7 +294,9 @@ export const useCompaniesStore = createStore({
 
         this.companyContacts = contacts;
         this.companyContactsMeta = normalizedMeta;
-        this.updateCompanyContactsCount(companyId, normalizedMeta.totalCount);
+        if (!query) {
+          this.updateCompanyContactsCount(companyId, normalizedMeta.totalCount);
+        }
         return contacts;
       } catch (error) {
         return throwErrorMessage(error);
@@ -282,7 +307,7 @@ export const useCompaniesStore = createStore({
       }
     },
 
-    async getCompanyNotes(companyId) {
+    async getCompanyNotes(companyId, page = 1, query = undefined) {
       this.setUIFlag({ fetchingNotes: true });
       this.ensureActiveCompanyContext(companyId);
       const activeCompanyId = Number(companyId);
@@ -291,8 +316,8 @@ export const useCompaniesStore = createStore({
 
       try {
         const {
-          data: { payload },
-        } = await CompanyAPI.listNotes(companyId);
+          data: { payload, meta },
+        } = await CompanyAPI.listNotes(companyId, page, query);
         const notes = camelcaseKeys(payload || [], { deep: true });
 
         if (
@@ -302,7 +327,8 @@ export const useCompaniesStore = createStore({
           return notes;
         }
 
-        this.companyNotes = notes;
+        this.companyNotes = page > 1 ? [...this.companyNotes, ...notes] : notes;
+        this.companyNotesMeta = camelcaseKeys(meta || {});
         return notes;
       } catch (error) {
         return throwErrorMessage(error);
@@ -316,7 +342,8 @@ export const useCompaniesStore = createStore({
       }
     },
 
-    async getCompanyConversations(companyId) {
+    // `filters` are ConversationFilter conditions; empty means no filtering.
+    async getCompanyConversations(companyId, page = 1, filters = []) {
       this.setUIFlag({ fetchingConversations: true });
       this.ensureActiveCompanyContext(companyId);
       const activeCompanyId = Number(companyId);
@@ -325,9 +352,16 @@ export const useCompaniesStore = createStore({
 
       try {
         const {
-          data: { payload },
-        } = await CompanyAPI.listConversations(companyId);
-        const conversations = camelcaseKeys(payload || [], { deep: true });
+          data: { payload, meta },
+        } = filters.length
+          ? await CompanyAPI.filterConversations(
+              companyId,
+              filterQueryGenerator(useSnakeCase(filters)).payload,
+              page
+            )
+          : await CompanyAPI.listConversations(companyId, page);
+        // Kept in the API shape so the shared conversation cards can render them.
+        const conversations = payload || [];
 
         if (
           this.companyConversationsRequestToken !== requestToken ||
@@ -336,7 +370,11 @@ export const useCompaniesStore = createStore({
           return conversations;
         }
 
-        this.companyConversations = conversations;
+        this.companyConversations =
+          page > 1
+            ? [...this.companyConversations, ...conversations]
+            : conversations;
+        this.companyConversationsMeta = camelcaseKeys(meta || {});
         return conversations;
       } catch (error) {
         return throwErrorMessage(error);
@@ -467,7 +505,9 @@ export const useCompaniesStore = createStore({
       this.companyContacts = [];
       this.companyContactsMeta = {};
       this.companyConversations = [];
+      this.companyConversationsMeta = {};
       this.companyNotes = [];
+      this.companyNotesMeta = {};
       this.contactSearchResults = [];
       this.contactSearchMeta = {};
       this.activeContactSearchQuery = '';
