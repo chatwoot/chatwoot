@@ -39,10 +39,10 @@ RSpec.describe Voice::Conference::Manager do
       expect(conference).not_to have_received(:end_conference)
     end
 
-    it 'keeps the call live when Twilio cannot say who is left' do
+    it 'keeps the call live and rechecks by job when Twilio cannot say who is left' do
       allow(conference).to receive(:agents_remain?).and_raise(Twilio::REST::TwilioError)
 
-      expect { leave(agent_label) }.not_to raise_error
+      expect { leave(agent_label) }.to have_enqueued_job(Voice::EndConferenceJob).with(call.id, leaving_label: agent_label)
       expect(call.reload.status).to eq('in_progress')
       expect(conference).not_to have_received(:end_conference)
     end

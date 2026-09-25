@@ -103,12 +103,14 @@ class Voice::Conference::Manager
     end
   end
 
-  # When Twilio cannot say who is left, the call stays live: its conference end callback
-  # completes it once everyone has gone
+  # When Twilio cannot say who is left, the call stays live and a job repeats the check:
+  # the contact does not leave a conference on their own, so an unknown answer cannot be
+  # allowed to stand
   def other_agents_remain?
     conference_service.agents_remain?(leaving_label: participant_label)
   rescue StandardError => e
     Rails.logger.error("[VOICE] call #{call.id}: could not list conference participants: #{e.class}: #{e.message}")
+    Voice::EndConferenceJob.perform_later(call.id, leaving_label: participant_label)
     true
   end
 
