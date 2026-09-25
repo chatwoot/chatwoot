@@ -1,4 +1,14 @@
 class Contacts::CompanyAssociationService
+  # TODO: Remove this dashboard bridge after legacy company names are migrated.
+  def associate_company_from_name(contact)
+    return unless contact.account.feature_enabled?('companies') && contact.company_id.nil? && contact.company_id_was.nil?
+
+    name = contact.additional_attributes['company_name']&.strip
+    return if name.blank? || name.length > Limits::COMPANY_NAME_LENGTH_LIMIT
+
+    contact.company = contact.account.companies.where('LOWER(name) = ?', name.downcase).first_or_create!(name: name)
+  end
+
   def associate_company_from_email(contact)
     return nil if skip_association?(contact)
 

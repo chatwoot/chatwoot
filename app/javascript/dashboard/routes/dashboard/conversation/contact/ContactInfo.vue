@@ -1,5 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAlert } from 'dashboard/composables';
 import {
   DuplicateContactException,
@@ -62,9 +63,21 @@ export default {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
       currentChat: 'getSelectedChat',
+      isFeatureEnabledOnAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    hasCompaniesFeature() {
+      return this.isFeatureEnabledOnAccount(
+        Number(this.$route.params.accountId),
+        FEATURE_FLAGS.COMPANIES
+      );
+    },
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
+    },
+    companyLink() {
+      return this.hasCompaniesFeature && this.contact.company_id
+        ? `/app/accounts/${this.$route.params.accountId}/companies/${this.contact.company_id}`
+        : '';
     },
     additionalAttributes() {
       return this.contact.additional_attributes || {};
@@ -301,11 +314,12 @@ export default {
             :title="$t('CONTACT_PANEL.IDENTIFIER')"
           />
           <ContactInfoRow
+            :href="companyLink"
             :value="additionalAttributes.company_name"
             icon="building-bank"
             emoji="🏢"
             :title="$t('CONTACT_PANEL.COMPANY')"
-            editable
+            :editable="!hasCompaniesFeature"
             @update="
               value =>
                 updateContactField({
