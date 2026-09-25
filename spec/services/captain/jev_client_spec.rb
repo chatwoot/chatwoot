@@ -31,35 +31,48 @@ RSpec.describe Captain::JevClient do
   end
 
   it 'records the exact request, response, model, usage, and cost in Langfuse' do
-    response = { model: 'jev-1.13.0', answers: { test: { type: 'noul', noul: 0.9 } },
+    response = { model: 'jev-1.13.0', id: 'gen-dec-1', answers: { test: { type: 'noul', noul: 0.9 } },
                  usage: { input_tokens: 12, output_tokens: 0, cost: 0.000001 } }
     stub_request(:post, 'https://openrouter.ai/api/v1/systemone').to_return(status: 200, body: response.to_json)
-    span = instance_double(OpenTelemetry::Trace::Span, set_attribute: nil)
+    attributes = {}
+    span = instance_double(OpenTelemetry::Trace::Span)
     tracer = instance_double(OpenTelemetry::Trace::Tracer)
+    allow(span).to receive(:set_attribute) { |name, value| attributes[name] = value }
     allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
     allow(OpentelemetryConfig).to receive(:tracer).and_return(tracer)
     allow(tracer).to receive(:in_span).and_yield(span)
 
     expect(described_class.new(account_id: 7, conversation_id: 42, feature: 'captain_classifier').call(body: body))
       .to eq(response.deep_stringify_keys)
-    expect(span).to have_received(:set_attribute).with('langfuse.observation.input', body)
-    expect(span).to have_received(:set_attribute).with('langfuse.observation.output', response.to_json)
-    expect(span).to have_received(:set_attribute).with('langfuse.observation.model.name', 'jev-1.13.0')
-    expect(span).to have_received(:set_attribute).with('langfuse.session.id', '7_42')
-    expect(span).to have_received(:set_attribute).with('gen_ai.usage.input_tokens', 12)
-    expect(span).to have_received(:set_attribute).with('langfuse.observation.cost_details', { total: 0.000001 }.to_json)
+    expect(tracer).to have_received(:in_span).with('generate_content jev-latest', kind: :client)
+    expect(attributes).to include(
+      'langfuse.trace.name' => 'llm.captain_classifier.jev',
+      'langfuse.observation.input' => body,
+      'langfuse.observation.output' => response.to_json,
+      'langfuse.observation.model.name' => 'jev-1.13.0',
+      'langfuse.observation.cost_details' => { total: 0.000001 }.to_json,
+      'langfuse.session.id' => '7_42',
+      'gen_ai.operation.name' => 'generate_content',
+      'gen_ai.response.model' => 'jev-1.13.0',
+      'gen_ai.response.id' => 'gen-dec-1',
+      'gen_ai.conversation.id' => '7_42',
+      'gen_ai.usage.input_tokens' => 12,
+      'server.address' => 'openrouter.ai'
+    )
     expect(WebMock).to have_requested(:post, 'https://openrouter.ai/api/v1/systemone').with(body: body).once
   end
 
   it 'marks a failed Jev call without retrying it' do
     stub_request(:post, 'https://openrouter.ai/api/v1/systemone').to_timeout
-    span = instance_double(OpenTelemetry::Trace::Span, set_attribute: nil, 'status=': nil)
+    span = instance_double(OpenTelemetry::Trace::Span, set_attribute: nil, record_exception: nil, 'status=': nil)
     tracer = instance_double(OpenTelemetry::Trace::Tracer)
     allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
     allow(OpentelemetryConfig).to receive(:tracer).and_return(tracer)
     allow(tracer).to receive(:in_span).and_yield(span)
 
     expect { client.call(body: body) }.to raise_error(Faraday::ConnectionFailed)
+    expect(span).to have_received(:set_attribute).with('error.type', 'Faraday::ConnectionFailed')
+    expect(span).to have_received(:record_exception).with(an_instance_of(Faraday::ConnectionFailed))
     expect(span).to have_received(:status=).with(an_instance_of(OpenTelemetry::Trace::Status))
     expect(WebMock).to have_requested(:post, 'https://openrouter.ai/api/v1/systemone').once
   end

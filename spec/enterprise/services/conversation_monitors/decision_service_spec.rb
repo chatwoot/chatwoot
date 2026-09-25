@@ -121,7 +121,7 @@ RSpec.describe ConversationMonitors::DecisionService do
     result = client.evaluate(state: state, monitors: [monitor])
 
     expect(result).to eq(response_body.deep_stringify_keys)
-    expect(tracer).to have_received(:in_span).with('llm.conversation_monitors.jev')
+    expect(span).to have_received(:set_attribute).with('langfuse.trace.name', 'llm.conversation_monitors.jev')
     expect(span).to have_received(:set_attribute).with('langfuse.observation.input', a_string_including('"model":"typesafe/jev-1.13"'))
     expect(span).to have_received(:set_attribute).with('gen_ai.usage.input_tokens', 100)
     expect(WebMock).to have_requested(:post, endpoint).once

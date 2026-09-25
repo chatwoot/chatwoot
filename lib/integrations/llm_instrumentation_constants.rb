@@ -3,8 +3,15 @@
 module Integrations::LlmInstrumentationConstants
   # OpenTelemetry attribute names following GenAI semantic conventions
   # https://opentelemetry.io/docs/specs/semconv/gen-ai/
+  ATTR_GEN_AI_OPERATION_NAME = 'gen_ai.operation.name'
   ATTR_GEN_AI_PROVIDER = 'gen_ai.provider.name'
+  ATTR_GEN_AI_CONVERSATION_ID = 'gen_ai.conversation.id'
   ATTR_GEN_AI_REQUEST_MODEL = 'gen_ai.request.model'
+  ATTR_GEN_AI_RESPONSE_MODEL = 'gen_ai.response.model'
+  ATTR_GEN_AI_RESPONSE_ID = 'gen_ai.response.id'
+  ATTR_SERVER_ADDRESS = 'server.address'
+  ATTR_SERVER_PORT = 'server.port'
+  ATTR_ERROR_TYPE = 'error.type'
   ATTR_GEN_AI_REQUEST_TEMPERATURE = 'gen_ai.request.temperature'
   ATTR_GEN_AI_PROMPT_ROLE = 'gen_ai.prompt.%d.role'
   ATTR_GEN_AI_PROMPT_CONTENT = 'gen_ai.prompt.%d.content'
@@ -22,6 +29,7 @@ module Integrations::LlmInstrumentationConstants
   # https://langfuse.com/integrations/native/opentelemetry#property-mapping
   ATTR_LANGFUSE_USER_ID = 'langfuse.user.id'
   ATTR_LANGFUSE_SESSION_ID = 'langfuse.session.id'
+  ATTR_LANGFUSE_TRACE_NAME = 'langfuse.trace.name'
   ATTR_LANGFUSE_TAGS = 'langfuse.trace.tags'
   ATTR_LANGFUSE_METADATA = 'langfuse.trace.metadata.%s'
   ATTR_LANGFUSE_TRACE_INPUT = 'langfuse.trace.input'
@@ -30,4 +38,6 @@ module Integrations::LlmInstrumentationConstants
   ATTR_LANGFUSE_OBSERVATION_INPUT = 'langfuse.observation.input'
   ATTR_LANGFUSE_OBSERVATION_OUTPUT = 'langfuse.observation.output'
   ATTR_LANGFUSE_OBSERVATION_METADATA = 'langfuse.observation.metadata.%s'
+  ATTR_LANGFUSE_OBSERVATION_MODEL = 'langfuse.observation.model.name'
+  ATTR_LANGFUSE_OBSERVATION_COST_DETAILS = 'langfuse.observation.cost_details'
 end
