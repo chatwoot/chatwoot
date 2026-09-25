@@ -46,27 +46,28 @@ class Voice::VoipPushService
 
   # Both platforms and every device go out at the same time, so no phone waits on another
   # device's round trip. Network work runs in the threads; the database is touched only here.
-  # The call is re-read first: a terminate that overtook the ring leaves nothing to ring for.
+  #
+  # The status check and the record of who is rung happen under the row lock, so a
+  # terminate cannot slip between them: it either lands first and there is nothing to
+  # ring, or it waits and then finds the devices to cancel. A terminate that lands while
+  # the pushes are in flight may have its cancel overtaken by the ring, so the ring is
+  # followed by a cancel of its own in that case.
   def ring
-    return unless call.reload.ringing?
+    apple, android = call.with_lock { call.ringing? ? remember_ring : nil }
+    return if apple.nil? || (apple.empty? && android.empty?)
 
-    apple, android = devices_to_ring
-    return if apple.empty? && android.empty?
-
-    remember_rung_devices(apple, android)
     stale_apple, stale_android = [
       Thread.new { with_rails { ring_apple(apple) } },
       Thread.new { with_rails { deliver_android_all(android, ring_data, 'ring') } }
     ].map(&:value)
     forget_devices(APPLE, stale_apple)
     forget_devices(ANDROID, stale_android)
+    cancel if call.reload.terminal?
   end
 
   def devices_to_ring
-    [
-      apple_configured? ? apple_tokens : [],
-      firebase_configured? ? android_tokens : []
-    ]
+    apple_environment if apple_configured?
+    [apple_configured? ? apple_tokens : [], firebase_configured? ? android_tokens : []]
   end
 
   def cancel
@@ -111,11 +112,16 @@ class Voice::VoipPushService
     (call.meta || {}).fetch('rung_devices', {})
   end
 
-  # Merged into the column in place, so a webhook writing other meta keys meanwhile keeps them
-  def remember_rung_devices(apple, android)
-    rung = { 'rung_devices' => { APPLE => apple, ANDROID => android } }
+  # Records the agents chosen for this ring and, where there are any, the devices being
+  # rung. Merged into the column in place, so a webhook writing other meta keys meanwhile
+  # keeps them. Returns the device tokens by platform.
+  def remember_ring
+    apple, android = devices_to_ring
+    rung = { 'ring_recipient_ids' => recipients.map(&:id) }
+    rung['rung_devices'] = { APPLE => apple, ANDROID => android } if apple.any? || android.any?
     Call.where(id: call.id).update_all(["meta = COALESCE(meta, '{}'::jsonb) || ?::jsonb", rung.to_json]) # rubocop:disable Rails/SkipsModelValidations
     call.reload
+    [apple, android]
   end
 
   # A device the platform no longer knows is removed so it stops costing a request per ring
@@ -163,8 +169,18 @@ class Voice::VoipPushService
 
   # MARK: Apple
 
+  APNS_ENVIRONMENTS = %w[development production].freeze
+
   def apple_configured?
     config('APNS_VOIP_KEY').present? && config('APNS_VOIP_KEY_ID').present? && config('APNS_VOIP_TEAM_ID').present?
+  end
+
+  # A misspelt environment would quietly send App Store tokens to the sandbox, so it fails the job
+  def apple_environment
+    environment = config('APNS_VOIP_ENVIRONMENT', 'production')
+    return environment if APNS_ENVIRONMENTS.include?(environment)
+
+    raise ArgumentError, "APNS_VOIP_ENVIRONMENT must be one of #{APNS_ENVIRONMENTS.join(', ')}, got #{environment.inspect}"
   end
 
   # Returns the tokens Apple reported as gone
@@ -179,7 +195,7 @@ class Voice::VoipPushService
   end
 
   def apple_connection
-    production = config('APNS_VOIP_ENVIRONMENT', 'production') == 'production'
+    production = apple_environment == 'production'
     Apnotic::Connection.new(
       url: production ? Apnotic::APPLE_PRODUCTION_SERVER_URL : Apnotic::APPLE_DEVELOPMENT_SERVER_URL,
       auth_method: :token,
