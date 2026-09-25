@@ -98,6 +98,37 @@ RSpec.describe MailPresenter do
       expect(decorated_mail.from.first.eql?(mail.from.first.downcase)).to be true
     end
 
+    describe '#from with malformed address lists' do
+      let(:mail_with_sender) { Mail.new { from 'Sender <SENDER@EXAMPLE.COM>' } }
+
+      it 'drops blank reply-to entries and keeps valid reply-to addresses' do
+        allow(mail_with_sender).to receive(:reply_to).and_return([nil, '', 'REPLY@EXAMPLE.COM'])
+
+        expect(described_class.new(mail_with_sender).from).to eq(['reply@example.com'])
+      end
+
+      it 'falls back to from when reply-to has no usable addresses' do
+        allow(mail_with_sender).to receive(:reply_to).and_return([nil, ''])
+
+        expect(described_class.new(mail_with_sender).from).to eq(['sender@example.com'])
+      end
+
+      it 'drops blank entries from the from list' do
+        allow(mail_with_sender).to receive(:reply_to).and_return(nil)
+        allow(mail_with_sender).to receive(:from).and_return([nil, '', 'SENDER@EXAMPLE.COM'])
+
+        expect(described_class.new(mail_with_sender).from).to eq(['sender@example.com'])
+      end
+
+      it 'returns no addresses when both lists lack a sender' do
+        empty_mail = Mail.new
+        allow(empty_mail).to receive(:reply_to).and_return([nil, ''])
+        allow(empty_mail).to receive(:from).and_return([nil, ''])
+
+        expect(described_class.new(empty_mail).from).to eq([])
+      end
+    end
+
     it 'parse html content in the mail' do
       decorated_html_mail = described_class.new(html_mail)
       expect(decorated_html_mail.subject).to eq('Fwd: How good are you in English? How did you improve your English?')
