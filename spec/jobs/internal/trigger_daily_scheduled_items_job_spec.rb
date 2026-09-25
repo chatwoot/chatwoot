@@ -15,7 +15,7 @@ RSpec.describe Internal::TriggerDailyScheduledItemsJob do
 
   it 'enqueues the job' do
     expect { described_class.perform_later }.to have_enqueued_job(described_class)
-      .on_queue('scheduled_jobs')
+      .on_queue('within_10_minutes')
   end
 
   it 'schedules the version check at a stable minute in production' do

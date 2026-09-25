@@ -6,7 +6,7 @@ RSpec.describe Channels::Twilio::TemplatesSyncJob do
 
   it 'enqueues the job' do
     expect { described_class.perform_later(twilio_channel) }.to have_enqueued_job(described_class)
-      .on_queue('low')
+      .on_queue('within_10_minutes')
       .with(twilio_channel)
   end
 
@@ -44,7 +44,7 @@ RSpec.describe Channels::Twilio::TemplatesSyncJob do
 
   describe 'job configuration' do
     it 'is configured to run on low priority queue' do
-      expect(described_class.queue_name).to eq('low')
+      expect(described_class.queue_name).to eq('within_10_minutes')
     end
   end
 end

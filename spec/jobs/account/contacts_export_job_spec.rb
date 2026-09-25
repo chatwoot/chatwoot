@@ -42,7 +42,7 @@ RSpec.describe Account::ContactsExportJob do
 
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
-      .on_queue('low')
+      .on_queue('within_10_minutes')
   end
 
   context 'when export_contacts' do

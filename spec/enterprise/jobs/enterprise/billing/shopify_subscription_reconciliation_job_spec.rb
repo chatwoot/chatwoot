@@ -69,6 +69,6 @@ RSpec.describe Enterprise::Billing::ShopifySubscriptionReconciliationJob do
   end
 
   it 'uses the scheduled jobs queue' do
-    expect(described_class.queue_name).to eq('scheduled_jobs')
+    expect(described_class.queue_name).to eq('within_10_minutes')
   end
 end

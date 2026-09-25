@@ -509,7 +509,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
           expect do
             post "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/sync",
                  headers: admin.create_new_auth_token, as: :json
-          end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document).on_queue('low')
+          end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document).on_queue('within_10_minutes')
 
           expect(document.reload).to have_attributes(
             sync_status: 'syncing',
@@ -526,7 +526,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         expect do
           post "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/sync",
                headers: admin.create_new_auth_token, as: :json
-        end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document).on_queue('low')
+        end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document).on_queue('within_10_minutes')
 
         expect(response).to have_http_status(:accepted)
       end

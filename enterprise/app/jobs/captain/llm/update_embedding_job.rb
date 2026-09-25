@@ -1,5 +1,5 @@
 class Captain::Llm::UpdateEmbeddingJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform(record, content)
     account_id = record.account_id

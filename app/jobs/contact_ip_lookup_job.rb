@@ -1,5 +1,5 @@
 class ContactIpLookupJob < ApplicationJob
-  queue_as :default
+  queue_as :within_1_minute
 
   def perform(contact)
     update_contact_location_from_ip(contact)

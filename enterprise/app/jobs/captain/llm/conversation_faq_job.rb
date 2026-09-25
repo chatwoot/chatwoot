@@ -1,5 +1,5 @@
 class Captain::Llm::ConversationFaqJob < MutexApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   LOCK_TIMEOUT = 10.minutes
 

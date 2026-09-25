@@ -1,5 +1,5 @@
 class Conversations::ResolutionJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform(account:)
     # limiting the number of conversations to be resolved to avoid any performance issues

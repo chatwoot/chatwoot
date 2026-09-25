@@ -1,5 +1,5 @@
 class Crm::SetupJob < ApplicationJob
-  queue_as :default
+  queue_as :within_1_minute
 
   def perform(hook_id)
     hook = Integrations::Hook.find_by(id: hook_id)

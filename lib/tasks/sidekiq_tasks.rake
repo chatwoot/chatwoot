@@ -1,7 +1,7 @@
 namespace :sidekiq do
-  desc "Clear ActionCableJobs from sidekiq's critical queue"
+  desc "Clear ActionCableJobs from sidekiq's within_5_seconds queue"
   task clear_action_cable_broadcast_jobs: :environment do
-    queue_name = 'critical'
+    queue_name = 'within_5_seconds'
     queue = Sidekiq::Queue.new(queue_name)
     jobs_cleared = 0
 

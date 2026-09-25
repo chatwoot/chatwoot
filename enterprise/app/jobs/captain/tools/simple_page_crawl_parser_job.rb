@@ -1,7 +1,7 @@
 class Captain::Tools::SimplePageCrawlParserJob < ApplicationJob
   class PermanentCrawlError < StandardError; end
 
-  queue_as :low
+  queue_as :within_10_minutes
 
   discard_on PermanentCrawlError
 

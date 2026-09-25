@@ -18,7 +18,7 @@ RSpec.describe Messages::AudioTranscriptionJob do
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(attachment_id)
-      .on_queue('low')
+      .on_queue('within_10_minutes')
   end
 
   context 'when performing the job' do

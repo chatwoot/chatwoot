@@ -15,7 +15,7 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
 
   it 'queues the job' do
     expect { described_class.perform_later(inbox) }
-      .to have_enqueued_job.on_queue('low')
+      .to have_enqueued_job.on_queue('within_10_minutes')
   end
 
   context 'when the assistant is deleted before the queued job runs' do

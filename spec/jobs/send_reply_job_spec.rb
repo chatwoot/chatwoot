@@ -8,7 +8,7 @@ RSpec.describe SendReplyJob do
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(message)
-      .on_queue('high')
+      .on_queue('within_5_seconds')
   end
 
   context 'when the job is triggered on a new message' do

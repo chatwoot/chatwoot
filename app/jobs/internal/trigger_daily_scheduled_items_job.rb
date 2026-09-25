@@ -1,5 +1,5 @@
 class Internal::TriggerDailyScheduledItemsJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_10_minutes
 
   def perform
     # Schedule daily deferred jobs here so each installation can spread load

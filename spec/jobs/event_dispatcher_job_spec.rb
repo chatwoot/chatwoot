@@ -11,7 +11,7 @@ RSpec.describe EventDispatcherJob do
   it 'queues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(event_name, timestamp, event_data)
-      .on_queue('critical')
+      .on_queue('within_5_seconds')
   end
 
   it 'publishes event' do

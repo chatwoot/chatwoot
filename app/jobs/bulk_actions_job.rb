@@ -1,7 +1,7 @@
 class BulkActionsJob < ApplicationJob
   include DateRangeHelper
 
-  queue_as :medium
+  queue_as :within_1_minute
   attr_accessor :records
 
   MODEL_TYPE = ['Conversation'].freeze

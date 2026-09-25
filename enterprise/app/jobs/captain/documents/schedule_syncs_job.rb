@@ -1,5 +1,5 @@
 class Captain::Documents::ScheduleSyncsJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_10_minutes
 
   DEFAULT_PER_ACCOUNT_BATCH_LIMIT = 50
   DEFAULT_GLOBAL_BATCH_LIMIT = 1000

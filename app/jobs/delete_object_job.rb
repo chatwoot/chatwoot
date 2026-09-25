@@ -1,5 +1,5 @@
 class DeleteObjectJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   BATCH_SIZE = 5_000
 

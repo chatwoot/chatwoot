@@ -23,7 +23,7 @@ RSpec.describe Captain::Articles::TranslateJob, type: :job do
 
   it 'queues on the low queue' do
     expect { described_class.perform_later(account, article.id, 'es', category_es.id, user) }
-      .to have_enqueued_job.on_queue('low')
+      .to have_enqueued_job.on_queue('within_10_minutes')
   end
 
   it 'creates a translated article as draft' do

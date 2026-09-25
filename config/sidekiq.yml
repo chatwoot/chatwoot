@@ -12,25 +12,27 @@
 # even put in dynamic logic, like a host-specific queue.
 # http://www.mikeperham.com/2013/11/13/advanced-sidekiq-host-specific-queues/
 # https://github.com/sidekiq/sidekiq/wiki/Advanced-Options
-# Since queues are declared without waits, the jobs in lower ranking queues will only be processed
-# if there are no jobs in higher ranking queues.
+# Queues are named by the maximum time a job in them is allowed to wait.
+# Strict ordering: a queue is only polled when every queue above it is empty.
+# purgable holds jobs that are safe to delete from the Sidekiq UI during an incident.
 :queues:
+  - within_5_seconds
+  - within_1_minute
+  - within_10_minutes
+  - within_1_day
+  - purgable
+  # Legacy names, kept so jobs already enqueued before the rename still drain. Remove in a later release.
   - critical
   - high
   - medium
   - default
   - mailers
-  - action_mailbox_routing
   - low
   - scheduled_jobs
   - deferred
-  - purgable
   - housekeeping
   - async_database_migration
   - bulk_reindex_low
-  - active_storage_analysis
-  - active_storage_purge
-  - action_mailbox_incineration
 
 # you can override concurrency based on environment
 production:

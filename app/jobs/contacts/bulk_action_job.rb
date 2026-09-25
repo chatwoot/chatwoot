@@ -1,5 +1,5 @@
 class Contacts::BulkActionJob < ApplicationJob
-  queue_as :medium
+  queue_as :within_1_minute
 
   def perform(account_id, user_id, params)
     account = Account.find(account_id)

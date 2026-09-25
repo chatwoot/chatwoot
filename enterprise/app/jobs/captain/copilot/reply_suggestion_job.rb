@@ -1,5 +1,5 @@
 class Captain::Copilot::ReplySuggestionJob < ApplicationJob
-  queue_as :default
+  queue_as :within_1_minute
 
   retry_on Captain::Copilot::ReplySuggestionService::GenerationError, wait: 3.seconds, attempts: 3 do |job, _error|
     job.send(:persist_failure_response)

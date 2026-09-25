@@ -12,7 +12,7 @@ RSpec.describe Sla::TriggerSlasForAccountsJob do
 
     it 'enqueues the job' do
       expect { described_class.perform_later }.to have_enqueued_job(described_class)
-        .on_queue('scheduled_jobs')
+        .on_queue('within_1_minute')
     end
 
     it 'calls the ProcessAccountAppliedSlasJob for accounts with SLA' do

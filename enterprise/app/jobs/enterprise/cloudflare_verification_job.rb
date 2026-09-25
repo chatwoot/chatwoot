@@ -1,5 +1,5 @@
 class Enterprise::CloudflareVerificationJob < ApplicationJob
-  queue_as :default
+  queue_as :within_1_minute
 
   def perform(portal_id)
     portal = Portal.find(portal_id)

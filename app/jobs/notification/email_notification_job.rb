@@ -1,5 +1,5 @@
 class Notification::EmailNotificationJob < ApplicationJob
-  queue_as :default
+  queue_as :within_1_minute
 
   def perform(notification)
     # no need to send email if notification has been read already

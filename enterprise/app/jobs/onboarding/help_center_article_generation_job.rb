@@ -1,5 +1,5 @@
 class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   retry_on Firecrawl::FirecrawlError, wait: :polynomially_longer, attempts: 3 do |job, error|
     _account_id, _portal_id, _user_id, generation_id = job.arguments

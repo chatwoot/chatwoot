@@ -1,5 +1,5 @@
 class Migration::CopyCaptainAutoResolveModeToAssistantsJob < ApplicationJob
-  queue_as :async_database_migration
+  queue_as :within_1_day
 
   def perform
     Captain::Assistant.includes(:account).find_each do |assistant|

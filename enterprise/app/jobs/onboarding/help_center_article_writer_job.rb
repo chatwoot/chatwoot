@@ -1,5 +1,5 @@
 class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   # Catch-all so no exception type can wedge the generation in "generating".
   # Declared FIRST because ActiveJob searches rescue handlers bottom-to-top:

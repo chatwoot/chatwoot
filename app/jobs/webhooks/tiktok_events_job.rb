@@ -1,6 +1,6 @@
 # https://business-api.tiktok.com/portal/docs?id=1832190670631937
 class Webhooks::TiktokEventsJob < MutexApplicationJob
-  queue_as :default
+  queue_as :within_5_seconds
   retry_on LockAcquisitionError, wait: 2.seconds, attempts: 8
 
   SUPPORTED_EVENTS = [:im_send_msg, :im_receive_msg, :im_mark_read_msg].freeze

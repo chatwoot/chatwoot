@@ -12,7 +12,7 @@ RSpec.describe HookJob do
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(hook, event_name, event_data)
-      .on_queue('medium')
+      .on_queue('within_1_minute')
   end
 
   context 'when the hook is disabled' do

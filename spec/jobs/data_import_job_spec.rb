@@ -9,7 +9,7 @@ RSpec.describe DataImportJob do
     it 'queues the job on the low priority queue' do
       expect { job }.to have_enqueued_job(described_class)
         .with(data_import)
-        .on_queue('low')
+        .on_queue('within_10_minutes')
     end
   end
 

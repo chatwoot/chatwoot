@@ -1,6 +1,6 @@
 # Delete migration and spec after 2 consecutive releases.
 class Migration::RemoveStaleNotificationsJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_10_minutes
 
   def perform
     remove_invalid_messages

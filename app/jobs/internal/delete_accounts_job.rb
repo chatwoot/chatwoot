@@ -1,5 +1,5 @@
 class Internal::DeleteAccountsJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_10_minutes
 
   def perform
     delete_expired_accounts

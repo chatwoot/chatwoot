@@ -1,5 +1,5 @@
 class AutoAssignment::PeriodicAssignmentJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_10_minutes
 
   def perform
     Account.find_in_batches do |accounts|

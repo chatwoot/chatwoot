@@ -1,5 +1,5 @@
 class Webhooks::InstagramEventsJob < MutexApplicationJob
-  queue_as :default
+  queue_as :within_5_seconds
   # This lock is only a short race dampener for first-message conversation creation.
   # ContactInbox creation is already protected by a unique index, but conversation
   # lookup is `find active conversation || create`, so concurrent first messages from

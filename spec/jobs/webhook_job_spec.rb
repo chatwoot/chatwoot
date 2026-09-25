@@ -12,7 +12,7 @@ RSpec.describe WebhookJob do
   it 'queues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(url, payload, webhook_type)
-      .on_queue('medium')
+      .on_queue('within_1_minute')
   end
 
   it 'executes perform with default webhook type' do

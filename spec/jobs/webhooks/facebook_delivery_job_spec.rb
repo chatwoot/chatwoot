@@ -21,7 +21,7 @@ RSpec.describe Webhooks::FacebookDeliveryJob do
     it 'enqueues the job' do
       expect do
         described_class.perform_later(message)
-      end.to have_enqueued_job(described_class).with(message).on_queue('low')
+      end.to have_enqueued_job(described_class).with(message).on_queue('within_10_minutes')
     end
   end
 

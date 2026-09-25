@@ -17,7 +17,7 @@ RSpec.describe ConversationReplyEmailJob, type: :job do
     ActiveJob::Base.queue_adapter = :test
     expect do
       described_class.perform_later(conversation.id, 123)
-    end.to have_enqueued_job(described_class).on_queue('mailers')
+    end.to have_enqueued_job(described_class).on_queue('within_1_minute')
   end
 
   it 'calls reply_with_summary when last incoming message was not email' do

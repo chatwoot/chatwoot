@@ -29,7 +29,7 @@ Message.find_in_batches(batch_size: BATCH_SIZE).with_index do |batch, index|
   batch_count += 1
 
   # Enqueue to low priority queue with proper format
-  Searchkick::BulkReindexJob.set(queue: :bulk_reindex_low).perform_later(
+  Searchkick::BulkReindexJob.set(queue: :within_1_day).perform_later(
     class_name: 'Message',
     index_name: index_name,
     batch_id: index,
@@ -40,7 +40,7 @@ Message.find_in_batches(batch_size: BATCH_SIZE).with_index do |batch, index|
   if (batch_count % JOBS_PER_MINUTE).zero?
     elapsed = Time.zone.now - start_time
     progress = (batch_count.to_f / total_batches * 100).round(2)
-    queue_size = Sidekiq::Queue.new('bulk_reindex_low').size
+    queue_size = Sidekiq::Queue.new('within_1_day').size
 
     puts "[#{Time.zone.now.strftime('%Y-%m-%d %H:%M:%S')}] Progress: #{batch_count}/#{total_batches} (#{progress}%)"
     puts "  Queue size: #{queue_size}"

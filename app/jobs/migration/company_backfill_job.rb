@@ -1,5 +1,5 @@
 class Migration::CompanyBackfillJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform
     Rails.logger.info 'Starting company backfill migration...'

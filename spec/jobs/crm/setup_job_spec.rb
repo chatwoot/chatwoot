@@ -22,7 +22,7 @@ RSpec.describe Crm::SetupJob do
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(hook.id)
-      .on_queue('default')
+      .on_queue('within_1_minute')
   end
 
   describe '#perform' do

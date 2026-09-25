@@ -16,7 +16,7 @@ RSpec.describe Webhooks::TwilioEventsJob do
   it 'queues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(params)
-      .on_queue('low')
+      .on_queue('within_5_seconds')
   end
 
   it 'calls the Twilio::IncomingMessageService' do

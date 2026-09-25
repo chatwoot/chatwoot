@@ -1,5 +1,5 @@
 class Enterprise::AuditLogIpLookupJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
   discard_on ActiveJob::DeserializationError
 
   def perform(audit)

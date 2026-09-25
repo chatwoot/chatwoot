@@ -23,7 +23,7 @@ RSpec.describe Campaigns::UpdateRecipientStatusJob do
 
     expect do
       described_class.perform_now(inbox.id, status)
-    end.to have_enqueued_job(described_class).with(inbox.id, status).on_queue('low')
+    end.to have_enqueued_job(described_class).with(inbox.id, status).on_queue('within_10_minutes')
   end
 
   it 'does not update a recipient from another inbox' do
@@ -42,7 +42,7 @@ RSpec.describe Campaigns::UpdateRecipientStatusJob do
 
     expect do
       described_class.perform_now(inbox.id, status)
-    end.to have_enqueued_job(described_class).with(inbox.id, status).on_queue('low')
+    end.to have_enqueued_job(described_class).with(inbox.id, status).on_queue('within_10_minutes')
     expect(other_recipient.reload).to be_sent
   end
 end

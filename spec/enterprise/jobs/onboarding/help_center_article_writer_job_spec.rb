@@ -21,7 +21,7 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
   describe 'queue' do
     it 'enqueues on the low queue' do
       expect { described_class.perform_later(*job_args) }
-        .to have_enqueued_job(described_class).on_queue('low')
+        .to have_enqueued_job(described_class).on_queue('within_10_minutes')
     end
   end
 

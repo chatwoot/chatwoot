@@ -1,5 +1,5 @@
 class Enterprise::Billing::ShopifySubscriptionSyncJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_10_minutes
 
   discard_on ActiveRecord::RecordNotFound
 

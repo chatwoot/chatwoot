@@ -1,5 +1,5 @@
 class Inboxes::FetchImapEmailInboxesJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_1_minute
   include BillingHelper
 
   def perform

@@ -10,7 +10,7 @@ RSpec.describe Conversations::ResolutionJob do
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(account: account)
-      .on_queue('low')
+      .on_queue('within_10_minutes')
   end
 
   it 'does nothing when there is no auto resolve duration' do

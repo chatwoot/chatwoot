@@ -1,5 +1,5 @@
 class Sla::ProcessAppliedSlaJob < ApplicationJob
-  queue_as :medium
+  queue_as :within_1_minute
 
   def perform(applied_sla)
     # This job can already be queued when a plan is downgraded, so re-check before evaluating.

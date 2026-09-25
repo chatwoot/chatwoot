@@ -1,5 +1,5 @@
 class Messages::AudioTranscriptionJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   discard_on Faraday::BadRequestError do |job, error|
     log_context = {

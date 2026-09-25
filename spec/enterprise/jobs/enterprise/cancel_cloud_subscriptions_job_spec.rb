@@ -6,7 +6,7 @@ RSpec.describe Enterprise::CancelCloudSubscriptionsJob, type: :job do
   let(:account) { create(:account, custom_attributes: { 'marked_for_deletion_at' => 7.days.from_now.iso8601 }) }
 
   it 'queues the job' do
-    expect { job }.to have_enqueued_job(described_class).with(account).on_queue('default')
+    expect { job }.to have_enqueued_job(described_class).with(account).on_queue('within_1_minute')
   end
 
   it 'executes perform' do

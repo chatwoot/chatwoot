@@ -1,5 +1,5 @@
 class TriggerScheduledItemsJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_10_minutes
 
   def perform
     # trigger the scheduled campaign jobs

@@ -10,6 +10,6 @@ RSpec.describe Labels::UpdateJob do
   it 'queues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(new_label_title, old_label_title, account_id)
-      .on_queue('default')
+      .on_queue('within_1_minute')
   end
 end

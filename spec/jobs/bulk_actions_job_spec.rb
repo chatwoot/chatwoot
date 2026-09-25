@@ -20,7 +20,7 @@ RSpec.describe BulkActionsJob do
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(account: account, params: params, user: agent)
-      .on_queue('medium')
+      .on_queue('within_1_minute')
   end
 
   context 'when job is triggered' do

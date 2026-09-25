@@ -1,5 +1,5 @@
 class Webhooks::FacebookDeliveryJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform(message)
     response = ::Integrations::Facebook::MessageParser.new(message)

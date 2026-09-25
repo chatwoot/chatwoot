@@ -7,38 +7,38 @@
 internal_check_new_versions_job:
   cron: '0 0 * * *'
   class: 'Internal::TriggerDailyScheduledItemsJob'
-  queue: scheduled_jobs
+  queue: within_10_minutes
 # # executed At every 5th minute..
 trigger_scheduled_items_job:
   cron: '*/5 * * * *'
   class: 'TriggerScheduledItemsJob'
-  queue: scheduled_jobs
+  queue: within_10_minutes
 
 # executed hourly for scheduled jobs that do not need minute-level cadence
 trigger_hourly_scheduled_items_job:
   cron: '0 * * * *'
   class: 'Internal::TriggerHourlyScheduledItemsJob'
-  queue: scheduled_jobs
+  queue: within_10_minutes
 
 # executed At every minute..
 trigger_imap_email_inboxes_job:
   cron: '*/1 * * * *'
   class: 'Inboxes::FetchImapEmailInboxesJob'
-  queue: scheduled_jobs
+  queue: within_1_minute
 
 # executed daily at 2230 UTC
 # which is our lowest traffic time
 remove_stale_contact_inboxes_job.rb:
   cron: '30 22 * * *'
   class: 'Internal::RemoveStaleContactInboxesJob'
-  queue: scheduled_jobs
+  queue: within_10_minutes
 
 # executed daily at 2230 UTC
 # which is our lowest traffic time
 remove_stale_redis_keys_job.rb:
   cron: '30 22 * * *'
   class: 'Internal::RemoveStaleRedisKeysJob'
-  queue: scheduled_jobs
+  queue: within_10_minutes
 
 # DISABLED: investigating if this job is the source of orphan conversations
 # #executed daily at 0430 UTC
@@ -46,20 +46,20 @@ remove_stale_redis_keys_job.rb:
 # process_stale_contacts_job:
 #   cron: '30 04 * * *'
 #   class: 'Internal::ProcessStaleContactsJob'
-#   queue: housekeeping
+#   queue: within_1_day
 
 # executed daily at 0100 UTC
 # to delete accounts marked for deletion
 delete_accounts_job:
   cron: '0 1 * * *'
   class: 'Internal::DeleteAccountsJob'
-  queue: scheduled_jobs
+  queue: within_10_minutes
 
 # executed every 30 minutes for assignment_v2
 periodic_assignment_job:
   cron: '*/30 * * * *'
   class: 'AutoAssignment::PeriodicAssignmentJob'
-  queue: scheduled_jobs
+  queue: within_10_minutes
 
 # executed daily at 2230 UTC
 # removes old notifications (>1 month) and trims to 300 per user
@@ -73,4 +73,4 @@ remove_old_notification_job:
 remove_orphan_conversations_job:
   cron: '0 */12 * * *'
   class: 'Internal::RemoveOrphanConversationsJob'
-  queue: housekeeping
+  queue: within_1_day

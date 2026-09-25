@@ -1,5 +1,5 @@
 class AutomationRules::ProcessPendingExecutionJob < ApplicationJob
-  queue_as :medium
+  queue_as :within_1_minute
 
   discard_on ActiveJob::DeserializationError
 

@@ -1,5 +1,5 @@
 class Enterprise::Billing::ShopifySubscriptionReconciliationJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :within_10_minutes
 
   def perform
     return unless Shopify::FeatureGate.globally_enabled?

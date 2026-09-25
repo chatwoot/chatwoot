@@ -3,7 +3,7 @@
 # and are older than 3 months
 
 class Internal::ProcessStaleRedisKeysJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform(account)
     removed_count = Internal::RemoveStaleRedisKeysService.new(account_id: account.id).perform

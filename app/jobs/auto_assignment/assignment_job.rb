@@ -1,5 +1,5 @@
 class AutoAssignment::AssignmentJob < ApplicationJob
-  queue_as :default
+  queue_as :within_1_minute
 
   IN_FLIGHT_TTL = 5.minutes
 

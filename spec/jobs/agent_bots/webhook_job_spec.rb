@@ -22,7 +22,7 @@ RSpec.describe AgentBots::WebhookJob do
   it 'queues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(url, payload, webhook_type)
-      .on_queue('high')
+      .on_queue('within_5_seconds')
   end
 
   it 'executes perform' do

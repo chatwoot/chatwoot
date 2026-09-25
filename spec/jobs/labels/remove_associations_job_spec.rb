@@ -16,6 +16,6 @@ RSpec.describe Labels::RemoveAssociationsJob do
   it 'queues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(label_title: label_title, account_id: account_id, label_deleted_at: label_deleted_at)
-      .on_queue('default')
+      .on_queue('within_1_minute')
   end
 end

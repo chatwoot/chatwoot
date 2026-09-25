@@ -1,5 +1,5 @@
 class Labels::RemoveAssociationsJob < ApplicationJob
-  queue_as :default
+  queue_as :within_1_minute
 
   def perform(label_title:, account_id:, label_deleted_at:)
     Labels::DestroyService.new(

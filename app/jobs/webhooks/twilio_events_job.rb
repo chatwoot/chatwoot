@@ -1,5 +1,5 @@
 class Webhooks::TwilioEventsJob < ApplicationJob
-  queue_as :low
+  queue_as :within_5_seconds
 
   def perform(params = {})
     # Skip processing if Body parameter, MediaUrl0, or location data is not present

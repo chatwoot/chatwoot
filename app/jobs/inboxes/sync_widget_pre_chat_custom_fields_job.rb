@@ -1,5 +1,5 @@
 class Inboxes::SyncWidgetPreChatCustomFieldsJob < ApplicationJob
-  queue_as :default
+  queue_as :within_1_minute
 
   def perform(account, field_name)
     account.web_widgets.all.find_each do |web_widget|

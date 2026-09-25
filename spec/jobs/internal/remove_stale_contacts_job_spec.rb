@@ -8,7 +8,7 @@ RSpec.describe Internal::RemoveStaleContactsJob do
   it 'enqueues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(account)
-      .on_queue('housekeeping')
+      .on_queue('within_1_day')
   end
 
   it 'calls the RemoveStaleContactsService' do

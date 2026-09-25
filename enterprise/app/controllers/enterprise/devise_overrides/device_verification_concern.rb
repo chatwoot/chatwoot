@@ -51,7 +51,7 @@ module Enterprise::DeviseOverrides::DeviceVerificationConcern
   end
 
   def notify_new_device(user)
-    Enterprise::DeviceVerificationMailer.new_device(user, device_request_meta).deliver_later(queue: 'critical')
+    Enterprise::DeviceVerificationMailer.new_device(user, device_request_meta).deliver_later(queue: 'within_5_seconds')
   rescue StandardError => e
     Rails.logger.warn "Device verification new-device email could not be enqueued: #{e.message}"
   end

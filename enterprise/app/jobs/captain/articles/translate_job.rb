@@ -1,5 +1,5 @@
 class Captain::Articles::TranslateJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform(account, article_id, target_locale, target_category_id, user)
     @account = account

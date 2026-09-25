@@ -1,5 +1,5 @@
 class Saml::UpdateAccountUsersProviderJob < ApplicationJob
-  queue_as :default
+  queue_as :within_1_minute
 
   # Updates the authentication provider for users in an account
   # This job is triggered when SAML settings are created or destroyed

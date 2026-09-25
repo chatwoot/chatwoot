@@ -1,5 +1,5 @@
 class Captain::Tools::FirecrawlParserJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform(assistant_id:, payload:)
     assistant = Captain::Assistant.find(assistant_id)

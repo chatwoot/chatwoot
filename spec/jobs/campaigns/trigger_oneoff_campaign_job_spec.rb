@@ -13,7 +13,7 @@ RSpec.describe Campaigns::TriggerOneoffCampaignJob do
 
   it 'enqueues the job' do
     expect { described_class.perform_later(campaign) }.to have_enqueued_job(described_class)
-      .on_queue('low')
+      .on_queue('within_10_minutes')
   end
 
   context 'when called with a campaign' do

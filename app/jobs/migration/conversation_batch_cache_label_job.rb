@@ -1,5 +1,5 @@
 class Migration::ConversationBatchCacheLabelJob < ApplicationJob
-  queue_as :async_database_migration
+  queue_as :within_1_day
 
   # To cache the label, we simply access it from the object and save it. Anytime the object is
   # saved in the future, ActsAsTaggable will automatically recompute it. This process is done

@@ -1,5 +1,5 @@
 class Channels::Whatsapp::TemplatesSyncSchedulerJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform
     Channel::Whatsapp.joins(:account)

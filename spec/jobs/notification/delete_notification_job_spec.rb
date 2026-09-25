@@ -9,13 +9,13 @@ RSpec.describe Notification::DeleteNotificationJob do
     it 'enqueues the job to delete all notifications' do
       expect do
         described_class.perform_later(user, account, type: :all)
-      end.to have_enqueued_job(described_class).on_queue('low')
+      end.to have_enqueued_job(described_class).on_queue('within_10_minutes')
     end
 
     it 'enqueues the job to delete read notifications' do
       expect do
         described_class.perform_later(user, account, type: :read)
-      end.to have_enqueued_job(described_class).on_queue('low')
+      end.to have_enqueued_job(described_class).on_queue('within_10_minutes')
     end
   end
 

@@ -1,5 +1,5 @@
 class Companies::FetchAvatarsJob < ApplicationJob
-  queue_as :low
+  queue_as :within_10_minutes
 
   def perform(account_id)
     account = Account.find(account_id)
