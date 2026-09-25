@@ -58,19 +58,21 @@ const showSamlSection = computed(
       />
     </template>
     <template #body>
-      <EnforceMfa v-if="isMfaAvailable" />
-      <template v-if="showSamlSection">
-        <SamlPaywall v-if="showPaywall" />
-        <SamlSettings v-else-if="shouldShowSaml" />
-        <div v-else class="mt-6 text-sm text-slate-600">
-          {{ $t('SECURITY_SETTINGS.SAML_DISABLED_MESSAGE') }}
-        </div>
-      </template>
-      <div
-        v-if="!isMfaAvailable && !showSamlSection"
-        class="mt-6 text-sm text-slate-600"
-      >
-        {{ $t('SECURITY_SETTINGS.NO_SETTINGS_AVAILABLE') }}
+      <div class="flex flex-col gap-4">
+        <EnforceMfa v-if="isMfaAvailable" />
+        <template v-if="showSamlSection">
+          <SamlPaywall v-if="showPaywall" />
+          <SamlSettings v-else-if="shouldShowSaml" />
+          <p v-else class="text-body-main text-n-slate-11">
+            {{ $t('SECURITY_SETTINGS.SAML_DISABLED_MESSAGE') }}
+          </p>
+        </template>
+        <p
+          v-if="!isMfaAvailable && !showSamlSection"
+          class="text-body-main text-n-slate-11"
+        >
+          {{ $t('SECURITY_SETTINGS.NO_SETTINGS_AVAILABLE') }}
+        </p>
       </div>
     </template>
   </SettingsLayout>
