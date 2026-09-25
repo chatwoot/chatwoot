@@ -46,8 +46,8 @@ class Api::V1::Accounts::SdkAppsController < Api::V1::Accounts::BaseController
     end
 
     inbox = Current.account.inboxes.find(@attributes[:inbox_id])
-    unless inbox.web_widget? || inbox.api?
-      render_could_not_create_error('Select a Website or API inbox')
+    unless inbox.web_widget?
+      render_could_not_create_error('Select a Website inbox')
       return
     end
     assign_ios_attributes(attributes) if attributes.key?(:ios_configuration)

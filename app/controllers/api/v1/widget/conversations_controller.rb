@@ -1,16 +1,9 @@
 class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
-  before_action :validate_history_cursor, only: [:history]
+  before_action :validate_list_page, only: [:list]
   before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
 
   RESULTS_PER_PAGE = 25
-  def history
-    @unread_count = Message.where(conversation_id: conversations.select(:id), message_type: :outgoing, private: false)
-                           .joins(:conversation)
-                           .where('messages.created_at > COALESCE(conversations.contact_last_seen_at, ?)', Time.zone.at(0)).count
-    @history = conversations.order(created_at: :desc).limit(30)
-    @history = @history.where('conversations.id < ?', params[:before]) if params[:before].present?
-  end
 
   def index
     @conversation = conversation
@@ -72,7 +65,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def toggle_status
-    return head :forbidden unless @web_widget.inbox.api? || @web_widget.end_conversation?
+    return head :forbidden unless @web_widget.end_conversation?
 
     unless conversation.resolved?
       conversation.status = :resolved
@@ -93,13 +86,6 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
   private
 
-  def validate_history_cursor
-    return unless params.key?(:before)
-    return if params[:before].is_a?(String) && params[:before].match?(/\A[1-9]\d*\z/)
-
-    render json: { error: 'Invalid conversation cursor' }, status: :unprocessable_entity
-  end
-
   def send_transcript_email
     return if conversation.contact&.email.blank?
 
@@ -112,6 +98,13 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
   def trigger_typing_event(event)
     Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: conversation, user: @contact)
+  end
+
+  def validate_list_page
+    return unless params.key?(:page)
+    return if params[:page].is_a?(String) && params[:page].match?(/\A[1-9]\d*\z/)
+
+    render json: { error: 'Invalid conversation page' }, status: :unprocessable_entity
   end
 
   def unread_messages_for(conversation_ids)

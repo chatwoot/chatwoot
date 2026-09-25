@@ -1662,7 +1662,7 @@
       "APP_DETAILS": "App settings",
       "APP_ID": "SDK app ID",
       "INBOX": "Connected inbox",
-      "SELECT_INBOX": "Choose an API or Website inbox",
+      "SELECT_INBOX": "Choose a Website inbox",
       "INBOX_HELP": "Changing the inbox clears device registrations. Devices must register again with the new inbox.",
       "PUSH_TITLE": "iOS push notifications",
       "SEARCH": "Search apps…",

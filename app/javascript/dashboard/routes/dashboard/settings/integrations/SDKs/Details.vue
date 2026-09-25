@@ -105,8 +105,8 @@ async function load() {
       form[field] = app?.ios_configuration?.[field] || '';
     });
     form.inbox_id = app?.inbox_id || null;
-    inboxes.value = inboxResponse.data.payload.filter(inbox =>
-      ['Channel::WebWidget', 'Channel::Api'].includes(inbox.channel_type)
+    inboxes.value = inboxResponse.data.payload.filter(
+      inbox => inbox.channel_type === 'Channel::WebWidget'
     );
   } catch (exception) {
     loadFailed.value = true;

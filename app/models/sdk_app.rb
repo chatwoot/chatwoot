@@ -28,6 +28,6 @@ class SdkApp < ApplicationRecord
   end
 
   def supported_inbox
-    errors.add(:inbox, 'must be a Website or API inbox') unless inbox.web_widget? || inbox.api?
+    errors.add(:inbox, 'must be a Website inbox') unless inbox.web_widget?
   end
 end

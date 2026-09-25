@@ -28,7 +28,7 @@ class Api::V1::Widget::BaseController < ApplicationController
   def conversation
     @conversation ||= if params.key?(:conversation_id)
                         conversations.find_by!(display_id: params[:conversation_id])
-                      elsif !@web_widget.multiple_conversations?
+                      elsif !@sdk_app && !@web_widget.multiple_conversations?
                         conversations.last
                       end
   end
