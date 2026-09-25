@@ -292,12 +292,13 @@
       "ID": "(ID: {identifier})"
     }
   },
-
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "Contacts",
       "SEARCH_TITLE": "Search contacts",
       "ACTIVE_TITLE": "Active contacts",
+      "LEADS_TITLE": "Leads",
+      "CUSTOMERS_TITLE": "Customers",
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Message",
       "SEND_MESSAGE": "Send message",
@@ -588,7 +589,65 @@
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     },
-    "LOAD_MORE": "Load more"
+    "LOAD_MORE": "Load more",
+    "DETAIL": {
+      "EMPTY_STATE": {
+        "TITLE": "Contact not found",
+        "SUBTITLE": "This contact may have been removed or is no longer available in this account."
+      },
+      "HEADER": {
+        "ROLE_AT": "{title} at {company}",
+        "BLOCKED": "Blocked",
+        "OPEN_COUNT": "{count} open | {count} open",
+        "EDIT": "Edit",
+        "MERGE": "Merge contact",
+        "MORE": "Show more",
+        "LESS": "Show less",
+        "REFRESH": "Refresh profile",
+        "REFRESH_WITH_TIME": "Refresh profile (updated {time})",
+        "CUSTOMER": "Customer",
+        "MARK_AS_CUSTOMER": "Mark as customer",
+        "MARK_AS_LEAD": "Mark as lead",
+        "TYPE_CHANGE_SUCCESS": "Contact updated.",
+        "TYPE_CHANGE_ERROR": "Could not update the contact."
+      },
+      "FACTS": {
+        "COMPANY": "Company",
+        "LOCATION": "Based in",
+        "LAST_ACTIVITY": "Last active",
+        "ADDED": "Added"
+      },
+      "TABS": {
+        "CONVERSATIONS": "Conversations",
+        "NOTES": "Notes",
+        "MEDIA": "Media"
+      },
+      "CONVERSATIONS": {
+        "EMPTY": "No conversations with this contact yet.",
+        "FETCH_ERROR": "Could not load this contact's conversations."
+      },
+      "NOTES": {
+        "SEARCH": "Search notes",
+        "NO_MATCHES": "No notes match your search.",
+        "DELETE": "Delete note"
+      },
+      "PROFILE": {
+        "REFRESH_SUCCESS": "Contact profile refreshed.",
+        "REFRESH_ERROR": "Could not refresh the contact profile."
+      },
+      "EDIT": {
+        "TITLE": "Edit contact",
+        "SAVE": "Save changes",
+        "WORK": "Work",
+        "JOB_TITLE_PLACEHOLDER": "Enter the job title",
+        "ATTRIBUTES": "Custom attributes"
+      },
+      "ENRICHMENT_UPGRADE": {
+        "TITLE": "Enrich contact profiles on the Business plan",
+        "DESCRIPTION": "Fill in a contact's job title, company, bio, location and social profiles from their work email or LinkedIn profile. Available on the Business and Enterprise plans.",
+        "UPGRADE": "See plans"
+      }
+    }
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Assign Labels",
@@ -612,9 +671,12 @@
       "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
       "CONFIRM_MULTIPLE": "Delete contacts",
       "CONFIRM_SINGLE": "Delete contact"
-    }
+    },
+    "MARK_AS_CUSTOMER": "Mark as customer",
+    "MARK_AS_LEAD": "Mark as lead",
+    "CHANGE_TYPE_SUCCESS": "Contacts are being updated. The lists will reflect the change shortly.",
+    "CHANGE_TYPE_FAILED": "Failed to update contacts."
   },
-
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."

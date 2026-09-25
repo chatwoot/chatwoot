@@ -221,7 +221,8 @@
       "CHANGE_PRIORITY": "Change Priority",
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Open conversation",
-      "PENDING_CONVERSATION": "Mark conversation as pending"
+      "PENDING_CONVERSATION": "Mark conversation as pending",
+      "CHANGE_CONTACT_TYPE": "Change contact type"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Incoming Message",
@@ -253,6 +254,10 @@
       "PRIORITY": "Priority",
       "LABELS": "Labels",
       "CAPTAIN": "Captain"
+    },
+    "CONTACT_TYPES": {
+      "LEAD": "Lead",
+      "CUSTOMER": "Customer"
     }
   }
 }

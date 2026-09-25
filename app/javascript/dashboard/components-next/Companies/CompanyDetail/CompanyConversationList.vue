@@ -16,6 +16,7 @@ const props = defineProps({
   isLoading: { type: Boolean, default: false },
   hasMore: { type: Boolean, default: false },
   filtered: { type: Boolean, default: false },
+  emptyMessage: { type: String, default: '' },
 });
 
 const emit = defineEmits(['loadMore']);
@@ -69,7 +70,7 @@ const openConversation = (conversation, event) => {
       {{
         filtered
           ? t('COMPANIES.DETAIL.ACTIVITY.NO_MATCHING_CONVERSATIONS')
-          : t('COMPANIES.DETAIL.ACTIVITY.EMPTY_CONVERSATIONS')
+          : emptyMessage || t('COMPANIES.DETAIL.ACTIVITY.EMPTY_CONVERSATIONS')
       }}
     </p>
 

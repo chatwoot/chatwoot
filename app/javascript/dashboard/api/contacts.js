@@ -1,12 +1,19 @@
 /* global axios */
 import ApiClient from './ApiClient';
 
-export const buildContactParams = (page, sortAttr, label, search) => ({
+export const buildContactParams = (
+  page,
+  sortAttr,
+  label,
+  search,
+  contactType
+) => ({
   include_contact_inboxes: false,
   page,
   sort: sortAttr,
   ...(search ? { q: search } : {}),
   ...(label ? { labels: [label].flat() } : {}),
+  ...(contactType ? { contact_type: contactType } : {}),
 });
 
 class ContactAPI extends ApiClient {
@@ -16,7 +23,13 @@ class ContactAPI extends ApiClient {
 
   get(page, sortAttr = 'name', label = '', options = {}) {
     return axios.get(this.url, {
-      params: buildContactParams(page, sortAttr, label, ''),
+      params: buildContactParams(
+        page,
+        sortAttr,
+        label,
+        '',
+        options.contactType
+      ),
       signal: options.signal,
     });
   }
@@ -29,11 +42,23 @@ class ContactAPI extends ApiClient {
     return axios.patch(`${this.url}/${id}?include_contact_inboxes=false`, data);
   }
 
-  getConversations(contactId, { inboxId, conversationId } = {}) {
+  getConversations(contactId, { inboxId, conversationId, page } = {}) {
     const params = {};
     if (inboxId) params.inbox_id = inboxId;
     if (conversationId) params.conversation_id = conversationId;
+    if (page) params.page = page;
     return axios.get(`${this.url}/${contactId}/conversations`, { params });
+  }
+
+  filterConversations(contactId, payload, page = 1) {
+    return axios.post(`${this.url}/${contactId}/conversations/filter`, {
+      payload,
+      page,
+    });
+  }
+
+  enrich(contactId) {
+    return axios.post(`${this.url}/${contactId}/enrichment`);
   }
 
   getAttachments(contactId, page = 1) {

@@ -1,244 +1,145 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
-import CardLayout from 'dashboard/components-next/CardLayout.vue';
-import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/ContactsForm.vue';
-import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
-import Flag from 'dashboard/components-next/flag/Flag.vue';
-import ContactDeleteSection from 'dashboard/components-next/Contacts/ContactsCard/ContactDeleteSection.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
-import countries from 'shared/constants/countries';
+import Flag from 'dashboard/components-next/flag/Flag.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   id: { type: Number, required: true },
   name: { type: String, default: '' },
   email: { type: String, default: '' },
-  companyId: { type: [Number, String], default: '' },
   additionalAttributes: { type: Object, default: () => ({}) },
   phoneNumber: { type: String, default: '' },
   thumbnail: { type: String, default: '' },
   availabilityStatus: { type: String, default: null },
-  isExpanded: { type: Boolean, default: false },
-  isUpdating: { type: Boolean, default: false },
+  lastActivityAt: { type: [String, Number], default: null },
   selectable: { type: Boolean, default: false },
   isSelected: { type: Boolean, default: false },
 });
 
-const emit = defineEmits([
-  'toggle',
-  'updateContact',
-  'showContact',
-  'select',
-  'avatarHover',
-]);
+const emit = defineEmits(['showContact', 'select', 'avatarHover']);
 
 const { t } = useI18n();
+const exactTimestamp = useExactTimestamp();
 
-const contactsFormRef = ref(null);
+const description = computed(() => props.additionalAttributes?.description);
 
-const getInitialContactData = () => ({
-  id: props.id,
-  name: props.name,
-  email: props.email,
-  companyId: props.companyId,
-  phoneNumber: props.phoneNumber,
-  additionalAttributes: props.additionalAttributes,
+const details = computed(() => {
+  const { jobTitle, companyName, city, country, countryCode } =
+    props.additionalAttributes || {};
+  const role =
+    jobTitle && companyName
+      ? t('CONTACTS_LAYOUT.DETAIL.HEADER.ROLE_AT', {
+          title: jobTitle,
+          company: companyName,
+        })
+      : jobTitle || companyName;
+
+  return [
+    role && { key: 'role', icon: 'i-lucide-building-2', label: role },
+    props.email && { key: 'email', icon: 'i-lucide-mail', label: props.email },
+    props.phoneNumber && {
+      key: 'phone',
+      icon: 'i-lucide-phone',
+      label: props.phoneNumber,
+    },
+    (city || country) && {
+      key: 'location',
+      icon: 'i-lucide-map-pin',
+      countryCode,
+      label: [city, city ? countryCode || country : country]
+        .filter(Boolean)
+        .join(', '),
+    },
+  ].filter(Boolean);
 });
-
-const contactData = ref(getInitialContactData());
-
-const isFormInvalid = computed(() => contactsFormRef.value?.isFormInvalid);
-
-const countriesMap = computed(() => {
-  return countries.reduce((acc, country) => {
-    acc[country.id] = country;
-    return acc;
-  }, {});
-});
-
-const countryDetails = computed(() => {
-  const attributes = props.additionalAttributes || {};
-  const { country, countryCode, city } = attributes;
-
-  if (!country && !countryCode) return null;
-
-  const activeCountry =
-    countriesMap.value[country] || countriesMap.value[countryCode];
-
-  if (!activeCountry) return null;
-
-  return {
-    countryCode: activeCountry.id,
-    city: city ? `${city},` : null,
-    name: activeCountry.name,
-  };
-});
-
-const formattedLocation = computed(() => {
-  if (!countryDetails.value) return '';
-
-  return [countryDetails.value.city, countryDetails.value.name]
-    .filter(Boolean)
-    .join(' ');
-});
-
-const handleFormUpdate = updatedData => {
-  Object.assign(contactData.value, updatedData);
-};
-
-const handleUpdateContact = () => {
-  emit('updateContact', contactData.value);
-};
-
-const onClickExpand = () => {
-  emit('toggle');
-  contactData.value = getInitialContactData();
-};
-
-const onClickViewDetails = () => emit('showContact', props.id);
-
-const toggleSelect = checked => {
-  emit('select', checked);
-};
-
-const handleAvatarHover = isHovered => {
-  emit('avatarHover', isHovered);
-};
 </script>
 
 <template>
-  <div class="relative">
-    <CardLayout
-      :key="id"
-      layout="row"
-      :class="{
-        'outline-n-weak !bg-n-slate-3 dark:!bg-n-solid-3': isSelected,
-      }"
-    >
-      <div class="flex items-center justify-start flex-1 gap-4">
-        <div
-          class="relative"
-          @mouseenter="handleAvatarHover(true)"
-          @mouseleave="handleAvatarHover(false)"
+  <div
+    class="flex items-start justify-between gap-4 px-3 py-4 -mx-3 cursor-pointer group rounded-xl"
+    :class="{ 'bg-n-alpha-2': isSelected }"
+    @click="emit('showContact', id)"
+  >
+    <div class="flex items-start flex-1 min-w-0 gap-3">
+      <div
+        class="relative shrink-0"
+        @mouseenter="emit('avatarHover', true)"
+        @mouseleave="emit('avatarHover', false)"
+      >
+        <Avatar
+          :name="name"
+          :src="thumbnail"
+          :size="36"
+          :status="availabilityStatus"
+          hide-offline-status
         >
-          <Avatar
-            :name="name"
-            :src="thumbnail"
-            :size="42"
-            :status="availabilityStatus"
-            hide-offline-status
-          >
-            <template v-if="selectable" #overlay="{ size }">
-              <label
-                class="flex items-center justify-center rounded-full cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px] border border-n-weak"
-                :style="{ width: `${size}px`, height: `${size}px` }"
-                @click.stop
-              >
-                <Checkbox
-                  :model-value="isSelected"
-                  @change="event => toggleSelect(event.target.checked)"
-                />
-              </label>
-            </template>
-          </Avatar>
-        </div>
-        <div class="flex flex-col gap-0.5 flex-1">
-          <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <span class="text-base font-medium truncate text-n-slate-12">
-              {{ name }}
-            </span>
-            <span class="inline-flex items-center gap-1">
-              <span
-                v-if="additionalAttributes?.companyName"
-                class="i-ph-building-light size-4 text-n-slate-10 mb-0.5"
-              />
-              <span
-                v-if="additionalAttributes?.companyName"
-                class="text-sm truncate text-n-slate-11"
-              >
-                {{ additionalAttributes.companyName }}
-              </span>
-            </span>
-          </div>
-          <div
-            class="flex flex-wrap items-center justify-start gap-x-3 gap-y-1"
-          >
-            <div v-if="email" class="truncate max-w-72" :title="email">
-              <span class="text-sm text-n-slate-11">
-                {{ email }}
-              </span>
-            </div>
-            <div v-if="email" class="w-px h-3 truncate bg-n-slate-6" />
-            <span v-if="phoneNumber" class="text-sm truncate text-n-slate-11">
-              {{ phoneNumber }}
-            </span>
-            <div v-if="phoneNumber" class="w-px h-3 truncate bg-n-slate-6" />
-            <span
-              v-if="countryDetails"
-              class="inline-flex items-center gap-2 text-sm truncate text-n-slate-11"
+          <template v-if="selectable" #overlay="{ size }">
+            <label
+              class="flex items-center justify-center rounded-full cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px] border border-n-weak"
+              :style="{ width: `${size}px`, height: `${size}px` }"
+              @click.stop
             >
-              <Flag :country="countryDetails.countryCode" class="size-3.5" />
-              {{ formattedLocation }}
+              <Checkbox
+                :model-value="isSelected"
+                @change="event => emit('select', event.target.checked)"
+              />
+            </label>
+          </template>
+        </Avatar>
+      </div>
+      <div class="flex flex-col flex-1 min-w-0 gap-1">
+        <span
+          class="block truncate text-heading-3 text-n-slate-12 group-hover:text-n-blue-11"
+        >
+          {{ name }}
+        </span>
+        <p
+          v-if="description"
+          class="mb-0 text-n-slate-11 text-body-main line-clamp-1"
+        >
+          {{ description }}
+        </p>
+        <div
+          v-if="details.length"
+          class="flex flex-wrap items-center min-w-0 gap-x-3 gap-y-1"
+        >
+          <template v-for="(detail, index) in details" :key="detail.key">
+            <div v-if="index" class="w-px h-3 bg-n-slate-6" />
+            <span
+              class="inline-flex items-center gap-1.5 truncate text-body-main text-n-slate-11 max-w-72"
+              :title="detail.label"
+            >
+              <Flag
+                v-if="detail.countryCode"
+                :country="detail.countryCode"
+                class="size-3.5 shrink-0"
+              />
+              <Icon
+                v-else
+                :icon="detail.icon"
+                class="size-3.5 shrink-0 text-n-slate-10"
+              />
+              <span class="truncate">{{ detail.label }}</span>
             </span>
-            <div v-if="countryDetails" class="w-px h-3 truncate bg-n-slate-6" />
-            <Button
-              :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
-              variant="link"
-              size="xs"
-              @click="onClickViewDetails"
-            />
-          </div>
+          </template>
         </div>
       </div>
-
-      <Button
-        icon="i-lucide-chevron-down"
-        variant="ghost"
-        color="slate"
-        size="xs"
-        :class="{ 'rotate-180': isExpanded }"
-        @click="onClickExpand"
-      />
-
-      <template #after>
-        <div
-          class="transition-all duration-500 ease-in-out grid overflow-hidden"
-          :class="
-            isExpanded
-              ? 'grid-rows-[1fr] opacity-100'
-              : 'grid-rows-[0fr] opacity-0'
-          "
-        >
-          <div class="overflow-hidden">
-            <div class="flex flex-col gap-6 p-6 border-t border-n-strong">
-              <ContactsForm
-                ref="contactsFormRef"
-                :contact-data="contactData"
-                @update="handleFormUpdate"
-              />
-              <div>
-                <Button
-                  :label="
-                    t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')
-                  "
-                  size="sm"
-                  :is-loading="isUpdating"
-                  :disabled="isUpdating || isFormInvalid"
-                  @click="handleUpdateContact"
-                />
-              </div>
-            </div>
-            <ContactDeleteSection
-              :selected-contact="{
-                id: props.id,
-                name: props.name,
-              }"
-            />
-          </div>
-        </div>
-      </template>
-    </CardLayout>
+    </div>
+    <span
+      v-if="lastActivityAt"
+      v-tooltip.top="{
+        content: exactTimestamp(lastActivityAt),
+        delay: { show: 500, hide: 0 },
+      }"
+      class="flex-shrink-0 text-sm text-n-slate-11 leading-[1.3125rem]"
+    >
+      {{ dynamicTime(lastActivityAt) }}
+    </span>
   </div>
 </template>

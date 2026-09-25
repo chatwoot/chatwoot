@@ -20,6 +20,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // Set on the Leads/Customers pages, where changing to the same type is pointless.
+  contactType: {
+    type: String,
+    default: '',
+  },
 });
 
 const emit = defineEmits([
@@ -28,6 +33,7 @@ const emit = defineEmits([
   'removeLabels',
   'toggleAll',
   'deleteSelected',
+  'changeContactType',
 ]);
 
 const { t } = useI18n();
@@ -114,6 +120,28 @@ const handleRemoveLabels = labels => {
             :is-loading="isLoading"
             :disabled="!selectedCount"
             @remove="handleRemoveLabels"
+          />
+          <Button
+            v-if="contactType !== 'customer'"
+            sm
+            ghost
+            slate
+            icon="i-lucide-badge-check"
+            :label="t('CONTACTS_BULK_ACTIONS.MARK_AS_CUSTOMER')"
+            :disabled="!selectedCount || isLoading"
+            class="!px-2"
+            @click="emit('changeContactType', 'customer')"
+          />
+          <Button
+            v-if="contactType !== 'lead'"
+            sm
+            ghost
+            slate
+            icon="i-lucide-user-round"
+            :label="t('CONTACTS_BULK_ACTIONS.MARK_AS_LEAD')"
+            :disabled="!selectedCount || isLoading"
+            class="!px-2"
+            @click="emit('changeContactType', 'lead')"
           />
           <div class="w-px h-3 bg-n-weak rounded-lg" />
           <Policy :permissions="['administrator']">

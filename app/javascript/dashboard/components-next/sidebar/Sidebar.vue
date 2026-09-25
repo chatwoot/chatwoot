@@ -617,6 +617,26 @@ const menuItems = computed(() => {
           activeOn: ['contacts_dashboard_index', 'contacts_edit'],
         },
         {
+          name: 'Leads',
+          label: t('SIDEBAR.LEADS'),
+          to: accountScopedRoute(
+            'contacts_dashboard_leads',
+            {},
+            { page: 1, search: undefined }
+          ),
+          activeOn: ['contacts_dashboard_leads'],
+        },
+        {
+          name: 'Customers',
+          label: t('SIDEBAR.CUSTOMERS'),
+          to: accountScopedRoute(
+            'contacts_dashboard_customers',
+            {},
+            { page: 1, search: undefined }
+          ),
+          activeOn: ['contacts_dashboard_customers'],
+        },
+        {
           name: 'Active',
           label: t('SIDEBAR.ACTIVE'),
           to: accountScopedRoute('contacts_dashboard_active'),

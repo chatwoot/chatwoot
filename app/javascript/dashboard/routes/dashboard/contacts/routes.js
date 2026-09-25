@@ -38,6 +38,18 @@ export const routes = [
         component: ContactsIndex,
         meta: commonMeta,
       },
+      {
+        path: 'leads',
+        name: 'contacts_dashboard_leads',
+        component: ContactsIndex,
+        meta: commonMeta,
+      },
+      {
+        path: 'customers',
+        name: 'contacts_dashboard_customers',
+        component: ContactsIndex,
+        meta: commonMeta,
+      },
     ],
   },
   {

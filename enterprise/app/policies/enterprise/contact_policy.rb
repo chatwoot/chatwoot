@@ -6,4 +6,8 @@ module Enterprise::ContactPolicy
   def import?
     @account_user.custom_role&.permissions&.include?('contact_manage') || super
   end
+
+  def enrich?
+    @account_user.administrator?
+  end
 end

@@ -3,11 +3,9 @@ import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
-import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAdmin } from 'dashboard/composables/useAdmin';
-import { usePolicy } from 'dashboard/composables/usePolicy';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useEnrichment } from 'dashboard/composables/useEnrichment';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -30,8 +28,9 @@ const companiesStore = useCompaniesStore();
 const { isAdmin } = useAdmin();
 const router = useRouter();
 const { accountId } = useAccount();
-const { shouldShowPaywall } = usePolicy();
-const globalConfig = useMapGetter('globalConfig/get');
+const { showRefreshButton, requiresUpgrade } = useEnrichment(
+  computed(() => Boolean(props.company.domain))
+);
 const upgradeDialogRef = ref(null);
 
 const avatarPreviewUrl = ref('');
@@ -40,12 +39,6 @@ const isDescriptionExpanded = ref(false);
 const showActionsMenu = ref(false);
 
 const uiFlags = computed(() => companiesStore.getUIFlags);
-const showRefreshButton = computed(
-  () =>
-    isAdmin.value &&
-    globalConfig.value.isCompanyEnrichmentEnabled &&
-    Boolean(props.company.domain)
-);
 const displayName = computed(
   () => props.company.name || t('COMPANIES.UNNAMED')
 );
@@ -77,7 +70,7 @@ const goToBilling = () => {
 };
 
 const handleRefresh = async () => {
-  if (shouldShowPaywall(FEATURE_FLAGS.COMPANY_ENRICHMENT)) {
+  if (requiresUpgrade.value) {
     upgradeDialogRef.value?.open();
     return;
   }

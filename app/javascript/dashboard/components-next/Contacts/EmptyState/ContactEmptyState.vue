@@ -38,7 +38,7 @@ const onClick = () => {
 <template>
   <EmptyStateLayout :title="title" :subtitle="subtitle">
     <template #empty-state-item>
-      <div class="grid grid-cols-1 gap-4 p-px overflow-hidden">
+      <div class="px-3 overflow-hidden divide-y divide-n-weak">
         <ContactsCard
           v-for="contact in contactContent.slice(0, 5)"
           :id="contact.id"
@@ -48,8 +48,6 @@ const onClick = () => {
           :thumbnail="contact.thumbnail"
           :phone-number="contact.phoneNumber"
           :additional-attributes="contact.additionalAttributes"
-          :is-expanded="0 === contact.id"
-          @toggle="toggleExpanded(contact.id)"
         />
       </div>
     </template>

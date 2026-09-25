@@ -238,6 +238,18 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
     context 'when it is an authenticated user' do
       let!(:agent) { create(:user, account: account, role: :agent) }
 
+      it 'rejects changing contacts to a type without a list view' do
+        contact = create(:contact, account: account)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: { type: 'Contact', ids: [contact.id], action_name: 'change_contact_type', contact_type: 'visitor' }
+        end.not_to have_enqueued_job(Contacts::BulkActionJob)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
       it 'enqueues Contacts::BulkActionJob with permitted params' do
         contact_one = create(:contact, account: account)
         contact_two = create(:contact, account: account)

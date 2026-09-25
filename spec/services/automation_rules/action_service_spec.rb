@@ -21,6 +21,18 @@ RSpec.describe AutomationRules::ActionService do
       end
     end
 
+    describe '#perform with change_contact_type action' do
+      before do
+        rule.update!(actions: [{ action_name: 'change_contact_type', action_params: ['customer'] }])
+      end
+
+      it 'changes the conversation contact to a customer' do
+        described_class.new(rule, account, conversation).perform
+
+        expect(conversation.contact.reload).to be_customer
+      end
+    end
+
     describe '#perform with send_attachment action' do
       let(:message_builder) { double }
 

@@ -30,7 +30,7 @@ class Contacts::FilterService < FilterService
   end
 
   def base_relation
-    @account.contacts.resolved_contacts(use_crm_v2: @account.feature_enabled?('crm_v2'))
+    @account.contacts.resolved_contacts
   end
 
   def filter_config

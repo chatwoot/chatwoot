@@ -15,7 +15,7 @@ RSpec.describe Whatsapp::IdentifierSyncService do
       )
 
       expect(contact.reload).to be_lead
-      expect(account.contacts.resolved_contacts(use_crm_v2: true)).to include(contact)
+      expect(account.contacts.resolved_contacts).to include(contact)
     end
 
     it 'marks a Twilio WhatsApp BSUID-only visitor as a lead' do
