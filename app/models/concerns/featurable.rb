@@ -1,6 +1,10 @@
 module Featurable
   extend ActiveSupport::Concern
 
+  DEFAULT_FEATURE_FLAG_COLUMN = 'feature_flags'.freeze
+  FEATURE_FLAG_COLUMNS = [DEFAULT_FEATURE_FLAG_COLUMN, 'feature_flags_ext_1'].freeze
+  MAX_FEATURES_PER_COLUMN = 63
+
   QUERY_MODE = {
     flag_query_mode: :bit_operator,
     check_for_column: false
@@ -8,15 +12,62 @@ module Featurable
 
   FEATURE_LIST = YAML.safe_load(Rails.root.join('config/features.yml').read).freeze
 
-  FEATURES = FEATURE_LIST.each_with_object({}) do |feature, result|
-    result[result.keys.size + 1] = "feature_#{feature['name']}".to_sym
+  def self.feature_flag_mappings_for(feature_list)
+    features_by_column = feature_list.group_by { |feature| feature['column'].presence || DEFAULT_FEATURE_FLAG_COLUMN }
+
+    mappings = FEATURE_FLAG_COLUMNS.index_with do |column|
+      features = features_by_column.delete(column) || []
+      validate_feature_count!(column, features)
+
+      features.each_with_index.to_h do |feature, index|
+        [index + 1, "feature_#{feature['name']}".to_sym]
+      end
+    end
+
+    validate_feature_columns!(features_by_column)
+    mappings
   end
+
+  def self.validate_feature_count!(column, features)
+    return if features.size <= MAX_FEATURES_PER_COLUMN
+
+    raise ArgumentError, "Account feature flag column #{column} supports up to #{MAX_FEATURES_PER_COLUMN} features"
+  end
+
+  def self.validate_feature_columns!(features_by_column)
+    return if features_by_column.blank?
+
+    invalid_columns = features_by_column.keys.join(', ')
+    raise ArgumentError, "Unknown account feature flag column: #{invalid_columns}"
+  end
+
+  FEATURES_BY_COLUMN = feature_flag_mappings_for(FEATURE_LIST).freeze
 
   included do
     include FlagShihTzu
-    has_flags FEATURES.merge(column: 'feature_flags').merge(QUERY_MODE)
+
+    FEATURE_FLAG_COLUMNS.each do |column|
+      has_flags FEATURES_BY_COLUMN.fetch(column).merge(column: column).merge(QUERY_MODE)
+    end
 
     before_create :enable_default_features
+
+    define_method :all_feature_flags do
+      FEATURE_FLAG_COLUMNS.flat_map { |column| all_flags(column) }
+    end
+
+    define_method :selected_feature_flags do
+      FEATURE_FLAG_COLUMNS.flat_map { |column| selected_flags(column) }
+    end
+
+    define_method :selected_feature_flags= do |chosen_flags|
+      FEATURE_FLAG_COLUMNS.each { |column| unselect_all_flags(column) }
+      return if chosen_flags.nil?
+
+      chosen_flags.each do |selected_flag|
+        enable_flag(selected_flag.to_sym) if selected_flag.present?
+      end
+    end
   end
 
   def enable_features(*names)

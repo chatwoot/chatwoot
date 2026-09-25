@@ -13,11 +13,15 @@ const assistantId = computed(() => Number(route.params.assistantId));
     show-assistant-switcher
     :show-pagination-footer="false"
     :show-know-more="false"
+    container-class="max-w-none"
     class="h-full"
   >
     <template #body>
       <div class="flex flex-col h-full">
-        <AssistantPlayground :assistant-id="assistantId" class="bg-n-solid-1" />
+        <AssistantPlayground
+          :assistant-id="assistantId"
+          class="bg-n-surface-1"
+        />
       </div>
     </template>
   </PageLayout>

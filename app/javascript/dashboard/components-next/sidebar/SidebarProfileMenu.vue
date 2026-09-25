@@ -44,6 +44,12 @@ const showChatSupport = computed(() => {
   );
 });
 
+const toggleChatSupport = () => {
+  if (window.$chatwoot) {
+    window.$chatwoot.toggle();
+  }
+};
+
 const menuItems = computed(() => {
   return [
     {
@@ -51,9 +57,7 @@ const menuItems = computed(() => {
       showOnCustomBrandedInstance: false,
       label: t('SIDEBAR_ITEMS.CONTACT_SUPPORT'),
       icon: 'i-lucide-life-buoy',
-      click: () => {
-        window.$chatwoot.toggle();
-      },
+      click: toggleChatSupport,
     },
     {
       show: true,

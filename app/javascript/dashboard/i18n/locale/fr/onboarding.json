@@ -3,7 +3,7 @@
     "GREETING": "Bonjour {name} !",
     "SUBTITLE": "Veuillez vérifier les informations suivantes",
     "YOUR_DETAILS": "Vos informations",
-    "COMPANY_DETAILS": "Company details",
+    "COMPANY_DETAILS": "Détails de la société",
     "FIELDS": {
       "EMAIL": "Courriel",
       "YOUR_ROLE": "Votre rôle",
@@ -12,7 +12,7 @@
       "TIMEZONE": "Fuseau horaire",
       "COMPANY_SIZE": "Taille de l'entreprise",
       "INDUSTRY": "Secteur d'activité",
-      "REFERRAL_SOURCE": "Where did you find us?"
+      "REFERRAL_SOURCE": "Où nous avez-vous trouvés ?"
     },
     "PLACEHOLDERS": {
       "SELECT_ROLE": "Sélectionnez votre rôle",
@@ -21,14 +21,72 @@
       "SELECT_TIMEZONE": "Sélectionnez le fuseau horaire",
       "SELECT_COMPANY_SIZE": "Sélectionnez la taille de l'entreprise",
       "SELECT_INDUSTRY": "Sélectionnez un secteur d'activité",
-      "SELECT_REFERRAL_SOURCE": "Select source"
+      "SELECT_REFERRAL_SOURCE": "Sélectionner la source"
     },
-    "EMAIL_VERIFIED": "Email verified",
-    "SETTING_UP": "Setting up your account...",
-    "CONTINUE": "Continue",
+    "EMAIL_VERIFIED": "E-mail vérifié",
+    "SETTING_UP": "Configuration de votre compte...",
+    "CONTINUE": "Continuer",
     "SAVING": "Enregistrement en cours...",
-    "VALIDATION_ERROR": "Please fill in all required fields",
+    "VALIDATION_ERROR": "Veuillez remplir tous les champs obligatoires",
     "SUCCESS": "Les informations ont été enregistrées avec succès",
-    "ERROR": "Could not save details. Please try again."
+    "ERROR": "Impossible d'enregistrer les détails. Veuillez réessayer."
+  },
+  "ONBOARDING_INBOX_SETUP": {
+    "GREETING": "Mettons en place quelques choses",
+    "SUBTITLE": "Cela vous donnera un début de travail dans votre espace de travail",
+    "CONTINUE": "Continuer",
+    "SKIP": "Ignorer",
+    "ERROR": "Une erreur s'est produite. Veuillez réessayer.",
+    "WHATSAPP_CONNECTED": "WhatsApp connecté avec succès",
+    "FACEBOOK_CONNECTED": "Facebook connecté avec succès",
+    "META_RESTRICTION": {
+      "MESSAGE": "La configuration des boîtes de réception Facebook, Instagram et WhatsApp est temporairement indisponible en raison d’un problème lié à l’API chez Meta, et non à Chatwoot. Nous travaillons en étroite collaboration avec Meta pour résoudre ce problème au plus vite.",
+      "STATUS_LINK": "Voir les mises à jour de statut"
+    },
+    "CREATED_FOR_YOU": {
+      "TITLE": "Nous avons créé ce qui suit pour vous",
+      "LIVE_CHAT": "Widget chat en direct",
+      "LIVE_CHAT_DESCRIPTION": "Messagerie instantanée pour votre site web",
+      "LIVE_CHAT_STATUS": "Presque terminé…",
+      "LIVE_CHAT_READY": "Prêt",
+      "HELP_CENTER": "Centre d'aide",
+      "HELP_CENTER_DESCRIPTION": "Votre encyclopédie numérique",
+      "HELP_CENTER_GENERATING": "Création de votre centre d'aide…",
+      "HELP_CENTER_ANALYZING_WEBSITE": "Analyse de votre site…",
+      "HELP_CENTER_SETTING_UP_CATEGORIES": "Configuration des catégories…",
+      "HELP_CENTER_CURATING_ARTICLES": "Sélection et organisation des articles…",
+      "HELP_CENTER_ARTICLES": "{count} article créé | {count} articles créés",
+      "HELP_CENTER_CATEGORIES": "{count} catégorie | {count} catégories",
+      "HELP_CENTER_SUMMARY": "{count} article créé dans {categories} | {count} articles créés dans {categories}"
+    },
+    "CHANNELS": {
+      "TITLE": "Connectez tous vos canaux de conversation",
+      "HEADER": "Nous avons trouvé quelques canaux que vous pouvez connecter",
+      "CONNECT": "Connecter",
+      "CONNECTED": "Connecté",
+      "MORE_CHANNELS_NOTE": "Configurez les canaux {email} et {voice} plus tard dans l'application",
+      "MORE_CHANNELS_EMAIL": "Courriel",
+      "MORE_CHANNELS_VOICE": "Voix",
+      "VIEW_ALL": "Tout afficher",
+      "GMAIL": "Gmail",
+      "OUTLOOK": "Outlook",
+      "OTHER_EMAIL": "Autres fournisseurs de messagerie"
+    },
+    "CHANNELS_DIALOG": {
+      "TITLE": "Connectez tous vos canaux instantanément",
+      "SUBTITLE": "Gérez toutes les boîtes à partir d'un tableau de bord. Vous pouvez également configurer et modifier les boîtes de réception plus tard dans l'application.",
+      "NOTE": "Les SMS, API, Voix et autres fournisseurs de messagerie peuvent être configurés plus tard depuis votre tableau de bord.",
+      "CONNECT_TITLE": "Connectez votre compte {name}",
+      "CONNECT_SUBTITLE": "Remplissez ces détails rapides",
+      "CONNECT": "Connecter",
+      "BACK": "Précédent",
+      "SETUP_LATER": "Installer plus tard dans l'application",
+      "FACEBOOK_SUBTITLE": "Autoriser l'accès et choisir une page à se connecter.",
+      "FACEBOOK_LAUNCH": "Continuer avec Facebook",
+      "FACEBOOK_SELECT_PAGE": "Sélectionnez une page à connecter",
+      "FACEBOOK_LOADING": "Chargement de vos pages Facebook…",
+      "FACEBOOK_NO_PAGES": "Aucune page connectable trouvée. Toutes vos pages sont déjà connectées.",
+      "FACEBOOK_ERROR": "Impossible de se connecter à Facebook. Veuillez réessayer."
+    }
   }
 }

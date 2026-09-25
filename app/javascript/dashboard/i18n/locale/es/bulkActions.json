@@ -3,8 +3,8 @@
     "CONVERSATIONS_SELECTED": "{conversationCount} conversaciones seleccionadas",
     "NONE": "Ninguna",
     "CLEAR_SELECTION": "Limpiar",
-    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
-    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "¿Estás seguro de que quieres asignar {n} conversación a {agentName}? | ¿Estás seguro de que quieres asignar {n} conversaciones a {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "¿Estás seguro de que quieres desasignar {n} conversación? | ¿Estás seguro de que quieres desasignar las {n} conversaciones?",
     "YES": "Si",
     "CANCEL": "Cancelar",
     "SEARCH_INPUT_PLACEHOLDER": "Buscar",
@@ -27,18 +27,18 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Asignar etiqueta",
-      "REMOVE_LABELS": "Remove labels",
+      "REMOVE_LABELS": "Quitar etiquetas",
       "ASSIGN_SELECTED_LABELS": "Asignar etiquetas seleccionadas",
-      "REMOVE_SELECTED_LABELS": "Remove selected labels",
+      "REMOVE_SELECTED_LABELS": "Remover etiquetas seleccionadas",
       "ASSIGN_SUCCESFUL": "Etiquetas asignadas correctamente.",
       "ASSIGN_FAILED": "Error al asignar etiquetas, inténtalo de nuevo.",
-      "REMOVE_SUCCESFUL": "Labels removed successfully.",
-      "REMOVE_FAILED": "Failed to remove labels. Please try again."
+      "REMOVE_SUCCESFUL": "Etiquetas removidas con éxito.",
+      "REMOVE_FAILED": "Error al quitar las etiquetas. Por favor, inténtalo de nuevo."
     },
     "TEAMS": {
       "NONE": "Ninguna",
-      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
-      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "¿Estás seguro de que quieres asignar {n} conversación a {teamName}? | ¿Estás seguro de que quieres asignar {n} conversaciones a {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "¿Estás seguro de que quieres desasignar {n} conversación? | ¿Estás seguro de que quieres desasignar las {n} conversaciones?",
       "ASSIGN_SUCCESFUL": "Equipos asignados correctamente.",
       "ASSIGN_FAILED": "Error al asignar equipo, inténtelo de nuevo."
     }

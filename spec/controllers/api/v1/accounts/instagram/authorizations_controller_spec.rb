@@ -42,7 +42,7 @@ RSpec.describe 'Instagram Authorization API', type: :request do
             redirect_uri: "#{frontend_url}/instagram/callback",
             scope: Instagram::IntegrationHelper::REQUIRED_SCOPES.join(','),
             enable_fb_login: '0',
-            force_authentication: '1',
+            force_reauth: 'true',
             response_type: 'code',
             state: instagram_service.generate_instagram_token(account.id)
           }

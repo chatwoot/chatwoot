@@ -22,6 +22,15 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
 
         expect(response).to have_http_status(:unauthorized)
       end
+
+      it 'authenticates with valid credentials supplied as request headers' do
+        request.headers['email'] = user.email
+        request.headers['password'] = 'Test@123456'
+
+        post :create
+
+        expect(response).to have_http_status(:success)
+      end
     end
 
     context 'with MFA authentication' do
@@ -38,6 +47,27 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
         json_response = response.parsed_body
         expect(json_response['mfa_required']).to be(true)
         expect(json_response['mfa_token']).to be_present
+      end
+
+      it 'requires MFA verification when credentials arrive as request headers' do
+        request.headers['email'] = user.email
+        request.headers['password'] = 'Test@123456'
+
+        post :create
+
+        expect(response).to have_http_status(:partial_content)
+        expect(response.parsed_body['mfa_required']).to be(true)
+        expect(response.headers['access-token']).to be_nil
+      end
+
+      it 'does not let header credentials override body credentials' do
+        request.headers['email'] = user.email
+        request.headers['password'] = 'Test@123456'
+
+        post :create, params: { email: user.email, password: 'wrong-password' }
+
+        expect(response).not_to have_http_status(:partial_content)
+        expect(response.headers['access-token']).to be_nil
       end
 
       it 'does not return authentication tokens before MFA verification' do
@@ -86,7 +116,7 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
         it 'rejects invalid OTP' do
           post :create, params: {
             mfa_token: mfa_token,
-            otp_code: '000000'
+            otp_code: 'invalid'
           }
 
           expect(response).to have_http_status(:bad_request)
@@ -130,6 +160,143 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
       end
     end
 
+    context 'with account MFA enforcement' do
+      let(:account) { create(:account) }
+      let(:user) { create(:user, password: 'Test@123456', account: account) }
+
+      before do
+        skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+        account.update!(enforce_mfa: true)
+      end
+
+      it 'returns setup challenge with provisioning data and no auth headers' do
+        post :create, params: { email: user.email, password: 'Test@123456' }
+
+        expect(response).to have_http_status(:partial_content)
+        json_response = response.parsed_body
+        expect(json_response['mfa_setup_required']).to be(true)
+        expect(json_response['mfa_setup_token']).to be_present
+        expect(json_response['provisioning_url']).to include('otpauth://')
+        expect(json_response['secret']).to eq(user.reload.otp_secret)
+        expect(response.headers['access-token']).to be_nil
+      end
+
+      it 'does not rotate the secret on repeated challenges' do
+        post :create, params: { email: user.email, password: 'Test@123456' }
+        first_secret = user.reload.otp_secret
+
+        post :create, params: { email: user.email, password: 'Test@123456' }
+
+        expect(user.reload.otp_secret).to eq(first_secret)
+      end
+
+      it 'sends the normal mfa challenge for already-enrolled users' do
+        user.enable_two_factor!
+        user.update!(otp_required_for_login: true)
+
+        post :create, params: { email: user.email, password: 'Test@123456' }
+
+        expect(response.parsed_body['mfa_required']).to be(true)
+        expect(response.parsed_body['mfa_setup_required']).to be_nil
+      end
+
+      it 'keeps the active secret and serves the mfa challenge when enrolment wins the race' do
+        # Complete enrolment through a second record instance just before the
+        # provisioning lock is taken; the lock's reload must observe it.
+        concurrent_secret = nil
+        original_with_lock = user.method(:with_lock)
+        allow(User).to receive(:from_email).and_return(user)
+        allow(user).to receive(:with_lock) do |*args, &block|
+          User.find(user.id).tap do |concurrent_user|
+            concurrent_user.enable_two_factor!
+            concurrent_user.update!(otp_required_for_login: true)
+            concurrent_secret = concurrent_user.otp_secret
+          end
+          original_with_lock.call(*args, &block)
+        end
+
+        post :create, params: { email: user.email, password: 'Test@123456' }
+
+        expect(response).to have_http_status(:partial_content)
+        expect(response.parsed_body['mfa_required']).to be(true)
+        expect(response.parsed_body['mfa_setup_required']).to be_nil
+        expect(user.reload.otp_secret).to eq(concurrent_secret)
+      end
+
+      it 'does not challenge when password is wrong' do
+        post :create, params: { email: user.email, password: 'wrong' }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'does not challenge users of non-enforcing accounts' do
+        other_user = create(:user, password: 'Test@123456')
+
+        post :create, params: { email: other_user.email, password: 'Test@123456' }
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'does not challenge SSO sign-ins' do
+        sso_token = user.generate_sso_auth_token
+
+        post :create, params: { email: user.email, sso_auth_token: sso_token }
+
+        expect(response).to have_http_status(:success)
+      end
+
+      context 'when verifying setup' do
+        render_views
+
+        def setup_token_for(user)
+          post :create, params: { email: user.email, password: 'Test@123456' }
+          response.parsed_body['mfa_setup_token']
+        end
+
+        it 'activates mfa, signs in, and returns backup codes on valid otp' do
+          token = setup_token_for(user)
+
+          post :create, params: { mfa_setup_token: token, otp_code: user.reload.current_otp }
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+          expect(json_response['backup_codes'].length).to eq(10)
+          expect(json_response['data']['email']).to eq(user.email)
+          expect(response.headers['access-token']).to be_present
+          expect(user.reload.otp_required_for_login).to be(true)
+        end
+
+        it 'rejects invalid otp' do
+          token = setup_token_for(user)
+
+          post :create, params: { mfa_setup_token: token, otp_code: '000000' }
+
+          expect(response).to have_http_status(:bad_request)
+          expect(response.parsed_body['error']).to eq(I18n.t('errors.mfa.invalid_code'))
+          expect(user.reload.otp_required_for_login).to be(false)
+        end
+
+        it 'rejects a setup token for an already-enrolled user' do
+          token = setup_token_for(user)
+          user.reload.update!(otp_required_for_login: true)
+
+          post :create, params: { mfa_setup_token: token, otp_code: user.reload.current_otp }
+
+          expect(response).to have_http_status(:bad_request)
+          expect(response.parsed_body['error']).to eq(I18n.t('errors.mfa.already_enabled'))
+        end
+
+        it 'rejects a login mfa_token used as setup token' do
+          login_token = Mfa::TokenService.new(user: user).generate_token
+
+          post :create, params: { mfa_setup_token: login_token, otp_code: '000000' }
+
+          expect(response).to have_http_status(:unauthorized)
+          expect(response.parsed_body['error']).to eq(I18n.t('errors.mfa.invalid_token'))
+        end
+      end
+    end
+
     context 'with SSO authentication' do
       it 'authenticates with valid SSO token' do
         sso_token = user.generate_sso_auth_token
@@ -165,9 +332,10 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
   end
 
   describe 'session limit enforcement' do
-    before { stub_const('DeviseOverrides::SessionsController::MAX_SESSIONS', 5) }
+    around { |example| with_modified_env('MAX_USER_SESSIONS' => '5') { example.run } }
 
     let(:user) { create(:user, password: 'Test@123456') }
+    let(:session_limit) { ENV.fetch('MAX_USER_SESSIONS', '5').to_i }
     let(:browser_ua) { 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15' }
     let(:mobile_ua) { 'okhttp/4.9.3' }
 
@@ -195,9 +363,9 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
 
       it 'does not count expired tokens toward the cap' do
         request.env['HTTP_USER_AGENT'] = browser_ua
-        # 3 expired + 2 active = 5 raw entries, but only 2 active
+        # Raw token count reaches the cap, but three tokens are expired
         3.times { |i| seed_token("expired#{i}", expiry_offset_days: -1, with_session: false) }
-        2.times { |i| seed_token("active#{i}", expiry_offset_days: 30) }
+        (session_limit - 3).times { |i| seed_token("active#{i}", expiry_offset_days: 30) }
 
         post :create, params: login_params
 
@@ -208,7 +376,7 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
     context 'when at the limit from a browser with full tracking' do
       before do
         request.env['HTTP_USER_AGENT'] = browser_ua
-        5.times { |i| seed_token("c#{i}", expiry_offset_days: 30) }
+        session_limit.times { |i| seed_token("c#{i}", expiry_offset_days: 30) }
       end
 
       it 'returns 409 with the session list (picker)' do
@@ -217,7 +385,7 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
         expect(response).to have_http_status(:conflict)
         body = response.parsed_body
         expect(body['sessions_limit_reached']).to be true
-        expect(body['sessions'].size).to eq(5)
+        expect(body['sessions'].size).to eq(session_limit)
       end
 
       it 'does not create a new session row' do
@@ -228,7 +396,7 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
     context 'when at the limit from a non-browser client' do
       before do
         request.env['HTTP_USER_AGENT'] = mobile_ua
-        5.times { |i| seed_token("c#{i}", expiry_offset_days: 30 + i, with_session: false) }
+        session_limit.times { |i| seed_token("c#{i}", expiry_offset_days: 30 + i, with_session: false) }
       end
 
       it 'silently evicts the oldest token and lets login proceed' do
@@ -242,9 +410,9 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
     context 'when at the limit but tracking is partial (legacy tokens present)' do
       before do
         request.env['HTTP_USER_AGENT'] = browser_ua
-        # one tracked, four legacy (no user_session rows)
+        # One tracked session, with the remaining tokens having no user_session rows
         seed_token('tracked', expiry_offset_days: 60, with_session: true)
-        4.times { |i| seed_token("legacy#{i}", expiry_offset_days: 10 + i, with_session: false) }
+        (session_limit - 1).times { |i| seed_token("legacy#{i}", expiry_offset_days: 10 + i, with_session: false) }
       end
 
       it 'silent-evicts instead of showing a partial picker' do
@@ -266,10 +434,10 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
     context 'when at the limit with full tracking (no legacy gap)' do
       before do
         request.env['HTTP_USER_AGENT'] = mobile_ua
-        # Five tracked sessions, varying activity timestamps
-        5.times do |i|
+        # Tracked sessions with varying activity timestamps
+        session_limit.times do |i|
           seed_token("tracked#{i}", expiry_offset_days: 30)
-          user.user_sessions.find_by(client_id: "tracked#{i}").update!(last_activity_at: (5 - i).days.ago)
+          user.user_sessions.find_by(client_id: "tracked#{i}").update!(last_activity_at: (session_limit - i).days.ago)
         end
       end
 
@@ -277,7 +445,7 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
         post :create, params: login_params
 
         expect(response).to have_http_status(:success)
-        # tracked0 had the oldest last_activity_at (5 days ago)
+        # tracked0 has the oldest last_activity_at
         expect(user.reload.tokens.keys).not_to include('tracked0')
         expect(user.user_sessions.exists?(client_id: 'tracked0')).to be false
       end
@@ -286,7 +454,7 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
     context 'with revoke_session_id during login' do
       before do
         request.env['HTTP_USER_AGENT'] = browser_ua
-        5.times { |i| seed_token("c#{i}", expiry_offset_days: 30) }
+        session_limit.times { |i| seed_token("c#{i}", expiry_offset_days: 30) }
       end
 
       it 'revokes the chosen session and proceeds with login' do
@@ -303,7 +471,7 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
     context 'with revoke_all_sessions during login' do
       before do
         request.env['HTTP_USER_AGENT'] = browser_ua
-        5.times { |i| seed_token("c#{i}", expiry_offset_days: 30) }
+        session_limit.times { |i| seed_token("c#{i}", expiry_offset_days: 30) }
       end
 
       it 'wipes all sessions and tokens, then proceeds with login' do

@@ -1,3 +1,4 @@
+import { openDB, deleteDB } from 'idb';
 import { DataManager } from '../../CacheHelper/DataManager';
 
 describe('DataManager', () => {
@@ -30,6 +31,41 @@ describe('DataManager', () => {
       const db2 = await dataManager.initDb();
       expect(db1).toBe(db2);
     });
+
+    it('should add new stores and invalidate stale inbox data from an earlier version', async () => {
+      const legacyAccountId = 'legacy-account';
+      const dbName = `cw-store-${legacyAccountId}`;
+      await deleteDB(dbName);
+
+      // The schema as it shipped before canned responses joined the cached models
+      const legacyDb = await openDB(dbName, 1, {
+        upgrade(db) {
+          db.createObjectStore('cache-keys');
+          db.createObjectStore('inbox', { keyPath: 'id' });
+          db.createObjectStore('label', { keyPath: 'id' });
+          db.createObjectStore('team', { keyPath: 'id' });
+        },
+      });
+      await legacyDb.put('cache-keys', 'existing-key', 'inbox');
+      await legacyDb.put('cache-keys', 'label-key', 'label');
+      await legacyDb.put('inbox', { id: 1, name: 'Legacy inbox' });
+      await legacyDb.put('label', { id: 1, title: 'Existing label' });
+      legacyDb.close();
+
+      const legacyManager = new DataManager(legacyAccountId);
+      await legacyManager.initDb();
+
+      expect([...legacyManager.db.objectStoreNames]).toContain(
+        'canned_response'
+      );
+      expect(await legacyManager.get({ modelName: 'inbox' })).toEqual([]);
+      expect(await legacyManager.getCacheKey('inbox')).toBeUndefined();
+      expect(await legacyManager.get({ modelName: 'label' })).toEqual([
+        { id: 1, title: 'Existing label' },
+      ]);
+      expect(await legacyManager.getCacheKey('label')).toBe('label-key');
+      legacyManager.db.close();
+    });
   });
 
   describe('validateModel', () => {
@@ -59,6 +95,22 @@ describe('DataManager', () => {
       const newData = [
         { id: 3, name: 'inbox-3' },
         { id: 4, name: 'inbox-4' },
+      ];
+
+      await dataManager.push({ modelName: 'inbox', data: inboxData });
+      await dataManager.replace({ modelName: 'inbox', data: newData });
+      const result = await dataManager.get({ modelName: 'inbox' });
+      expect(result).toEqual(newData);
+    });
+
+    it('should replace data whose keys overlap the existing rows', async () => {
+      const inboxData = [
+        { id: 1, name: 'inbox-1' },
+        { id: 2, name: 'inbox-2' },
+      ];
+      const newData = [
+        { id: 1, name: 'inbox-1-renamed' },
+        { id: 2, name: 'inbox-2-renamed' },
       ];
 
       await dataManager.push({ modelName: 'inbox', data: inboxData });

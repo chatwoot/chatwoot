@@ -1,13 +1,16 @@
 class Api::V1::AccountsController < Api::BaseController
   include AuthHelper
-  include CacheKeysHelper
+  include MfaEnforcementGuard
 
   skip_before_action :authenticate_user!, :set_current_user, :handle_with_exception,
                      only: [:create], raise: false
   before_action :check_signup_enabled, only: [:create]
   before_action :ensure_account_name, only: [:create]
   before_action :validate_captcha, only: [:create]
+  before_action :check_user_mfa_enforcement, if: :authenticate_by_access_token?, only: [:create]
   before_action :fetch_account, except: [:create]
+  before_action :validate_token_api_access, if: :authenticate_by_access_token?, except: [:create]
+  before_action :check_account_mfa_enforcement, if: :authenticate_by_access_token?, except: [:create]
   before_action :check_authorization, except: [:create]
 
   rescue_from CustomExceptions::Account::InvalidEmail,
@@ -17,7 +20,7 @@ class Api::V1::AccountsController < Api::BaseController
               with: :render_error_response
 
   def show
-    @latest_chatwoot_version = ::Redis::Alfred.get(::Redis::Alfred::LATEST_CHATWOOT_VERSION)
+    @latest_chatwoot_version = latest_chatwoot_version
     render 'api/v1/accounts/show', format: :json
   end
 
@@ -51,7 +54,7 @@ class Api::V1::AccountsController < Api::BaseController
 
   def cache_keys
     expires_in 10.seconds, public: false, stale_while_revalidate: 5.minutes
-    render json: { cache_keys: cache_keys_for_account }, status: :ok
+    render json: { cache_keys: @account.cache_keys }, status: :ok
   end
 
   def update
@@ -69,6 +72,10 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   private
+
+  def latest_chatwoot_version
+    Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION)
+  end
 
   def enqueue_branding_enrichment
     email = account_params[:email].presence || @user&.email
@@ -92,17 +99,15 @@ class Api::V1::AccountsController < Api::BaseController
     raise CustomExceptions::Account::InvalidParams.new({})
   end
 
-  def cache_keys_for_account
-    {
-      label: fetch_value_for_key(params[:id], Label.name.underscore),
-      inbox: fetch_value_for_key(params[:id], Inbox.name.underscore),
-      team: fetch_value_for_key(params[:id], Team.name.underscore)
-    }
-  end
-
   def fetch_account
     @account = current_user.accounts.find(params[:id])
     @current_account_user = @account.account_users.find_by(user_id: current_user.id)
+  end
+
+  def validate_token_api_access
+    return if @account.api_and_webhooks_enabled?
+
+    render json: { error: 'API access is not enabled for this account' }, status: :forbidden
   end
 
   def account_params
@@ -118,7 +123,9 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def permitted_settings_attributes
-    [:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label]
+    attributes = [:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label]
+    attributes << :enforce_mfa if Chatwoot.mfa_enabled?
+    attributes
   end
 
   def check_signup_enabled

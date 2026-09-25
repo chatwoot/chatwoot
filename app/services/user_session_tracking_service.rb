@@ -24,16 +24,9 @@ class UserSessionTrackingService
   private
 
   def session_attributes
-    browser = Browser.new(@request.user_agent)
-
-    {
+    RequestDeviceInfo.new(@request).to_h.merge(
       ip_address: @request.remote_ip,
-      user_agent: @request.user_agent,
-      browser_name: browser.name,
-      browser_version: browser.full_version,
-      device_name: browser.device.name,
-      platform_name: browser.platform.name,
-      platform_version: browser.platform.version
-    }
+      user_agent: @request.user_agent
+    )
   end
 end

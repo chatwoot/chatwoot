@@ -16,6 +16,7 @@ class Twilio::CallbackController < ApplicationController
       :ToZip,
       :AccountSid,
       :MessageSid,
+      :OriginalRepliedMessageSid,
       :FromCountry,
       :ToCity,
       :FromCity,
@@ -35,7 +36,17 @@ class Twilio::CallbackController < ApplicationController
       :ExternalUserId,
       :ParentExternalUserId,
       :ProfileUsername,
-      :Username
+      :Username,
+      :ReferralBody,
+      :ReferralHeadline,
+      :ReferralSourceId,
+      :ReferralSourceType,
+      :ReferralSourceUrl,
+      :ReferralMediaId,
+      :ReferralMediaContentType,
+      :ReferralMediaUrl,
+      :ReferralNumMedia,
+      :ReferralCtwaClid
     )
   end
 end

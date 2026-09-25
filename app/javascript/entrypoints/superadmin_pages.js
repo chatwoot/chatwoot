@@ -1,4 +1,4 @@
-import 'chart.js';
+import '@chatwoot/viz/style.css';
 import { createApp, h } from 'vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 

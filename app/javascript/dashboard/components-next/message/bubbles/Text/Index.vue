@@ -6,6 +6,7 @@ import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import TemplateButtons from './TemplateButtons.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
 import { MESSAGE_TYPES } from '../../constants';
+import { MESSAGE_STATUS } from 'shared/constants/messages';
 import { useMessageContext } from '../../provider.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
 import { useFunctionGetter } from 'dashboard/composables/store';
@@ -14,8 +15,15 @@ import {
   COMPONENT_TYPES,
 } from 'dashboard/helper/templateHelper';
 
-const { content, attachments, contentAttributes, messageType, inboxId } =
-  useMessageContext();
+const {
+  content,
+  attachments,
+  contentAttributes,
+  additionalAttributes,
+  messageType,
+  status,
+  inboxId,
+} = useMessageContext();
 
 const { hasTranslations, translationContent } =
   useTranslations(contentAttributes);
@@ -27,14 +35,20 @@ const whatsAppTemplates = useFunctionGetter(
   inboxId
 );
 
-// A WhatsApp template message keeps its template metadata in
-// `template_params` regardless of whether the builder stored it as a
+// `Messages::MessageBuilder` stores the template metadata under
+// `additional_attributes.template_params`, whether the message was saved as a
 // TEMPLATE or a plain OUTGOING message (templates sent from the composer are
-// outgoing). We key on the presence of those params, and match the inbox
-// template by name AND language so localized variants render the right
-// buttons.
+// outgoing). Messages are deep-camelcased in the dashboard, so we read
+// `templateParams` and fall back to the raw key. We key on the presence of
+// those params, and match the inbox template by name AND language so
+// localized variants render the right buttons.
+const templateParams = computed(() => {
+  const attributes = additionalAttributes?.value || {};
+  return attributes.templateParams || attributes.template_params || null;
+});
+
 const templateButtons = computed(() => {
-  const params = contentAttributes.value?.template_params;
+  const params = templateParams.value;
   if (!params?.name) {
     return [];
   }
@@ -72,6 +86,12 @@ const isTemplate = computed(() => {
   return messageType.value === MESSAGE_TYPES.TEMPLATE;
 });
 
+const contactInfoRequestState = computed(() => {
+  if (status.value === MESSAGE_STATUS.FAILED) return null;
+
+  return contentAttributes.value?.whatsappContactInfo?.state;
+});
+
 const isEmpty = computed(() => {
   return !content.value && !attachments.value?.length;
 });
@@ -88,6 +108,24 @@ const handleSeeOriginal = () => {
         {{ $t('CONVERSATION.NO_CONTENT') }}
       </span>
       <FormattedContent v-if="renderContent" :content="renderContent" />
+      <span
+        v-if="contactInfoRequestState === 'pending'"
+        class="text-xs font-medium text-n-slate-11"
+      >
+        {{ $t('CONVERSATION.REQUEST_CONTACT_INFO.STATES.PENDING') }}
+      </span>
+      <span
+        v-else-if="contactInfoRequestState === 'shared'"
+        class="text-xs font-medium text-n-slate-11"
+      >
+        {{ $t('CONVERSATION.REQUEST_CONTACT_INFO.STATES.SHARED') }}
+      </span>
+      <span
+        v-else-if="contactInfoRequestState === 'identity_conflict'"
+        class="text-xs font-medium text-n-slate-11"
+      >
+        {{ $t('CONVERSATION.REQUEST_CONTACT_INFO.STATES.IDENTITY_CONFLICT') }}
+      </span>
       <TranslationToggle
         v-if="hasTranslations"
         class="-mt-3"

@@ -1,0 +1,271 @@
+require 'rails_helper'
+
+describe Enterprise::Billing::ReconcilePlanFeaturesService do
+  let(:account) { create(:account) }
+
+  before do
+    InstallationConfig.find_or_initialize_by(name: 'CHATWOOT_CLOUD_PLANS').update!(
+      value: [
+        { 'name' => 'Hacker', 'product_id' => ['plan_id_hacker'], 'price_ids' => ['price_hacker'] },
+        { 'name' => 'Startups', 'product_id' => ['plan_id_startups'], 'price_ids' => ['price_startups'] }
+      ]
+    )
+  end
+
+  describe '#perform' do
+    context 'with conversation monitors and Captain Classifier' do
+      it 'grants both features on Startups, Business, and Enterprise' do
+        account.update!(custom_attributes: { 'plan_name' => 'Startups' })
+        described_class.new(account: account).perform
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+
+        account.update!(custom_attributes: { 'plan_name' => 'Business' })
+        described_class.new(account: account).perform
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+
+        account.update!(custom_attributes: { 'plan_name' => 'Enterprise' })
+        described_class.new(account: account).perform
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+      end
+
+      it 'removes both features on downgrade' do
+        account.update!(custom_attributes: { 'plan_name' => 'Business' })
+        described_class.new(account: account).perform
+
+        account.update!(custom_attributes: { 'plan_name' => 'Hacker' })
+        described_class.new(account: account).perform
+        expect(account.reload).not_to be_feature_enabled('conversation_monitors')
+        expect(account).not_to be_feature_enabled('captain_classifier')
+      end
+
+      it 'keeps a manually managed grant after a downgrade' do
+        account.update!(custom_attributes: { 'plan_name' => 'Hacker' })
+        Internal::Accounts::InternalAttributesService.new(account).manually_managed_features = %w[conversation_monitors captain_classifier]
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+      end
+    end
+
+    context 'with api_and_webhooks feature' do
+      it 'enables the feature for a paid plan with an active subscription' do
+        account.update!(custom_attributes: { 'plan_name' => 'Startups', 'subscription_status' => 'active' })
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('api_and_webhooks')
+      end
+
+      it 'enables the feature for a paid plan on trial' do
+        account.update!(custom_attributes: { 'plan_name' => 'Startups', 'subscription_status' => 'trialing' })
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('api_and_webhooks')
+      end
+
+      it 'disables the feature on the default plan' do
+        account.enable_features!('api_and_webhooks')
+        account.update!(custom_attributes: { 'plan_name' => 'Hacker', 'subscription_status' => 'active' })
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('api_and_webhooks')
+      end
+
+      it 'keeps the feature enabled when manually managed' do
+        account.update!(custom_attributes: { 'plan_name' => 'Hacker', 'subscription_status' => 'trialing' })
+        Internal::Accounts::InternalAttributesService.new(account).manually_managed_features = ['api_and_webhooks']
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('api_and_webhooks')
+      end
+    end
+
+    context 'with whatsapp_embedded_signup_inbox_creation feature' do
+      it 'keeps the feature enabled on the default plan when manually managed' do
+        account.update!(custom_attributes: { 'plan_name' => 'Hacker', 'subscription_status' => 'active' })
+        Internal::Accounts::InternalAttributesService.new(account).manually_managed_features = ['whatsapp_embedded_signup_inbox_creation']
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('whatsapp_embedded_signup_inbox_creation')
+      end
+    end
+
+    context 'with a Shopify-billed account' do
+      let(:account) do
+        create(
+          :account,
+          internal_attributes: { 'billing_provider' => 'shopify' },
+          custom_attributes: { 'plan_name' => 'Shopify Basic' }
+        )
+      end
+      let(:shopify_plans) do
+        [
+          {
+            'name' => 'Shopify Basic',
+            'handle' => 'shopify-basic',
+            'features' => %w[audit_logs],
+            'limits' => { 'agents' => 5, 'inboxes' => 10 }
+          },
+          {
+            'name' => 'Shopify Pro',
+            'handle' => 'shopify-pro',
+            'features' => %w[audit_logs saml],
+            'limits' => { 'agents' => 10, 'inboxes' => 20 }
+          }
+        ]
+      end
+      let!(:shopify_config) do
+        InstallationConfig.find_or_initialize_by(name: 'CHATWOOT_SHOPIFY_PLANS').tap do |config|
+          config.update!(value: shopify_plans, locked: true)
+        end
+      end
+
+      before do
+        allow(GlobalConfigService).to receive(:load).and_call_original
+        InstallationConfig.find_or_initialize_by(name: 'ENABLE_SHOPIFY_INTEGRATION').update!(value: true)
+        account.enable_features!('shopify_integration')
+      end
+
+      it 'enables catalog features and both paid features on Shopify Basic' do
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('audit_logs')
+        expect(account).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+        expect(account).not_to be_feature_enabled('saml')
+        expect(account).not_to be_feature_enabled('captain_integration')
+        expect(account).to be_feature_enabled('shopify_integration')
+      end
+
+      it 'clears default plan entitlements omitted from every Shopify plan' do
+        account.enable_features!('api_and_webhooks')
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('api_and_webhooks')
+        expect(account).to be_feature_enabled('audit_logs')
+      end
+
+      it 'clears Captain when it is omitted from every Shopify plan' do
+        account.enable_features!('captain_integration')
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('captain_integration')
+        expect(account).to be_feature_enabled('audit_logs')
+      end
+
+      it 'removes features that are not present after a Shopify plan change' do
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Pro' })
+        described_class.new(account: account).perform
+        expect(account.reload).to be_feature_enabled('saml')
+
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Basic' })
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('saml')
+        expect(account).to be_feature_enabled('audit_logs')
+      end
+
+      it 'removes a feature that was deleted from the Shopify catalog' do
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Pro' })
+        described_class.new(account: account).perform
+        expect(account.reload).to be_feature_enabled('saml')
+
+        shopify_config.update!(value: [shopify_plans.first])
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Basic' })
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('saml')
+        expect(account.internal_attributes['shopify_managed_features']).to contain_exactly('audit_logs')
+      end
+
+      it 'preserves a manually managed feature after it is deleted from the Shopify catalog' do
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Pro' })
+        Internal::Accounts::InternalAttributesService.new(account).manually_managed_features = ['saml']
+        described_class.new(account: account).perform
+
+        shopify_config.update!(value: [shopify_plans.first])
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Basic' })
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('saml')
+        expect(account.internal_attributes['shopify_managed_features']).to contain_exactly('audit_logs')
+      end
+
+      it 'keeps both paid features when switching Shopify plans' do
+        described_class.new(account: account).perform
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Pro' })
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+      end
+
+      it 'keeps paid features when they are removed from the Shopify catalog' do
+        features = %w[audit_logs conversation_monitors captain_classifier]
+        shopify_config.update!(value: [shopify_plans.first.merge('features' => features), shopify_plans.second])
+        described_class.new(account: account).perform
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+
+        shopify_config.update!(value: shopify_plans)
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+      end
+
+      it 'rejects an unknown Shopify plan instead of guessing entitlements' do
+        account.update!(custom_attributes: { 'plan_name' => 'Unknown' })
+
+        expect do
+          described_class.new(account: account).perform
+        end.to raise_error(Enterprise::Billing::PlanConfiguration::UnknownPlan)
+      end
+
+      it 'preserves entitlements when the global Shopify switch is disabled' do
+        account.enable_features!('saml')
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
+        expect(Enterprise::Billing::PlanConfiguration).not_to receive(:plans_for)
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('saml')
+      end
+
+      it 'preserves entitlements when the account Shopify flag is disabled' do
+        account.enable_features!('saml')
+        account.disable_features!('shopify_integration')
+        expect(Enterprise::Billing::PlanConfiguration).not_to receive(:plans_for)
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('saml')
+      end
+
+      it 'removes managed entitlements during lifecycle cleanup when the account Shopify flag is disabled' do
+        account.enable_features!('audit_logs', 'saml', 'conversation_monitors', 'captain_classifier')
+        account.disable_features!('shopify_integration')
+        account.update!(custom_attributes: { 'plan_name' => nil })
+
+        described_class.new(account: account, shopify_lifecycle_cleanup: true).perform
+
+        expect(account.reload).not_to be_feature_enabled('audit_logs')
+        expect(account).not_to be_feature_enabled('saml')
+        expect(account).not_to be_feature_enabled('conversation_monitors')
+        expect(account).not_to be_feature_enabled('captain_classifier')
+        expect(account).not_to be_feature_enabled('shopify_integration')
+      end
+    end
+  end
+end

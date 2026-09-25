@@ -34,6 +34,9 @@ vi.mock('vue-i18n', () => ({
 
 describe('filterHelper', () => {
   describe('getCustomAttributeInputType', () => {
+    it('returns number for number type', () => {
+      expect(getCustomAttributeInputType('number')).toBe('number');
+    });
     it('returns date for date type', () => {
       expect(getCustomAttributeInputType('date')).toBe('date');
     });
@@ -82,6 +85,7 @@ describe('filterHelper', () => {
           attributeName: 'Test Name',
           label: 'Test Name',
           inputType: 'plainText',
+          attributeDisplayType: 'text',
           filterOperators: ['contains', 'not_contains'],
           options: [],
           attributeModel: 'customAttributes',
@@ -111,6 +115,7 @@ describe('filterHelper', () => {
           attributeName: 'List Name',
           label: 'List Name',
           inputType: 'searchSelect',
+          attributeDisplayType: 'list',
           filterOperators: ['is', 'is_not'],
           options: [
             { id: 'option1', name: 'option1' },

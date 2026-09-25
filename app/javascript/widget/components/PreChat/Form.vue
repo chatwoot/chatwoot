@@ -187,7 +187,8 @@ export default {
       };
       const validationKeys = Object.keys(validations);
       const isRequired = this.isContactFieldRequired(name);
-      const baseRules = isRequired ? [['required']] : [['optional']];
+      const requiredRule = type === 'checkbox' ? 'accepted' : 'required';
+      const baseRules = isRequired ? [[requiredRule]] : [['optional']];
 
       if (
         !validationKeys.includes(name) &&
@@ -293,6 +294,7 @@ export default {
         isValidPhoneNumber: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
         email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
         required: $t('PRE_CHAT_FORM.REQUIRED'),
+        accepted: $t('PRE_CHAT_FORM.REQUIRED'),
         matches: item.regex_cue
           ? item.regex_cue
           : $t('PRE_CHAT_FORM.REGEX_ERROR'),

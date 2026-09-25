@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "執行",
       "PREVIEW": "預覽巨集",
-      "EXECUTED_SUCCESSFULLY": "巨集已成功執行"
+      "EXECUTED_SUCCESSFULLY": "巨集已成功執行",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "屬性鍵為必填",
@@ -104,6 +105,7 @@
       "MUTE_CONVERSATION": "將對話靜音",
       "SNOOZE_CONVERSATION": "暫停對話提醒",
       "RESOLVE_CONVERSATION": "解決對話",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "傳送附件",
       "SEND_MESSAGE": "傳送訊息",
       "CHANGE_PRIORITY": "變更優先順序",

@@ -1,9 +1,14 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
-  MAX_SESSIONS = ENV.fetch('MAX_USER_SESSIONS', 25).to_i
+  include MfaAuthenticationHelper
+  include DeviceVerificationGuard
 
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
   wrap_parameters format: []
+  # DTA's params_for_resource copies these headers into params during super.
+  # Mirror that up front so every pre-authentication check in create sees the
+  # same credentials a header-only request would authenticate with.
+  before_action :merge_credential_headers, only: [:create]
   before_action :process_sso_auth_token, only: [:create]
 
   def new
@@ -11,12 +16,10 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def create
+    return handle_mfa_setup_verification if mfa_setup_verification_request?
     return handle_mfa_verification if mfa_verification_request?
     return handle_sso_authentication if sso_authentication_request?
-
-    user = find_user_for_authentication
-    return handle_mfa_required(user) if user&.mfa_enabled?
-    return if user && enforce_session_limit_for_password_login(user)
+    return if password_pre_auth_intercepted?
 
     # Only proceed with standard authentication if no MFA is required
     super
@@ -24,7 +27,11 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
   def render_create_success
     track_user_session unless @impersonation
-    render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
+    if @backup_codes.present?
+      render 'devise_overrides/sessions/create_with_backup_codes', formats: [:json]
+    else
+      render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
+    end
   end
 
   private
@@ -37,6 +44,11 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     )
   end
 
+  def merge_credential_headers
+    params[:email] ||= request.headers['email'] unless request.headers['email'].nil?
+    params[:password] ||= request.headers['password'] unless request.headers['password'].nil?
+  end
+
   def find_user_for_authentication
     return nil unless params[:email].present? && params[:password].present?
 
@@ -46,10 +58,6 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     return nil unless user.active_for_authentication?
 
     user
-  end
-
-  def mfa_verification_request?
-    params[:mfa_token].present?
   end
 
   def sso_authentication_request?
@@ -99,44 +107,9 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     @impersonation = user.sso_auth_token_impersonation?(params[:sso_auth_token])
   end
 
-  def handle_mfa_required(user)
-    render json: {
-      mfa_required: true,
-      mfa_token: Mfa::TokenService.new(user: user).generate_token
-    }, status: :partial_content
-  end
-
-  def handle_mfa_verification
-    user = Mfa::TokenService.new(token: params[:mfa_token]).verify_token
-    return render_mfa_error('errors.mfa.invalid_token', :unauthorized) unless user
-
-    authenticated = Mfa::AuthenticationService.new(
-      user: user,
-      otp_code: params[:otp_code],
-      backup_code: params[:backup_code]
-    ).authenticate
-
-    return render_mfa_error('errors.mfa.invalid_code') unless authenticated
-
-    sign_in_mfa_user(user)
-  end
-
-  def sign_in_mfa_user(user)
-    evict_oldest_session(user) if sessions_limit_reached?(user)
-    @resource = user
-    @token = @resource.create_token
-    @resource.save!
-
-    sign_in(:user, @resource, store: false, bypass: false)
-    render_create_success
-  end
-
-  def render_mfa_error(message_key, status = :bad_request)
-    render json: { error: I18n.t(message_key) }, status: status
-  end
-
   def sessions_limit_reached?(user)
-    active_token_count(user) >= MAX_SESSIONS
+    limit = ENV.fetch('MAX_USER_SESSIONS', 25).to_i
+    active_token_count(user) >= limit
   end
 
   def active_token_count(user)

@@ -19,6 +19,10 @@
       "OR": "HOẶC"
     },
     "INPUT_PLACEHOLDER": "Enter value",
+    "MULTI_VALUE_INPUT_PLACEHOLDER": "Type a value, then press Enter to add more",
+    "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Type a value",
+    "CONTACT_SEARCH_PLACEHOLDER": "Tìm kiếm liên hệ",
+    "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "Bằng",
       "not_equal_to": "Không bằng",
@@ -49,6 +53,7 @@
       "ASSIGNEE_NAME": "Tên người được phân công",
       "INBOX_NAME": "Tên kênh",
       "TEAM_NAME": "Tên nhóm",
+      "CONTACT": "Liên hệ",
       "CONVERSATION_IDENTIFIER": "Định danh cuộc hội thoại",
       "CAMPAIGN_NAME": "Tên chiến dịch",
       "LABELS": "Nhãn",
