@@ -40,6 +40,13 @@ RSpec.describe Voice::RingingTimeoutService do
 
       expect(described_class.overdue).to be_empty
     end
+
+    it 'ignores calls on accounts that do not ring phones' do
+      ringing(:whatsapp, 5.minutes)
+      account.disable_features!('mobile_voice_push')
+
+      expect(described_class.overdue).to be_empty
+    end
   end
 
   describe '#perform' do
@@ -92,14 +99,6 @@ RSpec.describe Voice::RingingTimeoutService do
 
       expect(call.reload.status).to eq('in_progress')
       expect(ActionCable.server).not_to have_received(:broadcast)
-    end
-
-    it 'does nothing when the account does not have the feature' do
-      account.disable_features!('mobile_voice_push')
-
-      described_class.new(call: call).perform
-
-      expect(call.reload.status).to eq('ringing')
     end
 
     it 'leaves a late provider end-of-ring with nothing to change' do
