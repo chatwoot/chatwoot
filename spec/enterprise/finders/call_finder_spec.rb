@@ -72,6 +72,15 @@ describe CallFinder do
       expect(result[:calls].map(&:id)).to contain_exactly(call.id)
     end
 
+    it 'hides an unassigned ringing call from a custom-role agent limited to their own conversations' do
+      custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
+      account.account_users.find_by(user_id: agent.id).update!(custom_role: custom_role)
+      ringing_call(conversation)
+
+      result = perform(agent, status: 'ringing')
+      expect(result[:calls]).to be_empty
+    end
+
     it 'shows the assignee a ringing call in a conversation assigned to them' do
       conversation.update!(assignee: agent)
       call = ringing_call(conversation)
