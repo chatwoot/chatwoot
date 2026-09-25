@@ -87,6 +87,35 @@ RSpec.describe User do
       user.invalidate_sso_auth_token(sso_auth_token)
       expect(user.valid_sso_auth_token?(sso_auth_token)).to be false
     end
+
+    it 'stores impersonation tokens in the format older servers read' do
+      sso_auth_token = user.generate_sso_auth_token(impersonated_by: create(:super_admin))
+      key = format(Redis::RedisKeys::USER_SSO_AUTH_TOKEN, user_id: user.id, token: sso_auth_token)
+
+      expect(Redis::Alfred.get(key)).to eq('impersonation')
+    end
+
+    it 'clears the impersonating super admin when the token is invalidated' do
+      sso_auth_token = user.generate_sso_auth_token(impersonated_by: create(:super_admin))
+      user.invalidate_sso_auth_token(sso_auth_token)
+
+      expect(user.sso_auth_token_impersonator_id(sso_auth_token)).to be_nil
+    end
+
+    it 'records the super admin who minted an impersonation token' do
+      super_admin = create(:super_admin)
+      sso_auth_token = user.generate_sso_auth_token(impersonated_by: super_admin)
+
+      expect(user.sso_auth_token_impersonator_id(sso_auth_token)).to eq(super_admin.id)
+    end
+
+    it 'does not treat a regular sso token as impersonation' do
+      sso_auth_token = user.generate_sso_auth_token
+
+      expect(user.sso_auth_token_impersonation?(sso_auth_token)).to be false
+
+      expect(user.sso_auth_token_impersonator_id(sso_auth_token)).to be_nil
+    end
   end
 
   describe 'access token' do
