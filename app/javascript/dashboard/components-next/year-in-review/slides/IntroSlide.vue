@@ -1,5 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
 defineProps({
   year: {
@@ -8,8 +9,13 @@ defineProps({
   },
 });
 
-const candlesImagePath =
-  '/assets/images/dashboard/year-in-review/first-frame-candles.png';
+const assetUrl = useAssetUrl();
+const candlesImagePath = assetUrl(
+  '/assets/images/dashboard/year-in-review/first-frame-candles.png'
+);
+const backgroundImage = `url('${assetUrl(
+  '/assets/images/dashboard/year-in-review/first-frame-bg.png'
+)}')`;
 
 const { t } = useI18n();
 </script>
@@ -17,9 +23,7 @@ const { t } = useI18n();
 <template>
   <div
     class="absolute inset-0 flex flex-col items-center justify-center text-black px-8 md:px-16 lg:px-24 py-10 md:py-16 lg:py-20 bg-cover bg-center min-h-[700px]"
-    :style="{
-      backgroundImage: `url('/assets/images/dashboard/year-in-review/first-frame-bg.png')`,
-    }"
+    :style="{ backgroundImage }"
   >
     <div class="text-center max-w-3xl">
       <h1
