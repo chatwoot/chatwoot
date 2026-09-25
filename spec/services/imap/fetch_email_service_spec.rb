@@ -169,5 +169,59 @@ RSpec.describe Imap::FetchEmailService do
         end
       end
     end
+
+    context 'when the server stalls on an email body fetch' do
+      let(:stalled_eml) { eml_content_with_message_id.sub(/^Message-ID:.*$/, 'Message-ID: <stalled@example.com>') }
+      let(:second_imap) { instance_double(Net::IMAP) }
+
+      before do
+        allow(logger).to receive(:warn)
+        allow(imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_raise(Timeout::Error)
+        allow(imap).to receive(:disconnect)
+        allow(imap).to receive(:logout)
+      end
+
+      it 'skips the stalled email and fetches the rest on a new connection' do
+        travel_to '26.10.2020 10:00'.to_datetime do
+          stalled_header = Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => stalled_eml)
+          email_header = Net::IMAP::FetchData.new(2, 'BODY[HEADER]' => eml_content_with_message_id)
+          imap_fetch_mail = Net::IMAP::FetchData.new(2, 'BODY[]' => eml_content_with_message_id)
+
+          allow(Net::IMAP).to receive(:new).and_return(imap, second_imap)
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1, 2])
+          allow(imap).to receive(:fetch).with([1, 2], 'BODY.PEEK[HEADER]').and_return([stalled_header, email_header])
+          allow(second_imap).to receive(:authenticate)
+          allow(second_imap).to receive(:select).with('INBOX')
+          allow(second_imap).to receive(:fetch).with(2, 'BODY.PEEK[]').and_return([imap_fetch_mail])
+          allow(second_imap).to receive(:logout)
+
+          result = described_class.new(channel: imap_email_channel).perform
+
+          expect(result.map(&:message_id)).to eq ['6215e5ca3e3b2_10bc6197e4224d1@tejaswinis-MacBook-Pro.local.mail']
+          expect(imap).to have_received(:disconnect)
+          expect(imap).not_to have_received(:logout)
+          expect(second_imap).to have_received(:logout)
+          expect(logger).to have_received(:warn).with(
+            "[IMAP::FETCH_EMAIL_SERVICE] Fetch timed out after 60s for #{imap_email_channel.email} with message-id <stalled@example.com>. Skipping."
+          )
+        end
+      end
+
+      it 'does not reconnect just to log out when the stalled email is the last one' do
+        travel_to '26.10.2020 10:00'.to_datetime do
+          stalled_header = Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => stalled_eml)
+
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
+          allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([stalled_header])
+
+          result = described_class.new(channel: imap_email_channel).perform
+
+          expect(result).to be_empty
+          expect(imap).to have_received(:disconnect)
+          expect(imap).not_to have_received(:logout)
+          expect(Net::IMAP).to have_received(:new).once
+        end
+      end
+    end
   end
 end
