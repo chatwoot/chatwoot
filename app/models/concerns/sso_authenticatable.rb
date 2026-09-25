@@ -3,13 +3,14 @@ module SsoAuthenticatable
 
   def generate_sso_auth_token(impersonated_by: nil)
     token = SecureRandom.hex(32)
-    value = impersonated_by ? "impersonation:#{impersonated_by.id}" : 'normal'
-    ::Redis::Alfred.setex(sso_token_key(token), value, 5.minutes)
+    ::Redis::Alfred.setex(sso_token_key(token), impersonated_by ? 'impersonation' : 'normal', 5.minutes)
+    ::Redis::Alfred.setex(sso_impersonator_key(token), impersonated_by.id, 5.minutes) if impersonated_by
     token
   end
 
   def invalidate_sso_auth_token(token)
     ::Redis::Alfred.delete(sso_token_key(token))
+    ::Redis::Alfred.delete(sso_impersonator_key(token))
   end
 
   def valid_sso_auth_token?(token)
@@ -22,12 +23,11 @@ module SsoAuthenticatable
   end
 
   def sso_auth_token_impersonation?(token)
-    ::Redis::Alfred.get(sso_token_key(token)).to_s.start_with?('impersonation')
+    ::Redis::Alfred.get(sso_token_key(token)) == 'impersonation'
   end
 
   def sso_auth_token_impersonator_id(token)
-    value = ::Redis::Alfred.get(sso_token_key(token)).to_s
-    value.delete_prefix('impersonation:').to_i if value.start_with?('impersonation:')
+    ::Redis::Alfred.get(sso_impersonator_key(token))&.to_i
   end
 
   def generate_sso_link_with_impersonation(impersonated_by)
@@ -40,5 +40,9 @@ module SsoAuthenticatable
 
   def sso_token_key(token)
     format(::Redis::RedisKeys::USER_SSO_AUTH_TOKEN, user_id: id, token: token)
+  end
+
+  def sso_impersonator_key(token)
+    format(::Redis::RedisKeys::USER_SSO_IMPERSONATOR, user_id: id, token: token)
   end
 end

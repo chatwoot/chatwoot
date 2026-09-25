@@ -54,6 +54,7 @@ module Redis::RedisKeys
   ## User Keys
   # SSO Auth Tokens
   USER_SSO_AUTH_TOKEN = 'USER_SSO_AUTH_TOKEN::%<user_id>d::%<token>s'.freeze
+  USER_SSO_IMPERSONATOR = 'USER_SSO_IMPERSONATOR::%<user_id>d::%<token>s'.freeze
 
   ## Online Status Keys
   # hash containing user_id key and status as value
