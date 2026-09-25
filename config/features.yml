@@ -156,6 +156,7 @@
   enabled: false
   premium: true
   chatwoot_internal: true
+  deprecated: true
 - name: contact_chatwoot_support_team
   display_name: Contact Chatwoot Support Team
   enabled: true
@@ -185,6 +186,7 @@
   display_name: Captain V2
   enabled: false
   premium: true
+  deprecated: true
 - name: whatsapp_embedded_signup
   display_name: WhatsApp Embedded Signup
   enabled: false
@@ -228,8 +230,7 @@
   chatwoot_internal: true
 - name: companies
   display_name: Companies
-  enabled: false
-  premium: true
+  enabled: true
 - name: channel_tiktok
   display_name: TikTok Channel
   enabled: true
@@ -276,6 +277,15 @@
 - name: audit_log_ip_address
   display_name: Audit Log IP Address
   help_url: https://chwt.app/hc/audit-logs
+  enabled: false
+  premium: true
+  column: feature_flags_ext_1
+- name: captain_classifier
+  display_name: Captain Classifier
+  enabled: false
+  column: feature_flags_ext_1
+- name: conversation_monitors
+  display_name: Conversation Monitors
   enabled: false
   premium: true
   column: feature_flags_ext_1

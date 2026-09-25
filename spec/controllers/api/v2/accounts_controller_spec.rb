@@ -4,6 +4,28 @@ RSpec.describe 'Accounts API', type: :request do
   describe 'POST /api/v2/accounts' do
     let(:email) { Faker::Internet.email }
 
+    context 'with an mfa enforcement-pending token' do
+      let(:account) { create(:account) }
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      before do
+        skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+        account.update!(enforce_mfa: true)
+      end
+
+      it 'blocks account creation' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          post '/api/v2/accounts',
+               params: { email: Faker::Internet.email },
+               headers: { api_access_token: admin.access_token.token },
+               as: :json
+        end
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error_code']).to eq('mfa_enrollment_required')
+      end
+    end
+
     context 'when posting to accounts with correct parameters' do
       let(:account_builder) { double }
       let(:account) { create(:account) }
