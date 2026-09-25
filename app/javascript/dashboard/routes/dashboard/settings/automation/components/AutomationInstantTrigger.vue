@@ -43,6 +43,13 @@ const hasConditionErrors = computed(() =>
   Object.keys(props.errors).some(key => key.startsWith('condition_'))
 );
 
+// Set the event and reset its conditions in one listener. With v-model plus @change the browser
+// renders between the two, showing the new event with the old event's conditions.
+const changeEvent = event => {
+  eventName.value = event.target.value;
+  props.onEventChange();
+};
+
 const validate = () => {
   if (!conditionsRef.value) return true;
   return conditionsRef.value.every(condition => condition.validate());
@@ -60,7 +67,7 @@ defineExpose({ validate, resetValidation });
     <div>
       <label :class="{ error: errors.event_name }">
         {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
-        <select v-model="eventName" class="m-0" @change="onEventChange()">
+        <select :value="eventName" class="m-0" @change="changeEvent">
           <option v-for="event in events" :key="event.key" :value="event.key">
             {{ event.value }}
           </option>
