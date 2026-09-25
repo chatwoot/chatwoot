@@ -120,8 +120,17 @@ describe('MonitorShow', () => {
       await flushPromises();
     });
 
-    it('refreshes the current monitor after a successful retry', async () => {
+    it('clears the notice and refreshes the current monitor after a successful retry', async () => {
       MonitorsAPI.retry.mockResolvedValue({ data: {} });
+      wrapper
+        .findComponent({ name: 'MonitorActionDialog' })
+        .vm.$emit('changed', 'MONITORS.RESULTS_UPDATED');
+      await flushPromises();
+      expect(
+        wrapper
+          .findAllComponents({ name: 'Banner' })
+          .some(banner => banner.props('color') === 'blue')
+      ).toBe(true);
       wrapper
         .findAllComponents({ name: 'Banner' })
         .find(banner => banner.props('actionLabel') === 'MONITORS.RETRY')
@@ -132,8 +141,12 @@ describe('MonitorShow', () => {
         '10',
         expect.any(AbortSignal)
       );
-      expect(wrapper.text()).toContain('MONITORS.RETRY_STARTED');
-      expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(2);
+      expect(
+        wrapper
+          .findAllComponents({ name: 'Banner' })
+          .some(banner => banner.props('color') === 'blue')
+      ).toBe(false);
+      expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(3);
     });
 
     it('sends one retry while the first is still pending', async () => {
@@ -216,7 +229,11 @@ describe('MonitorShow', () => {
         await flushPromises();
 
         expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(calls);
-        expect(wrapper.text()).not.toContain('MONITORS.RETRY_STARTED');
+        expect(
+          wrapper
+            .findAllComponents({ name: 'Banner' })
+            .some(banner => banner.props('color') === 'blue')
+        ).toBe(false);
         expect(wrapper.text()).not.toContain('MONITORS.ERRORS.MONTHLY_LIMIT');
       }
     );

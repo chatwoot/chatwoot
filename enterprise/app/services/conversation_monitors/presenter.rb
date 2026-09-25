@@ -21,9 +21,11 @@ class ConversationMonitors::Presenter
 
   def processing
     @counts = @monitor.evaluations.group(:status).count
+    actionable_errors = @monitor.evaluations.where(status: 'error').group(:error_code).count.except('no_text')
+    @actionable_error_count = actionable_errors.values.sum
     {
-      state: state, errors: @counts.fetch('error', 0),
-      error_codes: @monitor.evaluations.where(status: 'error').distinct.pluck(:error_code).compact
+      state: state, errors: @actionable_error_count,
+      error_codes: actionable_errors.keys.compact
     }
   end
 
@@ -34,7 +36,7 @@ class ConversationMonitors::Presenter
 
     scan = @monitor.scans.pending.find_by(collection_version: @monitor.collection_version)
     return SCAN_STATES.fetch(scan.kind) if scan
-    return 'needs_attention' if @counts.fetch('error', 0).positive?
+    return 'needs_attention' if @actionable_error_count.positive?
     return 'processing' if @counts.fetch('pending', 0).positive?
 
     live_state

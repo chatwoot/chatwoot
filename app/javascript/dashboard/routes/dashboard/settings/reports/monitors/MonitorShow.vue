@@ -234,11 +234,11 @@ const onMonitorChanged = message => {
 };
 const retry = async () => {
   if (isRetrying.value) return;
+  notice.value = '';
   try {
     await runRetry(async signal => {
       await MonitorsAPI.retry(monitorId.value, signal);
       if (signal.aborted) return;
-      notice.value = t('MONITORS.RETRY_STARTED');
       fetchReport();
     });
   } catch (failure) {

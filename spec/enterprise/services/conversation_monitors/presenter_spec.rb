@@ -27,4 +27,20 @@ RSpec.describe ConversationMonitors::Presenter do
 
     expect(described_class.new(monitor).as_json.dig(:processing, :state)).to eq('delayed')
   end
+
+  it 'does not require attention when a conversation has no public text' do
+    conversation = create(:conversation, account: monitor.account)
+    monitor.evaluations.create!(account: monitor.account, conversation: conversation, status: 'error', error_code: 'no_text')
+
+    expect(described_class.new(monitor).as_json[:processing]).to eq(state: 'live', errors: 0, error_codes: [])
+  end
+
+  it 'still requires attention for actionable errors alongside conversations with no public text' do
+    no_text_conversation = create(:conversation, account: monitor.account)
+    failed_conversation = create(:conversation, account: monitor.account)
+    monitor.evaluations.create!(account: monitor.account, conversation: no_text_conversation, status: 'error', error_code: 'no_text')
+    monitor.evaluations.create!(account: monitor.account, conversation: failed_conversation, status: 'error', error_code: 'provider_busy')
+
+    expect(described_class.new(monitor).as_json[:processing]).to eq(state: 'needs_attention', errors: 1, error_codes: ['provider_busy'])
+  end
 end
