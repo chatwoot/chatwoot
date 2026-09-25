@@ -13,7 +13,7 @@ RSpec.describe 'Monitors API', type: :request do
 
   before do
     account.enable_features!('reports', 'conversation_monitors')
-    create(:installation_config, name: 'CAPTAIN_OPENROUTER_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPENROUTER_API_KEY').update!(value: 'test-key')
   end
 
   after { Redis::Alfred.delete(preview_key) }

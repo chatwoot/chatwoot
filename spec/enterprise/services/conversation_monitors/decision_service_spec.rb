@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ConversationMonitors::JevClient do
+RSpec.describe ConversationMonitors::DecisionService do
   subject(:evaluate) { client.evaluate(state: state, monitors: [monitor]) }
 
   let(:account) { create(:account) }
@@ -109,6 +109,22 @@ RSpec.describe ConversationMonitors::JevClient do
     expect(described_class.score(result['answers'][monitor.id.to_s])).to eq(0.9)
     expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1)
     expect(ConversationMonitors::Configuration.model).to eq('typesafe/jev-1.13')
+  end
+
+  it 'records the provider call as a Jev generation when Langfuse is enabled' do
+    span = instance_double(OpenTelemetry::Trace::Span, set_attribute: nil)
+    tracer = instance_double(OpenTelemetry::Trace::Tracer)
+    allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
+    allow(OpentelemetryConfig).to receive(:tracer).and_return(tracer)
+    allow(tracer).to receive(:in_span).and_yield(span)
+
+    result = client.evaluate(state: state, monitors: [monitor])
+
+    expect(result).to eq(response_body.deep_stringify_keys)
+    expect(tracer).to have_received(:in_span).with('llm.conversation_monitors.jev')
+    expect(span).to have_received(:set_attribute).with('langfuse.observation.input', a_string_including('"model":"typesafe/jev-1.13"'))
+    expect(span).to have_received(:set_attribute).with('gen_ai.usage.input_tokens', 100)
+    expect(WebMock).to have_requested(:post, endpoint).once
   end
 
   it 'translates existing monitor model IDs without changing their definition or historical results' do
