@@ -78,6 +78,32 @@ describe('ActionCableConnector - Copilot Tests', () => {
     });
   });
 
+  describe('Captain Playground event handlers', () => {
+    it('registers the captain.playground.response event handler', () => {
+      expect(actionCable.events['captain.playground.response']).toBe(
+        actionCable.onCaptainPlaygroundResponse
+      );
+    });
+
+    it('emits the Playground response on the dashboard event bus', () => {
+      const playgroundData = {
+        account_id: 1,
+        request_id: 'playground-request-1',
+        response: 'Hello from Captain',
+      };
+
+      actionCable.onReceived({
+        event: 'captain.playground.response',
+        data: playgroundData,
+      });
+
+      expect(emitter.emit).toHaveBeenCalledWith(
+        BUS_EVENTS.CAPTAIN_PLAYGROUND_RESPONSE,
+        playgroundData
+      );
+    });
+  });
+
   describe('monitor.updated', () => {
     it('forwards updates for the active account', () => {
       const data = { account_id: 1, monitor_id: 2, data_revision: 3 };
