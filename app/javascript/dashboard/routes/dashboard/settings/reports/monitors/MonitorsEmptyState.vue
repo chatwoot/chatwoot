@@ -109,7 +109,7 @@ const examples = computed(() => [
           {{ t('MONITORS.USE_TEMPLATE') }}
           <Icon
             icon="i-lucide-arrow-right"
-            class="size-4 transition-transform group-hover:translate-x-0.5"
+            class="size-4 transition-transform rtl:rotate-180 group-hover:ltr:translate-x-0.5 group-hover:rtl:-translate-x-0.5"
           />
         </span>
       </button>
