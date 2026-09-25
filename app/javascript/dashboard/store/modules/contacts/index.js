@@ -14,6 +14,7 @@ const state = {
     isFetchingItem: false,
     isFetchingInboxes: false,
     isUpdating: false,
+    isEnriching: false,
     isMerging: false,
     isDeleting: false,
     isExporting: false,

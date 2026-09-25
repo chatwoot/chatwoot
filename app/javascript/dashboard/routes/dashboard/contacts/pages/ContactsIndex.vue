@@ -101,6 +101,11 @@ const isContactIndexView = computed(
   () => route.name === 'contacts_dashboard_index' && pageNumber.value === 1
 );
 const isActiveView = computed(() => route.name === 'contacts_dashboard_active');
+const CONTACT_TYPE_ROUTES = {
+  contacts_dashboard_leads: 'lead',
+  contacts_dashboard_customers: 'customer',
+};
+const contactType = computed(() => CONTACT_TYPE_ROUTES[route.name]);
 const hasAppliedFilters = computed(() => {
   return appliedFilters.value.length > 0;
 });
@@ -125,6 +130,10 @@ const showEmptyText = computed(() => {
 const headerTitle = computed(() => {
   if (searchQuery.value) return t('CONTACTS_LAYOUT.HEADER.SEARCH_TITLE');
   if (isActiveView.value) return t('CONTACTS_LAYOUT.HEADER.ACTIVE_TITLE');
+  if (contactType.value === 'lead')
+    return t('CONTACTS_LAYOUT.HEADER.LEADS_TITLE');
+  if (contactType.value === 'customer')
+    return t('CONTACTS_LAYOUT.HEADER.CUSTOMERS_TITLE');
   if (activeSegmentId.value) return activeSegment.value?.name;
   if (activeLabel.value) return `#${activeLabel.value}`;
   return t('CONTACTS_LAYOUT.HEADER.TITLE');
@@ -195,6 +204,7 @@ const getCommonFetchParams = (page = 1) => ({
   page,
   sortAttr: buildSortAttr(),
   label: activeLabel.value,
+  contactType: contactType.value,
 });
 
 const fetchContacts = async (page = 1, options = {}) => {
@@ -374,6 +384,27 @@ const removeLabels = async labels => {
   }
 };
 
+const changeContactType = async type => {
+  if (!selectedContactIds.value.length) return;
+
+  isBulkActionLoading.value = true;
+  try {
+    await BulkActionsAPI.create({
+      type: 'Contact',
+      ids: selectedContactIds.value,
+      action_name: 'change_contact_type',
+      contact_type: type,
+    });
+    useAlert(t('CONTACTS_BULK_ACTIONS.CHANGE_TYPE_SUCCESS'));
+    clearSelection();
+    await fetchContactsBasedOnContext(pageNumber.value);
+  } catch (error) {
+    useAlert(t('CONTACTS_BULK_ACTIONS.CHANGE_TYPE_FAILED'));
+  } finally {
+    isBulkActionLoading.value = false;
+  }
+};
+
 const deleteContacts = async () => {
   if (!selectedContactIds.value.length) {
     return;
@@ -448,7 +479,7 @@ watch(
 );
 
 watch(
-  [activeLabel, activeSegment, isActiveView],
+  [activeLabel, activeSegment, isActiveView, contactType],
   () => {
     fetchContactsBasedOnContext(pageNumber.value);
   },
@@ -462,6 +493,7 @@ watch(searchQuery, value => {
   if (value === undefined) {
     if (
       isActiveView.value ||
+      contactType.value ||
       activeLabel.value ||
       activeSegment.value ||
       hasAppliedFilters.value
@@ -534,11 +566,13 @@ onMounted(async () => {
           :visible-contact-ids="visibleContactIds"
           :selected-contact-ids="selectedContactIds"
           :is-loading="isBulkActionLoading"
+          :contact-type="contactType"
           @toggle-all="toggleSelectAll"
           @clear-selection="clearSelection"
           @assign-labels="assignLabels"
           @remove-labels="removeLabels"
           @delete-selected="openBulkDeleteDialog"
+          @change-contact-type="changeContactType"
         />
         <ContactEmptyState
           v-if="showEmptyStateLayout"
@@ -558,7 +592,7 @@ onMounted(async () => {
           </span>
         </div>
 
-        <div v-else class="flex flex-col gap-4 pt-4 pb-6">
+        <div v-else class="flex flex-col gap-4 pt-2 pb-6">
           <ContactsList
             :contacts="contacts"
             :selected-contact-ids="selectedContactIds"

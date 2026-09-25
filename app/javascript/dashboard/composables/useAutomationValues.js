@@ -75,6 +75,11 @@ export default function useAutomationValues() {
     }))
   );
 
+  const contactTypeOptions = computed(() => [
+    { id: 'lead', name: t('AUTOMATION.CONTACT_TYPES.LEAD') },
+    { id: 'customer', name: t('AUTOMATION.CONTACT_TYPES.CUSTOMER') },
+  ]);
+
   /**
    * Adds a translated "None" option to the beginning of a list
    * @param {Array} list - The list to add "None" to
@@ -138,6 +143,7 @@ export default function useAutomationValues() {
       type,
       addNoneToListFn: addNoneToList,
       priorityOptions: priorityOptions.value,
+      contactTypeOptions: contactTypeOptions.value,
     });
   };
 

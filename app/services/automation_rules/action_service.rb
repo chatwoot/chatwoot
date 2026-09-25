@@ -54,6 +54,10 @@ class AutomationRules::ActionService < ActionService
     Messages::MessageBuilder.new(nil, @conversation.reload, params).perform
   end
 
+  def change_contact_type(contact_type)
+    @conversation.contact.update!(contact_type: contact_type[0])
+  end
+
   def send_email_to_team(params)
     teams = Team.where(id: params[0][:team_ids])
 

@@ -152,6 +152,10 @@ export const AUTOMATIONS = {
         key: 'send_attachment',
         name: 'SEND_ATTACHMENT',
       },
+      {
+        key: 'change_contact_type',
+        name: 'CHANGE_CONTACT_TYPE',
+      },
     ],
   },
   conversation_created: {
@@ -285,6 +289,10 @@ export const AUTOMATIONS = {
       {
         key: 'send_attachment',
         name: 'SEND_ATTACHMENT',
+      },
+      {
+        key: 'change_contact_type',
+        name: 'CHANGE_CONTACT_TYPE',
       },
     ],
   },
@@ -432,6 +440,10 @@ export const AUTOMATIONS = {
         key: 'send_attachment',
         name: 'SEND_ATTACHMENT',
       },
+      {
+        key: 'change_contact_type',
+        name: 'CHANGE_CONTACT_TYPE',
+      },
     ],
   },
   conversation_opened: {
@@ -568,6 +580,10 @@ export const AUTOMATIONS = {
         key: 'send_attachment',
         name: 'SEND_ATTACHMENT',
       },
+      {
+        key: 'change_contact_type',
+        name: 'CHANGE_CONTACT_TYPE',
+      },
     ],
   },
   conversation_resolved: {
@@ -681,6 +697,10 @@ export const AUTOMATIONS = {
       {
         key: 'send_attachment',
         name: 'SEND_ATTACHMENT',
+      },
+      {
+        key: 'change_contact_type',
+        name: 'CHANGE_CONTACT_TYPE',
       },
     ],
   },
@@ -803,6 +823,11 @@ export const AUTOMATION_ACTION_TYPES = [
   {
     key: 'add_sla',
     label: 'ADD_SLA',
+    inputType: 'search_select',
+  },
+  {
+    key: 'change_contact_type',
+    label: 'CHANGE_CONTACT_TYPE',
     inputType: 'search_select',
   },
 ];

@@ -39,6 +39,25 @@ RSpec.describe 'Contacts API', type: :request do
       end
       let!(:contact_inbox) { create(:contact_inbox, contact: contact) }
 
+      it 'returns only contacts of the requested contact type' do
+        contact.update!(contact_type: 'customer')
+
+        get "/api/v1/accounts/#{account.id}/contacts",
+            params: { contact_type: 'customer' },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload'].pluck('id')).to eq([contact.id])
+      end
+
+      it 'rejects contact types without a list view' do
+        get "/api/v1/accounts/#{account.id}/contacts",
+            params: { contact_type: 'visitor' },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
       it 'returns all resolved contacts along with contact inboxes' do
         get "/api/v1/accounts/#{account.id}/contacts",
             headers: admin.create_new_auth_token,
@@ -616,6 +635,25 @@ RSpec.describe 'Contacts API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'changes a lead to a customer' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { contact_type: 'customer' },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload).to be_customer
+      end
+
+      it 'does not change a contact back to a visitor' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { contact_type: 'visitor' },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
 
       it 'updates the contact' do
         patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",

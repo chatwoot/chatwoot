@@ -21,6 +21,17 @@ RSpec.describe Contacts::BulkActionService do
       end
     end
 
+    context 'when the contact type is changed' do
+      let(:contact) { create(:contact, account: account, email: 'lead@example.com') }
+      let(:params) { { ids: [contact.id], action_name: 'change_contact_type', contact_type: 'customer' } }
+
+      it 'updates the selected contacts' do
+        service.perform
+
+        expect(contact.reload).to be_customer
+      end
+    end
+
     context 'when labels are provided' do
       let(:params) { { ids: [10, 20], labels: { add: %w[vip support] }, extra: 'ignored' } }
 

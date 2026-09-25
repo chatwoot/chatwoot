@@ -33,6 +33,7 @@ class AutomationRule < ApplicationRecord
 
   validate :json_conditions_format
   validate :json_actions_format
+  validate :validate_contact_type_actions
   validate :query_operator_presence
   validate :query_operator_value
   validates :account_id, presence: true
@@ -55,7 +56,7 @@ class AutomationRule < ApplicationRecord
     %w[send_message add_label remove_label send_email_to_team assign_team assign_agent remove_assigned_agent
        remove_assigned_team send_webhook_event mute_conversation send_attachment change_status resolve_conversation
        open_conversation pending_conversation snooze_conversation change_priority send_email_transcript
-       add_private_note].freeze
+       add_private_note change_contact_type].freeze
   end
 
   def file_base_data
@@ -90,6 +91,16 @@ class AutomationRule < ApplicationRecord
     actions = attributes - actions_attributes
 
     errors.add(:actions, "Automation actions #{actions.join(',')} not supported.") if actions.any?
+  end
+
+  def validate_contact_type_actions
+    return if actions.blank?
+
+    contact_type_actions = actions.select { |action| action['action_name'] == 'change_contact_type' }
+    contact_types = contact_type_actions.map { |action| Array(action['action_params']).first }
+    return if (contact_types - Contact::LISTED_CONTACT_TYPES).empty?
+
+    errors.add(:actions, 'Automation can only change a contact to a lead or a customer.')
   end
 
   def query_operator_presence

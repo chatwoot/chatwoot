@@ -13,6 +13,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
+  before_action :validate_contact_type, only: [:index, :update]
   before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes]
   before_action :set_include_contact_inboxes, only: [:index, :active, :search, :filter, :show, :update]
 
@@ -118,12 +119,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   # TODO: Move this to a finder class
   def resolved_contacts
-    return @resolved_contacts if @resolved_contacts
-
-    @resolved_contacts = Current.account.contacts.resolved_contacts(use_crm_v2: Current.account.feature_enabled?('crm_v2'))
-
-    @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
-    @resolved_contacts
+    contacts = Current.account.contacts.resolved_contacts(contact_type: params[:contact_type].presence)
+    params[:labels].present? ? contacts.tagged_with(params[:labels], any: true) : contacts
   end
 
   def set_current_page
@@ -171,7 +168,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    permitted_params = params.permit(:name, :identifier, :email, :phone_number, :avatar, :avatar_url, :blocked,
+    permitted_params = params.permit(:name, :identifier, :email, :phone_number, :avatar, :avatar_url, :blocked, :contact_type,
                                      additional_attributes: {}, custom_attributes: {})
     return permitted_params unless Current.account.feature_enabled?('companies') && params.key?(:company_id)
 
@@ -217,6 +214,12 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def render_error(error, error_status)
     render json: error, status: error_status
+  end
+
+  def validate_contact_type
+    return if params[:contact_type].blank? || Contact::LISTED_CONTACT_TYPES.include?(params[:contact_type])
+
+    render json: { error: I18n.t('errors.contacts.contact_type.invalid') }, status: :unprocessable_entity
   end
 end
 

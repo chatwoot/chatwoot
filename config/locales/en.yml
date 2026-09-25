@@ -129,6 +129,13 @@ en:
         invalid: Invalid email
       phone_number:
         invalid: should be in e164 format
+      contact_type:
+        invalid: must be lead or customer
+      enrichment:
+        plan_required: Contact enrichment is available on the Business and Enterprise plans
+        not_configured: Contact enrichment is not configured for this installation
+        details_missing: Add a work email, a LinkedIn profile, or a full name and company to the contact before refreshing its profile
+        not_found: Could not find profile information for this contact
     companies:
       domain:
         invalid: must be a valid domain name

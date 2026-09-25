@@ -18,9 +18,10 @@ const props = defineProps({
   emptyMessage: { type: String, required: true },
   hasMore: { type: Boolean, default: false },
   highlight: { type: String, default: '' },
+  deletable: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(['loadMore']);
+const emit = defineEmits(['loadMore', 'delete']);
 
 const NOTE_CLAMP_LENGTH = 240;
 
@@ -116,8 +117,20 @@ const groups = computed(() =>
                 class="shrink-0"
               />
               <span class="flex flex-col flex-1 min-w-0 gap-1">
-                <span class="truncate text-heading-3 text-n-slate-12">
-                  {{ noteAuthor(note) }}
+                <span class="flex items-center justify-between gap-2">
+                  <span class="truncate text-heading-3 text-n-slate-12">
+                    {{ noteAuthor(note) }}
+                  </span>
+                  <Button
+                    v-if="deletable"
+                    v-tooltip.top="t('CONTACTS_LAYOUT.DETAIL.NOTES.DELETE')"
+                    icon="i-lucide-trash-2"
+                    variant="ghost"
+                    color="slate"
+                    size="xs"
+                    class="shrink-0"
+                    @click="emit('delete', note.id)"
+                  />
                 </span>
                 <span
                   v-dompurify-html="noteHtml(note)"

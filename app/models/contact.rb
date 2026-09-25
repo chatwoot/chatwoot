@@ -70,6 +70,8 @@ class Contact < ApplicationRecord
   include ContactCompanyAssociation
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
+  # Visitors are anonymous until they share details, so contact lists only show these types.
+  LISTED_CONTACT_TYPES = %w[lead customer].freeze
 
   scope :order_on_last_activity_at, lambda { |direction|
     order(
@@ -149,6 +151,7 @@ class Contact < ApplicationRecord
       phone_number: phone_number,
       thumbnail: avatar_url,
       blocked: blocked,
+      contact_type: contact_type,
       type: 'contact'
     }
     data[:company_id] = company_id if account.feature_enabled?('companies')
@@ -171,10 +174,8 @@ class Contact < ApplicationRecord
     }
   end
 
-  def self.resolved_contacts(use_crm_v2: false)
-    return where(contact_type: 'lead') if use_crm_v2
-
-    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
+  def self.resolved_contacts(contact_type: nil)
+    where(contact_type: contact_type || LISTED_CONTACT_TYPES)
   end
 
   def discard_invalid_attrs

@@ -5,11 +5,12 @@ import { usePolicy } from 'dashboard/composables/usePolicy';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 /**
- * Company enrichment (Context.dev) needs the installation-level API key and,
+ * Company and contact enrichment (Context.dev) need the installation-level API key and,
  * on Cloud, the Business or Enterprise plan.
- * @param {import('vue').Ref<Object>|Object} company
+ * @param {import('vue').Ref<boolean>|boolean} hasIdentity whether the record has
+ * enough details to look up (a company domain, or a contact's email, profile or name)
  */
-export function useCompanyEnrichment(company) {
+export function useEnrichment(hasIdentity) {
   const globalConfig = useMapGetter('globalConfig/get');
   const { isAdmin } = useAdmin();
   const { shouldShowPaywall } = usePolicy();
@@ -19,7 +20,7 @@ export function useCompanyEnrichment(company) {
     () =>
       isAdmin.value &&
       globalConfig.value.isCompanyEnrichmentEnabled &&
-      Boolean(unref(company)?.domain)
+      Boolean(unref(hasIdentity))
   );
 
   const requiresUpgrade = computed(() =>

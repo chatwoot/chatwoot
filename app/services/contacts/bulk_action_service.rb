@@ -7,6 +7,7 @@ class Contacts::BulkActionService
 
   def perform
     return delete_contacts if delete_requested?
+    return change_contact_type if @params[:action_name] == 'change_contact_type'
     return assign_labels if labels_to_add.any?
     return remove_labels if labels_to_remove.any?
 
@@ -30,6 +31,13 @@ class Contacts::BulkActionService
       contact_ids: ids,
       labels: labels_to_remove
     ).perform
+  end
+
+  def change_contact_type
+    contacts = @account.contacts.where(id: ids)
+    contacts.find_each { |contact| contact.update!(contact_type: @params[:contact_type]) }
+
+    { success: true, updated_contact_ids: contacts.pluck(:id) }
   end
 
   def delete_contacts

@@ -1,14 +1,29 @@
 class Api::V1::Accounts::Contacts::ConversationsController < Api::V1::Accounts::Contacts::BaseController
   RESULTS_PER_PAGE = 25
 
+  # The in-thread navigation only needs neighbours, not the list counts.
+  before_action :set_counts, unless: -> { params[:conversation_id].present? }
+
   # Scoped to a conversation, this returns it with the ones created around it: the in-thread
   # navigation walks the whole history and never needs more than that.
   def index
     @conversations = if params[:conversation_id].present?
                        conversation_with_neighbours(params[:conversation_id])
                      else
-                       permitted_conversations.order(last_activity_at: :desc, id: :desc).limit(RESULTS_PER_PAGE)
+                       permitted_conversations.order(last_activity_at: :desc, id: :desc).page(params[:page] || 1).per(RESULTS_PER_PAGE)
                      end
+  end
+
+  def filter
+    @conversations = Contacts::ConversationFilterService.new(
+      params.permit!, Current.user, Current.account, contact: @contact
+    ).perform[:conversations]
+    render :index
+  rescue CustomExceptions::CustomFilter::InvalidAttribute,
+         CustomExceptions::CustomFilter::InvalidOperator,
+         CustomExceptions::CustomFilter::InvalidQueryOperator,
+         CustomExceptions::CustomFilter::InvalidValue => e
+    render_could_not_create_error(e.message)
   end
 
   private
@@ -26,6 +41,11 @@ class Api::V1::Accounts::Contacts::ConversationsController < Api::V1::Accounts::
       Current.user,
       Current.account
     ).perform
+  end
+
+  def set_counts
+    @all_count = permitted_conversations.count
+    @open_count = permitted_conversations.open.count
   end
 
   def conversation_with_neighbours(display_id)

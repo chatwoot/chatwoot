@@ -73,12 +73,12 @@ export const actions = {
     }
   },
 
-  get: async ({ commit }, { page = 1, sortAttr, label } = {}) => {
+  get: async ({ commit }, { page = 1, sortAttr, label, contactType } = {}) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.get(page, sortAttr, label);
+      } = await ContactAPI.get(page, sortAttr, label, { contactType });
       commit(types.CLEAR_CONTACTS);
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
@@ -115,6 +115,17 @@ export const actions = {
       commit(types.SET_CONTACT_UI_FLAG, {
         isFetchingItem: false,
       });
+    }
+  },
+
+  enrich: async ({ commit }, id) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isEnriching: true });
+    try {
+      const response = await ContactAPI.enrich(id);
+      commit(types.EDIT_CONTACT, response.data.payload);
+    } finally {
+      // Errors are rethrown as-is so callers can tell a plan restriction (403) apart.
+      commit(types.SET_CONTACT_UI_FLAG, { isEnriching: false });
     }
   },
 

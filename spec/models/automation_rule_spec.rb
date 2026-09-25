@@ -67,6 +67,14 @@ RSpec.describe AutomationRule do
       expect(rule.errors.messages[:conditions]).to eq(['Automation conditions should have query operator.'])
     end
 
+    it 'rejects changing the contact to a visitor' do
+      params[:actions] = [{ action_name: 'change_contact_type', action_params: ['visitor'] }]
+      rule = FactoryBot.build(:automation_rule, params)
+
+      expect(rule.valid?).to be false
+      expect(rule.errors.messages[:actions]).to eq(['Automation can only change a contact to a lead or a customer.'])
+    end
+
     it 'allows labels as a valid condition attribute' do
       params[:conditions] = [
         {

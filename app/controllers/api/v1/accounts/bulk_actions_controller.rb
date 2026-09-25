@@ -5,6 +5,8 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
       enqueue_conversation_job
       head :ok
     when 'Contact'
+      return render_could_not_create_error(I18n.t('errors.contacts.contact_type.invalid')) unless valid_contact_type_change?
+
       check_authorization_for_contact_action
       enqueue_contact_job
       head :ok
@@ -39,6 +41,10 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
     params[:action_name] == 'delete'
   end
 
+  def valid_contact_type_change?
+    params[:action_name] != 'change_contact_type' || Contact::LISTED_CONTACT_TYPES.include?(params[:contact_type])
+  end
+
   def check_authorization_for_contact_action
     authorize(Contact, :destroy?) if delete_contact_action?
   end
@@ -62,7 +68,7 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
   def append_common_bulk_attributes(base_params)
     # NOTE: Conversation payloads historically diverged per action. Going forward we
     # want all objects to share a common contract: `{ action_name, action_attributes }`
-    common = params.permit(:type, :action_name, ids: [], labels: [add: [], remove: []])
+    common = params.permit(:type, :action_name, :contact_type, ids: [], labels: [add: [], remove: []])
     base_params.merge(common)
   end
 end

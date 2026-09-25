@@ -92,6 +92,7 @@ const ACTION_ICONS = {
   remove_assigned_agent: 'i-lucide-user-round-x',
   remove_assigned_team: 'i-lucide-users',
   add_label: 'i-lucide-tag',
+  change_contact_type: 'i-lucide-badge-check',
   remove_label: 'i-woot-tag-remove',
   send_email_to_team: 'i-lucide-send',
   send_email_transcript: 'i-lucide-mail',
@@ -152,6 +153,7 @@ export const getActionOptions = ({
   type,
   addNoneToListFn,
   priorityOptions,
+  contactTypeOptions,
 }) => {
   const actionsMap = {
     assign_agent: addNoneToListFn ? addNoneToListFn(agents) : agents,
@@ -162,6 +164,7 @@ export const getActionOptions = ({
     add_label: generateLabelOptions(labels),
     remove_label: generateLabelOptions(labels),
     change_priority: priorityOptions,
+    change_contact_type: contactTypeOptions,
     add_sla: slaPolicies,
   };
   return actionsMap[type];

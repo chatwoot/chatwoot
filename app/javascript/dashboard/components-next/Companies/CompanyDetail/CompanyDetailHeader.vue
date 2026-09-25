@@ -1,11 +1,11 @@
 <script setup>
-import { computed, ref, toRef, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAdmin } from 'dashboard/composables/useAdmin';
-import { useCompanyEnrichment } from 'dashboard/composables/useCompanyEnrichment';
+import { useEnrichment } from 'dashboard/composables/useEnrichment';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -37,8 +37,8 @@ const companiesStore = useCompaniesStore();
 const { isAdmin } = useAdmin();
 const router = useRouter();
 const { accountId } = useAccount();
-const { showRefreshButton, requiresUpgrade } = useCompanyEnrichment(
-  toRef(props, 'company')
+const { showRefreshButton, requiresUpgrade } = useEnrichment(
+  computed(() => Boolean(props.company.domain))
 );
 const upgradeDialogRef = ref(null);
 

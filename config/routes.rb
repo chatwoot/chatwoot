@@ -261,12 +261,17 @@ Rails.application.routes.draw do
               delete :avatar
             end
             scope module: :contacts do
-              resources :conversations, only: [:index]
+              resources :conversations, only: [:index] do
+                collection do
+                  post :filter
+                end
+              end
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
               get :attachments, to: 'attachments#index'
               post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
+              resource :enrichment, only: [:create] if ChatwootApp.enterprise?
             end
           end
           resources :data_imports, only: [:index, :show, :create] do
