@@ -12,7 +12,7 @@ import {
 } from 'dashboard/helper/automationHelper';
 import { getAttributeIcon } from 'dashboard/components-next/filter/helper/filterAttributeIcons';
 import { provideDropdownTeleport } from 'dashboard/components-next/dropdown-menu/base/provider';
-import { validateAutomation } from 'dashboard/helper/validations';
+import { isEmptyValue, validateAutomation } from 'dashboard/helper/validations';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 import {
@@ -270,7 +270,7 @@ const automationRuleEvents = computed(() =>
 
 const hasAutomationMutated = computed(() => {
   return Boolean(
-    automation.value?.conditions[0]?.values ||
+    !isEmptyValue(automation.value?.conditions[0]?.values) ||
       automation.value?.actions[0]?.action_params?.length
   );
 });

@@ -706,3 +706,34 @@ en:
         button: 'Resend confirmation email'
         sent: 'Confirmation email sent.'
         already_confirmed: 'User is already confirmed.'
+      email_suppression:
+        menu: 'Email'
+        check_button: 'Check email delivery'
+        clear_button: 'Unblock email'
+        clear_dialog:
+          title: 'Unblock %{email}?'
+          body: '%{brand_name} will send emails to this address again. If the next one bounces, it gets blocked again.'
+          cancel: 'Cancel'
+          confirm: 'Unblock'
+        complaint_hint: 'Blocked after a spam complaint. Escalate to engineering.'
+        check_first_hint: 'Check email delivery first.'
+        not_blocked_hint: 'Emails to this address are not blocked.'
+        test_email_blocked_hint:
+          bounce: 'Unblock the address first. Emails to blocked addresses are dropped.'
+          complaint: 'Blocked after a spam complaint. Emails to this address are dropped.'
+        test_email_button: 'Send test email'
+        pending:
+          check: 'Checking…'
+          clear: 'Unblocking…'
+          send: 'Sending…'
+        check:
+          not_suppressed: 'Emails to %{email} are not blocked.'
+          bounce: 'Emails to %{email} have been blocked since %{since} because the address bounced. Unblock it, then ask the user to try again.'
+          complaint: 'Emails to %{email} have been blocked since %{since} because of a spam complaint. Escalate to engineering.'
+          unavailable: "Couldn't check delivery for %{email}. Try again, or escalate to engineering."
+        clear:
+          success: 'Unblocked %{email}. Ask the user to try again, or send a test email to check delivery.'
+          failed: "Couldn't unblock %{email} (%{error}). Escalate to engineering."
+        test_email:
+          queued: 'Test email on its way to %{email}. Ask the user to check their inbox and spam folder.'
+          subject: 'Test email from %{brand_name} support'
