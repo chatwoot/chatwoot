@@ -209,7 +209,7 @@ describe('getDefaultConditions', () => {
       {
         attribute_key: 'message_type',
         filter_operator: 'equal_to',
-        values: '',
+        values: {},
         query_operator: 'and',
         custom_attribute_type: '',
       },

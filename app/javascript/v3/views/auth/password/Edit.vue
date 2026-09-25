@@ -76,13 +76,15 @@ export default {
       };
       setNewPassword(credentials)
         .then(user => {
-          window.location = this.redirectUrl
-            ? getLoginRedirectURL({
-                redirectUrl: this.redirectUrl,
-                ssoAccountId: this.ssoAccountId,
-                user,
-              })
-            : DEFAULT_REDIRECT_URL;
+          window.location =
+            user?.redirectUrl ||
+            (this.redirectUrl
+              ? getLoginRedirectURL({
+                  redirectUrl: this.redirectUrl,
+                  ssoAccountId: this.ssoAccountId,
+                  user,
+                })
+              : DEFAULT_REDIRECT_URL);
         })
         .catch(error => {
           this.showAlertMessage(

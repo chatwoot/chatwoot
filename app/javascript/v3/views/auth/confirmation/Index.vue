@@ -25,10 +25,12 @@ export default {
         const user = await verifyPasswordToken({
           confirmationToken: this.confirmationToken,
         });
-        window.location = getLoginRedirectURL({
-          user,
-          redirectUrl: this.redirectUrl,
-        });
+        window.location =
+          user?.redirectUrl ||
+          getLoginRedirectURL({
+            user,
+            redirectUrl: this.redirectUrl,
+          });
       } catch (error) {
         window.location = DEFAULT_REDIRECT_URL;
       }

@@ -12,7 +12,7 @@ RSpec.describe Captain::ConversationOutcomeTracker do
   end
 
   before do
-    account.enable_features!('captain_integration_v2')
+    account.enable_features!('captain_integration')
     create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
   end
 

@@ -111,6 +111,36 @@ describe('MfaVerification', () => {
     });
   });
 
+  it('hands a 206 setup challenge to the parent instead of treating it as auth', async () => {
+    const response = {
+      status: 206,
+      data: {
+        mfa_setup_required: true,
+        mfa_setup_token: 'setup-token',
+        provisioning_url: 'otpauth://totp/x',
+        secret: 'SECRET',
+      },
+      headers: {},
+    };
+    axios.post.mockResolvedValue(response);
+
+    const wrapper = shallowMount(MfaVerification, {
+      props: { mfaToken: 'mfa-token', verificationChannel: 'email' },
+      global: { mocks: { $t: key => key } },
+    });
+
+    const otpInputs = wrapper.findAll('input[inputmode="numeric"]');
+    for (let i = 0; i < 6; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await otpInputs[i].setValue(String(i + 1));
+    }
+    await flushPromises();
+
+    expect(setAuthCredentials).not.toHaveBeenCalled();
+    expect(wrapper.emitted('verified')).toBeUndefined();
+    expect(wrapper.emitted('setupRequired')).toEqual([[response.data]]);
+  });
+
   it('does not show the trust-device box on the classic MFA channel', () => {
     const wrapper = shallowMount(MfaVerification, {
       props: { mfaToken: 'mfa-token' },
