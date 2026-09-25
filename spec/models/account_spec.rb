@@ -59,6 +59,33 @@ RSpec.describe Account do
     end
   end
 
+  describe '#enforce_mfa?' do
+    let(:account) { create(:account) }
+
+    before do
+      skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+    end
+
+    it 'returns false by default' do
+      expect(account.enforce_mfa?).to be false
+    end
+
+    it 'returns true when setting enabled' do
+      account.update!(enforce_mfa: true)
+      expect(account.reload.enforce_mfa?).to be true
+    end
+
+    it 'rejects non-boolean values via settings schema' do
+      expect { account.update!(enforce_mfa: 'true') }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'returns false when MFA feature is unavailable' do
+      account.update!(enforce_mfa: true)
+      allow(Chatwoot).to receive(:mfa_enabled?).and_return(false)
+      expect(account.enforce_mfa?).to be false
+    end
+  end
+
   describe 'captain defaults for new accounts' do
     it 'does not store Captain model overrides or enable premium Captain features' do
       InstallationConfig.find_or_initialize_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').update!(
@@ -69,7 +96,6 @@ RSpec.describe Account do
       account = create(:account)
 
       expect(account).not_to be_feature_enabled('captain_integration')
-      expect(account).not_to be_feature_enabled('captain_integration_v2')
       expect(account.captain_models).to be_nil
     end
   end
@@ -153,7 +179,8 @@ RSpec.describe Account do
         feature_whatsapp_embedded_signup_inbox_creation: 1 << 4,
         feature_delayed_automations: 1 << 5,
         feature_audit_log_ip_address: 1 << 6,
-        feature_captain_classifier: 1 << 7
+        feature_captain_classifier: 1 << 7,
+        feature_conversation_monitors: 1 << 8
       )
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)
@@ -445,7 +472,7 @@ RSpec.describe Account do
       end
 
       it 'returns GPT-5.2 for assistant when Captain V2 is enabled' do
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
 
         expect(account.captain_preferences[:models]['assistant']).to eq('gpt-5.2')
         expect(account.reload.captain_models).to be_nil

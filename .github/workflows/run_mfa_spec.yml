@@ -67,9 +67,20 @@ jobs:
         run: |
           bundle exec rspec \
             spec/services/mfa/token_service_spec.rb \
+            spec/services/mfa/setup_token_service_spec.rb \
             spec/services/mfa/authentication_service_spec.rb \
             spec/requests/api/v1/profile/mfa_controller_spec.rb \
+            spec/controllers/api/v1/profiles_controller_spec.rb \
+            spec/controllers/api/v1/notification_subscriptions_controller_spec.rb \
+            spec/requests/api/v1/profile/sessions_controller_spec.rb \
             spec/controllers/devise_overrides/sessions_controller_spec.rb \
+            spec/requests/devise_overrides/passwords_controller_spec.rb \
+            spec/requests/devise_overrides/confirmations_controller_spec.rb \
+            spec/controllers/api/v1/accounts_controller_spec.rb \
+            spec/controllers/api/v2/accounts_controller_spec.rb \
+            spec/requests/api/v1/accounts/base_controller_spec.rb \
+            spec/enterprise/controllers/enterprise/api/v1/accounts_controller_spec.rb \
+            spec/enterprise/controllers/enterprise/devise_overrides/device_verification_spec.rb \
             spec/models/application_record_external_credentials_encryption_spec.rb \
             --profile=10 \
             --format documentation
@@ -85,6 +96,13 @@ jobs:
             -e "MFA" \
             -e "otp" \
             -e "backup code" \
+            --profile=10 \
+            --format documentation
+
+      - name: Run MFA-related tests in account_spec
+        run: |
+          bundle exec rspec spec/models/account_spec.rb \
+            -e "enforce_mfa" \
             --profile=10 \
             --format documentation
         env:
