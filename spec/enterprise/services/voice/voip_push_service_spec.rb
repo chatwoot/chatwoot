@@ -99,6 +99,36 @@ RSpec.describe Voice::VoipPushService do
       expect { described_class.new(call: call).perform('ring') }.to change(NotificationSubscription, :count).by(-2)
     end
 
+    it 'does not ring for a call that stopped ringing before the job ran' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      call.update!(status: 'failed')
+
+      described_class.new(call: call).perform('ring')
+
+      expect(apple_connection).not_to have_received(:push)
+      expect(call.reload.meta['rung_devices']).to be_nil
+    end
+
+    it 'keeps meta written by a webhook while the ring was being sent' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      Call.where(id: call.id).update_all(['meta = meta || ?::jsonb', { 'twilio_conference_sid' => 'CF999' }.to_json]) # rubocop:disable Rails/SkipsModelValidations
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.meta).to include('twilio_conference_sid' => 'CF999', 'rung_devices' => { 'apns_voip' => ['apple-1'], 'fcm' => [] })
+    end
+
+    it 'sends to Android phones a batch at a time' do
+      stub_const('Voice::VoipPushService::ANDROID_BATCH_SIZE', 2)
+      5.times { |i| subscribe(agent, 'fcm', "android-#{i}", platform: 'Android') }
+      allow(Thread).to receive(:new).and_call_original
+
+      described_class.new(call: call).perform('ring')
+
+      expect(fcm_client).to have_received(:send_v1).exactly(5).times
+      expect(Thread).to have_received(:new).exactly(7).times
+    end
+
     it 'does nothing without any registered phone' do
       described_class.new(call: call).perform('ring')
 
