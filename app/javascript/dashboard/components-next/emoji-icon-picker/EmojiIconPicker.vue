@@ -199,6 +199,7 @@ const selectEmoji = emoji => {
           :placeholder="t('EMOJI_ICON_PICKER.SEARCH_ICON')"
           custom-input-class="!ps-9 !bg-transparent"
           autofocus
+          @keydown.enter.prevent
         >
           <template #prefix>
             <span
@@ -270,6 +271,7 @@ const selectEmoji = emoji => {
           :placeholder="t('EMOJI_ICON_PICKER.SEARCH_EMOJI')"
           custom-input-class="!ps-9 !bg-transparent"
           autofocus
+          @keydown.enter.prevent
         >
           <template #prefix>
             <span
