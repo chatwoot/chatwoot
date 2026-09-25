@@ -12,9 +12,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   def self.embed_regexes
-    @embed_regexes ||= embeds_config.each_with_object({}) do |(key, embed_config), acc|
-      acc[key] = Regexp.new(embed_config.fetch('regex'))
-    end
+    @embed_regexes ||= embeds_config.transform_values { |embed_config| Regexp.new(embed_config.fetch('regex')) }
   end
 
   def self.trusted_iframe_hosts
