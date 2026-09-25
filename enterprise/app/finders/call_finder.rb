@@ -32,12 +32,13 @@ class CallFinder
   end
 
   # An unanswered inbound call is visible to the agents it can ring: the assignee if the
-  # conversation has one, otherwise the inbox's members. A phone that lost its socket
-  # asks for these on launch and on return to the foreground.
+  # conversation has one, otherwise the inbox's members, within the conversations the
+  # agent's role lets them see. A phone that lost its socket asks for these on launch
+  # and on return to the foreground.
   def ringing_for_current_user
     @calls.where(status: 'ringing', accepted_by_agent_id: nil, direction: :incoming)
           .where(inbox_id: @current_user.inboxes.where(account_id: @current_account.id).select(:id))
-          .where(conversation_id: @current_account.conversations.where(assignee_id: [nil, @current_user.id]).select(:id))
+          .where(conversation_id: permitted_conversations.where(assignee_id: [nil, @current_user.id]).select(:id))
   end
 
   def ringing_requested?
@@ -45,7 +46,13 @@ class CallFinder
   end
 
   def accessible_conversations
-    Conversations::PermissionFilterService.new(@current_account.conversations, @current_user, @current_account).perform.select(:id)
+    permitted_conversations.select(:id)
+  end
+
+  def permitted_conversations
+    @permitted_conversations ||= Conversations::PermissionFilterService.new(
+      @current_account.conversations, @current_user, @current_account
+    ).perform
   end
 
   def account_wide_access?
