@@ -93,6 +93,8 @@ RSpec.describe Contact do
       expect(build(:contact, account: account, phone_number: nil)).to be_valid
     end
 
+    # update_column bypasses the phone_number format validation so whitespace-only values can reach the DB index.
+    # rubocop:disable Rails/SkipsModelValidations
     it 'does not raise RecordNotUnique for duplicate whitespace-only phone numbers, matching model blank semantics' do
       account = create(:account)
       create(:contact, account: account, phone_number: nil).update_column(:phone_number, ' ')
@@ -108,6 +110,7 @@ RSpec.describe Contact do
 
       expect { duplicate.update_column(:phone_number, "\t\n") }.not_to raise_error
     end
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   context 'when email format' do
