@@ -18,6 +18,7 @@ class Voice::StatusUpdateService
   # Twilio's statuses in the order it fires them; callbacks can arrive out of order. Every
   # status that ends the call outranks the live ones, so none of them can follow it.
   PROVIDER_STATUS_ORDER = %w[queued initiated ringing in-progress].freeze
+  ACTIVE_PROVIDER_STATUSES = %w[in-progress inprogress answered].freeze
   TERMINAL_PROVIDER_STATUSES = %w[completed busy no-answer failed canceled].freeze
 
   def perform
@@ -66,6 +67,7 @@ class Voice::StatusUpdateService
 
   def provider_status_rank(status)
     return PROVIDER_STATUS_ORDER.size if TERMINAL_PROVIDER_STATUSES.include?(status)
+    return PROVIDER_STATUS_ORDER.index('in-progress') if ACTIVE_PROVIDER_STATUSES.include?(status)
 
     PROVIDER_STATUS_ORDER.index(status)
   end

@@ -89,6 +89,13 @@ RSpec.describe Voice::StatusUpdateService do
     expect(call.reload.provider_status).to eq('ringing')
   end
 
+  it 'ranks the in-progress aliases with in-progress' do
+    described_class.new(account: account, call_sid: call_sid, call_status: 'answered').perform
+    described_class.new(account: account, call_sid: call_sid, call_status: 'ringing').perform
+
+    expect(call.reload.provider_status).to eq('answered')
+  end
+
   it 'does not let a delayed live callback follow a terminal one' do
     described_class.new(account: account, call_sid: call_sid, call_status: 'completed').perform
     Call.where(id: call.id).update_all(status: 'in_progress') # rubocop:disable Rails/SkipsModelValidations
