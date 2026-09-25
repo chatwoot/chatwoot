@@ -191,6 +191,17 @@ RSpec.describe Captain::BaseTaskService do
       service.send(:make_api_call, feature: 'help_center_article_generation', messages: messages)
     end
 
+    it 'sends a model Chatwoot does not list to the OpenAI-compatible endpoint as-is' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://api.groq.com/openai/v1')
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'llama-3.3-70b-versatile')
+
+      expect(mock_context).to receive(:chat)
+        .with(model: 'llama-3.3-70b-versatile', provider: :openai, assume_model_exists: true)
+        .and_return(mock_chat)
+
+      service.send(:make_api_call, feature: 'editor', messages: messages)
+    end
+
     it 'prefers account overrides over supplied feature fallback models' do
       account.update!(captain_models: { 'help_center_article_generation' => 'gpt-4.1' })
 
