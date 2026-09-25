@@ -1,9 +1,10 @@
-class ConversationMonitors::JevClient
+class ConversationMonitors::DecisionService
   # Translate the legacy model ID on existing monitors to OpenRouter's Jev 1.13 ID.
   MODEL_ALIASES = { 'jev-1.13.0' => 'typesafe/jev-1.13' }.freeze
 
-  def initialize(account_id:)
+  def initialize(account_id:, conversation_id: nil)
     @account_id = account_id
+    @conversation_id = conversation_id
   end
 
   def evaluate(state:, monitors:)
@@ -15,13 +16,16 @@ class ConversationMonitors::JevClient
     usage = ConversationMonitors::Usage.new(@account_id)
     usage.reserve!(body.bytesize)
     started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-    response = connection.post(ConversationMonitors::Configuration.endpoint, body)
-    # Rejected requests do not reach the model, but still consume a monthly call credit.
-    reconcile_usage(usage, body.bytesize, 0) if response.status.between?(400, 499)
-    data = parse_response(response)
+    data = request_decision(body)
     reconcile_usage(usage, body.bytesize, data.fetch('usage').fetch('input_tokens'))
     instrument(data, started, monitors.size)
     data
+  rescue Captain::JevClient::HTTPError => e
+    # Rejected requests do not reach the model, but still consume a monthly call credit.
+    reconcile_usage(usage, body.bytesize, 0) if e.status.between?(400, 499)
+    raise monitor_error(e)
+  rescue JSON::ParserError
+    raise CustomExceptions::MonitorEvaluationError, 'invalid_response'
   rescue Faraday::Error
     raise CustomExceptions::MonitorEvaluationError, 'provider_unavailable'
   end
@@ -48,16 +52,12 @@ class ConversationMonitors::JevClient
 
   def request_body(state, monitors)
     model = self.class.resolve_model(monitors.first.model)
-    { model: model, state: state, questions: questions(monitors) }.to_json
+    Captain::JevClient.request_body(model: model, state: state, questions: questions(monitors))
   end
 
-  def connection
-    Faraday.new do |client|
-      client.options.open_timeout = 3
-      client.options.timeout = 15
-      client.headers['Authorization'] = "Bearer #{ConversationMonitors::Configuration.api_key}"
-      client.headers['Content-Type'] = 'application/json'
-    end
+  def request_decision(body)
+    Captain::JevClient.new(account_id: @account_id, conversation_id: @conversation_id, feature: 'conversation_monitors')
+                      .call(body: body) { |response| validate_response!(response) }
   end
 
   def questions(monitors)
@@ -73,33 +73,24 @@ class ConversationMonitors::JevClient
     end
   end
 
-  def parse_response(response)
-    check_status!(response)
-    data = JSON.parse(response.body)
+  def validate_response!(data)
     valid = data.is_a?(Hash) && data['answers'].is_a?(Hash) && data['model'].is_a?(String) && valid_usage?(data['usage'])
     raise CustomExceptions::MonitorEvaluationError, 'invalid_response' unless valid
-
-    data
-  rescue JSON::ParserError
-    raise CustomExceptions::MonitorEvaluationError, 'invalid_response'
   end
 
   def valid_usage?(usage)
     usage.is_a?(Hash) && usage['input_tokens'].is_a?(Integer) && usage['input_tokens'] >= 0
   end
 
-  def check_status!(response)
-    return if response.success?
-
-    code = case response.status
+  def monitor_error(error)
+    code = case error.status
            when 401, 403 then 'credentials_invalid'
            when 400, 404, 422 then 'invalid_request'
            when 402 then 'provider_credits_exhausted'
            when 429, 529 then 'provider_busy'
            else 'provider_unavailable'
            end
-    retry_after = response.headers['retry-after']&.to_i
-    raise CustomExceptions::MonitorEvaluationError.new(code, retry_after: retry_after)
+    CustomExceptions::MonitorEvaluationError.new(code, retry_after: error.retry_after)
   end
 
   def instrument(data, started, count)
