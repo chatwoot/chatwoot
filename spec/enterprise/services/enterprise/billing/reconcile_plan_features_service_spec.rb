@@ -13,6 +13,35 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
   end
 
   describe '#perform' do
+    context 'with conversation monitors' do
+      it 'grants the feature on Business and Enterprise and removes it on downgrade' do
+        account.update!(custom_attributes: { 'plan_name' => 'Startups' })
+        described_class.new(account: account).perform
+        expect(account.reload).not_to be_feature_enabled('conversation_monitors')
+
+        account.update!(custom_attributes: { 'plan_name' => 'Business' })
+        described_class.new(account: account).perform
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+
+        account.update!(custom_attributes: { 'plan_name' => 'Enterprise' })
+        described_class.new(account: account).perform
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+
+        account.update!(custom_attributes: { 'plan_name' => 'Hacker' })
+        described_class.new(account: account).perform
+        expect(account.reload).not_to be_feature_enabled('conversation_monitors')
+      end
+
+      it 'keeps a manually managed grant after a downgrade' do
+        account.update!(custom_attributes: { 'plan_name' => 'Hacker' })
+        Internal::Accounts::InternalAttributesService.new(account).manually_managed_features = ['conversation_monitors']
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+      end
+    end
+
     context 'with api_and_webhooks feature' do
       it 'enables the feature for a paid plan with an active subscription' do
         account.update!(custom_attributes: { 'plan_name' => 'Startups', 'subscription_status' => 'active' })
@@ -159,6 +188,25 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
 
         expect(account.reload).to be_feature_enabled('saml')
         expect(account.internal_attributes['shopify_managed_features']).to contain_exactly('audit_logs')
+      end
+
+      it 'leaves a pre-existing monitor grant alone when the Shopify catalog does not manage it' do
+        account.enable_features!('conversation_monitors')
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+      end
+
+      it 'uses the Shopify plan catalog to grant and revoke monitors' do
+        shopify_config.update!(value: [shopify_plans.first.merge('features' => %w[audit_logs conversation_monitors]), shopify_plans.second])
+        described_class.new(account: account).perform
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+
+        shopify_config.update!(value: shopify_plans)
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('conversation_monitors')
       end
 
       it 'rejects an unknown Shopify plan instead of guessing entitlements' do
