@@ -8,7 +8,7 @@ RSpec.describe Voice::RingingTimeoutService do
   let(:inbox) { channel.inbox }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:call) { create(:call, conversation: conversation, provider: :whatsapp, status: 'ringing') }
-  let(:conference) { instance_double(Voice::Provider::Twilio::ConferenceService, end_conference: nil) }
+  let(:conference) { instance_double(Voice::Provider::Twilio::ConferenceService, hang_up_caller: nil) }
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
@@ -74,18 +74,18 @@ RSpec.describe Voice::RingingTimeoutService do
       )
     end
 
-    it 'hangs up a Twilio caller still waiting in the conference' do
+    it 'hangs up a Twilio caller still waiting for the conference to start' do
       call.update!(provider: :twilio)
 
       described_class.new(call: call).perform
 
-      expect(conference).to have_received(:end_conference)
+      expect(conference).to have_received(:hang_up_caller)
       expect(call.reload.status).to eq('no_answer')
     end
 
     it 'leaves the call ringing for the next sweep when Twilio cannot be reached' do
       call.update!(provider: :twilio)
-      allow(conference).to receive(:end_conference).and_raise(Twilio::REST::TwilioError)
+      allow(conference).to receive(:hang_up_caller).and_raise(Twilio::REST::TwilioError)
 
       expect { described_class.new(call: call).perform }.not_to raise_error
 

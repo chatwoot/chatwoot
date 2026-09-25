@@ -3,7 +3,6 @@ class Messages::NewMessageNotificationService
 
   def perform
     return unless message.notifiable?
-    return if replaced_by_missed_call_notification?
 
     notify_conversation_assignee
     notify_participating_users
@@ -12,12 +11,6 @@ class Messages::NewMessageNotificationService
   private
 
   delegate :conversation, :sender, :account, to: :message
-
-  # Where phones are rung for a call, the ring itself and the missed-call notification
-  # stand in for the new-message notification
-  def replaced_by_missed_call_notification?
-    message.voice_call? && account.feature_enabled?('mobile_voice_push')
-  end
 
   def notify_conversation_assignee
     return if conversation.assignee.blank?
@@ -56,3 +49,5 @@ class Messages::NewMessageNotificationService
     conversation.notifications.exists?(user: user, secondary_actor: message)
   end
 end
+
+Messages::NewMessageNotificationService.prepend_mod_with('Messages::NewMessageNotificationService')

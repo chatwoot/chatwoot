@@ -13,25 +13,6 @@ describe Messages::NewMessageNotificationService do
       expect(NotificationBuilder).not_to receive(:new)
       described_class.new(message: message).perform
     end
-
-    it 'will not create any notifications for call messages on accounts that ring phones and record missed calls' do
-      account = create(:account)
-      account.enable_features!('mobile_voice_push')
-      message = build(:message, message_type: :incoming, content_type: :voice_call, account: account)
-      expect(NotificationBuilder).not_to receive(:new)
-      described_class.new(message: message).perform
-    end
-
-    it 'keeps notifying for call messages on accounts without mobile voice push' do
-      account = create(:account)
-      assignee = create(:user, account: account)
-      conversation = create(:conversation, account: account, assignee: assignee)
-      message = create(:message, message_type: :incoming, content_type: :voice_call, account: account, conversation: conversation)
-      expect(NotificationBuilder).to receive(:new)
-        .with(hash_including(notification_type: 'assigned_conversation_new_message', user: assignee))
-        .and_call_original
-      described_class.new(message: message).perform
-    end
   end
 
   context 'when message is notifiable' do
