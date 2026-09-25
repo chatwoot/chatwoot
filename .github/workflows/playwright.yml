@@ -1,0 +1,184 @@
+name: Deploy Chatwoot with Docker and Run Playwright Tests
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+env:
+  DOCKER_COMPOSE_FILE: Playwright/playwright-docker-compose.yaml
+
+jobs:
+  deploy-and-test:
+    name: Chatwoot Test Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Create .env file from template
+        working-directory: ./Playwright
+        run: |
+          cat > .env << 'EOF'
+          SECRET_KEY_BASE=986a154f0e131d12edf74a356fad79781a849a4c78dd2080c3dedc534c2695f3ca1fcb8229c4c71f775b65d30b70fcaafb7e58164a15bf856ca83da368de41f3
+          FRONTEND_URL=http://localhost
+          ASSET_CDN_HOST=
+          FORCE_SSL=false
+          ENABLE_ACCOUNT_SIGNUP=false
+          REDIS_URL=redis://redis:6379
+          REDIS_PASSWORD=
+          REDIS_SENTINELS=
+          REDIS_SENTINEL_MASTER_NAME=
+          POSTGRES_DATABASE=chatwoot
+          POSTGRES_HOST=postgres
+          POSTGRES_USERNAME=postgres
+          POSTGRES_PASSWORD=postgres
+          RAILS_ENV=development
+          RAILS_MAX_THREADS=5
+          MAILER_SENDER_EMAIL=Chatwoot <accounts@chatwoot.com>
+          SMTP_DOMAIN=chatwoot.com
+          SMTP_AUTHENTICATION=
+          SMTP_ENABLE_STARTTLS_AUTO=true
+          SMTP_OPENSSL_VERIFY_MODE=peer
+          EOF
+
+      - name: Pull Docker images
+        run: docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} pull
+
+      - name: Start Docker services
+        run: docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} up -d
+
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          echo "Waiting for PostgreSQL to be ready..."
+          for i in {1..30}; do
+            if docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} exec -T postgres pg_isready -U postgres; then
+              echo "PostgreSQL is ready!"
+              break
+            fi
+            echo "Waiting for PostgreSQL... ($i/30)"
+            sleep 2
+          done
+
+      - name: Wait for Redis to be ready
+        run: |
+          echo "Waiting for Redis to be ready..."
+          for i in {1..30}; do
+            if docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} exec -T redis redis-cli ping | grep -q PONG; then
+              echo "Redis is ready!"
+              break
+            fi
+            echo "Waiting for Redis... ($i/30)"
+            sleep 2
+          done
+
+      - name: Run database migrations
+        run: |
+          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} exec -T rails bundle exec rails db:create db:migrate
+        continue-on-error: true
+
+      - name: Wait for Rails server to be ready
+        run: |
+          echo "Waiting for Rails server to be ready..."
+          for i in {1..60}; do
+            if curl -f http://localhost:3000/api || curl -f http://127.0.0.1:3000/api; then
+              echo "Rails server is ready!"
+              break
+            fi
+            echo "Waiting for Rails server... ($i/60)"
+            sleep 3
+          done
+
+      - name: Verify services health
+        run: |
+          echo "Checking service health..."
+          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} ps
+
+          # Check Rails API endpoint
+          response=$(curl -s http://localhost:3000/api || echo "failed")
+          echo "API Response: $response"
+
+      - name: Set up Node.js for Playwright
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Install Playwright dependencies
+        working-directory: ./Playwright
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: ./Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Create Playwright config file
+        working-directory: ./Playwright
+        run: echo '${{ secrets.PLAYWRIGHT_CONFIG }}' > playwright.config.json
+
+      - name: Create test user in database
+        run: |
+          TEST_EMAIL=$(jq -r '.email' Playwright/playwright.config.json)
+          TEST_PASS=$(jq -r '.password' Playwright/playwright.config.json)
+
+          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} exec -T rails bundle exec rails runner "
+            account = Account.find_or_create_by!(name: 'Test Account')
+
+            user = User.find_or_initialize_by(email: '${TEST_EMAIL}')
+            user.password = '${TEST_PASS}'
+            user.password_confirmation = '${TEST_PASS}'
+            user.name = 'Test User'
+            user.confirmed_at = Time.now
+            user.save!
+
+            AccountUser.find_or_create_by!(account: account, user: user) do |au|
+              au.role = :administrator
+            end
+
+            puts 'Test user created successfully'
+          "
+        continue-on-error: true
+
+      - name: Run Playwright tests
+        working-directory: ./Playwright
+        run: npx playwright test
+        env:
+          CI: true
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: Playwright/playwright-report/
+          retention-days: 30
+
+      - name: Upload Playwright test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-results
+          path: Playwright/test-results/
+          retention-days: 30
+
+      - name: Display Docker logs on failure
+        if: failure()
+        run: |
+          echo "=== Rails Logs ==="
+          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs rails
+          echo "=== Sidekiq Logs ==="
+          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs sidekiq
+          echo "=== PostgreSQL Logs ==="
+          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs postgres
+          echo "=== Redis Logs ==="
+          docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs redis
+
+      - name: Tear down Docker services
+        if: always()
+        run: docker-compose -f ${{ env.DOCKER_COMPOSE_FILE }} down -v
