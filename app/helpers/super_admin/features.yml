@@ -71,6 +71,11 @@ sms:
   description: 'Manage your SMS customer interactions from Chatwoot.'
   enabled: true
   icon: 'icon-message-line'
+app_store:
+  name: 'App Store Reviews'
+  description: 'Manage your App Store app reviews from Chatwoot.'
+  enabled: true
+  icon: 'icon-apps-2-line'
 messenger:
   name: 'Messenger'
   description: 'Stay connected with your customers on Facebook & Instagram.'

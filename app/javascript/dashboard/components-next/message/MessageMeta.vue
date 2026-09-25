@@ -23,6 +23,7 @@ const {
   isAWhatsAppChannel,
   isAnEmailChannel,
   isAnInstagramChannel,
+  isAnAppStoreChannel,
   isATiktokChannel,
 } = useInbox();
 
@@ -67,7 +68,8 @@ const isSent = computed(() => {
     isASmsInbox.value ||
     isATelegramChannel.value ||
     isAnInstagramChannel.value ||
-    isATiktokChannel.value
+    isATiktokChannel.value ||
+    isAnAppStoreChannel.value
   ) {
     return sourceId.value && status.value === MESSAGE_STATUS.SENT;
   }
@@ -90,7 +92,8 @@ const isDelivered = computed(() => {
     isASmsInbox.value ||
     isAFacebookInbox.value ||
     isAnInstagramChannel.value ||
-    isATiktokChannel.value
+    isATiktokChannel.value ||
+    isAnAppStoreChannel.value
   ) {
     return sourceId.value && status.value === MESSAGE_STATUS.DELIVERED;
   }
@@ -115,7 +118,8 @@ const isRead = computed(() => {
     isATwilioChannel.value ||
     isAFacebookInbox.value ||
     isAnInstagramChannel.value ||
-    isATiktokChannel.value
+    isATiktokChannel.value ||
+    isAnAppStoreChannel.value
   ) {
     return sourceId.value && status.value === MESSAGE_STATUS.READ;
   }

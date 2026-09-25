@@ -284,3 +284,7 @@
   display_name: Captain Classifier
   enabled: false
   column: feature_flags_ext_1
+- name: channel_app_store
+  display_name: App Store Reviews Channel
+  enabled: true
+  column: feature_flags_ext_1
