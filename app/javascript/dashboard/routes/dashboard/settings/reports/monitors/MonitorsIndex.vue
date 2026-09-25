@@ -14,7 +14,9 @@ import ReportHeader from '../components/ReportHeader.vue';
 import MonitorForm from './MonitorForm.vue';
 import MonitorsEmptyState from './MonitorsEmptyState.vue';
 import MonitorListItem from './MonitorListItem.vue';
+import MonitorTemplateCard from './MonitorTemplateCard.vue';
 import MonitorUsageWarning from './MonitorUsageWarning.vue';
+import { MONITOR_TEMPLATES } from './monitorTemplates';
 import { useMonitorRefresh } from './useMonitorRefresh';
 
 const PAGE_SIZE = 20;
@@ -34,9 +36,26 @@ const page = computed({
 const meta = ref({ total_count: 0, configured: true });
 const loaded = ref(false);
 const hasError = ref(false);
+const mainContent = ref(null);
 const form = ref(null);
 const actionDialog = ref(null);
 const notice = ref('');
+const activeSection = ref('monitors');
+// The translation paths are built only from the fixed template catalog.
+/* eslint-disable @intlify/vue-i18n/no-dynamic-keys */
+const templates = computed(() =>
+  MONITOR_TEMPLATES.map(({ key, ...template }) => ({
+    ...template,
+    name: t(`MONITORS.TEMPLATES.${key}.NAME`),
+    audience: t(`MONITORS.TEMPLATES.${key}.AUDIENCE`),
+    summary: t(`MONITORS.TEMPLATES.${key}.SUMMARY`),
+    condition: t(`MONITORS.TEMPLATES.${key}.CONDITION`),
+  }))
+);
+/* eslint-enable @intlify/vue-i18n/no-dynamic-keys */
+const refundTemplate = computed(() =>
+  templates.value.find(({ id }) => id === 'refund-requests')
+);
 // Background refreshes keep the page; only a page change shows the loader.
 const isChangingPage = computed(
   () => isPending.value && loaded.value && meta.value.page !== page.value
@@ -62,6 +81,7 @@ watch(accountId, () => {
   monitors.value = [];
   loaded.value = false;
   notice.value = '';
+  activeSection.value = 'monitors';
   page.value = 1;
   meta.value = { total_count: 0, configured: true };
 });
@@ -72,6 +92,20 @@ const openForm = async prefill => {
   // Duplicate links open the form during setup, before it has mounted.
   await nextTick();
   form.value?.open(prefill);
+};
+const selectSection = section => {
+  activeSection.value = section;
+  mainContent.value?.scrollTo({ top: 0 });
+};
+const openTemplate = template => {
+  if (!isAdmin.value) return;
+  openForm({
+    name: template.name,
+    condition: template.condition,
+    icon: template.icon,
+    icon_color: template.icon_color,
+    templateName: template.name,
+  });
 };
 const onActionSaved = action => {
   notice.value = '';
@@ -90,12 +124,26 @@ const onCreated = monitor =>
     accountScopedRoute('monitor_reports_show', { monitorId: monitor.id })
   );
 watch(
-  () => route.query.condition,
-  value => {
-    if (typeof value !== 'string' || !isAdmin.value) return;
-    openForm({ condition: value });
+  () => [route.query.template, route.query.condition, isAdmin.value],
+  ([templateId, condition]) => {
+    if (typeof templateId === 'string') {
+      activeSection.value = 'templates';
+      if (!isAdmin.value) return;
+      const selectedTemplate = templates.value.find(
+        ({ id }) => id === templateId
+      );
+      if (selectedTemplate) openTemplate(selectedTemplate);
+      const query = { ...route.query };
+      delete query.template;
+      delete query.condition;
+      router.replace({ query });
+      return;
+    }
+    if (typeof condition !== 'string' || !isAdmin.value) return;
+    openForm({ condition });
     // The condition is a one-time prefill; drop it so a refresh or back navigation doesn't reopen the form.
-    const { condition, ...query } = route.query;
+    const query = { ...route.query };
+    delete query.condition;
     router.replace({ query });
   },
   { immediate: true }
@@ -104,7 +152,7 @@ watch(
 
 <template>
   <section class="flex h-full w-full flex-col overflow-hidden bg-n-surface-1">
-    <main class="flex-1 overflow-y-auto px-6">
+    <main ref="mainContent" class="flex-1 overflow-y-auto px-6">
       <div class="mx-auto w-full max-w-5xl pb-6">
         <ReportHeader
           :header-title="t('MONITORS.TITLE')"
@@ -129,7 +177,67 @@ watch(
         >
           {{ t('MONITORS.ERRORS.NOT_CONFIGURED') }}
         </p>
-        <div v-if="isPending && !loaded" class="flex justify-center py-20">
+        <div
+          role="group"
+          :aria-label="t('MONITORS.SECTIONS.LABEL')"
+          class="mt-6 flex gap-6 border-b border-n-weak"
+        >
+          <button
+            type="button"
+            :aria-pressed="activeSection === 'monitors'"
+            class="min-h-11 border-b-2 px-1 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand"
+            :class="
+              activeSection === 'monitors'
+                ? 'border-n-brand text-n-brand'
+                : 'border-transparent text-n-slate-11 hover:text-n-slate-12'
+            "
+            @click="selectSection('monitors')"
+          >
+            {{
+              loaded && !hasError
+                ? t('MONITORS.SECTIONS.YOUR_MONITORS_COUNT', {
+                    count: meta.total_count,
+                  })
+                : t('MONITORS.SECTIONS.YOUR_MONITORS')
+            }}
+          </button>
+          <button
+            type="button"
+            :aria-pressed="activeSection === 'templates'"
+            class="min-h-11 border-b-2 px-1 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand"
+            :class="
+              activeSection === 'templates'
+                ? 'border-n-brand text-n-brand'
+                : 'border-transparent text-n-slate-11 hover:text-n-slate-12'
+            "
+            @click="selectSection('templates')"
+          >
+            {{ t('MONITORS.SECTIONS.TEMPLATES') }}
+          </button>
+        </div>
+        <section v-if="activeSection === 'templates'" class="py-6">
+          <div class="mb-5 flex flex-col gap-1">
+            <h2 class="m-0 text-heading-2 text-n-slate-12">
+              {{ t('MONITORS.TEMPLATES.TITLE') }}
+            </h2>
+            <p class="m-0 text-body-main text-n-slate-11">
+              {{ t('MONITORS.TEMPLATES.DESCRIPTION') }}
+            </p>
+          </div>
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <MonitorTemplateCard
+              v-for="template in templates"
+              :key="template.id"
+              :template="template"
+              :can-create="isAdmin"
+              @use="openTemplate"
+            />
+          </div>
+          <p v-if="!isAdmin" class="mt-4 text-sm text-n-slate-11">
+            {{ t('MONITORS.TEMPLATES.ADMIN_HELP') }}
+          </p>
+        </section>
+        <div v-else-if="isPending && !loaded" class="flex justify-center py-20">
           <Spinner />
         </div>
         <div
@@ -140,7 +248,12 @@ watch(
           <p class="text-n-ruby-11">{{ t('MONITORS.LIST.FETCH_FAILED') }}</p>
           <Button :label="t('MONITORS.RETRY')" @click="fetchMonitors" />
         </div>
-        <MonitorsEmptyState v-else-if="!meta.total_count" @create="openForm" />
+        <MonitorsEmptyState
+          v-else-if="!meta.total_count"
+          :template="refundTemplate"
+          @create="openTemplate"
+          @browse="selectSection('templates')"
+        />
         <div
           v-else
           class="flex flex-col divide-y divide-n-weak border-t border-n-weak"
@@ -157,7 +270,11 @@ watch(
       </div>
     </main>
     <footer
-      v-if="!hasError && meta.total_count > PAGE_SIZE"
+      v-if="
+        activeSection === 'monitors' &&
+        !hasError &&
+        meta.total_count > PAGE_SIZE
+      "
       class="sticky bottom-0 z-10"
     >
       <PaginationFooter
