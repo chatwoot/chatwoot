@@ -217,13 +217,103 @@ RSpec.describe 'Super Admin Users API', type: :request do
       expect(response.body).to include(CGI.escapeHTML(user.name))
     end
 
-    it 'mints the impersonation link on behalf of the viewing super admin' do
+    it 'renders an impersonation form without minting a token' do
+      sign_in(super_admin, scope: :super_admin)
+
+      expect { get "/super_admin/users/#{user.id}" }
+        .not_to(change { Redis::Alfred.keys_count("USER_SSO_AUTH_TOKEN::#{user.id}::*") })
+
+      form = Nokogiri::HTML(response.body).at_css("form[action='/super_admin/users/#{user.id}/impersonate']")
+
+      expect(form).to be_present
+      expect(form['method']).to eq('post')
+      expect(form['target']).to eq('_blank')
+      expect(form['rel']).to eq('noopener')
+      expect(response.body).not_to include('sso_auth_token=')
+    end
+
+    it 'renders a copy impersonation link form next to the impersonate button' do
       sign_in(super_admin, scope: :super_admin)
 
       get "/super_admin/users/#{user.id}"
-      sso_token = response.body[/sso_auth_token=(\h{64})/, 1]
+      form = Nokogiri::HTML(response.body).at_css("form[action='/super_admin/users/#{user.id}/impersonation_link']")
 
-      expect(user.sso_auth_token_impersonator_id(sso_token)).to eq(super_admin.id)
+      expect(form).to be_present
+      expect(form['method']).to eq('post')
+    end
+  end
+
+  describe 'POST /super_admin/users/:id/impersonation_link' do
+    let!(:user) { create(:user) }
+
+    it 'mints a token for the signed-in super admin and returns the link' do
+      sign_in(super_admin, scope: :super_admin)
+
+      with_modified_env FRONTEND_URL: 'https://dashboard.example.com' do
+        expect { post "/super_admin/users/#{user.id}/impersonation_link", as: :json }
+          .to change { Redis::Alfred.keys_count("USER_SSO_AUTH_TOKEN::#{user.id}::*") }.by(1)
+      end
+
+      link = URI(response.parsed_body['url'])
+      query = Rack::Utils.parse_query(link.query)
+
+      expect(response).to have_http_status(:ok)
+      expect("#{link.scheme}://#{link.host}#{link.path}").to eq('https://dashboard.example.com/app/login')
+      expect(user.sso_auth_token_impersonator_id(query.fetch('sso_auth_token'))).to eq(super_admin.id)
+    end
+
+    it 'requires super admin authentication without minting a token' do
+      expect { post "/super_admin/users/#{user.id}/impersonation_link" }
+        .not_to(change { Redis::Alfred.keys_count("USER_SSO_AUTH_TOKEN::#{user.id}::*") })
+
+      expect(response).to redirect_to(new_super_admin_session_path)
+    end
+  end
+
+  describe 'POST /super_admin/users/:id/impersonate' do
+    let!(:user) { create(:user) }
+
+    it 'mints a token for the signed-in super admin and redirects to the frontend' do
+      sign_in(super_admin, scope: :super_admin)
+
+      with_modified_env FRONTEND_URL: 'https://dashboard.example.com' do
+        expect { post "/super_admin/users/#{user.id}/impersonate" }
+          .to change { Redis::Alfred.keys_count("USER_SSO_AUTH_TOKEN::#{user.id}::*") }.by(1)
+      end
+
+      location = URI(response.location)
+      query = Rack::Utils.parse_query(location.query)
+
+      expect(response).to have_http_status(:see_other)
+      expect("#{location.scheme}://#{location.host}#{location.path}").to eq('https://dashboard.example.com/app/login')
+      expect(query).to include('email' => user.email, 'impersonation' => 'true')
+      expect(user.sso_auth_token_impersonator_id(query.fetch('sso_auth_token'))).to eq(super_admin.id)
+    end
+
+    it 'requires super admin authentication without minting a token' do
+      expect { post "/super_admin/users/#{user.id}/impersonate" }
+        .not_to(change { Redis::Alfred.keys_count("USER_SSO_AUTH_TOKEN::#{user.id}::*") })
+
+      expect(response).to redirect_to(new_super_admin_session_path)
+    end
+
+    context 'with CSRF protection enabled' do
+      around do |example|
+        previous = ActionController::Base.allow_forgery_protection
+        ActionController::Base.allow_forgery_protection = true
+        example.run
+      ensure
+        ActionController::Base.allow_forgery_protection = previous
+      end
+
+      it 'rejects a POST without a CSRF token' do
+        sign_in(super_admin, scope: :super_admin)
+
+        expect { post "/super_admin/users/#{user.id}/impersonate" }
+          .not_to(change { Redis::Alfred.keys_count("USER_SSO_AUTH_TOKEN::#{user.id}::*") })
+
+        expect(response).to have_http_status(422)
+      end
     end
   end
 end

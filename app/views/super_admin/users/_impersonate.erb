@@ -2,7 +2,56 @@
  <hr/>
   <div class="form-actions">
   <p class="text-color-red">Caution: Any actions executed after impersonate will appear as if performed by the impersonated user - [<%= page.resource.name %> ]</p>
-    <a class='button' target='_blank' href='<%= page.resource.generate_sso_link_with_impersonation(current_super_admin) %>'>Impersonate user </a>
+    <div class="flex gap-2 items-center">
+      <%= button_to t('super_admin.users.impersonate'),
+                    impersonate_super_admin_user_path(page.resource),
+                    method: :post,
+                    class: 'button',
+                    form: { target: '_blank', rel: 'noopener' } %>
+      <%= button_to t('super_admin.users.copy_impersonation_link'),
+                    impersonation_link_super_admin_user_path(page.resource),
+                    method: :post,
+                    class: 'button',
+                    form: {
+                      id: 'copy-impersonation-link',
+                      data: {
+                        copied_label: t('super_admin.users.impersonation_link_copied'),
+                        failed_label: t('super_admin.users.impersonation_link_failed')
+                      }
+                    } %>
+    </div>
   </div>
 </section>
 
+<script>
+  document.getElementById('copy-impersonation-link')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const button = form.querySelector('button');
+    const label = button.textContent;
+    const link = fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { Accept: 'application/json' },
+    }).then((response) => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    }).then((data) => data.url);
+    const writeText = () => link.then((url) => navigator.clipboard.writeText(url));
+    let copy;
+    try {
+      copy = window.ClipboardItem
+        ? navigator.clipboard.write([
+          new ClipboardItem({ 'text/plain': link.then((url) => new Blob([url], { type: 'text/plain' })) }),
+        ])
+        : writeText();
+    } catch {
+      copy = writeText();
+    }
+    const flash = (text) => {
+      button.textContent = text;
+      setTimeout(() => { button.textContent = label; }, 2000);
+    };
+    copy.then(() => flash(form.dataset.copiedLabel)).catch(() => flash(form.dataset.failedLabel));
+  });
+</script>
