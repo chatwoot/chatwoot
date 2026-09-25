@@ -14,7 +14,10 @@ class Whatsapp::IncomingMessageBaseService
     return process_statuses if processed_params.try(:[], :statuses).present?
 
     process_identity_change_messages
-    return process_messages if messages_data.present?
+    return if messages_data.blank?
+    return process_message_edit if message_type == 'edit'
+
+    process_messages
   end
 
   # Returns messages array for both regular messages and echo events
@@ -30,7 +33,6 @@ class Whatsapp::IncomingMessageBaseService
     # We don't support reactions & ephemeral message now, we need to skip processing the message
     # if the webhook event is a reaction or an ephermal message or an unsupported message.
     return if unprocessable_message_type?(message_type)
-    return process_message_edit if message_type == 'edit'
 
     # Multiple webhook events can be received for the same message due to
     # misconfigurations in the Meta business manager account.
