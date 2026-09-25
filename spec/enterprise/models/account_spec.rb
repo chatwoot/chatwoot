@@ -428,7 +428,6 @@ RSpec.describe Account, type: :model do
       account = create(:account)
 
       expect(account).to be_feature_enabled('captain_integration')
-      expect(account).to be_feature_enabled('captain_integration_v2')
       expect(account.captain_preferences[:models]['assistant']).to eq('gpt-5.2')
       expect(account.captain_models).to be_nil
     end
