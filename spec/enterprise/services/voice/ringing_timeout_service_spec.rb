@@ -83,13 +83,14 @@ RSpec.describe Voice::RingingTimeoutService do
       expect(call.reload.status).to eq('no_answer')
     end
 
-    it 'still ends the call when Twilio cannot be reached' do
+    it 'leaves the call ringing for the next sweep when Twilio cannot be reached' do
       call.update!(provider: :twilio)
       allow(conference).to receive(:end_conference).and_raise(Twilio::REST::TwilioError)
 
-      described_class.new(call: call).perform
+      expect { described_class.new(call: call).perform }.not_to raise_error
 
-      expect(call.reload.status).to eq('no_answer')
+      expect(call.reload.status).to eq('ringing')
+      expect(ActionCable.server).not_to have_received(:broadcast)
     end
 
     it 'does not touch a call that was answered in the meantime' do

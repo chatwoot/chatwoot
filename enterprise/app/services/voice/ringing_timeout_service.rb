@@ -15,11 +15,13 @@ class Voice::RingingTimeoutService
                         .where(account_id: Account.feature_mobile_voice_push.select(:id))
   end
 
+  # The call is ended only once the caller has been hung up; while Twilio cannot be
+  # reached it stays ringing and the next sweep tries again
   def perform
     call.with_lock do
       next unless call.ringing?
+      next unless hang_up_caller
 
-      hang_up_caller
       finalize
     end
   end
@@ -28,11 +30,13 @@ class Voice::RingingTimeoutService
 
   # A Twilio caller is still parked in the conference; Meta has already given up
   def hang_up_caller
-    return unless call.twilio?
+    return true unless call.twilio?
 
     Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference
+    true
   rescue StandardError => e
     Rails.logger.error("[VOICE] ring timeout call #{call.id}: could not end conference: #{e.class}: #{e.message}")
+    false
   end
 
   def finalize
