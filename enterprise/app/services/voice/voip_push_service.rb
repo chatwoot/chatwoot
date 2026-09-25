@@ -29,10 +29,7 @@ class Voice::VoipPushService
   # who could be assigned the inbox. Presence is not consulted: a locked phone is offline
   # on the socket and is exactly the device this push exists for.
   def self.recipients_for(call)
-    assignee = call.conversation.assignee
-    return [assignee] if assignee
-
-    call.inbox.assignable_agents
+    call.conversation.assignee.then { |assignee| assignee ? [assignee] : call.inbox.assignable_agents }
   end
 
   def perform(action)
@@ -66,8 +63,7 @@ class Voice::VoipPushService
   end
 
   def devices_to_ring
-    apple_environment if apple_configured?
-    [apple_configured? ? apple_tokens : [], firebase_configured? ? android_tokens : []]
+    [apple_configured? ? apple_environment && apple_tokens : [], firebase_configured? ? android_tokens : []]
   end
 
   def cancel
@@ -89,8 +85,9 @@ class Voice::VoipPushService
 
   # MARK: recipients and devices
 
+  # Resolved once per ring so the devices rung and the agents recorded are one set
   def recipients
-    self.class.recipients_for(call)
+    @recipients ||= self.class.recipients_for(call).to_a
   end
 
   def apple_tokens
