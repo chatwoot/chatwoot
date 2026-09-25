@@ -49,6 +49,7 @@ const { accountId } = useAccount();
 const dialog = ref(null);
 const name = ref('');
 const condition = ref('');
+const templateName = ref('');
 const icon = ref('');
 const iconColor = ref('');
 const isSaving = ref(false);
@@ -147,6 +148,7 @@ const open = (prefill = {}) => {
   dialogGeneration += 1;
   name.value = prefill.name || '';
   condition.value = prefill.condition || '';
+  templateName.value = prefill.templateName || '';
   icon.value =
     prefill.icon ??
     `${pickRandom(RANDOM_ICONS)}-${pickRandom(Object.values(ICON_STYLE))}`;
@@ -204,6 +206,9 @@ defineExpose({ open });
     @close="onClose"
   >
     <form class="flex flex-col gap-5" @submit.prevent="create">
+      <p v-if="templateName" class="m-0 text-sm text-n-slate-11">
+        {{ t('MONITORS.TEMPLATES.EDIT_HINT', { name: templateName }) }}
+      </p>
       <Input
         v-model="name"
         :label="t('MONITORS.NAME')"

@@ -23,27 +23,55 @@
     "EMPTY_TITLE": "Turn conversations into a trend you can follow",
     "EMPTY_DESCRIPTION": "Describe a topic in plain English. A monitor finds matching conversations and keeps its chart updated as new customer messages arrive.",
     "ADMIN_HELP": "Ask an administrator to create your first monitor.",
-    "EXAMPLES_TITLE": "Start with a template",
-    "EXAMPLES": {
+    "SECTIONS": {
+      "LABEL": "Monitor sections",
+      "YOUR_MONITORS": "Your monitors",
+      "YOUR_MONITORS_COUNT": "Your monitors ({count})",
+      "TEMPLATES": "Templates"
+    },
+    "TEMPLATES": {
+      "TITLE": "Start with a template",
+      "DESCRIPTION": "Choose one, make it yours, then preview before creating.",
+      "VIEW_ALL": "View all templates",
+      "USE": "Use template",
+      "USE_NAMED": "Use {name} template",
+      "EDIT_HINT": "From {name} template. Edit anything before creating.",
+      "ADMIN_HELP": "Ask an administrator to create a monitor from a template.",
+      "LOGIN_PROBLEMS": {
+        "NAME": "Login problems",
+        "AUDIENCE": "For support teams",
+        "SUMMARY": "See when login complaints start increasing.",
+        "CONDITION": "A customer says they cannot sign in to their account, including failed password resets and verification codes that never arrive. Exclude questions about changing a password while already signed in."
+      },
       "MISSING_ORDER_UPDATES": {
         "NAME": "Missing order updates",
-        "CONDITION": "A customer says an order confirmation, shipping update, or delivery notice did not arrive or was sent for the wrong order. Exclude questions about parcel location when the customer received tracking information.",
-        "BENEFIT": "Track recurring delivery communication problems."
+        "AUDIENCE": "For operations teams",
+        "SUMMARY": "Track recurring delivery communication problems.",
+        "CONDITION": "A customer says an order confirmation, shipping update, or delivery notice did not arrive, or arrived for the wrong order. Exclude customers asking where a parcel is when they did receive the tracking email."
+      },
+      "COMPETITOR_MENTIONS": {
+        "NAME": "Competitor mentions",
+        "AUDIENCE": "For founders and sales teams",
+        "SUMMARY": "Find conversations worth following up on.",
+        "CONDITION": "A customer compares us with a competing product, says they are evaluating one, or mentions they may switch. Exclude customers who moved to us from a competitor and are asking how to import their data."
       },
       "FEATURE_REQUESTS": {
         "NAME": "Feature requests",
-        "CONDITION": "A customer asks for a capability the product does not currently offer. Exclude questions about how to use a feature that already exists.",
-        "BENEFIT": "Keep a running count of unmet needs."
+        "AUDIENCE": "For product teams",
+        "SUMMARY": "Keep a running count of conversations about unmet needs.",
+        "CONDITION": "A customer asks for a capability the product does not currently offer, or asks whether something is possible and it is not. Exclude questions about how to use a feature that already exists."
       },
       "REFUND_REQUESTS": {
         "NAME": "Refund requests",
-        "CONDITION": "A customer asks for money back on a payment already made, including duplicate charges or refunds after cancellation. Exclude questions about the refund policy and requests for a discount.",
-        "BENEFIT": "Bring a consistent definition to refund requests."
+        "AUDIENCE": "For finance teams",
+        "SUMMARY": "Bring a consistent definition to your weekly refund request count.",
+        "CONDITION": "A customer asks for money back on a payment they already made, including duplicate charges and refunds after cancelling. Exclude questions about the refund policy and requests for a discount."
       },
       "CANCELLATION_INTENT": {
         "NAME": "Cancellation intent",
-        "CONDITION": "A customer says they intend to cancel, will not renew, or plan to stop using the product. Exclude requests to reduce seats or downgrade, and cancellations withdrawn in the same conversation.",
-        "BENEFIT": "Find customers who may need a conversation before they leave."
+        "AUDIENCE": "For account managers",
+        "SUMMARY": "Find customers who may need a conversation before they leave.",
+        "CONDITION": "A customer says they intend to cancel, will not renew, or plan to stop using the product. Exclude requests to reduce seats or downgrade, and cancellations the customer takes back in the same conversation."
       }
     },
     "MATCHING_CONVERSATIONS": "Matching conversations created",

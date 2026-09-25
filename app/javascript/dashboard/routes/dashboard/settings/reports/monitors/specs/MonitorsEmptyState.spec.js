@@ -11,51 +11,41 @@ vi.mock('vue-i18n', async importOriginal => ({
   useI18n: () => ({ t: key => key }),
 }));
 
+const refundTemplate = {
+  id: 'refund-requests',
+  name: 'Refund requests',
+  condition: 'Customers asking for money back',
+  icon: 'money-dollar-circle-line',
+  icon_color: '#8B5CF6',
+};
+
 describe('MonitorsEmptyState', () => {
-  it('lets an administrator create a monitor or start from a template', async () => {
+  it('offers the refund template and a link to all templates', async () => {
     state.isAdmin = ref(true);
-    const wrapper = shallowMount(MonitorsEmptyState);
+    const wrapper = shallowMount(MonitorsEmptyState, {
+      props: { template: refundTemplate },
+    });
 
-    wrapper.findComponent({ name: 'Button' }).vm.$emit('click');
-    await wrapper.findAll('button')[0].trigger('click');
+    const card = wrapper.findComponent({ name: 'MonitorTemplateCard' });
+    expect(card.props('template')).toEqual(refundTemplate);
+    expect(card.props('canCreate')).toBe(true);
+    card.vm.$emit('use', refundTemplate);
+    await wrapper.find('button').trigger('click');
 
-    expect(wrapper.emitted('create')).toEqual([
-      [],
-      [
-        {
-          name: 'MONITORS.EXAMPLES.MISSING_ORDER_UPDATES.NAME',
-          condition: 'MONITORS.EXAMPLES.MISSING_ORDER_UPDATES.CONDITION',
-          icon: 'truck-line',
-          icon_color: '#3B82F6',
-        },
-      ],
-    ]);
-    expect(wrapper.findAll('button')).toHaveLength(4);
-    expect(
-      wrapper
-        .findAll('button')
-        .every(button => button.findComponent({ name: 'EmojiIcon' }).exists())
-    ).toBe(true);
-    expect(wrapper.text()).toContain('MONITORS.EMPTY_TITLE');
-    expect(wrapper.text()).toContain('MONITORS.EXAMPLES.FEATURE_REQUESTS.NAME');
-    expect(wrapper.text()).toContain(
-      'MONITORS.EXAMPLES.FEATURE_REQUESTS.BENEFIT'
-    );
-    expect(wrapper.text()).not.toContain('MONITORS.EXAMPLES.LOGIN_PROBLEMS');
-    expect(wrapper.text()).not.toContain(
-      'MONITORS.EXAMPLES.COMPETITOR_MENTIONS'
-    );
-    expect(wrapper.text()).not.toContain('MONITORS.ADMIN_HELP');
+    expect(wrapper.emitted('create')).toEqual([[refundTemplate]]);
+    expect(wrapper.emitted('browse')).toEqual([[]]);
   });
 
-  it('shows the examples as disabled and asks other roles to contact an administrator', () => {
+  it('lets other roles browse while keeping template creation unavailable', () => {
     state.isAdmin = ref(false);
-    const wrapper = shallowMount(MonitorsEmptyState);
+    const wrapper = shallowMount(MonitorsEmptyState, {
+      props: { template: refundTemplate },
+    });
 
-    expect(wrapper.findComponent({ name: 'Button' }).exists()).toBe(false);
-    expect(wrapper.text()).toContain('MONITORS.ADMIN_HELP');
     expect(
-      wrapper.findAll('button').every(button => button.element.disabled)
-    ).toBe(true);
+      wrapper.findComponent({ name: 'MonitorTemplateCard' }).props('canCreate')
+    ).toBe(false);
+    expect(wrapper.text()).toContain('MONITORS.ADMIN_HELP');
+    expect(wrapper.find('button').element.disabled).toBe(false);
   });
 });
