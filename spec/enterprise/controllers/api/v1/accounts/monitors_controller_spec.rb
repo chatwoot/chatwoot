@@ -39,6 +39,39 @@ RSpec.describe 'Monitors API', type: :request do
     expect(account.conversation_monitors).not_to exist
   end
 
+  it 'stores the chosen icon and color and returns them' do
+    post base, headers: headers, params: { name: 'Refunds', condition: 'Mentions refunds', icon: 'fire-line', icon_color: '#EF4444' }, as: :json
+
+    expect(response).to have_http_status(:created)
+    expect(response.parsed_body).to include('icon' => 'fire-line', 'icon_color' => '#EF4444')
+    expect(account.conversation_monitors.sole).to have_attributes(icon: 'fire-line', icon_color: '#EF4444')
+  end
+
+  it 'rejects malformed icon fields at the monitor request boundary' do
+    definition = { name: 'Refunds', condition: 'Refunds' }
+    [{ icon: nil }, { icon: '' }, { icon: 'not an icon' }, { icon: '<b>x</b>' }, { icon: 'not-an-icon' },
+     { icon: '😀😀' }, { icon: 'x' * 51 }, { icon: ['fire-line'] }, { icon_color: nil },
+     { icon_color: 'red' }, { icon_color: '#FFF' }].each do |attributes|
+      post base, headers: headers, params: definition.merge(attributes), as: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body).to eq('error' => 'invalid_parameters')
+    end
+    expect(account.conversation_monitors).not_to exist
+  end
+
+  it 'accepts picker emojis on create and update' do
+    post base, headers: headers, params: { name: 'Refunds', condition: 'Mentions refunds', icon: '👩‍❤️‍💋‍👨', icon_color: '' }, as: :json
+
+    expect(response).to have_http_status(:created)
+    created = account.conversation_monitors.sole
+    expect(created).to have_attributes(icon: '👩‍❤️‍💋‍👨', icon_color: '')
+
+    patch "#{base}/#{created.id}", headers: headers, params: { icon: '👍🏽' }, as: :json
+
+    expect(response).to have_http_status(:ok)
+    expect(created.reload.icon).to eq('👍🏽')
+  end
+
   it 'isolates definitions and results between accounts' do
     other = create(:conversation_monitor)
 
@@ -201,6 +234,24 @@ RSpec.describe 'Monitors API', type: :request do
     expect(response).to have_http_status(:no_content)
     get "#{base}/#{monitor.id}", headers: headers
     expect(response).to have_http_status(:not_found)
+  end
+
+  it 'changes the icon without rechecking conversations' do
+    patch "#{base}/#{monitor.id}", headers: headers, params: { icon: 'bug-line', icon_color: '#22C55E' }, as: :json
+
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body).to include('icon' => 'bug-line', 'icon_color' => '#22C55E')
+    expect(monitor.reload).to have_attributes(icon: 'bug-line', icon_color: '#22C55E', collection_version: 0, recheck_requested_at: nil)
+  end
+
+  it 'rejects malformed icon updates without changing the monitor' do
+    [{ icon: nil }, { icon: '' }, { icon: 'not an icon' }, { icon: '<b>x</b>' }, { icon: 'not-an-icon' },
+     { icon: '😀😀' }, { icon_color: nil }].each do |attributes|
+      patch "#{base}/#{monitor.id}", headers: headers, params: attributes, as: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body).to eq('error' => 'invalid_parameters')
+    end
+    expect(monitor.reload).to have_attributes(icon: 'chat-3-line', icon_color: '#3B82F6')
   end
 
   it 'rejects invalid descriptions and stale edits without replacing the current rule' do

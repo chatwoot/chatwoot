@@ -902,6 +902,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_25_200000) do
     t.datetime "recheck_requested_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "icon", default: "chat-3-line", null: false
+    t.string "icon_color", default: "#3B82F6", null: false
     t.index ["account_id"], name: "index_conversation_monitors_on_account_id"
     t.index ["user_id"], name: "index_conversation_monitors_on_user_id"
   end
