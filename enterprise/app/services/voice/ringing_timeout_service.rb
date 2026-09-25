@@ -7,15 +7,14 @@ class Voice::RingingTimeoutService
   # Meta drops an unanswered call after 30 to 60 s; Twilio rings until the caller gives up
   RING_TIMEOUT_SECONDS = { 'twilio' => 60, 'whatsapp' => 45 }.freeze
 
-  # Calls still ringing past their provider's timeout
+  # Calls still ringing past their provider's timeout, on the accounts that ring phones
   def self.overdue
     RING_TIMEOUT_SECONDS.map { |provider, seconds| Call.where(status: 'ringing', provider: provider).where(created_at: ...seconds.seconds.ago) }
                         .reduce(:or)
+                        .where(account_id: Account.feature_mobile_voice_push.select(:id))
   end
 
   def perform
-    return unless call.account.feature_enabled?('mobile_voice_push')
-
     call.with_lock do
       next unless call.ringing?
 

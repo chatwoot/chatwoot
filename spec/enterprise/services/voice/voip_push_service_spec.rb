@@ -136,6 +136,18 @@ RSpec.describe Voice::VoipPushService do
       expect(fcm_client).to have_received(:send_v1).with(hash_including(data: hash_including('type' => 'voice_call.cancel'))).once
     end
 
+    it 'follows the ring with a cancel when the call was answered while the pushes were in flight' do
+      subscribe(agent, 'fcm', 'android-1', platform: 'Android')
+      allow(fcm_client).to receive(:send_v1) do
+        Call.where(id: call.id).update_all(status: 'in_progress') # rubocop:disable Rails/SkipsModelValidations
+        { status_code: 200, body: '' }
+      end
+
+      described_class.new(call: call).perform('ring')
+
+      expect(fcm_client).to have_received(:send_v1).with(hash_including(data: hash_including('type' => 'voice_call.cancel'))).once
+    end
+
     it 'fails loudly on an APNs environment it does not know' do
       config['APNS_VOIP_ENVIRONMENT'] = 'prod'
       subscribe(agent, 'apns_voip', 'apple-1')

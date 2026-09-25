@@ -49,9 +49,9 @@ class Voice::VoipPushService
   #
   # The status check and the record of who is rung happen under the row lock, so a
   # terminate cannot slip between them: it either lands first and there is nothing to
-  # ring, or it waits and then finds the devices to cancel. A terminate that lands while
-  # the pushes are in flight may have its cancel overtaken by the ring, so the ring is
-  # followed by a cancel of its own in that case.
+  # ring, or it waits and then finds the devices to cancel. A call that stops ringing
+  # while the pushes are in flight, whether answered or ended, may have its cancel
+  # overtaken by the ring, so the ring is followed by a cancel of its own in that case.
   def ring
     apple, android = call.with_lock { call.ringing? ? remember_ring : nil }
     return if apple.nil? || (apple.empty? && android.empty?)
@@ -62,7 +62,7 @@ class Voice::VoipPushService
     ].map(&:value)
     forget_devices(APPLE, stale_apple)
     forget_devices(ANDROID, stale_android)
-    cancel if call.reload.terminal?
+    cancel unless call.reload.ringing?
   end
 
   def devices_to_ring

@@ -7,6 +7,7 @@ RSpec.describe Voice::RingingTimeoutJob do
   let(:service) { instance_double(Voice::RingingTimeoutService, perform: nil) }
 
   before do
+    account.enable_features!('mobile_voice_push')
     allow(Voice::RingingTimeoutService).to receive(:new).and_return(service)
   end
 
