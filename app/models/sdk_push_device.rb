@@ -1,8 +1,8 @@
-class MobilePushDevice < ApplicationRecord
+class SdkPushDevice < ApplicationRecord
   belongs_to :sdk_app
   belongs_to :contact_inbox
   belongs_to :contact
-  has_many :mobile_push_deliveries, dependent: :destroy
+  has_many :sdk_push_deliveries, dependent: :destroy
 
   validates :device_token, presence: true, format: { with: /\A[0-9a-f]+\z/ }, length: { maximum: 512 }
   validates :device_token, uniqueness: { scope: [:sdk_app_id, :platform, :environment] }

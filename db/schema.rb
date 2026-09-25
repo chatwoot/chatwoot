@@ -1363,20 +1363,20 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
     t.index ["source_id"], name: "index_messages_on_source_id"
   end
 
-  create_table "mobile_push_deliveries", force: :cascade do |t|
-    t.bigint "mobile_push_device_id", null: false
+  create_table "sdk_push_deliveries", force: :cascade do |t|
+    t.bigint "sdk_push_device_id", null: false
     t.bigint "message_id"
     t.string "status", default: "pending", null: false
     t.string "reason"
     t.string "apns_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["message_id"], name: "index_mobile_push_deliveries_on_message_id"
-    t.index ["mobile_push_device_id", "message_id"], name: "index_mobile_push_deliveries_on_message", unique: true
-    t.index ["mobile_push_device_id"], name: "index_mobile_push_deliveries_on_mobile_push_device_id"
+    t.index ["message_id"], name: "index_sdk_push_deliveries_on_message_id"
+    t.index ["sdk_push_device_id", "message_id"], name: "index_sdk_push_deliveries_on_message", unique: true
+    t.index ["sdk_push_device_id"], name: "index_sdk_push_deliveries_on_sdk_push_device_id"
   end
 
-  create_table "mobile_push_devices", force: :cascade do |t|
+  create_table "sdk_push_devices", force: :cascade do |t|
     t.bigint "sdk_app_id", null: false
     t.bigint "contact_inbox_id", null: false
     t.bigint "contact_id", null: false
@@ -1388,10 +1388,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "platform", null: false
-    t.index ["contact_id"], name: "index_mobile_push_devices_on_contact_id"
-    t.index ["contact_inbox_id"], name: "index_mobile_push_devices_on_contact_inbox_id"
-    t.index ["sdk_app_id", "platform", "environment", "device_token"], name: "index_mobile_push_devices_on_token", unique: true
-    t.index ["sdk_app_id"], name: "index_mobile_push_devices_on_sdk_app_id"
+    t.index ["contact_id"], name: "index_sdk_push_devices_on_contact_id"
+    t.index ["contact_inbox_id"], name: "index_sdk_push_devices_on_contact_inbox_id"
+    t.index ["sdk_app_id", "platform", "environment", "device_token"], name: "index_sdk_push_devices_on_token", unique: true
+    t.index ["sdk_app_id"], name: "index_sdk_push_devices_on_sdk_app_id"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -1757,11 +1757,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitors", "users", on_delete: :nullify
   add_foreign_key "inboxes", "portals"
-  add_foreign_key "mobile_push_deliveries", "messages", on_delete: :cascade
-  add_foreign_key "mobile_push_deliveries", "mobile_push_devices", on_delete: :cascade
-  add_foreign_key "mobile_push_devices", "contact_inboxes", on_delete: :cascade
-  add_foreign_key "mobile_push_devices", "contacts", on_delete: :cascade
-  add_foreign_key "mobile_push_devices", "sdk_apps", on_delete: :cascade
+  add_foreign_key "sdk_push_deliveries", "messages", on_delete: :cascade
+  add_foreign_key "sdk_push_deliveries", "sdk_push_devices", on_delete: :cascade
+  add_foreign_key "sdk_push_devices", "contact_inboxes", on_delete: :cascade
+  add_foreign_key "sdk_push_devices", "contacts", on_delete: :cascade
+  add_foreign_key "sdk_push_devices", "sdk_apps", on_delete: :cascade
   add_foreign_key "sdk_apps", "accounts", on_delete: :cascade
   add_foreign_key "sdk_apps", "inboxes", on_delete: :cascade
   add_foreign_key "sdk_ios_configurations", "sdk_apps", on_delete: :cascade

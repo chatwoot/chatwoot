@@ -1,4 +1,4 @@
-class CreateMobilePushTables < ActiveRecord::Migration[7.1]
+class CreateSdkTables < ActiveRecord::Migration[7.1]
   def change
     create_sdk_apps
     create_ios_configurations
@@ -30,7 +30,7 @@ class CreateMobilePushTables < ActiveRecord::Migration[7.1]
   end
 
   def create_devices
-    create_table :mobile_push_devices do |t|
+    create_table :sdk_push_devices do |t|
       t.references :sdk_app, null: false, foreign_key: { on_delete: :cascade }
       t.references :contact_inbox, null: false, foreign_key: { on_delete: :cascade }
       t.references :contact, null: false, foreign_key: { on_delete: :cascade }
@@ -42,18 +42,18 @@ class CreateMobilePushTables < ActiveRecord::Migration[7.1]
       t.datetime :invalidated_at
       t.timestamps
     end
-    add_index :mobile_push_devices, [:sdk_app_id, :platform, :environment, :device_token], unique: true, name: 'index_mobile_push_devices_on_token'
+    add_index :sdk_push_devices, [:sdk_app_id, :platform, :environment, :device_token], unique: true, name: 'index_sdk_push_devices_on_token'
   end
 
   def create_deliveries
-    create_table :mobile_push_deliveries do |t|
-      t.references :mobile_push_device, null: false, foreign_key: { on_delete: :cascade }
+    create_table :sdk_push_deliveries do |t|
+      t.references :sdk_push_device, null: false, foreign_key: { on_delete: :cascade }
       t.references :message, foreign_key: { on_delete: :cascade }
       t.string :status, null: false, default: 'pending'
       t.string :reason
       t.string :apns_id, null: false
       t.timestamps
     end
-    add_index :mobile_push_deliveries, [:mobile_push_device_id, :message_id], unique: true, name: 'index_mobile_push_deliveries_on_message'
+    add_index :sdk_push_deliveries, [:sdk_push_device_id, :message_id], unique: true, name: 'index_sdk_push_deliveries_on_message'
   end
 end

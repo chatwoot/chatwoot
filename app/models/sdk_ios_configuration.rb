@@ -14,11 +14,11 @@ class SdkIosConfiguration < ApplicationRecord
   private
 
   def clear_devices
-    sdk_app.mobile_push_devices.where(platform: 'ios').destroy_all
+    sdk_app.sdk_push_devices.where(platform: 'ios').destroy_all
   end
 
   def unchanged_topic
-    return unless persisted? && bundle_id_changed? && sdk_app.mobile_push_devices.exists?(platform: 'ios')
+    return unless persisted? && bundle_id_changed? && sdk_app.sdk_push_devices.exists?(platform: 'ios')
 
     errors.add(:bundle_id, 'cannot change while devices are registered; remove the iOS configuration first')
   end

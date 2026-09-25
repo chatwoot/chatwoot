@@ -515,7 +515,7 @@ Rails.application.routes.draw do
       resource :notification_subscriptions, only: [:create, :destroy]
 
       namespace :widget do
-        resources :mobile_push_devices, only: [:create, :destroy]
+        resources :sdk_push_devices, only: [:create, :destroy]
         resource :direct_uploads, only: [:create]
         resource :config, only: [:create]
         resources :campaigns, only: [:index]

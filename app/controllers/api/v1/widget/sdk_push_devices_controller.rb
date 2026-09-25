@@ -1,4 +1,4 @@
-class Api::V1::Widget::MobilePushDevicesController < Api::V1::Widget::BaseController
+class Api::V1::Widget::SdkPushDevicesController < Api::V1::Widget::BaseController
   before_action :validate_session
   before_action :validate_device_fields, only: :create
   before_action :validate_ios_configuration, only: :create
@@ -8,10 +8,10 @@ class Api::V1::Widget::MobilePushDevicesController < Api::V1::Widget::BaseContro
     configuration = @sdk_app
 
     device = if params.key?(:device_id)
-               @contact_inbox.mobile_push_devices.where(sdk_app: configuration).find(params[:device_id])
+               @contact_inbox.sdk_push_devices.where(sdk_app: configuration).find(params[:device_id])
              else
-               configuration.mobile_push_devices.find_or_initialize_by(device_token: attributes[:device_token],
-                                                                       environment: attributes[:environment], platform: attributes[:platform])
+               configuration.sdk_push_devices.find_or_initialize_by(device_token: attributes[:device_token],
+                                                                    environment: attributes[:environment], platform: attributes[:platform])
              end
     if device.persisted? && device.contact_inbox_id != @contact_inbox.id
       render_could_not_create_error('Unregister this device from its previous session before registering it again')
@@ -23,7 +23,7 @@ class Api::V1::Widget::MobilePushDevicesController < Api::V1::Widget::BaseContro
   end
 
   def destroy
-    @contact_inbox.mobile_push_devices.where(sdk_app: @sdk_app).find(params[:id]).destroy!
+    @contact_inbox.sdk_push_devices.where(sdk_app: @sdk_app).find(params[:id]).destroy!
     head :no_content
   end
 
