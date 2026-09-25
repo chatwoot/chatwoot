@@ -185,13 +185,26 @@ describe('MonitorForm preview cooldown', () => {
     );
   });
 
-  it('opens prefilled with an example name and condition', async () => {
-    wrapper.vm.open({ name: 'Refunds', condition: 'Mentions refunds' });
+  it('opens prefilled with a template name, condition, icon, and color', async () => {
+    wrapper.vm.open({
+      name: 'Refunds',
+      condition: 'Mentions refunds',
+      icon: 'money-dollar-circle-line',
+      icon_color: '#22C55E',
+    });
     await wrapper.vm.$nextTick();
 
     expect(wrapper.find('textarea').element.value).toBe('Mentions refunds');
     expect(wrapper.findComponent({ name: 'Input' }).props('modelValue')).toBe(
       'Refunds'
+    );
+    expect(
+      wrapper.findComponent({ name: 'MonitorIconPicker' }).props()
+    ).toEqual(
+      expect.objectContaining({
+        icon: 'money-dollar-circle-line',
+        color: '#22C55E',
+      })
     );
   });
 

@@ -147,8 +147,10 @@ const open = (prefill = {}) => {
   dialogGeneration += 1;
   name.value = prefill.name || '';
   condition.value = prefill.condition || '';
-  icon.value = `${pickRandom(RANDOM_ICONS)}-${pickRandom(Object.values(ICON_STYLE))}`;
-  iconColor.value = pickRandom(RANDOM_COLORS).value;
+  icon.value =
+    prefill.icon ??
+    `${pickRandom(RANDOM_ICONS)}-${pickRandom(Object.values(ICON_STYLE))}`;
+  iconColor.value = prefill.icon_color ?? pickRandom(RANDOM_COLORS).value;
   error.value = '';
   resetPreview();
   dialog.value.open();
