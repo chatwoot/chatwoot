@@ -23,19 +23,27 @@
     "EMPTY_TITLE": "Turn conversations into a trend you can follow",
     "EMPTY_DESCRIPTION": "Describe a topic in plain English. A monitor finds matching conversations and keeps its chart updated as new customer messages arrive.",
     "ADMIN_HELP": "Ask an administrator to create your first monitor.",
-    "EXAMPLES_TITLE": "Try an example",
+    "EXAMPLES_TITLE": "Start with a template",
     "EXAMPLES": {
-      "REFUNDS": {
-        "NAME": "Refund conversations",
-        "CONDITION": "All conversations mentioning refunds"
+      "MISSING_ORDER_UPDATES": {
+        "NAME": "Missing order updates",
+        "CONDITION": "A customer says an order confirmation, shipping update, or delivery notice did not arrive or was sent for the wrong order. Exclude questions about parcel location when the customer received tracking information.",
+        "BENEFIT": "Track recurring delivery communication problems."
       },
-      "BSUID": {
-        "NAME": "WhatsApp BSUID",
-        "CONDITION": "All conversations related to WhatsApp BSUID"
+      "FEATURE_REQUESTS": {
+        "NAME": "Feature requests",
+        "CONDITION": "A customer asks for a capability the product does not currently offer. Exclude questions about how to use a feature that already exists.",
+        "BENEFIT": "Keep a running count of unmet needs."
       },
-      "AUTOMATIONS": {
-        "NAME": "Self-hosted automations",
-        "CONDITION": "All conversations related to automations from a self-hosted customer"
+      "REFUND_REQUESTS": {
+        "NAME": "Refund requests",
+        "CONDITION": "A customer asks for money back on a payment already made, including duplicate charges or refunds after cancellation. Exclude questions about the refund policy and requests for a discount.",
+        "BENEFIT": "Bring a consistent definition to refund requests."
+      },
+      "CANCELLATION_INTENT": {
+        "NAME": "Cancellation intent",
+        "CONDITION": "A customer says they intend to cancel, will not renew, or plan to stop using the product. Exclude requests to reduce seats or downgrade, and cancellations withdrawn in the same conversation.",
+        "BENEFIT": "Find customers who may need a conversation before they leave."
       }
     },
     "MATCHING_CONVERSATIONS": "Matching conversations created",

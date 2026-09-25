@@ -12,22 +12,32 @@ vi.mock('vue-i18n', async importOriginal => ({
 }));
 
 describe('MonitorsEmptyState', () => {
-  it('lets an administrator create a monitor or start from an example', async () => {
+  it('lets an administrator create a monitor or start from a template', async () => {
     state.isAdmin = ref(true);
     const wrapper = shallowMount(MonitorsEmptyState);
 
     wrapper.findComponent({ name: 'Button' }).vm.$emit('click');
-    await wrapper.findAll('button')[1].trigger('click');
+    await wrapper.findAll('button')[0].trigger('click');
 
     expect(wrapper.emitted('create')).toEqual([
       [],
       [
         {
-          name: 'MONITORS.EXAMPLES.BSUID.NAME',
-          condition: 'MONITORS.EXAMPLES.BSUID.CONDITION',
+          name: 'MONITORS.EXAMPLES.MISSING_ORDER_UPDATES.NAME',
+          condition: 'MONITORS.EXAMPLES.MISSING_ORDER_UPDATES.CONDITION',
         },
       ],
     ]);
+    expect(wrapper.findAll('button')).toHaveLength(4);
+    expect(wrapper.text()).toContain('MONITORS.EMPTY_TITLE');
+    expect(wrapper.text()).toContain('MONITORS.EXAMPLES.FEATURE_REQUESTS.NAME');
+    expect(wrapper.text()).toContain(
+      'MONITORS.EXAMPLES.FEATURE_REQUESTS.BENEFIT'
+    );
+    expect(wrapper.text()).not.toContain('MONITORS.EXAMPLES.LOGIN_PROBLEMS');
+    expect(wrapper.text()).not.toContain(
+      'MONITORS.EXAMPLES.COMPETITOR_MENTIONS'
+    );
     expect(wrapper.text()).not.toContain('MONITORS.ADMIN_HELP');
   });
 
