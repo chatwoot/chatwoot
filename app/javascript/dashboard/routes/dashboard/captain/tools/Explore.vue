@@ -74,10 +74,21 @@ const loadCatalog = async () => {
 
 const openToolset = toolset => detailsPanelRef.value.open(toolset);
 
-const installToolset = toolset =>
-  installManifestDialogRef.value.open(toolset.source);
+// The dialog outlives an assistant switch, so a late install must not move the newly opened assistant
+let installingAssistantId = null;
 
-const goToTools = () => router.push(toolsRoute.value);
+const openInstallDialog = source => {
+  installingAssistantId = assistantId.value;
+  installManifestDialogRef.value.open(source);
+};
+
+const installToolset = toolset => openInstallDialog(toolset.source);
+
+const onInstalled = () => {
+  if (installingAssistantId === assistantId.value) {
+    router.push(toolsRoute.value);
+  }
+};
 
 onMounted(() => {
   // Installs are off by default, and a bookmarked catalog would only offer installs that fail
@@ -105,7 +116,7 @@ onMounted(() => {
           size="sm"
           faded
           slate
-          @click="installManifestDialogRef.open()"
+          @click="openInstallDialog()"
         />
       </Policy>
     </template>
@@ -169,6 +180,6 @@ onMounted(() => {
   <InstallManifestDialog
     ref="installManifestDialogRef"
     :assistant-id="assistantId"
-    @installed="goToTools"
+    @installed="onInstalled"
   />
 </template>
