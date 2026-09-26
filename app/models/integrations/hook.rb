@@ -90,7 +90,6 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def process_event(_event)
-    # OpenAI integration migrated to Captain::EditorService
     # Other integrations (slack, dialogflow, etc.) handled via HookJob
     { error: 'No processor found' }
   end
