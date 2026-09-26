@@ -28,6 +28,7 @@ class DashboardController < ActionController::Base
     DEPLOYMENT_ENV
     INSTALLATION_PRICING_PLAN
     CAPTAIN_TOOLS_MANIFEST_ENABLED
+    CAPTAIN_TOOLS_CATALOG_URL
   ].freeze
 
   before_action :set_application_pack
