@@ -1,0 +1,51 @@
+tags:
+  - Reusable Attachments
+operationId: add-new-reusable-attachment-to-account
+summary: Add a New Reusable Attachment
+description: |
+  Upload a file once and reference it by ID across multiple messages, so the underlying
+  file is reused instead of being uploaded and stored again for every message.
+  Use the `attachment_ids` field when creating a message to attach it.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - name
+          - file
+        properties:
+          name:
+            type: string
+            description: Name of the reusable attachment
+            example: 'Contract 2024'
+          description:
+            type: string
+            description: Description of the reusable attachment
+          file:
+            type: string
+            format: binary
+            description: The file to be uploaded
+responses:
+  '201':
+    description: Success
+    content:
+      application/json:
+        schema:
+          description: 'Newly created reusable attachment'
+          $ref: '#/components/schemas/reusable_attachment'
+  '422':
+    description: Invalid attachment (missing name or file, or file too large)
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
