@@ -135,6 +135,7 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :sync_templates, to: :provider_service
   delegate :media_url, to: :provider_service
   delegate :api_headers, to: :provider_service
+  delegate :send_typing_indicator, to: :provider_service
 
   def send_contact_info_request(identifier, message)
     raise NotImplementedError, 'Contact information requests require a WhatsApp Cloud provider' unless provider == 'whatsapp_cloud'
