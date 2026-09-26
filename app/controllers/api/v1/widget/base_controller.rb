@@ -10,8 +10,13 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   def validate_conversation_id
     return unless params.key?(:conversation_id)
-    return if params[:conversation_id].is_a?(Integer) && params[:conversation_id].positive?
-    return if params[:conversation_id].is_a?(String) && params[:conversation_id].match?(/\A[1-9]\d*\z/)
+
+    valid_id = case params[:conversation_id]
+               when nil, '' then !@sdk_app
+               when Integer then params[:conversation_id].positive?
+               when String then params[:conversation_id].match?(/\A[1-9]\d*\z/)
+               end
+    return if valid_id
 
     render json: { error: 'Invalid conversation ID' }, status: :unprocessable_entity
   end
@@ -25,13 +30,18 @@ class Api::V1::Widget::BaseController < ApplicationController
     end
   end
 
-  # With multiple conversations the widget names the conversation it acts on; no id means a new one.
   def conversation
-    @conversation ||= if params.key?(:conversation_id)
+    @conversation ||= if params[:conversation_id].present?
                         conversations.find_by!(display_id: params[:conversation_id])
-                      elsif !@sdk_app && !@web_widget.multiple_conversations?
+                      elsif !@sdk_app && !new_conversation_requested?
                         conversations.last
                       end
+  end
+
+  # Widgets running multiple conversations always send conversation_id, blank for a new one. Widgets
+  # loaded before the inbox enabled it send none and keep acting on the latest conversation.
+  def new_conversation_requested?
+    @web_widget.multiple_conversations? && params.key?(:conversation_id)
   end
 
   def create_conversation

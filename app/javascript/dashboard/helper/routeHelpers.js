@@ -153,5 +153,6 @@ export const isUpgradePageBypassRoute = routeName =>
     'billing_settings_index',
     'settings_inbox_list',
     'general_settings_index',
+    'security_settings_index',
     'agent_list',
   ].includes(routeName);

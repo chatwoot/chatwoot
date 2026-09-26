@@ -36,7 +36,7 @@ describe('#actions', () => {
         },
       }));
       await actions.createConversation(
-        { commit },
+        { commit, rootState },
         { contact: {}, message: 'This is a test message' }
       );
       expect(commit.mock.calls).toEqual([
@@ -48,6 +48,41 @@ describe('#actions', () => {
         ['setConversationUIFlag', { isCreating: false }],
       ]);
       windowSpy.mockRestore();
+    });
+  });
+
+  describe('#createConversation with multiple conversations', () => {
+    beforeEach(() => {
+      window.chatwootWebChannel = {
+        enabledFeatures: ['multiple_conversations'],
+      };
+      window.WOOT_WIDGET = { $root: { $i18n: { locale: 'en' } } };
+    });
+
+    afterEach(() => {
+      delete window.chatwootWebChannel;
+      delete window.WOOT_WIDGET;
+    });
+
+    it('leaves a thread the visitor already moved away from alone', async () => {
+      const movingRootState = {
+        conversationAttributes: { id: '' },
+        conversationList: { thread: 0 },
+      };
+      API.post.mockImplementationOnce(async () => {
+        movingRootState.conversationList.thread = 1;
+        return { data: { id: 7, messages: [{ id: 1, content: 'hi' }] } };
+      });
+
+      await actions.createConversation(
+        { commit, dispatch, rootState: movingRootState },
+        { message: 'hi' }
+      );
+
+      expect(commit.mock.calls).toEqual([
+        ['setConversationUIFlag', { isCreating: true }],
+      ]);
+      expect(dispatch).not.toBeCalled();
     });
   });
 
@@ -366,6 +401,47 @@ describe('#actions', () => {
       expect(dispatch).toHaveBeenCalledTimes(1);
     });
 
+    it('does not let a later draft join the first draft that is still being saved', async () => {
+      const draftRootState = {
+        conversationAttributes: { id: '' },
+        conversationList: { thread: 0 },
+      };
+      let saveFirst;
+      API.post
+        .mockImplementationOnce(
+          () =>
+            new Promise(resolve => {
+              saveFirst = () =>
+                resolve({ data: { id: 9, conversation_id: 55 } });
+            })
+        )
+        .mockResolvedValueOnce({ data: { id: 10, conversation_id: 56 } });
+
+      const first = actions.sendMessageWithData(
+        { commit, dispatch, rootState: draftRootState },
+        { message }
+      );
+      draftRootState.conversationList.thread = 1;
+      const second = actions.sendMessageWithData(
+        { commit, dispatch, rootState: draftRootState },
+        { message: { id: 'temp-2', content: 'another question', meta: {} } }
+      );
+
+      expect(API.post).toHaveBeenCalledTimes(2);
+      expect(API.post.mock.calls[1][2]).toEqual({
+        params: { conversation_id: undefined },
+      });
+      saveFirst();
+      await Promise.all([first, second]);
+      expect(commit).toBeCalledWith('deleteMessage', 'temp-1');
+      expect(dispatch).toBeCalledWith('conversationList/attach', 56, {
+        root: true,
+      });
+      expect(dispatch).not.toBeCalledWith('conversationList/attach', 55, {
+        root: true,
+      });
+    });
+
     it('fails the waiting messages when the first one could not be saved', async () => {
       const draftRootState = {
         conversationAttributes: { id: '' },
@@ -390,6 +466,22 @@ describe('#actions', () => {
         ...waiting,
         status: 'failed',
       });
+    });
+
+    it('replaces a retried message instead of leaving its failed copy behind', async () => {
+      API.post.mockResolvedValue({
+        data: { id: 9, content: 'hello', message_type: 0, conversation_id: 1 },
+      });
+
+      await actions.sendMessageWithData(
+        { commit, dispatch, rootState },
+        { message: { ...message, message_type: 0, status: 'failed' } }
+      );
+
+      expect(commit.mock.calls[0]).toEqual([
+        'pushMessageToConversation',
+        { ...message, message_type: 0, status: 'in_progress' },
+      ]);
     });
 
     it('drops the reply when the visitor moved to another conversation meanwhile', async () => {

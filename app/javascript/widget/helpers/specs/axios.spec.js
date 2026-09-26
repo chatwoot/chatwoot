@@ -50,12 +50,12 @@ describe('widget API client', () => {
     expect(config.params).toEqual({ before: 7 });
   });
 
-  it('leaves requests untouched when no conversation is active', async () => {
+  it('asks for a new conversation when none is active', async () => {
     window.chatwootWebChannel = { enabledFeatures: ['multiple_conversations'] };
     setActiveConversationId('');
 
     const { config } = await API.post('/api/v1/widget/messages', {});
 
-    expect(config.params).toBe(undefined);
+    expect(config.params).toEqual({ conversation_id: '' });
   });
 });

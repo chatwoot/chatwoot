@@ -9,22 +9,19 @@ export const API = axios.create({
 
 let activeConversationId = null;
 
-// With multiple conversations the server no longer infers the conversation, so every request names it.
+// With multiple conversations every request names its conversation, blank for a new one, so the
+// server can tell this widget apart from one loaded before the inbox enabled the feature.
 export const setActiveConversationId = id => {
   activeConversationId = id || null;
 };
 
 API.interceptors.request.use(config => {
-  if (
-    !activeConversationId ||
-    !isMultipleConversationsEnabled() ||
-    config.params?.conversation_id
-  ) {
+  if (!isMultipleConversationsEnabled() || config.params?.conversation_id) {
     return config;
   }
   return {
     ...config,
-    params: { ...config.params, conversation_id: activeConversationId },
+    params: { ...config.params, conversation_id: activeConversationId ?? '' },
   };
 });
 

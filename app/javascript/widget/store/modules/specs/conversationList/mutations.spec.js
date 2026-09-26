@@ -35,6 +35,32 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#setLastMessage', () => {
+    it('shows the message on its row and moves the row to the top', () => {
+      const state = {
+        records: [
+          { id: 3, last_message: { id: 30 } },
+          { id: 2, last_message: { id: 20 }, last_activity_at: 1 },
+        ],
+      };
+      mutations.setLastMessage(state, {
+        id: 40,
+        conversation_id: 2,
+        created_at: 9,
+      });
+      expect(state.records.map(record => record.id)).toEqual([2, 3]);
+      expect(state.records[0].last_message.id).toBe(40);
+      expect(state.records[0].last_activity_at).toBe(9);
+    });
+
+    it('keeps a newer preview and ignores unknown conversations', () => {
+      const state = { records: [{ id: 2, last_message: { id: 40 } }] };
+      mutations.setLastMessage(state, { id: 30, conversation_id: 2 });
+      mutations.setLastMessage(state, { id: 50, conversation_id: 9 });
+      expect(state.records).toEqual([{ id: 2, last_message: { id: 40 } }]);
+    });
+  });
+
   describe('#switchThread', () => {
     it('moves to the next thread', () => {
       const state = { thread: 1 };
