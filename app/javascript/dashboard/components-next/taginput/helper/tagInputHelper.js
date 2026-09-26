@@ -124,5 +124,21 @@ export const buildTagMenuItems = ({
 export const canAddTag = (mode, tagsLength) =>
   !(mode === MODE.SINGLE && tagsLength >= 1);
 
-export const findMatchingMenuItem = (menuItems, value) =>
-  menuItems.find(item => item.email === value);
+const digitsOnly = value => String(value ?? '').replace(/\D/g, '');
+
+// Match the typed value against the listed items by email OR phone number, so
+// pressing Enter on a phone number selects the existing contact instead of
+// trying to create it again (which fails: "Phone number has already been taken").
+export const findMatchingMenuItem = (menuItems, value) => {
+  const trimmed = String(value ?? '').trim();
+  if (!trimmed) return undefined;
+  const byEmail = menuItems.find(
+    item => item.email && item.email.toLowerCase() === trimmed.toLowerCase()
+  );
+  if (byEmail) return byEmail;
+  const digits = digitsOnly(trimmed);
+  if (digits.length < 7) return undefined;
+  return menuItems.find(
+    item => item.phoneNumber && digitsOnly(item.phoneNumber) === digits
+  );
+};
