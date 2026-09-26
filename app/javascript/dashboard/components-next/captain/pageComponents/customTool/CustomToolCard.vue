@@ -4,6 +4,7 @@ import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -55,6 +56,7 @@ const emit = defineEmits(['action', 'toggle']);
 const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
+const { isAdmin } = useAdmin();
 
 const [showActionsDropdown, toggleDropdown] = useToggle();
 
@@ -96,6 +98,13 @@ const timestamp = computed(() =>
   dynamicTime(props.updatedAt || props.createdAt)
 );
 
+// Admins edit tools they created; installed tools, and any tool for agents, open read-only
+const openTool = () =>
+  emit('action', {
+    action: isAdmin.value && !props.sourceMetadata ? 'edit' : 'view',
+    id: props.id,
+  });
+
 const handleAction = ({ action, value }) => {
   toggleDropdown(false);
   emit('action', { action, value, id: props.id });
@@ -117,9 +126,14 @@ const sourceIdentifier = computed(() =>
 <template>
   <CardLayout class="relative">
     <div class="flex relative justify-between w-full gap-1">
-      <span class="text-base text-n-slate-12 line-clamp-1 font-medium">
+      <button
+        type="button"
+        data-test="tool-title"
+        class="p-0 text-base text-start text-n-slate-12 line-clamp-1 font-medium hover:underline"
+        @click="openTool"
+      >
         {{ title }}
-      </span>
+      </button>
       <div class="flex items-center gap-2">
         <span class="text-xs text-n-slate-11">
           {{ statusLabel }}

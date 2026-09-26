@@ -1,6 +1,12 @@
 import { mount } from '@vue/test-utils';
 import CustomToolCard from './CustomToolCard.vue';
 
+const mocks = vi.hoisted(() => ({ isAdmin: { value: true } }));
+
+vi.mock('dashboard/composables/useAdmin', () => ({
+  useAdmin: () => ({ isAdmin: mocks.isAdmin }),
+}));
+
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key, locale: { value: 'en' } }),
 }));
@@ -26,7 +32,34 @@ const mountCard = (props = {}) =>
 
 const menuActions = wrapper => wrapper.vm.menuItems.map(item => item.action);
 
+const installedSource = {
+  repository: 'chatwoot/support-tools',
+  path: 'shopify',
+};
+
+const clickTitle = async wrapper => {
+  await wrapper.get('[data-test="tool-title"]').trigger('click');
+  return wrapper.emitted('action').at(-1)[0].action;
+};
+
 describe('CustomToolCard', () => {
+  beforeEach(() => {
+    mocks.isAdmin.value = true;
+  });
+
+  it('opens a tool the admin created for editing from its title', async () => {
+    expect(await clickTitle(mountCard())).toBe('edit');
+  });
+
+  it('opens installed tools and any tool for agents read-only from the title', async () => {
+    expect(
+      await clickTitle(mountCard({ sourceMetadata: installedSource }))
+    ).toBe('view');
+
+    mocks.isAdmin.value = false;
+    expect(await clickTitle(mountCard())).toBe('view');
+  });
+
   it('lets admins edit and delete tools they created', () => {
     expect(menuActions(mountCard())).toEqual(['edit', 'delete']);
   });
