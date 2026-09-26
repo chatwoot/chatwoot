@@ -90,7 +90,7 @@ class Api::V1::AccountsController < Api::BaseController
 
   def ensure_account_name
     # ensure that account_name and user_full_name is present
-    # this is becuase the account builder and the models validations are not triggered
+    # this is because the account builder and the models validations are not triggered
     # this change is to align the behaviour with the v2 accounts controller
     # since these values are not required directly there
     return if account_params[:account_name].present?
