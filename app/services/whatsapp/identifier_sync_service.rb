@@ -26,6 +26,7 @@ class Whatsapp::IdentifierSyncService
 
     update_contact_phone_number(phone_number)
     update_contact_username(username)
+    update_contact_bsuid(source_ids)
     update_contact_type_for_bsuid_identity(source_ids)
   end
 
@@ -44,6 +45,69 @@ class Whatsapp::IdentifierSyncService
     synced_contact.update!(additional_attributes: additional_attributes_with_username(username))
   end
 
+  # The phone number and the username are already mirrored onto the contact above, which is
+  # what makes them reachable to everything that reads a contact: the agent bot webhook, the
+  # websocket payload and the REST API. The business scoped user id is the third WhatsApp
+  # identity and the only one that stays confined to `contact_inbox.source_id`, where a
+  # payload only ever surfaces the single source id the conversation happens to be anchored
+  # to, usually the phone one. Mirror it as well so integrations can resolve the contact
+  # without a follow-up request.
+  def update_contact_bsuid(source_ids)
+    bsuids = owned_bsuids(source_ids)
+    return if bsuids.blank?
+
+    attributes = synced_contact.additional_attributes.deep_dup.merge(bsuid_attributes(bsuids))
+    return if attributes == synced_contact.additional_attributes
+
+    synced_contact.update!(additional_attributes: attributes)
+  end
+
+  # `create_contact_inboxes` leaves an alias alone when another contact already owns it, and a
+  # lifecycle rotation records only the aliases that did not collide. Mirroring a raw payload value
+  # would advertise an identifier that routing still resolves to that other contact, so only the
+  # aliases this contact actually owns are reported. Input order is preserved, since the caller
+  # relies on it to pick the regular identifier over the parent one.
+  def owned_bsuids(source_ids)
+    owned = inbox.contact_inboxes.where(contact_id: synced_contact.id, source_id: source_ids).pluck(:source_id).to_set
+    source_ids.filter_map { |source_id| whatsapp_bsuid(source_id) if owned.include?(source_id) }
+  end
+
+  # Twilio prefixes its source ids with the channel name, so the identifier is matched and
+  # reported without it, in the bare form the Cloud API and the Meta payloads use.
+  def whatsapp_bsuid(source_id)
+    identifier = source_id.to_s.delete_prefix('whatsapp:')
+    identifier if identifier.match?(RegexHelper::WHATSAPP_BSUID_REGEX)
+  end
+
+  # A parent identifier carries the `ENT` segment and groups a user across the business
+  # portfolios, so it is reported next to the regular one rather than replacing it. It only
+  # stands in for the regular key while nothing is mirrored there yet: a payload that carries
+  # the parent alone, such as a status update, must not downgrade an identifier already known.
+  def bsuid_attributes(bsuids)
+    parent, regular = bsuids.partition { |bsuid| parent_bsuid?(bsuid) }
+    identifier = regular.first || mirrored_bsuid || parent.first
+    attributes = {}
+    attributes['whatsapp_bsuid'] = identifier if identifier.present?
+    attributes['whatsapp_bsuid_parent'] = parent.first if parent.first.present?
+    attributes
+  end
+
+  # Only a regular identifier is worth preserving. A parent one lands here when it was the only
+  # thing a first payload carried, and `Whatsapp::UserIdRotationService` supports rotating it, so
+  # holding on to it would keep a stale value under `whatsapp_bsuid` while `whatsapp_bsuid_parent`
+  # moved on.
+  def mirrored_bsuid
+    mirrored = synced_contact.additional_attributes['whatsapp_bsuid'].presence
+    mirrored unless parent_bsuid?(mirrored)
+  end
+
+  def parent_bsuid?(bsuid)
+    bsuid.to_s.include?('.ENT.')
+  end
+
+  # Promotes a visitor to a lead once a business scoped user id shows up, which is the
+  # visibility fix that landed on develop. Reuses `whatsapp_bsuid` above instead of repeating
+  # the prefix strip and the regex match.
   def update_contact_type_for_bsuid_identity(source_ids)
     return unless synced_contact.visitor?
     return unless source_ids.any? { |source_id| whatsapp_bsuid_source_id?(source_id) }
@@ -52,7 +116,7 @@ class Whatsapp::IdentifierSyncService
   end
 
   def whatsapp_bsuid_source_id?(source_id)
-    source_id.to_s.delete_prefix('whatsapp:').match?(RegexHelper::WHATSAPP_BSUID_REGEX)
+    whatsapp_bsuid(source_id).present?
   end
 
   def synced_contact
