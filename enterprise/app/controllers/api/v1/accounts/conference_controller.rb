@@ -30,7 +30,9 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   def destroy
     call = resolve_call!
     # Tear down provider side first so a teardown failure leaves the call repairable.
-    Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference
+    conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
+    conference_service.terminate_call
+    conference_service.end_conference
     finalize_call!(call)
     # Account-wide, so every other tab/agent stops showing this call as ringing/active —
     # matches the equivalent WhatsApp broadcast (Whatsapp::CallService#broadcast).
