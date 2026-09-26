@@ -18,7 +18,7 @@ const props = defineProps({
   type: {
     type: String,
     default: 'create',
-    validator: value => ['create', 'edit'].includes(value),
+    validator: value => ['create', 'edit', 'view'].includes(value),
   },
 });
 
@@ -96,10 +96,11 @@ defineExpose({ dialogRef });
           type="button"
           faded
           slate
-          :label="$t('CAPTAIN.FORM.CANCEL')"
+          :label="$t(type === 'view' ? 'GENERAL.CLOSE' : 'CAPTAIN.FORM.CANCEL')"
           @click="handleCancel"
         />
         <Button
+          v-if="type !== 'view'"
           type="submit"
           form="custom-tool-form"
           :label="

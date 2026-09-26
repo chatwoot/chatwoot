@@ -1316,6 +1316,7 @@
       "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
       "OPTIONS": {
         "EDIT_TOOL": "Edit tool",
+        "VIEW_TOOL": "View tool",
         "DELETE_TOOL": "Delete tool"
       },
       "STATUS": {
@@ -1338,6 +1339,9 @@
         "TITLE": "Create Custom Tool",
         "SUCCESS_MESSAGE": "Custom tool created successfully",
         "ERROR_MESSAGE": "Failed to create custom tool"
+      },
+      "VIEW": {
+        "TITLE": "Custom Tool Details"
       },
       "EDIT": {
         "TITLE": "Edit Custom Tool",
