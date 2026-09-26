@@ -1,10 +1,11 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import {
   fetchToolsCatalog,
   isVerifiedOwner,
@@ -23,6 +24,7 @@ const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
 const globalConfig = useMapGetter('globalConfig/get');
+const { shouldShowPaywall } = usePolicy();
 const { run: runCatalogRequest, isPending: isLoading } = useAbortableRequest();
 
 const assistantId = computed(() => route.params.assistantId);
@@ -90,14 +92,27 @@ const onInstalled = () => {
   }
 };
 
+const showPaywall = computed(() =>
+  shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
+);
+
+// Installs are off by default, and a bookmarked catalog would only offer installs that fail
 onMounted(() => {
-  // Installs are off by default, and a bookmarked catalog would only offer installs that fail
   if (!globalConfig.value.captainToolsManifestEnabled) {
     router.replace(toolsRoute.value);
-    return;
   }
-  loadCatalog();
 });
+
+// On a full reload account features load after mount, so the catalog loads once access resolves
+watch(
+  showPaywall,
+  isPaywalled => {
+    if (!isPaywalled && globalConfig.value.captainToolsManifestEnabled) {
+      loadCatalog();
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
@@ -109,7 +124,7 @@ onMounted(() => {
     :show-pagination-footer="false"
   >
     <template #headerActions>
-      <Policy :permissions="['administrator']">
+      <Policy v-if="!showPaywall" :permissions="['administrator']">
         <Button
           :label="t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.BUTTON')"
           icon="i-lucide-file-box"

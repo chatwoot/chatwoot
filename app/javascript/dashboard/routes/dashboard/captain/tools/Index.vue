@@ -324,7 +324,10 @@ watch(
 
   <ToolsetInstallFlow
     v-if="
-      isAdmin && globalConfig.captainToolsManifestEnabled && route.query.install
+      isAdmin &&
+      globalConfig.captainToolsManifestEnabled &&
+      !showPaywall &&
+      route.query.install
     "
     :source="route.query.install"
     :assistant-id="assistantId"
