@@ -1,11 +1,11 @@
-<p>Hi {{user.available_name}}, </p>
+<p>{{'.greeting' | val: 'agent_name', user.available_name | t)}}...</p>
 
-<p>You've been mentioned in a conversation. <b>{{message.sender_display_name}}</b> wrote:</p>
+<p>{{'.actor' | t}}. <b>{{message.sender_display_name}}</b> {{'notifications.wrote' | t}}:</p>
 <blockquote style="box-sizing:border-box; padding:8px 16px; margin:0 0 20px; font-size:14px; border-left:5px solid #eeeeee">
   {{message.text_content}}
 </blockquote>
 
-<p><b>Previous messages:</b></p>
+<p><b>{{'notifications.previous_messages' | t}}:</b></p>
 {% for chat_message in conversation.recent_messages %}
   <div>
     <h4 style="margin: 0;">
@@ -24,11 +24,11 @@
 
     {% if chat_message.attachments %}
       {% for attachment in chat_message.attachments %}
-        Attachment [<a href="{{ attachment }}" _target="blank">Click here to view</a>]
+        {{'notifications.attachment' | t}} [<a href="{{ attachment }}" _target="blank">{{'notifications.click_here_to_view' | t}}</a>]
       {% endfor %}
     {% endif %}
   </div>
 {% endfor %}
 <p>
-  <a href="{{ action_url }}">View Message</a>
+  <a href="{{ action_url }}">{{'notifications.click_here_to_view' | t}}</a>
 </p>
