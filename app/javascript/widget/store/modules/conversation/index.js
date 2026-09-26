@@ -12,6 +12,10 @@ const state = {
     isFetchingList: false,
     isAgentTyping: false,
     isCreating: false,
+    // Both default false so behaviour is unchanged until something
+    // actually fails; nothing reads them on the happy path.
+    isSyncFailed: false,
+    isCreateFailed: false,
   },
   lastMessageId: null,
   pendingCustomAttributes: {},
