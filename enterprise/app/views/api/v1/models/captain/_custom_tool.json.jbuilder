@@ -11,6 +11,7 @@ json.auth_config custom_tool.auth_config if Current.user&.administrator?
 json.headers custom_tool.headers if Current.user&.administrator?
 json.param_schema custom_tool.param_schema
 json.enabled custom_tool.enabled
+json.source_metadata custom_tool.source_metadata
 json.account_id custom_tool.account_id
 json.assistant_id custom_tool.assistant_id
 json.created_at custom_tool.created_at.to_i

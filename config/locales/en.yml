@@ -505,6 +505,7 @@ en:
     custom_tool:
       slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
       limit_exceeded: 'You can create a maximum of %{limit} custom tools per assistant'
+      installed_read_only: 'Tools installed from a manifest are read-only; you can only enable or disable them'
       headers:
         invalid: 'must be an object of header names and values'
         too_many: 'cannot contain more than %{limit} entries'
@@ -512,6 +513,11 @@ en:
         invalid_name: '%{name} is not a valid header name'
         reserved: '%{name} is managed by Chatwoot and cannot be set'
         invalid_value: 'value for %{name} must be fixed text up to 1 KiB, without placeholders or control characters'
+    tools_manifest:
+      invalid_source: 'Enter a public GitHub URL or owner/repository/folder on the default branch'
+      invalid_manifest: "This toolset's manifest is invalid"
+      invalid_configuration: 'Invalid configuration'
+      disabled: 'Installing tools from a manifest is not enabled'
   public_portal:
     search:
       search_placeholder: Search for article by title or body...

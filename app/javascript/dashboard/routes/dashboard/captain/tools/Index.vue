@@ -16,6 +16,9 @@ import CustomToolCard from 'dashboard/components-next/captain/pageComponents/cus
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import AssistantToolsBanner from 'dashboard/components-next/captain/pageComponents/customTool/AssistantToolsBanner.vue';
+import InstallManifestDialog from 'dashboard/components-next/captain/pageComponents/customTool/InstallManifestDialog.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+import Policy from 'dashboard/components/policy.vue';
 
 const store = useStore();
 const route = useRoute();
@@ -24,6 +27,7 @@ const { t } = useI18n();
 const { shouldShowPaywall } = usePolicy();
 
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
+const globalConfig = useMapGetter('globalConfig/get');
 const { run, isPending: isFetchingTools } = useAbortableRequest();
 const records = useMapGetter('captainCustomTools/getRecords');
 const customTools = computed(() =>
@@ -36,6 +40,7 @@ const customToolsMeta = useMapGetter('captainCustomTools/getMeta');
 
 const createDialogRef = ref(null);
 const deleteDialogRef = ref(null);
+const installManifestDialogRef = ref(null);
 const disableDialogRef = ref(null);
 const selectedTool = ref(null);
 const dialogType = ref('');
@@ -87,8 +92,8 @@ const openCreateDialog = () => {
   nextTick(() => createDialogRef.value.dialogRef.open());
 };
 
-const handleEdit = tool => {
-  dialogType.value = 'edit';
+const openToolPanel = (type, tool) => {
+  dialogType.value = type;
   selectedTool.value = tool;
   nextTick(() => createDialogRef.value.dialogRef.open());
 };
@@ -100,8 +105,8 @@ const handleDelete = tool => {
 
 const handleAction = ({ action, id }) => {
   const tool = customTools.value.find(item => item.id === id);
-  if (action === 'edit') {
-    handleEdit(tool);
+  if (action === 'edit' || action === 'view') {
+    openToolPanel(action, tool);
   } else if (action === 'delete') {
     handleDelete(tool);
   }
@@ -193,12 +198,16 @@ const onDeleteSuccess = () => {
   }
 };
 
+// On a full reload account features load after mount, so the paywall briefly shows;
+// watching it too fetches the tools once access resolves, not only when the assistant changes
+const showPaywall = computed(() =>
+  shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
+);
+
 watch(
-  assistantId,
+  [assistantId, showPaywall],
   () => {
-    if (!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)) {
-      fetchCustomTools();
-    }
+    if (!showPaywall.value) fetchCustomTools();
   },
   { immediate: true }
 );
@@ -219,6 +228,25 @@ watch(
     @update:current-page="onPageChange"
     @click="openCreateDialog"
   >
+    <template #headerActions>
+      <Policy
+        v-if="
+          globalConfig.captainToolsManifestEnabled &&
+          !shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
+        "
+        :permissions="['administrator']"
+      >
+        <Button
+          :label="$t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.BUTTON')"
+          icon="i-lucide-file-box"
+          size="sm"
+          faded
+          slate
+          @click="installManifestDialogRef.open()"
+        />
+      </Policy>
+    </template>
+
     <template #paywall>
       <CaptainPaywall feature-prefix="CAPTAIN.CUSTOM_TOOLS" />
     </template>
@@ -244,6 +272,7 @@ watch(
           :auth-type="tool.auth_type"
           :param-schema="tool.param_schema"
           :enabled="tool.enabled"
+          :source-metadata="tool.source_metadata"
           :is-updating="pendingToggleIds.has(tool.id)"
           :created-at="tool.created_at"
           :updated-at="tool.updated_at"
@@ -253,6 +282,12 @@ watch(
       </div>
     </template>
   </PageLayout>
+
+  <InstallManifestDialog
+    ref="installManifestDialogRef"
+    :assistant-id="assistantId"
+    @installed="fetchCustomTools()"
+  />
 
   <CreateCustomToolDialog
     v-if="dialogType"

@@ -367,6 +367,38 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
     end
   end
 
+  describe 'tools installed from a manifest' do
+    let(:installed_tool) do
+      create(:captain_custom_tool, account: account, assistant: assistant, title: 'Get Order',
+                                   source_metadata: { 'source' => 'github', 'repository' => 'chatwoot/support-tools', 'path' => 'shopify',
+                                                      'tool_id' => 'get_order', 'revision' => 'a' * 40, 'version' => '1.0.0',
+                                                      'manifest_digest' => "sha256:#{'b' * 64}", 'installation_id' => SecureRandom.uuid })
+    end
+    let(:tool_url) { "/api/v1/accounts/#{account.id}/captain/custom_tools/#{installed_tool.id}?assistant_id=#{assistant.id}" }
+
+    it 'rejects edits to anything other than enabled' do
+      patch tool_url, params: { custom_tool: { title: 'Renamed', enabled: false } }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(json_response[:error]).to eq('Tools installed from a manifest are read-only; you can only enable or disable them')
+      expect(installed_tool.reload).to have_attributes(title: 'Get Order', enabled: true)
+    end
+
+    it 'allows enabling and disabling' do
+      patch tool_url, params: { custom_tool: { enabled: false } }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(installed_tool.reload.enabled).to be(false)
+    end
+
+    it 'allows deleting' do
+      delete tool_url, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:no_content)
+      expect(Captain::CustomTool.exists?(installed_tool.id)).to be(false)
+    end
+  end
+
   describe 'DELETE /api/v1/accounts/{account.id}/captain/custom_tools/{id}' do
     let!(:custom_tool) { create(:captain_custom_tool, account: account, assistant: assistant) }
 
