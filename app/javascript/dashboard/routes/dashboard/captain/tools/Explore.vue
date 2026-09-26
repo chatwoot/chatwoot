@@ -76,21 +76,10 @@ const loadCatalog = async () => {
 
 const openToolset = toolset => detailsPanelRef.value.open(toolset);
 
-// The dialog outlives an assistant switch, so a late install must not move the newly opened assistant
-let installingAssistantId = null;
+const installToolset = toolset =>
+  installManifestDialogRef.value.open(toolset.source);
 
-const openInstallDialog = source => {
-  installingAssistantId = assistantId.value;
-  installManifestDialogRef.value.open(source);
-};
-
-const installToolset = toolset => openInstallDialog(toolset.source);
-
-const onInstalled = () => {
-  if (installingAssistantId === assistantId.value) {
-    router.push(toolsRoute.value);
-  }
-};
+const goToTools = () => router.push(toolsRoute.value);
 
 const showPaywall = computed(() =>
   shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
@@ -131,7 +120,7 @@ watch(
           size="sm"
           faded
           slate
-          @click="openInstallDialog()"
+          @click="installManifestDialogRef.open()"
         />
       </Policy>
     </template>
@@ -195,6 +184,6 @@ watch(
   <InstallManifestDialog
     ref="installManifestDialogRef"
     :assistant-id="assistantId"
-    @installed="onInstalled"
+    @installed="goToTools"
   />
 </template>
