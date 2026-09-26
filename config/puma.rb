@@ -34,5 +34,19 @@ workers ENV.fetch('WEB_CONCURRENCY', 0)
 #
 preload_app!
 
+# Puma's own stats are only meaningful in the master process, so the CloudWatch reporter has to
+# be started here rather than from the initializer. Both hooks are no-ops unless
+# config/initializers/web_cloudwatch.rb turned the reporter on, and the app is preloaded above,
+# so that initializer has already run by the time the server is booted.
+after_booted do
+  Speedshop::Cloudwatch.start! if defined?(Speedshop::Cloudwatch)
+end
+
+before_worker_boot do
+  # A forked worker inherits the collector list, and Puma.stats_hash still answers in a child
+  # with the master's stale numbers, so leaving it in place makes every worker republish them.
+  Speedshop::Cloudwatch.config.collectors.clear if defined?(Speedshop::Cloudwatch)
+end
+
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
