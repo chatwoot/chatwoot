@@ -1,5 +1,10 @@
+import { isMultipleConversationsEnabled } from 'widget/helpers/utils';
+
 export default {
   computed: {
+    hasMultipleConversationsEnabled() {
+      return isMultipleConversationsEnabled();
+    },
     useInboxAvatarForBot() {
       return this.channelConfig.enabledFeatures.includes(
         'use_inbox_avatar_for_bot'

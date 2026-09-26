@@ -2,8 +2,17 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
   before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
 
+  RESULTS_PER_PAGE = 25
+
   def index
     @conversation = conversation
+  end
+
+  def list
+    @unread_conversation_count = unread_messages_for(conversations.select(:id)).distinct.count(:conversation_id)
+    @conversations = conversations.includes(:assignee).order(last_activity_at: :desc).page(permitted_params[:page]).per(RESULTS_PER_PAGE)
+    @unread_counts = unread_messages_for(@conversations.map(&:id)).group(:conversation_id).count
+    @last_messages = last_messages_for(@conversations)
   end
 
   def create
@@ -90,13 +99,33 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: conversation, user: @contact)
   end
 
+  def unread_messages_for(conversation_ids)
+    Message.joins(:conversation)
+           .where(conversation_id: conversation_ids)
+           .outgoing
+           .where(private: false)
+           .not_deleted
+           .where('messages.created_at > COALESCE(conversations.contact_last_seen_at, to_timestamp(0))')
+           .reorder(nil)
+  end
+
+  def last_messages_for(conversations)
+    Message.where(conversation_id: conversations.map(&:id))
+           .chat
+           .not_deleted
+           .select('DISTINCT ON (conversation_id) messages.*')
+           .reorder(:conversation_id, created_at: :desc, id: :desc)
+           .includes(:attachments, :sender)
+           .index_by(&:conversation_id)
+  end
+
   def render_not_found_if_empty
     return head :not_found if conversation.nil?
   end
 
   def permitted_params
-    params.permit(:id, :typing_status, :website_token, :email, contact: [:name, :email, :phone_number, { custom_attributes: {} }],
-                                                               message: [:content, :referer_url, :timestamp, :echo_id],
-                                                               custom_attributes: {})
+    params.permit(:id, :page, :typing_status, :website_token, :email, contact: [:name, :email, :phone_number, { custom_attributes: {} }],
+                                                                      message: [:content, :referer_url, :timestamp, :echo_id],
+                                                                      custom_attributes: {})
   end
 end

@@ -4,6 +4,9 @@ import { findUndeliveredMessage } from './helpers';
 export const mutations = {
   clearConversations($state) {
     $state.conversations = {};
+    $state.uiFlags.allMessagesLoaded = false;
+    $state.uiFlags.isAgentTyping = false;
+    $state.uiFlags.isCreating = false;
     $state.pendingCustomAttributes = {};
     $state.pendingLabels = [];
   },

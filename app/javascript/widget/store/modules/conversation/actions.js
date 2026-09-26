@@ -11,23 +11,64 @@ import {
 } from 'widget/api/conversation';
 
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
-import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
+import {
+  createTemporaryMessage,
+  getNonDeletedMessages,
+  hasLeftConversation,
+} from './helpers';
 import { emitter } from 'shared/helpers/mitt';
+import { isMultipleConversationsEnabled } from 'widget/helpers/utils';
+
+// A new thread has no id until its first message creates the conversation, so messages sent
+// meanwhile from the same thread wait for that request and post to the conversation it created.
+let pendingCreation = null;
+
+const postToThread = ({ commit, rootState }, post) => {
+  const { conversationAttributes, conversationList } = rootState;
+  if (!isMultipleConversationsEnabled() || conversationAttributes.id) {
+    return post();
+  }
+  if (pendingCreation?.thread === conversationList.thread) {
+    return pendingCreation.request.then(({ data }) =>
+      post(data.conversation_id)
+    );
+  }
+  const creation = { thread: conversationList.thread, request: post() };
+  pendingCreation = creation;
+  commit('setConversationUIFlag', { isCreating: true });
+  const clear = () => {
+    if (pendingCreation !== creation) return;
+    pendingCreation = null;
+    commit('setConversationUIFlag', { isCreating: false });
+  };
+  creation.request.then(clear, clear);
+  return creation.request;
+};
+
 export const actions = {
-  createConversation: async ({ commit, dispatch }, params) => {
+  createConversation: async ({ commit, dispatch, rootState }, params) => {
+    const { thread } = rootState.conversationList;
     commit('setConversationUIFlag', { isCreating: true });
     try {
       const { data } = await createConversationAPI(params);
+      if (hasLeftConversation(rootState, thread)) return;
       const { messages } = data;
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
-      dispatch('conversationAttributes/getAttributes', {}, { root: true });
+      if (isMultipleConversationsEnabled()) {
+        dispatch('conversationList/attach', data.id, { root: true });
+      } else {
+        dispatch('conversationAttributes/getAttributes', {}, { root: true });
+      }
       // Emit event to notify that conversation is created and show the chat screen
       emitter.emit(ON_CONVERSATION_CREATED);
     } catch (error) {
       // Ignore error
     } finally {
-      commit('setConversationUIFlag', { isCreating: false });
+      // Leaving the thread already reset it; another thread may be creating by now.
+      if (!hasLeftConversation(rootState, thread)) {
+        commit('setConversationUIFlag', { isCreating: false });
+      }
     }
   },
   sendMessage: async ({ dispatch, state: conversationState }, params) => {
@@ -41,23 +82,34 @@ export const actions = {
     });
   },
   sendMessageWithData: async (
-    { commit },
+    { commit, dispatch, rootState },
     { message, pendingCustomAttributes = {}, pendingLabels = [] }
   ) => {
     const { id, content, replyTo, meta = {} } = message;
     const hasPendingMetadata =
       Object.keys(pendingCustomAttributes).length > 0 ||
       pendingLabels.length > 0;
+    const { thread } = rootState.conversationList;
 
-    commit('pushMessageToConversation', message);
+    // A retried message arrives marked failed; in progress again, the sent copy replaces it.
+    commit('pushMessageToConversation', { ...message, status: 'in_progress' });
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
     try {
-      const { data } = await sendMessageAPI(content, replyTo, {
-        customAttributes: hasPendingMetadata
-          ? pendingCustomAttributes
-          : undefined,
-        labels: hasPendingMetadata ? pendingLabels : undefined,
-      });
+      const { data } = await postToThread(
+        { commit, rootState },
+        conversationId =>
+          sendMessageAPI(content, replyTo, {
+            customAttributes: hasPendingMetadata
+              ? pendingCustomAttributes
+              : undefined,
+            labels: hasPendingMetadata ? pendingLabels : undefined,
+            conversationId,
+          })
+      );
+      if (hasLeftConversation(rootState, thread)) {
+        commit('deleteMessage', id);
+        return;
+      }
       if (hasPendingMetadata) {
         commit('clearPendingConversationMetadata');
       }
@@ -65,7 +117,19 @@ export const actions = {
       // [VITE] Don't delete this manually, since `pushMessageToConversation` does the replacement for us anyway
       // commit('deleteMessage', message.id);
       commit('pushMessageToConversation', { ...data, status: 'sent' });
+      if (
+        isMultipleConversationsEnabled() &&
+        !rootState.conversationAttributes.id
+      ) {
+        dispatch('conversationList/attach', data.conversation_id, {
+          root: true,
+        });
+      }
     } catch (error) {
+      if (hasLeftConversation(rootState, thread)) {
+        commit('deleteMessage', id);
+        return;
+      }
       commit('pushMessageToConversation', { ...message, status: 'failed' });
       commit('updateMessageMeta', {
         id,
@@ -78,7 +142,10 @@ export const actions = {
     commit('setLastMessageId');
   },
 
-  sendAttachment: async ({ commit, state: conversationState }, params) => {
+  sendAttachment: async (
+    { commit, dispatch, rootState, state: conversationState },
+    params
+  ) => {
     const {
       attachment: { thumbUrl, fileType },
       meta = {},
@@ -97,15 +164,25 @@ export const actions = {
     const hasPendingMetadata =
       Object.keys(pendingCustomAttributes).length > 0 ||
       pendingLabels.length > 0;
+    const { thread } = rootState.conversationList;
 
     commit('pushMessageToConversation', tempMessage);
     try {
-      const { data } = await sendAttachmentAPI(params, {
-        customAttributes: hasPendingMetadata
-          ? pendingCustomAttributes
-          : undefined,
-        labels: hasPendingMetadata ? pendingLabels : undefined,
-      });
+      const { data } = await postToThread(
+        { commit, rootState },
+        conversationId =>
+          sendAttachmentAPI(params, {
+            customAttributes: hasPendingMetadata
+              ? pendingCustomAttributes
+              : undefined,
+            labels: hasPendingMetadata ? pendingLabels : undefined,
+            conversationId,
+          })
+      );
+      if (hasLeftConversation(rootState, thread)) {
+        commit('deleteMessage', tempMessage.id);
+        return;
+      }
       if (hasPendingMetadata) {
         commit('clearPendingConversationMetadata');
       }
@@ -114,7 +191,19 @@ export const actions = {
         tempId: tempMessage.id,
       });
       commit('pushMessageToConversation', { ...data, status: 'sent' });
+      if (
+        isMultipleConversationsEnabled() &&
+        !rootState.conversationAttributes.id
+      ) {
+        dispatch('conversationList/attach', data.conversation_id, {
+          root: true,
+        });
+      }
     } catch (error) {
+      if (hasLeftConversation(rootState, thread)) {
+        commit('deleteMessage', tempMessage.id);
+        return;
+      }
       commit('pushMessageToConversation', { ...tempMessage, status: 'failed' });
       commit('updateMessageMeta', {
         id: tempMessage.id,
@@ -123,29 +212,34 @@ export const actions = {
       // Show error
     }
   },
-  fetchOldConversations: async ({ commit }, { before } = {}) => {
+  fetchOldConversations: async ({ commit, rootState }, { before } = {}) => {
+    const { thread } = rootState.conversationList;
     try {
       commit('setConversationListLoading', true);
       const {
         data: { payload, meta },
       } = await getMessagesAPI({ before });
+      if (hasLeftConversation(rootState, thread)) return;
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
       commit('setMessagesInConversation', formattedMessages);
-      commit('setConversationListLoading', false);
     } catch (error) {
+      // Ignore error
+    } finally {
       commit('setConversationListLoading', false);
     }
   },
 
-  syncLatestMessages: async ({ state, commit }) => {
+  syncLatestMessages: async ({ state, commit, rootState }) => {
+    const { thread } = rootState.conversationList;
     try {
       const { lastMessageId, conversations } = state;
 
       const {
         data: { payload, meta },
       } = await getMessagesAPI({ after: lastMessageId });
+      if (hasLeftConversation(rootState, thread)) return;
 
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
@@ -194,7 +288,7 @@ export const actions = {
     }
   },
 
-  setUserLastSeen: async ({ commit, getters: appGetters }) => {
+  setUserLastSeen: async ({ commit, getters: appGetters, rootState }) => {
     if (!appGetters.getConversationSize) {
       return;
     }
@@ -202,6 +296,9 @@ export const actions = {
     const lastSeen = Date.now() / 1000;
     try {
       commit('setMetaUserLastSeenAt', lastSeen);
+      commit('conversationList/markRead', rootState.conversationAttributes.id, {
+        root: true,
+      });
       await setUserLastSeenAt({ lastSeen });
     } catch (error) {
       // IgnoreError

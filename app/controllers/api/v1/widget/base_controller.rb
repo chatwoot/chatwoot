@@ -17,7 +17,17 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def conversation
-    @conversation ||= conversations.last
+    @conversation ||= if params[:conversation_id].present?
+                        conversations.find_by!(display_id: params[:conversation_id])
+                      elsif !new_conversation_requested?
+                        conversations.last
+                      end
+  end
+
+  # Widgets running multiple conversations always send conversation_id, blank for a new one. Widgets
+  # loaded before the inbox enabled it send none and keep acting on the latest conversation.
+  def new_conversation_requested?
+    @web_widget.multiple_conversations? && params.key?(:conversation_id)
   end
 
   def create_conversation

@@ -30,6 +30,13 @@ export const RNHelper = {
   },
 };
 
+export const isMultipleConversationsEnabled = () =>
+  Boolean(
+    window.chatwootWebChannel?.enabledFeatures?.includes(
+      'multiple_conversations'
+    )
+  );
+
 export const groupBy = (array, predicate) => {
   return array.reduce((acc, value) => {
     (acc[predicate(value)] ||= []).push(value);
