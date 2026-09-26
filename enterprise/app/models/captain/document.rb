@@ -7,7 +7,6 @@
 #  content_fingerprint    :string
 #  external_link          :text             not null
 #  last_sync_attempted_at :datetime
-#  last_sync_error_code   :string
 #  last_synced_at         :datetime
 #  metadata               :jsonb
 #  name                   :string

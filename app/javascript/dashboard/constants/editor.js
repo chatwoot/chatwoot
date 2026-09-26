@@ -124,6 +124,12 @@ export const FORMATTING = {
     nodes: [],
     menu: [],
   },
+  'Channel::GooglePlay': {
+    // Google Play developer replies are plain text only — no formatting is supported.
+    marks: [],
+    nodes: [],
+    menu: [],
+  },
   // Special contexts (not actual channels)
   'Context::PrivateNote': {
     marks: ['strong', 'em', 'code', 'link', 'strike'],
