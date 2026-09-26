@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_24_000001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1365,6 +1365,37 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
     t.index ["source_id"], name: "index_messages_on_source_id"
   end
 
+  create_table "sdk_push_deliveries", force: :cascade do |t|
+    t.bigint "sdk_push_device_id", null: false
+    t.bigint "message_id"
+    t.string "status", default: "pending", null: false
+    t.string "reason"
+    t.string "apns_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["message_id"], name: "index_sdk_push_deliveries_on_message_id"
+    t.index ["sdk_push_device_id", "message_id"], name: "index_sdk_push_deliveries_on_message", unique: true
+    t.index ["sdk_push_device_id"], name: "index_sdk_push_deliveries_on_sdk_push_device_id"
+  end
+
+  create_table "sdk_push_devices", force: :cascade do |t|
+    t.bigint "sdk_app_id", null: false
+    t.bigint "contact_inbox_id", null: false
+    t.bigint "contact_id", null: false
+    t.string "device_token", null: false
+    t.string "environment", null: false
+    t.string "name", null: false
+    t.datetime "registered_at", null: false
+    t.datetime "invalidated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "platform", null: false
+    t.index ["contact_id"], name: "index_sdk_push_devices_on_contact_id"
+    t.index ["contact_inbox_id"], name: "index_sdk_push_devices_on_contact_inbox_id"
+    t.index ["sdk_app_id", "platform", "environment", "device_token"], name: "index_sdk_push_devices_on_token", unique: true
+    t.index ["sdk_app_id"], name: "index_sdk_push_devices_on_sdk_app_id"
+  end
+
   create_table "notes", force: :cascade do |t|
     t.text "content", null: false
     t.bigint "account_id", null: false
@@ -1518,6 +1549,41 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
     t.index ["account_id", "date", "dimension_type", "dimension_id", "metric"], name: "index_rollup_unique_key", unique: true
     t.index ["account_id", "dimension_type", "date"], name: "index_rollup_summary"
     t.index ["account_id", "metric", "date"], name: "index_rollup_timeseries"
+  end
+
+  create_table "sdk_android_configurations", force: :cascade do |t|
+    t.boolean "enabled", default: true, null: false
+    t.bigint "sdk_app_id", null: false
+    t.string "package_name", null: false
+    t.string "project_id", null: false
+    t.text "service_account", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sdk_app_id"], name: "index_sdk_android_configurations_on_sdk_app_id", unique: true
+  end
+
+  create_table "sdk_apps", force: :cascade do |t|
+    t.bigint "inbox_id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "account_id", null: false
+    t.string "app_id", null: false
+    t.index ["account_id"], name: "index_sdk_apps_on_account_id"
+    t.index ["app_id"], name: "index_sdk_apps_on_app_id", unique: true
+    t.index ["inbox_id"], name: "index_sdk_apps_on_inbox_id"
+  end
+
+  create_table "sdk_ios_configurations", force: :cascade do |t|
+    t.boolean "enabled", default: true, null: false
+    t.bigint "sdk_app_id", null: false
+    t.string "bundle_id", null: false
+    t.string "team_id", null: false
+    t.string "key_id", null: false
+    t.text "private_key", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sdk_app_id"], name: "index_sdk_ios_configurations_on_sdk_app_id", unique: true
   end
 
   create_table "sla_events", force: :cascade do |t|
@@ -1705,6 +1771,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitors", "users", on_delete: :nullify
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "sdk_push_deliveries", "messages", on_delete: :cascade
+  add_foreign_key "sdk_push_deliveries", "sdk_push_devices", on_delete: :cascade
+  add_foreign_key "sdk_push_devices", "contact_inboxes", on_delete: :cascade
+  add_foreign_key "sdk_push_devices", "contacts", on_delete: :cascade
+  add_foreign_key "sdk_push_devices", "sdk_apps", on_delete: :cascade
+  add_foreign_key "sdk_android_configurations", "sdk_apps", on_delete: :cascade
+  add_foreign_key "sdk_apps", "accounts", on_delete: :cascade
+  add_foreign_key "sdk_apps", "inboxes", on_delete: :cascade
+  add_foreign_key "sdk_ios_configurations", "sdk_apps", on_delete: :cascade
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

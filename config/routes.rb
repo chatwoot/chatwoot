@@ -66,6 +66,7 @@ Rails.application.routes.draw do
               end
             end
           end
+          resources :sdk_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :actions do
             resource :contact_merge, only: [:create]
           end
@@ -514,6 +515,7 @@ Rails.application.routes.draw do
       resource :notification_subscriptions, only: [:create, :destroy]
 
       namespace :widget do
+        resources :sdk_push_devices, only: [:create, :destroy]
         resource :direct_uploads, only: [:create]
         resource :config, only: [:create]
         resources :campaigns, only: [:index]

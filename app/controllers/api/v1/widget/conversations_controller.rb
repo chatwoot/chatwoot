@@ -1,5 +1,6 @@
 class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
+  before_action :validate_list_page, only: [:list]
   before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
 
   RESULTS_PER_PAGE = 25
@@ -97,6 +98,14 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
   def trigger_typing_event(event)
     Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: conversation, user: @contact)
+  end
+
+  def validate_list_page
+    return unless params.key?(:page)
+    return if params[:page].is_a?(Integer) && params[:page].positive?
+    return if params[:page].is_a?(String) && params[:page].match?(/\A[1-9]\d*\z/)
+
+    render json: { error: 'Invalid conversation page' }, status: :unprocessable_entity
   end
 
   def unread_messages_for(conversation_ids)

@@ -30,6 +30,9 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  sdk_push:
+    reply: "You have a new support reply"
+    test: "Your support notifications are working"
   hello: 'Hello world'
   inbox:
     reauthorization:
@@ -416,6 +419,10 @@ en:
     online:
       delete: '%{contact_name} is Online, please try again later'
   integration_apps:
+    sdks:
+      name: SDKs
+      description: Connect your mobile apps to Chatwoot.
+      short_description: Connect your mobile apps to Chatwoot.
     # Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: 'Dashboard Apps'
