@@ -21,6 +21,7 @@ class CreateSdkTables < ActiveRecord::Migration[7.1]
 
   def create_ios_configurations
     create_table :sdk_ios_configurations do |t|
+      t.boolean :enabled, null: false, default: true
       t.references :sdk_app, null: false, foreign_key: { on_delete: :cascade }, index: { unique: true }
       t.string :bundle_id, null: false
       t.string :team_id, null: false
@@ -32,6 +33,7 @@ class CreateSdkTables < ActiveRecord::Migration[7.1]
 
   def create_android_configurations
     create_table :sdk_android_configurations do |t|
+      t.boolean :enabled, null: false, default: true
       t.references :sdk_app, null: false, foreign_key: { on_delete: :cascade }, index: { unique: true }
       t.string :package_name, null: false
       t.string :project_id, null: false

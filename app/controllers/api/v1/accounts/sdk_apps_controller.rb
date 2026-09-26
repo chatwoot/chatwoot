@@ -67,8 +67,8 @@ class Api::V1::Accounts::SdkAppsController < Api::V1::Accounts::BaseController
       remove_ios_configuration(existing)
       return
     end
-    unless ios.is_a?(ActionController::Parameters) && ios.values.all?(String)
-      render_could_not_create_error('iOS configuration fields must be strings')
+    unless valid_configuration_attributes?(ios)
+      render_could_not_create_error('iOS configuration fields must be strings and enabled must be a boolean')
       return
     end
     unless Chatwoot.encryption_configured?
@@ -76,7 +76,7 @@ class Api::V1::Accounts::SdkAppsController < Api::V1::Accounts::BaseController
       return
     end
 
-    @attributes[:ios_configuration_attributes] = ios.permit(:bundle_id, :team_id, :key_id, :private_key).to_h
+    @attributes[:ios_configuration_attributes] = ios.permit(:enabled, :bundle_id, :team_id, :key_id, :private_key).to_h
     @attributes[:ios_configuration_attributes][:id] = existing.id if existing
   end
 
@@ -93,8 +93,8 @@ class Api::V1::Accounts::SdkAppsController < Api::V1::Accounts::BaseController
       remove_android_configuration(existing)
       return
     end
-    unless android.is_a?(ActionController::Parameters) && android.values.all?(String)
-      render_could_not_create_error('Android configuration fields must be strings')
+    unless valid_configuration_attributes?(android)
+      render_could_not_create_error('Android configuration fields must be strings and enabled must be a boolean')
       return
     end
     unless Chatwoot.encryption_configured?
@@ -102,7 +102,7 @@ class Api::V1::Accounts::SdkAppsController < Api::V1::Accounts::BaseController
       return
     end
 
-    @attributes[:android_configuration_attributes] = android.permit(:package_name, :project_id, :service_account).to_h
+    @attributes[:android_configuration_attributes] = android.permit(:enabled, :package_name, :project_id, :service_account).to_h
     @attributes[:android_configuration_attributes][:id] = existing.id if existing
   end
 
@@ -112,11 +112,16 @@ class Api::V1::Accounts::SdkAppsController < Api::V1::Accounts::BaseController
     @attributes[:android_configuration_attributes] = { id: existing.id, _destroy: true }
   end
 
+  def valid_configuration_attributes?(attributes)
+    attributes.is_a?(ActionController::Parameters) && attributes.except(:enabled).values.all?(String) &&
+      (!attributes.key?(:enabled) || [true, false].include?(attributes[:enabled]))
+  end
+
   def payload(app)
     ios = app.ios_configuration
     app.slice(:id, :app_id, :name, :inbox_id).merge(
-      ios_configuration: ios&.slice(:bundle_id, :team_id, :key_id)&.merge(credentials_configured: true),
-      android_configuration: app.android_configuration&.slice(:package_name, :project_id)&.merge(credentials_configured: true)
+      ios_configuration: ios&.slice(:enabled, :bundle_id, :team_id, :key_id)&.merge(credentials_configured: true),
+      android_configuration: app.android_configuration&.slice(:enabled, :package_name, :project_id)&.merge(credentials_configured: true)
     )
   end
 end

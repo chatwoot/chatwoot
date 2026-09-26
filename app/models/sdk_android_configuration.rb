@@ -2,6 +2,7 @@ class SdkAndroidConfiguration < ApplicationRecord
   belongs_to :sdk_app
   encrypts :service_account
 
+  validates :enabled, inclusion: { in: [true, false] }
   validates :sdk_app_id, uniqueness: true
   validates :package_name, :project_id, :service_account, presence: true
   validates :package_name, format: { with: /\A[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z][A-Za-z0-9_]*)+\z/ }, length: { maximum: 255 }

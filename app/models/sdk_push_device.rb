@@ -14,6 +14,11 @@ class SdkPushDevice < ApplicationRecord
   validates :environment, inclusion: { in: %w[production] }, if: -> { platform == 'android' }
   validate :session_matches_inbox
 
+  def push_enabled?
+    configuration = platform == 'ios' ? sdk_app.ios_configuration : sdk_app.android_configuration
+    configuration.enabled?
+  end
+
   private
 
   def session_matches_inbox

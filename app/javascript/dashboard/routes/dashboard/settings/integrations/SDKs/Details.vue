@@ -114,11 +114,11 @@ async function load() {
     appId.value = app?.app_id || '';
     configured.value = !!app;
     form.name = app?.name || '';
-    androidEnabled.value = !!app?.android_configuration;
+    androidEnabled.value = app?.android_configuration?.enabled ?? false;
     androidConfigured.value = !!app?.android_configuration;
     androidForm.package_name = app?.android_configuration?.package_name || '';
     androidForm.project_id = app?.android_configuration?.project_id || '';
-    iosEnabled.value = !!app?.ios_configuration;
+    iosEnabled.value = app?.ios_configuration?.enabled ?? false;
     iosConfigured.value = !!app?.ios_configuration;
     pushFields.forEach(field => {
       form[field] = app?.ios_configuration?.[field] || '';
@@ -174,26 +174,30 @@ async function save() {
             inbox_id: savedApp.value.inbox_id,
             ...(platform.value === 'android'
               ? {
-                  android_configuration: androidEnabled.value
-                    ? {
-                        ...androidForm,
-                        ...(serviceAccount.value
-                          ? { service_account: serviceAccount.value }
-                          : {}),
-                      }
-                    : null,
+                  android_configuration:
+                    androidEnabled.value || androidConfigured.value
+                      ? {
+                          enabled: androidEnabled.value,
+                          ...androidForm,
+                          ...(serviceAccount.value
+                            ? { service_account: serviceAccount.value }
+                            : {}),
+                        }
+                      : null,
                 }
               : {
-                  ios_configuration: iosEnabled.value
-                    ? {
-                        bundle_id: form.bundle_id,
-                        team_id: form.team_id,
-                        key_id: form.key_id,
-                        ...(privateKey.value
-                          ? { private_key: privateKey.value }
-                          : {}),
-                      }
-                    : null,
+                  ios_configuration:
+                    iosEnabled.value || iosConfigured.value
+                      ? {
+                          enabled: iosEnabled.value,
+                          bundle_id: form.bundle_id,
+                          team_id: form.team_id,
+                          key_id: form.key_id,
+                          ...(privateKey.value
+                            ? { private_key: privateKey.value }
+                            : {}),
+                        }
+                      : null,
                 }),
           }
         : { name: form.name, inbox_id: form.inbox_id };
@@ -322,7 +326,7 @@ onActivated(load);
         >
           {{ t('INBOX_MGMT.SDK_APPS.DISABLE_IOS_HELP') }}
         </p>
-        <template v-if="iosEnabled">
+        <template v-if="iosEnabled || iosConfigured">
           <Input
             v-for="field in pushFields"
             :key="field"
@@ -363,7 +367,7 @@ onActivated(load);
         >
           {{ t('INBOX_MGMT.SDK_APPS.ANDROID.DISABLE_HELP') }}
         </p>
-        <template v-if="androidEnabled">
+        <template v-if="androidEnabled || androidConfigured">
           <Input
             v-model="androidForm.package_name"
             :label="t('INBOX_MGMT.SDK_APPS.ANDROID.PACKAGE_NAME')"

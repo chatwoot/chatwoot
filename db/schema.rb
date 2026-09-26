@@ -1552,6 +1552,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000001) do
   end
 
   create_table "sdk_android_configurations", force: :cascade do |t|
+    t.boolean "enabled", default: true, null: false
     t.bigint "sdk_app_id", null: false
     t.string "package_name", null: false
     t.string "project_id", null: false
@@ -1574,6 +1575,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000001) do
   end
 
   create_table "sdk_ios_configurations", force: :cascade do |t|
+    t.boolean "enabled", default: true, null: false
     t.bigint "sdk_app_id", null: false
     t.string "bundle_id", null: false
     t.string "team_id", null: false

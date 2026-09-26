@@ -2,6 +2,7 @@ class SdkIosConfiguration < ApplicationRecord
   belongs_to :sdk_app
   encrypts :private_key
 
+  validates :enabled, inclusion: { in: [true, false] }
   validates :sdk_app_id, uniqueness: true
   validates :bundle_id, :team_id, :key_id, :private_key, presence: true
   validates :bundle_id, format: { with: /\A[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+\z/ }, length: { maximum: 255 }
