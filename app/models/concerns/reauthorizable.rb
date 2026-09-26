@@ -29,13 +29,13 @@ module Reauthorizable
   # Implement in your exception handling logic for authorization errors
   def authorization_error!
     ::Redis::Alfred.incr(authorization_error_count_key)
-    # we are giving precendence to the authorization error threshhold defined in the class
+    # we are giving precedence to the authorization error threshold defined in the class
     # so that channels can override the default value
     prompt_reauthorization! if authorization_error_count >= self.class::AUTHORIZATION_ERROR_THRESHOLD
   end
 
   # Performed automatically if error threshold is breached
-  # could used to manually prompt reauthorization if auth scope changes
+  # could be used to manually prompt reauthorization if auth scope changes
   def prompt_reauthorization!
     state_changed = !reauthorization_required?
 
