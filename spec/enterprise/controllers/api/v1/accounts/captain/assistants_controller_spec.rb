@@ -255,39 +255,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         expect(assistant.reload.config).to include('product_name' => 'Chatwoot', 'auto_resolve_mode' => 'disabled')
       end
 
-      it 'keeps inactivity timer settings behind Captain V2' do
-        account.disable_features!('captain_integration_v2')
-        assistant.update!(
-          config: {
-            'auto_resolve_mode' => 'evaluated',
-            'auto_resolve_after' => 60,
-            'send_inactivity_resolution_message' => true
-          }
-        )
-
-        patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
-              params: {
-                assistant: {
-                  config: {
-                    auto_resolve_mode: 'disabled',
-                    auto_resolve_after: 90,
-                    send_inactivity_resolution_message: false
-                  }
-                }
-              },
-              headers: admin.create_new_auth_token,
-              as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(assistant.reload.config).to include(
-          'auto_resolve_mode' => 'disabled',
-          'auto_resolve_after' => 60,
-          'send_inactivity_resolution_message' => true
-        )
-      end
-
       it 'updates inactive conversation settings for Captain v2' do
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
 
         patch "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
               params: {
@@ -501,6 +470,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
     let(:assistant) { create(:captain_assistant, account: account) }
     let(:valid_params) do
       {
+        request_id: 'playground-request-1',
         message_content: 'Hello assistant',
         message_history: [
           { role: 'user', content: 'Previous message' },
@@ -508,8 +478,6 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         ]
       }
     end
-    let(:chat_service) { instance_double(Captain::Llm::AssistantChatService) }
-    let(:agent_runner_service) { instance_double(Captain::Assistant::AgentRunnerService) }
 
     context 'when it is an un-authenticated user' do
       it 'returns unauthorized' do
@@ -521,177 +489,64 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       end
     end
 
-    context 'when captain v2 is disabled' do
-      it 'generates a response with the legacy assistant chat service' do
-        allow(Captain::Llm::AssistantChatService).to receive(:new).with(
+    context 'when it is an authenticated user' do
+      it 'queues the playground response and returns immediately' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+               params: valid_params,
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.to have_enqueued_job(Captain::Playground::ResponseJob).with(
           assistant: assistant,
-          source: 'playground'
-        ).and_return(chat_service)
-        allow(chat_service).to receive(:generate_response).and_return({ content: 'Assistant response' })
-        expect(Captain::Assistant::AgentRunnerService).not_to receive(:new)
-
-        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: valid_params,
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(chat_service).to have_received(:generate_response).with(
-          additional_message: valid_params[:message_content],
-          message_history: valid_params[:message_history]
-        )
-        expect(json_response[:content]).to eq('Assistant response')
-      end
-
-      it 'uses empty array as default' do
-        params_without_history = { message_content: 'Hello assistant' }
-        allow(Captain::Llm::AssistantChatService).to receive(:new).with(
-          assistant: assistant,
-          source: 'playground'
-        ).and_return(chat_service)
-        allow(chat_service).to receive(:generate_response).and_return({ content: 'Assistant response' })
-        expect(Captain::Assistant::AgentRunnerService).not_to receive(:new)
-
-        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: params_without_history,
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(chat_service).to have_received(:generate_response).with(
-          additional_message: params_without_history[:message_content],
-          message_history: []
-        )
-      end
-
-      it 'rejects enhanced playground configuration' do
-        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: valid_params.merge(playground_config: { scenario_ids: [] }),
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response[:errors]).to eq(playground_config: ['is only available with Captain V2'])
-      end
-    end
-
-    context 'when captain v2 is enabled' do
-      let(:run_options) { Captain::Assistant::AgentRunnerService::RunOptions.new(source: 'playground') }
-
-      before do
-        account.enable_features('captain_integration_v2')
-      end
-
-      it 'generates a response with the agent runner service' do
-        allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
-          assistant: assistant,
-          run_options: run_options
-        ).and_return(agent_runner_service)
-        allow(agent_runner_service).to receive(:generate_response).and_return(
-          {
-            response: 'Assistant response',
-            response_parts: [{ text: 'Assistant response', citation_indexes: [] }]
+          user: agent,
+          request_id: valid_params[:request_id],
+          request: {
+            message_content: valid_params[:message_content],
+            message_history: valid_params[:message_history],
+            playground_config: nil,
+            playground_config_supplied: false
           }
         )
-        expect(Captain::Llm::AssistantChatService).not_to receive(:new)
 
+        expect(response).to have_http_status(:accepted)
+        expect(json_response[:request_id]).to eq(valid_params[:request_id])
+      end
+
+      it 'generates a request id when the client does not provide one' do
         post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: valid_params,
+             params: valid_params.except(:request_id),
              headers: agent.create_new_auth_token,
              as: :json
 
-        expect(response).to have_http_status(:success)
-        expect(agent_runner_service).to have_received(:generate_response).with(
-          message_history: valid_params[:message_history] + [{ role: 'user', content: valid_params[:message_content] }]
-        )
-        expect(json_response[:response]).to eq('Assistant response')
-        expect(json_response[:response_parts]).to eq([{ text: 'Assistant response', citation_indexes: [] }])
+        expect(response).to have_http_status(:accepted)
+        expect(json_response[:request_id]).to be_present
       end
 
-      it 'does not duplicate the latest user message if it is already in history' do
-        params_with_latest_message = {
-          message_content: 'Hello assistant',
-          message_history: [{ role: 'user', content: 'Hello assistant' }]
-        }
-        allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
-          assistant: assistant,
-          run_options: run_options
-        ).and_return(agent_runner_service)
-        allow(agent_runner_service).to receive(:generate_response).and_return({ response: 'Assistant response' })
-
-        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: params_with_latest_message,
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(agent_runner_service).to have_received(:generate_response).with(
-          message_history: params_with_latest_message[:message_history]
-        )
-      end
-
-      it 'runs enhanced requests through the session-only playground runner' do
-        playground_runner = instance_double(Captain::Playground::Runner)
+      it 'passes the ephemeral playground configuration to the job' do
         enhanced_params = valid_params.merge(
           playground_config: {
             scenario_ids: [],
             temporary_scenarios: [],
             response_guidelines: ['Be concise'],
             guardrails: [],
-            knowledge_text: 'Refunds take five days.'
+            knowledge_text: 'Refunds take five days.',
+            ignored: 'do not enqueue'
           }
         )
-        allow(Captain::Playground::Runner).to receive(:new).with(
-          assistant: assistant,
-          configuration_params: kind_of(ActionController::Parameters),
-          message_history: valid_params[:message_history] + [{ role: 'user', content: valid_params[:message_content] }]
-        ).and_return(playground_runner)
-        allow(playground_runner).to receive(:generate_response).and_return(
-          response: 'Assistant response',
-          run_details: { duration_ms: 12, events: [] }
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+               params: enhanced_params,
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.to have_enqueued_job(Captain::Playground::ResponseJob).with(
+          hash_including(
+            request: hash_including(
+              playground_config: enhanced_params[:playground_config].except(:ignored).stringify_keys,
+              playground_config_supplied: true
+            )
+          )
         )
-
-        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: enhanced_params,
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(json_response[:run_details]).to eq(duration_ms: 12, events: [])
-      end
-
-      it 'returns structured validation errors without modifying Captain configuration' do
-        assistant
-        original_counts = [Captain::Assistant.count, Captain::Scenario.count]
-
-        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: valid_params.merge(playground_config: { knowledge_text: 'a' * 10_001 }),
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response[:errors][:knowledge_text]).to eq(['is limited to 10000 characters'])
-        expect([Captain::Assistant.count, Captain::Scenario.count]).to eq(original_counts)
-      end
-
-      it 'returns a structured error for a malformed playground configuration' do
-        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: valid_params.merge(playground_config: 'invalid'),
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response[:errors]).to eq(playground_config: ['must be an object'])
-      end
-
-      it 'returns a structured error for malformed playground configuration fields' do
-        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
-             params: valid_params.merge(playground_config: { scenario_ids: 1 }),
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response[:errors]).to eq(scenario_ids: ['must be an array'])
       end
     end
   end

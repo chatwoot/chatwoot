@@ -17,10 +17,10 @@ export default {
   methods: {
     async confirmToken() {
       try {
-        await verifyPasswordToken({
+        const result = await verifyPasswordToken({
           confirmationToken: this.confirmationToken,
         });
-        window.location = DEFAULT_REDIRECT_URL;
+        window.location = result?.redirectUrl || DEFAULT_REDIRECT_URL;
       } catch (error) {
         window.location = DEFAULT_REDIRECT_URL;
       }
