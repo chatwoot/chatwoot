@@ -103,13 +103,6 @@ const reset = () => {
 // Bumped on every open, so an install finishing after the dialog was reopened doesn't act on the new session
 let session = 0;
 
-const open = () => {
-  session += 1;
-  abortPreview();
-  reset();
-  dialogRef.value.open();
-};
-
 const close = () => dialogRef.value.close();
 
 // The tools page is reused across assistants, so a preview must never be installed into the next one
@@ -152,6 +145,16 @@ const loadPreview = async () => {
         t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.PREVIEW_ERROR')
     );
   }
+};
+
+// The catalog opens the dialog with a source, which goes straight to its preview
+const open = (initialSource = '') => {
+  session += 1;
+  abortPreview();
+  reset();
+  source.value = initialSource;
+  dialogRef.value.open();
+  if (initialSource) loadPreview();
 };
 
 const install = async () => {
