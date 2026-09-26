@@ -7,6 +7,7 @@ const mocks = vi.hoisted(() => ({
   dialogOpen: vi.fn(),
   dispatch: vi.fn(),
   getterValues: null,
+  paywall: null,
 }));
 
 const translate = (key, params = {}) => {
@@ -46,12 +47,17 @@ vi.mock('dashboard/composables/store', async () => {
 
 vi.mock('dashboard/composables', () => ({ useAlert: mocks.alerts }));
 
-vi.mock('dashboard/composables/usePolicy', () => ({
-  usePolicy: () => ({
-    isFeatureFlagEnabled: () => true,
-    shouldShowPaywall: () => false,
-  }),
-}));
+vi.mock('dashboard/composables/usePolicy', async () => {
+  const { ref } = await import('vue');
+  // Reactive, so a spec can simulate account features loading after the page mounts
+  mocks.paywall = ref(false);
+  return {
+    usePolicy: () => ({
+      isFeatureFlagEnabled: () => true,
+      shouldShowPaywall: () => mocks.paywall.value,
+    }),
+  };
+});
 
 vi.mock('vue-router', async importOriginal => ({
   ...(await importOriginal()),
@@ -118,7 +124,27 @@ const mountIndex = () =>
 describe('Captain custom tools', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mocks.paywall.value = false;
     mocks.dispatch.mockResolvedValue(undefined);
+  });
+
+  it('loads the tools once account access resolves after a reload', async () => {
+    mocks.paywall.value = true;
+    mountIndex();
+    await flushPromises();
+
+    expect(mocks.dispatch).not.toHaveBeenCalledWith(
+      'captainCustomTools/get',
+      expect.anything()
+    );
+
+    mocks.paywall.value = false;
+    await flushPromises();
+
+    expect(mocks.dispatch).toHaveBeenCalledWith(
+      'captainCustomTools/get',
+      expect.objectContaining({ assistantId: '1', page: 1 })
+    );
   });
 
   it('confirms before disabling a tool used by enabled scenarios', async () => {
