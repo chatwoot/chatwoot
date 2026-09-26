@@ -52,6 +52,10 @@ class AccountUser < ApplicationRecord
   end
 
   def remove_user_from_account
+    # The account may already be gone when this runs as part of deleting it, and
+    # the job has nothing left to clean up in that case.
+    return unless account && user
+
     ::Agents::DestroyJob.perform_later(account, user)
   end
 

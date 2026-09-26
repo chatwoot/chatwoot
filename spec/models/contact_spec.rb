@@ -115,6 +115,15 @@ RSpec.describe Contact do
     end
   end
 
+  describe '#push_event_data' do
+    it 'omits company data when the account is already gone' do
+      contact = create(:contact)
+      allow(contact).to receive(:account).and_return(nil)
+
+      expect(contact.push_event_data).not_to have_key(:company_id)
+    end
+  end
+
   describe '.resolved_contacts' do
     let(:account) { create(:account) }
 
