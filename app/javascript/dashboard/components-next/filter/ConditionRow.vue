@@ -261,7 +261,9 @@ defineExpose({ validate, resetValidation });
             v-model="values"
             :type="inputFieldType"
             class="[&>input]:h-8 [&>input]:py-1.5 [&>input]:outline-offset-0"
-            :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
+            :placeholder="
+              currentFilter?.placeholder || t('FILTER.INPUT_PLACEHOLDER')
+            "
           />
         </template>
         <Button

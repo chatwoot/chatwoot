@@ -58,6 +58,26 @@ RSpec.describe AutomationRules::ConditionValidationService do
       end
     end
 
+    context 'with a Captain condition' do
+      it 'accepts the Captain operators' do
+        rule.conditions = [
+          { 'values' => ['the customer wants a refund'], 'attribute_key' => 'captain_condition',
+            'query_operator' => nil, 'filter_operator' => 'detects' }
+        ]
+
+        expect(described_class.new(rule).perform).to be(true)
+      end
+
+      it 'rejects other operators' do
+        rule.conditions = [
+          { 'values' => ['the customer wants a refund'], 'attribute_key' => 'captain_condition',
+            'query_operator' => nil, 'filter_operator' => 'contains' }
+        ]
+
+        expect(described_class.new(rule).perform).to be(false)
+      end
+    end
+
     context 'with "attribute_changed" filter operator' do
       before do
         rule.conditions = [

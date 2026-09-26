@@ -138,6 +138,27 @@ RSpec.describe AutomationRule do
     end
   end
 
+  describe 'Captain conditions' do
+    let(:account) { create(:account) }
+    let(:rule) do
+      build(:automation_rule, account: account, conditions: [
+              { 'attribute_key' => 'captain_condition', 'filter_operator' => 'detects',
+                'values' => ['the customer wants a refund'], 'query_operator' => nil }
+            ])
+    end
+
+    it 'is allowed when the account has the Captain Classifier feature' do
+      account.enable_features!('captain_classifier')
+
+      expect(rule).to be_valid
+    end
+
+    it 'is rejected without the feature' do
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions require the Captain Classifier feature.')
+    end
+  end
+
   describe 'execution_delay validations' do
     let(:rule) { build(:automation_rule, account: create(:account)) }
 

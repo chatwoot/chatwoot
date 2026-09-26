@@ -3,11 +3,22 @@ import {
   OPERATOR_TYPES_2,
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_6,
+  CAPTAIN_OPERATOR_TYPES,
 } from './operators';
+
+// Free-text condition judged by Captain when the rule runs; offered on every event.
+export const CAPTAIN_CONDITION = {
+  key: 'captain_condition',
+  name: 'CAPTAIN',
+  inputType: 'plain_text',
+  placeholder: 'CAPTAIN',
+  filterOperators: CAPTAIN_OPERATOR_TYPES,
+};
 
 export const AUTOMATIONS = {
   message_created: {
     conditions: [
+      CAPTAIN_CONDITION,
       {
         key: 'message_type',
         name: 'MESSAGE_TYPE',
@@ -156,6 +167,7 @@ export const AUTOMATIONS = {
   },
   conversation_created: {
     conditions: [
+      CAPTAIN_CONDITION,
       {
         key: 'status',
         name: 'STATUS',
@@ -290,6 +302,7 @@ export const AUTOMATIONS = {
   },
   conversation_updated: {
     conditions: [
+      CAPTAIN_CONDITION,
       {
         key: 'status',
         name: 'STATUS',
@@ -436,6 +449,7 @@ export const AUTOMATIONS = {
   },
   conversation_opened: {
     conditions: [
+      CAPTAIN_CONDITION,
       {
         key: 'browser_language',
         name: 'BROWSER_LANGUAGE',
@@ -572,6 +586,7 @@ export const AUTOMATIONS = {
   },
   conversation_resolved: {
     conditions: [
+      CAPTAIN_CONDITION,
       {
         key: 'browser_language',
         name: 'BROWSER_LANGUAGE',

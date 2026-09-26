@@ -33,6 +33,8 @@
       "is_less_than": "Is lesser than",
       "days_before": "Is x days before",
       "starts_with": "Starts with",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "Equal to",
       "notEqualTo": "Not equal to",
       "contains": "Contains",
