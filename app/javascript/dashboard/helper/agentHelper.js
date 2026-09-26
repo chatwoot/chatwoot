@@ -23,6 +23,9 @@ export const getSortedAgentsByAvailability = agents => {
   return filteredAgents;
 };
 
+export const isAIAssigneeType = assigneeType =>
+  Boolean(assigneeType && assigneeType !== 'User');
+
 /**
  * Updates the availability status of the current user based on the current account
  * @param {Array} agents - List of agents

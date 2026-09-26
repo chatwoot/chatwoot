@@ -64,6 +64,25 @@ describe('MonitorListItem', () => {
     });
   });
 
+  it('shows the monitor icon in its color and falls back to the monitor icon', async () => {
+    const wrapper = shallowMount(MonitorListItem, {
+      props: {
+        monitor: { ...monitor, icon: 'fire-line', icon_color: '#EF4444' },
+      },
+      global,
+    });
+
+    expect(wrapper.findComponent({ name: 'EmojiIcon' }).props()).toMatchObject({
+      value: 'fire-line',
+      color: '#EF4444',
+    });
+    await wrapper.setProps({ monitor });
+    expect(wrapper.findComponent({ name: 'EmojiIcon' }).exists()).toBe(false);
+    expect(wrapper.findComponent({ name: 'Icon' }).props('icon')).toBe(
+      'i-lucide-monitor'
+    );
+  });
+
   it('shows a paused monitor without actions for other roles', () => {
     const wrapper = shallowMount(MonitorListItem, {
       props: { monitor: { ...monitor, paused_at: 1790000000 } },
