@@ -168,9 +168,9 @@ const install = async () => {
       revision: preview.value.revision,
       configuration: values,
     });
-    emit('installed');
     if (installSession !== session) return;
 
+    emit('installed');
     useAlert(t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.SUCCESS_MESSAGE'));
     close();
   } catch (error) {
