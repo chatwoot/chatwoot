@@ -162,11 +162,7 @@ class SearchService
   end
 
   def filter_contacts
-    contacts_query = current_account.contacts.where(
-      "name ILIKE :search OR email ILIKE :search OR phone_number
-      ILIKE :search OR identifier ILIKE :search", search: "%#{search_query}%"
-    )
-
+    contacts_query = current_account.contacts.search_by_term(search_query)
     contacts_query = apply_time_filter(contacts_query, 'last_activity_at') if current_account.feature_enabled?('advanced_search')
 
     @contacts = contacts_query.resolved_contacts(
