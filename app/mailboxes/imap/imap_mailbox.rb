@@ -97,7 +97,7 @@ class Imap::ImapMailbox
           source: 'email',
           in_reply_to: in_reply_to,
           auto_reply: @processed_mail.auto_reply?,
-          mail_subject: sanitize_mailbox_value(@processed_mail.subject),
+          mail_subject: sanitize_mail_subject(@processed_mail.subject),
           initiated_at: {
             timestamp: Time.now.utc
           }

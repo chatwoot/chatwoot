@@ -126,6 +126,35 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when the subject is longer than the jsonb attribute limit' do
+      let(:limite) { JsonbAttributesLengthValidator::MAX_STRING_LENGTH }
+      let(:inbound_mail) do
+        Mail.new.tap do |mail|
+          mail.from = 'email@gmail.com'
+          mail.to = 'imap@gmail.com'
+          # A customer who types the whole request into the subject field, which is what
+          # phone mail clients invite. Before the truncation this raised RecordInvalid and
+          # the fetcher dropped the email without a trace.
+          mail.subject = "A#{'a' * limite}"
+          mail.message_id = 'long-subject@example.com'
+          mail.content_type = 'text/plain'
+          mail.body = 'Sent from my iPhone'
+        end
+      end
+
+      it 'creates the conversation with the subject truncated to the limit' do
+        expect { class_instance.process(inbound_mail, channel) }.to change(Conversation, :count).by(1)
+
+        expect(conversation.additional_attributes['mail_subject'].length).to eq(limite)
+      end
+
+      it 'keeps the complete subject on the message' do
+        class_instance.process(inbound_mail, channel)
+
+        expect(conversation.messages.last.content_attributes[:email][:subject]).to eq(inbound_mail.subject)
+      end
+    end
+
     context 'when a new email with invalid from' do
       let(:inbound_mail) { create_inbound_email_from_mail(from: 'invalidemail', to: 'imap@gmail.com', subject: 'Hello!') }
 
