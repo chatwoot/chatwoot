@@ -78,14 +78,18 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       allow(handoff_tool).to receive(:perform).and_call_original
       allow(Captain::ConversationEvents).to receive(:handed_off).and_call_original
 
-      response = service.generate_response(message_history: message_history)
-
-      expect(Captain::ConversationEvents).to have_received(:handed_off).once
+      service.generate_response(message_history: message_history)
 
       expect(handoff_tool).to have_received(:perform).once
       expect(provider.completions).to eq(1)
+      expect(Captain::ConversationEvents).to have_received(:handed_off).once
       expect(conversation.reload.status).to eq('open')
       expect(conversation.messages.where(private: true).count).to eq(1)
+    end
+
+    it 'reports the completed handoff so the job keeps its V2 handoff path' do
+      response = service.generate_response(message_history: message_history)
+
       expect(service.handoff_completed?).to be true
       expect(response).to include('response' => 'conversation_handoff', 'handoff_tool_called' => true)
       expect(response).not_to have_key('error')
