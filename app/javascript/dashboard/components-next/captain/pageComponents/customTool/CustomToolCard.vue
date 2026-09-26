@@ -170,7 +170,7 @@ const sourceIdentifier = computed(() =>
           v-if="sourceIdentifier"
           class="text-sm shrink-0 text-n-slate-11 inline-flex items-center gap-1 font-mono"
         >
-          <i class="i-lucide-github text-base" />
+          <i class="i-lucide-box text-base" />
           {{ sourceIdentifier }}
         </span>
       </div>
