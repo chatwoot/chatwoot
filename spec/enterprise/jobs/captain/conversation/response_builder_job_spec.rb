@@ -395,6 +395,28 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
       end
 
+      it 'hands the conversation to a human when the run guard stops a runaway tool loop' do
+        allow(mock_agent_runner_service).to receive(:generate_response).and_return(
+          {
+            'response' => 'conversation_handoff',
+            'reasoning' => Captain::Tools::RunGuard::BUDGET_EXCEEDED_MESSAGE,
+            'error' => true,
+            'error_reason' => Captain::Tools::RunGuard::TOOL_CALL_BUDGET_EXCEEDED,
+            'handoff_tool_called' => false
+          }
+        )
+
+        expect(Captain::ConversationEvents).to receive(:response_failed)
+          .with(conversation: conversation, assistant: assistant, reason: 'tool_call_budget_exceeded', at: kind_of(Time))
+        expect(Captain::ConversationEvents).to receive(:handed_off)
+          .with(conversation: conversation, assistant: assistant, source: 'generation_failure', reason_category: :tool_failure, at: kind_of(Time))
+
+        described_class.perform_now(conversation, assistant)
+
+        expect(conversation.reload.status).to eq('open')
+        expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
+      end
+
       it 'emits response failed and generation failure handoff events when generation raises' do
         allow(mock_agent_runner_service).to receive(:generate_response).and_raise(StandardError, 'llm down')
 
