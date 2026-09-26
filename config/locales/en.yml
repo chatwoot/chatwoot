@@ -91,7 +91,7 @@ en:
       blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: You have entered an invalid email
       email_already_exists: 'You have already signed up for an account with %{email}'
-      invalid_params: 'Invalid, please check the signup paramters and try again'
+      invalid_params: 'Invalid, please check the signup parameters and try again'
       failed: Signup failed
     voice:
       call_already_accepted: '%{agent_name} is already handling the call.'
