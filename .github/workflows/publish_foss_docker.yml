@@ -83,6 +83,12 @@ jobs:
           platforms: ${{ matrix.platform }}
           push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
           outputs: type=image,name=${{ env.DOCKER_REPO }},push-by-digest=true,name-canonical=true,push=true
+          build-args: |
+            GIT_SHA=${{ github.sha }}
+          cache-from: |
+            type=gha,scope=${{ matrix.platform }}
+            type=gha,scope=${{ matrix.platform }}-ce
+          cache-to: type=gha,mode=max,scope=${{ matrix.platform }}-ce
 
       - name: Export digest
         run: |
@@ -130,7 +136,7 @@ jobs:
           else
             TAG="${DOCKER_REPO}:${SANITIZED_REF}-ce"
           fi
-          
+
           docker buildx imagetools create -t $TAG \
             $(printf '${{ env.DOCKER_REPO }}@sha256:%s ' *)
 
@@ -144,5 +150,5 @@ jobs:
           else
             TAG="${DOCKER_REPO}:${SANITIZED_REF}-ce"
           fi
-          
+
           docker buildx imagetools inspect $TAG
