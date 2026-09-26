@@ -49,8 +49,9 @@ const confirmAssistant = () => {
   pickerRef.value.close();
 };
 
+// Cancelling keeps the assistant that was open, not an unconfirmed pick
 const onPickerClose = () => {
-  if (!installAssistantId.value) emit('done', pickedAssistantId.value);
+  if (!installAssistantId.value) emit('done', Number(props.assistantId));
 };
 
 onMounted(async () => {
