@@ -142,4 +142,8 @@ export const mutations = {
     $state.pendingCustomAttributes = {};
     $state.pendingLabels = [];
   },
+
+  setPendingPageContext($state, pageContext) {
+    $state.pendingPageContext = pageContext;
+  },
 };
