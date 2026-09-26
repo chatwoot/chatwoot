@@ -19,7 +19,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['installed']);
+const emit = defineEmits(['installed', 'close']);
 
 const { t } = useI18n();
 
@@ -185,6 +185,11 @@ const install = async () => {
   }
 };
 
+const onClose = () => {
+  abortPreview();
+  emit('close');
+};
+
 const goBack = () => {
   if (preview.value) {
     preview.value = null;
@@ -210,7 +215,7 @@ defineExpose({ open });
     :show-cancel-button="false"
     :show-confirm-button="false"
     @confirm="onEnter"
-    @close="abortPreview"
+    @close="onClose"
   >
     <div v-if="!preview" class="flex flex-col gap-2">
       <Input

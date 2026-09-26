@@ -47,6 +47,10 @@ vi.mock('dashboard/composables/store', async () => {
 
 vi.mock('dashboard/composables', () => ({ useAlert: mocks.alerts }));
 
+vi.mock('dashboard/composables/useAdmin', () => ({
+  useAdmin: () => ({ isAdmin: { value: true } }),
+}));
+
 vi.mock('dashboard/composables/usePolicy', async () => {
   const { ref } = await import('vue');
   // Reactive, so a spec can simulate account features loading after the page mounts
@@ -61,7 +65,7 @@ vi.mock('dashboard/composables/usePolicy', async () => {
 
 vi.mock('vue-router', async importOriginal => ({
   ...(await importOriginal()),
-  useRoute: () => ({ params: { assistantId: '1' } }),
+  useRoute: () => ({ params: { assistantId: '1' }, query: {} }),
 }));
 
 vi.mock('vue-i18n', () => ({

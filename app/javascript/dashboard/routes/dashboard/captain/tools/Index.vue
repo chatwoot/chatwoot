@@ -7,6 +7,7 @@ import { useAlert } from 'dashboard/composables';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { usePolicy } from 'dashboard/composables/usePolicy';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
@@ -15,6 +16,7 @@ import CreateCustomToolDialog from 'dashboard/components-next/captain/pageCompon
 import CustomToolCard from 'dashboard/components-next/captain/pageComponents/customTool/CustomToolCard.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import ToolsetInstallFlow from 'dashboard/components-next/captain/pageComponents/customTool/ToolsetInstallFlow.vue';
 import AssistantToolsBanner from 'dashboard/components-next/captain/pageComponents/customTool/AssistantToolsBanner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Policy from 'dashboard/components/policy.vue';
@@ -25,6 +27,7 @@ const router = useRouter();
 const assistantId = computed(() => route.params.assistantId);
 const { t } = useI18n();
 const { isFeatureFlagEnabled, shouldShowPaywall } = usePolicy();
+const { isAdmin } = useAdmin();
 
 const SOFT_LIMIT = 10;
 const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
@@ -203,6 +206,20 @@ const handleDialogClose = () => {
 
 const handleToolCreated = () => fetchCustomTools();
 
+// Install links land here with ?install=<source>; another assistant's tools load when the route changes
+const onToolsetInstalled = installedAssistantId => {
+  if (installedAssistantId === Number(assistantId.value)) fetchCustomTools();
+};
+
+const finishToolsetInstall = installedAssistantId =>
+  router.replace({
+    name: 'captain_tools_index',
+    params: {
+      accountId: route.params.accountId,
+      assistantId: installedAssistantId,
+    },
+  });
+
 const onDeleteSuccess = () => {
   selectedTool.value = null;
   if (customTools.value.length === 0 && customToolsMeta.value.page > 1) {
@@ -304,6 +321,16 @@ watch(
       </div>
     </template>
   </PageLayout>
+
+  <ToolsetInstallFlow
+    v-if="
+      isAdmin && globalConfig.captainToolsManifestEnabled && route.query.install
+    "
+    :source="route.query.install"
+    :assistant-id="assistantId"
+    @installed="onToolsetInstalled"
+    @done="finishToolsetInstall"
+  />
 
   <CreateCustomToolDialog
     v-if="dialogType"

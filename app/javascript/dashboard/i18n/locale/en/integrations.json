@@ -1290,6 +1290,11 @@
         "REQUIRED": "Required",
         "DETAILS_ERROR": "Could not load the toolset details."
       },
+      "INSTALL_LINK": {
+        "TITLE": "Choose an assistant",
+        "DESCRIPTION": "Pick the assistant to install this toolset on.",
+        "PLACEHOLDER": "Select an assistant"
+      },
       "INSTALL_MANIFEST": {
         "BUTTON": "Install manifest",
         "TITLE": "Install from GitHub",

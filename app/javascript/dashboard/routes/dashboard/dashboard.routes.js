@@ -62,5 +62,11 @@ export default {
       name: 'no_accounts',
       component: NoAccounts,
     },
+    {
+      // Install links from the tools catalog can't know the account; the router guard moves them into the current one
+      path: frontendURL('captain/toolsets/install'),
+      name: 'captain_toolset_install_link',
+      component: { render: () => null },
+    },
   ],
 };
