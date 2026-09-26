@@ -79,7 +79,14 @@ const installToolset = toolset =>
 
 const goToTools = () => router.push(toolsRoute.value);
 
-onMounted(loadCatalog);
+onMounted(() => {
+  // Installs are off by default, and a bookmarked catalog would only offer installs that fail
+  if (!globalConfig.value.captainToolsManifestEnabled) {
+    router.replace(toolsRoute.value);
+    return;
+  }
+  loadCatalog();
+});
 </script>
 
 <template>
