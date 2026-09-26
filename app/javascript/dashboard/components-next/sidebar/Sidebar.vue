@@ -560,7 +560,7 @@ const menuItems = computed(() => {
         {
           name: 'Tools',
           label: t('SIDEBAR.CAPTAIN_TOOLS'),
-          activeOn: ['captain_tools_index'],
+          activeOn: ['captain_tools_index', 'captain_tools_explore'],
           to: accountScopedRoute('captain_assistants_index', {
             navigationPath: 'captain_tools_index',
           }),

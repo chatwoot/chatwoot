@@ -19,7 +19,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['installed']);
+const emit = defineEmits(['installed', 'close']);
 
 const { t } = useI18n();
 
@@ -103,13 +103,6 @@ const reset = () => {
 // Bumped on every open, so an install finishing after the dialog was reopened doesn't act on the new session
 let session = 0;
 
-const open = () => {
-  session += 1;
-  abortPreview();
-  reset();
-  dialogRef.value.open();
-};
-
 const close = () => dialogRef.value.close();
 
 // The tools page is reused across assistants, so a preview must never be installed into the next one
@@ -154,6 +147,16 @@ const loadPreview = async () => {
   }
 };
 
+// The catalog opens the dialog with a source, which goes straight to its preview
+const open = (initialSource = '') => {
+  session += 1;
+  abortPreview();
+  reset();
+  source.value = initialSource;
+  dialogRef.value.open();
+  if (initialSource) loadPreview();
+};
+
 const install = async () => {
   const installSession = session;
   isInstalling.value = true;
@@ -165,9 +168,9 @@ const install = async () => {
       revision: preview.value.revision,
       configuration: values,
     });
-    emit('installed');
     if (installSession !== session) return;
 
+    emit('installed');
     useAlert(t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.SUCCESS_MESSAGE'));
     close();
   } catch (error) {
@@ -180,6 +183,11 @@ const install = async () => {
   } finally {
     isInstalling.value = false;
   }
+};
+
+const onClose = () => {
+  abortPreview();
+  emit('close');
 };
 
 const goBack = () => {
@@ -207,7 +215,7 @@ defineExpose({ open });
     :show-cancel-button="false"
     :show-confirm-button="false"
     @confirm="onEnter"
-    @close="abortPreview"
+    @close="onClose"
   >
     <div v-if="!preview" class="flex flex-col gap-2">
       <Input

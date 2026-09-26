@@ -1273,6 +1273,28 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "CATALOG": {
+        "BUTTON": "Tools Catalog",
+        "HEADER": "Tools Catalog",
+        "DESCRIPTION": "Browse toolsets from the Captain tools catalog and install them on this assistant.",
+        "ALL": "All",
+        "EMPTY": "No toolsets in this category yet.",
+        "LOAD_ERROR": "Could not load the tools catalog. Check the catalog URL in the Captain settings.",
+        "TOOL_COUNT": "{n} tool | {n} tools",
+        "VERSION": "v{version}",
+        "VERIFIED": "Verified by Chatwoot",
+        "UPDATED": "Updated {time}",
+        "REPOSITORY": "Repository",
+        "MANIFEST": "Manifest",
+        "CONFIGURATION": "Configuration",
+        "REQUIRED": "Required",
+        "DETAILS_ERROR": "Could not load the toolset details."
+      },
+      "INSTALL_LINK": {
+        "TITLE": "Choose an assistant",
+        "DESCRIPTION": "Pick the assistant to install this toolset on.",
+        "PLACEHOLDER": "Select an assistant"
+      },
       "INSTALL_MANIFEST": {
         "BUTTON": "Install manifest",
         "TITLE": "Install from GitHub",
