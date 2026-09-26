@@ -85,6 +85,19 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.last.content_type).to eq('text')
       end
 
+      it 'keeps external_created_at when content_attributes are also given' do
+        time_stamp = Time.now.utc.to_s
+        params = { content: 'test-message', external_created_at: time_stamp, content_attributes: { external_id: 'abc-123' } }
+
+        post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['content_attributes']).to include('external_created_at' => time_stamp, 'external_id' => 'abc-123')
+      end
+
       it 'creates a new outgoing message with attachment' do
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
         params = { content: 'test-message', attachments: [file] }

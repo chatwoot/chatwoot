@@ -117,6 +117,9 @@ class Messages::MessageBuilder
     message_type == 'outgoing' ? (message_sender || @user) : @conversation.contact
   end
 
+  # Merged into `content_attributes` rather than assigned on its own: it is a store accessor on that
+  # column, and Rails assigns Hash-valued attributes after scalar ones, so a top-level write would be
+  # overwritten by the `content_attributes` assignment whenever the request carries both.
   def external_created_at
     @params[:external_created_at].present? ? { external_created_at: @params[:external_created_at] } : {}
   end
@@ -148,12 +151,12 @@ class Messages::MessageBuilder
       private: @private,
       sender: sender,
       content_type: @params[:content_type],
-      content_attributes: content_attributes.presence,
+      content_attributes: ensure_indifferent_access(content_attributes).merge(external_created_at).presence,
       items: @items,
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id],
       source_id: @params[:source_id]
-    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params)
+    }.merge(automation_rule_id).merge(campaign_id).merge(template_params)
   end
 
   def email_inbox?
