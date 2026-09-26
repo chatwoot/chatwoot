@@ -241,7 +241,7 @@ watch(
       >
         <Button
           :label="$t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.BUTTON')"
-          icon="i-lucide-github"
+          icon="i-lucide-file-box"
           size="sm"
           faded
           slate
