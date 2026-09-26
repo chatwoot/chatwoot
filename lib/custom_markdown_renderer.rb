@@ -32,8 +32,8 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   # `<!-- raw HTML omitted -->` here — including the `<img>`/`<iframe>` embeds from
   # https://github.com/chatwoot/chatwoot/issues/14602. We deliberately do NOT enable `:UNSAFE`
   # anywhere in this renderer; instead both node types are routed through
-  # EmbeddedHtmlSanitizer's narrow allow-list, which re-renders only `img`/`iframe` and drops
-  # everything else exactly as before.
+  # EmbeddedHtmlSanitizer's narrow allow-list, which re-renders only `img`/`iframe`; anything
+  # else falls back to CommonMarker's default omitted-HTML placeholder exactly as before.
   def html(node)
     match = node.string_content.match(COLWIDTHS_COMMENT)
     if match
@@ -42,7 +42,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     end
 
     safe_html = embed_sanitizer.sanitize(node.string_content)
-    return if safe_html.blank?
+    return super if safe_html.blank?
 
     block { out(safe_html) }
   end
@@ -52,7 +52,9 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   # above.
   def inline_html(node)
     safe_html = embed_sanitizer.sanitize(node.string_content)
-    out(safe_html) if safe_html.present?
+    return super if safe_html.blank?
+
+    out(safe_html)
   end
 
   def table(node)
