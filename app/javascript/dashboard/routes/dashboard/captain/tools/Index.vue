@@ -99,8 +99,8 @@ const openCreateDialog = () => {
   nextTick(() => createDialogRef.value.dialogRef.open());
 };
 
-const handleEdit = tool => {
-  dialogType.value = 'edit';
+const openToolPanel = (type, tool) => {
+  dialogType.value = type;
   selectedTool.value = tool;
   nextTick(() => createDialogRef.value.dialogRef.open());
 };
@@ -112,8 +112,8 @@ const handleDelete = tool => {
 
 const handleAction = ({ action, id }) => {
   const tool = customTools.value.find(item => item.id === id);
-  if (action === 'edit') {
-    handleEdit(tool);
+  if (action === 'edit' || action === 'view') {
+    openToolPanel(action, tool);
   } else if (action === 'delete') {
     handleDelete(tool);
   }

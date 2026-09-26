@@ -36,6 +36,6 @@ describe('CustomToolCard', () => {
       sourceMetadata: { repository: 'chatwoot/support-tools', path: 'shopify' },
     });
 
-    expect(menuActions(wrapper)).toEqual(['delete']);
+    expect(menuActions(wrapper)).toEqual(['view', 'delete']);
   });
 });

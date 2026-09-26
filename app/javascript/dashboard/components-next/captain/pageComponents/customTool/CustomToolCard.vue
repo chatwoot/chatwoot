@@ -69,18 +69,21 @@ const statusLabel = computed(() =>
     : t('CAPTAIN.CUSTOM_TOOLS.STATUS.DISABLED')
 );
 
-// Tools installed from a manifest are read-only; they can only be enabled, disabled or deleted
+// Tools installed from a manifest are read-only, so they can be viewed but not edited
 const menuItems = computed(() => [
-  ...(props.sourceMetadata
-    ? []
-    : [
-        {
-          label: t('CAPTAIN.CUSTOM_TOOLS.OPTIONS.EDIT_TOOL'),
-          value: 'edit',
-          action: 'edit',
-          icon: 'i-lucide-pencil-line',
-        },
-      ]),
+  props.sourceMetadata
+    ? {
+        label: t('CAPTAIN.CUSTOM_TOOLS.OPTIONS.VIEW_TOOL'),
+        value: 'view',
+        action: 'view',
+        icon: 'i-lucide-eye',
+      }
+    : {
+        label: t('CAPTAIN.CUSTOM_TOOLS.OPTIONS.EDIT_TOOL'),
+        value: 'edit',
+        action: 'edit',
+        icon: 'i-lucide-pencil-line',
+      },
   {
     label: t('CAPTAIN.CUSTOM_TOOLS.OPTIONS.DELETE_TOOL'),
     value: 'delete',
