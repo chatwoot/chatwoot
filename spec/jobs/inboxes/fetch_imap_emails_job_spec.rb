@@ -39,6 +39,31 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
     end
 
     context 'when the channel is regular imap' do
+      it 'does not require reauthorization when authorization errors are separated by successful fetches' do
+        fetch_service = double
+        allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
+        allow(fetch_service).to receive(:perform).and_return([])
+
+        imap_email_channel.class::AUTHORIZATION_ERROR_THRESHOLD.times do
+          imap_email_channel.authorization_error!
+          described_class.perform_now(imap_email_channel)
+        end
+
+        expect(imap_email_channel.authorization_error_count).to eq 0
+        expect(imap_email_channel.reauthorization_required?).to be false
+      end
+
+      it 'clears previous authorization errors after a successful fetch' do
+        fetch_service = double
+        allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
+        allow(fetch_service).to receive(:perform).and_return([])
+        imap_email_channel.authorization_error!
+
+        described_class.perform_now(imap_email_channel)
+
+        expect(imap_email_channel.authorization_error_count).to eq 0
+      end
+
       it 'calls the imap fetch service' do
         fetch_service = double
         allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
