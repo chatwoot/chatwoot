@@ -27,7 +27,7 @@ class Webhook < ApplicationRecord
   validates :account_id, presence: true
   validates :url, uniqueness: { scope: [:account_id] }, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])
   validate :validate_webhook_subscriptions
-  enum webhook_type: { account_type: 0, inbox_type: 1 }
+  enum :webhook_type, { account_type: 0, inbox_type: 1 }
 
   ALLOWED_WEBHOOK_EVENTS = %w[conversation_status_changed conversation_updated conversation_created contact_created contact_updated
                               message_created message_updated webwidget_triggered inbox_created inbox_updated

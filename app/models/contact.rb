@@ -69,7 +69,7 @@ class Contact < ApplicationRecord
   before_save :sync_contact_attributes
   include ContactCompanyAssociation
 
-  enum contact_type: { visitor: 0, lead: 1, customer: 2 }
+  enum :contact_type, { visitor: 0, lead: 1, customer: 2 }
 
   scope :order_on_last_activity_at, lambda { |direction|
     order(

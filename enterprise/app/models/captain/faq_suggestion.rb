@@ -25,7 +25,7 @@ class Captain::FaqSuggestion < ApplicationRecord
            inverse_of: :faq_suggestion
   has_neighbors :embedding, normalize: true
 
-  enum status: { open: 0, approved: 1, dismissed: 2 }
+  enum :status, { open: 0, approved: 1, dismissed: 2 }
 
   validates :question, :answer, :language, presence: true
 

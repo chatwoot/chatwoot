@@ -287,6 +287,11 @@ FactoryBot/AssociationStyle:
 Rails/EnumSyntax:
   Enabled: false
 
+# Rails 8 retains require/permit. Migrate to expect separately because it changes
+# request rejection semantics across every API controller.
+Rails/StrongParametersExpect:
+  Enabled: false
+
 Lint/RedundantTypeConversion:
   Enabled: false
 
