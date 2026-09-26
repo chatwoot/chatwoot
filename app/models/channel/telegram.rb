@@ -31,8 +31,12 @@ class Channel::Telegram < ApplicationRecord
     'Telegram'
   end
 
+  def telegram_api_base_url
+    ENV.fetch('TELEGRAM_API_BASE_URL', 'https://api.telegram.org')
+  end
+
   def telegram_api_url
-    "https://api.telegram.org/bot#{bot_token}"
+    "#{telegram_api_base_url}/bot#{bot_token}"
   end
 
   def send_message_on_telegram(message)
@@ -56,7 +60,7 @@ class Channel::Telegram < ApplicationRecord
     response = HTTParty.get("#{telegram_api_url}/getFile", query: { file_id: file_id })
     return nil unless response.success?
 
-    "https://api.telegram.org/file/bot#{bot_token}/#{response.parsed_response['result']['file_path']}"
+    "#{telegram_api_base_url}/file/bot#{bot_token}/#{response.parsed_response['result']['file_path']}"
   end
 
   def process_error(message, response)
