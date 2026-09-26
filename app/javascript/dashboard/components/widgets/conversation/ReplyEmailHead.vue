@@ -88,7 +88,7 @@ export default {
 
 <template>
   <div>
-    <div v-if="toEmails">
+    <div>
       <div class="input-group small" :class="{ error: v$.toEmailsVal.$error }">
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.TO') }}
