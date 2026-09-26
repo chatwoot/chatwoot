@@ -1,4 +1,7 @@
 class SuperAdmin::UsersController < SuperAdmin::ApplicationController
+  SUPPRESSION_FLASH_TYPES = { not_suppressed: :notice, bounce: :alert, complaint: :error, unavailable: :alert }.freeze
+  before_action :ensure_ses_suppression_configured, only: [:check_email_suppression, :clear_email_suppression, :send_test_email]
+
   # Overwrite any of the RESTful controller actions to implement custom behavior
   # For example, you may want to send an email after a foo is updated.
 
@@ -57,9 +60,45 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
     if user.confirmed?
       redirect_back(fallback_location: super_admin_user_path(user), alert: I18n.t('super_admin.users.resend_confirmation.already_confirmed'))
     else
+      return if redirect_if_email_blocked(user)
+
       user.send_confirmation_instructions
       redirect_back(fallback_location: super_admin_user_path(user), notice: I18n.t('super_admin.users.resend_confirmation.sent'))
     end
+  end
+
+  def check_email_suppression
+    user = requested_resource
+    redirect_with_suppression_result(user, Email::SesSuppressionService.new.lookup(user.email))
+  end
+
+  def clear_email_suppression
+    user = requested_resource
+    service = Email::SesSuppressionService.new
+    result = service.lookup(user.email)
+    return redirect_with_suppression_result(user, result) unless result[:status] == :bounce
+
+    begin
+      service.clear!(user.email)
+    rescue StandardError => e
+      message = I18n.t('super_admin.users.email_suppression.clear.failed',
+                       email: ERB::Util.html_escape(user.email), error: ERB::Util.html_escape(e.message))
+      return redirect_to super_admin_user_path(user), flash: { error: message }
+    end
+
+    log_email_diagnostic('ses_suppression_cleared', user)
+    redirect_to super_admin_user_path(user),
+                notice: I18n.t('super_admin.users.email_suppression.clear.success', email: ERB::Util.html_escape(user.email))
+  end
+
+  def send_test_email
+    user = requested_resource
+    return if redirect_if_email_blocked(user)
+
+    EmailDeliveryTestMailer.delivery_test(user.email, user.name).deliver_later
+    log_email_diagnostic('ses_test_email_sent', user)
+    redirect_to super_admin_user_path(user),
+                notice: I18n.t('super_admin.users.email_suppression.test_email.queued', email: ERB::Util.html_escape(user.email))
   end
 
   def scoped_resource
@@ -76,5 +115,44 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   # for more information
   def find_resource(param)
     super.becomes(User)
+  end
+
+  private
+
+  def redirect_if_email_blocked(user)
+    return false unless Email::SesSuppressionService.configured?
+
+    result = Email::SesSuppressionService.new.lookup(user.email)
+    return false unless result[:status].in?(%i[bounce complaint])
+
+    redirect_with_suppression_result(user, result)
+    true
+  end
+
+  def redirect_with_suppression_result(user, result)
+    message = I18n.t("super_admin.users.email_suppression.check.#{result[:status]}",
+                     email: ERB::Util.html_escape(user.email), since: suppressed_since(result[:since]))
+    redirect_to super_admin_user_path(user, suppression: result[:status]), flash: { SUPPRESSION_FLASH_TYPES.fetch(result[:status]) => message }
+  end
+
+  def suppressed_since(time)
+    return if time.blank?
+
+    "#{time.utc.strftime('%-d %b %Y')} (#{helpers.time_ago_in_words(time)} ago)"
+  end
+
+  def ensure_ses_suppression_configured
+    head :not_found unless Email::SesSuppressionService.configured?
+  end
+
+  def log_email_diagnostic(event, user)
+    Rails.logger.info({
+      event: event,
+      super_admin_id: current_super_admin.id,
+      super_admin_email: current_super_admin.email,
+      user_id: user.id,
+      email: user.email,
+      at: Time.current.utc.iso8601
+    }.to_json)
   end
 end

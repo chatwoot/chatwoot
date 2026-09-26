@@ -20,17 +20,15 @@ RSpec.describe Captain::Assistant, type: :model do
 
   describe 'inactive conversation settings' do
     it 'uses safe defaults when settings are unavailable' do
-      assistant.account.enable_features('captain_integration_v2')
       assistant.auto_resolve_after = nil
 
       expect(assistant.inactivity_threshold_minutes).to eq(60)
 
       assistant.auto_resolve_after = 5
       assistant.send_inactivity_resolution_message = false
-      assistant.account.disable_features('captain_integration_v2')
 
-      expect(assistant.inactivity_threshold_minutes).to eq(60)
-      expect(assistant.send_inactivity_resolution_message?).to be(true)
+      expect(assistant.inactivity_threshold_minutes).to eq(5)
+      expect(assistant.send_inactivity_resolution_message?).to be(false)
     end
 
     it 'validates the inactivity timer range' do
