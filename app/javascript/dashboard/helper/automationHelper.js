@@ -9,6 +9,7 @@ import {
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_4,
 } from 'dashboard/routes/dashboard/settings/automation/operators';
+import { CAPTAIN_CONDITION } from 'dashboard/routes/dashboard/settings/automation/constants';
 import actionQueryGenerator from './actionQueryGenerator';
 import filterQueryGenerator from './filterQueryGenerator';
 
@@ -260,6 +261,25 @@ export const generateAutomationPayload = payload => {
   }).payload;
   automation.actions = actionQueryGenerator(automation.actions);
   return automation;
+};
+
+/**
+ * Summarise the Captain conditions of a rule payload for usage metrict.
+ * @param {Object} automation - The automation payload (API shape).
+ * @returns {Object|null} Tracking attributes, or null when the rule has no Captain condition.
+ */
+export const getCaptainConditionUsage = automation => {
+  const captainConditions = automation.conditions.filter(
+    condition => condition.attribute_key === CAPTAIN_CONDITION.key
+  );
+  if (!captainConditions.length) return null;
+
+  return {
+    eventName: automation.event_name,
+    captainConditions: captainConditions.length,
+    totalConditions: automation.conditions.length,
+    operators: captainConditions.map(condition => condition.filter_operator),
+  };
 };
 
 export const formatDelay = minutes => {
