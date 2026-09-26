@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import SdkAppsAPI from 'dashboard/api/sdkApps';
 import InboxesAPI from 'dashboard/api/inboxes';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import Code from 'dashboard/components/Code.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -43,6 +44,10 @@ const privateKey = ref('');
 const fileInput = ref(null);
 const configured = ref(false);
 const platform = ref('ios');
+const platformTabs = computed(() => [
+  { key: 'ios', label: t('INBOX_MGMT.SDK_APPS.IOS') },
+  { key: 'android', label: t('INBOX_MGMT.SDK_APPS.ANDROID.TITLE') },
+]);
 const androidEnabled = ref(false);
 const androidConfigured = ref(false);
 const serviceAccount = ref('');
@@ -233,7 +238,7 @@ onActivated(load);
 </script>
 
 <template>
-  <section class="flex flex-col w-full gap-6 py-6">
+  <section class="flex flex-col w-full gap-4 py-4">
     <BaseSettingsHeader
       :title="configured ? savedApp.name : t('INBOX_MGMT.SDK_APPS.ADD')"
       :description="
@@ -263,16 +268,14 @@ onActivated(load);
     </p>
     <p v-if="error" role="alert" class="text-n-ruby-9">{{ error }}</p>
     <p v-if="notice" role="status" class="text-n-teal-10">{{ notice }}</p>
-    <div v-if="configured && activeTab !== 'settings'" class="flex gap-2">
-      <Button
-        :label="t('INBOX_MGMT.SDK_APPS.IOS')"
-        :variant="platform === 'ios' ? 'solid' : 'outline'"
-        @click="platform = 'ios'"
-      />
-      <Button
-        :label="t('INBOX_MGMT.SDK_APPS.ANDROID.TITLE')"
-        :variant="platform === 'android' ? 'solid' : 'outline'"
-        @click="platform = 'android'"
+    <div
+      v-if="configured && !loading && !loadFailed && activeTab !== 'settings'"
+      class="flex items-center gap-3"
+    >
+      <TabBar
+        :tabs="platformTabs"
+        :initial-active-tab="platform === 'ios' ? 0 : 1"
+        @tab-changed="platform = $event.key"
       />
     </div>
     <form
@@ -281,9 +284,6 @@ onActivated(load);
       @submit.prevent="save"
     >
       <template v-if="activeTab === 'settings'">
-        <h3 class="text-heading-3 text-n-slate-12">
-          {{ t('INBOX_MGMT.SDK_APPS.APP_DETAILS') }}
-        </h3>
         <Input
           v-model="form.name"
           :label="t('INBOX_MGMT.SDK_APPS.FIELDS.NAME')"
@@ -303,7 +303,10 @@ onActivated(load);
             class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
           />
         </div>
-        <p class="text-body-small text-n-slate-11">
+        <p
+          v-if="configured && form.inbox_id !== savedApp.inbox_id"
+          class="text-body-small text-n-ruby-11"
+        >
           {{ t('INBOX_MGMT.SDK_APPS.INBOX_HELP') }}
         </p>
       </template>
@@ -411,12 +414,8 @@ onActivated(load);
           {{ t('INBOX_MGMT.SDK_APPS.APP_ID_HELP') }}
         </p>
       </div>
-      <h2 class="text-heading-2 text-n-slate-12">
-        {{
-          platform === 'ios'
-            ? t('INBOX_MGMT.SDK_APPS.GET_STARTED')
-            : t('INBOX_MGMT.SDK_APPS.ANDROID.GET_STARTED')
-        }}
+      <h2 class="text-heading-3 text-n-slate-12">
+        {{ t('INBOX_MGMT.SDK_APPS.INSTALL_STEP') }}
       </h2>
       <p class="text-body-main text-n-slate-11">
         {{
@@ -431,6 +430,9 @@ onActivated(load);
         :script="`https://github.com/chatwoot/${platform}-sdk`"
         lang="plaintext"
       />
+      <h2 class="text-heading-3 text-n-slate-12">
+        {{ t('INBOX_MGMT.SDK_APPS.OPEN_STEP') }}
+      </h2>
       <p class="text-body-main text-n-slate-11">
         {{
           platform === 'ios'

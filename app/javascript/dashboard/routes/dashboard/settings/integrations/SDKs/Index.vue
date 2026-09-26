@@ -122,10 +122,7 @@ onActivated(load);
           <BaseTableRow v-for="app in filteredApps" :key="app.id" :item="app">
             <BaseTableCell>
               <div class="flex gap-2 font-medium break-words text-n-slate-12">
-                {{ app.name
-                }}<span class="text-n-slate-11">{{
-                  app.ios_configuration?.bundle_id
-                }}</span>
+                {{ app.name }}
               </div>
               <div class="block mt-1 text-sm text-n-slate-11">
                 {{
