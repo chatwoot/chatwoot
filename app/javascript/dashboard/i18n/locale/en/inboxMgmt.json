@@ -1673,7 +1673,7 @@
       "DELETE_TITLE": "Remove {name}?",
       "NO_RESULTS": "No apps found.",
       "DETAILS_DESCRIPTION": "Manage the connected inbox and push notifications for this app.",
-      "APP_ID_HELP": "This public identifier connects the SDK to this app and its inbox. Use it as sdkAppID in your app. It is not an API access token.",
+      "APP_ID_HELP": "This public identifier connects the SDK to this app and its inbox. Use the same ID for iOS and Android. It is not an API access token.",
       "ENABLE_IOS": "Enable iOS push notifications",
       "PUSH_OPTIONAL": "Optional. Chat works without push notifications. Configure Apple credentials to notify customers when your team replies.",
       "DISABLE_IOS_HELP": "Saving will remove the iOS credentials and registered iOS devices. Chat conversations are kept.",
@@ -1688,7 +1688,24 @@
         "SETTINGS": "Settings",
         "PUSH": "Push notifications"
       },
-      "IDENTITY_TITLE": "Identify signed-in customers"
+      "IDENTITY_TITLE": "Identify signed-in customers",
+      "IOS": "iOS",
+      "ANDROID": {
+        "TITLE": "Android",
+        "PUSH_TITLE": "Android push notifications",
+        "ENABLE": "Enable Android push notifications",
+        "HELP": "Add Firebase to your Android app and enable the Firebase Cloud Messaging API. Upload a service account JSON key here; keep it out of your Android app. The app uses google-services.json, a separate Firebase configuration file.",
+        "DISABLE_HELP": "Saving will remove Android credentials and unregister Android devices.",
+        "PACKAGE_NAME": "Android package name",
+        "PROJECT_ID": "Firebase project ID",
+        "SERVICE_ACCOUNT": "Firebase service account (.json)",
+        "KEY_SAVED": "Credentials are saved. Upload a new file only to replace them.",
+        "KEY_TOO_LARGE": "Select a service account JSON file smaller than 16 KB.",
+        "INSTALL_HELP": "Add the Android SDK library to your app. See the repository README for local installation and Firebase setup.",
+        "GET_STARTED": "Add chat to your Android app",
+        "INIT_HELP": "Create and reuse one client for your customer. Call Chatwoot.showSupport from your activity to open the native support screen.",
+        "DOCS": "Read the Android SDK integration guide"
+      }
     }
   }
 }

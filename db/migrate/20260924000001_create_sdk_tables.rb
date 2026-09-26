@@ -2,6 +2,7 @@ class CreateSdkTables < ActiveRecord::Migration[7.1]
   def change
     create_sdk_apps
     create_ios_configurations
+    create_android_configurations
     create_devices
     create_deliveries
   end
@@ -25,6 +26,16 @@ class CreateSdkTables < ActiveRecord::Migration[7.1]
       t.string :team_id, null: false
       t.string :key_id, null: false
       t.text :private_key, null: false
+      t.timestamps
+    end
+  end
+
+  def create_android_configurations
+    create_table :sdk_android_configurations do |t|
+      t.references :sdk_app, null: false, foreign_key: { on_delete: :cascade }, index: { unique: true }
+      t.string :package_name, null: false
+      t.string :project_id, null: false
+      t.text :service_account, null: false
       t.timestamps
     end
   end

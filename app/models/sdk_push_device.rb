@@ -4,11 +4,14 @@ class SdkPushDevice < ApplicationRecord
   belongs_to :contact
   has_many :sdk_push_deliveries, dependent: :destroy
 
-  validates :device_token, presence: true, format: { with: /\A[0-9a-f]+\z/ }, length: { maximum: 512 }
+  validates :device_token, presence: true, length: { maximum: 4096 }
+  validates :device_token, format: { with: /\A[0-9a-f]+\z/ }, length: { maximum: 512 }, if: -> { platform == 'ios' }
+  validates :device_token, format: { with: /\A[A-Za-z0-9_:\-]+\z/ }, if: -> { platform == 'android' }
   validates :device_token, uniqueness: { scope: [:sdk_app_id, :platform, :environment] }
-  validates :platform, inclusion: { in: %w[ios] }
+  validates :platform, inclusion: { in: %w[ios android] }
   validates :environment, inclusion: { in: %w[development production] }
   validates :name, presence: true, length: { maximum: 100 }
+  validates :environment, inclusion: { in: %w[production] }, if: -> { platform == 'android' }
   validate :session_matches_inbox
 
   private

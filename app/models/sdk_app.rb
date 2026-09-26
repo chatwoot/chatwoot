@@ -6,6 +6,9 @@ class SdkApp < ApplicationRecord
   has_one :ios_configuration, class_name: 'SdkIosConfiguration', dependent: :destroy
   accepts_nested_attributes_for :ios_configuration, allow_destroy: true
 
+  has_one :android_configuration, class_name: 'SdkAndroidConfiguration', dependent: :destroy
+  accepts_nested_attributes_for :android_configuration, allow_destroy: true
+
   validates :name, presence: true, length: { maximum: 100 }
   before_validation :assign_app_id, on: :create
   validates :app_id, presence: true, uniqueness: true

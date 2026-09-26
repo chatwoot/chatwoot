@@ -16,7 +16,8 @@ class SdkPush::DeliveryJob < ApplicationJob
         delivery.update!(status: 'rejected', reason: 'CustomerSessionChanged')
         return
       end
-      SdkPush::ApnsService.new(delivery: delivery).perform
+      service = device.platform == 'ios' ? SdkPush::ApnsService : SdkPush::FcmService
+      service.new(delivery: delivery).perform
     end
   end
 end

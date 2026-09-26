@@ -42,6 +42,12 @@ const form = reactive({
 const privateKey = ref('');
 const fileInput = ref(null);
 const configured = ref(false);
+const platform = ref('ios');
+const androidEnabled = ref(false);
+const androidConfigured = ref(false);
+const serviceAccount = ref('');
+const androidFileInput = ref(null);
+const androidForm = reactive({ package_name: '', project_id: '' });
 const iosEnabled = ref(false);
 const iosConfigured = ref(false);
 const inboxOptions = computed(() =>
@@ -58,6 +64,14 @@ let client = ChatwootClient(configuration: .init(
 ))
 
 ChatwootView(client: client)`
+);
+const androidCode = computed(
+  () => `val client = ChatwootClient(
+    context = applicationContext,
+    baseUrl = ${JSON.stringify(window.location.origin)},
+    sdkAppId = ${JSON.stringify(appId.value)}
+)
+Chatwoot.showSupport(this, client)`
 );
 const loading = ref(true);
 const loadFailed = ref(false);
@@ -84,6 +98,7 @@ async function load() {
   loading.value = true;
   loadFailed.value = false;
   privateKey.value = '';
+  serviceAccount.value = '';
   notice.value = '';
   error.value = '';
   try {
@@ -99,6 +114,10 @@ async function load() {
     appId.value = app?.app_id || '';
     configured.value = !!app;
     form.name = app?.name || '';
+    androidEnabled.value = !!app?.android_configuration;
+    androidConfigured.value = !!app?.android_configuration;
+    androidForm.package_name = app?.android_configuration?.package_name || '';
+    androidForm.project_id = app?.android_configuration?.project_id || '';
     iosEnabled.value = !!app?.ios_configuration;
     iosConfigured.value = !!app?.ios_configuration;
     pushFields.forEach(field => {
@@ -129,6 +148,19 @@ async function readKey(event) {
   privateKey.value = await file.text();
 }
 
+async function readServiceAccount(event) {
+  serviceAccount.value = '';
+  error.value = '';
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 16384) {
+    error.value = t('INBOX_MGMT.SDK_APPS.ANDROID.KEY_TOO_LARGE');
+    event.target.value = '';
+    return;
+  }
+  serviceAccount.value = await file.text();
+}
+
 async function save() {
   const savingTab = activeTab.value;
   busy.value = true;
@@ -140,16 +172,29 @@ async function save() {
         ? {
             name: savedApp.value.name,
             inbox_id: savedApp.value.inbox_id,
-            ios_configuration: iosEnabled.value
+            ...(platform.value === 'android'
               ? {
-                  bundle_id: form.bundle_id,
-                  team_id: form.team_id,
-                  key_id: form.key_id,
-                  ...(privateKey.value
-                    ? { private_key: privateKey.value }
-                    : {}),
+                  android_configuration: androidEnabled.value
+                    ? {
+                        ...androidForm,
+                        ...(serviceAccount.value
+                          ? { service_account: serviceAccount.value }
+                          : {}),
+                      }
+                    : null,
                 }
-              : null,
+              : {
+                  ios_configuration: iosEnabled.value
+                    ? {
+                        bundle_id: form.bundle_id,
+                        team_id: form.team_id,
+                        key_id: form.key_id,
+                        ...(privateKey.value
+                          ? { private_key: privateKey.value }
+                          : {}),
+                      }
+                    : null,
+                }),
           }
         : { name: form.name, inbox_id: form.inbox_id };
     const { data } = selectedId.value
@@ -162,6 +207,9 @@ async function save() {
     if (savingTab === 'push') privateKey.value = '';
     if (savingTab === 'push' && fileInput.value) fileInput.value.value = '';
     iosConfigured.value = !!data.ios_configuration;
+    androidConfigured.value = !!data.android_configuration;
+    serviceAccount.value = '';
+    if (androidFileInput.value) androidFileInput.value.value = '';
     notice.value = t('INBOX_MGMT.SDK_APPS.SAVED');
     if (!route.params.sdkAppId) {
       activeTab.value = 'setup';
@@ -211,6 +259,18 @@ onActivated(load);
     </p>
     <p v-if="error" role="alert" class="text-n-ruby-9">{{ error }}</p>
     <p v-if="notice" role="status" class="text-n-teal-10">{{ notice }}</p>
+    <div v-if="configured && activeTab !== 'settings'" class="flex gap-2">
+      <Button
+        :label="t('INBOX_MGMT.SDK_APPS.IOS')"
+        :variant="platform === 'ios' ? 'solid' : 'outline'"
+        @click="platform = 'ios'"
+      />
+      <Button
+        :label="t('INBOX_MGMT.SDK_APPS.ANDROID.TITLE')"
+        :variant="platform === 'android' ? 'solid' : 'outline'"
+        @click="platform = 'android'"
+      />
+    </div>
     <form
       v-if="!loading && !loadFailed && activeTab !== 'setup'"
       class="flex flex-col gap-4 max-w-xl"
@@ -243,7 +303,7 @@ onActivated(load);
           {{ t('INBOX_MGMT.SDK_APPS.INBOX_HELP') }}
         </p>
       </template>
-      <template v-if="activeTab === 'push'">
+      <template v-if="activeTab === 'push' && platform === 'ios'">
         <div class="flex items-center justify-between gap-4">
           <h3 class="text-heading-3 text-n-slate-12">
             {{ t('INBOX_MGMT.SDK_APPS.PUSH_TITLE') }}
@@ -284,6 +344,48 @@ onActivated(load);
           </p>
         </template>
       </template>
+      <template v-if="activeTab === 'push' && platform === 'android'">
+        <div class="flex items-center justify-between gap-4">
+          <h3 class="text-heading-3 text-n-slate-12">
+            {{ t('INBOX_MGMT.SDK_APPS.ANDROID.PUSH_TITLE') }}
+          </h3>
+          <Switch
+            v-model="androidEnabled"
+            :aria-label="t('INBOX_MGMT.SDK_APPS.ANDROID.ENABLE')"
+          />
+        </div>
+        <p class="text-body-small text-n-slate-11">
+          {{ t('INBOX_MGMT.SDK_APPS.ANDROID.HELP') }}
+        </p>
+        <p
+          v-if="androidConfigured && !androidEnabled"
+          class="text-body-small text-n-ruby-11"
+        >
+          {{ t('INBOX_MGMT.SDK_APPS.ANDROID.DISABLE_HELP') }}
+        </p>
+        <template v-if="androidEnabled">
+          <Input
+            v-model="androidForm.package_name"
+            :label="t('INBOX_MGMT.SDK_APPS.ANDROID.PACKAGE_NAME')"
+          />
+          <Input
+            v-model="androidForm.project_id"
+            :label="t('INBOX_MGMT.SDK_APPS.ANDROID.PROJECT_ID')"
+          />
+          <label class="flex flex-col gap-2 text-body-main text-n-slate-12">
+            {{ t('INBOX_MGMT.SDK_APPS.ANDROID.SERVICE_ACCOUNT') }}
+            <input
+              ref="androidFileInput"
+              type="file"
+              accept=".json"
+              @change="readServiceAccount"
+            />
+          </label>
+          <p v-if="androidConfigured" class="text-body-small text-n-slate-11">
+            {{ t('INBOX_MGMT.SDK_APPS.ANDROID.KEY_SAVED') }}
+          </p>
+        </template>
+      </template>
       <Button
         type="submit"
         :is-loading="busy"
@@ -306,16 +408,36 @@ onActivated(load);
         </p>
       </div>
       <h2 class="text-heading-2 text-n-slate-12">
-        {{ t('INBOX_MGMT.SDK_APPS.GET_STARTED') }}
+        {{
+          platform === 'ios'
+            ? t('INBOX_MGMT.SDK_APPS.GET_STARTED')
+            : t('INBOX_MGMT.SDK_APPS.ANDROID.GET_STARTED')
+        }}
       </h2>
       <p class="text-body-main text-n-slate-11">
-        {{ t('INBOX_MGMT.SDK_APPS.INSTALL_HELP') }}
+        {{
+          t(
+            platform === 'ios'
+              ? 'INBOX_MGMT.SDK_APPS.INSTALL_HELP'
+              : 'INBOX_MGMT.SDK_APPS.ANDROID.INSTALL_HELP'
+          )
+        }}
       </p>
-      <Code script="https://github.com/chatwoot/ios-sdk" lang="plaintext" />
+      <Code
+        :script="`https://github.com/chatwoot/${platform}-sdk`"
+        lang="plaintext"
+      />
       <p class="text-body-main text-n-slate-11">
-        {{ t('INBOX_MGMT.SDK_APPS.INIT_HELP') }}
+        {{
+          platform === 'ios'
+            ? t('INBOX_MGMT.SDK_APPS.INIT_HELP')
+            : t('INBOX_MGMT.SDK_APPS.ANDROID.INIT_HELP')
+        }}
       </p>
-      <Code :script="integrationCode" lang="swift" />
+      <Code
+        :script="platform === 'ios' ? integrationCode : androidCode"
+        :lang="platform === 'ios' ? 'swift' : 'kotlin'"
+      />
       <details class="group border-t border-n-weak pt-3">
         <summary class="cursor-pointer text-body-main text-n-slate-12">
           {{ t('INBOX_MGMT.SDK_APPS.IDENTITY_TITLE') }}
@@ -329,16 +451,26 @@ onActivated(load);
           {{ t('INBOX_MGMT.SDK_APPS.TABS.PUSH') }}
         </summary>
         <p class="mt-2 text-body-small text-n-slate-11">
-          {{ t('INBOX_MGMT.SDK_APPS.APPLE_HELP') }}
+          {{
+            t(
+              platform === 'ios'
+                ? 'INBOX_MGMT.SDK_APPS.APPLE_HELP'
+                : 'INBOX_MGMT.SDK_APPS.ANDROID.HELP'
+            )
+          }}
         </p>
       </details>
       <a
-        href="https://github.com/chatwoot/ios-sdk#readme"
+        :href="`https://github.com/chatwoot/${platform}-sdk#readme`"
         target="_blank"
         rel="noopener noreferrer"
         class="text-n-blue-11 hover:underline"
       >
-        {{ t('INBOX_MGMT.SDK_APPS.DOCS') }}
+        {{
+          platform === 'ios'
+            ? t('INBOX_MGMT.SDK_APPS.DOCS')
+            : t('INBOX_MGMT.SDK_APPS.ANDROID.DOCS')
+        }}
       </a>
     </section>
   </section>

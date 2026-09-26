@@ -4,7 +4,7 @@ class Api::V1::Accounts::SdkAppsController < Api::V1::Accounts::BaseController
   before_action :validate_attributes, only: [:create, :update]
 
   def index
-    render json: Current.account.sdk_apps.includes(:ios_configuration).order(:name).map { |app| payload(app) }
+    render json: Current.account.sdk_apps.includes(:ios_configuration, :android_configuration).order(:name).map { |app| payload(app) }
   end
 
   def show
@@ -50,7 +50,14 @@ class Api::V1::Accounts::SdkAppsController < Api::V1::Accounts::BaseController
       render_could_not_create_error('Select a Website inbox')
       return
     end
+    assign_push_attributes(attributes)
+  end
+
+  def assign_push_attributes(attributes)
     assign_ios_attributes(attributes) if attributes.key?(:ios_configuration)
+    return if performed?
+
+    assign_android_attributes(attributes) if attributes.key?(:android_configuration)
   end
 
   def assign_ios_attributes(attributes)
@@ -79,10 +86,37 @@ class Api::V1::Accounts::SdkAppsController < Api::V1::Accounts::BaseController
     @attributes[:ios_configuration_attributes] = { id: existing.id, _destroy: true }
   end
 
+  def assign_android_attributes(attributes)
+    android = attributes[:android_configuration]
+    existing = @sdk_app&.android_configuration
+    if android.nil?
+      remove_android_configuration(existing)
+      return
+    end
+    unless android.is_a?(ActionController::Parameters) && android.values.all?(String)
+      render_could_not_create_error('Android configuration fields must be strings')
+      return
+    end
+    unless Chatwoot.encryption_configured?
+      render_could_not_create_error('Configure Active Record encryption before saving push credentials')
+      return
+    end
+
+    @attributes[:android_configuration_attributes] = android.permit(:package_name, :project_id, :service_account).to_h
+    @attributes[:android_configuration_attributes][:id] = existing.id if existing
+  end
+
+  def remove_android_configuration(existing)
+    return unless existing
+
+    @attributes[:android_configuration_attributes] = { id: existing.id, _destroy: true }
+  end
+
   def payload(app)
     ios = app.ios_configuration
     app.slice(:id, :app_id, :name, :inbox_id).merge(
-      ios_configuration: ios&.slice(:bundle_id, :team_id, :key_id)&.merge(credentials_configured: true)
+      ios_configuration: ios&.slice(:bundle_id, :team_id, :key_id)&.merge(credentials_configured: true),
+      android_configuration: app.android_configuration&.slice(:package_name, :project_id)&.merge(credentials_configured: true)
     )
   end
 end

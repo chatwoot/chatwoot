@@ -1551,6 +1551,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000001) do
     t.index ["account_id", "metric", "date"], name: "index_rollup_timeseries"
   end
 
+  create_table "sdk_android_configurations", force: :cascade do |t|
+    t.bigint "sdk_app_id", null: false
+    t.string "package_name", null: false
+    t.string "project_id", null: false
+    t.text "service_account", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sdk_app_id"], name: "index_sdk_android_configurations_on_sdk_app_id", unique: true
+  end
+
   create_table "sdk_apps", force: :cascade do |t|
     t.bigint "inbox_id", null: false
     t.string "name", null: false
@@ -1764,6 +1774,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000001) do
   add_foreign_key "sdk_push_devices", "contact_inboxes", on_delete: :cascade
   add_foreign_key "sdk_push_devices", "contacts", on_delete: :cascade
   add_foreign_key "sdk_push_devices", "sdk_apps", on_delete: :cascade
+  add_foreign_key "sdk_android_configurations", "sdk_apps", on_delete: :cascade
   add_foreign_key "sdk_apps", "accounts", on_delete: :cascade
   add_foreign_key "sdk_apps", "inboxes", on_delete: :cascade
   add_foreign_key "sdk_ios_configurations", "sdk_apps", on_delete: :cascade

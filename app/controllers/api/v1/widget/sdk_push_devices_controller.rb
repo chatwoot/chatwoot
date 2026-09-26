@@ -1,7 +1,7 @@
 class Api::V1::Widget::SdkPushDevicesController < Api::V1::Widget::BaseController
   before_action :validate_session
   before_action :validate_device_fields, only: :create
-  before_action :validate_ios_configuration, only: :create
+  before_action :validate_platform_configuration, only: :create
 
   def create
     attributes = params.permit(:platform, :device_token, :environment, :name)
@@ -29,10 +29,11 @@ class Api::V1::Widget::SdkPushDevicesController < Api::V1::Widget::BaseControlle
 
   private
 
-  def validate_ios_configuration
-    return if @sdk_app.ios_configuration
+  def validate_platform_configuration
+    configurations = { 'ios' => @sdk_app.ios_configuration, 'android' => @sdk_app.android_configuration }
+    return if configurations[params[:platform]]
 
-    render_could_not_create_error('Configure iOS push notifications for this SDK app first')
+    render_could_not_create_error('Configure push notifications for the requested platform first')
   end
 
   def validate_device_fields
