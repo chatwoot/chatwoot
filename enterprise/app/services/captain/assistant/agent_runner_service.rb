@@ -34,13 +34,9 @@ class Captain::Assistant::AgentRunnerService
     message_to_process, context = run_payload(message_history)
     @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
     raise @last_run_result.error if @last_run_result.error
+    return halted_run_response if run_halted?
 
-    record_turn_start(@last_run_result)
-    @last_run_result = rewrite_oversized_response(@last_run_result) if response_too_long?(@last_run_result)
-
-    raise "Captain response exceeds the channel limit of #{message_length_limit} characters" if response_too_long?(@last_run_result)
-
-    process_agent_result(@last_run_result)
+    channel_ready_response
   rescue StandardError => e
     # In rake/local runs, conversation may not be present, so account is optional here.
     ChatwootExceptionTracker.new(e, account: @conversation&.account).capture_exception
