@@ -35,6 +35,7 @@ vi.mock('dashboard/composables/store', async () => {
     ]),
     'captainCustomTools/getMeta': ref({ totalCount: 1, page: 1 }),
     'captainCustomTools/getUIFlags': ref({ fetchingList: false }),
+    'globalConfig/get': ref({ captainToolsManifestEnabled: true }),
   };
 
   return {
