@@ -2,6 +2,14 @@
 # https://developers.facebook.com/docs/whatsapp/api/media/
 
 class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageBaseService
+  def perform
+    super
+  rescue CustomExceptions::WhatsappMediaDownloadError => e
+    # Record authorization failures after the message transaction has rolled back.
+    inbox.channel.authorization_error! if e.http_status == 401
+    raise
+  end
+
   private
 
   def processed_params
@@ -14,12 +22,9 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
       headers: inbox.channel.api_headers
     )
 
-    # This url response will be failure if the access token has expired.
-    inbox.channel.authorization_error! if url_response.unauthorized?
+    raise CustomExceptions::WhatsappMediaDownloadError.new(attachment_payload[:id], url_response.code) unless url_response.success?
 
-    return unless url_response.success?
-
-    downloaded_file = Down.download(url_response.parsed_response['url'], headers: inbox.channel.api_headers)
+    downloaded_file = Down.download(url_response.parsed_response.fetch('url'), headers: inbox.channel.api_headers)
     # WhatsApp Cloud sends the original filename in the payload; preserve it so accented
     # names keep their correct extension instead of relying on the mangled remote metadata.
     filename = attachment_payload[:filename]
