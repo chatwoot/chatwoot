@@ -128,7 +128,7 @@ describe('InstallManifestDialog', () => {
     finishInstall({ data: { payload: [] } });
     await flushPromises();
 
-    expect(wrapper.emitted('installed')).toHaveLength(1);
+    expect(wrapper.emitted('installed')).toBeUndefined();
     expect(mocks.dialogClose).not.toHaveBeenCalled();
     expect(mocks.alert).not.toHaveBeenCalled();
   });
