@@ -3,6 +3,7 @@ class Api::V1::Accounts::Captain::ToolsManifestsController < Api::V1::Accounts::
   CONFIGURATION_SECTIONS = Captain::ToolsManifest::InstallService::CONFIGURATION_SECTIONS
 
   before_action :ensure_custom_tools_enabled
+  before_action :ensure_tools_manifest_enabled
   before_action -> { check_authorization(Captain::CustomTool) }
   before_action :set_assistant
 
@@ -49,6 +50,12 @@ class Api::V1::Accounts::Captain::ToolsManifestsController < Api::V1::Accounts::
     raise InstallError, 'Revision must be a string' unless revision.nil? || revision.is_a?(String)
 
     revision
+  end
+
+  def ensure_tools_manifest_enabled
+    return if GlobalConfigService.load('CAPTAIN_TOOLS_MANIFEST_ENABLED', false).to_s == 'true'
+
+    render json: { error: I18n.t('captain.tools_manifest.disabled') }, status: :forbidden
   end
 
   def ensure_custom_tools_enabled

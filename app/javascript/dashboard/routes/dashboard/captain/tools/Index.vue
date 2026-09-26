@@ -30,6 +30,7 @@ const SOFT_LIMIT = 10;
 const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
 
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
+const globalConfig = useMapGetter('globalConfig/get');
 const { run, isPending: isFetchingTools } = useAbortableRequest();
 const records = useMapGetter('captainCustomTools/getRecords');
 const customTools = computed(() =>
@@ -232,7 +233,10 @@ watch(
   >
     <template #headerActions>
       <Policy
-        v-if="!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)"
+        v-if="
+          globalConfig.captainToolsManifestEnabled &&
+          !shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
+        "
         :permissions="['administrator']"
       >
         <Button

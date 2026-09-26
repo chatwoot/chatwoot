@@ -27,6 +27,7 @@ class DashboardController < ActionController::Base
     DISABLE_META_MESSAGE_SENDING
     DEPLOYMENT_ENV
     INSTALLATION_PRICING_PLAN
+    CAPTAIN_TOOLS_MANIFEST_ENABLED
   ].freeze
 
   before_action :set_application_pack

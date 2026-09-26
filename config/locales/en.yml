@@ -511,6 +511,7 @@ en:
       invalid_source: 'Enter a public GitHub URL or owner/repository/folder on the default branch'
       invalid_manifest: "This toolset's manifest is invalid"
       invalid_configuration: 'Invalid configuration'
+      disabled: 'Installing tools from a manifest is not enabled'
   public_portal:
     search:
       search_placeholder: Search for article by title or body...

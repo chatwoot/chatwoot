@@ -34,6 +34,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
 
   before do
     account.enable_features!('custom_tools')
+    create(:installation_config, name: 'CAPTAIN_TOOLS_MANIFEST_ENABLED', value: true)
     allow(Resolv).to receive(:getaddresses).and_return(['140.82.112.3'])
     stub_request(:get, 'https://api.github.com/repos/chatwoot/support-tools/commits/HEAD').to_return(status: 200, body: revision)
     stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{revision}/shopify/toolset.yml")
@@ -45,6 +46,16 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
   end
 
   describe 'POST /api/v1/accounts/{account.id}/captain/tools_manifest/preview' do
+    it 'is forbidden when tool manifests are disabled for the installation' do
+      InstallationConfig.find_by!(name: 'CAPTAIN_TOOLS_MANIFEST_ENABLED').update!(value: false)
+      GlobalConfig.clear_cache
+
+      post "#{base_url}/preview", params: { assistant_id: assistant.id, source: source }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:forbidden)
+      expect(json_response[:error]).to eq('Installing tools from a manifest is not enabled')
+    end
+
     it 'rejects agents' do
       post "#{base_url}/preview", params: { assistant_id: assistant.id, source: source }, headers: agent.create_new_auth_token, as: :json
 
