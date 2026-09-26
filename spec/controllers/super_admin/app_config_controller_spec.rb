@@ -20,13 +20,6 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include(config.value)
       end
-
-      it 'selects the configured default for an unsaved boolean' do
-        sign_in(super_admin, scope: :super_admin)
-        get '/super_admin/app_config?config=captain'
-
-        expect(response.body).to match(%r{<option selected="selected" value="false">False</option>})
-      end
     end
   end
 

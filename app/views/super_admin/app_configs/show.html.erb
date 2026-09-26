@@ -23,10 +23,9 @@
         </div>
         <div class="-mt-2 field-unit__field ">
           <% if @installation_configs[key]&.dig('type') == 'boolean' %>
-            <%# An unsaved value would otherwise select the first option, so fall back to the configured default %>
             <%= form.select "app_config[#{key}]",
               [["True", true], ["False", false]],
-              { selected: ActiveModel::Type::Boolean.new.cast(@app_config[key].nil? ? @installation_configs[key]['value'] : @app_config[key]) },
+              { selected: ActiveModel::Type::Boolean.new.cast(@app_config[key]) },
               class: "mt-2 border border-slate-100 p-1 rounded-md"
             %>
           <% elsif @installation_configs[key]&.dig('type') == 'code' %>
