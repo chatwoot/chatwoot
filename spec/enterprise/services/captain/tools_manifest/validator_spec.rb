@@ -1,0 +1,274 @@
+require 'rails_helper'
+
+RSpec.describe Captain::ToolsManifest::Validator do
+  let(:manifest) do
+    {
+      'version' => '1.0.0',
+      'kind' => 'captain_toolset',
+      'name' => 'Shopify Support Tools',
+      'category' => 'Commerce',
+      'description' => 'Look up Shopify orders for support conversations.',
+      'headers' => { 'x-api-version' => '2026-05-01' },
+      'inputs' => { 'shop_domain' => { 'label' => 'Shopify store domain', 'required' => true } },
+      'secrets' => { 'access_token' => { 'label' => 'Admin API access token', 'type' => 'password', 'required' => true } },
+      'tools' => [
+        {
+          'id' => 'get_order',
+          'title' => 'Get Order',
+          'description' => 'Retrieve an order by its ID.',
+          'http_method' => 'GET',
+          'endpoint_url' => 'https://${{ inputs.shop_domain }}/admin/api/orders/{{ order_id }}.json',
+          'auth_type' => 'api_key',
+          'auth_config' => { 'name' => 'X-Shopify-Access-Token', 'key' => '${{ secrets.access_token }}' },
+          'param_schema' => [{ 'name' => 'order_id', 'type' => 'string', 'description' => 'The order ID', 'required' => true }],
+          'response_template' => 'Order {{ response.id }} is {{ response.status }}'
+        }
+      ]
+    }
+  end
+  let(:yaml) { manifest.to_yaml }
+
+  def validate(source = yaml)
+    described_class.new(source).perform
+  end
+
+  def expect_invalid(source, message)
+    expect { validate(source) }.to raise_error(described_class::InvalidManifestError, message)
+  end
+
+  describe '#perform' do
+    it 'returns the manifest with defaults applied' do
+      manifest.except!('category', 'headers')
+      manifest['inputs']['shop_domain'].delete('required')
+
+      result = validate
+
+      expect(result['category']).to eq('Others')
+      expect(result['headers']).to eq({})
+      expect(result['inputs']['shop_domain']).to include('type' => 'string', 'required' => false)
+      expect(result['tools'].first['enabled']).to be(true)
+    end
+
+    it 'accepts every supported HTTP method' do
+      %w[GET POST PUT PATCH DELETE].each do |http_method|
+        manifest['tools'].first['http_method'] = http_method
+
+        expect(validate(manifest.to_yaml)['tools'].first['http_method']).to eq(http_method)
+      end
+    end
+
+    it 'rejects invalid YAML' do
+      expect_invalid("version: [1.0.0\n", /Invalid YAML/)
+    end
+
+    it 'rejects YAML aliases' do
+      expect_invalid("anchor: &a 1\nalias: *a\n", /Invalid YAML/)
+    end
+
+    it 'rejects unquoted date values' do
+      expect_invalid(yaml.sub("'2026-05-01'", '2026-05-01'), /Invalid YAML/)
+    end
+
+    it 'rejects a manifest that is not a mapping' do
+      expect_invalid("- one\n- two\n", /must be a YAML object/)
+    end
+
+    it 'rejects unknown top-level fields' do
+      manifest['schema_version'] = 1
+
+      expect_invalid(yaml, /Unknown toolset fields: schema_version/)
+    end
+
+    it 'rejects the wrong kind' do
+      manifest['kind'] = 'toolset'
+
+      expect_invalid(yaml, /kind must be captain_toolset/)
+    end
+
+    it 'rejects a version that is not semantic' do
+      manifest['version'] = '1.0'
+
+      expect_invalid(yaml, /semantic version/)
+    end
+
+    it 'rejects a name that is too long' do
+      manifest['name'] = 'a' * 101
+
+      expect_invalid(yaml, /name must be 1-100 characters/)
+    end
+
+    it 'rejects an unknown category' do
+      manifest['category'] = 'Productivity'
+
+      expect_invalid(yaml, /category must be one of/)
+    end
+
+    it 'rejects an empty tool list' do
+      manifest['tools'] = []
+
+      expect_invalid(yaml, /1-50 tools/)
+    end
+
+    it 'rejects reserved headers' do
+      manifest['headers'] = { 'Authorization' => 'Bearer abc' }
+
+      expect_invalid(yaml, /Authorization/)
+    end
+
+    it 'rejects input definitions without a label' do
+      manifest['inputs']['shop_domain'].delete('label')
+
+      expect_invalid(yaml, /shop_domain label must be 1-80 characters/)
+    end
+
+    it 'rejects unknown input definition fields' do
+      manifest['inputs']['shop_domain']['default'] = 'acme'
+
+      expect_invalid(yaml, /Unknown input shop_domain fields: default/)
+    end
+
+    it 'rejects an unsupported input type' do
+      manifest['secrets']['access_token']['type'] = 'file'
+
+      expect_invalid(yaml, /access_token type must be one of/)
+    end
+
+    it 'rejects select fields without options' do
+      manifest['inputs']['region'] = { 'label' => 'Region', 'type' => 'select' }
+      expect_invalid(manifest.to_yaml, /region options must list at least one choice for select/)
+
+      manifest['inputs']['region']['options'] = []
+      expect_invalid(manifest.to_yaml, /region options must list at least one choice for select/)
+
+      manifest['inputs']['region']['options'] = ['', '  ']
+      expect_invalid(manifest.to_yaml, /region options must list at least one choice for select/)
+    end
+
+    it 'rejects unknown tool fields' do
+      manifest['tools'].first['timeout'] = 5
+
+      expect_invalid(yaml, /Unknown tool get_order fields: timeout/)
+    end
+
+    it 'rejects tool ids that are not snake_case' do
+      manifest['tools'].first['id'] = 'GetOrder'
+
+      expect_invalid(yaml, /Invalid tool id: GetOrder/)
+    end
+
+    it 'rejects duplicate tool ids' do
+      manifest['tools'] << manifest['tools'].first.deep_dup
+
+      expect_invalid(yaml, /Duplicate tool id: get_order/)
+    end
+
+    it 'rejects an unsupported auth type' do
+      manifest['tools'].first['auth_type'] = 'oauth2'
+
+      expect_invalid(yaml, /get_order auth_type must be one of/)
+    end
+
+    it 'rejects an unsupported HTTP method' do
+      manifest['tools'].first['http_method'] = 'HEAD'
+
+      expect_invalid(yaml, /get_order http_method must be one of/)
+    end
+
+    it 'rejects an auth_config missing credentials for its auth_type' do
+      manifest['tools'].first['auth_config'].delete('name')
+
+      expect_invalid(yaml, /get_order auth_config must include name and key for api_key/)
+    end
+
+    it 'rejects unsupported parameter types' do
+      manifest['tools'].first['param_schema'].first['type'] = 'file'
+
+      expect_invalid(yaml, /get_order parameter order_id type must be one of/)
+    end
+
+    it 'rejects Liquid in auth_config, which is never rendered at call time' do
+      ['{{ order_id }}', '{{ secrets.access_token }}'].each do |key|
+        manifest['tools'].first['auth_config']['key'] = key
+
+        expect { validate(manifest.to_yaml) }
+          .to raise_error(described_class::InvalidManifestError, /get_order auth_config cannot contain Liquid/), "expected #{key} to be rejected"
+      end
+    end
+
+    it 'only allows secrets in auth_config, which agents cannot read' do
+      tool = manifest['tools'].first
+      tool['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{ order_id }}.json?token=${{ secrets.access_token }}'
+      expect_invalid(manifest.to_yaml, /get_order endpoint_url cannot use secrets/)
+
+      tool['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{ order_id }}.json'
+      tool['request_template'] = '{"token": "${{ secrets.access_token }}", "id": "{{ order_id }}"}'
+      expect_invalid(manifest.to_yaml, /get_order request_template cannot use secrets/)
+    end
+
+    it 'rejects undeclared install-time placeholders' do
+      manifest['tools'].first['endpoint_url'] = 'https://${{ inputs.store }}/orders/{{ order_id }}'
+
+      expect_invalid(yaml, /undeclared placeholder inputs.store/)
+    end
+
+    it 'rejects install-time placeholders outside the allowed fields' do
+      manifest['tools'].first['title'] = 'Orders for ${{ inputs.shop_domain }}'
+
+      expect_invalid(yaml, /get_order title cannot contain install-time placeholders/)
+    end
+
+    it 'rejects call-time placeholders without a matching parameter' do
+      manifest['tools'].first['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{ order_number }}'
+
+      expect_invalid(yaml, /get_order endpoint_url uses undefined variable order_number/)
+    end
+
+    it 'rejects undeclared variables in any Liquid form' do
+      tool = manifest['tools'].first
+      tool['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{- order_id -}}{{- missing -}}'
+      expect_invalid(manifest.to_yaml, /get_order endpoint_url uses undefined variable missing/)
+
+      tool['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{ order_id }}'
+      tool['request_template'] = '{% if missing %}{"id": "{{ order_id }}"}{% endif %}'
+      expect_invalid(manifest.to_yaml, /get_order request_template uses undefined variable missing/)
+    end
+
+    it 'rejects unknown Liquid filters' do
+      manifest['tools'].first['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{ order_id | typoo }}'
+
+      expect_invalid(yaml, /get_order endpoint_url uses undefined filter typoo/)
+    end
+
+    it 'checks Liquid inside loop bodies' do
+      manifest['tools'].first['response_template'] = '{% for item in response.items %}{{ item.name | typoo }}{% endfor %}'
+
+      expect_invalid(yaml, /get_order response_template uses undefined filter typoo/)
+    end
+
+    it 'rejects response template variables other than response and r' do
+      manifest['tools'].first['response_template'] = 'Order {{ result.id }}'
+
+      expect_invalid(yaml, /get_order response_template uses undefined variable result/)
+    end
+
+    it 'accepts loops, known filters and install-time placeholders in templates' do
+      tool = manifest['tools'].first
+      tool['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{ order_id | url_encode }}'
+      tool['response_template'] = '{% for item in response.items %}{{ item.name | upcase }}{% endfor %} {{ r.status | default: "open" }}'
+
+      expect(validate['tools'].first['response_template']).to include('{% for item')
+    end
+
+    it 'rejects invalid Liquid in the endpoint URL' do
+      manifest['tools'].first['endpoint_url'] = 'https://${{ inputs.shop_domain }}/orders/{{ order_id'
+
+      expect_invalid(yaml, /get_order endpoint_url is not valid Liquid/)
+    end
+
+    it 'rejects invalid Liquid in the response template' do
+      manifest['tools'].first['response_template'] = 'Order {{ response.id '
+
+      expect_invalid(yaml, /get_order response_template is not valid Liquid/)
+    end
+  end
+end
