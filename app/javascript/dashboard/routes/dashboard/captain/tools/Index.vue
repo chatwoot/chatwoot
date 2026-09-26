@@ -205,12 +205,16 @@ const onDeleteSuccess = () => {
   }
 };
 
+// On a full reload account features load after mount, so the paywall briefly shows;
+// watching it too fetches the tools once access resolves, not only when the assistant changes
+const showPaywall = computed(() =>
+  shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
+);
+
 watch(
-  assistantId,
+  [assistantId, showPaywall],
   () => {
-    if (!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)) {
-      fetchCustomTools();
-    }
+    if (!showPaywall.value) fetchCustomTools();
   },
   { immediate: true }
 );
