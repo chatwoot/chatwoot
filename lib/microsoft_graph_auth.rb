@@ -23,6 +23,16 @@ class MicrosoftGraphAuth < OmniAuth::Strategies::OAuth2
   # Send the scope parameter during authorize
   option :authorize_options, [:scope]
 
+  def client
+    options.client_options.authorize_url = "/#{tenant_id}/oauth2/v2.0/authorize"
+    options.client_options.token_url = "/#{tenant_id}/oauth2/v2.0/token"
+    super
+  end
+
+  def tenant_id
+    GlobalConfigService.load('AZURE_TENANT_ID', 'common')
+  end
+
   # Unique ID for the user is the id field
   uid { raw_info['id'] }
 

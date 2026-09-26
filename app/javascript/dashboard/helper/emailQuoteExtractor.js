@@ -14,6 +14,10 @@ const QUOTE_INDICATORS = [
 
 const BLOCKQUOTE_FALLBACK_SELECTOR = 'blockquote';
 
+const MAX_HTML_LENGTH = 250000; // 250KB limit for advanced quote extraction
+const MAX_TEXT_NODES = 1000; // Limit the number of text nodes to scan
+const MAX_TEXT_NODE_LENGTH = 1000; // Skip regex check on very long text nodes
+
 // Regex patterns for quote identification
 const QUOTE_PATTERNS = [
   /On .* wrote:/i,
@@ -29,6 +33,13 @@ export class EmailQuoteExtractor {
    * @returns {string} HTML content with quotes removed
    */
   static extractQuotes(htmlContent) {
+    if (!htmlContent || typeof htmlContent !== 'string') return '';
+
+    // If the HTML is too large, skip advanced quote extraction to prevent browser freeze
+    if (htmlContent.length > MAX_HTML_LENGTH) {
+      return DOMPurify.sanitize(htmlContent);
+    }
+
     // Create a temporary DOM element to parse HTML
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = DOMPurify.sanitize(htmlContent);
@@ -57,6 +68,13 @@ export class EmailQuoteExtractor {
    * @returns {boolean} True if quotes are detected, false otherwise
    */
   static hasQuotes(htmlContent) {
+    if (!htmlContent || typeof htmlContent !== 'string') return false;
+
+    // If the HTML is too large, skip check to avoid freeze
+    if (htmlContent.length > MAX_HTML_LENGTH) {
+      return false;
+    }
+
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = DOMPurify.sanitize(htmlContent);
 
@@ -91,19 +109,27 @@ export class EmailQuoteExtractor {
       false
     );
 
+    let nodeCount = 0;
     for (
       let currentNode = treeWalker.nextNode();
-      currentNode !== null;
+      currentNode !== null && nodeCount < MAX_TEXT_NODES;
       currentNode = treeWalker.nextNode()
     ) {
-      const isQuoteLike = QUOTE_PATTERNS.some(pattern =>
-        pattern.test(currentNode.textContent)
-      );
+      nodeCount += 1;
+      const content = currentNode.textContent;
 
-      if (isQuoteLike) {
-        const parentBlock = this.findParentBlock(currentNode);
-        if (parentBlock && !quoteBlocks.includes(parentBlock)) {
-          quoteBlocks.push(parentBlock);
+      // Skip very long text nodes for quote detection to avoid regex performance issues
+      // and catastrophic backtracking
+      if (content && content.length <= MAX_TEXT_NODE_LENGTH) {
+        const isQuoteLike = QUOTE_PATTERNS.some(pattern =>
+          pattern.test(content)
+        );
+
+        if (isQuoteLike) {
+          const parentBlock = this.findParentBlock(currentNode);
+          if (parentBlock && !quoteBlocks.includes(parentBlock)) {
+            quoteBlocks.push(parentBlock);
+          }
         }
       }
     }
