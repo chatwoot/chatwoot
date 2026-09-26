@@ -32,9 +32,7 @@ class Captain::BaseTaskService
   end
 
   def api_base
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.presence || 'https://api.openai.com/'
-    endpoint = endpoint.chomp('/')
-    "#{endpoint}/v1"
+    Llm::Config.openai_api_base
   end
 
   def make_api_call(messages:, model: nil, feature: nil, schema: nil, tools: [])
@@ -83,7 +81,7 @@ class Captain::BaseTaskService
   end
 
   def build_chat(context, model:, messages:, schema: nil, tools: [])
-    chat = context.chat(model: model)
+    chat = context.chat(**chat_model_options(model))
     system_msg = messages.find { |m| m[:role] == 'system' }
     chat.with_instructions(system_msg[:content]) if system_msg
     chat.with_schema(schema) if schema
@@ -94,6 +92,13 @@ class Captain::BaseTaskService
     end
 
     chat
+  end
+
+  # A custom CAPTAIN_OPEN_AI_MODEL (a Groq, Ollama or Azure deployment name) is in neither Chatwoot's model
+  # list nor RubyLLM's registry, so it is sent as-is to the OpenAI-compatible endpoint instead of failing the lookup.
+  def chat_model_options(model)
+    custom = Llm::Models.provider_for(model).nil? && model == InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence
+    custom ? { model: model, provider: :openai, assume_model_exists: true } : { model: model }
   end
 
   def add_messages_if_needed(chat, conversation_messages)
