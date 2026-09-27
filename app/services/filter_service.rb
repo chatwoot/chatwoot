@@ -70,12 +70,10 @@ class FilterService
   end
 
   def values_for_ilike(query_hash)
-    if query_hash['values'].is_a?(Array)
-      query_hash['values']
-        .map { |item| "%#{item.to_s.strip}%" }
-    else
-      ["%#{query_hash['values'].to_s.strip}%"]
-    end
+    values = Array(query_hash['values']).compact
+    raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash['attribute_key']) if values.empty?
+
+    values.map { |item| "%#{item.to_s.strip}%" }
   end
 
   def string_filter_values(query_hash)
@@ -208,6 +206,6 @@ class FilterService
   end
 
   def coerce_text_attribute_values(query_hash)
-    query_hash['values'] = Array(query_hash['values']).map { |v| v.is_a?(String) ? v : v.to_s }
+    query_hash['values'] = Array(query_hash['values']).compact.map { |v| v.is_a?(String) ? v : v.to_s }
   end
 end

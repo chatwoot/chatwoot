@@ -287,5 +287,19 @@ RSpec.describe AutomationRules::ConditionsFilterService do
         expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
       end
     end
+
+    context 'when a contains condition has a null value' do
+      before do
+        conversation.contact.update!(email: 'someone@example.com')
+        rule.conditions = [
+          { 'values': [nil], 'attribute_key': 'email', 'query_operator': nil, 'filter_operator': 'contains' }
+        ]
+        rule.save
+      end
+
+      it 'does not match instead of matching every conversation' do
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+      end
+    end
   end
 end
