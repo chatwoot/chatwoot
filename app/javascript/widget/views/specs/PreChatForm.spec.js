@@ -95,7 +95,10 @@ describe('PreChatForm view', () => {
           namespaced: true,
           actions: { createConversation, clearConversations: vi.fn() },
           getters: {
-            getPendingCustomAttributes: () => ({ referral_code: 'ABC123' }),
+            getPendingCustomAttributes: () => ({
+              referral_code: 'ABC123',
+              campaign_source: 'sdk',
+            }),
           },
         },
         conversationAttributes: {
@@ -125,7 +128,11 @@ describe('PreChatForm view', () => {
 
     expect(emit).toHaveBeenCalledWith('execute-campaign', {
       campaignId: 42,
-      customAttributes: { referral_code: 'FORM99', order_id: '12345' },
+      customAttributes: {
+        referral_code: 'FORM99',
+        campaign_source: 'sdk',
+        order_id: '12345',
+      },
     });
     expect(updateContact).toHaveBeenCalled();
     expect(createConversation).not.toHaveBeenCalled();
