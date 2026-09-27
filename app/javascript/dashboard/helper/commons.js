@@ -46,8 +46,17 @@ export const getTypingUsersText = (users = []) => {
 export const createPendingMessage = data => {
   const timestamp = Math.floor(new Date().getTime() / 1000);
   const tempMessageId = getUuid();
-  const { message, pendingMessageContent, file } = data;
+  const { message, pendingMessageContent, file, giphy } = data;
   const tempAttachments = [{ id: tempMessageId }];
+  const giphyAttachments = giphy && [
+    {
+      id: tempMessageId,
+      file_type: 'image',
+      data_url: giphy.url,
+      thumb_url: giphy.preview_url,
+      meta: { giphy },
+    },
+  ];
   const pendingMessage = {
     ...data,
     content: pendingMessageContent || message || null,
@@ -57,7 +66,7 @@ export const createPendingMessage = data => {
     created_at: timestamp,
     message_type: MESSAGE_TYPE.OUTGOING,
     conversation_id: data.conversationId,
-    attachments: file ? tempAttachments : null,
+    attachments: giphyAttachments || (file ? tempAttachments : null),
   };
 
   return pendingMessage;

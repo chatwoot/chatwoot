@@ -13,6 +13,7 @@ export const buildCreatePayload = ({
   toEmails = '',
   templateParams,
   isVoiceMessage = false,
+  giphy,
 }) => {
   let payload;
   if (files && files.length !== 0) {
@@ -47,6 +48,7 @@ export const buildCreatePayload = ({
       bcc_emails: bccEmails,
       to_emails: toEmails,
       template_params: templateParams,
+      giphy,
     };
   }
   return payload;
@@ -69,6 +71,7 @@ class MessageApi extends ApiClient {
     toEmails = '',
     templateParams,
     isVoiceMessage = false,
+    giphy,
   }) {
     return axios({
       method: 'post',
@@ -84,6 +87,7 @@ class MessageApi extends ApiClient {
         toEmails,
         templateParams,
         isVoiceMessage,
+        giphy,
       }),
     });
   }

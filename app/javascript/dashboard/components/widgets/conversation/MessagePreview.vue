@@ -47,10 +47,14 @@ export default {
       const [{ file_type: fileType } = {}] = this.message.attachments;
       return fileType;
     },
+    isGiphy() {
+      return Boolean(this.message.attachments[0]?.meta?.giphy);
+    },
     attachmentIcon() {
       return ATTACHMENT_ICONS[this.lastMessageFileType];
     },
     attachmentMessageContent() {
+      if (this.isGiphy) return 'CHAT_LIST.ATTACHMENTS.giphy.CONTENT';
       return `CHAT_LIST.ATTACHMENTS.${this.lastMessageFileType}.CONTENT`;
     },
     isMessageSticker() {

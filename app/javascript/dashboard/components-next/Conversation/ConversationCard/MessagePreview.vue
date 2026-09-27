@@ -60,11 +60,17 @@ const lastMessageFileType = computed(() => {
   return fileType;
 });
 
+const isGiphy = computed(() =>
+  Boolean(props.message.attachments[0]?.meta?.giphy)
+);
+
 const attachmentIcon = computed(() => {
+  if (isGiphy.value) return 'i-ph-gif';
   return attachmentIcons[lastMessageFileType.value];
 });
 
 const attachmentMessageContent = computed(() => {
+  if (isGiphy.value) return 'CHAT_LIST.ATTACHMENTS.giphy.CONTENT';
   return `CHAT_LIST.ATTACHMENTS.${lastMessageFileType.value}.CONTENT`;
 });
 

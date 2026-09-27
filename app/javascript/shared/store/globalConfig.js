@@ -20,6 +20,7 @@ const {
   LOGO_DARK: logoDark,
   PRIVACY_URL: privacyURL,
   IS_ENTERPRISE: isEnterprise,
+  IS_GIPHY_ENABLED: isGiphyEnabled,
   TERMS_URL: termsURL,
   WIDGET_BRAND_URL: widgetBrandURL,
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
@@ -54,6 +55,7 @@ const state = {
   termsURL,
   widgetBrandURL,
   isEnterprise: parseBoolean(isEnterprise),
+  isGiphyEnabled: parseBoolean(isGiphyEnabled),
   activePlatformBanners: activePlatformBanners || [],
 };
 

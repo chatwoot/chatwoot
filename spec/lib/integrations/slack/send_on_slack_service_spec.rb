@@ -149,6 +149,18 @@ describe Integrations::Slack::SendOnSlackService do
         expect(slack_client).to have_received(:chat_unfurl).with(unflur_payload)
       end
 
+      it 'posts a Giphy GIF as a link instead of uploading it' do
+        gif_url = 'https://media.giphy.com/media/abc123/giphy-downsized.gif'
+        giphy = { 'url' => gif_url, 'preview_url' => 'https://media2.giphy.com/media/abc123/200w.gif' }
+        message.update!(content: nil)
+        message.attachments.create!(account_id: message.account_id, file_type: :image, external_url: gif_url, meta: { 'giphy' => giphy })
+
+        expect(slack_client).to receive(:chat_postMessage).with(hash_including(text: gif_url)).and_return(slack_message)
+        expect(slack_client).not_to receive(:files_upload_v2)
+
+        builder.perform
+      end
+
       it 'sent attachment on slack' do
         expect(slack_client).to receive(:chat_postMessage).with(
           channel: hook.reference_id,

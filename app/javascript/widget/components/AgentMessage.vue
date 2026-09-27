@@ -216,7 +216,11 @@ export default {
                 <ImageBubble
                   v-if="attachment.file_type === 'image' && !hasImageError"
                   :url="attachment.data_url"
-                  :thumb="attachment.data_url"
+                  :thumb="
+                    attachment.meta?.giphy
+                      ? attachment.thumb_url
+                      : attachment.data_url
+                  "
                   :readable-time="readableTime"
                   @error="onImageLoadError"
                 />
