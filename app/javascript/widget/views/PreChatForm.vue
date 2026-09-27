@@ -46,9 +46,16 @@ export default {
       // merge on the server (matching email/phone) and write the values to
       // the destroyed contact, silently losing them.
       if (activeCampaignId) {
+        // Campaign submissions create a conversation through a different API
+        // path, so include SDK-queued conversation attributes here as well.
+        const pendingConversationCustomAttributes =
+          this.$store.getters['conversation/getPendingCustomAttributes'];
         emitter.emit('execute-campaign', {
           campaignId: activeCampaignId,
-          customAttributes: conversationCustomAttributes,
+          customAttributes: {
+            ...pendingConversationCustomAttributes,
+            ...conversationCustomAttributes,
+          },
         });
         this.$store.dispatch('contacts/update', {
           user: {
