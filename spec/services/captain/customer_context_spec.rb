@@ -15,8 +15,19 @@ RSpec.describe Captain::CustomerContext do
     conversation.update!(custom_attributes: { 'installation_type' => 'self-hosted' })
 
     expect(described_class.new(conversation: conversation).attributes).to eq(
-      contact: { 'Plan' => 'business' },
-      conversation: { 'Installation Type' => 'self-hosted' }
+      contact: [{ name: 'Plan', value: 'business' }],
+      conversation: [{ name: 'Installation Type', value: 'self-hosted' }]
+    )
+  end
+
+  it 'keeps every value when two attributes share a display name' do
+    define('contact_attribute', 'promo_code', 'Code')
+    define('contact_attribute', 'referral_code', 'Code')
+    conversation.contact.update!(custom_attributes: { 'promo_code' => 'SPRING', 'referral_code' => 'FRIEND' })
+
+    expect(described_class.new(conversation: conversation).attributes).to eq(
+      contact: [{ name: 'Code', value: 'SPRING' }, { name: 'Code', value: 'FRIEND' }],
+      conversation: []
     )
   end
 
@@ -25,13 +36,15 @@ RSpec.describe Captain::CustomerContext do
     define('contact_attribute', 'plan', 'Plan')
     conversation.contact.update!(custom_attributes: { 'cloud_customer' => false, 'plan' => '' })
 
-    expect(described_class.new(conversation: conversation).attributes).to eq(contact: { 'Cloud customer' => false }, conversation: {})
+    expect(described_class.new(conversation: conversation).attributes).to eq(
+      contact: [{ name: 'Cloud customer', value: false }], conversation: []
+    )
   end
 
   it 'ignores values the account has not defined as custom attributes' do
     conversation.contact.update!(custom_attributes: { 'internal_token' => 'abc123' })
 
-    expect(described_class.new(conversation: conversation).attributes).to eq(contact: {}, conversation: {})
+    expect(described_class.new(conversation: conversation).attributes).to eq(contact: [], conversation: [])
   end
 
   it 'leaves out an attribute that does not fit the size limit and keeps the rest' do
@@ -39,6 +52,8 @@ RSpec.describe Captain::CustomerContext do
     define('contact_attribute', 'plan', 'Plan')
     conversation.contact.update!(custom_attributes: { 'notes' => 'x' * 5_000, 'plan' => 'business' })
 
-    expect(described_class.new(conversation: conversation).attributes).to eq(contact: { 'Plan' => 'business' }, conversation: {})
+    expect(described_class.new(conversation: conversation).attributes).to eq(
+      contact: [{ name: 'Plan', value: 'business' }], conversation: []
+    )
   end
 end

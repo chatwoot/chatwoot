@@ -52,7 +52,8 @@ RSpec.describe Captain::AutomationConditionService do
 
     expect(stub.with do |request|
       body = JSON.parse(request.body)
-      body['state']['customer_context'] == { 'contact' => { 'Installation Type' => 'self-hosted' }, 'conversation' => {} } &&
+      body['state']['customer_context'] == { 'contact' => [{ 'name' => 'Installation Type', 'value' => 'self-hosted' }],
+                                             'conversation' => [] } &&
         body['questions']['0']['instructions']['question'].include?('`customer_context`')
     end).to have_been_requested
   end

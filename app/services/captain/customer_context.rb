@@ -5,6 +5,7 @@ class Captain::CustomerContext
   pattr_initialize [:conversation!]
 
   # Shares only the custom attributes the account has defined, under the names the admin sees.
+  # Names are not unique, so each attribute is its own entry.
   def attributes
     @remaining = MAX_CHARACTERS
     {
@@ -16,13 +17,13 @@ class Captain::CustomerContext
   private
 
   def section(attribute_model, values)
-    definitions.select { |definition| definition.attribute_model == attribute_model }.each_with_object({}) do |definition, section|
+    definitions.select { |definition| definition.attribute_model == attribute_model }.each_with_object([]) do |definition, section|
       value = values[definition.attribute_key]
       size = definition.attribute_display_name.length + value.to_s.length
       next if value.nil? || value == '' || size > @remaining
 
       @remaining -= size
-      section[definition.attribute_display_name] = value
+      section << { name: definition.attribute_display_name, value: value }
     end
   end
 
