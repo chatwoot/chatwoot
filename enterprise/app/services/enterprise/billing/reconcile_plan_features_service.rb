@@ -1,10 +1,11 @@
 class Enterprise::Billing::ReconcilePlanFeaturesService
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
   SHOPIFY_MANAGED_FEATURES = 'shopify_managed_features'.freeze
+  PAID_PLAN_FEATURES = %w[conversation_monitors captain_classifier].freeze
 
   # Plan hierarchy: Hacker (default) -> Startups -> Business -> Enterprise
   # Each higher tier includes all features from the lower tiers
-  STARTUP_PLAN_FEATURES = %w[
+  STARTUP_PLAN_FEATURES = (%w[
     inbound_emails
     help_center
     campaigns
@@ -23,7 +24,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     api_and_webhooks
     data_import
     companies
-  ].freeze
+  ] + PAID_PLAN_FEATURES).freeze
 
   BUSINESS_PLAN_FEATURES = %w[
     sla
@@ -35,7 +36,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   ].freeze
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
   PREMIUM_PLAN_FEATURES = (STARTUP_PLAN_FEATURES + BUSINESS_PLAN_FEATURES + ENTERPRISE_PLAN_FEATURES).freeze
-  SHOPIFY_BASE_MANAGED_FEATURES = (PREMIUM_PLAN_FEATURES + %w[channel_tiktok captain_integration_v2]).freeze
+  SHOPIFY_BASE_MANAGED_FEATURES = (PREMIUM_PLAN_FEATURES + %w[channel_tiktok]).freeze
 
   pattr_initialize [:account!, { shopify_lifecycle_cleanup: false }]
 
@@ -43,9 +44,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     return if shopify_billing? && !shopify_lifecycle_cleanup && !Shopify::FeatureGate.enabled?(account: account)
 
     account.disable_features(*managed_plan_features)
-    account.disable_features('captain_integration_v2') if default_plan?
     account.enable_features(*current_plan_features)
-    account.enable_features('captain_integration_v2') if captain_v2_enabled_by_default?
     account.enable_features(*manually_managed_features)
     update_shopify_managed_features
     account.save!
@@ -55,7 +54,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
 
   def current_plan_features
     return [] if default_plan?
-    return Enterprise::Billing::PlanConfiguration.current_plan!(account).fetch('features') if shopify_billing?
+    return Enterprise::Billing::PlanConfiguration.current_plan!(account).fetch('features') + PAID_PLAN_FEATURES if shopify_billing?
 
     case account.custom_attributes['plan_name']
     when 'Startups' then STARTUP_PLAN_FEATURES
@@ -108,9 +107,5 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
 
   def manually_managed_features
     @manually_managed_features ||= Internal::Accounts::InternalAttributesService.new(account).manually_managed_features
-  end
-
-  def captain_v2_enabled_by_default?
-    !shopify_billing? && !default_plan?
   end
 end

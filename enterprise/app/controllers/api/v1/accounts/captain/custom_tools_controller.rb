@@ -43,7 +43,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   end
 
   def ensure_custom_tools_enabled
-    return if Current.account.feature_enabled?('custom_tools') || Current.account.feature_enabled?('captain_integration_v2')
+    return if Current.account.feature_enabled?('custom_tools') || Current.account.feature_enabled?('captain_integration')
 
     render json: { error: 'Custom tools are not enabled for this account' }, status: :forbidden
   end
