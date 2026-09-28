@@ -33,7 +33,7 @@ const store = useStore();
 const route = useRoute();
 const conversationHeader = ref(null);
 const { width } = useElementSize(conversationHeader);
-const { isAWebWidgetInbox } = useInbox();
+const { isAWebWidgetInbox, isAnEmailChannel } = useInbox();
 
 const currentChat = computed(() => store.getters.getSelectedChat);
 const accountId = computed(() => store.getters.getCurrentAccountId);
@@ -66,6 +66,11 @@ const isHMACVerified = computed(() => {
     return true;
   }
   return chatMetadata.value.hmac_verified;
+});
+
+const mailSubject = computed(() => {
+  if (!isAnEmailChannel.value) return '';
+  return props.chat.additional_attributes?.mail_subject;
 });
 
 const currentContact = computed(() =>
@@ -148,13 +153,25 @@ const copyConversationId = async () => {
         >
           <button
             type="button"
-            class="truncate text-label-small text-n-slate-11 hover:text-n-slate-12 !p-0 cucursor-pointer"
+            class="truncate shrink-0 text-label-small text-n-slate-11 hover:text-n-slate-12 !p-0 cucursor-pointer"
             @click="copyConversationId"
           >
             {{ `#${chat.id}` }}
           </button>
           <span v-if="hasMultipleInboxes">•</span>
-          <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
+          <InboxName
+            v-if="hasMultipleInboxes"
+            :inbox="inbox"
+            class="!mx-0 shrink-0"
+          />
+          <span v-if="mailSubject">•</span>
+          <span
+            v-if="mailSubject"
+            v-tooltip="mailSubject"
+            class="min-w-0 truncate text-label-small text-n-slate-11"
+          >
+            {{ mailSubject }}
+          </span>
           <span v-if="isSnoozed">•</span>
           <span v-if="isSnoozed" class="font-medium text-n-amber-10">
             {{ snoozedDisplayText }}
