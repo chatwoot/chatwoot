@@ -112,13 +112,19 @@ class AutomationRule < ApplicationRecord
   end
 
   def captain_conditions_description
-    descriptions = captain_conditions.map { |obj| Array(obj['values']).first.to_s }
+    values = captain_conditions.pluck('values')
     limit = Captain::AutomationConditionService::MAX_DESCRIPTION_LENGTH
 
-    errors.add(:conditions, 'Captain conditions need a description of what to detect.') if descriptions.any?(&:blank?)
-    return if descriptions.all? { |description| description.length <= limit }
+    unless values.all? { |value| captain_description?(value) }
+      return errors.add(:conditions, 'Captain conditions need exactly one description of what to detect.')
+    end
+    return if values.all? { |value| value.first.length <= limit }
 
     errors.add(:conditions, "Captain condition descriptions can have at most #{limit} characters.")
+  end
+
+  def captain_description?(value)
+    value.is_a?(Array) && value.size == 1 && value.first.is_a?(String) && value.first.present?
   end
 
   def json_actions_format

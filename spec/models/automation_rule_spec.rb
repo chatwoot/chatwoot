@@ -171,7 +171,31 @@ RSpec.describe AutomationRule do
       rule.conditions.first['values'] = ['']
 
       expect(rule).not_to be_valid
-      expect(rule.errors[:conditions]).to include('Captain conditions need a description of what to detect.')
+      expect(rule.errors[:conditions]).to include('Captain conditions need exactly one description of what to detect.')
+    end
+
+    it 'is rejected when the description is not given as a list' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = 'the customer wants a refund'
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions need exactly one description of what to detect.')
+    end
+
+    it 'is rejected with more than one description' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = ['the customer wants a refund', 'the customer is angry']
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions need exactly one description of what to detect.')
+    end
+
+    it 'is rejected when the description is not text' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = [42]
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions need exactly one description of what to detect.')
     end
 
     it 'accepts a description at the length limit' do
