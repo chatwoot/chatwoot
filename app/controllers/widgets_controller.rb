@@ -9,7 +9,6 @@ class WidgetsController < ActionController::Base
   before_action :ensure_location_is_supported
   before_action :set_token
   before_action :set_contact_inbox
-  before_action :ensure_contact_inbox
   before_action :set_visitor_session
   after_action :allow_iframe_requests
 
@@ -50,16 +49,7 @@ class WidgetsController < ActionController::Base
     @auth_token_params = {}
   end
 
-  # A token issued by a server that no longer creates the contact on load carries the ids to reuse,
-  # so the row lands on the stream the visitor is already subscribed to.
-  def ensure_contact_inbox
-    return if @contact_inbox.present?
-
-    @contact_inbox = @web_widget.create_contact_inbox(
-      source_id: @auth_token_params[:source_id], pubsub_token: @auth_token_params[:pubsub_token], additional_attributes: additional_attributes
-    )
-  end
-
+  # Loading the widget writes nothing; the visitor gets a contact on their first real action.
   def set_visitor_session
     @token, @pubsub_token = visitor_session(@web_widget, permitted_params[:cw_conversation], @auth_token_params, @contact_inbox)
   end
@@ -77,14 +67,6 @@ class WidgetsController < ActionController::Base
   end
 
   def ensure_location_is_supported; end
-
-  def additional_attributes
-    if @web_widget.inbox.account.feature_enabled?('ip_lookup')
-      { created_at_ip: request.remote_ip }
-    else
-      {}
-    end
-  end
 
   def permitted_params
     params.permit(:website_token, :cw_conversation)

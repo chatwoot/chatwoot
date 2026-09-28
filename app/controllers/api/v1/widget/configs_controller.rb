@@ -4,10 +4,6 @@ class Api::V1::Widget::ConfigsController < Api::V1::Widget::BaseController
   before_action :set_global_config
 
   def create
-    @contact_inbox ||= @web_widget.create_contact_inbox(
-      source_id: auth_token_params[:source_id], pubsub_token: auth_token_params[:pubsub_token], additional_attributes: additional_attributes
-    )
-    @contact = @contact_inbox.contact
     @token, @pubsub_token = visitor_session(@web_widget, request.headers['X-Auth-Token'], auth_token_params, @contact_inbox)
   end
 
@@ -27,13 +23,5 @@ class Api::V1::Widget::ConfigsController < Api::V1::Widget::BaseController
   def set_contact
     @contact_inbox = @web_widget.inbox.contact_inboxes.find_by(source_id: auth_token_params[:source_id])
     @contact = @contact_inbox&.contact
-  end
-
-  def additional_attributes
-    if @web_widget.inbox.account.feature_enabled?('ip_lookup')
-      { created_at_ip: request.remote_ip }
-    else
-      {}
-    end
   end
 end
