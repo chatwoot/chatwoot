@@ -56,15 +56,15 @@ class Captain::AutomationConditionService
   end
 
   def question_text
-    if message
-      'Does `description` apply to `latest_message`? Use `conversation.messages` as context.'
-    else
-      'Does `description` apply to the conversation in `conversation.messages`?'
-    end
+    subject = message ? '`latest_message`, with `conversation.messages` as context' : 'the conversation in `conversation.messages`'
+    "Does `description` apply to #{subject}? `customer_context` holds what is known about the customer; do not assume facts it does not list."
   end
 
   def state
-    state = { conversation: { messages: transcript } }
+    state = {
+      conversation: { messages: transcript },
+      customer_context: Captain::CustomerContext.new(conversation: conversation).attributes
+    }
     message ? state.merge(latest_message: latest_message) : state
   end
 end

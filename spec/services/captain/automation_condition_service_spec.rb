@@ -42,6 +42,21 @@ RSpec.describe Captain::AutomationConditionService do
     end).to have_been_requested
   end
 
+  it 'gives Captain the customer attributes as context' do
+    create(:custom_attribute_definition, account: account, attribute_model: 'contact_attribute',
+                                         attribute_key: 'installation_type', attribute_display_name: 'Installation Type')
+    conversation.contact.update!(custom_attributes: { 'installation_type' => 'self-hosted' })
+    stub = stub_jev('0' => { 'noul' => 0.8 })
+
+    described_class.new(conditions: [captain_condition], conversation: conversation, message: message).perform
+
+    expect(stub.with do |request|
+      body = JSON.parse(request.body)
+      body['state']['customer_context'] == { 'contact' => { 'Installation Type' => 'self-hosted' }, 'conversation' => {} } &&
+        body['questions']['0']['instructions']['question'].include?('`customer_context`')
+    end).to have_been_requested
+  end
+
   it 'treats a probability below the threshold as not detected' do
     stub_jev('1' => { 'noul' => 0.2 })
 
