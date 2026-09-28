@@ -104,6 +104,37 @@ RSpec.describe AutomationRules::ConditionsFilterService do
           .with(conditions: rule.conditions, conversation: conversation, message: message)
       end
 
+      it 'does not ask Captain when another condition already rules the match out' do
+        rule.update!(conditions: [
+                       { 'values': ['resolved'], 'attribute_key': 'status', 'query_operator': 'AND', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+        expect(Captain::AutomationConditionService).not_to have_received(:new)
+      end
+
+      it 'does not ask Captain when another condition already decides the match' do
+        rule.update!(conditions: [
+                       { 'values': ['open'], 'attribute_key': 'status', 'query_operator': 'OR', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+        expect(Captain::AutomationConditionService).not_to have_received(:new)
+      end
+
+      it 'does not ask Captain about an agent reply when the rule is for customer messages' do
+        message.update!(message_type: :outgoing)
+        rule.update!(conditions: [
+                       { 'values': ['incoming'], 'attribute_key': 'message_type', 'query_operator': 'AND', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+
+        expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
+        expect(Captain::AutomationConditionService).not_to have_received(:new)
+      end
+
       it 'combines a detected condition with the other conditions using AND' do
         rule.update!(conditions: [
                        { 'values': ['open'], 'attribute_key': 'status', 'query_operator': 'AND', 'filter_operator': 'equal_to' },
@@ -148,7 +179,7 @@ RSpec.describe AutomationRules::ConditionsFilterService do
                                                 headers: { 'Content-Type' => 'application/json' })
       end
 
-      it 'still lets the other conditions of the rule decide when the Captain request fails' do
+      it 'matches through another condition without needing Captain, even while Captain is failing' do
         stub_request(:post, endpoint).to_return(status: 500, body: 'upstream error')
         rule.update!(conditions: [
                        { 'values': ['open'], 'attribute_key': 'status', 'query_operator': 'OR', 'filter_operator': 'equal_to' },
@@ -156,6 +187,15 @@ RSpec.describe AutomationRules::ConditionsFilterService do
                      ])
 
         expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
+        expect(a_request(:post, endpoint)).not_to have_been_made
+      end
+
+      it 'does not match when the rule depends on Captain and the request fails' do
+        stub_request(:post, endpoint).to_return(status: 500, body: 'upstream error')
+        rule.update!(conditions: [captain_condition])
+
+        expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
+        expect(a_request(:post, endpoint)).to have_been_made.once
       end
 
       it 'does not match a private note and never sends it to Captain' do
