@@ -57,7 +57,7 @@ class Captain::JevClient
     outcome = {}
     OpentelemetryConfig.tracer.in_span("llm.#{@feature}.jev", kind: :client) do |span|
       request_model = JSON.parse(body).fetch('model')
-      set_request_attributes(span, body, request_model)
+      set_request_attributes(span, body)
       call_in_span(span, outcome, &)
       set_response_attributes(span, outcome[:result], request_model)
     end
@@ -73,34 +73,25 @@ class Captain::JevClient
     outcome[:result] = yield
   rescue StandardError => e
     outcome[:error] = e
-    span.set_attribute('error.type', e.is_a?(HTTPError) ? e.status.to_s : e.class.name)
-    span.status = OpenTelemetry::Trace::Status.error(e.class.name)
+    span.status = OpenTelemetry::Trace::Status.error(e.message)
     raise
   end
 
-  def set_request_attributes(span, body, request_model)
+  def set_request_attributes(span, body)
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_TYPE, 'generation')
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, body)
     span.set_attribute(ATTR_LANGFUSE_USER_ID, @account_id.to_s)
     span.set_attribute(ATTR_LANGFUSE_TAGS, [@feature].to_json)
-    span.set_attribute(ATTR_GEN_AI_PROVIDER, 'openrouter')
-    span.set_attribute('gen_ai.operation.name', 'evaluate')
-    span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, request_model)
-    return unless @conversation_id
-
-    session_id = "#{@account_id}_#{@conversation_id}"
-    span.set_attribute(ATTR_LANGFUSE_SESSION_ID, session_id)
-    span.set_attribute('gen_ai.conversation.id', session_id)
+    span.set_attribute(ATTR_LANGFUSE_SESSION_ID, "#{@account_id}_#{@conversation_id}") if @conversation_id
   end
 
   def set_response_attributes(span, result, request_model)
     usage = result['usage'] || {}
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
-    span.set_attribute('langfuse.observation.model.name', result['model'] || request_model)
-    span.set_attribute('gen_ai.response.model', result['model']) if result['model']
+    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_MODEL_NAME, result['model'] || request_model)
     span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, usage['input_tokens']) if usage['input_tokens']
     span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, usage['output_tokens']) if usage['output_tokens']
-    span.set_attribute('langfuse.observation.cost_details', { total: usage['cost'] }.to_json) if usage['cost'].is_a?(Numeric)
+    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_COST_DETAILS, { total: usage['cost'] }.to_json) if usage['cost'].is_a?(Numeric)
   end
 
   def connection

@@ -51,9 +51,6 @@ RSpec.describe Captain::JevClient do
       'langfuse.observation.model.name' => 'jev-1.13.0',
       'langfuse.observation.cost_details' => { total: 0.000001 }.to_json,
       'langfuse.session.id' => '7_42',
-      'gen_ai.operation.name' => 'evaluate',
-      'gen_ai.conversation.id' => '7_42',
-      'gen_ai.response.model' => 'jev-1.13.0',
       'gen_ai.usage.input_tokens' => 12
     )
     expect(WebMock).to have_requested(:post, 'https://openrouter.ai/api/v1/systemone').with(body: body).once
@@ -71,7 +68,6 @@ RSpec.describe Captain::JevClient do
 
     expect { client.call(body: body) }.to raise_error(Faraday::ConnectionFailed)
     expect(span).to have_received(:status=).with(an_instance_of(OpenTelemetry::Trace::Status))
-    expect(attributes['error.type']).to eq('Faraday::ConnectionFailed')
     expect(WebMock).to have_requested(:post, 'https://openrouter.ai/api/v1/systemone').once
   end
 
@@ -99,8 +95,8 @@ RSpec.describe Captain::JevClient do
 
     it 'raises the provider error once when recording it fails' do
       stub_request(:post, 'https://openrouter.ai/api/v1/systemone').to_return(status: 429, body: 'busy')
-      span = instance_double(OpenTelemetry::Trace::Span)
-      allow(span).to receive(:set_attribute) { |name, _| raise 'exporter down' if name == 'error.type' }
+      span = instance_double(OpenTelemetry::Trace::Span, set_attribute: nil)
+      allow(span).to receive(:status=).and_raise('exporter down')
       allow(tracer).to receive(:in_span).and_yield(span)
 
       expect { client.call(body: body) }.to raise_error(described_class::HTTPError)
