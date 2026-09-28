@@ -7,6 +7,37 @@
     "LEARN_MORE": "了解更多關於稽核日誌的資訊",
     "SEARCH_404": "沒有符合此查詢的項目",
     "SIDEBAR_TXT": "<p><b>稽核日誌</b></p><p>稽核日誌記錄 Chatwoot 系統中的事件與操作軌跡。</p>",
+    "COUNT": "{n} event | {n} events",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Search by name or email",
+      "ALL_EVENTS": "All events",
+      "DATE_RANGE": "Date range",
+      "CLEAR_ALL": "清除篩選條件",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Access",
+        "AGENTS_TEAMS": "Agents & teams",
+        "CONFIGURATION": "設定檔",
+        "CONVERSATIONS": "對話"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Sign in / sign out",
+        "AGENTS": "客服",
+        "TEAMS": "團隊",
+        "TEAM_MEMBERS": "Team members",
+        "INBOX_MEMBERS": "Inbox collaborators",
+        "ACCOUNT": "帳戶設定",
+        "INBOXES": "收件匣",
+        "WEBHOOKS": "Webhooks",
+        "AUTOMATION_RULES": "Automation rules",
+        "MACROS": "巨集",
+        "CONVERSATION_DELETIONS": "Conversation deletions",
+        "MESSAGE_DELETIONS": "Message deletions"
+      },
+      "SORT": {
+        "NEWEST": "Newest first",
+        "OLDEST": "Oldest first"
+      }
+    },
     "LIST": {
       "404": "此帳戶中沒有可用的稽核日誌。",
       "TITLE": "管理稽核日誌",
@@ -72,6 +103,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} 刪除了對話 #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
     }
   }
 }

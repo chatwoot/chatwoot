@@ -133,8 +133,10 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def process_contact_params_result(result)
+    name = result['name'].presence || [result['first_name'], result['last_name']].compact_blank.join(' ').presence || 'John Doe'
+
     {
-      name: "#{result['first_name'] || 'John'} #{result['last_name'] || 'Doe'}",
+      name: name,
       account_id: @inbox.account_id,
       avatar_url: result['profile_pic']
     }

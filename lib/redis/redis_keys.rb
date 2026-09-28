@@ -104,4 +104,12 @@ module Redis::RedisKeys
 
   ## Account Email Rate Limiting
   ACCOUNT_OUTBOUND_EMAIL_COUNT_KEY = 'OUTBOUND_EMAIL_COUNT::%<account_id>d::%<date>s'.freeze
+
+  ## Device verification (cloud sign-in challenge)
+  # HMAC digest of the emailed code, consumed atomically on redemption
+  DEVICE_VERIFICATION_CODE = 'DEVICE_VERIFICATION::CODE::%<user_id>d::%<jti>s'.freeze
+  # Wrong-code counter per challenge
+  DEVICE_VERIFICATION_ATTEMPTS = 'DEVICE_VERIFICATION::ATTEMPTS::%<user_id>d::%<jti>s'.freeze
+  # Rolling per-user challenge issuance budget
+  DEVICE_VERIFICATION_ISSUANCE = 'DEVICE_VERIFICATION::ISSUANCE::%<user_id>d'.freeze
 end

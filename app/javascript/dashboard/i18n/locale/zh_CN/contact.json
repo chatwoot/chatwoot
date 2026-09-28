@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "不可用",
     "EMAIL_ADDRESS": "电子邮件地址",
     "PHONE_NUMBER": "电话号码",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "标识符",
     "COPY_SUCCESSFUL": "已成功复制到剪贴板",
     "COMPANY": "公司",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "添加 Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

@@ -12,9 +12,10 @@ This partial renders flash messages on every page.
 %>
 
 <% if flash.any? %>
-  <div class="flashes">
+  <% toast = content_for?(:toast_flashes) %>
+  <div class="flashes <%= "fixed top-[4.5rem] end-6 z-50 w-[calc(100%-2rem)] max-w-[26rem] pointer-events-none" if toast %>" <%= "data-toast-flashes" if toast %>>
     <% flash.each do |key, value| -%>
-      <div class="flash flash-<%= key %>"><%= value.to_s.html_safe %></div>
+      <div class="flash flash-<%= key %> <%= "pointer-events-auto rounded shadow-lg !text-start transition-opacity duration-300" if toast %>"><%= value.to_s.html_safe %></div>
     <% end -%>
   </div>
 <% end %>

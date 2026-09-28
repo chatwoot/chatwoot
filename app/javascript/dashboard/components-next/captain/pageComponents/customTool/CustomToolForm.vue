@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, computed, ref, useTemplateRef, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, maxLength } from '@vuelidate/validators';
@@ -28,6 +29,7 @@ const props = defineProps({
 const emit = defineEmits(['submit', 'cancel']);
 
 const { t } = useI18n();
+const route = useRoute();
 
 const formState = {
   uiFlags: useMapGetter('captainCustomTools/getUIFlags'),
@@ -164,7 +166,10 @@ const handleTest = async () => {
   isTesting.value = true;
   testResult.value = null;
   try {
-    const { data } = await CustomToolsAPI.test(state);
+    const { data } = await CustomToolsAPI.test({
+      ...state,
+      assistantId: route.params.assistantId,
+    });
     const isOk = data.status >= 200 && data.status < 300;
     testResult.value = { success: isOk, status: data.status };
   } catch (e) {

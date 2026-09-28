@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "მიუწვდომელია",
     "EMAIL_ADDRESS": "ელ. ფოსტის მისამართი",
     "PHONE_NUMBER": "ტელეფონის ნომერი",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "კლიპბორდზე წარმატებით დაკოპირდა",
     "COMPANY": "კომპანია",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

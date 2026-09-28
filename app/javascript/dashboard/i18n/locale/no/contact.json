@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Ikke tilgjengelig",
     "EMAIL_ADDRESS": "E-postadresse",
     "PHONE_NUMBER": "Telefonnummer",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Kopiert til utklippstavle",
     "COMPANY": "Firma",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

@@ -47,6 +47,12 @@ RSpec.describe '/api/v1/accounts/:account_id/conversations/:conversation_id/dire
     end
 
     context 'when it is an authenticated request with an api access token' do
+      it 'accepts a bearer API token for direct uploads' do
+        create_direct_upload({ Authorization: "Bearer #{agent.access_token.token}" })
+
+        expect(response).to have_http_status(:success)
+      end
+
       it 'creates the blob for the direct upload' do
         create_direct_upload({ api_access_token: agent.access_token.token })
 
