@@ -20,7 +20,6 @@ import ToolsetCatalogCard from 'dashboard/components-next/captain/pageComponents
 import ToolsetDetailsPanel from 'dashboard/components-next/captain/pageComponents/customTool/ToolsetDetailsPanel.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import Policy from 'dashboard/components/policy.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -154,19 +153,6 @@ watch(
     :show-know-more="false"
     :show-pagination-footer="false"
   >
-    <template #headerActions>
-      <Policy v-if="!showPaywall" :permissions="['administrator']">
-        <Button
-          :label="t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.BUTTON')"
-          icon="i-lucide-file-box"
-          size="sm"
-          faded
-          slate
-          @click="installManifestDialogRef.open()"
-        />
-      </Policy>
-    </template>
-
     <template #paywall>
       <CaptainPaywall feature-prefix="CAPTAIN.CUSTOM_TOOLS" />
     </template>
