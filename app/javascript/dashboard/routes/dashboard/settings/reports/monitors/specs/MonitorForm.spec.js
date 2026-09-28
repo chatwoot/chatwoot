@@ -56,7 +56,7 @@ describe('MonitorForm preview cooldown', () => {
     wrapper = shallowMount(MonitorForm, {
       global: {
         renderStubDefaultSlot: true,
-        stubs: { Dialog: false, Button: false, TextArea: false },
+        stubs: { Dialog: false, Button: false, TextArea: false, Input: false },
       },
     });
   });
@@ -185,13 +185,26 @@ describe('MonitorForm preview cooldown', () => {
     );
   });
 
-  it('opens prefilled with an example name and condition', async () => {
-    wrapper.vm.open({ name: 'Refunds', condition: 'Mentions refunds' });
+  it('opens prefilled with a template name, condition, icon, and color', async () => {
+    wrapper.vm.open({
+      name: 'Refunds',
+      condition: 'Mentions refunds',
+      icon: 'money-dollar-circle-line',
+      icon_color: '#22C55E',
+    });
     await wrapper.vm.$nextTick();
 
     expect(wrapper.find('textarea').element.value).toBe('Mentions refunds');
     expect(wrapper.findComponent({ name: 'Input' }).props('modelValue')).toBe(
       'Refunds'
+    );
+    expect(
+      wrapper.findComponent({ name: 'MonitorIconPicker' }).props()
+    ).toEqual(
+      expect.objectContaining({
+        icon: 'money-dollar-circle-line',
+        color: '#22C55E',
+      })
     );
   });
 
@@ -202,6 +215,42 @@ describe('MonitorForm preview cooldown', () => {
     expect(wrapper.find('textarea').element.value).toBe('Mentions refunds');
     expect(wrapper.findComponent({ name: 'Input' }).props('modelValue')).toBe(
       ''
+    );
+  });
+
+  it('creates the monitor with a random icon, style, and color', async () => {
+    const random = vi
+      .spyOn(Math, 'random')
+      .mockReturnValueOnce(0)
+      .mockReturnValueOnce(0.99)
+      .mockReturnValueOnce(0);
+    MonitorsAPI.create.mockResolvedValue({ data: { id: 42 } });
+    wrapper.vm.open({ name: 'Refunds', condition: 'Mentions refunds' });
+    await wrapper.vm.$nextTick();
+    wrapper.findComponent({ name: 'Dialog' }).vm.$emit('confirm');
+    await flushPromises();
+    random.mockRestore();
+
+    expect(MonitorsAPI.create).toHaveBeenCalledWith({
+      name: 'Refunds',
+      condition: 'Mentions refunds',
+      icon: 'chat-3-fill',
+      icon_color: '#EF4444',
+    });
+  });
+
+  it('creates the monitor with a manually chosen icon', async () => {
+    MonitorsAPI.create.mockResolvedValue({ data: { id: 42 } });
+    wrapper.vm.open({ name: 'Refunds', condition: 'Mentions refunds' });
+    await wrapper.vm.$nextTick();
+    const picker = wrapper.findComponent({ name: 'MonitorIconPicker' });
+    picker.vm.$emit('update:icon', 'bug-fill');
+    picker.vm.$emit('update:color', '#22C55E');
+    wrapper.findComponent({ name: 'Dialog' }).vm.$emit('confirm');
+    await flushPromises();
+
+    expect(MonitorsAPI.create).toHaveBeenCalledWith(
+      expect.objectContaining({ icon: 'bug-fill', icon_color: '#22C55E' })
     );
   });
 
