@@ -6,8 +6,8 @@ import {
 } from 'dashboard/constants/automation';
 import {
   OPERATOR_TYPES_1,
-  OPERATOR_TYPES_3,
   OPERATOR_TYPES_4,
+  OPERATOR_TYPES_7,
 } from 'dashboard/routes/dashboard/settings/automation/operators';
 import actionQueryGenerator from './actionQueryGenerator';
 import filterQueryGenerator from './filterQueryGenerator';
@@ -62,7 +62,7 @@ export const isCustomAttributeList = (customAttributes, type) => {
 export const getOperatorTypes = key => {
   const operatorMap = {
     list: OPERATOR_TYPES_1,
-    text: OPERATOR_TYPES_3,
+    text: OPERATOR_TYPES_7,
     number: OPERATOR_TYPES_1,
     link: OPERATOR_TYPES_1,
     date: OPERATOR_TYPES_4,

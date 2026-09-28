@@ -1,8 +1,8 @@
 import * as helpers from 'dashboard/helper/automationHelper';
 import {
   OPERATOR_TYPES_1,
-  OPERATOR_TYPES_3,
   OPERATOR_TYPES_4,
+  OPERATOR_TYPES_7,
 } from 'dashboard/routes/dashboard/settings/automation/operators';
 import {
   customAttributes,
@@ -83,7 +83,7 @@ describe('isCustomAttributeList', () => {
 describe('getOperatorTypes', () => {
   it('returns the correct custom attribute operators', () => {
     expect(helpers.getOperatorTypes('list')).toEqual(OPERATOR_TYPES_1);
-    expect(helpers.getOperatorTypes('text')).toEqual(OPERATOR_TYPES_3);
+    expect(helpers.getOperatorTypes('text')).toEqual(OPERATOR_TYPES_7);
     expect(helpers.getOperatorTypes('number')).toEqual(OPERATOR_TYPES_1);
     expect(helpers.getOperatorTypes('link')).toEqual(OPERATOR_TYPES_1);
     expect(helpers.getOperatorTypes('date')).toEqual(OPERATOR_TYPES_4);
