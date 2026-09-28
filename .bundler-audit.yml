@@ -29,3 +29,7 @@ ignore:
   # Patched 2.0 releases need an ai-agents migration (currently constrained to RubyLLM 1.x).
   # Remove when a supported patched RubyLLM/ai-agents combination is adopted.
   - CVE-2026-67991
+  # GHSA-42qh-8mx8-7wqm confirms rack-proxy 1.0.0-1.0.2 as affected;
+  # 0.7.7 is unassessed, but ruby-advisory-db flags it. Vite Ruby requires < 1.0.
+  # The security-scan job checks the exact locked version before applying this exception.
+  - GHSA-42qh-8mx8-7wqm

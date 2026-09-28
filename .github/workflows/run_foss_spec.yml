@@ -36,6 +36,7 @@ jobs:
         run: bundle exec brakeman -q --no-pager
       - name: Run bundle-audit
         run: |
+          bundle exec ruby -e 'abort "Recheck rack-proxy waiver" unless Gem::Specification.find_by_name("rack-proxy").version.to_s == "0.7.7"'
           bundle exec bundle-audit update
           bundle exec bundle-audit check
 
