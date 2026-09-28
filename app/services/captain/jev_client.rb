@@ -3,7 +3,6 @@ class Captain::JevClient
 
   ENDPOINT = 'https://openrouter.ai/api'.freeze
   SYSTEM_ONE_PATH = '/v1/systemone'.freeze
-  OPERATION_NAME = 'generate_content'.freeze
 
   class HTTPError < StandardError
     attr_reader :status, :retry_after
@@ -51,16 +50,13 @@ class Captain::JevClient
     return yield unless ChatwootApp.otel_enabled?
 
     request_model = JSON.parse(body).fetch('model')
-    # Span name and kind follow the OTel GenAI inference span convention; langfuse.trace.name keeps traces grouped by feature.
-    OpentelemetryConfig.tracer.in_span("#{OPERATION_NAME} #{request_model}", kind: :client) do |span|
+    OpentelemetryConfig.tracer.in_span("llm.#{@feature}.jev") do |span|
       set_request_attributes(span, body, request_model)
       begin
         result = yield
-        set_response_attributes(span, result)
+        set_response_attributes(span, result, request_model)
         result
       rescue StandardError => e
-        span.set_attribute(ATTR_ERROR_TYPE, e.is_a?(HTTPError) ? e.status.to_s : e.class.name)
-        span.record_exception(e)
         span.status = OpenTelemetry::Trace::Status.error(e.message.truncate(1000))
         raise
       end
@@ -68,35 +64,22 @@ class Captain::JevClient
   end
 
   def set_request_attributes(span, body, request_model)
-    uri = URI.parse(self.class.endpoint)
-    span.set_attribute(ATTR_LANGFUSE_TRACE_NAME, "llm.#{@feature}.jev")
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_TYPE, 'generation')
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, body)
     span.set_attribute(ATTR_LANGFUSE_USER_ID, @account_id.to_s)
     span.set_attribute(ATTR_LANGFUSE_TAGS, [@feature].to_json)
-    span.set_attribute(ATTR_GEN_AI_OPERATION_NAME, OPERATION_NAME)
     span.set_attribute(ATTR_GEN_AI_PROVIDER, 'openrouter')
     span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, request_model)
-    span.set_attribute(ATTR_SERVER_ADDRESS, uri.host)
-    span.set_attribute(ATTR_SERVER_PORT, uri.port)
-    return unless @conversation_id
-
-    span.set_attribute(ATTR_LANGFUSE_SESSION_ID, "#{@account_id}_#{@conversation_id}")
-    span.set_attribute(ATTR_GEN_AI_CONVERSATION_ID, "#{@account_id}_#{@conversation_id}")
+    span.set_attribute(ATTR_LANGFUSE_SESSION_ID, "#{@account_id}_#{@conversation_id}") if @conversation_id
   end
 
-  def set_response_attributes(span, result)
+  def set_response_attributes(span, result, request_model)
     usage = result['usage'] || {}
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
-    # Langfuse prefers its own model attribute over gen_ai.request.model when matching prices, so pin it to the served version.
-    {
-      ATTR_LANGFUSE_OBSERVATION_MODEL => result['model'],
-      ATTR_GEN_AI_RESPONSE_MODEL => result['model'],
-      ATTR_GEN_AI_RESPONSE_ID => result['id'],
-      ATTR_GEN_AI_USAGE_INPUT_TOKENS => usage['input_tokens'],
-      ATTR_GEN_AI_USAGE_OUTPUT_TOKENS => usage['output_tokens']
-    }.compact.each { |name, value| span.set_attribute(name, value) }
-    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_COST_DETAILS, { total: usage['cost'] }.to_json) if usage['cost'].is_a?(Numeric)
+    span.set_attribute('langfuse.observation.model.name', result['model'] || request_model)
+    span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, usage['input_tokens']) if usage['input_tokens']
+    span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, usage['output_tokens']) if usage['output_tokens']
+    span.set_attribute('langfuse.observation.cost_details', { total: usage['cost'] }.to_json) if usage['cost'].is_a?(Numeric)
   end
 
   def connection
