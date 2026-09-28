@@ -456,6 +456,19 @@ RSpec.describe Captain::CustomTool, type: :model do
         result = tool.build_request_body({ order_id: '12345' })
         expect(result).to eq('{ "order_id": "12345", "source": "chatwoot" }')
       end
+
+      it 'skips optional params the model did not send' do
+        tool = create(:captain_custom_tool, account: account,
+                                            request_template: '{ "order_id": "{{ order_id }}"{% if note %}, "note": "{{ note }}"{% endif %} }')
+
+        expect(tool.build_request_body({ order_id: '12345' })).to eq('{ "order_id": "12345" }')
+      end
+
+      it 'raises on invalid Liquid syntax' do
+        tool = build(:captain_custom_tool, account: account, request_template: '{ "order_id": "{{ order_id | }}" }')
+
+        expect { tool.build_request_body({ order_id: '12345' }) }.to raise_error(/Template rendering failed/)
+      end
     end
 
     describe '#build_auth_headers' do
@@ -530,6 +543,21 @@ RSpec.describe Captain::CustomTool, type: :model do
 
         result = tool.format_response(raw_response)
         expect(result).to eq('Response: plain text response')
+      end
+
+      it 'branches on optional response fields' do
+        template = '{% if response.error %}Failed: {{ response.error }}{% else %}Status: {{ response.status }}{% endif %}'
+        tool = create(:captain_custom_tool, account: account, response_template: template)
+
+        expect(tool.format_response('{"status": "shipped"}')).to eq('Status: shipped')
+        expect(tool.format_response('{"error": "not found"}')).to eq('Failed: not found')
+      end
+
+      it 'falls back to defaults for missing response fields' do
+        tool = create(:captain_custom_tool, account: account,
+                                            response_template: 'Tracking: {{ response.tracking | default: "not available" }}')
+
+        expect(tool.format_response('{"status": "shipped"}')).to eq('Tracking: not available')
       end
     end
 

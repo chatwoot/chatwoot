@@ -107,10 +107,13 @@ module Concerns::Toolable
 
   private
 
+  # Syntax errors fail the call. Missing variables render as nil, so templates can branch on optional
+  # params and response fields ({% if response.error %}, | default:). strict_variables would not fail
+  # the call here, since render does not raise, but it blanks any block that looks up a missing key.
   def render_template(template, context)
     liquid_template = Liquid::Template.parse(template, error_mode: :strict)
-    liquid_template.render(context.deep_stringify_keys, registers: {}, strict_variables: true, strict_filters: true)
-  rescue Liquid::SyntaxError, Liquid::UndefinedVariable, Liquid::UndefinedFilter => e
+    liquid_template.render(context.deep_stringify_keys, registers: {}, strict_filters: true)
+  rescue Liquid::SyntaxError => e
     Rails.logger.error("Liquid template error: #{e.message}")
     raise "Template rendering failed: #{e.message}"
   end
