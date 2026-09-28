@@ -88,7 +88,9 @@ const fetchReplyMessage = async (messageId, conversationId) => {
     fetchedReplyMessages.set(messageId, null);
     return null;
   } catch (error) {
-    fetchedReplyMessages.set(messageId, null);
+    // Do not cache failures: a transient error (timeout, 5xx, offline blip)
+    // is not a "not found". Returning null without caching lets a later
+    // render retry the lookup instead of showing an empty reply forever.
     return null;
   }
 };
