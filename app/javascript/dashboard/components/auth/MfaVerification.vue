@@ -26,7 +26,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['verified', 'cancel']);
+const emit = defineEmits(['verified', 'cancel', 'setupRequired']);
 
 const { t } = useI18n();
 const { isOnChatwootCloud } = useAccount();
@@ -85,7 +85,12 @@ const handleVerification = async () => {
     }
 
     const response = await axios.post('/auth/sign_in', payload);
-
+    // Device verification chains into enforced MFA enrolment for un-enrolled
+    // users: this 206 carries a setup challenge, not an authenticated session.
+    if (response.status === 206 && response.data?.mfa_setup_required) {
+      emit('setupRequired', response.data);
+      return;
+    }
     setAuthCredentials(response);
     clearLocalStorageOnLogout();
     emit('verified', response.data?.data);

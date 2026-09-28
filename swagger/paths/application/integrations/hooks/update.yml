@@ -4,6 +4,7 @@ operationId: update-an-integrations-hook
 summary: Update an Integration Hook
 description: Update an Integration Hook
 security:
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - $ref: '#/components/parameters/account_id'

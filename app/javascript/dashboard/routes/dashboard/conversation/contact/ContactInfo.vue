@@ -338,12 +338,12 @@ export default {
             />
           </template>
         </ComposeConversation>
-        <ViewAllConversations :contact="contact" />
+        <ViewAllConversations />
         <VoiceCallButton
           :phone="contact.phone_number"
           :contact-id="contact.id"
           :conversation-id="currentChat?.id"
-          icon="i-lucide-phone"
+          icon="i-ph-phone"
           sm
           faded
           slate

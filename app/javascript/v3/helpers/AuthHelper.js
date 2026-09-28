@@ -152,3 +152,12 @@ export const getLoginRedirectURL = ({
   }
   return DEFAULT_REDIRECT_URL;
 };
+
+export const getMfaSignInURL = ({ loginUrl, redirectUrl, ssoAccountId }) => {
+  if (!redirectUrl && !ssoAccountId) return loginUrl;
+
+  const url = new URL(loginUrl, window.location.origin);
+  if (redirectUrl) url.searchParams.set('redirect_url', redirectUrl);
+  if (ssoAccountId) url.searchParams.set('sso_account_id', ssoAccountId);
+  return url.toString();
+};

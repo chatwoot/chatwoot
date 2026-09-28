@@ -1,6 +1,8 @@
 import { describe, it, beforeEach, afterEach, expect, vi } from 'vitest';
 import ActionCableConnector from '../actionCable';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 vi.mock('shared/helpers/mitt', () => ({
   emitter: {
@@ -72,6 +74,31 @@ describe('ActionCableConnector - Copilot Tests', () => {
       expect(mockDispatch).toHaveBeenCalledWith(
         'copilotMessages/upsert',
         copilotData
+      );
+    });
+  });
+
+  describe('monitor.updated', () => {
+    it('forwards updates for the active account', () => {
+      const data = { account_id: 1, monitor_id: 2, data_revision: 3 };
+
+      actionCable.onReceived({ event: 'monitor.updated', data });
+
+      expect(emitter.emit).toHaveBeenCalledWith(
+        BUS_EVENTS.MONITOR_UPDATED,
+        data
+      );
+    });
+
+    it('ignores updates from another account', () => {
+      actionCable.onReceived({
+        event: 'monitor.updated',
+        data: { account_id: 2, monitor_id: 2 },
+      });
+
+      expect(emitter.emit).not.toHaveBeenCalledWith(
+        BUS_EVENTS.MONITOR_UPDATED,
+        expect.anything()
       );
     });
   });

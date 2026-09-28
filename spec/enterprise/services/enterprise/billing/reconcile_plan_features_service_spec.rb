@@ -4,13 +4,12 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
   let(:account) { create(:account) }
 
   before do
-    create(:installation_config, {
-             name: 'CHATWOOT_CLOUD_PLANS',
-             value: [
-               { 'name' => 'Hacker', 'product_id' => ['plan_id_hacker'], 'price_ids' => ['price_hacker'] },
-               { 'name' => 'Startups', 'product_id' => ['plan_id_startups'], 'price_ids' => ['price_startups'] }
-             ]
-           })
+    InstallationConfig.find_or_initialize_by(name: 'CHATWOOT_CLOUD_PLANS').update!(
+      value: [
+        { 'name' => 'Hacker', 'product_id' => ['plan_id_hacker'], 'price_ids' => ['price_hacker'] },
+        { 'name' => 'Startups', 'product_id' => ['plan_id_startups'], 'price_ids' => ['price_startups'] }
+      ]
+    )
   end
 
   describe '#perform' do
@@ -86,21 +85,23 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         ]
       end
       let!(:shopify_config) do
-        create(:installation_config, name: 'CHATWOOT_SHOPIFY_PLANS', value: shopify_plans, locked: true)
+        InstallationConfig.find_or_initialize_by(name: 'CHATWOOT_SHOPIFY_PLANS').tap do |config|
+          config.update!(value: shopify_plans, locked: true)
+        end
       end
 
       before do
         allow(GlobalConfigService).to receive(:load).and_call_original
-        create(:installation_config, name: 'ENABLE_SHOPIFY_INTEGRATION', value: true)
+        InstallationConfig.find_or_initialize_by(name: 'ENABLE_SHOPIFY_INTEGRATION').update!(value: true)
         account.enable_features!('shopify_integration')
       end
 
-      it 'enables features from the Shopify plan catalog without changing the rollout flag' do
+      it 'enables features from the Shopify plan catalog' do
         described_class.new(account: account).perform
 
         expect(account.reload).to be_feature_enabled('audit_logs')
         expect(account).not_to be_feature_enabled('saml')
-        expect(account).not_to be_feature_enabled('captain_integration_v2')
+        expect(account).not_to be_feature_enabled('captain_integration')
         expect(account).to be_feature_enabled('shopify_integration')
       end
 
@@ -113,12 +114,12 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         expect(account).to be_feature_enabled('audit_logs')
       end
 
-      it 'clears Captain V2 when it is omitted from every Shopify plan' do
-        account.enable_features!('captain_integration_v2')
+      it 'clears Captain when it is omitted from every Shopify plan' do
+        account.enable_features!('captain_integration')
 
         described_class.new(account: account).perform
 
-        expect(account.reload).not_to be_feature_enabled('captain_integration_v2')
+        expect(account.reload).not_to be_feature_enabled('captain_integration')
         expect(account).to be_feature_enabled('audit_logs')
       end
 
