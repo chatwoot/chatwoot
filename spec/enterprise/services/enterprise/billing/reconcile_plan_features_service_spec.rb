@@ -4,16 +4,54 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
   let(:account) { create(:account) }
 
   before do
-    create(:installation_config, {
-             name: 'CHATWOOT_CLOUD_PLANS',
-             value: [
-               { 'name' => 'Hacker', 'product_id' => ['plan_id_hacker'], 'price_ids' => ['price_hacker'] },
-               { 'name' => 'Startups', 'product_id' => ['plan_id_startups'], 'price_ids' => ['price_startups'] }
-             ]
-           })
+    InstallationConfig.find_or_initialize_by(name: 'CHATWOOT_CLOUD_PLANS').update!(
+      value: [
+        { 'name' => 'Hacker', 'product_id' => ['plan_id_hacker'], 'price_ids' => ['price_hacker'] },
+        { 'name' => 'Startups', 'product_id' => ['plan_id_startups'], 'price_ids' => ['price_startups'] }
+      ]
+    )
   end
 
   describe '#perform' do
+    context 'with conversation monitors and Captain Classifier' do
+      it 'grants both features on Startups, Business, and Enterprise' do
+        account.update!(custom_attributes: { 'plan_name' => 'Startups' })
+        described_class.new(account: account).perform
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+
+        account.update!(custom_attributes: { 'plan_name' => 'Business' })
+        described_class.new(account: account).perform
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+
+        account.update!(custom_attributes: { 'plan_name' => 'Enterprise' })
+        described_class.new(account: account).perform
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+      end
+
+      it 'removes both features on downgrade' do
+        account.update!(custom_attributes: { 'plan_name' => 'Business' })
+        described_class.new(account: account).perform
+
+        account.update!(custom_attributes: { 'plan_name' => 'Hacker' })
+        described_class.new(account: account).perform
+        expect(account.reload).not_to be_feature_enabled('conversation_monitors')
+        expect(account).not_to be_feature_enabled('captain_classifier')
+      end
+
+      it 'keeps a manually managed grant after a downgrade' do
+        account.update!(custom_attributes: { 'plan_name' => 'Hacker' })
+        Internal::Accounts::InternalAttributesService.new(account).manually_managed_features = %w[conversation_monitors captain_classifier]
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+      end
+    end
+
     context 'with api_and_webhooks feature' do
       it 'enables the feature for a paid plan with an active subscription' do
         account.update!(custom_attributes: { 'plan_name' => 'Startups', 'subscription_status' => 'active' })
@@ -86,21 +124,25 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         ]
       end
       let!(:shopify_config) do
-        create(:installation_config, name: 'CHATWOOT_SHOPIFY_PLANS', value: shopify_plans, locked: true)
+        InstallationConfig.find_or_initialize_by(name: 'CHATWOOT_SHOPIFY_PLANS').tap do |config|
+          config.update!(value: shopify_plans, locked: true)
+        end
       end
 
       before do
         allow(GlobalConfigService).to receive(:load).and_call_original
-        create(:installation_config, name: 'ENABLE_SHOPIFY_INTEGRATION', value: true)
+        InstallationConfig.find_or_initialize_by(name: 'ENABLE_SHOPIFY_INTEGRATION').update!(value: true)
         account.enable_features!('shopify_integration')
       end
 
-      it 'enables features from the Shopify plan catalog without changing the rollout flag' do
+      it 'enables catalog features and both paid features on Shopify Basic' do
         described_class.new(account: account).perform
 
         expect(account.reload).to be_feature_enabled('audit_logs')
+        expect(account).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
         expect(account).not_to be_feature_enabled('saml')
-        expect(account).not_to be_feature_enabled('captain_integration_v2')
+        expect(account).not_to be_feature_enabled('captain_integration')
         expect(account).to be_feature_enabled('shopify_integration')
       end
 
@@ -113,12 +155,12 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         expect(account).to be_feature_enabled('audit_logs')
       end
 
-      it 'clears Captain V2 when it is omitted from every Shopify plan' do
-        account.enable_features!('captain_integration_v2')
+      it 'clears Captain when it is omitted from every Shopify plan' do
+        account.enable_features!('captain_integration')
 
         described_class.new(account: account).perform
 
-        expect(account.reload).not_to be_feature_enabled('captain_integration_v2')
+        expect(account.reload).not_to be_feature_enabled('captain_integration')
         expect(account).to be_feature_enabled('audit_logs')
       end
 
@@ -160,6 +202,29 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         expect(account.internal_attributes['shopify_managed_features']).to contain_exactly('audit_logs')
       end
 
+      it 'keeps both paid features when switching Shopify plans' do
+        described_class.new(account: account).perform
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Pro' })
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+      end
+
+      it 'keeps paid features when they are removed from the Shopify catalog' do
+        features = %w[audit_logs conversation_monitors captain_classifier]
+        shopify_config.update!(value: [shopify_plans.first.merge('features' => features), shopify_plans.second])
+        described_class.new(account: account).perform
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+
+        shopify_config.update!(value: shopify_plans)
+        described_class.new(account: account).perform
+
+        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+      end
+
       it 'rejects an unknown Shopify plan instead of guessing entitlements' do
         account.update!(custom_attributes: { 'plan_name' => 'Unknown' })
 
@@ -189,7 +254,7 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
       end
 
       it 'removes managed entitlements during lifecycle cleanup when the account Shopify flag is disabled' do
-        account.enable_features!('audit_logs', 'saml')
+        account.enable_features!('audit_logs', 'saml', 'conversation_monitors', 'captain_classifier')
         account.disable_features!('shopify_integration')
         account.update!(custom_attributes: { 'plan_name' => nil })
 
@@ -197,6 +262,8 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
 
         expect(account.reload).not_to be_feature_enabled('audit_logs')
         expect(account).not_to be_feature_enabled('saml')
+        expect(account).not_to be_feature_enabled('conversation_monitors')
+        expect(account).not_to be_feature_enabled('captain_classifier')
         expect(account).not_to be_feature_enabled('shopify_integration')
       end
     end

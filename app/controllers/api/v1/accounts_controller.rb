@@ -1,13 +1,16 @@
 class Api::V1::AccountsController < Api::BaseController
   include AuthHelper
+  include MfaEnforcementGuard
 
   skip_before_action :authenticate_user!, :set_current_user, :handle_with_exception,
                      only: [:create], raise: false
   before_action :check_signup_enabled, only: [:create]
   before_action :ensure_account_name, only: [:create]
   before_action :validate_captcha, only: [:create]
+  before_action :check_user_mfa_enforcement, if: :authenticate_by_access_token?, only: [:create]
   before_action :fetch_account, except: [:create]
   before_action :validate_token_api_access, if: :authenticate_by_access_token?, except: [:create]
+  before_action :check_account_mfa_enforcement, if: :authenticate_by_access_token?, except: [:create]
   before_action :check_authorization, except: [:create]
 
   rescue_from CustomExceptions::Account::InvalidEmail,
@@ -120,7 +123,9 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def permitted_settings_attributes
-    [:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label]
+    attributes = [:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label]
+    attributes << :enforce_mfa if Chatwoot.mfa_enabled?
+    attributes
   end
 
   def check_signup_enabled
