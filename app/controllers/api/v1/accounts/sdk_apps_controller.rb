@@ -39,7 +39,7 @@ class Api::V1::Accounts::SdkAppsController < Api::V1::Accounts::BaseController
       return
     end
 
-    @attributes = attributes.permit(:name, :inbox_id)
+    @attributes = attributes.permit(:name, :inbox_id).to_h
     unless @attributes.except(:inbox_id).values.all?(String) && @attributes[:inbox_id].is_a?(Integer)
       render_could_not_create_error('App fields must be strings and inbox ID must be an integer')
       return
