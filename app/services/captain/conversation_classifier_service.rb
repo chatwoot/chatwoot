@@ -1,7 +1,5 @@
 class Captain::ConversationClassifierService
   MODEL = 'jev-latest'.freeze
-  SYSTEM_ONE_PATH = '/v1/systemone'.freeze
-  REQUEST_TIMEOUT = 15
   MESSAGE_LIMIT = 20
   STATE_TOKEN_BUDGET = 15_000
   CHARACTERS_PER_TOKEN = 4
@@ -60,18 +58,11 @@ class Captain::ConversationClassifierService
   end
 
   def ask(questions)
-    response = HTTParty.post(
-      "#{GlobalConfigService.load('CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT', nil)}#{SYSTEM_ONE_PATH}",
-      headers: {
-        'Authorization' => "Bearer #{GlobalConfigService.load('CAPTAIN_OPENROUTER_API_KEY', nil)}",
-        'Content-Type' => 'application/json'
-      },
-      body: { model: MODEL, state: state, questions: questions }.to_json,
-      timeout: REQUEST_TIMEOUT
-    )
-    raise Error, "Jev request failed with status #{response.code}: #{response.body}" unless response.success?
-
-    response.parsed_response['answers']
+    body = Captain::JevClient.request_body(model: MODEL, state: state, questions: questions)
+    Captain::JevClient.new(account_id: conversation.account_id, conversation_id: conversation.display_id,
+                           feature: 'captain_classifier').call(body: body)['answers']
+  rescue Captain::JevClient::HTTPError => e
+    raise Error, e.message
   end
 
   def state

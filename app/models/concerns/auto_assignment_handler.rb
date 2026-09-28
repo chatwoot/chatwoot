@@ -15,6 +15,7 @@ module AutoAssignmentHandler
   def run_legacy_auto_assignment
     return unless status_changed? && open?
     return if inbox.auto_assignment_v2_enabled?
+    return if will_save_change_to_assignee_id? && assignee_id.present?
     return unless should_run_auto_assignment?
 
     AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: legacy_allowed_agent_ids).assign_under_lock
