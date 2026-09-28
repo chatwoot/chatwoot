@@ -157,6 +157,22 @@ RSpec.describe AutomationRule do
       expect(rule).not_to be_valid
       expect(rule.errors[:conditions]).to include('Captain conditions require the Captain Classifier feature.')
     end
+
+    it 'is rejected with an operator Captain does not support' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['filter_operator'] = 'contains'
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions support only the detects and does_not_detect operators.')
+    end
+
+    it 'is rejected without a description of what to detect' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = ['']
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions need a description of what to detect.')
+    end
   end
 
   describe 'execution_delay validations' do

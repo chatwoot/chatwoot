@@ -33,6 +33,8 @@ class AutomationRule < ApplicationRecord
 
   validate :json_conditions_format
   validate :captain_conditions_feature
+  validate :captain_conditions_operator
+  validate :captain_conditions_description
   validate :json_actions_format
   validate :query_operator_presence
   validate :query_operator_value
@@ -84,11 +86,26 @@ class AutomationRule < ApplicationRecord
     errors.add(:conditions, "Automation conditions #{conditions.join(',')} not supported.") if conditions.any?
   end
 
+  def captain_conditions
+    conditions.to_a.select { |obj| obj['attribute_key'] == Captain::AutomationConditionService::ATTRIBUTE_KEY }
+  end
+
   def captain_conditions_feature
-    return if conditions.blank? || account.feature_enabled?('captain_classifier')
-    return if conditions.none? { |obj| obj['attribute_key'] == Captain::AutomationConditionService::ATTRIBUTE_KEY }
+    return if captain_conditions.empty? || account.feature_enabled?(Captain::AutomationConditionService::FEATURE)
 
     errors.add(:conditions, 'Captain conditions require the Captain Classifier feature.')
+  end
+
+  def captain_conditions_operator
+    return if captain_conditions.all? { |obj| Captain::AutomationConditionService::OPERATORS.include?(obj['filter_operator']) }
+
+    errors.add(:conditions, 'Captain conditions support only the detects and does_not_detect operators.')
+  end
+
+  def captain_conditions_description
+    return if captain_conditions.none? { |obj| Array(obj['values']).first.blank? }
+
+    errors.add(:conditions, 'Captain conditions need a description of what to detect.')
   end
 
   def json_actions_format

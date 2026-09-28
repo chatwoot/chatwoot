@@ -15,6 +15,7 @@ RSpec.describe Captain::AutomationConditionService do
   end
 
   before do
+    account.enable_features!('captain_classifier')
     allow(GlobalConfigService).to receive(:load).and_call_original
     allow(GlobalConfigService).to receive(:load).with('CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT', nil).and_return('https://openrouter.example')
     allow(GlobalConfigService).to receive(:load).with('CAPTAIN_OPENROUTER_API_KEY', nil).and_return('secret-key')
@@ -68,6 +69,38 @@ RSpec.describe Captain::AutomationConditionService do
       body = JSON.parse(request.body)
       !body['state'].key?('latest_message') && body['state']['conversation']['messages'].pluck('text') == ['I want my money back']
     end).to have_been_requested
+  end
+
+  context 'when Captain has nothing it is allowed to judge' do
+    let(:conditions) { [captain_condition.merge('query_operator' => 'OR'), captain_condition.merge('filter_operator' => 'does_not_detect')] }
+
+    before { stub_jev('0' => { 'noul' => 0.9 }, '1' => { 'noul' => 0.9 }) }
+
+    it 'leaves every Captain condition unmet for a private note, without sending it' do
+      note = create(:message, account: account, conversation: conversation, inbox: conversation.inbox,
+                              message_type: :outgoing, private: true, content: 'Customer is on the legacy plan')
+
+      result = described_class.new(conditions: conditions, conversation: conversation, message: note).perform
+
+      expect(result).to eq(0 => false, 1 => false)
+      expect(a_request(:post, endpoint)).not_to have_been_made
+    end
+
+    it 'leaves every Captain condition unmet for a conversation with no readable message' do
+      result = described_class.new(conditions: conditions, conversation: conversation).perform
+
+      expect(result).to eq(0 => false, 1 => false)
+      expect(a_request(:post, endpoint)).not_to have_been_made
+    end
+
+    it 'leaves every Captain condition unmet once the account no longer has the feature' do
+      account.disable_features!('captain_classifier')
+
+      result = described_class.new(conditions: conditions, conversation: conversation, message: message).perform
+
+      expect(result).to eq(0 => false, 1 => false)
+      expect(a_request(:post, endpoint)).not_to have_been_made
+    end
   end
 
   it 'does not call Jev when the rule has no Captain condition' do
