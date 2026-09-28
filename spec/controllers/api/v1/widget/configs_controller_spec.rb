@@ -20,18 +20,17 @@ RSpec.describe '/api/v1/widget/config', type: :request do
     end
 
     context 'with correct website token and missing X-Auth-Token' do
-      it 'returns widget config along with a new contact' do
+      it 'returns widget config with a new session and no contact' do
         expect do
           post '/api/v1/widget/config',
                params: params,
                as: :json
-        end.to change(Contact, :count).by(1)
+        end.not_to(change { [Contact.count, ContactInbox.count] })
 
         expect(response).to have_http_status(:success)
         response_data = response.parsed_body
         expect(response_data.keys).to include(*response_keys)
-        created = Contact.find(response_data['contact']['id'])
-        expect(response_data['contact']['pubsub_token']).to eq(created.contact_inboxes.first.pubsub_token)
+        expect(response_data['contact']['id']).to be_nil
         auth_token = Widget::TokenService.new(token: response_data['website_channel_config']['auth_token']).decode_token
         expect(auth_token[:pubsub_token]).to eq(response_data['contact']['pubsub_token'])
       end
@@ -66,39 +65,20 @@ RSpec.describe '/api/v1/widget/config', type: :request do
       end
     end
 
-    context 'with correct website token and a token issued without a contact' do
-      it 'creates the contact with the ids the token carries' do
-        visitor_payload = { source_id: 'visitor', inbox_id: web_widget.inbox.id, pubsub_token: 'stream' }
-        visitor_token = Widget::TokenService.new(payload: visitor_payload).generate_token
-
-        expect do
-          post '/api/v1/widget/config',
-               params: params,
-               headers: { 'X-Auth-Token' => visitor_token },
-               as: :json
-        end.to change(Contact, :count).by(1)
-
-        expect(response).to have_http_status(:success)
-        response_data = response.parsed_body
-        expect(response_data['contact']['pubsub_token']).to eq('stream')
-        expect(web_widget.inbox.contact_inboxes.find_by!(source_id: 'visitor').pubsub_token).to eq('stream')
-        expect(response_data['website_channel_config']['auth_token']).to eq(visitor_token)
-      end
-    end
-
     context 'with correct website token and invalid X-Auth-Token' do
-      it 'returns widget config and new contact with error message' do
+      it 'returns widget config with a new session and no contact' do
         expect do
           post '/api/v1/widget/config',
                params: params,
                headers: { 'X-Auth-Token' => 'invalid token' },
                as: :json
-        end.to change(Contact, :count).by(1)
+        end.not_to(change { [Contact.count, ContactInbox.count] })
 
         expect(response).to have_http_status(:success)
         response_data = response.parsed_body
         expect(response_data.keys).to include(*response_keys)
-        expect(response_data['contact']['id']).to be_present
+        expect(response_data['contact']['id']).to be_nil
+        expect(response_data['contact']['pubsub_token']).to be_present
       end
     end
   end
