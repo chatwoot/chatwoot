@@ -6,20 +6,26 @@ class Sms::BandwidthTokenService
 
   def token(force: false)
     Rails.cache.fetch(cache_key, force: force) do |_key, options|
-      access_token = client.client_credentials.get_token
+      access_token = request_token
       options.expires_in = access_token.expires_in - TOKEN_EXPIRY_BUFFER
       access_token.token
     end
+  end
+
+  private
+
+  def request_token
+    client.client_credentials.get_token
   rescue OAuth2::Error => e
     Rails.logger.warn("[Bandwidth OAuth] Token request failed: HTTP #{e.response.status}")
+    raise CustomExceptions::Bandwidth::TokenRequestError.new, cause: nil unless [400, 401, 403].include?(e.response.status)
+
     # OAuth errors can include the provider's response. Never expose credentials or tokens.
     raise CustomExceptions::Bandwidth::AuthenticationError.new, cause: nil
   rescue Faraday::Error => e
     Rails.logger.warn("[Bandwidth OAuth] Token request failed: #{e.class.name}")
-    raise CustomExceptions::Bandwidth::AuthenticationError.new, cause: nil
+    raise CustomExceptions::Bandwidth::TokenRequestError.new, cause: nil
   end
-
-  private
 
   def cache_key
     credentials = config.values_at('account_id', 'client_id', 'client_secret')

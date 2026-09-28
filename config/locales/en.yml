@@ -76,6 +76,7 @@ en:
 
   errors:
     bandwidth:
+      token_request_failed: "Unable to reach Bandwidth authentication. Please try again later."
       invalid_configuration: 'Provide a valid Bandwidth account ID, application ID, client ID, and client secret.'
       authentication_failed: 'Unable to authenticate with Bandwidth. Check your client ID and client secret, then try again.'
     account:
