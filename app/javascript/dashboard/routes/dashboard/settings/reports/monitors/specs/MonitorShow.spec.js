@@ -65,6 +65,8 @@ const responseFor = (params, count = 2) => ({
     ],
     monitor: {
       name: 'Refunds',
+      icon: 'fire-line',
+      icon_color: '#EF4444',
       collection_version: 0,
       condition: 'refund',
       processing: { state: 'live', error_codes: [] },
@@ -79,6 +81,7 @@ const mountOptions = {
       Dialog: false,
       MonitorActionDialog: false,
       TextArea: false,
+      Input: false,
     },
   },
 };
@@ -310,6 +313,9 @@ describe('MonitorShow', () => {
       .findComponent({ name: 'Input' })
       .vm.$emit('update:modelValue', ' Payments ');
     await wrapper.find('textarea').setValue(' Conversations about payments ');
+    wrapper
+      .findComponent({ name: 'MonitorIconPicker' })
+      .vm.$emit('update:icon', 'bug-line');
     MonitorsAPI.timeseries.mockImplementation((id, params) => {
       const response = responseFor(params);
       response.data.monitor.collection_version = 1;
@@ -323,6 +329,8 @@ describe('MonitorShow', () => {
     expect(MonitorsAPI.update).toHaveBeenCalledWith('10', {
       name: 'Payments',
       condition: 'Conversations about payments',
+      icon: 'bug-line',
+      icon_color: '#EF4444',
       collection_version: 0,
     });
   });
@@ -348,14 +356,31 @@ describe('MonitorShow', () => {
     expect(
       wrapper.findComponent({ name: 'MonitorDrilldown' }).props('request')
     ).toMatchObject(original);
-    finish(responseFor(MonitorsAPI.timeseries.mock.calls[1][1]));
+    const updated = responseFor(MonitorsAPI.timeseries.mock.calls[1][1], 5);
+    updated.data.data_revision = 2;
+    finish(updated);
+    await flushPromises();
+    expect(wrapper.findComponent({ name: 'MonitorDrilldown' }).exists()).toBe(
+      true
+    );
+    expect(
+      wrapper.findComponent({ name: 'BarChart' }).props('data').series[0].data
+    ).toEqual([2]);
+
+    MonitorsAPI.timeseries.mockImplementation((id, params) =>
+      Promise.resolve(responseFor(params, 5))
+    );
+    wrapper.findComponent({ name: 'MonitorDrilldown' }).vm.$emit('close');
     await flushPromises();
     expect(wrapper.findComponent({ name: 'MonitorDrilldown' }).exists()).toBe(
       false
     );
+    expect(
+      wrapper.findComponent({ name: 'BarChart' }).props('data').series[0].data
+    ).toEqual([5]);
   });
 
-  it('closes a rolling edge bucket when its population changes without a membership revision', async () => {
+  it('defers automatic refreshes while the drilldown is open', async () => {
     wrapper = shallowMount(MonitorShow, mountOptions);
     await flushPromises();
     wrapper
@@ -366,8 +391,14 @@ describe('MonitorShow', () => {
     await state.refresh();
     await flushPromises();
 
+    expect(MonitorsAPI.timeseries).toHaveBeenCalledTimes(1);
     expect(wrapper.findComponent({ name: 'MonitorDrilldown' }).exists()).toBe(
-      false
+      true
+    );
+    wrapper.findComponent({ name: 'MonitorDrilldown' }).vm.$emit('close');
+    await flushPromises();
+    expect(MonitorsAPI.timeseries.mock.lastCall[1].until).toBe(
+      Date.now() / 1000
     );
   });
 
