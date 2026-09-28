@@ -25,7 +25,7 @@ RSpec.describe Captain::ConversationClassifierService do
     result = described_class.new(conversation: conversation).priority
 
     expect(result).to eq(priority: 'medium', confidence: 0.8)
-    expect(tracer).to have_received(:in_span).with('llm.captain_classifier.jev')
+    expect(tracer).to have_received(:in_span).with('llm.captain_classifier.jev', kind: :client)
     expect(span).to have_received(:set_attribute).with('langfuse.session.id', "#{conversation.account_id}_#{conversation.display_id}")
     expect(span).to have_received(:set_attribute).with('gen_ai.usage.input_tokens', 15)
     expect(WebMock).to have_requested(:post, endpoint).once

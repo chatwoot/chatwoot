@@ -74,4 +74,45 @@ RSpec.describe Captain::JevClient do
     expect(attributes['error.type']).to eq('Faraday::ConnectionFailed')
     expect(WebMock).to have_requested(:post, 'https://openrouter.ai/api/v1/systemone').once
   end
+
+  context 'when tracing fails' do
+    let(:response) { { model: 'jev-1.13.0', answers: { test: { type: 'noul', noul: 0.9 } } } }
+    let(:tracer) { instance_double(OpenTelemetry::Trace::Tracer) }
+    let(:exception_tracker) { instance_double(ChatwootExceptionTracker, capture_exception: nil) }
+
+    before do
+      stub_request(:post, 'https://openrouter.ai/api/v1/systemone').to_return(status: 200, body: response.to_json)
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
+      allow(OpentelemetryConfig).to receive(:tracer).and_return(tracer)
+      allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
+    end
+
+    it 'keeps the provider response when recording it fails' do
+      span = instance_double(OpenTelemetry::Trace::Span)
+      allow(span).to receive(:set_attribute) { |name, _| raise 'exporter down' if name == 'langfuse.observation.output' }
+      allow(tracer).to receive(:in_span).and_yield(span)
+
+      expect(client.call(body: body)).to eq(response.deep_stringify_keys)
+      expect(exception_tracker).to have_received(:capture_exception)
+      expect(WebMock).to have_requested(:post, 'https://openrouter.ai/api/v1/systemone').once
+    end
+
+    it 'raises the provider error once when recording it fails' do
+      stub_request(:post, 'https://openrouter.ai/api/v1/systemone').to_return(status: 429, body: 'busy')
+      span = instance_double(OpenTelemetry::Trace::Span)
+      allow(span).to receive(:set_attribute) { |name, _| raise 'exporter down' if name == 'error.type' }
+      allow(tracer).to receive(:in_span).and_yield(span)
+
+      expect { client.call(body: body) }.to raise_error(described_class::HTTPError)
+      expect(WebMock).to have_requested(:post, 'https://openrouter.ai/api/v1/systemone').once
+    end
+
+    it 'still calls Jev when the span cannot start' do
+      allow(tracer).to receive(:in_span).and_raise('tracer down')
+
+      expect(client.call(body: body)).to eq(response.deep_stringify_keys)
+      expect(exception_tracker).to have_received(:capture_exception)
+      expect(WebMock).to have_requested(:post, 'https://openrouter.ai/api/v1/systemone').once
+    end
+  end
 end

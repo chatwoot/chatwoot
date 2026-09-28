@@ -46,22 +46,36 @@ class Captain::JevClient
 
   private
 
-  def trace_jev_call(body)
+  def trace_jev_call(body, &)
     return yield unless ChatwootApp.otel_enabled?
 
-    request_model = JSON.parse(body).fetch('model')
+    traced_jev_call(body, &)
+  end
+
+  # Tracing is best-effort: a tracing failure must not block the Jev call or discard a response that already used provider credit.
+  def traced_jev_call(body, &)
+    outcome = {}
     OpentelemetryConfig.tracer.in_span("llm.#{@feature}.jev", kind: :client) do |span|
+      request_model = JSON.parse(body).fetch('model')
       set_request_attributes(span, body, request_model)
-      begin
-        result = yield
-        set_response_attributes(span, result, request_model)
-        result
-      rescue StandardError => e
-        span.set_attribute('error.type', e.is_a?(HTTPError) ? e.status.to_s : e.class.name)
-        span.status = OpenTelemetry::Trace::Status.error(e.class.name)
-        raise
-      end
+      call_in_span(span, outcome, &)
+      set_response_attributes(span, outcome[:result], request_model)
     end
+    outcome[:result]
+  rescue StandardError => e
+    raise outcome[:error] if outcome.key?(:error)
+
+    ChatwootExceptionTracker.new(e).capture_exception
+    outcome.key?(:result) ? outcome[:result] : yield
+  end
+
+  def call_in_span(span, outcome)
+    outcome[:result] = yield
+  rescue StandardError => e
+    outcome[:error] = e
+    span.set_attribute('error.type', e.is_a?(HTTPError) ? e.status.to_s : e.class.name)
+    span.status = OpenTelemetry::Trace::Status.error(e.class.name)
+    raise
   end
 
   def set_request_attributes(span, body, request_model)
