@@ -10,7 +10,7 @@ import {
 export const CAPTAIN_CONDITION = {
   key: 'captain_condition',
   name: 'CAPTAIN',
-  inputType: 'plain_text',
+  inputType: 'long_text',
   placeholder: 'CAPTAIN',
   maxLength: 500,
   filterOperators: CAPTAIN_OPERATOR_TYPES,

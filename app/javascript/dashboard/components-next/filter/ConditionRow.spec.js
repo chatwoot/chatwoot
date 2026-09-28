@@ -2,14 +2,15 @@ import { shallowMount } from '@vue/test-utils';
 import { describe, expect, it, vi } from 'vitest';
 import ConditionRow from './ConditionRow.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
+import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 
 vi.mock('vue-i18n', () => ({ useI18n: () => ({ t: key => key }) }));
 
-const textFilter = placeholder => ({
+const textFilter = (placeholder, inputType = 'plainText') => ({
   attributeKey: 'captain_condition',
   value: 'captain_condition',
   label: 'Captain',
-  inputType: 'plainText',
+  inputType,
   options: [],
   placeholder,
   filterOperators: [{ value: 'detects', label: 'Detects', hasInput: true }],
@@ -46,5 +47,21 @@ describe('ConditionRow', () => {
     expect(wrapper.findComponent(Input).props('placeholder')).toBe(
       'FILTER.INPUT_PLACEHOLDER'
     );
+  });
+
+  it('uses a growing text area with a character count for long text', () => {
+    const wrapper = mountRow({
+      ...textFilter('Describe what to look for', 'longText'),
+      maxLength: 500,
+    });
+
+    const textArea = wrapper.findComponent(TextArea);
+    expect(wrapper.findComponent(Input).exists()).toBe(false);
+    expect(textArea.props()).toMatchObject({
+      placeholder: 'Describe what to look for',
+      maxLength: 500,
+      autoHeight: true,
+      showCharacterCount: true,
+    });
   });
 });

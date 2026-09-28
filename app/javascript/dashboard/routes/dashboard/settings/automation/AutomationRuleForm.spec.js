@@ -39,7 +39,7 @@ const captainAutomationTypes = {
       {
         key: 'captain_condition',
         name: 'CAPTAIN',
-        inputType: 'plain_text',
+        inputType: 'long_text',
         placeholder: 'CAPTAIN',
         maxLength: 500,
         filterOperators: [{ value: 'detects', label: 'Detects' }],
@@ -189,6 +189,7 @@ describe('AutomationRuleForm', () => {
       'status',
     ]);
     expect(filterTypes[0].maxLength).toBe(500);
+    expect(filterTypes[0].inputType).toBe('longText');
   });
 
   it('hides the Captain condition without the classifier feature', () => {

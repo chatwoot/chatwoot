@@ -77,6 +77,7 @@ const INPUT_TYPE_MAP = {
   multi_select: 'multiSelect',
   search_select: 'searchSelect',
   plain_text: 'plainText',
+  long_text: 'longText',
   multi_text: 'multiText',
   date: 'date',
 };
