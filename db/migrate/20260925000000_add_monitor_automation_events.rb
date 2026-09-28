@@ -10,7 +10,6 @@ class AddMonitorAutomationEvents < ActiveRecord::Migration[7.1]
 
   def add_rule_fields
     add_reference :automation_rules, :monitor, foreign_key: { to_table: :conversation_monitors, on_delete: :nullify }
-    add_column :automation_rules, :monitor_name, :string
     add_column :automation_rules, :monitor_event_activated_at, :datetime
   end
 

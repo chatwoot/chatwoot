@@ -43,7 +43,7 @@ RSpec.describe AutomationRule do
     it 'stores the monitor source and activation boundary' do
       rule = create(:automation_rule, account: account, event_name: 'monitor_matched', monitor: monitor, conditions: [])
 
-      expect(rule).to have_attributes(monitor_name: monitor.name, monitor_event_activated_at: be_present)
+      expect(rule.monitor_event_activated_at).to be_present
       expect(rule.monitor_availability).to eq('available')
     end
 

@@ -10,7 +10,6 @@
 #  event_name                 :string           not null
 #  execution_delay            :integer
 #  monitor_event_activated_at :datetime
-#  monitor_name               :string
 #  name                       :string           not null
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null

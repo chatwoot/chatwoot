@@ -45,7 +45,10 @@ const automationActive = computed({
             {{ automation.name }}
           </span>
           <span
-            v-if="automation.event_name === 'monitor_matched'"
+            v-if="
+              automation.event_name === 'monitor_matched' &&
+              automation.monitor_name
+            "
             class="text-xs px-1.5 py-0.5 rounded-md bg-n-alpha-2 text-n-slate-11 whitespace-nowrap flex-shrink-0"
           >
             {{

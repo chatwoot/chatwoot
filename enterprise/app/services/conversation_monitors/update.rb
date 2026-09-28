@@ -28,10 +28,6 @@ class ConversationMonitors::Update
     @monitor.data_revision += 1
     @monitor.save!
     @monitor.disable_automations! if @monitor.saved_change_to_paused_at? && @monitor.paused_at
-    # A display snapshot update does not change rule execution and must stay in this transaction.
-    # rubocop:disable Rails/SkipsModelValidations
-    @monitor.automation_rules.update_all(monitor_name: @monitor.name, updated_at: Time.current) if @monitor.saved_change_to_name?
-    # rubocop:enable Rails/SkipsModelValidations
     reset_evaluations(previous_version) if @condition_changed
   end
 

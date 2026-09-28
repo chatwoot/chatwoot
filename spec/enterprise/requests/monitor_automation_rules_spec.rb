@@ -19,10 +19,11 @@ RSpec.describe 'Monitor automation rules', type: :request do
 
     expect(response).to have_http_status(:success)
     rule = account.automation_rules.sole
-    expect(rule).to have_attributes(monitor_id: monitor.id, monitor_name: monitor.name, active: true)
+    expect(rule).to have_attributes(monitor_id: monitor.id, active: true)
 
     get rules_url, headers: headers, params: { monitor_id: monitor.id }
-    expect(response.parsed_body.fetch('payload').sole).to include('id' => rule.id, 'monitor_availability' => 'available')
+    payload = response.parsed_body.fetch('payload').sole
+    expect(payload).to include('id' => rule.id, 'monitor_name' => monitor.name, 'monitor_availability' => 'available')
   end
 
   it 'only lists live monitors as selection candidates' do
@@ -106,6 +107,9 @@ RSpec.describe 'Monitor automation rules', type: :request do
 
     patch "#{rules_url}/#{rule.id}", headers: headers, params: { name: 'Archived refund routing' }, as: :json
     expect(response).to have_http_status(:ok)
-    expect(rule.reload).to have_attributes(name: 'Archived refund routing', active: false, monitor_name: monitor.name)
+    expect(rule.reload).to have_attributes(name: 'Archived refund routing', active: false)
+
+    get rules_url, headers: headers
+    expect(response.parsed_body.fetch('payload').sole).to include('monitor_name' => nil, 'monitor_availability' => 'deleted')
   end
 end

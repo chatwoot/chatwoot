@@ -30,12 +30,10 @@ module Enterprise::AutomationRule
   def prepare_monitor_event
     unless event_name == 'monitor_matched'
       self.monitor_id = nil
-      self.monitor_name = nil
       self.monitor_event_activated_at = nil
       return
     end
 
-    self.monitor_name = monitor.name if monitor
     return unless active? && monitor_activation_changed?
 
     self.monitor_event_activated_at = Time.current
