@@ -10,6 +10,7 @@ import MonitorsAPI from 'dashboard/api/monitors';
 import BarChart from 'shared/components/charts/BarChart.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import MonitorChartFilters from './MonitorChartFilters.vue';
@@ -137,22 +138,13 @@ const fetchReport = async () => {
     )
       return;
     const { data } = response;
+    // Keep the chart and drawer on the same snapshot until the drawer closes.
+    if (drilldown.value) return;
     const pausedAt = data.monitor.paused_at || null;
     if (pausedAt !== collectionEndsAt.value) {
       collectionEndsAt.value = pausedAt;
       await fetchReport();
       return;
-    }
-    if (drilldown.value) {
-      const { bucket, request } = drilldown.value;
-      const updated = data.buckets.find(item => item.start === bucket.start);
-      if (
-        data.data_revision !== request.data_revision ||
-        updated?.count !== bucket.count
-      ) {
-        drilldown.value = null;
-        notice.value = t('MONITORS.RESULTS_UPDATED');
-      }
     }
     result.value = data;
     displayedParams.value = params;
@@ -184,6 +176,11 @@ const resultsChanged = () => {
   notice.value = t('MONITORS.RESULTS_UPDATED');
   fetchReport();
 };
+const closeDrilldown = () => {
+  if (!drilldown.value) return;
+  drilldown.value = null;
+  fetchReport();
+};
 
 watch(filters, fetchReport);
 watch(
@@ -205,15 +202,20 @@ watch(
 watch(isAdmin, () => {
   drilldown.value = null;
 });
-useMonitorRefresh(fetchReport, {
-  monitorId: () => Number(monitorId.value),
-  onDeleted: () => {
-    abort();
-    result.value = null;
-    drilldown.value = null;
-    router.replace(accountScopedRoute('monitor_reports_index'));
+useMonitorRefresh(
+  () => {
+    if (!drilldown.value) fetchReport();
   },
-});
+  {
+    monitorId: () => Number(monitorId.value),
+    onDeleted: () => {
+      abort();
+      result.value = null;
+      drilldown.value = null;
+      router.replace(accountScopedRoute('monitor_reports_index'));
+    },
+  }
+);
 
 const openAction = nextAction =>
   actionDialog.value.open(nextAction, {
@@ -261,6 +263,14 @@ const duplicate = () =>
     :header-description="monitor?.condition || ''"
     has-back-button
   >
+    <template #icon>
+      <EmojiIcon
+        v-if="monitor?.icon"
+        :value="monitor.icon"
+        :color="monitor.icon_color"
+        class="size-6 text-xl"
+      />
+    </template>
     <div v-if="monitor && isAdmin" class="flex flex-wrap justify-end gap-2">
       <Button
         v-tooltip.bottom="t('MONITORS.EDIT')"
@@ -404,7 +414,7 @@ const duplicate = () =>
     :request="drilldown.request"
     :title="bucketLabel(drilldown.bucket)"
     :count="drilldown.bucket.count"
-    @close="drilldown = null"
+    @close="closeDrilldown"
     @changed="resultsChanged"
   />
   <MonitorActionDialog
