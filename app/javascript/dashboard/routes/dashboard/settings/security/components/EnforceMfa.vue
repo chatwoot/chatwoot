@@ -3,8 +3,8 @@ import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAlert } from 'dashboard/composables';
-import SectionLayout from './SectionLayout.vue';
-import Switch from 'next/switch/Switch.vue';
+import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const { t } = useI18n();
 const isEnabled = ref(false);
@@ -21,7 +21,8 @@ watch(
   { deep: true, immediate: true }
 );
 
-const toggleEnforceMfa = async () => {
+const toggleEnforceMfa = async value => {
+  isEnabled.value = value;
   isSaving.value = true;
   try {
     await updateAccount({ enforce_mfa: isEnabled.value });
@@ -36,19 +37,15 @@ const toggleEnforceMfa = async () => {
 </script>
 
 <template>
-  <SectionLayout
-    :title="t('GENERAL_SETTINGS.FORM.ENFORCE_MFA.TITLE')"
+  <SettingsToggleSection
+    :model-value="isEnabled"
+    :header="t('GENERAL_SETTINGS.FORM.ENFORCE_MFA.TITLE')"
     :description="t('GENERAL_SETTINGS.FORM.ENFORCE_MFA.NOTE')"
-    with-border
+    :hide-toggle="isSaving"
+    @update:model-value="toggleEnforceMfa"
   >
-    <template #headerActions>
-      <div class="flex justify-end">
-        <Switch
-          v-model="isEnabled"
-          :disabled="isSaving"
-          @change="toggleEnforceMfa"
-        />
-      </div>
+    <template v-if="isSaving" #hiddenToggle>
+      <Spinner class="size-4 text-n-slate-11" />
     </template>
-  </SectionLayout>
+  </SettingsToggleSection>
 </template>
