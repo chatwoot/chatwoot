@@ -112,6 +112,9 @@ export const CAPTAIN_EVENTS = Object.freeze({
   // Conversation sidebar suggestions
   LABEL_SUGGESTIONS_REQUESTED: 'Captain: Label suggestions requested',
   PRIORITY_SUGGESTION_REQUESTED: 'Captain: Priority suggestion requested',
+
+  // Automation conditions
+  AUTOMATION_CONDITION_SAVED: 'Captain: Automation condition saved',
 });
 
 export const COPILOT_EVENTS = Object.freeze({
