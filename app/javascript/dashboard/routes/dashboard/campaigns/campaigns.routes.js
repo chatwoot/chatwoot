@@ -13,11 +13,6 @@ const meta = {
   permissions: ['administrator'],
 };
 
-const whatsAppMeta = {
-  ...meta,
-  featureFlag: FEATURE_FLAGS.WHATSAPP_CAMPAIGNS,
-};
-
 const campaignsRoutes = {
   routes: [
     {
@@ -61,25 +56,25 @@ const campaignsRoutes = {
         {
           path: 'whatsapp',
           name: 'campaigns_whatsapp_index',
-          meta: whatsAppMeta,
+          meta,
           component: WhatsAppCampaignsPage,
         },
         {
           path: 'whatsapp/new',
           name: 'campaigns_whatsapp_new',
-          meta: whatsAppMeta,
+          meta,
           component: WhatsAppCampaignFormPage,
         },
         {
           path: 'whatsapp/:campaignId/analytics',
           name: 'campaigns_whatsapp_analytics',
-          meta: whatsAppMeta,
+          meta,
           component: WhatsAppCampaignAnalyticsPage,
         },
         {
           path: 'whatsapp/:campaignId',
           name: 'campaigns_whatsapp_edit',
-          meta: whatsAppMeta,
+          meta,
           component: WhatsAppCampaignFormPage,
         },
       ],
