@@ -16,6 +16,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def create
+    return handle_passkey_authentication if passkey_authentication_request?
     return handle_mfa_setup_verification if mfa_setup_verification_request?
     return handle_mfa_verification if mfa_verification_request?
     return handle_sso_authentication if sso_authentication_request?
@@ -58,6 +59,28 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     return nil unless user.active_for_authentication?
 
     user
+  end
+
+  def passkey_authentication_request?
+    params[:passkey_credential].present?
+  end
+
+  # A verified passkey carries user verification, so it stands in for both the
+  # password and the second factor, and device verification does not apply.
+  def handle_passkey_authentication
+    user = Passkeys::AuthenticationService.new(credential: passkey_credential).perform if Passkeys.enabled?
+    return render_passkey_error unless user&.active_for_authentication? && user.provider != 'saml'
+
+    sign_in_mfa_user(user)
+  end
+
+  def passkey_credential
+    credential = params[:passkey_credential]
+    credential.respond_to?(:to_unsafe_h) ? credential.to_unsafe_h : {}
+  end
+
+  def render_passkey_error
+    render_error(:unauthorized, I18n.t('errors.passkeys.invalid'), error_code: 'passkey_invalid')
   end
 
   def sso_authentication_request?

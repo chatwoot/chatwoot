@@ -102,6 +102,7 @@ class User < ApplicationRecord
   has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', source: :inviter, dependent: :nullify
 
   has_many :user_sessions, dependent: :destroy
+  has_many :passkeys, dependent: :destroy
   has_many :custom_filters, dependent: :destroy_async
   has_many :dashboard_apps, dependent: :nullify
   has_many :mentions, dependent: :destroy_async
@@ -172,6 +173,16 @@ class User < ApplicationRecord
 
   def self.from_email(email)
     find_by(email: email&.downcase)
+  end
+
+  def ensure_webauthn_id!
+    return webauthn_id if webauthn_id.present?
+
+    # Conditional write so concurrent first registrations agree on one handle.
+    User.where(id: id, webauthn_id: nil).update_all(webauthn_id: WebAuthn.generate_user_id) # rubocop:disable Rails/SkipsModelValidations
+    self[:webauthn_id] = User.where(id: id).pick(:webauthn_id)
+    clear_attribute_changes([:webauthn_id])
+    webauthn_id
   end
 
   # 2FA/MFA Methods

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_28_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1420,6 +1420,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "passkeys", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "external_id", null: false
+    t.text "public_key", null: false
+    t.bigint "sign_count", default: 0, null: false
+    t.string "name", null: false
+    t.jsonb "transports", default: [], null: false
+    t.boolean "backed_up", default: false, null: false
+    t.datetime "last_used_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_passkeys_on_external_id", unique: true
+    t.index ["user_id"], name: "index_passkeys_on_user_id"
+  end
+
   create_table "platform_app_permissibles", force: :cascade do |t|
     t.bigint "platform_app_id", null: false
     t.string "permissible_type", null: false
@@ -1652,12 +1667,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
     t.boolean "otp_required_for_login", default: false
     t.text "otp_backup_codes"
     t.integer "device_trust_version", default: 0, null: false
+    t.string "webauthn_id"
     t.index ["email"], name: "index_users_on_email"
     t.index ["otp_required_for_login"], name: "index_users_on_otp_required_for_login"
     t.index ["otp_secret"], name: "index_users_on_otp_secret", unique: true
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+    t.index ["webauthn_id"], name: "index_users_on_webauthn_id", unique: true
   end
 
   create_table "webhooks", force: :cascade do |t|
@@ -1705,6 +1722,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitors", "users", on_delete: :nullify
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "passkeys", "users"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

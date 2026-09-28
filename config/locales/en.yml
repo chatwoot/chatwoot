@@ -40,6 +40,8 @@ en:
     saml:
       invalid_email: 'Please enter a valid email address'
       authentication_failed: 'Authentication failed. Please check your credentials and try again.'
+  passkeys:
+    default_name: Passkey
   messages:
     reset_password: Request for password reset is successful. A email with instructions will be sent to your email if it exists.
     reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
@@ -218,6 +220,13 @@ en:
       enrollment_required: This account requires two-factor authentication. Set it up in your profile settings to restore API access.
       interactive_session_required: Two-factor authentication settings cannot be managed with an API access token. Sign in to the dashboard instead.
       enforced_cannot_disable: Two-factor authentication is required by your account and cannot be disabled.
+    passkeys:
+      invalid: Passkey sign-in failed. Try again or sign in with your password.
+      registration_failed: The passkey could not be added. Try again.
+      invalid_password: Incorrect password
+      limit_reached: You can add up to %{limit} passkeys
+      interactive_session_required: Passkeys cannot be managed with an API access token. Sign in to the dashboard instead.
+      not_available_for_sso: Passkeys are not available for accounts that sign in with SSO
     device_verification:
       invalid_token: Invalid or expired verification token, sign in again to get a new code
       invalid_code: Incorrect code. Enter the 6-digit code we sent to your email.

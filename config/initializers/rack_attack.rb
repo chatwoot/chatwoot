@@ -49,6 +49,13 @@ class Rack::Attack
       nil
     end
 
+    def passkey_sign_in?
+      path_without_extensions == '/auth/sign_in' && post? &&
+        (params['passkey_credential'].present? || ActionDispatch::Request.new(env).params['passkey_credential'].present?)
+    rescue StandardError
+      false
+    end
+
     # Keep API tokens in the same bucket regardless of which header carries them.
     def api_user_identifier(mask_token: false)
       scheme, token = ActionDispatch::Request.new(env).authorization.to_s.split(' ', 2)
@@ -150,14 +157,14 @@ class Rack::Attack
   # Exclude MFA verification and enforced MFA setup attempts from regular login throttling
   throttle('login/ip', limit: 5, period: 5.minutes) do |req|
     if req.path_without_extensions == '/auth/sign_in' && req.post? && req.auth_param('mfa_token').blank? &&
-       req.auth_param('mfa_setup_token').blank?
+       req.auth_param('mfa_setup_token').blank? && !req.passkey_sign_in?
       req.ip
     end
   end
 
   throttle('login/email', limit: 10, period: 15.minutes) do |req|
     if req.path_without_extensions == '/auth/sign_in' && req.post? && req.auth_param('mfa_token').blank? &&
-       req.auth_param('mfa_setup_token').blank?
+       req.auth_param('mfa_setup_token').blank? && !req.passkey_sign_in?
       req.normalized_auth_email(include_header: true)
     end
   end
@@ -212,6 +219,24 @@ class Rack::Attack
   throttle('mfa_setup_login/token', limit: 10, period: 1.minute) do |req|
     # Track by setup token to prevent brute force on a specific token
     req.auth_param('mfa_setup_token') if req.path_without_extensions == '/auth/sign_in' && req.post?
+  end
+
+  ## Passkeys
+  throttle('passkey_sign_in_options/ip', limit: 20, period: 1.minute) do |req|
+    req.ip if req.path_without_extensions == '/passkey_sign_in_options' && req.post?
+  end
+
+  throttle('passkey_login/ip', limit: 10, period: 1.minute) do |req|
+    req.ip if req.passkey_sign_in?
+  end
+
+  throttle('passkey_registration/ip', limit: 5, period: 1.minute) do |req|
+    req.ip if req.path_without_extensions == '/api/v1/profile/passkeys/registration_options' && req.post?
+  end
+
+  # The password check behind registration must not be guessable from many IPs.
+  throttle('passkey_registration/user', limit: 10, period: 15.minutes) do |req|
+    req.api_user_identifier if req.path_without_extensions == '/api/v1/profile/passkeys/registration_options' && req.post?
   end
 
   ## Prevent Brute-Force Signup Attacks ###

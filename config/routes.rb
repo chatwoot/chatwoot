@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   }, via: [:get, :post]
 
   post 'resend_confirmation', to: 'auth/resend_confirmations#create'
+  post 'passkey_sign_in_options', to: 'auth/passkey_sign_in_options#create'
 
   ## renders the frontend paths only if its not an api only server
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
@@ -508,6 +509,9 @@ Rails.application.routes.draw do
           end
           resources :sessions, only: [:index, :destroy]
           resource :trusted_devices, only: [:destroy]
+          resources :passkeys, only: [:index, :create, :destroy] do
+            post :registration_options, on: :collection
+          end
         end
       end
 
