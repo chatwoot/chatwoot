@@ -162,7 +162,7 @@ const copyConversationId = async () => {
           <InboxName
             v-if="hasMultipleInboxes"
             :inbox="inbox"
-            class="!mx-0 shrink-0"
+            class="!mx-0 shrink-0 max-w-[40%]"
           />
           <span v-if="mailSubject">•</span>
           <span
