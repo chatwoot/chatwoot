@@ -7,6 +7,8 @@ import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useLocale } from 'shared/composables/useLocale';
 import MonitorsAPI from 'dashboard/api/monitors';
+import AutomationAPI from 'dashboard/api/automation';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import BarChart from 'shared/components/charts/BarChart.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -24,7 +26,8 @@ const CHART_TICK_COUNT = 5;
 const { t, te } = useI18n();
 const route = useRoute();
 const router = useRouter();
-const { accountId, currentAccount, accountScopedRoute } = useAccount();
+const { accountId, currentAccount, accountScopedRoute, isCloudFeatureEnabled } =
+  useAccount();
 const { isAdmin } = useAdmin();
 const { resolvedLocale } = useLocale();
 const { run, abort, isPending } = useAbortableRequest();
@@ -33,6 +36,7 @@ const {
   abort: abortRetry,
   isPending: isRetrying,
 } = useAbortableRequest();
+const { run: runLinkedRules, abort: abortLinkedRules } = useAbortableRequest();
 
 const monitorId = computed(() => route.params.monitorId);
 const filters = ref({ range: 7, interval: 'day' });
@@ -44,6 +48,44 @@ const actionDialog = ref(null);
 const error = ref('');
 const notice = ref('');
 const refreshedAt = ref('');
+const linkedRules = ref([]);
+const linkedRulesError = ref(false);
+const canManageAutomations = computed(
+  () =>
+    isAdmin.value &&
+    currentAccount.value &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.REPORTS) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.CONVERSATION_MONITORS) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.AUTOMATIONS)
+);
+
+const fetchLinkedRules = async () => {
+  if (!canManageAutomations.value) return;
+  const requestedAccount = accountId.value;
+  const requestedMonitor = monitorId.value;
+  try {
+    const response = await runLinkedRules(signal =>
+      AutomationAPI.linkedToMonitor(requestedMonitor, signal)
+    );
+    if (
+      !response ||
+      requestedAccount !== accountId.value ||
+      requestedMonitor !== monitorId.value
+    )
+      return;
+    linkedRules.value = response.data.payload;
+    linkedRulesError.value = false;
+  } catch {
+    linkedRulesError.value = true;
+  }
+};
+
+const createAutomation = () =>
+  router.push(
+    accountScopedRoute('automation_list', {}, { monitor_id: monitorId.value })
+  );
+const editAutomation = rule =>
+  router.push(accountScopedRoute('automation_list', {}, { edit_id: rule.id }));
 
 const monitor = computed(() => result.value?.monitor);
 const timezone = computed(
@@ -187,6 +229,9 @@ watch(
   () => {
     abort();
     abortRetry();
+    abortLinkedRules();
+    linkedRules.value = [];
+    linkedRulesError.value = false;
     actionDialog.value?.close();
     result.value = null;
     displayedParams.value = null;
@@ -195,9 +240,11 @@ watch(
     notice.value = '';
     error.value = '';
     fetchReport();
+    fetchLinkedRules();
   },
   { immediate: true }
 );
+watch(canManageAutomations, fetchLinkedRules);
 watch(isAdmin, () => {
   drilldown.value = null;
 });
@@ -228,10 +275,12 @@ const onActionSaved = action => {
   }
   notice.value = '';
   fetchReport();
+  fetchLinkedRules();
 };
 const onMonitorChanged = message => {
   notice.value = message;
   fetchReport();
+  fetchLinkedRules();
 };
 const retry = async () => {
   if (isRetrying.value) return;
@@ -399,6 +448,55 @@ const duplicate = () =>
         </p>
       </template>
     </div>
+    <section
+      v-if="monitor && canManageAutomations"
+      class="rounded-xl border border-n-weak bg-n-solid-1 p-5"
+    >
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <h2 class="text-heading-3 text-n-slate-12">
+            {{ t('MONITORS.AUTOMATIONS.TITLE') }}
+          </h2>
+          <p class="mb-0 text-body-main text-n-slate-11">
+            {{ t('MONITORS.AUTOMATIONS.DESCRIPTION') }}
+          </p>
+        </div>
+        <Button
+          v-if="!monitor.paused_at"
+          icon="i-lucide-plus"
+          size="sm"
+          :label="t('MONITORS.AUTOMATIONS.CREATE')"
+          @click="createAutomation"
+        />
+      </div>
+      <p v-if="linkedRulesError" role="alert" class="mt-4 text-n-ruby-11">
+        {{ t('MONITORS.AUTOMATIONS.FETCH_FAILED') }}
+      </p>
+      <p v-else-if="!linkedRules.length" class="mb-0 mt-4 text-n-slate-11">
+        {{ t('MONITORS.AUTOMATIONS.EMPTY') }}
+      </p>
+      <ul v-else class="mb-0 mt-4 list-none divide-y divide-n-weak p-0">
+        <li
+          v-for="rule in linkedRules"
+          :key="rule.id"
+          class="flex items-center justify-between gap-3 py-3"
+        >
+          <button
+            type="button"
+            class="text-n-brand hover:underline"
+            @click="editAutomation(rule)"
+          >
+            {{ rule.name }}
+          </button>
+          <span v-if="rule.active" class="text-xs text-n-slate-11">
+            {{ t('MONITORS.AUTOMATIONS.ACTIVE') }}
+          </span>
+          <span v-else class="text-xs text-n-slate-11">
+            {{ t('MONITORS.AUTOMATIONS.DISABLED') }}
+          </span>
+        </li>
+      </ul>
+    </section>
   </div>
   <MonitorDrilldown
     v-if="drilldown"

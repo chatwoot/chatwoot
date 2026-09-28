@@ -204,12 +204,24 @@ export const validateActions = actions => {
  */
 export const validateAutomation = automation => {
   const basicErrors = validateBasicFields(automation);
-  const conditionErrors = validateConditions(automation.conditions);
+  const conditionErrors =
+    automation.event_name === 'monitor_matched' && !automation.conditions.length
+      ? {}
+      : validateConditions(automation.conditions);
   const actionErrors = validateActions(automation.actions);
 
   return {
     ...basicErrors,
     ...conditionErrors,
     ...actionErrors,
+    ...(automation.event_name === 'monitor_matched' &&
+    !automation.monitor_id &&
+    !(
+      automation.id &&
+      !automation.active &&
+      automation.monitor_availability === 'deleted'
+    )
+      ? { monitor_id: 'MONITOR_REQUIRED' }
+      : {}),
   };
 };

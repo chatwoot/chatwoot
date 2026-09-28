@@ -10,6 +10,7 @@ import Label from 'dashboard/components-next/label/Label.vue';
 const props = defineProps({
   monitor: { type: Object, required: true },
   showActions: { type: Boolean, default: false },
+  canCreateAutomation: { type: Boolean, default: false },
 });
 const emit = defineEmits(['action']);
 
@@ -20,6 +21,10 @@ const isPaused = computed(() => Boolean(props.monitor.paused_at));
 const monitorRoute = computed(() =>
   accountScopedRoute('monitor_reports_show', { monitorId: props.monitor.id })
 );
+const createAutomation = () =>
+  router.push(
+    accountScopedRoute('automation_list', {}, { monitor_id: props.monitor.id })
+  );
 </script>
 
 <template>
@@ -93,6 +98,15 @@ const monitorRoute = computed(() =>
         v-if="showActions"
         class="ms-3 flex gap-3 transition-opacity [@media(hover:hover)]:pointer-events-none [@media(hover:hover)]:absolute [@media(hover:hover)]:end-0 [@media(hover:hover)]:top-1/2 [@media(hover:hover)]:-translate-y-1/2 [@media(hover:hover)]:ms-0 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:pointer-events-auto [@media(hover:hover)]:group-hover:opacity-100 [@media(hover:hover)]:group-focus-within:pointer-events-auto [@media(hover:hover)]:group-focus-within:opacity-100"
       >
+        <Button
+          v-if="canCreateAutomation && !isPaused"
+          v-tooltip.top="t('MONITORS.AUTOMATIONS.CREATE')"
+          icon="i-lucide-plus"
+          slate
+          sm
+          :aria-label="t('MONITORS.AUTOMATIONS.CREATE')"
+          @click.stop="createAutomation"
+        />
         <Button
           v-tooltip.top="t('MONITORS.EDIT')"
           icon="i-woot-edit-pen"

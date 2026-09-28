@@ -45,6 +45,34 @@ const automationActive = computed({
             {{ automation.name }}
           </span>
           <span
+            v-if="automation.event_name === 'monitor_matched'"
+            class="text-xs px-1.5 py-0.5 rounded-md bg-n-alpha-2 text-n-slate-11 whitespace-nowrap flex-shrink-0"
+          >
+            {{
+              $t('AUTOMATION.LIST.MONITOR_BADGE', {
+                name: automation.monitor_name,
+              })
+            }}
+          </span>
+          <span
+            v-if="automation.monitor_availability === 'paused'"
+            class="text-xs text-n-amber-11 whitespace-nowrap"
+          >
+            {{ $t('AUTOMATION.LIST.MONITOR_PAUSED') }}
+          </span>
+          <span
+            v-if="automation.monitor_availability === 'deleted'"
+            class="text-xs text-n-amber-11 whitespace-nowrap"
+          >
+            {{ $t('AUTOMATION.LIST.MONITOR_DELETED') }}
+          </span>
+          <span
+            v-if="automation.monitor_availability === 'unavailable'"
+            class="text-xs text-n-amber-11 whitespace-nowrap"
+          >
+            {{ $t('AUTOMATION.LIST.MONITOR_UNAVAILABLE') }}
+          </span>
+          <span
             v-if="automation.execution_delay"
             class="text-xs px-1.5 py-0.5 rounded-md bg-n-alpha-2 text-n-slate-11 whitespace-nowrap flex-shrink-0"
           >
@@ -62,7 +90,13 @@ const automationActive = computed({
       </BaseTableCell>
 
       <BaseTableCell>
-        <ToggleSwitch v-model="automationActive" />
+        <ToggleSwitch
+          v-model="automationActive"
+          :disabled="
+            automation.event_name === 'monitor_matched' &&
+            automation.monitor_availability !== 'available'
+          "
+        />
       </BaseTableCell>
 
       <BaseTableCell :title="readableDateWithTime(automation.created_on)">

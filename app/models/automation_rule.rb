@@ -2,21 +2,29 @@
 #
 # Table name: automation_rules
 #
-#  id              :bigint           not null, primary key
-#  actions         :jsonb            not null
-#  active          :boolean          default(TRUE), not null
-#  conditions      :jsonb            not null
-#  description     :text
-#  event_name      :string           not null
-#  execution_delay :integer
-#  name            :string           not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  account_id      :bigint           not null
+#  id                         :bigint           not null, primary key
+#  actions                    :jsonb            not null
+#  active                     :boolean          default(TRUE), not null
+#  conditions                 :jsonb            not null
+#  description                :text
+#  event_name                 :string           not null
+#  execution_delay            :integer
+#  monitor_event_activated_at :datetime
+#  monitor_name               :string
+#  name                       :string           not null
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  account_id                 :bigint           not null
+#  monitor_id                 :bigint
 #
 # Indexes
 #
 #  index_automation_rules_on_account_id  (account_id)
+#  index_automation_rules_on_monitor_id  (monitor_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (monitor_id => conversation_monitors.id) ON DELETE => nullify
 #
 class AutomationRule < ApplicationRecord
   include Rails.application.routes.url_helpers

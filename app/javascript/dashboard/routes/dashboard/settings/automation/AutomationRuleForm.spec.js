@@ -1,16 +1,40 @@
-import { nextTick, reactive } from 'vue';
-import { shallowMount } from '@vue/test-utils';
+import { nextTick, reactive, ref } from 'vue';
+import { flushPromises, shallowMount } from '@vue/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import AutomationRuleForm from './AutomationRuleForm.vue';
 import AutomationRunTypeSelector from './components/AutomationRunTypeSelector.vue';
 import AutomationWaitCondition from './components/AutomationWaitCondition.vue';
+import AutomationInstantTrigger from './components/AutomationInstantTrigger.vue';
+import MonitorsAPI from 'dashboard/api/monitors';
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
 }));
 
+const featureState = vi.hoisted(() => ({
+  enabled: new Set([
+    'reports',
+    'conversation_monitors',
+    'automations',
+    'delayed_automations',
+  ]),
+  cloud: { value: true },
+}));
+
 vi.mock('dashboard/composables/useAccount', () => ({
-  useAccount: () => ({ isCloudFeatureEnabled: () => true }),
+  useAccount: () => ({
+    accountId: ref(1),
+    isCloudFeatureEnabled: feature => featureState.enabled.has(feature),
+    isOnChatwootCloud: featureState.cloud,
+  }),
+}));
+
+vi.mock('dashboard/composables/useConfig', () => ({
+  useConfig: () => ({ isEnterprise: false }),
+}));
+
+vi.mock('dashboard/api/monitors', () => ({
+  default: { get: vi.fn() },
 }));
 
 vi.mock('dashboard/components-next/filter/operators', () => ({
@@ -28,6 +52,7 @@ const automationTypes = Object.fromEntries(
 );
 
 const triggerStub = {
+  props: ['monitorOptions', 'events'],
   template: '<div />',
   methods: {
     resetValidation: vi.fn(),
@@ -131,6 +156,16 @@ const selectRunType = async (wrapper, isDelayed) => {
 describe('AutomationRuleForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    featureState.enabled = new Set([
+      'reports',
+      'conversation_monitors',
+      'automations',
+      'delayed_automations',
+    ]);
+    featureState.cloud.value = true;
+    MonitorsAPI.get.mockResolvedValue({
+      data: { payload: [{ id: 7, name: 'Refunds' }], meta: { total_count: 1 } },
+    });
   });
 
   it('opens a rule whose conditions hold reactive dropdown options', async () => {
@@ -184,5 +219,62 @@ describe('AutomationRuleForm', () => {
     expect(
       wrapper.findComponent(AutomationWaitCondition).props('isSavedWait')
     ).toBe(true);
+  });
+
+  it('accepts a monitor match without extra conditions and loads live monitors', async () => {
+    const automation = {
+      ...buildAutomation(),
+      event_name: 'monitor_matched',
+      monitor_id: 7,
+      conditions: [],
+      actions: [{ action_name: 'resolve_conversation', action_params: [] }],
+    };
+    const wrapper = mountComponent({ mode: 'create', automation });
+    wrapper.vm.open();
+    await flushPromises();
+
+    expect(MonitorsAPI.get).toHaveBeenCalledWith(
+      { active: 'true', page: 1 },
+      expect.any(AbortSignal)
+    );
+    expect(
+      wrapper.findComponent(AutomationInstantTrigger).props('monitorOptions')
+    ).toEqual([{ id: 7, name: 'Refunds' }]);
+  });
+
+  it('hides the monitor event when reports is disabled and skips monitor loading', async () => {
+    featureState.enabled.delete('reports');
+    const wrapper = mountComponent({
+      mode: 'create',
+      automation: buildAutomation(),
+    });
+    wrapper.vm.open();
+    await flushPromises();
+
+    expect(
+      wrapper
+        .findComponent(AutomationInstantTrigger)
+        .props('events')
+        .some(event => event.key === 'monitor_matched')
+    ).toBe(false);
+    expect(MonitorsAPI.get).not.toHaveBeenCalled();
+  });
+
+  it('hides the monitor event on a community installation', async () => {
+    featureState.cloud.value = false;
+    const wrapper = mountComponent({
+      mode: 'create',
+      automation: buildAutomation(),
+    });
+    wrapper.vm.open();
+    await flushPromises();
+
+    expect(
+      wrapper
+        .findComponent(AutomationInstantTrigger)
+        .props('events')
+        .some(event => event.key === 'monitor_matched')
+    ).toBe(false);
+    expect(MonitorsAPI.get).not.toHaveBeenCalled();
   });
 });

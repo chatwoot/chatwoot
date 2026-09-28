@@ -31,8 +31,10 @@ class ConversationMonitors::Evaluator
 
       token = SecureRandom.uuid
       @work.update!(lease_token: token, lease_expires_at: LEASE_DURATION.from_now)
+      live_activity_at = @work.live_activity_at if @work.live_activity_revision == @work.revision
       { token: token, revision: @work.revision, generation: @work.generation,
-        full_history: @work.full_history_revision > @work.processed_revision }
+        full_history: @work.full_history_revision > @work.processed_revision,
+        live_activity_at: live_activity_at }
     end
   end
 

@@ -33,4 +33,43 @@ RSpec.describe AutomationRule do
       end
     end
   end
+
+  describe 'monitor matched event' do
+    let(:account) { create(:account) }
+    let(:monitor) { create(:conversation_monitor, account: account) }
+
+    before { account.enable_features!('automations', 'reports', 'conversation_monitors') }
+
+    it 'stores the monitor source and activation boundary' do
+      rule = create(:automation_rule, account: account, event_name: 'monitor_matched', monitor: monitor, conditions: [])
+
+      expect(rule).to have_attributes(monitor_name: monitor.name, monitor_event_activated_at: be_present)
+      expect(rule.monitor_availability).to eq('available')
+    end
+
+    it 'rejects a paused or cross-account monitor and delayed execution' do
+      other_monitor = create(:conversation_monitor)
+      rule = build(:automation_rule, account: account, event_name: 'monitor_matched', monitor: other_monitor)
+      expect(rule).not_to be_valid
+
+      monitor.update!(paused_at: Time.current)
+      rule.monitor = monitor
+      expect(rule).not_to be_valid
+
+      monitor.update!(paused_at: nil)
+      rule.execution_delay = 10
+      expect(rule).not_to be_valid
+    end
+
+    it 'reports an unavailable source when either monitor entitlement is disabled' do
+      rule = create(:automation_rule, account: account, event_name: 'monitor_matched', monitor: monitor, conditions: [])
+
+      account.disable_features!('reports')
+      expect(rule.reload.monitor_availability).to eq('unavailable')
+
+      account.enable_features!('reports')
+      account.disable_features!('automations')
+      expect(rule.reload.monitor_availability).to eq('unavailable')
+    end
+  end
 end

@@ -686,7 +686,18 @@ export const AUTOMATIONS = {
   },
 };
 
+// A monitor match is a conversation event. Additional conditions filter the
+// conversation at delivery time; the monitor itself supplies the trigger.
+AUTOMATIONS.monitor_matched = {
+  conditions: structuredClone(AUTOMATIONS.conversation_updated.conditions),
+  actions: structuredClone(AUTOMATIONS.conversation_updated.actions),
+};
+
 export const AUTOMATION_RULE_EVENTS = [
+  {
+    key: 'monitor_matched',
+    value: 'MONITOR_MATCHED',
+  },
   {
     key: 'conversation_created',
     value: 'CONVERSATION_CREATED',

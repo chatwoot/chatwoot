@@ -38,6 +38,20 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(ConversationMonitors::DailyUsage.find_by!(account: account).calls_count).to eq(1)
   end
 
+  it 'triggers an automation when a historical request overlaps pending live activity' do
+    account.enable_features!('automations')
+    create(:automation_rule, account: account, event_name: 'monitor_matched', monitor: monitor, conditions: [])
+    create(:message, account: account, conversation: conversation, content: 'New refund detail')
+    expect(work.reload.live_activity_at).to be_present
+
+    work.request!(full_history: true)
+    work.update!(due_at: Time.current)
+    evaluate.call
+
+    expect(monitor.evaluations.sole.status).to eq('matched')
+    expect(monitor.automation_deliveries.count).to eq(1)
+  end
+
   it 'persists successful answers without another provider call when Redis reconciliation fails' do
     redis = Redis::Alfred.with { |connection| connection }
     allow(redis).to receive(:incrby).and_raise(Redis::CannotConnectError, 'test outage')
