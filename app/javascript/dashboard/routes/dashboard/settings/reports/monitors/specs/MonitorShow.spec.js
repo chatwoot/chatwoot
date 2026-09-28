@@ -65,6 +65,8 @@ const responseFor = (params, count = 2) => ({
     ],
     monitor: {
       name: 'Refunds',
+      icon: 'fire-line',
+      icon_color: '#EF4444',
       collection_version: 0,
       condition: 'refund',
       processing: { state: 'live', error_codes: [] },
@@ -79,6 +81,7 @@ const mountOptions = {
       Dialog: false,
       MonitorActionDialog: false,
       TextArea: false,
+      Input: false,
     },
   },
 };
@@ -310,6 +313,9 @@ describe('MonitorShow', () => {
       .findComponent({ name: 'Input' })
       .vm.$emit('update:modelValue', ' Payments ');
     await wrapper.find('textarea').setValue(' Conversations about payments ');
+    wrapper
+      .findComponent({ name: 'MonitorIconPicker' })
+      .vm.$emit('update:icon', 'bug-line');
     MonitorsAPI.timeseries.mockImplementation((id, params) => {
       const response = responseFor(params);
       response.data.monitor.collection_version = 1;
@@ -323,6 +329,8 @@ describe('MonitorShow', () => {
     expect(MonitorsAPI.update).toHaveBeenCalledWith('10', {
       name: 'Payments',
       condition: 'Conversations about payments',
+      icon: 'bug-line',
+      icon_color: '#EF4444',
       collection_version: 0,
     });
   });
