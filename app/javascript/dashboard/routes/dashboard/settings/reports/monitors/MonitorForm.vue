@@ -14,6 +14,7 @@ import {
 } from 'dashboard/components-next/emoji-icon-picker/constants';
 import ReportDrilldownCard from '../components/ReportDrilldownCard.vue';
 import MonitorIconPicker from './MonitorIconPicker.vue';
+import { MAX_MONITOR_CONDITION_LENGTH } from './constants';
 
 const emit = defineEmits(['created']);
 
@@ -66,10 +67,18 @@ let dialogGeneration = 0;
 const previewCooldown = computed(() =>
   Math.max(0, Math.ceil((previewAvailableAt.value - now.value) / 1000))
 );
-const isValid = computed(() => name.value.trim() && condition.value.trim());
+const isValid = computed(
+  () =>
+    name.value.trim() &&
+    condition.value.trim() &&
+    condition.value.length <= MAX_MONITOR_CONDITION_LENGTH
+);
 const canPreview = computed(
   () =>
-    !!condition.value.trim() && !isPreviewing.value && !previewCooldown.value
+    !!condition.value.trim() &&
+    condition.value.length <= MAX_MONITOR_CONDITION_LENGTH &&
+    !isPreviewing.value &&
+    !previewCooldown.value
 );
 
 const errorText = (code, fallback) => {
@@ -226,7 +235,7 @@ defineExpose({ open });
         v-model="condition"
         :label="t('MONITORS.CONDITION')"
         :placeholder="t('MONITORS.CONDITION_PLACEHOLDER')"
-        :max-length="2000"
+        :max-length="MAX_MONITOR_CONDITION_LENGTH"
         custom-text-area-class="min-h-24"
         show-character-count
       />
