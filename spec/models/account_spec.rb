@@ -506,14 +506,14 @@ RSpec.describe Account do
 
     describe 'validation' do
       it 'rejects invalid model for a feature' do
-        account.captain_models = { 'label_suggestion' => 'gpt-5.1' }
+        account.captain_models = { 'help_center_query_translation' => 'gpt-5.1' }
 
         expect(account).not_to be_valid
-        expect(account.errors[:captain_models].first).to include('not a valid model for label_suggestion')
+        expect(account.errors[:captain_models].first).to include('not a valid model for help_center_query_translation')
       end
 
       it 'accepts valid model for a feature' do
-        account.captain_models = { 'editor' => 'gpt-4.1-mini', 'label_suggestion' => 'gpt-4.1-nano' }
+        account.captain_models = { 'editor' => 'gpt-4.1-mini', 'help_center_query_translation' => 'gpt-4.1-nano' }
 
         expect(account).to be_valid
       end

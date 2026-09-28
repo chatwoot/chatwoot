@@ -104,14 +104,14 @@ RSpec.describe 'Integration Apps API', type: :request do
           :integrations_hook,
           :openai,
           account: account,
-          settings: { api_key: 'sk-secret', label_suggestion: true }
+          settings: { api_key: 'sk-secret' }
         )
         get api_v1_account_integrations_apps_url(account),
             headers: admin.create_new_auth_token,
             as: :json
 
         app = response.parsed_body['payload'].find { |int_app| int_app['id'] == openai.app.id }
-        expect(app['hooks'].first['settings']).to eq('label_suggestion' => true)
+        expect(app['hooks'].first['settings']).to eq({})
       end
 
       it 'keeps slack channel display settings while redacting unspecified settings' do

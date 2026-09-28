@@ -443,7 +443,7 @@ en:
     openai:
       name: 'OpenAI'
       short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
-      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
+      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, and spell-checking.'
     linear:
       name: 'Linear'
       short_description: 'Create and link Linear issues directly from conversations.'
@@ -685,7 +685,6 @@ en:
         editor: 'Editor'
         assistant: 'Assistant'
         copilot: 'Copilot'
-        label_suggestion: 'Label suggestion'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
         conversation_faq_matching: 'Conversation FAQ matching'

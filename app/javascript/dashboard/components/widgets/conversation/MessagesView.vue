@@ -2,7 +2,6 @@
 import { ref, provide, inject, nextTick, useTemplateRef } from 'vue';
 import { useElementSize, useEventListener } from '@vueuse/core';
 // composable
-import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
 import { useCampaignHistory } from 'dashboard/composables/useCampaignHistory';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
@@ -11,7 +10,6 @@ import { CONTACT_CONVERSATION_NAVIGATION } from 'dashboard/composables/useContac
 // components
 import ReplyBox from './ReplyBox.vue';
 import MessageList from 'next/message/MessageList.vue';
-import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import ContactConversationLink from './ContactConversationLink.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -35,7 +33,6 @@ import {
   getUnreadScrollTop,
 } from './helpers/campaignScrollAnchor';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
-import { LocalStorage } from 'shared/helpers/localStorage';
 import {
   filterDuplicateSourceMessages,
   getReadMessages,
@@ -46,10 +43,7 @@ import {
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import { REPLY_POLICY } from 'shared/constants/links';
-import wootConstants, {
-  META_RESTRICTION_STATUS_URL,
-} from 'dashboard/constants/globals';
-import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 export default {
@@ -57,7 +51,6 @@ export default {
     MessageList,
     ReplyBox,
     Banner,
-    ConversationLabelSuggestion,
     ContactConversationLink,
     Spinner,
     NextButton,
@@ -74,12 +67,6 @@ export default {
     const topBannerRef = useTemplateRef('topBannerRef');
     const { height: containerHeight } = useElementSize(messagesViewRef);
     const { height: topBannerHeight } = useElementSize(topBannerRef);
-
-    const {
-      captainTasksEnabled,
-      isLabelSuggestionFeatureEnabled,
-      getLabelSuggestions,
-    } = useLabelSuggestions();
 
     const {
       olderConversation,
@@ -111,9 +98,6 @@ export default {
 
     return {
       ...useCampaignHistory(),
-      captainTasksEnabled,
-      getLabelSuggestions,
-      isLabelSuggestionFeatureEnabled,
       olderConversation,
       newerConversation,
       openConversation,
@@ -139,8 +123,6 @@ export default {
       conversationPanel: null,
       hasUserScrolled: false,
       isProgrammaticScroll: false,
-      messageSentSinceOpened: false,
-      labelSuggestions: [],
     };
   },
 
@@ -149,20 +131,8 @@ export default {
       currentChat: 'getSelectedChat',
       currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
-      currentAccountId: 'getCurrentAccountId',
       isMetaMessageSendingDisabled: 'globalConfig/isMetaMessageSendingDisabled',
     }),
-    isOpen() {
-      return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
-    },
-    shouldShowLabelSuggestions() {
-      return (
-        this.isOpen &&
-        this.captainTasksEnabled &&
-        this.isLabelSuggestionFeatureEnabled &&
-        !this.messageSentSinceOpened
-      );
-    },
     inboxId() {
       return this.currentChat.inbox_id;
     },
@@ -342,8 +312,6 @@ export default {
         return;
       }
       this.fetchAllAttachmentsFromCurrentChat();
-      this.fetchSuggestions();
-      this.messageSentSinceOpened = false;
       this.resetReplyEditorHeight();
     },
     // The link is appended once the neighbours arrive, below an already scrolled list.
@@ -359,11 +327,6 @@ export default {
 
   created() {
     emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
-    // when a message is sent we set the flag to true this hides the label suggestions,
-    // until the chat is changed and the flag is reset in the watch for currentChat
-    emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
-      this.messageSentSinceOpened = true;
-    });
     // Anything that wants to write must bring the folded editor back first.
     emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.leaveReadingMode);
     emitter.on(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.leaveReadingMode);
@@ -373,7 +336,6 @@ export default {
   mounted() {
     this.addScrollListener();
     this.fetchAllAttachmentsFromCurrentChat();
-    this.fetchSuggestions();
   },
 
   unmounted() {
@@ -382,47 +344,6 @@ export default {
   },
 
   methods: {
-    async fetchSuggestions() {
-      // start empty, this ensures that the label suggestions are not shown
-      this.labelSuggestions = [];
-
-      if (this.isLabelSuggestionDismissed()) {
-        return;
-      }
-
-      // Early exit if conversation already has labels - no need to suggest more
-      const existingLabels = this.currentChat?.labels || [];
-      if (existingLabels.length > 0) return;
-
-      if (!this.captainTasksEnabled || !this.isLabelSuggestionFeatureEnabled) {
-        return;
-      }
-
-      this.labelSuggestions = await this.getLabelSuggestions();
-
-      // once the labels are fetched, we need to scroll to bottom
-      // but we need to wait for the DOM to be updated
-      // so we use the nextTick method
-      this.$nextTick(() => {
-        // this param is added to route, telling the UI to navigate to the message
-        // it is triggered by the SCROLL_TO_MESSAGE method
-        // see setActiveChat on ConversationView.vue for more info
-        const { messageId } = this.$route.query;
-
-        // only trigger the scroll to bottom if the user has not scrolled
-        // and there's no active messageId that is selected in view
-        if (!messageId && !this.hasUserScrolled) {
-          this.scrollToBottom();
-        }
-      });
-    },
-    isLabelSuggestionDismissed() {
-      return LocalStorage.getFlag(
-        LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS,
-        this.currentAccountId,
-        this.currentChat.id
-      );
-    },
     fetchAllAttachmentsFromCurrentChat() {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
     },
@@ -457,12 +378,6 @@ export default {
     },
     scrollToBottom() {
       this.isProgrammaticScroll = true;
-      let relevantMessages = [];
-
-      // label suggestions are not part of the messages list
-      // so we need to handle them separately
-      let labelSuggestions =
-        this.conversationPanel.querySelector('.label-suggestion');
 
       // if there are unread messages, scroll to the first unread message
       if (this.unreadMessageCount > 0) {
@@ -475,21 +390,12 @@ export default {
           return;
         }
       }
-      if (labelSuggestions) {
-        // when scrolling to the bottom, the label suggestions is below the last message
-        // so we scroll there if there are no unread messages
-        // Unread messages always take the highest priority
-        relevantMessages = [labelSuggestions];
-      } else {
-        // if there are no unread messages or label suggestion, scroll to the last message
-        // capturing last message from the messages list
-        relevantMessages = getTimelineEntries(this.conversationPanel).slice(-1);
-      }
 
+      // otherwise scroll to the last message in the timeline
       this.conversationPanel.scrollTop = calculateScrollTop(
         this.conversationPanel.scrollHeight,
         this.$el.scrollHeight,
-        relevantMessages
+        getTimelineEntries(this.conversationPanel).slice(-1)
       );
     },
     setScrollParams() {
@@ -643,12 +549,6 @@ export default {
         </li>
       </template>
       <template #after>
-        <ConversationLabelSuggestion
-          v-if="shouldShowLabelSuggestions"
-          :suggested-labels="labelSuggestions"
-          :chat-labels="currentChat.labels"
-          :conversation-id="currentChat.id"
-        />
         <ContactConversationLink
           v-if="newerConversation"
           direction="newer"
