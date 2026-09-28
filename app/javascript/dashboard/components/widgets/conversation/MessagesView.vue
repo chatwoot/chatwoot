@@ -1,10 +1,12 @@
 <script>
-import { ref, provide, useTemplateRef } from 'vue';
-import { useElementSize } from '@vueuse/core';
+import { ref, provide, inject, nextTick, useTemplateRef } from 'vue';
+import { useElementSize, useEventListener } from '@vueuse/core';
 // composable
 import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
+import { useCampaignHistory } from 'dashboard/composables/useCampaignHistory';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
-import { useContactConversationNavigation } from 'dashboard/composables/useContactConversationNavigation';
+import { CONTACT_CONVERSATION_NAVIGATION } from 'dashboard/composables/useContactConversationNavigation';
 
 // components
 import ReplyBox from './ReplyBox.vue';
@@ -13,6 +15,8 @@ import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import ContactConversationLink from './ContactConversationLink.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import OlderConversationBar from './OlderConversationBar.vue';
 import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
 import ReferralBubble from 'dashboard/components-next/Conversation/ReferralBubble.vue';
 
@@ -25,6 +29,11 @@ import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 // utils
 import { emitter } from 'shared/helpers/mitt';
 import { getTypingUsersText } from '../../../helper/commons';
+import {
+  captureTimelineAnchor,
+  getTimelineEntries,
+  getUnreadScrollTop,
+} from './helpers/campaignScrollAnchor';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import {
@@ -35,6 +44,7 @@ import {
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants, {
   META_RESTRICTION_STATUS_URL,
@@ -50,6 +60,8 @@ export default {
     ConversationLabelSuggestion,
     ContactConversationLink,
     Spinner,
+    NextButton,
+    OlderConversationBar,
     ResizableEditorWrapper,
     ReferralBubble,
   },
@@ -57,6 +69,7 @@ export default {
   setup() {
     const conversationPanelRef = ref(null);
     const resizableEditorWrapperRef = ref(null);
+    const replyBoxRef = ref(null);
     const messagesViewRef = useTemplateRef('messagesViewRef');
     const topBannerRef = useTemplateRef('topBannerRef');
     const { height: containerHeight } = useElementSize(messagesViewRef);
@@ -68,20 +81,51 @@ export default {
       getLabelSuggestions,
     } = useLabelSuggestions();
 
-    const { olderConversation, newerConversation, buildConversationPath } =
-      useContactConversationNavigation();
+    const {
+      olderConversation,
+      newerConversation,
+      isReadingHistory,
+      isReplyRevealed,
+      latestConversation,
+      leaveReadingMode,
+      openConversation,
+      buildConversationPath,
+    } = inject(CONTACT_CONVERSATION_NAVIGATION);
 
     provide('contextMenuElementTarget', conversationPanelRef);
 
+    // The editor focuses itself on these shortcuts, but only once it is shown.
+    const revealReplyBox = () => {
+      if (!isReadingHistory.value) return;
+      leaveReadingMode();
+      nextTick(() => replyBoxRef.value?.messageEditor?.focusEditorInputField());
+    };
+    useKeyboardEvents({
+      'Alt+KeyP': { action: revealReplyBox, allowOnFocusedInput: false },
+      'Alt+KeyL': { action: revealReplyBox, allowOnFocusedInput: false },
+    });
+    // ReplyBox attaches pasted files from anywhere on the page, folded or not.
+    useEventListener(document, 'paste', e => {
+      if (e.clipboardData?.files.length) revealReplyBox();
+    });
+
     return {
+      ...useCampaignHistory(),
       captainTasksEnabled,
       getLabelSuggestions,
       isLabelSuggestionFeatureEnabled,
       olderConversation,
       newerConversation,
+      openConversation,
       buildConversationPath,
+      isReadingHistory,
+      isReplyRevealed,
+      latestConversation,
+      leaveReadingMode,
+      revealReplyBox,
       conversationPanelRef,
       resizableEditorWrapperRef,
+      replyBoxRef,
       messagesViewRef,
       topBannerRef,
       containerHeight,
@@ -169,8 +213,12 @@ export default {
     shouldShowSpinner() {
       return (
         (this.currentChat && this.currentChat.dataFetched === undefined) ||
-        (!this.listLoadingStatus && this.isLoadingPrevious)
+        (!this.listLoadingStatus && this.isLoadingPrevious) ||
+        !this.isCampaignHistoryReady
       );
+    },
+    timelineMessages() {
+      return this.isCampaignHistoryReady ? this.getMessages : [];
     },
     // Check there is a instagram inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
@@ -269,6 +317,26 @@ export default {
   },
 
   watch: {
+    isCampaignHistoryReady(ready) {
+      if (!ready) return;
+      this.onScrollToMessage({ messageId: this.$route.query.messageId });
+    },
+    visibleCampaignHistory() {
+      if (!this.conversationPanel) return;
+      const conversationId = this.currentChat.id;
+      const restoreAnchor = captureTimelineAnchor(
+        this.conversationPanel,
+        this.$route.query.messageId
+      );
+      this.$nextTick(() => {
+        if (this.currentChat.id !== conversationId) return;
+        if (!this.hasUserScrolled && !this.$route.query.messageId) {
+          this.scrollToBottom();
+        } else {
+          restoreAnchor();
+        }
+      });
+    },
     currentChat(newChat, oldChat) {
       if (newChat.id === oldChat.id) {
         return;
@@ -277,6 +345,15 @@ export default {
       this.fetchSuggestions();
       this.messageSentSinceOpened = false;
       this.resetReplyEditorHeight();
+    },
+    // The link is appended once the neighbours arrive, below an already scrolled list.
+    newerConversation(conversation) {
+      if (!conversation) return;
+      this.$nextTick(() => {
+        if (!this.$route.query.messageId && !this.hasUserScrolled) {
+          this.scrollToBottom();
+        }
+      });
     },
   },
 
@@ -287,6 +364,10 @@ export default {
     emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
       this.messageSentSinceOpened = true;
     });
+    // Anything that wants to write must bring the folded editor back first.
+    emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.leaveReadingMode);
+    emitter.on(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.leaveReadingMode);
+    emitter.on(CMD_AI_ASSIST, this.leaveReadingMode);
   },
 
   mounted() {
@@ -347,6 +428,9 @@ export default {
     },
     removeBusListeners() {
       emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+      emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.leaveReadingMode);
+      emitter.off(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.leaveReadingMode);
+      emitter.off(CMD_AI_ASSIST, this.leaveReadingMode);
     },
     onScrollToMessage({ messageId = '' } = {}) {
       this.$nextTick(() => {
@@ -382,10 +466,16 @@ export default {
 
       // if there are unread messages, scroll to the first unread message
       if (this.unreadMessageCount > 0) {
-        // capturing only the unread messages
-        relevantMessages =
-          this.conversationPanel.querySelectorAll('.message--unread');
-      } else if (labelSuggestions) {
+        const scrollTop = getUnreadScrollTop(
+          this.conversationPanel,
+          this.unReadMessages[0]?.id
+        );
+        if (scrollTop !== undefined) {
+          this.conversationPanel.scrollTop = scrollTop;
+          return;
+        }
+      }
+      if (labelSuggestions) {
         // when scrolling to the bottom, the label suggestions is below the last message
         // so we scroll there if there are no unread messages
         // Unread messages always take the highest priority
@@ -393,9 +483,7 @@ export default {
       } else {
         // if there are no unread messages or label suggestion, scroll to the last message
         // capturing last message from the messages list
-        relevantMessages = Array.from(
-          this.conversationPanel.querySelectorAll('.message--read')
-        ).slice(-1);
+        relevantMessages = getTimelineEntries(this.conversationPanel).slice(-1);
       }
 
       this.conversationPanel.scrollTop = calculateScrollTop(
@@ -501,12 +589,14 @@ export default {
     </div>
     <MessageList
       ref="conversationPanelRef"
-      class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
+      class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0"
+      :class="isReadingHistory ? 'pb-16' : 'pb-4'"
       :current-user-id="currentUserId"
       :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"
       :inbox-supports-reply-to="inboxSupportsReplyTo"
-      :messages="getMessages"
+      :messages="timelineMessages"
+      :campaign-history="visibleCampaignHistory"
       @retry="handleMessageRetry"
     >
       <template #beforeAll>
@@ -522,9 +612,23 @@ export default {
           v-if="olderConversation && listLoadingStatus"
           direction="older"
           :conversation="olderConversation"
-          :to="buildConversationPath(olderConversation.id)"
+          :to="
+            buildConversationPath(olderConversation.id, {
+              keepFolderScope: false,
+            })
+          "
+          @navigate="openConversation(olderConversation)"
         />
         <ReferralBubble v-if="referralData" :referral="referralData" />
+        <li v-if="hasMoreCampaignHistory" class="flex justify-center py-3">
+          <NextButton
+            :label="$t('CAMPAIGN.HISTORY.LOAD_MORE')"
+            :disabled="isCampaignHistoryLoading"
+            sm
+            ghost
+            @click="loadCampaignHistory"
+          />
+        </li>
       </template>
       <template #unreadBadge>
         <li
@@ -549,14 +653,20 @@ export default {
           v-if="newerConversation"
           direction="newer"
           :conversation="newerConversation"
-          :to="buildConversationPath(newerConversation.id)"
+          :to="
+            buildConversationPath(newerConversation.id, {
+              keepFolderScope: false,
+            })
+          "
+          @navigate="openConversation(newerConversation)"
         />
       </template>
     </MessageList>
     <div class="flex relative flex-col bg-n-surface-1">
       <div
         v-if="isAnyoneTyping"
-        class="absolute flex items-center w-full h-0 -top-7"
+        class="absolute flex items-center w-full h-0"
+        :class="isReadingHistory ? '-top-[5.5rem]' : '-top-7'"
       >
         <div
           class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-n-solid-3 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
@@ -569,11 +679,23 @@ export default {
           />
         </div>
       </div>
+      <OlderConversationBar
+        v-if="isReadingHistory"
+        class="absolute inset-x-2 bottom-2 z-10"
+        :has-latest="Boolean(latestConversation)"
+        @reply="revealReplyBox"
+        @go-to-latest="openConversation(latestConversation)"
+      />
       <ResizableEditorWrapper
+        v-show="!isReadingHistory"
         ref="resizableEditorWrapperRef"
+        :class="{ 'animate-fade-in-up': isReplyRevealed }"
         :container-height="Math.max(0, containerHeight - topBannerHeight)"
       >
-        <ReplyBox @toggle-editor-size="toggleReplyEditorSize" />
+        <ReplyBox
+          ref="replyBoxRef"
+          @toggle-editor-size="toggleReplyEditorSize"
+        />
       </ResizableEditorWrapper>
     </div>
   </div>

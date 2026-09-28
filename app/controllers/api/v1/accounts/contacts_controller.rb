@@ -171,7 +171,12 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    permitted_params = params.permit(:name, :identifier, :email, :phone_number, :avatar, :avatar_url, :blocked,
+                                     additional_attributes: {}, custom_attributes: {})
+    return permitted_params unless Current.account.feature_enabled?('companies') && params.key?(:company_id)
+
+    company_id = params[:company_id]
+    permitted_params.merge(company_id: company_id.present? ? Current.account.companies.find(company_id).id : nil)
   end
 
   def contact_custom_attributes

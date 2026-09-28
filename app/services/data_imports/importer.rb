@@ -1348,3 +1348,5 @@ class DataImports::Importer
   end
 end
 # rubocop:enable Metrics/ClassLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength, Rails/SkipsModelValidations
+
+DataImports::Importer.prepend_mod_with('DataImports::Importer')
