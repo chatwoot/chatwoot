@@ -12,7 +12,7 @@ vi.mock('vue-router', () => ({
 
 const mountComponent = (props = {}) =>
   shallowMount(CopilotEmptyState, {
-    props: { hasAssistants: true, ...props },
+    props: { hasAssistant: true, ...props },
     global: {
       mocks: { $t: key => key },
       stubs: { RouterLink: true },
