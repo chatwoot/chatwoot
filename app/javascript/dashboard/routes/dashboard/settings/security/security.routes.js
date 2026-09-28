@@ -1,19 +1,15 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import SettingsWrapper from '../SettingsWrapper.vue';
 import Index from './Index.vue';
 
+// No SAML feature-flag or installation-type gate here: the page also hosts
+// MFA enforcement, which self-hosted installs need. SAML gates itself in-page.
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/security'),
       meta: {
         permissions: ['administrator'],
-        installationTypes: [
-          INSTALLATION_TYPES.CLOUD,
-          INSTALLATION_TYPES.ENTERPRISE,
-        ],
       },
       component: SettingsWrapper,
       props: {
@@ -28,11 +24,6 @@ export default {
           component: Index,
           meta: {
             permissions: ['administrator'],
-            featureFlag: FEATURE_FLAGS.SAML,
-            installationTypes: [
-              INSTALLATION_TYPES.CLOUD,
-              INSTALLATION_TYPES.ENTERPRISE,
-            ],
           },
         },
       ],
