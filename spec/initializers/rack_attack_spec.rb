@@ -112,6 +112,20 @@ describe 'Rack::Attack auth throttles' do
       expect(throttle_key('passkey_login/ip', json_env({ email: 'a@b.com', password: 'x' }))).to be_nil
     end
 
+    it 'follows the controller when the query and body disagree' do
+      env = form_env({ 'passkey_credential' => { 'id' => 'abc' }, 'email' => 'a@b.com', 'password' => 'x' })
+      env['QUERY_STRING'] = 'passkey_credential='
+
+      expect(throttle_key('login/ip', env)).to eq(ip)
+      expect(throttle_key('passkey_login/ip', env)).to be_nil
+    end
+
+    it 'keys passkey registration by a uid sent as a param' do
+      env = json_env({ password: 'x', uid: 'agent@example.com' }, '/api/v1/profile/passkeys/registration_options')
+
+      expect(throttle_key('passkey_registration/user', env)).to eq('agent@example.com')
+    end
+
     it 'keys passkey registration by the signed-in user' do
       env = json_env({ password: 'x' }, '/api/v1/profile/passkeys/registration_options')
       env['HTTP_UID'] = 'agent@example.com'

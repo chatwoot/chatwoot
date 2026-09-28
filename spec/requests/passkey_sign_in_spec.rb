@@ -104,6 +104,10 @@ RSpec.describe 'Passkey sign-in', type: :request do
       sign_in_with_passkey
       expect(response).to have_http_status(:success)
 
+      session_headers = response.headers.slice('access-token', 'client', 'uid', 'token-type', 'expiry')
+      get "/api/v1/accounts/#{account.id}/conversations/meta", headers: session_headers, as: :json
+      expect(response).to have_http_status(:success)
+
       post '/auth/sign_in', params: { email: user.email, password: 'Test@123456' }, as: :json
       expect(response).to have_http_status(:partial_content)
       expect(response.parsed_body['mfa_setup_required']).to be(true)

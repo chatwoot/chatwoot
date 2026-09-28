@@ -24,6 +24,12 @@ describe('webauthn helper', () => {
     });
   });
 
+  it('encodes buffers larger than the argument limit', () => {
+    const large = new Uint8Array(200000).fill(65).buffer;
+
+    expect(bufferToBase64Url(large)).toHaveLength(266667);
+  });
+
   it('turns creation option ids into buffers', () => {
     const options = toCreationOptions({
       challenge: 'AQID',

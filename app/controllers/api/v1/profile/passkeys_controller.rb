@@ -65,7 +65,7 @@ class Api::V1::Profile::PasskeysController < Api::BaseController
     return unless current_user.mfa_enabled?
 
     authenticated = Mfa::AuthenticationService.new(
-      user: current_user, otp_code: params[:otp_code], backup_code: params[:backup_code]
+      user: current_user, otp_code: params[:otp_code].to_s.presence, backup_code: params[:backup_code].to_s.presence
     ).authenticate
     render_could_not_create_error(I18n.t('errors.mfa.invalid_code')) unless authenticated
   end

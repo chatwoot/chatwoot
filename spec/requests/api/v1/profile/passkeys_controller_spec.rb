@@ -40,6 +40,13 @@ RSpec.describe 'Profile passkeys API', type: :request do
         expect(Redis::Alfred.get(format(Redis::RedisKeys::PASSKEY_REGISTRATION_CHALLENGE, user_id: user.id))).to be_nil
       end
 
+      it 'rejects a numeric one-time code without erroring' do
+        post '/api/v1/profile/passkeys/registration_options',
+             params: { password: 'Test@123456', otp_code: 123_456 }, headers: auth_headers, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
       it 'returns options with a valid one-time code' do
         post '/api/v1/profile/passkeys/registration_options',
              params: { password: 'Test@123456', otp_code: user.reload.current_otp }, headers: auth_headers, as: :json

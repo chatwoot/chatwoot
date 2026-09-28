@@ -49,9 +49,11 @@ class Rack::Attack
       nil
     end
 
+    # Read the parameter exactly as the controller will (query overrides body),
+    # so a request cannot count as passkey here yet authenticate by password.
     def passkey_sign_in?
       path_without_extensions == '/auth/sign_in' && post? &&
-        (params['passkey_credential'].present? || ActionDispatch::Request.new(env).params['passkey_credential'].present?)
+        ActionDispatch::Request.new(env).params['passkey_credential'].present?
     rescue StandardError
       false
     end
@@ -236,7 +238,10 @@ class Rack::Attack
 
   # The password check behind registration must not be guessable from many IPs.
   throttle('passkey_registration/user', limit: 10, period: 15.minutes) do |req|
-    req.api_user_identifier if req.path_without_extensions == '/api/v1/profile/passkeys/registration_options' && req.post?
+    if req.path_without_extensions == '/api/v1/profile/passkeys/registration_options' && req.post?
+      # devise_token_auth also accepts credentials as params
+      req.api_user_identifier || ActionDispatch::Request.new(req.env).params['uid'].presence
+    end
   end
 
   ## Prevent Brute-Force Signup Attacks ###

@@ -12,7 +12,7 @@ RSpec.describe Passkeys::RegistrationService do
 
       expect(options['rp']['id']).to eq('app.example.com')
       expect(options['user']['id']).to eq(user.reload.webauthn_id)
-      expect(options['user']['id']).not_to include(user.id.to_s)
+      expect(options['user']['id']).to match(/\A[A-Za-z0-9_-]{86}\z/)
       expect(options['authenticatorSelection']).to include('residentKey' => 'required', 'userVerification' => 'required')
       expect(options['attestation']).to eq('none')
     end

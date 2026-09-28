@@ -9,7 +9,12 @@ export const base64UrlToBuffer = value => {
 };
 
 export const bufferToBase64Url = buffer => {
-  const binary = String.fromCharCode(...new Uint8Array(buffer));
+  const bytes = new Uint8Array(buffer);
+  // Chunked: spreading a large attestation into fromCharCode can overflow the stack.
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  }
   return window
     .btoa(binary)
     .replace(/\+/g, '-')
