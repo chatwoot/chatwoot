@@ -1,6 +1,10 @@
 <script>
 // utils and composables
-import { login } from '../../api/auth';
+import { login, loginWithPasskey } from '../../api/auth';
+import {
+  isPasskeySupported,
+  isPasskeyPromptDismissed,
+} from 'dashboard/helper/webauthn';
 import { getLoginRedirectURL } from '../../helpers/AuthHelper';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -114,6 +118,11 @@ export default {
     },
     showSamlLogin() {
       return this.allowedLoginMethods.includes('saml');
+    },
+    showPasskeyLogin() {
+      return (
+        window.chatwootConfig.passkeysEnabled === 'true' && isPasskeySupported()
+      );
     },
   },
   created() {
@@ -244,6 +253,22 @@ export default {
             response?.message || this.$t('LOGIN.API.UNAUTH')
           );
         });
+    },
+    async submitPasskeyLogin() {
+      this.loginApi.hasErrored = false;
+      this.loginApi.showLoading = true;
+      try {
+        await loginWithPasskey({
+          ssoAccountId: this.ssoAccountId,
+          ssoConversationId: this.ssoConversationId,
+        });
+      } catch (error) {
+        this.loginApi.showLoading = false;
+        if (isPasskeyPromptDismissed(error)) return;
+
+        this.loginApi.hasErrored = true;
+        this.showAlertMessage(error?.message || this.$t('LOGIN.PASSKEY.ERROR'));
+      }
     },
     submitFormLogin() {
       if (this.v$.credentials.email.$invalid && !this.email) {
@@ -437,8 +462,21 @@ export default {
               </span>
             </router-link>
           </div>
+          <NextButton
+            v-if="showPasskeyLogin"
+            lg
+            faded
+            slate
+            type="button"
+            icon="i-lucide-key-round"
+            class="w-full"
+            data-testid="passkey_login_button"
+            :label="$t('LOGIN.PASSKEY.LABEL')"
+            :disabled="loginApi.showLoading"
+            @click="submitPasskeyLogin"
+          />
           <SimpleDivider
-            v-if="showGoogleOAuth || showSamlLogin"
+            v-if="showGoogleOAuth || showSamlLogin || showPasskeyLogin"
             :label="$t('COMMON.OR')"
             class="uppercase"
           />

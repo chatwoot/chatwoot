@@ -86,6 +86,40 @@
         "NOTE": "Manage additional security features for your account.",
         "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
+      "PASSKEYS_SECTION": {
+        "TITLE": "Passkeys",
+        "NOTE": "Sign in with your fingerprint, face, screen lock or a security key instead of your password. A passkey also covers two-factor authentication.",
+        "EMPTY": "You haven't added a passkey yet.",
+        "ADD": "Add a passkey",
+        "REMOVE": "Remove",
+        "CREATED": "Added",
+        "LAST_USED": "Last used",
+        "NEVER_USED": "Never used",
+        "SYNCED": "Synced",
+        "FETCH_ERROR": "Unable to load passkeys. Please try again.",
+        "ADD_SUCCESS": "Passkey added",
+        "ADD_ERROR": "The passkey could not be added. Please try again.",
+        "REMOVE_SUCCESS": "Passkey removed",
+        "REMOVE_ERROR": "Unable to remove the passkey. Please try again.",
+        "UNSUPPORTED": "This browser does not support passkeys.",
+        "ADD_DIALOG": {
+          "TITLE": "Add a passkey",
+          "DESCRIPTION": "Confirm it's you, then follow your browser's prompt to create the passkey.",
+          "NAME": "Name",
+          "NAME_PLACEHOLDER": "e.g. Work laptop",
+          "PASSWORD": "Current password",
+          "OTP_CODE": "Two-factor code",
+          "OTP_CODE_PLACEHOLDER": "6-digit code from your authenticator app",
+          "CONFIRM": "Continue",
+          "CANCEL": "Cancel"
+        },
+        "REMOVE_DIALOG": {
+          "TITLE": "Remove this passkey?",
+          "DESCRIPTION": "You won't be able to sign in with it anymore. Sessions that are already signed in stay active; revoke them under Active Sessions if needed.",
+          "CONFIRM": "Remove",
+          "CANCEL": "Cancel"
+        }
+      },
       "SESSIONS_SECTION": {
         "TITLE": "Active Sessions",
         "NOTE": "These are the devices currently logged in to your account.",

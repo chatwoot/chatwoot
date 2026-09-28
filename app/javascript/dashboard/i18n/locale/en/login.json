@@ -23,6 +23,10 @@
     "FORGOT_PASSWORD": "Forgot your password?",
     "CREATE_NEW_ACCOUNT": "Create a new account",
     "SUBMIT": "Login",
+    "PASSKEY": {
+      "LABEL": "Sign in with a passkey",
+      "ERROR": "Passkey sign-in failed. Try again or sign in with your password."
+    },
     "SAML": {
       "LABEL": "Login via SSO",
       "TITLE": "Initiate Single Sign-on (SSO)",
