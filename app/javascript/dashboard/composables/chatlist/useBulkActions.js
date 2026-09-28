@@ -4,6 +4,7 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
+import { resolvesConversation } from 'dashboard/composables/useMacroExecution';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import wootConstants from 'dashboard/constants/globals';
 
@@ -222,6 +223,17 @@ export function useBulkActions() {
 
   async function onExecuteMacro(macro) {
     const conversationIds = selectedConversations.value;
+    const count = conversationIds.length;
+    const hasMissingRequiredAttributes =
+      resolvesConversation(macro) &&
+      conversationIds.some(id => {
+        const conversation = store.getters.getConversationById(id);
+        return conversation
+          ? checkMissingAttributes(conversation.custom_attributes || {})
+              .hasMissing
+          : false;
+      });
+
     try {
       await store.dispatch('macros/execute', {
         macroId: macro.id,
@@ -230,11 +242,13 @@ export function useBulkActions() {
       useTrack(CONVERSATION_EVENTS.EXECUTED_A_MACRO);
       store.dispatch('bulkActions/clearSelectedConversationIds');
       useAlert(
-        t(
-          'BULK_ACTION.MACROS.QUEUED',
-          { count: conversationIds.length },
-          conversationIds.length
-        )
+        hasMissingRequiredAttributes
+          ? t(
+              'BULK_ACTION.MACROS.QUEUED_WITH_MISSING_ATTRIBUTES',
+              { count },
+              count
+            )
+          : t('BULK_ACTION.MACROS.QUEUED', { count }, count)
       );
     } catch (err) {
       useAlert(t('MACROS.ERROR'));
