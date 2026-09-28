@@ -36,7 +36,7 @@ const toolsets = ref([]);
 const hasError = ref(false);
 // null shows every category
 const selectedCategory = ref(null);
-// Installed version by lowercase owner/repository/folder, since installs store the source lowercased
+// Installed version by owner/repository/folder; installs lowercase the owner and repository but keep the folder's case
 const installedVersions = ref(new Map());
 
 const toolsRoute = computed(() => ({
@@ -93,7 +93,8 @@ const loadInstalled = async () => {
 };
 
 const installStatus = toolset => {
-  const key = toolset.source.toLowerCase();
+  const [owner, repository, ...folder] = toolset.source.split('/');
+  const key = `${owner}/${repository}`.toLowerCase() + `/${folder.join('/')}`;
   if (!installedVersions.value.has(key)) return null;
   return installedVersions.value.get(key) === toolset.version
     ? 'installed'
