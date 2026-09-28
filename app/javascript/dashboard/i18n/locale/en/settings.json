@@ -533,6 +533,7 @@
     }
   },
   "CAPTAIN_SETTINGS": {
+    "COPILOT_CONFIGURATION_LINK": "Copilot settings",
     "TITLE": "Captain Settings",
     "DESCRIPTION": "Configure your AI models and features for Captain. Captain follows a credit based billing, you will be charged credits for every action Captain takes based on the model selected.",
     "LOADING": "Loading Captain configuration...",
@@ -581,6 +582,36 @@
       "SUCCESS": "Captain settings updated successfully.",
       "ERROR": "Failed to update Captain settings. Please try again."
     }
+  },
+  "COPILOT_SETTINGS": {
+    "TITLE": "Copilot settings",
+    "DESCRIPTION": "Control what Copilot can use when helping your team.",
+    "KNOWLEDGE_TITLE": "Connect an assistant",
+    "KNOWLEDGE_DESCRIPTION": "Choose an assistant to bring its knowledge base into Copilot.",
+    "NO_ASSISTANTS": "Create an assistant to use its knowledge base with Copilot.",
+    "APPLIES_TO_NEW": "Applies to new chats. Past chats keep their original source.",
+    "ASSISTANT_LABEL": "Assistant",
+    "AUTOMATIC": "Current setup",
+    "AUTOMATIC_HELP": "Copilot keeps using the agent's preferred assistant, the inbox assistant, or the account's first assistant and its knowledge base.",
+    "SELECTED_ASSISTANT_HELP": "Copilot can search {assistant}'s knowledge base in new chats.",
+    "SAVING": "Saving assistant...",
+    "AUTOSAVE": "Changes save automatically.",
+    "ERROR": "Could not save Copilot settings",
+    "TOOLS_TITLE": "Tools Copilot can use",
+    "TOOLS_DESCRIPTION": "Available sources and actions for new chats.",
+    "GROUPS": {
+      "CONVERSATIONS": "Conversations",
+      "CONTACTS": "Contacts",
+      "HELP_CENTER": "Help Center",
+      "ASSISTANT": "Assistant knowledge",
+      "LINEAR": "Linear issues"
+    },
+    "SCOPES": {
+      "READ": "Read",
+      "SEARCH": "Search",
+      "WRITE": "Write"
+    },
+    "TOOLS_NOTE": "Access depends on your permissions. Other agents may see different tools."
   },
   "BILLING_SETTINGS": {
     "PAYMENT_RECOVERY": {

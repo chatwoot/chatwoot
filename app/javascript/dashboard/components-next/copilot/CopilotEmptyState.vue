@@ -5,7 +5,7 @@ import { useRoute } from 'vue-router';
 import Icon from '../icon/Icon.vue';
 
 const props = defineProps({
-  hasAssistants: {
+  hasAssistant: {
     type: Boolean,
     default: false,
   },
@@ -73,47 +73,52 @@ const handleSuggestion = opt => {
 </script>
 
 <template>
-  <div class="flex-1 flex flex-col gap-6 px-2">
-    <div class="flex flex-col space-y-4 py-4">
-      <Icon icon="i-woot-captain" class="text-n-slate-9 text-4xl" />
-      <div class="space-y-1">
-        <h3 class="text-base font-medium text-n-slate-12 leading-8">
-          {{ $t('CAPTAIN.COPILOT.PANEL_TITLE') }}
+  <div class="flex-1 flex flex-col gap-7 px-1 pt-7">
+    <div class="space-y-3">
+      <span
+        class="flex size-11 items-center justify-center rounded-xl bg-n-blue-3 text-n-blue-11"
+      >
+        <Icon icon="i-woot-captain" class="text-2xl" />
+      </span>
+      <div>
+        <h3 class="text-base font-medium text-n-slate-12">
+          {{ t('CAPTAIN.COPILOT.PANEL_TITLE') }}
         </h3>
-        <p class="text-sm text-n-slate-11 leading-6">
-          {{ $t('CAPTAIN.COPILOT.KICK_OFF_MESSAGE') }}
+        <p v-if="hasAssistant" class="mt-1 text-sm leading-5 text-n-slate-11">
+          {{ t('CAPTAIN.COPILOT.EMPTY_ASSISTANT') }}
         </p>
       </div>
     </div>
-    <div v-if="!hasAssistants" class="w-full space-y-2">
-      <p class="text-sm text-n-slate-11 leading-6">
-        {{ $t('CAPTAIN.ASSISTANTS.NO_ASSISTANTS_AVAILABLE') }}
+    <div v-if="!hasAssistant" class="w-full space-y-2">
+      <p class="text-sm leading-6 text-n-slate-11">
+        {{ t('CAPTAIN.ASSISTANTS.NO_ASSISTANTS_AVAILABLE') }}
       </p>
       <router-link
         :to="{
           name: 'captain_assistants_create_index',
-          params: {
-            accountId: route.params.accountId,
-          },
+          params: { accountId: route.params.accountId },
         }"
         class="text-n-slate-11 underline hover:text-n-slate-12"
       >
-        {{ $t('CAPTAIN.ASSISTANTS.ADD_NEW') }}
+        {{ t('CAPTAIN.ASSISTANTS.ADD_NEW') }}
       </router-link>
     </div>
     <div v-else class="w-full space-y-2">
-      <span class="text-xs text-n-slate-10 block">
+      <span class="block text-xs font-medium text-n-slate-10">
         {{ $t('CAPTAIN.COPILOT.TRY_THESE_PROMPTS') }}
       </span>
       <div class="space-y-1">
         <button
           v-for="prompt in promptOptions"
           :key="prompt.label"
-          class="w-full px-3 py-2 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11 flex items-center justify-between hover:bg-n-slate-3 transition-colors"
+          class="flex w-full items-center justify-between gap-3 rounded-lg border border-n-weak bg-n-surface-2 px-3 py-2.5 text-left text-sm text-n-slate-12 transition-colors hover:bg-n-alpha-2"
           @click="handleSuggestion(prompt)"
         >
           <span>{{ t(prompt.label) }}</span>
-          <Icon icon="i-lucide-chevron-right" />
+          <Icon
+            icon="i-lucide-arrow-up-right"
+            class="shrink-0 text-n-slate-10"
+          />
         </button>
       </div>
     </div>

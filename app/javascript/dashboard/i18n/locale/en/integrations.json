@@ -619,7 +619,8 @@
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
+      "PANEL_TITLE": "Ask Copilot",
+      "EMPTY_ASSISTANT": "Explore conversations, contacts, Help Center articles, and assistant knowledge, or draft a reply.",
       "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
       "SEND_MESSAGE": "Send message...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
@@ -627,6 +628,11 @@
       "YOU": "You",
       "USE": "Use this",
       "RESET": "Reset",
+      "NEW_CHAT": "New chat",
+      "HISTORY": "Past chats",
+      "NO_HISTORY": "Your past Copilot chats will appear here.",
+      "LOAD_MORE": "Load more chats",
+      "SETTINGS": "Settings",
       "SHOW_STEPS": "Show steps",
       "SELECT_ASSISTANT": "Select Assistant",
       "PROMPTS": {

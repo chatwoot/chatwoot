@@ -5,9 +5,23 @@ import CopilotContainer from './CopilotContainer.vue';
 const testState = vi.hoisted(() => ({
   dispatch: vi.fn(),
   refs: {},
+  copilotAssistantId: null,
 }));
 
 vi.mock('dashboard/composables', () => ({ useAlert: vi.fn() }));
+vi.mock('dashboard/store/captain/preferences', () => ({
+  useCaptainConfigStore: () => ({
+    copilotAssistantId: testState.copilotAssistantId,
+    fetch: vi.fn(),
+  }),
+}));
+vi.mock('dashboard/api/captain/copilotThreads', () => ({
+  default: {
+    get: vi
+      .fn()
+      .mockResolvedValue({ data: { payload: [], meta: { total_count: 0 } } }),
+  },
+}));
 vi.mock('dashboard/composables/useConfig', () => ({
   useConfig: () => ({ isEnterprise: true }),
 }));
@@ -56,7 +70,7 @@ const mountComponent = () =>
       stubs: {
         Copilot: {
           name: 'Copilot',
-          props: ['messages', 'onSendMessage'],
+          props: ['messages', 'onSendMessage', 'selectedThreadId'],
           template: '<div />',
         },
       },
@@ -68,6 +82,66 @@ describe('CopilotContainer', () => {
     testState.dispatch.mockReset();
     testState.dispatch.mockResolvedValue(undefined);
     testState.refs.getSelectedChat.value = { id: 1 };
+    testState.refs['captainAssistants/getRecords'].value = [{ id: 7 }];
+    testState.copilotAssistantId = null;
+  });
+
+  it('keeps the existing assistant when no account choice is saved', async () => {
+    testState.dispatch.mockImplementation(action =>
+      Promise.resolve(
+        action === 'copilotThreads/create' ? { id: 99 } : undefined
+      )
+    );
+    const wrapper = mountComponent();
+
+    await wrapper.findComponent({ name: 'Copilot' }).props('onSendMessage')(
+      'Hello'
+    );
+
+    expect(testState.dispatch).toHaveBeenCalledWith(
+      'copilotThreads/create',
+      expect.objectContaining({ assistant_id: 7 })
+    );
+  });
+
+  it('uses the saved account assistant for a new chat', async () => {
+    testState.copilotAssistantId = 8;
+    testState.refs['captainAssistants/getRecords'].value = [
+      { id: 7 },
+      { id: 8 },
+    ];
+    testState.dispatch.mockImplementation(action =>
+      Promise.resolve(
+        action === 'copilotThreads/create' ? { id: 99 } : undefined
+      )
+    );
+    const wrapper = mountComponent();
+
+    await wrapper.findComponent({ name: 'Copilot' }).props('onSendMessage')(
+      'Hello'
+    );
+
+    expect(testState.dispatch).toHaveBeenCalledWith(
+      'copilotThreads/create',
+      expect.objectContaining({ assistant_id: 8 })
+    );
+  });
+
+  it('opens a past chat and starts a fresh chat without deleting it', async () => {
+    const wrapper = mountComponent();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+
+    copilot.vm.$emit('selectThread', { id: 42 });
+    await nextTick();
+    await nextTick();
+
+    expect(testState.dispatch).toHaveBeenCalledWith('copilotMessages/get', 42);
+    expect(copilot.props('selectedThreadId')).toBe(42);
+
+    copilot.vm.$emit('reset');
+    await nextTick();
+
+    expect(copilot.props('selectedThreadId')).toBeNull();
   });
 
   it('clears the selected thread when the conversation changes', async () => {
