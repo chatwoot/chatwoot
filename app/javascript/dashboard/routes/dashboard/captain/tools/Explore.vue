@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import semver from 'semver';
@@ -114,32 +114,21 @@ const showPaywall = computed(() =>
   shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
 );
 
-// Installs are off by default, and a bookmarked catalog would only offer installs that fail
-onMounted(() => {
-  if (!globalConfig.value.captainToolsManifestEnabled) {
-    router.replace(toolsRoute.value);
-  }
-});
-
-const canUseCatalog = computed(
-  () => !showPaywall.value && globalConfig.value.captainToolsManifestEnabled
-);
-
 // On a full reload account features load after mount, so the catalog loads once access resolves
 watch(
-  canUseCatalog,
-  canUse => {
-    if (canUse) loadCatalog();
+  showPaywall,
+  isPaywalled => {
+    if (!isPaywalled) loadCatalog();
   },
   { immediate: true }
 );
 
 watch(
-  [canUseCatalog, assistantId],
+  [showPaywall, assistantId],
   () => {
     // Drop the previous assistant's badges so they never show while, or if, the new list fails to load
     installedVersions.value = new Map();
-    if (canUseCatalog.value) loadInstalled();
+    if (!showPaywall.value) loadInstalled();
   },
   { immediate: true }
 );
