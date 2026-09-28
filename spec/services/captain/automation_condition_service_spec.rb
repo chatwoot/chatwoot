@@ -136,7 +136,26 @@ RSpec.describe Captain::AutomationConditionService do
       result = described_class.new(conditions: conditions, conversation: conversation, message: message).perform
 
       expect(result).to eq(0 => false, 1 => false)
-      expect(ChatwootExceptionTracker).to have_received(:new).with(instance_of(Captain::SystemOneClient::Error), account: account)
+      expect(ChatwootExceptionTracker).to have_received(:new).with(instance_of(Captain::JevClient::HTTPError), account: account)
+      expect(tracker).to have_received(:capture_exception)
+    end
+
+    it 'leaves every Captain condition unmet when the request times out' do
+      stub_request(:post, endpoint).to_timeout
+
+      result = described_class.new(conditions: conditions, conversation: conversation, message: message).perform
+
+      expect(result).to eq(0 => false, 1 => false)
+      expect(tracker).to have_received(:capture_exception)
+    end
+
+    it 'leaves every Captain condition unmet when Jev returns an invalid answer set' do
+      stub_request(:post, endpoint).to_return(status: 200, body: { answers: [] }.to_json)
+
+      result = described_class.new(conditions: conditions, conversation: conversation, message: message).perform
+
+      expect(result).to eq(0 => false, 1 => false)
+      expect(ChatwootExceptionTracker).to have_received(:new).with(instance_of(described_class::Error), account: account)
       expect(tracker).to have_received(:capture_exception)
     end
   end

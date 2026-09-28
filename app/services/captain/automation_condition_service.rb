@@ -1,4 +1,5 @@
 class Captain::AutomationConditionService
+  MODEL = 'jev-latest'.freeze
   FEATURE = 'captain_classifier'.freeze
   ATTRIBUTE_KEY = 'captain_condition'.freeze
   OPERATORS = %w[detects does_not_detect].freeze
@@ -11,6 +12,8 @@ class Captain::AutomationConditionService
     'false' => 'The description does not apply, or applies only loosely or in passing.'
   }.freeze
 
+  class Error < StandardError; end
+
   pattr_initialize [:conditions!, :conversation!, { message: nil }]
 
   # Answers every Captain condition of a rule in one request, keyed by the condition's index in the rule.
@@ -20,15 +23,25 @@ class Captain::AutomationConditionService
     return unmet unless judgeable?
 
     questions = captain_conditions.to_h { |condition, index| [index.to_s, question(condition)] }
-    answers = Captain::SystemOneClient.new.ask(state: state, questions: questions)
+    answers = ask(questions)
 
     captain_conditions.to_h { |condition, index| [index, met?(condition, answers[index.to_s])] }
-  rescue Captain::SystemOneClient::Error => e
+  rescue Captain::JevClient::HTTPError, Faraday::Error, JSON::ParserError, Error => e
     ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
     unmet
   end
 
   private
+
+  def ask(questions)
+    body = Captain::JevClient.request_body(model: MODEL, state: state, questions: questions)
+    response = Captain::JevClient.new(account_id: conversation.account_id, conversation_id: conversation.display_id,
+                                      feature: FEATURE).call(body: body)
+    answers = response['answers'] if response.is_a?(Hash)
+    raise Error, 'Jev returned an invalid response' unless answers.is_a?(Hash)
+
+    answers
+  end
 
   def unmet
     captain_conditions.to_h { |_, index| [index, false] }
@@ -40,7 +53,7 @@ class Captain::AutomationConditionService
 
   def met?(condition, answer)
     probability = answer.is_a?(Hash) ? answer['noul'] : nil
-    raise Captain::SystemOneClient::Error, 'Jev returned an incomplete answer' unless probability.is_a?(Numeric)
+    raise Error, 'Jev returned an incomplete answer' unless probability.is_a?(Numeric)
 
     detected = probability >= THRESHOLD
     condition['filter_operator'] == 'detects' ? detected : !detected
