@@ -4,7 +4,6 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
-import { resolvesConversation } from 'dashboard/composables/useMacroExecution';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import wootConstants from 'dashboard/constants/globals';
 
@@ -223,16 +222,6 @@ export function useBulkActions() {
 
   async function onExecuteMacro(macro) {
     const conversationIds = selectedConversations.value;
-    // The backend runs the other actions but leaves these conversations open.
-    const skipsResolve =
-      resolvesConversation(macro) &&
-      conversationIds.some(
-        id =>
-          checkMissingAttributes(
-            store.getters.getConversationById(id)?.custom_attributes
-          ).hasMissing
-      );
-
     try {
       await store.dispatch('macros/execute', {
         macroId: macro.id,
@@ -241,9 +230,11 @@ export function useBulkActions() {
       useTrack(CONVERSATION_EVENTS.EXECUTED_A_MACRO);
       store.dispatch('bulkActions/clearSelectedConversationIds');
       useAlert(
-        skipsResolve
-          ? t('BULK_ACTION.MACROS.EXECUTED_WITHOUT_RESOLVING')
-          : t('MACROS.EXECUTE.EXECUTED_SUCCESSFULLY')
+        t(
+          'BULK_ACTION.MACROS.QUEUED',
+          { count: conversationIds.length },
+          conversationIds.length
+        )
       );
     } catch (err) {
       useAlert(t('MACROS.ERROR'));
