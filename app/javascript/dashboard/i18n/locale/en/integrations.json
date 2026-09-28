@@ -1288,7 +1288,9 @@
         "MANIFEST": "Manifest",
         "CONFIGURATION": "Configuration",
         "REQUIRED": "Required",
-        "DETAILS_ERROR": "Could not load the toolset details."
+        "DETAILS_ERROR": "Could not load the toolset details.",
+        "INSTALLED": "Installed",
+        "UPDATE_AVAILABLE": "Update available"
       },
       "INSTALL_LINK": {
         "TITLE": "Choose an assistant",

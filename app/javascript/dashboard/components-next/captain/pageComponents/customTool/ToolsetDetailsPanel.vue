@@ -11,6 +11,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Policy from 'dashboard/components/policy.vue';
 import ToolsetIdentity from './ToolsetIdentity.vue';
+import ToolsetInstallBadge from './ToolsetInstallBadge.vue';
 
 const emit = defineEmits(['install']);
 
@@ -27,6 +28,7 @@ const panelRef = ref(null);
 const toolset = ref(null);
 const details = ref(null);
 const hasError = ref(false);
+const installStatus = ref(null);
 
 const configurationFields = computed(() => [
   ...(details.value?.inputs || []),
@@ -49,9 +51,10 @@ const loadDetails = async () => {
   }
 };
 
-const open = selectedToolset => {
+const open = (selectedToolset, selectedInstallStatus = null) => {
   abortDetails();
   toolset.value = selectedToolset;
+  installStatus.value = selectedInstallStatus;
   details.value = null;
   panelRef.value.open();
   loadDetails();
@@ -70,7 +73,10 @@ defineExpose({ open });
 <template>
   <SidePanel ref="panelRef" width="2xl" @close="abortDetails">
     <template v-if="toolset" #header>
-      <ToolsetIdentity :toolset="toolset" />
+      <div class="flex items-center min-w-0 gap-3">
+        <ToolsetIdentity :toolset="toolset" />
+        <ToolsetInstallBadge v-if="installStatus" :status="installStatus" />
+      </div>
     </template>
 
     <div v-if="toolset" class="flex flex-col gap-6">

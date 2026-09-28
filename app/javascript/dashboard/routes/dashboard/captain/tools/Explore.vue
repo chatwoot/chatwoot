@@ -6,6 +6,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { usePolicy } from 'dashboard/composables/usePolicy';
+import ToolsManifestAPI from 'dashboard/api/captain/toolsManifest';
 import {
   fetchToolsCatalog,
   isVerifiedOwner,
@@ -26,6 +27,7 @@ const { t } = useI18n();
 const globalConfig = useMapGetter('globalConfig/get');
 const { shouldShowPaywall } = usePolicy();
 const { run: runCatalogRequest, isPending: isLoading } = useAbortableRequest();
+const { run: runInstalledRequest } = useAbortableRequest();
 
 const assistantId = computed(() => route.params.assistantId);
 const installManifestDialogRef = ref(null);
@@ -34,6 +36,8 @@ const toolsets = ref([]);
 const hasError = ref(false);
 // null shows every category
 const selectedCategory = ref(null);
+// Installed version by lowercase owner/repository/folder, since installs store the source lowercased
+const installedVersions = ref(new Map());
 
 const toolsRoute = computed(() => ({
   name: 'captain_tools_index',
@@ -74,7 +78,30 @@ const loadCatalog = async () => {
   }
 };
 
-const openToolset = toolset => detailsPanelRef.value.open(toolset);
+const loadInstalled = async () => {
+  const response = await runInstalledRequest(signal =>
+    ToolsManifestAPI.installed({ assistantId: assistantId.value }, { signal })
+  );
+  if (!response) return;
+
+  installedVersions.value = new Map(
+    response.data.map(({ repository, path, version }) => [
+      `${repository}/${path}`,
+      version,
+    ])
+  );
+};
+
+const installStatus = toolset => {
+  const key = toolset.source.toLowerCase();
+  if (!installedVersions.value.has(key)) return null;
+  return installedVersions.value.get(key) === toolset.version
+    ? 'installed'
+    : 'update';
+};
+
+const openToolset = toolset =>
+  detailsPanelRef.value.open(toolset, installStatus(toolset));
 
 const installToolset = toolset =>
   installManifestDialogRef.value.open(toolset.source);
@@ -92,13 +119,23 @@ onMounted(() => {
   }
 });
 
+const canUseCatalog = computed(
+  () => !showPaywall.value && globalConfig.value.captainToolsManifestEnabled
+);
+
 // On a full reload account features load after mount, so the catalog loads once access resolves
 watch(
-  showPaywall,
-  isPaywalled => {
-    if (!isPaywalled && globalConfig.value.captainToolsManifestEnabled) {
-      loadCatalog();
-    }
+  canUseCatalog,
+  canUse => {
+    if (canUse) loadCatalog();
+  },
+  { immediate: true }
+);
+
+watch(
+  [canUseCatalog, assistantId],
+  () => {
+    if (canUseCatalog.value) loadInstalled();
   },
   { immediate: true }
 );
@@ -171,6 +208,7 @@ watch(
               v-for="toolset in visibleToolsets"
               :key="toolset.source"
               :toolset="toolset"
+              :install-status="installStatus(toolset)"
               @click="openToolset(toolset)"
             />
           </div>

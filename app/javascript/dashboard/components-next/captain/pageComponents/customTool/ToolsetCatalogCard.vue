@@ -1,11 +1,16 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import ToolsetIdentity from './ToolsetIdentity.vue';
+import ToolsetInstallBadge from './ToolsetInstallBadge.vue';
 
 defineProps({
   toolset: {
     type: Object,
     required: true,
+  },
+  installStatus: {
+    type: String,
+    default: null,
   },
 });
 
@@ -42,6 +47,11 @@ const { t } = useI18n();
           })
         }}
       </span>
+      <ToolsetInstallBadge
+        v-if="installStatus"
+        :status="installStatus"
+        class="ms-auto"
+      />
     </div>
   </button>
 </template>
