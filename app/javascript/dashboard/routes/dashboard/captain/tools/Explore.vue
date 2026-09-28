@@ -138,6 +138,8 @@ watch(
 watch(
   [canUseCatalog, assistantId],
   () => {
+    // Drop the previous assistant's badges so they never show while, or if, the new list fails to load
+    installedVersions.value = new Map();
     if (canUseCatalog.value) loadInstalled();
   },
   { immediate: true }
