@@ -149,7 +149,7 @@ const copyConversationId = async () => {
         </div>
 
         <div
-          class="flex items-center gap-1 overflow-hidden text-xs conversation--header--actions text-n-slate-11 text-ellipsis whitespace-nowrap"
+          class="flex items-center max-w-full gap-1 overflow-hidden text-xs conversation--header--actions text-n-slate-11 text-ellipsis whitespace-nowrap"
         >
           <button
             type="button"
@@ -159,21 +159,20 @@ const copyConversationId = async () => {
             {{ `#${chat.id}` }}
           </button>
           <span v-if="hasMultipleInboxes">•</span>
-          <InboxName
-            v-if="hasMultipleInboxes"
-            :inbox="inbox"
-            class="!mx-0 shrink-0 max-w-[40%]"
-          />
+          <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
           <span v-if="mailSubject">•</span>
           <span
             v-if="mailSubject"
             v-tooltip="mailSubject"
-            class="min-w-0 truncate text-label-small text-n-slate-11"
+            class="flex-1 min-w-16 truncate text-label-small text-n-slate-11"
           >
             {{ mailSubject }}
           </span>
           <span v-if="isSnoozed">•</span>
-          <span v-if="isSnoozed" class="font-medium text-n-amber-10">
+          <span
+            v-if="isSnoozed"
+            class="min-w-0 truncate font-medium text-n-amber-10 shrink-0"
+          >
             {{ snoozedDisplayText }}
           </span>
         </div>
