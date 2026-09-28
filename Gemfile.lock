@@ -1015,7 +1015,7 @@ GEM
     vite_rails (3.10.0)
       railties (>= 5.1, < 9)
       vite_ruby (~> 3.0, >= 3.2.2)
-    vite_ruby (3.10.5)
+    vite_ruby (3.10.6)
       dry-cli (>= 0.7, < 2)
       logger (~> 1.6)
       mutex_m

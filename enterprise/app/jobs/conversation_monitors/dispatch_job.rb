@@ -3,8 +3,8 @@ class ConversationMonitors::DispatchJob < ApplicationJob
   PER_ACCOUNT_BATCH = 25
 
   def perform
-    Account.feature_conversation_monitors.find_each do |account|
-      next unless ConversationMonitors::Configuration.enabled?(account) && account.conversation_monitors.active.exists?
+    Account.feature_conversation_monitors.where(id: ConversationMonitors::Monitor.active.select(:account_id)).find_each do |account|
+      next unless ConversationMonitors::Configuration.enabled?(account)
 
       dispatch_account(account)
     end

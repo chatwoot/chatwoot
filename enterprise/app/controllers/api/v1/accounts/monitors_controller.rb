@@ -1,5 +1,6 @@
 class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccountsController
   PREVIEW_COOLDOWN = 30.seconds.to_i
+  DEFAULT_ICON_ATTRIBUTES = { 'icon' => 'chat-3-line', 'icon_color' => '#3B82F6' }.freeze
 
   before_action :ensure_enabled
   before_action -> { authorize :report, :view? }
@@ -136,7 +137,8 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   end
 
   def update_params
-    attributes = params.permit(:name, :condition, :paused).to_h
+    validate_icon_parameters!
+    attributes = params.permit(:name, :condition, :paused, :icon, :icon_color).to_h
     valid_text = { 'name' => 100, 'condition' => 2000 }.slice(*params.keys).all? do |key, limit|
       valid_text_parameter?(key, limit)
     end
@@ -149,6 +151,24 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   def valid_text_parameter?(key, limit)
     value = params[key]
     value.is_a?(String) && value.strip.present? && value.length <= limit
+  end
+
+  # Same shape as team icons: an icon name or emoji, tinted with an optional hex color.
+  def validate_icon_parameters!
+    icon, color = params.values_at(:icon, :icon_color)
+    valid = (!params.key?(:icon) || valid_icon_parameter?(icon)) &&
+            (!params.key?(:icon_color) || (color.is_a?(String) && color.match?(/\A(#\h{6})?\z/)))
+    raise CustomExceptions::MonitorParametersError, 'invalid_parameters' unless valid
+  end
+
+  def valid_icon_parameter?(icon)
+    return false unless icon.is_a?(String) && icon.length <= 50
+    return true if icon.match?(/\A[a-z][a-z0-9]*(?:-[a-z0-9]+)*-(?:line|fill)\z/)
+
+    # gemoji defines this method; Emoji is not an ActiveRecord model.
+    # rubocop:disable Rails/DynamicFindBy
+    Emoji.find_by_unicode(icon).present?
+    # rubocop:enable Rails/DynamicFindBy
   end
 
   def ensure_enabled
@@ -168,10 +188,11 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   end
 
   def create_params
-    attributes = params.permit(:name, :condition).to_h
+    validate_icon_parameters!
+    attributes = params.permit(:name, :condition, :icon, :icon_color).to_h
     valid = { 'name' => 100, 'condition' => 2000 }.all? { |key, limit| valid_text_parameter?(key, limit) }
     raise CustomExceptions::MonitorParametersError, 'invalid_parameters' unless valid
 
-    attributes.transform_values(&:strip)
+    DEFAULT_ICON_ATTRIBUTES.merge(attributes).transform_values(&:strip)
   end
 end
