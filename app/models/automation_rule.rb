@@ -99,8 +99,8 @@ class AutomationRule < ApplicationRecord
   def captain_conditions_feature
     return if account.feature_enabled?(Captain::AutomationConditionService::FEATURE)
 
-    saved_judgments = new_record? ? [] : captain_judgments(conditions_was)
-    return if (captain_judgments(conditions) - saved_judgments).empty?
+    saved = new_record? ? {} : captain_judgments(conditions_was).tally
+    return if captain_judgments(conditions).tally.all? { |judgment, count| count <= saved.fetch(judgment, 0) }
 
     errors.add(:conditions, 'Captain conditions require the Captain Classifier feature.')
   end

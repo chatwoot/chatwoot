@@ -148,6 +148,16 @@ RSpec.describe AutomationRules::ConditionsFilterService do
                                                 headers: { 'Content-Type' => 'application/json' })
       end
 
+      it 'still lets the other conditions of the rule decide when the Captain request fails' do
+        stub_request(:post, endpoint).to_return(status: 500, body: 'upstream error')
+        rule.update!(conditions: [
+                       { 'values': ['open'], 'attribute_key': 'status', 'query_operator': 'OR', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+
+        expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
+      end
+
       it 'does not match a private note and never sends it to Captain' do
         rule.update!(conditions: [captain_condition])
         message.update!(private: true)

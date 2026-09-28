@@ -32,4 +32,25 @@ RSpec.describe Captain::SystemOneClient do
     expect { described_class.new.ask(state: state, questions: questions) }
       .to raise_error(described_class::Error, /401/)
   end
+
+  it 'raises its own error when Jev cannot be reached' do
+    stub_request(:post, endpoint).to_timeout
+
+    expect { described_class.new.ask(state: state, questions: questions) }
+      .to raise_error(described_class::Error, /Net::OpenTimeout/)
+  end
+
+  it 'raises its own error when the response has no answers' do
+    stub_request(:post, endpoint).to_return(status: 200, body: {}.to_json, headers: { 'Content-Type' => 'application/json' })
+
+    expect { described_class.new.ask(state: state, questions: questions) }
+      .to raise_error(described_class::Error, /invalid response/)
+  end
+
+  it 'raises its own error when the response cannot be parsed' do
+    stub_request(:post, endpoint).to_return(status: 200, body: 'not json', headers: { 'Content-Type' => 'application/json' })
+
+    expect { described_class.new.ask(state: state, questions: questions) }
+      .to raise_error(described_class::Error, /invalid response/)
+  end
 end

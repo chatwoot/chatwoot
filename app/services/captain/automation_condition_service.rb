@@ -15,15 +15,22 @@ class Captain::AutomationConditionService
   # A condition Captain cannot judge is unmet whichever operator it uses, so the rest of the rule still decides.
   def perform
     return {} if captain_conditions.empty?
-    return captain_conditions.to_h { |_, index| [index, false] } unless judgeable?
+    return unmet unless judgeable?
 
     questions = captain_conditions.to_h { |condition, index| [index.to_s, question(condition)] }
     answers = Captain::SystemOneClient.new.ask(state: state, questions: questions)
 
     captain_conditions.to_h { |condition, index| [index, met?(condition, answers[index.to_s])] }
+  rescue Captain::SystemOneClient::Error => e
+    ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
+    unmet
   end
 
   private
+
+  def unmet
+    captain_conditions.to_h { |_, index| [index, false] }
+  end
 
   def captain_conditions
     @captain_conditions ||= conditions.each_with_index.select { |condition, _| condition['attribute_key'] == ATTRIBUTE_KEY }

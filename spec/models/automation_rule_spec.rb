@@ -229,6 +229,13 @@ RSpec.describe AutomationRule do
 
         expect(rule).not_to be_valid
       end
+
+      it 'cannot gain a copy of its saved Captain condition' do
+        rule.conditions = [rule.conditions.first.merge('query_operator' => 'OR'), rule.conditions.first]
+
+        expect(rule).not_to be_valid
+        expect(rule.errors[:conditions]).to include('Captain conditions require the Captain Classifier feature.')
+      end
     end
   end
 

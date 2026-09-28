@@ -86,6 +86,24 @@ RSpec.describe Captain::AutomationConditionService do
     end).to have_been_requested
   end
 
+  context 'when the Captain request fails' do
+    let(:conditions) { [captain_condition.merge('query_operator' => 'OR'), captain_condition.merge('filter_operator' => 'does_not_detect')] }
+    let(:tracker) { instance_double(ChatwootExceptionTracker, capture_exception: nil) }
+
+    before do
+      stub_request(:post, endpoint).to_return(status: 500, body: 'upstream error')
+      allow(ChatwootExceptionTracker).to receive(:new).and_return(tracker)
+    end
+
+    it 'leaves every Captain condition unmet and reports the failure' do
+      result = described_class.new(conditions: conditions, conversation: conversation, message: message).perform
+
+      expect(result).to eq(0 => false, 1 => false)
+      expect(ChatwootExceptionTracker).to have_received(:new).with(instance_of(Captain::SystemOneClient::Error), account: account)
+      expect(tracker).to have_received(:capture_exception)
+    end
+  end
+
   context 'when Captain has nothing it is allowed to judge' do
     let(:conditions) { [captain_condition.merge('query_operator' => 'OR'), captain_condition.merge('filter_operator' => 'does_not_detect')] }
 
