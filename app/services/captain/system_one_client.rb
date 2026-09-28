@@ -17,10 +17,20 @@ class Captain::SystemOneClient
     )
     raise Error, "Jev request failed with status #{response.code}: #{response.body}" unless response.success?
 
-    response.parsed_response.fetch('answers')
+    answers_from(response)
   rescue Net::OpenTimeout, Net::ReadTimeout, SocketError, Errno::ECONNRESET, Errno::ECONNREFUSED, OpenSSL::SSL::SSLError => e
     raise Error, "Jev request failed (#{e.class.name})"
-  rescue JSON::ParserError, KeyError, NoMethodError
+  end
+
+  private
+
+  def answers_from(response)
+    body = response.parsed_response
+    answers = body['answers'] if body.is_a?(Hash)
+    raise Error, 'Jev returned an invalid response' unless answers.is_a?(Hash)
+
+    answers
+  rescue JSON::ParserError
     raise Error, 'Jev returned an invalid response'
   end
 end

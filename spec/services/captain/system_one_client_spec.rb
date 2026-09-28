@@ -47,6 +47,20 @@ RSpec.describe Captain::SystemOneClient do
       .to raise_error(described_class::Error, /invalid response/)
   end
 
+  it 'raises its own error when the response is not an object' do
+    stub_request(:post, endpoint).to_return(status: 200, body: [].to_json, headers: { 'Content-Type' => 'application/json' })
+
+    expect { described_class.new.ask(state: state, questions: questions) }
+      .to raise_error(described_class::Error, /invalid response/)
+  end
+
+  it 'raises its own error when the answers are not an object' do
+    stub_request(:post, endpoint).to_return(status: 200, body: { answers: [] }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+    expect { described_class.new.ask(state: state, questions: questions) }
+      .to raise_error(described_class::Error, /invalid response/)
+  end
+
   it 'raises its own error when the response cannot be parsed' do
     stub_request(:post, endpoint).to_return(status: 200, body: 'not json', headers: { 'Content-Type' => 'application/json' })
 
