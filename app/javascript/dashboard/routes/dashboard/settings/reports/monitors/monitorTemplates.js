@@ -35,4 +35,28 @@ export const MONITOR_TEMPLATES = [
     icon: 'logout-box-line',
     icon_color: '#EC4899',
   },
+  {
+    id: 'payment-failures',
+    key: 'PAYMENT_FAILURES',
+    icon: 'bank-card-line',
+    icon_color: '#0EA5E9',
+  },
+  {
+    id: 'product-errors',
+    key: 'PRODUCT_ERRORS',
+    icon: 'bug-line',
+    icon_color: '#EF4444',
+  },
+  {
+    id: 'issue-still-unresolved',
+    key: 'ISSUE_STILL_UNRESOLVED',
+    icon: 'refresh-line',
+    icon_color: '#F59E0B',
+  },
+  {
+    id: 'escalation-requests',
+    key: 'ESCALATION_REQUESTS',
+    icon: 'headphone-line',
+    icon_color: '#8B5CF6',
+  },
 ];
