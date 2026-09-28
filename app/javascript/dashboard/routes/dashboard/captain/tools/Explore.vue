@@ -2,6 +2,7 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import semver from 'semver';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
@@ -96,9 +97,10 @@ const installStatus = toolset => {
   const [owner, repository, ...folder] = toolset.source.split('/');
   const key = `${owner}/${repository}`.toLowerCase() + `/${folder.join('/')}`;
   if (!installedVersions.value.has(key)) return null;
-  return installedVersions.value.get(key) === toolset.version
-    ? 'installed'
-    : 'update';
+  // The catalog can lag behind GitHub, so a newer install than the catalog lists is not an update
+  return semver.gt(toolset.version, installedVersions.value.get(key))
+    ? 'update'
+    : 'installed';
 };
 
 const openToolset = toolset =>
