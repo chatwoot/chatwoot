@@ -56,7 +56,7 @@ export const actions = {
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
       if (isMultipleConversationsEnabled()) {
-        dispatch('conversationList/attach', data.id, { root: true });
+        dispatch('conversationList/adopt', data.id, { root: true });
       } else {
         dispatch('conversationAttributes/getAttributes', {}, { root: true });
       }
@@ -121,7 +121,7 @@ export const actions = {
         isMultipleConversationsEnabled() &&
         !rootState.conversationAttributes.id
       ) {
-        dispatch('conversationList/attach', data.conversation_id, {
+        dispatch('conversationList/adopt', data.conversation_id, {
           root: true,
         });
       }
@@ -195,7 +195,7 @@ export const actions = {
         isMultipleConversationsEnabled() &&
         !rootState.conversationAttributes.id
       ) {
-        dispatch('conversationList/attach', data.conversation_id, {
+        dispatch('conversationList/adopt', data.conversation_id, {
           root: true,
         });
       }

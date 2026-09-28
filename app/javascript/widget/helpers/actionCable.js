@@ -54,7 +54,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('conversationList/fetch');
   };
 
-  // A message for another conversation takes over the screen only when nothing is being viewed.
+  // A message for another conversation takes over the screen only while the widget is hidden.
   showsInActiveConversation = message => {
     const { getters, dispatch } = this.app.$store;
     const activeConversationId =
@@ -62,19 +62,19 @@ class ActionCableConnector extends BaseActionCableConnector {
     if (message.conversation_id === activeConversationId) return true;
     if (!isMultipleConversationsEnabled()) return !activeConversationId;
 
-    // The new thread on screen is still being saved, so this is the conversation it became.
-    if (!activeConversationId && getters['conversation/getIsCreating']) {
+    // The campaign the visitor clicked creates its conversation later, in a job.
+    const isAwaitedCampaignMessage =
+      !activeConversationId &&
+      getters['conversation/getIsAwaitingCampaign'] &&
+      message.additional_attributes?.campaign_id;
+    if (isAwaitedCampaignMessage) {
       dispatch('conversationList/attach', message.conversation_id);
       return true;
     }
     // Only replies take over the screen; the visitor's own messages from elsewhere never do.
-    const isViewingConversation =
-      activeConversationId &&
-      (getters['appConfig/getIsWidgetOpen'] || !IFrameHelper.isIFrame());
-    if (
-      isViewingConversation ||
-      message.message_type === MESSAGE_TYPE.INCOMING
-    ) {
+    const isWidgetVisible =
+      getters['appConfig/getIsWidgetOpen'] || !IFrameHelper.isIFrame();
+    if (isWidgetVisible || message.message_type === MESSAGE_TYPE.INCOMING) {
       dispatch('conversationList/fetch');
       return false;
     }
