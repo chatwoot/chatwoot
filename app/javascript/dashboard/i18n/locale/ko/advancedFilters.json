@@ -19,6 +19,8 @@
       "OR": "혹은"
     },
     "INPUT_PLACEHOLDER": "값을 입력하십시오",
+    "MULTI_VALUE_INPUT_PLACEHOLDER": "Type a value, then press Enter to add more",
+    "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Type a value",
     "CONTACT_SEARCH_PLACEHOLDER": "연락처 검색",
     "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {

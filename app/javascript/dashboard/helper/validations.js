@@ -7,8 +7,8 @@ export const ACTION_PARAMETERS_REQUIRED = 'ACTION_PARAMETERS_REQUIRED';
 export const ATLEAST_ONE_CONDITION_REQUIRED = 'ATLEAST_ONE_CONDITION_REQUIRED';
 export const ATLEAST_ONE_ACTION_REQUIRED = 'ATLEAST_ONE_ACTION_REQUIRED';
 
-const isEmptyValue = value => {
-  if (!value) {
+export const isEmptyValue = value => {
+  if (value === null || value === undefined || value === '') {
     return true;
   }
 
@@ -63,6 +63,31 @@ export const validateSingleFilter = filter => {
   }
 
   return null;
+};
+
+const isFilterCondition = filter =>
+  !!filter && typeof filter === 'object' && !validateSingleFilter(filter);
+
+/**
+ * Parses conversation filters handed over through the `filters` URL query
+ * (see the report drilldown "View all").
+ *
+ * @param {string} serializedFilters - JSON list of filter conditions.
+ * @returns {Array|null} The conditions, or null when the value is not a non-empty list of valid conditions.
+ */
+export const parseRouteFilters = serializedFilters => {
+  let filters;
+  try {
+    filters = JSON.parse(serializedFilters);
+  } catch {
+    return null;
+  }
+
+  return Array.isArray(filters) &&
+    filters.length > 0 &&
+    filters.every(isFilterCondition)
+    ? filters
+    : null;
 };
 
 // ------------------------------------------------------------------

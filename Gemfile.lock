@@ -124,6 +124,9 @@ GEM
       aws-sdk-core (~> 3, >= 3.234.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
+    aws-sdk-sesv2 (1.92.0)
+      aws-sdk-core (~> 3, >= 3.239.1)
+      aws-sigv4 (~> 1.5)
     aws-sdk-sns (1.70.0)
       aws-sdk-core (~> 3, >= 3.188.0)
       aws-sigv4 (~> 1.1)
@@ -965,7 +968,7 @@ GEM
       oauth
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2023.3)
+    tzinfo-data (1.2026.4)
       tzinfo (>= 1.0.0)
     uber (0.1.0)
     uglifier (4.2.0)
@@ -1042,6 +1045,7 @@ DEPENDENCIES
   audited (~> 5.8)
   aws-actionmailbox-ses (~> 0)
   aws-sdk-s3
+  aws-sdk-sesv2
   azure-blob
   barnes
   bootsnap

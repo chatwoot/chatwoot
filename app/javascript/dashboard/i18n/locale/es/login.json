@@ -17,7 +17,7 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Iniciar sesión con Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Por favor, utiliza el correo electrónico de tu empresa para iniciar sesión",
+      "BUSINESS_ACCOUNTS_ONLY": "No puedes crear una nueva cuenta con una dirección de correo electrónico personal. Por favor, regístrate usando tu correo electrónico de trabajo.",
       "NO_ACCOUNT_FOUND": "No pudimos encontrar una cuenta para tu dirección de correo electrónico."
     },
     "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?",

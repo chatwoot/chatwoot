@@ -25,6 +25,25 @@ RSpec.describe 'Enterprise Audit API', type: :request do
         expect(json_response['errors']).to include(I18n.t('messages.login_saml_user'))
       end
 
+      it 'prevents login when the email is whitespace-padded' do
+        params = { email: "  #{saml_user.email.upcase}  ", password: 'Password1!' }
+
+        post new_user_session_url, params: params, as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.parsed_body['errors']).to include(I18n.t('messages.login_saml_user'))
+      end
+
+      it 'prevents login when the email is padded in the body and the password is a header' do
+        post new_user_session_url,
+             params: { email: "  #{saml_user.email}  " },
+             headers: { 'password' => 'Password1!' },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.parsed_body['errors']).to include(I18n.t('messages.login_saml_user'))
+      end
+
       it 'allows login with valid SSO token' do
         valid_token = saml_user.generate_sso_auth_token
         params = { email: saml_user.email, sso_auth_token: valid_token, password: 'Password1!' }

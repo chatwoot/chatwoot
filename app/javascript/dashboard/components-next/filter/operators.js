@@ -24,7 +24,7 @@ import { useI18n } from 'vue-i18n';
  * @property {boolean} hasInput - Whether operator requires an input value
  */
 
-const FILTER_OPS = {
+export const FILTER_OPS = {
   EQUAL_TO: 'equal_to',
   NOT_EQUAL_TO: 'not_equal_to',
   IS_PRESENT: 'is_present',
