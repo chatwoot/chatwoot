@@ -61,6 +61,24 @@ describe('#validateAuthenticateRoutePermission', () => {
       };
     });
 
+    describe('when opening a catalog install link', () => {
+      it('moves it into the current account and keeps the source', async () => {
+        const to = {
+          name: 'captain_toolset_install_link',
+          params: {},
+          query: { source: 'chatwoot/tools/linear' },
+        };
+
+        await validateAuthenticateRoutePermission(to, next);
+
+        expect(next).toHaveBeenCalledWith({
+          name: 'captain_toolset_install',
+          params: { accountId: 1 },
+          query: { source: 'chatwoot/tools/linear' },
+        });
+      });
+    });
+
     describe('when route is not accessible to current user', () => {
       it('should redirect to dashboard', async () => {
         const to = {
