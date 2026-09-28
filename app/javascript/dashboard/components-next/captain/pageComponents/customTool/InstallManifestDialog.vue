@@ -100,7 +100,7 @@ const reset = () => {
   values.secrets = emptyValues();
 };
 
-// Bumped on every open, so an install finishing after the dialog was reopened doesn't act on the new session
+// Bumped on every open and close, so an install finishing after the dialog was dismissed or reopened is ignored
 let session = 0;
 
 const close = () => dialogRef.value.close();
@@ -186,6 +186,7 @@ const install = async () => {
 };
 
 const onClose = () => {
+  session += 1;
   abortPreview();
   emit('close');
 };

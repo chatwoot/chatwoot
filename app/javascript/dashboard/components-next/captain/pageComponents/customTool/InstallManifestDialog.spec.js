@@ -15,7 +15,7 @@ vi.mock('dashboard/composables', () => ({ useAlert: mocks.alert }));
 vi.mock('vue-i18n', () => ({ useI18n: () => ({ t: key => key }) }));
 
 const DialogStub = {
-  emits: ['confirm'],
+  emits: ['confirm', 'close'],
   methods: {
     open() {},
     close() {
@@ -130,6 +130,26 @@ describe('InstallManifestDialog', () => {
 
     expect(wrapper.emitted('installed')).toBeUndefined();
     expect(mocks.dialogClose).not.toHaveBeenCalled();
+    expect(mocks.alert).not.toHaveBeenCalled();
+  });
+
+  it('ignores an install that finishes after the dialog was dismissed', async () => {
+    let finishInstall;
+    mocks.install.mockReturnValue(
+      new Promise(resolve => {
+        finishInstall = resolve;
+      })
+    );
+    const wrapper = mountDialog();
+    await loadPreview(wrapper, previewData);
+    await wrapper.find('input[type="password"]').setValue('shpat_secret');
+    await wrapper.findAll('button').at(-1).trigger('click');
+
+    wrapper.findComponent(DialogStub).vm.$emit('close');
+    finishInstall({ data: { payload: [] } });
+    await flushPromises();
+
+    expect(wrapper.emitted('installed')).toBeUndefined();
     expect(mocks.alert).not.toHaveBeenCalled();
   });
 
