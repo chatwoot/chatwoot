@@ -8,7 +8,7 @@
       "FETCH_FAILED": "Could not load monitors. Please try again.",
       "PAGINATION": "Showing {startItem} – {endItem} of {totalItems} monitor | Showing {startItem} – {endItem} of {totalItems} monitors"
     },
-    "DESCRIPTION": "Follow the themes that matter across your customer conversations.",
+    "DESCRIPTION": "Follow the themes that matter across your customer conversations. Describe a topic in plain English, and a monitor charts matching conversations as new customer messages arrive.",
     "CREATE": "Create monitor",
     "PREVIEW": "Preview matches",
     "PREVIEW_COOLDOWN": "You can preview again in {count} second. | You can preview again in {count} seconds.",
@@ -20,20 +20,12 @@
     "CONDITION": "Which conversations should this monitor find?",
     "CONDITION_PLACEHOLDER": "All conversations mentioning refunds",
     "CREATE_HELP": "We will check conversations created in the last seven days, then keep checking new customer messages. Public replies and configured customer attributes provide context. Private notes are excluded.",
-    "EMPTY_TITLE": "Turn conversations into a trend you can follow",
-    "EMPTY_DESCRIPTION": "Describe a topic in plain English. A monitor finds matching conversations and keeps its chart updated as new customer messages arrive.",
-    "ADMIN_HELP": "Ask an administrator to create your first monitor.",
     "SECTIONS": {
-      "LABEL": "Monitor sections",
       "YOUR_MONITORS": "Your monitors",
-      "YOUR_MONITORS_COUNT": "Your monitors ({count})",
       "TEMPLATES": "Templates"
     },
     "TEMPLATES": {
       "TITLE": "Start with a template",
-      "DESCRIPTION": "Choose one, make it yours, then preview before creating.",
-      "VIEW_ALL": "View all templates",
-      "USE": "Use template",
       "USE_NAMED": "Use {name} template",
       "EDIT_HINT": "From {name} template. Edit anything before creating.",
       "ADMIN_HELP": "Ask an administrator to create a monitor from a template.",

@@ -13,12 +13,16 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <article
-    class="flex min-w-0 flex-col gap-3 rounded-xl border border-n-weak bg-n-surface-1 p-4"
+  <button
+    type="button"
+    :disabled="!canCreate"
+    :aria-label="t('MONITORS.TEMPLATES.USE_NAMED', { name: template.name })"
+    class="group flex min-w-0 flex-col gap-3 rounded-xl bg-n-surface-1 p-4 text-start outline outline-1 -outline-offset-1 outline-n-weak transition-colors enabled:hover:bg-n-alpha-1 enabled:hover:outline-n-strong focus-visible:outline-2 focus-visible:outline-n-brand disabled:cursor-default"
+    @click="emit('use', template)"
   >
-    <div class="flex min-w-0 items-start gap-3">
+    <span class="flex w-full min-w-0 items-center gap-3">
       <span
-        class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-n-alpha-2"
+        class="flex size-10 shrink-0 items-center justify-center rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
       >
         <EmojiIcon
           :value="template.icon"
@@ -26,29 +30,22 @@ const { t } = useI18n();
           class="size-5"
         />
       </span>
-      <div class="min-w-0 flex-1">
-        <h3 class="m-0 text-heading-3 text-n-slate-12">
+      <span class="flex min-w-0 flex-1 flex-col gap-0.5">
+        <span class="truncate text-heading-3 text-n-slate-12">
           {{ template.name }}
-        </h3>
-        <p class="m-0 text-xs text-n-slate-10">{{ template.audience }}</p>
-      </div>
-      <button
-        type="button"
-        :disabled="!canCreate"
-        :aria-label="t('MONITORS.TEMPLATES.USE_NAMED', { name: template.name })"
-        class="ms-auto min-h-11 shrink-0 self-start whitespace-nowrap rounded-md text-sm font-medium text-n-brand hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand disabled:cursor-not-allowed disabled:opacity-50"
-        @click="emit('use', template)"
-      >
-        {{ t('MONITORS.TEMPLATES.USE') }}
-        <Icon
-          icon="i-lucide-arrow-right"
-          class="inline size-4 rtl:rotate-180"
-          aria-hidden="true"
-        />
-      </button>
-    </div>
-    <p class="m-0 flex-1 text-body-main text-n-slate-11">
+        </span>
+        <span class="truncate text-label-small text-n-slate-11">
+          {{ template.audience }}
+        </span>
+      </span>
+      <Icon
+        v-if="canCreate"
+        icon="i-lucide-arrow-right"
+        class="size-4 shrink-0 text-n-slate-10 transition-colors group-hover:text-n-brand rtl:rotate-180"
+      />
+    </span>
+    <span class="text-body-main text-n-slate-11">
       {{ template.summary }}
-    </p>
-  </article>
+    </span>
+  </button>
 </template>

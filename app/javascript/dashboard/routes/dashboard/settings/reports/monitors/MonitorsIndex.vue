@@ -9,10 +9,10 @@ import MonitorsAPI from 'dashboard/api/monitors';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import MonitorActionDialog from './MonitorActionDialog.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import MonitorForm from './MonitorForm.vue';
-import MonitorsEmptyState from './MonitorsEmptyState.vue';
 import MonitorListItem from './MonitorListItem.vue';
 import MonitorTemplateCard from './MonitorTemplateCard.vue';
 import MonitorUsageWarning from './MonitorUsageWarning.vue';
@@ -36,12 +36,10 @@ const page = computed({
 const meta = ref({ total_count: 0, configured: true });
 const loaded = ref(false);
 const hasError = ref(false);
-const mainContent = ref(null);
 const form = ref(null);
 const actionDialog = ref(null);
 const notice = ref('');
 const activeSection = ref('monitors');
-// The translation paths are built only from the fixed template catalog.
 /* eslint-disable @intlify/vue-i18n/no-dynamic-keys */
 const templates = computed(() =>
   MONITOR_TEMPLATES.map(({ key, ...template }) => ({
@@ -53,8 +51,21 @@ const templates = computed(() =>
   }))
 );
 /* eslint-enable @intlify/vue-i18n/no-dynamic-keys */
-const refundTemplate = computed(() =>
-  templates.value.find(({ id }) => id === 'refund-requests')
+const sections = computed(() => [
+  {
+    key: 'monitors',
+    label: t('MONITORS.SECTIONS.YOUR_MONITORS'),
+    count: hasError.value ? 0 : meta.value.total_count,
+  },
+  { key: 'templates', label: t('MONITORS.SECTIONS.TEMPLATES') },
+]);
+const activeSectionIndex = computed(() =>
+  sections.value.findIndex(({ key }) => key === activeSection.value)
+);
+const showTemplates = computed(
+  () =>
+    activeSection.value === 'templates' ||
+    (loaded.value && !meta.value.total_count)
 );
 // Background refreshes keep the page; only a page change shows the loader.
 const isChangingPage = computed(
@@ -93,12 +104,7 @@ const openForm = async prefill => {
   await nextTick();
   form.value?.open(prefill);
 };
-const selectSection = section => {
-  activeSection.value = section;
-  mainContent.value?.scrollTo({ top: 0 });
-};
-const openTemplate = template => {
-  if (!isAdmin.value) return;
+const openTemplate = template =>
   openForm({
     name: template.name,
     condition: template.condition,
@@ -106,7 +112,6 @@ const openTemplate = template => {
     icon_color: template.icon_color,
     templateName: template.name,
   });
-};
 const onActionSaved = action => {
   notice.value = '';
   if (action === 'delete' && monitors.value.length === 1 && page.value > 1) {
@@ -125,25 +130,16 @@ const onCreated = monitor =>
   );
 watch(
   () => [route.query.template, route.query.condition, isAdmin.value],
-  ([templateId, condition]) => {
-    if (typeof templateId === 'string') {
-      activeSection.value = 'templates';
-      if (!isAdmin.value) return;
-      const selectedTemplate = templates.value.find(
-        ({ id }) => id === templateId
-      );
-      if (selectedTemplate) openTemplate(selectedTemplate);
-      const query = { ...route.query };
-      delete query.template;
-      delete query.condition;
-      router.replace({ query });
-      return;
-    }
-    if (typeof condition !== 'string' || !isAdmin.value) return;
-    openForm({ condition });
-    // The condition is a one-time prefill; drop it so a refresh or back navigation doesn't reopen the form.
-    const query = { ...route.query };
-    delete query.condition;
+  ([templateId, prefillCondition]) => {
+    if (templateId) activeSection.value = 'templates';
+    if (!isAdmin.value || !(templateId || prefillCondition)) return;
+    const selectedTemplate = templates.value.find(
+      ({ id }) => id === templateId
+    );
+    if (selectedTemplate) openTemplate(selectedTemplate);
+    else if (prefillCondition) openForm({ condition: prefillCondition });
+    // The prefill is one-time; drop it so a refresh or back navigation doesn't reopen the form.
+    const { template, condition, ...query } = route.query;
     router.replace({ query });
   },
   { immediate: true }
@@ -152,7 +148,7 @@ watch(
 
 <template>
   <section class="flex h-full w-full flex-col overflow-hidden bg-n-surface-1">
-    <main ref="mainContent" class="flex-1 overflow-y-auto px-6">
+    <main class="flex-1 overflow-y-auto px-6">
       <div class="mx-auto w-full max-w-5xl pb-6">
         <ReportHeader
           :header-title="t('MONITORS.TITLE')"
@@ -167,63 +163,33 @@ watch(
           />
         </ReportHeader>
         <MonitorUsageWarning :usage="meta.usage" />
-        <p v-if="notice" role="status" class="text-sm text-n-slate-11">
+        <p v-if="notice" role="status" class="mb-4 text-sm text-n-slate-11">
           {{ notice }}
         </p>
         <p
           v-if="!meta.configured && isAdmin"
           role="status"
-          class="rounded-lg bg-n-amber-3 p-4 text-sm text-n-amber-11"
+          class="mb-4 rounded-lg bg-n-amber-3 p-4 text-sm text-n-amber-11"
         >
           {{ t('MONITORS.ERRORS.NOT_CONFIGURED') }}
         </p>
-        <div
-          role="group"
-          :aria-label="t('MONITORS.SECTIONS.LABEL')"
-          class="mt-6 flex gap-6 border-b border-n-weak"
-        >
-          <button
-            type="button"
-            :aria-pressed="activeSection === 'monitors'"
-            class="min-h-11 border-b-2 px-1 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand"
-            :class="
-              activeSection === 'monitors'
-                ? 'border-n-brand text-n-brand'
-                : 'border-transparent text-n-slate-11 hover:text-n-slate-12'
-            "
-            @click="selectSection('monitors')"
+        <TabBar
+          v-if="meta.total_count"
+          :tabs="sections"
+          :initial-active-tab="activeSectionIndex"
+          class="mb-4"
+          @tab-changed="tab => (activeSection = tab.key)"
+        />
+        <section v-if="showTemplates" class="flex flex-col gap-4">
+          <h2
+            v-if="!meta.total_count"
+            class="m-0 text-heading-2 text-n-slate-12"
           >
-            {{
-              loaded && !hasError
-                ? t('MONITORS.SECTIONS.YOUR_MONITORS_COUNT', {
-                    count: meta.total_count,
-                  })
-                : t('MONITORS.SECTIONS.YOUR_MONITORS')
-            }}
-          </button>
-          <button
-            type="button"
-            :aria-pressed="activeSection === 'templates'"
-            class="min-h-11 border-b-2 px-1 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand"
-            :class="
-              activeSection === 'templates'
-                ? 'border-n-brand text-n-brand'
-                : 'border-transparent text-n-slate-11 hover:text-n-slate-12'
-            "
-            @click="selectSection('templates')"
-          >
-            {{ t('MONITORS.SECTIONS.TEMPLATES') }}
-          </button>
-        </div>
-        <section v-if="activeSection === 'templates'" class="py-6">
-          <div class="mb-5 flex flex-col gap-1">
-            <h2 class="m-0 text-heading-2 text-n-slate-12">
-              {{ t('MONITORS.TEMPLATES.TITLE') }}
-            </h2>
-            <p class="m-0 text-body-main text-n-slate-11">
-              {{ t('MONITORS.TEMPLATES.DESCRIPTION') }}
-            </p>
-          </div>
+            {{ t('MONITORS.TEMPLATES.TITLE') }}
+          </h2>
+          <p v-if="!isAdmin" class="m-0 text-body-main text-n-slate-11">
+            {{ t('MONITORS.TEMPLATES.ADMIN_HELP') }}
+          </p>
           <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             <MonitorTemplateCard
               v-for="template in templates"
@@ -233,9 +199,6 @@ watch(
               @use="openTemplate"
             />
           </div>
-          <p v-if="!isAdmin" class="mt-4 text-sm text-n-slate-11">
-            {{ t('MONITORS.TEMPLATES.ADMIN_HELP') }}
-          </p>
         </section>
         <div v-else-if="isPending && !loaded" class="flex justify-center py-20">
           <Spinner />
@@ -248,12 +211,6 @@ watch(
           <p class="text-n-ruby-11">{{ t('MONITORS.LIST.FETCH_FAILED') }}</p>
           <Button :label="t('MONITORS.RETRY')" @click="fetchMonitors" />
         </div>
-        <MonitorsEmptyState
-          v-else-if="!meta.total_count"
-          :template="refundTemplate"
-          @create="openTemplate"
-          @browse="selectSection('templates')"
-        />
         <div
           v-else
           class="flex flex-col divide-y divide-n-weak border-t border-n-weak"
