@@ -3,6 +3,8 @@ class Captain::AutomationConditionService
   ATTRIBUTE_KEY = 'captain_condition'.freeze
   OPERATORS = %w[detects does_not_detect].freeze
   MAX_DESCRIPTION_LENGTH = 500
+  # About 2,000 tokens: with the transcript and the customer context the request stays well inside Jev's limit.
+  LATEST_MESSAGE_LIMIT = 8_000
   THRESHOLD = 0.5
   CRITERIA = {
     'true' => 'The description clearly applies to what is being said.',
@@ -37,7 +39,10 @@ class Captain::AutomationConditionService
   end
 
   def met?(condition, answer)
-    detected = answer['noul'] >= THRESHOLD
+    probability = answer.is_a?(Hash) ? answer['noul'] : nil
+    raise Captain::SystemOneClient::Error, 'Jev returned an incomplete answer' unless probability.is_a?(Numeric)
+
+    detected = probability >= THRESHOLD
     condition['filter_operator'] == 'detects' ? detected : !detected
   end
 
@@ -48,7 +53,7 @@ class Captain::AutomationConditionService
   end
 
   def latest_message
-    @latest_message ||= Captain::ConversationTranscript.entry(message)
+    @latest_message ||= Captain::ConversationTranscript.entry(message, LATEST_MESSAGE_LIMIT)
   end
 
   def transcript

@@ -86,6 +86,43 @@ RSpec.describe Captain::AutomationConditionService do
     end).to have_been_requested
   end
 
+  it 'sends only the start of a very long message' do
+    long_message = create(:message, account: account, conversation: conversation, inbox: conversation.inbox,
+                                    message_type: :incoming, content: 'refund ' * 3_000)
+    stub = stub_jev('0' => { 'noul' => 0.8 })
+
+    described_class.new(conditions: [captain_condition], conversation: conversation, message: long_message).perform
+
+    expect(stub.with do |request|
+      JSON.parse(request.body)['state']['latest_message']['text'].length == described_class::LATEST_MESSAGE_LIMIT
+    end).to have_been_requested
+  end
+
+  context 'when Captain leaves a condition unanswered' do
+    let(:conditions) { [captain_condition.merge('query_operator' => 'OR'), captain_condition.merge('filter_operator' => 'does_not_detect')] }
+    let(:tracker) { instance_double(ChatwootExceptionTracker, capture_exception: nil) }
+
+    before { allow(ChatwootExceptionTracker).to receive(:new).and_return(tracker) }
+
+    it 'leaves every Captain condition unmet and reports it when an answer is missing' do
+      stub_jev('0' => { 'noul' => 0.9 })
+
+      result = described_class.new(conditions: conditions, conversation: conversation, message: message).perform
+
+      expect(result).to eq(0 => false, 1 => false)
+      expect(tracker).to have_received(:capture_exception)
+    end
+
+    it 'leaves every Captain condition unmet and reports it when an answer has no probability' do
+      stub_jev('0' => { 'noul' => 0.9 }, '1' => { 'choice' => 'yes' })
+
+      result = described_class.new(conditions: conditions, conversation: conversation, message: message).perform
+
+      expect(result).to eq(0 => false, 1 => false)
+      expect(tracker).to have_received(:capture_exception)
+    end
+  end
+
   context 'when the Captain request fails' do
     let(:conditions) { [captain_condition.merge('query_operator' => 'OR'), captain_condition.merge('filter_operator' => 'does_not_detect')] }
     let(:tracker) { instance_double(ChatwootExceptionTracker, capture_exception: nil) }

@@ -6,12 +6,13 @@ class Captain::ConversationTranscript
 
   pattr_initialize [:conversation!]
 
-  # The single rule for what Captain may read: public customer and agent messages that still have content.
-  def self.entry(message)
+  # The single rule for what Captain may read: public customer and agent messages that still have content,
+  # cut to the characters the caller has room for.
+  def self.entry(message, limit)
     return unless MESSAGE_TYPES.include?(message.message_type) && !message.private? && !message.deleted
 
     text = message.content_for_llm
-    { sender: message.incoming? ? 'customer' : 'agent', text: text } if text.present?
+    { sender: message.incoming? ? 'customer' : 'agent', text: text[0, limit] } if text.present?
   end
 
   # Walks newest-first so the latest messages survive the token budget; returns chronological order.
@@ -24,11 +25,11 @@ class Captain::ConversationTranscript
                 .reorder(id: :desc)
                 .limit(MESSAGE_LIMIT)
                 .each do |message|
-      entry = self.class.entry(message)
-      next unless entry
       break if remaining <= 0
 
-      entry[:text] = entry[:text][0, remaining]
+      entry = self.class.entry(message, remaining)
+      next unless entry
+
       remaining -= entry[:text].length
       entries.prepend(entry)
     end
