@@ -260,6 +260,7 @@ defineExpose({ validate, resetValidation });
             v-else
             v-model="values"
             :type="inputFieldType"
+            :maxlength="currentFilter?.maxLength"
             class="[&>input]:h-8 [&>input]:py-1.5 [&>input]:outline-offset-0"
             :placeholder="
               currentFilter?.placeholder || t('FILTER.INPUT_PLACEHOLDER')

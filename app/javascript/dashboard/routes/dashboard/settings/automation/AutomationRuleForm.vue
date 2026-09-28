@@ -220,17 +220,24 @@ const getTranslatedAttributes = (type, event) => {
 };
 
 const eventName = computed(() => automation.value?.event_name);
+const usesCaptainCondition = computed(() =>
+  automation.value.conditions.some(
+    condition => condition.attribute_key === CAPTAIN_CONDITION.key
+  )
+);
 
 const filterTypes = computed(() => {
   const event = eventName.value;
   if (!event || !props.automationTypes[event]) return [];
 
+  // A type the account can no longer use stays while the rule still has it, so the saved row
+  // renders, but it cannot be picked again.
+  const isUnavailable = attr =>
+    attr.key === CAPTAIN_CONDITION.key && !allowsCaptainConditions.value;
   const attributes = getTranslatedAttributes(
     props.automationTypes,
     event
-  ).filter(
-    attr => attr.key !== CAPTAIN_CONDITION.key || allowsCaptainConditions.value
-  );
+  ).filter(attr => !isUnavailable(attr) || usesCaptainCondition.value);
 
   return attributes.map(attr => {
     if (attr.disabled) {
@@ -265,10 +272,12 @@ const filterTypes = computed(() => {
       placeholder: attr.placeholder
         ? t(`AUTOMATION.CONDITION.PLACEHOLDERS.${attr.placeholder}`)
         : undefined,
+      maxLength: attr.maxLength,
       options,
       filterOperators,
       dataType: 'text',
       attributeModel: attr.customAttributeType || 'standard',
+      disabled: isUnavailable(attr),
     };
   });
 });

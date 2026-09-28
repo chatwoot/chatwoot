@@ -86,12 +86,21 @@ class AutomationRule < ApplicationRecord
     errors.add(:conditions, "Automation conditions #{conditions.join(',')} not supported.") if conditions.any?
   end
 
-  def captain_conditions
-    conditions.to_a.select { |obj| obj['attribute_key'] == Captain::AutomationConditionService::ATTRIBUTE_KEY }
+  def captain_conditions(rule_conditions = conditions)
+    rule_conditions.select { |obj| obj['attribute_key'] == Captain::AutomationConditionService::ATTRIBUTE_KEY }
   end
 
+  def captain_judgments(rule_conditions)
+    captain_conditions(rule_conditions).map { |obj| [obj['filter_operator'], obj['values']] }
+  end
+
+  # Only adding or changing a Captain condition needs the feature, so a rule saved before the
+  # feature was revoked can still be deactivated, edited or cleaned up.
   def captain_conditions_feature
-    return if captain_conditions.empty? || account.feature_enabled?(Captain::AutomationConditionService::FEATURE)
+    return if account.feature_enabled?(Captain::AutomationConditionService::FEATURE)
+
+    saved_judgments = new_record? ? [] : captain_judgments(conditions_was)
+    return if (captain_judgments(conditions) - saved_judgments).empty?
 
     errors.add(:conditions, 'Captain conditions require the Captain Classifier feature.')
   end
@@ -103,9 +112,13 @@ class AutomationRule < ApplicationRecord
   end
 
   def captain_conditions_description
-    return if captain_conditions.none? { |obj| Array(obj['values']).first.blank? }
+    descriptions = captain_conditions.map { |obj| Array(obj['values']).first.to_s }
+    limit = Captain::AutomationConditionService::MAX_DESCRIPTION_LENGTH
 
-    errors.add(:conditions, 'Captain conditions need a description of what to detect.')
+    errors.add(:conditions, 'Captain conditions need a description of what to detect.') if descriptions.any?(&:blank?)
+    return if descriptions.all? { |description| description.length <= limit }
+
+    errors.add(:conditions, "Captain condition descriptions can have at most #{limit} characters.")
   end
 
   def json_actions_format

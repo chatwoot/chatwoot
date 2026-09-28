@@ -41,6 +41,7 @@ const captainAutomationTypes = {
         name: 'CAPTAIN',
         inputType: 'plain_text',
         placeholder: 'CAPTAIN',
+        maxLength: 500,
         filterOperators: [{ value: 'detects', label: 'Detects' }],
       },
       {
@@ -180,11 +181,14 @@ describe('AutomationRuleForm', () => {
       types: captainAutomationTypes,
     });
 
-    const keys = wrapper
+    const filterTypes = wrapper
       .findComponent(AutomationInstantTrigger)
-      .props('filterTypes')
-      .map(filter => filter.attributeKey);
-    expect(keys).toEqual(['captain_condition', 'status']);
+      .props('filterTypes');
+    expect(filterTypes.map(filter => filter.attributeKey)).toEqual([
+      'captain_condition',
+      'status',
+    ]);
+    expect(filterTypes[0].maxLength).toBe(500);
   });
 
   it('hides the Captain condition without the classifier feature', () => {
@@ -200,6 +204,34 @@ describe('AutomationRuleForm', () => {
       .props('filterTypes')
       .map(filter => filter.attributeKey);
     expect(keys).toEqual(['status']);
+  });
+
+  it('keeps a saved Captain condition renderable but not selectable without the classifier feature', () => {
+    isCloudFeatureEnabled.mockReturnValue(false);
+    const automation = buildAutomation();
+    automation.conditions = [
+      {
+        attribute_key: 'captain_condition',
+        filter_operator: 'detects',
+        values: 'the customer wants a refund',
+        query_operator: 'and',
+        custom_attribute_type: '',
+      },
+    ];
+    const wrapper = mountComponent({
+      mode: 'edit',
+      automation,
+      types: captainAutomationTypes,
+    });
+
+    const captain = wrapper
+      .findComponent(AutomationInstantTrigger)
+      .props('filterTypes')
+      .find(filter => filter.attributeKey === 'captain_condition');
+    expect(captain.disabled).toBe(true);
+    expect(captain.filterOperators.map(operator => operator.value)).toEqual([
+      'detects',
+    ]);
   });
 
   it('restores unsaved wait conditions after switching a new rule to instant and back', async () => {

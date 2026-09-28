@@ -34,6 +34,12 @@ describe('ConditionRow', () => {
     );
   });
 
+  it('limits the text input to the length the filter allows', () => {
+    const wrapper = mountRow({ ...textFilter('Describe'), maxLength: 500 });
+
+    expect(wrapper.findComponent(Input).attributes('maxlength')).toBe('500');
+  });
+
   it('falls back to the generic placeholder otherwise', () => {
     const wrapper = mountRow(textFilter(undefined));
 

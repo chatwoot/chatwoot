@@ -2,6 +2,7 @@ class Captain::AutomationConditionService
   FEATURE = 'captain_classifier'.freeze
   ATTRIBUTE_KEY = 'captain_condition'.freeze
   OPERATORS = %w[detects does_not_detect].freeze
+  MAX_DESCRIPTION_LENGTH = 500
   THRESHOLD = 0.5
   CRITERIA = {
     'true' => 'The description clearly applies to what is being said.',
