@@ -1282,7 +1282,6 @@
         "LOAD_ERROR": "Could not load the tools catalog. Check the catalog URL in the Captain settings.",
         "TOOL_COUNT": "{n} tool | {n} tools",
         "VERSION": "v{version}",
-        "VERIFIED": "Verified by Chatwoot",
         "UPDATED": "Updated {time}",
         "REPOSITORY": "Repository",
         "MANIFEST": "Manifest",

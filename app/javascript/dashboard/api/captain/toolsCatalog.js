@@ -17,5 +17,5 @@ export const fetchToolsCatalog = (baseUrl, options) => {
 export const fetchToolsetDetails = (detailUrl, options) =>
   fetchCatalogJson(detailUrl, options);
 
-// GitHub owners are case-insensitive, so Chatwoot/... and chatwoot/... are the same org
-export const isVerifiedOwner = owner => owner?.toLowerCase() === 'chatwoot';
+// Every catalog toolset lives in chatwoot/tools; the author is who wrote it. GitHub logins are case-insensitive
+export const isChatwootAuthor = author => author?.toLowerCase() === 'chatwoot';

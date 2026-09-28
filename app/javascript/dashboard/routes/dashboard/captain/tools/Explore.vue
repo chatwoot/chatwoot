@@ -10,7 +10,7 @@ import { usePolicy } from 'dashboard/composables/usePolicy';
 import ToolsManifestAPI from 'dashboard/api/captain/toolsManifest';
 import {
   fetchToolsCatalog,
-  isVerifiedOwner,
+  isChatwootAuthor,
 } from 'dashboard/api/captain/toolsCatalog';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
@@ -71,7 +71,7 @@ const loadCatalog = async () => {
     // Chatwoot's own toolsets lead; the stable sort keeps the catalog order otherwise
     if (catalog)
       toolsets.value = catalog.toolsets.toSorted(
-        (a, b) => isVerifiedOwner(b.owner) - isVerifiedOwner(a.owner)
+        (a, b) => isChatwootAuthor(b.author) - isChatwootAuthor(a.author)
       );
   } catch {
     hasError.value = true;

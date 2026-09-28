@@ -1,15 +1,10 @@
 <script setup>
-import { useI18n } from 'vue-i18n';
-import { isVerifiedOwner } from 'dashboard/api/captain/toolsCatalog';
-
 defineProps({
   toolset: {
     type: Object,
     required: true,
   },
 });
-
-const { t } = useI18n();
 </script>
 
 <template>
@@ -35,13 +30,8 @@ const { t } = useI18n();
       <span class="text-sm font-medium truncate text-n-slate-12">
         {{ toolset.name }}
       </span>
-      <span class="flex items-center min-w-0 gap-1 text-xs text-n-slate-11">
-        <span class="truncate">{{ toolset.owner }}</span>
-        <i
-          v-if="isVerifiedOwner(toolset.owner)"
-          class="i-lucide-badge-check size-3.5 shrink-0 text-n-blue-11"
-          :aria-label="t('CAPTAIN.CUSTOM_TOOLS.CATALOG.VERIFIED')"
-        />
+      <span class="text-xs truncate text-n-slate-11">
+        {{ toolset.author }}
       </span>
     </div>
   </div>
