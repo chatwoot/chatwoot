@@ -50,14 +50,15 @@ class Captain::JevClient
     return yield unless ChatwootApp.otel_enabled?
 
     request_model = JSON.parse(body).fetch('model')
-    OpentelemetryConfig.tracer.in_span("llm.#{@feature}.jev") do |span|
+    OpentelemetryConfig.tracer.in_span("llm.#{@feature}.jev", kind: :client) do |span|
       set_request_attributes(span, body, request_model)
       begin
         result = yield
         set_response_attributes(span, result, request_model)
         result
       rescue StandardError => e
-        span.status = OpenTelemetry::Trace::Status.error(e.message.truncate(1000))
+        span.set_attribute('error.type', e.is_a?(HTTPError) ? e.status.to_s : e.class.name)
+        span.status = OpenTelemetry::Trace::Status.error(e.class.name)
         raise
       end
     end
@@ -69,14 +70,20 @@ class Captain::JevClient
     span.set_attribute(ATTR_LANGFUSE_USER_ID, @account_id.to_s)
     span.set_attribute(ATTR_LANGFUSE_TAGS, [@feature].to_json)
     span.set_attribute(ATTR_GEN_AI_PROVIDER, 'openrouter')
+    span.set_attribute('gen_ai.operation.name', 'evaluate')
     span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, request_model)
-    span.set_attribute(ATTR_LANGFUSE_SESSION_ID, "#{@account_id}_#{@conversation_id}") if @conversation_id
+    return unless @conversation_id
+
+    session_id = "#{@account_id}_#{@conversation_id}"
+    span.set_attribute(ATTR_LANGFUSE_SESSION_ID, session_id)
+    span.set_attribute('gen_ai.conversation.id', session_id)
   end
 
   def set_response_attributes(span, result, request_model)
     usage = result['usage'] || {}
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
     span.set_attribute('langfuse.observation.model.name', result['model'] || request_model)
+    span.set_attribute('gen_ai.response.model', result['model']) if result['model']
     span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, usage['input_tokens']) if usage['input_tokens']
     span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, usage['output_tokens']) if usage['output_tokens']
     span.set_attribute('langfuse.observation.cost_details', { total: usage['cost'] }.to_json) if usage['cost'].is_a?(Numeric)

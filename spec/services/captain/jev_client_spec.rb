@@ -44,13 +44,16 @@ RSpec.describe Captain::JevClient do
 
     expect(described_class.new(account_id: 7, conversation_id: 42, feature: 'captain_classifier').call(body: body))
       .to eq(response.deep_stringify_keys)
-    expect(tracer).to have_received(:in_span).with('llm.captain_classifier.jev')
+    expect(tracer).to have_received(:in_span).with('llm.captain_classifier.jev', kind: :client)
     expect(attributes).to include(
       'langfuse.observation.input' => body,
       'langfuse.observation.output' => response.to_json,
       'langfuse.observation.model.name' => 'jev-1.13.0',
       'langfuse.observation.cost_details' => { total: 0.000001 }.to_json,
       'langfuse.session.id' => '7_42',
+      'gen_ai.operation.name' => 'evaluate',
+      'gen_ai.conversation.id' => '7_42',
+      'gen_ai.response.model' => 'jev-1.13.0',
       'gen_ai.usage.input_tokens' => 12
     )
     expect(WebMock).to have_requested(:post, 'https://openrouter.ai/api/v1/systemone').with(body: body).once
@@ -58,7 +61,9 @@ RSpec.describe Captain::JevClient do
 
   it 'marks a failed Jev call without retrying it' do
     stub_request(:post, 'https://openrouter.ai/api/v1/systemone').to_timeout
-    span = instance_double(OpenTelemetry::Trace::Span, set_attribute: nil, 'status=': nil)
+    attributes = {}
+    span = instance_double(OpenTelemetry::Trace::Span, 'status=': nil)
+    allow(span).to receive(:set_attribute) { |name, value| attributes[name] = value }
     tracer = instance_double(OpenTelemetry::Trace::Tracer)
     allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
     allow(OpentelemetryConfig).to receive(:tracer).and_return(tracer)
@@ -66,6 +71,7 @@ RSpec.describe Captain::JevClient do
 
     expect { client.call(body: body) }.to raise_error(Faraday::ConnectionFailed)
     expect(span).to have_received(:status=).with(an_instance_of(OpenTelemetry::Trace::Status))
+    expect(attributes['error.type']).to eq('Faraday::ConnectionFailed')
     expect(WebMock).to have_requested(:post, 'https://openrouter.ai/api/v1/systemone').once
   end
 end
