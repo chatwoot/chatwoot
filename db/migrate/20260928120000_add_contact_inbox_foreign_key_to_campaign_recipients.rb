@@ -6,7 +6,5 @@ class AddContactInboxForeignKeyToCampaignRecipients < ActiveRecord::Migration[7.
     validate_foreign_key :campaign_recipients, :contact_inboxes
   end
 
-  def down
-    remove_foreign_key :campaign_recipients, :contact_inboxes, if_exists: true
-  end
+  def down; end
 end
