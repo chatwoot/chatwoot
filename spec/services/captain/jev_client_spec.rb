@@ -44,7 +44,7 @@ RSpec.describe Captain::JevClient do
 
     expect(described_class.new(account_id: 7, conversation_id: 42, feature: 'captain_classifier').call(body: body))
       .to eq(response.deep_stringify_keys)
-    expect(tracer).to have_received(:in_span).with('llm.captain_classifier.jev', kind: :client)
+    expect(tracer).to have_received(:in_span).with('llm.jev.captain_classifier', kind: :client)
     expect(attributes).to include(
       'langfuse.observation.input' => body,
       'langfuse.observation.output' => response.to_json,

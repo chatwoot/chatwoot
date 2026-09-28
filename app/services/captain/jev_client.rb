@@ -55,7 +55,7 @@ class Captain::JevClient
   # Tracing is best-effort: a tracing failure must not block the Jev call or discard a response that already used provider credit.
   def traced_jev_call(body, &)
     outcome = {}
-    OpentelemetryConfig.tracer.in_span("llm.#{@feature}.jev", kind: :client) do |span|
+    OpentelemetryConfig.tracer.in_span("llm.jev.#{@feature}", kind: :client) do |span|
       request_model = JSON.parse(body).fetch('model')
       set_request_attributes(span, body)
       call_in_span(span, outcome, &)
