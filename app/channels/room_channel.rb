@@ -10,6 +10,7 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def update_presence
+    adopt_visitor_contact
     update_subscription
     broadcast_presence
   end
@@ -30,7 +31,8 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def update_subscription
-    return if @current_account.blank?
+    # A visitor whose contact does not exist yet has nothing to track.
+    return if @current_user.blank?
 
     ::OnlineStatusTracker.update_presence(@current_account.id, @current_user.class.name, @current_user.id)
   end
@@ -41,19 +43,35 @@ class RoomChannel < ApplicationCable::Channel
 
   def current_user
     @current_user ||= if params[:user_id].blank?
-                        ContactInbox.find_by!(pubsub_token: pubsub_token).contact
+                        ContactInbox.find_by(pubsub_token: pubsub_token)&.contact
                       else
                         User.find_by!(pubsub_token: pubsub_token, id: params[:user_id])
                       end
   end
 
   def current_account
-    return if current_user.blank?
-
-    @current_account ||= if @current_user.is_a? Contact
+    @current_account ||= if @current_user.is_a?(User)
+                           @current_user.accounts.find(params[:account_id])
+                         elsif @current_user
                            @current_user.account
                          else
-                           @current_user.accounts.find(params[:account_id])
+                           visitor_account
                          end
+  end
+
+  # Until the visitor's contact exists, the signed widget token is the only proof the stream is theirs;
+  # it also names the inbox whose agent presence they should see.
+  def visitor_account
+    visitor_token = ::Widget::TokenService.new(token: params[:auth_token]).decode_token
+    raise ActiveRecord::RecordNotFound if visitor_token[:pubsub_token].blank? || visitor_token[:pubsub_token] != pubsub_token
+
+    ::Inbox.find(visitor_token[:inbox_id]).account
+  end
+
+  # The contact is created lazily (WebsiteTokenHelper#ensure_contact); pick it up on the next ping.
+  def adopt_visitor_contact
+    return if @current_user.present? || params[:user_id].present?
+
+    @current_user = ContactInbox.find_by(pubsub_token: pubsub_token)&.contact
   end
 end

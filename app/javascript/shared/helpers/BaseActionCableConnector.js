@@ -10,7 +10,8 @@ class BaseActionCableConnector {
     app,
     pubsubToken,
     websocketHost = '',
-    presenceInterval = PRESENCE_INTERVAL
+    presenceInterval = PRESENCE_INTERVAL,
+    subscriptionParams = {}
   ) {
     const websocketURL = websocketHost ? `${websocketHost}/cable` : undefined;
 
@@ -21,6 +22,7 @@ class BaseActionCableConnector {
         pubsub_token: pubsubToken,
         account_id: app.$store.getters.getCurrentAccountId,
         user_id: app.$store.getters.getCurrentUserID,
+        ...subscriptionParams,
       },
       {
         updatePresence() {

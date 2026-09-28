@@ -5,7 +5,7 @@ RSpec.describe '/api/v1/widget/config', type: :request do
   let(:web_widget) { create(:channel_widget, account: account) }
   let!(:contact) { create(:contact, account: account) }
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: web_widget.inbox) }
-  let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
+  let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id, pubsub_token: contact_inbox.pubsub_token } }
   let(:token) { Widget::TokenService.new(payload: payload).generate_token }
 
   describe 'POST /api/v1/widget/config' do
@@ -30,6 +30,10 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         expect(response).to have_http_status(:success)
         response_data = response.parsed_body
         expect(response_data.keys).to include(*response_keys)
+        created = Contact.find(response_data['contact']['id'])
+        expect(response_data['contact']['pubsub_token']).to eq(created.contact_inboxes.first.pubsub_token)
+        auth_token = Widget::TokenService.new(token: response_data['website_channel_config']['auth_token']).decode_token
+        expect(auth_token[:pubsub_token]).to eq(response_data['contact']['pubsub_token'])
       end
     end
 
@@ -45,7 +49,9 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         expect(response).to have_http_status(:success)
         response_data = response.parsed_body
         expect(response_data.keys).to include(*response_keys)
+        expect(response_data['contact']['id']).to eq(contact.id)
         expect(response_data['contact']['pubsub_token']).to eq(contact_inbox.pubsub_token)
+        expect(response_data['website_channel_config']['auth_token']).to eq(token)
       end
 
       it 'returns 401 if account is suspended' do
@@ -57,6 +63,26 @@ RSpec.describe '/api/v1/widget/config', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'with correct website token and a token issued without a contact' do
+      it 'creates the contact with the ids the token carries' do
+        visitor_payload = { source_id: 'visitor', inbox_id: web_widget.inbox.id, pubsub_token: 'stream' }
+        visitor_token = Widget::TokenService.new(payload: visitor_payload).generate_token
+
+        expect do
+          post '/api/v1/widget/config',
+               params: params,
+               headers: { 'X-Auth-Token' => visitor_token },
+               as: :json
+        end.to change(Contact, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+        response_data = response.parsed_body
+        expect(response_data['contact']['pubsub_token']).to eq('stream')
+        expect(web_widget.inbox.contact_inboxes.find_by!(source_id: 'visitor').pubsub_token).to eq('stream')
+        expect(response_data['website_channel_config']['auth_token']).to eq(visitor_token)
       end
     end
 
@@ -72,6 +98,7 @@ RSpec.describe '/api/v1/widget/config', type: :request do
         expect(response).to have_http_status(:success)
         response_data = response.parsed_body
         expect(response_data.keys).to include(*response_keys)
+        expect(response_data['contact']['id']).to be_present
       end
     end
   end

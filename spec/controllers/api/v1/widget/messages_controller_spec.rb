@@ -38,6 +38,21 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         json_response = response.parsed_body
         expect(json_response['payload'].length).to eq(0)
       end
+
+      it 'returns empty messages for a visitor without a contact', :skip_before do
+        visitor_payload = { source_id: 'visitor', inbox_id: web_widget.inbox.id, pubsub_token: 'stream' }
+        visitor_token = Widget::TokenService.new(payload: visitor_payload).generate_token
+
+        expect do
+          get api_v1_widget_messages_url,
+              params: { website_token: web_widget.website_token },
+              headers: { 'X-Auth-Token' => visitor_token },
+              as: :json
+        end.not_to change(Contact, :count)
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to eq([])
+      end
     end
   end
 
@@ -76,6 +91,22 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
     end
 
     context 'when post request is made' do
+      it 'creates the contact and conversation with the first message of a visitor', :skip_before do
+        visitor_payload = { source_id: 'visitor', inbox_id: web_widget.inbox.id, pubsub_token: 'stream' }
+        visitor_token = Widget::TokenService.new(payload: visitor_payload).generate_token
+
+        expect do
+          post api_v1_widget_messages_url,
+               params: { website_token: web_widget.website_token, message: { content: 'hello world', timestamp: Time.current } },
+               headers: { 'X-Auth-Token' => visitor_token },
+               as: :json
+        end.to change(Contact, :count).by(1).and change(Conversation, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['content']).to eq('hello world')
+        expect(web_widget.inbox.contact_inboxes.find_by!(source_id: 'visitor').pubsub_token).to eq('stream')
+      end
+
       it 'creates message in conversation' do
         conversation.destroy! # Test all params
         message_params = { content: 'hello world', timestamp: Time.current }

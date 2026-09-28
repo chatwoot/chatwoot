@@ -8,8 +8,9 @@ class WidgetsController < ActionController::Base
   before_action :skip_crawler_requests
   before_action :ensure_location_is_supported
   before_action :set_token
-  before_action :set_contact
-  before_action :build_contact
+  before_action :set_contact_inbox
+  before_action :ensure_contact_inbox
+  before_action :set_visitor_session
   after_action :allow_iframe_requests
 
   private
@@ -33,30 +34,34 @@ class WidgetsController < ActionController::Base
   end
 
   def set_token
-    @token = permitted_params[:cw_conversation]
-    @auth_token_params = if @token.present?
-                           ::Widget::TokenService.new(token: @token).decode_token
-                         else
-                           {}
-                         end
+    @auth_token_params = ::Widget::TokenService.new(token: permitted_params[:cw_conversation]).decode_token
+    # A token only identifies a session in the inbox it was minted for.
+    @auth_token_params = {} unless @auth_token_params[:inbox_id] == @web_widget.inbox.id
   end
 
-  def set_contact
+  def set_contact_inbox
     return if @auth_token_params[:source_id].nil?
 
-    @contact_inbox = ::ContactInbox.find_by(
-      inbox_id: @web_widget.inbox.id,
-      source_id: @auth_token_params[:source_id]
-    )
+    @contact_inbox = ::ContactInbox.find_by(inbox_id: @web_widget.inbox.id, source_id: @auth_token_params[:source_id])
+    return unless @contact_inbox && @contact_inbox.contact.nil?
 
-    @contact = @contact_inbox&.contact
+    # A row whose contact is gone (dependent: :destroy_async) is not a session to continue.
+    @contact_inbox = nil
+    @auth_token_params = {}
   end
 
-  def build_contact
-    return if @contact.present?
+  # A token issued by a server that no longer creates the contact on load carries the ids to reuse,
+  # so the row lands on the stream the visitor is already subscribed to.
+  def ensure_contact_inbox
+    return if @contact_inbox.present?
 
-    @contact_inbox, @token = build_contact_inbox_with_token(@web_widget, additional_attributes)
-    @contact = @contact_inbox.contact
+    @contact_inbox = @web_widget.create_contact_inbox(
+      source_id: @auth_token_params[:source_id], pubsub_token: @auth_token_params[:pubsub_token], additional_attributes: additional_attributes
+    )
+  end
+
+  def set_visitor_session
+    @token, @pubsub_token = visitor_session(@web_widget, permitted_params[:cw_conversation], @auth_token_params, @contact_inbox)
   end
 
   def ensure_account_is_active

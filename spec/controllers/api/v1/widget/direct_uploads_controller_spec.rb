@@ -42,6 +42,27 @@ RSpec.describe '/api/v1/widget/direct_uploads', type: :request do
         json_response = response.parsed_body
         expect(json_response['content_type']).to eq('image/png')
       end
+
+      it 'creates a blob for a visitor without a contact' do
+        visitor_payload = { source_id: 'visitor', inbox_id: web_widget.inbox.id, pubsub_token: 'stream' }
+        visitor_token = Widget::TokenService.new(payload: visitor_payload).generate_token
+
+        expect do
+          post api_v1_widget_direct_uploads_url,
+               params: {
+                 website_token: web_widget.website_token,
+                 blob: {
+                   filename: 'avatar.png',
+                   byte_size: '1234',
+                   checksum: 'dsjbsdhbfif3874823mnsdbf',
+                   content_type: 'image/png'
+                 }
+               },
+               headers: { 'X-Auth-Token' => visitor_token }
+        end.not_to change(Contact, :count)
+
+        expect(response).to have_http_status(:success)
+      end
     end
   end
 end

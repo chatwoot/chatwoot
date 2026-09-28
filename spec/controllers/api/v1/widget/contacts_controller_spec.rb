@@ -8,6 +8,23 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
   let(:token) { Widget::TokenService.new(payload: payload).generate_token }
 
+  describe 'GET /api/v1/widget/contact' do
+    it 'returns nothing for a visitor without a contact' do
+      visitor_payload = { source_id: 'visitor', inbox_id: web_widget.inbox.id, pubsub_token: 'stream' }
+      visitor_token = Widget::TokenService.new(payload: visitor_payload).generate_token
+
+      expect do
+        get '/api/v1/widget/contact',
+            params: { website_token: web_widget.website_token },
+            headers: { 'X-Auth-Token' => visitor_token },
+            as: :json
+      end.not_to change(Contact, :count)
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body).to eq({})
+    end
+  end
+
   describe 'PATCH /api/v1/widget/contact' do
     let(:params) { { website_token: web_widget.website_token, identifier: 'test' } }
 
@@ -15,6 +32,26 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
       it 'returns unauthorized' do
         patch '/api/v1/widget/contact', params: { website_token: '' }
         expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'when the visitor has no contact yet' do
+      it 'creates the contact with the prechat details' do
+        visitor_payload = { source_id: 'visitor', inbox_id: web_widget.inbox.id, pubsub_token: 'stream' }
+        visitor_token = Widget::TokenService.new(payload: visitor_payload).generate_token
+
+        expect do
+          patch '/api/v1/widget/contact',
+                params: { website_token: web_widget.website_token, name: 'Pre Chat', email: 'prechat@example.com' },
+                headers: { 'X-Auth-Token' => visitor_token },
+                as: :json
+        end.to change(Contact, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['has_email']).to be true
+        visitor_contact_inbox = web_widget.inbox.contact_inboxes.find_by!(source_id: 'visitor')
+        expect(visitor_contact_inbox.pubsub_token).to eq('stream')
+        expect(visitor_contact_inbox.contact.email).to eq('prechat@example.com')
       end
     end
 
@@ -194,6 +231,42 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
     let(:correct_identifier_hash) { OpenSSL::HMAC.hexdigest('sha256', web_widget.hmac_token, params[:identifier].to_s) }
     let(:incorrect_identifier_hash) { 'test' }
 
+    context 'when the visitor has no contact yet' do
+      it 'creates the contact for the identifier' do
+        visitor_payload = { source_id: 'visitor', inbox_id: web_widget.inbox.id, pubsub_token: 'stream' }
+        visitor_token = Widget::TokenService.new(payload: visitor_payload).generate_token
+
+        expect do
+          patch '/api/v1/widget/contact/set_user',
+                params: params.merge(identifier_hash: correct_identifier_hash),
+                headers: { 'X-Auth-Token' => visitor_token },
+                as: :json
+        end.to change(Contact, :count).by(1)
+
+        body = response.parsed_body
+        visitor_contact_inbox = web_widget.inbox.contact_inboxes.find_by!(source_id: 'visitor')
+        expect(visitor_contact_inbox.contact.id).to eq(body['id'])
+        expect(visitor_contact_inbox.contact.identifier).to eq('test')
+        expect(visitor_contact_inbox.pubsub_token).to eq('stream')
+        expect(visitor_contact_inbox.hmac_verified?).to be(true)
+        expect(body).not_to have_key('widget_auth_token')
+      end
+
+      it 'does not create a contact when the identifier hash is invalid' do
+        visitor_payload = { source_id: 'visitor', inbox_id: web_widget.inbox.id, pubsub_token: 'stream' }
+        visitor_token = Widget::TokenService.new(payload: visitor_payload).generate_token
+
+        expect do
+          patch '/api/v1/widget/contact/set_user',
+                params: params.merge(identifier_hash: incorrect_identifier_hash),
+                headers: { 'X-Auth-Token' => visitor_token },
+                as: :json
+        end.not_to(change { [Contact.count, ContactInbox.count] })
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
     context 'when the current contact identifier is different from param identifier' do
       before do
         contact.update(identifier: 'random')
@@ -263,18 +336,22 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
 
     context 'with invalid website token' do
       it 'returns unauthorized' do
-        post '/api/v1/widget/destroy_custom_attributes', params: { website_token: '' }
+        post '/api/v1/widget/contact/destroy_custom_attributes', params: { website_token: '' }
         expect(response).to have_http_status(:not_found)
       end
     end
 
     context 'with correct website token' do
       it 'calls destroy custom attributes' do
-        post '/api/v1/widget/destroy_custom_attributes',
+        contact.update!(custom_attributes: { 'test' => 'x', 'keep' => 'y' })
+
+        post '/api/v1/widget/contact/destroy_custom_attributes',
              params: params,
              headers: { 'X-Auth-Token' => token },
              as: :json
-        expect(contact.reload.custom_attributes).to eq({})
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.custom_attributes).to eq('keep' => 'y')
       end
     end
   end
