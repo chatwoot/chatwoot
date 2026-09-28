@@ -23,12 +23,13 @@ class Line::IncomingMessageService
       next if @line_contact_info['userId'].blank?
 
       set_contact
+      media = download_file(event['message'])
       ActiveRecord::Base.transaction do
         set_conversation
 
         next unless message_created? event
 
-        attach_files event['message']
+        attach_files media
         @message.save!
       end
     end
@@ -74,7 +75,8 @@ class Line::IncomingMessageService
     'text'
   end
 
-  def attach_files(message)
+  # Runs before the transaction opens so the LINE content fetch never holds it (or the conversation-creation race window) open.
+  def download_file(message)
     return unless message_type_non_text?(message['type'])
 
     response = inbox.channel.client.get_message_content(message['id'])
@@ -86,15 +88,13 @@ class Line::IncomingMessageService
     temp_file << response.body
     temp_file.rewind
 
-    @message.attachments.new(
-      account_id: @message.account_id,
-      file_type: file_content_type(response),
-      file: {
-        io: temp_file,
-        filename: file_name,
-        content_type: response.content_type
-      }
-    )
+    { file_type: file_content_type(response), file: { io: temp_file, filename: file_name, content_type: response.content_type } }
+  end
+
+  def attach_files(media)
+    return if media.blank?
+
+    @message.attachments.new(account_id: @message.account_id, **media)
   end
 
   def get_file_extension(response)

@@ -13,6 +13,7 @@ class Telegram::IncomingMessageService
 
     set_contact
     update_contact_avatar
+    download_file if message_params?
     ActiveRecord::Base.transaction do
       set_conversation
       # TODO: Since the recent Telegram Business update, we need to explicitly mark messages as read using an additional request.
@@ -143,7 +144,8 @@ class Telegram::IncomingMessageService
     params[:message][:video].present? || params[:message][:video_note].present?
   end
 
-  def attach_files
+  # Runs before the transaction opens so the Telegram API + download round trips never hold it (or the conversation-creation race window) open.
+  def download_file
     return unless file
 
     file_download_path = inbox.channel.get_telegram_file_path(file[:file_id])
@@ -152,17 +154,21 @@ class Telegram::IncomingMessageService
       return
     end
 
-    attachment_file = Down.download(file_download_path)
+    @attachment_file = Down.download(file_download_path)
+  end
+
+  def attach_files
+    return unless @attachment_file
 
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_content_type,
       file: {
-        io: attachment_file,
+        io: @attachment_file,
         # Telegram's download URL uses an internal storage path, so Down derives a generic name from it.
         # Prefer the original filename from the payload (present for document/audio/video) when available.
-        filename: file[:file_name].presence || attachment_file.original_filename,
-        content_type: attachment_file.content_type
+        filename: file[:file_name].presence || @attachment_file.original_filename,
+        content_type: @attachment_file.content_type
       }
     )
   end

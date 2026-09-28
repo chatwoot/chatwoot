@@ -9,6 +9,7 @@ class Twilio::IncomingMessageService
     return if twilio_channel.blank?
 
     set_contact
+    download_files
     ActiveRecord::Base.transaction do
       set_conversation
       @message = @conversation.messages.build(
@@ -141,35 +142,36 @@ class Twilio::IncomingMessageService
     end
   end
 
-  def attach_files
-    num_media = params[:NumMedia].to_i
-    return if num_media.zero?
-
-    num_media.times do |i|
+  # Downloads run before the transaction opens so slow HTTP retries never hold it (or the conversation-creation race window) open.
+  def download_files
+    @downloaded_files = params[:NumMedia].to_i.times.filter_map do |i|
       media_url = params[:"MediaUrl#{i}"]
-      attach_single_file(media_url, i) if media_url.present?
+      download_single_file(media_url, i) if media_url.present?
     end
   end
 
-  def attach_single_file(media_url, media_index)
-    attachment_file = Twilio::MediaDownloadService.new(
+  def download_single_file(media_url, media_index)
+    Twilio::MediaDownloadService.new(
       channel: twilio_channel,
       media_url: media_url,
       message_sid: params[:SmsSid].presence || params[:MessageSid],
       media_index: media_index,
       retry_delays: media_retry_delays
     ).perform
-    return if attachment_file.blank?
+  end
 
-    @message.attachments.new(
-      account_id: @message.account_id,
-      file_type: file_type(attachment_file.content_type),
-      file: {
-        io: attachment_file,
-        filename: attachment_file.original_filename,
-        content_type: attachment_file.content_type
-      }
-    )
+  def attach_files
+    @downloaded_files.each do |attachment_file|
+      @message.attachments.new(
+        account_id: @message.account_id,
+        file_type: file_type(attachment_file.content_type),
+        file: {
+          io: attachment_file,
+          filename: attachment_file.original_filename,
+          content_type: attachment_file.content_type
+        }
+      )
+    end
   end
 
   def media_retry_delays
