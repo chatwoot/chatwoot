@@ -46,6 +46,15 @@ RSpec.describe 'Conversation campaign history API', type: :request do
     expect(response.parsed_body).to eq('payload' => [], 'meta' => { 'next_before' => nil, 'first_message_id' => nil })
   end
 
+  it 'includes sent campaign history when the recipient has no saved contact inbox' do
+    recipient.update!(contact_inbox: nil)
+
+    get url, headers: headers
+
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body['payload'].pluck('id')).to eq([recipient.id])
+  end
+
   it 'allows an agent who can view the conversation' do
     agent = create(:user, account: account, role: :agent)
     create(:inbox_member, inbox: inbox, user: agent)
@@ -200,18 +209,19 @@ RSpec.describe 'Conversation campaign history API', type: :request do
     expect(response).to have_http_status(:not_found)
   end
 
-  it 'matches the saved destination when the contact has multiple identities in the same inbox' do
+  it 'shows campaign history for the contact and inbox in the conversation active when it was sent' do
     recipient
     other_identity = create(:contact_inbox, contact: conversation.contact, inbox: inbox)
     other_conversation = create(:conversation, account: account, inbox: inbox, contact: conversation.contact,
                                                contact_inbox: other_identity, created_at: sent_at - 1.hour)
+    recipient.update!(contact_inbox: other_identity)
 
     get url, headers: headers
     expect(response).to have_http_status(:ok)
-    expect(response.parsed_body['payload'].pluck('id')).to eq([recipient.id])
+    expect(response.parsed_body['payload']).to be_empty
 
     get "/api/v1/accounts/#{account.id}/conversations/#{other_conversation.display_id}/campaign_history", headers: headers
     expect(response).to have_http_status(:ok)
-    expect(response.parsed_body['payload']).to be_empty
+    expect(response.parsed_body['payload'].pluck('id')).to eq([recipient.id])
   end
 end
