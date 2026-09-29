@@ -143,8 +143,10 @@ export default {
       useTrack(CONVERSATION_EVENTS.EXPANDED_REPLY_BOX, { mode });
       nextTick(() => {
         const replyBox = replyBoxRef.value;
-        // Switching modes drops attachments, so only switch when it changes
-        if (mode && replyBox.replyType !== mode) replyBox.setReplyMode(mode);
+        // Switching drops attachments, and a restricted conversation stays on notes
+        const canSwitch =
+          replyBox.canSendPublicReply && replyBox.replyType !== mode;
+        if (mode && canSwitch) replyBox.setReplyMode(mode);
         replyBox.messageEditor?.focusEditorInputField();
       });
     };
