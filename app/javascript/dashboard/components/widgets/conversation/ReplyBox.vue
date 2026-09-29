@@ -47,6 +47,7 @@ import {
   appendSignature,
   removeSignature,
   getEffectiveChannelType,
+  getFormattingForEditor,
   getAgentVariables,
   getContactVariables,
 } from 'dashboard/helper/editorHelper';
@@ -91,6 +92,7 @@ export default {
   setup() {
     const {
       uiSettings,
+      updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
     } = useUISettings();
@@ -153,6 +155,7 @@ export default {
 
     return {
       uiSettings,
+      updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
       messageEditor,
@@ -518,6 +521,19 @@ export default {
         this.inbox
       );
     },
+    editorFormattingMenu() {
+      const formatType = this.isPrivate
+        ? 'Context::PrivateNote'
+        : getEffectiveChannelType(this.channelType, this.inbox?.medium || '');
+
+      return getFormattingForEditor(formatType).menu;
+    },
+    shouldShowFormattingToolbarToggle() {
+      return !this.isEditorDisabled && this.editorFormattingMenu.length > 0;
+    },
+    isFormattingToolbarPinned() {
+      return !!this.uiSettings.formatting_toolbar_enabled;
+    },
     shouldIncludeQuotedEmail() {
       return (
         this.isAnEmailChannel &&
@@ -683,6 +699,11 @@ export default {
       );
 
       useTrack(CONVERSATION_EVENTS.INSERT_ARTICLE_LINK);
+    },
+    toggleFormattingToolbar() {
+      this.updateUISettings({
+        formatting_toolbar_enabled: !this.isFormattingToolbarPinned,
+      });
     },
     removeQuotedEmail() {
       this.isQuoteRemoved = true;
@@ -1421,7 +1442,8 @@ export default {
           v-model="message"
           :conversation-id="conversationId"
           :editor-id="editorStateId"
-          class="input popover-prosemirror-menu resizable-editor-split"
+          class="input resizable-editor-split"
+          :popover-menu="!isFormattingToolbarPinned"
           :is-private="isOnPrivateNote"
           :placeholder="messagePlaceHolder"
           :update-selection-with="updateEditorSelectionWith"
@@ -1518,6 +1540,8 @@ export default {
         :show-audio-recorder="showAudioRecorder"
         :show-emoji-picker="showEmojiPicker"
         :show-file-upload="showFileUpload"
+        :show-formatting-toolbar-toggle="shouldShowFormattingToolbarToggle"
+        :formatting-toolbar-enabled="isFormattingToolbarPinned"
         :toggle-audio-recorder-play-pause="toggleAudioRecorderPlayPause"
         :toggle-audio-recorder="toggleAudioRecorder"
         :toggle-emoji-picker="toggleEmojiPicker"
@@ -1527,6 +1551,7 @@ export default {
         @select-whatsapp-template="openWhatsappTemplateModal"
         @select-content-template="openContentTemplateModal"
         @toggle-insert-article="toggleInsertArticle"
+        @toggle-formatting-toolbar="toggleFormattingToolbar"
         @request-contact-info-template="openContactInfoTemplateModal"
       />
     </Transition>

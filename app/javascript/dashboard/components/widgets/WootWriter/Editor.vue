@@ -97,6 +97,9 @@ const props = defineProps({
   conversationId: { type: Number, default: null },
   medium: { type: String, default: '' },
   focusOnMount: { type: Boolean, default: true },
+  // Render the formatting menu as a bubble over the current selection instead
+  // of a menubar pinned above the editor.
+  popoverMenu: { type: Boolean, default: false },
   // Global INSERT_INTO_RICH_EDITOR bus events (Copilot "Use this", article
   // links) are meant for the conversation reply editor only — other mounted
   // editors (canned responses, signature, etc.) must not consume them.
@@ -230,10 +233,7 @@ const caretPosition = computed(() => {
   return { top: top - editorTop, height: bottom - top };
 });
 
-const isEditorMenuPopover = computed(
-  () =>
-    editorRoot.value?.classList.contains('popover-prosemirror-menu') ?? false
-);
+const isEditorMenuPopover = computed(() => props.popoverMenu);
 
 const handleCopilotAction = actionKey => {
   if (actionKey === 'improve_selection' && editorView?.state) {
@@ -957,6 +957,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, content => {
     class="relative w-full"
     :class="{
       'opacity-50 cursor-not-allowed pointer-events-none': disabled,
+      'popover-prosemirror-menu': popoverMenu,
     }"
   >
     <TagAgents

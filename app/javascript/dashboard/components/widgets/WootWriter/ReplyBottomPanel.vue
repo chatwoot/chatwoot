@@ -119,6 +119,14 @@ export default {
       type: String,
       default: '',
     },
+    showFormattingToolbarToggle: {
+      type: Boolean,
+      default: false,
+    },
+    formattingToolbarEnabled: {
+      type: Boolean,
+      default: false,
+    },
     isEditorDisabled: {
       type: Boolean,
       default: false,
@@ -128,6 +136,7 @@ export default {
     'toggleInsertArticle',
     'selectWhatsappTemplate',
     'selectContentTemplate',
+    'toggleFormattingToolbar',
     'requestContactInfoTemplate',
   ],
   setup(props) {
@@ -253,6 +262,11 @@ export default {
     isFetchingAppIntegrations() {
       return this.uiFlags.isFetching;
     },
+    formattingToolbarToggleTooltip() {
+      return this.formattingToolbarEnabled
+        ? this.$t('CONVERSATION.REPLYBOX.FORMATTING_TOOLBAR.DISABLE_TOOLTIP')
+        : this.$t('CONVERSATION.REPLYBOX.FORMATTING_TOOLBAR.ENABLE_TOOLTIP');
+    },
   },
   mounted() {
     ActiveStorage.start();
@@ -331,6 +345,16 @@ export default {
         faded
         sm
         @click="toggleMessageSignature"
+      />
+      <NextButton
+        v-if="showFormattingToolbarToggle"
+        v-tooltip.top-end="formattingToolbarToggleTooltip"
+        icon="i-ph-text-aa"
+        :variant="formattingToolbarEnabled ? 'solid' : 'faded'"
+        color="slate"
+        sm
+        :aria-pressed="formattingToolbarEnabled"
+        @click="$emit('toggleFormattingToolbar')"
       />
       <NextButton
         v-if="enableWhatsAppTemplates"

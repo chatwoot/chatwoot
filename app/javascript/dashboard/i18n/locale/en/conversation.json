@@ -345,6 +345,10 @@
           "CANCEL": "Cancel"
         }
       },
+      "FORMATTING_TOOLBAR": {
+        "ENABLE_TOOLTIP": "Show formatting toolbar",
+        "DISABLE_TOOLTIP": "Hide formatting toolbar"
+      },
       "QUOTED_REPLY": {
         "SHOW_TOOLTIP": "Show trimmed content",
         "HIDE_TOOLTIP": "Hide trimmed content",
