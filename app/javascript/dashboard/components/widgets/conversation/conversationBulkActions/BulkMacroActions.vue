@@ -3,7 +3,8 @@ import { useTemplateRef, computed, ref } from 'vue';
 import { useI18n, I18nT } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useOrderedMacros } from 'dashboard/composables/useOrderedMacros';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -15,64 +16,56 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['select']);
+const emit = defineEmits(['execute']);
 
 const { t } = useI18n();
+const store = useStore();
+
 const containerRef = useTemplateRef('containerRef');
 const [showDropdown, toggleDropdown] = useToggle(false);
-const selectedTeam = ref(null);
+const selectedMacro = ref(null);
 
-const teams = useMapGetter('teams/getTeams');
-const bulkActionsUiFlags = useMapGetter('bulkActions/getUIFlags');
-const isUpdating = computed(() => bulkActionsUiFlags.value.isUpdating);
+const { orderedMacros } = useOrderedMacros();
+const macrosUiFlags = useMapGetter('macros/getUIFlags');
 
-const teamMenuItems = computed(() => {
-  const items = [
-    {
-      action: 'select',
-      value: 'none',
-      label: t('BULK_ACTION.TEAMS.NONE'),
-      isSelected: selectedTeam.value?.id === 0,
-    },
-  ];
+const isExecuting = computed(() => macrosUiFlags.value.isExecuting);
+const isLoading = computed(
+  () => macrosUiFlags.value.isFetching && !orderedMacros.value.length
+);
 
-  teams.value.forEach(team => {
-    items.push({
-      action: 'select',
-      value: team.id,
-      label: team.name,
-      isSelected: selectedTeam.value?.id === team.id,
-    });
-  });
+const macroMenuItems = computed(() =>
+  orderedMacros.value.map(macro => ({
+    action: 'select',
+    value: macro.id,
+    label: macro.name,
+    isSelected: selectedMacro.value?.id === macro.id,
+  }))
+);
 
-  return items;
-});
-
-const handleSelectTeam = item => {
-  if (item.value === 'none') {
-    selectedTeam.value = { id: 0, name: t('BULK_ACTION.TEAMS.NONE') };
-  } else {
-    const foundTeam = teams.value.find(team => team.id === item.value);
-    selectedTeam.value = foundTeam || {
-      id: 0,
-      name: t('BULK_ACTION.TEAMS.NONE'),
-    };
-  }
+const handleToggleDropdown = () => {
+  if (!showDropdown.value) store.dispatch('macros/get');
+  toggleDropdown();
 };
 
-const handleAssign = () => {
-  if (isUpdating.value) return;
-  emit('select', selectedTeam.value);
-  selectedTeam.value = null;
+const handleSelectMacro = item => {
+  selectedMacro.value = orderedMacros.value.find(
+    macro => macro.id === item.value
+  );
+};
+
+const handleExecute = () => {
+  if (isExecuting.value) return;
+  emit('execute', selectedMacro.value);
+  selectedMacro.value = null;
   toggleDropdown(false);
 };
 
 const handleCancel = () => {
-  selectedTeam.value = null;
+  selectedMacro.value = null;
 };
 
 const handleDismiss = () => {
-  selectedTeam.value = null;
+  selectedMacro.value = null;
   toggleDropdown(false);
 };
 </script>
@@ -80,13 +73,13 @@ const handleDismiss = () => {
 <template>
   <div ref="containerRef" class="relative">
     <Button
-      v-tooltip="$t('BULK_ACTION.ASSIGN_TEAM_TOOLTIP')"
-      icon="i-lucide-users-round"
+      v-tooltip="$t('BULK_ACTION.MACROS.EXECUTE_MACRO')"
+      icon="i-lucide-toy-brick"
       slate
       xs
       ghost
       :class="{ 'bg-n-alpha-2': showDropdown }"
-      @click="toggleDropdown()"
+      @click="handleToggleDropdown"
     />
     <Transition
       enter-active-class="transition-all duration-150 ease-out origin-bottom"
@@ -99,20 +92,21 @@ const handleDismiss = () => {
       <DropdownMenu
         v-if="showDropdown"
         v-on-click-outside="[handleDismiss, { ignore: [containerRef] }]"
-        :menu-items="teamMenuItems"
+        :menu-items="macroMenuItems"
+        :is-loading="isLoading"
         show-search
         :search-placeholder="t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
+        empty-state-message="MACROS.LIST.404"
         class="end-2 bottom-8 w-60 max-h-80"
-        @action="handleSelectTeam"
+        @action="handleSelectMacro"
       >
-        <template v-if="selectedTeam" #footer>
+        <template v-if="selectedMacro" #footer>
           <div
             class="pt-2 pb-2 px-2 border-t border-n-weak sticky bottom-0 rounded-b-md z-20 bg-n-alpha-3 backdrop-blur-[4px]"
           >
             <div class="flex flex-col gap-2">
               <I18nT
-                v-if="selectedTeam.id"
-                keypath="BULK_ACTION.TEAMS.ASSIGN_TEAM_CONFIRMATION_LABEL"
+                keypath="BULK_ACTION.MACROS.EXECUTE_CONFIRMATION_LABEL"
                 tag="p"
                 class="text-xs text-n-slate-11 px-1 mb-0"
                 :plural="props.conversationCount"
@@ -122,22 +116,9 @@ const handleDismiss = () => {
                     {{ props.conversationCount }}
                   </strong>
                 </template>
-                <template #teamName>
+                <template #macroName>
                   <strong class="text-n-slate-12">
-                    {{ selectedTeam.name }}
-                  </strong>
-                </template>
-              </I18nT>
-              <I18nT
-                v-else
-                keypath="BULK_ACTION.TEAMS.UNASSIGN_TEAM_CONFIRMATION_LABEL"
-                tag="p"
-                class="text-xs text-n-slate-11 px-1 mb-0"
-                :plural="props.conversationCount"
-              >
-                <template #n>
-                  <strong class="text-n-slate-12">
-                    {{ props.conversationCount }}
+                    {{ selectedMacro.name }}
                   </strong>
                 </template>
               </I18nT>
@@ -154,9 +135,9 @@ const handleDismiss = () => {
                   sm
                   class="flex-1"
                   :label="t('BULK_ACTION.YES')"
-                  :disabled="isUpdating"
-                  :is-loading="isUpdating"
-                  @click="handleAssign"
+                  :disabled="isExecuting"
+                  :is-loading="isExecuting"
+                  @click="handleExecute"
                 />
               </div>
             </div>
