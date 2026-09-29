@@ -4,7 +4,7 @@ class Voice::Provider::Twilio::Adapter
   end
 
   def initiate_call(to:, conference_sid: nil, agent_id: nil)
-    call = twilio_client.calls.create(**call_params(to))
+    call = @channel.client.calls.create(**call_params(to))
 
     {
       provider: 'twilio',
@@ -40,9 +40,5 @@ class Voice::Provider::Twilio::Adapter
 
   def twilio_call_status_url(phone_digits)
     Rails.application.routes.url_helpers.twilio_voice_status_url(phone: phone_digits)
-  end
-
-  def twilio_client
-    Twilio::REST::Client.new(@channel.account_sid, @channel.auth_token)
   end
 end

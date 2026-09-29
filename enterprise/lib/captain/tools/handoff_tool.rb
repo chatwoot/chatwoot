@@ -42,8 +42,6 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   private
 
   def trigger_handoff(tool_context, conversation, reason, reason_category)
-    return trigger_legacy_handoff(tool_context, conversation, reason, reason_category) unless captain_v2_enabled?
-
     note = nil
     handoff_result = conversation.with_lock do
       next :changed unless conversation.pending?
@@ -73,18 +71,6 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
     emit_tool_handoff_event(conversation, reason_category)
 
     # Send out of office message if applicable (since template messages were suppressed while Captain was handling)
-    send_out_of_office_message_if_applicable(conversation)
-    :completed
-  end
-
-  def trigger_legacy_handoff(tool_context, conversation, reason, reason_category)
-    note = conversation.messages.create!(
-      message_type: :outgoing, private: true, sender: @assistant,
-      account: conversation.account, inbox: conversation.inbox, content: reason
-    )
-    record_handoff_note(tool_context, note) if reason.present?
-    conversation.bot_handoff!
-    emit_tool_handoff_event(conversation, reason_category)
     send_out_of_office_message_if_applicable(conversation)
     :completed
   end
