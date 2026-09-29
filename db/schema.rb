@@ -1723,10 +1723,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_25_000001) do
   add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "inboxes", on_delete: :cascade
-  add_foreign_key "conversation_monitor_automation_deliveries", "accounts", on_delete: :cascade
-  add_foreign_key "conversation_monitor_automation_deliveries", "automation_rules", on_delete: :cascade
-  add_foreign_key "conversation_monitor_automation_deliveries", "conversation_monitors", column: "monitor_id", on_delete: :cascade
-  add_foreign_key "conversation_monitor_automation_deliveries", "conversations", on_delete: :cascade
   add_foreign_key "conversation_monitor_daily_usages", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "conversation_monitors", column: "monitor_id", on_delete: :cascade

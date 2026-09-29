@@ -22,13 +22,6 @@
 #  index_monitor_automation_deliveries_sweep                       (status,updated_at)
 #  index_monitor_automation_deliveries_unique                      (automation_rule_id,monitor_id,conversation_id) UNIQUE
 #
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
-#  fk_rails_...  (automation_rule_id => automation_rules.id) ON DELETE => cascade
-#  fk_rails_...  (conversation_id => conversations.id) ON DELETE => cascade
-#  fk_rails_...  (monitor_id => conversation_monitors.id) ON DELETE => cascade
-#
 class ConversationMonitors::AutomationDelivery < ApplicationRecord
   self.table_name = 'conversation_monitor_automation_deliveries'
 

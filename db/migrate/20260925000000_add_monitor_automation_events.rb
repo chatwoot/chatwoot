@@ -33,10 +33,10 @@ class AddMonitorAutomationEvents < ActiveRecord::Migration[7.1]
 
   def create_deliveries
     create_table :conversation_monitor_automation_deliveries do |t|
-      t.references :account, null: false, foreign_key: { on_delete: :cascade }
-      t.references :monitor, null: false, foreign_key: { to_table: :conversation_monitors, on_delete: :cascade }
-      t.references :automation_rule, null: false, foreign_key: { on_delete: :cascade }
-      t.references :conversation, null: false, foreign_key: { on_delete: :cascade }
+      t.references :account, null: false
+      t.references :monitor, null: false
+      t.references :automation_rule, null: false
+      t.references :conversation, null: false
       t.string :status, null: false, default: 'pending'
       t.string :skip_reason
       t.datetime :claimed_at
