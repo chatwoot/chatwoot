@@ -25,6 +25,16 @@ module Enterprise::AutomationRule
     'available'
   end
 
+  def destroy
+    return super unless monitor_id
+
+    ConversationMonitors::Monitor.transaction do
+      # Match ResultWriter's monitor lock before deleting the rule and its deliveries.
+      ConversationMonitors::Monitor.lock.find_by(id: monitor_id)
+      super
+    end
+  end
+
   private
 
   def prepare_monitor_event

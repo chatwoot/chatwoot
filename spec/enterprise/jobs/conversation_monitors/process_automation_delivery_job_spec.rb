@@ -55,4 +55,50 @@ RSpec.describe ConversationMonitors::ProcessAutomationDeliveryJob do
 
     expect(delivery.reload).to have_attributes(status: 'skipped', skip_reason: 'monitor_or_rule_unavailable')
   end
+
+  it 'terminalizes a delivery inserted after its selected rule was deleted' do
+    selected_rule = rule
+    selected_rule.destroy!
+    orphaned_delivery = ConversationMonitors::AutomationDelivery.create!(account: account, monitor: monitor,
+                                                                         automation_rule: selected_rule, conversation: conversation)
+
+    described_class.perform_now(orphaned_delivery.id)
+
+    expect(orphaned_delivery.reload).to have_attributes(status: 'skipped', skip_reason: 'monitor_or_rule_unavailable')
+    expect(ConversationMonitors::AutomationDelivery.sweepable).not_to exist(id: orphaned_delivery.id)
+  end
+
+  it 'terminalizes a delivery whose monitor was deleted without callbacks' do
+    queued_delivery = delivery
+    monitor.delete
+
+    described_class.perform_now(queued_delivery.id)
+
+    expect(queued_delivery.reload).to have_attributes(status: 'skipped', skip_reason: 'monitor_or_rule_unavailable')
+  end
+
+  it 'terminalizes a delivery whose conversation was deleted without callbacks' do
+    queued_delivery = delivery
+    conversation.delete
+
+    described_class.perform_now(queued_delivery.id)
+
+    expect(queued_delivery.reload).to have_attributes(status: 'skipped', skip_reason: 'monitor_or_rule_unavailable')
+  end
+
+  it 'removes a queued delivery when its conversation is destroyed' do
+    queued_delivery = delivery
+
+    conversation.destroy!
+
+    expect(ConversationMonitors::AutomationDelivery).not_to exist(id: queued_delivery.id)
+  end
+
+  it 'removes a queued delivery when its account is destroyed' do
+    queued_delivery = delivery
+
+    account.destroy!
+
+    expect(ConversationMonitors::AutomationDelivery).not_to exist(id: queued_delivery.id)
+  end
 end

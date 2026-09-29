@@ -71,5 +71,16 @@ RSpec.describe AutomationRule do
       account.disable_features!('automations')
       expect(rule.reload.monitor_availability).to eq('unavailable')
     end
+
+    it 'removes queued monitor deliveries when the linked rule is destroyed' do
+      rule = create(:automation_rule, account: account, event_name: 'monitor_matched', monitor: monitor, conditions: [])
+      conversation = create(:conversation, account: account)
+      delivery = ConversationMonitors::AutomationDelivery.create!(account: account, monitor: monitor,
+                                                                  automation_rule: rule, conversation: conversation)
+
+      rule.destroy!
+
+      expect(ConversationMonitors::AutomationDelivery).not_to exist(id: delivery.id)
+    end
   end
 end

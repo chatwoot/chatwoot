@@ -65,12 +65,7 @@ class ConversationMonitors::ResultWriter
   end
 
   def create_automation_delivery(monitor, rule)
-    ActiveRecord::Base.transaction(requires_new: true) do
-      monitor.automation_deliveries.create!(account_id: monitor.account_id, conversation_id: @work.conversation_id,
-                                            automation_rule: rule)
-    end
-  rescue ActiveRecord::InvalidForeignKey
-    # A rule deleted after selection must not undo the monitor's match or other deliveries.
-    nil
+    monitor.automation_deliveries.create!(account_id: monitor.account_id, conversation_id: @work.conversation_id,
+                                          automation_rule: rule)
   end
 end
