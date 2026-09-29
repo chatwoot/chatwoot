@@ -35,7 +35,8 @@ class ConversationMonitors::ResultWriter
   end
 
   def current?
-    @work.lease_token == @snapshot[:token] && @work.generation == @snapshot[:generation]
+    @work.lease_token == @snapshot[:token] && @work.generation == @snapshot[:generation] &&
+      @work.revision == @snapshot[:revision]
   end
 
   def attributes(monitor, score, model, error)

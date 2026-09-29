@@ -122,7 +122,8 @@ class ConversationMonitors::Evaluator
 
   def current_input?
     ConversationMonitors::Configuration.enabled?(@work.account.reload) &&
-      @work.reload.generation == @snapshot[:generation] && @work.lease_token == @snapshot[:token]
+      @work.reload.revision == @snapshot[:revision] && @work.generation == @snapshot[:generation] &&
+      @work.lease_token == @snapshot[:token]
   end
 
   def current_monitor?(monitor)
