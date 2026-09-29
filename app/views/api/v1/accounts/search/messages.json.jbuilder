@@ -5,3 +5,7 @@ json.payload do
     end
   end
 end
+
+json.meta do
+  json.message_backend @message_backend
+end

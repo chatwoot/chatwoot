@@ -90,7 +90,10 @@ const showDivider = index => {
         ]"
         @click="selectTab(index)"
       >
-        {{ tab.label }} {{ tab.count ? `(${tab.count})` : '' }}
+        {{ tab.label }}
+        <slot name="count" :tab="tab">
+          {{ tab.count ? `(${tab.count})` : '' }}
+        </slot>
       </button>
       <div
         v-if="index < tabs.length - 1"
