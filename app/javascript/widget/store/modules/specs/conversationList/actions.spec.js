@@ -208,6 +208,28 @@ describe('#actions', () => {
     });
   });
 
+  describe('#adopt', () => {
+    it('attaches the conversation and catches up on the messages it missed', async () => {
+      await actions.adopt({ state: { thread: 1 }, dispatch }, 2);
+
+      expect(dispatch.mock.calls).toEqual([
+        ['attach', 2],
+        ['conversation/syncLatestMessages', {}, { root: true }],
+      ]);
+    });
+
+    it('skips catching up when another thread took the screen meanwhile', async () => {
+      const state = { thread: 1 };
+      dispatch.mockImplementation(async () => {
+        state.thread += 1;
+      });
+
+      await actions.adopt({ state, dispatch }, 2);
+
+      expect(dispatch.mock.calls).toEqual([['attach', 2]]);
+    });
+  });
+
   describe('#updateLastMessage', () => {
     it('updates the row of the message conversation', () => {
       const message = { id: 40, conversation_id: 2 };

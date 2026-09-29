@@ -219,6 +219,15 @@ describe('#actions', () => {
             root: true,
           },
         ],
+        [
+          'conversation/setConversationUIFlag',
+          {
+            isAwaitingCampaign: true,
+          },
+          {
+            root: true,
+          },
+        ],
         ['setCampaignExecuted', true],
         ['setActiveCampaign', {}],
         [

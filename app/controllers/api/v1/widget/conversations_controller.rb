@@ -124,7 +124,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
            .not_deleted
            .select('DISTINCT ON (conversation_id) messages.*')
            .reorder(:conversation_id, created_at: :desc, id: :desc)
-           .includes(:attachments, :sender)
+           .includes(:attachments, :sender, :conversation)
            .index_by(&:conversation_id)
   end
 

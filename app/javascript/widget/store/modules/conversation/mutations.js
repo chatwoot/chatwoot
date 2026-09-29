@@ -7,6 +7,7 @@ export const mutations = {
     $state.uiFlags.allMessagesLoaded = false;
     $state.uiFlags.isAgentTyping = false;
     $state.uiFlags.isCreating = false;
+    $state.uiFlags.isAwaitingCampaign = false;
     $state.pendingCustomAttributes = {};
     $state.pendingLabels = [];
   },

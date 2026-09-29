@@ -133,6 +133,11 @@ export const actions = {
         { root: true }
       );
       await triggerCampaign({ campaignId, websiteToken, customAttributes });
+      commit(
+        'conversation/setConversationUIFlag',
+        { isAwaitingCampaign: true },
+        { root: true }
+      );
       commit('setCampaignExecuted', true);
       commit('setActiveCampaign', {});
     } catch (error) {

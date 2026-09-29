@@ -123,33 +123,53 @@ describe('Widget ActionCableConnector', () => {
       );
     });
 
-    it('switches to the conversation of a new message while no conversation is open', () => {
+    it('keeps a new thread on screen when an earlier conversation gets a reply', () => {
       app.$store.getters = {
         ...getters,
         'conversationAttributes/getConversationParams': { id: '' },
         'appConfig/getIsWidgetOpen': true,
+        'conversation/getIsCreating': true,
       };
+      const reply = { ...message, message_type: 1 };
 
-      connector.onMessageCreated(message);
+      connector.onMessageCreated(reply);
 
-      expect(mockDispatch).toBeCalledWith('conversationList/open', 2);
+      expect(mockDispatch.mock.calls).toEqual([['conversationList/fetch']]);
     });
 
-    it('attaches the conversation a new thread became while its first message is saved', () => {
+    it('attaches the conversation of the campaign the visitor clicked', () => {
       app.$store.getters = {
         ...getters,
         'conversationAttributes/getConversationParams': { id: '' },
-        'conversation/getIsCreating': true,
+        'appConfig/getIsWidgetOpen': true,
+        'conversation/getIsAwaitingCampaign': true,
+      };
+      const campaignMessage = {
+        ...message,
+        message_type: 1,
+        additional_attributes: { campaign_id: 7 },
       };
 
-      connector.onMessageCreated(message);
+      connector.onMessageCreated(campaignMessage);
 
       expect(mockDispatch).toBeCalledWith('conversationList/attach', 2);
-      expect(mockDispatch).not.toBeCalledWith('conversationList/open', 2);
       expect(mockDispatch).toBeCalledWith(
         'conversation/addOrUpdateMessage',
-        message
+        campaignMessage
       );
+    });
+
+    it('does not take a reply of an earlier conversation for the awaited campaign', () => {
+      app.$store.getters = {
+        ...getters,
+        'conversationAttributes/getConversationParams': { id: '' },
+        'appConfig/getIsWidgetOpen': true,
+        'conversation/getIsAwaitingCampaign': true,
+      };
+
+      connector.onMessageCreated({ ...message, message_type: 1 });
+
+      expect(mockDispatch.mock.calls).toEqual([['conversationList/fetch']]);
     });
 
     it('never lets the visitor own messages from elsewhere take over a new thread', () => {

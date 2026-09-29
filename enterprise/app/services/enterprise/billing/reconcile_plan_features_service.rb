@@ -26,6 +26,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   ] + PAID_PLAN_FEATURES).freeze
 
   BUSINESS_PLAN_FEATURES = %w[
+    campaign_analytics
     sla
     custom_roles
     csat_review_notes

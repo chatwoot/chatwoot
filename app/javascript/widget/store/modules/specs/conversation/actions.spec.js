@@ -324,7 +324,7 @@ describe('#actions', () => {
 
     afterEach(() => windowSpy.mockRestore());
 
-    it('attaches the conversation created by the first message', async () => {
+    it('adopts the conversation created by the first message', async () => {
       API.post.mockResolvedValue({ data: { id: 9, conversation_id: 55 } });
       const draftRootState = {
         conversationAttributes: { id: '' },
@@ -341,7 +341,7 @@ describe('#actions', () => {
         conversation_id: 55,
         status: 'sent',
       });
-      expect(dispatch).toBeCalledWith('conversationList/attach', 55, {
+      expect(dispatch).toBeCalledWith('conversationList/adopt', 55, {
         root: true,
       });
     });
@@ -362,7 +362,7 @@ describe('#actions', () => {
         )
         .mockResolvedValueOnce({ data: { id: 10, conversation_id: 55 } });
       dispatch.mockImplementation(action => {
-        if (action === 'conversationList/attach') {
+        if (action === 'conversationList/adopt') {
           draftRootState.conversationAttributes.id = 55;
         }
       });
@@ -434,10 +434,10 @@ describe('#actions', () => {
       saveFirst();
       await Promise.all([first, second]);
       expect(commit).toBeCalledWith('deleteMessage', 'temp-1');
-      expect(dispatch).toBeCalledWith('conversationList/attach', 56, {
+      expect(dispatch).toBeCalledWith('conversationList/adopt', 56, {
         root: true,
       });
-      expect(dispatch).not.toBeCalledWith('conversationList/attach', 55, {
+      expect(dispatch).not.toBeCalledWith('conversationList/adopt', 55, {
         root: true,
       });
     });

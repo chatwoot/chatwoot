@@ -1,5 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
+import { IFrameHelper } from 'widget/helpers/utils';
 
 import ChatFooter from '../components/ChatFooter.vue';
 import ConversationWrap from '../components/ConversationWrap.vue';
@@ -9,10 +10,20 @@ export default {
   computed: {
     ...mapGetters({
       groupedMessages: 'conversation/getGroupedConversation',
+      isWidgetOpen: 'appConfig/getIsWidgetOpen',
     }),
+    isVisible() {
+      return this.isWidgetOpen || !IFrameHelper.isIFrame();
+    },
   },
-  mounted() {
-    this.$store.dispatch('conversation/setUserLastSeen');
+  watch: {
+    // The thread can be on screen before the widget is opened; it is seen once it is visible.
+    isVisible: {
+      immediate: true,
+      handler(isVisible) {
+        if (isVisible) this.$store.dispatch('conversation/setUserLastSeen');
+      },
+    },
   },
 };
 </script>

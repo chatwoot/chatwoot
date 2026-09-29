@@ -98,6 +98,14 @@ export const actions = {
     commit('markRead', id);
   },
 
+  // A new thread cannot receive its conversation's messages until it knows the id.
+  adopt: async ({ state: listState, dispatch }, id) => {
+    const { thread } = listState;
+    await dispatch('attach', id);
+    if (listState.thread !== thread) return;
+    await dispatch('conversation/syncLatestMessages', {}, { root: true });
+  },
+
   updateLastMessage: ({ commit }, message) => {
     commit('setLastMessage', message);
   },
