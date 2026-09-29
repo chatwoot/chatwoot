@@ -102,7 +102,7 @@ const handleDismiss = () => {
         :menu-items="teamMenuItems"
         show-search
         :search-placeholder="t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
-        class="ltr:-right-2 rtl:-left-2 bottom-8 w-60 max-h-80"
+        class="end-2 bottom-8 w-60 max-h-80"
         @action="handleSelectTeam"
       >
         <template v-if="selectedTeam" #footer>

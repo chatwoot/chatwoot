@@ -70,6 +70,7 @@ RSpec.describe Enterprise::Billing::ShopifySubscriptionSyncService do
     expect(account).to be_active
     expect(account).to be_feature_enabled('audit_logs')
     expect(account).to be_feature_enabled('saml')
+    expect(account.enabled_features).to include('conversation_monitors' => true, 'captain_classifier' => true)
     expect(account).to be_feature_enabled('shopify_integration')
   end
 

@@ -8,17 +8,51 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import {
+  ICON_COLORS,
+  ICON_STYLE,
+} from 'dashboard/components-next/emoji-icon-picker/constants';
 import ReportDrilldownCard from '../components/ReportDrilldownCard.vue';
+import MonitorIconPicker from './MonitorIconPicker.vue';
+import { MAX_MONITOR_CONDITION_LENGTH } from './constants';
 
 const emit = defineEmits(['created']);
 
 const PREVIEW_POLL_INTERVAL_MS = 1500;
+// Each new monitor starts with a random pick from icons that suit conversation themes.
+const RANDOM_ICONS = [
+  'chat-3',
+  'question-answer',
+  'megaphone',
+  'alert',
+  'error-warning',
+  'fire',
+  'lightbulb',
+  'flag-2',
+  'focus-3',
+  'eye',
+  'pulse',
+  'line-chart',
+  'bug',
+  'shield-check',
+  'money-dollar-circle',
+  'truck',
+  'thumb-up',
+  'emotion-happy',
+  'price-tag-3',
+  'ticket-2',
+];
+const RANDOM_COLORS = ICON_COLORS.filter(({ name }) => name !== 'SLATE');
+const pickRandom = items => items[Math.floor(Math.random() * items.length)];
 
 const { t, te } = useI18n();
 const { accountId } = useAccount();
 const dialog = ref(null);
 const name = ref('');
 const condition = ref('');
+const templateName = ref('');
+const icon = ref('');
+const iconColor = ref('');
 const isSaving = ref(false);
 const error = ref('');
 const preview = ref(null);
@@ -33,10 +67,18 @@ let dialogGeneration = 0;
 const previewCooldown = computed(() =>
   Math.max(0, Math.ceil((previewAvailableAt.value - now.value) / 1000))
 );
-const isValid = computed(() => name.value.trim() && condition.value.trim());
+const isValid = computed(
+  () =>
+    name.value.trim() &&
+    condition.value.trim() &&
+    condition.value.length <= MAX_MONITOR_CONDITION_LENGTH
+);
 const canPreview = computed(
   () =>
-    !!condition.value.trim() && !isPreviewing.value && !previewCooldown.value
+    !!condition.value.trim() &&
+    condition.value.length <= MAX_MONITOR_CONDITION_LENGTH &&
+    !isPreviewing.value &&
+    !previewCooldown.value
 );
 
 const errorText = (code, fallback) => {
@@ -115,6 +157,11 @@ const open = (prefill = {}) => {
   dialogGeneration += 1;
   name.value = prefill.name || '';
   condition.value = prefill.condition || '';
+  templateName.value = prefill.templateName || '';
+  icon.value =
+    prefill.icon ??
+    `${pickRandom(RANDOM_ICONS)}-${pickRandom(Object.values(ICON_STYLE))}`;
+  iconColor.value = prefill.icon_color ?? pickRandom(RANDOM_COLORS).value;
   error.value = '';
   resetPreview();
   dialog.value.open();
@@ -134,6 +181,8 @@ const create = async () => {
     const { data } = await MonitorsAPI.create({
       name: name.value.trim(),
       condition: condition.value.trim(),
+      icon: icon.value,
+      icon_color: iconColor.value,
     });
     if (requestedAccount !== accountId.value || generation !== dialogGeneration)
       return;
@@ -166,19 +215,27 @@ defineExpose({ open });
     @close="onClose"
   >
     <form class="flex flex-col gap-5" @submit.prevent="create">
+      <p v-if="templateName" class="m-0 text-sm text-n-slate-11">
+        {{ t('MONITORS.TEMPLATES.EDIT_HINT', { name: templateName }) }}
+      </p>
       <Input
         v-model="name"
         :label="t('MONITORS.NAME')"
         :placeholder="t('MONITORS.NAME_PLACEHOLDER')"
         maxlength="100"
+        custom-input-class="!ps-12"
         autofocus
-      />
+      >
+        <template #prefix>
+          <MonitorIconPicker v-model:icon="icon" v-model:color="iconColor" />
+        </template>
+      </Input>
       <TextArea
         id="monitor-condition"
         v-model="condition"
         :label="t('MONITORS.CONDITION')"
         :placeholder="t('MONITORS.CONDITION_PLACEHOLDER')"
-        :max-length="2000"
+        :max-length="MAX_MONITOR_CONDITION_LENGTH"
         custom-text-area-class="min-h-24"
         show-character-count
       />
