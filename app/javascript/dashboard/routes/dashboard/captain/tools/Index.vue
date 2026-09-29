@@ -21,10 +21,7 @@ const store = useStore();
 const route = useRoute();
 const assistantId = computed(() => route.params.assistantId);
 const { t } = useI18n();
-const { isFeatureFlagEnabled, shouldShowPaywall } = usePolicy();
-
-const SOFT_LIMIT = 10;
-const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
+const { shouldShowPaywall } = usePolicy();
 
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
 const { run, isPending: isFetchingTools } = useAbortableRequest();
@@ -36,10 +33,6 @@ const isFetching = computed(
   () => uiFlags.value.fetchingList || isFetchingTools.value
 );
 const customToolsMeta = useMapGetter('captainCustomTools/getMeta');
-
-const showSoftLimitWarning = computed(
-  () => !isV2.value && customToolsMeta.value.totalCount > SOFT_LIMIT
-);
 
 const createDialogRef = ref(null);
 const deleteDialogRef = ref(null);
@@ -94,8 +87,8 @@ const openCreateDialog = () => {
   nextTick(() => createDialogRef.value.dialogRef.open());
 };
 
-const handleEdit = tool => {
-  dialogType.value = 'edit';
+const openToolPanel = (type, tool) => {
+  dialogType.value = type;
   selectedTool.value = tool;
   nextTick(() => createDialogRef.value.dialogRef.open());
 };
@@ -107,8 +100,8 @@ const handleDelete = tool => {
 
 const handleAction = ({ action, id }) => {
   const tool = customTools.value.find(item => item.id === id);
-  if (action === 'edit') {
-    handleEdit(tool);
+  if (action === 'edit' || action === 'view') {
+    openToolPanel(action, tool);
   } else if (action === 'delete') {
     handleDelete(tool);
   }
@@ -200,12 +193,16 @@ const onDeleteSuccess = () => {
   }
 };
 
+// On a full reload account features load after mount, so the paywall briefly shows;
+// watching it too fetches the tools once access resolves, not only when the assistant changes
+const showPaywall = computed(() =>
+  shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
+);
+
 watch(
-  assistantId,
+  [assistantId, showPaywall],
   () => {
-    if (!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)) {
-      fetchCustomTools();
-    }
+    if (!showPaywall.value) fetchCustomTools();
   },
   { immediate: true }
 );
@@ -240,13 +237,6 @@ watch(
 
     <template #body>
       <div class="flex flex-col gap-4">
-        <div
-          v-if="showSoftLimitWarning"
-          class="flex items-center gap-2 px-4 py-3 text-sm rounded-lg bg-n-amber-2 text-n-amber-11"
-        >
-          <span class="i-lucide-triangle-alert size-4 shrink-0" />
-          {{ $t('CAPTAIN.CUSTOM_TOOLS.SOFT_LIMIT_WARNING') }}
-        </div>
         <CustomToolCard
           v-for="tool in customTools"
           :id="tool.id"
@@ -258,6 +248,7 @@ watch(
           :auth-type="tool.auth_type"
           :param-schema="tool.param_schema"
           :enabled="tool.enabled"
+          :source-metadata="tool.source_metadata"
           :is-updating="pendingToggleIds.has(tool.id)"
           :created-at="tool.created_at"
           :updated-at="tool.updated_at"

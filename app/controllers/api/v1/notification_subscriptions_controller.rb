@@ -1,5 +1,8 @@
 class Api::V1::NotificationSubscriptionsController < Api::BaseController
+  include MfaEnforcementGuard
+
   before_action :set_user
+  before_action :check_user_mfa_enforcement, if: :authenticate_by_access_token?
 
   def create
     notification_subscription = NotificationSubscriptionBuilder.new(user: @user, params: notification_subscription_params).perform
