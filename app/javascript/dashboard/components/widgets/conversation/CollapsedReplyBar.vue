@@ -1,7 +1,12 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
+import { useDetectKeyboardLayout } from 'dashboard/composables/useDetectKeyboardLayout';
+import {
+  LAYOUT_QWERTZ,
+  keysToModifyInQWERTZ,
+} from 'shared/helpers/KeyboardHelpers';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -20,21 +25,31 @@ const props = defineProps({
 const emit = defineEmits(['open', 'goToLatest']);
 
 const { t } = useI18n();
-const replyShortcut = useKbd(['alt', 'l']);
-const noteShortcut = useKbd(['alt', 'p']);
+const keyboardLayout = ref(null);
+
+onMounted(async () => {
+  keyboardLayout.value = await useDetectKeyboardLayout();
+});
+
+// useKeyboardEvents adds Shift to these bindings on QWERTZ
+const shortcutFor = (binding, key) => {
+  const needsShift =
+    keyboardLayout.value === LAYOUT_QWERTZ && keysToModifyInQWERTZ.has(binding);
+  return useKbd([...(needsShift ? ['shift'] : []), 'alt', key]).value;
+};
 
 const actions = computed(() => [
   {
     mode: REPLY_EDITOR_MODES.REPLY,
     icon: 'i-lucide-reply',
     label: props.replyLabel,
-    shortcut: replyShortcut.value,
+    shortcut: shortcutFor('Alt+KeyL', 'l'),
   },
   {
     mode: REPLY_EDITOR_MODES.NOTE,
     icon: 'i-lucide-lock',
     label: t('CONVERSATION.REPLYBOX.PRIVATE_NOTE'),
-    shortcut: noteShortcut.value,
+    shortcut: shortcutFor('Alt+KeyP', 'p'),
   },
 ]);
 </script>

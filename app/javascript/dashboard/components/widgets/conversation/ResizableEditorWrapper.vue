@@ -79,15 +79,6 @@ provide('requestEditorHeight', height => {
   requestedHeight.value = height;
 });
 
-const collapseStyle = computed(() =>
-  collapseProgress.value
-    ? {
-        opacity: 1 - collapseProgress.value * 0.6,
-        transform: `translateY(${collapseProgress.value * 0.75}rem)`,
-      }
-    : null
-);
-
 const clearDragStyles = () => {
   Object.assign(document.body.style, { cursor: '', userSelect: '' });
 };
@@ -187,6 +178,7 @@ defineExpose({ toggleEditorExpand, resetEditorHeight });
       '--editor-height-transition': isResizing
         ? '0s'
         : '200ms cubic-bezier(0.4, 0, 0.2, 1)',
+      '--editor-collapse-progress': collapseProgress,
     }"
   >
     <div
@@ -205,8 +197,11 @@ defineExpose({ toggleEditorExpand, resetEditorHeight });
     </div>
     <div
       class="transition-[opacity,transform] ease-out"
-      :class="isResizing ? 'duration-0' : 'duration-200'"
-      :style="collapseStyle"
+      :class="[
+        isResizing ? 'duration-0' : 'duration-200',
+        collapseProgress > 0 &&
+          'opacity-[calc(1_-_var(--editor-collapse-progress)_*_0.6)] translate-y-[calc(var(--editor-collapse-progress)_*_0.75rem)]',
+      ]"
     >
       <slot />
     </div>

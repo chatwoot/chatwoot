@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils';
+import { mount, flushPromises } from '@vue/test-utils';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import CollapsedReplyBar from '../CollapsedReplyBar.vue';
 
@@ -15,6 +15,10 @@ const findButton = (wrapper, text) =>
   wrapper.findAll('button').find(button => button.text().includes(text));
 
 describe('CollapsedReplyBar', () => {
+  beforeEach(() => {
+    window.cw_keyboard_layout = 'QWERTY';
+  });
+
   it('renders the reply and private note actions', () => {
     const wrapper = mountComponent({
       replyLabel: 'Reply to this older conversation',
@@ -59,6 +63,18 @@ describe('CollapsedReplyBar', () => {
     expect(wrapper.findAll('kbd').map(kbd => kbd.text())).toEqual([
       '⌥ L',
       '⌥ P',
+    ]);
+  });
+
+  it('adds the shift key on a QWERTZ layout', async () => {
+    window.cw_keyboard_layout = 'QWERTZ';
+    vi.spyOn(navigator, 'platform', 'get').mockReturnValue('Win32');
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    expect(wrapper.findAll('kbd').map(kbd => kbd.text())).toEqual([
+      '⇧ ALT L',
+      '⇧ ALT P',
     ]);
   });
 

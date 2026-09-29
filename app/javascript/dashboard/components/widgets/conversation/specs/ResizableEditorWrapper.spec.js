@@ -22,8 +22,12 @@ const mountWrapper = () =>
 
 const editorHeight = wrapper =>
   parseInt(wrapper.element.style.getPropertyValue('--editor-height'), 10);
-const contentOpacity = wrapper =>
-  wrapper.find('.resizable-editor-body').element.parentElement.style.opacity;
+const collapseProgress = wrapper =>
+  Number(wrapper.element.style.getPropertyValue('--editor-collapse-progress'));
+const isFading = wrapper =>
+  wrapper
+    .find('.resizable-editor-body')
+    .element.parentElement.className.includes('--editor-collapse-progress');
 
 // Positive distance drags the handle down, shrinking the editor.
 const dragBy = async (wrapper, distance) => {
@@ -62,7 +66,8 @@ describe('ResizableEditorWrapper', () => {
   it('fades the editor as the handle is pulled past the minimum', async () => {
     await dragBy(wrapper, DEFAULT_HEIGHT - MIN_HEIGHT + COLLAPSE_DISTANCE / 2);
 
-    expect(contentOpacity(wrapper)).toBe('0.7');
+    expect(collapseProgress(wrapper)).toBe(0.5);
+    expect(isFading(wrapper)).toBe(true);
     expect(wrapper.emitted('collapse')).toBeUndefined();
   });
 
@@ -70,7 +75,8 @@ describe('ResizableEditorWrapper', () => {
     await dragBy(wrapper, DEFAULT_HEIGHT - MIN_HEIGHT + COLLAPSE_DISTANCE / 2);
     await releaseDrag();
 
-    expect(contentOpacity(wrapper)).toBe('');
+    expect(collapseProgress(wrapper)).toBe(0);
+    expect(isFading(wrapper)).toBe(false);
     expect(editorHeight(wrapper)).toBe(MIN_HEIGHT);
     expect(wrapper.emitted('collapse')).toBeUndefined();
     expect(document.body.style.cursor).toBe('');
@@ -80,7 +86,8 @@ describe('ResizableEditorWrapper', () => {
     await dragBy(wrapper, DEFAULT_HEIGHT - MIN_HEIGHT + COLLAPSE_DISTANCE);
 
     expect(wrapper.emitted('collapse')).toHaveLength(1);
-    expect(contentOpacity(wrapper)).toBe('');
+    expect(collapseProgress(wrapper)).toBe(0);
+    expect(isFading(wrapper)).toBe(false);
     expect(editorHeight(wrapper)).toBe(DEFAULT_HEIGHT);
     expect(document.body.style.cursor).toBe('');
   });
