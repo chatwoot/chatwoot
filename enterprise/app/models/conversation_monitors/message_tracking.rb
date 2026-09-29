@@ -43,13 +43,18 @@ module ConversationMonitors::MessageTracking
       @monitor_work_requested = true if work
     end
     wake_monitor_evaluation
+  ensure
+    @monitor_live_activity_at = nil
   end
 
   def invalidate_monitor_evaluation
     return if activity? || template?
     return if conversation.nil?
 
-    @monitor_work_requested = ConversationMonitors::Scheduler.request(conversation, invalidate: true).present?
+    live_activity_at = @monitor_live_activity_at unless private? || content_attributes['deleted']
+    @monitor_work_requested = ConversationMonitors::Scheduler.request(
+      conversation, invalidate: true, live_activity_at: live_activity_at
+    ).present?
     @monitor_content_invalidated = @monitor_work_requested
   end
 

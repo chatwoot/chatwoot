@@ -59,8 +59,17 @@ class ConversationMonitors::ResultWriter
 
     monitor.automation_rules.active.where(event_name: 'monitor_matched')
            .where(monitor_event_activated_at: ..activity_at).find_each do |rule|
+      create_automation_delivery(monitor, rule)
+    end
+  end
+
+  def create_automation_delivery(monitor, rule)
+    ActiveRecord::Base.transaction(requires_new: true) do
       monitor.automation_deliveries.create!(account_id: monitor.account_id, conversation_id: @work.conversation_id,
                                             automation_rule: rule)
     end
+  rescue ActiveRecord::InvalidForeignKey
+    # A rule deleted after selection must not undo the monitor's match or other deliveries.
+    nil
   end
 end
