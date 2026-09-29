@@ -165,7 +165,7 @@ RSpec.describe Captain::CustomTool, type: :model do
       end
 
       it 'is invalid with reserved headers regardless of case' do
-        %w[authorization Host content-length content-type X-Chatwoot-Account-Id].each do |name|
+        %w[authorization Host content-length content-type X-Chatwoot-Account-Id X-Chatwoot X-ChatwootToken].each do |name|
           tool = build(:captain_custom_tool, account: account, headers: { name => 'value' })
 
           expect(tool).not_to be_valid, "expected #{name} to be rejected"
@@ -191,6 +191,100 @@ RSpec.describe Captain::CustomTool, type: :model do
           expect(tool).not_to be_valid, "expected #{value} to be rejected"
         end
       end
+    end
+  end
+
+  describe 'auth_config validation' do
+    let(:account) { create(:account) }
+
+    it 'is valid with a proper API key header' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => 'X-API-Key', 'key' => 'secret' })
+
+      expect(tool).to be_valid
+    end
+
+    it 'is invalid when the API key header name is not a valid header name' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => 'X API Key', 'key' => 'secret' })
+
+      expect(tool).not_to be_valid
+      expect(tool.errors[:auth_config]).to include('X API Key is not a valid header name')
+    end
+
+    it 'is invalid when the API key header name is one Chatwoot sets itself' do
+      %w[X-Chatwoot-Account-Id x-chatwoot-custom X-Chatwoot X-ChatwootToken Content-Type host].each do |name|
+        tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => name, 'key' => 'secret' })
+
+        expect(tool).not_to be_valid, "expected #{name} to be rejected"
+        expect(tool.errors[:auth_config]).to include("#{name} is managed by Chatwoot and cannot be set")
+      end
+    end
+
+    it 'allows Authorization as the API key header name' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => 'Authorization', 'key' => 'Token secret' })
+
+      expect(tool).to be_valid
+    end
+
+    it 'is invalid when a basic auth username contains a colon' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'basic', auth_config: { 'username' => 'acme:ops', 'password' => 'secret' })
+
+      expect(tool).not_to be_valid
+      expect(tool.errors[:auth_config]).to be_present
+    end
+
+    it 'is invalid when a credential contains control characters' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'bearer', auth_config: { 'token' => "secret\r\nX-Injected: 1" })
+
+      expect(tool).not_to be_valid
+      expect(tool.errors[:auth_config]).to be_present
+    end
+  end
+
+  describe 'source_metadata validation' do
+    let(:account) { create(:account) }
+    let(:source_metadata) do
+      {
+        'source' => 'github',
+        'repository' => 'chatwoot/support-tools',
+        'path' => 'shopify',
+        'tool_id' => 'get_order',
+        'revision' => 'a' * 40,
+        'version' => '1.2.0',
+        'manifest_digest' => "sha256:#{'b' * 64}",
+        'installation_id' => SecureRandom.uuid
+      }
+    end
+
+    it 'is valid without source metadata' do
+      expect(build(:captain_custom_tool, account: account, source_metadata: nil)).to be_valid
+    end
+
+    it 'is valid with complete GitHub source metadata' do
+      expect(build(:captain_custom_tool, account: account, source_metadata: source_metadata)).to be_valid
+    end
+
+    it 'is invalid with an unsupported source' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.merge('source' => 'gitlab'))
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid with an abbreviated revision' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.merge('revision' => 'abc1234'))
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid when a field is missing' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.except('tool_id'))
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid with unknown fields' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.merge('category' => 'Commerce'))
+
+      expect(tool).not_to be_valid
     end
   end
 
