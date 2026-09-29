@@ -1,7 +1,7 @@
 class Enterprise::Billing::ReconcilePlanFeaturesService
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
   SHOPIFY_MANAGED_FEATURES = 'shopify_managed_features'.freeze
-  PAID_PLAN_FEATURES = %w[conversation_monitors captain_classifier].freeze
+  PAID_PLAN_FEATURES = %w[captain_classifier].freeze
 
   # Plan hierarchy: Hacker (default) -> Startups -> Business -> Enterprise
   # Each higher tier includes all features from the lower tiers
@@ -26,12 +26,14 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   ] + PAID_PLAN_FEATURES).freeze
 
   BUSINESS_PLAN_FEATURES = %w[
+    campaign_analytics
     sla
     custom_roles
     csat_review_notes
     conversation_required_attributes
     advanced_assignment
     custom_tools
+    conversation_monitors
   ].freeze
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
   PREMIUM_PLAN_FEATURES = (STARTUP_PLAN_FEATURES + BUSINESS_PLAN_FEATURES + ENTERPRISE_PLAN_FEATURES).freeze

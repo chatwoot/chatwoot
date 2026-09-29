@@ -23,6 +23,15 @@ class Voice::Provider::Twilio::ConferenceService
       .each { |conf| client.conferences(conf.sid).update(status: 'completed') }
   end
 
+  # Hangs up legs that never joined the conference (e.g. a PSTN leg still ringing). `completed` ends
+  # queued, ringing and in-progress legs alike (`canceled` skips in-progress); Twilio 200s on an ended leg.
+  def terminate_call
+    client = call.inbox.channel.client
+    [call.provider_call_id, call.parent_call_sid].compact_blank.uniq.each do |sid|
+      client.calls(sid).update(status: 'completed')
+    end
+  end
+
   private
 
   def claim_call!(user)
