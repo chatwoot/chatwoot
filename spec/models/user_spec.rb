@@ -102,6 +102,13 @@ RSpec.describe User do
       expect(user.sso_auth_token_impersonator_id(sso_auth_token)).to be_nil
     end
 
+    it 'consumes a token only once' do
+      sso_auth_token = user.generate_sso_auth_token
+
+      expect(user.consume_sso_auth_token(sso_auth_token)).to be true
+      expect(user.consume_sso_auth_token(sso_auth_token)).to be false
+    end
+
     it 'records the super admin who minted an impersonation token' do
       super_admin = create(:super_admin)
       sso_auth_token = user.generate_sso_auth_token(impersonated_by: super_admin)

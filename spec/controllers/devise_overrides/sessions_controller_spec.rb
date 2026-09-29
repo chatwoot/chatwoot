@@ -466,6 +466,17 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
         expect(user.reload.tokens.keys).not_to include('c2')
         expect(user.user_sessions.exists?(id: target.id)).to be false
       end
+
+      it 'keeps an SSO token usable after the picker so the login can be retried' do
+        sso_token = user.generate_sso_auth_token
+        post :create, params: { email: user.email, sso_auth_token: sso_token }
+        expect(response).to have_http_status(:conflict)
+
+        target = user.user_sessions.find_by(client_id: 'c2')
+        post :create, params: { email: user.email, sso_auth_token: sso_token, revoke_session_id: target.id }
+
+        expect(response).to have_http_status(:success)
+      end
     end
 
     context 'with revoke_all_sessions during login' do
@@ -503,6 +514,16 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
     let(:browser_ua) { 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15' }
 
     before { request.env['HTTP_USER_AGENT'] = browser_ua }
+
+    it 'rejects an impersonation link already redeemed by a concurrent request' do
+      sso_token = user.generate_sso_auth_token(impersonated_by: super_admin)
+      allow(Redis::Alfred).to receive(:delete).and_return(0)
+
+      post :create, params: { email: user.email, sso_auth_token: sso_token }
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(user.reload.tokens).to be_blank
+    end
 
     it 'does not create a UserSession row for impersonation login' do
       sso_token = user.generate_sso_auth_token(impersonated_by: super_admin)
