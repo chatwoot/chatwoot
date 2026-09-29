@@ -499,12 +499,13 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
 
   describe 'impersonation SSO login' do
     let(:user) { create(:user, password: 'Test@123456') }
+    let(:super_admin) { create(:super_admin) }
     let(:browser_ua) { 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15' }
 
     before { request.env['HTTP_USER_AGENT'] = browser_ua }
 
     it 'does not create a UserSession row for impersonation login' do
-      sso_token = user.generate_sso_auth_token(impersonation: true)
+      sso_token = user.generate_sso_auth_token(impersonated_by: super_admin)
 
       expect do
         post :create, params: { email: user.email, sso_auth_token: sso_token }
@@ -514,7 +515,7 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
     end
 
     it 'creates a short-lived token for impersonation login' do
-      sso_token = user.generate_sso_auth_token(impersonation: true)
+      sso_token = user.generate_sso_auth_token(impersonated_by: super_admin)
 
       post :create, params: { email: user.email, sso_auth_token: sso_token }
 
@@ -522,6 +523,36 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
       token_entry = user.reload.tokens.values.last
       # 2-day lifespan: expiry should be within ~3 days from now (token creation + lifespan)
       expect(token_entry['expiry']).to be < (3.days.from_now).to_i
+    end
+
+    it 'marks the session token with the impersonating super admin' do
+      sso_token = user.generate_sso_auth_token(impersonated_by: super_admin)
+
+      post :create, params: { email: user.email, sso_auth_token: sso_token }
+
+      expect(user.reload.tokens[response.headers['client']]['impersonated_by']).to eq(super_admin.id)
+    end
+
+    it 'treats a token minted before super admin attribution as impersonation' do
+      sso_token = SecureRandom.hex(32)
+      Redis::Alfred.setex(format(Redis::RedisKeys::USER_SSO_AUTH_TOKEN, user_id: user.id, token: sso_token), 'impersonation', 5.minutes)
+
+      expect do
+        post :create, params: { email: user.email, sso_auth_token: sso_token }
+      end.not_to change(user.user_sessions, :count)
+
+      token_entry = user.reload.tokens[response.headers['client']]
+      expect(token_entry['impersonation']).to be(true)
+      expect(token_entry).not_to have_key('impersonated_by')
+      expect(token_entry['expiry']).to be < 3.days.from_now.to_i
+    end
+
+    it 'does not mark the session token for a regular SSO login' do
+      post :create, params: { email: user.email, sso_auth_token: user.generate_sso_auth_token }
+
+      token_entry = user.reload.tokens[response.headers['client']]
+      expect(token_entry).not_to have_key('impersonation')
+      expect(token_entry).not_to have_key('impersonated_by')
     end
 
     it 'creates a normal UserSession row for regular SSO login' do
@@ -538,7 +569,7 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
         user.tokens["existing#{i}"] = { 'token' => 'x', 'expiry' => (Time.current + (30 + i).days).to_i }
       end
       user.save!
-      sso_token = user.generate_sso_auth_token(impersonation: true)
+      sso_token = user.generate_sso_auth_token(impersonated_by: super_admin)
 
       post :create, params: { email: user.email, sso_auth_token: sso_token }
 

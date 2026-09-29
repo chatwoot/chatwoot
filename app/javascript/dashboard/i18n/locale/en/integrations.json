@@ -1273,6 +1273,27 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "INSTALL_MANIFEST": {
+        "TITLE": "Install a toolset",
+        "DESCRIPTION": "Install a toolset from the Captain tools catalog.",
+        "SOURCE_LABEL": "Toolset",
+        "SOURCE_PLACEHOLDER": "chatwoot/tools/folder",
+        "SOURCE_HELP": "Installs the latest version from the catalog.",
+        "VERSION_LABEL": "v{version} · {revision}",
+        "UPDATE_NOTE": "A different version is installed. Updating replaces its tools and keeps whether each one is enabled. Enter the secrets again.",
+        "TOOLS_LABEL": "Tools",
+        "CONFIGURATION_LABEL": "Configuration",
+        "CONTINUE": "Continue",
+        "BACK": "Back",
+        "INSTALL": "Install",
+        "UPDATE": "Update",
+        "REINSTALL": "Reinstall",
+        "REINSTALL_NOTE": "Some tools from this toolset were deleted. Reinstalling adds them back and keeps whether each one is enabled. Enter the secrets again.",
+        "ALREADY_INSTALLED": "Already installed",
+        "SUCCESS_MESSAGE": "Toolset installed",
+        "ERROR_MESSAGE": "Could not install the toolset",
+        "PREVIEW_ERROR": "Could not load the toolset"
+      },
       "ASSISTANT_TOOLS_BANNER": {
         "MESSAGE": "Custom tools are now managed per assistant. Switch assistants to customize their tools.",
         "LEARN_MORE": "Learn more",
@@ -1294,6 +1315,7 @@
       "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
       "OPTIONS": {
         "EDIT_TOOL": "Edit tool",
+        "VIEW_TOOL": "View tool",
         "DELETE_TOOL": "Delete tool"
       },
       "STATUS": {
@@ -1316,6 +1338,9 @@
         "TITLE": "Create Custom Tool",
         "SUCCESS_MESSAGE": "Custom tool created successfully",
         "ERROR_MESSAGE": "Failed to create custom tool"
+      },
+      "VIEW": {
+        "TITLE": "Custom Tool Details"
       },
       "EDIT": {
         "TITLE": "Edit Custom Tool",
@@ -1386,6 +1411,19 @@
           "API_KEY_PLACEHOLDER": "X-API-Key",
           "API_VALUE": "Header Value",
           "API_VALUE_PLACEHOLDER": "Enter API key value"
+        },
+        "SECTIONS": {
+          "TEMPLATES": "Templates",
+          "TEMPLATES_HELP_TEXT": "Supports Liquid syntax, like {'{{'} order_id {'}}'} or {'{{'} response.status {'}}'}."
+        },
+        "HEADERS": {
+          "LABEL": "Headers",
+          "HELP_TEXT": "Static headers sent with every request. Values are sent exactly as entered; use Authentication for credentials.",
+          "NAME_PLACEHOLDER": "Header name (e.g., cal-api-version)",
+          "VALUE_PLACEHOLDER": "Header value",
+          "NAME_REQUIRED": "Header name is required",
+          "NAME_DUPLICATE": "Header names must be unique",
+          "ADD": "Add Header"
         },
         "PARAMETERS": {
           "LABEL": "Parameters",
