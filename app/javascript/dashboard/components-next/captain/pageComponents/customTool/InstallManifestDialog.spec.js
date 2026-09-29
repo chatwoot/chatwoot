@@ -29,7 +29,7 @@ const previewData = {
   name: 'Shopify Support Tools',
   description: 'Look up Shopify orders.',
   version: '1.2.0',
-  repository: 'chatwoot/support-tools',
+  repository: 'chatwoot/tools',
   path: 'shopify',
   revision: 'a'.repeat(40),
   installed_revision: null,
@@ -100,7 +100,7 @@ describe('InstallManifestDialog', () => {
       return new Promise(() => {});
     });
     const wrapper = mountDialog();
-    await wrapper.find('input').setValue('chatwoot/support-tools/shopify');
+    await wrapper.find('input').setValue('chatwoot/tools/shopify');
     await wrapper.findAll('button').at(-1).trigger('click');
 
     wrapper.findComponent(DialogStub).vm.$emit('close');

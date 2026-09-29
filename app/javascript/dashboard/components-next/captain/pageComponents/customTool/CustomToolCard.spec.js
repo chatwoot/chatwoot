@@ -33,7 +33,7 @@ const mountCard = (props = {}) =>
 const menuActions = wrapper => wrapper.vm.menuItems.map(item => item.action);
 
 const installedSource = {
-  repository: 'chatwoot/support-tools',
+  repository: 'chatwoot/tools',
   path: 'shopify',
 };
 
@@ -66,7 +66,7 @@ describe('CustomToolCard', () => {
 
   it('keeps tools installed from a manifest read-only', () => {
     const wrapper = mountCard({
-      sourceMetadata: { repository: 'chatwoot/support-tools', path: 'shopify' },
+      sourceMetadata: { repository: 'chatwoot/tools', path: 'shopify' },
     });
 
     expect(menuActions(wrapper)).toEqual(['view', 'delete']);

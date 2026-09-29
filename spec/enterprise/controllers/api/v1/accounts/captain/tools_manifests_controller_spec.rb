@@ -6,7 +6,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:revision) { 'a' * 40 }
-  let(:source) { 'chatwoot/support-tools/shopify' }
+  let(:source) { 'chatwoot/tools/shopify' }
   let(:manifest) do
     {
       'version' => '1.2.0',
@@ -36,8 +36,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
     account.enable_features!('custom_tools')
     create(:installation_config, name: 'CAPTAIN_TOOLS_MANIFEST_ENABLED', value: true)
     allow(Resolv).to receive(:getaddresses).and_return(['140.82.112.3'])
-    stub_request(:get, 'https://api.github.com/repos/chatwoot/support-tools/commits/HEAD').to_return(status: 200, body: revision)
-    stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{revision}/shopify/toolset.yml")
+    stub_request(:get, 'https://api.github.com/repos/chatwoot/tools/commits/HEAD').to_return(status: 200, body: revision)
+    stub_request(:get, "https://raw.githubusercontent.com/chatwoot/tools/#{revision}/shopify/toolset.yml")
       .to_return(status: 200, body: manifest.to_yaml)
   end
 
@@ -68,7 +68,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
       expect(response).to have_http_status(:success)
       expect(json_response).to include(name: 'Shopify Support Tools', version: '1.2.0', revision: revision,
                                        installed_revision: nil, up_to_date: false,
-                                       repository: 'chatwoot/support-tools', path: 'shopify')
+                                       repository: 'chatwoot/tools', path: 'shopify')
       expect(json_response[:fields]).to eq([
                                              { name: 'shop_domain', section: 'inputs', label: 'Shopify store domain', type: 'string',
                                                placeholder: 'acme.myshopify.com', required: true, options: nil },
@@ -81,7 +81,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
 
     it 'reports optional fields used for authentication as required' do
       manifest['secrets']['access_token']['required'] = false
-      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{revision}/shopify/toolset.yml")
+      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/tools/#{revision}/shopify/toolset.yml")
         .to_return(status: 200, body: manifest.to_yaml)
 
       post "#{base_url}/preview", params: { assistant_id: assistant.id, source: source }, headers: admin.create_new_auth_token, as: :json
@@ -99,7 +99,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
 
     it 'reports a toolset with deleted tools as not up to date' do
       manifest['tools'] << manifest['tools'].first.deep_dup.merge('id' => 'cancel_order', 'title' => 'Cancel Order')
-      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{revision}/shopify/toolset.yml")
+      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/tools/#{revision}/shopify/toolset.yml")
         .to_return(status: 200, body: manifest.to_yaml)
       Captain::ToolsManifest::InstallService.new(assistant: assistant, source: source, configuration: configuration.deep_stringify_keys).perform
       assistant.custom_tools.find_by!(title: 'Cancel Order').destroy!
@@ -113,18 +113,9 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
       post "#{base_url}/preview", params: { assistant_id: assistant.id, source: 'not-a-source' }, headers: admin.create_new_auth_token, as: :json
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(json_response[:error]).to eq('Enter a public GitHub URL or owner/repository/folder on the default branch')
+      expect(json_response[:error]).to eq('Enter a toolset from the Captain tools catalog as chatwoot/tools/folder')
     end
 
-    it 'returns unprocessable entity for an invalid manifest' do
-      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{revision}/shopify/toolset.yml")
-        .to_return(status: 200, body: manifest.merge('kind' => 'toolset').to_yaml)
-
-      post "#{base_url}/preview", params: { assistant_id: assistant.id, source: source }, headers: admin.create_new_auth_token, as: :json
-
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(json_response[:error]).to eq("This toolset's manifest is invalid")
-    end
   end
 
   describe 'POST /api/v1/accounts/{account.id}/captain/tools_manifest/install' do
@@ -138,7 +129,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
 
     it 'installs a specific commit when a revision is given' do
       older_revision = 'b' * 40
-      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{older_revision}/shopify/toolset.yml")
+      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/tools/#{older_revision}/shopify/toolset.yml")
         .to_return(status: 200, body: manifest.to_yaml)
 
       post "#{base_url}/install", params: { assistant_id: assistant.id, source: source, revision: older_revision, configuration: configuration },
@@ -154,7 +145,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(json_response[:payload].pluck(:title)).to eq(['Get Order'])
-      expect(json_response[:payload].first[:source_metadata]).to include(repository: 'chatwoot/support-tools', path: 'shopify', revision: revision)
+      expect(json_response[:payload].first[:source_metadata]).to include(repository: 'chatwoot/tools', path: 'shopify', revision: revision)
       expect(assistant.custom_tools.first.auth_config).to eq('token' => 'shpat_secret')
     end
 
@@ -171,7 +162,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
     it 'installs a manifest without inputs or secrets when configuration is omitted' do
       tool = manifest['tools'].first.merge('endpoint_url' => 'https://api.example.com/orders/{{ order_id }}.json', 'auth_type' => 'none')
       fieldless_manifest = manifest.except('inputs', 'secrets').merge('tools' => [tool.except('auth_config')])
-      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{revision}/shopify/toolset.yml")
+      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/tools/#{revision}/shopify/toolset.yml")
         .to_return(status: 200, body: fieldless_manifest.to_yaml)
 
       post "#{base_url}/install", params: { assistant_id: assistant.id, source: source }, headers: admin.create_new_auth_token, as: :json
@@ -185,7 +176,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
       tool = manifest['tools'].first.merge('endpoint_url' => 'https://api.example.com/orders/{{ order_id }}.json', 'auth_type' => 'none')
       optional_manifest = manifest.except('secrets').merge('inputs' => { 'region' => { 'label' => 'Region' } },
                                                            'tools' => [tool.except('auth_config')])
-      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{revision}/shopify/toolset.yml")
+      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/tools/#{revision}/shopify/toolset.yml")
         .to_return(status: 200, body: optional_manifest.to_yaml)
 
       [{ inputs: 'region' }, { secrets: ['region'] }].each do |invalid_configuration|

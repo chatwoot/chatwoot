@@ -8,14 +8,13 @@ class Api::V1::Accounts::Captain::ToolsManifestsController < Api::V1::Accounts::
   before_action :set_assistant
 
   rescue_from(Captain::ToolsManifest::GithubSource::SourceError) { |error| render_install_error(error, 'invalid_source') }
-  rescue_from(Captain::ToolsManifest::Validator::InvalidManifestError) { |error| render_install_error(error, 'invalid_manifest') }
   rescue_from(InstallError) { |error| render_install_error(error, 'invalid_configuration') }
   rescue_from(Captain::CustomTool::LimitExceededError) { |error| render json: { error: error.message }, status: :unprocessable_content }
 
   def preview
     @github_source = Captain::ToolsManifest::GithubSource.new(params[:source])
     @revision = @github_source.latest_revision
-    @manifest = Captain::ToolsManifest::Validator.new(@github_source.manifest(@revision)).perform
+    @manifest = Captain::ToolsManifest::Manifest.parse(@github_source.manifest(@revision))
     installed_tools = @assistant.custom_tools.from_github(@github_source.repository, @github_source.path).to_a
     @installed_revision = installed_tools.first&.source_metadata&.fetch('revision')
     @up_to_date = Captain::ToolsManifest::InstallService.complete?(installed_tools, @manifest, @revision)
