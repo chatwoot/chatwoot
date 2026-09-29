@@ -210,6 +210,15 @@ describe('Widget ActionCableConnector', () => {
       expect(mockDispatch.mock.calls).toEqual([['conversationList/fetch']]);
     });
 
+    it('refreshes the list when a message is deleted', () => {
+      connector.onMessageUpdated({
+        ...message,
+        content_attributes: { deleted: true },
+      });
+
+      expect(mockDispatch).toBeCalledWith('conversationList/fetch');
+    });
+
     it('refreshes the list on status changes and reconnects', () => {
       connector.onStatusChange({ id: 2, status: 'resolved' });
       connector.onReconnect();
