@@ -190,6 +190,35 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when a reply to a forwarded email' do
+      let(:prev_conversation) { create(:conversation, account: account, inbox: channel.inbox, assignee: agent) }
+      let(:supplier_reply) do
+        create_inbound_email_from_mail(from: 'supplier@example.com', to: 'imap@gmail.com', subject: 'Re: Fwd: Hello!',
+                                       in_reply_to: '<forward/1@example.com>')
+      end
+
+      before do
+        create(:message, conversation: prev_conversation, account: account, inbox: inbox, message_type: :outgoing,
+                         source_id: 'forward/1@example.com', content_attributes: { forwarded_message_id: 1, to_emails: ['supplier@example.com'] })
+      end
+
+      it 'starts a new conversation with the forward recipient instead of using the original conversation' do
+        expect { class_instance.process(supplier_reply.mail, channel) }.to change(Conversation, :count).by(1)
+
+        expect(prev_conversation.messages.incoming).to be_empty
+        expect(conversation.contact.email).to eq('supplier@example.com')
+      end
+
+      it 'keeps further replies from the same recipient in their conversation' do
+        class_instance.process(supplier_reply.mail, channel)
+        second_reply = create_inbound_email_from_mail(from: 'supplier@example.com', to: 'imap@gmail.com', subject: 'Re: Fwd: Hello!',
+                                                      in_reply_to: '<forward/1@example.com>')
+
+        expect { class_instance.process(second_reply.mail, channel) }.not_to change(Conversation, :count)
+        expect(conversation.messages.incoming.count).to eq(2)
+      end
+    end
+
     context 'when a new conversation with nil in_reply_to' do
       let(:prev_conversation) { create(:conversation, account: account, inbox: channel.inbox, assignee: agent) }
       let(:reply_mail) do
