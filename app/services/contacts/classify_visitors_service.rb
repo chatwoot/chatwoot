@@ -60,28 +60,32 @@ class Contacts::ClassifyVisitorsService
   # visitors change, so a repeat or a promotion by the app in the meantime is harmless.
   def promote(ids)
     ids.each_slice(SLICE).sum do |slice|
-      paced(slice.size) { Contact.connection.exec_update(Contact.sanitize_sql_array([PROMOTE, { ids: slice }])) }.to_i
+      paced(slice.size) { Contact.connection.exec_update(Contact.sanitize_sql_array([PROMOTE, { ids: slice }])) }
     end
   end
 
   def purge(pairs)
     pairs.each_slice(SLICE).sum do |slice|
       ids = slice.map(&:first) - online_ids(slice)
-      paced(ids.size) { delete_stale(ids) }.to_i
+      paced(ids.size) { delete_stale(ids) }
     end
   end
 
-  # Locks the rows that still match the whole rule, deletes them with the conversation check inside the
-  # DELETE, then the contact inboxes of whichever contacts are gone.
+  # Locks the rows that still match the rule, then deletes them with the whole rule evaluated again inside
+  # the DELETE itself, so a conversation, note or label added in the meantime keeps the contact. Then the
+  # contact inboxes of whichever contacts are gone.
   def delete_stale(ids)
     Contact.transaction do
-      locked = Contact.visitor.where(id: ids, last_activity_at: nil, created_at: ...cutoff)
-                      .where(NO_IDENTITY).where("NOT #{SOCIAL}").where("NOT #{EXPLICIT}")
-                      .lock('FOR UPDATE SKIP LOCKED').pluck(:id)
-      deleted = Contact.visitor.where(id: locked).where.not(id: Conversation.where(contact_id: locked).select(:contact_id)).delete_all
+      locked = stale(ids).lock('FOR UPDATE SKIP LOCKED').pluck(:id)
+      deleted = stale(locked).where.not(id: Conversation.where(contact_id: locked).select(:contact_id)).delete_all
       ContactInbox.where(contact_id: locked).where.not(contact_id: Contact.where(id: locked).select(:id)).delete_all
       deleted
     end
+  end
+
+  def stale(ids)
+    Contact.visitor.where(id: ids, last_activity_at: nil, created_at: ...cutoff)
+           .where(NO_IDENTITY).where("NOT #{SOCIAL}").where("NOT #{EXPLICIT}")
   end
 
   # Stale candidates seen in the widget in the last few minutes.
@@ -99,23 +103,21 @@ class Contacts::ClassifyVisitorsService
   # statement's own time to recover.
   def paced(rows, &)
     started = Time.current
-    result = attempt(rows, &)
+    result = attempt(&)
     elapsed = Time.current - started
     sleep [rows.fdiv(rows_per_second) - elapsed, 2 * elapsed].max.clamp(0, 120)
     result
   end
 
-  # A slice that keeps hitting a lock or a timeout is left as it was; the next walk picks it up.
-  def attempt(rows, tries = 3)
+  # A slice that keeps hitting a lock or a timeout fails the whole window, and the job retries it later.
+  def attempt(tries = 3)
     yield
-  rescue *RETRYABLE => e
+  rescue *RETRYABLE
     tries -= 1
-    if tries.positive?
-      sleep 2
-      retry
-    end
-    Rails.logger.warn "[Contacts::ClassifyVisitorsService] skipped #{rows} contacts in #{from_id}..#{to_id}: #{e.class.name}"
-    nil
+    raise unless tries.positive?
+
+    sleep 2
+    retry
   end
 
   def rows_per_second
