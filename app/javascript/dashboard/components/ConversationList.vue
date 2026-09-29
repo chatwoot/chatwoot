@@ -70,6 +70,7 @@ defineExpose({ conversationListRef });
       class="[&>div:has(+_div_.active)>*]:!border-n-surface-1 [&>div:has(+_div_.selected)>*]:!border-n-surface-1"
     >
       <ConversationItem
+        :key="item.id"
         :source="item"
         :label="label"
         :team-id="teamId"
