@@ -1,4 +1,4 @@
-# Installs a toolset from a public GitHub repository onto an assistant.
+# Installs a toolset from chatwoot/tools onto an assistant.
 #
 # The toolset is pinned to a commit: the given revision, or the latest commit on the
 # default branch. Installing the same commit again is a no-op once every tool is
@@ -10,6 +10,8 @@ class Captain::ToolsManifest::InstallService
   SOURCE = 'github'.freeze
   CONFIGURATION_SECTIONS = %w[inputs secrets].freeze
   NUMBER_PATTERN = /\A-?\d+(\.\d+)?\z/
+  # Install-time values the manifest fills into a tool, like ${{ inputs.shop_domain }}
+  INSTALL_PLACEHOLDER_PATTERN = /\$\{\{\s*(inputs|secrets)\.([a-z][a-z0-9_]*)\s*\}\}/i
   # Inputs are filled into URL and request templates after those were checked, so new Liquid would only fail at
   # call time. Secrets are only used in auth_config, which is never rendered, so they may contain these characters.
   LIQUID_DELIMITER_PATTERN = /\{\{|\{%/
@@ -23,8 +25,7 @@ class Captain::ToolsManifest::InstallService
 
   # Fields filled into auth_config must have a value even when optional, or the tool would send blank credentials
   def self.auth_field_names(manifest)
-    pattern = Captain::ToolsManifest::Validator::INSTALL_PLACEHOLDER_PATTERN
-    placeholders = manifest['tools'].flat_map { |tool| tool['auth_config'].to_json.scan(pattern) }
+    placeholders = manifest['tools'].flat_map { |tool| tool['auth_config'].to_json.scan(INSTALL_PLACEHOLDER_PATTERN) }
     CONFIGURATION_SECTIONS.index_with { |section| placeholders.filter_map { |kind, name| name if kind.downcase == section } }
   end
 
@@ -43,7 +44,7 @@ class Captain::ToolsManifest::InstallService
 
     revision = @revision || @github_source.latest_revision
     manifest_source = @github_source.manifest(revision)
-    manifest = Captain::ToolsManifest::Validator.new(manifest_source).perform
+    manifest = Captain::ToolsManifest::Manifest.parse(manifest_source)
     return installed_tools if self.class.complete?(installed_tools, manifest, revision)
 
     values = configuration_values!(manifest)
@@ -164,7 +165,7 @@ class Captain::ToolsManifest::InstallService
   def interpolate(value, values)
     case value
     when String
-      value.gsub(Captain::ToolsManifest::Validator::INSTALL_PLACEHOLDER_PATTERN) do
+      value.gsub(INSTALL_PLACEHOLDER_PATTERN) do
         values[Regexp.last_match(1).downcase].fetch(Regexp.last_match(2), '').to_s
       end
     when Hash
