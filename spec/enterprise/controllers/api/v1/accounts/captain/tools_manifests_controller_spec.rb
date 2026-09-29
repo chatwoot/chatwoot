@@ -125,7 +125,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
       get "#{base_url}/installed", params: { assistant_id: assistant.id }, headers: agent.create_new_auth_token, as: :json
 
       expect(response).to have_http_status(:success)
-      expect(json_response).to eq([{ repository: 'chatwoot/support-tools', path: 'shopify', version: '1.2.0' }])
+      expect(json_response).to eq([{ repository: 'chatwoot/tools', path: 'shopify', version: '1.2.0' }])
     end
   end
 
