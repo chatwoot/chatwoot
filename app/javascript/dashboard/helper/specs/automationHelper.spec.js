@@ -209,7 +209,7 @@ describe('getDefaultConditions', () => {
       {
         attribute_key: 'message_type',
         filter_operator: 'equal_to',
-        values: '',
+        values: {},
         query_operator: 'and',
         custom_attribute_type: '',
       },
@@ -545,5 +545,41 @@ describe('showActionInput', () => {
   it('returns false if the action does not have an input type', () => {
     const mockActionTypes = [{ key: 'some_action', inputType: null }];
     expect(helpers.showActionInput(mockActionTypes, 'some_action')).toBe(false);
+  });
+});
+
+describe('getCaptainConditionUsage', () => {
+  const captain = operator => ({
+    attribute_key: 'captain_condition',
+    filter_operator: operator,
+    values: ['the customer wants a refund'],
+  });
+  const status = {
+    attribute_key: 'status',
+    filter_operator: 'equal_to',
+    values: ['open'],
+  };
+
+  it('returns null when the rule has no Captain condition', () => {
+    expect(
+      helpers.getCaptainConditionUsage({
+        event_name: 'message_created',
+        conditions: [status],
+      })
+    ).toBeNull();
+  });
+
+  it('summarises the Captain conditions of the rule', () => {
+    expect(
+      helpers.getCaptainConditionUsage({
+        event_name: 'message_created',
+        conditions: [status, captain('detects'), captain('does_not_detect')],
+      })
+    ).toEqual({
+      eventName: 'message_created',
+      captainConditions: 2,
+      totalConditions: 3,
+      operators: ['detects', 'does_not_detect'],
+    });
   });
 });

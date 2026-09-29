@@ -7,7 +7,7 @@ class Api::V1::Accounts::Contacts::ConversationsController < Api::V1::Accounts::
     @conversations = if params[:conversation_id].present?
                        conversation_with_neighbours(params[:conversation_id])
                      else
-                       permitted_conversations.order(created_at: :desc, id: :desc).limit(RESULTS_PER_PAGE)
+                       permitted_conversations.order(last_activity_at: :desc, id: :desc).limit(RESULTS_PER_PAGE)
                      end
   end
 
