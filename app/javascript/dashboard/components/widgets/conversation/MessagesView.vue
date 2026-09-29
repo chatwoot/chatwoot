@@ -156,17 +156,18 @@ export default {
       'Alt+KeyP': revealOnShortcut,
       'Alt+KeyL': revealOnShortcut,
     });
-    // A shrinking list keeps its scrollTop, so its end would slide under the
-    // composer. A growing one needs nothing, the browser clamps it.
+    // A shrinking list keeps its scrollTop, so a list resting at its end would
+    // slide under the composer. A growing one is clamped by the browser.
     const { proxy } = getCurrentInstance();
     let listHeight = 0;
     useResizeObserver(conversationPanelRef, ([{ target }]) => {
       const shrink = listHeight - target.clientHeight;
       listHeight = target.clientHeight;
-      if (shrink <= 0) return;
-      const { scrollTop } = target;
-      target.scrollTop = scrollTop + shrink;
-      if (target.scrollTop !== scrollTop) proxy.isProgrammaticScroll = true;
+      const { scrollTop, scrollHeight, clientHeight } = target;
+      const wasAtEnd = scrollHeight - scrollTop - clientHeight <= shrink + 1;
+      if (shrink <= 0 || !wasAtEnd) return;
+      proxy.isProgrammaticScroll = true;
+      target.scrollTop = scrollHeight - clientHeight;
     });
     // ReplyBox attaches pasted files from anywhere on the page, folded or not.
     useEventListener(document, 'paste', e => {
