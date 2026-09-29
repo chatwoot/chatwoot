@@ -138,7 +138,7 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
 
   def preview_condition
     condition = params[:condition]
-    unless condition.is_a?(String) && condition.strip.present? && condition.length <= 2000
+    unless condition.is_a?(String) && condition.strip.present? && condition.length <= ConversationMonitors::Monitor::MAX_CONDITION_LENGTH
       raise CustomExceptions::MonitorParametersError, 'invalid_parameters'
     end
 
@@ -148,7 +148,7 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   def update_params
     validate_icon_parameters!
     attributes = params.permit(:name, :condition, :paused, :icon, :icon_color).to_h
-    valid_text = { 'name' => 100, 'condition' => 2000 }.slice(*params.keys).all? do |key, limit|
+    valid_text = { 'name' => 100, 'condition' => ConversationMonitors::Monitor::MAX_CONDITION_LENGTH }.slice(*params.keys).all? do |key, limit|
       valid_text_parameter?(key, limit)
     end
     valid_state = params.slice(:paused).values.all?(true)
@@ -199,7 +199,9 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   def create_params
     validate_icon_parameters!
     attributes = params.permit(:name, :condition, :icon, :icon_color).to_h
-    valid = { 'name' => 100, 'condition' => 2000 }.all? { |key, limit| valid_text_parameter?(key, limit) }
+    valid = { 'name' => 100, 'condition' => ConversationMonitors::Monitor::MAX_CONDITION_LENGTH }.all? do |key, limit|
+      valid_text_parameter?(key, limit)
+    end
     raise CustomExceptions::MonitorParametersError, 'invalid_parameters' unless valid
 
     DEFAULT_ICON_ATTRIBUTES.merge(attributes).transform_values(&:strip)

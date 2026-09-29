@@ -2,9 +2,9 @@ import { nextTick, reactive, ref } from 'vue';
 import { flushPromises, shallowMount } from '@vue/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import AutomationRuleForm from './AutomationRuleForm.vue';
+import AutomationInstantTrigger from './components/AutomationInstantTrigger.vue';
 import AutomationRunTypeSelector from './components/AutomationRunTypeSelector.vue';
 import AutomationWaitCondition from './components/AutomationWaitCondition.vue';
-import AutomationInstantTrigger from './components/AutomationInstantTrigger.vue';
 import MonitorsAPI from 'dashboard/api/monitors';
 
 vi.mock('vue-i18n', () => ({
@@ -17,6 +17,7 @@ const featureState = vi.hoisted(() => ({
     'conversation_monitors',
     'automations',
     'delayed_automations',
+    'captain_classifier',
   ]),
   cloud: { value: true },
 }));
@@ -51,8 +52,30 @@ const automationTypes = Object.fromEntries(
   ].map(event => [event, { conditions: [] }])
 );
 
+const captainAutomationTypes = {
+  ...automationTypes,
+  conversation_created: {
+    conditions: [
+      {
+        key: 'captain_condition',
+        name: 'CAPTAIN',
+        inputType: 'long_text',
+        placeholder: 'CAPTAIN',
+        maxLength: 500,
+        filterOperators: [{ value: 'detects', label: 'Detects' }],
+      },
+      {
+        key: 'status',
+        name: 'STATUS',
+        inputType: 'multi_select',
+        filterOperators: [{ value: 'equal_to', label: 'Equal to' }],
+      },
+    ],
+  },
+};
+
 const triggerStub = {
-  props: ['monitorOptions', 'events'],
+  props: ['monitorOptions', 'events', 'filterTypes'],
   template: '<div />',
   methods: {
     resetValidation: vi.fn(),
@@ -115,12 +138,12 @@ const buildAutomation = ({ delayed = false } = {}) => ({
 
 const panelOpen = vi.fn();
 
-const mountComponent = ({ mode, automation }) =>
+const mountComponent = ({ mode, automation, types = automationTypes }) =>
   shallowMount(AutomationRuleForm, {
     props: {
       mode,
       automation,
-      automationTypes,
+      automationTypes: types,
       getConditionDropdownValues: vi.fn(() => []),
       getActionDropdownValues: vi.fn(() => []),
       appendNewCondition: vi.fn(),
@@ -161,6 +184,7 @@ describe('AutomationRuleForm', () => {
       'conversation_monitors',
       'automations',
       'delayed_automations',
+      'captain_classifier',
     ]);
     featureState.cloud.value = true;
     MonitorsAPI.get.mockResolvedValue({
@@ -179,6 +203,67 @@ describe('AutomationRuleForm', () => {
     await nextTick();
 
     expect(panelOpen).toHaveBeenCalled();
+  });
+
+  it('offers the Captain condition when the account has the classifier feature', () => {
+    const wrapper = mountComponent({
+      mode: 'create',
+      automation: buildAutomation(),
+      types: captainAutomationTypes,
+    });
+
+    const filterTypes = wrapper
+      .findComponent(AutomationInstantTrigger)
+      .props('filterTypes');
+    expect(filterTypes.map(filter => filter.attributeKey)).toEqual([
+      'captain_condition',
+      'status',
+    ]);
+    expect(filterTypes[0].maxLength).toBe(500);
+    expect(filterTypes[0].inputType).toBe('longText');
+  });
+
+  it('hides the Captain condition without the classifier feature', () => {
+    featureState.enabled.delete('captain_classifier');
+    const wrapper = mountComponent({
+      mode: 'create',
+      automation: buildAutomation(),
+      types: captainAutomationTypes,
+    });
+
+    const keys = wrapper
+      .findComponent(AutomationInstantTrigger)
+      .props('filterTypes')
+      .map(filter => filter.attributeKey);
+    expect(keys).toEqual(['status']);
+  });
+
+  it('keeps a saved Captain condition renderable but not selectable without the classifier feature', () => {
+    featureState.enabled.delete('captain_classifier');
+    const automation = buildAutomation();
+    automation.conditions = [
+      {
+        attribute_key: 'captain_condition',
+        filter_operator: 'detects',
+        values: 'the customer wants a refund',
+        query_operator: 'and',
+        custom_attribute_type: '',
+      },
+    ];
+    const wrapper = mountComponent({
+      mode: 'edit',
+      automation,
+      types: captainAutomationTypes,
+    });
+
+    const captain = wrapper
+      .findComponent(AutomationInstantTrigger)
+      .props('filterTypes')
+      .find(filter => filter.attributeKey === 'captain_condition');
+    expect(captain.disabled).toBe(true);
+    expect(captain.filterOperators.map(operator => operator.value)).toEqual([
+      'detects',
+    ]);
   });
 
   it('restores unsaved wait conditions after switching a new rule to instant and back', async () => {

@@ -31,6 +31,7 @@
 #
 class ConversationMonitors::Monitor < ApplicationRecord
   self.table_name = 'conversation_monitors'
+  MAX_CONDITION_LENGTH = 500
 
   belongs_to :account
   belongs_to :user, optional: true
@@ -41,7 +42,8 @@ class ConversationMonitors::Monitor < ApplicationRecord
                                    inverse_of: :monitor
 
   validates :name, presence: true, length: { maximum: 100 }
-  validates :condition, presence: true, length: { maximum: 2000 }
+  validates :condition, presence: true
+  validates :condition, length: { maximum: MAX_CONDITION_LENGTH }, if: :will_save_change_to_condition?
   validates :model, :history_since, presence: true
   validates :threshold, numericality: { greater_than: 0, less_than_or_equal_to: 1 }
   attr_readonly :model, :threshold, :history_since, :account_id

@@ -1,6 +1,8 @@
 <script setup>
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { getCaptainConditionUsage } from 'dashboard/helper/automationHelper';
 import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -257,6 +259,13 @@ const submitAutomation = async (payload, mode) => {
         ? t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
         : t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
     await store.dispatch(action, payload);
+    const captainUsage = getCaptainConditionUsage(payload);
+    if (captainUsage) {
+      useTrack(CAPTAIN_EVENTS.AUTOMATION_CONDITION_SAVED, {
+        mode,
+        ...captainUsage,
+      });
+    }
     useAlert(successMessage);
     hideAddPopup();
     hideEditPopup();

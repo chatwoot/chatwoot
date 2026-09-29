@@ -10,12 +10,14 @@ import MonitorsAPI from 'dashboard/api/monitors';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import MonitorActionDialog from './MonitorActionDialog.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import MonitorForm from './MonitorForm.vue';
-import MonitorsEmptyState from './MonitorsEmptyState.vue';
 import MonitorListItem from './MonitorListItem.vue';
+import MonitorTemplateCard from './MonitorTemplateCard.vue';
 import MonitorUsageWarning from './MonitorUsageWarning.vue';
+import { MONITOR_TEMPLATES } from './monitorTemplates';
 import { useMonitorRefresh } from './useMonitorRefresh';
 
 const PAGE_SIZE = 20;
@@ -47,6 +49,34 @@ const hasError = ref(false);
 const form = ref(null);
 const actionDialog = ref(null);
 const notice = ref('');
+const activeSection = ref('monitors');
+/* eslint-disable @intlify/vue-i18n/no-dynamic-keys */
+const templates = computed(() =>
+  MONITOR_TEMPLATES.map(({ key, ...template }) => ({
+    ...template,
+    name: t(`MONITORS.TEMPLATES.${key}.NAME`),
+    audience: t(`MONITORS.TEMPLATES.${key}.AUDIENCE`),
+    summary: t(`MONITORS.TEMPLATES.${key}.SUMMARY`),
+    condition: t(`MONITORS.TEMPLATES.${key}.CONDITION`),
+  }))
+);
+/* eslint-enable @intlify/vue-i18n/no-dynamic-keys */
+const sections = computed(() => [
+  {
+    key: 'monitors',
+    label: t('MONITORS.SECTIONS.YOUR_MONITORS'),
+    count: hasError.value ? 0 : meta.value.total_count,
+  },
+  { key: 'templates', label: t('MONITORS.SECTIONS.TEMPLATES') },
+]);
+const activeSectionIndex = computed(() =>
+  sections.value.findIndex(({ key }) => key === activeSection.value)
+);
+const showTemplates = computed(
+  () =>
+    activeSection.value === 'templates' ||
+    (loaded.value && !meta.value.total_count)
+);
 // Background refreshes keep the page; only a page change shows the loader.
 const isChangingPage = computed(
   () => isPending.value && loaded.value && meta.value.page !== page.value
@@ -72,6 +102,7 @@ watch(accountId, () => {
   monitors.value = [];
   loaded.value = false;
   notice.value = '';
+  activeSection.value = 'monitors';
   page.value = 1;
   meta.value = { total_count: 0, configured: true };
 });
@@ -83,6 +114,14 @@ const openForm = async prefill => {
   await nextTick();
   form.value?.open(prefill);
 };
+const openTemplate = template =>
+  openForm({
+    name: template.name,
+    condition: template.condition,
+    icon: template.icon,
+    icon_color: template.icon_color,
+    templateName: template.name,
+  });
 const onActionSaved = action => {
   notice.value = '';
   if (action === 'delete' && monitors.value.length === 1 && page.value > 1) {
@@ -100,12 +139,20 @@ const onCreated = monitor =>
     accountScopedRoute('monitor_reports_show', { monitorId: monitor.id })
   );
 watch(
-  () => route.query.condition,
-  value => {
-    if (typeof value !== 'string' || !isAdmin.value) return;
-    openForm({ condition: value });
-    // The condition is a one-time prefill; drop it so a refresh or back navigation doesn't reopen the form.
-    const { condition, ...query } = route.query;
+  () => [route.query.template, route.query.condition, isAdmin.value],
+  ([templateId, prefillCondition]) => {
+    if (typeof templateId === 'string') activeSection.value = 'templates';
+    if (!isAdmin.value || !(templateId || prefillCondition)) return;
+    const selectedTemplate = templates.value.find(
+      ({ id }) => id === templateId
+    );
+    if (selectedTemplate) {
+      openTemplate(selectedTemplate);
+    } else if (typeof prefillCondition === 'string') {
+      openForm({ condition: prefillCondition });
+    }
+    // The prefill is one-time; drop it so a refresh or back navigation doesn't reopen the form.
+    const { template, condition, ...query } = route.query;
     router.replace({ query });
   },
   { immediate: true }
@@ -129,17 +176,44 @@ watch(
           />
         </ReportHeader>
         <MonitorUsageWarning :usage="meta.usage" />
-        <p v-if="notice" role="status" class="text-sm text-n-slate-11">
+        <p v-if="notice" role="status" class="mb-4 text-sm text-n-slate-11">
           {{ notice }}
         </p>
         <p
           v-if="!meta.configured && isAdmin"
           role="status"
-          class="rounded-lg bg-n-amber-3 p-4 text-sm text-n-amber-11"
+          class="mb-4 rounded-lg bg-n-amber-3 p-4 text-sm text-n-amber-11"
         >
           {{ t('MONITORS.ERRORS.NOT_CONFIGURED') }}
         </p>
-        <div v-if="isPending && !loaded" class="flex justify-center py-20">
+        <TabBar
+          v-if="meta.total_count"
+          :tabs="sections"
+          :initial-active-tab="activeSectionIndex"
+          class="mb-4"
+          @tab-changed="tab => (activeSection = tab.key)"
+        />
+        <section v-if="showTemplates" class="flex flex-col gap-4">
+          <h2
+            v-if="!meta.total_count"
+            class="m-0 text-heading-2 text-n-slate-12"
+          >
+            {{ t('MONITORS.TEMPLATES.TITLE') }}
+          </h2>
+          <p v-if="!isAdmin" class="m-0 text-body-main text-n-slate-11">
+            {{ t('MONITORS.TEMPLATES.ADMIN_HELP') }}
+          </p>
+          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <MonitorTemplateCard
+              v-for="template in templates"
+              :key="template.id"
+              :template="template"
+              :can-create="isAdmin"
+              @use="openTemplate"
+            />
+          </div>
+        </section>
+        <div v-else-if="isPending && !loaded" class="flex justify-center py-20">
           <Spinner />
         </div>
         <div
@@ -150,7 +224,6 @@ watch(
           <p class="text-n-ruby-11">{{ t('MONITORS.LIST.FETCH_FAILED') }}</p>
           <Button :label="t('MONITORS.RETRY')" @click="fetchMonitors" />
         </div>
-        <MonitorsEmptyState v-else-if="!meta.total_count" @create="openForm" />
         <div
           v-else
           class="flex flex-col divide-y divide-n-weak border-t border-n-weak"
@@ -168,7 +241,11 @@ watch(
       </div>
     </main>
     <footer
-      v-if="!hasError && meta.total_count > PAGE_SIZE"
+      v-if="
+        activeSection === 'monitors' &&
+        !hasError &&
+        meta.total_count > PAGE_SIZE
+      "
       class="sticky bottom-0 z-10"
     >
       <PaginationFooter
