@@ -1,6 +1,7 @@
 module Enterprise::DeviseOverrides::SessionsController
   include SamlAuthenticationHelper
   include Enterprise::DeviseOverrides::DeviceVerificationConcern
+  include Enterprise::DeviseOverrides::KnownSignInConcern
 
   def create
     # Normalize the same way find_user_for_authentication does, so a padded or
@@ -18,9 +19,42 @@ module Enterprise::DeviseOverrides::SessionsController
     super
   end
 
+  # Only the real SSO branch (valid token, incl. super-admin impersonation) reaches
+  # this; a bogus sso_auth_token on a password request never does. Marking the method
+  # here is spoof-proof, unlike checking params[:sso_auth_token] presence.
+  def handle_sso_authentication
+    @login_via_sso = true
+    super
+  end
+
+  def complete_device_verification(user)
+    @notified_via_device_verification = true
+    super
+  end
+
   def render_create_success
     create_audit_event('sign_in')
+    handle_unknown_sign_in
     super
+  end
+
+  # Password sign-ins only. SSO and super-admin impersonation are excluded so we
+  # never email a customer about a staff sign-in. Never interrupt authentication.
+  def handle_unknown_sign_in
+    return if @login_via_sso || @resource.blank?
+
+    known = known_sign_in?(@resource)
+    remember_known_sign_in!(@resource)
+    return unless notify_unknown_sign_in?(known)
+
+    Enterprise::UnknownSignInNotificationJob.perform_later(@resource.email, device_request_meta)
+  rescue StandardError => e
+    Rails.logger.warn "Enterprise::UnknownSignInNotificationJob could not be enqueued: #{e.message}"
+  end
+
+  def notify_unknown_sign_in?(known)
+    !known && !@notified_via_device_verification &&
+      @resource.sign_in_count > 1 && UnknownSignInNotification.enabled?
   end
 
   def destroy
