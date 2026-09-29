@@ -18,8 +18,8 @@ class Llm::BaseAiService
     setup_temperature
   end
 
-  def chat(model: @model, temperature: @temperature)
-    llm_chat = RubyLLM.chat(model: model)
+  def chat(model: @model, temperature: @temperature, **)
+    llm_chat = RubyLLM.chat(model: model, **)
     return llm_chat if model.to_s.start_with?('gpt-5-mini')
 
     llm_chat.with_temperature(temperature)
