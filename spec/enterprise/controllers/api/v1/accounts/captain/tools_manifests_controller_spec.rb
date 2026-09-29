@@ -115,7 +115,6 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(json_response[:error]).to eq('Enter a toolset from the Captain tools catalog as chatwoot/tools/folder')
     end
-
   end
 
   describe 'POST /api/v1/accounts/{account.id}/captain/tools_manifest/install' do
