@@ -1274,7 +1274,6 @@
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
       "INSTALL_MANIFEST": {
-        "BUTTON": "Install manifest",
         "TITLE": "Install a toolset",
         "DESCRIPTION": "Install a toolset from the Captain tools catalog.",
         "SOURCE_LABEL": "Toolset",
