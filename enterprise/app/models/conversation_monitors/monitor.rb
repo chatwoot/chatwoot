@@ -64,7 +64,10 @@ class ConversationMonitors::Monitor < ApplicationRecord
   end
 
   def disable_automations!
-    automation_rules.active.find_each { |rule| rule.update!(active: false) }
+    automation_rules.active.find_each do |rule|
+      rule.active = false
+      rule.save!(validate: false)
+    end
   end
 
   def matched_conversations
