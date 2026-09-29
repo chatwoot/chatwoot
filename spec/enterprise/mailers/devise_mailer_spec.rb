@@ -7,12 +7,12 @@ RSpec.describe 'Devise::Mailer' do
     let(:account) { create(:account) }
     let!(:confirmable_user) { create(:user, inviter: inviter_val, account: account) }
     let(:inviter_val) { nil }
-    let(:mail) { Devise::Mailer.confirmation_instructions(confirmable_user.reload, nil, {}) }
+    let(:mail) { Devise::Mailer.confirmation_instructions(confirmable_user.reload, confirmable_user.confirmation_token, {}) }
     let(:mail_body) { CGI.unescapeHTML(mail.body.to_s) }
 
     before do
       confirmable_user.update!(confirmed_at: nil)
-      confirmable_user.send(:generate_confirmation_token)
+      confirmable_user.send(:generate_confirmation_token!)
     end
 
     context 'when brand name is intentionally blank' do
