@@ -93,10 +93,9 @@ defineExpose({ open });
 <template>
   <SidePanel ref="panelRef" width="2xl" @close="abortDetails">
     <template v-if="toolset" #header>
-      <div class="flex items-center min-w-0 gap-3">
-        <ToolsetIdentity :toolset="toolset" />
+      <ToolsetIdentity :toolset="toolset">
         <ToolsetInstallBadge v-if="installStatus" :status="installStatus" />
-      </div>
+      </ToolsetIdentity>
     </template>
 
     <div v-if="toolset" class="flex flex-col gap-6">
@@ -158,19 +157,23 @@ defineExpose({ open });
               })
             }}
           </h4>
-          <ul class="flex flex-col gap-3 m-0 list-none">
+          <ul
+            class="m-0 list-none divide-y rounded-xl outline outline-1 outline-n-weak divide-n-weak"
+          >
             <li
               v-for="tool in details.tools"
               :key="tool.id"
-              class="flex items-start gap-2"
+              class="flex items-start gap-3 px-4 py-3"
             >
               <span
-                class="px-1.5 py-0.5 text-xs font-mono rounded bg-n-alpha-2 text-n-slate-11 w-16 text-center shrink-0"
+                class="flex items-center justify-center rounded-lg size-7 shrink-0 bg-n-alpha-2 text-n-slate-11"
               >
-                {{ tool.method }}
+                <i class="i-lucide-wrench size-3.5" />
               </span>
               <div class="flex flex-col min-w-0 gap-0.5">
-                <span class="text-sm text-n-slate-12">{{ tool.title }}</span>
+                <span class="text-sm font-medium text-n-slate-12">
+                  {{ tool.title }}
+                </span>
                 <span class="text-xs text-n-slate-11">
                   {{ tool.description }}
                 </span>

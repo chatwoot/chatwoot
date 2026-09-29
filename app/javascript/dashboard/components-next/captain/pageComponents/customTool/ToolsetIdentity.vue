@@ -27,9 +27,13 @@ defineProps({
       <i v-else class="i-lucide-blocks size-5 text-n-slate-11" />
     </div>
     <div class="flex flex-col min-w-0">
-      <span class="text-sm font-medium truncate text-n-slate-12">
-        {{ toolset.name }}
-      </span>
+      <!-- The slot sits on the name line, for tags like the install status -->
+      <div class="flex items-center min-w-0 gap-2">
+        <span class="text-sm font-medium truncate text-n-slate-12">
+          {{ toolset.name }}
+        </span>
+        <slot />
+      </div>
       <span class="text-xs truncate text-n-slate-11">
         {{ toolset.author }}
       </span>

@@ -237,11 +237,7 @@ defineExpose({ open });
             :key="tool.id"
             class="flex items-center gap-2 text-sm text-n-slate-12"
           >
-            <span
-              class="px-1.5 py-0.5 text-xs font-mono rounded bg-n-alpha-2 text-n-slate-11 w-16 text-center shrink-0"
-            >
-              {{ tool.http_method }}
-            </span>
+            <i class="i-lucide-wrench size-3.5 shrink-0 text-n-slate-10" />
             <span class="truncate">{{ tool.title }}</span>
           </li>
         </ul>
