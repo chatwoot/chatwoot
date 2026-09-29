@@ -58,22 +58,15 @@ class Captain::ToolsManifest::InstallService
     @installed_tools ||= @assistant.custom_tools.from_github(@github_source.repository, @github_source.path).to_a
   end
 
+  # The controller checks the configuration's shape; this checks the values against what the manifest declares
   def configuration_values!(manifest)
-    raise InstallError, 'Configuration must be an object' unless @configuration.is_a?(Hash)
-
-    configuration = @configuration.deep_stringify_keys
-    unknown_sections = configuration.keys - CONFIGURATION_SECTIONS
-    raise InstallError, "Unknown configuration sections: #{unknown_sections.join(', ')}" if unknown_sections.any?
-
     auth_fields = self.class.auth_field_names(manifest)
     CONFIGURATION_SECTIONS.index_with do |section|
-      section_values!(manifest[section], configuration.fetch(section, {}), section, auth_fields[section])
+      section_values!(manifest[section], @configuration.fetch(section, {}), section, auth_fields[section])
     end
   end
 
   def section_values!(definitions, values, section, auth_fields)
-    raise InstallError, "#{section} must be an object" unless values.is_a?(Hash)
-
     validate_values!(definitions, values, section)
 
     # blank? would treat false as missing, which is a valid value for a boolean
