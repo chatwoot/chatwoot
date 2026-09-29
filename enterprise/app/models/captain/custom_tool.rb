@@ -66,7 +66,7 @@ class Captain::CustomTool < ApplicationRecord
       'additionalProperties': false
     }
   }.to_json.freeze
-  # Present only on tools installed from a public GitHub manifest
+  # Present only on tools installed from chatwoot/tools
   SOURCE_METADATA_VALIDATION = {
     'type': %w[object null],
     'properties': {
