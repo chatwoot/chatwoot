@@ -21,10 +21,6 @@
 #  index_automation_rules_on_account_id  (account_id)
 #  index_automation_rules_on_monitor_id  (monitor_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (monitor_id => conversation_monitors.id) ON DELETE => nullify
-#
 class AutomationRule < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Reauthorizable
