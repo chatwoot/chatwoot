@@ -3,6 +3,33 @@ require 'rails_helper'
 RSpec.describe Attachment do
   let!(:message) { create(:message) }
 
+  describe 'giphy attachments' do
+    let(:giphy) { { 'id' => 'abc123', 'title' => 'Thumbs Up', 'url' => 'https://media.giphy.com/media/abc123/giphy-downsized.gif', 'preview_url' => 'https://media2.giphy.com/media/abc123/200w.gif', 'width' => 200, 'height' => 150 } }
+    let(:attachment) do
+      message.attachments.new(account_id: message.account_id, file_type: :image, external_url: giphy['url'], meta: { 'giphy' => giphy })
+    end
+
+    it 'links to Giphy instead of a stored file' do
+      expect(attachment).to be_valid
+      expect(attachment.download_url).to eq(giphy['url'])
+      expect(attachment.file_url).to eq(giphy['url'])
+      expect(attachment.display_file_name).to eq('Thumbs Up')
+    end
+
+    it 'renders the preview with the GIF details' do
+      attachment.save!
+
+      expect(attachment.push_event_data).to include(data_url: giphy['url'], thumb_url: giphy['preview_url'], width: 200, height: 150)
+    end
+
+    it 'rejects links outside Giphy' do
+      attachment.meta = { 'giphy' => giphy.merge('preview_url' => 'https://evil.example/giphy.com.gif') }
+
+      expect(attachment).not_to be_valid
+      expect(attachment.errors[:external_url]).to include('must link to a Giphy GIF')
+    end
+  end
+
   describe 'external url validations' do
     let(:attachment) { message.attachments.new(account_id: message.account_id, file_type: :image) }
 

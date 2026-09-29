@@ -23,6 +23,7 @@
 
 class Attachment < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include GiphyAttachment
 
   ACCEPTABLE_FILE_TYPES = %w[
     text/csv text/plain text/rtf text/xml
@@ -50,16 +51,21 @@ class Attachment < ApplicationRecord
   def push_event_data
     return unless file_type
 
-    base_data.merge(metadata_for_file_type)
+    base_data.merge(giphy? ? giphy_metadata : metadata_for_file_type)
   end
 
   # NOTE: the URl returned does a 301 redirect to the actual file
   def file_url
+    return external_url if giphy?
+
     file.attached? ? url_for(file) : ''
   end
 
   # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
+  # A Giphy GIF has no stored file; channels fetch it from Giphy directly.
   def download_url
+    return external_url if giphy?
+
     ActiveStorage::Current.url_options = Rails.application.routes.default_url_options if ActiveStorage::Current.url_options.blank?
     file.attached? ? file.blob.url : ''
   end

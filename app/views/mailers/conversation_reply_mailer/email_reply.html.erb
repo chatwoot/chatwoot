@@ -6,6 +6,6 @@
 <% if @large_attachments.present? %>
 <p>Attachments:</p>
 <% @large_attachments.each do |attachment| %>
-<p><a href="<%= attachment.file_url %>" target="_blank"><%= attachment.file.filename.to_s %></a></p>
+<p><a href="<%= attachment.file_url %>" target="_blank"><%= attachment.display_file_name %></a></p>
 <% end %>
 <% end %>

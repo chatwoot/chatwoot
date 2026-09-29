@@ -14,6 +14,9 @@ module ConversationReplyMailerAttachmentHelper
     current_total_size = 0
 
     @message.attachments.each do |attachment|
+      # A Giphy GIF has no stored file, so it is linked like a large attachment.
+      next @large_attachments << attachment if attachment.giphy?
+
       current_total_size = handle_attachment_inline(current_total_size, attachment)
     end
   end

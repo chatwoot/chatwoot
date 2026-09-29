@@ -1065,6 +1065,18 @@ export default {
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
     },
+    // A GIF goes out as its own message, saved as a link to Giphy rather than a stored file.
+    sendGif({ id, title, url, preview_url: previewUrl, width, height }) {
+      this.sendMessage(
+        this.setReplyToInPayload({
+          conversationId: this.currentChat.id,
+          message: '',
+          private: this.isPrivate,
+          sender: this.sender,
+          giphy: { id, title, url, preview_url: previewUrl, width, height },
+        })
+      );
+    },
     toggleAudioRecorder() {
       this.isRecordingAudio = !this.isRecordingAudio;
       if (!this.isRecordingAudio) {
@@ -1527,6 +1539,7 @@ export default {
         @select-whatsapp-template="openWhatsappTemplateModal"
         @select-content-template="openContentTemplateModal"
         @toggle-insert-article="toggleInsertArticle"
+        @select-gif="sendGif"
         @request-contact-info-template="openContactInfoTemplateModal"
       />
     </Transition>

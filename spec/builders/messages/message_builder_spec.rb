@@ -22,6 +22,26 @@ describe Messages::MessageBuilder do
     end
   end
 
+  describe '#perform with a Giphy GIF' do
+    let(:gif_url) { 'https://media.giphy.com/media/abc123/giphy-downsized.gif' }
+    let(:params) do
+      ActionController::Parameters.new({
+                                         content: '',
+                                         giphy: { id: 'abc123', title: 'Thumbs Up', url: gif_url, width: 200, height: 150, extra: 'ignored',
+                                                  preview_url: 'https://media2.giphy.com/media/abc123/200w.gif' }
+                                       })
+    end
+
+    it 'saves the GIF as a link to Giphy without storing the file' do
+      attachment = message_builder.attachments.first
+
+      expect(attachment).to be_image
+      expect(attachment.file).not_to be_attached
+      expect(attachment.external_url).to eq(gif_url)
+      expect(attachment.meta['giphy'].keys).to match_array(%w[id title url preview_url width height])
+    end
+  end
+
   describe '#content_attributes' do
     context 'when content_attributes is a JSON string' do
       let(:params) do

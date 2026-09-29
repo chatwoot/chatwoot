@@ -305,6 +305,14 @@
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
+      "GIPHY": {
+        "SEARCH_PLACEHOLDER": "Search GIFs...",
+        "TRENDING": "Trending",
+        "RESULTS": "Results",
+        "EMPTY": "No GIFs found",
+        "ERROR": "Couldn't load GIFs",
+        "ATTRIBUTION": "Powered by GIPHY"
+      },
       "REPLY": "Reply",
       "PRIVATE_NOTE": "Private Note",
       "SEND": "Send",
@@ -313,6 +321,7 @@
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
       "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_GIPHY_ICON": "Send a GIF",
       "TIP_ATTACH_ICON": "Attach files",
       "TIP_AUDIORECORDER_ICON": "Record audio",
       "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",

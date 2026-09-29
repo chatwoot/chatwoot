@@ -398,6 +398,19 @@ RSpec.describe ConversationReplyMailer do
           expect(mail.body.encoded).not_to include('Attachments:')
         end
 
+        it 'links a Giphy GIF instead of attaching it' do
+          gif_url = 'https://media.giphy.com/media/abc123/giphy-downsized.gif'
+          message_with_gif = create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: nil)
+          message_with_gif.attachments.create!(account_id: account.id, file_type: :image, external_url: gif_url,
+                                               meta: { 'giphy' => { 'title' => 'Thumbs Up', 'url' => gif_url,
+                                                                    'preview_url' => 'https://media.giphy.com/media/abc123/200w.gif' } })
+
+          mail = described_class.email_reply(message_with_gif).deliver_now
+
+          expect(mail.attachments).to be_empty
+          expect(mail.body.encoded).to match(%r{<a href="#{Regexp.escape(gif_url)}"[^>]*>Thumbs Up</a>})
+        end
+
         it 'renders large attachments as links in the email body' do
           message_with_large_attachment = create(:message, conversation: conversation, account: account, message_type: 'outgoing',
                                                            content: 'Message with large attachment')

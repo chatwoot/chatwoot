@@ -110,6 +110,9 @@
       },
       "embed": {
         "CONTENT": "Embedded content"
+      },
+      "giphy": {
+        "CONTENT": "GIF"
       }
     },
     "CHAT_SORT_BY_FILTER": {

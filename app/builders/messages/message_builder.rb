@@ -2,6 +2,7 @@ class Messages::MessageBuilder
   include ::FileTypeHelper
   include ::EmailHelper
   include ::DataHelper
+  include Messages::AttachmentProcessing
 
   attr_reader :message
 
@@ -24,6 +25,7 @@ class Messages::MessageBuilder
   def perform
     @message = @conversation.messages.build(message_params)
     process_attachments
+    process_giphy
     process_emails
     # When the message has no quoted content, it will just be rendered as a regular message
     # The frontend is equipped to handle this case
@@ -46,34 +48,6 @@ class Messages::MessageBuilder
     return content_attributes if content_attributes.is_a?(Hash)
 
     {}
-  end
-
-  def process_attachments
-    return if @attachments.blank?
-
-    @attachments.each do |uploaded_attachment|
-      attachment = @message.attachments.build(
-        account_id: @message.account_id,
-        file: uploaded_attachment
-      )
-
-      attachment.file_type = attachment_file_type(uploaded_attachment)
-      tag_voice_message(attachment)
-    end
-  end
-
-  def attachment_file_type(uploaded_attachment)
-    if uploaded_attachment.is_a?(String)
-      file_type_by_signed_id(uploaded_attachment)
-    else
-      file_type(uploaded_attachment&.content_type)
-    end
-  end
-
-  def tag_voice_message(attachment)
-    return unless @is_voice_message && attachment.file_type == 'audio'
-
-    attachment.meta = (attachment.meta || {}).merge('is_voice_message' => true)
   end
 
   def process_emails

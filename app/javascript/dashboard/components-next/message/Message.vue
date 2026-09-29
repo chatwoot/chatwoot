@@ -37,6 +37,7 @@ import EmailBubble from './bubbles/Email/Index.vue';
 import UnsupportedBubble from './bubbles/Unsupported.vue';
 import ContactBubble from './bubbles/Contact.vue';
 import DyteBubble from './bubbles/Dyte.vue';
+import GiphyBubble from './bubbles/Giphy.vue';
 import LocationBubble from './bubbles/Location.vue';
 import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
@@ -340,6 +341,8 @@ const componentToRender = computed(() => {
 
   if (Array.isArray(props.attachments) && props.attachments.length === 1) {
     const fileType = props.attachments[0].fileType;
+
+    if (props.attachments[0].meta?.giphy) return GiphyBubble;
 
     if (fileType === ATTACHMENT_TYPES.FALLBACK) return FallbackBubble;
 

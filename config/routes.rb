@@ -429,6 +429,9 @@ Rails.application.routes.draw do
                 get :list_all_channels
               end
             end
+            resource :giphy, controller: 'giphy', only: [] do
+              get :search
+            end
             resource :dyte, controller: 'dyte', only: [] do
               collection do
                 post :create_a_meeting

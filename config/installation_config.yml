@@ -256,6 +256,15 @@
   type: secret
 # ------- End of Context.dev Config ------- #
 
+# ------- Giphy Config ------- #
+- name: GIPHY_API_KEY
+  display_title: 'Giphy API Key'
+  value:
+  locked: false
+  description: 'API key from the Giphy developer dashboard. When set, agents can search and send GIFs from the reply editor.'
+  type: secret
+# ------- End of Giphy Config ------- #
+
 # ------- Chatwoot Internal Config for Cloud ----#
 - name: DISABLE_META_INBOX_CREATION
   value: true

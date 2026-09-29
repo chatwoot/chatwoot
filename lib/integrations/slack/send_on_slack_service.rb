@@ -62,13 +62,13 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def message_text
-    content = message.processed_message_content || message.content
+    content = [message.processed_message_content || message.content, *giphy_urls].compact_blank.join("\n")
+    content.gsub(MENTION_REGEX, '\1')
+  end
 
-    if content.present?
-      content.gsub(MENTION_REGEX, '\1')
-    else
-      content
-    end
+  # GIFs from Giphy have no stored file to upload, so they are posted as links.
+  def giphy_urls
+    message.attachments.select(&:giphy?).map(&:external_url)
   end
 
   def formatted_inbox_name
@@ -142,7 +142,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def build_files_array
     message.attachments.filter_map do |attachment|
-      next unless attachment.with_attached_file?
+      next unless attachment.with_attached_file? && !attachment.giphy?
 
       build_file_payload(attachment)
     end

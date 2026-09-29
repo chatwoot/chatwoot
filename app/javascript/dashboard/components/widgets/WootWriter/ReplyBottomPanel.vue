@@ -1,5 +1,5 @@
 <script>
-import { ref } from 'vue';
+import { defineAsyncComponent, ref } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
@@ -13,6 +13,10 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
+const GiphyPicker = defineAsyncComponent(
+  () => import('dashboard/components-next/giphy/GiphyPicker.vue')
+);
+
 export default {
   name: 'ReplyBottomPanel',
   components: {
@@ -20,6 +24,7 @@ export default {
     FileUpload,
     VideoCallButton,
     RequestContactInfoButton,
+    GiphyPicker,
   },
   mixins: [inboxMixin],
   props: {
@@ -125,6 +130,7 @@ export default {
     },
   },
   emits: [
+    'selectGif',
     'toggleInsertArticle',
     'selectWhatsappTemplate',
     'selectContentTemplate',
@@ -135,6 +141,7 @@ export default {
       useUISettings();
 
     const uploadRef = ref(false);
+    const showGiphyPicker = ref(false);
 
     const keyboardEvents = {
       '$mod+Alt+KeyA': {
@@ -161,6 +168,7 @@ export default {
       setSignatureFlagForInbox,
       fetchSignatureFlagFromUISettings,
       uploadRef,
+      showGiphyPicker,
     };
   },
   computed: {
@@ -168,6 +176,7 @@ export default {
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'integrations/getUIFlags',
+      globalConfig: 'globalConfig/get',
     }),
     wrapClass() {
       return {
@@ -177,6 +186,9 @@ export default {
     showAttachButton() {
       if (this.isEditorDisabled) return false;
       return this.showFileUpload || this.isNote;
+    },
+    showGiphyButton() {
+      return this.globalConfig.isGiphyEnabled && !this.isEditorDisabled;
     },
     showAudioRecorderButton() {
       if (this.isEditorDisabled) return false;
@@ -264,6 +276,13 @@ export default {
     toggleInsertArticle() {
       this.$emit('toggleInsertArticle');
     },
+    closeGiphyPicker() {
+      this.showGiphyPicker = false;
+    },
+    selectGif(gif) {
+      this.closeGiphyPicker();
+      this.$emit('selectGif', gif);
+    },
   },
 };
 </script>
@@ -280,6 +299,26 @@ export default {
         sm
         @click="toggleEmojiPicker"
       />
+      <div
+        v-if="showGiphyButton"
+        v-on-clickaway="closeGiphyPicker"
+        class="relative"
+      >
+        <NextButton
+          v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_GIPHY_ICON')"
+          icon="i-ph-gif"
+          slate
+          faded
+          sm
+          @click="showGiphyPicker = !showGiphyPicker"
+        />
+        <GiphyPicker
+          v-if="showGiphyPicker"
+          class="absolute z-50 bottom-full mb-2 ltr:-left-2 rtl:-right-2"
+          @select="selectGif"
+          @close="closeGiphyPicker"
+        />
+      </div>
       <FileUpload
         v-if="showAttachButton"
         ref="uploadRef"
