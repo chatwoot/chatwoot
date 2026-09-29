@@ -40,7 +40,8 @@ module Enterprise::AutomationRule
   end
 
   def monitor_activation_changed?
-    new_record? || will_save_change_to_active? || will_save_change_to_monitor_id? || will_save_change_to_event_name?
+    new_record? || will_save_change_to_active? || will_save_change_to_monitor_id? || will_save_change_to_event_name? ||
+      will_save_change_to_conditions? || will_save_change_to_actions?
   end
 
   def validate_monitor_event
