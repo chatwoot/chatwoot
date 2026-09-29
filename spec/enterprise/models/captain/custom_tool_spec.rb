@@ -440,6 +440,13 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(tool.build_request_url({ kind: 'Orders', id: '7' })).to eq('https://api.example.com/orders/7')
       end
 
+      it 'renders an endpoint that only uses Liquid tags' do
+        tool = create(:captain_custom_tool, account: account,
+                                            endpoint_url: 'https://api.example.com/{% if verbose %}details{% else %}summary{% endif %}')
+
+        expect(tool.build_request_url({ verbose: true })).to eq('https://api.example.com/details')
+      end
+
       it 'still checks the URL around Liquid tags' do
         tool = build(:captain_custom_tool, account: account, endpoint_url: '{% if id %}http://api.example.com/{{ id }}{% endif %}')
 

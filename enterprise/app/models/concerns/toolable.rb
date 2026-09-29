@@ -37,7 +37,7 @@ module Concerns::Toolable
   end
 
   def build_request_url(params)
-    return endpoint_url if endpoint_url.blank? || endpoint_url.exclude?('{{')
+    return endpoint_url if endpoint_url.blank? || (endpoint_url.exclude?('{{') && endpoint_url.exclude?('{%'))
 
     render_template(endpoint_url, params)
   end
