@@ -89,6 +89,18 @@ RSpec.describe Contacts::ClassifyVisitorsService do
     end
   end
 
+  describe 'a slice that keeps failing' do
+    it 'fails the window so the job retries it, instead of moving on' do
+      create(:contact, **anonymous, name: 'Maria Lopez')
+      service = described_class.new(from_id: Contact.minimum(:id), to_id: Contact.maximum(:id))
+      allow(service).to receive(:sleep)
+      allow(Contact.connection).to receive(:exec_update).and_raise(ActiveRecord::LockWaitTimeout)
+
+      expect { service.perform }.to raise_error(ActiveRecord::LockWaitTimeout)
+      expect(Contact.connection).to have_received(:exec_update).exactly(3).times
+    end
+  end
+
   describe 'a contact that is left alone' do
     it 'is a visitor younger than the retention period' do
       contact = create(:contact, **anonymous, created_at: 5.days.ago)
