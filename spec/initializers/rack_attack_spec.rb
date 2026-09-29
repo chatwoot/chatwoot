@@ -99,6 +99,41 @@ describe 'Rack::Attack auth throttles' do
     end
   end
 
+  describe 'passkey throttles' do
+    it 'keeps passkey sign-ins out of the password login buckets' do
+      env = json_env({ passkey_credential: { id: 'abc' } })
+
+      expect(throttle_key('login/ip', env)).to be_nil
+      expect(throttle_key('login/email', json_env({ passkey_credential: { id: 'abc' }, email: 'a@b.com' }))).to be_nil
+      expect(throttle_key('passkey_login/ip', json_env({ passkey_credential: { id: 'abc' } }))).to eq(ip)
+    end
+
+    it 'counts password sign-ins against passkey_login only when a credential is present' do
+      expect(throttle_key('passkey_login/ip', json_env({ email: 'a@b.com', password: 'x' }))).to be_nil
+    end
+
+    it 'follows the controller when the query and body disagree' do
+      env = form_env({ 'passkey_credential' => { 'id' => 'abc' }, 'email' => 'a@b.com', 'password' => 'x' })
+      env['QUERY_STRING'] = 'passkey_credential='
+
+      expect(throttle_key('login/ip', env)).to eq(ip)
+      expect(throttle_key('passkey_login/ip', env)).to be_nil
+    end
+
+    it 'keys passkey registration by a uid sent as a param' do
+      env = json_env({ password: 'x', uid: 'agent@example.com' }, '/api/v1/profile/passkeys/registration_options')
+
+      expect(throttle_key('passkey_registration/user', env)).to eq('agent@example.com')
+    end
+
+    it 'keys passkey registration by the signed-in user' do
+      env = json_env({ password: 'x' }, '/api/v1/profile/passkeys/registration_options')
+      env['HTTP_UID'] = 'agent@example.com'
+
+      expect(throttle_key('passkey_registration/user', env)).to eq('agent@example.com')
+    end
+  end
+
   describe 'reset_password/email' do
     it 'keys JSON requests by normalized email' do
       key = throttle_key('reset_password/email', json_env({ email: ' User@Example.COM ' }, '/auth/password'))

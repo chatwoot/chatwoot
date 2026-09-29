@@ -20,6 +20,7 @@ import SectionLayout from '../account/components/SectionLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import AccessToken from './AccessToken.vue';
 import MfaSettingsCard from './MfaSettingsCard.vue';
+import PasskeySettings from './PasskeySettings.vue';
 import ActiveSessions from './ActiveSessions.vue';
 import Policy from 'dashboard/components/policy.vue';
 import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
@@ -43,6 +44,7 @@ export default {
     AudioNotifications,
     AccessToken,
     MfaSettingsCard,
+    PasskeySettings,
     ActiveSessions,
     BaseSettingsHeader,
   },
@@ -121,6 +123,12 @@ export default {
     },
     isMfaEnabled() {
       return parseBoolean(window.chatwootConfig?.isMfaEnabled);
+    },
+    showPasskeys() {
+      return (
+        parseBoolean(window.chatwootConfig?.passkeysEnabled) &&
+        this.currentUser.provider !== 'saml'
+      );
     },
   },
   mounted() {
@@ -329,6 +337,14 @@ export default {
       :description="$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.NOTE')"
     >
       <MfaSettingsCard />
+    </SectionLayout>
+    <SectionLayout
+      v-if="showPasskeys"
+      with-border
+      :title="$t('PROFILE_SETTINGS.FORM.PASSKEYS_SECTION.TITLE')"
+      :description="$t('PROFILE_SETTINGS.FORM.PASSKEYS_SECTION.NOTE')"
+    >
+      <PasskeySettings />
     </SectionLayout>
     <SectionLayout
       with-border

@@ -90,6 +90,8 @@ gem 'devise_token_auth', '>= 1.2.3'
 gem 'rails-i18n', '~> 7.0'
 # two-factor authentication
 gem 'devise-two-factor', '>= 5.0.0'
+# passkeys
+gem 'webauthn', '~> 3.4'
 # authorization
 gem 'jwt', '~> 2.10', '>= 2.10.3'
 gem 'pundit'

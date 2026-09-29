@@ -112,4 +112,9 @@ module Redis::RedisKeys
   DEVICE_VERIFICATION_ATTEMPTS = 'DEVICE_VERIFICATION::ATTEMPTS::%<user_id>d::%<jti>s'.freeze
   # Rolling per-user challenge issuance budget
   DEVICE_VERIFICATION_ISSUANCE = 'DEVICE_VERIFICATION::ISSUANCE::%<user_id>d'.freeze
+
+  ## Passkeys (WebAuthn), single-use challenges
+  PASSKEY_REGISTRATION_CHALLENGE = 'PASSKEY::REGISTRATION_CHALLENGE::%<user_id>d'.freeze
+  # Keyed by a digest of the challenge so sign-in needs no client-held state
+  PASSKEY_AUTHENTICATION_CHALLENGE = 'PASSKEY::AUTHENTICATION_CHALLENGE::%<digest>s'.freeze
 end

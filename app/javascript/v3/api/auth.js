@@ -5,6 +5,7 @@ import {
   parseAPIErrorResponse,
 } from 'dashboard/store/utils/api';
 import wootAPI from './apiClient';
+import { getPasskey } from 'dashboard/helper/webauthn';
 import {
   getLoginRedirectURL,
   getCredentialsFromEmail,
@@ -78,6 +79,27 @@ export const login = async ({
     const loginError = new Error(parseAPIErrorResponse(error));
     loginError.errorCode = error.response?.data?.error_code;
     throw loginError;
+  }
+};
+
+// A passkey carries its own user verification, so success never needs an MFA
+// step; failures surface the server's generic message.
+export const loginWithPasskey = async ({ ssoAccountId, ssoConversationId }) => {
+  const { data: options } = await wootAPI.post('passkey_sign_in_options');
+  const credential = await getPasskey(options);
+  try {
+    const response = await wootAPI.post('auth/sign_in', {
+      passkey_credential: credential,
+    });
+    setAuthCredentials(response);
+    clearLocalStorageOnLogout();
+    window.location = getLoginRedirectURL({
+      ssoAccountId,
+      ssoConversationId,
+      user: response.data.data,
+    });
+  } catch (error) {
+    throw new Error(parseAPIErrorResponse(error));
   }
 };
 

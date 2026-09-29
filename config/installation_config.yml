@@ -304,6 +304,11 @@
 - name: DEPLOYMENT_ENV
   value: self-hosted
   description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
+- name: PASSKEYS_ENABLED
+  display_title: 'Passkeys'
+  value: false
+  type: boolean
+  description: 'Let users sign in with passkeys. Requires FRONTEND_URL to be served over HTTPS'
 - name: DEVICE_VERIFICATION_ENABLED
   display_title: 'Device Verification'
   value: false
