@@ -65,8 +65,9 @@ class ConversationMonitors::WorkItem < ApplicationRecord
     if live_activity_at
       self.live_activity_revision = revision + 1
       self.live_activity_at = live_activity_at
-    elsif !invalidate && live_activity_revision == revision && live_activity_revision > processed_revision
-      self.live_activity_revision = revision + 1
+    elsif invalidate
+      self.live_activity_revision = 0
+      self.live_activity_at = nil
     end
   end
 
