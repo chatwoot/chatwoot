@@ -3,7 +3,7 @@
 # Table name: integrations_hooks
 #
 #  id           :bigint           not null, primary key
-#  access_token :string
+#  access_token :text
 #  hook_type    :integer          default("account")
 #  settings     :jsonb
 #  status       :integer          default("enabled")

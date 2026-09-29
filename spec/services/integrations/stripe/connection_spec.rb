@@ -57,6 +57,11 @@ RSpec.describe Integrations::Stripe::Connection do
 
   it 'encrypts both tokens at rest' do
     skip 'Encryption keys are required for this check' unless Chatwoot.encryption_configured?
+    token = OAuth2::AccessToken.new(Integrations::Stripe::Oauth.client, 'a' * 128, refresh_token: 'r' * 128)
+    connection.store_token!(token)
+    expect(JSON.parse(hook.reload.access_token)).to include('access_token' => 'a' * 128, 'refresh_token' => 'r' * 128)
+    expect(hook.access_token_before_type_cast).not_to include('a' * 128, 'r' * 128)
+    hook.update!(access_token: credentials.to_json)
     expect(hook.reload.access_token_before_type_cast).not_to include('existing-access', 'existing-refresh')
     expect(JSON.parse(hook.access_token)).to include('access_token' => 'existing-access', 'refresh_token' => 'existing-refresh')
   end
