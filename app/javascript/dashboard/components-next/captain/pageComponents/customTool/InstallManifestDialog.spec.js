@@ -63,8 +63,7 @@ const mountDialog = () =>
 
 const loadPreview = async (wrapper, data) => {
   mocks.preview.mockResolvedValue({ data });
-  await wrapper.find('input').setValue(' Chatwoot/Support-Tools/Shopify ');
-  await wrapper.findAll('button').at(-1).trigger('click');
+  wrapper.vm.open('Chatwoot/Tools/Shopify');
   await flushPromises();
 };
 
@@ -85,8 +84,8 @@ describe('InstallManifestDialog', () => {
 
     expect(mocks.install).toHaveBeenCalledWith({
       assistantId: 7,
-      // Sent as entered: the preview's identity is lowercase, but GitHub folder names are case-sensitive
-      source: 'Chatwoot/Support-Tools/Shopify',
+      // Sent as opened: the preview's identity is lowercase, but GitHub folder names are case-sensitive
+      source: 'Chatwoot/Tools/Shopify',
       revision: previewData.revision,
       configuration: { inputs: {}, secrets: { access_token: 'shpat_secret' } },
     });
@@ -100,8 +99,7 @@ describe('InstallManifestDialog', () => {
       return new Promise(() => {});
     });
     const wrapper = mountDialog();
-    await wrapper.find('input').setValue('chatwoot/tools/shopify');
-    await wrapper.findAll('button').at(-1).trigger('click');
+    wrapper.vm.open('chatwoot/tools/shopify');
 
     wrapper.findComponent(DialogStub).vm.$emit('close');
 
@@ -124,7 +122,7 @@ describe('InstallManifestDialog', () => {
       wrapper.findAll('button').at(0).attributes('disabled')
     ).toBeDefined();
 
-    wrapper.vm.open();
+    wrapper.vm.open('chatwoot/tools/shopify');
     finishInstall({ data: { payload: [] } });
     await flushPromises();
 
