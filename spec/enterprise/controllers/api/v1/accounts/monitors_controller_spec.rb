@@ -31,7 +31,7 @@ RSpec.describe 'Monitors API', type: :request do
   end
 
   it 'rejects overlong creation fields at the monitor request boundary' do
-    [{ name: 'x' * 101, condition: 'Refunds' }, { name: 'Refunds', condition: 'x' * 2001 }].each do |attributes|
+    [{ name: 'x' * 101, condition: 'Refunds' }, { name: 'Refunds', condition: 'x' * 501 }].each do |attributes|
       post base, headers: headers, params: attributes, as: :json
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body).to eq('error' => 'invalid_parameters')
@@ -255,7 +255,7 @@ RSpec.describe 'Monitors API', type: :request do
   end
 
   it 'rejects invalid descriptions and stale edits without replacing the current rule' do
-    ['', 'a' * 2001, ['refund'], { text: 'refund' }].each do |condition|
+    ['', 'a' * 501, ['refund'], { text: 'refund' }].each do |condition|
       patch "#{base}/#{monitor.id}", headers: headers, params: { condition: condition, collection_version: 0 }, as: :json
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body['error']).to eq('invalid_parameters')

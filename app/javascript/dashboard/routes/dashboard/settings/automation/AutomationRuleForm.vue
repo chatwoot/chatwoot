@@ -18,6 +18,7 @@ import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 import {
   AUTOMATION_RULE_EVENTS,
   AUTOMATION_ACTION_TYPES,
+  CAPTAIN_CONDITION,
   DEFAULT_DELAY_MINUTES,
 } from './constants';
 import AutomationRunTypeSelector from './components/AutomationRunTypeSelector.vue';
@@ -76,6 +77,7 @@ const INPUT_TYPE_MAP = {
   multi_select: 'multiSelect',
   search_select: 'searchSelect',
   plain_text: 'plainText',
+  long_text: 'longText',
   multi_text: 'multiText',
   date: 'date',
 };
@@ -95,6 +97,9 @@ const isEditMode = computed(() => props.mode === 'edit');
 
 const allowsDelayedExecution = computed(() =>
   isCloudFeatureEnabled(FEATURE_FLAGS.DELAYED_AUTOMATIONS)
+);
+const allowsCaptainConditions = computed(() =>
+  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_CLASSIFIER)
 );
 
 // The wait lives here rather than in the wait section so that switching between the two run
@@ -216,12 +221,24 @@ const getTranslatedAttributes = (type, event) => {
 };
 
 const eventName = computed(() => automation.value?.event_name);
+const usesCaptainCondition = computed(() =>
+  automation.value.conditions.some(
+    condition => condition.attribute_key === CAPTAIN_CONDITION.key
+  )
+);
 
 const filterTypes = computed(() => {
   const event = eventName.value;
   if (!event || !props.automationTypes[event]) return [];
 
-  const attributes = getTranslatedAttributes(props.automationTypes, event);
+  // A type the account can no longer use stays while the rule still has it, so the saved row
+  // renders, but it cannot be picked again.
+  const isUnavailable = attr =>
+    attr.key === CAPTAIN_CONDITION.key && !allowsCaptainConditions.value;
+  const attributes = getTranslatedAttributes(
+    props.automationTypes,
+    event
+  ).filter(attr => !isUnavailable(attr) || usesCaptainCondition.value);
 
   return attributes.map(attr => {
     if (attr.disabled) {
@@ -253,10 +270,15 @@ const filterTypes = computed(() => {
         attributeDisplayType: attr.attributeDisplayType,
       }),
       inputType: mappedInputType,
+      placeholder: attr.placeholder
+        ? t(`AUTOMATION.CONDITION.PLACEHOLDERS.${attr.placeholder}`)
+        : undefined,
+      maxLength: attr.maxLength,
       options,
       filterOperators,
       dataType: 'text',
       attributeModel: attr.customAttributeType || 'standard',
+      disabled: isUnavailable(attr),
     };
   });
 });
