@@ -118,6 +118,26 @@ RSpec.describe User do
 
     let(:user) { create(:user, password: 'Test@123456') }
 
+    describe '#mfa_enforcement_pending?' do
+      let(:account) { create(:account) }
+      let(:user) { create(:user, password: 'Test@123456', account: account) }
+
+      it 'is false when no account enforces mfa' do
+        expect(user.mfa_enforcement_pending?).to be false
+      end
+
+      it 'is true when an account enforces and user not enrolled' do
+        account.update!(enforce_mfa: true)
+        expect(user.reload.mfa_enforcement_pending?).to be true
+      end
+
+      it 'is false when user already enrolled' do
+        account.update!(enforce_mfa: true)
+        user.update!(otp_required_for_login: true)
+        expect(user.mfa_enforcement_pending?).to be false
+      end
+    end
+
     describe '#enable_two_factor!' do
       it 'generates OTP secret for 2FA setup' do
         expect(user.otp_secret).to be_nil
