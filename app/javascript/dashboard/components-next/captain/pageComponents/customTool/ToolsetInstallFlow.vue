@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, onMounted, ref } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 
@@ -54,8 +54,15 @@ const onPickerClose = () => {
   if (!installAssistantId.value) emit('done', Number(props.assistantId));
 };
 
+// Leaving the tools page while assistants load must not open dialogs that are already gone
+let isUnmounted = false;
+onBeforeUnmount(() => {
+  isUnmounted = true;
+});
+
 onMounted(async () => {
   await store.dispatch('captainAssistants/get');
+  if (isUnmounted) return;
 
   if (assistants.value.length > 1) {
     pickerRef.value.open();

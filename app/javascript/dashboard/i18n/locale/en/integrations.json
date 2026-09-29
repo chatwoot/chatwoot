@@ -1294,7 +1294,8 @@
       "INSTALL_LINK": {
         "TITLE": "Choose an assistant",
         "DESCRIPTION": "Pick the assistant to install this toolset on.",
-        "PLACEHOLDER": "Select an assistant"
+        "PLACEHOLDER": "Select an assistant",
+        "LOAD_ERROR": "Could not load your assistants. Reload the page to try again."
       },
       "INSTALL_MANIFEST": {
         "TITLE": "Install a toolset",
