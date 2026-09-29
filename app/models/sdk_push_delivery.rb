@@ -17,11 +17,6 @@
 #  index_sdk_push_deliveries_on_message_id             (message_id)
 #  index_sdk_push_deliveries_on_sdk_push_device_id  (sdk_push_device_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (message_id => messages.id)
-#  fk_rails_...  (sdk_push_device_id => sdk_push_devices.id)
-#
 class SdkPushDelivery < ApplicationRecord
   belongs_to :sdk_push_device
   belongs_to :message, optional: true

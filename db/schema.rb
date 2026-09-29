@@ -1774,15 +1774,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000001) do
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitors", "users", on_delete: :nullify
   add_foreign_key "inboxes", "portals"
-  add_foreign_key "sdk_push_deliveries", "messages", on_delete: :cascade
-  add_foreign_key "sdk_push_deliveries", "sdk_push_devices", on_delete: :cascade
-  add_foreign_key "sdk_push_devices", "contact_inboxes", on_delete: :cascade
-  add_foreign_key "sdk_push_devices", "contacts", on_delete: :cascade
-  add_foreign_key "sdk_push_devices", "sdk_apps", on_delete: :cascade
-  add_foreign_key "sdk_android_configurations", "sdk_apps", on_delete: :cascade
-  add_foreign_key "sdk_apps", "accounts", on_delete: :cascade
-  add_foreign_key "sdk_apps", "inboxes", on_delete: :cascade
-  add_foreign_key "sdk_ios_configurations", "sdk_apps", on_delete: :cascade
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
