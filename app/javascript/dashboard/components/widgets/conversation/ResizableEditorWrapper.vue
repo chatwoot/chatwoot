@@ -15,11 +15,14 @@ const props = defineProps({
   containerHeight: { type: Number, default: 0 },
 });
 
+const emit = defineEmits(['collapse']);
+
 const DEFAULT_HEIGHT = 120;
 const MIN_HEIGHT = 80;
 const MIN_MESSAGES_HEIGHT = 200;
 const EXPAND_RATIO = 0.5;
 const RESET_DELAY_MS = 120;
+const COLLAPSE_DISTANCE = 48;
 
 const wrapperRef = useTemplateRef('wrapperRef');
 const surroundingHeight = ref(0);
@@ -28,6 +31,7 @@ const isResizing = ref(false);
 const startY = ref(0);
 const startHeight = ref(0);
 const requestedHeight = ref(0);
+const collapseProgress = ref(0);
 let resetTimeoutId = null;
 
 const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
@@ -75,6 +79,15 @@ provide('requestEditorHeight', height => {
   requestedHeight.value = height;
 });
 
+const collapseStyle = computed(() =>
+  collapseProgress.value
+    ? {
+        opacity: 1 - collapseProgress.value * 0.6,
+        transform: `translateY(${collapseProgress.value * 0.75}rem)`,
+      }
+    : null
+);
+
 const clearDragStyles = () => {
   Object.assign(document.body.style, { cursor: '', userSelect: '' });
 };
@@ -94,18 +107,30 @@ const onResizeStart = event => {
   });
 };
 
-const onResizeMove = event => {
-  if (!isResizing.value) return;
-  if (event.touches) event.preventDefault();
-  editorHeight.value = clampToBounds(
-    startHeight.value + startY.value - getClientY(event)
-  );
-};
-
 const onResizeEnd = () => {
   if (!isResizing.value) return;
   isResizing.value = false;
+  collapseProgress.value = 0;
   clearDragStyles();
+};
+
+const collapseEditor = () => {
+  onResizeEnd();
+  editorHeight.value = sizeBounds.value.default;
+  emit('collapse');
+};
+
+const onResizeMove = event => {
+  if (!isResizing.value) return;
+  if (event.touches) event.preventDefault();
+  const draggedHeight = startHeight.value + startY.value - getClientY(event);
+  editorHeight.value = clampToBounds(draggedHeight);
+  collapseProgress.value = clamp(
+    (sizeBounds.value.min - draggedHeight) / COLLAPSE_DISTANCE,
+    0,
+    1
+  );
+  if (collapseProgress.value === 1) collapseEditor();
 };
 
 const resetEditorHeight = () => {
@@ -172,10 +197,19 @@ defineExpose({ toggleEditorExpand, resetEditorHeight });
     >
       <div
         class="w-8 h-0.5 mt-1 rounded-full bg-n-slate-6 group-hover:bg-n-slate-8 transition-all duration-200 motion-safe:group-hover:animate-bounce"
-        :class="{ 'bg-n-slate-8 animate-bounce': isResizing }"
+        :class="{
+          'bg-n-slate-8 animate-bounce': isResizing,
+          '!bg-n-brand w-12': collapseProgress > 0,
+        }"
       />
     </div>
-    <slot />
+    <div
+      class="transition-[opacity,transform] ease-out"
+      :class="isResizing ? 'duration-0' : 'duration-200'"
+      :style="collapseStyle"
+    >
+      <slot />
+    </div>
   </div>
 </template>
 
