@@ -67,6 +67,18 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
     end
   end
 
+  def impersonate
+    redirect_to impersonation_url, status: :see_other, allow_other_host: true
+  end
+
+  def impersonation_link
+    render json: { url: impersonation_url }
+  end
+
+  def impersonation_url
+    requested_resource.generate_sso_link_with_impersonation(current_super_admin)
+  end
+
   def check_email_suppression
     user = requested_resource
     redirect_with_suppression_result(user, Email::SesSuppressionService.new.lookup(user.email))

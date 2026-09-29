@@ -98,6 +98,32 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(call.reload.parent_call_sid).to be_nil
     end
 
+    it 'hangs up an outbound PSTN leg answered after the call already ended' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(
+        :call,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        contact: conversation.contact,
+        direction: :outgoing,
+        provider_call_id: call_sid,
+        status: 'rejected'
+      )
+
+      post "/twilio/voice/call/#{digits}", params: {
+        'CallSid' => call_sid,
+        'From' => to_number,
+        'To' => from_number,
+        'Direction' => 'outbound-api'
+      }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('<Hangup/>')
+      expect(response.body).not_to include('<Dial>')
+      expect(call.reload.conference_sid).to be_nil
+    end
+
     it 'records the parent call SID when syncing outbound-dial legs' do
       parent_sid = 'CA_parent'
       child_sid = 'CA_child'
