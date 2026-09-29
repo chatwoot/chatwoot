@@ -101,7 +101,7 @@ class AutomationRules::ConditionsFilterService < FilterService
 
   # We intersect with the record if query_operator-AND is present and union if query_operator-OR is present
   def attribute_changed_filter_query(filter, records, current_attribute_changed_record)
-    if filter['query_operator'] == 'AND'
+    if filter['query_operator'].to_s.casecmp?('AND')
       @attribute_changed_records + (current_attribute_changed_record & records)
     else
       @attribute_changed_records + (current_attribute_changed_record | records)
