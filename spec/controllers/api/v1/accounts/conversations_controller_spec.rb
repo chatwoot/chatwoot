@@ -822,6 +822,26 @@ RSpec.describe 'Conversations API', type: :request do
         expect(Rails.configuration.dispatcher).to have_received(:dispatch)
           .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: agent, is_private: true })
       end
+
+      it 'notifies the WhatsApp Cloud provider only when asked to' do
+        whatsapp_channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                                     validate_provider_config: false, sync_templates: false)
+        cloud_conversation = create(:conversation, account: account, inbox: whatsapp_channel.inbox)
+        create(:inbox_member, user: agent, inbox: whatsapp_channel.inbox)
+        create(:message, conversation: cloud_conversation, inbox: whatsapp_channel.inbox, account: account,
+                         message_type: :incoming, source_id: 'wamid.req')
+        provider = instance_double(Whatsapp::Providers::WhatsappCloudService, send_typing_indicator: true)
+        allow(Whatsapp::Providers::WhatsappCloudService).to receive(:new).and_return(provider)
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{cloud_conversation.display_id}/toggle_typing_status",
+             headers: agent.create_new_auth_token,
+             params: { typing_status: 'on', notify_provider: true },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(provider).to have_received(:send_typing_indicator).with('wamid.req')
+      end
     end
 
     context 'when it is an authenticated bot' do
