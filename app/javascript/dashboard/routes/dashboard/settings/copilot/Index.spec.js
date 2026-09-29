@@ -106,7 +106,7 @@ describe('Copilot settings', () => {
       assistantId: null,
       tools: [
         { name: 'get_conversation', available: true },
-        { name: 'search_conversations', available: true },
+        { name: 'search_conversation', available: true },
       ],
     });
 

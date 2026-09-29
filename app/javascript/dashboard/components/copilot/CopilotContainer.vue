@@ -35,6 +35,7 @@ const isSmallScreen = computed(
 );
 
 const selectedCopilotThreadId = ref(null);
+let selectionVersion = 0;
 const messages = computed(() =>
   store.getters['copilotMessages/getMessagesByThreadId'](
     selectedCopilotThreadId.value
@@ -109,6 +110,7 @@ const shouldShowCopilotPanel = computed(() => {
 });
 
 const handleReset = () => {
+  selectionVersion += 1;
   selectedCopilotThreadId.value = null;
 };
 
@@ -116,8 +118,14 @@ const loadThreads = async (page = 1) => {
   isLoadingThreads.value = true;
   try {
     const { data } = await CopilotThreadsAPI.get({ page });
+    const knownIds = new Set(threads.value.map(thread => thread.id));
     threads.value =
-      page === 1 ? data.payload : [...threads.value, ...data.payload];
+      page === 1
+        ? data.payload
+        : [
+            ...threads.value,
+            ...data.payload.filter(thread => !knownIds.has(thread.id)),
+          ];
     historyPage.value = page;
     hasMoreThreads.value = threads.value.length < data.meta.total_count;
   } catch (error) {
@@ -128,9 +136,11 @@ const loadThreads = async (page = 1) => {
 };
 
 const selectThread = async thread => {
+  selectionVersion += 1;
+  const version = selectionVersion;
   try {
     await store.dispatch('copilotMessages/get', thread.id);
-    selectedCopilotThreadId.value = thread.id;
+    if (selectionVersion === version) selectedCopilotThreadId.value = thread.id;
   } catch (error) {
     useAlert(error.message);
   }
@@ -152,13 +162,17 @@ const sendMessage = async payload => {
       });
     } else {
       const conversationId = currentChat.value?.id;
+      const version = selectionVersion;
       const response = await store.dispatch('copilotThreads/create', {
         assistant_id: configuredAssistant.value.id,
         conversation_id: conversationId,
         message,
         ...(requestType && { request_type: requestType }),
       });
-      if (currentChat.value?.id === conversationId) {
+      if (
+        currentChat.value?.id === conversationId &&
+        selectionVersion === version
+      ) {
         selectedCopilotThreadId.value = response.id;
       }
       threads.value.unshift(response);

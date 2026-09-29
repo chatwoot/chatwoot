@@ -1,6 +1,7 @@
 import { nextTick, ref } from 'vue';
-import { shallowMount } from '@vue/test-utils';
+import { flushPromises, shallowMount } from '@vue/test-utils';
 import CopilotContainer from './CopilotContainer.vue';
+import CopilotThreadsAPI from 'dashboard/api/captain/copilotThreads';
 
 const testState = vi.hoisted(() => ({
   dispatch: vi.fn(),
@@ -70,7 +71,13 @@ const mountComponent = () =>
       stubs: {
         Copilot: {
           name: 'Copilot',
-          props: ['messages', 'onSendMessage', 'selectedThreadId'],
+          props: [
+            'messages',
+            'onSendMessage',
+            'selectedThreadId',
+            'threads',
+            'hasMoreThreads',
+          ],
           template: '<div />',
         },
       },
@@ -84,6 +91,10 @@ describe('CopilotContainer', () => {
     testState.refs.getSelectedChat.value = { id: 1 };
     testState.refs['captainAssistants/getRecords'].value = [{ id: 7 }];
     testState.copilotAssistantId = null;
+    CopilotThreadsAPI.get.mockReset();
+    CopilotThreadsAPI.get.mockResolvedValue({
+      data: { payload: [], meta: { total_count: 0 } },
+    });
   });
 
   it('keeps the existing assistant when no account choice is saved', async () => {
@@ -184,6 +195,74 @@ describe('CopilotContainer', () => {
     expect(await sendPromise).toBe(true);
 
     expect(copilot.props('messages')).toEqual([]);
+  });
+
+  it('keeps a newer chat selection when thread creation finishes', async () => {
+    let resolveRequest;
+    testState.dispatch.mockImplementation(action => {
+      if (action !== 'copilotThreads/create') return Promise.resolve();
+      return new Promise(resolve => {
+        resolveRequest = resolve;
+      });
+    });
+    const wrapper = mountComponent();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+
+    const sendPromise = copilot.props('onSendMessage')('Draft a reply');
+    copilot.vm.$emit('selectThread', { id: 42 });
+    await flushPromises();
+    resolveRequest({ id: 99 });
+    await sendPromise;
+
+    expect(copilot.props('selectedThreadId')).toBe(42);
+  });
+
+  it('keeps a new chat empty when an earlier thread creation finishes', async () => {
+    let resolveRequest;
+    testState.dispatch.mockImplementation(action => {
+      if (action !== 'copilotThreads/create') return Promise.resolve();
+      return new Promise(resolve => {
+        resolveRequest = resolve;
+      });
+    });
+    const wrapper = mountComponent();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+
+    const sendPromise = copilot.props('onSendMessage')('Draft a reply');
+    copilot.vm.$emit('reset');
+    await nextTick();
+    resolveRequest({ id: 99 });
+    await sendPromise;
+
+    expect(copilot.props('selectedThreadId')).toBeNull();
+  });
+
+  it('does not repeat a locally created chat when loading the next page', async () => {
+    CopilotThreadsAPI.get.mockImplementation(({ page }) =>
+      Promise.resolve({
+        data: {
+          payload: page === 1 ? [{ id: 2 }, { id: 1 }] : [{ id: 1 }, { id: 0 }],
+          meta: { total_count: 4 },
+        },
+      })
+    );
+    testState.dispatch.mockImplementation(action =>
+      Promise.resolve(
+        action === 'copilotThreads/create' ? { id: 3 } : undefined
+      )
+    );
+    const wrapper = mountComponent();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+    await flushPromises();
+
+    await copilot.props('onSendMessage')('Hello');
+    copilot.vm.$emit('loadMoreThreads');
+    await flushPromises();
+
+    expect(copilot.props('threads').map(thread => thread.id)).toEqual([
+      3, 2, 1, 0,
+    ]);
+    expect(copilot.props('hasMoreThreads')).toBe(false);
   });
 
   it('reports a failed send', async () => {

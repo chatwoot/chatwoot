@@ -21,6 +21,14 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotPreferences', type: :request 
     expect(json_response[:copilot_tools]).to include(name: 'search_documentation', available: true)
   end
 
+  it 'publishes the conversation search tool name used by Copilot' do
+    create(:captain_assistant, account: account)
+
+    get path, headers: admin.create_new_auth_token, as: :json
+
+    expect(json_response[:copilot_tools]).to include(name: 'search_conversation', available: true)
+  end
+
   it 'saves an assistant choice and can return to the existing selection' do
     assistant = create(:captain_assistant, account: account)
 

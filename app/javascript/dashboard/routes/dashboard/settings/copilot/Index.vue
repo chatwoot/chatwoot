@@ -28,7 +28,7 @@ const groups = computed(() => [
     icon: 'i-lucide-messages-square',
     tools: [
       { name: 'get_conversation', scope: 'READ' },
-      { name: 'search_conversations', scope: 'SEARCH' },
+      { name: 'search_conversation', scope: 'SEARCH' },
     ],
   },
   {
