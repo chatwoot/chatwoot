@@ -63,6 +63,7 @@ defineExpose({ conversationListRef });
     class="flex-1 min-h-0 overflow-y-auto conversations-list"
     :class="{ '!overflow-hidden': isContextMenuOpen }"
   >
+    <!-- virtua keys rows by the slot vnode key and falls back to the index, so key rows by conversation id -->
     <Virtualizer
       ref="virtualListRef"
       v-slot="{ item }"
