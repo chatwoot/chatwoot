@@ -131,13 +131,16 @@ const onCreated = monitor =>
 watch(
   () => [route.query.template, route.query.condition, isAdmin.value],
   ([templateId, prefillCondition]) => {
-    if (templateId) activeSection.value = 'templates';
+    if (typeof templateId === 'string') activeSection.value = 'templates';
     if (!isAdmin.value || !(templateId || prefillCondition)) return;
     const selectedTemplate = templates.value.find(
       ({ id }) => id === templateId
     );
-    if (selectedTemplate) openTemplate(selectedTemplate);
-    else if (prefillCondition) openForm({ condition: prefillCondition });
+    if (selectedTemplate) {
+      openTemplate(selectedTemplate);
+    } else if (typeof prefillCondition === 'string') {
+      openForm({ condition: prefillCondition });
+    }
     // The prefill is one-time; drop it so a refresh or back navigation doesn't reopen the form.
     const { template, condition, ...query } = route.query;
     router.replace({ query });
