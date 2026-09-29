@@ -97,6 +97,18 @@ RSpec.describe Captain::ToolsManifest::Validator do
       expect_invalid(yaml, /name must be 1-100 characters/)
     end
 
+    it 'accepts the author the catalog lists the toolset under' do
+      manifest['author'] = 'chatwoot'
+
+      expect(validate(yaml)['author']).to eq('chatwoot')
+    end
+
+    it 'rejects an author that is not a GitHub login' do
+      manifest['author'] = ['chatwoot']
+
+      expect_invalid(yaml, /author must be a GitHub login/)
+    end
+
     it 'rejects an unknown category' do
       manifest['category'] = 'Productivity'
 

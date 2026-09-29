@@ -15,7 +15,7 @@ class Captain::ToolsManifest::Validator
   FIELD_NAME_PATTERN = /\A[a-z][a-z0-9_]*\z/i
   INSTALL_PLACEHOLDER_PATTERN = /\$\{\{\s*(inputs|secrets)\.([a-z][a-z0-9_]*)\s*\}\}/i
 
-  ROOT_KEYS = %w[version kind name description category headers inputs secrets tools].freeze
+  ROOT_KEYS = %w[version kind name author description category headers inputs secrets tools].freeze
   FIELD_KEYS = %w[label type placeholder required options].freeze
   FIELD_TYPES = %w[string password number boolean select].freeze
   TOOL_KEYS = %w[id title description http_method endpoint_url auth_type auth_config param_schema
@@ -64,6 +64,8 @@ class Captain::ToolsManifest::Validator
     ensure!(manifest['version'].is_a?(String) && VERSION_PATTERN.match?(manifest['version']), 'version must be a semantic version')
     ensure!(manifest['kind'] == KIND, "kind must be #{KIND}")
     ensure!(text?(manifest['name'], 100), 'name must be 1-100 characters')
+    # The catalog lists toolsets under the GitHub login of whoever wrote them; installs don't use it
+    optional!(manifest['author'], text?(manifest['author'], 39), 'author must be a GitHub login')
     ensure!(text?(manifest['description'], 500), 'description must be 1-500 characters')
     ensure!(manifest['category'].nil? || CATEGORIES.include?(manifest['category']), "category must be one of: #{CATEGORIES.join(', ')}")
   end
