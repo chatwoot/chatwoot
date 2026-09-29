@@ -1387,6 +1387,19 @@
           "API_VALUE": "Header Value",
           "API_VALUE_PLACEHOLDER": "Enter API key value"
         },
+        "SECTIONS": {
+          "TEMPLATES": "Templates",
+          "TEMPLATES_HELP_TEXT": "Supports Liquid syntax, like {'{{'} order_id {'}}'} or {'{{'} response.status {'}}'}."
+        },
+        "HEADERS": {
+          "LABEL": "Headers",
+          "HELP_TEXT": "Static headers sent with every request. Values are sent exactly as entered; use Authentication for credentials.",
+          "NAME_PLACEHOLDER": "Header name (e.g., cal-api-version)",
+          "VALUE_PLACEHOLDER": "Header value",
+          "NAME_REQUIRED": "Header name is required",
+          "NAME_DUPLICATE": "Header names must be unique",
+          "ADD": "Add Header"
+        },
         "PARAMETERS": {
           "LABEL": "Parameters",
           "HELP_TEXT": "Define the parameters that will be extracted from user queries"

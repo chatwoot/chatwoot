@@ -4,7 +4,6 @@ import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, maxLength } from '@vuelidate/validators';
-import { useMapGetter } from 'dashboard/composables/store';
 import CustomToolsAPI from 'dashboard/api/captain/customTools';
 
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -13,6 +12,8 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import ParamRow from './ParamRow.vue';
 import AuthConfig from './AuthConfig.vue';
+import HeadersConfig from './HeadersConfig.vue';
+import ToolFormSection from './ToolFormSection.vue';
 
 const props = defineProps({
   mode: {
@@ -26,14 +27,10 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['submit', 'cancel']);
+const emit = defineEmits(['submit']);
 
 const { t } = useI18n();
 const route = useRoute();
-
-const formState = {
-  uiFlags: useMapGetter('captainCustomTools/getUIFlags'),
-};
 
 const initialState = {
   title: '',
@@ -44,6 +41,7 @@ const initialState = {
   response_template: '',
   auth_type: 'none',
   auth_config: {},
+  headers: {},
   param_schema: [],
 };
 
@@ -62,6 +60,7 @@ watch(
       state.response_template = newTool.response_template || '';
       state.auth_type = newTool.auth_type || 'none';
       state.auth_config = newTool.auth_config || {};
+      state.headers = newTool.headers || {};
       state.param_schema = newTool.param_schema || [];
     }
   },
@@ -86,10 +85,11 @@ const validationRules = {
   auth_type: { required },
 };
 
-const httpMethodOptions = computed(() => [
-  { value: 'GET', label: 'GET' },
-  { value: 'POST', label: 'POST' },
-]);
+const HTTP_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
+const httpMethodOptions = HTTP_METHODS.map(method => ({
+  value: method,
+  label: method,
+}));
 
 const authTypeOptions = computed(() => [
   { value: 'none', label: t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_TYPES.NONE') },
@@ -101,13 +101,24 @@ const authTypeOptions = computed(() => [
   },
 ]);
 
-const v$ = useVuelidate(validationRules, state);
+const openSections = reactive({
+  headers: false,
+  params: false,
+  templates: false,
+});
 
-const isLoading = computed(() =>
-  props.mode === 'edit'
-    ? formState.uiFlags.value.updatingItem
-    : formState.uiFlags.value.creatingItem
-);
+const sectionSummaries = computed(() => {
+  const headerCount = Object.keys(state.headers).length;
+  const paramCount = state.param_schema.length;
+  return {
+    headers: headerCount ? String(headerCount) : '',
+    params: paramCount ? String(paramCount) : '',
+  };
+});
+
+const hasRequestBody = computed(() => state.http_method !== 'GET');
+
+const v$ = useVuelidate(validationRules, state);
 
 const getErrorMessage = (field, errorKey) => {
   if (!v$.value[field].$error) return '';
@@ -127,6 +138,7 @@ const formErrors = computed(() => ({
 }));
 
 const paramsRef = useTemplateRef('paramsRef');
+const headersRef = useTemplateRef('headersRef');
 
 const isParamsValid = () => {
   if (!paramsRef.value || paramsRef.value.length === 0) {
@@ -143,11 +155,13 @@ const addParam = () => {
   state.param_schema.push({ ...DEFAULT_PARAM });
 };
 
-const handleCancel = () => emit('cancel');
-
 const handleSubmit = async () => {
   const isFormValid = await v$.value.$validate();
-  if (!isFormValid || !isParamsValid()) {
+  const isHeadersValid = headersRef.value.validate();
+  const areParamsValid = isParamsValid();
+  if (!isHeadersValid) openSections.headers = true;
+  if (!areParamsValid) openSections.params = true;
+  if (!isFormValid || !areParamsValid || !isHeadersValid) {
     return;
   }
 
@@ -162,6 +176,11 @@ const isTestDisabled = computed(
 
 const handleTest = async () => {
   if (!state.endpoint_url) return;
+  // Invalid rows are dropped or merged when building headers, so the test would not match what Save accepts
+  if (!headersRef.value.validate()) {
+    openSections.headers = true;
+    return;
+  }
 
   isTesting.value = true;
   testResult.value = null;
@@ -184,7 +203,8 @@ const handleTest = async () => {
 
 <template>
   <form
-    class="flex flex-col px-4 -mx-4 gap-4 max-h-[calc(100vh-200px)] overflow-y-scroll"
+    id="custom-tool-form"
+    class="flex flex-col gap-4"
     @submit.prevent="handleSubmit"
   >
     <Input
@@ -199,11 +219,12 @@ const handleTest = async () => {
       v-model="state.description"
       :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.DESCRIPTION.LABEL')"
       :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.DESCRIPTION.PLACEHOLDER')"
-      :rows="2"
+      auto-height
+      min-height="2.5rem"
     />
 
     <div class="flex gap-2">
-      <div class="flex flex-col gap-1 w-28">
+      <div class="flex flex-col gap-1 w-32">
         <label class="mb-0.5 text-sm font-medium text-n-slate-12">
           {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.HTTP_METHOD.LABEL') }}
         </label>
@@ -239,54 +260,84 @@ const handleTest = async () => {
       :auth-type="state.auth_type"
     />
 
-    <div class="flex flex-col gap-2">
-      <label class="text-sm font-medium text-n-slate-12">
-        {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.LABEL') }}
-      </label>
-      <p class="text-xs text-n-slate-11 -mt-1">
-        {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.HELP_TEXT') }}
-      </p>
-      <ul v-if="state.param_schema.length > 0" class="grid gap-2 list-none">
-        <ParamRow
-          v-for="(param, index) in state.param_schema"
-          :key="index"
-          ref="paramsRef"
-          v-model:name="param.name"
-          v-model:type="param.type"
-          v-model:description="param.description"
-          v-model:required="param.required"
-          @remove="removeParam(index)"
+    <div class="flex flex-col">
+      <ToolFormSection
+        v-model:open="openSections.headers"
+        :title="t('CAPTAIN.CUSTOM_TOOLS.FORM.HEADERS.LABEL')"
+        :summary="sectionSummaries.headers"
+      >
+        <HeadersConfig ref="headersRef" v-model:headers="state.headers" />
+      </ToolFormSection>
+
+      <ToolFormSection
+        v-model:open="openSections.params"
+        :title="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.LABEL')"
+        :summary="sectionSummaries.params"
+      >
+        <p class="text-xs text-n-slate-11">
+          {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.HELP_TEXT') }}
+        </p>
+        <ul v-if="state.param_schema.length > 0" class="grid gap-2 list-none">
+          <ParamRow
+            v-for="(param, index) in state.param_schema"
+            :key="index"
+            ref="paramsRef"
+            v-model:name="param.name"
+            v-model:type="param.type"
+            v-model:description="param.description"
+            v-model:required="param.required"
+            @remove="removeParam(index)"
+          />
+        </ul>
+        <Button
+          type="button"
+          sm
+          ghost
+          blue
+          icon="i-lucide-plus"
+          :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.ADD_PARAMETER')"
+          @click="addParam"
         />
-      </ul>
-      <Button
-        type="button"
-        sm
-        ghost
-        blue
-        icon="i-lucide-plus"
-        :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.ADD_PARAMETER')"
-        @click="addParam"
-      />
+      </ToolFormSection>
+
+      <ToolFormSection
+        v-model:open="openSections.templates"
+        :title="
+          hasRequestBody
+            ? t('CAPTAIN.CUSTOM_TOOLS.FORM.SECTIONS.TEMPLATES')
+            : t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL')
+        "
+        class="border-b"
+      >
+        <p class="text-xs text-n-slate-11">
+          {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.SECTIONS.TEMPLATES_HELP_TEXT') }}
+        </p>
+        <TextArea
+          v-if="hasRequestBody"
+          v-model="state.request_template"
+          :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.LABEL')"
+          :placeholder="
+            t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.PLACEHOLDER')
+          "
+          :rows="4"
+          class="[&_textarea]:font-mono"
+        />
+
+        <TextArea
+          v-model="state.response_template"
+          :label="
+            hasRequestBody
+              ? t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL')
+              : ''
+          "
+          :placeholder="
+            t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.PLACEHOLDER')
+          "
+          :rows="4"
+          class="[&_textarea]:font-mono"
+        />
+      </ToolFormSection>
     </div>
-
-    <TextArea
-      v-if="state.http_method === 'POST'"
-      v-model="state.request_template"
-      :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.LABEL')"
-      :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.PLACEHOLDER')"
-      :rows="4"
-      class="[&_textarea]:font-mono"
-    />
-
-    <TextArea
-      v-model="state.response_template"
-      :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL')"
-      :placeholder="
-        t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.PLACEHOLDER')
-      "
-      :rows="4"
-      class="[&_textarea]:font-mono"
-    />
 
     <div class="flex flex-col gap-2">
       <Button
@@ -325,26 +376,6 @@ const handleTest = async () => {
             : testResult.message
         }}
       </div>
-    </div>
-
-    <div class="flex gap-3 justify-between items-center w-full">
-      <Button
-        type="button"
-        variant="faded"
-        color="slate"
-        :label="t('CAPTAIN.FORM.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
-        @click="handleCancel"
-      />
-      <Button
-        type="submit"
-        :label="
-          t(mode === 'edit' ? 'CAPTAIN.FORM.EDIT' : 'CAPTAIN.FORM.CREATE')
-        "
-        class="w-full"
-        :is-loading="isLoading"
-        :disabled="isLoading"
-      />
     </div>
   </form>
 </template>
