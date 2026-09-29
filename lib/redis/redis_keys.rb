@@ -113,4 +113,12 @@ module Redis::RedisKeys
   DEVICE_VERIFICATION_ATTEMPTS = 'DEVICE_VERIFICATION::ATTEMPTS::%<user_id>d::%<jti>s'.freeze
   # Rolling per-user challenge issuance budget
   DEVICE_VERIFICATION_ISSUANCE = 'DEVICE_VERIFICATION::ISSUANCE::%<user_id>d'.freeze
+
+  ## Contact type backfill (Migration::ClassifyContactsJob)
+  # Last contact id the walk has finished; cleared when the walk reaches the end
+  CONTACT_TYPE_BACKFILL_CURSOR = 'CONTACT_TYPE_BACKFILL::CURSOR'.freeze
+  # Set to pause the walk; the job checks again every few minutes
+  CONTACT_TYPE_BACKFILL_PAUSED = 'CONTACT_TYPE_BACKFILL::PAUSED'.freeze
+  # Rows written per second; overrides the default while set
+  CONTACT_TYPE_BACKFILL_RATE = 'CONTACT_TYPE_BACKFILL::RATE'.freeze
 end
