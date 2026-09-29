@@ -66,6 +66,18 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       expect(tools.map(&:enabled)).to eq([true, false])
     end
 
+    it 'installs tools that call their endpoint with the install-time values and manifest headers' do
+      allow(Resolv).to receive(:getaddresses).and_return(['23.227.38.33'])
+      order_url = 'https://acme.myshopify.com/admin/api/orders/1001.json'
+      stub_request(:get, order_url).to_return(status: 200, body: '{"id": 1001}')
+
+      result = install.first.tool(assistant).perform(Struct.new(:state).new({}), order_id: '1001')
+
+      expect(result).to eq('{"id": 1001}')
+      expect(WebMock).to have_requested(:get, order_url)
+        .with(headers: { 'X-Shopify-Access-Token' => 'shpat_secret', 'X-Api-Version' => '2026-05-01' })
+    end
+
     it 'records where each tool came from' do
       tools = install
 

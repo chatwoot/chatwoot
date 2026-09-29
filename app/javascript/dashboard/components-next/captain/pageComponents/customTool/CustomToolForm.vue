@@ -19,7 +19,7 @@ const props = defineProps({
   mode: {
     type: String,
     default: 'create',
-    validator: value => ['create', 'edit'].includes(value),
+    validator: value => ['create', 'edit', 'view'].includes(value),
   },
   tool: {
     type: Object,
@@ -47,11 +47,14 @@ const initialState = {
 
 const state = reactive({ ...initialState });
 
-// Populate form when in edit mode
+// Tools installed from a manifest are shown read-only
+const isReadOnly = computed(() => props.mode === 'view');
+
+// Populate form when editing or viewing an existing tool
 watch(
   () => props.tool,
   newTool => {
-    if (props.mode === 'edit' && newTool && newTool.id) {
+    if (props.mode !== 'create' && newTool && newTool.id) {
       state.title = newTool.title || '';
       state.description = newTool.description || '';
       state.endpoint_url = newTool.endpoint_url || '';
@@ -101,10 +104,11 @@ const authTypeOptions = computed(() => [
   },
 ]);
 
+// Read-only section headers can't be clicked, so view mode starts with every section open
 const openSections = reactive({
-  headers: false,
-  params: false,
-  templates: false,
+  headers: isReadOnly.value,
+  params: isReadOnly.value,
+  templates: isReadOnly.value,
 });
 
 const sectionSummaries = computed(() => {
@@ -207,175 +211,178 @@ const handleTest = async () => {
     class="flex flex-col gap-4"
     @submit.prevent="handleSubmit"
   >
-    <Input
-      v-model="state.title"
-      :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.TITLE.LABEL')"
-      :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.TITLE.PLACEHOLDER')"
-      :message="formErrors.title"
-      :message-type="formErrors.title ? 'error' : 'info'"
-    />
+    <!-- Disables every field and button inside for read-only (view) mode; contents keeps the form's layout -->
+    <fieldset :disabled="isReadOnly" class="contents">
+      <Input
+        v-model="state.title"
+        :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.TITLE.LABEL')"
+        :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.TITLE.PLACEHOLDER')"
+        :message="formErrors.title"
+        :message-type="formErrors.title ? 'error' : 'info'"
+      />
 
-    <TextArea
-      v-model="state.description"
-      :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.DESCRIPTION.LABEL')"
-      :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.DESCRIPTION.PLACEHOLDER')"
-      auto-height
-      min-height="2.5rem"
-    />
+      <TextArea
+        v-model="state.description"
+        :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.DESCRIPTION.LABEL')"
+        :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.DESCRIPTION.PLACEHOLDER')"
+        auto-height
+        min-height="2.5rem"
+      />
 
-    <div class="flex gap-2">
-      <div class="flex flex-col gap-1 w-32">
+      <div class="flex gap-2">
+        <div class="flex flex-col gap-1 w-32">
+          <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+            {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.HTTP_METHOD.LABEL') }}
+          </label>
+          <ComboBox
+            v-model="state.http_method"
+            :options="httpMethodOptions"
+            class="[&>div>button]:bg-n-alpha-black2 [&_li]:font-mono [&_button]:font-mono [&>div>button]:outline-offset-[-1px]"
+          />
+        </div>
+        <Input
+          v-model="state.endpoint_url"
+          :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.ENDPOINT_URL.LABEL')"
+          :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.ENDPOINT_URL.PLACEHOLDER')"
+          :message="formErrors.endpoint_url"
+          :message-type="formErrors.endpoint_url ? 'error' : 'info'"
+          class="flex-1"
+        />
+      </div>
+
+      <div class="flex flex-col gap-1">
         <label class="mb-0.5 text-sm font-medium text-n-slate-12">
-          {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.HTTP_METHOD.LABEL') }}
+          {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_TYPE.LABEL') }}
         </label>
         <ComboBox
-          v-model="state.http_method"
-          :options="httpMethodOptions"
-          class="[&>div>button]:bg-n-alpha-black2 [&_li]:font-mono [&_button]:font-mono [&>div>button]:outline-offset-[-1px]"
+          v-model="state.auth_type"
+          :options="authTypeOptions"
+          class="[&>div>button]:bg-n-alpha-black2"
         />
       </div>
-      <Input
-        v-model="state.endpoint_url"
-        :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.ENDPOINT_URL.LABEL')"
-        :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.ENDPOINT_URL.PLACEHOLDER')"
-        :message="formErrors.endpoint_url"
-        :message-type="formErrors.endpoint_url ? 'error' : 'info'"
-        class="flex-1"
+
+      <AuthConfig
+        v-model:auth-config="state.auth_config"
+        :auth-type="state.auth_type"
       />
-    </div>
 
-    <div class="flex flex-col gap-1">
-      <label class="mb-0.5 text-sm font-medium text-n-slate-12">
-        {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_TYPE.LABEL') }}
-      </label>
-      <ComboBox
-        v-model="state.auth_type"
-        :options="authTypeOptions"
-        class="[&>div>button]:bg-n-alpha-black2"
-      />
-    </div>
+      <div class="flex flex-col">
+        <ToolFormSection
+          v-model:open="openSections.headers"
+          :title="t('CAPTAIN.CUSTOM_TOOLS.FORM.HEADERS.LABEL')"
+          :summary="sectionSummaries.headers"
+        >
+          <HeadersConfig ref="headersRef" v-model:headers="state.headers" />
+        </ToolFormSection>
 
-    <AuthConfig
-      v-model:auth-config="state.auth_config"
-      :auth-type="state.auth_type"
-    />
-
-    <div class="flex flex-col">
-      <ToolFormSection
-        v-model:open="openSections.headers"
-        :title="t('CAPTAIN.CUSTOM_TOOLS.FORM.HEADERS.LABEL')"
-        :summary="sectionSummaries.headers"
-      >
-        <HeadersConfig ref="headersRef" v-model:headers="state.headers" />
-      </ToolFormSection>
-
-      <ToolFormSection
-        v-model:open="openSections.params"
-        :title="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.LABEL')"
-        :summary="sectionSummaries.params"
-      >
-        <p class="text-xs text-n-slate-11">
-          {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.HELP_TEXT') }}
-        </p>
-        <ul v-if="state.param_schema.length > 0" class="grid gap-2 list-none">
-          <ParamRow
-            v-for="(param, index) in state.param_schema"
-            :key="index"
-            ref="paramsRef"
-            v-model:name="param.name"
-            v-model:type="param.type"
-            v-model:description="param.description"
-            v-model:required="param.required"
-            @remove="removeParam(index)"
+        <ToolFormSection
+          v-model:open="openSections.params"
+          :title="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.LABEL')"
+          :summary="sectionSummaries.params"
+        >
+          <p class="text-xs text-n-slate-11">
+            {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.HELP_TEXT') }}
+          </p>
+          <ul v-if="state.param_schema.length > 0" class="grid gap-2 list-none">
+            <ParamRow
+              v-for="(param, index) in state.param_schema"
+              :key="index"
+              ref="paramsRef"
+              v-model:name="param.name"
+              v-model:type="param.type"
+              v-model:description="param.description"
+              v-model:required="param.required"
+              @remove="removeParam(index)"
+            />
+          </ul>
+          <Button
+            type="button"
+            sm
+            ghost
+            blue
+            icon="i-lucide-plus"
+            :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.ADD_PARAMETER')"
+            @click="addParam"
           />
-        </ul>
+        </ToolFormSection>
+
+        <ToolFormSection
+          v-model:open="openSections.templates"
+          :title="
+            hasRequestBody
+              ? t('CAPTAIN.CUSTOM_TOOLS.FORM.SECTIONS.TEMPLATES')
+              : t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL')
+          "
+          class="border-b"
+        >
+          <p class="text-xs text-n-slate-11">
+            {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.SECTIONS.TEMPLATES_HELP_TEXT') }}
+          </p>
+          <TextArea
+            v-if="hasRequestBody"
+            v-model="state.request_template"
+            :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.LABEL')"
+            :placeholder="
+              t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.PLACEHOLDER')
+            "
+            :rows="4"
+            class="[&_textarea]:font-mono"
+          />
+
+          <TextArea
+            v-model="state.response_template"
+            :label="
+              hasRequestBody
+                ? t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL')
+                : ''
+            "
+            :placeholder="
+              t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.PLACEHOLDER')
+            "
+            :rows="4"
+            class="[&_textarea]:font-mono"
+          />
+        </ToolFormSection>
+      </div>
+
+      <div class="flex flex-col gap-2">
         <Button
           type="button"
-          sm
-          ghost
-          blue
-          icon="i-lucide-plus"
-          :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.ADD_PARAMETER')"
-          @click="addParam"
+          variant="faded"
+          color="slate"
+          icon="i-lucide-play"
+          :label="t('CAPTAIN.CUSTOM_TOOLS.TEST.BUTTON')"
+          :is-loading="isTesting"
+          :disabled="isTesting || !state.endpoint_url || isTestDisabled"
+          @click="handleTest"
         />
-      </ToolFormSection>
-
-      <ToolFormSection
-        v-model:open="openSections.templates"
-        :title="
-          hasRequestBody
-            ? t('CAPTAIN.CUSTOM_TOOLS.FORM.SECTIONS.TEMPLATES')
-            : t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL')
-        "
-        class="border-b"
-      >
-        <p class="text-xs text-n-slate-11">
-          {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.SECTIONS.TEMPLATES_HELP_TEXT') }}
+        <p v-if="isTestDisabled" class="text-xs text-n-slate-11">
+          {{ t('CAPTAIN.CUSTOM_TOOLS.TEST.DISABLED_HINT') }}
         </p>
-        <TextArea
-          v-if="hasRequestBody"
-          v-model="state.request_template"
-          :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.LABEL')"
-          :placeholder="
-            t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.PLACEHOLDER')
-          "
-          :rows="4"
-          class="[&_textarea]:font-mono"
-        />
-
-        <TextArea
-          v-model="state.response_template"
-          :label="
-            hasRequestBody
-              ? t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL')
-              : ''
-          "
-          :placeholder="
-            t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.PLACEHOLDER')
-          "
-          :rows="4"
-          class="[&_textarea]:font-mono"
-        />
-      </ToolFormSection>
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <Button
-        type="button"
-        variant="faded"
-        color="slate"
-        icon="i-lucide-play"
-        :label="t('CAPTAIN.CUSTOM_TOOLS.TEST.BUTTON')"
-        :is-loading="isTesting"
-        :disabled="isTesting || !state.endpoint_url || isTestDisabled"
-        @click="handleTest"
-      />
-      <p v-if="isTestDisabled" class="text-xs text-n-slate-11">
-        {{ t('CAPTAIN.CUSTOM_TOOLS.TEST.DISABLED_HINT') }}
-      </p>
-      <div
-        v-if="testResult"
-        class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg"
-        :class="
-          testResult.success
-            ? 'bg-n-teal-2 text-n-teal-11'
-            : 'bg-n-ruby-2 text-n-ruby-11'
-        "
-      >
-        <span
+        <div
+          v-if="testResult"
+          class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg"
           :class="
-            testResult.success ? 'i-lucide-check-circle' : 'i-lucide-x-circle'
+            testResult.success
+              ? 'bg-n-teal-2 text-n-teal-11'
+              : 'bg-n-ruby-2 text-n-ruby-11'
           "
-          class="size-3.5 shrink-0"
-        />
-        {{
-          testResult.status
-            ? t('CAPTAIN.CUSTOM_TOOLS.TEST.SUCCESS', {
-                status: testResult.status,
-              })
-            : testResult.message
-        }}
+        >
+          <span
+            :class="
+              testResult.success ? 'i-lucide-check-circle' : 'i-lucide-x-circle'
+            "
+            class="size-3.5 shrink-0"
+          />
+          {{
+            testResult.status
+              ? t('CAPTAIN.CUSTOM_TOOLS.TEST.SUCCESS', {
+                  status: testResult.status,
+                })
+              : testResult.message
+          }}
+        </div>
       </div>
-    </div>
+    </fieldset>
   </form>
 </template>
