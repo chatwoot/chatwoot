@@ -30,6 +30,26 @@ const details = ref(null);
 const hasError = ref(false);
 const installStatus = ref(null);
 
+// An installed toolset can be reinstalled to restore deleted tools, or updated when the catalog has a newer version
+const installAction = computed(() => {
+  if (installStatus.value === 'installed') {
+    return {
+      label: t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.REINSTALL'),
+      icon: 'i-lucide-refresh-cw',
+    };
+  }
+  if (installStatus.value === 'update') {
+    return {
+      label: t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.UPDATE'),
+      icon: 'i-lucide-arrow-up-circle',
+    };
+  }
+  return {
+    label: t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.INSTALL'),
+    icon: 'i-lucide-download',
+  };
+});
+
 const configurationFields = computed(() => [
   ...(details.value?.inputs || []),
   ...(details.value?.secrets || []).map(field => ({ ...field, secret: true })),
@@ -206,8 +226,8 @@ defineExpose({ open });
         <Policy :permissions="['administrator']">
           <Button
             type="button"
-            icon="i-lucide-download"
-            :label="t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.INSTALL')"
+            :icon="installAction.icon"
+            :label="installAction.label"
             @click="install"
           />
         </Policy>
