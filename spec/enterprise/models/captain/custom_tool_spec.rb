@@ -433,6 +433,20 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(tool.build_request_url({ order_id: '12345' })).to eq('https://api.example.com/orders/12345')
       end
 
+      it 'accepts Liquid tags in the endpoint and renders them when called' do
+        tool = create(:captain_custom_tool, account: account,
+                                            endpoint_url: '{% assign kind = kind | downcase %}https://api.example.com/{{ kind }}/{{ id }}')
+
+        expect(tool.build_request_url({ kind: 'Orders', id: '7' })).to eq('https://api.example.com/orders/7')
+      end
+
+      it 'still checks the URL around Liquid tags' do
+        tool = build(:captain_custom_tool, account: account, endpoint_url: '{% if id %}http://api.example.com/{{ id }}{% endif %}')
+
+        expect(tool).not_to be_valid
+        expect(tool.errors[:endpoint_url]).to include('must use HTTPS protocol')
+      end
+
       it 'handles multiple template variables' do
         tool = create(:captain_custom_tool, account: account,
                                             endpoint_url: 'https://api.example.com/{{ resource }}/{{ id }}?details={{ show_details }}')
