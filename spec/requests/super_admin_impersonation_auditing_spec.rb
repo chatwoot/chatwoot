@@ -26,6 +26,17 @@ RSpec.describe 'Super admin impersonation auditing', type: :request do
       expect(user.valid_sso_auth_token?(sso_token)).to be(false)
     end
 
+    it 'signs in without a staff event when the link carries no super admin' do
+      sso_token = SecureRandom.hex(32)
+      Redis::Alfred.setex(format(Redis::RedisKeys::USER_SSO_AUTH_TOKEN, user_id: user.id, token: sso_token), 'impersonation', 5.minutes)
+
+      expect do
+        post '/auth/sign_in', params: { email: user.email, sso_auth_token: sso_token }, headers: request_headers, as: :json
+      end.not_to change(SuperAdminAuditLog, :count)
+
+      expect(response).to have_http_status(:success)
+    end
+
     it 'does not audit a regular password login' do
       expect do
         post '/auth/sign_in', params: { email: user.email, password: 'Password1!' }, as: :json

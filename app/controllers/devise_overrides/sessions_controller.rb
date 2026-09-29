@@ -91,7 +91,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     sign_in(:user, @resource, store: false, bypass: false)
     # invalidate the token after the user is signed in
     @resource.invalidate_sso_auth_token(params[:sso_auth_token])
-    record_impersonation_event('impersonation_started', @resource, @impersonator_id) if @impersonation
+    record_impersonation_event('impersonation_started', @resource, @impersonator_id) if @impersonator_id
   end
 
   def process_sso_auth_token
