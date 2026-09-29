@@ -68,6 +68,20 @@ RSpec.describe 'Stripe Integration API', type: :request do
     expect(hook.reload).to be_present
   end
 
+  it 'exposes administrator cleanup without enabling billing when the feature is disabled' do
+    account.disable_features!('stripe_integration')
+    get "/api/v1/accounts/#{account.id}/integrations/apps", headers: admin.create_new_auth_token
+    stripe = response.parsed_body.fetch('payload').find { |app| app['id'] == 'stripe' }
+    expect(stripe).to include('cleanup_only' => true, 'enabled' => false)
+    get "#{path}/customer", params: { conversation_id: conversation.display_id }, headers: admin.create_new_auth_token
+    expect(response).to have_http_status(:not_found)
+    delete path, headers: agent.create_new_auth_token
+    expect(response).to have_http_status(:unauthorized)
+    delete path, headers: admin.create_new_auth_token
+    expect(response).to have_http_status(:no_content)
+    expect(Integrations::Hook.exists?(hook.id)).to be false
+  end
+
   it 'uses the authorized conversation contact rather than a supplied email' do
     expect(Integrations::Stripe::CustomerSummary).to receive(:new)
       .with(connection: instance_of(Integrations::Stripe::Connection), contact: conversation.contact).and_return(summary)
@@ -102,9 +116,14 @@ RSpec.describe 'Stripe Integration API', type: :request do
     expect(response.parsed_body).to eq('error' => 'stripe_unavailable')
   end
 
-  it 'disables endpoints when installation settings are missing' do
+  it 'allows cleanup but not authorization when installation settings are missing' do
     allow(Integrations::Stripe::Oauth).to receive(:configured?).and_return(false)
     get path, headers: admin.create_new_auth_token
+    expect(response).to have_http_status(:ok)
+    post "#{path}/auth", headers: admin.create_new_auth_token
     expect(response).to have_http_status(:not_found)
+    delete path, headers: admin.create_new_auth_token
+    expect(response).to have_http_status(:no_content)
+    expect(Integrations::Hook.exists?(hook.id)).to be false
   end
 end

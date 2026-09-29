@@ -25,9 +25,10 @@ const STRIPE_LOGO_DARK = '/dashboard/images/integrations/stripe-dark.svg';
 const loadIntegration = async () => {
   const { data } = await IntegrationsAPI.get();
   store.commit('integrations/SET_INTEGRATIONS', data.payload);
-  available.value = data.payload.some(item => item.id === 'stripe');
+  const stripe = data.payload.find(item => item.id === 'stripe');
+  available.value = !!stripe && !stripe.cleanup_only;
   account.value =
-    available.value && integration.value.enabled
+    stripe && (integration.value.enabled || stripe.cleanup_only)
       ? (await StripeAPI.get()).data
       : null;
   loaded.value = true;
@@ -95,7 +96,7 @@ onMounted(async () => {
         <p v-if="loaded && !available" role="status" class="text-n-slate-11">
           {{ $t('STRIPE_INTEGRATION.UNAVAILABLE') }}
         </p>
-        <template v-else-if="loaded && integration.enabled">
+        <template v-if="loaded && account">
           <div class="rounded-xl border border-n-weak bg-n-solid-1">
             <div
               class="flex flex-wrap items-center justify-between gap-4 p-6 border-b border-n-weak"
@@ -178,7 +179,7 @@ onMounted(async () => {
           </div>
         </template>
         <div
-          v-else-if="loaded"
+          v-else-if="loaded && available"
           class="flex flex-col items-start justify-between lg:flex-row lg:items-center p-6 outline outline-n-container outline-1 bg-n-card rounded-xl gap-6"
         >
           <div

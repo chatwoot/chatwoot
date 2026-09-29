@@ -1,5 +1,4 @@
 import { FEATURE_FLAGS } from '../../../../featureFlags';
-import store from 'dashboard/store';
 import { frontendURL } from '../../../../helper/URLHelper';
 import SettingsWrapper from '../SettingsWrapper.vue';
 import IntegrationHooks from './IntegrationHooks.vue';
@@ -75,18 +74,8 @@ export default {
           path: 'stripe',
           name: 'settings_integrations_stripe',
           component: Stripe,
-          beforeEnter: to => {
-            const enabled = store.getters['accounts/isFeatureEnabledonAccount'](
-              Number(to.params.accountId),
-              FEATURE_FLAGS.STRIPE
-            );
-            return (
-              enabled || { name: 'settings_applications', params: to.params }
-            );
-          },
           meta: {
             permissions: ['administrator'],
-            featureFlag: FEATURE_FLAGS.STRIPE,
           },
         },
         {

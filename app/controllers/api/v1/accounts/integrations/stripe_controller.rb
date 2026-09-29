@@ -1,9 +1,9 @@
 class Api::V1::Accounts::Integrations::StripeController < Api::V1::Accounts::Integrations::BaseController
-  before_action :ensure_configured
+  before_action :ensure_configured, only: [:auth, :customer]
   before_action :check_admin_authorization?, only: [:show, :auth, :destroy]
 
   def show
-    hook = Current.account.hooks.find_by!(app_id: 'stripe', status: :enabled)
+    hook = Current.account.hooks.find_by!(app_id: 'stripe')
     mode = Integrations::Stripe::Connection.new(hook).livemode? ? 'live' : 'sandbox'
     render json: { account_id: hook.reference_id, connected_at: hook.settings.fetch('connected_at', hook.created_at), mode: mode }
   end

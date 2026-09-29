@@ -117,6 +117,24 @@ describe('Stripe integration settings', () => {
     expect(wrapper.find('a').exists()).toBe(false);
   });
 
+  it('allows disconnecting an unavailable integration without showing Connect', async () => {
+    mocks.enabled = false;
+    IntegrationsAPI.get.mockResolvedValueOnce({
+      data: { payload: [{ id: 'stripe', enabled: false, cleanup_only: true }] },
+    });
+    wrapper = mount(Stripe, { global });
+    await flushPromises();
+    expect(wrapper.text()).toContain('STRIPE_INTEGRATION.UNAVAILABLE');
+    expect(wrapper.get('button').text()).toContain(
+      'STRIPE_INTEGRATION.DISCONNECT'
+    );
+    IntegrationsAPI.get.mockResolvedValueOnce({ data: { payload: [] } });
+    await wrapper.get('button').trigger('click');
+    await flushPromises();
+    expect(StripeAPI.disconnect).toHaveBeenCalled();
+    expect(wrapper.find('button').exists()).toBe(false);
+  });
+
   it('shows live mode and links to the live dashboard', async () => {
     StripeAPI.get.mockResolvedValue({
       data: {
