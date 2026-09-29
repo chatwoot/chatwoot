@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_29_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1272,7 +1272,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_29_000000) do
     t.string "app_id"
     t.integer "hook_type", default: 0
     t.string "reference_id"
-    t.text "access_token"
+    t.string "access_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "settings", default: {}

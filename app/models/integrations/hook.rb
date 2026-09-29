@@ -3,7 +3,7 @@
 # Table name: integrations_hooks
 #
 #  id           :bigint           not null, primary key
-#  access_token :text
+#  access_token :string
 #  hook_type    :integer          default("account")
 #  settings     :jsonb
 #  status       :integer          default("enabled")
@@ -27,6 +27,7 @@ class Integrations::Hook < ApplicationRecord
 
   validates :account_id, presence: true
   validates :app_id, presence: true
+  validates :access_token, length: { maximum: ->(hook) { hook.app_id == 'stripe' ? MAX_TEXT_COLUMN_LENGTH : MAX_STRING_COLUMN_LENGTH } }
   validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }
   validates :reference_id, presence: true, format: { with: Shopify::ShopDomain::FORMAT }, if: :shopify?
   validates :reference_id,
