@@ -2,6 +2,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
@@ -61,7 +62,15 @@ onBeforeUnmount(() => {
 });
 
 onMounted(async () => {
-  await store.dispatch('captainAssistants/get');
+  try {
+    await store.dispatch('captainAssistants/get');
+  } catch {
+    if (isUnmounted) return;
+    // Finishing clears the install query, so the tools page doesn't keep a flow that never started
+    useAlert(t('CAPTAIN.CUSTOM_TOOLS.INSTALL_LINK.LOAD_ERROR'));
+    emit('done', Number(props.assistantId));
+    return;
+  }
   if (isUnmounted) return;
 
   if (assistants.value.length > 1) {
