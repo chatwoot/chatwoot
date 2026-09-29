@@ -1,33 +1,30 @@
-# A toolset folder in a public GitHub repository, addressed as owner/repository/folder
-# or as a github.com link to the folder or its toolset.yml. Links must point at the
-# default branch, since installs always use its latest commit.
+# A toolset folder in the chatwoot/tools repository, addressed as chatwoot/tools/<folder>.
+# Installs always use the latest commit on the default branch.
 class Captain::ToolsManifest::GithubSource
   class SourceError < StandardError; end
 
-  INVALID_SOURCE_MESSAGE = 'Enter a GitHub URL or owner/repository/folder'.freeze
-  SEGMENT_PATTERN = /\A[\w.-]+\z/
-  REVISION_PATTERN = /\A[0-9a-f]{40}\z/
+  REPOSITORY = 'chatwoot/tools'.freeze
+  INVALID_SOURCE_MESSAGE = "Enter a toolset from #{REPOSITORY} as #{REPOSITORY}/<folder>".freeze
+  FOLDER_PATTERN = /\A[\w.-]+\z/
   DOT_SEGMENT_PATTERN = /\A\.+\z/
+  REVISION_PATTERN = /\A[0-9a-f]{40}\z/
   MANIFEST_FILE = 'toolset.yml'.freeze
+  MAX_BYTES = 256.kilobytes
   API_URL = 'https://api.github.com'.freeze
   RAW_URL = 'https://raw.githubusercontent.com'.freeze
   REQUEST_TIMEOUT = 10
 
-  attr_reader :repository, :path
+  attr_reader :path
 
   def initialize(source)
-    raise SourceError, INVALID_SOURCE_MESSAGE unless source.is_a?(String)
-
-    owner, repository, @path, @ref = parse(source.strip)
-    raise SourceError, INVALID_SOURCE_MESSAGE unless [owner, repository, @path].all? { |segment| valid_segment?(segment) }
-
-    # GitHub ignores case in owner and repository names, so they are lowercased to avoid duplicate installs.
-    # Folder names are case-sensitive, so the folder is kept as typed.
-    @repository = "#{owner}/#{repository}".downcase
+    repository, _, @path = source.to_s.strip.rpartition('/')
+    # GitHub ignores case in owner and repository names; folder names are case-sensitive, so the folder is kept as typed
+    raise SourceError, INVALID_SOURCE_MESSAGE unless repository.casecmp?(REPOSITORY) && valid_folder?(@path)
   end
 
+  def repository = REPOSITORY
+
   def latest_revision
-    ensure_default_branch! if @ref
     revision = github_api("/repos/#{repository}/commits/HEAD", accept: 'application/vnd.github.sha').strip
     raise SourceError, "Could not resolve the latest commit of #{repository}" unless REVISION_PATTERN.match?(revision)
 
@@ -40,45 +37,7 @@ class Captain::ToolsManifest::GithubSource
 
   private
 
-  def parse(source)
-    return parse_url(source) if source.start_with?('https://')
-
-    parts = source.split('/', -1)
-    parts.size == 3 ? parts : []
-  end
-
-  def valid_segment?(segment)
-    segment.to_s.match?(SEGMENT_PATTERN) && !segment.match?(DOT_SEGMENT_PATTERN)
-  end
-
-  # github.com/<owner>/<repo>/tree/<ref>/<folder> or .../blob/<ref>/<folder>/toolset.yml, where <ref> may contain slashes
-  def parse_url(source)
-    uri = URI.parse(source)
-    return [] unless uri.host == 'github.com'
-
-    owner, repository, view, *location = uri.path.split('/').compact_blank
-    location = folder_location(view, location)
-    return [] if location.nil? || location.size < 2
-
-    [owner, repository, location.last, location[0..-2].join('/')]
-  rescue URI::InvalidURIError
-    []
-  end
-
-  def folder_location(view, location)
-    return location if view == 'tree'
-
-    location[0..-2] if view == 'blob' && location.last == MANIFEST_FILE
-  end
-
-  def ensure_default_branch!
-    default_branch = JSON.parse(github_api("/repos/#{repository}", accept: 'application/vnd.github+json')).fetch('default_branch')
-    return if @ref == default_branch
-
-    raise SourceError, "Only the default branch (#{default_branch}) can be installed"
-  rescue JSON::ParserError, KeyError
-    raise SourceError, "Could not read #{repository} from GitHub"
-  end
+  def valid_folder?(folder) = FOLDER_PATTERN.match?(folder) && !DOT_SEGMENT_PATTERN.match?(folder)
 
   # The token only raises the GitHub API rate limit, so an expired or revoked one falls back to an unauthenticated request
   def github_api(path, accept:)
@@ -97,7 +56,7 @@ class Captain::ToolsManifest::GithubSource
     body!(*get(url), url)
   end
 
-  # Only GitHub's own hosts are requested and path segments are validated, so SafeFetch's SSRF checks aren't needed.
+  # Only GitHub's own hosts are requested and the folder is validated, so SafeFetch's SSRF checks aren't needed.
   # The body is streamed so an oversized file is abandoned at the manifest limit instead of loaded into memory.
   def get(url, headers = {})
     body = +''
@@ -106,7 +65,7 @@ class Captain::ToolsManifest::GithubSource
       next unless fragment.code == 200
 
       body << fragment
-      raise SourceError, "#{url} is larger than 256 KiB" if body.bytesize > Captain::ToolsManifest::Validator::MAX_BYTES
+      raise SourceError, "#{url} is larger than 256 KiB" if body.bytesize > MAX_BYTES
     end
     [response.code, body]
   rescue HTTParty::Error, SocketError, Timeout::Error, SystemCallError, OpenSSL::SSL::SSLError => e

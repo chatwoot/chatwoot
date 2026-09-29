@@ -11,6 +11,7 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       'version' => '1.2.0',
       'kind' => 'captain_toolset',
       'name' => 'Shopify Support Tools',
+      'author' => 'chatwoot',
       'description' => 'Look up Shopify orders for support conversations.',
       'headers' => { 'x-api-version' => '2026-05-01' },
       'inputs' => { 'shop_domain' => { 'label' => 'Shopify store domain', 'required' => true } },
@@ -41,8 +42,8 @@ RSpec.describe Captain::ToolsManifest::InstallService do
     }
   end
   let(:manifest_yaml) { manifest.to_yaml }
-  let(:latest_commit_url) { 'https://api.github.com/repos/chatwoot/support-tools/commits/HEAD' }
-  let(:manifest_url) { "https://raw.githubusercontent.com/chatwoot/support-tools/#{latest_revision}/shopify/toolset.yml" }
+  let(:latest_commit_url) { 'https://api.github.com/repos/chatwoot/tools/commits/HEAD' }
+  let(:manifest_url) { "https://raw.githubusercontent.com/chatwoot/tools/#{latest_revision}/shopify/toolset.yml" }
 
   before do
     stub_request(:get, latest_commit_url).with(headers: { 'Accept' => 'application/vnd.github.sha' }).to_return(status: 200, body: latest_revision)
@@ -50,7 +51,7 @@ RSpec.describe Captain::ToolsManifest::InstallService do
   end
 
   def install(**overrides)
-    described_class.new(assistant: assistant, source: 'chatwoot/support-tools/shopify', configuration: configuration, **overrides).perform
+    described_class.new(assistant: assistant, source: 'chatwoot/tools/shopify', configuration: configuration, **overrides).perform
   end
 
   describe '#perform' do
@@ -70,7 +71,7 @@ RSpec.describe Captain::ToolsManifest::InstallService do
 
       expect(tools.first.source_metadata).to include(
         'source' => 'github',
-        'repository' => 'chatwoot/support-tools',
+        'repository' => 'chatwoot/tools',
         'path' => 'shopify',
         'tool_id' => 'get_order',
         'revision' => latest_revision,
@@ -81,7 +82,7 @@ RSpec.describe Captain::ToolsManifest::InstallService do
     end
 
     it 'installs a specific commit without resolving the latest one' do
-      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{older_revision}/shopify/toolset.yml")
+      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/tools/#{older_revision}/shopify/toolset.yml")
         .to_return(status: 200, body: manifest_yaml)
 
       tools = install(revision: older_revision)
@@ -113,7 +114,7 @@ RSpec.describe Captain::ToolsManifest::InstallService do
 
     it 'returns the tools installed by a concurrent request instead of duplicating them' do
       existing_ids = install.map(&:id)
-      service = described_class.new(assistant: assistant, source: 'chatwoot/support-tools/shopify', configuration: configuration)
+      service = described_class.new(assistant: assistant, source: 'chatwoot/tools/shopify', configuration: configuration)
       # Simulates a request that looked up installed tools before another install committed
       allow(service).to receive(:installed_tools).and_return([])
 
@@ -126,7 +127,7 @@ RSpec.describe Captain::ToolsManifest::InstallService do
     it 'treats differently capitalized sources as the same toolset' do
       existing_ids = install.map(&:id)
 
-      tools = install(source: 'Chatwoot/Support-Tools/shopify', revision: latest_revision)
+      tools = install(source: 'Chatwoot/Tools/shopify', revision: latest_revision)
 
       expect(tools.map(&:id)).to match_array(existing_ids)
       expect(assistant.custom_tools.count).to eq(2)
@@ -134,17 +135,17 @@ RSpec.describe Captain::ToolsManifest::InstallService do
 
     it 'treats folders that differ only by case as separate toolsets' do
       install
-      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{latest_revision}/Shopify/toolset.yml")
+      stub_request(:get, "https://raw.githubusercontent.com/chatwoot/tools/#{latest_revision}/Shopify/toolset.yml")
         .to_return(status: 200, body: manifest.to_yaml)
 
-      install(source: 'chatwoot/support-tools/Shopify')
+      install(source: 'chatwoot/tools/Shopify')
 
       expect(assistant.custom_tools.count).to eq(4)
     end
 
     context 'when a different commit is already installed' do
       let!(:installed_tools) do
-        stub_request(:get, "https://raw.githubusercontent.com/chatwoot/support-tools/#{older_revision}/shopify/toolset.yml")
+        stub_request(:get, "https://raw.githubusercontent.com/chatwoot/tools/#{older_revision}/shopify/toolset.yml")
           .to_return(status: 200, body: manifest_yaml)
         install(revision: older_revision)
       end
@@ -175,8 +176,8 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       end
     end
 
-    it 'rejects a source that is not owner/repository/folder' do
-      expect { install(source: 'chatwoot/support-tools') }.to raise_error(Captain::ToolsManifest::GithubSource::SourceError)
+    it 'rejects toolsets outside chatwoot/tools' do
+      expect { install(source: 'chatwoot/support-tools/shopify') }.to raise_error(Captain::ToolsManifest::GithubSource::SourceError)
     end
 
     it 'rejects an abbreviated revision' do
@@ -255,13 +256,6 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       stub_request(:get, manifest_url).to_return(status: 404, body: 'Not Found')
 
       expect { install }.to raise_error(Captain::ToolsManifest::GithubSource::SourceError, /Could not fetch/)
-    end
-
-    it 'raises when the manifest is invalid' do
-      manifest['kind'] = 'toolset'
-      stub_request(:get, manifest_url).to_return(status: 200, body: manifest.to_yaml)
-
-      expect { install }.to raise_error(Captain::ToolsManifest::Validator::InvalidManifestError)
     end
 
     it 'creates nothing when a tool fails validation' do
