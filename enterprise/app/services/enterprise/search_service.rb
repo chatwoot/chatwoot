@@ -17,6 +17,38 @@ module Enterprise::SearchService
 
   private
 
+  def filter_messages_with_like
+    return super unless restricted_conversation_access? && current_account.feature_enabled?('advanced_search')
+
+    filter_restricted_messages_with_like
+  end
+
+  def filter_restricted_messages_with_like
+    base_query = apply_message_filters(message_base_query).joins(:conversation)
+    base_query.where(
+      "messages.content ILIKE :search OR
+       (messages.content_attributes #>> '{}')::jsonb #>> '{email,subject}' ILIKE :search OR
+       (NULLIF(BTRIM((messages.content_attributes #>> '{}')::jsonb #>> '{email,subject}'), '') IS NULL AND
+        conversations.additional_attributes ->> 'mail_subject' ILIKE :search) OR EXISTS (
+         SELECT 1 FROM attachments
+         WHERE attachments.message_id = messages.id AND attachments.meta ->> 'transcribed_text' ILIKE :search
+       )",
+      search: "%#{search_query}%"
+    ).reorder('messages.created_at DESC, messages.id DESC').page(params[:page]).per(15)
+  end
+
+  def should_run_advanced_search?
+    super && !restricted_conversation_access?
+  end
+
+  def permission_filter_required?
+    super || restricted_conversation_access?
+  end
+
+  def restricted_conversation_access?
+    account_user&.agent? && account_user.custom_role_id.present? && account_user.permissions.exclude?('conversation_manage')
+  end
+
   def build_where_conditions
     conditions = { account_id: current_account.id }
     conditions[:inbox_id] = accessable_inbox_ids unless should_skip_inbox_filtering?
