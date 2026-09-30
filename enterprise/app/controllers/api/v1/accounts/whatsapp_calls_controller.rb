@@ -179,8 +179,8 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   def render_permission_request
     # The request is a free-form message, which Meta only delivers inside the 24h window. Outside it Meta
-    # accepts the send and fails it later, silently. A contact with no thread yet has never messaged us.
-    return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_window_closed')) unless @conversation&.can_reply?
+    # accepts the send and fails it later, silently.
+    return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_window_closed')) unless permission_window_open?
 
     # Raised mid-dial, so a fresh contact has no thread yet — open one for the opt-in template to land in.
     @conversation = open_conversation!
@@ -192,6 +192,15 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     # the permission-template path for a successful dial. The FE composable
     # detects this status and surfaces the banner instead of throwing.
     render json: { status: status, conversation_id: @conversation.display_id }, status: :unprocessable_entity
+  end
+
+  # Contact-level calls skip resolved threads, but Meta's window follows the recipient, so check those threads too.
+  def permission_window_open?
+    return @conversation.can_reply? if @conversation
+
+    @inbox.messages.incoming
+          .where(conversation_id: conversation_builder.contact_conversations.select(:id))
+          .exists?(created_at: Conversations::MessageWindowService::MESSAGING_WINDOW_24_HOURS.ago..)
   end
 
   def render_call_error(error)
