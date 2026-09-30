@@ -32,6 +32,18 @@ FactoryBot.define do
       access_token { SecureRandom.hex }
     end
 
+    trait :notion do
+      app_id { 'notion' }
+      access_token { SecureRandom.hex }
+      settings { { parent_page_id: 'notion_parent_page_id' } }
+    end
+
+    trait :todoist do
+      app_id { 'todoist' }
+      access_token { SecureRandom.hex }
+      settings { { api_token: 'todoist_api_token', project_id: '12345' } }
+    end
+
     trait :shopify do
       app_id { 'shopify' }
       access_token { SecureRandom.hex }

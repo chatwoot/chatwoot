@@ -72,6 +72,22 @@ RSpec.describe HookJob do
       expect(Integrations::Linear::AutoLinkService).to receive(:new).with(account: account, message: event_data[:message])
       described_class.perform_now(hook, event_name, event_data)
     end
+
+    it 'calls Integrations::Notion::CreatePageService for conversation.resolved when its a notion hook' do
+      hook = create(:integrations_hook, :notion, account: account)
+      conversation = create(:conversation, account: account)
+      allow(Integrations::Notion::CreatePageService).to receive(:new).and_return(process_service)
+      expect(Integrations::Notion::CreatePageService).to receive(:new).with(hook: hook, conversation: conversation)
+      described_class.perform_now(hook, 'conversation.resolved', conversation: conversation)
+    end
+
+    it 'calls Integrations::Todoist::CreateTaskService for conversation.resolved when its a todoist hook' do
+      hook = create(:integrations_hook, :todoist, account: account)
+      conversation = create(:conversation, account: account)
+      allow(Integrations::Todoist::CreateTaskService).to receive(:new).and_return(process_service)
+      expect(Integrations::Todoist::CreateTaskService).to receive(:new).with(hook: hook, conversation: conversation)
+      described_class.perform_now(hook, 'conversation.resolved', conversation: conversation)
+    end
   end
 
   context 'when handleable events like message.updated for slack' do
