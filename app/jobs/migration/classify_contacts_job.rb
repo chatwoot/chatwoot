@@ -32,9 +32,10 @@ class Migration::ClassifyContactsJob < ApplicationJob
   def walk(cursor, max_id, window)
     deadline = RUN_FOR.from_now
     while cursor <= max_id && Time.current < deadline
-      to_id = [cursor + size(window) - 1, max_id].min
+      span = size(window)
+      to_id = [cursor + span - 1, max_id].min
       counts = classify(cursor, to_id)
-      next window = shrink(window) unless counts
+      next window = shrink(span) unless counts
 
       Rails.logger.info "[#{self.class.name}] #{cursor}..#{to_id} #{counts.to_json}"
       Redis::Alfred.set(Redis::Alfred::CONTACT_TYPE_BACKFILL_CURSOR, to_id)
@@ -58,8 +59,8 @@ class Migration::ClassifyContactsJob < ApplicationJob
     nil
   end
 
-  def shrink(window)
-    [window / 2, MIN_WINDOW].max
+  def shrink(span)
+    [span / 2, MIN_WINDOW].max
   end
 
   def paused?
