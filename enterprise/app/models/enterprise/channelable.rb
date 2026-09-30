@@ -3,6 +3,8 @@ module Enterprise::Channelable
 
   AUDIT_EXCLUDED_ATTRIBUTES = %w[
     updated_at
+    last_synced_at
+    private_key
     secret
     hmac_token
     provider_config
