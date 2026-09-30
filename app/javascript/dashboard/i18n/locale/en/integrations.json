@@ -632,6 +632,7 @@
       "HISTORY": "Past chats",
       "NO_HISTORY": "Your past Copilot chats will appear here.",
       "LOAD_MORE": "Load more chats",
+      "LOADING_CHAT": "Loading chat...",
       "SETTINGS": "Settings",
       "SHOW_STEPS": "Show steps",
       "SELECT_ASSISTANT": "Select Assistant",

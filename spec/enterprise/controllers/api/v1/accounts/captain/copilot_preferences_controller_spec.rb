@@ -63,4 +63,27 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotPreferences', type: :request 
 
     expect(response).to have_http_status(:not_found)
   end
+
+  it 'accepts a numeric assistant ID sent as a string' do
+    assistant = create(:captain_assistant, account: account)
+
+    put path, headers: admin.create_new_auth_token,
+              params: { copilot_assistant_id: assistant.id.to_s }, as: :json
+
+    expect(response).to have_http_status(:success)
+    expect(account.reload.copilot_assistant_id).to eq(assistant.id)
+  end
+
+  it 'rejects malformed assistant IDs without changing the saved choice' do
+    assistant = create(:captain_assistant, account: account)
+    account.update!(copilot_assistant_id: assistant.id)
+
+    [[], false, {}, 'not-an-id'].each do |invalid_id|
+      put path, headers: admin.create_new_auth_token,
+                params: { copilot_assistant_id: invalid_id }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(account.reload.copilot_assistant_id).to eq(assistant.id)
+    end
+  end
 end

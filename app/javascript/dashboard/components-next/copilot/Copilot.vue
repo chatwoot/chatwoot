@@ -39,6 +39,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isLoadingSelectedThread: {
+    type: Boolean,
+    default: false,
+  },
   canSuggestReply: {
     type: Boolean,
     default: true,
@@ -54,6 +58,8 @@ const emit = defineEmits(['reset', 'selectThread', 'loadMoreThreads']);
 const { t } = useI18n();
 
 const sendMessage = async message => {
+  if (props.isLoadingSelectedThread) return false;
+
   const isSuccess = await props.onSendMessage(message);
   useTrack(COPILOT_EVENTS.SEND_MESSAGE);
   return isSuccess;
@@ -207,7 +213,13 @@ watch(
       ref="chatContainer"
       class="flex-1 flex px-4 py-4 overflow-y-auto items-start"
     >
-      <div v-if="hasMessages" class="space-y-6 flex-1 flex flex-col w-full">
+      <p v-if="isLoadingSelectedThread" role="status" class="text-n-slate-11">
+        {{ t('CAPTAIN.COPILOT.LOADING_CHAT') }}
+      </p>
+      <div
+        v-else-if="hasMessages"
+        class="space-y-6 flex-1 flex flex-col w-full"
+      >
         <template v-for="(item, index) in groupedMessages" :key="item.id">
           <CopilotAgentMessage
             v-if="item.message_type === 'user'"
@@ -248,6 +260,7 @@ watch(
         v-if="activeAssistant"
         class="mb-1 w-full"
         :on-send="sendMessage"
+        :disabled="isLoadingSelectedThread"
       />
     </div>
   </div>

@@ -77,6 +77,7 @@ const mountComponent = () =>
             'selectedThreadId',
             'threads',
             'hasMoreThreads',
+            'isLoadingSelectedThread',
           ],
           template: '<div />',
         },
@@ -217,6 +218,33 @@ describe('CopilotContainer', () => {
     expect(copilot.props('selectedThreadId')).toBe(42);
   });
 
+  it('selects a past chat immediately and blocks sending while it loads', async () => {
+    let resolveRequest;
+    testState.dispatch.mockImplementation(action => {
+      if (action !== 'copilotMessages/get') return Promise.resolve();
+      return new Promise(resolve => {
+        resolveRequest = resolve;
+      });
+    });
+    const wrapper = mountComponent();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+
+    copilot.vm.$emit('selectThread', { id: 42 });
+    await nextTick();
+
+    expect(copilot.props('selectedThreadId')).toBe(42);
+    expect(copilot.props('isLoadingSelectedThread')).toBe(true);
+    expect(await copilot.props('onSendMessage')('Too early')).toBe(false);
+    expect(testState.dispatch).not.toHaveBeenCalledWith(
+      'copilotMessages/create',
+      expect.anything()
+    );
+
+    resolveRequest();
+    await flushPromises();
+    expect(copilot.props('isLoadingSelectedThread')).toBe(false);
+  });
+
   it('keeps a new chat empty when an earlier thread creation finishes', async () => {
     let resolveRequest;
     testState.dispatch.mockImplementation(action => {
@@ -263,6 +291,33 @@ describe('CopilotContainer', () => {
       3, 2, 1, 0,
     ]);
     expect(copilot.props('hasMoreThreads')).toBe(false);
+  });
+
+  it('keeps a new chat when the initial history request finishes later', async () => {
+    let resolveHistory;
+    CopilotThreadsAPI.get.mockImplementation(
+      () =>
+        new Promise(resolve => {
+          resolveHistory = resolve;
+        })
+    );
+    testState.dispatch.mockImplementation(action =>
+      Promise.resolve(
+        action === 'copilotThreads/create' ? { id: 3 } : undefined
+      )
+    );
+    const wrapper = mountComponent();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+
+    await copilot.props('onSendMessage')('Hello');
+    resolveHistory({
+      data: { payload: [{ id: 2 }, { id: 1 }], meta: { total_count: 2 } },
+    });
+    await flushPromises();
+
+    expect(copilot.props('threads').map(thread => thread.id)).toEqual([
+      3, 2, 1,
+    ]);
   });
 
   it('reports a failed send', async () => {

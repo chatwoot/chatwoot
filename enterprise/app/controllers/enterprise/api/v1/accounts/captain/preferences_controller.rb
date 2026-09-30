@@ -2,7 +2,11 @@ module Enterprise::Api::V1::Accounts::Captain::PreferencesController
   def update
     return super unless params.key?(:copilot_assistant_id)
 
-    assistant_id = params[:copilot_assistant_id].presence
+    assistant_id = params[:copilot_assistant_id]
+    unless valid_copilot_assistant_id?(assistant_id)
+      return render json: { error: 'Copilot assistant ID must be an integer or null' }, status: :unprocessable_content
+    end
+
     @current_account.captain_assistants.find(assistant_id) if assistant_id
     @current_account.copilot_assistant_id = assistant_id&.to_i
 
@@ -16,6 +20,10 @@ module Enterprise::Api::V1::Accounts::Captain::PreferencesController
   end
 
   private
+
+  def valid_copilot_assistant_id?(assistant_id)
+    assistant_id.nil? || assistant_id.is_a?(Integer) || assistant_id.to_s.match?(/\A\d+\z/)
+  end
 
   def preferences_payload
     super.merge(

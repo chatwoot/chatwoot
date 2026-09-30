@@ -35,6 +35,7 @@ const isSmallScreen = computed(
 );
 
 const selectedCopilotThreadId = ref(null);
+const isLoadingSelectedThread = ref(false);
 let selectionVersion = 0;
 const messages = computed(() =>
   store.getters['copilotMessages/getMessagesByThreadId'](
@@ -48,6 +49,7 @@ const isFeatureEnabledonAccount = useMapGetter(
 );
 
 const threads = ref([]);
+const locallyCreatedThreadIds = new Set();
 const historyPage = ref(0);
 const hasMoreThreads = ref(false);
 const isLoadingThreads = ref(false);
@@ -112,6 +114,7 @@ const shouldShowCopilotPanel = computed(() => {
 const handleReset = () => {
   selectionVersion += 1;
   selectedCopilotThreadId.value = null;
+  isLoadingSelectedThread.value = false;
 };
 
 const loadThreads = async (page = 1) => {
@@ -119,13 +122,21 @@ const loadThreads = async (page = 1) => {
   try {
     const { data } = await CopilotThreadsAPI.get({ page });
     const knownIds = new Set(threads.value.map(thread => thread.id));
-    threads.value =
-      page === 1
-        ? data.payload
-        : [
-            ...threads.value,
-            ...data.payload.filter(thread => !knownIds.has(thread.id)),
-          ];
+    if (page === 1) {
+      const localThreads = threads.value.filter(thread =>
+        locallyCreatedThreadIds.has(thread.id)
+      );
+      const localIds = new Set(localThreads.map(thread => thread.id));
+      threads.value = [
+        ...localThreads,
+        ...data.payload.filter(thread => !localIds.has(thread.id)),
+      ];
+    } else {
+      threads.value = [
+        ...threads.value,
+        ...data.payload.filter(thread => !knownIds.has(thread.id)),
+      ];
+    }
     historyPage.value = page;
     hasMoreThreads.value = threads.value.length < data.meta.total_count;
   } catch (error) {
@@ -138,17 +149,26 @@ const loadThreads = async (page = 1) => {
 const selectThread = async thread => {
   selectionVersion += 1;
   const version = selectionVersion;
+  const previousThreadId = selectedCopilotThreadId.value;
+  selectedCopilotThreadId.value = thread.id;
+  isLoadingSelectedThread.value = true;
   try {
     await store.dispatch('copilotMessages/get', thread.id);
-    if (selectionVersion === version) selectedCopilotThreadId.value = thread.id;
   } catch (error) {
-    useAlert(error.message);
+    if (selectionVersion === version) {
+      selectedCopilotThreadId.value = previousThreadId;
+      useAlert(error.message);
+    }
+  } finally {
+    if (selectionVersion === version) isLoadingSelectedThread.value = false;
   }
 };
 
 watch(() => currentChat.value?.id, handleReset);
 
 const sendMessage = async payload => {
+  if (isLoadingSelectedThread.value) return false;
+
   const message = typeof payload === 'string' ? payload : payload.message;
   const requestType =
     typeof payload === 'string' ? undefined : payload.requestType;
@@ -176,6 +196,7 @@ const sendMessage = async payload => {
         selectedCopilotThreadId.value = response.id;
       }
       threads.value.unshift(response);
+      locallyCreatedThreadIds.add(response.id);
     }
     return true;
   } catch (error) {
@@ -212,6 +233,7 @@ onMounted(() => {
       :selected-thread-id="selectedCopilotThreadId"
       :has-more-threads="hasMoreThreads"
       :is-loading-threads="isLoadingThreads"
+      :is-loading-selected-thread="isLoadingSelectedThread"
       :can-suggest-reply="canSuggestReply"
       :on-send-message="sendMessage"
       @select-thread="selectThread"
