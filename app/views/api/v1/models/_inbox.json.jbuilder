@@ -51,9 +51,7 @@ if resource.customer_chat?
   json.continuity_via_email resource.channel.try(:continuity_via_email)
 end
 
-if resource.mobile_app?
-  json.sdk_app_id resource.sdk_app.app_id
-end
+json.sdk_app_id resource.sdk_app.app_id if resource.mobile_app?
 
 ## Facebook Attributes
 if resource.facebook?
