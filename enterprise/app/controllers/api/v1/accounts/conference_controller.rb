@@ -29,9 +29,14 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def destroy
     call = resolve_call!
-    # Tear down provider side first so a teardown failure leaves the call repairable.
-    Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference
-    finalize_call!(call)
+    # Teardown holds the row lock so the status callbacks it triggers can't finalize the call first;
+    # a teardown failure rolls back and leaves the call repairable.
+    call.with_lock do
+      conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
+      conference_service.terminate_call
+      conference_service.end_conference
+      finalize_call!(call)
+    end
     # Account-wide, so every other tab/agent stops showing this call as ringing/active —
     # matches the equivalent WhatsApp broadcast (Whatsapp::CallService#broadcast).
     call.broadcast_voice_call_event(:ended, status: call.display_status)
@@ -67,28 +72,25 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     render json: { error: error.message }, status: :conflict
   end
 
-  # Always persist a terminal status under a row lock before the :ended broadcast fires —
+  # Always persist a terminal status under destroy's row lock before the :ended broadcast fires —
   # otherwise a delayed join webhook can still pass Manager#join_agent!'s terminal? guard
   # and broadcast voice_call.accepted after voice_call.ended. Mirrors Whatsapp::CallService#terminate.
   # Routed through CallStatus::Manager (not a bare update!) so ended_at/duration_seconds are set here —
   # the async Twilio webhook that would normally set them now finds the call already terminal and bails.
   def finalize_call!(call)
-    status = nil
-    call.with_lock do
-      next if call.terminal?
+    return if call.terminal?
 
-      if call.ringing? && call.accepted_by_agent_id.nil?
-        status = 'rejected'
-        call.update!(end_reason: 'agent_rejected', accepted_by_agent_id: Current.user.id)
-      elsif call.in_progress?
-        status = 'completed'
-        call.update!(end_reason: 'agent_hangup')
-      else
-        status = 'no_answer'
-        call.update!(end_reason: 'agent_hangup')
-      end
-      Voice::CallStatus::Manager.new(call: call).process_status_update(status)
+    if call.ringing? && call.accepted_by_agent_id.nil?
+      status = 'rejected'
+      call.update!(end_reason: 'agent_rejected', accepted_by_agent_id: Current.user.id)
+    elsif call.in_progress?
+      status = 'completed'
+      call.update!(end_reason: 'agent_hangup')
+    else
+      status = 'no_answer'
+      call.update!(end_reason: 'agent_hangup')
     end
-    Voice::CallMessageBuilder.new(call).update_status!(status: status, agent: Current.user) if status
+    Voice::CallStatus::Manager.new(call: call).process_status_update(status)
+    Voice::CallMessageBuilder.new(call).update_status!(status: status, agent: Current.user)
   end
 end
