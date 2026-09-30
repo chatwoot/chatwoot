@@ -2,6 +2,7 @@ module Llm::FeatureRouter
   class UnknownFeatureError < StandardError; end
 
   CAPTAIN_V2_ASSISTANT_MODEL = 'gpt-5.2'.freeze
+  GPT_6_REASONING_ONLY_MODELS = %w[gpt-6-astra gpt-6.1-sol].freeze
 
   class << self
     def resolve(feature:, account: nil)
@@ -14,8 +15,22 @@ module Llm::FeatureRouter
         feature: feature_key,
         provider: provider_for(model, source),
         model: model,
-        source: source
+        source: source,
+        reasoning_effort: reasoning_effort(feature: feature_key, model: model)
       }
+    end
+
+    def reasoning_effort(feature:, model:)
+      return unless Llm::Models.provider_for(model) == 'openai' && standard_openai_endpoint?
+
+      effort = Llm::Models.features.dig(feature.to_s, 'reasoning_effort') || 'none'
+      effort = 'low' if effort == 'none' && GPT_6_REASONING_ONLY_MODELS.include?(model)
+      effort.to_sym if RubyLLM.models.find(model).reasoning_option_values(:effort).include?(effort)
+    end
+
+    def standard_openai_endpoint?
+      endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value
+      endpoint.blank? || endpoint.chomp('/') == LlmConstants::OPENAI_API_ENDPOINT
     end
 
     private

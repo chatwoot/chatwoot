@@ -18,10 +18,13 @@ class Llm::BaseAiService
     setup_temperature
   end
 
-  def chat(model: @model, temperature: @temperature)
+  def chat(model: @model, temperature: @temperature, feature: @llm_feature, thinking: nil, **)
     model_info = RubyLLM.models.find(model)
-    llm_chat = RubyLLM.chat(model: model)
-    return llm_chat if model_info.metadata[:temperature] == false
+    llm_chat = RubyLLM.chat(model: model, **)
+    effort = Llm::FeatureRouter.reasoning_effort(feature: feature, model: model)
+    thinking ||= { effort: effort } if effort
+    llm_chat.with_thinking(**thinking) if thinking
+    return llm_chat if model_info.metadata[:temperature] == false || (thinking && thinking[:effort] != :none)
 
     llm_chat.with_temperature(temperature)
   end

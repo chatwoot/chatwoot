@@ -155,7 +155,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
                   locale: account.locale,
                   status: account.status,
                   captain_models: {
-                    label_suggestion: 'gpt-5.1'
+                    label_suggestion: 'unknown-model'
                   }
                 }
               }

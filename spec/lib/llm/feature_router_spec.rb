@@ -17,7 +17,8 @@ RSpec.describe Llm::FeatureRouter do
         feature: 'editor',
         provider: 'openai',
         model: 'gpt-4.1-mini',
-        source: :default
+        source: :default,
+        reasoning_effort: nil
       )
     end
 
@@ -57,7 +58,8 @@ RSpec.describe Llm::FeatureRouter do
         feature: 'conversation_completion',
         provider: 'openai',
         model: 'gpt-5.1',
-        source: :installation_override
+        source: :installation_override,
+        reasoning_effort: :none
       )
     end
 
@@ -133,6 +135,50 @@ RSpec.describe Llm::FeatureRouter do
         model: 'gpt-4.1-mini',
         source: :default
       )
+    end
+
+    it 'routes every general-purpose GPT-5 model with a supported reasoning default' do
+      models = Llm::Models.models.keys.grep(/\Agpt-5/)
+      models.each do |model|
+        account.captain_models = { 'copilot' => model }
+        route = described_class.resolve(feature: 'copilot', account: account)
+        expected_effort = %w[gpt-5 gpt-5-mini gpt-5-nano].include?(model) ? nil : :none
+
+        expect(route).to include(model: model, source: :account_override, reasoning_effort: expected_effort)
+      end
+    end
+
+    gpt_6_efforts = { 'gpt-6-astra' => :low, 'gpt-6-sol' => :none, 'gpt-6-luna' => :none, 'gpt-6.1-sol' => :low }
+    %w[assistant copilot].each do |feature|
+      gpt_6_efforts.each do |model, effort|
+        it "persists and routes #{model} for #{feature} with a supported reasoning effort" do
+          account.enable_features!('captain_integration')
+          account.update!(captain_models: { feature => model })
+
+          expect(described_class.resolve(feature: feature, account: account.reload)).to include(
+            model: model, source: :account_override, reasoning_effort: effort
+          )
+        end
+      end
+    end
+
+    it 'preserves an explicitly configured effort for GPT-6.1 Sol' do
+      allow(Llm::Models).to receive(:features).and_return('copilot' => { 'reasoning_effort' => 'high' })
+
+      expect(described_class.reasoning_effort(feature: 'copilot', model: 'gpt-6.1-sol')).to eq(:high)
+    end
+
+    it 'uses the feature reasoning effort when the model supports it' do
+      allow(Llm::Models).to receive(:features).and_return('copilot' => { 'reasoning_effort' => 'high' })
+
+      expect(described_class.reasoning_effort(feature: 'copilot', model: 'gpt-5.2')).to eq(:high)
+    end
+
+    it 'does not force reasoning parameters onto custom endpoints' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
+      account.captain_models = { 'copilot' => 'gpt-5.2' }
+
+      expect(described_class.resolve(feature: 'copilot', account: account)[:reasoning_effort]).to be_nil
     end
 
     it 'raises for unknown features' do
