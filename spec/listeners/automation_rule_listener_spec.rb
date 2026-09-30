@@ -91,6 +91,7 @@ describe AutomationRuleListener do
         listener.conversation_updated(event)
         expect(AutomationRules::ActionService).not_to have_received(:new).with(automation_rule, account, conversation)
       end
+
       it 'runs the rules in creation order even after an earlier rule is updated' do
         later_rule = create(:automation_rule, event_name: 'conversation_updated', account: account)
         # Updating writes a new row version at the end of the table's physical order. A sequential scan,
