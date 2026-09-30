@@ -91,6 +91,19 @@ describe AutomationRuleListener do
         listener.conversation_updated(event)
         expect(AutomationRules::ActionService).not_to have_received(:new).with(automation_rule, account, conversation)
       end
+      it 'runs the rules in creation order even after an earlier rule is updated' do
+        later_rule = create(:automation_rule, event_name: 'conversation_updated', account: account)
+        # Updating writes a new row version at the end of the table's physical order. A sequential scan,
+        # which the planner picks for a small real table, then returns the rules out of creation order.
+        automation_rule.update!(description: 'edited')
+        ActiveRecord::Base.connection.execute('SET LOCAL enable_indexscan = off; SET LOCAL enable_bitmapscan = off')
+        allow(condition_match).to receive(:present?).and_return(true)
+
+        listener.conversation_updated(event)
+
+        expect(AutomationRules::ActionService).to have_received(:new).with(automation_rule, account, conversation).ordered
+        expect(AutomationRules::ActionService).to have_received(:new).with(later_rule, account, conversation).ordered
+      end
     end
   end
 

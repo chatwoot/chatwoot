@@ -19,6 +19,21 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         body = JSON.parse(response.body, symbolize_names: true)
         expect(body[:payload].first[:id]).to eq(automation_rule.id)
       end
+
+      it 'returns the records in creation order even after an earlier rule is updated' do
+        first_rule = create(:automation_rule, account: account, name: 'First rule')
+        second_rule = create(:automation_rule, account: account, name: 'Second rule')
+        # Updating writes a new row version at the end of the table's physical order. A sequential scan,
+        # which the planner picks for a small real table, then returns the rules out of creation order.
+        first_rule.update!(description: 'edited')
+        ActiveRecord::Base.connection.execute('SET LOCAL enable_indexscan = off; SET LOCAL enable_bitmapscan = off')
+
+        get "/api/v1/accounts/#{account.id}/automation_rules",
+            headers: administrator.create_new_auth_token
+
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body[:payload].pluck(:id)).to eq([first_rule.id, second_rule.id])
+      end
     end
 
     context 'when it is an unauthenticated user' do

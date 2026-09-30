@@ -6,7 +6,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   before_action :ensure_execution_delay_allowed, only: [:create, :update]
 
   def index
-    @automation_rules = Current.account.automation_rules
+    @automation_rules = Current.account.automation_rules.order(:id)
   end
 
   def show; end
