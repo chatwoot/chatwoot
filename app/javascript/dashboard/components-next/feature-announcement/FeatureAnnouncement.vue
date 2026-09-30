@@ -12,6 +12,7 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 const YOUTUBE_THUMBNAIL_URL =
   'https://i.ytimg.com/vi/%{video_id}/mqdefault.jpg';
 const STRIP_SCROLL_RATIO = 0.8;
+const MAX_PAGER_DOTS = 7;
 
 const { t } = useI18n();
 const globalConfig = useMapGetter('globalConfig/get');
@@ -29,20 +30,18 @@ const announcements = computed(
 
 const dismissKey = ({ id, updated_at: updatedAt }) => `${id}-${updatedAt}`;
 
-const escapeHTML = value =>
-  value.replace(/[&<>"']/g, char => `&#${char.charCodeAt(0)};`);
-
 const withVideo = item => {
   const { key, regex, template } = embeds.find(embed =>
     embed.regex.test(item.video_url)
   );
   const { groups } = item.video_url.match(regex);
   const fill = source =>
-    source.replace(/%\{(\w+)\}/g, (_, name) => escapeHTML(groups[name]));
+    source.replace(/%\{(\w+)\}/g, (_, name) => groups[name]);
 
   return {
     ...item,
-    videoEmbed: fill(template),
+    isVideoFile: key === 'mp4',
+    videoSrc: fill(template.match(/src="([^"]+)"/)[1]),
     thumbnailUrl: key === 'youtube' ? fill(YOUTUBE_THUMBNAIL_URL) : null,
   };
 };
@@ -67,6 +66,15 @@ const isCurrent = item => item.id === announcement.value.id;
 const description = computed(
   () => new MessageFormatter(announcement.value.banner_message).formattedMessage
 );
+
+const pagerDots = computed(() => {
+  const start = Math.min(
+    Math.max(currentIndex.value - Math.floor(MAX_PAGER_DOTS / 2), 0),
+    Math.max(playlist.value.length - MAX_PAGER_DOTS, 0)
+  );
+
+  return playlist.value.slice(start, start + MAX_PAGER_DOTS);
+});
 
 const selectByOffset = offset => {
   const item = playlist.value[currentIndex.value + offset];
@@ -134,14 +142,16 @@ watch(currentIndex, async () => {
     @keydown.left="selectByOffset(-inlineStep)"
     @keydown.right="selectByOffset(inlineStep)"
   >
-    <div class="relative grid grid-cols-1 overflow-hidden lg:grid-cols-12">
+    <div
+      class="relative grid grid-cols-1 overflow-hidden lg:grid-cols-12 lg:min-h-[70dvh]"
+    >
       <img
         v-if="announcement.thumbnailUrl"
         :key="announcement.id"
         :src="announcement.thumbnailUrl"
         alt=""
         decoding="async"
-        class="absolute inset-0 object-cover scale-125 pointer-events-none size-full blur-3xl opacity-45 saturate-150 animate-fade-in dark:opacity-30 dark:saturate-100"
+        class="absolute inset-0 object-cover scale-125 pointer-events-none size-full blur-3xl opacity-45 saturate-150 animate-fade-in dark:opacity-50 dark:saturate-150 dark:brightness-75"
       />
       <div
         class="relative flex flex-col items-center justify-center gap-4 p-4 lg:col-span-8 lg:gap-6 lg:p-14"
@@ -153,9 +163,24 @@ watch(currentIndex, async () => {
         />
         <div
           :key="announcement.id"
-          class="relative w-full overflow-hidden shadow-xl rounded-xl bg-n-solid-1 outline outline-1 outline-n-container animate-fade-in [&_video]:w-full [&_video]:h-auto"
-          v-html="announcement.videoEmbed"
-        />
+          class="relative w-full overflow-hidden rounded-xl shadow-xl shadow-n-slate-3/50 bg-n-alpha-2 aspect-video animate-fade-in"
+        >
+          <video
+            v-if="announcement.isVideoFile"
+            :src="announcement.videoSrc"
+            controls
+            preload="metadata"
+            class="size-full"
+          />
+          <iframe
+            v-else
+            :src="announcement.videoSrc"
+            :title="announcement.title"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+            allowfullscreen
+            class="size-full"
+          />
+        </div>
         <div v-if="playlist.length > 1" class="relative w-full">
           <div
             ref="stripRef"
@@ -263,14 +288,17 @@ watch(currentIndex, async () => {
               </h1>
               <div
                 v-dompurify-html="description"
-                class="text-body-para text-n-slate-11 text-pretty [&_p]:text-body-para [&_p]:mb-5 [&_p:last-child]:mb-0 [&_strong]:font-520 [&_strong]:text-n-slate-12 [&_a]:font-460 [&_a]:text-n-blue-11 hover:[&_a]:underline [&_ul]:mb-5 [&_ul]:space-y-3 [&_ul]:list-none [&_li]:relative [&_li]:text-body-para [&_li]:ps-7 [&_li]:text-n-slate-12 [&_li]:before:content-[''] [&_li]:before:i-lucide-check [&_li]:before:absolute [&_li]:before:start-0 [&_li]:before:top-0.5 [&_li]:before:size-4 [&_li]:before:text-n-blue-11"
+                class="text-body-para text-n-slate-11 text-pretty [&_p]:text-body-para [&_p]:mb-5 [&_p:last-child]:mb-0 [&_strong]:font-520 [&_strong]:text-n-slate-12 [&_a]:font-460 [&_a]:text-n-blue-11 hover:[&_a]:underline [&_ul]:mb-5 [&_ul]:space-y-3 [&_ul]:list-none [&_li]:relative [&_li]:text-body-para [&_li]:ps-7 [&_li]:before:content-[''] [&_li]:before:i-lucide-check [&_li]:before:absolute [&_li]:before:start-0 [&_li]:before:top-0.5 [&_li]:before:size-4 [&_li]:before:text-n-blue-11"
               />
             </div>
           </div>
           <div
             class="flex items-center justify-between gap-4 px-6 py-4 border-t border-n-strong/50 lg:px-8 lg:py-5"
           >
-            <div v-if="playlist.length > 1" class="flex items-center -ms-2">
+            <div
+              v-if="playlist.length > 1"
+              class="flex items-center min-w-0 -ms-2"
+            >
               <Button
                 icon="i-lucide-chevron-left"
                 variant="ghost"
@@ -282,7 +310,7 @@ watch(currentIndex, async () => {
                 @click="selectByOffset(-1)"
               />
               <button
-                v-for="item in playlist"
+                v-for="item in pagerDots"
                 :key="item.id"
                 type="button"
                 class="p-2 group"
@@ -326,6 +354,7 @@ watch(currentIndex, async () => {
             </I18nT>
             <Button
               :label="t('FEATURE_ANNOUNCEMENT.DISMISS')"
+              class="shrink-0"
               @click="dismiss"
             />
           </div>

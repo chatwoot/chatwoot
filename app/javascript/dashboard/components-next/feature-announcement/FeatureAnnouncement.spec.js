@@ -83,7 +83,7 @@ const macros = {
   id: 5,
   title: 'Speed through support with macros',
   banner_message: 'Bundle a sequence of actions into one macro.',
-  video_url: 'https://vimeo.com/76979871',
+  video_url: 'https://www.youtube.com/watch?v=S3riosQbhKs',
   updated_at: '2026-09-29T11:00:00.000Z',
 };
 
@@ -160,24 +160,39 @@ describe('FeatureAnnouncement', () => {
     expect(wrapper.find('h1 + div li').text()).toBe('Assign to a team');
   });
 
-  it('escapes captured values before rendering the embed', () => {
+  it('binds the player URL instead of rendering template markup', () => {
     testState.announcements.value = [
-      { ...automations, video_url: 'https://youtu.be/abc"onload' },
+      {
+        ...automations,
+        video_url: 'https://youtu.be/abc"><img src=x onerror=1>',
+      },
+    ];
+    const wrapper = mountComponent();
+
+    expect(wrapper.findAll('iframe')).toHaveLength(1);
+    expect(wrapper.find('img[onerror]').exists()).toBe(false);
+  });
+
+  it('plays direct video files with a native player', () => {
+    testState.announcements.value = [
+      { ...macros, video_url: 'https://cdn.example.com/macros.mp4' },
+    ];
+    const wrapper = mountComponent();
+
+    expect(wrapper.find('video').attributes('src')).toBe(
+      'https://cdn.example.com/macros.mp4'
+    );
+    expect(wrapper.find('iframe').exists()).toBe(false);
+  });
+
+  it('falls back to the line texture for videos without a thumbnail', () => {
+    testState.announcements.value = [
+      { ...macros, video_url: 'https://vimeo.com/000000000' },
     ];
     const wrapper = mountComponent();
 
     expect(wrapper.find('iframe').attributes('src')).toBe(
-      'https://www.youtube-nocookie.com/embed/abc"onload'
-    );
-    expect(wrapper.find('.rounded-xl').html()).not.toContain('"onload');
-  });
-
-  it('falls back to the line texture for videos without a thumbnail', () => {
-    testState.announcements.value = [macros];
-    const wrapper = mountComponent();
-
-    expect(wrapper.find('iframe').attributes('src')).toBe(
-      'https://player.vimeo.com/video/76979871?dnt=true'
+      'https://player.vimeo.com/video/000000000?dnt=true'
     );
     expect(wrapper.find('img').exists()).toBe(false);
     expect(wrapper.find('[aria-hidden="true"]').exists()).toBe(true);
@@ -220,6 +235,27 @@ describe('FeatureAnnouncement', () => {
     const stripElement = wrapper.find('.no-scrollbar').element;
     expect(Element.prototype.scrollBy).toHaveBeenCalledTimes(1);
     expect(Element.prototype.scrollBy.mock.instances[0]).toBe(stripElement);
+  });
+
+  it('slides a window of seven dots across long playlists', async () => {
+    testState.announcements.value = Array.from({ length: 12 }, (_, index) => ({
+      ...automations,
+      id: index + 1,
+      title: `Announcement ${index + 1}`,
+    }));
+    const wrapper = mountComponent();
+
+    expect(dots(wrapper)).toHaveLength(7);
+    expect(dots(wrapper)[0].attributes('aria-current')).toBe('true');
+
+    await thumbnails(wrapper)[11].trigger('click');
+    expect(dots(wrapper)).toHaveLength(7);
+    expect(dots(wrapper)[6].attributes('aria-label')).toBe('Announcement 12');
+    expect(dots(wrapper)[6].attributes('aria-current')).toBe('true');
+
+    await thumbnails(wrapper)[5].trigger('click');
+    expect(dots(wrapper)[0].attributes('aria-label')).toBe('Announcement 3');
+    expect(dots(wrapper)[3].attributes('aria-current')).toBe('true');
   });
 
   it('switches announcements with the arrow keys', async () => {
