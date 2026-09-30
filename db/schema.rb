@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_24_120000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -362,12 +362,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
     t.datetime "failed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "contact_inbox_id"
     t.index ["account_id", "campaign_id"], name: "index_campaign_recipients_on_account_id_and_campaign_id"
     t.index ["account_id"], name: "index_campaign_recipients_on_account_id"
     t.index ["campaign_id", "contact_id"], name: "index_campaign_recipients_on_campaign_id_and_contact_id", unique: true
     t.index ["campaign_id", "status"], name: "index_campaign_recipients_on_campaign_id_and_status"
     t.index ["campaign_id"], name: "index_campaign_recipients_on_campaign_id"
     t.index ["contact_id"], name: "index_campaign_recipients_on_contact_id"
+    t.index ["contact_inbox_id"], name: "index_campaign_recipients_on_contact_inbox_id"
     t.index ["inbox_id"], name: "index_campaign_recipients_on_inbox_id"
     t.index ["source_id"], name: "index_campaign_recipients_on_source_id", unique: true, where: "(source_id IS NOT NULL)"
   end
@@ -454,6 +456,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "assistant_id"
+    t.jsonb "headers", default: {}, null: false
+    t.jsonb "source_metadata"
     t.index ["account_id"], name: "index_captain_custom_tools_on_account_id"
     t.index ["assistant_id", "slug"], name: "index_captain_custom_tools_on_assistant_id_and_slug", unique: true
   end

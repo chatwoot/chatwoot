@@ -13,11 +13,44 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
   end
 
   describe '#perform' do
+    context 'with campaigns and analytics' do
+      %w[Business Enterprise].each do |plan|
+        it "enables campaigns and analytics for #{plan}" do
+          account.update!(custom_attributes: { 'plan_name' => plan, 'subscription_status' => 'active' })
+
+          described_class.new(account: account).perform
+
+          expect(account.reload).to be_feature_enabled('campaign_analytics')
+          expect(account).to be_feature_enabled('campaigns')
+        end
+      end
+
+      it 'disables analytics but keeps campaigns after downgrading to Startups' do
+        account.enable_features!('campaign_analytics', 'campaigns')
+        account.update!(custom_attributes: { 'plan_name' => 'Startups', 'subscription_status' => 'active' })
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('campaign_analytics')
+        expect(account).to be_feature_enabled('campaigns')
+      end
+
+      it 'disables campaigns and analytics after downgrading to Hacker' do
+        account.enable_features!('campaign_analytics', 'campaigns')
+        account.update!(custom_attributes: { 'plan_name' => 'Hacker', 'subscription_status' => 'active' })
+
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('campaign_analytics')
+        expect(account).not_to be_feature_enabled('campaigns')
+      end
+    end
+
     context 'with conversation monitors and Captain Classifier' do
-      it 'grants both features on Startups, Business, and Enterprise' do
+      it 'grants Captain Classifier on Startups and both features on Business and Enterprise' do
         account.update!(custom_attributes: { 'plan_name' => 'Startups' })
         described_class.new(account: account).perform
-        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account.reload).not_to be_feature_enabled('conversation_monitors')
         expect(account).to be_feature_enabled('captain_classifier')
 
         account.update!(custom_attributes: { 'plan_name' => 'Business' })
@@ -31,7 +64,18 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         expect(account).to be_feature_enabled('captain_classifier')
       end
 
-      it 'removes both features on downgrade' do
+      it 'removes monitors but keeps Captain Classifier after downgrading to Startups' do
+        account.update!(custom_attributes: { 'plan_name' => 'Business' })
+        described_class.new(account: account).perform
+
+        account.update!(custom_attributes: { 'plan_name' => 'Startups' })
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
+      end
+
+      it 'removes both features after downgrading to Hacker' do
         account.update!(custom_attributes: { 'plan_name' => 'Business' })
         described_class.new(account: account).perform
 
@@ -118,7 +162,7 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
           {
             'name' => 'Shopify Pro',
             'handle' => 'shopify-pro',
-            'features' => %w[audit_logs saml],
+            'features' => %w[audit_logs saml conversation_monitors],
             'limits' => { 'agents' => 10, 'inboxes' => 20 }
           }
         ]
@@ -135,11 +179,11 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         account.enable_features!('shopify_integration')
       end
 
-      it 'enables catalog features and both paid features on Shopify Basic' do
+      it 'enables catalog features and Captain Classifier, but not monitors, on Shopify Basic' do
         described_class.new(account: account).perform
 
         expect(account.reload).to be_feature_enabled('audit_logs')
-        expect(account).to be_feature_enabled('conversation_monitors')
+        expect(account).not_to be_feature_enabled('conversation_monitors')
         expect(account).to be_feature_enabled('captain_classifier')
         expect(account).not_to be_feature_enabled('saml')
         expect(account).not_to be_feature_enabled('captain_integration')
@@ -202,26 +246,31 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         expect(account.internal_attributes['shopify_managed_features']).to contain_exactly('audit_logs')
       end
 
-      it 'keeps both paid features when switching Shopify plans' do
+      it 'grants monitors from the Shopify catalog and removes them on downgrade' do
         described_class.new(account: account).perform
         account.update!(custom_attributes: { 'plan_name' => 'Shopify Pro' })
         described_class.new(account: account).perform
 
         expect(account.reload).to be_feature_enabled('conversation_monitors')
         expect(account).to be_feature_enabled('captain_classifier')
+
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Basic' })
+        described_class.new(account: account).perform
+
+        expect(account.reload).not_to be_feature_enabled('conversation_monitors')
+        expect(account).to be_feature_enabled('captain_classifier')
       end
 
-      it 'keeps paid features when they are removed from the Shopify catalog' do
-        features = %w[audit_logs conversation_monitors captain_classifier]
-        shopify_config.update!(value: [shopify_plans.first.merge('features' => features), shopify_plans.second])
+      it 'removes monitors deleted from the Shopify catalog but keeps Captain Classifier' do
+        account.update!(custom_attributes: { 'plan_name' => 'Shopify Pro' })
         described_class.new(account: account).perform
         expect(account.reload).to be_feature_enabled('conversation_monitors')
         expect(account).to be_feature_enabled('captain_classifier')
 
-        shopify_config.update!(value: shopify_plans)
+        shopify_config.update!(value: [shopify_plans.first, shopify_plans.second.except('features').merge('features' => %w[audit_logs saml])])
         described_class.new(account: account).perform
 
-        expect(account.reload).to be_feature_enabled('conversation_monitors')
+        expect(account.reload).not_to be_feature_enabled('conversation_monitors')
         expect(account).to be_feature_enabled('captain_classifier')
       end
 
