@@ -265,6 +265,12 @@ const tailwindConfig = {
         '60%': { opacity: 1, transform: 'scale(1.04) translateY(0)' },
         '100%': { opacity: 1, transform: 'scale(1) translateY(0)' },
       },
+      'fade-in': {
+        '0%': { opacity: 0 },
+      },
+      'scale-in': {
+        '0%': { opacity: 0, transform: 'scale(0.97)' },
+      },
     },
     animation: {
       ...defaultTheme.animation,
@@ -276,6 +282,8 @@ const tailwindConfig = {
       shimmer: 'shimmer 1.4s ease-in-out infinite',
       'pop-in': 'pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) backwards',
       twinkle: 'twinkle 0.9s ease-in-out infinite',
+      'fade-in': 'fade-in 0.3s ease-out',
+      'scale-in': 'scale-in 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
     },
   },
   plugins: [
