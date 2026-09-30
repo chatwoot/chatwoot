@@ -32,7 +32,7 @@ class Migration::ClassifyContactsJob < ApplicationJob
   def walk(cursor, max_id, window)
     deadline = RUN_FOR.from_now
     while cursor <= max_id && Time.current < deadline
-      to_id = [cursor + window - 1, max_id].min
+      to_id = [cursor + size(window) - 1, max_id].min
       counts = classify(cursor, to_id)
       next window = shrink(window) unless counts
 
@@ -41,6 +41,12 @@ class Migration::ClassifyContactsJob < ApplicationJob
       cursor = to_id + 1
     end
     [cursor, window]
+  end
+
+  # Enough ids that a window made only of promotions still finishes in about RUN_FOR at the current pace.
+  def size(window)
+    bound = [(Contacts::ClassifyVisitorsService.rows_per_second * RUN_FOR.to_i).to_i, MIN_WINDOW].max
+    [window, bound].min
   end
 
   # A window too large to read within the statement timeout is read again at half the size.

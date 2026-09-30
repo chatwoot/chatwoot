@@ -54,8 +54,20 @@ RSpec.describe Migration::ClassifyContactsJob do
     expect(contact.reload).to be_visitor
   end
 
+  it 'keeps a window small enough to finish within its time budget at the current pace' do
+    contact = create(:contact, account: account, name: 'Maria Lopez')
+    allow(Contacts::ClassifyVisitorsService).to receive(:rows_per_second).and_return(100)
+    allow(Contacts::ClassifyVisitorsService).to receive(:new).and_call_original
+
+    described_class.perform_now(contact.id, contact.id + 2_999)
+
+    expect(Contacts::ClassifyVisitorsService).to have_received(:new).with(from_id: contact.id, to_id: contact.id + 1_499)
+    expect(Contacts::ClassifyVisitorsService).to have_received(:new).with(from_id: contact.id + 1_500, to_id: contact.id + 2_999)
+  end
+
   it 'reads a window again at half the size when the read times out' do
     contact = create(:contact, account: account, name: 'Maria Lopez')
+    allow(Contacts::ClassifyVisitorsService).to receive(:rows_per_second).and_return(1_000)
     service = instance_double(Contacts::ClassifyVisitorsService, perform: { visitors: 1, promoted: 1, purged: 0 })
     allow(Contacts::ClassifyVisitorsService).to receive(:new).with(from_id: contact.id, to_id: contact.id + 3_999)
                                                              .and_raise(ActiveRecord::QueryCanceled)
