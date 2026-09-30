@@ -2,12 +2,6 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   include EmailHelper
 
   SHOPIFY_INSTALL_REDIRECT_PATTERN = %r{\Asettings/integrations/shopify\?shopify_pending_install=([0-9a-f]{32})\z}
-  GOOGLE_OAUTH_REDIRECT_SESSION_KEY = 'google_oauth_redirect_url'.freeze
-
-  def redirect_callbacks
-    preserve_google_oauth_redirect if params[:provider] == 'google_oauth2'
-    super
-  end
 
   def omniauth_success
     get_resource_from_auth_hash
@@ -83,13 +77,15 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def oauth_context
-    @oauth_context ||= parse_google_oauth_context(session.delete(GOOGLE_OAUTH_REDIRECT_SESSION_KEY) || params[:state].to_s)
+    @oauth_context ||= parse_google_oauth_context(params[:state].to_s)
   end
 
-  def preserve_google_oauth_redirect
-    session.delete(GOOGLE_OAUTH_REDIRECT_SESSION_KEY)
-    state = params[:state].to_s
-    session[GOOGLE_OAUTH_REDIRECT_SESSION_KEY] = state if parse_google_oauth_context(state).present?
+  def get_redirect_route(devise_mapping)
+    route = super
+    return route unless params[:provider] == 'google_oauth2' && oauth_context.present?
+
+    # Keep the continuation on this callback's redirect instead of sharing it across tabs in the session.
+    "#{route}?#{URI.encode_www_form(state: oauth_context.to_json)}"
   end
 
   def parse_google_oauth_context(state)
