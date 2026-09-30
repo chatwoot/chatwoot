@@ -20,6 +20,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  canReply: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['open', 'goToLatest']);
@@ -39,12 +43,16 @@ const shortcutFor = (binding, key) => {
 };
 
 const actions = computed(() => [
-  {
-    mode: REPLY_EDITOR_MODES.REPLY,
-    icon: 'i-lucide-reply',
-    label: props.replyLabel,
-    shortcut: shortcutFor('Alt+KeyL', 'l'),
-  },
+  ...(props.canReply
+    ? [
+        {
+          mode: REPLY_EDITOR_MODES.REPLY,
+          icon: 'i-lucide-reply',
+          label: props.replyLabel,
+          shortcut: shortcutFor('Alt+KeyL', 'l'),
+        },
+      ]
+    : []),
   {
     mode: REPLY_EDITOR_MODES.NOTE,
     icon: 'i-lucide-lock',

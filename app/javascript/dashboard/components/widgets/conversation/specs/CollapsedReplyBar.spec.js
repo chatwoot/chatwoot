@@ -78,6 +78,20 @@ describe('CollapsedReplyBar', () => {
     ]);
   });
 
+  it('offers only a private note when public replies are restricted', () => {
+    const wrapper = mountComponent({ canReply: false });
+
+    expect(wrapper.text()).not.toContain('Reply');
+    expect(wrapper.text()).toContain('CONVERSATION.REPLYBOX.PRIVATE_NOTE');
+  });
+
+  it('keeps the latest conversation link when replies are restricted', () => {
+    const wrapper = mountComponent({ canReply: false, hasLatest: true });
+
+    expect(wrapper.findAll('kbd')).toHaveLength(1);
+    expect(wrapper.find(GO_TO_LATEST).exists()).toBe(true);
+  });
+
   it('hides the link to the latest conversation by default', () => {
     const wrapper = mountComponent();
 

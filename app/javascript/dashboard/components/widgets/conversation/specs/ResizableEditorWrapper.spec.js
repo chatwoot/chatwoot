@@ -92,6 +92,28 @@ describe('ResizableEditorWrapper', () => {
     expect(document.body.style.cursor).toBe('');
   });
 
+  it('collapses from a touch drag as well', async () => {
+    await releaseDrag();
+    await wrapper
+      .find('.cursor-row-resize')
+      .trigger('touchstart', { touches: [{ clientY: START_Y }] });
+    const touchMove = Object.assign(
+      new Event('touchmove', { cancelable: true }),
+      {
+        touches: [
+          {
+            clientY: START_Y + DEFAULT_HEIGHT - MIN_HEIGHT + COLLAPSE_DISTANCE,
+          },
+        ],
+      }
+    );
+    document.dispatchEvent(touchMove);
+    await nextTick();
+
+    expect(wrapper.emitted('collapse')).toHaveLength(1);
+    expect(touchMove.defaultPrevented).toBe(true);
+  });
+
   it('ignores further movement after collapsing', async () => {
     await dragBy(wrapper, DEFAULT_HEIGHT - MIN_HEIGHT + COLLAPSE_DISTANCE);
     await dragBy(wrapper, DEFAULT_HEIGHT - MIN_HEIGHT + COLLAPSE_DISTANCE * 2);

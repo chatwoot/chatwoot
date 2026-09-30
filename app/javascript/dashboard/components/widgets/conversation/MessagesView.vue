@@ -127,6 +127,9 @@ export default {
     const isReplyFolded = computed(
       () => isReadingHistory.value || isReplyBoxCollapsed.value
     );
+    const canSendPublicReply = computed(
+      () => replyBoxRef.value?.canSendPublicReply ?? true
+    );
 
     const collapseReplyBox = () => {
       isReplyBoxCollapsed.value = true;
@@ -143,10 +146,8 @@ export default {
       useTrack(CONVERSATION_EVENTS.EXPANDED_REPLY_BOX, { mode });
       nextTick(() => {
         const replyBox = replyBoxRef.value;
-        // Switching drops attachments, and a restricted conversation stays on notes
-        const canSwitch =
-          replyBox.canSendPublicReply && replyBox.replyType !== mode;
-        if (mode && canSwitch) replyBox.setReplyMode(mode);
+        // Switching modes drops attachments, so only switch when it changes
+        if (mode && replyBox.replyType !== mode) replyBox.setReplyMode(mode);
         replyBox.messageEditor?.focusEditorInputField();
       });
     };
@@ -187,6 +188,7 @@ export default {
       buildConversationPath,
       isReadingHistory,
       isReplyFolded,
+      canSendPublicReply,
       foldMotion: FOLD_MOTION,
       foldTransition: FOLD_TRANSITION,
       latestConversation,
@@ -754,7 +756,7 @@ export default {
           v-if="isReplyFolded"
           class="absolute inset-x-0 bottom-0 z-10 grid grid-rows-[var(--fold-rows,1fr)]"
         >
-          <div class="min-h-0">
+          <div class="min-h-0 min-w-0">
             <CollapsedReplyBar
               class="m-2"
               :reply-label="
@@ -763,6 +765,7 @@ export default {
                   : $t('CONVERSATION.REPLYBOX.REPLY')
               "
               :has-latest="isReadingHistory && Boolean(latestConversation)"
+              :can-reply="canSendPublicReply"
               @open="revealReplyBox"
               @go-to-latest="openConversation(latestConversation)"
             />
@@ -774,7 +777,7 @@ export default {
           v-show="!isReplyFolded"
           class="grid grid-rows-[var(--fold-rows,1fr)]"
         >
-          <div class="min-h-0">
+          <div class="min-h-0 min-w-0">
             <ResizableEditorWrapper
               ref="resizableEditorWrapperRef"
               :container-height="Math.max(0, containerHeight - topBannerHeight)"
