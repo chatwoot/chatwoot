@@ -23,6 +23,7 @@ class Captain::Llm::ConversationFaqContentService
     messages = conversation
                .messages
                .where(message_type: %i[incoming outgoing], private: false)
+               .not_forwarded
                .order(created_at: :asc)
 
     return "No messages in this conversation\n" if messages.empty?
