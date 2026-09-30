@@ -240,6 +240,8 @@ describe Messages::MessageBuilder do
 
         expect(message.content_attributes[:cc_emails]).to eq ['user1@example.com', 'user2@example.com']
         expect(message.content_attributes[:bcc_emails]).to eq ['user3@example.com']
+      end
+
       context 'when forwarding a message' do
         let(:forwarded_message) { create(:message, conversation: conversation, account: account, message_type: :incoming) }
         let(:forwarded_attachment) do
