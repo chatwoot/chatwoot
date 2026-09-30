@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/chatwoot/ai-agents.git
-  revision: 7816d01eed31bf267bfd0911f6e350a153b627ca
-  branch: codex/rubyllm-2
+  revision: e846ca18332972eb7f1636e160634219dd3db7d0
+  ref: e846ca18332972eb7f1636e160634219dd3db7d0
   specs:
-    ai-agents (0.12.0)
+    ai-agents (0.13.0)
       ruby_llm (~> 2.0.0)
 
 GEM
