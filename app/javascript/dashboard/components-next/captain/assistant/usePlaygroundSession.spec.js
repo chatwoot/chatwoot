@@ -73,7 +73,9 @@ describe('usePlaygroundSession', () => {
     await session.initialize();
 
     expect(session.includedScenarioIds.value).toEqual([1]);
-    expect(mocks.dispatch).toHaveBeenCalledWith('captainTools/getTools');
+    expect(mocks.dispatch).toHaveBeenCalledWith('captainTools/getTools', {
+      assistantId: 7,
+    });
     expect(session.playgroundConfig.value).toMatchObject({
       scenario_ids: [1],
       temporary_scenarios: [],

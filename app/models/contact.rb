@@ -67,6 +67,7 @@ class Contact < ApplicationRecord
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
+  include ContactCompanyAssociation
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -83,16 +84,6 @@ class Contact < ApplicationRecord
       Arel::Nodes::SqlLiteral.new(
         sanitize_sql_for_order("\"contacts\".\"created_at\" #{direction}
           NULLS LAST")
-      )
-    )
-  }
-  scope :order_on_company_name, lambda { |direction|
-    order(
-      Arel::Nodes::SqlLiteral.new(
-        sanitize_sql_for_order(
-          "\"contacts\".\"additional_attributes\"->>'company_name' #{direction}
-          NULLS LAST"
-        )
       )
     )
   }

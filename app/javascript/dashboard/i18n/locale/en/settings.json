@@ -262,6 +262,10 @@
     "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
     "RESEND_VERIFICATION_MAIL": "Resend verification email",
     "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
       "MESSAGE": "Your account has been suspended due to activity that may violate our policies. If you believe this is a mistake, please contact our support team.",
@@ -579,6 +583,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "Billing",
     "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
@@ -682,6 +690,7 @@
     "DESCRIPTION": "Manage your account security settings.",
     "LINK_TEXT": "Learn more about SAML SSO",
     "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",

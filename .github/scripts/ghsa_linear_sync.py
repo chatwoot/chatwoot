@@ -106,6 +106,19 @@ def build_description(adv: dict[str, Any]) -> str:
     )
 
 
+def post_slack(adv: dict[str, Any], issue: dict[str, str], webhook_url: str) -> None:
+    severity = adv.get("severity") or "unknown"
+    title = f"[{adv['ghsa_id']}] {adv['summary']}"[:200]
+    text = (
+        f"*<{issue['url']}|{title}>*\n"
+        f"Linear: {issue['identifier']} · Severity: {severity} (CVSS {cvss_score(adv)}) · <{adv['html_url']}|advisory>"
+    )
+    try:
+        requests.post(webhook_url, json={"text": text}, timeout=10)
+    except requests.RequestException:
+        pass
+
+
 def post_discord(adv: dict[str, Any], issue: dict[str, str], webhook_url: str) -> None:
     severity = adv.get("severity") or "unknown"
     title = f"[{adv['ghsa_id']}] {adv['summary']}"[:250]
@@ -146,6 +159,7 @@ def main() -> int:
     project_id = required_env("LINEAR_PROJECT_ID")
     label_id = required_env("LINEAR_LABEL_ID")
     discord_webhook = os.environ.get("DISCORD_WEBHOOK_URL") or None
+    slack_webhook = os.environ.get("SLACK_WEBHOOK_URL") or None
 
     advisories = fetch_triage_advisories(repo, gh_token)
     print(f"Fetched {len(advisories)} triage advisories")
@@ -186,6 +200,8 @@ def main() -> int:
         created += 1
         if discord_webhook:
             post_discord(adv, issue, discord_webhook)
+        if slack_webhook:
+            post_slack(adv, issue, slack_webhook)
 
     print(f"Created {created}, skipped {skipped}, failed {failed}")
     return 1 if failed > 0 else 0
