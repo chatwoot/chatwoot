@@ -21,9 +21,10 @@ class Contacts::ClassifyVisitorsService
            "THEN contacts.additional_attributes ELSE '{}'::jsonb END) kv WHERE left(kv.key, 7) = 'social_' " \
            "AND kv.value NOT IN ('null'::jsonb, 'false'::jsonb, '{}'::jsonb, '[]'::jsonb) " \
            "AND NOT (jsonb_typeof(kv.value) = 'string' AND (kv.value #>> '{}') !~ '\\S'))".freeze
-  # Someone created or handled the contact on purpose: a note, a label, an import, or a name that is not
-  # the one the widget generates for an anonymous visitor, such as quiet-fog-31.
-  EXPLICIT = "((btrim(coalesce(contacts.name, '')) <> '' AND contacts.name !~ '^[a-z]+-[a-z]+-[0-9]{1,4}$') " \
+  # Someone created or handled the contact on purpose: a company, a note, a label, an import, or a name
+  # that is not the one the widget generates for an anonymous visitor, such as quiet-fog-31.
+  EXPLICIT = '(contacts.company_id IS NOT NULL ' \
+             "OR (btrim(coalesce(contacts.name, '')) <> '' AND contacts.name !~ '^[a-z]+-[a-z]+-[0-9]{1,4}$') " \
              'OR EXISTS (SELECT 1 FROM notes WHERE notes.contact_id = contacts.id) ' \
              "OR EXISTS (SELECT 1 FROM taggings WHERE taggings.taggable_type = 'Contact' AND taggings.taggable_id = contacts.id) " \
              'OR EXISTS (SELECT 1 FROM data_import_mappings mappings ' \
@@ -38,6 +39,11 @@ class Contacts::ClassifyVisitorsService
     ORDER BY contacts.id
   SQL
   PROMOTE = 'UPDATE contacts SET contact_type = 1 WHERE id IN (:ids) AND contact_type = 0'.freeze
+
+  def self.rows_per_second
+    stored = Redis::Alfred.get(Redis::Alfred::CONTACT_TYPE_BACKFILL_RATE).to_f
+    stored.positive? ? stored : ROWS_PER_SECOND
+  end
 
   def perform
     rows = visitors
@@ -105,7 +111,7 @@ class Contacts::ClassifyVisitorsService
     started = Time.current
     result = attempt(&)
     elapsed = Time.current - started
-    sleep [rows.fdiv(rows_per_second) - elapsed, 2 * elapsed].max.clamp(0, 120)
+    sleep [rows.fdiv(self.class.rows_per_second) - elapsed, 2 * elapsed].max.clamp(0, 120)
     result
   end
 
@@ -118,10 +124,5 @@ class Contacts::ClassifyVisitorsService
 
     sleep 2
     retry
-  end
-
-  def rows_per_second
-    stored = Redis::Alfred.get(Redis::Alfred::CONTACT_TYPE_BACKFILL_RATE).to_f
-    stored.positive? ? stored : ROWS_PER_SECOND
   end
 end

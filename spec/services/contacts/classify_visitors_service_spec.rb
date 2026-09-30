@@ -43,6 +43,13 @@ RSpec.describe Contacts::ClassifyVisitorsService do
       expect { classify }.to change { contact.reload.contact_type }.from('visitor').to('lead')
     end
 
+    it 'is linked to a company' do
+      contact = create(:contact, **anonymous)
+      contact.update!(company: create(:company, account: account))
+
+      expect { classify }.to change { contact.reload.contact_type }.from('visitor').to('lead')
+    end
+
     it 'has a note' do
       contact = create(:contact, **anonymous)
       create(:note, account: account, contact: contact)
