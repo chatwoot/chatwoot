@@ -3,6 +3,7 @@ import { flushPromises, shallowMount } from '@vue/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import AutomationRuleForm from './AutomationRuleForm.vue';
 import AutomationInstantTrigger from './components/AutomationInstantTrigger.vue';
+import AutomationMonitorSelect from './components/AutomationMonitorSelect.vue';
 import AutomationRunTypeSelector from './components/AutomationRunTypeSelector.vue';
 import AutomationWaitCondition from './components/AutomationWaitCondition.vue';
 import MonitorsAPI from 'dashboard/api/monitors';
@@ -75,8 +76,8 @@ const captainAutomationTypes = {
 };
 
 const triggerStub = {
-  props: ['monitorOptions', 'events', 'filterTypes'],
-  template: '<div />',
+  props: ['events', 'filterTypes'],
+  template: '<div><slot /></div>',
   methods: {
     resetValidation: vi.fn(),
     validate: vi.fn(() => true),
@@ -323,7 +324,7 @@ describe('AutomationRuleForm', () => {
       expect.any(AbortSignal)
     );
     expect(
-      wrapper.findComponent(AutomationInstantTrigger).props('monitorOptions')
+      wrapper.findComponent(AutomationMonitorSelect).props('options')
     ).toEqual([{ id: 7, name: 'Refunds' }]);
   });
 

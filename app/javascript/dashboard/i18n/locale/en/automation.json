@@ -34,10 +34,12 @@
           "ERROR": "Select a live monitor",
           "FETCH_FAILED": "Could not load monitors. Try again later.",
           "API_UNAVAILABLE": "This monitor is no longer available. Select a live monitor and try again.",
-          "EMPTY": "No live monitors are available. Create or resume a monitor first.",
+          "EMPTY": "No live monitors yet. Create or resume a monitor to use this event.",
+          "GO_TO_MONITORS": "Go to monitors",
+          "RETRY": "Retry",
           "UNAVAILABLE": "Unavailable monitor",
           "UNAVAILABLE_HELP": "This monitor is unavailable for automation. Select a live monitor to activate this rule.",
-          "HELP": "Runs once when this monitor first matches a conversation from new live activity. Historical scans do not trigger actions."
+          "HELP": "Runs once when the monitor first matches a conversation from new live activity. Historical scans do not trigger actions."
         },
         "RUN_TYPE": {
           "LABEL": "When should this rule run?",
@@ -94,8 +96,7 @@
       "TABLE_HEADER": {
         "NAME": "Name",
         "ACTIVE": "Active",
-        "CREATED_ON": "Created on",
-        "ACTIONS": "Actions"
+        "CREATED_ON": "Created on"
       },
       "404": "No automation rules found",
       "404_DELAYED": "No rules run after a wait yet",
@@ -104,7 +105,6 @@
         "DELAYED": "Runs after a wait"
       },
       "DELAY_BADGE": "Runs after {delay}",
-      "MONITOR_BADGE": "Monitor: {name}",
       "MONITOR_PAUSED": "Monitor paused",
       "MONITOR_DELETED": "Monitor deleted",
       "MONITOR_UNAVAILABLE": "Monitor feature unavailable",

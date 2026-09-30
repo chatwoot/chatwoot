@@ -32,27 +32,10 @@ const props = defineProps({
     type: Function,
     required: true,
   },
-  monitorOptions: {
-    type: Array,
-    default: () => [],
-  },
-  selectedMonitorName: {
-    type: String,
-    default: '',
-  },
-  monitorsLoading: {
-    type: Boolean,
-    default: false,
-  },
-  monitorsError: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const eventName = defineModel('eventName', { type: String, required: true });
 const conditions = defineModel('conditions', { type: Array, required: true });
-const monitorId = defineModel('monitorId', { type: Number, default: null });
 
 const conditionsRef = useTemplateRef('conditionsRef');
 
@@ -100,65 +83,7 @@ defineExpose({ validate, resetValidation });
         {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
       </p>
     </div>
-    <div v-if="eventName === 'monitor_matched'">
-      <label :class="{ error: errors.monitor_id }">
-        {{ $t('AUTOMATION.ADD.FORM.MONITOR.LABEL') }}
-        <select
-          v-model.number="monitorId"
-          class="m-0"
-          :disabled="monitorsLoading"
-        >
-          <option :value="null">
-            {{ $t('AUTOMATION.ADD.FORM.MONITOR.PLACEHOLDER') }}
-          </option>
-          <option
-            v-if="
-              monitorId && !monitorOptions.some(item => item.id === monitorId)
-            "
-            :value="monitorId"
-            disabled
-          >
-            {{
-              selectedMonitorName ||
-              $t('AUTOMATION.ADD.FORM.MONITOR.UNAVAILABLE')
-            }}
-          </option>
-          <option
-            v-for="monitor in monitorOptions"
-            :key="monitor.id"
-            :value="monitor.id"
-          >
-            {{ monitor.name }}
-          </option>
-        </select>
-        <span v-if="errors.monitor_id" class="message">
-          {{ $t('AUTOMATION.ADD.FORM.MONITOR.ERROR') }}
-        </span>
-      </label>
-      <p v-if="monitorsError" role="alert" class="mt-1 text-xs text-n-ruby-11">
-        {{ $t('AUTOMATION.ADD.FORM.MONITOR.FETCH_FAILED') }}
-      </p>
-      <p
-        v-else-if="!monitorsLoading && !monitorOptions.length"
-        class="mt-1 text-xs text-n-slate-11"
-      >
-        {{ $t('AUTOMATION.ADD.FORM.MONITOR.EMPTY') }}
-      </p>
-      <p
-        v-if="
-          monitorId &&
-          !monitorsLoading &&
-          !monitorsError &&
-          !monitorOptions.some(item => item.id === monitorId)
-        "
-        class="mt-1 text-xs text-n-amber-11"
-      >
-        {{ $t('AUTOMATION.ADD.FORM.MONITOR.UNAVAILABLE_HELP') }}
-      </p>
-      <p class="mt-1 text-xs text-n-slate-11">
-        {{ $t('AUTOMATION.ADD.FORM.MONITOR.HELP') }}
-      </p>
-    </div>
+    <slot />
     <section>
       <label>
         {{ $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL') }}

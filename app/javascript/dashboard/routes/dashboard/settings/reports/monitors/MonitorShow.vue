@@ -12,6 +12,8 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import BarChart from 'shared/components/charts/BarChart.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import HoverActions from 'dashboard/components-next/hover-actions/HoverActions.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
 import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ReportHeader from '../components/ReportHeader.vue';
@@ -59,6 +61,9 @@ const canManageAutomations = computed(
     isCloudFeatureEnabled(FEATURE_FLAGS.CONVERSATION_MONITORS) &&
     isCloudFeatureEnabled(FEATURE_FLAGS.AUTOMATIONS)
 );
+const linkedRuleActions = [
+  { key: 'edit', icon: 'i-woot-edit-pen', label: t('MONITORS.EDIT') },
+];
 
 const fetchLinkedRules = async () => {
   if (!canManageAutomations.value) return;
@@ -488,21 +493,33 @@ const duplicate = () =>
         <li
           v-for="rule in linkedRules"
           :key="rule.id"
-          class="flex items-center justify-between gap-3 py-3"
+          class="group flex items-center justify-between gap-3 py-3"
         >
           <button
             type="button"
-            class="text-n-brand hover:underline"
+            class="min-w-0 truncate rounded-md p-0 text-start text-body-main text-n-slate-12 hover:text-n-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand"
             @click="editAutomation(rule)"
           >
             {{ rule.name }}
           </button>
-          <span v-if="rule.active" class="text-xs text-n-slate-11">
-            {{ t('MONITORS.AUTOMATIONS.ACTIVE') }}
-          </span>
-          <span v-else class="text-xs text-n-slate-11">
-            {{ t('MONITORS.AUTOMATIONS.DISABLED') }}
-          </span>
+          <HoverActions
+            :actions="linkedRuleActions"
+            @action="editAutomation(rule)"
+          >
+            <Label
+              compact
+              :color="rule.active ? 'teal' : 'slate'"
+              :label="
+                rule.active
+                  ? t('MONITORS.AUTOMATIONS.ACTIVE')
+                  : t('MONITORS.AUTOMATIONS.DISABLED')
+              "
+            >
+              <template v-if="rule.active" #icon>
+                <span class="size-1.5 rounded-full bg-n-teal-9" />
+              </template>
+            </Label>
+          </HoverActions>
         </li>
       </ul>
     </section>

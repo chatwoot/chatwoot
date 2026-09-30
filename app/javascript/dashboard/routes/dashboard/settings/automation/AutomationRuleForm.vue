@@ -27,6 +27,7 @@ import {
 import AutomationRunTypeSelector from './components/AutomationRunTypeSelector.vue';
 import AutomationWaitCondition from './components/AutomationWaitCondition.vue';
 import AutomationInstantTrigger from './components/AutomationInstantTrigger.vue';
+import AutomationMonitorSelect from './components/AutomationMonitorSelect.vue';
 import AutomationActions from './components/AutomationActions.vue';
 
 const props = defineProps({
@@ -498,19 +499,25 @@ defineExpose({ open, close });
         ref="instantTriggerRef"
         v-model:event-name="automation.event_name"
         v-model:conditions="automation.conditions"
-        v-model:monitor-id="automation.monitor_id"
         :events="automationRuleEvents"
         :filter-types="filterTypes"
         :errors="errors"
-        :monitor-options="monitorOptions"
-        :selected-monitor-name="automation.monitor_name"
-        :monitors-loading="monitorsLoading"
-        :monitors-error="monitorsError"
         :show-reset-message="!isEditMode && hasAutomationMutated"
         :append-new-condition="appendNewCondition"
         :remove-filter="removeFilter"
         :on-event-change="onInstantEventChange"
-      />
+      >
+        <AutomationMonitorSelect
+          v-if="automation.event_name === 'monitor_matched'"
+          v-model="automation.monitor_id"
+          :options="monitorOptions"
+          :selected-name="automation.monitor_name"
+          :loading="monitorsLoading"
+          :error="monitorsError"
+          :invalid="Boolean(errors.monitor_id)"
+          @retry="fetchMonitors"
+        />
+      </AutomationInstantTrigger>
       <AutomationActions
         v-model="automation.actions"
         :action-types="automationActionTypes"

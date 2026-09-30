@@ -259,8 +259,6 @@ export const generateAutomationPayload = payload => {
   if (automation.conditions.length) {
     automation.conditions[automation.conditions.length - 1].query_operator =
       null;
-  }
-  if (automation.conditions.length) {
     automation.conditions = filterQueryGenerator(automation.conditions, {
       useLocalTimezone: false,
     }).payload;

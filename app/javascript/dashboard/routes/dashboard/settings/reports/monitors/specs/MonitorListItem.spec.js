@@ -28,7 +28,11 @@ const monitor = {
   paused_at: null,
 };
 const global = {
-  stubs: { Button: false, RouterLink: { template: '<a><slot /></a>' } },
+  stubs: {
+    Button: false,
+    HoverActions: false,
+    RouterLink: { template: '<a><slot /></a>' },
+  },
 };
 
 describe('MonitorListItem', () => {

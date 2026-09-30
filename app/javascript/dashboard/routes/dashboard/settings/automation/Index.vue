@@ -333,7 +333,6 @@ const tableHeaders = computed(() => {
     t('AUTOMATION.LIST.TABLE_HEADER.NAME'),
     t('AUTOMATION.LIST.TABLE_HEADER.ACTIVE'),
     t('AUTOMATION.LIST.TABLE_HEADER.CREATED_ON'),
-    t('AUTOMATION.LIST.TABLE_HEADER.ACTIONS'),
   ];
 });
 </script>
@@ -387,6 +386,9 @@ const tableHeaders = computed(() => {
         :items="visibleRecords"
         :no-data-message="noDataMessage"
       >
+        <template #header-2="{ header }">
+          <span class="hidden text-end md:block">{{ header }}</span>
+        </template>
         <template #row="{ items }">
           <AutomationRuleRow
             v-for="automation in items"
