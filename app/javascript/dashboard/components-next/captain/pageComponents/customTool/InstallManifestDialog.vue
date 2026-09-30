@@ -143,6 +143,8 @@ const open = toolsetSource => {
   session += 1;
   abortPreview();
   reset();
+  // A request from before a reopen must not keep the new dialog locked
+  isInstalling.value = false;
   source.value = toolsetSource;
   dialogRef.value.open();
   loadPreview();
@@ -172,7 +174,7 @@ const install = async () => {
         t('CAPTAIN.CUSTOM_TOOLS.INSTALL_MANIFEST.ERROR_MESSAGE')
     );
   } finally {
-    isInstalling.value = false;
+    if (installSession === session) isInstalling.value = false;
   }
 };
 
