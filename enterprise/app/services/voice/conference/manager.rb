@@ -1,5 +1,5 @@
 class Voice::Conference::Manager
-  pattr_initialize [:call!, :event!, :participant_label]
+  pattr_initialize [:call!, :event!, :participant_label, :participant_call_sid]
 
   AGENT_LABEL_PATTERN = /\Aagent-(\d+)-account-(\d+)\z/
 
@@ -88,13 +88,42 @@ class Voice::Conference::Manager
     match[1].to_i
   end
 
+  # An agent leg leaving a live call ends it only when no other agent remains; the contact
+  # is hung up first and the call completes after. A phone can drop its leg without ever
+  # sending DELETE conference: the app was killed, the network went, or the OS ended the call.
   def handle_leave!
     case call.status
     when 'ringing'
       status_manager.process_status_update('no_answer', timestamp: now)
     when 'in_progress'
+      return if agent_participant? && other_agents_remain?
+
+      hang_up_contact! if agent_participant?
       status_manager.process_status_update('completed', timestamp: now)
     end
+  end
+
+  # When Twilio cannot say who is left, the call stays live and a job repeats the check:
+  # the contact does not leave a conference on their own, so an unknown answer cannot be
+  # allowed to stand
+  def other_agents_remain?
+    conference_service.agents_remain?(leaving_call_sid: participant_call_sid)
+  rescue StandardError => e
+    Rails.logger.error("[VOICE] call #{call.id}: could not list conference participants: #{e.class}: #{e.message}")
+    Voice::EndConferenceJob.perform_later(call.id, leaving_call_sid: participant_call_sid)
+    true
+  end
+
+  # The conference must end even if Twilio is briefly unreachable, so a failed attempt is retried by a job
+  def hang_up_contact!
+    conference_service.end_conference
+  rescue StandardError => e
+    Rails.logger.error("[VOICE] call #{call.id}: could not end conference after agent leave: #{e.class}: #{e.message}")
+    Voice::EndConferenceJob.perform_later(call.id)
+  end
+
+  def conference_service
+    @conference_service ||= Voice::Provider::Twilio::ConferenceService.new(call: call)
   end
 
   def finalize!
