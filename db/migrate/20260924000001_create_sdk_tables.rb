@@ -1,5 +1,6 @@
 class CreateSdkTables < ActiveRecord::Migration[7.1]
   def change
+    create_mobile_channels
     create_sdk_apps
     create_ios_configurations
     create_android_configurations
@@ -9,10 +10,26 @@ class CreateSdkTables < ActiveRecord::Migration[7.1]
 
   private
 
+  def create_mobile_channels
+    create_table :channel_mobile_apps do |t|
+      t.references :account, null: false
+      t.string :widget_color, null: false, default: '#1f93ff'
+      t.string :welcome_title
+      t.string :welcome_tagline
+      t.integer :reply_time, default: 0
+      t.integer :feature_flags, default: 39, null: false
+      t.string :hmac_token, index: { unique: true }
+      t.boolean :hmac_mandatory, default: false, null: false
+      t.boolean :pre_chat_form_enabled, default: false, null: false
+      t.jsonb :pre_chat_form_options, default: {}
+      t.timestamps
+    end
+  end
+
   def create_sdk_apps
     create_table :sdk_apps do |t|
       t.references :account, null: false
-      t.references :inbox, null: false
+      t.references :inbox, null: false, index: { unique: true }
       t.string :app_id, null: false, index: { unique: true }
       t.string :name, null: false
       t.timestamps

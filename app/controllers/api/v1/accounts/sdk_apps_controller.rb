@@ -1,19 +1,10 @@
 class Api::V1::Accounts::SdkAppsController < Api::V1::Accounts::BaseController
   before_action :check_admin_authorization?
-  before_action :set_sdk_app, only: [:show, :update, :destroy]
-  before_action :validate_attributes, only: [:create, :update]
-
-  def index
-    render json: Current.account.sdk_apps.includes(:ios_configuration, :android_configuration).order(:name).map { |app| payload(app) }
-  end
+  before_action :set_sdk_app, only: [:show, :update]
+  before_action :validate_attributes, only: [:update]
 
   def show
     render json: payload(@sdk_app)
-  end
-
-  def create
-    @sdk_app = Current.account.sdk_apps.create!(@attributes)
-    render json: payload(@sdk_app), status: :created
   end
 
   def update
@@ -21,15 +12,13 @@ class Api::V1::Accounts::SdkAppsController < Api::V1::Accounts::BaseController
     render json: payload(@sdk_app)
   end
 
-  def destroy
-    @sdk_app.destroy!
-    head :no_content
-  end
-
   private
 
   def set_sdk_app
-    @sdk_app = Current.account.sdk_apps.find(params[:id])
+    inbox = Current.account.inboxes.find(params[:inbox_id])
+    raise ActiveRecord::RecordNotFound unless inbox.mobile_app?
+
+    @sdk_app = inbox.sdk_app
   end
 
   def validate_attributes
@@ -39,17 +28,7 @@ class Api::V1::Accounts::SdkAppsController < Api::V1::Accounts::BaseController
       return
     end
 
-    @attributes = attributes.permit(:name, :inbox_id).to_h
-    unless @attributes.except(:inbox_id).values.all?(String) && @attributes[:inbox_id].is_a?(Integer)
-      render_could_not_create_error('App fields must be strings and inbox ID must be an integer')
-      return
-    end
-
-    inbox = Current.account.inboxes.find(@attributes[:inbox_id])
-    unless inbox.web_widget?
-      render_could_not_create_error('Select a Website inbox')
-      return
-    end
+    @attributes = {}
     assign_push_attributes(attributes)
   end
 

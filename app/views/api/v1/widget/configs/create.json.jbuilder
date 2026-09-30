@@ -16,7 +16,7 @@ json.website_channel_config do
   json.timezone @web_widget.inbox.timezone
   json.utc_off_set ActiveSupport::TimeZone[@web_widget.inbox.timezone].now.formatted_offset
   json.website_name @web_widget.inbox.name
-  json.website_token @web_widget.website_token
+  json.website_token @web_widget.website_token unless @sdk_app
   json.welcome_tagline @web_widget.welcome_tagline
   json.welcome_title @web_widget.welcome_title
   json.widget_color @web_widget.widget_color

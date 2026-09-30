@@ -21,7 +21,7 @@ class ContactInboxBuilder
       email_source_id
     when 'Channel::Sms'
       phone_source_id
-    when 'Channel::Api', 'Channel::WebWidget'
+    when 'Channel::Api', 'Channel::WebWidget', 'Channel::MobileApp'
       SecureRandom.uuid
     else
       raise "Unsupported operation for this channel: #{@inbox.channel_type}"

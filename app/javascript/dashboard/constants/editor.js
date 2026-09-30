@@ -1,3 +1,21 @@
+const CUSTOMER_CHAT_FORMATTING = {
+  marks: ['strong', 'em', 'code', 'link', 'strike'],
+  nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote', 'image'],
+  menu: [
+    'copilot',
+    'strong',
+    'em',
+    'code',
+    'link',
+    'strike',
+    'bulletList',
+    'orderedList',
+    'imageUpload',
+    'undo',
+    'redo',
+  ],
+};
+
 // Formatting rules for different contexts (channels and special contexts)
 // marks: inline formatting (strong, em, code, link, strike)
 // nodes: block structures (bulletList, orderedList, codeBlock, blockquote)
@@ -27,23 +45,8 @@ export const FORMATTING = {
       'redo',
     ],
   },
-  'Channel::WebWidget': {
-    marks: ['strong', 'em', 'code', 'link', 'strike'],
-    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote', 'image'],
-    menu: [
-      'copilot',
-      'strong',
-      'em',
-      'code',
-      'link',
-      'strike',
-      'bulletList',
-      'orderedList',
-      'imageUpload',
-      'undo',
-      'redo',
-    ],
-  },
+  'Channel::WebWidget': CUSTOMER_CHAT_FORMATTING,
+  'Channel::MobileApp': CUSTOMER_CHAT_FORMATTING,
   'Channel::Api': {
     marks: ['strong', 'em'],
     nodes: [],

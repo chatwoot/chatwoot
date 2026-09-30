@@ -24,7 +24,7 @@ class MessageContentPresenter < SimpleDelegator
   end
 
   def should_append_survey_link?
-    input_csat? && !inbox.web_widget?
+    input_csat? && !inbox.customer_chat?
   end
 
   def survey_url(conversation_uuid)

@@ -38,7 +38,10 @@ export const useFileUpload = ({ inbox, attachFile, isPrivateNote = false }) => {
 
     const channelType = inbox?.channel_type;
 
-    if (!channelType || channelType === INBOX_TYPES.WEB) {
+    if (
+      !channelType ||
+      [INBOX_TYPES.WEB, INBOX_TYPES.MOBILE].includes(channelType)
+    ) {
       return installationLimit;
     }
 

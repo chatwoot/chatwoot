@@ -66,7 +66,8 @@ Rails.application.routes.draw do
               end
             end
           end
-          resources :sdk_apps, only: [:index, :show, :create, :update, :destroy]
+          get 'inboxes/:inbox_id/sdk', to: 'sdk_apps#show'
+          patch 'inboxes/:inbox_id/sdk', to: 'sdk_apps#update'
           namespace :actions do
             resource :contact_merge, only: [:create]
           end

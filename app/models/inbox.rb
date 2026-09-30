@@ -71,7 +71,7 @@ class Inbox < ApplicationRecord
   has_many :messages, dependent: :destroy_async
   has_many :email_templates, dependent: :destroy_async
 
-  has_many :sdk_apps, dependent: :destroy
+  include MobileAppInbox
   has_one :inbox_assignment_policy, dependent: :destroy
   has_one :assignment_policy, through: :inbox_assignment_policy
   has_one :agent_bot_inbox, dependent: :destroy_async
@@ -142,6 +142,10 @@ class Inbox < ApplicationRecord
 
   def web_widget?
     channel_type == 'Channel::WebWidget'
+  end
+
+  def customer_chat?
+    web_widget? || mobile_app?
   end
 
   def api?
@@ -275,7 +279,7 @@ class Inbox < ApplicationRecord
   end
 
   def check_channel_type?
-    ['Channel::Email', 'Channel::Api', 'Channel::WebWidget'].include?(channel_type)
+    ['Channel::Email', 'Channel::Api', 'Channel::WebWidget', 'Channel::MobileApp'].include?(channel_type)
   end
 end
 

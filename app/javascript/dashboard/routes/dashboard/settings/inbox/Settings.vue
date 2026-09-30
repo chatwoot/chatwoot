@@ -23,6 +23,7 @@ import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
+import MobileAppSetup from './settingsPage/MobileAppSetup.vue';
 import VoiceConfigurationPage from './settingsPage/VoiceConfigurationPage.vue';
 import WhatsappCallingPage from './settingsPage/WhatsappCallingPage.vue';
 import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vue';
@@ -58,6 +59,7 @@ export default {
     BotConfiguration,
     CollaboratorsPage,
     ConfigurationPage,
+    MobileAppSetup,
     VoiceConfigurationPage,
     WhatsappCallingPage,
     CustomerSatisfactionPage,
@@ -208,7 +210,7 @@ export default {
         },
       ];
 
-      if (this.isAWebWidgetInbox) {
+      if (this.isCustomerChatInbox) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
           {
@@ -216,6 +218,16 @@ export default {
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
           },
         ];
+      }
+
+      if (this.isAMobileAppInbox) {
+        visibleToAllChannelTabs.push(
+          { key: 'sdk-setup', name: this.$t('INBOX_MGMT.SDK_APPS.TABS.SETUP') },
+          {
+            key: 'push-notifications',
+            name: this.$t('INBOX_MGMT.SDK_APPS.TABS.PUSH'),
+          }
+        );
       }
 
       if (
@@ -1071,6 +1083,45 @@ export default {
             </SettingsFieldSection>
 
             <SettingsAccordion
+              v-if="isAMobileAppInbox"
+              :title="$t('INBOX_MGMT.MOBILE_APP.APPEARANCE')"
+              class="mt-6"
+            >
+              <SettingsFieldSection
+                :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL')"
+              >
+                <ColorPicker v-model="inbox.widget_color" />
+              </SettingsFieldSection>
+              <SettingsFieldSection
+                :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE')"
+              >
+                <SelectInput
+                  v-model="replyTime"
+                  :options="[
+                    {
+                      value: 'in_a_few_minutes',
+                      label: $t(
+                        'INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.IN_A_FEW_MINUTES'
+                      ),
+                    },
+                    {
+                      value: 'in_a_few_hours',
+                      label: $t(
+                        'INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.IN_A_FEW_HOURS'
+                      ),
+                    },
+                    {
+                      value: 'in_a_day',
+                      label: $t(
+                        'INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.IN_A_DAY'
+                      ),
+                    },
+                  ]"
+                />
+              </SettingsFieldSection>
+            </SettingsAccordion>
+
+            <SettingsAccordion
               v-if="isAWebWidgetInbox"
               :title="$t('INBOX_MGMT.WIDGET_FEATURES')"
               class="mt-6"
@@ -1334,7 +1385,7 @@ export default {
               </SettingsToggleSection>
 
               <SettingsToggleSection
-                v-if="isAWebWidgetInbox"
+                v-if="isCustomerChatInbox"
                 v-model="emailCollectEnabled"
                 :header="
                   $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX')
@@ -1347,7 +1398,7 @@ export default {
               />
 
               <SettingsToggleSection
-                v-if="isAWebWidgetInbox"
+                v-if="isCustomerChatInbox"
                 v-model="allowMessagesAfterResolved"
                 :header="
                   $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED')
@@ -1417,6 +1468,16 @@ export default {
           </div>
         </div>
 
+        <MobileAppSetup
+          v-if="
+            isAMobileAppInbox &&
+            ['sdk-setup', 'push-notifications'].includes(selectedTabKey)
+          "
+          :key="inbox.id"
+          :inbox="inbox"
+          :section="selectedTabKey === 'sdk-setup' ? 'setup' : 'push'"
+          class="px-6 max-w-4xl"
+        />
         <div v-if="selectedTabKey === 'collaborators'" class="mx-6 max-w-4xl">
           <CollaboratorsPage :inbox="inbox" />
         </div>

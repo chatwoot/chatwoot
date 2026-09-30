@@ -2,7 +2,7 @@ class SdkPush::DispatchService
   pattr_initialize [:message!]
 
   def perform
-    return unless message.outgoing? && !message.private? && message.inbox.web_widget?
+    return unless message.outgoing? && !message.private? && message.inbox.mobile_app?
 
     devices = SdkPushDevice.where(contact_inbox_id: message.conversation.contact_inbox_id, contact_id: message.conversation.contact_id,
                                   invalidated_at: nil)
