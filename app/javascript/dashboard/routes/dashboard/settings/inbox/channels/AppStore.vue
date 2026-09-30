@@ -4,6 +4,7 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { useBranding } from 'shared/composables/useBranding';
 import { useAlert } from 'dashboard/composables';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader.vue';
@@ -13,6 +14,7 @@ import globalConstants from 'dashboard/constants/globals';
 
 const store = useStore();
 const { t } = useI18n();
+const { replaceInstallationName } = useBranding();
 
 const channelName = ref('');
 const appId = ref('');
@@ -73,7 +75,9 @@ const createChannel = async () => {
   <div class="h-full w-full p-6 col-span-6">
     <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.APP_STORE.TITLE')"
-      :header-content="$t('INBOX_MGMT.ADD.APP_STORE.DESC')"
+      :header-content="
+        replaceInstallationName($t('INBOX_MGMT.ADD.APP_STORE.DESC'))
+      "
     />
     <a
       :href="appStoreReviewsInboxDocsUrl"
