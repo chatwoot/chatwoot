@@ -194,12 +194,16 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     render json: { status: status, conversation_id: @conversation.display_id }, status: :unprocessable_entity
   end
 
-  # Contact-level calls skip resolved threads, but Meta's window follows the recipient, so check those threads too.
+  # Meta's window follows the recipient, not the thread, so check every thread for that recipient, resolved ones included.
   def permission_window_open?
-    return @conversation.can_reply? if @conversation
+    recipient_conversations = if params[:conversation_id].present?
+                                @conversation.contact_inbox.conversations
+                              else
+                                conversation_builder.contact_conversations
+                              end
 
     @inbox.messages.incoming
-          .where(conversation_id: conversation_builder.contact_conversations.select(:id))
+          .where(conversation_id: recipient_conversations.select(:id))
           .exists?(created_at: Conversations::MessageWindowService::MESSAGING_WINDOW_24_HOURS.ago..)
   end
 
