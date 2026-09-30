@@ -98,7 +98,7 @@ RSpec.describe MailPresenter do
       expect(decorated_mail.from.first.eql?(mail.from.first.downcase)).to be true
     end
 
-    describe '#from with malformed address lists' do
+    describe '#from' do
       let(:mail_with_sender) { Mail.new { from 'Sender <SENDER@EXAMPLE.COM>' } }
 
       it 'drops blank reply-to entries and keeps valid reply-to addresses' do
