@@ -192,7 +192,7 @@ Rails.application.routes.draw do
                   post :retry
                 end
               end
-              resource :contact_info_request, only: [:create]
+              resource :contact_info_request, only: [:show, :create]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
@@ -768,6 +768,8 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         delete :avatar, on: :member, action: :destroy_avatar
         post :resend_confirmation, on: :member
+        post :impersonate, on: :member
+        post :impersonation_link, on: :member
         post :check_email_suppression, on: :member
         post :clear_email_suppression, on: :member
         post :send_test_email, on: :member
