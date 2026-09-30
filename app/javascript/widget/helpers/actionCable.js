@@ -120,6 +120,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onMessageUpdated = data => {
+    if (data.content_attributes?.deleted) this.refreshConversationList();
     if (isMessageInActiveConversation(this.app.$store.getters, data)) {
       return;
     }

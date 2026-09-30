@@ -11,7 +11,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
   def list
     @unread_conversation_count = unread_messages_for(conversations.select(:id)).distinct.count(:conversation_id)
-    @conversations = conversations.includes(:assignee).order(last_activity_at: :desc).page(permitted_params[:page]).per(RESULTS_PER_PAGE)
+    @conversations = conversations.includes(:assignee).order(last_activity_at: :desc, id: :desc).page(permitted_params[:page]).per(RESULTS_PER_PAGE)
     @unread_counts = unread_messages_for(@conversations.map(&:id)).group(:conversation_id).count
     @last_messages = last_messages_for(@conversations)
   end

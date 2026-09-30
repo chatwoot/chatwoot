@@ -1,4 +1,5 @@
 import { getConversationsAPI } from '../../api/conversation';
+import { MESSAGE_TYPE } from '../../helpers/constants';
 
 const state = {
   records: [],
@@ -138,6 +139,10 @@ export const mutations = {
     if (!record || record.last_message?.id > message.id) return;
     record.last_message = message;
     record.last_activity_at = message.created_at;
+    if (message.message_type === MESSAGE_TYPE.OUTGOING) {
+      if (!record.unread_count) $state.unreadCount += 1;
+      record.unread_count += 1;
+    }
     $state.records = [
       record,
       ...$state.records.filter(item => item !== record),

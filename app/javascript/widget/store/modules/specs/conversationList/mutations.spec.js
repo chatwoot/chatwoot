@@ -53,6 +53,20 @@ describe('#mutations', () => {
       expect(state.records[0].last_activity_at).toBe(9);
     });
 
+    it('counts an agent reply as unread for its conversation', () => {
+      const state = {
+        records: [{ id: 2, last_message: { id: 20 }, unread_count: 0 }],
+        unreadCount: 0,
+      };
+      mutations.setLastMessage(state, {
+        id: 40,
+        conversation_id: 2,
+        message_type: 1,
+      });
+      expect(state.records[0].unread_count).toBe(1);
+      expect(state.unreadCount).toBe(1);
+    });
+
     it('keeps a newer preview and ignores unknown conversations', () => {
       const state = { records: [{ id: 2, last_message: { id: 40 } }] };
       mutations.setLastMessage(state, { id: 30, conversation_id: 2 });
