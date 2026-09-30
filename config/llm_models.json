@@ -61715,6 +61715,248 @@
     }
   },
   {
+    "id": "gpt-6-astra",
+    "name": "GPT-6 Astra",
+    "provider": "openai",
+    "family": "gpt-astra",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-04-30",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "tool_choice",
+      "parallel_tool_calls"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 10,
+          "output_per_million": 50,
+          "cache_read_input_per_million": 1,
+          "cache_write_input_per_million": 12.5
+        },
+        "long_context": {
+          "input_per_million": 20,
+          "output_per_million": 75.0,
+          "cache_read_input_per_million": 2,
+          "cache_write_input_per_million": 25.0
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "source": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+      "temperature": false,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "default": "medium"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gpt-6-sol",
+    "name": "GPT-6 Sol",
+    "provider": "openai",
+    "family": "gpt-sol",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-04-20",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "tool_choice",
+      "parallel_tool_calls"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 2.5
+        },
+        "long_context": {
+          "input_per_million": 4,
+          "output_per_million": 15.0,
+          "cache_read_input_per_million": 0.4,
+          "cache_write_input_per_million": 5.0
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "source": "https://developers.openai.com/api/docs/models/gpt-6-sol",
+      "temperature": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "default": "medium"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gpt-6-luna",
+    "name": "GPT-6 Luna",
+    "provider": "openai",
+    "family": "gpt-luna",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-05-18",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "tool_choice",
+      "parallel_tool_calls"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "cache_read_input_per_million": 0.01,
+          "cache_write_input_per_million": 0.125
+        },
+        "long_context": {
+          "input_per_million": 0.2,
+          "output_per_million": 0.75,
+          "cache_read_input_per_million": 0.02,
+          "cache_write_input_per_million": 0.25
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "source": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+      "temperature": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "default": "medium"
+        }
+      ]
+    }
+  },
+  {
+    "id": "gpt-6.1-sol",
+    "name": "GPT-6.1 Sol",
+    "provider": "openai",
+    "family": "gpt-sol",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-04-30",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "tool_choice",
+      "parallel_tool_calls"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 2.5
+        },
+        "long_context": {
+          "input_per_million": 4,
+          "output_per_million": 15.0,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 5.0
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "source": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+      "temperature": false,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "default": "medium"
+        }
+      ]
+    }
+  },
+  {
     "id": "gpt-5.6-sol",
     "name": "GPT-5.6 Sol",
     "provider": "openai",
