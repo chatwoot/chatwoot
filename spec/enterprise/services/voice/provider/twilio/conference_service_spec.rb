@@ -55,6 +55,18 @@ describe Voice::Provider::Twilio::ConferenceService do
     end
   end
 
+  describe '#hang_up_caller' do
+    it 'completes the caller leg by its call sid' do
+      call.update!(provider_call_id: 'CA123')
+      call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext, update: nil)
+      allow(twilio_client).to receive(:calls).with('CA123').and_return(call_context)
+
+      service.hang_up_caller
+
+      expect(call_context).to have_received(:update).with(status: 'completed')
+    end
+  end
+
   describe '#end_conference' do
     it 'completes in-progress conferences matching the call conference_sid' do
       call.update!(conference_sid: 'CF123_FRIENDLY')

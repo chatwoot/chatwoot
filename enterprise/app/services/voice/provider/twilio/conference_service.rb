@@ -13,6 +13,12 @@ class Voice::Provider::Twilio::ConferenceService
     assign_conversation!(user)
   end
 
+  # The caller's own leg, ended directly: while no agent has joined, the conference has
+  # not started and does not show up as in progress
+  def hang_up_caller
+    call.inbox.channel.client.calls(call.provider_call_id).update(status: 'completed')
+  end
+
   def end_conference
     return if call.conference_sid.blank?
 

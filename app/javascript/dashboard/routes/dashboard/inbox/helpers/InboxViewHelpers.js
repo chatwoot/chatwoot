@@ -13,4 +13,5 @@ export const NOTIFICATION_TYPES_MAPPING = {
   SLA_MISSED_FIRST_RESPONSE: ['i-lucide-heart-crack', 'text-n-ruby-11'],
   SLA_MISSED_NEXT_RESPONSE: ['i-lucide-heart-crack', 'text-n-ruby-11'],
   SLA_MISSED_RESOLUTION: ['i-lucide-heart-crack', 'text-n-ruby-11'],
+  VOICE_CALL_MISSED: ['i-lucide-phone-missed', 'text-n-ruby-11'],
 };

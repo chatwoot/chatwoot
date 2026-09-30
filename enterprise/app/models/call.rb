@@ -23,10 +23,12 @@
 #
 # Indexes
 #
-#  index_calls_on_account_id_and_contact_id       (account_id,contact_id)
-#  index_calls_on_account_id_and_conversation_id  (account_id,conversation_id)
-#  index_calls_on_message_id                      (message_id)
-#  index_calls_on_provider_and_provider_call_id   (provider,provider_call_id) UNIQUE
+#  index_calls_on_account_id_and_contact_id        (account_id,contact_id)
+#  index_calls_on_account_id_and_conversation_id   (account_id,conversation_id)
+#  index_calls_on_account_id_and_created_at        (account_id,created_at)
+#  index_calls_on_message_id                       (message_id)
+#  index_calls_on_provider_and_provider_call_id    (provider,provider_call_id) UNIQUE
+#  index_calls_ringing_on_provider_and_created_at  (provider,created_at) WHERE ((status)::text = 'ringing'::text)
 #
 class Call < ApplicationRecord
   STATUSES = %w[ringing in_progress completed no_answer failed rejected].freeze
@@ -61,6 +63,7 @@ class Call < ApplicationRecord
 
   # Phones that were rung learn the ring is over; see Voice::VoipPushService
   after_update_commit :cancel_phone_ring, if: :ring_just_ended?
+  after_update_commit :notify_missed_call, if: :missed_just_now?
   validates :status, presence: true, inclusion: { in: STATUSES }
 
   scope :active, -> { where.not(status: TERMINAL_STATUSES) }
@@ -169,5 +172,13 @@ class Call < ApplicationRecord
 
   def cancel_phone_ring
     Voice::VoipPushJob.perform_later(id, 'cancel')
+  end
+
+  def missed_just_now?
+    saved_change_to_status? && status == 'no_answer' && incoming? && account.feature_enabled?('mobile_voice_push')
+  end
+
+  def notify_missed_call
+    Voice::MissedCallNotificationJob.perform_later(id)
   end
 end

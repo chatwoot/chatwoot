@@ -25,6 +25,13 @@ class Voice::VoipPushService
   # Android deliveries in flight at once per call
   ANDROID_BATCH_SIZE = 20
 
+  # The agents a call rings: the assignee if the conversation has one, otherwise everyone
+  # who could be assigned the inbox. Presence is not consulted: a locked phone is offline
+  # on the socket and is exactly the device this push exists for.
+  def self.recipients_for(call)
+    call.conversation.assignee.then { |assignee| assignee ? [assignee] : call.inbox.assignable_agents }
+  end
+
   def perform(action)
     case action
     when 'ring' then ring
@@ -56,8 +63,7 @@ class Voice::VoipPushService
   end
 
   def devices_to_ring
-    apple_environment if apple_configured?
-    [apple_configured? ? apple_tokens : [], firebase_configured? ? android_tokens : []]
+    [apple_configured? ? apple_environment && apple_tokens : [], firebase_configured? ? android_tokens : []]
   end
 
   def cancel
@@ -79,10 +85,9 @@ class Voice::VoipPushService
 
   # MARK: recipients and devices
 
-  # The assignee if the conversation has one, otherwise everyone assignable to the inbox,
-  # resolved once per ring so the devices rung and the agents recorded are one set
+  # Resolved once per ring so the devices rung and the agents recorded are one set
   def recipients
-    @recipients ||= call.conversation.assignee.then { |assignee| assignee ? [assignee] : call.inbox.assignable_agents.to_a }
+    @recipients ||= self.class.recipients_for(call).to_a
   end
 
   def apple_tokens
