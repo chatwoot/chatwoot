@@ -30,19 +30,19 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
-    context 'when reply-to contains nil' do
-      let(:inbound_mail) { create_inbound_email_from_mail(from: 'testemail@gmail.com', to: 'imap@gmail.com', subject: 'Hello!') }
+    context 'when reply-to contains an empty quoted address' do
+      let(:inbound_mail) { create_inbound_email_from_fixture('malformed_reply_to.eml') }
       let(:mail) { inbound_mail.mail }
 
       it 'creates a conversation and message using the valid from address' do
-        allow(mail).to receive(:reply_to).and_return([nil])
+        expect(mail.reply_to).to eq([nil])
 
         expect do
           class_instance.process(mail, channel)
         end.to change(Conversation, :count).by(1).and change(Message, :count).by(1)
 
-        expect(conversation.contact.email).to eq('testemail@gmail.com')
-        expect(conversation.messages.last.content_attributes.dig('email', 'from')).to eq(['testemail@gmail.com'])
+        expect(conversation.contact.email).to eq('sender@example.com')
+        expect(conversation.messages.last.content_attributes.dig('email', 'from')).to eq(['sender@example.com'])
       end
     end
 
