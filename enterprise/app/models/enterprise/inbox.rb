@@ -16,6 +16,10 @@ module Enterprise::Inbox
     captain_assistant.present? && more_responses?
   end
 
+  def conflicting_bot_provider(provider)
+    super || ('Captain' if provider != :captain && CaptainInbox.exists?(inbox_id: id))
+  end
+
   private
 
   def more_responses?

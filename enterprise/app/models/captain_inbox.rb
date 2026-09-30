@@ -19,4 +19,12 @@ class CaptainInbox < ApplicationRecord
   belongs_to :inbox
 
   validates :inbox_id, uniqueness: true
+  validate :ensure_exclusive_bot_provider, if: -> { new_record? || will_save_change_to_inbox_id? }
+
+  private
+
+  def ensure_exclusive_bot_provider
+    provider = inbox&.conflicting_bot_provider(:captain)
+    errors.add(:base, "Disconnect #{provider} before connecting Captain") if provider
+  end
 end
