@@ -80,6 +80,15 @@ describe ContactMergeAction do
       end
     end
 
+    context 'when mergee contact has a higher contact type' do
+      let(:mergee_contact) { create(:contact, account: account, email: 'new@new.com', contact_type: :customer) }
+
+      it 'keeps the higher contact type on base contact' do
+        contact_merge
+        expect(base_contact.reload).to be_customer
+      end
+    end
+
     context 'when contacts belong to a different account' do
       it 'throws an exception' do
         new_account = create(:account)
