@@ -118,9 +118,9 @@ RSpec.describe ConversationMonitors::Evaluator do
 
   { 'Refunds ' * 250 => 2, '退款' * 1000 => 4 }.each do |condition, calls|
     it "splits oversized batches into #{calls} calls without charging for local checks or losing conditions" do
-      monitor.update!(condition: condition)
-      second.update!(condition: condition)
-      monitors = [monitor, second] + create_list(:conversation_monitor, 18, account: account, condition: condition)
+      monitors = [monitor, second] + create_list(:conversation_monitor, 18, account: account)
+      # These conditions represent monitors saved before the 500-character limit.
+      ConversationMonitors::Monitor.where(id: monitors.map(&:id)).update_all(condition: condition) # rubocop:disable Rails/SkipsModelValidations
       create(:message, account: account, conversation: conversation, content: 'x' * 30_000)
       work.reload.update!(due_at: Time.current)
       batches = []
