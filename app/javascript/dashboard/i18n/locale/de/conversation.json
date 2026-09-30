@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "Bitte wählen Sie eine Konversation aus dem linken Bereich aus",
     "CSAT_REPLY_MESSAGE": "Bitte bewerten Sie diese Unterhaltung",
     "404": "Wir können die Konversation leider nicht finden. Bitte versuche es erneut",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "Diese Nachricht wird nicht unterstützt. Du kannst sie in der WhatsApp-App ansehen.",
     "WHATSAPP_FLOW_RESPONSE": "Flow-Antwort übermittelt",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
     "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuchen Sie es erneut",
     "NO_RESPONSE": "Keine Antwort",
@@ -86,7 +96,7 @@
       "SOURCES": "Wissensdatenbank",
       "SOURCES_SUMMARY": "{count} Ergebnis | {count} Ergebnisse",
       "MODEL": "Mit {model} erstellt",
-      "CREDITS": "Guthaben: {credits}"
+      "CREDITS": "Credits: {credits}"
     },
     "CARD": {
       "SHOW_LABELS": "Labels anzeigen",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "Agenten",
       "TEAMS": "Teams"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "Beschreibung",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Emojis durchsuchen",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "Alle"
+        },
+        "AVAILABILITY": "Verfügbarkeit",
+        "ROLE": "Agententyp",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "Aktiviert",
+        "DISABLED": "Deaktiviert",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Stummschalten bis",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} andere",
     "TOTAL_PARTICIPANTS_TEXT": "{count} Personen nehmen teil.",
     "TOTAL_PARTICIPANT_TEXT": "{count} Person nimmt teil.",
-    "NO_PARTICIPANTS_TEXT": "Niemand nimmt teil!.",
+    "NO_PARTICIPANTS_TEXT": "Niemand nimmt teil!",
     "WATCH_CONVERSATION": "Konversation beitreten",
     "YOU_ARE_WATCHING": "Sie nehmen teil",
     "API": {

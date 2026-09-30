@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "No disponible",
     "EMAIL_ADDRESS": "Adreça de correu electrònic",
     "PHONE_NUMBER": "Número de telèfon",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identificador",
     "COPY_SUCCESSFUL": "S'ha copiat al porta-retalls amb èxit",
     "COMPANY": "Companyia",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

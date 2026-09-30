@@ -143,7 +143,8 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "在此輸入您的訊息",
       "TEAM_DROPDOWN_PLACEHOLDER": "選擇團隊",
       "EMAIL_INPUT_PLACEHOLDER": "輸入電子郵件",
-      "URL_INPUT_PLACEHOLDER": "輸入 URL"
+      "URL_INPUT_PLACEHOLDER": "輸入 URL",
+      "INSERT_CONTACT_EMAIL": "Use contact's email"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "啟用自動化規則",
@@ -217,7 +218,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "訊息類型",
       "PRIVATE_NOTE": "私人筆記",
-      "MESSAGE_CONTAINS": "訊息包含",
+      "MESSAGE_CONTAINS": "Message Content",
       "EMAIL": "電子郵件",
       "INBOX": "收件匣",
       "CONVERSATION_LANGUAGE": "對話語言",

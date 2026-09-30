@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe DataExports::NotificationJob do
+  around do |example|
+    with_modified_env(FRONTEND_URL: 'https://app.example.com', SMTP_ADDRESS: 'smtp.example.com') { example.run }
+  end
+
+  before do
+    allow(AdministratorNotifications::AccountNotificationMailer).to receive(:delivery_method).and_return(:test)
+  end
+
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:record) { DataExports::CreationService.new(account: account, initiated_by: admin, options: {}).perform }

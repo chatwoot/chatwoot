@@ -433,6 +433,14 @@ RSpec.describe Conversation do
         .with(described_class::CONVERSATION_BOT_HANDOFF, anything, hash_including(conversation: conversation))
       conversation.bot_handoff!
     end
+
+    it 'does not hand off or dispatch when the conversation is no longer pending' do
+      conversation.open!
+
+      expect(Rails.configuration.dispatcher).not_to receive(:dispatch)
+      expect(conversation.bot_handoff!).to be(false)
+      expect(conversation.reload.status).to eq('open')
+    end
   end
 
   describe '#toggle_priority' do

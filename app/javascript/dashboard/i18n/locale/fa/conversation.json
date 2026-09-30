@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "لطفا یک گفتگو را از پنجره گفتگوها انتخاب کنید",
     "CSAT_REPLY_MESSAGE": "لطفاً به گفتگو امتیاز دهید",
     "404": "با عرض پوزش، ما نمی‌توانیم گفتگو را پیدا کنیم. لطفا دوباره تلاش کنید",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "پیام با موفقیت حذف شد",
     "FAIL_DELETE_MESSSAGE": "پیام حذف نشد! دوباره امتحان کنید",
     "NO_RESPONSE": "بدون پاسخ",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "ایجنت ها",
       "TEAMS": "تیم‌ها"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "توضیحات",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "جستجوی اموجی",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "همه"
+        },
+        "AVAILABILITY": "در دسترس",
+        "ROLE": "نقش",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "فعال شد",
+        "DISABLED": "غیرفعال شد",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "به تعویق انداختن تا",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} دیگر",
     "TOTAL_PARTICIPANTS_TEXT": "{count} نفر شرکت می کنند.",
     "TOTAL_PARTICIPANT_TEXT": "{count} نفر شرکت می کند.",
-    "NO_PARTICIPANTS_TEXT": "هیچ کس شرکت نمی کند!.",
+    "NO_PARTICIPANTS_TEXT": "هیچ کس شرکت نمی کند!",
     "WATCH_CONVERSATION": "به گفتگو بپیوندید",
     "YOU_ARE_WATCHING": "شما شرکت می کنید",
     "API": {

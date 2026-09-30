@@ -108,6 +108,13 @@ export const CAPTAIN_EVENTS = Object.freeze({
   // Label suggestions
   LABEL_SUGGESTION_APPLIED: 'Captain: Label suggestion applied',
   LABEL_SUGGESTION_DISMISSED: 'Captain: Label suggestion dismissed',
+
+  // Conversation sidebar suggestions
+  LABEL_SUGGESTIONS_REQUESTED: 'Captain: Label suggestions requested',
+  PRIORITY_SUGGESTION_REQUESTED: 'Captain: Priority suggestion requested',
+
+  // Automation conditions
+  AUTOMATION_CONDITION_SAVED: 'Captain: Automation condition saved',
 });
 
 export const COPILOT_EVENTS = Object.freeze({
@@ -154,6 +161,10 @@ export const YEAR_IN_REVIEW_EVENTS = Object.freeze({
 export const SESSION_EVENTS = Object.freeze({
   LIMIT_HIT: 'Session limit reached at login',
   REVOKED_FROM_PROFILE: 'Revoked an active session',
+});
+
+export const BILLING_EVENTS = Object.freeze({
+  OPEN_BILLING_FROM_PAST_DUE_BANNER: 'Opened billing from past due banner',
 });
 
 export const ONBOARDING_EVENTS = Object.freeze({

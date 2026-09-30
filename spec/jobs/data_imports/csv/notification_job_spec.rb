@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe DataImports::Csv::NotificationJob do
+  around do |example|
+    with_modified_env(FRONTEND_URL: 'https://app.example.com', SMTP_ADDRESS: 'smtp.example.com') { example.run }
+  end
+
+  before do
+    allow(AdministratorNotifications::AccountNotificationMailer).to receive(:delivery_method).and_return(:test)
+  end
+
   it 'sends the CSV completion notification once and links to the import page' do
     account = create(:account)
     create(:user, account: account, role: :administrator)
