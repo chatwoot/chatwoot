@@ -53,6 +53,17 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
         expect(mock_chat).to receive(:with_temperature).with(0.1).and_return(mock_chat)
         service.analyze
       end
+
+      context 'when GPT-5 Mini is configured' do
+        before do
+          InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5-mini')
+        end
+
+        it 'omits temperature' do
+          expect(mock_chat).not_to receive(:with_temperature)
+          service.analyze
+        end
+      end
     end
 
     context 'when website content fetch raises an error' do

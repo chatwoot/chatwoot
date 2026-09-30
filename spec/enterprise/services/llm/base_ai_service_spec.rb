@@ -70,12 +70,21 @@ RSpec.describe Llm::BaseAiService do
   end
 
   describe '#chat' do
-    it 'omits temperature for GPT-5 Mini, which rejects the parameter' do
+    it 'omits temperature when the model registry marks it unsupported' do
       llm_chat = instance_double(RubyLLM::Chat)
-      allow(RubyLLM).to receive(:chat).with(model: 'gpt-5-mini').and_return(llm_chat)
+      allow(RubyLLM).to receive(:chat).with(model: 'gpt-5.2').and_return(llm_chat)
 
       expect(llm_chat).not_to receive(:with_temperature)
-      expect(service.chat(model: 'gpt-5-mini')).to eq(llm_chat)
+      expect(service.chat(model: 'gpt-5.2')).to eq(llm_chat)
+    end
+
+    it 'sets temperature when the model registry marks it supported' do
+      llm_chat = instance_double(RubyLLM::Chat)
+      configured_chat = instance_double(RubyLLM::Chat)
+      allow(RubyLLM).to receive(:chat).with(model: 'gpt-4.1-mini').and_return(llm_chat)
+      allow(llm_chat).to receive(:with_temperature).with(0.7).and_return(configured_chat)
+
+      expect(service.chat(model: 'gpt-4.1-mini', temperature: 0.7)).to eq(configured_chat)
     end
   end
 end

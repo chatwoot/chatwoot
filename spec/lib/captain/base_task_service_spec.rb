@@ -207,6 +207,24 @@ RSpec.describe Captain::BaseTaskService do
       expect(result[:usage]['completion_tokens']).to eq(20)
       expect(result[:usage]['total_tokens']).to eq(30)
     end
+
+    it 'returns parsed content for structured responses' do
+      schema = Class.new(Schematist::Schema) do
+        boolean :complete
+      end
+      response = RubyLLM::Message.new(
+        role: :assistant,
+        content: '{"complete":true}',
+        input_tokens: 10,
+        output_tokens: 20
+      )
+      expect(mock_chat).to receive(:with_schema).with(schema)
+      allow(mock_chat).to receive(:ask).and_return(response)
+
+      result = service.send(:make_api_call, model: model, messages: messages, schema: schema)
+
+      expect(result[:message]).to eq('complete' => true)
+    end
   end
 
   describe 'chat setup' do
