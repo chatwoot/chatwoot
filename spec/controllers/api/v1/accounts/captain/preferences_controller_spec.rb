@@ -171,7 +171,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
       it 'rejects invalid captain model values for the feature' do
         put "/api/v1/accounts/#{account.id}/captain/preferences",
             headers: admin.create_new_auth_token,
-            params: { captain_models: { label_suggestion: 'gpt-5.1' } },
+            params: { captain_models: { label_suggestion: 'unknown-model' } },
             as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)

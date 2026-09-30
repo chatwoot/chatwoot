@@ -506,7 +506,7 @@ RSpec.describe Account do
 
     describe 'validation' do
       it 'rejects invalid model for a feature' do
-        account.captain_models = { 'label_suggestion' => 'gpt-5.1' }
+        account.captain_models = { 'label_suggestion' => 'unknown-model' }
 
         expect(account).not_to be_valid
         expect(account.errors[:captain_models].first).to include('not a valid model for label_suggestion')
