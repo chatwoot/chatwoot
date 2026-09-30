@@ -1,6 +1,7 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   include MfaAuthenticationHelper
   include DeviceVerificationGuard
+  include ImpersonationLogging
 
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
@@ -66,8 +67,10 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
   def handle_sso_authentication
     return if !@impersonation && enforce_session_limit_for_password_login(@resource)
+    return render_create_error_bad_credentials if @impersonation && !@resource.consume_sso_auth_token(params[:sso_auth_token])
 
     authenticate_resource_with_sso_token
+    log_impersonation_started if @impersonation
     yield @resource if block_given?
     render_create_success
   end

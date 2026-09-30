@@ -1,7 +1,21 @@
 <script>
-import { ref, provide, inject, nextTick, useTemplateRef } from 'vue';
-import { useElementSize, useEventListener } from '@vueuse/core';
+import {
+  ref,
+  computed,
+  provide,
+  inject,
+  nextTick,
+  useTemplateRef,
+  getCurrentInstance,
+} from 'vue';
+import {
+  useElementSize,
+  useEventListener,
+  useResizeObserver,
+  useSessionStorage,
+} from '@vueuse/core';
 // composable
+import { useTrack } from 'dashboard/composables';
 import { useCampaignHistory } from 'dashboard/composables/useCampaignHistory';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
@@ -14,7 +28,7 @@ import ContactConversationLink from './ContactConversationLink.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import OlderConversationBar from './OlderConversationBar.vue';
+import CollapsedReplyBar from './CollapsedReplyBar.vue';
 import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
 import ReferralBubble from 'dashboard/components-next/Conversation/ReferralBubble.vue';
 
@@ -44,7 +58,20 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import { REPLY_POLICY } from 'shared/constants/links';
 import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
+import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
+import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+
+const FOLD_MOTION =
+  'duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:duration-0';
+const FOLD_ACTIVE_CLASS = `transition-[grid-template-rows,opacity] [&>div]:overflow-hidden ${FOLD_MOTION}`;
+const FOLD_HIDDEN_CLASS = '[--fold-rows:0fr] opacity-0';
+const FOLD_TRANSITION = {
+  enterActiveClass: FOLD_ACTIVE_CLASS,
+  leaveActiveClass: FOLD_ACTIVE_CLASS,
+  enterFromClass: FOLD_HIDDEN_CLASS,
+  leaveToClass: FOLD_HIDDEN_CLASS,
+};
 
 export default {
   components: {
@@ -54,7 +81,7 @@ export default {
     ContactConversationLink,
     Spinner,
     NextButton,
-    OlderConversationBar,
+    CollapsedReplyBar,
     ResizableEditorWrapper,
     ReferralBubble,
   },
@@ -72,7 +99,6 @@ export default {
       olderConversation,
       newerConversation,
       isReadingHistory,
-      isReplyRevealed,
       latestConversation,
       leaveReadingMode,
       openConversation,
@@ -81,15 +107,57 @@ export default {
 
     provide('contextMenuElementTarget', conversationPanelRef);
 
-    // The editor focuses itself on these shortcuts, but only once it is shown.
-    const revealReplyBox = () => {
-      if (!isReadingHistory.value) return;
+    const isReplyBoxCollapsed = useSessionStorage(
+      SESSION_STORAGE_KEYS.REPLY_BOX_COLLAPSED,
+      false
+    );
+    const isReplyFolded = computed(
+      () => isReadingHistory.value || isReplyBoxCollapsed.value
+    );
+    const canSendPublicReply = computed(
+      () => replyBoxRef.value?.canSendPublicReply ?? true
+    );
+
+    const collapseReplyBox = () => {
+      isReplyBoxCollapsed.value = true;
+      useTrack(CONVERSATION_EVENTS.COLLAPSED_REPLY_BOX);
+    };
+    const showReplyBox = () => {
+      isReplyBoxCollapsed.value = false;
       leaveReadingMode();
-      nextTick(() => replyBoxRef.value?.messageEditor?.focusEditorInputField());
+    };
+    // The editor focuses itself on these shortcuts, but only once it is shown.
+    const revealReplyBox = mode => {
+      if (!isReplyFolded.value) return;
+      showReplyBox();
+      useTrack(CONVERSATION_EVENTS.EXPANDED_REPLY_BOX, { mode });
+      nextTick(() => {
+        const replyBox = replyBoxRef.value;
+        // Switching modes drops attachments, so only switch when it changes
+        if (mode && replyBox.replyType !== mode) replyBox.setReplyMode(mode);
+        replyBox.messageEditor?.focusEditorInputField();
+      });
+    };
+    const revealOnShortcut = {
+      action: () => revealReplyBox(),
+      allowOnFocusedInput: false,
     };
     useKeyboardEvents({
-      'Alt+KeyP': { action: revealReplyBox, allowOnFocusedInput: false },
-      'Alt+KeyL': { action: revealReplyBox, allowOnFocusedInput: false },
+      'Alt+KeyP': revealOnShortcut,
+      'Alt+KeyL': revealOnShortcut,
+    });
+    // A shrinking list keeps its scrollTop, so a list resting at its end would
+    // slide under the composer. A growing one is clamped by the browser.
+    const { proxy } = getCurrentInstance();
+    let listHeight = 0;
+    useResizeObserver(conversationPanelRef, ([{ target }]) => {
+      const shrink = listHeight - target.clientHeight;
+      listHeight = target.clientHeight;
+      const { scrollTop, scrollHeight, clientHeight } = target;
+      const wasAtEnd = scrollHeight - scrollTop - clientHeight <= shrink + 1;
+      if (shrink <= 0 || !wasAtEnd) return;
+      proxy.isProgrammaticScroll = true;
+      target.scrollTop = scrollHeight - clientHeight;
     });
     // ReplyBox attaches pasted files from anywhere on the page, folded or not.
     useEventListener(document, 'paste', e => {
@@ -103,9 +171,13 @@ export default {
       openConversation,
       buildConversationPath,
       isReadingHistory,
-      isReplyRevealed,
+      isReplyFolded,
+      canSendPublicReply,
+      foldMotion: FOLD_MOTION,
+      foldTransition: FOLD_TRANSITION,
       latestConversation,
-      leaveReadingMode,
+      collapseReplyBox,
+      showReplyBox,
       revealReplyBox,
       conversationPanelRef,
       resizableEditorWrapperRef,
@@ -328,9 +400,9 @@ export default {
   created() {
     emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     // Anything that wants to write must bring the folded editor back first.
-    emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.leaveReadingMode);
-    emitter.on(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.leaveReadingMode);
-    emitter.on(CMD_AI_ASSIST, this.leaveReadingMode);
+    emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.showReplyBox);
+    emitter.on(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.showReplyBox);
+    emitter.on(CMD_AI_ASSIST, this.showReplyBox);
   },
 
   mounted() {
@@ -349,9 +421,9 @@ export default {
     },
     removeBusListeners() {
       emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
-      emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.leaveReadingMode);
-      emitter.off(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.leaveReadingMode);
-      emitter.off(CMD_AI_ASSIST, this.leaveReadingMode);
+      emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.showReplyBox);
+      emitter.off(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.showReplyBox);
+      emitter.off(CMD_AI_ASSIST, this.showReplyBox);
     },
     onScrollToMessage({ messageId = '' } = {}) {
       this.$nextTick(() => {
@@ -495,8 +567,8 @@ export default {
     </div>
     <MessageList
       ref="conversationPanelRef"
-      class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0"
-      :class="isReadingHistory ? 'pb-16' : 'pb-4'"
+      class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 transition-[padding]"
+      :class="[foldMotion, isReplyFolded ? 'pb-16' : 'pb-4']"
       :current-user-id="currentUserId"
       :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"
@@ -566,7 +638,7 @@ export default {
       <div
         v-if="isAnyoneTyping"
         class="absolute flex items-center w-full h-0"
-        :class="isReadingHistory ? '-top-[5.5rem]' : '-top-7'"
+        :class="isReplyFolded ? '-top-[5.5rem]' : '-top-7'"
       >
         <div
           class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-n-solid-3 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
@@ -579,24 +651,46 @@ export default {
           />
         </div>
       </div>
-      <OlderConversationBar
-        v-if="isReadingHistory"
-        class="absolute inset-x-2 bottom-2 z-10"
-        :has-latest="Boolean(latestConversation)"
-        @reply="revealReplyBox"
-        @go-to-latest="openConversation(latestConversation)"
-      />
-      <ResizableEditorWrapper
-        v-show="!isReadingHistory"
-        ref="resizableEditorWrapperRef"
-        :class="{ 'animate-fade-in-up': isReplyRevealed }"
-        :container-height="Math.max(0, containerHeight - topBannerHeight)"
-      >
-        <ReplyBox
-          ref="replyBoxRef"
-          @toggle-editor-size="toggleReplyEditorSize"
-        />
-      </ResizableEditorWrapper>
+      <Transition v-bind="foldTransition">
+        <div
+          v-if="isReplyFolded"
+          class="absolute inset-x-0 bottom-0 z-10 grid grid-rows-[var(--fold-rows,1fr)]"
+        >
+          <div class="min-h-0 min-w-0">
+            <CollapsedReplyBar
+              class="m-2"
+              :reply-label="
+                isReadingHistory
+                  ? $t('CONVERSATION.CONTACT_HISTORY.REPLY_TO_OLDER')
+                  : $t('CONVERSATION.REPLYBOX.REPLY')
+              "
+              :has-latest="isReadingHistory && Boolean(latestConversation)"
+              :can-reply="canSendPublicReply"
+              @open="revealReplyBox"
+              @go-to-latest="openConversation(latestConversation)"
+            />
+          </div>
+        </div>
+      </Transition>
+      <Transition v-bind="foldTransition">
+        <div
+          v-show="!isReplyFolded"
+          class="grid grid-rows-[var(--fold-rows,1fr)]"
+        >
+          <div class="min-h-0 min-w-0">
+            <ResizableEditorWrapper
+              ref="resizableEditorWrapperRef"
+              :container-height="Math.max(0, containerHeight - topBannerHeight)"
+              @collapse="collapseReplyBox"
+            >
+              <ReplyBox
+                ref="replyBoxRef"
+                @toggle-editor-size="toggleReplyEditorSize"
+              />
+            </ResizableEditorWrapper>
+          </div>
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
