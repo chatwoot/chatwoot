@@ -32,7 +32,8 @@ RSpec.describe AppStoreConnect::TokenService do
     end
 
     it 'returns cached tokens for the channel' do
-      allow(Rails.cache).to receive(:read).with('app_store_connect_token:1:1700000000').and_return('cached-token')
+      version = Digest::SHA256.hexdigest([channel.issuer_id, channel.key_id, channel.private_key].to_json)
+      allow(Rails.cache).to receive(:read).with("app_store_connect_token:1:#{version}").and_return('cached-token')
 
       expect(described_class.new(channel: channel).token).to eq('cached-token')
     end

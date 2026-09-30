@@ -5,6 +5,8 @@ class Channel::AppStore < ApplicationRecord
 
   EDITABLE_ATTRS = [:app_id, :bundle_id, :app_name, :issuer_id, :key_id, :private_key, { provider_config: {} }].freeze
 
+  APP_ACCESS_ATTRIBUTES = %w[app_id issuer_id key_id private_key].freeze
+
   API_BASE_URL = 'https://api.appstoreconnect.apple.com'.freeze
   REPLY_MAX_LENGTH = 5970
   REVIEWS_PAGE_SIZE = 200
@@ -18,7 +20,7 @@ class Channel::AppStore < ApplicationRecord
 
   validates :app_id, presence: true, uniqueness: { scope: :account_id }
   validates :issuer_id, :key_id, :private_key, presence: true
-  validate :validate_app_access, on: :create
+  validate :validate_app_access, if: :app_access_changed?
 
   before_validation :normalize_auth_fields
 
@@ -60,6 +62,10 @@ class Channel::AppStore < ApplicationRecord
     self.issuer_id = issuer_id.to_s.strip
     self.key_id = key_id.to_s.strip
     self.private_key = private_key.to_s.gsub('\n', "\n").gsub("\r\n", "\n").strip
+  end
+
+  def app_access_changed?
+    new_record? || APP_ACCESS_ATTRIBUTES.any? { |attribute| will_save_change_to_attribute?(attribute) }
   end
 
   def validate_app_access

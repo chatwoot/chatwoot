@@ -44,7 +44,7 @@ class AppStoreConnect::TokenService
   end
 
   def cache_key
-    version = channel.updated_at&.to_i || 'new'
+    version = Digest::SHA256.hexdigest([channel.issuer_id, channel.key_id, channel.private_key].to_json)
 
     "app_store_connect_token:#{channel.id}:#{version}"
   end

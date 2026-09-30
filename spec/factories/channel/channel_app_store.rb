@@ -10,7 +10,7 @@ FactoryBot.define do
     key_id { SecureRandom.alphanumeric(10).upcase }
     private_key do
       key = OpenSSL::PKey::EC.generate('prime256v1')
-      key.to_pem
+      key.to_pem.strip
     end
 
     to_create { |instance| instance.save!(validate: false) }
