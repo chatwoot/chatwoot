@@ -74,6 +74,7 @@ RSpec.describe Llm::BaseAiService do
       llm_chat = instance_double(RubyLLM::Chat)
       allow(RubyLLM).to receive(:chat).with(model: 'gpt-5.2').and_return(llm_chat)
 
+      expect(llm_chat).to receive(:with_thinking).with(effort: :none)
       expect(llm_chat).not_to receive(:with_temperature)
       expect(service.chat(model: 'gpt-5.2')).to eq(llm_chat)
     end

@@ -23,9 +23,8 @@ module Captain::ChatHelper
   private
 
   def build_chat
-    options = Captain::ResponsesConfig.options(model: @model, temperature: temperature)
-    llm_chat = chat(model: @model, **options.except(:thinking))
-    llm_chat.with_thinking(**options[:thinking]) if options[:thinking]
+    options = Captain::ResponsesConfig.options(model: @model, temperature: temperature, feature: @llm_feature)
+    llm_chat = chat(model: @model, **options)
     format = { type: 'json_object' }
     # Responses JSON mode requires "json" in input, excluding system instructions.
     if options[:protocol] == :responses

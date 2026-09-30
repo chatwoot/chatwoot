@@ -48,7 +48,7 @@ class Captain::BaseTaskService
     instrumentation_method = tools.any? ? :instrument_tool_session : :instrument_llm_call
 
     response = send(instrumentation_method, instrumentation_params) do
-      execute_ruby_llm_request(model: model, messages: messages, schema: schema, tools: tools)
+      execute_ruby_llm_request(model: model, messages: messages, feature: feature, schema: schema, tools: tools)
     end
 
     return response unless build_follow_up_context? && response[:message].present?
@@ -65,11 +65,13 @@ class Captain::BaseTaskService
     route[:model]
   end
 
-  def execute_ruby_llm_request(model:, messages:, schema: nil, tools: [])
+  def execute_ruby_llm_request(model:, messages:, feature: nil, schema: nil, tools: [])
     credential = llm_credential
 
     Llm::Config.with_api_key(credential[:api_key], api_base: api_base) do |context|
       chat = build_chat(context, model: model, messages: messages, schema: schema, tools: tools)
+      effort = Llm::FeatureRouter.reasoning_effort(feature: feature, model: model)
+      chat.with_thinking(effort: effort) if effort
 
       conversation_messages = messages.reject { |m| m[:role] == 'system' }
       return { error: 'No conversation messages provided', error_code: 400, request_messages: messages } if conversation_messages.empty?

@@ -1,7 +1,6 @@
 class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
   include Integrations::LlmInstrumentation
 
-  # Default pages per chunk - easily configurable
   DEFAULT_PAGES_PER_CHUNK = 10
   MAX_ITERATIONS = 20 # Safety limit to prevent infinite loops
 
@@ -15,7 +14,9 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     @max_pages = options[:max_pages] # Optional limit from UI
     @total_pages_processed = 0
     @iterations_completed = 0
-    @model = Llm::FeatureRouter.resolve(feature: 'pdf_faq_generation', account: document.account)[:model]
+    route = Llm::FeatureRouter.resolve(feature: 'pdf_faq_generation', account: document.account)
+    @model = route[:model]
+    @reasoning_parameters = { reasoning_effort: route[:reasoning_effort] }.compact
   end
 
   def generate
@@ -123,7 +124,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
           content: build_user_content(start_page, end_page)
         }
       ]
-    }
+    }.merge(@reasoning_parameters)
   end
 
   def build_user_content(start_page, end_page)
@@ -157,7 +158,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
           content: @content
         }
       ]
-    }
+    }.merge(@reasoning_parameters)
   end
 
   def parse_response(response)
