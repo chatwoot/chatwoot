@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Enterprise Audit API', type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, password: 'Password1!', account: account) }
+  let(:super_admin) { create(:super_admin) }
 
   describe 'POST /sign_in' do
     context 'with SAML user attempting password login' do
@@ -84,6 +85,18 @@ RSpec.describe 'Enterprise Audit API', type: :request do
                params: params,
                as: :json
         end.not_to change(Enterprise::AuditLog, :count)
+      end
+    end
+
+    context 'with a super admin impersonation token' do
+      it 'signs in without creating a sign_in audit event' do
+        params = { email: user.email, sso_auth_token: user.generate_sso_auth_token(impersonated_by: super_admin) }
+
+        expect do
+          post new_user_session_url, params: params, as: :json
+        end.not_to change(Enterprise::AuditLog, :count)
+
+        expect(response).to have_http_status(:success)
       end
     end
 
@@ -170,6 +183,30 @@ RSpec.describe 'Enterprise Audit API', type: :request do
         expect(user.audits.last.action).to eq('sign_out')
         expect(user.audits.last.associated_id).to eq(account.id)
         expect(user.audits.last.associated_type).to eq('Account')
+      end
+
+      it 'does not create audit events for a token minted before super admin attribution' do
+        sso_token = SecureRandom.hex(32)
+        Redis::Alfred.setex(format(Redis::RedisKeys::USER_SSO_AUTH_TOKEN, user_id: user.id, token: sso_token), 'impersonation', 5.minutes)
+
+        expect do
+          post new_user_session_url, params: { email: user.email, sso_auth_token: sso_token }, as: :json
+          delete '/auth/sign_out', headers: response.headers.slice('access-token', 'client', 'uid')
+        end.not_to change(Enterprise::AuditLog, :count)
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'does not create an audit event when ending an impersonation session' do
+        post new_user_session_url,
+             params: { email: user.email, sso_auth_token: user.generate_sso_auth_token(impersonated_by: super_admin) },
+             as: :json
+        auth_headers = response.headers.slice('access-token', 'client', 'uid')
+
+        expect do
+          delete '/auth/sign_out', headers: auth_headers
+        end.not_to change(Enterprise::AuditLog, :count)
+        expect(response).to have_http_status(:success)
+        expect(user.reload.tokens).to be_empty
       end
 
       it 'signs out and revokes the token even when the lookup cannot be enqueued' do

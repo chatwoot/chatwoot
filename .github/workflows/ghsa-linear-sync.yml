@@ -26,4 +26,5 @@ jobs:
           LINEAR_PROJECT_ID: ${{ secrets.LINEAR_PROJECT_ID }}
           LINEAR_LABEL_ID: ${{ secrets.LINEAR_LABEL_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: python3 .github/scripts/ghsa_linear_sync.py
