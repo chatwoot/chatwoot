@@ -15,40 +15,10 @@ RSpec.describe 'Shopify Integration API', type: :request do
   let(:unauthorized_agent) { create(:user, account: account, role: :agent) }
   let(:contact) { create(:contact, account: account, email: 'test@example.com', phone_number: '+1234567890') }
 
-  describe 'POST /api/v1/accounts/:account_id/integrations/shopify/auth' do
-    let(:shop_domain) { 'test-store.myshopify.com' }
-
-    context 'when it is an authenticated user' do
-      it 'returns a redirect URL for Shopify OAuth' do
-        post "/api/v1/accounts/#{account.id}/integrations/shopify/auth",
-             params: { shop_domain: shop_domain },
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:ok)
-        expect(response.parsed_body).to have_key('redirect_url')
-        expect(response.parsed_body['redirect_url']).to include(shop_domain)
-      end
-
-      it 'returns error when shop domain is missing' do
-        post "/api/v1/accounts/#{account.id}/integrations/shopify/auth",
-             headers: agent.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['error']).to eq('Shop domain is required')
-      end
-    end
-
-    context 'when it is an unauthenticated user' do
-      it 'returns unauthorized' do
-        post "/api/v1/accounts/#{account.id}/integrations/shopify/auth",
-             params: { shop_domain: shop_domain },
-             as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
+  before do
+    account.enable_features!('shopify_integration')
+    InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
+    allow(Shopify::ApiContext).to receive(:setup!)
   end
 
   describe 'GET /api/v1/accounts/:account_id/integrations/shopify/orders' do
@@ -87,9 +57,6 @@ RSpec.describe 'Shopify Integration API', type: :request do
       before do
         allow_any_instance_of(Api::V1::Accounts::Integrations::ShopifyController).to receive(:shopify_client).and_return(shopify_client)
 
-        allow_any_instance_of(Api::V1::Accounts::Integrations::ShopifyController).to receive(:client_id).and_return('test_client_id')
-        allow_any_instance_of(Api::V1::Accounts::Integrations::ShopifyController).to receive(:client_secret).and_return('test_client_secret')
-
         allow(shopify_client).to receive(:get).with(
           path: 'customers/search.json',
           query: { query: "email:#{contact.email} OR phone:#{contact.phone_number}", fields: 'id,email,phone' }
@@ -111,6 +78,7 @@ RSpec.describe 'Shopify Integration API', type: :request do
         expect(response.parsed_body).to have_key('orders')
         expect(response.parsed_body['orders'].length).to eq(1)
         expect(response.parsed_body['orders'][0]['id']).to eq('456')
+        expect(Shopify::ApiContext).to have_received(:setup!)
       end
 
       it 'returns error when contact has no email or phone' do
@@ -144,6 +112,18 @@ RSpec.describe 'Shopify Integration API', type: :request do
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['orders']).to eq([])
       end
+
+      it 'rejects a disabled retained hook before calling Shopify' do
+        account.hooks.find_by!(app_id: 'shopify').update!(status: :disabled, access_token: nil)
+
+        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
+            params: { contact_id: contact.id },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(shopify_client).not_to have_received(:get)
+      end
       # rubocop:enable RSpec/AnyInstance
     end
 
@@ -154,6 +134,30 @@ RSpec.describe 'Shopify Integration API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when Shopify is disabled' do
+      it 'returns not found when the installation switch is disabled' do
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
+
+        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
+            params: { contact_id: contact.id },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'returns not found when the account feature is disabled' do
+        account.disable_features!('shopify_integration')
+
+        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
+            params: { contact_id: contact.id },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
       end
     end
   end
