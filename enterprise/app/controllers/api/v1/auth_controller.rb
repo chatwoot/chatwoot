@@ -52,7 +52,7 @@ class Api::V1::AuthController < Api::BaseController
 
     account_users.find do |account_user|
       account_user.account.hooks.exists?(app_id: 'shopify', reference_id: shop_domain)
-    end || account_users.first
+    end
   end
 
   def saml_account_users(user)
