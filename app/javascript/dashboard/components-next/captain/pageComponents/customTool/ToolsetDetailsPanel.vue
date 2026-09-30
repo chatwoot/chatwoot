@@ -50,6 +50,12 @@ const installAction = computed(() => {
   };
 });
 
+// Images are dropped: the panel has no use for them, and relative image paths break the shared formatter
+const MARKDOWN_IMAGE_PATTERN = /!\[[^\]]*\](\([^)]*\)|\[[^\]]*\])/g;
+const readmeHtml = computed(() =>
+  formatMessage(details.value.readme.replace(MARKDOWN_IMAGE_PATTERN, ''))
+);
+
 const configurationFields = computed(() => [
   ...(details.value?.inputs || []),
   ...(details.value?.secrets || []).map(field => ({ ...field, secret: true })),
@@ -210,7 +216,7 @@ defineExpose({ open });
 
         <section v-if="details.readme" class="pt-6 border-t border-n-weak">
           <div
-            v-dompurify-html="formatMessage(details.readme)"
+            v-dompurify-html="readmeHtml"
             class="prose prose-sm max-w-none break-words text-n-slate-12 prose-headings:text-n-slate-12 prose-strong:text-n-slate-12 prose-code:text-n-slate-12 prose-a:text-n-blue-11 prose-p:my-2 prose-headings:mb-2 prose-headings:mt-4 prose-ul:my-2 prose-ol:my-2 prose-li:my-1"
           />
         </section>
