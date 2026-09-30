@@ -52,6 +52,7 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
     conversation.messages
                 .where(message_type: [:incoming, :outgoing])
                 .where(private: false)
+                .not_forwarded
                 .reorder('id desc')
                 .each do |message|
       content = message.content_for_llm
