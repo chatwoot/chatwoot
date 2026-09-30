@@ -309,7 +309,11 @@ const handleCallBack = async () => {
       callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
     });
   } catch (error) {
-    useAlert(error?.message || t('CONTACT_PANEL.CALL_FAILED'));
+    useAlert(
+      error?.response?.data?.error ||
+        error?.message ||
+        t('CONTACT_PANEL.CALL_FAILED')
+    );
   }
 };
 </script>
