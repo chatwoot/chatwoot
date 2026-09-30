@@ -178,6 +178,10 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def render_permission_request
+    # The request is a free-form message, which Meta only delivers inside the 24h window. Outside it Meta
+    # accepts the send and fails it later, silently. A contact with no thread yet has never messaged us.
+    return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_window_closed')) unless @conversation&.can_reply?
+
     # Raised mid-dial, so a fresh contact has no thread yet — open one for the opt-in template to land in.
     @conversation = open_conversation!
     status = Whatsapp::CallPermissionRequestService.new(conversation: @conversation, recipient: call_recipient).perform

@@ -177,66 +177,99 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       expect(initiate_conversation.reload.assigned_entity).to eq(agent_bot)
     end
 
-    it 'sends a permission request and records the wamid when Meta returns NoCallPermission' do
-      allow(provider_service).to receive(:initiate_call).and_raise(Voice::CallErrors::NoCallPermission)
-      allow(provider_service).to receive(:send_call_permission_request).and_return({ 'messages' => [{ 'id' => 'wamid.req_xyz' }] })
+    context 'when the contact messaged within the last 24 hours' do
+      before { create(:message, account: account, inbox: inbox, conversation: initiate_conversation, message_type: :incoming) }
 
-      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
-           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
-           headers: agent.create_new_auth_token
+      it 'sends a permission request and records the wamid when Meta returns NoCallPermission' do
+        allow(provider_service).to receive(:initiate_call).and_raise(Voice::CallErrors::NoCallPermission)
+        allow(provider_service).to receive(:send_call_permission_request).and_return({ 'messages' => [{ 'id' => 'wamid.req_xyz' }] })
 
-      # Controller deliberately returns 422 so clients can't mistake the permission-template path for a successful dial.
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body['status']).to eq('permission_requested')
-      attrs = initiate_conversation.reload.additional_attributes
-      expect(attrs['call_permission_requested_at']).to be_present
-      expect(attrs['call_permission_request_message_id']).to eq('wamid.req_xyz')
+        post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+             params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+             headers: agent.create_new_auth_token
+
+        # Controller deliberately returns 422 so clients can't mistake the permission-template path for a successful dial.
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['status']).to eq('permission_requested')
+        attrs = initiate_conversation.reload.additional_attributes
+        expect(attrs['call_permission_requested_at']).to be_present
+        expect(attrs['call_permission_request_message_id']).to eq('wamid.req_xyz')
+      end
+
+      it 'sends a call permission request to the exact conversation BSUID' do
+        contact.update!(phone_number: nil)
+        contact_inbox.update!(source_id: 'IN.2081978709342942')
+        allow(provider_service).to receive(:initiate_call).and_raise(Voice::CallErrors::NoCallPermission)
+        expect(provider_service).to receive(:send_call_permission_request)
+          .with('IN.2081978709342942')
+          .and_return({ 'messages' => [{ 'id' => 'wamid.req_bsuid' }] })
+
+        post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+             params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+             headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['status']).to eq('permission_requested')
+      end
+
+      it 'returns permission_request_failed when send_call_permission_request raises a transport error' do
+        allow(provider_service).to receive(:initiate_call).and_raise(Voice::CallErrors::NoCallPermission)
+        allow(provider_service).to receive(:send_call_permission_request).and_raise(Faraday::TimeoutError)
+
+        post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+             params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+             headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.whatsapp.calls.permission_request_failed'))
+      end
     end
 
-    it 'sends a call permission request to the exact conversation BSUID' do
-      contact.update!(phone_number: nil)
-      contact_inbox.update!(source_id: 'IN.2081978709342942')
-      allow(provider_service).to receive(:initiate_call).and_raise(Voice::CallErrors::NoCallPermission)
-      expect(provider_service).to receive(:send_call_permission_request)
-        .with('IN.2081978709342942')
-        .and_return({ 'messages' => [{ 'id' => 'wamid.req_bsuid' }] })
+    context 'when the contact has not messaged within the last 24 hours' do
+      before { allow(provider_service).to receive(:initiate_call).and_raise(Voice::CallErrors::NoCallPermission) }
 
-      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
-           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
-           headers: agent.create_new_auth_token
+      it 'refuses the permission request without sending anything' do
+        create(:message, account: account, inbox: inbox, conversation: initiate_conversation, message_type: :incoming,
+                         created_at: 25.hours.ago)
+        expect(provider_service).not_to receive(:send_call_permission_request)
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body['status']).to eq('permission_requested')
-    end
+        expect do
+          post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+               params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+               headers: agent.create_new_auth_token
+        end.not_to have_enqueued_job(Conversations::ActivityMessageJob)
 
-    it 'keeps the contact-level phone recipient when an existing conversation uses a BSUID' do
-      contact_inbox.update!(source_id: 'IN.2081978709342942')
-      initiate_conversation
-      expect(provider_service).to receive(:initiate_call)
-        .with('15551234567', 'sdp_offer')
-        .and_raise(Voice::CallErrors::NoCallPermission)
-      expect(provider_service).to receive(:send_call_permission_request)
-        .with('15551234567')
-        .and_return({ 'messages' => [{ 'id' => 'wamid.req_phone' }] })
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.whatsapp.calls.permission_window_closed'))
+        expect(initiate_conversation.reload.additional_attributes).not_to have_key('call_permission_request_message_id')
+      end
 
-      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
-           params: { contact_id: contact.id, inbox_id: inbox.id, sdp_offer: 'sdp_offer' },
-           headers: agent.create_new_auth_token
+      it 'refuses a contact-level request when only a BSUID thread has recent messages' do
+        contact_inbox.update!(source_id: 'IN.2081978709342942')
+        create(:message, account: account, inbox: inbox, conversation: initiate_conversation, message_type: :incoming)
+        expect(provider_service).to receive(:initiate_call).with('15551234567', 'sdp_offer')
+        expect(provider_service).not_to receive(:send_call_permission_request)
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body['status']).to eq('permission_requested')
-    end
+        post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+             params: { contact_id: contact.id, inbox_id: inbox.id, sdp_offer: 'sdp_offer' },
+             headers: agent.create_new_auth_token
 
-    it 'returns permission_request_failed when send_call_permission_request raises a transport error' do
-      allow(provider_service).to receive(:initiate_call).and_raise(Voice::CallErrors::NoCallPermission)
-      allow(provider_service).to receive(:send_call_permission_request).and_raise(Faraday::TimeoutError)
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.whatsapp.calls.permission_window_closed'))
+      end
 
-      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
-           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
-           headers: agent.create_new_auth_token
+      it 'does not create a conversation for a contact-level call with no thread' do
+        expect(provider_service).not_to receive(:send_call_permission_request)
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body['error']).to eq(I18n.t('errors.whatsapp.calls.permission_request_failed'))
+        expect do
+          post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+               params: { contact_id: contact.id, inbox_id: inbox.id, sdp_offer: 'sdp_offer' },
+               headers: agent.create_new_auth_token
+        end.not_to change(Conversation, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.whatsapp.calls.permission_window_closed'))
+      end
     end
 
     it 'returns 422 when sdp_offer is missing' do
