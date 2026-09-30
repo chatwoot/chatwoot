@@ -10,10 +10,10 @@ class Contacts::ClassifyVisitorsService
   ONLINE_WINDOW = 5.minutes
   RETRYABLE = [ActiveRecord::LockWaitTimeout, ActiveRecord::Deadlocked, ActiveRecord::QueryCanceled].freeze
 
-  # Promotion follows Contacts::SyncAttributes, where blank means empty or spaces. Purging follows
-  # Contact.stale_without_conversations, which means exactly empty. A value made of spaces is neither.
-  IDENTITY = "(btrim(coalesce(contacts.email, '')) <> '' OR btrim(coalesce(contacts.phone_number, '')) <> '' " \
-             "OR btrim(coalesce(contacts.identifier, '')) <> '')".freeze
+  # Promotion follows Contacts::SyncAttributes, where blank means empty or whitespace. Purging follows
+  # Contact.stale_without_conversations, which means exactly empty. A value made of whitespace is neither.
+  IDENTITY = "(coalesce(contacts.email, '') ~ '\\S' OR coalesce(contacts.phone_number, '') ~ '\\S' " \
+             "OR coalesce(contacts.identifier, '') ~ '\\S')".freeze
   NO_IDENTITY = "(coalesce(contacts.email, '') = '' AND coalesce(contacts.phone_number, '') = '' " \
                 "AND coalesce(contacts.identifier, '') = '')".freeze
   # A social_* key whose value Ruby calls present: not null, false, {}, [] or a blank string.
@@ -24,7 +24,7 @@ class Contacts::ClassifyVisitorsService
   # Someone created or handled the contact on purpose: a company, a note, a label, an import, or a name
   # that is not the one the widget generates for an anonymous visitor, such as quiet-fog-31.
   EXPLICIT = '(contacts.company_id IS NOT NULL ' \
-             "OR (btrim(coalesce(contacts.name, '')) <> '' AND contacts.name !~ '^[a-z]+-[a-z]+-[0-9]{1,4}$') " \
+             "OR (coalesce(contacts.name, '') ~ '\\S' AND contacts.name !~ '^[a-z]+-[a-z]+-[0-9]{1,4}$') " \
              'OR EXISTS (SELECT 1 FROM notes WHERE notes.contact_id = contacts.id) ' \
              "OR EXISTS (SELECT 1 FROM taggings WHERE taggings.taggable_type = 'Contact' AND taggings.taggable_id = contacts.id) " \
              'OR EXISTS (SELECT 1 FROM data_import_mappings mappings ' \
@@ -79,13 +79,15 @@ class Contacts::ClassifyVisitorsService
 
   # Locks the rows that still match the rule, then deletes them with the whole rule evaluated again inside
   # the DELETE itself, so a conversation, note or label added in the meantime keeps the contact. Then the
-  # contact inboxes of whichever contacts are gone.
+  # contact inboxes and avatars of whichever contacts are gone.
   def delete_stale(ids)
     Contact.transaction do
       locked = stale(ids).lock('FOR UPDATE SKIP LOCKED').pluck(:id)
-      deleted = stale(locked).where.not(id: Conversation.where(contact_id: locked).select(:contact_id)).delete_all
-      ContactInbox.where(contact_id: locked).where.not(contact_id: Contact.where(id: locked).select(:id)).delete_all
-      deleted
+      stale(locked).where.not(id: Conversation.where(contact_id: locked).select(:contact_id)).delete_all
+      purged = locked - Contact.where(id: locked).pluck(:id)
+      ContactInbox.where(contact_id: purged).delete_all
+      ActiveStorage::Attachment.where(record_type: 'Contact', record_id: purged).find_each(&:purge_later)
+      purged.size
     end
   end
 

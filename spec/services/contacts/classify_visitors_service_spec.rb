@@ -72,13 +72,14 @@ RSpec.describe Contacts::ClassifyVisitorsService do
   end
 
   describe 'a stale visitor' do
-    it 'is deleted with its contact inbox' do
-      contact = create(:contact, **anonymous)
+    it 'is deleted with its contact inbox and avatar' do
+      contact = create(:contact, :with_avatar, **anonymous)
       contact_inbox = create(:contact_inbox, contact: contact, inbox: inbox)
 
-      expect(classify).to include(purged: 1)
+      expect { expect(classify).to include(purged: 1) }.to have_enqueued_job(ActiveStorage::PurgeJob)
       expect(Contact.exists?(contact.id)).to be(false)
       expect(ContactInbox.exists?(contact_inbox.id)).to be(false)
+      expect(ActiveStorage::Attachment.where(record_type: 'Contact', record_id: contact.id)).to be_empty
     end
 
     it 'is kept while it is online in the widget' do
@@ -116,8 +117,8 @@ RSpec.describe Contacts::ClassifyVisitorsService do
       expect(contact.reload).to be_visitor
     end
 
-    it 'has an identifier made of spaces, which the contact list still shows' do
-      Contact.import([build(:contact, **anonymous, identifier: '   ')])
+    it 'has an identifier made of whitespace, which the contact list still shows' do
+      Contact.import([build(:contact, **anonymous, identifier: " \t\n")])
       contact = account.contacts.last
 
       expect { classify }.not_to change(Contact, :count)

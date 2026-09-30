@@ -65,16 +65,15 @@ RSpec.describe Migration::ClassifyContactsJob do
     expect(Contacts::ClassifyVisitorsService).to have_received(:new).with(from_id: contact.id + 1_500, to_id: contact.id + 2_999)
   end
 
-  it 'reads a window again at half the size when the read times out' do
+  it 'reads a window again at half the size it actually used when the read times out' do
     contact = create(:contact, account: account, name: 'Maria Lopez')
-    allow(Contacts::ClassifyVisitorsService).to receive(:rows_per_second).and_return(1_000)
     service = instance_double(Contacts::ClassifyVisitorsService, perform: { visitors: 1, promoted: 1, purged: 0 })
-    allow(Contacts::ClassifyVisitorsService).to receive(:new).with(from_id: contact.id, to_id: contact.id + 3_999)
+    allow(Contacts::ClassifyVisitorsService).to receive(:new).with(from_id: contact.id, to_id: contact.id + 3_749)
                                                              .and_raise(ActiveRecord::QueryCanceled)
-    allow(Contacts::ClassifyVisitorsService).to receive(:new).with(from_id: contact.id, to_id: contact.id + 1_999).and_return(service)
-    allow(Contacts::ClassifyVisitorsService).to receive(:new).with(from_id: contact.id + 2_000, to_id: contact.id + 3_999).and_return(service)
+    allow(Contacts::ClassifyVisitorsService).to receive(:new).with(from_id: contact.id, to_id: contact.id + 1_874).and_return(service)
+    allow(Contacts::ClassifyVisitorsService).to receive(:new).with(from_id: contact.id + 1_875, to_id: contact.id + 3_749).and_return(service)
 
-    described_class.perform_now(contact.id, contact.id + 3_999, 4_000)
+    described_class.perform_now(contact.id, contact.id + 3_749)
 
     expect(service).to have_received(:perform).twice
   end
