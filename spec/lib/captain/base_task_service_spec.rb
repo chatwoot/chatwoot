@@ -209,7 +209,9 @@ RSpec.describe Captain::BaseTaskService do
     end
 
     it 'returns parsed content for structured responses' do
-      schema = Captain::ConversationCompletionSchema
+      schema = Class.new(Schematist::Schema) do
+        boolean :complete
+      end
       response = RubyLLM::Message.new(
         role: :assistant,
         content: '{"complete":true}',
