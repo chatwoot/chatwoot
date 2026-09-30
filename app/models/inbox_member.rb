@@ -23,10 +23,17 @@ class InboxMember < ApplicationRecord
   belongs_to :inbox
 
   after_create :add_agent_to_round_robin
+  after_create_commit :fetch_initial_google_play_reviews
   after_destroy :remove_agent_from_round_robin
   after_commit :invalidate_filtered_unread_count_visibility, on: [:create, :destroy]
 
   private
+
+  def fetch_initial_google_play_reviews
+    return unless inbox.google_play? && inbox.channel.last_synced_at.nil?
+
+    ::Inboxes::FetchGooglePlayReviewsJob.perform_later(inbox.channel)
+  end
 
   def add_agent_to_round_robin
     ::AutoAssignment::InboxRoundRobinService.new(inbox: inbox).add_agent_to_queue(user_id)

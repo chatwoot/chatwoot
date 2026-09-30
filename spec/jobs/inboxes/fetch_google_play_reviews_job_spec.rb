@@ -11,6 +11,7 @@ RSpec.describe Inboxes::FetchGooglePlayReviewsJob do
   end
 
   before do
+    create(:inbox_member, inbox: channel.inbox, user: create(:user, account: channel.account))
     allow(channel).to receive(:fetch_reviews).and_return([review])
   end
 
