@@ -28,6 +28,7 @@ const {
   DISABLE_META_MESSAGE_SENDING: disableMetaMessageSending,
   DEPLOYMENT_ENV: deploymentEnv,
   ACTIVE_PLATFORM_BANNERS: activePlatformBanners,
+  ACTIVE_FEATURE_ANNOUNCEMENTS: activeFeatureAnnouncements,
 } = window.globalConfig || {};
 
 const state = {
@@ -57,6 +58,7 @@ const state = {
   widgetBrandURL,
   isEnterprise: parseBoolean(isEnterprise),
   activePlatformBanners: activePlatformBanners || [],
+  activeFeatureAnnouncements: activeFeatureAnnouncements || [],
 };
 
 export const getters = {
