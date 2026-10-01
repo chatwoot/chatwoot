@@ -35,9 +35,9 @@ class Captain::Document < ApplicationRecord
   belongs_to :assistant, class_name: 'Captain::Assistant'
   has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy, as: :documentable
   belongs_to :account
+  store_accessor :metadata, :web_crawling_provider, :web_crawling_external_id, :web_crawling_webhook_secret
   has_one_attached :pdf_file
-  store_accessor :metadata, :content_fingerprint, :last_sync_error_code, :sync_step, :openai_file_id,
-                 :web_crawling_provider, :web_crawling_external_id, :web_crawling_webhook_secret
+  store_accessor :metadata, :content_fingerprint, :last_sync_error_code, :sync_step, :openai_file_id
 
   validates :external_link, presence: true, unless: -> { pdf_file.attached? }
   validates :external_link, uniqueness: { scope: :assistant_id }, allow_blank: true

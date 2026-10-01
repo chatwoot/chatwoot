@@ -1,16 +1,4 @@
 module Enterprise::SuperAdmin::AppConfigsController
-  WEB_CRAWLING_PROVIDER_CONFIG = {
-    'firecrawl' => { api_key: 'CAPTAIN_FIRECRAWL_API_KEY', label: 'Firecrawl' },
-    'context_dev' => { api_key: 'CONTEXT_DEV_API_KEY', label: 'Context.dev' }
-  }.freeze
-
-  def create
-    error = web_crawling_provider_configuration_error
-    return redirect_to(super_admin_app_config_path(config: @config), alert: error) if error
-
-    super
-  end
-
   private
 
   def allowed_configs
@@ -58,9 +46,9 @@ module Enterprise::SuperAdmin::AppConfigsController
       CAPTAIN_OPEN_AI_MODEL
       CAPTAIN_OPEN_AI_ENDPOINT
       CAPTAIN_EMBEDDING_MODEL
-      CAPTAIN_FIRECRAWL_API_KEY
       CONTEXT_DEV_API_KEY
       WEB_CRAWLING_PROVIDER
+      CAPTAIN_FIRECRAWL_API_KEY
     ]
   end
 
@@ -79,5 +67,19 @@ module Enterprise::SuperAdmin::AppConfigsController
 
   def saml_config_options
     %w[ENABLE_SAML_SSO_LOGIN]
+  end
+
+  public
+
+  WEB_CRAWLING_PROVIDER_CONFIG = {
+    'firecrawl' => { api_key: 'CAPTAIN_FIRECRAWL_API_KEY', label: 'Firecrawl' },
+    'context_dev' => { api_key: 'CONTEXT_DEV_API_KEY', label: 'Context.dev' }
+  }.freeze
+
+  def create
+    error = web_crawling_provider_configuration_error
+    return redirect_to(super_admin_app_config_path(config: @config), alert: error) if error
+
+    super
   end
 end
