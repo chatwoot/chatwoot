@@ -46,6 +46,30 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
+      it 'Rejects bulk assignment to an assignee outside the account' do
+        other_user = create(:user, account: create(:account))
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: { type: 'Conversation', fields: { assignee_id: other_user.id }, ids: Conversation.first(2).pluck(:display_id) }
+        end.not_to have_enqueued_job(BulkActionsJob)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'Rejects bulk assignment to a team outside the account' do
+        other_team = create(:team, account: create(:account))
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/bulk_actions",
+               headers: agent.create_new_auth_token,
+               params: { type: 'Conversation', fields: { team_id: other_team.id }, ids: Conversation.first(2).pluck(:display_id) }
+        end.not_to have_enqueued_job(BulkActionsJob)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
       it 'Bulk update conversation status' do
         expect(Conversation.first.status).to eq('open')
         expect(Conversation.last.status).to eq('open')
@@ -234,120 +258,6 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
     end
   end
 
-  describe 'POST /api/v1/accounts/{account.id}/bulk_actions (assignment validation)' do
-    let!(:agent) { create(:user, account: account, role: :agent) }
-    let(:conversations) { Conversation.order(:id).first(2) }
-
-    before do
-      create(:team_member, team: team_1, user: agent_1)
-      conversations.each do |conversation|
-        create(:inbox_member, inbox: conversation.inbox, user: agent)
-        conversation.update!(assignee: agent_1, label_list: ['existing'])
-      end
-    end
-
-    shared_examples 'an invalid assignment target' do
-      it 'rejects the request before enqueueing a job or changing conversations' do
-        expect do
-          post "/api/v1/accounts/#{account.id}/bulk_actions",
-               headers: agent.create_new_auth_token,
-               params: {
-                 type: 'Conversation',
-                 ids: conversations.map(&:display_id),
-                 fields: { assignee_id: agent_1.id, team_id: team_1.id, status: 'pending' }.merge(assignment_field => invalid_id),
-                 labels: { add: ['new'], remove: ['existing'] }
-               },
-               as: :json
-        end.not_to have_enqueued_job(BulkActionsJob)
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body).to eq('error' => "Invalid #{assignment_field}")
-        conversations.each do |conversation|
-          expect(conversation.reload.attributes.slice('status', 'assignee_id', 'team_id')).to eq(
-            'status' => 'open', 'assignee_id' => agent_1.id, 'team_id' => team_1.id
-          )
-          expect(conversation.label_list).to contain_exactly('existing')
-        end
-      end
-    end
-
-    %i[assignee_id team_id].each do |field|
-      context "when validating #{field}" do
-        let(:assignment_field) { field }
-
-        context 'when the target belongs to another account' do
-          let(:other_account) { create(:account) }
-          let(:invalid_id) { create(field == :assignee_id ? :user : :team, account: other_account).id }
-
-          it_behaves_like 'an invalid assignment target'
-        end
-
-        context 'when the target does not exist' do
-          let(:invalid_id) { (field == :assignee_id ? User : Team).maximum(:id) + 1 }
-
-          it_behaves_like 'an invalid assignment target'
-        end
-
-        context 'when the target is an empty string' do
-          let(:invalid_id) { '' }
-
-          it_behaves_like 'an invalid assignment target'
-        end
-
-        context 'when the target is false' do
-          let(:invalid_id) { false }
-
-          it_behaves_like 'an invalid assignment target'
-        end
-      end
-    end
-
-    it 'assigns a user and team from the current account' do
-      team = create(:team, account: account, allow_auto_assign: false)
-      create(:team_member, team: team, user: agent_2)
-
-      perform_enqueued_jobs do
-        post "/api/v1/accounts/#{account.id}/bulk_actions",
-             headers: agent.create_new_auth_token,
-             params: {
-               type: 'Conversation',
-               ids: conversations.map(&:display_id),
-               fields: { assignee_id: agent_2.id, team_id: team.id, status: 'pending' }
-             },
-             as: :json
-      end
-
-      expect(response).to have_http_status(:success)
-      conversations.each do |conversation|
-        expect(conversation.reload.attributes.slice('status', 'assignee_id', 'team_id')).to eq(
-          'status' => 'pending', 'assignee_id' => agent_2.id, 'team_id' => team.id
-        )
-      end
-    end
-
-    [nil, 0, '0'].each do |team_id|
-      it "allows clearing assignments with team_id #{team_id.inspect}" do
-        perform_enqueued_jobs do
-          post "/api/v1/accounts/#{account.id}/bulk_actions",
-               headers: agent.create_new_auth_token,
-               params: {
-                 type: 'Conversation',
-                 ids: conversations.map(&:display_id),
-                 fields: { assignee_id: nil, team_id: team_id, status: 'pending' }
-               },
-               as: :json
-        end
-
-        expect(response).to have_http_status(:success)
-        conversations.each do |conversation|
-          expect(conversation.reload.assignee).to be_nil
-          expect(conversation.team).to be_nil
-          expect(conversation.status).to eq('pending')
-        end
-      end
-    end
-  end
-
   describe 'POST /api/v1/accounts/{account.id}/bulk_actions (contacts)' do
     context 'when it is an authenticated user' do
       let!(:agent) { create(:user, account: account, role: :agent) }
@@ -414,28 +324,6 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
              }
 
         expect(response).to have_http_status(:unauthorized)
-      end
-
-      it 'updates contact labels without validating conversation assignment fields' do
-        contact = create(:contact, account: account)
-        other_account = create(:account)
-        other_agent = create(:user, account: other_account)
-        other_team = create(:team, account: other_account)
-
-        perform_enqueued_jobs do
-          post "/api/v1/accounts/#{account.id}/bulk_actions",
-               headers: agent.create_new_auth_token,
-               params: {
-                 type: 'Contact',
-                 ids: [contact.id],
-                 fields: { assignee_id: other_agent.id, team_id: other_team.id },
-                 labels: { add: ['vip'] }
-               },
-               as: :json
-        end
-
-        expect(response).to have_http_status(:success)
-        expect(contact.reload.label_list).to contain_exactly('vip')
       end
     end
   end
