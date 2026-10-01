@@ -7,6 +7,10 @@ class ShopifyAPI extends ApiClient {
     super('integrations/shopify', { accountScoped: true });
   }
 
+  connect(shopDomain) {
+    return axios.post(`${this.url}/auth`, { shop_domain: shopDomain });
+  }
+
   getOrders(contactId) {
     return axios.get(`${this.url}/orders`, {
       params: { contact_id: contactId },

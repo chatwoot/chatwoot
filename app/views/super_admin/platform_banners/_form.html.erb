@@ -1,0 +1,19 @@
+<%= render 'administrate/application/form', page: page %>
+
+<% content_for :javascript do %>
+  <script>
+    $(function () {
+      var $bannerType = $('#platform_banner_banner_type');
+      var $announcementInputs = $('#platform_banner_title, #platform_banner_video_url');
+
+      var toggleAnnouncementFields = function () {
+        var isAnnouncement = $bannerType.val() === 'feature_announcement';
+        $announcementInputs.prop('disabled', !isAnnouncement);
+        $announcementInputs.closest('.field-unit').toggle(isAnnouncement);
+      };
+
+      $bannerType.on('change', toggleAnnouncementFields);
+      toggleAnnouncementFields();
+    });
+  </script>
+<% end %>

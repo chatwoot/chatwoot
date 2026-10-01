@@ -10,6 +10,13 @@ class ConversationApi extends ApiClient {
     return axios.get(`${this.url}/${conversationID}/labels`);
   }
 
+  getCampaignHistory(conversationId, { before, signal } = {}) {
+    return axios.get(`${this.url}/${conversationId}/campaign_history`, {
+      params: { before },
+      signal,
+    });
+  }
+
   updateLabels(conversationID, labels) {
     return axios.post(`${this.url}/${conversationID}/labels`, { labels });
   }
