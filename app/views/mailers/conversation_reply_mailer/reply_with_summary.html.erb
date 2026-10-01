@@ -11,7 +11,7 @@
   <tr>
     <td style="padding: 0px 16px; margin: 4px 0 8px 0; background: #F5FAFF; border-radius: 5px; display: inline-block; font-family: 'Helvetica Neue',Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
       <% if (message.content_type == 'input_csat' && message.message_type == 'template') %>
-        <p>Click <a href="<%= message.conversation.csat_survey_link %>" _target="blank">here</a> to rate the conversation.</p>
+        <p>Click <a href="<%= message.conversation.csat_survey_link %>" target="_blank">here</a> to rate the conversation.</p>
       <% elsif message.content.present? %>
         <%= ChatwootMarkdownRenderer.new(message.content).render_message %>
       <% end %>

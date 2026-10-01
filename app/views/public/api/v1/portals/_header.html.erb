@@ -42,10 +42,10 @@
           </div>
         </button>
         <%# Appearance dropdown section %>
-        <div id="appearance-dropdown" 
-             data-current-theme="<%= @theme_from_params %>" 
-             class="appearance-menu absolute hidden flex-col w-32 h-auto bg-white border border-solid rounded dark:bg-slate-900 top-9 ltr:right-1 rtl:left-1 border-slate-100 dark:border-slate-800 shadow-lg transition-all duration-200 ease-out opacity-0 scale-95 data-[dropdown-open=true]:opacity-100 data-[dropdown-open=true]:scale-100 data-[dropdown-open=true]:flex" 
-             aria-hidden="true" 
+        <div id="appearance-dropdown"
+             data-current-theme="<%= @theme_from_params %>"
+             class="appearance-menu absolute hidden flex-col w-32 h-auto bg-white border border-solid rounded dark:bg-slate-900 top-9 ltr:right-1 rtl:left-1 border-slate-100 dark:border-slate-800 shadow-lg transition-all duration-200 ease-out opacity-0 scale-95 data-[dropdown-open=true]:opacity-100 data-[dropdown-open=true]:scale-100 data-[dropdown-open=true]:flex"
+             aria-hidden="true"
              data-dropdown="appearance-dropdown">
           <button class="desktop-theme-button flex flex-row items-center justify-between gap-1 px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" data-theme="system">
             <div class="flex flex-row items-center gap-1">
@@ -90,7 +90,7 @@
                 <option selected disabled value="<%= @locale %>"><%= "#{language_name(@locale)} (#{@locale})" %></option>
               <% end %>
               <% @portal.public_locale_codes.each do |locale| %>
-                <option <%= locale == @locale ? 'selected': '' %> value="<%= locale %>"><%= "#{language_name(locale)} (#{locale})" %></option>
+                <option <% if locale == @locale %>selected<% end %> value="<%= locale %>"><%= "#{language_name(locale)} (#{locale})" %></option>
               <% end %>
             </select>
             <%= render partial: 'icons/chevron-down' %>
@@ -110,10 +110,10 @@
       </a>
 
       <!-- Mobile Menu Component -->
-      <%= render partial: 'public/api/v1/portals/mobile_menu', locals: { 
-        portal: @portal, 
+      <%= render partial: 'public/api/v1/portals/mobile_menu', locals: {
+        portal: @portal,
         locale: @locale,
-        theme_from_params: @theme_from_params 
+        theme_from_params: @theme_from_params
       } %>
     </div>
   </nav>

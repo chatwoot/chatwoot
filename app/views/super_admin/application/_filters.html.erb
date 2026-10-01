@@ -14,12 +14,12 @@ for a collection of resources.
 [1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Collection
 %>
 
-<% 
+<%
   # Get the dashboard class name from the resource name
   resource_name = page.resource_name.classify
   dashboard_class_name = "#{resource_name}Dashboard"
   dashboard_class = dashboard_class_name.constantize
-  
+
   # Get the current filter if any
   current_filter = nil
   if params[:search] && params[:search].include?(':')
@@ -39,7 +39,7 @@ for a collection of resources.
         <select id="filter-select" class="appearance-none bg-transparent border-0 text-gray-700 cursor-pointer text-sm h-full overflow-hidden truncate whitespace-nowrap w-full pr-7 pl-0 py-2 focus:outline-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 12 12%27%3E%3Cpath fill=%27%23293f54%27 d=%27M6 9L1 4h10z%27/%3E%3C/svg%3E')] bg-[right_0.25rem_center] bg-no-repeat bg-[length:0.75rem]" onchange="applyFilter(this.value)">
           <option value="">All records</option>
           <% dashboard_class::COLLECTION_FILTERS.each do |filter_name, _| %>
-            <option value="<%= filter_name %>" <%= 'selected' if filter_name.to_s == current_filter %>>
+            <option value="<%= filter_name %>" <% if filter_name.to_s == current_filter %>selected<% end %>>
               <%= filter_name.to_s.titleize %>
             </option>
           <% end %>
@@ -60,4 +60,4 @@ for a collection of resources.
       }
     }
   </script>
-<% end %> 
+<% end %>
