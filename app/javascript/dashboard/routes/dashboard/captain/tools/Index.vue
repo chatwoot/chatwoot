@@ -87,8 +87,8 @@ const openCreateDialog = () => {
   nextTick(() => createDialogRef.value.dialogRef.open());
 };
 
-const handleEdit = tool => {
-  dialogType.value = 'edit';
+const openToolPanel = (type, tool) => {
+  dialogType.value = type;
   selectedTool.value = tool;
   nextTick(() => createDialogRef.value.dialogRef.open());
 };
@@ -100,8 +100,8 @@ const handleDelete = tool => {
 
 const handleAction = ({ action, id }) => {
   const tool = customTools.value.find(item => item.id === id);
-  if (action === 'edit') {
-    handleEdit(tool);
+  if (action === 'edit' || action === 'view') {
+    openToolPanel(action, tool);
   } else if (action === 'delete') {
     handleDelete(tool);
   }
@@ -193,12 +193,16 @@ const onDeleteSuccess = () => {
   }
 };
 
+// On a full reload account features load after mount, so the paywall briefly shows;
+// watching it too fetches the tools once access resolves, not only when the assistant changes
+const showPaywall = computed(() =>
+  shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
+);
+
 watch(
-  assistantId,
+  [assistantId, showPaywall],
   () => {
-    if (!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)) {
-      fetchCustomTools();
-    }
+    if (!showPaywall.value) fetchCustomTools();
   },
   { immediate: true }
 );
@@ -244,6 +248,7 @@ watch(
           :auth-type="tool.auth_type"
           :param-schema="tool.param_schema"
           :enabled="tool.enabled"
+          :source-metadata="tool.source_metadata"
           :is-updating="pendingToggleIds.has(tool.id)"
           :created-at="tool.created_at"
           :updated-at="tool.updated_at"

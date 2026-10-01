@@ -13,10 +13,19 @@ RSpec.describe 'Monitors API', type: :request do
 
   before do
     account.enable_features!('reports', 'conversation_monitors')
-    create(:installation_config, name: 'CAPTAIN_OPENROUTER_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPENROUTER_API_KEY').update!(value: 'test-key')
   end
 
   after { Redis::Alfred.delete(preview_key) }
+
+  it 'forbids monitor access after downgrading to Startups' do
+    account.update!(custom_attributes: { 'plan_name' => 'Startups' })
+    Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+
+    get base, headers: headers
+
+    expect(response).to have_http_status(:forbidden)
+  end
 
   it 'creates a durable historical scan with immutable evaluation settings' do
     expect do
@@ -31,7 +40,7 @@ RSpec.describe 'Monitors API', type: :request do
   end
 
   it 'rejects overlong creation fields at the monitor request boundary' do
-    [{ name: 'x' * 101, condition: 'Refunds' }, { name: 'Refunds', condition: 'x' * 2001 }].each do |attributes|
+    [{ name: 'x' * 101, condition: 'Refunds' }, { name: 'Refunds', condition: 'x' * 501 }].each do |attributes|
       post base, headers: headers, params: attributes, as: :json
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body).to eq('error' => 'invalid_parameters')
@@ -255,7 +264,7 @@ RSpec.describe 'Monitors API', type: :request do
   end
 
   it 'rejects invalid descriptions and stale edits without replacing the current rule' do
-    ['', 'a' * 2001, ['refund'], { text: 'refund' }].each do |condition|
+    ['', 'a' * 501, ['refund'], { text: 'refund' }].each do |condition|
       patch "#{base}/#{monitor.id}", headers: headers, params: { condition: condition, collection_version: 0 }, as: :json
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body['error']).to eq('invalid_parameters')

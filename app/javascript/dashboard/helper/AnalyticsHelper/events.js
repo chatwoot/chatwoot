@@ -12,6 +12,11 @@ export const CONVERSATION_EVENTS = Object.freeze({
   APPLY_FILTER: 'Applied filters in the conversation list',
   CHANGE_PRIORITY: 'Assigned priority to a conversation',
   INSERT_ARTICLE_LINK: 'Inserted article into reply via article search',
+  COLLAPSED_REPLY_BOX: 'Collapsed the reply box',
+  EXPANDED_REPLY_BOX: 'Expanded the reply box',
+  OPENED_PREVIOUS_CONVERSATION: 'Opened the previous conversation of a contact',
+  OPENED_NEXT_CONVERSATION: 'Opened the next conversation of a contact',
+  VIEWED_ALL_CONTACT_CONVERSATIONS: 'Viewed all conversations of a contact',
 });
 
 export const ACCOUNT_EVENTS = Object.freeze({
@@ -112,6 +117,9 @@ export const CAPTAIN_EVENTS = Object.freeze({
   // Conversation sidebar suggestions
   LABEL_SUGGESTIONS_REQUESTED: 'Captain: Label suggestions requested',
   PRIORITY_SUGGESTION_REQUESTED: 'Captain: Priority suggestion requested',
+
+  // Automation conditions
+  AUTOMATION_CONDITION_SAVED: 'Captain: Automation condition saved',
 });
 
 export const COPILOT_EVENTS = Object.freeze({
