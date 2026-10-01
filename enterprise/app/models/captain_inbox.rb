@@ -25,6 +25,6 @@ class CaptainInbox < ApplicationRecord
 
   def ensure_exclusive_bot_provider
     provider = inbox&.conflicting_bot_provider(:captain)
-    errors.add(:base, "Disconnect #{provider} before connecting Captain") if provider
+    errors.add(:base, I18n.t('errors.inboxes.bot_provider_conflict', current_provider: provider, requested_provider: 'Captain')) if provider
   end
 end

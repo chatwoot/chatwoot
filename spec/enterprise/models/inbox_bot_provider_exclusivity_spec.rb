@@ -24,6 +24,13 @@ RSpec.describe Inbox do
 
       expect(build(:captain_inbox, inbox: inbox, captain_assistant: assistant)).to be_valid
     end
+
+    it 'ignores an Agent Bot connection whose bot was deleted' do
+      agent_bot.destroy!
+
+      expect(AgentBotInbox.exists?(inbox_id: inbox.id)).to be(true)
+      expect(build(:captain_inbox, inbox: inbox.reload, captain_assistant: assistant)).to be_valid
+    end
   end
 
   context 'when Captain is connected' do

@@ -27,7 +27,7 @@ class AgentBotInbox < ApplicationRecord
 
   def ensure_exclusive_bot_provider
     provider = inbox&.conflicting_bot_provider(:agent_bot)
-    errors.add(:base, "Disconnect #{provider} before connecting Agent Bot") if provider
+    errors.add(:base, I18n.t('errors.inboxes.bot_provider_conflict', current_provider: provider, requested_provider: 'Agent Bot')) if provider
   end
 
   def ensure_account_id

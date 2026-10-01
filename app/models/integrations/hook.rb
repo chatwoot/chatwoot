@@ -109,7 +109,7 @@ class Integrations::Hook < ApplicationRecord
 
   def ensure_exclusive_bot_provider
     provider = inbox&.conflicting_bot_provider(:dialogflow)
-    errors.add(:base, "Disconnect #{provider} before connecting Dialogflow") if provider
+    errors.add(:base, I18n.t('errors.inboxes.bot_provider_conflict', current_provider: provider, requested_provider: 'Dialogflow')) if provider
   end
 
   def ensure_feature_enabled
