@@ -169,16 +169,18 @@ describe('#mutations', () => {
   });
 
   describe('#clearConversations', () => {
-    it('clears conversations and pending metadata', () => {
+    it('clears conversations and pending metadata without clearing initial message drafts', () => {
       const state = {
         conversations: { 1: { id: 1 } },
         pendingCustomAttributes: { plan: 'enterprise' },
         pendingLabels: ['vip'],
+        initialMessage: 'I need help with invoice 42',
       };
       mutations.clearConversations(state);
       expect(state.conversations).toEqual({});
       expect(state.pendingCustomAttributes).toEqual({});
       expect(state.pendingLabels).toEqual([]);
+      expect(state.initialMessage).toEqual('I need help with invoice 42');
     });
   });
 
@@ -240,6 +242,22 @@ describe('#mutations', () => {
       mutations.clearPendingConversationMetadata(state);
       expect(state.pendingCustomAttributes).toEqual({});
       expect(state.pendingLabels).toEqual([]);
+    });
+  });
+
+  describe('#setInitialMessage', () => {
+    it('sets the initial message', () => {
+      const state = { initialMessage: '' };
+      mutations.setInitialMessage(state, 'I need help with invoice 42');
+      expect(state.initialMessage).toEqual('I need help with invoice 42');
+    });
+  });
+
+  describe('#clearInitialMessage', () => {
+    it('clears the initial message', () => {
+      const state = { initialMessage: 'I need help with invoice 42' };
+      mutations.clearInitialMessage(state);
+      expect(state.initialMessage).toEqual('');
     });
   });
 
