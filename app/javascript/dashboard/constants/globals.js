@@ -45,6 +45,8 @@ export default {
     'https://testimonials.cdn.chatwoot.com/testimonial-content.json',
   WHATSAPP_EMBEDDED_SIGNUP_DOCS_URL:
     'https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations',
+  WHATSAPP_HISTORY_SYNC_DOCS_URL:
+    'https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/onboarding-business-app-users',
   SMALL_SCREEN_BREAKPOINT: 768,
   LARGE_SCREEN_BREAKPOINT: 1024,
   AVAILABILITY_STATUS_KEYS: ['online', 'busy', 'offline'],
