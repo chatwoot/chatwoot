@@ -4,8 +4,8 @@
 #
 #  id                     :integer          not null, primary key
 #  additional_attributes  :jsonb
-#  ai_assignee_type       :string
 #  agent_last_seen_at     :datetime
+#  ai_assignee_type       :string
 #  assignee_last_seen_at  :datetime
 #  cached_label_list      :text
 #  contact_last_seen_at   :datetime
@@ -34,24 +34,25 @@
 #
 # Indexes
 #
-#  conv_acid_inbid_stat_asgnid_idx                    (account_id,inbox_id,status,assignee_id)
-#  index_conversations_on_account_id                  (account_id)
-#  index_conversations_on_account_id_and_display_id   (account_id,display_id) UNIQUE
-#  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
-#  index_conversations_on_campaign_id                 (campaign_id)
-#  index_conversations_on_contact_id                  (contact_id)
-#  index_conversations_on_contact_inbox_id            (contact_inbox_id)
-#  index_conversations_on_created_at                  (created_at)
-#  index_conversations_on_first_reply_created_at      (first_reply_created_at)
-#  index_conversations_on_id_and_account_id           (account_id,id)
-#  index_conversations_on_identifier_and_account_id   (identifier,account_id)
-#  index_conversations_on_inbox_id                    (inbox_id)
-#  index_conversations_on_priority                    (priority)
-#  index_conversations_on_status_and_account_id       (status,account_id)
-#  index_conversations_on_status_and_priority         (status,priority)
-#  index_conversations_on_team_id                     (team_id)
-#  index_conversations_on_uuid                        (uuid) UNIQUE
-#  index_conversations_on_waiting_since               (waiting_since)
+#  conv_acid_inbid_stat_asgnid_idx                      (account_id,inbox_id,status,assignee_id)
+#  index_conversations_on_account_id                    (account_id)
+#  index_conversations_on_account_id_and_display_id     (account_id,display_id) UNIQUE
+#  index_conversations_on_account_id_status_created_at  (account_id,status,created_at)
+#  index_conversations_on_assignee_id_and_account_id    (assignee_id,account_id)
+#  index_conversations_on_campaign_id                   (campaign_id)
+#  index_conversations_on_contact_id                    (contact_id)
+#  index_conversations_on_contact_inbox_id              (contact_inbox_id)
+#  index_conversations_on_created_at                    (created_at)
+#  index_conversations_on_first_reply_created_at        (first_reply_created_at)
+#  index_conversations_on_id_and_account_id             (account_id,id)
+#  index_conversations_on_identifier_and_account_id     (identifier,account_id)
+#  index_conversations_on_inbox_id                      (inbox_id)
+#  index_conversations_on_priority                      (priority)
+#  index_conversations_on_status_and_account_id         (status,account_id)
+#  index_conversations_on_status_and_priority           (status,priority)
+#  index_conversations_on_team_id                       (team_id)
+#  index_conversations_on_uuid                          (uuid) UNIQUE
+#  index_conversations_on_waiting_since                 (waiting_since)
 #
 
 class Conversation < ApplicationRecord
@@ -137,6 +138,7 @@ class Conversation < ApplicationRecord
   before_save :set_status_changed_at
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
+  after_create :mark_contact_as_lead
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
@@ -296,6 +298,10 @@ class Conversation < ApplicationRecord
 
   def ensure_waiting_since
     self.waiting_since = created_at
+  end
+
+  def mark_contact_as_lead
+    contact.update(contact_type: :lead) if contact.visitor?
   end
 
   def validate_additional_attributes
