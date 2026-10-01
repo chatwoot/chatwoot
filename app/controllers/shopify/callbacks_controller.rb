@@ -2,6 +2,7 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
   include Shopify::IntegrationHelper
 
   def show
+    @account_id = verified_account_id
     raise StandardError, 'Shopify authorization was denied' if params[:error].present?
 
     if chatwoot_initiated?
@@ -21,7 +22,6 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
   def chatwoot_initiated? = verified_account_id.present?
 
   def handle_chatwoot_initiated_flow
-    @account_id = verified_account_id
     raise StandardError, 'Invalid state parameter' if account.blank?
 
     ensure_shopify_enabled!(account: account)

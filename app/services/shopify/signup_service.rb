@@ -14,7 +14,11 @@ class Shopify::SignupService < AccountBuilder
     end
     claim_shopify_installation
 
-    @pending_installation.with_current_installation { create_shopify_signup }
+    transaction_succeeded = @pending_installation.with_current_installation { create_shopify_signup }
+    raise ActiveRecord::Rollback unless transaction_succeeded
+
+    finalize_shopify_signup
+    [@user, @account]
   rescue StandardError => e
     return recover_committed_shopify_signup(e) if committed_shopify_signup?
 
@@ -33,8 +37,7 @@ class Shopify::SignupService < AccountBuilder
     end
     raise ActiveRecord::Rollback unless transaction_succeeded
 
-    finalize_shopify_signup
-    [@user, @account]
+    true
   end
 
   def reject_existing_user_for_shopify_signup

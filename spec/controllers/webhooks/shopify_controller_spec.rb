@@ -99,7 +99,8 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
     post '/webhooks/shopify', params: body, headers: headers
 
     expect(response).to have_http_status(:internal_server_error)
-    expect(inserted_hook).to be_persisted
+    expect(inserted_hook).not_to be_persisted
+    expect(hook.reload).to be_persisted
   end
 
   it 'ignores a delayed redaction from before the current installation' do
