@@ -2,6 +2,10 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
   include Shopify::IntegrationHelper
 
   def show
+    if Shopify::CustomApp.enabled.exists?(shop_domain: Shopify::ShopDomain.normalize(params[:shop]))
+      raise 'This store uses an account-specific custom app'
+    end
+
     raise StandardError, 'Shopify authorization was denied' if params[:error].present?
 
     if chatwoot_initiated?
@@ -206,6 +210,7 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
   end
 
   def reusable_hook?(hook)
+    return false if hook&.settings&.fetch('custom_app_id', nil).present?
     return false unless hook&.enabled? && hook.access_token.present?
 
     granted_scopes = hook.settings['scope'].to_s.split(',').map(&:strip)
@@ -244,6 +249,8 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
   end
 
   def ensure_shopify_enabled!(account: nil)
+    raise 'This account uses a custom app' if account&.shopify_custom_app&.enabled?
+
     raise StandardError, 'Shopify integration is disabled' unless Shopify::FeatureGate.enabled?(account: account)
   end
 

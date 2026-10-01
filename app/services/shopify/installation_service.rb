@@ -5,6 +5,8 @@ class Shopify::InstallationService
   end
 
   def perform
+    raise Shopify::PendingInstallation::Error, 'This account uses a custom Shopify app' if @account.shopify_custom_app&.enabled?
+
     @pending_installation.with_current_installation { install_hook }
   end
 
