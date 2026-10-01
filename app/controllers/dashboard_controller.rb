@@ -27,6 +27,7 @@ class DashboardController < ActionController::Base
     DISABLE_META_MESSAGE_SENDING
     DEPLOYMENT_ENV
     INSTALLATION_PRICING_PLAN
+    CAPTAIN_TOOLS_MANIFEST_ENABLED
   ].freeze
 
   before_action :set_application_pack
@@ -86,14 +87,21 @@ class DashboardController < ActionController::Base
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
       GIT_SHA: GIT_HASH,
       ALLOWED_LOGIN_METHODS: allowed_login_methods,
-      ACTIVE_PLATFORM_BANNERS: active_platform_banners
+      ACTIVE_PLATFORM_BANNERS: active_platform_banners,
+      ACTIVE_FEATURE_ANNOUNCEMENTS: active_feature_announcements
     }
   end
 
   def active_platform_banners
     return [] unless ChatwootApp.chatwoot_cloud?
 
-    PlatformBanner.active.order(created_at: :desc).as_json(only: %i[id banner_message banner_type updated_at])
+    PlatformBanner.active.not_feature_announcement.order(created_at: :desc).as_json(only: %i[id banner_message banner_type updated_at])
+  end
+
+  def active_feature_announcements
+    return [] unless ChatwootApp.chatwoot_cloud?
+
+    PlatformBanner.active.feature_announcement.order(created_at: :desc).as_json(only: %i[id title banner_message video_url updated_at])
   end
 
   def allowed_login_methods
