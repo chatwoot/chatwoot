@@ -63,7 +63,7 @@ RSpec.describe ConversationMonitors::Usage do
   it 'does not charge the account when the daily token budget is exhausted' do
     Redis::Alfred.setex(token_key, 1000, 2.days)
 
-    expect { usage.reserve!(1) }.to raise_error(CustomExceptions::MonitorEvaluationError) { |error|
+    expect { usage.reserve!(1) }.to raise_error(CustomExceptions::JevQuotaError) { |error|
       expect(error).to have_attributes(code: 'budget_limit', retry_after: 12.hours.to_i)
     }
     expect(Redis::Alfred.get(token_key).to_i).to eq(1000)
@@ -82,7 +82,7 @@ RSpec.describe ConversationMonitors::Usage do
     expect(ConversationMonitors::BroadcastJob).to have_received(:schedule).with(monitor.id).once
     reached_at = ConversationMonitors::DailyUsage.find_by!(account_id: account_id, usage_date: Date.current).limit_reached_at
 
-    expect { usage.reserve!(10) }.to raise_error(CustomExceptions::MonitorEvaluationError) { |error|
+    expect { usage.reserve!(10) }.to raise_error(CustomExceptions::JevQuotaError) { |error|
       expect(error).to have_attributes(code: 'monthly_limit', retry_after: (Time.utc(2026, 10, 1) - Time.current).to_i)
     }
     expect(ConversationMonitors::DailyUsage.find_by!(account_id: account_id, usage_date: Date.current))

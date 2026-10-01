@@ -1,3 +1,4 @@
+# Shared by all Jev callers. Retain the existing storage and keys to preserve account usage during rollout.
 class ConversationMonitors::Usage
   def initialize(account_id)
     @account_id = account_id
@@ -29,7 +30,7 @@ class ConversationMonitors::Usage
       now = Time.current.utc
       @usage_date = now.to_date
       usage = snapshot(now)
-      raise CustomExceptions::MonitorEvaluationError.new('monthly_limit', retry_after: (usage[:resets_at] - now.to_f).ceil) if usage[:limit_reached]
+      raise CustomExceptions::JevQuotaError.new('monthly_limit', retry_after: (usage[:resets_at] - now.to_f).ceil) if usage[:limit_reached]
 
       reserve_tokens!(bytes)
       tokens_reserved = true
@@ -50,7 +51,7 @@ class ConversationMonitors::Usage
         reserved = redis.watch(key) do
           if redis.get(key).to_i + bytes > limit
             delay = 1.day.from_now.utc.beginning_of_day - Time.current
-            raise CustomExceptions::MonitorEvaluationError.new('budget_limit', retry_after: delay.ceil)
+            raise CustomExceptions::JevQuotaError.new('budget_limit', retry_after: delay.ceil)
           end
           redis.multi do |transaction|
             transaction.incrby(key, bytes)
