@@ -18,6 +18,15 @@ RSpec.describe 'Monitors API', type: :request do
 
   after { Redis::Alfred.delete(preview_key) }
 
+  it 'forbids monitor access after downgrading to Startups' do
+    account.update!(custom_attributes: { 'plan_name' => 'Startups' })
+    Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+
+    get base, headers: headers
+
+    expect(response).to have_http_status(:forbidden)
+  end
+
   it 'creates a durable historical scan with immutable evaluation settings' do
     expect do
       post base, headers: headers, params: { name: 'Refunds', condition: 'Mentions refunds' }, as: :json

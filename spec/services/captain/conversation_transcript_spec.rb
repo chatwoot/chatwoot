@@ -45,6 +45,12 @@ RSpec.describe Captain::ConversationTranscript do
       expect(described_class.entry(message, 100)).to be_nil
     end
 
+    it 'is nil for a forwarded email' do
+      message = create_message(message_type: :outgoing, content: 'Note to supplier', content_attributes: { forwarded_message_id: 1 })
+
+      expect(described_class.entry(message, 100)).to be_nil
+    end
+
     it 'is nil for a message without content' do
       message = create_message(message_type: :incoming, content: nil)
 
@@ -57,6 +63,7 @@ RSpec.describe Captain::ConversationTranscript do
       create_message(message_type: :incoming, content: 'I want my money back')
       create_message(message_type: :outgoing, private: true, content: 'Customer is on the legacy plan')
       create_message(message_type: :template, content: 'Give the team a way to reach you.')
+      create_message(message_type: :outgoing, content: 'Note to supplier', content_attributes: { forwarded_message_id: 1 })
       create_message(message_type: :outgoing, content: 'Let me check that for you')
 
       expect(described_class.new(conversation: conversation).messages).to eq(

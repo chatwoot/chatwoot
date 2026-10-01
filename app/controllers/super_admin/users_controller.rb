@@ -68,14 +68,15 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   end
 
   def impersonate
-    redirect_to impersonation_url, status: :see_other, allow_other_host: true
+    redirect_to impersonation_url('open'), status: :see_other, allow_other_host: true
   end
 
   def impersonation_link
-    render json: { url: impersonation_url }
+    render json: { url: impersonation_url('copy') }
   end
 
-  def impersonation_url
+  def impersonation_url(via)
+    ImpersonationLogger.log('link_created', user: requested_resource, super_admin_id: current_super_admin.id, ip: request.remote_ip, via: via)
     requested_resource.generate_sso_link_with_impersonation(current_super_admin)
   end
 
