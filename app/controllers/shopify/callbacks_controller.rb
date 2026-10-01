@@ -40,7 +40,7 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
   end
 
   def with_current_shop_generation(expected_generation)
-    Shopify::InstallationGeneration.with_shop_lock(params[:shop]) do
+    ActiveRecord::Base.transaction do
       unless expected_generation.to_i == Shopify::PendingInstallation.generation(shop: params[:shop])
         raise StandardError, 'Shopify installation changed during authorization'
       end
