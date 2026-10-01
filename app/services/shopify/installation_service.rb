@@ -5,16 +5,7 @@ class Shopify::InstallationService
   end
 
   def perform
-    @pending_installation.with_current_installation { install_hook }
-  end
-
-  private
-
-  def install_hook
-    data = @pending_installation.data
-    raise_duplicate_shop! if shopify_shop_exists?(data['shop'])
-
-    hook = create_shopify_hook(data)
+    hook = @pending_installation.with_current_installation { install_hook }
     @pending_installation.consume!
   rescue Shopify::PendingInstallation::CommitOutcomeUnknown
     raise
@@ -27,6 +18,15 @@ class Shopify::InstallationService
   rescue StandardError
     hook&.destroy!
     raise
+  end
+
+  private
+
+  def install_hook
+    data = @pending_installation.data
+    raise_duplicate_shop! if shopify_shop_exists?(data['shop'])
+
+    create_shopify_hook(data)
   end
 
   def create_shopify_hook(data)

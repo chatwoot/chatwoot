@@ -2,6 +2,7 @@ class Shopify::CallbacksController < ApplicationController
   include Shopify::IntegrationHelper
 
   def show
+    @account_id = verified_account_id
     raise StandardError, 'Shopify authorization was denied' if params[:error].present?
 
     handle_chatwoot_initiated_flow
@@ -13,7 +14,6 @@ class Shopify::CallbacksController < ApplicationController
   private
 
   def handle_chatwoot_initiated_flow
-    @account_id = verified_account_id
     raise StandardError, 'Invalid state parameter' if account.blank?
 
     ensure_shopify_enabled!(account: account)
@@ -144,4 +144,4 @@ class Shopify::CallbacksController < ApplicationController
 
     ActiveSupport::SecurityUtils.secure_compare(computed_hmac, hmac)
   end
-end # rubocop:enable Metrics/ClassLength
+end
