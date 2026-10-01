@@ -1,4 +1,6 @@
 class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseController
+  before_action :validate_assignment_targets, only: :create, if: -> { normalized_type == 'Conversation' }
+
   def create
     case normalized_type
     when 'Conversation'
@@ -17,6 +19,18 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
 
   def normalized_type
     params[:type].to_s.camelize
+  end
+
+  def validate_assignment_targets
+    fields = conversation_params[:fields] || {}
+    { assignee_id: @current_account.users, team_id: @current_account.teams }.each do |field, scope|
+      id = fields[field]
+      next if id.nil?
+      next if field == :team_id && [0, '0'].include?(id)
+      next if scope.exists?(id: id)
+
+      return render_could_not_create_error("Invalid #{field}")
+    end
   end
 
   def enqueue_conversation_job
