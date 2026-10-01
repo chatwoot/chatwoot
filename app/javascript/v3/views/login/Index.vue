@@ -182,6 +182,8 @@ export default {
           return this.$t('LOGIN.OAUTH.NO_ACCOUNT_FOUND');
         case 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY':
           return this.$t('LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY');
+        case 'LOGIN.OAUTH.SHOPIFY_INSTALLATION_FAILED':
+          return this.$t('LOGIN.OAUTH.SHOPIFY_INSTALLATION_FAILED');
         case 'LOGIN.API.UNAUTH':
         default:
           return this.$t('LOGIN.API.UNAUTH');
