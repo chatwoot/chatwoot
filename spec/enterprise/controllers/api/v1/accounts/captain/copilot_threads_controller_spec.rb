@@ -47,6 +47,21 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
         expect(response).to have_http_status(:success)
         expect(json_response[:payload].pluck(:id)).to eq(threads.reverse.pluck(:id))
       end
+
+      it 'keeps a past chat readable if its assistant is missing' do
+        thread = create(:captain_copilot_thread, account: account, user: agent)
+        # Simulate an older chat that was saved without an assistant.
+        # rubocop:disable Rails/SkipsModelValidations
+        thread.update_column(:assistant_id, nil)
+        # rubocop:enable Rails/SkipsModelValidations
+
+        get "/api/v1/accounts/#{account.id}/captain/copilot_threads",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:payload].first).to include(id: thread.id, assistant: nil)
+      end
     end
   end
 
@@ -87,6 +102,19 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
       end
 
       context 'with valid params' do
+        it 'uses the configured assistant instead of the assistant sent by the agent' do
+          configured_assistant = create(:captain_assistant, account: account)
+          account.update!(copilot_assistant_id: configured_assistant.id)
+
+          post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
+               params: valid_params,
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(CopilotThread.last.assistant).to eq(configured_assistant)
+        end
+
         it 'returns error when usage limit is exceeded' do
           account.limits = { captain_responses: 2 }
           account.custom_attributes = { captain_responses_usage: 2 }

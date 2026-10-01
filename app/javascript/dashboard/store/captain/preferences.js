@@ -6,6 +6,8 @@ export const useCaptainConfigStore = defineStore('captainConfig', {
     providers: {},
     models: {},
     features: {},
+    copilotAssistantId: null,
+    copilotTools: [],
     uiFlags: {
       isFetching: false,
     },
@@ -54,6 +56,8 @@ export const useCaptainConfigStore = defineStore('captainConfig', {
         this.providers = response.data.providers || {};
         this.models = response.data.models || {};
         this.features = response.data.features || {};
+        this.copilotAssistantId = response.data.copilot_assistant_id;
+        this.copilotTools = response.data.copilot_tools || [];
       } catch (error) {
         // Ignore error
       } finally {
@@ -66,6 +70,8 @@ export const useCaptainConfigStore = defineStore('captainConfig', {
       this.providers = response.data.providers || {};
       this.models = response.data.models || {};
       this.features = response.data.features || {};
+      this.copilotAssistantId = response.data.copilot_assistant_id;
+      this.copilotTools = response.data.copilot_tools || [];
     },
   },
 });
