@@ -23,12 +23,14 @@
         "NAME": "첫 번째 응답 시간",
         "DESC": "( 평균 )",
         "INFO_TEXT": "계산에 사용된 총 대화 수:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "첫 번째 응답 시간은 {metricValue}입니다 ({conversationCount}개 대화 기준)"
       },
       "RESOLUTION_TIME": {
         "NAME": "해결 시간",
         "DESC": "( 평균 )",
         "INFO_TEXT": "계산에 사용된 총 대화 수:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "해결 시간은 {metricValue}입니다 ({conversationCount}개 대화 기준)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "고객 대기 시간",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "대기 시간은 {metricValue}입니다 ({conversationCount}개 응답 기준)",
         "DESC": ""
       }
@@ -544,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "개요",
     "LIVE": "실시간",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "열린 대화",
       "LOADING_MESSAGE": "대화 지표 불러오는 중...",

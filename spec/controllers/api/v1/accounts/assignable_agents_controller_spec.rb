@@ -67,9 +67,9 @@ RSpec.describe 'Assignable Agents API', type: :request do
         let!(:account_bot) { create(:agent_bot, account: account, name: 'Account bot') }
         let!(:global_bot) { create(:agent_bot, account: nil, name: 'Global bot') }
 
-        it 'returns assignable agents and accessible agent bots' do
+        it 'returns accessible agent bots with the AI assignees flag' do
           get "/api/v1/accounts/#{account.id}/assignable_agents",
-              params: { inbox_ids: [inbox1.id, inbox2.id], include_agent_bots: true },
+              params: { inbox_ids: [inbox1.id, inbox2.id], include_ai_assignees: true },
               headers: agent1.create_new_auth_token,
               as: :json
 

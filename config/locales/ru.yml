@@ -36,31 +36,31 @@ ru:
   data_imports:
     intercom:
       activities:
-        assignment: '%{actor} assigned the conversation'
-        assignment_with_target: '%{actor} assigned the conversation to %{target}'
-        assign_and_reopen: '%{actor} assigned and reopened the conversation'
-        assign_and_reopen_with_target: '%{actor} assigned the conversation to %{target} and reopened it'
-        open: '%{actor} opened the conversation'
-        close: '%{actor} closed the conversation'
-        snoozed: '%{actor} snoozed the conversation'
-        participant_added: '%{actor} added a participant'
-        participant_added_with_target: '%{actor} added %{target} as a participant'
-        participant_removed: '%{actor} removed a participant'
-        participant_removed_with_target: '%{actor} removed %{target} as a participant'
-        conversation_attribute_updated: '%{actor} updated conversation attributes'
-        ticket_attribute_updated: '%{actor} updated ticket attributes'
-        ticket_state_updated: '%{actor} updated the ticket state'
-        custom_action_started: '%{actor} started a custom action'
-        custom_action_finished: '%{actor} finished a custom action'
-        quick_reply: '%{actor} used a quick reply'
-        generic: '%{actor} recorded %{event}'
+        assignment: '%{actor} назначил разговор'
+        assignment_with_target: '%{actor} назначил разговор участнику %{target}'
+        assign_and_reopen: '%{actor} назначил и снова открыл разговор'
+        assign_and_reopen_with_target: '%{actor} назначил разговор участнику %{target} и открыл его заново'
+        open: '%{actor} начал разговор'
+        close: '%{actor} завершил разговор'
+        snoozed: '%{actor} отложил разговор'
+        participant_added: '%{actor} добавил участника'
+        participant_added_with_target: '%{actor} добавил %{target} в качестве участника'
+        participant_removed: '%{actor} удалил участника'
+        participant_removed_with_target: '%{actor} удалил %{target} в качестве участника'
+        conversation_attribute_updated: '%{actor} обновил атрибуты разговора'
+        ticket_attribute_updated: '%{actor} обновил атрибуты заявки'
+        ticket_state_updated: '%{actor} обновил статус заявки'
+        custom_action_started: '%{actor} начал пользовательское действие'
+        custom_action_finished: '%{actor} завершил пользовательское действие'
+        quick_reply: '%{actor} использовал быстрый ответ'
+        generic: '%{actor} записал %{event}'
   profile_settings:
     sessions:
-      cannot_revoke_current: You cannot revoke the current session.
+      cannot_revoke_current: Вы не можете отменить текущую сессию.
   errors:
     account:
-      not_authorized: You are not authorized to access this account
-      email_limit_exceeded: The daily email limit for this account has been reached
+      not_authorized: Вы не авторизованы для доступа к этой учетной записи
+      email_limit_exceeded: Достигнут дневной лимит эл. почты для этой учетной записи
       reporting_timezone:
         invalid: неверный часовой пояс
       support_email:
@@ -91,13 +91,15 @@ ru:
       unsupported_content_type: 'File type not supported (only images and videos are allowed)'
       unexpected: 'An unexpected error occurred'
     database:
-      query_canceled: 'The request took too long to complete. Please try again.'
+      query_canceled: 'Выполнение запроса заняло слишком много времени. Пожалуйста, попробуйте снова.'
     saml:
       feature_not_enabled: Функция SAML не включена для этой учетной записи
       sso_not_enabled: SSO SAML не включен для этой установки
+      multi_account_invitation_not_allowed: Пользователи, связанные с другой учетной записью, не могут быть добавлены, когда SAML включен
     conversations:
+      resolved: Conversation is resolved and does not accept new messages
       unread_counts:
-        feature_not_enabled: Conversation unread counts feature not enabled for this account
+        feature_not_enabled: Функция непрочитанных сообщений для этой учетной записи не включена
     data_import:
       data_type:
         invalid: Недопустимый тип данных
@@ -123,15 +125,15 @@ ru:
         unique: Должны быть уникальными в категории и портале
     dyte:
       invalid_message_type: 'Недопустимый тип сообщения. Действие запрещено'
-      realtimekit_credentials_required: 'Cloudflare RealtimeKit credentials are required. Delete the existing Dyte integration and create it again with Cloudflare RealtimeKit credentials.'
+      realtimekit_credentials_required: 'Необходимы учетные данные Cloudflare RealtimeKit. Удалите существующую интеграцию Dyte и создайте ее заново, используя учетные данные Cloudflare RealtimeKit.'
     cloudflare:
       realtimekit:
-        invalid_credentials: 'Cloudflare RealtimeKit credentials are invalid. Please check the Account ID, RealtimeKit App ID, and API token permissions.'
-        missing_credentials: 'Cloudflare Account ID, RealtimeKit App ID, and API token are required.'
-        invalid_api_token: 'Cloudflare API token is invalid or inactive. Please create a new token with Realtime Admin permissions.'
-        invalid_account_or_permissions: 'Cloudflare Account ID is invalid, or the API token does not have Realtime Admin access to this account.'
-        app_not_found: 'RealtimeKit App ID was not found in this Cloudflare account. Please check the app you selected.'
-        verification_failed: 'Could not verify Cloudflare RealtimeKit credentials right now. Please try again.'
+        invalid_credentials: 'Некорректные учетные данные Cloudflare RealtimeKit. Проверьте Account ID, RealtimeKit App ID и разрешения API token.'
+        missing_credentials: 'Требуется идентификатор аккаунта в Cloudflare, идентификатор приложения RealtimeKit и токен API.'
+        invalid_api_token: 'Cloudflare API токен недействителен или неактивен. Пожалуйста, создайте новый токен с правами Realtime Admin.'
+        invalid_account_or_permissions: 'Неверный ID аккаунта Cloudflare или API токен не имеет прав Realtime Admin для этой учетной записи.'
+        app_not_found: 'RealtimeKit App ID не найден в этой учетной записи Cloudflare. Пожалуйста, проверьте выбранное приложение.'
+        verification_failed: 'Не удалось проверить учетные данные Cloudflare RealtimeKit прямо сейчас. Пожалуйста, попробуйте еще раз.'
     slack:
       invalid_channel_id: 'Неправильный канал slack - попробуйте еще раз'
     whatsapp:
@@ -139,21 +141,22 @@ ru:
       invalid_token_permissions: 'Токен доступа не имеет необходимых прав для WhatsApp.'
       phone_info_fetch_failed: 'Не удалось получить информацию о номере телефона. Пожалуйста, попробуйте еще раз.'
       phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
-      message_outside_messaging_window: 'Message not sent because the WhatsApp 24-hour customer service window is closed and no template parameters were provided. Send an approved template message instead.'
+      message_outside_messaging_window: 'Сообщение не отправлено, поскольку 24-часовое окно обслуживания клиентов WhatsApp закрыто и параметры шаблона не были указаны. Вместо этого отправьте сообщение с утвержденным шаблоном.'
       reauthorization:
         generic: 'Не удалось повторно авторизовать WhatsApp. Пожалуйста, попробуйте еще раз.'
         not_supported: 'Повторная авторизация не поддерживается для данного типа канала WhatsApp.'
       calls:
         not_enabled: 'Вызов не включен для этого входящего сообщения'
-        already_ended: 'This call has already ended'
-        already_accepted: 'Call already accepted by another agent'
+        already_ended: 'Этот вызов уже завершен'
+        already_accepted: 'Звонок уже принят другим агентом'
         no_recording: 'Файл записи не указан'
+        recording_disabled: 'Call recording is disabled for this inbox'
         no_message: 'Звонок не имеет связанных сообщений'
         sdp_offer_required: 'Необходимо указать sdp_offer'
         contact_phone_required: 'Требуется номер телефона контакта'
         permission_request_failed: 'Не удалось отправить запрос на разрешение вызова'
     openai:
-      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
+      invalid_api_key: 'OpenAI API ключ недействителен или аннулирован. Пожалуйста, проверьте ваш ключ в вашей панели OpenAI.'
     inboxes:
       imap:
         socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
@@ -186,8 +189,8 @@ ru:
       invalid_credentials: Неверные учетные данные или проверочный код
       feature_unavailable: Функция MFA недоступна. Пожалуйста, настройте ключи шифрования.
     billing:
-      invalid_currency: Invalid billing currency
-      currency_locked: Billing currency cannot be changed after billing has been set up
+      invalid_currency: Неверная валюта выставления счета
+      currency_locked: Валюта выставления счета не может быть изменена после настройки счета
     topup:
       credits_required: Необходимо ввести сумму кредитов
       invalid_credits: Неверная сумма кредитов
@@ -287,8 +290,8 @@ ru:
       whatsapp:
         list_button_label: 'Выберите элемент'
         call_permission_request_body: 'Мы хотели бы позвонить Вам по поводу Вашего разговора.'
-        flow_response: 'Submitted a flow response'
-        unsupported_message: 'This message is unavailable.'
+        flow_response: 'Отправлен ответ на WhatsApp Flow'
+        unsupported_message: 'Это сообщение недоступно.'
       voice_call:
         twilio: 'Голосовой звонок'
         whatsapp: 'WhatsApp звонок'
@@ -428,6 +431,8 @@ ru:
       completed_tool_call: 'Вызов инструмента %{function_name}'
       invalid_tool_call: 'Неверный вызов инструмента'
       tool_not_available: 'Инструмент недоступен'
+      reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
+      reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
     documents:
       limit_exceeded: 'Превышен лимит документов'
       pdf_format_error: 'должен быть PDF файлом'
@@ -461,34 +466,34 @@ ru:
       loading_placeholder: Идёт поиск...
       results_title: Результаты поиска
       results: Результаты поиска
-      results_for: "Search Results for '%{query}'"
-      no_results: "No results found for '%{query}'"
+      results_for: "Результаты поиска для '%{query}'"
+      no_results: "Ничего не найдено для '%{query}'"
       found_results:
-        one: Found 1 result
-        few: 'Found %{count} results'
+        one: 'Найден %{count} результат'
+        few: 'Найдено %{count} результата'
         many: 'Found %{count} results'
-        other: 'Found %{count} results'
+        other: 'Найдено %{count} результатов'
       submit: Поиск
     toc_header: 'На этой странице'
     sidebar:
       help_center: Центр поддержки
       categories: Категории
       language: Язык
-      theme: Theme
+      theme: Тема
       open_sidebar: Открыть боковую панель
       close_sidebar: Закрыть боковую панель
-      browse: Browse
-      back_to_category: Back to %{name}
-      browse_by_topic: Browse by topic
-      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
-      popular_articles: Popular articles
-      popular_articles_subtitle: What other people are reading right now.
-      recommended: Recommended articles
-      recommended_subtitle: Hand-picked articles to get you started.
-      popular_label: 'Popular topics:'
-      recommended_label: 'Recommended topics:'
-      authors_others: "%{names} and %{count} others"
-      primary_nav: Primary
+      browse: Обзор
+      back_to_category: Вернуться к %{name}
+      browse_by_topic: Поиск по теме
+      browse_by_topic_subtitle: Найти руководства, уроки и ответы, организованные по категориям.
+      popular_articles: Популярные статьи
+      popular_articles_subtitle: Что другие люди читают прямо сейчас.
+      recommended: Рекомендуемые статьи
+      recommended_subtitle: Подобранные вручную статьи, которые помогут вам начать работу.
+      popular_label: 'Популярные темы:'
+      recommended_label: 'Рекомендованные темы:'
+      authors_others: "%{names} и %{count} других"
+      primary_nav: Основная навигация
     hero:
       sub_title: Ищите здесь статьи или выберите категории, указанные ниже.
     common:
@@ -506,11 +511,11 @@ ru:
       previous: Previous
       next: Next
     article_actions:
-      label: Open in
-      view_markdown: View as Markdown
-      open_in_chatgpt: Open in ChatGPT
-      open_in_claude: Open in Claude
-      llm_prompt: "Read the following article and help me understand it: %{url}"
+      label: Открыть в
+      view_markdown: Смотреть как Markdown
+      open_in_chatgpt: Открыть в ChatGPT
+      open_in_claude: Открыть в Claude
+      llm_prompt: "Прочитайте следующую статью и помогите мне понять её: %{url}"
     footer:
       made_with: Сделано с
     header:
@@ -522,7 +527,7 @@ ru:
         light: Светлая
         dark: Тёмная
       featured_articles: Рекомендуемые статьи
-      recommended: Recommended articles
+      recommended: Рекомендуемые статьи
       uncategorized: Без категории
     404:
       title: Страница не найдена
@@ -591,7 +596,7 @@ ru:
     inbox_already_assigned: 'Входящие уже были назначены на эту политику'
   portals:
     analytics:
-      invalid_configuration: 'Invalid analytics configuration'
+      invalid_configuration: 'Недопустимая конфигурация аналитики'
     articles:
       captain_not_available: 'Перевод требует включения Captain для этой учетной записи'
       locale_not_available: 'Язык не доступен на этом портале'
@@ -609,45 +614,59 @@ ru:
   super_admin:
     account_suspension:
       categories:
-        spam: 'Spam'
-        non_payment: 'Non-payment'
-        other: 'Other'
+        spam: 'Спам'
+        non_payment: 'Неуплата'
+        other: 'Другое'
       form:
-        category: 'Suspension category'
+        category: 'Категория приостановки'
         category_prompt: 'Выберите категорию'
-        reason: 'Suspension reason'
-        reason_hint: 'Enter a reason of up to 256 characters.'
+        reason: 'Причина приостановки'
+        reason_hint: 'Введите причину не более 256 символов.'
       history:
-        suspended_at: 'Suspended at'
+        suspended_at: 'Приостановлен в'
         category: 'Категория'
-        reason: 'Reason'
-        empty: 'No suspension history recorded.'
+        reason: 'Причина'
+        empty: 'Нет записей о приостановлении.'
     captain_model_overrides:
       form:
-        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
-        use_default: 'Use default: %{model} (%{model_id})'
+        helper_text: 'Leave a model blank to use the default routing for that AI feature.'
+        customer_features: 'Customer features'
+        internal_features: 'Internal features'
+        use_default: 'По умолчанию: %{model} (%{model_id})'
+        use_installation_model: 'Use installation model: %{model} (%{model_id})'
       show:
-        summary: 'View model routing'
-        provider: 'Provider'
+        summary: 'Просмотр модели маршрутизации'
+        provider: 'Поставщик'
         model: 'Модель'
       sources:
-        account_override: 'Account override'
+        account_override: 'Переопределение учетной записи'
+        installation_override: 'Installation setting'
         default: 'По умолчанию'
       features:
-        editor: 'Editor'
+        conversation_completion: 'Inactive conversation completion evaluator'
+        editor: 'Редактор'
         assistant: 'Ассистент'
         copilot: 'Copilot'
-        label_suggestion: 'Label suggestion'
-        document_faq_generation: 'Document FAQ generation'
-        conversation_faq_generation: 'Conversation FAQ generation'
-        conversation_faq_matching: 'Conversation FAQ matching'
-        help_center_article_generation: 'Help center article generation'
-        onboarding_content_generation: 'Onboarding content generation'
-        help_center_query_translation: 'Help center query translation'
-        audio_transcription: 'Audio transcription'
-        help_center_search: 'Help center search'
+        label_suggestion: 'Предложенный ярлык'
+        document_faq_generation: 'Генерация FAQ документа'
+        conversation_faq_generation: 'Генерация FAQ в диалоге'
+        conversation_faq_matching: 'Соответствие FAQ в разговоре'
+        help_center_article_generation: 'Генерация статей в центре помощи'
+        onboarding_content_generation: 'Генерация контента для онбординга'
+        help_center_query_translation: 'Перевод запроса в центр помощи'
+        audio_transcription: 'Транскрипция звука'
+        help_center_search: 'Поиск по центру помощи'
     push_diagnostics:
       user_not_found: 'Пользователь не найден.'
       no_subscriptions_to_test: 'Выберите хотя бы одну подписку для тестирования.'
       no_subscriptions_to_delete: 'Выберите хотя бы одну подписку для удаления.'
-      subscriptions_deleted: "Подписка %{count} удалена. Устройство (устройства) пользователя будет перерегистрироваться при следующем запуске."
+      subscriptions_deleted:
+        one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
+        few: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+        many: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+        other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+    users:
+      resend_confirmation:
+        button: 'Resend confirmation email'
+        sent: 'Confirmation email sent.'
+        already_confirmed: 'User is already confirmed.'

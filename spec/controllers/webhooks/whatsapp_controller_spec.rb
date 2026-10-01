@@ -50,6 +50,108 @@ RSpec.describe 'Webhooks::WhatsappController', type: :request do
   end
 
   describe 'POST /webhooks/whatsapp/{:phone_number}' do
+    context 'with WhatsApp Business payloads' do
+      let(:tracking_change) do
+        { field: 'tracking_events', value: { events: [{ event_name: 'delivered', timestamp: 1_788_091_821 }] } }
+      end
+      let(:entries) { [{ changes: [tracking_change] }] }
+      let(:payload) { { object: 'whatsapp_business_account', entry: entries } }
+      let(:body) { payload.to_json }
+
+      before do
+        allow(Webhooks::WhatsappEventsJob).to receive(:perform_later)
+      end
+
+      it 'acknowledges tracking-only payloads without enqueueing a job' do
+        post_whatsapp_webhook('/webhooks/whatsapp/123221321', body)
+
+        expect(response).to have_http_status(:ok)
+        expect(Webhooks::WhatsappEventsJob).not_to have_received(:perform_later)
+      end
+
+      it 'skips multiple tracking changes across entries' do
+        payload[:entry] = [{ changes: [tracking_change, tracking_change] }, { changes: [tracking_change] }]
+        post_whatsapp_webhook('/webhooks/whatsapp/123221321', payload.to_json)
+
+        expect(response).to have_http_status(:ok)
+        expect(Webhooks::WhatsappEventsJob).not_to have_received(:perform_later)
+      end
+
+      it 'rejects tracking-only payloads for inactive numbers' do
+        allow(GlobalConfig).to receive(:get_value).with('INACTIVE_WHATSAPP_NUMBERS').and_return('+1234567890')
+
+        post_whatsapp_webhook('/webhooks/whatsapp/+1234567890', body)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Inactive WhatsApp number')
+        expect(Webhooks::WhatsappEventsJob).not_to have_received(:perform_later)
+      end
+
+      it 'rejects unsigned tracking-only payloads' do
+        post_unsigned_whatsapp_webhook('/webhooks/whatsapp/123221321', body)
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(Webhooks::WhatsappEventsJob).not_to have_received(:perform_later)
+      end
+
+      it 'rejects tracking-only payloads with an invalid signature' do
+        post_whatsapp_webhook('/webhooks/whatsapp/123221321', body, signature: 'sha256=invalid-signature')
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(Webhooks::WhatsappEventsJob).not_to have_received(:perform_later)
+      end
+
+      %w[sent delivered read failed].each do |status|
+        it "enqueues ordinary #{status} message-status updates" do
+          payload[:entry] = [{ changes: [{ field: 'messages', value: { statuses: [{ id: 'wamid.test', status: status }] } }] }]
+          post_whatsapp_webhook('/webhooks/whatsapp/123221321', payload.to_json)
+
+          expect(response).to have_http_status(:ok)
+          expect(Webhooks::WhatsappEventsJob).to have_received(:perform_later).with(hash_including(payload.deep_stringify_keys))
+        end
+      end
+
+      %w[messages smb_message_echoes calls].each do |field|
+        it "preserves #{field} events in mixed payloads" do
+          entries.first[:changes] << { field: field, value: {} }
+          post_whatsapp_webhook('/webhooks/whatsapp/123221321', body)
+
+          expect(response).to have_http_status(:ok)
+          expect(Webhooks::WhatsappEventsJob).to have_received(:perform_later).with(hash_including(payload.deep_stringify_keys))
+        end
+      end
+
+      it 'preserves non-tracking changes in subsequent entries' do
+        entries << { changes: [{ field: 'messages', value: { messages: [{ id: 'wamid.test', type: 'text', text: { body: 'Hello' } }] } }] }
+        post_whatsapp_webhook('/webhooks/whatsapp/123221321', body)
+
+        expect(response).to have_http_status(:ok)
+        expect(Webhooks::WhatsappEventsJob).to have_received(:perform_later).with(hash_including(payload.deep_stringify_keys))
+      end
+
+      context 'with no entries' do
+        let(:entries) { [] }
+
+        it 'does not classify the payload as tracking-only' do
+          post_whatsapp_webhook('/webhooks/whatsapp/123221321', body)
+
+          expect(response).to have_http_status(:ok)
+          expect(Webhooks::WhatsappEventsJob).to have_received(:perform_later)
+        end
+      end
+
+      context 'with no changes' do
+        let(:entries) { [{ changes: [] }] }
+
+        it 'does not classify the payload as tracking-only' do
+          post_whatsapp_webhook('/webhooks/whatsapp/123221321', body)
+
+          expect(response).to have_http_status(:ok)
+          expect(Webhooks::WhatsappEventsJob).to have_received(:perform_later)
+        end
+      end
+    end
+
     it 'calls the whatsapp events job with the params for a valid signature' do
       allow(Webhooks::WhatsappEventsJob).to receive(:perform_later)
       expect(Webhooks::WhatsappEventsJob).to receive(:perform_later)

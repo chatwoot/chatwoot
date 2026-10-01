@@ -64,6 +64,33 @@ describe Twilio::SendOnTwilioService do
 
         expect(outgoing_message.reload.source_id).to eq('1234')
       end
+
+      it 'sends merged-contact replies through each conversation exact WhatsApp source' do
+        contact_a = create(:contact, account: account, name: 'Customer A')
+        contact_b = create(:contact, account: account, name: 'Customer B')
+        contact_inbox_a = create(:contact_inbox, contact: contact_a, inbox: twilio_whatsapp_inbox,
+                                                 source_id: 'whatsapp:IN.2081978709342942')
+        contact_inbox_b = create(:contact_inbox, contact: contact_b, inbox: twilio_whatsapp_inbox,
+                                                 source_id: 'whatsapp:IN.3081978709342942')
+        conversation_a = create(:conversation, account: account, inbox: twilio_whatsapp_inbox, contact: contact_a,
+                                               contact_inbox: contact_inbox_a)
+        conversation_b = create(:conversation, account: account, inbox: twilio_whatsapp_inbox, contact: contact_b,
+                                               contact_inbox: contact_inbox_b)
+        ContactMergeAction.new(account: account, base_contact: contact_a, mergee_contact: contact_b).perform
+        message_a = create(:message, account: account, inbox: twilio_whatsapp_inbox, conversation: conversation_a,
+                                     message_type: :outgoing, content: 'reply A')
+        message_b = create(:message, account: account, inbox: twilio_whatsapp_inbox, conversation: conversation_b,
+                                     message_type: :outgoing, content: 'reply B')
+
+        expect(messages_double).to receive(:create).with(hash_including(to: contact_inbox_a.source_id)).ordered
+                                                   .and_return(message_record_double)
+        expect(messages_double).to receive(:create).with(hash_including(to: contact_inbox_b.source_id)).ordered
+                                                   .and_return(message_record_double)
+        allow(message_record_double).to receive(:sid).and_return('1234')
+
+        described_class.new(message: message_a).perform
+        described_class.new(message: message_b).perform
+      end
     end
 
     it 'if outgoing message has attachment and is for whatsapp' do

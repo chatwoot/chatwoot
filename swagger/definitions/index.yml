@@ -312,3 +312,15 @@ reporting_event_meta:
   $ref: ./resource/reporting_event_meta.yml
 reporting_events_list_response:
   $ref: ./resource/reporting_events_list_response.yml
+
+campaign:
+  $ref: ./resource/campaign.yml
+campaign_fields:
+  $ref: ./request/campaign/fields.yml
+campaign_create_payload:
+  $ref: ./request/campaign/create.yml
+campaign_update_payload:
+  $ref: ./request/campaign/update.yml
+
+campaign_whatsapp_template_params:
+  $ref: ./request/campaign/whatsapp_template_params.yml

@@ -4,9 +4,9 @@ class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BasePublicTool
 
   def perform(tool_context, note:)
     conversation = find_conversation(tool_context.state)
-    return 'Conversation not found' unless conversation
+    return failure_result('Conversation not found', tool_context.state) unless conversation
 
-    return 'Note content is required' if note.blank?
+    return failure_result('Note content is required', tool_context.state) if note.blank?
 
     log_tool_usage('add_private_note', { conversation_id: conversation.id, note_length: note.length })
     create_private_note(conversation, note)

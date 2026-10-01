@@ -1,4 +1,8 @@
 class Whatsapp::CallPermissionReplyService
+  REQUESTS_KEY = 'call_permission_requests'.freeze
+  REQUESTED_AT_KEY = 'call_permission_requested_at'.freeze
+  MESSAGE_ID_KEY = 'call_permission_request_message_id'.freeze
+
   pattr_initialize [:inbox!, :params!]
 
   def perform
@@ -10,7 +14,7 @@ class Whatsapp::CallPermissionReplyService
     conversation = find_requesting_conversation(reply_data[:context_id])
     return unless conversation
 
-    clear_permission_flag(conversation)
+    clear_permission_flag(conversation, reply_data[:context_id])
     emit_permission_granted_activity(conversation)
     broadcast_permission_granted(conversation.contact, conversation)
   end
@@ -47,15 +51,28 @@ class Whatsapp::CallPermissionReplyService
 
     inbox.conversations
          .where.not(status: :resolved)
-         .where("additional_attributes ->> 'call_permission_request_message_id' = ?", context_id)
+         .where(
+           <<~SQL.squish, context_id, context_id
+             additional_attributes ->> '#{MESSAGE_ID_KEY}' = ?
+             OR EXISTS (
+               SELECT 1 FROM jsonb_each(additional_attributes -> '#{REQUESTS_KEY}') AS request(recipient, data)
+               WHERE data ->> '#{MESSAGE_ID_KEY}' = ?
+             )
+           SQL
+         )
          .first
   end
 
-  def clear_permission_flag(conversation)
-    attrs = (conversation.additional_attributes || {}).except(
-      'call_permission_requested_at', 'call_permission_request_message_id'
-    )
-    conversation.update!(additional_attributes: attrs)
+  def clear_permission_flag(conversation, context_id)
+    conversation.with_lock do
+      attrs = conversation.additional_attributes || {}
+      permission_requests = attrs.fetch(REQUESTS_KEY, {}).reject { |_recipient, request| request[MESSAGE_ID_KEY] == context_id }
+
+      attrs = attrs.except(REQUESTED_AT_KEY, MESSAGE_ID_KEY) if attrs[MESSAGE_ID_KEY] == context_id
+      attrs = attrs.merge(REQUESTS_KEY => permission_requests)
+      attrs = attrs.except(REQUESTS_KEY) if permission_requests.blank?
+      conversation.update!(additional_attributes: attrs)
+    end
   end
 
   def broadcast_permission_granted(contact, conversation)

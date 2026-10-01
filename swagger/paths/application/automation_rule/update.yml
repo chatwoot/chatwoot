@@ -4,6 +4,7 @@ operationId: update-automation-rule-in-account
 summary: Update automation rule in Account
 description: Update a automation rule in account
 security:
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - in: path

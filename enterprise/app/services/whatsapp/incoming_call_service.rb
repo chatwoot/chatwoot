@@ -223,6 +223,7 @@ class Whatsapp::IncomingCallService
               streams: streams,
               direction: call.direction_label, inbox_id: call.inbox_id,
               sdp_offer: sdp_offer, ice_servers: Call.default_ice_servers,
+              recording_enabled: call.recording_enabled?,
               caller: { name: contact.name, phone: contact.phone_number, avatar: contact.avatar_url })
   end
 

@@ -7,6 +7,7 @@ const {
   APP_VERSION: appVersion,
   AZURE_APP_ID: azureAppId,
   BRAND_NAME: brandName,
+  CAPTAIN_TOOLS_MANIFEST_ENABLED: captainToolsManifestEnabled,
   CHATWOOT_INBOX_TOKEN: chatwootInboxToken,
   CREATE_NEW_ACCOUNT_FROM_DASHBOARD: createNewAccountFromDashboard,
   DIRECT_UPLOADS_ENABLED: directUploadsEnabled,
@@ -27,6 +28,7 @@ const {
   DISABLE_META_MESSAGE_SENDING: disableMetaMessageSending,
   DEPLOYMENT_ENV: deploymentEnv,
   ACTIVE_PLATFORM_BANNERS: activePlatformBanners,
+  ACTIVE_FEATURE_ANNOUNCEMENTS: activeFeatureAnnouncements,
 } = window.globalConfig || {};
 
 const state = {
@@ -35,6 +37,7 @@ const state = {
   appVersion,
   azureAppId,
   brandName,
+  captainToolsManifestEnabled: parseBoolean(captainToolsManifestEnabled),
   chatwootInboxToken,
   deploymentEnv,
   createNewAccountFromDashboard,
@@ -55,6 +58,7 @@ const state = {
   widgetBrandURL,
   isEnterprise: parseBoolean(isEnterprise),
   activePlatformBanners: activePlatformBanners || [],
+  activeFeatureAnnouncements: activeFeatureAnnouncements || [],
 };
 
 export const getters = {

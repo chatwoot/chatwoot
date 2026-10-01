@@ -16,7 +16,7 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
   def create
     ActiveRecord::Base.transaction do
       @copilot_thread = Current.account.copilot_threads.create!(
-        title: copilot_thread_params[:message],
+        title: copilot_thread_params[:message].truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH, omission: ''),
         user: Current.user,
         assistant: assistant
       )

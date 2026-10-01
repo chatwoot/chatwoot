@@ -7,6 +7,7 @@ const mocks = vi.hoisted(() => ({
   dialogOpen: vi.fn(),
   dispatch: vi.fn(),
   getterValues: null,
+  paywall: null,
 }));
 
 const translate = (key, params = {}) => {
@@ -25,6 +26,7 @@ vi.mock('dashboard/composables/store', async () => {
     'captainCustomTools/getRecords': ref([
       {
         id: 7,
+        assistant_id: 1,
         title: 'Order lookup',
         description: 'Looks up an order',
         enabled: true,
@@ -34,6 +36,7 @@ vi.mock('dashboard/composables/store', async () => {
     ]),
     'captainCustomTools/getMeta': ref({ totalCount: 1, page: 1 }),
     'captainCustomTools/getUIFlags': ref({ fetchingList: false }),
+    'globalConfig/get': ref({ captainToolsManifestEnabled: true }),
   };
 
   return {
@@ -44,11 +47,21 @@ vi.mock('dashboard/composables/store', async () => {
 
 vi.mock('dashboard/composables', () => ({ useAlert: mocks.alerts }));
 
-vi.mock('dashboard/composables/usePolicy', () => ({
-  usePolicy: () => ({
-    isFeatureFlagEnabled: () => true,
-    shouldShowPaywall: () => false,
-  }),
+vi.mock('dashboard/composables/usePolicy', async () => {
+  const { ref } = await import('vue');
+  // Reactive, so a spec can simulate account features loading after the page mounts
+  mocks.paywall = ref(false);
+  return {
+    usePolicy: () => ({
+      isFeatureFlagEnabled: () => true,
+      shouldShowPaywall: () => mocks.paywall.value,
+    }),
+  };
+});
+
+vi.mock('vue-router', async importOriginal => ({
+  ...(await importOriginal()),
+  useRoute: () => ({ params: { assistantId: '1' } }),
 }));
 
 vi.mock('vue-i18n', () => ({
@@ -111,7 +124,27 @@ const mountIndex = () =>
 describe('Captain custom tools', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mocks.paywall.value = false;
     mocks.dispatch.mockResolvedValue(undefined);
+  });
+
+  it('loads the tools once account access resolves after a reload', async () => {
+    mocks.paywall.value = true;
+    mountIndex();
+    await flushPromises();
+
+    expect(mocks.dispatch).not.toHaveBeenCalledWith(
+      'captainCustomTools/get',
+      expect.anything()
+    );
+
+    mocks.paywall.value = false;
+    await flushPromises();
+
+    expect(mocks.dispatch).toHaveBeenCalledWith(
+      'captainCustomTools/get',
+      expect.objectContaining({ assistantId: '1', page: 1 })
+    );
   });
 
   it('confirms before disabling a tool used by enabled scenarios', async () => {
@@ -131,7 +164,10 @@ describe('Captain custom tools', () => {
     await wrapper.get('[data-test="toggle"]').trigger('click');
     await flushPromises();
 
-    expect(mocks.dispatch).toHaveBeenCalledWith('captainCustomTools/show', 7);
+    expect(mocks.dispatch).toHaveBeenCalledWith('captainCustomTools/show', {
+      id: 7,
+      assistantId: '1',
+    });
     expect(mocks.dispatch).not.toHaveBeenCalledWith(
       'captainCustomTools/update',
       expect.anything()
@@ -147,6 +183,7 @@ describe('Captain custom tools', () => {
     expect(mocks.dispatch).toHaveBeenCalledWith('captainCustomTools/update', {
       id: 7,
       enabled: false,
+      assistantId: '1',
     });
     expect(mocks.dialogClose).toHaveBeenCalledOnce();
   });
@@ -171,6 +208,7 @@ describe('Captain custom tools', () => {
     expect(mocks.dispatch).toHaveBeenCalledWith('captainCustomTools/update', {
       id: 7,
       enabled: false,
+      assistantId: '1',
     });
     expect(mocks.dialogOpen).not.toHaveBeenCalled();
   });

@@ -25,14 +25,6 @@ describe('#Inbox Helpers', () => {
       ],
       [INBOX_TYPES.WHATSAPP, { phone_number: '+15555550100' }, '+15555550100'],
       [INBOX_TYPES.SMS, { phone_number: '+15555550101' }, '+15555550101'],
-      [INBOX_TYPES.FB, { page_id: 'page-123' }, 'page-123'],
-      [
-        INBOX_TYPES.INSTAGRAM,
-        { instagram_id: 'instagram-123' },
-        'instagram-123',
-      ],
-      [INBOX_TYPES.TIKTOK, { business_id: 'business-123' }, 'business-123'],
-      [INBOX_TYPES.TWITTER, { profile_id: 'profile-123' }, 'profile-123'],
       [INBOX_TYPES.TELEGRAM, { bot_name: 'support_bot' }, '@support_bot'],
       [INBOX_TYPES.LINE, { line_channel_id: 'line-123' }, 'line-123'],
       [INBOX_TYPES.API, { inbox_identifier: 'api-123' }, 'api-123'],
@@ -69,10 +61,34 @@ describe('#Inbox Helpers', () => {
       ).toBe('@support_bot');
     });
 
-    it('returns an empty identifier for missing and unknown inboxes', () => {
+    it('returns an empty identifier for missing, unknown, and opaque social identifiers', () => {
       expect(getInboxIdentifier()).toBe('');
       expect(getInboxIdentifier({ channel_type: 'Channel::Unknown' })).toBe('');
       expect(getInboxIdentifier({ channel_type: INBOX_TYPES.EMAIL })).toBe('');
+      expect(
+        getInboxIdentifier({
+          channel_type: INBOX_TYPES.FB,
+          page_id: 'page-123',
+        })
+      ).toBe('');
+      expect(
+        getInboxIdentifier({
+          channel_type: INBOX_TYPES.INSTAGRAM,
+          instagram_id: 'instagram-123',
+        })
+      ).toBe('');
+      expect(
+        getInboxIdentifier({
+          channel_type: INBOX_TYPES.TIKTOK,
+          business_id: 'business-123',
+        })
+      ).toBe('');
+      expect(
+        getInboxIdentifier({
+          channel_type: INBOX_TYPES.TWITTER,
+          profile_id: 'profile-123',
+        })
+      ).toBe('');
     });
   });
 

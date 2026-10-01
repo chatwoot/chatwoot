@@ -29,6 +29,9 @@
         "description": "Create an Account",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -81,6 +84,9 @@
         "description": "Get the details of an account",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -125,6 +131,9 @@
         "summary": "Update an account",
         "description": "Update an account's attributes",
         "security": [
+          {
+            "platformAppBearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -171,6 +180,9 @@
         "description": "Delete an Account",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -216,6 +228,9 @@
         "description": "List all account users",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -250,6 +265,9 @@
         "summary": "Create an Account User",
         "description": "Create an Account User",
         "security": [
+          {
+            "platformAppBearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -310,6 +328,9 @@
         "description": "Delete an Account User",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -350,6 +371,9 @@
         "description": "List all agent bots available",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -388,6 +412,9 @@
         "summary": "Create an Agent Bot",
         "description": "Create an agent bot",
         "security": [
+          {
+            "platformAppBearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -441,6 +468,9 @@
         "description": "Get the details of an agent bot",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -485,6 +515,9 @@
         "summary": "Update an agent bot",
         "description": "Update an agent bot's attributes",
         "security": [
+          {
+            "platformAppBearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -531,6 +564,9 @@
         "description": "Delete an AgentBot",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -570,6 +606,9 @@
         "summary": "Create a User",
         "description": "Create a User",
         "security": [
+          {
+            "platformAppBearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -623,6 +662,9 @@
         "description": "Get the details of an user",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -667,6 +709,9 @@
         "summary": "Update a user",
         "description": "Update a user's attributes",
         "security": [
+          {
+            "platformAppBearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -713,6 +758,9 @@
         "description": "Delete a User",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -758,6 +806,9 @@
         "description": "Get the sso link of a user",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -797,6 +848,85 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/platform/api/v1/users/{id}/token": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/platform_user_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "post-user-token",
+        "summary": "Get User Access Token",
+        "description": "Get the access token of a user",
+        "security": [
+          {
+            "platformAppBearerAuth": []
+          },
+          {
+            "platformAppApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string",
+                      "description": "Access token of the user"
+                    },
+                    "expiry": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "description": "Expiry timestamp"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "User ID"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "User's full name"
+                        },
+                        "display_name": {
+                          "type": "string",
+                          "description": "User's display name"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "User's email address"
+                        },
+                        "pubsub_token": {
+                          "type": "string",
+                          "description": "User's pubsub token"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The given user does not exist"
           }
         }
       }
@@ -1900,7 +2030,10 @@
             "description": "The name of the inbox"
           },
           "website_url": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Website URL"
           },
           "page_id": {
@@ -1923,6 +2056,13 @@
               "null"
             ],
             "description": "TikTok business ID associated with the inbox"
+          },
+          "provider_name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Provider username or page name associated with the social inbox"
           },
           "profile_id": {
             "type": [
@@ -1968,11 +2108,17 @@
             "description": "The avatar image of the inbox"
           },
           "widget_color": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Widget Color used for customization of the widget"
           },
           "website_token": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Website Token"
           },
           "enable_auto_assignment": {
@@ -1980,7 +2126,10 @@
             "description": "The flag which shows whether Auto Assignment is enabled or not"
           },
           "web_widget_script": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Script used to load the website widget"
           },
           "welcome_title": {
@@ -2122,7 +2271,10 @@
             "description": "Liquid HTML layout for branded email replies. Available to administrators for Email inbox show/update responses."
           },
           "hmac_mandatory": {
-            "type": "boolean",
+            "type": [
+              "boolean",
+              "null"
+            ],
             "description": "Whether HMAC verification is mandatory"
           },
           "selected_feature_flags": {
@@ -2136,7 +2288,10 @@
             }
           },
           "reply_time": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Expected reply time"
           },
           "messaging_service_sid": {
@@ -2586,6 +2741,14 @@
             "type": "boolean",
             "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
           },
+          "icon": {
+            "type": "string",
+            "description": "An emoji or icon shown next to the team"
+          },
+          "icon_color": {
+            "type": "string",
+            "description": "The color used for the team icon"
+          },
           "account_id": {
             "type": "number",
             "description": "The ID of the account with the team is a part of"
@@ -2706,8 +2869,11 @@
             "description": "The type of the audited object (e.g., Conversation, Contact, User)"
           },
           "auditable": {
-            "type": "object",
-            "description": "The audited object data"
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "The audited object data. Null for message deletion entries, which are served without the message payload."
           },
           "associated_id": {
             "type": "integer",
@@ -2766,7 +2932,14 @@
               "string",
               "null"
             ],
-            "description": "IP address from which the action was performed"
+            "description": "IP address from which the action was performed. Masked to the network portion (for example 203.0.113.x) unless the account has the audit_log_ip_address feature enabled, in which case the full address is returned."
+          },
+          "location": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "City and country resolved from remote_address, present only when the account has the ip_lookup feature enabled and the address has been resolved. Omitted when the account returns full IP addresses."
           }
         }
       },
@@ -3939,8 +4112,16 @@
           },
           "content_attributes": {
             "type": "object",
-            "description": "Attributes based on the content type",
-            "example": {}
+            "description": "Attributes based on the content type. For `input_select`, provide an `items` array with\n`title`, `value`, and optional `description`. WhatsApp list messages use `description`\nas the row subtitle when present.\n",
+            "example": {
+              "items": [
+                {
+                  "title": "Option 1",
+                  "value": "option_1",
+                  "description": "Optional WhatsApp list row subtitle"
+                }
+              ]
+            }
           },
           "campaign_id": {
             "type": "integer",
@@ -5198,6 +5379,16 @@
             "type": "boolean",
             "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team",
             "example": true
+          },
+          "icon": {
+            "type": "string",
+            "description": "An emoji or icon shown next to the team",
+            "example": "🚀"
+          },
+          "icon_color": {
+            "type": "string",
+            "description": "The color used for the team icon",
+            "example": "#6C5CE7"
           }
         }
       },
@@ -7426,6 +7617,341 @@
             "description": "List of reporting events"
           }
         }
+      },
+      "campaign": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Account-scoped campaign ID. Use this value in campaign API paths."
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "account_id": {
+            "type": "integer"
+          },
+          "inbox": {
+            "$ref": "#/components/schemas/inbox"
+          },
+          "sender": {
+            "type": "object",
+            "description": "Sender details, or an empty object when no sender is assigned.",
+            "additionalProperties": true
+          },
+          "message": {
+            "type": "string"
+          },
+          "template_params": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": true
+          },
+          "campaign_status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "processing",
+              "completed"
+            ]
+          },
+          "campaign_type": {
+            "type": "string",
+            "enum": [
+              "ongoing",
+              "one_off"
+            ],
+            "description": "Derived from the inbox type; website campaigns are ongoing and supported messaging campaigns are one-off."
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "scheduled_at": {
+            "type": "integer",
+            "description": "Scheduled time in Unix seconds. Only present for one-off campaigns."
+          },
+          "started_at": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Start time in Unix seconds. Only present for one-off campaigns."
+          },
+          "completed_at": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Completion time in Unix seconds. Only present for one-off campaigns."
+          },
+          "audience": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Audience for a one-off campaign. Only present for one-off campaigns.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "trigger_rules": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "trigger_only_during_business_hours": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "campaign_fields": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Campaign title."
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Internal description of the campaign."
+          },
+          "inbox_id": {
+            "type": "integer",
+            "description": "ID of an inbox in this account. Supported inbox types are Website, Twilio SMS, SMS, and WhatsApp."
+          },
+          "sender_id": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "ID of a user in this account to use as the campaign sender."
+          },
+          "message": {
+            "type": "string",
+            "description": "Campaign message content."
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether an ongoing website campaign is enabled. This does not cancel a scheduled one-off campaign."
+          },
+          "scheduled_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Scheduled time for a one-off campaign, as an ISO 8601 timestamp with timezone. Defaults to the current time when omitted; website campaigns ignore this field. Responses return Unix seconds instead.",
+            "example": "2027-01-15T10:00:00Z"
+          },
+          "audience": {
+            "type": "array",
+            "minItems": 1,
+            "description": "Required when creating a one-off SMS or WhatsApp campaign. Provide at least one label from this account. Contacts matching any selected label are included. When updating, omit this field to retain the existing audience.",
+            "items": {
+              "type": "object",
+              "required": [
+                "type",
+                "id"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "Label"
+                  ]
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "ID of a label in this account."
+                }
+              }
+            }
+          },
+          "trigger_rules": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Website campaign trigger rules. Defaults to an empty object and can be omitted for a one-off campaign.",
+            "example": {
+              "url": "https://example.com/pricing",
+              "time_on_page": 10
+            }
+          },
+          "trigger_only_during_business_hours": {
+            "type": "boolean",
+            "description": "Restrict an ongoing website campaign to inbox business hours."
+          },
+          "template_params": {
+            "$ref": "#/components/schemas/campaign_whatsapp_template_params"
+          }
+        }
+      },
+      "campaign_create_payload": {
+        "type": "object",
+        "required": [
+          "campaign"
+        ],
+        "properties": {
+          "campaign": {
+            "description": "Choose the variant matching the inbox referenced by inbox_id. The channel type is stored on the inbox and cannot be inferred from this request by a schema validator. These variants describe the inputs needed for delivery; creation can accept incomplete inputs without guaranteeing that the campaign will send.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/campaign_fields"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "title",
+                  "inbox_id",
+                  "message"
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "title": "Website campaign",
+                    "description": "For a Website inbox, supply URL trigger rules. An audience is not required.",
+                    "type": "object",
+                    "required": [
+                      "trigger_rules"
+                    ],
+                    "properties": {
+                      "trigger_rules": {
+                        "type": "object",
+                        "required": [
+                          "url"
+                        ],
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "format": "uri"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "title": "SMS campaign",
+                    "description": "For an SMS or Twilio SMS inbox, supply at least one audience label.",
+                    "type": "object",
+                    "required": [
+                      "audience"
+                    ]
+                  },
+                  {
+                    "title": "WhatsApp campaign",
+                    "description": "For a WhatsApp Cloud inbox with campaigns enabled, supply audience labels and template parameters.",
+                    "type": "object",
+                    "required": [
+                      "audience",
+                      "template_params"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "campaign_update_payload": {
+        "type": "object",
+        "required": [
+          "campaign"
+        ],
+        "properties": {
+          "campaign": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/campaign_fields"
+              }
+            ]
+          }
+        }
+      },
+      "campaign_whatsapp_template_params": {
+        "type": "object",
+        "required": [
+          "name",
+          "language"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Name of the approved template in the selected inbox's message_templates."
+          },
+          "language": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Language code matching that template in the selected inbox.",
+            "example": "en"
+          },
+          "namespace": {
+            "type": "string",
+            "description": "Template namespace, when present in the selected template."
+          },
+          "category": {
+            "type": "string",
+            "description": "Category of the selected template."
+          },
+          "processed_params": {
+            "type": "object",
+            "description": "Values for the selected template's variables, grouped by component. Supply all parameters needed by that template. May be omitted for a template without variables. Body keys use positional numbers or the template's named parameters. Liquid expressions such as {{ contact.name }} are rendered separately for each recipient.",
+            "properties": {
+              "body": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "header": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "Text parameter values or media_url, media_type, and optional media_name for a media header."
+              },
+              "footer": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "buttons": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            },
+            "example": {
+              "body": {
+                "1": "{{ contact.name }}"
+              }
+            }
+          }
+        }
       }
     },
     "parameters": {
@@ -7628,23 +8154,38 @@
       }
     },
     "securitySchemes": {
+      "userBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticate with `Authorization: Bearer <token>` using a user API token from **Profile Settings**. Available in Chatwoot `v4.19.0` and later."
+      },
+      "agentBotBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticate with `Authorization: Bearer <token>` using an agent bot token from **Settings → Agent Bots**. Available in Chatwoot `v4.19.0` and later."
+      },
+      "platformAppBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticate with `Authorization: Bearer <token>` using a platform app token from **Super Admin**. Available in Chatwoot `v4.19.0` and later."
+      },
       "userApiKey": {
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token can be obtained by visiting the profile page or via rails console. Provides access to  endpoints based on the user permissions levels. This token can be saved by an external system when user is created via API, to perform activities on behalf of the user."
+        "description": "Find your API token in **Profile Settings**. The `api_access_token` header remains supported, but will be deprecated in a future release. For new integrations, use Bearer authentication."
       },
       "agentBotApiKey": {
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token should be provided by system admin or obtained via rails console. This token can be used to build bot integrations and can only access limited apis."
+        "description": "Find your agent bot token in **Settings → Agent Bots**. For new integrations, use Bearer authentication in Chatwoot `v4.19.0` and later. Agent bot tokens can access only bot-permitted APIs."
       },
       "platformAppApiKey": {
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token can be obtained by the system admin after creating a platformApp. This token should be used to provision agent bots, accounts, users and their roles."
+        "description": "Create a platform app in **Super Admin** to get its token. For new integrations, use Bearer authentication in Chatwoot `v4.19.0` and later. Platform app tokens can provision agent bots, accounts, users, and roles."
       }
     }
   },
@@ -7683,6 +8224,7 @@
         "Account",
         "Agents",
         "Audit Logs",
+        "Campaigns",
         "Canned Responses",
         "Contacts",
         "Contact Labels",

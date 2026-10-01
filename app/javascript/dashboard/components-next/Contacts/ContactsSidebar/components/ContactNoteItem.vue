@@ -1,7 +1,8 @@
 <script setup>
 import { useTemplateRef, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { useToggle } from '@vueuse/core';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -27,6 +28,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['delete']);
+
+const exactTimestamp = useExactTimestamp();
+
 const noteContentRef = useTemplateRef('noteContentRef');
 const needsCollapse = ref(false);
 const [isExpanded, toggleExpanded] = useToggle();

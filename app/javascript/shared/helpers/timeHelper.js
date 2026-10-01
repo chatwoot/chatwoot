@@ -63,15 +63,6 @@ export const dynamicTime = time => {
 };
 
 /**
- * Formats a Unix timestamp into the full, unambiguous date and time shown on
- * hover next to a relative timestamp (e.g. "2 days ago").
- * @param {number} time - Unix timestamp.
- * @returns {string} Formatted date-time string, empty when there is no timestamp.
- */
-export const exactTimestamp = time =>
-  time ? messageStamp(time, 'LLL d yyyy, h:mm a') : '';
-
-/**
  * Formats a Unix timestamp into a specified date format.
  * @param {number} time - Unix timestamp.
  * @param {string} [dateFormat='MMM d, yyyy'] - Desired date format.

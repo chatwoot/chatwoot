@@ -161,13 +161,13 @@ export const actions = {
     }
   },
 
-  attachImage: async (_, { file }) => {
-    const { fileUrl } = await uploadFile(file);
+  attachImage: async (_, { file, onProgress, signal }) => {
+    const { fileUrl } = await uploadFile(file, undefined, onProgress, signal);
     return fileUrl;
   },
 
-  uploadExternalImage: async (_, { url }) => {
-    const { fileUrl } = await uploadExternalImage(url);
+  uploadExternalImage: async (_, { url, signal }) => {
+    const { fileUrl } = await uploadExternalImage(url, undefined, signal);
     return fileUrl;
   },
 
