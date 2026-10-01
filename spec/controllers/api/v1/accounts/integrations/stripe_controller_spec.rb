@@ -49,9 +49,10 @@ RSpec.describe 'Stripe Integration API', type: :request do
   end
 
   it 'starts OAuth for the current account administrator' do
-    expect(Integrations::Stripe::Oauth).to receive(:authorize_url).with(account: account, user: admin).and_return('https://marketplace.stripe.com/test')
+    url = "https://marketplace.stripe.com/test?state=#{'b' * 64}"
+    expect(Integrations::Stripe::Oauth).to receive(:authorize_url).with(account: account, user: admin).and_return(url)
     post "#{path}/auth", headers: admin.create_new_auth_token
-    expect(response.parsed_body).to eq('url' => 'https://marketplace.stripe.com/test')
+    expect(response.parsed_body).to eq('url' => url)
   end
 
   it 'allows administrators to disconnect only their own hook' do

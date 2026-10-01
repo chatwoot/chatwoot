@@ -97,6 +97,12 @@ onMounted(async () => {
           {{ $t('STRIPE_INTEGRATION.UNAVAILABLE') }}
         </p>
         <template v-if="loaded && account">
+          <Button
+            v-if="available && account.reauthorization_required"
+            :label="$t('STRIPE_INTEGRATION.RECONNECT')"
+            :disabled="busy"
+            @click="connect"
+          />
           <div class="rounded-xl border border-n-weak bg-n-solid-1">
             <div
               class="flex flex-wrap items-center justify-between gap-4 p-6 border-b border-n-weak"
@@ -115,7 +121,11 @@ onMounted(async () => {
               <span
                 class="rounded-md bg-n-teal-3 px-2 py-1 text-xs text-n-teal-11"
               >
-                {{ $t('STRIPE_INTEGRATION.CONNECTED') }}
+                {{
+                  account.reauthorization_required
+                    ? $t('STRIPE_INTEGRATION.REAUTHORIZATION_REQUIRED')
+                    : $t('STRIPE_INTEGRATION.CONNECTED')
+                }}
               </span>
             </div>
             <dl

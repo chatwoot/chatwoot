@@ -2,7 +2,7 @@ import { mount, flushPromises } from '@vue/test-utils';
 import Stripe from '../Stripe.vue';
 import StripeAPI from 'dashboard/api/integrations/stripe';
 import IntegrationsAPI from 'dashboard/api/integrations';
-import messages from 'dashboard/i18n/locale/en/en.json';
+import messages from 'dashboard/i18n/locale/en/integrations.json';
 
 const mocks = vi.hoisted(() => ({
   commit: vi.fn(),

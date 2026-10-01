@@ -5,11 +5,16 @@ class Api::V1::Accounts::Integrations::StripeController < Api::V1::Accounts::Int
   def show
     hook = Current.account.hooks.find_by!(app_id: 'stripe')
     mode = Integrations::Stripe::Connection.new(hook).livemode? ? 'live' : 'sandbox'
-    render json: { account_id: hook.reference_id, connected_at: hook.settings.fetch('connected_at', hook.created_at), mode: mode }
+    render json: { account_id: hook.reference_id, connected_at: hook.settings.fetch('connected_at', hook.created_at), mode: mode,
+                   reauthorization_required: hook.reauthorization_required? }
   end
 
   def auth
-    render json: { url: Integrations::Stripe::Oauth.authorize_url(account: Current.account, user: Current.user) }
+    url = Integrations::Stripe::Oauth.authorize_url(account: Current.account, user: Current.user)
+    state = URI.decode_www_form(URI(url).query).to_h.fetch('state')
+    cookies.signed[:stripe_oauth_state] = { value: state, httponly: true, secure: request.ssl?, same_site: :lax,
+                                            expires: Integrations::Stripe::Oauth::STATE_TTL.from_now }
+    render json: { url: url }
   end
 
   def destroy
@@ -29,7 +34,13 @@ class Api::V1::Accounts::Integrations::StripeController < Api::V1::Accounts::Int
     connection = Integrations::Stripe::Connection.new(hook)
     render json: Integrations::Stripe::CustomerSummary.new(connection: connection,
                                                            contact: conversation.contact).perform(customer_id: params[:customer_id])
-  rescue ::Stripe::StripeError, OAuth2::Error
+  rescue Integrations::Stripe::Connection::ReauthorizationRequired, ::Stripe::AuthenticationError
+    hook.prompt_reauthorization!
+    render json: { error: 'stripe_reauthorization_required' }, status: :unprocessable_entity
+  rescue OAuth2::Error => e
+    hook.prompt_reauthorization! if e.code == 'invalid_grant'
+    render json: { error: 'stripe_unavailable' }, status: :unprocessable_entity
+  rescue ::Stripe::StripeError, Faraday::TimeoutError, Faraday::ConnectionFailed
     render json: { error: 'stripe_unavailable' }, status: :unprocessable_entity
   end
 

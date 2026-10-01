@@ -50,7 +50,7 @@ RSpec.describe Integrations::Stripe::Connection do
   it 'does not refresh legacy sandbox connections using a live key' do
     allow(GlobalConfig).to receive(:get_value).with('STRIPE_APP_SECRET_KEY').and_return('sk_live_app')
     hook.update!(access_token: credentials.merge(expires_at: 1.minute.ago.to_i).to_json)
-    expect { connection.api_token }.to raise_error(ArgumentError, /environment/)
+    expect { connection.api_token }.to raise_error(Integrations::Stripe::Connection::ReauthorizationRequired, /environment/)
     expect(WebMock).not_to have_requested(:post, 'https://api.stripe.com/v1/oauth/token')
     expect(JSON.parse(hook.reload.access_token)).to include('refresh_token' => 'existing-refresh')
   end

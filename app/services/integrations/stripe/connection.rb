@@ -1,4 +1,6 @@
 class Integrations::Stripe::Connection
+  class ReauthorizationRequired < StandardError; end
+
   def initialize(hook)
     @hook = hook
   end
@@ -12,13 +14,16 @@ class Integrations::Stripe::Connection
   end
 
   def api_token
+    unless livemode? == Integrations::Stripe::Oauth.livemode?
+      raise ReauthorizationRequired, 'Stripe connection environment does not match the configured key'
+    end
+
+    credentials = JSON.parse(@hook.access_token)
+    return credentials.fetch('access_token') unless expiring?(credentials)
+
     @hook.with_lock do
       credentials = JSON.parse(@hook.access_token)
-      if credentials.fetch('expires_at') <= 1.minute.from_now.to_i
-        unless livemode? == Integrations::Stripe::Oauth.livemode?
-          raise ArgumentError, 'Stripe connection environment does not match the configured key'
-        end
-
+      if expiring?(credentials)
         token = OAuth2::AccessToken.new(Integrations::Stripe::Oauth.client, credentials.fetch('access_token'),
                                         refresh_token: credentials.fetch('refresh_token'))
         store_token!(token.refresh!)
@@ -31,5 +36,11 @@ class Integrations::Stripe::Connection
   def livemode?
     # Connections created before live-mode support are sandbox connections.
     @hook.settings.fetch('livemode', false)
+  end
+
+  private
+
+  def expiring?(credentials)
+    credentials.fetch('expires_at') <= 1.minute.from_now.to_i
   end
 end

@@ -2,7 +2,9 @@ class Stripe::CallbacksController < ApplicationController
   OAUTH_ERROR_CODES = %w[invalid_request invalid_client invalid_grant unauthorized_client unsupported_grant_type
                          invalid_scope access_denied server_error temporarily_unavailable].freeze
 
+  before_action :verify_browser_state
   before_action :load_installation
+  rescue_from Faraday::TimeoutError, Faraday::ConnectionFailed, with: -> { authorization_failed('token_exchange_unavailable') }
 
   def show
     return authorization_failed('provider_error') if params[:error].present?
@@ -37,7 +39,15 @@ class Stripe::CallbacksController < ApplicationController
       hook.status = :enabled
       hook.settings = hook.settings.merge('livemode' => @livemode, 'connected_at' => Time.current.iso8601)
       Integrations::Stripe::Connection.new(hook).store_token!(token)
+      hook.reauthorized!
     end
+  end
+
+  def verify_browser_state
+    browser_state = cookies.signed[:stripe_oauth_state]
+    return head :bad_request unless browser_state.present? && browser_state == params[:state]
+
+    cookies.delete(:stripe_oauth_state)
   end
 
   def load_installation

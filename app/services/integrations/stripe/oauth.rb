@@ -37,7 +37,8 @@ class Integrations::Stripe::Oauth
     livemode?
 
     OAuth2::Client.new(key, '',
-                       site: 'https://api.stripe.com', token_url: '/v1/oauth/token', auth_scheme: :basic_auth)
+                       site: 'https://api.stripe.com', token_url: '/v1/oauth/token', auth_scheme: :basic_auth,
+                       connection_opts: { request: { open_timeout: 5, timeout: 10 } })
   end
 
   def self.livemode?
