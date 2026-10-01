@@ -26,6 +26,8 @@ class Captain::AutomationConditionService
     answers = ask(questions)
 
     captain_conditions.to_h { |condition, index| [index, met?(condition, answers[index.to_s])] }
+  rescue CustomExceptions::JevQuotaError
+    unmet
   rescue Captain::JevClient::HTTPError, Faraday::Error, JSON::ParserError, Error => e
     ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
     unmet

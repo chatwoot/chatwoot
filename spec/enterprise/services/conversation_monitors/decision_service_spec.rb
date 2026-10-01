@@ -48,7 +48,7 @@ RSpec.describe ConversationMonitors::DecisionService do
         expect(usage.snapshot[:used]).to eq(1)
         expect(WebMock).to have_requested(:post, endpoint).once
         expect(Rails.logger).to have_received(:warn).with(
-          "Conversation monitor token reconciliation failed: account_id=#{account.id} error=#{error_class.name}"
+          "Jev token reconciliation failed: account_id=#{account.id} error=#{error_class.name}"
         )
       end
     end
