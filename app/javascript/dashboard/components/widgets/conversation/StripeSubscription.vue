@@ -35,7 +35,9 @@ const priceLabel = item => {
     item.recurring?.usage_type === 'metered'
   )
     return t('STRIPE_INTEGRATION.VARIABLE_PRICE');
-  const amount = formatStripeAmount(item.unit_amount, item.currency);
+  const amount = formatStripeAmount(item.unit_amount, item.currency, {
+    preservePrecision: true,
+  });
   if (!item.recurring) return amount;
   const count = item.recurring.interval_count;
   return t('STRIPE_INTEGRATION.PRICE_INTERVAL', {
@@ -145,7 +147,10 @@ const periodEnd = timestamp =>
           @click="copy(subscription.id)"
         />
       </div>
-      <p v-if="subscription.trial_end" class="m-0">
+      <p
+        v-if="subscription.trial_end && subscription.status === 'trialing'"
+        class="m-0"
+      >
         {{
           $t('STRIPE_INTEGRATION.TRIAL_ENDS', {
             date: date(subscription.trial_end),

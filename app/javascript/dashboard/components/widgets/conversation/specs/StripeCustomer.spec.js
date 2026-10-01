@@ -53,6 +53,27 @@ describe('StripeCustomer', () => {
   };
   let wrapper;
 
+  it.each(['active', 'canceled', 'trialing'])(
+    'shows trial-end copy only for trialing subscriptions (%s)',
+    async status => {
+      StripeAPI.customer.mockResolvedValue({
+        data: {
+          ...data,
+          subscriptions: [
+            { ...data.subscriptions[0], status, trial_end: 1788998400 },
+          ],
+        },
+      });
+      wrapper = mount(StripeCustomer, { props: { conversationId: 1 } });
+      await flushPromises();
+      await wrapper.get('button').trigger('click');
+      await flushPromises();
+      expect(
+        document.body.textContent.includes('STRIPE_INTEGRATION.TRIAL_ENDS')
+      ).toBe(status === 'trialing');
+    }
+  );
+
   afterEach(() => wrapper?.unmount());
 
   it('renders customer billing details without a refresh button', async () => {
