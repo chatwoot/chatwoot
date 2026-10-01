@@ -23,14 +23,14 @@ class Api::V1::Accounts::BulkActionsController < Api::V1::Accounts::BaseControll
 
   def validate_assignment_targets
     fields = conversation_params[:fields] || {}
-    { assignee_id: @current_account.users, team_id: @current_account.teams }.each do |field, scope|
-      id = fields[field]
-      next if id.nil?
-      next if field == :team_id && [0, '0'].include?(id)
-      next if scope.exists?(id: id)
 
-      return render_could_not_create_error("Invalid #{field}")
-    end
+    assignee_id = fields[:assignee_id]
+    return render_could_not_create_error('Invalid assignee_id') if !assignee_id.nil? && !@current_account.users.exists?(id: assignee_id)
+
+    team_id = fields[:team_id]
+    return if [nil, 0, '0'].include?(team_id) || @current_account.teams.exists?(id: team_id)
+
+    render_could_not_create_error('Invalid team_id')
   end
 
   def enqueue_conversation_job
