@@ -1,12 +1,16 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useDropZone } from '@vueuse/core';
+import { formatBytes } from 'shared/helpers/FileHelper';
 import { useAlert } from 'dashboard/composables';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
-import Select from 'dashboard/components-next/select/Select.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
 import DataImportsAPI from 'dashboard/api/dataImports';
 import { IMPORT_SOURCES, importSourceConfigFor } from './importSources';
 
@@ -27,6 +31,8 @@ const sourceProvider = ref(
 );
 const isFile = computed(() => sourceProvider.value === 'csv');
 const file = ref(null);
+const dropZoneRef = ref(null);
+const fileInputRef = ref(null);
 const uploadProgress = ref(0);
 const sourceConfig = computed(
   () => importSourceConfigFor(sourceProvider.value) || IMPORT_SOURCES[0]
@@ -53,9 +59,9 @@ const closeDrawer = () => emit('close');
 const sourceOptions = computed(() =>
   IMPORT_SOURCES.filter(
     source => props.integrationEnabled || source.value === 'csv'
-  ).map(({ value, label }) => ({
-    value,
-    label: value === 'csv' ? t('DATA_IMPORTS.CSV.SOURCE') : label,
+  ).map(source => ({
+    ...source,
+    label: source.value === 'csv' ? t('DATA_IMPORTS.CSV.SOURCE') : source.label,
   }))
 );
 
@@ -163,8 +169,8 @@ const createImport = async () => {
   }
 };
 
-const selectFile = event => {
-  const selected = event.target.files[0];
+const selectFile = selected => {
+  if (isCreating.value) return;
   file.value = null;
   if (!selected) return;
   if (
@@ -176,6 +182,17 @@ const selectFile = event => {
     return;
   }
   file.value = selected;
+};
+
+const { isOverDropZone } = useDropZone(dropZoneRef, {
+  multiple: false,
+  preventDefaultForUnhandled: true,
+  onDrop: files => selectFile(files?.[0]),
+});
+
+const removeFile = () => {
+  file.value = null;
+  fileInputRef.value.value = '';
 };
 
 watch(accessToken, invalidateValidation);
@@ -229,20 +246,47 @@ watch(
     :cancel-button-label="$t('DATA_IMPORTS.DRAWER.CANCEL')"
     :disable-confirm-button="!canCreate"
     :is-loading="isCreating || validationState === 'validating'"
-    width="md"
+    width="lg"
+    overflow-y-auto
     @confirm="createImport"
     @close="closeDrawer"
   >
-    <div class="flex flex-col gap-4">
-      <label class="flex flex-col gap-1.5 text-heading-3 text-n-slate-12">
-        {{ $t('DATA_IMPORTS.DRAWER.SOURCE') }}
-        <Select
-          v-model="sourceProvider"
-          :disabled="isCreating"
-          class="!w-full [&>select]:w-full"
-          :options="sourceOptions"
-        />
-      </label>
+    <div class="flex flex-col gap-5">
+      <fieldset :disabled="isCreating">
+        <legend class="mb-2 text-heading-3 text-n-slate-12">
+          {{ $t('DATA_IMPORTS.DRAWER.SOURCE') }}
+        </legend>
+        <div
+          class="grid gap-2"
+          :class="sourceOptions.length > 1 ? 'grid-cols-3' : 'grid-cols-1'"
+        >
+          <label
+            v-for="source in sourceOptions"
+            :key="source.value"
+            class="relative cursor-pointer"
+          >
+            <input
+              v-model="sourceProvider"
+              type="radio"
+              name="import-source"
+              :value="source.value"
+              class="peer sr-only"
+            />
+            <span
+              class="flex h-full flex-col items-center gap-2 rounded-xl border border-n-weak bg-n-solid-1 px-2 py-3 text-body-main text-n-slate-11 transition-colors hover:bg-n-alpha-1 peer-checked:border-n-brand peer-checked:bg-n-blue-2 peer-checked:text-n-blue-11 peer-focus-visible:ring-2 peer-focus-visible:ring-n-brand peer-disabled:cursor-not-allowed"
+            >
+              <img
+                v-if="source.icon"
+                :src="source.icon"
+                alt=""
+                class="size-6"
+              />
+              <Icon v-else :icon="source.iconClass" class="size-6" />
+              {{ source.label }}
+            </span>
+          </label>
+        </div>
+      </fieldset>
 
       <Input
         v-model="importName"
@@ -272,43 +316,91 @@ watch(
       />
 
       <div v-if="isFile" class="flex flex-col gap-3">
-        <label class="text-heading-3 text-n-slate-12">
-          {{ $t('DATA_IMPORTS.CSV.FILE') }}
+        <div class="flex items-center justify-between gap-2">
+          <label for="contact-csv-file" class="text-heading-3 text-n-slate-12">
+            {{ $t('DATA_IMPORTS.CSV.FILE') }}
+          </label>
+          <a
+            href="/downloads/import-contacts-sample.csv"
+            download
+            class="inline-flex items-center gap-1 text-label-small text-n-blue-11 hover:underline"
+          >
+            <Icon icon="i-lucide-download" class="size-3.5" />
+            {{ $t('DATA_IMPORTS.CSV.SAMPLE') }}
+          </a>
+        </div>
+        <div
+          ref="dropZoneRef"
+          class="rounded-xl border border-dashed transition-colors focus-within:ring-2 focus-within:ring-n-brand"
+          :class="
+            isOverDropZone
+              ? 'border-n-brand bg-n-blue-2'
+              : 'border-n-strong bg-n-alpha-1'
+          "
+        >
           <input
+            id="contact-csv-file"
+            ref="fileInputRef"
             type="file"
             accept=".csv,text/csv"
             :disabled="isCreating"
-            class="mt-2 block w-full text-body-main"
-            @change="selectFile"
+            class="sr-only"
+            @change="selectFile($event.target.files[0])"
           />
-        </label>
-        <p class="text-body-main text-n-slate-11">
+          <div v-if="file" class="flex items-center gap-3 p-4">
+            <span
+              class="flex size-10 shrink-0 items-center justify-center rounded-lg border border-n-weak bg-n-solid-1"
+            >
+              <Icon icon="i-lucide-file-text" class="size-5 text-n-slate-11" />
+            </span>
+            <div class="flex min-w-0 flex-1 flex-col gap-1">
+              <span class="truncate text-heading-3 text-n-slate-12">{{
+                file.name
+              }}</span>
+              <span class="text-label-small text-n-slate-11">{{
+                formatBytes(file.size)
+              }}</span>
+            </div>
+            <Button
+              type="button"
+              ghost
+              slate
+              size="sm"
+              icon="i-lucide-x"
+              :aria-label="$t('DATA_IMPORTS.CSV.REMOVE_FILE')"
+              :disabled="isCreating"
+              @click="removeFile"
+            />
+          </div>
+          <label
+            v-else
+            for="contact-csv-file"
+            class="flex cursor-pointer flex-col items-center gap-2 px-4 py-6 text-center"
+          >
+            <Icon icon="i-lucide-upload" class="mb-1 size-6 text-n-slate-10" />
+            <span class="text-body-main text-n-slate-12">{{
+              $t('DATA_IMPORTS.CSV.CHOOSE_FILE')
+            }}</span>
+            <span class="text-label-small text-n-slate-11">{{
+              $t('DATA_IMPORTS.CSV.FILE_LIMIT')
+            }}</span>
+          </label>
+        </div>
+        <p class="text-label-small text-n-slate-11">
           {{ $t('DATA_IMPORTS.CSV.HELP') }}
         </p>
-        <p class="text-body-main text-n-slate-11">
-          {{ $t('DATA_IMPORTS.CSV.SILENT_UPDATES') }}
-        </p>
-        <a
-          href="/downloads/import-contacts-sample.csv"
-          download
-          class="text-n-blue-11"
-        >
-          <span>{{ $t('DATA_IMPORTS.CSV.SAMPLE') }}</span>
-        </a>
-        <p
-          v-if="isCreating"
-          role="status"
-          class="text-body-main text-n-slate-11"
-        >
-          {{ $t('DATA_IMPORTS.CSV.UPLOADING', { percent: uploadProgress }) }}
-        </p>
-        <progress
-          v-if="isCreating"
-          :value="uploadProgress"
-          max="100"
-          :aria-label="$t('DATA_IMPORTS.CSV.FILE')"
-          class="h-2 w-full accent-n-brand"
-        />
+        <Banner>{{ $t('DATA_IMPORTS.CSV.SILENT_UPDATES') }}</Banner>
+        <template v-if="isCreating">
+          <p role="status" class="text-body-main text-n-slate-11">
+            {{ $t('DATA_IMPORTS.CSV.UPLOADING', { percent: uploadProgress }) }}
+          </p>
+          <progress
+            :value="uploadProgress"
+            max="100"
+            :aria-label="$t('DATA_IMPORTS.CSV.FILE')"
+            class="h-1.5 w-full appearance-none overflow-hidden rounded-full border-0 bg-n-slate-3 [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-n-slate-3 [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-value]:bg-n-brand [&::-moz-progress-bar]:bg-n-brand"
+          />
+        </template>
       </div>
 
       <fieldset v-else class="flex flex-col gap-2.5">
@@ -335,12 +427,9 @@ watch(
         </label>
       </fieldset>
 
-      <p
-        v-if="hasActiveImport"
-        class="rounded-lg bg-n-amber-2 px-3 py-2 text-body-main text-n-amber-11"
-      >
+      <Banner v-if="hasActiveImport" color="amber">
         {{ $t('DATA_IMPORTS.DRAWER.ACTIVE_IMPORT') }}
-      </p>
+      </Banner>
     </div>
   </Dialog>
 </template>

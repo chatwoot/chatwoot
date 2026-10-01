@@ -11,6 +11,8 @@ import { useRoute } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 
 import DataImportsAPI from 'dashboard/api/dataImports';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { POLL_INTERVAL_MS, isActiveImport } from './importStatus';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -248,23 +250,25 @@ onBeforeUnmount(() => {
     </template>
 
     <template #body>
-      <div v-if="dataImport" class="flex flex-col gap-3">
+      <div v-if="dataImport" class="flex flex-col gap-4">
         <ImportSummaryTiles :data-import="dataImport" />
         <div
           v-if="dataImport.source_provider === 'csv'"
-          class="flex flex-col gap-2 text-body-main text-n-slate-11"
+          class="flex items-center gap-3 rounded-xl border border-n-weak bg-n-solid-1 px-5 py-4"
         >
-          <p>{{ dataImport.file_name }}</p>
-          <p v-if="dataImport.artifacts_expired_at">
-            {{ $t('DATA_IMPORTS.CSV.EXPIRED') }}
-          </p>
-          <p>{{ $t('DATA_IMPORTS.CSV.REJECTED_HELP') }}</p>
-          <Button
-            v-if="dataImport.rejected_rows_available"
-            class="self-start"
-            :label="$t('DATA_IMPORTS.CSV.DOWNLOAD_REJECTED')"
-            @click="downloadRejectedRows"
-          />
+          <span
+            class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-n-alpha-2"
+          >
+            <Icon icon="i-lucide-file-text" class="size-5 text-n-slate-11" />
+          </span>
+          <div class="flex min-w-0 flex-col gap-1">
+            <span class="text-label-small text-n-slate-11">{{
+              $t('DATA_IMPORTS.CSV.FILE')
+            }}</span>
+            <span class="break-words text-heading-3 text-n-slate-12">{{
+              dataImport.file_name
+            }}</span>
+          </div>
         </div>
 
         <ImportProgress
@@ -272,6 +276,31 @@ onBeforeUnmount(() => {
           :data-import="dataImport"
           :title="$t('DATA_IMPORTS.DETAIL.PROGRESS')"
         />
+
+        <Banner v-if="dataImport.artifacts_expired_at" color="amber">
+          {{ $t('DATA_IMPORTS.CSV.EXPIRED') }}
+        </Banner>
+        <div
+          v-else-if="dataImport.rejected_rows_available"
+          class="flex flex-col items-start gap-4 rounded-xl border border-n-amber-5 bg-n-amber-2 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div class="flex min-w-0 flex-1 flex-col gap-1">
+            <h2 class="text-heading-3 text-n-slate-12">
+              {{ $t('DATA_IMPORTS.CSV.REJECTED_TITLE') }}
+            </h2>
+            <p class="text-body-main text-n-slate-11">
+              {{ $t('DATA_IMPORTS.CSV.REJECTED_HELP') }}
+            </p>
+          </div>
+          <Button
+            slate
+            outline
+            size="sm"
+            icon="i-lucide-download"
+            :label="$t('DATA_IMPORTS.CSV.DOWNLOAD_REJECTED')"
+            @click="downloadRejectedRows"
+          />
+        </div>
 
         <ImportErrorsSection
           v-if="

@@ -1,6 +1,7 @@
 <script setup>
 import Button from 'dashboard/components-next/button/Button.vue';
-import { formatDate, formatStatus, statusDotClass } from './importStatus';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import DataOperationList from './components/DataOperationList.vue';
 
 defineProps({ exports: { type: Array, default: () => [] } });
 defineEmits(['open', 'create']);
@@ -9,47 +10,32 @@ defineEmits(['open', 'create']);
 <template>
   <div
     v-if="!exports.length"
-    class="flex min-h-80 flex-col items-center justify-center gap-4 rounded-xl border border-n-weak p-6 text-center"
+    class="flex min-h-80 flex-col items-center justify-center gap-4 rounded-xl border border-n-weak bg-n-solid-1 px-6 py-16 text-center"
   >
-    <h3 class="text-heading-2 text-n-slate-12">
-      {{ $t('DATA_EXPORTS.EMPTY') }}
-    </h3>
-    <p class="max-w-md text-body-main text-n-slate-11">
-      {{ $t('DATA_EXPORTS.DESCRIPTION') }}
-    </p>
-    <Button :label="$t('DATA_EXPORTS.NEW')" @click="$emit('create')" />
-  </div>
-  <div v-else class="divide-y divide-n-weak border-t border-n-weak">
-    <button
-      v-for="item in exports"
-      :key="item.id"
-      type="button"
-      class="flex w-full items-center justify-between gap-4 py-4 text-start"
-      @click="$emit('open', item.id)"
+    <span
+      class="grid size-12 place-items-center rounded-xl border border-n-weak bg-n-alpha-1"
     >
-      <div class="flex min-w-0 flex-col gap-1">
-        <span class="truncate text-heading-3 text-n-slate-12">{{
-          item.name
-        }}</span>
-        <span class="text-body-main text-n-slate-11">{{
-          item.export_options.scope_name ||
-          item.export_options.label ||
-          $t('DATA_EXPORTS.ALL_CONTACTS')
-        }}</span>
-        <span class="text-body-main text-n-slate-11">{{
-          formatDate(item.created_at)
-        }}</span>
-        <span class="text-body-main text-n-slate-11">{{
-          $t('DATA_EXPORTS.PROCESSED', { count: item.processed_records })
-        }}</span>
-      </div>
-      <span class="flex items-center gap-2 text-body-main text-n-slate-11">
-        <span
-          class="size-2 rounded-full"
-          :class="statusDotClass(item.status)"
-        />
-        {{ formatStatus(item.status) }}
-      </span>
-    </button>
+      <Icon icon="i-lucide-file-output" class="size-5 text-n-slate-11" />
+    </span>
+    <div class="flex flex-col gap-1">
+      <h3 class="text-heading-2 text-n-slate-12">
+        {{ $t('DATA_EXPORTS.EMPTY') }}
+      </h3>
+      <p class="max-w-sm text-body-main text-n-slate-11">
+        {{ $t('DATA_EXPORTS.EMPTY_DESCRIPTION') }}
+      </p>
+    </div>
+    <Button
+      size="sm"
+      icon="i-lucide-plus"
+      :label="$t('DATA_EXPORTS.NEW')"
+      @click="$emit('create')"
+    />
   </div>
+  <DataOperationList
+    v-else
+    :items="exports"
+    type="export"
+    @open="$emit('open', $event)"
+  />
 </template>

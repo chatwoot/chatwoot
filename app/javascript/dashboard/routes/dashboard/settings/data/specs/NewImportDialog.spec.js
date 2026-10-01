@@ -69,7 +69,7 @@ describe('NewImportDialog', () => {
 
   it('validates and creates a Freshdesk import with its domain', async () => {
     const wrapper = mountDialog();
-    await wrapper.find('select').setValue('freshdesk');
+    await wrapper.find('input[value="freshdesk"]').setValue();
     await nextTick();
 
     const domainInput = wrapper.find(
@@ -106,7 +106,7 @@ describe('NewImportDialog', () => {
   it('uploads only contacts with file progress and no integration credentials', async () => {
     DataImportsAPI.createFile.mockResolvedValue({ data: { id: 43 } });
     const wrapper = mountDialog();
-    await wrapper.find('select').setValue('csv');
+    await wrapper.find('input[value="csv"]').setValue();
     const file = new File(
       ['name,email\nJane,jane@example.com'],
       'contacts.csv',
@@ -129,7 +129,7 @@ describe('NewImportDialog', () => {
   it('hides integration providers when only contacts are permitted', () => {
     const wrapper = mountDialog({ integrationEnabled: false });
     expect(
-      wrapper.findAll('option').map(option => option.element.value)
+      wrapper.findAll('input[type="radio"]').map(option => option.element.value)
     ).toEqual(['csv']);
   });
 });

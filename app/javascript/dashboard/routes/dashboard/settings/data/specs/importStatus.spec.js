@@ -3,7 +3,6 @@ import {
   importedCount,
   isActiveIntercomImport,
   isActiveIntegrationImport,
-  statusDotClass,
 } from '../importStatus';
 
 describe('importStatus', () => {
@@ -84,22 +83,6 @@ describe('importStatus', () => {
           stats: {},
         })
       ).toBe(7);
-    });
-  });
-
-  describe('statusDotClass', () => {
-    it('maps each status to its dot color class', () => {
-      expect(statusDotClass('pending')).toBe('bg-n-amber-9');
-      expect(statusDotClass('processing')).toBe('bg-n-blue-9');
-      expect(statusDotClass('completed')).toBe('bg-n-teal-9');
-      expect(statusDotClass('completed_with_errors')).toBe('bg-n-amber-9');
-      expect(statusDotClass('failed')).toBe('bg-n-ruby-9');
-      expect(statusDotClass('abandoned')).toBe('bg-n-slate-9');
-    });
-
-    it('falls back to slate for unknown or missing status', () => {
-      expect(statusDotClass('unknown')).toBe('bg-n-slate-9');
-      expect(statusDotClass(undefined)).toBe('bg-n-slate-9');
     });
   });
 

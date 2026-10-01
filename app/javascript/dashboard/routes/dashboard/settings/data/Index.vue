@@ -23,15 +23,8 @@ import NewImportDialog from './NewImportDialog.vue';
 import NewExportDialog from './NewExportDialog.vue';
 import ExportsList from './ExportsList.vue';
 import { consumeExportDraft } from './exportDraft';
-import { importSourceFor } from './importSources';
-import {
-  POLL_INTERVAL_MS,
-  formatDate,
-  formatStatus,
-  importedCount,
-  isActiveImport,
-  statusDotClass,
-} from './importStatus';
+import DataOperationList from './components/DataOperationList.vue';
+import { POLL_INTERVAL_MS, isActiveImport } from './importStatus';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
@@ -76,22 +69,6 @@ const dataImportRoute = dataImport => ({
   name: 'settings_data_import_show',
   params: { accountId: accountId.value, dataImportId: dataImport.id },
 });
-
-const importTypesFor = dataImport =>
-  dataImport.import_types?.length
-    ? dataImport.import_types
-    : [dataImport.data_type];
-
-const importTypeLabel = dataImport =>
-  importTypesFor(dataImport)
-    .map(type => {
-      if (type === 'contacts') return t('DATA_IMPORTS.TYPES.CONTACTS');
-      if (type === 'conversations') {
-        return t('DATA_IMPORTS.TYPES.CONVERSATIONS');
-      }
-      return type;
-    })
-    .join(', ');
 
 const fetchImports = async () => {
   const version = requestVersion;
@@ -160,8 +137,8 @@ const refresh = async ({ showLoader = true } = {}) => {
   }
 };
 
-const openImport = dataImport => {
-  router.push(dataImportRoute(dataImport));
+const openImport = dataImportId => {
+  router.push(dataImportRoute({ id: dataImportId }));
 };
 
 const openImportDrawer = () => {
@@ -279,9 +256,13 @@ onBeforeUnmount(() => {
             @tab-changed="onTabChanged"
           />
         </template>
-        <template v-if="activeTab === 'import' && dataImports.length" #count>
+        <template v-if="dataImports.length || dataExports.length" #count>
           <span class="text-body-main text-n-slate-11">
-            {{ $t('DATA_IMPORTS.TABLE.COUNT', { count: dataImports.length }) }}
+            {{
+              activeTab === 'import'
+                ? $t('DATA_IMPORTS.TABLE.COUNT', { count: dataImports.length })
+                : $t('DATA_EXPORTS.TABLE.COUNT', { count: dataExports.length })
+            }}
           </span>
         </template>
         <template #actions>
@@ -309,6 +290,7 @@ onBeforeUnmount(() => {
           <Button
             v-if="activeTab === 'import'"
             size="sm"
+            icon="i-lucide-plus"
             :label="$t('DATA_IMPORTS.TABLE.NEW_IMPORT')"
             :disabled="!canCreateImport"
             :title="
@@ -321,6 +303,7 @@ onBeforeUnmount(() => {
           <Button
             v-if="activeTab === 'export'"
             size="sm"
+            icon="i-lucide-plus"
             :label="$t('DATA_EXPORTS.NEW')"
             @click="newExport"
           />
@@ -355,9 +338,9 @@ onBeforeUnmount(() => {
         class="flex min-h-80 flex-col items-center justify-center gap-4 rounded-xl border border-n-weak bg-n-solid-1 px-6 py-16 text-center"
       >
         <span
-          class="flex size-12 items-center justify-center rounded-full bg-n-alpha-2"
+          class="flex size-12 items-center justify-center rounded-xl border border-n-weak bg-n-alpha-1"
         >
-          <Icon icon="i-lucide-database" class="size-5 text-n-slate-11" />
+          <Icon icon="i-lucide-file-input" class="size-5 text-n-slate-11" />
         </span>
         <div class="flex flex-col gap-1">
           <h3 class="text-heading-2 text-n-slate-12">
@@ -369,88 +352,13 @@ onBeforeUnmount(() => {
         </div>
         <Button
           size="sm"
-          icon="i-lucide-download"
+          icon="i-lucide-plus"
           :label="$t('DATA_IMPORTS.TABLE.NEW_IMPORT')"
           @click="openImportDrawer"
         />
       </div>
 
-      <div v-else class="divide-y divide-n-weak border-t border-n-weak">
-        <div
-          v-for="dataImport in dataImports"
-          :key="dataImport.id"
-          class="group flex cursor-pointer items-center justify-between gap-4 py-4"
-          role="button"
-          tabindex="0"
-          @click="openImport(dataImport)"
-          @keydown.enter="openImport(dataImport)"
-          @keydown.space.prevent="openImport(dataImport)"
-        >
-          <div class="flex min-w-0 items-center gap-3">
-            <img
-              v-if="importSourceFor(dataImport).icon"
-              v-tooltip.top="importSourceFor(dataImport).label"
-              :src="importSourceFor(dataImport).icon"
-              alt=""
-              class="size-10 justify-center bg-n-alpha-3 rounded-xl shrink-0 object-contain border border-n-strong"
-            />
-            <span
-              v-else
-              v-tooltip.top="importSourceFor(dataImport).label"
-              class="size-10 justify-center bg-n-alpha-3 rounded-xl ring ring-n-solid-1 border border-n-strong shadow-sm grid place-items-center"
-            >
-              <Icon
-                :icon="importSourceFor(dataImport).iconClass"
-                class="size-4"
-              />
-            </span>
-            <div class="flex min-w-0 flex-col gap-1">
-              <div class="flex items-center gap-2">
-                <span class="truncate text-heading-3 text-n-slate-12">
-                  {{ dataImport.name || $t('DATA_IMPORTS.TABLE.UNNAMED') }}
-                </span>
-                <span class="flex shrink-0 items-center gap-1.5">
-                  <span
-                    class="size-2 rounded-full"
-                    :class="[
-                      statusDotClass(dataImport.status),
-                      { 'animate-pulse': isActiveImport(dataImport) },
-                    ]"
-                  />
-                  <span
-                    class="whitespace-nowrap capitalize text-body-main text-n-slate-11"
-                  >
-                    {{ formatStatus(dataImport.status) }}
-                  </span>
-                </span>
-              </div>
-              <div
-                class="flex flex-wrap items-center gap-2 text-body-main text-n-slate-11"
-              >
-                <span>{{ importTypeLabel(dataImport) }}</span>
-                <div class="h-3 w-px rounded-lg bg-n-strong" />
-                <span class="tabular-nums">
-                  {{
-                    $t('DATA_IMPORTS.TABLE.IMPORTED_COUNT', {
-                      count: importedCount(dataImport),
-                    })
-                  }}
-                </span>
-                <div class="h-3 w-px rounded-lg bg-n-strong" />
-                <span>{{ formatDate(dataImport.created_at) }}</span>
-              </div>
-            </div>
-          </div>
-          <Button
-            v-tooltip.top="$t('DATA_IMPORTS.TABLE.VIEW')"
-            icon="i-lucide-eye"
-            slate
-            sm
-            class="shrink-0"
-            @click.stop="openImport(dataImport)"
-          />
-        </div>
-      </div>
+      <DataOperationList v-else :items="dataImports" @open="openImport" />
     </template>
   </SettingsLayout>
 
