@@ -20,7 +20,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
   def perform(tool_context, reason: nil, reason_category: nil)
     conversation = find_conversation(tool_context.state)
-    return 'Conversation not found' unless conversation
+    return failure_result('Conversation not found', tool_context.state) unless conversation
 
     # Log the handoff with reason
     log_tool_usage('tool_handoff', {
@@ -30,20 +30,18 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
     # Use existing handoff mechanism from ResponseBuilderJob
     handoff_result = trigger_handoff(tool_context, conversation, reason, reason_category)
-    return 'Handoff skipped because a newer customer message arrived' if handoff_result == :stale
-    return 'Handoff skipped because the conversation changed' unless handoff_result == :completed
+    return failure_result('Handoff skipped because a newer customer message arrived', tool_context.state) if handoff_result == :stale
+    return failure_result('Handoff skipped because the conversation changed', tool_context.state) unless handoff_result == :completed
 
     "Conversation handed off to human support team#{" (Reason: #{reason})" if reason}"
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
-    'Failed to handoff conversation'
+    failure_result('Failed to handoff conversation', tool_context.state)
   end
 
   private
 
   def trigger_handoff(tool_context, conversation, reason, reason_category)
-    return trigger_legacy_handoff(tool_context, conversation, reason, reason_category) unless captain_v2_enabled?
-
     note = nil
     handoff_result = conversation.with_lock do
       next :changed unless conversation.pending?
@@ -73,18 +71,6 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
     emit_tool_handoff_event(conversation, reason_category)
 
     # Send out of office message if applicable (since template messages were suppressed while Captain was handling)
-    send_out_of_office_message_if_applicable(conversation)
-    :completed
-  end
-
-  def trigger_legacy_handoff(tool_context, conversation, reason, reason_category)
-    note = conversation.messages.create!(
-      message_type: :outgoing, private: true, sender: @assistant,
-      account: conversation.account, inbox: conversation.inbox, content: reason
-    )
-    record_handoff_note(tool_context, note) if reason.present?
-    conversation.bot_handoff!
-    emit_tool_handoff_event(conversation, reason_category)
     send_out_of_office_message_if_applicable(conversation)
     :completed
   end

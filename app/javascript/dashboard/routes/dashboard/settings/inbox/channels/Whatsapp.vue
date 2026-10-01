@@ -1,11 +1,13 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n, I18nT } from 'vue-i18n';
 import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
+import WhatsappManualSetup from './WhatsappManualSetup.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
+import WhatsappAccessRequestDialog from '../components/WhatsappAccessRequestDialog.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -17,6 +19,7 @@ import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
+const accessRequestDialogRef = ref(null);
 const {
   isCloudFeatureEnabled,
   isOnChatwootCloud,
@@ -117,18 +120,91 @@ const shouldShowCloudWhatsapp = provider => {
   );
 };
 
+const isManualSetup = computed(
+  () =>
+    showConfiguration.value && shouldShowCloudWhatsapp(selectedProvider.value)
+);
+
 const handleManualLinkClick = () => {
   selectProvider(PROVIDER_TYPES.WHATSAPP_MANUAL);
 };
 
 const requestEmbeddedSignupAccess = () => {
-  window.$chatwoot?.toggle();
+  accessRequestDialogRef.value.open();
 };
 </script>
 
 <template>
-  <div class="overflow-auto col-span-6 p-6 w-full h-full">
-    <div v-if="showProviderSelection">
+  <div class="col-span-6 w-full h-full min-h-0 overflow-y-auto p-6">
+    <WhatsappAccessRequestDialog ref="accessRequestDialogRef" />
+    <div v-if="isManualSetup">
+      <div
+        v-if="shouldShowEmbeddedSignupAccessRequest"
+        class="w-full p-5 mb-6 border rounded-xl border-n-weak bg-n-surface-2 text-start"
+      >
+        <div class="flex flex-wrap items-center gap-3">
+          <div
+            class="flex items-center justify-center flex-shrink-0 rounded-lg size-7 bg-n-slate-3"
+          >
+            <Icon icon="i-woot-whatsapp" class="size-5 text-n-slate-11" />
+          </div>
+          <span class="flex-1 min-w-0 text-heading-2 text-n-slate-12">
+            {{
+              $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.TITLE')
+            }}
+          </span>
+          <Button
+            solid
+            blue
+            sm
+            class="flex-shrink-0"
+            icon="i-lucide-life-buoy"
+            :label="
+              $t(
+                'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.BUTTON'
+              )
+            "
+            @click="requestEmbeddedSignupAccess"
+          />
+        </div>
+        <p class="mt-2 ms-10 max-w-3xl text-body-main text-n-slate-11">
+          {{
+            $t(
+              'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.DESCRIPTION'
+            )
+          }}
+        </p>
+      </div>
+      <Banner
+        v-if="
+          isWhatsappEmbeddedSignupDisabled &&
+          selectedProvider === PROVIDER_TYPES.WHATSAPP_MANUAL
+        "
+        color="amber"
+        class="w-full mb-6"
+      >
+        <div class="flex items-start gap-3 text-start">
+          <Icon
+            icon="i-lucide-triangle-alert"
+            class="flex-shrink-0 size-4 mt-0.5"
+          />
+          <span>
+            {{ $t('INBOX_MGMT.ADD.WHATSAPP.API.MANUAL_RESTRICTION_WARNING') }}
+            <a
+              :href="META_RESTRICTION_STATUS_URL"
+              class="link underline"
+              rel="noopener noreferrer nofollow"
+              target="_blank"
+            >
+              {{ $t('INBOX_MGMT.ADD.WHATSAPP.API.STATUS_LINK') }}
+            </a>
+          </span>
+        </div>
+      </Banner>
+      <WhatsappManualSetup />
+    </div>
+
+    <div v-else-if="showProviderSelection">
       <div class="mb-10 text-left">
         <h1 class="mb-2 text-lg font-medium text-n-slate-12">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.SELECT_PROVIDER.TITLE') }}
@@ -181,84 +257,6 @@ const requestEmbeddedSignupAccess = () => {
               </template>
             </I18nT>
           </div>
-        </div>
-
-        <!-- Show manual setup -->
-        <div v-else-if="shouldShowCloudWhatsapp(selectedProvider)">
-          <div
-            v-if="shouldShowEmbeddedSignupAccessRequest"
-            class="w-full p-4 mb-6 border rounded-xl border-n-weak bg-n-solid-2"
-          >
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
-              <div
-                class="flex items-center justify-center flex-shrink-0 rounded-lg size-9 bg-n-blue-3"
-              >
-                <Icon icon="i-woot-whatsapp" class="size-5 text-n-slate-10" />
-              </div>
-              <div class="flex-1 min-w-0 text-start">
-                <div class="font-medium text-n-slate-12">
-                  {{
-                    $t(
-                      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.TITLE'
-                    )
-                  }}
-                </div>
-                <p class="mt-1 text-sm leading-5 text-n-slate-11">
-                  {{
-                    $t(
-                      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.DESCRIPTION'
-                    )
-                  }}
-                </p>
-                <p class="mt-2 text-xs leading-5 text-n-slate-10">
-                  {{
-                    $t(
-                      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.FOOTNOTE'
-                    )
-                  }}
-                </p>
-              </div>
-              <Button
-                solid
-                blue
-                sm
-                class="self-start flex-shrink-0 sm:mt-0.5"
-                icon="i-lucide-life-buoy"
-                :label="
-                  $t(
-                    'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.BUTTON'
-                  )
-                "
-                @click="requestEmbeddedSignupAccess"
-              />
-            </div>
-          </div>
-          <Banner
-            v-if="isWhatsappEmbeddedSignupDisabled"
-            color="amber"
-            class="w-full mb-6"
-          >
-            <div class="flex items-start gap-3 text-start">
-              <Icon
-                icon="i-lucide-triangle-alert"
-                class="flex-shrink-0 size-4 mt-0.5"
-              />
-              <span>
-                {{
-                  $t('INBOX_MGMT.ADD.WHATSAPP.API.MANUAL_RESTRICTION_WARNING')
-                }}
-                <a
-                  :href="META_RESTRICTION_STATUS_URL"
-                  class="link underline"
-                  rel="noopener noreferrer nofollow"
-                  target="_blank"
-                >
-                  {{ $t('INBOX_MGMT.ADD.WHATSAPP.API.STATUS_LINK') }}
-                </a>
-              </span>
-            </div>
-          </Banner>
-          <CloudWhatsapp />
         </div>
 
         <!-- Other providers -->

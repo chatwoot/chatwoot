@@ -23,12 +23,14 @@
         "NAME": "Waktu Respon Pertama",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Waktu Respon Pertama adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Waktu Penyelesaian",
         "DESC": "( Rata-Rata )",
         "INFO_TEXT": "Total jumlah percakapan yang digunakan untuk perhitungan:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Waktu Penyelesaian adalah {metricValue} (berdasarkan {conversationCount} percakapan)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
@@ -544,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Gambaran",
     "LIVE": "Langsung",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Percakapan Terbuka",
       "LOADING_MESSAGE": "Memuat metrik percakapan...",

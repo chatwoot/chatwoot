@@ -7,6 +7,7 @@ import {
   formatDuration,
   shortTimestamp,
 } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { downloadFile } from '@chatwoot/utils';
 import {
   ATTACHMENT_TYPES,
@@ -23,6 +24,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['select', 'jumpToMessage']);
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 
@@ -252,6 +255,10 @@ const onDownloadFile = async attachment => {
 
           <span
             v-if="displayTime(attachment)"
+            v-tooltip.top="{
+              content: exactTimestamp(attachment.created_at),
+              delay: { show: 500, hide: 0 },
+            }"
             class="absolute text-xxs font-medium transition-opacity opacity-0 bottom-1.5 ltr:left-1.5 rtl:right-1.5 text-white [text-shadow:_0_1px_3px_rgba(0,0,0,0.95),_0_0_10px_rgba(0,0,0,0.7)] group-hover:opacity-100"
           >
             {{ displayTime(attachment) }}

@@ -1,11 +1,12 @@
 # Builds a time series for Captain involvement and autonomous resolution.
-# All buckets are computed in one outcome-table scan and follow the viewer's
-# calendar timezone while remaining clipped to the selected reporting window.
+# Current and comparison buckets are computed in one outcome-table scan and
+# follow the viewer's calendar timezone.
 class Captain::AssistantResolutionTrendStatsBuilder
   include Captain::AssistantOutcomeClassification
 
   DAILY_GRANULARITY_THRESHOLD = 15.days
-  WEEK_START = :sunday
+  DAYS_PER_WEEK = 7
+  WEEK_START = Captain::AssistantStatsWindow::WEEK_START
 
   attr_reader :assistant, :account
 
@@ -16,12 +17,19 @@ class Captain::AssistantResolutionTrendStatsBuilder
   end
 
   def metrics
+    return { granularity: granularity, buckets: [] } unless tracked_period?(window.current.first)
+
     buckets = time_buckets
-    counts = bucket_counts(buckets)
+    comparison_buckets = previous_period_buckets(buckets)
+    counts = bucket_counts(buckets + comparison_buckets)
+    current_counts = counts.first(buckets.length)
+    previous_counts = counts.last(buckets.length)
 
     {
       granularity: granularity,
-      buckets: buckets.each_with_index.map { |bucket, index| serialize_bucket(bucket, counts[index]) }
+      buckets: buckets.each_with_index.map do |bucket, index|
+        serialize_bucket(bucket, comparison_buckets[index], current_counts[index], previous_counts[index])
+      end
     }
   end
 
@@ -41,12 +49,34 @@ class Captain::AssistantResolutionTrendStatsBuilder
         starts_at: starts_at,
         ends_at: final_bucket ? window.current.last : next_starts_at,
         ends_on: final_bucket ? window.current.last.to_date : next_starts_at.to_date - 1.day,
-        final: final_bucket
+        final: final_bucket,
+        exclude_end: false
       }
       starts_at = next_starts_at
     end
 
     buckets
+  end
+
+  # Shift by whole calendar weeks to preserve weekdays and local clock times.
+  def previous_period_buckets(buckets)
+    buckets.map do |bucket|
+      bucket.merge(
+        starts_at: bucket[:starts_at] - comparison_shift,
+        ends_at: bucket[:ends_at] - comparison_shift,
+        ends_on: bucket[:ends_on] - comparison_shift,
+        exclude_end: window.current.last - comparison_shift == window.current.first
+      )
+    end
+  end
+
+  def comparison_shift
+    @comparison_shift ||= begin
+      days = (window.current.last.to_date - window.current.first.to_date).to_i
+      weeks = [days / DAYS_PER_WEEK, 1].max
+      weeks += 1 if window.current.last - weeks.weeks > window.current.first
+      weeks.weeks
+    end
   end
 
   def granularity
@@ -71,18 +101,24 @@ class Captain::AssistantResolutionTrendStatsBuilder
     outcomes_scope.reorder(nil).pick(*aggregates).each_slice(2).to_a
   end
 
-  def serialize_bucket(bucket, counts)
+  def serialize_bucket(bucket, comparison_bucket, current_counts, previous_counts)
+    comparison_available = tracked_period?(window.current.first - comparison_shift)
+
     {
       starts_on: bucket[:starts_at].to_date,
       ends_on: bucket[:ends_on],
-      conversations_handled: counts[0],
-      resolved_by_captain: counts[1]
+      previous_starts_on: comparison_bucket[:starts_at].to_date,
+      previous_ends_on: comparison_bucket[:ends_on],
+      conversations_handled: current_counts[0],
+      resolved_by_captain: current_counts[1],
+      current_resolution_rate: resolution_rate(current_counts),
+      previous_resolution_rate: comparison_available ? resolution_rate(previous_counts) : nil
     }
   end
 
   def bucket_predicate(bucket)
     starts_in_bucket = outcomes_table[:started_at].gteq(bucket[:starts_at])
-    ends_in_bucket = if bucket[:final]
+    ends_in_bucket = if bucket[:final] && !bucket[:exclude_end]
                        outcomes_table[:started_at].lteq(bucket[:ends_at])
                      else
                        outcomes_table[:started_at].lt(bucket[:ends_at])
@@ -92,7 +128,10 @@ class Captain::AssistantResolutionTrendStatsBuilder
   end
 
   def outcomes_scope
-    account.conversation_outcomes.where(assistant_id: assistant.id, started_at: window.current)
+    account.conversation_outcomes.where(
+      assistant_id: assistant.id,
+      started_at: (window.current.first - comparison_shift)..window.current.last
+    )
   end
 
   def filtered_count(predicate)
@@ -101,5 +140,12 @@ class Captain::AssistantResolutionTrendStatsBuilder
 
   def outcomes_table
     @outcomes_table ||= ConversationOutcome.arel_table
+  end
+
+  def resolution_rate(counts)
+    handled, resolved = counts
+    return if handled.zero?
+
+    (resolved.to_f / handled * 100).round(1)
   end
 end

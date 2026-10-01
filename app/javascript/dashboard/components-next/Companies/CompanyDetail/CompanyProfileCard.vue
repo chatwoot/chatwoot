@@ -3,6 +3,7 @@ import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -14,6 +15,8 @@ const props = defineProps({
   company: { type: Object, default: () => ({}) },
   isLoading: { type: Boolean, default: false },
 });
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 const companiesStore = useCompaniesStore();
@@ -46,17 +49,21 @@ const hasChanges = computed(
 const summary = computed(() => {
   const { createdAt, lastActivityAt } = props.company || {};
   return [
-    createdAt &&
-      t('COMPANIES.DETAIL.PROFILE.CREATED_AT', {
+    createdAt && {
+      key: 'createdAt',
+      label: t('COMPANIES.DETAIL.PROFILE.CREATED_AT', {
         date: dynamicTime(createdAt),
       }),
-    lastActivityAt &&
-      t('COMPANIES.DETAIL.PROFILE.LAST_ACTIVE', {
+      exactTime: exactTimestamp(createdAt),
+    },
+    lastActivityAt && {
+      key: 'lastActivityAt',
+      label: t('COMPANIES.DETAIL.PROFILE.LAST_ACTIVE', {
         date: dynamicTime(lastActivityAt),
       }),
-  ]
-    .filter(Boolean)
-    .join(' • ');
+      exactTime: exactTimestamp(lastActivityAt),
+    },
+  ].filter(Boolean);
 });
 
 const syncForm = company => {
@@ -150,7 +157,19 @@ const handleUpdateCompany = async () => {
         <h3 class="text-base font-medium text-n-slate-12">
           {{ displayName }}
         </h3>
-        <span class="text-sm leading-6 text-n-slate-11">{{ summary }}</span>
+        <span class="text-sm leading-6 text-n-slate-11">
+          <template v-for="(item, index) in summary" :key="item.key">
+            <span v-if="index">&nbsp;•&nbsp;</span>
+            <span
+              v-tooltip.top="{
+                content: item.exactTime,
+                delay: { show: 500, hide: 0 },
+              }"
+            >
+              {{ item.label }}
+            </span>
+          </template>
+        </span>
         <p
           v-if="isUploadingAvatar || uiFlags.deletingAvatar"
           class="text-sm text-n-slate-11"

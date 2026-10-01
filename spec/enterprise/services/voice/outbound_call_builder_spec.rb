@@ -94,7 +94,7 @@ RSpec.describe Voice::OutboundCallBuilder do
 
     it 'keeps the AgentBot owner when a reused conversation is already assigned' do
       agent_bot = create(:agent_bot, account: account)
-      conversation = create(:conversation, account: account, inbox: inbox, contact: contact, assignee_agent_bot: agent_bot).reload
+      conversation = create(:conversation, account: account, inbox: inbox, contact: contact, ai_assignee: agent_bot).reload
 
       described_class.perform!(account: account, inbox: inbox, user: user, contact: contact, conversation: conversation)
 

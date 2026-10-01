@@ -4,6 +4,7 @@ operationId: update-portal-to-account
 summary: Update a portal
 description: Update a portal to account
 security:
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - $ref: '#/components/parameters/account_id'

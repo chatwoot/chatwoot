@@ -55,7 +55,7 @@ RSpec.describe Conversations::UnreadCounts::Builder do
       )
       unassigned_conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title], team: team)
       agent_bot_conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title], team: team)
-      agent_bot_conversation.update!(assignee_agent_bot: create(:agent_bot, account: account))
+      agent_bot_conversation.update!(ai_assignee: create(:agent_bot, account: account))
 
       described_class.new(account).build_assignment!
 

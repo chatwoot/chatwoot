@@ -199,7 +199,7 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
       let(:inbox) { create(:inbox, account: account) }
       let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_unassigned_manage']) }
       let(:agent_bot) { create(:agent_bot, account: account) }
-      let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee_agent_bot: agent_bot) }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox, ai_assignee: agent_bot) }
 
       before do
         create(:inbox_member, user: user, inbox: inbox)

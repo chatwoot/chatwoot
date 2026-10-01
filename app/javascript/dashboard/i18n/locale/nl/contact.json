@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Niet beschikbaar",
     "EMAIL_ADDRESS": "Uw e-mailadres",
     "PHONE_NUMBER": "Telefoon nummer",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identificator",
     "COPY_SUCCESSFUL": "Succesvol gekopieerd naar klembord",
     "COMPANY": "Bedrijfsnaam",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

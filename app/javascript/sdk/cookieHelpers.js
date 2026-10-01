@@ -1,8 +1,9 @@
-import md5 from 'md5';
 import Cookies from 'js-cookie';
 
 const REQUIRED_USER_KEYS = ['avatar_url', 'email', 'name'];
 const ALLOWED_USER_ATTRIBUTES = [...REQUIRED_USER_KEYS, 'identifier_hash'];
+const FNV1A_128_OFFSET_BASIS = 0x6c62272e07bb014262b821756295c58dn;
+const FNV1A_128_PRIME = 0x1000000000000000000013bn;
 const CONTACT_INFORMATION_ATTRIBUTES = [
   'phone_number',
   'company_name',
@@ -37,7 +38,20 @@ export const getUserString = ({ identifier = '', user }) => {
   return JSON.stringify(userAttributes);
 };
 
-export const computeHashForUserData = (...args) => md5(getUserString(...args));
+export const fnv1a128 = value => {
+  const data = new TextEncoder().encode(value);
+  let hash = FNV1A_128_OFFSET_BASIS;
+
+  data.forEach(byte => {
+    hash ^= BigInt(byte); // eslint-disable-line no-bitwise
+    hash = BigInt.asUintN(128, hash * FNV1A_128_PRIME);
+  });
+
+  return hash.toString(16).padStart(32, '0');
+};
+
+export const computeHashForUserData = (...args) =>
+  fnv1a128(getUserString(...args));
 
 export const hasUserKeys = user =>
   REQUIRED_USER_KEYS.reduce((acc, key) => acc || !!user[key], false);

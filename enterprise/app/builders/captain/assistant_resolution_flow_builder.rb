@@ -15,6 +15,8 @@ class Captain::AssistantResolutionFlowBuilder
   end
 
   def build
+    return { sankey: { nodes: [], links: [] }, handoff_distribution: [] } unless tracked_period?(window.current.first)
+
     counts = flow_counts
     distribution = handoff_distribution(counts[:handed_off])
 

@@ -343,6 +343,22 @@ RSpec.describe 'Conversations API', type: :request do
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
       end
     end
+
+    context 'when it is an authenticated bot' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+      let(:team) { create(:team, account: account) }
+
+      it 'shows a team-assigned conversation' do
+        conversation.update!(team: team)
+
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+            headers: { api_access_token: agent_bot.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body.dig('meta', 'team', 'is_member')).to be(false)
+      end
+    end
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}/conversations/:id' do
@@ -600,7 +616,7 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       it 'does not self assign and clears the agent bot owner if admin changes the conversation status to open' do
-        conversation.update!(status: 'pending', assignee: nil, assignee_agent_bot: agent_bot)
+        conversation.update!(status: 'pending', assignee: nil, ai_assignee: agent_bot)
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: administrator.create_new_auth_token,
@@ -609,7 +625,7 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.reload.status).to eq('open')
         expect(conversation.reload.assignee_id).not_to eq(administrator.id)
-        expect(conversation.reload.assignee_agent_bot).to be_nil
+        expect(conversation.reload.ai_assignee).to be_nil
       end
 
       it 'toggles the conversation status to specific status when parameter is passed' do
@@ -697,7 +713,7 @@ RSpec.describe 'Conversations API', type: :request do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
-      it 'toggles the conversation priority to nil if no value is passed' do
+      it 'updates the conversation priority' do
         expect(conversation.priority).to be_nil
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
@@ -709,10 +725,8 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.priority).to eq('low')
       end
 
-      it 'toggles the conversation priority' do
-        conversation.priority = 'low'
-        conversation.save!
-        expect(conversation.reload.priority).to eq('low')
+      it 'clears the conversation priority when priority is missing' do
+        conversation.update!(priority: 'low')
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
              headers: agent.create_new_auth_token,
@@ -720,6 +734,32 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.priority).to be_nil
+      end
+
+      it 'clears the conversation priority when priority is nil' do
+        conversation.priority = 'low'
+        conversation.save!
+        expect(conversation.reload.priority).to eq('low')
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
+             headers: agent.create_new_auth_token,
+             params: { priority: nil },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.priority).to be_nil
+      end
+
+      it 'returns unprocessable entity for invalid priority values' do
+        ['none', '', false].each do |invalid_priority|
+          post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
+               headers: agent.create_new_auth_token,
+               params: { priority: invalid_priority },
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to include('priority')
+        end
       end
     end
 

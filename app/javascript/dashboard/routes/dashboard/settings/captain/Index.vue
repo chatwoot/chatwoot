@@ -82,9 +82,12 @@ const isFeatureAccessible = feature => {
 
   if (feature.enterprise) {
     // plan is shown, but is it accessible?
-    // This ensures that the instance has purchased the enterprise license, and only then we allow
-    // access
-    return isEnterprise && enterprisePlanName === 'enterprise';
+    // Paid self-hosted installations can access these Captain settings.
+    return (
+      isEnterprise &&
+      !isOnChatwootCloud.value &&
+      ['premium', 'enterprise'].includes(enterprisePlanName)
+    );
   }
 
   return true;

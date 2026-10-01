@@ -56,10 +56,13 @@ class Captain::Copilot::ReplySuggestionService
   end
 
   def generate_reply(conversation)
+    run_options = Captain::Assistant::AgentRunnerService::RunOptions.new(
+      source: Captain::Assistant::AgentRunnerService::REPLY_SUGGESTION_SOURCE
+    )
     runner = Captain::Assistant::AgentRunnerService.new(
       assistant: @assistant,
       conversation: conversation,
-      source: Captain::Assistant::AgentRunnerService::REPLY_SUGGESTION_SOURCE
+      run_options: run_options
     )
     response = runner.generate_response(message_history: conversation_history(conversation))
 

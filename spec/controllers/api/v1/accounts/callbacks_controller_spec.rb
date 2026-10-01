@@ -8,8 +8,13 @@ RSpec.describe 'Callbacks API', type: :request do
     allow(Koala::Facebook::API).to receive(:new).and_return(koala_api)
 
     allow(Facebook::Messenger::Subscriptions).to receive(:subscribe).and_return(true)
-    allow(koala_api).to receive(:get_connections).and_return(
-      [{ 'id' => facebook_page.page_id, 'access_token' => SecureRandom.hex(10) }]
+    allow(koala_api).to receive(:get_connections).with('me', 'accounts').and_return(
+      [{ 'id' => facebook_page.page_id, 'access_token' => SecureRandom.hex(10), 'name' => 'Acme Support' }]
+    )
+    allow(koala_api).to receive(:get_connections).with(
+      'me', '', { fields: 'name,instagram_business_account' }
+    ).and_return(
+      { 'name' => 'Acme Support', 'instagram_business_account' => { 'id' => 'instagram-business-id' } }
     )
     allow(koala_oauth).to receive(:exchange_access_token_info).and_return('access_token' => SecureRandom.hex(10))
   end
@@ -42,6 +47,11 @@ RSpec.describe 'Callbacks API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
+
+        channel = account.facebook_pages.find_by!(page_id: valid_params[:page_id])
+        expect(channel.provider_name).to eq('Acme Support')
+        expect(channel.instagram_id).to eq('instagram-business-id')
+        expect(channel.inbox.name).to eq('Test Inbox')
       end
 
       it 'registers a new facebook page with avatar' do
@@ -108,6 +118,7 @@ RSpec.describe 'Callbacks API', type: :request do
 
       it 'reauthorizes the page' do
         params = { inbox_id: inbox.id }
+        inbox.update!(name: 'Custom Inbox Name')
 
         post "/api/v1/accounts/#{account.id}/callbacks/reauthorize_page",
              headers: admin.create_new_auth_token,
@@ -116,6 +127,9 @@ RSpec.describe 'Callbacks API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(inbox.id.to_s)
+        expect(facebook_page.reload.provider_name).to eq('Acme Support')
+        expect(facebook_page.instagram_id).to eq('instagram-business-id')
+        expect(inbox.reload.name).to eq('Custom Inbox Name')
       end
 
       it 'returns unprocessable_entity if no page found' do

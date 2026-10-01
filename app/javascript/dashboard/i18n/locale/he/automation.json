@@ -143,7 +143,8 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "הכנס את ההודעה שלך כאן",
       "TEAM_DROPDOWN_PLACEHOLDER": "בחר צוותים",
       "EMAIL_INPUT_PLACEHOLDER": "הכנס דוא\"ל",
-      "URL_INPUT_PLACEHOLDER": "הכנס URL"
+      "URL_INPUT_PLACEHOLDER": "הכנס URL",
+      "INSERT_CONTACT_EMAIL": "Use contact's email"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "הפעל כלל אוטומציה",
@@ -217,7 +218,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "סוג הודעה",
       "PRIVATE_NOTE": "הערה פרטית",
-      "MESSAGE_CONTAINS": "ההודעה מכילה",
+      "MESSAGE_CONTAINS": "Message Content",
       "EMAIL": "דוא\"ל",
       "INBOX": "תיבת דואר נכנס",
       "CONVERSATION_LANGUAGE": "שפת שיחה",

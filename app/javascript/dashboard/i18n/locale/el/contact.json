@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Μη Διαθέσιμο",
     "EMAIL_ADDRESS": "Διεύθυνση Email",
     "PHONE_NUMBER": "Αριθμός τηλεφώνου",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Κωδικός",
     "COPY_SUCCESSFUL": "Αντιγράφτηκε με επιτυχία στο πρόχειρο",
     "COMPANY": "Εταιρία",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

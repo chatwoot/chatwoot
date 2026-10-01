@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Ej tillgänglig",
     "EMAIL_ADDRESS": "E-postadress",
     "PHONE_NUMBER": "Telefonnummer",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Kopierat till urklipp",
     "COMPANY": "Företag",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

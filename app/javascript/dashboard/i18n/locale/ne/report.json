@@ -23,12 +23,14 @@
         "NAME": "पहिलो प्रतिक्रिया समय",
         "DESC": "( औसत )",
         "INFO_TEXT": "गणनाका लागि प्रयोग गरिएका कुल संवादहरूको संख्या:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "पहिलो प्रतिक्रिया समय {metricValue} हो (आधारित {conversationCount} कुराकानीहरूमा)"
       },
       "RESOLUTION_TIME": {
         "NAME": "समाधान समय",
         "DESC": "( औसत )",
         "INFO_TEXT": "गणनाका लागि प्रयोग गरिएका कुल संवादहरूको संख्या:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "समाधान समय {metricValue} हो (आधारित {conversationCount} कुराकानीहरूमा)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "ग्राहक प्रतीक्षा समय",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "पर्खाइ समय {metricValue} हो (आधारित {conversationCount} जवाफहरूमा)",
         "DESC": ""
       }
@@ -544,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "सारांश",
     "LIVE": "प्रत्यक्ष",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "खुला कुराकानीहरू",
       "LOADING_MESSAGE": "वार्ता मेट्रिक्स लोड हुँदैछ...",

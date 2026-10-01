@@ -32,7 +32,7 @@ describe('DataManager', () => {
       expect(db1).toBe(db2);
     });
 
-    it('should add new stores to a database left behind by an earlier version', async () => {
+    it('should add new stores and invalidate stale inbox data from an earlier version', async () => {
       const legacyAccountId = 'legacy-account';
       const dbName = `cw-store-${legacyAccountId}`;
       await deleteDB(dbName);
@@ -47,6 +47,9 @@ describe('DataManager', () => {
         },
       });
       await legacyDb.put('cache-keys', 'existing-key', 'inbox');
+      await legacyDb.put('cache-keys', 'label-key', 'label');
+      await legacyDb.put('inbox', { id: 1, name: 'Legacy inbox' });
+      await legacyDb.put('label', { id: 1, title: 'Existing label' });
       legacyDb.close();
 
       const legacyManager = new DataManager(legacyAccountId);
@@ -55,7 +58,12 @@ describe('DataManager', () => {
       expect([...legacyManager.db.objectStoreNames]).toContain(
         'canned_response'
       );
-      expect(await legacyManager.getCacheKey('inbox')).toBe('existing-key');
+      expect(await legacyManager.get({ modelName: 'inbox' })).toEqual([]);
+      expect(await legacyManager.getCacheKey('inbox')).toBeUndefined();
+      expect(await legacyManager.get({ modelName: 'label' })).toEqual([
+        { id: 1, title: 'Existing label' },
+      ]);
+      expect(await legacyManager.getCacheKey('label')).toBe('label-key');
       legacyManager.db.close();
     });
   });

@@ -8,7 +8,11 @@ RSpec.describe Captain::CustomTool, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:endpoint_url) }
-    it { is_expected.to define_enum_for(:http_method).with_values('GET' => 'GET', 'POST' => 'POST').backed_by_column_of_type(:string) }
+
+    it {
+      expect(subject).to define_enum_for(:http_method).with_values('GET' => 'GET', 'POST' => 'POST', 'PUT' => 'PUT', 'PATCH' => 'PATCH',
+                                                                   'DELETE' => 'DELETE').backed_by_column_of_type(:string)
+    }
 
     it {
       expect(subject).to define_enum_for(:auth_type).with_values('none' => 'none', 'bearer' => 'bearer', 'basic' => 'basic',
@@ -17,10 +21,11 @@ RSpec.describe Captain::CustomTool, type: :model do
 
     describe 'slug uniqueness' do
       let(:account) { create(:account) }
+      let(:assistant) { create(:captain_assistant, account: account) }
 
-      it 'validates uniqueness of slug scoped to account' do
-        create(:captain_custom_tool, account: account, slug: 'custom_test_tool')
-        duplicate = build(:captain_custom_tool, account: account, slug: 'custom_test_tool')
+      it 'validates uniqueness of slug scoped to assistant' do
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_test_tool')
+        duplicate = build(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_test_tool')
 
         expect(duplicate).not_to be_valid
         expect(duplicate.errors[:slug]).to include('has already been taken')
@@ -28,10 +33,18 @@ RSpec.describe Captain::CustomTool, type: :model do
 
       it 'allows same slug across different accounts' do
         account2 = create(:account)
-        create(:captain_custom_tool, account: account, slug: 'custom_test_tool')
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_test_tool')
         different_account_tool = build(:captain_custom_tool, account: account2, slug: 'custom_test_tool')
 
         expect(different_account_tool).to be_valid
+      end
+
+      it 'allows same slug across assistants in the same account' do
+        other_assistant = create(:captain_assistant, account: account)
+        create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_test_tool')
+        other_assistant_tool = build(:captain_custom_tool, account: account, assistant: other_assistant, slug: 'custom_test_tool')
+
+        expect(other_assistant_tool).to be_valid
       end
     end
 
@@ -92,6 +105,187 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(tool).to be_valid
       end
     end
+
+    describe 'headers validation' do
+      let(:account) { create(:account) }
+
+      it 'defaults to empty headers' do
+        expect(build(:captain_custom_tool, account: account).headers).to eq({})
+      end
+
+      it 'is valid with static headers' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'Accept' => 'application/json', 'X-Tenant-Id' => 'acme' })
+
+        expect(tool).to be_valid
+      end
+
+      it 'allows non-standard header names without an X- prefix' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'cal-api-version' => '2024-08-13' })
+
+        expect(tool).to be_valid
+      end
+
+      it 'is invalid when headers is not an object' do
+        tool = build(:captain_custom_tool, account: account, headers: nil)
+
+        expect(tool).not_to be_valid
+        expect(tool.errors[:headers]).to be_present
+      end
+
+      it 'is invalid with an invalid header name' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X Tenant' => 'acme' })
+
+        expect(tool).not_to be_valid
+        expect(tool.errors[:headers]).to be_present
+      end
+
+      it 'is invalid when a header value is not a string' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Retries' => 3 })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid when a header value contains a line break' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => "acme\r\nX-Injected: 1" })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid with more than the maximum number of headers' do
+        headers = (1..(Captain::CustomTool::MAX_HEADERS + 1)).to_h { |index| ["X-Header-#{index}", 'value'] }
+        tool = build(:captain_custom_tool, account: account, headers: headers)
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid with header names that differ only by case' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => 'a', 'x-tenant' => 'b' })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid with reserved headers regardless of case' do
+        %w[authorization Host content-length content-type X-Chatwoot-Account-Id X-Chatwoot X-ChatwootToken].each do |name|
+          tool = build(:captain_custom_tool, account: account, headers: { name => 'value' })
+
+          expect(tool).not_to be_valid, "expected #{name} to be rejected"
+        end
+      end
+
+      it 'is invalid when a header value is longer than 1 KiB' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => 'a' * 1025 })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid when a header value contains a control character' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => "acme\u0000" })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid when a header value contains a placeholder' do
+        ['acme {{ order_id }}', '${{ secrets.token }}'].each do |value|
+          tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => value })
+
+          expect(tool).not_to be_valid, "expected #{value} to be rejected"
+        end
+      end
+    end
+  end
+
+  describe 'auth_config validation' do
+    let(:account) { create(:account) }
+
+    it 'is valid with a proper API key header' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => 'X-API-Key', 'key' => 'secret' })
+
+      expect(tool).to be_valid
+    end
+
+    it 'is invalid when the API key header name is not a valid header name' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => 'X API Key', 'key' => 'secret' })
+
+      expect(tool).not_to be_valid
+      expect(tool.errors[:auth_config]).to include('X API Key is not a valid header name')
+    end
+
+    it 'is invalid when the API key header name is one Chatwoot sets itself' do
+      %w[X-Chatwoot-Account-Id x-chatwoot-custom X-Chatwoot X-ChatwootToken Content-Type host].each do |name|
+        tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => name, 'key' => 'secret' })
+
+        expect(tool).not_to be_valid, "expected #{name} to be rejected"
+        expect(tool.errors[:auth_config]).to include("#{name} is managed by Chatwoot and cannot be set")
+      end
+    end
+
+    it 'allows Authorization as the API key header name' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => 'Authorization', 'key' => 'Token secret' })
+
+      expect(tool).to be_valid
+    end
+
+    it 'is invalid when a basic auth username contains a colon' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'basic', auth_config: { 'username' => 'acme:ops', 'password' => 'secret' })
+
+      expect(tool).not_to be_valid
+      expect(tool.errors[:auth_config]).to be_present
+    end
+
+    it 'is invalid when a credential contains control characters' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'bearer', auth_config: { 'token' => "secret\r\nX-Injected: 1" })
+
+      expect(tool).not_to be_valid
+      expect(tool.errors[:auth_config]).to be_present
+    end
+  end
+
+  describe 'source_metadata validation' do
+    let(:account) { create(:account) }
+    let(:source_metadata) do
+      {
+        'source' => 'github',
+        'repository' => 'chatwoot/support-tools',
+        'path' => 'shopify',
+        'tool_id' => 'get_order',
+        'revision' => 'a' * 40,
+        'version' => '1.2.0',
+        'manifest_digest' => "sha256:#{'b' * 64}",
+        'installation_id' => SecureRandom.uuid
+      }
+    end
+
+    it 'is valid without source metadata' do
+      expect(build(:captain_custom_tool, account: account, source_metadata: nil)).to be_valid
+    end
+
+    it 'is valid with complete GitHub source metadata' do
+      expect(build(:captain_custom_tool, account: account, source_metadata: source_metadata)).to be_valid
+    end
+
+    it 'is invalid with an unsupported source' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.merge('source' => 'gitlab'))
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid with an abbreviated revision' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.merge('revision' => 'abc1234'))
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid when a field is missing' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.except('tool_id'))
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid with unknown fields' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.merge('category' => 'Commerce'))
+
+      expect(tool).not_to be_valid
+    end
   end
 
   describe 'scopes' do
@@ -109,38 +303,56 @@ RSpec.describe Captain::CustomTool, type: :model do
     end
   end
 
+  describe '#enabled_scenarios_count' do
+    let(:account) { create(:account) }
+    let(:assistant) { create(:captain_assistant, account: account) }
+    let(:other_assistant) { create(:captain_assistant, account: account) }
+
+    it 'counts only scenarios of its own assistant' do
+      tool = create(:captain_custom_tool, account: account, assistant: assistant, slug: 'custom_fetch-order')
+      create(:captain_custom_tool, account: account, assistant: other_assistant, slug: 'custom_fetch-order')
+      [assistant, other_assistant].each do |scenario_assistant|
+        create(:captain_scenario, account: account, assistant: scenario_assistant,
+                                  instruction: 'Use [@Fetch Order](tool://custom_fetch-order)')
+      end
+
+      expect(tool.enabled_scenarios_count).to eq(1)
+    end
+  end
+
   describe 'slug generation' do
     let(:account) { create(:account) }
+    let(:assistant) { create(:captain_assistant, account: account) }
 
     it 'generates slug from title on creation' do
-      tool = create(:captain_custom_tool, account: account, title: 'Fetch Order Status')
+      tool = create(:captain_custom_tool, account: account, assistant: assistant, title: 'Fetch Order Status')
 
       expect(tool.slug).to eq('custom_fetch_order_status')
     end
 
     it 'adds custom_ prefix to generated slug' do
-      tool = create(:captain_custom_tool, account: account, title: 'My Tool')
+      tool = create(:captain_custom_tool, account: account, assistant: assistant, title: 'My Tool')
 
       expect(tool.slug).to start_with('custom_')
     end
 
     it 'does not override manually set slug' do
-      tool = create(:captain_custom_tool, account: account, title: 'Test Tool', slug: 'custom_manual_slug')
+      tool = create(:captain_custom_tool, account: account, assistant: assistant, title: 'Test Tool', slug: 'custom_manual_slug')
 
       expect(tool.slug).to eq('custom_manual_slug')
     end
 
     it 'handles slug collisions by appending random suffix' do
-      create(:captain_custom_tool, account: account, title: 'Test Tool', slug: 'custom_test_tool')
-      tool2 = create(:captain_custom_tool, account: account, title: 'Test Tool')
+      create(:captain_custom_tool, account: account, assistant: assistant, title: 'Test Tool', slug: 'custom_test_tool')
+      tool2 = create(:captain_custom_tool, account: account, assistant: assistant, title: 'Test Tool')
 
       expect(tool2.slug).to match(/^custom_test_tool_[a-z0-9]{6}$/)
     end
 
     it 'handles multiple slug collisions' do
-      create(:captain_custom_tool, account: account, title: 'Test Tool', slug: 'custom_test_tool')
-      create(:captain_custom_tool, account: account, title: 'Test Tool', slug: 'custom_test_tool_abc123')
-      tool3 = create(:captain_custom_tool, account: account, title: 'Test Tool')
+      create(:captain_custom_tool, account: account, assistant: assistant, title: 'Test Tool', slug: 'custom_test_tool')
+      create(:captain_custom_tool, account: account, assistant: assistant, title: 'Test Tool', slug: 'custom_test_tool_abc123')
+      tool3 = create(:captain_custom_tool, account: account, assistant: assistant, title: 'Test Tool')
 
       expect(tool3.slug).to match(/^custom_test_tool_[a-z0-9]{6}$/)
       expect(tool3.slug).not_to eq('custom_test_tool')
@@ -148,14 +360,14 @@ RSpec.describe Captain::CustomTool, type: :model do
     end
 
     it 'does not generate slug when title is blank' do
-      tool = build(:captain_custom_tool, account: account, title: nil)
+      tool = build(:captain_custom_tool, account: account, assistant: assistant, title: nil)
 
       expect(tool).not_to be_valid
       expect(tool.errors[:title]).to include("can't be blank")
     end
 
     it 'parameterizes title correctly' do
-      tool = create(:captain_custom_tool, account: account, title: 'Fetch Order Status & Details!')
+      tool = create(:captain_custom_tool, account: account, assistant: assistant, title: 'Fetch Order Status & Details!')
 
       expect(tool.slug).to eq('custom_fetch_order_status_details')
     end

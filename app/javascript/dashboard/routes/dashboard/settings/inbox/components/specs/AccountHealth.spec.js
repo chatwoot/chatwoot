@@ -80,6 +80,33 @@ describe('AccountHealth', () => {
     expect(wrapper.text()).toContain('2026');
   });
 
+  it('renders multiple business profile websites on separate lines', () => {
+    const expectedWebsites =
+      'https://business.test\nhttps://docs.business.test';
+    const wrapper = mountComponent({
+      business_profile: {
+        websites: expectedWebsites.split('\n'),
+      },
+    });
+
+    const websites = wrapper
+      .findAll('span')
+      .find(element => element.text() === expectedWebsites);
+
+    expect(websites).toBeDefined();
+  });
+
+  it('shows specific guidance for an expired display name status', () => {
+    const wrapper = mountComponent({ name_status: 'EXPIRED' });
+
+    expect(wrapper.text()).toContain(
+      'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.EXPIRED'
+    );
+    expect(wrapper.text()).not.toContain(
+      'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.DESCRIPTIONS.UNKNOWN'
+    );
+  });
+
   it('shows the current error instead of stale health data', () => {
     const wrapper = mountComponent(
       { verified_name: 'Stale Business Name' },
