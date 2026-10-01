@@ -17,7 +17,7 @@ module Enterprise::Inbox
   end
 
   def conflicting_bot_provider(provider)
-    super || ('Captain' if provider != :captain && CaptainInbox.exists?(inbox_id: id))
+    super || ('Captain' if provider != :captain && CaptainInbox.joins(:captain_assistant).exists?(inbox_id: id))
   end
 
   private

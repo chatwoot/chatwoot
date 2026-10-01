@@ -14,7 +14,8 @@
 class AgentBotInbox < ApplicationRecord
   validates :inbox_id, presence: true
   validates :agent_bot_id, presence: true
-  validate :ensure_exclusive_bot_provider, if: -> { active? && (new_record? || will_save_change_to_status? || will_save_change_to_inbox_id?) }
+  validate :ensure_exclusive_bot_provider,
+           if: -> { active? && (new_record? || will_save_change_to_status? || will_save_change_to_inbox_id? || will_save_change_to_agent_bot_id?) }
   before_validation :ensure_account_id
 
   belongs_to :inbox
