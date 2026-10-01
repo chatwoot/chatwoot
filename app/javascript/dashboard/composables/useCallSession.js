@@ -133,6 +133,7 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
           callId: call.callId,
           sdpOffer: call.sdpOffer,
           iceServers: call.iceServers,
+          recordingEnabled: call.recordingEnabled,
         });
         callsStore.setCallActive(callSid);
         globalDurationTimer?.start();

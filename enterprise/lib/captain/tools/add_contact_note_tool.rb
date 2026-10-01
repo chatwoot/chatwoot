@@ -4,9 +4,9 @@ class Captain::Tools::AddContactNoteTool < Captain::Tools::BasePublicTool
 
   def perform(tool_context, note:)
     contact = find_contact(tool_context.state)
-    return 'Contact not found' unless contact
+    return failure_result('Contact not found', tool_context.state) unless contact
 
-    return 'Note content is required' if note.blank?
+    return failure_result('Note content is required', tool_context.state) if note.blank?
 
     log_tool_usage('add_contact_note', { contact_id: contact.id, note_length: note.length })
 

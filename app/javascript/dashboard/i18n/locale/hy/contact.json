@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Առկա չէ",
     "EMAIL_ADDRESS": "Էլեկտրոնային հասցե",
     "PHONE_NUMBER": "Հեռախոսահամար",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Համակարգիչ",
     "COPY_SUCCESSFUL": "Հաջողությամբ պատճենվեց սեղմատախտակում",
     "COMPANY": "Ընկերություն",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

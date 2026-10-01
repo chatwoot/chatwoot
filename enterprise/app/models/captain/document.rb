@@ -37,13 +37,15 @@ class Captain::Document < ApplicationRecord
   belongs_to :account
   has_one_attached :pdf_file
   store_accessor :metadata, :content_fingerprint, :last_sync_error_code, :sync_step, :openai_file_id
+  include Concerns::CaptainMarkdownDocumentable
 
-  validates :external_link, presence: true, unless: -> { pdf_file.attached? }
+  validates :external_link, presence: true, unless: :file_attached?
   validates :external_link, uniqueness: { scope: :assistant_id }, allow_blank: true
   validates :content, length: { maximum: 200_000 }
   validates :pdf_file, presence: true, if: :pdf_document?
   validate :validate_pdf_format, if: :pdf_document?
-  validate :validate_file_attachment, if: -> { pdf_file.attached? }
+  validate :validate_pdf_file_size, if: -> { pdf_file.attached? }
+  validate :validate_single_file_attachment
   before_validation :ensure_account_id
   before_validation :set_external_link_for_pdf
   before_validation :normalize_external_link
@@ -64,7 +66,7 @@ class Captain::Document < ApplicationRecord
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
   scope :for_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
-  scope :syncable, -> { where("external_link NOT LIKE 'PDF:%' AND external_link NOT LIKE '%.pdf'") }
+  scope :syncable, -> { where("external_link NOT LIKE 'PDF:%' AND external_link NOT LIKE 'MARKDOWN:%' AND external_link NOT LIKE '%.pdf'") }
   scope :pdf_documents, -> { where("external_link LIKE 'PDF:%' OR external_link LIKE '%.pdf'") }
   scope :sync_in_progress, -> { sync_syncing.where(arel_table[:last_sync_attempted_at].gteq(SYNC_STALE_TIMEOUT.ago)) }
   scope :stale, lambda { |stale_before|
@@ -81,12 +83,16 @@ class Captain::Document < ApplicationRecord
     external_link&.ends_with?('.pdf')
   end
 
+  def file_document?
+    pdf_document? || markdown_document?
+  end
+
   def content_type
-    pdf_file.blob.content_type if pdf_file.attached?
+    attached_file&.blob&.content_type
   end
 
   def file_size
-    pdf_file.blob.byte_size if pdf_file.attached?
+    attached_file&.blob&.byte_size
   end
 
   def store_openai_file_id(file_id)
@@ -94,13 +100,10 @@ class Captain::Document < ApplicationRecord
   end
 
   def display_url
-    return external_link if external_link.present? && !external_link.start_with?('PDF:')
+    return Rails.application.routes.url_helpers.rails_blob_url(attached_file, only_path: false) if attached_file
+    return external_link if external_link.present? && !file_document?
 
-    if pdf_file.attached?
-      Rails.application.routes.url_helpers.rails_blob_url(pdf_file, only_path: false)
-    else
-      external_link
-    end
+    external_link
   end
 
   def customer_visible_source_url
@@ -123,7 +126,7 @@ class Captain::Document < ApplicationRecord
   end
 
   def syncable?
-    !pdf_document?
+    !file_document?
   end
 
   def sync_stale?
@@ -137,7 +140,7 @@ class Captain::Document < ApplicationRecord
   private
 
   def customer_visible_source?
-    !pdf_document? && !pdf_file.attached?
+    !file_document?
   end
 
   def customer_visible_uri?(uri)
@@ -196,12 +199,18 @@ class Captain::Document < ApplicationRecord
     errors.add(:pdf_file, I18n.t('captain.documents.pdf_format_error')) unless pdf_file.blob.content_type == 'application/pdf'
   end
 
-  def validate_file_attachment
+  def validate_pdf_file_size
     return unless pdf_file.attached?
 
     return unless pdf_file.blob.byte_size > 10.megabytes
 
     errors.add(:pdf_file, I18n.t('captain.documents.pdf_size_error'))
+  end
+
+  def validate_single_file_attachment
+    return unless pdf_file.attached? && markdown_file.attached?
+
+    errors.add(:base, I18n.t('captain.documents.multiple_files_error'))
   end
 
   def set_external_link_for_pdf
@@ -213,9 +222,18 @@ class Captain::Document < ApplicationRecord
     self.external_link = "PDF: #{pdf_file.filename.base}_#{timestamp}"
   end
 
+  def attached_file
+    return pdf_file if pdf_file.attached?
+    return markdown_file if markdown_file.attached?
+  end
+
+  def file_attached?
+    attached_file.present?
+  end
+
   def normalize_external_link
     return if external_link.blank?
-    return if pdf_document?
+    return if file_document?
 
     self.external_link = external_link.delete_suffix('/')
   end

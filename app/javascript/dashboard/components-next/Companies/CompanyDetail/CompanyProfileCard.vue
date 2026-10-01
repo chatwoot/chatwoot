@@ -2,7 +2,8 @@
 import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import { dynamicTime, exactTimestamp } from 'shared/helpers/timeHelper';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -14,6 +15,8 @@ const props = defineProps({
   company: { type: Object, default: () => ({}) },
   isLoading: { type: Boolean, default: false },
 });
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 const companiesStore = useCompaniesStore();

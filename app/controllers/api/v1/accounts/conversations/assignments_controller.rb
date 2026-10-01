@@ -46,3 +46,7 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
     params[:assignee_type].to_s == 'AgentBot'
   end
 end
+
+Api::V1::Accounts::Conversations::AssignmentsController.prepend_mod_with(
+  'Api::V1::Accounts::Conversations::AssignmentsController'
+)
