@@ -18,6 +18,7 @@
 class CopilotMessage < ApplicationRecord
   belongs_to :copilot_thread
   belongs_to :account
+  has_one :copilot_run, dependent: :destroy
 
   enum message_type: { user: 0, assistant: 1, assistant_thinking: 2 }
 
@@ -38,6 +39,16 @@ class CopilotMessage < ApplicationRecord
   end
 
   def enqueue_response_job(conversation_id, user_id)
+    if account.feature_enabled?('copilot_workflows')
+      run = copilot_thread.copilot_runs.create_or_find_by!(copilot_message: self) do |record|
+        record.account = account
+        record.user = copilot_thread.user
+        record.kind = 'chat'
+        record.context = { conversation_id: conversation_id }
+      end
+      return Captain::Copilot::ExecutionJob.perform_later(run.id)
+    end
+
     Captain::Copilot::ResponseJob.perform_later(
       assistant: copilot_thread.assistant,
       conversation_id: conversation_id,
@@ -60,7 +71,7 @@ class CopilotMessage < ApplicationRecord
   def validate_message_attributes
     return if message.blank?
 
-    allowed_keys = %w[content reasoning function_name reply_suggestion]
+    allowed_keys = %w[content reasoning function_name reply_suggestion tool progress run_id]
     invalid_keys = message.keys - allowed_keys
 
     errors.add(:message, "contains invalid attributes: #{invalid_keys.join(', ')}") if invalid_keys.any?

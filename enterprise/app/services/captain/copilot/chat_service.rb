@@ -4,6 +4,19 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
 
   attr_reader :assistant, :account, :user, :copilot_thread, :previous_history, :messages
 
+  def self.tool_inventory(assistant:, user:)
+    tools = []
+    tools << Captain::Tools::SearchDocumentationService.new(assistant, user: user)
+    tools << Captain::Tools::Copilot::GetConversationService.new(assistant, user: user)
+    tools << Captain::Tools::Copilot::SearchConversationsService.new(assistant, user: user)
+    tools << Captain::Tools::Copilot::GetContactService.new(assistant, user: user)
+    tools << Captain::Tools::Copilot::GetArticleService.new(assistant, user: user)
+    tools << Captain::Tools::Copilot::SearchArticlesService.new(assistant, user: user)
+    tools << Captain::Tools::Copilot::SearchContactsService.new(assistant, user: user)
+    tools << Captain::Tools::Copilot::SearchLinearIssuesService.new(assistant, user: user)
+    tools
+  end
+
   def initialize(assistant, config)
     super(feature: 'copilot', account: assistant.account)
 
@@ -70,18 +83,7 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
   end
 
   def build_tools
-    tools = []
-
-    tools << Captain::Tools::SearchDocumentationService.new(@assistant, user: @user)
-    tools << Captain::Tools::Copilot::GetConversationService.new(@assistant, user: @user)
-    tools << Captain::Tools::Copilot::SearchConversationsService.new(@assistant, user: @user)
-    tools << Captain::Tools::Copilot::GetContactService.new(@assistant, user: @user)
-    tools << Captain::Tools::Copilot::GetArticleService.new(@assistant, user: @user)
-    tools << Captain::Tools::Copilot::SearchArticlesService.new(@assistant, user: @user)
-    tools << Captain::Tools::Copilot::SearchContactsService.new(@assistant, user: @user)
-    tools << Captain::Tools::Copilot::SearchLinearIssuesService.new(@assistant, user: @user)
-
-    tools.select(&:active?)
+    self.class.tool_inventory(assistant: @assistant, user: @user).select(&:active?)
   end
 
   def system_message
