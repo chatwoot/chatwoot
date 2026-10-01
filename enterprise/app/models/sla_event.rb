@@ -28,7 +28,7 @@ class SlaEvent < ApplicationRecord
   belongs_to :sla_policy
   belongs_to :applied_sla
 
-  enum event_type: { frt: 0, nrt: 1, rt: 2 }
+  enum :event_type, { frt: 0, nrt: 1, rt: 2 }
 
   before_validation :ensure_applied_sla_id, :ensure_account_id, :ensure_inbox_id, :ensure_sla_policy_id
   after_create_commit :create_notifications

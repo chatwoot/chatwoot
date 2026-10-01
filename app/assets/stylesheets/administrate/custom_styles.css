@@ -1,0 +1,20 @@
+.feature-cell {
+  background: #f5f7f9;
+  border-radius: 10px;
+  float: left;
+  margin-left: 8px;
+  margin-top: 6px;
+  padding: 4px 12px;
+}
+
+.feature-cell .icon-container {
+  margin-right: 2px;
+}
+
+.feature-cell .value-container {
+  margin-left: 6px;
+}
+
+.feature-container {
+  max-width: 100rem;
+}

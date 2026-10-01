@@ -20,7 +20,7 @@ class CustomFilter < ApplicationRecord
   belongs_to :user
   belongs_to :account
 
-  enum filter_type: { conversation: 0, contact: 1, report: 2 }
+  enum :filter_type, { conversation: 0, contact: 1, report: 2 }
   validate :validate_number_of_filters
   after_create_commit :invalidate_filtered_unread_count_create
   after_update_commit :invalidate_filtered_unread_count_update

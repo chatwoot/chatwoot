@@ -31,5 +31,5 @@ class DataImportItem < ApplicationRecord
   validates :source_provider, :source_object_type, :source_object_id, presence: true
   validates :source_object_id, uniqueness: { scope: [:data_import_id, :source_object_type] }
 
-  enum status: { pending: 0, processing: 1, imported: 2, skipped: 3, failed: 4 }
+  enum :status, { pending: 0, processing: 1, imported: 2, skipped: 3, failed: 4 }
 end
