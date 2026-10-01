@@ -105,6 +105,7 @@ module Whatsapp::IncomingMessageServiceHelpers
   def lock_message_source_id!
     return false if messages_data.blank?
 
-    Whatsapp::MessageDedupLock.new(messages_data.first[:id]).acquire!
+    @message_source_lock = Whatsapp::MessageDedupLock.new(messages_data.first[:id])
+    @message_source_lock.acquire!
   end
 end

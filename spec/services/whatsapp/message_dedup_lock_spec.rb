@@ -7,6 +7,32 @@ describe Whatsapp::MessageDedupLock do
 
   after { Redis::Alfred.delete(redis_key) }
 
+  describe '#release!' do
+    it 'allows another attempt after the owner releases the lock' do
+      lock.acquire!
+      lock.release!
+
+      expect(described_class.new(source_id).acquire!).to be_truthy
+    end
+
+    it 'does not release a lock held by another worker' do
+      lock.acquire!
+      described_class.new(source_id).release!
+
+      expect(described_class.new(source_id).acquire!).to be_falsy
+    end
+
+    it 'does not release a replacement lock after the original lock expires' do
+      lock.acquire!
+      Redis::Alfred.delete(redis_key)
+      replacement = described_class.new(source_id)
+      replacement.acquire!
+      lock.release!
+
+      expect(described_class.new(source_id).acquire!).to be_falsy
+    end
+  end
+
   describe '#acquire!' do
     it 'returns truthy on first acquire' do
       expect(lock.acquire!).to be_truthy
