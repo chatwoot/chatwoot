@@ -8,8 +8,6 @@
 #  data_revision        :bigint           default(0), not null
 #  deleted_at           :datetime
 #  history_since        :datetime         not null
-#  icon                 :string           default("chat-3-line"), not null
-#  icon_color           :string           default("#3B82F6"), not null
 #  model                :string           not null
 #  name                 :string           not null
 #  paused_at            :datetime
