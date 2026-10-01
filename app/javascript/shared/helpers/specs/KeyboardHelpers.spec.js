@@ -7,6 +7,7 @@ import {
   hasPressedCommandAndEnter,
   hasPressedEnterAndNotCmdOrShift,
   isActiveElementTypeable,
+  isComposing,
 } from '../KeyboardHelpers';
 
 const setNavigator = navigatorValue => {
@@ -36,6 +37,22 @@ describe('#KeyboardHelpers', () => {
   describe('#isEscape', () => {
     it('return correct values', () => {
       expect(isEscape({ key: 'Escape' })).toEqual(true);
+    });
+  });
+
+  describe('#isComposing', () => {
+    it('returns true while an IME composition is active', () => {
+      expect(isComposing({ key: 'Process', isComposing: true })).toBe(true);
+    });
+
+    it('returns true for the legacy composition keyCode 229', () => {
+      expect(isComposing({ key: 'Enter', keyCode: 229 })).toBe(true);
+    });
+
+    it('returns false for a normal Enter', () => {
+      expect(
+        isComposing({ key: 'Enter', keyCode: 13, isComposing: false })
+      ).toBe(false);
     });
   });
 
