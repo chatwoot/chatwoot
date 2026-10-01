@@ -610,10 +610,13 @@ RSpec.describe 'Inboxes API', type: :request do
       end
 
       it 'creates a sms inbox when administrator' do
+        token_service = instance_double(Sms::BandwidthTokenService, token: 'token')
+        allow(Sms::BandwidthTokenService).to receive(:new).and_return(token_service)
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
              params: { name: 'Sms Inbox',
-                       channel: { type: 'sms', phone_number: '+123456789', provider_config: { test: 'test' } } },
+                       channel: { type: 'sms', phone_number: '+123456789',
+                                  provider_config: { account_id: '123', application_id: 'app', client_id: 'client', client_secret: 'secret' } } },
              as: :json
 
         expect(response).to have_http_status(:success)

@@ -8,6 +8,18 @@ describe Sms::SendOnSmsService do
       let!(:contact_inbox) { create(:contact_inbox, inbox: sms_channel.inbox, source_id: '+123456789') }
       let!(:conversation) { create(:conversation, contact_inbox: contact_inbox, inbox: sms_channel.inbox) }
 
+      it 'propagates transient token failures so the reply job can retry' do
+        sms_channel.update!(provider_config: sms_channel.provider_config.merge('client_id' => 'client', 'client_secret' => 'secret'))
+        message = create(:message, message_type: :outgoing, content: 'test', conversation: conversation)
+        token_service = instance_double(Sms::BandwidthTokenService)
+        allow(Sms::BandwidthTokenService).to receive(:new).and_return(token_service)
+        allow(token_service).to receive(:token).and_raise(CustomExceptions::Bandwidth::TokenRequestError.new)
+
+        expect { SendReplyJob.perform_now(message.id) }.to raise_error(CustomExceptions::Bandwidth::TokenRequestError)
+        expect(message.reload).not_to be_failed
+        expect(message.source_id).to be_nil
+      end
+
       it 'calls channel.send_message' do
         message = create(:message, message_type: :outgoing, content: 'test',
                                    conversation: conversation)
