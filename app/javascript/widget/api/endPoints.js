@@ -125,6 +125,15 @@ const getMostReadArticles = (slug, locale) => ({
   },
 });
 
+const transcribeAudio = audioFile => {
+  const formData = new FormData();
+  formData.append('audio', audioFile, audioFile.name);
+  return {
+    url: `/api/v1/widget/transcription${window.location.search}`,
+    params: formData,
+  };
+};
+
 export default {
   createConversation,
   sendMessage,
@@ -135,4 +144,5 @@ export default {
   getCampaigns,
   triggerCampaign,
   getMostReadArticles,
+  transcribeAudio,
 };
