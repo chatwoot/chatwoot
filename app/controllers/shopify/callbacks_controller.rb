@@ -1,4 +1,4 @@
-class Shopify::CallbacksController < ApplicationController # rubocop:disable Metrics/ClassLength
+class Shopify::CallbacksController < ApplicationController
   include Shopify::IntegrationHelper
 
   def show
@@ -36,7 +36,9 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
   def exchange_and_create_hook
     shop_generation = Shopify::PendingInstallation.generation(shop: params[:shop])
     exchange_access_token
-    with_current_shop_generation(shop_generation) { create_hook }
+    with_current_shop_generation(shop_generation) do
+      callback_service.connect(account: account, generation: @shopify_installation_generation, credentials: parsed_body)
+    end
   end
 
   def with_current_shop_generation(expected_generation)
@@ -60,7 +62,9 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
     exchange_access_token
 
     if @account
-      with_current_shop_generation(@pending_installation_generation) { reconnect_existing_shopify_account }
+      with_current_shop_generation(@pending_installation_generation) do
+        callback_service.reconnect(account: account, generation: @shopify_installation_generation, credentials: parsed_body)
+      end
       return redirect_to existing_account_redirect_url, allow_other_host: true
     end
 
@@ -78,7 +82,7 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
     prepare_shopify_initiated_flow
     load_existing_shopify_account
     hook = @account&.hooks&.find_by(app_id: 'shopify')
-    return redirect_to existing_account_redirect_url, allow_other_host: true if reusable_hook?(hook)
+    return redirect_to existing_account_redirect_url, allow_other_host: true if callback_service.reusable_hook?(hook)
 
     state = SecureRandom.hex(16)
     Redis::SecureStorage.set(
@@ -125,7 +129,7 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
   end
 
   def load_existing_shopify_account
-    @account = existing_shopify_account
+    @account = callback_service.existing_account
     return unless @account
 
     @account_id = account.id
@@ -133,83 +137,11 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
     @shopify_installation_generation = Shopify::InstallationGeneration.current(account)
   end
 
-  def create_hook
-    Shopify::InstallationGeneration.with_current!(account, @shopify_installation_generation) do
-      hook = account.hooks.find_or_initialize_by(app_id: 'shopify', reference_id: Shopify::ShopDomain.normalize(params[:shop]))
-      hook.update!(shopify_hook_attributes)
-    end
-  end
-
-  def reconnect_existing_shopify_account
-    Shopify::InstallationGeneration.with_current!(account, @shopify_installation_generation) do
-      loop do
-        hook = account.hooks.find_by(app_id: 'shopify')
-        unless hook
-          account.hooks.create!(shopify_hook_attributes)
-          break
-        end
-
-        begin
-          hook.with_lock { hook.update!(shopify_hook_attributes) }
-          break
-        rescue ActiveRecord::RecordNotFound
-          next
-        end
-      end
-    end
-  end
-
-  def shopify_hook_attributes
-    {
-      app_id: 'shopify',
-      access_token: parsed_body['access_token'],
-      status: 'enabled',
-      reference_id: params[:shop],
-      settings: shopify_hook_settings
-    }
-  end
-
-  def shopify_hook_settings
-    {
-      scope: parsed_body['scope'],
-      connected_at: Time.current.utc.iso8601(6),
-      installation_id: SecureRandom.uuid
-    }
-  end
-
-  def existing_shopify_account
-    existing_shopify_hook&.account || shopify_billed_account_by_snapshot
-  end
-
-  def existing_shopify_hook
-    @existing_shopify_hook ||=
-      Integrations::Hook.where(app_id: 'shopify').find_sole_by('LOWER(reference_id) = ?', Shopify::ShopDomain.normalize(params[:shop]))
-  rescue ActiveRecord::RecordNotFound
-    nil
-  end
-
-  def shopify_billed_account_by_snapshot
-    Account
-      .where("internal_attributes ->> 'billing_provider' = ?", 'shopify')
-      .where("internal_attributes ->> 'signup_source' = ?", 'shopify')
-      .find_sole_by("custom_attributes #>> '{shopify_subscription_snapshot,shop_domain}' = ?",
-                    Shopify::ShopDomain.normalize(params[:shop]))
-  rescue ActiveRecord::RecordNotFound
-    nil
-  end
-
   def existing_account_redirect_url
     billing_identity = account.internal_attributes.stringify_keys
     return shopify_billing_url if billing_identity['billing_provider'] == 'shopify' && billing_identity['signup_source'] == 'shopify'
 
     shopify_integration_url
-  end
-
-  def reusable_hook?(hook)
-    return false unless hook&.enabled? && hook.access_token.present?
-
-    granted_scopes = hook.settings['scope'].to_s.split(',').map(&:strip)
-    (REQUIRED_SCOPES - granted_scopes).empty?
   end
 
   def parsed_body
@@ -234,6 +166,8 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
       }
     )
   end
+
+  def callback_service = (@callback_service ||= Shopify::CallbackService.new(shop: params[:shop]))
 
   def account = (@account ||= Account.find(@account_id))
 
@@ -292,4 +226,4 @@ class Shopify::CallbacksController < ApplicationController # rubocop:disable Met
 
     ActiveSupport::SecurityUtils.secure_compare(computed_hmac, hmac)
   end
-end # rubocop:enable Metrics/ClassLength
+end
