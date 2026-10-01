@@ -49,7 +49,8 @@ RSpec.describe Voice::VoipPushService do
       expect(apple_connection).to have_received(:push).once do |notification|
         expect(notification.push_type).to eq('voip')
         expect(notification.topic).to eq('com.chatwoot.app.voip')
-        expect(notification.custom_payload).to include(type: 'voice_call.incoming', id: call.id, provider: 'twilio')
+        expect(notification.custom_payload).to include(type: 'voice_call.incoming', id: call.id, provider: 'twilio',
+                                                       conversation_id: call.conversation.display_id, account_id: call.account_id)
         expect(notification.custom_payload[:caller]).to eq(name: 'Priya', phone: '+919999999999', avatar: nil)
       end
       expect(fcm_client).not_to have_received(:send_v1)
@@ -64,7 +65,8 @@ RSpec.describe Voice::VoipPushService do
       expect(fcm_client).to have_received(:send_v1).once.with(
         hash_including(token: 'android-1', android: { priority: 'high', ttl: '45s' })
       ) do |args|
-        expect(args[:data]).to include('type' => 'voice_call.incoming', 'id' => call.id.to_s, 'inbox_name' => inbox.name)
+        expect(args[:data]).to include('type' => 'voice_call.incoming', 'id' => call.id.to_s, 'inbox_name' => inbox.name,
+                                       'conversation_id' => call.conversation.display_id.to_s)
         expect(JSON.parse(args[:data]['caller'])).to include('name' => 'Priya')
       end
     end
