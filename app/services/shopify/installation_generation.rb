@@ -4,6 +4,15 @@ class Shopify::InstallationGeneration
   class Changed < StandardError; end
 
   class << self
+    # Serialize installation and cleanup even when no hook exists yet.
+    def with_shop_lock(shop)
+      lock_id = Digest::SHA256.hexdigest("shopify:#{Shopify::ShopDomain.normalize(shop)}")[0, 15].to_i(16)
+      ActiveRecord::Base.transaction do
+        ActiveRecord::Base.connection.execute("SELECT pg_advisory_xact_lock(#{lock_id})")
+        yield
+      end
+    end
+
     def current(account)
       account.internal_attributes[KEY].to_i
     end
