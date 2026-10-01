@@ -4,17 +4,13 @@ class Labels::UpdateService
   def perform
     tagged_conversations.find_in_batches do |conversation_batch|
       conversation_batch.each do |conversation|
-        conversation.label_list.remove(old_label_title)
-        conversation.label_list.add(new_label_title)
-        conversation.save!
+        conversation.update!(label_list: conversation.label_list - [old_label_title] + [new_label_title])
       end
     end
 
     tagged_contacts.find_in_batches do |contact_batch|
       contact_batch.each do |contact|
-        contact.label_list.remove(old_label_title)
-        contact.label_list.add(new_label_title)
-        contact.save!
+        contact.update!(label_list: contact.label_list - [old_label_title] + [new_label_title])
       end
     end
   end

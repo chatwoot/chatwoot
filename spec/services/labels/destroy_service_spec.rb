@@ -9,13 +9,9 @@ describe Labels::DestroyService do
   let(:store) { Conversations::UnreadCounts::FilteredCountStore }
 
   before do
-    conversation.label_list.add(label.title)
-    conversation.label_list.add('billing')
-    conversation.save!
+    conversation.add_labels([label.title, 'billing'])
 
-    contact.label_list.add(label.title)
-    contact.label_list.add('vip')
-    contact.save!
+    contact.add_labels([label.title, 'vip'])
 
     set_label_tagging_created_at(conversation, label_deleted_at - 1.minute)
     set_label_tagging_created_at(contact, label_deleted_at - 1.minute)
@@ -52,8 +48,7 @@ describe Labels::DestroyService do
     it 'does not remove labels from other accounts' do
       other_account = create(:account)
       other_conversation = create(:conversation, account: other_account)
-      other_conversation.label_list.add(label.title)
-      other_conversation.save!
+      other_conversation.add_labels([label.title])
       set_label_tagging_created_at(other_conversation, label_deleted_at - 1.minute)
 
       described_class.new(
@@ -89,8 +84,7 @@ describe Labels::DestroyService do
 
     it 'does not remove label associations created after the label was deleted' do
       other_conversation = create(:conversation, account: account)
-      other_conversation.label_list.add(label.title)
-      other_conversation.save!
+      other_conversation.add_labels([label.title])
       set_label_tagging_created_at(other_conversation, label_deleted_at + 1.minute)
 
       described_class.new(
