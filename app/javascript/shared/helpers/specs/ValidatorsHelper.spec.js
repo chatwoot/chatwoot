@@ -11,6 +11,7 @@ import {
   getRegexp,
   normalizeRegexPattern,
   isValidSlug,
+  isLocalWebhookUrl,
 } from '../Validators';
 
 describe('#shouldBeUrl', () => {
@@ -198,5 +199,30 @@ describe('#isValidSlug', () => {
     expect(isValidSlug('abc--def!')).toEqual(false);
     expect(isValidSlug('abc-def ')).toEqual(false);
     expect(isValidSlug(' abc-def')).toEqual(false);
+  });
+});
+
+describe('#isLocalWebhookUrl', () => {
+  it('should return true for local IPv4 addresses with ports', () => {
+    expect(isLocalWebhookUrl('http://192.168.1.10:8000/hook')).toEqual(true);
+    expect(isLocalWebhookUrl('http://10.0.0.5/hook')).toEqual(true);
+    expect(isLocalWebhookUrl('https://127.0.0.1:8443')).toEqual(true);
+  });
+
+  it('should return true for localhost and IPv6 addresses', () => {
+    expect(isLocalWebhookUrl('http://localhost:3000/hook')).toEqual(true);
+    expect(isLocalWebhookUrl('http://[::1]:3000/hook')).toEqual(true);
+    expect(isLocalWebhookUrl('http://[2001:db8::1]/hook')).toEqual(true);
+  });
+
+  it('should return false for public, non-IP-local or invalid urls', () => {
+    expect(isLocalWebhookUrl('https://example.com/hook')).toEqual(false);
+    expect(isLocalWebhookUrl('http://chatwoot:8000/hook')).toEqual(false);
+    expect(isLocalWebhookUrl('http://999.999.999.999/hook')).toEqual(false);
+    // eslint-disable-next-line no-script-url
+    expect(isLocalWebhookUrl('javascript:alert(1)')).toEqual(false);
+    expect(isLocalWebhookUrl('ftp://192.168.1.10/hook')).toEqual(false);
+    expect(isLocalWebhookUrl('not a url')).toEqual(false);
+    expect(isLocalWebhookUrl('')).toEqual(false);
   });
 });
