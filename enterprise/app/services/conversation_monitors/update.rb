@@ -27,6 +27,7 @@ class ConversationMonitors::Update
     @monitor.recheck_requested_at = Time.current if @condition_changed
     @monitor.data_revision += 1
     @monitor.save!
+    @monitor.disable_automations! if @monitor.saved_change_to_paused_at? && @monitor.paused_at
     reset_evaluations(previous_version) if @condition_changed
   end
 
