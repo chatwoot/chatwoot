@@ -126,4 +126,35 @@ describe Whatsapp::Providers::Whatsapp360DialogService do
       end
     end
   end
+
+  describe '#send_message' do
+    let(:conversation) { create(:conversation, inbox: whatsapp_channel.inbox) }
+    let(:message) do
+      create(:message, conversation: conversation, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox, source_id: 'external_id')
+    end
+    let(:message_with_reply) do
+      create(:message, conversation: conversation, message_type: :outgoing, content: 'reply', inbox: whatsapp_channel.inbox,
+                       content_attributes: { in_reply_to: message.id })
+    end
+
+    it 'calls message endpoints for a reply to messages' do
+      stub_request(:post, 'https://waba.360dialog.io/v1/messages')
+        .with(body: { to: '+123456789', text: { body: 'reply' }, type: 'text', context: { message_id: message.source_id } }.to_json)
+        .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      expect(service.send_message('+123456789', message_with_reply)).to eq 'message_id'
+    end
+
+    it 'calls message endpoints for an attachment reply to messages' do
+      attachment = message_with_reply.attachments.new(account_id: message_with_reply.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      attachment.save!
+
+      stub_request(:post, 'https://waba.360dialog.io/v1/messages')
+        .with(body: hash_including('type' => 'image', 'context' => { 'message_id' => message.source_id }))
+        .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      expect(service.send_message('+123456789', message_with_reply)).to eq 'message_id'
+    end
+  end
 end
