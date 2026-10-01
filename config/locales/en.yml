@@ -181,6 +181,7 @@ en:
         sdp_offer_required: 'sdp_offer is required'
         contact_phone_required: 'Contact phone number is required'
         permission_request_failed: 'Failed to send call permission request'
+        permission_window_closed: "This contact hasn't allowed calls and hasn't messaged you in the last 24 hours, so a call permission request can't be sent. Send them a message template first."
     openai:
       invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
