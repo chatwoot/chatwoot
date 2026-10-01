@@ -38,4 +38,15 @@ RSpec.describe Integrations::Openai::KeyValidator do
     expect(WebMock).to have_requested(:get, custom_url)
     expect(WebMock).not_to have_requested(:get, probe_url)
   end
+
+  it 'does not double the version segment of an endpoint that already has one' do
+    custom_url = 'https://openrouter.ai/api/v1/models'
+    allow(InstallationConfig).to receive(:find_by).with(name: 'CAPTAIN_OPEN_AI_ENDPOINT')
+                                                  .and_return(instance_double(InstallationConfig, value: 'https://openrouter.ai/api/v1'))
+    stub_request(:get, custom_url).to_return(status: 200)
+
+    described_class.valid?(api_key)
+
+    expect(WebMock).to have_requested(:get, custom_url)
+  end
 end

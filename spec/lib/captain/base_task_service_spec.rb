@@ -191,6 +191,17 @@ RSpec.describe Captain::BaseTaskService do
       service.send(:make_api_call, feature: 'help_center_article_generation', messages: messages)
     end
 
+    it 'sends a model Chatwoot does not list to the OpenAI-compatible endpoint as-is' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://api.groq.com/openai/v1')
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'llama-3.3-70b-versatile')
+
+      expect(mock_context).to receive(:chat)
+        .with(model: 'llama-3.3-70b-versatile', provider: :openai, assume_model_exists: true)
+        .and_return(mock_chat)
+
+      service.send(:make_api_call, feature: 'editor', messages: messages)
+    end
+
     it 'prefers account overrides over supplied feature fallback models' do
       account.update!(captain_models: { 'help_center_article_generation' => 'gpt-4.1' })
 
@@ -380,6 +391,20 @@ RSpec.describe Captain::BaseTaskService do
       it 'returns nil' do
         expect(service.send(:api_key)).to be_nil
       end
+    end
+  end
+
+  describe '#api_base' do
+    before { InstallationConfig.where(name: 'CAPTAIN_OPEN_AI_ENDPOINT').destroy_all }
+
+    it 'appends the version segment to a bare endpoint' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://proxy.example.com/')
+      expect(service.send(:api_base)).to eq('https://proxy.example.com/v1')
+    end
+
+    it 'does not append a second /v1 to an endpoint that already has one' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://openrouter.ai/api/v1')
+      expect(service.send(:api_base)).to eq('https://openrouter.ai/api/v1')
     end
   end
 
