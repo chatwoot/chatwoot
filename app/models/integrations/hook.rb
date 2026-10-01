@@ -34,7 +34,8 @@ class Integrations::Hook < ApplicationRecord
             if: :shopify?
   validate :validate_settings_json_schema
   validate :ensure_feature_enabled
-  validate :ensure_exclusive_bot_provider, if: -> { dialogflow? && enabled? && (new_record? || will_save_change_to_status?) }
+  validate :ensure_exclusive_bot_provider,
+           if: -> { dialogflow? && enabled? && (new_record? || will_save_change_to_status? || will_save_change_to_settings?) }
   validate :validate_openai_api_key, if: :validate_openai_api_key?
   validate :validate_cloudflare_realtimekit_credentials, if: :validate_cloudflare_realtimekit_credentials?
   validates :app_id, uniqueness: { scope: [:account_id], unless: -> { app.present? && app.params[:allow_multiple_hooks].present? } }
