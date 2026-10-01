@@ -11,7 +11,8 @@ class Integrations::Stripe::CustomerSummary
 
     @options = { api_key: @connection.api_token }
     @products = {}
-    customers = ::Stripe::Customer.search({ query: "email:#{@contact.email.to_json}", limit: 100 }, @options)
+    escaped_email = @contact.email.gsub(/["\\]/) { |char| "\\#{char}" }
+    customers = ::Stripe::Customer.search({ query: "email:\"#{escaped_email}\"", limit: 100 }, @options)
     matches = customers.data.select { |customer| customer.email&.casecmp?(@contact.email) }
                        .map { |customer| customer.to_hash.slice(:id, :name, :email, :phone) }
     selected = select_customer(matches, customer_id)
