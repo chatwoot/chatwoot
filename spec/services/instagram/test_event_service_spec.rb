@@ -66,6 +66,18 @@ describe Instagram::TestEventService do
 
         expect(service.perform).to be_nil
       end
+
+      it 'returns false for comment events without sender and recipient' do
+        comment_messaging = {
+          'from': { 'id': 'commenter_id', 'username': 'someuser' },
+          'media': { 'id': 'media_id' },
+          'text': 'a comment'
+        }.with_indifferent_access
+
+        service = described_class.new(comment_messaging)
+
+        expect(service.perform).to be(false)
+      end
     end
   end
 end
