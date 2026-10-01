@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_24_120000) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_29_100000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -317,7 +317,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_120000) do
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
     t.integer "execution_delay"
+    t.bigint "monitor_id"
+    t.datetime "monitor_event_activated_at"
     t.index ["account_id"], name: "index_automation_rules_on_account_id"
+    t.index ["monitor_id"], name: "index_automation_rules_on_monitor_id"
   end
 
   create_table "calls", force: :cascade do |t|
@@ -838,6 +841,24 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_120000) do
     t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
   end
 
+  create_table "conversation_monitor_automation_deliveries", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "monitor_id", null: false
+    t.bigint "automation_rule_id", null: false
+    t.bigint "conversation_id", null: false
+    t.string "status", default: "pending", null: false
+    t.string "skip_reason"
+    t.datetime "claimed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_conversation_monitor_automation_deliveries_on_account_id"
+    t.index ["automation_rule_id", "monitor_id", "conversation_id"], name: "index_monitor_automation_deliveries_unique", unique: true
+    t.index ["automation_rule_id"], name: "idx_on_automation_rule_id_c6ed670e50"
+    t.index ["conversation_id"], name: "idx_on_conversation_id_ea2ef1d691"
+    t.index ["monitor_id"], name: "index_conversation_monitor_automation_deliveries_on_monitor_id"
+    t.index ["status", "updated_at"], name: "index_monitor_automation_deliveries_sweep"
+  end
+
   create_table "conversation_monitor_daily_usages", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.date "usage_date", null: false
@@ -862,6 +883,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_120000) do
     t.string "error_code"
     t.datetime "matched_at"
     t.datetime "evaluated_at"
+    t.datetime "first_matched_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_conversation_monitor_evaluations_on_account_id"
@@ -900,6 +922,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_120000) do
     t.string "error_code"
     t.datetime "requested_at"
     t.datetime "activity_at"
+    t.bigint "live_activity_revision", default: 0, null: false
+    t.datetime "live_activity_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_conversation_monitor_work_items_on_account_id"
@@ -1495,6 +1519,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_24_120000) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
+    t.string "video_url"
   end
 
   create_table "portals", force: :cascade do |t|
