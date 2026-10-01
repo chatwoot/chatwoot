@@ -7,6 +7,10 @@ class HookPolicy < ApplicationPolicy
     create?
   end
 
+  def complete_install?
+    create?
+  end
+
   def update?
     @account_user.administrator?
   end

@@ -2,8 +2,8 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   include Shopify::IntegrationHelper
   before_action :ensure_shopify_enabled
   before_action -> { Shopify::ApiContext.setup! }, only: [:orders]
-  before_action :fetch_hook, except: [:auth]
-  before_action :check_authorization, only: [:auth, :destroy]
+  before_action :fetch_hook, except: [:auth, :complete_install]
+  before_action :check_authorization, only: [:auth, :complete_install, :destroy]
   before_action :validate_contact, only: [:orders]
 
   def auth
@@ -32,6 +32,25 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
     render json: { orders: orders }
   rescue ShopifyAPI::Errors::HttpResponseError => e
     render json: { error: e.message }, status: :unprocessable_entity
+  end
+
+  def complete_install
+    pending_installation = Shopify::PendingInstallation.claim(
+      token: params[:pending_install_token]
+    )
+    Shopify::InstallationService.new(account: Current.account, pending_installation: pending_installation).perform
+    head :ok
+  rescue Shopify::PendingInstallation::AlreadyClaimed => e
+    pending_installation&.release!
+    render json: { error: e.message }, status: :conflict
+  rescue Shopify::PendingInstallation::CommitOutcomeUnknown
+    raise
+  rescue Shopify::PendingInstallation::Error => e
+    pending_installation&.release!
+    render json: { error: e.message }, status: :unprocessable_entity
+  rescue StandardError
+    pending_installation&.release!
+    raise
   end
 
   def destroy

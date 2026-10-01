@@ -126,6 +126,18 @@ const loadSummary = async () => {
   isStale.value = false;
 
   try {
+    if (route.query.shopify_pending_install) {
+      try {
+        await EnterpriseAccountAPI.reconnectShopify(
+          route.query.shopify_pending_install
+        );
+      } catch (error) {
+        if (error.response?.status !== 422) throw error;
+      }
+      const { shopify_pending_install: _pendingInstall, ...query } =
+        route.query;
+      await router.replace({ query });
+    }
     summary.value = await fetchSummary();
   } catch {
     hasError.value = true;
