@@ -15,7 +15,10 @@ class Whatsapp::InboundCallIdentityBuilder
     ]
     source_ids = Whatsapp::IdentitySourceIdOrderer.new(inbox: inbox, phone_source_id: phone_source_id(phone), source_ids: identifiers).perform
 
-    { source_ids: source_ids, contact_attributes: contact_attributes(contact, phone, source_ids.first) }
+    # `profile_name` stays raw: the display name below falls back to the formatted phone, which
+    # would rewrite one phone placeholder into another whenever Meta sends no name.
+    { source_ids: source_ids, contact_attributes: contact_attributes(contact, phone, source_ids.first),
+      profile_name: contact.dig(:profile, :name).presence }
   end
 
   private

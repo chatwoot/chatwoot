@@ -188,28 +188,12 @@ class Twilio::IncomingMessageService
   end
 
   def update_contact_name_if_needed
-    return if params[:ProfileName].blank?
-    return if @contact.name == params[:ProfileName]
+    return if phone_number.blank?
 
-    # Only update if current name exactly matches a phone number candidate
-    return unless contact_name_matches_phone_number?
-
-    @contact.update!(name: params[:ProfileName])
-  end
-
-  def contact_name_matches_phone_number?
-    return false if phone_number.blank?
-
-    phone_name_candidates.include?(@contact.name)
-  end
-
-  def phone_name_candidates
-    [phone_number, formatted_phone_number, *formatted_twilio_whatsapp_phone_number_candidates].compact_blank.uniq
-  end
-
-  def formatted_twilio_whatsapp_phone_number_candidates
-    Array(twilio_whatsapp_phone_number_candidates).flat_map do |candidate|
-      [candidate, TelephoneNumber.parse(candidate).international_number]
-    end
+    Contacts::PlaceholderNameUpdater.new(
+      contact: @contact,
+      name: params[:ProfileName],
+      phone_numbers: [phone_number, *twilio_whatsapp_phone_number_candidates]
+    ).perform
   end
 end
