@@ -49,8 +49,11 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def sign_up_user
     return redirect_to login_page_url(error: 'no-account-found') unless account_signup_allowed?
+
     unless validate_signup_email_is_business_domain?
-      return redirect_to login_page_url(error: 'business-account-only', redirect_url: oauth_redirect_url)
+      return redirect_to login_page_url(
+        error: 'business-account-only', redirect_url: oauth_redirect_url, sso_account_id: oauth_context['sso_account_id']
+      )
     end
 
     create_account_for_user
@@ -58,6 +61,8 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     token = @resource.send(:set_reset_password_token)
     frontend_url = ENV.fetch('FRONTEND_URL', nil)
     redirect_to "#{frontend_url}/app/auth/password/edit?config=default&reset_password_token=#{token}"
+  rescue Shopify::PendingInstallation::Error
+    redirect_to login_page_url(error: 'shopify-installation-failed')
   end
 
   def login_page_url(error: nil, email: nil, sso_auth_token: nil, redirect_url: nil, sso_account_id: nil)
