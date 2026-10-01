@@ -138,7 +138,8 @@ class Voice::VoipPushService
       id: call.id,
       provider: call.provider,
       direction: call.direction_label,
-      conversation_id: call.conversation_id,
+      # The app addresses conversations by their display id
+      conversation_id: call.conversation.display_id,
       inbox_id: call.inbox_id,
       account_id: call.account_id
     }
