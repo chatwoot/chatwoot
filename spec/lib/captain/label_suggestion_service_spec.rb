@@ -9,10 +9,10 @@ RSpec.describe Captain::LabelSuggestionService do
   let(:service) { described_class.new(account: account, conversation_display_id: conversation.display_id) }
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
   let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
-  let(:mock_response) { instance_double(RubyLLM::Message, content: 'bug, feature-request', input_tokens: 100, output_tokens: 20) }
+  let(:mock_response) { instance_double(RubyLLM::Message, content: 'bug, feature-request', tokens: RubyLLM::Tokens.new(input: 100, output: 20)) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_API_KEY').update!(value: 'test-key')
     label1
     label2
     allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)

@@ -19,7 +19,11 @@ class Llm::BaseAiService
   end
 
   def chat(model: @model, temperature: @temperature)
-    RubyLLM.chat(model: model).with_temperature(temperature)
+    model_info = RubyLLM.models.find(model)
+    llm_chat = RubyLLM.chat(model: model)
+    return llm_chat if model_info.metadata[:temperature] == false
+
+    llm_chat.with_temperature(temperature)
   end
 
   private
