@@ -105,7 +105,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def allowed_google_oauth_redirect?(redirect_url)
-    redirect_url.match?(SHOPIFY_INSTALL_REDIRECT_PATTERN)
+    redirect_url == 'settings/integrations/shopify' || redirect_url.match?(SHOPIFY_INSTALL_REDIRECT_PATTERN)
   end
 
   def account_signup_allowed?
