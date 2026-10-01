@@ -423,16 +423,17 @@
   },
   "DATA_IMPORTS": {
     "HEADER": "Data",
-    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
-    "LOADING": "Fetching imports",
+    "DESCRIPTION": "Bring in your customer data and manage contact exports.",
+    "LOADING": "Fetching imports and exports",
     "DEFAULT_IMPORT_NAME": "Intercom import",
     "DEFAULT_IMPORT_NAMES": {
+      "CSV": "Contact CSV import",
       "INTERCOM": "Intercom import",
       "FRESHDESK": "Freshdesk import"
     },
     "TABS": {
-      "IMPORT": "Import",
-      "EXPORT": "Export"
+      "IMPORT": "Imports",
+      "EXPORT": "Exports"
     },
     "TYPES": {
       "CONTACTS": "Contacts",
@@ -460,16 +461,33 @@
       "CANCEL": "Cancel",
       "IMPORT": "Import"
     },
-    "EXPORT": {
-      "TITLE": "Exports are on the way",
-      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
-      "COMING_SOON": "Coming soon"
+    "CSV": {
+      "ROW_ERRORS": "Row errors",
+      "SOURCE": "CSV file",
+      "FILE": "Contact CSV file",
+      "HELP": "Use the sample column names and existing labels. Up to 250,000 rows and 1 MiB per field.",
+      "SILENT_UPDATES": "Matching contacts are updated. Imports do not trigger contact automations or webhooks.",
+      "INVALID_FILE": "Choose a nonempty CSV file of 50 MiB or smaller.",
+      "SAMPLE": "Download sample CSV",
+      "UPLOADING": "Uploading {percent}%. Processing starts after the upload finishes.",
+      "OUTCOMES": "{created} created · {updated} updated · {failed} failed",
+      "PROCESSED": "of {total} processed",
+      "REJECTED_HELP": "Download the rejected rows, make corrections, and upload them as a new import. Files are available for 30 days.",
+      "DOWNLOAD_REJECTED": "Download rejected rows",
+      "EXPIRED": "The source and rejected-row files have expired. Upload a new file to import these contacts again.",
+      "CHOOSE_FILE": "Click to upload or drag and drop",
+      "FILE_LIMIT": "CSV only · up to 50 MiB",
+      "REMOVE_FILE": "Remove file",
+      "REJECTED_TITLE": "Some rows need attention",
+      "CREATED": "Created",
+      "UPDATED": "Updated",
+      "FAILED": "Failed"
     },
     "TABLE": {
       "TITLE": "Recent imports",
       "EMPTY": "No imports yet",
-      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
-      "NEW_IMPORT": "Import",
+      "EMPTY_DESCRIPTION": "Import contacts from a CSV file or bring over customer history from another support tool.",
+      "NEW_IMPORT": "New import",
       "COUNT": "{count} imports",
       "UNNAMED": "Untitled import",
       "IMPORTED_COUNT": "{count} imported",
@@ -480,10 +498,11 @@
       "IMPORTED": "Imported",
       "CREATED": "Created",
       "RETRY": "Retry",
+      "RESUME": "Resume",
       "ABANDON": "Abandon"
     },
     "DETAIL": {
-      "BACK": "Back to imports",
+      "BACK": "Back to imports and exports",
       "ERRORS": "Errors",
       "SKIP_LOGS": "Skip logs",
       "SOURCE": "Source",
@@ -515,6 +534,7 @@
       "STAGES": {
         "unknown": "Waiting for update",
         "queued": "Queued",
+        "preparing": "Validating and preparing CSV",
         "contacts": "Importing contacts",
         "conversations": "Importing conversations",
         "finalizing": "Finalizing import",
@@ -525,11 +545,52 @@
       }
     },
     "ALERTS": {
+      "LOAD_FAILED": "Could not refresh imports and exports. Please try again.",
       "IMPORT_STARTED": "Import has started.",
       "IMPORT_RETRIED": "Import has been queued to resume.",
       "IMPORT_RETRY_FAILED": "Could not retry the import.",
       "IMPORT_ABANDONED": "Import has been abandoned.",
       "IMPORT_FAILED": "Could not start the import."
+    },
+    "STATUS": {
+      "PENDING": "Queued",
+      "PROCESSING": "In progress",
+      "COMPLETED": "Completed",
+      "COMPLETED_WITH_ERRORS": "Completed with errors",
+      "FAILED": "Failed",
+      "ABANDONED": "Abandoned"
+    }
+  },
+  "DATA_EXPORTS": {
+    "INITIATOR": "Started by {name} on {date}",
+    "TITLE": "Contact export",
+    "NEW": "Export contacts",
+    "START": "Start export",
+    "EMPTY": "No exports yet",
+    "ALL_CONTACTS": "All contacts",
+    "FILTERED_CONTACTS": "Contacts matching the current filters",
+    "SCOPE": "Contacts to export: {scope}",
+    "DESCRIPTION": "Export the selected contacts to CSV. Data is captured when the export runs.",
+    "PROCESSED": "{count} contacts exported",
+    "ESTIMATE": "Estimated total: {count}. This can change while contacts are updated.",
+    "DOWNLOAD": "Download CSV",
+    "RERUN": "Run again",
+    "STALLED": "This export has stopped reporting progress. Run it again to create a new export.",
+    "EXPIRED": "This download has expired. Run the export again to create a new file.",
+    "RETENTION": "Export files are available for 30 days after completion.",
+    "ERROR": "Could not load or start this export. Please try again.",
+    "DOWNLOAD_ERROR": "This file is no longer available. Refresh the page to see its current status.",
+    "DRAFT_UNAVAILABLE": "The export selection is unavailable or expired. Return to Contacts and choose Export again. No export has been started.",
+    "EMPTY_DESCRIPTION": "Export your contacts to a CSV file. Your export history and downloads will appear here.",
+    "NOTIFICATION": "We’ll email you when your CSV is ready. You can also track progress and download it here.",
+    "FILE_FORMAT": "CSV file (.csv)",
+    "SELECTION": "Contacts",
+    "PROGRESS": "Export progress",
+    "FILE_READY": "Your export is ready",
+    "IN_PROGRESS": "Preparing your CSV. You can leave this page while the export runs.",
+    "TABLE": {
+      "EXPORTED": "Exported",
+      "COUNT": "{count} exports"
     }
   },
   "CAPTAIN_SETTINGS": {
