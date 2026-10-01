@@ -145,8 +145,11 @@ const retryImport = async (resume = false) => {
       : await DataImportsAPI.retry(dataImport.value.id);
     dataImport.value = response.data;
     useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_RETRIED'));
-  } catch {
-    useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_RETRY_FAILED'));
+  } catch (error) {
+    useAlert(
+      error?.response?.data?.message ||
+        t('DATA_IMPORTS.ALERTS.IMPORT_RETRY_FAILED')
+    );
   } finally {
     isRetrying.value = false;
     if (hasActiveImport.value) startPolling();

@@ -18,11 +18,7 @@ class DataImports::RestartService
     return :render_show unless @data_import.managed_import?
     return :render_show unless @data_import.restartable?
 
-    if (active_import = find_active_import)
-      @data_import = active_import
-      return :render_show
-    end
-
+    return :active_import_exists if @account.data_imports.active_imports.exists?
     return :access_token_missing unless @data_import.source_available?
 
     @data_import.assign_active_import_run_id
@@ -31,10 +27,6 @@ class DataImports::RestartService
     @data_import.import_errors.where.not(id: retained_skip_logs.select(:id)).delete_all
     @data_import.update!(restart_attributes(retained_skip_logs))
     :enqueue
-  end
-
-  def find_active_import
-    @account.data_imports.active_imports.first
   end
 
   def reset_csv_items

@@ -43,15 +43,15 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   def start
     restart_service = DataImports::RestartService.new(account: Current.account, data_import: @data_import)
     restart_result = restart_service.perform
-    @data_import = restart_service.data_import
-    authorize @data_import, :show?
-    if restart_result == :access_token_missing
+    case restart_result
+    when :active_import_exists
+      render json: { message: 'Another data import is already in progress.' }, status: :unprocessable_entity
+    when :access_token_missing
       render json: { message: "The #{source_name} #{credential_name} for this import is unavailable." }, status: :unprocessable_entity
-      return
+    else
+      enqueue_import(@data_import) if restart_result == :enqueue
+      render_show
     end
-
-    enqueue_import(@data_import) if restart_result == :enqueue
-    render_show
   end
 
   def retry_import

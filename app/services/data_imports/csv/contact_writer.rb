@@ -69,7 +69,10 @@ class DataImports::Csv::ContactWriter
     return if labels.empty?
 
     tags = ActsAsTaggableOn::Tag.find_or_create_all_with_like_by_name(labels)
-    taggings = tags.map { |tag| { tag_id: tag.id, taggable_type: 'Contact', taggable_id: contact.id, context: 'labels', created_at: Time.current } }
+    tag_ids = tags.map(&:id) - contact.taggings.where(context: 'labels').pluck(:tag_id)
+    taggings = tag_ids.map do |tag_id|
+      { tag_id: tag_id, taggable_type: 'Contact', taggable_id: contact.id, context: 'labels', created_at: Time.current }
+    end
     ActsAsTaggableOn::Tagging.insert_all(taggings) # rubocop:disable Rails/SkipsModelValidations
   end
 end

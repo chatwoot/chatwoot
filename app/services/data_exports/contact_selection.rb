@@ -1,6 +1,6 @@
 class DataExports::ContactSelection
   DEFAULT_COLUMNS = %w[id name email phone_number labels].freeze
-  FILTER_KEYS = %w[attribute_key attribute_model filter_operator query_operator custom_attribute_type values].freeze
+  FILTER_KEYS = %w[attribute_key attribute_model filter_operator query_operator custom_attribute_type values timezone].freeze
 
   attr_reader :options
 

@@ -44,12 +44,12 @@ RSpec.describe DataImports::Intercom::RestartService do
     )
   end
 
-  it 'returns the active import instead of restarting another import', :aggregate_failures do
-    active_import = create(:data_import, :intercom, account: account, status: :processing)
+  it 'returns a conflict without replacing the requested import', :aggregate_failures do
+    create(:data_import, :intercom, account: account, status: :processing)
     service = described_class.new(account: account, data_import: data_import)
 
-    expect(service.perform).to eq(:render_show)
-    expect(service.data_import).to eq(active_import)
+    expect(service.perform).to eq(:active_import_exists)
+    expect(service.data_import).to eq(data_import)
     expect(data_import.reload).to be_abandoned
   end
 
