@@ -60,7 +60,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
           expect do
             result = tool.perform(tool_context, reason: 'Customer needs specialized support')
-            expect(result).to include('Conversation handed off')
+            expect(result.content).to include('Conversation handed off')
           end.to change(Message, :count).by(1)
           expect(tool_context.state[:captain_v2_handoff_tool_completed]).to be true
         end
@@ -99,9 +99,11 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
           expect do
             result = tool.perform(tool_context, reason: 'Customer needs specialized support')
-            expect(result).to eq('Handoff skipped because a newer customer message arrived')
+            expect(result).to be_a(RubyLLM::Tool::Halt)
+            expect(result.content).to eq('Handoff skipped because a newer customer message arrived')
           end.not_to change(Message, :count)
           expect(conversation.reload.status).to eq('pending')
+          expect(Captain::Tools::RunGuard.halt_reason(tool_context.state)).to eq(Captain::Tools::RunGuard::STALE_RUN)
         end
 
         it 'emits a captain handoff event with the tool source after the locked handoff completes' do
@@ -133,8 +135,15 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
           expect do
             result = tool.perform(tool_context, reason: reason)
-            expect(result).to eq("Conversation handed off to human support team (Reason: #{reason})")
+            expect(result.content).to eq("Conversation handed off to human support team (Reason: #{reason})")
           end.to change(Message, :count).by(1)
+        end
+
+        it 'halts the agent loop so the model cannot hand off again in the same run' do
+          result = tool.perform(tool_context, reason: 'Customer needs specialized support')
+
+          expect(result).to be_a(RubyLLM::Tool::Halt)
+          expect(Captain::Tools::RunGuard.halt_reason(tool_context.state)).to eq(Captain::Tools::RunGuard::HANDOFF_COMPLETED)
         end
 
         it 'creates message with correct attributes' do
@@ -226,7 +235,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
         it 'creates a private note with nil content and hands off conversation' do
           expect do
             result = tool.perform(tool_context)
-            expect(result).to eq('Conversation handed off to human support team')
+            expect(result.content).to eq('Conversation handed off to human support team')
           end.to change(Message, :count).by(1)
 
           created_message = Message.last

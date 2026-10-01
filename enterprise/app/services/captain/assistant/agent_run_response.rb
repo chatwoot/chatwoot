@@ -1,5 +1,35 @@
 module Captain::Assistant::AgentRunResponse
+  HANDOFF_SIGNAL = 'conversation_handoff'.freeze
+
   private
+
+  # A run guard ended the LLM loop, so the halt content is an internal notice and
+  # never an answer for the customer. The job routes these through its handoff or
+  # discard paths using the flags below.
+  def run_halted? = halt_reason.present?
+
+  def halt_reason
+    Captain::Tools::RunGuard.halt_reason(@last_run_result&.context&.dig(:state))
+  end
+
+  def channel_ready_response
+    record_turn_start(@last_run_result)
+    @last_run_result = rewrite_oversized_response(@last_run_result) if response_too_long?(@last_run_result)
+
+    raise "Captain response exceeds the channel limit of #{message_length_limit} characters" if response_too_long?(@last_run_result)
+
+    process_agent_result(@last_run_result)
+  end
+
+  def halted_run_response
+    reason = halt_reason
+    Rails.logger.info "[Captain V2] Run halted without a final response: reason=#{reason}"
+    # A halted handoff still captures an assistant session, so keep the turn boundary.
+    record_turn_start(@last_run_result)
+    return handoff_signal_response(reasoning: "Run halted: #{reason}") unless reason == Captain::Tools::RunGuard::TOOL_CALL_BUDGET_EXCEEDED
+
+    handoff_signal_response(reasoning: Captain::Tools::RunGuard::BUDGET_EXCEEDED_MESSAGE, error_reason: reason)
+  end
 
   def process_agent_result(run_result)
     Rails.logger.info "[Captain V2] Agent result: #{run_result.inspect}"
@@ -55,13 +85,21 @@ module Captain::Assistant::AgentRunResponse
   end
 
   def error_response(error)
-    {
-      'response' => 'conversation_handoff',
-      'response_parts' => [{ 'text' => 'conversation_handoff', 'citation_indexes' => [] }],
-      'reasoning' => "Error occurred: #{error.message}",
-      'error' => true,
-      'error_reason' => error.class.name.underscore.tr('/', '_'),
+    handoff_signal_response(
+      reasoning: "Error occurred: #{error.message}",
+      error_reason: error.class.name.underscore.tr('/', '_')
+    )
+  end
+
+  def handoff_signal_response(reasoning:, error_reason: nil)
+    response = {
+      'response' => HANDOFF_SIGNAL,
+      'response_parts' => [{ 'text' => HANDOFF_SIGNAL, 'citation_indexes' => [] }],
+      'reasoning' => reasoning,
       'handoff_tool_called' => @handoff_tool_called
     }
+    return response if error_reason.blank?
+
+    response.merge('error' => true, 'error_reason' => error_reason)
   end
 end

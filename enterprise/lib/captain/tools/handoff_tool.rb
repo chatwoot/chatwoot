@@ -30,16 +30,34 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
     # Use existing handoff mechanism from ResponseBuilderJob
     handoff_result = trigger_handoff(tool_context, conversation, reason, reason_category)
-    return failure_result('Handoff skipped because a newer customer message arrived', tool_context.state) if handoff_result == :stale
+    return halt_stale_handoff(tool_context) if handoff_result == :stale
     return failure_result('Handoff skipped because the conversation changed', tool_context.state) unless handoff_result == :completed
 
-    "Conversation handed off to human support team#{" (Reason: #{reason})" if reason}"
+    # The conversation now belongs to a human, so this run is over. Returning a plain
+    # string would let the model keep calling tools inside the same RubyLLM completion.
+    run_guard(tool_context).halt(
+      Captain::Tools::RunGuard::HANDOFF_COMPLETED,
+      "Conversation handed off to human support team#{" (Reason: #{reason})" if reason}"
+    )
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
     failure_result('Failed to handoff conversation', tool_context.state)
   end
 
   private
+
+  # A newer customer message landed while the lock was held, so a fresh run is
+  # already on its way and this one must not keep the model working.
+  def halt_stale_handoff(tool_context)
+    run_guard(tool_context).halt(
+      Captain::Tools::RunGuard::STALE_RUN,
+      failure_result('Handoff skipped because a newer customer message arrived', tool_context.state)
+    )
+  end
+
+  def run_guard(tool_context)
+    Captain::Tools::RunGuard.new(tool_context.state)
+  end
 
   def trigger_handoff(tool_context, conversation, reason, reason_category)
     note = nil
