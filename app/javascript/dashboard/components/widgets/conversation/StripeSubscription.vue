@@ -1,4 +1,5 @@
 <script setup>
+import { formatStripeAmount } from 'dashboard/helper/stripeHelper';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useClipboard } from '@vueuse/core';
@@ -10,7 +11,6 @@ const props = defineProps({ subscription: { type: Object, required: true } });
 const { t } = useI18n();
 const panel = ref(null);
 const { copy, copied } = useClipboard();
-const TWO_DECIMAL_API_CURRENCIES = ['ISK', 'UGX'];
 const title = computed(
   () =>
     props.subscription.items
@@ -35,16 +35,7 @@ const priceLabel = item => {
     item.recurring?.usage_type === 'metered'
   )
     return t('STRIPE_INTEGRATION.VARIABLE_PRICE');
-  const formatter = new Intl.NumberFormat(undefined, {
-    style: 'currency',
-    currency: item.currency,
-  });
-  const digits = TWO_DECIMAL_API_CURRENCIES.includes(
-    item.currency.toUpperCase()
-  )
-    ? 2
-    : formatter.resolvedOptions().maximumFractionDigits;
-  const amount = formatter.format(Number(item.unit_amount) / 10 ** digits);
+  const amount = formatStripeAmount(item.unit_amount, item.currency);
   if (!item.recurring) return amount;
   const count = item.recurring.interval_count;
   return t('STRIPE_INTEGRATION.PRICE_INTERVAL', {

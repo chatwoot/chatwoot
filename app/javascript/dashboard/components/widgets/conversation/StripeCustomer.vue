@@ -1,4 +1,5 @@
 <script setup>
+import { formatStripeAmount } from 'dashboard/helper/stripeHelper';
 import { ref, watch } from 'vue';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import StripeAPI from 'dashboard/api/integrations/stripe';
@@ -14,8 +15,6 @@ const summary = ref(null);
 const customerId = ref('');
 const error = ref(false);
 const { run, isPending } = useAbortableRequest();
-// Stripe retains two-decimal API amounts for these otherwise zero-decimal currencies.
-const TWO_DECIMAL_API_CURRENCIES = ['ISK', 'UGX'];
 const STATUS_COLORS = {
   active: 'teal',
   paid: 'teal',
@@ -49,18 +48,8 @@ const load = async () => {
   }
 };
 
-const formatAmount = invoice => {
-  const formatter = new Intl.NumberFormat(undefined, {
-    style: 'currency',
-    currency: invoice.currency,
-  });
-  const digits = TWO_DECIMAL_API_CURRENCIES.includes(
-    invoice.currency.toUpperCase()
-  )
-    ? 2
-    : formatter.resolvedOptions().maximumFractionDigits;
-  return formatter.format(invoice.total / 10 ** digits);
-};
+const formatAmount = invoice =>
+  formatStripeAmount(invoice.total, invoice.currency);
 
 watch(
   [() => props.conversationId, () => props.contactEmail],
