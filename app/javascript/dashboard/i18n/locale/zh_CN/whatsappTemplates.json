@@ -3,22 +3,22 @@
     "MODAL": {
       "TITLE": "Whatsapp 模板列表",
       "SUBTITLE": "请选择想要发送的 Whatsapp 消息模板",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TEMPLATE_SELECTED_SUBTITLE": "配置模板：{templateName}"
     },
     "PICKER": {
       "SEARCH_PLACEHOLDER": "查找模板",
       "NO_TEMPLATES_FOUND": "没有找到对应的模版",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
+      "HEADER": "页头",
+      "BODY": "正文",
+      "FOOTER": "页脚",
+      "BUTTONS": "按钮",
       "CATEGORY": "类别",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "MEDIA_CONTENT": "媒体内容",
+      "MEDIA_CONTENT_FALLBACK": "媒体内容",
+      "NO_TEMPLATES_AVAILABLE": "暂无 WhatsApp 模板。请点击刷新以从 WhatsApp 同步模板。",
+      "REFRESH_BUTTON": "刷新模板",
+      "REFRESH_SUCCESS": "模板刷新已启动，更新可能需要几分钟。",
+      "REFRESH_ERROR": "刷新模板失败，请重试。",
       "LABELS": {
         "LANGUAGE": "语言",
         "TEMPLATE_BODY": "模板内容",
@@ -34,15 +34,15 @@
       "GO_BACK_LABEL": "返回",
       "SEND_MESSAGE_LABEL": "发送消息",
       "FORM_ERROR_MESSAGE": "你必须填写所有参数才能发送",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "OTP_CODE": "Enter 4-8 digit OTP",
-      "EXPIRY_MINUTES": "Enter expiry minutes",
-      "BUTTON_PARAMETERS": "Button Parameters",
-      "BUTTON_LABEL": "Button {index}",
-      "COUPON_CODE": "Enter coupon code (max 15 chars)",
-      "MEDIA_URL_LABEL": "Enter {type} URL",
-      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
-      "BUTTON_PARAMETER": "Enter button parameter"
+      "MEDIA_HEADER_LABEL": "{type} 页头",
+      "OTP_CODE": "请输入 4-8 位 OTP",
+      "EXPIRY_MINUTES": "请输入过期分钟数",
+      "BUTTON_PARAMETERS": "按钮参数",
+      "BUTTON_LABEL": "按钮 {index}",
+      "COUPON_CODE": "请输入优惠券代码（最多 15 个字符）",
+      "MEDIA_URL_LABEL": "请输入 {type} URL",
+      "DOCUMENT_NAME_PLACEHOLDER": "请输入文件名（例如：Invoice_2025.pdf）",
+      "BUTTON_PARAMETER": "请输入按钮参数"
     }
   }
 }
