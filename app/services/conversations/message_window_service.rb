@@ -7,12 +7,19 @@ class Conversations::MessageWindowService
   end
 
   def can_reply?
+    return true if instagram_comment_conversation?
     return true if messaging_window.blank?
 
     last_message_in_messaging_window?(messaging_window)
   end
 
   private
+
+  # Instagram post/reel comment replies go through the Comments API, which has no
+  # 24h/7d messaging window, so they are not bound by the DM reply window.
+  def instagram_comment_conversation?
+    @conversation.additional_attributes['type'] == 'instagram_comment'
+  end
 
   def messaging_window
     case @conversation.inbox.channel_type
