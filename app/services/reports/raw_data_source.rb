@@ -106,7 +106,12 @@ class Reports::RawDataSource < Reports::DataSource
 
   def summary_conversation_counts
     account.conversations
-           .where(created_at: range)
+           .joins(:reporting_events)
+           .where(reporting_events: { 
+             name: summary_metrics.map(&:raw_event_name), 
+             created_at: range 
+           })
+           .distinct
            .group(summary_conversation_group_by_key)
            .count
   end
