@@ -38,16 +38,10 @@ pnpm run playwright:codegen
 ```
 tests/playwright/
 ├── components/
-│   ├── api/              # API interaction components
 │   └── ui/               # UI page objects
 ├── tests/
 │   └── e2e/
-│       ├── api/          # Pure API tests
 │       └── ui/           # UI tests
-├── utils/                # Shared utilities and helpers
-├── response-schemas/     # API response schemas for validation
-├── fixtures/             # Test fixtures
-└── helpers/              # Helper functions
 ```
 
 ## Documentation
