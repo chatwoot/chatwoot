@@ -141,6 +141,13 @@ describe('#actions', () => {
   });
 
   describe('#updateUISettings', () => {
+    const previousUser = {
+      id: 1,
+      name: 'John',
+      ui_settings: { is_contact_sidebar_open: false },
+    };
+    const state = { currentUser: previousUser };
+
     it('sends correct actions if API is success', async () => {
       axios.put.mockResolvedValue({
         data: {
@@ -152,7 +159,7 @@ describe('#actions', () => {
         headers: { expiry: 581842904 },
       });
       await actions.updateUISettings(
-        { commit, dispatch },
+        { commit, dispatch, state },
         { uiSettings: { is_contact_sidebar_open: false } }
       );
       expect(commit.mock.calls).toEqual([
@@ -169,6 +176,23 @@ describe('#actions', () => {
             ui_settings: { is_contact_sidebar_open: true },
           },
         ],
+      ]);
+    });
+
+    it('rolls back optimistic update and re-throws on API failure', async () => {
+      axios.put.mockRejectedValue(new Error('Network error'));
+      await expect(
+        actions.updateUISettings(
+          { commit, dispatch, state },
+          { uiSettings: { is_contact_sidebar_open: false } }
+        )
+      ).rejects.toThrow('Network error');
+      expect(commit.mock.calls).toEqual([
+        [
+          types.SET_CURRENT_USER_UI_SETTINGS,
+          { uiSettings: { is_contact_sidebar_open: false } },
+        ],
+        [types.SET_CURRENT_USER, previousUser],
       ]);
     });
   });
