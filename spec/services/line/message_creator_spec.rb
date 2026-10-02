@@ -1,0 +1,368 @@
+require 'rails_helper'
+
+describe Line::MessageCreator do
+  let!(:line_channel) { create(:channel_line) }
+  let(:inbox) { line_channel.inbox }
+
+  let(:text_params) do
+    {
+      'destination': '2342234234',
+      'events': [
+        {
+          'replyToken': '0f3779fba3b349968c5d07db31eab56f',
+          'type': 'message',
+          'mode': 'active',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': 'U4af4980629'
+          },
+          'message': {
+            'id': '325708',
+            'type': 'text',
+            'text': 'Hello, world'
+          }
+        },
+        {
+          'replyToken': '8cf9239d56244f4197887e939187e19e',
+          'type': 'follow',
+          'mode': 'active',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': 'U4af4980629'
+          }
+        }
+      ]
+    }.with_indifferent_access
+  end
+
+  let(:follow_params) do
+    {
+      'destination': '2342234234',
+      'events': [
+        {
+          'replyToken': '8cf9239d56244f4197887e939187e19e',
+          'type': 'follow',
+          'mode': 'active',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': 'U4af4980629'
+          }
+        }
+      ]
+    }.with_indifferent_access
+  end
+
+  let(:multi_user_params) do
+    {
+      'destination': '2342234234',
+      'events': [
+        {
+          'replyToken': '0f3779fba3b349968c5d07db31eab56f1',
+          'type': 'message',
+          'mode': 'active',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': 'U4af4980629'
+          },
+          'message': {
+            'id': '3257081',
+            'type': 'text',
+            'text': 'Hello, world 1'
+          }
+        },
+        {
+          'replyToken': '0f3779fba3b349968c5d07db31eab56f2',
+          'type': 'message',
+          'mode': 'active',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': 'U4af49806292'
+          },
+          'message': {
+            'id': '3257082',
+            'type': 'text',
+            'text': 'Hello, world 2'
+          }
+        }
+      ]
+    }.with_indifferent_access
+  end
+
+  let(:image_params) do
+    {
+      'destination': '2342234234',
+      'events': [
+        {
+          'replyToken': '0f3779fba3b349968c5d07db31eab56f',
+          'type': 'message',
+          'mode': 'active',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': 'U4af4980629'
+          },
+          'message': {
+            'type': 'image',
+            'id': '354718',
+            'contentProvider': {
+              'type': 'line'
+            }
+          }
+        },
+        {
+          'replyToken': '8cf9239d56244f4197887e939187e19e',
+          'type': 'follow',
+          'mode': 'active',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': 'U4af4980629'
+          }
+        }
+      ]
+    }.with_indifferent_access
+  end
+
+  let(:video_params) do
+    {
+      'destination': '2342234234',
+      'events': [
+        {
+          'replyToken': '0f3779fba3b349968c5d07db31eab56f',
+          'type': 'message',
+          'mode': 'active',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': 'U4af4980629'
+          },
+          'message': {
+            'type': 'video',
+            'id': '354718',
+            'contentProvider': {
+              'type': 'line'
+            }
+          }
+        },
+        {
+          'replyToken': '8cf9239d56244f4197887e939187e19e',
+          'type': 'follow',
+          'mode': 'active',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': 'U4af4980629'
+          }
+        }
+      ]
+    }.with_indifferent_access
+  end
+
+  let(:file_params) do
+    {
+      'destination': '2342234234',
+      'events': [
+        {
+          'replyToken': '0f3779fba3b349968c5d07db31eab56f',
+          'type': 'message',
+          'mode': 'active',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': 'U4af4980629'
+          },
+          'message': {
+            'type': 'file',
+            'id': '354718',
+            'fileName': 'contacts.csv',
+            'fileSize': 2978
+          }
+        },
+        {
+          'replyToken': '8cf9239d56244f4197887e939187e19e',
+          'type': 'follow',
+          'mode': 'active',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': 'U4af4980629'
+          }
+        }
+      ]
+    }.with_indifferent_access
+  end
+
+  let(:sticker_params) do
+    {
+      'destination': '2342234234',
+      'events': [
+        {
+          'replyToken': '0f3779fba3b349968c5d07db31eab56f',
+          'type': 'message',
+          'mode': 'active',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': 'U4af4980629'
+          },
+          'message': {
+            'type': 'sticker',
+            'id': '1501597916',
+            'quoteToken': 'q3Plxr4AgKd...',
+            'stickerId': '52002738',
+            'packageId': '11537'
+          }
+        },
+        {
+          'replyToken': '8cf9239d56244f4197887e939187e19e',
+          'type': 'follow',
+          'mode': 'active',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': 'U4af4980629'
+          }
+        }
+      ]
+    }.with_indifferent_access
+  end
+
+  let(:line_bot) { double }
+  let(:line_user_profile) { double }
+
+  before do
+    allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
+    allow(line_bot).to receive(:get_profile).and_return(line_user_profile)
+    allow(line_user_profile).to receive(:body).and_return(
+      { 'displayName' => 'LINE Test', 'userId' => 'U4af4980629', 'pictureUrl' => 'https://test.com' }.to_json
+    )
+    Contact.all.destroy_all
+  end
+
+  describe '#perform' do
+    context 'when follow event (non-message)' do
+      it 'does not create conversations, messages and contacts' do
+        described_class.perform_now(inbox, follow_params['events'])
+        expect(inbox.conversations.size).to eq(0)
+        expect(Contact.all.size).to eq(0)
+        expect(inbox.messages.size).to eq(0)
+      end
+    end
+
+    context 'when text message event' do
+      it 'creates appropriate conversations, message and contacts' do
+        described_class.perform_now(inbox, text_params['events'])
+        expect(inbox.conversations).not_to eq(0)
+        expect(Contact.all.first.name).to eq('LINE Test')
+        expect(Contact.all.first.additional_attributes['social_line_user_id']).to eq('U4af4980629')
+        expect(inbox.messages.first.content).to eq('Hello, world')
+      end
+    end
+
+    context 'when sticker message event' do
+      it 'creates appropriate conversations, message and contacts' do
+        described_class.perform_now(inbox, sticker_params['events'])
+        expect(inbox.conversations).not_to eq(0)
+        expect(Contact.all.first.name).to eq('LINE Test')
+        expect(inbox.messages.first.content).to eq('![sticker-52002738](https://stickershop.line-scdn.net/stickershop/v1/sticker/52002738/android/sticker.png)')
+      end
+    end
+
+    context 'when image message event' do
+      it 'creates appropriate conversations, message and contacts' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        allow(line_bot).to receive(:get_message_content).and_return(
+          OpenStruct.new({ body: Base64.encode64(file.read), content_type: 'image/png' })
+        )
+        described_class.perform_now(inbox, image_params['events'])
+        expect(inbox.conversations).not_to eq(0)
+        expect(Contact.all.first.name).to eq('LINE Test')
+        expect(Contact.all.first.additional_attributes['social_line_user_id']).to eq('U4af4980629')
+        expect(inbox.messages.first.content).to be_nil
+        expect(inbox.messages.first.attachments.first.file_type).to eq('image')
+        expect(inbox.messages.first.attachments.first.file.blob.filename.to_s).to eq('media-354718.png')
+      end
+    end
+
+    context 'when video message event' do
+      it 'creates appropriate conversations, message and contacts' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/sample.mp4'), 'video/mp4')
+        allow(line_bot).to receive(:get_message_content).and_return(
+          OpenStruct.new({ body: Base64.encode64(file.read), content_type: 'video/mp4' })
+        )
+        described_class.perform_now(inbox, video_params['events'])
+        expect(inbox.conversations).not_to eq(0)
+        expect(Contact.all.first.name).to eq('LINE Test')
+        expect(Contact.all.first.additional_attributes['social_line_user_id']).to eq('U4af4980629')
+        expect(inbox.messages.first.content).to be_nil
+        expect(inbox.messages.first.attachments.first.file_type).to eq('video')
+        expect(inbox.messages.first.attachments.first.file.blob.filename.to_s).to eq('media-354718.mp4')
+      end
+    end
+
+    context 'when file message event' do
+      it 'creates appropriate conversations, message and contacts' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/contacts.csv'), 'text/csv')
+        allow(line_bot).to receive(:get_message_content).and_return(
+          OpenStruct.new({ body: Base64.encode64(file.read), content_type: 'text/csv' })
+        )
+        described_class.perform_now(inbox, file_params['events'])
+        expect(inbox.conversations).not_to eq(0)
+        expect(Contact.all.first.name).to eq('LINE Test')
+        expect(Contact.all.first.additional_attributes['social_line_user_id']).to eq('U4af4980629')
+        expect(inbox.messages.first.content).to be_nil
+        expect(inbox.messages.first.attachments.first.file_type).to eq('file')
+        expect(inbox.messages.first.attachments.first.file.blob.filename.to_s).to eq('contacts.csv')
+      end
+    end
+
+    context 'when lock_to_single_conversation is false' do
+      before { inbox.update(lock_to_single_conversation: false) }
+
+      it 'creates a new conversation when all previous conversations are resolved' do
+        described_class.perform_now(inbox, text_params['events'])
+
+        inbox.conversations.last.update(status: :resolved)
+
+        second_events = [text_params['events'].first.merge('message' => { 'id' => '325709', 'type' => 'text', 'text' => 'Second message' })]
+        described_class.perform_now(inbox, second_events)
+
+        expect(inbox.conversations.count).to eq(2)
+        expect(inbox.conversations.last.messages.first.content).to eq('Second message')
+      end
+
+      it 'uses the existing conversation when there is an unresolved conversation' do
+        described_class.perform_now(inbox, text_params['events'])
+
+        second_events = [text_params['events'].first.merge('message' => { 'id' => '325709', 'type' => 'text', 'text' => 'Second message' })]
+        described_class.perform_now(inbox, second_events)
+
+        expect(inbox.conversations.count).to eq(1)
+        expect(inbox.conversations.last.messages.count).to eq(2)
+        expect(inbox.conversations.last.messages.last.content).to eq('Second message')
+      end
+    end
+
+    context 'when lock_to_single_conversation is true' do
+      before { inbox.update(lock_to_single_conversation: true) }
+
+      it 'uses the existing conversation even when it is resolved' do
+        described_class.perform_now(inbox, text_params['events'])
+
+        inbox.conversations.last.update(status: :resolved)
+
+        second_events = [text_params['events'].first.merge('message' => { 'id' => '325709', 'type' => 'text', 'text' => 'Second message' })]
+        described_class.perform_now(inbox, second_events)
+
+        expect(inbox.conversations.count).to eq(1)
+        expect(inbox.conversations.last.messages.count).to eq(2)
+        expect(inbox.conversations.last.messages.last.content).to eq('Second message')
+      end
+    end
+  end
+end
