@@ -7,6 +7,7 @@ class RoomChannel < ApplicationCable::Channel
     ensure_stream
     update_subscription
     broadcast_presence
+    retry_team_assignment
   end
 
   def update_presence
@@ -22,6 +23,13 @@ class RoomChannel < ApplicationCable::Channel
     data = { account_id: @current_account.id, users: ::OnlineStatusTracker.get_available_users(@current_account.id) }
     data[:contacts] = ::OnlineStatusTracker.get_available_contacts(@current_account.id) if @current_user.is_a? User
     ActionCable.server.broadcast(pubsub_token, { event: 'presence.update', data: data })
+  end
+
+  # An agent opening or reconnecting the dashboard may unblock waiting team conversations.
+  def retry_team_assignment
+    return unless @current_user.is_a?(User)
+
+    AutoAssignment::TeamAssignmentRetryJob.enqueue_for_account(@current_account)
   end
 
   def ensure_stream
