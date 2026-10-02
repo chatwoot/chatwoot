@@ -9,8 +9,8 @@ class Captain::Documents::SinglePageFetcher
   end
 
   def fetch
-    result = firecrawl_configured? ? fetch_with_firecrawl : fetch_with_fallback
-    validate_content(result)
+    page = WebCrawling::Factory.build.scrape(url: @url)
+    validate_content(result_from(page))
   rescue Net::ReadTimeout, Net::OpenTimeout, Errno::ETIMEDOUT
     Result.new(success: false, error_code: 'timeout')
   rescue SocketError, Errno::ECONNREFUSED, Errno::ECONNRESET, OpenSSL::SSL::SSLError
@@ -19,46 +19,15 @@ class Captain::Documents::SinglePageFetcher
 
   private
 
-  def firecrawl_configured?
-    Captain::Tools::FirecrawlService.configured?
-  end
-
-  def fetch_with_firecrawl
-    response = Captain::Tools::FirecrawlService.new.scrape(@url)
-    handle_firecrawl_response(response)
-  end
-
-  def handle_firecrawl_response(response)
-    return Result.new(success: false, error_code: http_error_code(response.code)) unless response.success?
-
-    data = response.parsed_response&.dig('data')
-    target_error = firecrawl_target_error_code(data)
-    return Result.new(success: false, error_code: target_error) if target_error
+  def result_from(page)
+    error_code = page.error_code
+    error_code ||= http_error_code(page.status_code) unless page.status_code.to_i.between?(200, 299)
+    return Result.new(success: false, error_code: error_code) if error_code
 
     Result.new(
       success: true,
-      title: data&.dig('metadata', 'title')&.truncate(TITLE_MAX_LENGTH, omission: ''),
-      content: data&.dig('markdown')&.truncate(CONTENT_MAX_LENGTH, omission: '')
-    )
-  end
-
-  # Firecrawl returns API 200 even when the scraped page itself failed —
-  # the target page's real status lives in data.metadata.statusCode.
-  def firecrawl_target_error_code(data)
-    status = data&.dig('metadata', 'statusCode')
-    return nil if status.blank? || (200..299).cover?(status)
-
-    http_error_code(status)
-  end
-
-  def fetch_with_fallback
-    crawler = Captain::Tools::SimplePageCrawlService.new(@url)
-    return Result.new(success: false, error_code: http_error_code(crawler.status_code)) unless crawler.success?
-
-    Result.new(
-      success: true,
-      title: crawler.page_title&.truncate(TITLE_MAX_LENGTH, omission: ''),
-      content: crawler.body_markdown&.truncate(CONTENT_MAX_LENGTH, omission: '')
+      title: page.title&.truncate(TITLE_MAX_LENGTH, omission: ''),
+      content: page.markdown&.truncate(CONTENT_MAX_LENGTH, omission: '')
     )
   end
 

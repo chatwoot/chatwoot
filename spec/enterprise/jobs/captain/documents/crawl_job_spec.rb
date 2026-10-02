@@ -7,14 +7,17 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
 
   describe '#perform' do
     context 'when CAPTAIN_FIRECRAWL_API_KEY is configured' do
-      let(:firecrawl_service) { instance_double(Captain::Tools::FirecrawlService) }
+      let(:firecrawl_spider) { instance_double(WebCrawling::Firecrawl::Spider) }
       let(:account) { document.account }
       let(:token) { Digest::SHA256.hexdigest("-key#{document.assistant_id}#{document.account_id}") }
+      let(:submission) do
+        WebCrawling::Types::CrawlSubmission.new(provider: :firecrawl, external_id: 'crawl-123', status: 'queued')
+      end
 
       before do
-        allow(Captain::Tools::FirecrawlService).to receive(:new).and_return(firecrawl_service)
-        allow(firecrawl_service).to receive(:perform)
         create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: 'test-key')
+        allow(WebCrawling::Firecrawl::Spider).to receive(:new).and_return(firecrawl_spider)
+        allow(firecrawl_spider).to receive(:crawl).and_return(submission)
       end
 
       context 'with account usage limits' do
@@ -23,10 +26,11 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
         end
 
         it 'uses FirecrawlService with the correct crawl limit' do
-          expect(firecrawl_service).to receive(:perform).with(
-            document.external_link,
-            "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            20
+          expect(firecrawl_spider).to receive(:crawl).with(
+            url: document.external_link,
+            callback_url: "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
+            limit: 20,
+            request_id: kind_of(String)
           )
 
           described_class.perform_now(document)
@@ -39,10 +43,11 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
         end
 
         it 'caps the crawl limit at 500' do
-          expect(firecrawl_service).to receive(:perform).with(
-            document.external_link,
-            "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            500
+          expect(firecrawl_spider).to receive(:crawl).with(
+            url: document.external_link,
+            callback_url: "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
+            limit: 500,
+            request_id: kind_of(String)
           )
 
           described_class.perform_now(document)
@@ -55,14 +60,55 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
         end
 
         it 'uses default crawl limit of 10' do
-          expect(firecrawl_service).to receive(:perform).with(
-            document.external_link,
-            "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            10
+          expect(firecrawl_spider).to receive(:crawl).with(
+            url: document.external_link,
+            callback_url: "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
+            limit: 10,
+            request_id: kind_of(String)
           )
 
           described_class.perform_now(document)
         end
+      end
+    end
+
+    context 'when Context.dev is selected' do
+      let(:context_spider) { instance_double(WebCrawling::ContextDev::Spider) }
+
+      before do
+        create(:installation_config, name: WebCrawling::Factory::CONFIG_KEY, value: 'context_dev')
+        create(:installation_config, name: 'CONTEXT_DEV_API_KEY', value: 'context-key')
+        allow(WebCrawling::ContextDev::Spider).to receive(:new).and_return(context_spider)
+        allow(document.account).to receive(:usage_limits).and_return({ captain: { documents: { current_available: 25 } } })
+      end
+
+      it 'submits the crawl and stores its webhook credentials' do
+        job = described_class.new(document)
+        callback_url = Rails.application.routes.url_helpers.enterprise_webhooks_context_dev_url(document_id: document.id)
+        submission = WebCrawling::Types::CrawlSubmission.new(
+          provider: :context_dev,
+          external_id: 'batch-123',
+          status: 'queued',
+          metadata: { 'webhook_secret' => 'whsec_test' }
+        )
+        expect(context_spider).to receive(:crawl).with(
+          url: document.external_link,
+          callback_url: callback_url,
+          limit: 25,
+          request_id: job.job_id
+        ).and_return(submission)
+        expect(Captain::Tools::ContextDevPollJob).to receive(:schedule).with(
+          document_id: document.id,
+          batch_id: 'batch-123'
+        )
+
+        job.perform_now
+
+        expect(document.reload).to have_attributes(
+          web_crawling_provider: 'context_dev',
+          web_crawling_external_id: 'batch-123',
+          web_crawling_webhook_secret: 'whsec_test'
+        )
       end
     end
 
