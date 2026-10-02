@@ -1,4 +1,5 @@
 import axios from 'axios';
+import MessageApi from 'dashboard/api/inbox/message';
 import { createStore } from 'vuex';
 import { mutations } from '../../conversations';
 import conversationMetadata from '../../conversationMetadata';
@@ -382,6 +383,53 @@ describe('#actions', () => {
           },
         ],
       ]);
+    });
+  });
+
+  describe('#sendMessageWithData', () => {
+    it('updates list activity after a REST send without a websocket event', async () => {
+      const localCommit = vi.fn();
+      const pendingMessage = {
+        id: 'pending-1',
+        conversation_id: 42,
+        content: 'Hello',
+      };
+      vi.spyOn(MessageApi, 'create').mockResolvedValueOnce({
+        data: { id: 100, conversation_id: 42, created_at: 2000 },
+      });
+
+      await actions.sendMessageWithData(
+        { commit: localCommit },
+        pendingMessage
+      );
+
+      expect(localCommit).toHaveBeenCalledWith(
+        types.UPDATE_CONVERSATION_LAST_ACTIVITY,
+        {
+          conversationId: 42,
+          lastActivityAt: 2000,
+        }
+      );
+    });
+
+    it('does not advance list activity for a failed send', async () => {
+      const localCommit = vi.fn();
+      const pendingMessage = {
+        id: 'pending-1',
+        conversation_id: 42,
+        content: 'Hello',
+      };
+      const error = new Error('offline');
+      vi.spyOn(MessageApi, 'create').mockRejectedValueOnce(error);
+
+      await expect(
+        actions.sendMessageWithData({ commit: localCommit }, pendingMessage)
+      ).rejects.toThrow(error);
+
+      expect(localCommit).not.toHaveBeenCalledWith(
+        types.UPDATE_CONVERSATION_LAST_ACTIVITY,
+        expect.anything()
+      );
     });
   });
 
