@@ -1,5 +1,5 @@
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { useRouter } from 'vue-router';
 import PreChatForm from '../components/PreChat/Form.vue';
 import configMixin from '../mixins/configMixin';
@@ -21,6 +21,12 @@ export default {
   },
   beforeUnmount() {
     emitter.off(ON_CONVERSATION_CREATED, this.handleConversationCreated);
+  },
+  computed: {
+    // starting a chat used to fail silently. The spinner stopped and
+    // nothing else happened, so the customer had no message, no error and no way
+    // to know a retry was worth attempting.
+    ...mapGetters({ isCreateFailed: 'conversation/getIsCreateFailed' }),
   },
   methods: {
     ...mapActions('conversation', ['clearConversations']),
@@ -76,7 +82,26 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-1 overflow-auto">
+  <div class="flex flex-1 flex-col overflow-auto">
+    <div
+      v-if="isCreateFailed"
+      class="create-failed"
+      role="alert"
+      aria-live="assertive"
+    >
+      {{ $t('DELIVERY_PROBLEM.CREATE_FAILED') }}
+    </div>
     <PreChatForm :options="preChatFormOptions" @submit-pre-chat="onSubmit" />
   </div>
 </template>
+
+<style scoped lang="scss">
+.create-failed {
+  background: var(--r-50, #fff1f0);
+  border-radius: var(--space-smaller, 4px);
+  color: var(--r-800, #8c1c13);
+  font-size: var(--font-size-small, 0.875rem);
+  margin: var(--space-small, 8px);
+  padding: var(--space-small, 8px);
+}
+</style>

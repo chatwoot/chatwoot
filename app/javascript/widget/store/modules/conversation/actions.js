@@ -13,9 +13,16 @@ import {
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
+import { retryWithBackoff } from 'widget/helpers/retryWithBackoff';
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
-    commit('setConversationUIFlag', { isCreating: true });
+    // This used to swallow the error and only clear the loading
+    // flag, so a customer whose chat failed to start saw the spinner stop and
+    // nothing else: no message, no error, no way to retry.
+    commit('setConversationUIFlag', {
+      isCreating: true,
+      isCreateFailed: false,
+    });
     try {
       const { data } = await createConversationAPI(params);
       const { messages } = data;
@@ -25,7 +32,7 @@ export const actions = {
       // Emit event to notify that conversation is created and show the chat screen
       emitter.emit(ON_CONVERSATION_CREATED);
     } catch (error) {
-      // Ignore error
+      commit('setConversationUIFlag', { isCreateFailed: true });
     } finally {
       commit('setConversationUIFlag', { isCreating: false });
     }
@@ -140,19 +147,35 @@ export const actions = {
   },
 
   syncLatestMessages: async ({ state, commit }) => {
+    // This is the widget's ONLY route for recovering messages missed
+    // while disconnected, reached from onReconnect. It used to discard its own
+    // error, so one failed fetch left the chat permanently stale while still
+    // reporting healthy - the same silent failure as an earlier outage, sitting in the
+    // code meant to recover from it.
+    //
+    // Retry first, because the common case is a transient blip at the moment of
+    // reconnect. Only if every attempt fails do we tell the UI, so a customer is
+    // never left looking at a stale chat that believes it is current.
     try {
       const { lastMessageId, conversations } = state;
 
       const {
         data: { payload, meta },
-      } = await getMessagesAPI({ after: lastMessageId });
+      } = await retryWithBackoff(() =>
+        getMessagesAPI({ after: lastMessageId })
+      );
 
       const { contact_last_seen_at: lastSeen } = meta;
       const formattedMessages = getNonDeletedMessages({ messages: payload });
       const missingMessages = formattedMessages.filter(
         message => conversations?.[message.id] === undefined
       );
-      if (!missingMessages.length) return;
+      if (!missingMessages.length) {
+        if (state.uiFlags?.isSyncFailed) {
+          commit('setConversationUIFlag', { isSyncFailed: false });
+        }
+        return;
+      }
       missingMessages.forEach(message => {
         conversations[message.id] = message;
       });
@@ -164,8 +187,13 @@ export const actions = {
       );
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
       commit('setMissingMessagesInConversation', updatedConversation);
+      if (state.uiFlags?.isSyncFailed) {
+        commit('setConversationUIFlag', { isSyncFailed: false });
+      }
     } catch (error) {
-      // IgnoreError
+      // Every retry failed. Surface it rather than discarding it: the customer
+      // is looking at a chat that may be missing messages.
+      commit('setConversationUIFlag', { isSyncFailed: true });
     }
   },
 
