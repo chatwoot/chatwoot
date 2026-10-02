@@ -12,7 +12,9 @@
     "Welcome to #{brand_name}. We just need to verify your email address before you can start using your account."
   supporting_text = 'This only takes a moment.'
   action_text = 'Confirm my account'
-  action_url = frontend_url('auth/confirmation', confirmation_token: @token)
+  confirmation_params = { confirmation_token: @token }
+  confirmation_params[:route_url] = params[:redirect_url] if params[:redirect_url].present?
+  action_url = frontend_url('auth/confirmation', **confirmation_params)
   info_title = nil
   info_text = nil
   detail_rows = []
@@ -42,10 +44,10 @@
     end
     supporting_text = 'Create your account to start collaborating with your team.'
     action_text = 'Accept invitation'
-    action_url = frontend_url(
-      'auth/password/edit',
-      reset_password_token: @resource.send(:set_reset_password_token)
-    )
+    reset_password_params = { reset_password_token: @resource.send(:set_reset_password_token) }
+    reset_password_params[:route_url] = params[:redirect_url] if params[:redirect_url].present?
+    reset_password_params[:sso_account_id] = params[:sso_account_id] if params[:sso_account_id].present?
+    action_url = frontend_url('auth/password/edit', **reset_password_params)
     detail_rows = [['Invited by', inviter.name]]
     detail_rows << ['Workspace', account_name] if account_name.present?
   end
