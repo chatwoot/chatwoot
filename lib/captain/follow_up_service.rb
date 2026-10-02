@@ -32,11 +32,13 @@ class Captain::FollowUpService < Captain::BaseTaskService
       *history,
       { role: 'user', content: user_message }
     ]
+    messages, placeholders = protect_urls_in_messages(messages)
 
     response = make_api_call(feature: 'editor', messages: messages)
     return response if response[:error]
 
-    response.merge(follow_up_context: update_follow_up_context(user_message, response[:message]))
+    message = restored_response(response[:message], placeholders)
+    response.merge(message: message, follow_up_context: update_follow_up_context(user_message, message))
   end
 
   private
@@ -50,6 +52,13 @@ class Captain::FollowUpService < Captain::BaseTaskService
       Be concise and focused on their specific request.
       Output only the reply, no preamble, tags, or explanation.
     PROMPT
+  end
+
+  def restored_response(message, placeholders)
+    return message if placeholders.empty?
+    return follow_up_context['last_response'] unless safe_url_placeholder_output?(message, placeholders)
+
+    restore_url_placeholders(message, placeholders)
   end
 
   def describe_previous_action(event_name)
