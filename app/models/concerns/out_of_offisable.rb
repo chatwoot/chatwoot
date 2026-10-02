@@ -41,7 +41,7 @@ module OutOfOffisable
     end
   end
 
-  # accepts an array of hashes similiar to the format of weekly_schedule
+  # accepts an array of hashes similar to the format of weekly_schedule
   #  [
   #    { "day_of_week"=>1,
   #      "closed_all_day"=>false,

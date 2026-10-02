@@ -27,7 +27,7 @@ class Migration::UpdateFirstResponseTimeInReportingEventsJob < ApplicationJob
     first_human_reply = conversation.messages.where(sender_type: 'User').order(created_at: :asc).first
     return if first_human_reply.blank?
 
-    # accomodate for campaign if required
+    # accommodate for campaign if required
     # new_value = difference between the first_human_reply and the first_bot_reply if it exists or first_human_reply and created at
     #
     # conversation       bot                         conversation
