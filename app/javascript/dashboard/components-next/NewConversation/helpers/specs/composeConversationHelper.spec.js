@@ -387,7 +387,7 @@ describe('composeConversationHelper', () => {
         expect(ContactAPI.search).toHaveBeenCalledWith(
           'john',
           1,
-          'name',
+          '-last_activity_at',
           '',
           expect.objectContaining({ signal: expect.any(AbortSignal) })
         );
@@ -488,7 +488,7 @@ describe('composeConversationHelper', () => {
         expect(ContactAPI.search).toHaveBeenCalledWith(
           'john',
           1,
-          'name',
+          '-last_activity_at',
           '',
           expect.objectContaining({ signal: expect.any(AbortSignal) })
         );
