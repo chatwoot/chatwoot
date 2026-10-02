@@ -21,4 +21,11 @@ class Microsoft::CallbacksController < OauthCallbackController
   def imap_login_identity
     users_data['preferred_username'] || users_data['upn'] || super
   end
+
+  # Prefer the actual `email` claim. Microsoft work/school accounts without a mailbox
+  # omit it, returning only `preferred_username`/`upn`; fall back to those so inbox
+  # creation does not fail on a null email.
+  def email_address
+    super || users_data['preferred_username'] || users_data['upn']
+  end
 end
