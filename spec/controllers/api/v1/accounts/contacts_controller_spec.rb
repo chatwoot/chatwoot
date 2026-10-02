@@ -54,6 +54,23 @@ RSpec.describe 'Contacts API', type: :request do
         expect(contact_inboxes_source_ids).to include(contact_inbox.source_id)
       end
 
+      it 'returns canonical country attributes for contact display' do
+        contact.update!(additional_attributes: { country: 'United States' })
+
+        get "/api/v1/accounts/#{account.id}/contacts",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        response_body = response.parsed_body
+        response_contact = response_body['payload'].find { |item| item['id'] == contact.id }
+
+        expect(response_contact['additional_attributes']).to include(
+          'country_code' => 'US',
+          'country' => 'United States'
+        )
+        expect(response_contact['country_code']).to eq('US')
+      end
+
       it 'returns all contacts without contact inboxes' do
         get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false",
             headers: admin.create_new_auth_token,
