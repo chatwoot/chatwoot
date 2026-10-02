@@ -37,6 +37,7 @@
 #  index_resolved_contact_account_id                     (account_id) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
 #  uniq_email_per_account_contact                        (email,account_id) UNIQUE
 #  uniq_identifier_per_account_contact                   (identifier,account_id) UNIQUE
+#  uniq_phone_number_per_account_contact                 (phone_number,account_id) UNIQUE WHERE (((phone_number)::text IS NOT NULL) AND ((phone_number)::text !~ '^\s*$'::text))
 #
 
 # rubocop:enable Layout/LineLength
