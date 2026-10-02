@@ -72,9 +72,11 @@ class ContactIdentifyAction
   def merge_contacts?(existing_contact, key)
     return if existing_contact.blank?
 
-    return true if params[:identifier].blank?
-
-    # we want to prevent merging contacts with different identifiers
+    # Never merge into a contact that already owns an identifier unless the request
+    # supplies the matching one. This also covers the blank-identifier case: an
+    # unverified/anonymous request must not take over an identified contact just by
+    # matching its email or phone_number. Merges into non-identified contacts
+    # (anonymous dedup) are still allowed.
     if existing_contact.identifier.present? && existing_contact.identifier != params[:identifier]
       # we will remove attribute from update list
       @attributes_to_update.delete(key)
