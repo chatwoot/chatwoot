@@ -3,6 +3,7 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
 
   before_action :validate_hmac, only: [:set_user]
   before_action :validate_hmac_for_identified_update, only: [:update]
+  before_action :ensure_contact, only: [:update, :set_user, :destroy_custom_attributes]
 
   def show; end
 

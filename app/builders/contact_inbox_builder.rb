@@ -2,7 +2,7 @@
 # For Specific Channels like whatsapp, email etc . it smartly generated appropriate the source id when none is provided.
 
 class ContactInboxBuilder
-  pattr_initialize [:contact, :inbox, :source_id, { hmac_verified: false }]
+  pattr_initialize [:contact, :inbox, :source_id, :pubsub_token, { hmac_verified: false }]
 
   def perform
     @source_id ||= generate_source_id
@@ -65,7 +65,8 @@ class ContactInboxBuilder
       source_id: @source_id
     }
 
-    ::ContactInbox.where(attrs).first_or_create!(hmac_verified: hmac_verified || false)
+    # A nil pubsub_token is filled in by has_secure_token; the widget supplies the one its visitor already streams on.
+    ::ContactInbox.where(attrs).first_or_create!(hmac_verified: hmac_verified || false, pubsub_token: pubsub_token)
   rescue ActiveRecord::RecordNotUnique
     Rails.logger.info("[ContactInboxBuilder] RecordNotUnique #{@source_id} #{@contact.id} #{@inbox.id}")
     update_old_contact_inbox

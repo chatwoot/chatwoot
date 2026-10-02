@@ -45,12 +45,52 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       end
     end
 
-    context 'with a conversation but invalid source id' do
-      it 'returns the correct conversation params' do
+    context 'with a token whose visitor has no contact yet' do
+      it 'returns no conversation without creating anything' do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
 
-        payload = { source_id: 'invalid source id', inbox_id: web_widget.inbox.id }
+        payload = { source_id: 'visitor', inbox_id: web_widget.inbox.id, pubsub_token: 'stream' }
         token = Widget::TokenService.new(payload: payload).generate_token
+
+        expect do
+          get '/api/v1/widget/conversations',
+              headers: { 'X-Auth-Token' => token },
+              params: { website_token: web_widget.website_token },
+              as: :json
+        end.not_to(change { [Contact.count, ContactInbox.count] })
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body).to eq({})
+      end
+    end
+
+    context 'with an invalid or expired token' do
+      it 'returns not found for a token that cannot be decoded' do
+        get '/api/v1/widget/conversations',
+            headers: { 'X-Auth-Token' => 'garbage' },
+            params: { website_token: web_widget.website_token },
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'returns not found for an expired token' do
+        expired_token = JWT.encode(payload.merge(exp: 1.day.ago.to_i), Rails.application.secret_key_base, 'HS256')
+
+        get '/api/v1/widget/conversations',
+            headers: { 'X-Auth-Token' => expired_token },
+            params: { website_token: web_widget.website_token },
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'when the contact behind the token has been deleted' do
+      it 'returns not found instead of treating the row as a visitor' do
+        token
+        contact.delete
+
         get '/api/v1/widget/conversations',
             headers: { 'X-Auth-Token' => token },
             params: { website_token: web_widget.website_token },
@@ -62,6 +102,38 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
   end
 
   describe 'POST /api/v1/widget/conversations' do
+    it 'creates the contact along with the first conversation of a visitor' do
+      visitor_payload = { source_id: 'visitor', inbox_id: web_widget.inbox.id, pubsub_token: 'stream' }
+      visitor_token = Widget::TokenService.new(payload: visitor_payload).generate_token
+
+      expect do
+        post '/api/v1/widget/conversations',
+             headers: { 'X-Auth-Token' => visitor_token },
+             params: conversation_params,
+             as: :json
+      end.to change(Contact, :count).by(1)
+
+      expect(response).to have_http_status(:success)
+      visitor_contact_inbox = web_widget.inbox.contact_inboxes.find_by!(source_id: 'visitor')
+      expect(visitor_contact_inbox.pubsub_token).to eq('stream')
+      expect(visitor_contact_inbox.conversations.count).to eq(1)
+      expect(visitor_contact_inbox.contact.email).to eq('contact-email@chatwoot.com')
+    end
+
+    it 'does not create a conversation when the contact behind the token has been deleted' do
+      token
+      contact.delete
+
+      expect do
+        post '/api/v1/widget/conversations',
+             headers: { 'X-Auth-Token' => token },
+             params: conversation_params,
+             as: :json
+      end.not_to(change { [Contact.count, Conversation.count] })
+
+      expect(response).to have_http_status(:not_found)
+    end
+
     it 'creates a conversation with correct details' do
       post '/api/v1/widget/conversations',
            headers: { 'X-Auth-Token' => token },

@@ -25,12 +25,14 @@ json.website_channel_config do
 end
 
 json.contact do
-  json.email @contact.email
-  json.id @contact.id
-  json.identifier @contact.identifier
-  json.name @contact.name
-  json.phone_number @contact.phone_number
-  json.pubsub_token @contact_inbox.pubsub_token
+  if @contact
+    json.email @contact.email
+    json.id @contact.id
+    json.identifier @contact.identifier
+    json.name @contact.name
+    json.phone_number @contact.phone_number
+  end
+  json.pubsub_token @pubsub_token
 end
 
 json.global_config @global_config

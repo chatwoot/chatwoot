@@ -49,6 +49,7 @@ window.onload = () => {
   window.WOOT_WIDGET = app.mount('#app');
   window.actionCable = new ActionCableConnector(
     window.WOOT_WIDGET,
-    window.chatwootPubsubToken
+    window.chatwootPubsubToken,
+    window.authToken
   );
 };

@@ -16,8 +16,11 @@ const isMessageInActiveConversation = (getters, message) => {
 const WIDGET_PRESENCE_INTERVAL = 60000;
 
 class ActionCableConnector extends BaseActionCableConnector {
-  constructor(app, pubsubToken) {
-    super(app, pubsubToken, '', WIDGET_PRESENCE_INTERVAL);
+  constructor(app, pubsubToken, authToken) {
+    // Until the visitor's contact exists, the signed widget token authorises the stream.
+    super(app, pubsubToken, '', WIDGET_PRESENCE_INTERVAL, {
+      auth_token: authToken,
+    });
     this.events = {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,

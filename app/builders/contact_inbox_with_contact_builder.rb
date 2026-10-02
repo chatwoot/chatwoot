@@ -3,7 +3,7 @@
 # for contact inbox logic it uses the contact inbox builder
 
 class ContactInboxWithContactBuilder
-  pattr_initialize [:inbox!, :contact_attributes!, :source_id, :hmac_verified]
+  pattr_initialize [:inbox!, :contact_attributes!, :source_id, :pubsub_token, :hmac_verified]
 
   def perform
     find_or_create_contact_and_contact_inbox
@@ -40,6 +40,7 @@ class ContactInboxWithContactBuilder
       contact: @contact,
       inbox: @inbox,
       source_id: @source_id,
+      pubsub_token: pubsub_token,
       hmac_verified: hmac_verified
     ).perform
   end
