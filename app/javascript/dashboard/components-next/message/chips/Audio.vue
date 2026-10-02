@@ -8,8 +8,8 @@ import {
 } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
-import { downloadFile } from '@chatwoot/utils';
 import { useEmitter } from 'dashboard/composables/emitter';
+import { useFileDownload } from 'dashboard/composables/useFileDownload';
 import { emitter } from 'shared/helpers/mitt';
 
 const { attachment } = defineProps({
@@ -155,9 +155,11 @@ const changePlaybackSpeed = () => {
   audioPlayer.value.playbackRate = playbackSpeed.value;
 };
 
+const { download } = useFileDownload();
+
 const downloadAudio = async () => {
   const { fileType, dataUrl, extension } = attachment;
-  downloadFile({ url: dataUrl, type: fileType, extension });
+  await download({ url: dataUrl, type: fileType, extension });
 };
 </script>
 
