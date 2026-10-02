@@ -195,6 +195,27 @@ describe ConversationFinder do
       end
     end
 
+    context 'with channel group' do
+      let!(:grouped_inbox) { create(:inbox, account: account) }
+      let!(:channel_group) { create(:channel_group, account: account, inboxes: [grouped_inbox]) }
+      let!(:grouped_conversation) { create(:conversation, account: account, inbox: grouped_inbox) }
+      let(:params) { { channel_group_id: channel_group.id } }
+
+      it 'returns conversations from every inbox of the group' do
+        create(:inbox_member, user: user_1, inbox: grouped_inbox)
+
+        result = conversation_finder.perform
+
+        expect(result[:conversations].map(&:id)).to contain_exactly(grouped_conversation.id)
+      end
+
+      it 'does not return conversations from inboxes the agent cannot access' do
+        result = conversation_finder.perform
+
+        expect(result[:conversations]).to be_empty
+      end
+    end
+
     context 'with labels' do
       let(:params) { { labels: ['resolved'] } }
 

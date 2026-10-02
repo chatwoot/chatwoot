@@ -1,0 +1,23 @@
+tags:
+  - Channel Groups
+operationId: list-all-channel-groups
+summary: List all channel groups
+security:
+  - userApiKey: []
+description: List the channel groups of the account, with the group members the current user can access
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          description: 'Array of channel groups'
+          items:
+            $ref: '#/components/schemas/channel_group'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
