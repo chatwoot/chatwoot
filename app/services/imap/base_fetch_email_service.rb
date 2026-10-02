@@ -2,6 +2,7 @@ require 'net/imap'
 
 class Imap::BaseFetchEmailService
   MAX_MESSAGES_PER_SYNC = 500
+  BODY_FETCH_TIMEOUT = 60
 
   pattr_initialize [:channel!, :interval]
 
@@ -63,9 +64,7 @@ class Imap::BaseFetchEmailService
 
     return if email_already_present?(channel, message_id)
 
-    # Fetch the original mail content using the sequence no.
-    # BODY.PEEK[] avoids RFC822 parser failures seen with some IMAP servers.
-    mail_str = imap_client.fetch(seq_no, 'BODY.PEEK[]')[0].attr['BODY[]']
+    mail_str = fetch_mail_body(seq_no, message_id)
 
     if mail_str.blank?
       Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetch failed for #{channel.email} with message-id <#{message_id}>."
@@ -75,6 +74,20 @@ class Imap::BaseFetchEmailService
     inbound_mail = build_mail_from_string(mail_str)
     mail_info_logger(inbound_mail, seq_no)
     inbound_mail
+  end
+
+  # Fetch the original mail content using the sequence no.
+  # BODY.PEEK[] avoids RFC822 parser failures seen with some IMAP servers.
+  # Net::IMAP waits indefinitely for a response, so a message the server stalls on would block the whole sync.
+  # On timeout, drop the connection (its state is unknown) and move on; the next sync retries the message.
+  def fetch_mail_body(seq_no, message_id)
+    client = imap_client
+    Timeout.timeout(BODY_FETCH_TIMEOUT) { client.fetch(seq_no, 'BODY.PEEK[]')[0].attr['BODY[]'] }
+  rescue Timeout::Error
+    Rails.logger.warn "[IMAP::FETCH_EMAIL_SERVICE] Fetch timed out after #{BODY_FETCH_TIMEOUT}s for #{channel.email} " \
+                      "with message-id <#{message_id}>. Skipping."
+    client.disconnect
+    @imap_client = nil
   end
 
   # Sends a FETCH command to retrieve data associated with a message in the mailbox.
@@ -146,6 +159,9 @@ class Imap::BaseFetchEmailService
   end
 
   def terminate_imap_connection
+    # Connection was already dropped after a body fetch timeout
+    return if @imap_client.nil?
+
     imap_client.logout
   rescue Net::IMAP::Error => e
     Rails.logger.info "Logout failed for #{channel.email} - #{e.message}."
