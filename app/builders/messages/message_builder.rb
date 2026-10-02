@@ -23,13 +23,13 @@ class Messages::MessageBuilder
 
   def perform
     @message = @conversation.messages.build(message_params)
+    @conversation.inbox.channel.validate_reply_length!(@message.content) if @conversation.inbox.app_store? && @message.outgoing? && !@message.private?
     process_attachments
     process_emails
     # When the message has no quoted content, it will just be rendered as a regular message
     # The frontend is equipped to handle this case
     process_email_content
-    @message.save!
-    @message
+    @message.tap(&:save!)
   end
 
   private

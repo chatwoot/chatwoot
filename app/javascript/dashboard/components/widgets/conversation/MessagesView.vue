@@ -67,6 +67,7 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 
 const FOLD_MOTION =
   'duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:duration-0';
@@ -386,6 +387,31 @@ export default {
 
       return { incoming, outgoing };
     },
+    hasSubmittedAppStoreResponse() {
+      const messages = this.currentChat.messages || [];
+      return messages.some(message => {
+        const appStoreAttributes =
+          message.content_attributes?.app_store ||
+          message.contentAttributes?.appStore ||
+          {};
+        const hasAppStoreResponse =
+          message.source_id || appStoreAttributes.response_id;
+
+        return (
+          message.message_type === MESSAGE_TYPE.OUTGOING &&
+          hasAppStoreResponse &&
+          !appStoreAttributes.response_deleted
+        );
+      });
+    },
+    appStoreReplyBannerMessage() {
+      return this.hasSubmittedAppStoreResponse
+        ? this.$t('CONVERSATION.REPLYBOX.APP_STORE_RESPONSE_UPDATE')
+        : this.$t('CONVERSATION.REPLYBOX.APP_STORE_RESPONSE_DELAY');
+    },
+    showAppStoreReplyBanner() {
+      return this.isAnAppStoreChannel;
+    },
   },
 
   watch: {
@@ -657,6 +683,12 @@ export default {
         color-scheme="alert"
         class="mx-2 mt-2 overflow-hidden rounded-lg"
         :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
+      />
+      <Banner
+        v-if="showAppStoreReplyBanner"
+        color-scheme="warning"
+        class="mx-2 mt-2 overflow-hidden rounded-lg"
+        :banner-message="appStoreReplyBannerMessage"
       />
     </div>
     <MessageList

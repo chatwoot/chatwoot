@@ -58,6 +58,10 @@ const isActive = computed(() => {
     return props.enabledFeatures.channel_voice;
   }
 
+  if (key === 'app_store') {
+    return props.enabledFeatures.channel_app_store;
+  }
+
   return [
     'website',
     'twilio',
@@ -80,7 +84,9 @@ const isComingSoon = computed(() => {
 });
 
 const isBeta = computed(() => {
-  return ['tiktok', 'voice', 'whatsapp_call'].includes(props.channel.key);
+  return ['tiktok', 'voice', 'whatsapp_call', 'app_store'].includes(
+    props.channel.key
+  );
 });
 
 const canRequestTiktokAccess = computed(() => {
