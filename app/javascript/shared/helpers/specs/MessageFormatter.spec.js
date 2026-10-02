@@ -66,6 +66,27 @@ describe('#MessageFormatter', () => {
         '<p>Chatwoot is an opensource tool. <img src="http://chatwoot.com/chatwoot.png" alt="" /></p>'
       );
     });
+
+    it('should render images with relative URLs', () => {
+      const message = 'Screenshot ![](/uploads/screenshot.png)';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p>Screenshot <img src="/uploads/screenshot.png" alt="" /></p>'
+      );
+    });
+
+    it('should set image height for relative URLs', () => {
+      const message = '![](logo.png?cw_image_height=24px)';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p><img src="logo.png?cw_image_height=24px" alt="" style="height: 24px;" /></p>'
+      );
+    });
+
+    it('should not throw for image URLs that cannot be parsed', () => {
+      const message = 'Broken ![](http://)';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p>Broken <img src="http://" alt="" /></p>'
+      );
+    });
   });
 
   describe('#disableImageRendering', () => {
