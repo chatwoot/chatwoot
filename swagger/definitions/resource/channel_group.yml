@@ -1,0 +1,16 @@
+type: object
+properties:
+  id:
+    type: number
+    description: The ID of the channel group
+  name:
+    type: string
+    description: The name of the channel group
+  account_id:
+    type: number
+    description: The ID of the account the channel group belongs to
+  inbox_ids:
+    type: array
+    description: The IDs of the inboxes in the group that the current user can access
+    items:
+      type: number

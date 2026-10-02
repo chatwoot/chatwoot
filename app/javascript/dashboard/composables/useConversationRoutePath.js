@@ -22,7 +22,7 @@ export function useConversationRoutePath() {
     { keepFolderScope = true } = {}
   ) => {
     const {
-      params: { accountId, inbox_id: inboxId, label, teamId },
+      params: { accountId, inbox_id: inboxId, label, teamId, channelGroupId },
       name,
     } = route;
 
@@ -44,6 +44,7 @@ export function useConversationRoutePath() {
         id: conversationId,
         label,
         teamId,
+        channelGroupId,
         foldersId: keepFolderScope && isOnFolder ? route.params.id : 0,
         conversationType,
       })
@@ -52,7 +53,7 @@ export function useConversationRoutePath() {
 
   const buildConversationListPath = ({ keepFolderScope = true } = {}) => {
     const {
-      params: { accountId, inbox_id: inboxId, label, teamId },
+      params: { accountId, inbox_id: inboxId, label, teamId, channelGroupId },
       name,
     } = route;
     const { CONVERSATION_TYPE } = wootConstants;
@@ -75,6 +76,7 @@ export function useConversationRoutePath() {
       inboxId,
       label,
       teamId,
+      channelGroupId,
     });
   };
 

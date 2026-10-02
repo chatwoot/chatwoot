@@ -16,7 +16,6 @@ class ConversationFinder
   def initialize(current_user, params)
     @current_user = current_user
     @current_account = current_user.account
-    @is_admin = current_account.account_users.find_by(user_id: current_user.id)&.administrator?
     @params = params
   end
 
@@ -71,10 +70,10 @@ class ConversationFinder
   end
 
   def set_inboxes
-    @inbox_ids = if params[:inbox_id]
+    @inbox_ids = if params[:channel_group_id]
+                   current_account.channel_groups.find(params[:channel_group_id]).inboxes.select(:id)
+                 elsif params[:inbox_id]
                    @current_user.assigned_inboxes.where(id: params[:inbox_id])
-                 else
-                   @current_user.assigned_inboxes.pluck(:id)
                  end
   end
 
@@ -89,7 +88,7 @@ class ConversationFinder
   def find_conversation_by_inbox
     @conversations = current_account.conversations
 
-    return unless params[:inbox_id]
+    return if params[:inbox_id].blank? && params[:channel_group_id].blank?
 
     @conversations = @conversations.where(inbox_id: @inbox_ids)
   end
