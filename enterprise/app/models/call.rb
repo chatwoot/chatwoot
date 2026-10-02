@@ -58,6 +58,9 @@ class Call < ApplicationRecord
   validates :provider_call_id, presence: true
   validates :provider, presence: true
   validates :direction, presence: true
+
+  # Phones that were rung learn the ring is over; see Voice::VoipPushService
+  after_update_commit :cancel_phone_ring, if: :ring_just_ended?
   validates :status, presence: true, inclusion: { in: STATUSES }
 
   scope :active, -> { where.not(status: TERMINAL_STATUSES) }
@@ -158,5 +161,13 @@ class Call < ApplicationRecord
       recording_url: recording_url,
       transcript: transcript
     }
+  end
+
+  def ring_just_ended?
+    saved_change_to_status? && status_before_last_save == 'ringing' && meta&.dig('rung_devices').present?
+  end
+
+  def cancel_phone_ring
+    Voice::VoipPushJob.perform_later(id, 'cancel')
   end
 end
