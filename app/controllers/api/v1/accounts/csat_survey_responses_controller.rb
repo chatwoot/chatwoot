@@ -20,7 +20,7 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   end
 
   def download
-    response.headers['Content-Type'] = 'text/csv'
+    response.headers['Content-Type'] = 'text/csv; charset=utf-8'
     response.headers['Content-Disposition'] = 'attachment; filename=csat_report.csv'
     render layout: false, template: 'api/v1/accounts/csat_survey_responses/download', formats: [:csv]
   end
