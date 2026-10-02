@@ -30,8 +30,8 @@ properties:
     example: { attribute_key: attribute_value, priority_conversation_number: 3 }
   status:
     type: string
-    enum: ['open', 'resolved', 'pending']
-    description: Specify the conversation whether it's pending, open, closed
+    enum: ['open', 'resolved', 'pending', 'snoozed']
+    description: Specify the conversation whether it's pending, open, resolved or snoozed
     example: open
   assignee_id:
     type: integer
@@ -55,6 +55,44 @@ properties:
         type: string
         description: The content of the message
         example: 'Hello, how can I help you?'
+      message_type:
+        type: string
+        enum: ['outgoing', 'incoming']
+        description: >-
+          The type of the message. `incoming` is only accepted when the conversation belongs to an API inbox,
+          the request fails for any other inbox type.
+        example: 'outgoing'
+      private:
+        type: boolean
+        description: Flag to identify if it is a private note. Private notes are not sent to the contact.
+        example: false
+      content_type:
+        type: string
+        enum: ['text', 'input_email', 'cards', 'input_select', 'form', 'article']
+        description: Content type of the message
+        example: 'text'
+      content_attributes:
+        type: object
+        description: Attributes based on the content type
+        example: {}
+      campaign_id:
+        type: integer
+        description: The campaign id to which the message belongs
+        example: 1
+      source_id:
+        type: string
+        description: >-
+          The external id of the message on the provider's side, used to correlate the message with the id
+          assigned by the channel provider. Set it only on incoming or imported messages: an outgoing message
+          that carries a source_id is treated as having originated from the channel and is not sent back to it.
+          This suppresses delivery through the channel only, an email notification is still sent when the inbox
+          has email continuity enabled.
+        example: 'wamid.HBgMNTU5OTk5OTk5OTk5'
+      external_created_at:
+        type: string
+        format: date-time
+        description: The original creation timestamp of the message. Useful when importing historical conversations.
+        example: '2024-01-15T10:30:00Z'
       template_params:
         type: object
         description: The template params for the message in case of whatsapp Channel
