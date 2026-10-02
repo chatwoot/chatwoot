@@ -65,6 +65,9 @@
   "stack": "heroku-24",
   "buildpacks": [
     {
+      "url": "heroku-community/apt"
+    },
+    {
       "url": "heroku/nodejs"
     },
     {
