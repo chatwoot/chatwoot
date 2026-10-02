@@ -61,6 +61,42 @@ describe GlobalConfigService do
         GlobalConfig.get('ENABLE_ACCOUNT_SIGNUP')
       end
 
+      it 'applies the env value when the config row exists with a blank value' do
+        create(:installation_config, name: 'BLANK_ENV_CONFIG', value: nil)
+
+        with_modified_env BLANK_ENV_CONFIG: 'from-env' do
+          expect(described_class.load('BLANK_ENV_CONFIG', 'default')).to eq 'from-env'
+        end
+
+        expect(InstallationConfig.find_by(name: 'BLANK_ENV_CONFIG').value).to eq 'from-env'
+        expect(GlobalConfig.get('BLANK_ENV_CONFIG')['BLANK_ENV_CONFIG']).to eq 'from-env'
+      end
+
+      it 'does not write the default value over an existing blank row' do
+        create(:installation_config, name: 'BLANK_DEFAULT_CONFIG', value: nil)
+
+        expect(described_class.load('BLANK_DEFAULT_CONFIG', 'default')).to be_nil
+        expect(InstallationConfig.find_by(name: 'BLANK_DEFAULT_CONFIG').value).to be_nil
+      end
+
+      it 'keeps a stored value over the env value' do
+        create(:installation_config, name: 'STORED_CONFIG', value: 'from-db')
+
+        with_modified_env STORED_CONFIG: 'from-env' do
+          expect(described_class.load('STORED_CONFIG', nil)).to eq 'from-db'
+        end
+
+        expect(InstallationConfig.find_by(name: 'STORED_CONFIG').value).to eq 'from-db'
+      end
+
+      it 'keeps a stored boolean false over the env value' do
+        create(:installation_config, name: 'FALSE_CONFIG', value: false)
+
+        with_modified_env FALSE_CONFIG: 'true' do
+          expect(described_class.load('FALSE_CONFIG', nil)).to be false
+        end
+      end
+
       it 'treats a stored empty string as unconfigured' do
         create(:installation_config, name: 'EMPTY_VALUE_CONFIG', value: '')
 
