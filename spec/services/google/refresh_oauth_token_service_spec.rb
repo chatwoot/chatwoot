@@ -38,6 +38,14 @@ RSpec.describe Google::RefreshOauthTokenService do
     end
 
     context 'when token is invalid' do
+      it 'returns the refreshed access token' do
+        with_modified_env GOOGLE_OAUTH_CLIENT_ID: SecureRandom.uuid, GOOGLE_OAUTH_CLIENT_SECRET: SecureRandom.hex do
+          service = described_class.new(channel: google_channel_with_expired_token)
+
+          expect(service.access_token).to eq(new_tokens[:access_token])
+        end
+      end
+
       it 'fetches new access token and refresh tokens' do
         with_modified_env GOOGLE_OAUTH_CLIENT_ID: SecureRandom.uuid, GOOGLE_OAUTH_CLIENT_SECRET: SecureRandom.hex do
           provider_config = google_channel_with_expired_token.provider_config

@@ -21,6 +21,22 @@ RSpec.describe Imap::FetchEmailService do
       allow(imap).to receive(:select).with('INBOX')
     end
 
+    context 'when IMAP authentication fails consecutively' do
+      let(:response) { Net::IMAP::TaggedResponse.new('A1', 'NO', Net::IMAP::ResponseText.new(nil, 'Invalid credentials (Failure)'), '') }
+      let(:authentication_error) { Net::IMAP::NoResponseError.new(response) }
+
+      it 'requires reauthorization after reaching the authorization error threshold' do
+        allow(imap).to receive(:authenticate).and_raise(authentication_error)
+
+        imap_email_channel.class::AUTHORIZATION_ERROR_THRESHOLD.times do
+          expect { described_class.new(channel: imap_email_channel).perform }.to raise_error(Net::IMAP::NoResponseError)
+        end
+
+        expect(imap_email_channel.authorization_error_count).to eq imap_email_channel.class::AUTHORIZATION_ERROR_THRESHOLD
+        expect(imap_email_channel.reauthorization_required?).to be true
+      end
+    end
+
     context 'when using CRAM-MD5 authentication' do
       let(:cram_md5_channel) { create(:channel_email, :imap_email, account: account, imap_authentication: 'cram-md5') }
 
