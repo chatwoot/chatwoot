@@ -48,7 +48,11 @@ class ActionView::Template::Handlers::Liquid
     if @controller.respond_to?(:liquid_registers, true)
       @controller.send(:liquid_registers)
     else
-      {}
+      {
+        view: @view,
+        controller: @controller,
+        helper: @helper
+      }
     end
   end
 
