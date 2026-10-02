@@ -2,12 +2,21 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   include EmailHelper
 
   def omniauth_success
+    log_missing_auth_hash if auth_hash.blank?
     get_resource_from_auth_hash
 
     @resource.present? ? sign_in_user : sign_up_user
   end
 
   private
+
+  # Temporary diagnostic: the auth hash stored by redirect_callbacks did not survive the redirect
+  def log_missing_auth_hash
+    cookie_header = request.headers['Cookie'].to_s
+    session_cookies = cookie_header.scan("#{Rails.application.config.session_options[:key]}=").size
+    Rails.logger.warn "OAuth callback auth hash missing: provider=#{params[:provider]} session_cookies=#{session_cookies} " \
+                      "session_keys=#{session.keys} cookie_bytes=#{cookie_header.bytesize}"
+  end
 
   def sign_in_user
     # Capture before skip_confirmation! sets confirmed_at, which would
