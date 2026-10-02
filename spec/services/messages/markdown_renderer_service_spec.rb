@@ -338,6 +338,18 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result).to include('<blockquote>')
         expect(result).to include('quoted text')
       end
+
+      it 'renders ordered lists as numbered lines' do
+        content = "1. first step\n2. second step"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include("1. first step\n2. second step")
+      end
+
+      it 'renders bullet lists as bulleted lines' do
+        content = "- first item\n- second item"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include("• first item\n• second item")
+      end
     end
 
     context 'when channel is Channel::Email' do
