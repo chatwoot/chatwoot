@@ -231,6 +231,23 @@ describe Twilio::IncomingMessageService do
         expect(conversation.reload.messages.last.attachments.count).to eq(1)
         expect(conversation.reload.messages.last.attachments.first.file_type).to eq('image')
       end
+
+      it 'downloads media before opening the conversation transaction' do
+        baseline = ActiveRecord::Base.connection.open_transactions
+        depths = []
+        allow(Twilio::MediaDownloadService).to receive(:new).and_wrap_original do |method, **args|
+          method.call(**args).tap do |service|
+            allow(service).to receive(:perform).and_wrap_original do |perform|
+              depths << ActiveRecord::Base.connection.open_transactions
+              perform.call
+            end
+          end
+        end
+
+        described_class.new(params: params_with_attachment).perform
+
+        expect(depths).to eq([baseline])
+      end
     end
 
     context 'when there is an error downloading the attachment' do
