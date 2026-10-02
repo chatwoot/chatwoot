@@ -23,7 +23,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def show
     @og_image_url = helpers.set_og_image_url(@portal.name, @article.title)
-    @parsed_content = render_article_content(@article.content.to_s)
+    @parsed_content = rewrite_active_storage_urls_to_request_host(render_article_content(@article.content.to_s))
   end
 
   def show_markdown
@@ -94,6 +94,29 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def render_article_content(content)
     ChatwootMarkdownRenderer.new(content).render_article
+  end
+
+  def rewrite_active_storage_urls_to_request_host(content)
+    rewritten_content = content.to_s.gsub(%r{https?://[^"'\s<>)]*/rails/active_storage/[^\s"'<>)]*}) do |url|
+      rewrite_active_storage_url_to_request_host(url)
+    end
+
+    # rubocop:disable Rails/OutputSafety
+    rewritten_content.html_safe
+    # rubocop:enable Rails/OutputSafety
+  end
+
+  def rewrite_active_storage_url_to_request_host(url)
+    uri = URI.parse(url)
+    return url unless uri.path.start_with?('/rails/active_storage/')
+
+    request_base_uri = URI.parse(request.base_url)
+    uri.scheme = request_base_uri.scheme
+    uri.host = request_base_uri.host
+    uri.port = request_base_uri.port
+    uri.to_s
+  rescue URI::InvalidURIError
+    url
   end
 end
 

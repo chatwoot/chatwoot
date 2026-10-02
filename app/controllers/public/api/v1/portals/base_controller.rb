@@ -1,6 +1,7 @@
 class Public::Api::V1::Portals::BaseController < PublicController
   include SwitchLocale
 
+  around_action :with_active_storage_url_options
   before_action :show_plain_layout
   before_action :set_color_scheme
   before_action :set_global_config
@@ -10,6 +11,19 @@ class Public::Api::V1::Portals::BaseController < PublicController
   PORTAL_LAYOUTS = %w[classic documentation].freeze
 
   private
+
+  def with_active_storage_url_options
+    previous_url_options = ActiveStorage::Current.url_options
+    ActiveStorage::Current.url_options = {
+      protocol: request.protocol,
+      host: request.host,
+      port: request.optional_port
+    }.compact
+
+    yield
+  ensure
+    ActiveStorage::Current.url_options = previous_url_options
+  end
 
   def show_plain_layout
     @is_plain_layout_enabled = params[:show_plain_layout] == 'true'
