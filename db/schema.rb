@@ -1086,6 +1086,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_29_100000) do
     t.jsonb "attribute_values", default: []
     t.string "regex_pattern"
     t.string "regex_cue"
+    t.integer "position"
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
     t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
   end
