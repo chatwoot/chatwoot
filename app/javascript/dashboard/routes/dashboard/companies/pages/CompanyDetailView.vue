@@ -68,6 +68,11 @@ const SIDEBAR_TABS_OPTIONS = [
   { key: 'CONTACTS', value: 'contacts' },
 ];
 
+const getTabFromQuery = () =>
+  SIDEBAR_TABS_OPTIONS.some(option => option.value === route.query.tab)
+    ? route.query.tab
+    : 'history';
+
 const sidebarTabs = computed(() =>
   SIDEBAR_TABS_OPTIONS.map(tab => ({
     label: {
@@ -123,6 +128,7 @@ const loadSidebarTab = tab => {
 const handleSidebarTabChange = tab => {
   activeSidebarTab.value = tab.value;
   loadSidebarTab(tab.value);
+  router.replace({ query: { ...route.query, tab: tab.value } });
 };
 
 const handleContactSearch = async query => {
@@ -189,13 +195,17 @@ watch(
   async id => {
     companiesStore.resetCompanyDetailState();
     clearSelectedCandidate();
-    activeSidebarTab.value = 'history';
+    activeSidebarTab.value = getTabFromQuery();
     if (!id) return;
-    await Promise.allSettled([
+    const requests = [
       companiesStore.show(id),
       companiesStore.getCompanyContacts(id),
       companiesStore.getCompanyConversations(id),
-    ]);
+    ];
+    if (activeSidebarTab.value === 'notes') {
+      requests.push(companiesStore.getCompanyNotes(id));
+    }
+    await Promise.allSettled(requests);
   },
   { immediate: true }
 );
