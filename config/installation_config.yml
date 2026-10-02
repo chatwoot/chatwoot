@@ -94,6 +94,12 @@
   display_title: 'Attachment size limit (MB)'
   description: 'Maximum attachment size in MB allowed for uploads'
   locked: false
+- name: ENABLE_FILE_TYPE_VALIDATION
+  value: true
+  display_title: 'Enable file type validation'
+  description: 'When enabled, only allow the supported file types for uploads in the website widget. Disable to allow any file type.'
+  locked: false
+  type: boolean
 # ------- End of Account Related Config ------- #
 
 # ------- Email Related Config ------- #

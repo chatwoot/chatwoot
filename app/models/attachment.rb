@@ -38,6 +38,13 @@ class Attachment < ApplicationRecord
   ].freeze
   ACCEPTABLE_FILE_EXTENSIONS = %w[pfx xml].freeze
   GENERIC_FILE_CONTENT_TYPES = %w[application/octet-stream].freeze
+
+  def self.file_type_validation_enabled?
+    value = GlobalConfig.get('ENABLE_FILE_TYPE_VALIDATION')['ENABLE_FILE_TYPE_VALIDATION']
+    value = (ENV['ENABLE_FILE_TYPE_VALIDATION'] || 'true') == 'true' if value.nil?
+    value != false
+  end
+
   belongs_to :account
   belongs_to :message
   has_one_attached :file
@@ -199,6 +206,7 @@ class Attachment < ApplicationRecord
   end
 
   def validate_file_content_type(file_content_type)
+    return if self.class.file_type_validation_enabled? == false
     return if media_file?(file_content_type) || ACCEPTABLE_FILE_TYPES.include?(file_content_type)
     return if generic_file_content_type?(file_content_type) && ACCEPTABLE_FILE_EXTENSIONS.include?(file_extension)
 
