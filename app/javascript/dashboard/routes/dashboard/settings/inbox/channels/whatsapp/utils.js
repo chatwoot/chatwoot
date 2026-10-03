@@ -8,6 +8,14 @@ export const loadFacebookSdk = async () => {
   });
 };
 
+// connect.facebook.net/en_US/sdk.js first installs a stub window.FB (identified by its
+// __buffer replay queue) and swaps in the real SDK once it has loaded. The stub's init()
+// only stores its options, so initializing against it resolves too early and a later
+// FB.login() fails with "FB.login() called before FB.init()". Meta calls
+// window.fbAsyncInit when the real SDK is ready, so wait for that unless the real SDK
+// is already on the page (for example when the setup screen is opened a second time).
+const isRealFacebookSdk = () => Boolean(window.FB && !window.FB.__buffer);
+
 export const initializeFacebook = (appId, apiVersion) => {
   const version = apiVersion || 'v22.0';
   return new Promise(resolve => {
@@ -21,7 +29,7 @@ export const initializeFacebook = (appId, apiVersion) => {
       resolve();
     };
 
-    if (window.FB) {
+    if (isRealFacebookSdk()) {
       init();
     } else {
       window.fbAsyncInit = init;
