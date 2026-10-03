@@ -14,6 +14,7 @@ export const loadFacebookSdk = async () => {
 // FB.login() fails with "FB.login() called before FB.init()". Meta calls
 // window.fbAsyncInit when the real SDK is ready, so wait for that unless the real SDK
 // is already on the page (for example when the setup screen is opened a second time).
+// eslint-disable-next-line no-underscore-dangle
 const isRealFacebookSdk = () => Boolean(window.FB && !window.FB.__buffer);
 
 export const initializeFacebook = (appId, apiVersion) => {
