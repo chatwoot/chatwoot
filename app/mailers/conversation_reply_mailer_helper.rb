@@ -6,7 +6,7 @@ module ConversationReplyMailerHelper
       to: to_emails,
       from: email_from,
       reply_to: email_reply_to,
-      subject: mail_subject,
+      subject: custom_subject || mail_subject,
       message_id: custom_message_id,
       in_reply_to: in_reply_to_email,
       references: references_header
@@ -30,6 +30,15 @@ module ConversationReplyMailerHelper
   end
 
   private
+
+  # The latest subject an agent set on a reply; it stays for the rest of the thread.
+  def custom_subject
+    return if @message.nil? || @message.forwarded?
+
+    @conversation.messages.outgoing.where(id: ..@message.id)
+                 .where("(messages.content_attributes #>> '{}')::jsonb #>> '{email,subject}' IS NOT NULL")
+                 .last&.content_attributes&.dig('email', 'subject')
+  end
 
   def oauth_smtp_settings
     return unless @inbox.email? && @channel.imap_enabled

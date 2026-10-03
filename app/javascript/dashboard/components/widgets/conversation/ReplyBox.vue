@@ -173,6 +173,7 @@ export default {
       bccEmails: '',
       ccEmails: '',
       toEmails: '',
+      subject: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
       requestContactInfoTemplatesOnly: false,
@@ -1050,6 +1051,7 @@ export default {
       this.ccEmails = '';
       this.bccEmails = '';
       this.toEmails = '';
+      this.subject = '';
     },
 
     toggleEmojiPicker() {
@@ -1237,6 +1239,10 @@ export default {
       if (this.toEmails && !this.isOnPrivateNote) {
         messagePayload.toEmails = this.toEmails;
       }
+
+      if (this.subject && !this.isOnPrivateNote) {
+        messagePayload.subject = this.subject;
+      }
       return messagePayload;
     },
     setCcEmails(value) {
@@ -1381,6 +1387,7 @@ export default {
           v-model:cc-emails="ccEmails"
           v-model:bcc-emails="bccEmails"
           v-model:to-emails="toEmails"
+          v-model:subject="subject"
         />
         <AudioRecorder
           v-if="showAudioRecorderEditor"
