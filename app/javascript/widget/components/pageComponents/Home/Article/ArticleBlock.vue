@@ -22,11 +22,20 @@ const onArticleClick = link => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-3">
-    <h3 class="font-medium text-n-slate-12">
-      {{ $t('PORTAL.POPULAR_ARTICLES') }}
-    </h3>
-    <div class="flex flex-col gap-4">
+  <div class="divide-y divide-n-weak dark:divide-n-strong">
+    <div class="flex items-center justify-between gap-2 px-4 py-3">
+      <h3 class="font-medium text-n-slate-12">
+        {{ $t('PORTAL.POPULAR_ARTICLES') }}
+      </h3>
+      <button
+        class="text-sm font-medium shrink-0"
+        :style="{ color: widgetColor }"
+        @click="$emit('viewAll')"
+      >
+        {{ $t('PORTAL.VIEW_ALL_ARTICLES') }}
+      </button>
+    </div>
+    <div class="flex flex-col px-2 py-1">
       <ArticleListItem
         v-for="article in articlesToDisplay"
         :key="article.slug"
@@ -34,15 +43,6 @@ const onArticleClick = link => {
         :title="article.title"
         @select-article="onArticleClick"
       />
-    </div>
-    <div>
-      <button
-        class="font-medium tracking-wide inline-flex"
-        :style="{ color: widgetColor }"
-        @click="$emit('viewAll')"
-      >
-        <span>{{ $t('PORTAL.VIEW_ALL_ARTICLES') }}</span>
-      </button>
     </div>
   </div>
 </template>

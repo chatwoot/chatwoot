@@ -127,9 +127,10 @@ export const actions = {
     { campaignId, websiteToken, customAttributes }
   ) => {
     try {
+      // The campaign message can arrive before this request returns, so it is awaited up front.
       commit(
         'conversation/setConversationUIFlag',
-        { isCreating: true },
+        { isCreating: true, isAwaitingCampaign: true },
         { root: true }
       );
       await triggerCampaign({ campaignId, websiteToken, customAttributes });
@@ -137,6 +138,11 @@ export const actions = {
       commit('setActiveCampaign', {});
     } catch (error) {
       commit('setError', true);
+      commit(
+        'conversation/setConversationUIFlag',
+        { isAwaitingCampaign: false },
+        { root: true }
+      );
     } finally {
       commit(
         'conversation/setConversationUIFlag',

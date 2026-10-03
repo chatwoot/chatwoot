@@ -3,6 +3,7 @@ import Banner from '../Banner.vue';
 import Branding from 'shared/components/Branding.vue';
 import ChatHeader from '../ChatHeader.vue';
 import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
+import TabBar from '../TabBar.vue';
 import configMixin from '../../mixins/configMixin';
 import { mapGetters } from 'vuex';
 import { IFrameHelper } from 'widget/helpers/utils';
@@ -13,6 +14,7 @@ export default {
     Branding,
     ChatHeader,
     ChatHeaderExpanded,
+    TabBar,
   },
   mixins: [configMixin],
   data() {
@@ -48,11 +50,20 @@ export default {
         this.$route.name
       );
     },
+    backRouteName() {
+      const isOnMessages = this.$route.name === 'messages';
+      return isOnMessages && this.hasMultipleConversationsEnabled
+        ? 'conversations'
+        : 'home';
+    },
     isOnArticleViewer() {
       return ['article-viewer'].includes(this.$route.name);
     },
     isOnHomeView() {
       return ['home'].includes(this.$route.name);
+    },
+    isOnTabScreen() {
+      return ['home', 'conversations'].includes(this.$route.name);
     },
     opacityClass() {
       if (this.isHeaderCollapsed) {
@@ -76,11 +87,14 @@ export default {
       return {};
     },
   },
-  mounted() {
-    this.$el.addEventListener('scroll', this.updateScrollPosition);
+  watch: {
+    '$route.name'() {
+      this.scrollPosition = 0;
+      this.$el.scrollTop = 0;
+      this.$refs.content.scrollTop = 0;
+    },
   },
   unmounted() {
-    this.$el.removeEventListener('scroll', this.updateScrollPosition);
     cancelAnimationFrame(this.requestID);
   },
   methods: {
@@ -88,6 +102,7 @@ export default {
       IFrameHelper.sendMessage({ event: 'closeWindow' });
     },
     updateScrollPosition(event) {
+      if (!this.isOnHomeView) return;
       this.scrollPosition = event.target.scrollTop;
       if (!this.ticking) {
         this.requestID = window.requestAnimationFrame(() => {
@@ -103,42 +118,64 @@ export default {
 
 <template>
   <div
-    class="w-full h-full bg-n-slate-2 dark:bg-n-solid-1"
-    :class="{ 'overflow-auto': isOnHomeView }"
+    class="w-full h-full bg-n-surface-1"
+    :class="{
+      'overflow-auto': isOnHomeView && !hasMultipleConversationsEnabled,
+    }"
     @keydown.esc="closeWindow"
+    @scroll.capture="updateScrollPosition"
   >
     <div class="relative flex flex-col h-full">
       <div
-        :class="{
-          expanded: !isHeaderCollapsed,
-          collapsed: isHeaderCollapsed,
-          'shadow-[0_10px_15px_-16px_rgba(50,50,93,0.08),0_4px_6px_-8px_rgba(50,50,93,0.04)]':
-            isHeaderCollapsed,
-          ...opacityClass,
-        }"
+        ref="content"
+        :class="
+          hasMultipleConversationsEnabled
+            ? [
+                'relative flex flex-col flex-1 min-h-0',
+                { 'overflow-auto pb-24': isOnHomeView },
+              ]
+            : 'contents'
+        "
       >
-        <ChatHeaderExpanded
-          v-if="!isHeaderCollapsed"
-          :intro-heading="appConfig.welcomeTitle || channelConfig.welcomeTitle"
-          :intro-body="
-            appConfig.welcomeDescription || channelConfig.welcomeTagline
-          "
-          :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="appConfig.showPopoutButton"
-        />
-        <ChatHeader
-          v-if="isHeaderCollapsed"
-          :title="channelConfig.websiteName"
-          :avatar-url="channelConfig.avatarUrl"
-          :show-popout-button="appConfig.showPopoutButton"
-          :available-agents="availableAgents"
-          :show-back-button="showBackButton"
+        <div
+          :class="{
+            expanded: !isHeaderCollapsed,
+            'collapsed relative z-10': isHeaderCollapsed,
+            'shadow-[0_10px_15px_-16px_rgba(50,50,93,0.08),0_4px_6px_-8px_rgba(50,50,93,0.04)]':
+              isHeaderCollapsed,
+            ...opacityClass,
+          }"
+        >
+          <ChatHeaderExpanded
+            v-if="!isHeaderCollapsed"
+            :intro-heading="
+              appConfig.welcomeTitle || channelConfig.welcomeTitle
+            "
+            :intro-body="
+              appConfig.welcomeDescription || channelConfig.welcomeTagline
+            "
+            :avatar-url="channelConfig.avatarUrl"
+            :show-popout-button="appConfig.showPopoutButton"
+          />
+          <ChatHeader
+            v-if="isHeaderCollapsed"
+            :title="channelConfig.websiteName"
+            :avatar-url="channelConfig.avatarUrl"
+            :show-popout-button="appConfig.showPopoutButton"
+            :available-agents="availableAgents"
+            :show-back-button="showBackButton"
+            :back-route-name="backRouteName"
+          />
+        </div>
+        <Banner />
+        <router-view />
+
+        <Branding
+          v-if="!isOnArticleViewer"
+          :disable-branding="disableBranding"
         />
       </div>
-      <Banner />
-      <router-view />
-
-      <Branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
+      <TabBar v-if="hasMultipleConversationsEnabled && isOnTabScreen" />
     </div>
   </div>
 </template>

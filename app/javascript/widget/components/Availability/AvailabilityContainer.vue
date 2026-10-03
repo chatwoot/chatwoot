@@ -80,7 +80,7 @@ const headerText = computed(() =>
         :is-online="isOnline"
         :is-in-working-hours="isInWorkingHours"
         :class="textClasses"
-        class="text-n-slate-11"
+        class="text-n-slate-12"
       />
     </div>
 

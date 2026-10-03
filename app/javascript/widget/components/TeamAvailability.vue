@@ -26,14 +26,16 @@ const startConversation = () => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col gap-3 w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-background dark:bg-n-solid-2 px-5 py-4"
-  >
-    <AvailabilityContainer :agents="availableAgents" show-header show-avatars />
-
+  <div class="w-full surface-card divide-y divide-n-weak dark:divide-n-strong">
+    <div class="px-4 py-3">
+      <AvailabilityContainer
+        :agents="availableAgents"
+        show-header
+        show-avatars
+      />
+    </div>
     <button
-      class="inline-flex items-center gap-1 font-medium text-n-slate-12"
-      :style="{ color: widgetColor }"
+      class="flex items-center justify-between w-full gap-2 px-4 py-3 text-base font-medium rounded-b-xl outline-none text-n-slate-12 transition-colors hover:bg-n-alpha-2 focus-visible:bg-n-alpha-2"
       @click="startConversation"
     >
       <span>
@@ -43,7 +45,11 @@ const startConversation = () => {
             : $t('START_CONVERSATION')
         }}
       </span>
-      <i class="i-lucide-chevron-right size-5 mt-px rtl:rotate-180" />
+      <i
+        class="i-lucide-arrow-right size-5 rtl:rotate-180"
+        :style="{ color: widgetColor }"
+        aria-hidden="true"
+      />
     </button>
   </div>
 </template>

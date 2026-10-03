@@ -1,5 +1,8 @@
 import { API } from 'widget/helpers/axios';
-import { sendMessage } from 'widget/helpers/utils';
+import {
+  sendMessage,
+  isMultipleConversationsEnabled,
+} from 'widget/helpers/utils';
 import { actions } from '../../contacts';
 
 const commit = vi.fn();
@@ -8,6 +11,7 @@ const dispatch = vi.fn();
 vi.mock('widget/helpers/axios');
 vi.mock('widget/helpers/utils', () => ({
   sendMessage: vi.fn(),
+  isMultipleConversationsEnabled: vi.fn(() => false),
 }));
 
 describe('#actions', () => {
@@ -50,6 +54,21 @@ describe('#actions', () => {
         ['conversation/clearConversations', {}, { root: true }],
         ['conversation/fetchOldConversations', {}, { root: true }],
         ['conversationAttributes/getAttributes', {}, { root: true }],
+      ]);
+    });
+
+    it('reloads the conversation list when multiple conversations are enabled', async () => {
+      isMultipleConversationsEnabled.mockReturnValueOnce(true);
+      vi.spyOn(API, 'patch').mockResolvedValue({
+        data: { widget_auth_token: 'token' },
+      });
+      await actions.setUser(
+        { commit, dispatch },
+        { identifier: 1, user: { identifier_hash: 'hash' } }
+      );
+      expect(dispatch.mock.calls).toEqual([
+        ['get'],
+        ['conversationList/load', {}, { root: true }],
       ]);
     });
 
