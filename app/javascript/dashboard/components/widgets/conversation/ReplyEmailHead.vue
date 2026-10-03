@@ -1,127 +1,75 @@
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { computed, ref, watch } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import { useMapGetter } from 'dashboard/composables/store';
 import {
   validEmailsByComma,
   getDefaultSubject,
 } from './helpers/emailHeadHelper';
-import { useVuelidate } from '@vuelidate/core';
 import ButtonV4 from 'dashboard/components-next/button/Button.vue';
 
-export default {
-  components: {
-    ButtonV4,
+const ccEmails = defineModel('ccEmails', { type: String, default: '' });
+const bccEmails = defineModel('bccEmails', { type: String, default: '' });
+const toEmails = defineModel('toEmails', { type: String, default: '' });
+const subject = defineModel('subject', { type: String, default: '' });
+
+const currentChat = useMapGetter('getSelectedChat');
+const defaultSubject = computed(() => getDefaultSubject(currentChat.value));
+
+const showCc = ref(false);
+const showBcc = ref(false);
+const ccEmailsVal = ref(ccEmails.value);
+const bccEmailsVal = ref(bccEmails.value);
+const toEmailsVal = ref(toEmails.value);
+const subjectVal = ref(subject.value || defaultSubject.value);
+
+const isCcVisible = computed(() => showCc.value || !!ccEmails.value);
+const isBccVisible = computed(() => showBcc.value || !!bccEmails.value);
+
+const emailRules = { hasValidEmails: validEmailsByComma };
+const v$ = useVuelidate(
+  {
+    ccEmailsVal: emailRules,
+    bccEmailsVal: emailRules,
+    toEmailsVal: emailRules,
   },
-  props: {
-    ccEmails: {
-      type: String,
-      default: '',
-    },
-    bccEmails: {
-      type: String,
-      default: '',
-    },
-    toEmails: {
-      type: String,
-      default: '',
-    },
-    subject: {
-      type: String,
-      default: '',
-    },
-  },
-  emits: [
-    'update:bccEmails',
-    'update:ccEmails',
-    'update:toEmails',
-    'update:subject',
-  ],
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      showCc: false,
-      showBcc: false,
-      ccEmailsVal: '',
-      bccEmailsVal: '',
-      toEmailsVal: '',
-      subjectVal: '',
-    };
-  },
-  computed: {
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
-    defaultSubject() {
-      return getDefaultSubject(this.currentChat);
-    },
-    isCcVisible() {
-      return this.showCc || !!this.ccEmails;
-    },
-    isBccVisible() {
-      return this.showBcc || !!this.bccEmails;
-    },
-  },
-  watch: {
-    bccEmails(newVal) {
-      if (newVal !== this.bccEmailsVal) {
-        this.bccEmailsVal = newVal;
-      }
-    },
-    ccEmails(newVal) {
-      if (newVal !== this.ccEmailsVal) {
-        this.ccEmailsVal = newVal;
-      }
-    },
-    toEmails(newVal) {
-      if (newVal !== this.toEmailsVal) {
-        this.toEmailsVal = newVal;
-      }
-    },
-    defaultSubject(newVal) {
-      this.subjectVal = newVal;
-    },
-    'currentChat.id'() {
-      this.showCc = false;
-      this.showBcc = false;
-      this.subjectVal = this.defaultSubject;
-      this.$emit('update:subject', '');
-    },
-  },
-  mounted() {
-    this.ccEmailsVal = this.ccEmails;
-    this.bccEmailsVal = this.bccEmails;
-    this.toEmailsVal = this.toEmails;
-    this.subjectVal = this.subject || this.defaultSubject;
-  },
-  validations: {
-    ccEmailsVal: {
-      hasValidEmails(value) {
-        return validEmailsByComma(value);
-      },
-    },
-    bccEmailsVal: {
-      hasValidEmails(value) {
-        return validEmailsByComma(value);
-      },
-    },
-    toEmailsVal: {
-      hasValidEmails(value) {
-        return validEmailsByComma(value);
-      },
-    },
-  },
-  methods: {
-    onBlur() {
-      this.v$.$touch();
-      this.$emit('update:bccEmails', this.bccEmailsVal);
-      this.$emit('update:ccEmails', this.ccEmailsVal);
-      this.$emit('update:toEmails', this.toEmailsVal);
-      const subject = this.subjectVal.trim();
-      this.$emit(
-        'update:subject',
-        subject === this.defaultSubject ? '' : subject
-      );
-    },
-  },
+  { ccEmailsVal, bccEmailsVal, toEmailsVal }
+);
+
+watch(ccEmails, value => {
+  ccEmailsVal.value = value;
+});
+
+watch(bccEmails, value => {
+  bccEmailsVal.value = value;
+});
+
+watch(toEmails, value => {
+  toEmailsVal.value = value;
+});
+
+watch(defaultSubject, value => {
+  subjectVal.value = value;
+});
+
+watch(
+  () => currentChat.value.id,
+  () => {
+    showCc.value = false;
+    showBcc.value = false;
+    subjectVal.value = defaultSubject.value;
+    subject.value = '';
+  }
+);
+
+const onBlur = () => {
+  v$.value.$touch();
+  ccEmails.value = ccEmailsVal.value;
+  bccEmails.value = bccEmailsVal.value;
+  toEmails.value = toEmailsVal.value;
+
+  const trimmedSubject = subjectVal.value.trim();
+  subject.value = trimmedSubject === defaultSubject.value ? '' : trimmedSubject;
 };
 </script>
 
