@@ -12,5 +12,6 @@ json.payload do
   end
 end
 json.meta do
+  json.agent_last_seen_at @conversation.agent_last_seen_at.to_i if @conversation&.agent_last_seen_at
   json.contact_last_seen_at @conversation.contact_last_seen_at.to_i if @conversation.present?
 end

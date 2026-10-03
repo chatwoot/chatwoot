@@ -24,6 +24,7 @@ const globalConfig = computed(() => getters['globalConfig/get'].value);
 const i18nMap = {
   'Channel::FacebookPage': 'MESSENGER',
   'Channel::WebWidget': 'WEB_WIDGET',
+  'Channel::MobileApp': 'MOBILE_APP',
   'Channel::TwitterProfile': 'TWITTER_PROFILE',
   'Channel::TwilioSms': 'TWILIO_SMS',
   'Channel::Whatsapp': 'WHATSAPP',

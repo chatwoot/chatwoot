@@ -144,6 +144,7 @@ gem 'sidekiq_alive'
 gem 'speedshop-cloudwatch', '~> 0.2.1', require: false
 
 ##-- Push notification service --##
+gem 'apnotic', '~> 1.8'
 gem 'fcm'
 gem 'web-push', '>= 3.0.1'
 

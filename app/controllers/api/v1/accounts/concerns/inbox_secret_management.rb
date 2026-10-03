@@ -8,7 +8,7 @@ module Api::V1::Accounts::Concerns::InboxSecretManagement
   end
 
   def rotate_hmac_token
-    return head :not_found unless @inbox.web_widget? || @inbox.api?
+    return head :not_found unless @inbox.customer_chat? || @inbox.api?
 
     @inbox.channel.regenerate_hmac_token
     render :show

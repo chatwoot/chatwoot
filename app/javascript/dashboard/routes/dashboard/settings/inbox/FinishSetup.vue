@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import QRCode from 'qrcode';
+import MobileAppSetup from './settingsPage/MobileAppSetup.vue';
 import EmptyState from '../../../../components/widgets/EmptyState.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
@@ -189,7 +190,20 @@ watch(
       v-if="hasDuplicateInstagramInbox"
       :content="$t('INBOX_MGMT.ADD.INSTAGRAM.NEW_INBOX_SUGGESTION')"
     />
+    <div v-if="currentInbox.channel_type === INBOX_TYPES.MOBILE">
+      <MobileAppSetup :inbox="currentInbox" />
+      <router-link
+        :to="{
+          name: 'settings_inbox_show',
+          params: { inboxId: $route.params.inbox_id },
+        }"
+        class="inline-flex mt-6"
+      >
+        <NextButton :label="$t('INBOX_MGMT.FINISH.MORE_SETTINGS')" />
+      </router-link>
+    </div>
     <EmptyState
+      v-else
       :title="$t('INBOX_MGMT.FINISH.TITLE')"
       :message="isAnEmailChannel && !currentInbox.provider ? '' : message"
       :button-text="$t('INBOX_MGMT.FINISH.BUTTON_TEXT')"

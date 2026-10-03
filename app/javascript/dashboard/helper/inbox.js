@@ -1,6 +1,7 @@
 import { picoSearch } from '@chatwoot/pico-search';
 
 export const INBOX_TYPES = {
+  MOBILE: 'Channel::MobileApp',
   WEB: 'Channel::WebWidget',
   FB: 'Channel::FacebookPage',
   TWITTER: 'Channel::TwitterProfile',
@@ -18,6 +19,7 @@ export const INBOX_TYPES = {
 // Short channel-type slugs used to identify a channel without leaning on its
 // Channel:: class name — e.g. onboarding channel cards and OAuth provider maps.
 export const CHANNEL_TYPES = {
+  MOBILE: 'mobile_app',
   WEBSITE: 'website',
   WHATSAPP: 'whatsapp',
   FACEBOOK: 'facebook',
@@ -82,6 +84,7 @@ export const getInboxVoiceIcon = (channelType, medium) => {
 };
 
 const INBOX_ICON_MAP_FILL = {
+  [INBOX_TYPES.MOBILE]: 'i-ri-smartphone-fill',
   [INBOX_TYPES.WEB]: 'i-ri-global-fill',
   [INBOX_TYPES.FB]: 'i-ri-messenger-fill',
   [INBOX_TYPES.TWITTER]: 'i-ri-twitter-x-fill',
@@ -97,6 +100,7 @@ const INBOX_ICON_MAP_FILL = {
 const DEFAULT_ICON_FILL = 'i-ri-chat-1-fill';
 
 const INBOX_ICON_MAP_LINE = {
+  [INBOX_TYPES.MOBILE]: 'i-lucide-smartphone',
   [INBOX_TYPES.WEB]: 'i-woot-website',
   [INBOX_TYPES.FB]: 'i-woot-messenger',
   [INBOX_TYPES.TWITTER]: 'i-woot-x',
@@ -148,6 +152,8 @@ export const searchInboxes = (inboxes, query) => {
 
 export const getReadableInboxByType = (type, phoneNumber) => {
   switch (type) {
+    case INBOX_TYPES.MOBILE:
+      return 'mobile_app';
     case INBOX_TYPES.WEB:
       return 'livechat';
 
@@ -182,6 +188,8 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 
 export const getInboxClassByType = (type, phoneNumber) => {
   switch (type) {
+    case INBOX_TYPES.MOBILE:
+      return 'smartphone';
     case INBOX_TYPES.WEB:
       return 'globe-desktop';
 

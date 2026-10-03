@@ -3,21 +3,23 @@ class Inboxes::UpdateWidgetPreChatCustomFieldsJob < ApplicationJob
 
   def perform(account, custom_attribute)
     attribute_key = custom_attribute['attribute_key']
-    account.web_widgets.all.find_each do |web_widget|
-      pre_chat_fields = web_widget.pre_chat_form_options['pre_chat_fields']
-      pre_chat_fields.each_with_index do |pre_chat_field, index|
-        next unless pre_chat_field['name'] == attribute_key
+    [account.web_widgets, account.mobile_app_channels].each do |channels|
+      channels.find_each do |web_widget|
+        pre_chat_fields = web_widget.pre_chat_form_options['pre_chat_fields']
+        pre_chat_fields.each_with_index do |pre_chat_field, index|
+          next unless pre_chat_field['name'] == attribute_key
 
-        web_widget.pre_chat_form_options['pre_chat_fields'][index] =
-          pre_chat_field.deep_merge({
-                                      'label' => custom_attribute['attribute_display_name'],
-                                      'placeholder' => custom_attribute['attribute_display_name'],
-                                      'values' => custom_attribute['attribute_values'],
-                                      'regex_pattern' => custom_attribute['regex_pattern'],
-                                      'regex_cue' => custom_attribute['regex_cue']
-                                    })
+          web_widget.pre_chat_form_options['pre_chat_fields'][index] =
+            pre_chat_field.deep_merge({
+                                        'label' => custom_attribute['attribute_display_name'],
+                                        'placeholder' => custom_attribute['attribute_display_name'],
+                                        'values' => custom_attribute['attribute_values'],
+                                        'regex_pattern' => custom_attribute['regex_pattern'],
+                                        'regex_cue' => custom_attribute['regex_cue']
+                                      })
+        end
+        web_widget.save!
       end
-      web_widget.save!
     end
   end
 end

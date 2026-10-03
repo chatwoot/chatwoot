@@ -24,6 +24,12 @@ const channelList = computed(() => {
   const { apiChannelName } = globalConfig.value;
   const channels = [
     {
+      key: 'mobile_app',
+      title: t('INBOX_MGMT.MOBILE_APP.TITLE'),
+      description: t('INBOX_MGMT.MOBILE_APP.DESCRIPTION'),
+      icon: 'i-lucide-smartphone',
+    },
+    {
       key: 'website',
       title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.WEBSITE.TITLE'),
       description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.WEBSITE.DESCRIPTION'),

@@ -59,6 +59,7 @@ const isActive = computed(() => {
   }
 
   return [
+    'mobile_app',
     'website',
     'twilio',
     'api',

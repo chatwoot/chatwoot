@@ -20,12 +20,12 @@ class Contacts::ContactableInboxesService
       email_contactable_inbox(inbox)
     when 'Channel::Api'
       api_contactable_inbox(inbox)
-    when 'Channel::WebWidget'
-      website_contactable_inbox(inbox)
+    when 'Channel::WebWidget', 'Channel::MobileApp'
+      customer_chat_contactable_inbox(inbox)
     end
   end
 
-  def website_contactable_inbox(inbox)
+  def customer_chat_contactable_inbox(inbox)
     latest_contact_inbox = inbox.contact_inboxes.where(contact: @contact).last
     return unless latest_contact_inbox
     # FIXME : change this when multiple conversations comes in

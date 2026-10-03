@@ -105,6 +105,7 @@ module Api::V1::InboxesHelper
 
   def account_channels_method
     {
+      'mobile_app' => Current.account.mobile_app_channels,
       'web_widget' => Current.account.web_widgets,
       'api' => Current.account.api_channels,
       'email' => Current.account.email_channels,

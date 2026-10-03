@@ -2,6 +2,7 @@ class Messages::MarkdownRendererService
   CHANNEL_RENDERERS = {
     'Channel::Email' => :render_html,
     'Channel::WebWidget' => :render_html,
+    'Channel::MobileApp' => :render_html,
     'Channel::Telegram' => :render_telegram_html,
     'Channel::Whatsapp' => :render_whatsapp,
     'Channel::FacebookPage' => :render_instagram,

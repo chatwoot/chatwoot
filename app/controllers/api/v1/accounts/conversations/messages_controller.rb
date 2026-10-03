@@ -71,7 +71,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
       next false unless message.failed?
 
       Messages::StatusUpdateService.new(message, 'sent').perform
-      clear_source_id unless @conversation.inbox.api? || @conversation.inbox.web_widget?
+      clear_source_id unless @conversation.inbox.api? || @conversation.inbox.customer_chat?
       true
     end
   end

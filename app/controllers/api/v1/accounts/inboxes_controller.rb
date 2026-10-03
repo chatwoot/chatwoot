@@ -100,7 +100,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def allowed_channel_types
-    %w[web_widget api email line telegram whatsapp sms]
+    %w[mobile_app web_widget api email line telegram whatsapp sms]
   end
 
   def update_inbox_working_hours
@@ -133,10 +133,10 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def update_channel_feature_flags
-    return unless @inbox.web_widget?
-    return unless permitted_params(Channel::WebWidget::EDITABLE_ATTRS)[:channel].key? :selected_feature_flags
+    return unless @inbox.customer_chat?
+    return unless permitted_params(@inbox.channel.class::EDITABLE_ATTRS)[:channel].key? :selected_feature_flags
 
-    @inbox.channel.selected_feature_flags = permitted_params(Channel::WebWidget::EDITABLE_ATTRS)[:channel][:selected_feature_flags]
+    @inbox.channel.selected_feature_flags = permitted_params(@inbox.channel.class::EDITABLE_ATTRS)[:channel][:selected_feature_flags]
     @inbox.channel.save!
   end
 
@@ -204,6 +204,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def channel_type_from_params
     {
+      'mobile_app' => Channel::MobileApp,
       'web_widget' => Channel::WebWidget,
       'api' => Channel::Api,
       'email' => Channel::Email,

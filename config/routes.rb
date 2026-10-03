@@ -66,6 +66,8 @@ Rails.application.routes.draw do
               end
             end
           end
+          get 'inboxes/:inbox_id/sdk', to: 'sdk_apps#show'
+          patch 'inboxes/:inbox_id/sdk', to: 'sdk_apps#update'
           namespace :actions do
             resource :contact_merge, only: [:create]
           end
@@ -520,6 +522,7 @@ Rails.application.routes.draw do
       resource :notification_subscriptions, only: [:create, :destroy]
 
       namespace :widget do
+        resources :sdk_push_devices, only: [:create, :destroy]
         resource :direct_uploads, only: [:create]
         resource :config, only: [:create]
         resources :campaigns, only: [:index]

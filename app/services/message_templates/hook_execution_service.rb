@@ -56,7 +56,7 @@ class MessageTemplates::HookExecutionService
     # Only react to a contact's incoming message, not to the template messages this hook creates.
     return false unless message.incoming?
 
-    !contact_has_email? && inbox.web_widget? && !email_collect_was_sent?
+    !contact_has_email? && inbox.customer_chat? && !email_collect_was_sent?
   end
 
   def contact_has_email?

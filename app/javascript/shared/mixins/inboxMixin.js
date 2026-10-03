@@ -11,6 +11,7 @@ export const INBOX_FEATURE_MAP = {
   [INBOX_FEATURES.REPLY_TO]: [
     INBOX_TYPES.FB,
     INBOX_TYPES.WEB,
+    INBOX_TYPES.MOBILE,
     INBOX_TYPES.TWITTER,
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
@@ -19,6 +20,7 @@ export const INBOX_FEATURE_MAP = {
   ],
   [INBOX_FEATURES.REPLY_TO_OUTGOING]: [
     INBOX_TYPES.WEB,
+    INBOX_TYPES.MOBILE,
     INBOX_TYPES.TWITTER,
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
@@ -52,6 +54,12 @@ export default {
     },
     isAWebWidgetInbox() {
       return this.channelType === INBOX_TYPES.WEB;
+    },
+    isAMobileAppInbox() {
+      return this.channelType === INBOX_TYPES.MOBILE;
+    },
+    isCustomerChatInbox() {
+      return this.isAWebWidgetInbox || this.isAMobileAppInbox;
     },
     isATwilioChannel() {
       return this.channelType === INBOX_TYPES.TWILIO;

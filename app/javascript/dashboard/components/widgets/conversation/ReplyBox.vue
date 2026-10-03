@@ -380,7 +380,7 @@ export default {
       const tiktokAttachmentSupported = imageSend ?? true;
 
       return (
-        this.isAWebWidgetInbox ||
+        this.isCustomerChatInbox ||
         this.isAFacebookInbox ||
         this.isAWhatsAppChannel ||
         this.isAPIInbox ||
@@ -437,7 +437,7 @@ export default {
     enableMultipleFileUpload() {
       return (
         this.isAnEmailChannel ||
-        this.isAWebWidgetInbox ||
+        this.isCustomerChatInbox ||
         this.isAPIInbox ||
         this.isAWhatsAppChannel ||
         this.isATelegramChannel

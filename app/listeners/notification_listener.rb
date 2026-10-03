@@ -52,5 +52,6 @@ class NotificationListener < BaseListener
 
     Messages::MentionService.new(message: message).perform
     Messages::NewMessageNotificationService.new(message: message).perform
+    SdkPush::DispatchService.new(message: message).perform
   end
 end
