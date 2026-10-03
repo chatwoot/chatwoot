@@ -8,7 +8,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   LLM_FEATURE = 'conversation_faq_generation'.freeze
 
   def self.language_for(conversation)
-    language = conversation.language.presence || conversation.account.locale.presence || I18n.default_locale.to_s
+    language = conversation.account.locale.presence || I18n.default_locale.to_s
     normalize_language(language)
   end
 

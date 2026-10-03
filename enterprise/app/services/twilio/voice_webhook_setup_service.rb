@@ -14,25 +14,20 @@ class Twilio::VoiceWebhookSetupService
     app_sid
   end
 
-  private
+  # Outbound calls dial through the TwiML app, so its voice_url must track the current host too.
+  def sync_twiml_app!
+    return create_twiml_app! if channel.twiml_app_sid.blank?
 
-  def validate_token_credentials!
-    channel.client.incoming_phone_numbers.list(limit: 1)
-  rescue StandardError => e
-    log_twilio_error('AUTH_VALIDATION_TOKEN', e)
-    raise
-  end
-
-  def create_twiml_app!
-    friendly_name = "Chatwoot Voice #{channel.phone_number}"
-    app = channel.client.applications.create(
-      friendly_name: friendly_name,
+    channel.client.applications(channel.twiml_app_sid).update(
       voice_url: channel.voice_call_webhook_url,
       voice_method: HTTP_METHOD
     )
-    app.sid
+    channel.twiml_app_sid
   rescue StandardError => e
-    log_twilio_error('TWIML_APP_CREATE', e)
+    # The stored app was deleted in Twilio, so there is nothing to update; make a fresh one.
+    return create_twiml_app! if e.is_a?(Twilio::REST::RestError) && e.status_code == 404
+
+    log_twilio_error('TWIML_APP_UPDATE', e)
     raise
   end
 
@@ -53,6 +48,28 @@ class Twilio::VoiceWebhookSetupService
            )
   rescue StandardError => e
     log_twilio_error('NUMBER_WEBHOOKS_UPDATE', e)
+    raise
+  end
+
+  private
+
+  def validate_token_credentials!
+    channel.client.incoming_phone_numbers.list(limit: 1)
+  rescue StandardError => e
+    log_twilio_error('AUTH_VALIDATION_TOKEN', e)
+    raise
+  end
+
+  def create_twiml_app!
+    friendly_name = "Chatwoot Voice #{channel.phone_number}"
+    app = channel.client.applications.create(
+      friendly_name: friendly_name,
+      voice_url: channel.voice_call_webhook_url,
+      voice_method: HTTP_METHOD
+    )
+    app.sid
+  rescue StandardError => e
+    log_twilio_error('TWIML_APP_CREATE', e)
     raise
   end
 

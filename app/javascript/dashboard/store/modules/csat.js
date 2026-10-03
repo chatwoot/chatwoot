@@ -55,33 +55,6 @@ export const getters = {
       _state.metrics.totalSentMessagesCount
     );
   },
-  getRatingPercentage(_state) {
-    if (!_state.metrics.totalResponseCount) {
-      return { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-    }
-    return {
-      1: computeDistribution(
-        _state.metrics.ratingsCount[1],
-        _state.metrics.totalResponseCount
-      ),
-      2: computeDistribution(
-        _state.metrics.ratingsCount[2],
-        _state.metrics.totalResponseCount
-      ),
-      3: computeDistribution(
-        _state.metrics.ratingsCount[3],
-        _state.metrics.totalResponseCount
-      ),
-      4: computeDistribution(
-        _state.metrics.ratingsCount[4],
-        _state.metrics.totalResponseCount
-      ),
-      5: computeDistribution(
-        _state.metrics.ratingsCount[5],
-        _state.metrics.totalResponseCount
-      ),
-    };
-  },
   getRatingCount(_state) {
     return _state.metrics.ratingsCount;
   },

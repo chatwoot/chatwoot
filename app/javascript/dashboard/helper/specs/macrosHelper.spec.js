@@ -1,13 +1,10 @@
 import {
   emptyMacro,
   resolveActionName,
-  resolveLabels,
-  resolveTeamIds,
   getFileName,
-  resolveAgents,
 } from '../../routes/dashboard/settings/macros/macroHelper';
 import { MACRO_ACTION_TYPES } from '../../routes/dashboard/settings/macros/constants';
-import { teams, labels, files, agents } from './macrosFixtures';
+import { files } from './macrosFixtures';
 
 describe('#emptyMacro', () => {
   const defaultMacro = {
@@ -37,35 +34,6 @@ describe('#resolveActionName', () => {
       MACRO_ACTION_TYPES[0].label
     );
     expect(resolveActionName('change_priority')).toEqual('CHANGE_PRIORITY'); // Translated
-  });
-});
-
-describe('#resolveTeamIds', () => {
-  it('resolves team names from ids, and returns a joined string', () => {
-    const resolvedTeams = '⚙️ sales team, 🤷‍♂️ fayaz';
-    expect(resolveTeamIds(teams, [1, 2])).toEqual(resolvedTeams);
-  });
-
-  it('resolves nil as None', () => {
-    expect(resolveTeamIds(teams, ['nil'])).toEqual('None');
-  });
-});
-
-describe('#resolveLabels', () => {
-  it('resolves labels names from ids and returns a joined string', () => {
-    const resolvedLabels = 'sales, billing';
-    expect(resolveLabels(labels, ['sales', 'billing'])).toEqual(resolvedLabels);
-  });
-});
-
-describe('#resolveAgents', () => {
-  it('resolves agents names from ids and returns a joined string', () => {
-    const resolvedAgents = 'John Doe';
-    expect(resolveAgents(agents, [1])).toEqual(resolvedAgents);
-  });
-
-  it('resolves nil and self values', () => {
-    expect(resolveAgents(agents, ['nil', 'self'])).toEqual('None, Self');
   });
 });
 

@@ -7,6 +7,7 @@
       "404": "There are no active conversations in this group."
     },
     "FAILED_TO_SEND": "Failed to send",
+    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
     "TAB_HEADING": "Conversations",
     "MENTION_HEADING": "Mentions",
     "UNATTENDED_HEADING": "Unattended",
@@ -44,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Created",
         "OLDEST": "Kreirano:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Zadnja aktivnost:",
-        "ACTIVE": "Zadnja aktivnost"
+        "NOT_ACTIVE": "Zadnja aktivnost:"
       }
     },
     "SORT_ORDER_ITEMS": {

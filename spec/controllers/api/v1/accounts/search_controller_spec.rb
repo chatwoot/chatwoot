@@ -44,6 +44,23 @@ RSpec.describe 'Search', type: :request do
         expect(response_data[:payload][:contacts].length).to eq 1
         expect(response_data[:payload][:articles].length).to eq 1
       end
+
+      it 'returns matching conversations that have no messages' do
+        empty_contact = create(:contact, name: 'test empty', account: account)
+        empty_conversation = create(:conversation, account: account, contact: empty_contact)
+        create(:inbox_member, user: agent, inbox: empty_conversation.inbox)
+
+        get "/api/v1/accounts/#{account.id}/search",
+            headers: agent.create_new_auth_token,
+            params: { q: 'test' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+
+        conversation_ids = response_data[:payload][:conversations].pluck(:id)
+        expect(conversation_ids).to include(empty_conversation.display_id)
+      end
     end
   end
 
@@ -167,6 +184,23 @@ RSpec.describe 'Search', type: :request do
 
         expect(response_data[:payload].keys).to contain_exactly(:conversations)
         expect(response_data[:payload][:conversations].length).to eq 1
+      end
+
+      it 'returns matching conversations that have no messages' do
+        empty_contact = create(:contact, name: 'test empty', account: account)
+        empty_conversation = create(:conversation, account: account, contact: empty_contact)
+        create(:inbox_member, user: agent, inbox: empty_conversation.inbox)
+
+        get "/api/v1/accounts/#{account.id}/search/conversations",
+            headers: agent.create_new_auth_token,
+            params: { q: 'test' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+
+        conversation_ids = response_data[:payload][:conversations].pluck(:id)
+        expect(conversation_ids).to include(empty_conversation.display_id)
       end
 
       context 'with advanced_search feature enabled', :opensearch do

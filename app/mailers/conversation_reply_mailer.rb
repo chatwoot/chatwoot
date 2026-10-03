@@ -91,8 +91,13 @@ class ConversationReplyMailer < ApplicationMailer
 
   def sender_name(sender_email)
     if @inbox.friendly?
-      I18n.t('conversations.reply.email.header.friendly_name', sender_name: custom_sender_name, business_name: business_name,
-                                                               from_email: sender_email)
+      Email::SenderNameBuilder.new(
+        account: @account,
+        sender: current_message&.sender,
+        sender_email: sender_email,
+        sender_name: custom_sender_name,
+        business_name: business_name
+      ).build
     else
       I18n.t('conversations.reply.email.header.professional_name', business_name: business_name, from_email: sender_email)
     end
@@ -115,15 +120,11 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def mail_subject
-    subject = @conversation.additional_attributes['mail_subject']
+    subject = @message&.forwarded? ? forwarded_subject : @conversation.additional_attributes['mail_subject']
     return "[##{@conversation.display_id}] #{I18n.t('conversations.reply.email_subject')}" if subject.nil?
+    return "Fwd: #{subject}" if @message&.forwarded?
 
-    chat_count = @conversation.messages.chat.count
-    if chat_count > 1
-      "Re: #{subject}"
-    else
-      subject
-    end
+    @conversation.messages.chat.count > 1 ? "Re: #{subject}" : subject
   end
 
   def reply_email
@@ -150,11 +151,14 @@ class ConversationReplyMailer < ApplicationMailer
 
   def custom_message_id
     last_message = @message || @messages&.last
+    return "<forward/#{last_message.id}@#{channel_email_domain}>" if last_message&.forwarded?
 
     "<conversation/#{@conversation.uuid}/messages/#{last_message&.id}@#{channel_email_domain}>"
   end
 
   def in_reply_to_email
+    return if @message&.forwarded?
+
     conversation_reply_email_id || "<account/#{@account.id}/conversation/#{@conversation.uuid}@#{channel_email_domain}>"
   end
 
@@ -170,7 +174,12 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def references_header
-    build_references_header(@conversation, in_reply_to_email)
+    build_references_header(@conversation, in_reply_to_email).presence
+  end
+
+  def forwarded_subject
+    forwarded_message = @conversation.messages.find_by(id: @message.content_attributes['forwarded_message_id'])
+    forwarded_message&.content_attributes&.dig('email', 'subject').presence || @conversation.additional_attributes['mail_subject']
   end
 
   def cc_bcc_emails

@@ -31,6 +31,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
         expect(json_response).to have_key(:providers)
         expect(json_response).to have_key(:models)
         expect(json_response).to have_key(:features)
+        expect(json_response[:features]).not_to have_key(:conversation_completion)
       end
     end
 
@@ -82,7 +83,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
       end
 
       it 'returns GPT-5.2 as the assistant default for V2 accounts' do
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
 
         get "/api/v1/accounts/#{account.id}/captain/preferences",
             headers: admin.create_new_auth_token,
@@ -97,7 +98,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
       end
 
       it 'keeps the V2 assistant default when an account override is selected' do
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
         account.update!(captain_models: { 'assistant' => 'gpt-5.1' })
 
         get "/api/v1/accounts/#{account.id}/captain/preferences",
@@ -150,14 +151,21 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
         expect(account.reload.captain_models['editor']).to eq('gpt-4.1-mini')
       end
 
-      it 'does not persist unknown captain model feature keys' do
+      it 'does not persist unknown or internal captain model feature keys' do
         put "/api/v1/accounts/#{account.id}/captain/preferences",
             headers: admin.create_new_auth_token,
-            params: { captain_models: { editor: 'gpt-4.1-mini', unknown_feature: 'gpt-4.1' } },
+            params: {
+              captain_models: {
+                editor: 'gpt-4.1-mini',
+                unknown_feature: 'gpt-4.1',
+                conversation_completion: 'gpt-4.1'
+              }
+            },
             as: :json
 
         expect(response).to have_http_status(:success)
         expect(account.reload.captain_models).to eq('editor' => 'gpt-4.1-mini')
+        expect(json_response[:features]).not_to have_key(:conversation_completion)
       end
 
       it 'rejects invalid captain model values for the feature' do

@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Anuncio",
+      "POST_LABEL": "Publicación",
+      "VIEW_AD": "Ver anuncio",
+      "WELCOME_MESSAGE_LABEL": "Mensaje prellenado: ",
+      "REPLIED_BELOW": "El cliente respondió a continuación"
+    },
     "SELECT_A_CONVERSATION": "Por favor, selecciona una conversación del panel izquierdo",
     "CSAT_REPLY_MESSAGE": "Por favor, valora la conversación",
     "404": "Lo sentimos, no podemos encontrar la conversación. Por favor, inténtalo de nuevo",
@@ -36,16 +43,17 @@
     "API_HOURS_WINDOW": "Solo puedes responder a esta conversación dentro de {hours} horas",
     "NOT_ASSIGNED_TO_YOU": "Esta conversación no te está asignada. ¿Quieres asignarla a ti mismo?",
     "ASSIGN_TO_ME": "Asignar a mi",
-    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
-    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_MESSAGE": "Esta conversación está siendo gestionada por {assigneeName}.",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "un bot",
+    "BOT_HANDOFF_ACTION": "Tomar el control",
     "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
     "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta cuenta de Instagram fue migrada a la nueva bandeja de entrada del canal Instagram. Todos los nuevos mensajes aparecerán allí. Ya no podrás enviar mensajes de esta conversación.",
-    "INSTAGRAM_RESTRICTION_BANNER": "Instagram está restringido. Algunos mensajes o acciones pueden retrasarse o no estar disponibles mientras restauramos el soporte completo.",
-    "INSTAGRAM_RESTRICTION_STATUS_LINK": "Ver actualización de estado",
+    "INSTAGRAM_RESTRICTION_BANNER": "La mensajería de Instagram está afectada actualmente por un problema de la API de Meta, no por un problema de Chatwoot. Algunos mensajes o acciones pueden retrasarse o no estar disponibles. Estamos colaborando estrechamente con Meta para resolverlo lo antes posible.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "Ver actualizaciones de estado",
     "REPLYING_TO": "Esta respondiendo a:",
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
@@ -65,6 +73,10 @@
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Este mensaje no es compatible. Puedes ver este mensaje en la aplicación de Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "Este mensaje no es compatible. Puedes ver este mensaje en la aplicación de WhatsApp.",
+    "WHATSAPP_FLOW_RESPONSE": "Envió una respuesta de flujo",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Publicidad"
+    },
     "SUCCESS_DELETE_MESSAGE": "Mensaje eliminado correctamente",
     "FAIL_DELETE_MESSSAGE": "¡No se pudo eliminar el mensaje! Inténtalo de nuevo",
     "NO_RESPONSE": "No hay respuesta",
@@ -72,6 +84,20 @@
     "RATING_TITLE": "Calificación",
     "FEEDBACK_TITLE": "Comentarios",
     "REPLY_MESSAGE_NOT_FOUND": "Mensaje no disponible",
+    "CAPTAIN_GENERATION": {
+      "TITLE": "¿Cómo se generó esta respuesta?",
+      "GENERATED_BY": "Generado por Captain",
+      "LOADING": "Cargando detalles…",
+      "EMPTY": "No hay detalles de generación disponibles para este mensaje.",
+      "TIMELINE": "Pasos de generación",
+      "STEP_TOOL": "Se llamó a {name}",
+      "STEP_HANDOFF": "Transferido a {name}",
+      "REASONING": "Razonamiento",
+      "SOURCES": "Base de conocimientos",
+      "SOURCES_SUMMARY": "{count} resultado | {count} resultados",
+      "MODEL": "Generado con {model}",
+      "CREDITS": "Créditos: {credits}"
+    },
     "CARD": {
       "SHOW_LABELS": "Mostrar etiquetas",
       "HIDE_LABELS": "Ocultar etiquetas",
@@ -140,6 +166,34 @@
       "AGENTS": "Agentes",
       "TEAMS": "Equipos"
     },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Buscar variables",
+        "DESCRIPTION": "Descripción",
+        "VALUE": "Valor",
+        "NO_VALUE": "No hay valor para esta conversación"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Buscar emojis",
+        "EMPTY_STATE": "Escribe para buscar emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Buscar macros",
+        "ACTION_COUNT": "1 acción | {count} acciones"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Buscar agentes y equipos",
+        "FILTER": {
+          "ALL": "Todos"
+        },
+        "AVAILABILITY": "Disponibilidad",
+        "ROLE": "Tipo de agente",
+        "AUTO_ASSIGN": "Auto asignar",
+        "ENABLED": "Activado",
+        "DISABLED": "Deshabilitado",
+        "YOU_ARE_A_MEMBER": "Eres un miembro de este equipo"
+      }
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Posponer hasta",
       "APPLY": "Posponer",
@@ -181,6 +235,8 @@
       },
       "ASSIGN_AGENT": "Asignar un agente",
       "ASSIGN_LABEL": "Asignar etiqueta",
+      "SEARCH_LABELS": "Buscar etiquetas",
+      "NO_LABELS_FOUND": "No se encontraron etiquetas",
       "AGENTS_LOADING": "Cargando agentes...",
       "ASSIGN_TEAM": "Asignar equipo",
       "DELETE": "Eliminar conversación",
@@ -484,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} más",
     "TOTAL_PARTICIPANTS_TEXT": "{count} personas están participando.",
     "TOTAL_PARTICIPANT_TEXT": "{count} personas están participando.",
-    "NO_PARTICIPANTS_TEXT": "Nadie está participando!.",
+    "NO_PARTICIPANTS_TEXT": "Nadie está participando!",
     "WATCH_CONVERSATION": "Abrir conversación",
     "YOU_ARE_WATCHING": "Estás participando",
     "API": {

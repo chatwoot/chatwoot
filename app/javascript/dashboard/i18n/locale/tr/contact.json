@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Müsait değil",
     "EMAIL_ADDRESS": "E-posta adresi",
     "PHONE_NUMBER": "Telefon numarası",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Doğrulayıcı",
     "COPY_SUCCESSFUL": "Panoya başarıyla kopyalandı",
     "COMPANY": "Şirket",
@@ -20,8 +21,8 @@
     "CALL": "Ara",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
-    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
-    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Kişiye arama izni isteği gönderildi. Kişi kabul ettikten sonra tekrar deneyin.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Arama izni isteği yakın zamanda zaten gönderildi. Kişi kabul ettikten sonra tekrar deneyin.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Sesli gelen kutusu seçin"
@@ -461,6 +462,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagram ekle"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Telegram Ekle"
           },
@@ -549,7 +553,7 @@
         "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
         "PARENT": "Birleştirilecek",
         "PARENT_HELP_LABEL": "Silinecek",
-        "EMPTY_STATE": "No contacts found",
+        "EMPTY_STATE": "Hiçbir kişi bulunamadı",
         "PLACEHOLDER": "Birincil kişiyi ara",
         "SEARCH_PLACEHOLDER": "Kişileri arayın",
         "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
@@ -586,11 +590,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Assign Labels",
-    "REMOVE_LABELS": "Remove Labels",
+    "REMOVE_LABELS": "Etiketleri Kaldır",
     "ASSIGN_LABELS_SUCCESS": "Etiketler başarıyla atandı.",
     "ASSIGN_LABELS_FAILED": "Failed to assign labels",
-    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
-    "REMOVE_LABELS_FAILED": "Failed to remove labels",
+    "REMOVE_LABELS_SUCCESS": "Etiketler başarıyla kaldırıldı.",
+    "REMOVE_LABELS_FAILED": "Etiketler kaldırılamadı",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
     "SELECTED_COUNT": "{count} selected",
@@ -612,11 +616,14 @@
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
     },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "Kişi oluşturulamadı. Lütfen tekrar deneyin."
+    },
     "FORM": {
       "GO_TO_CONVERSATION": "Görünüm",
       "SUCCESS_MESSAGE": "The message was sent successfully!",
       "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
-      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "NO_INBOX_ALERT": "Bu kişiyle bir sohbet başlatmak için kullanılabilir gelen kutusu bulunmamaktadır.",
       "CONTACT_SELECTOR": {
         "LABEL": "Kime:",
         "TAG_INPUT_PLACEHOLDER": "İsim, e-posta veya telefon numarası ile arama yapmak için en az 2 karakter girin",
@@ -624,7 +631,7 @@
       },
       "INBOX_SELECTOR": {
         "LABEL": "Via:",
-        "BUTTON": "Show inboxes"
+        "BUTTON": "Gelen kutularını göster"
       },
       "EMAIL_OPTIONS": {
         "SUBJECT_LABEL": "Konu :",

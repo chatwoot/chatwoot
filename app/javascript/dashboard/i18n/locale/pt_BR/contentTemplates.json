@@ -42,7 +42,7 @@
       "FORM_ERROR_MESSAGE": "Por favor, preencha todas as variáveis antes de enviar",
       "MEDIA_HEADER_LABEL": "Cabeçalho {type}",
       "MEDIA_URL_LABEL": "Digite a URL completa da mídia",
-      "MEDIA_URL_PLACEHOLDER": "https://exemplo.com.br/imagem.jpg"
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
     },
     "FORM": {
       "BACK_BUTTON": "Anterior",

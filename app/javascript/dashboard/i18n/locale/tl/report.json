@@ -23,12 +23,14 @@
         "NAME": "Unang Oras ng Tugon",
         "DESC": "(Average)",
         "INFO_TEXT": "Kabuuang bilang ng mga pag-uusap na ginamit sa pagkalkula:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Ang Unang Oras ng Tugon ay {metricValue} (batay sa {conversationCount} mga pag-uusap)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Oras ng Resolusyon",
         "DESC": "(Average)",
         "INFO_TEXT": "Kabuuang bilang ng mga pag-uusap na ginamit sa pagkalkula:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Ang Oras ng Resolusyon ay {metricValue} (batay sa {conversationCount} mga pag-uusap)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Oras ng paghihintay ng customer",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Ang oras ng paghihintay ay {metricValue} (batay sa {conversationCount} mga sagot)",
         "DESC": ""
       }
@@ -129,7 +133,6 @@
       "ERROR": "Could not load records. Please try again.",
       "ADMIN_ONLY": "Only administrators can drill down into report records.",
       "LOAD_MORE": "Load more",
-      "CLOSE": "Close details",
       "PREVIOUS_BUCKET": "Previous bar",
       "NEXT_BUCKET": "Next bar",
       "UNKNOWN_CONTACT": "Unknown contact",
@@ -545,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Pangkalahatang-ideya",
     "LIVE": "Naka-live",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Mga Bukas na Pag-uusap",
       "LOADING_MESSAGE": "Ikinakarga ang mga sukatan ng pag-uusap...",

@@ -43,5 +43,16 @@ RSpec.describe 'Calls API', type: :request do
       expect(body['meta']['count']).to eq(1)
       expect(body['payload'].map { |c| c['id'] }).to contain_exactly(agent_call.id)
     end
+
+    it 'renders a null contact for calls whose contact no longer exists' do
+      # A contact merge can leave a call pointing at a deleted contact; the index must not 500.
+      contact.delete
+
+      get "/api/v1/accounts/#{account.id}/calls", headers: admin.create_new_auth_token
+
+      expect(response).to have_http_status(:ok)
+      item = response.parsed_body['payload'].find { |c| c['id'] == agent_call.id }
+      expect(item['contact']).to be_nil
+    end
   end
 end

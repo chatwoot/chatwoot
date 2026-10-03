@@ -1,0 +1,57 @@
+class Shopify::SubscriptionFetcher
+  CACHE_TTL = 2.minutes
+
+  class NotEligible < StandardError; end
+
+  def initialize(account:)
+    @account = account
+  end
+
+  def perform(force: false)
+    ensure_eligible!
+    cached_snapshot = Rails.cache.read(cache_key) unless force
+    return Shopify::SubscriptionSnapshot.from_h(cached_snapshot) if cached_snapshot.present?
+
+    fetch_current_snapshot
+  end
+
+  private
+
+  attr_reader :account
+
+  def ensure_eligible!
+    raise NotEligible, 'Shopify subscription lookup is disabled' unless Shopify::FeatureGate.enabled?(account: account)
+
+    billing_identity = account.internal_attributes.stringify_keys
+    return if billing_identity['billing_provider'] == 'shopify' && billing_identity['signup_source'] == 'shopify'
+
+    raise NotEligible, 'Account is not billed through Shopify'
+  end
+
+  def hook
+    @hook ||= account.hooks.find_by!(app_id: 'shopify', status: 'enabled')
+  end
+
+  def fetch_current_snapshot
+    hook.with_lock do
+      ensure_hook_enabled!
+      verified_at = Time.current
+      snapshot = Shopify::PartnerClient.new.subscription_snapshot(
+        shop_id: Shopify::ShopIdentity.new(hook: hook).shop_id,
+        verified_at: verified_at
+      )
+      Rails.cache.write(cache_key, snapshot.to_h, expires_in: CACHE_TTL)
+      snapshot
+    end
+  end
+
+  def ensure_hook_enabled!
+    return if hook.enabled? && hook.access_token.present?
+
+    raise ActiveRecord::RecordNotFound, 'Shopify integration credentials are unavailable'
+  end
+
+  def cache_key
+    "shopify:subscription_snapshot:account:#{account.id}"
+  end
+end

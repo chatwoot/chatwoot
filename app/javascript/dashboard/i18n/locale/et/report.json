@@ -23,12 +23,14 @@
         "NAME": "Esimene vastuse aeg",
         "DESC": "( Keskmine )",
         "INFO_TEXT": "Arvutamiseks kasutatud vestluste koguarv:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Esimene vastuse aeg on {metricValue} (põhineb {conversationCount} vestlusel)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lahendamise aeg",
         "DESC": "( Keskmine )",
         "INFO_TEXT": "Arvutamiseks kasutatud vestluste koguarv:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Lahendamise aeg on {metricValue} (põhineb {conversationCount} vestlusel)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Kliendi ooteaeg",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Ooteaeg on {metricValue} (põhineb {conversationCount} vastusel)",
         "DESC": ""
       }
@@ -129,7 +133,6 @@
       "ERROR": "Could not load records. Please try again.",
       "ADMIN_ONLY": "Only administrators can drill down into report records.",
       "LOAD_MORE": "Load more",
-      "CLOSE": "Close details",
       "PREVIOUS_BUCKET": "Previous bar",
       "NEXT_BUCKET": "Next bar",
       "UNKNOWN_CONTACT": "Unknown contact",
@@ -545,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Ülevaade",
     "LIVE": "Otseülekanne",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Avatud vestlused",
       "LOADING_MESSAGE": "Vestluse mõõdikute laadimine...",

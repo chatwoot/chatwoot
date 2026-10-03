@@ -6,18 +6,6 @@ RSpec.describe Captain::ConversationEvents do
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:timestamp) { Time.zone.now }
 
-  describe '.engaged' do
-    it 'dispatches the engagement event with normalized context' do
-      expect(Rails.configuration.dispatcher).to receive(:dispatch).with(
-        Events::Types::CAPTAIN_CONVERSATION_ENGAGED,
-        timestamp,
-        { conversation: conversation, assistant: assistant }
-      )
-
-      described_class.engaged(conversation: conversation, assistant: assistant, at: timestamp)
-    end
-  end
-
   describe '.handed_off' do
     it 'dispatches the handoff event with source and reason category' do
       expect(Rails.configuration.dispatcher).to receive(:dispatch).with(
@@ -69,7 +57,9 @@ RSpec.describe Captain::ConversationEvents do
         .and_return(instance_double(ChatwootExceptionTracker, capture_exception: true))
 
       expect do
-        described_class.engaged(conversation: conversation, assistant: assistant, at: timestamp)
+        described_class.handed_off(
+          conversation: conversation, assistant: assistant, source: 'tool', reason_category: nil, at: timestamp
+        )
       end.not_to raise_error
     end
   end

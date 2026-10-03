@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "無法使用",
     "EMAIL_ADDRESS": "電子信箱地址",
     "PHONE_NUMBER": "電話號碼",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "識別碼",
     "COPY_SUCCESSFUL": "已成功複製到剪貼簿",
     "COMPANY": "公司",
@@ -461,6 +462,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "新增 Instagram"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "新增 Telegram"
           },
@@ -611,6 +615,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "無法完成搜尋，請重試。"
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "查看",

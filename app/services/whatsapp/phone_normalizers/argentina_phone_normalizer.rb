@@ -10,6 +10,8 @@ class Whatsapp::PhoneNormalizers::ArgentinaPhoneNormalizer < Whatsapp::PhoneNorm
     waid.sub(/^549/, '54')
   end
 
+  # No #variants override: a 54 number without the 9 is a valid landline, so a synthesized 549 alias can answer as a different subscriber.
+
   private
 
   def country_code_pattern

@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "አይገኝም",
     "EMAIL_ADDRESS": "ኢሜይል አድራሻ",
     "PHONE_NUMBER": "ስልክ ቁጥር",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "መለያ",
     "COPY_SUCCESSFUL": "ወደ ክሊፕቦርድ ተቀይሯል",
     "COMPANY": "ኩባንያ",
@@ -461,6 +462,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagram አክል"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Telegram ያክሉ"
           },
@@ -611,6 +615,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "ፍለጋው አልተጠናቀቀም። እባክዎ ደግመው ይሞክሩ።."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "እይ",

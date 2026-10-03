@@ -17,6 +17,7 @@ const state = {
   currentInbox: null,
   selectedChatId: null,
   appliedFilters: [],
+  appliedFiltersSortBy: null,
   contextMenuChatId: null,
   conversationParticipants: [],
   conversationLastSeen: null,
@@ -28,6 +29,16 @@ const state = {
 const getConversationById = _state => conversationId => {
   return _state.allConversations.find(c => c.id === conversationId);
 };
+
+const preserveConversationMessageState = (
+  conversation,
+  existingConversation
+) => ({
+  ...conversation,
+  allMessagesLoaded: existingConversation.allMessagesLoaded,
+  messages: existingConversation.messages,
+  dataFetched: existingConversation.dataFetched,
+});
 
 // mutations
 export const mutations = {
@@ -49,15 +60,32 @@ export const mutations = {
         // If the conversation is already in the list and selectedChatId is the same,
         // replace all data except the messages array, attachments, dataFetched, allMessagesLoaded
         const existingConversation = newAllConversations[indexInCurrentList];
-        newAllConversations[indexInCurrentList] = {
-          ...conversation,
-          allMessagesLoaded: existingConversation.allMessagesLoaded,
-          messages: existingConversation.messages,
-          dataFetched: existingConversation.dataFetched,
-        };
+        newAllConversations[indexInCurrentList] =
+          preserveConversationMessageState(conversation, existingConversation);
       }
     });
     _state.allConversations = newAllConversations;
+  },
+  [types.REPLACE_CONVERSATION_LIST](_state, conversationList) {
+    const selectedConversation = getConversationById(_state)(
+      _state.selectedChatId
+    );
+    const replacementList = [...conversationList];
+    if (selectedConversation) {
+      const selectedConversationIndex = replacementList.findIndex(
+        conversation => conversation.id === selectedConversation.id
+      );
+      if (selectedConversationIndex === -1) {
+        replacementList.push(selectedConversation);
+      } else {
+        replacementList[selectedConversationIndex] =
+          preserveConversationMessageState(
+            replacementList[selectedConversationIndex],
+            selectedConversation
+          );
+      }
+    }
+    _state.allConversations = replacementList;
   },
   [types.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
@@ -83,7 +111,13 @@ export const mutations = {
   [types.SET_PREVIOUS_CONVERSATIONS](_state, { id, data }) {
     if (data.length) {
       const [chat] = _state.allConversations.filter(c => c.id === id);
-      chat.messages.unshift(...data);
+      const messageIds = new Set(chat.messages.map(message => message.id));
+      const newMessages = data.filter(message => {
+        if (messageIds.has(message.id)) return false;
+        messageIds.add(message.id);
+        return true;
+      });
+      chat.messages.unshift(...newMessages);
     }
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
@@ -349,8 +383,13 @@ export const mutations = {
     _state.appliedFilters = data;
   },
 
+  [types.SET_CONVERSATION_FILTERS_SORT](_state, sortBy) {
+    _state.appliedFiltersSortBy = sortBy;
+  },
+
   [types.CLEAR_CONVERSATION_FILTERS](_state) {
     _state.appliedFilters = [];
+    _state.appliedFiltersSortBy = null;
   },
 
   [types.SET_LAST_MESSAGE_ID_IN_SYNC_CONVERSATION](

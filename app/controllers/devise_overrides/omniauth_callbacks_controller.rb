@@ -52,11 +52,15 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def login_page_url(error: nil, email: nil, sso_auth_token: nil)
-    frontend_url = ENV.fetch('FRONTEND_URL', nil)
+    frontend_url = omniauth_frontend_url
     params = { email: email, sso_auth_token: sso_auth_token }.compact
     params[:error] = error if error.present?
 
     "#{frontend_url}/app/login?#{params.to_query}"
+  end
+
+  def omniauth_frontend_url
+    ENV.fetch('FRONTEND_URL', nil)
   end
 
   def account_signup_allowed?

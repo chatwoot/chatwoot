@@ -27,6 +27,9 @@ class Twilio::VoiceController < ApplicationController
     return render xml: reject_twiml if reject_inbound?
 
     call = resolve_call
+    # The leg was answered after the call ended (e.g. hangup raced the cancel); don't strand it in an empty conference.
+    return render xml: hangup_twiml if call.terminal?
+
     render xml: conference_twiml(call)
   end
 
@@ -100,6 +103,10 @@ class Twilio::VoiceController < ApplicationController
     Twilio::TwiML::VoiceResponse.new(&:reject).to_s
   end
 
+  def hangup_twiml
+    Twilio::TwiML::VoiceResponse.new(&:hangup).to_s
+  end
+
   def resolve_call
     return find_call_for_agent if agent_leg?(twilio_from)
 
@@ -146,7 +153,7 @@ class Twilio::VoiceController < ApplicationController
           conference_sid,
           start_conference_on_enter: agent_leg?(twilio_from),
           end_conference_on_exit: false,
-          record: 'record-from-start',
+          record: call.recording_enabled? ? 'record-from-start' : 'do-not-record',
           recording_status_callback: recording_status_callback_url,
           recording_status_callback_event: 'completed',
           recording_status_callback_method: 'POST',
