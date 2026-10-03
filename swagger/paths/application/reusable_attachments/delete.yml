@@ -1,0 +1,32 @@
+tags:
+  - Reusable Attachments
+operationId: delete-reusable-attachment-from-account
+summary: Remove a Reusable Attachment from Account
+description: |
+  Remove a Reusable Attachment from an Account. Only administrators and the user
+  who created the attachment can delete it. Files already attached to messages
+  are not affected.
+security:
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    schema:
+      type: integer
+    required: true
+    description: The ID of the reusable attachment to be deleted
+responses:
+  '204':
+    description: Success
+  '404':
+    description: Reusable attachment not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '401':
+    description: Unauthorized, only administrators and the creator can delete it
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

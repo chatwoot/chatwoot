@@ -1,0 +1,11 @@
+json.id @reusable_attachment.id
+json.name @reusable_attachment.name
+json.file_type @reusable_attachment.file_type
+json.extension @reusable_attachment.extension
+json.description @reusable_attachment.description
+json.file_url @reusable_attachment.file_url
+json.download_url @reusable_attachment.download_url
+json.thumb_url @reusable_attachment.thumb_url
+json.file_size @reusable_attachment.file_size
+json.created_at @reusable_attachment.created_at
+json.updated_at @reusable_attachment.updated_at
