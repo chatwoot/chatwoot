@@ -29,8 +29,8 @@
     },
     "TYPES_NEXT": {
       "CONVERSATION_MENTION": "Mentioned",
-      "CONVERSATION_ASSIGNMENT": "Assigned to you",
-      "CONVERSATION_CREATION": "New Conversation",
+      "CONVERSATION_ASSIGNMENT": "Size atandı",
+      "CONVERSATION_CREATION": "Yeni Konuşma",
       "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
       "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
       "SLA_MISSED_RESOLUTION": "SLA breach",

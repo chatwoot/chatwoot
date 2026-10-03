@@ -139,37 +139,6 @@
       "SELECT": "Seç"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "Bildirimler",
-    "MARK_ALL_DONE": "Hepsini Tamamlandı İşaretle",
-    "DELETE_TITLE": "silindi",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "Okunmamış Bildirimler",
-      "ALL_NOTIFICATIONS": "Tüm bildirimleri görüntüle",
-      "LOADING_UNREAD_MESSAGE": "Okunmamış bildirimler yükleniyor...",
-      "EMPTY_MESSAGE": "Okunmamış bildiriminiz yok"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "Bildirimler yükleniyor...",
-      "404": "Bildirim yok",
-      "TABLE_HEADER": [
-        "İsim",
-        "Telefon Numarası",
-        "Konuşmalar",
-        "Son Görüşülen"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "Yeni Görüşme",
-      "conversation_assignment": "Atanan Görüşme",
-      "assigned_conversation_new_message": "Yeni Mesaj",
-      "participating_conversation_new_message": "Yeni Mesaj",
-      "conversation_mention": "Bahset",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Çevrimdışı",
@@ -192,6 +161,7 @@
       "CHANGE_PRIORITY": "Önceliği Değiştir",
       "CHANGE_TEAM": "Takım Değiştir",
       "SNOOZE_CONVERSATION": "Konuşmayı Ertele",
+      "EXECUTE_MACRO": "Makroyu çalıştır",
       "ADD_LABEL": "Konuşmaya Etiket Ekle",
       "REMOVE_LABEL": "Konuşmadan Etiketi Kaldır",
       "SETTINGS": "Ayarlar",
@@ -200,28 +170,44 @@
       "SNOOZE_NOTIFICATION": "Sessiz bildirim"
     },
     "COMMANDS": {
+      "GO_TO_MY_INBOX": "Gelen Kutuma Git",
       "GO_TO_CONVERSATION_DASHBOARD": "Konuşma Paneline Git",
       "GO_TO_CONTACTS_DASHBOARD": "Kişiler Paneline Git",
+      "GO_TO_CAPTAIN": "Captain'a Git",
+      "GO_TO_CALLS_DASHBOARD": "Aramalar Panosuna Git",
+      "GO_TO_CAMPAIGNS": "Kampanyalara Git",
+      "GO_TO_HELP_CENTER": "Go to Help Center",
       "GO_TO_REPORTS_OVERVIEW": "Raporlara Genel Bakış'a Git",
       "GO_TO_CONVERSATION_REPORTS": "Konuşma Raporlarına Git",
       "GO_TO_AGENT_REPORTS": "Temsilci Raporlarına Git",
       "GO_TO_LABEL_REPORTS": "Etiket Raporlarına Git",
       "GO_TO_INBOX_REPORTS": "Gelen Kutusu Raporlarına Git",
       "GO_TO_TEAM_REPORTS": "Ekip Raporlarına Git",
+      "GO_TO_CSAT_REPORTS": "Go to CSAT Reports",
+      "GO_TO_BOT_REPORTS": "Go to Bot Reports",
+      "GO_TO_SLA_REPORTS": "Go to SLA Reports",
       "GO_TO_SETTINGS_AGENTS": "Temsilci Ayarlarına Git",
       "GO_TO_SETTINGS_TEAMS": "Takım Ayarlarına Git",
       "GO_TO_SETTINGS_INBOXES": "Gelen Kutusu Ayarlarına Git",
+      "GO_TO_SETTINGS_TEMPLATES": "Go to Templates",
       "GO_TO_SETTINGS_LABELS": "Etiket Ayarlarına Git",
+      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Go to Custom Attributes",
+      "GO_TO_SETTINGS_AUTOMATION": "Go to Automation",
+      "GO_TO_SETTINGS_MACROS": "Go to Macros",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Hazır Yanıt Ayarlarına Git",
+      "GO_TO_SETTINGS_SLA": "Go to SLA Settings",
       "GO_TO_SETTINGS_APPLICATIONS": "Uygulama Ayarlarına Git",
+      "GO_TO_SETTINGS_DATA": "Go to Data",
+      "GO_TO_SETTINGS_AUDIT_LOGS": "Go to Audit Logs",
+      "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Hesap Ayarlarına Git",
       "GO_TO_SETTINGS_PROFILE": "Profil Ayarlarına Git",
-      "GO_TO_NOTIFICATIONS": "Bildirimlere Git",
       "ADD_LABELS_TO_CONVERSATION": "Konuşmaya Etiket Ekle",
       "ASSIGN_AN_AGENT": "Bir Temsilci Ata",
       "AI_ASSIST": "AI Yardımı",
       "ASSIGN_PRIORITY": "Öncelik Ata",
       "ASSIGN_A_TEAM": "Bir Takım Ata",
+      "EXECUTE_A_MACRO": "Execute a macro",
       "MUTE_CONVERSATION": "Konuşmayı Sessize Al",
       "UNMUTE_CONVERSATION": "Konuşmanın Sessizliğini Kaldır",
       "REMOVE_LABEL_FROM_CONVERSATION": "Konuşmadan Etiketi Kaldır",

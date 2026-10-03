@@ -18,7 +18,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['saveArticle', 'setAuthor', 'setCategory']);
+const emit = defineEmits([
+  'saveArticle',
+  'setAuthor',
+  'setCategory',
+  'previewArticle',
+]);
 
 const { t } = useI18n();
 const route = useRoute();
@@ -256,6 +261,8 @@ onMounted(() => {
           :article="article"
           class="right-0 z-[100] mt-2 xl:left-0 top-full"
           @save-article="updateMeta"
+          @save-slug="slug => emit('saveArticle', { slug })"
+          @preview-article="emit('previewArticle')"
           @close="openProperties = false"
         />
       </OnClickOutside>

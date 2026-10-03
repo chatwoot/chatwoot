@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "در دسترس نیست",
     "EMAIL_ADDRESS": "ایمیل",
     "PHONE_NUMBER": "شماره تلفن",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "شناسه",
     "COPY_SUCCESSFUL": "با موفقیت در کلیپ‌بورد کپی شد",
     "COMPANY": "شرکت",
@@ -461,6 +462,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"
           },
@@ -611,6 +615,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "نمایش",

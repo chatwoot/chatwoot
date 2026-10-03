@@ -10,12 +10,22 @@ class Captain::Assistant::AgentRunnerService
 
   attr_reader :last_run_result
 
-  def initialize(assistant:, conversation: nil, callbacks: {}, source: nil, responding_to_message_id: nil)
+  REPLY_SUGGESTION_SOURCE = 'copilot_reply_suggestion'.freeze
+  RunOptions = Data.define(:callbacks, :source, :responding_to_message_id, :runtime_configuration) do
+    def initialize(callbacks: {}, source: nil, responding_to_message_id: nil, runtime_configuration: nil)
+      super
+    end
+  end
+
+  # Keep request-scoped behavior in RunOptions so the runner's core dependencies stay stable.
+  def initialize(assistant:, conversation: nil, run_options: RunOptions.new)
     @assistant = assistant
     @conversation = conversation
-    @callbacks = callbacks
-    @source = source
-    @responding_to_message_id = responding_to_message_id
+    @callbacks = run_options.callbacks
+    @source = run_options.source
+    @responding_to_message_id = run_options.responding_to_message_id
+    @runtime_configuration = run_options.runtime_configuration
+
     @handoff_tool_called = false
     @handoff_tool_completed = false
   end
@@ -23,6 +33,8 @@ class Captain::Assistant::AgentRunnerService
   def generate_response(message_history: [])
     message_to_process, context = run_payload(message_history)
     @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
+    raise @last_run_result.error if @last_run_result.error
+
     record_turn_start(@last_run_result)
     @last_run_result = rewrite_oversized_response(@last_run_result) if response_too_long?(@last_run_result)
 
@@ -99,14 +111,50 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def build_and_wire_agents
+    return [reply_suggestion_agent] if reply_suggestion?
+
+    return default_agent_graph unless @runtime_configuration
+
+    assistant_agent = @assistant.agent(runtime_configuration: @runtime_configuration)
+    scenario_agents = @runtime_configuration.scenarios.map do |scenario|
+      scenario.agent(
+        runtime_configuration: @runtime_configuration,
+        runtime_agent_name: @runtime_configuration.agent_name_for(scenario)
+      )
+    end
+
+    wire_agents(assistant_agent, scenario_agents)
+  end
+
+  def default_agent_graph
     assistant_agent = @assistant.agent
     scenario_agents = @assistant.scenarios.enabled.map(&:agent)
 
+    wire_agents(assistant_agent, scenario_agents)
+  end
+
+  def wire_agents(assistant_agent, scenario_agents)
     assistant_agent.register_handoffs(*scenario_agents) if scenario_agents.any?
     scenario_agents.each { |scenario_agent| scenario_agent.register_handoffs(assistant_agent) }
 
     [assistant_agent] + scenario_agents
   end
+
+  def reply_suggestion_agent
+    agent = @assistant.agent
+    agent.clone(
+      instructions: ->(context) { @assistant.agent_instructions(context, prompt_template: 'copilot_reply_suggestion') },
+      tools: agent.tools.select { |tool| available_in_reply_suggestion?(tool) }
+    )
+  end
+
+  def available_in_reply_suggestion?(tool)
+    return true if tool.is_a?(Captain::Tools::FaqLookupTool)
+
+    tool.is_a?(Captain::Tools::HttpTool) && tool.available_in_reply_suggestion?
+  end
+
+  def reply_suggestion? = @source == REPLY_SUGGESTION_SOURCE
 
   def runner
     @runner ||= begin

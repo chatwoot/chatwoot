@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "المتغيرات",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "اللغة",
       "CATEGORY": "الفئة",
       "VARIABLE_PLACEHOLDER": "أدخل قيمة {variable}",

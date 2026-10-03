@@ -5,8 +5,11 @@ import { useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import CaptainAssistant from 'dashboard/api/captain/assistant';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
+import OverviewV2 from 'dashboard/components-next/captain/pageComponents/overview/v2/OverviewV2.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import RangeSelector from 'dashboard/components-next/captain/pageComponents/overview/RangeSelector.vue';
 import WelcomeCard from 'dashboard/components-next/captain/pageComponents/overview/WelcomeCard.vue';
@@ -19,6 +22,8 @@ import CoverageBanner from 'dashboard/components-next/captain/pageComponents/ove
 
 const { t } = useI18n();
 const route = useRoute();
+const isOverviewV2Enabled =
+  LocalStorage.get(LOCAL_STORAGE_KEYS.CAPTAIN_OVERVIEW_V2) === true;
 // Drilldown is admin-only; the backend policy enforces the same restriction.
 const { checkPermissions } = usePolicy();
 const canDrilldown = computed(() => checkPermissions(['administrator']));
@@ -101,8 +106,10 @@ onUnmounted(() => {
   faqStatsAbortController?.abort();
 });
 
-watch([selectedRange, assistantId], fetchMetrics, { immediate: true });
-watch(assistantId, fetchFaqStats, { immediate: true });
+if (!isOverviewV2Enabled) {
+  watch([selectedRange, assistantId], fetchMetrics, { immediate: true });
+  watch(assistantId, fetchFaqStats, { immediate: true });
+}
 
 // `direction` says whether a rising trend is good ('up'), bad ('down'), or
 // neutral, so we can colour the delta independently of its sign.
@@ -199,7 +206,9 @@ const closeDrilldown = () => {
 </script>
 
 <template>
+  <OverviewV2 v-if="isOverviewV2Enabled" />
   <PageLayout
+    v-else
     :header-title="$t('CAPTAIN.OVERVIEW.HEADER')"
     :is-empty="false"
     :show-pagination-footer="false"

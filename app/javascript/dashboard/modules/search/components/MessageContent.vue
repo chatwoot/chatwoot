@@ -20,42 +20,65 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const { highlightContent } = useMessageFormatter();
+const { getPlainText } = useMessageFormatter();
 
 const { contentElement, showReadMore, showReadLess, toggleExpanded } =
   useExpandableContent();
 
 const messageContent = computed(() => {
-  // We perform search on either content or email subject or transcribed text
+  // Voice-call messages carry a generic content label (e.g. "Twilio voice
+  // call"), so a transcript match would otherwise be hidden behind it.
+  if (
+    props.message.contentType === 'voice_call' &&
+    props.message.call?.transcript
+  ) {
+    return props.message.call.transcript;
+  }
+
+  // We perform search on either content, email subject, or transcribed text
+  // (voice-note attachments)
   if (props.message.content) {
     return props.message.content;
   }
 
-  const { content_attributes = {} } = props.message;
-  const { email = {} } = content_attributes || {};
+  const { email = {} } = props.message.contentAttributes || {};
   if (email.subject) {
     return email.subject;
   }
 
   const audioAttachment = props.message.attachments?.find(
-    attachment => attachment.file_type === 'audio'
+    attachment => attachment.fileType === 'audio'
   );
-  return audioAttachment?.transcribed_text || '';
+  return audioAttachment?.transcribedText || '';
 });
 
 const escapeHtml = html => {
   const wrapper = document.createElement('p');
   wrapper.textContent = html;
-  return wrapper.textContent;
+  return wrapper.innerHTML;
 };
 
 const highlightedContent = computed(() => {
-  const content = messageContent.value || '';
-  const escapedText = escapeHtml(content);
-  return highlightContent(
-    escapedText,
-    props.searchTerm,
-    'searchkey--highlight'
+  // getPlainText decodes any markdown in the source into literal text (e.g. a
+  // literal "<img ...>" in the transcript stays as visible characters rather
+  // than a tag). escapeHtml then HTML-encodes that text so the highlight
+  // <span> injected below is the only real markup in the final string passed
+  // to v-dompurify-html.
+  const plainText = getPlainText(messageContent.value || '');
+  const escapedText = escapeHtml(plainText);
+
+  const searchTerm = props.searchTerm || '';
+  if (!searchTerm) {
+    return escapedText;
+  }
+
+  const escapedSearchTerm = escapeHtml(searchTerm).replace(
+    /[.*+?^${}()|[\]\\]/g,
+    '\\$&'
+  );
+  return escapedText.replace(
+    new RegExp(`(${escapedSearchTerm})`, 'ig'),
+    '<span class="searchkey--highlight">$1</span>'
   );
 });
 

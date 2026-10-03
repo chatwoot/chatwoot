@@ -2,9 +2,7 @@ module Messages::AttachmentProcessing
   private
 
   def process_attachments
-    return if @attachments.blank?
-
-    @attachments.each do |uploaded_attachment|
+    (Array(@attachments) + forwarded_attachments).each do |uploaded_attachment|
       attachment = @message.attachments.build(
         account_id: @message.account_id,
         file: uploaded_attachment
@@ -29,6 +27,17 @@ module Messages::AttachmentProcessing
       attachment.extension = reusable.extension
       tag_voice_message(attachment)
     end
+  end
+
+  def forwarded_message_id
+    content_attributes[:forwarded_message_id]
+  end
+
+  def forwarded_attachments
+    return [] if forwarded_message_id.blank?
+
+    forwarded_message = @conversation.messages.find(forwarded_message_id)
+    forwarded_message.attachments.where(id: @params[:forwarded_attachment_ids]).map { |attachment| attachment.file.blob }
   end
 
   def attachment_file_type(uploaded_attachment)

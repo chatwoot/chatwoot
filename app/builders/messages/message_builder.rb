@@ -8,7 +8,7 @@ class Messages::MessageBuilder
 
   def initialize(user, conversation, params)
     @params = params
-    @private = params[:private] || false
+    @private = ActiveModel::Type::Boolean.new.cast(params[:private]) || false
     @conversation = conversation
     @user = user
     @account = conversation.account
@@ -51,7 +51,16 @@ class Messages::MessageBuilder
     {}
   end
 
+  def validate_forward
+    return if forwarded_message_id.blank?
+
+    raise StandardError, 'Forwarded emails need an email inbox' unless @conversation.inbox.email?
+    raise StandardError, 'Forwarded emails cannot be private' if @private
+    raise StandardError, 'Forwarded emails need a recipient' if process_email_string(@params[:to_emails]).empty?
+  end
+
   def process_emails
+    validate_forward
     return unless @conversation.inbox&.inbox_type == 'Email'
 
     cc_emails = process_email_string(@params[:cc_emails])

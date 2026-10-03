@@ -8,16 +8,7 @@ class Captain::ConversationEvents
   end
 
   class << self
-    def engaged(conversation:, assistant:, at:)
-      dispatch(
-        Events::Types::CAPTAIN_CONVERSATION_ENGAGED,
-        at: at,
-        conversation: conversation,
-        assistant: assistant
-      )
-    end
-
-    def handed_off(conversation:, assistant:, source:, at:, reason_category: nil)
+    def handed_off(conversation:, assistant:, source:, reason_category:, at:)
       dispatch(
         Events::Types::CAPTAIN_CONVERSATION_HANDED_OFF,
         at: at,

@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "実行",
       "PREVIEW": "マクロをプレビュー",
-      "EXECUTED_SUCCESSFULLY": "マクロが正常に実行されました"
+      "EXECUTED_SUCCESSFULLY": "マクロが正常に実行されました",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "属性キーが必須です",
@@ -104,6 +105,7 @@
       "MUTE_CONVERSATION": "会話をミュート",
       "SNOOZE_CONVERSATION": "会話をスヌーズ",
       "RESOLVE_CONVERSATION": "会話を解決",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
       "CHANGE_PRIORITY": "優先度を変更",

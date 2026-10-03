@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "دستیاب نہیں ہے",
     "EMAIL_ADDRESS": "ای میل اڈریس",
     "PHONE_NUMBER": "فون نمبر",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "کامیابی کے ساتھ کلپ بورڈ پر کاپی ہو گیا۔",
     "COMPANY": "کمپنی",
@@ -461,6 +462,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"
           },
@@ -611,6 +615,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "دیکھیں",

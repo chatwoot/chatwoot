@@ -183,6 +183,18 @@ RSpec.describe 'CSAT Survey Responses API', type: :request do
         expect(content[1][1]).to eq '1'
         expect(content.length).to eq 3
       end
+
+      it 'neutralises formula-leading characters in the feedback column' do
+        create(:csat_survey_response, account: account, feedback_message: '=1+1', created_at: 1.day.ago)
+
+        get "/api/v1/accounts/#{account.id}/csat_survey_responses/download",
+            params: params,
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        injected = CSV.parse(response.body).map { |row| row[2] }.find { |value| value.to_s.include?('1+1') }
+        expect(injected).to start_with("'")
+      end
     end
   end
 end

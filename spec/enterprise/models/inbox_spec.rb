@@ -184,6 +184,16 @@ RSpec.describe Inbox do
                                     audited_changes: { 'widget_color' => [previous_color, new_color] }).count).to eq(1)
       end
     end
+
+    context 'when channel hmac token is updated along with other attributes' do
+      it 'does not include hmac token in the audit log' do
+        inbox.channel.update(hmac_token: 'new-hmac-token', widget_color: '#00ff00')
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes).to have_key('widget_color')
+        expect(audit.audited_changes).not_to have_key('hmac_token')
+      end
+    end
   end
 
   describe 'audit log with api channel' do
@@ -214,6 +224,14 @@ RSpec.describe Inbox do
         # Check for the specific webhook_update update in the audit log
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update',
                                     audited_changes: { 'webhook_url' => [previous_webhook, new_webhook] }).count).to eq(1)
+      end
+    end
+
+    context 'when channel hmac token is rotated' do
+      it 'has no associated audit log created' do
+        inbox.channel.regenerate_hmac_token
+
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
       end
     end
   end
@@ -265,6 +283,86 @@ RSpec.describe Inbox do
       it 'has no associated audit log created' do
         channel.sync_templates
         # check if template sync does not create an audit log
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
+      end
+    end
+
+    context 'when a provider config call setting is toggled' do
+      it 'audits only the allow-listed settings' do
+        channel.update(provider_config: channel.provider_config.merge('recording_enabled' => false))
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes['provider_config']).to eq([{}, { 'recording_enabled' => false }])
+      end
+    end
+
+    context 'when only provider config credentials change' do
+      it 'has no associated audit log created' do
+        channel.update(provider_config: channel.provider_config.merge('api_key' => 'rotated_key'))
+
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
+      end
+    end
+
+    context 'when provider config credentials and a call setting change together' do
+      it 'audits only the call setting' do
+        channel.update(provider_config: channel.provider_config.merge('api_key' => 'rotated_key', 'calling_enabled' => true))
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes['provider_config']).to eq([{}, { 'calling_enabled' => true }])
+      end
+    end
+
+    context 'when an allow-listed provider config key holds a non boolean value' do
+      it 'has no associated audit log created' do
+        channel.update(provider_config: channel.provider_config.merge('recording_enabled' => { 'x' => 'secret' }))
+
+        expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
+      end
+    end
+
+    context 'when provider config is set for the first time' do
+      it 'audits the call settings present after the change' do
+        channel.update_column(:provider_config, nil) # rubocop:disable Rails/SkipsModelValidations
+        channel.update(provider_config: { 'calling_enabled' => true, 'api_key' => 'test_key' })
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes['provider_config']).to eq([{}, { 'calling_enabled' => true }])
+      end
+    end
+  end
+
+  describe 'audit log with email channel' do
+    let!(:channel) { create(:channel_email, :imap_email) }
+
+    context 'when channel provider config is updated' do
+      it 'does not include provider config in the audit log' do
+        channel.update(imap_address: 'imap.updated.com', provider_config: { access_token: 'super-secret-token' })
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes).to have_key('imap_address')
+        expect(audit.audited_changes).not_to have_key('provider_config')
+      end
+    end
+
+    context 'when channel passwords are updated' do
+      it 'does not include credential attributes in the audit log' do
+        channel.update(imap_login: 'updated@example.com', imap_password: 'new-imap-password', smtp_password: 'new-smtp-password')
+
+        audit = Audited::Audit.where(auditable_type: 'Inbox', action: 'update').last
+        expect(audit.audited_changes).to have_key('imap_login')
+        expect(audit.audited_changes.keys).not_to include('imap_password', 'smtp_password')
+      end
+    end
+  end
+
+  describe 'audit log with telegram channel' do
+    let!(:channel) { create(:channel_telegram) }
+
+    context 'when channel bot token is updated' do
+      it 'does not include credential attributes in the audit log' do
+        channel.update(bot_token: 'updated-bot-token')
+
         expect(Audited::Audit.where(auditable_type: 'Inbox', action: 'update').count).to eq(0)
       end
     end

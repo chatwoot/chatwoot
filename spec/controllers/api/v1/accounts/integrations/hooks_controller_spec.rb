@@ -51,6 +51,19 @@ RSpec.describe 'Integration Hooks API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['message']).to include(I18n.t('errors.cloudflare.realtimekit.invalid_api_token'))
       end
+
+      it 'does not create Shopify hooks when the installation switch is disabled' do
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
+
+        expect do
+          post api_v1_account_integrations_hooks_url(account_id: account.id),
+               params: { hook: { app_id: 'shopify' } },
+               headers: admin.create_new_auth_token,
+               as: :json
+        end.not_to change(Integrations::Hook, :count)
+
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 
@@ -86,6 +99,19 @@ RSpec.describe 'Integration Hooks API', type: :request do
         expect(response).to have_http_status(:success)
         data = response.parsed_body
         expect(data['app_id']).to eq 'slack'
+      end
+
+      it 'does not update Shopify hooks when the account feature is disabled' do
+        shopify_hook = create(:integrations_hook, :shopify, account: account)
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
+
+        patch api_v1_account_integrations_hook_url(account_id: account.id, id: shopify_hook.id),
+              params: { hook: { status: 'disabled' } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(shopify_hook.reload).to be_enabled
       end
     end
   end
@@ -144,6 +170,18 @@ RSpec.describe 'Integration Hooks API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(Integrations::Hook.exists?(hook.id)).to be false
+      end
+
+      it 'does not delete Shopify hooks when the account feature is disabled' do
+        shopify_hook = create(:integrations_hook, :shopify, account: account)
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
+
+        delete api_v1_account_integrations_hook_url(account_id: account.id, id: shopify_hook.id),
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(Integrations::Hook.exists?(shopify_hook.id)).to be true
       end
     end
   end

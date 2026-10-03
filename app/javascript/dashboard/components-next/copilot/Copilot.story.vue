@@ -42,6 +42,8 @@ const sendMessage = message => {
       content: 'This is a simulated AI response.',
     });
   }, 2000);
+
+  return true;
 };
 </script>
 
@@ -54,7 +56,7 @@ const sendMessage = message => {
       :support-agent="supportAgent"
       :messages="messages"
       :is-captain-typing="isCaptainTyping"
-      @send-message="sendMessage"
+      :on-send-message="sendMessage"
     />
   </Story>
 </template>

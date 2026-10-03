@@ -49,6 +49,11 @@
       "DISABLE_MFA_DESC": "Удалить двухфакторную аутентификацию из вашей учетной записи",
       "DISABLE_BUTTON": "Отключить двухфакторную аутентификацию"
     },
+    "LOW_BACKUP_CODES": {
+      "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",
+      "NONE_LEFT": "You have no backup codes remaining. Generate new codes now to avoid getting locked out if you lose access to your authenticator.",
+      "ACTION": "Generate codes"
+    },
     "DISABLE": {
       "TITLE": "Отключить двухфакторную аутентификацию",
       "DESCRIPTION": "Вам необходимо ввести пароль и проверочный код, чтобы отключить двухфакторную аутентификацию.",

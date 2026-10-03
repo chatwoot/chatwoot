@@ -19,6 +19,7 @@ import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import SidebarChangelogButton from './SidebarChangelogButton.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
+import EmojiIcon from 'next/emoji-icon-picker/EmojiIcon.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
@@ -67,6 +68,14 @@ const accountId = useMapGetter('getCurrentAccountId');
 const currentUserId = useMapGetter('getCurrentUserID');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
+);
+
+const isMonitorsAvailable = computed(
+  () =>
+    (isOnChatwootCloud.value || isEnterprise) &&
+    [FEATURE_FLAGS.REPORTS, FEATURE_FLAGS.CONVERSATION_MONITORS].every(flag =>
+      isFeatureEnabledonAccount.value(accountId.value, flag)
+    )
 );
 
 const hasAdvancedAssignment = computed(() => {
@@ -443,6 +452,13 @@ const menuItems = computed(() => {
             name: `${team.name}-${team.id}`,
             label: team.name,
             badgeCount: getTeamUnreadCount.value(team.id),
+            icon: team.icon
+              ? h(EmojiIcon, {
+                  value: team.icon,
+                  color: team.icon_color,
+                  class: 'size-3.5',
+                })
+              : undefined,
             to: accountScopedRoute('team_conversations', { teamId: team.id }),
           })),
         },
@@ -562,6 +578,9 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.CAPTAIN_SETTINGS'),
           activeOn: [
             'captain_assistants_settings_index',
+            'captain_assistants_settings_system_index',
+            'captain_assistants_settings_audience_index',
+            'captain_assistants_settings_schedule_index',
             'captain_assistants_guidelines_index',
             'captain_assistants_guardrails_index',
           ],
@@ -697,6 +716,16 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.REPORTS_BOT'),
           to: accountScopedRoute('bot_reports'),
         },
+        ...(isMonitorsAvailable.value
+          ? [
+              {
+                name: 'Monitors',
+                label: t('MONITORS.TITLE'),
+                to: accountScopedRoute('monitor_reports_index'),
+                activeOn: ['monitor_reports_show'],
+              },
+            ]
+          : []),
       ],
     },
     {

@@ -4,7 +4,7 @@ class Api::V1::Accounts::Captain::ScenariosController < Api::V1::Accounts::BaseC
   before_action :set_scenario, only: [:show, :update, :destroy]
 
   def index
-    @scenarios = assistant_scenarios.enabled
+    @scenarios = assistant_scenarios
   end
 
   def show; end

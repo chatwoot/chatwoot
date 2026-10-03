@@ -7,7 +7,9 @@ module Enterprise::SearchService
       search_query,
       fields: %w[content attachments.transcribed_text content_attributes.email.subject],
       where: where_conditions,
-      order: { created_at: :desc },
+      # id breaks created_at ties so results stay stable across page fetches;
+      # unmapped_type covers documents indexed before id was added
+      order: { created_at: :desc, id: { order: :desc, unmapped_type: 'long' } },
       page: params[:page] || 1,
       per_page: 15
     )

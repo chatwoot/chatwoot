@@ -72,8 +72,8 @@ export default {
         resetPasswordToken: this.resetPasswordToken,
       };
       setNewPassword(credentials)
-        .then(() => {
-          window.location = DEFAULT_REDIRECT_URL;
+        .then(result => {
+          window.location = result?.redirectUrl || DEFAULT_REDIRECT_URL;
         })
         .catch(error => {
           this.showAlertMessage(

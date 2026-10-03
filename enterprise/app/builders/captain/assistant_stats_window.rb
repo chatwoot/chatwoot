@@ -1,6 +1,6 @@
 # Resolves the current and previous comparison windows for Captain assistant
 # stats. `range` is either a day count ('7', '30', '90') or a named period
-# ('this_month', 'last_month'). The previous window mirrors the current one: the
+# (calendar weeks or months). The previous window mirrors the current one: the
 # preceding N days for day ranges, or the preceding month for month ranges.
 # `timezone_offset` is the viewer's UTC offset in hours (as the reports API sends
 # it), so month/day boundaries anchor to the viewer's day rather than UTC.
@@ -12,13 +12,21 @@ class Captain::AssistantStatsWindow
   include TimezoneHelper
 
   DEFAULT_RANGE = '7'.freeze
-  ALLOWED_RANGES = %w[7 30 90 this_month last_month].freeze
+  ALLOWED_RANGES = %w[7 30 90 this_week last_week this_month last_month].freeze
+  WEEK_START = :sunday
 
-  attr_reader :range
+  attr_reader :range, :timezone
 
   def initialize(range = DEFAULT_RANGE, timezone_offset = nil)
     @range = ALLOWED_RANGES.include?(range.to_s) ? range.to_s : DEFAULT_RANGE
-    @timezone = timezone_name_from_offset(timezone_offset) || Time.zone
+    offset = Float(timezone_offset, exception: false) if timezone_offset.present?
+    @timezone = timezone_name_from_offset(offset) if offset
+    @timezone_offset_valid = timezone_offset.blank? || @timezone.present?
+    @timezone ||= Time.zone.name
+  end
+
+  def timezone_offset_valid?
+    @timezone_offset_valid
   end
 
   def current
@@ -41,6 +49,8 @@ class Captain::AssistantStatsWindow
     @resolved_ranges ||= case range
                          when 'this_month' then this_month_ranges
                          when 'last_month' then last_month_ranges
+                         when 'this_week' then this_week_ranges
+                         when 'last_week' then last_week_ranges
                          else day_ranges
                          end
   end
@@ -48,7 +58,7 @@ class Captain::AssistantStatsWindow
   # Current time anchored to the viewer's timezone, so calendar boundaries land on
   # the viewer's day instead of UTC's.
   def now
-    @now ||= Time.current.in_time_zone(@timezone)
+    @now ||= Time.current.in_time_zone(timezone)
   end
 
   def this_month_ranges
@@ -72,7 +82,21 @@ class Captain::AssistantStatsWindow
     { current: (now - days.days)..now, previous: (now - (2 * days).days)..(now - days.days) }
   end
 
+  def this_week_ranges
+    start = now.beginning_of_week(WEEK_START)
+    { current: start..now, previous: (start - 1.week)..(now - 1.week) }
+  end
+
+  def last_week_ranges
+    start = now.beginning_of_week(WEEK_START) - 1.week
+    previous_start = start - 1.week
+    { current: start..start.end_of_week(WEEK_START), previous: previous_start..previous_start.end_of_week(WEEK_START) }
+  end
+
   def period_label
-    { 'this_month' => 'this month', 'last_month' => 'last month' }[range] || "the last #{range.to_i} days"
+    {
+      'this_week' => 'this week', 'last_week' => 'last week',
+      'this_month' => 'this month', 'last_month' => 'last month'
+    }[range] || "the last #{range.to_i} days"
   end
 end
