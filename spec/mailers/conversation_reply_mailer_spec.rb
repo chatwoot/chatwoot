@@ -79,6 +79,23 @@ RSpec.describe ConversationReplyMailer do
         expect(cc_mail.cc.first).to eq(cc_message.content_attributes[:cc_emails])
         expect(cc_mail.bcc.first).to eq(cc_message.content_attributes[:bcc_emails])
       end
+
+      it 'renders the greeting and sender labels' do
+        create(:message, message_type: 'outgoing', account: account, conversation: conversation, sender: agent)
+
+        body = mail.body.decoded
+        expect(body).to include("Hi #{conversation.contact.name},")
+        expect(body).to include('You have new messages on your conversation.')
+        expect(body).to include('<b>You</b>')
+        expect(body).to include("<b>#{agent.available_name}</b>")
+      end
+
+      it 'renders the csat survey prompt as a link' do
+        create(:message, message_type: 'template', content_type: 'input_csat', account: account, conversation: conversation, sender: agent)
+
+        body = mail.body.decoded
+        expect(body).to include(%(Click <a target="_blank" href="#{conversation.csat_survey_link}">here</a> to rate the conversation.))
+      end
     end
 
     context 'without assignee' do
