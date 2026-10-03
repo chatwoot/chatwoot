@@ -74,7 +74,7 @@ describe('#actions', () => {
       ]);
     });
 
-    it('prefers the most recent conversation with unread messages, even when resolved', async () => {
+    it('stays on the most recent open conversation when an older one has unread messages', async () => {
       const state = {
         records: [
           { id: 4, status: 'open', unread_count: 0 },
@@ -83,7 +83,8 @@ describe('#actions', () => {
         ],
       };
       await actions.load({ state, dispatch });
-      expect(dispatch).toBeCalledWith('open', 3);
+      expect(dispatch).toBeCalledWith('open', 4);
+      expect(dispatch).not.toBeCalledWith('open', 3);
     });
 
     it('falls back to the most recent conversation when all are resolved', async () => {

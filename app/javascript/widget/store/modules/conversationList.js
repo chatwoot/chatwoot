@@ -60,7 +60,6 @@ export const actions = {
     await dispatch('fetch');
     if (listState.thread !== thread) return;
     const conversation =
-      listState.records.find(record => record.unread_count > 0) ||
       listState.records.find(record => record.status !== 'resolved') ||
       listState.records[0];
     if (conversation) await dispatch('open', conversation.id);

@@ -91,7 +91,10 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onStatusChange = data => {
-    if (data.status === 'resolved') {
+    const { id } =
+      this.app.$store.getters['conversationAttributes/getConversationParams'];
+    const isOnScreen = !isMultipleConversationsEnabled() || data.id === id;
+    if (data.status === 'resolved' && isOnScreen) {
       this.app.$store.dispatch('campaign/resetCampaign');
     }
     this.app.$store.dispatch('conversationAttributes/update', data);

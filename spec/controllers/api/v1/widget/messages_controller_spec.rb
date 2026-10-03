@@ -321,6 +321,18 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       expect(response.parsed_body['conversation_id']).to eq(contact_inbox.conversations.last.display_id)
     end
 
+    it 'ignores the named conversation when the feature is disabled' do
+      web_widget.update!(multiple_conversations: false)
+
+      post api_v1_widget_messages_url,
+           params: { website_token: web_widget.website_token, conversation_id: older_conversation.display_id, message: { content: 'reply' } },
+           headers: { 'X-Auth-Token' => token },
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['conversation_id']).to eq(contact_inbox.conversations.last.display_id)
+    end
+
     it 'rejects replies to a named resolved conversation when the inbox does not allow them' do
       web_widget.inbox.update!(allow_messages_after_resolved: false)
       older_conversation.resolved!

@@ -219,6 +219,14 @@ describe('Widget ActionCableConnector', () => {
       expect(mockDispatch).toBeCalledWith('conversationList/fetch');
     });
 
+    it('resets the campaign only when the conversation on screen is resolved', () => {
+      connector.onStatusChange({ id: 2, status: 'resolved' });
+      expect(mockDispatch).not.toBeCalledWith('campaign/resetCampaign');
+
+      connector.onStatusChange({ id: 1, status: 'resolved' });
+      expect(mockDispatch).toBeCalledWith('campaign/resetCampaign');
+    });
+
     it('refreshes the list on status changes and reconnects', () => {
       connector.onStatusChange({ id: 2, status: 'resolved' });
       connector.onReconnect();
@@ -241,6 +249,11 @@ describe('Widget ActionCableConnector', () => {
       app.$store.getters = {
         'conversationAttributes/getConversationParams': { id: 1 },
       };
+    });
+
+    it('resets the campaign when any conversation is resolved', () => {
+      connector.onStatusChange({ id: 2, status: 'resolved' });
+      expect(mockDispatch).toBeCalledWith('campaign/resetCampaign');
     });
 
     it('ignores messages of other conversations entirely', () => {
