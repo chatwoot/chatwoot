@@ -14,7 +14,7 @@ RSpec.describe ConversationMonitors::Evaluator do
   let(:endpoint) { ConversationMonitors::Configuration.endpoint }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPENROUTER_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPENROUTER_API_KEY').update!(value: 'test-key')
     account.enable_features!('reports', 'conversation_monitors')
     monitor
     second
@@ -36,6 +36,20 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(WebMock).to have_requested(:post, endpoint).once
     expect(work.reload.due_at).to be_nil
     expect(ConversationMonitors::DailyUsage.find_by!(account: account).calls_count).to eq(1)
+  end
+
+  it 'triggers an automation when a historical request overlaps pending live activity' do
+    account.enable_features!('automations')
+    create(:automation_rule, account: account, event_name: 'monitor_matched', monitor: monitor, conditions: [])
+    create(:message, account: account, conversation: conversation, content: 'New refund detail')
+    expect(work.reload.live_activity_at).to be_present
+
+    work.request!(full_history: true)
+    work.update!(due_at: Time.current)
+    evaluate.call
+
+    expect(monitor.evaluations.sole.status).to eq('matched')
+    expect(monitor.automation_deliveries.count).to eq(1)
   end
 
   it 'persists successful answers without another provider call when Redis reconciliation fails' do
@@ -118,9 +132,9 @@ RSpec.describe ConversationMonitors::Evaluator do
 
   { 'Refunds ' * 250 => 2, '退款' * 1000 => 4 }.each do |condition, calls|
     it "splits oversized batches into #{calls} calls without charging for local checks or losing conditions" do
-      monitor.update!(condition: condition)
-      second.update!(condition: condition)
-      monitors = [monitor, second] + create_list(:conversation_monitor, 18, account: account, condition: condition)
+      monitors = [monitor, second] + create_list(:conversation_monitor, 18, account: account)
+      # These conditions represent monitors saved before the 500-character limit.
+      ConversationMonitors::Monitor.where(id: monitors.map(&:id)).update_all(condition: condition) # rubocop:disable Rails/SkipsModelValidations
       create(:message, account: account, conversation: conversation, content: 'x' * 30_000)
       work.reload.update!(due_at: Time.current)
       batches = []

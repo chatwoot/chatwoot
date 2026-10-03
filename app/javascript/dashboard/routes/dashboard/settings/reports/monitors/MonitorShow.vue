@@ -7,9 +7,14 @@ import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useLocale } from 'shared/composables/useLocale';
 import MonitorsAPI from 'dashboard/api/monitors';
+import AutomationAPI from 'dashboard/api/automation';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import BarChart from 'shared/components/charts/BarChart.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import HoverActions from 'dashboard/components-next/hover-actions/HoverActions.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import MonitorChartFilters from './MonitorChartFilters.vue';
@@ -24,7 +29,8 @@ const CHART_TICK_COUNT = 5;
 const { t, te } = useI18n();
 const route = useRoute();
 const router = useRouter();
-const { accountId, currentAccount, accountScopedRoute } = useAccount();
+const { accountId, currentAccount, accountScopedRoute, isCloudFeatureEnabled } =
+  useAccount();
 const { isAdmin } = useAdmin();
 const { resolvedLocale } = useLocale();
 const { run, abort, isPending } = useAbortableRequest();
@@ -33,6 +39,7 @@ const {
   abort: abortRetry,
   isPending: isRetrying,
 } = useAbortableRequest();
+const { run: runLinkedRules, abort: abortLinkedRules } = useAbortableRequest();
 
 const monitorId = computed(() => route.params.monitorId);
 const filters = ref({ range: 7, interval: 'day' });
@@ -44,6 +51,47 @@ const actionDialog = ref(null);
 const error = ref('');
 const notice = ref('');
 const refreshedAt = ref('');
+const linkedRules = ref([]);
+const linkedRulesError = ref(false);
+const canManageAutomations = computed(
+  () =>
+    isAdmin.value &&
+    currentAccount.value &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.REPORTS) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.CONVERSATION_MONITORS) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.AUTOMATIONS)
+);
+const linkedRuleActions = [
+  { key: 'edit', icon: 'i-woot-edit-pen', label: t('MONITORS.EDIT') },
+];
+
+const fetchLinkedRules = async () => {
+  if (!canManageAutomations.value) return;
+  const requestedAccount = accountId.value;
+  const requestedMonitor = monitorId.value;
+  try {
+    const response = await runLinkedRules(signal =>
+      AutomationAPI.linkedToMonitor(requestedMonitor, signal)
+    );
+    if (
+      !response ||
+      requestedAccount !== accountId.value ||
+      requestedMonitor !== monitorId.value
+    )
+      return;
+    linkedRules.value = response.data.payload;
+    linkedRulesError.value = false;
+  } catch {
+    linkedRulesError.value = true;
+  }
+};
+
+const createAutomation = () =>
+  router.push(
+    accountScopedRoute('automation_list', {}, { monitor_id: monitorId.value })
+  );
+const editAutomation = rule =>
+  router.push(accountScopedRoute('automation_list', {}, { edit_id: rule.id }));
 
 const monitor = computed(() => result.value?.monitor);
 const timezone = computed(
@@ -137,22 +185,13 @@ const fetchReport = async () => {
     )
       return;
     const { data } = response;
+    // Keep the chart and drawer on the same snapshot until the drawer closes.
+    if (drilldown.value) return;
     const pausedAt = data.monitor.paused_at || null;
     if (pausedAt !== collectionEndsAt.value) {
       collectionEndsAt.value = pausedAt;
       await fetchReport();
       return;
-    }
-    if (drilldown.value) {
-      const { bucket, request } = drilldown.value;
-      const updated = data.buckets.find(item => item.start === bucket.start);
-      if (
-        data.data_revision !== request.data_revision ||
-        updated?.count !== bucket.count
-      ) {
-        drilldown.value = null;
-        notice.value = t('MONITORS.RESULTS_UPDATED');
-      }
     }
     result.value = data;
     displayedParams.value = params;
@@ -184,6 +223,11 @@ const resultsChanged = () => {
   notice.value = t('MONITORS.RESULTS_UPDATED');
   fetchReport();
 };
+const closeDrilldown = () => {
+  if (!drilldown.value) return;
+  drilldown.value = null;
+  fetchReport();
+};
 
 watch(filters, fetchReport);
 watch(
@@ -191,6 +235,9 @@ watch(
   () => {
     abort();
     abortRetry();
+    abortLinkedRules();
+    linkedRules.value = [];
+    linkedRulesError.value = false;
     actionDialog.value?.close();
     result.value = null;
     displayedParams.value = null;
@@ -199,21 +246,28 @@ watch(
     notice.value = '';
     error.value = '';
     fetchReport();
+    fetchLinkedRules();
   },
   { immediate: true }
 );
+watch(canManageAutomations, fetchLinkedRules);
 watch(isAdmin, () => {
   drilldown.value = null;
 });
-useMonitorRefresh(fetchReport, {
-  monitorId: () => Number(monitorId.value),
-  onDeleted: () => {
-    abort();
-    result.value = null;
-    drilldown.value = null;
-    router.replace(accountScopedRoute('monitor_reports_index'));
+useMonitorRefresh(
+  () => {
+    if (!drilldown.value) fetchReport();
   },
-});
+  {
+    monitorId: () => Number(monitorId.value),
+    onDeleted: () => {
+      abort();
+      result.value = null;
+      drilldown.value = null;
+      router.replace(accountScopedRoute('monitor_reports_index'));
+    },
+  }
+);
 
 const openAction = nextAction =>
   actionDialog.value.open(nextAction, {
@@ -227,10 +281,12 @@ const onActionSaved = action => {
   }
   notice.value = '';
   fetchReport();
+  fetchLinkedRules();
 };
 const onMonitorChanged = message => {
   notice.value = message;
   fetchReport();
+  fetchLinkedRules();
 };
 const retry = async () => {
   if (isRetrying.value) return;
@@ -261,6 +317,14 @@ const duplicate = () =>
     :header-description="monitor?.condition || ''"
     has-back-button
   >
+    <template #icon>
+      <EmojiIcon
+        v-if="monitor?.icon"
+        :value="monitor.icon"
+        :color="monitor.icon_color"
+        class="size-6 text-xl"
+      />
+    </template>
     <div v-if="monitor && isAdmin" class="flex flex-wrap justify-end gap-2">
       <Button
         v-tooltip.bottom="t('MONITORS.EDIT')"
@@ -398,13 +462,74 @@ const duplicate = () =>
         </p>
       </template>
     </div>
+    <section
+      v-if="monitor && canManageAutomations"
+      class="rounded-xl border border-n-weak bg-n-solid-1 p-5"
+    >
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <h2 class="text-heading-3 text-n-slate-12">
+            {{ t('MONITORS.AUTOMATIONS.TITLE') }}
+          </h2>
+          <p class="mb-0 text-body-main text-n-slate-11">
+            {{ t('MONITORS.AUTOMATIONS.DESCRIPTION') }}
+          </p>
+        </div>
+        <Button
+          v-if="!monitor.paused_at"
+          icon="i-lucide-plus"
+          size="sm"
+          :label="t('MONITORS.AUTOMATIONS.CREATE')"
+          @click="createAutomation"
+        />
+      </div>
+      <p v-if="linkedRulesError" role="alert" class="mt-4 text-n-ruby-11">
+        {{ t('MONITORS.AUTOMATIONS.FETCH_FAILED') }}
+      </p>
+      <p v-else-if="!linkedRules.length" class="mb-0 mt-4 text-n-slate-11">
+        {{ t('MONITORS.AUTOMATIONS.EMPTY') }}
+      </p>
+      <ul v-else class="mb-0 mt-4 list-none divide-y divide-n-weak p-0">
+        <li
+          v-for="rule in linkedRules"
+          :key="rule.id"
+          class="group flex items-center justify-between gap-3 py-3"
+        >
+          <button
+            type="button"
+            class="min-w-0 truncate rounded-md p-0 text-start text-body-main text-n-slate-12 hover:text-n-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand"
+            @click="editAutomation(rule)"
+          >
+            {{ rule.name }}
+          </button>
+          <HoverActions
+            :actions="linkedRuleActions"
+            @action="editAutomation(rule)"
+          >
+            <Label
+              compact
+              :color="rule.active ? 'teal' : 'slate'"
+              :label="
+                rule.active
+                  ? t('MONITORS.AUTOMATIONS.ACTIVE')
+                  : t('MONITORS.AUTOMATIONS.DISABLED')
+              "
+            >
+              <template v-if="rule.active" #icon>
+                <span class="size-1.5 rounded-full bg-n-teal-9" />
+              </template>
+            </Label>
+          </HoverActions>
+        </li>
+      </ul>
+    </section>
   </div>
   <MonitorDrilldown
     v-if="drilldown"
     :request="drilldown.request"
     :title="bucketLabel(drilldown.bucket)"
     :count="drilldown.bucket.count"
-    @close="drilldown = null"
+    @close="closeDrilldown"
     @changed="resultsChanged"
   />
   <MonitorActionDialog

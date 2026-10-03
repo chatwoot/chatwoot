@@ -180,7 +180,9 @@ RSpec.describe Account do
         feature_delayed_automations: 1 << 5,
         feature_audit_log_ip_address: 1 << 6,
         feature_captain_classifier: 1 << 7,
-        feature_conversation_monitors: 1 << 8
+        feature_conversation_monitors: 1 << 8,
+        feature_campaign_analytics: 1 << 9,
+        feature_company_enrichment: 1 << 10
       )
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)
