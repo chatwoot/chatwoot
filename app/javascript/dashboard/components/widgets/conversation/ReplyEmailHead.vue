@@ -48,8 +48,9 @@ watch(toEmails, value => {
   toEmailsVal.value = value;
 });
 
-watch(defaultSubject, value => {
-  subject.value = value;
+// The field follows the default only until the agent edits it
+watch(defaultSubject, (value, previousValue) => {
+  if (subject.value === previousValue) subject.value = value;
 });
 
 const onBlur = () => {
