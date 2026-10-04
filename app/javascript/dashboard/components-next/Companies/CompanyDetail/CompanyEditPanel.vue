@@ -117,11 +117,13 @@ const buildAdditionalAttributes = () => {
   assign('country', form.country.trim());
   assign('phone', form.phone.trim());
 
-  const socialProfiles = Object.fromEntries(
-    Object.entries(form.socialProfiles)
-      .map(([network, handle]) => [network, socialProfileUrl(network, handle)])
-      .filter(([, url]) => url)
-  );
+  const socialProfiles = { ...attributes.social_profiles };
+  delete socialProfiles.twitter;
+  Object.entries(form.socialProfiles).forEach(([network, handle]) => {
+    const url = socialProfileUrl(network, handle);
+    if (url) socialProfiles[network] = url;
+    else delete socialProfiles[network];
+  });
   delete attributes.social_profiles;
   if (Object.keys(socialProfiles).length) {
     attributes.social_profiles = socialProfiles;
