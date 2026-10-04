@@ -48,16 +48,8 @@ watch(toEmails, value => {
   toEmailsVal.value = value;
 });
 
-watch(
-  () => currentChat.value.id,
-  () => {
-    showCc.value = false;
-    showBcc.value = false;
-  }
-);
-
-watch([() => currentChat.value.id, defaultSubject], () => {
-  subject.value = defaultSubject.value;
+watch(defaultSubject, value => {
+  subject.value = value;
 });
 
 const onBlur = () => {
