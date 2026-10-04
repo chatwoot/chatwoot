@@ -90,15 +90,6 @@ const conversationFilters = computed({
   },
 });
 
-const setActiveTab = tab => {
-  if (tab === activeTab.value) return;
-  // Switching tabs drops the filters from the URL, so reload the unfiltered list.
-  if (conversationFilters.value.length) {
-    companiesStore.getCompanyConversations(companyId.value);
-  }
-  router.replace({ query: { tab } });
-};
-
 const loadMoreConversations = () =>
   companiesStore.getCompanyConversations(
     companyId.value,
@@ -126,6 +117,16 @@ watch(notesQuery, searchNotes);
 const peopleQuery = ref(
   route.query.tab === 'people' ? route.query.q || '' : ''
 );
+const setActiveTab = tab => {
+  if (tab === activeTab.value) return;
+  // Switching tabs drops the filters from the URL, so reload the unfiltered list.
+  if (conversationFilters.value.length) {
+    companiesStore.getCompanyConversations(companyId.value);
+  }
+  const search = { notes: notesSearch.value, people: peopleQuery.value.trim() };
+  router.replace({ query: { tab, q: search[tab] || undefined } });
+};
+
 const goToCompaniesIndex = () => {
   router.push({
     name: 'companies_dashboard_index',
