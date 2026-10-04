@@ -15,13 +15,13 @@ const subject = defineModel('subject', { type: String, default: '' });
 
 const currentChat = useMapGetter('getSelectedChat');
 const defaultSubject = computed(() => getDefaultSubject(currentChat.value));
+if (!subject.value) subject.value = defaultSubject.value;
 
 const showCc = ref(false);
 const showBcc = ref(false);
 const ccEmailsVal = ref(ccEmails.value);
 const bccEmailsVal = ref(bccEmails.value);
 const toEmailsVal = ref(toEmails.value);
-const subjectVal = ref(subject.value || defaultSubject.value);
 
 const isCcVisible = computed(() => showCc.value || !!ccEmails.value);
 const isBccVisible = computed(() => showBcc.value || !!bccEmails.value);
@@ -48,36 +48,39 @@ watch(toEmails, value => {
   toEmailsVal.value = value;
 });
 
-watch(defaultSubject, value => {
-  subjectVal.value = value;
-});
-
 watch(
   () => currentChat.value.id,
   () => {
     showCc.value = false;
     showBcc.value = false;
-    subjectVal.value = defaultSubject.value;
-    subject.value = '';
   }
 );
+
+watch([() => currentChat.value.id, defaultSubject], () => {
+  subject.value = defaultSubject.value;
+});
 
 const onBlur = () => {
   v$.value.$touch();
   ccEmails.value = ccEmailsVal.value;
   bccEmails.value = bccEmailsVal.value;
   toEmails.value = toEmailsVal.value;
-
-  const trimmedSubject = subjectVal.value.trim();
-  subject.value = trimmedSubject === defaultSubject.value ? '' : trimmedSubject;
 };
 </script>
 
 <template>
   <div>
     <div>
-      <div class="input-group small" :class="{ error: v$.toEmailsVal.$error }">
-        <label class="input-group-label">
+      <div
+        class="flex items-center gap-2 my-1 border-b border-solid input-group small"
+        :class="
+          v$.toEmailsVal.$error ? 'error border-n-ruby-8' : 'border-n-weak'
+        "
+      >
+        <label
+          class="text-sm font-normal"
+          :class="v$.toEmailsVal.$error ? 'text-n-ruby-8' : 'text-n-slate-11'"
+        >
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.TO') }}
         </label>
         <div class="flex-1 min-w-0 m-0 rounded-none whitespace-nowrap">
@@ -106,9 +109,17 @@ const onBlur = () => {
         />
       </div>
     </div>
-    <div v-if="isCcVisible" class="input-group-wrap">
-      <div class="input-group small" :class="{ error: v$.ccEmailsVal.$error }">
-        <label class="input-group-label">
+    <div v-if="isCcVisible">
+      <div
+        class="flex items-center gap-2 my-1 border-b border-solid input-group small"
+        :class="
+          v$.ccEmailsVal.$error ? 'error border-n-ruby-8' : 'border-n-weak'
+        "
+      >
+        <label
+          class="text-sm font-normal"
+          :class="v$.ccEmailsVal.$error ? 'text-n-ruby-8' : 'text-n-slate-11'"
+        >
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.LABEL') }}
         </label>
         <div class="flex-1 min-w-0 m-0 rounded-none whitespace-nowrap">
@@ -129,13 +140,21 @@ const onBlur = () => {
           @click="showBcc = true"
         />
       </div>
-      <span v-if="v$.ccEmailsVal.$error" class="message">
+      <span v-if="v$.ccEmailsVal.$error" class="text-sm text-n-ruby-8">
         {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.ERROR') }}
       </span>
     </div>
-    <div v-if="isBccVisible" class="input-group-wrap">
-      <div class="input-group small" :class="{ error: v$.bccEmailsVal.$error }">
-        <label class="input-group-label">
+    <div v-if="isBccVisible">
+      <div
+        class="flex items-center gap-2 my-1 border-b border-solid input-group small"
+        :class="
+          v$.bccEmailsVal.$error ? 'error border-n-ruby-8' : 'border-n-weak'
+        "
+      >
+        <label
+          class="text-sm font-normal"
+          :class="v$.bccEmailsVal.$error ? 'text-n-ruby-8' : 'text-n-slate-11'"
+        >
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.LABEL') }}
         </label>
         <div class="flex-1 min-w-0 m-0 rounded-none whitespace-nowrap">
@@ -158,45 +177,26 @@ const onBlur = () => {
           @click="showCc = true"
         />
       </div>
-      <span v-if="v$.bccEmailsVal.$error" class="message">
+      <span v-if="v$.bccEmailsVal.$error" class="text-sm text-n-ruby-8">
         {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.ERROR') }}
       </span>
     </div>
-    <div class="input-group small">
-      <label class="input-group-label">
+    <div
+      class="flex items-center gap-2 my-1 border-b border-solid border-n-weak input-group small"
+    >
+      <label class="text-sm font-normal text-n-slate-11">
         {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.SUBJECT.LABEL') }}
       </label>
       <div class="flex-1 min-w-0 m-0 rounded-none whitespace-nowrap">
         <woot-input
-          v-model="subjectVal"
+          v-model="subject"
           type="text"
           class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:!outline-none [&>input]:h-8 [&>input]:!text-sm [&>input]:!border-0 [&>input]:border-none [&>input]:!bg-transparent dark:[&>input]:!bg-transparent"
           :placeholder="
             $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.SUBJECT.PLACEHOLDER')
           "
-          @blur="onBlur"
         />
       </div>
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.input-group-wrap .message {
-  @apply text-sm text-n-ruby-8;
-}
-.input-group {
-  @apply border-b border-solid border-n-weak my-1 flex items-center gap-2;
-
-  .input-group-label {
-    @apply border-transparent bg-transparent text-sm font-normal text-n-slate-11 pl-0;
-  }
-}
-
-.input-group.error {
-  @apply border-n-ruby-8;
-  .input-group-label {
-    @apply text-n-ruby-8;
-  }
-}
-</style>

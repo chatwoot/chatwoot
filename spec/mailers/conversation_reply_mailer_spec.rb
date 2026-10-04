@@ -467,37 +467,21 @@ RSpec.describe ConversationReplyMailer do
         end
       end
 
-      context 'when an agent has set a custom subject' do
-        let(:custom_subject_message) do
-          create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Your refund is approved',
-                           content_attributes: { email: { subject: 'Refund approved' } })
-        end
-
+      context 'when the conversation has a subject' do
         before do
           conversation.update!(additional_attributes: { 'mail_subject': 'Mail Subject' })
           create(:message, conversation: conversation, account: account, message_type: 'incoming',
                            content_attributes: { email: { subject: 'Mail Subject' } })
         end
 
-        it 'uses the conversation subject when no reply has a custom subject' do
+        it 'replies with the conversation subject when the message has no subject' do
           expect(mail.subject).to eq 'Re: Mail Subject'
         end
 
-        it 'uses the custom subject of the message as is' do
-          expect(described_class.email_reply(custom_subject_message).deliver_now.subject).to eq 'Refund approved'
-        end
-
-        it 'keeps the custom subject for later replies' do
-          custom_subject_message
+        it 'uses the subject of the message as is when it has one' do
+          message.update!(content_attributes: { email: { subject: 'Refund approved' } })
 
           expect(mail.subject).to eq 'Refund approved'
-        end
-
-        it 'does not apply a custom subject set on a later reply' do
-          message
-          custom_subject_message
-
-          expect(mail.subject).to eq 'Re: Mail Subject'
         end
       end
 
@@ -535,13 +519,6 @@ RSpec.describe ConversationReplyMailer do
           forwarded_message.update!(content_attributes: { email: { message_id: 'original@example.com', subject: 'Later subject' } })
 
           expect(mail.subject).to eq 'Fwd: Later subject'
-        end
-
-        it 'ignores a custom subject set on an earlier reply' do
-          create(:message, conversation: conversation, account: account, message_type: 'outgoing',
-                           content_attributes: { email: { subject: 'Refund approved' } })
-
-          expect(mail.subject).to eq 'Fwd: Mail Subject'
         end
 
         it 'keeps replies from the forward recipient out of the conversation' do

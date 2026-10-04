@@ -1051,7 +1051,6 @@ export default {
       this.ccEmails = '';
       this.bccEmails = '';
       this.toEmails = '';
-      this.subject = '';
     },
 
     toggleEmojiPicker() {
