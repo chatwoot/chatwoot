@@ -410,6 +410,13 @@ en:
           reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: 'New messages on this conversation'
       transcript_subject: 'Conversation Transcript'
+      greeting: 'Hi %{name},'
+      new_messages: 'You have new messages on your conversation.'
+      contact_label: 'You'
+      bot_label: 'Bot'
+      attachments: 'Attachments:'
+      rate_conversation_html: 'Click %{link} to rate the conversation.'
+      rate_conversation_link: 'here'
     survey:
       response: 'Please rate this conversation, %{link}'
   contacts:
