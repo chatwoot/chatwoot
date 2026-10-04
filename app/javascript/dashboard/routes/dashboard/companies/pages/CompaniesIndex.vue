@@ -152,7 +152,6 @@ const handleSort = async ({ sort, order }) => {
   fetchCompanies(1, searchValue.value, buildSortAttr());
 };
 
-// Cloud accounts without Companies (Hacker plan) see an upgrade prompt instead of the list.
 const { isReady, showPaywall } = useCompaniesPaywall();
 
 const loadCompanies = () => {

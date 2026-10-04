@@ -1,5 +1,4 @@
-# Enriches a company profile from Context.dev using its domain.
-# By default only blank fields are filled; `overwrite: true` replaces them with fresh data.
+# Fills blank company fields from Context.dev; `overwrite: true` replaces existing values.
 class Companies::EnrichmentService
   ENDPOINT = 'https://api.context.dev/v1/brand/retrieve'.freeze
   TIMEOUT_MS = 25_000

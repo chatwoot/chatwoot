@@ -73,6 +73,5 @@ export const PREMIUM_FEATURES = [
   FEATURE_FLAGS.COMPANY_ENRICHMENT,
 ];
 
-// Paid on Chatwoot Cloud but free on self-hosted installs: cloud accounts without
-// the flag still see the entry and get a paywall; self-hosted installs are unaffected.
+// Paywalled on Chatwoot Cloud only; free on self-hosted installs.
 export const CLOUD_PAYWALLED_FEATURES = [FEATURE_FLAGS.COMPANIES];

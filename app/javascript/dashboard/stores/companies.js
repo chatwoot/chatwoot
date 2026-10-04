@@ -249,7 +249,6 @@ export const useCompaniesStore = createStore({
         this.upsertCompanyRecord(company);
         return company;
       } finally {
-        // Errors are rethrown as-is so callers can tell a plan restriction (403) apart.
         this.setUIFlag({ enrichingItem: false });
       }
     },
@@ -342,7 +341,6 @@ export const useCompaniesStore = createStore({
       }
     },
 
-    // `filters` are ConversationFilter conditions; empty means no filtering.
     async getCompanyConversations(companyId, page = 1, filters = []) {
       this.setUIFlag({ fetchingConversations: true });
       this.ensureActiveCompanyContext(companyId);

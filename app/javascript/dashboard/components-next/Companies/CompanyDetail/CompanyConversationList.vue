@@ -2,11 +2,10 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { fromUnixTime, isToday, isYesterday } from 'date-fns';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { conversationUrl, frontendURL } from 'dashboard/helper/URLHelper';
-import { dateFormat } from 'shared/helpers/timeHelper';
+import { groupByDay } from 'dashboard/components-next/Companies/helpers/companyHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import ConversationCardExpanded from 'dashboard/components-next/Conversation/ConversationCard/ConversationCardExpanded.vue';
@@ -16,7 +15,6 @@ const props = defineProps({
   conversations: { type: Array, default: () => [] },
   isLoading: { type: Boolean, default: false },
   hasMore: { type: Boolean, default: false },
-  // True when filters are applied, to tailor the empty state.
   filtered: { type: Boolean, default: false },
 });
 
@@ -28,22 +26,7 @@ const { accountId } = useAccount();
 const contactById = useMapGetter('contacts/getContact');
 const inboxById = useMapGetter('inboxes/getInbox');
 
-const dayLabel = time => {
-  const date = fromUnixTime(time);
-  if (isToday(date)) return t('COMPANIES.DETAIL.ACTIVITY.TODAY');
-  if (isYesterday(date)) return t('COMPANIES.DETAIL.ACTIVITY.YESTERDAY');
-  return dateFormat(time, 'EEEE, MMM d');
-};
-
-const groups = computed(() =>
-  props.conversations.reduce((result, conversation) => {
-    const label = dayLabel(conversation.timestamp);
-    const group = result.at(-1);
-    if (group?.label === label) group.conversations.push(conversation);
-    else result.push({ label, conversations: [conversation] });
-    return result;
-  }, [])
-);
+const groups = computed(() => groupByDay(props.conversations, 'timestamp', t));
 
 const conversationContact = conversation => {
   const sender = conversation.meta?.sender || {};
@@ -95,21 +78,20 @@ const openConversation = (conversation, event) => {
         <h3 class="pb-1 text-label-small text-n-slate-10">
           {{ group.label }}
         </h3>
-        <div class="-mx-3">
-          <ConversationCardExpanded
-            v-for="conversation in group.conversations"
-            :key="conversation.id"
-            :chat="conversation"
-            :current-contact="conversationContact(conversation)"
-            :assignee="conversation.meta?.assignee || {}"
-            :inbox="conversationInbox(conversation)"
-            :selectable="false"
-            conversation-first
-            show-assignee
-            show-inbox-name
-            @click="openConversation(conversation, $event)"
-          />
-        </div>
+        <ConversationCardExpanded
+          v-for="conversation in group.items"
+          :key="conversation.id"
+          :chat="conversation"
+          :current-contact="conversationContact(conversation)"
+          :assignee="conversation.meta?.assignee || {}"
+          :inbox="conversationInbox(conversation)"
+          :selectable="false"
+          conversation-first
+          show-assignee
+          show-inbox-name
+          class="!px-0 hover:!bg-transparent hover:!border-n-slate-3 hover:before:!content-none [&:hover_h4]:!text-n-blue-11"
+          @click="openConversation(conversation, $event)"
+        />
       </div>
     </div>
 

@@ -7,6 +7,11 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import CompanyCustomAttributes from 'dashboard/components-next/Companies/CompanyDetail/CompanyCustomAttributes.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
+import SocialProfileInput from 'dashboard/components-next/social-profiles/SocialProfileInput.vue';
+import {
+  socialProfileHandle,
+  socialProfileUrl,
+} from 'dashboard/components-next/social-profiles/socialProfiles';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import { useCompaniesStore } from 'dashboard/stores/companies';
 
@@ -53,8 +58,7 @@ const socialLabels = computed(() => ({
   youtube: t('COMPANIES.DETAIL.EDIT.SOCIAL.YOUTUBE'),
 }));
 
-// Industry and employees show the most specific enriched value, so editing
-// them replaces that value and clears the less specific one.
+// Editing industry or employees replaces the enriched value shown and clears its counterpart.
 const readDetails = attributes => ({
   industry: attributes.sub_industry || attributes.industry || '',
   employees: String(
@@ -77,9 +81,12 @@ const open = () => {
     ...initialDetails.value,
     socialProfiles: {
       ...Object.fromEntries(
-        SOCIAL_NETWORKS.map(network => [network, socialProfiles[network] || ''])
+        SOCIAL_NETWORKS.map(network => [
+          network,
+          socialProfileHandle(network, socialProfiles[network]),
+        ])
       ),
-      x: socialProfiles.x || socialProfiles.twitter || '',
+      x: socialProfileHandle('x', socialProfiles.x || socialProfiles.twitter),
     },
   });
   panelRef.value?.open();
@@ -112,7 +119,7 @@ const buildAdditionalAttributes = () => {
 
   const socialProfiles = Object.fromEntries(
     Object.entries(form.socialProfiles)
-      .map(([network, url]) => [network, url.trim()])
+      .map(([network, handle]) => [network, socialProfileUrl(network, handle)])
       .filter(([, url]) => url)
   );
   delete attributes.social_profiles;
@@ -136,8 +143,10 @@ const handleConfirm = async () => {
     });
     useAlert(t('COMPANIES.DETAIL.PROFILE.MESSAGES.UPDATE_SUCCESS'));
     close();
-  } catch {
-    useAlert(t('COMPANIES.DETAIL.PROFILE.MESSAGES.UPDATE_ERROR'));
+  } catch (error) {
+    useAlert(
+      error.message || t('COMPANIES.DETAIL.PROFILE.MESSAGES.UPDATE_ERROR')
+    );
   }
 };
 
@@ -183,7 +192,7 @@ defineExpose({ open });
       </section>
 
       <section class="flex flex-col gap-4">
-        <h4 class="mb-0 text-heading-3 text-n-slate-12">
+        <h4 class="mb-0 text-heading-2 text-n-slate-12">
           {{ t('COMPANIES.DETAIL.EDIT.DETAILS') }}
         </h4>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -219,24 +228,24 @@ defineExpose({ open });
       </section>
 
       <section class="flex flex-col gap-4">
-        <h4 class="mb-0 text-heading-3 text-n-slate-12">
+        <h4 class="mb-0 text-heading-2 text-n-slate-12">
           {{ t('COMPANIES.DETAIL.EDIT.SOCIAL.TITLE') }}
         </h4>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Input
+          <SocialProfileInput
             v-for="network in SOCIAL_NETWORKS"
             :key="network"
             v-model="form.socialProfiles[network]"
+            :network="network"
             :label="socialLabels[network]"
-            type="url"
-            :placeholder="t('COMPANIES.DETAIL.EDIT.PLACEHOLDERS.URL')"
+            :placeholder="t('COMPANIES.DETAIL.EDIT.PLACEHOLDERS.USERNAME')"
             :disabled="isUpdating"
           />
         </div>
       </section>
 
       <section class="flex flex-col gap-4">
-        <h4 class="mb-0 text-heading-3 text-n-slate-12">
+        <h4 class="mb-0 text-heading-2 text-n-slate-12">
           {{ t('COMPANIES.DETAIL.ATTRIBUTES.TITLE') }}
         </h4>
         <CompanyCustomAttributes :company="company" />

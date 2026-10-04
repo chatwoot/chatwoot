@@ -3,11 +3,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
-/**
- * Whether the Companies pages can decide on the paywall yet, and whether to show it.
- * Feature flags only arrive with the account, so the decision waits for it; deciding
- * earlier would flash the paywall and skip loading data on accounts that have Companies.
- */
+// Feature flags arrive with the account, so the paywall decision waits for it.
 export function useCompaniesPaywall() {
   const { currentAccount } = useAccount();
   const { shouldShowPaywall } = usePolicy();

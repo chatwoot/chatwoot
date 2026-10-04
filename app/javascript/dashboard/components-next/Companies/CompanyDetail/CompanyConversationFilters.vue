@@ -9,7 +9,6 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import SingleSelect from 'dashboard/components-next/filter/inputs/SingleSelect.vue';
 import { useConversationFilterContext } from 'dashboard/components-next/filter/provider';
 
-// ConversationFilter conditions; each simple filter maps to one `equal_to` condition.
 const filters = defineModel({ type: Array, default: () => [] });
 
 const SIMPLE_FILTER_KEYS = [
@@ -23,12 +22,10 @@ const SIMPLE_FILTER_KEYS = [
 
 const { t } = useI18n();
 const store = useStore();
-// Same attributes, labels and options as the conversation list's filter.
 const { attributeFilterTypes } = useConversationFilterContext();
 const [showFilters, toggleFilters] = useToggle();
 const toggleButton = useTemplateRef('toggleButton');
 
-// The toggle button handles its own clicks; ignore it so opening doesn't immediately close.
 const closeOnClickOutside = [
   () => toggleFilters(false),
   { ignore: [toggleButton] },
@@ -52,8 +49,7 @@ const simpleFilters = computed(() =>
 const activeCount = computed(() => filters.value.length);
 
 const selectedOption = key =>
-  filters.value.find(filter => filter.attributeKey === key)?.values?.[0] ||
-  null;
+  filters.value.find(filter => filter.attributeKey === key)?.values?.[0];
 
 const setFilter = (key, option) => {
   const others = filters.value.filter(filter => filter.attributeKey !== key);
@@ -95,7 +91,7 @@ const clearFilters = () => {
     <div
       v-if="showFilters"
       v-on-click-outside="closeOnClickOutside"
-      class="absolute z-40 flex flex-col gap-4 p-4 mt-1 border bg-n-alpha-3 backdrop-blur-[100px] border-n-weak w-80 rounded-xl top-full ltr:right-0 rtl:left-0"
+      class="absolute z-40 flex flex-col gap-4 p-4 mt-1 border bg-n-alpha-3 backdrop-blur-[100px] border-n-weak w-80 rounded-xl top-full end-0"
     >
       <div
         v-for="filter in simpleFilters"

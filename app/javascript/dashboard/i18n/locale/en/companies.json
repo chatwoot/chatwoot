@@ -40,7 +40,6 @@
       }
     },
     "DETAIL": {
-      "LOADING": "Loading company details...",
       "EMPTY_STATE": {
         "TITLE": "Company not found",
         "SUBTITLE": "This company may have been removed or is no longer available in this account."
@@ -105,7 +104,7 @@
           "DOMAIN": "acme.com",
           "INDUSTRY": "Software",
           "EMPLOYEES": "51 to 200",
-          "URL": "https://"
+          "USERNAME": "username"
         }
       },
       "ATTRIBUTES": {
@@ -123,7 +122,6 @@
       },
       "CONTACTS": {
         "LOADING": "Loading contacts...",
-        "EMPTY": "No contacts are linked to this company yet.",
         "UNNAMED_CONTACT": "Unnamed contact",
         "ACTIONS": {
           "ADD": "Add contact",

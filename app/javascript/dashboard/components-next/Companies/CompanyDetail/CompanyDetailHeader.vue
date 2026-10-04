@@ -1,17 +1,20 @@
 <script setup>
-import { computed, ref, toRef, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAdmin } from 'dashboard/composables/useAdmin';
-import { useCompanyEnrichment } from 'dashboard/composables/useCompanyEnrichment';
+import { usePolicy } from 'dashboard/composables/usePolicy';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import SocialProfileLinks from 'dashboard/components-next/social-profiles/SocialProfileLinks.vue';
 import { useCompaniesStore } from 'dashboard/stores/companies';
 
 const props = defineProps({
@@ -22,24 +25,13 @@ const props = defineProps({
 const emit = defineEmits(['edit', 'delete', 'showOpenConversations']);
 
 const DESCRIPTION_CLAMP_LENGTH = 200;
-const SOCIAL_ICONS = {
-  linkedin: 'i-ri-linkedin-box-fill',
-  x: 'i-ri-twitter-x-fill',
-  twitter: 'i-ri-twitter-x-fill',
-  facebook: 'i-ri-facebook-circle-fill',
-  instagram: 'i-ri-instagram-fill',
-  github: 'i-ri-github-fill',
-  youtube: 'i-ri-youtube-fill',
-};
-
 const { t } = useI18n();
 const companiesStore = useCompaniesStore();
 const { isAdmin } = useAdmin();
 const router = useRouter();
 const { accountId } = useAccount();
-const { showRefreshButton, requiresUpgrade } = useCompanyEnrichment(
-  toRef(props, 'company')
-);
+const { shouldShowPaywall } = usePolicy();
+const globalConfig = useMapGetter('globalConfig/get');
 const upgradeDialogRef = ref(null);
 
 const avatarPreviewUrl = ref('');
@@ -48,6 +40,12 @@ const isDescriptionExpanded = ref(false);
 const showActionsMenu = ref(false);
 
 const uiFlags = computed(() => companiesStore.getUIFlags);
+const showRefreshButton = computed(
+  () =>
+    isAdmin.value &&
+    globalConfig.value.isCompanyEnrichmentEnabled &&
+    Boolean(props.company.domain)
+);
 const displayName = computed(
   () => props.company.name || t('COMPANIES.UNNAMED')
 );
@@ -60,14 +58,8 @@ const isAvatarBusy = computed(
 const isDescriptionLong = computed(
   () => (props.company.description || '').length > DESCRIPTION_CLAMP_LENGTH
 );
-const socialProfiles = computed(() =>
-  Object.entries(props.company.additionalAttributes?.social_profiles || {}).map(
-    ([type, url]) => ({
-      type,
-      url,
-      icon: SOCIAL_ICONS[type] || 'i-lucide-link',
-    })
-  )
+const socialProfiles = computed(
+  () => props.company.additionalAttributes?.social_profiles || {}
 );
 
 const phone = computed(() => props.company.additionalAttributes?.phone);
@@ -85,8 +77,7 @@ const goToBilling = () => {
 };
 
 const handleRefresh = async () => {
-  // Plans without enrichment (e.g. Startups) get an upgrade prompt instead.
-  if (requiresUpgrade.value) {
+  if (shouldShowPaywall(FEATURE_FLAGS.COMPANY_ENRICHMENT)) {
     upgradeDialogRef.value?.open();
     return;
   }
@@ -94,7 +85,7 @@ const handleRefresh = async () => {
     await companiesStore.enrich(props.company.id);
     useAlert(t('COMPANIES.DETAIL.PROFILE.MESSAGES.REFRESH_SUCCESS'));
   } catch (error) {
-    // The server is the source of truth for the plan; the page's flags can be stale.
+    // The account's flags can be stale; the server decides on the plan.
     if (error.response?.status === 403) {
       upgradeDialogRef.value?.open();
       return;
@@ -151,15 +142,15 @@ const handleAvatarDelete = async () => {
   }
 };
 
-const handleMenuAction = ({ action }) => {
+const handleDelete = () => {
   showActionsMenu.value = false;
-  if (action === 'delete') emit('delete');
+  emit('delete');
 };
 </script>
 
 <template>
   <header class="flex flex-col gap-4">
-    <div class="flex items-center gap-4">
+    <div class="flex items-start gap-4">
       <Avatar
         :name="displayName"
         :src="avatarPreviewUrl || company.avatarUrl || ''"
@@ -210,23 +201,15 @@ const handleMenuAction = ({ action }) => {
             class="inline-flex items-center gap-1 text-n-slate-11 hover:text-n-slate-12"
           >
             <span class="i-lucide-phone size-3.5" />
-            {{ phone }}
+            <span dir="ltr">{{ phone }}</span>
           </a>
           <span
-            v-if="socialProfiles.length && (company.domain || phone)"
-            class="w-px h-3.5 bg-n-weak"
+            v-if="
+              Object.keys(socialProfiles).length && (company.domain || phone)
+            "
+            class="w-px h-3.5 bg-n-weak max-sm:hidden"
           />
-          <a
-            v-for="profile in socialProfiles"
-            :key="profile.type"
-            v-tooltip.top="profile.url"
-            :href="profile.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-n-slate-10 hover:text-n-slate-12"
-          >
-            <span :class="profile.icon" class="block size-4" />
-          </a>
+          <SocialProfileLinks :profiles="socialProfiles" />
         </div>
       </div>
 
@@ -270,8 +253,8 @@ const handleMenuAction = ({ action }) => {
           <DropdownMenu
             v-if="showActionsMenu"
             :menu-items="menuItems"
-            class="mt-1 ltr:right-0 rtl:left-0 w-48 top-full"
-            @action="handleMenuAction"
+            class="mt-1 end-0 w-48 top-full"
+            @action="handleDelete"
           />
         </div>
       </div>

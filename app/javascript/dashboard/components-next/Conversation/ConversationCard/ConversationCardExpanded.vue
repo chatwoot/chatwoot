@@ -24,7 +24,6 @@ const props = defineProps({
   showInboxName: { type: Boolean, default: false },
   isInboxView: { type: Boolean, default: false },
   selectable: { type: Boolean, default: true },
-  // Leads with the conversation (id, contact, message) instead of the status icons.
   conversationFirst: { type: Boolean, default: false },
 });
 
@@ -34,18 +33,20 @@ const emit = defineEmits([
   'click',
   'contextmenu',
 ]);
-// Explicit positions for the conversation-first layout; the default layout keeps DOM order.
 const CONVERSATION_FIRST_ORDER = {
-  id: 'order-1',
+  id: 'order-1 max-lg:w-auto',
   avatar: 'order-2',
-  name: 'order-3',
+  name: 'order-3 max-lg:basis-12 max-lg:grow max-lg:max-w-32',
   dividerAfterName: 'order-4',
   priority: 'order-5',
   assignee: 'order-6',
   status: 'order-7',
-  // Message and inbox need room; below lg the row keeps only id, contact and status icons.
-  dividerAfterStatus: 'order-8 max-lg:hidden',
-  content: 'order-9 max-lg:hidden',
+  // Below lg this divider is the line break that moves the message to a second line.
+  time: 'max-lg:order-7 max-lg:ms-auto',
+  dividerAfterStatus: 'order-8 max-lg:basis-full max-lg:h-0',
+  content: 'order-9 max-lg:flex-1 max-lg:min-w-0',
+  labels: 'max-lg:order-9 max-lg:w-24',
+  sla: 'max-lg:order-9',
   dividerBeforeInbox: 'order-10 ms-auto max-lg:hidden',
   inbox: 'order-11 max-lg:hidden',
 };
@@ -55,7 +56,7 @@ const CONVERSATION_FIRST_DIVIDERS = [
   'dividerBeforeInbox',
 ];
 const orderClass = key =>
-  props.conversationFirst ? CONVERSATION_FIRST_ORDER[key] : '';
+  props.conversationFirst ? CONVERSATION_FIRST_ORDER[key] : undefined;
 
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
 const showLabelsSection = computed(() => props.chat.labels?.length > 0);
@@ -103,12 +104,17 @@ const selectedModel = computed({
       'hover:bg-n-alpha-1': !isActiveChat && !selected,
       'grid-cols-[minmax(0,2fr)_minmax(0,1fr)]': showLabelsSection,
       'grid-cols-[minmax(0,2fr)_max-content]': !showLabelsSection,
+      'max-lg:flex max-lg:flex-wrap max-lg:gap-x-2 max-lg:gap-y-1 max-lg:h-auto max-lg:py-2.5':
+        conversationFirst,
     }"
     @click="$emit('click', $event)"
     @contextmenu="$emit('contextmenu', $event)"
   >
     <!-- LEFT SECTION -->
-    <div class="flex items-center gap-2 min-w-0 flex-1">
+    <div
+      class="flex items-center gap-2 min-w-0 flex-1"
+      :class="{ 'max-lg:contents': conversationFirst }"
+    >
       <template v-if="conversationFirst">
         <div
           v-for="divider in CONVERSATION_FIRST_DIVIDERS"
@@ -225,8 +231,15 @@ const selectedModel = computed({
     </div>
 
     <!-- RIGHT SECTION -->
-    <div class="flex items-center justify-end gap-1.5 flex-shrink-0">
-      <div v-if="showLabelsSection" class="min-w-0 w-full">
+    <div
+      class="flex items-center justify-end gap-1.5 flex-shrink-0"
+      :class="{ 'max-lg:contents': conversationFirst }"
+    >
+      <div
+        v-if="showLabelsSection"
+        class="min-w-0 w-full"
+        :class="orderClass('labels')"
+      >
         <CardLabels
           :labels="chat.labels"
           disable-toggle
@@ -234,11 +247,18 @@ const selectedModel = computed({
         />
       </div>
 
-      <div v-if="hasSlaPolicyId" class="flex-shrink-0">
+      <div
+        v-if="hasSlaPolicyId"
+        class="flex-shrink-0"
+        :class="orderClass('sla')"
+      >
         <SLACardLabel ref="slaCardLabel" :chat="chat" />
       </div>
 
-      <div class="flex-shrink-0 w-[4.375rem] text-end">
+      <div
+        class="flex-shrink-0 w-[4.375rem] text-end"
+        :class="orderClass('time')"
+      >
         <TimeAgo
           :conversation-id="chat.id"
           :last-activity-timestamp="chat.timestamp"

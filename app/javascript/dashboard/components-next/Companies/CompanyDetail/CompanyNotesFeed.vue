@@ -2,10 +2,10 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { fromUnixTime, isToday, isYesterday } from 'date-fns';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { dateFormat } from 'shared/helpers/timeHelper';
+import { groupByDay } from 'dashboard/components-next/Companies/helpers/companyHelper';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -71,22 +71,7 @@ const openContact = contactId => {
   });
 };
 
-const dayLabel = time => {
-  const date = fromUnixTime(time);
-  if (isToday(date)) return t('COMPANIES.DETAIL.ACTIVITY.TODAY');
-  if (isYesterday(date)) return t('COMPANIES.DETAIL.ACTIVITY.YESTERDAY');
-  return dateFormat(time, 'EEEE, MMM d');
-};
-
-const groups = computed(() =>
-  props.notes.reduce((result, note) => {
-    const label = dayLabel(note.createdAt);
-    const group = result.at(-1);
-    if (group?.label === label) group.notes.push(note);
-    else result.push({ label, notes: [note] });
-    return result;
-  }, [])
-);
+const groups = computed(() => groupByDay(props.notes, 'createdAt', t));
 </script>
 
 <template>
@@ -106,7 +91,7 @@ const groups = computed(() =>
       <div v-for="group in groups" :key="group.label" class="flex flex-col">
         <h3 class="text-label-small text-n-slate-10">{{ group.label }}</h3>
         <ol class="m-0 list-none divide-y ps-0 divide-n-weak">
-          <li v-for="note in group.notes" :key="note.id">
+          <li v-for="note in group.items" :key="note.id">
             <div class="flex items-start gap-4 py-4">
               <Avatar
                 :name="noteAuthor(note)"

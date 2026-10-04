@@ -15,7 +15,6 @@ import { useCompaniesStore } from 'dashboard/stores/companies';
 
 const props = defineProps({
   company: { type: Object, required: true },
-  // Search term from the page toolbar.
   query: { type: String, default: '' },
 });
 
@@ -37,7 +36,6 @@ const isRemoving = computed(() => companiesStore.getUIFlags.removingContact);
 const page = computed(() => Number(meta.value.page || 1));
 const matchCount = computed(() => Number(meta.value.totalCount || 0));
 
-// Keep page and search in the URL so returning from a contact restores the list.
 const fetchPage = targetPage => {
   const search = props.query.trim() || undefined;
   router.replace({
@@ -128,27 +126,22 @@ const removeContact = async contact => {
             >
               {{ contactName(contact) }}
             </button>
-            <div
-              v-if="contactMeta(contact).length"
-              class="flex flex-wrap items-center gap-x-3 gap-y-1"
-            >
-              <template
-                v-for="(item, index) in contactMeta(contact)"
-                :key="item.key"
-              >
-                <div v-if="index" class="w-px h-3 bg-n-slate-6" />
+            <div v-if="contactMeta(contact).length" class="overflow-hidden">
+              <div class="flex flex-wrap gap-y-1 -ms-[calc(0.75rem+1px)]">
                 <span
-                  class="inline-flex items-center gap-1.5 truncate text-n-slate-11 text-body-main max-w-72"
+                  v-for="item in contactMeta(contact)"
+                  :key="item.key"
+                  class="inline-flex items-center min-w-0 gap-1.5 text-body-main text-n-slate-11 max-w-full me-3 before:content-[''] before:w-px before:h-3 before:shrink-0 before:bg-n-slate-6 before:me-1.5"
                   :title="item.label"
                 >
                   <Flag
                     v-if="item.countryCode"
                     :country="item.countryCode"
-                    class="size-3.5"
+                    class="size-3.5 shrink-0"
                   />
-                  {{ item.label }}
+                  <span class="truncate">{{ item.label }}</span>
                 </span>
-              </template>
+              </div>
             </div>
           </div>
         </div>
