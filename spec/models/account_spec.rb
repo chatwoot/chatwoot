@@ -17,6 +17,7 @@ RSpec.describe Account do
   it { is_expected.to have_many(:portals).dependent(:destroy_async) }
   it { is_expected.to have_many(:categories).dependent(:destroy_async) }
   it { is_expected.to have_many(:teams).dependent(:destroy_async) }
+  it { is_expected.to have_many(:platform_app_permissibles).dependent(:destroy) }
 
   # This validation happens in ApplicationRecord
   describe 'length validations' do
@@ -268,6 +269,13 @@ RSpec.describe Account do
       expect(account.locale).to eq('en')
       account.destroy
       expect(ActiveRecord::Base.connection.execute(query).count).to eq(0)
+    end
+
+    it 'destroys associated platform_app_permissibles' do
+      account = create(:account)
+      create(:platform_app_permissible, platform_app: create(:platform_app), permissible: account)
+
+      expect { account.destroy! }.to change(PlatformAppPermissible, :count).by(-1)
     end
   end
 
