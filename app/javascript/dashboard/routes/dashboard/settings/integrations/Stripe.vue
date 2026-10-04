@@ -1,11 +1,12 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore, useFunctionGetter } from 'dashboard/composables/store';
 import { useBranding } from 'shared/composables/useBranding';
 import StripeAPI from 'dashboard/api/integrations/stripe';
 import IntegrationsAPI from 'dashboard/api/integrations';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 
@@ -21,6 +22,11 @@ const error = ref(!!route.query.error);
 const account = ref(null);
 const STRIPE_LOGO = '/dashboard/images/integrations/stripe.svg';
 const STRIPE_LOGO_DARK = '/dashboard/images/integrations/stripe-dark.svg';
+
+const dashboardURL = computed(() => {
+  const { account_id: accountId, mode } = account.value;
+  return `https://dashboard.stripe.com/${accountId}/${mode === 'live' ? '' : 'test/'}dashboard`;
+});
 
 const loadIntegration = async () => {
   const { data } = await IntegrationsAPI.get();
@@ -118,18 +124,20 @@ onMounted(async () => {
                   $t('STRIPE_INTEGRATION.ACCOUNT')
                 }}</span>
               </div>
-              <span
-                class="rounded-md bg-n-teal-3 px-2 py-1 text-xs text-n-teal-11"
-              >
-                {{
-                  account.reauthorization_required
-                    ? $t('STRIPE_INTEGRATION.REAUTHORIZATION_REQUIRED')
-                    : $t('STRIPE_INTEGRATION.CONNECTED')
-                }}
-              </span>
+              <Label
+                v-if="account.reauthorization_required"
+                :label="$t('STRIPE_INTEGRATION.REAUTHORIZATION_REQUIRED')"
+                color="amber"
+                compact
+              />
+              <Label
+                v-else
+                :label="$t('STRIPE_INTEGRATION.CONNECTED')"
+                color="teal"
+                compact
+              />
             </div>
             <dl
-              v-if="account"
               class="grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-x-8 gap-y-3 p-6 text-sm m-0"
             >
               <dt class="text-n-slate-11">
@@ -157,8 +165,7 @@ onMounted(async () => {
             </dl>
             <div class="px-6 pb-6">
               <a
-                v-if="account"
-                :href="`https://dashboard.stripe.com/${account.account_id}/${account.mode === 'live' ? '' : 'test/'}dashboard`"
+                :href="dashboardURL"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-sm text-n-brand hover:underline"

@@ -18,6 +18,16 @@ const ZERO_DECIMAL_CURRENCIES = [
 ];
 const THREE_DECIMAL_CURRENCIES = ['BHD', 'JOD', 'KWD', 'OMR', 'TND'];
 
+export const STRIPE_STATUS_COLORS = {
+  active: 'teal',
+  paid: 'teal',
+  trialing: 'blue',
+  open: 'amber',
+  past_due: 'ruby',
+  unpaid: 'ruby',
+  uncollectible: 'ruby',
+};
+
 export const formatStripeAmount = (
   amount,
   currency,
