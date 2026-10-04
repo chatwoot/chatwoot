@@ -163,7 +163,11 @@ const priceLabel = item => {
         />
       </div>
       <p v-if="trialMessage" class="m-0">{{ trialMessage }}</p>
-      <p v-if="cancellationMessage" class="m-0 text-n-amber-11">
+      <p
+        v-if="cancellationMessage"
+        class="flex items-center gap-2 px-3 py-2 m-0 rounded-lg bg-n-amber-2 text-n-amber-11"
+      >
+        <span class="i-lucide-calendar-x size-4 shrink-0" aria-hidden="true" />
         {{ cancellationMessage }}
       </p>
       <p
