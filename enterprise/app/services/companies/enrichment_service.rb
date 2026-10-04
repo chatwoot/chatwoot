@@ -67,7 +67,7 @@ class Companies::EnrichmentService
   end
 
   def merge_attributes(attributes)
-    @company.additional_attributes.merge(attributes) do |_key, existing, fresh|
+    @company.additional_attributes.deep_merge(attributes) do |_key, existing, fresh|
       @overwrite ? fresh : existing.presence || fresh
     end
   end
