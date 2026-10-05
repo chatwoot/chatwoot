@@ -83,7 +83,7 @@ class Contacts::ClassifyVisitorsService
   # contact inboxes and avatars of whichever contacts are gone.
   def delete_stale(ids)
     Contact.transaction do
-      locked = stale(ids).lock('FOR UPDATE SKIP LOCKED').pluck(:id)
+      locked = stale(ids).lock.pluck(:id)
       stale(locked).where.not(id: Conversation.where(contact_id: locked).select(:contact_id)).delete_all
       purged = locked - Contact.where(id: locked).pluck(:id)
       ContactInbox.where(contact_id: purged).delete_all

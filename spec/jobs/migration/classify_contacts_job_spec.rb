@@ -65,6 +65,16 @@ RSpec.describe Migration::ClassifyContactsJob do
     expect(Contacts::ClassifyVisitorsService).to have_received(:new).with(from_id: contact.id + 1_500, to_id: contact.id + 2_999)
   end
 
+  it 'honours a rate too low for the timeout floor' do
+    contact = create(:contact, account: account, name: 'Maria Lopez')
+    allow(Contacts::ClassifyVisitorsService).to receive(:rows_per_second).and_return(10)
+    allow(Contacts::ClassifyVisitorsService).to receive(:new).and_call_original
+
+    described_class.perform_now(contact.id, contact.id + 149)
+
+    expect(Contacts::ClassifyVisitorsService).to have_received(:new).once.with(from_id: contact.id, to_id: contact.id + 149)
+  end
+
   it 'reads a window again at half the size it actually used when the read times out' do
     contact = create(:contact, account: account, name: 'Maria Lopez')
     service = instance_double(Contacts::ClassifyVisitorsService, perform: { visitors: 1, promoted: 1, purged: 0 })

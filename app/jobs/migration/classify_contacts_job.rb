@@ -46,7 +46,7 @@ class Migration::ClassifyContactsJob < ApplicationJob
 
   # Enough ids that a window made only of promotions still finishes in about RUN_FOR at the current pace.
   def size(window)
-    bound = [(Contacts::ClassifyVisitorsService.rows_per_second * RUN_FOR.to_i).to_i, MIN_WINDOW].max
+    bound = [(Contacts::ClassifyVisitorsService.rows_per_second * RUN_FOR.to_i).to_i, 1].max
     [window, bound].min
   end
 
