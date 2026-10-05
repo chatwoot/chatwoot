@@ -1,0 +1,10 @@
+<%# locals: (label:, premium: false, disabled: false) -%>
+<label class="<%= class_names("flex min-h-10 items-center justify-between gap-3 rounded-lg border border-n-weak px-3 py-1.5 has-[:checked]:border-n-blue-6 has-[:checked]:bg-n-blue-2", disabled ? "cursor-not-allowed" : "cursor-pointer hover:bg-n-alpha-2") %>" data-filter-item>
+  <span class="flex min-w-0 items-center gap-2">
+    <% if premium %>
+      <span class="i-lucide-sparkles size-3.5 shrink-0 text-n-amber-11"></span>
+    <% end %>
+    <span class="truncate"><%= label %></span>
+  </span>
+  <%= yield %>
+</label>

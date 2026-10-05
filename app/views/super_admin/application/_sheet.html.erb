@@ -1,0 +1,16 @@
+<%# Opened by any control with `data-dialog-open="<id>"`. %>
+<%# locals: (id:, title:) -%>
+<dialog id="<%= id %>" aria-labelledby="<%= id %>-title" data-sheet
+        class="m-0 max-h-[85dvh] w-full max-w-none overflow-y-auto rounded-b-2xl border-b border-n-weak bg-n-solid-1 p-0 text-n-slate-12 shadow-xl backdrop:bg-modal-backdrop-light open:animate-sheet-in motion-reduce:animate-none dark:backdrop:bg-modal-backdrop-dark">
+  <div class="<%= ui(:container) %> pb-4 pt-2">
+    <div class="flex h-11 items-center justify-between">
+      <h2 class="<%= ui(:overline) %>" id="<%= id %>-title"><%= title %></h2>
+      <form method="dialog">
+        <button class="<%= ui(:icon_button) %> -me-2" aria-label="<%= t("super_admin.actions.close") %>">
+          <span class="i-lucide-x size-4"></span>
+        </button>
+      </form>
+    </div>
+    <%= yield %>
+  </div>
+</dialog>

@@ -1,0 +1,103 @@
+<%# locals: (user:) -%>
+<%
+  routed_user = user.becomes(User)
+  suppression = params[:suppression]
+  blocked_hint = t("super_admin.users.email_suppression.test_email_blocked_hint.#{suppression}") if suppression.in?(%w[bounce complaint])
+  item = %w[
+    w-full cursor-pointer rounded-md px-3 py-2 text-start text-body-main text-n-slate-12 hover:bg-n-slate-2 active:bg-n-slate-3
+    disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent aria-busy:cursor-wait aria-busy:bg-n-slate-2 aria-busy:opacity-100
+  ].join(" ")
+%>
+
+<% if Email::SesSuppressionService.configured? %>
+  <details class="relative" data-dropdown>
+    <summary class="<%= ui(:button_secondary) %> list-none [&::-webkit-details-marker]:hidden">
+      <%= t("super_admin.users.email_suppression.menu") %>
+      <span class="i-lucide-chevron-down size-4"></span>
+    </summary>
+    <div class="<%= ui(:card) %> absolute end-0 top-full z-40 mt-1 w-64 max-w-[calc(100vw-2rem)] p-1 shadow-lg">
+      <%= button_to(
+            t("super_admin.users.email_suppression.check_button"),
+            [:check_email_suppression, namespace, routed_user],
+            method: :post,
+            class: item,
+            form_class: "block",
+            data: { pending_label: t("super_admin.users.email_suppression.pending.check") },
+          ) %>
+
+      <% if suppression == "bounce" %>
+        <button type="button" class="<%= item %>" data-dialog-open="unblock-email-dialog">
+          <%= t("super_admin.users.email_suppression.clear_button") %>
+        </button>
+      <% else %>
+        <%= render "blocked_action",
+                   item: item,
+                   label: t("super_admin.users.email_suppression.clear_button"),
+                   hint: case suppression
+                         when "complaint" then t("super_admin.users.email_suppression.complaint_hint")
+                         when "not_suppressed" then t("super_admin.users.email_suppression.not_blocked_hint")
+                         else t("super_admin.users.email_suppression.check_first_hint")
+                         end %>
+      <% end %>
+
+      <% if blocked_hint %>
+        <%= render "blocked_action", item: item, label: t("super_admin.users.email_suppression.test_email_button"), hint: blocked_hint %>
+      <% else %>
+        <%= button_to(
+              t("super_admin.users.email_suppression.test_email_button"),
+              [:send_test_email, namespace, routed_user],
+              method: :post,
+              class: item,
+              form_class: "block",
+              data: { pending_label: t("super_admin.users.email_suppression.pending.send") },
+            ) %>
+      <% end %>
+
+      <% unless user.confirmed? %>
+        <% if blocked_hint %>
+          <%= render "blocked_action", item: item, label: t("super_admin.users.resend_confirmation.button"), hint: blocked_hint %>
+        <% else %>
+          <%= button_to(
+                t("super_admin.users.resend_confirmation.button"),
+                [:resend_confirmation, namespace, routed_user],
+                method: :post,
+                class: item,
+                form_class: "block",
+                data: { pending_label: t("super_admin.users.email_suppression.pending.send") },
+              ) %>
+        <% end %>
+      <% end %>
+    </div>
+  </details>
+
+  <% if suppression == "bounce" %>
+    <dialog id="unblock-email-dialog" class="<%= ui(:card) %> w-[calc(100%-2rem)] max-w-md p-5 text-n-slate-12 shadow-xl backdrop:bg-modal-backdrop-light dark:backdrop:bg-modal-backdrop-dark">
+      <h2 class="text-heading-2">
+        <%= t("super_admin.users.email_suppression.clear_dialog.title", email: user.email) %>
+      </h2>
+      <p class="mt-2 text-body-main text-n-slate-11"><%= t("super_admin.users.email_suppression.clear_dialog.body", brand_name: GlobalConfig.get_value("BRAND_NAME").presence || "Chatwoot") %></p>
+      <div class="mt-6 flex justify-end gap-2">
+        <form method="dialog">
+          <button class="<%= ui(:button_secondary) %>">
+            <%= t("super_admin.users.email_suppression.clear_dialog.cancel") %>
+          </button>
+        </form>
+        <%= button_to(
+              t("super_admin.users.email_suppression.clear_dialog.confirm"),
+              [:clear_email_suppression, namespace, routed_user],
+              method: :post,
+              class: ui(:button),
+              data: { pending_label: t("super_admin.users.email_suppression.pending.clear") },
+            ) %>
+      </div>
+    </dialog>
+  <% end %>
+<% elsif !user.confirmed? %>
+  <%= button_to(
+        t("super_admin.users.resend_confirmation.button"),
+        [:resend_confirmation, namespace, routed_user],
+        method: :post,
+        class: ui(:button_secondary),
+        form_class: "contents",
+      ) %>
+<% end %>

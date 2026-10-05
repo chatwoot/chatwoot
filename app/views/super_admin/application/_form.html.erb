@@ -1,0 +1,13 @@
+<%= render "form_card", page: page do |f| %>
+  <% page.attributes(controller.action_name).each do |title, attributes| %>
+    <fieldset class="min-w-0 divide-y divide-n-weak">
+      <% if title.present? %>
+        <legend class="<%= ui(:overline) %> px-5 pt-4"><%= t "helpers.label.#{f.object_name}.#{title}", default: title %></legend>
+      <% end %>
+
+      <% attributes.each do |attribute| %>
+        <%= render_field attribute, f: f %>
+      <% end %>
+    </fieldset>
+  <% end %>
+<% end %>

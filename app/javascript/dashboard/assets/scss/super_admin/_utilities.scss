@@ -1,0 +1,35 @@
+// Utilities only the super admin uses, next to Tailwind's own and the shared typography ones.
+@layer utilities {
+  // Small caps label for table headers and card sections.
+  .text-overline {
+    @apply font-inter font-medium uppercase;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    line-height: 1rem;
+  }
+
+  // The square mosaic from chatwoot.com, drawn with gradients so it needs no image
+  // and follows the theme tokens.
+  .bg-pixel-band {
+    background-image: linear-gradient(to right, rgb(var(--solid-1)) 0.0625rem, transparent 0.0625rem),
+      linear-gradient(to bottom, rgb(var(--solid-1)) 0.0625rem, transparent 0.0625rem),
+      radial-gradient(circle at 88% 10%, rgb(var(--blue-9) / 0.6), transparent 38%),
+      radial-gradient(circle at 62% 110%, rgb(var(--blue-8) / 0.55), transparent 42%),
+      radial-gradient(circle at 30% -20%, rgb(var(--blue-7) / 0.4), transparent 45%),
+      linear-gradient(to right, rgb(var(--blue-2)), rgb(var(--blue-4)));
+    background-size: 0.5rem 0.5rem,
+      0.5rem 0.5rem,
+      100% 100%,
+      100% 100%,
+      100% 100%,
+      100% 100%;
+  }
+
+  // Arrow for native selects, which lose theirs with `appearance-none`.
+  .bg-chevron {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2380838d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 0.625rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+  }
+}

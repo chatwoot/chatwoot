@@ -1,34 +1,30 @@
-<div class="w-full">
-  <% regular_features, premium_features = SuperAdmin::AccountFeaturesHelper.partition_features(field.data) %>
+<%
+  regular_features, premium_features = SuperAdmin::AccountFeaturesHelper.partition_features(field.data)
+  groups = { t("super_admin.features.title") => regular_features, t("super_admin.features.premium") => premium_features }
+  total_count = groups.sum { |_title, features| features.size }
+  enabled_count = groups.sum { |_title, features| features.values.count(&:present?) }
+%>
+<div data-filter-scope>
+  <%= render "filter_bar", states: {
+    all: "#{t("super_admin.filters.all")} #{total_count}",
+    on: "#{t("super_admin.features.enabled")} #{enabled_count}",
+    off: "#{t("super_admin.features.disabled")} #{total_count - enabled_count}"
+  } %>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-    <% regular_features.each do |key_array, val| %>
-      <% feature_key, display_name = key_array %>
-      <div class="flex items-center justify-between p-3 bg-white rounded-md outline outline-n-container outline-1 shadow-sm">
-        <span class="text-sm text-n-slate-12"><%= display_name %></span>
-        <span class="<%= val.present? ? 'bg-green-400 text-white': 'bg-slate-50 text-slate-800' %> rounded-full p-1 inline-flex right-4 top-5">
-          <svg width="12" height="12"><use xlink:href="#icon-tick-line" /></svg>
-        </span>
-      </div>
-    <% end %>
-  </div>
-
-  <hr class="my-8 border-t border-n-weak">
-
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-    <% premium_features.each do |key_array, val| %>
-      <% feature_key, display_name = key_array %>
-      <div class="flex items-center justify-between p-3 bg-white rounded-md outline outline-n-container outline-1 shadow-sm">
-        <div class="flex items-center gap-2">
-          <span class="bg-n-amber-3 text-n-amber-12 rounded-full p-1 inline-flex right-4 top-5">
-            <svg width="12" height="12"><use xlink:href="#icon-lock-line" /></svg>
-          </span>
-          <span class="text-sm text-n-slate-12"><%= display_name %></span>
+  <div class="space-y-5">
+    <% groups.each do |title, features| %>
+      <%= render "card", title: title, meta: t("super_admin.features.enabled_count", enabled: features.values.count(&:present?), total: features.size), data: { filter_group: true } do %>
+        <div class="grid grid-cols-1 gap-2 p-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+          <% features.each do |(_feature_key, display_name), val| %>
+            <div class="<%= class_names("flex min-h-10 items-center justify-between gap-3 rounded-lg border border-n-weak px-3 py-2", "bg-n-slate-2 text-n-slate-10 dark:bg-n-solid-2" => val.blank?) %>" data-filter-item data-state="<%= val.present? ? 'on' : 'off' %>">
+              <span class="truncate"><%= display_name %></span>
+              <span class="<%= val.present? ? 'i-lucide-circle-check text-n-teal-10' : 'i-lucide-circle-minus text-n-slate-8' %> size-4 shrink-0"></span>
+            </div>
+          <% end %>
         </div>
-        <span class="<%= val.present? ? 'bg-green-400 text-white': 'bg-slate-50 text-slate-800' %> rounded-full p-1 inline-flex right-4 top-5">
-          <svg width="12" height="12"><use xlink:href="#icon-tick-line" /></svg>
-        </span>
-      </div>
+      <% end %>
     <% end %>
   </div>
+
+  <p class="hidden py-8 text-center text-n-slate-11" data-filter-empty><%= t("super_admin.features.no_match") %></p>
 </div>

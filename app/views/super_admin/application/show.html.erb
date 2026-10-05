@@ -18,48 +18,29 @@ as well as a link to its edit page.
 
 <% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
 
-<header class="main-content__header">
-  <h1 class="main-content__page-title">
-    <%= content_for(:title) %>
-  </h1>
+<%= render "page_header", title: page.page_title, back: display_resource_name(page.resource_name) do %>
+  <%= link_to(
+    t("administrate.actions.edit"),
+    [:edit, namespace, page.resource],
+    class: ui(:button),
+  ) if accessible_action?(page.resource, :edit) %>
 
-  <div>
-    <%= link_to(
-      "Edit",
-      [:edit, namespace, page.resource],
-      class: "button",
-    ) if accessible_action?(page.resource, :edit) %>
+  <%= link_to(
+    t("administrate.actions.destroy"),
+    [namespace, page.resource],
+    class: ui(:button_danger),
+    method: :delete,
+    data: { confirm: t("administrate.actions.confirm") }
+  ) if accessible_action?(page.resource, :destroy) %>
+<% end %>
 
-    <%= link_to(
-      t("administrate.actions.destroy"),
-      [namespace, page.resource],
-      class: "button button--danger",
-      method: :delete,
-      data: { confirm: t("administrate.actions.confirm") }
-    ) if accessible_action?(page.resource, :destroy) %>
-  </div>
-</header>
-
-<section class="main-content__body">
-  <dl>
-    <% page.attributes.each do |title, attributes| %>
-      <fieldset class="<%= "field-unit--nested" if title.present? %>">
-        <% if title.present? %>
-          <legend><%= t "helpers.label.#{page.resource_name}.#{title}", default: title %></legend>
-        <% end %>
-
-        <% attributes.each do |attribute| %>
-          <dt class="attribute-label" id="<%= attribute.name %>">
-          <%= t(
-            "helpers.label.#{resource_name}.#{attribute.name}",
-            default: page.resource.class.human_attribute_name(attribute.name),
-          ) %>
-          </dt>
-
-          <dd class="attribute-data attribute-data--<%=attribute.html_class%>"
-              ><%= render_field attribute, page: page %></dd>
-        <% end %>
-      </fieldset>
-    <% end %>
-  </dl>
-</section>
+<div class="space-y-6">
+  <% page.attributes.each do |title, attributes| %>
+    <fieldset class="<%= ui(:card) %> min-w-0">
+      <% if title.present? %>
+        <legend class="<%= ui(:overline) %> mx-3 px-1.5"><%= t "helpers.label.#{page.resource_name}.#{title}", default: title %></legend>
+      <% end %>
+      <%= render "attributes", page: page, attributes: attributes %>
+    </fieldset>
+  <% end %>
+</div>

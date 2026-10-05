@@ -1,0 +1,7 @@
+<script>
+  (function () {
+    var theme = localStorage.getItem('super-admin-theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.classList.toggle('dark', theme === 'dark' || (theme !== 'light' && prefersDark));
+  })();
+</script>

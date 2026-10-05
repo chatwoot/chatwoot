@@ -209,7 +209,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
       get "/super_admin/users/#{user.id}"
       doc = Nokogiri::HTML(response.body)
-      labels = doc.css('dt.attribute-label').map { |label| label.text.squish }
+      labels = doc.css('dt').map { |label| label.text.squish }
 
       expect(response).to have_http_status(:success)
       expect(labels).to include('MFA')
@@ -347,7 +347,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
         get "/super_admin/users/#{unconfirmed.id}"
 
         doc = Nokogiri::HTML(response.body)
-        expect(doc.at_css('.main-content__header details')).to be_nil
+        expect(doc.at_css('main header details')).to be_nil
         expect(doc.at_css('button:contains("Resend confirmation email")')).to be_present
       end
     end
@@ -361,7 +361,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
         get "/super_admin/users/#{user.id}"
 
         doc = Nokogiri::HTML(response.body)
-        button = doc.at_css('.main-content__header button:contains("Unblock email")')
+        button = doc.at_css('main header button:contains("Unblock email")')
         expect(button['disabled']).to be_present
         expect(button.parent['title']).to eq('Check email delivery first.')
         expect(response.body).to include('Check email delivery')
@@ -373,7 +373,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         get "/super_admin/users/#{unconfirmed.id}"
 
-        expect(Nokogiri::HTML(response.body).at_css('.main-content__header details button:contains("Resend confirmation email")')).to be_present
+        expect(Nokogiri::HTML(response.body).at_css('main header details button:contains("Resend confirmation email")')).to be_present
       end
 
       it 'shows an active clear button after a bounce check' do
@@ -407,7 +407,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         get "/super_admin/users/#{unconfirmed.id}", params: { suppression: 'bounce' }
 
-        button = Nokogiri::HTML(response.body).at_css('.main-content__header button:contains("Resend confirmation email")')
+        button = Nokogiri::HTML(response.body).at_css('main header button:contains("Resend confirmation email")')
         expect(button['disabled']).to be_present
       end
 
@@ -435,7 +435,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
       it 'disables the test email while the address is blocked' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'complaint' }
 
-        button = Nokogiri::HTML(response.body).at_css('.main-content__header button:contains("Send test email")')
+        button = Nokogiri::HTML(response.body).at_css('main header button:contains("Send test email")')
         expect(button['disabled']).to be_present
         expect(button.parent['title']).to eq('Blocked after a spam complaint. Emails to this address are dropped.')
       end
@@ -443,14 +443,14 @@ RSpec.describe 'Super Admin Users API', type: :request do
       it 'keeps the test email available when the address is not blocked' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'not_suppressed' }
 
-        button = Nokogiri::HTML(response.body).at_css('.main-content__header button:contains("Send test email")')
+        button = Nokogiri::HTML(response.body).at_css('main header button:contains("Send test email")')
         expect(button['disabled']).to be_nil
       end
 
       it 'explains why unblock is disabled when the address is not blocked' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'not_suppressed' }
 
-        button = Nokogiri::HTML(response.body).at_css('.main-content__header button:contains("Unblock email")')
+        button = Nokogiri::HTML(response.body).at_css('main header button:contains("Unblock email")')
         expect(button['disabled']).to be_present
         expect(button.parent['title']).to eq('Emails to this address are not blocked.')
       end
@@ -477,11 +477,11 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         post "/super_admin/users/#{user.id}/check_email_suppression"
         follow_redirect!
-        expect(Nokogiri::HTML(response.body).at_css('.flashes[data-toast-flashes]')).to be_present
+        expect(Nokogiri::HTML(response.body).at_css('[data-flashes][data-toast-flashes]')).to be_present
 
         post '/super_admin/users', params: { user: { email: '' } }
         follow_redirect!
-        flashes = Nokogiri::HTML(response.body).at_css('.flashes')
+        flashes = Nokogiri::HTML(response.body).at_css('[data-flashes]')
         expect(flashes).to be_present
         expect(flashes.key?('data-toast-flashes')).to be(false)
       end

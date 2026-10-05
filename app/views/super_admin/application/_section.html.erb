@@ -1,0 +1,41 @@
+<%# locals: (label:, items:, title:, description: nil, icon: nil) -%>
+<%
+  # A page that is not in the list (a hidden or locked config) still gets a label for the small-screen button.
+  current = items.find { |item| item[:active] } || { label: title, icon: icon }
+  links = render("section_links", items: items)
+%>
+
+<div class="grid grid-cols-1 items-start gap-x-8 gap-y-4 pt-6 lg:grid-cols-[14rem_minmax(0,1fr)] lg:pt-8">
+  <button type="button" class="<%= ui(:card) %> flex min-h-11 items-center gap-2.5 px-3 text-start text-body-main hover:bg-n-alpha-2 lg:hidden" data-dialog-open="section-nav" aria-haspopup="dialog">
+    <span class="<%= current[:icon] %> size-4 shrink-0"></span>
+    <span class="text-n-slate-11"><%= label %></span>
+    <span class="min-w-0 flex-1 truncate font-medium text-n-slate-12"><%= current[:label] %></span>
+    <span class="i-lucide-chevrons-up-down size-4 shrink-0 text-n-slate-10"></span>
+  </button>
+
+  <nav class="hidden max-h-[calc(100dvh-6rem)] overflow-y-auto lg:sticky lg:top-16 lg:block xl:top-20" aria-label="<%= label %>">
+    <%= links %>
+  </nav>
+
+  <div class="min-w-0 space-y-6">
+    <header class="flex min-w-0 items-center gap-3">
+      <% if icon %>
+        <span class="<%= ui(:logo_tile) %> size-10 rounded-xl">
+          <span class="<%= icon %> size-5"></span>
+        </span>
+      <% end %>
+      <div class="min-w-0">
+        <h1 class="<%= ui(:title) %>" id="page-title"><%= title %></h1>
+        <% if description %>
+          <p class="mt-1 max-w-2xl text-body-main text-n-slate-11"><%= description %></p>
+        <% end %>
+      </div>
+    </header>
+
+    <%= yield %>
+  </div>
+</div>
+
+<%= render "sheet", id: "section-nav", title: label do %>
+  <%= links %>
+<% end %>

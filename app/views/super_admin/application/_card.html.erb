@@ -1,0 +1,10 @@
+<%# locals: (title:, meta: nil, data: {}) -%>
+<%= tag.section class: ui(:card), data: data do %>
+  <div class="flex min-h-11 items-center justify-between gap-3 border-b border-n-weak px-4 py-2">
+    <h2 class="<%= ui(:overline) %>"><%= title %></h2>
+    <% if meta %>
+      <span class="text-label-small tabular-nums text-n-slate-11"><%= meta %></span>
+    <% end %>
+  </div>
+  <%= yield %>
+<% end %>

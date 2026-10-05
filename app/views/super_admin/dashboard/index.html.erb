@@ -1,5 +1,89 @@
-<% content_for(:title) do %>
-  Admin Dashboard
-<% end %>
+<% content_for(:title) { "Admin Dashboard" } %>
+<% content_for(:head) { vite_javascript_tag "superadmin_pages" } %>
+<%
+  shortcuts = [
+    [t("super_admin.navigation.settings"), super_admin_settings_path, "i-lucide-settings", "bg-n-blue-3 text-n-blue-11"],
+    [t("super_admin.navigation.instance_health"), super_admin_instance_status_path, "i-lucide-heart-pulse", "bg-n-teal-3 text-n-teal-11"],
+    [t("super_admin.navigation.push_diagnostics"), super_admin_push_diagnostics_path, "i-lucide-bell-ring", "bg-n-amber-3 text-n-amber-11"],
+    [t("super_admin.navigation.sidekiq_dashboard"), sidekiq_web_path, "i-lucide-layers", "bg-n-violet-3 text-n-violet-11"]
+  ]
+  pulse = "animate-pulse bg-n-slate-3"
+%>
 
-<%= render_vue_component('DashboardIndex', {}) %>
+<header class="pb-5 pt-6 lg:pt-8">
+  <div class="<%= ui(:card) %> relative overflow-hidden">
+    <div class="absolute inset-y-0 end-0 w-2/3 bg-pixel-band [mask-image:linear-gradient(to_right,transparent,black_70%)]"></div>
+    <div class="relative flex flex-wrap items-end justify-between gap-x-6 gap-y-4 p-5 sm:p-6">
+      <div class="min-w-0">
+        <h1 class="<%= ui(:title) %>" id="page-title"><%= t("super_admin.navigation.dashboard") %></h1>
+        <p class="mt-1 max-w-2xl text-body-main text-n-slate-11"><%= t("super_admin.dashboard.description") %></p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <%= link_to new_super_admin_user_path, class: ui(:button_secondary) do %>
+          <span class="i-lucide-user-plus size-4"></span>
+          <%= t("super_admin.dashboard.new_user") %>
+        <% end %>
+        <%= link_to new_super_admin_account_path, class: ui(:button) do %>
+          <span class="i-lucide-plus size-4"></span>
+          <%= t("super_admin.dashboard.new_account") %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_19rem]">
+  <div class="min-w-0">
+    <%= render_vue_component('DashboardIndex', {
+      accountsPath: super_admin_accounts_path,
+      usersPath: super_admin_users_path
+    }) %>
+    <%# Stands in for the stats and the chart until the Vue page above has mounted, in the shape of its loading state. %>
+    <div class="flex flex-col gap-6 [#app:not(:empty)~&]:hidden" aria-hidden="true">
+      <div class="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-n-weak bg-n-weak lg:grid-cols-4">
+        <% 4.times do %>
+          <div class="flex flex-col gap-3 bg-n-solid-1 p-4">
+            <span class="<%= pulse %> h-8 w-28 rounded-lg"></span>
+            <span class="<%= pulse %> h-9 w-16 rounded"></span>
+          </div>
+        <% end %>
+      </div>
+      <div class="<%= ui(:card) %> p-4">
+        <span class="<%= pulse %> block h-9 w-56 rounded"></span>
+        <span class="<%= pulse %> mt-4 block h-[18.75rem] rounded-lg"></span>
+      </div>
+    </div>
+  </div>
+
+  <aside class="grid content-start gap-6 sm:grid-cols-2 xl:grid-cols-1">
+    <%= render "card", title: t("super_admin.dashboard.installation") do %>
+      <dl class="space-y-2 p-4 text-body-main">
+        <div class="flex items-center justify-between gap-3">
+          <dt class="text-n-slate-11"><%= t("super_admin.dashboard.version") %></dt>
+          <dd class="tabular-nums"><%= Chatwoot.config[:version] %></dd>
+        </div>
+        <div class="flex items-center justify-between gap-3">
+          <dt class="text-n-slate-11"><%= t("super_admin.dashboard.plan") %></dt>
+          <dd><span class="<%= ui(:badge_info) %>"><%= ChatwootHub.pricing_plan.titleize %></span></dd>
+        </div>
+      </dl>
+    <% end %>
+
+    <%= render "card", title: t("super_admin.dashboard.shortcuts") do %>
+      <ul class="p-2">
+        <% shortcuts.each do |label, url, icon, tone| %>
+          <li>
+            <%= link_to url, class: "#{ui(:nav_item)} min-h-11" do %>
+              <span class="grid size-7 shrink-0 place-items-center rounded-md <%= tone %>">
+                <span class="<%= icon %> size-4"></span>
+              </span>
+              <%= label %>
+              <span class="i-lucide-chevron-right ms-auto size-4 text-n-slate-9"></span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </aside>
+</div>

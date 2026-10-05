@@ -1,0 +1,16 @@
+<%# Switches the `data-tab-panel` blocks that follow. `active` comes from `active_tab`, so a reload keeps the tab. %>
+<%# locals: (tabs:, active:, inset: false) -%>
+<div class="<%= class_names("flex gap-5 overflow-x-auto border-b border-n-weak sm:gap-6", "px-5" => inset) %>" role="tablist">
+  <% tabs.each do |tab| %>
+    <button type="button" role="tab" data-tab="<%= tab[:key] %>" aria-selected="<%= tab[:key] == active %>"
+            class="-mb-px inline-flex h-10 shrink-0 items-center gap-1.5 border-b-2 border-transparent text-body-main text-n-slate-11 hover:text-n-slate-12 aria-selected:border-n-brand aria-selected:font-medium aria-selected:text-n-slate-12 touch:h-11">
+      <% if tab[:icon] %>
+        <span class="<%= tab[:icon] %> hidden size-4 sm:block"></span>
+      <% end %>
+      <%= tab[:label] %>
+      <% if tab[:count] %>
+        <span class="<%= ui(:badge) %>"><%= number_with_delimiter(tab[:count]) %></span>
+      <% end %>
+    </button>
+  <% end %>
+</div>

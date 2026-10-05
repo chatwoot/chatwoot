@@ -2,6 +2,7 @@ const { slateDark } = require('@radix-ui/colors');
 import { colors } from './theme/colors';
 import { icons } from './theme/icons';
 const defaultTheme = require('tailwindcss/defaultTheme');
+const plugin = require('tailwindcss/plugin');
 const {
   iconsPlugin,
   getIconCollections,
@@ -36,6 +37,8 @@ const tailwindConfig = {
     './app/javascript/dashboard/components-next/**/*.js',
     './app/javascript/dashboard/routes/dashboard/**/**/*.js',
     './app/views/**/*.erb',
+    './app/helpers/super_admin/*.{rb,yml}',
+    './app/javascript/entrypoints/superadmin.js',
   ],
   theme: {
     extend: {
@@ -271,6 +274,14 @@ const tailwindConfig = {
       'scale-in': {
         '0%': { opacity: 0, transform: 'scale(0.97)' },
       },
+      'sheet-in': {
+        from: { opacity: 0, transform: 'translateY(-1rem)' },
+        to: { opacity: 1, transform: 'translateY(0)' },
+      },
+      'page-progress': {
+        from: { transform: 'scaleX(0)' },
+        to: { transform: 'scaleX(0.9)' },
+      },
     },
     animation: {
       ...defaultTheme.animation,
@@ -284,6 +295,9 @@ const tailwindConfig = {
       twinkle: 'twinkle 0.9s ease-in-out infinite',
       'fade-in': 'fade-in 0.3s ease-out',
       'scale-in': 'scale-in 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+      'sheet-in': 'sheet-in 0.2s ease-out',
+      'page-progress':
+        'page-progress 8s cubic-bezier(0.1, 0.8, 0.2, 1) 0.15s forwards',
     },
   },
   plugins: [
@@ -302,6 +316,9 @@ const tailwindConfig = {
           'fluent',
         ]),
       },
+    }),
+    plugin(({ addVariant }) => {
+      addVariant('touch', '@media (pointer: coarse)');
     }),
   ],
 };

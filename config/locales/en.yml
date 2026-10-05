@@ -691,6 +691,26 @@ en:
         suspended_by: 'Suspended by'
         unknown_user: 'Unknown user'
         empty: 'No suspension history recorded.'
+    accounts:
+      users: 'Users'
+      conversations: 'Conversations'
+      maintenance: 'Maintenance'
+      general: 'General'
+      limits: 'Limits'
+      suspension_history: 'Suspension history'
+      custom_attributes: 'Custom attributes'
+      manually_managed_features: 'Manually managed features'
+      captain_models: 'Captain models'
+      add_user: 'Add a user to this account'
+      seed_data: 'Generate seed data'
+      reset_cache: 'Reset frontend cache'
+    actions:
+      save_changes: 'Save changes'
+      select_all: 'Select all'
+      clear: 'Clear'
+      close: 'Close'
+      copy: 'Copy'
+      toggle_secret: 'Show or hide'
     captain_model_overrides:
       form:
         helper_text: 'Leave a model blank to use the default routing for that AI feature.'
@@ -720,6 +740,62 @@ en:
         help_center_query_translation: 'Help center query translation'
         audio_transcription: 'Audio transcription'
         help_center_search: 'Help center search'
+    collection:
+      actions: 'Actions'
+      empty: 'No %{resource} found.'
+      showing: 'Showing %{from}–%{to} of %{total}'
+    dashboard:
+      description: 'Accounts, users and conversation volume across this installation.'
+      new_user: 'New user'
+      new_account: 'New account'
+      installation: 'Installation'
+      version: 'Version'
+      plan: 'Plan'
+      shortcuts: 'Shortcuts'
+    features:
+      title: 'Features'
+      premium: 'Premium features'
+      filter: 'Filter features'
+      no_match: 'No features match this filter.'
+      enabled: 'Enabled'
+      disabled: 'Disabled'
+      enabled_count: '%{enabled} of %{total} enabled'
+      selected: 'Selected'
+      not_selected: 'Not selected'
+      selected_count: '%{selected} of %{total} selected'
+    filters:
+      label: 'Filter by'
+      all: 'All'
+    instance_status:
+      description: 'Versions and connection status of the services this installation runs on.'
+      details: 'Details'
+    navigation:
+      label: 'Super Admin'
+      suffix: 'super admin'
+      dashboard: 'Dashboard'
+      settings: 'Settings'
+      monitor: 'Monitor'
+      more: 'More'
+      agent_dashboard: 'Agent Dashboard'
+      logout: 'Logout'
+      overview: 'Overview'
+      instance_health: 'Instance Health'
+      push_diagnostics: 'Push Diagnostics'
+      sidekiq_dashboard: 'Sidekiq Dashboard'
+      tabs:
+        agent_bots: 'Bots'
+        platform_apps: 'Apps'
+        platform_banners: 'Banners'
+      settings_groups:
+        product: 'Product'
+        channels: 'Channels'
+        authentication: 'Authentication'
+        integrations: 'Integrations'
+      theme:
+        label: 'Theme'
+        system: 'Match system'
+        light: 'Light'
+        dark: 'Dark'
     push_diagnostics:
       user_not_found: 'User not found.'
       no_subscriptions_to_test: 'Select at least one subscription to test.'
@@ -727,11 +803,32 @@ en:
       subscriptions_deleted:
         one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
         other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+    record:
+      overview: 'Overview'
+      profile: 'Profile'
+      created: 'Created'
+      last_updated: 'Last updated'
+      time_ago: '%{time} ago'
+    settings:
+      configure: 'Configure'
+      included: 'Included'
+      locked: 'Locked'
+      installation_identifier_description: 'Unique ID of this installation.'
+      default_description: 'Instance-wide options'
     users:
       impersonate: 'Impersonate user'
       copy_impersonation_link: 'Copy link'
       impersonation_link_copied: 'Copied'
       impersonation_link_failed: 'Copy failed'
+      impersonate_title: 'Impersonate'
+      accounts: 'Accounts'
+      access_token: 'Access token'
+      confirmed: 'Confirmed'
+      unconfirmed: 'Unconfirmed'
+      mfa: 'MFA'
+      mfa_enabled: 'Enabled'
+      mfa_disabled: 'Disabled'
+      add_account: 'Add this user to an account'
       resend_confirmation:
         button: 'Resend confirmation email'
         sent: 'Confirmation email sent.'

@@ -1,7 +1,10 @@
-<li class="px-4 mb-1">
-  <% text_class_name = current_page?(url) ? 'text-woot-500 bg-slate-25' : 'text-slate-800' %>
-  <%= link_to(url, class: text_class_name + " -ml-1 focus:outline-none cursor-pointer flex items-center px-2 py-1.5 text-slate-800 cursor-pointer hover:text-woot-500 hover:bg-slate-25 rounded-lg") do %>
-    <svg width="16" height="16"><use xlink:href="#<%= icon %>" /></svg>
-    <span class="ml-2 text-sm"><%= label %></span>
+<%# locals: (item:) -%>
+<li>
+  <%= link_to item[:url], class: ui(:nav_item), aria: { current: ("page" if item[:active]) } do %>
+    <span class="<%= item[:icon] %> size-4 shrink-0"></span>
+    <span class="truncate"><%= item[:label] %></span>
+    <% if item[:external] %>
+      <span class="i-lucide-arrow-up-right ms-auto size-3.5 shrink-0 text-n-slate-9"></span>
+    <% end %>
   <% end %>
 </li>

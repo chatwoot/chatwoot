@@ -1,0 +1,15 @@
+<%= render "field", f: f, field: field do %>
+  <% if field.attached? %>
+    <%# The gem renders the attachment list, so it is styled from here. %>
+    <div class="mb-2 space-y-1 [&_.remove-attachment-link]:text-n-ruby-11 [&_a]:text-n-blue-11 hover:[&_a]:underline [&_hr]:my-3 [&_hr]:border-n-weak [&_img]:size-16 [&_img]:rounded-lg [&_img]:object-cover">
+      <%= render partial: "fields/active_storage/items", locals: { field: field } %>
+    </div>
+  <% end %>
+  <label class="block">
+    <span class="mb-1 block text-label-small text-n-slate-11">
+      <%= field.can_add_attachment? ? t("administrate.fields.active_storage.add", default: "Add") : t("administrate.fields.active_storage.replace", default: "Replace") %>
+    </span>
+    <%= f.file_field field.attribute, multiple: field.many?, direct_upload: field.direct?,
+                     class: "block w-full text-body-main text-n-slate-11 file:me-3 file:h-9 file:cursor-pointer file:rounded-lg file:border file:border-solid file:border-n-slate-6 file:bg-n-solid-1 file:px-3 file:text-button file:text-n-slate-12" %>
+  </label>
+<% end %>

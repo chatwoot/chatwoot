@@ -1,0 +1,10 @@
+<%= render "field", f: f, field: field do %>
+  <%# Administrate turns selects inside this class into searchable selectize inputs. %>
+  <div class="field-unit--select">
+    <%= f.select(
+          field.attribute,
+          options_for_select(field.selectable_options, field.data),
+          include_blank: field.include_blank_option
+        ) %>
+  </div>
+<% end %>
