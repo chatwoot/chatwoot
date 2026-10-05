@@ -1,6 +1,8 @@
 <%
   regular_features, premium_features = SuperAdmin::AccountFeaturesHelper.partition_features(field.data)
   premium_locked = ChatwootHub.pricing_plan == 'community'
+  icons = SuperAdmin::AccountFeaturesHelper.feature_icons
+  help_urls = SuperAdmin::AccountFeaturesHelper.feature_help_urls
 %>
 <%= render "field", f: f, field: field, wide: true do %>
   <div data-filter-scope>
@@ -8,7 +10,7 @@
 
     <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3" data-filter-group>
       <% regular_features.each do |(feature_key, display_name), val| %>
-        <%= render "check_tile", label: display_name do %>
+        <%= render "check_tile", label: display_name, icon: icons[feature_key], help_url: help_urls[feature_key] do %>
           <%= check_box "enabled_features", "feature_#{feature_key}", { checked: val, class: ui(:checkbox) }, true, false %>
         <% end %>
       <% end %>
@@ -18,7 +20,7 @@
       <h3 class="text-xs font-medium uppercase tracking-wider text-n-slate-10 mb-2 mt-5"><%= t("super_admin.features.premium") %></h3>
       <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
         <% premium_features.each do |(feature_key, display_name), val| %>
-          <%= render "check_tile", label: display_name, premium: true, disabled: premium_locked do %>
+          <%= render "check_tile", label: display_name, icon: icons[feature_key], help_url: help_urls[feature_key], premium: true, disabled: premium_locked do %>
             <%= check_box "enabled_features", "feature_#{feature_key}", { checked: val, disabled: premium_locked, class: ui(:checkbox) }, true, false %>
           <% end %>
         <% end %>

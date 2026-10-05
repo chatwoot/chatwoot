@@ -7,6 +7,17 @@ module SuperAdmin::AccountFeaturesHelper
     account_features.filter { |feature| feature['premium'] }.pluck('name')
   end
 
+  # The list the dashboard shows its "Learn more" links from (dashboard/helper/featureHelper.js).
+  def self.feature_help_urls
+    YAML.safe_load(Rails.root.join('config/feature_help_urls.yml').read).freeze
+  end
+
+  def self.feature_icons
+    icons = YAML.safe_load(Rails.root.join('app/helpers/super_admin/account_feature_icons.yml').read)
+    icons.default = 'i-lucide-toggle-right'
+    icons.freeze
+  end
+
   # Returns a hash mapping feature names to their display names
   def self.feature_display_names
     account_features.each_with_object({}) do |feature, hash|

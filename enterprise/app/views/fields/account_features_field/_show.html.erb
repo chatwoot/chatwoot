@@ -3,6 +3,8 @@
   groups = { t("super_admin.features.title") => regular_features, t("super_admin.features.premium") => premium_features }
   total_count = groups.sum { |_title, features| features.size }
   enabled_count = groups.sum { |_title, features| features.values.count(&:present?) }
+  icons = SuperAdmin::AccountFeaturesHelper.feature_icons
+  help_urls = SuperAdmin::AccountFeaturesHelper.feature_help_urls
 %>
 <div data-filter-scope>
   <%= render "filter_bar", states: {
@@ -15,9 +17,11 @@
     <% groups.each do |title, features| %>
       <%= render "card", title: title, meta: t("super_admin.features.enabled_count", enabled: features.values.count(&:present?), total: features.size), data: { filter_group: true } do %>
         <div class="grid grid-cols-1 gap-2 p-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-          <% features.each do |(_feature_key, display_name), val| %>
-            <div class="<%= class_names("flex min-h-10 items-center justify-between gap-3 rounded-lg border border-n-weak px-3 py-2", "bg-n-slate-2 text-n-slate-10 dark:bg-n-solid-2" => val.blank?) %>" data-filter-item data-state="<%= val.present? ? 'on' : 'off' %>">
-              <span class="truncate"><%= display_name %></span>
+          <% features.each do |(feature_key, display_name), val| %>
+            <div class="<%= class_names("flex min-h-10 items-center gap-2.5 rounded-lg border border-n-weak px-3 py-1.5", "bg-n-slate-2 text-n-slate-10 dark:bg-n-solid-2" => val.blank?) %>" data-filter-item data-state="<%= val.present? ? 'on' : 'off' %>">
+              <span class="<%= class_names(icons[feature_key], "size-4 shrink-0", val.present? ? "text-n-slate-11" : "opacity-60 grayscale") %>"></span>
+              <span class="min-w-0 flex-1 truncate"><%= display_name %></span>
+              <%= render "help_link", url: help_urls[feature_key] if help_urls[feature_key] %>
               <span class="<%= val.present? ? 'i-lucide-circle-check text-n-teal-10' : 'i-lucide-circle-minus text-n-slate-8' %> size-4 shrink-0"></span>
             </div>
           <% end %>

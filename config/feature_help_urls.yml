@@ -1,0 +1,70 @@
+# Help center article for each feature.
+# The dashboard reads this through `getHelpUrlForFeature` (dashboard/helper/featureHelper.js) and
+# Super Admin through `SuperAdmin::AccountFeaturesHelper`.
+#
+# A key is one of:
+#   - a feature flag name from config/features.yml
+#   - the name a dashboard page passes as `feature-name`
+#   - an integration id from config/integration/apps.yml
+
+# Feature flags
+advanced_assignment: https://www.chatwoot.com/hc/user-guide/articles/1741998212-agent-capacity
+agent_bots: https://chwt.app/hc/agent-bots
+agent_management: https://chwt.app/hc/agents
+api_and_webhooks: https://chwt.app/hc/webhooks
+assignment_v2: https://www.chatwoot.com/hc/user-guide/articles/1763978164-chatwoot-assignment-v2
+audit_log_ip_address: https://chwt.app/hc/audit-logs
+audit_logs: https://chwt.app/hc/audit-logs
+automations: https://www.chatwoot.com/hc/user-guide/articles/1677689800-how-to-use-automation
+campaigns: https://chwt.app/hc/campaigns
+canned_responses: https://chwt.app/hc/canned
+captain_integration: https://chwt.app/captain-docs
+channel_email: https://chwt.app/hc/email
+channel_facebook: https://chwt.app/hc/fb
+channel_instagram: https://www.chatwoot.com/hc/user-guide/articles/1744361165-how-to-setup-an-instagram-channel-via-instagram-login
+channel_tiktok: https://www.chatwoot.com/hc/user-guide/articles/1769595702-how-to-setup-a-tik_tok-channel
+channel_voice: https://www.chatwoot.com/hc/user-guide/articles/1779863425-voice-calling-in-chatwoot
+channel_website: https://www.chatwoot.com/hc/user-guide/articles/1677580558-website-live-chat-settings-explained
+conversation_required_attributes: https://www.chatwoot.com/hc/user-guide/articles/1769161760-required-conversation-attributes
+crm: https://www.chatwoot.com/hc/user-guide/articles/1677498364-understanding-contacts
+csat_review_notes: https://www.chatwoot.com/hc/user-guide/articles/1768536939-review-notes-for-csat
+custom_attributes: https://chwt.app/hc/custom-attributes
+custom_roles: https://www.chatwoot.com/hc/user-guide/articles/1741923706-manage-team-access-control-with-flexible-role_based-permissions
+custom_tools: https://www.chatwoot.com/hc/user-guide/articles/1775045339-v2-_-how-to-set-up-custom-tools-for-captain
+help_center: https://chwt.app/hc/help-center
+inbound_emails: https://www.chatwoot.com/hc/user-guide/articles/1677587761-how-to-continue-conversations-through-email
+inbox_management: https://chwt.app/hc/inboxes
+integrations: https://chwt.app/hc/integrations
+labels: https://chwt.app/hc/labels
+linear_integration: https://www.chatwoot.com/hc/user-guide/articles/1739949089-how-to-track-issues-and-features-with-linear-integration
+macros: https://chwt.app/hc/macros
+reports: https://chwt.app/hc/reports
+saml: https://www.chatwoot.com/hc/user-guide/articles/1758635327-setting-up-saml
+shopify_integration: https://chwt.app/hc/shopify
+sla: https://chwt.app/hc/sla
+team_management: https://chwt.app/hc/teams
+whatsapp_embedded_signup_inbox_creation: https://www.chatwoot.com/hc/user-guide/articles/1752129193-how-to-use-whatsapp-embedded-signup
+whatsapp_manual_transfer: https://www.chatwoot.com/hc/user-guide/articles/1783938358-migrate-a-whats_app-embedded-signup-inbox-to-manual-setup
+
+# Dashboard pages
+agents: https://chwt.app/hc/agents
+assignment-policy: https://www.chatwoot.com/hc/user-guide/articles/1763978164-chatwoot-assignment-v2
+automation: https://www.chatwoot.com/hc/user-guide/articles/1677689800-how-to-use-automation
+billing: https://chwt.app/pricing
+captain: https://chwt.app/captain-docs
+captain_billing: https://chwt.app/hc/captain_billing
+conversation-workflow: https://www.chatwoot.com/hc/user-guide/articles/1769161760-required-conversation-attributes
+inboxes: https://chwt.app/hc/inboxes
+slack_integration: https://www.chatwoot.com/hc/user-guide/articles/1677774874-how-to-answer-conversations-from-slack
+whatsapp_templates: https://www.chatwoot.com/hc/user-guide/articles/1754940076-whatsapp-templates
+
+# Integrations
+dashboard_apps: https://chwt.app/hc/dashboard-apps
+dialogflow: https://www.chatwoot.com/hc/user-guide/articles/1677743452-how-to-integrate-your-dialogflow-chatbot-with-chatwoot
+dyte: https://www.chatwoot.com/hc/user-guide/articles/1679928145-how-to-enable-video-calls-with-dyte-integration
+google_translate: https://www.chatwoot.com/hc/user-guide/articles/1679916448-how-to-translate-your-messages-with-google-translate
+linear: https://www.chatwoot.com/hc/user-guide/articles/1739949089-how-to-track-issues-and-features-with-linear-integration
+openai: https://www.chatwoot.com/hc/user-guide/articles/1683707349-openai
+shopify: https://chwt.app/hc/shopify
+slack: https://www.chatwoot.com/hc/user-guide/articles/1677774874-how-to-answer-conversations-from-slack
+webhook: https://chwt.app/hc/webhooks

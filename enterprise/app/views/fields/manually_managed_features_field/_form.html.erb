@@ -5,6 +5,8 @@
                                                                  .index_with { |feature| display_names[feature] || feature.humanize }
                                                                  .sort_by { |_feature, display_name| display_name }
   selected_features = field.selected_features
+  icons = SuperAdmin::AccountFeaturesHelper.feature_icons
+  help_urls = SuperAdmin::AccountFeaturesHelper.feature_help_urls
 %>
 <%= render "field", f: f, field: field, attribute: :manually_managed_features, wide: true do %>
   <div data-filter-scope>
@@ -13,7 +15,7 @@
 
     <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
       <% premium_features.each do |feature_key, display_name| %>
-        <%= render "check_tile", label: display_name do %>
+        <%= render "check_tile", label: display_name, icon: icons[feature_key], help_url: help_urls[feature_key] do %>
           <%= check_box_tag "account[manually_managed_features][]", feature_key, selected_features.include?(feature_key), class: ui(:checkbox) %>
         <% end %>
       <% end %>
