@@ -6,6 +6,7 @@ class Agents::DestroyJob < ApplicationJob
       destroy_notification_setting(account, user)
       remove_user_from_teams(account, user)
       remove_user_from_inboxes(account, user)
+      remove_user_from_conversation_participants(account, user)
       unassign_conversations(account, user)
     end
   end
@@ -22,6 +23,12 @@ class Agents::DestroyJob < ApplicationJob
     teams = account.teams.all
     team_members = user.team_members.where(team_id: teams.pluck(:id))
     team_members.destroy_all
+  end
+
+  def remove_user_from_conversation_participants(account, user)
+    # destroy (not delete) so each participant's after_commit callback
+    # invalidates the filtered unread-count visibility for the user
+    user.conversation_participants.where(account_id: account.id).destroy_all
   end
 
   def destroy_notification_setting(account, user)
