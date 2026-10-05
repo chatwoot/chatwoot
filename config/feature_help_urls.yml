@@ -31,6 +31,7 @@ csat_review_notes: https://www.chatwoot.com/hc/user-guide/articles/1768536939-re
 custom_attributes: https://chwt.app/hc/custom-attributes
 custom_roles: https://www.chatwoot.com/hc/user-guide/articles/1741923706-manage-team-access-control-with-flexible-role_based-permissions
 custom_tools: https://www.chatwoot.com/hc/user-guide/articles/1775045339-v2-_-how-to-set-up-custom-tools-for-captain
+data_import: https://www.chatwoot.com/hc/user-guide/en/categories/migrations
 help_center: https://chwt.app/hc/help-center
 inbound_emails: https://www.chatwoot.com/hc/user-guide/articles/1677587761-how-to-continue-conversations-through-email
 inbox_management: https://chwt.app/hc/inboxes
@@ -61,7 +62,7 @@ whatsapp_templates: https://www.chatwoot.com/hc/user-guide/articles/1754940076-w
 # Integrations
 dashboard_apps: https://chwt.app/hc/dashboard-apps
 dialogflow: https://www.chatwoot.com/hc/user-guide/articles/1677743452-how-to-integrate-your-dialogflow-chatbot-with-chatwoot
-dyte: https://www.chatwoot.com/hc/user-guide/articles/1679928145-how-to-enable-video-calls-with-dyte-integration
+dyte: https://www.chatwoot.com/hc/user-guide/articles/1781766180-how-to-enable-video-calls-with-cloudflare-realtime_kit
 google_translate: https://www.chatwoot.com/hc/user-guide/articles/1679916448-how-to-translate-your-messages-with-google-translate
 linear: https://www.chatwoot.com/hc/user-guide/articles/1739949089-how-to-track-issues-and-features-with-linear-integration
 openai: https://www.chatwoot.com/hc/user-guide/articles/1683707349-openai
