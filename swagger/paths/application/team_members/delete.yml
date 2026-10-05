@@ -4,6 +4,7 @@ operationId: delete-agent-in-team
 summary: Remove an Agent from Team
 description: Remove an Agent from Team
 security:
+  - userBearerAuth: []
   - userApiKey: []
 requestBody:
   required: true

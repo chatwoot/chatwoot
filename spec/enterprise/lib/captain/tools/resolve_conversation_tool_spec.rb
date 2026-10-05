@@ -17,7 +17,7 @@ RSpec.describe Captain::Tools::ResolveConversationTool do
   end
 
   describe 'resolving a conversation' do
-    before { account.enable_features('captain_integration_v2') }
+    before { account.enable_features('captain_integration') }
 
     it 'marks resolved and enqueues an activity message with the reason' do
       tool.perform(tool_context, reason: 'Possible spam')
