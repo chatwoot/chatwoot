@@ -17,10 +17,6 @@
 #  index_reusable_attachments_on_account_id           (account_id)
 #  index_reusable_attachments_on_account_id_and_name  (account_id,name)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
-#
 
 class ReusableAttachment < ApplicationRecord
   belongs_to :account

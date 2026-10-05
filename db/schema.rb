@@ -1748,7 +1748,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_29_100000) do
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitors", "users", on_delete: :nullify
   add_foreign_key "inboxes", "portals"
-  add_foreign_key "reusable_attachments", "accounts", on_delete: :cascade
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
