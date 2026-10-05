@@ -195,6 +195,64 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(100_000)
   end
 
+  it 'holds an exhausted daily budget until reset without rescheduling on new input' do
+    reset = Time.current.utc.tomorrow.beginning_of_day
+
+    with_modified_env(CONVERSATION_MONITORS_DAILY_TOKEN_LIMIT: '1') do
+      expect { evaluate.call }.to have_enqueued_job(ConversationMonitors::ProcessJob).exactly(:once)
+      expect(WebMock).not_to have_requested(:post, endpoint)
+      expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: be_between(reset, reset + 30.minutes))
+
+      due_at = work.due_at
+      3.times { |index| create(:message, account: account, conversation: conversation, content: "During the hold #{index}") }
+      expect(work.reload).to have_attributes(due_at: due_at, error_code: 'budget_limit', revision: be > work.processed_revision)
+      expect { ConversationMonitors::ProcessJob.perform_now(conversation.id) }.not_to have_enqueued_job(ConversationMonitors::ProcessJob)
+    end
+
+    travel_to(work.due_at + 1.second)
+    evaluate.call
+
+    expect(WebMock).to have_requested(:post, endpoint).once
+    expect(work.reload).to have_attributes(due_at: nil, error_code: nil, processed_revision: work.revision)
+  end
+
+  it 'holds input arriving during a budget-rejected request until reset' do
+    freeze_time
+    work.update!(due_at: Time.current)
+    usage = ConversationMonitors::Usage.new(account.id)
+    allow(ConversationMonitors::Usage).to receive(:new).and_return(usage)
+    allow(usage).to receive(:reserve!) do
+      create(:message, account: account, conversation: conversation, content: 'Another question')
+      raise CustomExceptions::MonitorEvaluationError.new('budget_limit', retry_after: 1.hour.to_i)
+    end
+
+    evaluate.call
+
+    expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: be_between(1.hour.from_now, 90.minutes.from_now),
+                                           lease_token: nil, revision: be > work.processed_revision)
+  end
+
+  it 'prioritizes the daily budget hold over an earlier batch provider error' do
+    freeze_time
+    work.update!(due_at: Time.current)
+    create_list(:conversation_monitor, 19, account: account, created_at: 1.minute.ago)
+    stub_request(:post, endpoint).to_return(status: 429)
+    usage = ConversationMonitors::Usage.new(account.id)
+    allow(ConversationMonitors::Usage).to receive(:new).and_return(usage)
+    calls = 0
+    allow(usage).to receive(:reserve!).and_wrap_original do |original, bytes|
+      calls += 1
+      raise CustomExceptions::MonitorEvaluationError.new('budget_limit', retry_after: 1.hour.to_i) if calls > 1
+
+      original.call(bytes)
+    end
+
+    evaluate.call
+
+    expect(WebMock).to have_requested(:post, endpoint).once
+    expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: be_between(1.hour.from_now, 90.minutes.from_now))
+  end
+
   %i[incoming outgoing].each do |message_type|
     it "reevaluates negatives on new #{message_type} messages without calling already matched conditions" do
       6.times { |index| create(:message, account: account, conversation: conversation, content: "Earlier #{index}") }

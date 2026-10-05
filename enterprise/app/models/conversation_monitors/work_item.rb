@@ -72,7 +72,7 @@ class ConversationMonitors::WorkItem < ApplicationRecord
   end
 
   def schedule_next_attempt
-    return if error_code == 'monthly_limit' && due_at&.future?
+    return if %w[monthly_limit budget_limit].include?(error_code) && due_at&.future?
 
     self.due_at = [due_at, 3.seconds.from_now].compact.min
     self.error_code = nil
