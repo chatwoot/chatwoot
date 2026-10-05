@@ -6,7 +6,7 @@ class Shopify::CustomCallbacksController < Shopify::CallbacksController
     @account_id = @account.id
     validate_installation!
 
-    Shopify::InstallationGeneration.with_shop_lock(@custom_app.shop_domain) do
+    ActiveRecord::Base.transaction do
       @custom_app.with_lock do
         raise 'Custom app is disabled' unless @custom_app.enabled?
 
@@ -64,8 +64,17 @@ class Shopify::CustomCallbacksController < Shopify::CallbacksController
   def redirect_callback_uri = "#{frontend_url}#{@custom_app.callback_path}"
   def oauth_state_key(state) = "shopify_custom_oauth:#{@custom_app.id}:#{state}"
 
-  def shopify_hook_settings
-    super.merge(custom_app_id: @custom_app.id)
+  def create_hook
+    Shopify::InstallationGeneration.with_current!(account, @shopify_installation_generation) do
+      hook = account.hooks.find_or_initialize_by(app_id: 'shopify', reference_id: @custom_app.shop_domain)
+      hook.update!(
+        access_token: parsed_body['access_token'], status: 'enabled',
+        settings: {
+          scope: parsed_body['scope'], connected_at: Time.current.utc.iso8601(6),
+          installation_id: SecureRandom.uuid, custom_app_id: @custom_app.id
+        }
+      )
+    end
   end
 
   # The base implementation intentionally refuses to reuse custom-app tokens for the public app.

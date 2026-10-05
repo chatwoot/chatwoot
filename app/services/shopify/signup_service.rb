@@ -14,7 +14,11 @@ class Shopify::SignupService < AccountBuilder
     end
     claim_shopify_installation
 
-    @pending_installation.with_current_installation { create_shopify_signup }
+    transaction_succeeded = @pending_installation.with_current_installation { create_shopify_signup }
+    raise ActiveRecord::Rollback unless transaction_succeeded
+
+    finalize_shopify_signup
+    [@user, @account]
   rescue StandardError => e
     return recover_committed_shopify_signup(e) if committed_shopify_signup?
 
@@ -33,8 +37,7 @@ class Shopify::SignupService < AccountBuilder
     end
     raise ActiveRecord::Rollback unless transaction_succeeded
 
-    finalize_shopify_signup
-    [@user, @account]
+    true
   end
 
   def reject_existing_user_for_shopify_signup
@@ -128,7 +131,6 @@ class Shopify::SignupService < AccountBuilder
 
     Account.exists?(@account.id) &&
       AccountUser.exists?(account_id: @account.id, user_id: @user.id) &&
-      NotificationSetting.exists?(account_id: @account.id, user_id: @user.id) &&
       Integrations::Hook.exists?(account_id: @account.id, app_id: 'shopify')
   end
 
@@ -138,6 +140,10 @@ class Shopify::SignupService < AccountBuilder
 
   def recover_committed_shopify_signup(error)
     ChatwootExceptionTracker.new(error, account: @account).capture_exception
+    @user.notification_settings.find_or_create_by!(account: @account) do |setting|
+      setting.selected_email_flags = [:email_conversation_assignment]
+      setting.selected_push_flags = [:push_conversation_assignment]
+    end
     finalize_shopify_signup
     [@user, @account]
   end

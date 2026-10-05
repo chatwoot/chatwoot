@@ -54,7 +54,9 @@ RSpec.describe Shopify::SignupService do
         allow(Shopify::PendingInstallation).to receive(:claim)
           .with(token: pending_install_token)
           .and_return(pending_installation)
-        allow(pending_installation).to receive(:with_current_installation).and_yield
+        allow(pending_installation).to receive(:with_current_installation) do |&block|
+          ActiveRecord::Base.transaction(&block)
+        end
         allow(pending_installation).to receive(:bind_to_account!)
         allow(pending_installation).to receive(:consume!)
         allow(pending_installation).to receive(:release!)
