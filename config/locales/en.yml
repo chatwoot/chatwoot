@@ -825,7 +825,6 @@ en:
       impersonation_link_failed: 'Copy failed'
       impersonate_title: 'Impersonate'
       accounts: 'Accounts'
-      access_token: 'Access token'
       confirmed: 'Confirmed'
       unconfirmed: 'Unconfirmed'
       mfa: 'MFA'
