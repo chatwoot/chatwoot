@@ -12,11 +12,17 @@ import { routes as captainRoutes } from './captain/captain.routes';
 import AppContainer from './Dashboard.vue';
 import Suspended from './suspended/Index.vue';
 import NoAccounts from './noAccounts/Index.vue';
+import ShopifySelectAccount from './shopify/SelectAccount.vue';
 import OnboardingAccountDetails from './onboarding/Index.vue';
 import OnboardingInboxSetup from './onboarding/InboxSetup.vue';
 
 export default {
   routes: [
+    {
+      path: frontendURL('shopify/select-account'),
+      name: 'shopify_select_account',
+      component: ShopifySelectAccount,
+    },
     {
       path: frontendURL('accounts/:accountId'),
       component: AppContainer,
