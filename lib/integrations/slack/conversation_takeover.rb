@@ -27,8 +27,6 @@ class Integrations::Slack::ConversationTakeover
     )
   end
 
-  # The agent is only assigned when their Slack profile resolves to a Chatwoot user,
-  # the handoff still has to happen either way.
   def perform(agent)
     return unless conversation.pending?
 
@@ -60,8 +58,6 @@ class Integrations::Slack::ConversationTakeover
     }
   end
 
-  # The buttons carry a pointer back to the Slack message rather than a copy of it,
-  # so the reply is read from Slack when the agent answers.
   def reply_reference
     { channel: params[:event][:channel], thread_ts: params[:event][:thread_ts], ts: params[:event][:ts] }.to_json
   end

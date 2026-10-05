@@ -57,6 +57,98 @@ describe Integrations::Slack::IncomingMessageBuilder do
       end
     end
 
+    context 'when the conversation is pending' do
+      let(:agent) { create(:user, account: conversation.account) }
+      let(:builder) { described_class.new(message_params) }
+
+      before do
+        conversation.update!(status: :pending)
+        allow(Integrations::Slack::SignatureVerifier).to receive(:signing_secret).and_return('slack-signing-secret')
+        allow(builder).to receive(:slack_client).and_return(slack_client)
+        allow(builder).to receive(:slack_sender).and_return([agent, nil, nil])
+        allow(slack_client).to receive(:chat_postEphemeral)
+      end
+
+      it 'holds the reply back and asks the agent what to do' do
+        expect { builder.perform }.not_to(change { conversation.messages.count })
+
+        expect(slack_client).to have_received(:chat_postEphemeral).with(
+          hash_including(
+            channel: message_params[:event][:channel],
+            user: message_params[:event][:user],
+            thread_ts: message_params[:event][:thread_ts],
+            text: I18n.t('slack.takeover.prompt')
+          )
+        )
+        expect(conversation.reload).to be_pending
+      end
+
+      it 'points both buttons at the held back reply' do
+        builder.perform
+
+        expect(slack_client).to have_received(:chat_postEphemeral) do |options|
+          buttons = options[:blocks].last['elements']
+          expect(buttons.pluck('action_id')).to eq(%w[slack_takeover_send slack_send_only])
+          expect(buttons.map { |button| JSON.parse(button['value']) }.uniq).to eq(
+            [message_params[:event].slice(:channel, :thread_ts, :ts).stringify_keys]
+          )
+        end
+      end
+
+      context 'when the reply is a private note' do
+        let(:message_params) { private_message_params }
+
+        it 'creates the note without asking' do
+          expect { builder.perform }.to change { conversation.messages.count }.by(1)
+
+          expect(slack_client).not_to have_received(:chat_postEphemeral)
+          expect(conversation.reload).to be_pending
+        end
+      end
+
+      context 'when no signing secret is configured' do
+        before { allow(Integrations::Slack::SignatureVerifier).to receive(:signing_secret).and_return(nil) }
+
+        it 'sends the reply without asking' do
+          expect { builder.perform }.to change { conversation.messages.count }.by(1)
+
+          expect(slack_client).not_to have_received(:chat_postEphemeral)
+        end
+      end
+
+      context 'when the agent chose to take over' do
+        let(:message_params) { slack_message_stub.merge(confirmed_action: 'takeover') }
+
+        it 'sends the reply, opens the conversation and assigns the agent' do
+          expect { builder.perform }.to change { conversation.messages.count }.by(1)
+
+          expect(slack_client).not_to have_received(:chat_postEphemeral)
+          expect(conversation.reload).to be_open
+          expect(conversation.assignee).to eq(agent)
+        end
+
+        it 'opens the conversation without an assignee when the Slack user is not an agent' do
+          allow(builder).to receive(:slack_sender).and_return([nil, 'Slack User', nil])
+
+          builder.perform
+
+          expect(conversation.reload).to be_open
+          expect(conversation.assignee).to be_nil
+        end
+      end
+
+      context 'when the agent chose to just send' do
+        let(:message_params) { slack_message_stub.merge(confirmed_action: 'send_only') }
+
+        it 'sends the reply without asking again or assigning the agent' do
+          expect { builder.perform }.to change { conversation.messages.count }.by(1)
+
+          expect(slack_client).not_to have_received(:chat_postEphemeral)
+          expect(conversation.reload.assignee).to be_nil
+        end
+      end
+    end
+
     context 'when message creation' do
       it 'doesnot create message if thread info is missing' do
         messages_count = conversation.messages.count

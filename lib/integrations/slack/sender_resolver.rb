@@ -1,5 +1,3 @@
-# Works out who a Slack reply came from, preferring the matching Chatwoot agent so replies
-# are attributed to a real profile, and falling back to the Slack profile when there is none.
 class Integrations::Slack::SenderResolver
   pattr_initialize [:slack_client!, :account!, :slack_user_id!]
 

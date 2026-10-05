@@ -1,5 +1,4 @@
 class Webhooks::SlackInteractionsController < ActionController::API
-  # Slack sends the button's action_id, which maps to what we do with the held back reply.
   ACTIONS = { 'slack_takeover_send' => 'takeover', 'slack_send_only' => 'send_only' }.freeze
 
   before_action :verify_signature!
@@ -31,7 +30,6 @@ class Webhooks::SlackInteractionsController < ActionController::API
     ACTIONS[selected_action['action_id']]
   end
 
-  # The button value points back at the Slack message the agent typed.
   def reference
     JSON.parse(selected_action['value']).slice('channel', 'thread_ts', 'ts')
   end
