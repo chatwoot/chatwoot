@@ -179,17 +179,18 @@ class ConversationMonitors::Evaluator
 
   def next_due(newer_input, error)
     return (error.retry_after + rand(LIMIT_RETRY_JITTER.to_i)).seconds.from_now if error&.code == 'monthly_limit'
-    return (retry_delay(error) + rand(LIMIT_RETRY_JITTER.to_i)).seconds.from_now if error&.code == 'budget_limit'
+    return (retry_delay + rand(LIMIT_RETRY_JITTER.to_i)).seconds.from_now if error&.code == 'budget_limit'
 
     return 3.seconds.from_now if newer_input
     return unless error
     return if @work.attempts + 1 >= MAX_ATTEMPTS
 
-    retry_delay(error).seconds.from_now
+    retry_delay.seconds.from_now
   end
 
-  def retry_delay(error)
-    [error.retry_after.to_i, (5 * (2**[@work.attempts, 8].min)) + rand(5)].max
+  def retry_delay
+    retry_after = @errors.select(&:retryable?).map { |batch_error| batch_error.retry_after.to_i }.max.to_i
+    [retry_after, (5 * (2**[@work.attempts, 8].min)) + rand(5)].max
   end
 
   def newer_input?

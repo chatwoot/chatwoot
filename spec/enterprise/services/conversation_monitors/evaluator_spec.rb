@@ -234,11 +234,11 @@ RSpec.describe ConversationMonitors::Evaluator do
                                            lease_token: nil, revision: be > work.processed_revision)
   end
 
-  it 'prioritizes the daily budget hold over an earlier batch provider error' do
+  it 'preserves the daily budget hold through a longer earlier batch provider cooldown' do
     freeze_time
     work.update!(due_at: Time.current)
     create_list(:conversation_monitor, 19, account: account, created_at: 1.minute.ago)
-    stub_request(:post, endpoint).to_return(status: 429)
+    stub_request(:post, endpoint).to_return(status: 429, headers: { 'Retry-After' => '7200' })
     usage = ConversationMonitors::Usage.new(account.id)
     allow(ConversationMonitors::Usage).to receive(:new).and_return(usage)
     calls = 0
@@ -249,10 +249,20 @@ RSpec.describe ConversationMonitors::Evaluator do
       original.call(bytes)
     end
 
-    evaluate.call
+    evaluator = described_class.new(work.reload)
+    allow(evaluator).to receive(:rand).and_return(0)
+    evaluator.perform
 
     expect(WebMock).to have_requested(:post, endpoint).once
-    expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: be_between(1.hour.from_now, 5.hours.from_now))
+    retry_at = 2.hours.from_now
+    expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: retry_at)
+
+    create(:message, account: account, conversation: conversation, content: 'Another question during the provider cooldown')
+    expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: retry_at)
+    travel_to(retry_at - 1.second)
+
+    expect { ConversationMonitors::ProcessJob.perform_now(conversation.id) }.not_to have_enqueued_job(ConversationMonitors::ProcessJob)
+    expect(WebMock).to have_requested(:post, endpoint).once
   end
 
   %i[incoming outgoing].each do |message_type|
