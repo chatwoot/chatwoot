@@ -82,3 +82,4 @@ class Company < ApplicationRecord
     Companies::SyncContactNamesJob.perform_later(company_id: id)
   end
 end
+Company.include_mod_with('Concerns::Company')

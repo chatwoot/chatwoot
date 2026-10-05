@@ -6,12 +6,13 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::BaseController
   sort_on :last_activity_at, internal_name: :order_on_last_activity_at, type: :scope, scope_params: [:direction]
   sort_on :contacts_count, internal_name: :order_on_contacts_count, type: :scope, scope_params: [:direction]
 
-  RESULTS_PER_PAGE = 25
+  RESULTS_PER_PAGE = 50
 
   before_action :ensure_companies_enabled!
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :search]
   before_action :fetch_company, only: [:show, :update, :destroy, :avatar, :destroy_custom_attributes]
+  before_action :validate_social_profiles, only: [:create, :update]
 
   def index
     @companies = fetch_companies(resolved_companies)
@@ -81,6 +82,14 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::BaseController
 
   def fetch_company
     @company = Current.account.companies.find(params[:id])
+  end
+
+  def validate_social_profiles
+    social_profiles = params.dig(:company, :additional_attributes, :social_profiles)
+    return unless social_profiles.is_a?(ActionController::Parameters)
+    return if social_profiles.values.all? { |url| url.to_s.match?(%r{\Ahttps?://}i) }
+
+    render json: { error: I18n.t('errors.companies.social_profiles.invalid') }, status: :unprocessable_entity
   end
 
   def company_params

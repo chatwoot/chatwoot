@@ -9,7 +9,7 @@ class Captain::ConversationTranscript
   # The single rule for what Captain may read: public customer and agent messages that still have content,
   # cut to the characters the caller has room for.
   def self.entry(message, limit)
-    return unless MESSAGE_TYPES.include?(message.message_type) && !message.private? && !message.deleted
+    return unless MESSAGE_TYPES.include?(message.message_type) && !message.private? && !message.deleted && !message.forwarded?
 
     text = message.content_for_llm
     { sender: message.incoming? ? 'customer' : 'agent', text: text[0, limit] } if text.present?
@@ -22,6 +22,7 @@ class Captain::ConversationTranscript
 
     conversation.messages
                 .where(message_type: MESSAGE_TYPES, private: false)
+                .not_forwarded
                 .reorder(id: :desc)
                 .limit(MESSAGE_LIMIT)
                 .each do |message|

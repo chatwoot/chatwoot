@@ -13,6 +13,10 @@ module SsoAuthenticatable
     ::Redis::Alfred.delete(sso_impersonator_key(token))
   end
 
+  def consume_sso_auth_token(token)
+    ::Redis::Alfred.delete(sso_token_key(token)).positive?
+  end
+
   def valid_sso_auth_token?(token)
     ::Redis::Alfred.get(sso_token_key(token)).present?
   end

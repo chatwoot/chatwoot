@@ -13,6 +13,7 @@ import {
 export const login = async ({
   ssoAccountId,
   ssoConversationId,
+  redirectUrl,
   ...credentials
 }) => {
   try {
@@ -43,6 +44,7 @@ export const login = async ({
     window.location = getLoginRedirectURL({
       ssoAccountId,
       ssoConversationId,
+      redirectUrl,
       user: response.data.data,
     });
     return null;
@@ -84,13 +86,17 @@ export const login = async ({
 export const register = async creds => {
   try {
     const { fullName, accountName } = getCredentialsFromEmail(creds.email);
-    const response = await wootAPI.post('api/v1/accounts.json', {
+    const payload = {
       account_name: accountName,
       user_full_name: fullName,
       email: creds.email,
       password: creds.password,
       h_captcha_client_response: creds.hCaptchaClientResponse,
-    });
+    };
+    if (creds.shopifyPendingInstallToken) {
+      payload.shopify_pending_install_token = creds.shopifyPendingInstallToken;
+    }
+    const response = await wootAPI.post('api/v1/accounts.json', payload);
     return response.data;
   } catch (error) {
     throwErrorMessage(error);
@@ -98,10 +104,15 @@ export const register = async creds => {
   return null;
 };
 
-export const resendConfirmation = async ({ email, hCaptchaClientResponse }) => {
+export const resendConfirmation = async ({
+  email,
+  hCaptchaClientResponse,
+  redirectUrl,
+}) => {
   return wootAPI.post('resend_confirmation', {
     email,
     h_captcha_client_response: hCaptchaClientResponse,
+    redirect_url: redirectUrl,
   });
 };
 
@@ -116,7 +127,7 @@ export const verifyPasswordToken = async ({ confirmationToken }) => {
       return { redirectUrl: response.data.redirect_url };
     }
     setAuthCredentials(response);
-    return {};
+    return response.data.data;
   } catch (error) {
     return throwErrorMessage(error);
   }
@@ -139,11 +150,15 @@ export const setNewPassword = async ({
       return { redirectUrl: response.data.redirect_url };
     }
     setAuthCredentials(response);
-    return {};
+    return response.data.data;
   } catch (error) {
     return throwErrorMessage(error);
   }
 };
 
-export const resetPassword = async ({ email }) =>
-  wootAPI.post('auth/password', { email });
+export const resetPassword = async ({ email, redirectUrl, ssoAccountId }) =>
+  wootAPI.post('auth/password', {
+    email,
+    redirect_url: redirectUrl,
+    ...(ssoAccountId ? { sso_account_id: ssoAccountId } : {}),
+  });

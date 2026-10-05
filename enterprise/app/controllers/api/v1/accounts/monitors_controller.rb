@@ -15,7 +15,7 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
     page = params[:page] ? ConversationMonitors::Buckets.integer!(params[:page]) : 1
     raise CustomExceptions::MonitorParametersError, 'invalid_page' unless page.between?(1, 100_000)
 
-    scope = Current.account.conversation_monitors.visible.order(created_at: :desc, id: :desc)
+    scope = indexed_monitors.order(created_at: :desc, id: :desc)
     render json: { payload: scope.offset((page - 1) * 20).limit(20).map { |monitor| serialize(monitor) },
                    meta: { total_count: scope.count, page: page, configured: ConversationMonitors::Configuration.configured?, usage: usage } }
   end
@@ -75,7 +75,10 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   end
 
   def destroy
-    @monitor.with_lock { @monitor.update!(deleted_at: Time.current, data_revision: @monitor.data_revision + 1) }
+    @monitor.with_lock do
+      @monitor.update!(deleted_at: Time.current, data_revision: @monitor.data_revision + 1)
+      @monitor.disable_automations!
+    end
     tombstone = { account_id: @monitor.account_id, monitor_id: @monitor.id, data_revision: @monitor.data_revision, deleted: true }
     ConversationMonitors::BroadcastJob.perform_later(@monitor.id, tombstone)
     head :no_content
@@ -113,6 +116,12 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   end
 
   private
+
+  def indexed_monitors
+    raise CustomExceptions::MonitorParametersError, 'invalid_parameters' if params.key?(:active) && params[:active] != 'true'
+
+    params.key?(:active) ? Current.account.conversation_monitors.active : Current.account.conversation_monitors.visible
+  end
 
   def usage
     @usage ||= ConversationMonitors::Usage.new(Current.account.id).snapshot
