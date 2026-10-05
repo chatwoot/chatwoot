@@ -5,8 +5,8 @@ const swapIcons = button =>
     icon.classList.toggle('hidden');
   });
 
-// The <head> script applies the stored theme before first paint; this keeps
-// the switch and the page in sync afterwards.
+// The <head> script applies the stored theme and follows the system theme; this
+// applies a choice made with the switch and keeps the switch in sync.
 const THEME_STORAGE_KEY = 'super-admin-theme';
 const systemDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -23,7 +23,6 @@ const applyTheme = () => {
   });
 };
 
-systemDarkQuery.addEventListener('change', applyTheme);
 applyTheme();
 
 const closeDropdowns = except => {

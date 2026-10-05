@@ -1,7 +1,12 @@
+<%# Runs before first paint on every super admin page, and again when the system theme changes. %>
 <script>
   (function () {
-    var theme = localStorage.getItem('super-admin-theme');
-    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.documentElement.classList.toggle('dark', theme === 'dark' || (theme !== 'light' && prefersDark));
+    var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+    var apply = function () {
+      var theme = localStorage.getItem('super-admin-theme');
+      document.documentElement.classList.toggle('dark', theme === 'dark' || (theme !== 'light' && systemDark.matches));
+    };
+    apply();
+    systemDark.addEventListener('change', apply);
   })();
 </script>
