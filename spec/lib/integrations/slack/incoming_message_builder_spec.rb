@@ -88,7 +88,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
 
         expect(slack_client).to have_received(:chat_postEphemeral) do |options|
           buttons = options[:blocks].last['elements']
-          expect(buttons.pluck('action_id')).to eq(%w[takeover.take_over takeover.send_only])
+          expect(buttons.pluck('action_id')).to eq(%w[takeover.confirm takeover.skip])
           expect(buttons.map { |button| JSON.parse(button['value']) }.uniq).to eq(
             [message_params[:event].slice(:channel, :thread_ts, :ts).stringify_keys]
           )
@@ -117,7 +117,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
       end
 
       context 'when the agent chose to take over' do
-        let(:message_params) { slack_message_stub.merge(confirmed_action: 'take_over') }
+        let(:message_params) { slack_message_stub.merge(confirmed_action: 'confirm') }
 
         it 'sends the reply, opens the conversation and assigns the agent' do
           expect { builder.perform }.to change { conversation.messages.count }.by(1)
@@ -138,7 +138,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
       end
 
       context 'when the agent chose to just send' do
-        let(:message_params) { slack_message_stub.merge(confirmed_action: 'send_only') }
+        let(:message_params) { slack_message_stub.merge(confirmed_action: 'skip') }
 
         it 'sends the reply without asking again or assigning the agent' do
           expect { builder.perform }.to change { conversation.messages.count }.by(1)

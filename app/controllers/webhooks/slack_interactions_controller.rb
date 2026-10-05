@@ -11,7 +11,6 @@ class Webhooks::SlackInteractionsController < ActionController::API
     job = INTERACTIONS[interaction]
     return head :ok if job.blank?
 
-    # Answering immediately keeps us inside Slack's 3 second budget, the work happens in the job.
     job.perform_later(action, selected_action['value'], payload['response_url'])
     head :ok
   end
