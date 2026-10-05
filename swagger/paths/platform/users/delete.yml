@@ -4,6 +4,7 @@ operationId: delete-a-user
 summary: Delete a User
 description: Delete a User
 security:
+  - platformAppBearerAuth: []
   - platformAppApiKey: []
 responses:
   '200':

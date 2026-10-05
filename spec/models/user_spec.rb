@@ -87,6 +87,42 @@ RSpec.describe User do
       user.invalidate_sso_auth_token(sso_auth_token)
       expect(user.valid_sso_auth_token?(sso_auth_token)).to be false
     end
+
+    it 'stores impersonation tokens in the format older servers read' do
+      sso_auth_token = user.generate_sso_auth_token(impersonated_by: create(:super_admin))
+      key = format(Redis::RedisKeys::USER_SSO_AUTH_TOKEN, user_id: user.id, token: sso_auth_token)
+
+      expect(Redis::Alfred.get(key)).to eq('impersonation')
+    end
+
+    it 'clears the impersonating super admin when the token is invalidated' do
+      sso_auth_token = user.generate_sso_auth_token(impersonated_by: create(:super_admin))
+      user.invalidate_sso_auth_token(sso_auth_token)
+
+      expect(user.sso_auth_token_impersonator_id(sso_auth_token)).to be_nil
+    end
+
+    it 'consumes a token only once' do
+      sso_auth_token = user.generate_sso_auth_token
+
+      expect(user.consume_sso_auth_token(sso_auth_token)).to be true
+      expect(user.consume_sso_auth_token(sso_auth_token)).to be false
+    end
+
+    it 'records the super admin who minted an impersonation token' do
+      super_admin = create(:super_admin)
+      sso_auth_token = user.generate_sso_auth_token(impersonated_by: super_admin)
+
+      expect(user.sso_auth_token_impersonator_id(sso_auth_token)).to eq(super_admin.id)
+    end
+
+    it 'does not treat a regular sso token as impersonation' do
+      sso_auth_token = user.generate_sso_auth_token
+
+      expect(user.sso_auth_token_impersonation?(sso_auth_token)).to be false
+
+      expect(user.sso_auth_token_impersonator_id(sso_auth_token)).to be_nil
+    end
   end
 
   describe 'access token' do
@@ -117,6 +153,26 @@ RSpec.describe User do
     end
 
     let(:user) { create(:user, password: 'Test@123456') }
+
+    describe '#mfa_enforcement_pending?' do
+      let(:account) { create(:account) }
+      let(:user) { create(:user, password: 'Test@123456', account: account) }
+
+      it 'is false when no account enforces mfa' do
+        expect(user.mfa_enforcement_pending?).to be false
+      end
+
+      it 'is true when an account enforces and user not enrolled' do
+        account.update!(enforce_mfa: true)
+        expect(user.reload.mfa_enforcement_pending?).to be true
+      end
+
+      it 'is false when user already enrolled' do
+        account.update!(enforce_mfa: true)
+        user.update!(otp_required_for_login: true)
+        expect(user.mfa_enforcement_pending?).to be false
+      end
+    end
 
     describe '#enable_two_factor!' do
       it 'generates OTP secret for 2FA setup' do

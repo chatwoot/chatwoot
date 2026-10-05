@@ -1,5 +1,3 @@
-contact_info_requests = Whatsapp::ContactInfoRequestEligibilityService.availability_by_conversation(@conversations)
-
 json.meta do
   json.mine_count @conversations_count[:mine_count]
   json.unassigned_count @conversations_count[:unassigned_count]
@@ -9,7 +7,6 @@ json.payload do
   json.array! @conversations do |conversation|
     json.partial! 'api/v1/conversations/partials/conversation',
                   formats: [:json],
-                  conversation: conversation,
-                  contact_info_request: contact_info_requests.fetch(conversation.id)
+                  conversation: conversation
   end
 end

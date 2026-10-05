@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Sukurta",
         "OLDEST": "Sukurta:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Paskutiniai veiksmai:",
-        "ACTIVE": "Paskutiniai veiksmai"
+        "NOT_ACTIVE": "Paskutiniai veiksmai:"
       }
     },
     "SORT_ORDER_ITEMS": {

@@ -28,10 +28,12 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
       expect(tool.available_in_reply_suggestion?).to be true
     end
 
-    it 'rejects POST tools' do
-      custom_tool.update!(http_method: 'POST')
+    it 'rejects tools that change data' do
+      %w[POST PUT PATCH DELETE].each do |http_method|
+        custom_tool.update!(http_method: http_method)
 
-      expect(tool.available_in_reply_suggestion?).to be false
+        expect(tool.available_in_reply_suggestion?).to be(false), "expected #{http_method} to be rejected"
+      end
     end
   end
 
@@ -74,6 +76,41 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
         expect(result).to eq('{"created": true}')
         expect(WebMock).to have_requested(:post, 'https://example.com/orders')
           .with(body: '{"order_id": "123"}')
+      end
+    end
+
+    context 'with PUT and PATCH requests' do
+      it 'sends the rendered body as JSON' do
+        %w[PUT PATCH].each do |http_method|
+          custom_tool.update!(
+            http_method: http_method,
+            endpoint_url: 'https://example.com/orders/123',
+            request_template: '{"status": "{{ status }}"}',
+            response_template: nil
+          )
+          stub_request(http_method.downcase.to_sym, 'https://example.com/orders/123').to_return(status: 200, body: '{"updated": true}')
+
+          result = tool.perform(tool_context, status: 'shipped')
+
+          expect(result).to eq('{"updated": true}')
+          expect(WebMock).to have_requested(http_method.downcase.to_sym, 'https://example.com/orders/123')
+            .with(body: '{"status": "shipped"}', headers: { 'Content-Type' => 'application/json' })
+        end
+      end
+    end
+
+    context 'with DELETE request' do
+      it 'sends the request without a body when there is no request template' do
+        custom_tool.update!(http_method: 'DELETE', endpoint_url: 'https://example.com/orders/123', response_template: nil)
+        sent_request = nil
+        stub_request(:delete, 'https://example.com/orders/123')
+          .with { |request| sent_request = request }
+          .to_return(status: 204, body: '')
+
+        tool.perform(tool_context)
+
+        expect(sent_request.body).to be_blank
+        expect(sent_request.headers).not_to have_key('Content-Type')
       end
     end
 
@@ -174,6 +211,105 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
         tool.perform(tool_context)
 
         expect(redirected_headers).not_to include('x-api-key')
+      end
+    end
+
+    context 'with custom headers' do
+      before do
+        custom_tool.update!(
+          auth_type: 'bearer',
+          auth_config: { 'token' => 'secret_bearer_token' },
+          headers: { 'Accept' => 'application/vnd.api+json', 'cal-api-version' => '2024-08-13' },
+          endpoint_url: 'https://example.com/data',
+          response_template: nil
+        )
+      end
+
+      it 'sends the headers alongside authentication' do
+        stub_request(:get, 'https://example.com/data').to_return(status: 200, body: '{"ok": true}')
+
+        tool.perform(tool_context, order_id: '123')
+
+        expect(WebMock).to have_requested(:get, 'https://example.com/data')
+          .with(headers: { 'Accept' => 'application/vnd.api+json', 'cal-api-version' => '2024-08-13',
+                           'Authorization' => 'Bearer secret_bearer_token' })
+      end
+
+      it 'strips the headers on cross-origin redirects' do
+        redirect_url = 'http://example.com/data'
+        redirected_headers = nil
+        stub_request(:get, 'https://example.com/data').to_return(status: 302, headers: { 'Location' => redirect_url })
+        stub_request(:get, redirect_url)
+          .with do |request|
+            redirected_headers = request.headers.transform_keys(&:downcase)
+            true
+          end
+          .to_return(status: 200, body: '{"ok": false}')
+
+        tool.perform(tool_context)
+
+        expect(redirected_headers).not_to include('cal-api-version')
+      end
+    end
+
+    context 'when combining every header source' do
+      let(:conversation) { create(:conversation, account: account) }
+      let(:state) do
+        {
+          account_id: account.id,
+          assistant_id: assistant.id,
+          conversation: { id: conversation.id, display_id: conversation.display_id },
+          contact_inbox: { id: conversation.contact_inbox.id, hmac_verified: true }
+        }
+      end
+      let(:sent_request) { {} }
+
+      before do
+        custom_tool.update!(
+          http_method: 'POST',
+          endpoint_url: 'https://example.com/orders/{{ order_id }}',
+          request_template: '{"order_id": "{{ order_id }}"}',
+          auth_type: 'api_key',
+          auth_config: { 'name' => 'X-API-Key', 'key' => 'secret' },
+          headers: { 'cal-api-version' => '2024-08-13', 'Accept' => 'application/json' },
+          response_template: nil
+        )
+        stub_request(:post, 'https://example.com/orders/42')
+          .with do |request|
+            sent_request.merge!(headers: request.headers, body: request.body)
+            true
+          end
+          .to_return(status: 200, body: '{"ok": true}')
+      end
+
+      it 'sends exactly the expected headers and body' do
+        tool.perform(Struct.new(:state).new(state), order_id: '42')
+
+        expect(sent_request[:body]).to eq('{"order_id": "42"}')
+        expect(sent_request[:headers]).to eq(
+          'Accept' => 'application/json',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent' => 'Ruby',
+          'Host' => 'example.com',
+          'Cal-Api-Version' => '2024-08-13',
+          'X-Api-Key' => 'secret',
+          'X-Chatwoot-Account-Id' => account.id.to_s,
+          'X-Chatwoot-Assistant-Id' => assistant.id.to_s,
+          'X-Chatwoot-Tool-Slug' => custom_tool.slug,
+          'X-Chatwoot-Conversation-Id' => conversation.id.to_s,
+          'X-Chatwoot-Conversation-Display-Id' => conversation.display_id.to_s,
+          'X-Chatwoot-Contact-Inbox-Id' => conversation.contact_inbox.id.to_s,
+          'X-Chatwoot-Contact-Inbox-Verified' => 'true',
+          'Content-Type' => 'application/json'
+        )
+      end
+
+      it 'uses the API key when a custom header has the same name in a different case' do
+        custom_tool.update!(headers: { 'x-api-key' => 'custom' })
+
+        tool.perform(Struct.new(:state).new(state), order_id: '42')
+
+        expect(sent_request[:headers].select { |name, _| name.casecmp?('x-api-key') }).to eq('X-Api-Key' => 'secret')
       end
     end
 

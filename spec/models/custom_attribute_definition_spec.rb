@@ -6,6 +6,15 @@ RSpec.describe CustomAttributeDefinition do
   let(:account) { create(:account) }
 
   describe 'validations' do
+    describe 'keys reserved for automation conditions' do
+      it 'rejects the key Captain conditions use, so a custom attribute cannot take its place in a rule' do
+        cad = build(:custom_attribute_definition, account: account, attribute_model: 'contact_attribute', attribute_key: 'captain_condition')
+
+        expect(cad).not_to be_valid
+        expect(cad.errors[:attribute_key]).to include(I18n.t('errors.custom_attribute_definition.key_conflict'))
+      end
+    end
+
     describe 'attribute_key format' do
       it 'allows alphanumeric keys with underscores' do
         cad = build(:custom_attribute_definition, account: account, attribute_key: 'order_date_1')

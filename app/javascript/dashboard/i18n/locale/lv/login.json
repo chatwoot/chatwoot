@@ -17,7 +17,7 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Pieslēgties, izmantojot Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Lai pieslēgtos, lūdzu, izmantojiet sava uzņēmuma e-pasta adresi",
+      "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
       "NO_ACCOUNT_FOUND": "Mēs nevarējām atrast Jūsu e-pasta adreses kontu."
     },
     "FORGOT_PASSWORD": "Aizmirsāt savu paroli?",

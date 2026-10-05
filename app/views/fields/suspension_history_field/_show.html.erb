@@ -6,6 +6,7 @@
           <th class="px-3 py-2 font-medium"><%= t('super_admin.account_suspension.history.suspended_at') %></th>
           <th class="px-3 py-2 font-medium"><%= t('super_admin.account_suspension.history.category') %></th>
           <th class="px-3 py-2 font-medium"><%= t('super_admin.account_suspension.history.reason') %></th>
+          <th class="px-3 py-2 font-medium"><%= t('super_admin.account_suspension.history.suspended_by') %></th>
         </tr>
       </thead>
       <tbody class="divide-y divide-n-weak">
@@ -14,6 +15,7 @@
             <td class="whitespace-nowrap px-3 py-3"><%= field.suspended_at(event) %></td>
             <td class="whitespace-nowrap px-3 py-3"><%= field.category_label(event) %></td>
             <td class="whitespace-pre-wrap break-words px-3 py-3"><%= event.fetch('reason') %></td>
+            <td class="px-3 py-3"><%= field.suspended_by(event) %></td>
           </tr>
         <% end %>
       </tbody>
