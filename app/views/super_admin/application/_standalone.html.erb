@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SuperAdmin | Chatwoot</title>
     <%= render "super_admin/application/theme" %>
+    <%= render "super_admin/application/font_preload", file: "Inter/InterVariable.woff2" %>
+    <%= render "super_admin/application/font_preload", file: "InterDisplay/InterDisplay-SemiBold.woff2" %>
     <%= vite_client_tag %>
     <%= vite_stylesheet_tag 'superadmin.scss' %>
   </head>

@@ -1,4 +1,5 @@
 <%# locals: (title:, back:, facts:, avatar: nil, badges: nil, details: {}) -%>
+<% content_for(:head) { render "font_preload", file: "InterDisplay/InterDisplay-SemiBold.woff2" } %>
 <header class="pb-5 pt-6 lg:pt-8">
   <%= render "back_link", label: back %>
 

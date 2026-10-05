@@ -1,5 +1,6 @@
 <% content_for(:title) { "Admin Dashboard" } %>
 <% content_for(:head) { vite_javascript_tag "superadmin_pages" } %>
+<% content_for(:head) { render "font_preload", file: "InterDisplay/InterDisplay-SemiBold.woff2" } %>
 <%
   shortcuts = [
     [t("super_admin.navigation.settings"), super_admin_settings_path, "i-lucide-settings", "bg-n-blue-3 text-n-blue-11"],

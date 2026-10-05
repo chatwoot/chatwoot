@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= content_for(:title) %> - <%= application_title %></title>
   <%= render "theme" %>
+  <%= render "font_preload", file: "Inter/InterVariable.woff2" %>
   <%= render "stylesheet" %>
   <%= vite_client_tag %>
   <%= vite_stylesheet_tag 'superadmin.scss' %>

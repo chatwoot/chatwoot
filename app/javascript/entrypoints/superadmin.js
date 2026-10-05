@@ -239,23 +239,40 @@ const initializeBannerForm = () => {
   updateFields();
 };
 
-const initializeTabs = () => {
-  const tabs = [...document.querySelectorAll('[data-tab]')];
+const showTab = name => {
+  document.querySelectorAll('[data-tab]').forEach(tab => {
+    tab.setAttribute('aria-selected', String(tab.dataset.tab === name));
+  });
+  document.querySelectorAll('[data-tab-panel]').forEach(panel => {
+    panel.hidden = panel.dataset.tabPanel !== name;
+  });
+  // The page reads this cookie to render with the same tab open, so a reload,
+  // a page change or a form submit does not start on the first tab.
+  const value = encodeURIComponent(`${window.location.pathname}#${name}`);
+  document.cookie = `super_admin_tab=${value}; path=/super_admin; SameSite=Lax`;
+};
 
-  tabs.forEach(tab =>
-    tab.addEventListener('click', () => {
-      const name = tab.dataset.tab;
-      tabs.forEach(item =>
-        item.setAttribute('aria-selected', String(item === tab))
+const initializeTabs = () => {
+  document
+    .querySelectorAll('[data-tab]')
+    .forEach(tab =>
+      tab.addEventListener('click', () => showTab(tab.dataset.tab))
+    );
+
+  // The browser cannot focus an invalid control on a hidden tab, so it would drop
+  // the submit without a word. Bring that tab forward before it tries.
+  document.addEventListener(
+    'invalid',
+    event => {
+      const control = event.target;
+      const firstInvalid = control.form?.querySelector(
+        'input:invalid, select:invalid, textarea:invalid'
       );
-      document.querySelectorAll('[data-tab-panel]').forEach(panel => {
-        panel.hidden = panel.dataset.tabPanel !== name;
-      });
-      // The page reads this cookie to render with the same tab open, so a reload,
-      // a page change or a form submit does not start on the first tab.
-      const value = encodeURIComponent(`${window.location.pathname}#${name}`);
-      document.cookie = `super_admin_tab=${value}; path=/super_admin; SameSite=Lax`;
-    })
+      if (control !== firstInvalid) return;
+      const panel = control.closest('[data-tab-panel]');
+      if (panel?.hidden) showTab(panel.dataset.tabPanel);
+    },
+    true
   );
 };
 
@@ -307,6 +324,7 @@ const initializeFilters = () => {
           checkbox.checked = checked;
         });
       updateCount();
+      applyFilter();
     };
 
     input?.addEventListener('input', applyFilter);
@@ -328,7 +346,11 @@ const initializeFilters = () => {
     scope
       .querySelector('[data-check-none]')
       ?.addEventListener('click', () => setVisibleCheckboxes(false));
-    scope.addEventListener('change', updateCount);
+    // A state filter keeps showing what it filtered on, so re-run it when a box changes.
+    scope.addEventListener('change', () => {
+      updateCount();
+      applyFilter();
+    });
     updateCount();
   });
 };
