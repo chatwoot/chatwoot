@@ -50,6 +50,12 @@ RSpec.describe Contacts::ClassifyVisitorsService do
       expect { classify }.to change { contact.reload.contact_type }.from('visitor').to('lead')
     end
 
+    it 'is blocked' do
+      contact = create(:contact, **anonymous, blocked: true)
+
+      expect { classify }.to change { contact.reload.contact_type }.from('visitor').to('lead')
+    end
+
     it 'has a note' do
       contact = create(:contact, **anonymous)
       create(:note, account: account, contact: contact)
@@ -72,6 +78,16 @@ RSpec.describe Contacts::ClassifyVisitorsService do
   end
 
   describe 'a stale visitor' do
+    it 'is kept when it gains a note while the delete runs, and the window fails so the job retries it' do
+      contact = create(:contact, **anonymous)
+      service = described_class.new(from_id: contact.id, to_id: contact.id)
+      allow(service).to receive(:sleep)
+      allow(service).to receive(:touched?).and_return(true)
+
+      expect { service.perform }.to raise_error(described_class::ContactTouchedError)
+      expect(Contact.exists?(contact.id)).to be(true)
+    end
+
     it 'is deleted with its contact inbox and avatar' do
       contact = create(:contact, :with_avatar, **anonymous)
       contact_inbox = create(:contact_inbox, contact: contact, inbox: inbox)

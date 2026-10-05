@@ -8,7 +8,9 @@ class Contacts::ClassifyVisitorsService
   ROWS_PER_SECOND = 250
   SLICE = 500
   ONLINE_WINDOW = 5.minutes
-  RETRYABLE = [ActiveRecord::LockWaitTimeout, ActiveRecord::Deadlocked, ActiveRecord::QueryCanceled].freeze
+  # Raised when a purged contact gained a conversation, note or label while the delete ran; rolls it back.
+  class ContactTouchedError < StandardError; end
+  RETRYABLE = [ActiveRecord::LockWaitTimeout, ActiveRecord::Deadlocked, ActiveRecord::QueryCanceled, ContactTouchedError].freeze
 
   # Promotion follows Contacts::SyncAttributes, where blank means empty or whitespace. Purging follows
   # Contact.stale_without_conversations, which means exactly empty. A value made of whitespace is neither.
@@ -21,9 +23,9 @@ class Contacts::ClassifyVisitorsService
            "THEN contacts.additional_attributes ELSE '{}'::jsonb END) kv WHERE left(kv.key, 7) = 'social_' " \
            "AND kv.value NOT IN ('null'::jsonb, 'false'::jsonb, '{}'::jsonb, '[]'::jsonb) " \
            "AND NOT (jsonb_typeof(kv.value) = 'string' AND (kv.value #>> '{}') !~ '\\S'))".freeze
-  # Someone created or handled the contact on purpose: a company, a note, a label, a campaign audience, an
-  # import, or a name that is not the one the widget generates for an anonymous visitor, such as quiet-fog-31.
-  EXPLICIT = '(contacts.company_id IS NOT NULL ' \
+  # Someone created or handled the contact on purpose: a block, a company, a note, a label, a campaign
+  # audience, an import, or a name that is not the one the widget generates for an anonymous visitor, such as quiet-fog-31.
+  EXPLICIT = '(contacts.blocked OR contacts.company_id IS NOT NULL ' \
              "OR (coalesce(contacts.name, '') ~ '\\S' AND contacts.name !~ '^[a-z]+-[a-z]+-[0-9]{1,4}$') " \
              'OR EXISTS (SELECT 1 FROM notes WHERE notes.contact_id = contacts.id) ' \
              "OR EXISTS (SELECT 1 FROM taggings WHERE taggings.taggable_type = 'Contact' AND taggings.taggable_id = contacts.id) " \
@@ -86,10 +88,18 @@ class Contacts::ClassifyVisitorsService
       locked = stale(ids).lock.pluck(:id)
       stale(locked).where.not(id: Conversation.where(contact_id: locked).select(:contact_id)).delete_all
       purged = locked - Contact.where(id: locked).pluck(:id)
+      raise ContactTouchedError if touched?(purged)
+
       ContactInbox.where(contact_id: purged).delete_all
       ActiveStorage::Attachment.where(record_type: 'Contact', record_id: purged).find_each(&:purge_later)
       purged.size
     end
+  end
+
+  # Writers of conversations, notes and labels do not lock the contact, so check once more before committing.
+  def touched?(ids)
+    Conversation.exists?(contact_id: ids) || Note.exists?(contact_id: ids) ||
+      ActsAsTaggableOn::Tagging.exists?(taggable_type: 'Contact', taggable_id: ids)
   end
 
   def stale(ids)
