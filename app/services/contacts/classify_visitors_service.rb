@@ -82,18 +82,20 @@ class Contacts::ClassifyVisitorsService
 
   # Locks the rows that still match the rule, then deletes them with the whole rule evaluated again inside
   # the DELETE itself, so a conversation, note or label added in the meantime keeps the contact. Then the
-  # contact inboxes and avatars of whichever contacts are gone.
+  # contact inboxes and, once committed, the avatars of whichever contacts are gone.
   def delete_stale(ids)
-    Contact.transaction do
+    purged = Contact.transaction do
       locked = stale(ids).lock.pluck(:id)
       stale(locked).where.not(id: Conversation.where(contact_id: locked).select(:contact_id)).delete_all
-      purged = locked - Contact.where(id: locked).pluck(:id)
-      raise ContactTouchedError if touched?(purged)
+      gone = locked - Contact.where(id: locked).pluck(:id)
+      raise ContactTouchedError if touched?(gone)
 
-      ContactInbox.where(contact_id: purged).delete_all
-      ActiveStorage::Attachment.where(record_type: 'Contact', record_id: purged).find_each(&:purge_later)
-      purged.size
+      ContactInbox.where(contact_id: gone).delete_all
+      gone
     end
+    # After the commit, so the purge job never runs before the contacts are gone.
+    ActiveStorage::Attachment.where(record_type: 'Contact', record_id: purged).find_each(&:purge_later)
+    purged.size
   end
 
   # Writers of conversations, notes and labels do not lock the contact, so check once more before committing.
