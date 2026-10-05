@@ -69,6 +69,17 @@ models:
     credit_multiplier: 1
 
 features:
+  conversation_completion:
+    models:
+      [
+        gpt-4.1-mini,
+        gpt-5-mini,
+        gpt-4.1,
+        gpt-5.1,
+        gpt-5.2,
+      ]
+    default: gpt-4.1
+    internal: true
   editor:
     models:
       [

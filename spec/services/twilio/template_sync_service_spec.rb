@@ -9,7 +9,7 @@ RSpec.describe Twilio::TemplateSyncService do
   let(:twilio_client) { instance_double(Twilio::REST::Client) }
   let(:content_api) { double }
   let(:content_and_approvals_list) { double }
-  let(:approval_requests) { { 'whatsapp' => { 'status' => 'approved' } } }
+  let(:approval_requests) { { 'status' => 'approved' } }
 
   # Mock Twilio template objects
   let(:text_template) do
@@ -159,7 +159,7 @@ RSpec.describe Twilio::TemplateSyncService do
       end
 
       context 'when a template has a non-approved WhatsApp status' do
-        let(:approval_requests) { { 'whatsapp' => { 'status' => 'rejected' } } }
+        let(:approval_requests) { { 'status' => 'rejected' } }
 
         it 'stores the provider approval status' do
           sync_service.call

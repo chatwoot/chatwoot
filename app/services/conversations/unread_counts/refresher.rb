@@ -78,15 +78,17 @@ class Conversations::UnreadCounts::Refresher
   end
 
   def refresh_assignment_membership
+    conversation_id = conversation.id
     store.remove_assignment_membership(
       account_id: account.id,
       inbox_ids: affected_inbox_ids,
       label_ids: affected_label_ids,
       assignee_ids: affected_assignee_ids,
       team_ids: affected_team_ids,
-      conversation_id: conversation.id
+      conversation_id: conversation_id
     )
     return unless unread?
+    return if conversation.assignee_agent_bot_id
 
     store.add_assignment_membership(
       account_id: account.id,
@@ -94,7 +96,7 @@ class Conversations::UnreadCounts::Refresher
       label_ids: current_label_ids,
       assignee_id: conversation.assignee_id,
       team_id: conversation.team_id,
-      conversation_id: conversation.id
+      conversation_id: conversation_id
     )
   end
 

@@ -60,6 +60,7 @@ zh_TW:
   errors:
     account:
       not_authorized: You are not authorized to access this account
+      email_limit_exceeded: The daily email limit for this account has been reached
       reporting_timezone:
         invalid: 不是有效的時區
       support_email:
@@ -94,7 +95,9 @@ zh_TW:
     saml:
       feature_not_enabled: 此帳號尚未啟用 SAML 功能
       sso_not_enabled: 此安裝尚未啟用 SAML SSO
+      multi_account_invitation_not_allowed: Users associated with another account cannot be added while SAML is enabled
     conversations:
+      resolved: Conversation is resolved and does not accept new messages
       unread_counts:
         feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
@@ -138,13 +141,16 @@ zh_TW:
       invalid_token_permissions: '存取權杖不具備 WhatsApp 所需的權限。'
       phone_info_fetch_failed: '無法取得電話號碼資訊，請再試一次。'
       phone_number_already_exists: '此電話號碼 %{phone_number} 的頻道已存在，若問題持續請聯繫客服'
+      message_outside_messaging_window: 'Message not sent because the WhatsApp 24-hour customer service window is closed and no template parameters were provided. Send an approved template message instead.'
       reauthorization:
         generic: '無法重新授權 WhatsApp，請再試一次。'
         not_supported: '此類型的 WhatsApp 頻道不支援重新授權。'
       calls:
         not_enabled: 'Calling is not enabled for this inbox'
         already_ended: 'This call has already ended'
+        already_accepted: 'Call already accepted by another agent'
         no_recording: 'No recording file provided'
+        recording_disabled: 'Call recording is disabled for this inbox'
         no_message: 'Call has no associated message'
         sdp_offer_required: 'sdp_offer is required'
         contact_phone_required: 'Contact phone number is required'
@@ -284,6 +290,7 @@ zh_TW:
       whatsapp:
         list_button_label: '選擇一個項目'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+        flow_response: 'Submitted a flow response'
         unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
@@ -424,6 +431,8 @@ zh_TW:
       completed_tool_call: '已完成 %{function_name} 工具呼叫'
       invalid_tool_call: '無效的工具呼叫'
       tool_not_available: '工具不可用'
+      reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
+      reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
     documents:
       limit_exceeded: '已超過文件上限'
       pdf_format_error: '必須為 PDF 檔案'
@@ -571,6 +580,8 @@ zh_TW:
   agent_capacity_policy:
     inbox_already_assigned: '收件匣已被分配給此策略'
   portals:
+    analytics:
+      invalid_configuration: 'Invalid analytics configuration'
     articles:
       captain_not_available: 'Translation requires Captain to be enabled for this account'
       locale_not_available: 'Locale not available in this portal'
@@ -586,24 +597,45 @@ zh_TW:
     ssl_status:
       custom_domain_not_configured: '尚未設定自訂網域'
   super_admin:
+    account_suspension:
+      categories:
+        spam: 'Spam'
+        non_payment: 'Non-payment'
+        other: 'Other'
+      form:
+        category: 'Suspension category'
+        category_prompt: 'Select a category'
+        reason: 'Suspension reason'
+        reason_hint: 'Enter a reason of up to 256 characters.'
+      history:
+        suspended_at: 'Suspended at'
+        category: '類別'
+        reason: 'Reason'
+        empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:
-        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        helper_text: 'Leave a model blank to use the default routing for that AI feature.'
+        customer_features: 'Customer features'
+        internal_features: 'Internal features'
         use_default: 'Use default: %{model} (%{model_id})'
+        use_installation_model: 'Use installation model: %{model} (%{model_id})'
       show:
         summary: 'View model routing'
         provider: 'Provider'
         model: 'Model'
       sources:
         account_override: 'Account override'
+        installation_override: 'Installation setting'
         default: '預設'
       features:
+        conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: '助理'
         copilot: 'Copilot'
         label_suggestion: 'Label suggestion'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
+        conversation_faq_matching: 'Conversation FAQ matching'
         help_center_article_generation: 'Help center article generation'
         onboarding_content_generation: 'Onboarding content generation'
         help_center_query_translation: 'Help center query translation'
@@ -613,4 +645,10 @@ zh_TW:
       user_not_found: 'User not found.'
       no_subscriptions_to_test: 'Select at least one subscription to test.'
       no_subscriptions_to_delete: 'Select at least one subscription to delete.'
-      subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."
+      subscriptions_deleted:
+        other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+    users:
+      resend_confirmation:
+        button: 'Resend confirmation email'
+        sent: 'Confirmation email sent.'
+        already_confirmed: 'User is already confirmed.'

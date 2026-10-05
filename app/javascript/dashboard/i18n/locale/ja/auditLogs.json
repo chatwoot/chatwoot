@@ -7,6 +7,37 @@
     "LEARN_MORE": "監査ログについて学ぶ",
     "SEARCH_404": "検索内容（クエリ）に一致する項目はありませんでした",
     "SIDEBAR_TXT": "<p><b>監査ログ</b> </p><p>監査ログは、Chatwootシステム内でのイベントやアクションの履歴を示します。</p>",
+    "COUNT": "{n} event | {n} events",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Search by name or email",
+      "ALL_EVENTS": "All events",
+      "DATE_RANGE": "Date range",
+      "CLEAR_ALL": "フィルターをクリア",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Access",
+        "AGENTS_TEAMS": "Agents & teams",
+        "CONFIGURATION": "設定",
+        "CONVERSATIONS": "会話データ"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Sign in / sign out",
+        "AGENTS": "担当者",
+        "TEAMS": "チーム",
+        "TEAM_MEMBERS": "Team members",
+        "INBOX_MEMBERS": "Inbox collaborators",
+        "ACCOUNT": "アカウント設定",
+        "INBOXES": "受信トレイ",
+        "WEBHOOKS": "Webhooks",
+        "AUTOMATION_RULES": "Automation rules",
+        "MACROS": "マクロ",
+        "CONVERSATION_DELETIONS": "Conversation deletions",
+        "MESSAGE_DELETIONS": "Message deletions"
+      },
+      "SORT": {
+        "NEWEST": "Newest first",
+        "OLDEST": "Oldest first"
+      }
+    },
     "LIST": {
       "404": "このアカウントに利用可能な監査ログはありません。",
       "TITLE": "監査ログを管理する",
@@ -72,6 +103,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} deleted conversation #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
     }
   }
 }

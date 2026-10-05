@@ -1,5 +1,6 @@
 class Captain::Copilot::ChatService < Llm::BaseAiService
   include Captain::ChatHelper
+  include Captain::Copilot::ConversationAccess
 
   attr_reader :assistant, :account, :user, :copilot_thread, :previous_history, :messages
 
@@ -11,13 +12,14 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
     @user = nil
     @copilot_thread = nil
     @previous_history = []
-    @conversation = @account.conversations.find_by(display_id: config[:conversation_id])
-    @conversation_id = @conversation&.display_id
+    @conversation = nil
+    @conversation_id = nil
 
     setup_user(config)
+    setup_conversation(config)
     setup_message_history(config)
     @tools = build_tools
-    @messages = build_messages(config)
+    @messages = build_messages
   end
 
   def generate_response(input)
@@ -39,11 +41,18 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
     @user = @account.users.find_by(id: config[:user_id]) if config[:user_id].present?
   end
 
-  def build_messages(config)
-    messages= [system_message]
+  def setup_conversation(config)
+    return if @user.blank? || config[:conversation_id].blank?
+
+    @conversation = accessible_conversation(account: @account, user: @user, display_id: config[:conversation_id])
+    @conversation_id = @conversation&.display_id
+  end
+
+  def build_messages
+    messages = [system_message]
     messages << account_id_context
     messages += @previous_history if @previous_history.present?
-    messages += current_viewing_history(config[:conversation_id]) if config[:conversation_id].present?
+    messages += current_viewing_history
     messages
   end
 
@@ -97,18 +106,16 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
     }
   end
 
-  def current_viewing_history(conversation_id)
-    conversation = @account.conversations.find_by(display_id: conversation_id)
-    return [] unless conversation
+  def current_viewing_history
+    return [] if @conversation.blank?
 
-    Rails.logger.info("#{self.class.name} Assistant: #{@assistant.id}, Setting viewing history for conversation_id=#{conversation_id}")
-    contact_id = conversation.contact_id
+    Rails.logger.info("#{self.class.name} Assistant: #{@assistant.id}, Setting viewing history for conversation_id=#{@conversation_id}")
     [{
       role: 'system',
       content: <<~HISTORY.strip
         You are currently viewing the conversation with the following details:
-        Conversation ID: #{conversation_id}
-        Contact ID: #{contact_id}
+        Conversation ID: #{@conversation_id}
+        Contact ID: #{@conversation.contact_id}
       HISTORY
     }]
   end

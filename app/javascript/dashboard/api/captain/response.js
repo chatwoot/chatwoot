@@ -17,6 +17,13 @@ class CaptainResponses extends ApiClient {
       signal,
     });
   }
+
+  getDrilldown({ responseId, page, signal }) {
+    const requestConfig = { params: { page } };
+    if (signal) requestConfig.signal = signal;
+
+    return axios.get(`${this.url}/${responseId}/drilldown`, requestConfig);
+  }
 }
 
 export default new CaptainResponses();

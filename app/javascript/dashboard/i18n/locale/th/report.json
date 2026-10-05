@@ -23,12 +23,14 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
@@ -129,7 +133,6 @@
       "ERROR": "Could not load records. Please try again.",
       "ADMIN_ONLY": "Only administrators can drill down into report records.",
       "LOAD_MORE": "Load more",
-      "CLOSE": "Close details",
       "PREVIOUS_BUCKET": "Previous bar",
       "NEXT_BUCKET": "Next bar",
       "UNKNOWN_CONTACT": "Unknown contact",
@@ -545,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "ภาพรวม",
     "LIVE": "ขณะนี้",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "การสนทนาที่เปิดอยู่",
       "LOADING_MESSAGE": "กำโหลดตัวชี้วัดการสนทนา",

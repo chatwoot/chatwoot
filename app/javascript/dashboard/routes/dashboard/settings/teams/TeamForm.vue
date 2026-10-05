@@ -1,11 +1,11 @@
 <script>
 import validations from './helpers/validations';
 import FormInput from 'v3/components/Form/Input.vue';
-import { reactive, ref, defineAsyncComponent } from 'vue';
+import { reactive, defineAsyncComponent } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
-import { OnClickOutside } from '@vueuse/components';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Popover from 'dashboard/components-next/popover/Popover.vue';
 import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 
@@ -17,8 +17,8 @@ const EmojiIconPicker = defineAsyncComponent(
 export default {
   components: {
     NextButton,
+    Popover,
     FormInput,
-    OnClickOutside,
     EmojiIcon,
     Icon,
     EmojiIconPicker,
@@ -59,17 +59,14 @@ export default {
       iconColor,
     });
 
-    const isIconPickerOpen = ref(false);
-
     const rules = validations;
     const v$ = useVuelidate(rules, state);
-    return { state, v$, isIconPickerOpen };
+    return { state, v$ };
   },
   methods: {
     onSelectIcon({ type, value, color }) {
       this.state.icon = value;
       this.state.iconColor = type === 'icon' ? color : '';
-      this.isIconPickerOpen = false;
     },
     onColorChange(color) {
       this.state.iconColor = color;
@@ -77,7 +74,6 @@ export default {
     onRemoveIcon() {
       this.state.icon = '';
       this.state.iconColor = '';
-      this.isIconPickerOpen = false;
     },
     handleSubmit() {
       this.v$.$touch();
@@ -111,36 +107,45 @@ export default {
           :error-message="v$.title.$error ? v$.title.$errors[0].$message : ''"
           @blur="v$.title.$touch"
         />
-        <OnClickOutside
-          class="absolute top-[1.75rem] start-0"
-          @trigger="isIconPickerOpen = false"
-        >
-          <NextButton
-            type="button"
-            variant="ghost"
-            color="slate"
-            class="text-lg !size-[2.5rem] !p-0 ltr:!rounded-r-none rtl:!rounded-l-none"
-            @click="isIconPickerOpen = !isIconPickerOpen"
-          >
-            <EmojiIcon
-              v-if="state.icon"
-              :value="state.icon"
-              :color="state.iconColor"
-              class="size-5 text-xl !leading-5"
-            />
-            <Icon v-else icon="i-lucide-smile-plus " class="size-4" />
-          </NextButton>
-          <EmojiIconPicker
-            v-if="isIconPickerOpen"
-            class="start-0 top-10"
-            :value="state.icon"
-            :color="state.iconColor"
-            show-remove-button
-            @select="onSelectIcon"
-            @color-change="onColorChange"
-            @remove="onRemoveIcon"
-          />
-        </OnClickOutside>
+        <div class="absolute top-[1.75rem] start-0">
+          <Popover align="start" disable-mobile-view>
+            <NextButton
+              type="button"
+              variant="ghost"
+              color="slate"
+              class="text-lg !size-[2.5rem] !p-0 ltr:!rounded-r-none rtl:!rounded-l-none"
+            >
+              <EmojiIcon
+                v-if="state.icon"
+                :value="state.icon"
+                :color="state.iconColor"
+                class="size-5 text-xl !leading-5"
+              />
+              <Icon v-else icon="i-lucide-smile-plus " class="size-4" />
+            </NextButton>
+            <template #content="{ hide }">
+              <EmojiIconPicker
+                class="!static !shadow-none !outline-none"
+                :value="state.icon"
+                :color="state.iconColor"
+                show-remove-button
+                @select="
+                  event => {
+                    onSelectIcon(event);
+                    hide();
+                  }
+                "
+                @color-change="onColorChange"
+                @remove="
+                  () => {
+                    onRemoveIcon();
+                    hide();
+                  }
+                "
+              />
+            </template>
+          </Popover>
+        </div>
       </div>
       <FormInput
         v-model="state.description"

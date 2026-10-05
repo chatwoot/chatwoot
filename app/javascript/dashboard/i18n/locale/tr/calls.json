@@ -1,0 +1,46 @@
+{
+  "CALLS_PAGE": {
+    "HEADER": "Aramalar",
+    "ALL_CALLS": "Tüm Aramalar",
+    "ALL_CALLS_COUNT": "Tüm Aramalar ({count})",
+    "EMPTY_STATE": "Hiçbir arama bulunamadı",
+    "SETUP": {
+      "TITLE": "Aramaları tek bir yerden yapın ve alın",
+      "SUBTITLE": "Ekibinizle aramaları yönetmeye başlamak için bir ses kanalı kurun. Her arama, kaydıyla birlikte burada görünecektir.",
+      "ACTION": "Ses kanalı kur"
+    },
+    "FILTERS": {
+      "MISSED": "Cevapsız",
+      "NO_REPLY": "Yanıt yok",
+      "OTHER_ACTIVITY": "Diğer etkinlik",
+      "INCOMING": "Gelen",
+      "OUTGOING": "Giden",
+      "IN_PROGRESS": "Devam ediyor",
+      "ASSIGNEE": "Assignee",
+      "ALL_ASSIGNEES": "Tüm atananlar",
+      "MORE_FILTERS": "Daha fazla filtre",
+      "INBOX": "Gelen Kutusu",
+      "ALL_INBOXES": "Tüm gelen kutuları"
+    },
+    "STATUS": {
+      "ONGOING": "Devam Eden",
+      "INCOMING": "Gelen",
+      "OUTGOING": "Giden",
+      "MISSED": "Cevapsız",
+      "NO_REPLY": "Yanıt yok",
+      "FAILED": "Başarısız"
+    },
+    "ROW": {
+      "PICKED_BY": "Yanıtlayan",
+      "DIALED_BY": "Arayan",
+      "ANSWERED": "Yanıtlandı",
+      "RINGING": "Çalıyor",
+      "IN_PROGRESS": "Devam ediyor",
+      "NO_AGENT": "Bu aramayı hiçbir temsilci yanıtlamadı",
+      "NO_CONTACT_ANSWER": "Kişi yanıt vermedi",
+      "FAILED": "Bu arama bağlanamadı",
+      "YESTERDAY": "Dün",
+      "DELETED_CONTACT": "Deleted contact"
+    }
+  }
+}

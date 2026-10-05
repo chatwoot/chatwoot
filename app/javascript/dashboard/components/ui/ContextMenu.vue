@@ -14,6 +14,7 @@ import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirecti
 const props = defineProps({
   x: { type: Number, default: 0 },
   y: { type: Number, default: 0 },
+  closeOnFocusOut: { type: Boolean, default: true },
 });
 
 const emit = defineEmits(['close']);
@@ -80,7 +81,7 @@ const handleClose = () => {
 const handleFocusOut = event => {
   // Keep the menu open while focus stays inside it (e.g. the label search
   // input); close it once focus leaves the menu entirely.
-  if (menuRef.value?.contains(event.relatedTarget)) {
+  if (!props.closeOnFocusOut || menuRef.value?.contains(event.relatedTarget)) {
     return;
   }
   handleClose();

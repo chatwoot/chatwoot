@@ -11,7 +11,7 @@ const defaultChat = {
   created_at: 1700000000,
 };
 
-const mountComponent = (chat, currentContact = {}) =>
+const mountComponent = (chat, currentContact = {}, props = {}) =>
   shallowMount(ConversationCard, {
     props: {
       chat: { ...defaultChat, ...chat },
@@ -22,6 +22,7 @@ const mountComponent = (chat, currentContact = {}) =>
         ...currentContact,
       },
       inbox: { id: 1 },
+      ...props,
     },
     global: {
       stubs: {
@@ -56,5 +57,17 @@ describe('ConversationCard', () => {
     );
 
     expect(wrapper.findComponent({ name: 'CardLabels' }).exists()).toBe(false);
+  });
+
+  it('uses the bot icon for a Captain assignee', () => {
+    const wrapper = mountComponent(
+      { meta: { assignee_type: 'Captain::Assistant' } },
+      {},
+      { showAssignee: true, assignee: { name: 'Captain' } }
+    );
+
+    expect(wrapper.findComponent({ name: 'Icon' }).props('icon')).toBe(
+      'i-lucide-bot'
+    );
   });
 });

@@ -32,7 +32,6 @@ const store = useStore();
 const { currentAccount } = useAccount();
 const { t } = useI18n();
 
-const PER_PAGE = 15; // Results per page
 const selectedTab = ref(route.params.tab || 'all');
 const query = ref(route.query.q || '');
 const pages = ref({
@@ -221,10 +220,16 @@ const showLoadMore = computed(() => {
     articles: mappedArticles.value,
   }[selectedTab.value];
 
-  return (
-    records?.length > 0 &&
-    records.length === pages.value[selectedTab.value] * PER_PAGE
-  );
+  // hasMore comes from the raw API page size; stored record counts shrink
+  // when overlapping pages are deduped, so they cannot signal more pages
+  const hasMore = {
+    contacts: uiFlags.value.contact.hasMore,
+    conversations: uiFlags.value.conversation.hasMore,
+    messages: uiFlags.value.message.hasMore,
+    articles: uiFlags.value.article.hasMore,
+  }[selectedTab.value];
+
+  return records?.length > 0 && Boolean(hasMore);
 });
 
 const showViewMore = computed(() => ({
@@ -311,7 +316,7 @@ const onBack = () => {
   clearSearchResult();
 };
 
-const loadMore = () => {
+const loadMore = async () => {
   const SEARCH_ACTIONS = {
     contacts: 'conversationSearch/contactSearch',
     conversations: 'conversationSearch/conversationSearch',
@@ -329,7 +334,10 @@ const loadMore = () => {
     tab
   );
 
-  store.dispatch(SEARCH_ACTIONS[tab], payload);
+  const success = await store.dispatch(SEARCH_ACTIONS[tab], payload);
+  // Roll back on failure so a retry fetches the same page instead of
+  // skipping past the one that never loaded
+  if (!success) pages.value[tab] -= 1;
 };
 
 const onTabChange = tab => {

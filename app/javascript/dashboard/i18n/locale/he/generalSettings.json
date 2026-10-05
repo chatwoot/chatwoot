@@ -139,37 +139,6 @@
       "SELECT": "בחר"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "התראות",
-    "MARK_ALL_DONE": "סמן הכל כבוצע",
-    "DELETE_TITLE": "נמחק",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "התראות שלא נקראו",
-      "ALL_NOTIFICATIONS": "הצג את כל ההתראות",
-      "LOADING_UNREAD_MESSAGE": "טוען התראות שלא נקראו...",
-      "EMPTY_MESSAGE": "אין לך התראות שלא נקראו"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "טוען הודעות...",
-      "404": "אין התראות",
-      "TABLE_HEADER": [
-        "שם",
-        "מספר טלפון",
-        "שיחות",
-        "פניה אחרונה"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "שיחה חדשה",
-      "conversation_assignment": "שיחה הוקצתה",
-      "assigned_conversation_new_message": "הודעה חדשה",
-      "participating_conversation_new_message": "הודעה חדשה",
-      "conversation_mention": "אִזְכּוּר",
-      "sla_missed_first_response": "החמצת SLA",
-      "sla_missed_next_response": "החמצת SLA",
-      "sla_missed_resolution": "הסכם רמת שירות פוספס"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "לא מחובר",
@@ -192,6 +161,7 @@
       "CHANGE_PRIORITY": "שנה עדיפות",
       "CHANGE_TEAM": "להחליף קבוצה",
       "SNOOZE_CONVERSATION": "נודניק שיחה",
+      "EXECUTE_MACRO": "Execute Macro",
       "ADD_LABEL": "הוסף תווית לשיחה",
       "REMOVE_LABEL": "הסר תווית מהשיחה",
       "SETTINGS": "הגדרות",
@@ -200,28 +170,44 @@
       "SNOOZE_NOTIFICATION": "השבת התראה זמנית"
     },
     "COMMANDS": {
+      "GO_TO_MY_INBOX": "Go to My Inbox",
       "GO_TO_CONVERSATION_DASHBOARD": "עבור ללוח המחוונים לשיחה",
       "GO_TO_CONTACTS_DASHBOARD": "עבור ללוח המחוונים של אנשי קשר",
+      "GO_TO_CAPTAIN": "Go to Captain",
+      "GO_TO_CALLS_DASHBOARD": "Go to Calls Dashboard",
+      "GO_TO_CAMPAIGNS": "Go to Campaigns",
+      "GO_TO_HELP_CENTER": "Go to Help Center",
       "GO_TO_REPORTS_OVERVIEW": "עבור לסקירת דוחות",
       "GO_TO_CONVERSATION_REPORTS": "עבור לדוחות שיחות",
       "GO_TO_AGENT_REPORTS": "עבור לדוחות סוכן",
       "GO_TO_LABEL_REPORTS": "עבור לדוחות תווית",
       "GO_TO_INBOX_REPORTS": "עבור לדוחות תיבת הדואר הנכנס",
       "GO_TO_TEAM_REPORTS": "עבור לדוחות צוותים",
+      "GO_TO_CSAT_REPORTS": "Go to CSAT Reports",
+      "GO_TO_BOT_REPORTS": "Go to Bot Reports",
+      "GO_TO_SLA_REPORTS": "Go to SLA Reports",
       "GO_TO_SETTINGS_AGENTS": "עבור להגדרות סוכן",
       "GO_TO_SETTINGS_TEAMS": "עבור להגדרות צוות",
       "GO_TO_SETTINGS_INBOXES": "עבור להגדרות תיבת הדואר הנכנס",
+      "GO_TO_SETTINGS_TEMPLATES": "Go to Templates",
       "GO_TO_SETTINGS_LABELS": "עבור להגדרות תווית",
+      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Go to Custom Attributes",
+      "GO_TO_SETTINGS_AUTOMATION": "Go to Automation",
+      "GO_TO_SETTINGS_MACROS": "Go to Macros",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "עבור להגדרות תגובה מוכנות",
+      "GO_TO_SETTINGS_SLA": "Go to SLA Settings",
       "GO_TO_SETTINGS_APPLICATIONS": "עבור להגדרות אפליקציה",
+      "GO_TO_SETTINGS_DATA": "Go to Data",
+      "GO_TO_SETTINGS_AUDIT_LOGS": "Go to Audit Logs",
+      "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "עבור להגדרות חשבון",
       "GO_TO_SETTINGS_PROFILE": "עבור להגדרות פרופיל",
-      "GO_TO_NOTIFICATIONS": "עבור להודעות",
       "ADD_LABELS_TO_CONVERSATION": "הוסף תווית לשיחה",
       "ASSIGN_AN_AGENT": "הקצה סוכן",
       "AI_ASSIST": "סיוע AI",
       "ASSIGN_PRIORITY": "הקצה עדיפות",
       "ASSIGN_A_TEAM": "הקצה צוות",
+      "EXECUTE_A_MACRO": "Execute a macro",
       "MUTE_CONVERSATION": "שיחה אילמת",
       "UNMUTE_CONVERSATION": "בטל השתקת שיחה",
       "REMOVE_LABEL_FROM_CONVERSATION": "הסר תווית מהשיחה",

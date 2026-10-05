@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Недоступен",
     "EMAIL_ADDRESS": "Email",
     "PHONE_NUMBER": "Номер телефона",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Идентификатор",
     "COPY_SUCCESSFUL": "Скопировано в буфер обмена",
     "COMPANY": "Компания",
@@ -461,6 +462,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Добавить Instagram"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Добавить Telegram"
           },
@@ -611,6 +615,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "Поиск не удался. Пожалуйста, попробуйте еще раз."
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Просмотр",

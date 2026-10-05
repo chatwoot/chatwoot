@@ -13,6 +13,10 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  mfaEnforced: {
+    type: Boolean,
+    default: false,
+  },
   backupCodes: {
     type: Array,
     default: () => [],
@@ -126,8 +130,11 @@ defineExpose({
         </div>
       </div>
 
-      <!-- Disable MFA -->
-      <div class="bg-n-solid-1 rounded-xl outline-1 outline-n-weak outline p-5">
+      <!-- Disable MFA (hidden while the account enforces MFA) -->
+      <div
+        v-if="!mfaEnforced"
+        class="bg-n-solid-1 rounded-xl outline-1 outline-n-weak outline p-5"
+      >
         <div class="flex-1 flex flex-col gap-2">
           <div class="flex items-center gap-2">
             <Icon
@@ -147,6 +154,25 @@ defineExpose({
             :label="$t('MFA_SETTINGS.MANAGEMENT.DISABLE_BUTTON')"
             @click="disableDialogRef?.open()"
           />
+        </div>
+      </div>
+      <div
+        v-else
+        class="bg-n-solid-1 rounded-xl outline-1 outline-n-weak outline p-5"
+      >
+        <div class="flex-1 flex flex-col gap-2">
+          <div class="flex items-center gap-2">
+            <Icon
+              icon="i-lucide-lock-keyhole"
+              class="size-4 flex-shrink-0 text-n-slate-11"
+            />
+            <h4 class="font-medium text-n-slate-12">
+              {{ $t('MFA_SETTINGS.MANAGEMENT.ENFORCED_TITLE') }}
+            </h4>
+          </div>
+          <p class="text-sm text-n-slate-11">
+            {{ $t('MFA_SETTINGS.MANAGEMENT.ENFORCED_NOTE') }}
+          </p>
         </div>
       </div>
     </div>

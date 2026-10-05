@@ -144,6 +144,13 @@ describe ContactIdentifyAction do
         expect(contact.reload.name).to eq 'new name'
         expect(contact.phone_number).to be_nil
       end
+
+      it 'discards a phone number that has text prefixed to a valid number' do
+        params = { phone_number: 'abc+12312312321', name: 'new name' }
+        described_class.new(contact: contact, params: params, discard_invalid_attrs: true).perform
+        expect(contact.reload.name).to eq 'new name'
+        expect(contact.phone_number).to be_nil
+      end
     end
 
     context 'when params have not changed' do

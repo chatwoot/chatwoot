@@ -13,7 +13,7 @@ class Instagram::SendOnInstagramService < Instagram::BaseSendService
     instagram_id = channel.instagram_id.presence || 'me'
 
     response = HTTParty.post(
-      "https://graph.instagram.com/v22.0/#{instagram_id}/messages",
+      "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}/#{instagram_id}/messages",
       body: message_content,
       query: query
     )
@@ -24,7 +24,7 @@ class Instagram::SendOnInstagramService < Instagram::BaseSendService
   def merge_human_agent_tag(params)
     global_config = GlobalConfig.get('ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT')
 
-    return params unless global_config['ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT']
+    return params unless global_config['ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT'] && human_agent_tag_applicable?
 
     params[:messaging_type] = 'MESSAGE_TAG'
     params[:tag] = 'HUMAN_AGENT'
