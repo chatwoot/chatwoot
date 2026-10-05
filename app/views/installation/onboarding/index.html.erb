@@ -2,29 +2,29 @@
   <%= form_tag('/installation/onboarding', class: 'space-y-4') do %>
     <div>
       <label for="user_name" class="text-label">Name</label>
-      <%= text_field :user, :name, placeholder: "Enter your full name. eg: Bruce Wayne", required: true, class: "#{ui(:input)} mt-1 min-h-10" %>
+      <%= text_field :user, :name, placeholder: "Enter your full name. eg: Bruce Wayne", required: true, class: ui(:input, "mt-1 min-h-10") %>
     </div>
 
     <div>
       <label for="user_company" class="text-label">Company Name</label>
-      <%= text_field :user, :company, placeholder: "Enter your company name. eg: Wayne Enterprises", required: true, class: "#{ui(:input)} mt-1 min-h-10" %>
+      <%= text_field :user, :company, placeholder: "Enter your company name. eg: Wayne Enterprises", required: true, class: ui(:input, "mt-1 min-h-10") %>
     </div>
 
     <div>
       <label for="user_email" class="text-label">Work Email</label>
-      <%= email_field :user, :email, placeholder: "Enter your work email address. eg: bruce@wayne.enterprises", required: true, class: "#{ui(:input)} mt-1 min-h-10" %>
+      <%= email_field :user, :email, placeholder: "Enter your work email address. eg: bruce@wayne.enterprises", required: true, class: ui(:input, "mt-1 min-h-10") %>
     </div>
 
     <div>
       <label for="user_password" class="text-label">Password</label>
-      <%= password_field :user, :password, placeholder: "Enter a password with 6 characters or more.", required: true, class: "#{ui(:input)} mt-1 min-h-10" %>
+      <%= password_field :user, :password, placeholder: "Enter a password with 6 characters or more.", required: true, class: ui(:input, "mt-1 min-h-10") %>
     </div>
 
     <label class="flex items-start gap-2 text-body-main" for="subscribe_to_updates">
-      <%= check_box_tag "subscribe_to_updates", 'true', true, class: "#{ui(:checkbox)} mt-0.5" %>
+      <%= check_box_tag "subscribe_to_updates", 'true', true, class: ui(:checkbox, "mt-0.5") %>
       Subscribe to release notes, newsletters & product feedback surveys.
     </label>
 
-    <button type="submit" class="<%= ui(:button) %> h-10 w-full">Finish Setup</button>
+    <%= render "super_admin/application/button", label: "Finish Setup", type: "submit", extra: "h-10 w-full" %>
   <% end %>
 <% end %>

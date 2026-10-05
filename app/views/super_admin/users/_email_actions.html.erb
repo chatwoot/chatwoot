@@ -11,10 +11,12 @@
 
 <% if Email::SesSuppressionService.configured? %>
   <details class="relative" data-dropdown>
-    <summary class="<%= ui(:button_secondary) %> list-none [&::-webkit-details-marker]:hidden">
-      <%= t("super_admin.users.email_suppression.menu") %>
-      <span class="i-lucide-chevron-down size-4"></span>
-    </summary>
+    <%= render "button",
+               as: :summary,
+               label: t("super_admin.users.email_suppression.menu"),
+               icon_end: "i-lucide-chevron-down size-4",
+               variant: :secondary,
+               extra: "list-none [&::-webkit-details-marker]:hidden" %>
     <div class="rounded-xl border border-n-weak bg-n-solid-1 absolute end-0 top-full z-40 mt-1 w-64 max-w-[calc(100vw-2rem)] p-1 shadow-lg">
       <%= button_to(
             t("super_admin.users.email_suppression.check_button"),
@@ -78,26 +80,19 @@
       <p class="mt-2 text-body-main text-n-slate-11"><%= t("super_admin.users.email_suppression.clear_dialog.body", brand_name: GlobalConfig.get_value("BRAND_NAME").presence || "Chatwoot") %></p>
       <div class="mt-6 flex justify-end gap-2">
         <form method="dialog">
-          <button class="<%= ui(:button_secondary) %>">
-            <%= t("super_admin.users.email_suppression.clear_dialog.cancel") %>
-          </button>
+          <%= render "button", label: t("super_admin.users.email_suppression.clear_dialog.cancel"), variant: :secondary, type: "submit" %>
         </form>
-        <%= button_to(
-              t("super_admin.users.email_suppression.clear_dialog.confirm"),
-              [:clear_email_suppression, namespace, routed_user],
-              method: :post,
-              class: ui(:button),
-              data: { pending_label: t("super_admin.users.email_suppression.pending.clear") },
-            ) %>
+        <%= render "button",
+                   label: t("super_admin.users.email_suppression.clear_dialog.confirm"),
+                   post_to: [:clear_email_suppression, namespace, routed_user],
+                   data: { pending_label: t("super_admin.users.email_suppression.pending.clear") } %>
       </div>
     </dialog>
   <% end %>
 <% elsif !user.confirmed? %>
-  <%= button_to(
-        t("super_admin.users.resend_confirmation.button"),
-        [:resend_confirmation, namespace, routed_user],
-        method: :post,
-        class: ui(:button_secondary),
-        form_class: "contents",
-      ) %>
+  <%= render "button",
+             label: t("super_admin.users.resend_confirmation.button"),
+             post_to: [:resend_confirmation, namespace, routed_user],
+             variant: :secondary,
+             form_class: "contents" %>
 <% end %>

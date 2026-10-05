@@ -3,7 +3,7 @@
   <p class="mb-2 text-label-small text-n-slate-11">Features that remain enabled even when account plan is downgraded</p>
   <div class="flex flex-wrap gap-1.5">
     <% field.selected_features.each do |feature| %>
-      <span class="<%= ui(:badge_success) %>"><%= display_names[feature] || feature.humanize %></span>
+      <%= render "badge", label: display_names[feature] || feature.humanize, tone: :success %>
     <% end %>
   </div>
 <% else %>

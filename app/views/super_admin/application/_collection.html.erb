@@ -20,9 +20,9 @@ to display a collection of resources in an HTML table.
 
 <%
   resource_name = collection_presenter.resource_name
-  has_avatar = collection_presenter.attribute_types.value?(AvatarField)
+  # The avatar has no column of its own: it sits in front of the name.
+  columns = collection_presenter.attribute_types.reject { |_name, type| type == AvatarField }
   cell_styles = { "number" => "font-mono text-xs text-n-slate-11", "count-field" => "tabular-nums", "date-time" => "tabular-nums text-n-slate-11" }
-  row_action = "rounded-md border border-n-weak px-2 py-1 text-label-small"
 %>
 
 <div class="rounded-xl border border-n-weak bg-n-solid-1 overflow-hidden">
@@ -30,12 +30,12 @@ to display a collection of resources in an HTML table.
     <%= render "table", labelled_by: table_title do %>
       <thead>
         <tr>
-          <% collection_presenter.attribute_types.each do |attr_name, attr_type| %>
+          <% columns.each_key do |attr_name| %>
             <% direction = collection_presenter.ordered_html_class(attr_name) %>
             <th scope="col" aria-sort="<%= { asc: "ascending", desc: "descending" }.fetch(direction, "none") %>">
               <%= link_to(
                     sanitized_order_params(page, collection_field_name).merge(collection_presenter.order_params_for(attr_name, key: collection_field_name)),
-                    class: class_names("inline-flex items-center gap-1 hover:text-n-slate-12", "text-n-slate-12" => direction.present?, "sr-only" => attr_type == AvatarField)
+                    class: class_names("inline-flex items-center gap-1 hover:text-n-slate-12", "text-n-slate-12" => direction.present?)
                   ) do %>
                 <%= t("helpers.label.#{resource_name}.#{attr_name}", default: attr_name.to_s).titleize %>
                 <% if direction.present? %>
@@ -56,11 +56,15 @@ to display a collection of resources in an HTML table.
           <%# `js-table-row` and `data-url` are what Administrate's table.js opens a row with. %>
           <%= tag.tr class: class_names("js-table-row", "cursor-pointer hover:bg-n-alpha-2 focus-visible:bg-n-alpha-2 focus-visible:outline-none" => show_path),
                      tabindex: 0, role: ("link" if show_path), data: { url: show_path } do %>
-            <% collection_presenter.attributes_for(resource).each do |attribute| %>
+            <% attributes = collection_presenter.attributes_for(resource) %>
+            <% avatar = attributes.find { |attribute| attribute.is_a?(AvatarField) } %>
+            <% (attributes - [avatar]).each do |attribute| %>
               <td class="<%= class_names("max-w-80 truncate", cell_styles[attribute.html_class]) %>">
                 <% if authorized_action? resource, :show %>
                   <a href="<%= polymorphic_path([namespace, record]) %>" class="text-n-slate-12">
-                    <% if attribute.name == "name" && !has_avatar %>
+                    <% if attribute.name == "name" && avatar %>
+                      <%= render_field avatar %>
+                    <% elsif attribute.name == "name" %>
                       <span class="me-2 inline-grid size-7 place-items-center rounded-lg border border-n-weak bg-n-slate-3 align-middle text-xs font-semibold uppercase text-n-slate-11"><%= attribute.data.to_s.first %></span>
                     <% end %>
                     <%= render_field attribute %>
@@ -69,26 +73,32 @@ to display a collection of resources in an HTML table.
               </td>
             <% end %>
 
-            <td class="w-px whitespace-nowrap text-end">
-              <%= link_to(
-                    t("administrate.actions.edit"),
-                    [:edit, namespace, record],
-                    class: "#{row_action} text-n-slate-11 hover:bg-n-alpha-2 hover:text-n-slate-12",
-                  ) if existing_action?(resource_name, :edit) && authorized_action?(resource, :edit) %>
-              <%= link_to(
-                    t("administrate.actions.destroy"),
-                    [namespace, record],
-                    class: "#{row_action} ms-1 text-n-ruby-11 hover:border-n-ruby-6 hover:bg-n-ruby-3",
-                    method: :delete,
-                    data: { confirm: t("administrate.actions.confirm") }
-                  ) if existing_action?(resource_name, :destroy) && authorized_action?(resource, :destroy) %>
+            <td class="w-px">
+              <div class="flex justify-end gap-1.5">
+                <%= render(
+                  "button",
+                  label: t("administrate.actions.edit"),
+                  url: [:edit, namespace, record],
+                  variant: :secondary,
+                  size: :small
+                ) if existing_action?(resource_name, :edit) && authorized_action?(resource, :edit) %>
+                <%= render(
+                  "button",
+                  label: t("administrate.actions.destroy"),
+                  url: [namespace, record],
+                  variant: :danger,
+                  size: :small,
+                  method: :delete,
+                  data: { confirm: t("administrate.actions.confirm") }
+                ) if existing_action?(resource_name, :destroy) && authorized_action?(resource, :destroy) %>
+              </div>
             </td>
           <% end %>
         <% end %>
 
         <% if resources.empty? %>
           <tr>
-            <td colspan="<%= collection_presenter.attribute_types.size + 1 %>" class="!py-10 text-center text-n-slate-11">
+            <td colspan="<%= columns.size + 1 %>" class="!py-10 text-center text-n-slate-11">
               <%= t("super_admin.collection.empty", resource: display_resource_name(resource_name).downcase) %>
             </td>
           </tr>

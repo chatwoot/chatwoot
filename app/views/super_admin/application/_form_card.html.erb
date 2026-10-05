@@ -21,7 +21,7 @@
     <%= yield f %>
 
     <div class="sticky bottom-0 z-10 flex items-center gap-2 rounded-b-xl border-t border-n-weak bg-n-solid-1 px-5 py-3">
-      <%= f.submit class: ui(:button) %>
+      <%= render "button", submit: f %>
     </div>
   </div>
 <% end %>

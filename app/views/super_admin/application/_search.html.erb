@@ -2,7 +2,7 @@
 <form class="relative min-w-52 flex-1" role="search" data-search-filter="<%= current_filter %>">
   <label class="sr-only" for="search"><%= t("administrate.search.label", resource: resource_name) %></label>
   <span class="i-lucide-search pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-n-slate-10"></span>
-  <input class="<%= ui(:input) %> min-h-10 pe-9 ps-9 [&::-webkit-search-cancel-button]:hidden"
+  <input class="<%= ui(:input, "pe-9 ps-9 [&::-webkit-search-cancel-button]:hidden") %>"
          id="search"
          type="search"
          name="search"
@@ -10,7 +10,7 @@
          value="<%= search_term %>">
 
   <% if search_term.present? %>
-    <%= link_to({ search: ("#{current_filter}:" if current_filter) }, class: "#{ui(:icon_button)} absolute end-1 top-1/2 -translate-y-1/2", title: t("administrate.search.clear")) do %>
+    <%= render "icon_button", url: { search: ("#{current_filter}:" if current_filter) }, extra: "absolute end-1 top-1/2 -translate-y-1/2", title: t("administrate.search.clear") do %>
       <span class="i-lucide-x size-4"></span>
     <% end %>
   <% end %>

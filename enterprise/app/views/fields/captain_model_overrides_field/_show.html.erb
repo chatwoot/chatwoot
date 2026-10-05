@@ -32,7 +32,7 @@
                 <span class="text-n-slate-10">(<%= feature[:model_id] %>)</span>
               </div>
               <div class="sm:text-end">
-                <span class="<%= ui(feature[:source] == :account_override ? :badge_success : :badge) %>"><%= feature[:source_label] %></span>
+                <%= render "badge", label: feature[:source_label], tone: (feature[:source] == :account_override ? :success : :neutral) %>
               </div>
             </div>
           <% end %>

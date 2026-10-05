@@ -20,14 +20,8 @@
       </div>
 
       <div class="flex flex-wrap items-center gap-2">
-        <%= link_to new_super_admin_user_path, class: ui(:button_secondary) do %>
-          <span class="i-lucide-user-plus size-4"></span>
-          <%= t("super_admin.dashboard.new_user") %>
-        <% end %>
-        <%= link_to new_super_admin_account_path, class: ui(:button) do %>
-          <span class="i-lucide-plus size-4"></span>
-          <%= t("super_admin.dashboard.new_account") %>
-        <% end %>
+        <%= render "button", label: t("super_admin.dashboard.new_user"), icon: "i-lucide-user-plus size-4", url: new_super_admin_user_path, variant: :secondary %>
+        <%= render "button", label: t("super_admin.dashboard.new_account"), icon: "i-lucide-plus size-4", url: new_super_admin_account_path %>
       </div>
     </div>
   </div>
@@ -65,7 +59,7 @@
         </div>
         <div class="flex items-center justify-between gap-3">
           <dt class="text-n-slate-11"><%= t("super_admin.dashboard.plan") %></dt>
-          <dd><span class="<%= ui(:badge_info) %>"><%= ChatwootHub.pricing_plan.titleize %></span></dd>
+          <dd><%= render "badge", label: ChatwootHub.pricing_plan.titleize, tone: :info %></dd>
         </div>
       </dl>
     <% end %>

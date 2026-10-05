@@ -30,7 +30,7 @@
                 ),
                 id: :account_suspension_category,
                 disabled: !suspension_selected,
-                class: "#{ui(:select)} mt-1",
+                class: ui(:select, "mt-1"),
                 data: { suspension_category: true }
               ) %>
         </div>
@@ -43,7 +43,7 @@
                 rows: 4,
                 maxlength: 256,
                 disabled: !suspension_selected,
-                class: "#{ui(:input)} mt-1",
+                class: ui(:input, "mt-1"),
                 data: { suspension_reason: true }
               ) %>
           <p class="mt-1 <%= detail_label %>"><%= t('super_admin.account_suspension.form.reason_hint') %></p>

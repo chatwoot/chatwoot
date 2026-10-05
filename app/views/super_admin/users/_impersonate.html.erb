@@ -3,24 +3,23 @@
   <div class="space-y-3 p-4">
     <p class="text-body-main text-n-ruby-11">Caution: Any actions executed after impersonate will appear as if performed by the impersonated user - [<%= user.name %> ]</p>
     <div class="flex flex-wrap items-center gap-2">
-      <%= button_to t('super_admin.users.impersonate'),
-                    impersonate_super_admin_user_path(user),
-                    method: :post,
-                    class: ui(:button),
-                    form: { target: '_blank', rel: 'noopener' } %>
+      <%= render "button",
+                 label: t('super_admin.users.impersonate'),
+                 post_to: impersonate_super_admin_user_path(user),
+                 form: { target: '_blank', rel: 'noopener' } %>
       <%# superadmin.js posts this form in the background and copies the link it returns. %>
-      <%= button_to t('super_admin.users.copy_impersonation_link'),
-                    impersonation_link_super_admin_user_path(user),
-                    method: :post,
-                    class: ui(:button_secondary),
-                    form: {
-                      id: 'copy-impersonation-link',
-                      data: {
-                        copy_link: true,
-                        copied_label: t('super_admin.users.impersonation_link_copied'),
-                        failed_label: t('super_admin.users.impersonation_link_failed')
-                      }
-                    } %>
+      <%= render "button",
+                 label: t('super_admin.users.copy_impersonation_link'),
+                 post_to: impersonation_link_super_admin_user_path(user),
+                 variant: :secondary,
+                 form: {
+                   id: 'copy-impersonation-link',
+                   data: {
+                     copy_link: true,
+                     copied_label: t('super_admin.users.impersonation_link_copied'),
+                     failed_label: t('super_admin.users.impersonation_link_failed')
+                   }
+                 } %>
     </div>
   </div>
 <% end %>

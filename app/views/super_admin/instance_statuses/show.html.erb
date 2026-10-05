@@ -17,7 +17,7 @@
       <div class="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 px-5 py-4">
         <%= render "icon_tile", icon: status_icons[key] %>
         <h2 class="text-heading-3"><%= key %></h2>
-        <span class="<%= ui(value.to_s.in?(%w[true completed]) ? :badge_success : :badge_danger) %>"><%= value %></span>
+        <%= render "badge", label: value.to_s.titleize, tone: (value.to_s.in?(%w[true completed]) ? :success : :danger) %>
       </div>
     <% end %>
   </div>

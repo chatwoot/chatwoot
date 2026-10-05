@@ -40,13 +40,9 @@ as well as a link to its edit page.
              { label: t("super_admin.accounts.users"), value: number_with_delimiter(users_count), icon: "i-lucide-users text-n-iris-10" },
              { label: t("super_admin.accounts.conversations"), value: number_with_delimiter(fields["conversations"].to_s), icon: "i-lucide-messages-square text-n-amber-11" },
              { label: t("super_admin.record.created"), value: l(account.created_at.to_date, format: "%b %-d, %Y"), icon: "i-lucide-calendar text-n-teal-10" },
-             { label: t("super_admin.record.last_updated"), value: t("super_admin.record.time_ago", time: time_ago_in_words(account.updated_at)), icon: "i-lucide-history text-n-blue-10" }
+             { label: t("super_admin.record.last_updated"), value: t("super_admin.record.time_ago", time: time_ago_in_words(account.updated_at)).upcase_first, icon: "i-lucide-history text-n-blue-10" }
            ] do %>
-  <%= link_to(
-    t("administrate.actions.edit"),
-    [:edit, namespace, page.resource],
-    class: ui(:button),
-  ) if accessible_action?(page.resource, :edit) %>
+  <%= render("button", label: t("administrate.actions.edit"), url: [:edit, namespace, page.resource]) if accessible_action?(page.resource, :edit) %>
 <% end %>
 
 <%= render "tabs", tabs: tabs, active: active %>

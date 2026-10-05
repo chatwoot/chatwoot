@@ -6,9 +6,9 @@
     <div class="flex h-11 items-center justify-between">
       <h2 class="text-xs font-medium uppercase tracking-wider text-n-slate-10" id="<%= id %>-title"><%= title %></h2>
       <form method="dialog">
-        <button class="<%= ui(:icon_button) %> -me-2" aria-label="<%= t("super_admin.actions.close") %>">
+        <%= render "icon_button", extra: "-me-2", type: "submit", aria: { label: t("super_admin.actions.close") } do %>
           <span class="i-lucide-x size-4"></span>
-        </button>
+        <% end %>
       </form>
     </div>
     <%= yield %>

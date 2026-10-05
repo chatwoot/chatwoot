@@ -5,13 +5,15 @@ One bar for every screen size. From `xl` up it is a single row. Below that the
 links drop to a second row that stays pinned while the brand row scrolls away.
 Below `md` that row is a tab bar. From `sm` up it shows every link; on phones
 only the pinned ones show, the rest sit behind "More".
+
+The avatar opens the account menu: who is signed in, the theme, profile, agent dashboard and logout.
 %>
 
 <%
   items = primary_nav_items
   more_items = items.reject { |item| item[:pinned] }
-  agent_dashboard = t("super_admin.navigation.agent_dashboard")
-  logout = t("super_admin.navigation.logout")
+  admin = current_super_admin
+  avatar = admin.avatar_url.presence
   themes = {
     system: [t("super_admin.navigation.theme.system"), "i-lucide-monitor"],
     light: [t("super_admin.navigation.theme.light"), "i-lucide-sun"],
@@ -33,21 +35,37 @@ only the pinned ones show, the rest sit behind "More".
       <span class="text-label-small text-n-slate-10">/ <%= t("super_admin.navigation.suffix") %></span>
     <% end %>
 
-    <div class="ms-auto flex items-center gap-1 xl:order-last">
-      <div class="flex gap-0.5 rounded-lg border border-n-weak p-0.5" role="group" aria-label="<%= t("super_admin.navigation.theme.label") %>">
-        <% themes.each do |value, (label, icon)| %>
-          <button type="button" class="grid size-7 place-items-center rounded-md text-n-slate-10 hover:text-n-slate-12 aria-pressed:bg-n-alpha-2 aria-pressed:text-n-slate-12 touch:size-9" data-theme-value="<%= value %>" aria-pressed="false" title="<%= label %>">
-            <span class="<%= icon %> size-4"></span>
-          </button>
+    <details class="relative ms-auto xl:order-last" data-dropdown>
+      <summary class="block cursor-pointer list-none rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-n-brand [&::-webkit-details-marker]:hidden"
+               aria-label="<%= t("super_admin.navigation.account") %>">
+        <% if avatar %>
+          <%= image_tag avatar, alt: "", class: "size-9 rounded-full border border-n-weak object-cover" %>
+        <% else %>
+          <span class="grid size-9 place-items-center rounded-full border border-n-weak bg-n-slate-3 text-label uppercase text-n-slate-11"><%= admin.name.to_s.first %></span>
         <% end %>
+      </summary>
+      <div class="absolute end-0 top-full z-40 mt-2 w-64 max-w-[calc(100vw-2rem)] rounded-xl border border-n-weak bg-n-solid-1 p-1 shadow-lg">
+        <div class="px-2.5 py-2">
+          <p class="truncate text-label text-n-slate-12"><%= admin.name %></p>
+          <p class="truncate text-body-main text-n-slate-11"><%= admin.email %></p>
+        </div>
+        <div class="flex items-center justify-between gap-3 border-t border-n-weak px-2.5 py-2">
+          <span class="text-body-main text-n-slate-11"><%= t("super_admin.navigation.theme.label") %></span>
+          <div class="flex gap-0.5 rounded-lg border border-n-weak p-0.5" role="group" aria-label="<%= t("super_admin.navigation.theme.label") %>">
+            <% themes.each do |value, (label, icon)| %>
+              <button type="button" class="grid size-7 place-items-center rounded-md text-n-slate-10 hover:text-n-slate-12 aria-pressed:bg-n-alpha-2 aria-pressed:text-n-slate-12 touch:size-9" data-theme-value="<%= value %>" aria-pressed="false" title="<%= label %>">
+                <span class="<%= icon %> size-4"></span>
+              </button>
+            <% end %>
+          </div>
+        </div>
+        <ul class="space-y-0.5 border-t border-n-weak pt-1">
+          <%= render "nav_item", item: { label: t("super_admin.navigation.profile"), url: super_admin_user_path(admin), icon: "i-lucide-user" } %>
+          <%= render "nav_item", item: { label: t("super_admin.navigation.agent_dashboard"), url: "/", icon: "i-lucide-message-circle" } %>
+          <%= render "nav_item", item: { label: t("super_admin.navigation.logout"), url: super_admin_logout_path, icon: "i-lucide-log-out" } %>
+        </ul>
       </div>
-      <%= link_to "/", class: "#{ui(:icon_button)} hidden sm:grid", title: agent_dashboard, aria: { label: agent_dashboard } do %>
-        <span class="i-lucide-message-circle size-4"></span>
-      <% end %>
-      <%= link_to super_admin_logout_path, class: "#{ui(:icon_button)} hidden sm:grid", title: logout, aria: { label: logout } do %>
-        <span class="i-lucide-log-out size-4"></span>
-      <% end %>
-    </div>
+    </details>
 
     <nav class="grid w-full auto-cols-fr grid-flow-col md:flex md:gap-0.5 md:pb-2.5 xl:ms-3 xl:w-auto xl:flex-1 xl:pb-0" aria-label="<%= t("super_admin.navigation.label") %>">
       <% items.each do |item| %>
@@ -73,9 +91,5 @@ only the pinned ones show, the rest sit behind "More".
 <%= render "sheet", id: "nav-more", title: t("super_admin.navigation.more") do %>
   <ul class="space-y-0.5">
     <%= render partial: "nav_item", collection: more_items, as: :item %>
-  </ul>
-  <ul class="mt-2 space-y-0.5 border-t border-n-weak pt-2">
-    <%= render "nav_item", item: { label: agent_dashboard, url: "/", icon: "i-lucide-message-circle" } %>
-    <%= render "nav_item", item: { label: logout, url: super_admin_logout_path, icon: "i-lucide-log-out" } %>
   </ul>
 <% end %>

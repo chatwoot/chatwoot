@@ -3,5 +3,5 @@
     <h2 class="text-heading-3"><%= t("super_admin.accounts.reset_cache") %></h2>
     <p class="text-body-main text-n-slate-11">This will clear the IndexedDB cache keys from redis. The next load will fetch the data from backend.</p>
   </div>
-  <%= f.submit 'Reset Frontend Cache', class: ui(:button_secondary) %>
+  <%= render "button", label: 'Reset Frontend Cache', variant: :secondary, submit: f %>
 <% end %>

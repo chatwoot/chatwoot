@@ -32,14 +32,8 @@
           <p class="text-body-main text-n-slate-11"><%= SuperAdmin::FeaturesHelper.plan_details.html_safe %></p>
         </div>
         <div class="<%= summary_actions %>">
-          <%= link_to refresh_super_admin_settings_path, class: ui(:button_secondary) do %>
-            <span class="i-lucide-refresh-cw size-3.5"></span>
-            Refresh
-          <% end %>
-          <%= link_to ChatwootHub.billing_url, target: "_blank", rel: "noopener noreferrer", class: ui(:button) do %>
-            Manage
-            <span class="i-lucide-arrow-up-right size-3.5"></span>
-          <% end %>
+          <%= render "button", label: "Refresh", icon: "i-lucide-refresh-cw size-3.5", url: refresh_super_admin_settings_path, variant: :secondary %>
+          <%= render "button", label: "Manage", icon_end: "i-lucide-arrow-up-right size-3.5", url: ChatwootHub.billing_url, target: "_blank", rel: "noopener noreferrer" %>
         </div>
       </div>
     <% end %>
@@ -62,15 +56,9 @@
         <p class="text-body-main text-n-slate-11">Do you face any issues? We are here to help.</p>
       </div>
       <div class="<%= summary_actions %>">
-        <a href="https://discord.gg/cJXdrwS" target="_blank" class="<%= ui(:button_secondary) %>">
-          Community Support
-          <span class="i-lucide-arrow-up-right size-3.5 text-n-slate-10"></span>
-        </a>
+        <%= render "button", label: "Community Support", icon_end: "i-lucide-arrow-up-right size-3.5 text-n-slate-10", url: "https://discord.gg/cJXdrwS", target: "_blank", variant: :secondary %>
         <% if ChatwootHub.pricing_plan != 'community' %>
-          <button type="button" class="<%= ui(:button_secondary) %>" data-support-chat>
-            <span class="i-lucide-message-circle size-3.5"></span>
-            Chat Support
-          </button>
+          <%= render "button", label: "Chat Support", icon: "i-lucide-message-circle size-3.5", variant: :secondary, data: { support_chat: true } %>
         <% end %>
       </div>
     </div>

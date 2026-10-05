@@ -19,16 +19,13 @@ as well as a link to its edit page.
 <% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
 
 <%= render "page_header", title: page.page_title, back: display_resource_name(page.resource_name) do %>
-  <%= link_to(
-    t("administrate.actions.edit"),
-    [:edit, namespace, page.resource],
-    class: ui(:button),
-  ) if accessible_action?(page.resource, :edit) %>
+  <%= render("button", label: t("administrate.actions.edit"), url: [:edit, namespace, page.resource]) if accessible_action?(page.resource, :edit) %>
 
-  <%= link_to(
-    t("administrate.actions.destroy"),
-    [namespace, page.resource],
-    class: ui(:button_danger),
+  <%= render(
+    "button",
+    label: t("administrate.actions.destroy"),
+    url: [namespace, page.resource],
+    variant: :danger,
     method: :delete,
     data: { confirm: t("administrate.actions.confirm") }
   ) if accessible_action?(page.resource, :destroy) %>

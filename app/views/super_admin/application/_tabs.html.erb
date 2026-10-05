@@ -9,7 +9,7 @@
       <% end %>
       <%= tab[:label] %>
       <% if tab[:count] %>
-        <span class="<%= ui(:badge) %>"><%= number_with_delimiter(tab[:count]) %></span>
+        <%= render "badge", label: number_with_delimiter(tab[:count]), tone: :neutral %>
       <% end %>
     </button>
   <% end %>

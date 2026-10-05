@@ -2,8 +2,8 @@
   <div class="grid gap-3 sm:grid-cols-2">
     <% JSON.parse(field.to_s).each do |key, val| %>
       <div>
-        <%= label_tag "account_limits_#{key}", key, class: "text-label-small text-n-slate-11" %>
-        <%= number_field "account[limits]", key, value: val, class: "#{ui(:input)} mt-1" %>
+        <%= label_tag "account_limits_#{key}", key.humanize, class: "text-label-small text-n-slate-11" %>
+        <%= number_field "account[limits]", key, value: val, class: ui(:input, "mt-1") %>
       </div>
     <% end %>
   </div>

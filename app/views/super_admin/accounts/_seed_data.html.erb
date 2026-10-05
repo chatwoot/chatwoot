@@ -5,6 +5,6 @@
       <p class="text-body-main text-n-slate-11">Click the button to generate seed data into this account for demos.</p>
       <p class="text-body-main text-n-ruby-11">Note: This will clear all the existing data in this account.</p>
     </div>
-    <%= f.submit 'Generate Seed Data', class: ui(:button_danger) %>
+    <%= render "button", label: 'Generate Seed Data', variant: :danger, submit: f %>
   <% end %>
 <% end %>

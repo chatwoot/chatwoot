@@ -7,50 +7,56 @@
            title: settings_page['name'] || @config.titleize,
            description: settings_page['description'],
            icon: settings_page['icon'] || 'i-lucide-sliders-horizontal' do %>
-  <%= form_with url: super_admin_app_config_url(config: @config), method: :post, class: "rounded-xl border border-n-weak bg-n-solid-1 divide-y divide-n-weak" do |form| %>
-    <% @allowed_configs.each do |key| %>
-      <% config = @installation_configs[key] || {} %>
-      <div class="<%= class_names("grid gap-x-8 gap-y-1.5 px-5 py-4", "sm:grid-cols-2" => config['type'] != 'code') %>">
-        <div class="text-label text-n-slate-12">
-          <%= form.label "app_config[#{key}]", config['display_title'] || key %>
-          <% if config['description'].present? %>
-            <p class="mt-0.5 max-w-xl text-label-small text-n-slate-11"><%= config['description'] %></p>
-          <% end %>
+  <%= form_with url: super_admin_app_config_url(config: @config), method: :post do |form| %>
+    <%# Not on the form itself: its hidden token input would count as the first row and give the next one a second top border. %>
+    <div class="rounded-xl border border-n-weak bg-n-solid-1 divide-y divide-n-weak">
+      <% @allowed_configs.each do |key| %>
+        <% config = @installation_configs[key] || {} %>
+        <div class="<%= class_names("grid gap-x-8 gap-y-1.5 px-5 py-4", "sm:grid-cols-2" => config['type'] != 'code') %>">
+          <div class="text-label text-n-slate-12">
+            <%= form.label "app_config[#{key}]", config['display_title'] || key %>
+            <% if config['description'].present? %>
+              <p class="mt-0.5 max-w-xl text-label-small text-n-slate-11"><%= config['description'] %></p>
+            <% end %>
+          </div>
+          <div class="min-w-0">
+            <% if config['type'] == 'boolean' %>
+              <%= form.select "app_config[#{key}]",
+                              [["True", true], ["False", false]],
+                              { selected: ActiveModel::Type::Boolean.new.cast(@app_config[key]) },
+                              class: ui(:select) %>
+            <% elsif config['type'] == 'code' %>
+              <%= form.text_area "app_config[#{key}]",
+                                 value: @app_config[key],
+                                 rows: 12,
+                                 wrap: 'off',
+                                 class: ui(:input, "overflow-scroll font-mono text-xs") %>
+            <% elsif config['type'] == 'secret' %>
+              <div class="relative">
+                <%= form.password_field "app_config[#{key}]", id: "app_config_#{key}", value: @app_config[key], class: ui(:input, "pe-10") %>
+                <%= render "icon_button",
+                           extra: "absolute end-1 top-1/2 -translate-y-1/2",
+                           aria: { label: t("super_admin.actions.toggle_secret") },
+                           data: { reveal: "app_config_#{key}" } do %>
+                  <span class="i-lucide-eye size-4"></span>
+                  <span class="i-lucide-eye-off hidden size-4"></span>
+                <% end %>
+              </div>
+            <% elsif config['type'] == 'select' && config['options'].present? %>
+              <%= form.select "app_config[#{key}]",
+                              config['options'].map { |val, label| [label, val] },
+                              { selected: @app_config[key] },
+                              class: ui(:select) %>
+            <% else %>
+              <%= form.text_field "app_config[#{key}]", value: @app_config[key], class: ui(:input) %>
+            <% end %>
+          </div>
         </div>
-        <div class="min-w-0">
-          <% if config['type'] == 'boolean' %>
-            <%= form.select "app_config[#{key}]",
-                            [["True", true], ["False", false]],
-                            { selected: ActiveModel::Type::Boolean.new.cast(@app_config[key]) },
-                            class: ui(:select) %>
-          <% elsif config['type'] == 'code' %>
-            <%= form.text_area "app_config[#{key}]",
-                               value: @app_config[key],
-                               rows: 12,
-                               wrap: 'off',
-                               class: "#{ui(:input)} overflow-scroll font-mono text-xs" %>
-          <% elsif config['type'] == 'secret' %>
-            <div class="relative">
-              <%= form.password_field "app_config[#{key}]", id: "app_config_#{key}", value: @app_config[key], class: "#{ui(:input)} pe-10" %>
-              <button type="button" class="<%= ui(:icon_button) %> absolute end-1 top-1/2 size-7 -translate-y-1/2" data-reveal="app_config_<%= key %>" aria-label="<%= t("super_admin.actions.toggle_secret") %>">
-                <span class="i-lucide-eye size-4"></span>
-                <span class="i-lucide-eye-off hidden size-4"></span>
-              </button>
-            </div>
-          <% elsif config['type'] == 'select' && config['options'].present? %>
-            <%= form.select "app_config[#{key}]",
-                            config['options'].map { |val, label| [label, val] },
-                            { selected: @app_config[key] },
-                            class: ui(:select) %>
-          <% else %>
-            <%= form.text_field "app_config[#{key}]", value: @app_config[key], class: ui(:input) %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
+      <% end %>
 
-    <div class="sticky bottom-0 z-10 flex items-center gap-2 rounded-b-xl bg-n-solid-1 px-5 py-3">
-      <%= form.submit t("super_admin.actions.save_changes"), class: ui(:button) %>
+      <div class="sticky bottom-0 z-10 flex items-center gap-2 rounded-b-xl bg-n-solid-1 px-5 py-3">
+        <%= render "button", label: t("super_admin.actions.save_changes"), submit: form %>
+      </div>
     </div>
   <% end %>
 <% end %>

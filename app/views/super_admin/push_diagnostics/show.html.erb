@@ -10,8 +10,8 @@
   <%= render "card", title: "1. Look up user" do %>
     <div class="p-4">
       <%= form_with url: super_admin_push_diagnostics_path, method: :get, local: true, class: 'flex flex-wrap items-center gap-2' do |f| %>
-        <%= f.text_field :user_query, value: @query, placeholder: 'user@example.com or numeric user ID', class: "#{ui(:input)} sm:w-80" %>
-        <%= f.submit 'Look up', class: ui(:button_secondary) %>
+        <%= f.text_field :user_query, value: @query, placeholder: 'user@example.com or numeric user ID', class: ui(:input, "sm:w-80") %>
+        <%= render "button", label: 'Look up', variant: :secondary, submit: f %>
       <% end %>
 
       <% if @query.present? && @user.nil? %>
@@ -52,14 +52,14 @@
                 <%= label_tag :push_title, 'Title', class: field_label %>
                 <%= text_field_tag :push_title,
                                    params[:push_title].presence || Notification::PushTestService.default_title,
-                                   class: "#{ui(:input)} mt-1" %>
+                                   class: ui(:input, "mt-1") %>
               </div>
               <div>
                 <%= label_tag :push_body, 'Body', class: field_label %>
                 <%= text_area_tag :push_body,
                                   params[:push_body].presence || Notification::PushTestService.default_body,
                                   rows: 2,
-                                  class: "#{ui(:input)} mt-1" %>
+                                  class: ui(:input, "mt-1") %>
                 <p class="mt-1 <%= field_label %>">Customers will see this text as a real push notification on their device.</p>
               </div>
             </div>
@@ -118,12 +118,14 @@
             </div>
 
             <div class="mt-4 flex flex-wrap gap-2">
-              <%= f.submit 'Send Test Push to Selected', class: ui(:button) %>
-              <%= submit_tag 'Delete Selected Subscriptions',
-                             formaction: destroy_subscriptions_super_admin_push_diagnostics_path,
-                             formmethod: 'post',
-                             data: { confirm: "Delete the selected subscription(s)? The user won't receive pushes on those devices until their app re-registers." },
-                             class: ui(:button_danger) %>
+              <%= render "button", label: 'Send Test Push to Selected', submit: f %>
+              <%= render "button",
+                         label: 'Delete Selected Subscriptions',
+                         variant: :danger,
+                         submit: f,
+                         formaction: destroy_subscriptions_super_admin_push_diagnostics_path,
+                         formmethod: 'post',
+                         data: { confirm: "Delete the selected subscription(s)? The user won't receive pushes on those devices until their app re-registers." } %>
             </div>
           <% end %>
         <% end %>
@@ -151,7 +153,7 @@
                   <td><%= r[:type] %></td>
                   <td class="break-all font-mono text-xs"><%= r[:device] %></td>
                   <td class="break-all font-mono text-xs"><%= r[:token_tail] %></td>
-                  <td><span class="<%= ui({ success: :badge_success, failure: :badge_danger }.fetch(r[:status], :badge)) %>"><%= r[:status] %></span></td>
+                  <td><%= render "badge", label: r[:status].to_s.titleize, tone: { success: :success, failure: :danger }.fetch(r[:status], :neutral) %></td>
                   <td class="whitespace-pre-wrap break-all font-mono text-xs"><%= r[:message] %></td>
                 </tr>
               <% end %>

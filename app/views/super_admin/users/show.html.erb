@@ -31,7 +31,11 @@ as well as a link to its edit page.
   badges = capture do
 %>
   <%= render_field fields["type"] %>
-  <span class="<%= ui(user.confirmed? ? :badge_success : :badge_warning) %>"><%= user.confirmed? ? t("super_admin.users.confirmed") : t("super_admin.users.unconfirmed") %></span>
+  <% if user.confirmed? %>
+    <%= render "badge", label: t("super_admin.users.confirmed"), tone: :success %>
+  <% else %>
+    <%= render "badge", label: t("super_admin.users.unconfirmed"), tone: :warning %>
+  <% end %>
 <% end %>
 
 <%= render "hero",
@@ -44,13 +48,9 @@ as well as a link to its edit page.
              { label: t("super_admin.users.accounts"), value: number_with_delimiter(accounts_count), icon: "i-lucide-building-2 text-n-blue-10" },
              { label: t("super_admin.users.mfa"), value: mfa_status, icon: "i-lucide-shield-check text-n-teal-10" },
              { label: t("super_admin.record.created"), value: l(user.created_at.to_date, format: "%b %-d, %Y"), icon: "i-lucide-calendar text-n-iris-10" },
-             { label: t("super_admin.record.last_updated"), value: t("super_admin.record.time_ago", time: time_ago_in_words(user.updated_at)), icon: "i-lucide-history text-n-amber-11" }
+             { label: t("super_admin.record.last_updated"), value: t("super_admin.record.time_ago", time: time_ago_in_words(user.updated_at)).upcase_first, icon: "i-lucide-history text-n-amber-11" }
            ] do %>
-  <%= link_to(
-    t("administrate.actions.edit"),
-    [:edit, namespace, user.becomes(User)],
-    class: ui(:button),
-  ) if authorized_action? user, :edit %>
+  <%= render("button", label: t("administrate.actions.edit"), url: [:edit, namespace, user.becomes(User)]) if authorized_action? user, :edit %>
   <%= render "email_actions", user: user %>
 <% end %>
 
@@ -61,7 +61,7 @@ as well as a link to its edit page.
     <%= render "card", title: t("super_admin.record.profile") do %>
       <%= render "attributes", page: page, attributes: fields.values_at("id", "name", "display_name", "email", "unconfirmed_email", "type", "confirmed_at", "created_at", "updated_at") do %>
         <%= render "attribute", label: t("super_admin.users.mfa"), id: "mfa_enabled" do %>
-          <span class="<%= ui(user.mfa_enabled? ? :badge_success : :badge) %>"><%= mfa_status %></span>
+          <%= render "badge", label: mfa_status, tone: (user.mfa_enabled? ? :success : :neutral) %>
         <% end %>
       <% end %>
     <% end %>

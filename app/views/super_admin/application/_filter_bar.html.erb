@@ -4,7 +4,7 @@
   <% if search %>
     <div class="relative min-w-40 flex-1 sm:max-w-xs">
       <span class="i-lucide-search pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-n-slate-10"></span>
-      <input type="search" class="<%= ui(:input) %> ps-9" placeholder="<%= t("super_admin.features.filter") %>" aria-label="<%= t("super_admin.features.filter") %>" data-filter-input>
+      <input type="search" class="<%= ui(:input, "ps-9") %>" placeholder="<%= t("super_admin.features.filter") %>" aria-label="<%= t("super_admin.features.filter") %>" data-filter-input>
     </div>
   <% end %>
   <% if states %>
@@ -17,8 +17,8 @@
   <% if bulk %>
     <div class="flex items-center gap-2 sm:ms-auto">
       <span class="text-label-small tabular-nums text-n-slate-11" data-check-count="<%= t("super_admin.features.selected_count") %>"></span>
-      <button type="button" class="<%= ui(:button_secondary) %>" data-check-all><%= t("super_admin.actions.select_all") %></button>
-      <button type="button" class="<%= ui(:button_secondary) %>" data-check-none><%= t("super_admin.actions.clear") %></button>
+      <%= render "button", label: t("super_admin.actions.select_all"), variant: :secondary, data: { check_all: true } %>
+      <%= render "button", label: t("super_admin.actions.clear"), variant: :secondary, data: { check_none: true } %>
     </div>
   <% end %>
 </div>
