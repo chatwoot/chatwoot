@@ -11,10 +11,12 @@ module Integrations::Slack::SlackMessageHelper
 
   def handle_conversation
     return if message_exists?
+
+    takeover = Integrations::Slack::ConversationTakeover.new(conversation: conversation, params: params, slack_client: slack_client)
     # Private notes never reach the customer, so they need no takeover.
     return takeover.request_confirmation if takeover.confirmation_required? && !private_note?
 
-    takeover.perform(slack_sender.first) if takeover.confirmed?
+    takeover.perform(resolve_slack_sender.first) if takeover.confirmed?
     create_message
   end
 
@@ -32,7 +34,7 @@ module Integrations::Slack::SlackMessageHelper
   end
 
   def create_message
-    resolved_sender, sender_name, sender_avatar_url = slack_sender
+    resolved_sender, sender_name, sender_avatar_url = resolve_slack_sender
     slack_sender_attrs = {}
     slack_sender_attrs[:sender_name] = sender_name if sender_name
     slack_sender_attrs[:sender_avatar_url] = sender_avatar_url if sender_avatar_url
