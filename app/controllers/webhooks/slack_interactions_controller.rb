@@ -1,14 +1,18 @@
 class Webhooks::SlackInteractionsController < ActionController::API
-  ACTIONS = { 'slack_takeover_send' => 'takeover', 'slack_send_only' => 'send_only' }.freeze
+  # Slack sends back the action_id of the element that was clicked, which we set as
+  # "<interaction>.<action>". Supporting a new interaction means adding its job here. The job
+  # receives the action, the element's value and the response_url.
+  INTERACTIONS = { 'takeover' => SlackPendingReplyJob }.freeze
 
   before_action :verify_signature!
 
   def process_payload
-    return head :ok if action.blank?
+    interaction, action = selected_action['action_id'].split('.', 2)
+    job = INTERACTIONS[interaction]
+    return head :ok if job.blank?
 
-    # Answering immediately keeps us inside Slack's 3 second budget. Clearing the prompt and
-    # creating the reply both happen in the job.
-    SlackPendingReplyJob.perform_later(reference, action, payload['response_url'])
+    # Answering immediately keeps us inside Slack's 3 second budget, the work happens in the job.
+    job.perform_later(action, selected_action['value'], payload['response_url'])
     head :ok
   end
 
@@ -24,13 +28,5 @@ class Webhooks::SlackInteractionsController < ActionController::API
 
   def selected_action
     payload['actions'].first
-  end
-
-  def action
-    ACTIONS[selected_action['action_id']]
-  end
-
-  def reference
-    JSON.parse(selected_action['value']).slice('channel', 'thread_ts', 'ts')
   end
 end

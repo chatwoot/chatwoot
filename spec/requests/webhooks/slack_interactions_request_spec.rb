@@ -3,14 +3,14 @@ require 'rails_helper'
 RSpec.describe 'Webhooks::SlackInteractions' do
   describe 'POST /webhooks/slack/interactions' do
     let(:secret) { 'slack-signing-secret' }
-    let(:action_id) { 'slack_takeover_send' }
+    let(:action_id) { 'takeover.take_over' }
     let(:reference) { { 'channel' => 'C123', 'thread_ts' => '1700000000.000100', 'ts' => '1700000050.000200' } }
     let(:response_url) { 'https://hooks.slack.com/actions/T1/1/abc' }
     let(:payload) do
       {
         type: 'block_actions',
         response_url: response_url,
-        actions: [{ action_id: action_id, value: reference.merge('extra' => 'ignored').to_json }]
+        actions: [{ action_id: action_id, value: reference.to_json }]
       }
     end
     let(:body) { URI.encode_www_form(payload: payload.to_json) }
@@ -28,21 +28,21 @@ RSpec.describe 'Webhooks::SlackInteractions' do
 
     it 'hands the takeover click to the job' do
       expect { post '/webhooks/slack/interactions', params: body, headers: headers }
-        .to have_enqueued_job(SlackPendingReplyJob).with(reference, 'takeover', response_url)
+        .to have_enqueued_job(SlackPendingReplyJob).with('take_over', reference.to_json, response_url)
 
       expect(response).to have_http_status(:ok)
     end
 
     context 'when the agent chooses to just send' do
-      let(:action_id) { 'slack_send_only' }
+      let(:action_id) { 'takeover.send_only' }
 
       it 'hands the send only click to the job' do
         expect { post '/webhooks/slack/interactions', params: body, headers: headers }
-          .to have_enqueued_job(SlackPendingReplyJob).with(reference, 'send_only', response_url)
+          .to have_enqueued_job(SlackPendingReplyJob).with('send_only', reference.to_json, response_url)
       end
     end
 
-    context 'when the action is not one of the prompt buttons' do
+    context 'when the action belongs to no known interaction' do
       let(:action_id) { 'something_else' }
 
       it 'acknowledges the click without enqueuing the job' do

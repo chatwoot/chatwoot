@@ -17,19 +17,19 @@ RSpec.describe SlackPendingReplyJob do
   end
 
   it 'clears the prompt' do
-    described_class.perform_now(reference, 'takeover', response_url)
+    described_class.perform_now('take_over', reference.to_json, response_url)
 
     expect(WebMock).to have_requested(:post, response_url).with(body: { delete_original: true }.to_json)
   end
 
   it 'reads the held back reply from Slack and sends it with the confirmed action' do
-    described_class.perform_now(reference, 'takeover', response_url)
+    described_class.perform_now('take_over', reference.to_json, response_url)
 
     expect(slack_client).to have_received(:conversations_replies).with(
       channel: 'C123', ts: reference['thread_ts'], latest: reference['ts'], oldest: reference['ts'], inclusive: true, limit: 1
     )
     expect(Integrations::Slack::IncomingMessageBuilder).to have_received(:new).with(
-      hash_including('type' => 'event_callback', 'confirmed_action' => 'takeover', 'event' => reply.merge('channel' => 'C123'))
+      hash_including('type' => 'event_callback', 'confirmed_action' => 'take_over', 'event' => reply.merge('channel' => 'C123'))
     )
     expect(builder).to have_received(:perform)
   end
@@ -37,7 +37,7 @@ RSpec.describe SlackPendingReplyJob do
   it 'does not send anything when the reply was deleted in Slack' do
     allow(slack_client).to receive(:conversations_replies).and_return(Slack::Messages::Message.new(messages: []))
 
-    described_class.perform_now(reference, 'takeover', response_url)
+    described_class.perform_now('take_over', reference.to_json, response_url)
 
     expect(Integrations::Slack::IncomingMessageBuilder).not_to have_received(:new)
   end
@@ -45,13 +45,13 @@ RSpec.describe SlackPendingReplyJob do
   it 'does not send anything when Slack cannot return the reply' do
     allow(slack_client).to receive(:conversations_replies).and_raise(Slack::Web::Api::Errors::SlackError.new('thread_not_found'))
 
-    described_class.perform_now(reference, 'takeover', response_url)
+    described_class.perform_now('take_over', reference.to_json, response_url)
 
     expect(Integrations::Slack::IncomingMessageBuilder).not_to have_received(:new)
   end
 
   it 'does not send anything when the channel has no hook' do
-    described_class.perform_now(reference.merge('channel' => 'C999'), 'takeover', response_url)
+    described_class.perform_now('take_over', reference.merge('channel' => 'C999').to_json, response_url)
 
     expect(Integrations::Slack::IncomingMessageBuilder).not_to have_received(:new)
   end

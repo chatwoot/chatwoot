@@ -1,8 +1,9 @@
 class SlackPendingReplyJob < ApplicationJob
   queue_as :medium
 
-  def perform(reference, action, response_url = nil)
+  def perform(action, value, response_url = nil)
     dismiss_prompt(response_url)
+    reference = JSON.parse(value)
 
     hook = Integrations::Hook.find_by(reference_id: reference['channel'])
     return if hook.blank?

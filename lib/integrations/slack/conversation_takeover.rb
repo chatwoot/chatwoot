@@ -14,7 +14,7 @@ class Integrations::Slack::ConversationTakeover
   end
 
   def confirmed?
-    params[:confirmed_action] == 'takeover'
+    params[:confirmed_action] == 'take_over'
   end
 
   def request_confirmation
@@ -42,8 +42,8 @@ class Integrations::Slack::ConversationTakeover
       {
         'type' => 'actions',
         'elements' => [
-          prompt_button(I18n.t('slack.takeover.take_over'), 'slack_takeover_send').merge('style' => 'primary'),
-          prompt_button(I18n.t('slack.takeover.send_only'), 'slack_send_only')
+          prompt_button(I18n.t('slack.takeover.take_over'), 'takeover.take_over').merge('style' => 'primary'),
+          prompt_button(I18n.t('slack.takeover.send_only'), 'takeover.send_only')
         ]
       }
     ]
