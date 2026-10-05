@@ -41,7 +41,6 @@ class AccountUser < ApplicationRecord
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
   after_commit :invalidate_filtered_unread_count_visibility, on: [:create, :destroy]
   after_update_commit :invalidate_filtered_unread_count_visibility_update, if: :filtered_unread_count_visibility_changed?
-  after_update_commit :invalidate_inbox_cache, if: :saved_change_to_role?
 
   validates :user_id, uniqueness: { scope: :account_id }
 
@@ -92,18 +91,20 @@ class AccountUser < ApplicationRecord
   end
 
   def invalidate_filtered_unread_count_visibility_update
-    dispatch_account_cache_invalidated if invalidate_filtered_unread_count_visibility
+    filtered_counts_invalidated = invalidate_filtered_unread_count_visibility
+
+    # The inbox list depends on the role (administrators see every inbox, agents only the ones
+    # they are members of) and clients cache it until the account's inbox cache key changes.
+    # update_cache_key dispatches account.cache_invalidated itself, so dispatch only once.
+    if previous_changes.key?('role')
+      account.update_cache_key('inbox')
+    elsif filtered_counts_invalidated
+      dispatch_account_cache_invalidated
+    end
   end
 
   def dispatch_account_cache_invalidated
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CACHE_INVALIDATED, Time.zone.now, account: account, cache_keys: account.cache_keys)
-  end
-
-  # The inbox list depends on the role (administrators see every inbox, agents only the ones
-  # they are members of) and clients cache it until the account's inbox cache key changes.
-  # Updating the key also broadcasts it, so open sessions refetch their inboxes.
-  def invalidate_inbox_cache
-    account.update_cache_key('inbox')
   end
 end
 
