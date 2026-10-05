@@ -2,6 +2,9 @@
 # Currently the file there is used only for search endpoint.
 # Everywhere else we use conversation builder in partials folder
 
+# List views pass a loader built for the whole page; single-conversation views build one here.
+message_summaries = local_assigns[:message_summaries] || Conversations::MessageSummaryLoader.new([conversation])
+
 json.meta do
   json.sender do
     json.partial! 'api/v1/models/contact', formats: [:json], resource: conversation.contact
@@ -28,19 +31,7 @@ json.meta do
 end
 
 json.id conversation.display_id
-# The dashboard seeds the message thread from this array and then paginates BACKWARD
-# by id (before: messages[0].id). Keep the seed as the chronologically latest message,
-# but add an id tiebreaker: without it, same-second siblings (e.g. the input_csat survey
-# created alongside activity messages during an auto-resolve burst) could resolve to a
-# lower-id activity, and backward pagination would then never load the higher-id survey.
-last_message = conversation.messages.where(account_id: conversation.account_id)
-                           .includes([{ attachments: [{ file_attachment: [:blob] }] }])
-                           .reorder(created_at: :desc, id: :desc).first
-if last_message.blank?
-  json.messages []
-else
-  json.messages [last_message.try(:push_event_data)]
-end
+json.messages [message_summaries.last_message_data(conversation)].compact
 
 json.account_id conversation.account_id
 json.uuid conversation.uuid
@@ -59,8 +50,8 @@ json.created_at conversation.created_at.to_i
 json.updated_at conversation.updated_at.to_f
 json.timestamp conversation.last_activity_at.to_i
 json.first_reply_created_at conversation.first_reply_created_at.to_i
-json.unread_count conversation.unread_incoming_messages.count
-json.last_non_activity_message conversation.messages.where(account_id: conversation.account_id).non_activity_messages.first.try(:push_event_data)
+json.unread_count message_summaries.unread_count(conversation)
+json.last_non_activity_message message_summaries.last_non_activity_message_data(conversation)
 json.last_activity_at conversation.last_activity_at.to_i
 json.priority conversation.priority
 json.waiting_since conversation.waiting_since.to_i.to_i
