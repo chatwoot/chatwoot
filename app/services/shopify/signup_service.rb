@@ -131,7 +131,6 @@ class Shopify::SignupService < AccountBuilder
 
     Account.exists?(@account.id) &&
       AccountUser.exists?(account_id: @account.id, user_id: @user.id) &&
-      NotificationSetting.exists?(account_id: @account.id, user_id: @user.id) &&
       Integrations::Hook.exists?(account_id: @account.id, app_id: 'shopify')
   end
 
@@ -141,6 +140,10 @@ class Shopify::SignupService < AccountBuilder
 
   def recover_committed_shopify_signup(error)
     ChatwootExceptionTracker.new(error, account: @account).capture_exception
+    @user.notification_settings.find_or_create_by!(account: @account) do |setting|
+      setting.selected_email_flags = [:email_conversation_assignment]
+      setting.selected_push_flags = [:push_conversation_assignment]
+    end
     finalize_shopify_signup
     [@user, @account]
   end
