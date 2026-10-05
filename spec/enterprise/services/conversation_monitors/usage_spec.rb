@@ -13,14 +13,14 @@ RSpec.describe ConversationMonitors::Usage do
     usage.reserve!
 
     expect(ConversationMonitors::DailyUsage.find_by!(account_id: account_id).calls_count).to eq(1)
-    expect(usage.snapshot).to include(limit: 1_000_000, used: 1, remaining: 999_999, limit_reached: false, limit_reached_at: nil)
+    expect(usage.snapshot).to include(limit: 10_000_000, used: 1, remaining: 9_999_999, limit_reached: false, limit_reached_at: nil)
   end
 
   it 'allows calls beyond the former account and installation per-minute limits' do
     601.times { usage.reserve! }
 
     expect(ConversationMonitors::DailyUsage.find_by!(account_id: account_id).calls_count).to eq(601)
-    expect(usage.snapshot).to include(used: 601, remaining: 999_399)
+    expect(usage.snapshot).to include(used: 601, remaining: 9_999_399)
   end
 
   it 'does not charge a failed reservation and allows a later retry' do
@@ -47,29 +47,29 @@ RSpec.describe ConversationMonitors::Usage do
   end
 
   it 'admits the last daily call and blocks further calls until midnight UTC' do
-    daily = ConversationMonitors::DailyUsage.create!(account_id: account_id, usage_date: Date.current, calls_count: 99_999)
+    daily = ConversationMonitors::DailyUsage.create!(account_id: account_id, usage_date: Date.current, calls_count: 499_999)
     usage.reserve!
 
     expect { usage.reserve! }.to raise_error(CustomExceptions::MonitorEvaluationError) { |error|
       expect(error).to have_attributes(code: 'budget_limit', retry_after: 12.hours.to_i)
     }
-    expect(daily.reload).to have_attributes(calls_count: 100_000, limit_reached_at: nil)
-    expect(usage.snapshot).to include(used: 100_000, remaining: 900_000, limit_reached: false)
+    expect(daily.reload).to have_attributes(calls_count: 500_000, limit_reached_at: nil)
+    expect(usage.snapshot).to include(used: 500_000, remaining: 9_500_000, limit_reached: false)
   end
 
   it 'sums daily calls, admits the last credit, and records the timestamp exactly once' do
-    (2..10).each do |days_ago|
-      ConversationMonitors::DailyUsage.create!(account_id: account_id, usage_date: Date.current - days_ago, calls_count: 100_000)
+    (2..20).each do |days_ago|
+      ConversationMonitors::DailyUsage.create!(account_id: account_id, usage_date: Date.current - days_ago, calls_count: 500_000)
     end
-    ConversationMonitors::DailyUsage.create!(account_id: account_id, usage_date: Date.current - 1, calls_count: 99_999,
+    ConversationMonitors::DailyUsage.create!(account_id: account_id, usage_date: Date.current - 1, calls_count: 499_999,
                                              limit_reached_at: 1.day.ago)
     monitor = create(:conversation_monitor, account_id: account_id)
     allow(ConversationMonitors::BroadcastJob).to receive(:schedule)
 
     usage.reserve!
 
-    expect(usage.snapshot).to include(used: 1_000_000, remaining: 0, limit_reached: true, limit_reached_at: Time.current.to_i)
-    expect(usage.snapshot[:daily].last(2)).to eq([{ date: '2026-09-21', calls: 99_999 }, { date: '2026-09-22', calls: 1 }])
+    expect(usage.snapshot).to include(used: 10_000_000, remaining: 0, limit_reached: true, limit_reached_at: Time.current.to_i)
+    expect(usage.snapshot[:daily].last(2)).to eq([{ date: '2026-09-21', calls: 499_999 }, { date: '2026-09-22', calls: 1 }])
     expect(ConversationMonitors::BroadcastJob).to have_received(:schedule).with(monitor.id).once
     reached_at = ConversationMonitors::DailyUsage.find_by!(account_id: account_id, usage_date: Date.current).limit_reached_at
 
@@ -81,41 +81,41 @@ RSpec.describe ConversationMonitors::Usage do
   end
 
   it 'keeps daily history and starts a fresh monthly allowance at midnight UTC' do
-    (1..9).each do |days_ago|
-      ConversationMonitors::DailyUsage.create!(account_id: account_id, usage_date: Date.current - days_ago, calls_count: 100_000)
+    (1..19).each do |days_ago|
+      ConversationMonitors::DailyUsage.create!(account_id: account_id, usage_date: Date.current - days_ago, calls_count: 500_000)
     end
-    old = ConversationMonitors::DailyUsage.create!(account_id: account_id, usage_date: Date.current, calls_count: 100_000,
+    old = ConversationMonitors::DailyUsage.create!(account_id: account_id, usage_date: Date.current, calls_count: 500_000,
                                                    limit_reached_at: Time.current)
     travel_to Time.utc(2026, 10, 1)
     usage.reserve!
 
-    expect(usage.snapshot).to include(used: 1, remaining: 999_999, limit_reached: false, limit_reached_at: nil,
+    expect(usage.snapshot).to include(used: 1, remaining: 9_999_999, limit_reached: false, limit_reached_at: nil,
                                       period_start: '2026-10-01', resets_at: Time.utc(2026, 11, 1).to_i)
-    expect(old.reload.calls_count).to eq(100_000)
+    expect(old.reload.calls_count).to eq(500_000)
     expect(old.limit_reached_at).to be_present
   end
 
   it 'isolates the monthly allowance and daily records between accounts' do
     other = create(:account)
-    (1..9).each do |days_ago|
-      ConversationMonitors::DailyUsage.create!(account: other, usage_date: Date.current - days_ago, calls_count: 100_000)
+    (1..19).each do |days_ago|
+      ConversationMonitors::DailyUsage.create!(account: other, usage_date: Date.current - days_ago, calls_count: 500_000)
     end
-    ConversationMonitors::DailyUsage.create!(account: other, usage_date: Date.current, calls_count: 100_000, limit_reached_at: Time.current)
+    ConversationMonitors::DailyUsage.create!(account: other, usage_date: Date.current, calls_count: 500_000, limit_reached_at: Time.current)
 
     usage.reserve!
 
     expect(usage.snapshot).to include(used: 1, limit_reached: false)
-    expect(described_class.new(other.id).snapshot).to include(used: 1_000_000, limit_reached: true)
+    expect(described_class.new(other.id).snapshot).to include(used: 10_000_000, limit_reached: true)
   end
 
   it 'starts a fresh daily allowance at midnight UTC while keeping the monthly usage' do
-    daily = ConversationMonitors::DailyUsage.create!(account_id: account_id, usage_date: Date.current, calls_count: 100_000)
+    daily = ConversationMonitors::DailyUsage.create!(account_id: account_id, usage_date: Date.current, calls_count: 500_000)
     expect { usage.reserve! }.to raise_error(CustomExceptions::MonitorEvaluationError, 'budget_limit')
     travel_to Time.utc(2026, 9, 23)
     usage.reserve!
 
-    expect(daily.reload.calls_count).to eq(100_000)
-    expect(usage.snapshot).to include(used: 100_001, remaining: 899_999, limit_reached: false)
+    expect(daily.reload.calls_count).to eq(500_000)
+    expect(usage.snapshot).to include(used: 500_001, remaining: 9_499_999, limit_reached: false)
     expect(usage.snapshot[:daily].last).to eq(date: '2026-09-23', calls: 1)
   end
 end

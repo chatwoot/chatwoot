@@ -159,10 +159,10 @@ RSpec.describe ConversationMonitors::Evaluator do
     travel_to(Time.utc(2026, 10, 31, 12))
     now = Time.current.utc
     reset = now.beginning_of_month.next_month
-    (1..9).each do |days_ago|
-      ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date - days_ago, calls_count: 100_000)
+    (1..19).each do |days_ago|
+      ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date - days_ago, calls_count: 500_000)
     end
-    ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 100_000, limit_reached_at: now)
+    ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 500_000, limit_reached_at: now)
     work.update!(attempts: 10)
 
     evaluate.call
@@ -187,10 +187,10 @@ RSpec.describe ConversationMonitors::Evaluator do
     travel_to(Time.utc(2026, 10, 31, 23, 55))
     now = Time.current.utc
     reset = now.beginning_of_month.next_month
-    (1..9).each do |days_ago|
-      ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date - days_ago, calls_count: 100_000)
+    (1..19).each do |days_ago|
+      ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date - days_ago, calls_count: 500_000)
     end
-    ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 99_999)
+    ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 499_999)
     create_list(:conversation_monitor, 18, account: account, condition: '退款' * 250, created_at: 1.minute.ago)
     create(:message, account: account, conversation: conversation, content: 'x' * 30_000)
     stub_request(:post, endpoint).to_return(status: 429, headers: { 'Retry-After' => '7200' })
@@ -203,7 +203,7 @@ RSpec.describe ConversationMonitors::Evaluator do
     retry_at = 2.hours.from_now
     expect(work.reload).to have_attributes(error_code: 'monthly_limit', due_at: retry_at,
                                            full_history_revision: be > work.processed_revision)
-    expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1_000_000)
+    expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(10_000_000)
 
     create(:message, account: account, conversation: conversation, content: 'Another question during the monthly cooldown')
     expect(work.reload).to have_attributes(error_code: 'monthly_limit', due_at: retry_at)
@@ -216,7 +216,7 @@ RSpec.describe ConversationMonitors::Evaluator do
 
   it 'holds an exhausted daily budget until reset without rescheduling on new input' do
     reset = Time.current.utc.tomorrow.beginning_of_day
-    ConversationMonitors::DailyUsage.create!(account: account, usage_date: Time.current.utc.to_date, calls_count: 100_000)
+    ConversationMonitors::DailyUsage.create!(account: account, usage_date: Time.current.utc.to_date, calls_count: 500_000)
 
     expect { evaluate.call }.to have_enqueued_job(ConversationMonitors::ProcessJob).exactly(:once)
     expect(WebMock).not_to have_requested(:post, endpoint)
