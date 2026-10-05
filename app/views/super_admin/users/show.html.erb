@@ -66,13 +66,7 @@ as well as a link to its edit page.
       <% end %>
     <% end %>
 
-    <div class="grid grid-cols-1 items-start gap-6 lg:grid-cols-2">
-      <%= render "card", title: t("super_admin.users.access_token") do %>
-        <div class="px-4 pb-2 pt-3 text-body-main"><%= render_field fields["access_token"], page: page %></div>
-      <% end %>
-
-      <%= render "impersonate", user: user %>
-    </div>
+    <%= render "impersonate", user: user %>
   </div>
 </div>
 
