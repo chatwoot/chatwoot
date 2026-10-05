@@ -115,6 +115,31 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when another fetch job has already saved the email' do
+      let(:inbound_mail) { create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!') }
+
+      it 'does not create a second conversation or message' do
+        create(:message, account: account, inbox: inbox, source_id: inbound_mail.mail.message_id)
+
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to not_change(Conversation, :count).and not_change(Message, :count)
+      end
+    end
+
+    context 'when another fetch job is saving the email' do
+      let(:inbound_mail) { create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!') }
+
+      it 'does not create a conversation or message' do
+        allow(ActiveRecord::Base.connection).to receive(:select_value).and_call_original
+        allow(ActiveRecord::Base.connection).to receive(:select_value).with(/pg_try_advisory_xact_lock/).and_return(false)
+
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to not_change(Conversation, :count).and not_change(Message, :count)
+      end
+    end
+
     context 'when a new email contains null bytes' do
       let(:inbound_mail) do
         Mail.new.tap do |mail|
