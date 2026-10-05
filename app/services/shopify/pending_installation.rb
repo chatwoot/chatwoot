@@ -91,7 +91,7 @@ class Shopify::PendingInstallation
   end
 
   def with_current_installation
-    Shopify::InstallationGeneration.with_shop_lock(data['shop']) do
+    ActiveRecord::Base.transaction do
       verify_shop_generation!(data)
       yield
     end
