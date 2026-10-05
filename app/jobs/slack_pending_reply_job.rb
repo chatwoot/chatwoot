@@ -12,9 +12,7 @@ class SlackPendingReplyJob < ApplicationJob
     return if reply.blank?
 
     Integrations::Slack::IncomingMessageBuilder.new(
-      ActiveSupport::HashWithIndifferentAccess.new(
-        type: 'event_callback', confirmed_action: action, event: reply.merge('channel' => reference['channel'])
-      )
+      { type: 'event_callback', confirmed_action: action, event: reply.merge('channel' => reference['channel']) }.with_indifferent_access
     ).perform
   end
 
