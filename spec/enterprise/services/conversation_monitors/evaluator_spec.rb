@@ -52,10 +52,7 @@ RSpec.describe ConversationMonitors::Evaluator do
     expect(monitor.automation_deliveries.count).to eq(1)
   end
 
-  it 'persists successful answers without another provider call when Redis reconciliation fails' do
-    redis = Redis::Alfred.with { |connection| connection }
-    allow(redis).to receive(:incrby).and_raise(Redis::CannotConnectError, 'test outage')
-
+  it 'persists successful answers without another provider call' do
     evaluate.call
 
     expect(monitor.evaluations.sole).to have_attributes(status: 'matched', score: 0.95)
@@ -159,8 +156,12 @@ RSpec.describe ConversationMonitors::Evaluator do
   end
 
   it 'holds exhausted accounts until next month and preserves full history across new input' do
+    travel_to(Time.utc(2026, 10, 31, 12))
     now = Time.current.utc
     reset = now.beginning_of_month.next_month
+    (1..9).each do |days_ago|
+      ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date - days_ago, calls_count: 100_000)
+    end
     ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 100_000, limit_reached_at: now)
     work.update!(attempts: 10)
 
@@ -186,6 +187,9 @@ RSpec.describe ConversationMonitors::Evaluator do
     travel_to(Time.utc(2026, 10, 31, 23, 55))
     now = Time.current.utc
     reset = now.beginning_of_month.next_month
+    (1..9).each do |days_ago|
+      ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date - days_ago, calls_count: 100_000)
+    end
     ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 99_999)
     create_list(:conversation_monitor, 18, account: account, condition: '退款' * 250, created_at: 1.minute.ago)
     create(:message, account: account, conversation: conversation, content: 'x' * 30_000)
@@ -199,7 +203,7 @@ RSpec.describe ConversationMonitors::Evaluator do
     retry_at = 2.hours.from_now
     expect(work.reload).to have_attributes(error_code: 'monthly_limit', due_at: retry_at,
                                            full_history_revision: be > work.processed_revision)
-    expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(100_000)
+    expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1_000_000)
 
     create(:message, account: account, conversation: conversation, content: 'Another question during the monthly cooldown')
     expect(work.reload).to have_attributes(error_code: 'monthly_limit', due_at: retry_at)
@@ -212,17 +216,16 @@ RSpec.describe ConversationMonitors::Evaluator do
 
   it 'holds an exhausted daily budget until reset without rescheduling on new input' do
     reset = Time.current.utc.tomorrow.beginning_of_day
+    ConversationMonitors::DailyUsage.create!(account: account, usage_date: Time.current.utc.to_date, calls_count: 100_000)
 
-    with_modified_env(CONVERSATION_MONITORS_DAILY_TOKEN_LIMIT: '1') do
-      expect { evaluate.call }.to have_enqueued_job(ConversationMonitors::ProcessJob).exactly(:once)
-      expect(WebMock).not_to have_requested(:post, endpoint)
-      expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: be_between(reset, reset + 4.hours))
+    expect { evaluate.call }.to have_enqueued_job(ConversationMonitors::ProcessJob).exactly(:once)
+    expect(WebMock).not_to have_requested(:post, endpoint)
+    expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: be_between(reset, reset + 4.hours))
 
-      due_at = work.due_at
-      3.times { |index| create(:message, account: account, conversation: conversation, content: "During the hold #{index}") }
-      expect(work.reload).to have_attributes(due_at: due_at, error_code: 'budget_limit', revision: be > work.processed_revision)
-      expect { ConversationMonitors::ProcessJob.perform_now(conversation.id) }.not_to have_enqueued_job(ConversationMonitors::ProcessJob)
-    end
+    due_at = work.due_at
+    3.times { |index| create(:message, account: account, conversation: conversation, content: "During the hold #{index}") }
+    expect(work.reload).to have_attributes(due_at: due_at, error_code: 'budget_limit', revision: be > work.processed_revision)
+    expect { ConversationMonitors::ProcessJob.perform_now(conversation.id) }.not_to have_enqueued_job(ConversationMonitors::ProcessJob)
 
     travel_to(work.due_at + 1.second)
     evaluate.call
@@ -255,11 +258,11 @@ RSpec.describe ConversationMonitors::Evaluator do
     usage = ConversationMonitors::Usage.new(account.id)
     allow(ConversationMonitors::Usage).to receive(:new).and_return(usage)
     calls = 0
-    allow(usage).to receive(:reserve!).and_wrap_original do |original, bytes|
+    allow(usage).to receive(:reserve!).and_wrap_original do |original|
       calls += 1
       raise CustomExceptions::MonitorEvaluationError.new('budget_limit', retry_after: 1.hour.to_i) if calls > 1
 
-      original.call(bytes)
+      original.call
     end
 
     evaluator = described_class.new(work.reload)

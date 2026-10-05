@@ -110,13 +110,17 @@ RSpec.describe 'Monitors API', type: :request do
   end
 
   it 'returns shared account usage on the list and every monitor without hiding historical reports' do
+    travel_to(Time.utc(2026, 10, 31, 12))
     other_monitor = create(:conversation_monitor, account: account)
     now = Time.current.utc
+    (1..9).each do |days_ago|
+      ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date - days_ago, calls_count: 100_000)
+    end
     ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 100_000, limit_reached_at: now)
 
     get base, headers: headers
     usage = response.parsed_body.dig('meta', 'usage')
-    expect(usage).to include('limit' => 100_000, 'used' => 100_000, 'remaining' => 0, 'limit_reached' => true,
+    expect(usage).to include('limit' => 1_000_000, 'used' => 1_000_000, 'remaining' => 0, 'limit_reached' => true,
                              'limit_reached_at' => now.to_i, 'resets_at' => now.beginning_of_month.next_month.to_i)
     [monitor, other_monitor].each do |record|
       get "#{base}/#{record.id}/timeseries", headers: headers, params: query
@@ -128,7 +132,11 @@ RSpec.describe 'Monitors API', type: :request do
   end
 
   it 'applies the same allowance to preview and does not send requests after exhaustion' do
+    travel_to(Time.utc(2026, 10, 31, 12))
     message
+    (1..9).each do |days_ago|
+      ConversationMonitors::DailyUsage.create!(account: account, usage_date: Time.current.utc.to_date - days_ago, calls_count: 100_000)
+    end
     ConversationMonitors::DailyUsage.create!(account: account, usage_date: Time.current.utc.to_date, calls_count: 100_000,
                                              limit_reached_at: Time.current)
     ConversationMonitors::PreviewJob.write(preview_key, { status: 'pending', condition: 'refund' })
