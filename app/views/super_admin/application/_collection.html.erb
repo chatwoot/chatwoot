@@ -78,19 +78,21 @@ to display a collection of resources in an HTML table.
               <div class="flex justify-end gap-1.5">
                 <%= render(
                   "button",
-                  label: t("administrate.actions.edit"),
-                  icon: "i-lucide-pencil pointer-events-none size-3.5",
+                  icon: "i-lucide-pencil pointer-events-none size-4",
                   url: [:edit, namespace, record],
                   variant: :faded,
-                  size: :small
+                  size: :icon,
+                  title: t("administrate.actions.edit"),
+                  aria: { label: t("administrate.actions.edit") }
                 ) if existing_action?(resource_name, :edit) && authorized_action?(resource, :edit) %>
                 <%= render(
                   "button",
-                  label: t("administrate.actions.destroy"),
-                  icon: "i-lucide-trash-2 pointer-events-none size-3.5",
+                  icon: "i-lucide-trash-2 pointer-events-none size-4",
                   url: [namespace, record],
                   variant: :faded_danger,
-                  size: :small,
+                  size: :icon,
+                  title: t("administrate.actions.destroy"),
+                  aria: { label: t("administrate.actions.destroy") },
                   method: :delete,
                   data: { confirm: t("administrate.actions.confirm") }
                 ) if existing_action?(resource_name, :destroy) && authorized_action?(resource, :destroy) %>
