@@ -170,7 +170,7 @@ class ConversationMonitors::Evaluator
   end
 
   def update_progress(error)
-    if error&.code == 'monthly_limit'
+    if %w[monthly_limit budget_limit].include?(error&.code)
       @work.full_history_revision = @work.revision
     elsif @errors.empty?
       @work.processed_revision = @snapshot[:revision]

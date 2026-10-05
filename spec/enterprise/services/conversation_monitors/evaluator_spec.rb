@@ -220,17 +220,21 @@ RSpec.describe ConversationMonitors::Evaluator do
 
     expect { evaluate.call }.to have_enqueued_job(ConversationMonitors::ProcessJob).exactly(:once)
     expect(WebMock).not_to have_requested(:post, endpoint)
-    expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: be_between(reset, reset + 4.hours))
+    expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: be_between(reset, reset + 4.hours),
+                                           full_history_revision: be > work.processed_revision)
 
     due_at = work.due_at
-    3.times { |index| create(:message, account: account, conversation: conversation, content: "During the hold #{index}") }
+    6.times { |index| create(:message, account: account, conversation: conversation, content: "During the hold #{index}") }
     expect(work.reload).to have_attributes(due_at: due_at, error_code: 'budget_limit', revision: be > work.processed_revision)
     expect { ConversationMonitors::ProcessJob.perform_now(conversation.id) }.not_to have_enqueued_job(ConversationMonitors::ProcessJob)
 
+    held_request = stub_request(:post, endpoint).with do |request|
+      JSON.parse(request.body)['state']['messages'].pluck('text').include?('During the hold 0')
+    end.to_return(status: 200, body: response_body.to_json)
     travel_to(work.due_at + 1.second)
     evaluate.call
 
-    expect(WebMock).to have_requested(:post, endpoint).once
+    expect(held_request).to have_been_requested.once
     expect(work.reload).to have_attributes(due_at: nil, error_code: nil, processed_revision: work.revision)
   end
 
