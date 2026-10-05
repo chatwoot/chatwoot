@@ -160,20 +160,21 @@ RSpec.describe ConversationMonitors::Evaluator do
 
   it 'holds exhausted accounts until next month and preserves full history across new input' do
     now = Time.current.utc
+    reset = now.beginning_of_month.next_month
     ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 100_000, limit_reached_at: now)
     work.update!(attempts: 10)
 
     evaluate.call
 
     expect(WebMock).not_to have_requested(:post, endpoint)
-    expect(work.reload).to have_attributes(error_code: 'monthly_limit', due_at: be_within(2.seconds).of(now.beginning_of_month.next_month),
+    expect(work.reload).to have_attributes(error_code: 'monthly_limit', due_at: be_between(reset, reset + 4.hours),
                                            full_history_revision: be > work.processed_revision)
     expect(monitor.evaluations.sole.error_code).to eq('monthly_limit')
     due_at = work.due_at
     create(:message, account: account, conversation: conversation, content: 'Another message during the quota hold')
     expect(work.reload).to have_attributes(due_at: due_at, error_code: 'monthly_limit')
 
-    travel_to(now.beginning_of_month.next_month + 3.seconds) do
+    travel_to(due_at + 1.second) do
       evaluate.call
       expect(WebMock).to have_requested(:post, endpoint).once
       expect(monitor.evaluations.sole.status).to eq('matched')
@@ -183,6 +184,7 @@ RSpec.describe ConversationMonitors::Evaluator do
 
   it 'prioritizes the monthly hold when an earlier batch failed using the final credit' do
     now = Time.current.utc
+    reset = now.beginning_of_month.next_month
     ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 99_999)
     create_list(:conversation_monitor, 19, account: account, created_at: 1.minute.ago)
     stub_request(:post, endpoint).to_return(status: 429)
@@ -190,7 +192,7 @@ RSpec.describe ConversationMonitors::Evaluator do
     evaluate.call
 
     expect(WebMock).to have_requested(:post, endpoint).once
-    expect(work.reload).to have_attributes(error_code: 'monthly_limit', due_at: be_within(2.seconds).of(now.beginning_of_month.next_month),
+    expect(work.reload).to have_attributes(error_code: 'monthly_limit', due_at: be_between(reset, reset + 4.hours),
                                            full_history_revision: be > work.processed_revision)
     expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(100_000)
   end

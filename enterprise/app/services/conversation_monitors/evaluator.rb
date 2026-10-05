@@ -2,7 +2,7 @@ class ConversationMonitors::Evaluator
   LEASE_DURATION = 2.minutes
   MAX_ATTEMPTS = 5
   QUESTIONS_PER_REQUEST = 20
-  BUDGET_RETRY_JITTER = 4.hours
+  LIMIT_RETRY_JITTER = 4.hours
 
   def initialize(work)
     @work = work
@@ -178,8 +178,8 @@ class ConversationMonitors::Evaluator
   end
 
   def next_due(newer_input, error)
-    return error.retry_after.seconds.from_now if error&.code == 'monthly_limit'
-    return (retry_delay(error) + rand(BUDGET_RETRY_JITTER.to_i)).seconds.from_now if error&.code == 'budget_limit'
+    return (error.retry_after + rand(LIMIT_RETRY_JITTER.to_i)).seconds.from_now if error&.code == 'monthly_limit'
+    return (retry_delay(error) + rand(LIMIT_RETRY_JITTER.to_i)).seconds.from_now if error&.code == 'budget_limit'
 
     return 3.seconds.from_now if newer_input
     return unless error
