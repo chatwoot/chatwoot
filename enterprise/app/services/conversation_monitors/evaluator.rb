@@ -178,8 +178,7 @@ class ConversationMonitors::Evaluator
   end
 
   def next_due(newer_input, error)
-    return (error.retry_after + rand(LIMIT_RETRY_JITTER.to_i)).seconds.from_now if error&.code == 'monthly_limit'
-    return (retry_delay + rand(LIMIT_RETRY_JITTER.to_i)).seconds.from_now if error&.code == 'budget_limit'
+    return (retry_delay + rand(LIMIT_RETRY_JITTER.to_i)).seconds.from_now if %w[monthly_limit budget_limit].include?(error&.code)
 
     return 3.seconds.from_now if newer_input
     return unless error

@@ -182,19 +182,32 @@ RSpec.describe ConversationMonitors::Evaluator do
     end
   end
 
-  it 'prioritizes the monthly hold when an earlier batch failed using the final credit' do
+  it 'preserves the monthly hold through an earlier batch provider cooldown after the reset' do
+    travel_to(Time.utc(2026, 10, 31, 23, 55))
     now = Time.current.utc
     reset = now.beginning_of_month.next_month
     ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 99_999)
-    create_list(:conversation_monitor, 19, account: account, created_at: 1.minute.ago)
-    stub_request(:post, endpoint).to_return(status: 429)
+    create_list(:conversation_monitor, 18, account: account, condition: '退款' * 250, created_at: 1.minute.ago)
+    create(:message, account: account, conversation: conversation, content: 'x' * 30_000)
+    stub_request(:post, endpoint).to_return(status: 429, headers: { 'Retry-After' => '7200' })
 
-    evaluate.call
+    evaluator = described_class.new(work.reload)
+    allow(evaluator).to receive(:rand).and_return(0)
+    evaluator.perform
 
     expect(WebMock).to have_requested(:post, endpoint).once
-    expect(work.reload).to have_attributes(error_code: 'monthly_limit', due_at: be_between(reset, reset + 4.hours),
+    retry_at = 2.hours.from_now
+    expect(work.reload).to have_attributes(error_code: 'monthly_limit', due_at: retry_at,
                                            full_history_revision: be > work.processed_revision)
     expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(100_000)
+
+    create(:message, account: account, conversation: conversation, content: 'Another question during the monthly cooldown')
+    expect(work.reload).to have_attributes(error_code: 'monthly_limit', due_at: retry_at)
+    travel_to(reset + 31.minutes)
+
+    expect { ConversationMonitors::ProcessJob.perform_now(conversation.id) }.not_to have_enqueued_job(ConversationMonitors::ProcessJob)
+    expect(WebMock).to have_requested(:post, endpoint).once
+    expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(0)
   end
 
   it 'holds an exhausted daily budget until reset without rescheduling on new input' do
