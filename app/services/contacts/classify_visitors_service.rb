@@ -21,12 +21,13 @@ class Contacts::ClassifyVisitorsService
            "THEN contacts.additional_attributes ELSE '{}'::jsonb END) kv WHERE left(kv.key, 7) = 'social_' " \
            "AND kv.value NOT IN ('null'::jsonb, 'false'::jsonb, '{}'::jsonb, '[]'::jsonb) " \
            "AND NOT (jsonb_typeof(kv.value) = 'string' AND (kv.value #>> '{}') !~ '\\S'))".freeze
-  # Someone created or handled the contact on purpose: a company, a note, a label, an import, or a name
-  # that is not the one the widget generates for an anonymous visitor, such as quiet-fog-31.
+  # Someone created or handled the contact on purpose: a company, a note, a label, a campaign audience, an
+  # import, or a name that is not the one the widget generates for an anonymous visitor, such as quiet-fog-31.
   EXPLICIT = '(contacts.company_id IS NOT NULL ' \
              "OR (coalesce(contacts.name, '') ~ '\\S' AND contacts.name !~ '^[a-z]+-[a-z]+-[0-9]{1,4}$') " \
              'OR EXISTS (SELECT 1 FROM notes WHERE notes.contact_id = contacts.id) ' \
              "OR EXISTS (SELECT 1 FROM taggings WHERE taggings.taggable_type = 'Contact' AND taggings.taggable_id = contacts.id) " \
+             'OR EXISTS (SELECT 1 FROM campaign_recipients WHERE campaign_recipients.contact_id = contacts.id) ' \
              'OR EXISTS (SELECT 1 FROM data_import_mappings mappings ' \
              "WHERE mappings.chatwoot_record_type = 'Contact' AND mappings.chatwoot_record_id = contacts.id))".freeze
   VISITORS = <<~SQL.squish.freeze
