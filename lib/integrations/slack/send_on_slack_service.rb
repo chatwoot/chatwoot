@@ -1,5 +1,14 @@
 class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   include RegexHelper
+
+  # Compared as a string so CE installs, which never load the enterprise constant, still work.
+  CAPTAIN_SENDER_TYPE = 'Captain::Assistant'.freeze
+  # File names under public/integrations/slack. Slack caches an avatar by its URL, so a redrawn
+  # icon needs a new name to show up.
+  AVATAR_ASSETS = {
+    'Contact' => 'contact_avatar', 'Agent' => 'agent_avatar', 'System' => 'system_avatar', 'Bot' => 'bot_avatar', 'Captain' => 'captain'
+  }.freeze
+
   pattr_initialize [:message!, :hook!]
 
   def perform
@@ -89,14 +98,8 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def avatar_url(sender)
-    sender_type = sender_type(sender).downcase
     blob_key = sender&.avatar&.attached? ? sender.avatar.blob.key : nil
-    generate_url(sender_type, blob_key)
-  end
-
-  def generate_url(sender_type, blob_key)
-    base_url = ENV.fetch('FRONTEND_URL', nil)
-    "#{base_url}/slack_uploads?blob_key=#{blob_key}&sender_type=#{sender_type}"
+    "#{ENV.fetch('FRONTEND_URL', nil)}/slack_uploads?blob_key=#{blob_key}&sender_type=#{AVATAR_ASSETS.fetch(sender_type(sender))}"
   end
 
   def send_message
@@ -176,8 +179,10 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def sender_type(sender)
     if sender.instance_of?(Contact)
       'Contact'
-    elsif sender.instance_of?(User)
+    elsif sender.is_a?(User)
       'Agent'
+    elsif message.sender_type == CAPTAIN_SENDER_TYPE
+      'Captain'
     elsif message.message_type == 'activity' && sender.nil?
       'System'
     else
