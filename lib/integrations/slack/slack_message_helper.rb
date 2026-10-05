@@ -10,7 +10,18 @@ module Integrations::Slack::SlackMessageHelper
   end
 
   def handle_conversation
-    create_message unless message_exists?
+    return if message_exists?
+    # Private notes never reach the customer, so they need no takeover.
+    return takeover.request_confirmation if takeover.confirmation_required? && !private_note?
+
+    takeover.perform(slack_sender.first) if takeover.confirmed?
+    create_message
+  end
+
+  def takeover
+    @takeover ||= Integrations::Slack::ConversationTakeover.new(
+      conversation: conversation, params: params, slack_client: slack_client
+    )
   end
 
   def success_response
@@ -26,8 +37,14 @@ module Integrations::Slack::SlackMessageHelper
     conversation.messages.exists?(external_source_ids: { slack: params[:event][:ts] })
   end
 
+  def slack_sender
+    @slack_sender ||= Integrations::Slack::SenderResolver.new(
+      slack_client: slack_client, account: conversation.account, slack_user_id: params[:event][:user]
+    ).perform
+  end
+
   def create_message
-    resolved_sender, sender_name, sender_avatar_url = resolve_slack_sender
+    resolved_sender, sender_name, sender_avatar_url = slack_sender
     slack_sender_attrs = {}
     slack_sender_attrs[:sender_name] = sender_name if sender_name
     slack_sender_attrs[:sender_avatar_url] = sender_avatar_url if sender_avatar_url
@@ -84,24 +101,6 @@ module Integrations::Slack::SlackMessageHelper
 
   def conversation
     @conversation ||= Conversation.where(identifier: params[:event][:thread_ts]).first
-  end
-
-  def resolve_slack_sender
-    return [nil, nil, nil] unless params[:event][:user]
-
-    slack_user = slack_client.users_info(user: params[:event][:user])[:user]
-    chatwoot_user = conversation.account.users.from_email(slack_user[:profile][:email])
-    return [chatwoot_user, nil, nil] if chatwoot_user
-
-    sender_name = slack_user.dig(:profile, :display_name).presence ||
-                  slack_user[:real_name].presence ||
-                  slack_user[:name]
-    sender_avatar_url = slack_user.dig(:profile, :image_192).presence
-    [nil, sender_name, sender_avatar_url]
-  rescue Slack::Web::Api::Errors::MissingScope
-    raise
-  rescue StandardError
-    [nil, nil, nil]
   end
 
   def formatted_message_content

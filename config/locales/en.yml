@@ -607,6 +607,11 @@ en:
       title: Help Center Unavailable
       description: Please contact the site administrator for more information.
       action: If you are the administrator, please upgrade your plan to restore access.
+  slack:
+    takeover:
+      prompt: 'Captain is handling this conversation. Send your reply as it is, or take over so Captain stops replying and the conversation is assigned to you.'
+      take_over: 'Take over & send'
+      send_only: 'Just send'
   slack_unfurl:
     fields:
       name: Name
