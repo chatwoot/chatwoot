@@ -36,9 +36,9 @@ as well as a link to its edit page.
 
 <div class="space-y-6">
   <% page.attributes.each do |title, attributes| %>
-    <fieldset class="<%= ui(:card) %> min-w-0">
+    <fieldset class="rounded-xl border border-n-weak bg-n-solid-1 min-w-0">
       <% if title.present? %>
-        <legend class="<%= ui(:overline) %> mx-3 px-1.5"><%= t "helpers.label.#{page.resource_name}.#{title}", default: title %></legend>
+        <legend class="text-xs font-medium uppercase tracking-wider text-n-slate-10 mx-3 px-1.5"><%= t "helpers.label.#{page.resource_name}.#{title}", default: title %></legend>
       <% end %>
       <%= render "attributes", page: page, attributes: attributes %>
     </fieldset>

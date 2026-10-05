@@ -15,7 +15,7 @@
     </div>
 
     <div data-filter-group>
-      <h3 class="<%= ui(:overline) %> mb-2 mt-5"><%= t("super_admin.features.premium") %></h3>
+      <h3 class="text-xs font-medium uppercase tracking-wider text-n-slate-10 mb-2 mt-5"><%= t("super_admin.features.premium") %></h3>
       <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
         <% premium_features.each do |(feature_key, display_name), val| %>
           <%= render "check_tile", label: display_name, premium: true, disabled: premium_locked do %>

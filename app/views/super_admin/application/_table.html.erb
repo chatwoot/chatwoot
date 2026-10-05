@@ -1,0 +1,13 @@
+<%# locals: (labelled_by: nil) -%>
+<%
+  table = %w[
+    w-full border-collapse text-start text-body-main text-n-slate-12
+    [&_th]:whitespace-nowrap [&_th]:border-b [&_th]:border-n-weak [&_th]:bg-n-slate-2 [&_th]:px-3 [&_th]:py-2.5 [&_th]:text-start
+    [&_th]:text-xs [&_th]:font-medium [&_th]:uppercase [&_th]:tracking-wider [&_th]:text-n-slate-10 dark:[&_th]:bg-n-solid-3 [&_th:first-child]:ps-4 [&_th:last-child]:pe-4
+    [&_td]:border-b [&_td]:border-n-weak [&_td]:px-3 [&_td]:py-3 touch:[&_td]:py-3.5 [&_td:first-child]:ps-4 [&_td:last-child]:pe-4
+    [&_tbody_tr:last-child_td]:border-b-0 [&_td_a:not([class])]:text-n-blue-11 hover:[&_td_a:not([class])]:underline
+  ].join(" ")
+%>
+<%= tag.table class: table, aria: { labelledby: labelled_by } do %>
+  <%= yield %>
+<% end %>

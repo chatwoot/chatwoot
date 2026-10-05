@@ -158,7 +158,11 @@ const chartSummary = computed(() => {
         </div>
         <dl class="flex flex-wrap gap-x-8 gap-y-2">
           <div v-for="item in chartSummary" :key="item.label">
-            <dt class="text-overline text-n-slate-10">{{ item.label }}</dt>
+            <dt
+              class="text-xs font-medium uppercase tracking-wider text-n-slate-10"
+            >
+              {{ item.label }}
+            </dt>
             <dd
               class="text-base font-semibold font-interDisplay tabular-nums text-n-slate-12"
             >

@@ -12,12 +12,10 @@
            items: monitor_nav_items,
            title: t("super_admin.navigation.instance_health"),
            description: t("super_admin.instance_status.description") do %>
-  <div class="<%= ui(:card) %> divide-y divide-n-weak">
+  <div class="rounded-xl border border-n-weak bg-n-solid-1 divide-y divide-n-weak">
     <% @metrics.slice(*status_icons.keys).each do |key, value| %>
       <div class="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 px-5 py-4">
-        <span class="<%= ui(:logo_tile) %>">
-          <span class="<%= status_icons[key] %> size-5"></span>
-        </span>
+        <%= render "icon_tile", icon: status_icons[key] %>
         <h2 class="text-heading-3"><%= key %></h2>
         <span class="<%= ui(value.to_s.in?(%w[true completed]) ? :badge_success : :badge_danger) %>"><%= value %></span>
       </div>

@@ -7,7 +7,7 @@
            title: settings_page['name'] || @config.titleize,
            description: settings_page['description'],
            icon: settings_page['icon'] || 'i-lucide-sliders-horizontal' do %>
-  <%= form_with url: super_admin_app_config_url(config: @config), method: :post, class: "#{ui(:card)} divide-y divide-n-weak" do |form| %>
+  <%= form_with url: super_admin_app_config_url(config: @config), method: :post, class: "rounded-xl border border-n-weak bg-n-solid-1 divide-y divide-n-weak" do |form| %>
     <% @allowed_configs.each do |key| %>
       <% config = @installation_configs[key] || {} %>
       <div class="<%= class_names("grid gap-x-8 gap-y-1.5 px-5 py-4", "sm:grid-cols-2" => config['type'] != 'code') %>">

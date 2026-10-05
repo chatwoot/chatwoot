@@ -6,7 +6,7 @@
 %>
 
 <div class="grid grid-cols-1 items-start gap-x-8 gap-y-4 pt-6 lg:grid-cols-[14rem_minmax(0,1fr)] lg:pt-8">
-  <button type="button" class="<%= ui(:card) %> flex min-h-11 items-center gap-2.5 px-3 text-start text-body-main hover:bg-n-alpha-2 lg:hidden" data-dialog-open="section-nav" aria-haspopup="dialog">
+  <button type="button" class="rounded-xl border border-n-weak bg-n-solid-1 flex min-h-11 items-center gap-2.5 px-3 text-start text-body-main hover:bg-n-alpha-2 lg:hidden" data-dialog-open="section-nav" aria-haspopup="dialog">
     <span class="<%= current[:icon] %> size-4 shrink-0"></span>
     <span class="text-n-slate-11"><%= label %></span>
     <span class="min-w-0 flex-1 truncate font-medium text-n-slate-12"><%= current[:label] %></span>
@@ -20,12 +20,10 @@
   <div class="min-w-0 space-y-6">
     <header class="flex min-w-0 items-center gap-3">
       <% if icon %>
-        <span class="<%= ui(:logo_tile) %> size-10 rounded-xl">
-          <span class="<%= icon %> size-5"></span>
-        </span>
+        <%= render "icon_tile", icon: icon, extra: "size-10 rounded-xl" %>
       <% end %>
       <div class="min-w-0">
-        <h1 class="<%= ui(:title) %>" id="page-title"><%= title %></h1>
+        <h1 class="text-heading-1 text-n-slate-12" id="page-title"><%= title %></h1>
         <% if description %>
           <p class="mt-1 max-w-2xl text-body-main text-n-slate-11"><%= description %></p>
         <% end %>

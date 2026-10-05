@@ -10,7 +10,7 @@
   <% if states %>
     <div class="flex flex-wrap items-center gap-1.5" role="group" aria-label="<%= t("super_admin.filters.label") %>">
       <% states.each_with_index do |(state, label), index| %>
-        <button type="button" class="<%= ui(:chip) %> tabular-nums" data-filter-state="<%= state %>" aria-pressed="<%= index.zero? %>"><%= label %></button>
+        <%= render "chip", label: label, selected: index.zero?, data: { filter_state: state } %>
       <% end %>
     </div>
   <% end %>

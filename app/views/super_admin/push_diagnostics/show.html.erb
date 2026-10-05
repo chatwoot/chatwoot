@@ -64,8 +64,8 @@
               </div>
             </div>
 
-            <div class="<%= ui(:card) %> overflow-x-auto">
-              <table class="<%= ui(:table) %>">
+            <div class="rounded-xl border border-n-weak bg-n-solid-1 overflow-x-auto">
+              <%= render "table" do %>
                 <thead>
                   <tr>
                     <th><input type="checkbox" class="<%= ui(:checkbox) %>" aria-label="<%= t("super_admin.actions.select_all") %>" data-check-toggle></th>
@@ -114,7 +114,7 @@
                     </tr>
                   <% end %>
                 </tbody>
-              </table>
+              <% end %>
             </div>
 
             <div class="mt-4 flex flex-wrap gap-2">
@@ -133,7 +133,7 @@
     <% if @results.present? %>
       <%= render "card", title: "3. Results" do %>
         <div class="overflow-x-auto rounded-b-xl">
-          <table class="<%= ui(:table) %>">
+          <%= render "table" do %>
             <thead>
               <tr>
                 <th>Sub ID</th>
@@ -156,7 +156,7 @@
                 </tr>
               <% end %>
             </tbody>
-          </table>
+          <% end %>
         </div>
       <% end %>
     <% end %>

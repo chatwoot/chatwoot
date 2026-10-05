@@ -18,7 +18,7 @@ only the pinned ones show, the rest sit behind "More".
     dark: [t("super_admin.navigation.theme.dark"), "i-lucide-moon"]
   }
   tab = %w[
-    flex h-14 min-w-0 flex-col items-center justify-center gap-0.5 border-b-2 border-transparent text-[0.6875rem] font-medium text-n-slate-11
+    flex h-14 min-w-0 flex-col items-center justify-center gap-0.5 border-b-2 border-transparent text-xxs font-medium text-n-slate-11
     hover:text-n-slate-12 aria-[current=page]:border-n-brand aria-[current=page]:text-n-slate-12
     md:h-9 md:flex-row md:rounded-lg md:border-0 md:px-2.5 md:text-body-main md:hover:bg-n-alpha-2
     md:aria-[current=page]:bg-n-alpha-2 md:aria-[current=page]:font-medium
@@ -26,7 +26,7 @@ only the pinned ones show, the rest sit behind "More".
 %>
 
 <header class="sticky -top-14 z-30 border-b border-n-weak bg-n-background [view-transition-name:topbar] xl:top-0">
-  <div class="<%= ui(:container) %> flex flex-wrap items-center gap-x-3 xl:flex-nowrap">
+  <div class="mx-auto w-full max-w-[120rem] px-[clamp(1rem,3vw,3rem)] flex flex-wrap items-center gap-x-3 xl:flex-nowrap">
     <%= link_to super_admin_root_path, class: "flex h-14 shrink-0 items-center gap-2" do %>
       <%= image_tag "/brand-assets/logo_thumbnail.svg", alt: "", class: "size-7" %>
       <span class="text-heading-3 text-n-slate-12">Chatwoot</span>

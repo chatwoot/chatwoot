@@ -7,9 +7,9 @@ Used by both account and user show pages.
 <%# locals: (page:, resource_type:) -%>
 
 <% account_user_page = Administrate::Page::Form.new(AccountUserDashboard.new, AccountUser.new) %>
-<%= form_for([namespace, account_user_page.resource], html: { class: ui(:card) }) do |f| %>
+<%= form_for([namespace, account_user_page.resource], html: { class: "rounded-xl border border-n-weak bg-n-solid-1" }) do |f| %>
   <div class="flex min-h-11 items-center border-b border-n-weak px-4 py-2">
-    <h2 class="<%= ui(:overline) %>"><%= resource_type == 'account' ? t('super_admin.accounts.add_user') : t('super_admin.users.add_account') %></h2>
+    <h2 class="text-xs font-medium uppercase tracking-wider text-n-slate-10"><%= resource_type == 'account' ? t('super_admin.accounts.add_user') : t('super_admin.users.add_account') %></h2>
   </div>
 
   <%# The field rows stack their label over the control here so the form fits one line. %>

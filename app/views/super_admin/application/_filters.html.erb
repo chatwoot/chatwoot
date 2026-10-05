@@ -9,12 +9,12 @@ term (`<filter>: <text>`), so each chip keeps the text and swaps the filter.
 
 <% if dashboard_class.const_defined?(:COLLECTION_FILTERS) && dashboard_class::COLLECTION_FILTERS.any? %>
   <div class="flex flex-wrap items-center gap-1.5" role="group" aria-label="<%= t("super_admin.filters.label") %>">
-    <%= link_to t("super_admin.filters.all"), { search: search_term.presence }, class: ui(:chip), aria: { current: current_filter.nil? } %>
+    <%= render "chip", label: t("super_admin.filters.all"), url: { search: search_term.presence }, selected: current_filter.nil? %>
     <% dashboard_class::COLLECTION_FILTERS.each_key do |filter_name| %>
-      <%= link_to filter_name.to_s.titleize,
-                  { search: "#{filter_name}: #{search_term}".strip },
-                  class: ui(:chip),
-                  aria: { current: filter_name.to_s == current_filter } %>
+      <%= render "chip",
+                 label: filter_name.to_s.titleize,
+                 url: { search: "#{filter_name}: #{search_term}".strip },
+                 selected: filter_name.to_s == current_filter %>
     <% end %>
   </div>
 <% end %>

@@ -1,13 +1,5 @@
 // Utilities only the super admin uses, next to Tailwind's own and the shared typography ones.
 @layer utilities {
-  // Small caps label for table headers and card sections.
-  .text-overline {
-    @apply font-inter font-medium uppercase;
-    font-size: 0.6875rem;
-    letter-spacing: 0.08em;
-    line-height: 1rem;
-  }
-
   // The square mosaic from chatwoot.com, drawn with gradients so it needs no image
   // and follows the theme tokens.
   .bg-pixel-band {

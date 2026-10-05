@@ -10,25 +10,23 @@
 
 <%= render "section", label: t("super_admin.navigation.settings"), items: settings_nav_items, title: t("super_admin.navigation.settings"), description: "Update your instance settings, access billing portal" do %>
   <% if Redis::Alfred.get(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING) %>
-    <div class="<%= ui(:flash_error) %>" role="alert">
+    <%= render "alert", role: "alert" do %>
       <strong class="font-medium">Alert!</strong>
       Unauthorized premium changes detected in Chatwoot. To keep using them, please upgrade your plan.
       Contact for help: <span class="font-medium">sales@chatwoot.com</span>
-    </div>
+    <% end %>
   <% end %>
 
   <% if ChatwootHub.pricing_plan != 'community' && User.count > ChatwootHub.pricing_plan_quantity %>
-    <div class="<%= ui(:flash_error) %>" role="alert">
+    <%= render "alert", role: "alert" do %>
       You have <%= User.count %> agents. Please add more licenses to add more users.
-    </div>
+    <% end %>
   <% end %>
 
-  <div class="<%= ui(:card) %> divide-y divide-n-weak">
+  <div class="rounded-xl border border-n-weak bg-n-solid-1 divide-y divide-n-weak">
     <% if ChatwootApp.enterprise? %>
       <div class="<%= summary_row %>">
-        <span class="<%= ui(:icon_tile) %> bg-n-teal-3 text-n-teal-11">
-          <span class="i-lucide-badge-check size-[1.125rem]"></span>
-        </span>
+        <%= render "icon_tile", icon: "i-lucide-badge-check", tone: "bg-n-teal-3 text-n-teal-11" %>
         <div class="min-w-0">
           <h2 class="text-heading-3">Current plan</h2>
           <p class="text-body-main text-n-slate-11"><%= SuperAdmin::FeaturesHelper.plan_details.html_safe %></p>
@@ -47,9 +45,7 @@
     <% end %>
 
     <div class="<%= summary_row %>">
-      <span class="<%= ui(:icon_tile) %> bg-n-iris-3 text-n-iris-11">
-        <span class="i-lucide-fingerprint size-[1.125rem]"></span>
-      </span>
+      <%= render "icon_tile", icon: "i-lucide-fingerprint", tone: "bg-n-iris-3 text-n-iris-11" %>
       <div class="min-w-0">
         <h2 class="text-heading-3">Installation Identifier</h2>
         <p class="text-body-main text-n-slate-11"><%= t("super_admin.settings.installation_identifier_description") %></p>
@@ -60,9 +56,7 @@
     </div>
 
     <div class="<%= summary_row %>">
-      <span class="<%= ui(:icon_tile) %> bg-n-amber-3 text-n-amber-11">
-        <span class="i-lucide-life-buoy size-[1.125rem]"></span>
-      </span>
+      <%= render "icon_tile", icon: "i-lucide-life-buoy", tone: "bg-n-amber-3 text-n-amber-11" %>
       <div class="min-w-0">
         <h2 class="text-heading-3">Need help?</h2>
         <p class="text-body-main text-n-slate-11">Do you face any issues? We are here to help.</p>

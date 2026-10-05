@@ -25,9 +25,9 @@ to display a collection of resources in an HTML table.
   row_action = "rounded-md border border-n-weak px-2 py-1 text-label-small"
 %>
 
-<div class="<%= ui(:card) %> overflow-hidden">
+<div class="rounded-xl border border-n-weak bg-n-solid-1 overflow-hidden">
   <div class="relative overflow-x-auto">
-    <table class="<%= ui(:table) %>" aria-labelledby="<%= table_title %>">
+    <%= render "table", labelled_by: table_title do %>
       <thead>
         <tr>
           <% collection_presenter.attribute_types.each do |attr_name, attr_type| %>
@@ -94,6 +94,6 @@ to display a collection of resources in an HTML table.
           </tr>
         <% end %>
       </tbody>
-    </table>
+    <% end %>
   </div>
 </div>

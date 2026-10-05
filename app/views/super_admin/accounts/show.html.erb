@@ -107,15 +107,15 @@ as well as a link to its edit page.
 
 <% if fields["captain_models"] %>
   <div data-tab-panel="captain" <%= "hidden" unless active == "captain" %>>
-    <div class="<%= ui(:card) %> mt-6 p-4">
-      <h2 class="<%= ui(:overline) %> mb-2" id="captain_models"><%= t("super_admin.accounts.captain_models") %></h2>
+    <div class="rounded-xl border border-n-weak bg-n-solid-1 mt-6 p-4">
+      <h2 class="text-xs font-medium uppercase tracking-wider text-n-slate-10 mb-2" id="captain_models"><%= t("super_admin.accounts.captain_models") %></h2>
       <%= render_field fields["captain_models"], page: page %>
     </div>
   </div>
 <% end %>
 
 <div data-tab-panel="maintenance" <%= "hidden" unless active == "maintenance" %>>
-  <div class="<%= ui(:card) %> mt-6 divide-y divide-n-weak">
+  <div class="rounded-xl border border-n-weak bg-n-solid-1 mt-6 divide-y divide-n-weak">
     <%= render "seed_data", page: page %>
     <%= render "reset_cache", page: page %>
   </div>

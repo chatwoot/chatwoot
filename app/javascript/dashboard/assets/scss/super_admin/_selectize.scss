@@ -31,7 +31,7 @@
   }
 
   .optgroup-header {
-    @apply bg-n-solid-2 px-3 pt-2 text-overline text-n-slate-10;
+    @apply bg-n-solid-2 px-3 pt-2 text-xs font-medium uppercase tracking-wider text-n-slate-10;
   }
 
   .active {

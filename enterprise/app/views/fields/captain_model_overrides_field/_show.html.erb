@@ -10,12 +10,12 @@
          t('super_admin.captain_model_overrides.form.internal_features') => field.internal_feature_rows
        }.each do |section_name, features| %>
       <section class="mb-6 last:mb-0">
-        <div class="<%= ui(:overline) %> <%= columns %> mb-2 hidden gap-x-6 px-4 sm:grid">
+        <div class="text-xs font-medium uppercase tracking-wider text-n-slate-10 <%= columns %> mb-2 hidden gap-x-6 px-4 sm:grid">
           <span><%= section_name %></span>
           <span><%= t('super_admin.captain_model_overrides.show.provider') %></span>
           <span><%= t('super_admin.captain_model_overrides.show.model') %></span>
         </div>
-        <h3 class="<%= ui(:overline) %> mb-2 sm:hidden"><%= section_name %></h3>
+        <h3 class="text-xs font-medium uppercase tracking-wider text-n-slate-10 mb-2 sm:hidden"><%= section_name %></h3>
         <div class="space-y-1.5">
           <% features.each do |feature| %>
             <div class="<%= columns %> grid items-center gap-x-6 gap-y-1 rounded-md border border-n-weak px-4 py-2.5">

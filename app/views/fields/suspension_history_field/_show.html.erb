@@ -1,6 +1,6 @@
 <% if field.events.present? %>
   <div class="overflow-x-auto rounded-b-xl">
-    <table class="<%= ui(:table) %>">
+    <%= render "table" do %>
       <thead>
         <tr>
           <th><%= t('super_admin.account_suspension.history.suspended_at') %></th>
@@ -19,7 +19,7 @@
           </tr>
         <% end %>
       </tbody>
-    </table>
+    <% end %>
   </div>
 <% else %>
   <p class="p-4 text-body-main text-n-slate-11"><%= t('super_admin.account_suspension.history.empty') %></p>
