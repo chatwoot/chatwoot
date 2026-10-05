@@ -3,7 +3,7 @@
 
 This view is the template for the index page.
 It is responsible for rendering the search bar, header and pagination.
-It renders the `_table` partial to display details about the resources.
+It renders the `_collection` partial to display details about the resources.
 
 ## Local variables:
 
@@ -52,8 +52,7 @@ It renders the `_table` partial to display details about the resources.
   collection_presenter: page,
   collection_field_name: resource_name,
   page: page,
-  resources: resources,
-  table_title: "page-title"
+  resources: resources
 ) %>
 
 <div class="mt-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">

@@ -1,7 +1,8 @@
-<%= form_for([:reset_cache, namespace, page.resource], method: :post, html: { class: "flex flex-wrap items-center justify-between gap-x-6 gap-y-3 p-4" }) do |f| %>
+<%# locals: (page:) -%>
+<%= form_for([:reset_cache, namespace, page.resource], method: :post, html: { id: nil, class: "flex flex-wrap items-center justify-between gap-x-6 gap-y-3 p-4" }) do |f| %>
   <div class="min-w-0">
     <h2 class="text-heading-3"><%= t("super_admin.accounts.reset_cache") %></h2>
-    <p class="text-body-main text-n-slate-11">This will clear the IndexedDB cache keys from redis. The next load will fetch the data from backend.</p>
+    <p class="text-body-main text-n-slate-11"><%= t("super_admin.accounts.reset_cache_description") %></p>
   </div>
-  <%= render "button", label: 'Reset Frontend Cache', variant: :secondary, submit: f %>
+  <%= render "button", label: t("super_admin.accounts.reset_cache_button"), variant: :secondary, submit: f %>
 <% end %>

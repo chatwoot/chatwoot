@@ -1,4 +1,4 @@
-<%# locals: (labelled_by: nil) -%>
+<%# locals: (caption: nil) -%>
 <%
   table = %w[
     w-full border-collapse text-start text-body-main text-n-slate-12
@@ -8,6 +8,9 @@
     [&_tbody_tr:last-child_td]:border-b-0 [&_td_a:not([class])]:text-n-blue-11 hover:[&_td_a:not([class])]:underline
   ].join(" ")
 %>
-<%= tag.table class: table, aria: { labelledby: labelled_by } do %>
+<%= tag.table class: table do %>
+  <% if caption %>
+    <caption class="sr-only"><%= caption %></caption>
+  <% end %>
   <%= yield %>
 <% end %>

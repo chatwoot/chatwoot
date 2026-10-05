@@ -14,6 +14,9 @@ to display a collection of resources in an HTML table.
   An ActiveModel::Relation collection of resources to be displayed in the table.
   By default, the number of resources is limited by pagination
   or by a hard limit to prevent excessive page load times
+- `page` and `collection_field_name`:
+  The current page and the param namespace its sort links use.
+  Administrate's has_many field also passes `table_title` and `resource_class`, which this partial does not use.
 
 [1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Collection
 %>
@@ -27,7 +30,7 @@ to display a collection of resources in an HTML table.
 
 <div class="rounded-xl border border-n-weak bg-n-solid-1 overflow-hidden">
   <div class="relative overflow-x-auto">
-    <%= render "table", labelled_by: table_title do %>
+    <%= render "table", caption: display_resource_name(resource_name) do %>
       <thead>
         <tr>
           <% columns.each_key do |attr_name| %>

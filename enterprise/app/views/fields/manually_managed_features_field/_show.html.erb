@@ -1,11 +1,11 @@
 <% display_names = SuperAdmin::AccountFeaturesHelper.feature_display_names %>
 <% if field.selected_features.present? %>
-  <p class="mb-2 text-label-small text-n-slate-11">Features that remain enabled even when account plan is downgraded</p>
+  <p class="mb-2 text-label-small text-n-slate-11"><%= t("super_admin.features.manually_managed_hint") %></p>
   <div class="flex flex-wrap gap-1.5">
     <% field.selected_features.each do |feature| %>
       <%= render "badge", label: display_names[feature] || feature.humanize, tone: :success %>
     <% end %>
   </div>
 <% else %>
-  <p class="text-n-slate-11">No manually managed features configured</p>
+  <p class="text-n-slate-11"><%= t("super_admin.features.manually_managed_empty") %></p>
 <% end %>

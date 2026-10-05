@@ -30,10 +30,6 @@
     @apply px-3 py-2;
   }
 
-  .optgroup-header {
-    @apply bg-n-solid-2 px-3 pt-2 text-xs font-medium uppercase tracking-wider text-n-slate-10;
-  }
-
   .active {
     @apply bg-n-alpha-2 text-n-slate-12;
   }

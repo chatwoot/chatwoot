@@ -1,10 +1,11 @@
-<% if ENV.fetch('ENABLE_ACCOUNT_SEEDING', !Rails.env.production?)  %>
-  <%= form_for([:seed, namespace, page.resource], method: :post, html: { class: "flex flex-wrap items-center justify-between gap-x-6 gap-y-3 p-4" }) do |f| %>
+<%# locals: (page:) -%>
+<% if ENV.fetch('ENABLE_ACCOUNT_SEEDING', !Rails.env.production?) %>
+  <%= form_for([:seed, namespace, page.resource], method: :post, html: { id: nil, class: "flex flex-wrap items-center justify-between gap-x-6 gap-y-3 p-4" }) do |f| %>
     <div class="min-w-0">
       <h2 class="text-heading-3"><%= t("super_admin.accounts.seed_data") %></h2>
-      <p class="text-body-main text-n-slate-11">Click the button to generate seed data into this account for demos.</p>
-      <p class="text-body-main text-n-ruby-11">Note: This will clear all the existing data in this account.</p>
+      <p class="text-body-main text-n-slate-11"><%= t("super_admin.accounts.seed_data_description") %></p>
+      <p class="text-body-main text-n-ruby-11"><%= t("super_admin.accounts.seed_data_warning") %></p>
     </div>
-    <%= render "button", label: 'Generate Seed Data', variant: :danger, submit: f %>
+    <%= render "button", label: t("super_admin.accounts.seed_data_button"), variant: :danger, submit: f %>
   <% end %>
 <% end %>

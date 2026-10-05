@@ -118,37 +118,39 @@ const chartSummary = computed(() => {
 
 <template>
   <div class="flex flex-col gap-6 min-w-0">
-    <dl
+    <ul
       class="grid grid-cols-2 gap-px overflow-hidden border lg:grid-cols-4 rounded-xl border-n-weak bg-n-weak"
     >
-      <component
-        :is="item.href ? 'a' : 'div'"
-        v-for="item in metrics"
-        :key="item.label"
-        :href="item.href"
-        class="flex flex-col gap-3 p-4 bg-n-solid-1"
-        :class="{ 'hover:bg-n-solid-3': item.href }"
-      >
-        <dt class="flex items-center gap-2.5 text-body-main text-n-slate-11">
-          <span
-            class="grid rounded-lg size-8 place-items-center shrink-0"
-            :class="item.tone"
-          >
-            <span class="size-4" :class="item.icon" />
-          </span>
-          {{ item.label }}
-        </dt>
-        <dd
-          class="text-3xl font-semibold tracking-tight font-interDisplay tabular-nums text-n-slate-12"
+      <li v-for="item in metrics" :key="item.label" class="flex bg-n-solid-1">
+        <component
+          :is="item.href ? 'a' : 'div'"
+          :href="item.href"
+          class="flex flex-col flex-1 gap-3 p-4"
+          :class="{ 'hover:bg-n-solid-3': item.href }"
         >
           <span
-            v-if="loading"
-            class="inline-block w-16 rounded h-8 bg-n-slate-3 animate-pulse"
-          />
-          <template v-else>{{ item.value || 'N/A' }}</template>
-        </dd>
-      </component>
-    </dl>
+            class="flex items-center gap-2.5 text-body-main text-n-slate-11"
+          >
+            <span
+              class="grid rounded-lg size-8 place-items-center shrink-0"
+              :class="item.tone"
+            >
+              <span class="size-4" :class="item.icon" />
+            </span>
+            {{ item.label }}
+          </span>
+          <span
+            class="text-3xl font-semibold tracking-tight font-interDisplay tabular-nums text-n-slate-12"
+          >
+            <span
+              v-if="loading"
+              class="inline-block w-16 rounded h-8 bg-n-slate-3 animate-pulse"
+            />
+            <template v-else>{{ item.value || 'N/A' }}</template>
+          </span>
+        </component>
+      </li>
+    </ul>
 
     <section class="p-4 border rounded-xl border-n-weak bg-n-solid-1">
       <div class="flex flex-wrap items-start justify-between gap-x-8 gap-y-3">
@@ -183,7 +185,7 @@ const chartSummary = computed(() => {
       </p>
       <div v-else class="w-full min-w-0 mt-4">
         <BarChart
-          class="![--cw-viz-bar-axis-color:transparent] ![--cw-viz-bar-axis-font-size:0.6875rem] ![--cw-viz-bar-label-color:rgb(var(--slate-10))]"
+          class="![--cw-viz-bar-axis-font-size:0.6875rem] ![--cw-viz-bar-label-color:rgb(var(--slate-10))]"
           :data="chartData"
           :height="CHART_HEIGHT"
           :max-bar-width="BAR_MAX_WIDTH"

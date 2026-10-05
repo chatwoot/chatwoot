@@ -1,3 +1,4 @@
+<%# locals: (page:) -%>
 <%= render "form_card", page: page do |f| %>
   <% page.attributes(controller.action_name).each do |title, attributes| %>
     <fieldset class="min-w-0 divide-y divide-n-weak">

@@ -1,13 +1,13 @@
-<%= render "super_admin/application/standalone", heading: "Howdy, admin 👋" do %>
+<%= render "super_admin/application/standalone", heading: t("super_admin.login.heading") do %>
   <%= form_for(resource, as: resource_name, url: '/super_admin/sign_in', html: { class: 'space-y-4' }) do |f| %>
     <div>
-      <%= f.label :email, 'Email Address', class: 'text-label' %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email eg: someone@example.com", class: ui(:input, "mt-1 min-h-10") %>
+      <%= f.label :email, t("super_admin.login.email"), class: "text-label" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: t("super_admin.login.email_placeholder"), class: ui(:input, "mt-1 min-h-10") %>
     </div>
     <div>
-      <%= f.label :password, 'Password', class: 'text-label' %>
-      <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password", class: ui(:input, "mt-1 min-h-10") %>
+      <%= f.label :password, t("super_admin.login.password"), class: "text-label" %>
+      <%= f.password_field :password, autocomplete: "current-password", placeholder: t("super_admin.login.password_placeholder"), class: ui(:input, "mt-1 min-h-10") %>
     </div>
-    <%= render "super_admin/application/button", label: "Login", type: "submit", extra: "h-10 w-full" %>
+    <%= render "super_admin/application/button", label: t("super_admin.login.submit"), type: "submit", extra: "h-10 w-full" %>
   <% end %>
 <% end %>

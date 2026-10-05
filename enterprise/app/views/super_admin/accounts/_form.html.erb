@@ -1,4 +1,5 @@
 <%# Enterprise adds limits, feature flags and Captain model overrides to the account form, so it is split into tabs. %>
+<%# locals: (page:) -%>
 
 <%
   fields = page.attributes(controller.action_name).values.flatten.index_by(&:name)

@@ -1,20 +1,4 @@
-<%#
-# Show
-
-This view is the template for the show page.
-It renders the attributes of a resource,
-as well as a link to its edit page.
-
-## Local variables:
-
-- `page`:
-  An instance of [Administrate::Page::Show][1].
-  Contains methods for accessing the resource to be displayed on the page,
-  as well as helpers for describing how each attribute of the resource
-  should be displayed.
-
-[1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Show
-%>
+<%# The user page: a hero with the key facts, then one tab per concern. `page` is an Administrate::Page::Show. %>
 
 <% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
 <% content_for(:toast_flashes, "true") %>

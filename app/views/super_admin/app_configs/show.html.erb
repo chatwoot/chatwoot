@@ -1,4 +1,4 @@
-<% content_for(:title) { "Configure Settings - #{@config.titleize}" } %>
+<% content_for(:title) { t("super_admin.settings.configure_title", config: @config.titleize) } %>
 <% settings_page = settings_pages.map(&:last).find { |attrs| attrs['config_key'] == @config } || {} %>
 
 <%= render "section",
@@ -33,11 +33,11 @@
                                  class: ui(:input, "overflow-scroll font-mono text-xs") %>
             <% elsif config['type'] == 'secret' %>
               <div class="relative">
-                <%= form.password_field "app_config[#{key}]", id: "app_config_#{key}", value: @app_config[key], class: ui(:input, "pe-10") %>
+                <%= form.password_field "app_config[#{key}]", value: @app_config[key], class: ui(:input, "pe-10") %>
                 <%= render "icon_button",
                            extra: "absolute end-1 top-1/2 -translate-y-1/2",
                            aria: { label: t("super_admin.actions.toggle_secret") },
-                           data: { reveal: "app_config_#{key}" } do %>
+                           data: { reveal: "app_config[#{key}]" } do %>
                   <span class="i-lucide-eye size-4"></span>
                   <span class="i-lucide-eye-off hidden size-4"></span>
                 <% end %>

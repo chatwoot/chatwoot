@@ -55,9 +55,4 @@ module SuperAdmin::AccountFeaturesHelper
       sort_and_transform_features(premium, display_names)
     ]
   end
-
-  def self.filtered_features(features)
-    regular, premium = partition_features(features)
-    regular.merge(premium)
-  end
 end

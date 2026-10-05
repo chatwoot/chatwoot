@@ -1,4 +1,4 @@
-<% content_for(:title) { "Settings" } %>
+<% content_for(:title) { t("super_admin.navigation.settings") } %>
 <%
   features = SuperAdmin::FeaturesHelper.available_features
   included_features = features.select { |_key, attrs| attrs[:enabled] && attrs[:config_key].blank? }
@@ -8,18 +8,18 @@
   feature_grid = "grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
 %>
 
-<%= render "section", label: t("super_admin.navigation.settings"), items: settings_nav_items, title: t("super_admin.navigation.settings"), description: "Update your instance settings, access billing portal" do %>
+<%= render "section", label: t("super_admin.navigation.settings"), items: settings_nav_items, title: t("super_admin.navigation.settings"), description: t("super_admin.settings.description") do %>
   <% if Redis::Alfred.get(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING) %>
     <%= render "alert", role: "alert" do %>
-      <strong class="font-medium">Alert!</strong>
-      Unauthorized premium changes detected in Chatwoot. To keep using them, please upgrade your plan.
-      Contact for help: <span class="font-medium">sales@chatwoot.com</span>
+      <strong class="font-medium"><%= t("super_admin.settings.alert") %></strong>
+      <%= t("super_admin.settings.unauthorized_changes") %>
+      <%= t("super_admin.settings.contact_for_help") %> <span class="font-medium">sales@chatwoot.com</span>
     <% end %>
   <% end %>
 
   <% if ChatwootHub.pricing_plan != 'community' && User.count > ChatwootHub.pricing_plan_quantity %>
     <%= render "alert", role: "alert" do %>
-      You have <%= User.count %> agents. Please add more licenses to add more users.
+      <%= t("super_admin.settings.agents_over_limit", count: User.count) %>
     <% end %>
   <% end %>
 
@@ -28,12 +28,12 @@
       <div class="<%= summary_row %>">
         <%= render "icon_tile", icon: "i-lucide-badge-check", tone: "bg-n-teal-3 text-n-teal-11" %>
         <div class="min-w-0">
-          <h2 class="text-heading-3">Current plan</h2>
+          <h2 class="text-heading-3"><%= t("super_admin.settings.current_plan") %></h2>
           <p class="text-body-main text-n-slate-11"><%= SuperAdmin::FeaturesHelper.plan_details.html_safe %></p>
         </div>
         <div class="<%= summary_actions %>">
-          <%= render "button", label: "Refresh", icon: "i-lucide-refresh-cw size-3.5", url: refresh_super_admin_settings_path, variant: :secondary %>
-          <%= render "button", label: "Manage", icon_end: "i-lucide-arrow-up-right size-3.5", url: ChatwootHub.billing_url, target: "_blank", rel: "noopener noreferrer" %>
+          <%= render "button", label: t("super_admin.settings.refresh"), icon: "i-lucide-refresh-cw size-3.5", url: refresh_super_admin_settings_path, variant: :secondary %>
+          <%= render "button", label: t("super_admin.settings.manage"), icon_end: "i-lucide-arrow-up-right size-3.5", url: ChatwootHub.billing_url, target: "_blank", rel: "noopener noreferrer" %>
         </div>
       </div>
     <% end %>
@@ -41,7 +41,7 @@
     <div class="<%= summary_row %>">
       <%= render "icon_tile", icon: "i-lucide-fingerprint", tone: "bg-n-iris-3 text-n-iris-11" %>
       <div class="min-w-0">
-        <h2 class="text-heading-3">Installation Identifier</h2>
+        <h2 class="text-heading-3"><%= t("super_admin.settings.installation_identifier") %></h2>
         <p class="text-body-main text-n-slate-11"><%= t("super_admin.settings.installation_identifier_description") %></p>
       </div>
       <div class="<%= summary_actions %> sm:w-80">
@@ -52,13 +52,13 @@
     <div class="<%= summary_row %>">
       <%= render "icon_tile", icon: "i-lucide-life-buoy", tone: "bg-n-amber-3 text-n-amber-11" %>
       <div class="min-w-0">
-        <h2 class="text-heading-3">Need help?</h2>
-        <p class="text-body-main text-n-slate-11">Do you face any issues? We are here to help.</p>
+        <h2 class="text-heading-3"><%= t("super_admin.settings.need_help") %></h2>
+        <p class="text-body-main text-n-slate-11"><%= t("super_admin.settings.need_help_description") %></p>
       </div>
       <div class="<%= summary_actions %>">
-        <%= render "button", label: "Community Support", icon_end: "i-lucide-arrow-up-right size-3.5 text-n-slate-10", url: "https://discord.gg/cJXdrwS", target: "_blank", variant: :secondary %>
+        <%= render "button", label: t("super_admin.settings.community_support"), icon_end: "i-lucide-arrow-up-right size-3.5 text-n-slate-10", url: "https://discord.gg/cJXdrwS", target: "_blank", variant: :secondary %>
         <% if ChatwootHub.pricing_plan != 'community' %>
-          <%= render "button", label: "Chat Support", icon: "i-lucide-message-circle size-3.5", variant: :secondary, data: { support_chat: true } %>
+          <%= render "button", label: t("super_admin.settings.chat_support"), icon: "i-lucide-message-circle size-3.5", variant: :secondary, data: { support_chat: true } %>
         <% end %>
       </div>
     </div>

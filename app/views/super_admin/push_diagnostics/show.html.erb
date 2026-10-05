@@ -1,32 +1,32 @@
-<% content_for(:title) { "Push Diagnostics" } %>
+<% content_for(:title) { t("super_admin.navigation.push_diagnostics") } %>
 <% field_label = "text-label-small text-n-slate-11" %>
 
 <%= render "section",
            label: t("super_admin.navigation.monitor"),
            items: monitor_nav_items,
-           title: "Push Diagnostics",
-           description: "Send a test push notification to a specific user's registered devices to diagnose delivery issues. " \
-                        "Results show the raw FCM / Web Push / relay response so you can see exactly what failed." do %>
-  <%= render "card", title: "1. Look up user" do %>
+           title: t("super_admin.navigation.push_diagnostics"),
+           description: t("super_admin.push_diagnostics.description") do %>
+  <%= render "card", title: t("super_admin.push_diagnostics.lookup_title") do %>
     <div class="p-4">
       <%= form_with url: super_admin_push_diagnostics_path, method: :get, local: true, class: 'flex flex-wrap items-center gap-2' do |f| %>
-        <%= f.text_field :user_query, value: @query, placeholder: 'user@example.com or numeric user ID', class: ui(:input, "sm:w-80") %>
-        <%= render "button", label: 'Look up', variant: :secondary, submit: f %>
+        <%= f.text_field :user_query, value: @query, placeholder: t("super_admin.push_diagnostics.lookup_placeholder"), class: ui(:input, "sm:w-80") %>
+        <%= render "button", label: t("super_admin.push_diagnostics.lookup"), variant: :secondary, submit: f %>
       <% end %>
 
       <% if @query.present? && @user.nil? %>
-        <p class="mt-2 text-body-main text-n-ruby-11">No user found for "<%= @query %>".</p>
+        <p class="mt-2 text-body-main text-n-ruby-11"><%= t("super_admin.push_diagnostics.no_user_for_query", query: @query) %></p>
       <% end %>
 
       <% if @user %>
         <div class="mt-4 rounded-lg bg-n-slate-2 px-3.5 py-2.5">
           <p class="text-body-main">
             <span class="font-medium"><%= @user.name %></span>
-            <span class="text-n-slate-11"><%= @user.email %>, ID <%= @user.id %></span>
+            <span class="text-n-slate-11"><%= @user.email %>, <%= t("super_admin.push_diagnostics.user_id", id: @user.id) %></span>
           </p>
           <% if @user.accounts.any? %>
             <p class="mt-0.5 text-label-small text-n-slate-11">
-              Accounts: <%= @user.accounts.map { |account| "#{account.name} (ID #{account.id})" }.join(", ") %>
+              <%= t("super_admin.push_diagnostics.user_accounts",
+                    accounts: @user.accounts.map { |account| t("super_admin.push_diagnostics.account_with_id", name: account.name, id: account.id) }.join(", ")) %>
             </p>
           <% end %>
         </div>
@@ -35,32 +35,32 @@
   <% end %>
 
   <% if @user %>
-    <%= render "card", title: "2. Select subscriptions (#{@subscriptions.count})" do %>
+    <%= render "card", title: t("super_admin.push_diagnostics.subscriptions_title", count: @subscriptions.count) do %>
       <div class="p-4">
         <p class="text-label-small text-n-amber-11">
-          This sends a real push to every selected device. Use only when diagnosing a reported issue.
+          <%= t("super_admin.push_diagnostics.real_push_warning") %>
         </p>
 
         <% if @subscriptions.empty? %>
-          <p class="mt-3 text-body-main text-n-slate-11">This user has no push subscriptions registered.</p>
+          <p class="mt-3 text-body-main text-n-slate-11"><%= t("super_admin.push_diagnostics.no_subscriptions") %></p>
         <% else %>
           <%= form_with url: super_admin_push_diagnostics_path, method: :post, local: true, class: 'mt-4' do |f| %>
             <%= f.hidden_field :user_id, value: @user.id %>
 
             <div class="mb-4 max-w-2xl space-y-3">
               <div>
-                <%= label_tag :push_title, 'Title', class: field_label %>
+                <%= label_tag :push_title, t("super_admin.push_diagnostics.push_title"), class: field_label %>
                 <%= text_field_tag :push_title,
                                    params[:push_title].presence || Notification::PushTestService.default_title,
                                    class: ui(:input, "mt-1") %>
               </div>
               <div>
-                <%= label_tag :push_body, 'Body', class: field_label %>
+                <%= label_tag :push_body, t("super_admin.push_diagnostics.push_body"), class: field_label %>
                 <%= text_area_tag :push_body,
                                   params[:push_body].presence || Notification::PushTestService.default_body,
                                   rows: 2,
                                   class: ui(:input, "mt-1") %>
-                <p class="mt-1 <%= field_label %>">Customers will see this text as a real push notification on their device.</p>
+                <p class="mt-1 <%= field_label %>"><%= t("super_admin.push_diagnostics.push_body_hint") %></p>
               </div>
             </div>
 
@@ -69,13 +69,13 @@
                 <thead>
                   <tr>
                     <th><input type="checkbox" class="<%= ui(:checkbox) %>" aria-label="<%= t("super_admin.actions.select_all") %>" data-check-toggle></th>
-                    <th>ID</th>
-                    <th>Type</th>
-                    <th>Device / endpoint</th>
-                    <th>Push token</th>
-                    <th>Device details</th>
-                    <th>Created</th>
-                    <th>Last updated</th>
+                    <th><%= t("super_admin.push_diagnostics.columns.id") %></th>
+                    <th><%= t("super_admin.push_diagnostics.columns.type") %></th>
+                    <th><%= t("super_admin.push_diagnostics.columns.device_endpoint") %></th>
+                    <th><%= t("super_admin.push_diagnostics.columns.push_token") %></th>
+                    <th><%= t("super_admin.push_diagnostics.columns.device_details") %></th>
+                    <th><%= t("super_admin.push_diagnostics.columns.created") %></th>
+                    <th><%= t("super_admin.push_diagnostics.columns.last_updated") %></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -92,7 +92,7 @@
                     <% end %>
                     <% extra_attrs = attrs.except('endpoint', 'p256dh', 'auth', 'push_token', 'device_id') %>
                     <tr>
-                      <td><%= check_box_tag 'subscription_ids[]', sub.id, false, class: ui(:checkbox) %></td>
+                      <td><%= check_box_tag 'subscription_ids[]', sub.id, false, id: "subscription_#{sub.id}", class: ui(:checkbox) %></td>
                       <td class="tabular-nums"><%= sub.id %></td>
                       <td><%= sub.subscription_type %></td>
                       <td class="break-all font-mono text-xs"><%= device_display %></td>
@@ -109,7 +109,7 @@
                       <td class="whitespace-nowrap tabular-nums"><%= sub.created_at.strftime('%Y-%m-%d %H:%M') %></td>
                       <td class="whitespace-nowrap tabular-nums">
                         <%= sub.updated_at.strftime('%Y-%m-%d %H:%M') %>
-                        <span class="text-xs text-n-slate-10">(<%= time_ago_in_words(sub.updated_at) %> ago)</span>
+                        <span class="text-xs text-n-slate-10">(<%= t("super_admin.record.time_ago", time: time_ago_in_words(sub.updated_at)) %>)</span>
                       </td>
                     </tr>
                   <% end %>
@@ -118,14 +118,14 @@
             </div>
 
             <div class="mt-4 flex flex-wrap gap-2">
-              <%= render "button", label: 'Send Test Push to Selected', submit: f %>
+              <%= render "button", label: t("super_admin.push_diagnostics.send_test"), submit: f %>
               <%= render "button",
-                         label: 'Delete Selected Subscriptions',
+                         label: t("super_admin.push_diagnostics.delete_selected"),
                          variant: :danger,
                          submit: f,
                          formaction: destroy_subscriptions_super_admin_push_diagnostics_path,
                          formmethod: 'post',
-                         data: { confirm: "Delete the selected subscription(s)? The user won't receive pushes on those devices until their app re-registers." } %>
+                         data: { confirm: t("super_admin.push_diagnostics.delete_confirm") } %>
             </div>
           <% end %>
         <% end %>
@@ -133,17 +133,17 @@
     <% end %>
 
     <% if @results.present? %>
-      <%= render "card", title: "3. Results" do %>
+      <%= render "card", title: t("super_admin.push_diagnostics.results_title") do %>
         <div class="overflow-x-auto rounded-b-xl">
           <%= render "table" do %>
             <thead>
               <tr>
-                <th>Sub ID</th>
-                <th>Type</th>
-                <th>Device</th>
-                <th>Push token</th>
-                <th>Status</th>
-                <th>Details</th>
+                <th><%= t("super_admin.push_diagnostics.columns.sub_id") %></th>
+                <th><%= t("super_admin.push_diagnostics.columns.type") %></th>
+                <th><%= t("super_admin.push_diagnostics.columns.device") %></th>
+                <th><%= t("super_admin.push_diagnostics.columns.push_token") %></th>
+                <th><%= t("super_admin.push_diagnostics.columns.status") %></th>
+                <th><%= t("super_admin.push_diagnostics.columns.details") %></th>
               </tr>
             </thead>
             <tbody>

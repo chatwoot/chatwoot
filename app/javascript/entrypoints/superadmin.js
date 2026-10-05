@@ -13,7 +13,7 @@ const systemDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
 const applyTheme = () => {
   const theme = localStorage.getItem(THEME_STORAGE_KEY) || 'system';
   const isDark =
-    theme === 'dark' || (theme === 'system' && systemDarkQuery.matches);
+    theme === 'dark' || (theme !== 'light' && systemDarkQuery.matches);
   document.documentElement.classList.toggle('dark', isDark);
   document.querySelectorAll('[data-theme-value]').forEach(button => {
     button.setAttribute(
@@ -66,8 +66,17 @@ document.addEventListener('keydown', event => {
   if (event.key === 'Escape') closeDropdowns();
 });
 
-// Handled while the event travels down, so a click on a secret's buttons
-// inside a table row does not also open the row.
+// Administrate's table.js opens a row on click, Enter and Space unless the
+// target is a link, so a button inside a row has to stop the event first.
+document.addEventListener(
+  'keydown',
+  event => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    if (event.target.matches('.js-table-row button')) event.stopPropagation();
+  },
+  true
+);
+
 document.addEventListener(
   'click',
   event => {

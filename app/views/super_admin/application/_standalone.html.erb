@@ -20,7 +20,7 @@
       <h1 class="mt-6 text-center font-interDisplay text-2xl font-semibold tracking-tight"><%= heading %></h1>
       <div class="rounded-xl border border-n-weak bg-n-solid-1 mt-8 p-6 sm:p-8">
         <% if flash[:error].present? %>
-          <%= render "super_admin/application/alert", extra: "mb-4", data: { alert: true } do %>
+          <%= render "super_admin/application/alert", extra: "mb-4" do %>
             <%= flash[:error] %>
           <% end %>
         <% end %>

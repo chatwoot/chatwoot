@@ -10,13 +10,14 @@
 %>
 <%= render "field", f: f, field: field, attribute: :manually_managed_features, wide: true do %>
   <div data-filter-scope>
-    <p class="mb-3 text-label-small text-n-slate-11">Features that remain enabled even when account plan is downgraded</p>
+    <p class="mb-3 text-label-small text-n-slate-11"><%= t("super_admin.features.manually_managed_hint") %></p>
     <%= render "filter_bar", search: false, bulk: true %>
 
     <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
       <% premium_features.each do |feature_key, display_name| %>
         <%= render "check_tile", label: display_name, icon: icons[feature_key], help_url: help_urls[feature_key] do %>
-          <%= check_box_tag "account[manually_managed_features][]", feature_key, selected_features.include?(feature_key), class: ui(:checkbox) %>
+          <%= check_box_tag "account[manually_managed_features][]", feature_key, selected_features.include?(feature_key),
+                            id: "account_manually_managed_features_#{feature_key}", class: ui(:checkbox) %>
         <% end %>
       <% end %>
     </div>

@@ -1,7 +1,7 @@
 <%# locals: (user:) -%>
 <%= render "card", title: t('super_admin.users.impersonate_title') do %>
   <div class="space-y-3 p-4">
-    <p class="text-body-main text-n-ruby-11">Caution: Any actions executed after impersonate will appear as if performed by the impersonated user - [<%= user.name %> ]</p>
+    <p class="text-body-main text-n-ruby-11"><%= t("super_admin.users.impersonate_caution", name: user.name) %></p>
     <div class="flex flex-wrap items-center gap-2">
       <%= render "button",
                  label: t('super_admin.users.impersonate'),
