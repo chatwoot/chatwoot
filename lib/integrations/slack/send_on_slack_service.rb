@@ -3,11 +3,6 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   # Compared as a string so CE installs, which never load the enterprise constant, still work.
   CAPTAIN_SENDER_TYPE = 'Captain::Assistant'.freeze
-  # File names under public/integrations/slack. Slack caches an avatar by its URL, so a redrawn
-  # icon needs a new name to show up.
-  AVATAR_ASSETS = {
-    'Contact' => 'contact_avatar', 'Agent' => 'agent_avatar', 'System' => 'system_avatar', 'Bot' => 'bot_avatar', 'Captain' => 'captain'
-  }.freeze
 
   pattr_initialize [:message!, :hook!]
 
@@ -97,9 +92,16 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     ''
   end
 
+  # Each sender type has a default avatar under public/integrations/slack, named <type>_avatar.png.
   def avatar_url(sender)
+    sender_type = "#{sender_type(sender).downcase}_avatar"
     blob_key = sender&.avatar&.attached? ? sender.avatar.blob.key : nil
-    "#{ENV.fetch('FRONTEND_URL', nil)}/slack_uploads?blob_key=#{blob_key}&sender_type=#{AVATAR_ASSETS.fetch(sender_type(sender))}"
+    generate_url(sender_type, blob_key)
+  end
+
+  def generate_url(sender_type, blob_key)
+    base_url = ENV.fetch('FRONTEND_URL', nil)
+    "#{base_url}/slack_uploads?blob_key=#{blob_key}&sender_type=#{sender_type}"
   end
 
   def send_message

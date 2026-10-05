@@ -16,7 +16,7 @@ describe Integrations::Slack::SendOnSlackService do
   context 'when the message is sent by Captain' do
     it 'labels the sender as Captain and uses the Captain avatar' do
       expect(slack_client).to receive(:chat_postMessage).with(
-        hash_including(username: "#{message.sender.name} (Captain)", icon_url: a_string_ending_with('sender_type=captain'))
+        hash_including(username: "#{message.sender.name} (Captain)", icon_url: a_string_ending_with('sender_type=captain_avatar'))
       ).and_return({ 'ts' => '12345.6789', 'message' => { 'ts' => '6789.12345', 'thread_ts' => '12345.6789' } })
 
       builder.perform
