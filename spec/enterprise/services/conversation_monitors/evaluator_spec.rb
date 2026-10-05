@@ -201,7 +201,7 @@ RSpec.describe ConversationMonitors::Evaluator do
     with_modified_env(CONVERSATION_MONITORS_DAILY_TOKEN_LIMIT: '1') do
       expect { evaluate.call }.to have_enqueued_job(ConversationMonitors::ProcessJob).exactly(:once)
       expect(WebMock).not_to have_requested(:post, endpoint)
-      expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: be_between(reset, reset + 30.minutes))
+      expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: be_between(reset, reset + 4.hours))
 
       due_at = work.due_at
       3.times { |index| create(:message, account: account, conversation: conversation, content: "During the hold #{index}") }
@@ -228,7 +228,7 @@ RSpec.describe ConversationMonitors::Evaluator do
 
     evaluate.call
 
-    expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: be_between(1.hour.from_now, 90.minutes.from_now),
+    expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: be_between(1.hour.from_now, 5.hours.from_now),
                                            lease_token: nil, revision: be > work.processed_revision)
   end
 
@@ -250,7 +250,7 @@ RSpec.describe ConversationMonitors::Evaluator do
     evaluate.call
 
     expect(WebMock).to have_requested(:post, endpoint).once
-    expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: be_between(1.hour.from_now, 90.minutes.from_now))
+    expect(work.reload).to have_attributes(error_code: 'budget_limit', due_at: be_between(1.hour.from_now, 5.hours.from_now))
   end
 
   %i[incoming outgoing].each do |message_type|

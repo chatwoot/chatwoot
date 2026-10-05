@@ -2,7 +2,7 @@ class ConversationMonitors::Evaluator
   LEASE_DURATION = 2.minutes
   MAX_ATTEMPTS = 5
   QUESTIONS_PER_REQUEST = 20
-  BUDGET_RETRY_JITTER = 30.minutes
+  BUDGET_RETRY_JITTER = 4.hours
 
   def initialize(work)
     @work = work
