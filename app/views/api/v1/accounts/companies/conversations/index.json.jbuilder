@@ -5,11 +5,7 @@ json.meta do
   json.page @conversations.current_page
 end
 json.payload do
-  message_summaries = Conversations::MessageSummaryLoader.new(@conversations)
   json.array! @conversations do |conversation|
-    json.partial! 'api/v1/conversations/partials/conversation',
-                  formats: [:json],
-                  conversation: conversation,
-                  message_summaries: message_summaries
+    json.partial! 'api/v1/conversations/partials/conversation', formats: [:json], conversation: conversation
   end
 end

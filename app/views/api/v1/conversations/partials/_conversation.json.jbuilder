@@ -2,9 +2,6 @@
 # Currently the file there is used only for search endpoint.
 # Everywhere else we use conversation builder in partials folder
 
-# List views pass a loader built for the whole page; single-conversation views build one here.
-message_summaries = local_assigns[:message_summaries] || Conversations::MessageSummaryLoader.new([conversation])
-
 json.meta do
   json.sender do
     json.partial! 'api/v1/models/contact', formats: [:json], resource: conversation.contact
@@ -31,7 +28,8 @@ json.meta do
 end
 
 json.id conversation.display_id
-json.messages [message_summaries.last_message_data(conversation)].compact
+message_summary = conversation.message_summary
+json.messages [message_summary.last_message_data].compact
 
 json.account_id conversation.account_id
 json.uuid conversation.uuid
@@ -50,8 +48,8 @@ json.created_at conversation.created_at.to_i
 json.updated_at conversation.updated_at.to_f
 json.timestamp conversation.last_activity_at.to_i
 json.first_reply_created_at conversation.first_reply_created_at.to_i
-json.unread_count message_summaries.unread_count(conversation)
-json.last_non_activity_message message_summaries.last_non_activity_message_data(conversation)
+json.unread_count message_summary.unread_count
+json.last_non_activity_message message_summary.last_non_activity_message_data
 json.last_activity_at conversation.last_activity_at.to_i
 json.priority conversation.priority
 json.waiting_since conversation.waiting_since.to_i.to_i

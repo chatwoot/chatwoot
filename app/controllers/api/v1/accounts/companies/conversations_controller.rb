@@ -3,16 +3,18 @@ class Api::V1::Accounts::Companies::ConversationsController < Api::V1::Accounts:
   before_action :set_counts
 
   def index
-    @conversations = Conversations::SortService.apply(company_conversations, params[:sort_by])
-                                               .includes(:assignee, :contact, :inbox, :taggings)
-                                               .preload(ai_assignee: { avatar_attachment: [:blob] })
-                                               .page(params[:page] || 1)
+    conversations = Conversations::SortService.apply(company_conversations, params[:sort_by])
+                                              .includes(:assignee, :contact, :inbox, :taggings)
+                                              .preload(ai_assignee: { avatar_attachment: [:blob] })
+                                              .page(params[:page] || 1)
+    @conversations = Conversations::MessageSummaryLoader.new(conversations).perform
   end
 
   def filter
-    @conversations = Companies::ConversationFilterService.new(
+    conversations = Companies::ConversationFilterService.new(
       params.permit!, Current.user, Current.account, company: @company
     ).perform[:conversations]
+    @conversations = Conversations::MessageSummaryLoader.new(conversations).perform
     render :index
   rescue CustomExceptions::CustomFilter::InvalidAttribute,
          CustomExceptions::CustomFilter::InvalidOperator,
