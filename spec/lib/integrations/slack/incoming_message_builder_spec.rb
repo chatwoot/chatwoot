@@ -65,7 +65,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         conversation.update!(status: :pending)
         allow(Integrations::Slack::SignatureVerifier).to receive(:signing_secret).and_return('slack-signing-secret')
         allow(builder).to receive(:slack_client).and_return(slack_client)
-        allow(builder).to receive(:slack_sender).and_return([agent, nil, nil])
+        allow(builder).to receive(:resolve_slack_sender).and_return([agent, nil, nil])
         allow(slack_client).to receive(:chat_postEphemeral)
       end
 
@@ -128,7 +128,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         end
 
         it 'opens the conversation without an assignee when the Slack user is not an agent' do
-          allow(builder).to receive(:slack_sender).and_return([nil, 'Slack User', nil])
+          allow(builder).to receive(:resolve_slack_sender).and_return([nil, 'Slack User', nil])
 
           builder.perform
 
@@ -161,7 +161,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(hook).not_to be_nil
         messages_count = conversation.messages.count
         builder = described_class.new(message_params)
-        allow(builder).to receive(:slack_sender).and_return([nil, nil, nil])
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
         2.times.each { builder.perform }
         expect(conversation.messages.count).to eql(messages_count + 1)
         expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
@@ -171,7 +171,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(hook).not_to be_nil
         messages_count = conversation.messages.count
         builder = described_class.new(message_params)
-        allow(builder).to receive(:slack_sender).and_return([nil, nil, nil])
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
         builder.perform
         expect(conversation.messages.count).to eql(messages_count + 1)
         expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
@@ -181,7 +181,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(hook).not_to be_nil
         messages_count = conversation.messages.count
         builder = described_class.new(private_message_params)
-        allow(builder).to receive(:slack_sender).and_return([nil, nil, nil])
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
         builder.perform
         expect(conversation.messages.count).to eql(messages_count + 1)
         expect(conversation.messages.last.content).to eql('pRivate: A private note message')
@@ -222,7 +222,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         messages_count = conversation.messages.count
         message_with_attachments[:event][:files] = nil
         builder = described_class.new(message_with_attachments)
-        allow(builder).to receive(:slack_sender).and_return([nil, nil, nil])
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
         builder.perform
         expect(conversation.messages.count).to eql(messages_count)
       end
@@ -231,7 +231,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(hook).not_to be_nil
         messages_count = conversation.messages.count
         builder = described_class.new(message_with_attachments)
-        allow(builder).to receive(:slack_sender).and_return([nil, nil, nil])
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
         builder.perform
         expect(conversation.messages.count).to eql(messages_count + 1)
         expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
@@ -244,7 +244,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         message_with_attachments[:event][:text] = 'Attached File!'
         builder = described_class.new(message_with_attachments)
 
-        allow(builder).to receive(:slack_sender).and_return([nil, nil, nil])
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
         builder.perform
 
         expect(conversation.messages.count).to eql(messages_count)
@@ -257,7 +257,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
         video_attachment_params[:event][:files][0][:mimetype] = 'video/mp4'
 
         builder = described_class.new(video_attachment_params)
-        allow(builder).to receive(:slack_sender).and_return([nil, nil, nil])
+        allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
 
         expect { builder.perform }.not_to raise_error
         expect(conversation.messages.last.attachments).to be_any

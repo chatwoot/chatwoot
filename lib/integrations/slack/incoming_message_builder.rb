@@ -93,6 +93,17 @@ class Integrations::Slack::IncomingMessageBuilder
     @slack_client ||= Slack::Web::Client.new(token: @integration_hook.access_token)
   end
 
+  def takeover
+    @takeover ||= Integrations::Slack::ConversationTakeover.new(
+      conversation: conversation, params: params, slack_client: slack_client
+    )
+  end
+
+  # Both the takeover and the message need the sender, so Slack is only asked once.
+  def slack_sender
+    @slack_sender ||= resolve_slack_sender
+  end
+
   # Ignoring the changes added here https://github.com/chatwoot/chatwoot/blob/5b5a6d89c0cf7f3148a1439d6fcd847784a79b94/lib/integrations/slack/send_on_slack_service.rb#L69
   # This make sure 'Attached File!' comment is not visible on CW dashboard.
   # This is showing because of https://github.com/chatwoot/chatwoot/pull/4494/commits/07a1c0da1e522d76e37b5f0cecdb4613389ab9b6 change.

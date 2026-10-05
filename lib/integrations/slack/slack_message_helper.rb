@@ -18,12 +18,6 @@ module Integrations::Slack::SlackMessageHelper
     create_message
   end
 
-  def takeover
-    @takeover ||= Integrations::Slack::ConversationTakeover.new(
-      conversation: conversation, params: params, slack_client: slack_client
-    )
-  end
-
   def success_response
     { status: 'success' }
   end
@@ -35,12 +29,6 @@ module Integrations::Slack::SlackMessageHelper
 
   def message_exists?
     conversation.messages.exists?(external_source_ids: { slack: params[:event][:ts] })
-  end
-
-  def slack_sender
-    @slack_sender ||= Integrations::Slack::SenderResolver.new(
-      slack_client: slack_client, account: conversation.account, slack_user_id: params[:event][:user]
-    ).perform
   end
 
   def create_message
@@ -101,6 +89,24 @@ module Integrations::Slack::SlackMessageHelper
 
   def conversation
     @conversation ||= Conversation.where(identifier: params[:event][:thread_ts]).first
+  end
+
+  def resolve_slack_sender
+    return [nil, nil, nil] unless params[:event][:user]
+
+    slack_user = slack_client.users_info(user: params[:event][:user])[:user]
+    chatwoot_user = conversation.account.users.from_email(slack_user[:profile][:email])
+    return [chatwoot_user, nil, nil] if chatwoot_user
+
+    sender_name = slack_user.dig(:profile, :display_name).presence ||
+                  slack_user[:real_name].presence ||
+                  slack_user[:name]
+    sender_avatar_url = slack_user.dig(:profile, :image_192).presence
+    [nil, sender_name, sender_avatar_url]
+  rescue Slack::Web::Api::Errors::MissingScope
+    raise
+  rescue StandardError
+    [nil, nil, nil]
   end
 
   def formatted_message_content
