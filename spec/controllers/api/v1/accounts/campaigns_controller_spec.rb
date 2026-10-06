@@ -69,6 +69,25 @@ RSpec.describe 'Campaigns API', type: :request do
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(campaign.display_id)
       end
+
+      it 'returns not found for a campaign that does not exist' do
+        get "/api/v1/accounts/#{account.id}/campaigns/999999",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(JSON.parse(response.body, symbolize_names: true)[:error]).to eq('Resource could not be found')
+      end
+
+      it 'returns not found for a campaign that belongs to another account' do
+        other_campaign = create(:campaign, trigger_rules: { url: 'https://test.com' })
+
+        get "/api/v1/accounts/#{account.id}/campaigns/#{other_campaign.display_id}",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 

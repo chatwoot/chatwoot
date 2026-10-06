@@ -271,6 +271,23 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         expect(body[:payload]).to be_present
         expect(body[:payload][:id]).to eq(automation_rule.id)
       end
+
+      it 'returns not found for an automation rule that does not exist' do
+        get "/api/v1/accounts/#{account.id}/automation_rules/999999",
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:not_found)
+        expect(JSON.parse(response.body, symbolize_names: true)[:error]).to eq('Resource could not be found')
+      end
+
+      it 'returns not found for an automation rule that belongs to another account' do
+        other_rule = create(:automation_rule)
+
+        get "/api/v1/accounts/#{account.id}/automation_rules/#{other_rule.id}",
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 
