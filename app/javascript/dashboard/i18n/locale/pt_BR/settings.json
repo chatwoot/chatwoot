@@ -262,6 +262,10 @@
     "EMAIL_VERIFICATION_PENDING": "Parece que você ainda não verificou seu endereço de e-mail. Por favor, verifique sua caixa de entrada pelo e-mail de verificação.",
     "RESEND_VERIFICATION_MAIL": "Reenviar e-mail de verificação",
     "EMAIL_VERIFICATION_SENT": "O e-mail de verificação foi enviado. Por favor, verifique sua caixa de entrada.",
+    "IMPERSONATION": {
+      "MESSAGE": "Você está atuando como {name} ({email}). Todas as suas ações aparecerão como realizadas por esse usuário.",
+      "STOP": "Deixar de atuar como usuário"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Conta Suspensa",
       "MESSAGE": "Sua conta foi suspensa devido a uma atividade que pode violar nossas políticas. Se você acredita que isso foi um engano, entre em contato com nossa equipe de suporte.",
@@ -278,7 +282,8 @@
     "CODE": {
       "BUTTON_TEXT": "Copiar",
       "CODEPEN": "Abrir em CodePen",
-      "COPY_SUCCESSFUL": "Código copiado para área de transferência com sucesso"
+      "COPY_SUCCESSFUL": "Código copiado para área de transferência com sucesso",
+      "COPY_ERROR": "Não foi possível copiar para a área de transferência. Por favor, tente novamente."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Mostrar Mais",
@@ -324,7 +329,7 @@
     "ACTIVE": "Ativo",
     "COMPANIES": "Empresas",
     "ALL_COMPANIES": "Todas as empresas",
-    "CAPTAIN": "Capitão",
+    "CAPTAIN": "Captain",
     "CALLS": "Chamadas",
     "CAPTAIN_ASSISTANTS": "Assistentes",
     "CAPTAIN_OVERVIEW": "Visão geral",
@@ -413,7 +418,7 @@
     },
     "DOCS": "Ler documentos",
     "SECURITY": "Segurança",
-    "CAPTAIN_AI": "Capitão",
+    "CAPTAIN_AI": "Captain",
     "CONVERSATION_WORKFLOW": "Fluxo de Conversa"
   },
   "DATA_IMPORTS": {
@@ -528,11 +533,11 @@
     }
   },
   "CAPTAIN_SETTINGS": {
-    "TITLE": "Configurações do Capitão",
-    "DESCRIPTION": "Configure seus modelos e recursos de IA para o Capitão. O Capitão utiliza um modelo de cobrança baseado em créditos; você será cobrado em créditos por cada ação que o Capitão realizar, dependendo do modelo selecionado.",
-    "LOADING": "Carregando configurações do Capitão...",
-    "LINK_TEXT": "Saiba mais sobre os Créditos do Capitão",
-    "NOT_ENABLED": "O Capitão não está habilitado para a sua conta. Atualize seu plano para acessar os recursos do Capitão.",
+    "TITLE": "Configurações do Captain",
+    "DESCRIPTION": "Configure seus modelos e recursos de IA para o Captain. O Captain utiliza um modelo de cobrança baseado em créditos; você será cobrado em créditos por cada ação que o Captain realizar, dependendo do modelo selecionado.",
+    "LOADING": "Carregando configurações do Captain...",
+    "LINK_TEXT": "Saiba mais sobre os Créditos do Captain",
+    "NOT_ENABLED": "O Captain não está habilitado para a sua conta. Atualize seu plano para acessar os recursos do Captain.",
     "MODEL_CONFIG": {
       "TITLE": "Configuração do Modelo",
       "DESCRIPTION": "Selecione modelos de IA para diferentes recursos.",
@@ -548,7 +553,7 @@
         "DESCRIPTION": "Gerencia respostas automatizadas, resumos de conversas e sugestões inteligentes de resposta para interações com clientes."
       },
       "COPILOT": {
-        "TITLE": "Copiloto",
+        "TITLE": "Copilot",
         "DESCRIPTION": "Fornece sugestões contextuais em tempo real, recomendações da base de conhecimento e insights proativos durante as conversas."
       }
     },
@@ -573,11 +578,15 @@
       }
     },
     "API": {
-      "SUCCESS": "Configurações do Capitão atualizadas com sucesso.",
-      "ERROR": "Falha ao atualizar as configurações do Capitão. Por favor, tente novamente."
+      "SUCCESS": "Configurações do Captain atualizadas com sucesso.",
+      "ERROR": "Falha ao atualizar as configurações do Captain. Por favor, tente novamente."
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Seu pagamento está em atraso. Atualize sua forma de pagamento ou pague a fatura pendente no portal de cobrança para manter sua assinatura ativa.",
+      "ACTION": "Resolver pagamento"
+    },
     "TITLE": "Cobrança",
     "DESCRIPTION": "Gerencie sua assinatura aqui, faça o upgrade do seu plano e obtenha mais para seu time.",
     "CURRENT_PLAN": {
@@ -585,6 +594,7 @@
       "PLAN_NOTE": "Você está atualmente inscrito no plano **{plan}** com **{quantity}** licenças",
       "SEAT_COUNT": "Número de assentos",
       "RENEWS_ON": "Renovações em",
+      "CANCELS_ON": "Cancelamento em",
       "CURRENCY": "Moeda"
     },
     "CURRENCY": {
@@ -604,7 +614,7 @@
       "BUTTON_TXT": "Ir para o portal de cobrança"
     },
     "CAPTAIN": {
-      "TITLE": "Capitão",
+      "TITLE": "Captain",
       "DESCRIPTION": "Gerenciar uso e créditos para o Captain AI.",
       "BUTTON_TXT": "Comprar mais créditos",
       "DOCUMENTS": "Documentos",
@@ -618,10 +628,42 @@
       "BUTTON_TXT": "Fale conosco no chat"
     },
     "NO_BILLING_USER": "A sua conta de cobrança está sendo configurada. Atualize a página e tente novamente.",
+    "SHOPIFY": {
+      "TITLE": "Cobrança pela Shopify",
+      "DESCRIPTION": "Sua assinatura do Chatwoot é cobrada e gerenciada com segurança pela Shopify.",
+      "UNAVAILABLE": "A cobrança pela Shopify está indisponível no momento. Por favor, entre em contato com o suporte se o problema persistir.",
+      "LOADING": "Verificando sua assinatura da Shopify...",
+      "PLAN_TITLE": "Assinatura da Shopify",
+      "PLAN_DESCRIPTION": "Escolha ou gerencie seu plano do Chatwoot com segurança na Shopify.",
+      "CURRENT_PLAN": "Plano atual",
+      "SUBSCRIPTION_STATUS": "Status",
+      "PRICE": "Preço",
+      "PER_MONTH": "{price} / mês",
+      "PER_YEAR": "{price} / ano",
+      "TRIAL_ENDS_ON": "O período de teste termina em",
+      "RENEWS_ON": "Renovações em",
+      "ACCESS_UNTIL": "Acesso até",
+      "LAST_VERIFIED": "Última verificação",
+      "VIEW_PLANS": "Ver planos na Shopify",
+      "MANAGE_PLAN": "Gerenciar na Shopify",
+      "RETRY": "Tentar novamente",
+      "ERROR_TITLE": "Não foi possível verificar sua assinatura da Shopify",
+      "ERROR_DESCRIPTION": "Tente novamente em instantes. Seu último acesso verificado não foi alterado.",
+      "STALE_TITLE": "Exibindo sua última assinatura verificada",
+      "STALE_DESCRIPTION": "Não foi possível acessar a Shopify. Seu acesso não foi alterado.",
+      "STATUS": {
+        "PENDING": "Pendentes",
+        "ACTIVE": "Ativo",
+        "TRIALING": "Período de teste",
+        "CANCELLED": "Cancelamento agendado",
+        "EXPIRED": "Expirado",
+        "MISSING": "Nenhum plano ativo"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Comprar mais créditos",
       "MODAL_TITLE": "Comprar Créditos de IA",
-      "MODAL_DESCRIPTION": "Comprar créditos adicionais para o Capitão IA.",
+      "MODAL_DESCRIPTION": "Comprar créditos adicionais para o Captain AI.",
       "CREDITS": "CRÉDITOS",
       "ONE_TIME": "único",
       "POPULAR": "Mais populares",
@@ -648,6 +690,7 @@
     "DESCRIPTION": "Gerencie as configurações de segurança da sua conta.",
     "LINK_TEXT": "Saiba mais sobre o SAML SSO",
     "SAML_DISABLED_MESSAGE": "O SSO via SAML está desativado no momento. Entre em contato com o administrador para habilitar esse recurso.",
+    "NO_SETTINGS_AVAILABLE": "Nenhuma configuração de segurança está disponível para esta instalação. Configure as chaves de criptografia de MFA para habilitar a exigência de autenticação de dois fatores.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure o login único via SAML para sua conta. Os usuários se autenticarão por meio do seu provedor de identidade em vez de usar e-mail e senha.",
