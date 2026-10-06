@@ -871,6 +871,10 @@ en:
       last_updated: 'Last updated'
       time_ago: '%{time} ago'
     settings:
+      pages:
+        general: 'General'
+        internal: 'Internal'
+        internal_description: 'Keys and switches used by Chatwoot Cloud'
       configure: 'Configure'
       included: 'Included'
       locked: 'Locked'

@@ -43,10 +43,13 @@ module SuperAdmin::NavigationHelper
         attrs['config_key'].present? && attrs['enabled']
       end
 
-      # Add general at the beginning
-      general_feature = [['general', { 'config_key' => 'general', 'name' => 'General' }]]
+      pages = [['general', { 'config_key' => 'general', 'name' => t('super_admin.settings.pages.general') }]]
+      if ChatwootApp.chatwoot_cloud?
+        pages << ['internal', { 'config_key' => 'internal', 'name' => t('super_admin.settings.pages.internal'),
+                                'description' => t('super_admin.settings.pages.internal_description'), 'icon' => 'i-lucide-lock-keyhole' }]
+      end
 
-      general_feature + features.to_a
+      pages + features.to_a
     end
   end
 
