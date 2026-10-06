@@ -202,3 +202,4 @@ class Integrations::Hook < ApplicationRecord
     %w[leadsquared].include?(app_id)
   end
 end
+Integrations::Hook.include_mod_with('Concerns::IntegrationsHook')

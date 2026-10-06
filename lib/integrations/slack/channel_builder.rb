@@ -13,6 +13,16 @@ class Integrations::Slack::ChannelBuilder
     update_reference_id(reference_id)
   end
 
+  # Makes sure the app can post to the channel. Returns false when the channel is not in the connected workspace.
+  def join(channel_id)
+    channel = slack_client.conversations_info(channel: channel_id).channel
+    # The app only sees private channels it was already invited to.
+    slack_client.conversations_join(channel: channel_id) unless channel.is_private || channel.is_member
+    true
+  rescue Slack::Web::Api::Errors::ChannelNotFound
+    false
+  end
+
   private
 
   def hook

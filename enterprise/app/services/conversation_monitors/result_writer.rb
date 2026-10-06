@@ -31,6 +31,7 @@ class ConversationMonitors::ResultWriter
     result[:first_matched_at] = result[:matched_at] if first_match
     evaluation.update!(result)
     create_automation_deliveries(monitor) if first_match
+    enqueue_slack_alert(monitor) if first_match
     monitor.update!(data_revision: monitor.data_revision + 1)
   end
 
@@ -62,6 +63,13 @@ class ConversationMonitors::ResultWriter
            .where(monitor_event_activated_at: ..activity_at).find_each do |rule|
       create_automation_delivery(monitor, rule)
     end
+  end
+
+  # Like automations, alerts only fire for live activity, not for history scans.
+  def enqueue_slack_alert(monitor)
+    return unless @snapshot[:live_activity_at] && monitor.slack_channel_id.present?
+
+    ConversationMonitors::SlackAlertJob.perform_later(monitor.id, @work.conversation_id)
   end
 
   def create_automation_delivery(monitor, rule)

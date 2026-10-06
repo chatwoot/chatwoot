@@ -1,6 +1,18 @@
 {
   "MONITORS": {
     "TITLE": "Monitors",
+    "SLACK_ALERT": {
+      "TITLE": "Slack alerts",
+      "DESCRIPTION": "Post to a Slack channel when this monitor first matches a conversation from new live activity.",
+      "NONE": "Don't send alerts",
+      "PLACEHOLDER": "Select a channel",
+      "LOADING": "Loading channels…",
+      "CONNECT": "Connect Slack",
+      "ON": "On",
+      "OFF": "Off",
+      "SAVED": "Slack alerts updated.",
+      "SAVE_FAILED": "Could not update Slack alerts. Try again."
+    },
     "AUTOMATIONS": {
       "TITLE": "Automations",
       "DESCRIPTION": "Run actions when this monitor first matches a conversation from new live activity.",
