@@ -1,15 +1,28 @@
 <%= render "field", f: f, field: field do %>
   <% if field.attached? %>
-    <%# The gem renders the attachment list, so it is styled from here. %>
-    <div class="mb-2 space-y-1 [&_.remove-attachment-link]:text-n-ruby-11 [&_a]:text-n-blue-11 hover:[&_a]:underline [&_hr]:my-3 [&_hr]:border-n-weak [&_img]:size-16 [&_img]:rounded-lg [&_img]:object-cover">
-      <%= render partial: "fields/active_storage/items", locals: { field: field } %>
-    </div>
+    <ul class="mb-3 space-y-2">
+      <% field.attachments.each do |attachment| %>
+        <li class="flex items-center gap-3 rounded-lg border border-n-weak p-2">
+          <%= image_tag field.variant(attachment, resize_to_limit: [112, 112]), alt: "", class: "size-14 shrink-0 rounded-md object-cover" %>
+          <div class="min-w-0 flex-1">
+            <%= link_to attachment.filename, field.blob_url(attachment), class: "block truncate text-label text-n-slate-12 hover:underline" %>
+            <p class="text-label-small text-n-slate-11"><%= number_to_human_size(attachment.byte_size) %></p>
+          </div>
+          <% if field.destroy_url %>
+            <%= render "button",
+                       icon: "i-lucide-trash-2 size-4",
+                       url: field.destroy_url.call(namespace, field.data.record, attachment),
+                       variant: :faded_danger,
+                       size: :icon,
+                       title: t("administrate.fields.active_storage.remove", default: "Remove"),
+                       aria: { label: t("administrate.fields.active_storage.remove", default: "Remove") },
+                       method: :delete,
+                       data: { confirm: t("administrate.actions.confirm") } %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
   <% end %>
-  <label class="block">
-    <span class="mb-1 block text-label-small text-n-slate-11">
-      <%= field.can_add_attachment? ? t("administrate.fields.active_storage.add", default: "Add") : t("administrate.fields.active_storage.replace", default: "Replace") %>
-    </span>
-    <%= f.file_field field.attribute, multiple: field.many?, direct_upload: field.direct?,
-                     class: "block w-full text-body-main text-n-slate-11 file:me-3 file:h-9 file:cursor-pointer file:rounded-lg file:border file:border-solid file:border-n-slate-6 file:bg-n-solid-1 file:px-3 file:text-button file:text-n-slate-12" %>
-  </label>
+  <%= f.file_field field.attribute, multiple: field.many?, direct_upload: field.direct?,
+                   class: "block w-full text-body-main text-n-slate-11 file:me-3 file:h-9 file:cursor-pointer file:rounded-lg file:border file:border-solid file:border-n-slate-6 file:bg-n-solid-1 file:px-3 file:text-button file:text-n-slate-12" %>
 <% end %>

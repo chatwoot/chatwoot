@@ -3,10 +3,7 @@
   routed_user = user.becomes(User)
   suppression = params[:suppression]
   blocked_hint = t("super_admin.users.email_suppression.test_email_blocked_hint.#{suppression}") if suppression.in?(%w[bounce complaint])
-  item = %w[
-    w-full cursor-pointer rounded-md px-3 py-2 text-start text-body-main text-n-slate-12 hover:bg-n-slate-2 active:bg-n-slate-3
-    disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent aria-busy:cursor-wait aria-busy:bg-n-slate-2 aria-busy:opacity-100
-  ].join(" ")
+  item = "w-full cursor-pointer rounded-lg px-2.5 py-2 text-start text-body-main text-n-slate-12 hover:bg-n-slate-2 active:bg-n-slate-3 aria-busy:cursor-wait aria-busy:bg-n-slate-2"
 %>
 
 <% if Email::SesSuppressionService.configured? %>
@@ -33,7 +30,6 @@
         </button>
       <% else %>
         <%= render "blocked_action",
-                   item: item,
                    label: t("super_admin.users.email_suppression.clear_button"),
                    hint: case suppression
                          when "complaint" then t("super_admin.users.email_suppression.complaint_hint")
@@ -43,7 +39,7 @@
       <% end %>
 
       <% if blocked_hint %>
-        <%= render "blocked_action", item: item, label: t("super_admin.users.email_suppression.test_email_button"), hint: blocked_hint %>
+        <%= render "blocked_action", label: t("super_admin.users.email_suppression.test_email_button"), hint: blocked_hint %>
       <% else %>
         <%= button_to(
               t("super_admin.users.email_suppression.test_email_button"),
@@ -57,7 +53,7 @@
 
       <% unless user.confirmed? %>
         <% if blocked_hint %>
-          <%= render "blocked_action", item: item, label: t("super_admin.users.resend_confirmation.button"), hint: blocked_hint %>
+          <%= render "blocked_action", label: t("super_admin.users.resend_confirmation.button"), hint: blocked_hint %>
         <% else %>
           <%= button_to(
                 t("super_admin.users.resend_confirmation.button"),
