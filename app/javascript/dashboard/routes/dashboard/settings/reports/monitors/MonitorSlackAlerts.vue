@@ -122,7 +122,7 @@ const save = async channelId => {
           :disabled="isSaving"
           :display-label="t('MONITORS.SLACK_ALERT.LOADING')"
           :placeholder="t('MONITORS.SLACK_ALERT.PLACEHOLDER')"
-          open-upwards
+          direction="up"
           @open="loadChannels"
           @update:model-value="save"
         />
