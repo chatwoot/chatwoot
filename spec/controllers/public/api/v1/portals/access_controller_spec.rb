@@ -115,6 +115,16 @@ RSpec.describe 'Public Portal Access', type: :request do
       expect(response).to have_http_status(:unauthorized)
     end
 
+    it 'asks for the password again after the access period' do
+      post "/hc/#{portal.slug}/unlock", params: { password: password }
+
+      travel_to((Portal::ACCESS_DURATION + 1.hour).from_now) do
+        get "/hc/#{portal.slug}/en", headers: html_headers
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
     it 'does not unlock other password protected portals' do
       other_portal = create(:portal, account: account, slug: 'other-portal', config: { visibility: 'private_with_password' }, password: password)
       post "/hc/#{portal.slug}/unlock", params: { password: password }

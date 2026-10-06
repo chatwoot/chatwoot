@@ -31,7 +31,11 @@ class Portal < ApplicationRecord
 
   DEFAULT_COLOR = '#1f93ff'.freeze
 
+  ACCESS_DURATION = 7.days
+
   has_secure_password validations: false
+  # Signs visitors in to a password protected portal; changing the password invalidates issued tokens.
+  generates_token_for(:access, expires_in: ACCESS_DURATION) { password_salt }
 
   belongs_to :account
   has_many :categories, dependent: :destroy_async
