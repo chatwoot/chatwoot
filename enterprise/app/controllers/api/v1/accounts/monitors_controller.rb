@@ -46,6 +46,7 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
   def update
     attributes = update_params
     version = ConversationMonitors::Buckets.integer!(params[:collection_version]) if attributes.key?('condition')
+    join_slack_channel!(attributes['slack_channel_id']) if attributes['slack_channel_id'].present?
     ConversationMonitors::Update.new(@monitor, attributes, collection_version: version).perform
     render json: serialize(@monitor)
   end
@@ -147,7 +148,6 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
 
   def update_params
     validate_icon_parameters!
-    validate_slack_channel!
     attributes = params.permit(:name, :condition, :paused, :icon, :icon_color, :slack_channel_id).to_h
     valid_text = { 'name' => 100, 'condition' => ConversationMonitors::Monitor::MAX_CONDITION_LENGTH }.slice(*params.keys).all? do |key, limit|
       valid_text_parameter?(key, limit)
@@ -158,13 +158,12 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
     attributes.transform_values { |value| value.is_a?(String) ? value.strip : value }
   end
 
-  # A blank channel turns Slack alerts off.
-  def validate_slack_channel!
-    return unless params.key?(:slack_channel_id)
+  def join_slack_channel!(channel_id)
+    hook = Current.account.hooks.find_by(app_id: 'slack')
+    return unless hook
+    return if Integrations::Slack::ChannelBuilder.new(hook: hook).join(channel_id)
 
-    channel = params[:slack_channel_id]
-    raise CustomExceptions::MonitorParametersError, 'invalid_parameters' unless channel.is_a?(String) && channel.match?(/\A[A-Z0-9]{0,30}\z/)
-    raise CustomExceptions::MonitorParametersError, 'slack_not_connected' if channel.present? && !Current.account.hooks.exists?(app_id: 'slack')
+    raise CustomExceptions::MonitorParametersError, 'invalid_slack_channel'
   end
 
   def valid_text_parameter?(key, limit)

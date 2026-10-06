@@ -5,20 +5,12 @@ class ConversationMonitors::SlackAlertService
   pattr_initialize [:monitor!, :conversation!, :hook!]
 
   def perform
-    post_alert
-  rescue Slack::Web::Api::Errors::NotInChannel
-    # The bot can add itself to public channels; private ones need an invite.
-    slack_client.conversations_join(channel: monitor.slack_channel_id)
-    post_alert
-  end
-
-  private
-
-  def post_alert
     slack_client.chat_postMessage(
       channel: monitor.slack_channel_id, text: t('title', name: monitor.name), blocks: blocks, unfurl_links: false
     )
   end
+
+  private
 
   def blocks
     [

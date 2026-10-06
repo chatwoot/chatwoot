@@ -12,6 +12,7 @@ RSpec.describe ConversationMonitors::ResultWriter do
 
   before do
     account.enable_features!('automations', 'reports', 'conversation_monitors')
+    create(:integrations_hook, account: account)
     monitor
     create(:message, account: account, conversation: conversation, content: 'Refund please')
     work.update!(lease_token: 'claim')

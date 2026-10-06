@@ -9,7 +9,7 @@ RSpec.describe ConversationMonitors::SlackAlertService do
   end
   let(:contact) { create(:contact, account: account, name: 'Jane Doe') }
   let(:conversation) { create(:conversation, account: account, contact: contact) }
-  let(:slack_client) { instance_double(Slack::Web::Client, chat_postMessage: true, conversations_join: true) }
+  let(:slack_client) { instance_double(Slack::Web::Client, chat_postMessage: true) }
   let(:service) { described_class.new(monitor: monitor, conversation: conversation, hook: hook) }
 
   before do
@@ -56,18 +56,5 @@ RSpec.describe ConversationMonitors::SlackAlertService do
       expect(payload[:blocks][0][:text][:text]).to eq('🔥 Refunds')
       expect(payload[:blocks][2][:text][:text]).to end_with('with Jane Doe')
     end
-  end
-
-  it 'joins the channel and retries when the app is not a member' do
-    attempts = 0
-    allow(slack_client).to receive(:chat_postMessage) do
-      attempts += 1
-      raise Slack::Web::Api::Errors::NotInChannel, 'not_in_channel' if attempts == 1
-    end
-
-    service.perform
-
-    expect(slack_client).to have_received(:conversations_join).with(channel: 'C0ALERTS')
-    expect(attempts).to eq(2)
   end
 end

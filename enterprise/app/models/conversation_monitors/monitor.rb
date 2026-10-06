@@ -47,6 +47,10 @@ class ConversationMonitors::Monitor < ApplicationRecord
   validates :condition, length: { maximum: MAX_CONDITION_LENGTH }, if: :will_save_change_to_condition?
   validates :model, :history_since, presence: true
   validates :threshold, numericality: { greater_than: 0, less_than_or_equal_to: 1 }
+  validates :slack_channel_id, format: { with: /\A[A-Z0-9]+\z/ }, length: { maximum: 30 }, allow_nil: true
+  validate :slack_connected, if: -> { slack_channel_id && will_save_change_to_slack_channel_id? }
+  # A blank channel turns Slack alerts off.
+  normalizes :slack_channel_id, with: ->(channel_id) { channel_id.presence }
   attr_readonly :model, :threshold, :history_since, :account_id
 
   scope :visible, -> { where(deleted_at: nil) }
@@ -116,6 +120,10 @@ class ConversationMonitors::Monitor < ApplicationRecord
   end
 
   private
+
+  def slack_connected
+    errors.add(:slack_channel_id, I18n.t('conversation_monitors.slack_alert.not_connected')) unless account.hooks.exists?(app_id: 'slack')
+  end
 
   def skipped_import_activity?(activity_at)
     scans.any? do |scan|
