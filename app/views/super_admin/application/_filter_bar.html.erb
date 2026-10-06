@@ -1,5 +1,5 @@
 <%# Has to sit inside a `data-filter-scope`: superadmin.js wires these controls to the items in it. %>
-<%# locals: (search: true, states: nil, bulk: false) -%>
+<%# locals: (search: true, states: nil, bulk: false, count: true) -%>
 <div class="mb-3 flex flex-wrap items-center gap-2">
   <% if search %>
     <div class="relative min-w-40 flex-1 sm:max-w-xs">
@@ -16,7 +16,9 @@
   <% end %>
   <% if bulk %>
     <div class="flex items-center gap-2 sm:ms-auto">
-      <span class="text-label-small tabular-nums text-n-slate-11" data-check-count="<%= t("super_admin.features.selected_count") %>"></span>
+      <% if count %>
+        <span class="text-label-small tabular-nums text-n-slate-11" data-check-count="<%= t("super_admin.features.selected_count") %>"></span>
+      <% end %>
       <%= render "button", label: t("super_admin.actions.select_all"), variant: :secondary, data: { check_all: true } %>
       <%= render "button", label: t("super_admin.actions.clear"), variant: :secondary, data: { check_none: true } %>
     </div>

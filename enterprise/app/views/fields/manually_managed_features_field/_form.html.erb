@@ -8,10 +8,19 @@
   icons = SuperAdmin::AccountFeaturesHelper.feature_icons
   help_urls = SuperAdmin::AccountFeaturesHelper.feature_help_urls
 %>
-<%= render "field", f: f, field: field, attribute: :manually_managed_features, wide: true do %>
-  <div data-filter-scope>
-    <p class="mb-3 text-label-small text-n-slate-11"><%= t("super_admin.features.manually_managed_hint") %></p>
-    <%= render "filter_bar", search: false, bulk: true %>
+<details class="group/field" data-field data-filter-scope>
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
+    <span class="min-w-0">
+      <span class="block text-label text-n-slate-12"><%= t("super_admin.accounts.manually_managed_features") %></span>
+      <span class="mt-0.5 block text-label-small text-n-slate-11"><%= t("super_admin.features.manually_managed_hint") %></span>
+    </span>
+    <span class="flex shrink-0 items-center gap-2 text-label-small tabular-nums text-n-slate-11">
+      <span data-check-count="<%= t("super_admin.features.selected_count") %>"></span>
+      <span class="i-lucide-chevron-down size-4 text-n-slate-10 transition-transform group-open/field:rotate-180"></span>
+    </span>
+  </summary>
+  <div class="px-5 pb-5">
+    <%= render "filter_bar", search: false, bulk: true, count: false %>
 
     <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
       <% premium_features.each do |feature_key, display_name| %>
@@ -23,4 +32,4 @@
     </div>
     <%= hidden_field_tag "account[manually_managed_features][]", "", id: nil %>
   </div>
-<% end %>
+</details>

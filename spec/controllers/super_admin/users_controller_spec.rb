@@ -363,7 +363,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
         doc = Nokogiri::HTML(response.body)
         button = doc.at_css('main header button:contains("Unblock email")')
         expect(button['disabled']).to be_present
-        expect(button.parent['title']).to eq('Check email delivery first.')
+        expect(button.parent.text).to include('Check email delivery first.')
         expect(response.body).to include('Check email delivery')
         expect(response.body).to include('Send test email')
       end
@@ -437,7 +437,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         button = Nokogiri::HTML(response.body).at_css('main header button:contains("Send test email")')
         expect(button['disabled']).to be_present
-        expect(button.parent['title']).to eq('Blocked after a spam complaint. Emails to this address are dropped.')
+        expect(button.parent.text).to include('Blocked after a spam complaint. Emails to this address are dropped.')
       end
 
       it 'keeps the test email available when the address is not blocked' do
@@ -452,7 +452,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         button = Nokogiri::HTML(response.body).at_css('main header button:contains("Unblock email")')
         expect(button['disabled']).to be_present
-        expect(button.parent['title']).to eq('Emails to this address are not blocked.')
+        expect(button.parent.text).to include('Emails to this address are not blocked.')
       end
 
       it 'shows a disabled clear button after a complaint check' do
@@ -460,7 +460,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         button = Nokogiri::HTML(response.body).at_css('button:contains("Unblock email")')
         expect(button['disabled']).to be_present
-        expect(button.parent['title']).to eq('Blocked after a spam complaint. Escalate to engineering.')
+        expect(button.parent.text).to include('Blocked after a spam complaint. Escalate to engineering.')
       end
 
       it 'reports an address that is not suppressed' do

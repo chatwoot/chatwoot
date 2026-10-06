@@ -74,13 +74,13 @@
 <% if fields["all_features"] %>
   <div data-tab-panel="features" <%= "hidden" unless active == "features" %>>
     <div class="space-y-6 pt-6">
+      <div class="text-body-main"><%= render_field fields["all_features"], page: page %></div>
+
       <% if fields["manually_managed_features"] %>
-        <%= render "card", title: t("super_admin.accounts.manually_managed_features") do %>
+        <%= render "card", title: t("super_admin.accounts.manually_managed_features"), meta: fields["manually_managed_features"].selected_features.size, collapsible: true do %>
           <div class="p-4 text-body-main"><%= render_field fields["manually_managed_features"], page: page %></div>
         <% end %>
       <% end %>
-
-      <div class="text-body-main"><%= render_field fields["all_features"], page: page %></div>
     </div>
   </div>
 <% end %>

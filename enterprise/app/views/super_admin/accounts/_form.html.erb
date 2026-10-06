@@ -5,7 +5,7 @@
   fields = page.attributes(controller.action_name).values.flatten.index_by(&:name)
   tabs = [
     { key: "general", label: t("super_admin.accounts.general"), attributes: fields.values_at("name", "locale", "status", "limits") },
-    { key: "features", label: t("super_admin.features.title"), attributes: fields.values_at("manually_managed_features", "all_features") },
+    { key: "features", label: t("super_admin.features.title"), attributes: fields.values_at("all_features", "manually_managed_features") },
     { key: "captain-models", label: t("super_admin.accounts.captain_models"), attributes: fields.values_at("captain_models") }
   ].select { |tab| tab[:attributes].any? }
   active = active_tab(tabs)
