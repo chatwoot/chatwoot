@@ -1,3 +1,5 @@
+import { initializeCommandBar } from '../superadmin/commandBar';
+
 // This module is deferred, so the document is already parsed when it runs.
 
 const swapIcons = button =>
@@ -426,3 +428,4 @@ initializeFilters();
 initializeToasts();
 clearSuppressionParam();
 initializePageProgress();
+initializeCommandBar();

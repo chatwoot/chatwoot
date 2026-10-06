@@ -1,0 +1,24 @@
+<%# locals: (command:) -%>
+<%
+  row = class_names("flex min-h-9 w-full cursor-pointer items-center gap-2.5 rounded-lg px-3 text-start text-body-main group-aria-selected:bg-n-alpha-2 touch:min-h-11",
+                    "hover:bg-n-alpha-2" => command[:method])
+  content = capture do
+%>
+  <span class="<%= command[:icon] %> size-4 shrink-0 text-n-slate-10"></span>
+  <span class="<%= class_names("min-w-0 flex-1 truncate", command[:danger] ? "text-n-ruby-11" : "text-n-slate-12") %>"><%= command[:label] %></span>
+  <% if command[:hint] %>
+    <span class="max-w-[50%] shrink-0 truncate text-label-small tabular-nums text-n-slate-10"><%= command[:hint] %></span>
+  <% end %>
+  <% if command[:record_url] %>
+    <span class="hidden shrink-0 group-aria-selected:block touch:!hidden"><%= render "kbd", label: "⇥ #{t("super_admin.command_bar.actions")}" %></span>
+  <% end %>
+<% end %>
+<%= tag.div role: "option", class: "group", aria: { selected: false }, data: { command_item: true, command_method: command[:method], command_record_url: command[:record_url] } do %>
+  <% if command[:method] %>
+    <%= button_to command[:url], method: command[:method], class: row, tabindex: -1, form: command[:form] do %><%= content %><% end %>
+  <% elsif command[:url] %>
+    <%= link_to content, command[:url], class: row, tabindex: -1 %>
+  <% else %>
+    <%= tag.button content, type: "button", class: row, tabindex: -1, data: command[:data] %>
+  <% end %>
+<% end %>

@@ -767,6 +767,18 @@ en:
       actions: 'Actions'
       empty: 'No %{resource} found.'
       showing: 'Showing %{from}–%{to} of %{total}'
+    command_bar:
+      label: 'Command bar'
+      trigger: 'Search'
+      placeholder: 'Search or run a command'
+      empty: 'No results found.'
+      go_to: 'Go to'
+      create: 'Create'
+      actions: 'Actions'
+      open: 'Open'
+      see_all: 'See all matching %{resource}'
+      navigate: 'Navigate'
+      select: 'Select'
     dashboard:
       description: 'Accounts, users and conversation volume across this installation.'
       new_user: 'New user'

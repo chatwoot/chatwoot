@@ -8,7 +8,7 @@ class SuperAdmin::ApplicationController < Administrate::ApplicationController
   include ActionView::Helpers::TagHelper
   include ActionView::Context
 
-  helper SuperAdmin::NavigationHelper, SuperAdmin::UiHelper
+  helper SuperAdmin::NavigationHelper, SuperAdmin::CommandBarHelper, SuperAdmin::UiHelper
   helper_method :render_vue_component
   # authenticiation done via devise : SuperAdmin Model
   before_action :authenticate_super_admin!

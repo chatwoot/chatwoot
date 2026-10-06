@@ -96,6 +96,12 @@ module SuperAdmin::NavigationHelper
     ]
   end
 
+  def nav_resources
+    Administrate::Namespace.new(namespace).resources_with_index_route.reject do |resource|
+      HIDDEN_RESOURCES.include?(resource) || (resource == 'platform_banners' && !ChatwootApp.chatwoot_cloud?)
+    end
+  end
+
   # superadmin.js keeps the tab last opened on a page in this cookie, so the page renders with that tab open.
   def active_tab(tabs)
     path, key = cookies[:super_admin_tab].to_s.split('#', 2)
@@ -105,10 +111,7 @@ module SuperAdmin::NavigationHelper
   private
 
   def resource_nav_items
-    Administrate::Namespace.new(namespace).resources_with_index_route.filter_map do |resource|
-      next if HIDDEN_RESOURCES.include?(resource)
-      next if resource == 'platform_banners' && !ChatwootApp.chatwoot_cloud?
-
+    nav_resources.map do |resource|
       tab_label_key = TAB_LABELS[resource]
       { label: display_resource_name(resource), tab_label: (t(tab_label_key) if tab_label_key), url: resource_index_route(resource),
         icon: NAV_ICONS[resource], active: nav_link_state(resource) == :active,
