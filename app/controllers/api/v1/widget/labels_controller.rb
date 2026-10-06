@@ -1,12 +1,18 @@
 class Api::V1::Widget::LabelsController < Api::V1::Widget::BaseController
   def create
-    conversation.add_labels(permitted_params[:label]) if conversation.present? && label_defined_in_account?
+    if conversation.present? && label_defined_in_account?
+      conversation.label_list.add(permitted_params[:label])
+      conversation.save!
+    end
 
     head :no_content
   end
 
   def destroy
-    conversation.update!(label_list: conversation.label_list - [permitted_params[:id]]) if conversation.present?
+    if conversation.present?
+      conversation.label_list.remove(permitted_params[:id])
+      conversation.save!
+    end
 
     head :no_content
   end

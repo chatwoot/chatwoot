@@ -117,7 +117,8 @@ RSpec.describe 'Label API', type: :request do
 
       it 'deletes the label and enqueues label cleanup' do
         label_deleted_at = Time.zone.parse('2026-05-07 10:00:00 UTC')
-        conversation.add_labels([label.title])
+        conversation.label_list.add(label.title)
+        conversation.save!
 
         clear_enqueued_jobs
 

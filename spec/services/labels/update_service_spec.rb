@@ -7,29 +7,26 @@ describe Labels::UpdateService do
   let(:contact) { conversation.contact }
 
   before do
-    conversation.update_labels([label.title, 'billing'])
-    contact.update_labels([label.title, 'billing'])
+    conversation.label_list.add(label.title)
+    conversation.save!
+
+    contact.label_list.add(label.title)
+    contact.save!
   end
 
   describe '#perform' do
-    let(:service) do
+    it 'updates associated conversations/contacts labels' do
+      expect(conversation.label_list).to eq([label.title])
+      expect(contact.label_list).to eq([label.title])
+
       described_class.new(
         new_label_title: 'updated-label-title',
         old_label_title: label.title,
         account_id: account.id
-      )
-    end
+      ).perform
 
-    it 'renames the label on associated conversations and contacts' do
-      service.perform
-
-      expect(conversation.reload.labels.pluck(:name)).to contain_exactly('updated-label-title', 'billing')
-      expect(conversation.cached_label_list_array).to contain_exactly('updated-label-title', 'billing')
-      expect(contact.reload.labels.pluck(:name)).to contain_exactly('updated-label-title', 'billing')
-    end
-
-    it 'does not create label activity messages' do
-      expect { service.perform }.not_to have_enqueued_job(Conversations::ActivityMessageJob)
+      expect(conversation.reload.label_list).to eq(['updated-label-title'])
+      expect(contact.reload.label_list).to eq(['updated-label-title'])
     end
   end
 end

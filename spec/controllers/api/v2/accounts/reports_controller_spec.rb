@@ -390,7 +390,8 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
       it 'returns outgoing message counts grouped by label' do
         label = create(:label, account: account, title: 'support')
         conversation = account.conversations.first
-        conversation.add_labels(['support'])
+        conversation.label_list.add('support')
+        conversation.save!
 
         get "/api/v2/accounts/#{account.id}/reports/outgoing_messages_count",
             params: { group_by: 'label', since: since_epoch, until: until_epoch },

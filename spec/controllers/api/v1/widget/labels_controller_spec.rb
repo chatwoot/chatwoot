@@ -51,7 +51,8 @@ RSpec.describe '/api/v1/widget/labels', type: :request do
 
   describe 'DELETE /api/v1/widget/labels' do
     before do
-      conversation.add_labels(['customer-support'])
+      conversation.label_list.add('customer-support')
+      conversation.save!
     end
 
     let(:params) { { website_token: web_widget.website_token, label: 'customer-support' } }

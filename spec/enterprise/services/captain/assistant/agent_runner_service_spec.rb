@@ -838,7 +838,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     it 'includes labels from a persisted conversation' do
-      conversation.add_labels(['lang_en'])
+      conversation.label_list.add('lang_en')
+      conversation.save!
       conversation.reload
 
       state = service.send(:build_state)
