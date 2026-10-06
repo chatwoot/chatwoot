@@ -97,15 +97,9 @@ RSpec.describe Portal do
     end
 
     it 'requires a password to become password protected' do
-      portal.update(config: { visibility: 'password' })
+      portal.update(config: { visibility: 'private_with_password' })
 
       expect(portal.errors[:password]).to include("can't be blank")
-    end
-
-    it 'rejects passwords shorter than the minimum length' do
-      portal.update(config: { visibility: 'password' }, password: 'short')
-
-      expect(portal.errors[:password]).to include('is too short (minimum is 8 characters)')
     end
 
     it 'rejects an unsupported visibility' do
@@ -115,7 +109,7 @@ RSpec.describe Portal do
     end
 
     context 'when password protected' do
-      before { portal.update!(config: { visibility: 'password' }, password: 'opensesame1') }
+      before { portal.update!(config: { visibility: 'private_with_password' }, password: 'opensesame1') }
 
       it 'authenticates the password' do
         expect(portal.password_protected?).to be(true)

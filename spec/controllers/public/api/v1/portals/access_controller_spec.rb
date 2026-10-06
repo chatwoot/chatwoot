@@ -31,7 +31,7 @@ RSpec.describe 'Public Portal Access', type: :request do
   end
 
   context 'when the portal is password protected' do
-    before { portal.update!(config: { visibility: 'password' }, password: password) }
+    before { portal.update!(config: { visibility: 'private_with_password' }, password: password) }
 
     it 'shows the password page instead of the portal home' do
       get "/hc/#{portal.slug}/en", headers: html_headers
@@ -116,7 +116,7 @@ RSpec.describe 'Public Portal Access', type: :request do
     end
 
     it 'does not unlock other password protected portals' do
-      other_portal = create(:portal, account: account, slug: 'other-portal', config: { visibility: 'password' }, password: password)
+      other_portal = create(:portal, account: account, slug: 'other-portal', config: { visibility: 'private_with_password' }, password: password)
       post "/hc/#{portal.slug}/unlock", params: { password: password }
 
       get "/hc/#{other_portal.slug}/en", headers: html_headers

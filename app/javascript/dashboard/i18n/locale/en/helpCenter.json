@@ -1068,8 +1068,7 @@
           "LABEL": "Password",
           "PLACEHOLDER": "Enter a password",
           "HELP": "Share this password with the people who should have access.",
-          "CHANGE_HELP": "Leave blank to keep the current password. Changing it signs everyone out.",
-          "INVALID": "Use between {min} and {max} characters."
+          "CHANGE_HELP": "Leave blank to keep the current password. Changing it signs everyone out."
         },
         "SAVE": "Save changes"
       },

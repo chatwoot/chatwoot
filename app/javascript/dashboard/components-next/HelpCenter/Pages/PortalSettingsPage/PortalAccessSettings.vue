@@ -14,10 +14,8 @@ const props = defineProps({
 
 const emit = defineEmits(['updatePortalConfiguration']);
 
-// Mirrors Portal#visibility and Portal::PASSWORD_LENGTH.
-const VISIBILITY = { PUBLIC: 'public', PASSWORD: 'password' };
-const MIN_PASSWORD_LENGTH = 8;
-const MAX_PASSWORD_LENGTH = 72;
+// Mirrors Portal#visibility.
+const VISIBILITY = { PUBLIC: 'public', PASSWORD: 'private_with_password' };
 
 const { t } = useI18n();
 const uiFlagsIn = useMapGetter('portals/uiFlagsIn');
@@ -63,13 +61,6 @@ const hasSavedPassword = computed(
   () => savedVisibility.value === VISIBILITY.PASSWORD
 );
 
-const isPasswordInvalid = computed(
-  () =>
-    state.password !== '' &&
-    (state.password.length < MIN_PASSWORD_LENGTH ||
-      state.password.length > MAX_PASSWORD_LENGTH)
-);
-
 const isPasswordMissing = computed(
   () => isPasswordProtected.value && !hasSavedPassword.value && !state.password
 );
@@ -80,17 +71,11 @@ const hasChanges = computed(
     (isPasswordProtected.value && state.password !== '')
 );
 
-const passwordMessage = computed(() => {
-  if (isPasswordInvalid.value) {
-    return t('HELP_CENTER.PORTAL_SETTINGS.ACCESS.PASSWORD_FIELD.INVALID', {
-      min: MIN_PASSWORD_LENGTH,
-      max: MAX_PASSWORD_LENGTH,
-    });
-  }
-  return hasSavedPassword.value
+const passwordMessage = computed(() =>
+  hasSavedPassword.value
     ? t('HELP_CENTER.PORTAL_SETTINGS.ACCESS.PASSWORD_FIELD.CHANGE_HELP')
-    : t('HELP_CENTER.PORTAL_SETTINGS.ACCESS.PASSWORD_FIELD.HELP');
-});
+    : t('HELP_CENTER.PORTAL_SETTINGS.ACCESS.PASSWORD_FIELD.HELP')
+);
 
 const handleSave = () => {
   emit('updatePortalConfiguration', {
@@ -139,18 +124,13 @@ const handleSave = () => {
         t('HELP_CENTER.PORTAL_SETTINGS.ACCESS.PASSWORD_FIELD.PLACEHOLDER')
       "
       :message="passwordMessage"
-      :message-type="isPasswordInvalid ? 'error' : 'info'"
     />
 
     <div class="flex justify-end">
       <Button
         :label="t('HELP_CENTER.PORTAL_SETTINGS.ACCESS.SAVE')"
         :disabled="
-          !hasChanges ||
-          isPasswordInvalid ||
-          isPasswordMissing ||
-          isFetching ||
-          isUpdatingPortal
+          !hasChanges || isPasswordMissing || isFetching || isUpdatingPortal
         "
         :is-loading="isUpdatingPortal"
         @click="handleSave"

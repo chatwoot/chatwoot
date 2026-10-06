@@ -210,18 +210,18 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
 
       it 'allows administrators to password protect the portal' do
         put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
-            params: { portal: { password: 'opensesame1', config: { visibility: 'password' } } },
+            params: { portal: { password: 'opensesame1', config: { visibility: 'private_with_password' } } },
             headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)
-        expect(response.parsed_body['config']['visibility']).to eq('password')
+        expect(response.parsed_body['config']['visibility']).to eq('private_with_password')
         expect(response.body).not_to include('password_digest')
         expect(portal.reload.authenticate('opensesame1')).to eq(portal)
       end
 
       it 'rejects password protection without a password' do
         put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
-            params: { portal: { config: { visibility: 'password' } } },
+            params: { portal: { config: { visibility: 'private_with_password' } } },
             headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:unprocessable_entity)

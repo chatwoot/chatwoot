@@ -11,7 +11,7 @@ RSpec.describe Inbox do
 
     it 'does not allow linking a password protected portal' do
       inbox = create(:inbox)
-      portal = create(:portal, account: inbox.account, config: { visibility: 'password' }, password: 'opensesame1')
+      portal = create(:portal, account: inbox.account, config: { visibility: 'private_with_password' }, password: 'opensesame1')
 
       inbox.update(portal: portal)
 

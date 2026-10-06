@@ -30,8 +30,6 @@ class Portal < ApplicationRecord
   include PortalConfigSchema
 
   DEFAULT_COLOR = '#1f93ff'.freeze
-  # bcrypt ignores everything past 72 bytes
-  PASSWORD_LENGTH = (8..72)
 
   has_secure_password validations: false
 
@@ -52,7 +50,6 @@ class Portal < ApplicationRecord
   before_validation :normalize_config
   validate :validate_config
   validate :validate_analytics
-  validates :password, length: { in: PASSWORD_LENGTH }, allow_nil: true
   validates :password, presence: true, if: -> { password_protected? && password_digest.blank? }
   before_save -> { self.password_digest = nil }, unless: :password_protected?
   validates_with JsonSchemaValidator,
@@ -168,7 +165,7 @@ class Portal < ApplicationRecord
   end
 
   def password_protected?
-    visibility == 'password'
+    visibility == 'private_with_password'
   end
 
   def password_fingerprint

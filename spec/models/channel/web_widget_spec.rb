@@ -24,7 +24,7 @@ RSpec.describe Channel::WebWidget do
     end
 
     it 'returns nil when the portal is password protected' do
-      portal.update!(config: { visibility: 'password' }, password: 'opensesame1')
+      portal.update!(config: { visibility: 'private_with_password' }, password: 'opensesame1')
 
       expect(channel_widget.reload.public_portal).to be_nil
     end

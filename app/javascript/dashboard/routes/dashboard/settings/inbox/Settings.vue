@@ -139,7 +139,7 @@ export default {
     // The widget cannot sign visitors in, so password protected help centers are not offered.
     widgetPortals() {
       return this.portals.filter(
-        portal => portal.config?.visibility !== 'password'
+        portal => portal.config?.visibility !== 'private_with_password'
       );
     },
     isInboundEmailEnabled() {
