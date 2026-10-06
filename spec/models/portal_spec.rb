@@ -108,6 +108,14 @@ RSpec.describe Portal do
       expect(portal).not_to be_valid
     end
 
+    it 'cannot be password protected while linked to an inbox' do
+      create(:inbox, account: portal.account, portal: portal)
+
+      portal.update(config: { visibility: 'private_with_password' }, password: 'opensesame1')
+
+      expect(portal.errors[:base]).to include('Remove this help center from its inboxes before password protecting it')
+    end
+
     context 'when password protected' do
       before { portal.update!(config: { visibility: 'private_with_password' }, password: 'opensesame1') }
 

@@ -51,6 +51,7 @@ class Portal < ApplicationRecord
   validate :validate_config
   validate :validate_analytics
   validates :password, presence: true, if: -> { password_protected? && password_digest.blank? }
+  validate :ensure_not_linked_to_inboxes, if: :password_protected?
   before_save -> { self.password_digest = nil }, unless: :password_protected?
   validates_with JsonSchemaValidator,
                  schema: PortalConfigSchema::CONFIG_PARAMS_SCHEMA,
@@ -178,6 +179,11 @@ class Portal < ApplicationRecord
   end
 
   private
+
+  # The widget cannot sign visitors in to a password protected help center.
+  def ensure_not_linked_to_inboxes
+    errors.add(:base, I18n.t('portals.password_protected.linked_to_inboxes')) if inboxes.exists?
+  end
 
   def normalize_config
     self.config = persisted_config.merge((config || {}).deep_stringify_keys)

@@ -669,6 +669,8 @@ en:
   agent_capacity_policy:
     inbox_already_assigned: 'Inbox has already been assigned to this policy'
   portals:
+    password_protected:
+      linked_to_inboxes: Remove this help center from its inboxes before password protecting it
     analytics:
       invalid_configuration: 'Invalid analytics configuration'
     articles:
