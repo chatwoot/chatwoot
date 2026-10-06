@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "الرسائل الغير مقروءة",
     "UNREAD_MESSAGE": "رسالة غير مقروءة",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "اضغط هنا",
     "LOADING_INBOXES": "جار جلب صناديق الوارد",
     "LOADING_CONVERSATIONS": "جاري جلب المحادثات",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "لم يتم تعيين هذه المحادثة لك. هل ترغب في تعيين هذه المحادثة لنفسك؟",
     "ASSIGN_TO_ME": "إسناد لي",
     "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "a bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Take over",
     "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
     "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",
     "NO_RESPONSE": "لا توجد استجابة",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "Response",
     "RATING_TITLE": "التقييم",
     "FEEDBACK_TITLE": "الملاحظات",
@@ -142,8 +160,8 @@
       "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
       "VOICE_CALL": "Start call",
       "VOICE_CALL_FAILED": "Could not start the call.",
-      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
-      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "أرسل طلب إذن مكالمة إلى جهة الاتصال. حاول مرة أخرى بمجرد قبولها.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "تم إرسال طلب إذن المكالمة مؤخرًا. حاول مرة أخرى بمجرد قبول جهة الاتصال.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -198,6 +216,16 @@
       "TITLE": "تأجيل حتى",
       "APPLY": "تأجيل",
       "CANCEL": "إلغاء"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "قبول",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "تجاهل",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "الأولوية",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لك ولأعضاء فريقك",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "نسخ",
       "REPLY_TO": "الرد على هذه الرسالة",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "حذف",
       "CREATE_A_CANNED_RESPONSE": "إضافة إلى الردود الجاهزة",
       "TRANSLATE": "ترجم",
@@ -529,7 +556,16 @@
     "BCC": "نسخة خفية من البريد",
     "CC": "نسخة من البريد",
     "SUBJECT": "الموضوع",
+    "DATE": "Date",
     "EXPAND": "Expand email"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "إلى:",
+    "TO_PLACEHOLDER": "Enter at least 2 characters to search by email",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "المشاركة",
