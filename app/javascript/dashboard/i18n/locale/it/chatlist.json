@@ -7,7 +7,7 @@
       "404": "Non ci sono conversazioni attive in questo gruppo."
     },
     "FAILED_TO_SEND": "Invio non riuscito",
-    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
+    "FETCH_ERROR": "Impossibile caricare le conversazioni. Riprova.",
     "TAB_HEADING": "Conversazioni",
     "MENTION_HEADING": "Menzioni",
     "UNATTENDED_HEADING": "Non Partecipate",
@@ -80,7 +80,7 @@
         "TEXT": "Priorità: prima le più importanti, Data creazione: prima le più vecchie"
       },
       "unread": {
-        "TEXT": "Unread Count: Highest first"
+        "TEXT": "Non letti: prima i più numerosi"
       }
     },
     "ATTACHMENTS": {
