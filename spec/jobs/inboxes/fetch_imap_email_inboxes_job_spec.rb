@@ -64,5 +64,21 @@ RSpec.describe Inboxes::FetchImapEmailInboxesJob do
 
       described_class.perform_now
     end
+
+    it 'skips channels paused for imap fetch backoff' do
+      imap_email_channel.update!(imap_fetch_paused_till: 5.minutes.from_now)
+
+      expect(Inboxes::FetchImapEmailsJob).not_to receive(:perform_later).with(imap_email_channel)
+
+      described_class.perform_now
+    end
+
+    it 'fetches channels whose imap fetch pause has expired' do
+      imap_email_channel.update!(imap_fetch_paused_till: 5.minutes.ago)
+
+      expect(Inboxes::FetchImapEmailsJob).to receive(:perform_later).with(imap_email_channel).once
+
+      described_class.perform_now
+    end
   end
 end
