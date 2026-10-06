@@ -57,6 +57,7 @@ captain_billing: https://chwt.app/hc/captain_billing
 conversation-workflow: https://chwt.app/hc/required-attributes
 inboxes: https://chwt.app/hc/inboxes
 slack_integration: https://chwt.app/hc/slack
+webhook: https://chwt.app/hc/webhooks
 whatsapp_templates: https://chwt.app/hc/whatsapp-templates
 
 # Integrations
@@ -68,4 +69,3 @@ linear: https://chwt.app/linear-app
 openai: https://chwt.app/hc/openai
 shopify: https://chwt.app/hc/shopify
 slack: https://chwt.app/hc/slack
-webhook: https://chwt.app/hc/webhooks

@@ -10,7 +10,7 @@
          value="<%= search_term %>">
 
   <% if search_term.present? %>
-    <%= render "icon_button", url: { search: ("#{current_filter}:" if current_filter) }, extra: "absolute end-1 top-1/2 -translate-y-1/2", title: t("administrate.search.clear") do %>
+    <%= render "icon_button", url: { search: ("#{current_filter}:" if current_filter) }, extra: "absolute end-1 top-1/2 -translate-y-1/2", title: t("administrate.search.clear"), aria: { label: t("administrate.search.clear") } do %>
       <span class="i-lucide-x size-4"></span>
     <% end %>
   <% end %>

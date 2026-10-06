@@ -39,11 +39,11 @@
 
 <%= render "tabs", tabs: tabs, active: active %>
 
-<div data-tab-panel="overview" <%= "hidden" unless active == "overview" %>>
+<div role="tabpanel" id="panel-overview" aria-labelledby="tab-overview" data-tab-panel="overview" <%= "hidden" unless active == "overview" %>>
   <div class="space-y-6 pt-6">
     <%= render "card", title: t("super_admin.record.profile") do %>
       <%= render "attributes", page: page, attributes: fields.values_at("id", "name", "display_name", "email", "unconfirmed_email", "type", "confirmed_at", "created_at", "updated_at") do %>
-        <%= render "attribute", label: t("super_admin.users.mfa"), id: "mfa_enabled" do %>
+        <%= render "attribute", label: t("super_admin.users.mfa") do %>
           <%= render "badge", label: mfa_status, tone: (user.mfa_enabled? ? :success : :neutral) %>
         <% end %>
       <% end %>
@@ -53,7 +53,7 @@
   </div>
 </div>
 
-<div data-tab-panel="accounts" <%= "hidden" unless active == "accounts" %>>
+<div role="tabpanel" id="panel-accounts" aria-labelledby="tab-accounts" data-tab-panel="accounts" <%= "hidden" unless active == "accounts" %>>
   <div class="space-y-6 pt-6">
     <%= render_field fields["account_users"], page: page %>
     <%= render "super_admin/shared/account_user_form", page: page, resource_type: "user" %>

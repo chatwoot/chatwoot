@@ -24,7 +24,7 @@ ones show, the rest sit behind "More".
   ].join(" ")
 %>
 
-<aside class="hidden border-e border-n-weak bg-n-slate-2 [view-transition-name:sidebar] lg:sticky lg:top-0 lg:flex lg:h-dvh lg:w-56 lg:shrink-0 lg:flex-col">
+<aside class="hidden border-e border-n-weak bg-n-slate-2 dark:bg-n-solid-1 lg:sticky lg:top-0 lg:flex lg:h-dvh lg:w-56 lg:shrink-0 lg:flex-col">
   <div class="relative shrink-0 px-4">
     <div class="pointer-events-none absolute inset-0 bg-pixel-band opacity-30 [mask-image:linear-gradient(to_bottom,black,transparent)]"></div>
     <div class="relative"><%= brand %></div>
@@ -43,7 +43,7 @@ ones show, the rest sit behind "More".
   <div class="shrink-0 border-t border-n-weak p-2"><%= render "account_menu", expanded: true %></div>
 </aside>
 
-<header class="sticky -top-14 z-30 border-b border-n-weak bg-n-background [view-transition-name:topbar] lg:hidden">
+<header class="sticky -top-14 z-30 border-b border-n-weak bg-n-background lg:hidden">
   <div class="flex flex-wrap items-center gap-x-3 px-[clamp(1rem,3vw,3rem)]">
     <%= brand %>
     <div class="ms-auto"><%= render "account_menu" %></div>

@@ -7,22 +7,6 @@
 @import 'selectize';
 @import 'tailwindcss/utilities';
 
-body {
-  font-family: Inter, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-}
-
-// Cross-fade between pages instead of flashing blank while the next one loads.
-@media (prefers-reduced-motion: no-preference) {
-  // scss-lint:disable PropertySpelling, PseudoElement
-  @view-transition {
-    navigation: auto;
-  }
-
-  ::view-transition-group(root) {
-    animation-duration: 0.15s;
-  }
-}
-
 @layer base {
   // FIXME: Use a common color file for all packs
   // scss-lint:disable PropertySortOrder

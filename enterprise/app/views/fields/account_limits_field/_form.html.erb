@@ -1,4 +1,4 @@
-<%= render "field", f: f, field: field do %>
+<%= render "field", f: f, field: field, wide: true do %>
   <div class="grid gap-3 sm:grid-cols-2">
     <% JSON.parse(field.to_s).each do |key, val| %>
       <div>

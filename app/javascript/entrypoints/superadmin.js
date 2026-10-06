@@ -89,9 +89,14 @@ document.addEventListener(
 
     const { secret } = button.closest('[data-secret]').dataset;
     if (button.matches('[data-secret-copy]')) {
+      if (button.disabled) return;
       navigator.clipboard.writeText(secret).then(() => {
+        button.disabled = true;
         swapIcons(button);
-        setTimeout(() => swapIcons(button), 1500);
+        setTimeout(() => {
+          swapIcons(button);
+          button.disabled = false;
+        }, 1500);
       });
       return;
     }
@@ -124,15 +129,19 @@ const showPendingLabel = event => {
 };
 
 // The list filter travels inside the search term as `<filter>: <text>`.
-const keepSearchFilter = form => {
-  const input = form.elements.search;
-  input.value = `${form.dataset.searchFilter}: ${input.value}`.trim();
-};
+document.addEventListener('formdata', event => {
+  const filter = event.target.dataset.searchFilter;
+  if (!filter) return;
+  const text = event.formData.get('search') || '';
+  event.formData.set('search', `${filter}: ${text}`.trim());
+});
 
 // Posts the form in the background and copies the link it returns. The
 // clipboard is given a promise so Safari still treats it as part of the click.
 const copyLinkFromForm = form => {
   const button = form.querySelector('button');
+  if (button.disabled) return;
+  button.disabled = true;
   const label = button.textContent;
   const link = fetch(form.action, {
     method: 'POST',
@@ -163,6 +172,7 @@ const copyLinkFromForm = form => {
     button.textContent = text;
     setTimeout(() => {
       button.textContent = label;
+      button.disabled = false;
     }, 2000);
   };
   copy
@@ -177,7 +187,6 @@ document.addEventListener('submit', event => {
     copyLinkFromForm(form);
     return;
   }
-  if (form.dataset.searchFilter) keepSearchFilter(form);
   showPendingLabel(event);
 });
 
@@ -377,8 +386,12 @@ const initializeToasts = () => {
     const schedule = () => {
       timer = setTimeout(hide, 8000);
     };
-    toast.addEventListener('mouseenter', () => clearTimeout(timer));
-    toast.addEventListener('mouseleave', schedule);
+    ['mouseenter', 'focusin'].forEach(type =>
+      toast.addEventListener(type, () => clearTimeout(timer))
+    );
+    ['mouseleave', 'focusout'].forEach(type =>
+      toast.addEventListener(type, schedule)
+    );
     schedule();
   });
 };
@@ -401,9 +414,9 @@ const initializePageProgress = () => {
       return;
     bar.classList.add('animate-page-progress');
   });
-  window.addEventListener('pageshow', () =>
-    bar.classList.remove('animate-page-progress')
-  );
+  const reset = () => bar.classList.remove('animate-page-progress');
+  window.addEventListener('pageshow', reset);
+  window.navigation.addEventListener('navigateerror', reset);
 };
 
 initializeAccountSuspensionForm();

@@ -1,12 +1,4 @@
-<%# locals: (type: "error", extra: nil, **attributes) -%>
-<%
-  tones = {
-    "notice" => "border-n-blue-6 bg-n-blue-2 text-n-blue-12",
-    "success" => "border-n-teal-6 bg-n-teal-2 text-n-teal-12",
-    "alert" => "border-n-amber-6 bg-n-amber-2 text-n-amber-12",
-    "error" => "border-n-ruby-6 bg-n-ruby-2 text-n-ruby-12"
-  }
-%>
-<%= tag.div class: class_names("rounded-lg border px-3.5 py-2.5 text-body-main [&_a]:underline", tones.fetch(type.to_s, tones["notice"]), extra), **attributes do %>
+<%# locals: (extra: nil, **attributes) -%>
+<%= tag.div class: class_names("rounded-lg border border-n-ruby-6 bg-n-ruby-2 px-3.5 py-2.5 text-body-main text-n-ruby-12 [&_a]:underline", extra), **attributes do %>
   <%= yield %>
 <% end %>

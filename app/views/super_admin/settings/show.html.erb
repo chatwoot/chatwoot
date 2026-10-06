@@ -17,9 +17,10 @@
     <% end %>
   <% end %>
 
-  <% if ChatwootHub.pricing_plan != 'community' && User.count > ChatwootHub.pricing_plan_quantity %>
+  <% user_count = User.count if ChatwootHub.pricing_plan != 'community' %>
+  <% if user_count && user_count > ChatwootHub.pricing_plan_quantity %>
     <%= render "alert", role: "alert" do %>
-      <%= t("super_admin.settings.agents_over_limit", count: User.count) %>
+      <%= t("super_admin.settings.agents_over_limit", count: user_count) %>
     <% end %>
   <% end %>
 

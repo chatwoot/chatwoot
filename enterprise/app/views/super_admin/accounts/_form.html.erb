@@ -17,7 +17,7 @@
   <% end %>
 
   <% tabs.each do |tab| %>
-    <%= tag.div class: "divide-y divide-n-weak", hidden: tab[:key] != active, data: { tab_panel: tab[:key] } do %>
+    <%= tag.div class: "divide-y divide-n-weak", role: "tabpanel", id: "panel-#{tab[:key]}", aria: { labelledby: "tab-#{tab[:key]}" }, hidden: tab[:key] != active, data: { tab_panel: tab[:key] } do %>
       <% tab[:attributes].compact.each do |attribute| %>
         <%= render_field attribute, f: f %>
       <% end %>

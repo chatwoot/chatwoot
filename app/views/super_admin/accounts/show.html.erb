@@ -31,7 +31,7 @@
 
 <%= render "tabs", tabs: tabs, active: active %>
 
-<div data-tab-panel="overview" <%= "hidden" unless active == "overview" %>>
+<div role="tabpanel" id="panel-overview" aria-labelledby="tab-overview" data-tab-panel="overview" <%= "hidden" unless active == "overview" %>>
   <div class="space-y-6 pt-6">
     <%= render "card", title: t("super_admin.record.profile") do %>
       <%= render "attributes", page: page, attributes: fields.values_at("id", "name", "locale", "status", "created_at", "updated_at") %>
@@ -64,7 +64,7 @@
   </div>
 </div>
 
-<div data-tab-panel="users" <%= "hidden" unless active == "users" %>>
+<div role="tabpanel" id="panel-users" aria-labelledby="tab-users" data-tab-panel="users" <%= "hidden" unless active == "users" %>>
   <div class="space-y-6 pt-6">
     <%= render_field fields["account_users"], page: page %>
     <%= render "super_admin/shared/account_user_form", page: page, resource_type: "account" %>
@@ -72,7 +72,7 @@
 </div>
 
 <% if fields["all_features"] %>
-  <div data-tab-panel="features" <%= "hidden" unless active == "features" %>>
+  <div role="tabpanel" id="panel-features" aria-labelledby="tab-features" data-tab-panel="features" <%= "hidden" unless active == "features" %>>
     <div class="space-y-6 pt-6">
       <div class="text-body-main"><%= render_field fields["all_features"], page: page %></div>
 
@@ -86,7 +86,7 @@
 <% end %>
 
 <% if fields["captain_models"] %>
-  <div data-tab-panel="captain" <%= "hidden" unless active == "captain" %>>
+  <div role="tabpanel" id="panel-captain" aria-labelledby="tab-captain" data-tab-panel="captain" <%= "hidden" unless active == "captain" %>>
     <div class="rounded-xl border border-n-weak bg-n-solid-1 mt-6 p-4">
       <h2 class="text-xs font-medium uppercase tracking-wider text-n-slate-10 mb-2" id="captain_models"><%= t("super_admin.accounts.captain_models") %></h2>
       <%= render_field fields["captain_models"], page: page %>
@@ -94,7 +94,7 @@
   </div>
 <% end %>
 
-<div data-tab-panel="maintenance" <%= "hidden" unless active == "maintenance" %>>
+<div role="tabpanel" id="panel-maintenance" aria-labelledby="tab-maintenance" data-tab-panel="maintenance" <%= "hidden" unless active == "maintenance" %>>
   <div class="rounded-xl border border-n-weak bg-n-solid-1 mt-6 divide-y divide-n-weak">
     <%= render "seed_data", page: page %>
     <%= render "reset_cache", page: page %>

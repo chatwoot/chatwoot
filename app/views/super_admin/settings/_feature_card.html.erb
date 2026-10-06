@@ -8,7 +8,7 @@
     <span class="flex items-center gap-1.5">
       <span class="truncate text-heading-3 text-n-slate-12"><%= attrs['name'] %></span>
       <% if attrs['enterprise'] %>
-        <%= render "badge", label: "EE", tone: :accent %>
+        <%= render "badge", label: t("super_admin.settings.enterprise_badge"), tone: :accent %>
       <% end %>
     </span>
     <span class="<%= class_names("block text-label-small text-n-slate-11", "truncate" => !locked) %>" title="<%= attrs['description'] %>"><%= attrs['description'] || t('super_admin.settings.default_description') %></span>

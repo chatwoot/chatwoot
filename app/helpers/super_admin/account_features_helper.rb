@@ -48,7 +48,8 @@ module SuperAdmin::AccountFeaturesHelper
     filtered = filter_deprecated_features(filtered)
     display_names = feature_display_names
 
-    regular, premium = filtered.partition { |key, _value| account_premium_features.exclude?(key) }
+    premium_features = account_premium_features
+    regular, premium = filtered.partition { |key, _value| premium_features.exclude?(key) }
 
     [
       sort_and_transform_features(regular, display_names),

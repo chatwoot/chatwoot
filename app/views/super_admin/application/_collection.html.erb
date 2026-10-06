@@ -58,20 +58,24 @@ to display a collection of resources in an HTML table.
           <% show_path = polymorphic_path([namespace, record]) if existing_action?(resource_name, :show) %>
           <%# `js-table-row` and `data-url` are what Administrate's table.js opens a row with. %>
           <%= tag.tr class: class_names("js-table-row", "cursor-pointer hover:bg-n-alpha-2 focus-visible:bg-n-alpha-2 focus-visible:outline-none" => show_path),
-                     tabindex: 0, role: ("link" if show_path), data: { url: show_path } do %>
+                     tabindex: ("0" if show_path), role: ("link" if show_path), data: { url: show_path } do %>
             <% attributes = collection_presenter.attributes_for(resource) %>
             <% avatar = attributes.find { |attribute| attribute.is_a?(AvatarField) } %>
             <% (attributes - [avatar]).each do |attribute| %>
               <td class="<%= class_names("max-w-80 truncate", cell_styles[attribute.html_class]) %>">
-                <% if authorized_action? resource, :show %>
-                  <a href="<%= polymorphic_path([namespace, record]) %>" class="text-n-slate-12">
-                    <% if attribute.name == "name" && avatar %>
-                      <%= render_field avatar %>
-                    <% elsif attribute.name == "name" %>
-                      <span class="me-2 inline-grid size-7 place-items-center rounded-lg border border-n-weak bg-n-slate-3 align-middle text-xs font-semibold uppercase text-n-slate-11"><%= attribute.data.to_s.first %></span>
-                    <% end %>
-                    <%= render_field attribute %>
-                  </a>
+                <% cell = capture do %>
+                  <% if attribute.name == "name" && avatar %>
+                    <%= render_field avatar %>
+                  <% elsif attribute.name == "name" %>
+                    <span class="me-2 inline-grid size-7 place-items-center rounded-lg border border-n-weak bg-n-slate-3 align-middle text-xs font-semibold uppercase text-n-slate-11"><%= attribute.data.to_s.first %></span>
+                  <% end %>
+                  <%= render_field attribute %>
+                <% end %>
+                <%# The row is the keyboard target; cell links only carry the click, and a cell with its own link or button is left alone. %>
+                <% if show_path && authorized_action?(resource, :show) && cell.present? && !cell.match?(/<(a|button)[\s>]/) %>
+                  <a href="<%= show_path %>" class="text-n-slate-12" tabindex="-1"><%= cell %></a>
+                <% else %>
+                  <%= cell %>
                 <% end %>
               </td>
             <% end %>

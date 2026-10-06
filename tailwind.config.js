@@ -24,7 +24,6 @@ const tailwindConfig = {
   darkMode: 'class',
   content: [
     './enterprise/app/views/**/*.erb',
-    './app/javascript/superadmin_pages/**/*.vue',
     './app/javascript/widget/**/*.vue',
     './app/javascript/v3/**/*.vue',
     './app/javascript/dashboard/**/*.vue',
@@ -37,8 +36,6 @@ const tailwindConfig = {
     './app/javascript/dashboard/components-next/**/*.js',
     './app/javascript/dashboard/routes/dashboard/**/**/*.js',
     './app/views/**/*.erb',
-    './app/helpers/super_admin/*.{rb,yml}',
-    './app/javascript/entrypoints/superadmin.js',
   ],
   theme: {
     extend: {

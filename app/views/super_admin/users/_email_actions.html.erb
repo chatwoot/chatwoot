@@ -69,8 +69,8 @@
   </details>
 
   <% if suppression == "bounce" %>
-    <dialog id="unblock-email-dialog" class="rounded-xl border border-n-weak bg-n-solid-1 w-[calc(100%-2rem)] max-w-md p-5 text-n-slate-12 shadow-xl backdrop:bg-modal-backdrop-light dark:backdrop:bg-modal-backdrop-dark">
-      <h2 class="text-heading-2">
+    <dialog id="unblock-email-dialog" aria-labelledby="unblock-email-dialog-title" class="rounded-xl border border-n-weak bg-n-solid-1 w-[calc(100%-2rem)] max-w-md p-5 text-n-slate-12 shadow-xl backdrop:bg-modal-backdrop-light dark:backdrop:bg-modal-backdrop-dark">
+      <h2 class="text-heading-2" id="unblock-email-dialog-title">
         <%= t("super_admin.users.email_suppression.clear_dialog.title", email: user.email) %>
       </h2>
       <p class="mt-2 text-body-main text-n-slate-11"><%= t("super_admin.users.email_suppression.clear_dialog.body", brand_name: GlobalConfig.get_value("BRAND_NAME").presence || "Chatwoot") %></p>

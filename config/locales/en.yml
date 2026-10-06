@@ -882,6 +882,7 @@ en:
         internal: 'Internal'
         internal_description: 'Keys and switches used by Chatwoot Cloud'
       configure: 'Configure'
+      enterprise_badge: 'EE'
       included: 'Included'
       locked: 'Locked'
       installation_identifier_description: 'Unique ID of this installation.'

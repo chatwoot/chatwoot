@@ -8,8 +8,7 @@ module SuperAdmin::NavigationHelper
   }.freeze
 
   # Routed resources that are reached from other pages instead of the navigation.
-  HIDDEN_RESOURCES = %w[account_users access_tokens installation_configs dashboard devise/sessions app_configs instance_statuses settings
-                        push_diagnostics].freeze
+  HIDDEN_RESOURCES = %w[dashboard access_tokens installation_configs].freeze
 
   # Always in the tab bar on small screens; on phones the others sit behind "More".
   PINNED_RESOURCES = %w[accounts users].freeze
@@ -43,7 +42,7 @@ module SuperAdmin::NavigationHelper
         attrs['config_key'].present? && attrs['enabled']
       end
 
-      pages = [['general', { 'config_key' => 'general', 'name' => t('super_admin.settings.pages.general') }]]
+      pages = [['general', { 'config_key' => 'general', 'name' => t('super_admin.settings.pages.general'), 'icon' => 'i-lucide-sliders-horizontal' }]]
       if ChatwootApp.chatwoot_cloud?
         pages << ['internal', { 'config_key' => 'internal', 'name' => t('super_admin.settings.pages.internal'),
                                 'description' => t('super_admin.settings.pages.internal_description'), 'icon' => 'i-lucide-lock-keyhole' }]
@@ -73,7 +72,7 @@ module SuperAdmin::NavigationHelper
     [overview] + settings_pages.map do |feature_key, attrs|
       group_key = SETTINGS_GROUPS.keys.find { |key| SETTINGS_GROUPS[key].include?(feature_key) }
       { label: attrs['name'], url: super_admin_app_config_path(config: attrs['config_key']), group: (t(group_key) if group_key),
-        icon: attrs['icon'] || 'i-lucide-sliders-horizontal', active: attrs['config_key'] == current_config }
+        icon: attrs['icon'], active: attrs['config_key'] == current_config }
     end
   end
 
@@ -106,14 +105,14 @@ module SuperAdmin::NavigationHelper
   private
 
   def resource_nav_items
-    Administrate::Namespace.new(namespace).resources.filter_map do |resource|
-      next if HIDDEN_RESOURCES.include?(resource.resource)
-      next if resource.resource == 'platform_banners' && !ChatwootApp.chatwoot_cloud?
+    Administrate::Namespace.new(namespace).resources_with_index_route.filter_map do |resource|
+      next if HIDDEN_RESOURCES.include?(resource)
+      next if resource == 'platform_banners' && !ChatwootApp.chatwoot_cloud?
 
-      tab_label_key = TAB_LABELS[resource.resource]
+      tab_label_key = TAB_LABELS[resource]
       { label: display_resource_name(resource), tab_label: (t(tab_label_key) if tab_label_key), url: resource_index_route(resource),
-        icon: NAV_ICONS[resource.resource], active: nav_link_state(resource) == :active,
-        pinned: PINNED_RESOURCES.include?(resource.resource), group: t('super_admin.navigation.groups.manage') }
+        icon: NAV_ICONS[resource], active: nav_link_state(resource) == :active,
+        pinned: PINNED_RESOURCES.include?(resource), group: t('super_admin.navigation.groups.manage') }
     end
   end
 end
