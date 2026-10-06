@@ -98,7 +98,7 @@ const chartSummary = computed(() => {
   if (!sourceData.length) return [];
 
   const total = sourceData.reduce((sum, [, value]) => sum + value, 0);
-  const [busiestDay, busiestCount] = sourceData.reduce((busiest, day) =>
+  const [busiestDay] = sourceData.reduce((busiest, day) =>
     day[1] > busiest[1] ? day : busiest
   );
 
@@ -110,7 +110,7 @@ const chartSummary = computed(() => {
     },
     {
       label: 'Busiest day',
-      value: `${busiestCount.toLocaleString()} on ${format(parseISO(busiestDay), AXIS_DATE_FORMAT)}`,
+      value: format(parseISO(busiestDay), AXIS_DATE_FORMAT),
     },
   ];
 });
