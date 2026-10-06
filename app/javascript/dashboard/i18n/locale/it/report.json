@@ -1,4 +1,170 @@
 {
+  "MONITORS": {
+    "TITLE": "Monitor",
+    "AUTOMATIONS": {
+      "TITLE": "Automazioni",
+      "DESCRIPTION": "Run actions when this monitor first matches a conversation from new live activity.",
+      "CREATE": "Create automation",
+      "EMPTY": "No automations are linked to this monitor yet.",
+      "ACTIVE": "Attiva",
+      "DISABLED": "Disabilitato",
+      "FETCH_FAILED": "Could not load linked automations."
+    },
+    "LIST": {
+      "CONVERSATIONS_COUNT": "{count} conversazione | {count} conversazioni",
+      "CONVERSATIONS_HELP": "Numero di conversazioni corrispondenti a questo monitor negli ultimi 7 giorni.",
+      "RUNNING": "In esecuzione",
+      "FETCH_FAILED": "Impossibile caricare i monitor. Riprova.",
+      "PAGINATION": "Monitor da {startItem} a {endItem} di {totalItems} | Monitor da {startItem} a {endItem} di {totalItems}"
+    },
+    "DESCRIPTION": "Segui i temi che contano nelle conversazioni con i clienti. Descrivi un argomento con parole semplici e un monitor traccerà in un grafico le conversazioni corrispondenti man mano che arrivano nuovi messaggi dai clienti.",
+    "CREATE": "Crea un monitor",
+    "PREVIEW": "Anteprima delle corrispondenze",
+    "PREVIEW_COOLDOWN": "Puoi rifare l'anteprima tra {count} secondo. | Puoi rifare l'anteprima tra {count} secondi.",
+    "PREVIEW_FAILED": "Impossibile vedere l'anteprima delle corrispondenze. Riprova.",
+    "PREVIEW_HELP": "{count} corrispondenza in un campione di {sampled} conversazioni recenti ({excluded} senza contesto utilizzabile). Questo campione non rappresenta un controllo completo. | {count} corrispondenze in un campione di {sampled} conversazioni recenti ({excluded} senza contesto utilizzabile). Questo campione non rappresenta un controllo completo.",
+    "NAME": "Nome",
+    "NAME_PLACEHOLDER": "Conversazioni sui rimborsi",
+    "CHOOSE_ICON": "Scegli un'icona o un'emoji",
+    "CONDITION": "Quali conversazioni deve trovare questo monitor?",
+    "CONDITION_PLACEHOLDER": "Tutte le conversazioni che parlano di rimborsi",
+    "CREATE_HELP": "Controlleremo le conversazioni create negli ultimi sette giorni, poi continueremo a controllare i nuovi messaggi dei clienti. Le risposte pubbliche e gli attributi dei clienti configurati danno il contesto. Le note private sono escluse.",
+    "SECTIONS": {
+      "YOUR_MONITORS": "I tuoi monitor",
+      "TEMPLATES": "Modelli"
+    },
+    "TEMPLATES": {
+      "TITLE": "Parti da un modello",
+      "USE_NAMED": "Usa il modello {name}",
+      "EDIT_HINT": "Dal modello {name}. Modifica quello che vuoi prima di crearlo.",
+      "ADMIN_HELP": "Chiedi a un amministratore di creare un monitor da un modello.",
+      "LOGIN_PROBLEMS": {
+        "NAME": "Problemi di accesso",
+        "AUDIENCE": "Per i team di assistenza",
+        "SUMMARY": "Scopri quando le segnalazioni di problemi di accesso iniziano ad aumentare.",
+        "CONDITION": "Un cliente dice di non riuscire ad accedere al proprio account, compresi i ripristini della password non riusciti e i codici di verifica mai arrivati. Escludi le domande sul cambio della password fatte quando l'accesso è già stato effettuato."
+      },
+      "MISSING_ORDER_UPDATES": {
+        "NAME": "Aggiornamenti sugli ordini mancanti",
+        "AUDIENCE": "Per i team operativi",
+        "SUMMARY": "Tieni traccia dei problemi ricorrenti nelle comunicazioni sulle consegne.",
+        "CONDITION": "Un cliente dice che una conferma d'ordine, un aggiornamento sulla spedizione o un avviso di consegna non è arrivato, oppure è arrivato per l'ordine sbagliato. Escludi i clienti che chiedono dove si trova un pacco pur avendo ricevuto l'email di tracciamento."
+      },
+      "COMPETITOR_MENTIONS": {
+        "NAME": "Menzioni dei concorrenti",
+        "AUDIENCE": "Per fondatori e team commerciali",
+        "SUMMARY": "Trova le conversazioni che vale la pena seguire.",
+        "CONDITION": "Un cliente ci confronta con un prodotto concorrente, dice di starne valutando uno o accenna che potrebbe cambiare. Escludi i clienti passati a noi da un concorrente che chiedono come importare i propri dati."
+      },
+      "FEATURE_REQUESTS": {
+        "NAME": "Richieste di funzionalità",
+        "AUDIENCE": "Per i team di prodotto",
+        "SUMMARY": "Tieni un conteggio aggiornato delle conversazioni su esigenze non soddisfatte.",
+        "CONDITION": "Un cliente chiede una funzionalità che il prodotto al momento non offre, oppure chiede se qualcosa è possibile e non lo è. Escludi le domande su come usare una funzionalità già esistente."
+      },
+      "REFUND_REQUESTS": {
+        "NAME": "Richieste di rimborso",
+        "AUDIENCE": "Per i team finanziari",
+        "SUMMARY": "Dai una definizione coerente al conteggio settimanale delle richieste di rimborso.",
+        "CONDITION": "Un cliente chiede la restituzione di un pagamento già effettuato, compresi gli addebiti doppi e i rimborsi dopo una disdetta. Escludi le domande sulla politica di rimborso e le richieste di sconto."
+      },
+      "CANCELLATION_INTENT": {
+        "NAME": "Intenzione di disdetta",
+        "AUDIENCE": "Per gli account manager",
+        "SUMMARY": "Trova i clienti con cui potrebbe servire una conversazione prima che se ne vadano.",
+        "CONDITION": "Un cliente dice di voler disdire, di non voler rinnovare o di voler smettere di usare il prodotto. Escludi le richieste di ridurre le licenze o di passare a un piano inferiore e le disdette ritirate dal cliente nella stessa conversazione."
+      },
+      "PAYMENT_FAILURES": {
+        "NAME": "Pagamenti non riusciti",
+        "AUDIENCE": "Per i team di fatturazione e assistenza",
+        "SUMMARY": "Individua i clienti che non riescono a pagare.",
+        "CONDITION": "Un cliente dice che un pagamento, un checkout o il pagamento di una fattura non è andato a buon fine, oppure che la sua carta è stata rifiutata. Escludi le richieste di rimborso, le contestazioni su addebiti già completati e le domande generiche sui metodi di pagamento."
+      },
+      "PRODUCT_ERRORS": {
+        "NAME": "Errori del prodotto",
+        "AUDIENCE": "Per i team di assistenza e di sviluppo",
+        "SUMMARY": "Scopri quando errori e arresti anomali iniziano a diffondersi.",
+        "CONDITION": "Un cliente segnala un errore, un arresto anomalo, un servizio non disponibile o una lentezza grave che gli impedisce di completare un'attività. Escludi i problemi di accesso e le domande su come usare una funzionalità che funziona."
+      },
+      "ISSUE_STILL_UNRESOLVED": {
+        "NAME": "Problema ancora irrisolto",
+        "AUDIENCE": "Per i responsabili dell'assistenza",
+        "SUMMARY": "Trova le conversazioni che vanno riprese.",
+        "CONDITION": "Un cliente dice che una soluzione suggerita non ha funzionato, che lo stesso problema si è ripresentato o che il problema persiste dopo che l'assistenza lo ha dato per risolto. Escludi le prime segnalazioni e le richieste che chiedono solo un aggiornamento sullo stato."
+      },
+      "ESCALATION_REQUESTS": {
+        "NAME": "Richieste di escalation",
+        "AUDIENCE": "Per i responsabili dell'assistenza",
+        "SUMMARY": "Fai emergere le richieste che hanno bisogno di attenzione immediata.",
+        "CONDITION": "Un cliente chiede esplicitamente un operatore umano, un responsabile, uno specialista o un livello di assistenza superiore perché il suo problema non è stato risolto. Escludi i normali trasferimenti e le richieste commerciali."
+      }
+    },
+    "MATCHING_CONVERSATIONS": "Conversazioni corrispondenti create",
+    "LAST_DAYS": "Ultimo {count} giorno | Ultimi {count} giorni",
+    "LAST_DAYS_BEFORE_PAUSE": "{count} giorno prima della pausa | {count} giorni prima della pausa",
+    "GROUP_BY": "Raggruppa per {interval}",
+    "INTERVALS": {
+      "HOUR": "1 ora",
+      "SIX_HOURS": "6 ore",
+      "DAY": "1 giorno"
+    },
+    "EDIT": "Modifica",
+    "UPDATE": "Aggiorna",
+    "MONITOR_DESCRIPTION": "Descrizione",
+    "EDIT_HELP": "La descrizione definisce quali conversazioni corrispondono. Cambiarla cancella le corrispondenze esistenti e ricontrolla le conversazioni già controllate. I periodi saltati restano saltati. Se il monitor è in pausa, il nuovo controllo parte quando lo riprendi.",
+    "DUPLICATE": "Duplica",
+    "PAUSE": "Metti in pausa",
+    "RESUME": "Riprendi",
+    "RESUME_HELP": "Scegli da dove deve ripartire questo monitor. I risultati esistenti restano disponibili.",
+    "RESUME_CATCH_UP": "Controlla il periodo di pausa",
+    "RESUME_CATCH_UP_HELP": "Controlla le conversazioni create e i messaggi dei clienti ricevuti da quando il monitor è stato messo in pausa fino ad ora, poi continua con gli aggiornamenti in tempo reale.",
+    "RESUME_FROM_NOW": "Parti da adesso",
+    "RESUME_FROM_NOW_HELP": "Controlla solo i nuovi messaggi dei clienti e le nuove conversazioni da adesso in poi. Non controllare il periodo di pausa.",
+    "DELETE": "Elimina",
+    "DELETE_HELP": "Eliminare questo monitor e i suoi risultati? Le conversazioni non vengono eliminate.",
+    "PAUSE_HELP": "Mettere in pausa questo monitor? I suoi risultati resteranno disponibili e smetterà di controllare messaggi e conversazioni.",
+    "PAUSED_HELP": "In pausa dal {time}. I risultati storici restano disponibili. I nuovi messaggi e conversazioni non vengono controllati.",
+    "COLLECTED_UNTIL": "Risultati raccolti fino al {time}.",
+    "RETRY": "Riprova",
+    "RESULTS_UPDATED": "Sono disponibili nuovi risultati. Il grafico è stato aggiornato; seleziona una barra per vedere le sue conversazioni aggiornate.",
+    "TIME_BASIS_HELP": "Ogni conversazione conta una sola volta, alla data in cui è stata creata. Una nuova corrispondenza può aggiornare una barra precedente.",
+    "COVERAGE_HELP": "Questo intervallo include periodi non controllati del tutto. I conteggi potrebbero essere incompleti.",
+    "REFRESHED": "Ultimo aggiornamento alle {time}. Gli aggiornamenti compaiono automaticamente.",
+    "USAGE": {
+      "LIMIT_REACHED": "Questo account ha usato le sue {limit} chiamate ai monitor per questo mese.",
+      "RESETS": "Nuove valutazioni e anteprime sono sospese fino al {time}. I risultati esistenti restano disponibili.",
+      "REACHED_AT": "Limite raggiunto il {time}."
+    },
+    "STATES": {
+      "SCANNING": "Controllo delle conversazioni recenti",
+      "PROCESSING": "Controllo delle conversazioni",
+      "RECHECKING": "Nuovo controllo delle conversazioni con la descrizione aggiornata",
+      "LIVE": "Aggiornato",
+      "DELAYED": "Gli aggiornamenti sono in ritardo",
+      "NEEDS_ATTENTION": "Richiede attenzione",
+      "PAUSED": "In pausa",
+      "CATCHING_UP": "Controllo del periodo di pausa"
+    },
+    "ERRORS": {
+      "FETCH_FAILED": "Impossibile caricare questo monitor. Aggiorna la pagina per riprovare.",
+      "SAVE_FAILED": "Impossibile salvare il monitor. Controlla nome e condizione, poi riprova.",
+      "NOT_CONFIGURED": "Configura il collegamento a OpenRouter, poi clicca su Riprova.",
+      "CREDENTIALS_INVALID": "Il collegamento a OpenRouter richiede attenzione. Chiedi all'amministratore dell'installazione di controllarne le credenziali.",
+      "PROVIDER_CREDITS_EXHAUSTED": "L'account OpenRouter non ha crediti sufficienti. Chiedi all'amministratore dell'installazione di controllarne il saldo, poi riprova.",
+      "INVALID_REQUEST": "La richiesta di valutazione richiede attenzione. Contatta l'amministratore dell'installazione.",
+      "INVALID_RESPONSE": "Il provider di valutazione ha restituito un risultato incompleto. Le conversazioni interessate non sono state conteggiate.",
+      "PROVIDER_BUSY": "Il provider di valutazione è occupato. Le conversazioni in attesa richiedono un'altra valutazione.",
+      "PROVIDER_UNAVAILABLE": "Il provider di valutazione non è disponibile temporaneamente. Gli aggiornamenti potrebbero subire ritardi.",
+      "BUDGET_LIMIT": "È stata raggiunta la quota giornaliera di valutazioni. Il lavoro in sospeso riprenderà dopo l'azzeramento.",
+      "MONTHLY_LIMIT": "Questo account ha raggiunto la quota mensile dei monitor. Le valutazioni in sospeso riprenderanno il mese prossimo.",
+      "CONTEXT_LIMIT": "Alcune conversazioni sono troppo lunghe per essere valutate per intero. Sono escluse dai risultati.",
+      "INVALID_PARAMETERS": "Controlla nome, condizione, intervallo di date e raggruppamento.",
+      "TOO_MANY_BUCKETS": "Scegli un intervallo di date più breve o un raggruppamento più ampio. Un grafico può mostrare al massimo 744 barre.",
+      "MONITOR_LIMIT": "Questo account ha raggiunto il limite di monitor attivi. Metti in pausa un monitor prima di crearne un altro.",
+      "MONITOR_PAUSED": "Questo monitor è in pausa e non controlla più le conversazioni.",
+      "MONITOR_CHANGED": "Questo monitor è stato modificato in un'altra sessione. Il suo stato attuale è stato aggiornato. Riprova."
+    }
+  },
   "REPORT": {
     "HEADER": "Conversazioni",
     "LOADING_CHART": "Caricamento dati grafici...",
@@ -23,14 +189,14 @@
         "NAME": "Tempo di prima risposta",
         "DESC": "( Media )",
         "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
-        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
+        "TOOLTIP_DESCRIPTION": "Su {count} conversazione | Su {count} conversazioni",
         "TOOLTIP_TEXT": "Il tempo di prima risposta è {metricValue} (basato su {conversationCount} conversazioni)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di Risoluzione",
         "DESC": "( Media )",
         "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
-        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
+        "TOOLTIP_DESCRIPTION": "Su {count} conversazione | Su {count} conversazioni",
         "TOOLTIP_TEXT": "Il tempo di risoluzione è {metricValue} (basato su {conversationCount} conversazioni)"
       },
       "RESOLUTION_COUNT": {
@@ -47,8 +213,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Tempo di attesa del cliente",
-        "TOOLTIP_LABEL": "Waiting time",
-        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
+        "TOOLTIP_LABEL": "Tempo di attesa",
+        "TOOLTIP_DESCRIPTION": "Su {count} risposta | Su {count} risposte",
         "TOOLTIP_TEXT": "Il tempo di attesa è {metricValue} (basato su {conversationCount} risposte)",
         "DESC": ""
       }
@@ -126,23 +292,24 @@
       "EMPTY_LIST": "Nessun risultato trovato"
     },
     "DRILLDOWN": {
-      "TITLE": "{metric} details",
-      "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations",
-      "RESULT_COUNT_MESSAGE": "{count} message | {count} messages",
-      "EMPTY": "No records found for this bar.",
-      "ERROR": "Could not load records. Please try again.",
-      "ADMIN_ONLY": "Only administrators can drill down into report records.",
+      "TITLE": "{metric}: dettagli",
+      "RESULT_COUNT_CONVERSATION": "{count} conversazione | {count} conversazioni",
+      "RESULT_COUNT_MESSAGE": "{count} messaggio | {count} messaggi",
+      "EMPTY": "Nessun dato trovato per questa barra.",
+      "ERROR": "Impossibile caricare i dati. Riprova.",
+      "ADMIN_ONLY": "Solo gli amministratori possono vedere il dettaglio dei dati dei report.",
       "LOAD_MORE": "Carica altro",
-      "PREVIOUS_BUCKET": "Previous bar",
-      "NEXT_BUCKET": "Next bar",
-      "UNKNOWN_CONTACT": "Unknown contact",
-      "UNKNOWN_INBOX": "Unknown inbox",
+      "PREVIOUS_BUCKET": "Barra precedente",
+      "NEXT_BUCKET": "Barra successiva",
+      "VIEW_ALL": "Vedi tutti",
+      "UNKNOWN_CONTACT": "Contatto sconosciuto",
+      "UNKNOWN_INBOX": "Casella sconosciuta",
       "UNASSIGNED_AGENT": "Non assegnate",
-      "NO_MESSAGE_CONTENT": "No message content",
-      "MESSAGE_CREATED_AT": "Message created at {time}",
-      "EVENT_OCCURRED_AT": "Event occurred at {time}",
-      "INCOMING_MESSAGE": "Incoming message",
-      "OUTGOING_MESSAGE": "Outgoing message"
+      "NO_MESSAGE_CONTENT": "Nessun contenuto nel messaggio",
+      "MESSAGE_CREATED_AT": "Messaggio creato alle {time}",
+      "EVENT_OCCURRED_AT": "Evento avvenuto alle {time}",
+      "INCOMING_MESSAGE": "Messaggio in arrivo",
+      "OUTGOING_MESSAGE": "Messaggio in uscita"
     },
     "PAGINATION": {
       "RESULTS": "Mostrando da {start} a {end} di {total} risultati",
@@ -548,7 +715,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Panoramica",
     "LIVE": "Live",
-    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
+    "HEATMAP_ARIA_LABEL": "{metric} per giorno e ora",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Conversazioni aperte",
       "LOADING_MESSAGE": "Caricamento metriche conversazioni...",
