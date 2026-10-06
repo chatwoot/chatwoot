@@ -90,6 +90,8 @@ gem 'devise_token_auth', '>= 1.2.3'
 gem 'rails-i18n', '~> 7.0'
 # two-factor authentication
 gem 'devise-two-factor', '>= 5.0.0'
+# oauth 2 provider
+gem 'doorkeeper', '~> 5.9'
 # authorization
 gem 'jwt', '~> 2.10', '>= 2.10.3'
 gem 'pundit'

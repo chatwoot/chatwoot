@@ -230,6 +230,8 @@ GEM
     docile (1.4.1)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
+    doorkeeper (5.9.9)
+      railties (>= 5)
     dotenv (3.1.2)
     dotenv-rails (3.1.2)
       dotenv (= 3.1.2)
@@ -1089,6 +1091,7 @@ DEPENDENCIES
   devise-secure_password (= 2.2.1)
   devise-two-factor (>= 5.0.0)
   devise_token_auth (>= 1.2.3)
+  doorkeeper (~> 5.9)
   dotenv-rails (>= 3.0.0)
   down
   elastic-apm
