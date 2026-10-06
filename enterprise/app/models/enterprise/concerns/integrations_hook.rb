@@ -2,7 +2,7 @@ module Enterprise::Concerns::IntegrationsHook
   extend ActiveSupport::Concern
 
   included do
-    after_destroy_commit :clear_monitor_slack_channels, if: :slack?
+    before_destroy :clear_monitor_slack_channels, if: :slack?
   end
 
   private
