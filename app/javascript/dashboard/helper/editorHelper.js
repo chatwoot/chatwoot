@@ -8,6 +8,7 @@ import {
 } from '@chatwoot/prosemirror-schema';
 import * as Sentry from '@sentry/vue';
 import camelcaseKeys from 'camelcase-keys';
+import { getMessageVariables } from '@chatwoot/utils';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
 import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
 
@@ -490,6 +491,14 @@ export const getAgentVariables = user => ({
 // {{contact.*}} name values.
 export const getContactVariables = contact =>
   getNameVariables('contact', contact?.name);
+
+// Variables the editor resolves while composing a reply. Matches the backend
+// drops: names are Ruby-capitalized and {{agent.*}} is the sender, not the assignee.
+export const getReplyVariables = ({ conversation, contact, inbox, user }) => ({
+  ...getMessageVariables({ conversation, contact, inbox }),
+  ...getContactVariables(contact),
+  ...getAgentVariables(user),
+});
 
 // Resolves a manually typed {{variable}} to its value on the closing braces.
 // Leaves the placeholder when there's no value, the value is Liquid, or it's a private note.

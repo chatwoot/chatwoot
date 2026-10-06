@@ -27,6 +27,9 @@ class Twilio::VoiceController < ApplicationController
     return render xml: reject_twiml if reject_inbound?
 
     call = resolve_call
+    # The leg was answered after the call ended (e.g. hangup raced the cancel); don't strand it in an empty conference.
+    return render xml: hangup_twiml if call.terminal?
+
     render xml: conference_twiml(call)
   end
 
@@ -98,6 +101,10 @@ class Twilio::VoiceController < ApplicationController
 
   def reject_twiml
     Twilio::TwiML::VoiceResponse.new(&:reject).to_s
+  end
+
+  def hangup_twiml
+    Twilio::TwiML::VoiceResponse.new(&:hangup).to_s
   end
 
   def resolve_call
