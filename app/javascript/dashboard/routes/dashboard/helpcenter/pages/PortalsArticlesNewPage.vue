@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onBeforeUnmount } from 'vue';
+import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAlert, useTrack } from 'dashboard/composables';
@@ -37,96 +37,63 @@ const isCategoryArticles = computed(
 const article = ref({});
 const isUpdating = ref(false);
 const isSaved = ref(false);
-let draftRevision = 0;
-let persistedRevision = 0;
-let createdArticleId = null;
-let isPageActive = true;
-
-onBeforeUnmount(() => {
-  isPageActive = false;
-});
-
-const updateArticleDraft = ({ title, content }) => {
-  let hasChanges = false;
-
-  if (title !== undefined && article.value.title !== title) {
-    article.value.title = title;
-    hasChanges = true;
-  }
-
-  if (content !== undefined && article.value.content !== content) {
-    article.value.content = content;
-    hasChanges = true;
-  }
-
-  if (hasChanges) draftRevision += 1;
-};
 
 const setAuthorId = authorId => {
-  if (selectedAuthorId.value === authorId) return;
   selectedAuthorId.value = authorId;
-  draftRevision += 1;
 };
 
 const setCategoryId = newCategoryId => {
-  if (selectedCategoryId.value === newCategoryId) return;
   selectedCategoryId.value = newCategoryId;
-  draftRevision += 1;
 };
 
-const currentArticlePayload = () => ({
-  title: article.value.title,
-  content: article.value.content,
-  authorId: selectedAuthorId.value || currentUserId.value,
-  categoryId: selectedCategoryId.value || categoryId.value,
-});
+// Nothing to save to until the create returns an id; keep edits local and let
+// createNewArticle save them.
+const saveArticle = values => Object.assign(article.value, values);
 
-const syncPendingChanges = async articleId => {
-  if (persistedRevision >= draftRevision) return;
-
-  const revision = draftRevision;
-  const {
-    title,
-    content,
-    authorId,
-    categoryId: currentCategoryId,
-  } = currentArticlePayload();
+// Save what was typed while the create request ran, since the edit page opens
+// with the stored article.
+const saveEditsMadeWhileCreating = async (articleId, saved) => {
+  const { title, content } = article.value;
+  if (title === saved.title && content === saved.content) return;
 
   await store.dispatch('articles/update', {
     portalSlug,
     articleId,
     title,
     content,
-    author_id: authorId,
-    category_id: currentCategoryId,
   });
-  persistedRevision = revision;
-  await syncPendingChanges(articleId);
+  await saveEditsMadeWhileCreating(articleId, { title, content });
 };
 
 const createNewArticle = async ({ title, content }) => {
-  updateArticleDraft({ title, content });
+  if (title) article.value.title = title;
+  if (content) article.value.content = content;
 
   if (!article.value.title || isUpdating.value) return;
 
   isUpdating.value = true;
   try {
     const { locale } = route.params;
-    if (!createdArticleId) {
-      const revision = draftRevision;
-      createdArticleId = await store.dispatch('articles/create', {
-        portalSlug,
-        locale,
-        ...currentArticlePayload(),
-      });
-      persistedRevision = revision;
-      useTrack(PORTALS_EVENTS.CREATE_ARTICLE, { locale });
-    }
+    const resolvedCategoryId = selectedCategoryId.value || categoryId.value;
+    const created = {
+      title: article.value.title,
+      content: article.value.content,
+    };
+    const articleId = await store.dispatch('articles/create', {
+      portalSlug,
+      ...created,
+      locale: locale,
+      authorId: selectedAuthorId.value || currentUserId.value,
+      categoryId: resolvedCategoryId,
+    });
 
-    await syncPendingChanges(createdArticleId);
-    if (!isPageActive) return;
+    useTrack(PORTALS_EVENTS.CREATE_ARTICLE, { locale });
 
-    const { categoryId: resolvedCategoryId } = currentArticlePayload();
+    // The article exists now, so open it even if saving the later edits fails;
+    // staying here would create it again on the next title blur.
+    await saveEditsMadeWhileCreating(articleId, created).catch(error =>
+      useAlert(error?.message || t('HELP_CENTER.EDIT_ARTICLE_PAGE.API.ERROR'))
+    );
 
     const resolvedSlug = categories.value?.find(
       c => c.id === resolvedCategoryId
@@ -138,7 +105,7 @@ const createNewArticle = async ({ title, content }) => {
         ? 'portals_categories_articles_edit'
         : 'portals_articles_edit',
       params: {
-        articleSlug: createdArticleId,
+        articleSlug: articleId,
         portalSlug,
         locale,
         ...(startedFromCategorySlug
@@ -177,7 +144,7 @@ const goBackToArticles = () => {
     :is-updating="isUpdating"
     :is-saved="isSaved"
     @create-article="createNewArticle"
-    @update-article-draft="updateArticleDraft"
+    @save-article="saveArticle"
     @go-back="goBackToArticles"
     @set-author="setAuthorId"
     @set-category="setCategoryId"
