@@ -18,6 +18,36 @@ RSpec.describe 'Monitors API', type: :request do
 
   after { Redis::Alfred.delete(preview_key) }
 
+  describe 'Slack alert channel' do
+    it 'saves and clears the channel when Slack is connected' do
+      create(:integrations_hook, account: account)
+
+      patch "#{base}/#{monitor.id}", headers: headers, params: { slack_channel_id: 'C0ALERTS' }, as: :json
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['slack_channel_id']).to eq('C0ALERTS')
+
+      patch "#{base}/#{monitor.id}", headers: headers, params: { slack_channel_id: '' }, as: :json
+      expect(response.parsed_body['slack_channel_id']).to be_nil
+      expect(monitor.reload.slack_channel_id).to be_blank
+    end
+
+    it 'rejects a channel when Slack is not connected' do
+      patch "#{base}/#{monitor.id}", headers: headers, params: { slack_channel_id: 'C0ALERTS' }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq('slack_not_connected')
+    end
+
+    it 'rejects a malformed channel id' do
+      create(:integrations_hook, account: account)
+
+      patch "#{base}/#{monitor.id}", headers: headers, params: { slack_channel_id: '#general' }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq('invalid_parameters')
+    end
+  end
+
   it 'forbids monitor access after downgrading to Startups' do
     account.update!(custom_attributes: { 'plan_name' => 'Startups' })
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform

@@ -147,7 +147,8 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
 
   def update_params
     validate_icon_parameters!
-    attributes = params.permit(:name, :condition, :paused, :icon, :icon_color).to_h
+    validate_slack_channel!
+    attributes = params.permit(:name, :condition, :paused, :icon, :icon_color, :slack_channel_id).to_h
     valid_text = { 'name' => 100, 'condition' => ConversationMonitors::Monitor::MAX_CONDITION_LENGTH }.slice(*params.keys).all? do |key, limit|
       valid_text_parameter?(key, limit)
     end
@@ -155,6 +156,15 @@ class Api::V1::Accounts::MonitorsController < Api::V1::Accounts::EnterpriseAccou
     raise CustomExceptions::MonitorParametersError, 'invalid_parameters' unless attributes.any? && valid_text && valid_state
 
     attributes.transform_values { |value| value.is_a?(String) ? value.strip : value }
+  end
+
+  # A blank channel turns Slack alerts off.
+  def validate_slack_channel!
+    return unless params.key?(:slack_channel_id)
+
+    channel = params[:slack_channel_id]
+    raise CustomExceptions::MonitorParametersError, 'invalid_parameters' unless channel.is_a?(String) && channel.match?(/\A[A-Z0-9]{0,30}\z/)
+    raise CustomExceptions::MonitorParametersError, 'slack_not_connected' if channel.present? && !Current.account.hooks.exists?(app_id: 'slack')
   end
 
   def valid_text_parameter?(key, limit)

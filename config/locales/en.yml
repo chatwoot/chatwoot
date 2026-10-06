@@ -479,6 +479,19 @@ en:
       name: 'LeadSquared'
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+  conversation_monitors:
+    slack_alert:
+      title: 'Monitor matched: %{name}'
+      matched: 'Monitor matched · %{time}'
+      summary: '%{conversation} with %{contact}'
+      conversation: 'Conversation #%{id}'
+      inbox: Inbox
+      assignee: Assignee
+      unassigned: Unassigned
+      status: Status
+      confidence: Confidence
+      unknown: Unknown
+      condition: Condition
   captain:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'

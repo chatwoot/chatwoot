@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_29_100000) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_06_212107) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -932,6 +932,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_29_100000) do
     t.datetime "updated_at", null: false
     t.string "icon", default: "chat-3-line", null: false
     t.string "icon_color", default: "#3B82F6", null: false
+    t.string "slack_channel_id"
     t.index ["account_id"], name: "index_conversation_monitors_on_account_id"
     t.index ["user_id"], name: "index_conversation_monitors_on_user_id"
   end

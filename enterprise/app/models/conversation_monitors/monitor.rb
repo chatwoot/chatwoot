@@ -13,6 +13,7 @@
 #  paused_at            :datetime
 #  recheck_requested_at :datetime
 #  resumed_at           :datetime
+#  slack_channel_id     :string
 #  threshold            :float            not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
