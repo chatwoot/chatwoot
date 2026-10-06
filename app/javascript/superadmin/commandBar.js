@@ -2,10 +2,14 @@ const SEARCH_DELAY = 200;
 const SELECTED_ID = 'command-bar-selected';
 
 // Devise answers a background request with 401 instead of the login page.
-const load = async url => {
+const load = async (url, signal) => {
   const headers = { 'X-Requested-With': 'XMLHttpRequest' };
-  const response = await fetch(url, { headers }).catch(() => null);
-  return response?.ok ? response.text() : '';
+  try {
+    const response = await fetch(url, { headers, signal });
+    return response.ok ? await response.text() : '';
+  } catch {
+    return '';
+  }
 };
 
 export const initializeCommandBar = () => {
@@ -14,6 +18,7 @@ export const initializeCommandBar = () => {
   const results = [...bar.querySelectorAll('[data-command-results]')];
   let selected;
   let searchTimer;
+  let controller;
 
   const visibleItems = () => [
     ...bar.querySelectorAll('[data-command-item]:not([hidden])'),
@@ -45,11 +50,15 @@ export const initializeCommandBar = () => {
   };
 
   const search = async query => {
+    controller = new AbortController();
+    const { signal } = controller;
     const params = new URLSearchParams({ q: query });
     const pages = await Promise.all(
-      results.map(list => load(`${list.dataset.commandResults}?${params}`))
+      results.map(list =>
+        load(`${list.dataset.commandResults}?${params}`, signal)
+      )
     );
-    if (query !== input.value.trim()) return;
+    if (signal.aborted) return;
     results.forEach((list, index) => {
       list.innerHTML = pages[index];
     });
@@ -59,6 +68,7 @@ export const initializeCommandBar = () => {
 
   const update = () => {
     const query = input.value.trim();
+    controller?.abort();
     results.forEach(list => list.replaceChildren());
     bar.toggleAttribute('data-searching', Boolean(query));
     filter();
