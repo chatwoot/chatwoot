@@ -39,8 +39,6 @@ export const actions = {
     try {
       const response = await AutomationAPI.create(automationObj);
       commit(types.ADD_AUTOMATION, response.data);
-    } catch (error) {
-      throw new Error(error);
     } finally {
       commit(types.SET_AUTOMATION_UI_FLAG, { isCreating: false });
     }
@@ -50,8 +48,6 @@ export const actions = {
     try {
       const response = await AutomationAPI.update(id, updateObj);
       commit(types.EDIT_AUTOMATION, response.data.payload);
-    } catch (error) {
-      throw new Error(error);
     } finally {
       commit(types.SET_AUTOMATION_UI_FLAG, { isUpdating: false });
     }
