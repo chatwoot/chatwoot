@@ -140,7 +140,6 @@
       },
       "TWILIO": {
         "TITLE": "Canal Twilio SMS/WhatsApp",
-        "DESC": "Integre o Twilio e comece a oferecer suporte a seus clientes por SMS ou WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID da Conta",
           "PLACEHOLDER": "Por favor, insira o SID sua conta no Twilio",
@@ -182,13 +181,13 @@
           "PLACEHOLDER": "Por favor, insira o número de telefone do qual a mensagem será enviada.",
           "ERROR": "Por favor, forneça um número de telefone válido que comece com o símbolo \"+\" e não contenha espaços."
         },
-        "API_CALLBACK": {
-          "TITLE": "URL de Callback",
-          "SUBTITLE": "Você precisa configurar a URL de Callback de mensagem no Twilio com a URL mencionada aqui."
-        },
         "SUBMIT_BUTTON": "Criar canal Twilio",
         "API": {
           "ERROR_MESSAGE": "Não fomos capazes de autenticar as credenciais Twilio, por favor, tente novamente"
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL de Callback",
+          "SUBTITLE": "Você precisa configurar a URL de Callback de mensagem no Twilio com a URL mencionada aqui."
         }
       },
       "SMS": {
@@ -426,9 +425,13 @@
           "MANUAL_LINK_TEXT": "fluxo de configuração manual",
           "ACCESS_REQUEST": {
             "TITLE": "Configuração rápida com a Meta",
-            "DESCRIPTION": "Conecte um novo número ou um número existente do aplicativo WhatsApp Business sem configuração manual. Para solicitar essa opção, informe à nossa equipe o que sua empresa faz, como você usará o WhatsApp e qual conta do Chatwoot precisa de acesso.",
-            "FOOTNOTE": "Analisaremos sua solicitação e informaremos se essa opção pode ser habilitada. Você também pode continuar com a configuração manual abaixo.",
-            "BUTTON": "Solicitar acesso"
+            "DESCRIPTION": "Conecte um número novo ou um já usado no aplicativo WhatsApp Business sem configuração manual. Conte-nos o que sua empresa faz e como pretende usar o WhatsApp para habilitar esta opção.",
+            "BUTTON": "Solicitar acesso",
+            "FORM_DESCRIPTION": "Conte-nos sobre sua empresa e como pretende usar o WhatsApp. Envie seu caso de uso para habilitar a configuração rápida na sua conta.",
+            "USE_CASE_LABEL": "Caso de uso da empresa",
+            "USE_CASE_PLACEHOLDER": "Por exemplo, vendemos móveis e artigos para casa e usamos o WhatsApp para responder a perguntas sobre produtos e ajudar os clientes com seus pedidos.",
+            "SUBMIT": "Enviar",
+            "ERROR": "Não foi possível habilitar o acesso. Por favor, tente novamente."
           },
           "RESTRICTED_WARNING": "O cadastro integrado do WhatsApp está temporariamente indisponível devido a um problema na API da Meta, e não por uma falha no Chatwoot. Você pode utilizar a configuração manual para números compatíveis com a Cloud API. Estamos trabalhando em conjunto com a Meta para resolver a situação o mais rápido possível.",
           "STATUS_LINK": "Ver atualizações de status",
@@ -676,6 +679,9 @@
       "MORE_SETTINGS": "Mais configurações",
       "WEBSITE_SUCCESS": "Você concluiu a criação de um canal de site. Copie o código mostrado abaixo e cole-o no seu site. Na próxima vez que um cliente usar o bate-papo ao vivo, a conversa aparecerá automaticamente na sua caixa de entrada.",
       "WHATSAPP_QR_INSTRUCTION": "Escaneie o código QR acima para testar rapidamente sua caixa de entrada do WhatsApp",
+      "SMS_QR_INSTRUCTION": "Leia o código QR acima para testar rapidamente sua caixa de entrada de SMS",
+      "SMS_QR_ALT": "Código QR para testar a caixa de entrada de SMS",
+      "TWILIO_CALLBACK_FALLBACK": "Os webhooks são configurados automaticamente. Se as mensagens recebidas não chegarem, use esta URL de retorno no Twilio.",
       "MESSENGER_QR_INSTRUCTION": "Escaneie o código QR acima para testar rapidamente sua caixa de entrada do Facebook Messenger",
       "TELEGRAM_QR_INSTRUCTION": "Escaneie o código QR acima para testar rapidamente sua caixa de entrada do Telegram"
     },
@@ -806,6 +812,98 @@
     },
     "CHANNEL_PREFERENCES": "Preferências do Canal",
     "WIDGET_FEATURES": "Recursos do widget",
+    "TWILIO_HEALTH": {
+      "TITLE": "Gerenciar seu número do Twilio",
+      "DESCRIPTION": "Verifique a conta do Twilio, o remetente e os webhooks desta caixa de entrada. Tudo o que o Chatwoot não conseguir receber será sinalizado aqui",
+      "GO_TO_SETTINGS": "Acessar o Console do Twilio",
+      "NO_DATA": "Dados de saúde não estão disponíveis",
+      "LOADING": "Buscando dados de integridade no Twilio…",
+      "ERROR_TITLE": "Não foi possível acessar o Twilio",
+      "STATUS": {
+        "HEALTHY": "Todas as verificações foram concluídas com sucesso",
+        "MISCONFIGURED": "Precisa de atenção"
+      },
+      "FIELDS": {
+        "ACCOUNT_NAME": {
+          "LABEL": "Conta do Twilio",
+          "TOOLTIP": "A conta do Twilio à qual estas credenciais pertencem"
+        },
+        "ACCOUNT_STATUS": {
+          "LABEL": "Status da conta",
+          "TOOLTIP": "Uma conta do Twilio suspensa ou encerrada não pode enviar nem receber nada"
+        },
+        "ACCOUNT_TYPE": {
+          "LABEL": "Tipo de conta",
+          "TOOLTIP": "Contas de teste só podem enviar mensagens ou ligar para números de telefone que você verificou no Twilio"
+        },
+        "SENDER": {
+          "LABEL": "Remetente",
+          "TOOLTIP": "O número de telefone ou serviço de mensagens usado por esta caixa de entrada"
+        },
+        "CAPABILITIES": {
+          "LABEL": "Recursos do número",
+          "TOOLTIP": "Recursos que o Twilio habilitou para este número. Se esta caixa de entrada precisar de um recurso, mas não possui, ele não funcionará"
+        },
+        "VOICE_CALLING": {
+          "LABEL": "Chamadas de voz",
+          "TOOLTIP": "Indica se as chamadas estão habilitadas para esta caixa de entrada"
+        }
+      },
+      "VALUES": {
+        "ACCOUNT_STATUSES": {
+          "ACTIVE": "Ativo",
+          "SUSPENDED": "Suspensa",
+          "CLOSED": "Encerrada"
+        },
+        "ACCOUNT_TYPES": {
+          "TRIAL": "Período de teste",
+          "FULL": "Completa"
+        },
+        "CAPABILITIES": {
+          "SMS": "SMS",
+          "VOICE": "Voz"
+        },
+        "SENDER_TYPES": {
+          "PHONE_NUMBER": "Número de telefone",
+          "MESSAGING_SERVICE": "Serviço de mensagens"
+        },
+        "ENABLED": "Ativado",
+        "DISABLED": "Desativado"
+      },
+      "WEBHOOKS": {
+        "TITLE": "Webhooks",
+        "DESCRIPTION": "O Twilio acessa estas URLs quando uma mensagem ou chamada chega. Registre-as novamente após alterar a URL da sua instalação",
+        "REGISTER_ALL": "Registrar webhooks",
+        "MESSAGING": "Webhook de mensagens",
+        "VOICE": "Webhook de voz",
+        "VOICE_STATUS": "Retorno do status das chamadas de voz",
+        "VOICE_APP": "Chamadas de saída (aplicativo TwiML)"
+      },
+      "WEBHOOK": {
+        "CONFIGURED_SUCCESS": "Webhook configurado com sucesso",
+        "NOT_SET": "não configurado",
+        "EXPECTED": "Esperado",
+        "CURRENT": "Configurado atualmente como",
+        "REASONS": {
+          "NOT_SET": "Webhook não configurado",
+          "URL_MISMATCH": "Incompatibilidade na URL do webhook",
+          "WRONG_HTTP_METHOD": "O webhook usa o método HTTP incorreto",
+          "OVERRIDDEN_BY_NUMBER": "O serviço de mensagens usa as configurações do número",
+          "OVERRIDDEN_BY_APPLICATION": "Substituído por um aplicativo TwiML",
+          "OVERRIDDEN_BY_TRUNK": "Substituído por um tronco SIP",
+          "MISSING_TWIML_APP": "Aplicativo TwiML não criado"
+        },
+        "HINTS": {
+          "NOT_SET": "O Twilio não tem um webhook para este remetente, então nenhuma mensagem chega ao Chatwoot.",
+          "URL_MISMATCH": "O Twilio está acessando outra URL, então o tráfego é enviado para outro lugar.",
+          "WRONG_HTTP_METHOD": "A URL está correta, mas o Twilio a acessa usando {method} em vez de POST, e o Chatwoot só aceita POST.",
+          "OVERRIDDEN_BY_NUMBER": "Este serviço de mensagens está com a opção \"Usar webhook no número\" habilitada, então o Twilio ignora o webhook do serviço.",
+          "OVERRIDDEN_BY_APPLICATION": "Um aplicativo TwiML está associado a este número, e o Twilio usa as URLs do aplicativo em vez das do número. Desassocie-o no Console do Twilio.",
+          "OVERRIDDEN_BY_TRUNK": "Este número está associado a um tronco SIP, então o Twilio encaminha as chamadas para o tronco e ignora completamente os webhooks de voz. Desassocie o tronco no Console do Twilio.",
+          "MISSING_TWIML_APP": "O Chatwoot não tem um aplicativo TwiML para este número, por isso não é possível fazer chamadas de saída."
+        }
+      }
+    },
     "ACCOUNT_HEALTH": {
       "TITLE": "Gerencie sua conta do WhatsApp",
       "DESCRIPTION": "Revise a integridade do seu número de telefone do WhatsApp, a capacidade de envio de mensagens e os detalhes da conta comercial da Meta vinculada.",
@@ -953,6 +1051,20 @@
         "MODES": {
           "SANDBOX": "Sandbox",
           "LIVE": "Em tempo real"
+        },
+        "QUALITY": {
+          "GREEN": "Verde",
+          "YELLOW": "Amarelo",
+          "RED": "Vermelho"
+        },
+        "TIER_NAMES": {
+          "TIER_250": "Nível 250",
+          "TIER_1000": "Nível 1K",
+          "TIER_1K": "Nível 1K",
+          "TIER_2K": "Nível 2K",
+          "TIER_10K": "Nível 10K",
+          "TIER_100K": "Nível 100K",
+          "TIER_UNLIMITED": "Ilimitado"
         }
       },
       "BUSINESS_PROFILE": {
@@ -987,7 +1099,7 @@
       "ALLOWED_DOMAINS": {
         "TITLE": "Domínios permitidos",
         "DESCRIPTION": "Restrinja quais sites podem incorporar seu widget de chat. Por segurança, adicione apenas domínios que você possui e confia. Adicione um ou mais domínios separados por vírgulas. Deixe em branco para permitir todos os domínios (não recomendado para produção).",
-        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+        "PLACEHOLDER": "exemplo.com, www.exemplo.com, app.exemplo.com"
       },
       "ALLOW_MOBILE_WEBVIEW": {
         "LABEL": "Ativar widget em aplicativos móveis",
@@ -999,7 +1111,18 @@
         "SECRET_KEY": "Chave secreta",
         "VIEW_DOCS": "Ver documentação",
         "REQUIRE_LABEL": "Exigir validação de identidade para todas as conversas",
-        "REQUIRE_DESCRIPTION": "Quando ativado, os usuários devem fornecer um token de identidade válido para iniciar conversas. Solicitações sem tokens válidos serão rejeitadas."
+        "REQUIRE_DESCRIPTION": "Quando ativado, os usuários devem fornecer um token de identidade válido para iniciar conversas. Solicitações sem tokens válidos serão rejeitadas.",
+        "ROTATE": {
+          "BUTTON": "Rotacionar chave",
+          "TITLE": "Rotacionar a chave secreta?",
+          "WARNING": "A chave atual é revogada assim que você a rotaciona.",
+          "WARNING_DETAIL": "Não há período de transição, e ela não pode ser restaurada.",
+          "IMPACT": "Seus servidores precisam assinar os usuários com a nova chave. A verificação falhará para quem ainda estiver assinado com a chave antiga. Se a validação de identidade for obrigatória, essas pessoas não poderão iniciar uma conversa.",
+          "CONFIRM": "Rotacionar chave",
+          "CANCEL": "Cancelar",
+          "SUCCESS": "Chave secreta rotacionada com sucesso",
+          "ERROR": "Não foi possível rotacionar a chave secreta. Por favor, tente novamente"
+        }
       },
       "INBOX_AGENTS": "Agentes",
       "INBOX_AGENTS_SUB_TEXT": "Adicionar ou remover agentes dessa caixa de entrada",
@@ -1332,7 +1455,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Defina seus dados IMAP",
-      "NOTE_TEXT": "Para habilitar o SMTP, por favor configure o IMAP.",
+      "NOTE_TEXT": "Configure o IMAP para receber e-mails diretamente da sua caixa de entrada. Deixe essa opção desativada se você usa encaminhamento de e-mails.",
       "UPDATE": "Atualizar configurações do IMAP",
       "TOGGLE_AVAILABILITY": "Habilitar a configuração IMAP para esta caixa de entrada",
       "TOGGLE_HELP": "Ativar o IMAP ajudará o usuário a receber e-mails",
