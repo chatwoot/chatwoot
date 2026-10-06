@@ -352,7 +352,6 @@ RSpec.describe Captain::BaseTaskService do
         Captain::RewriteService.new(account: account, content: 'Text', operation: 'improve', conversation_display_id: conversation.display_id),
         Captain::SummaryService.new(account: account, conversation_display_id: conversation.display_id),
         Captain::ReplySuggestionService.new(account: account, conversation_display_id: conversation.display_id, user: user),
-        Captain::LabelSuggestionService.new(account: account, conversation_display_id: conversation.display_id),
         Captain::FollowUpService.new(
           account: account,
           follow_up_context: follow_up_context,
