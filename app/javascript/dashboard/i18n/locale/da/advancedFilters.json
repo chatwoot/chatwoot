@@ -33,6 +33,8 @@
       "is_less_than": "Er mindre end",
       "days_before": "Er x dage før",
       "starts_with": "Starts with",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "Lig med",
       "notEqualTo": "Ikke lig med",
       "contains": "Indeholder",
