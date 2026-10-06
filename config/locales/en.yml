@@ -800,7 +800,9 @@ en:
       submit: 'Login'
     navigation:
       label: 'Super Admin'
-      suffix: 'Super Admin'
+      suffix: 'Super Admin console'
+      release_notes: 'Release notes'
+      update_available: 'v%{version} is available'
       dashboard: 'Dashboard'
       settings: 'Settings'
       monitor: 'Monitor'

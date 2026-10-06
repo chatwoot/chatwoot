@@ -14,6 +14,10 @@ The avatar opens the account menu: who is signed in, the theme, profile, agent d
   more_items = items.reject { |item| item[:pinned] }
   admin = current_super_admin
   avatar = admin.avatar_url.presence
+  version = Chatwoot.config[:version]
+  # Internal::CheckNewVersionsJob keeps the newest release here.
+  latest_version = Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION).presence
+  update_available = latest_version && Gem::Version.new(latest_version) > Gem::Version.new(version)
   themes = {
     system: [t("super_admin.navigation.theme.system"), "i-lucide-monitor"],
     light: [t("super_admin.navigation.theme.light"), "i-lucide-sun"],
@@ -29,11 +33,26 @@ The avatar opens the account menu: who is signed in, the theme, profile, agent d
 
 <header class="sticky -top-14 z-30 border-b border-n-weak bg-n-background [view-transition-name:topbar] xl:top-0">
   <div class="mx-auto w-full max-w-[120rem] px-[clamp(1rem,3vw,3rem)] flex flex-wrap items-center gap-x-3 xl:flex-nowrap">
-    <%= link_to super_admin_root_path, class: "flex h-14 shrink-0 items-center gap-2" do %>
-      <%= image_tag "/brand-assets/logo_thumbnail.svg", alt: "", class: "size-7" %>
-      <span class="text-heading-3 text-n-slate-12">Chatwoot</span>
-      <span class="text-label-small text-n-slate-10">/ <%= t("super_admin.navigation.suffix") %></span>
-    <% end %>
+    <%# The text block is as tall as the logo (20px + 16px lines against size-9), so the lockup reads as one unit. %>
+    <div class="flex h-14 shrink-0 items-center gap-3">
+      <%= link_to image_tag("/brand-assets/logo_thumbnail.svg", alt: "", class: "size-9"), super_admin_root_path, class: "shrink-0" %>
+      <div>
+        <%= link_to "Chatwoot", super_admin_root_path, class: "block text-base font-medium leading-5 text-n-slate-12" %>
+        <div class="flex items-center gap-1.5 text-label-small leading-4 text-n-slate-10">
+          <%= t("super_admin.navigation.suffix") %>
+          <span aria-hidden="true">·</span>
+          <%= link_to "https://github.com/chatwoot/chatwoot/releases/tag/v#{version}",
+                      target: "_blank", rel: "noopener noreferrer",
+                      title: update_available ? t("super_admin.navigation.update_available", version: latest_version) : t("super_admin.navigation.release_notes"),
+                      class: "inline-flex items-center gap-1 tabular-nums hover:text-n-slate-12 hover:underline" do %>
+            v<%= version %>
+            <% if update_available %>
+              <span class="size-1.5 rounded-full bg-n-amber-9"></span>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
 
     <details class="relative ms-auto xl:order-last" data-dropdown>
       <summary class="block cursor-pointer list-none rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-n-brand [&::-webkit-details-marker]:hidden"
