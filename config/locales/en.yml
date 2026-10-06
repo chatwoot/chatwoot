@@ -483,7 +483,7 @@ en:
     slack_alert:
       not_connected: needs a connected Slack integration
       title: 'Monitor matched: %{name}'
-      matched: 'Monitor matched · %{time}'
+      matched: Monitor matched
       summary: '%{conversation} with %{contact}'
       conversation: 'Conversation #%{id}'
       inbox: Inbox

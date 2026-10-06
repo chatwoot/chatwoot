@@ -27,7 +27,7 @@ RSpec.describe ConversationMonitors::SlackAlertService do
       url = "/app/accounts/#{account.id}/conversations/#{conversation.display_id}"
       expect(blocks.pluck(:type)).to eq(%w[header context section section divider context])
       expect(blocks[0][:text][:text]).to eq('🔔 Refunds')
-      expect(blocks[1][:elements].first[:text]).to start_with('Monitor matched · <!date^')
+      expect(blocks[1][:elements].first[:text]).to eq('Monitor matched')
       expect(blocks[2][:text][:text]).to match(
         /\A\*<.*#{url}\|Conversation ##{conversation.display_id}>\* with Jane Doe\n> I want my money back\n> Now\z/
       )

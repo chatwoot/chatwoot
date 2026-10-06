@@ -15,7 +15,7 @@ class ConversationMonitors::SlackAlertService
   def blocks
     [
       { type: 'header', text: { type: 'plain_text', text: "#{emoji} #{monitor.name}", emoji: true } },
-      context(t('matched', time: matched_time)),
+      context(t('matched')),
       { type: 'section', text: mrkdwn(summary) },
       { type: 'section', fields: fields },
       { type: 'divider' },
@@ -47,18 +47,9 @@ class ConversationMonitors::SlackAlertService
     ]
   end
 
-  def evaluation
-    @evaluation ||= monitor.evaluations.find_by(conversation_id: conversation.id)
-  end
-
   def confidence
-    evaluation&.score ? "#{(evaluation.score * 100).round}%" : t('unknown')
-  end
-
-  # Slack renders this in each reader's own timezone.
-  def matched_time
-    time = evaluation&.matched_at || Time.current
-    "<!date^#{time.to_i}^{date_short_pretty} at {time}|#{time.utc.to_fs(:long)} UTC>"
+    score = monitor.evaluations.find_by(conversation_id: conversation.id)&.score
+    score ? "#{(score * 100).round}%" : t('unknown')
   end
 
   def conversation_url
