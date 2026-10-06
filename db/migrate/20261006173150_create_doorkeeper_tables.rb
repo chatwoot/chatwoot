@@ -51,8 +51,7 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[7.2]
       t.string   :scopes
       t.datetime :created_at, null: false
       t.datetime :revoked_at
-      # With this column, Doorkeeper revokes the old refresh token only after the client uses the new access token.
-      t.string   :previous_refresh_token, null: false, default: ''
+      # No previous_refresh_token column: Doorkeeper then revokes the old token as soon as it is refreshed.
     end
 
     add_index :oauth_access_tokens, :token, unique: true

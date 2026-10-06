@@ -762,6 +762,25 @@ Rails.application.routes.draw do
   get '.well-known/cf-custom-hostname-challenge/:id', to: 'custom_domains#verify'
 
   # ----------------------------------------------------------------------
+  # OAuth 2.1 provider for third-party apps
+  # None of these routes match until OAUTH_PROVIDER_ENABLED is set.
+  constraints(->(_request) { GlobalConfig.get('OAUTH_PROVIDER_ENABLED')['OAUTH_PROVIDER_ENABLED'] }) do
+    use_doorkeeper do
+      skip_controllers :authorizations, :applications, :authorized_applications, :token_info
+    end
+
+    namespace :api, defaults: { format: 'json' } do
+      namespace :v1 do
+        namespace :oauth do
+          resource :authorization, only: [:create, :destroy] do
+            get '/', action: :new
+          end
+        end
+      end
+    end
+  end
+
+  # ----------------------------------------------------------------------
   # Internal Monitoring Routes
   require 'sidekiq/web'
   require 'sidekiq/cron/web'

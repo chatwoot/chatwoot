@@ -74,6 +74,10 @@ en:
     sessions:
       cannot_revoke_current: You cannot revoke the current session.
 
+  oauth:
+    authorizations:
+      invalid_account: Select an account you belong to.
+
   errors:
     account:
       not_authorized: You are not authorized to access this account
