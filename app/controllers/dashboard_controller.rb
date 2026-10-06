@@ -29,6 +29,7 @@ class DashboardController < ActionController::Base
     INSTALLATION_PRICING_PLAN
     CAPTAIN_TOOLS_MANIFEST_ENABLED
     CAPTAIN_TOOLS_CATALOG_URL
+    OAUTH_PROVIDER_ENABLED
   ].freeze
 
   before_action :set_application_pack
