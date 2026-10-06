@@ -1,4 +1,5 @@
 <% content_for(:title) { t("administrate.actions.edit_resource", name: page.page_title) } %>
+<% content_for(:commands) { render "command_group", label: page.page_title, commands: record_commands(page.resource) } %>
 
 <%= render "page_header", title: content_for(:title), back: display_resource_name(page.resource_name) do %>
   <%= render(

@@ -1,0 +1,7 @@
+<% results.each do |resource, records| %>
+  <%= render "command_group", label: display_resource_name(resource), commands: result_commands(resource, records) %>
+<% end %>
+<% if results.empty? %>
+  <%# Stays out of the way while a command still matches. %>
+  <p class="px-3 py-8 text-center text-body-main text-n-slate-11 [#command-bar-list:has([data-command-item]:not([hidden]))_&]:hidden"><%= t("super_admin.command_bar.empty") %></p>
+<% end %>

@@ -17,6 +17,7 @@ as well as a link to its edit page.
 %>
 
 <% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
+<% content_for(:commands) { render "command_group", label: page.page_title, commands: record_commands(page.resource) } %>
 
 <%= render "page_header", title: page.page_title, back: display_resource_name(page.resource_name) do %>
   <%= render("button", label: t("administrate.actions.edit"), url: [:edit, namespace, page.resource]) if accessible_action?(page.resource, :edit) %>

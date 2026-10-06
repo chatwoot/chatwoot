@@ -29,6 +29,13 @@ ones show, the rest sit behind "More".
     <div class="pointer-events-none absolute inset-0 bg-pixel-band opacity-30 [mask-image:linear-gradient(to_bottom,black,transparent)]"></div>
     <div class="relative"><%= brand %></div>
   </div>
+  <div class="shrink-0 px-3 pt-1">
+    <button type="button" class="flex h-9 w-full items-center gap-2 rounded-lg border border-n-weak bg-n-solid-1 px-2.5 text-body-main text-n-slate-10 transition-colors hover:border-n-slate-7 hover:text-n-slate-11" data-dialog-open="command-bar" aria-haspopup="dialog">
+      <span class="i-lucide-search size-4 shrink-0"></span>
+      <span class="min-w-0 flex-1 truncate text-start"><%= t("super_admin.command_bar.trigger") %></span>
+      <%= render "kbd", label: request.user_agent.to_s.include?("Mac") ? "⌘K" : "Ctrl K" %>
+    </button>
+  </div>
   <nav class="min-h-0 flex-1 overflow-y-auto px-3 pb-4 pt-3" aria-label="<%= section ? section[:label] : t("super_admin.navigation.label") %>">
     <% if section %>
       <ul class="mb-4">
@@ -46,7 +53,10 @@ ones show, the rest sit behind "More".
 <header class="sticky -top-14 z-30 border-b border-n-weak bg-n-background lg:hidden">
   <div class="flex flex-wrap items-center gap-x-3 px-[clamp(1rem,3vw,3rem)]">
     <%= brand %>
-    <div class="ms-auto"><%= render "account_menu" %></div>
+    <%= render "icon_button", extra: "ms-auto", data: { dialog_open: "command-bar" }, aria: { haspopup: "dialog", label: t("super_admin.command_bar.trigger") } do %>
+      <span class="i-lucide-search size-5"></span>
+    <% end %>
+    <%= render "account_menu" %>
 
     <nav class="grid w-full auto-cols-fr grid-flow-col md:flex md:gap-0.5 md:pb-2.5" aria-label="<%= t("super_admin.navigation.label") %>">
       <% items.each do |item| %>
