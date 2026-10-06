@@ -33,6 +33,8 @@
       "is_less_than": "Nhỏ hơn",
       "days_before": "Khoảng x ngày trước",
       "starts_with": "Bắt đầu với",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "Bằng",
       "notEqualTo": "Không bằng",
       "contains": "Chứa",
