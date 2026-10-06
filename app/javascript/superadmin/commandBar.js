@@ -19,8 +19,8 @@ export const initializeCommandBar = () => {
     ...bar.querySelectorAll('[data-command-item]:not([hidden])'),
   ];
 
-  // A destructive command is selected only with the arrow keys, so a stray Enter cannot run it.
-  const isSafe = item => !item.dataset.commandDanger;
+  // A command that changes data is selected only with the arrow keys, so a stray Enter cannot run it.
+  const isSafe = item => !item.dataset.commandMethod;
 
   const select = item => {
     selected?.setAttribute('aria-selected', 'false');
@@ -30,28 +30,24 @@ export const initializeCommandBar = () => {
     selected?.setAttribute('id', SELECTED_ID);
   };
 
-  // Record matches are filtered by the server, so their rows are left alone.
   const filter = () => {
     const terms = input.value.toLowerCase().split(/\s+/).filter(Boolean);
     bar.querySelectorAll('[data-command-group]').forEach(group => {
       const items = [...group.querySelectorAll('[data-command-item]')];
-      if (!results.contains(group)) {
-        items.forEach(item => {
-          const text =
-            `${group.dataset.commandGroup} ${item.textContent}`.toLowerCase();
-          item.hidden = !terms.every(term => text.includes(term));
-        });
-      }
+      items.forEach(item => {
+        const text =
+          `${group.dataset.commandGroup} ${item.textContent}`.toLowerCase();
+        item.hidden = !terms.every(term => text.includes(term));
+      });
       group.hidden = items.every(item => item.hidden);
     });
     select(visibleItems().find(isSafe));
   };
 
-  const search = async () => {
-    const query = input.value.trim();
-    const html = query
-      ? await load(`${bar.dataset.searchUrl}?q=${encodeURIComponent(query)}`)
-      : '';
+  const search = async query => {
+    const html = await load(
+      `${bar.dataset.searchUrl}?q=${encodeURIComponent(query)}`
+    );
     if (query !== input.value.trim()) return;
     results.innerHTML = html;
     bar.removeAttribute('data-searching');
@@ -69,11 +65,14 @@ export const initializeCommandBar = () => {
     }
   };
 
+  // Matches on screen always belong to the query in the input, so they go as soon as it changes.
   input.addEventListener('input', () => {
+    const query = input.value.trim();
+    results.replaceChildren();
+    bar.toggleAttribute('data-searching', Boolean(query));
     filter();
-    bar.toggleAttribute('data-searching', Boolean(input.value.trim()));
     clearTimeout(searchTimer);
-    searchTimer = setTimeout(search, SEARCH_DELAY);
+    if (query) searchTimer = setTimeout(search, SEARCH_DELAY, query);
   });
 
   bar.addEventListener('keydown', event => {
@@ -86,10 +85,10 @@ export const initializeCommandBar = () => {
       select(items[(index + 1) % items.length]);
     } else if (event.key === 'ArrowUp') {
       select(items.at(Math.max(index, 0) - 1));
-    } else if (event.key === 'Enter') {
+    } else if (event.key === 'Enter' && !event.repeat) {
       selected?.querySelector('a, button').click();
-    } else if (event.key === 'Tab' && selected?.dataset.commandRecordUrl) {
-      toggleActions(selected);
+    } else if (event.key === 'Tab') {
+      if (selected?.dataset.commandRecordUrl) toggleActions(selected);
     } else {
       return;
     }

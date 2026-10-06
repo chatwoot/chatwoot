@@ -15,8 +15,8 @@
       <%= render "command_group", group %>
     <% end %>
     <div data-command-results></div>
-    <%# Stands in for the matches while the first search is on its way. %>
-    <div class="hidden space-y-4 px-3 py-4 [[data-searching]_[data-command-results]:empty+&]:block" aria-hidden="true">
+    <%# Stands in for the matches while a search is on its way. %>
+    <div class="hidden space-y-4 px-3 py-4 [[data-searching]_&]:block" aria-hidden="true">
       <% 3.times do %>
         <div class="flex items-center gap-2.5"><span class="size-4 animate-pulse rounded bg-n-slate-3"></span><span class="h-3 w-48 animate-pulse rounded bg-n-slate-3"></span></div>
       <% end %>

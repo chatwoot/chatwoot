@@ -20,8 +20,8 @@ class SuperAdmin::CommandBarsController < SuperAdmin::ApplicationController
 
   def search(model)
     query = params[:q].to_s.strip
-    columns = SEARCH_COLUMNS & model.column_names
-    matches = columns.map { |column| model.where(model.arel_table[column].matches("%#{query}%")) }.reduce(model.none, :or)
+    pattern = "%#{model.sanitize_sql_like(query)}%"
+    matches = (SEARCH_COLUMNS & model.column_names).map { |column| model.where(model.arel_table[column].matches(pattern)) }.reduce(:or)
     exact = model.find_by(id: query.delete_prefix('#')) if query.match?(/\A#?\d+\z/)
     [exact, *matches.order(id: :desc).limit(RESULTS_PER_RESOURCE)].compact.uniq.first(RESULTS_PER_RESOURCE).map { |record| routable(record) }
   end
