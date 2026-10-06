@@ -40,24 +40,72 @@
       }
     },
     "DETAIL": {
-      "LOADING": "Cég részleteinek betöltése...",
       "EMPTY_STATE": {
         "TITLE": "Cég nem található",
         "SUBTITLE": "Ez a cég lehet, hogy eltávolításra került, vagy már nem elérhető ebben a fiókban."
       },
-      "SIDEBAR": {
-        "TABS": {
-          "ATTRIBUTES": "Tulajdonságok",
-          "CONTACTS": "Kontaktok",
-          "HISTORY": "Előzmények",
-          "NOTES": "Megjegyzések"
+      "HEADER": {
+        "EDIT": "Szerkesztés",
+        "MORE": "Show more",
+        "LESS": "Kevesebb mutatása",
+        "OPEN_COUNT": "{count} open | {count} open",
+        "REFRESH_WITH_TIME": "Refresh profile (updated {time})"
+      },
+      "FACTS": {
+        "INDUSTRY": "Iparág",
+        "SIZE": "Employees",
+        "LOCATION": "Based in",
+        "ADDED": "Added",
+        "UNKNOWN": "Unknown",
+        "YES": "Igen",
+        "NO": "Nem"
+      },
+      "PEOPLE": {
+        "ADD": "Hozzáadás",
+        "SEARCH": "Search people",
+        "EMPTY": "No one from this company yet.",
+        "NO_MATCHES": "No people match your search.",
+        "DIALOG_TITLE": "Add people to {name}"
+      },
+      "TABS": {
+        "CONVERSATIONS": "Beszélgetések",
+        "NOTES": "Megjegyzések",
+        "PEOPLE": "People"
+      },
+      "ACTIVITY": {
+        "TODAY": "Ma",
+        "YESTERDAY": "Tegnap",
+        "UNKNOWN_AUTHOR": "Someone",
+        "EMPTY_CONVERSATIONS": "No conversations yet. They'll show up here when this company's people get in touch.",
+        "EMPTY_NOTES": "No notes yet. Notes added to this company's people show up here.",
+        "LOAD_MORE": "Load more",
+        "SEARCH_NOTES": "Search notes",
+        "NO_MATCHING_NOTES": "No notes match your search.",
+        "NO_MATCHING_CONVERSATIONS": "No conversations match these filters."
+      },
+      "EDIT": {
+        "TITLE": "Edit company",
+        "SAVE": "Save changes",
+        "DESCRIPTION": "Leírás",
+        "DETAILS": "Details",
+        "CITY": "Város",
+        "COUNTRY": "Ország",
+        "PHONE": "Telefon",
+        "SOCIAL": {
+          "TITLE": "Social profiles",
+          "LINKEDIN": "LinkedIn",
+          "X": "X",
+          "FACEBOOK": "Facebook",
+          "INSTAGRAM": "Instagram",
+          "GITHUB": "GitHub",
+          "YOUTUBE": "YouTube"
+        },
+        "PLACEHOLDERS": {
+          "DOMAIN": "acme.com",
+          "INDUSTRY": "Software",
+          "EMPLOYEES": "51 to 200",
+          "USERNAME": "username"
         }
-      },
-      "HISTORY": {
-        "EMPTY": "Nincsenek beszélgetések a cég ügyfeleihez kapcsolódóan."
-      },
-      "NOTES": {
-        "EMPTY": "Nincsenek megjegyzések a cég ügyfeleihez kapcsolódóan."
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Tulajdonságok keresése...",
@@ -69,11 +117,11 @@
           "UPDATE_ERROR": "Nem sikerült frissíteni a cég tulajdonságát.",
           "DELETE_SUCCESS": "Cég tulajdonsága eltávolítva.",
           "DELETE_ERROR": "Nem sikerült eltávolítani a cég tulajdonságát."
-        }
+        },
+        "TITLE": "Egyéni tulajdonságok"
       },
       "CONTACTS": {
         "LOADING": "Kontaktok betöltése...",
-        "EMPTY": "Ehhez a céghez még nincsenek ügyfelek kapcsolva.",
         "UNNAMED_CONTACT": "Név nélküli ügyfél",
         "ACTIONS": {
           "ADD": "Ügyfél hozzáadása",
@@ -111,16 +159,15 @@
         "DELETE_ERROR": "Nem sikerült eltávolítani a cég profilképét."
       },
       "PROFILE": {
-        "TITLE": "Cég részleteinek szerkesztése",
-        "CREATED_AT": "Létrehozás dátuma: {date}",
-        "LAST_ACTIVE": "Utolsó aktivitás: {date}",
         "DESCRIPTION_PLACEHOLDER": "Adj hozzá egy rövid leírást ehhez a céghez",
         "ACTIONS": {
-          "SAVE": "Cég frissítése"
+          "REFRESH": "Refresh profile"
         },
         "MESSAGES": {
           "UPDATE_SUCCESS": "Cég frissítve.",
-          "UPDATE_ERROR": "Nem sikerült frissíteni a céget."
+          "UPDATE_ERROR": "Nem sikerült frissíteni a céget.",
+          "REFRESH_SUCCESS": "Company profile refreshed.",
+          "REFRESH_ERROR": "Could not refresh the company profile."
         },
         "FIELDS": {
           "NAME": "Név",
@@ -128,8 +175,6 @@
         }
       },
       "DELETE": {
-        "SECTION_TITLE": "Veszélyzóna",
-        "SECTION_DESCRIPTION": "Töröld ezt a céget, és válaszd le a kapcsolódó ügyfeleket. Az ügyfelek megmaradnak a fiókban.",
         "BUTTON": "Cég törlése",
         "TITLE": "Cég törlése?",
         "DESCRIPTION": "Ez eltávolítja a céget, és leválaszt minden kapcsolódó ügyfelet. Az ügyfelek megmaradnak.",
@@ -139,10 +184,30 @@
           "SUCCESS": "Cég törölve.",
           "ERROR": "Nem sikerült törölni a céget."
         }
+      },
+      "CONVERSATION_FILTERS": {
+        "BUTTON": "Szűrő",
+        "BUTTON_WITH_COUNT": "Filter ({count})",
+        "ANY": "Any"
+      },
+      "ENRICHMENT_UPGRADE": {
+        "TITLE": "Enrich company profiles on the Business plan",
+        "DESCRIPTION": "Automatically fill in a company's description, industry, size, location and social profiles from its domain. Available on the Business and Enterprise plans.",
+        "UPGRADE": "See plans"
       }
     },
     "EMPTY_STATE": {
       "TITLE": "No companies found"
+    },
+    "CARD": {
+      "EMPLOYEES": "{count} employees"
+    },
+    "PAYWALL": {
+      "TITLE": "Upgrade to use Companies",
+      "AVAILABLE_ON": "Companies is not available on the free plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to group contacts by company, see every conversation with an account and keep company details in one place.",
+      "UPGRADE_NOW": "Upgrade now",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     }
   },
   "COMPANIES_LAYOUT": {
