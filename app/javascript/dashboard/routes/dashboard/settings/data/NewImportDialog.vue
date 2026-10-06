@@ -12,6 +12,7 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import DataImportsAPI from 'dashboard/api/dataImports';
+import CsvPreview from './CsvPreview.vue';
 import { IMPORT_SOURCES, importSourceConfigFor } from './importSources';
 import { formatDate } from './importStatus';
 
@@ -391,6 +392,7 @@ watch(
             }}</span>
           </label>
         </div>
+        <CsvPreview v-if="file" :file="file" />
         <p class="text-label-small text-n-slate-11">
           {{ $t('DATA_IMPORTS.CSV.HELP') }}
         </p>
