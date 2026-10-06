@@ -262,6 +262,10 @@
     "EMAIL_VERIFICATION_PENDING": "아직 이메일 주소를 인증하지 않은 것 같습니다. 받은 편지함에서 인증 이메일을 확인하십시오.",
     "RESEND_VERIFICATION_MAIL": "인증 이메일 다시 보내기",
     "EMAIL_VERIFICATION_SENT": "인증 이메일이 전송되었습니다. 받은 편지함을 확인하십시오.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "계정 정지됨",
       "MESSAGE": "계정이 정지되었습니다. 자세한 정보는 지원팀에 문의하십시오.",
@@ -278,7 +282,8 @@
     "CODE": {
       "BUTTON_TEXT": "복사",
       "CODEPEN": "CodePen에서 열기",
-      "COPY_SUCCESSFUL": "클립보드에 복사되었습니다"
+      "COPY_SUCCESSFUL": "클립보드에 복사되었습니다",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "더 보기",
@@ -578,6 +583,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "청구",
     "DESCRIPTION": "여기에서 구독을 관리하고, 플랜을 업그레이드하여 팀에 더 많은 기능을 제공하십시오.",
     "CURRENT_PLAN": {
@@ -585,6 +594,7 @@
       "PLAN_NOTE": "현재 **{quantity}**개의 라이선스로 **{plan}** 플랜에 구독 중입니다",
       "SEAT_COUNT": "시트 수",
       "RENEWS_ON": "갱신일",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {
@@ -618,6 +628,38 @@
       "BUTTON_TXT": "채팅하기"
     },
     "NO_BILLING_USER": "청구 계정이 구성 중입니다. 페이지를 새로고침하고 다시 시도하십시오.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "상태",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "갱신일",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "보류 중",
+        "ACTIVE": "활성",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "크레딧 추가 구매",
       "MODAL_TITLE": "AI 크레딧 구매",
@@ -648,6 +690,7 @@
     "DESCRIPTION": "계정 보안 설정을 관리합니다.",
     "LINK_TEXT": "SAML SSO에 대해 자세히 알아보기",
     "SAML_DISABLED_MESSAGE": "SAML SSO가 현재 비활성화되어 있습니다. 이 기능을 활성화하려면 관리자에게 문의하십시오.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "계정에 대한 SAML 싱글 사인온을 구성합니다. 사용자는 이메일/비밀번호 대신 ID 공급자를 통해 인증합니다.",
