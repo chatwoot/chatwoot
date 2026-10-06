@@ -262,6 +262,10 @@
     "EMAIL_VERIFICATION_PENDING": "നിങ്ങൾ ഇമെയിൽ വിലാസം സ്ഥിരീകരിച്ചിട്ടില്ലെന്ന് തോന്നുന്നു. ദയവായി സ്ഥിരീകരണ ഇമെയിൽ ലഭിച്ചിട്ടുണ്ടോ എന്ന് നിങ്ങളുടെ ഇൻബോക്സ് പരിശോധിക്കുക.",
     "RESEND_VERIFICATION_MAIL": "സ്ഥിരീകരണ ഇമെയിൽ വീണ്ടും അയയ്ക്കുക",
     "EMAIL_VERIFICATION_SENT": "പരിശോധന ഇമെയിൽ അയച്ചിട്ടുണ്ട്. ദയവായി നിങ്ങളുടെ ഇൻബോക്സ് പരിശോധിക്കുക.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "അക്കൗണ്ട് സസ്പെൻഡ് ചെയ്തു",
       "MESSAGE": "നിങ്ങളുടെ അക്കൗണ്ട് സസ്പെൻഡ് ചെയ്തു. കൂടുതൽ വിവരങ്ങൾക്ക് സഹായ സംഘത്തെ സമീപിക്കുക.",
@@ -278,7 +282,8 @@
     "CODE": {
       "BUTTON_TEXT": "പകർത്തുക",
       "CODEPEN": "CodePen-ൽ തുറക്കുക",
-      "COPY_SUCCESSFUL": "കോഡ് ക്ലിപ്പ്ബോർഡിലേക്ക് വിജയകരമായി പകർത്തി"
+      "COPY_SUCCESSFUL": "കോഡ് ക്ലിപ്പ്ബോർഡിലേക്ക് വിജയകരമായി പകർത്തി",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "കൂടുതൽ കാണിക്കുക",
@@ -578,6 +583,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "ബില്ലിംഗ്",
     "DESCRIPTION": "നിങ്ങളുടെ സബ്സ്ക്രിപ്ഷൻ ഇവിടെ നിയന്ത്രിക്കുക, നിങ്ങളുടെ പ്ലാൻ അപ്‌ഗ്രേഡ് ചെയ്യുക, നിങ്ങളുടെ ടീമിനായി കൂടുതൽ നേടുക.",
     "CURRENT_PLAN": {
@@ -585,6 +594,7 @@
       "PLAN_NOTE": "നിങ്ങൾ നിലവിൽ **{plan}** പ്ലാനിൽ **{quantity}** ലൈസൻസുകളോടെ സബ്സ്ക്രൈബ് ചെയ്തിരിക്കുന്നു",
       "SEAT_COUNT": "സീറ്റുകളുടെ എണ്ണം",
       "RENEWS_ON": "പുതുക്കുന്നത്",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {
@@ -618,6 +628,38 @@
       "BUTTON_TXT": "ഞങ്ങളുമായി ചാറ്റുചെയ്യുക"
     },
     "NO_BILLING_USER": "നിങ്ങളുടെ ബില്ലിംഗ് അക്കൗണ്ട് ക്രമീകരിക്കപ്പെടുകയാണ്. ദയവായി പേജ് റിഫ്രഷ് ചെയ്ത് വീണ്ടും ശ്രമിക്കുക.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "സ്റ്റാറ്റസ്",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "പുതുക്കുന്നത്",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "കെട്ടിക്കിടക്കുന്നു",
+        "ACTIVE": "സജീവമാണ്",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "കൂടുതൽ ക്രെഡിറ്റുകൾ വാങ്ങുക",
       "MODAL_TITLE": "AI ക്രെഡിറ്റുകൾ വാങ്ങുക",
@@ -648,6 +690,7 @@
     "DESCRIPTION": "നിങ്ങളുടെ അക്കൗണ്ട് സുരക്ഷാ ക്രമീകരണങ്ങൾ നിയന്ത്രിക്കുക.",
     "LINK_TEXT": "SAML SSOയെക്കുറിച്ച് കൂടുതൽ അറിയുക",
     "SAML_DISABLED_MESSAGE": "SAML SSO ഇപ്പോൾ പ്രവർത്തനരഹിതമാണ്. ഈ സവിശേഷത സജീവമാക്കാൻ ദയവായി നിങ്ങളുടെ അഡ്മിനിസ്ട്രേറ്ററെ ബന്ധപ്പെടുക.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "നിങ്ങളുടെ അക്കൗണ്ടിനായി SAML സിംഗിൾ സൈൻ-ഓൺ ക്രമീകരിക്കുക. ഉപയോക്താക്കൾ ഇമെയിൽ/പാസ്‌വേഡ് ഉപയോഗിക്കുന്നതിന് പകരം നിങ്ങളുടെ ഐഡന്റിറ്റി പ്രൊവൈഡറിലൂടെ പ്രാമാണീകരിക്കും.",
