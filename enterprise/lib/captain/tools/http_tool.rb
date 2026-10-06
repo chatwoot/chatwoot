@@ -38,6 +38,9 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   # Route through SafeFetch so custom tool requests share the app's centralized HTTP
   # fetching (resolution, timeouts, response size limits, and redirect handling).
   def execute_http_request(url, body, tool_context)
+    # Templates can change the URL when rendered, so the final URL is checked before any credentials are sent
+    raise ArgumentError, 'Custom tool requests must use HTTPS' unless URI.parse(url).scheme == 'https'
+
     json_body = body unless @custom_tool.http_method == 'GET'
     auth_headers = @custom_tool.build_auth_headers
 

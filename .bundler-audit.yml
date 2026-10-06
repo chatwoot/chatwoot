@@ -31,3 +31,9 @@ ignore:
   - CVE-2026-67987
   - CVE-2026-67989
   - CVE-2026-67991
+  # Think-tag parsing and Mistral matching ReDoS are reported on Ruby 3.1.
+  # We pin Ruby 3.4.4, where the affected regexes are linear-time.
+  # Remove when a supported patched RubyLLM/ai-agents combination is adopted;
+  # reassess if the supported Ruby runtime changes.
+  - CVE-2026-67987
+  - CVE-2026-67989
