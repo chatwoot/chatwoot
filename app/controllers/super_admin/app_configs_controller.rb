@@ -39,11 +39,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
       errors.concat(i.errors.full_messages) unless i.save
     end
 
-    if errors.any?
-      redirect_to super_admin_app_config_path(config: @config), alert: errors.join(', ')
-    else
-      redirect_to super_admin_settings_path, flash: success_flash
-    end
+    redirect_to super_admin_app_config_path(config: @config), flash: errors.any? ? { alert: errors.join(', ') } : success_flash
   end
 
   private
