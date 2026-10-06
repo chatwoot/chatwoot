@@ -33,6 +33,8 @@
       "is_less_than": "És més petit que",
       "days_before": "És x dies abans",
       "starts_with": "Comença amb",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "Igual a",
       "notEqualTo": "No és igual a",
       "contains": "Conté",
