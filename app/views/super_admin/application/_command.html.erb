@@ -9,11 +9,8 @@
   <% if command[:hint] %>
     <span class="max-w-[50%] shrink-0 truncate text-label-small tabular-nums text-n-slate-10"><%= command[:hint] %></span>
   <% end %>
-  <% if command[:record_url] %>
-    <span class="hidden shrink-0 group-aria-selected:block touch:!hidden"><%= render "kbd", label: "⇥ #{t("super_admin.command_bar.actions")}" %></span>
-  <% end %>
 <% end %>
-<%= tag.div role: "option", class: "group", aria: { selected: false }, data: { command_item: true, command_method: command[:method], command_record_url: command[:record_url] } do %>
+<%= tag.div role: "option", class: "group", aria: { selected: false }, data: { command_item: true, command_method: command[:method] } do %>
   <% if command[:method] %>
     <%= button_to command[:url], method: command[:method], class: row, tabindex: -1, form: command[:form] do %><%= content %><% end %>
   <% elsif command[:url] %>

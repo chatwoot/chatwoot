@@ -800,9 +800,6 @@ Rails.application.routes.draw do
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
       resources :platform_banners
       resource :instance_status, only: [:show]
-      resource :command_bar, only: [:show] do
-        get :record
-      end
 
       resource :settings, only: [:show] do
         get :refresh, on: :collection

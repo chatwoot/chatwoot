@@ -775,9 +775,7 @@ en:
       empty: 'No results found.'
       go_to: 'Go to'
       create: 'Create'
-      actions: 'Actions'
       open: 'Open'
-      see_all: 'See all matching %{resource}'
       navigate: 'Navigate'
       select: 'Select'
     dashboard:

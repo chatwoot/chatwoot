@@ -1,5 +1,5 @@
 <%# Opened with ⌘K / Ctrl+K or any `data-dialog-open="command-bar"` control. A record page adds its actions with `content_for(:commands)`. %>
-<dialog id="command-bar" aria-label="<%= t("super_admin.command_bar.label") %>" data-command-bar data-search-url="<%= super_admin_command_bar_path %>"
+<dialog id="command-bar" aria-label="<%= t("super_admin.command_bar.label") %>" data-command-bar
         class="mb-auto mt-4 w-[calc(100%-2rem)] max-w-xl overflow-hidden rounded-2xl border border-n-weak bg-n-solid-1 p-0 text-n-slate-12 shadow-xl backdrop:bg-modal-backdrop-light open:animate-sheet-in motion-reduce:animate-none dark:backdrop:bg-modal-backdrop-dark sm:mt-24">
   <div class="flex h-12 items-center gap-2.5 border-b border-n-weak px-4">
     <span class="i-lucide-search size-4 shrink-0 text-n-slate-10"></span>
@@ -14,17 +14,12 @@
     <% command_groups.each do |group| %>
       <%= render "command_group", group %>
     <% end %>
-    <div data-command-results></div>
-    <%# Stands in for the matches while a search is on its way. %>
-    <div class="hidden space-y-4 px-3 py-4 [[data-searching]_&]:block" aria-hidden="true">
-      <% 3.times do %>
-        <div class="flex items-center gap-2.5"><span class="size-4 animate-pulse rounded bg-n-slate-3"></span><span class="h-3 w-48 animate-pulse rounded bg-n-slate-3"></span></div>
-      <% end %>
-    </div>
+    <%# Stays out of the way while a command still matches. %>
+    <p class="px-3 py-8 text-center text-body-main text-n-slate-11 [#command-bar-list:has([data-command-item]:not([hidden]))_&]:hidden"><%= t("super_admin.command_bar.empty") %></p>
   </div>
 
   <footer class="flex items-center gap-4 border-t border-n-weak px-4 py-2 text-label-small text-n-slate-10 touch:hidden">
-    <% { "↑↓" => t("super_admin.command_bar.navigate"), "↵" => t("super_admin.command_bar.select"), "⇥" => t("super_admin.command_bar.actions"), "esc" => t("super_admin.actions.close") }.each do |key, label| %>
+    <% { "↑↓" => t("super_admin.command_bar.navigate"), "↵" => t("super_admin.command_bar.select"), "esc" => t("super_admin.actions.close") }.each do |key, label| %>
       <span class="inline-flex items-center gap-1.5"><%= render "kbd", label: key %><%= label %></span>
     <% end %>
   </footer>

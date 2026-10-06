@@ -1,19 +1,9 @@
-const SEARCH_DELAY = 200;
 const SELECTED_ID = 'command-bar-selected';
-
-// Devise answers a background request with 401 instead of the login page.
-const load = async url => {
-  const headers = { 'X-Requested-With': 'XMLHttpRequest' };
-  const response = await fetch(url, { headers }).catch(() => null);
-  return response?.ok ? response.text() : '';
-};
 
 export const initializeCommandBar = () => {
   const bar = document.querySelector('[data-command-bar]');
   const input = bar.querySelector('[data-command-input]');
-  const results = bar.querySelector('[data-command-results]');
   let selected;
-  let searchTimer;
 
   const visibleItems = () => [
     ...bar.querySelectorAll('[data-command-item]:not([hidden])'),
@@ -44,36 +34,7 @@ export const initializeCommandBar = () => {
     select(visibleItems().find(isSafe));
   };
 
-  const search = async query => {
-    const html = await load(
-      `${bar.dataset.searchUrl}?q=${encodeURIComponent(query)}`
-    );
-    if (query !== input.value.trim()) return;
-    results.innerHTML = html;
-    bar.removeAttribute('data-searching');
-    if (!visibleItems().includes(selected)) select(visibleItems().find(isSafe));
-  };
-
-  const toggleActions = async item => {
-    const actions = item.nextElementSibling;
-    if (actions?.matches('[data-command-actions]')) {
-      actions.remove();
-    } else {
-      const html = await load(item.dataset.commandRecordUrl);
-      const isOpen = item.nextElementSibling?.matches('[data-command-actions]');
-      if (!isOpen) item.insertAdjacentHTML('afterend', html);
-    }
-  };
-
-  // Matches on screen always belong to the query in the input, so they go as soon as it changes.
-  input.addEventListener('input', () => {
-    const query = input.value.trim();
-    results.replaceChildren();
-    bar.toggleAttribute('data-searching', Boolean(query));
-    filter();
-    clearTimeout(searchTimer);
-    if (query) searchTimer = setTimeout(search, SEARCH_DELAY, query);
-  });
+  input.addEventListener('input', filter);
 
   bar.addEventListener('keydown', event => {
     // Enter that confirms an IME composition must not run a command.
@@ -87,11 +48,10 @@ export const initializeCommandBar = () => {
       select(items.at(Math.max(index, 0) - 1));
     } else if (event.key === 'Enter' && !event.repeat) {
       selected?.querySelector('a, button').click();
-    } else if (event.key === 'Tab') {
-      if (selected?.dataset.commandRecordUrl) toggleActions(selected);
-    } else {
+    } else if (event.key !== 'Tab') {
       return;
     }
+    // Tab is swallowed too: it would take the focus out of the input.
     event.preventDefault();
     selected?.scrollIntoView({ block: 'nearest' });
   });
@@ -110,7 +70,7 @@ export const initializeCommandBar = () => {
 
   bar.addEventListener('close', () => {
     input.value = '';
-    input.dispatchEvent(new Event('input'));
+    filter();
   });
 
   document.addEventListener('keydown', event => {

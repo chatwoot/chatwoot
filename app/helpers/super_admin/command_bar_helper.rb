@@ -23,19 +23,6 @@ module SuperAdmin::CommandBarHelper
                   form: { data: { confirm: t('administrate.actions.confirm') } } }
   end
 
-  def result_commands(resource, records)
-    commands = records.map do |record|
-      { label: (record.try(:name) || record.try(:title)).presence || resource.singularize.titleize,
-        hint: [record.try(:email), "##{record.id}"].compact.join(' · '),
-        url: [namespace, record], icon: SuperAdmin::NavigationHelper::NAV_ICONS[resource],
-        record_url: record_super_admin_command_bar_path(resource: resource, id: record.id) }
-    end
-    return commands if records.size < SuperAdmin::CommandBarsController::RESULTS_PER_RESOURCE
-
-    commands << { label: t('super_admin.command_bar.see_all', resource: display_resource_name(resource).downcase),
-                  url: url_for(controller: "/#{namespace}/#{resource}", action: :index, search: params[:q]), icon: 'i-lucide-list' }
-  end
-
   private
 
   def create_commands
