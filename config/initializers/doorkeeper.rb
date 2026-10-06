@@ -15,6 +15,8 @@ Doorkeeper.configure do
 
   hash_token_secrets
   allow_token_introspection false
+  # A token in a query string ends up in logs, so only the Authorization header is read.
+  access_token_methods :from_bearer_authorization
 
   # A token works for one account, which the user picks on the consent screen.
   custom_access_token_attributes [:account_id]
