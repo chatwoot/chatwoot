@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "Okunmamış Mesajlar",
     "UNREAD_MESSAGE": "Okunmamış Mesaj",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "Buraya Tıkla",
     "LOADING_INBOXES": "Gelen kutuları yükleniyor",
     "LOADING_CONVERSATIONS": "Sohbetler Yükleniyor\n",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "Bu görüşme size atanmamış. Bu konuşmayı kendinize atamak ister misiniz?",
     "ASSIGN_TO_ME": "Bana ata",
     "BOT_HANDOFF_MESSAGE": "Bu görüşme şu anda {assigneeName} tarafından yürütülüyor.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "bir bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Devral",
     "BOT_HANDOFF_REOPEN_ACTION": "Konuşmayı açık olarak işaretle",
     "BOT_HANDOFF_SUCCESS": "Konuşma size devredildi",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "Mesaj başarıyla silindi",
     "FAIL_DELETE_MESSSAGE": "Mesaj silinemiyor. Tekrar deneyin",
     "NO_RESPONSE": "Cevap Yok",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "Response",
     "RATING_TITLE": "Değerlendirme",
     "FEEDBACK_TITLE": "Geribildirim",
@@ -187,7 +205,7 @@
           "ALL": "Hepsi"
         },
         "AVAILABILITY": "Uygunluk",
-        "ROLE": "Agent Type",
+        "ROLE": "Rol",
         "AUTO_ASSIGN": "Otomatik ata",
         "ENABLED": "Etkin",
         "DISABLED": "Devre dışı",
@@ -198,6 +216,16 @@
       "TITLE": "Şu tarihe kadar ertele",
       "APPLY": "Sustur",
       "CANCEL": "İptal Et"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "Kabul et",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "Kapat",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "Öncelik",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Alıntılanan e-posta zincirini dahil et",
-        "DISABLE_TOOLTIP": "Alıntılanan e-posta zincirini dahil etme",
-        "REMOVE_PREVIEW": "Alıntılanan e-posta zincirini kaldır",
-        "COLLAPSE": "Önizlemeyi daralt",
-        "EXPAND": "Önizlemeyi genişlet"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "Özel Not: Yalnızca siz ve ekibiniz tarafından görülebilir",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "Kopyala",
       "REPLY_TO": "Bu mesaja yanıtla",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "Sil",
       "CREATE_A_CANNED_RESPONSE": "Hızlı cevaplara ekle",
       "TRANSLATE": "Çevir",
@@ -529,7 +556,16 @@
     "BCC": "Gizli Kopya",
     "CC": "Kopya",
     "SUBJECT": "Konu",
+    "DATE": "Tarih",
     "EXPAND": "Expand email"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "Kime:",
+    "TO_PLACEHOLDER": "E-posta ile arama yapmak için en az 2 karakter girin",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Katılımcılar",
