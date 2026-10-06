@@ -14,7 +14,6 @@ const props = defineProps({
 
 const emit = defineEmits(['updatePortalConfiguration']);
 
-// Mirrors Portal#visibility.
 const VISIBILITY = { PUBLIC: 'public', PASSWORD: 'private_with_password' };
 
 const { t } = useI18n();
@@ -56,7 +55,6 @@ const isPasswordProtected = computed(
   () => state.visibility === VISIBILITY.PASSWORD
 );
 
-// A portal that is already protected keeps its password unless a new one is typed.
 const hasSavedPassword = computed(
   () => savedVisibility.value === VISIBILITY.PASSWORD
 );

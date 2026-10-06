@@ -60,7 +60,6 @@ const settingsTabs = computed(() => [
     label: t('HELP_CENTER.PORTAL_SETTINGS.NAV.INTEGRATIONS'),
     icon: 'i-lucide-blocks',
   },
-  // Admin-only, also enforced on the backend.
   ...(isAdmin.value
     ? [
         {

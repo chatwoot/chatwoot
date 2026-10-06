@@ -1,5 +1,3 @@
-# Password protected portals keep visitors signed in with a signed token in a cookie scoped
-# to the portal. The token expires on its own and stops working when the password changes.
 module PortalAccess
   extend ActiveSupport::Concern
 

@@ -180,7 +180,6 @@ class Portal < ApplicationRecord
 
   private
 
-  # The widget cannot sign visitors in to a password protected help center.
   def ensure_not_linked_to_inboxes
     errors.add(:base, I18n.t('portals.password_protected.linked_to_inboxes')) if inboxes.exists?
   end
