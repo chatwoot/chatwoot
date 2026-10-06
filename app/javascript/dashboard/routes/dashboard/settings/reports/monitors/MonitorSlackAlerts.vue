@@ -73,7 +73,7 @@ const save = async channelId => {
 
 <template>
   <section class="rounded-xl border border-n-weak bg-n-solid-1 p-5">
-    <div class="flex flex-wrap items-center justify-between gap-4">
+    <div class="grid items-center grid-cols-1 gap-4 md:grid-cols-2">
       <div class="flex items-start min-w-0 gap-3">
         <div
           class="flex items-center justify-center rounded-lg size-10 shrink-0 bg-n-alpha-2"
@@ -113,20 +113,20 @@ const save = async channelId => {
           :disabled="isSaving"
           :display-label="t('MONITORS.SLACK_ALERT.LOADING')"
           :placeholder="t('MONITORS.SLACK_ALERT.PLACEHOLDER')"
-          class="w-56 shrink-0"
           open-upwards
           @open="loadChannels"
           @update:model-value="save"
         />
-        <Button
-          v-else
-          slate
-          faded
-          size="sm"
-          icon="i-logos-slack-icon"
-          :label="t('MONITORS.SLACK_ALERT.CONNECT')"
-          @click="router.push({ name: 'settings_integrations_slack' })"
-        />
+        <div v-else class="flex md:justify-end">
+          <Button
+            slate
+            faded
+            size="sm"
+            icon="i-logos-slack-icon"
+            :label="t('MONITORS.SLACK_ALERT.CONNECT')"
+            @click="router.push({ name: 'settings_integrations_slack' })"
+          />
+        </div>
       </template>
     </div>
   </section>

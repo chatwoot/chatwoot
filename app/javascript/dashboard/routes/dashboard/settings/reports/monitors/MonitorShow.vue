@@ -463,75 +463,74 @@ const duplicate = () =>
         </p>
       </template>
     </div>
-    <div
+    <section
       v-if="monitor && canManageAutomations"
-      class="grid items-start grid-cols-1 gap-4 lg:grid-cols-2"
+      class="rounded-xl border border-n-weak bg-n-solid-1 p-5"
     >
-      <section class="rounded-xl border border-n-weak bg-n-solid-1 p-5">
-        <div class="flex items-center justify-between gap-4">
-          <div>
-            <h2 class="text-heading-3 text-n-slate-12">
-              {{ t('MONITORS.AUTOMATIONS.TITLE') }}
-            </h2>
-            <p class="mb-0 text-body-main text-n-slate-11">
-              {{ t('MONITORS.AUTOMATIONS.DESCRIPTION') }}
-            </p>
-          </div>
-          <Button
-            v-if="!monitor.paused_at"
-            icon="i-lucide-plus"
-            size="sm"
-            :label="t('MONITORS.AUTOMATIONS.CREATE')"
-            @click="createAutomation"
-          />
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <h2 class="text-heading-3 text-n-slate-12">
+            {{ t('MONITORS.AUTOMATIONS.TITLE') }}
+          </h2>
+          <p class="mb-0 text-body-main text-n-slate-11">
+            {{ t('MONITORS.AUTOMATIONS.DESCRIPTION') }}
+          </p>
         </div>
-        <p v-if="linkedRulesError" role="alert" class="mt-4 text-n-ruby-11">
-          {{ t('MONITORS.AUTOMATIONS.FETCH_FAILED') }}
-        </p>
-        <p v-else-if="!linkedRules.length" class="mb-0 mt-4 text-n-slate-11">
-          {{ t('MONITORS.AUTOMATIONS.EMPTY') }}
-        </p>
-        <ul v-else class="mb-0 mt-4 list-none divide-y divide-n-weak p-0">
-          <li
-            v-for="rule in linkedRules"
-            :key="rule.id"
-            class="group flex items-center justify-between gap-3 py-3"
+        <Button
+          v-if="!monitor.paused_at"
+          icon="i-lucide-plus"
+          size="sm"
+          :label="t('MONITORS.AUTOMATIONS.CREATE')"
+          @click="createAutomation"
+        />
+      </div>
+      <p v-if="linkedRulesError" role="alert" class="mt-4 text-n-ruby-11">
+        {{ t('MONITORS.AUTOMATIONS.FETCH_FAILED') }}
+      </p>
+      <p v-else-if="!linkedRules.length" class="mb-0 mt-4 text-n-slate-11">
+        {{ t('MONITORS.AUTOMATIONS.EMPTY') }}
+      </p>
+      <ul v-else class="mb-0 mt-4 list-none divide-y divide-n-weak p-0">
+        <li
+          v-for="rule in linkedRules"
+          :key="rule.id"
+          class="group flex items-center justify-between gap-3 py-3"
+        >
+          <button
+            type="button"
+            class="min-w-0 truncate rounded-md p-0 text-start text-body-main text-n-slate-12 hover:text-n-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand"
+            @click="editAutomation(rule)"
           >
-            <button
-              type="button"
-              class="min-w-0 truncate rounded-md p-0 text-start text-body-main text-n-slate-12 hover:text-n-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand"
-              @click="editAutomation(rule)"
+            {{ rule.name }}
+          </button>
+          <HoverActions
+            :actions="linkedRuleActions"
+            @action="editAutomation(rule)"
+          >
+            <Label
+              compact
+              :color="rule.active ? 'teal' : 'slate'"
+              :label="
+                rule.active
+                  ? t('MONITORS.AUTOMATIONS.ACTIVE')
+                  : t('MONITORS.AUTOMATIONS.DISABLED')
+              "
             >
-              {{ rule.name }}
-            </button>
-            <HoverActions
-              :actions="linkedRuleActions"
-              @action="editAutomation(rule)"
-            >
-              <Label
-                compact
-                :color="rule.active ? 'teal' : 'slate'"
-                :label="
-                  rule.active
-                    ? t('MONITORS.AUTOMATIONS.ACTIVE')
-                    : t('MONITORS.AUTOMATIONS.DISABLED')
-                "
-              >
-                <template v-if="rule.active" #icon>
-                  <span class="size-1.5 rounded-full bg-n-teal-9" />
-                </template>
-              </Label>
-            </HoverActions>
-          </li>
-        </ul>
-      </section>
-      <MonitorSlackAlerts
-        :key="`${accountId}/${monitorId}`"
-        :monitor-id="monitorId"
-        :channel-id="monitor.slack_channel_id || ''"
-        @saved="fetchReport"
-      />
-    </div>
+              <template v-if="rule.active" #icon>
+                <span class="size-1.5 rounded-full bg-n-teal-9" />
+              </template>
+            </Label>
+          </HoverActions>
+        </li>
+      </ul>
+    </section>
+    <MonitorSlackAlerts
+      v-if="monitor && canManageAutomations"
+      :key="`${accountId}/${monitorId}`"
+      :monitor-id="monitorId"
+      :channel-id="monitor.slack_channel_id || ''"
+      @saved="fetchReport"
+    />
   </div>
   <MonitorDrilldown
     v-if="drilldown"
