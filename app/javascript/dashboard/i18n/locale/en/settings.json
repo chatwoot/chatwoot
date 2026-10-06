@@ -595,7 +595,14 @@
       "SEAT_COUNT": "Number of seats",
       "RENEWS_ON": "Renews on",
       "CANCELS_ON": "Cancels on",
+      "TRIAL_ENDS_ON": "Trial ends on",
       "CURRENCY": "Currency"
+    },
+    "TRIAL": {
+      "TITLE": "Try a paid plan free for {days} days",
+      "DESCRIPTION": "Add a payment method to start your trial. You won't be charged until the trial ends, and you can cancel anytime before then.",
+      "START": "Start {plan} trial",
+      "STARTED": "Your free trial has started"
     },
     "CURRENCY": {
       "SELECT": {

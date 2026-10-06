@@ -8,6 +8,7 @@ if resource.custom_attributes.present?
     json.subscription_status resource.custom_attributes['subscription_status']
     json.subscription_ends_on resource.custom_attributes['subscription_ends_on']
     json.subscription_cancels_on resource.custom_attributes['subscription_cancels_on']
+    json.trial_ends_at resource.custom_attributes['trial_ends_at']
     json.billing_currency resource.billing_currency if resource.respond_to?(:billing_currency) && Enterprise::Billing::Currencies.enabled?
     json.website resource.custom_attributes['website'] if resource.custom_attributes['website'].present?
     json.industry resource.custom_attributes['industry'] if resource.custom_attributes['industry'].present?

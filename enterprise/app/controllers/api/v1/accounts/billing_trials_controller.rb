@@ -1,0 +1,28 @@
+class Api::V1::Accounts::BillingTrialsController < Api::V1::Accounts::BaseController
+  before_action :check_admin_authorization?
+
+  rescue_from Enterprise::Billing::TrialService::Error, Stripe::StripeError, with: :render_trial_error
+
+  def show
+    render json: { trial_days: Enterprise::Billing::TrialService::TRIAL_DAYS, plans: trial_service.available_plans }
+  end
+
+  def create
+    render json: { redirect_url: trial_service.create_checkout_session(plan_name: params[:plan_name]) }
+  end
+
+  def complete
+    trial_service.start_trial(session_id: params.require(:session_id))
+    head :no_content
+  end
+
+  private
+
+  def trial_service
+    Enterprise::Billing::TrialService.new(account: Current.account)
+  end
+
+  def render_trial_error(error)
+    render_could_not_create_error(error.message)
+  end
+end

@@ -38,7 +38,7 @@ class Enterprise::Billing::HandleStripeEventService
     update_account_attributes(subscription, plan)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
     sync_subscription_credits(plan, previous_usage)
-    track_marketing_plan_activation(previous_plan_name, plan['name']) if plan_changed?
+    track_marketing_plan_activation(activation_previous_plan_name, plan['name']) if plan_activated?
     broadcast_billing_updated
   end
 
@@ -75,6 +75,7 @@ class Enterprise::Billing::HandleStripeEventService
         'subscription_status' => subscription['status'],
         'subscription_ends_on' => subscription_ends_on(subscription),
         'subscription_cancels_on' => subscription_cancels_on(subscription),
+        'trial_ends_at' => subscription['trial_end'].present? ? Time.zone.at(subscription['trial_end']) : nil,
         'billing_currency' => billing_currency_for(subscription, plan)
       )
     )
@@ -173,6 +174,21 @@ class Enterprise::Billing::HandleStripeEventService
     current_plan_id = subscription['plan']['id']
 
     previous_plan_id != current_plan_id
+  end
+
+  # A trial unlocks the plan without a payment, so the activation is tracked when it converts instead.
+  def plan_activated?
+    return false if subscription['status'] == 'trialing'
+
+    plan_changed? || trial_converted?
+  end
+
+  def trial_converted?
+    previous_attributes['status'] == 'trialing' && subscription['status'] == 'active'
+  end
+
+  def activation_previous_plan_name
+    trial_converted? ? Enterprise::Billing::PlanConfiguration.default_plan&.dig('name') : previous_plan_name
   end
 
   def billing_period_renewed?

@@ -1,7 +1,8 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
+import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { usePaymentStatus } from 'dashboard/composables/usePaymentStatus';
@@ -18,10 +19,15 @@ import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
 import Banner from 'next/banner/Banner.vue';
 import { getCurrencyConfig } from 'dashboard/constants/billing';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import BillingTrialAPI from 'dashboard/api/billingTrial';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import { useI18n } from 'vue-i18n';
 
+const route = useRoute();
 const router = useRouter();
-const { currentAccount, isOnChatwootCloud } = useAccount();
+const { currentAccount, isOnChatwootCloud, isCloudFeatureEnabled } =
+  useAccount();
 const { isPastDue } = usePaymentStatus();
 const {
   captainEnabled,
@@ -45,6 +51,11 @@ const purchaseCreditsModalRef = ref(null);
 // Currency selection shown to new accounts whose locale supports a non-USD currency.
 const currencySelectionRequired = ref(false);
 const currencyOptions = ref([]);
+
+// Plans the account can start a free trial on; empty when it isn't eligible.
+const trialPlans = ref([]);
+const trialDays = ref(0);
+const isStartingTrial = ref(false);
 
 const customAttributes = computed(() => {
   return currentAccount.value.custom_attributes || {};
@@ -92,6 +103,15 @@ const subscriptionCancelsOn = computed(() => {
   return format(cancelDate, 'dd MMM, yyyy');
 });
 
+const isTrialing = computed(
+  () => customAttributes.value.subscription_status === 'trialing'
+);
+
+const trialEndsOn = computed(() => {
+  if (!isTrialing.value || !customAttributes.value.trial_ends_at) return '';
+  return format(new Date(customAttributes.value.trial_ends_at), 'dd MMM, yyyy');
+});
+
 /**
  * Computed property indicating if user has a billing plan
  * @returns {boolean}
@@ -108,6 +128,40 @@ const fetchAccountDetails = async () => {
   }
   // Always fetch limits for billing page to show credit usage
   fetchLimits();
+};
+
+const fetchTrialOptions = async () => {
+  if (!isCloudFeatureEnabled(FEATURE_FLAGS.BILLING_TRIAL)) return;
+
+  const { data } = await BillingTrialAPI.get();
+  trialPlans.value = data.plans;
+  trialDays.value = data.trial_days;
+};
+
+// Stripe Checkout returns here with the session id once the payment method is saved.
+const completeTrialFromCheckout = async () => {
+  const sessionId = route.query.trial_session_id;
+  if (!sessionId) return;
+
+  try {
+    await BillingTrialAPI.complete(sessionId);
+    useAlert(t('BILLING_SETTINGS.TRIAL.STARTED'));
+  } catch (error) {
+    useAlert(parseAPIErrorResponse(error));
+  } finally {
+    router.replace({ query: {} });
+  }
+};
+
+const onStartTrial = async plan => {
+  isStartingTrial.value = true;
+  try {
+    const { data } = await BillingTrialAPI.start(plan);
+    window.location = data.redirect_url;
+  } catch (error) {
+    useAlert(parseAPIErrorResponse(error));
+    isStartingTrial.value = false;
+  }
 };
 
 const handleBillingPageLogic = async () => {
@@ -144,6 +198,8 @@ const handleBillingPageLogic = async () => {
   } else {
     // Billing plan found, clear any existing refresh flag
     sessionStorage.remove(BILLING_REFRESH_ATTEMPTED);
+    await completeTrialFromCheckout();
+    await fetchTrialOptions();
   }
 };
 
@@ -261,6 +317,11 @@ onMounted(handleBillingPageLogic);
               :value="subscriptionCancelsOn"
             />
             <DetailItem
+              v-else-if="trialEndsOn"
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.TRIAL_ENDS_ON')"
+              :value="trialEndsOn"
+            />
+            <DetailItem
               v-else-if="subscriptionRenewsOn && !isPastDue"
               :label="$t('BILLING_SETTINGS.CURRENT_PLAN.RENEWS_ON')"
               :value="subscriptionRenewsOn"
@@ -271,6 +332,28 @@ onMounted(handleBillingPageLogic);
               :value="billingCurrency"
             />
           </div>
+        </BillingCard>
+        <BillingCard
+          v-if="trialPlans.length"
+          :title="$t('BILLING_SETTINGS.TRIAL.TITLE', { days: trialDays })"
+          :description="$t('BILLING_SETTINGS.TRIAL.DESCRIPTION')"
+        >
+          <template #action>
+            <div class="flex flex-wrap gap-2">
+              <ButtonV4
+                v-for="plan in trialPlans"
+                :key="plan"
+                sm
+                solid
+                blue
+                :is-loading="isStartingTrial"
+                :disabled="isStartingTrial"
+                @click="onStartTrial(plan)"
+              >
+                {{ $t('BILLING_SETTINGS.TRIAL.START', { plan }) }}
+              </ButtonV4>
+            </div>
+          </template>
         </BillingCard>
         <BillingCard
           v-if="captainEnabled"

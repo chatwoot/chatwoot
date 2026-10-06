@@ -239,6 +239,10 @@ en:
       provider_action_unavailable: This billing action is not available for Shopify-billed accounts
       shopify_pricing_unavailable: Shopify App Pricing is not available right now
       shopify_verification_failed: Shopify billing could not be verified right now
+      trial:
+        not_eligible: This account is not eligible for a free trial
+        invalid_plan: Invalid trial plan
+        invalid_session: The payment method setup was not completed
     topup:
       credits_required: Credits amount is required
       invalid_credits: Invalid credits amount

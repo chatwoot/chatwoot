@@ -304,3 +304,8 @@
   display_name: Stripe Integration
   enabled: false
   column: feature_flags_ext_1
+- name: billing_trial
+  display_name: Billing Trial
+  enabled: false
+  chatwoot_internal: true
+  column: feature_flags_ext_1
