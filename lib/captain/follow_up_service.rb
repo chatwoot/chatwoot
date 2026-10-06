@@ -11,7 +11,6 @@ class Captain::FollowUpService < Captain::BaseTaskService
     improve
     summarize
     reply_suggestion
-    label_suggestion
   ].freeze
 
   def perform
@@ -64,8 +63,6 @@ class Captain::FollowUpService < Captain::BaseTaskService
       'conversation summary'
     when 'reply_suggestion'
       'reply suggestion'
-    when 'label_suggestion'
-      'label suggestion'
     else
       event_name
     end

@@ -55,10 +55,9 @@ RSpec.describe 'no hardcoded asset paths' do
     config/installation_config.yml
     enterprise/config/premium_installation_config.yml
 
-    app/views/super_admin/application/_navigation.html.erb
+    app/views/super_admin/application/_brand.html.erb
     app/views/layouts/vueapp.html.erb
-    app/views/installation/onboarding/index.html.erb
-    app/views/super_admin/devise/sessions/new.html.erb
+    app/views/super_admin/application/_standalone.html.erb
     app/views/widget_tests/index.html.erb
     app/views/super_admin/application/_javascript.html.erb
     app/views/public/api/v1/portals/_footer.html.erb
@@ -97,6 +96,7 @@ RSpec.describe 'no hardcoded asset paths' do
     app/javascript/dashboard/routes/dashboard/settings/integrations/Integration.vue
     app/javascript/dashboard/routes/dashboard/settings/integrations/IntegrationItem.vue
     app/javascript/dashboard/routes/dashboard/settings/integrations/SingleIntegrationHooks.vue
+    app/javascript/dashboard/routes/dashboard/settings/integrations/Stripe.vue
     app/javascript/dashboard/routes/dashboard/settings/profile/Index.vue
     app/javascript/dashboard/routes/dashboard/settings/profile/AudioAlertTone.vue
   ].to_set.freeze

@@ -1,5 +1,5 @@
 class Api::V1::Accounts::Companies::ContactsController < Api::V1::Accounts::Companies::BaseController
-  RESULTS_PER_PAGE = 15
+  RESULTS_PER_PAGE = 25
   CONTACT_SEARCH_QUERY = [
     'contacts.name ILIKE :search',
     'contacts.email ILIKE :search',
@@ -13,7 +13,9 @@ class Api::V1::Accounts::Companies::ContactsController < Api::V1::Accounts::Comp
   before_action :fetch_contact, only: [:destroy]
 
   def index
-    @contacts = fetch_contacts(@company.contacts.order(:name, :id))
+    contacts = @company.contacts.order(:name, :id)
+    contacts = contacts.where(CONTACT_SEARCH_QUERY, search: "%#{params[:q].strip}%") if params[:q].present?
+    @contacts = fetch_contacts(contacts)
     @contacts_count = @contacts.total_count
   end
 

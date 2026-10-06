@@ -1,6 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 
+defineProps({ disabled: { type: Boolean, default: false } });
 const emit = defineEmits(['change']);
 
 const { t } = useI18n();
@@ -19,10 +20,11 @@ const updateValue = () => {
 <template>
   <button
     type="button"
-    class="group relative h-4 rounded-full w-7 flex-shrink-0 select-none focus:outline-none focus:ring-1 focus:ring-n-brand focus:ring-offset-n-slate-2 focus:ring-offset-2 transition-colors duration-200 ease-in-out"
+    class="group relative h-4 rounded-full w-7 flex-shrink-0 select-none focus:outline-none focus:ring-1 focus:ring-n-brand focus:ring-offset-n-slate-2 focus:ring-offset-2 transition-colors duration-200 ease-in-out disabled:cursor-not-allowed disabled:opacity-50"
     :class="modelValue ? 'bg-n-brand' : 'bg-n-slate-6'"
     role="switch"
     :aria-checked="modelValue"
+    :disabled="disabled"
     @click="updateValue"
   >
     <span class="sr-only">{{ t('SWITCH.TOGGLE') }}</span>

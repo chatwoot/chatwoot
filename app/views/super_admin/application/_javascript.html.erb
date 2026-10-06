@@ -21,6 +21,7 @@ by providing a `content_for(:javascript)` block.
 <% end %>
 
 <% cdn_host = Cdn.host_or_empty %>
+<% support_user = SuperAdmin.first %>
 <script>
 window.chatwootSettings = {
   hideMessageBubble: true,
@@ -44,9 +45,8 @@ window.chatwootSettings = {
 window.addEventListener('chatwoot:ready', function() {
   window.$chatwoot.setUser('<%= ChatwootHub.installation_identifier %>', {
     identifier_hash: '<%= ChatwootHub.support_config[:support_identifier_hash] %>',
-    email: '<%= SuperAdmin.first.email %>',
-    name: '<%= SuperAdmin.first.name %>'
+    email: '<%= support_user.email %>',
+    name: '<%= support_user.name %>'
   });
 })
-
 </script>
