@@ -262,6 +262,10 @@
     "EMAIL_VERIFICATION_PENDING": "Nampaknya anda belum mengesahkan alamat emel anda. Sila semak peti masuk anda untuk emel pengesahan.",
     "RESEND_VERIFICATION_MAIL": "Hantar semula emel pengesahan",
     "EMAIL_VERIFICATION_SENT": "Emel pengesahan telah dihantar. Sila semak peti masuk anda.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Akaun Digantung",
       "MESSAGE": "Akaun anda digantung. Sila hubungi pasukan sokongan untuk maklumat lanjut.",
@@ -278,7 +282,8 @@
     "CODE": {
       "BUTTON_TEXT": "Salin",
       "CODEPEN": "Buka di CodePen",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "COPY_SUCCESSFUL": "Code copied to clipboard successfully",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Tunjukkan Lagi",
@@ -578,6 +583,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "Pengebilan",
     "DESCRIPTION": "Urus langganan anda di sini, naik taraf pelan anda dan dapatkan lebih untuk pasukan anda.",
     "CURRENT_PLAN": {
@@ -585,6 +594,7 @@
       "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
       "SEAT_COUNT": "Bilangan tempat duduk",
       "RENEWS_ON": "Diperbaharui pada",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {
@@ -618,6 +628,38 @@
       "BUTTON_TXT": "Bual dengan kami"
     },
     "NO_BILLING_USER": "Akaun pengebilan anda sedang dikonfigurasikan. Sila segarkan halaman dan cuba lagi.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "Status",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "Diperbaharui pada",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "Pending",
+        "ACTIVE": "Active",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Beli lebih banyak kredit",
       "MODAL_TITLE": "Beli Kredit AI",
@@ -648,6 +690,7 @@
     "DESCRIPTION": "Urus tetapan keselamatan akaun anda.",
     "LINK_TEXT": "Ketahui lebih lanjut tentang SAML SSO",
     "SAML_DISABLED_MESSAGE": "SAML SSO kini dinyahaktifkan. Sila hubungi pentadbir anda untuk mengaktifkan ciri ini.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Konfigurasikan log masuk tunggal SAML untuk akaun anda. Pengguna akan mengesahkan identiti melalui penyedia identiti anda dan bukannya menggunakan emel/kata laluan.",
