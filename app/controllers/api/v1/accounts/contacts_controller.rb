@@ -1,4 +1,6 @@
 class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
+  wrap_parameters format: []
+
   include Sift
   sort_on :email, type: :string
   sort_on :name, internal_name: :order_on_name, type: :scope, scope_params: [:direction]
@@ -45,7 +47,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def export
-    DataExports::CreationService.new(account: Current.account, initiated_by: Current.user, options: params.to_unsafe_h).perform
+    DataExports::CreationService.new(account: Current.account, initiated_by: Current.user, options: request.POST.merge(request.GET)).perform
     head :ok, message: I18n.t('errors.contacts.export.success')
   rescue ArgumentError => e
     render json: { error: e.message }, status: :unprocessable_entity

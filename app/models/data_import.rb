@@ -61,7 +61,9 @@ class DataImport < ApplicationRecord
     where(data_type: INTEGRATION_DATA_TYPES, status: [:pending, :processing]).where('source_provider = data_type')
   }
   scope :active_imports, lambda {
-    active_integrations.or(where(data_type: 'contacts', source_provider: 'csv', source_type: 'file', status: [:pending, :processing]))
+    active_integrations
+      .or(where(data_type: 'contacts', source_provider: 'csv', source_type: 'file', status: [:pending, :processing]))
+      .or(where(data_type: 'contacts', source_provider: [nil, ''], status: [:pending, :processing]))
   }
 
   has_one_attached :import_file

@@ -1,5 +1,6 @@
 class DataExports::ContactSelection
   DEFAULT_COLUMNS = %w[id name email phone_number labels].freeze
+  OPTION_KEYS = %w[column_names payload label scope_name].freeze
   FILTER_KEYS = %w[attribute_key attribute_model filter_operator query_operator custom_attribute_type values timezone].freeze
 
   attr_reader :options
@@ -7,7 +8,7 @@ class DataExports::ContactSelection
   def initialize(account:, user:, options:)
     @account = account
     @user = user
-    @options = options.with_indifferent_access.slice(:column_names, :payload, :label, :scope_name)
+    @options = options.with_indifferent_access
   end
 
   def validate!
@@ -40,6 +41,9 @@ class DataExports::ContactSelection
   private
 
   def validate_shape!
+    unknown_keys = options.keys - OPTION_KEYS
+    raise ArgumentError, "Unsupported export options: #{unknown_keys.join(', ')}." if unknown_keys.any?
+
     validate_columns!
     %i[label scope_name].each do |key|
       raise ArgumentError, "#{key} must be a string." if options.key?(key) && !options[key].is_a?(String)
