@@ -49,6 +49,7 @@ const createExport = async () => {
     :confirm-button-label="$t('DATA_EXPORTS.START')"
     :is-loading="isCreating"
     :disable-confirm-button="isCreating"
+    width="2xl"
     overflow-y-auto
     @confirm="createExport"
     @close="emit('close')"

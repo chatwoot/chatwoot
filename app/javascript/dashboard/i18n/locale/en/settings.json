@@ -427,9 +427,9 @@
     "LOADING": "Fetching imports and exports",
     "DEFAULT_IMPORT_NAME": "Intercom import",
     "DEFAULT_IMPORT_NAMES": {
-      "CSV": "Contact CSV import",
-      "INTERCOM": "Intercom import",
-      "FRESHDESK": "Freshdesk import"
+      "CSV": "Contacts Import - {date}",
+      "INTERCOM": "Intercom Import - {date}",
+      "FRESHDESK": "Freshdesk Import - {date}"
     },
     "TABS": {
       "IMPORT": "Imports",

@@ -13,6 +13,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import DataImportsAPI from 'dashboard/api/dataImports';
 import { IMPORT_SOURCES, importSourceConfigFor } from './importSources';
+import { formatDate } from './importStatus';
 
 const props = defineProps({
   show: { type: Boolean, default: false },
@@ -37,11 +38,13 @@ const uploadProgress = ref(0);
 const sourceConfig = computed(
   () => importSourceConfigFor(sourceProvider.value) || IMPORT_SOURCES[0]
 );
+const importOpenedAt = ref(new Date());
 const defaultImportName = computed(() => {
-  if (isFile.value) return t('DATA_IMPORTS.DEFAULT_IMPORT_NAMES.CSV');
+  const date = formatDate(importOpenedAt.value);
+  if (isFile.value) return t('DATA_IMPORTS.DEFAULT_IMPORT_NAMES.CSV', { date });
   if (sourceProvider.value === 'freshdesk')
-    return t('DATA_IMPORTS.DEFAULT_IMPORT_NAMES.FRESHDESK');
-  return t('DATA_IMPORTS.DEFAULT_IMPORT_NAMES.INTERCOM');
+    return t('DATA_IMPORTS.DEFAULT_IMPORT_NAMES.FRESHDESK', { date });
+  return t('DATA_IMPORTS.DEFAULT_IMPORT_NAMES.INTERCOM', { date });
 });
 const importName = ref(defaultImportName.value);
 const accessToken = ref('');
@@ -223,6 +226,8 @@ watch(
     if (show) {
       sourceProvider.value =
         props.initialSource || (props.integrationEnabled ? 'intercom' : 'csv');
+      importOpenedAt.value = new Date();
+      importName.value = defaultImportName.value;
       dialogRef.value?.open();
       return;
     }
@@ -246,7 +251,7 @@ watch(
     :cancel-button-label="$t('DATA_IMPORTS.DRAWER.CANCEL')"
     :disable-confirm-button="!canCreate"
     :is-loading="isCreating || validationState === 'validating'"
-    width="lg"
+    width="2xl"
     overflow-y-auto
     @confirm="createImport"
     @close="closeDrawer"
