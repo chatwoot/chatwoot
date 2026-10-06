@@ -25,11 +25,11 @@ module SuperAdmin::CommandBarHelper
 
   def result_commands(resource, records)
     controller = "/#{namespace}/#{resource}"
-    commands = records.map do |record|
+    commands = records.first(SuperAdmin::SearchService::RESULTS_LIMIT).map do |record|
       { label: record.name, hint: [record.try(:email), "##{record.id}"].compact.join(' · '),
         url: url_for(controller: controller, action: :show, id: record.id), icon: SuperAdmin::NavigationHelper::NAV_ICONS[resource.to_s] }
     end
-    return commands if records.size < SuperAdmin::SearchService::RESULTS_LIMIT
+    return commands if records.size <= SuperAdmin::SearchService::RESULTS_LIMIT
 
     commands << { label: t('super_admin.command_bar.see_all', resource: display_resource_name(resource).downcase),
                   url: url_for(controller: controller, action: :index, search: params[:q]), icon: 'i-lucide-list' }

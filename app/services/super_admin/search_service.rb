@@ -22,15 +22,16 @@ class SuperAdmin::SearchService
     search_query.match?(/\A\d+\z/)
   end
 
+  # One more than shown tells the bar whether a "see all" link is worth offering.
   def filter_accounts
-    accounts = Account.order(id: :desc).limit(RESULTS_LIMIT)
+    accounts = Account.order(id: :desc).limit(RESULTS_LIMIT + 1)
     return accounts.where(id: search_query) if search_by_id?
 
     accounts.where('name ILIKE :search', search: "%#{search_query}%")
   end
 
   def filter_users
-    users = User.order(id: :desc).limit(RESULTS_LIMIT)
+    users = User.order(id: :desc).limit(RESULTS_LIMIT + 1)
     return users.where(id: search_query) if search_by_id?
 
     users.where('name ILIKE :search OR email ILIKE :search', search: "%#{search_query}%")
