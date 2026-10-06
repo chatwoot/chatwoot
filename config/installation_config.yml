@@ -286,6 +286,12 @@
   description: 'The Chatwoot Inbox HMAC Key for Contact Support in Cloud'
   locked: false
   type: secret
+- name: CHATWOOT_CLOUD_TRIAL_ENABLED
+  value: false
+  display_title: 'Enable Cloud Free Trial'
+  description: 'Offer eligible Hacker-plan accounts a card-backed free trial of a paid plan from the billing page'
+  locked: false
+  type: boolean
 - name: CHATWOOT_CLOUD_PLANS
   display_title: 'Cloud Plans'
   value:
