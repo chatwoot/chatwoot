@@ -27,9 +27,18 @@ const isConnected = ref(false);
 const areChannelsLoaded = ref(false);
 const isSaving = ref(false);
 
+// Slack marks private channels with a lock where public ones have a hash.
 const options = computed(() => [
-  { value: '', label: t('MONITORS.SLACK_ALERT.NONE') },
-  ...channels.value.map(({ id, name }) => ({ value: id, label: `#${name}` })),
+  {
+    value: '',
+    label: t('MONITORS.SLACK_ALERT.NONE'),
+    icon: 'i-lucide-bell-off',
+  },
+  ...channels.value.map(({ id, name, is_private: isPrivate }) => ({
+    value: id,
+    label: name,
+    icon: isPrivate ? 'i-lucide-lock' : 'i-lucide-hash',
+  })),
 ]);
 
 watch(
@@ -73,8 +82,8 @@ const save = async channelId => {
 
 <template>
   <section class="rounded-xl border border-n-weak bg-n-solid-1 p-5">
-    <div class="grid items-center grid-cols-1 gap-4 md:grid-cols-2">
-      <div class="flex items-start min-w-0 gap-3">
+    <div class="grid items-center grid-cols-1 gap-4 md:grid-cols-4">
+      <div class="flex items-start min-w-0 gap-3 md:col-span-3">
         <div
           class="flex items-center justify-center rounded-lg size-10 shrink-0 bg-n-alpha-2"
         >
