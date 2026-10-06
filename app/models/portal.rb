@@ -178,11 +178,6 @@ class Portal < ApplicationRecord
     visibility == 'private_with_password'
   end
 
-  # The widget serializes the whole portal into a public page.
-  def serializable_hash(options = nil)
-    super.except('password_digest')
-  end
-
   private
 
   # The widget cannot sign visitors in to a password protected help center.

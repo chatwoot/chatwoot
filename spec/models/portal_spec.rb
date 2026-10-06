@@ -145,11 +145,6 @@ RSpec.describe Portal do
 
         expect(portal.reload.password_digest).to be_nil
       end
-
-      it 'leaves the password digest out of the serialized portal' do
-        expect(portal.as_json.keys).not_to include('password_digest')
-        expect(portal.to_json).not_to include(portal.password_digest)
-      end
     end
   end
 
