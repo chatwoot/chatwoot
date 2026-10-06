@@ -194,6 +194,10 @@ class Account < ApplicationRecord
     clear_unread_conversation_counts_cache
   end
 
+  def shopify_install_eligible?
+    internal_attributes['billing_provider'] == 'shopify'
+  end
+
   private
 
   def notify_creation
