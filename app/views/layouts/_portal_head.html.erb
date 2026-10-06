@@ -23,8 +23,9 @@
   <link rel="icon" href="<%= url_for(@portal.logo) %>">
 <% end %>
 
-<%# Skip analytics on internal plain-layout previews (dashboard article preview iframe) so they don't count as visitor traffic. %>
-<%= render 'layouts/portal_analytics' unless @is_plain_layout_enabled %>
+<%# Skip analytics on internal plain-layout previews (dashboard article preview iframe) so they don't count as visitor traffic,
+    and on the password page so third-party scripts never share a document with the password field. %>
+<%= render 'layouts/portal_analytics' unless @is_plain_layout_enabled || local_assigns[:skip_analytics] %>
 
 <% unless @theme_from_params.blank? %>
 <%# this adds the theme from params, ensuring that there a localstorage value set %>

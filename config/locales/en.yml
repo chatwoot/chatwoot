@@ -191,6 +191,8 @@ en:
     openai:
       invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
+      portal:
+        password_protected: cannot be password protected
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
         no_response_error: Please check the IMAP credentials and try again.
@@ -536,6 +538,12 @@ en:
       invalid_configuration: 'Invalid configuration'
       disabled: 'Installing tools from a manifest is not enabled'
   public_portal:
+    password:
+      title: This help center is password protected
+      description: Enter the password to continue.
+      placeholder: Password
+      submit: Continue
+      invalid: That password is incorrect. Try again.
     search:
       search_placeholder: Search for article by title or body...
       empty_placeholder: No results found.
@@ -661,6 +669,8 @@ en:
   agent_capacity_policy:
     inbox_already_assigned: 'Inbox has already been assigned to this policy'
   portals:
+    password_protected:
+      linked_to_inboxes: Remove this help center from its inboxes before password protecting it
     analytics:
       invalid_configuration: 'Invalid analytics configuration'
     articles:

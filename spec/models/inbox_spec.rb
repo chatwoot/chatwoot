@@ -8,6 +8,21 @@ RSpec.describe Inbox do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:account_id) }
     it { is_expected.to validate_presence_of(:name) }
+
+    it 'does not allow linking a password protected portal' do
+      inbox = create(:inbox)
+      portal = create(:portal, account: inbox.account, config: { visibility: 'private_with_password' }, password: 'opensesame1')
+
+      inbox.update(portal: portal)
+
+      expect(inbox.errors[:portal]).to include('cannot be password protected')
+    end
+
+    it 'allows linking a public portal' do
+      inbox = create(:inbox)
+
+      expect(inbox.update(portal: create(:portal, account: inbox.account))).to be(true)
+    end
   end
 
   describe 'associations' do

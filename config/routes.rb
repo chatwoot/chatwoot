@@ -688,6 +688,7 @@ Rails.application.routes.draw do
 
   get 'hc/:slug', to: 'public/api/v1/portals#show'
   get 'hc/:slug/sitemap.xml', to: 'public/api/v1/portals#sitemap'
+  post 'hc/:slug/unlock', to: 'public/api/v1/portals/access#create', as: :public_portal_unlock
   get 'hc/:slug/:locale', to: 'public/api/v1/portals#show', as: :public_portal_locale
   get 'hc/:slug/:locale/search', to: 'public/api/v1/portals/search#index', as: :portal_search
   get 'hc/:slug/:locale/articles', to: 'public/api/v1/portals/articles#index'

@@ -146,6 +146,12 @@ class Rack::Attack
     end
   end
 
+  ### Prevent Brute-Force Attacks on Password Protected Help Centers ###
+  throttle('portal_unlock/ip', limit: 10, period: 5.minutes) do |req|
+    path = req.path_without_extensions
+    "#{req.ip}:#{path}" if req.post? && path.match?(%r{\A/hc/[^/]+/unlock\z})
+  end
+
   # ### Prevent Brute-Force Login Attacks ###
   # Exclude MFA verification and enforced MFA setup attempts from regular login throttling
   throttle('login/ip', limit: 5, period: 5.minutes) do |req|

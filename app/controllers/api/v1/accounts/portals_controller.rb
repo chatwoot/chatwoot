@@ -92,11 +92,9 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def portal_params
-    params.require(:portal).permit(
-      :id, :color, :custom_domain, :header_text, :homepage_link,
-      :name, :page_title, :slug, :archived,
-      { config: config_param_keys }
-    )
+    keys = [:id, :color, :custom_domain, :header_text, :homepage_link, :name, :page_title, :slug, :archived]
+    keys << :password if Current.account_user&.administrator?
+    params.require(:portal).permit(*keys, { config: config_param_keys })
   end
 
   def config_param_keys
@@ -104,9 +102,9 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
             { social_profiles: %i[facebook x instagram linkedin youtube tiktok github whatsapp] },
             { locale_translations: locale_translation_keys.index_with { %i[name page_title header_text] } },
             { popular_content: popular_content_keys.index_with { { category_ids: [], article_ids: [] } } }]
-    # Analytics injects tracking scripts into every public page, so keep it admin-only even though
-    # Enterprise lets knowledge_base_manage roles edit other portal settings.
-    keys << { analytics: Portal::ANALYTICS_CONFIG_FORMATS.keys.map(&:to_sym) } if Current.account_user&.administrator?
+    # Analytics injects tracking scripts into every public page and visibility decides who can read the
+    # portal, so keep both admin-only even though Enterprise lets knowledge_base_manage roles edit other settings.
+    keys.push(:visibility, { analytics: Portal::ANALYTICS_CONFIG_FORMATS.keys.map(&:to_sym) }) if Current.account_user&.administrator?
     keys
   end
 

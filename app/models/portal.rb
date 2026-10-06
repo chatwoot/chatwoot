@@ -11,6 +11,7 @@
 #  homepage_link         :string
 #  name                  :string           not null
 #  page_title            :string
+#  password_digest       :string
 #  slug                  :string           not null
 #  ssl_settings          :jsonb            not null
 #  created_at            :datetime         not null
@@ -30,6 +31,12 @@ class Portal < ApplicationRecord
 
   DEFAULT_COLOR = '#1f93ff'.freeze
 
+  ACCESS_DURATION = 7.days
+
+  has_secure_password validations: false
+  # Signs visitors in to a password protected portal; changing the password invalidates issued tokens.
+  generates_token_for(:access, expires_in: ACCESS_DURATION) { password_salt }
+
   belongs_to :account
   has_many :categories, dependent: :destroy_async
   has_many :folders,  through: :categories
@@ -47,6 +54,9 @@ class Portal < ApplicationRecord
   before_validation :normalize_config
   validate :validate_config
   validate :validate_analytics
+  validates :password, presence: true, if: -> { password_protected? && password_digest.blank? }
+  validate :ensure_not_linked_to_inboxes, if: :password_protected?
+  before_save -> { self.password_digest = nil }, unless: :password_protected?
   validates_with JsonSchemaValidator,
                  schema: PortalConfigSchema::CONFIG_PARAMS_SCHEMA,
                  attribute_resolver: ->(record) { record.config }
@@ -67,7 +77,7 @@ class Portal < ApplicationRecord
 
   # TODO: 'website_token' is an unused reserved key; remove with a migration that scrubs it from existing portals' config
   CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout
-                        locale_translations popular_content analytics].freeze
+                        locale_translations popular_content analytics visibility].freeze
 
   def analytics
     value = config_value('analytics')
@@ -155,7 +165,24 @@ class Portal < ApplicationRecord
     config_value('social_profiles') || {}
   end
 
+  # The widget page is public, so it only gets what it needs to load articles.
+  def widget_data
+    { slug: slug, config: { allowed_locales: allowed_locale_codes } }
+  end
+
+  def visibility
+    config_value('visibility').presence || 'public'
+  end
+
+  def password_protected?
+    visibility == 'private_with_password'
+  end
+
   private
+
+  def ensure_not_linked_to_inboxes
+    errors.add(:base, I18n.t('portals.password_protected.linked_to_inboxes')) if inboxes.exists?
+  end
 
   def normalize_config
     self.config = persisted_config.merge((config || {}).deep_stringify_keys)

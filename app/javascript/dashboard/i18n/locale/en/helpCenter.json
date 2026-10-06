@@ -1050,7 +1050,27 @@
         "GENERAL": "General",
         "DOMAIN": "Domain",
         "APPEARANCE": "Appearance",
-        "INTEGRATIONS": "Integrations"
+        "INTEGRATIONS": "Integrations",
+        "ACCESS": "Access"
+      },
+      "ACCESS": {
+        "HEADER": "Access",
+        "DESCRIPTION": "Choose who can read this help center.",
+        "PUBLIC": {
+          "LABEL": "Public",
+          "DESCRIPTION": "Anyone with the link can read it, and search engines can index it."
+        },
+        "PASSWORD": {
+          "LABEL": "Password protected",
+          "DESCRIPTION": "Visitors enter a shared password before they can read anything."
+        },
+        "PASSWORD_FIELD": {
+          "LABEL": "Password",
+          "PLACEHOLDER": "Enter a password",
+          "HELP": "Share this password with the people who should have access.",
+          "CHANGE_HELP": "Leave blank to keep the current password. Changing it signs everyone out."
+        },
+        "SAVE": "Save changes"
       },
       "API": {
         "CREATE_PORTAL": {

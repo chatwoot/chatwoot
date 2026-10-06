@@ -1,9 +1,11 @@
 class Public::Api::V1::Portals::BaseController < PublicController
   include SwitchLocale
+  include PortalAccess
 
   before_action :show_plain_layout
   before_action :set_color_scheme
   before_action :set_global_config
+  before_action :ensure_portal_access
   around_action :set_locale
   after_action :allow_iframe_requests
 
@@ -72,6 +74,31 @@ class Public::Api::V1::Portals::BaseController < PublicController
     # set_locale can render_404 before the child's set_view_variant runs; set it here so plain 404s stay chrome-less
     set_view_variant
     render 'public/api/v1/portals/error/404', status: :not_found
+  end
+
+  # On a custom domain the host decides which portal is served, whatever the slug says,
+  # so check access again once that portal is selected.
+  def ensure_custom_domain_request
+    super
+    ensure_portal_access unless performed?
+  end
+
+  def ensure_portal_access
+    return unless portal.password_protected?
+
+    response.headers['X-Robots-Tag'] = 'noindex, nofollow'
+    no_store
+    render_portal_password(status: :unauthorized) unless portal_access_granted?(portal)
+  end
+
+  def render_portal_password(status:)
+    return head status unless request.format.html?
+
+    @locale = params[:locale] || portal.default_locale
+    @return_to = request.get? ? request.fullpath : params[:return_to]
+    I18n.with_locale(validate_and_get_locale(@locale)) do
+      render 'public/api/v1/portals/password', layout: false, status: status
+    end
   end
 
   def set_global_config
