@@ -108,13 +108,16 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   def check_authorization
-    if %w[create validate_source].include?(action_name)
-      provider = params[:source_provider]
-      resource = Current.account.data_imports.new(data_type: provider == 'csv' ? 'contacts' : provider, source_provider: provider)
-      authorize(resource)
-    else
-      authorize(@data_import || DataImport)
+    return authorize(@data_import || DataImport) unless %w[create validate_source].include?(action_name)
+
+    provider = params[:source_provider]
+    unless DataImports::Source.supported?(provider)
+      authorize(DataImport)
+      return render_source_validation_error('Unsupported import source.')
     end
+
+    resource = Current.account.data_imports.new(data_type: provider == 'csv' ? 'contacts' : provider, source_provider: provider)
+    authorize(resource)
   end
 
   def permitted_params
