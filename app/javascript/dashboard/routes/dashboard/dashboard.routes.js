@@ -15,6 +15,7 @@ import NoAccounts from './noAccounts/Index.vue';
 import ShopifySelectAccount from './shopify/SelectAccount.vue';
 import OnboardingAccountDetails from './onboarding/Index.vue';
 import OnboardingInboxSetup from './onboarding/InboxSetup.vue';
+import OauthAuthorize from './oauth/Authorize.vue';
 
 export default {
   routes: [
@@ -62,6 +63,20 @@ export default {
         permissions: ['administrator', 'agent', 'custom_role'],
       },
       component: Suspended,
+    },
+    {
+      path: frontendURL('accounts/:accountId/oauth/authorize'),
+      name: 'oauth_authorize',
+      meta: {
+        permissions: ['administrator', 'agent', 'custom_role'],
+      },
+      component: OauthAuthorize,
+    },
+    {
+      // OAuth clients open this URL without an account; the router guard moves them into the current one
+      path: frontendURL('oauth/authorize'),
+      name: 'oauth_authorize_link',
+      component: { render: () => null },
     },
     {
       path: frontendURL('no-accounts'),

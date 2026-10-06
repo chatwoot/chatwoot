@@ -96,6 +96,26 @@ describe('#validateAuthenticateRoutePermission', () => {
     });
   });
 
+  describe('when a logged out user opens the OAuth consent screen', () => {
+    it('carries the OAuth request through login', () => {
+      const to = {
+        name: 'oauth_authorize_link',
+        params: {},
+        query: { client_id: 'abc', state: 'a b' },
+      };
+      store.getters.isLoggedIn = false;
+      const mockAssign = vi.fn();
+      delete window.location;
+      window.location = { assign: mockAssign };
+
+      validateAuthenticateRoutePermission(to, next);
+
+      expect(mockAssign).toHaveBeenCalledWith(
+        '/app/login?redirect_url=oauth%2Fauthorize%3Fclient_id%3Dabc%26state%3Da%2Bb'
+      );
+    });
+  });
+
   describe('when user is logged in', () => {
     beforeEach(() => {
       // Mock the store's getter for a logged-in user
@@ -128,6 +148,24 @@ describe('#validateAuthenticateRoutePermission', () => {
           name: 'captain_toolset_install',
           params: { accountId: 1 },
           query: { source: 'chatwoot/tools/linear' },
+        });
+      });
+    });
+
+    describe('when opening the OAuth consent link', () => {
+      it('moves it into the current account and keeps the OAuth request', async () => {
+        const to = {
+          name: 'oauth_authorize_link',
+          params: {},
+          query: { client_id: 'abc', state: 'xyz' },
+        };
+
+        await validateAuthenticateRoutePermission(to, next);
+
+        expect(next).toHaveBeenCalledWith({
+          name: 'oauth_authorize',
+          params: { accountId: 1 },
+          query: { client_id: 'abc', state: 'xyz' },
         });
       });
     });

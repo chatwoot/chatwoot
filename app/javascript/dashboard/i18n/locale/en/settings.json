@@ -1,4 +1,24 @@
 {
+  "OAUTH": {
+    "SCOPES": {
+      "CONVERSATIONS_READ": "Read your conversations and messages",
+      "CONVERSATIONS_WRITE": "Assign conversations and change their status, labels, and priority",
+      "MESSAGES_WRITE": "Send replies to customers and add private notes",
+      "CONTACTS_READ": "Read your contacts",
+      "CONTACTS_WRITE": "Create and update contacts"
+    },
+    "AUTHORIZE": {
+      "TITLE": "{appName} wants to access your Chatwoot account",
+      "DESCRIPTION": "If you allow this, {appName} can do the following with your permissions:",
+      "ACCOUNT_LABEL": "Account",
+      "ACCOUNT_NOTE": "The app can only access the account you select.",
+      "ALLOW": "Allow",
+      "DENY": "Deny",
+      "REDIRECT_NOTE": "You will be sent to {host}.",
+      "ERROR_TITLE": "This app cannot be connected",
+      "ERROR_DESCRIPTION": "The request from the app is not valid. Go back to the app and try again."
+    }
+  },
   "PROFILE_SETTINGS": {
     "LINK": "Profile Settings",
     "TITLE": "Profile Settings",
@@ -96,6 +116,16 @@
         "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
         "LAST_ACTIVE": "Last active",
         "UNKNOWN_DEVICE": "Unknown device"
+      },
+      "CONNECTED_APPS_SECTION": {
+        "TITLE": "Connected Apps",
+        "NOTE": "These apps can access your Chatwoot account on your behalf.",
+        "EMPTY": "You have not connected any apps.",
+        "CONNECTED": "Connected",
+        "REVOKE": "Revoke",
+        "REVOKE_SUCCESS": "App access revoked successfully",
+        "REVOKE_ERROR": "Unable to revoke app access. Please try again.",
+        "FETCH_ERROR": "Unable to fetch connected apps. Please try again."
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",

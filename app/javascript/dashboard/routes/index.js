@@ -15,6 +15,13 @@ import {
 import AnalyticsHelper from '../helper/AnalyticsHelper';
 
 const ONBOARDING_STEPS = ['account_details', 'enrichment', 'inbox_setup'];
+// Links that cannot know the account; the guard moves them into the current one
+const ACCOUNT_SCOPED_LINK_ROUTES = {
+  captain_toolset_install_link: 'captain_toolset_install',
+  oauth_authorize_link: 'oauth_authorize',
+};
+const OAUTH_AUTHORIZE_ROUTES = ['oauth_authorize_link', 'oauth_authorize'];
+const OAUTH_AUTHORIZE_PATH = 'oauth/authorize';
 const routes = [...dashboard.routes];
 
 const onboardingPath = step =>
@@ -53,8 +60,15 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     const pendingRedirect = hasPendingInstall
       ? `settings/integrations/shopify?shopify_pending_install=${pendingToken}`
       : '';
+    // The OAuth client waits for an answer, so the request must survive the login
+    const oauthRedirect = OAUTH_AUTHORIZE_ROUTES.includes(to.name)
+      ? `${OAUTH_AUTHORIZE_PATH}?${new URLSearchParams(to.query).toString()}`
+      : '';
     const redirectUrl =
-      pendingRedirect || billingRedirect || integrationRedirect;
+      oauthRedirect ||
+      pendingRedirect ||
+      billingRedirect ||
+      integrationRedirect;
     const loginParams = new URLSearchParams();
     if (redirectUrl) {
       if (to.params?.accountId) {
@@ -113,9 +127,10 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     isActive &&
     !needsShopifyBilling;
 
-  if (to.name === 'captain_toolset_install_link') {
+  const accountScopedRoute = ACCOUNT_SCOPED_LINK_ROUTES[to.name];
+  if (accountScopedRoute) {
     return next({
-      name: 'captain_toolset_install',
+      name: accountScopedRoute,
       params: { accountId: routeAccountId },
       query: to.query,
     });
