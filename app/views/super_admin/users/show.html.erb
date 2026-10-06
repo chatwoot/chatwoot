@@ -1,7 +1,6 @@
 <%# The user page: a hero with the key facts, then one tab per concern. `page` is an Administrate::Page::Show. %>
 
 <% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
-<% content_for(:toast_flashes, "true") %>
 <%
   user = page.resource
   fields = page.attributes.values.flatten.index_by(&:name)

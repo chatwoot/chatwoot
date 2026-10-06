@@ -364,12 +364,16 @@ const initializeFilters = () => {
 };
 
 const initializeToasts = () => {
-  document.querySelectorAll('[data-toast-flashes] > *').forEach(toast => {
+  document.querySelectorAll('[data-toast]').forEach(toast => {
     let timer;
     const hide = () => {
+      clearTimeout(timer);
       toast.classList.add('opacity-0');
-      setTimeout(() => toast.classList.add('invisible'), 300);
+      setTimeout(() => toast.remove(), 300);
     };
+    toast.querySelector('[data-toast-close]').addEventListener('click', hide);
+    if ('toastSticky' in toast.dataset) return;
+
     const schedule = () => {
       timer = setTimeout(hide, 8000);
     };

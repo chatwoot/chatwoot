@@ -1,18 +1,23 @@
-<%#
-# Flash Partial
-
-Renders flash messages on every page. A page that sets `content_for(:toast_flashes)`
-gets them as toasts in the corner instead of a banner above the content.
-%>
-
 <% if flash.any? %>
-  <% toast = content_for?(:toast_flashes) %>
-  <%= tag.div class: class_names("space-y-2", toast ? "pointer-events-none fixed end-4 top-16 z-50 w-[calc(100%-2rem)] max-w-md" : "pt-4"),
-              data: { flashes: true, toast_flashes: toast.presence } do %>
+  <%
+    tones = {
+      "notice" => "i-lucide-circle-check text-n-teal-10",
+      "success" => "i-lucide-circle-check text-n-teal-10",
+      "alert" => "i-lucide-triangle-alert text-n-amber-10",
+      "error" => "i-lucide-circle-x text-n-ruby-10"
+    }
+  %>
+  <div class="pointer-events-none fixed inset-x-3 bottom-3 z-50 flex flex-col items-end gap-2 [body:has([data-form-actions])_&]:bottom-[4.5rem] lg:inset-x-auto lg:bottom-auto lg:end-6 lg:top-6 lg:max-w-sm">
     <% flash.each do |type, message| %>
-      <%= render "alert", type: type, extra: ("pointer-events-auto shadow-lg transition-opacity duration-300" if toast) do %>
-        <%= message.to_s.html_safe %>
+      <% sticky = type.to_s.in?(%w[alert error]) %>
+      <%= tag.div class: "pointer-events-auto flex w-full items-start gap-2.5 rounded-xl border border-n-weak bg-n-solid-1 py-2.5 pe-2 ps-3.5 shadow-lg transition-opacity duration-300 motion-safe:animate-fade-in-up lg:w-auto",
+                  role: (sticky ? "alert" : "status"), data: { toast: true, toast_sticky: sticky.presence } do %>
+        <span class="<%= tones.fetch(type.to_s, tones["notice"]) %> mt-0.5 size-5 shrink-0"></span>
+        <p class="min-w-0 flex-1 py-0.5 text-body-main text-n-slate-12 [&_a]:underline"><%= message.to_s.html_safe %></p>
+        <button type="button" class="grid size-6 shrink-0 place-items-center rounded-md text-n-slate-10 transition-colors hover:bg-n-alpha-2 hover:text-n-slate-12" aria-label="<%= t("super_admin.actions.close") %>" data-toast-close>
+          <span class="i-lucide-x size-4"></span>
+        </button>
       <% end %>
     <% end %>
-  <% end %>
+  </div>
 <% end %>

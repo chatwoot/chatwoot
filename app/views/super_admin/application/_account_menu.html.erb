@@ -1,7 +1,7 @@
 <%# locals: (expanded: false) -%>
 <%
   admin = current_super_admin
-  avatar = admin.avatar_url.presence
+  avatar = rails_storage_proxy_path(admin.avatar.representation(resize_to_fill: [250, nil])) if admin.avatar.attached? && admin.avatar.representable?
   themes = {
     system: [t("super_admin.navigation.theme.system"), "i-lucide-monitor"],
     light: [t("super_admin.navigation.theme.light"), "i-lucide-sun"],

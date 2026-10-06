@@ -472,18 +472,16 @@ RSpec.describe 'Super Admin Users API', type: :request do
         expect(flash[:notice]).to eq('Emails to bounced@example.com are not blocked.')
       end
 
-      it 'shows the result as a toast on the user page only' do
+      it 'shows the result as a toast that fades on its own' do
         allow(suppression).to receive(:lookup).and_return(status: :not_suppressed)
 
         post "/super_admin/users/#{user.id}/check_email_suppression"
         follow_redirect!
-        expect(Nokogiri::HTML(response.body).at_css('[data-flashes][data-toast-flashes]')).to be_present
 
-        post '/super_admin/users', params: { user: { email: '' } }
-        follow_redirect!
-        flashes = Nokogiri::HTML(response.body).at_css('[data-flashes]')
-        expect(flashes).to be_present
-        expect(flashes.key?('data-toast-flashes')).to be(false)
+        toast = Nokogiri::HTML(response.body).at_css('[data-toast]')
+        expect(toast['role']).to eq('status')
+        expect(toast.key?('data-toast-sticky')).to be(false)
+        expect(toast.text).to include('are not blocked')
       end
 
       it 'reports a bounce with its date' do
