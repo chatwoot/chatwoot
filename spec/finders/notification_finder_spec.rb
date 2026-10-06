@@ -54,6 +54,23 @@ RSpec.describe NotificationFinder do
         expect(subject.first.last_activity_at).to be < subject.last.last_activity_at
       end
     end
+
+    context 'when a notification points at a deleted conversation' do
+      let(:params) { {} }
+
+      before do
+        orphan = user.notifications.where(account: account, read_at: nil, snoozed_until: nil).first
+        # Point the row at a conversation that no longer exists, leaving the orphan row
+        # that a lost race between notification creation and conversation deletion creates
+        orphan.update_columns(primary_actor_id: 0) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      it 'excludes the orphan from the feed and the counts' do
+        expect(subject.size).to eq(2)
+        expect(notification_finder.count).to eq(2)
+        expect(notification_finder.unread_count).to eq(2)
+      end
+    end
   end
 
   describe 'counts' do
