@@ -46,12 +46,8 @@ class Api::V1::Accounts::Integrations::StripeController < Api::V1::Accounts::Int
   private
 
   def render_customer_failure(error)
-    details = { event: 'stripe_customer_fetch_failed', account_id: Current.account.id,
-                request_id: request.request_id, error_class: error.class.name }
-    if error.is_a?(::Stripe::StripeError)
-      details.merge!(stripe_error_code: error.code, http_status: error.http_status, stripe_request_id: error.request_id)
-    end
-    # Exception messages, response bodies and request parameters can contain credentials or customer data.
+    details = { error: error.class.name }
+    details.merge!(code: error.code, status: error.http_status, request_id: error.request_id) if error.is_a?(::Stripe::StripeError)
     Rails.logger.warn(details.compact.to_json)
     render json: { error: 'stripe_unavailable' }, status: :unprocessable_entity
   end

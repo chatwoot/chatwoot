@@ -122,9 +122,7 @@ RSpec.describe 'Stripe Integration API', type: :request do
     expect(response).to have_http_status(:unprocessable_entity)
     expect(response.parsed_body).to eq('error' => 'stripe_unavailable')
     expect(Rails.logger).to have_received(:warn).with({
-      event: 'stripe_customer_fetch_failed', account_id: account.id, request_id: response.headers['X-Request-Id'],
-      error_class: 'Stripe::InvalidRequestError', stripe_error_code: 'parameter_invalid', http_status: 400,
-      stripe_request_id: 'req_stripe_failure'
+      error: 'Stripe::InvalidRequestError', code: 'parameter_invalid', status: 400, request_id: 'req_stripe_failure'
     }.to_json)
   end
 
