@@ -25,6 +25,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  openUpwards: {
+    type: Boolean,
+    default: false,
+  },
   selectedValues: {
     type: [String, Number, Array],
     default: () => [],
@@ -66,7 +70,8 @@ defineExpose({
 <template>
   <div
     v-show="open"
-    class="absolute z-50 w-full mt-1 transition-opacity duration-200 border rounded-md shadow-lg bg-n-solid-1 border-n-strong"
+    class="absolute z-50 w-full transition-opacity duration-200 border rounded-md shadow-lg bg-n-solid-1 border-n-strong"
+    :class="openUpwards ? 'bottom-full mb-1' : 'mt-1'"
   >
     <div class="relative border-b border-n-strong">
       <Spinner
