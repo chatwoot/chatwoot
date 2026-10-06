@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
-import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import MessageFormatter from 'shared/helpers/MessageFormatter';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { fetchToolsetDetails } from 'dashboard/api/captain/toolsCatalog';
 
@@ -16,7 +16,6 @@ import ToolsetInstallBadge from './ToolsetInstallBadge.vue';
 const emit = defineEmits(['install']);
 
 const { t } = useI18n();
-const { formatMessage } = useMessageFormatter();
 const {
   run: runDetailsRequest,
   abort: abortDetails,
@@ -51,10 +50,11 @@ const installAction = computed(() => {
 });
 
 // Images are dropped: the panel has no use for them, and relative image paths break the shared formatter
-const MARKDOWN_IMAGE_PATTERN = /!\[[^\]]*\](\([^)]*\)|\[[^\]]*\])/g;
-const readmeHtml = computed(() =>
-  formatMessage(details.value.readme.replace(MARKDOWN_IMAGE_PATTERN, ''))
-);
+const readmeHtml = computed(() => {
+  const formatter = new MessageFormatter(details.value.readme);
+  formatter.disableImageRendering();
+  return formatter.formattedMessage;
+});
 
 const configurationFields = computed(() => [
   ...(details.value?.inputs || []),
