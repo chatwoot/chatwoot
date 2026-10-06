@@ -11,10 +11,24 @@
         "LABEL": "Store URL",
         "PLACEHOLDER": "your-store.myshopify.com",
         "HELP": "Enter your Shopify store's myshopify.com URL",
+        "INVALID_URL": "Please enter a valid Shopify store URL (e.g., your-store.myshopify.com)",
         "CANCEL": "İptal Et",
         "SUBMIT": "Connect Store"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "HELP_TEXT": {
+        "TITLE": "How to use the Shopify Integration?",
+        "BODY": "With this integration, your Shopify store ***{storeDomain}*** is connected to your Chatwoot workspace. Here's what you can do:\n\n**Track orders in conversations:** When you open a conversation, the Shopify sidebar will automatically display recent orders for the customer based on their email address. This gives your support team instant context without switching tabs.\n\n**Access order details:** View order status, fulfillment status, and total amount directly within the conversation panel."
+      },
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists.",
+      "PENDING_INSTALL": {
+        "SUCCESS": "Shopify store connected successfully.",
+        "ERROR": "Unable to complete the Shopify installation. Please try again."
+      },
+      "SELECT_ACCOUNT": {
+        "TITLE": "Choose a workspace",
+        "DESCRIPTION": "Select the workspace to connect to your Shopify store. To restore a previous connection, choose its original workspace.",
+        "UNAVAILABLE": "No eligible workspace or valid installation was found. Restart installation or sign in as a workspace administrator."
+      }
     },
     "HEADER": "Entegrasyonlar",
     "DESCRIPTION": "Chatwoot, ekibinizin verimliliğini artırmak için birden fazla araç ve hizmetle entegre olur. Favori uygulamalarınızı yapılandırmak için aşağıdaki listeyi inceleyin.",
@@ -30,7 +44,7 @@
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abone Olunan Olaylar",
-      "LEARN_MORE": "Learn more about webhooks",
+      "LEARN_MORE": "Webhooklar hakkında daha fazla bilgi edinin",
       "PAYWALL": {
         "TITLE": "Webhooks are available on paid plans",
         "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
@@ -65,7 +79,7 @@
             "CONTACT_UPDATED": "Kişi Güncellendi",
             "CONVERSATION_TYPING_ON": "Konuşmada Yazıyor Açık",
             "CONVERSATION_TYPING_OFF": "Konuşmada Yazıyor Kapalı",
-            "INBOX_UPDATED": "Inbox updated"
+            "INBOX_UPDATED": "Gelen Kutusu güncellendi"
           }
         },
         "NAME": {
@@ -432,8 +446,11 @@
         "DISMISS": "Kapat"
       },
       "RANGES": {
+        "INSUFFICIENT_HISTORY": "Not enough reporting history yet",
+        "THIS_WEEK": "Bu hafta",
+        "LAST_WEEK": "Last week",
         "LAST_DAYS": "Last {count} days",
-        "THIS_MONTH": "This month",
+        "THIS_MONTH": "Bu ay",
         "LAST_MONTH": "Last month"
       },
       "METRICS": {
@@ -493,6 +510,21 @@
         }
       },
       "V2": {
+        "DRILLDOWN": {
+          "HANDLED": "Episodes where Captain participated during the selected period.",
+          "RESOLVED": "Episodes resolved by Captain without a handoff or human reply before resolution.",
+          "HANDED_OFF": "Episodes handed off after Captain participated.",
+          "REOPENED": "Captain-resolved episodes that subsequently reopened.",
+          "DURABLE": "Captain-resolved episodes that remained closed for at least seven days.",
+          "CLOSED_WITH_TEAM": "Episodes where Captain participated but neither resolved autonomously nor handed off.",
+          "REOPENED_WITHIN_7_DAYS": "Captain-resolved episodes that reopened within seven days.",
+          "STAYED_CLOSED": "Captain-resolved episodes with no reopen recorded within seven days. Recent resolutions are included.",
+          "HANDOFF_REASON": "Episodes handed off for this reason: {reason}.",
+          "COUNT": "No episodes | 1 episode | {count} episodes",
+          "EPISODES_HINT": "A conversation can appear more than once if Captain handled it in separate episodes. Episodes are grouped by when they started.",
+          "STARTED_AT": "Episode started {time}",
+          "RETRY": "Try again"
+        },
         "EMPTY": "No data available for this period.",
         "SUMMARY": {
           "GREETING": "Hello, {name}!",
@@ -512,6 +544,7 @@
           },
           "DURABLE": {
             "LABEL": "Captain resolutions remained closed",
+            "NOT_APPLICABLE_HINT": "No resolutions in this period have seven days of follow-up yet. Durability is unavailable.",
             "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
             "NOTE": "Only resolutions old enough to observe for seven days are included."
           },
@@ -551,6 +584,9 @@
         },
         "RESOLUTION_TREND": {
           "TITLE": "Resolution trend",
+          "COMPARISON_LABEL": "Weekday-aligned comparison",
+          "COMPARISON_HINT": "Compare resolution rates on matching weekdays, such as Monday with Monday.",
+          "COMPARISON_NOTE": "Today is compared up to the same time of day.",
           "CONVERSATION_COUNT": "Conversation count",
           "RESOLUTION_RATE": "Resolution rate",
           "CURRENT_PERIOD": "Current period",
@@ -578,6 +614,7 @@
           "BUY_MORE": "Buy more credits"
         },
         "KNOWLEDGE": {
+          "SUGGESTED": "Suggested FAQs",
           "REVIEW": "Review FAQs"
         }
       }
@@ -628,9 +665,93 @@
       "USER": "Sen",
       "ASSISTANT": "Asistan",
       "MESSAGE_PLACEHOLDER": "Mesajınızı yazın...",
+      "SEND_MESSAGE": "Mesajı Gönder",
       "HEADER": "Oyun Alanı",
       "DESCRIPTION": "Bu oyun alanını asistanınıza mesaj göndermek ve yanıtlarının doğru, hızlı ve beklediğiniz tonda olup olmadığını kontrol etmek için kullanın.",
-      "CREDIT_NOTE": "Buradan gönderilen mesajlar Captain kredilerinize sayılacaktır."
+      "CREDIT_NOTE": "Buradan gönderilen mesajlar Captain kredilerinize sayılacaktır.",
+      "CLEAR_CONVERSATION": "Clear conversation",
+      "RESPONSE_ERROR": "Captain could not complete this test run. Review the setup and try again.",
+      "SETUP": {
+        "TITLE": "Test setup",
+        "DESCRIPTION": "Changes here apply only to this playground session unless you explicitly save an item.",
+        "TOGGLE": "Toggle test setup",
+        "CLOSE": "Close test setup",
+        "RESET": "Reset test setup",
+        "TEMPORARY": "Temporary",
+        "SESSION_ONLY": "Session only",
+        "INCLUDE_IN_TEST": "Include in this test",
+        "ADD_TO_TEST": "Add to test (↵)",
+        "LOAD_ERROR": "The saved assistant setup could not be loaded.",
+        "INVALID_CONFIGURATION": "Complete or remove the included temporary scenarios before sending a message.",
+        "SAVE_SCENARIO_SUCCESS": "The scenario was saved and remains included in this test.",
+        "SAVE_SCENARIO_ERROR": "The scenario could not be saved.",
+        "SAVE_RULE_SUCCESS": "The rule was saved and remains included in this test.",
+        "SAVE_RULE_ERROR": "The rule could not be saved.",
+        "RULE_ALREADY_SAVED": "That exact rule is already saved, so no duplicate was created.",
+        "SCENARIOS": {
+          "TAB_TITLE": "Senaryolar",
+          "CREATE_TITLE": "Add a temporary scenario",
+          "CREATE_HINT": "Try a new behavior without changing the assistant configuration.",
+          "SAVED_SUMMARY": "Existing scenarios ({count})",
+          "ADD_PERMANENTLY": "Add scenario permanently",
+          "DISABLED": "Devre dışı",
+          "EMPTY": "This assistant has no saved scenarios.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary scenario title...",
+          "COLLAPSE": "Collapse temporary scenario",
+          "EXPAND": "Expand temporary scenario",
+          "REMOVE": "Remove temporary scenario"
+        },
+        "GUIDELINES": {
+          "TAB_TITLE": "Guidelines",
+          "CREATE_TITLE": "Add a temporary guideline",
+          "CREATE_HINT": "Test a response preference before adding it to the assistant.",
+          "SAVED_SUMMARY": "Existing guidelines ({count})",
+          "ADD_PERMANENTLY": "Add guideline permanently",
+          "EMPTY": "This assistant has no saved response guidelines.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary guideline...",
+          "PLACEHOLDER": "Yanıt kılavuzu ekle",
+          "REMOVE": "Remove temporary response guideline"
+        },
+        "GUARDRAILS": {
+          "TAB_TITLE": "Sorgu Korumaları",
+          "CREATE_TITLE": "Add a temporary guardrail",
+          "CREATE_HINT": "Test a safety boundary before adding it to the assistant.",
+          "SAVED_SUMMARY": "Existing guardrails ({count})",
+          "ADD_PERMANENTLY": "Add guardrail permanently",
+          "EMPTY": "This assistant has no saved guardrails.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary guardrail...",
+          "PLACEHOLDER": "Sorgu Kontrolü Ekle",
+          "REMOVE": "Remove temporary guardrail"
+        },
+        "KNOWLEDGE": {
+          "TAB_TITLE": "Knowledge",
+          "AVAILABLE_TITLE": "Knowledge available to Captain",
+          "AVAILABLE_DESCRIPTION": "Saved sources are summarized here and managed outside the playground.",
+          "DOCUMENTS": "Belgeler",
+          "FAQS": "SSS",
+          "TEMPORARY_TITLE": "Temporary knowledge",
+          "ADD_PERMANENTLY": "Add document permanently",
+          "LABEL": "Reference text",
+          "PLACEHOLDER": "Paste or write new knowledge for this test",
+          "HINT": "This text is attached only to playground requests unless you add it as a document."
+        },
+        "SAVE_KNOWLEDGE_SUCCESS": "Knowledge added as a document.",
+        "SAVE_KNOWLEDGE_ERROR": "Unable to add knowledge as a document."
+      },
+      "RUN_DETAILS": {
+        "SUMMARY": "Run details · {duration}ms",
+        "HANDLER_VALUE": "Handled by: {handler}",
+        "SCENARIOS": "No scenarios | One scenario | {count} scenarios",
+        "RULES": "{count} rules",
+        "KNOWLEDGE_ATTACHED": "Temporary knowledge was attached to this run.",
+        "NO_EVENTS": "No tool calls or scenario handoffs were recorded.",
+        "HANDOFF": "{from} → {to}",
+        "STATUS": {
+          "RUNNING": "Running",
+          "COMPLETED": "Tamamlandı",
+          "FAILED": "Başarısız"
+        }
+      }
     },
     "PAYWALL": {
       "TITLE": "Captain AI kullanmak için yükseltin",
@@ -659,7 +780,7 @@
       "ADD_NEW": "Yeni bir asistan oluştur",
       "DELETE": {
         "TITLE": "Asistanı silmek istediğinizden emin misiniz?",
-        "DESCRIPTION": "Bu işlem kalıcıdır. Bu asistanı silmek, onu tüm bağlı gelen kutularından kaldıracak ve oluşturulan tüm bilgileri kalıcı olarak silecektir.",
+        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase its custom tools and all generated knowledge.",
         "CONFIRM": "Evet, sil",
         "SUCCESS_MESSAGE": "Asistan başarıyla silindi",
         "ERROR_MESSAGE": "Asistanı silerken bir hata oluştu, lütfen tekrar deneyin."
@@ -750,18 +871,18 @@
         },
         "AUDIENCE": {
           "EVERYONE": {
-            "LABEL": "Everyone",
-            "DESC": "Captain responds to every conversation in connected inboxes."
+            "LABEL": "Herkese",
+            "DESC": "Captain, bağlı gelen kutularındaki her mesaja yanıt verir."
           },
           "SPECIFIC": {
-            "LABEL": "Specific audience",
-            "DESC": "Captain responds only to customers who match the conditions below."
+            "LABEL": "Hedef kitle",
+            "DESC": "Captain, yalnızca aşağıdaki koşullara uyan müşterilere yanıt verir."
           },
-          "ADD_CONDITION": "Add condition",
-          "ADD_GROUP": "Add condition group",
-          "EMPTY_TITLE": "No conditions yet",
-          "EMPTY_BODY": "Add a condition to target specific customers, or a condition group to combine conditions with different and/or logic.",
-          "EMPTY_ERROR": "Add at least one condition for a specific audience.",
+          "ADD_CONDITION": "Koşul ekle",
+          "ADD_GROUP": "Koşul grubu ekle",
+          "EMPTY_TITLE": "Henüz herhangi bir koşul yok",
+          "EMPTY_BODY": "Belirli müşterileri hedeflemek için bir koşul ekleyin veya farklı ve/veya mantığıyla koşulları birleştirmek için bir koşul grubu oluşturun.",
+          "EMPTY_ERROR": "Belirli bir hedef kitle için en az bir koşul ekleyin.",
           "MATCH_PREFIX": "Match",
           "MATCH_SUFFIX": "of the following",
           "MATCH_ALL": "hepsi",
@@ -777,18 +898,18 @@
         },
         "SCHEDULE": {
           "ALWAYS": {
-            "LABEL": "Anytime",
-            "DESC": "Captain responds to every conversation, regardless of time."
+            "LABEL": "Her zaman",
+            "DESC": "Captain, saatten bağımsız olarak tüm görüşmelere yanıt verir."
           },
           "BUSINESS_HOURS": {
-            "LABEL": "During business hours",
-            "DESC": "Captain responds only within each inbox's business hours."
+            "LABEL": "Çalışma saatleri içinde",
+            "DESC": "Captain yalnızca her gelen kutusunun çalışma saatleri içinde yanıt verir."
           },
           "OUTSIDE_BUSINESS_HOURS": {
-            "LABEL": "Outside business hours",
-            "DESC": "Captain responds only when each inbox is closed."
+            "LABEL": "Çalışma saatleri dışında",
+            "DESC": "Captain yalnızca her gelen kutusu kapalı olduğunda yanıt verir."
           },
-          "HINT": "Inboxes without business hours configured are always covered."
+          "HINT": "Çalışma saatleri yapılandırılmamış gelen kutuları her zaman kapsama dahil edilir."
         }
       },
       "EDIT": {
@@ -810,11 +931,11 @@
         },
         "AUDIENCE": {
           "TITLE": "Kitle",
-          "DESCRIPTION": "Choose whether this assistant responds to everyone or only to a specific audience."
+          "DESCRIPTION": "Bu asistanın herkese mi yoksa yalnızca belirli bir kitleye mi yanıt vereceğini seçin."
         },
         "SCHEDULE": {
-          "TITLE": "Schedule",
-          "DESCRIPTION": "Choose when Captain replies. Outside this window, conversations are handed to your team."
+          "TITLE": "Zamanlama",
+          "DESCRIPTION": "Captain'ın ne zaman yanıt vereceğini seçin. Bu zaman aralığının dışında kalan görüşmeler ekibinize yönlendirilir."
         },
         "CONTROL_ITEMS": {
           "TITLE": "Eğlenceli Şeyler",
@@ -832,7 +953,7 @@
         },
         "DELETE": {
           "TITLE": "Asistanı Sil",
-          "DESCRIPTION": "Bu işlem kalıcıdır. Bu asistanı silmek, onu tüm bağlı gelen kutularından kaldıracak ve oluşturulan tüm bilgileri kalıcı olarak silecektir.",
+          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase its custom tools and all generated knowledge.",
           "BUTTON_TEXT": "Sil {assistantName}"
         }
       },
@@ -1044,19 +1165,19 @@
       },
       "FILTERS": {
         "SOURCE": {
-          "ALL": "All sources",
-          "WEB": "Web pages",
-          "PDF": "PDFs"
+          "ALL": "Tüm kaynaklar",
+          "WEB": "Web sayfaları",
+          "PDF": "PDF dosyaları"
         },
         "STATUS": {
-          "ANY": "Any status",
-          "UPDATED": "Updated",
-          "NEEDS_UPDATE": "Needs update",
-          "UPDATING": "Updating",
+          "ANY": "Herhangi bir durum",
+          "UPDATED": "Güncellendi",
+          "NEEDS_UPDATE": "Güncelleme gerekli",
+          "UPDATING": "Güncelleniyor",
           "FAILED": "Başarısız"
         },
         "SORT": {
-          "RECENTLY_UPDATED": "Recently updated",
+          "RECENTLY_UPDATED": "Son güncellenen",
           "RECENTLY_CREATED": "Recently created",
           "MOST_USED": "Most used in conversations"
         },
@@ -1160,6 +1281,36 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Araçlar",
       "ADD_NEW": "Yeni bir araç oluşturun",
+      "INSTALL_MANIFEST": {
+        "TITLE": "Install a toolset",
+        "DESCRIPTION": "Install a toolset from the Captain tools catalog.",
+        "SOURCE_LABEL": "Toolset",
+        "SOURCE_PLACEHOLDER": "chatwoot/tools/folder",
+        "SOURCE_HELP": "Installs the latest version from the catalog.",
+        "VERSION_LABEL": "v{version} · {revision}",
+        "UPDATE_NOTE": "A different version is installed. Updating replaces its tools and keeps whether each one is enabled. Enter the secrets again.",
+        "TOOLS_LABEL": "Araçlar",
+        "CONFIGURATION_LABEL": "Yapılandırma",
+        "CONTINUE": "Devam et",
+        "BACK": "Geri",
+        "INSTALL": "Install",
+        "UPDATE": "Güncelleme",
+        "REINSTALL": "Reinstall",
+        "REINSTALL_NOTE": "Some tools from this toolset were deleted. Reinstalling adds them back and keeps whether each one is enabled. Enter the secrets again.",
+        "ALREADY_INSTALLED": "Already installed",
+        "SUCCESS_MESSAGE": "Toolset installed",
+        "ERROR_MESSAGE": "Could not install the toolset",
+        "PREVIEW_ERROR": "Could not load the toolset"
+      },
+      "ASSISTANT_TOOLS_BANNER": {
+        "MESSAGE": "Custom tools are now managed per assistant. Switch assistants to customize their tools.",
+        "LEARN_MORE": "Daha Fazla",
+        "DISMISS": "Dismiss announcement",
+        "MODAL_TITLE": "Your assistants now have their own tools",
+        "MODAL_DESCRIPTION": "Each assistant now has a separate list of custom tools. We copied your existing tools to every assistant, so nothing is missing.",
+        "MODAL_INSTRUCTIONS": "When you add, edit, turn off, or delete a tool, the change applies only to the assistant you're currently viewing. Switch assistants at the top of the page to review or customize their tools.",
+        "ACKNOWLEDGE": "Got it"
+      },
       "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "Özel araçlar mevcut değil",
@@ -1172,6 +1323,7 @@
       "FORM_DESCRIPTION": "Harici API'lere bağlanmak için özel aracınızı yapılandırın",
       "OPTIONS": {
         "EDIT_TOOL": "Aracı Düzenle",
+        "VIEW_TOOL": "View tool",
         "DELETE_TOOL": "Aracı Sil"
       },
       "STATUS": {
@@ -1194,6 +1346,9 @@
         "TITLE": "Özel Araç Oluştur",
         "SUCCESS_MESSAGE": "Özel araç başarıyla oluşturuldu",
         "ERROR_MESSAGE": "Özel araç oluşturulamadı"
+      },
+      "VIEW": {
+        "TITLE": "Custom Tool Details"
       },
       "EDIT": {
         "TITLE": "Özel Aracı Düzenle",
@@ -1264,6 +1419,19 @@
           "API_KEY_PLACEHOLDER": "X-API-Key",
           "API_VALUE": "Header Value",
           "API_VALUE_PLACEHOLDER": "Enter API key value"
+        },
+        "SECTIONS": {
+          "TEMPLATES": "Şablonlar",
+          "TEMPLATES_HELP_TEXT": "Supports Liquid syntax, like {'{{'} order_id {'}}'} or {'{{'} response.status {'}}'}."
+        },
+        "HEADERS": {
+          "LABEL": "Headers",
+          "HELP_TEXT": "Static headers sent with every request. Values are sent exactly as entered; use Authentication for credentials.",
+          "NAME_PLACEHOLDER": "Header name (e.g., cal-api-version)",
+          "VALUE_PLACEHOLDER": "Header value",
+          "NAME_REQUIRED": "Header name is required",
+          "NAME_DUPLICATE": "Header names must be unique",
+          "ADD": "Add Header"
         },
         "PARAMETERS": {
           "LABEL": "Parametreler",
