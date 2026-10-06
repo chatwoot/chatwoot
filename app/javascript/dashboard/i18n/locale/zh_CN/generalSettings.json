@@ -104,6 +104,14 @@
           "ERROR": "更新语音转录设置失败"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Enforce two-factor authentication",
+        "NOTE": "Require every member of this account to set up two-factor authentication. Members without it will be asked to set it up at their next password sign-in. Sign-ins through Google or SAML are exempt. API access tokens of members who have not set up two-factor authentication stop working for this account until they enrol.",
+        "API": {
+          "SUCCESS": "Two-factor authentication enforcement updated successfully",
+          "ERROR": "Failed to update two-factor authentication enforcement"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "自动解决前的无活动市场",
         "HELP": "对话无活动时自动解决时长",
@@ -125,7 +133,8 @@
     },
     "UPDATE_CHATWOOT": "Chatwoot 有可用更新{latestChatwootVersion}，请更新您的应用。",
     "LEARN_MORE": "了解更多",
-    "PAYMENT_PENDING": "您的付款尚未完成。请更新您的付款信息以继续使用Chatwoot",
+    "PAYMENT_PENDING": "Your account payment is past due. Please update your payment information to avoid subscription cancellation.",
+    "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
     "UPGRADE": "升级以继续使用 Chatwoot",
     "LIMITS_UPGRADE": "您的账户已超过使用限制，请升级您的计划以继续使用Chatwoot",
     "OPEN_BILLING": "查看计费"
