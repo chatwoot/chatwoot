@@ -88,6 +88,14 @@ RSpec.describe Portal do
     end
   end
 
+  describe '#widget_data' do
+    it 'exposes only the slug and allowed locales' do
+      portal = create(:portal, slug: 'docs', custom_domain: 'docs.example.com', config: { allowed_locales: %w[en es] })
+
+      expect(portal.widget_data).to eq(slug: 'docs', config: { allowed_locales: %w[en es] })
+    end
+  end
+
   describe 'password protection' do
     let(:portal) { create(:portal) }
 

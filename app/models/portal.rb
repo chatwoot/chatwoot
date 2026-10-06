@@ -165,6 +165,11 @@ class Portal < ApplicationRecord
     config_value('social_profiles') || {}
   end
 
+  # The widget page is public, so it only gets what it needs to load articles.
+  def widget_data
+    { slug: slug, config: { allowed_locales: allowed_locale_codes } }
+  end
+
   def visibility
     config_value('visibility').presence || 'public'
   end
