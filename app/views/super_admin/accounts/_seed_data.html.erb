@@ -1,5 +1,5 @@
 <%# locals: (page:) -%>
-<% if ENV.fetch('ENABLE_ACCOUNT_SEEDING', !Rails.env.production?) %>
+<% if Seeders::AccountSeeder.allowed? %>
   <%= form_for([:seed, namespace, page.resource], method: :post, html: { id: nil, class: "flex flex-wrap items-center justify-between gap-x-6 gap-y-3 p-4" }) do |f| %>
     <div class="min-w-0">
       <h2 class="text-heading-3"><%= t("super_admin.accounts.seed_data") %></h2>

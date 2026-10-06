@@ -73,7 +73,7 @@ module SuperAdmin::CommandBarHelper
   def account_commands(account)
     commands = [{ label: t('super_admin.accounts.reset_cache'), url: reset_cache_super_admin_account_path(account), method: :post,
                   icon: 'i-lucide-refresh-cw' }]
-    return commands unless ENV.fetch('ENABLE_ACCOUNT_SEEDING', !Rails.env.production?)
+    return commands unless Seeders::AccountSeeder.allowed?
 
     commands << { label: t('super_admin.accounts.seed_data'), url: seed_super_admin_account_path(account), method: :post, icon: 'i-lucide-sprout',
                   danger: true, form: { data: { confirm: t('super_admin.accounts.seed_data_warning') } } }
