@@ -536,6 +536,12 @@ en:
       invalid_configuration: 'Invalid configuration'
       disabled: 'Installing tools from a manifest is not enabled'
   public_portal:
+    password:
+      title: This help center is password protected
+      description: Enter the password to continue.
+      placeholder: Password
+      submit: Continue
+      invalid: That password is incorrect. Try again.
     search:
       search_placeholder: Search for article by title or body...
       empty_placeholder: No results found.

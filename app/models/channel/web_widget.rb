@@ -61,6 +61,11 @@ class Channel::WebWidget < ApplicationRecord
     'Website'
   end
 
+  # The widget cannot sign visitors in, so it leaves out password protected portals.
+  def public_portal
+    inbox.portal unless inbox.portal&.password_protected?
+  end
+
   def web_widget_script
     "
     <script>

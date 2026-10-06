@@ -11,6 +11,7 @@
 #  homepage_link         :string
 #  name                  :string           not null
 #  page_title            :string
+#  password_digest       :string
 #  slug                  :string           not null
 #  ssl_settings          :jsonb            not null
 #  created_at            :datetime         not null
@@ -29,6 +30,10 @@ class Portal < ApplicationRecord
   include PortalConfigSchema
 
   DEFAULT_COLOR = '#1f93ff'.freeze
+  # bcrypt ignores everything past 72 bytes
+  PASSWORD_LENGTH = (8..72)
+
+  has_secure_password validations: false
 
   belongs_to :account
   has_many :categories, dependent: :destroy_async
@@ -47,6 +52,9 @@ class Portal < ApplicationRecord
   before_validation :normalize_config
   validate :validate_config
   validate :validate_analytics
+  validates :password, length: { in: PASSWORD_LENGTH }, allow_nil: true
+  validates :password, presence: true, if: -> { password_protected? && password_digest.blank? }
+  before_save -> { self.password_digest = nil }, unless: :password_protected?
   validates_with JsonSchemaValidator,
                  schema: PortalConfigSchema::CONFIG_PARAMS_SCHEMA,
                  attribute_resolver: ->(record) { record.config }
@@ -67,7 +75,7 @@ class Portal < ApplicationRecord
 
   # TODO: 'website_token' is an unused reserved key; remove with a migration that scrubs it from existing portals' config
   CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout
-                        locale_translations popular_content analytics].freeze
+                        locale_translations popular_content analytics visibility].freeze
 
   def analytics
     value = config_value('analytics')
@@ -153,6 +161,23 @@ class Portal < ApplicationRecord
 
   def social_profiles
     config_value('social_profiles') || {}
+  end
+
+  def visibility
+    config_value('visibility').presence || 'public'
+  end
+
+  def password_protected?
+    visibility == 'password'
+  end
+
+  def password_fingerprint
+    Digest::SHA256.hexdigest(password_digest)
+  end
+
+  # The widget serializes the whole portal into a public page.
+  def serializable_hash(options = nil)
+    super.except('password_digest')
   end
 
   private
