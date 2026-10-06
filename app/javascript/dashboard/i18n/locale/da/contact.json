@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Der er ingen tidligere samtaler tilknyttet denne kontakt.",
-      "TITLE": "Tidligere Samtaler"
+      "TITLE": "Tidligere Samtaler",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
