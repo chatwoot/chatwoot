@@ -132,10 +132,6 @@ RSpec.describe Portal do
         expect(portal.authenticate('opensesame1')).to eq(portal)
       end
 
-      it 'changes the fingerprint when the password changes' do
-        expect { portal.update!(password: 'another-secret') }.to(change(portal, :password_fingerprint))
-      end
-
       it 'removes the password when made public' do
         portal.update!(config: { visibility: 'public' })
 

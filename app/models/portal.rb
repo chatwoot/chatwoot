@@ -169,10 +169,6 @@ class Portal < ApplicationRecord
     visibility == 'private_with_password'
   end
 
-  def password_fingerprint
-    Digest::SHA256.hexdigest(password_digest)
-  end
-
   # The widget serializes the whole portal into a public page.
   def serializable_hash(options = nil)
     super.except('password_digest')
