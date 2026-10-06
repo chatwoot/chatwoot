@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "ലഭ്യമല്ല",
     "EMAIL_ADDRESS": "ഇമെയിൽ വിലാസം",
     "PHONE_NUMBER": "ഫോൺ നമ്പർ",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "ക്ലിപ്പ്ബോർഡിലേക്ക് വിജയകരമായി പകർത്തി",
     "COMPANY": "കമ്പനി",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

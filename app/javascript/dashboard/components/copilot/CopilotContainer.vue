@@ -12,13 +12,6 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import wootConstants from 'dashboard/constants/globals';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 
-defineProps({
-  conversationInboxType: {
-    type: String,
-    default: '',
-  },
-});
-
 const store = useStore();
 const { uiSettings, updateUISettings } = useUISettings();
 const { isEnterprise } = useConfig();
@@ -162,7 +155,6 @@ onMounted(() => {
     <Copilot
       :messages="messages"
       :support-agent="currentUser"
-      :conversation-inbox-type="conversationInboxType"
       :assistants="assistants"
       :active-assistant="activeAssistant"
       :can-suggest-reply="canSuggestReply"

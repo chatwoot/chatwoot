@@ -11,8 +11,12 @@ class Whatsapp::PhoneNormalizers::BasePhoneNormalizer
     raise NotImplementedError, 'Subclasses must implement #normalize'
   end
 
-  # Contact matching needs stronger safety than source-id lookup because two
-  # valid phone numbers can share digits across country-specific formats.
+  # Formats an existing contact_inbox may already be stored under, most canonical first.
+  def variants(waid)
+    [normalize(waid)]
+  end
+
+  # Opt-in per country: only safe where the alternate form can't belong to a different subscriber.
   def contact_candidates(waid)
     [waid]
   end

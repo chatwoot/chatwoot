@@ -7,6 +7,37 @@
     "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht",
     "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs zijn sporen voor gebeurtenissen en acties in een Chatwoot Systeem. </p>",
+    "COUNT": "{n} event | {n} events",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Search by name or email",
+      "ALL_EVENTS": "All events",
+      "DATE_RANGE": "Date range",
+      "CLEAR_ALL": "Filters wissen",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Access",
+        "AGENTS_TEAMS": "Agents & teams",
+        "CONFIGURATION": "Configuration",
+        "CONVERSATIONS": "Gesprekken"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Sign in / sign out",
+        "AGENTS": "Medewerkers",
+        "TEAMS": "Teams",
+        "TEAM_MEMBERS": "Team members",
+        "INBOX_MEMBERS": "Inbox collaborators",
+        "ACCOUNT": "Accountinstellingen",
+        "INBOXES": "Inboxen",
+        "WEBHOOKS": "Webhooks",
+        "AUTOMATION_RULES": "Automation rules",
+        "MACROS": "Macro's",
+        "CONVERSATION_DELETIONS": "Conversation deletions",
+        "MESSAGE_DELETIONS": "Message deletions"
+      },
+      "SORT": {
+        "NEWEST": "Newest first",
+        "OLDEST": "Oldest first"
+      }
+    },
     "LIST": {
       "404": "Er zijn geen Audit Logs beschikbaar in dit account.",
       "TITLE": "Beheer Audit Logs",
@@ -72,6 +103,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} deleted conversation #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
     }
   }
 }

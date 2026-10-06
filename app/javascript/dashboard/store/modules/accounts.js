@@ -4,6 +4,7 @@ import AccountAPI from '../../api/account';
 import OnboardingAPI from '../../api/onboarding';
 import { differenceInDays } from 'date-fns';
 import EnterpriseAccountAPI from '../../api/enterprise/account';
+import WhatsappChannel from '../../api/channel/whatsappChannel';
 import { throwErrorMessage } from '../utils/api';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
@@ -55,12 +56,23 @@ export const getters = {
 };
 
 export const actions = {
-  get: async ({ commit }, { silent } = {}) => {
+  requestWhatsappEmbeddedSignupAccess: async (
+    { commit, state: accountState, rootState },
+    useCase
+  ) => {
+    const accountId = rootState.route.params.accountId;
+    const { data } = await WhatsappChannel.requestEmbeddedSignupAccess(useCase);
+    commit(types.default.EDIT_ACCOUNT, {
+      ...findRecordById(accountState, accountId),
+      features: data.features,
+    });
+  },
+  get: async ({ commit }, { silent, accountId } = {}) => {
     if (!silent) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: true });
     }
     try {
-      const response = await AccountAPI.get();
+      const response = await AccountAPI.get(accountId);
       commit(types.default.ADD_ACCOUNT, response.data);
     } catch {
       // silent failure

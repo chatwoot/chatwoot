@@ -28,22 +28,25 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def playground
-    response = if captain_v2_enabled?
-                 Captain::Assistant::AgentRunnerService.new(assistant: @assistant, source: 'playground').generate_response(
-                   message_history: playground_message_history
-                 )
-               else
-                 Captain::Llm::AssistantChatService.new(assistant: @assistant, source: 'playground').generate_response(
-                   additional_message: playground_params[:message_content],
-                   message_history: message_history
-                 )
-               end
+    request_id = playground_params[:request_id].presence || SecureRandom.uuid
 
-    render json: response
+    Captain::Playground::ResponseJob.perform_later(
+      assistant: @assistant,
+      user: Current.user,
+      request_id: request_id,
+      request: {
+        message_content: playground_params[:message_content],
+        message_history: message_history,
+        playground_config: playground_configuration,
+        playground_config_supplied: playground_configuration_supplied?
+      }
+    )
+
+    render json: { request_id: request_id }, status: :accepted
   end
 
   def tools
-    assistant = Captain::Assistant.new(account: Current.account)
+    assistant = account_assistants.find(params[:assistant_id])
     @tools = assistant.available_agent_tools
   end
 
@@ -130,9 +133,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
       :resolution_message, :instructions, :temperature, :auto_resolve_mode,
       :response_window
     ]
-    if Current.account.feature_enabled?('captain_integration_v2')
-      assistant_config_attributes += [:auto_resolve_after, :send_inactivity_resolution_message]
-    end
+    assistant_config_attributes += [:auto_resolve_after, :send_inactivity_resolution_message]
 
     permitted = params.require(:assistant).permit(:name, :description,
                                                   config: assistant_config_attributes)
@@ -158,31 +159,30 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def playground_params
-    params.require(:assistant).permit(:message_content, message_history: [:role, :content, :agent_name])
+    params.require(:assistant).permit(
+      :message_content, :request_id,
+      message_history: [:role, :content, :agent_name],
+      playground_config: [
+        :knowledge_text,
+        { scenario_ids: [], response_guidelines: [], guardrails: [],
+          temporary_scenarios: [:client_id, :title, :description, :instruction] }
+      ]
+    )
   end
 
+  def playground_configuration
+    playground_params[:playground_config]&.to_h
+  end
+
+  def playground_configuration_supplied? = params.key?(:playground_config) || params[:assistant]&.key?(:playground_config)
+
   def message_history
-    (playground_params[:message_history] || []).map do |message|
+    Array(playground_params[:message_history]).map do |message|
       {
         role: message[:role],
         content: message[:content],
         agent_name: message[:agent_name]
       }.compact
     end
-  end
-
-  def playground_message_history
-    history = message_history
-    current_message = playground_params[:message_content]
-    return history if current_message.blank?
-
-    current_user_message = { role: 'user', content: current_message }
-    return history if history.last == current_user_message
-
-    history + [current_user_message]
-  end
-
-  def captain_v2_enabled?
-    @assistant.account.feature_enabled?('captain_integration_v2')
   end
 end

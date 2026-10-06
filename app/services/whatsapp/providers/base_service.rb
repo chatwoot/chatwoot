@@ -80,7 +80,12 @@ class Whatsapp::Providers::BaseService
   def create_rows(items)
     rows = []
     items.each do |item|
-      row = { 'id' => item['value'], 'title' => item['title'] }
+      row = {
+        'id' => item['value'] || item[:value],
+        'title' => item['title'] || item[:title]
+      }
+      description = item_description(item)
+      row['description'] = description if description.present?
       rows << row
     end
     rows
@@ -97,11 +102,20 @@ class Whatsapp::Providers::BaseService
   end
 
   def create_payload_based_on_items(message)
-    if message.content_attributes['items'].length <= 3
-      create_button_payload(message)
-    else
+    items = message.content_attributes['items']
+    if use_list_payload?(items)
       create_list_payload(message)
+    else
+      create_button_payload(message)
     end
+  end
+
+  def use_list_payload?(items)
+    items.length > 3 || items.any? { |item| item_description(item).present? }
+  end
+
+  def item_description(item)
+    item['description'] || item[:description]
   end
 
   def create_button_payload(message)

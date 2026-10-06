@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n, I18nT } from 'vue-i18n';
 import Twilio from './Twilio.vue';
@@ -7,6 +7,7 @@ import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappManualSetup from './WhatsappManualSetup.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
+import WhatsappAccessRequestDialog from '../components/WhatsappAccessRequestDialog.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -18,6 +19,7 @@ import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
+const accessRequestDialogRef = ref(null);
 const {
   isCloudFeatureEnabled,
   isOnChatwootCloud,
@@ -128,12 +130,13 @@ const handleManualLinkClick = () => {
 };
 
 const requestEmbeddedSignupAccess = () => {
-  window.$chatwoot?.toggle();
+  accessRequestDialogRef.value.open();
 };
 </script>
 
 <template>
   <div class="col-span-6 w-full h-full min-h-0 overflow-y-auto p-6">
+    <WhatsappAccessRequestDialog ref="accessRequestDialogRef" />
     <div v-if="isManualSetup">
       <div
         v-if="shouldShowEmbeddedSignupAccessRequest"
@@ -168,13 +171,6 @@ const requestEmbeddedSignupAccess = () => {
           {{
             $t(
               'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.DESCRIPTION'
-            )
-          }}
-        </p>
-        <p class="mt-2 ms-10 max-w-3xl text-label-small text-n-slate-10">
-          {{
-            $t(
-              'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.FOOTNOTE'
             )
           }}
         </p>

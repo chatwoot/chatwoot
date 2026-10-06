@@ -47,7 +47,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
         end
 
         before do
-          account.enable_features!(:captain_integration_v2)
+          account.enable_features!(:captain_integration)
           responding_to_message
         end
 
@@ -127,31 +127,6 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
         end
       end
 
-      context 'with Captain V1' do
-        let(:tool_context) do
-          Struct.new(:state).new({ conversation: { id: conversation.id }, responding_to_message_id: responding_to_message.id })
-        end
-        let(:responding_to_message) do
-          create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming)
-        end
-
-        it 'uses the legacy handoff without a lock or stale-message guard' do
-          responding_to_message
-          create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming)
-          found_conversation = Conversation.find(conversation.id)
-          scoped_conversations = Conversation.where(account_id: assistant.account_id)
-          allow(Conversation).to receive(:where).with(account_id: assistant.account_id).and_return(scoped_conversations)
-          allow(scoped_conversations).to receive(:find_by).with(id: conversation.id).and_return(found_conversation)
-          expect(found_conversation).not_to receive(:with_lock)
-
-          result = tool.perform(tool_context, reason: 'Customer needs specialized support')
-
-          expect(result).to include('Conversation handed off')
-          expect(conversation.reload.status).to eq('open')
-          expect(tool_context.state).not_to have_key(:captain_v2_handoff_tool_completed)
-        end
-      end
-
       context 'with reason provided' do
         it 'creates a private note with reason and hands off conversation' do
           reason = 'Customer needs specialized support'
@@ -195,7 +170,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
         end
 
         it 'records the handoff on an existing V2 outcome' do
-          account.enable_features!('captain_integration_v2')
+          account.enable_features!('captain_integration')
           create(
             :conversation_outcome,
             account: account,
@@ -293,6 +268,14 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
           expect(result).to eq('Failed to handoff conversation')
         end
 
+        it 'marks playground failures for run details without changing production output' do
+          tool_context.state[:source] = 'playground'
+
+          result = tool.perform(tool_context, reason: 'Test')
+
+          expect(result).to eq('ERROR: Failed to handoff conversation')
+        end
+
         it 'captures exception' do
           exception_tracker = instance_double(ChatwootExceptionTracker)
           expect(ChatwootExceptionTracker).to receive(:new).with(instance_of(StandardError)).and_return(exception_tracker)
@@ -333,6 +316,16 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
       it 'returns error message' do
         result = tool.perform(tool_context, reason: 'Test')
         expect(result).to eq('Conversation not found')
+      end
+    end
+
+    context 'when a playground call cannot hand off' do
+      let(:tool_context) { Struct.new(:state).new({ source: 'playground' }) }
+
+      it 'marks the result as an error for run details' do
+        result = tool.perform(tool_context, reason: 'Test')
+
+        expect(result).to eq('ERROR: Conversation not found')
       end
     end
   end

@@ -22,6 +22,11 @@ json.audit_logs do
     json.comment audit_log.comment
     json.request_uuid audit_log.request_uuid
     json.created_at audit_log.created_at.to_i
-    json.remote_address audit_log.remote_address
+    if Current.account.feature_enabled?(:audit_log_ip_address)
+      json.remote_address audit_log.remote_address
+    else
+      json.location audit_log.location
+      json.remote_address audit_log.masked_remote_address
+    end
   end
 end

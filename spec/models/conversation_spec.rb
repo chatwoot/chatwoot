@@ -72,6 +72,17 @@ RSpec.describe Conversation do
         .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
                                                                     changed_attributes: nil, performed_by: nil)
     end
+
+    it 'marks a visitor contact as a lead' do
+      expect(conversation.contact.reload).to be_lead
+    end
+
+    it 'does not change the contact type of a customer' do
+      customer = create(:contact, account: account, contact_type: :customer)
+      create(:conversation, account: account, contact: customer, inbox: inbox)
+
+      expect(customer.reload).to be_customer
+    end
   end
 
   describe '.validate jsonb attributes' do
@@ -432,6 +443,14 @@ RSpec.describe Conversation do
       expect(Rails.configuration.dispatcher).to receive(:dispatch)
         .with(described_class::CONVERSATION_BOT_HANDOFF, anything, hash_including(conversation: conversation))
       conversation.bot_handoff!
+    end
+
+    it 'does not hand off or dispatch when the conversation is no longer pending' do
+      conversation.open!
+
+      expect(Rails.configuration.dispatcher).not_to receive(:dispatch)
+      expect(conversation.bot_handoff!).to be(false)
+      expect(conversation.reload.status).to eq('open')
     end
   end
 

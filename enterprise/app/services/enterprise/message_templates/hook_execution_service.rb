@@ -36,8 +36,6 @@ module Enterprise::MessageTemplates::HookExecutionService
   private
 
   def track_captain_eligibility
-    return unless conversation.account.feature_enabled?('captain_integration_v2')
-
     Captain::ConversationOutcomeTracker.new(
       conversation: conversation,
       assistant: inbox.captain_assistant

@@ -23,6 +23,7 @@ const FEATURE_HELP_URLS = {
   saml: 'https://chwt.app/hc/saml',
   captain: 'https://chwt.app/captain-docs',
   captain_billing: 'https://chwt.app/hc/captain_billing',
+  shopify: 'https://chwt.app/hc/shopify',
 };
 
 export function getHelpUrlForFeature(featureName) {
