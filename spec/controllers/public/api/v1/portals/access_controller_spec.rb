@@ -75,6 +75,20 @@ RSpec.describe 'Public Portal Access', type: :request do
       expect(response.headers['Cache-Control']).to eq('no-store')
     end
 
+    it 'loads analytics only after the portal is unlocked' do
+      portal.update!(config: { analytics: { ga4_measurement_id: 'G-LOCKED12345' } })
+
+      get "/hc/#{portal.slug}/en", headers: html_headers
+      expect(response.body).not_to include('G-LOCKED12345')
+
+      post "/hc/#{portal.slug}/unlock", params: { password: 'wrong-password' }, headers: html_headers
+      expect(response.body).not_to include('G-LOCKED12345')
+
+      post "/hc/#{portal.slug}/unlock", params: { password: password }
+      get "/hc/#{portal.slug}/en", headers: html_headers
+      expect(response.body).to include('G-LOCKED12345')
+    end
+
     it 'rejects a wrong password' do
       post "/hc/#{portal.slug}/unlock", params: { password: 'wrong-password', return_to: "/hc/#{portal.slug}/en" }, headers: html_headers
 
