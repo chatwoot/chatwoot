@@ -104,6 +104,14 @@
           "ERROR": "Échec de la mise à jour des paramètres de transcription audio"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Enforce two-factor authentication",
+        "NOTE": "Require every member of this account to set up two-factor authentication. Members without it will be asked to set it up at their next password sign-in. Sign-ins through Google or SAML are exempt. API access tokens of members who have not set up two-factor authentication stop working for this account until they enrol.",
+        "API": {
+          "SUCCESS": "Two-factor authentication enforcement updated successfully",
+          "ERROR": "Failed to update two-factor authentication enforcement"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Durée d'inactivité avant résolution",
         "HELP": "Durée après laquelle une conversation doit être automatiquement résolue s'il n'y a pas d'activité",
@@ -125,7 +133,8 @@
     },
     "UPDATE_CHATWOOT": "Une mise à jour {latestChatwootVersion} de Chatwoot est disponible. Veuillez mettre à jour votre instance.",
     "LEARN_MORE": "En savoir plus",
-    "PAYMENT_PENDING": "Votre paiement est en attente. Merci de mettre à jour vos informations de paiement pour continuer à utiliser Chatwoot",
+    "PAYMENT_PENDING": "Your account payment is past due. Please update your payment information to avoid subscription cancellation.",
+    "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
     "UPGRADE": "Mettez à niveau pour continuer à utiliser Chatwoot",
     "LIMITS_UPGRADE": "Votre compte a dépassé les limites d'utilisation, veuillez mettre à niveau votre plan pour continuer à utiliser Chatwoot",
     "OPEN_BILLING": "Ouvrir la facturation"
