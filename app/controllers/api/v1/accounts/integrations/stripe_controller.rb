@@ -31,8 +31,7 @@ class Api::V1::Accounts::Integrations::StripeController < Api::V1::Accounts::Int
     conversation = Current.account.conversations.find_by!(display_id: conversation_id)
     authorize conversation, :show?
     hook = Current.account.hooks.find_by!(app_id: 'stripe', status: :enabled)
-    connection = Integrations::Stripe::Connection.new(hook)
-    render json: Integrations::Stripe::CustomerSummary.new(connection: connection,
+    render json: Integrations::Stripe::CustomerSummary.new(connection: Integrations::Stripe::Connection.new(hook),
                                                            contact: conversation.contact).perform(customer_id: params[:customer_id])
   rescue Integrations::Stripe::Connection::ReauthorizationRequired, ::Stripe::AuthenticationError
     hook.prompt_reauthorization!
@@ -40,11 +39,22 @@ class Api::V1::Accounts::Integrations::StripeController < Api::V1::Accounts::Int
   rescue OAuth2::Error => e
     hook.prompt_reauthorization! if e.code == 'invalid_grant'
     render json: { error: 'stripe_unavailable' }, status: :unprocessable_entity
-  rescue ::Stripe::StripeError, Faraday::TimeoutError, Faraday::ConnectionFailed
-    render json: { error: 'stripe_unavailable' }, status: :unprocessable_entity
+  rescue ::Stripe::StripeError, Faraday::TimeoutError, Faraday::ConnectionFailed => e
+    render_customer_failure(e)
   end
 
   private
+
+  def render_customer_failure(error)
+    details = { event: 'stripe_customer_fetch_failed', account_id: Current.account.id,
+                request_id: request.request_id, error_class: error.class.name }
+    if error.is_a?(::Stripe::StripeError)
+      details.merge!(stripe_error_code: error.code, http_status: error.http_status, stripe_request_id: error.request_id)
+    end
+    # Exception messages, response bodies and request parameters can contain credentials or customer data.
+    Rails.logger.warn(details.compact.to_json)
+    render json: { error: 'stripe_unavailable' }, status: :unprocessable_entity
+  end
 
   def ensure_configured
     head :not_found unless Integrations::App.find(id: 'stripe').active?(Current.account)

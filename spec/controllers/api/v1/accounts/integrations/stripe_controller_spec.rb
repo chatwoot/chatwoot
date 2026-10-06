@@ -111,10 +111,21 @@ RSpec.describe 'Stripe Integration API', type: :request do
 
   it 'returns a safe error on provider failure' do
     allow(Integrations::Stripe::CustomerSummary).to receive(:new).and_return(summary)
-    allow(summary).to receive(:perform).and_raise(Stripe::APIConnectionError.new('sensitive provider details'))
+    error = Stripe::InvalidRequestError.new(
+      'sensitive provider details', 'query',
+      http_status: 400,
+      http_headers: { 'request-id' => 'req_stripe_failure' }, code: 'parameter_invalid'
+    )
+    allow(summary).to receive(:perform).and_raise(error)
+    allow(Rails.logger).to receive(:warn)
     get "#{path}/customer", params: { conversation_id: conversation.display_id }, headers: admin.create_new_auth_token
     expect(response).to have_http_status(:unprocessable_entity)
     expect(response.parsed_body).to eq('error' => 'stripe_unavailable')
+    expect(Rails.logger).to have_received(:warn).with({
+      event: 'stripe_customer_fetch_failed', account_id: account.id, request_id: response.headers['X-Request-Id'],
+      error_class: 'Stripe::InvalidRequestError', stripe_error_code: 'parameter_invalid', http_status: 400,
+      stripe_request_id: 'req_stripe_failure'
+    }.to_json)
   end
 
   it 'allows cleanup but not authorization when installation settings are missing' do
