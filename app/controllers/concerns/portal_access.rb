@@ -4,7 +4,7 @@
 module PortalAccess
   extend ActiveSupport::Concern
 
-  PORTAL_ACCESS_DURATION = 30.days
+  PORTAL_ACCESS_DURATION = 7.days
 
   private
 
