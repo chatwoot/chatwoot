@@ -140,7 +140,6 @@
       },
       "TWILIO": {
         "TITLE": "Kanal ng Twilio SMS/WhatsApp",
-        "DESC": "I-integrate ang Twilio at simulan ang pagsuporta sa iyong mga customer sa pamamagitan ng SMS o WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "Account SID",
           "PLACEHOLDER": "Pakilagay ang iyong Twilio Account SID",
@@ -182,13 +181,13 @@
           "PLACEHOLDER": "Pakilagay ang numero ng telepono kung saan ipapadala ang mensahe.",
           "ERROR": "Mangyaring magbigay ng wastong numero ng telepono na nagsisimula sa `+` na tanda at walang mga espasyo."
         },
-        "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "Kailangan mong i-configure ang message callback URL sa Twilio gamit ang URL na nakasaad dito."
-        },
         "SUBMIT_BUTTON": "Gumawa ng Twilio Channel",
         "API": {
           "ERROR_MESSAGE": "Hindi namin ma-authenticate ang mga kredensyal ng Twilio, pakisubukang muli"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "Kailangan mong i-configure ang message callback URL sa Twilio gamit ang URL na nakasaad dito."
         }
       },
       "SMS": {
@@ -426,9 +425,13 @@
           "MANUAL_LINK_TEXT": "manwal na setup flow",
           "ACCESS_REQUEST": {
             "TITLE": "Mabilis na setup gamit ang Meta",
-            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
-            "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
-            "BUTTON": "Request access"
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. Tell us what your business does and how you’ll use WhatsApp to enable this option.",
+            "BUTTON": "Request access",
+            "FORM_DESCRIPTION": "Tell us about your business and how you plan to use WhatsApp. Submit your use case to enable quick setup for your account.",
+            "USE_CASE_LABEL": "Business use case",
+            "USE_CASE_PLACEHOLDER": "For example, we sell home furnishings and use WhatsApp to answer product questions and help customers with their orders.",
+            "SUBMIT": "Submit",
+            "ERROR": "We couldn’t enable access. Please try again."
           },
           "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
           "STATUS_LINK": "View status updates",
@@ -676,6 +679,9 @@
       "MORE_SETTINGS": "Higit pang mga setting",
       "WEBSITE_SUCCESS": "Matagumpay mong natapos ang paggawa ng website channel. Kopyahin ang code na ipinakita sa ibaba at i-paste ito sa iyong website. Sa susunod na gagamit ang customer ng live chat, awtomatikong lalabas ang pag-uusap sa iyong inbox.",
       "WHATSAPP_QR_INSTRUCTION": "I-scan ang QR code sa itaas upang mabilis na subukan ang iyong WhatsApp inbox",
+      "SMS_QR_INSTRUCTION": "Scan the QR code above to quickly test your SMS inbox",
+      "SMS_QR_ALT": "QR code to test the SMS inbox",
+      "TWILIO_CALLBACK_FALLBACK": "Webhooks are configured automatically. If incoming messages do not arrive, use this callback URL in Twilio.",
       "MESSENGER_QR_INSTRUCTION": "I-scan ang QR code sa itaas upang mabilis na subukan ang iyong Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "I-scan ang QR code sa itaas upang mabilis na subukan ang iyong Telegram inbox"
     },
@@ -806,6 +812,98 @@
     },
     "CHANNEL_PREFERENCES": "Mga Kagustuhan sa Channel",
     "WIDGET_FEATURES": "Mga tampok ng widget",
+    "TWILIO_HEALTH": {
+      "TITLE": "Manage your Twilio number",
+      "DESCRIPTION": "Review the Twilio account, sender and webhooks backing this inbox. Anything Chatwoot cannot receive is flagged here",
+      "GO_TO_SETTINGS": "Go to Twilio Console",
+      "NO_DATA": "Walang magagamit na data ng kalusugan",
+      "LOADING": "Fetching health data from Twilio…",
+      "ERROR_TITLE": "Could not reach Twilio",
+      "STATUS": {
+        "HEALTHY": "All checks passed",
+        "MISCONFIGURED": "Needs attention"
+      },
+      "FIELDS": {
+        "ACCOUNT_NAME": {
+          "LABEL": "Twilio account",
+          "TOOLTIP": "The Twilio account these credentials belong to"
+        },
+        "ACCOUNT_STATUS": {
+          "LABEL": "Account status",
+          "TOOLTIP": "A suspended or closed Twilio account cannot send or receive anything"
+        },
+        "ACCOUNT_TYPE": {
+          "LABEL": "Account type",
+          "TOOLTIP": "Trial accounts can only message or call phone numbers you have verified with Twilio"
+        },
+        "SENDER": {
+          "LABEL": "Sender",
+          "TOOLTIP": "The phone number or messaging service that carries this inbox"
+        },
+        "CAPABILITIES": {
+          "LABEL": "Number capabilities",
+          "TOOLTIP": "Capabilities Twilio has enabled on this number. A capability this inbox needs but does not have will never work"
+        },
+        "VOICE_CALLING": {
+          "LABEL": "Voice calling",
+          "TOOLTIP": "Whether calling is turned on for this inbox"
+        }
+      },
+      "VALUES": {
+        "ACCOUNT_STATUSES": {
+          "ACTIVE": "Active",
+          "SUSPENDED": "Suspended",
+          "CLOSED": "Closed"
+        },
+        "ACCOUNT_TYPES": {
+          "TRIAL": "Trial",
+          "FULL": "Full"
+        },
+        "CAPABILITIES": {
+          "SMS": "SMS",
+          "VOICE": "Boses"
+        },
+        "SENDER_TYPES": {
+          "PHONE_NUMBER": "Numero ng Telepono",
+          "MESSAGING_SERVICE": "Messaging service"
+        },
+        "ENABLED": "Pinagana",
+        "DISABLED": "Hindi Pinagana"
+      },
+      "WEBHOOKS": {
+        "TITLE": "Webhooks",
+        "DESCRIPTION": "Twilio calls these URLs when a message or call arrives. Register them again after changing your installation URL",
+        "REGISTER_ALL": "Register webhooks",
+        "MESSAGING": "Messaging webhook",
+        "VOICE": "Voice webhook",
+        "VOICE_STATUS": "Voice status callback",
+        "VOICE_APP": "Outbound calling (TwiML app)"
+      },
+      "WEBHOOK": {
+        "CONFIGURED_SUCCESS": "Matagumpay na na-configure ang Webhook",
+        "NOT_SET": "not set",
+        "EXPECTED": "Expected",
+        "CURRENT": "Currently set to",
+        "REASONS": {
+          "NOT_SET": "Hindi naka-configure ang Webhook",
+          "URL_MISMATCH": "Hindi tugma ang URL ng Webhook",
+          "WRONG_HTTP_METHOD": "Webhook uses the wrong HTTP method",
+          "OVERRIDDEN_BY_NUMBER": "Messaging service defers to the number",
+          "OVERRIDDEN_BY_APPLICATION": "Overridden by a TwiML app",
+          "OVERRIDDEN_BY_TRUNK": "Overridden by a SIP trunk",
+          "MISSING_TWIML_APP": "TwiML app not created"
+        },
+        "HINTS": {
+          "NOT_SET": "Twilio has no webhook on this sender, so nothing reaches Chatwoot.",
+          "URL_MISMATCH": "Twilio is calling a different URL, so traffic goes elsewhere.",
+          "WRONG_HTTP_METHOD": "The URL is right but Twilio calls it with {method} instead of POST, and Chatwoot only answers POST.",
+          "OVERRIDDEN_BY_NUMBER": "This messaging service has \"Use webhook on number\" turned on, so Twilio ignores the service webhook.",
+          "OVERRIDDEN_BY_APPLICATION": "A TwiML app is attached to this number, and Twilio uses the app's URLs instead of the number's. Detach it in the Twilio Console.",
+          "OVERRIDDEN_BY_TRUNK": "This number is attached to a SIP trunk, so Twilio routes calls to the trunk and ignores voice webhooks entirely. Detach the trunk in the Twilio Console.",
+          "MISSING_TWIML_APP": "Chatwoot has no TwiML app for this number, so outbound calls cannot be placed."
+        }
+      }
+    },
     "ACCOUNT_HEALTH": {
       "TITLE": "Pamahalaan ang iyong WhatsApp account",
       "DESCRIPTION": "Review your WhatsApp phone number health, messaging capacity, and linked Meta business details.",
@@ -953,6 +1051,20 @@
         "MODES": {
           "SANDBOX": "Sandbox",
           "LIVE": "Live"
+        },
+        "QUALITY": {
+          "GREEN": "Green",
+          "YELLOW": "Yellow",
+          "RED": "Red"
+        },
+        "TIER_NAMES": {
+          "TIER_250": "Tier 250",
+          "TIER_1000": "Tier 1K",
+          "TIER_1K": "Tier 1K",
+          "TIER_2K": "Tier 2K",
+          "TIER_10K": "Tier 10K",
+          "TIER_100K": "Tier 100K",
+          "TIER_UNLIMITED": "Unlimited"
         }
       },
       "BUSINESS_PROFILE": {
@@ -999,7 +1111,18 @@
         "SECRET_KEY": "Lihim na Susi",
         "VIEW_DOCS": "Tingnan ang dokumentasyon",
         "REQUIRE_LABEL": "Kailangang beripikahin ang pagkakakilanlan para sa lahat ng pag-uusap",
-        "REQUIRE_DESCRIPTION": "Kapag pinagana, kailangang magbigay ang mga gumagamit ng wastong identity token upang makapagsimula ng mga pag-uusap. Ang mga kahilingan na walang wastong token ay tatanggihan."
+        "REQUIRE_DESCRIPTION": "Kapag pinagana, kailangang magbigay ang mga gumagamit ng wastong identity token upang makapagsimula ng mga pag-uusap. Ang mga kahilingan na walang wastong token ay tatanggihan.",
+        "ROTATE": {
+          "BUTTON": "Rotate key",
+          "TITLE": "Rotate secret key?",
+          "WARNING": "The current key is revoked the instant you rotate it.",
+          "WARNING_DETAIL": "There is no overlap period and it cannot be restored.",
+          "IMPACT": "Your servers must sign users with the new key. Anyone still signed with the old one fails verification. If identity validation is required, they cannot start a conversation.",
+          "CONFIRM": "Rotate key",
+          "CANCEL": "Cancel",
+          "SUCCESS": "Secret key rotated successfully",
+          "ERROR": "Could not rotate the secret key, please try again"
+        }
       },
       "INBOX_AGENTS": "Mga Ahente",
       "INBOX_AGENTS_SUB_TEXT": "Magdagdag o mag-alis ng mga ahente mula sa inbox na ito",
@@ -1332,7 +1455,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Itakda ang iyong mga detalye sa IMAP",
-      "NOTE_TEXT": "Para paganahin ang SMTP, pakiconfigure ang IMAP.",
+      "NOTE_TEXT": "Configure IMAP to receive emails directly from your mailbox. Leave it disabled if you use email forwarding.",
       "UPDATE": "I-update ang mga setting ng IMAP",
       "TOGGLE_AVAILABILITY": "Paganahin ang IMAP configuration para sa inbox na ito",
       "TOGGLE_HELP": "Ang pag-enable ng IMAP ay makakatulong sa user na makatanggap ng email",
