@@ -1,3 +1,8 @@
 module Mcp::Tools
-  ALL = [].freeze
+  ALL = [
+    Mcp::Tools::ListConversations,
+    Mcp::Tools::GetConversation,
+    Mcp::Tools::SearchContacts,
+    Mcp::Tools::SendMessage
+  ].freeze
 end

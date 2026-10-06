@@ -108,7 +108,7 @@ RSpec.describe 'MCP server', type: :request do
       expect(response).to have_http_status(:not_found)
     end
 
-    it 'names the MCP endpoint and its authorization server' do
+    it 'names the MCP endpoint, its authorization server and the scopes its tools use' do
       with_modified_env FRONTEND_URL: 'https://support.example.com' do
         get '/.well-known/oauth-protected-resource'
       end
@@ -118,7 +118,7 @@ RSpec.describe 'MCP server', type: :request do
         'resource' => 'https://support.example.com/mcp',
         'authorization_servers' => ['https://support.example.com'],
         'bearer_methods_supported' => ['header'],
-        'scopes_supported' => %w[conversations:read contacts:read conversations:write messages:write contacts:write]
+        'scopes_supported' => %w[conversations:read contacts:read messages:write]
       )
     end
 

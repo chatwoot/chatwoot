@@ -6,7 +6,7 @@ class Mcp::MetadataController < ApplicationController
     render json: {
       resource: "#{base_url}/mcp",
       authorization_servers: [base_url],
-      scopes_supported: Doorkeeper.config.scopes.to_a,
+      scopes_supported: Mcp::Tools::ALL.map(&:required_scope).uniq,
       bearer_methods_supported: ['header']
     }
   end

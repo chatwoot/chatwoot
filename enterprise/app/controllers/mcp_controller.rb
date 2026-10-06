@@ -8,7 +8,7 @@ class McpController < ApplicationController
 
   def handle
     server = MCP::Server.new(name: SERVER_NAME, version: Chatwoot.config[:version], tools: Mcp::Tools::ALL,
-                             server_context: { scopes: doorkeeper_token.scopes })
+                             server_context: { scopes: doorkeeper_token.scopes.to_a })
     # Rails already checks the Host header, and the bearer token rules out cross-site browser requests.
     transport = MCP::Server::Transports::StreamableHTTPTransport.new(server, stateless: true, enable_json_response: true,
                                                                              dns_rebinding_protection: false)
@@ -35,7 +35,7 @@ class McpController < ApplicationController
 
   # The header tells the client where to find the authorization server, which starts the OAuth flow.
   def render_oauth_challenge
-    response.headers['WWW-Authenticate'] = %(Bearer resource_metadata="#{ENV.fetch('FRONTEND_URL')}/.well-known/oauth-protected-resource/mcp")
+    response.headers['WWW-Authenticate'] = Mcp::BearerChallenge.build
     head :unauthorized
   end
 end
