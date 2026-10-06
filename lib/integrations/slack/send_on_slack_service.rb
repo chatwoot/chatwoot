@@ -1,5 +1,9 @@
 class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   include RegexHelper
+
+  # Compared as a string so CE installs, which never load the enterprise constant, still work.
+  CAPTAIN_SENDER_TYPE = 'Captain::Assistant'.freeze
+
   pattr_initialize [:message!, :hook!]
 
   # amber-9 and slate-9 from the dashboard palette, so private notes read the same in both places.
@@ -92,8 +96,9 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     ''
   end
 
+  # Each sender type has a default avatar under public/integrations/slack, named <type>_avatar.png.
   def avatar_url(sender)
-    sender_type = sender_type(sender).downcase
+    sender_type = "#{sender_type(sender).downcase}_avatar"
     blob_key = sender&.avatar&.attached? ? sender.avatar.blob.key : nil
     generate_url(sender_type, blob_key)
   end
@@ -195,8 +200,10 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def sender_type(sender)
     if sender.instance_of?(Contact)
       'Contact'
-    elsif sender.instance_of?(User)
+    elsif sender.is_a?(User)
       'Agent'
+    elsif message.sender_type == CAPTAIN_SENDER_TYPE
+      'Captain'
     elsif message.message_type == 'activity' && sender.nil?
       'System'
     else
