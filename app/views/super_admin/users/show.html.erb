@@ -35,7 +35,7 @@
              { label: t("super_admin.record.last_updated"), value: t("super_admin.record.time_ago", time: time_ago_in_words(user.updated_at)).upcase_first, icon: "i-lucide-history text-n-amber-11" }
            ] do %>
   <%= render("button", label: t("administrate.actions.edit"), url: [:edit, namespace, user.becomes(User)]) if authorized_action? user, :edit %>
-  <%= render "email_actions", user: user %>
+  <%= render "more_actions", user: user %>
 <% end %>
 
 <%= render "tabs", tabs: tabs, active: active %>
@@ -49,8 +49,6 @@
         <% end %>
       <% end %>
     <% end %>
-
-    <%= render "impersonate", user: user %>
   </div>
 </div>
 

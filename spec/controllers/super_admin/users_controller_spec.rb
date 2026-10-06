@@ -347,8 +347,8 @@ RSpec.describe 'Super Admin Users API', type: :request do
         get "/super_admin/users/#{unconfirmed.id}"
 
         doc = Nokogiri::HTML(response.body)
-        expect(doc.at_css('main header details')).to be_nil
-        expect(doc.at_css('button:contains("Resend confirmation email")')).to be_present
+        expect(doc.at_css('main header details button:contains("Resend confirmation email")')).to be_nil
+        expect(doc.at_css('main header button:contains("Resend confirmation email")')).to be_present
       end
     end
 

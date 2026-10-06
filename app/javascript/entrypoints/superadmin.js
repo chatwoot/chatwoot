@@ -49,8 +49,8 @@ document.addEventListener('click', event => {
     return;
   }
 
-  // A click on a sheet's backdrop lands on the dialog element itself.
-  if (target.matches('dialog[data-sheet]')) target.close();
+  // A click on a dialog's backdrop lands on the dialog element itself.
+  if (target.matches('dialog[data-backdrop-close]')) target.close();
 
   if (target.closest('[data-support-chat]')) window.$chatwoot?.toggle('open');
 
@@ -189,6 +189,7 @@ document.addEventListener('submit', event => {
     copyLinkFromForm(form);
     return;
   }
+  if (form.target === '_blank') form.closest('dialog')?.close();
   showPendingLabel(event);
 });
 

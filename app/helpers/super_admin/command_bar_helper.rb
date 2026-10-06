@@ -62,8 +62,10 @@ module SuperAdmin::CommandBarHelper
   end
 
   def user_commands(user)
-    commands = [{ label: t('super_admin.users.impersonate'), url: impersonate_super_admin_user_path(user), method: :post,
-                  icon: 'i-lucide-venetian-mask', form: { target: '_blank', rel: 'noopener' } }]
+    commands = []
+    if current_page?([namespace, user])
+      commands << { label: t('super_admin.users.impersonate'), icon: 'i-lucide-venetian-mask', data: { dialog_open: 'impersonate-dialog' } }
+    end
     return commands if user.confirmed?
 
     commands << { label: t('super_admin.users.resend_confirmation.button'), url: resend_confirmation_super_admin_user_path(user), method: :post,

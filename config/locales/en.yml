@@ -732,6 +732,7 @@ en:
       select_all: 'Select all'
       clear: 'Clear'
       close: 'Close'
+      more: 'More'
       copy: 'Copy'
       toggle_secret: 'Show or hide'
     captain_model_overrides:
@@ -924,8 +925,11 @@ en:
       copy_impersonation_link: 'Copy link'
       impersonation_link_copied: 'Copied'
       impersonation_link_failed: 'Copy failed'
-      impersonate_title: 'Impersonate'
-      impersonate_caution: 'Caution: Any actions executed after impersonate will appear as if performed by the impersonated user - [%{name}]'
+      support: 'Support'
+      impersonate_dialog:
+        title: 'Impersonate %{name}?'
+        private_window_hint: 'This signs your browser in to the dashboard as this user and replaces your own session. To keep yours, copy the link and open it in a private window.'
+      impersonate_caution: 'Any actions you take while impersonating will appear as if performed by %{name}.'
       accounts: 'Accounts'
       confirmed: 'Confirmed'
       unconfirmed: 'Unconfirmed'

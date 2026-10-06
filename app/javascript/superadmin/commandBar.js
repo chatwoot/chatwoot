@@ -103,7 +103,8 @@ export const initializeCommandBar = () => {
 
   // A click on the backdrop lands on the dialog element itself.
   bar.addEventListener('click', event => {
-    if (event.target === bar) bar.close();
+    const opensDialog = event.target.closest('[data-dialog-open]');
+    if (event.target === bar || opensDialog) bar.close();
     else input.focus();
   });
 
