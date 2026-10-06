@@ -219,6 +219,11 @@ class Rack::Attack
     req.ip if req.path_without_extensions == '/api/v1/accounts' && req.post?
   end
 
+  ## Client registration is open to anyone and each call stores a row ###
+  throttle('oauth/register/ip', limit: ENV.fetch('RATE_LIMIT_OAUTH_REGISTRATION', '100').to_i, period: 1.hour) do |req|
+    req.ip if req.path_without_extensions == '/oauth/register' && req.post?
+  end
+
   ##-----------------------------------------------##
 
   ###-----------------------------------------------###

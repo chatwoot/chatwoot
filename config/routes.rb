@@ -765,6 +765,10 @@ Rails.application.routes.draw do
   # OAuth 2.1 provider for third-party apps
   # None of these routes match until OAUTH_PROVIDER_ENABLED is set.
   constraints(->(_request) { GlobalConfig.get('OAUTH_PROVIDER_ENABLED')['OAUTH_PROVIDER_ENABLED'] }) do
+    get '.well-known/oauth-authorization-server', to: 'oauth/metadata#show'
+    post 'oauth/register', to: 'oauth/registrations#create'
+    # The consent screen is a dashboard page, so send the browser there with the client's query.
+    get 'oauth/authorize', to: redirect(status: 302) { |_params, request| "/app/oauth/authorize?#{request.query_string}" }
     use_doorkeeper do
       skip_controllers :authorizations, :applications, :authorized_applications, :token_info
     end
