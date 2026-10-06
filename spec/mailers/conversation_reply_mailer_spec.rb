@@ -79,6 +79,23 @@ RSpec.describe ConversationReplyMailer do
         expect(cc_mail.cc.first).to eq(cc_message.content_attributes[:cc_emails])
         expect(cc_mail.bcc.first).to eq(cc_message.content_attributes[:bcc_emails])
       end
+
+      it 'renders the greeting and sender labels' do
+        create(:message, message_type: 'outgoing', account: account, conversation: conversation, sender: agent)
+
+        body = mail.body.decoded
+        expect(body).to include("Hi #{conversation.contact.name},")
+        expect(body).to include('You have new messages on your conversation.')
+        expect(body).to include('<b>You</b>')
+        expect(body).to include("<b>#{agent.available_name}</b>")
+      end
+
+      it 'renders the csat survey prompt as a link' do
+        create(:message, message_type: 'template', content_type: 'input_csat', account: account, conversation: conversation, sender: agent)
+
+        body = mail.body.decoded
+        expect(body).to include(%(Click <a target="_blank" href="#{conversation.csat_survey_link}">here</a> to rate the conversation.))
+      end
     end
 
     context 'without assignee' do
@@ -447,6 +464,56 @@ RSpec.describe ConversationReplyMailer do
           expect(mail.body.encoded).to match(%r{<a [^>]*>large_file\.pdf</a>})
           # Small file should not be rendered as a link in the body
           expect(mail.body.encoded).not_to match(%r{<a [^>]*>avatar\.png</a>})
+        end
+      end
+
+      context 'when forwarding an email' do
+        let(:forwarded_message) do
+          create(:message, conversation: conversation, account: account, message_type: 'incoming',
+                           content_attributes: { email: { message_id: 'original@example.com' } })
+        end
+        let(:forward) do
+          create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Forwarding this',
+                           content_attributes: { forwarded_message_id: forwarded_message.id, to_emails: ['vendor@example.com'] })
+        end
+        let(:mail) { described_class.email_reply(forward).deliver_now }
+
+        before do
+          conversation.additional_attributes = { 'mail_subject': 'Mail Subject' }
+          conversation.save!
+        end
+
+        it 'sends to the forward recipients with a forward subject and no threading headers' do
+          expect(mail.to).to eq ['vendor@example.com']
+          expect(mail.subject).to eq 'Fwd: Mail Subject'
+          expect(mail.in_reply_to).to be_nil
+          expect(mail.references).to be_nil
+        end
+
+        it 'uses the subject of the forwarded message when it has one' do
+          forwarded_message.update!(content_attributes: { email: { message_id: 'original@example.com', subject: 'Changed subject' } })
+
+          expect(mail.subject).to eq 'Fwd: Changed subject'
+        end
+
+        it 'uses the subject of the forwarded message when the conversation has none' do
+          conversation.update!(additional_attributes: {})
+          forwarded_message.update!(content_attributes: { email: { message_id: 'original@example.com', subject: 'Later subject' } })
+
+          expect(mail.subject).to eq 'Fwd: Later subject'
+        end
+
+        it 'keeps replies from the forward recipient out of the conversation' do
+          expect(mail.message_id).to start_with("forward/#{forward.id}@")
+          expect(mail.message_id).not_to include(conversation.uuid)
+          expect(mail.reply_to).to eq [email_channel.email]
+        end
+
+        it 'leaves the forward out of the conversation transcript' do
+          forward
+          transcript = described_class.conversation_transcript(conversation, 'customer@example.com').deliver_now
+
+          expect(transcript.decoded).not_to include('Forwarding this')
         end
       end
 

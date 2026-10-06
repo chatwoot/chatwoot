@@ -1,4 +1,8 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
+  include MfaAuthenticationHelper
+  include DeviceVerificationGuard
+  include ImpersonationLogging
+
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
   wrap_parameters format: []
@@ -13,12 +17,10 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def create
+    return handle_mfa_setup_verification if mfa_setup_verification_request?
     return handle_mfa_verification if mfa_verification_request?
     return handle_sso_authentication if sso_authentication_request?
-
-    user = find_user_for_authentication
-    return handle_mfa_required(user) if user&.mfa_enabled?
-    return if user && enforce_session_limit_for_password_login(user)
+    return if password_pre_auth_intercepted?
 
     # Only proceed with standard authentication if no MFA is required
     super
@@ -26,7 +28,11 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
   def render_create_success
     track_user_session unless @impersonation
-    render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
+    if @backup_codes.present?
+      render 'devise_overrides/sessions/create_with_backup_codes', formats: [:json]
+    else
+      render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
+    end
   end
 
   private
@@ -55,18 +61,16 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     user
   end
 
-  def mfa_verification_request?
-    params[:mfa_token].present?
-  end
-
   def sso_authentication_request?
     params[:sso_auth_token].present? && @resource.present?
   end
 
   def handle_sso_authentication
     return if !@impersonation && enforce_session_limit_for_password_login(@resource)
+    return render_create_error_bad_credentials if @impersonation && !@resource.consume_sso_auth_token(params[:sso_auth_token])
 
     authenticate_resource_with_sso_token
+    log_impersonation_started if @impersonation
     yield @resource if block_given?
     render_create_success
   end
@@ -81,7 +85,8 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     # DTA evicts the earliest-expiring token after save when at max_number_of_devices.
     # The short-lived impersonation token would always be that one, so pre-evict to make room.
     make_room_for_impersonation_token if @impersonation
-    @token = @resource.create_token(lifespan: @impersonation ? 2.days.to_i : nil)
+    token_extras = @impersonation ? { impersonation: true, impersonated_by: @impersonator_id }.compact : {}
+    @token = @resource.create_token(lifespan: @impersonation ? 2.days.to_i : nil, **token_extras)
     @resource.save!
 
     sign_in(:user, @resource, store: false, bypass: false)
@@ -103,43 +108,8 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     return unless user&.valid_sso_auth_token?(params[:sso_auth_token])
 
     @resource = user
+    @impersonator_id = user.sso_auth_token_impersonator_id(params[:sso_auth_token])
     @impersonation = user.sso_auth_token_impersonation?(params[:sso_auth_token])
-  end
-
-  def handle_mfa_required(user)
-    render json: {
-      mfa_required: true,
-      mfa_token: Mfa::TokenService.new(user: user).generate_token
-    }, status: :partial_content
-  end
-
-  def handle_mfa_verification
-    user = Mfa::TokenService.new(token: params[:mfa_token]).verify_token
-    return render_mfa_error('errors.mfa.invalid_token', :unauthorized) unless user
-
-    authenticated = Mfa::AuthenticationService.new(
-      user: user,
-      otp_code: params[:otp_code],
-      backup_code: params[:backup_code]
-    ).authenticate
-
-    return render_mfa_error('errors.mfa.invalid_code') unless authenticated
-
-    sign_in_mfa_user(user)
-  end
-
-  def sign_in_mfa_user(user)
-    evict_oldest_session(user) if sessions_limit_reached?(user)
-    @resource = user
-    @token = @resource.create_token
-    @resource.save!
-
-    sign_in(:user, @resource, store: false, bypass: false)
-    render_create_success
-  end
-
-  def render_mfa_error(message_key, status = :bad_request)
-    render json: { error: I18n.t(message_key) }, status: status
   end
 
   def sessions_limit_reached?(user)

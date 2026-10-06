@@ -9,7 +9,7 @@ class Voice::Provider::Twilio::RecordingAttachmentService
 
     SafeFetch.fetch(
       recording_url,
-      http_basic_authentication: [account_sid, auth_token],
+      http_basic_authentication: channel.basic_auth_credentials,
       allowed_content_type_prefixes: ALLOWED_CONTENT_TYPE_PREFIXES
     ) do |result|
       persist_recording!(result)
@@ -77,14 +77,6 @@ class Voice::Provider::Twilio::RecordingAttachmentService
 
   def recording_content_type(result)
     result.content_type.presence || 'audio/wav'
-  end
-
-  def account_sid
-    @account_sid ||= channel.account_sid
-  end
-
-  def auth_token
-    @auth_token ||= channel.auth_token
   end
 
   def channel

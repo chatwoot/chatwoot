@@ -3,6 +3,7 @@ tags:
 operationId: get-conversation-reporting-events
 summary: Conversation Reporting Events
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: Get reporting events for a specific conversation. This endpoint returns events such as first response time, resolution time, and other metrics for the conversation, sorted by creation time in ascending order.
 responses:

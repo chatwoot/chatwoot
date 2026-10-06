@@ -3,6 +3,7 @@ tags:
 operationId: update-campaign
 summary: Update a campaign
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: >-
   Update campaign fields, including scheduled_at to reschedule an active one-off campaign. Completed campaigns cannot be updated.

@@ -4,8 +4,10 @@ import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useEventListener } from '@vueuse/core';
 import { useStore } from 'dashboard/composables/store';
+import { useTrack } from 'dashboard/composables';
 import { usePaymentStatus } from 'dashboard/composables/usePaymentStatus';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
+import { BILLING_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 const router = useRouter();
 const store = useStore();
@@ -20,6 +22,7 @@ const bannerMessage = computed(() =>
 
 const openBilling = () => {
   if (!canManagePayment.value) return;
+  useTrack(BILLING_EVENTS.OPEN_BILLING_FROM_PAST_DUE_BANNER);
   router.push({
     name: 'billing_settings_index',
     params: { accountId: accountId.value },
