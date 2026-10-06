@@ -7,7 +7,7 @@
       "404": "لا توجد محادثات نشطة في هذه المجموعة."
     },
     "FAILED_TO_SEND": "Failed to send",
-    "FETCH_ERROR": "Couldn't load conversations. Please try again.",
+    "FETCH_ERROR": "تعذر تحميل المحادثات. الرجاء المحاولة مرة أخرى.",
     "TAB_HEADING": "المحادثات",
     "MENTION_HEADING": "الإشارات",
     "UNATTENDED_HEADING": "بدون حضور",
@@ -80,7 +80,7 @@
         "TEXT": "Priority: Highest first, Created: Oldest first"
       },
       "unread": {
-        "TEXT": "Unread Count: Highest first"
+        "TEXT": "عدد الغير المقروء: الأعلى أولا"
       }
     },
     "ATTACHMENTS": {
