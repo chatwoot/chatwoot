@@ -33,3 +33,30 @@ export const formatCurrencyAmount = (amount, code, options = {}) => {
     ...options,
   }).format(amount);
 };
+
+// Free trial: the in-app banner turns urgent this many days before the trial ends.
+export const TRIAL_ENDING_SOON_DAYS = 3;
+
+export const RECOMMENDED_TRIAL_PLAN = 'business';
+
+// What each paid plan unlocks over the one below it, keyed by lowercased plan name.
+export const TRIAL_PLAN_FEATURES = {
+  startups: [
+    'BILLING_SETTINGS.TRIAL.PLANS.STARTUPS.CHANNELS',
+    'BILLING_SETTINGS.TRIAL.PLANS.STARTUPS.CAPTAIN',
+    'BILLING_SETTINGS.TRIAL.PLANS.STARTUPS.HELP_CENTER',
+    'BILLING_SETTINGS.TRIAL.PLANS.STARTUPS.API',
+  ],
+  business: [
+    'BILLING_SETTINGS.TRIAL.PLANS.BUSINESS.EVERYTHING',
+    'BILLING_SETTINGS.TRIAL.PLANS.BUSINESS.SLA',
+    'BILLING_SETTINGS.TRIAL.PLANS.BUSINESS.ROLES',
+    'BILLING_SETTINGS.TRIAL.PLANS.BUSINESS.ASSIGNMENT',
+  ],
+  enterprise: [
+    'BILLING_SETTINGS.TRIAL.PLANS.ENTERPRISE.EVERYTHING',
+    'BILLING_SETTINGS.TRIAL.PLANS.ENTERPRISE.SSO',
+    'BILLING_SETTINGS.TRIAL.PLANS.ENTERPRISE.AUDIT_LOGS',
+    'BILLING_SETTINGS.TRIAL.PLANS.ENTERPRISE.BRANDING',
+  ],
+};

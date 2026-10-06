@@ -6,6 +6,7 @@ import UpdateBanner from './components/app/UpdateBanner.vue';
 import ImpersonationBanner from './components/app/ImpersonationBanner.vue';
 import StatusBanner from './components/app/StatusBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
+import TrialBanner from './components/app/TrialBanner.vue';
 import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
 import LowBackupCodesBanner from './components/app/LowBackupCodesBanner.vue';
 import FeatureAnnouncement from './components-next/feature-announcement/FeatureAnnouncement.vue';
@@ -34,6 +35,7 @@ export default {
     UpdateBanner,
     StatusBanner,
     PaymentPendingBanner,
+    TrialBanner,
     WootSnackbarBox,
     PendingEmailVerificationBanner,
     LowBackupCodesBanner,
@@ -150,6 +152,7 @@ export default {
     <template v-if="currentAccountId">
       <PendingEmailVerificationBanner v-if="hideOnOnboardingView" />
       <PaymentPendingBanner v-if="hideOnOnboardingView" />
+      <TrialBanner v-if="hideOnOnboardingView" />
       <LowBackupCodesBanner v-if="hideOnOnboardingView" />
       <FeatureAnnouncement v-if="hideOnOnboardingView" />
     </template>

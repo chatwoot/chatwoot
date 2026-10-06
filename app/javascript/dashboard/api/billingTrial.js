@@ -6,8 +6,8 @@ class BillingTrialAPI extends ApiClient {
     super('billing_trial', { accountScoped: true });
   }
 
-  start(planName) {
-    return axios.post(this.url, { plan_name: planName });
+  start(planName, seats) {
+    return axios.post(this.url, { plan_name: planName, seats });
   }
 
   complete(sessionId) {

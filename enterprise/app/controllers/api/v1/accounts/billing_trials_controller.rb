@@ -4,11 +4,11 @@ class Api::V1::Accounts::BillingTrialsController < Api::V1::Accounts::BaseContro
   rescue_from Enterprise::Billing::TrialService::Error, Stripe::StripeError, with: :render_trial_error
 
   def show
-    render json: { trial_days: Enterprise::Billing::TrialService::TRIAL_DAYS, plans: trial_service.available_plans }
+    render json: trial_service.options
   end
 
   def create
-    render json: { redirect_url: trial_service.create_checkout_session(plan_name: params[:plan_name]) }
+    render json: { redirect_url: trial_service.create_checkout_session(plan_name: params[:plan_name], seats: params.require(:seats).to_i) }
   end
 
   def complete

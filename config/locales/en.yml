@@ -243,6 +243,7 @@ en:
         not_eligible: This account is not eligible for a free trial
         invalid_plan: Invalid trial plan
         invalid_session: The payment method setup was not completed
+        invalid_seats: Choose between %{min} and %{max} seats for your trial
     topup:
       credits_required: Credits amount is required
       invalid_credits: Invalid credits amount
@@ -252,6 +253,8 @@ en:
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
     reports:
       date_range_too_long: Date range cannot exceed 6 months
+  billing_trial:
+    checkout_message: No charge today. Your %{days}-day %{plan} trial starts now, then %{amount} %{currency} per %{interval} for %{seats} seats unless you cancel before %{date}.
   profile:
     mfa:
       enabled: MFA enabled successfully
