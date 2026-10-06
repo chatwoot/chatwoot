@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Tidak ada percakapan sebelumnya yang terkait dengan kontak ini.",
-      "TITLE": "Percakapan Sebelumnya"
+      "TITLE": "Percakapan Sebelumnya",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
