@@ -190,6 +190,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
             ],
             'default_locale' => 'en',
             'layout' => 'classic',
+            'visibility' => 'public',
             'social_profiles' => {},
             'locale_translations' => {},
             'popular_content' => {},
@@ -205,6 +206,34 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(portal.reload.config['analytics']).to eq('ga4_measurement_id' => 'G-ADMIN12345')
+      end
+
+      it 'allows administrators to password protect the portal' do
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: { portal: { password: 'opensesame1', config: { visibility: 'password' } } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['config']['visibility']).to eq('password')
+        expect(response.body).not_to include('password_digest')
+        expect(portal.reload.authenticate('opensesame1')).to eq(portal)
+      end
+
+      it 'rejects password protection without a password' do
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: { portal: { config: { visibility: 'password' } } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(portal.reload.visibility).to eq('public')
+      end
+
+      it 'rejects an unsupported visibility' do
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: { portal: { config: { visibility: 'secret' } } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'preserves drafted locales when draft_locales is omitted' do

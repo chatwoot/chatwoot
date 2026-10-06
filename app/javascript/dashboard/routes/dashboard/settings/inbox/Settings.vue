@@ -136,6 +136,12 @@ export default {
       uiFlags: 'inboxes/getUIFlags',
       portals: 'portals/allPortals',
     }),
+    // The widget cannot sign visitors in, so password protected help centers are not offered.
+    widgetPortals() {
+      return this.portals.filter(
+        portal => portal.config?.visibility !== 'password'
+      );
+    },
     isInboundEmailEnabled() {
       return this.isFeatureEnabledonAccount(
         this.accountId,
@@ -995,7 +1001,7 @@ export default {
                 :placeholder="$t('INBOX_MGMT.HELP_CENTER.PLACEHOLDER')"
                 :options="[
                   { value: '', label: $t('INBOX_MGMT.HELP_CENTER.NONE') },
-                  ...portals.map(p => ({ value: p.slug, label: p.name })),
+                  ...widgetPortals.map(p => ({ value: p.slug, label: p.name })),
                 ]"
               />
             </SettingsFieldSection>

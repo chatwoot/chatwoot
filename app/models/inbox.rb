@@ -55,6 +55,7 @@ class Inbox < ApplicationRecord
   validates :out_of_office_message, length: { maximum: Limits::OUT_OF_OFFICE_MESSAGE_MAX_LENGTH }
   validates :greeting_message, length: { maximum: Limits::GREETING_MESSAGE_MAX_LENGTH }
   validate :ensure_valid_max_assignment_limit
+  validate :ensure_portal_is_public, if: :will_save_change_to_portal_id?
 
   belongs_to :account
   belongs_to :portal, optional: true
@@ -251,6 +252,11 @@ class Inbox < ApplicationRecord
     return if ENV['ENABLE_INBOX_EVENTS'].blank?
 
     Rails.configuration.dispatcher.dispatch(INBOX_UPDATED, Time.zone.now, inbox: self, changed_attributes: previous_changes)
+  end
+
+  # The widget cannot sign visitors in to a password protected help center.
+  def ensure_portal_is_public
+    errors.add(:portal, I18n.t('errors.inboxes.portal.password_protected')) if portal&.password_protected?
   end
 
   def ensure_valid_max_assignment_limit

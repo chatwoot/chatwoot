@@ -191,6 +191,8 @@ en:
     openai:
       invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
+      portal:
+        password_protected: cannot be password protected
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
         no_response_error: Please check the IMAP credentials and try again.
