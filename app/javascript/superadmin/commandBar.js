@@ -1,9 +1,19 @@
+const SEARCH_DELAY = 200;
 const SELECTED_ID = 'command-bar-selected';
+
+// Devise answers a background request with 401 instead of the login page.
+const load = async url => {
+  const headers = { 'X-Requested-With': 'XMLHttpRequest' };
+  const response = await fetch(url, { headers }).catch(() => null);
+  return response?.ok ? response.text() : '';
+};
 
 export const initializeCommandBar = () => {
   const bar = document.querySelector('[data-command-bar]');
   const input = bar.querySelector('[data-command-input]');
+  const results = [...bar.querySelectorAll('[data-command-results]')];
   let selected;
+  let searchTimer;
 
   const visibleItems = () => [
     ...bar.querySelectorAll('[data-command-item]:not([hidden])'),
@@ -34,7 +44,29 @@ export const initializeCommandBar = () => {
     select(visibleItems().find(isSafe));
   };
 
-  input.addEventListener('input', filter);
+  const search = async query => {
+    const params = new URLSearchParams({ q: query });
+    const pages = await Promise.all(
+      results.map(list => load(`${list.dataset.commandResults}?${params}`))
+    );
+    if (query !== input.value.trim()) return;
+    results.forEach((list, index) => {
+      list.innerHTML = pages[index];
+    });
+    bar.removeAttribute('data-searching');
+    if (!selected) select(visibleItems().find(isSafe));
+  };
+
+  const update = () => {
+    const query = input.value.trim();
+    results.forEach(list => list.replaceChildren());
+    bar.toggleAttribute('data-searching', Boolean(query));
+    filter();
+    clearTimeout(searchTimer);
+    if (query) searchTimer = setTimeout(search, SEARCH_DELAY, query);
+  };
+
+  input.addEventListener('input', update);
 
   bar.addEventListener('keydown', event => {
     // Enter that confirms an IME composition must not run a command.
@@ -70,7 +102,7 @@ export const initializeCommandBar = () => {
 
   bar.addEventListener('close', () => {
     input.value = '';
-    filter();
+    update();
   });
 
   document.addEventListener('keydown', event => {

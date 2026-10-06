@@ -25,7 +25,7 @@ module SuperAdmin::NavigationHelper
     'super_admin.navigation.settings_groups.product' => %w[saml custom_branding captain],
     'super_admin.navigation.settings_groups.channels' => %w[email messenger instagram tiktok],
     'super_admin.navigation.settings_groups.authentication' => %w[google microsoft],
-    'super_admin.navigation.settings_groups.integrations' => %w[linear notion slack whatsapp_embedded shopify]
+    'super_admin.navigation.settings_groups.integrations' => %w[stripe linear notion slack whatsapp_embedded shopify]
   }.freeze
 
   def settings_open?
