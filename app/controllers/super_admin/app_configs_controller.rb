@@ -42,7 +42,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     if errors.any?
       redirect_to super_admin_app_config_path(config: @config), alert: errors.join(', ')
     else
-      redirect_to super_admin_settings_path, flash: success_flash
+      redirect_to super_admin_app_config_path(config: @config), flash: success_flash
     end
   end
 
