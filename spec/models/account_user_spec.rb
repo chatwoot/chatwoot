@@ -28,6 +28,35 @@ RSpec.describe AccountUser do
     end
   end
 
+  describe 'oauth access' do
+    let(:application) { Doorkeeper::Application.create!(name: 'ChatGPT', redirect_uri: 'https://chatgpt.com/callback', confidential: false) }
+    let(:other_account) { create(:account) }
+
+    before { create(:account_user, account: other_account, user: account_user.user) }
+
+    it 'removes the tokens and grants bound to the account when the user leaves it' do
+      [account_user.account, other_account].each do |account|
+        Doorkeeper::AccessToken.create!(application: application, resource_owner_id: account_user.user_id, account_id: account.id)
+        Doorkeeper::AccessGrant.create!(application: application, resource_owner_id: account_user.user_id, account_id: account.id,
+                                        redirect_uri: application.redirect_uri, expires_in: 600)
+      end
+
+      account_user.destroy!
+
+      expect(Doorkeeper::AccessToken.pluck(:account_id)).to eq([other_account.id])
+      expect(Doorkeeper::AccessGrant.pluck(:account_id)).to eq([other_account.id])
+    end
+
+    it 'keeps the tokens of other users on the account' do
+      other_user = create(:user, account: account_user.account)
+      Doorkeeper::AccessToken.create!(application: application, resource_owner_id: other_user.id, account_id: account_user.account_id)
+
+      account_user.destroy!
+
+      expect(Doorkeeper::AccessToken.pluck(:resource_owner_id)).to eq([other_user.id])
+    end
+  end
+
   describe 'destroy call agent::destroy service' do
     it 'gets created with the right default settings' do
       create(:conversation, account: account_user.account, assignee: account_user.user, inbox: inbox)
