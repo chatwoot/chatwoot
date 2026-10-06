@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "اس کانٹیکٹ سے وابستہ کوئی پچھلی بات چیت موجود نہیں ہے۔.",
-      "TITLE": "پچھلی بات چیت"
+      "TITLE": "پچھلی بات چیت",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
