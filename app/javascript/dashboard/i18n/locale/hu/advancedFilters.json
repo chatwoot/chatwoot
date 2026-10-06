@@ -19,8 +19,8 @@
       "OR": "VAGY"
     },
     "INPUT_PLACEHOLDER": "Enter value",
-    "MULTI_VALUE_INPUT_PLACEHOLDER": "Type a value, then press Enter to add more",
-    "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Type a value",
+    "MULTI_VALUE_INPUT_PLACEHOLDER": "Írjon be egy értéket, majd nyomja meg az Entert továbbiak hozzáadásához",
+    "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Adjon meg egy értéket",
     "CONTACT_SEARCH_PLACEHOLDER": "Search contacts",
     "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
@@ -33,6 +33,8 @@
       "is_less_than": "Kisebb",
       "days_before": "x nappal előtte",
       "starts_with": "Ezzel kezdődik",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "Egyenlő",
       "notEqualTo": "Nem egyenlő",
       "contains": "Tartalmaz",
