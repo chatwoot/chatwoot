@@ -18,7 +18,8 @@
     "OAUTH": {
       "GOOGLE_LOGIN": "使用Google登录",
       "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
-      "NO_ACCOUNT_FOUND": "我们找不到您的电子邮件地址的帐户。"
+      "NO_ACCOUNT_FOUND": "我们找不到您的电子邮件地址的帐户。",
+      "SHOPIFY_INSTALLATION_FAILED": "We couldn't complete your Shopify installation. Please restart installation from Shopify."
     },
     "FORGOT_PASSWORD": "忘记密码了？",
     "CREATE_NEW_ACCOUNT": "创建新账户",
