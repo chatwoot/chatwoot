@@ -10,9 +10,10 @@
     <div class="rounded-xl border border-n-weak bg-n-solid-1 divide-y divide-n-weak">
       <% @allowed_configs.each do |key| %>
         <% config = @installation_configs[key] || {} %>
+        <% field_id = "app_config_#{key}" %>
         <div class="<%= class_names("grid gap-x-8 gap-y-1.5 px-5 py-4", "sm:grid-cols-2" => config['type'] != 'code') %>">
           <div class="text-label text-n-slate-12">
-            <%= form.label "app_config[#{key}]", config['display_title'] || key %>
+            <%= form.label "app_config[#{key}]", config['display_title'] || key, for: field_id %>
             <% if config['description'].present? %>
               <p class="mt-0.5 max-w-xl text-label-small text-n-slate-11"><%= config['description'] %></p>
             <% end %>
@@ -22,20 +23,21 @@
               <%= form.select "app_config[#{key}]",
                               [["True", true], ["False", false]],
                               { selected: ActiveModel::Type::Boolean.new.cast(@app_config[key]) },
-                              class: ui(:select) %>
+                              id: field_id, class: ui(:select) %>
             <% elsif config['type'] == 'code' %>
               <%= form.text_area "app_config[#{key}]",
                                  value: @app_config[key],
                                  rows: 12,
                                  wrap: 'off',
+                                 id: field_id,
                                  class: ui(:input, "overflow-scroll font-mono text-xs") %>
             <% elsif config['type'] == 'secret' %>
               <div class="relative">
-                <%= form.password_field "app_config[#{key}]", value: @app_config[key], class: ui(:input, "pe-10") %>
+                <%= form.password_field "app_config[#{key}]", value: @app_config[key], id: field_id, class: ui(:input, "pe-10") %>
                 <%= render "icon_button",
                            extra: "absolute end-1 top-1/2 -translate-y-1/2",
                            aria: { label: t("super_admin.actions.toggle_secret") },
-                           data: { reveal: "app_config[#{key}]" } do %>
+                           data: { reveal: field_id } do %>
                   <span class="i-lucide-eye size-4"></span>
                   <span class="i-lucide-eye-off hidden size-4"></span>
                 <% end %>
@@ -44,9 +46,9 @@
               <%= form.select "app_config[#{key}]",
                               config['options'].map { |val, label| [label, val] },
                               { selected: @app_config[key] },
-                              class: ui(:select) %>
+                              id: field_id, class: ui(:select) %>
             <% else %>
-              <%= form.text_field "app_config[#{key}]", value: @app_config[key], class: ui(:input) %>
+              <%= form.text_field "app_config[#{key}]", value: @app_config[key], id: field_id, class: ui(:input) %>
             <% end %>
           </div>
         </div>
