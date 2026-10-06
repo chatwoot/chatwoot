@@ -49,6 +49,13 @@ openai:
         'validation': 'required',
       },
     ]
+stripe:
+  id: stripe
+  logo: stripe.svg
+  i18n_key: stripe
+  hook_type: account
+  allow_multiple_hooks: false
+  visible_properties: []
 linear:
   id: linear
   logo: linear.png
