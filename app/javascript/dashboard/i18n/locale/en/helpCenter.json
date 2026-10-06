@@ -841,6 +841,8 @@
         "META_TITLE_PLACEHOLDER": "Add meta title",
         "META_TAGS": "Meta tags",
         "META_TAGS_PLACEHOLDER": "Add meta tags",
+        "SEARCH_ENGINE_VISIBILITY": "Search engine visibility",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "This portal is hidden from search engines, so this article is too.",
         "SLUG": "Slug",
         "SLUG_PLACEHOLDER": "Add slug",
         "SLUG_USE_TITLE": "Use title as slug",
@@ -986,6 +988,14 @@
         },
         "SAVE": "Save changes"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Search engine visibility",
+          "DESCRIPTION": "Let search engines like Google list this portal in their results. When turned off, pages still open by link but drop out of search results the next time they are crawled."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "Integrations",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
@@ -1050,6 +1060,7 @@
         "GENERAL": "General",
         "DOMAIN": "Domain",
         "APPEARANCE": "Appearance",
+        "SEO": "SEO",
         "INTEGRATIONS": "Integrations"
       },
       "API": {
