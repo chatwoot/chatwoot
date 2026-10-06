@@ -1,39 +1,34 @@
-<%# locals: (label:, items:, title:, description: nil, icon: nil) -%>
+<%# A Settings or Monitor page. The sidebar carries the section's links from lg up; below that a picker opens them in a sheet. %>
+<%# locals: (title:, description: nil, icon: nil) -%>
 <%
-  # A page that is not in the list (a hidden or locked config) still gets a label for the small-screen button.
-  current = items.find { |item| item[:active] } || { label: title, icon: icon }
-  links = render("section_links", items: items)
+  section = section_nav
+  # A page that is not in the list (a hidden or locked config) still gets a label for the picker.
+  current = section[:items].find { |item| item[:active] } || { label: title, icon: icon }
 %>
 
-<div class="grid grid-cols-1 items-start gap-x-8 gap-y-4 pt-6 lg:grid-cols-[14rem_minmax(0,1fr)] lg:pt-8">
-  <button type="button" class="rounded-xl border border-n-weak bg-n-solid-1 flex min-h-11 items-center gap-2.5 px-3 text-start text-body-main hover:bg-n-alpha-2 lg:hidden" data-dialog-open="section-nav" aria-haspopup="dialog">
+<div class="space-y-6 pt-6 lg:pt-8">
+  <button type="button" class="rounded-xl border border-n-weak bg-n-solid-1 flex min-h-11 w-full items-center gap-2.5 px-3 text-start text-body-main hover:bg-n-alpha-2 lg:hidden" data-dialog-open="section-nav" aria-haspopup="dialog">
     <span class="<%= current[:icon] %> size-4 shrink-0"></span>
-    <span class="text-n-slate-11"><%= label %></span>
+    <span class="text-n-slate-11"><%= section[:label] %></span>
     <span class="min-w-0 flex-1 truncate font-medium text-n-slate-12"><%= current[:label] %></span>
     <span class="i-lucide-chevrons-up-down size-4 shrink-0 text-n-slate-10"></span>
   </button>
 
-  <nav class="hidden max-h-[calc(100dvh-6rem)] overflow-y-auto lg:sticky lg:top-16 lg:block xl:top-20" aria-label="<%= label %>">
-    <%= links %>
-  </nav>
-
-  <div class="min-w-0 space-y-6">
-    <header class="flex min-w-0 items-center gap-3">
-      <% if icon %>
-        <%= render "icon_tile", icon: icon, extra: "size-10 rounded-xl" %>
+  <header class="flex min-w-0 items-center gap-3">
+    <% if icon %>
+      <%= render "icon_tile", icon: icon, extra: "size-10 rounded-xl" %>
+    <% end %>
+    <div class="min-w-0">
+      <h1 class="text-heading-1 text-n-slate-12" id="page-title"><%= title %></h1>
+      <% if description %>
+        <p class="mt-1 max-w-2xl text-body-main text-n-slate-11"><%= description %></p>
       <% end %>
-      <div class="min-w-0">
-        <h1 class="text-heading-1 text-n-slate-12" id="page-title"><%= title %></h1>
-        <% if description %>
-          <p class="mt-1 max-w-2xl text-body-main text-n-slate-11"><%= description %></p>
-        <% end %>
-      </div>
-    </header>
+    </div>
+  </header>
 
-    <%= yield %>
-  </div>
+  <%= yield %>
 </div>
 
-<%= render "sheet", id: "section-nav", title: label do %>
-  <%= links %>
+<%= render "sheet", id: "section-nav", title: section[:label] do %>
+  <%= render "section_links", items: section[:items] %>
 <% end %>

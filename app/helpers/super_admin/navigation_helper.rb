@@ -54,13 +54,15 @@ module SuperAdmin::NavigationHelper
   end
 
   def primary_nav_items
+    instance = t('super_admin.navigation.groups.instance')
     [
       { label: t('super_admin.navigation.dashboard'), url: super_admin_root_path, icon: 'i-lucide-layout-dashboard',
         active: current_page?(super_admin_root_path), pinned: true },
       *resource_nav_items,
       { label: t('super_admin.navigation.settings'), url: super_admin_settings_path, icon: 'i-lucide-settings', active: settings_open?,
-        pinned: true },
-      { label: t('super_admin.navigation.monitor'), url: super_admin_instance_status_path, icon: 'i-lucide-activity', active: monitor_open? }
+        pinned: true, group: instance },
+      { label: t('super_admin.navigation.monitor'), url: super_admin_instance_status_path, icon: 'i-lucide-activity', active: monitor_open?,
+        group: instance }
     ]
   end
 
@@ -72,6 +74,16 @@ module SuperAdmin::NavigationHelper
       group_key = SETTINGS_GROUPS.keys.find { |key| SETTINGS_GROUPS[key].include?(feature_key) }
       { label: attrs['name'], url: super_admin_app_config_path(config: attrs['config_key']), group: (t(group_key) if group_key),
         icon: attrs['icon'] || 'i-lucide-sliders-horizontal', active: attrs['config_key'] == current_config }
+    end
+  end
+
+  # Settings and Monitor swap the sidebar for their own links; nil on every other page.
+  def section_nav
+    if settings_open?
+      current_config = params[:config] || 'general' if controller_name == 'app_configs'
+      { label: t('super_admin.navigation.settings'), items: settings_nav_items(current_config) }
+    elsif monitor_open?
+      { label: t('super_admin.navigation.monitor'), items: monitor_nav_items }
     end
   end
 
@@ -101,7 +113,7 @@ module SuperAdmin::NavigationHelper
       tab_label_key = TAB_LABELS[resource.resource]
       { label: display_resource_name(resource), tab_label: (t(tab_label_key) if tab_label_key), url: resource_index_route(resource),
         icon: NAV_ICONS[resource.resource], active: nav_link_state(resource) == :active,
-        pinned: PINNED_RESOURCES.include?(resource.resource) }
+        pinned: PINNED_RESOURCES.include?(resource.resource), group: t('super_admin.navigation.groups.manage') }
     end
   end
 end

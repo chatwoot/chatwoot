@@ -1,92 +1,54 @@
 <%#
 # Navigation
 
-One bar for every screen size. From `xl` up it is a single row. Below that the
-links drop to a second row that stays pinned while the brand row scrolls away.
-Below `md` that row is a tab bar. From `sm` up it shows every link; on phones
-only the pinned ones show, the rest sit behind "More".
+From `lg` up it is a sidebar, like the agent dashboard's: the brand, the main
+links and the account menu at the bottom. On Settings and Monitor the links give
+way to that section's own, with a way back to the main ones.
 
-The avatar opens the account menu: who is signed in, the theme, profile, agent dashboard and logout.
+Below `lg` it is a top bar: the brand and the account menu, with the links in a
+second row that stays pinned while the brand row scrolls away. Below `md` that
+row is a tab bar. From `sm` up it shows every link; on phones only the pinned
+ones show, the rest sit behind "More".
 %>
 
 <%
   items = primary_nav_items
   more_items = items.reject { |item| item[:pinned] }
-  admin = current_super_admin
-  avatar = admin.avatar_url.presence
-  version = Chatwoot.config[:version]
-  # Internal::CheckNewVersionsJob keeps the newest release here.
-  latest_version = Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION).presence
-  update_available = latest_version && Gem::Version.new(latest_version) > Gem::Version.new(version)
-  themes = {
-    system: [t("super_admin.navigation.theme.system"), "i-lucide-monitor"],
-    light: [t("super_admin.navigation.theme.light"), "i-lucide-sun"],
-    dark: [t("super_admin.navigation.theme.dark"), "i-lucide-moon"]
-  }
+  section = section_nav
+  brand = render("brand")
   tab = %w[
-    flex h-14 min-w-0 flex-col items-center justify-center gap-0.5 border-b-2 border-transparent text-xxs font-medium text-n-slate-11
+    flex h-14 min-w-0 flex-col items-center justify-center gap-0.5 border-b-2 border-transparent text-xxs font-medium text-n-slate-11 transition-colors
     hover:text-n-slate-12 aria-[current=page]:border-n-brand aria-[current=page]:text-n-slate-12
     md:h-9 md:flex-row md:rounded-lg md:border-0 md:px-2.5 md:text-body-main md:hover:bg-n-alpha-2
     md:aria-[current=page]:bg-n-alpha-2 md:aria-[current=page]:font-medium
   ].join(" ")
 %>
 
-<header class="sticky -top-14 z-30 border-b border-n-weak bg-n-background [view-transition-name:topbar] xl:top-0">
-  <div class="mx-auto w-full max-w-[120rem] px-[clamp(1rem,3vw,3rem)] flex flex-wrap items-center gap-x-3 xl:flex-nowrap">
-    <%# The text block is as tall as the logo (20px + 16px lines against size-9), so the lockup reads as one unit. %>
-    <div class="flex h-14 shrink-0 items-center gap-3">
-      <%= link_to image_tag("/brand-assets/logo_thumbnail.svg", alt: "", class: "size-9"), super_admin_root_path, class: "shrink-0" %>
-      <div>
-        <%= link_to "Chatwoot", super_admin_root_path, class: "block text-base font-medium leading-5 text-n-slate-12" %>
-        <div class="flex items-center gap-1.5 text-label-small leading-4 text-n-slate-10">
-          <%= t("super_admin.navigation.suffix") %>
-          <span aria-hidden="true">·</span>
-          <%= link_to "https://github.com/chatwoot/chatwoot/releases/tag/v#{version}",
-                      target: "_blank", rel: "noopener noreferrer",
-                      title: update_available ? t("super_admin.navigation.update_available", version: latest_version) : t("super_admin.navigation.release_notes"),
-                      class: "inline-flex items-center gap-1 tabular-nums hover:text-n-slate-12 hover:underline" do %>
-            v<%= version %>
-            <% if update_available %>
-              <span class="size-1.5 rounded-full bg-n-amber-9"></span>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-    </div>
+<aside class="hidden border-e border-n-weak bg-n-slate-2 [view-transition-name:sidebar] lg:sticky lg:top-0 lg:flex lg:h-dvh lg:w-56 lg:shrink-0 lg:flex-col">
+  <div class="relative shrink-0 px-4">
+    <div class="pointer-events-none absolute inset-0 bg-pixel-band opacity-30 [mask-image:linear-gradient(to_bottom,black,transparent)]"></div>
+    <div class="relative"><%= brand %></div>
+  </div>
+  <nav class="min-h-0 flex-1 overflow-y-auto px-3 pb-4 pt-3" aria-label="<%= section ? section[:label] : t("super_admin.navigation.label") %>">
+    <% if section %>
+      <ul class="mb-4">
+        <%= render "nav_item", item: { label: t("super_admin.navigation.back"), url: super_admin_root_path, icon: "i-lucide-arrow-left" } %>
+      </ul>
+      <h2 class="mb-2 px-2.5 text-heading-3 text-n-slate-12"><%= section[:label] %></h2>
+      <%= render "section_links", items: section[:items] %>
+    <% else %>
+      <%= render "section_links", items: items %>
+    <% end %>
+  </nav>
+  <div class="shrink-0 border-t border-n-weak p-2"><%= render "account_menu", expanded: true %></div>
+</aside>
 
-    <details class="relative ms-auto xl:order-last" data-dropdown>
-      <summary class="block cursor-pointer list-none rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-n-brand [&::-webkit-details-marker]:hidden"
-               aria-label="<%= t("super_admin.navigation.account") %>">
-        <% if avatar %>
-          <%= image_tag avatar, alt: "", class: "size-9 rounded-full border border-n-weak object-cover" %>
-        <% else %>
-          <span class="grid size-9 place-items-center rounded-full border border-n-weak bg-n-slate-3 text-label uppercase text-n-slate-11"><%= admin.name.to_s.first %></span>
-        <% end %>
-      </summary>
-      <div class="absolute end-0 top-full z-40 mt-2 w-64 max-w-[calc(100vw-2rem)] rounded-xl border border-n-weak bg-n-solid-1 p-1 shadow-lg">
-        <div class="px-2.5 py-2">
-          <p class="truncate text-label text-n-slate-12"><%= admin.name %></p>
-          <p class="truncate text-body-main text-n-slate-11"><%= admin.email %></p>
-        </div>
-        <div class="flex items-center justify-between gap-3 border-t border-n-weak px-2.5 py-2">
-          <span class="text-body-main text-n-slate-11"><%= t("super_admin.navigation.theme.label") %></span>
-          <div class="flex gap-0.5 rounded-lg border border-n-weak p-0.5" role="group" aria-label="<%= t("super_admin.navigation.theme.label") %>">
-            <% themes.each do |value, (label, icon)| %>
-              <button type="button" class="grid size-7 place-items-center rounded-md text-n-slate-10 hover:text-n-slate-12 aria-pressed:bg-n-alpha-2 aria-pressed:text-n-slate-12 touch:size-9" data-theme-value="<%= value %>" aria-pressed="false" title="<%= label %>">
-                <span class="<%= icon %> size-4"></span>
-              </button>
-            <% end %>
-          </div>
-        </div>
-        <ul class="space-y-0.5 border-t border-n-weak pt-1">
-          <%= render "nav_item", item: { label: t("super_admin.navigation.profile"), url: super_admin_user_path(admin), icon: "i-lucide-user" } %>
-          <%= render "nav_item", item: { label: t("super_admin.navigation.agent_dashboard"), url: "/", icon: "i-lucide-message-circle" } %>
-          <%= render "nav_item", item: { label: t("super_admin.navigation.logout"), url: super_admin_logout_path, icon: "i-lucide-log-out" } %>
-        </ul>
-      </div>
-    </details>
+<header class="sticky -top-14 z-30 border-b border-n-weak bg-n-background [view-transition-name:topbar] lg:hidden">
+  <div class="flex flex-wrap items-center gap-x-3 px-[clamp(1rem,3vw,3rem)]">
+    <%= brand %>
+    <div class="ms-auto"><%= render "account_menu" %></div>
 
-    <nav class="grid w-full auto-cols-fr grid-flow-col md:flex md:gap-0.5 md:pb-2.5 xl:ms-3 xl:w-auto xl:flex-1 xl:pb-0" aria-label="<%= t("super_admin.navigation.label") %>">
+    <nav class="grid w-full auto-cols-fr grid-flow-col md:flex md:gap-0.5 md:pb-2.5" aria-label="<%= t("super_admin.navigation.label") %>">
       <% items.each do |item| %>
         <%= link_to item[:url], class: class_names(tab, "hidden sm:flex" => !item[:pinned]), aria: { current: ("page" if item[:active]) } do %>
           <span class="<%= item[:icon] %> size-5 md:hidden"></span>

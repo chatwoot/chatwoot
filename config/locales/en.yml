@@ -801,6 +801,10 @@ en:
     navigation:
       label: 'Super Admin'
       suffix: 'Super Admin console'
+      back: 'Back'
+      groups:
+        manage: 'Manage'
+        instance: 'Instance'
       release_notes: 'Release notes'
       update_available: 'v%{version} is available'
       dashboard: 'Dashboard'

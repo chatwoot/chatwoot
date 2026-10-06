@@ -17,11 +17,13 @@
 </head>
 <body class="min-h-full bg-n-background text-n-slate-12 antialiased">
   <div class="pointer-events-none fixed inset-x-0 top-0 z-50 h-0.5 origin-left scale-x-0 bg-n-brand" data-page-progress></div>
-  <%= render "navigation" %>
-  <main class="mx-auto w-full max-w-[120rem] px-[clamp(1rem,3vw,3rem)] pb-12">
-    <%= render "flashes" %>
-    <%= yield %>
-  </main>
+  <div class="lg:flex">
+    <%= render "navigation" %>
+    <main class="mx-auto w-full min-w-0 max-w-[120rem] flex-1 px-[clamp(1rem,3vw,3rem)] pb-12">
+      <%= render "flashes" %>
+      <%= yield %>
+    </main>
+  </div>
   <%= render "javascript" %>
 </body>
 </html>

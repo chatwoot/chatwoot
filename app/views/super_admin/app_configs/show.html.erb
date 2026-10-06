@@ -2,8 +2,6 @@
 <% settings_page = settings_pages.map(&:last).find { |attrs| attrs['config_key'] == @config } || {} %>
 
 <%= render "section",
-           label: t("super_admin.navigation.settings"),
-           items: settings_nav_items(@config),
            title: settings_page['name'] || @config.titleize,
            description: settings_page['description'],
            icon: settings_page['icon'] || 'i-lucide-sliders-horizontal' do %>

@@ -8,7 +8,7 @@
   feature_grid = "grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
 %>
 
-<%= render "section", label: t("super_admin.navigation.settings"), items: settings_nav_items, title: t("super_admin.navigation.settings"), description: t("super_admin.settings.description") do %>
+<%= render "section", title: t("super_admin.navigation.settings"), description: t("super_admin.settings.description") do %>
   <% if Redis::Alfred.get(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING) %>
     <%= render "alert", role: "alert" do %>
       <strong class="font-medium"><%= t("super_admin.settings.alert") %></strong>
