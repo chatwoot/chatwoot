@@ -148,6 +148,21 @@ RSpec.describe 'Public Portal Access', type: :request do
       expect(response).to have_http_status(:unauthorized)
     end
 
+    it 'cannot be reached through its custom domain with a public portal slug' do
+      public_portal = create(:portal, account: account, slug: 'public-portal')
+
+      get "/hc/#{public_portal.slug}/en", headers: html_headers
+      expect(response).to have_http_status(:unauthorized)
+      expect(response.body).not_to include(category.name)
+
+      get "/hc/#{public_portal.slug}/articles/#{article.slug}", headers: html_headers
+      expect(response).to have_http_status(:unauthorized)
+      expect(response.body).not_to include(article.title)
+
+      get "/hc/#{public_portal.slug}/en/articles.json"
+      expect(response).to have_http_status(:unauthorized)
+    end
+
     it 'redirects the custom domain home page to the gated portal route' do
       get '/'
 

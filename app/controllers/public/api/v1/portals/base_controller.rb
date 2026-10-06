@@ -76,6 +76,13 @@ class Public::Api::V1::Portals::BaseController < PublicController
     render 'public/api/v1/portals/error/404', status: :not_found
   end
 
+  # On a custom domain the host decides which portal is served, whatever the slug says,
+  # so check access again once that portal is selected.
+  def ensure_custom_domain_request
+    super
+    ensure_portal_access unless performed?
+  end
+
   def ensure_portal_access
     return unless portal.password_protected?
 
