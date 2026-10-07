@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 
+import AssistantAvatar from './AssistantAvatar.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
@@ -90,8 +91,16 @@ const handleBasicInfoUpdate = async () => {
 
 watch(
   () => props.assistant,
-  newAssistant => {
-    if (newAssistant) updateStateFromAssistant(newAssistant);
+  (newAssistant, previousAssistant) => {
+    if (
+      newAssistant.id !== previousAssistant?.id ||
+      newAssistant.name !== previousAssistant?.name ||
+      newAssistant.description !== previousAssistant?.description ||
+      JSON.stringify(newAssistant.config) !==
+        JSON.stringify(previousAssistant?.config)
+    ) {
+      updateStateFromAssistant(newAssistant);
+    }
   },
   { immediate: true }
 );
@@ -99,6 +108,7 @@ watch(
 
 <template>
   <div class="flex flex-col gap-6">
+    <AssistantAvatar :assistant="assistant" />
     <Input
       v-model="state.name"
       :label="t('CAPTAIN.ASSISTANTS.FORM.NAME.LABEL')"
