@@ -1070,7 +1070,7 @@ DEPENDENCIES
   administrate (>= 0.20.1)
   administrate-field-active_storage (>= 1.0.3)
   administrate-field-belongs_to_search (>= 0.10.0)
-  ai-agents!
+  ai-agents (~> 0.13.0)!
   annotaterb
   attr_extras
   audited (~> 5.4, >= 5.4.1)
