@@ -22,7 +22,7 @@
 <% if submit %>
   <%= submit.submit label, class: classes, **options %>
 <% elsif post_to %>
-  <%= button_to content, post_to, class: classes, **options %>
+  <%= button_to content, post_to, method: :post, class: classes, **options %>
 <% elsif url %>
   <%= link_to content, url, class: classes, **options %>
 <% else %>
