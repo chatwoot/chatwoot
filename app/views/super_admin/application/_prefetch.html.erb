@@ -1,0 +1,18 @@
+<%#
+Lets supporting browsers fetch a super admin page while its link is hovered, so
+it opens without a wait. Links that act on GET or leave the page are left out.
+%>
+<%= tag.script type: "speculationrules" do %>
+  <%= raw({
+    prefetch: [{
+      eagerness: "moderate",
+      where: {
+        and: [
+          { href_matches: [super_admin_root_path, "#{super_admin_root_path}/*"] },
+          { not: { href_matches: [super_admin_logout_path, refresh_super_admin_settings_path] } },
+          { not: { selector_matches: "[data-method], [target=_blank]" } }
+        ]
+      }
+    }]
+  }.to_json) %>
+<% end %>
