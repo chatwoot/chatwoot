@@ -100,6 +100,24 @@ RSpec.describe Conversations::MessageSummaryLoader do
       end
     end
 
+    context 'when the latest messages have different sender types' do
+      let(:bot_conversation) { create(:conversation, account: account, inbox: inbox) }
+      let(:senderless_conversation) { create(:conversation, account: account, inbox: inbox) }
+
+      it 'loads every summary without a sender type that lacks account users failing the preload' do
+        contact_message = create(:message, **message_attributes, sender: create(:contact, account: account))
+        bot_message = create(:message, **message_attributes, conversation: bot_conversation, message_type: :outgoing,
+                                                             sender: create(:agent_bot, account: account))
+        senderless_message = create(:message, :bot_message, **message_attributes, conversation: senderless_conversation)
+
+        described_class.new([conversation, bot_conversation, senderless_conversation]).perform
+
+        expect(conversation.message_summary.last_message_data[:id]).to eq(contact_message.id)
+        expect(bot_conversation.message_summary.last_message_data[:id]).to eq(bot_message.id)
+        expect(senderless_conversation.message_summary.last_message_data[:id]).to eq(senderless_message.id)
+      end
+    end
+
     context 'with several conversations' do
       let(:other_conversation) { create(:conversation, account: account, inbox: inbox, agent_last_seen_at: 1.hour.ago) }
 
