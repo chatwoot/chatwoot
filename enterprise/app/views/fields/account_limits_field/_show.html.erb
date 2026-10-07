@@ -1,3 +1,6 @@
-<% JSON.parse(field.to_s).each do |k,v| %>
-<%= k %>: <%= v %> </br>
+<% JSON.parse(field.to_s).each do |key, val| %>
+  <div class="flex justify-between gap-3 border-b border-n-weak py-2.5 last:border-b-0">
+    <span class="text-n-slate-11"><%= key.humanize %></span>
+    <span class="tabular-nums"><%= val.nil? ? '–' : val %></span>
+  </div>
 <% end %>

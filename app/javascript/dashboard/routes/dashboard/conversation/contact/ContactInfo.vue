@@ -10,7 +10,7 @@ import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
 import ViewAllConversations from './ViewAllConversations.vue';
 import Avatar from 'next/avatar/Avatar.vue';
-import SocialIcons from './SocialIcons.vue';
+import SocialProfileLinks from 'dashboard/components-next/social-profiles/SocialProfileLinks.vue';
 import EditContact from './EditContact.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
 import ContactDeleteModal from 'dashboard/modules/contact/ContactDeleteModal.vue';
@@ -27,7 +27,7 @@ export default {
     EditContact,
     Avatar,
     ComposeConversation,
-    SocialIcons,
+    SocialProfileLinks,
     ContactMergeModal,
     ContactDeleteModal,
     VoiceCallButton,
@@ -323,7 +323,7 @@ export default {
             emoji="🌍"
             :title="$t('CONTACT_PANEL.LOCATION')"
           />
-          <SocialIcons :social-profiles="socialProfiles" />
+          <SocialProfileLinks :profiles="socialProfiles" class="my-2" />
         </div>
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
