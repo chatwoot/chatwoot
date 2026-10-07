@@ -118,7 +118,7 @@ RSpec.describe 'MCP server', type: :request do
         'resource' => 'https://support.example.com/mcp',
         'authorization_servers' => ['https://support.example.com'],
         'bearer_methods_supported' => ['header'],
-        'scopes_supported' => %w[conversations:read contacts:read messages:write]
+        'scopes_supported' => %w[conversations:read conversations:write contacts:read messages:write]
       )
     end
 

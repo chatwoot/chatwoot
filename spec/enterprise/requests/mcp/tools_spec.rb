@@ -7,7 +7,7 @@ RSpec.describe 'MCP tools', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:inbox) { create(:inbox, account: account) }
   let(:application) { Doorkeeper::Application.create!(name: 'ChatGPT', redirect_uri: 'https://chatgpt.com/callback', confidential: false) }
-  let(:scopes) { 'conversations:read contacts:read messages:write' }
+  let(:scopes) { 'conversations:read conversations:write contacts:read messages:write' }
   let(:access_token) do
     Doorkeeper::AccessToken.create!(application: application, resource_owner_id: agent.id, account_id: account.id, scopes: scopes,
                                     expires_in: 2.hours)
@@ -28,6 +28,7 @@ RSpec.describe 'MCP tools', type: :request do
       expect(tools.to_h { |tool| [tool['name'], tool['securitySchemes']] }).to eq(
         'list_conversations' => [{ 'type' => 'oauth2', 'scopes' => ['conversations:read'] }],
         'get_conversation' => [{ 'type' => 'oauth2', 'scopes' => ['conversations:read'] }],
+        'update_conversation' => [{ 'type' => 'oauth2', 'scopes' => ['conversations:write'] }],
         'search_contacts' => [{ 'type' => 'oauth2', 'scopes' => ['contacts:read'] }],
         'send_message' => [{ 'type' => 'oauth2', 'scopes' => ['messages:write'] }]
       )
@@ -37,7 +38,8 @@ RSpec.describe 'MCP tools', type: :request do
       tools = mcp_request('tools/list', {}, access_token)['tools']
 
       expect(tools.to_h { |tool| [tool['name'], tool.dig('annotations', 'readOnlyHint')] }).to eq(
-        'list_conversations' => true, 'get_conversation' => true, 'search_contacts' => true, 'send_message' => false
+        'list_conversations' => true, 'get_conversation' => true, 'update_conversation' => false, 'search_contacts' => true,
+        'send_message' => false
       )
     end
   end
@@ -152,6 +154,108 @@ RSpec.describe 'MCP tools', type: :request do
       result = call_mcp_tool('get_conversation', { conversation_id: other.display_id }, access_token)
 
       expect(result['isError']).to be(true)
+    end
+  end
+
+  describe 'update_conversation' do
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :open) }
+
+    before do
+      create(:label, account: account, title: 'billing')
+      create(:label, account: account, title: 'vip')
+    end
+
+    it 'changes the status' do
+      result = call_mcp_tool('update_conversation', { conversation_id: conversation.display_id, status: 'resolved' }, access_token)
+
+      expect(result['isError']).to be(false)
+      expect(result['structuredContent']).to include('id' => conversation.display_id, 'status' => 'resolved')
+      expect(conversation.reload).to be_resolved
+    end
+
+    it 'assigns the conversation to the user when an agent reopens it, as the dashboard does' do
+      conversation.update!(status: :resolved)
+
+      call_mcp_tool('update_conversation', { conversation_id: conversation.display_id, status: 'open' }, access_token)
+
+      expect(conversation.reload).to have_attributes(status: 'open', assignee: agent)
+    end
+
+    it 'sets and clears the priority' do
+      call_mcp_tool('update_conversation', { conversation_id: conversation.display_id, priority: 'urgent' }, access_token)
+      expect(conversation.reload.priority).to eq('urgent')
+
+      call_mcp_tool('update_conversation', { conversation_id: conversation.display_id, priority: 'none' }, access_token)
+      expect(conversation.reload.priority).to be_nil
+    end
+
+    it 'replaces the labels' do
+      conversation.update_labels(['vip'])
+
+      result = call_mcp_tool('update_conversation', { conversation_id: conversation.display_id, labels: ['billing'] }, access_token)
+
+      expect(conversation.reload.label_list).to eq(['billing'])
+      expect(result['structuredContent']['labels']).to eq(['billing'])
+    end
+
+    it 'removes every label for an empty list' do
+      conversation.update_labels(['vip'])
+
+      call_mcp_tool('update_conversation', { conversation_id: conversation.display_id, labels: [] }, access_token)
+
+      expect(conversation.reload.label_list).to be_empty
+    end
+
+    it 'rejects a label the account does not have and names the ones it has' do
+      result = call_mcp_tool('update_conversation', { conversation_id: conversation.display_id, labels: %w[billing refunds], status: 'resolved' },
+                             access_token)
+
+      expect(result['isError']).to be(true)
+      expect(result['content'].first['text']).to include('refunds', 'billing, vip')
+      expect(conversation.reload).to have_attributes(status: 'open', label_list: [])
+    end
+
+    it 'assigns the conversation to the user' do
+      result = call_mcp_tool('update_conversation', { conversation_id: conversation.display_id, assignee: 'me' }, access_token)
+
+      expect(conversation.reload.assignee).to eq(agent)
+      expect(result['structuredContent']['assignee']).to eq(agent.name)
+    end
+
+    it 'unassigns the conversation' do
+      conversation.update!(assignee: agent)
+
+      call_mcp_tool('update_conversation', { conversation_id: conversation.display_id, assignee: 'none' }, access_token)
+
+      expect(conversation.reload.assignee).to be_nil
+    end
+
+    it 'applies several changes in one call' do
+      call_mcp_tool('update_conversation',
+                    { conversation_id: conversation.display_id, status: 'pending', priority: 'high', labels: ['vip'], assignee: 'me' },
+                    access_token)
+
+      expect(conversation.reload).to have_attributes(status: 'pending', priority: 'high', label_list: ['vip'], assignee: agent)
+    end
+
+    it 'does not change a conversation in an inbox the agent cannot access' do
+      hidden = create(:conversation, account: account, inbox: create(:inbox, account: account), status: :open)
+
+      result = call_mcp_tool('update_conversation', { conversation_id: hidden.display_id, status: 'resolved' }, access_token)
+
+      expect(result['isError']).to be(true)
+      expect(hidden.reload).to be_open
+    end
+
+    context 'when the token lacks conversations:write' do
+      let(:scopes) { 'conversations:read' }
+
+      it 'returns an insufficient_scope challenge and changes nothing' do
+        result = call_mcp_tool('update_conversation', { conversation_id: conversation.display_id, status: 'resolved' }, access_token)
+
+        expect(result.dig('_meta', 'mcp/www_authenticate').first).to include('insufficient_scope', 'conversations:write')
+        expect(conversation.reload).to be_open
+      end
     end
   end
 
