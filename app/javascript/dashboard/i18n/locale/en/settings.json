@@ -314,6 +314,12 @@
   },
   "SIDEBAR": {
     "NO_ITEMS": "No items",
+    "TRIAL": {
+      "TITLE": "{plan} trial ends today | {plan} trial: {days} day left | {plan} trial: {days} days left",
+      "DESCRIPTION": "Your paid plan starts on {date}.",
+      "DESCRIPTION_CANCELLED": "Cancelled. You can use {plan} until {date}.",
+      "ACTION": "View billing"
+    },
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "INBOX_VIEW": "Inbox View",
@@ -600,44 +606,11 @@
     },
     "TRIAL": {
       "TITLE": "Try any paid plan free for {days} days",
-      "DESCRIPTION": "Pick a plan and the seats your team needs. Add a payment method to start. You won't be charged until the trial ends, and you can cancel anytime before then.",
-      "SEATS_LABEL": "Seats",
-      "SEATS_DECREASE": "Remove a seat",
-      "SEATS_INCREASE": "Add a seat",
-      "POPULAR": "Most popular",
-      "PER_AGENT": "/ agent / {interval}",
-      "INTERVAL": {
-        "MONTH": "month",
-        "YEAR": "year"
-      },
+      "DESCRIPTION": "Choose a plan and the seats your team needs, then add a payment method. You won't be charged until the trial ends, and you can cancel anytime before then.",
       "START": "Start free trial",
-      "NO_CHARGE_TODAY": "No charge today",
-      "AFTER_TRIAL": "then {amount}/{interval} for {seats} seats",
-      "STARTED": "Your free trial has started",
-      "PLANS": {
-        "STARTUPS": {
-          "CHANNELS": "Every channel: email, WhatsApp, Facebook, Instagram and more",
-          "CAPTAIN": "Captain AI agent and copilot",
-          "HELP_CENTER": "Help center and campaigns",
-          "API": "API access and webhooks"
-        },
-        "BUSINESS": {
-          "EVERYTHING": "Everything in Startups",
-          "SLA": "SLA policies and CSAT review notes",
-          "ROLES": "Custom roles and required attributes",
-          "ASSIGNMENT": "Advanced assignment and Captain custom tools"
-        },
-        "ENTERPRISE": {
-          "EVERYTHING": "Everything in Business",
-          "SSO": "SAML single sign-on",
-          "AUDIT_LOGS": "Audit logs",
-          "BRANDING": "Remove branding from the widget and emails"
-        }
-      },
       "STATUS": {
         "TITLE": "{plan} trial: last day | {plan} trial: {days} day left | {plan} trial: {days} days left",
-        "DESCRIPTION": "On {date} we'll charge {amount} for {seats} seats to your saved payment method. Cancel anytime before then and you won't be charged.",
-        "DESCRIPTION_NO_PRICE": "Your paid plan starts on {date}. Cancel anytime before then and you won't be charged.",
+        "DESCRIPTION": "Your paid plan starts on {date} and is charged to your saved payment method. Cancel anytime before then and you won't be charged.",
         "DESCRIPTION_CANCELLED": "This trial is cancelled, so you won't be charged. You can use {plan} until {date}.",
         "MANAGE": "Manage or cancel",
         "MANAGE_CANCELLED": "Manage trial"

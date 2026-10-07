@@ -137,9 +137,7 @@ Rails.application.routes.draw do
             end
           end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
-          resource :billing_trial, only: [:show, :create] do
-            post :complete
-          end
+          resource :billing_trial, only: [:show, :create]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member

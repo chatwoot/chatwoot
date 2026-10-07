@@ -292,6 +292,11 @@
   description: 'Offer eligible Hacker-plan accounts a card-backed free trial of a paid plan from the billing page'
   locked: false
   type: boolean
+- name: CHATWOOT_CLOUD_TRIAL_PORTAL_CONFIGURATION
+  value:
+  display_title: 'Cloud Free Trial Portal Configuration'
+  description: 'Stripe billing portal configuration (bpc_...) where customers pick their trial plan; its trial_update_behavior must be continue_trial'
+  locked: false
 - name: CHATWOOT_CLOUD_PLANS
   display_title: 'Cloud Plans'
   value:

@@ -43,6 +43,5 @@ export function useTrialStatus() {
     trialDaysLeft,
     isTrialEndingSoon,
     trialPlanName: computed(() => customAttributes.value.plan_name),
-    trialSeats: computed(() => customAttributes.value.subscribed_quantity),
   };
 }

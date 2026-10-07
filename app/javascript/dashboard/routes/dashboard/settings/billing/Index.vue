@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -12,7 +12,6 @@ import sessionStorage from 'shared/helpers/sessionStorage';
 
 import BillingMeter from './components/BillingMeter.vue';
 import BillingCard from './components/BillingCard.vue';
-import TrialPlanPicker from './components/TrialPlanPicker.vue';
 import TrialStatusCard from './components/TrialStatusCard.vue';
 import BillingHeader from './components/BillingHeader.vue';
 import DetailItem from './components/DetailItem.vue';
@@ -26,7 +25,6 @@ import BillingTrialAPI from 'dashboard/api/billingTrial';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import { useI18n } from 'vue-i18n';
 
-const route = useRoute();
 const router = useRouter();
 const { currentAccount, isOnChatwootCloud } = useAccount();
 const { isPastDue } = usePaymentStatus();
@@ -54,9 +52,8 @@ const purchaseCreditsModalRef = ref(null);
 const currencySelectionRequired = ref(false);
 const currencyOptions = ref([]);
 
-// Trial plans with prices; listed during a trial too, so the status card can show the upcoming charge.
 const trialOptions = ref(null);
-const startingTrialPlan = ref('');
+const isStartingTrial = ref(false);
 
 const customAttributes = computed(() => {
   return currentAccount.value.custom_attributes || {};
@@ -110,12 +107,6 @@ const trialEndsOn = computed(() =>
 
 const canStartTrial = computed(() => Boolean(trialOptions.value?.eligible));
 
-const currentTrialPlan = computed(() =>
-  trialOptions.value?.plans.find(
-    plan => plan.name.toLowerCase() === planName.value?.toLowerCase()
-  )
-);
-
 /**
  * Computed property indicating if user has a billing plan
  * @returns {boolean}
@@ -139,35 +130,15 @@ const fetchTrialOptions = async () => {
   trialOptions.value = data;
 };
 
-// Stripe Checkout returns here with the session id once the payment method is saved.
-const completeTrialFromCheckout = async () => {
-  const sessionId = route.query.trial_session_id;
-  if (!sessionId) return;
-
+// Plans, prices and seats are picked in the Stripe billing portal, which also collects the payment method.
+const onStartTrial = async () => {
+  isStartingTrial.value = true;
   try {
-    await BillingTrialAPI.complete(sessionId);
-    useAlert(t('BILLING_SETTINGS.TRIAL.STARTED'));
-    // Stripe's webhook usually lands first; refetch so the trial shows without waiting for the broadcast.
-    await store.dispatch('accounts/get', {
-      accountId: currentAccount.value.id,
-      silent: true,
-    });
-    fetchLimits();
-  } catch (error) {
-    useAlert(parseAPIErrorResponse(error));
-  } finally {
-    router.replace({ query: {} });
-  }
-};
-
-const onStartTrial = async (plan, seats) => {
-  startingTrialPlan.value = plan;
-  try {
-    const { data } = await BillingTrialAPI.start(plan, seats);
+    const { data } = await BillingTrialAPI.start();
     window.location = data.redirect_url;
   } catch (error) {
     useAlert(parseAPIErrorResponse(error));
-    startingTrialPlan.value = '';
+    isStartingTrial.value = false;
   }
 };
 
@@ -205,7 +176,6 @@ const handleBillingPageLogic = async () => {
   } else {
     // Billing plan found, clear any existing refresh flag
     sessionStorage.remove(BILLING_REFRESH_ATTEMPTED);
-    await completeTrialFromCheckout();
     await fetchTrialOptions();
   }
 };
@@ -296,17 +266,29 @@ onMounted(handleBillingPageLogic);
         >
           {{ $t('BILLING_SETTINGS.PAYMENT_RECOVERY.DESCRIPTION') }}
         </Banner>
-        <TrialPlanPicker
+        <BillingCard
           v-if="canStartTrial"
-          :plans="trialOptions.plans"
-          :trial-days="trialOptions.trial_days"
-          :seat-limits="trialOptions.seats"
-          :starting-plan="startingTrialPlan"
-          @start="onStartTrial"
-        />
+          :title="
+            $t('BILLING_SETTINGS.TRIAL.TITLE', {
+              days: trialOptions.trial_days,
+            })
+          "
+          :description="$t('BILLING_SETTINGS.TRIAL.DESCRIPTION')"
+        >
+          <template #action>
+            <ButtonV4
+              sm
+              solid
+              blue
+              :is-loading="isStartingTrial"
+              @click="onStartTrial"
+            >
+              {{ $t('BILLING_SETTINGS.TRIAL.START') }}
+            </ButtonV4>
+          </template>
+        </BillingCard>
         <TrialStatusCard
           v-if="isTrialing"
-          :plan="currentTrialPlan"
           :trial-days="trialOptions?.trial_days || 0"
           :is-managing="uiFlags.isCheckoutInProcess"
           @manage="onClickBillingPortal"

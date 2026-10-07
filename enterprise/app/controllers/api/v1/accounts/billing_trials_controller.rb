@@ -8,12 +8,7 @@ class Api::V1::Accounts::BillingTrialsController < Api::V1::Accounts::BaseContro
   end
 
   def create
-    render json: { redirect_url: trial_service.create_checkout_session(plan_name: params[:plan_name], seats: params.require(:seats).to_i) }
-  end
-
-  def complete
-    trial_service.start_trial(session_id: params.require(:session_id))
-    head :no_content
+    render json: { redirect_url: trial_service.portal_url }
   end
 
   private

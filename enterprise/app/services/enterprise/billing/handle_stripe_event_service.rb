@@ -75,15 +75,26 @@ class Enterprise::Billing::HandleStripeEventService
         'subscription_status' => subscription['status'],
         'subscription_ends_on' => subscription_ends_on(subscription),
         'subscription_cancels_on' => subscription_cancels_on(subscription),
-        'trial_ends_at' => subscription['trial_end'].present? ? Time.zone.at(subscription['trial_end']) : nil,
+        'trial_ends_at' => trial_ends_at(subscription, plan),
         'billing_currency' => billing_currency_for(subscription, plan)
       )
     )
   end
 
+  # A trial started from the billing page runs on the free plan until a paid plan is picked in the portal; only a paid plan's trial is shown.
+  def trial_ends_at(subscription, plan)
+    return if subscription['trial_end'].blank? || default_plan_name?(plan['name'])
+
+    Time.zone.at(subscription['trial_end'])
+  end
+
+  def default_plan_name?(plan_name)
+    plan_name == Enterprise::Billing::PlanConfiguration.default_plan&.dig('name')
+  end
+
   # Paid subscriptions define the currency; the free/default plan keeps the stored preference.
   def billing_currency_for(subscription, plan)
-    return account.billing_currency if plan['name'] == Enterprise::Billing::PlanConfiguration.default_plan&.dig('name')
+    return account.billing_currency if default_plan_name?(plan['name'])
 
     Enterprise::Billing::Currencies.to_supported(subscription['plan']['currency'])
   end
@@ -184,7 +195,7 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def trial_converted?
-    previous_attributes['status'] == 'trialing' && subscription['status'] == 'active'
+    previous_attributes['status'] == 'trialing' && subscription['status'] == 'active' && !default_plan_name?(account.custom_attributes['plan_name'])
   end
 
   def activation_previous_plan_name

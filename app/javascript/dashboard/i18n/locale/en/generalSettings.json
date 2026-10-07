@@ -137,11 +137,7 @@
     "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
     "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
-    "OPEN_BILLING": "Open billing",
-    "TRIAL_BANNER": {
-      "MESSAGE": "Your {plan} trial ends today. | Your {plan} trial ends tomorrow, {date}. | Your {plan} trial ends in {days} days, on {date}.",
-      "ACTION": "View billing"
-    }
+    "OPEN_BILLING": "Open billing"
   },
   "FORMS": {
     "MULTISELECT": {

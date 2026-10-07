@@ -4,14 +4,8 @@ import { useI18n } from 'vue-i18n';
 import { format } from 'date-fns';
 import ButtonV4 from 'next/button/Button.vue';
 import { useTrialStatus } from 'dashboard/composables/useTrialStatus';
-import { formatCurrencyAmount } from 'dashboard/constants/billing';
 
 const props = defineProps({
-  // The trial plan's price, looked up from the trial options.
-  plan: {
-    type: Object,
-    default: null,
-  },
   trialDays: {
     type: Number,
     required: true,
@@ -31,7 +25,6 @@ const {
   trialDaysLeft,
   isTrialEndingSoon,
   trialPlanName,
-  trialSeats,
 } = useTrialStatus();
 
 const endsOn = computed(() => format(trialEndsAt.value, 'dd MMM, yyyy'));
@@ -48,19 +41,8 @@ const description = computed(() => {
       date: format(trialCancelsAt.value, 'dd MMM, yyyy'),
     });
   }
-  if (props.plan?.amount === null || props.plan?.amount === undefined) {
-    return t('BILLING_SETTINGS.TRIAL.STATUS.DESCRIPTION_NO_PRICE', {
-      date: endsOn.value,
-    });
-  }
   return t('BILLING_SETTINGS.TRIAL.STATUS.DESCRIPTION', {
     date: endsOn.value,
-    amount: formatCurrencyAmount(
-      props.plan.amount * trialSeats.value,
-      props.plan.currency,
-      { minimumFractionDigits: 0 }
-    ),
-    seats: trialSeats.value,
   });
 });
 </script>
@@ -97,7 +79,10 @@ const description = computed(() => {
         }}
       </ButtonV4>
     </div>
-    <div v-if="trialDays" class="h-1.5 rounded-full bg-n-slate-4 overflow-hidden">
+    <div
+      v-if="trialDays"
+      class="h-1.5 rounded-full bg-n-slate-4 overflow-hidden"
+    >
       <div
         class="h-full rounded-full"
         :class="isTrialEndingSoon ? 'bg-n-amber-9' : 'bg-n-brand'"
