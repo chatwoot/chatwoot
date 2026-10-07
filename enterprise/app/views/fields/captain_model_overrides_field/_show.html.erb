@@ -30,6 +30,9 @@
               <div class="min-w-0 text-body-main text-n-slate-12">
                 <%= feature[:model] %>
                 <span class="text-n-slate-10">(<%= feature[:model_id] %>)</span>
+                <% if feature[:effective_effort] %>
+                  <div class="mt-1 text-label-small text-n-slate-10"><%= t('super_admin.captain_model_overrides.show.reasoning_effort', effort: feature[:effective_effort]) %></div>
+                <% end %>
               </div>
               <div class="sm:text-end">
                 <%= render "badge", label: feature[:source_label], tone: (feature[:source] == :account_override ? :success : :neutral) %>

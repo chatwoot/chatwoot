@@ -8,7 +8,7 @@
       <h3 class="mb-2 text-label-small text-n-slate-11"><%= section_name %></h3>
       <div class="grid grid-cols-1 gap-2 lg:grid-cols-3">
         <% features.each do |feature| %>
-          <div class="rounded-md border border-n-weak p-2.5">
+          <div class="rounded-md border border-n-weak p-2.5" <%= tag.attributes(data: { captain_model_controls: true, effort_options: feature[:effort_options_by_model]&.to_json }) %>>
             <div class="mb-1.5">
               <div class="text-label-small text-n-slate-12"><%= feature[:name] %></div>
               <div class="text-label-small text-n-slate-10"><%= feature[:key] %></div>
@@ -19,8 +19,21 @@
                     [[feature[:default_option_label], '']] + feature[:options],
                     feature[:selected_override]
                   ),
-                  class: ui(:select)
+                  class: ui(:select),
+                  aria: { label: t('super_admin.captain_model_overrides.form.model_label', feature: feature[:name]) },
+                  data: { captain_model: true }
                 ) %>
+            <% if feature.key?(:effort_options) %>
+              <%= label_tag "account_captain_reasoning_efforts_#{feature[:key]}", t('super_admin.captain_model_overrides.form.reasoning_effort'), class: "mb-1 mt-3 block text-label-small text-n-slate-11" %>
+              <%= select_tag(
+                    "account[captain_reasoning_efforts][#{feature[:key]}]",
+                    options_for_select([[t('super_admin.captain_model_overrides.form.use_default_effort'), '']] + feature[:effort_options], feature[:selected_effort]),
+                    class: ui(:select),
+                    aria: { label: t('super_admin.captain_model_overrides.form.effort_label', feature: feature[:name]) },
+                    data: { captain_effort: true }
+                  ) %>
+              <p class="mt-1.5 text-label-small text-n-slate-10"><%= t(feature[:custom_endpoint] ? 'super_admin.captain_model_overrides.form.custom_endpoint' : 'super_admin.captain_model_overrides.form.effort_helper') %></p>
+            <% end %>
           </div>
         <% end %>
       </div>

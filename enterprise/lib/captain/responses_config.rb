@@ -1,10 +1,10 @@
 module Captain::ResponsesConfig
-  def self.options(model:, temperature:, feature: 'assistant')
+  def self.options(model:, temperature:, feature: 'assistant', account: nil)
     options = { temperature: Llm::Models.temperature_for(model, temperature) }
     return options unless Llm::Models.provider_for(model) == 'openai' && Llm::FeatureRouter.standard_openai_endpoint?
 
     options[:protocol] = :responses
-    effort = Llm::FeatureRouter.reasoning_effort(feature: feature, model: model)
+    effort = Llm::FeatureRouter.reasoning_effort(feature: feature, model: model, account: account)
     options[:thinking] = { effort: effort } if effort
     options[:temperature] = nil if effort && effort != :none
     options

@@ -52,6 +52,17 @@ RSpec.describe Captain::ResponsesConfig do
     expect(described_class.metadata(chat)).to eq(api_protocol: :chat_completions)
   end
 
+  it 'uses a saved account effort in the actual Responses request' do
+    account = create(:account, captain_models: { 'copilot' => 'gpt-6-luna' }, captain_reasoning_efforts: { 'copilot' => 'high' })
+    options = described_class.options(model: 'gpt-6-luna', temperature: 0.7, feature: 'copilot', account: account)
+    chat = context.chat(model: 'gpt-6-luna', protocol: options[:protocol]).with_temperature(options[:temperature])
+    chat.with_thinking(**options[:thinking]).add_message(role: :user, content: 'Hello')
+
+    expect(chat.render).to include(model: 'gpt-6-luna', reasoning: include(effort: 'high'))
+    expect(chat.render).not_to have_key(:temperature)
+    expect(described_class.metadata(chat, protocol: options[:protocol])).to eq(api_protocol: :responses, reasoning_effort: :high)
+  end
+
   %w[low high].each do |effort|
     it "applies configured #{effort} effort and omits temperature" do
       allow(Llm::Models).to receive(:features).and_return(Llm::Models.features.deep_merge('assistant' => { 'reasoning_effort' => effort }))

@@ -5,7 +5,9 @@ module CaptainFeaturable
 
   included do
     before_validation :normalize_captain_models
+    before_validation :normalize_captain_reasoning_efforts
     validate :validate_captain_models
+    validate :validate_captain_reasoning_efforts
 
     # Dynamically define accessor methods for each captain feature
     Llm::Models.feature_keys.each do |feature_key|
@@ -69,5 +71,27 @@ module CaptainFeaturable
     end
 
     self.captain_models = normalized_models.presence
+  end
+
+  def normalize_captain_reasoning_efforts
+    return unless captain_reasoning_efforts.is_a?(Hash)
+
+    self.captain_reasoning_efforts = captain_reasoning_efforts.compact_blank.presence
+  end
+
+  def validate_captain_reasoning_efforts
+    return unless captain_reasoning_efforts.is_a?(Hash)
+
+    captain_reasoning_efforts.each do |feature, effort|
+      unless Llm::FeatureRouter::REASONING_FEATURES.include?(feature)
+        errors.add(:captain_reasoning_efforts, "'#{feature}' does not support an effort override")
+        next
+      end
+
+      model = Llm::FeatureRouter.resolve(feature: feature, account: self)[:model]
+      next if Llm::Models.provider_for(model) == 'openai' && RubyLLM.models.find(model).reasoning_option_values(:effort).include?(effort)
+
+      errors.add(:captain_reasoning_efforts, "'#{effort}' is not supported by #{model} for #{feature}")
+    end
   end
 end

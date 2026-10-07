@@ -11,7 +11,7 @@ module Concerns::Agentable
       tools: agent_tools,
       model: model,
       response_schema: agent_response_schema,
-      **Captain::ResponsesConfig.options(model: model, temperature: temperature.presence&.to_f || DEFAULT_TEMPERATURE)
+      **Captain::ResponsesConfig.options(model: model, temperature: temperature.presence&.to_f || DEFAULT_TEMPERATURE, account: account)
     )
   end
 

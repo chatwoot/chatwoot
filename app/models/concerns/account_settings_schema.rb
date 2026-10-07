@@ -25,6 +25,11 @@ module AccountSettingsSchema
           'properties': CAPTAIN_MODEL_PROPERTIES,
           'additionalProperties': false
         },
+        'captain_reasoning_efforts': {
+          'type': %w[object null],
+          'properties': Llm::FeatureRouter::REASONING_FEATURES.index_with { { 'type': 'string' } },
+          'additionalProperties': false
+        },
         'captain_features': {
           'type': %w[object null],
           'properties': CAPTAIN_FEATURE_PROPERTIES,
