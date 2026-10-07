@@ -114,6 +114,17 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
       expect(history.first).to include('role' => 'user', 'content' => 'CUST001')
     end
 
+    it 'stores structured output on the final assistant message' do
+      output = {
+        'response_parts' => [{ 'text' => 'Please restart your modem', 'citation_indexes' => [] }],
+        'reasoning' => 'The modem reset instructions answer the customer question'
+      }
+      run_result.output = output
+      run_context[:conversation_history].last[:content] = output.to_json
+
+      expect(service.capture!.run_context.last['content']).to eq(output)
+    end
+
     it 'stores multimodal content without cached attachment bytes' do
       content = [
         { type: 'text', text: 'See image' },
