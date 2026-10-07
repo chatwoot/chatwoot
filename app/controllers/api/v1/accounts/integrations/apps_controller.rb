@@ -10,10 +10,17 @@ class Api::V1::Accounts::Integrations::AppsController < Api::V1::Accounts::BaseC
   private
 
   def fetch_apps
-    @apps = Integrations::App.all.select { |app| app.active?(Current.account) }
+    @apps = Integrations::App.all.select do |app|
+      app.active?(Current.account) ||
+        (app.id == 'stripe' && Current.account_user&.administrator? && Current.account.hooks.exists?(app_id: 'stripe'))
+    end
   end
 
   def fetch_app
     @app = Integrations::App.find(id: params[:id])
+    return unless %w[shopify stripe].include?(@app&.id)
+
+    # Keep direct lookups subject to the same availability checks as the integrations list.
+    raise ActiveRecord::RecordNotFound unless @app.active?(Current.account)
   end
 end

@@ -101,6 +101,9 @@ export default {
       summary-fetching-key="getBotSummaryFetchingStatus"
       :group-by="groupBy"
       :report-keys="reportKeys"
+      :from="from"
+      :to="to"
+      :business-hours="businessHours"
     />
   </div>
 </template>

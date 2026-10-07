@@ -11,7 +11,6 @@ class Captain::FollowUpService < Captain::BaseTaskService
     improve
     summarize
     reply_suggestion
-    label_suggestion
   ].freeze
 
   def perform
@@ -33,7 +32,7 @@ class Captain::FollowUpService < Captain::BaseTaskService
       { role: 'user', content: user_message }
     ]
 
-    response = make_api_call(model: GPT_MODEL, messages: messages)
+    response = make_api_call(feature: 'editor', messages: messages)
     return response if response[:error]
 
     response.merge(follow_up_context: update_follow_up_context(user_message, response[:message]))
@@ -64,8 +63,6 @@ class Captain::FollowUpService < Captain::BaseTaskService
       'conversation summary'
     when 'reply_suggestion'
       'reply suggestion'
-    when 'label_suggestion'
-      'label suggestion'
     else
       event_name
     end

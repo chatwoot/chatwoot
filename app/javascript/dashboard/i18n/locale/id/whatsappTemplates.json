@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Variabel",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Bahasa",
       "CATEGORY": "Kategori",
       "VARIABLE_PLACEHOLDER": "Masukkan nilai {variable}",

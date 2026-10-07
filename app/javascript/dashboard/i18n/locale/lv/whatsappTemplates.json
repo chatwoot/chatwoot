@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Mainīgie",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Valoda",
       "CATEGORY": "Kategorija",
       "VARIABLE_PLACEHOLDER": "Ievadiet {variable} vērtību",

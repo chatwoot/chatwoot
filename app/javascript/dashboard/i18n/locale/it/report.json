@@ -23,12 +23,14 @@
         "NAME": "Tempo di prima risposta",
         "DESC": "( Media )",
         "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Il tempo di prima risposta è {metricValue} (basato su {conversationCount} conversazioni)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tempo di Risoluzione",
         "DESC": "( Media )",
         "INFO_TEXT": "Numero totale di conversazioni utilizzate per il calcolo:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Il tempo di risoluzione è {metricValue} (basato su {conversationCount} conversazioni)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Tempo di attesa del cliente",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Il tempo di attesa è {metricValue} (basato su {conversationCount} risposte)",
         "DESC": ""
       }
@@ -120,6 +124,25 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Rimuovi filtro",
       "EMPTY_LIST": "Nessun risultato trovato"
+    },
+    "DRILLDOWN": {
+      "TITLE": "{metric} details",
+      "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations",
+      "RESULT_COUNT_MESSAGE": "{count} message | {count} messages",
+      "EMPTY": "No records found for this bar.",
+      "ERROR": "Could not load records. Please try again.",
+      "ADMIN_ONLY": "Only administrators can drill down into report records.",
+      "LOAD_MORE": "Carica altro",
+      "PREVIOUS_BUCKET": "Previous bar",
+      "NEXT_BUCKET": "Next bar",
+      "UNKNOWN_CONTACT": "Unknown contact",
+      "UNKNOWN_INBOX": "Unknown inbox",
+      "UNASSIGNED_AGENT": "Non assegnate",
+      "NO_MESSAGE_CONTENT": "No message content",
+      "MESSAGE_CREATED_AT": "Message created at {time}",
+      "EVENT_OCCURRED_AT": "Event occurred at {time}",
+      "INCOMING_MESSAGE": "Incoming message",
+      "OUTGOING_MESSAGE": "Outgoing message"
     },
     "PAGINATION": {
       "RESULTS": "Mostrando da {start} a {end} di {total} risultati",
@@ -525,11 +548,12 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Panoramica",
     "LIVE": "Live",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Conversazioni aperte",
       "LOADING_MESSAGE": "Caricamento metriche conversazioni...",
       "OPEN": "Aperte",
-      "UNATTENDED": "Non partecipate",
+      "UNATTENDED": "Senza risposta",
       "UNASSIGNED": "Non assegnate",
       "PENDING": "In Sospeso"
     },

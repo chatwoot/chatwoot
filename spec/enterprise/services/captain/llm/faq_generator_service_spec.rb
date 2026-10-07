@@ -26,6 +26,23 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
 
   describe '#generate' do
     context 'when successful' do
+      it 'uses the document FAQ generation feature model' do
+        expect(RubyLLM).to receive(:chat).with(
+          model: Llm::Models.default_model_for('document_faq_generation')
+        ).and_return(mock_chat)
+
+        described_class.new(document: document).generate
+      end
+
+      it 'resolves the feature model from the document account' do
+        expect(Llm::FeatureRouter).to receive(:resolve).with(
+          feature: 'document_faq_generation',
+          account: document.account
+        ).and_call_original
+
+        described_class.new(document: document).generate
+      end
+
       it 'returns parsed FAQs from the LLM response' do
         result = service.generate
         expect(result).to eq(sample_faqs)

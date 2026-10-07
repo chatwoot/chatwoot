@@ -23,12 +23,14 @@
         "NAME": "首次响应时间",
         "DESC": "( 平均)",
         "INFO_TEXT": "用于计算的对话总数：",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "首次响应时间为 {metricValue}（基于 {conversationCount} 个对话）"
       },
       "RESOLUTION_TIME": {
         "NAME": "解决时间",
         "DESC": "( 平均)",
         "INFO_TEXT": "用于计算的对话总数：",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "解决时间为 {metricValue}（基于 {conversationCount} 个对话）"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "客户等待时间",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "等待时间为 {metricValue}（基于 {conversationCount} 条回复）",
         "DESC": ""
       }
@@ -120,6 +124,25 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "清除筛选条件",
       "EMPTY_LIST": "没有检索到相关信息"
+    },
+    "DRILLDOWN": {
+      "TITLE": "{metric} details",
+      "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations",
+      "RESULT_COUNT_MESSAGE": "{count} message | {count} messages",
+      "EMPTY": "No records found for this bar.",
+      "ERROR": "Could not load records. Please try again.",
+      "ADMIN_ONLY": "Only administrators can drill down into report records.",
+      "LOAD_MORE": "加载更多",
+      "PREVIOUS_BUCKET": "Previous bar",
+      "NEXT_BUCKET": "Next bar",
+      "UNKNOWN_CONTACT": "Unknown contact",
+      "UNKNOWN_INBOX": "Unknown inbox",
+      "UNASSIGNED_AGENT": "未分配",
+      "NO_MESSAGE_CONTENT": "No message content",
+      "MESSAGE_CREATED_AT": "Message created at {time}",
+      "EVENT_OCCURRED_AT": "Event occurred at {time}",
+      "INCOMING_MESSAGE": "Incoming message",
+      "OUTGOING_MESSAGE": "Outgoing message"
     },
     "PAGINATION": {
       "RESULTS": "显示 {start} 到 {end} 条，共 {total} 条结果",
@@ -525,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "概览",
     "LIVE": "实时",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "未解决会话",
       "LOADING_MESSAGE": "正在加载会话指标...",

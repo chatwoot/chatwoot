@@ -121,6 +121,11 @@ export default {
       show-group-by
       @filter-change="onFilterChange"
     />
-    <ReportContainer :group-by="groupBy" />
+    <ReportContainer
+      :group-by="groupBy"
+      :from="from"
+      :to="to"
+      :business-hours="businessHours"
+    />
   </div>
 </template>

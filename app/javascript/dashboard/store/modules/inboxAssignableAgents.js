@@ -7,31 +7,57 @@ const state = {
   },
 };
 
+const recordKey = (inboxId, { includeAIAssignees = false } = {}) =>
+  includeAIAssignees ? `${inboxId}:with_ai_assignees` : inboxId;
+
 export const types = {
   SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG: 'SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG',
   SET_INBOX_ASSIGNABLE_AGENTS: 'SET_INBOX_ASSIGNABLE_AGENTS',
 };
 
 export const getters = {
-  getAssignableAgents: $state => inboxId => {
-    const allAgents = $state.records[inboxId] || [];
-    const verifiedAgents = allAgents.filter(record => record.confirmed);
-    return verifiedAgents;
-  },
+  getAssignableAgents:
+    $state =>
+    (inboxId, options = {}) => {
+      const includeAIAssignees = options.includeAIAssignees || false;
+      const allAgents = $state.records[recordKey(inboxId, options)] || [];
+      const verifiedAgents = allAgents.filter(
+        record =>
+          record.confirmed ||
+          (includeAIAssignees && record.assignee_type === 'AgentBot') ||
+          (includeAIAssignees && record.assignee_type === 'Captain::Assistant')
+      );
+      return verifiedAgents;
+    },
   getUIFlags($state) {
     return $state.uiFlags;
   },
 };
 
 export const actions = {
-  async fetch({ commit }, inboxIds) {
+  async fetch({ commit }, actionPayload) {
+    const inboxIds = Array.isArray(actionPayload)
+      ? actionPayload
+      : actionPayload.inboxIds;
+    const includeAIAssignees =
+      !Array.isArray(actionPayload) && actionPayload.includeAIAssignees;
     commit(types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload },
-      } = await AssignableAgentsAPI.get(inboxIds);
+      } = await AssignableAgentsAPI.get(inboxIds, {
+        includeAIAssignees,
+      });
+      if (includeAIAssignees) {
+        commit(types.SET_INBOX_ASSIGNABLE_AGENTS, {
+          inboxId: inboxIds.join(','),
+          members: payload,
+        });
+      }
       commit(types.SET_INBOX_ASSIGNABLE_AGENTS, {
-        inboxId: inboxIds.join(','),
+        inboxId: recordKey(inboxIds.join(','), {
+          includeAIAssignees,
+        }),
         members: payload,
       });
     } catch (error) {

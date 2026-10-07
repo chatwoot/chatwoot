@@ -69,6 +69,8 @@ class ConversationReplyMailer < ApplicationMailer
     @agent = @conversation.assignee
     @inbox = @conversation.inbox
     @channel = @inbox.channel
+    Current.account = @account
+    Current.inbox = @inbox
   end
 
   def should_use_conversation_email_address?
@@ -89,8 +91,13 @@ class ConversationReplyMailer < ApplicationMailer
 
   def sender_name(sender_email)
     if @inbox.friendly?
-      I18n.t('conversations.reply.email.header.friendly_name', sender_name: custom_sender_name, business_name: business_name,
-                                                               from_email: sender_email)
+      Email::SenderNameBuilder.new(
+        account: @account,
+        sender: current_message&.sender,
+        sender_email: sender_email,
+        sender_name: custom_sender_name,
+        business_name: business_name
+      ).build
     else
       I18n.t('conversations.reply.email.header.professional_name', business_name: business_name, from_email: sender_email)
     end
@@ -113,15 +120,11 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def mail_subject
-    subject = @conversation.additional_attributes['mail_subject']
+    subject = @message&.forwarded? ? forwarded_subject : @conversation.additional_attributes['mail_subject']
     return "[##{@conversation.display_id}] #{I18n.t('conversations.reply.email_subject')}" if subject.nil?
+    return "Fwd: #{subject}" if @message&.forwarded?
 
-    chat_count = @conversation.messages.chat.count
-    if chat_count > 1
-      "Re: #{subject}"
-    else
-      subject
-    end
+    @conversation.messages.chat.count > 1 ? "Re: #{subject}" : subject
   end
 
   def reply_email
@@ -148,11 +151,14 @@ class ConversationReplyMailer < ApplicationMailer
 
   def custom_message_id
     last_message = @message || @messages&.last
+    return "<forward/#{last_message.id}@#{channel_email_domain}>" if last_message&.forwarded?
 
     "<conversation/#{@conversation.uuid}/messages/#{last_message&.id}@#{channel_email_domain}>"
   end
 
   def in_reply_to_email
+    return if @message&.forwarded?
+
     conversation_reply_email_id || "<account/#{@account.id}/conversation/#{@conversation.uuid}@#{channel_email_domain}>"
   end
 
@@ -168,11 +174,16 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def references_header
-    build_references_header(@conversation, in_reply_to_email)
+    build_references_header(@conversation, in_reply_to_email).presence
+  end
+
+  def forwarded_subject
+    forwarded_message = @conversation.messages.find_by(id: @message.content_attributes['forwarded_message_id'])
+    forwarded_message&.content_attributes&.dig('email', 'subject').presence || @conversation.additional_attributes['mail_subject']
   end
 
   def cc_bcc_emails
-    content_attributes = @conversation.messages.outgoing.last&.content_attributes
+    content_attributes = current_message&.content_attributes
 
     return [] unless content_attributes
     return [] unless content_attributes[:cc_emails] || content_attributes[:bcc_emails]
@@ -181,7 +192,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def to_emails_from_content_attributes
-    content_attributes = @conversation.messages.outgoing.last&.content_attributes
+    content_attributes = current_message&.content_attributes
 
     return [] unless content_attributes
     return [] unless content_attributes[:to_emails]
@@ -200,8 +211,24 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def choose_layout
+    return 'mailer/base' if branded_email_layout_action?
     return false if action_name == 'reply_without_summary' || action_name == 'email_reply'
 
     'mailer/base'
+  end
+
+  def branded_email_layout_action?
+    return false unless action_name.in?(%w[email_reply reply_without_summary])
+    return @inbox.branded_email_layout_available? if @inbox&.email?
+
+    @account&.feature_enabled?(:branded_email_templates) && EmailTemplate.account_branded_layout_template_for(@account).present?
+  end
+
+  def liquid_droppables
+    super.merge({
+                  agent: current_message&.sender || @agent,
+                  contact: @contact,
+                  message: @message || @messages&.last
+                })
   end
 end

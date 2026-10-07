@@ -20,7 +20,9 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def destroy
     ActiveRecord::Base.transaction do
-      message.update!(content: I18n.t('conversations.messages.deleted'), content_type: :text, content_attributes: { deleted: true })
+      # keeps the forward marker so replies to a deleted forward stay out of this conversation
+      message.update!(content: I18n.t('conversations.messages.deleted'), content_type: :text,
+                      content_attributes: message.content_attributes.slice('forwarded_message_id').merge(deleted: true))
       message.attachments.destroy_all
     end
   end
@@ -28,10 +30,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   def retry
     return if message.blank?
 
-    service = Messages::StatusUpdateService.new(message, 'sent')
-    service.perform
-    message.update!(content_attributes: {})
-    ::SendReplyJob.perform_later(message.id)
+    ::SendReplyJob.perform_later(message.id) if claim_message_retry
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
@@ -52,6 +51,9 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     end
 
     render json: { content: translated_content }
+  rescue Google::Cloud::Error => e
+    # `details` carries the clean human message; `message` includes gRPC debug noise
+    render_could_not_create_error(e.details.presence || e.message)
   end
 
   private
@@ -62,6 +64,21 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def message_finder
     @message_finder ||= MessageFinder.new(@conversation, params)
+  end
+
+  def claim_message_retry
+    message.with_lock do
+      next false unless message.failed?
+
+      Messages::StatusUpdateService.new(message, 'sent').perform
+      clear_source_id unless @conversation.inbox.api? || @conversation.inbox.web_widget?
+      true
+    end
+  end
+
+  def clear_source_id
+    Rails.logger.info "Cleared older source ID #{message.source_id} for message #{message.id}" if message.source_id.present?
+    message.update!(source_id: nil)
   end
 
   def permitted_params
@@ -78,3 +95,5 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     render json: { error: 'Message status update is only allowed for API inboxes' }, status: :forbidden unless @conversation.inbox.api?
   end
 end
+
+Api::V1::Accounts::Conversations::MessagesController.prepend_mod_with('Api::V1::Accounts::Conversations::MessagesController')

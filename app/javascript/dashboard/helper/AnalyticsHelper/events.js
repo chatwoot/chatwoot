@@ -12,6 +12,11 @@ export const CONVERSATION_EVENTS = Object.freeze({
   APPLY_FILTER: 'Applied filters in the conversation list',
   CHANGE_PRIORITY: 'Assigned priority to a conversation',
   INSERT_ARTICLE_LINK: 'Inserted article into reply via article search',
+  COLLAPSED_REPLY_BOX: 'Collapsed the reply box',
+  EXPANDED_REPLY_BOX: 'Expanded the reply box',
+  OPENED_PREVIOUS_CONVERSATION: 'Opened the previous conversation of a contact',
+  OPENED_NEXT_CONVERSATION: 'Opened the next conversation of a contact',
+  VIEWED_ALL_CONTACT_CONVERSATIONS: 'Viewed all conversations of a contact',
 });
 
 export const ACCOUNT_EVENTS = Object.freeze({
@@ -19,9 +24,6 @@ export const ACCOUNT_EVENTS = Object.freeze({
   ADDED_A_CUSTOM_ATTRIBUTE: 'Added a custom attribute',
   ADDED_AN_INBOX: 'Added an inbox',
   OPEN_MESSAGE_CONTEXT_MENU: 'Opened message context menu',
-  OPENED_NOTIFICATIONS: 'Opened notifications',
-  MARK_AS_READ_NOTIFICATIONS: 'Marked notifications as read',
-  OPEN_CONVERSATION_VIA_NOTIFICATION: 'Opened conversation via notification',
 });
 
 export const LABEL_EVENTS = Object.freeze({
@@ -108,9 +110,12 @@ export const CAPTAIN_EVENTS = Object.freeze({
   // Follow-up events
   FOLLOW_UP_SENT: 'Captain: Follow-up sent',
 
-  // Label suggestions
-  LABEL_SUGGESTION_APPLIED: 'Captain: Label suggestion applied',
-  LABEL_SUGGESTION_DISMISSED: 'Captain: Label suggestion dismissed',
+  // Conversation sidebar suggestions
+  LABEL_SUGGESTIONS_REQUESTED: 'Captain: Label suggestions requested',
+  PRIORITY_SUGGESTION_REQUESTED: 'Captain: Priority suggestion requested',
+
+  // Automation conditions
+  AUTOMATION_CONDITION_SAVED: 'Captain: Automation condition saved',
 });
 
 export const COPILOT_EVENTS = Object.freeze({
@@ -159,7 +164,14 @@ export const SESSION_EVENTS = Object.freeze({
   REVOKED_FROM_PROFILE: 'Revoked an active session',
 });
 
+export const BILLING_EVENTS = Object.freeze({
+  OPEN_BILLING_FROM_PAST_DUE_BANNER: 'Opened billing from past due banner',
+});
+
 export const ONBOARDING_EVENTS = Object.freeze({
   ACCOUNT_DETAILS_VISITED: 'Onboarding: Account details visited',
   ACCOUNT_DETAILS_COMPLETED: 'Onboarding: Account details completed',
+  INBOX_SETUP_VISITED: 'Onboarding: Inbox setup visited',
+  INBOX_SETUP_COMPLETED: 'Onboarding: Inbox setup completed',
+  INBOX_SETUP_SKIPPED: 'Onboarding: Inbox setup skipped',
 });

@@ -68,6 +68,164 @@ RSpec.describe 'Accounts API', type: :request do
       end
     end
 
+    context 'with a Shopify pending installation token' do
+      let(:pending_install_token) { SecureRandom.hex(16) }
+      let(:pending_installation) do
+        instance_double(
+          Shopify::PendingInstallation,
+          data: {
+            'access_token' => 'shopify-access-token',
+            'shop' => 'my-store.myshopify.com',
+            'scope' => 'read_customers,read_orders',
+            'connected_at' => Time.current.utc.iso8601(6)
+          }
+        )
+      end
+      let(:params) do
+        {
+          account_name: 'Shopify Store',
+          email: email,
+          user_full_name: user_full_name,
+          password: 'Password1!',
+          shopify_pending_install_token: pending_install_token
+        }
+      end
+
+      before do
+        allow(Shopify::FeatureGate).to receive(:enabled?).and_return(true)
+        allow(Shopify::FeatureGate).to receive(:globally_enabled?).and_return(true)
+        allow(Shopify::PendingInstallation).to receive(:pending?)
+          .with(token: pending_install_token)
+          .and_return(true)
+        allow(Shopify::PendingInstallation).to receive(:claim)
+          .with(token: pending_install_token)
+          .and_return(pending_installation)
+        allow(pending_installation).to receive(:with_current_installation).and_yield
+        allow(pending_installation).to receive(:bind_to_account!)
+        allow(pending_installation).to receive(:consume!)
+        allow(pending_installation).to receive(:release!)
+      end
+
+      after { GlobalConfig.clear_cache }
+
+      it 'creates a new Shopify-billed account and consumes the token' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          post api_v1_accounts_url, params: params, as: :json
+        end
+
+        account = Account.order(:id).last
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['email']).to eq(email)
+        expect(account.internal_attributes).to include('billing_provider' => 'shopify', 'signup_source' => 'shopify')
+        expect(account).to be_feature_enabled('shopify_integration')
+        expect(account.hooks.find_by!(app_id: 'shopify').reference_id).to eq('my-store.myshopify.com')
+        expect(pending_installation).to have_received(:consume!)
+      end
+
+      it 'creates a Shopify-billed account when general account signup is disabled' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
+          post api_v1_accounts_url, params: params, as: :json
+        end
+
+        expect(response).to have_http_status(:success)
+        expect(Account.order(:id).last.internal_attributes).to include(
+          'billing_provider' => 'shopify',
+          'signup_source' => 'shopify'
+        )
+      end
+
+      it 'does not bypass disabled account signup for an invalid pending token' do
+        allow(Shopify::PendingInstallation).to receive(:pending?).and_return(false)
+
+        expect do
+          with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
+            post api_v1_accounts_url, params: params, as: :json
+          end
+        end.not_to change(Account, :count)
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'returns a clear error for an invalid or expired token' do
+        allow(Shopify::PendingInstallation).to receive(:claim)
+          .and_raise(Shopify::PendingInstallation::InvalidToken, 'Invalid or expired install token')
+
+        expect do
+          with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+            post api_v1_accounts_url, params: params, as: :json
+          end
+        end.not_to change(Account, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Invalid or expired install token')
+      end
+
+      it 'consumes a real pending installation and prevents replay' do
+        encryption_env = {
+          'ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY' => 'primary-key',
+          'ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY' => 'deterministic-key',
+          'ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT' => 'key-derivation-salt'
+        }
+
+        with_modified_env(encryption_env.merge('ENABLE_ACCOUNT_SIGNUP' => 'true')) do
+          allow(Shopify::PendingInstallation).to receive(:claim).and_call_original
+          real_token = Shopify::PendingInstallation.create(
+            access_token: 'shopify-access-token',
+            shop: 'my-store.myshopify.com',
+            scope: 'read_customers,read_orders'
+          )
+
+          post api_v1_accounts_url,
+               params: params.merge(shopify_pending_install_token: real_token),
+               as: :json
+          expect(response).to have_http_status(:success)
+
+          expect do
+            post api_v1_accounts_url,
+                 params: params.merge(email: 'replay@example.com', shopify_pending_install_token: real_token),
+                 as: :json
+          end.not_to change(Account, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['message']).to eq('Invalid or expired install token')
+        ensure
+          Redis::Alfred.delete("shopify_pending_install:#{real_token}") if real_token
+          Redis::Alfred.delete("shopify_pending_install_claim:#{real_token}") if real_token
+        end
+      end
+
+      it 'does not claim the token or create an account when Shopify is disabled' do
+        allow(Shopify::FeatureGate).to receive(:enabled?).and_return(false)
+        expect(Shopify::PendingInstallation).not_to receive(:claim)
+
+        expect do
+          with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+            post api_v1_accounts_url, params: params, as: :json
+          end
+        end.not_to change(Account, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Shopify signup is unavailable')
+      end
+
+      it 'does not let an authenticated user claim the token for a new account' do
+        existing_user = create(:user)
+        expect(Shopify::PendingInstallation).not_to receive(:claim)
+
+        expect do
+          with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+            post api_v1_accounts_url,
+                 params: params.merge(email: 'new-user@example.com'),
+                 headers: existing_user.create_new_auth_token,
+                 as: :json
+          end
+        end.not_to change(Account, :count)
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['message']).to include(existing_user.email)
+      end
+    end
+
     context 'when an authenticated user creates a second account' do
       let(:existing_user) { create(:user, password: 'Password1!') }
 
@@ -198,6 +356,64 @@ RSpec.describe 'Accounts API', type: :request do
         expect(response.body).to include(account.support_email)
         expect(response.body).to include(account.locale)
       end
+
+      it 'exposes the latest chatwoot version' do
+        Redis::Alfred.set(Redis::Alfred::LATEST_CHATWOOT_VERSION, '4.16.1')
+
+        get "/api/v1/accounts/#{account.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response.parsed_body['latest_chatwoot_version']).to eq('4.16.1')
+      end
+
+      it 'exposes the Shopify account feature when the installation switch is enabled' do
+        account.enable_features!('shopify_integration')
+        allow(GlobalConfigService).to receive(:load).and_call_original
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
+
+        get "/api/v1/accounts/#{account.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response.parsed_body.dig('features', 'shopify_integration')).to be true
+      end
+
+      it 'hides the Shopify account feature when the installation switch is disabled' do
+        account.enable_features!('shopify_integration')
+        allow(GlobalConfigService).to receive(:load).and_call_original
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
+
+        get "/api/v1/accounts/#{account.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response.parsed_body.fetch('features')).not_to have_key('shopify_integration')
+      end
+
+      it 'exposes the reporting timezone as an IANA identifier for browser reports' do
+        account.update!(reporting_timezone: 'Pacific Time (US & Canada)')
+
+        get "/api/v1/accounts/#{account.id}", headers: admin.create_new_auth_token, as: :json
+
+        expect(response.parsed_body['reporting_timezone']).to eq('America/Los_Angeles')
+      end
+    end
+
+    context 'when API and webhook access is disabled for the account' do
+      it 'returns forbidden for API token authentication' do
+        account_scope = double
+        allow(account_scope).to receive(:find).with(account.id.to_s).and_return(account)
+        allow_any_instance_of(User).to receive(:accounts).and_return(account_scope) # rubocop:disable RSpec/AnyInstance
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
+
+        get "/api/v1/accounts/#{account.id}",
+            headers: { api_access_token: admin.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq('API access is not enabled for this account')
+      end
     end
   end
 
@@ -213,7 +429,7 @@ RSpec.describe 'Accounts API', type: :request do
           as: :json
 
       expect(response).to have_http_status(:success)
-      expect(response.parsed_body['cache_keys'].keys).to match_array(%w[label inbox team])
+      expect(response.parsed_body['cache_keys'].keys).to match_array(%w[label inbox team canned_response])
     end
 
     it 'sets the appropriate cache headers' do
@@ -225,12 +441,96 @@ RSpec.describe 'Accounts API', type: :request do
       expect(response.headers['Cache-Control']).to include('private')
       expect(response.headers['Cache-Control']).to include('stale-while-revalidate=300')
     end
+
+    context 'when API and webhook access is disabled for the account' do
+      it 'returns forbidden for API token authentication' do
+        account_scope = double
+        allow(account_scope).to receive(:find).with(account.id.to_s).and_return(account)
+        allow_any_instance_of(User).to receive(:accounts).and_return(account_scope) # rubocop:disable RSpec/AnyInstance
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
+
+        get "/api/v1/accounts/#{account.id}/cache_keys",
+            headers: { api_access_token: admin.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, account: account, role: :agent) }
     let(:admin) { create(:user, account: account, role: :administrator) }
+
+    context 'with mfa enforcement setting' do
+      before do
+        skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+      end
+
+      it 'allows administrators to enable enforce_mfa via session auth' do
+        patch "/api/v1/accounts/#{account.id}",
+              params: { enforce_mfa: true },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(account.reload.enforce_mfa?).to be true
+      end
+
+      it 'ignores enforce_mfa when mfa feature unavailable' do
+        allow(Chatwoot).to receive(:mfa_enabled?).and_return(false)
+
+        patch "/api/v1/accounts/#{account.id}",
+              params: { enforce_mfa: true },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(account.reload.settings['enforce_mfa']).to be_nil
+      end
+
+      it 'blocks an unenrolled admin token from updating the account' do
+        account.update!(enforce_mfa: true)
+
+        patch "/api/v1/accounts/#{account.id}",
+              params: { enforce_mfa: false },
+              headers: { api_access_token: admin.access_token.token },
+              as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error_code']).to eq('mfa_enrollment_required')
+        expect(account.reload.enforce_mfa?).to be true
+      end
+
+      it 'blocks account creation with an enforcement-pending token' do
+        account.update!(enforce_mfa: true)
+
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          post '/api/v1/accounts',
+               params: { account_name: 'new team', email: admin.email, user_full_name: admin.name },
+               headers: { api_access_token: admin.access_token.token },
+               as: :json
+        end
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error_code']).to eq('mfa_enrollment_required')
+      end
+
+      it 'does not block account creation for saml users' do
+        account.update!(enforce_mfa: true)
+        admin.update!(provider: 'saml')
+
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          post '/api/v1/accounts',
+               params: { account_name: 'new team', email: admin.email, user_full_name: admin.name },
+               headers: { api_access_token: admin.access_token.token },
+               as: :json
+        end
+
+        expect(response).not_to have_http_status(:forbidden)
+      end
+    end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -324,6 +624,24 @@ RSpec.describe 'Accounts API', type: :request do
         expect(json_response['message']).to eq('Name is too long (maximum is 255 characters)')
       end
     end
+
+    context 'when API and webhook access is disabled for the account' do
+      it 'returns forbidden without modifying the account for API token authentication' do
+        account_scope = double
+        allow(account_scope).to receive(:find).with(account.id.to_s).and_return(account)
+        allow_any_instance_of(User).to receive(:accounts).and_return(account_scope) # rubocop:disable RSpec/AnyInstance
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
+
+        expect do
+          patch "/api/v1/accounts/#{account.id}",
+                params: { name: 'Updated through API' },
+                headers: { api_access_token: admin.access_token.token },
+                as: :json
+        end.not_to(change { account.reload.name })
+
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
   end
 
   describe 'POST /api/v1/accounts/{account.id}/update_active_at' do
@@ -347,6 +665,23 @@ RSpec.describe 'Accounts API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(agent.account_users.first.active_at).not_to be_nil
+      end
+    end
+
+    context 'when API and webhook access is disabled for the account' do
+      it 'returns forbidden without updating active_at for API token authentication' do
+        account_scope = double
+        allow(account_scope).to receive(:find).with(account.id.to_s).and_return(account)
+        allow_any_instance_of(User).to receive(:accounts).and_return(account_scope) # rubocop:disable RSpec/AnyInstance
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
+        account_user = agent.account_users.first
+
+        post "/api/v1/accounts/#{account.id}/update_active_at",
+             headers: { api_access_token: agent.access_token.token },
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(account_user.reload.active_at).to be_nil
       end
     end
   end

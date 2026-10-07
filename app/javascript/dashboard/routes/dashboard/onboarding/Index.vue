@@ -1,21 +1,22 @@
 <script setup>
-import { ref, computed, nextTick, onMounted, onUnmounted, watch } from 'vue';
+import { ref, computed, nextTick, onMounted } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { ONBOARDING_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
-import { useMapGetter, useStore } from 'dashboard/composables/store';
-import { frontendURL } from 'dashboard/helper/URLHelper';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import OnboardingLayout from './OnboardingLayout.vue';
-import OnboardingSection from './OnboardingSection.vue';
-import OnboardingFormRow from './OnboardingFormRow.vue';
-import OnboardingFormSelect from './OnboardingFormSelect.vue';
+import OnboardingLayout from './shared/OnboardingLayout.vue';
+import OnboardingSection from './shared/OnboardingSection.vue';
+import OnboardingFormRow from './account-details/OnboardingFormRow.vue';
+import OnboardingFormSelect from './account-details/OnboardingFormSelect.vue';
+import { useAccountEnrichment } from './account-details/useAccountEnrichment';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import {
@@ -23,12 +24,16 @@ import {
   INDUSTRY_OPTIONS,
   REFERRAL_SOURCE_OPTIONS,
   USER_ROLE_OPTIONS,
-} from './constants';
+} from './shared/constants';
 
 const { t } = useI18n();
 const router = useRouter();
 const store = useStore();
 const { accountId, currentAccount, finishOnboarding } = useAccount();
+
+// Where each onboarding cursor routes. The backend owns which steps run where;
+// the frontend just follows the cursor it advanced us to (no deployment checks).
+const STEP_ROUTES = { inbox_setup: 'onboarding_inbox_setup' };
 const { enabledLanguages } = useConfig();
 const currentUser = useMapGetter('getCurrentUser');
 
@@ -46,7 +51,10 @@ const showErrorOnFields = ref(false);
 
 const validationRules = {
   userRole: {},
-  website: {},
+  // Website is required: the onboarding web-widget inbox can't be created
+  // without a URL (Channel::WebWidget validates presence), so a blank value
+  // would leave the "Live Chat widget" status polling forever.
+  website: { required },
   locale: {},
   timezone: {},
   companySize: {},
@@ -67,12 +75,15 @@ const v$ = useVuelidate(validationRules, {
 const userName = computed(() => currentUser.value?.name || '');
 const userEmail = computed(() => currentUser.value?.email || '');
 const accountName = computed(() => currentAccount.value?.name || '');
-const enrichmentTimedOut = ref(false);
-const isEnriching = computed(
-  () =>
-    !enrichmentTimedOut.value &&
-    currentAccount.value?.custom_attributes?.onboarding_step === 'enrichment'
-);
+const { isEnriching, getChangedFields } = useAccountEnrichment({
+  locale,
+  website,
+  timezone,
+  companySize,
+  industry,
+  referralSource,
+});
+
 const companyLogo = computed(() => {
   const logos = currentAccount.value?.custom_attributes?.brand_info?.logos;
   if (!logos?.length) return '';
@@ -98,93 +109,9 @@ const timezoneOptions = computed(() => {
   }
 });
 
-// Best-effort match browser language to enabled Chatwoot locales.
-// Tries exact match first (e.g. 'pt_BR'), then base language (e.g. 'pt'),
-// falls back to account locale or 'en'.
-const detectBestLocale = () => {
-  const codes = (enabledLanguages || []).map(l => l.iso_639_1_code);
-  const browserLang = navigator.language?.replace('-', '_');
-  const accountLocale = currentAccount.value?.locale || 'en';
-  if (!browserLang) return accountLocale;
-
-  if (codes.includes(browserLang)) return browserLang;
-  const base = browserLang.split('_')[0];
-  if (codes.includes(base)) return base;
-
-  return accountLocale;
-};
-
-// Snapshot of auto-populated values to detect user edits at submit time
-const initialValues = ref({});
-
-const snapshotInitialValues = () => {
-  initialValues.value = {
-    website: website.value,
-    company_size: companySize.value,
-    industry: industry.value,
-  };
-};
-
-// Idempotent: only fills empty fields, so late-arriving enrichment data
-// populates untouched fields without clobbering user edits.
-const populateFormFields = () => {
-  const account = currentAccount.value;
-  const attrs = account?.custom_attributes || {};
-  const brandInfo = attrs.brand_info;
-
-  if (!locale.value) locale.value = detectBestLocale();
-  if (!website.value) {
-    website.value = attrs.website || brandInfo?.domain || '';
-  }
-  if (!timezone.value) {
-    timezone.value =
-      attrs.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-  }
-  if (!companySize.value) companySize.value = attrs.company_size || '';
-  if (!industry.value) {
-    industry.value =
-      attrs.industry || brandInfo?.industries?.[0]?.industry || '';
-  }
-  if (!referralSource.value) referralSource.value = attrs.referral_source || '';
-
-  snapshotInitialValues();
-};
-
-let enrichmentTimer = null;
-
-const startEnrichmentTimer = () => {
-  if (enrichmentTimer) clearTimeout(enrichmentTimer);
-  enrichmentTimer = setTimeout(() => {
-    enrichmentTimedOut.value = true;
-    populateFormFields();
-  }, 30000);
-};
-
 onMounted(() => {
-  populateFormFields();
   useTrack(ONBOARDING_EVENTS.ACCOUNT_DETAILS_VISITED);
-  if (isEnriching.value) startEnrichmentTimer();
 });
-
-onUnmounted(() => {
-  if (enrichmentTimer) clearTimeout(enrichmentTimer);
-});
-
-watch(isEnriching, newVal => {
-  if (newVal) {
-    startEnrichmentTimer();
-  } else {
-    if (enrichmentTimer) clearTimeout(enrichmentTimer);
-    populateFormFields();
-  }
-});
-
-// Re-populate when account data arrives after mount, or when brand_info
-// appears after enrichment. populateFormFields is idempotent so this is safe.
-watch(
-  () => currentAccount.value?.custom_attributes,
-  () => populateFormFields()
-);
 
 const enableWebsiteEditing = () => {
   isEditingWebsite.value = true;
@@ -204,8 +131,10 @@ const normalizeWebsiteUrl = raw => {
 const handleSubmit = async () => {
   // Block submit while enrichment is still running so users can't bypass
   // the form with empty values — the controller would otherwise clear
-  // onboarding_step and persist incomplete data.
-  if (isEnriching.value) return;
+  // onboarding_step and persist incomplete data. Also guard against
+  // re-entry while a submit is in flight (double-click/Enter), which would
+  // fire parallel requests that can duplicate the auto-created inbox/portal.
+  if (isEnriching.value || isSubmitting.value) return;
 
   v$.value.$touch();
   if (v$.value.$invalid) {
@@ -214,22 +143,15 @@ const handleSubmit = async () => {
     setTimeout(() => {
       showErrorOnFields.value = false;
     }, 600);
+    // The website field is read-only until edited; open it so a required-but-
+    // empty value is immediately fixable rather than just shaking a locked field.
+    if (v$.value.website.$error) enableWebsiteEditing();
     return;
   }
 
-  // Detect which enrichable fields the user actually edited *before*
-  // normalizing — otherwise an untouched auto-filled domain
-  // (acme.com -> https://acme.com) compares unequal against the raw snapshot
-  // and gets falsely reported as changed, skewing onboarding telemetry.
-  const init = initialValues.value;
-  const enrichableFields = {
-    website: website.value,
-    company_size: companySize.value,
-    industry: industry.value,
-  };
-  const fieldsChanged = Object.entries(enrichableFields)
-    .filter(([key, val]) => val !== init[key])
-    .map(([key]) => key);
+  // Capture which enrichable fields the user edited *before* normalizing the
+  // website, so an untouched auto-filled domain isn't falsely flagged.
+  const fieldsChanged = getChangedFields();
 
   // Persist with a scheme so downstream consumers (Firecrawl, portal
   // homepage_link) get a fully-qualified URL regardless of what the user typed.
@@ -246,6 +168,7 @@ const handleSubmit = async () => {
       timezone: timezone.value,
       referral_source: referralSource.value,
       user_role: userRole.value,
+      onboarding_step: 'account_details',
     });
 
     useTrack(ONBOARDING_EVENTS.ACCOUNT_DETAILS_COMPLETED, {
@@ -260,8 +183,19 @@ const handleSubmit = async () => {
     });
 
     useAlert(t('ONBOARDING_NEXT.SUCCESS'));
-    store.commit('RESET_ONBOARDING', accountId.value);
-    router.push(frontendURL(`accounts/${accountId.value}/dashboard`));
+    // Follow the cursor the backend advanced us to. A next step routes there; no
+    // next step means onboarding is complete, so refresh the user (so the router
+    // guard sees the cleared cursor) and head to the dashboard.
+    const nextStep = currentAccount.value?.custom_attributes?.onboarding_step;
+    if (STEP_ROUTES[nextStep]) {
+      router.push({
+        name: STEP_ROUTES[nextStep],
+        params: { accountId: accountId.value },
+      });
+    } else {
+      await store.dispatch('setUser');
+      router.push({ name: 'home', params: { accountId: accountId.value } });
+    }
   } catch {
     useAlert(t('ONBOARDING_NEXT.ERROR'));
   } finally {

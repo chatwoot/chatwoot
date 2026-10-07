@@ -50,6 +50,7 @@ class Internal::Accounts::MarketingAttributionService
         'stored_at' => Time.current.iso8601
       }.compact
     )
+    enqueue_signup_conversion
   end
 
   private
@@ -78,5 +79,9 @@ class Internal::Accounts::MarketingAttributionService
 
   def internal_attributes_service
     @internal_attributes_service ||= Internal::Accounts::InternalAttributesService.new(account)
+  end
+
+  def enqueue_signup_conversion
+    Internal::Accounts::MarketingConversionTrackingJob.perform_later(account.id, 'cloud_signup', account.created_at)
   end
 end

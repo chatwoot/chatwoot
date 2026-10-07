@@ -1,24 +1,39 @@
 <script setup>
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { getCaptainConditionUsage } from 'dashboard/helper/automationHelper';
 import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { until } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
-import { useStoreGetters, useStore } from 'dashboard/composables/store';
-import { picoSearch } from '@scmmishra/pico-search';
+import {
+  useMapGetter,
+  useStoreGetters,
+  useStore,
+} from 'dashboard/composables/store';
+import { picoSearch } from '@chatwoot/pico-search';
 import AutomationRuleRow from './AutomationRuleRow.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import { BaseTable } from 'dashboard/components-next/table';
+import { DEFAULT_DELAY_MINUTES } from './constants';
 
 const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
 const confirmDialog = ref(null);
+const route = useRoute();
+const router = useRouter();
+const { accountScopedRoute } = useAccount();
 
 const loading = ref({});
 const addDialogRef = ref(null);
+const creationSourceMonitorId = ref(null);
 const editDialogRef = ref(null);
 const showDeleteConfirmationPopup = ref(false);
 const selectedAutomation = ref({});
@@ -33,10 +48,74 @@ const records = computed(() => getters['automations/getAutomations'].value);
 const filteredRecords = computed(() => {
   const query = searchQuery.value.trim();
   if (!query) return records.value;
-  return picoSearch(records.value, query, ['name', 'description']);
+  return picoSearch(records.value, query, [
+    'name',
+    'description',
+    'monitor_name',
+  ]);
 });
+
 const uiFlags = computed(() => getters['automations/getUIFlags'].value);
 const accountId = computed(() => getters.getCurrentAccountId.value);
+const accountUiFlags = useMapGetter('accounts/getUIFlags');
+
+const isDelayedAutomationsEnabled = computed(() =>
+  getters['accounts/isFeatureEnabledonAccount'].value(
+    accountId.value,
+    'delayed_automations'
+  )
+);
+
+const instantRecords = computed(() =>
+  filteredRecords.value.filter(automation => !automation.execution_delay)
+);
+const delayedRecords = computed(() =>
+  filteredRecords.value.filter(automation => automation.execution_delay)
+);
+
+// Accounts that can't create delayed rules, and have none left over, just see the plain list.
+const showTabs = computed(
+  () =>
+    isDelayedAutomationsEnabled.value ||
+    records.value.some(automation => automation.execution_delay)
+);
+
+const activeTab = ref('instant');
+
+const tabs = computed(() => [
+  {
+    key: 'instant',
+    label: t('AUTOMATION.LIST.TABS.INSTANT'),
+    count: instantRecords.value.length,
+  },
+  {
+    key: 'delayed',
+    label: t('AUTOMATION.LIST.TABS.DELAYED'),
+    count: delayedRecords.value.length,
+  },
+]);
+
+const activeTabIndex = computed(() =>
+  tabs.value.findIndex(tab => tab.key === activeTab.value)
+);
+
+const visibleRecords = computed(() => {
+  if (!showTabs.value) return filteredRecords.value;
+  return activeTab.value === 'delayed'
+    ? delayedRecords.value
+    : instantRecords.value;
+});
+
+const noDataMessage = computed(() => {
+  if (searchQuery.value) return t('AUTOMATION.NO_RESULTS');
+  return showTabs.value && activeTab.value === 'delayed'
+    ? t('AUTOMATION.LIST.404_DELAYED')
+    : t('AUTOMATION.LIST.404');
+});
+
+const onTabChanged = tab => {
+  activeTab.value = tab.key;
+};
 
 const deleteConfirmText = computed(
   () => `${t('AUTOMATION.DELETE.CONFIRM.YES')} ${selectedAutomation.value.name}`
@@ -52,6 +131,26 @@ const isSLAEnabled = computed(() =>
   getters['accounts/isFeatureEnabledonAccount'].value(accountId.value, 'sla')
 );
 
+let slaFetchPromise;
+
+// Account feature flags may load after this page mounts, so watch the SLA flag
+// to ensure its options are fetched after a hard refresh.
+watch(
+  isSLAEnabled,
+  isEnabled => {
+    if (isEnabled) {
+      slaFetchPromise = store.dispatch('sla/get');
+    }
+  },
+  { immediate: true }
+);
+
+const showDelayDisabledBanner = computed(
+  () =>
+    !isDelayedAutomationsEnabled.value &&
+    records.value.some(automation => automation.execution_delay)
+);
+
 onMounted(() => {
   store.dispatch('inboxes/get');
   store.dispatch('agents/get');
@@ -60,25 +159,61 @@ onMounted(() => {
   store.dispatch('labels/get');
   store.dispatch('campaigns/get');
   store.dispatch('automations/get');
-  if (isSLAEnabled.value) {
-    store.dispatch('sla/get');
-  }
 });
 
-const openAddPopup = () => {
-  addDialogRef.value?.open();
+const openAddPopup = (monitorId = null) => {
+  creationSourceMonitorId.value = monitorId;
+  const startsWithWait =
+    !monitorId &&
+    isDelayedAutomationsEnabled.value &&
+    activeTab.value === 'delayed';
+  addDialogRef.value?.open(
+    startsWithWait ? DEFAULT_DELAY_MINUTES : null,
+    monitorId
+  );
 };
+
+watch(
+  () => route.query.monitor_id,
+  async monitorId => {
+    if (typeof monitorId !== 'string' || !/^\d+$/.test(monitorId)) return;
+    activeTab.value = 'instant';
+    await nextTick();
+    openAddPopup(Number(monitorId));
+    router.replace({ query: { ...route.query, monitor_id: undefined } });
+  },
+  { immediate: true }
+);
+
 const hideAddPopup = () => {
   addDialogRef.value?.close();
 };
 
-const openEditPopup = response => {
+const openEditPopup = async response => {
   selectedAutomation.value = { ...response };
-  editDialogRef.value?.open();
+  await until(() => accountUiFlags.value.isFetchingItem).toBe(false);
+  if (isSLAEnabled.value) {
+    slaFetchPromise ||= store.dispatch('sla/get');
+    await slaFetchPromise;
+  }
+  editDialogRef.value?.open(response);
 };
 const hideEditPopup = () => {
   editDialogRef.value?.close();
 };
+
+watch(
+  [() => route.query.edit_id, records],
+  async ([editId, rules]) => {
+    if (typeof editId !== 'string') return;
+    const rule = rules.find(item => String(item.id) === editId);
+    if (!rule) return;
+    await nextTick();
+    openEditPopup(rule);
+    router.replace({ query: { ...route.query, edit_id: undefined } });
+  },
+  { immediate: true }
+);
 
 const openDeletePopup = response => {
   showDeleteConfirmationPopup.value = true;
@@ -124,15 +259,37 @@ const submitAutomation = async (payload, mode) => {
         ? t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
         : t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
     await store.dispatch(action, payload);
+    const captainUsage = getCaptainConditionUsage(payload);
+    if (captainUsage) {
+      useTrack(CAPTAIN_EVENTS.AUTOMATION_CONDITION_SAVED, {
+        mode,
+        ...captainUsage,
+      });
+    }
     useAlert(successMessage);
     hideAddPopup();
     hideEditPopup();
+    if (mode !== 'edit' && creationSourceMonitorId.value) {
+      router.push(
+        accountScopedRoute('monitor_reports_show', {
+          monitorId: creationSourceMonitorId.value,
+        })
+      );
+    }
+    creationSourceMonitorId.value = null;
   } catch (error) {
-    const errorMessage =
+    const fallbackMessage =
       mode === 'edit'
         ? t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
         : t('AUTOMATION.ADD.API.ERROR_MESSAGE');
-    useAlert(errorMessage);
+    const reason = error?.response?.data?.error;
+    let message = fallbackMessage;
+    if (['monitor_not_available', 'invalid_monitor_id'].includes(reason)) {
+      message = t('AUTOMATION.ADD.FORM.MONITOR.API_UNAVAILABLE');
+    } else if (typeof reason === 'string') {
+      message = reason;
+    }
+    useAlert(message);
   }
 };
 const toggleAutomation = async ({ id, name, status }) => {
@@ -176,7 +333,6 @@ const tableHeaders = computed(() => {
     t('AUTOMATION.LIST.TABLE_HEADER.NAME'),
     t('AUTOMATION.LIST.TABLE_HEADER.ACTIVE'),
     t('AUTOMATION.LIST.TABLE_HEADER.CREATED_ON'),
-    t('AUTOMATION.LIST.TABLE_HEADER.ACTIONS'),
   ];
 });
 </script>
@@ -197,28 +353,42 @@ const tableHeaders = computed(() => {
         :search-placeholder="$t('AUTOMATION.SEARCH_PLACEHOLDER')"
         feature-name="automation"
       >
-        <template v-if="records?.length" #count>
+        <template v-if="showTabs" #tabs>
+          <TabBar
+            :tabs="tabs"
+            :initial-active-tab="activeTabIndex"
+            @tab-changed="onTabChanged"
+          />
+        </template>
+        <template v-if="visibleRecords.length" #count>
           <span class="text-body-main text-n-slate-11">
-            {{ $t('AUTOMATION.COUNT', { n: records.length }) }}
+            {{ $t('AUTOMATION.COUNT', { n: visibleRecords.length }) }}
           </span>
         </template>
         <template #actions>
           <Button
             :label="$t('AUTOMATION.HEADER_BTN_TXT')"
             size="sm"
-            @click="openAddPopup"
+            @click="openAddPopup()"
           />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
+      <div
+        v-if="showDelayDisabledBanner"
+        class="px-4 py-3 mb-4 text-sm rounded-lg bg-n-amber-3 text-n-amber-12"
+      >
+        {{ $t('AUTOMATION.LIST.DELAY_DISABLED_BANNER') }}
+      </div>
       <BaseTable
         :headers="tableHeaders"
-        :items="filteredRecords"
-        :no-data-message="
-          searchQuery ? $t('AUTOMATION.NO_RESULTS') : $t('AUTOMATION.LIST.404')
-        "
+        :items="visibleRecords"
+        :no-data-message="noDataMessage"
       >
+        <template #header-2="{ header }">
+          <span class="hidden text-end md:block">{{ header }}</span>
+        </template>
         <template #row="{ items }">
           <AutomationRuleRow
             v-for="automation in items"

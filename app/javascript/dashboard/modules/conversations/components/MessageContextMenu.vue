@@ -6,6 +6,7 @@ import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned.vue';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
 import {
   ACCOUNT_EVENTS,
@@ -46,7 +47,7 @@ export default {
       default: false,
     },
   },
-  emits: ['open', 'close', 'replyTo'],
+  emits: ['open', 'close', 'replyTo', 'forwardEmail'],
   setup() {
     const { getPlainText } = useMessageFormatter();
 
@@ -119,20 +120,28 @@ export default {
     handleClose(e) {
       this.$emit('close', e);
     },
-    handleTranslate() {
+    async handleTranslate() {
       const { locale: accountLocale } = this.getAccount(this.currentAccountId);
       const agentLocale = this.getUISettings?.locale;
       const targetLanguage = agentLocale || accountLocale || 'en';
-      this.$store.dispatch('translateMessage', {
-        conversationId: this.conversationId,
-        messageId: this.messageId,
-        targetLanguage,
-      });
-      useTrack(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
+      try {
+        await this.$store.dispatch('translateMessage', {
+          conversationId: this.conversationId,
+          messageId: this.messageId,
+          targetLanguage,
+        });
+        useTrack(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
+      } catch (error) {
+        useAlert(parseAPIErrorResponse(error));
+      }
       this.handleClose();
     },
     handleReplyTo() {
       this.$emit('replyTo', this.message);
+      this.handleClose();
+    },
+    handleForwardEmail() {
+      this.$emit('forwardEmail');
       this.handleClose();
     },
     openDeleteModal() {
@@ -203,6 +212,15 @@ export default {
       @close="handleClose"
     >
       <div class="menu-container">
+        <MenuItem
+          v-if="enabledOptions['forwardEmail']"
+          :option="{
+            icon: 'arrow-forward',
+            label: $t('CONVERSATION.CONTEXT_MENU.FORWARD_EMAIL'),
+          }"
+          variant="icon"
+          @click.stop="handleForwardEmail"
+        />
         <MenuItem
           v-if="enabledOptions['replyTo']"
           :option="{

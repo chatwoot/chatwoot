@@ -19,7 +19,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   def process_update_contact
     @contact = ContactIdentifyAction.new(
       contact: @contact,
-      params: { email: contact_email, phone_number: contact_phone_number, name: contact_name },
+      params: { email: contact_email, phone_number: contact_phone_number, name: contact_name, custom_attributes: contact_custom_attributes },
       retain_original_contact_name: true,
       discard_invalid_attrs: true
     ).perform
@@ -95,7 +95,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def permitted_params
-    params.permit(:id, :typing_status, :website_token, :email, contact: [:name, :email, :phone_number],
+    params.permit(:id, :typing_status, :website_token, :email, contact: [:name, :email, :phone_number, { custom_attributes: {} }],
                                                                message: [:content, :referer_url, :timestamp, :echo_id],
                                                                custom_attributes: {})
   end

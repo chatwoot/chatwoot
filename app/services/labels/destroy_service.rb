@@ -2,19 +2,25 @@ class Labels::DestroyService
   pattr_initialize [:label_title!, :account_id!, :label_deleted_at!]
 
   def perform
-    remove_conversation_labels
+    conversation_labels_removed = remove_conversation_labels
     remove_contact_labels
+    invalidate_filtered_unread_count_conversations if conversation_labels_removed
   end
 
   private
 
   def remove_conversation_labels
+    conversation_labels_removed = false
+
     tagged_conversations.find_in_batches do |conversation_batch|
       conversation_batch.each do |conversation|
         update_conversation_cached_labels(conversation)
       end
       delete_label_taggings('Conversation', conversation_batch.map(&:id))
+      conversation_labels_removed = true
     end
+
+    conversation_labels_removed
   end
 
   def remove_contact_labels
@@ -56,5 +62,9 @@ class Labels::DestroyService
 
   def account
     @account ||= Account.find(account_id)
+  end
+
+  def invalidate_filtered_unread_count_conversations
+    ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).conversation_changed!
   end
 end

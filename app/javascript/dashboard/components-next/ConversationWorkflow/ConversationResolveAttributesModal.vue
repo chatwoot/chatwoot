@@ -11,7 +11,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import ChoiceToggle from 'dashboard/components-next/input/ChoiceToggle.vue';
 import { ATTRIBUTE_TYPES } from './constants';
 
-const emit = defineEmits(['submit']);
+const emit = defineEmits(['submit', 'close']);
 
 const { t } = useI18n();
 
@@ -105,8 +105,6 @@ const comboBoxOptions = computed(() => {
 
 const close = () => {
   dialogRef.value?.close();
-  conversationContext.value = null;
-  v$.value.$reset();
 };
 
 const open = (attributes = [], initialValues = {}, context = null) => {
@@ -133,6 +131,12 @@ const open = (attributes = [], initialValues = {}, context = null) => {
 
   v$.value.$reset();
   dialogRef.value?.open();
+};
+
+const handleClose = () => {
+  conversationContext.value = null;
+  v$.value.$reset();
+  emit('close');
 };
 
 const handleConfirm = async () => {
@@ -167,6 +171,7 @@ defineExpose({ open, close });
     "
     :disable-confirm-button="!isFormComplete"
     @confirm="handleConfirm"
+    @close="handleClose"
   >
     <div class="flex flex-col gap-4">
       <div

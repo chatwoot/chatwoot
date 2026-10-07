@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "DESCRIPTION": "Hurmatli mijoz 👋, {inboxName} bilan bo'lgan suhbatingiz haqida fikr bildirish uchun bir necha daqiqa vaqt ajrating.",
+    "RATING": {
+      "LABEL": "Suhbatingizni baholang",
+      "SUCCESS_MESSAGE": "Baho berganingiz uchun rahmat"
+    },
+    "FEEDBACK": {
+      "LABEL": "Bildirmoqchi bo'lgan fikr-mulohazalaringiz bormi?",
+      "PLACEHOLDER": "Fikringiz (ixtiyoriy)",
+      "BUTTON_TEXT": "Fikrni yuborish"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "So'rovnoma muvaffaqiyatli yangilandi",
+      "ERROR_MESSAGE": "Woot serveriga ulanib bo'lmadi, iltimos, keyinroq qayta urinib ko'ring"
+    }
+  },
+  "POWERED_BY": "Chatwoot yordamida ishlaydi"
+}

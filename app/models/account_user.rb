@@ -39,6 +39,8 @@ class AccountUser < ApplicationRecord
   after_create_commit :notify_creation, :create_notification_setting
   after_destroy :notify_deletion, :remove_user_from_account
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
+  after_commit :invalidate_filtered_unread_count_visibility, on: [:create, :destroy]
+  after_update_commit :invalidate_filtered_unread_count_visibility_update, if: :filtered_unread_count_visibility_changed?
 
   validates :user_id, uniqueness: { scope: :account_id }
 
@@ -78,6 +80,22 @@ class AccountUser < ApplicationRecord
 
   def update_presence_in_redis
     OnlineStatusTracker.set_status(account.id, user.id, availability)
+  end
+
+  def filtered_unread_count_visibility_changed?
+    previous_changes.key?('role') || previous_changes.key?('custom_role_id')
+  end
+
+  def invalidate_filtered_unread_count_visibility
+    ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).user_visibility_changed!(user_id: user_id)
+  end
+
+  def invalidate_filtered_unread_count_visibility_update
+    dispatch_account_cache_invalidated if invalidate_filtered_unread_count_visibility
+  end
+
+  def dispatch_account_cache_invalidated
+    Rails.configuration.dispatcher.dispatch(ACCOUNT_CACHE_INVALIDATED, Time.zone.now, account: account, cache_keys: account.cache_keys)
   end
 end
 

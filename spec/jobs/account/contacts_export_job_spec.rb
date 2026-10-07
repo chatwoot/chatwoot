@@ -81,7 +81,20 @@ RSpec.describe Account::ContactsExportJob do
       expect(csv_data.length).to eq(account.contacts.count)
 
       expect(emails).to include('test1@text.example', 'test2@text.example')
-      expect(phone_numbers).to include('+910808080818', '+910808080808')
+      # Phone numbers lead with "+" (a formula character), so they are prefixed with "'" on export.
+      expect(phone_numbers).to include("'+910808080818", "'+910808080808")
+    end
+
+    it 'neutralises formula-leading characters in exported values' do
+      create(:contact, account: account, name: '=HYPERLINK("http://evil.example")', email: 'formula@text.example')
+
+      described_class.perform_now(account.id, user.id, %w[id name email], {})
+
+      csv_content = account.contacts_export.download.force_encoding('UTF-8').delete_prefix("\xEF\xBB\xBF")
+      csv_data = CSV.parse(csv_content, headers: true)
+      row = csv_data.find { |r| r['email'] == 'formula@text.example' }
+
+      expect(row['name']).to start_with("'")
     end
 
     it 'exports labels when requested through column names' do

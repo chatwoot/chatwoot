@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
+import { MENU_OPTIONS_UNAVAILABLE_IN_TABLE } from 'dashboard/constants/editor';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
@@ -16,6 +16,10 @@ const props = defineProps({
   position: {
     type: Object,
     default: null,
+  },
+  isInTable: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -67,6 +71,18 @@ const EDITOR_ACTIONS = [
     menuKey: 'imageUpload',
   },
   {
+    value: 'video',
+    labelKey: 'SLASH_COMMANDS.VIDEO',
+    icon: 'i-lucide-video',
+    menuKey: 'video',
+  },
+  {
+    value: 'horizontalRule',
+    labelKey: 'SLASH_COMMANDS.DIVIDER',
+    icon: 'i-lucide-minus',
+    menuKey: 'horizontalRule',
+  },
+  {
     value: 'strike',
     labelKey: 'SLASH_COMMANDS.STRIKETHROUGH',
     icon: 'i-lucide-strikethrough',
@@ -97,8 +113,10 @@ const selectedIndex = ref(0);
 
 const items = computed(() => {
   const search = props.searchKey.toLowerCase();
+  const unavailable = props.isInTable ? MENU_OPTIONS_UNAVAILABLE_IN_TABLE : [];
   return EDITOR_ACTIONS.filter(action => {
     if (!props.enabledMenuOptions.includes(action.menuKey)) return false;
+    if (unavailable.includes(action.menuKey)) return false;
     if (!search) return true;
     return t(action.labelKey).toLowerCase().includes(search);
   });
@@ -133,12 +151,30 @@ const onSelect = () => {
   if (item) emit('selectAction', item.value);
 };
 
-useKeyboardNavigableList({
-  items,
-  onSelect,
-  adjustScroll,
-  selectedIndex,
-});
+const move = step => {
+  const count = items.value.length;
+  selectedIndex.value = (selectedIndex.value + step + count) % count;
+  adjustScroll();
+};
+
+const KEY_ACTIONS = {
+  ArrowDown: () => move(1),
+  ArrowUp: () => move(-1),
+  'Ctrl-n': () => move(1),
+  'Ctrl-p': () => move(-1),
+  Enter: onSelect,
+};
+
+const handleKeyDown = event => {
+  if (!hasItems.value || event.shiftKey || event.altKey || event.metaKey) {
+    return false;
+  }
+  const action = KEY_ACTIONS[event.ctrlKey ? `Ctrl-${event.key}` : event.key];
+  if (!action) return false;
+
+  action();
+  return true;
+};
 
 // Reset selection when filtered items change
 watch(items, () => {
@@ -154,7 +190,7 @@ const onItemClick = index => {
   onSelect();
 };
 
-defineExpose({ hasItems });
+defineExpose({ handleKeyDown });
 </script>
 
 <!-- eslint-disable-next-line vue/no-root-v-if -->

@@ -1,9 +1,9 @@
 import settings from './settings/settings.routes';
 import conversation from './conversation/conversation.routes';
 import { routes as searchRoutes } from '../../modules/search/search.routes';
+import { routes as callRoutes } from './calls/routes';
 import { routes as contactRoutes } from './contacts/routes';
 import { routes as companyRoutes } from './companies/routes';
-import { routes as notificationRoutes } from './notifications/routes';
 import { routes as inboxRoutes } from './inbox/routes';
 import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
@@ -12,10 +12,17 @@ import { routes as captainRoutes } from './captain/captain.routes';
 import AppContainer from './Dashboard.vue';
 import Suspended from './suspended/Index.vue';
 import NoAccounts from './noAccounts/Index.vue';
+import ShopifySelectAccount from './shopify/SelectAccount.vue';
 import OnboardingAccountDetails from './onboarding/Index.vue';
+import OnboardingInboxSetup from './onboarding/InboxSetup.vue';
 
 export default {
   routes: [
+    {
+      path: frontendURL('shopify/select-account'),
+      name: 'shopify_select_account',
+      component: ShopifySelectAccount,
+    },
     {
       path: frontendURL('accounts/:accountId'),
       component: AppContainer,
@@ -24,10 +31,10 @@ export default {
         ...inboxRoutes,
         ...conversation.routes,
         ...settings.routes,
+        ...callRoutes,
         ...contactRoutes,
         ...companyRoutes,
         ...searchRoutes,
-        ...notificationRoutes,
         ...helpcenterRoutes.routes,
         ...campaignsRoutes.routes,
       ],
@@ -41,6 +48,14 @@ export default {
       component: OnboardingAccountDetails,
     },
     {
+      path: frontendURL('accounts/:accountId/onboarding/inbox-setup'),
+      name: 'onboarding_inbox_setup',
+      meta: {
+        permissions: ['administrator', 'agent', 'custom_role'],
+      },
+      component: OnboardingInboxSetup,
+    },
+    {
       path: frontendURL('accounts/:accountId/suspended'),
       name: 'account_suspended',
       meta: {
@@ -52,6 +67,12 @@ export default {
       path: frontendURL('no-accounts'),
       name: 'no_accounts',
       component: NoAccounts,
+    },
+    {
+      // Install links from the tools catalog can't know the account; the router guard moves them into the current one
+      path: frontendURL('captain/toolsets/install'),
+      name: 'captain_toolset_install_link',
+      component: { render: () => null },
     },
   ],
 };

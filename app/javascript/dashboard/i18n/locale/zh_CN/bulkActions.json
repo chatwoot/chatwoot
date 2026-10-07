@@ -27,13 +27,13 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "分配标签",
-      "REMOVE_LABELS": "Remove labels",
+      "REMOVE_LABELS": "删除标签",
       "ASSIGN_SELECTED_LABELS": "分配指定的标签",
-      "REMOVE_SELECTED_LABELS": "Remove selected labels",
+      "REMOVE_SELECTED_LABELS": "删除选中标签",
       "ASSIGN_SUCCESFUL": "已成功分配标签.",
       "ASSIGN_FAILED": "分配标签失败。请再试一次。",
-      "REMOVE_SUCCESFUL": "Labels removed successfully.",
-      "REMOVE_FAILED": "Failed to remove labels. Please try again."
+      "REMOVE_SUCCESFUL": "标签删除成功。",
+      "REMOVE_FAILED": "删除标签失败，请重试。"
     },
     "TEAMS": {
       "NONE": "啥都没有",

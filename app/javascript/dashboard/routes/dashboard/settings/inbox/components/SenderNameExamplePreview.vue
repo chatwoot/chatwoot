@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
 import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
+import { useBranding } from 'shared/composables/useBranding';
 
 const props = defineProps({
   senderNameType: {
@@ -22,6 +23,7 @@ const props = defineProps({
 const emit = defineEmits(['update']);
 
 const { t } = useI18n();
+const { replaceInstallationName } = useBranding();
 
 const senderNameKeyOptions = computed(() => [
   {
@@ -30,7 +32,7 @@ const senderNameKeyOptions = computed(() => [
     content: t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FRIENDLY.SUBTITLE'),
     preview: {
       senderName: 'Smith',
-      businessName: 'Chatwoot',
+      businessName: replaceInstallationName('Chatwoot'),
       email: '<support@yourbusiness.com>',
     },
   },
@@ -40,7 +42,7 @@ const senderNameKeyOptions = computed(() => [
     content: t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.PROFESSIONAL.SUBTITLE'),
     preview: {
       senderName: '',
-      businessName: 'Chatwoot',
+      businessName: replaceInstallationName('Chatwoot'),
       email: '<support@yourbusiness.com>',
     },
   },
@@ -51,7 +53,7 @@ const isKeyOptionFriendly = key => key === 'friendly';
 const userName = keyOption =>
   isKeyOptionFriendly(keyOption.key)
     ? keyOption.preview.senderName
-    : keyOption.preview.businessName;
+    : props.businessName || keyOption.preview.businessName;
 
 const toggleSenderNameType = key => {
   emit('update', key);

@@ -14,6 +14,7 @@ const props = defineProps({
   icon: { type: [String, Object, Function], default: '' },
   trailingIcon: { type: Boolean, default: false },
   isLoading: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['click']);
@@ -61,6 +62,7 @@ const handleClick = () => {
       :icon="icon"
       :trailing-icon="trailingIcon"
       :is-loading="isLoading"
+      :disabled="disabled"
       @click="handleClick"
       @blur="resetConfirmMode"
     >

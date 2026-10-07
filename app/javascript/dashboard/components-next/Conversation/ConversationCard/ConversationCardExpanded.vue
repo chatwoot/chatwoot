@@ -23,6 +23,8 @@ const props = defineProps({
   showAssignee: { type: Boolean, default: false },
   showInboxName: { type: Boolean, default: false },
   isInboxView: { type: Boolean, default: false },
+  selectable: { type: Boolean, default: true },
+  conversationFirst: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -31,6 +33,30 @@ const emit = defineEmits([
   'click',
   'contextmenu',
 ]);
+const CONVERSATION_FIRST_ORDER = {
+  id: 'order-1 max-lg:w-auto',
+  avatar: 'order-2',
+  name: 'order-3 max-lg:basis-12 max-lg:grow max-lg:max-w-32',
+  dividerAfterName: 'order-4',
+  priority: 'order-5',
+  assignee: 'order-6',
+  status: 'order-7',
+  // Below lg this divider is the line break that moves the message to a second line.
+  time: 'max-lg:order-7 max-lg:ms-auto',
+  dividerAfterStatus: 'order-8 max-lg:basis-full max-lg:h-0',
+  content: 'order-9 max-lg:flex-1 max-lg:min-w-0',
+  labels: 'max-lg:order-9 max-lg:w-24',
+  sla: 'max-lg:order-9',
+  dividerBeforeInbox: 'order-10 ms-auto max-lg:hidden',
+  inbox: 'order-11 max-lg:hidden',
+};
+const CONVERSATION_FIRST_DIVIDERS = [
+  'dividerAfterName',
+  'dividerAfterStatus',
+  'dividerBeforeInbox',
+];
+const orderClass = key =>
+  props.conversationFirst ? CONVERSATION_FIRST_ORDER[key] : undefined;
 
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
 const showLabelsSection = computed(() => props.chat.labels?.length > 0);
@@ -51,7 +77,9 @@ const unreadCount = computed(() => props.chat.unread_count);
 const slaCardLabel = useTemplateRef('slaCardLabel');
 
 const hasSlaPolicyId = computed(
-  () => props.chat?.sla_policy_id || slaCardLabel.value?.hasSlaThreshold
+  () =>
+    !props.currentContact?.blocked &&
+    (props.chat?.applied_sla?.id || slaCardLabel.value?.hasSlaThreshold)
 );
 
 const selectedModel = computed({
@@ -76,23 +104,46 @@ const selectedModel = computed({
       'hover:bg-n-alpha-1': !isActiveChat && !selected,
       'grid-cols-[minmax(0,2fr)_minmax(0,1fr)]': showLabelsSection,
       'grid-cols-[minmax(0,2fr)_max-content]': !showLabelsSection,
+      'max-lg:flex max-lg:flex-wrap max-lg:gap-x-2 max-lg:gap-y-1 max-lg:h-auto max-lg:py-2.5':
+        conversationFirst,
     }"
     @click="$emit('click', $event)"
     @contextmenu="$emit('contextmenu', $event)"
   >
     <!-- LEFT SECTION -->
-    <div class="flex items-center gap-2 min-w-0 flex-1">
-      <div class="flex items-center justify-center flex-shrink-0" @click.stop>
+    <div
+      class="flex items-center gap-2 min-w-0 flex-1"
+      :class="{ 'max-lg:contents': conversationFirst }"
+    >
+      <template v-if="conversationFirst">
+        <div
+          v-for="divider in CONVERSATION_FIRST_DIVIDERS"
+          :key="divider"
+          class="w-px h-3 bg-n-slate-6 flex-shrink-0"
+          :class="orderClass(divider)"
+        />
+      </template>
+      <div
+        v-if="selectable"
+        class="flex items-center justify-center flex-shrink-0"
+        @click.stop
+      >
         <Checkbox v-model="selectedModel" />
       </div>
 
-      <div class="w-px h-3 bg-n-slate-6 flex-shrink-0" />
+      <div v-if="selectable" class="w-px h-3 bg-n-slate-6 flex-shrink-0" />
 
-      <div class="w-4 flex items-center justify-center flex-shrink-0">
+      <div
+        class="w-4 flex items-center justify-center flex-shrink-0"
+        :class="orderClass('priority')"
+      >
         <CardPriorityIcon :priority="chat.priority" show-empty />
       </div>
 
-      <div class="w-4 flex items-center justify-center flex-shrink-0">
+      <div
+        class="w-4 flex items-center justify-center flex-shrink-0"
+        :class="orderClass('assignee')"
+      >
         <Avatar
           v-if="showAssignee && assignee.name"
           v-tooltip.top="{
@@ -112,18 +163,28 @@ const selectedModel = computed({
         />
       </div>
 
-      <div class="w-4 flex items-center justify-center flex-shrink-0">
+      <div
+        class="w-4 flex items-center justify-center flex-shrink-0"
+        :class="orderClass('status')"
+      >
         <CardStatusIcon :status="chat.status" show-empty />
       </div>
 
-      <div class="w-px h-3 bg-n-slate-6 flex-shrink-0" />
+      <div
+        v-if="!conversationFirst"
+        class="w-px h-3 bg-n-slate-6 flex-shrink-0"
+      />
 
-      <div v-if="!isInboxView && showInboxName" class="w-20 flex-shrink-0">
+      <div
+        v-if="!isInboxView && showInboxName"
+        class="w-20 flex-shrink-0"
+        :class="orderClass('inbox')"
+      >
         <InboxName v-if="showInboxName" :inbox="inbox" class="min-w-0" />
       </div>
 
       <div
-        v-if="!isInboxView && showInboxName"
+        v-if="!isInboxView && showInboxName && !conversationFirst"
         class="w-px h-3 bg-n-slate-6 flex-shrink-0"
       />
 
@@ -133,6 +194,7 @@ const selectedModel = computed({
           delay: { show: 500, hide: 0 },
         }"
         class="h-6 flex items-center gap-1 max-w-20 w-full min-w-0 flex-shrink-0"
+        :class="orderClass('id')"
       >
         <Icon
           icon="i-woot-hash"
@@ -144,6 +206,7 @@ const selectedModel = computed({
       </div>
 
       <CardAvatar
+        :class="orderClass('avatar')"
         :contact="currentContact"
         :selected="false"
         :enable-selection="false"
@@ -152,11 +215,13 @@ const selectedModel = computed({
 
       <h4
         class="text-heading-3 my-0 capitalize truncate text-n-slate-12 font-medium w-32 flex-shrink-0"
+        :class="orderClass('name')"
       >
         {{ currentContact.name }}
       </h4>
 
       <CardContent
+        :class="orderClass('content')"
         :last-message="lastMessageInChat"
         :voice-call-status="voiceCallData.status"
         :voice-call-direction="voiceCallData.direction"
@@ -166,8 +231,15 @@ const selectedModel = computed({
     </div>
 
     <!-- RIGHT SECTION -->
-    <div class="flex items-center justify-end gap-1.5 flex-shrink-0">
-      <div v-if="showLabelsSection" class="min-w-0 w-full">
+    <div
+      class="flex items-center justify-end gap-1.5 flex-shrink-0"
+      :class="{ 'max-lg:contents': conversationFirst }"
+    >
+      <div
+        v-if="showLabelsSection"
+        class="min-w-0 w-full"
+        :class="orderClass('labels')"
+      >
         <CardLabels
           :labels="chat.labels"
           disable-toggle
@@ -175,11 +247,18 @@ const selectedModel = computed({
         />
       </div>
 
-      <div v-if="hasSlaPolicyId" class="flex-shrink-0">
+      <div
+        v-if="hasSlaPolicyId"
+        class="flex-shrink-0"
+        :class="orderClass('sla')"
+      >
         <SLACardLabel ref="slaCardLabel" :chat="chat" />
       </div>
 
-      <div class="flex-shrink-0 w-[4.375rem] text-end">
+      <div
+        class="flex-shrink-0 w-[4.375rem] text-end"
+        :class="orderClass('time')"
+      >
         <TimeAgo
           :conversation-id="chat.id"
           :last-activity-timestamp="chat.timestamp"

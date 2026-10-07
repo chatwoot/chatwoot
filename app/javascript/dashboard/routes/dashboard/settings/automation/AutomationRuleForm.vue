@@ -1,20 +1,34 @@
 <script setup>
-import { ref, computed, h, useTemplateRef, watch } from 'vue';
+import { ref, computed, h, shallowRef, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { useOperators } from 'dashboard/components-next/filter/operators';
-import ConditionRow from 'dashboard/components-next/filter/ConditionRow.vue';
-import AutomationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
 import {
   generateAutomationPayload,
+  getActionIcon,
   getAttributes,
-  getFileName,
-  showActionInput,
 } from 'dashboard/helper/automationHelper';
-import { validateAutomation } from 'dashboard/helper/validations';
-import { AUTOMATION_RULE_EVENTS, AUTOMATION_ACTION_TYPES } from './constants';
+import { getAttributeIcon } from 'dashboard/components-next/filter/helper/filterAttributeIcons';
+import { provideDropdownTeleport } from 'dashboard/components-next/dropdown-menu/base/provider';
+import { isEmptyValue, validateAutomation } from 'dashboard/helper/validations';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import MonitorsAPI from 'dashboard/api/monitors';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
+import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
+import {
+  AUTOMATION_RULE_EVENTS,
+  AUTOMATION_ACTION_TYPES,
+  CAPTAIN_CONDITION,
+  DEFAULT_DELAY_MINUTES,
+} from './constants';
+import AutomationRunTypeSelector from './components/AutomationRunTypeSelector.vue';
+import AutomationWaitCondition from './components/AutomationWaitCondition.vue';
+import AutomationInstantTrigger from './components/AutomationInstantTrigger.vue';
+import AutomationMonitorSelect from './components/AutomationMonitorSelect.vue';
+import AutomationActions from './components/AutomationActions.vue';
 
 const props = defineProps({
   mode: {
@@ -67,19 +81,136 @@ const INPUT_TYPE_MAP = {
   multi_select: 'multiSelect',
   search_select: 'searchSelect',
   plain_text: 'plainText',
-  comma_separated_plain_text: 'plainText',
+  long_text: 'longText',
+  multi_text: 'multiText',
   date: 'date',
 };
 
 const { t } = useI18n();
-const { isCloudFeatureEnabled } = useAccount();
+const { accountId, isCloudFeatureEnabled, isOnChatwootCloud } = useAccount();
+const { isEnterprise } = useConfig();
 const { operators } = useOperators();
 
-const dialogRef = ref(null);
-const conditionsRef = useTemplateRef('conditionsRef');
+provideDropdownTeleport();
+
+const panelRef = ref(null);
+const instantTriggerRef = useTemplateRef('instantTriggerRef');
+const waitConditionRef = useTemplateRef('waitConditionRef');
 const errors = ref({});
+const monitorOptions = ref([]);
+const monitorsError = ref(false);
+const isOpen = ref(false);
+const {
+  run: runMonitors,
+  abort: abortMonitors,
+  isPending: monitorsLoading,
+} = useAbortableRequest();
 
 const isEditMode = computed(() => props.mode === 'edit');
+
+const allowsDelayedExecution = computed(() =>
+  isCloudFeatureEnabled(FEATURE_FLAGS.DELAYED_AUTOMATIONS)
+);
+const allowsMonitorEvents = computed(
+  () =>
+    (isEnterprise || isOnChatwootCloud.value) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.REPORTS) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.CONVERSATION_MONITORS) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.AUTOMATIONS)
+);
+const allowsCaptainConditions = computed(() =>
+  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_CLASSIFIER)
+);
+
+// The wait lives here rather than in the wait section so that switching between the two run
+// types doesn't discard a duration the user already typed in.
+const isDelayed = ref(false);
+const isSavedWait = ref(false);
+const delayMinutes = ref(DEFAULT_DELAY_MINUTES);
+const delayUnit = ref(DURATION_UNITS.HOURS);
+const instantTriggerDraft = shallowRef(null);
+const waitTriggerDraft = shallowRef(null);
+const isSyncingDelayState = ref(false);
+// Bumped on every open() so the wait section remounts and re-reads the rule it is given.
+const waitSectionKey = ref(0);
+
+const executionDelayInvalid = computed(
+  () => isDelayed.value && !Number.isFinite(delayMinutes.value)
+);
+
+const statusOptions = computed(() =>
+  (props.getConditionDropdownValues('status') || [])
+    .filter(option => option.id !== 'all')
+    .map(option => ({ value: option.id, label: option.name }))
+);
+
+const inboxOptions = computed(
+  () => props.getConditionDropdownValues('inbox_id') || []
+);
+
+const cloneConditions = conditions => JSON.parse(JSON.stringify(conditions));
+
+const captureTriggerDraft = () => {
+  if (!automation.value) return null;
+
+  return {
+    eventName: automation.value.event_name,
+    conditions: cloneConditions(automation.value.conditions),
+  };
+};
+
+const restoreTriggerDraft = draft => {
+  if (!automation.value || !draft) return;
+
+  automation.value.event_name = draft.eventName;
+  automation.value.conditions = cloneConditions(draft.conditions);
+};
+
+// Show the wait in the largest whole unit (240 min → 4 hours). The delay is passed in by open()
+// rather than read from `automation`, whose model prop only settles a tick later.
+const syncDelayState = executionDelay => {
+  isSyncingDelayState.value = true;
+  isDelayed.value = Boolean(executionDelay);
+  isSyncingDelayState.value = false;
+  isSavedWait.value = isEditMode.value && Boolean(executionDelay);
+  const minutes = executionDelay || DEFAULT_DELAY_MINUTES;
+  if (minutes % 1440 === 0) delayUnit.value = DURATION_UNITS.DAYS;
+  else if (minutes % 60 === 0) delayUnit.value = DURATION_UNITS.HOURS;
+  else delayUnit.value = DURATION_UNITS.MINUTES;
+  delayMinutes.value = minutes;
+  waitSectionKey.value += 1;
+
+  // Drafts are captured when the run type actually changes, so they start empty: seeding them
+  // here would read `automation` before its model prop settles and keep the previous rule.
+  instantTriggerDraft.value = null;
+  waitTriggerDraft.value = null;
+};
+
+watch(
+  isDelayed,
+  (nextIsDelayed, previousIsDelayed) => {
+    if (isSyncingDelayState.value) return;
+
+    const currentDraft = captureTriggerDraft();
+    if (previousIsDelayed) waitTriggerDraft.value = currentDraft;
+    else instantTriggerDraft.value = currentDraft;
+
+    const nextDraft = nextIsDelayed
+      ? waitTriggerDraft.value
+      : instantTriggerDraft.value;
+    restoreTriggerDraft(nextDraft);
+    // A restored in-form wait draft must hydrate like a saved wait instead of being reset on mount.
+    isSavedWait.value = nextIsDelayed && Boolean(nextDraft);
+  },
+  { flush: 'sync' }
+);
+
+watch([isDelayed, delayMinutes], () => {
+  if (!automation.value || !allowsDelayedExecution.value) return;
+  automation.value.execution_delay = isDelayed.value
+    ? delayMinutes.value
+    : null;
+});
 
 const titleKey = computed(() =>
   isEditMode.value ? 'AUTOMATION.EDIT.TITLE' : 'AUTOMATION.ADD.TITLE'
@@ -110,12 +241,24 @@ const getTranslatedAttributes = (type, event) => {
 };
 
 const eventName = computed(() => automation.value?.event_name);
+const usesCaptainCondition = computed(() =>
+  automation.value.conditions.some(
+    condition => condition.attribute_key === CAPTAIN_CONDITION.key
+  )
+);
 
 const filterTypes = computed(() => {
   const event = eventName.value;
   if (!event || !props.automationTypes[event]) return [];
 
-  const attributes = getTranslatedAttributes(props.automationTypes, event);
+  // A type the account can no longer use stays while the rule still has it, so the saved row
+  // renders, but it cannot be picked again.
+  const isUnavailable = attr =>
+    attr.key === CAPTAIN_CONDITION.key && !allowsCaptainConditions.value;
+  const attributes = getTranslatedAttributes(
+    props.automationTypes,
+    event
+  ).filter(attr => !isUnavailable(attr) || usesCaptainCondition.value);
 
   return attributes.map(attr => {
     if (attr.disabled) {
@@ -142,17 +285,31 @@ const filterTypes = computed(() => {
       value: attr.key,
       attributeName: attr.name,
       label: attr.name,
+      icon: getAttributeIcon({
+        attributeKey: attr.key,
+        attributeDisplayType: attr.attributeDisplayType,
+      }),
       inputType: mappedInputType,
+      placeholder: attr.placeholder
+        ? t(`AUTOMATION.CONDITION.PLACEHOLDERS.${attr.placeholder}`)
+        : undefined,
+      maxLength: attr.maxLength,
       options,
       filterOperators,
       dataType: 'text',
       attributeModel: attr.customAttributeType || 'standard',
+      disabled: isUnavailable(attr),
     };
   });
 });
 
 const automationRuleEvents = computed(() =>
-  AUTOMATION_RULE_EVENTS.map(event => ({
+  AUTOMATION_RULE_EVENTS.filter(
+    event =>
+      event.key !== 'monitor_matched' ||
+      allowsMonitorEvents.value ||
+      automation.value?.event_name === 'monitor_matched'
+  ).map(event => ({
     ...event,
     value: t(`AUTOMATION.EVENTS.${event.value}`),
   }))
@@ -160,7 +317,7 @@ const automationRuleEvents = computed(() =>
 
 const hasAutomationMutated = computed(() => {
   return Boolean(
-    automation.value?.conditions[0]?.values ||
+    !isEmptyValue(automation.value?.conditions[0]?.values) ||
       automation.value?.actions[0]?.action_params?.length
   );
 });
@@ -173,16 +330,9 @@ const automationActionTypes = computed(() => {
   return actionTypes.map(action => ({
     ...action,
     label: t(`AUTOMATION.ACTIONS.${action.label}`),
+    icon: getActionIcon(action.key),
   }));
 });
-
-const hasConditionErrors = computed(() =>
-  Object.keys(errors.value).some(key => key.startsWith('condition_'))
-);
-
-const hasActionErrors = computed(() =>
-  Object.keys(errors.value).some(key => key.startsWith('action_'))
-);
 
 watch(
   () => automation.value,
@@ -194,14 +344,14 @@ watch(
   { deep: true }
 );
 
-const isConditionsValid = () => {
-  if (!conditionsRef.value) return true;
-  return conditionsRef.value.every(condition => condition.validate());
-};
+const isConditionsValid = () =>
+  (isDelayed.value ? waitConditionRef : instantTriggerRef).value?.validate() ??
+  true;
 
 const resetValidation = () => {
   errors.value = {};
-  conditionsRef.value?.forEach(c => c.resetValidation());
+  instantTriggerRef.value?.resetValidation();
+  waitConditionRef.value?.resetValidation();
 };
 
 const syncCustomAttributeTypes = () => {
@@ -216,22 +366,78 @@ const syncCustomAttributeTypes = () => {
   });
 };
 
-const open = () => {
+const fetchMonitors = async () => {
+  if (!allowsMonitorEvents.value) {
+    abortMonitors();
+    monitorOptions.value = [];
+    monitorsError.value = false;
+    return;
+  }
+  const requestedAccount = accountId.value;
+  monitorOptions.value = [];
+  monitorsError.value = false;
+  try {
+    const pages = await runMonitors(async signal => {
+      const firstPage = await MonitorsAPI.get(
+        { active: 'true', page: 1 },
+        signal
+      );
+      if (signal.aborted) return null;
+      const pageCount = Math.ceil(firstPage.data.meta.total_count / 20);
+      const remainingPages = await Promise.all(
+        Array.from({ length: pageCount - 1 }, (_, index) =>
+          MonitorsAPI.get({ active: 'true', page: index + 2 }, signal)
+        )
+      );
+      return [firstPage, ...remainingPages];
+    });
+    if (!pages || requestedAccount !== accountId.value) return;
+    monitorOptions.value = pages.flatMap(({ data }) =>
+      data.payload.map(({ id, name }) => ({ id, name }))
+    );
+  } catch {
+    monitorsError.value = true;
+  }
+};
+
+const open = (executionDelay = null) => {
   resetValidation();
-  dialogRef.value?.open();
+  syncDelayState(executionDelay);
+  isOpen.value = true;
+  panelRef.value?.open();
+  fetchMonitors();
+};
+
+const onInstantEventChange = () => {
+  automation.value.monitor_id = null;
+  props.onEventChange();
 };
 
 const close = () => {
   resetValidation();
-  dialogRef.value?.close();
+  panelRef.value?.close();
 };
+
+const onPanelClosed = () => {
+  isOpen.value = false;
+  abortMonitors();
+};
+
+watch([allowsMonitorEvents, accountId], () => {
+  if (isOpen.value) fetchMonitors();
+});
 
 const emitSaveAutomation = () => {
   syncCustomAttributeTypes();
   const conditionsValid = isConditionsValid();
   errors.value = validateAutomation(automation.value);
+  if (allowsDelayedExecution.value && executionDelayInvalid.value) {
+    errors.value.execution_delay = true;
+  }
   if (Object.keys(errors.value).length === 0 && conditionsValid) {
     const payload = generateAutomationPayload(automation.value);
+    // The API rejects the param when the feature is off; existing values are kept server-side.
+    if (!allowsDelayedExecution.value) delete payload.execution_delay;
     emit('save', payload, props.mode);
   }
 };
@@ -240,175 +446,107 @@ defineExpose({ open, close });
 </script>
 
 <template>
-  <Dialog
-    ref="dialogRef"
+  <SidePanel
+    ref="panelRef"
     width="3xl"
-    position="top"
     :title="$t(titleKey)"
-    :show-cancel-button="false"
-    :show-confirm-button="false"
-    overflow-y-auto
+    @close="onPanelClosed"
   >
-    <div v-if="automation" class="flex flex-col w-full">
-      <woot-input
-        v-model="automation.name"
-        :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
-        type="text"
-        :class="{ error: errors.name }"
-        :error="errors.name ? $t('AUTOMATION.ADD.FORM.NAME.ERROR') : ''"
-        :placeholder="$t('AUTOMATION.ADD.FORM.NAME.PLACEHOLDER')"
-      />
-      <woot-input
-        v-model="automation.description"
-        :label="$t('AUTOMATION.ADD.FORM.DESC.LABEL')"
-        type="text"
-        :class="{ error: errors.description }"
-        :error="errors.description ? $t('AUTOMATION.ADD.FORM.DESC.ERROR') : ''"
-        :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
-      />
-      <div class="mb-6">
-        <label :class="{ error: errors.event_name }">
-          {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
-          <select
-            v-model="automation.event_name"
-            class="m-0"
-            @change="onEventChange()"
-          >
-            <option
-              v-for="event in automationRuleEvents"
-              :key="event.key"
-              :value="event.key"
-            >
-              {{ event.value }}
-            </option>
-          </select>
-          <span v-if="errors.event_name" class="message">
-            {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
-          </span>
-        </label>
-        <p
-          v-if="!isEditMode && hasAutomationMutated"
-          class="text-xs text-right text-n-teal-10 pt-1"
-        >
-          {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
-        </p>
-      </div>
-      <!-- Conditions Start -->
-      <section class="mb-5">
-        <label>
-          {{ $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL') }}
-        </label>
-        <ul
-          class="grid gap-4 list-none p-3 mb-4 outline outline-1 rounded-xl -outline-offset-1"
-          :class="
-            hasConditionErrors
-              ? 'outline-n-ruby-5 bg-n-ruby-2/50'
-              : 'outline-n-weak dark:outline-n-strong'
+    <div v-if="automation" class="flex flex-col w-full gap-6">
+      <div class="flex flex-col">
+        <woot-input
+          v-model="automation.name"
+          :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
+          type="text"
+          :class="{ error: errors.name }"
+          :error="errors.name ? $t('AUTOMATION.ADD.FORM.NAME.ERROR') : ''"
+          :placeholder="$t('AUTOMATION.ADD.FORM.NAME.PLACEHOLDER')"
+        />
+        <woot-input
+          v-model="automation.description"
+          :label="$t('AUTOMATION.ADD.FORM.DESC.LABEL')"
+          type="text"
+          :class="{ error: errors.description }"
+          :error="
+            errors.description ? $t('AUTOMATION.ADD.FORM.DESC.ERROR') : ''
           "
-        >
-          <template v-for="(condition, i) in automation.conditions" :key="i">
-            <ConditionRow
-              v-if="i === 0"
-              ref="conditionsRef"
-              v-model:attribute-key="automation.conditions[i].attribute_key"
-              v-model:filter-operator="automation.conditions[i].filter_operator"
-              v-model:values="automation.conditions[i].values"
-              :filter-types="filterTypes"
-              :show-query-operator="false"
-              @remove="removeFilter(i)"
-            />
-            <ConditionRow
-              v-else
-              ref="conditionsRef"
-              v-model:attribute-key="automation.conditions[i].attribute_key"
-              v-model:filter-operator="automation.conditions[i].filter_operator"
-              v-model:query-operator="
-                automation.conditions[i - 1].query_operator
-              "
-              v-model:values="automation.conditions[i].values"
-              :filter-types="filterTypes"
-              show-query-operator
-              @remove="removeFilter(i)"
-            />
-          </template>
-          <div>
-            <NextButton
-              icon="i-lucide-plus"
-              blue
-              faded
-              sm
-              :label="$t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL')"
-              @click="appendNewCondition"
-            />
-          </div>
-        </ul>
-      </section>
-      <!-- Conditions End -->
-      <!-- Actions Start -->
-      <section>
-        <label>
-          {{ $t('AUTOMATION.ADD.FORM.ACTIONS.LABEL') }}
-        </label>
-        <ul
-          class="grid list-none p-3 mb-4 outline outline-1 rounded-xl -outline-offset-1 border-solid"
-          :class="
-            hasActionErrors
-              ? 'outline-n-ruby-5 bg-n-ruby-2/50'
-              : 'outline-n-weak dark:outline-n-strong'
-          "
-        >
-          <AutomationActionInput
-            v-for="(action, i) in automation.actions"
-            :key="i"
-            v-model="automation.actions[i]"
-            :action-types="automationActionTypes"
-            dropdown-max-height="max-h-[7.5rem]"
-            :dropdown-values="getActionDropdownValues(action.action_name)"
-            :show-action-input="
-              showActionInput(automationActionTypes, action.action_name)
-            "
-            :error-message="
-              errors[`action_${i}`]
-                ? $t(`AUTOMATION.ERRORS.${errors[`action_${i}`]}`)
-                : ''
-            "
-            :initial-file-name="
-              isEditMode ? getFileName(action, automation.files) : ''
-            "
-            @reset-action="resetAction(i)"
-            @remove-action="removeAction(i)"
-          />
-          <div class="pt-2">
-            <NextButton
-              icon="i-lucide-plus"
-              blue
-              faded
-              sm
-              :label="$t('AUTOMATION.ADD.ACTION_BUTTON_LABEL')"
-              @click="appendNewAction"
-            />
-          </div>
-        </ul>
-      </section>
-      <!-- Actions End -->
-      <div class="w-full mt-8">
-        <div class="flex flex-row justify-end w-full gap-2 px-0 py-4">
-          <NextButton
-            faded
-            slate
-            type="reset"
-            :label="$t(cancelKey)"
-            @click.prevent="close"
-          />
-          <NextButton
-            solid
-            blue
-            type="submit"
-            :label="$t(submitKey)"
-            @click="emitSaveAutomation"
-          />
-        </div>
+          :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
+        />
       </div>
+      <AutomationRunTypeSelector
+        v-if="
+          allowsDelayedExecution && automation.event_name !== 'monitor_matched'
+        "
+        v-model="isDelayed"
+      />
+      <AutomationWaitCondition
+        v-if="isDelayed"
+        :key="waitSectionKey"
+        ref="waitConditionRef"
+        v-model:event-name="automation.event_name"
+        v-model:conditions="automation.conditions"
+        v-model:delay="delayMinutes"
+        v-model:unit="delayUnit"
+        :status-options="statusOptions"
+        :inbox-options="inboxOptions"
+        :filter-types="filterTypes"
+        :remove-filter="removeFilter"
+        :is-saved-wait="isSavedWait"
+        :has-error="Boolean(errors.execution_delay)"
+      />
+      <AutomationInstantTrigger
+        v-else
+        ref="instantTriggerRef"
+        v-model:event-name="automation.event_name"
+        v-model:conditions="automation.conditions"
+        :events="automationRuleEvents"
+        :filter-types="filterTypes"
+        :errors="errors"
+        :show-reset-message="!isEditMode && hasAutomationMutated"
+        :append-new-condition="appendNewCondition"
+        :remove-filter="removeFilter"
+        :on-event-change="onInstantEventChange"
+      >
+        <AutomationMonitorSelect
+          v-if="automation.event_name === 'monitor_matched'"
+          v-model="automation.monitor_id"
+          :options="monitorOptions"
+          :selected-name="automation.monitor_name"
+          :loading="monitorsLoading"
+          :error="monitorsError"
+          :invalid="Boolean(errors.monitor_id)"
+          @retry="fetchMonitors"
+        />
+      </AutomationInstantTrigger>
+      <AutomationActions
+        v-model="automation.actions"
+        :action-types="automationActionTypes"
+        :get-action-dropdown-values="getActionDropdownValues"
+        :files="automation.files"
+        :show-file-name="isEditMode"
+        :errors="errors"
+        :append-new-action="appendNewAction"
+        :remove-action="removeAction"
+        :reset-action="resetAction"
+      />
     </div>
-  </Dialog>
+    <template #footer>
+      <div class="flex flex-row justify-end w-full gap-2">
+        <NextButton
+          faded
+          slate
+          type="button"
+          :label="$t(cancelKey)"
+          @click="close"
+        />
+        <NextButton
+          solid
+          blue
+          type="button"
+          :label="$t(submitKey)"
+          @click="emitSaveAutomation"
+        />
+      </div>
+    </template>
+  </SidePanel>
 </template>

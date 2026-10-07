@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as types from '../../../mutation-types';
 import { actions } from '../../customViews';
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import {
   contactFilterView,
   customViewList,
@@ -10,6 +11,25 @@ import {
 const commit = vi.fn();
 global.axios = axios;
 vi.mock('axios');
+
+const mockRetryJitter = value =>
+  vi.spyOn(Math, 'random').mockReturnValue(value);
+
+const conversationUnreadCountsEnabledRootGetters = {
+  getCurrentAccountId: 1,
+  'accounts/isFeatureEnabledonAccount': vi.fn((_, featureFlag) =>
+    [
+      FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS,
+      FEATURE_FLAGS.UNREAD_COUNT_FOR_FILTERS,
+    ].includes(featureFlag)
+  ),
+};
+
+afterEach(() => {
+  vi.restoreAllMocks();
+  vi.clearAllTimers();
+  vi.useRealTimers();
+});
 
 describe('#actions', () => {
   describe('#get', () => {
@@ -49,6 +69,36 @@ describe('#actions', () => {
         [types.default.SET_CUSTOM_VIEW_UI_FLAG, { isCreating: false }],
       ]);
     });
+
+    it('refetches unread counts after creating a conversation folder', async () => {
+      vi.useFakeTimers();
+      mockRetryJitter(0.5);
+      const dispatch = vi.fn();
+      const firstItem = customViewList[0];
+      axios.post.mockResolvedValue({ data: firstItem });
+
+      await actions.create(
+        {
+          commit,
+          dispatch,
+          rootGetters: conversationUnreadCountsEnabledRootGetters,
+        },
+        firstItem
+      );
+
+      expect(dispatch).toHaveBeenCalledWith(
+        'conversationUnreadCounts/get',
+        {},
+        { root: true }
+      );
+
+      vi.advanceTimersByTime(37499);
+      expect(dispatch).toHaveBeenCalledTimes(1);
+
+      vi.advanceTimersByTime(1);
+      expect(dispatch).toHaveBeenCalledTimes(2);
+    });
+
     it('sends correct actions if API is error', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
       await expect(actions.create({ commit })).rejects.toThrow(Error);
@@ -69,6 +119,44 @@ describe('#actions', () => {
         [types.default.SET_CUSTOM_VIEW_UI_FLAG, { isDeleting: false }],
       ]);
     });
+
+    it('refetches unread counts after deleting a conversation folder', async () => {
+      vi.useFakeTimers();
+      const dispatch = vi.fn();
+      axios.delete.mockResolvedValue({ data: customViewList[0] });
+
+      await actions.delete(
+        {
+          commit,
+          dispatch,
+          rootGetters: conversationUnreadCountsEnabledRootGetters,
+        },
+        { id: 1, filterType: 'conversation' }
+      );
+
+      expect(dispatch).toHaveBeenCalledWith(
+        'conversationUnreadCounts/get',
+        {},
+        { root: true }
+      );
+    });
+
+    it('does not refetch unread counts after deleting a contact segment', async () => {
+      const dispatch = vi.fn();
+      axios.delete.mockResolvedValue({ data: contactFilterView });
+
+      await actions.delete(
+        {
+          commit,
+          dispatch,
+          rootGetters: conversationUnreadCountsEnabledRootGetters,
+        },
+        { id: 1, filterType: 'contact' }
+      );
+
+      expect(dispatch).not.toHaveBeenCalled();
+    });
+
     it('sends correct actions if API is error', async () => {
       axios.delete.mockRejectedValue({ message: 'Incorrect header' });
       await expect(actions.delete({ commit }, 1)).rejects.toThrow(Error);
@@ -93,6 +181,29 @@ describe('#actions', () => {
         [types.default.SET_CUSTOM_VIEW_UI_FLAG, { isCreating: false }],
       ]);
     });
+
+    it('refetches unread counts after updating a conversation folder', async () => {
+      vi.useFakeTimers();
+      const dispatch = vi.fn();
+      const item = updateCustomViewList[0];
+      axios.patch.mockResolvedValue({ data: item });
+
+      await actions.update(
+        {
+          commit,
+          dispatch,
+          rootGetters: conversationUnreadCountsEnabledRootGetters,
+        },
+        item
+      );
+
+      expect(dispatch).toHaveBeenCalledWith(
+        'conversationUnreadCounts/get',
+        {},
+        { root: true }
+      );
+    });
+
     it('sends correct actions if API is error', async () => {
       axios.patch.mockRejectedValue({ message: 'Incorrect header' });
       await expect(actions.update({ commit }, 1)).rejects.toThrow(Error);

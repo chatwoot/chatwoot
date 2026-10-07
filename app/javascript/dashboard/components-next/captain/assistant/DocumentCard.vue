@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import {
   isSafeHttpLink,
@@ -38,6 +39,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  markdownDocument: {
+    type: Boolean,
+    default: false,
+  },
+  syncable: {
+    type: Boolean,
+    default: true,
+  },
   createdAt: {
     type: Number,
     required: true,
@@ -66,6 +75,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  responsesCount: {
+    type: Number,
+    default: 0,
+  },
   isSelected: {
     type: Boolean,
     default: false,
@@ -85,6 +98,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['action', 'select', 'hover']);
+
+const exactTimestamp = useExactTimestamp();
+
 const { checkPermissions } = usePolicy();
 
 const { t } = useI18n();
@@ -96,28 +112,22 @@ const modelValue = computed({
 });
 
 const isPdf = computed(() => props.pdfDocument);
+const isMarkdown = computed(() => props.markdownDocument);
 const hasSafeLink = computed(() => isSafeHttpLink(props.externalLink));
 const canManage = computed(() => checkPermissions(['administrator']));
 const isAvailable = computed(() => props.status === 'available');
 const canSync = computed(
-  () => canManage.value && !isPdf.value && isAvailable.value
+  () => canManage.value && props.syncable && isAvailable.value
 );
 const isSyncing = computed(() => props.syncStatus === 'syncing');
 const isFailed = computed(() => props.syncStatus === 'failed');
 const isRetryableSync = computed(
   () => isFailed.value || (isSyncing.value && !props.syncInProgress)
 );
-const showSyncStatus = computed(() => !isPdf.value);
+const showSyncStatus = computed(() => props.syncable);
 
 const menuItems = computed(() => {
-  const allOptions = [
-    {
-      label: t('CAPTAIN.DOCUMENTS.OPTIONS.VIEW_RELATED_RESPONSES'),
-      value: 'viewRelatedQuestions',
-      action: 'viewRelatedQuestions',
-      icon: 'i-ph-tree-view-duotone',
-    },
-  ];
+  const allOptions = [];
 
   if (canSync.value) {
     allOptions.push({
@@ -143,19 +153,27 @@ const menuItems = computed(() => {
 });
 
 const createdAtLabel = computed(() => dynamicTime(props.createdAt));
+const responsesCountLabel = computed(() =>
+  t('CAPTAIN.DOCUMENTS.FAQ_COUNT', { n: props.responsesCount })
+);
+const displayLink = computed(() => {
+  if (isMarkdown.value) return props.name;
+  if (isPdf.value) return formatDocumentLink(props.externalLink);
 
-const displayLink = computed(() =>
-  isPdf.value
-    ? formatDocumentLink(props.externalLink)
-    : getDocumentDisplayPath(props.externalLink)
-);
-const linkIcon = computed(() =>
-  isPdf.value ? 'i-ph-file-pdf' : 'i-ph-link-simple'
-);
+  return getDocumentDisplayPath(props.externalLink);
+});
+const linkIcon = computed(() => {
+  if (isMarkdown.value) return 'i-lucide-file-text';
+  return isPdf.value ? 'i-ph-file-pdf' : 'i-ph-link-simple';
+});
 
 const handleAction = ({ action, value }) => {
   toggleDropdown(false);
   emit('action', { action, value, id: props.id });
+};
+
+const handleViewDetails = () => {
+  emit('action', { action: 'viewDetails', id: props.id });
 };
 
 const handleRetry = () => {
@@ -177,28 +195,31 @@ const handleRetry = () => {
       <Checkbox v-model="modelValue" />
     </div>
     <div class="flex gap-1 justify-between w-full">
-      <span class="text-base text-n-slate-12 line-clamp-1">
+      <button
+        type="button"
+        class="p-0 text-base text-left bg-transparent border-0 outline-transparent text-n-slate-12 line-clamp-1 underline-offset-2 hover:underline focus-visible:underline"
+        @click="handleViewDetails"
+      >
         {{ name }}
-      </span>
-      <div v-if="showMenu" class="flex gap-2 items-center">
-        <div
-          v-on-clickaway="() => toggleDropdown(false)"
-          class="flex relative items-center group"
-        >
-          <Button
-            icon="i-lucide-ellipsis-vertical"
-            color="slate"
-            size="xs"
-            class="rounded-md group-hover:bg-n-alpha-2"
-            @click="toggleDropdown()"
-          />
-          <DropdownMenu
-            v-if="showActionsDropdown"
-            :menu-items="menuItems"
-            class="top-full mt-1 ltr:right-0 rtl:left-0 xl:ltr:right-0 xl:rtl:left-0"
-            @action="handleAction($event)"
-          />
-        </div>
+      </button>
+      <div
+        v-if="showMenu && menuItems.length"
+        v-on-clickaway="() => toggleDropdown(false)"
+        class="flex relative items-center group"
+      >
+        <Button
+          icon="i-lucide-ellipsis-vertical"
+          color="slate"
+          size="xs"
+          class="rounded-md group-hover:bg-n-alpha-2"
+          @click="toggleDropdown()"
+        />
+        <DropdownMenu
+          v-if="showActionsDropdown"
+          :menu-items="menuItems"
+          class="top-full mt-1 ltr:right-0 rtl:left-0 xl:ltr:right-0 xl:rtl:left-0"
+          @action="handleAction($event)"
+        />
       </div>
     </div>
     <div class="flex gap-4 justify-between items-center w-full">
@@ -209,7 +230,7 @@ const handleRetry = () => {
         {{ assistant?.name || '' }}
       </span>
       <a
-        v-if="!isPdf && hasSafeLink"
+        v-if="!isPdf && !isMarkdown && hasSafeLink"
         :href="externalLink"
         :title="externalLink"
         target="_blank"
@@ -228,6 +249,9 @@ const handleRetry = () => {
         <Icon :icon="linkIcon" class="shrink-0" />
         <span class="truncate">{{ displayLink }}</span>
       </span>
+      <span class="text-sm shrink-0 text-n-slate-11">
+        {{ responsesCountLabel }}
+      </span>
       <DocumentSyncStatus
         v-if="showSyncStatus"
         :status="syncStatus"
@@ -238,7 +262,14 @@ const handleRetry = () => {
         :show-retry="canSync && isRetryableSync"
         @retry="handleRetry"
       />
-      <div v-else class="text-sm shrink-0 text-n-slate-11 line-clamp-1">
+      <div
+        v-else
+        v-tooltip.top="{
+          content: exactTimestamp(createdAt),
+          delay: { show: 500, hide: 0 },
+        }"
+        class="text-sm shrink-0 text-n-slate-11 line-clamp-1"
+      >
         {{ createdAtLabel }}
       </div>
     </div>

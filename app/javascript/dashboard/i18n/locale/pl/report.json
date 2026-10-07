@@ -23,12 +23,14 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
@@ -120,6 +124,25 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Nie znaleziono rekordów"
+    },
+    "DRILLDOWN": {
+      "TITLE": "{metric} details",
+      "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations",
+      "RESULT_COUNT_MESSAGE": "{count} message | {count} messages",
+      "EMPTY": "No records found for this bar.",
+      "ERROR": "Could not load records. Please try again.",
+      "ADMIN_ONLY": "Only administrators can drill down into report records.",
+      "LOAD_MORE": "Load more",
+      "PREVIOUS_BUCKET": "Previous bar",
+      "NEXT_BUCKET": "Next bar",
+      "UNKNOWN_CONTACT": "Unknown contact",
+      "UNKNOWN_INBOX": "Unknown inbox",
+      "UNASSIGNED_AGENT": "Nieprzypisane",
+      "NO_MESSAGE_CONTENT": "No message content",
+      "MESSAGE_CREATED_AT": "Message created at {time}",
+      "EVENT_OCCURRED_AT": "Event occurred at {time}",
+      "INCOMING_MESSAGE": "Incoming message",
+      "OUTGOING_MESSAGE": "Outgoing message"
     },
     "PAGINATION": {
       "RESULTS": "Showing {start} to {end} of {total} results",
@@ -525,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Przegląd",
     "LIVE": "Na żywo",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Aktywne rozmowy",
       "LOADING_MESSAGE": "Ładowanie metryk rozmów...",

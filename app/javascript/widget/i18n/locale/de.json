@@ -14,7 +14,7 @@
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Not available"
+      "NOT_AVAILABLE": "Nicht verfügbar"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -105,6 +105,11 @@
     "PLACEHOLDER": "Emojis durchsuchen",
     "NOT_FOUND": "Kein Emoji entspricht Ihrer Suche",
     "ARIA_LABEL": "Emoji picker"
+  },
+  "EMOJI_ICON_PICKER": {
+    "SEARCH_EMOJI": "Emojis suchen …",
+    "FREQUENTLY_USED": "Häufig verwendet",
+    "NO_EMOJI": "Kein Emoji entspricht deiner Suche"
   },
   "CSAT": {
     "TITLE": "Bewerten Sie Ihre Konversation",

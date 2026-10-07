@@ -19,6 +19,10 @@
       "OR": "VAGY"
     },
     "INPUT_PLACEHOLDER": "Enter value",
+    "MULTI_VALUE_INPUT_PLACEHOLDER": "Type a value, then press Enter to add more",
+    "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Type a value",
+    "CONTACT_SEARCH_PLACEHOLDER": "Search contacts",
+    "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "Egyenlő",
       "not_equal_to": "Nem egyenlő",
@@ -49,6 +53,7 @@
       "ASSIGNEE_NAME": "Jogosult neve",
       "INBOX_NAME": "Fiók név",
       "TEAM_NAME": "Csapatnév",
+      "CONTACT": "Kontakt",
       "CONVERSATION_IDENTIFIER": "Beszélgetés azonosítója",
       "CAMPAIGN_NAME": "Vállalkozás neve",
       "LABELS": "Cimkék",

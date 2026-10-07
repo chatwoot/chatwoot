@@ -77,7 +77,7 @@ export default {
     async updateInbox() {
       try {
         this.loading = true;
-        let payload = {
+        const payload = {
           id: this.inbox.id,
           formData: false,
           channel: {
@@ -90,10 +90,6 @@ export default {
             imap_authentication: this.authMechanism,
           },
         };
-
-        if (!this.isIMAPEnabled) {
-          payload.channel.smtp_enabled = false;
-        }
 
         await this.$store.dispatch('inboxes/updateInboxIMAP', payload);
         useAlert(this.$t('INBOX_MGMT.IMAP.EDIT.SUCCESS_MESSAGE'));

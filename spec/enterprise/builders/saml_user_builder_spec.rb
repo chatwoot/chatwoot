@@ -218,10 +218,18 @@ RSpec.describe SamlUserBuilder do
 
         before { saml_settings }
 
-        it 'applies custom role based on SAML groups' do
+        it 'applies custom role based on SAML groups when the custom_roles feature is enabled' do
+          account.enable_features!('custom_roles')
+
           user = builder.perform
           account_user = AccountUser.find_by(user: user, account: account)
           expect(account_user.custom_role_id).to eq(custom_role.id)
+        end
+
+        it 'ignores the custom role mapping when the custom_roles feature is disabled' do
+          user = builder.perform
+          account_user = AccountUser.find_by(user: user, account: account)
+          expect(account_user.custom_role_id).to be_nil
         end
       end
 

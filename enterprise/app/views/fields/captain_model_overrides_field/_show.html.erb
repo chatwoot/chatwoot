@@ -1,0 +1,43 @@
+<% columns = "sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,2fr)_7rem]" %>
+<details class="group w-full" open>
+  <summary class="flex min-h-9 cursor-pointer list-none items-center gap-2 text-label text-n-blue-11 [&::-webkit-details-marker]:hidden">
+    <span><%= t('super_admin.captain_model_overrides.show.summary') %></span>
+    <span class="i-lucide-chevron-down size-4 transition-transform duration-200 group-open:rotate-180"></span>
+  </summary>
+  <div class="mt-3 w-full">
+    <% {
+         t('super_admin.captain_model_overrides.form.customer_features') => field.feature_rows,
+         t('super_admin.captain_model_overrides.form.internal_features') => field.internal_feature_rows
+       }.each do |section_name, features| %>
+      <section class="mb-6 last:mb-0">
+        <div class="text-xs font-medium uppercase tracking-wider text-n-slate-10 <%= columns %> mb-2 hidden gap-x-6 px-4 sm:grid">
+          <span><%= section_name %></span>
+          <span><%= t('super_admin.captain_model_overrides.show.provider') %></span>
+          <span><%= t('super_admin.captain_model_overrides.show.model') %></span>
+        </div>
+        <h3 class="text-xs font-medium uppercase tracking-wider text-n-slate-10 mb-2 sm:hidden"><%= section_name %></h3>
+        <div class="space-y-1.5">
+          <% features.each do |feature| %>
+            <div class="<%= columns %> grid items-center gap-x-6 gap-y-1 rounded-md border border-n-weak px-4 py-2.5">
+              <div class="min-w-0">
+                <div class="truncate text-heading-3 text-n-slate-12"><%= feature[:name] %></div>
+                <div class="truncate font-mono text-xs text-n-slate-10"><%= feature[:key] %></div>
+              </div>
+              <div class="min-w-0 text-body-main text-n-slate-12">
+                <%= feature[:provider] %>
+                <span class="text-n-slate-10">(<%= feature[:provider_id] %>)</span>
+              </div>
+              <div class="min-w-0 text-body-main text-n-slate-12">
+                <%= feature[:model] %>
+                <span class="text-n-slate-10">(<%= feature[:model_id] %>)</span>
+              </div>
+              <div class="sm:text-end">
+                <%= render "badge", label: feature[:source_label], tone: (feature[:source] == :account_override ? :success : :neutral) %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+  </div>
+</details>

@@ -30,7 +30,7 @@
     "BACK_IN_MINUTES": "נחזור לאונליין בעוד {time} דקות",
     "BACK_AT_TIME": "נחזור לאונליין בשעה {time}",
     "BACK_ON_DAY": "נחזור לאונליין ביום {day}",
-    "BACK_TOMORROW": "נחזור לאונליין מחר",
+    "BACK_TOMORROW": "נחזור לפעילות מחר",
     "BACK_IN_SOME_TIME": "נחזור לאונליין בעוד זמן מה"
   },
   "DAY_NAMES": {
@@ -42,7 +42,7 @@
     "FRIDAY": "שישי",
     "SATURDAY": "יום שבת"
   },
-  "START_CONVERSATION": "התחל שיחה",
+  "START_CONVERSATION": "התחלת שיחה",
   "END_CONVERSATION": "סיים שיחה",
   "CONTINUE_CONVERSATION": "המשך שיחה",
   "YOU": "אתה",
@@ -105,6 +105,11 @@
     "PLACEHOLDER": "חפש אימוג'י",
     "NOT_FOUND": "אין אמוג'י שתואם את החיפוש שלך",
     "ARIA_LABEL": "בוחר אימוג'י"
+  },
+  "EMOJI_ICON_PICKER": {
+    "SEARCH_EMOJI": "Search emoji…",
+    "FREQUENTLY_USED": "Frequently used",
+    "NO_EMOJI": "אין אמוג'י שתואם את החיפוש שלך"
   },
   "CSAT": {
     "TITLE": "דרג את השיחה שלך",
