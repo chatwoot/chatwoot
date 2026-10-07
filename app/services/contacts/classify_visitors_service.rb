@@ -1,5 +1,6 @@
 # Classifies the contacts of one id window that are still visitors. A visitor with a sign of being a real
-# person becomes a lead. A visitor with none, older than the retention period and not online, is deleted.
+# person becomes a lead. When the REMOVE_STALE_VISITOR_CONTACTS setting is on, a visitor with none, older
+# than the retention period and not online, is deleted.
 # Leads and customers are never read, changed or deleted.
 class Contacts::ClassifyVisitorsService
   pattr_initialize [:from_id!, :to_id!]
@@ -13,7 +14,7 @@ class Contacts::ClassifyVisitorsService
   RETRYABLE = [ActiveRecord::LockWaitTimeout, ActiveRecord::Deadlocked, ActiveRecord::QueryCanceled, ContactTouchedError].freeze
 
   # Promotion follows Contacts::SyncAttributes, where blank means empty or whitespace. Purging follows
-  # Contact.stale_without_conversations, which means exactly empty. A value made of whitespace is neither.
+  # the stale-contact rule, which means exactly empty. A value made of whitespace is neither.
   IDENTITY = "(coalesce(contacts.email, '') ~ '\\S' OR coalesce(contacts.phone_number, '') ~ '\\S' " \
              "OR coalesce(contacts.identifier, '') ~ '\\S')".freeze
   NO_IDENTITY = "(coalesce(contacts.email, '') = '' AND coalesce(contacts.phone_number, '') = '' " \
@@ -44,7 +45,7 @@ class Contacts::ClassifyVisitorsService
   PROMOTE = 'UPDATE contacts SET contact_type = 1 WHERE id IN (:ids) AND contact_type = 0'.freeze
 
   def self.rows_per_second
-    stored = Redis::Alfred.get(Redis::Alfred::CONTACT_TYPE_BACKFILL_RATE).to_f
+    stored = Redis::Alfred.get(Redis::Alfred::CONTACT_CLASSIFY_RATE).to_f
     stored.positive? ? stored : ROWS_PER_SECOND
   end
 
@@ -52,7 +53,12 @@ class Contacts::ClassifyVisitorsService
     rows = visitors
     leads, others = rows.partition { |row| row['lead'] }
     stale = others.select { |row| row['stale'] }
-    { visitors: rows.size, promoted: promote(leads.pluck('id')), purged: purge(stale.map { |row| row.values_at('id', 'account_id') }) }
+    purged = self.class.remove_stale? ? purge(stale.map { |row| row.values_at('id', 'account_id') }) : 0
+    { visitors: rows.size, promoted: promote(leads.pluck('id')), purged: purged }
+  end
+
+  def self.remove_stale?
+    GlobalConfigService.load('REMOVE_STALE_VISITOR_CONTACTS', false) == true
   end
 
   private

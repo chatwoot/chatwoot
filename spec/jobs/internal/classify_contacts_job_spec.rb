@@ -1,26 +1,40 @@
 require 'rails_helper'
 
-RSpec.describe Migration::ClassifyContactsJob do
+RSpec.describe Internal::ClassifyContactsJob do
+  # contacts older than the retention period, so the walk reaches them
   let(:account) { create(:account) }
-  let(:cursor_key) { Redis::Alfred::CONTACT_TYPE_BACKFILL_CURSOR }
-  let(:paused_key) { Redis::Alfred::CONTACT_TYPE_BACKFILL_PAUSED }
+  let(:old) { { account: account, created_at: 60.days.ago } }
+  let(:cursor_key) { Redis::Alfred::CONTACT_CLASSIFY_CURSOR }
+  let(:paused_key) { Redis::Alfred::CONTACT_CLASSIFY_PAUSED }
+  let(:running_key) { Redis::Alfred::CONTACT_CLASSIFY_RUNNING }
 
   after do
-    Redis::Alfred.delete(cursor_key)
-    Redis::Alfred.delete(paused_key)
+    [cursor_key, paused_key, running_key].each { |key| Redis::Alfred.delete(key) }
   end
 
   it 'runs on the migration queue' do
     expect { described_class.perform_later }.to have_enqueued_job(described_class).on_queue('async_database_migration')
   end
 
-  it 'classifies the contacts and clears the cursor when it reaches the end' do
-    contact = create(:contact, account: account, name: 'Maria Lopez')
+  it 'classifies contacts up to the retention line and keeps the cursor for the next run' do
+    contact = create(:contact, **old, name: 'Maria Lopez')
+    recent = create(:contact, account: account, name: 'John Smith')
 
     expect { described_class.perform_now }.not_to have_enqueued_job(described_class)
 
     expect(contact.reload).to be_lead
-    expect(Redis::Alfred.get(cursor_key)).to be_nil
+    expect(recent.reload).to be_visitor
+    expect(Redis::Alfred.get(cursor_key).to_i).to eq(contact.id)
+    expect(Redis::Alfred.get(running_key)).to be_nil
+  end
+
+  it 'does not start a second walk while one is in progress' do
+    contact = create(:contact, **old, name: 'Maria Lopez')
+    Redis::Alfred.set(running_key, 1)
+
+    described_class.perform_now
+
+    expect(contact.reload).to be_visitor
   end
 
   it 'hands the rest of the table to the next run when its time is up' do
@@ -35,8 +49,8 @@ RSpec.describe Migration::ClassifyContactsJob do
   end
 
   it 'resumes after the saved cursor' do
-    below = create(:contact, account: account, name: 'Maria Lopez')
-    above = create(:contact, account: account, name: 'John Smith')
+    below = create(:contact, **old, name: 'Maria Lopez')
+    above = create(:contact, **old, name: 'John Smith')
     Redis::Alfred.set(cursor_key, below.id)
 
     described_class.perform_now
@@ -45,11 +59,12 @@ RSpec.describe Migration::ClassifyContactsJob do
     expect(above.reload).to be_lead
   end
 
-  it 'waits and checks again while it is paused' do
-    contact = create(:contact, account: account, name: 'Maria Lopez')
+  it 'waits and checks again while it is paused, keeping its position' do
+    contact = create(:contact, **old, name: 'Maria Lopez')
     Redis::Alfred.set(paused_key, 1)
 
-    expect { described_class.perform_now }.to have_enqueued_job(described_class).at(a_value_within(1.minute).of(5.minutes.from_now))
+    expect { described_class.perform_now }.to have_enqueued_job(described_class)
+      .with(1, contact.id, described_class::WINDOW).at(a_value_within(1.minute).of(5.minutes.from_now))
 
     expect(contact.reload).to be_visitor
   end

@@ -114,11 +114,13 @@ module Redis::RedisKeys
   # Rolling per-user challenge issuance budget
   DEVICE_VERIFICATION_ISSUANCE = 'DEVICE_VERIFICATION::ISSUANCE::%<user_id>d'.freeze
 
-  ## Contact type backfill (Migration::ClassifyContactsJob)
-  # Last contact id the walk has finished; cleared when the walk reaches the end
-  CONTACT_TYPE_BACKFILL_CURSOR = 'CONTACT_TYPE_BACKFILL::CURSOR'.freeze
+  ## Contact classification (Internal::ClassifyContactsJob)
+  # Last contact id the walk has finished; the next run continues after it
+  CONTACT_CLASSIFY_CURSOR = 'CONTACT_CLASSIFY::CURSOR'.freeze
   # Set to pause the walk; the job checks again every few minutes
-  CONTACT_TYPE_BACKFILL_PAUSED = 'CONTACT_TYPE_BACKFILL::PAUSED'.freeze
+  CONTACT_CLASSIFY_PAUSED = 'CONTACT_CLASSIFY::PAUSED'.freeze
   # Rows written per second; overrides the default while set
-  CONTACT_TYPE_BACKFILL_RATE = 'CONTACT_TYPE_BACKFILL::RATE'.freeze
+  CONTACT_CLASSIFY_RATE = 'CONTACT_CLASSIFY::RATE'.freeze
+  # Present while a walk is in progress, so the daily run does not start a second one
+  CONTACT_CLASSIFY_RUNNING = 'CONTACT_CLASSIFY::RUNNING'.freeze
 end

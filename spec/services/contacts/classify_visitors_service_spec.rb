@@ -77,7 +77,14 @@ RSpec.describe Contacts::ClassifyVisitorsService do
     end
   end
 
-  describe 'a stale visitor' do
+  describe 'a stale visitor, with the REMOVE_STALE_VISITOR_CONTACTS setting on' do
+    before do
+      InstallationConfig.where(name: 'REMOVE_STALE_VISITOR_CONTACTS').first_or_create!(value: true, locked: false)
+      GlobalConfig.clear_cache
+    end
+
+    after { GlobalConfig.clear_cache }
+
     it 'is kept when it gains a note while the delete runs, and the window fails so the job retries it' do
       contact = create(:contact, **anonymous)
       service = described_class.new(from_id: contact.id, to_id: contact.id)
@@ -122,6 +129,15 @@ RSpec.describe Contacts::ClassifyVisitorsService do
 
       expect { service.perform }.to raise_error(ActiveRecord::LockWaitTimeout)
       expect(Contact.connection).to have_received(:exec_update).exactly(3).times
+    end
+  end
+
+  describe 'a stale visitor, with the setting off as it is by default' do
+    it 'is kept' do
+      contact = create(:contact, **anonymous)
+
+      expect(classify).to include(purged: 0)
+      expect(contact.reload).to be_visitor
     end
   end
 
