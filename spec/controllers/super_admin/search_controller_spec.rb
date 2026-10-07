@@ -52,6 +52,23 @@ RSpec.describe 'Super Admin Search', type: :request do
         expect(response.body).not_to include('See all matching accounts')
       end
 
+      it 'matches wildcard characters literally' do
+        create(:account, name: 'acmeXtest')
+        create(:account, name: 'acme_test')
+
+        get '/super_admin/search/accounts', params: { q: 'acme_t' }
+
+        expect(response.body).to include('acme_test')
+        expect(response.body).not_to include('acmeXtest')
+      end
+
+      it 'renders nothing for an id beyond the column range' do
+        get '/super_admin/search/accounts', params: { q: '99999999999999999999999' }
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to be_blank
+      end
+
       it 'renders nothing when no account matches' do
         get '/super_admin/search/accounts', params: { q: 'nothing' }
 
