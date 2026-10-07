@@ -54,6 +54,7 @@ module Redis::RedisKeys
   ## User Keys
   # SSO Auth Tokens
   USER_SSO_AUTH_TOKEN = 'USER_SSO_AUTH_TOKEN::%<user_id>d::%<token>s'.freeze
+  USER_SSO_IMPERSONATOR = 'USER_SSO_IMPERSONATOR::%<user_id>d::%<token>s'.freeze
 
   ## Online Status Keys
   # hash containing user_id key and status as value
@@ -92,9 +93,8 @@ module Redis::RedisKeys
   CAPTAIN_CONVERSATION_FAQ_MUTEX = 'CAPTAIN_CONVERSATION_FAQ_LOCK::%<assistant_id>s::%<language>s'.freeze
 
   ## Auto Assignment Keys
-  # Track conversation assignments to agents for rate limiting
-  ASSIGNMENT_KEY = 'ASSIGNMENT::%<inbox_id>d::AGENT::%<agent_id>d::CONVERSATION::%<conversation_id>d'.freeze
-  ASSIGNMENT_KEY_PATTERN = 'ASSIGNMENT::%<inbox_id>d::AGENT::%<agent_id>d::*'.freeze
+  # Sorted set of conversation ids assigned to an agent, scored by assignment time, for rate limiting
+  ASSIGNMENT_KEY = 'ASSIGNMENT::%<inbox_id>d::AGENT::%<agent_id>d'.freeze
   # At-most-one AssignmentJob per inbox in-flight (queued or running); further enqueues are skipped
   AUTO_ASSIGNMENT_IN_FLIGHT_KEY = 'AUTO_ASSIGNMENT_IN_FLIGHT::%<inbox_id>d'.freeze
 

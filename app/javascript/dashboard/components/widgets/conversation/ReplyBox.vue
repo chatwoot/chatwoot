@@ -23,13 +23,11 @@ import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder
 import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
-import {
-  getMessageVariables,
-  getUndefinedVariablesInMessage,
-} from '@chatwoot/utils';
+import { getUndefinedVariablesInMessage } from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import ContentTemplates from './ContentTemplates/ContentTemplatesModal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
+import { isComposing } from 'shared/helpers/KeyboardHelpers';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import { trimContent, debounce, getRecipients } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
@@ -47,14 +45,14 @@ import {
   appendSignature,
   removeSignature,
   getEffectiveChannelType,
-  getAgentVariables,
-  getContactVariables,
+  getReplyVariables,
 } from 'dashboard/helper/editorHelper';
 import { useCopilotReply } from 'dashboard/composables/useCopilotReply';
 import { useMacroExecution } from 'dashboard/composables/useMacroExecution';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { isFileTypeAllowedForChannel } from 'shared/helpers/FileHelper';
+import { isAIAssigneeType } from 'dashboard/helper/agentHelper';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -116,6 +114,7 @@ export default {
       },
       Enter: {
         action: e => {
+          if (isComposing(e)) return;
           if (proxy.isAValidEvent('enter')) {
             proxy.onSendReply();
             e.preventDefault();
@@ -124,7 +123,8 @@ export default {
         allowOnFocusedInput: true,
       },
       '$mod+Enter': {
-        action: () => {
+        action: e => {
+          if (isComposing(e)) return;
           if (copilot.isActive.value && proxy.isFocused) {
             proxy.onSubmitCopilotReply();
           } else if (proxy.isAValidEvent('cmd_enter')) {
@@ -246,7 +246,7 @@ export default {
     canSendPublicReply() {
       return (
         this.isWithinMessagingWindow &&
-        !this.isBotOwnedPendingConversation &&
+        !this.isAIOwnedPendingConversation &&
         !this.isInstagramReplyRestricted
       );
     },
@@ -263,7 +263,7 @@ export default {
         return true;
       }
 
-      return this.isBotOwnedPendingConversation
+      return this.isAIOwnedPendingConversation
         ? this.isPrivate
         : this.replyType === REPLY_EDITOR_MODES.NOTE;
     },
@@ -287,10 +287,10 @@ export default {
       );
       return !!stripped.trim();
     },
-    isBotOwnedPendingConversation() {
+    isAIOwnedPendingConversation() {
       return (
         this.currentChat?.status === wootConstants.STATUS_TYPE.PENDING &&
-        this.currentChat?.meta?.assignee_type === 'AgentBot'
+        isAIAssigneeType(this.currentChat?.meta?.assignee_type)
       );
     },
     inboxId() {
@@ -477,18 +477,12 @@ export default {
       return AUDIO_FORMATS.WAV;
     },
     messageVariables() {
-      const variables = getMessageVariables({
+      return getReplyVariables({
         conversation: this.currentChat,
         contact: this.currentContact,
         inbox: this.inbox,
+        user: this.currentUser,
       });
-      // Match the backend drops: names are Ruby-capitalized and
-      // {{agent.*}} is the message sender, not the assignee.
-      return {
-        ...variables,
-        ...getContactVariables(this.currentContact),
-        ...getAgentVariables(this.currentUser),
-      };
     },
     connectedPortalSlug() {
       const { help_center: portal = {} } = this.inbox;
