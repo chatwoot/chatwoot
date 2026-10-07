@@ -28,11 +28,7 @@ module AutoAssignmentHandler
     return unless should_run_auto_assignment?
 
     if inbox.auto_assignment_v2_enabled?
-      # Coalesces bursts of triggers per inbox. Enqueue only once the surrounding
-      # transaction commits: the job scans the inbox's committed unassigned
-      # conversations, so a job enqueued from after_save can start before this
-      # conversation becomes visible, assign nothing, and leave it unassigned
-      # with no further trigger.
+      # Enqueue after commit so the job's scan can see this conversation.
       inbox_id = inbox.id
       ActiveRecord.after_all_transactions_commit do
         AutoAssignment::AssignmentJob.enqueue_for_inbox(inbox_id)
