@@ -1,5 +1,6 @@
 class SuperAdmin::SearchController < SuperAdmin::ApplicationController
   layout false
+  before_action :validate_query
 
   def accounts
     @result = search('Account')
@@ -12,6 +13,10 @@ class SuperAdmin::SearchController < SuperAdmin::ApplicationController
   end
 
   private
+
+  def validate_query
+    head :unprocessable_entity unless params[:q].is_a?(String)
+  end
 
   def search(search_type)
     SuperAdmin::SearchService.new(search_type: search_type, params: params).perform

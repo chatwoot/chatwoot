@@ -62,6 +62,12 @@ RSpec.describe 'Super Admin Search', type: :request do
         expect(response.body).not_to include('acmeXtest')
       end
 
+      it 'rejects a query that is not a string' do
+        get '/super_admin/search/accounts', params: { q: ['acme'] }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
       it 'renders nothing for an id beyond the column range' do
         get '/super_admin/search/accounts', params: { q: '99999999999999999999999' }
 

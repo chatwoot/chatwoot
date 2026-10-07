@@ -15,7 +15,7 @@ class SuperAdmin::SearchService
   private
 
   def search_query
-    @search_query ||= params[:q].to_s.strip
+    @search_query ||= params[:q].strip
   end
 
   def search_by_id?
