@@ -50,19 +50,21 @@ const setCategoryId = newCategoryId => {
 // createNewArticle save them.
 const saveArticle = values => Object.assign(article.value, values);
 
-// Save what was typed while the create request ran, since the edit page opens
+const currentArticle = () => ({
+  title: article.value.title,
+  content: article.value.content,
+  author_id: selectedAuthorId.value || currentUserId.value,
+  category_id: selectedCategoryId.value || categoryId.value,
+});
+
+// Save what changed while the create request ran, since the edit page opens
 // with the stored article.
 const saveEditsMadeWhileCreating = async (articleId, saved) => {
-  const { title, content } = article.value;
-  if (title === saved.title && content === saved.content) return;
+  const latest = currentArticle();
+  if (Object.keys(latest).every(key => latest[key] === saved[key])) return;
 
-  await store.dispatch('articles/update', {
-    portalSlug,
-    articleId,
-    title,
-    content,
-  });
-  await saveEditsMadeWhileCreating(articleId, { title, content });
+  await store.dispatch('articles/update', { portalSlug, articleId, ...latest });
+  await saveEditsMadeWhileCreating(articleId, latest);
 };
 
 const createNewArticle = async ({ title, content }) => {
@@ -74,17 +76,14 @@ const createNewArticle = async ({ title, content }) => {
   isUpdating.value = true;
   try {
     const { locale } = route.params;
-    const resolvedCategoryId = selectedCategoryId.value || categoryId.value;
-    const created = {
-      title: article.value.title,
-      content: article.value.content,
-    };
+    const created = currentArticle();
     const articleId = await store.dispatch('articles/create', {
       portalSlug,
-      ...created,
+      title: created.title,
+      content: created.content,
       locale: locale,
-      authorId: selectedAuthorId.value || currentUserId.value,
-      categoryId: resolvedCategoryId,
+      authorId: created.author_id,
+      categoryId: created.category_id,
     });
 
     useTrack(PORTALS_EVENTS.CREATE_ARTICLE, { locale });
@@ -95,6 +94,7 @@ const createNewArticle = async ({ title, content }) => {
       useAlert(error?.message || t('HELP_CENTER.EDIT_ARTICLE_PAGE.API.ERROR'))
     );
 
+    const resolvedCategoryId = currentArticle().category_id;
     const resolvedSlug = categories.value?.find(
       c => c.id === resolvedCategoryId
     )?.slug;
