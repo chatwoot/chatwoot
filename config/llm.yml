@@ -35,54 +35,6 @@ models:
     provider: openai
     display_name: 'GPT-5.2'
     credit_multiplier: 3
-  gpt-5:
-    provider: openai
-    display_name: 'GPT-5'
-    credit_multiplier: 2
-  gpt-5.4:
-    provider: openai
-    display_name: 'GPT-5.4'
-    credit_multiplier: 3
-  gpt-5.4-mini:
-    provider: openai
-    display_name: 'GPT-5.4 Mini'
-    credit_multiplier: 1
-  gpt-5.4-nano:
-    provider: openai
-    display_name: 'GPT-5.4 Nano'
-    credit_multiplier: 1
-  gpt-5.5:
-    provider: openai
-    display_name: 'GPT-5.5'
-    credit_multiplier: 6
-  gpt-5.6-sol:
-    provider: openai
-    display_name: 'GPT-5.6 Sol'
-    credit_multiplier: 4
-  gpt-5.6-terra:
-    provider: openai
-    display_name: 'GPT-5.6 Terra'
-    credit_multiplier: 3
-  gpt-5.6-luna:
-    provider: openai
-    display_name: 'GPT-5.6 Luna'
-    credit_multiplier: 1
-  gpt-6-astra:
-    provider: openai
-    display_name: 'GPT-6 Astra'
-    credit_multiplier: 10
-  gpt-6-sol:
-    provider: openai
-    display_name: 'GPT-6 Sol'
-    credit_multiplier: 2
-  gpt-6-luna:
-    provider: openai
-    display_name: 'GPT-6 Luna'
-    credit_multiplier: 1
-  gpt-6.1-sol:
-    provider: openai
-    display_name: 'GPT-6.1 Sol'
-    credit_multiplier: 2
   claude-haiku-4.5:
     provider: anthropic
     display_name: 'Claude Haiku 4.5'
@@ -122,15 +74,6 @@ features:
       [
         gpt-4.1-mini,
         gpt-5-mini,
-        gpt-5-nano,
-        gpt-5,
-        gpt-5.4,
-        gpt-5.4-mini,
-        gpt-5.4-nano,
-        gpt-5.5,
-        gpt-5.6-sol,
-        gpt-5.6-terra,
-        gpt-5.6-luna,
         gpt-4.1,
         gpt-5.1,
         gpt-5.2,
@@ -143,15 +86,6 @@ features:
         gpt-4.1-mini,
         gpt-4.1-nano,
         gpt-5-mini,
-        gpt-5-nano,
-        gpt-5,
-        gpt-5.4,
-        gpt-5.4-mini,
-        gpt-5.4-nano,
-        gpt-5.5,
-        gpt-5.6-sol,
-        gpt-5.6-terra,
-        gpt-5.6-luna,
         gpt-4.1,
         gpt-5.1,
         gpt-5.2,
@@ -166,19 +100,6 @@ features:
       [
         gpt-4.1-mini,
         gpt-5-mini,
-        gpt-5-nano,
-        gpt-5,
-        gpt-5.4,
-        gpt-5.4-mini,
-        gpt-5.4-nano,
-        gpt-5.5,
-        gpt-5.6-sol,
-        gpt-5.6-terra,
-        gpt-5.6-luna,
-        gpt-6-astra,
-        gpt-6-sol,
-        gpt-6-luna,
-        gpt-6.1-sol,
         gpt-4.1,
         gpt-5.1,
         gpt-5.2,
@@ -194,19 +115,6 @@ features:
       [
         gpt-4.1-mini,
         gpt-5-mini,
-        gpt-5-nano,
-        gpt-5,
-        gpt-5.4,
-        gpt-5.4-mini,
-        gpt-5.4-nano,
-        gpt-5.5,
-        gpt-5.6-sol,
-        gpt-5.6-terra,
-        gpt-5.6-luna,
-        gpt-6-astra,
-        gpt-6-sol,
-        gpt-6-luna,
-        gpt-6.1-sol,
         gpt-4.1,
         gpt-5.1,
         gpt-5.2,
@@ -221,15 +129,6 @@ features:
       [
         gpt-4.1-mini,
         gpt-5-mini,
-        gpt-5-nano,
-        gpt-5,
-        gpt-5.4,
-        gpt-5.4-mini,
-        gpt-5.4-nano,
-        gpt-5.5,
-        gpt-5.6-sol,
-        gpt-5.6-terra,
-        gpt-5.6-luna,
         gpt-4.1,
         gpt-5.1,
         gpt-5.2,
@@ -244,15 +143,6 @@ features:
       [
         gpt-4.1-mini,
         gpt-5-mini,
-        gpt-5-nano,
-        gpt-5,
-        gpt-5.4,
-        gpt-5.4-mini,
-        gpt-5.4-nano,
-        gpt-5.5,
-        gpt-5.6-sol,
-        gpt-5.6-terra,
-        gpt-5.6-luna,
         gpt-4.1,
         gpt-5.1,
         gpt-5.2,
@@ -267,15 +157,6 @@ features:
       [
         gpt-4.1-mini,
         gpt-5-mini,
-        gpt-5-nano,
-        gpt-5,
-        gpt-5.4,
-        gpt-5.4-mini,
-        gpt-5.4-nano,
-        gpt-5.5,
-        gpt-5.6-sol,
-        gpt-5.6-terra,
-        gpt-5.6-luna,
         gpt-4.1,
         gpt-5.1,
         gpt-5.2,
@@ -286,38 +167,13 @@ features:
       ]
     default: gpt-4.1-mini
   pdf_faq_generation:
-    models:
-      [
-        gpt-4.1-mini,
-        gpt-5-mini,
-        gpt-5-nano,
-        gpt-5,
-        gpt-5.4,
-        gpt-5.4-mini,
-        gpt-5.4-nano,
-        gpt-5.5,
-        gpt-5.6-sol,
-        gpt-5.6-terra,
-        gpt-5.6-luna,
-        gpt-4.1,
-        gpt-5.1,
-        gpt-5.2,
-      ]
+    models: [gpt-4.1-mini, gpt-5-mini, gpt-4.1, gpt-5.1, gpt-5.2]
     default: gpt-4.1-mini
   help_center_article_generation:
     models:
       [
         gpt-4.1-mini,
         gpt-5-mini,
-        gpt-5-nano,
-        gpt-5,
-        gpt-5.4,
-        gpt-5.4-mini,
-        gpt-5.4-nano,
-        gpt-5.5,
-        gpt-5.6-sol,
-        gpt-5.6-terra,
-        gpt-5.6-luna,
         gpt-4.1,
         gpt-5.1,
         gpt-5.2,
@@ -329,41 +185,10 @@ features:
     default: gpt-5.2
   onboarding_content_generation:
     models:
-      [
-        gpt-4.1,
-        gpt-4.1-mini,
-        gpt-5-mini,
-        gpt-5-nano,
-        gpt-5,
-        gpt-5.4,
-        gpt-5.4-mini,
-        gpt-5.4-nano,
-        gpt-5.5,
-        gpt-5.6-sol,
-        gpt-5.6-terra,
-        gpt-5.6-luna,
-        gpt-5.1,
-        gpt-5.2,
-      ]
+      [gpt-4.1, gpt-4.1-mini, gpt-5-mini, gpt-5.1, gpt-5.2]
     default: gpt-4.1
   help_center_query_translation:
-    models:
-      [
-        gpt-4.1-nano,
-        gpt-4.1-mini,
-        gpt-5-mini,
-        gpt-5-nano,
-        gpt-5,
-        gpt-5.4,
-        gpt-5.4-mini,
-        gpt-5.4-nano,
-        gpt-5.5,
-        gpt-5.6-sol,
-        gpt-5.6-terra,
-        gpt-5.6-luna,
-        gpt-5.1,
-        gpt-5.2,
-      ]
+    models: [gpt-4.1-nano, gpt-4.1-mini, gpt-5-mini]
     default: gpt-4.1-nano
   audio_transcription:
     models: [gpt-4o-mini-transcribe, whisper-1]

@@ -14,9 +14,9 @@ RSpec.describe Captain::ResponsesConfig do
 
   let(:context) { RubyLLM.context { |config| config.openai_api_key = 'test-key' } }
 
-  gpt_6_efforts = { 'gpt-6-astra' => 'low', 'gpt-6-sol' => 'none', 'gpt-6-luna' => 'none', 'gpt-6.1-sol' => 'low' }
+  efforts = { 'gpt-5.1' => 'none', 'gpt-5.2' => 'none' }
   %w[assistant copilot].each do |feature|
-    gpt_6_efforts.each do |model, effort|
+    efforts.each do |model, effort|
       it "renders #{feature} tool requests for #{model} with #{effort} reasoning" do
         options = described_class.options(model: model, temperature: 0.7, feature: feature)
         chat = context.chat(model: model, protocol: options.fetch(:protocol))
@@ -29,8 +29,8 @@ RSpec.describe Captain::ResponsesConfig do
         expect(payload).to include(model: model, reasoning: include(effort: effort), text: { format: { type: 'json_object' } })
         expect(payload[:tools]).to include(include(type: 'function', name: 'lookup'))
         expect(described_class.metadata(chat, protocol: options[:protocol])).to eq(api_protocol: :responses, reasoning_effort: effort.to_sym)
-        if effort == 'none'
-          expect(payload[:temperature]).to eq(0.7)
+        if options[:temperature]
+          expect(payload[:temperature]).to eq(options[:temperature])
         else
           expect(payload).not_to have_key(:temperature)
         end
@@ -41,8 +41,8 @@ RSpec.describe Captain::ResponsesConfig do
   it 'keeps custom endpoints on their existing protocol without forced reasoning' do
     InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
 
-    expect(described_class.options(model: 'gpt-6-sol', temperature: 0.7, feature: 'copilot')).to eq(temperature: 0.7)
-    expect(described_class.options(model: 'gpt-6.1-sol', temperature: 0.7, feature: 'copilot')).to eq(temperature: nil)
+    expect(described_class.options(model: 'gpt-4.1', temperature: 0.7, feature: 'copilot')).to eq(temperature: 0.7)
+    expect(described_class.options(model: 'gpt-5-mini', temperature: 0.7, feature: 'copilot')).to eq(temperature: nil)
   end
 
   it 'reports Chat Completions and omits effort when thinking is not configured' do
@@ -55,8 +55,8 @@ RSpec.describe Captain::ResponsesConfig do
   %w[low high].each do |effort|
     it "applies configured #{effort} effort and omits temperature" do
       allow(Llm::Models).to receive(:features).and_return(Llm::Models.features.deep_merge('assistant' => { 'reasoning_effort' => effort }))
-      options = described_class.options(model: 'gpt-6-sol', temperature: 0.7)
-      chat = context.chat(model: 'gpt-6-sol', protocol: options[:protocol]).with_temperature(options[:temperature])
+      options = described_class.options(model: 'gpt-5.2', temperature: 0.7)
+      chat = context.chat(model: 'gpt-5.2', protocol: options[:protocol]).with_temperature(options[:temperature])
       chat.with_thinking(**options[:thinking])
       chat.add_message(role: :user, content: 'Hello')
 
