@@ -1,6 +1,6 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   before_action :prevent_reply_to_resolved_conversation, only: [:create]
-  before_action :set_conversation, only: [:create]
+  before_action :ensure_contact, :set_conversation, only: [:create]
   before_action :set_message, only: [:update]
 
   def index

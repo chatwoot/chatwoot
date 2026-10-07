@@ -5,6 +5,22 @@ describe ContactInboxBuilder do
   let(:contact) { create(:contact, email: 'xyc@example.com', phone_number: '+23423424123', account: account) }
 
   describe '#perform' do
+    describe 'web widget inbox' do
+      let(:web_widget) { create(:channel_widget, account: account) }
+
+      it 'creates the contact inbox on the pubsub_token the visitor already streams on' do
+        contact_inbox = described_class.new(contact: contact, inbox: web_widget.inbox, source_id: 'visitor', pubsub_token: 'stream').perform
+
+        expect(contact_inbox.pubsub_token).to eq('stream')
+      end
+
+      it 'generates a pubsub_token when none is given' do
+        contact_inbox = described_class.new(contact: contact, inbox: web_widget.inbox).perform
+
+        expect(contact_inbox.pubsub_token).to be_present
+      end
+    end
+
     describe 'twilio sms inbox' do
       let!(:twilio_sms) { create(:channel_twilio_sms, account: account) }
       let!(:twilio_inbox) { create(:inbox, channel: twilio_sms, account: account) }
