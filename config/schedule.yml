@@ -19,6 +19,12 @@ trigger_scheduled_items_job:
   class: 'TriggerScheduledItemsJob'
   queue: scheduled_jobs
 
+# executed At every minute, for accounts that auto resolve in under 10 minutes
+trigger_short_window_resolution_job:
+  cron: '* * * * *'
+  class: 'Account::ShortWindowResolutionSchedulerJob'
+  queue: scheduled_jobs
+
 # executed hourly for scheduled jobs that do not need minute-level cadence
 trigger_hourly_scheduled_items_job:
   cron: '0 * * * *'
