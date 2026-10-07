@@ -93,7 +93,7 @@ const updateAccountSettings = async settings => {
 };
 
 const handleSubmit = async () => {
-  if (duration.value < 10) {
+  if (duration.value < 5) {
     useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.ERROR'));
     return Promise.resolve();
   }
@@ -148,7 +148,7 @@ const toggleAutoResolve = async () => {
           :help-message="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.HELP')"
         >
           <div class="gap-2 w-full grid grid-cols-[3fr_1fr]">
-            <!-- allow 10 mins to 999 days -->
+            <!-- allow 5 mins to 999 days -->
             <DurationInput
               v-model="duration"
               v-model:unit="unit"
