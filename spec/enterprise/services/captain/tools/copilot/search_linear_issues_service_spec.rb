@@ -18,9 +18,9 @@ RSpec.describe Captain::Tools::Copilot::SearchLinearIssuesService do
     end
   end
 
-  describe '#parameters' do
+  describe '#parameters_schema' do
     it 'defines term parameter' do
-      expect(service.parameters.keys).to contain_exactly(:term)
+      expect(service.parameters_schema.fetch('properties').keys).to contain_exactly('term')
     end
   end
 
