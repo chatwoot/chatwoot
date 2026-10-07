@@ -7,6 +7,33 @@ RSpec.describe 'Integration Hooks API', type: :request do
   let(:inbox) { create(:inbox, account: account) }
   let(:params) { { app_id: 'dialogflow', inbox_id: inbox.id, settings: { project_id: 'xx', credentials: { test: 'test' }, region: 'europe-west1' } } }
 
+  describe 'Stripe hooks' do
+    before do
+      account.enable_features!('stripe_integration')
+      allow(Integrations::Stripe::Oauth).to receive(:configured?).and_return(true)
+    end
+
+    it 'rejects creation outside OAuth even when Stripe is available' do
+      expect do
+        post api_v1_account_integrations_hooks_url(account_id: account.id),
+             params: { app_id: 'stripe' }, headers: admin.create_new_auth_token, as: :json
+      end.not_to change(Integrations::Hook, :count)
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'rejects updates and deletion through generic hook endpoints' do
+      hook = create(:integrations_hook, app_id: 'stripe', account: account)
+      path = "/api/v1/accounts/#{account.id}/integrations/hooks/#{hook.id}"
+      headers = admin.create_new_auth_token
+      patch path, params: { status: 'disabled' }, headers: headers, as: :json
+      expect(response).to have_http_status(:not_found)
+      expect(hook.reload).to be_enabled
+      delete path, headers: headers
+      expect(response).to have_http_status(:not_found)
+      expect(Integrations::Hook.exists?(hook.id)).to be true
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/integrations/hooks' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -53,9 +80,7 @@ RSpec.describe 'Integration Hooks API', type: :request do
       end
 
       it 'does not create Shopify hooks when the installation switch is disabled' do
-        allow(GlobalConfigService).to receive(:load)
-          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-          .and_return(false)
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: false)
 
         expect do
           post api_v1_account_integrations_hooks_url(account_id: account.id),
@@ -105,9 +130,7 @@ RSpec.describe 'Integration Hooks API', type: :request do
 
       it 'does not update Shopify hooks when the account feature is disabled' do
         shopify_hook = create(:integrations_hook, :shopify, account: account)
-        allow(GlobalConfigService).to receive(:load)
-          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-          .and_return(true)
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
 
         patch api_v1_account_integrations_hook_url(account_id: account.id, id: shopify_hook.id),
               params: { hook: { status: 'disabled' } },
@@ -178,9 +201,7 @@ RSpec.describe 'Integration Hooks API', type: :request do
 
       it 'does not delete Shopify hooks when the account feature is disabled' do
         shopify_hook = create(:integrations_hook, :shopify, account: account)
-        allow(GlobalConfigService).to receive(:load)
-          .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-          .and_return(true)
+        InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
 
         delete api_v1_account_integrations_hook_url(account_id: account.id, id: shopify_hook.id),
                headers: admin.create_new_auth_token,

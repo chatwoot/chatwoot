@@ -61,9 +61,9 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
           provider: 'openai',
           source: 'account_override'
         )
-        expect(json_response.dig(:features, :label_suggestion)).to include(
-          model: Llm::Models.default_model_for('label_suggestion'),
-          selected: Llm::Models.default_model_for('label_suggestion'),
+        expect(json_response.dig(:features, :help_center_query_translation)).to include(
+          model: Llm::Models.default_model_for('help_center_query_translation'),
+          selected: Llm::Models.default_model_for('help_center_query_translation'),
           provider: 'openai',
           source: 'default'
         )
@@ -171,11 +171,11 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
       it 'rejects invalid captain model values for the feature' do
         put "/api/v1/accounts/#{account.id}/captain/preferences",
             headers: admin.create_new_auth_token,
-            params: { captain_models: { label_suggestion: 'unknown-model' } },
+            params: { captain_models: { help_center_query_translation: 'unknown-model' } },
             as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response[:message]).to include('not a valid model for label_suggestion')
+        expect(json_response[:message]).to include('not a valid model for help_center_query_translation')
         expect(account.reload.captain_models).to be_nil
       end
 

@@ -331,6 +331,17 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
     end
 
     context 'when handling errors' do
+      it 'refuses to send a request whose rendered URL is not HTTPS' do
+        custom_tool.update!(endpoint_url: 'http{% unless secure %}s{% endunless %}://example.com/data', auth_type: 'bearer',
+                            auth_config: { 'token' => 'secret' })
+        stub_request(:any, /example\.com/)
+
+        result = tool.perform(tool_context, secure: true)
+
+        expect(result).to eq('An error occurred while executing the request')
+        expect(WebMock).not_to have_requested(:any, /example\.com/)
+      end
+
       it 'returns generic error message on network failure' do
         custom_tool.update!(endpoint_url: 'https://example.com/data')
         stub_request(:get, 'https://example.com/data').to_raise(SocketError.new('Failed to connect'))

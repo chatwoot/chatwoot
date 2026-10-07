@@ -19,12 +19,12 @@ class Llm::BaseAiService
   end
 
   def chat(model: @model, temperature: @temperature, feature: @llm_feature, thinking: nil, **)
-    model_info = RubyLLM.models.find(model)
+    temperature = Llm::Models.temperature_for(model, temperature)
     llm_chat = RubyLLM.chat(model: model, **)
     effort = Llm::FeatureRouter.reasoning_effort(feature: feature, model: model)
     thinking ||= { effort: effort } if effort
     llm_chat.with_thinking(**thinking) if thinking
-    return llm_chat if model_info.metadata[:temperature] == false || (thinking && thinking[:effort] != :none)
+    return llm_chat if temperature.nil? || (thinking && thinking[:effort] != :none)
 
     llm_chat.with_temperature(temperature)
   end

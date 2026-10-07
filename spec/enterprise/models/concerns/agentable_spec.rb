@@ -43,13 +43,15 @@ RSpec.describe Concerns::Agentable do
   end
 
   describe '#agent' do
-    it 'creates an Agents::Agent with correct parameters' do
+    it 'omits unsupported temperature for the account model override' do
+      account.update!(captain_models: { 'assistant' => 'gpt-5-mini' })
+
       expect(Agents::Agent).to receive(:new).with(
         name: 'Test Agent',
         instructions: instance_of(Proc),
         tools: [],
-        model: Llm::Models.default_model_for('assistant'),
-        temperature: 0.8,
+        model: 'gpt-5-mini',
+        temperature: nil,
         protocol: :responses,
         response_schema: Captain::ResponseSchema
       )

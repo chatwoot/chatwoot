@@ -28,6 +28,7 @@ RSpec.describe Captain::ResponsesConfig do
 
         expect(payload).to include(model: model, reasoning: include(effort: effort), text: { format: { type: 'json_object' } })
         expect(payload[:tools]).to include(include(type: 'function', name: 'lookup'))
+        expect(described_class.metadata(chat, protocol: options[:protocol])).to eq(api_protocol: :responses, reasoning_effort: effort.to_sym)
         if effort == 'none'
           expect(payload[:temperature]).to eq(0.7)
         else
@@ -40,6 +41,28 @@ RSpec.describe Captain::ResponsesConfig do
   it 'keeps custom endpoints on their existing protocol without forced reasoning' do
     InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
 
-    expect(described_class.options(model: 'gpt-6.1-sol', temperature: 0.7, feature: 'copilot')).to eq(temperature: 0.7)
+    expect(described_class.options(model: 'gpt-6-sol', temperature: 0.7, feature: 'copilot')).to eq(temperature: 0.7)
+    expect(described_class.options(model: 'gpt-6.1-sol', temperature: 0.7, feature: 'copilot')).to eq(temperature: nil)
+  end
+
+  it 'reports Chat Completions and omits effort when thinking is not configured' do
+    context.config.openai_protocol = :chat_completions
+    chat = context.chat(model: 'gpt-4.1')
+
+    expect(described_class.metadata(chat)).to eq(api_protocol: :chat_completions)
+  end
+
+  %w[low high].each do |effort|
+    it "applies configured #{effort} effort and omits temperature" do
+      allow(Llm::Models).to receive(:features).and_return(Llm::Models.features.deep_merge('assistant' => { 'reasoning_effort' => effort }))
+      options = described_class.options(model: 'gpt-6-sol', temperature: 0.7)
+      chat = context.chat(model: 'gpt-6-sol', protocol: options[:protocol]).with_temperature(options[:temperature])
+      chat.with_thinking(**options[:thinking])
+      chat.add_message(role: :user, content: 'Hello')
+
+      expect(chat.render).to include(reasoning: include(effort: effort))
+      expect(chat.render).not_to have_key(:temperature)
+      expect(described_class.metadata(chat, protocol: options[:protocol])).to eq(api_protocol: :responses, reasoning_effort: effort.to_sym)
+    end
   end
 end

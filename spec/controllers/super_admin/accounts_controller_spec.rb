@@ -43,7 +43,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(summaries).not_to include('All features', 'Captain models')
         expect(routing_panel.text.squish).to include('Customer features', 'Internal features')
         expect(completion_card.text.squish).to include('Inactive conversation completion evaluator', 'GPT-5.2', 'Account override')
-        expect(response.body).to include('Editor', 'OpenAI', 'openai', 'gpt-4.1', 'Label suggestion', 'Default')
+        expect(response.body).to include('Editor', 'OpenAI', 'openai', 'gpt-4.1', 'Help center query translation', 'Default')
       end
 
       it 'shows the installation model for internal routing on self-hosted Enterprise', if: ChatwootApp.enterprise? do
@@ -155,13 +155,13 @@ RSpec.describe 'Super Admin accounts API', type: :request do
                   locale: account.locale,
                   status: account.status,
                   captain_models: {
-                    label_suggestion: 'unknown-model'
+                    help_center_query_translation: 'unknown-model'
                   }
                 }
               }
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to include('not a valid model for label_suggestion')
+        expect(response.body).to include('not a valid model for help_center_query_translation')
         expect(account.reload.captain_models).to eq(existing_captain_models)
       end
     end

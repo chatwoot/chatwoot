@@ -89,7 +89,9 @@ class Captain::Assistant::SessionCaptureService
   def current_turn_history
     history = Array(context[:conversation_history])
     turn_start_index = context[:captain_v2_turn_start_index] || history.rindex { |message| message[:role].to_s == 'user' } || 0
-    # Provider replay tokens belong to the runner, not the API-facing session history.
-    history[turn_start_index..].map { |message| message.except(:thinking_signature, 'thinking_signature') }
+    current_turn = history[turn_start_index..].map { |message| message.except(:thinking_signature, 'thinking_signature') }
+    final_assistant_index = current_turn.rindex { |message| message[:role].to_s == 'assistant' }
+    current_turn[final_assistant_index][:content] = @run_result.output if final_assistant_index && @run_result.output.is_a?(Hash)
+    current_turn
   end
 end
