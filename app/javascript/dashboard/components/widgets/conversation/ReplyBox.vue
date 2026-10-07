@@ -176,6 +176,7 @@ export default {
       bccEmails: '',
       ccEmails: '',
       toEmails: '',
+      subject: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
       requestContactInfoTemplatesOnly: false,
@@ -537,6 +538,7 @@ export default {
         // This prevents overwriting user input (e.g., CC/BCC fields) when performing actions
         // like self-assign or other updates that do not actually change the conversation context
         this.setCCAndToEmailsFromLastChat();
+        this.subject = '';
         // Reset Copilot editor state (includes cancelling ongoing generation)
         this.copilot.reset();
       }
@@ -1240,6 +1242,10 @@ export default {
       if (this.toEmails && !this.isOnPrivateNote) {
         messagePayload.toEmails = this.toEmails;
       }
+
+      if (this.subject && !this.isOnPrivateNote) {
+        messagePayload.subject = this.subject;
+      }
       return messagePayload;
     },
     setCcEmails(value) {
@@ -1381,9 +1387,11 @@ export default {
         />
         <ReplyEmailHead
           v-if="showReplyHead && isDefaultEditorMode"
+          :key="currentChat.id"
           v-model:cc-emails="ccEmails"
           v-model:bcc-emails="bccEmails"
           v-model:to-emails="toEmails"
+          v-model:subject="subject"
         />
         <AudioRecorder
           v-if="showAudioRecorderEditor"
