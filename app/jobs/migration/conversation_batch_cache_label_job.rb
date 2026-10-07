@@ -10,9 +10,14 @@ class Migration::ConversationBatchCacheLabelJob < ApplicationJob
   # Labelable::Persistence now skips that write when the list was only read, because it let
   # a stale record overwrite labels saved elsewhere. With that guard, read-then-save leaves
   # the cache empty. So this job builds the cache from the taggings and writes it directly.
+  #
+  # The row lock stops a label edit from committing between the read and the write.
+  # Without it, the job could overwrite a newer cache with the list it read earlier.
   def perform(conversation_batch)
     conversation_batch.each do |conversation|
-      conversation.update!(cached_label_list: conversation.labels.pluck(:name).join("#{ActsAsTaggableOn.delimiter} "))
+      conversation.with_lock do
+        conversation.update!(cached_label_list: conversation.labels.pluck(:name).join("#{ActsAsTaggableOn.delimiter} "))
+      end
     end
   end
 end
