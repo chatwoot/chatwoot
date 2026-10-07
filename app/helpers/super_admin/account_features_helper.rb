@@ -7,6 +7,17 @@ module SuperAdmin::AccountFeaturesHelper
     account_features.filter { |feature| feature['premium'] }.pluck('name')
   end
 
+  # The list the dashboard shows its "Learn more" links from (dashboard/helper/featureHelper.js).
+  def self.feature_help_urls
+    YAML.safe_load(Rails.root.join('config/feature_help_urls.yml').read).freeze
+  end
+
+  def self.feature_icons
+    icons = YAML.safe_load(Rails.root.join('app/helpers/super_admin/account_feature_icons.yml').read)
+    icons.default = 'i-lucide-toggle-right'
+    icons.freeze
+  end
+
   # Returns a hash mapping feature names to their display names
   def self.feature_display_names
     account_features.each_with_object({}) do |feature, hash|
@@ -37,16 +48,12 @@ module SuperAdmin::AccountFeaturesHelper
     filtered = filter_deprecated_features(filtered)
     display_names = feature_display_names
 
-    regular, premium = filtered.partition { |key, _value| account_premium_features.exclude?(key) }
+    premium_features = account_premium_features
+    regular, premium = filtered.partition { |key, _value| premium_features.exclude?(key) }
 
     [
       sort_and_transform_features(regular, display_names),
       sort_and_transform_features(premium, display_names)
     ]
-  end
-
-  def self.filtered_features(features)
-    regular, premium = partition_features(features)
-    regular.merge(premium)
   end
 end
