@@ -467,6 +467,24 @@ RSpec.describe ConversationReplyMailer do
         end
       end
 
+      context 'when the conversation has a subject' do
+        before do
+          conversation.update!(additional_attributes: { 'mail_subject': 'Mail Subject' })
+          create(:message, conversation: conversation, account: account, message_type: 'incoming',
+                           content_attributes: { email: { subject: 'Mail Subject' } })
+        end
+
+        it 'replies with the conversation subject when the message has no subject' do
+          expect(mail.subject).to eq 'Re: Mail Subject'
+        end
+
+        it 'uses the subject of the message as is when it has one' do
+          message.update!(content_attributes: { email: { subject: 'Refund approved' } })
+
+          expect(mail.subject).to eq 'Refund approved'
+        end
+      end
+
       context 'when forwarding an email' do
         let(:forwarded_message) do
           create(:message, conversation: conversation, account: account, message_type: 'incoming',

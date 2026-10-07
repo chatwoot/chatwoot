@@ -75,7 +75,7 @@
       "ACTIVITY": {
         "TODAY": "Today",
         "YESTERDAY": "Yesterday",
-        "UNKNOWN_AUTHOR": "Someone",
+        "SYSTEM_AUTHOR": "System",
         "EMPTY_CONVERSATIONS": "No conversations yet. They'll show up here when this company's people get in touch.",
         "EMPTY_NOTES": "No notes yet. Notes added to this company's people show up here.",
         "LOAD_MORE": "Load more",
