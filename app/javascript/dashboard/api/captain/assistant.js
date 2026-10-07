@@ -22,7 +22,7 @@ class CaptainAssistant extends ApiClient {
   uploadAvatar(id, file) {
     const data = new FormData();
     data.append('assistant[avatar]', file);
-    return axios.patch(`${this.url}/${id}`, data);
+    return this.update(id, data);
   }
 
   deleteAvatar(id) {

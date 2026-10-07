@@ -6,6 +6,7 @@ import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAlert } from 'dashboard/composables';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 
 const props = defineProps({
   assistant: { type: Object, required: true },
@@ -14,17 +15,14 @@ const props = defineProps({
 const { t } = useI18n();
 const store = useStore();
 const { isAdmin } = useAdmin();
-const fileInput = ref(null);
+const avatar = ref(null);
 const isSaving = ref(false);
-const MAX_AVATAR_SIZE = 15 * 1024 * 1024;
-const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+const MAX_AVATAR_SIZE = 15; // MB, matching Avatarable
 
-const uploadAvatar = async event => {
-  const [file] = event.target.files;
-  if (!file) return;
-  if (file.size > MAX_AVATAR_SIZE || !ALLOWED_TYPES.includes(file.type)) {
+const uploadAvatar = async ({ file, url }) => {
+  URL.revokeObjectURL(url);
+  if (!checkFileSizeLimit(file, MAX_AVATAR_SIZE)) {
     useAlert(t('CAPTAIN.ASSISTANTS.FORM.AVATAR.INVALID_FILE'));
-    event.target.value = '';
     return;
   }
   isSaving.value = true;
@@ -40,7 +38,6 @@ const uploadAvatar = async event => {
     );
   } finally {
     isSaving.value = false;
-    event.target.value = '';
   }
 };
 
@@ -66,10 +63,14 @@ const removeAvatar = async () => {
     </span>
     <div class="flex items-center gap-4">
       <Avatar
+        ref="avatar"
         :src="assistant.avatar_url"
         :name="assistant.name || ''"
         :size="64"
+        :allow-upload="isAdmin && !isSaving"
         rounded-full
+        @upload="uploadAvatar"
+        @delete="removeAvatar"
       />
       <div class="flex flex-col gap-2">
         <div v-if="isAdmin" class="flex flex-wrap gap-2">
@@ -80,7 +81,7 @@ const removeAvatar = async () => {
             size="sm"
             :is-loading="isSaving"
             :disabled="isSaving"
-            @click="fileInput.click()"
+            @click="avatar.openFilePicker()"
           />
           <Button
             v-if="assistant.avatar_attached"
@@ -90,14 +91,6 @@ const removeAvatar = async () => {
             size="sm"
             :disabled="isSaving"
             @click="removeAvatar"
-          />
-          <input
-            ref="fileInput"
-            type="file"
-            class="hidden"
-            :accept="ALLOWED_TYPES.join(',')"
-            :aria-label="t('CAPTAIN.ASSISTANTS.FORM.AVATAR.UPLOAD')"
-            @change="uploadAvatar"
           />
         </div>
         <p class="text-xs text-n-slate-11">
