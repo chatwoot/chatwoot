@@ -1,13 +1,12 @@
 # Starts a card-backed trial on the account's $0 default-plan subscription and hands the customer to a
-# Stripe billing portal flow to pick the paid plan. Plans, prices and seats live in the portal configuration,
-# whose trial_update_behavior must be continue_trial so the trial carries over to the plan they choose.
+# Stripe billing portal flow to pick the paid plan. Plans, prices and seats live in the default portal
+# configuration, whose trial_update_behavior must be continue_trial so the trial carries over to the chosen plan.
 class Enterprise::Billing::TrialService
   include BillingHelper
 
   class Error < StandardError; end
 
   ENABLED_CONFIG = 'CHATWOOT_CLOUD_TRIAL_ENABLED'.freeze
-  PORTAL_CONFIGURATION_CONFIG = 'CHATWOOT_CLOUD_TRIAL_PORTAL_CONFIGURATION'.freeze
   TRIAL_DAYS = 15
 
   pattr_initialize [:account!]
@@ -45,7 +44,6 @@ class Enterprise::Billing::TrialService
   def create_portal_session
     Stripe::BillingPortal::Session.create(
       customer: stripe_customer_id,
-      configuration: InstallationConfig.find_by!(name: PORTAL_CONFIGURATION_CONFIG).value,
       return_url: billing_url,
       flow_data: {
         type: 'subscription_update',
