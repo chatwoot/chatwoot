@@ -2,6 +2,7 @@ module Llm::FeatureRouter
   class UnknownFeatureError < StandardError; end
 
   CAPTAIN_V2_ASSISTANT_MODEL = 'gpt-5.2'.freeze
+  CUSTOM_ENDPOINT_FEATURES = %w[editor label_suggestion].freeze
 
   class << self
     def resolve(feature:, account: nil)
@@ -37,10 +38,20 @@ module Llm::FeatureRouter
     end
 
     def installation_model_override(feature_key)
-      return unless feature_key == 'conversation_completion'
-      return unless ChatwootApp.self_hosted_paid?
+      return unless installation_model_applies?(feature_key)
 
       InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence
+    end
+
+    # The reply editor's AI actions run on `editor` and `label_suggestion`. A self-hosted installation that
+    # points CAPTAIN_OPEN_AI_ENDPOINT at another OpenAI-compatible provider cannot serve the OpenAI default
+    # model names there, so those features follow CAPTAIN_OPEN_AI_MODEL, as Captain itself does.
+    def installation_model_applies?(feature_key)
+      return ChatwootApp.self_hosted_paid? if feature_key == 'conversation_completion'
+      return false unless CUSTOM_ENDPOINT_FEATURES.include?(feature_key)
+      return false if ChatwootApp.chatwoot_cloud?
+
+      InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.present?
     end
 
     def provider_for(model, source)
