@@ -1,0 +1,30 @@
+<%# locals: (label: nil, variant: :primary, size: :default, icon: nil, icon_end: nil, url: nil, post_to: nil, submit: nil, as: :button, extra: nil, **options) -%>
+<%
+  variants = {
+    primary: "border-transparent bg-n-brand text-white hover:bg-n-blue-10",
+    secondary: "border-n-slate-6 bg-n-solid-1 text-n-slate-12 hover:bg-n-slate-3",
+    danger: "border-n-ruby-6 bg-n-solid-1 text-n-ruby-11 hover:bg-n-ruby-3",
+    faded: "border-transparent bg-n-alpha-2 text-n-slate-12 hover:bg-n-slate-5",
+    faded_danger: "border-transparent bg-n-alpha-2 text-n-slate-12 hover:bg-n-ruby-3 hover:text-n-ruby-11"
+  }
+  sizes = {
+    default: "h-9 px-3.5 text-button touch:h-11",
+    icon: "size-8 touch:size-10"
+  }
+  button = %w[
+    inline-flex shrink-0 cursor-pointer select-none items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border
+    transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
+    focus-visible:outline-n-brand disabled:cursor-not-allowed disabled:opacity-50
+  ].join(" ")
+  classes = class_names(button, sizes.fetch(size), variants.fetch(variant), extra)
+  content = safe_join([(tag.span(class: icon) if icon), label, (tag.span(class: icon_end) if icon_end)].compact)
+%>
+<% if submit %>
+  <%= submit.submit label, class: classes, **options %>
+<% elsif post_to %>
+  <%= button_to content, post_to, class: classes, **options %>
+<% elsif url %>
+  <%= link_to content, url, class: classes, **options %>
+<% else %>
+  <%= content_tag as, content, class: classes, type: ("button" if as == :button), **options %>
+<% end %>

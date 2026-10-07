@@ -1,0 +1,26 @@
+<%# Opened with ⌘K / Ctrl+K or any `data-dialog-open="command-bar"` control. A record page adds its actions with `content_for(:commands)`. %>
+<dialog id="command-bar" aria-label="<%= t("super_admin.command_bar.label") %>" data-command-bar
+        class="mb-auto mt-4 w-[calc(100%-2rem)] max-w-xl overflow-hidden rounded-2xl border border-n-weak bg-n-solid-1 p-0 text-n-slate-12 shadow-xl backdrop:bg-modal-backdrop-light open:animate-sheet-in motion-reduce:animate-none dark:backdrop:bg-modal-backdrop-dark sm:mt-24">
+  <div class="flex h-12 items-center gap-2.5 border-b border-n-weak px-4">
+    <span class="i-lucide-search size-4 shrink-0 text-n-slate-10"></span>
+    <input type="text" class="min-w-0 flex-1 border-0 bg-transparent p-0 text-body-main text-n-slate-12 outline-none placeholder:text-n-slate-10 focus:ring-0 touch:text-base"
+           role="combobox" aria-expanded="true" aria-controls="command-bar-list" aria-activedescendant="command-bar-selected" aria-label="<%= t("super_admin.command_bar.placeholder") %>"
+           placeholder="<%= t("super_admin.command_bar.placeholder") %>" autocomplete="off" spellcheck="false" autofocus data-command-input>
+    <%= render "kbd", label: "esc" %>
+  </div>
+
+  <div class="max-h-[60dvh] overflow-y-auto px-2 pb-2" id="command-bar-list" role="listbox" aria-label="<%= t("super_admin.command_bar.label") %>">
+    <%= content_for(:commands) %>
+    <% command_groups.each do |group| %>
+      <%= render "command_group", group %>
+    <% end %>
+    <%# Stays out of the way while a command still matches. %>
+    <p class="px-3 py-8 text-center text-body-main text-n-slate-11 [#command-bar-list:has([data-command-item]:not([hidden]))_&]:hidden"><%= t("super_admin.command_bar.empty") %></p>
+  </div>
+
+  <footer class="flex items-center gap-4 border-t border-n-weak px-4 py-2 text-label-small text-n-slate-10 touch:hidden">
+    <% { "↑↓" => t("super_admin.command_bar.navigate"), "↵" => t("super_admin.command_bar.select"), "esc" => t("super_admin.actions.close") }.each do |key, label| %>
+      <span class="inline-flex items-center gap-1.5"><%= render "kbd", label: key %><%= label %></span>
+    <% end %>
+  </footer>
+</dialog>

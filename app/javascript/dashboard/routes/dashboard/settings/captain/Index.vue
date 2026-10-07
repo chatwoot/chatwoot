@@ -47,9 +47,6 @@ const modelFeatures = computed(() => [
 
 const featureToggles = computed(() => [
   {
-    key: 'label_suggestion',
-  },
-  {
     key: 'help_center_search',
     enterprise: true,
   },
