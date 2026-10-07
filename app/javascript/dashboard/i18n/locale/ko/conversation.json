@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "왼쪽 창에서 대화를 선택하십시오.",
     "CSAT_REPLY_MESSAGE": "대화를 평가해 주십시오",
     "404": "죄송합니다. 대화를 찾을 수 없습니다. 다시 시도해 주십시오.",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "이 메시지는 지원되지 않습니다. TikTok 앱에서 이 메시지를 확인할 수 있습니다.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "메시지가 성공적으로 삭제되었습니다",
     "FAIL_DELETE_MESSSAGE": "메시지를 삭제할 수 없습니다! 다시 시도해 주십시오.",
     "NO_RESPONSE": "응답 없음",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "에이전트",
       "TEAMS": "팀"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "설명",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "이모지 검색",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "매크로 검색",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "모두"
+        },
+        "AVAILABILITY": "상태",
+        "ROLE": "역할",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "사용함",
+        "DISABLED": "사용 안 함",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "다음까지 일시 중지",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count}명",
     "TOTAL_PARTICIPANTS_TEXT": "{count}명이 참여하고 있습니다.",
     "TOTAL_PARTICIPANT_TEXT": "{count}명이 참여하고 있습니다.",
-    "NO_PARTICIPANTS_TEXT": "참여 중인 사람이 없습니다.",
+    "NO_PARTICIPANTS_TEXT": "참여 중인 사람이 없습니다!",
     "WATCH_CONVERSATION": "대화 참여",
     "YOU_ARE_WATCHING": "참여 중입니다",
     "API": {

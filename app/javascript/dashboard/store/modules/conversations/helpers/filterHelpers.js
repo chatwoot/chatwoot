@@ -48,6 +48,10 @@
  */
 import { coerceToDate } from '@chatwoot/utils';
 import jsonLogic from 'json-logic-js';
+import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+
+const TIMESTAMP_ATTRIBUTES = ['created_at', 'last_activity_at'];
+const TIMESTAMP_BOUNDARY = 'timestampBoundary';
 
 /**
  * Gets a value from a conversation based on the attribute key
@@ -87,14 +91,7 @@ const getValueFromConversation = (conversation, attributeKey) => {
     case 'referer':
       return conversation.additional_attributes?.[attributeKey];
     default:
-      // Check if it's a custom attribute
-      if (
-        conversation.custom_attributes &&
-        conversation.custom_attributes[attributeKey]
-      ) {
-        return conversation.custom_attributes[attributeKey];
-      }
-      return null;
+      return conversation.custom_attributes?.[attributeKey] ?? null;
   }
 };
 
@@ -182,32 +179,21 @@ const isDateOnly = value =>
   typeof value === 'string' && DATE_ONLY_PATTERN.test(value);
 
 /**
- * Reduces a value to its calendar day in the filter timezone
+ * Reduces a value to the UTC calendar day it falls on
  * @param {*} value - An epoch timestamp, an ISO string or a `YYYY-MM-DD` string
  * @returns {Number|null} - Milliseconds at UTC midnight, or null when unparseable
  *
  * `coerceToDate` reads a `YYYY-MM-DD` string as midnight in the browser
  * timezone, which lands on the previous day for browsers behind UTC.
  */
-const toCalendarDay = (value, timezone = 'UTC') => {
+const toUtcDay = value => {
   const date = isDateOnly(value)
     ? new Date(`${value}T00:00:00.000Z`)
     : coerceToDate(value);
 
   if (date === null) return null;
 
-  if (isDateOnly(value)) return date.getTime();
-
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone: timezone,
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-  }).formatToParts(date);
-  const { year, month, day } = Object.fromEntries(
-    parts.map(part => [part.type, part.value])
-  );
-  return Date.UTC(Number(year), Number(month) - 1, Number(day));
+  return Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
 };
 
 /**
@@ -217,18 +203,19 @@ const toCalendarDay = (value, timezone = 'UTC') => {
  * @param {Function} compareFn - The comparison function to apply
  * @returns {Boolean} - Returns true if the comparison succeeds, false otherwise
  */
-const compareDates = (conversationValue, filterValue, compareFn, timezone) => {
+const compareDates = (conversationValue, filterValue, compareFn) => {
   // In saved views, the filterValue might be returned as an Array
   // In conversation list, when filtering, the filterValue will be returned as a string
   const valueToCompare = Array.isArray(filterValue)
     ? filterValue[0]
     : filterValue;
 
-  // Match the backend's calendar-day comparison in the saved timezone.
-  // Date-only custom attributes keep their literal calendar date.
+  // A date filter compares whole days. The backend casts both sides with
+  // `::date` (Filters::FilterHelper#date_filter), so the time of day never
+  // takes part and the day is the one in UTC.
   if (isDateOnly(valueToCompare)) {
-    const conversationDay = toCalendarDay(conversationValue, timezone);
-    const filterDay = toCalendarDay(valueToCompare);
+    const conversationDay = toUtcDay(conversationValue);
+    const filterDay = toUtcDay(valueToCompare);
 
     if (conversationDay === null || filterDay === null) return false;
     return compareFn(conversationDay, filterDay);
@@ -239,6 +226,72 @@ const compareDates = (conversationValue, filterValue, compareFn, timezone) => {
 
   if (conversationDate === null || filterDate === null) return false;
   return compareFn(conversationDate, filterDate);
+};
+
+const dateStringWithOffset = (dateString, days) => {
+  const date = new Date(`${dateString}T00:00:00.000Z`);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+};
+
+const currentDateInTimezone = timezone => {
+  const date = utcToZonedTime(Date.now(), timezone);
+  return [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+    .map(value => String(value).padStart(2, '0'))
+    .join('-');
+};
+
+// A skipped local midnight resolves to the end of the gap, like Rails' TimeZone#local.
+const localMidnightToUtc = (dateString, timezone) => {
+  const midnight = Date.parse(`${dateString}T00:00:00Z`);
+  const estimate = zonedTimeToUtc(`${dateString}T00:00:00`, timezone).getTime();
+  const wall = utcToZonedTime(estimate, timezone);
+  const wallTime = Date.UTC(
+    wall.getFullYear(),
+    wall.getMonth(),
+    wall.getDate(),
+    wall.getHours(),
+    wall.getMinutes()
+  );
+  return estimate + midnight - wallTime;
+};
+
+const prepareTimestampFilter = filter => {
+  if (
+    !filter.timezone ||
+    !TIMESTAMP_ATTRIBUTES.includes(filter.attribute_key)
+  ) {
+    return filter;
+  }
+
+  const value = Array.isArray(filter.values) ? filter.values[0] : filter.values;
+  let boundaryDate;
+  let comparison;
+
+  if (filter.filter_operator === 'is_less_than' && isDateOnly(value)) {
+    boundaryDate = value;
+    comparison = (timestamp, boundary) => timestamp < boundary;
+  } else if (
+    filter.filter_operator === 'is_greater_than' &&
+    isDateOnly(value)
+  ) {
+    boundaryDate = dateStringWithOffset(value, 1);
+    comparison = (timestamp, boundary) => timestamp >= boundary;
+  } else if (filter.filter_operator === 'days_before') {
+    boundaryDate = dateStringWithOffset(
+      currentDateInTimezone(filter.timezone),
+      -Number(value)
+    );
+    comparison = (timestamp, boundary) => timestamp < boundary;
+  } else {
+    return filter;
+  }
+
+  return {
+    ...filter,
+    [TIMESTAMP_BOUNDARY]: localMidnightToUtc(boundaryDate, filter.timezone),
+    timestampComparison: comparison,
+  };
 };
 
 /**
@@ -257,6 +310,17 @@ const matchesCondition = (conversationValue, filter) => {
     Array.isArray(conversationValue) &&
     conversationValue.length === 0;
   const isAbsent = isNullish || isEmptyLabels;
+
+  if (filter[TIMESTAMP_BOUNDARY] !== undefined) {
+    const conversationDate = coerceToDate(conversationValue);
+    return (
+      conversationDate !== null &&
+      filter.timestampComparison(
+        conversationDate.getTime(),
+        filter[TIMESTAMP_BOUNDARY]
+      )
+    );
+  }
 
   const filterValue = Array.isArray(values)
     ? values.map(resolveValue)
@@ -282,33 +346,14 @@ const matchesCondition = (conversationValue, filter) => {
       return isAbsent;
 
     case 'is_greater_than':
-      return compareDates(
-        conversationValue,
-        filterValue,
-        (a, b) => a > b,
-        filter.timezone
-      );
+      return compareDates(conversationValue, filterValue, (a, b) => a > b);
 
     case 'is_less_than':
-      return compareDates(
-        conversationValue,
-        filterValue,
-        (a, b) => a < b,
-        filter.timezone
-      );
+      return compareDates(conversationValue, filterValue, (a, b) => a < b);
 
     case 'days_before': {
       if (isNullish) {
         return false;
-      }
-
-      if (filter.timezone) {
-        const targetDay = new Date(toCalendarDay(Date.now(), filter.timezone));
-        targetDay.setUTCDate(targetDay.getUTCDate() - Number(filterValue));
-        return (
-          toCalendarDay(conversationValue, filter.timezone) <
-          targetDay.getTime()
-        );
       }
 
       const today = new Date();
@@ -476,4 +521,9 @@ export const matchesFilters = (conversation, filters) => {
   // Evaluate all conditions and prepare for jsonLogic
   const evaluatedFilters = evaluateFilters(conversation, filters);
   return jsonLogic.apply(buildJsonLogicRule(evaluatedFilters));
+};
+
+export const createFiltersMatcher = filters => {
+  const preparedFilters = filters?.map(prepareTimestampFilter);
+  return conversation => matchesFilters(conversation, preparedFilters);
 };

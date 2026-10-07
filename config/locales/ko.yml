@@ -95,7 +95,9 @@ ko:
     saml:
       feature_not_enabled: 이 계정에서는 SAML 기능이 활성화되지 않았습니다
       sso_not_enabled: 이 설치에서는 SAML SSO가 활성화되지 않았습니다
+      multi_account_invitation_not_allowed: Users associated with another account cannot be added while SAML is enabled
     conversations:
+      resolved: Conversation is resolved and does not accept new messages
       unread_counts:
         feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
@@ -148,6 +150,7 @@ ko:
         already_ended: 'This call has already ended'
         already_accepted: 'Call already accepted by another agent'
         no_recording: 'No recording file provided'
+        recording_disabled: 'Call recording is disabled for this inbox'
         no_message: 'Call has no associated message'
         sdp_offer_required: 'sdp_offer is required'
         contact_phone_required: 'Contact phone number is required'
@@ -428,6 +431,8 @@ ko:
       completed_tool_call: '%{function_name} 도구 호출 완료'
       invalid_tool_call: '유효하지 않은 도구 호출'
       tool_not_available: '도구를 사용할 수 없습니다'
+      reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
+      reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
     documents:
       limit_exceeded: '문서 한도 초과'
       pdf_format_error: 'PDF 파일이어야 합니다'
@@ -609,16 +614,21 @@ ko:
         empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:
-        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        helper_text: 'Leave a model blank to use the default routing for that AI feature.'
+        customer_features: 'Customer features'
+        internal_features: 'Internal features'
         use_default: 'Use default: %{model} (%{model_id})'
+        use_installation_model: 'Use installation model: %{model} (%{model_id})'
       show:
         summary: 'View model routing'
         provider: 'Provider'
         model: 'Model'
       sources:
         account_override: 'Account override'
+        installation_override: 'Installation setting'
         default: '기본'
       features:
+        conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: '어시스턴트'
         copilot: 'Copilot'
@@ -635,4 +645,10 @@ ko:
       user_not_found: 'User not found.'
       no_subscriptions_to_test: 'Select at least one subscription to test.'
       no_subscriptions_to_delete: 'Select at least one subscription to delete.'
-      subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."
+      subscriptions_deleted:
+        other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+    users:
+      resend_confirmation:
+        button: 'Resend confirmation email'
+        sent: 'Confirmation email sent.'
+        already_confirmed: 'User is already confirmed.'

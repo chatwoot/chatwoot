@@ -4,12 +4,13 @@ module Concerns::Agentable
   DEFAULT_TEMPERATURE = 0.5
 
   def agent(runtime_configuration: nil, runtime_agent_name: nil)
+    model = agent_model
     Agents::Agent.new(
       name: runtime_agent_name || agent_name,
       instructions: ->(context) { agent_instructions(context, runtime_configuration: runtime_configuration) },
       tools: agent_tools,
-      model: agent_model,
-      temperature: temperature.presence&.to_f || DEFAULT_TEMPERATURE,
+      model: model,
+      temperature: Llm::Models.temperature_for(model, temperature.presence&.to_f || DEFAULT_TEMPERATURE),
       response_schema: agent_response_schema
     )
   end
@@ -34,7 +35,7 @@ module Concerns::Agentable
 
   def agent_model
     route = Llm::FeatureRouter.resolve(feature: 'assistant', account: account)
-    return route[:model] if route[:source] == :account_override || account&.feature_enabled?('captain_integration_v2')
+    return route[:model] if route[:source] == :account_override || account&.feature_enabled?('captain_integration')
 
     installation_model.presence || route[:model]
   end

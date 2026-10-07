@@ -7,14 +7,17 @@ import actions, {
 } from '../../conversations/actions';
 import types from '../../../mutation-types';
 const dataToSend = {
-  payload: [
-    {
-      attribute_key: 'status',
-      filter_operator: 'equal_to',
-      values: ['open'],
-      query_operator: null,
-    },
-  ],
+  page: 1,
+  queryData: {
+    payload: [
+      {
+        attribute_key: 'status',
+        filter_operator: 'equal_to',
+        values: ['open'],
+        query_operator: null,
+      },
+    ],
+  },
 };
 import { dataReceived } from './testConversationResponse';
 
@@ -615,12 +618,76 @@ describe('#actions', () => {
   });
 
   describe('#fetchFilteredConversations', () => {
+    it('ignores an older open-list response after applying an all-status filter', async () => {
+      let resolveOpenResponse;
+      axios.get.mockReturnValue(
+        new Promise(resolve => {
+          resolveOpenResponse = resolve;
+        })
+      );
+      const openRequest = actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: { conversationFilters: { status: 'open', assigneeType: 'all' } },
+      });
+      const filteredResponse = {
+        payload: [],
+        meta: { all_count: 10757 },
+      };
+      axios.post.mockResolvedValue({ data: filteredResponse });
+
+      await actions.fetchFilteredConversations(
+        {
+          commit,
+          dispatch,
+          state: {
+            appliedFiltersSortBy: null,
+            chatSortFilter: 'last_activity_at_desc',
+          },
+        },
+        {
+          queryData: {
+            payload: [
+              {
+                attribute_key: 'status',
+                filter_operator: 'equal_to',
+                values: ['all'],
+              },
+            ],
+          },
+          page: 1,
+        }
+      );
+      resolveOpenResponse({
+        data: { data: { payload: [], meta: { all_count: 30 } } },
+      });
+      await openRequest;
+
+      expect(
+        dispatch.mock.calls.filter(
+          ([action]) => action === 'conversationStats/set'
+        )
+      ).toEqual([
+        [
+          'conversationStats/set',
+          { meta: filteredResponse.meta, request: undefined },
+        ],
+      ]);
+    });
+
     it('fetches filtered conversations with a mock commit', async () => {
       axios.post.mockResolvedValue({
         data: dataReceived,
       });
       await actions.fetchFilteredConversations(
-        { commit, dispatch },
+        {
+          commit,
+          dispatch,
+          state: {
+            appliedFiltersSortBy: null,
+            chatSortFilter: 'last_activity_at_desc',
+          },
+        },
         dataToSend
       );
       expect(commit).toHaveBeenCalledTimes(4);
@@ -633,12 +700,32 @@ describe('#actions', () => {
           dataReceived.payload.map(chat => chat.meta.sender),
         ],
       ]);
+      expect(axios.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/filter',
+        dataToSend.queryData,
+        expect.objectContaining({
+          params: {
+            page: dataToSend.page,
+            sort_by: 'last_activity_at_desc',
+          },
+        })
+      );
     });
 
     it('clears the loading state and rethrows if the request fails', async () => {
       axios.post.mockRejectedValue(new Error('Request failed'));
       await expect(
-        actions.fetchFilteredConversations({ commit }, dataToSend)
+        actions.fetchFilteredConversations(
+          {
+            commit,
+            dispatch,
+            state: {
+              appliedFiltersSortBy: null,
+              chatSortFilter: 'last_activity_at_desc',
+            },
+          },
+          dataToSend
+        )
       ).rejects.toThrow('Request failed');
       expect(commit.mock.calls).toEqual([
         ['SET_LIST_LOADING_STATUS'],
@@ -727,9 +814,7 @@ describe('#deleteMessage', () => {
       });
       await actions.deleteConversation({ commit, dispatch }, 1);
       expect(commit.mock.calls).toEqual([[types.DELETE_CONVERSATION, 1]]);
-      expect(dispatch.mock.calls).toEqual([
-        ['conversationStats/get', {}, { root: true }],
-      ]);
+      expect(dispatch.mock.calls).toEqual([['conversationStats/get']]);
     });
 
     it('send no actions if API is error', async () => {
@@ -958,7 +1043,6 @@ describe('#addMentions', () => {
 
       expect(localCommit.mock.calls).toEqual([
         [types.SET_CURRENT_CHAT_WINDOW, data],
-        [types.CLEAR_ALL_MESSAGES_LOADED, 42],
       ]);
       expect(localDispatch).not.toHaveBeenCalled();
     });
