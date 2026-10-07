@@ -163,8 +163,8 @@ importers:
         specifier: ^1.11.9
         version: 1.11.9
       markdown-it:
-        specifier: ^14.3.1
-        version: 14.3.1
+        specifier: ^14.3.2
+        version: 14.3.2
       markdown-it-link-attributes:
         specifier: ^4.0.1
         version: 4.0.1
@@ -3380,8 +3380,8 @@ packages:
     resolution: {integrity: sha512-TchMembfxfNVpHkbtriWltGWc+m3xszaRD0CZup7GFFhzIgQqxIfn3eGj1yZpfuflzPvfkt611B2Q/Bsk1YnGg==}
     hasBin: true
 
-  markdown-it@14.3.1:
-    resolution: {integrity: sha512-4Ej49aYTDFIQ+uBkfX8GBvJGccoARxxPep+7aWTs55ozbjQJpW9M26Fe53vnGgvLeVzva/amzjQQaQu9w0vMhA==}
+  markdown-it@14.3.2:
+    resolution: {integrity: sha512-sHHjZ5fJKlgrG4qns2YwVcdNep35h5fERrfkD2YNsb9UFk0UIHarbiTaHKVMlPuWAoiilyK8Fv/jAm11slsY7Q==}
     hasBin: true
 
   math-intrinsics@1.1.0:
@@ -5185,7 +5185,7 @@ snapshots:
   '@chatwoot/prosemirror-schema@1.4.6':
     dependencies:
       linkify-it: 5.0.2
-      markdown-it: 14.3.1
+      markdown-it: 14.3.2
       markdown-it-sup: 2.0.0
       prosemirror-commands: 1.7.1
       prosemirror-dropcursor: 1.8.1
@@ -8439,7 +8439,7 @@ snapshots:
       mdurl: 1.0.1
       uc.micro: 1.0.6
 
-  markdown-it@14.3.1:
+  markdown-it@14.3.2:
     dependencies:
       argparse: 2.0.1
       entities: 4.5.0
@@ -9079,7 +9079,7 @@ snapshots:
 
   prosemirror-markdown@1.13.0:
     dependencies:
-      markdown-it: 14.3.1
+      markdown-it: 14.3.2
       prosemirror-model: 1.22.3
 
   prosemirror-menu@1.2.4:
