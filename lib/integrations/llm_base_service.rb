@@ -146,9 +146,9 @@ class Integrations::LlmBaseService
     {
       message: response.content,
       usage: {
-        'prompt_tokens' => response.input_tokens,
-        'completion_tokens' => response.output_tokens,
-        'total_tokens' => (response.input_tokens || 0) + (response.output_tokens || 0)
+        'prompt_tokens' => response.tokens.input,
+        'completion_tokens' => response.tokens.output,
+        'total_tokens' => (response.tokens.input || 0) + (response.tokens.output || 0)
       },
       request_messages: messages
     }

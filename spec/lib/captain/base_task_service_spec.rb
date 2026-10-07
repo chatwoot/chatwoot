@@ -117,7 +117,7 @@ RSpec.describe Captain::BaseTaskService do
     let(:messages) { [{ role: 'system', content: 'Test' }, { role: 'user', content: 'Hello' }] }
     let(:mock_chat) { instance_double(RubyLLM::Chat) }
     let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
-    let(:mock_response) { instance_double(RubyLLM::Message, content: 'Response', input_tokens: 10, output_tokens: 20) }
+    let(:mock_response) { instance_double(RubyLLM::Message, content: 'Response', tokens: RubyLLM::Tokens.new(input: 10, output: 20)) }
 
     before do
       allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
@@ -207,18 +207,34 @@ RSpec.describe Captain::BaseTaskService do
       expect(result[:usage]['completion_tokens']).to eq(20)
       expect(result[:usage]['total_tokens']).to eq(30)
     end
+
+    it 'returns parsed content for structured responses' do
+      schema = Class.new(Schematist::Schema) do
+        boolean :complete
+      end
+      response = RubyLLM::Message.new(
+        role: :assistant,
+        content: '{"complete":true}',
+        input_tokens: 10,
+        output_tokens: 20
+      )
+      expect(mock_chat).to receive(:with_schema).with(schema)
+      allow(mock_chat).to receive(:ask).and_return(response)
+
+      result = service.send(:make_api_call, model: model, messages: messages, schema: schema)
+
+      expect(result[:message]).to eq('complete' => true)
+    end
   end
 
   describe 'chat setup' do
     let(:model) { 'gpt-4' }
     let(:mock_chat) { instance_double(RubyLLM::Chat) }
     let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
-    let(:mock_response) { instance_double(RubyLLM::Message, content: 'Response', input_tokens: 10, output_tokens: 20) }
+    let(:mock_response) { instance_double(RubyLLM::Message, content: 'Response', tokens: RubyLLM::Tokens.new(input: 10, output: 20)) }
 
     before do
       allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
-      allow(mock_response).to receive(:input_tokens).and_return(10)
-      allow(mock_response).to receive(:output_tokens).and_return(20)
     end
 
     context 'with system instructions' do
@@ -352,7 +368,6 @@ RSpec.describe Captain::BaseTaskService do
         Captain::RewriteService.new(account: account, content: 'Text', operation: 'improve', conversation_display_id: conversation.display_id),
         Captain::SummaryService.new(account: account, conversation_display_id: conversation.display_id),
         Captain::ReplySuggestionService.new(account: account, conversation_display_id: conversation.display_id, user: user),
-        Captain::LabelSuggestionService.new(account: account, conversation_display_id: conversation.display_id),
         Captain::FollowUpService.new(
           account: account,
           follow_up_context: follow_up_context,

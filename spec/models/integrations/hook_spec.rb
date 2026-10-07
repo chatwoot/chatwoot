@@ -178,10 +178,9 @@ RSpec.describe Integrations::Hook do
 
     it 'skips validation when an enabled openai hook is saved without changing the api key' do
       allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true)
-      hook = create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'sk-good', 'label_suggestion' => false })
+      hook = create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'sk-good' })
 
       allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(false)
-      hook.settings['label_suggestion'] = true
 
       expect(hook.save).to be true
     end

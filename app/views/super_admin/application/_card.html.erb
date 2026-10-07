@@ -1,0 +1,18 @@
+<%# locals: (title:, meta: nil, data: {}, collapsible: false) -%>
+<%= content_tag (collapsible ? :details : :section), class: "group/card rounded-xl border border-n-weak bg-n-solid-1", data: data do %>
+  <%= content_tag (collapsible ? :summary : :div),
+                  class: class_names("flex min-h-11 items-center justify-between gap-3 border-n-weak px-4 py-2",
+                                     "border-b" => !collapsible,
+                                     "cursor-pointer list-none group-open/card:border-b [&::-webkit-details-marker]:hidden" => collapsible) do %>
+    <h2 class="text-xs font-medium uppercase tracking-wider text-n-slate-10"><%= title %></h2>
+    <% if meta || collapsible %>
+      <span class="flex items-center gap-2 text-label-small tabular-nums text-n-slate-11">
+        <%= meta %>
+        <% if collapsible %>
+          <span class="i-lucide-chevron-down size-4 text-n-slate-10 transition-transform group-open/card:rotate-180"></span>
+        <% end %>
+      </span>
+    <% end %>
+  <% end %>
+  <%= yield %>
+<% end %>
