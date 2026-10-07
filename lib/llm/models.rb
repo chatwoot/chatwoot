@@ -37,6 +37,10 @@ module Llm::Models
       model_config(model_name)&.dig('provider')
     end
 
+    def temperature_for(model_name, temperature)
+      temperature unless RubyLLM.models.find(model_name).metadata[:temperature] == false
+    end
+
     def feature_config(feature_key)
       feature = features[feature_key.to_s]
       return nil unless feature

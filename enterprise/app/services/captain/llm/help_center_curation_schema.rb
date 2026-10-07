@@ -1,4 +1,4 @@
-class Captain::Llm::HelpCenterCurationSchema < RubyLLM::Schema
+class Captain::Llm::HelpCenterCurationSchema < Schematist::Schema
   CATEGORIES_DESCRIPTION = 'High-level categories that group the chosen articles. Use only as many ' \
                            'as the content naturally breaks into. Names must be short (1-3 words) and reusable.'.freeze
   ARTICLES_DESCRIPTION = 'A curated starting set of help-center articles selected from the input URL list. ' \
