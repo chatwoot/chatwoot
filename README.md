@@ -117,6 +117,16 @@ Chatwoot now supports 1-Click deployment to DigitalOcean as a kubernetes app.
   <img width="200" alt="Deploy to DO" src="https://www.deploytodo.com/do-btn-blue.svg"/>
 </a>
 
+### ZopDay one-click deploy
+
+Chatwoot can also be deployed with [ZopDay](https://zop.dev/zopday), either on ZopCloud or into your own AWS, GCP or Azure account, so the conversation data stays on infrastructure your team owns and bills.
+
+<a href="https://zop.dev/zopday/app/deploy?image=chatwoot/chatwoot:latest&port=3000&name=chatwoot" alt="Deploy to ZopDay">
+  <img width="150" alt="Deploy to ZopDay" src="https://zop.dev/deploytozopday-inkhard.svg"/>
+</a>
+
+The button deploys the Rails web container. Chatwoot also needs PostgreSQL with `pgvector` and Redis, both of which you create in ZopDay, and a second deployment of the same image running `bundle exec sidekiq -C config/sidekiq.yml` for background jobs. Set `POSTGRES_HOST`, `POSTGRES_USERNAME`, `POSTGRES_PASSWORD`, `REDIS_URL`, `SECRET_KEY_BASE` and `FRONTEND_URL` as described in the [environment variables](https://www.chatwoot.com/docs/environment-variables) doc above.
+
 ### Other deployment options
 
 For other supported options, checkout our [deployment page](https://chatwoot.com/deploy).
