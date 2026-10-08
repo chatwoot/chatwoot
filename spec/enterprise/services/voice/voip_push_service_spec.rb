@@ -178,6 +178,21 @@ RSpec.describe Voice::VoipPushService do
       expect(fcm_client).to have_received(:send_v1).with(hash_including(data: hash_including('type' => 'voice_call.cancel'))).once
     end
 
+    it 'still follows the ring with a cancel when a cancel already removed the stored tokens' do
+      subscribe(agent, 'fcm', 'android-1', platform: 'Android')
+      allow(fcm_client).to receive(:send_v1) do |args|
+        if args[:data]['type'] == 'voice_call.incoming'
+          Call.where(id: call.id).update_all(status: 'in_progress', ring_state: {}) # rubocop:disable Rails/SkipsModelValidations
+        end
+        { status_code: 200, body: '' }
+      end
+
+      described_class.new(call: call).perform('ring')
+
+      expect(fcm_client).to have_received(:send_v1)
+        .with(hash_including(token: 'android-1', data: hash_including('type' => 'voice_call.cancel'))).once
+    end
+
     it 'fails loudly on an APNs environment it does not know' do
       config['APNS_VOIP_ENVIRONMENT'] = 'prod'
       subscribe(agent, 'apns_voip', 'apple-1')
