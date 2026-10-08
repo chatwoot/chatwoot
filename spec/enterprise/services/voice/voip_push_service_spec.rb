@@ -135,6 +135,24 @@ RSpec.describe Voice::VoipPushService do
       expect(NotificationSubscription.where(user: agent)).to exist
     end
 
+    it 'treats a push the platform rejected as not reaching the agent' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      allow(apple_response).to receive(:status).and_return('500')
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+    end
+
+    it 'treats every device as not reached when the connection cannot be made' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      allow(Apnotic::Connection).to receive(:new).and_raise(SocketError)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+    end
+
     it 'does not ring for a call that stopped ringing before the job ran' do
       subscribe(agent, 'apns_voip', 'apple-1')
       call.update!(status: 'failed')

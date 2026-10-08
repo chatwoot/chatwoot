@@ -39,7 +39,7 @@ class Voice::ApnsVoipSender
     response = connection.push(notification(token, payload))
     status = response ? response.status.to_s : 'no response'
     Rails.logger.info("[VOIP PUSH] apple ring call #{call_id} to #{token[0, 8]}… status=#{status} #{response&.body}")
-    status == '410' ? :gone : :sent
+    { '200' => :sent, '410' => :gone }.fetch(status, :failed)
   rescue StandardError => e
     Rails.logger.error("[VOIP PUSH] apple ring call #{call_id} to #{token[0, 8]}… failed: #{e.class}: #{e.message}")
     :failed
