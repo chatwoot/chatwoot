@@ -41,16 +41,16 @@ RSpec.describe Voice::RingingTimeoutService do
       expect(described_class.overdue).to be_empty
     end
 
-    it 'ignores a call an agent has just claimed but not yet joined' do
-      claimed = ringing(:twilio, 61.seconds)
-      claimed.update!(accepted_by_agent: create(:user, account: account))
+    it 'ignores a call an agent has just claimed but not yet joined, however long it rang first' do
+      claimed = ringing(:twilio, 5.minutes)
+      claimed.update!(accepted_by_agent: create(:user, account: account), ring_state: { 'claimed_at' => 5.seconds.ago.to_i })
 
       expect(described_class.overdue).to be_empty
     end
 
-    it 'returns a claimed call still ringing well past the timeout, whose join was abandoned' do
+    it 'returns a claimed call whose join was abandoned a while ago' do
       claimed = ringing(:twilio, 3.minutes)
-      claimed.update!(accepted_by_agent: create(:user, account: account))
+      claimed.update!(accepted_by_agent: create(:user, account: account), ring_state: { 'claimed_at' => 2.minutes.ago.to_i })
 
       expect(described_class.overdue).to contain_exactly(claimed)
     end
@@ -117,7 +117,7 @@ RSpec.describe Voice::RingingTimeoutService do
     end
 
     it 'does not end a call an agent claimed before the sweep reached it' do
-      call.update!(accepted_by_agent: create(:user, account: account))
+      call.update!(accepted_by_agent: create(:user, account: account), ring_state: { 'claimed_at' => Time.zone.now.to_i })
 
       described_class.new(call: call).perform
 
@@ -135,7 +135,8 @@ RSpec.describe Voice::RingingTimeoutService do
     end
 
     it 'ends a claimed call whose join was abandoned' do
-      call.update!(created_at: 3.minutes.ago, accepted_by_agent: create(:user, account: account))
+      call.update!(created_at: 3.minutes.ago, accepted_by_agent: create(:user, account: account),
+                   ring_state: { 'claimed_at' => 2.minutes.ago.to_i })
 
       described_class.new(call: call).perform
 

@@ -10,6 +10,8 @@ class Voice::RingingTimeoutService
   # A claim normally turns into a joined call within seconds; one still ringing this long
   # past the timeout was abandoned (the agent's join failed or the tab closed)
   CLAIM_GRACE_SECONDS = 60
+  # When a call was claimed; a claim without a recorded time counts from when the call started
+  CLAIMED_AT_SQL = "COALESCE((calls.ring_state->>'claimed_at')::bigint, EXTRACT(EPOCH FROM calls.created_at)::bigint)".freeze
   # A timeout attempt older than this is taken to have died, and another may start
   ATTEMPT_TTL_SECONDS = 120
 
@@ -17,11 +19,11 @@ class Voice::RingingTimeoutService
   # abandoned claim, on the accounts that ring phones. An outbound call ends with the
   # provider's own word.
   def self.overdue
-    RING_TIMEOUT_SECONDS.flat_map do |provider, seconds|
-      ringing = Call.where(status: 'ringing', provider: provider)
-      [ringing.where(accepted_by_agent_id: nil, created_at: ...seconds.seconds.ago),
-       ringing.where.not(accepted_by_agent_id: nil).where(created_at: ...(seconds + CLAIM_GRACE_SECONDS).seconds.ago)]
-    end.reduce(:or).where(direction: :incoming).where(account_id: Account.feature_mobile_voice_push.select(:id))
+    RING_TIMEOUT_SECONDS.map { |provider, seconds| Call.where(status: 'ringing', provider: provider).where(created_at: ...seconds.seconds.ago) }
+                        .reduce(:or)
+                        .where(direction: :incoming)
+                        .where("calls.accepted_by_agent_id IS NULL OR #{CLAIMED_AT_SQL} < ?", CLAIM_GRACE_SECONDS.seconds.ago.to_i)
+                        .where(account_id: Account.feature_mobile_voice_push.select(:id))
   end
 
   # The call is marked as timing out under the row lock, which an agent's claim checks, so
@@ -58,9 +60,13 @@ class Voice::RingingTimeoutService
     end
   end
 
+  # Rung past its provider's timeout, and either unclaimed or claimed long enough ago that
+  # the join was abandoned
   def due?
-    grace = call.accepted_by_agent_id ? CLAIM_GRACE_SECONDS : 0
-    call.created_at < (RING_TIMEOUT_SECONDS.fetch(call.provider, 60) + grace).seconds.ago
+    return false unless call.created_at < RING_TIMEOUT_SECONDS.fetch(call.provider, 60).seconds.ago
+    return true if call.accepted_by_agent_id.nil?
+
+    (call.ring_state['claimed_at'] || call.created_at.to_i) < CLAIM_GRACE_SECONDS.seconds.ago.to_i
   end
 
   def clear_timeout_mark
