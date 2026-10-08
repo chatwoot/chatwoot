@@ -44,27 +44,6 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
 
   private
 
-  def generate_standard_faqs
-    params = standard_chat_parameters
-    instrumentation_params = {
-      span_name: 'llm.faq_generation',
-      account_id: @document&.account_id,
-      feature_name: 'faq_generation',
-      model: @model,
-      messages: params[:messages],
-      metadata: document_metadata
-    }
-
-    response = instrument_llm_call(instrumentation_params) do
-      @client.chat(parameters: params)
-    end
-
-    parse_response(response)
-  rescue OpenAI::Error => e
-    Rails.logger.error I18n.t('captain.documents.openai_api_error', error: e.message)
-    []
-  end
-
   def generate_paginated_faqs
     all_faqs = []
     current_page = 1
@@ -103,7 +82,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     instrumentation_params = build_instrumentation_params(params, start_page, end_page)
 
     response = instrument_llm_call(instrumentation_params) do
-      @client.chat(parameters: params)
+      request_completion(params)
     end
 
     result = parse_chunk_response(response)
@@ -114,16 +93,39 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
   end
 
   def build_chunk_parameters(start_page, end_page)
-    {
-      model: @model,
-      response_format: { type: 'json_object' },
-      messages: [
-        {
-          role: 'user',
-          content: build_user_content(start_page, end_page)
-        }
-      ]
-    }
+    messages = [{ role: 'user', content: build_user_content(start_page, end_page) }]
+    completion_parameters(messages)
+  end
+
+  def completion_parameters(messages)
+    return { model: @model, response_format: { type: 'json_object' }, messages: messages } unless request_options[:protocol] == :responses
+
+    input = messages.map do |message|
+      content = message[:content]
+      if content.is_a?(Array)
+        content = content.map do |item|
+          item[:type] == 'file' ? { type: 'input_file', file_id: item[:file][:file_id] } : { type: 'input_text', text: item[:text] }
+        end
+      end
+      message.merge(content: content)
+    end
+    params = { model: @model, input: input, text: { format: { type: 'json_object' } } }
+    params[:reasoning] = request_options[:thinking] if request_options[:thinking]
+    params
+  end
+
+  def request_completion(params)
+    return @client.chat(parameters: params) unless request_options[:protocol] == :responses
+
+    @client.json_post(path: 'responses', parameters: params)
+  end
+
+  def request_options
+    @request_options ||= Captain::ResponsesConfig.options(model: @model, temperature: nil, feature: 'pdf_faq_generation')
+  end
+
+  def request_metadata
+    Captain::ResponsesConfig.request_metadata(model: @model, feature: 'pdf_faq_generation')
   end
 
   def build_user_content(start_page, end_page)
@@ -143,35 +145,8 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     Captain::Llm::SystemPromptsService.paginated_faq_generator(start_page, end_page, @language)
   end
 
-  def standard_chat_parameters
-    {
-      model: @model,
-      response_format: { type: 'json_object' },
-      messages: [
-        {
-          role: 'system',
-          content: Captain::Llm::SystemPromptsService.faq_generator(@language)
-        },
-        {
-          role: 'user',
-          content: @content
-        }
-      ]
-    }
-  end
-
-  def parse_response(response)
-    content = response.dig('choices', 0, 'message', 'content')
-    return [] if content.nil?
-
-    JSON.parse(sanitize_json_response(content)).fetch('faqs', [])
-  rescue JSON::ParserError => e
-    Rails.logger.error "Error parsing response: #{e.message}"
-    []
-  end
-
   def parse_chunk_response(response)
-    content = response.dig('choices', 0, 'message', 'content')
+    content = completion_text(response)
     return { 'faqs' => [], 'has_content' => false } if content.nil?
 
     JSON.parse(sanitize_json_response(content))
@@ -214,8 +189,8 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
       account_id: @document&.account_id,
       feature_name: 'paginated_faq_generation',
       model: @model,
-      messages: params[:messages],
-      metadata: document_metadata.merge(start_page: start_page, end_page: end_page, iteration: @iterations_completed + 1)
+      messages: params[:messages] || params[:input],
+      metadata: document_metadata.merge(request_metadata).merge(start_page: start_page, end_page: end_page, iteration: @iterations_completed + 1)
     }
   end
 

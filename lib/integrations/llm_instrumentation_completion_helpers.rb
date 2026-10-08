@@ -54,20 +54,30 @@ module Integrations::LlmInstrumentationCompletionHelpers
   end
 
   def set_completion_message(span, result)
-    message = result[:message] || result.dig('choices', 0, 'message', 'content')
+    message = completion_text(result)
     return if message.blank?
 
     span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, 'assistant')
     span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, message.is_a?(String) ? message : message.to_json)
   end
 
+  def completion_text(result)
+    result[:message] || result.dig('choices', 0, 'message', 'content') ||
+      result.fetch('output', []).select { |item| item['type'] == 'message' }
+            .flat_map { |item| item.fetch('content', []) }
+            .select { |item| item['type'] == 'output_text' }.pluck('text').join.presence
+  end
+
   def set_usage_metrics(span, result)
     usage = result[:usage] || result['usage']
     return if usage.blank?
 
-    span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, usage['prompt_tokens']) if usage['prompt_tokens']
-    span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, usage['completion_tokens']) if usage['completion_tokens']
-    span.set_attribute(ATTR_GEN_AI_USAGE_TOTAL_TOKENS, usage['total_tokens']) if usage['total_tokens']
+    {
+      ATTR_GEN_AI_USAGE_INPUT_TOKENS => usage['prompt_tokens'] || usage['input_tokens'],
+      ATTR_GEN_AI_USAGE_OUTPUT_TOKENS => usage['completion_tokens'] || usage['output_tokens'],
+      ATTR_GEN_AI_USAGE_TOTAL_TOKENS => usage['total_tokens'],
+      'gen_ai.usage.reasoning.output_tokens' => usage['reasoning_tokens'] || usage.dig('output_tokens_details', 'reasoning_tokens')
+    }.compact.each { |key, value| span.set_attribute(key, value) }
   end
 
   def set_error_attributes(span, result)

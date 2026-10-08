@@ -18,16 +18,31 @@ class Llm::BaseAiService
     setup_temperature
   end
 
-  def chat(model: @model, temperature: @temperature, thinking: nil, **)
-    temperature = Llm::Models.temperature_for(model, temperature)
-    llm_chat = RubyLLM.chat(model: model, **)
+  def chat(model: @model, temperature: @temperature, thinking: nil, feature: @llm_feature, **)
+    options = Captain::ResponsesConfig.options(model: model, temperature: temperature, feature: feature)
+    thinking ||= options[:thinking]
+    llm_chat = RubyLLM.chat(model: model, **options.slice(:protocol), **)
     llm_chat.with_thinking(**thinking) if thinking
-    return llm_chat if temperature.nil? || (thinking && thinking[:effort] != :none)
+    return llm_chat if options[:temperature].nil? || (thinking && thinking[:effort] != :none)
 
-    llm_chat.with_temperature(temperature)
+    llm_chat.with_temperature(options[:temperature])
+  end
+
+  def json_chat(model: @model, feature: @llm_feature)
+    llm_chat = chat(model: model, feature: feature)
+    options = Captain::ResponsesConfig.options(model: model, temperature: @temperature, feature: feature)
+    format = { type: 'json_object' }
+    llm_chat.with_provider_options(options[:protocol] == :responses ? { text: { format: format } } : { response_format: format })
   end
 
   private
+
+  def llm_instrumentation_params(params)
+    feature = params[:llm_feature] || @llm_feature
+    options = Captain::ResponsesConfig.options(model: params[:model], temperature: params[:temperature], feature: feature)
+    metadata = Captain::ResponsesConfig.request_metadata(model: params[:model], feature: feature)
+    params.merge(temperature: options[:temperature], metadata: params[:metadata].to_h.merge(metadata))
+  end
 
   # Strips markdown code fences (```json ... ``` or ``` ... ```) that some
   # LLM providers/gateways wrap around JSON responses despite response_format hints.
