@@ -314,7 +314,7 @@ defineExpose({
           />
           <div
             v-else-if="item.key === 'COMPANY_NAME' && hasCompaniesFeature"
-            class="min-w-0 [&>div>button]:h-8"
+            class="min-w-0 [&>div>div>button]:h-8"
           >
             <CompanySelector
               :model-value="state.companyId"
