@@ -19,11 +19,11 @@
             <th><%= t("#{scope}.push_settings.notification_type") %></th>
             <% @notification_settings.each do |setting| %>
               <th>
-                <div class="flex items-center gap-1.5">
+                <span class="inline-flex items-center gap-1.5">
                   <span class="i-lucide-building-2 size-3.5"></span>
                   <%= account_label(setting) %>
-                </div>
-                <div class="font-normal normal-case tracking-normal"><%= t("#{scope}.user.id", id: setting.account_id) %></div>
+                  <span class="font-normal normal-case tracking-normal text-n-slate-9"><%= t("#{scope}.user.id", id: setting.account_id) %></span>
+                </span>
               </th>
             <% end %>
           </tr>
