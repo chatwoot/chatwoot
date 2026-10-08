@@ -21,26 +21,31 @@ class CallFinder
 
   private
 
-  # Admins and report managers see the whole account; everyone else only sees
-  # calls they handled within conversations they can still access, plus, when asking
-  # for ringing calls, the ones still waiting for them to answer.
+  # Admins and report managers see the whole account; everyone else only sees calls they
+  # handled within conversations they can still access. A request for ringing calls is
+  # the ring's recovery, so everyone gets only their own calls and the rings meant for them.
   def filter_by_visibility
-    return if account_wide_access?
-
     own = @calls.where(accepted_by_agent_id: @current_user.id, conversation_id: accessible_conversations)
-    @calls = ringing_requested? ? own.or(ringing_for_current_user) : own
+    if ringing_requested?
+      @calls = own.or(ringing_for_current_user)
+    elsif !account_wide_access?
+      @calls = own
+    end
   end
 
-  # An unanswered inbound call is visible to the agents it can ring: the assignee if the
-  # conversation has one, otherwise the inbox's members, within the conversations the
-  # agent's role lets them see, and only while the agent is online. A phone that lost its
-  # socket asks for these on launch and on return to the foreground.
+  # An unanswered inbound call is visible to the agents it rings: the assignee if the
+  # conversation has one, otherwise everyone who could be assigned the inbox (its members
+  # and the administrators), within the conversations the agent's role lets them see, and
+  # only while the agent is online. A phone that lost its socket asks for these on launch
+  # and on return to the foreground.
   def ringing_for_current_user
     return @calls.none unless Current.account_user&.online?
 
-    @calls.where(status: 'ringing', accepted_by_agent_id: nil, direction: :incoming)
-          .where(inbox_id: @current_user.inboxes.where(account_id: @current_account.id).select(:id))
-          .where(conversation_id: permitted_conversations.where(assignee_id: [nil, @current_user.id]).select(:id))
+    ringing = @calls.where(status: 'ringing', accepted_by_agent_id: nil, direction: :incoming)
+                    .where(conversation_id: permitted_conversations.where(assignee_id: [nil, @current_user.id]).select(:id))
+    return ringing if Current.account_user.administrator?
+
+    ringing.where(inbox_id: @current_user.inboxes.where(account_id: @current_account.id).select(:id))
   end
 
   def ringing_requested?
