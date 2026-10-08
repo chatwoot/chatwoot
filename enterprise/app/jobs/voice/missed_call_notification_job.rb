@@ -25,7 +25,7 @@ class Voice::MissedCallNotificationJob < ApplicationJob
   # does not change who missed the call. A call that never rang falls back to the same
   # choice the ring would have made.
   def recipients(call)
-    ids = call.meta&.dig('ring_recipient_ids')
+    ids = call.ring_state['ring_recipient_ids']
     return Voice::VoipPushService.recipients_for(call) if ids.nil?
 
     call.account.users.where(id: ids)

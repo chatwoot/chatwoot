@@ -89,7 +89,7 @@ RSpec.describe Voice::VoipPushService do
 
       described_class.new(call: call).perform('ring')
 
-      expect(call.reload.meta['rung_devices']).to eq('apns_voip' => ['apple-1'], 'fcm' => ['android-1'])
+      expect(call.reload.ring_state['rung_devices']).to eq('apns_voip' => ['apple-1'], 'fcm' => ['android-1'])
     end
 
     it 'removes devices the platforms no longer know' do
@@ -108,22 +108,36 @@ RSpec.describe Voice::VoipPushService do
       described_class.new(call: call).perform('ring')
 
       expect(apple_connection).not_to have_received(:push)
-      expect(call.reload.meta['rung_devices']).to be_nil
+      expect(call.reload.ring_state['rung_devices']).to be_nil
     end
 
-    it 'keeps meta written by a webhook while the ring was being sent' do
+    it 'keeps the ring record when meta is saved from a copy of the call loaded before the ring' do
       subscribe(agent, 'apns_voip', 'apple-1')
-      Call.where(id: call.id).update_all(['meta = meta || ?::jsonb', { 'twilio_conference_sid' => 'CF999' }.to_json]) # rubocop:disable Rails/SkipsModelValidations
+      earlier_copy = Call.find(call.id)
+
+      described_class.new(call: call).perform('ring')
+      earlier_copy.update!(twilio_conference_sid: 'CF999')
+
+      expect(call.reload.meta).to include('twilio_conference_sid' => 'CF999')
+      expect(call.ring_state['rung_devices']).to eq('apns_voip' => ['apple-1'], 'fcm' => [])
+    end
+
+    it 'rings the agents recorded when the ring started, not a later assignee' do
+      call.update!(ring_state: { 'ring_recipient_ids' => [agent.id] })
+      conversation.update!(assignee: other_agent)
+      subscribe(agent, 'apns_voip', 'apple-1')
+      subscribe(other_agent, 'apns_voip', 'apple-2')
 
       described_class.new(call: call).perform('ring')
 
-      expect(call.reload.meta).to include('twilio_conference_sid' => 'CF999', 'rung_devices' => { 'apns_voip' => ['apple-1'], 'fcm' => [] })
+      expect(apple_connection).to have_received(:push).once
+      expect(call.reload.ring_state['rung_devices']).to eq('apns_voip' => ['apple-1'], 'fcm' => [])
     end
 
     it 'records the agents chosen for the ring even when none of them has a phone' do
       described_class.new(call: call).perform('ring')
 
-      expect(call.reload.meta['ring_recipient_ids']).to contain_exactly(agent.id, other_agent.id)
+      expect(call.reload.ring_state['ring_recipient_ids']).to contain_exactly(agent.id, other_agent.id)
     end
 
     it 'rings and records the same agents even if the conversation is reassigned meanwhile' do
@@ -136,7 +150,7 @@ RSpec.describe Voice::VoipPushService do
 
       described_class.new(call: call).perform('ring')
 
-      expect(call.reload.meta['ring_recipient_ids']).to contain_exactly(agent.id, other_agent.id)
+      expect(call.reload.ring_state['ring_recipient_ids']).to contain_exactly(agent.id, other_agent.id)
       expect(apple_connection).to have_received(:push).twice
     end
 
@@ -188,17 +202,33 @@ RSpec.describe Voice::VoipPushService do
 
       expect(apple_connection).not_to have_received(:push)
       expect(fcm_client).not_to have_received(:send_v1)
-      expect(call.reload.meta['rung_devices']).to be_nil
+      expect(call.reload.ring_state['rung_devices']).to be_nil
     end
 
-    it 'skips Apple when the APNs key is not configured' do
-      config.delete('APNS_VOIP_KEY')
+    it 'skips Apple quietly when APNs is not configured at all' do
+      config.except!('APNS_VOIP_KEY', 'APNS_VOIP_KEY_ID', 'APNS_VOIP_TEAM_ID')
       subscribe(agent, 'apns_voip', 'apple-1')
       subscribe(agent, 'fcm', 'android-1', platform: 'Android')
+      allow(ChatwootExceptionTracker).to receive(:new).and_call_original
 
       described_class.new(call: call).perform('ring')
 
       expect(Apnotic::Connection).not_to have_received(:new)
+      expect(ChatwootExceptionTracker).not_to have_received(:new)
+      expect(fcm_client).to have_received(:send_v1).once
+    end
+
+    it 'skips Apple and reports it when APNs is only partly configured' do
+      config.delete('APNS_VOIP_KEY')
+      subscribe(agent, 'apns_voip', 'apple-1')
+      subscribe(agent, 'fcm', 'android-1', platform: 'Android')
+      tracker = instance_double(ChatwootExceptionTracker, capture_exception: nil)
+      allow(ChatwootExceptionTracker).to receive(:new).and_return(tracker)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(Apnotic::Connection).not_to have_received(:new)
+      expect(ChatwootExceptionTracker).to have_received(:new).with(an_instance_of(ArgumentError).and(having_attributes(message: /APNS_VOIP_KEY\b/)))
       expect(fcm_client).to have_received(:send_v1).once
     end
 
@@ -214,7 +244,7 @@ RSpec.describe Voice::VoipPushService do
 
   describe 'cancel' do
     before do
-      call.update!(status: 'no_answer', meta: { 'rung_devices' => { 'apns_voip' => ['apple-1'], 'fcm' => %w[android-1 android-2] } })
+      call.update!(status: 'no_answer', ring_state: { 'rung_devices' => { 'apns_voip' => ['apple-1'], 'fcm' => %w[android-1 android-2] } })
     end
 
     it 'sends a cancel data message to the Android phones that were rung, and nothing to Apple' do
@@ -235,7 +265,7 @@ RSpec.describe Voice::VoipPushService do
     end
 
     it 'does nothing when no Android phone was rung' do
-      call.update!(meta: { 'rung_devices' => { 'apns_voip' => ['apple-1'], 'fcm' => [] } })
+      call.update!(ring_state: { 'rung_devices' => { 'apns_voip' => ['apple-1'], 'fcm' => [] } })
 
       described_class.new(call: call).perform('cancel')
 

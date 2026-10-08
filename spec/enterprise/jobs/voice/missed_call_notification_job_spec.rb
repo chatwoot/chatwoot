@@ -45,7 +45,7 @@ RSpec.describe Voice::MissedCallNotificationJob do
   end
 
   it 'records it for the agents whose phones rang even after the conversation was reassigned' do
-    call.update!(meta: { 'ring_recipient_ids' => [agent.id] })
+    call.update!(ring_state: { 'ring_recipient_ids' => [agent.id] })
     conversation.update!(assignee: other_agent)
 
     described_class.perform_now(call.id)

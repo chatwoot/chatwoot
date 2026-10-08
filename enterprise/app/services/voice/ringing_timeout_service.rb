@@ -8,31 +8,53 @@ class Voice::RingingTimeoutService
   # window is the provider's own, so a call is never ended here while the caller still hears it ring
   RING_TIMEOUT_SECONDS = { 'twilio' => 60, 'whatsapp' => 60 }.freeze
 
-  # Calls still ringing past their provider's timeout, on the accounts that ring phones
+  # Inbound calls still ringing past their provider's timeout that no agent has claimed, on
+  # the accounts that ring phones. An outbound call ends with the provider's own word.
   def self.overdue
     RING_TIMEOUT_SECONDS.map { |provider, seconds| Call.where(status: 'ringing', provider: provider).where(created_at: ...seconds.seconds.ago) }
                         .reduce(:or)
+                        .where(direction: :incoming, accepted_by_agent_id: nil)
                         .where(account_id: Account.feature_mobile_voice_push.select(:id))
   end
 
-  # The call is ended only once the caller has been hung up; while Twilio cannot be
-  # reached it stays ringing and the next sweep tries again
+  # The call is marked as timing out under the row lock, which an agent's claim checks, so
+  # a claim made from here on is refused. The caller is hung up outside the lock, so the
+  # webhooks the hang-up triggers do not wait on it. The call is ended only once the caller
+  # has been hung up; while Twilio cannot be reached the mark is cleared and the next
+  # sweep tries again.
   def perform
-    call.with_lock do
-      next unless call.ringing?
-      next unless hang_up_caller
+    return unless start_timeout
 
-      finalize
+    hung_up = hang_up_caller
+    call.with_lock do
+      if hung_up && call.ringing?
+        finalize
+      else
+        clear_timeout_mark
+      end
     end
   end
 
   private
 
+  def start_timeout
+    call.with_lock do
+      next false unless call.ringing? && call.incoming? && call.accepted_by_agent_id.nil?
+
+      call.update_columns(ring_state: call.ring_state.merge('timing_out' => true)) # rubocop:disable Rails/SkipsModelValidations
+      true
+    end
+  end
+
+  def clear_timeout_mark
+    call.update_columns(ring_state: call.ring_state.except('timing_out')) # rubocop:disable Rails/SkipsModelValidations
+  end
+
   # A Twilio caller is still waiting for the conference to start; Meta has already given up
   def hang_up_caller
     return true unless call.twilio?
 
-    Voice::Provider::Twilio::ConferenceService.new(call: call).hang_up_caller
+    Voice::Provider::Twilio::ConferenceService.new(call: call).terminate_call
     true
   rescue StandardError => e
     Rails.logger.error("[VOICE] ring timeout call #{call.id}: could not end conference: #{e.class}: #{e.message}")

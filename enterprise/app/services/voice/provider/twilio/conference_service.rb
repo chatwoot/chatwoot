@@ -13,12 +13,6 @@ class Voice::Provider::Twilio::ConferenceService
     assign_conversation!(user)
   end
 
-  # The caller's own leg, ended directly: while no agent has joined, the conference has
-  # not started and does not show up as in progress
-  def hang_up_caller
-    call.inbox.channel.client.calls(call.provider_call_id).update(status: 'completed')
-  end
-
   def end_conference
     return if call.conference_sid.blank?
 
@@ -61,6 +55,9 @@ class Voice::Provider::Twilio::ConferenceService
 
   def claim_call!(user)
     call.with_lock do
+      # The ring timeout is hanging the caller up
+      raise Voice::CallErrors::CallAlreadyEnded, 'Call has timed out' if call.ring_state['timing_out']
+
       raise_already_accepted!(call.accepted_by_agent) if claimed_by_other_agent?(user)
       call.update!(accepted_by_agent: user) if call.accepted_by_agent_id != user.id
     end
