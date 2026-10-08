@@ -636,6 +636,12 @@
 ## ------ End of Configs added for Cloudflare ------ ##
 
 ## ------ Customizations for Customers ------ ##
+- name: REMOVE_STALE_VISITOR_CONTACTS
+  display_title: 'Remove stale visitor contacts'
+  value: false
+  locked: false
+  description: 'Delete anonymous visitor contacts that never had a conversation or any contact details, 30 days after they were created'
+  type: boolean
 - name: WIDGET_TOKEN_EXPIRY
   display_title: 'Widget Token Expiry'
   value: 180
