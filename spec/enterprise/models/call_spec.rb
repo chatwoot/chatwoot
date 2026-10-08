@@ -7,7 +7,7 @@ RSpec.describe Call do
 
     before do
       account.enable_features!('mobile_voice_push')
-      call.update!(meta: { 'rung_devices' => { 'apns_voip' => [], 'fcm' => ['android-1'] } })
+      call.update!(ring_state: { 'rung_devices' => { 'apns_voip' => [], 'fcm' => ['android-1'] } })
     end
 
     it 'enqueues a cancel push when a ringing call is answered' do
@@ -23,7 +23,7 @@ RSpec.describe Call do
     end
 
     it 'does not enqueue when the call was never rung on a phone' do
-      call.update!(meta: {})
+      call.update!(ring_state: {})
 
       expect { call.update!(status: 'no_answer') }.not_to have_enqueued_job(Voice::VoipPushJob)
     end

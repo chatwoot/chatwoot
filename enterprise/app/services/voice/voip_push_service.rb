@@ -12,7 +12,7 @@
 # phone holds the ring but a notification and the app's own screen, is sent a plain
 # data message when the call leaves ringing.
 #
-# The devices rung are kept on `call.meta['rung_devices']` so a cancel goes only where
+# The agents and devices rung are kept on `call.ring_state` so a cancel goes only where
 # the ring went. Configuration lives in the installation config: APNS_VOIP_KEY (the .p8
 # contents), APNS_VOIP_KEY_ID, APNS_VOIP_TEAM_ID, APNS_VOIP_BUNDLE_ID,
 # APNS_VOIP_ENVIRONMENT, plus the existing FIREBASE_PROJECT_ID and FIREBASE_CREDENTIALS.
@@ -35,7 +35,8 @@ class Voice::VoipPushService
   private
 
   # Both platforms and every device go out at the same time, so no phone waits on another
-  # device's round trip. Network work runs in the threads; the database is touched only here.
+  # device's round trip. Payloads, configuration and clients are built here, on the job's
+  # thread and connection; the threads only make the HTTP requests.
   #
   # The status check and the record of who is rung happen under the row lock, so a
   # terminate cannot slip between them: it either lands first and there is nothing to
@@ -46,13 +47,21 @@ class Voice::VoipPushService
     apple, android = call.with_lock { call.ringing? ? remember_ring : nil }
     return if apple.nil? || (apple.empty? && android.empty?)
 
-    stale_apple, stale_android = [
-      Thread.new { with_rails { ring_apple(apple) } },
-      Thread.new { with_rails { deliver_android_all(android, ring_data, 'ring') } }
-    ].map(&:value)
+    stale_apple, stale_android = deliver_ring(apple, android)
     forget_devices(APPLE, stale_apple)
     forget_devices(ANDROID, stale_android)
     cancel unless call.reload.ringing?
+  end
+
+  def deliver_ring(apple, android)
+    sender = Voice::ApnsVoipSender.new(settings: apple_settings, call_id: call.id) if apple.any?
+    client = fcm_client if android.any?
+    payload = ring_payload
+    data = ring_data
+    [
+      Thread.new { with_rails { sender ? sender.ring(apple, payload) : [] } },
+      Thread.new { with_rails { deliver_android_all(client, android, data, 'ring') } }
+    ].map(&:value)
   end
 
   def devices_to_ring
@@ -67,7 +76,9 @@ class Voice::VoipPushService
     tokens = rung_devices[ANDROID]
     return if tokens.blank?
 
-    forget_devices(ANDROID, with_rails { deliver_android_all(tokens, cancel_data, 'cancel') })
+    data = cancel_data
+    client = fcm_client
+    forget_devices(ANDROID, with_rails { deliver_android_all(client, tokens, data, 'cancel') })
   end
 
   def with_rails(&)
@@ -101,17 +112,17 @@ class Voice::VoipPushService
   end
 
   def rung_devices
-    (call.meta || {}).fetch('rung_devices', {})
+    call.ring_state.fetch('rung_devices', {})
   end
 
   # Records the agents chosen for this ring and, where there are any, the devices being
-  # rung. Merged into the column in place, so a webhook writing other meta keys meanwhile
-  # keeps them. Returns the device tokens by platform.
+  # rung. Merged into its own column in place, so neither another ring's record nor a
+  # write of `meta` erases it. Returns the device tokens by platform.
   def remember_ring
     apple, android = devices_to_ring
     rung = { 'ring_recipient_ids' => recipients.map(&:id) }
     rung['rung_devices'] = { APPLE => apple, ANDROID => android } if apple.any? || android.any?
-    Call.where(id: call.id).update_all(["meta = COALESCE(meta, '{}'::jsonb) || ?::jsonb", rung.to_json]) # rubocop:disable Rails/SkipsModelValidations
+    Call.where(id: call.id).update_all(['ring_state = ring_state || ?::jsonb', rung.to_json]) # rubocop:disable Rails/SkipsModelValidations
     call.reload
     [apple, android]
   end
@@ -164,8 +175,18 @@ class Voice::VoipPushService
 
   APNS_ENVIRONMENTS = %w[development production].freeze
 
+  APNS_CREDENTIALS = %w[APNS_VOIP_KEY APNS_VOIP_KEY_ID APNS_VOIP_TEAM_ID].freeze
+
+  # iPhones are rung only with every credential set. Some but not all set is a broken
+  # deployment rather than an opted-out one, so it is reported; Android still rings.
   def apple_configured?
-    config('APNS_VOIP_KEY').present? && config('APNS_VOIP_KEY_ID').present? && config('APNS_VOIP_TEAM_ID').present?
+    return @apple_configured unless @apple_configured.nil?
+
+    missing = APNS_CREDENTIALS.select { |name| config(name).blank? }
+    if missing.any? && missing.size < APNS_CREDENTIALS.size
+      ChatwootExceptionTracker.new(ArgumentError.new("APNs VoIP is partly configured; missing #{missing.join(', ')}")).capture_exception
+    end
+    @apple_configured = missing.empty?
   end
 
   # A misspelt environment would quietly send App Store tokens to the sandbox, so it fails the job
@@ -176,46 +197,17 @@ class Voice::VoipPushService
     raise ArgumentError, "APNS_VOIP_ENVIRONMENT must be one of #{APNS_ENVIRONMENTS.join(', ')}, got #{environment.inspect}"
   end
 
-  # Returns the tokens Apple reported as gone
-  def ring_apple(tokens)
-    return [] if tokens.empty?
-
-    payload = ring_payload
-    connection = apple_connection
-    tokens.select { |token| deliver_apple(connection, token, payload) == :gone }
-  ensure
-    connection&.close
-  end
-
-  def apple_connection
-    production = apple_environment == 'production'
-    Apnotic::Connection.new(
-      url: production ? Apnotic::APPLE_PRODUCTION_SERVER_URL : Apnotic::APPLE_DEVELOPMENT_SERVER_URL,
-      auth_method: :token,
-      cert_path: StringIO.new(config('APNS_VOIP_KEY')),
+  # Everything the Apple sender needs, read from the configuration before the delivery
+  # threads start
+  def apple_settings
+    {
+      production: apple_environment == 'production',
+      key: config('APNS_VOIP_KEY'),
       key_id: config('APNS_VOIP_KEY_ID'),
-      team_id: config('APNS_VOIP_TEAM_ID')
-    )
-  end
-
-  def apple_notification(token, payload)
-    Apnotic::Notification.new(token).tap do |notification|
-      notification.topic = "#{config('APNS_VOIP_BUNDLE_ID', 'com.chatwoot.app')}.voip"
-      notification.push_type = 'voip'
-      notification.priority = 10
-      notification.expiration = Time.now.to_i + RING_EXPIRY_SECONDS
-      notification.custom_payload = payload
-    end
-  end
-
-  def deliver_apple(connection, token, payload)
-    response = connection.push(apple_notification(token, payload))
-    status = response ? response.status.to_s : 'no response'
-    Rails.logger.info("[VOIP PUSH] apple ring call #{call.id} to #{token[0, 8]}… status=#{status} #{response&.body}")
-    status == '410' ? :gone : :sent
-  rescue StandardError => e
-    Rails.logger.error("[VOIP PUSH] apple ring call #{call.id} to #{token[0, 8]}… failed: #{e.class}: #{e.message}")
-    :failed
+      team_id: config('APNS_VOIP_TEAM_ID'),
+      topic: "#{config('APNS_VOIP_BUNDLE_ID', 'com.chatwoot.app')}.voip",
+      expiry_seconds: RING_EXPIRY_SECONDS
+    }
   end
 
   # MARK: Android
@@ -224,11 +216,14 @@ class Voice::VoipPushService
     config('FIREBASE_PROJECT_ID').present? && config('FIREBASE_CREDENTIALS').present?
   end
 
+  def fcm_client
+    Notification::FcmService.new(config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')).fcm_client
+  end
+
   # Returns the tokens Firebase reported as unregistered
-  def deliver_android_all(tokens, data, kind)
+  def deliver_android_all(client, tokens, data, kind)
     return [] if tokens.empty?
 
-    client = Notification::FcmService.new(config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')).fcm_client
     tokens.each_slice(ANDROID_BATCH_SIZE).flat_map do |batch|
       batch.map { |token| Thread.new { with_rails { deliver_android(client, token, data, kind) } } }
            .map(&:value)
