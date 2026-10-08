@@ -6,10 +6,10 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
   end
   description 'Search conversations based on parameters'
 
-  param :status, type: :string, desc: 'Status of the conversation (open, resolved, pending, snoozed). Leave empty to search all statuses.'
-  param :contact_id, type: :number, desc: 'Contact id'
-  param :priority, type: :string, desc: 'Priority of conversation (low, medium, high, urgent). Leave empty to search all priorities.'
-  param :labels, type: :string, desc: 'Labels available'
+  parameter :status, type: :string, description: 'Status of the conversation (open, resolved, pending, snoozed). Leave empty to search all statuses.'
+  parameter :contact_id, type: :number, description: 'Contact id'
+  parameter :priority, type: :string, description: 'Priority of conversation (low, medium, high, urgent). Leave empty to search all priorities.'
+  parameter :labels, type: :string, description: 'Labels available'
 
   def execute(status: nil, contact_id: nil, priority: nil, labels: nil)
     conversations = get_conversations(status, contact_id, priority, labels)
