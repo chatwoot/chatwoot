@@ -1,0 +1,120 @@
+# Coolify deployment (Docker Compose build pack). Builds the image from this repo
+# so the Kumalichat branding ships; enterprise/ is excluded via .dockerignore.
+services:
+  rails:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: kumalichat:latest
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - SERVICE_URL_RAILS_3000
+      - FRONTEND_URL=${SERVICE_URL_RAILS}
+      - SECRET_KEY_BASE=${SERVICE_PASSWORD_64_SECRETKEYBASE}
+      - DEFAULT_LOCALE=${DEFAULT_LOCALE:-en}
+      - FORCE_SSL=${FORCE_SSL:-false}
+      - ENABLE_ACCOUNT_SIGNUP=${ENABLE_ACCOUNT_SIGNUP:-false}
+      - REDIS_URL=redis://default@redis:6379
+      - REDIS_PASSWORD=${SERVICE_PASSWORD_REDIS}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DATABASE=kumalichat
+      - POSTGRES_USERNAME=${SERVICE_USER_POSTGRES}
+      - POSTGRES_PASSWORD=${SERVICE_PASSWORD_POSTGRES}
+      - RAILS_MAX_THREADS=${RAILS_MAX_THREADS:-5}
+      - RAILS_ENV=production
+      - NODE_ENV=production
+      - INSTALLATION_ENV=docker
+      - RAILS_LOG_TO_STDOUT=true
+      - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
+      - SMTP_ADDRESS=${SMTP_ADDRESS}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_DOMAIN=${SMTP_DOMAIN}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_AUTHENTICATION=${SMTP_AUTHENTICATION:-login}
+      - SMTP_ENABLE_STARTTLS_AUTO=${SMTP_ENABLE_STARTTLS_AUTO:-true}
+      - ACTIVE_STORAGE_SERVICE=local
+    entrypoint: docker/entrypoints/rails.sh
+    command: sh -c "bundle exec rails db:chatwoot_prepare && bundle exec rails s -p 3000 -b 0.0.0.0"
+    volumes:
+      - storage-data:/app/storage
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://127.0.0.1:3000']
+      interval: 10s
+      timeout: 20s
+      retries: 30
+
+  sidekiq:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: kumalichat:latest
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - FRONTEND_URL=${SERVICE_URL_RAILS}
+      - SECRET_KEY_BASE=${SERVICE_PASSWORD_64_SECRETKEYBASE}
+      - DEFAULT_LOCALE=${DEFAULT_LOCALE:-en}
+      - REDIS_URL=redis://default@redis:6379
+      - REDIS_PASSWORD=${SERVICE_PASSWORD_REDIS}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DATABASE=kumalichat
+      - POSTGRES_USERNAME=${SERVICE_USER_POSTGRES}
+      - POSTGRES_PASSWORD=${SERVICE_PASSWORD_POSTGRES}
+      - RAILS_MAX_THREADS=${RAILS_MAX_THREADS:-5}
+      - RAILS_ENV=production
+      - NODE_ENV=production
+      - INSTALLATION_ENV=docker
+      - RAILS_LOG_TO_STDOUT=true
+      - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
+      - SMTP_ADDRESS=${SMTP_ADDRESS}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_DOMAIN=${SMTP_DOMAIN}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_AUTHENTICATION=${SMTP_AUTHENTICATION:-login}
+      - SMTP_ENABLE_STARTTLS_AUTO=${SMTP_ENABLE_STARTTLS_AUTO:-true}
+      - ACTIVE_STORAGE_SERVICE=local
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    volumes:
+      - storage-data:/app/storage
+    healthcheck:
+      test: ['CMD-SHELL', "bundle exec sidekiqmon processes | grep -q 'sidekiq'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=kumalichat
+      - POSTGRES_USER=${SERVICE_USER_POSTGRES}
+      - POSTGRES_PASSWORD=${SERVICE_PASSWORD_POSTGRES}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d kumalichat -h 127.0.0.1']
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    command: ['sh', '-c', 'redis-server --requirepass "$${REDIS_PASSWORD}"']
+    environment:
+      - REDIS_PASSWORD=${SERVICE_PASSWORD_REDIS}
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ['CMD-SHELL', 'redis-cli -a "$${REDIS_PASSWORD}" ping | grep -q PONG']
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  storage-data:
+  postgres-data:
+  redis-data:

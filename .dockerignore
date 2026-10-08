@@ -15,3 +15,7 @@ vendor/bundle
 .DS_Store
 *.swp
 *~
+
+# Community edition build: keep the Enterprise-licensed code out of the image
+enterprise
+spec/enterprise
