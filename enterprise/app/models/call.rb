@@ -76,6 +76,15 @@ class Call < ApplicationRecord
     find_by(provider: provider, provider_call_id: sid)
   end
 
+  # An inbound call nobody answered, however it ended: unanswered, or completed or failed
+  # with no agent on it, as when the caller hangs up during the ring and the provider
+  # reports that leg completed
+  def missed?
+    return false unless incoming?
+
+    status == 'no_answer' || (%w[completed failed].include?(status) && accepted_by_agent_id.nil?)
+  end
+
   # nil = a channel with no call settings, or a call that predates them: record.
   def recording_enabled?
     recording_enabled != false
@@ -194,7 +203,7 @@ class Call < ApplicationRecord
   # Only a call that rang phones has a missed-call notice: the agents rung were recorded
   # as its ring started
   def missed_just_now?
-    saved_change_to_status? && status == 'no_answer' && incoming? && ring_state.key?('ring_recipient_ids')
+    saved_change_to_status? && ring_state.key?('ring_recipient_ids') && missed?
   end
 
   def notify_missed_call
