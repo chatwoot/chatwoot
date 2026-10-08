@@ -52,4 +52,17 @@ RSpec.describe Voice::EndConferenceJob do
 
     expect { described_class.perform_now(call.id) }.to have_enqueued_job(described_class).with(call.id)
   end
+
+  it 'completes the call once the retries are spent, after a last attempt to end the conference' do
+    live = create(:call, conversation: conversation, status: 'in_progress', started_at: 1.minute.ago)
+    allow(ActionCable.server).to receive(:broadcast)
+    allow(conference).to receive(:agents_remain?).and_raise(Twilio::REST::TwilioError)
+    job = described_class.new(live.id, leaving_call_sid: 'CA-agent-1')
+    job.exception_executions = { '[StandardError]' => 4 }
+
+    job.perform_now
+
+    expect(conference).to have_received(:end_conference)
+    expect(live.reload.status).to eq('completed')
+  end
 end

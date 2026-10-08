@@ -5,7 +5,15 @@
 class Voice::EndConferenceJob < ApplicationJob
   queue_as :critical
 
-  retry_on StandardError, wait: :polynomially_longer, attempts: 5
+  # Once the retries are spent the call is not left live: a last attempt ends the
+  # conference and the call completes either way
+  retry_on StandardError, wait: :polynomially_longer, attempts: 5 do |job, error|
+    call = Call.find_by(id: job.arguments.first)
+    if call&.twilio?
+      Rails.logger.error("[VOICE] call #{call.id}: ending the conference after retries failed: #{error.class}: #{error.message}")
+      job.send(:give_up, call)
+    end
+  end
 
   def perform(call_id, leaving_call_sid: nil)
     call = Call.find_by(id: call_id)
@@ -19,6 +27,15 @@ class Voice::EndConferenceJob < ApplicationJob
   end
 
   private
+
+  def give_up(call)
+    begin
+      Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference
+    rescue StandardError => e
+      Rails.logger.error("[VOICE] call #{call.id}: last attempt to end the conference failed: #{e.class}: #{e.message}")
+    end
+    complete(call)
+  end
 
   def complete(call)
     return if call.terminal?

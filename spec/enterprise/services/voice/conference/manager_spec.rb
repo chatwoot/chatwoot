@@ -56,11 +56,12 @@ RSpec.describe Voice::Conference::Manager do
   end
 
   describe 'the contact leaving' do
-    it 'completes the call without touching the conference' do
+    it 'completes the call and ends the conference, so no agent is left in it' do
       leave('contact')
 
       expect(call.reload.status).to eq('completed')
-      expect(conference).not_to have_received(:end_conference)
+      expect(conference).not_to have_received(:agents_remain?)
+      expect(conference).to have_received(:end_conference)
     end
   end
 
