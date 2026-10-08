@@ -3,12 +3,12 @@
 class Voice::ApnsVoipSender
   pattr_initialize [:settings!, :call_id!]
 
-  # Returns the tokens Apple reported as gone
+  # Returns each token's outcome: :sent, :gone when Apple no longer knows it, or :failed
   def ring(tokens, payload)
-    return [] if tokens.empty?
+    return {} if tokens.empty?
 
     connection = new_connection
-    tokens.select { |token| deliver(connection, token, payload) == :gone }
+    tokens.index_with { |token| deliver(connection, token, payload) }
   ensure
     connection&.close
   end
