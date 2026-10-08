@@ -354,6 +354,23 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response.body).not_to include(contact1.email)
       end
 
+      it 'returns a schema-valid null country code when the country is unknown' do
+        contact2.update!(country_code: nil, additional_attributes: { country: 'Unknown country' })
+
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: contact2.email },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload'].first).to include('country_code' => nil)
+        expect(response).to conform_schema(200)
+
+        schema = JSON.parse(Rails.root.join('swagger/swagger.json').read)
+        country_schema = schema.dig('components', 'schemas', 'contact', 'properties', 'payload', 'items', 'properties', 'country_code')
+        expect(JSONSchemer.schema(country_schema).valid?(response.parsed_body['payload'].first['country_code'])).to be(true)
+      end
+
       it 'matches the contact ignoring the case in email' do
         get "/api/v1/accounts/#{account.id}/contacts/search",
             params: { q: 'Test@Test.com' },

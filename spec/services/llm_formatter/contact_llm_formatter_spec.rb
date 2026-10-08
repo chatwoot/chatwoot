@@ -84,5 +84,11 @@ RSpec.describe LlmFormatter::ContactLlmFormatter do
         expect(formatter.format).to eq(expected_output)
       end
     end
+
+    it 'preserves the historical country code emitted by the selector' do
+      contact.update!(additional_attributes: { country_code: 'AN' })
+
+      expect(formatter.format).to include('Country Code: AN')
+    end
   end
 end

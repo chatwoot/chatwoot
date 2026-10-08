@@ -120,6 +120,17 @@ RSpec.describe Contact do
       expect(contact.canonical_country_code).to eq('US')
       expect(contact.canonical_country_name).to eq('United States')
     end
+
+    it 'preserves the historical country code emitted by the country selector' do
+      contact = create(:contact, additional_attributes: { country_code: 'AN', country: 'Netherlands Antilles' })
+
+      expect(contact.reload.country_code).to eq('AN')
+      expect(contact.canonical_country_name).to eq('Netherlands Antilles')
+      expect(contact.push_event_data).to include(
+        country_code: 'AN',
+        additional_attributes: { 'country_code' => 'AN', 'country' => 'Netherlands Antilles' }
+      )
+    end
   end
 
   describe '#additional_attributes_with_canonical_country' do
