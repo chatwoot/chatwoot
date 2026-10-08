@@ -1,0 +1,28 @@
+<%
+  version = Chatwoot.config[:version]
+  # Internal::CheckNewVersionsJob keeps the newest release here.
+  latest_version = begin
+    Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION).presence
+  rescue Redis::BaseConnectionError
+    nil
+  end
+  update_available = latest_version && Gem::Version.new(latest_version) > Gem::Version.new(version)
+%>
+<div class="flex h-14 shrink-0 items-center gap-3">
+  <%= link_to image_tag("/brand-assets/logo_thumbnail.svg", alt: "", class: "size-9"), super_admin_root_path, class: "shrink-0", tabindex: -1, aria: { hidden: true } %>
+  <div class="min-w-0 whitespace-nowrap">
+    <div class="flex items-baseline gap-1.5 leading-5">
+      <%= link_to "Chatwoot", super_admin_root_path, class: "text-base font-medium text-n-slate-12" %>
+      <%= link_to "https://github.com/chatwoot/chatwoot/releases/tag/v#{version}",
+                  target: "_blank", rel: "noopener noreferrer",
+                  title: update_available ? t("super_admin.navigation.update_available", version: latest_version) : t("super_admin.navigation.release_notes"),
+                  class: "inline-flex items-center gap-1 text-label-small tabular-nums text-n-slate-10 transition-colors hover:text-n-slate-12 hover:underline" do %>
+        v<%= version %>
+        <% if update_available %>
+          <span class="size-1.5 rounded-full bg-n-amber-9"></span>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="text-label-small leading-4 text-n-slate-10"><%= t("super_admin.navigation.suffix") %></div>
+  </div>
+</div>

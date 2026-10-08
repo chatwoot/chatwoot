@@ -1,5 +1,6 @@
 class PlatformController < ActionController::API
   include RequestExceptionHandler
+  include AccessTokenAuthHelper
 
   before_action :ensure_access_token
   before_action :set_platform_app
@@ -13,11 +14,6 @@ class PlatformController < ActionController::API
   def destroy; end
 
   private
-
-  def ensure_access_token
-    token = request.headers[:api_access_token] || request.headers[:HTTP_API_ACCESS_TOKEN]
-    @access_token = AccessToken.find_by(token: token) if token.present?
-  end
 
   def set_platform_app
     @platform_app = @access_token.owner if @access_token && @access_token.owner.is_a?(PlatformApp)

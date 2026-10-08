@@ -1,0 +1,18 @@
+<% if field.linkable? %>
+  <p class="text-label">
+    <%= link_to_if(
+          accessible_action?(field.data, :show),
+          field.display_associated_resource,
+          [namespace, field.data],
+        ) %>
+  </p>
+  <dl class="[&>div:last-child]:border-b-0">
+    <% field.nested_show.attributes.each_value do |attributes| %>
+      <% attributes.each do |attribute| %>
+        <%= render "attribute", label: t("helpers.label.#{field.associated_class_name.underscore}.#{attribute.name}", default: attribute.name.titleize) do %>
+          <%= render_field attribute, page: page %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </dl>
+<% end %>

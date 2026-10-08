@@ -17,6 +17,10 @@ Rails.application.routes.draw do
     root to: 'dashboard#index'
 
     get '/app', to: 'dashboard#index'
+    # Shareable install link for the Captain tools catalog; the dashboard picks the account and assistant
+    get '/captain/toolsets/install', to: redirect(status: 302) { |_params, request|
+      "/app/captain/toolsets/install?#{request.params.slice(:source).to_query}"
+    }
     get '/app/*params', to: 'dashboard#index'
     get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/microsoft', to: 'dashboard#index', as: 'app_new_microsoft_inbox'
@@ -39,6 +43,7 @@ Rails.application.routes.draw do
   end
 
   get '/health', to: 'health#show'
+  get '/robots.txt', to: 'robots#show', format: false
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
@@ -51,6 +56,20 @@ Rails.application.routes.draw do
         end
 
         scope module: :accounts do
+          if ChatwootApp.enterprise?
+            resources :monitors, only: [:index, :show, :create, :update, :destroy] do
+              collection do
+                post :preview
+                get 'preview/:token', action: :preview_status
+              end
+              member do
+                get :timeseries
+                get :conversations
+                post :retry_evaluations
+                post :resume
+              end
+            end
+          end
           namespace :actions do
             resource :contact_merge, only: [:create]
           end
@@ -72,6 +91,7 @@ Rails.application.routes.draw do
                 get :drilldown
               end
               resource :stats, only: [], controller: :assistant_stats do
+                get :drilldown
                 get :overview
                 get :overview_summary
                 get :resolution_flow
@@ -99,6 +119,11 @@ Rails.application.routes.draw do
             resources :custom_tools do
               post :test, on: :collection
             end
+            resource :tools_manifest, only: [] do
+              get :installed
+              post :preview
+              post :install
+            end
             resources :documents, only: [:index, :show, :create, :destroy] do
               post :sync, on: :member
               get :drilldown, on: :member
@@ -107,7 +132,6 @@ Rails.application.routes.draw do
               post :rewrite
               post :summarize
               post :reply_suggestion
-              post :label_suggestion
               post :follow_up
             end
           end
@@ -165,18 +189,23 @@ Rails.application.routes.draw do
               post :filter
             end
             scope module: :conversations do
+              resources :campaign_history, only: [:index] if ChatwootApp.enterprise?
               resources :messages, only: [:index, :create, :destroy, :update] do
                 member do
                   post :translate
                   post :retry
                 end
               end
-              resource :contact_info_request, only: [:create]
+              resource :contact_info_request, only: [:show, :create]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
+              resource :suggestions, only: [] do
+                get :labels
+                get :priority
+              end
             end
             member do
               post :mute
@@ -218,8 +247,13 @@ Rails.application.routes.draw do
                   get :search
                 end
               end
-              resources :conversations, only: [:index]
+              resources :conversations, only: [:index] do
+                collection do
+                  post :filter
+                end
+              end
               resources :notes, only: [:index]
+              resource :enrichment, only: [:create] if ChatwootApp.enterprise?
             end
           end
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
@@ -393,6 +427,10 @@ Rails.application.routes.draw do
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
+            resource :stripe, controller: 'stripe', only: [:show, :destroy] do
+              post :auth
+              get :customer
+            end
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:show, :create, :update, :destroy] do
               member do
@@ -413,6 +451,7 @@ Rails.application.routes.draw do
             resource :shopify, controller: 'shopify', only: [:destroy] do
               collection do
                 post :auth
+                post :complete_install
                 get :orders
               end
             end
@@ -487,6 +526,7 @@ Rails.application.routes.draw do
             post :backup_codes
           end
           resources :sessions, only: [:index, :destroy]
+          resource :trusted_devices, only: [:destroy]
         end
       end
 
@@ -574,6 +614,7 @@ Rails.application.routes.draw do
         namespace :v1 do
           resources :accounts do
             member do
+              post :reconnect_shopify, to: 'shopify#reconnect_shopify'
               get :billing_summary
               post :checkout
               post :subscription
@@ -684,6 +725,9 @@ Rails.application.routes.draw do
     resource :callback, only: [:show]
   end
 
+  namespace :stripe do
+    resource :callback, only: [:show]
+  end
   namespace :linear do
     resource :callback, only: [:show]
   end
@@ -741,6 +785,11 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         delete :avatar, on: :member, action: :destroy_avatar
         post :resend_confirmation, on: :member
+        post :impersonate, on: :member
+        post :impersonation_link, on: :member
+        post :check_email_suppression, on: :member
+        post :clear_email_suppression, on: :member
+        post :send_test_email, on: :member
       end
 
       resources :access_tokens, only: [:index, :show]

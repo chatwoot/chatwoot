@@ -143,7 +143,8 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduzca su mensaje aquí",
       "TEAM_DROPDOWN_PLACEHOLDER": "Seleccionar equipos",
       "EMAIL_INPUT_PLACEHOLDER": "Introducir email",
-      "URL_INPUT_PLACEHOLDER": "Introducir URL"
+      "URL_INPUT_PLACEHOLDER": "Introducir URL",
+      "INSERT_CONTACT_EMAIL": "Usar correo electrónico del contacto"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activar regla de automatización",
@@ -217,7 +218,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo de mensaje",
       "PRIVATE_NOTE": "Nota privada",
-      "MESSAGE_CONTAINS": "El mensaje contiene",
+      "MESSAGE_CONTAINS": "Contenido del mensaje",
       "EMAIL": "E-mail",
       "INBOX": "Bandeja de entrada",
       "CONVERSATION_LANGUAGE": "Idioma de la conversación",

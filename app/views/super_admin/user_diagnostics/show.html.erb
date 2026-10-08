@@ -1,59 +1,56 @@
 <% scope = 'super_admin.user_diagnostics' %>
-<% content_for(:title) do %><%= t("#{scope}.title") %><% end %>
+<% content_for(:title) { t("super_admin.navigation.user_diagnostics") } %>
 
-<header class="main-content__header" role="banner">
-  <h1 class="main-content__page-title" id="page-title"><%= t("#{scope}.title") %></h1>
-</header>
+<%= render "section",
+           title: t("super_admin.navigation.user_diagnostics"),
+           description: t("#{scope}.description") do %>
+  <%= render "card", title: t("#{scope}.search.title") do %>
+    <div class="p-4">
+      <%= form_with url: super_admin_user_diagnostics_path, method: :get, local: true, class: 'flex flex-wrap items-center gap-2' do |f| %>
+        <%= f.hidden_field :tab, value: @tab %>
+        <%= f.text_field :user_query, value: @query, placeholder: t("#{scope}.search.placeholder"), class: ui(:input, "sm:w-80") %>
+        <%= render "button", label: t("#{scope}.search.submit"), variant: :secondary, submit: f %>
+      <% end %>
 
-<section class="main-content__body">
-  <p class="text-sm text-slate-600 mb-6"><%= t("#{scope}.description") %></p>
+      <% if @query.present? && @user.nil? %>
+        <p class="mt-2 text-body-main text-n-ruby-11"><%= t("#{scope}.search.not_found", query: @query) %></p>
+      <% end %>
 
-  <div class="mb-8">
-    <%= form_with url: super_admin_user_diagnostics_path, method: :get, local: true, class: 'flex gap-2 items-center' do |f| %>
-      <%= f.hidden_field :tab, value: @tab %>
-      <%= f.text_field :user_query,
-                       value: @query,
-                       placeholder: t("#{scope}.search.placeholder"),
-                       class: 'border border-slate-100 p-1.5 rounded-md w-80' %>
-      <%= f.submit t("#{scope}.search.submit"), class: 'border border-slate-200 bg-slate-50 px-3 py-1.5 rounded-md cursor-pointer' %>
-    <% end %>
-    <% if @query.present? && @user.nil? %>
-      <p class="text-sm text-red-600 mt-2"><%= t("#{scope}.search.not_found", query: @query) %></p>
-    <% end %>
-  </div>
+      <% if @user %>
+        <div class="mt-4 flex flex-wrap items-start justify-between gap-x-4 gap-y-1 rounded-lg bg-n-slate-2 px-3.5 py-2.5">
+          <div class="min-w-0">
+            <p class="text-body-main">
+              <span class="font-medium"><%= @user.name %></span>
+              <span class="text-n-slate-11"><%= @user.email %>, <%= t("#{scope}.user.id", id: @user.id) %></span>
+            </p>
+            <% if @user.accounts.any? %>
+              <p class="mt-0.5 text-label-small text-n-slate-11">
+                <%= t("#{scope}.user.accounts",
+                      accounts: @user.accounts.map { |account| t("#{scope}.user.account_with_id", name: account.name, id: account.id) }.join(", ")) %>
+              </p>
+            <% end %>
+          </div>
+          <%= link_to t("#{scope}.user.details_link"), super_admin_user_path(@user), class: 'shrink-0 text-body-main text-n-blue-11 hover:underline' %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 
   <% if @user %>
-    <div class="mb-6 border border-slate-100 rounded-md p-4 bg-slate-25">
-      <p class="text-sm">
-        <strong><%= @user.name %></strong>
-        &middot; <%= @user.email %>
-        &middot; <%= t("#{scope}.user.id", id: @user.id) %>
-      </p>
-      <% if @user.accounts.any? %>
-        <p class="text-xs text-slate-500 mt-1">
-          <%= t("#{scope}.user.accounts") %>
-          <% @user.accounts.each_with_index do |account, index| %>
-            <%= ', ' if index.positive? %>
-            <%= account.name %> (<%= t("#{scope}.user.id", id: account.id) %>)
+    <div class="space-y-6">
+      <nav class="border-b border-n-weak" aria-label="<%= t("#{scope}.tabs.label") %>">
+        <div class="-mb-px flex gap-5 overflow-x-auto sm:gap-6">
+          <% SuperAdmin::UserDiagnosticsController::TABS.each do |tab| %>
+            <%= link_to t("#{scope}.tabs.#{tab}"),
+                        super_admin_user_diagnostics_path(user_query: @query, tab: tab),
+                        class: 'inline-flex h-10 shrink-0 items-center border-b-2 border-transparent text-body-main text-n-slate-11 hover:text-n-slate-12 ' \
+                               'aria-[current=page]:border-n-brand aria-[current=page]:font-medium aria-[current=page]:text-n-slate-12 touch:h-11',
+                        aria: { current: ('page' if @tab == tab) } %>
           <% end %>
-        </p>
-      <% end %>
-      <p class="text-xs mt-2">
-        <%= link_to t("#{scope}.user.details_link"), super_admin_user_path(@user), class: 'text-woot-500' %>
-      </p>
+        </div>
+      </nav>
+
+      <%= render @tab, scope: scope %>
     </div>
-
-    <nav class="flex gap-1 border-b border-slate-100 mb-6" aria-label="<%= t("#{scope}.tabs.label") %>">
-      <% SuperAdmin::UserDiagnosticsController::TABS.each do |tab| %>
-        <% active = @tab == tab %>
-        <% tab_class = active ? 'border-woot-500 text-woot-500' : 'border-transparent text-slate-600 hover:text-slate-800' %>
-        <%= link_to t("#{scope}.tabs.#{tab}"),
-                    super_admin_user_diagnostics_path(user_query: @query, tab: tab),
-                    class: "px-3 py-2 -mb-px border-b-2 text-sm font-medium #{tab_class}",
-                    aria: { current: active ? 'page' : nil } %>
-      <% end %>
-    </nav>
-
-    <%= render @tab, scope: scope %>
   <% end %>
-</section>
+<% end %>

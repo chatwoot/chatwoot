@@ -333,6 +333,29 @@ describe('#getters', () => {
         },
       });
     });
+
+    it('Skips forwarded emails', () => {
+      const state = {};
+      const incomingEmail = {
+        message_type: 0,
+        content_attributes: { email: { from: 'why@how.my' } },
+      };
+      const getSelectedChat = {
+        messages: [
+          incomingEmail,
+          {
+            message_type: 1,
+            content_attributes: {
+              forwarded_message_id: 1,
+              to_emails: ['vendor@example.com'],
+            },
+          },
+        ],
+      };
+      expect(
+        getters.getLastEmailInSelectedChat(state, { getSelectedChat })
+      ).toEqual(incomingEmail);
+    });
   });
 
   describe('#getSelectedChatAttachments', () => {
@@ -765,6 +788,67 @@ describe('#getters', () => {
       );
 
       expect(result.map(conversation => conversation.id)).toEqual([3, 2, 1]);
+    });
+  });
+
+  describe('#getAppliedContactFilter', () => {
+    const contactFilter = {
+      attribute_key: 'contact_id',
+      attribute_model: 'standard',
+      filter_operator: 'equal_to',
+      query_operator: 'and',
+      values: [{ id: 7, name: 'Jane Doe' }],
+    };
+
+    it('returns the contact a lone contact filter scopes the list to', () => {
+      expect(
+        getters.getAppliedContactFilter({ appliedFilters: [contactFilter] })
+      ).toEqual({ id: 7, name: 'Jane Doe' });
+    });
+
+    it('returns null when no filters are applied', () => {
+      expect(
+        getters.getAppliedContactFilter({ appliedFilters: [] })
+      ).toBeNull();
+    });
+
+    it('returns null when the applied filter is not a contact filter', () => {
+      const state = {
+        appliedFilters: [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['pending'],
+          },
+        ],
+      };
+
+      expect(getters.getAppliedContactFilter(state)).toBeNull();
+    });
+
+    it('returns null when the contact filter is combined with another filter', () => {
+      const state = {
+        appliedFilters: [
+          contactFilter,
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['open'],
+          },
+        ],
+      };
+
+      expect(getters.getAppliedContactFilter(state)).toBeNull();
+    });
+
+    it('returns null for the single select shape the filter modal builds', () => {
+      const state = {
+        appliedFilters: [
+          { ...contactFilter, values: { id: 7, name: 'Jane Doe' } },
+        ],
+      };
+
+      expect(getters.getAppliedContactFilter(state)).toBeNull();
     });
   });
 });

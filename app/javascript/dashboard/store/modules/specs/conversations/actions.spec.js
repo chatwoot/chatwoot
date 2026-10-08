@@ -640,7 +640,10 @@ describe('#actions', () => {
         {
           commit,
           dispatch,
-          state: { chatSortFilter: 'last_activity_at_desc' },
+          state: {
+            appliedFiltersSortBy: null,
+            chatSortFilter: 'last_activity_at_desc',
+          },
         },
         {
           queryData: {
@@ -680,7 +683,10 @@ describe('#actions', () => {
         {
           commit,
           dispatch,
-          state: { chatSortFilter: 'last_activity_at_desc' },
+          state: {
+            appliedFiltersSortBy: null,
+            chatSortFilter: 'last_activity_at_desc',
+          },
         },
         dataToSend
       );
@@ -713,7 +719,10 @@ describe('#actions', () => {
           {
             commit,
             dispatch,
-            state: { chatSortFilter: 'last_activity_at_desc' },
+            state: {
+              appliedFiltersSortBy: null,
+              chatSortFilter: 'last_activity_at_desc',
+            },
           },
           dataToSend
         )
@@ -1034,7 +1043,6 @@ describe('#addMentions', () => {
 
       expect(localCommit.mock.calls).toEqual([
         [types.SET_CURRENT_CHAT_WINDOW, data],
-        [types.CLEAR_ALL_MESSAGES_LOADED, 42],
       ]);
       expect(localDispatch).not.toHaveBeenCalled();
     });

@@ -277,6 +277,16 @@ describe SearchService do
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
         expect(search.perform[:conversations].map(&:id)).to include new_converstion.id
       end
+
+      it 'searches across conversations with email subject' do
+        random = create(:contact, account_id: account.id, name: 'random', email: 'random@random.test', identifier: 'random')
+        email_conversation = create(:conversation, contact: random, inbox: inbox, account: account,
+                                                   additional_attributes: { mail_subject: 'Order on hold for review' })
+        create(:conversation, contact: random, inbox: inbox, account: account, additional_attributes: { mail_subject: 'Size update' })
+        params = { q: 'order ON HOLD' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
+        expect(search.perform[:conversations].map(&:id)).to eq([email_conversation.id])
+      end
     end
 
     context 'when article search' do

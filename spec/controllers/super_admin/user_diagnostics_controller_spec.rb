@@ -157,7 +157,7 @@ RSpec.describe 'Super Admin User diagnostics', type: :request do
 
       get '/super_admin/user_diagnostics', params: { user_query: user.email, tab: 'push' }
 
-      expect(response.body).to include('Registered devices (2)')
+      expect(response.body.scan('name="subscription_ids[]"').size).to eq(2)
       expect(response.body).to include('Send Test Push to Selected')
       expect(response.body).to include('fcm.googleapis.com')
       expect(response.body).not_to include('BROWSERKEY')
@@ -268,8 +268,8 @@ RSpec.describe 'Super Admin User diagnostics', type: :request do
 
       get '/super_admin/user_diagnostics', params: { user_query: user.email, tab: 'push' }
 
-      expect(response.body).to include('<input type="checkbox" class="pointer-events-none" checked tabindex="-1"')
-      expect(response.body).to include('<input type="checkbox" class="pointer-events-none" tabindex="-1"')
+      expect(response.body).to match(/<input type="checkbox" class="[^"]*pointer-events-none" checked tabindex="-1"/)
+      expect(response.body).to match(/<input type="checkbox" class="[^"]*pointer-events-none" tabindex="-1"/)
       expect(response.body).not_to include('No push types are enabled')
     end
 

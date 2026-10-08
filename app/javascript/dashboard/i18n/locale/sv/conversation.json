@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "Välj en konversation från vänster panel",
     "CSAT_REPLY_MESSAGE": "Betygsätt konversationen",
     "404": "Tyvärr kan vi inte hitta konversationen. Försök igen",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "Meddelandet har tagits bort",
     "FAIL_DELETE_MESSSAGE": "Det gick inte att ta bort meddelande! Försök igen",
     "NO_RESPONSE": "Inget svar",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "Agenter",
       "TEAMS": "Teams"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "Beskrivning",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Sök emoji",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "Alla"
+        },
+        "AVAILABILITY": "Tillgänglighet",
+        "ROLE": "Roll",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "Aktiverad",
+        "DISABLED": "Inaktiverad",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Snooza tills",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} other",
     "TOTAL_PARTICIPANTS_TEXT": "{count} personer deltar.",
     "TOTAL_PARTICIPANT_TEXT": "{count} person deltar.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",
     "API": {

@@ -105,6 +105,7 @@
       "MUTE_CONVERSATION": "Beszélgetés elnémítása",
       "SNOOZE_CONVERSATION": "Beszélgetés alvómódba",
       "RESOLVE_CONVERSATION": "Beszélgetés megoldása",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
       "CHANGE_PRIORITY": "Prioritás megváltoztatása",

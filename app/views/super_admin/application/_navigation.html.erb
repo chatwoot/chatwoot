@@ -1,58 +1,85 @@
 <%#
 # Navigation
 
-This partial is used to display the navigation in Administrate.
-By default, the navigation contains navigation links
-for all resources in the admin dashboard,
-as defined by the routes in the `admin/` namespace
-%>
+From `lg` up it is a sidebar, like the agent dashboard's: the brand, the main
+links and the account menu at the bottom. On Settings and Monitor the links give
+way to that section's own, with a way back to the main ones.
 
-<%= vite_client_tag %>
-<%= vite_javascript_tag 'superadmin_pages' %>
+Below `lg` it is a top bar: the brand and the account menu, with the links in a
+second row that stays pinned while the brand row scrolls away. Below `md` that
+row is a tab bar. From `sm` up it shows every link; on phones only the pinned
+ones show, the rest sit behind "More".
+%>
 
 <%
-  sidebar_icons = {
-    accounts: 'icon-building-4-line',
-    users: 'icon-user-follow-line',
-    platform_apps: 'icon-apps-2-line',
-    agent_bots: 'icon-robot-line',
-    platform_banners: 'icon-megaphone-line',
-  }
+  items = primary_nav_items
+  more_items = items.reject { |item| item[:pinned] }
+  section = section_nav
+  brand = render("brand")
+  tab = %w[
+    flex h-14 min-w-0 flex-col items-center justify-center gap-0.5 border-b-2 border-transparent text-xxs font-medium text-n-slate-11 transition-colors
+    hover:text-n-slate-12 aria-[current=page]:border-n-brand aria-[current=page]:text-n-slate-12
+    md:h-9 md:flex-row md:rounded-lg md:border-0 md:px-2.5 md:text-body-main md:hover:bg-n-alpha-2
+    md:aria-[current=page]:bg-n-alpha-2 md:aria-[current=page]:font-medium
+  ].join(" ")
 %>
 
-<div class="border-slate-100 border-r w-56 flex-shrink-0 justify-between h-full flex flex-col" role="navigation">
-  <div>
-    <div class="flex mx-4 mb-4 border-slate-100 border-b py-6">
-      <%= link_to image_tag('/brand-assets/logo_thumbnail.svg', alt: 'Chatwoot Admin Dashboard', class: 'h-10'), super_admin_root_url %>
-      <div class="flex flex-col ml-3">
-        <div class="text-sm">Chatwoot <%= Chatwoot.config[:version] %></div>
-        <div class="text-xs text-slate-700 mt-0.5">Super Admin Console</div>
-      </div>
-    </div>
+<aside class="hidden border-e border-n-weak bg-n-slate-2 dark:bg-n-solid-1 lg:sticky lg:top-0 lg:flex lg:h-dvh lg:w-52 lg:shrink-0 lg:flex-col">
+  <div class="relative shrink-0 px-4">
+    <div class="relative"><%= brand %></div>
+  </div>
+  <div class="shrink-0 px-3 pt-1">
+    <button type="button" class="flex h-9 w-full items-center gap-2 rounded-lg border border-n-weak bg-n-solid-1 px-2.5 text-body-main text-n-slate-10 transition-colors hover:border-n-slate-7 hover:text-n-slate-11" data-dialog-open="command-bar" aria-haspopup="dialog">
+      <span class="i-lucide-search size-4 shrink-0"></span>
+      <span class="min-w-0 flex-1 truncate text-start"><%= t("super_admin.command_bar.trigger") %></span>
+      <%= render "kbd", label: request.user_agent.to_s.include?("Mac") ? "⌘K" : "Ctrl K" %>
+    </button>
+  </div>
+  <nav class="min-h-0 flex-1 overflow-y-auto px-3 pb-4 pt-3" aria-label="<%= section ? section[:label] : t("super_admin.navigation.label") %>">
+    <% if section %>
+      <ul class="mb-4">
+        <%= render "nav_item", item: { label: t("super_admin.navigation.back"), url: super_admin_root_path, icon: "i-lucide-arrow-left" } %>
+      </ul>
+      <h2 class="mb-2 px-2.5 text-heading-3 text-n-slate-12"><%= section[:label] %></h2>
+      <%= render "section_links", items: section[:items] %>
+    <% else %>
+      <%= render "section_links", items: items %>
+    <% end %>
+  </nav>
+  <div class="shrink-0 border-t border-n-weak px-1 py-1"><%= render "account_menu", expanded: true %></div>
+</aside>
 
-    <ul class="my-4">
-      <%= render partial: "nav_item", locals: { icon: 'icon-grid-line', url: super_admin_root_url, label: 'Dashboard' } %>
-      <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
-        <% next if ["account_users", "access_tokens", "installation_configs", "dashboard", "devise/sessions", "app_configs", "instance_statuses", "settings", "user_diagnostics"].include?  resource.resource %>
-        <% next if resource.resource == "platform_banners" && !ChatwootApp.chatwoot_cloud? %>
-        <%= render partial: "nav_item", locals: {
-            icon: sidebar_icons[resource.resource.to_sym],
-            url: resource_index_route(resource),
-            label: display_resource_name(resource),
-          }
-        %>
+<header class="sticky -top-14 z-30 border-b border-n-weak bg-n-background lg:hidden">
+  <div class="flex flex-wrap items-center gap-x-3 px-[clamp(1rem,3vw,3rem)]">
+    <%= brand %>
+    <%= render "icon_button", extra: "ms-auto", data: { dialog_open: "command-bar" }, aria: { haspopup: "dialog", label: t("super_admin.command_bar.trigger") } do %>
+      <span class="i-lucide-search size-5"></span>
+    <% end %>
+    <%= render "account_menu" %>
 
+    <nav class="grid w-full auto-cols-fr grid-flow-col md:flex md:gap-0.5 md:pb-2.5" aria-label="<%= t("super_admin.navigation.label") %>">
+      <% items.each do |item| %>
+        <%= link_to item[:url], class: class_names(tab, "hidden sm:flex" => !item[:pinned]), aria: { current: ("page" if item[:active]) } do %>
+          <span class="<%= item[:icon] %> size-5 md:hidden"></span>
+          <% if item[:tab_label] %>
+            <span class="md:hidden"><%= item[:tab_label] %></span>
+            <span class="hidden md:inline"><%= item[:label] %></span>
+          <% else %>
+            <span class="max-w-full truncate"><%= item[:label] %></span>
+          <% end %>
+        <% end %>
       <% end %>
-      <%= render 'settings_menu', open: settings_open? %>
-    </ul>
+      <%= tag.button type: "button", class: "#{tab} sm:hidden", data: { dialog_open: "nav-more" },
+                     aria: { haspopup: "dialog", current: ("page" if more_items.any? { |item| item[:active] }) } do %>
+        <span class="i-lucide-ellipsis size-5"></span>
+        <%= t("super_admin.navigation.more") %>
+      <% end %>
+    </nav>
   </div>
-  <div>
-    <ul class="my-4">
-      <%= render partial: "nav_item", locals: { icon: 'icon-mist-fill', url: sidekiq_web_url, label: 'Sidekiq Dashboard' } %>
-      <%= render partial: "nav_item", locals: { icon: 'icon-health-book-line', url: super_admin_instance_status_url, label: 'Instance Health' } %>
-      <%= render partial: "nav_item", locals: { icon: 'icon-menu-search-line', url: super_admin_user_diagnostics_url, label: 'User Diagnostics' } %>
-      <%= render partial: "nav_item", locals: { icon: 'icon-dashboard-line', url: '/', label: 'Agent Dashboard' } %>
-      <%= render partial: "nav_item", locals: { icon: 'icon-logout-circle-r-line', url: super_admin_logout_url, label: 'Logout' } %>
-    </ul>
-  </div>
-</div>
+</header>
+
+<%= render "sheet", id: "nav-more", title: t("super_admin.navigation.more") do %>
+  <ul class="space-y-0.5">
+    <%= render partial: "nav_item", collection: more_items, as: :item %>
+  </ul>
+<% end %>
