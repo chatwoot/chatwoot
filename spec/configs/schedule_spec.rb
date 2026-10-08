@@ -21,4 +21,21 @@ RSpec.context 'with valid schedule.yml' do
     # ensure that no duplicates exist
     expect(schedule_keys.count).to eq(schedule_keys.uniq.count)
   end
+
+  describe 'auto resolve schedule' do
+    def resolution_cron
+      schedule = Sidekiq::Cron::Support.load_yaml(ERB.new(Rails.root.join('config/schedule.yml').read).result)
+      schedule['trigger_conversations_resolution_job']['cron']
+    end
+
+    it 'runs every 5 minutes by default' do
+      expect(resolution_cron).to eq('*/5 * * * *')
+    end
+
+    it 'uses AUTO_RESOLVE_CRON when set' do
+      with_modified_env AUTO_RESOLVE_CRON: '* * * * *' do
+        expect(resolution_cron).to eq('* * * * *')
+      end
+    end
+  end
 end

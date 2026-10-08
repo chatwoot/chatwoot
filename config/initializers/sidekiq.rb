@@ -76,7 +76,8 @@ Rails.application.reloader.to_prepare do
   # jobs that share the same source tag but are no longer in the file.
   # This ensures deleted schedule entries are cleaned up on deploy.
   if File.exist?(schedule_file) && Sidekiq.server?
-    schedule = YAML.load_file(schedule_file)
+    # Parsed the same way as sidekiq-cron's own startup loader, which reloads this file after us
+    schedule = Sidekiq::Cron::Support.load_yaml(ERB.new(File.read(schedule_file)).result)
 
     # Cron entries removed from schedule.yml but possibly still in Redis
     # with source:'dynamic' (predating the source tag). load_from_hash!
@@ -84,6 +85,7 @@ Rails.application.reloader.to_prepare do
     # Remove names from this list once they've been through a deploy cycle.
     %w[bulk_auto_assignment_job].each { |name| Sidekiq::Cron::Job.destroy(name) }
 
-    Sidekiq::Cron::Job.load_from_hash!(schedule, source: 'schedule')
+    errors = Sidekiq::Cron::Job.load_from_hash!(schedule, source: 'schedule')
+    Sidekiq.logger.error("Invalid cron schedule entries: #{errors}") if errors.present?
   end
 end
