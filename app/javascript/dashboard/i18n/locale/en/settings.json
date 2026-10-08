@@ -616,7 +616,13 @@
         "DESCRIPTION_CANCELLED": "This trial is cancelled, so you won't be charged. You can use {plan} until {date}.",
         "CHOOSE_PLAN": "Choose a plan",
         "MANAGE": "Manage or cancel",
-        "MANAGE_CANCELLED": "Manage trial"
+        "MANAGE_CANCELLED": "Manage trial",
+        "SEATS": {
+          "LABEL": "Seats",
+          "HELP": "Add seats for your team during the trial. No card needed.",
+          "UPDATE": "Update seats",
+          "UPDATED": "Trial seats updated"
+        }
       },
       "ENDED": {
         "TITLE": "Your free trial has ended",

@@ -17,7 +17,7 @@ class Enterprise::Billing::HandleStripeEventService
     when 'customer.subscription.deleted'
       process_subscription_deleted
     when 'customer.subscription.trial_will_end'
-      process_trial_will_end
+      Enterprise::Billing::TrialService.new(account: account).notify_ending(subscription) if stripe_billed_account?
     else
       Rails.logger.debug { "Unhandled event type: #{event.type}" }
     end
@@ -37,11 +37,16 @@ class Enterprise::Billing::HandleStripeEventService
     return if plan.blank? || !stripe_billed_account?
 
     previous_usage = capture_previous_usage
-    update_account_attributes(subscription, plan)
-    Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+    sync_account_plan(plan)
     sync_subscription_credits(plan, previous_usage)
     track_marketing_plan_activation(activation_previous_plan_name, plan['name']) if plan_activated?
     broadcast_billing_updated
+  end
+
+  def sync_account_plan(plan)
+    update_account_attributes(subscription, plan)
+    Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+    Enterprise::Billing::TrialService.new(account: account).reset_seats(subscription)
   end
 
   def sync_subscription_credits(plan, previous_usage)
@@ -109,20 +114,6 @@ class Enterprise::Billing::HandleStripeEventService
 
   def subscription_conversion_value(subscription_plan)
     ((subscription_plan['amount'] || subscription_plan['amount_decimal']).to_d * subscription['quantity'].to_i / 100).to_f
-  end
-
-  # Stripe sends this three days before a trial ends.
-  def process_trial_will_end
-    return unless stripe_billed_account?
-
-    meta = {
-      'account_name' => account.name,
-      'trial_ends_on' => Time.zone.at(subscription['trial_end']).strftime('%B %d, %Y'),
-      'has_plan' => !default_plan_name?(account.custom_attributes['plan_name']),
-      'plan_name' => account.custom_attributes['plan_name'],
-      'free_plan_name' => Enterprise::Billing::PlanConfiguration.default_plan&.dig('name')
-    }
-    AdministratorNotifications::AccountNotificationMailer.with(account: account).trial_ending(meta).deliver_later
   end
 
   def process_subscription_deleted

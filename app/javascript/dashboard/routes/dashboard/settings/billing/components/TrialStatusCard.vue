@@ -1,18 +1,27 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { format } from 'date-fns';
 import ButtonV4 from 'next/button/Button.vue';
+import Input from 'next/input/Input.vue';
 import { useTrialStatus } from 'dashboard/composables/useTrialStatus';
 
-defineProps({
+const props = defineProps({
   isManaging: {
+    type: Boolean,
+    default: false,
+  },
+  seats: {
+    type: Number,
+    default: 0,
+  },
+  isUpdatingSeats: {
     type: Boolean,
     default: false,
   },
 });
 
-const emit = defineEmits(['manage', 'choosePlan']);
+const emit = defineEmits(['manage', 'choosePlan', 'updateSeats']);
 
 const { t } = useI18n();
 const {
@@ -24,6 +33,14 @@ const {
   isTrialEndingSoon,
   trialPlanName,
 } = useTrialStatus();
+
+const seatCount = ref(props.seats);
+watch(
+  () => props.seats,
+  seats => {
+    seatCount.value = seats;
+  }
+);
 
 const endsOn = computed(() => format(trialEndsAt.value, 'dd MMM, yyyy'));
 
@@ -93,6 +110,29 @@ const description = computed(() => {
             : t('BILLING_SETTINGS.TRIAL.STATUS.MANAGE')
         }}
       </ButtonV4>
+    </div>
+    <div v-if="isTrialWithoutCard" class="flex flex-wrap items-end gap-3">
+      <Input
+        v-model="seatCount"
+        type="number"
+        min="1"
+        size="sm"
+        class="w-24"
+        :label="t('BILLING_SETTINGS.TRIAL.STATUS.SEATS.LABEL')"
+      />
+      <ButtonV4
+        sm
+        faded
+        slate
+        :disabled="Number(seatCount) === seats"
+        :is-loading="isUpdatingSeats"
+        @click="emit('updateSeats', Number(seatCount))"
+      >
+        {{ t('BILLING_SETTINGS.TRIAL.STATUS.SEATS.UPDATE') }}
+      </ButtonV4>
+      <span class="text-xs text-n-slate-11 pb-2">
+        {{ t('BILLING_SETTINGS.TRIAL.STATUS.SEATS.HELP') }}
+      </span>
     </div>
     <div class="h-1.5 rounded-full bg-n-slate-4 overflow-hidden">
       <div

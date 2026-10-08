@@ -54,6 +54,7 @@ const currencySelectionRequired = ref(false);
 const currencyOptions = ref([]);
 
 const isOpeningTrialPlans = ref(false);
+const isUpdatingTrialSeats = ref(false);
 
 const customAttributes = computed(() => {
   return currentAccount.value.custom_attributes || {};
@@ -139,6 +140,20 @@ const onChooseTrialPlan = async () => {
   } catch (error) {
     useAlert(parseAPIErrorResponse(error));
     isOpeningTrialPlans.value = false;
+  }
+};
+
+// The portal asks for a card on any paid change, so trial seats are changed here instead.
+const onUpdateTrialSeats = async quantity => {
+  isUpdatingTrialSeats.value = true;
+  try {
+    await BillingTrialAPI.updateSeats(quantity);
+    await store.dispatch('accounts/get', { silent: true });
+    useAlert(t('BILLING_SETTINGS.TRIAL.STATUS.SEATS.UPDATED'));
+  } catch (error) {
+    useAlert(parseAPIErrorResponse(error));
+  } finally {
+    isUpdatingTrialSeats.value = false;
   }
 };
 
@@ -268,7 +283,10 @@ onMounted(handleBillingPageLogic);
         <TrialStatusCard
           v-if="isTrialing"
           :is-managing="isOpeningTrialPlans || uiFlags.isCheckoutInProcess"
+          :seats="subscribedQuantity"
+          :is-updating-seats="isUpdatingTrialSeats"
           @choose-plan="onChooseTrialPlan"
+          @update-seats="onUpdateTrialSeats"
           @manage="onClickBillingPortal"
         />
         <BillingCard

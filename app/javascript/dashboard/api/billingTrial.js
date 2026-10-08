@@ -9,6 +9,10 @@ class BillingTrialAPI extends ApiClient {
   start() {
     return axios.post(this.url);
   }
+
+  updateSeats(quantity) {
+    return axios.patch(this.url, { quantity });
+  }
 }
 
 export default new BillingTrialAPI();
