@@ -206,6 +206,32 @@ RSpec.describe Voice::VoipPushService do
       expect(fcm_client).to have_received(:send_v1).once
     end
 
+    it 'does not ring an agent whose status is busy or offline' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      subscribe(other_agent, 'apns_voip', 'apple-2')
+      AccountUser.find_by(account: account, user: other_agent).update!(availability: :busy)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(apple_connection).to have_received(:push).once
+      expect(call.reload.ring_state['ring_recipient_ids']).to eq([agent.id])
+    end
+
+    it 'skips Android and reports it when Firebase is only partly configured' do
+      config.delete('FIREBASE_CREDENTIALS')
+      subscribe(agent, 'apns_voip', 'apple-1')
+      subscribe(agent, 'fcm', 'android-1', platform: 'Android')
+      tracker = instance_double(ChatwootExceptionTracker, capture_exception: nil)
+      allow(ChatwootExceptionTracker).to receive(:new).and_return(tracker)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(fcm_client).not_to have_received(:send_v1)
+      expect(ChatwootExceptionTracker).to have_received(:new)
+        .with(an_instance_of(ArgumentError).and(having_attributes(message: /FIREBASE_CREDENTIALS/)))
+      expect(apple_connection).to have_received(:push).once
+    end
+
     it 'skips Apple and reports it when APNs is only partly configured' do
       config.delete('APNS_VOIP_KEY')
       subscribe(agent, 'apns_voip', 'apple-1')
@@ -258,6 +284,22 @@ RSpec.describe Voice::VoipPushService do
       described_class.new(call: call).perform('cancel')
 
       expect(fcm_client).not_to have_received(:send_v1)
+    end
+
+    it 'forgets the device tokens once the ring is cancelled, keeping the agents rung' do
+      call.update!(ring_state: call.ring_state.merge('ring_recipient_ids' => [agent.id]))
+
+      described_class.new(call: call).perform('cancel')
+
+      expect(call.reload.ring_state).to eq('ring_recipient_ids' => [agent.id])
+    end
+
+    it 'forgets the device tokens of an outbound call too' do
+      call.update!(direction: :outgoing)
+
+      described_class.new(call: call).perform('cancel')
+
+      expect(call.reload.ring_state).not_to have_key('rung_devices')
     end
   end
 end

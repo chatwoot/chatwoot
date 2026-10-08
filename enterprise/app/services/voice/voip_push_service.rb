@@ -25,6 +25,16 @@ class Voice::VoipPushService
   # Android deliveries in flight at once per call
   ANDROID_BATCH_SIZE = 20
 
+  # The agents a call rings: the assignee if the conversation has one, otherwise everyone
+  # who could be assigned the inbox, keeping only agents whose status is online, as the
+  # web does. Socket presence is not consulted: a locked phone is offline on the socket
+  # and is exactly the device this push exists for.
+  def self.recipients_for(call)
+    candidates = call.conversation.assignee.then { |assignee| assignee ? [assignee] : call.inbox.assignable_agents.to_a }
+    online_ids = AccountUser.where(account_id: call.account_id, availability: :online).pluck(:user_id)
+    candidates.select { |user| online_ids.include?(user.id) }
+  end
+
   def perform(action)
     case action
     when 'ring' then ring
@@ -65,15 +75,15 @@ class Voice::VoipPushService
   end
 
   def devices_to_ring
-    apple_environment if apple_configured?
-    [apple_configured? ? apple_tokens : [], firebase_configured? ? android_tokens : []]
+    apple_environment if configured?(:apple)
+    [configured?(:apple) ? apple_tokens : [], configured?(:android) ? android_tokens : []]
   end
 
   def cancel
-    return if call.outgoing?
-    return unless firebase_configured?
+    return forget_rung_devices if call.outgoing? || !configured?(:android)
 
     tokens = rung_devices[ANDROID]
+    forget_rung_devices
     return if tokens.blank?
 
     data = cancel_data
@@ -90,10 +100,9 @@ class Voice::VoipPushService
 
   # MARK: recipients and devices
 
-  # The assignee if the conversation has one, otherwise everyone assignable to the inbox,
-  # resolved once per ring so the devices rung and the agents recorded are one set
+  # Resolved once per ring so the devices rung and the agents recorded are one set
   def recipients
-    @recipients ||= call.conversation.assignee.then { |assignee| assignee ? [assignee] : call.inbox.assignable_agents.to_a }
+    @recipients ||= self.class.recipients_for(call)
   end
 
   def apple_tokens
@@ -125,6 +134,12 @@ class Voice::VoipPushService
     Call.where(id: call.id).update_all(['ring_state = ring_state || ?::jsonb', rung.to_json]) # rubocop:disable Rails/SkipsModelValidations
     call.reload
     [apple, android]
+  end
+
+  # The tokens are needed only until the ring is cancelled; the agents rung stay for the
+  # missed-call notice
+  def forget_rung_devices
+    Call.where(id: call.id).update_all("ring_state = ring_state - 'rung_devices'") # rubocop:disable Rails/SkipsModelValidations
   end
 
   # A device the platform no longer knows is removed so it stops costing a request per ring
@@ -175,18 +190,23 @@ class Voice::VoipPushService
 
   APNS_ENVIRONMENTS = %w[development production].freeze
 
-  APNS_CREDENTIALS = %w[APNS_VOIP_KEY APNS_VOIP_KEY_ID APNS_VOIP_TEAM_ID].freeze
+  CREDENTIALS = {
+    apple: %w[APNS_VOIP_KEY APNS_VOIP_KEY_ID APNS_VOIP_TEAM_ID],
+    android: %w[FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS]
+  }.freeze
 
-  # iPhones are rung only with every credential set. Some but not all set is a broken
-  # deployment rather than an opted-out one, so it is reported; Android still rings.
-  def apple_configured?
-    return @apple_configured unless @apple_configured.nil?
+  # A platform is rung only with every credential set. Some but not all set is a broken
+  # deployment rather than an opted-out one, so it is reported; the other platform still rings.
+  def configured?(platform)
+    @configured ||= {}
+    return @configured[platform] if @configured.key?(platform)
 
-    missing = APNS_CREDENTIALS.select { |name| config(name).blank? }
-    if missing.any? && missing.size < APNS_CREDENTIALS.size
-      ChatwootExceptionTracker.new(ArgumentError.new("APNs VoIP is partly configured; missing #{missing.join(', ')}")).capture_exception
+    names = CREDENTIALS[platform]
+    missing = names.select { |name| config(name).blank? }
+    if missing.any? && missing.size < names.size
+      ChatwootExceptionTracker.new(ArgumentError.new("#{platform} push is partly configured; missing #{missing.join(', ')}")).capture_exception
     end
-    @apple_configured = missing.empty?
+    @configured[platform] = missing.empty?
   end
 
   # A misspelt environment would quietly send App Store tokens to the sandbox, so it fails the job
@@ -211,10 +231,6 @@ class Voice::VoipPushService
   end
 
   # MARK: Android
-
-  def firebase_configured?
-    config('FIREBASE_PROJECT_ID').present? && config('FIREBASE_CREDENTIALS').present?
-  end
 
   def fcm_client
     Notification::FcmService.new(config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')).fcm_client
