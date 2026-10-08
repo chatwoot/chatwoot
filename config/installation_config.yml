@@ -289,7 +289,7 @@
 - name: CHATWOOT_CLOUD_TRIAL_ENABLED
   value: false
   display_title: 'Enable Cloud Free Trial'
-  description: 'Offer eligible Hacker-plan accounts a card-backed free trial of a paid plan from the billing page'
+  description: 'Start new Stripe-billed cloud accounts on a 15-day free trial at signup, without a card'
   locked: false
   type: boolean
 - name: CHATWOOT_CLOUD_PLANS

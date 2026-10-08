@@ -60,6 +60,7 @@
     "PLACEHOLDER": "Enter duration"
   },
   "CHANNEL_SELECTOR": {
+    "NEEDS_CARD": "Add a card",
     "COMING_SOON": "Coming Soon!"
   },
   "SLASH_COMMANDS": {

@@ -14,6 +14,7 @@ const { accountId } = useAccount();
 const { isAdmin } = useAdmin();
 const {
   isTrialing,
+  isTrialWithoutCard,
   trialEndsAt,
   trialCancelsAt,
   trialDaysLeft,
@@ -25,16 +26,31 @@ const isBillingPage = computed(
   () => router.currentRoute.value.name === 'billing_settings_index'
 );
 
-const description = computed(() =>
-  trialCancelsAt.value
+const title = computed(() =>
+  isTrialWithoutCard.value
+    ? t(
+        'SIDEBAR.TRIAL.TITLE_NO_CARD',
+        { days: trialDaysLeft.value },
+        trialDaysLeft.value
+      )
+    : t(
+        'SIDEBAR.TRIAL.TITLE',
+        { plan: trialPlanName.value, days: trialDaysLeft.value },
+        trialDaysLeft.value
+      )
+);
+
+const description = computed(() => {
+  if (isTrialWithoutCard.value) return t('SIDEBAR.TRIAL.DESCRIPTION_NO_CARD');
+  return trialCancelsAt.value
     ? t('SIDEBAR.TRIAL.DESCRIPTION_CANCELLED', {
         plan: trialPlanName.value,
         date: format(trialCancelsAt.value, 'dd MMM'),
       })
     : t('SIDEBAR.TRIAL.DESCRIPTION', {
         date: format(trialEndsAt.value, 'dd MMM'),
-      })
-);
+      });
+});
 
 const openBilling = () => {
   router.push({
@@ -52,13 +68,7 @@ const openBilling = () => {
       :class="isTrialEndingSoon ? 'border-n-amber-7' : 'border-n-weak'"
     >
       <h5 class="mb-0 text-sm font-semibold text-n-slate-12">
-        {{
-          t(
-            'SIDEBAR.TRIAL.TITLE',
-            { plan: trialPlanName, days: trialDaysLeft },
-            trialDaysLeft
-          )
-        }}
+        {{ title }}
       </h5>
       <p class="mb-0 text-xs leading-relaxed text-n-slate-11">
         {{ description }}

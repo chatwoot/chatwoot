@@ -18,6 +18,24 @@ export function useTrialStatus() {
 
   const isTrialing = computed(() => Boolean(trialEndsAt.value));
 
+  // A trial without a card runs on the free plan; email and Captain unlock once a plan and card are added.
+  const isTrialWithoutCard = computed(
+    () => isTrialing.value && customAttributes.value.trial_state === 'no_card'
+  );
+
+  const hasTrialEnded = computed(
+    () => customAttributes.value.trial_state === 'ended'
+  );
+
+  const trialProgress = computed(() => {
+    const startedAt = customAttributes.value.trial_started_at;
+    if (!trialEndsAt.value || !startedAt) return 0;
+    const start = new Date(startedAt).getTime();
+    const total = trialEndsAt.value.getTime() - start;
+    const used = Date.now() - start;
+    return Math.min(Math.max((used / total) * 100, 0), 100);
+  });
+
   // Cancelling a trial keeps Stripe's status at `trialing` until it ends; only the cancel date shows it won't convert.
   const trialCancelsAt = computed(() => {
     const cancelsOn = customAttributes.value.subscription_cancels_on;
@@ -38,6 +56,9 @@ export function useTrialStatus() {
 
   return {
     isTrialing,
+    isTrialWithoutCard,
+    hasTrialEnded,
+    trialProgress,
     trialEndsAt,
     trialCancelsAt,
     trialDaysLeft,

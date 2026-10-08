@@ -3,19 +3,11 @@ class Api::V1::Accounts::BillingTrialsController < Api::V1::Accounts::BaseContro
 
   rescue_from Enterprise::Billing::TrialService::Error, Stripe::StripeError, with: :render_trial_error
 
-  def show
-    render json: trial_service.options
-  end
-
   def create
-    render json: { redirect_url: trial_service.portal_url }
+    render json: { redirect_url: Enterprise::Billing::TrialService.new(account: Current.account).portal_url }
   end
 
   private
-
-  def trial_service
-    Enterprise::Billing::TrialService.new(account: Current.account)
-  end
 
   def render_trial_error(error)
     render_could_not_create_error(error.message)

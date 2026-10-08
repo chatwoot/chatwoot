@@ -5,21 +5,19 @@ import { format } from 'date-fns';
 import ButtonV4 from 'next/button/Button.vue';
 import { useTrialStatus } from 'dashboard/composables/useTrialStatus';
 
-const props = defineProps({
-  trialDays: {
-    type: Number,
-    required: true,
-  },
+defineProps({
   isManaging: {
     type: Boolean,
     default: false,
   },
 });
 
-const emit = defineEmits(['manage']);
+const emit = defineEmits(['manage', 'choosePlan']);
 
 const { t } = useI18n();
 const {
+  isTrialWithoutCard,
+  trialProgress,
   trialEndsAt,
   trialCancelsAt,
   trialDaysLeft,
@@ -29,12 +27,26 @@ const {
 
 const endsOn = computed(() => format(trialEndsAt.value, 'dd MMM, yyyy'));
 
-const progress = computed(() => {
-  const used = props.trialDays - trialDaysLeft.value;
-  return Math.min(Math.max((used / props.trialDays) * 100, 0), 100);
-});
+const title = computed(() =>
+  isTrialWithoutCard.value
+    ? t(
+        'BILLING_SETTINGS.TRIAL.STATUS.TITLE_NO_CARD',
+        { days: trialDaysLeft.value },
+        trialDaysLeft.value
+      )
+    : t(
+        'BILLING_SETTINGS.TRIAL.STATUS.TITLE',
+        { plan: trialPlanName.value, days: trialDaysLeft.value },
+        trialDaysLeft.value
+      )
+);
 
 const description = computed(() => {
+  if (isTrialWithoutCard.value) {
+    return t('BILLING_SETTINGS.TRIAL.STATUS.DESCRIPTION_NO_CARD', {
+      date: endsOn.value,
+    });
+  }
   if (trialCancelsAt.value) {
     return t('BILLING_SETTINGS.TRIAL.STATUS.DESCRIPTION_CANCELLED', {
       plan: trialPlanName.value,
@@ -54,18 +66,21 @@ const description = computed(() => {
   >
     <div class="flex flex-wrap items-start justify-between gap-4">
       <div class="max-w-xl">
-        <span class="text-base font-medium text-n-slate-12">
-          {{
-            t(
-              'BILLING_SETTINGS.TRIAL.STATUS.TITLE',
-              { plan: trialPlanName, days: trialDaysLeft },
-              trialDaysLeft
-            )
-          }}
-        </span>
+        <span class="text-base font-medium text-n-slate-12">{{ title }}</span>
         <p class="text-sm mt-1 text-n-slate-11">{{ description }}</p>
       </div>
       <ButtonV4
+        v-if="isTrialWithoutCard"
+        sm
+        solid
+        blue
+        :is-loading="isManaging"
+        @click="emit('choosePlan')"
+      >
+        {{ t('BILLING_SETTINGS.TRIAL.STATUS.CHOOSE_PLAN') }}
+      </ButtonV4>
+      <ButtonV4
+        v-else
         sm
         outline
         slate
@@ -79,14 +94,11 @@ const description = computed(() => {
         }}
       </ButtonV4>
     </div>
-    <div
-      v-if="trialDays"
-      class="h-1.5 rounded-full bg-n-slate-4 overflow-hidden"
-    >
+    <div class="h-1.5 rounded-full bg-n-slate-4 overflow-hidden">
       <div
         class="h-full rounded-full"
         :class="isTrialEndingSoon ? 'bg-n-amber-9' : 'bg-n-brand'"
-        :style="{ width: `${progress}%` }"
+        :style="{ width: `${trialProgress}%` }"
       />
     </div>
   </div>

@@ -38,7 +38,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   def limits
-    limits = if @account.billing_provider == Account::DEFAULT_BILLING_PROVIDER && default_plan?(@account)
+    limits = if @account.billing_provider == Account::DEFAULT_BILLING_PROVIDER && default_plan?(@account) && @account.cloud_trial_state != 'no_card'
                {
                  'conversation' => {
                    'allowed' => 500,

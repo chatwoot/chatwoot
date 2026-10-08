@@ -810,6 +810,10 @@
       "UPGRADE_NOW": "Upgrade now",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
+    "TRIAL_PAYWALL": {
+      "AVAILABLE_ON": "Captain unlocks once you add a card during your free trial.",
+      "UPGRADE_PROMPT": "Choose a plan and add a card. You won't be charged until the trial ends."
+    },
     "ENTERPRISE_PAYWALL": {
       "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",

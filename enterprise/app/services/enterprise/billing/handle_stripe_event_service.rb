@@ -16,6 +16,8 @@ class Enterprise::Billing::HandleStripeEventService
       process_subscription_updated
     when 'customer.subscription.deleted'
       process_subscription_deleted
+    when 'customer.subscription.trial_will_end'
+      process_trial_will_end
     else
       Rails.logger.debug { "Unhandled event type: #{event.type}" }
     end
@@ -75,17 +77,10 @@ class Enterprise::Billing::HandleStripeEventService
         'subscription_status' => subscription['status'],
         'subscription_ends_on' => subscription_ends_on(subscription),
         'subscription_cancels_on' => subscription_cancels_on(subscription),
-        'trial_ends_at' => trial_ends_at(subscription, plan),
+        'trial_ends_at' => subscription['trial_end'].present? ? Time.zone.at(subscription['trial_end']) : nil,
         'billing_currency' => billing_currency_for(subscription, plan)
       )
     )
-  end
-
-  # A trial started from the billing page runs on the free plan until a paid plan is picked in the portal; only a paid plan's trial is shown.
-  def trial_ends_at(subscription, plan)
-    return if subscription['trial_end'].blank? || default_plan_name?(plan['name'])
-
-    Time.zone.at(subscription['trial_end'])
   end
 
   def default_plan_name?(plan_name)
@@ -114,6 +109,20 @@ class Enterprise::Billing::HandleStripeEventService
 
   def subscription_conversion_value(subscription_plan)
     ((subscription_plan['amount'] || subscription_plan['amount_decimal']).to_d * subscription['quantity'].to_i / 100).to_f
+  end
+
+  # Stripe sends this three days before a trial ends.
+  def process_trial_will_end
+    return unless stripe_billed_account?
+
+    meta = {
+      'account_name' => account.name,
+      'trial_ends_on' => Time.zone.at(subscription['trial_end']).strftime('%B %d, %Y'),
+      'has_plan' => !default_plan_name?(account.custom_attributes['plan_name']),
+      'plan_name' => account.custom_attributes['plan_name'],
+      'free_plan_name' => Enterprise::Billing::PlanConfiguration.default_plan&.dig('name')
+    }
+    AdministratorNotifications::AccountNotificationMailer.with(account: account).trial_ending(meta).deliver_later
   end
 
   def process_subscription_deleted
