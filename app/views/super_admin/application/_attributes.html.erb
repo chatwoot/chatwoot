@@ -1,0 +1,12 @@
+<%# locals: (page:, attributes:) -%>
+<dl class="-mb-px grid grid-cols-1 px-4 sm:grid-cols-2 sm:gap-x-8 xl:grid-cols-3">
+  <% attributes.each do |attribute| %>
+    <%= render "attribute",
+               label: t("helpers.label.#{page.resource_name}.#{attribute.name}", default: page.resource.class.human_attribute_name(attribute.name)),
+               stacked: attribute.html_class.in?(%w[has-many has-one text serialized-field]),
+               centered: attribute.html_class == "avatar-field" do %>
+      <%= render_field attribute, page: page %>
+    <% end %>
+  <% end %>
+  <%= yield %>
+</dl>
