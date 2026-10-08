@@ -1,0 +1,3 @@
+<% if field.data.present? %>
+  <%= render "badge", label: field.attribute == :locale ? field.data : field.data.titleize %>
+<% end %>

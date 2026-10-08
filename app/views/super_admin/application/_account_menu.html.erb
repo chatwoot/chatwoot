@@ -1,0 +1,48 @@
+<%# locals: (expanded: false) -%>
+<%
+  admin = current_super_admin
+  avatar = rails_storage_proxy_path(admin.avatar.representation(resize_to_fill: [250, nil])) if admin.avatar.attached? && admin.avatar.representable?
+  themes = {
+    system: [t("super_admin.navigation.theme.system"), "i-lucide-monitor"],
+    light: [t("super_admin.navigation.theme.light"), "i-lucide-sun"],
+    dark: [t("super_admin.navigation.theme.dark"), "i-lucide-moon"]
+  }
+  avatar_size = expanded ? "size-7" : "size-9"
+%>
+<details class="relative" data-dropdown>
+  <summary class="<%= class_names("cursor-pointer list-none transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-n-brand [&::-webkit-details-marker]:hidden",
+                                  expanded ? "flex items-center gap-2.5 rounded-lg px-2 py-1 text-n-slate-11 hover:bg-n-alpha-2 hover:text-n-slate-12" : "block rounded-full") %>"
+           aria-label="<%= t("super_admin.navigation.account") %>">
+    <% if avatar %>
+      <%= image_tag avatar, alt: "", class: "#{avatar_size} shrink-0 rounded-full border border-n-weak object-cover" %>
+    <% else %>
+      <span class="grid <%= avatar_size %> shrink-0 place-items-center rounded-full border border-n-weak bg-n-slate-3 text-label-small uppercase text-n-slate-11"><%= admin.name.to_s.first %></span>
+    <% end %>
+    <% if expanded %>
+      <span class="min-w-0 flex-1 truncate text-label text-n-slate-12"><%= admin.name %></span>
+      <span class="i-lucide-chevrons-up-down size-4 shrink-0 text-n-slate-10"></span>
+    <% end %>
+  </summary>
+  <div class="<%= class_names("absolute z-40 max-w-[calc(100vw-2rem)] rounded-xl border border-n-weak bg-n-solid-1 p-1 shadow-lg",
+                              expanded ? "inset-x-0 bottom-full mb-2 motion-safe:animate-fade-in-up" : "end-0 top-full mt-2 w-64 motion-safe:animate-fade-in") %>">
+    <div class="border-b border-n-weak px-2.5 py-2">
+      <p class="truncate text-label text-n-slate-12"><%= admin.name %></p>
+      <p class="truncate text-label-small text-n-slate-11"><%= admin.email %></p>
+    </div>
+    <div class="flex items-center justify-between gap-3 px-2.5 py-2">
+      <span class="text-body-main text-n-slate-11"><%= t("super_admin.navigation.theme.label") %></span>
+      <div class="flex gap-0.5 rounded-lg border border-n-weak p-0.5" role="group" aria-label="<%= t("super_admin.navigation.theme.label") %>">
+        <% themes.each do |value, (label, icon)| %>
+          <button type="button" class="grid size-7 place-items-center rounded-md text-n-slate-10 transition-colors hover:text-n-slate-12 aria-pressed:bg-n-alpha-2 aria-pressed:text-n-slate-12 touch:size-9" data-theme-value="<%= value %>" aria-pressed="false" title="<%= label %>">
+            <span class="<%= icon %> size-4"></span>
+          </button>
+        <% end %>
+      </div>
+    </div>
+    <ul class="space-y-0.5 border-t border-n-weak pt-1">
+      <%= render "nav_item", item: { label: t("super_admin.navigation.profile"), url: super_admin_user_path(admin), icon: "i-lucide-user" } %>
+      <%= render "nav_item", item: { label: t("super_admin.navigation.agent_dashboard"), url: "/", icon: "i-lucide-message-circle" } %>
+      <%= render "nav_item", item: { label: t("super_admin.navigation.logout"), url: super_admin_logout_path, icon: "i-lucide-log-out" } %>
+    </ul>
+  </div>
+</details>

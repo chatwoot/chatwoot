@@ -1,6 +1,15 @@
 {
   "MONITORS": {
     "TITLE": "Monitors",
+    "AUTOMATIONS": {
+      "TITLE": "Automations",
+      "DESCRIPTION": "Run actions when this monitor first matches a conversation from new live activity.",
+      "CREATE": "Create automation",
+      "EMPTY": "No automations are linked to this monitor yet.",
+      "ACTIVE": "Active",
+      "DISABLED": "Disabled",
+      "FETCH_FAILED": "Could not load linked automations."
+    },
     "LIST": {
       "CONVERSATIONS_COUNT": "{count} conversation | {count} conversations",
       "CONVERSATIONS_HELP": "Count of conversations matching this monitor in the last 7 days.",
@@ -8,7 +17,7 @@
       "FETCH_FAILED": "Could not load monitors. Please try again.",
       "PAGINATION": "Showing {startItem} – {endItem} of {totalItems} monitor | Showing {startItem} – {endItem} of {totalItems} monitors"
     },
-    "DESCRIPTION": "Follow the themes that matter across your customer conversations.",
+    "DESCRIPTION": "Follow the themes that matter across your customer conversations. Describe a topic in plain English, and a monitor charts matching conversations as new customer messages arrive.",
     "CREATE": "Create monitor",
     "PREVIEW": "Preview matches",
     "PREVIEW_COOLDOWN": "You can preview again in {count} second. | You can preview again in {count} seconds.",
@@ -20,30 +29,74 @@
     "CONDITION": "Which conversations should this monitor find?",
     "CONDITION_PLACEHOLDER": "All conversations mentioning refunds",
     "CREATE_HELP": "We will check conversations created in the last seven days, then keep checking new customer messages. Public replies and configured customer attributes provide context. Private notes are excluded.",
-    "EMPTY_TITLE": "Turn conversations into a trend you can follow",
-    "EMPTY_DESCRIPTION": "Describe a topic in plain English. A monitor finds matching conversations and keeps its chart updated as new customer messages arrive.",
-    "ADMIN_HELP": "Ask an administrator to create your first monitor.",
-    "EXAMPLES_TITLE": "Start with a template",
-    "EXAMPLES": {
+    "SECTIONS": {
+      "YOUR_MONITORS": "Your monitors",
+      "TEMPLATES": "Templates"
+    },
+    "TEMPLATES": {
+      "TITLE": "Start with a template",
+      "USE_NAMED": "Use {name} template",
+      "EDIT_HINT": "From {name} template. Edit anything before creating.",
+      "ADMIN_HELP": "Ask an administrator to create a monitor from a template.",
+      "LOGIN_PROBLEMS": {
+        "NAME": "Login problems",
+        "AUDIENCE": "For support teams",
+        "SUMMARY": "See when login complaints start increasing.",
+        "CONDITION": "A customer says they cannot sign in to their account, including failed password resets and verification codes that never arrive. Exclude questions about changing a password while already signed in."
+      },
       "MISSING_ORDER_UPDATES": {
         "NAME": "Missing order updates",
-        "CONDITION": "A customer says an order confirmation, shipping update, or delivery notice did not arrive or was sent for the wrong order. Exclude questions about parcel location when the customer received tracking information.",
-        "BENEFIT": "Track recurring delivery communication problems."
+        "AUDIENCE": "For operations teams",
+        "SUMMARY": "Track recurring delivery communication problems.",
+        "CONDITION": "A customer says an order confirmation, shipping update, or delivery notice did not arrive, or arrived for the wrong order. Exclude customers asking where a parcel is when they did receive the tracking email."
+      },
+      "COMPETITOR_MENTIONS": {
+        "NAME": "Competitor mentions",
+        "AUDIENCE": "For founders and sales teams",
+        "SUMMARY": "Find conversations worth following up on.",
+        "CONDITION": "A customer compares us with a competing product, says they are evaluating one, or mentions they may switch. Exclude customers who moved to us from a competitor and are asking how to import their data."
       },
       "FEATURE_REQUESTS": {
         "NAME": "Feature requests",
-        "CONDITION": "A customer asks for a capability the product does not currently offer. Exclude questions about how to use a feature that already exists.",
-        "BENEFIT": "Keep a running count of unmet needs."
+        "AUDIENCE": "For product teams",
+        "SUMMARY": "Keep a running count of conversations about unmet needs.",
+        "CONDITION": "A customer asks for a capability the product does not currently offer, or asks whether something is possible and it is not. Exclude questions about how to use a feature that already exists."
       },
       "REFUND_REQUESTS": {
         "NAME": "Refund requests",
-        "CONDITION": "A customer asks for money back on a payment already made, including duplicate charges or refunds after cancellation. Exclude questions about the refund policy and requests for a discount.",
-        "BENEFIT": "Bring a consistent definition to refund requests."
+        "AUDIENCE": "For finance teams",
+        "SUMMARY": "Bring a consistent definition to your weekly refund request count.",
+        "CONDITION": "A customer asks for money back on a payment they already made, including duplicate charges and refunds after cancelling. Exclude questions about the refund policy and requests for a discount."
       },
       "CANCELLATION_INTENT": {
         "NAME": "Cancellation intent",
-        "CONDITION": "A customer says they intend to cancel, will not renew, or plan to stop using the product. Exclude requests to reduce seats or downgrade, and cancellations withdrawn in the same conversation.",
-        "BENEFIT": "Find customers who may need a conversation before they leave."
+        "AUDIENCE": "For account managers",
+        "SUMMARY": "Find customers who may need a conversation before they leave.",
+        "CONDITION": "A customer says they intend to cancel, will not renew, or plan to stop using the product. Exclude requests to reduce seats or downgrade, and cancellations the customer takes back in the same conversation."
+      },
+      "PAYMENT_FAILURES": {
+        "NAME": "Payment failures",
+        "AUDIENCE": "For billing and support teams",
+        "SUMMARY": "Spot customers who are blocked from paying.",
+        "CONDITION": "A customer says a payment, checkout, or invoice payment failed, or their card was declined. Exclude refund requests, disputes about completed charges, and general questions about payment methods."
+      },
+      "PRODUCT_ERRORS": {
+        "NAME": "Product errors",
+        "AUDIENCE": "For support and engineering teams",
+        "SUMMARY": "See when errors and crashes start spreading.",
+        "CONDITION": "A customer reports an error, crash, unavailable service, or severe slowness that prevents them from completing a task. Exclude sign-in problems and questions about how to use a working feature."
+      },
+      "ISSUE_STILL_UNRESOLVED": {
+        "NAME": "Issue still unresolved",
+        "AUDIENCE": "For support leads",
+        "SUMMARY": "Find conversations that need another pass.",
+        "CONDITION": "A customer says a suggested fix did not work, the same problem returned, or their issue remains after support said it was resolved. Exclude first-time reports and requests only asking for a status update."
+      },
+      "ESCALATION_REQUESTS": {
+        "NAME": "Escalation requests",
+        "AUDIENCE": "For support leads",
+        "SUMMARY": "Surface requests that need prompt attention.",
+        "CONDITION": "A customer explicitly asks for a human agent, manager, specialist, or higher support tier because their issue has not been resolved. Exclude routine transfers and sales requests."
       }
     },
     "MATCHING_CONVERSATIONS": "Matching conversations created",

@@ -10,6 +10,12 @@ class EnterpriseAccountAPI extends ApiClient {
     return axios.post(`${this.url}checkout`);
   }
 
+  reconnectShopify(pendingInstallToken) {
+    return axios.post(`${this.url}reconnect_shopify`, {
+      pending_install_token: pendingInstallToken,
+    });
+  }
+
   subscription() {
     return axios.post(`${this.url}subscription`);
   }
