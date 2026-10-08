@@ -94,18 +94,19 @@ class Voice::Conference::Manager
   # network went, or the OS ended the call. A phone whose socket is down learns the call
   # ended only because its own leg is hung up.
   #
-  # The status is read under the row lock, so a join committed meanwhile is seen and the
-  # leave ends the live call rather than recording an unanswered one.
+  # A call still ringing is marked unanswered under the row lock it was read under, so a
+  # join cannot land between the check and the change; a join committed first is seen and
+  # the leave ends the live call instead.
   def handle_leave!
-    case call.with_lock { call.status }
-    when 'ringing'
-      status_manager.process_status_update('no_answer', timestamp: now)
-    when 'in_progress'
-      return if agent_participant? && other_agents_remain?
-
-      end_conference!
-      status_manager.process_status_update('completed', timestamp: now)
+    status = call.with_lock do
+      status_manager.process_status_update('no_answer', timestamp: now) if call.ringing?
+      call.status
     end
+    return unless status == 'in_progress'
+    return if agent_participant? && other_agents_remain?
+
+    end_conference!
+    status_manager.process_status_update('completed', timestamp: now)
   end
 
   # When Twilio cannot say who is left, the call stays live and a job repeats the check:
