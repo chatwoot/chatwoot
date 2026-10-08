@@ -10,6 +10,9 @@ class Voice::CallStatus::Manager
       # Don't overwrite a terminal status — Twilio's late `completed` events would
       # otherwise clobber an agent-rejection reason.
       next if Call::TERMINAL_STATUSES.include?(call.status)
+      # The ring timeout is hanging the caller up and records the outcome itself; the
+      # provider's own status for that hang-up would otherwise land first as `completed`
+      next if call.ringing? && call.ring_timeout_in_progress?
 
       apply_call_updates!(status, duration: duration, timestamp: timestamp)
       call.conversation.update!(last_activity_at: Time.zone.now)

@@ -170,6 +170,18 @@ RSpec.describe Voice::RingingTimeoutService do
       expect(call.ring_state).not_to have_key('timing_out_at')
     end
 
+    it "records a timeout, not the provider's completed status for the hang-up" do
+      call.update!(provider: :twilio)
+      allow(conference).to receive(:terminate_call) do
+        Voice::CallStatus::Manager.new(call: Call.find(call.id)).process_status_update('completed', timestamp: Time.zone.now.to_i)
+      end
+
+      described_class.new(call: call).perform
+
+      expect(call.reload.status).to eq('no_answer')
+      expect(call.end_reason).to eq('ring_timeout')
+    end
+
     it 'does not touch a call that was answered in the meantime' do
       call.update!(status: 'in_progress')
 

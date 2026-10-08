@@ -49,7 +49,7 @@ class Voice::RingingTimeoutService
 
   def start_timeout
     call.with_lock do
-      next false unless call.ringing? && call.incoming? && due? && !attempt_in_progress?
+      next false unless call.ringing? && call.incoming? && due? && !call.ring_timeout_in_progress?
 
       @attempt_at = Time.zone.now.to_i
       @claim_at_start = call.accepted_by_agent_id
@@ -61,11 +61,6 @@ class Voice::RingingTimeoutService
   def due?
     grace = call.accepted_by_agent_id ? CLAIM_GRACE_SECONDS : 0
     call.created_at < (RING_TIMEOUT_SECONDS.fetch(call.provider, 60) + grace).seconds.ago
-  end
-
-  def attempt_in_progress?
-    started_at = call.ring_state['timing_out_at']
-    started_at.present? && started_at > ATTEMPT_TTL_SECONDS.seconds.ago.to_i
   end
 
   def clear_timeout_mark
