@@ -1,9 +1,10 @@
 # Customer Identity
 {% if contact_inbox.hmac_verified -%}
 - Identity verified: Yes
-{% if contact.email -%}
 
-The customer's email is {{ contact.email }}. It is verified by HMAC, so it belongs to this customer.
+This customer's identity is verified by HMAC.{% if contact.identifier %} The verified identifier is {{ contact.identifier }}.{% endif %}
+{% if contact.email -%}
+The email on record is {{ contact.email }}. HMAC verifies the identifier, not the email, so be aware that the customer can change this email.
 {% endif -%}
 {% else -%}
 - Identity verified: No
