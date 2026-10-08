@@ -32,7 +32,7 @@ RSpec.describe Llm::BaseAiService do
 
     it 'uses the Captain V2 assistant default ahead of the installation model' do
       create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
-      account.enable_features!('captain_integration_v2')
+      account.enable_features!('captain_integration')
 
       expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-5.2')
       expect(account.reload.captain_models).to be_nil
@@ -66,6 +66,27 @@ RSpec.describe Llm::BaseAiService do
     it 'strips surrounding whitespace' do
       input = "  \n{\"key\": \"value\"}\n  "
       expect(service.send(:sanitize_json_response, input)).to eq('{"key": "value"}')
+    end
+  end
+
+  describe '#chat' do
+    %w[gpt-5.1 gpt-5.2].each do |model|
+      it "omits temperature for #{model} when the model registry marks it unsupported" do
+        llm_chat = instance_double(RubyLLM::Chat)
+        allow(RubyLLM).to receive(:chat).with(model: model).and_return(llm_chat)
+
+        expect(llm_chat).not_to receive(:with_temperature)
+        expect(service.chat(model: model)).to eq(llm_chat)
+      end
+    end
+
+    it 'sets temperature when the model registry marks it supported' do
+      llm_chat = instance_double(RubyLLM::Chat)
+      configured_chat = instance_double(RubyLLM::Chat)
+      allow(RubyLLM).to receive(:chat).with(model: 'gpt-4.1-mini').and_return(llm_chat)
+      allow(llm_chat).to receive(:with_temperature).with(0.7).and_return(configured_chat)
+
+      expect(service.chat(model: 'gpt-4.1-mini', temperature: 0.7)).to eq(configured_chat)
     end
   end
 end

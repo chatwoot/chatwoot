@@ -7,6 +7,37 @@
     "LEARN_MORE": "Aprende más sobre los registros de auditoria",
     "SEARCH_404": "No hay elementos que coincidan con esta consulta",
     "SIDEBAR_TXT": "<p><b>Registros de auditoría</b> </p><p> Registros de auditoría son pistas para eventos y acciones en un Sistema de Chatwoot </p>",
+    "COUNT": "{n} evento | {n} eventos",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Buscar por nombre o email",
+      "ALL_EVENTS": "Todos los eventos",
+      "DATE_RANGE": "Rango de fecha",
+      "CLEAR_ALL": "Limpiar filtros",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Acceso",
+        "AGENTS_TEAMS": "Agentes y equipos",
+        "CONFIGURATION": "Configuración",
+        "CONVERSATIONS": "Conversaciones"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Iniciar sesión / cerrar sesión",
+        "AGENTS": "Agentes",
+        "TEAMS": "Equipos",
+        "TEAM_MEMBERS": "Miembros del equipo",
+        "INBOX_MEMBERS": "Colaboradores de bandeja de entrada",
+        "ACCOUNT": "Configuración de la cuenta",
+        "INBOXES": "Bandejas de entrada",
+        "WEBHOOKS": "Webhook",
+        "AUTOMATION_RULES": "Reglas de automatización",
+        "MACROS": "Macros",
+        "CONVERSATION_DELETIONS": "Eliminación de conversaciones",
+        "MESSAGE_DELETIONS": "Eliminación de mensajes"
+      },
+      "SORT": {
+        "NEWEST": "Más nuevo primero",
+        "OLDEST": "Lo más antiguo primero"
+      }
+    },
     "LIST": {
       "404": "No hay registros de auditoría disponibles en esta cuenta.",
       "TITLE": "Administrar registros de auditoría",
@@ -72,6 +103,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} ha eliminado la conversación #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} eliminó un mensaje en la conversación #{conversationId}"
     }
   }
 }

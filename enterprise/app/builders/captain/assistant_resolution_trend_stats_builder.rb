@@ -5,7 +5,8 @@ class Captain::AssistantResolutionTrendStatsBuilder
   include Captain::AssistantOutcomeClassification
 
   DAILY_GRANULARITY_THRESHOLD = 15.days
-  WEEK_START = :sunday
+  DAYS_PER_WEEK = 7
+  WEEK_START = Captain::AssistantStatsWindow::WEEK_START
 
   attr_reader :assistant, :account
 
@@ -16,6 +17,8 @@ class Captain::AssistantResolutionTrendStatsBuilder
   end
 
   def metrics
+    return { granularity: granularity, buckets: [] } unless tracked_period?(window.current.first)
+
     buckets = time_buckets
     comparison_buckets = previous_period_buckets(buckets)
     counts = bucket_counts(buckets + comparison_buckets)
@@ -25,7 +28,7 @@ class Captain::AssistantResolutionTrendStatsBuilder
     {
       granularity: granularity,
       buckets: buckets.each_with_index.map do |bucket, index|
-        serialize_bucket(bucket, current_counts[index], previous_counts[index])
+        serialize_bucket(bucket, comparison_buckets[index], current_counts[index], previous_counts[index])
       end
     }
   end
@@ -55,29 +58,25 @@ class Captain::AssistantResolutionTrendStatsBuilder
     buckets
   end
 
-  # Align comparison buckets by elapsed position while retaining the current
-  # period's bucket count. The final bucket absorbs trailing comparison days.
+  # Shift by whole calendar weeks to preserve weekdays and local clock times.
   def previous_period_buckets(buckets)
-    period_offset = window.previous.first - window.current.first
-    exclude_end = window.previous.last == window.current.first
-
     buckets.map do |bucket|
-      starts_at = bucket[:starts_at] + period_offset
-      ends_at = comparison_bucket_end(bucket, period_offset)
-
-      {
-        starts_at: starts_at,
-        ends_at: ends_at,
-        final: ends_at >= window.previous.last,
-        exclude_end: exclude_end
-      }
+      bucket.merge(
+        starts_at: bucket[:starts_at] - comparison_shift,
+        ends_at: bucket[:ends_at] - comparison_shift,
+        ends_on: bucket[:ends_on] - comparison_shift,
+        exclude_end: window.current.last - comparison_shift == window.current.first
+      )
     end
   end
 
-  def comparison_bucket_end(bucket, period_offset)
-    return window.previous.last if bucket[:final]
-
-    [bucket[:ends_at] + period_offset, window.previous.last].min
+  def comparison_shift
+    @comparison_shift ||= begin
+      days = (window.current.last.to_date - window.current.first.to_date).to_i
+      weeks = [days / DAYS_PER_WEEK, 1].max
+      weeks += 1 if window.current.last - weeks.weeks > window.current.first
+      weeks.weeks
+    end
   end
 
   def granularity
@@ -102,14 +101,18 @@ class Captain::AssistantResolutionTrendStatsBuilder
     outcomes_scope.reorder(nil).pick(*aggregates).each_slice(2).to_a
   end
 
-  def serialize_bucket(bucket, current_counts, previous_counts)
+  def serialize_bucket(bucket, comparison_bucket, current_counts, previous_counts)
+    comparison_available = tracked_period?(window.current.first - comparison_shift)
+
     {
       starts_on: bucket[:starts_at].to_date,
       ends_on: bucket[:ends_on],
+      previous_starts_on: comparison_bucket[:starts_at].to_date,
+      previous_ends_on: comparison_bucket[:ends_on],
       conversations_handled: current_counts[0],
       resolved_by_captain: current_counts[1],
       current_resolution_rate: resolution_rate(current_counts),
-      previous_resolution_rate: resolution_rate(previous_counts)
+      previous_resolution_rate: comparison_available ? resolution_rate(previous_counts) : nil
     }
   end
 
@@ -127,7 +130,7 @@ class Captain::AssistantResolutionTrendStatsBuilder
   def outcomes_scope
     account.conversation_outcomes.where(
       assistant_id: assistant.id,
-      started_at: window.previous.first..window.current.last
+      started_at: (window.current.first - comparison_shift)..window.current.last
     )
   end
 

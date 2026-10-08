@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "उपलब्ध छैन",
     "EMAIL_ADDRESS": "इमेल ठेगाना",
     "PHONE_NUMBER": "फोन नम्बर",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "पहिचानकर्ता",
     "COPY_SUCCESSFUL": "क्लिपबोर्डमा सफलतापूर्वक प्रतिलिपि गरियो",
     "COMPANY": "कम्पनी",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagram थप्नुहोस्"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Telegram थप्नुहोस्"

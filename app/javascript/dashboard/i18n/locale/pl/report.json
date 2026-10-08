@@ -23,12 +23,14 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
@@ -544,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Przegląd",
     "LIVE": "Na żywo",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Aktywne rozmowy",
       "LOADING_MESSAGE": "Ładowanie metryk rozmów...",

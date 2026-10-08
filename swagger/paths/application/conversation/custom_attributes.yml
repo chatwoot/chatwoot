@@ -4,6 +4,8 @@ operationId: update-custom-attributes-of-a-conversation
 summary: Update Custom Attributes
 description: Updates the custom attributes of a conversation
 security:
+  - userBearerAuth: []
+  - agentBotBearerAuth: []
   - userApiKey: []
 requestBody:
   required: true

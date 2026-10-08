@@ -34,6 +34,9 @@
         "description": "Get the details of the current account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -83,6 +86,9 @@
         "summary": "Update account",
         "description": "Update account details, settings, and custom attributes",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -165,6 +171,9 @@
         "summary": "List Audit Logs in Account",
         "description": "Get Details of Audit Log entries for an Account. This endpoint is only available in Enterprise editions and requires the audit_logs feature to be enabled.",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -310,6 +319,9 @@
         "description": "List all agent bots available for the current account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -348,6 +360,9 @@
         "summary": "Create an Agent Bot",
         "description": "Create an agent bot in the account",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -404,6 +419,9 @@
         "description": "Get the details of an agent bot in the account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -448,6 +466,9 @@
         "summary": "Update an agent bot",
         "description": "Update an agent bot's attributes",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -494,6 +515,9 @@
         "description": "Delete an AgentBot from the account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -539,6 +563,9 @@
         "description": "Get Details of Agents in an Account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -577,6 +604,9 @@
         "summary": "Add a New Agent",
         "description": "Add a new Agent to Account",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -629,6 +659,9 @@
         "summary": "Update Agent in Account",
         "description": "Update an Agent in Account",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -696,6 +729,9 @@
         "description": "Remove an Agent from Account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -752,6 +788,9 @@
         "description": "Get Details of Canned Responses in an Account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -790,6 +829,9 @@
         "summary": "Add a New Canned Response",
         "description": "Add a new Canned Response to Account",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -842,6 +884,9 @@
         "summary": "Update Canned Response in Account",
         "description": "Update a Canned Response in Account",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -908,6 +953,9 @@
         "summary": "Remove a Canned Response from Account",
         "description": "Remove a Canned Response from Account",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -980,6 +1028,9 @@
         "description": "Get details of custom attributes in an Account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -1018,6 +1069,9 @@
         "summary": "Add a new custom attribute",
         "description": "Add a new custom attribute to account",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -1079,6 +1133,9 @@
         "summary": "Get a custom attribute details",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -1138,6 +1195,9 @@
         "summary": "Update custom attribute in Account",
         "description": "Update a custom attribute in account",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -1205,6 +1265,9 @@
         "description": "Remove a custom attribute from account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -1259,6 +1322,9 @@
         "summary": "List Contacts",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -1304,6 +1370,9 @@
         "description": "Create a new Contact",
         "summary": "Create Contact",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -1370,6 +1439,9 @@
         "summary": "Show Contact",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -1414,6 +1486,9 @@
         "operationId": "contactUpdate",
         "summary": "Update Contact",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -1469,6 +1544,9 @@
         "operationId": "contactDelete",
         "summary": "Delete Contact",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -1536,6 +1614,9 @@
         ],
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -1597,6 +1678,9 @@
         "description": "Lists all the labels of a contact",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -1641,6 +1725,9 @@
         "summary": "Add Labels",
         "description": "Add labels to a contact. Note that this API would overwrite the existing list of labels associated to the conversation.",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -1715,6 +1802,9 @@
         "summary": "Search Contacts",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -1770,6 +1860,9 @@
         "description": "Filter contacts with custom filter options and pagination",
         "summary": "Contact Filter",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -1901,6 +1994,9 @@
         ],
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -1972,6 +2068,9 @@
         "summary": "Get Contactable Inboxes",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -2036,6 +2135,9 @@
         "operationId": "contactMerge",
         "summary": "Merge Contacts",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -2134,6 +2236,9 @@
         "description": "Get details of automation rules in an Account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -2168,6 +2273,9 @@
         "summary": "Add a new automation rule",
         "description": "Add a new automation rule to account",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -2229,6 +2337,9 @@
         "summary": "Get a automation rule details",
         "description": "Get the details of a automation rule in the account",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -2323,6 +2434,9 @@
         "description": "Update a automation rule in account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -2389,6 +2503,9 @@
         "description": "Remove a automation rule from account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -2445,6 +2562,9 @@
         "description": "Add a new portal to account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -2494,6 +2614,9 @@
         ],
         "description": "Get details of portals in an Account",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -2580,6 +2703,119 @@
           "$ref": "#/components/parameters/portal_id"
         }
       ],
+      "get": {
+        "tags": [
+          "Help Center"
+        ],
+        "operationId": "get-details-of-a-single-portal",
+        "summary": "Get a portal details",
+        "description": "Get the details of a portal in the account",
+        "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "userApiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/account_id"
+          },
+          {
+            "$ref": "#/components/parameters/portal_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/portal_item"
+                },
+                "example": {
+                  "id": 123,
+                  "archived": false,
+                  "color": "#1F93FF",
+                  "config": {
+                    "allowed_locales": [
+                      {
+                        "code": "en",
+                        "articles_count": 32,
+                        "categories_count": 9
+                      }
+                    ]
+                  },
+                  "custom_domain": "chatwoot.help",
+                  "header_text": "Handbook",
+                  "homepage_link": "https://www.chatwoot.com",
+                  "name": "Handbook",
+                  "slug": "handbook",
+                  "page_title": "Handbook",
+                  "account_id": 123,
+                  "inbox": {
+                    "id": 123,
+                    "name": "Chatwoot",
+                    "website_url": "chatwoot.com",
+                    "channel_type": "Channel::WebWidget",
+                    "avatar_url": "https://example.com/avatar.png",
+                    "widget_color": "#1F93FF",
+                    "website_token": "4cWzuf9i9jxN9tbnv8K9STKU",
+                    "enable_auto_assignment": true,
+                    "web_widget_script": "<script>...</script>",
+                    "welcome_title": "Hi there ! 🙌🏼",
+                    "welcome_tagline": "We make it simple to connect with us.",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hey there 👋, Thank you for reaching out to us.",
+                    "channel_id": 123,
+                    "working_hours_enabled": true,
+                    "enable_email_collect": true,
+                    "csat_survey_enabled": true,
+                    "timezone": "America/Los_Angeles",
+                    "business_name": "Chatwoot",
+                    "hmac_mandatory": true
+                  },
+                  "logo": {
+                    "id": 123,
+                    "portal_id": 123,
+                    "file_type": "image/png",
+                    "account_id": 123,
+                    "file_url": "https://example.com/logo.png",
+                    "blob_id": 123,
+                    "filename": "square.png"
+                  },
+                  "meta": {
+                    "all_articles_count": 32,
+                    "categories_count": 9,
+                    "default_locale": "en"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The given portal ID does not exist in the account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      },
       "patch": {
         "tags": [
           "Help Center"
@@ -2588,6 +2824,9 @@
         "summary": "Update a portal",
         "description": "Update a portal to account",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -2721,6 +2960,9 @@
         "description": "Add a new category to portal",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -2776,6 +3018,9 @@
         "description": "Add a new article to portal",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -2827,6 +3072,9 @@
         "description": "Get open, unassigned and all Conversation counts",
         "summary": "Get Conversation Counts",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -2939,6 +3187,9 @@
         "summary": "Conversations List",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -3048,6 +3299,12 @@
         "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://www.chatwoot.com/hc/user-guide/articles/1677839703-how-to-create-an-api-channel-inbox#send-messages-to-the-api-channel",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
+            "agentBotBearerAuth": []
+          },
+          {
             "userApiKey": []
           },
           {
@@ -3117,6 +3374,9 @@
         "summary": "Conversations Filter",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -3126,6 +3386,27 @@
             "in": "query",
             "schema": {
               "type": "number"
+            }
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "description": "Sort filtered conversations using the same options as the conversation list.",
+            "schema": {
+              "type": "string",
+              "default": "last_activity_at_desc",
+              "enum": [
+                "last_activity_at_asc",
+                "last_activity_at_desc",
+                "created_at_asc",
+                "created_at_desc",
+                "priority_asc",
+                "priority_desc",
+                "waiting_since_asc",
+                "waiting_since_desc",
+                "priority_desc_created_at_asc",
+                "unread"
+              ]
             }
           }
         ],
@@ -3237,6 +3518,12 @@
         "summary": "Conversation Details",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
+            "agentBotBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -3283,6 +3570,12 @@
         "description": "Update Conversation Attributes",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
+            "agentBotBearerAuth": []
+          },
+          {
             "userApiKey": []
           },
           {
@@ -3297,15 +3590,18 @@
                 "type": "object",
                 "properties": {
                   "priority": {
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "enum": [
                       "urgent",
                       "high",
                       "medium",
                       "low",
-                      "none"
+                      null
                     ],
-                    "description": "The priority of the conversation",
+                    "description": "The priority of the conversation. Set to null to clear the priority.",
                     "example": "high"
                   },
                   "sla_policy_id": {
@@ -3348,6 +3644,24 @@
                 }
               }
             }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "error"
+                  ],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -3369,6 +3683,12 @@
         "summary": "Toggle Status",
         "description": "Toggle the status of a conversation. Pass `status` to explicitly set the\nconversation state. Use `snoozed` along with `snoozed_until` to snooze a\nconversation until a specific time. If `snoozed_until` is omitted, the\nconversation is snoozed until the next reply from the contact. Regardless\nof the value provided, snoozed conversations always reopen on the next\nreply from the contact.",
         "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "agentBotBearerAuth": []
+          },
           {
             "userApiKey": []
           },
@@ -3484,6 +3804,12 @@
         "description": "Toggles the priority of conversation",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
+            "agentBotBearerAuth": []
+          },
+          {
             "userApiKey": []
           },
           {
@@ -3491,25 +3817,25 @@
           }
         ],
         "requestBody": {
-          "required": true,
+          "required": false,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "priority"
-                ],
                 "properties": {
                   "priority": {
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "enum": [
                       "urgent",
                       "high",
                       "medium",
                       "low",
-                      "none"
+                      null
                     ],
-                    "description": "The priority of the conversation",
+                    "description": "The priority of the conversation. Omit or set to null to clear the priority.",
                     "example": "high"
                   }
                 }
@@ -3540,6 +3866,24 @@
                 }
               }
             }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "error"
+                  ],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -3561,6 +3905,12 @@
         "summary": "Toggle Typing Status",
         "description": "Toggles the typing status for a conversation.",
         "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "agentBotBearerAuth": []
+          },
           {
             "userApiKey": []
           },
@@ -3624,6 +3974,64 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}/update_last_seen": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "$ref": "#/components/parameters/conversation_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "conversationUpdateLastSeen",
+        "summary": "Update Last Seen",
+        "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Updates the last seen of the conversation so that conversations will have the bubbles in the agents screen",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/conversation_show"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Contact not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/conversations/{conversation_id}/custom_attributes": {
       "parameters": [
         {
@@ -3641,6 +4049,12 @@
         "summary": "Update Custom Attributes",
         "description": "Updates the custom attributes of a conversation",
         "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "agentBotBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -3731,6 +4145,9 @@
         "description": "Removes the given custom attribute keys from a conversation",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -3818,6 +4235,12 @@
         "description": "Assign a conversation to an agent or a team",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
+            "agentBotBearerAuth": []
+          },
+          {
             "userApiKey": []
           },
           {
@@ -3897,6 +4320,12 @@
         "summary": "List Labels",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
+            "agentBotBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -3941,6 +4370,12 @@
         "operationId": "conversation-add-labels",
         "summary": "Add Labels",
         "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "agentBotBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -4023,6 +4458,9 @@
         "summary": "Conversation Reporting Events",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -4074,6 +4512,9 @@
         "summary": "Get account branded email layout",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -4113,6 +4554,9 @@
         "operationId": "updateAccountBrandedEmailLayout",
         "summary": "Update account branded email layout",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -4177,6 +4621,9 @@
         "description": "List all inboxes available in the current account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -4235,6 +4682,9 @@
         "summary": "Create an inbox",
         "description": "You can create more than one website inbox in each account",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -4438,6 +4888,9 @@
         "summary": "Get an inbox",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -4496,6 +4949,9 @@
         "operationId": "updateInbox",
         "summary": "Update Inbox",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -4702,6 +5158,9 @@
         "summary": "List WhatsApp message templates",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -4806,6 +5265,9 @@
         "description": "See if an agent bot is associated to the Inbox",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -4865,6 +5327,9 @@
         "operationId": "updateAgentBot",
         "summary": "Add or remove agent bot",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -4949,6 +5414,9 @@
         "description": "Get Details of Agents in an Inbox",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -5014,6 +5482,9 @@
         "summary": "Add a New Agent",
         "description": "Add a new Agent to Inbox",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -5110,6 +5581,9 @@
         "description": "All agents except the one passed in params will be removed",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -5205,6 +5679,9 @@
         "description": "Remove an Agent from Inbox",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -5286,6 +5763,9 @@
         "summary": "List all labels",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -5329,6 +5809,9 @@
         "operationId": "create-a-label",
         "summary": "Create a label",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -5391,6 +5874,9 @@
         "summary": "Get a label",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -5436,6 +5922,9 @@
         "summary": "Update a label",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -5480,6 +5969,9 @@
         "operationId": "delete-a-label",
         "summary": "Delete a label",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -5528,6 +6020,9 @@
         "operationId": "list-all-messages",
         "summary": "Get messages",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -5633,8 +6128,14 @@
         ],
         "operationId": "create-a-new-message-in-a-conversation",
         "summary": "Create New Message",
-        "description": "Create a new message in the conversation.\n\nUse `application/json` for text messages and `multipart/form-data` when the\nmessage includes file attachments.\n\n### Multipart attachment request\n\nSend files with the `attachments[]` form field. `curl -F` sets the\n`multipart/form-data` content type and boundary automatically.\n\n```bash\ncurl -X POST \"https://app.chatwoot.com/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages\" \\\n  -H \"api_access_token: <your-api-token>\" \\\n  -F \"content=Here is the screenshot\" \\\n  -F \"message_type=outgoing\" \\\n  -F \"private=false\" \\\n  -F \"attachments[]=@/path/to/screenshot.png\"\n```\n\n## WhatsApp Template Messages\n\nFor WhatsApp channels, you can send structured template messages using the `template_params` field. \nTemplates must be pre-approved in WhatsApp Business Manager.\n\nBy default, `content` is treated as the already-rendered transcript text for\ncompatibility with existing API and mobile clients. To submit the original\ntemplate body instead, set `template_params.content_mode` to `raw_template`;\nChatwoot will substitute `processed_params.body` before saving the transcript.\n\n### Example Templates\n\n**Text with Image Header:**\n```json\n{\n  \"content\": \"Hi your order 121212 is confirmed. Please wait for further updates\",\n  \"template_params\": {\n    \"name\": \"order_confirmation\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"1\": \"121212\"\n      },\n      \"header\": {\n        \"media_url\": \"https://picsum.photos/200/300\",\n        \"media_type\": \"image\"\n      }\n    }\n  }\n}\n```\n\n**Text with Copy Code Button:**\n```json\n{\n  \"content\": \"Special offer! Get 30% off your next purchase. Use the code below\",\n  \"template_params\": {\n    \"name\": \"discount_coupon\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"discount_percentage\": \"30\"\n      },\n      \"buttons\": [{\n        \"type\": \"copy_code\",\n        \"parameter\": \"SAVE20\"\n      }]\n    }\n  }\n}\n```\n",
+        "description": "Create a new message in the conversation.\n\nUse `application/json` for text messages and `multipart/form-data` when the\nmessage includes file attachments.\n\n### Multipart attachment request\n\nSend files with the `attachments[]` form field. `curl -F` sets the\n`multipart/form-data` content type and boundary automatically.\n\n```bash\ncurl -X POST \"https://app.chatwoot.com/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages\" \\\n  -H \"Authorization: Bearer <your-api-token>\" \\\n  -F \"content=Here is the screenshot\" \\\n  -F \"message_type=outgoing\" \\\n  -F \"private=false\" \\\n  -F \"attachments[]=@/path/to/screenshot.png\"\n```\n\n## WhatsApp Template Messages\n\nFor WhatsApp channels, you can send structured template messages using the `template_params` field. \nTemplates must be pre-approved in WhatsApp Business Manager.\n\nBy default, `content` is treated as the already-rendered transcript text for\ncompatibility with existing API and mobile clients. To submit the original\ntemplate body instead, set `template_params.content_mode` to `raw_template`;\nChatwoot will substitute `processed_params.body` before saving the transcript.\n\n### Example Templates\n\n**Text with Image Header:**\n```json\n{\n  \"content\": \"Hi your order 121212 is confirmed. Please wait for further updates\",\n  \"template_params\": {\n    \"name\": \"order_confirmation\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"1\": \"121212\"\n      },\n      \"header\": {\n        \"media_url\": \"https://picsum.photos/200/300\",\n        \"media_type\": \"image\"\n      }\n    }\n  }\n}\n```\n\n**Text with Copy Code Button:**\n```json\n{\n  \"content\": \"Special offer! Get 30% off your next purchase. Use the code below\",\n  \"template_params\": {\n    \"name\": \"discount_coupon\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"discount_percentage\": \"30\"\n      },\n      \"buttons\": [{\n        \"type\": \"copy_code\",\n        \"parameter\": \"SAVE20\"\n      }]\n    }\n  }\n}\n```\n",
         "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "agentBotBearerAuth": []
+          },
           {
             "userApiKey": []
           },
@@ -5793,6 +6294,9 @@
         "summary": "Update message status",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -5884,6 +6388,9 @@
         "summary": "Delete a message",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -5928,6 +6435,9 @@
         "operationId": "get-details-of-all-integrations",
         "summary": "List all the Integrations",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -5986,6 +6496,9 @@
         "description": "Create an integration hook",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -6037,6 +6550,9 @@
         "summary": "Update an Integration Hook",
         "description": "Update an Integration Hook",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -6091,6 +6607,9 @@
         "description": "Delete an Integration Hook",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -6139,6 +6658,9 @@
         "description": "Get the user profile details",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -6173,6 +6695,9 @@
         "summary": "Update user profile",
         "description": "Update the user profile details",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -6301,6 +6826,9 @@
         "summary": "List all teams",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -6339,6 +6867,9 @@
         "operationId": "create-a-team",
         "summary": "Create a team",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -6400,6 +6931,9 @@
         "summary": "Get a team details",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -6445,6 +6979,9 @@
         "summary": "Update a team",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -6489,6 +7026,9 @@
         "operationId": "delete-a-team",
         "summary": "Delete a team",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -6538,6 +7078,9 @@
         "summary": "List Agents in Team",
         "description": "Get Details of Agents in an Team",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -6595,6 +7138,9 @@
         "summary": "Add a New Agent",
         "description": "Add a new Agent to Team",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -6680,6 +7226,9 @@
         "description": "All agents except the one passed in params will be removed",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -6763,6 +7312,9 @@
         "summary": "Remove an Agent from Team",
         "description": "Remove an Agent from Team",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -6855,6 +7407,9 @@
         "description": "List all custom filters in a category of a user",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -6898,6 +7453,9 @@
           }
         ],
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -6954,6 +7512,9 @@
         "description": "Get the details of a custom filter in the account",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -6997,6 +7558,9 @@
         "operationId": "update-a-custom-filter",
         "summary": "Update a custom filter",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -7043,6 +7607,9 @@
         "summary": "Delete a custom filter",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -7088,6 +7655,9 @@
         "summary": "List all webhooks",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -7126,6 +7696,9 @@
         "operationId": "create-a-webhook",
         "summary": "Add a webhook",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -7187,6 +7760,9 @@
         "summary": "Update a webhook object",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -7237,6 +7813,9 @@
         "summary": "Delete a webhook",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -7281,6 +7860,9 @@
         "operationId": "get-account-reporting-events",
         "summary": "Account Reporting Events",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -7399,6 +7981,9 @@
         "summary": "Get Account reports",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -7490,6 +8075,9 @@
         "summary": "Get Account reports summary",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -7553,6 +8141,9 @@
         "operationId": "get-account-conversation-metrics",
         "summary": "Account Conversation Metrics",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -7638,6 +8229,9 @@
         "summary": "Agent Conversation Metrics",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -7709,6 +8303,9 @@
         "operationId": "get-channel-summary-report",
         "summary": "Get conversation statistics grouped by channel type",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -7786,6 +8383,9 @@
         "summary": "Get conversation statistics grouped by inbox",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -7851,6 +8451,9 @@
         "operationId": "get-agent-summary-report",
         "summary": "Get conversation statistics grouped by agent",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -7918,6 +8521,9 @@
         "summary": "Get conversation statistics grouped by team",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -7975,6 +8581,9 @@
         "operationId": "get-first-response-time-distribution",
         "summary": "Get first response time distribution by channel",
         "security": [
+          {
+            "userBearerAuth": []
+          },
           {
             "userApiKey": []
           }
@@ -8056,6 +8665,9 @@
         "summary": "Get inbox-label matrix report",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -8114,6 +8726,9 @@
         "summary": "Get outgoing messages count grouped by entity",
         "security": [
           {
+            "userBearerAuth": []
+          },
+          {
             "userApiKey": []
           }
         ],
@@ -8155,6 +8770,281 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/campaigns": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Campaigns"
+        ],
+        "operationId": "list-campaigns",
+        "summary": "List campaigns",
+        "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "List all campaigns in the account. The response is an unpaginated array. Requires an account administrator and API access enabled for the account.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/campaign"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed or the user is not an account administrator"
+          },
+          "403": {
+            "description": "API access is disabled for the account"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Campaigns"
+        ],
+        "operationId": "create-campaign",
+        "summary": "Create a campaign",
+        "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Create a campaign. For a supported messaging inbox, provide scheduled_at to schedule a one-off campaign; omitting it makes the campaign eligible for the next scheduler run. Website campaigns use trigger_rules instead. Channel-specific campaign availability and requirements still apply. One-off campaigns require at least one audience label for delivery. WhatsApp campaigns also require template_params with the selected template name, language, and any variable values. A successful creation response does not confirm delivery. Requires an account administrator and API access enabled for the account.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/campaign_create_payload"
+              },
+              "examples": {
+                "sms": {
+                  "summary": "Schedule an SMS campaign",
+                  "value": {
+                    "campaign": {
+                      "title": "January announcement",
+                      "inbox_id": 12,
+                      "message": "Our January offers are here!",
+                      "scheduled_at": "2027-01-15T10:00:00Z",
+                      "audience": [
+                        {
+                          "type": "Label",
+                          "id": 5
+                        }
+                      ]
+                    }
+                  }
+                },
+                "whatsapp": {
+                  "summary": "Schedule a WhatsApp campaign using a template with one body variable",
+                  "value": {
+                    "campaign": {
+                      "title": "Order update",
+                      "inbox_id": 15,
+                      "message": "Hello {{ contact.name }}, your order has shipped.",
+                      "scheduled_at": "2027-01-15T10:00:00Z",
+                      "audience": [
+                        {
+                          "type": "Label",
+                          "id": 5
+                        }
+                      ],
+                      "template_params": {
+                        "name": "order_shipped",
+                        "language": "en",
+                        "processed_params": {
+                          "body": {
+                            "1": "{{ contact.name }}"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "website": {
+                  "summary": "Create an ongoing website campaign",
+                  "value": {
+                    "campaign": {
+                      "title": "Pricing help",
+                      "inbox_id": 8,
+                      "sender_id": 3,
+                      "message": "Can we help you choose a plan?",
+                      "trigger_rules": {
+                        "url": "https://example.com/pricing",
+                        "time_on_page": 10
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/campaign"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed or the user is not an account administrator"
+          },
+          "403": {
+            "description": "API access is disabled for the account"
+          },
+          "422": {
+            "description": "Campaign validation failed"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/campaigns/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          },
+          "description": "Account-scoped campaign ID returned by the campaign API."
+        }
+      ],
+      "get": {
+        "tags": [
+          "Campaigns"
+        ],
+        "operationId": "get-campaign",
+        "summary": "Get a campaign",
+        "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Retrieve a campaign using its account-scoped ID. Requires an account administrator and API access enabled for the account.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/campaign"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed or the user is not an account administrator"
+          },
+          "403": {
+            "description": "API access is disabled for the account"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Campaigns"
+        ],
+        "operationId": "update-campaign",
+        "summary": "Update a campaign",
+        "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Update campaign fields, including scheduled_at to reschedule an active one-off campaign. Completed campaigns cannot be updated. Requires an account administrator and API access enabled for the account.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/campaign_update_payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/campaign"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed or the user is not an account administrator"
+          },
+          "403": {
+            "description": "API access is disabled for the account"
+          },
+          "422": {
+            "description": "Campaign validation failed"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Campaigns"
+        ],
+        "operationId": "delete-campaign",
+        "summary": "Delete a campaign",
+        "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Delete a campaign from the account. Requires an account administrator and API access enabled for the account.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Authentication failed or the user is not an account administrator"
+          },
+          "403": {
+            "description": "API access is disabled for the account"
           }
         }
       }
@@ -9258,7 +10148,10 @@
             "description": "The name of the inbox"
           },
           "website_url": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Website URL"
           },
           "page_id": {
@@ -9281,6 +10174,13 @@
               "null"
             ],
             "description": "TikTok business ID associated with the inbox"
+          },
+          "provider_name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Provider username or page name associated with the social inbox"
           },
           "profile_id": {
             "type": [
@@ -9326,11 +10226,17 @@
             "description": "The avatar image of the inbox"
           },
           "widget_color": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Widget Color used for customization of the widget"
           },
           "website_token": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Website Token"
           },
           "enable_auto_assignment": {
@@ -9338,7 +10244,10 @@
             "description": "The flag which shows whether Auto Assignment is enabled or not"
           },
           "web_widget_script": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Script used to load the website widget"
           },
           "welcome_title": {
@@ -9480,7 +10389,10 @@
             "description": "Liquid HTML layout for branded email replies. Available to administrators for Email inbox show/update responses."
           },
           "hmac_mandatory": {
-            "type": "boolean",
+            "type": [
+              "boolean",
+              "null"
+            ],
             "description": "Whether HMAC verification is mandatory"
           },
           "selected_feature_flags": {
@@ -9494,7 +10406,10 @@
             }
           },
           "reply_time": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Expected reply time"
           },
           "messaging_service_sid": {
@@ -9944,6 +10859,14 @@
             "type": "boolean",
             "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
           },
+          "icon": {
+            "type": "string",
+            "description": "An emoji or icon shown next to the team"
+          },
+          "icon_color": {
+            "type": "string",
+            "description": "The color used for the team icon"
+          },
           "account_id": {
             "type": "number",
             "description": "The ID of the account with the team is a part of"
@@ -10064,8 +10987,11 @@
             "description": "The type of the audited object (e.g., Conversation, Contact, User)"
           },
           "auditable": {
-            "type": "object",
-            "description": "The audited object data"
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "The audited object data. Null for message deletion entries, which are served without the message payload."
           },
           "associated_id": {
             "type": "integer",
@@ -10124,7 +11050,14 @@
               "string",
               "null"
             ],
-            "description": "IP address from which the action was performed"
+            "description": "IP address from which the action was performed. Masked to the network portion (for example 203.0.113.x) unless the account has the audit_log_ip_address feature enabled, in which case the full address is returned."
+          },
+          "location": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "City and country resolved from remote_address, present only when the account has the ip_lookup feature enabled and the address has been resolved. Omitted when the account returns full IP addresses."
           }
         }
       },
@@ -11297,8 +12230,16 @@
           },
           "content_attributes": {
             "type": "object",
-            "description": "Attributes based on the content type",
-            "example": {}
+            "description": "Attributes based on the content type. For `input_select`, provide an `items` array with\n`title`, `value`, and optional `description`. WhatsApp list messages use `description`\nas the row subtitle when present.\n",
+            "example": {
+              "items": [
+                {
+                  "title": "Option 1",
+                  "value": "option_1",
+                  "description": "Optional WhatsApp list row subtitle"
+                }
+              ]
+            }
           },
           "campaign_id": {
             "type": "integer",
@@ -12556,6 +13497,16 @@
             "type": "boolean",
             "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team",
             "example": true
+          },
+          "icon": {
+            "type": "string",
+            "description": "An emoji or icon shown next to the team",
+            "example": "🚀"
+          },
+          "icon_color": {
+            "type": "string",
+            "description": "The color used for the team icon",
+            "example": "#6C5CE7"
           }
         }
       },
@@ -14784,6 +15735,341 @@
             "description": "List of reporting events"
           }
         }
+      },
+      "campaign": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Account-scoped campaign ID. Use this value in campaign API paths."
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "account_id": {
+            "type": "integer"
+          },
+          "inbox": {
+            "$ref": "#/components/schemas/inbox"
+          },
+          "sender": {
+            "type": "object",
+            "description": "Sender details, or an empty object when no sender is assigned.",
+            "additionalProperties": true
+          },
+          "message": {
+            "type": "string"
+          },
+          "template_params": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": true
+          },
+          "campaign_status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "processing",
+              "completed"
+            ]
+          },
+          "campaign_type": {
+            "type": "string",
+            "enum": [
+              "ongoing",
+              "one_off"
+            ],
+            "description": "Derived from the inbox type; website campaigns are ongoing and supported messaging campaigns are one-off."
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "scheduled_at": {
+            "type": "integer",
+            "description": "Scheduled time in Unix seconds. Only present for one-off campaigns."
+          },
+          "started_at": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Start time in Unix seconds. Only present for one-off campaigns."
+          },
+          "completed_at": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Completion time in Unix seconds. Only present for one-off campaigns."
+          },
+          "audience": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Audience for a one-off campaign. Only present for one-off campaigns.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "trigger_rules": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "trigger_only_during_business_hours": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "campaign_fields": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Campaign title."
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Internal description of the campaign."
+          },
+          "inbox_id": {
+            "type": "integer",
+            "description": "ID of an inbox in this account. Supported inbox types are Website, Twilio SMS, SMS, and WhatsApp."
+          },
+          "sender_id": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "ID of a user in this account to use as the campaign sender."
+          },
+          "message": {
+            "type": "string",
+            "description": "Campaign message content."
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether an ongoing website campaign is enabled. This does not cancel a scheduled one-off campaign."
+          },
+          "scheduled_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Scheduled time for a one-off campaign, as an ISO 8601 timestamp with timezone. Defaults to the current time when omitted; website campaigns ignore this field. Responses return Unix seconds instead.",
+            "example": "2027-01-15T10:00:00Z"
+          },
+          "audience": {
+            "type": "array",
+            "minItems": 1,
+            "description": "Required when creating a one-off SMS or WhatsApp campaign. Provide at least one label from this account. Contacts matching any selected label are included. When updating, omit this field to retain the existing audience.",
+            "items": {
+              "type": "object",
+              "required": [
+                "type",
+                "id"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "Label"
+                  ]
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "ID of a label in this account."
+                }
+              }
+            }
+          },
+          "trigger_rules": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Website campaign trigger rules. Defaults to an empty object and can be omitted for a one-off campaign.",
+            "example": {
+              "url": "https://example.com/pricing",
+              "time_on_page": 10
+            }
+          },
+          "trigger_only_during_business_hours": {
+            "type": "boolean",
+            "description": "Restrict an ongoing website campaign to inbox business hours."
+          },
+          "template_params": {
+            "$ref": "#/components/schemas/campaign_whatsapp_template_params"
+          }
+        }
+      },
+      "campaign_create_payload": {
+        "type": "object",
+        "required": [
+          "campaign"
+        ],
+        "properties": {
+          "campaign": {
+            "description": "Choose the variant matching the inbox referenced by inbox_id. The channel type is stored on the inbox and cannot be inferred from this request by a schema validator. These variants describe the inputs needed for delivery; creation can accept incomplete inputs without guaranteeing that the campaign will send.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/campaign_fields"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "title",
+                  "inbox_id",
+                  "message"
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "title": "Website campaign",
+                    "description": "For a Website inbox, supply URL trigger rules. An audience is not required.",
+                    "type": "object",
+                    "required": [
+                      "trigger_rules"
+                    ],
+                    "properties": {
+                      "trigger_rules": {
+                        "type": "object",
+                        "required": [
+                          "url"
+                        ],
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "format": "uri"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "title": "SMS campaign",
+                    "description": "For an SMS or Twilio SMS inbox, supply at least one audience label.",
+                    "type": "object",
+                    "required": [
+                      "audience"
+                    ]
+                  },
+                  {
+                    "title": "WhatsApp campaign",
+                    "description": "For a WhatsApp Cloud inbox with campaigns enabled, supply audience labels and template parameters.",
+                    "type": "object",
+                    "required": [
+                      "audience",
+                      "template_params"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "campaign_update_payload": {
+        "type": "object",
+        "required": [
+          "campaign"
+        ],
+        "properties": {
+          "campaign": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/campaign_fields"
+              }
+            ]
+          }
+        }
+      },
+      "campaign_whatsapp_template_params": {
+        "type": "object",
+        "required": [
+          "name",
+          "language"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Name of the approved template in the selected inbox's message_templates."
+          },
+          "language": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Language code matching that template in the selected inbox.",
+            "example": "en"
+          },
+          "namespace": {
+            "type": "string",
+            "description": "Template namespace, when present in the selected template."
+          },
+          "category": {
+            "type": "string",
+            "description": "Category of the selected template."
+          },
+          "processed_params": {
+            "type": "object",
+            "description": "Values for the selected template's variables, grouped by component. Supply all parameters needed by that template. May be omitted for a template without variables. Body keys use positional numbers or the template's named parameters. Liquid expressions such as {{ contact.name }} are rendered separately for each recipient.",
+            "properties": {
+              "body": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "header": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "Text parameter values or media_url, media_type, and optional media_name for a media header."
+              },
+              "footer": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "buttons": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            },
+            "example": {
+              "body": {
+                "1": "{{ contact.name }}"
+              }
+            }
+          }
+        }
       }
     },
     "parameters": {
@@ -14986,23 +16272,38 @@
       }
     },
     "securitySchemes": {
+      "userBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticate with `Authorization: Bearer <token>` using a user API token from **Profile Settings**. Available in Chatwoot `v4.19.0` and later."
+      },
+      "agentBotBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticate with `Authorization: Bearer <token>` using an agent bot token from **Settings → Agent Bots**. Available in Chatwoot `v4.19.0` and later."
+      },
+      "platformAppBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticate with `Authorization: Bearer <token>` using a platform app token from **Super Admin**. Available in Chatwoot `v4.19.0` and later."
+      },
       "userApiKey": {
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token can be obtained by visiting the profile page or via rails console. Provides access to  endpoints based on the user permissions levels. This token can be saved by an external system when user is created via API, to perform activities on behalf of the user."
+        "description": "Find your API token in **Profile Settings**. The `api_access_token` header remains supported, but will be deprecated in a future release. For new integrations, use Bearer authentication."
       },
       "agentBotApiKey": {
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token should be provided by system admin or obtained via rails console. This token can be used to build bot integrations and can only access limited apis."
+        "description": "Find your agent bot token in **Settings → Agent Bots**. For new integrations, use Bearer authentication in Chatwoot `v4.19.0` and later. Agent bot tokens can access only bot-permitted APIs."
       },
       "platformAppApiKey": {
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token can be obtained by the system admin after creating a platformApp. This token should be used to provision agent bots, accounts, users and their roles."
+        "description": "Create a platform app in **Super Admin** to get its token. For new integrations, use Bearer authentication in Chatwoot `v4.19.0` and later. Platform app tokens can provision agent bots, accounts, users, and roles."
       }
     }
   },
@@ -15014,6 +16315,10 @@
     {
       "name": "Agents",
       "description": "Agent management APIs"
+    },
+    {
+      "name": "Campaigns",
+      "description": "Create, schedule, and manage campaigns. Requires an account administrator and API access enabled for the account."
     },
     {
       "name": "Canned Responses",
@@ -15105,6 +16410,7 @@
         "Account",
         "Agents",
         "Audit Logs",
+        "Campaigns",
         "Canned Responses",
         "Contacts",
         "Contact Labels",

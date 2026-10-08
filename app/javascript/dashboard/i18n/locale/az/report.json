@@ -23,12 +23,14 @@
         "NAME": "İlk Cavab Vaxtı",
         "DESC": "( Orta )",
         "INFO_TEXT": "Hesablama üçün istifadə olunan ümumi söhbət sayı:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "İlkin cavab vaxtı {metricValue}-dir ({conversationCount} söhbət əsasında)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Həll Vaxtı",
         "DESC": "( Orta )",
         "INFO_TEXT": "Hesablama üçün istifadə olunan ümumi söhbət sayı:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Həll vaxtı {metricValue}-dir ({conversationCount} söhbət əsasında)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Gözləmə vaxtı {metricValue}-dir ({conversationCount} cavab əsasında)",
         "DESC": ""
       }
@@ -544,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Ümumi Baxış",
     "LIVE": "Canlı",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Açıq Söhbətlər",
       "LOADING_MESSAGE": "Loading conversation metrics...",

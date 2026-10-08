@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Pole saadaval",
     "EMAIL_ADDRESS": "E-posti aadress",
     "PHONE_NUMBER": "Telefoninumber",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifikaator",
     "COPY_SUCCESSFUL": "Kopeerimine lõikelauale õnnestus",
     "COMPANY": "Ettevõte",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Lisa Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Lisa Telegram"

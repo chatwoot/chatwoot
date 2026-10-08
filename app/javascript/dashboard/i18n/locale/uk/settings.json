@@ -87,9 +87,9 @@
         "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
       "SESSIONS_SECTION": {
-        "TITLE": "Active Sessions",
-        "NOTE": "These are the devices currently logged in to your account.",
-        "CURRENT": "Current session",
+        "TITLE": "Активні сеанси",
+        "NOTE": "Це пристрої, які зараз увійшли до вашого облікового запису.",
+        "CURRENT": "Поточний сеанс",
         "REVOKE": "Revoke",
         "REVOKE_SUCCESS": "Session revoked successfully",
         "REVOKE_ERROR": "Unable to revoke session. Please try again.",
@@ -404,10 +404,10 @@
       "UNREAD_COUNT": "Sort by unread count"
     },
     "SORT_OPTIONS": {
-      "CREATED_DESC": "Newest first",
-      "CREATED_ASC": "Oldest first",
-      "ALPHABETICAL_ASC": "Ascending (A - Z)",
-      "ALPHABETICAL_DESC": "Descending (Z - A)",
+      "CREATED_DESC": "Спочатку нові",
+      "CREATED_ASC": "Спочатку старіші",
+      "ALPHABETICAL_ASC": "За зростанням (А - Я)",
+      "ALPHABETICAL_DESC": "За зменшенням (Я - А)",
       "UNREAD_COUNT_DESC": "Highest first",
       "UNREAD_COUNT_ASC": "Lowest first"
     },
@@ -435,7 +435,7 @@
       "MESSAGES": "Текст повідомлень"
     },
     "DRAWER": {
-      "TITLE": "New import",
+      "TITLE": "Новий імпорт",
       "SOURCE": "Source",
       "NAME": "Import name",
       "NAME_PLACEHOLDER": "July support migration",

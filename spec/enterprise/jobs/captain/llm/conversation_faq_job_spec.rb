@@ -30,8 +30,9 @@ RSpec.describe Captain::Llm::ConversationFaqJob, type: :job do
       described_class.perform_now(conversation, assistant)
     end
 
-    it 'locks FAQ grouping for the assistant and normalized language' do
-      conversation.update!(additional_attributes: { conversation_language: 'pt-BR' })
+    it 'locks FAQ grouping using the normalized account locale despite the conversation language' do
+      account.update!(locale: 'pt_BR')
+      conversation.update!(additional_attributes: { conversation_language: 'fr' })
       expected_key = "CAPTAIN_CONVERSATION_FAQ_LOCK::#{assistant.id}::pt"
 
       expect(lock_manager).to receive(:lock).with(expected_key, described_class::LOCK_TIMEOUT).and_return(true)

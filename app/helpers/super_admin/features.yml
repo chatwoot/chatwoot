@@ -6,39 +6,39 @@ saml:
   name: 'SAML SSO'
   description: 'Configuration for controlling SAML Single Sign-On availability'
   enabled: <%= ChatwootApp.enterprise? %>
-  icon: 'icon-lock-line'
+  icon: 'i-lucide-key-round'
   config_key: 'saml'
   enterprise: true
 custom_branding:
   name: 'Custom Branding'
   description: 'Apply your own branding to this installation.'
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
-  icon: 'icon-paint-brush-line'
+  icon: 'i-lucide-palette'
   config_key: 'custom_branding'
   enterprise: true
 agent_capacity:
   name: 'Agent Capacity'
   description: 'Set limits to auto-assigning conversations to your agents.'
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
-  icon: 'icon-hourglass-line'
+  icon: 'i-lucide-gauge'
   enterprise: true
 audit_logs:
   name: 'Audit Logs'
   description: 'Track and trace account activities with ease with detailed audit logs.'
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
-  icon: 'icon-menu-search-line'
+  icon: 'i-lucide-scroll-text'
   enterprise: true
 disable_branding:
   name: 'Disable Branding'
   description: 'Disable branding on live-chat widget and external emails.'
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
-  icon: 'icon-sailbot-fill'
+  icon: 'i-lucide-eye-off'
   enterprise: true
 voice_calls:
   name: 'Voice Calls'
   description: 'Enable voice calling capabilities for your agents and customers.'
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
-  icon: 'icon-voice-line'
+  icon: 'i-lucide-phone-call'
   enterprise: true
 
 # ------- Product Features ------- #
@@ -46,12 +46,12 @@ help_center:
   name: 'Help Center'
   description: 'Allow agents to create help center articles and publish them in a portal.'
   enabled: true
-  icon: 'icon-book-2-line'
+  icon: 'i-lucide-book-open'
 captain:
   name: 'Captain'
   description: 'Enable AI-powered conversations with your customers.'
   enabled: true
-  icon: 'icon-captain'
+  icon: 'i-woot-captain text-n-violet-9'
   config_key: 'captain'
 
 # ------- Communication Channels ------- #
@@ -59,94 +59,100 @@ live_chat:
   name: 'Live Chat'
   description: 'Improve your customer experience using a live chat on your website.'
   enabled: true
-  icon: 'icon-chat-smile-3-line'
+  icon: 'i-lucide-message-circle'
 email:
   name: 'Email'
   description: 'Manage your email customer interactions from Chatwoot.'
   enabled: true
-  icon: 'icon-mail-send-fill'
+  icon: 'i-lucide-mail'
   config_key: 'email'
 sms:
   name: 'SMS'
   description: 'Manage your SMS customer interactions from Chatwoot.'
   enabled: true
-  icon: 'icon-message-line'
+  icon: 'i-lucide-message-square-text'
 messenger:
   name: 'Messenger'
   description: 'Stay connected with your customers on Facebook & Instagram.'
   enabled: true
-  icon: 'icon-messenger-line'
+  icon: 'i-logos-messenger'
   config_key: 'facebook'
 instagram:
   name: 'Instagram'
   description: 'Stay connected with your customers on Instagram'
   enabled: true
-  icon: 'icon-instagram'
+  icon: 'i-logos-instagram-icon dark:invert'
   config_key: 'instagram'
 tiktok:
   name: 'TikTok'
   description: 'Stay connected with your customers on TikTok'
   enabled: true
-  icon: 'icon-tiktok'
+  icon: 'i-logos-tiktok-icon dark:invert'
   config_key: 'tiktok'
 whatsapp:
   name: 'WhatsApp'
   description: 'Manage your WhatsApp business interactions from Chatwoot.'
   enabled: true
-  icon: 'icon-whatsapp-line'
+  icon: 'i-logos-whatsapp-icon'
 telegram:
   name: 'Telegram'
   description: 'Manage your Telegram customer interactions from Chatwoot.'
   enabled: true
-  icon: 'icon-telegram-line'
+  icon: 'i-logos-telegram'
 line:
   name: 'Line'
   description: 'Manage your Line customer interactions from Chatwoot.'
   enabled: true
-  icon: 'icon-line-line'
+  icon: 'i-ri-line-fill text-[#06C755]'
 
 # ------- OAuth & Authentication ------- #
 google:
   name: 'Google'
   description: 'Configuration for setting up Google OAuth Integration'
   enabled: true
-  icon: 'icon-google'
+  icon: 'i-logos-google-icon'
   config_key: 'google'
 microsoft:
   name: 'Microsoft'
   description: 'Configuration for setting up Microsoft Email'
   enabled: true
-  icon: 'icon-microsoft'
+  icon: 'i-logos-microsoft-icon'
   config_key: 'microsoft'
 
 # ------- Third-party Integrations ------- #
+stripe:
+  name: 'Stripe'
+  description: 'Configure the Stripe customer billing integration'
+  enabled: true
+  icon: 'icon-settings-2-line'
+  config_key: 'stripe'
 linear:
   name: 'Linear'
   description: 'Configuration for setting up Linear Integration'
   enabled: true
-  icon: 'icon-linear'
+  icon: 'i-logos-linear-icon dark:invert'
   config_key: 'linear'
 notion:
   name: 'Notion'
   description: 'Configuration for setting up Notion Integration'
   enabled: true
-  icon: 'icon-notion'
+  icon: 'i-logos-notion-icon dark:invert'
   config_key: 'notion'
 slack:
   name: 'Slack'
   description: 'Configuration for setting up Slack Integration'
   enabled: true
-  icon: 'icon-slack'
+  icon: 'i-logos-slack-icon'
   config_key: 'slack'
 whatsapp_embedded:
   name: 'WhatsApp Embedded'
   description: 'Configuration for setting up WhatsApp Embedded Integration'
   enabled: true
-  icon: 'icon-whatsapp-line'
+  icon: 'i-logos-whatsapp-icon'
   config_key: 'whatsapp_embedded'
 shopify:
   name: 'Shopify'
   description: 'Configuration for setting up Shopify Integration'
   enabled: true
-  icon: 'icon-shopify'
+  icon: 'i-logos-shopify'
   config_key: 'shopify'
