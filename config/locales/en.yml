@@ -850,11 +850,6 @@ en:
     user_diagnostics:
       description: 'Look up a user to troubleshoot an issue they have reported. Each tab covers one part of their setup.'
       user_not_found: 'User not found.'
-      facts:
-        mobile_sessions: 'Mobile app sessions'
-        web_sessions: 'Active web sessions'
-        push_devices: 'Push devices'
-        push_off: 'Accounts with push off'
       tabs:
         label: 'Diagnostics sections'
         mobile: 'Mobile app'
