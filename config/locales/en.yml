@@ -854,6 +854,7 @@ en:
         label: 'Diagnostics sections'
         mobile: 'Mobile app'
         push: 'Push delivery'
+        web: 'Web'
       search:
         title: 'Look up user'
         placeholder: 'user@example.com or numeric user ID'
@@ -863,9 +864,6 @@ en:
         id: 'ID %{id}'
         accounts: 'Accounts: %{accounts}'
         details_link: 'User details'
-        web_sessions:
-          one: '%{count} active web session'
-          other: '%{count} active web sessions'
       sessions:
         heading: 'Mobile sessions'
         description: 'Populated from the X-Chatwoot-* headers the app sends on every request, so it reflects the build currently installed on the device.'
@@ -877,6 +875,17 @@ en:
           platform: 'Platform'
           os_version: 'OS version'
           device: 'Device'
+          first_seen: 'First seen'
+          last_active: 'Last active'
+      web_sessions:
+        heading: 'Web sessions'
+        description: 'Read from the browser user agent at sign-in and refreshed as the user works, so it reflects the browser in use. Only sessions that are still signed in are listed.'
+        empty: 'No web sessions — this user is not signed in from a browser.'
+        columns:
+          browser: 'Browser'
+          browser_version: 'Version'
+          os: 'Operating system'
+          os_version: 'OS version'
           first_seen: 'First seen'
           last_active: 'Last active'
       devices:

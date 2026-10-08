@@ -82,18 +82,13 @@ RSpec.describe 'Super Admin User diagnostics', type: :request do
       expect(response.body).to include('26.5.2')
     end
 
-    it 'reports the web session count on the user card instead of listing web sessions' do
-      user.user_sessions.create!(
-        client_id: 'web-1', browser_name: 'Chrome', browser_version: '120.0',
-        device_name: 'Unknown', platform_name: 'macOS', platform_version: '15.0',
-        last_activity_at: Time.current
-      )
+    it 'leaves web sessions to the web tab' do
+      user.user_sessions.create!(client_id: 'web-1', browser_name: 'Chrome', browser_version: '120.0', last_activity_at: Time.current)
 
       get '/super_admin/user_diagnostics', params: { user_query: user.email, tab: 'mobile' }
 
       expect(response.body).to include('No mobile sessions recorded')
-      expect(response.body).to include('1 active web session')
-      expect(response.body).not_to include('Chrome')
+      expect(response.body).not_to include('120.0')
     end
 
     it 'leaves out sessions whose token has expired' do
@@ -105,9 +100,10 @@ RSpec.describe 'Super Admin User diagnostics', type: :request do
       user.user_sessions.create!(client_id: 'web-1', browser_name: 'Chrome', last_activity_at: 1.month.ago)
 
       get '/super_admin/user_diagnostics', params: { user_query: user.email, tab: 'mobile' }
-
       expect(response.body).not_to include('4.8.5')
-      expect(response.body).to include('0 active web sessions')
+
+      get '/super_admin/user_diagnostics', params: { user_query: user.email, tab: 'web' }
+      expect(response.body).to include('No web sessions')
     end
 
     it 'flags sessions from builds that predate version reporting' do
@@ -158,6 +154,30 @@ RSpec.describe 'Super Admin User diagnostics', type: :request do
       expect(response.body).to include('No push types are enabled for Acme')
       expect(response.body).to include('Review push notification settings')
       expect(response.body).not_to include('A conversation is assigned to the user')
+    end
+  end
+
+  describe 'the web tab' do
+    before do
+      sign_in(super_admin, scope: :super_admin)
+      user.update!(tokens: %w[web-1 client-1].index_with { { 'token' => 'token', 'expiry' => 1.day.from_now.to_i } })
+    end
+
+    it 'lists web sessions without mobile sessions or location data' do
+      user.user_sessions.create!(
+        client_id: 'web-1', browser_name: 'Chrome', browser_version: '120.0.6099',
+        platform_name: 'macOS', platform_version: '15.0', ip_address: '189.4.1.20', city: 'Sao Paulo',
+        last_activity_at: Time.current
+      )
+      user.user_sessions.create!(client_id: 'client-1', browser_name: 'Chatwoot Mobile', browser_version: '4.9.1')
+
+      get '/super_admin/user_diagnostics', params: { user_query: user.email, tab: 'web' }
+
+      expect(response.body).to include('120.0.6099')
+      expect(response.body).to include('macOS')
+      expect(response.body).not_to include('4.9.1')
+      expect(response.body).not_to include('Sao Paulo')
+      expect(response.body).not_to include('189.4.1.20')
     end
   end
 

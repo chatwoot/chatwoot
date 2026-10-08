@@ -1,5 +1,5 @@
 class SuperAdmin::UserDiagnosticsController < SuperAdmin::ApplicationController
-  TABS = %w[push mobile].freeze
+  TABS = %w[push mobile web].freeze
   # X-Chatwoot-Client-Name value sent by the mobile app.
   MOBILE_CLIENT_NAME = 'Chatwoot Mobile'.freeze
 
@@ -44,8 +44,7 @@ class SuperAdmin::UserDiagnosticsController < SuperAdmin::ApplicationController
 
   def load_diagnostics
     @subscriptions = @user ? @user.notification_subscriptions.order(:id) : []
-    @mobile_sessions, web_sessions = sessions_for_user.partition { |session| session.browser_name == MOBILE_CLIENT_NAME }
-    @web_session_count = web_sessions.size
+    @mobile_sessions, @web_sessions = sessions_for_user.partition { |session| session.browser_name == MOBILE_CLIENT_NAME }
     @notification_settings = @user ? @user.notification_settings.includes(:account).order(:account_id) : []
     @push_types = helpers.push_types(@notification_settings)
     @accounts_without_push = @notification_settings.reject { |setting| helpers.any_push_enabled?(setting, @push_types) }
