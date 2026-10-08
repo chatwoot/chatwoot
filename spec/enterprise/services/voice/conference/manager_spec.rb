@@ -30,6 +30,17 @@ RSpec.describe Voice::Conference::Manager do
       expect(conference).to have_received(:end_conference)
     end
 
+    it 'ends the live call when the leave holds a copy loaded while it still rang' do
+      call.update!(status: 'ringing')
+      stale = Call.find(call.id)
+      call.update!(status: 'in_progress')
+
+      described_class.new(call: stale, event: 'leave', participant_label: agent_label, participant_call_sid: 'CA-leaving').process
+
+      expect(call.reload.status).to eq('completed')
+      expect(conference).to have_received(:end_conference)
+    end
+
     it 'keeps the call live while another agent is still on it' do
       allow(conference).to receive(:agents_remain?).and_return(true)
 

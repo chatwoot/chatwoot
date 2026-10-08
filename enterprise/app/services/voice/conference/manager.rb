@@ -93,8 +93,11 @@ class Voice::Conference::Manager
   # phone can drop its leg without ever sending DELETE conference: the app was killed, the
   # network went, or the OS ended the call. A phone whose socket is down learns the call
   # ended only because its own leg is hung up.
+  #
+  # The status is read under the row lock, so a join committed meanwhile is seen and the
+  # leave ends the live call rather than recording an unanswered one.
   def handle_leave!
-    case call.status
+    case call.with_lock { call.status }
     when 'ringing'
       status_manager.process_status_update('no_answer', timestamp: now)
     when 'in_progress'
