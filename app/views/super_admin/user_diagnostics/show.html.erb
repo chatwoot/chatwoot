@@ -43,9 +43,11 @@
           <% if @user.accounts.any? %>
             <ul class="mt-3 flex flex-wrap gap-1.5" aria-label="<%= t("#{scope}.user.accounts") %>">
               <% @user.accounts.each do |account| %>
-                <li class="inline-flex h-6 items-center gap-1 rounded-md border border-n-weak bg-n-slate-2 px-2 text-label-small text-n-slate-11">
-                  <span class="i-lucide-building-2 size-3.5"></span>
-                  <%= t("#{scope}.user.account_with_id", name: account.name, id: account.id) %>
+                <li class="inline-flex h-6 min-w-0 max-w-full items-center gap-1 rounded-md border border-n-weak bg-n-slate-2 px-2 text-label-small text-n-slate-11"
+                    title="<%= account.name %>">
+                  <span class="i-lucide-building-2 size-3.5 shrink-0"></span>
+                  <span class="max-w-60 truncate"><%= account.name %></span>
+                  <span class="shrink-0 text-n-slate-9"><%= t("#{scope}.user.id", id: account.id) %></span>
                 </li>
               <% end %>
             </ul>

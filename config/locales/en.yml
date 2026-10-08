@@ -862,7 +862,6 @@ en:
       user:
         id: 'ID %{id}'
         accounts: 'Accounts: %{accounts}'
-        account_with_id: '%{name} (ID %{id})'
         details_link: 'User details'
       sessions:
         heading: 'Mobile sessions'
