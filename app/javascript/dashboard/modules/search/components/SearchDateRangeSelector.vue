@@ -31,8 +31,13 @@ const customFrom = ref('');
 const customTo = ref('');
 const rangeType = ref(DATE_RANGE_TYPES.BETWEEN);
 
-// Calculate min date (90 days ago) for date inputs
-const minDate = computed(() => format(subDays(new Date(), 90), 'yyyy-MM-dd'));
+const searchWindowDays =
+  window.chatwootConfig?.messageSearchTimeRangeLimitDays || 90;
+
+// Calculate min date (start of the search window) for date inputs
+const minDate = computed(() =>
+  format(subDays(new Date(), searchWindowDays), 'yyyy-MM-dd')
+);
 const maxDate = computed(() => format(new Date(), 'yyyy-MM-dd'));
 
 // Check if both custom date inputs have values
