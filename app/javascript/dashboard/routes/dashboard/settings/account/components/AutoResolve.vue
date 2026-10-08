@@ -13,6 +13,7 @@ import SingleSelect from 'dashboard/components-next/filter/inputs/SingleSelect.v
 import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 
 const { t } = useI18n();
+const minDuration = window.chatwootConfig?.autoResolveMinMinutes || 10;
 const duration = ref(0);
 const unit = ref(DURATION_UNITS.MINUTES);
 const message = ref('');
@@ -93,8 +94,10 @@ const updateAccountSettings = async settings => {
 };
 
 const handleSubmit = async () => {
-  if (duration.value < 5) {
-    useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.ERROR'));
+  if (duration.value < minDuration) {
+    useAlert(
+      t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.ERROR', { minDuration })
+    );
     return Promise.resolve();
   }
 
@@ -148,7 +151,7 @@ const toggleAutoResolve = async () => {
           :help-message="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.HELP')"
         >
           <div class="gap-2 w-full grid grid-cols-[3fr_1fr]">
-            <!-- allow 5 mins to 999 days -->
+            <!-- allow 10 mins to 999 days -->
             <DurationInput
               v-model="duration"
               v-model:unit="unit"

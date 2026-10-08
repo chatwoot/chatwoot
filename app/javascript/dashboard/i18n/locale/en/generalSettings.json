@@ -51,7 +51,7 @@
           "LABEL": "Inactivity duration",
           "HELP": "Time period of inactivity after which conversation is auto-resolved",
           "PLACEHOLDER": "30",
-          "ERROR": "Auto resolve duration should be between 5 minutes and 999 days",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "Auto resolve settings updated successfully",
             "ERROR": "Failed to update auto resolve settings"
@@ -116,7 +116,7 @@
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Auto resolve duration should be between 5 minutes and 999 days",
+        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
         "API": {
           "SUCCESS": "Auto resolve settings updated successfully",
           "ERROR": "Failed to update auto resolve settings"

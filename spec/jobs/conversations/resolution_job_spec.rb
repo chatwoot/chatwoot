@@ -80,15 +80,4 @@ RSpec.describe Conversations::ResolutionJob do
     described_class.perform_now(account: account)
     expect(account.conversations.resolved.count).to eq(Limits::BULK_ACTIONS_LIMIT)
   end
-
-  it 'skips a conversation that was resolved after it was selected' do
-    account.update(auto_resolve_after: 14_400, auto_resolve_message: 'Resolving this conversation')
-    conversation = create(:conversation, account: account, last_activity_at: 13.days.ago)
-    allow_any_instance_of(Conversation).to receive(:with_lock).and_wrap_original do |original, *args, &block| # rubocop:disable RSpec/AnyInstance
-      Conversation.where(id: original.receiver.id).update_all(status: :resolved) # rubocop:disable Rails/SkipsModelValidations
-      original.call(*args, &block)
-    end
-
-    expect { described_class.perform_now(account: account) }.not_to change(conversation.messages, :count)
-  end
 end

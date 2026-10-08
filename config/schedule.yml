@@ -19,10 +19,10 @@ trigger_scheduled_items_job:
   class: 'TriggerScheduledItemsJob'
   queue: scheduled_jobs
 
-# executed At every minute, for accounts that auto resolve in under 10 minutes
-trigger_short_window_resolution_job:
-  cron: '* * * * *'
-  class: 'Account::ShortWindowResolutionSchedulerJob'
+# executed every 5th minute by default, AUTO_RESOLVE_INTERVAL_MINUTES overrides it
+trigger_conversations_resolution_job:
+  cron: '*/<%= ENV.fetch('AUTO_RESOLVE_INTERVAL_MINUTES', 5) %> * * * *'
+  class: 'Account::ConversationsResolutionSchedulerJob'
   queue: scheduled_jobs
 
 # executed hourly for scheduled jobs that do not need minute-level cadence

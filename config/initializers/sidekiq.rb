@@ -76,7 +76,7 @@ Rails.application.reloader.to_prepare do
   # jobs that share the same source tag but are no longer in the file.
   # This ensures deleted schedule entries are cleaned up on deploy.
   if File.exist?(schedule_file) && Sidekiq.server?
-    schedule = YAML.load_file(schedule_file)
+    schedule = YAML.safe_load(ERB.new(File.read(schedule_file)).result)
 
     # Cron entries removed from schedule.yml but possibly still in Redis
     # with source:'dynamic' (predating the source tag). load_from_hash!

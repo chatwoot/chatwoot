@@ -305,7 +305,7 @@ RSpec.describe Account do
       it 'validates minimum value' do
         account.settings = { auto_resolve_after: 4 }
         expect(account).to be_invalid
-        expect(account.errors.messages).to eq({ auto_resolve_after: ['must be greater than or equal to 5'] })
+        expect(account.errors.messages).to eq({ auto_resolve_after: ['must be greater than or equal to 10'] })
       end
 
       it 'validates maximum value' do
@@ -315,9 +315,6 @@ RSpec.describe Account do
       end
 
       it 'allows valid values' do
-        account.settings = { auto_resolve_after: 5 }
-        expect(account).to be_valid
-
         account.settings = { auto_resolve_after: 15 }
         expect(account).to be_valid
 

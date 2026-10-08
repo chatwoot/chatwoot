@@ -59,6 +59,7 @@
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
         helpUrls: <%= feature_help_urls.to_json.html_safe %>,
         inboxEventsEnabled: '<%= ENV['ENABLE_INBOX_EVENTS'].present? %>',
+        autoResolveMinMinutes: <%= Limits.auto_resolve_min_minutes %>,
         selectedLocale: '<%= I18n.locale %>'
       }
       window.globalConfig = <%= raw @global_config.to_json %>
