@@ -11,13 +11,31 @@ describe Messages::NewMessageNotificationService do
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
+    allow(GlobalConfigService).to receive(:load) do |key, default|
+      { 'APNS_VOIP_KEY' => 'p8', 'APNS_VOIP_KEY_ID' => 'KEY1', 'APNS_VOIP_TEAM_ID' => 'TEAM1' }.fetch(key, default)
+    end
     create(:call, conversation: conversation, message_id: message.id)
+  end
+
+  def subscribe_phone(user)
+    create(:notification_subscription, user: user, subscription_type: 'apns_voip', identifier: "apns_voip:#{user.id}",
+                                       subscription_attributes: { push_token: "token-#{user.id}", device_id: "device-#{user.id}" })
   end
 
   it 'creates no notification for an agent the call rang, on an account that rings phones' do
     account.enable_features!('mobile_voice_push')
+    subscribe_phone(assignee)
 
     expect(NotificationBuilder).not_to receive(:new)
+    described_class.new(message: message).perform
+  end
+
+  it 'keeps notifying an agent chosen for the ring who has no phone it can reach' do
+    account.enable_features!('mobile_voice_push')
+
+    expect(NotificationBuilder).to receive(:new)
+      .with(hash_including(notification_type: 'assigned_conversation_new_message', user: assignee))
+      .and_call_original
     described_class.new(message: message).perform
   end
 
