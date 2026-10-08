@@ -101,6 +101,19 @@ RSpec.describe Voice::VoipPushService do
       expect { described_class.new(call: call).perform('ring') }.to change(NotificationSubscription, :count).by(-2)
     end
 
+    it 'sends the new-message notification to agents the ring turned out not to reach' do
+      message = create(:message, message_type: :incoming, content_type: :voice_call, account: account, conversation: conversation)
+      call.update!(message: message)
+      subscribe(agent, 'apns_voip', 'apple-gone')
+      allow(apple_response).to receive(:status).and_return('410')
+      service = instance_double(Messages::NewMessageNotificationService, perform: nil)
+      allow(Messages::NewMessageNotificationService).to receive(:new).with(message: message).and_return(service)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(service).to have_received(:perform)
+    end
+
     it 'does not ring for a call that stopped ringing before the job ran' do
       subscribe(agent, 'apns_voip', 'apple-1')
       call.update!(status: 'failed')
