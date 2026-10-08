@@ -68,6 +68,7 @@ import {
 import {
   hasPressedEnterAndNotCmdOrShift,
   hasPressedCommandAndEnter,
+  isComposing,
   isEscape,
 } from 'shared/helpers/KeyboardHelpers';
 import { createTypingIndicator } from '@chatwoot/utils';
@@ -800,6 +801,7 @@ function handleLineBreakWhenCmdAndEnterToSendEnabled(event) {
 }
 
 function onKeydown(event) {
+  if (isComposing(event)) return false;
   if (isEscape(event)) {
     collapseSelection(editorView);
     return true;
