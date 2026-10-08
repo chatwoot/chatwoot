@@ -113,6 +113,24 @@ RSpec.describe Voice::Conference::Manager do
       expect(conference).not_to have_received(:end_conference)
     end
 
+    it 'gives back a conversation the failed claim assigned, keeping an assignment made otherwise' do
+      call.update!(status: 'ringing', ring_state: { 'assigned_by_claim' => agent.id })
+      conversation.update!(assignee: agent)
+
+      failed_add
+
+      expect(conversation.reload.assignee).to be_nil
+    end
+
+    it 'keeps an assignment the claim did not make' do
+      call.update!(status: 'ringing')
+      conversation.update!(assignee: agent)
+
+      failed_add
+
+      expect(conversation.reload.assignee).to eq(agent)
+    end
+
     it 'ends an outbound call as unanswered, with its conference' do
       call.update!(status: 'ringing', direction: :outgoing)
 

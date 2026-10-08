@@ -75,6 +75,7 @@ class Voice::Conference::Manager
     return if conversation.assigned_entity.present?
 
     Conversations::AssignmentService.new(conversation: conversation, assignee_id: user_id).perform
+    conference_service.remember_claim_assignment(user_id)
   end
 
   # Parses agent user_id from participant_label. Only returns an id when the
@@ -144,10 +145,19 @@ class Voice::Conference::Manager
       call.update!(accepted_by_agent_id: nil) if user_id && call.accepted_by_agent_id == user_id
       false
     end
-    return unless released
+    return release_claim_assignment(user_id) unless released
 
     status_manager.process_status_update('no_answer', timestamp: now)
     end_conference!
+  end
+
+  # The conversation the failed claim assigned goes back to unassigned, so it rings for
+  # everyone again; an assignment made otherwise stays
+  def release_claim_assignment(user_id)
+    conversation = call.conversation
+    return unless user_id && conversation.assignee_id == user_id && call.reload.ring_state['assigned_by_claim'] == user_id
+
+    Conversations::AssignmentService.new(conversation: conversation, assignee_id: nil).perform
   end
 
   def claimant_leaving_unjoined_call?

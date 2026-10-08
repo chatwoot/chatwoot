@@ -37,6 +37,12 @@ class Voice::Provider::Twilio::ConferenceService
     end
   end
 
+  # The conversation was assigned by this claim, so a leg Twilio then fails to add can
+  # give it back
+  def remember_claim_assignment(user_id)
+    Call.where(id: call.id).update_all(['ring_state = ring_state || ?::jsonb', { 'assigned_by_claim' => user_id }.to_json]) # rubocop:disable Rails/SkipsModelValidations
+  end
+
   private
 
   def client
@@ -79,5 +85,6 @@ class Voice::Provider::Twilio::ConferenceService
     return if conversation.assigned_entity.present?
 
     Conversations::AssignmentService.new(conversation: conversation, assignee_id: user.id).perform
+    remember_claim_assignment(user.id)
   end
 end
