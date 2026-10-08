@@ -7,7 +7,7 @@
 
 <%= render "card", title: t("#{scope}.web_sessions.heading"), count: @web_sessions.size do %>
   <% if @web_sessions.empty? %>
-    <%= render "empty", icon: "i-lucide-monitor", message: t("#{scope}.web_sessions.empty") %>
+    <%= render "empty", icon: "i-lucide-monitor", title: t("#{scope}.web_sessions.empty.title"), description: t("#{scope}.web_sessions.empty.description") %>
   <% else %>
     <p class="flex items-start gap-1.5 px-4 py-3 text-label-small text-n-slate-11">
       <span class="i-lucide-info size-3.5 shrink-0 translate-y-px"></span>

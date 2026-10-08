@@ -11,7 +11,7 @@
 
 <%= render "card", title: t("#{scope}.sessions.heading"), count: @mobile_sessions.size do %>
   <% if @mobile_sessions.empty? %>
-    <%= render "empty", icon: "i-lucide-smartphone", message: t("#{scope}.sessions.empty") %>
+    <%= render "empty", icon: "i-lucide-smartphone", title: t("#{scope}.sessions.empty.title"), description: t("#{scope}.sessions.empty.description") %>
   <% else %>
     <p class="flex items-start gap-1.5 px-4 py-3 text-label-small text-n-slate-11">
       <span class="i-lucide-radio size-3.5 shrink-0 translate-y-px"></span>

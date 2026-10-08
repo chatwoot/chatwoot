@@ -10,7 +10,7 @@
   </p>
 
   <% if @notification_settings.empty? %>
-    <%= render "empty", icon: "i-lucide-bell-off", message: t("#{scope}.push_settings.empty") %>
+    <%= render "empty", icon: "i-lucide-bell-off", title: t("#{scope}.push_settings.empty.title"), description: t("#{scope}.push_settings.empty.description") %>
   <% else %>
     <div class="overflow-x-auto border-t border-n-weak">
       <%= render "table" do %>
@@ -64,7 +64,7 @@
 
 <%= render "card", title: t("#{scope}.devices.heading"), count: @subscriptions.size do %>
   <% if @subscriptions.empty? %>
-    <%= render "empty", icon: "i-lucide-bell-ring", message: t("#{scope}.devices.empty") %>
+    <%= render "empty", icon: "i-lucide-bell-ring", title: t("#{scope}.devices.empty.title"), description: t("#{scope}.devices.empty.description") %>
   <% else %>
     <%= form_with url: super_admin_user_diagnostics_path, method: :post, local: true, class: 'space-y-4 p-4' do |f| %>
       <%= f.hidden_field :user_id, value: @user.id %>
