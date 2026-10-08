@@ -51,7 +51,7 @@ class Seeders::Reports::ReportDataSeeder
   END_DATE = Time.current
 
   def initialize(account:)
-    raise 'Account Seeding is not allowed.' unless ENV.fetch('ENABLE_ACCOUNT_SEEDING', !Rails.env.production?)
+    raise 'Account Seeding is not allowed.' unless Seeders::AccountSeeder.allowed?
 
     @account = account
     @teams = []

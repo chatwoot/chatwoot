@@ -181,7 +181,9 @@ RSpec.describe Account do
         feature_audit_log_ip_address: 1 << 6,
         feature_captain_classifier: 1 << 7,
         feature_conversation_monitors: 1 << 8,
-        feature_campaign_analytics: 1 << 9
+        feature_campaign_analytics: 1 << 9,
+        feature_company_enrichment: 1 << 10,
+        feature_stripe_integration: 1 << 11
       )
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)
@@ -506,14 +508,14 @@ RSpec.describe Account do
 
     describe 'validation' do
       it 'rejects invalid model for a feature' do
-        account.captain_models = { 'label_suggestion' => 'gpt-5.1' }
+        account.captain_models = { 'help_center_query_translation' => 'gpt-5.1' }
 
         expect(account).not_to be_valid
-        expect(account.errors[:captain_models].first).to include('not a valid model for label_suggestion')
+        expect(account.errors[:captain_models].first).to include('not a valid model for help_center_query_translation')
       end
 
       it 'accepts valid model for a feature' do
-        account.captain_models = { 'editor' => 'gpt-4.1-mini', 'label_suggestion' => 'gpt-4.1-nano' }
+        account.captain_models = { 'editor' => 'gpt-4.1-mini', 'help_center_query_translation' => 'gpt-4.1-nano' }
 
         expect(account).to be_valid
       end
