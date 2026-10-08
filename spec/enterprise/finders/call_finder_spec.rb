@@ -60,9 +60,20 @@ describe CallFinder do
     let(:other_agent) { create(:user, account: account, role: :agent) }
     let(:other_inbox) { create(:inbox, account: account) }
 
+    # The agents rung are recorded as the ring starts, as InboundCallBuilder does
     def ringing_call(conversation)
-      create(:call, account: account, inbox: conversation.inbox, conversation: conversation, contact: conversation.contact,
-                    status: 'ringing', accepted_by_agent: nil)
+      call = create(:call, account: account, inbox: conversation.inbox, conversation: conversation, contact: conversation.contact,
+                           status: 'ringing', accepted_by_agent: nil)
+      call.update!(ring_state: { 'ring_recipient_ids' => Voice::VoipPushService.recipients_for(call).map(&:id) })
+      call
+    end
+
+    it 'follows the agents the call rang, not a later reassignment' do
+      call = ringing_call(conversation)
+      conversation.update!(assignee: other_agent)
+
+      expect(perform(agent, status: 'ringing')[:calls].map(&:id)).to contain_exactly(call.id)
+      expect(perform(other_agent, status: 'ringing')[:calls]).to be_empty
     end
 
     it 'shows an inbox member an unassigned call still ringing in their inbox' do
@@ -102,6 +113,7 @@ describe CallFinder do
     end
 
     it 'shows an administrator only the ringing calls that ring them' do
+      admin
       elsewhere = ringing_call(create(:conversation, account: account, inbox: other_inbox))
       mine = ringing_call(create(:conversation, account: account, inbox: inbox, assignee: admin))
       ringing_call(create(:conversation, account: account, inbox: inbox, assignee: agent))

@@ -33,19 +33,16 @@ class CallFinder
     end
   end
 
-  # An unanswered inbound call is visible to the agents it rings: the assignee if the
-  # conversation has one, otherwise everyone who could be assigned the inbox (its members
-  # and the administrators), within the conversations the agent's role lets them see, and
-  # only while the agent is online. A phone that lost its socket asks for these on launch
-  # and on return to the foreground.
+  # An unanswered inbound call is visible to the agents it rang, as recorded when its ring
+  # started, within the conversations the agent's role lets them see, and only while the
+  # agent is online. A phone that lost its socket asks for these on launch and on return
+  # to the foreground.
   def ringing_for_current_user
     return @calls.none unless Current.account_user&.online?
 
-    ringing = @calls.where(status: 'ringing', accepted_by_agent_id: nil, direction: :incoming)
-                    .where(conversation_id: permitted_conversations.where(assignee_id: [nil, @current_user.id]).select(:id))
-    return ringing if Current.account_user.administrator?
-
-    ringing.where(inbox_id: @current_user.inboxes.where(account_id: @current_account.id).select(:id))
+    @calls.where(status: 'ringing', accepted_by_agent_id: nil, direction: :incoming)
+          .where("calls.ring_state -> 'ring_recipient_ids' @> ?::jsonb", [@current_user.id].to_json)
+          .where(conversation_id: permitted_conversations.select(:id))
   end
 
   def ringing_requested?
