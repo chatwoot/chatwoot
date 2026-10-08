@@ -48,9 +48,10 @@ RSpec.describe Llm::BaseAiService do
       allow(Llm::FeatureRouter).to receive(:reasoning_effort).and_call_original
       allow(Llm::FeatureRouter).to receive(:reasoning_effort).with(feature: 'document_faq_generation', model: 'gpt-5.2').and_return(:high)
       chat = described_class.new(feature: 'document_faq_generation', account: account).json_chat(model: 'gpt-5.2')
-      chat.add_message(role: :user, content: 'Generate JSON FAQs.')
+      chat.with_instructions('Generate FAQs as JSON.').add_message(role: :user, content: 'Acme opens at 9 am.')
 
       expect(chat.render).to include(input: an_instance_of(Array), text: { format: { type: 'json_object' } }, reasoning: { effort: 'high' })
+      expect(chat.render[:input].to_json).to include('Respond with valid JSON.')
       expect(chat.render).not_to have_key(:temperature)
       expect(chat.render).not_to have_key(:response_format)
     end
