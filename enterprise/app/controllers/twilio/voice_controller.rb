@@ -203,7 +203,7 @@ class Twilio::VoiceController < ApplicationController
     return if sid.blank?
     return if call.twilio_conference_sid == sid
 
-    call.update!(twilio_conference_sid: sid)
+    call.merge_meta!('twilio_conference_sid' => sid)
   end
 
   def set_inbox!

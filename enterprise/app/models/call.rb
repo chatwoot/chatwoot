@@ -117,6 +117,13 @@ class Call < ApplicationRecord
     TERMINAL_STATUSES.include?(status)
   end
 
+  # Merges keys into `meta` in the database, leaving the other keys as they are there. A
+  # save of `meta` from a copy loaded earlier would otherwise drop keys written since.
+  def merge_meta!(values)
+    self.class.where(id: id).update_all(["meta = COALESCE(meta, '{}'::jsonb) || ?::jsonb", values.to_json]) # rubocop:disable Rails/SkipsModelValidations
+    reload
+  end
+
   # The ring timeout is hanging the caller up. A mark left by an attempt that died long ago
   # no longer counts, so a later sweep can finish the job.
   def ring_timeout_in_progress?

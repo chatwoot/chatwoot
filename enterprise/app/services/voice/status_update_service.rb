@@ -28,31 +28,36 @@ class Voice::StatusUpdateService
     call = Call.where(account_id: account.id).find_by(provider: :twilio, provider_call_id: call_sid)
     return unless call
 
-    record_provider_status(call)
+    provider_status_changed = record_provider_status(call)
+    status_before = call.status
     Voice::CallStatus::Manager.new(call: call).process_status_update(
       normalized_status,
       duration: payload_duration,
       timestamp: payload_timestamp
     )
+    # One message update per callback: the status manager sends its own when the call's
+    # status moved
+    call.message&.touch if provider_status_changed && call.status == status_before # rubocop:disable Rails/SkipsModelValidations
   end
 
   private
 
   # Twilio's own status is kept beside the call's: queued, initiated and ringing all map
   # to ringing here, but only the last means the far handset is actually ringing, and a
-  # client placing a call shows that moment. The message is rebroadcast so clients get
-  # the change even when the call's status does not move.
+  # client placing a call shows that moment. Returns whether it changed, so the message is
+  # rebroadcast even when the call's status does not move.
   def record_provider_status(call)
     provider_status = call_status.to_s.downcase
-    return if provider_status.blank?
+    return false if provider_status.blank?
 
-    # Callbacks for one call can run at the same time; the check and the write share the row lock
+    # Callbacks for one call can run at the same time; the check and the write share the
+    # row lock, and the write touches only this key so another webhook's meta keeps it
     call.with_lock do
-      next if call.terminal? || call.provider_status == provider_status
-      next if stale_provider_status?(call.provider_status, provider_status)
+      next false if call.terminal? || call.provider_status == provider_status
+      next false if stale_provider_status?(call.provider_status, provider_status)
 
-      call.update!(provider_status: provider_status)
-      call.message&.touch # rubocop:disable Rails/SkipsModelValidations
+      call.merge_meta!('provider_status' => provider_status)
+      true
     end
   end
 
