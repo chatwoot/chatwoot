@@ -42,6 +42,7 @@ describe Voice::Provider::Twilio::ConferenceService do
       service.mark_agent_joined(user: agent)
 
       expect(call.reload.accepted_by_agent_id).to eq(agent.id)
+      expect(call.ring_state['claimed_at']).to be_within(5).of(Time.zone.now.to_i)
     end
 
     it 'refuses the claim while the ring timeout is hanging the caller up' do
