@@ -114,6 +114,27 @@ RSpec.describe Voice::VoipPushService do
       expect(service).to have_received(:perform)
     end
 
+    it 'treats an agent whose every push failed as not rung' do
+      message = create(:message, message_type: :incoming, content_type: :voice_call, account: account, conversation: conversation)
+      call.update!(message: message)
+      subscribe(agent, 'apns_voip', 'apple-down')
+      subscribe(other_agent, 'apns_voip', 'apple-up')
+      allow(apple_connection).to receive(:push) do |notification|
+        raise Errno::ECONNRESET if notification.token == 'apple-down'
+
+        apple_response
+      end
+      service = instance_double(Messages::NewMessageNotificationService, perform: nil)
+      allow(Messages::NewMessageNotificationService).to receive(:new).with(message: message).and_return(service)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+      expect(described_class.new(call: call).ringable_user_ids).to eq([other_agent.id])
+      expect(service).to have_received(:perform)
+      expect(NotificationSubscription.where(user: agent)).to exist
+    end
+
     it 'does not ring for a call that stopped ringing before the job ran' do
       subscribe(agent, 'apns_voip', 'apple-1')
       call.update!(status: 'failed')

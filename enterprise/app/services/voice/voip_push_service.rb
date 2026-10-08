@@ -42,12 +42,13 @@ class Voice::VoipPushService
     end
   end
 
-  # The agents the ring reaches: those chosen for it with a phone on a configured platform
+  # The agents the ring reaches: those chosen for it with a phone on a configured platform,
+  # less any the pushes turned out not to reach
   def ringable_user_ids
     subscriptions = []
     subscriptions += apple_subscriptions.to_a if configured?(:apple)
     subscriptions += android_subscriptions if configured?(:android)
-    subscriptions.map(&:user_id).uniq
+    subscriptions.map(&:user_id).uniq - call.ring_state.fetch('unreached_user_ids', [])
   end
 
   private
@@ -65,11 +66,11 @@ class Voice::VoipPushService
     apple, android = call.with_lock { call.ringing? ? remember_ring : nil }
     return if apple.nil? || (apple.empty? && android.empty?)
 
-    stale_apple, stale_android = deliver_ring(apple, android)
-    forget_unreached(stale_apple, stale_android)
+    apple_results, android_results = deliver_ring(apple, android)
+    settle_ring(apple_results.to_h, android_results.to_h)
     # The tokens just rung are used, not the stored ones: a cancel that ran while these
     # pushes were in flight has already removed those
-    cancel(android - stale_android.to_a) unless call.reload.ringing?
+    cancel(android - gone(android_results.to_h)) unless call.reload.ringing?
   end
 
   def deliver_ring(apple, android)
@@ -78,7 +79,7 @@ class Voice::VoipPushService
     payload = payloads.ring
     data = payloads.ring_data
     [
-      Thread.new { with_rails { sender ? sender.ring(apple, payload) : [] } },
+      Thread.new { with_rails { sender ? sender.ring(apple, payload) : {} } },
       Thread.new { with_rails { deliver_android_all(client, android, data, 'ring') } }
     ].map(&:value)
   end
@@ -97,7 +98,7 @@ class Voice::VoipPushService
 
     data = payloads.cancel_data
     client = fcm_client
-    forget_devices(ANDROID, with_rails { deliver_android_all(client, tokens, data, 'cancel') })
+    forget_devices(ANDROID, gone(with_rails { deliver_android_all(client, tokens, data, 'cancel') }.to_h))
   end
 
   def payloads
@@ -153,8 +154,7 @@ class Voice::VoipPushService
     apple, android = devices_to_ring
     rung = { 'ring_recipient_ids' => recipients.map(&:id) }
     rung['rung_devices'] = { APPLE => apple, ANDROID => android } if apple.any? || android.any?
-    Call.where(id: call.id).update_all(['ring_state = ring_state || ?::jsonb', rung.to_json]) # rubocop:disable Rails/SkipsModelValidations
-    call.reload
+    merge_ring_state(rung)
     [apple, android]
   end
 
@@ -164,14 +164,28 @@ class Voice::VoipPushService
     Call.where(id: call.id).update_all("ring_state = ring_state - 'rung_devices'") # rubocop:disable Rails/SkipsModelValidations
   end
 
-  # The new-message notification is held back for agents whose phone the ring reaches.
-  # With the devices the platform no longer knows removed, it goes to anyone the ring
-  # turned out not to reach; agents already notified for the message are skipped.
-  def forget_unreached(stale_apple, stale_android)
-    return if stale_apple.blank? && stale_android.blank?
+  def merge_ring_state(values)
+    Call.where(id: call.id).update_all(['ring_state = ring_state || ?::jsonb', values.to_json]) # rubocop:disable Rails/SkipsModelValidations
+    call.reload
+  end
 
-    forget_devices(APPLE, stale_apple)
-    forget_devices(ANDROID, stale_android)
+  def gone(results) = results.filter_map { |token, outcome| token if outcome == :gone }
+
+  # The new-message notification is held back for agents whose phone the ring reaches. Once
+  # the pushes are out, the agents no push reached are recorded, and the notification goes
+  # to them; agents already notified for the message are skipped. Devices the platforms no
+  # longer know are removed.
+  def settle_ring(apple_results, android_results)
+    results = apple_results.merge(android_results)
+    owners = NotificationSubscription.where("subscription_attributes->>'push_token' IN (?)", results.keys)
+                                     .pluck(:user_id, Arel.sql("subscription_attributes->>'push_token'"))
+    reached = owners.filter_map { |user_id, token| user_id if results[token] == :sent }
+    unreached = owners.map(&:first).uniq - reached
+    forget_devices(APPLE, gone(apple_results))
+    forget_devices(ANDROID, gone(android_results))
+    return if unreached.empty?
+
+    merge_ring_state('unreached_user_ids' => unreached)
     message = call.reload.message
     Messages::NewMessageNotificationService.new(message: message).perform if message
   end
@@ -235,15 +249,13 @@ class Voice::VoipPushService
     Notification::FcmService.new(config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')).fcm_client
   end
 
-  # Returns the tokens Firebase reported as unregistered
+  # Returns each token's outcome: :sent, :gone when Firebase reports it unregistered, or :failed
   def deliver_android_all(client, tokens, data, kind)
-    return [] if tokens.empty?
+    return {} if tokens.empty?
 
-    tokens.each_slice(ANDROID_BATCH_SIZE).flat_map do |batch|
-      batch.map { |token| Thread.new { with_rails { deliver_android(client, token, data, kind) } } }
-           .map(&:value)
-           .zip(batch)
-           .filter_map { |result, token| token if result == :gone }
+    tokens.each_slice(ANDROID_BATCH_SIZE).with_object({}) do |batch, results|
+      outcomes = batch.map { |token| Thread.new { with_rails { deliver_android(client, token, data, kind) } } }.map(&:value)
+      results.merge!(batch.zip(outcomes).to_h { |token, outcome| [token, outcome || :failed] })
     end
   end
 
