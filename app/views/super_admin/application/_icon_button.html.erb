@@ -1,0 +1,7 @@
+<%# locals: (url: nil, extra: nil, **options) -%>
+<% classes = class_names("grid size-8 shrink-0 place-items-center rounded-md text-n-slate-11 transition-colors hover:bg-n-alpha-2 hover:text-n-slate-12 touch:size-10", extra) %>
+<% if url %>
+  <%= link_to url, class: classes, **options do %><%= yield %><% end %>
+<% else %>
+  <%= tag.button class: classes, type: "button", **options do %><%= yield %><% end %>
+<% end %>

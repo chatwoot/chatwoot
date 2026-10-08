@@ -9,8 +9,8 @@ RSpec.describe Integrations::LlmInstrumentation do
 
   let(:instance) { test_class.new }
   let!(:otel_config) do
-    InstallationConfig.find_or_create_by(name: 'OTEL_PROVIDER') do |config|
-      config.value = 'langfuse'
+    InstallationConfig.find_or_initialize_by(name: 'OTEL_PROVIDER').tap do |config|
+      config.update!(value: 'langfuse')
     end
   end
 
@@ -27,9 +27,7 @@ RSpec.describe Integrations::LlmInstrumentation do
   end
 
   before do
-    InstallationConfig.find_or_create_by(name: 'LANGFUSE_SECRET_KEY') do |config|
-      config.value = 'test-secret-key'
-    end
+    InstallationConfig.find_or_initialize_by(name: 'LANGFUSE_SECRET_KEY').update!(value: 'test-secret-key')
   end
 
   describe '#instrument_llm_call' do
