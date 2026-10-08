@@ -16,8 +16,10 @@ RSpec.describe Voice::RingingTimeoutJob do
   end
 
   it 'ends every overdue ringing call and leaves the rest alone' do
-    overdue = create(:call, conversation: create(:conversation, account: account), provider: :whatsapp, created_at: 2.minutes.ago)
-    create(:call, conversation: create(:conversation, account: account), provider: :whatsapp, created_at: 10.seconds.ago)
+    rang = { 'ring_recipient_ids' => [] }
+    overdue = create(:call, conversation: create(:conversation, account: account), provider: :whatsapp, created_at: 2.minutes.ago,
+                            ring_state: rang)
+    create(:call, conversation: create(:conversation, account: account), provider: :whatsapp, created_at: 10.seconds.ago, ring_state: rang)
 
     described_class.perform_now
 
