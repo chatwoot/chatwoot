@@ -41,11 +41,18 @@ RSpec.describe Voice::RingingTimeoutService do
       expect(described_class.overdue).to be_empty
     end
 
-    it 'ignores a call an agent has claimed but not yet joined' do
-      claimed = ringing(:twilio, 5.minutes)
+    it 'ignores a call an agent has just claimed but not yet joined' do
+      claimed = ringing(:twilio, 61.seconds)
       claimed.update!(accepted_by_agent: create(:user, account: account))
 
       expect(described_class.overdue).to be_empty
+    end
+
+    it 'returns a claimed call still ringing well past the timeout, whose join was abandoned' do
+      claimed = ringing(:twilio, 3.minutes)
+      claimed.update!(accepted_by_agent: create(:user, account: account))
+
+      expect(described_class.overdue).to contain_exactly(claimed)
     end
 
     it 'ignores outbound calls, which end with the provider' do
@@ -63,6 +70,8 @@ RSpec.describe Voice::RingingTimeoutService do
   end
 
   describe '#perform' do
+    before { call.update!(created_at: 61.seconds.ago) }
+
     it 'ends the call as missed' do
       described_class.new(call: call).perform
 
@@ -103,7 +112,7 @@ RSpec.describe Voice::RingingTimeoutService do
       expect { described_class.new(call: call).perform }.not_to raise_error
 
       expect(call.reload.status).to eq('ringing')
-      expect(call.ring_state).not_to have_key('timing_out')
+      expect(call.ring_state).not_to have_key('timing_out_at')
       expect(ActionCable.server).not_to have_received(:broadcast)
     end
 
@@ -119,10 +128,46 @@ RSpec.describe Voice::RingingTimeoutService do
     it 'marks the call as timing out while the caller is being hung up' do
       call.update!(provider: :twilio)
       allow(conference).to receive(:terminate_call) do
-        expect(Call.find(call.id).ring_state['timing_out']).to be(true)
+        expect(Call.find(call.id).ring_state['timing_out_at']).to be_present
       end
 
       described_class.new(call: call).perform
+    end
+
+    it 'ends a claimed call whose join was abandoned' do
+      call.update!(created_at: 3.minutes.ago, accepted_by_agent: create(:user, account: account))
+
+      described_class.new(call: call).perform
+
+      expect(call.reload.status).to eq('no_answer')
+    end
+
+    it 'leaves a call alone while another sweep is hanging it up' do
+      call.update!(ring_state: { 'timing_out_at' => 10.seconds.ago.to_i })
+
+      described_class.new(call: call).perform
+
+      expect(call.reload.status).to eq('ringing')
+      expect(ActionCable.server).not_to have_received(:broadcast)
+    end
+
+    it 'takes over from a sweep that died long ago' do
+      call.update!(ring_state: { 'timing_out_at' => 5.minutes.ago.to_i })
+
+      described_class.new(call: call).perform
+
+      expect(call.reload.status).to eq('no_answer')
+    end
+
+    it 'does not end a call claimed while the caller was being hung up' do
+      call.update!(provider: :twilio)
+      agent = create(:user, account: account)
+      allow(conference).to receive(:terminate_call) { Call.where(id: call.id).update_all(accepted_by_agent_id: agent.id) } # rubocop:disable Rails/SkipsModelValidations
+
+      described_class.new(call: call).perform
+
+      expect(call.reload.status).to eq('ringing')
+      expect(call.ring_state).not_to have_key('timing_out_at')
     end
 
     it 'does not touch a call that was answered in the meantime' do
