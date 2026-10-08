@@ -775,6 +775,7 @@ en:
       go_to: 'Go to'
       create: 'Create'
       open: 'Open'
+      see_all: 'See all matching %{resource}'
       navigate: 'Navigate'
       select: 'Select'
     dashboard:
