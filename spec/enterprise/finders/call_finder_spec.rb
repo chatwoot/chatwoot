@@ -101,6 +101,15 @@ describe CallFinder do
       expect(perform(agent, status: 'ringing')[:calls]).to be_empty
     end
 
+    it 'shows an administrator only the ringing calls that ring them' do
+      elsewhere = ringing_call(create(:conversation, account: account, inbox: other_inbox))
+      mine = ringing_call(create(:conversation, account: account, inbox: inbox, assignee: admin))
+      ringing_call(create(:conversation, account: account, inbox: inbox, assignee: agent))
+      unassigned = ringing_call(conversation)
+
+      expect(perform(admin, status: 'ringing')[:calls].map(&:id)).to contain_exactly(elsewhere.id, mine.id, unassigned.id)
+    end
+
     it 'hides a ringing call from an agent who is not online' do
       ringing_call(conversation)
       account.account_users.find_by(user_id: agent.id).update!(availability: :busy)
