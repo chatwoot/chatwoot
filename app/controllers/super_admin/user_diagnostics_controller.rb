@@ -74,7 +74,13 @@ class SuperAdmin::UserDiagnosticsController < SuperAdmin::ApplicationController
   def sessions_for_user
     return [] if @user.nil?
 
-    @user.user_sessions.order(Arel.sql('COALESCE(last_activity_at, created_at) DESC'))
+    @user.user_sessions.where(client_id: active_token_client_ids).order(Arel.sql('COALESCE(last_activity_at, created_at) DESC'))
+  end
+
+  # A session row outlives its token, so only clients that can still authenticate count as installed.
+  def active_token_client_ids
+    now = Time.current.to_i
+    (@user.tokens || {}).select { |_, token| token['expiry'].to_i > now }.keys
   end
 
   def resolve_user(query)

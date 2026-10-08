@@ -60,7 +60,12 @@ RSpec.describe 'Super Admin User diagnostics', type: :request do
   end
 
   describe 'the mobile tab' do
-    before { sign_in(super_admin, scope: :super_admin) }
+    let(:valid_token) { { 'token' => 'token', 'expiry' => 1.day.from_now.to_i } }
+
+    before do
+      sign_in(super_admin, scope: :super_admin)
+      user.update!(tokens: %w[client-1 web-1 client-legacy client-located].index_with { valid_token })
+    end
 
     it 'finds a user by email and lists their mobile sessions' do
       user.user_sessions.create!(
@@ -89,6 +94,20 @@ RSpec.describe 'Super Admin User diagnostics', type: :request do
       expect(response.body).to include('No mobile sessions recorded')
       expect(response.body).to include('1 active web session')
       expect(response.body).not_to include('Chrome')
+    end
+
+    it 'leaves out sessions whose token has expired' do
+      user.update!(tokens: { 'client-expired' => valid_token.merge('expiry' => 1.day.ago.to_i) })
+      user.user_sessions.create!(
+        client_id: 'client-expired', browser_name: 'Chatwoot Mobile', browser_version: '4.8.5',
+        device_name: 'iPhone', platform_name: 'iPhone 13', last_activity_at: 1.month.ago
+      )
+      user.user_sessions.create!(client_id: 'web-1', browser_name: 'Chrome', last_activity_at: 1.month.ago)
+
+      get '/super_admin/user_diagnostics', params: { user_query: user.email, tab: 'mobile' }
+
+      expect(response.body).not_to include('4.8.5')
+      expect(response.body).not_to include('active web session')
     end
 
     it 'flags sessions from builds that predate version reporting' do
