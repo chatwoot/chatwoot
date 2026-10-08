@@ -862,7 +862,7 @@ en:
         not_found: 'No user found for "%{query}".'
       user:
         id: 'ID %{id}'
-        accounts: 'Accounts: %{accounts}'
+        accounts: 'Accounts'
         details_link: 'User details'
       sessions:
         heading: 'Mobile sessions'
