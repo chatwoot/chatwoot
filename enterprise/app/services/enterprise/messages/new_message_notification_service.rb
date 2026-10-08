@@ -11,8 +11,7 @@ module Enterprise::Messages::NewMessageNotificationService
   def rung_for_call?(user)
     return false unless message.voice_call? && message.account.feature_enabled?('mobile_voice_push')
 
-    ids = rung_user_ids
-    (ids.nil? || ids.include?(user.id)) && missed_call_delivered?(user)
+    rung_user_ids.include?(user.id) && missed_call_delivered?(user)
   end
 
   def missed_call_delivered?(user)
@@ -20,11 +19,9 @@ module Enterprise::Messages::NewMessageNotificationService
     setting.present? && (setting.push_voice_call_missed? || setting.email_voice_call_missed?)
   end
 
-  # nil when the message is not linked to its call yet, which leaves the notification to the ring
+  # Empty while the message is not linked to its call yet: until the ring is known to
+  # reach someone, everyone keeps the notification
   def rung_user_ids
-    return @rung_user_ids if defined?(@rung_user_ids)
-
-    call = Call.find_by(message_id: message.id)
-    @rung_user_ids = call && Voice::VoipPushService.new(call: call).ringable_user_ids
+    @rung_user_ids ||= Call.find_by(message_id: message.id)&.then { |call| Voice::VoipPushService.new(call: call).ringable_user_ids } || []
   end
 end

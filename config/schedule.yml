@@ -29,7 +29,7 @@ trigger_hourly_scheduled_items_job:
 # ends calls that have rung past their provider's timeout
 voice_ringing_timeout_job:
   cron: '*/30 * * * * *'
-  class: 'Voice::RingingTimeoutJob'
+  class: 'Internal::CheckRingingTimeoutsJob'
   queue: scheduled_jobs
 
 # executed At every minute..
