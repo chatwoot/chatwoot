@@ -11210,6 +11210,10 @@
                   "type": "string",
                   "description": "The availability status of the contact"
                 },
+                "country_code": {
+                  "type": "string",
+                  "description": "The normalized ISO country code of the contact"
+                },
                 "email": {
                   "type": "string",
                   "description": "The email address of the contact"
@@ -16496,6 +16500,13 @@
       "contact_detail": {
         "type": "object",
         "properties": {
+          "country_code": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Normalized country code of the contact"
+          },
           "additional_attributes": {
             "type": "object",
             "description": "The object containing additional attributes related to the contact",
@@ -16880,6 +16891,13 @@
       "contact_list_item": {
         "type": "object",
         "properties": {
+          "country_code": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Normalized country code of the contact"
+          },
           "additional_attributes": {
             "type": "object",
             "description": "The object containing additional attributes related to the contact",
