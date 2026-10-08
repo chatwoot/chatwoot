@@ -12,7 +12,9 @@ properties:
           type: string
           description: The availability status of the contact
         country_code:
-          type: string
+          type:
+            - string
+            - 'null'
           description: The normalized ISO country code of the contact
         email:
           type: string

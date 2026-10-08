@@ -23,10 +23,18 @@ class Contacts::FilterService < FilterService
     if query_hash['attribute_key'] == 'phone_number'
       "+#{current_val&.delete('+')}"
     elsif query_hash['attribute_key'] == 'country_code'
-      (CountryCodeNormalizer.normalize(current_val) || current_val).downcase
+      current_val.downcase
     else
       current_val.is_a?(String) ? current_val.downcase : current_val
     end
+  end
+
+  def filter_operation(query_hash, current_index)
+    return super unless query_hash[:attribute_key] == 'country_code'
+
+    @filter_values["value_#{current_index}"] = CountryCodeNormalizer.filter_values(query_hash['values'][0])
+    operator = query_hash[:filter_operator] == 'equal_to' ? 'IN' : 'NOT IN'
+    "#{operator} (:value_#{current_index})"
   end
 
   def base_relation

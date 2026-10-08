@@ -22,6 +22,7 @@ class CountryCodeNormalizer
     'macedonia' => 'MK',
     'micronesia, federated states of micronesia' => 'FM',
     'myanmar' => 'MM',
+    'netherlands antilles' => 'AN',
     'palestinian territory, occupied' => 'PS',
     'reunion' => 'RE',
     'saint barthelemy' => 'BL',
@@ -57,13 +58,25 @@ class CountryCodeNormalizer
 
       value = value.to_s.strip
       code = value.upcase
-      return code if country_by_code.key?(code)
+      # AN is retired but remains a supported value in Chatwoot's country selector.
+      return code if country_by_code.key?(code) || code == 'AN'
 
       country_by_name[normalized_name(value)] || COUNTRY_ALIASES[normalized_name(value)]
     end
 
     def name_for(code)
-      country_by_code[normalize(code)]&.name
+      code = normalize(code)
+      return 'Netherlands Antilles' if code == 'AN'
+
+      country_by_code[code]&.name
+    end
+
+    def filter_values(value)
+      code = normalize(value)
+      return [normalized_name(value)] unless code
+
+      names = country_by_name.merge(COUNTRY_ALIASES).select { |_, country_code| country_code == code }.keys
+      [normalized_name(value), code.downcase, *names].uniq
     end
 
     private
