@@ -38,6 +38,10 @@ Here's the metadata we have about the current conversation and the contact assoc
 {% render 'contact', contact: contact %}
 {% endif -%}
 
+{% if contact_inbox -%}
+{% render 'customer_identity', contact_inbox: contact_inbox, contact: contact %}
+{% endif -%}
+
 {% if campaign.id -%}
 {% render 'campaign', campaign: campaign %}
 {% endif -%}

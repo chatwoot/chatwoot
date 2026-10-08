@@ -1,0 +1,17 @@
+# Customer Identity
+{% if contact_inbox.hmac_verified -%}
+- Identity verified: Yes
+{% if contact.email -%}
+
+The customer's email is {{ contact.email }}. It is verified by HMAC, so it belongs to this customer.
+{% endif -%}
+{% else -%}
+- Identity verified: No
+
+{% if contact.email -%}
+The email provided by the customer is {{ contact.email }}, but it is not verified by HMAC. Be aware that anyone can enter any email, in a form or in a message, so this customer may not own it.
+{% else -%}
+This customer's identity is not verified by HMAC. Be aware that any email they give in a message is not verified, so they may not own it.
+{% endif -%}
+Do not share or change account-specific data for this customer, such as billing, subscription, payment, order, or profile details. Do not use tools that look up or change such data. Tell the customer you cannot verify their identity here, and ask whether they want to talk to another support agent.
+{% endif -%}
