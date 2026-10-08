@@ -60,7 +60,9 @@ class Voice::VoipPushService
     stale_apple, stale_android = deliver_ring(apple, android)
     forget_devices(APPLE, stale_apple)
     forget_devices(ANDROID, stale_android)
-    cancel unless call.reload.ringing?
+    # The tokens just rung are used, not the stored ones: a cancel that ran while these
+    # pushes were in flight has already removed those
+    cancel(android - stale_android.to_a) unless call.reload.ringing?
   end
 
   def deliver_ring(apple, android)
@@ -79,10 +81,10 @@ class Voice::VoipPushService
     [configured?(:apple) ? apple_tokens : [], configured?(:android) ? android_tokens : []]
   end
 
-  def cancel
+  def cancel(tokens = nil)
     return forget_rung_devices if call.outgoing? || !configured?(:android)
 
-    tokens = rung_devices[ANDROID]
+    tokens ||= rung_devices[ANDROID]
     forget_rung_devices
     return if tokens.blank?
 
