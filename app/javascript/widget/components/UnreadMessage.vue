@@ -68,6 +68,9 @@ export default {
       }
       return this.$t('UNREAD_VIEW.BOT');
     },
+    isCaptain() {
+      return this.sender?.type === 'captain_assistant';
+    },
     availabilityStatus() {
       if (this.isSenderExist(this.sender)) {
         const { availability_status: availabilityStatus } = this.sender;
@@ -94,7 +97,7 @@ export default {
 <template>
   <div class="chat-bubble-wrap">
     <button class="chat-bubble agent bg-white" @click="onClickMessage">
-      <div v-if="showSender" class="row--agent-block">
+      <div v-if="showSender || isCaptain" class="row--agent-block">
         <Avatar
           :src="avatarUrl"
           :size="20"
@@ -102,7 +105,15 @@ export default {
           :status="availabilityStatus"
           rounded-full
         />
-        <span class="agent--name">{{ agentName }}</span>
+        <span class="agent--name" :class="{ 'flex flex-col': isCaptain }">
+          {{ agentName }}
+          <span
+            v-if="isCaptain"
+            class="text-xs font-normal whitespace-nowrap text-n-slate-11"
+          >
+            {{ $t('AI_ASSISTANT') }}
+          </span>
+        </span>
         <span class="company--name">{{ companyName }}</span>
       </div>
       <div

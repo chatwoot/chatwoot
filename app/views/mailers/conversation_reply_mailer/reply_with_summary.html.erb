@@ -5,7 +5,11 @@
 <% @messages.each do |message| %>
   <tr>
     <td>
-      <b><%= message.incoming? ? I18n.t('conversations.reply.contact_label') : message.sender&.available_name || message.sender&.name || I18n.t('conversations.reply.bot_label') %></b>
+      <% if message.sender_type == 'Captain::Assistant' %>
+        <%= render 'captain_sender', message: message %>
+      <% else %>
+        <b><%= message.incoming? ? I18n.t('conversations.reply.contact_label') : message.sender&.available_name || message.sender&.name || I18n.t('conversations.reply.bot_label') %></b>
+      <% end %>
     </td>
   </tr>
   <tr>

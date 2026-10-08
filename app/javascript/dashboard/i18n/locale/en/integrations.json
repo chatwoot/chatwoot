@@ -960,6 +960,18 @@
             "DESC": "Captain responds only when each inbox is closed."
           },
           "HINT": "Inboxes without business hours configured are always covered."
+        },
+        "AVATAR": {
+          "LABEL": "Assistant avatar",
+          "UPLOAD": "Upload image",
+          "REMOVE": "Remove image",
+          "FILE_HINT": "JPEG, PNG, GIF or WebP. Maximum 15 MB.",
+          "HELP_TEXT": "Changes save immediately. Customers will still see an AI assistant label. Removing the image restores the Captain avatar. Reload open conversations to see avatar changes.",
+          "INVALID_FILE": "Choose a JPEG, PNG, GIF or WebP image smaller than 15 MB.",
+          "UPLOAD_SUCCESS": "Assistant avatar updated.",
+          "UPLOAD_ERROR": "Could not update the assistant avatar.",
+          "REMOVE_SUCCESS": "Assistant avatar removed.",
+          "REMOVE_ERROR": "Could not remove the assistant avatar."
         }
       },
       "EDIT": {
