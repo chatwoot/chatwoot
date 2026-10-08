@@ -33,3 +33,6 @@ export const formatCurrencyAmount = (amount, code, options = {}) => {
     ...options,
   }).format(amount);
 };
+
+// Free trial: the sidebar trial card turns urgent this many days before the trial ends.
+export const TRIAL_ENDING_SOON_DAYS = 3;

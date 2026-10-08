@@ -34,7 +34,7 @@ class Enterprise::Billing::SummaryService
       amount: nil,
       currency: normalized_currency(account.billing_currency),
       billing_period: nil,
-      trial_ends_at: nil,
+      trial_ends_at: attributes['trial_ends_at'],
       current_period_end: attributes['subscription_ends_on'],
       allowed_actions: stripe_allowed_actions,
       last_verified_at: nil

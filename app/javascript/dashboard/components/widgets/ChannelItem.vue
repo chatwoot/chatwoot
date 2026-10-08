@@ -1,6 +1,8 @@
 <script setup>
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useTrialStatus } from 'dashboard/composables/useTrialStatus';
 import ChannelSelector from '../ChannelSelector.vue';
 
 const props = defineProps({
@@ -15,7 +17,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['channelItemClick']);
-const { isOnChatwootCloud } = useAccount();
+const router = useRouter();
+const { accountId, isOnChatwootCloud } = useAccount();
+const { isTrialWithoutCard } = useTrialStatus();
 
 const hasFbConfigured = computed(() => {
   return window.chatwootConfig?.fbAppId;
@@ -100,7 +104,23 @@ const hasVoiceBadge = computed(() => {
   );
 });
 
+// Email inboxes unlock once a card is added during the trial, so the card links to billing instead of staying disabled.
+const needsCardForTrial = computed(
+  () =>
+    props.channel.key === 'email' &&
+    isTrialWithoutCard.value &&
+    !props.enabledFeatures.channel_email
+);
+
 const onItemClick = () => {
+  if (needsCardForTrial.value) {
+    router.push({
+      name: 'billing_settings_index',
+      params: { accountId: accountId.value },
+    });
+    return;
+  }
+
   if (canRequestTiktokAccess.value) {
     window.$chatwoot?.toggle();
     return;
@@ -120,7 +140,8 @@ const onItemClick = () => {
     :is-coming-soon="isComingSoon"
     :is-beta="isBeta"
     :has-voice-badge="hasVoiceBadge"
-    :disabled="!isActive && !canRequestTiktokAccess"
+    :needs-card="needsCardForTrial"
+    :disabled="!isActive && !canRequestTiktokAccess && !needsCardForTrial"
     @click="onItemClick"
   />
 </template>

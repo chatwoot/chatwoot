@@ -2,14 +2,17 @@
 import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
+import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { usePaymentStatus } from 'dashboard/composables/usePaymentStatus';
+import { useTrialStatus } from 'dashboard/composables/useTrialStatus';
 import { format } from 'date-fns';
 import sessionStorage from 'shared/helpers/sessionStorage';
 
 import BillingMeter from './components/BillingMeter.vue';
 import BillingCard from './components/BillingCard.vue';
+import TrialStatusCard from './components/TrialStatusCard.vue';
 import BillingHeader from './components/BillingHeader.vue';
 import DetailItem from './components/DetailItem.vue';
 import PurchaseCreditsModal from './components/PurchaseCreditsModal.vue';
@@ -18,11 +21,15 @@ import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
 import Banner from 'next/banner/Banner.vue';
 import { getCurrencyConfig } from 'dashboard/constants/billing';
+import BillingTrialAPI from 'dashboard/api/billingTrial';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import { useI18n } from 'vue-i18n';
 
 const router = useRouter();
 const { currentAccount, isOnChatwootCloud } = useAccount();
 const { isPastDue } = usePaymentStatus();
+const { isTrialing, isTrialWithoutCard, hasTrialEnded, trialEndsAt } =
+  useTrialStatus();
 const {
   captainEnabled,
   captainLimits,
@@ -46,6 +53,9 @@ const purchaseCreditsModalRef = ref(null);
 const currencySelectionRequired = ref(false);
 const currencyOptions = ref([]);
 
+const isOpeningTrialPlans = ref(false);
+const isUpdatingTrialSeats = ref(false);
+
 const customAttributes = computed(() => {
   return currentAccount.value.custom_attributes || {};
 });
@@ -57,6 +67,13 @@ const customAttributes = computed(() => {
 const planName = computed(() => {
   return customAttributes.value.plan_name;
 });
+
+// A trial without a card runs on the free plan, so show it as the trial rather than the free plan's name.
+const currentPlanLabel = computed(() =>
+  isTrialWithoutCard.value
+    ? t('BILLING_SETTINGS.CURRENT_PLAN.FREE_TRIAL')
+    : planName.value
+);
 
 const canPurchaseCredits = computed(() => {
   const plan = planName.value?.toLowerCase();
@@ -92,6 +109,10 @@ const subscriptionCancelsOn = computed(() => {
   return format(cancelDate, 'dd MMM, yyyy');
 });
 
+const trialEndsOn = computed(() =>
+  trialEndsAt.value ? format(trialEndsAt.value, 'dd MMM, yyyy') : ''
+);
+
 /**
  * Computed property indicating if user has a billing plan
  * @returns {boolean}
@@ -108,6 +129,32 @@ const fetchAccountDetails = async () => {
   }
   // Always fetch limits for billing page to show credit usage
   fetchLimits();
+};
+
+// Plans, prices and seats are picked in the Stripe billing portal, which also collects the card and keeps the trial end date.
+const onChooseTrialPlan = async () => {
+  isOpeningTrialPlans.value = true;
+  try {
+    const { data } = await BillingTrialAPI.start();
+    window.location = data.redirect_url;
+  } catch (error) {
+    useAlert(parseAPIErrorResponse(error));
+    isOpeningTrialPlans.value = false;
+  }
+};
+
+// The portal asks for a card on any paid change, so trial seats are changed here instead.
+const onUpdateTrialSeats = async quantity => {
+  isUpdatingTrialSeats.value = true;
+  try {
+    await BillingTrialAPI.updateSeats(quantity);
+    await store.dispatch('accounts/get', { silent: true });
+    useAlert(t('BILLING_SETTINGS.TRIAL.STATUS.SEATS.UPDATED'));
+  } catch (error) {
+    useAlert(parseAPIErrorResponse(error));
+  } finally {
+    isUpdatingTrialSeats.value = false;
+  }
 };
 
 const handleBillingPageLogic = async () => {
@@ -233,6 +280,32 @@ onMounted(handleBillingPageLogic);
         >
           {{ $t('BILLING_SETTINGS.PAYMENT_RECOVERY.DESCRIPTION') }}
         </Banner>
+        <TrialStatusCard
+          v-if="isTrialing"
+          :is-managing="isOpeningTrialPlans || uiFlags.isCheckoutInProcess"
+          :seats="subscribedQuantity"
+          :is-updating-seats="isUpdatingTrialSeats"
+          @choose-plan="onChooseTrialPlan"
+          @update-seats="onUpdateTrialSeats"
+          @manage="onClickBillingPortal"
+        />
+        <BillingCard
+          v-else-if="hasTrialEnded"
+          :title="$t('BILLING_SETTINGS.TRIAL.ENDED.TITLE')"
+          :description="$t('BILLING_SETTINGS.TRIAL.ENDED.DESCRIPTION')"
+        >
+          <template #action>
+            <ButtonV4
+              sm
+              solid
+              blue
+              :is-loading="uiFlags.isCheckoutInProcess"
+              @click="onClickBillingPortal"
+            >
+              {{ $t('BILLING_SETTINGS.TRIAL.ENDED.BUTTON') }}
+            </ButtonV4>
+          </template>
+        </BillingCard>
         <BillingCard
           :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
           :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
@@ -248,7 +321,7 @@ onMounted(handleBillingPageLogic);
           >
             <DetailItem
               :label="$t('BILLING_SETTINGS.CURRENT_PLAN.TITLE')"
-              :value="planName"
+              :value="currentPlanLabel"
             />
             <DetailItem
               v-if="subscribedQuantity"
@@ -259,6 +332,11 @@ onMounted(handleBillingPageLogic);
               v-if="subscriptionCancelsOn"
               :label="$t('BILLING_SETTINGS.CURRENT_PLAN.CANCELS_ON')"
               :value="subscriptionCancelsOn"
+            />
+            <DetailItem
+              v-else-if="trialEndsOn"
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.TRIAL_ENDS_ON')"
+              :value="trialEndsOn"
             />
             <DetailItem
               v-else-if="subscriptionRenewsOn && !isPastDue"
@@ -314,7 +392,7 @@ onMounted(handleBillingPageLogic);
           </div>
         </BillingCard>
         <BillingCard
-          v-else
+          v-else-if="!isTrialWithoutCard"
           :title="$t('BILLING_SETTINGS.CAPTAIN.TITLE')"
           :description="$t('BILLING_SETTINGS.CAPTAIN.UPGRADE')"
         >

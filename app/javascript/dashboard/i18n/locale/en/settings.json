@@ -314,6 +314,14 @@
   },
   "SIDEBAR": {
     "NO_ITEMS": "No items",
+    "TRIAL": {
+      "TITLE": "{plan} trial ends today | {plan} trial: {days} day left | {plan} trial: {days} days left",
+      "TITLE_NO_CARD": "Free trial ends today | Free trial: {days} day left | Free trial: {days} days left",
+      "DESCRIPTION_NO_CARD": "Add a card to unlock email and Captain.",
+      "DESCRIPTION": "Your paid plan starts on {date}.",
+      "DESCRIPTION_CANCELLED": "Cancelled. You can use {plan} until {date}.",
+      "ACTION": "View billing"
+    },
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "INBOX_VIEW": "Inbox View",
@@ -589,7 +597,32 @@
       "SEAT_COUNT": "Number of seats",
       "RENEWS_ON": "Renews on",
       "CANCELS_ON": "Cancels on",
-      "CURRENCY": "Currency"
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "CURRENCY": "Currency",
+      "FREE_TRIAL": "Free trial"
+    },
+    "TRIAL": {
+      "STATUS": {
+        "TITLE": "{plan} trial: last day | {plan} trial: {days} day left | {plan} trial: {days} days left",
+        "TITLE_NO_CARD": "Free trial: last day | Free trial: {days} day left | Free trial: {days} days left",
+        "DESCRIPTION": "Your paid plan starts on {date} and is charged to your saved payment method. Cancel anytime before then and you won't be charged.",
+        "DESCRIPTION_NO_CARD": "You can use paid features until {date}. Email inboxes and Captain unlock once you choose a plan and add a card. You won't be charged until the trial ends.",
+        "DESCRIPTION_CANCELLED": "This trial is cancelled, so you won't be charged. You can use {plan} until {date}.",
+        "CHOOSE_PLAN": "Choose a plan",
+        "MANAGE": "Manage or cancel",
+        "MANAGE_CANCELLED": "Manage trial",
+        "SEATS": {
+          "LABEL": "Seats",
+          "HELP": "Add seats for your team during the trial. No card needed.",
+          "UPDATE": "Update seats",
+          "UPDATED": "Trial seats updated"
+        }
+      },
+      "ENDED": {
+        "TITLE": "Your free trial has ended",
+        "DESCRIPTION": "Your account is on the free plan now. Choose a paid plan to get email inboxes, Captain and the other paid features back.",
+        "BUTTON": "Choose a plan"
+      }
     },
     "CURRENCY": {
       "SELECT": {

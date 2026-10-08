@@ -58,6 +58,12 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
     send_notification(subject, action_url: action_url, meta: meta)
   end
 
+  # Sent three days before a Chatwoot Cloud free trial ends.
+  def trial_ending(meta)
+    subject = "Your Chatwoot free trial ends on #{meta['trial_ends_on']}"
+    send_notification(subject, action_url: settings_url('billing'), meta: meta)
+  end
+
   private
 
   def format_deletion_date(deletion_date_str)
