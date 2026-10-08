@@ -92,9 +92,7 @@ const escapeBareUrlHardBreaks = message => {
       } else if (fence[1][0] === fenceChar) {
         inFence = false;
       }
-      continue;
-    }
-    if (!inFence) {
+    } else if (!inFence) {
       lines[i] = lines[i].replace(BARE_URL_HARD_BREAK_LINE_REGEX, '$1 \\$2');
     }
   }
