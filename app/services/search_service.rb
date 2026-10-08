@@ -59,7 +59,7 @@ class SearchService
 
   def advanced_search_with_fallback
     advanced_search
-  rescue Faraday::ConnectionFailed, Searchkick::Error, Elasticsearch::Transport::Transport::Error => e
+  rescue Faraday::Error, Searchkick::Error, OpenSearch::Transport::Transport::Error => e
     Rails.logger.warn("Elasticsearch unavailable, falling back to SQL search: #{e.message}")
     use_gin_search ? filter_messages_with_gin : filter_messages_with_like
   end
