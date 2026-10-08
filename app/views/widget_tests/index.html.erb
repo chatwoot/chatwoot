@@ -21,7 +21,8 @@
     .tool .segmented span { display: block; padding: 0.375rem 0.5rem; text-align: center; }
     .tool .segmented input:checked + span { color: #1f2933; background: #f3f4f6; font-weight: 600; }
     .tool .segmented input:focus-visible + span { outline: 2px solid #2781f6; outline-offset: -2px; }
-    .tool .log { height: 12rem; margin: 0 0 0.625rem; padding: 0; overflow-y: auto; list-style: none; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.6875rem; }
+    .tool.fill { flex: 1; min-height: 12rem; display: flex; flex-direction: column; }
+    .tool .log { flex: 1; min-height: 0; margin: 0 0 0.625rem; padding: 0; overflow-y: auto; list-style: none; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.6875rem; }
     .tool .log li { padding: 0.25rem 0; border-bottom: 1px solid #f3f4f6; word-break: break-word; }
     .tool .log time { color: #9ca3af; }
     .tool .log .detail { color: #6b7280; }
@@ -62,7 +63,7 @@
       <button type="button" onclick="resetSession()">Reset session</button>
     </section>
 
-    <section class="tool">
+    <section class="tool fill">
       <ul class="log" id="event-log"></ul>
       <button type="button" onclick="document.getElementById('event-log').replaceChildren()">Clear event log</button>
     </section>
