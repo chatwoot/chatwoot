@@ -30,6 +30,36 @@ RSpec.describe Integrations::LlmInstrumentation do
     InstallationConfig.find_or_initialize_by(name: 'LANGFUSE_SECRET_KEY').update!(value: 'test-secret-key')
   end
 
+  describe 'reasoning usage' do
+    let(:span) { instance_double(OpenTelemetry::Trace::Span, set_attribute: nil) }
+    let(:mock_tracer) { instance_double(OpenTelemetry::Trace::Tracer) }
+
+    before do
+      allow(instance).to receive(:tracer).and_return(mock_tracer)
+      allow(mock_tracer).to receive(:in_span).and_yield(span)
+    end
+
+    it 'records actual thinking tokens from RubyLLM messages' do
+      message = RubyLLM::Message.new(role: :assistant, content: 'Answer', tokens: RubyLLM::Tokens.new(input: 10, output: 20, thinking: 12))
+      instance.instrument_llm_call(params) { message }
+
+      expect(span).to have_received(:set_attribute).with('gen_ai.usage.reasoning.output_tokens', 12)
+      expect(span).to have_received(:set_attribute).with('gen_ai.usage.output_tokens', 20)
+    end
+
+    it 'records Responses output text and preserves a reported zero reasoning count' do
+      result = {
+        'output' => [{ 'type' => 'reasoning' }, { 'type' => 'message', 'content' => [{ 'type' => 'output_text', 'text' => 'Answer' }] }],
+        'usage' => { 'input_tokens' => 10, 'output_tokens' => 20, 'output_tokens_details' => { 'reasoning_tokens' => 0 } }
+      }
+      instance.instrument_llm_call(params) { result }
+
+      expect(span).to have_received(:set_attribute).with('gen_ai.completion.0.content', 'Answer')
+      expect(span).to have_received(:set_attribute).with('gen_ai.usage.reasoning.output_tokens', 0)
+      expect(span).to have_received(:set_attribute).with('gen_ai.usage.input_tokens', 10)
+    end
+  end
+
   describe '#instrument_llm_call' do
     context 'when OTEL provider is not configured' do
       before { otel_config.update(value: '') }

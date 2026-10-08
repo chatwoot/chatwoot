@@ -8,6 +8,7 @@ module Integrations::LlmInstrumentation
   include Integrations::LlmInstrumentationSpans
 
   def instrument_llm_call(params)
+    params = llm_instrumentation_params(params) if respond_to?(:llm_instrumentation_params, true)
     return yield unless ChatwootApp.otel_enabled?
 
     result = nil

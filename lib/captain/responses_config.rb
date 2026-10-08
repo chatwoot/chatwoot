@@ -10,6 +10,16 @@ module Captain::ResponsesConfig
     options
   end
 
+  def self.request_metadata(model:, feature: nil)
+    return {} unless Llm::Models.provider_for(model) == 'openai'
+
+    request_options = options(model: model, temperature: nil, feature: feature)
+    {
+      api_protocol: (request_options[:protocol] || :chat_completions).to_s,
+      reasoning_effort: request_options.dig(:thinking, :effort)
+    }.compact
+  end
+
   def self.metadata(chat, protocol: nil)
     return {} unless chat.provider.slug == 'openai'
 

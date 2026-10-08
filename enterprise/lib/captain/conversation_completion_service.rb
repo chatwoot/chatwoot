@@ -31,24 +31,6 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
 
   private
 
-  def build_chat(context, model:, **)
-    chat = super
-    chat.with_model(model, protocol: :responses) if responses_model?(model)
-    chat
-  end
-
-  def build_instrumentation_params(model, messages)
-    params = super
-    if Llm::Models.provider_for(model) == 'openai'
-      params[:metadata][:api_protocol] = responses_model?(model) ? 'responses' : 'chat_completions'
-    end
-    params
-  end
-
-  def responses_model?(model)
-    Llm::Models.provider_for(model) == 'openai' && Llm::FeatureRouter.standard_openai_endpoint?
-  end
-
   def prompt_from_file(file_name)
     Rails.root.join('enterprise/lib/captain/prompts', "#{file_name}.liquid").read
   end
