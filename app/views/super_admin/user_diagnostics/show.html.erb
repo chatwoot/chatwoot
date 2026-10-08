@@ -1,51 +1,92 @@
 <% scope = 'super_admin.user_diagnostics' %>
 <% content_for(:title) { t("super_admin.navigation.user_diagnostics") } %>
+<%
+  tab_icons = { "push" => "i-lucide-bell-ring", "mobile" => "i-lucide-smartphone" }
+  tab_counts = { "push" => @subscriptions.size, "mobile" => @mobile_sessions.size }
+%>
 
 <%= render "section",
            title: t("super_admin.navigation.user_diagnostics"),
-           description: t("#{scope}.description") do %>
+           description: t("#{scope}.description"),
+           icon: "i-lucide-stethoscope" do %>
   <%= render "card", title: t("#{scope}.search.title") do %>
     <div class="p-4">
       <%= form_with url: super_admin_user_diagnostics_path, method: :get, local: true, class: 'flex flex-wrap items-center gap-2' do |f| %>
         <%= f.hidden_field :tab, value: @tab %>
-        <%= f.text_field :user_query, value: @query, placeholder: t("#{scope}.search.placeholder"), class: ui(:input, "sm:w-80") %>
+        <div class="relative w-full sm:w-80">
+          <span class="i-lucide-search pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-n-slate-10"></span>
+          <%= f.text_field :user_query, value: @query, placeholder: t("#{scope}.search.placeholder"), class: ui(:input, "ps-9") %>
+        </div>
         <%= render "button", label: t("#{scope}.search.submit"), variant: :secondary, submit: f %>
       <% end %>
 
       <% if @query.present? && @user.nil? %>
-        <p class="mt-2 text-body-main text-n-ruby-11"><%= t("#{scope}.search.not_found", query: @query) %></p>
-      <% end %>
-
-      <% if @user %>
-        <div class="mt-4 flex flex-wrap items-start justify-between gap-x-4 gap-y-1 rounded-lg bg-n-slate-2 px-3.5 py-2.5">
-          <div class="min-w-0">
-            <p class="text-body-main">
-              <span class="font-medium"><%= @user.name %></span>
-              <span class="text-n-slate-11"><%= @user.email %>, <%= t("#{scope}.user.id", id: @user.id) %></span>
-            </p>
-            <% if @user.accounts.any? %>
-              <p class="mt-0.5 text-label-small text-n-slate-11">
-                <%= t("#{scope}.user.accounts",
-                      accounts: @user.accounts.map { |account| t("#{scope}.user.account_with_id", name: account.name, id: account.id) }.join(", ")) %>
-              </p>
-            <% end %>
-          </div>
-          <%= link_to t("#{scope}.user.details_link"), super_admin_user_path(@user), class: 'shrink-0 text-body-main text-n-blue-11 hover:underline' %>
-        </div>
+        <%= render "alert", extra: "mt-3 flex items-center gap-2" do %>
+          <span class="i-lucide-user-x size-4 shrink-0"></span>
+          <%= t("#{scope}.search.not_found", query: @query) %>
+        <% end %>
       <% end %>
     </div>
   <% end %>
 
   <% if @user %>
+    <section class="rounded-xl border border-n-weak bg-n-solid-1">
+      <div class="flex flex-wrap items-start gap-x-4 gap-y-3 p-5">
+        <span class="grid size-12 shrink-0 place-items-center rounded-xl bg-n-slate-3 text-lg font-semibold uppercase text-n-slate-11"><%= @user.name.to_s.first %></span>
+        <div class="min-w-0 flex-1">
+          <h2 class="text-heading-2 text-n-slate-12"><%= @user.name %></h2>
+          <p class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-body-main text-n-slate-11">
+            <span class="inline-flex items-center gap-1"><span class="i-lucide-hash size-3.5"></span><%= @user.id %></span>
+            <span class="inline-flex min-w-0 items-center gap-1"><span class="i-lucide-mail size-3.5 shrink-0"></span><span class="truncate"><%= @user.email %></span></span>
+          </p>
+          <% if @user.accounts.any? %>
+            <ul class="mt-3 flex flex-wrap gap-1.5" aria-label="<%= t("#{scope}.user.accounts") %>">
+              <% @user.accounts.each do |account| %>
+                <li class="inline-flex h-6 items-center gap-1 rounded-md border border-n-weak bg-n-slate-2 px-2 text-label-small text-n-slate-11">
+                  <span class="i-lucide-building-2 size-3.5"></span>
+                  <%= t("#{scope}.user.account_with_id", name: account.name, id: account.id) %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
+        <%= render "button", label: t("#{scope}.user.details_link"), variant: :secondary, icon_end: "i-lucide-arrow-up-right size-4", url: super_admin_user_path(@user) %>
+      </div>
+
+      <dl class="mx-5 mb-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-n-weak bg-n-weak lg:grid-cols-4">
+        <%
+          facts = [
+            { label: t("#{scope}.facts.mobile_sessions"), value: @mobile_sessions.size, icon: "i-lucide-smartphone text-n-blue-10" },
+            { label: t("#{scope}.facts.web_sessions"), value: @web_session_count, icon: "i-lucide-monitor text-n-iris-10" },
+            { label: t("#{scope}.facts.push_devices"), value: @subscriptions.size, icon: "i-lucide-bell-ring text-n-teal-10" },
+            { label: t("#{scope}.facts.push_off"), value: @accounts_without_push.size,
+              icon: @accounts_without_push.any? ? "i-lucide-bell-off text-n-amber-11" : "i-lucide-bell-off text-n-slate-10" }
+          ]
+        %>
+        <% facts.each do |fact| %>
+          <div class="min-w-0 bg-n-solid-1 px-4 py-3">
+            <dt class="flex items-center gap-1.5 text-label-small text-n-slate-11">
+              <span class="<%= fact[:icon] %> size-3.5"></span>
+              <%= fact[:label] %>
+            </dt>
+            <dd class="mt-1 text-lg font-semibold tabular-nums tracking-tight text-n-slate-12"><%= number_with_delimiter(fact[:value]) %></dd>
+          </div>
+        <% end %>
+      </dl>
+    </section>
+
     <div class="space-y-6">
       <nav class="border-b border-n-weak" aria-label="<%= t("#{scope}.tabs.label") %>">
         <div class="-mb-px flex gap-5 overflow-x-auto sm:gap-6">
           <% SuperAdmin::UserDiagnosticsController::TABS.each do |tab| %>
-            <%= link_to t("#{scope}.tabs.#{tab}"),
-                        super_admin_user_diagnostics_path(user_query: @query, tab: tab),
-                        class: 'inline-flex h-10 shrink-0 items-center border-b-2 border-transparent text-body-main text-n-slate-11 hover:text-n-slate-12 ' \
+            <%= link_to super_admin_user_diagnostics_path(user_query: @query, tab: tab),
+                        class: 'inline-flex h-10 shrink-0 items-center gap-1.5 border-b-2 border-transparent text-body-main text-n-slate-11 hover:text-n-slate-12 ' \
                                'aria-[current=page]:border-n-brand aria-[current=page]:font-medium aria-[current=page]:text-n-slate-12 touch:h-11',
-                        aria: { current: ('page' if @tab == tab) } %>
+                        aria: { current: ('page' if @tab == tab) } do %>
+              <span class="<%= tab_icons[tab] %> hidden size-4 sm:block"></span>
+              <%= t("#{scope}.tabs.#{tab}") %>
+              <%= render "badge", label: number_with_delimiter(tab_counts[tab]), tone: :neutral %>
+            <% end %>
           <% end %>
         </div>
       </nav>
