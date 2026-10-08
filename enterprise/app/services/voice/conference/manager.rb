@@ -154,10 +154,15 @@ class Voice::Conference::Manager
   # The conversation the failed claim assigned goes back to unassigned, so it rings for
   # everyone again; an assignment made otherwise stays
   def release_claim_assignment(user_id)
-    conversation = call.conversation
-    return unless user_id && conversation.assignee_id == user_id && call.reload.ring_state['assigned_by_claim'] == user_id
+    return unless user_id && call.reload.ring_state['assigned_by_claim'] == user_id
 
-    Conversations::AssignmentService.new(conversation: conversation, assignee_id: nil).perform
+    conversation = call.conversation
+    # Checked under the conversation's lock, so an assignment made meanwhile is kept
+    conversation.with_lock do
+      next unless conversation.assignee_id == user_id
+
+      Conversations::AssignmentService.new(conversation: conversation, assignee_id: nil).perform
+    end
   end
 
   def claimant_leaving_unjoined_call?
