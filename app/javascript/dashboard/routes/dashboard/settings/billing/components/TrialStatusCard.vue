@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import ButtonV4 from 'next/button/Button.vue';
 import Input from 'next/input/Input.vue';
 import { useTrialStatus } from 'dashboard/composables/useTrialStatus';
+import { getCurrencyConfig } from 'dashboard/constants/billing';
 
 const props = defineProps({
   isManaging: {
@@ -19,9 +20,27 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  currency: {
+    type: String,
+    default: '',
+  },
+  // Currencies a trial without a card can switch between; empty when switching isn't offered.
+  currencyOptions: {
+    type: Array,
+    default: () => [],
+  },
+  isSwitchingCurrency: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['manage', 'choosePlan', 'updateSeats']);
+const emit = defineEmits([
+  'manage',
+  'choosePlan',
+  'updateSeats',
+  'switchCurrency',
+]);
 
 const { t } = useI18n();
 const {
@@ -40,6 +59,12 @@ watch(
   seats => {
     seatCount.value = seats;
   }
+);
+
+const currencyLabel = code => t(getCurrencyConfig(code).i18nLabelKey);
+
+const otherCurrencies = computed(() =>
+  props.currencyOptions.filter(code => code !== props.currency)
 );
 
 const endsOn = computed(() => format(trialEndsAt.value, 'dd MMM, yyyy'));
@@ -133,6 +158,33 @@ const description = computed(() => {
       <span class="text-xs text-n-slate-11 pb-2">
         {{ t('BILLING_SETTINGS.TRIAL.STATUS.SEATS.HELP') }}
       </span>
+    </div>
+    <div
+      v-if="isTrialWithoutCard && otherCurrencies.length"
+      class="flex flex-wrap items-center gap-3"
+    >
+      <span class="text-sm text-n-slate-11">
+        {{
+          t('BILLING_SETTINGS.TRIAL.STATUS.CURRENCY.LABEL', {
+            currency: currencyLabel(currency),
+          })
+        }}
+      </span>
+      <ButtonV4
+        v-for="code in otherCurrencies"
+        :key="code"
+        sm
+        link
+        blue
+        :is-loading="isSwitchingCurrency"
+        @click="emit('switchCurrency', code)"
+      >
+        {{
+          t('BILLING_SETTINGS.TRIAL.STATUS.CURRENCY.SWITCH', {
+            currency: currencyLabel(code),
+          })
+        }}
+      </ButtonV4>
     </div>
     <div class="h-1.5 rounded-full bg-n-slate-4 overflow-hidden">
       <div

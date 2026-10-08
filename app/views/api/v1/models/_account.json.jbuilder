@@ -11,6 +11,7 @@ if resource.custom_attributes.present?
     json.trial_ends_at resource.custom_attributes['trial_ends_at']
     json.trial_started_at resource.custom_attributes['trial_started_at']
     json.trial_state resource.cloud_trial_state if resource.respond_to?(:cloud_trial_state)
+    json.trial_currency_options resource.trial_currency_options if resource.respond_to?(:trial_currency_options)
     json.billing_currency resource.billing_currency if resource.respond_to?(:billing_currency) && Enterprise::Billing::Currencies.enabled?
     json.website resource.custom_attributes['website'] if resource.custom_attributes['website'].present?
     json.industry resource.custom_attributes['industry'] if resource.custom_attributes['industry'].present?

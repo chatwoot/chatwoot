@@ -12,6 +12,11 @@ class Api::V1::Accounts::BillingTrialsController < Api::V1::Accounts::BaseContro
     head :ok
   end
 
+  def switch_currency
+    trial_service.switch_currency(params.require(:currency))
+    head :ok
+  end
+
   private
 
   def trial_service

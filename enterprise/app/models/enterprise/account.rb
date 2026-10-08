@@ -99,6 +99,15 @@ module Enterprise::Account
     Enterprise::Billing::Currencies.for_locale(locale)
   end
 
+  # A trial without a card can move between USD and its locale's currency, since nothing has been billed yet.
+  def trial_currency_options
+    locale_currency = Enterprise::Billing::Currencies.for_locale(locale)
+    return [] unless Enterprise::Billing::Currencies.enabled? && locale_currency != Enterprise::Billing::Currencies::DEFAULT
+    return [] unless cloud_trial_state == 'no_card'
+
+    [Enterprise::Billing::Currencies::DEFAULT, locale_currency]
+  end
+
   # New accounts whose locale maps to a non-USD currency get to pick USD or that
   # currency before the Stripe customer is created; everyone else proceeds in USD.
   def billing_currency_selection_required?

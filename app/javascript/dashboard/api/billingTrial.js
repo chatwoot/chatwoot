@@ -13,6 +13,10 @@ class BillingTrialAPI extends ApiClient {
   updateSeats(quantity) {
     return axios.patch(this.url, { quantity });
   }
+
+  switchCurrency(currency) {
+    return axios.post(`${this.url}/switch_currency`, { currency });
+  }
 }
 
 export default new BillingTrialAPI();

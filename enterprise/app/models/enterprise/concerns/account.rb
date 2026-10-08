@@ -24,5 +24,19 @@ module Enterprise::Concerns::Account
     has_many :calls, dependent: :destroy_async
 
     has_one :saml_settings, dependent: :destroy_async, class_name: 'AccountSamlSettings'
+
+    after_create_commit :start_cloud_trial
+  end
+
+  private
+
+  # Every Stripe-billed cloud account starts its trial when it's created. Accounts created without an administrator
+  # (Super Admin, Platform API) have no one to bill yet, so they get the free plan from the billing page instead.
+  def start_cloud_trial
+    return unless Enterprise::Billing::TrialService.enabled? && billing_provider == Account::DEFAULT_BILLING_PROVIDER
+    return unless administrators.exists?
+
+    update!(custom_attributes: custom_attributes.merge('is_creating_customer' => true))
+    Enterprise::CreateStripeCustomerJob.perform_later(self, trial_end: Enterprise::Billing::TrialService::TRIAL_DAYS.days.from_now.to_i)
   end
 end

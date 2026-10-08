@@ -55,6 +55,7 @@ const currencyOptions = ref([]);
 
 const isOpeningTrialPlans = ref(false);
 const isUpdatingTrialSeats = ref(false);
+const isSwitchingTrialCurrency = ref(false);
 
 const customAttributes = computed(() => {
   return currentAccount.value.custom_attributes || {};
@@ -154,6 +155,20 @@ const onUpdateTrialSeats = async quantity => {
     useAlert(parseAPIErrorResponse(error));
   } finally {
     isUpdatingTrialSeats.value = false;
+  }
+};
+
+// Before a plan is chosen the trial can move between the locale's currency and USD.
+const onSwitchTrialCurrency = async currency => {
+  isSwitchingTrialCurrency.value = true;
+  try {
+    await BillingTrialAPI.switchCurrency(currency);
+    await store.dispatch('accounts/get', { silent: true });
+    useAlert(t('BILLING_SETTINGS.TRIAL.STATUS.CURRENCY.UPDATED'));
+  } catch (error) {
+    useAlert(parseAPIErrorResponse(error));
+  } finally {
+    isSwitchingTrialCurrency.value = false;
   }
 };
 
@@ -285,8 +300,12 @@ onMounted(handleBillingPageLogic);
           :is-managing="isOpeningTrialPlans || uiFlags.isCheckoutInProcess"
           :seats="subscribedQuantity"
           :is-updating-seats="isUpdatingTrialSeats"
+          :currency="customAttributes.billing_currency"
+          :currency-options="customAttributes.trial_currency_options"
+          :is-switching-currency="isSwitchingTrialCurrency"
           @choose-plan="onChooseTrialPlan"
           @update-seats="onUpdateTrialSeats"
+          @switch-currency="onSwitchTrialCurrency"
           @manage="onClickBillingPortal"
         />
         <BillingCard

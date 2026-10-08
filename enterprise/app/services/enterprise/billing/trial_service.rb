@@ -39,6 +39,24 @@ class Enterprise::Billing::TrialService
     account.update!(custom_attributes: account.custom_attributes.merge('subscribed_quantity' => updated['quantity']))
   end
 
+  # Nothing is billed before a plan is chosen, but Stripe can't hold subscriptions in two currencies on one customer.
+  # So the trial moves to a new customer in the chosen currency, with the same end date and seats.
+  def switch_currency(currency)
+    ensure_trial_without_card!
+    currency = Enterprise::Billing::Currencies.normalize(currency)
+    unless account.trial_currency_options.include?(currency) && currency != account.billing_currency
+      raise Error, I18n.t('errors.billing.invalid_currency')
+    end
+
+    old_customer_id = stripe_customer_id
+    trial = subscription
+    ActiveRecord::Base.transaction do
+      account.update!(custom_attributes: account.custom_attributes.except('stripe_customer_id').merge('billing_currency' => currency))
+      Enterprise::Billing::CreateStripeCustomerService.new(account: account, trial_end: trial.trial_end, quantity: trial.quantity).perform
+    end
+    Stripe::Customer.delete(old_customer_id)
+  end
+
   # Seats added during a trial without a card go back to the free plan's seats once it ends.
   def reset_seats(ended_subscription)
     return unless account.cloud_trial_state == 'ended'

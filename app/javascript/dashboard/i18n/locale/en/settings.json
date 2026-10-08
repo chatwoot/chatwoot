@@ -616,6 +616,11 @@
           "HELP": "Add seats for your team during the trial. No card needed.",
           "UPDATE": "Update seats",
           "UPDATED": "Trial seats updated"
+        },
+        "CURRENCY": {
+          "LABEL": "Billing currency: {currency}",
+          "SWITCH": "Switch to {currency}",
+          "UPDATED": "Billing currency updated"
         }
       },
       "ENDED": {
