@@ -92,6 +92,17 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(conference_service).to have_received(:mark_agent_joined)
       end
 
+      it 'answers 409 when the ring timeout is already ending the call' do
+        allow(conference_service).to receive(:mark_agent_joined).and_raise(Voice::CallErrors::CallAlreadyEnded, 'Call has timed out')
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+             headers: agent.create_new_auth_token,
+             params: { conversation_id: conversation.display_id, call_sid: 'CALL123' }
+
+        expect(response).to have_http_status(:conflict)
+        expect(response.parsed_body['error']).to eq('Call has timed out')
+      end
+
       it 'rejects the request when call_sid is missing' do
         post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
              headers: agent.create_new_auth_token,
