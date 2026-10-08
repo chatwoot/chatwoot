@@ -61,6 +61,15 @@ RSpec.describe Voice::MissedCallNotificationJob do
     expect(missed_calls_for(other_agent).count).to eq(0)
   end
 
+  it 'records it when the caller hung up during the ring and the call was reported completed' do
+    call.update!(status: 'completed')
+    ring!
+
+    described_class.perform_now(call.id)
+
+    expect(missed_calls_for(agent).count).to eq(1)
+  end
+
   it 'records nothing for a call that rang no phones' do
     described_class.perform_now(call.id)
 

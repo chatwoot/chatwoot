@@ -4,7 +4,7 @@ class Voice::MissedCallNotificationJob < ApplicationJob
 
   def perform(call_id)
     call = Call.find_by(id: call_id)
-    return if call.blank? || !call.incoming? || call.status != 'no_answer' || call.message.blank?
+    return if call.blank? || !call.missed? || call.message.blank?
 
     recipients(call).each do |user|
       next if user.notifications.exists?(notification_type: 'voice_call_missed', secondary_actor: call.message)

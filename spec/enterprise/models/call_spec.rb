@@ -54,6 +54,16 @@ RSpec.describe Call do
       end.to have_enqueued_job(Voice::MissedCallNotificationJob)
     end
 
+    it 'enqueues it when the caller hangs up during the ring and the provider reports the call completed' do
+      expect { call.update!(status: 'completed') }.to have_enqueued_job(Voice::MissedCallNotificationJob).with(call.id)
+    end
+
+    it 'does not for a call an agent answered' do
+      call.update!(status: 'in_progress', accepted_by_agent: create(:user, account: account))
+
+      expect { call.update!(status: 'completed') }.not_to have_enqueued_job(Voice::MissedCallNotificationJob)
+    end
+
     it 'does not for a declined call' do
       expect { call.update!(status: 'rejected') }.not_to have_enqueued_job(Voice::MissedCallNotificationJob)
     end
