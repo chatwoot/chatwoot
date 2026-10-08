@@ -870,6 +870,9 @@ en:
         web_sessions:
           one: 'They have %{count} active web session.'
           other: 'They have %{count} active web sessions.'
+        also_web_sessions:
+          one: 'Also signed in on %{count} web session.'
+          other: 'Also signed in on %{count} web sessions.'
         legacy_build: 'legacy build'
         legacy_note: '"legacy build" means the session predates app version 4.8.0, which is when the app began sending X-Chatwoot-Client-Version. The exact build is unknown.'
         columns:

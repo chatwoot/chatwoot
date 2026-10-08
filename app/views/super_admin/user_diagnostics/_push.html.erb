@@ -62,7 +62,7 @@
   <% end %>
 <% end %>
 
-<%= render "card", title: t("#{scope}.devices.heading"), meta: @subscriptions.size do %>
+<%= render "card", title: t("#{scope}.devices.heading"), count: @subscriptions.size do %>
   <% if @subscriptions.empty? %>
     <%= render "empty", icon: "i-lucide-bell-ring", message: t("#{scope}.devices.empty") %>
   <% else %>

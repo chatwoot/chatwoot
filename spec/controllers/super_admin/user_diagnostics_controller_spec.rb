@@ -110,6 +110,15 @@ RSpec.describe 'Super Admin User diagnostics', type: :request do
       expect(response.body).not_to include('active web session')
     end
 
+    it 'reports web sessions alongside the mobile sessions' do
+      user.user_sessions.create!(client_id: 'client-1', browser_name: 'Chatwoot Mobile', browser_version: '4.9.1', last_activity_at: Time.current)
+      user.user_sessions.create!(client_id: 'web-1', browser_name: 'Chrome', last_activity_at: Time.current)
+
+      get '/super_admin/user_diagnostics', params: { user_query: user.email, tab: 'mobile' }
+
+      expect(response.body).to include('Also signed in on 1 web session.')
+    end
+
     it 'flags sessions from builds that predate version reporting' do
       user.user_sessions.create!(
         client_id: 'client-legacy', browser_name: 'Chatwoot Mobile', browser_version: nil,

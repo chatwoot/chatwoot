@@ -9,7 +9,7 @@
   <% end %>
 <% end %>
 
-<%= render "card", title: t("#{scope}.sessions.heading"), meta: @mobile_sessions.size do %>
+<%= render "card", title: t("#{scope}.sessions.heading"), count: @mobile_sessions.size do %>
   <% if @mobile_sessions.empty? %>
     <%
       empty_message = t("#{scope}.sessions.empty")
@@ -63,6 +63,12 @@
         </tbody>
       <% end %>
     </div>
+    <% if @web_session_count.positive? %>
+      <p class="flex items-center gap-1.5 border-t border-n-weak px-4 py-3 text-body-main text-n-slate-12">
+        <span class="i-lucide-monitor size-4 shrink-0 text-n-slate-11"></span>
+        <%= t("#{scope}.sessions.also_web_sessions", count: @web_session_count) %>
+      </p>
+    <% end %>
     <p class="flex items-start gap-1.5 border-t border-n-weak px-4 py-3 text-label-small text-n-slate-11">
       <span class="i-lucide-info size-3.5 shrink-0 translate-y-px"></span>
       <%= t("#{scope}.sessions.legacy_note") %>
