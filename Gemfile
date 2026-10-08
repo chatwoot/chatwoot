@@ -145,6 +145,8 @@ gem 'speedshop-cloudwatch', '~> 0.2.1', require: false
 
 ##-- Push notification service --##
 gem 'fcm'
+# APNs VoIP pushes that ring iPhones through CallKit
+gem 'apnotic', '~> 1.8'
 gem 'web-push', '>= 3.0.1'
 
 ##-- geocoding / parse location from ip --##
@@ -282,5 +284,3 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
-
-gem "apnotic", "~> 1.8"

@@ -1,6 +1,9 @@
 class Notification::FcmService
   SCOPES = ['https://www.googleapis.com/auth/firebase.messaging'].freeze
   TOKEN_MARGIN_SECONDS = 60
+  # Google access tokens by credentials, held in this process only
+  TOKENS = {} # rubocop:disable Style/MutableConstant
+  TOKENS_LOCK = Mutex.new
 
   def initialize(project_id, credentials)
     @project_id = project_id
@@ -24,15 +27,15 @@ class Notification::FcmService
     @token_info[:token]
   end
 
-  # One token per credentials for as long as it is valid, shared across processes
+  # One token per credentials for as long as it is valid, kept in this process only: the
+  # bearer token is never written to a shared or on-disk cache
   def cached_token_info
-    cached = Rails.cache.read(cache_key)
-    return cached if cached && Time.zone.now < cached[:expires_at] - TOKEN_MARGIN_SECONDS
+    TOKENS_LOCK.synchronize do
+      cached = TOKENS[cache_key]
+      return cached if cached && Time.zone.now < cached[:expires_at] - TOKEN_MARGIN_SECONDS
 
-    info = generate_token
-    ttl = [info[:expires_at] - Time.zone.now - TOKEN_MARGIN_SECONDS, TOKEN_MARGIN_SECONDS].max
-    Rails.cache.write(cache_key, info, expires_in: ttl)
-    info
+      TOKENS[cache_key] = generate_token
+    end
   end
 
   def cache_key

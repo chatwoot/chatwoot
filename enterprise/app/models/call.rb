@@ -8,6 +8,7 @@
 #  end_reason           :string
 #  meta                 :jsonb
 #  provider             :integer          default("twilio"), not null
+#  ring_state           :jsonb            not null
 #  started_at           :datetime
 #  status               :string           default("ringing"), not null
 #  transcript           :text
@@ -167,7 +168,7 @@ class Call < ApplicationRecord
   end
 
   def ring_just_ended?
-    saved_change_to_status? && status_before_last_save == 'ringing' && meta&.dig('rung_devices').present?
+    saved_change_to_status? && status_before_last_save == 'ringing' && ring_state['rung_devices'].present?
   end
 
   def cancel_phone_ring
