@@ -41,6 +41,17 @@ describe Messages::NewMessageNotificationService do
     described_class.new(message: message).perform
   end
 
+  it 'keeps notifying while the message is not linked to its call yet' do
+    account.enable_features!('mobile_voice_push')
+    subscribe_phone(assignee)
+    Call.find_by(message_id: message.id).update!(message_id: nil)
+
+    expect(NotificationBuilder).to receive(:new)
+      .with(hash_including(notification_type: 'assigned_conversation_new_message', user: assignee))
+      .and_call_original
+    described_class.new(message: message).perform
+  end
+
   it 'keeps notifying an agent chosen for the ring who has no phone it can reach' do
     account.enable_features!('mobile_voice_push')
 
