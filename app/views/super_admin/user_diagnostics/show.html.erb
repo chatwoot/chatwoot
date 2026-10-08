@@ -36,6 +36,7 @@
           <p class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-body-main text-n-slate-11">
             <span class="inline-flex items-center gap-1"><span class="i-lucide-hash size-3.5"></span><%= @user.id %></span>
             <span class="inline-flex min-w-0 items-center gap-1"><span class="i-lucide-mail size-3.5 shrink-0"></span><span class="truncate"><%= @user.email %></span></span>
+            <span class="inline-flex items-center gap-1"><span class="i-lucide-monitor size-3.5"></span><%= t("#{scope}.user.web_sessions", count: @web_session_count) %></span>
           </p>
           <% if @user.accounts.any? %>
             <ul class="mt-3 flex flex-wrap gap-1.5" aria-label="<%= t("#{scope}.user.accounts") %>">
