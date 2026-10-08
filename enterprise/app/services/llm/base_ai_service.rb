@@ -32,6 +32,8 @@ class Llm::BaseAiService
     llm_chat = chat(model: model, feature: feature)
     options = Captain::ResponsesConfig.options(model: model, temperature: @temperature, feature: feature)
     format = { type: 'json_object' }
+    # Responses JSON mode requires a JSON instruction in input, even when instructions already specify the output format.
+    llm_chat.add_message(role: :user, content: 'Respond with valid JSON.') if options[:protocol] == :responses
     llm_chat.with_provider_options(options[:protocol] == :responses ? { text: { format: format } } : { response_format: format })
   end
 
