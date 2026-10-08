@@ -17,7 +17,7 @@ class Voice::EndConferenceJob < ApplicationJob
     if call&.twilio?
       Rails.logger.error("[VOICE] call #{call.id}: ending the conference after retries failed: #{error.class}: #{error.message}")
       options = job.arguments.last.is_a?(Hash) ? job.arguments.last : {}
-      job.send(:give_up, call, options[:round].to_i)
+      job.send(:give_up, call, options[:round].to_i, options[:leaving_call_sid])
     end
   end
 
@@ -34,14 +34,20 @@ class Voice::EndConferenceJob < ApplicationJob
 
   private
 
-  def give_up(call, round)
-    begin
-      Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference
-    rescue StandardError => e
-      Rails.logger.error("[VOICE] call #{call.id}: last attempt to end the conference failed: #{e.class}: #{e.message}")
-      self.class.set(wait: LATE_ROUND_WAIT).perform_later(call.id, round: round + 1) if round < LATE_ROUNDS
-    end
+  # A last attempt that still checks for an agent left on the call first, so a conference
+  # someone is still on is never ended; one Twilio will not answer is tried again in a later
+  # round, and the call completes once the rounds run out
+  def give_up(call, round, leaving_call_sid)
+    conference = Voice::Provider::Twilio::ConferenceService.new(call: call)
+    return if leaving_call_sid && conference.agents_remain?(leaving_call_sid: leaving_call_sid)
+
+    conference.end_conference
     complete(call)
+  rescue StandardError => e
+    Rails.logger.error("[VOICE] call #{call.id}: last attempt to end the conference failed: #{e.class}: #{e.message}")
+    return complete(call) if round >= LATE_ROUNDS
+
+    self.class.set(wait: LATE_ROUND_WAIT).perform_later(call.id, leaving_call_sid: leaving_call_sid, round: round + 1)
   end
 
   def complete(call)

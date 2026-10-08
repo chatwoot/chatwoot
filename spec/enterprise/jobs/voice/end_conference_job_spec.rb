@@ -56,9 +56,9 @@ RSpec.describe Voice::EndConferenceJob do
   it 'completes the call once the retries are spent, after a last attempt to end the conference' do
     live = create(:call, conversation: conversation, status: 'in_progress', started_at: 1.minute.ago)
     allow(ActionCable.server).to receive(:broadcast)
-    allow(conference).to receive(:agents_remain?).and_raise(Twilio::REST::TwilioError)
-    job = described_class.new(live.id, leaving_call_sid: 'CA-agent-1')
+    job = described_class.new(live.id)
     job.exception_executions = { '[StandardError]' => 4 }
+    allow(job).to receive(:perform).and_raise(Twilio::REST::TwilioError)
 
     job.perform_now
 
@@ -66,12 +66,36 @@ RSpec.describe Voice::EndConferenceJob do
     expect(live.reload.status).to eq('completed')
   end
 
+  it 'checks for an agent still on the call before a last attempt, and carries the leg into a later round' do
+    live = create(:call, conversation: conversation, status: 'in_progress', started_at: 1.minute.ago)
+    allow(conference).to receive(:agents_remain?).and_raise(Twilio::REST::TwilioError)
+    job = described_class.new(live.id, leaving_call_sid: 'CA-agent-1')
+    job.exception_executions = { '[StandardError]' => 4 }
+
+    expect { job.perform_now }.to have_enqueued_job(described_class).with(live.id, leaving_call_sid: 'CA-agent-1', round: 1)
+    expect(conference).not_to have_received(:end_conference)
+    expect(live.reload.status).to eq('in_progress')
+  end
+
+  it 'leaves the conference running when the last attempt finds another agent on it' do
+    live = create(:call, conversation: conversation, status: 'in_progress', started_at: 1.minute.ago)
+    job = described_class.new(live.id, leaving_call_sid: 'CA-agent-1')
+    job.exception_executions = { '[StandardError]' => 4 }
+    allow(job).to receive(:perform).and_raise(Twilio::REST::TwilioError)
+    allow(conference).to receive(:agents_remain?).and_return(true)
+
+    job.perform_now
+
+    expect(conference).not_to have_received(:end_conference)
+    expect(live.reload.status).to eq('in_progress')
+  end
+
   it 'queues a later round when Twilio still will not end the conference after the retries' do
     allow(conference).to receive(:end_conference).and_raise(Twilio::REST::TwilioError)
     job = described_class.new(call.id)
     job.exception_executions = { '[StandardError]' => 4 }
 
-    expect { job.perform_now }.to have_enqueued_job(described_class).with(call.id, round: 1)
+    expect { job.perform_now }.to have_enqueued_job(described_class).with(call.id, leaving_call_sid: nil, round: 1)
   end
 
   it 'stops after the last round' do
