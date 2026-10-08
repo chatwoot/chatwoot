@@ -137,7 +137,7 @@ class Twilio::VoiceController < ApplicationController
     lookup_sid = direction == 'outbound-dial' ? parent_sid || call_sid : call_sid
     call = inbox_calls.find_by!(provider_call_id: lookup_sid)
 
-    call.update!(parent_call_sid: parent_sid) if parent_sid.present? && call.parent_call_sid != parent_sid
+    call.merge_meta!('parent_call_sid' => parent_sid) if parent_sid.present? && call.parent_call_sid != parent_sid
     call
   end
 
