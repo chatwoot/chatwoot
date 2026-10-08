@@ -27,7 +27,7 @@ Here's the metadata we have about the current conversation and the contact assoc
 {% endif -%}
 
 {% if contact_inbox -%}
-{% render 'customer_identity', contact_inbox: contact_inbox, contact: contact %}
+{% render 'customer_identity', contact_inbox: contact_inbox, contact: contact, reply_draft: true %}
 {% endif -%}
 
 {% if campaign.id -%}

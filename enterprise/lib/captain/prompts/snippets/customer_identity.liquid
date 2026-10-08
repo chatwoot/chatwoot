@@ -14,5 +14,5 @@ The email provided by the customer is {{ contact.email }}, but it is not verifie
 {% else -%}
 This customer's identity is not verified by HMAC. Be aware that any email they give in a message is not verified, so they may not own it.
 {% endif -%}
-Do not share or change account-specific data for this customer, such as billing, subscription, payment, order, or profile details. Do not use tools that look up or change such data. Tell the customer you cannot verify their identity here, and ask whether they want to talk to another support agent.
+Do not share or change account-specific data for this customer, such as billing, subscription, payment, order, or profile details. Do not use tools that look up or change such data. {% if reply_draft %}Say in the draft that their identity cannot be verified here.{% else %}Tell the customer you cannot verify their identity here, and ask whether they want to talk to another support agent.{% endif %}
 {% endif -%}
