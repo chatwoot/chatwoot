@@ -64,7 +64,8 @@ class Call < ApplicationRecord
 
   # Phones that were rung learn the ring is over; see Voice::VoipPushService
   after_update_commit :cancel_phone_ring, if: :ring_just_ended?
-  after_update_commit :notify_missed_call, if: :missed_just_now?
+  # On create too: a call whose end arrived before its start is created and ended in one transaction
+  after_commit :notify_missed_call, on: %i[create update], if: :missed_just_now?
   validates :status, presence: true, inclusion: { in: STATUSES }
 
   scope :active, -> { where.not(status: TERMINAL_STATUSES) }

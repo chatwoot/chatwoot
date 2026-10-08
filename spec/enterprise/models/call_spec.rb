@@ -45,6 +45,16 @@ RSpec.describe Call do
       expect { call.update!(status: 'no_answer') }.to have_enqueued_job(Voice::MissedCallNotificationJob).with(call.id)
     end
 
+    it 'enqueues it for a call created and ended in one transaction, when its end arrived first' do
+      conversation = create(:conversation, account: account)
+
+      expect do
+        ActiveRecord::Base.transaction do
+          create(:call, conversation: conversation).update!(status: 'no_answer')
+        end
+      end.to have_enqueued_job(Voice::MissedCallNotificationJob)
+    end
+
     it 'does not for a declined call' do
       expect { call.update!(status: 'rejected') }.not_to have_enqueued_job(Voice::MissedCallNotificationJob)
     end
