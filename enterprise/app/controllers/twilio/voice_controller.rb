@@ -170,7 +170,7 @@ class Twilio::VoiceController < ApplicationController
   def ensure_conference_sid!(call)
     return call.conference_sid if call.conference_sid.present?
 
-    call.update!(conference_sid: call.default_conference_sid)
+    call.merge_meta!('conference_sid' => call.default_conference_sid)
     call.conference_sid
   end
 
