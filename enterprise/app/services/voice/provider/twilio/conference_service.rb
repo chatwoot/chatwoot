@@ -34,10 +34,16 @@ class Voice::Provider::Twilio::ConferenceService
 
   private
 
+  # The ring timeout is hanging the caller up; a mark from an attempt that died long ago
+  # no longer counts
+  def timing_out?
+    started_at = call.ring_state['timing_out_at']
+    started_at.present? && started_at > Voice::RingingTimeoutService::ATTEMPT_TTL_SECONDS.seconds.ago.to_i
+  end
+
   def claim_call!(user)
     call.with_lock do
-      # The ring timeout is hanging the caller up
-      raise Voice::CallErrors::CallAlreadyEnded, 'Call has timed out' if call.ring_state['timing_out']
+      raise Voice::CallErrors::CallAlreadyEnded, 'Call has timed out' if timing_out?
 
       raise_already_accepted!(call.accepted_by_agent) if claimed_by_other_agent?(user)
       call.update!(accepted_by_agent: user) if call.accepted_by_agent_id != user.id
