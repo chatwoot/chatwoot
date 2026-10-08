@@ -66,8 +66,7 @@ class Voice::VoipPushService
     return if apple.nil? || (apple.empty? && android.empty?)
 
     stale_apple, stale_android = deliver_ring(apple, android)
-    forget_devices(APPLE, stale_apple)
-    forget_devices(ANDROID, stale_android)
+    forget_unreached(stale_apple, stale_android)
     # The tokens just rung are used, not the stored ones: a cancel that ran while these
     # pushes were in flight has already removed those
     cancel(android - stale_android.to_a) unless call.reload.ringing?
@@ -163,6 +162,18 @@ class Voice::VoipPushService
   # missed-call notice
   def forget_rung_devices
     Call.where(id: call.id).update_all("ring_state = ring_state - 'rung_devices'") # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  # The new-message notification is held back for agents whose phone the ring reaches.
+  # With the devices the platform no longer knows removed, it goes to anyone the ring
+  # turned out not to reach; agents already notified for the message are skipped.
+  def forget_unreached(stale_apple, stale_android)
+    return if stale_apple.blank? && stale_android.blank?
+
+    forget_devices(APPLE, stale_apple)
+    forget_devices(ANDROID, stale_android)
+    message = call.reload.message
+    Messages::NewMessageNotificationService.new(message: message).perform if message
   end
 
   # A device the platform no longer knows is removed so it stops costing a request per ring
