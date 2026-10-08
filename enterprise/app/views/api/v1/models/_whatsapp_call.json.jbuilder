@@ -9,6 +9,9 @@ json.conversation_id call.conversation_id
 json.inbox_id call.inbox_id
 json.message_id call.message_id
 json.accepted_by_agent_id call.accepted_by_agent_id
+# Identifies the answer that was accepted without exposing it, so the device that sent it
+# can tell its own answer from another device's
+json.answer_digest(call.meta&.dig('sdp_answer')&.then { |answer| Digest::SHA256.hexdigest(answer) })
 json.elapsed_seconds(call.started_at ? (Time.current - call.started_at).to_i : 0)
 json.sdp_offer call.meta&.dig('sdp_offer')
 json.ice_servers(call.meta&.dig('ice_servers') || Call.default_ice_servers)
