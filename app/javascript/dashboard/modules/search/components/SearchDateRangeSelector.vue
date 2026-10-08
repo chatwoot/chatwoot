@@ -93,11 +93,13 @@ const selectedValue = computed(() => {
 });
 
 const menuItems = computed(() =>
-  PRESET_RANGES.value.map(item => ({
-    ...item,
-    action: DATE_FILTER_ACTIONS.PRESET,
-    isSelected: selectedValue.value === item.value,
-  }))
+  PRESET_RANGES.value
+    .filter(item => item.days <= searchWindowDays)
+    .map(item => ({
+      ...item,
+      action: DATE_FILTER_ACTIONS.PRESET,
+      isSelected: selectedValue.value === item.value,
+    }))
 );
 
 const applySelection = ({ type, from, to }) => {
