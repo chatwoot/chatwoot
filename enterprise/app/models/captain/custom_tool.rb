@@ -89,6 +89,8 @@ class Captain::CustomTool < ApplicationRecord
   enum :http_method, %w[GET POST PUT PATCH DELETE].index_by(&:itself), validate: true
   enum :auth_type, %w[none bearer basic api_key].index_by(&:itself), default: :none, validate: true, prefix: :auth
 
+  encrypts :auth_config, :headers if Chatwoot.encryption_configured?
+
   before_validation :generate_slug
   before_create :ensure_within_limit
 
