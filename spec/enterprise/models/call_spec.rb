@@ -37,9 +37,8 @@ RSpec.describe Call do
 
   describe 'recording a missed call' do
     let(:account) { create(:account) }
-    let(:call) { create(:call, conversation: create(:conversation, account: account)) }
-
-    before { account.enable_features!('mobile_voice_push') }
+    let(:rang) { { 'ring_recipient_ids' => [] } }
+    let(:call) { create(:call, conversation: create(:conversation, account: account), ring_state: rang) }
 
     it 'enqueues the missed-call notification when an inbound ring is not answered' do
       expect { call.update!(status: 'no_answer') }.to have_enqueued_job(Voice::MissedCallNotificationJob).with(call.id)
@@ -50,7 +49,7 @@ RSpec.describe Call do
 
       expect do
         ActiveRecord::Base.transaction do
-          create(:call, conversation: conversation).update!(status: 'no_answer')
+          create(:call, conversation: conversation, ring_state: rang).update!(status: 'no_answer')
         end
       end.to have_enqueued_job(Voice::MissedCallNotificationJob)
     end
@@ -65,8 +64,8 @@ RSpec.describe Call do
       expect { call.update!(status: 'no_answer') }.not_to have_enqueued_job(Voice::MissedCallNotificationJob)
     end
 
-    it 'does not without the feature' do
-      account.disable_features!('mobile_voice_push')
+    it 'does not for a call that rang no phones' do
+      call.update!(ring_state: {})
 
       expect { call.update!(status: 'no_answer') }.not_to have_enqueued_job(Voice::MissedCallNotificationJob)
     end

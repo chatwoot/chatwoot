@@ -191,8 +191,10 @@ class Call < ApplicationRecord
     Voice::VoipPushJob.perform_later(id, 'cancel')
   end
 
+  # Only a call that rang phones has a missed-call notice: the agents rung were recorded
+  # as its ring started
   def missed_just_now?
-    saved_change_to_status? && status == 'no_answer' && incoming? && account.feature_enabled?('mobile_voice_push')
+    saved_change_to_status? && status == 'no_answer' && incoming? && ring_state.key?('ring_recipient_ids')
   end
 
   def notify_missed_call

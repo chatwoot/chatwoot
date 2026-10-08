@@ -20,11 +20,17 @@ RSpec.describe Voice::MissedCallNotificationJob do
     call.update!(message: Voice::CallMessageBuilder.new(call).perform!)
   end
 
+  # The agents rung are recorded as the ring starts, as InboundCallBuilder does
+  def ring!
+    call.update!(ring_state: { 'ring_recipient_ids' => Voice::VoipPushService.recipients_for(call).map(&:id) })
+  end
+
   def missed_calls_for(user)
     user.notifications.where(notification_type: 'voice_call_missed')
   end
 
   it 'records a missed call for every agent the call rang' do
+    ring!
     described_class.perform_now(call.id)
 
     expect(missed_calls_for(agent).count).to eq(1)
@@ -37,6 +43,7 @@ RSpec.describe Voice::MissedCallNotificationJob do
 
   it 'records it only for the assignee when the conversation is assigned' do
     conversation.update!(assignee: other_agent)
+    ring!
 
     described_class.perform_now(call.id)
 
@@ -54,7 +61,14 @@ RSpec.describe Voice::MissedCallNotificationJob do
     expect(missed_calls_for(other_agent).count).to eq(0)
   end
 
+  it 'records nothing for a call that rang no phones' do
+    described_class.perform_now(call.id)
+
+    expect(Notification.where(notification_type: 'voice_call_missed')).to be_empty
+  end
+
   it 'does not record the same missed call twice' do
+    ring!
     described_class.perform_now(call.id)
     described_class.perform_now(call.id)
 
