@@ -76,6 +76,17 @@ RSpec.describe Voice::Conference::Manager do
     end
   end
 
+  describe 'the contact leaving after their status callback ended the call' do
+    it 'ends the conference so the agent is not left on it' do
+      call.update!(status: 'completed')
+
+      leave('contact')
+
+      expect(conference).to have_received(:end_conference)
+      expect(call.reload.status).to eq('completed')
+    end
+  end
+
   describe 'the claiming agent leaving before their join callback arrives' do
     it 'ends the conference and completes the call' do
       call.update!(status: 'ringing')

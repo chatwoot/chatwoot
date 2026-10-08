@@ -97,19 +97,32 @@ class Voice::Conference::Manager
   # A call still ringing is marked unanswered under the row lock it was read under, so a
   # join cannot land between the check and the change; a join committed first is seen and
   # the leave ends the live call instead. So does the leave of the agent who claimed the
-  # call: their leg was in the conference, and its join callback has yet to arrive.
+  # call: their leg was in the conference, and its join callback has yet to arrive. A
+  # contact leaving a call that already ended still ends the conference.
   def handle_leave!
-    live = call.with_lock do
-      next true if call.in_progress? || claimant_leaving_unjoined_call?
-
-      status_manager.process_status_update('no_answer', timestamp: now) if call.ringing?
-      false
-    end
+    live = leave_finds_live_call?
+    return end_conference! if contact_leaving_answered_call?
     return unless live
     return if agent_participant? && other_agents_remain?
 
     end_conference!
     status_manager.process_status_update('completed', timestamp: now)
+  end
+
+  # Whether the leave left a live call behind; a call still ringing is marked unanswered
+  def leave_finds_live_call?
+    call.with_lock do
+      next true if call.in_progress? || claimant_leaving_unjoined_call?
+
+      status_manager.process_status_update('no_answer', timestamp: now) if call.ringing?
+      false
+    end
+  end
+
+  # The contact's own status callback can end the call before their leave arrives; the
+  # agents still in the conference are hung up all the same
+  def contact_leaving_answered_call?
+    !agent_participant? && call.terminal? && call.accepted_by_agent_id.present?
   end
 
   def claimant_leaving_unjoined_call?
