@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
 
 import i18nMessages from 'dashboard/i18n';
+import { replaceInstallationNameInTranslation } from 'shared/helpers/branding';
 import * as Sentry from '@sentry/vue';
 import {
   initializeAnalyticsEvents,
@@ -21,6 +22,7 @@ const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
   locale: 'en',
   messages: i18nMessages,
+  postTranslation: replaceInstallationNameInTranslation,
 });
 
 const app = createApp(App);

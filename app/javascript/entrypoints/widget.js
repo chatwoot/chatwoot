@@ -6,6 +6,7 @@ import store from '../widget/store';
 import App from '../widget/App.vue';
 import ActionCableConnector from '../widget/helpers/actionCable';
 import i18nMessages from '../widget/i18n';
+import { replaceInstallationNameInTranslation } from 'shared/helpers/branding';
 import router from '../widget/router';
 import { directive as onClickaway } from 'vue3-click-away';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
@@ -20,6 +21,7 @@ const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
   locale: 'en',
   messages: i18nMessages,
+  postTranslation: replaceInstallationNameInTranslation,
 });
 
 const app = createApp(App);

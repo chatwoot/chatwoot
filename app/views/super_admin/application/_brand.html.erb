@@ -12,7 +12,7 @@
   <%= link_to image_tag("/brand-assets/logo_thumbnail.svg", alt: "", class: "size-9"), super_admin_root_path, class: "shrink-0", tabindex: -1, aria: { hidden: true } %>
   <div class="min-w-0 whitespace-nowrap">
     <div class="flex items-baseline gap-1.5 leading-5">
-      <%= link_to "Chatwoot", super_admin_root_path, class: "text-base font-medium text-n-slate-12" %>
+      <%= link_to GlobalConfig.get_value("INSTALLATION_NAME"), super_admin_root_path, class: "text-base font-medium text-n-slate-12" %>
       <%= link_to "https://github.com/chatwoot/chatwoot/releases/tag/v#{version}",
                   target: "_blank", rel: "noopener noreferrer",
                   title: update_available ? t("super_admin.navigation.update_available", version: latest_version) : t("super_admin.navigation.release_notes"),

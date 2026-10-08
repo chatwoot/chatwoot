@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SuperAdmin | Chatwoot</title>
+    <title>SuperAdmin | <%= GlobalConfig.get_value("INSTALLATION_NAME") %></title>
     <%= render "super_admin/application/theme" %>
     <%= render "super_admin/application/font_preload", file: "Inter/InterVariable.woff2" %>
     <%= render "super_admin/application/font_preload", file: "InterDisplay/InterDisplay-SemiBold.woff2" %>
@@ -15,8 +15,8 @@
   <body class="min-h-full bg-n-background text-n-slate-12 antialiased">
     <div class="fixed inset-x-0 top-0 h-64 bg-pixel-band [mask-image:linear-gradient(to_bottom,black,transparent)]"></div>
     <main class="relative mx-auto flex min-h-screen w-full max-w-md flex-col justify-center px-4 py-10">
-      <img src="/brand-assets/logo.svg" alt="Chatwoot" class="mx-auto h-8 w-auto dark:hidden">
-      <img src="/brand-assets/logo_dark.svg" alt="Chatwoot" class="mx-auto hidden h-8 w-auto dark:block">
+      <img src="/brand-assets/logo.svg" alt="<%= GlobalConfig.get_value("INSTALLATION_NAME") %>" class="mx-auto h-8 w-auto dark:hidden">
+      <img src="/brand-assets/logo_dark.svg" alt="<%= GlobalConfig.get_value("INSTALLATION_NAME") %>" class="mx-auto hidden h-8 w-auto dark:block">
       <h1 class="mt-6 text-center font-interDisplay text-2xl font-semibold tracking-tight"><%= heading %></h1>
       <div class="rounded-xl border border-n-weak bg-n-solid-1 mt-8 p-6 sm:p-8">
         <% if flash[:error].present? %>
