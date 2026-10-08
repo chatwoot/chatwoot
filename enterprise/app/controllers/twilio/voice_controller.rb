@@ -49,7 +49,8 @@ class Twilio::VoiceController < ApplicationController
       call: call,
       event: event,
       participant_label: participant_label,
-      participant_call_sid: twilio_call_sid
+      participant_call_sid: twilio_call_sid,
+      leave_reason: params[:ReasonParticipantLeft]
     ).process
 
     head :no_content

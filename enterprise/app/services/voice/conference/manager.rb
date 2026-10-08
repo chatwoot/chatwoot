@@ -1,5 +1,5 @@
 class Voice::Conference::Manager
-  pattr_initialize [:call!, :event!, :participant_label, :participant_call_sid]
+  pattr_initialize [:call!, :event!, :participant_label, :participant_call_sid, :leave_reason]
 
   AGENT_LABEL_PATTERN = /\Aagent-(\d+)-account-(\d+)\z/
 
@@ -125,9 +125,10 @@ class Voice::Conference::Manager
     !agent_participant? && call.terminal? && call.accepted_by_agent_id.present?
   end
 
+  # A leg Twilio could not add never joined, so its leave is not an overtaken join
   def claimant_leaving_unjoined_call?
-    call.ringing? && agent_participant? && call.accepted_by_agent_id.present? &&
-      call.accepted_by_agent_id == extract_user_id
+    call.ringing? && agent_participant? && leave_reason != 'participant_add_failed' &&
+      call.accepted_by_agent_id.present? && call.accepted_by_agent_id == extract_user_id
   end
 
   # When Twilio cannot say who is left, the call stays live and a job repeats the check:
