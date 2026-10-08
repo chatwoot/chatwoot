@@ -22,7 +22,13 @@ RSpec.describe Voice::RingingTimeoutService do
   describe '.overdue' do
     def ringing(provider, age)
       create(:call, conversation: create(:conversation, account: account, inbox: inbox), provider: provider, status: 'ringing',
-                    created_at: age.ago)
+                    created_at: age.ago, ring_state: { 'ring_recipient_ids' => [] })
+    end
+
+    it 'ignores a call that rang no phones, with no agents recorded for it' do
+      ringing(:whatsapp, 5.minutes).update!(ring_state: {})
+
+      expect(described_class.overdue).to be_empty
     end
 
     it 'returns Twilio and WhatsApp calls ringing for more than 60 s' do
@@ -43,14 +49,16 @@ RSpec.describe Voice::RingingTimeoutService do
 
     it 'ignores a call an agent has just claimed but not yet joined, however long it rang first' do
       claimed = ringing(:twilio, 5.minutes)
-      claimed.update!(accepted_by_agent: create(:user, account: account), ring_state: { 'claimed_at' => 5.seconds.ago.to_i })
+      claimed.update!(accepted_by_agent: create(:user, account: account),
+                      ring_state: { 'ring_recipient_ids' => [], 'claimed_at' => 5.seconds.ago.to_i })
 
       expect(described_class.overdue).to be_empty
     end
 
     it 'returns a claimed call whose join was abandoned a while ago' do
       claimed = ringing(:twilio, 3.minutes)
-      claimed.update!(accepted_by_agent: create(:user, account: account), ring_state: { 'claimed_at' => 2.minutes.ago.to_i })
+      claimed.update!(accepted_by_agent: create(:user, account: account),
+                      ring_state: { 'ring_recipient_ids' => [], 'claimed_at' => 2.minutes.ago.to_i })
 
       expect(described_class.overdue).to contain_exactly(claimed)
     end
@@ -136,7 +144,7 @@ RSpec.describe Voice::RingingTimeoutService do
 
     it 'ends a claimed call whose join was abandoned' do
       call.update!(created_at: 3.minutes.ago, accepted_by_agent: create(:user, account: account),
-                   ring_state: { 'claimed_at' => 2.minutes.ago.to_i })
+                   ring_state: { 'ring_recipient_ids' => [], 'claimed_at' => 2.minutes.ago.to_i })
 
       described_class.new(call: call).perform
 

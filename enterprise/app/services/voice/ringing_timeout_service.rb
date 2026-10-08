@@ -16,14 +16,15 @@ class Voice::RingingTimeoutService
   ATTEMPT_TTL_SECONDS = 120
 
   # Inbound calls still ringing past their provider's timeout, unclaimed or with an
-  # abandoned claim, on the accounts that ring phones. An outbound call ends with the
-  # provider's own word.
+  # abandoned claim, that rang phones: on the accounts that ring them, with the agents
+  # rung recorded. An outbound call ends with the provider's own word.
   def self.overdue
     RING_TIMEOUT_SECONDS.map { |provider, seconds| Call.where(status: 'ringing', provider: provider).where(created_at: ...seconds.seconds.ago) }
                         .reduce(:or)
                         .where(direction: :incoming)
                         .where("calls.accepted_by_agent_id IS NULL OR #{CLAIMED_AT_SQL} < ?", CLAIM_GRACE_SECONDS.seconds.ago.to_i)
                         .where(account_id: Account.feature_mobile_voice_push.select(:id))
+                        .where("calls.ring_state ? 'ring_recipient_ids'")
   end
 
   # The call is marked as timing out under the row lock, which an agent's claim checks, so
