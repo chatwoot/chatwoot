@@ -99,14 +99,27 @@ RSpec.describe Voice::Conference::Manager do
   end
 
   describe 'a claiming agent whose leg Twilio could not add' do
-    it 'marks the call unanswered rather than ending it as completed' do
-      call.update!(status: 'ringing')
-
+    def failed_add
       described_class.new(call: call, event: 'leave', participant_label: agent_label, participant_call_sid: 'CA-leaving',
                           leave_reason: 'participant_add_failed').process
+    end
+
+    it 'releases the claim on an inbound call, which rings on for the other agents' do
+      call.update!(status: 'ringing')
+
+      failed_add
+
+      expect(call.reload).to have_attributes(status: 'ringing', accepted_by_agent_id: nil)
+      expect(conference).not_to have_received(:end_conference)
+    end
+
+    it 'ends an outbound call as unanswered, with its conference' do
+      call.update!(status: 'ringing', direction: :outgoing)
+
+      failed_add
 
       expect(call.reload.status).to eq('no_answer')
-      expect(conference).not_to have_received(:end_conference)
+      expect(conference).to have_received(:end_conference)
     end
   end
 

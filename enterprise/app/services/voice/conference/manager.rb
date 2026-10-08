@@ -99,7 +99,13 @@ class Voice::Conference::Manager
   # the leave ends the live call instead. So does the leave of the agent who claimed the
   # call: their leg was in the conference, and its join callback has yet to arrive. A
   # contact leaving a call that already ended still ends the conference.
+  #
+  # A leg Twilio could not add never joined. On an inbound call its claim is released and
+  # the call rings on for the other agents, with the ring timeout as its end; on an outbound
+  # call the agent was the only one, so the call is unanswered and the conference ended.
   def handle_leave!
+    return handle_failed_add! if failed_add?
+
     live = leave_finds_live_call?
     return end_conference! if contact_leaving_answered_call?
     return unless live
@@ -125,10 +131,28 @@ class Voice::Conference::Manager
     !agent_participant? && call.terminal? && call.accepted_by_agent_id.present?
   end
 
-  # A leg Twilio could not add never joined, so its leave is not an overtaken join
+  def failed_add?
+    agent_participant? && leave_reason == 'participant_add_failed'
+  end
+
+  def handle_failed_add!
+    user_id = extract_user_id
+    released = call.with_lock do
+      next false unless call.ringing?
+      next true if call.outgoing?
+
+      call.update!(accepted_by_agent_id: nil) if user_id && call.accepted_by_agent_id == user_id
+      false
+    end
+    return unless released
+
+    status_manager.process_status_update('no_answer', timestamp: now)
+    end_conference!
+  end
+
   def claimant_leaving_unjoined_call?
-    call.ringing? && agent_participant? && leave_reason != 'participant_add_failed' &&
-      call.accepted_by_agent_id.present? && call.accepted_by_agent_id == extract_user_id
+    call.ringing? && agent_participant? && call.accepted_by_agent_id.present? &&
+      call.accepted_by_agent_id == extract_user_id
   end
 
   # When Twilio cannot say who is left, the call stays live and a job repeats the check:
