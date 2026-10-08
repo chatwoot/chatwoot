@@ -2,7 +2,7 @@ module Llm::FeatureRouter
   class UnknownFeatureError < StandardError; end
 
   CAPTAIN_V2_ASSISTANT_MODEL = 'gpt-5.2'.freeze
-  REASONING_FEATURES = %w[assistant copilot].freeze
+  REASONING_FEATURES = (Llm::Models.model_feature_keys - %w[audio_transcription help_center_search]).freeze
   GPT_6_REASONING_ONLY_MODELS = %w[gpt-6-astra gpt-6.1-sol].freeze
 
   class << self

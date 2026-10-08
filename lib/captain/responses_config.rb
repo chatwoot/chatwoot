@@ -10,10 +10,10 @@ module Captain::ResponsesConfig
     options
   end
 
-  def self.request_metadata(model:, feature: nil)
+  def self.request_metadata(model:, feature: nil, account: nil)
     return {} unless Llm::Models.provider_for(model) == 'openai'
 
-    request_options = options(model: model, temperature: nil, feature: feature)
+    request_options = options(model: model, temperature: nil, feature: feature, account: account)
     {
       api_protocol: (request_options[:protocol] || :chat_completions).to_s,
       reasoning_effort: request_options.dig(:thinking, :effort)

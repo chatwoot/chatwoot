@@ -84,7 +84,7 @@ class Captain::BaseTaskService
 
   def build_chat(context, model:, messages:, **request)
     tools = request.fetch(:tools, [])
-    options = Captain::ResponsesConfig.options(model: model, temperature: nil, feature: request[:feature])
+    options = Captain::ResponsesConfig.options(model: model, temperature: nil, feature: request[:feature], account: account)
     chat = context.chat(model: model, **options.slice(:protocol))
     chat.with_thinking(**options[:thinking]) if options[:thinking]
     system_msg = messages.find { |m| m[:role] == 'system' }
@@ -129,7 +129,7 @@ class Captain::BaseTaskService
       model: model,
       messages: messages,
       temperature: nil,
-      metadata: instrumentation_metadata.merge(Captain::ResponsesConfig.request_metadata(model: model, feature: feature))
+      metadata: instrumentation_metadata.merge(Captain::ResponsesConfig.request_metadata(model: model, feature: feature, account: account))
     }
   end
 

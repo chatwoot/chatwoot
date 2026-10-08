@@ -169,6 +169,21 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(account.captain_reasoning_efforts).to be_nil
       end
 
+      it 'saves model and effort controls for every text feature', if: ChatwootApp.enterprise? do
+        sign_in(super_admin, scope: :super_admin)
+        features = Llm::FeatureRouter::REASONING_FEATURES
+        patch "/super_admin/accounts/#{account.id}", params: {
+          account: { captain_models: features.index_with { 'gpt-5.2' }, captain_reasoning_efforts: features.index_with { 'medium' } }
+        }
+
+        expect(response).to have_http_status(:redirect)
+        features.each do |feature|
+          expect(Llm::FeatureRouter.resolve(feature: feature, account: account.reload)).to include(model: 'gpt-5.2', reasoning_effort: :medium)
+        end
+        expect(account.captain_reasoning_efforts).not_to have_key('audio_transcription')
+        expect(account.captain_reasoning_efforts).not_to have_key('help_center_search')
+      end
+
       it 'updates Captain model overrides without changing unrelated settings' do
         account.update!(
           captain_models: { 'editor' => 'gpt-4.1' },
@@ -209,7 +224,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
                   locale: account.locale,
                   status: account.status,
                   captain_models: {
-                    help_center_query_translation: 'gpt-5.1'
+                    help_center_query_translation: 'unknown-model'
                   }
                 }
               }

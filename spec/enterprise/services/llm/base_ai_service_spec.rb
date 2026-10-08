@@ -46,7 +46,8 @@ RSpec.describe Llm::BaseAiService do
   describe 'routed request format' do
     it 'uses Responses JSON mode and the requested effort for a shared text flow' do
       allow(Llm::FeatureRouter).to receive(:reasoning_effort).and_call_original
-      allow(Llm::FeatureRouter).to receive(:reasoning_effort).with(feature: 'document_faq_generation', model: 'gpt-5.2').and_return(:high)
+      allow(Llm::FeatureRouter).to receive(:reasoning_effort).with(hash_including(feature: 'document_faq_generation',
+                                                                                  model: 'gpt-5.2')).and_return(:high)
       chat = described_class.new(feature: 'document_faq_generation', account: account).json_chat(model: 'gpt-5.2')
       chat.with_instructions('Generate FAQs as JSON.').add_message(role: :user, content: 'Acme opens at 9 am.')
 
@@ -54,6 +55,18 @@ RSpec.describe Llm::BaseAiService do
       expect(chat.render[:input].to_json).to include('Respond with valid JSON.')
       expect(chat.render).not_to have_key(:temperature)
       expect(chat.render).not_to have_key(:response_format)
+    end
+
+    it 'applies saved per-feature effort to the request and instrumentation' do
+      account.update!(captain_models: { 'document_faq_generation' => 'gpt-5.2' },
+                      captain_reasoning_efforts: { 'document_faq_generation' => 'medium' })
+      service = described_class.new(feature: 'document_faq_generation', account: account)
+      chat = service.json_chat
+      chat.add_message(role: :user, content: 'Generate JSON FAQs.')
+      params = service.send(:llm_instrumentation_params, model: service.model, temperature: service.temperature, metadata: {})
+
+      expect(chat.render).to include(reasoning: { effort: 'medium' })
+      expect(params).to include(temperature: nil, metadata: { api_protocol: 'responses', reasoning_effort: :medium })
     end
 
     it 'retains the existing JSON format and protocol on custom endpoints' do
