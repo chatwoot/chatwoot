@@ -96,17 +96,25 @@ class Voice::Conference::Manager
   #
   # A call still ringing is marked unanswered under the row lock it was read under, so a
   # join cannot land between the check and the change; a join committed first is seen and
-  # the leave ends the live call instead.
+  # the leave ends the live call instead. So does the leave of the agent who claimed the
+  # call: their leg was in the conference, and its join callback has yet to arrive.
   def handle_leave!
-    status = call.with_lock do
+    live = call.with_lock do
+      next true if call.in_progress? || claimant_leaving_unjoined_call?
+
       status_manager.process_status_update('no_answer', timestamp: now) if call.ringing?
-      call.status
+      false
     end
-    return unless status == 'in_progress'
+    return unless live
     return if agent_participant? && other_agents_remain?
 
     end_conference!
     status_manager.process_status_update('completed', timestamp: now)
+  end
+
+  def claimant_leaving_unjoined_call?
+    call.ringing? && agent_participant? && call.accepted_by_agent_id.present? &&
+      call.accepted_by_agent_id == extract_user_id
   end
 
   # When Twilio cannot say who is left, the call stays live and a job repeats the check:
