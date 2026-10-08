@@ -9,7 +9,9 @@ RSpec.describe Voice::SyncProviderStatusJob do
   let(:call) do
     create(:call, conversation: conversation, provider: :twilio, direction: :outgoing, status: 'ringing', provider_call_id: 'CA-out')
   end
-  let(:twilio_call) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallInstance, status: 'ringing') }
+  let(:twilio_call) do
+    instance_double(Twilio::REST::Api::V2010::AccountContext::CallInstance, status: 'ringing', start_time: nil, end_time: nil, duration: nil)
+  end
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
@@ -25,6 +27,17 @@ RSpec.describe Voice::SyncProviderStatusJob do
     described_class.perform_now(call.id)
 
     expect(call.reload.provider_status).to eq('ringing')
+  end
+
+  it 'keeps the times Twilio has for a call that already ended' do
+    started = 2.minutes.ago.change(usec: 0)
+    allow(twilio_call).to receive_messages(status: 'completed', start_time: started, end_time: started + 42, duration: '42')
+
+    described_class.perform_now(call.id)
+
+    call.reload
+    expect(call.status).to eq('completed')
+    expect(call.duration_seconds).to eq(42)
   end
 
   it 'leaves an ended call alone' do

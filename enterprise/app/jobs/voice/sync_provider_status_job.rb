@@ -8,7 +8,18 @@ class Voice::SyncProviderStatusJob < ApplicationJob
     call = Call.find_by(id: call_id)
     return if call.blank? || !call.twilio? || call.terminal?
 
-    status = call.inbox.channel.client.calls(call.provider_call_id).fetch.status
-    Voice::StatusUpdateService.new(account: call.account, call_sid: call.provider_call_id, call_status: status).perform
+    twilio_call = call.inbox.channel.client.calls(call.provider_call_id).fetch
+    Voice::StatusUpdateService.new(
+      account: call.account, call_sid: call.provider_call_id, call_status: twilio_call.status, payload: timing(twilio_call)
+    ).perform
+  end
+
+  private
+
+  # The times a callback would have carried: when the call was answered while it is live,
+  # when it ended once over, and how long it lasted
+  def timing(twilio_call)
+    moment = twilio_call.end_time || twilio_call.start_time
+    { 'Timestamp' => moment&.iso8601, 'CallDuration' => twilio_call.duration }.compact
   end
 end
