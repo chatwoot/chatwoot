@@ -31,13 +31,12 @@ RSpec.describe Voice::RingingTimeoutService do
       expect(described_class.overdue).to be_empty
     end
 
-    it 'returns Twilio and WhatsApp calls ringing for more than 60 s' do
-      overdue_twilio = ringing(:twilio, 61.seconds)
+    it 'returns WhatsApp calls ringing for more than 60 s, and leaves Twilio callers waiting' do
       overdue_whatsapp = ringing(:whatsapp, 61.seconds)
-      ringing(:twilio, 59.seconds)
+      ringing(:twilio, 5.minutes)
       ringing(:whatsapp, 59.seconds)
 
-      expect(described_class.overdue).to contain_exactly(overdue_twilio, overdue_whatsapp)
+      expect(described_class.overdue).to contain_exactly(overdue_whatsapp)
     end
 
     it 'ignores calls that are no longer ringing' do
@@ -56,7 +55,7 @@ RSpec.describe Voice::RingingTimeoutService do
     end
 
     it 'returns a claimed call whose join was abandoned a while ago' do
-      claimed = ringing(:twilio, 3.minutes)
+      claimed = ringing(:whatsapp, 3.minutes)
       claimed.update!(accepted_by_agent: create(:user, account: account),
                       ring_state: { 'ring_recipient_ids' => [], 'claimed_at' => 2.minutes.ago.to_i })
 
@@ -104,26 +103,6 @@ RSpec.describe Voice::RingingTimeoutService do
       )
     end
 
-    it 'hangs up a Twilio caller still waiting for the conference to start' do
-      call.update!(provider: :twilio)
-
-      described_class.new(call: call).perform
-
-      expect(conference).to have_received(:terminate_call)
-      expect(call.reload.status).to eq('no_answer')
-    end
-
-    it 'leaves the call ringing for the next sweep when Twilio cannot be reached' do
-      call.update!(provider: :twilio)
-      allow(conference).to receive(:terminate_call).and_raise(Twilio::REST::TwilioError)
-
-      expect { described_class.new(call: call).perform }.not_to raise_error
-
-      expect(call.reload.status).to eq('ringing')
-      expect(call.ring_state).not_to have_key('timing_out_at')
-      expect(ActionCable.server).not_to have_received(:broadcast)
-    end
-
     it 'does not end a call an agent claimed before the sweep reached it' do
       call.update!(accepted_by_agent: create(:user, account: account), ring_state: { 'claimed_at' => Time.zone.now.to_i })
 
@@ -131,15 +110,6 @@ RSpec.describe Voice::RingingTimeoutService do
 
       expect(call.reload.status).to eq('ringing')
       expect(ActionCable.server).not_to have_received(:broadcast)
-    end
-
-    it 'marks the call as timing out while the caller is being hung up' do
-      call.update!(provider: :twilio)
-      allow(conference).to receive(:terminate_call) do
-        expect(Call.find(call.id).ring_state['timing_out_at']).to be_present
-      end
-
-      described_class.new(call: call).perform
     end
 
     it 'ends a claimed call whose join was abandoned' do
@@ -168,27 +138,13 @@ RSpec.describe Voice::RingingTimeoutService do
       expect(call.reload.status).to eq('no_answer')
     end
 
-    it 'does not end a call claimed while the caller was being hung up' do
-      call.update!(provider: :twilio)
-      agent = create(:user, account: account)
-      allow(conference).to receive(:terminate_call) { Call.where(id: call.id).update_all(accepted_by_agent_id: agent.id) } # rubocop:disable Rails/SkipsModelValidations
+    it 'leaves a Twilio caller waiting on hold, as on the web' do
+      call.update!(provider: :twilio, created_at: 5.minutes.ago)
 
       described_class.new(call: call).perform
 
       expect(call.reload.status).to eq('ringing')
-      expect(call.ring_state).not_to have_key('timing_out_at')
-    end
-
-    it "records a timeout, not the provider's completed status for the hang-up" do
-      call.update!(provider: :twilio)
-      allow(conference).to receive(:terminate_call) do
-        Voice::CallStatus::Manager.new(call: Call.find(call.id)).process_status_update('completed', timestamp: Time.zone.now.to_i)
-      end
-
-      described_class.new(call: call).perform
-
-      expect(call.reload.status).to eq('no_answer')
-      expect(call.end_reason).to eq('ring_timeout')
+      expect(conference).not_to have_received(:terminate_call)
     end
 
     it 'does not touch a call that was answered in the meantime' do
