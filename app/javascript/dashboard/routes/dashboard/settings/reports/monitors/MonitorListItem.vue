@@ -3,14 +3,15 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
-import Button from 'dashboard/components-next/button/Button.vue';
 import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
+import HoverActions from 'dashboard/components-next/hover-actions/HoverActions.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Label from 'dashboard/components-next/label/Label.vue';
 
 const props = defineProps({
   monitor: { type: Object, required: true },
   showActions: { type: Boolean, default: false },
+  canCreateAutomation: { type: Boolean, default: false },
 });
 const emit = defineEmits(['action']);
 
@@ -21,6 +22,37 @@ const isPaused = computed(() => Boolean(props.monitor.paused_at));
 const monitorRoute = computed(() =>
   accountScopedRoute('monitor_reports_show', { monitorId: props.monitor.id })
 );
+const actions = computed(() => {
+  if (!props.showActions) return [];
+  return [
+    props.canCreateAutomation &&
+      !isPaused.value && {
+        key: 'automation',
+        icon: 'i-lucide-plus',
+        label: t('MONITORS.AUTOMATIONS.CREATE'),
+      },
+    { key: 'edit', icon: 'i-woot-edit-pen', label: t('MONITORS.EDIT') },
+    isPaused.value
+      ? { key: 'resume', icon: 'i-ph-play', label: t('MONITORS.RESUME') }
+      : { key: 'pause', icon: 'i-ph-pause', label: t('MONITORS.PAUSE') },
+    {
+      key: 'delete',
+      icon: 'i-woot-bin',
+      label: t('MONITORS.DELETE'),
+      danger: true,
+    },
+  ].filter(Boolean);
+});
+
+const onAction = key => {
+  if (key !== 'automation') {
+    emit('action', key);
+    return;
+  }
+  router.push(
+    accountScopedRoute('automation_list', {}, { monitor_id: props.monitor.id })
+  );
+};
 </script>
 
 <template>
@@ -69,14 +101,10 @@ const monitorRoute = computed(() =>
         </span>
       </span>
     </RouterLink>
-    <div class="relative flex shrink-0 items-center justify-end">
+    <HoverActions :actions="actions" @action="onAction">
       <span
         v-tooltip.top="t('MONITORS.LIST.CONVERSATIONS_HELP')"
-        class="flex flex-col items-end gap-1 transition-opacity"
-        :class="{
-          '[@media(hover:hover)]:group-hover:opacity-0 [@media(hover:hover)]:group-focus-within:opacity-0':
-            showActions,
-        }"
+        class="flex flex-col items-end gap-1"
       >
         <span class="text-heading-3 tabular-nums text-n-slate-12">
           {{
@@ -85,7 +113,7 @@ const monitorRoute = computed(() =>
             })
           }}
         </span>
-        <span class="text-label-small text-n-slate-11">
+        <span class="hidden text-label-small text-n-slate-11 md:inline">
           {{
             isPaused
               ? t('MONITORS.LAST_DAYS_BEFORE_PAUSE', { count: 7 })
@@ -93,36 +121,6 @@ const monitorRoute = computed(() =>
           }}
         </span>
       </span>
-      <div
-        v-if="showActions"
-        class="ms-3 flex gap-3 transition-opacity [@media(hover:hover)]:pointer-events-none [@media(hover:hover)]:absolute [@media(hover:hover)]:end-0 [@media(hover:hover)]:top-1/2 [@media(hover:hover)]:-translate-y-1/2 [@media(hover:hover)]:ms-0 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:pointer-events-auto [@media(hover:hover)]:group-hover:opacity-100 [@media(hover:hover)]:group-focus-within:pointer-events-auto [@media(hover:hover)]:group-focus-within:opacity-100"
-      >
-        <Button
-          v-tooltip.top="t('MONITORS.EDIT')"
-          icon="i-woot-edit-pen"
-          slate
-          sm
-          :aria-label="t('MONITORS.EDIT')"
-          @click.stop="emit('action', 'edit')"
-        />
-        <Button
-          v-tooltip.top="isPaused ? t('MONITORS.RESUME') : t('MONITORS.PAUSE')"
-          :icon="isPaused ? 'i-ph-play' : 'i-ph-pause'"
-          slate
-          sm
-          :aria-label="isPaused ? t('MONITORS.RESUME') : t('MONITORS.PAUSE')"
-          @click.stop="emit('action', isPaused ? 'resume' : 'pause')"
-        />
-        <Button
-          v-tooltip.top="t('MONITORS.DELETE')"
-          icon="i-woot-bin"
-          slate
-          sm
-          :aria-label="t('MONITORS.DELETE')"
-          class="hover:enabled:bg-n-ruby-2 hover:enabled:text-n-ruby-11"
-          @click.stop="emit('action', 'delete')"
-        />
-      </div>
-    </div>
+    </HoverActions>
   </div>
 </template>

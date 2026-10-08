@@ -39,6 +39,7 @@ export const FEATURE_FLAGS = {
   IP_LOOKUP: 'ip_lookup',
   LINEAR: 'linear_integration',
   SHOPIFY: 'shopify_integration',
+  STRIPE: 'stripe_integration',
   CAPTAIN: 'captain_integration',
   CUSTOM_ROLES: 'custom_roles',
   CHATWOOT_V4: 'chatwoot_v4',
@@ -53,6 +54,7 @@ export const FEATURE_FLAGS = {
   CAPTAIN_DOCUMENT_AUTO_SYNC: 'captain_document_auto_sync',
   SAML: 'saml',
   COMPANIES: 'companies',
+  COMPANY_ENRICHMENT: 'company_enrichment',
   ADVANCED_SEARCH: 'advanced_search',
   CONVERSATION_REQUIRED_ATTRIBUTES: 'conversation_required_attributes',
   CONVERSATION_UNREAD_COUNTS: 'conversation_unread_counts',
@@ -70,4 +72,8 @@ export const PREMIUM_FEATURES = [
   FEATURE_FLAGS.SAML,
   FEATURE_FLAGS.CONVERSATION_REQUIRED_ATTRIBUTES,
   FEATURE_FLAGS.ADVANCED_ASSIGNMENT,
+  FEATURE_FLAGS.COMPANY_ENRICHMENT,
 ];
+
+// Paywalled on Chatwoot Cloud only; free on self-hosted installs.
+export const CLOUD_PAYWALLED_FEATURES = [FEATURE_FLAGS.COMPANIES];
