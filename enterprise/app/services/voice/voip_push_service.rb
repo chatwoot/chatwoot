@@ -142,8 +142,18 @@ class Voice::VoipPushService
     push_tokens(android_subscriptions)
   end
 
+  # Each token's owner is noted as the ring is put together, since a subscription can change
+  # while the pushes are in flight
   def push_tokens(subscriptions)
-    subscriptions.filter_map { |subscription| subscription.subscription_attributes['push_token'] }.uniq
+    subscriptions.filter_map do |subscription|
+      token = subscription.subscription_attributes['push_token']
+      token_owners[token] = subscription.user_id if token
+      token
+    end.uniq
+  end
+
+  def token_owners
+    @token_owners ||= {}
   end
 
   def rung_devices
@@ -179,11 +189,7 @@ class Voice::VoipPushService
   # to them; agents already notified for the message are skipped. Devices the platforms no
   # longer know are removed.
   def settle_ring(apple_results, android_results)
-    results = apple_results.merge(android_results)
-    owners = NotificationSubscription.where("subscription_attributes->>'push_token' IN (?)", results.keys)
-                                     .pluck(:user_id, Arel.sql("subscription_attributes->>'push_token'"))
-    reached = owners.filter_map { |user_id, token| user_id if results[token] == :sent }
-    unreached = owners.map(&:first).uniq - reached
+    unreached = unreached_user_ids(apple_results.merge(android_results))
     forget_devices(APPLE, gone(apple_results))
     forget_devices(ANDROID, gone(android_results))
     return if unreached.empty?
@@ -191,6 +197,12 @@ class Voice::VoipPushService
     merge_ring_state('unreached_user_ids' => unreached)
     message = call.reload.message
     Messages::NewMessageNotificationService.new(message: message).perform if message
+  end
+
+  # The agents none of whose devices took the ring
+  def unreached_user_ids(results)
+    owners = results.keys.filter_map { |token| [token_owners[token], token] if token_owners[token] }
+    owners.map(&:first).uniq - owners.filter_map { |user_id, token| user_id if results[token] == :sent }
   end
 
   # A device the platform no longer knows is removed so it stops costing a request per ring

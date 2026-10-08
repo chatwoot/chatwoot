@@ -144,6 +144,18 @@ RSpec.describe Voice::VoipPushService do
       expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
     end
 
+    it 'knows whose device failed even when its subscription goes away during the ring' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      allow(apple_connection).to receive(:push) do
+        NotificationSubscription.where(user: agent).destroy_all
+        raise Errno::ECONNRESET
+      end
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+    end
+
     it 'treats every device as not reached when the connection cannot be made' do
       subscribe(agent, 'apns_voip', 'apple-1')
       allow(Apnotic::Connection).to receive(:new).and_raise(SocketError)
