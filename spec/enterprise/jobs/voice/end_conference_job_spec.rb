@@ -65,4 +65,20 @@ RSpec.describe Voice::EndConferenceJob do
     expect(conference).to have_received(:end_conference)
     expect(live.reload.status).to eq('completed')
   end
+
+  it 'queues a later round when Twilio still will not end the conference after the retries' do
+    allow(conference).to receive(:end_conference).and_raise(Twilio::REST::TwilioError)
+    job = described_class.new(call.id)
+    job.exception_executions = { '[StandardError]' => 4 }
+
+    expect { job.perform_now }.to have_enqueued_job(described_class).with(call.id, round: 1)
+  end
+
+  it 'stops after the last round' do
+    allow(conference).to receive(:end_conference).and_raise(Twilio::REST::TwilioError)
+    job = described_class.new(call.id, round: described_class::LATE_ROUNDS)
+    job.exception_executions = { '[StandardError]' => 4 }
+
+    expect { job.perform_now }.not_to have_enqueued_job(described_class)
+  end
 end

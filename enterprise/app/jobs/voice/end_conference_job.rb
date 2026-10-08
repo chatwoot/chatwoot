@@ -5,17 +5,23 @@
 class Voice::EndConferenceJob < ApplicationJob
   queue_as :critical
 
+  # Rounds of the job queued again after a round's retries were all refused
+  LATE_ROUNDS = 3
+  LATE_ROUND_WAIT = 5.minutes
+
   # Once the retries are spent the call is not left live: a last attempt ends the
-  # conference and the call completes either way
+  # conference and the call completes either way. A conference Twilio would still not
+  # end is tried again in a later round, so the contact is not left in it.
   retry_on StandardError, wait: :polynomially_longer, attempts: 5 do |job, error|
     call = Call.find_by(id: job.arguments.first)
     if call&.twilio?
       Rails.logger.error("[VOICE] call #{call.id}: ending the conference after retries failed: #{error.class}: #{error.message}")
-      job.send(:give_up, call)
+      options = job.arguments.last.is_a?(Hash) ? job.arguments.last : {}
+      job.send(:give_up, call, options[:round].to_i)
     end
   end
 
-  def perform(call_id, leaving_call_sid: nil)
+  def perform(call_id, leaving_call_sid: nil, round: 0) # rubocop:disable Lint/UnusedMethodArgument
     call = Call.find_by(id: call_id)
     return if call.blank? || !call.twilio?
 
@@ -28,11 +34,12 @@ class Voice::EndConferenceJob < ApplicationJob
 
   private
 
-  def give_up(call)
+  def give_up(call, round)
     begin
       Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference
     rescue StandardError => e
       Rails.logger.error("[VOICE] call #{call.id}: last attempt to end the conference failed: #{e.class}: #{e.message}")
+      self.class.set(wait: LATE_ROUND_WAIT).perform_later(call.id, round: round + 1) if round < LATE_ROUNDS
     end
     complete(call)
   end
