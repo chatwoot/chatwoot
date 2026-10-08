@@ -22,19 +22,16 @@ class Contacts::SyncAttributes
     previous_attributes = contact.additional_attributes_in_database || {}
     changed_key = changed_country_key(attributes, previous_attributes)
     root_changed = contact.will_save_change_to_country_code?
+    return unless root_changed || changed_key
 
     code = if root_changed
              CountryCodeNormalizer.normalize(contact.country_code)
-           elsif changed_key
-             CountryCodeNormalizer.normalize(attributes[changed_key])
            else
-             contact.canonical_country_code
+             CountryCodeNormalizer.normalize(attributes[changed_key])
            end
     contact.country_code = code
 
     # Keep legacy writers and filters consistent with the canonical column during migration.
-    return unless root_changed || changed_key
-
     sync_legacy_country(attributes, previous_attributes, code, changed_key)
   end
 
