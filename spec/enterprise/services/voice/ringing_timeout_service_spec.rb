@@ -8,7 +8,7 @@ RSpec.describe Voice::RingingTimeoutService do
   let(:inbox) { channel.inbox }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:call) { create(:call, conversation: conversation, provider: :whatsapp, status: 'ringing') }
-  let(:conference) { instance_double(Voice::Provider::Twilio::ConferenceService, hang_up_caller: nil) }
+  let(:conference) { instance_double(Voice::Provider::Twilio::ConferenceService, terminate_call: nil) }
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
@@ -37,6 +37,19 @@ RSpec.describe Voice::RingingTimeoutService do
     it 'ignores calls that are no longer ringing' do
       old = ringing(:whatsapp, 5.minutes)
       old.update!(status: 'in_progress')
+
+      expect(described_class.overdue).to be_empty
+    end
+
+    it 'ignores a call an agent has claimed but not yet joined' do
+      claimed = ringing(:twilio, 5.minutes)
+      claimed.update!(accepted_by_agent: create(:user, account: account))
+
+      expect(described_class.overdue).to be_empty
+    end
+
+    it 'ignores outbound calls, which end with the provider' do
+      ringing(:whatsapp, 5.minutes).update!(direction: :outgoing)
 
       expect(described_class.overdue).to be_empty
     end
@@ -79,18 +92,37 @@ RSpec.describe Voice::RingingTimeoutService do
 
       described_class.new(call: call).perform
 
-      expect(conference).to have_received(:hang_up_caller)
+      expect(conference).to have_received(:terminate_call)
       expect(call.reload.status).to eq('no_answer')
     end
 
     it 'leaves the call ringing for the next sweep when Twilio cannot be reached' do
       call.update!(provider: :twilio)
-      allow(conference).to receive(:hang_up_caller).and_raise(Twilio::REST::TwilioError)
+      allow(conference).to receive(:terminate_call).and_raise(Twilio::REST::TwilioError)
 
       expect { described_class.new(call: call).perform }.not_to raise_error
 
       expect(call.reload.status).to eq('ringing')
+      expect(call.ring_state).not_to have_key('timing_out')
       expect(ActionCable.server).not_to have_received(:broadcast)
+    end
+
+    it 'does not end a call an agent claimed before the sweep reached it' do
+      call.update!(accepted_by_agent: create(:user, account: account))
+
+      described_class.new(call: call).perform
+
+      expect(call.reload.status).to eq('ringing')
+      expect(ActionCable.server).not_to have_received(:broadcast)
+    end
+
+    it 'marks the call as timing out while the caller is being hung up' do
+      call.update!(provider: :twilio)
+      allow(conference).to receive(:terminate_call) do
+        expect(Call.find(call.id).ring_state['timing_out']).to be(true)
+      end
+
+      described_class.new(call: call).perform
     end
 
     it 'does not touch a call that was answered in the meantime' do

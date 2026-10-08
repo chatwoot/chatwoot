@@ -42,12 +42,16 @@ class Voice::InboundCallBuilder
     inbox.account
   end
 
-  # Phones without a live socket learn about the call through a push. The job runs once
+  # Phones without a live socket learn about the call through a push. The agents rung are
+  # recorded now, as the ring starts, so the push and a missed-call notice go to the same
+  # agents even when the conversation is reassigned before the job runs. The job runs once
   # the call row is visible to the worker, which otherwise finds nothing to ring for.
   def ring_phones(call)
     return unless call.ringing?
     return unless account.feature_enabled?('mobile_voice_push')
 
+    recipient_ids = Voice::VoipPushService.recipients_for(call).map(&:id)
+    call.update_columns(ring_state: call.ring_state.merge('ring_recipient_ids' => recipient_ids)) # rubocop:disable Rails/SkipsModelValidations
     ActiveRecord.after_all_transactions_commit { Voice::VoipPushJob.perform_later(call.id, 'ring') }
   end
 

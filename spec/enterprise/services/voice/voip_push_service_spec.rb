@@ -122,6 +122,18 @@ RSpec.describe Voice::VoipPushService do
       expect(call.ring_state['rung_devices']).to eq('apns_voip' => ['apple-1'], 'fcm' => [])
     end
 
+    it 'rings the agents recorded when the ring started, not a later assignee' do
+      call.update!(ring_state: { 'ring_recipient_ids' => [agent.id] })
+      conversation.update!(assignee: other_agent)
+      subscribe(agent, 'apns_voip', 'apple-1')
+      subscribe(other_agent, 'apns_voip', 'apple-2')
+
+      described_class.new(call: call).perform('ring')
+
+      expect(apple_connection).to have_received(:push).once
+      expect(call.reload.ring_state['rung_devices']).to eq('apns_voip' => ['apple-1'], 'fcm' => [])
+    end
+
     it 'records the agents chosen for the ring even when none of them has a phone' do
       described_class.new(call: call).perform('ring')
 

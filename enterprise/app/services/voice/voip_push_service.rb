@@ -96,9 +96,14 @@ class Voice::VoipPushService
 
   # MARK: recipients and devices
 
-  # Resolved once per ring so the devices rung and the agents recorded are one set
+  # The agents recorded when the ring started, or the same choice made now for a call
+  # that has none recorded; resolved once per ring so the devices rung and the agents
+  # recorded are one set
   def recipients
-    @recipients ||= self.class.recipients_for(call).to_a
+    @recipients ||= begin
+      ids = call.ring_state['ring_recipient_ids']
+      ids.nil? ? self.class.recipients_for(call).to_a : call.account.users.where(id: ids).to_a
+    end
   end
 
   def apple_tokens

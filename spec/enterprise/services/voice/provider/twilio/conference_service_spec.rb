@@ -44,6 +44,14 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect(call.reload.accepted_by_agent_id).to eq(agent.id)
     end
 
+    it 'refuses the claim while the ring timeout is hanging the caller up' do
+      agent = create(:user, account: account)
+      call.update!(ring_state: { 'timing_out' => true })
+
+      expect { service.mark_agent_joined(user: agent) }.to raise_error(Voice::CallErrors::CallAlreadyEnded)
+      expect(call.reload.accepted_by_agent_id).to be_nil
+    end
+
     it 'keeps an existing AgentBot conversation owner' do
       agent = create(:user, account: account)
       agent_bot = create(:agent_bot, account: account)
@@ -52,18 +60,6 @@ describe Voice::Provider::Twilio::ConferenceService do
       service.mark_agent_joined(user: agent)
 
       expect(conversation.reload.assigned_entity).to eq(agent_bot)
-    end
-  end
-
-  describe '#hang_up_caller' do
-    it 'completes the caller leg by its call sid' do
-      call.update!(provider_call_id: 'CA123')
-      call_context = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext, update: nil)
-      allow(twilio_client).to receive(:calls).with('CA123').and_return(call_context)
-
-      service.hang_up_caller
-
-      expect(call_context).to have_received(:update).with(status: 'completed')
     end
   end
 
