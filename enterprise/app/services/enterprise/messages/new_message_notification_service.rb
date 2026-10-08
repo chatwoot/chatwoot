@@ -5,22 +5,21 @@ module Enterprise::Messages::NewMessageNotificationService
     super || rung_for_call?(user)
   end
 
-  # Where phones are rung for a call, the agents rung get the ring and the missed-call
-  # notification in place of the new-message one; anyone not rung, such as an assignee who
-  # is busy, keeps it
+  # Where phones are rung for a call, the agents whose phone the ring reaches get the ring
+  # and the missed-call notification in place of the new-message one; anyone else, such as
+  # an assignee who is busy or has no phone that can ring, keeps it
   def rung_for_call?(user)
     return false unless message.voice_call? && message.account.feature_enabled?('mobile_voice_push')
 
-    ids = ring_recipient_ids
+    ids = rung_user_ids
     ids.nil? || ids.include?(user.id)
   end
 
-  # The agents recorded when the ring started, or the same choice made now; nil when the
-  # message is not linked to its call yet, which leaves the notification to the ring
-  def ring_recipient_ids
-    return @ring_recipient_ids if defined?(@ring_recipient_ids)
+  # nil when the message is not linked to its call yet, which leaves the notification to the ring
+  def rung_user_ids
+    return @rung_user_ids if defined?(@rung_user_ids)
 
     call = Call.find_by(message_id: message.id)
-    @ring_recipient_ids = call && (call.ring_state['ring_recipient_ids'] || Voice::VoipPushService.recipients_for(call).map(&:id))
+    @rung_user_ids = call && Voice::VoipPushService.new(call: call).ringable_user_ids
   end
 end

@@ -42,6 +42,14 @@ class Voice::VoipPushService
     end
   end
 
+  # The agents the ring reaches: those chosen for it with a phone on a configured platform
+  def ringable_user_ids
+    subscriptions = []
+    subscriptions += apple_subscriptions.to_a if configured?(:apple)
+    subscriptions += android_subscriptions if configured?(:android)
+    subscriptions.map(&:user_id).uniq
+  end
+
   private
 
   # Both platforms and every device go out at the same time, so no phone waits on another
@@ -68,8 +76,8 @@ class Voice::VoipPushService
   def deliver_ring(apple, android)
     sender = Voice::ApnsVoipSender.new(settings: apple_settings, call_id: call.id) if apple.any?
     client = fcm_client if android.any?
-    payload = ring_payload
-    data = ring_data
+    payload = payloads.ring
+    data = payloads.ring_data
     [
       Thread.new { with_rails { sender ? sender.ring(apple, payload) : [] } },
       Thread.new { with_rails { deliver_android_all(client, android, data, 'ring') } }
@@ -88,9 +96,13 @@ class Voice::VoipPushService
     forget_rung_devices
     return if tokens.blank?
 
-    data = cancel_data
+    data = payloads.cancel_data
     client = fcm_client
     forget_devices(ANDROID, with_rails { deliver_android_all(client, tokens, data, 'cancel') })
+  end
+
+  def payloads
+    @payloads ||= Voice::VoipPushPayloads.new(call: call)
   end
 
   def with_rails(&)
@@ -109,19 +121,26 @@ class Voice::VoipPushService
     @recipients ||= call.ring_state['ring_recipient_ids']&.then { |ids| call.account.users.where(id: ids).to_a } || self.class.recipients_for(call)
   end
 
-  def apple_tokens
-    NotificationSubscription.apns_voip
-                            .where(user_id: recipients.map(&:id))
-                            .filter_map { |subscription| subscription.subscription_attributes['push_token'] }
-                            .uniq
+  def apple_subscriptions
+    NotificationSubscription.apns_voip.where(user_id: recipients.map(&:id))
   end
 
-  def android_tokens
+  def android_subscriptions
     NotificationSubscription.fcm
                             .where(user_id: recipients.map(&:id))
                             .select { |subscription| subscription.subscription_attributes['devicePlatform'].to_s.casecmp('android').zero? }
-                            .filter_map { |subscription| subscription.subscription_attributes['push_token'] }
-                            .uniq
+  end
+
+  def apple_tokens
+    push_tokens(apple_subscriptions)
+  end
+
+  def android_tokens
+    push_tokens(android_subscriptions)
+  end
+
+  def push_tokens(subscriptions)
+    subscriptions.filter_map { |subscription| subscription.subscription_attributes['push_token'] }.uniq
   end
 
   def rung_devices
@@ -153,41 +172,6 @@ class Voice::VoipPushService
     NotificationSubscription.where(subscription_type: type)
                             .where("subscription_attributes->>'push_token' IN (?)", tokens)
                             .destroy_all
-  end
-
-  # MARK: payloads
-
-  def base_payload
-    {
-      call_id: call.provider_call_id,
-      id: call.id,
-      provider: call.provider,
-      direction: call.direction_label,
-      # The app addresses conversations by their display id
-      conversation_id: call.conversation.display_id,
-      inbox_id: call.inbox_id,
-      account_id: call.account_id
-    }
-  end
-
-  def ring_payload
-    contact = call.contact
-    base_payload.merge(
-      type: 'voice_call.incoming',
-      caller: { name: contact&.name, phone: contact&.phone_number, avatar: contact&.avatar_url.presence },
-      inbox_name: call.inbox.name
-    )
-  end
-
-  # FCM data values must all be strings, and the caller travels as JSON
-  def ring_data
-    data = ring_payload.except(:caller).transform_keys(&:to_s).transform_values(&:to_s)
-    data['caller'] = ring_payload[:caller].to_json
-    data
-  end
-
-  def cancel_data
-    base_payload.merge(type: 'voice_call.cancel', reason: call.status).transform_keys(&:to_s).transform_values(&:to_s)
   end
 
   # MARK: Apple
