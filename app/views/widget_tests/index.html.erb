@@ -1,5 +1,72 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
 <body>
+  <%# Tools column for testing the widget. Add a new <section class="tool"> for each tool. %>
+  <style>
+    body { margin: 0; background: #f6f7f8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; color: #1f2933; }
+    .tools-column { position: fixed; top: 0; bottom: 0; <%= @widget_position == 'right' ? 'left' : 'right' %>: 0; width: 22rem; box-sizing: border-box; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.8125rem; }
+    .tool { padding: 1rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 0.5rem; }
+    .tool label { display: block; margin-bottom: 0.5rem; color: #6b7280; }
+    .tool label:last-child { margin-bottom: 0; }
+    .tool input { display: block; width: 100%; box-sizing: border-box; margin-top: 0.25rem; padding: 0.375rem 0.5rem; font: inherit; color: #1f2933; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; }
+    .tool button { width: 100%; padding: 0.375rem 0.5rem; font: inherit; color: #1f2933; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; cursor: pointer; }
+    .tool button:hover { background: #f9fafb; }
+    .tool .row { display: flex; gap: 0.5rem; }
+    .tool .note, .tool .status { margin: 0 0 0.625rem; color: #6b7280; }
+    .tool .status.verified { color: #15803d; }
+    .tool .status.failed { color: #b91c1c; }
+    .tool .segmented { display: flex; margin: 0.75rem 0 0.625rem; border: 1px solid #d1d5db; border-radius: 0.375rem; overflow: hidden; }
+    .tool .segmented label { flex: 1; margin: 0; cursor: pointer; }
+    .tool .segmented label + label { border-left: 1px solid #d1d5db; }
+    .tool .segmented input { position: absolute; width: auto; margin: 0; opacity: 0; }
+    .tool .segmented span { display: block; padding: 0.375rem 0.5rem; text-align: center; }
+    .tool .segmented input:checked + span { color: #1f2933; background: #f3f4f6; font-weight: 600; }
+    .tool .segmented input:focus-visible + span { outline: 2px solid #2781f6; outline-offset: -2px; }
+    .tool .log { height: 12rem; margin: 0 0 0.625rem; padding: 0; overflow-y: auto; list-style: none; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.6875rem; }
+    .tool .log li { padding: 0.25rem 0; border-bottom: 1px solid #f3f4f6; word-break: break-word; }
+    .tool .log time { color: #9ca3af; }
+    .tool .log .detail { color: #6b7280; }
+    .tool .log:empty::after { content: "No events yet"; color: #9ca3af; }
+  </style>
+  <aside class="tools-column">
+    <section class="tool">
+      <form method="get" onsubmit="beforeIdentify(this)">
+        <input type="hidden" name="inbox_id" value="<%= @inbox.id %>" />
+        <% %w[position type widget_style dark_mode].each do |key| %>
+          <% if params[key].present? %><input type="hidden" name="<%= key %>" value="<%= params[key] %>" /><% end %>
+        <% end %>
+        <% invalid_hash = params[:hash] == 'invalid' %>
+        <% if params[:identifier].blank? %>
+          <p class="status" id="hmac-status">Anonymous visitor, not verified</p>
+        <% elsif invalid_hash %>
+          <p class="status" id="hmac-status">Sending an invalid hash for <code><%= params[:identifier] %></code>…</p>
+        <% else %>
+          <p class="status verified" id="hmac-status">Verified as <code><%= params[:identifier] %></code></p>
+        <% end %>
+        <label>Identifier <input name="identifier" value="<%= params[:identifier] %>" placeholder="user-123" required /></label>
+        <label>Email <input name="email" type="email" value="<%= params[:email] %>" placeholder="jane@example.com" /></label>
+        <label>Name <input name="name" value="<%= params[:name] %>" placeholder="Jane Doe" /></label>
+        <div class="segmented" role="radiogroup" aria-label="Hash to send">
+          <label><input type="radio" name="hash" value="valid" <%= 'checked' unless invalid_hash %> onchange="updateHashChoice(this.form)" /><span>Valid hash</span></label>
+          <label><input type="radio" name="hash" value="invalid" <%= 'checked' if invalid_hash %> onchange="updateHashChoice(this.form)" /><span>Invalid hash</span></label>
+        </div>
+        <p class="note" id="hash-hint" <%= 'hidden' unless invalid_hash %>>Starts a fresh session, then signs the identifier with a wrong key. The server should reject it.</p>
+        <div class="row">
+          <button type="button" onclick="randomizeContact(this.form)">Randomize</button>
+          <button type="submit" id="hmac-submit"><%= invalid_hash ? 'Send invalid hash' : 'Verify contact' %></button>
+        </div>
+      </form>
+    </section>
+
+    <section class="tool">
+      <p class="note">Runs <code>$chatwoot.reset()</code> and reloads as an anonymous visitor.</p>
+      <button type="button" onclick="resetSession()">Reset session</button>
+    </section>
+
+    <section class="tool">
+      <ul class="log" id="event-log"></ul>
+      <button type="button" onclick="document.getElementById('event-log').replaceChildren()">Clear event log</button>
+    </section>
+  </aside>
 </body>
 
 <%
@@ -10,8 +77,94 @@
     user_id.to_s
   )
 
+
+  # Identity from the form above, signed with this inbox HMAC token
+  verified_user = if params[:identifier].present?
+    {
+      identifier: params[:identifier],
+      # an invalid hash has the right length but is signed with the wrong key
+      identifier_hash: OpenSSL::HMAC.hexdigest('sha256', params[:hash] == 'invalid' ? 'wrong-key' : @web_widget.hmac_token, params[:identifier]),
+      email: params[:email].presence,
+      name: params[:name].presence
+    }.compact
+  end
 %>
 <script>
+
+// Fills the HMAC tool with a random contact
+function randomizeContact(form) {
+  var firstNames = ['Ada', 'Grace', 'Linus', 'Margaret', 'Alan', 'Katherine', 'Dennis', 'Barbara'];
+  var lastNames = ['Lovelace', 'Hopper', 'Torvalds', 'Hamilton', 'Turing', 'Johnson', 'Ritchie', 'Liskov'];
+  var pick = function(list) { return list[Math.floor(Math.random() * list.length)]; };
+  var first = pick(firstNames);
+  var last = pick(lastNames);
+  var suffix = Math.random().toString(36).slice(2, 8);
+  form.identifier.value = 'user-' + suffix;
+  form.email.value = (first + '.' + last + '.' + suffix + '@example.com').toLowerCase();
+  form.name.value = first + ' ' + last;
+}
+
+// Clears the widget session and the identity fields, keeps the display settings
+function resetSession() {
+  window.$chatwoot.reset();
+  var query = new URLSearchParams(window.location.search);
+  ['identifier', 'email', 'name', 'hash'].forEach(function(key) { query.delete(key); });
+  window.location = window.location.pathname + '?' + query.toString();
+}
+
+// Keeps the hint and the submit label in step with the chosen hash
+function updateHashChoice(form) {
+  var invalid = form.hash.value === 'invalid';
+  document.getElementById('hash-hint').hidden = !invalid;
+  document.getElementById('hmac-submit').textContent = invalid ? 'Send invalid hash' : 'Verify contact';
+}
+
+// An invalid hash is only a real test on a fresh session, and the SDK skips a repeated identical setUser
+function beforeIdentify(form) {
+  if (form.hash.value === 'invalid' && window.$chatwoot) window.$chatwoot.reset();
+}
+
+// Shows the outcome of the invalid hash test in the status line
+var REJECTION_WAIT_MS = 6000;
+var rejectionTimer = null;
+function setHmacStatus(text, className) {
+  var status = document.getElementById('hmac-status');
+  status.textContent = text;
+  status.className = 'status' + (className ? ' ' + className : '');
+}
+function watchForRejection(identifier) {
+  rejectionTimer = setTimeout(function() {
+    rejectionTimer = null;
+    setHmacStatus('Not rejected. The server reported no error for the invalid hash of ' + identifier + '.', 'failed');
+  }, REJECTION_WAIT_MS);
+}
+function onWidgetError(detail) {
+  if (!rejectionTimer) return;
+  clearTimeout(rejectionTimer);
+  rejectionTimer = null;
+  var reason = detail && (detail.error || detail.message) || JSON.stringify(detail);
+  setHmacStatus('Rejected as expected: ' + reason, 'verified');
+}
+
+// Lists widget events in the event log card, newest first
+function logEvent(name, detail) {
+  var list = document.getElementById('event-log');
+  if (!list) return;
+  var item = document.createElement('li');
+  var time = document.createElement('time');
+  time.textContent = new Date().toLocaleTimeString() + ' ';
+  item.appendChild(time);
+  item.appendChild(document.createTextNode(name));
+  if (detail !== undefined) {
+    var text;
+    try { text = JSON.stringify(detail); } catch (error) { text = String(detail); }
+    var span = document.createElement('span');
+    span.className = 'detail';
+    span.textContent = ' ' + (text.length > 200 ? text.slice(0, 200) + '…' : text);
+    item.appendChild(span);
+  }
+  list.prepend(item);
+}
 
 window.chatwootSettings = {
   hideMessageBubble: false,
@@ -42,6 +195,20 @@ window.chatwootSettings = {
 
 window.addEventListener('chatwoot:ready', function() {
   console.log('chatwoot:ready', window.$chatwoot);
+  logEvent('chatwoot:ready');
+  // Open the widget on load
+  window.$chatwoot.toggle('open');
+  // Identify with the HMAC-signed details from the form
+  var verifiedUser = <%= raw json_escape(verified_user.to_json) %>;
+  var expectsRejection = <%= params[:hash] == 'invalid' && params[:identifier].present? %>;
+  if (verifiedUser) {
+    var identifier = verifiedUser.identifier;
+    delete verifiedUser.identifier;
+    window.$chatwoot.setUser(identifier, verifiedUser);
+    console.log('setUser with HMAC', identifier, verifiedUser);
+    logEvent(expectsRejection ? 'setUser with invalid HMAC' : 'setUser with HMAC', { identifier: identifier });
+    if (expectsRejection) watchForRejection(identifier);
+  }
   if (window.location.search.includes('setUser')) {
     window.$chatwoot.setUser('<%= user_id %>', {
       identifier_hash: '<%= user_hash %>',
@@ -54,26 +221,33 @@ window.addEventListener('chatwoot:ready', function() {
 
 window.addEventListener('chatwoot:error', function(e) {
   console.log('chatwoot:error', e.detail)
+  logEvent('chatwoot:error', e.detail)
+  onWidgetError(e.detail)
 })
 
 
 window.addEventListener('chatwoot:on-message', function(e) {
   console.log('chatwoot:on-message', e.detail)
+  logEvent('chatwoot:on-message', e.detail)
 })
 
 window.addEventListener('chatwoot:postback', function(e) {
   console.log('chatwoot:postback', e.detail)
+  logEvent('chatwoot:postback', e.detail)
 })
 
 window.addEventListener('chatwoot:opened', function() {
   console.log('chatwoot:opened')
+  logEvent('chatwoot:opened')
 })
 
 window.addEventListener('chatwoot:closed', function() {
   console.log('chatwoot:closed')
+  logEvent('chatwoot:closed')
 })
 
 window.addEventListener('chatwoot:on-start-conversation', function(e) {
   console.log('chatwoot:on-start-conversation', e.detail)
+  logEvent('chatwoot:on-start-conversation', e.detail)
 })
 </script>
