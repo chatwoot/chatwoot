@@ -22,8 +22,6 @@ class Voice::VoipPushService
   RING_EXPIRY_SECONDS = 45
   APPLE = 'apns_voip'.freeze
   ANDROID = 'fcm'.freeze
-  # Android deliveries in flight at once per call
-  ANDROID_BATCH_SIZE = 20
 
   # The agents a call rings: the assignee if the conversation has one, otherwise everyone
   # who could be assigned the inbox, keeping only agents whose status is online, as the
@@ -67,21 +65,26 @@ class Voice::VoipPushService
     return if apple.nil? || (apple.empty? && android.empty?)
 
     apple_results, android_results = deliver_ring(apple, android)
-    settle_ring(apple_results.to_h, android_results.to_h)
+    settle_ring(apple_results, android_results)
     # The tokens just rung are used, not the stored ones: a cancel that ran while these
     # pushes were in flight has already removed those
-    cancel(android - gone(android_results.to_h)) unless call.reload.ringing?
+    cancel(android - gone(android_results)) unless call.reload.ringing?
   end
 
+  # A platform whose delivery failed as a whole, its connection included, reached nobody
   def deliver_ring(apple, android)
-    sender = Voice::ApnsVoipSender.new(settings: apple_settings, call_id: call.id) if apple.any?
-    client = fcm_client if android.any?
+    apple_sender = Voice::ApnsVoipSender.new(settings: apple_settings, call_id: call.id) if apple.any?
+    android_sender = fcm_sender if android.any?
     payload = payloads.ring
     data = payloads.ring_data
     [
-      Thread.new { with_rails { sender ? sender.ring(apple, payload) : {} } },
-      Thread.new { with_rails { deliver_android_all(client, android, data, 'ring') } }
+      deliver_in_thread(apple) { apple_sender.ring(apple, payload) },
+      deliver_in_thread(android) { android_sender.deliver(android, data, 'ring') }
     ].map(&:value)
+  end
+
+  def deliver_in_thread(tokens, &)
+    Thread.new { tokens.empty? ? {} : with_rails(&) || tokens.index_with(:failed) }
   end
 
   def devices_to_ring
@@ -97,8 +100,8 @@ class Voice::VoipPushService
     return if tokens.blank?
 
     data = payloads.cancel_data
-    client = fcm_client
-    forget_devices(ANDROID, gone(with_rails { deliver_android_all(client, tokens, data, 'cancel') }.to_h))
+    sender = fcm_sender
+    forget_devices(ANDROID, gone(with_rails { sender.deliver(tokens, data, 'cancel') }.to_h))
   end
 
   def payloads
@@ -245,31 +248,9 @@ class Voice::VoipPushService
 
   # MARK: Android
 
-  def fcm_client
-    Notification::FcmService.new(config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')).fcm_client
-  end
-
-  # Returns each token's outcome: :sent, :gone when Firebase reports it unregistered, or :failed
-  def deliver_android_all(client, tokens, data, kind)
-    return {} if tokens.empty?
-
-    tokens.each_slice(ANDROID_BATCH_SIZE).with_object({}) do |batch, results|
-      outcomes = batch.map { |token| Thread.new { with_rails { deliver_android(client, token, data, kind) } } }.map(&:value)
-      results.merge!(batch.zip(outcomes).to_h { |token, outcome| [token, outcome || :failed] })
-    end
-  end
-
-  def deliver_android(client, token, data, kind)
-    response = client.send_v1(
-      token: token,
-      data: data,
-      android: { priority: 'high', ttl: "#{RING_EXPIRY_SECONDS}s" }
-    )
-    Rails.logger.info("[VOIP PUSH] android #{kind} call #{call.id} to #{token[0, 8]}… status=#{response[:status_code]}")
-    response[:status_code] == 404 && response[:body].to_s.include?('UNREGISTERED') ? :gone : :sent
-  rescue StandardError => e
-    Rails.logger.error("[VOIP PUSH] android #{kind} call #{call.id} to #{token[0, 8]}… failed: #{e.class}: #{e.message}")
-    :failed
+  def fcm_sender
+    client = Notification::FcmService.new(config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')).fcm_client
+    Voice::FcmVoipSender.new(client: client, call_id: call.id, expiry_seconds: RING_EXPIRY_SECONDS)
   end
 
   def config(name, default = nil)
