@@ -21,6 +21,7 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
     reset_password_token = Devise.token_generator.digest(self, :reset_password_token, original_token)
     @recoverable = User.find_by(reset_password_token: reset_password_token)
     if @recoverable && reset_password_and_confirmation(@recoverable)
+      return render_suspended_sign_in_blocked unless @recoverable.active_for_authentication?
       return render_mfa_sign_in_required if mfa_sign_in_required?(@recoverable)
 
       send_auth_headers(@recoverable)
@@ -31,6 +32,13 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
   end
 
   private
+
+  def render_suspended_sign_in_blocked
+    render json: {
+      message: I18n.t('devise.failure.suspended'),
+      redirect_url: '/app/login'
+    }, status: :ok
+  end
 
   def reset_password_and_confirmation(recoverable)
     recoverable.confirm unless recoverable.confirmed? # confirm if user resets password without confirming anytime before

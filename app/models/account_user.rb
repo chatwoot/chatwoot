@@ -37,8 +37,12 @@ class AccountUser < ApplicationRecord
   accepts_nested_attributes_for :account
 
   after_create_commit :notify_creation, :create_notification_setting
+  after_update :handle_active_status_change, if: :saved_change_to_active?
   after_destroy :notify_deletion, :remove_user_from_account
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
+
+  scope :active, -> { where(active: true) }
+  scope :suspended, -> { where(active: false) }
   after_commit :invalidate_filtered_unread_count_visibility, on: [:create, :destroy]
   after_update_commit :invalidate_filtered_unread_count_visibility_update, if: :filtered_unread_count_visibility_changed?
 
@@ -59,12 +63,21 @@ class AccountUser < ApplicationRecord
     administrator? ? ['administrator'] : ['agent']
   end
 
+  def suspend!
+    update!(active: false)
+  end
+
+  def reactivate!
+    update!(active: true)
+  end
+
   def push_event_data
     {
       id: id,
       availability: availability,
       role: role,
-      user_id: user_id
+      user_id: user_id,
+      active: active
     }
   end
 
@@ -80,6 +93,19 @@ class AccountUser < ApplicationRecord
 
   def update_presence_in_redis
     OnlineStatusTracker.set_status(account.id, user.id, availability)
+  end
+
+  def handle_active_status_change
+    unless active?
+      OnlineStatusTracker.set_status(account.id, user.id, 'offline')
+      unassign_active_conversations
+    end
+    dispatch_account_cache_invalidated
+  end
+
+  def unassign_active_conversations
+    user.assigned_conversations.where(account: account, status: [:open, :pending]).in_batches.update_all(assignee_id: nil) # rubocop:disable Rails/SkipsModelValidations
+    ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).conversation_changed!
   end
 
   def filtered_unread_count_visibility_changed?
