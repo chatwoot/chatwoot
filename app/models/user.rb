@@ -68,7 +68,9 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [:google_oauth2, :saml]
 
   def active_for_authentication?
-    super && account_users.exists?(active: true)
+    return false if account_users.exists? && !account_users.exists?(active: true)
+
+    super
   end
 
   # TODO: remove in a future version once online status is moved to account users
