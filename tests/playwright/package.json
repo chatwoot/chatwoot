@@ -19,6 +19,7 @@
     "@playwright/mcp": "^0.0.48",
     "@playwright/test": "^1.56.1",
     "@types/node": "^24.10.1",
+    "@types/pg": "^8.15.5",
     "@types/uuid": "^10.0.0",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
