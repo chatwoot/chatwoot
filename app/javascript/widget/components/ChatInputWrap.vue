@@ -4,7 +4,12 @@ import { mapGetters } from 'vuex';
 
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
+import VoiceRecorder from 'widget/components/VoiceRecorder.vue';
+import Spinner from 'shared/components/Spinner.vue';
 import { useAttachments } from '../composables/useAttachments';
+import { transcribeAudioAPI } from 'widget/api/conversation';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
@@ -17,6 +22,8 @@ export default {
   components: {
     ChatAttachmentButton,
     ChatSendButton,
+    VoiceRecorder,
+    Spinner,
     EmojiPicker,
     FluentIcon,
     ResizableTextArea,
@@ -36,11 +43,13 @@ export default {
       canHandleAttachments,
       shouldShowEmojiPicker,
       hasEmojiPickerEnabled,
+      canTranscribeAudio,
     } = useAttachments();
     return {
       canHandleAttachments,
       shouldShowEmojiPicker,
       hasEmojiPickerEnabled,
+      canTranscribeAudio,
     };
   },
   data() {
@@ -48,6 +57,8 @@ export default {
       userInput: '',
       showEmojiPicker: false,
       isFocused: false,
+      isRecording: false,
+      isTranscribing: false,
     };
   },
 
@@ -57,8 +68,16 @@ export default {
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
       shouldShowEmojiPicker: 'appConfig/getShouldShowEmojiPicker',
     }),
+    isIdleInput() {
+      return (
+        this.userInput.length === 0 && !this.isRecording && !this.isTranscribing
+      );
+    },
     showAttachment() {
-      return this.canHandleAttachments && this.userInput.length === 0;
+      return this.canHandleAttachments && this.isIdleInput;
+    },
+    showVoiceButton() {
+      return this.canTranscribeAudio && this.isIdleInput;
     },
     showSendButton() {
       return this.userInput.length > 0;
@@ -96,6 +115,9 @@ export default {
       this.focusInput();
     },
     handleEnterKeyPress(e) {
+      // The textarea (and its ref) is unmounted while recording/transcribing,
+      // so ignore Enter to avoid focusing a missing input.
+      if (this.isRecording || this.isTranscribing) return;
       if (e.keyCode === 13 && !e.shiftKey) {
         e.preventDefault();
         this.handleButtonClick();
@@ -126,7 +148,41 @@ export default {
       this.$store.dispatch('conversation/toggleUserTyping', { typingStatus });
     },
     focusInput() {
-      this.$refs.chatInput.focus();
+      // The textarea ref is absent while recording/transcribing, and callers
+      // like the isWidgetOpen reopen watcher may still fire, so guard the ref.
+      this.$refs.chatInput?.focus();
+    },
+    startRecording() {
+      this.isRecording = true;
+    },
+    onRecordCancel() {
+      this.isRecording = false;
+    },
+    onRecordError() {
+      this.isRecording = false;
+      emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+        message: this.$t('VOICE_RECORDER.PERMISSION_ERROR'),
+      });
+    },
+    async onRecordFinish(audioFile) {
+      this.isRecording = false;
+      this.isTranscribing = true;
+      try {
+        const { data } = await transcribeAudioAPI(audioFile);
+        const transcription = (data.transcription || '').trim();
+        if (transcription) {
+          this.userInput = this.userInput
+            ? `${this.userInput} ${transcription}`
+            : transcription;
+        }
+        this.focusInput();
+      } catch (error) {
+        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          message: this.$t('VOICE_RECORDER.TRANSCRIPTION_ERROR'),
+        });
+      } finally {
+        this.isTranscribing = false;
+      }
     },
   },
 };
@@ -141,25 +197,50 @@ export default {
     }"
     @keydown.esc="hideEmojiPicker"
   >
+    <VoiceRecorder
+      v-if="isRecording"
+      class="flex-1 my-2"
+      @finish="onRecordFinish"
+      @cancel="onRecordCancel"
+      @error="onRecordError"
+    />
     <ResizableTextArea
+      v-else
       id="chat-input"
       ref="chatInput"
       v-model="userInput"
       :rows="1"
       :aria-label="$t('CHAT_PLACEHOLDER')"
-      :placeholder="$t('CHAT_PLACEHOLDER')"
+      :placeholder="
+        isTranscribing
+          ? $t('VOICE_RECORDER.TRANSCRIBING')
+          : $t('CHAT_PLACEHOLDER')
+      "
+      :disabled="isTranscribing"
       class="user-message-input reset-base"
       @typing-off="onTypingOff"
       @typing-on="onTypingOn"
       @focus="onFocus"
       @blur="onBlur"
     />
-    <div class="relative flex items-center ltr:pl-2 rtl:pr-2">
+    <div
+      v-if="!isRecording"
+      class="relative flex items-center ltr:pl-2 rtl:pr-2"
+    >
+      <Spinner v-if="isTranscribing" size="small" />
       <ChatAttachmentButton
         v-if="showAttachment"
         class="text-n-slate-12"
         :on-attach="onSendAttachment"
       />
+      <button
+        v-if="showVoiceButton"
+        class="flex items-center justify-center min-h-8 min-w-8 text-n-slate-12"
+        :aria-label="$t('VOICE_RECORDER.START')"
+        @click="startRecording"
+      >
+        <FluentIcon icon="microphone" />
+      </button>
       <button
         v-if="shouldShowEmojiPicker && hasEmojiPickerEnabled"
         class="flex items-center justify-center min-h-8 min-w-8"
