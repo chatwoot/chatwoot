@@ -59,6 +59,44 @@ RSpec.describe AccountDeletionService do
         user_with_multiple_accounts.reload
         expect(user_with_multiple_accounts.email).to eq(original_email)
       end
+
+      it 'scrubs identifying name fields of users who only belong to the deleted account' do
+        original_name = user_with_one_account.name
+        original_display_name = user_with_one_account.display_name
+
+        described_class.new(account: account).perform
+
+        # Reload the user to get the updated attributes
+        user_with_one_account.reload
+        expect(user_with_one_account.name).not_to eq(original_name)
+        expect(user_with_one_account.display_name).not_to eq(original_display_name)
+      end
+
+      it 'resets the api access token of users who only belong to the deleted account' do
+        original_token = user_with_one_account.access_token.token
+
+        described_class.new(account: account).perform
+
+        # Reload the user to get the updated token
+        user_with_one_account.reload
+        expect(user_with_one_account.access_token.token).not_to eq(original_token)
+        # The pre-deletion token must no longer resolve to any access token
+        expect(AccessToken.find_by(token: original_token)).to be_nil
+      end
+
+      it 'does not modify name or access token for users belonging to multiple accounts' do
+        original_name = user_with_multiple_accounts.name
+        original_display_name = user_with_multiple_accounts.display_name
+        original_token = user_with_multiple_accounts.access_token.token
+
+        described_class.new(account: account).perform
+
+        # Reload the user to get the updated attributes
+        user_with_multiple_accounts.reload
+        expect(user_with_multiple_accounts.name).to eq(original_name)
+        expect(user_with_multiple_accounts.display_name).to eq(original_display_name)
+        expect(user_with_multiple_accounts.access_token.token).to eq(original_token)
+      end
     end
   end
 end
