@@ -11,6 +11,7 @@ class Captain::Assistant::AgentRunnerService
   attr_reader :last_run_result
 
   REPLY_SUGGESTION_SOURCE = 'copilot_reply_suggestion'.freeze
+  EMAIL_VERIFICATION_TOOLS = [Captain::Tools::SendEmailVerificationCodeTool, Captain::Tools::VerifyEmailCodeTool].freeze
   RunOptions = Data.define(:callbacks, :source, :responding_to_message_id, :runtime_configuration) do
     def initialize(callbacks: {}, source: nil, responding_to_message_id: nil, runtime_configuration: nil)
       super
@@ -131,10 +132,20 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def wire_agents(assistant_agent, scenario_agents)
+    assistant_agent = with_email_verification_tools(assistant_agent)
+    scenario_agents = scenario_agents.map { |agent| with_email_verification_tools(agent) }
     assistant_agent.register_handoffs(*scenario_agents) if scenario_agents.any?
     scenario_agents.each { |scenario_agent| scenario_agent.register_handoffs(assistant_agent) }
 
     [assistant_agent] + scenario_agents
+  end
+
+  # Every agent in a customer conversation can verify the customer, so whichever one is asked for account data can do it.
+  # Email conversations are left out: a code sent to the address the customer already writes from proves nothing new.
+  def with_email_verification_tools(agent)
+    return agent if @conversation&.contact_inbox.blank? || @conversation.inbox.email?
+
+    agent.clone(tools: agent.tools + EMAIL_VERIFICATION_TOOLS.map { |tool_class| tool_class.new(@assistant) })
   end
 
   def reply_suggestion_agent
