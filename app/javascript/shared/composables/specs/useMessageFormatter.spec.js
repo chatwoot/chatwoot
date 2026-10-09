@@ -87,5 +87,24 @@ describe('useMessageFormatter', () => {
         'This <span class="highlight">(message)</span> contains [special] characters'
       );
     });
+
+    it('should ignore accents and keep the original spelling', () => {
+      const result = messageFormatter.highlightContent(
+        'Olá, hola e OLA',
+        'ola',
+        'highlight'
+      );
+      expect(result.trim()).toBe(
+        '<span class="highlight">Olá</span>, h<span class="highlight">ola</span> e <span class="highlight">OLA</span>'
+      );
+      expect(
+        messageFormatter.highlightContent('Hola', 'olá', 'highlight').trim()
+      ).toBe('H<span class="highlight">ola</span>');
+      expect(
+        messageFormatter
+          .highlightContent('Cafe\u0301 Ola', 'ola', 'highlight')
+          .trim()
+      ).toBe('Caf\u00e9 <span class="highlight">Ola</span>');
+    });
   });
 });
