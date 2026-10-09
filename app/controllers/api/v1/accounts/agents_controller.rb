@@ -29,7 +29,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
 
   def destroy
     @agent.current_account_user.destroy!
-    delete_user_record(@agent)
+    Agents::DeleteOrphanedUserJob.perform_later(@agent)
     head :ok
   end
 
@@ -110,10 +110,6 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
 
   def available_agent_count
     Current.account.usage_limits[:agents] - Current.account.account_users.count
-  end
-
-  def delete_user_record(agent)
-    DeleteObjectJob.perform_later(agent) if agent.reload.account_users.blank?
   end
 end
 
