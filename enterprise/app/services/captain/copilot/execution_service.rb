@@ -38,7 +38,7 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService
 
   def generate_response
     llm = build_chat.with_tool_options(calls: :one, concurrency: false)
-    protocol = Captain::ResponsesConfig.options(model: @model, temperature: temperature, feature: 'copilot')[:protocol]
+    protocol = Captain::ResponsesConfig.options(model: @model, temperature: temperature, feature: 'copilot', account: @llm_account)[:protocol]
     @history = Captain::Copilot::ExecutionHistory.new(@run, llm, protocol: protocol)
     @history.restore
     @history.checkpoint(@token)

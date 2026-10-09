@@ -42,7 +42,8 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   end
 
   def build_chat
-    options = Captain::ResponsesConfig.options(model: @model, temperature: @temperature, feature: 'copilot')
+    # The account's Super Admin effort override applies to reviews as it does to the Copilot turn.
+    options = Captain::ResponsesConfig.options(model: @model, temperature: @temperature, feature: 'copilot', account: @llm_account)
     # ChatGenerationRecorder reads the protocol to record model, tokens and cost on the generation.
     @llm_protocol = options[:protocol]
     llm = chat(model: @model, **options).with_instructions(SYSTEM_PROMPT).with_schema(Captain::Copilot::ReviewResponseSchema)
