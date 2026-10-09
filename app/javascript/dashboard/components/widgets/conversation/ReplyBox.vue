@@ -190,7 +190,6 @@ export default {
       showMacrosMenu: false,
       newConversationModalActive: false,
       showArticleSearchPopover: false,
-      hasRecordedAudio: false,
       copilotAcceptedMessages: {},
       isQuoteRemoved: false,
     };
@@ -323,7 +322,9 @@ export default {
     isReplyButtonDisabled() {
       if (this.isEditorDisabled) return true;
       if (this.isATwitterInbox) return true;
-      if (this.hasAttachments || this.hasRecordedAudio) return false;
+      // The voice note is attached asynchronously after recording stops, so
+      // enabling send before it lands would send an empty message.
+      if (this.hasAttachments) return false;
 
       return (
         this.isMessageEmpty ||
@@ -1097,7 +1098,6 @@ export default {
     },
     onFinishRecorder(file) {
       this.recordingAudioState = 'stopped';
-      this.hasRecordedAudio = true;
       // Added a new key isVoiceMessage to the file to identify recorded audio
       // Because to filter and show only non recorded audio and other attachments
       const autoRecordedFile = {
@@ -1314,7 +1314,6 @@ export default {
       this.recordingAudioDurationText = '00:00';
       this.isRecordingAudio = false;
       this.recordingAudioState = '';
-      this.hasRecordedAudio = false;
       // Only clear the recorded audio when we click toggle button.
       this.attachedFiles = this.attachedFiles.filter(
         file => !file?.isVoiceMessage
