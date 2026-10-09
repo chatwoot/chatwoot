@@ -1047,6 +1047,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_09_094528) do
     t.boolean "matched", default: false, null: false
     t.string "category"
     t.text "reason"
+    t.float "screening_score"
     t.jsonb "evidence_message_ids", default: [], null: false
     t.jsonb "reviewed_message_ids", default: [], null: false
     t.boolean "history_truncated", default: false, null: false
@@ -1065,7 +1066,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_09_094528) do
     t.string "status", default: "queued", null: false
     t.jsonb "arguments", default: {}, null: false
     t.jsonb "result"
-    t.jsonb "approval", default: {}, null: false
     t.integer "attempts", default: 0, null: false
     t.string "error"
     t.datetime "created_at", null: false

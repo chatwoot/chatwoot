@@ -25,7 +25,6 @@ class CreateCopilotRuns < ActiveRecord::Migration[7.2]
       t.string :status, null: false, default: 'queued'
       t.jsonb :arguments, null: false, default: {}
       t.jsonb :result
-      t.jsonb :approval, null: false, default: {}
       t.integer :attempts, null: false, default: 0
       t.string :error
       t.timestamps
@@ -39,6 +38,7 @@ class CreateCopilotRuns < ActiveRecord::Migration[7.2]
       t.boolean :matched, null: false, default: false
       t.string :category
       t.text :reason
+      t.float :screening_score
       t.jsonb :evidence_message_ids, null: false, default: []
       t.jsonb :reviewed_message_ids, null: false, default: []
       t.boolean :history_truncated, null: false, default: false

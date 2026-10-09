@@ -10,7 +10,6 @@ class Captain::Copilot::ReviewJob < ApplicationJob
   def perform(run_id)
     run = CopilotRun.where(kind: 'review', status: %w[queued running]).find_by(id: run_id)
     return unless run
-    return self.class.set(wait: 5.seconds).perform_later(run.id) unless run.parent_run.parent_run.terminal?
 
     token = claim(run)
     return unless token
@@ -34,55 +33,45 @@ class Captain::Copilot::ReviewJob < ApplicationJob
   end
 
   def process_step(run, token)
+    conversations = Captain::Copilot::ScreeningService.new(run, token).screen(accessible_step(run, token))
+    run.with_lease(token) { run.publish_progress } if run.match.present?
     service = Captain::Copilot::ReviewService.new(run, token)
-    run.with_lease(token) { run.publish_progress }
-    run.remaining_ids.first(STEP_SIZE).each_slice(Captain::Copilot::ReviewService::BATCH_SIZE) do |ids|
+    conversations.each do |conversation|
       run.renew_lease(token)
-      process_batch(run, token, service, ids)
-      run.with_lease(token) { run.publish_progress }
+      review(run, token, service, conversation)
     end
+    run.with_lease(token) { run.publish_progress } if conversations.any?
     return finalize(run, token) if run.remaining_ids.empty?
 
     run.with_lease(token) { run.update!(status: 'queued', lease_token: nil, lease_until: nil) }
     self.class.perform_later(run.id)
   end
 
-  def process_batch(run, token, service, ids)
-    rows = accessible_conversations(account: run.account, user: run.user).where(id: ids).to_a
-    mark_inaccessible(run, token, ids - rows.map(&:id))
-    return if rows.empty?
+  def accessible_step(run, token)
+    ids = run.remaining_ids.first(STEP_SIZE)
+    conversations = accessible_conversations(account: run.account, user: run.user).where(id: ids).to_a
+    run.with_lease(token) { (ids - conversations.map(&:id)).each { |id| record_error(run, id, 'Conversation is no longer accessible') } }
+    conversations
+  end
 
-    deep_ids = run.findings.where(conversation_id: rows.map(&:id), status: 'more_history').pluck(:conversation_id)
-    results = service.analyze(rows, deep_ids: deep_ids)
-    run.with_lease(token) { save_results(run, results, deep_ids) }
+  def review(run, token, service, conversation)
+    deep = run.findings.exists?(conversation_id: conversation.id, status: 'more_history')
+    attributes = service.analyze(conversation, deep: deep)
+    attributes = attributes.merge(status: 'error', error: 'The last 50 messages were insufficient') if attributes[:status] == 'more_history' && deep
+    run.with_lease(token) { save_result(run, conversation.id, attributes) }
   rescue Captain::Copilot::LeaseLostError, Captain::Copilot::LimitExceededError
     raise
   rescue StandardError => e
-    record_batch_error(run, token, ids, e)
+    ChatwootExceptionTracker.new(e, account: run.account).capture_exception
+    error = e.is_a?(ArgumentError) ? e.message : "Analysis failed (#{e.class.name})"
+    run.with_lease(token) { record_error(run, conversation.id, error) }
   end
 
-  def record_batch_error(run, token, ids, exception)
-    ChatwootExceptionTracker.new(exception, account: run.account).capture_exception
-    error = exception.is_a?(ArgumentError) ? exception.message : "Analysis failed (#{exception.class.name})"
-    run.with_lease(token) { ids.each { |id| record_error(run, id, error) } }
-  end
+  def save_result(run, id, attributes)
+    finding = run.findings.find_or_initialize_by(conversation_id: id)
+    return if finding.status == 'resolved'
 
-  def mark_inaccessible(run, token, ids)
-    run.with_lease(token) { ids.each { |id| record_error(run, id, 'Conversation is no longer accessible') } }
-  end
-
-  def save_results(run, results, deep_ids)
-    results.each do |id, attributes|
-      attributes[:error] = nil
-      if attributes[:status] == 'more_history' && deep_ids.include?(id)
-        attributes[:status] = 'error'
-        attributes[:error] = 'The last 50 messages were insufficient'
-      end
-      finding = run.findings.find_or_initialize_by(conversation_id: id)
-      next if finding.status == 'resolved'
-
-      finding.update!(**attributes, attempts: finding.attempts + 1)
-    end
+    finding.update!(error: nil, **attributes, attempts: finding.attempts + 1)
   end
 
   def record_error(run, id, error)
@@ -93,27 +82,26 @@ class Captain::Copilot::ReviewJob < ApplicationJob
     finding.update!(status: attempts >= MAX_ATTEMPTS ? 'error' : 'retry', error: error, attempts: attempts)
   end
 
+  # The chat run that started this review is parked on its tool call; the receipt becomes that call's result.
   def finalize(run, token, error: nil)
-    run.with_lease(token) do
+    receipt = run.with_lease(token) do
       incomplete = error || run.findings.exists?(status: 'error') || run.context['selection_truncated']
       run.update!(status: incomplete ? 'incomplete' : 'completed', lease_token: nil, lease_until: nil, error: error)
-      run.publish_progress
-      presentation = Captain::Copilot::PresentationService.new(run).table
-      run.copilot_thread.copilot_messages.create!(message_type: :assistant, message: { run_id: run.id, content: presentation[:content] })
+      run.receipt
     end
+    step = run.copilot_run_step
+    step.copilot_run.resume_with(step, receipt)
   end
 
   def handle_failure(run, token, exception)
     return unless run && token
 
-    run.with_lease(token) do
-      attempts = run.attempts + 1
-      run.update!(attempts: attempts, error: exception.class.name)
-      return finalize(run, token, error: exception.class.name) if attempts >= MAX_RUN_FAILURES
+    attempts = run.with_lease(token) { run.update!(attempts: run.attempts + 1, error: exception.class.name) && run.attempts }
+    # Outside the lease transaction, so the parent's wake-up is committed before its job can run.
+    return finalize(run, token, error: exception.class.name) if attempts >= MAX_RUN_FAILURES
 
-      run.update!(status: 'queued', lease_token: nil, lease_until: nil)
-      self.class.set(wait: 10.seconds).perform_later(run.id)
-    end
+    run.with_lease(token) { run.update!(status: 'queued', lease_token: nil, lease_until: nil) }
+    self.class.set(wait: 10.seconds).perform_later(run.id)
   rescue Captain::Copilot::LeaseLostError
     nil
   end

@@ -2,22 +2,35 @@ class Captain::Tools::Copilot::ReviewConversationsService < Captain::Tools::Copi
   def self.name
     'review_conversations'
   end
-  description 'Start a background review of a saved conversation collection against the supplied criteria. Returns a run ID and coverage.'
+  description 'Review a saved conversation collection one conversation at a time. Returns the review ID and coverage once it has finished.'
   parameter :collection_id, type: :integer, description: 'Collection ID from get_data'
   parameter :criteria, type: :string, description: 'The exact requested checks, including how to classify each conversation'
+  parameter :match, type: :string, required: false,
+                    description: 'Optional yes or no question. Conversations that clearly do not satisfy it are screened out before review'
 
-  def execute(collection_id:, criteria:)
-    raise ArgumentError, 'Criteria must be a nonempty string of at most 4000 characters' unless criteria.is_a?(String) &&
-                                                                                                criteria.present? && criteria.size <= 4000
+  def execute(collection_id:, criteria:, match: nil)
+    validate_text!(criteria, 'Criteria', 4000)
+    if match
+      validate_text!(match, 'Match', 500)
+      raise ArgumentError, 'Screening is unavailable. Retry without match.' unless Captain::Copilot::ScreeningService.available?
+    end
 
     collection = saved_run(collection_id, 'collection')
     review = run.with_lease(lease_token) do
       run.copilot_thread.copilot_runs.create_or_find_by!(copilot_run_step: step) do |record|
         record.assign_attributes(account: run.account, user: run.user, parent_run: collection, kind: 'review',
-                                 context: collection.context.merge('criteria' => criteria))
+                                 context: collection.context.merge('criteria' => criteria, 'match' => match).compact)
       end
     end
     Captain::Copilot::ReviewJob.perform_later(review.id)
     review.receipt
+  end
+
+  private
+
+  def validate_text!(value, label, limit)
+    return if value.is_a?(String) && value.present? && value.size <= limit
+
+    raise ArgumentError, "#{label} must be a nonempty string of at most #{limit} characters"
   end
 end
