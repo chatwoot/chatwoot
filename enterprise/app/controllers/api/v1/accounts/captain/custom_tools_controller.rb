@@ -26,7 +26,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
       return render_could_not_create_error(I18n.t('captain.custom_tool.installed_read_only'))
     end
 
-    @custom_tool.update!(custom_tool_params)
+    @custom_tool.update!(custom_tool_params.merge(merged_settings))
   end
 
   def destroy
@@ -80,6 +80,13 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
     http_tool.send(:execute_http_request, tool.endpoint_url, nil, nil)
   end
 
+  # Settings sent in an update are merged into the saved ones, so a partial update can never drop a setting
+  def merged_settings
+    return {} unless custom_tool_params.key?(:settings)
+
+    { settings: @custom_tool.settings.merge(custom_tool_params[:settings]) }
+  end
+
   def custom_tool_params
     params.require(:custom_tool).permit(
       :title,
@@ -92,6 +99,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
       :enabled,
       auth_config: {},
       headers: {},
+      settings: [:requires_email_verification],
       param_schema: [:name, :type, :description, :required]
     )
   end
