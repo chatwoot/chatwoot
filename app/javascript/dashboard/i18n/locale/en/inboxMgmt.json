@@ -1312,6 +1312,7 @@
       },
       "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
       "SELF_HOSTED_PROMPT": "Custom assignment policies are available on the Premium plan",
+      "LICENSED_SELF_HOSTED_PROMPT": "Ask your Super Admin to enable Advanced Assignment for this account.",
       "UPGRADE_TO_BUSINESS": "Upgrade to Business",
       "UPGRADE_TO_PREMIUM": "Upgrade to Premium",
       "DEFAULT_POLICY_LINKED": "Default policy linked",
