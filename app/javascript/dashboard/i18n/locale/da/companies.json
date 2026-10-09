@@ -7,7 +7,7 @@
         "NAME": "Navn",
         "DOMAIN": "Domæne",
         "CREATED_AT": "Oprettet den",
-        "LAST_ACTIVITY_AT": "Last activity",
+        "LAST_ACTIVITY_AT": "Sidste aktivitet",
         "CONTACTS_COUNT": "Contacts count"
       }
     },
@@ -23,74 +23,122 @@
     "UNNAMED": "Unnamed Company",
     "CONTACTS_COUNT": "{n} contact | {n} contacts",
     "ACTIONS": {
-      "CREATE": "Add company"
+      "CREATE": "Tilføj virksomhed"
     },
     "SELECTOR": {
-      "PLACEHOLDER": "Select company",
-      "CREATE_OPTION": "Add \"{name}\""
+      "PLACEHOLDER": "Vælg virksomhed",
+      "CREATE_OPTION": "Tilføj \"{name}\""
     },
     "CREATE": {
-      "TITLE": "Add company details",
+      "TITLE": "Tilføj virksomhedsoplysninger",
       "ACTIONS": {
-        "SAVE": "Add company"
+        "SAVE": "Tilføj virksomhed"
       },
       "MESSAGES": {
-        "SUCCESS": "Company created.",
-        "ERROR": "Could not create the company."
+        "SUCCESS": "Virksomhed oprettet.",
+        "ERROR": "Kunne ikke oprette virksomheden."
       }
     },
     "DETAIL": {
-      "LOADING": "Loading company details...",
       "EMPTY_STATE": {
-        "TITLE": "Company not found",
-        "SUBTITLE": "This company may have been removed or is no longer available in this account."
+        "TITLE": "Virksomhed ikke fundet",
+        "SUBTITLE": "Denne virksomhed er muligvis blevet fjernet eller er ikke længere tilgængelig på denne konto."
       },
-      "SIDEBAR": {
-        "TABS": {
-          "ATTRIBUTES": "Attributes",
-          "CONTACTS": "Kontakter",
-          "HISTORY": "History",
-          "NOTES": "Noter"
+      "HEADER": {
+        "EDIT": "Rediger",
+        "MORE": "Vis mere",
+        "LESS": "Vis færre",
+        "OPEN_COUNT": "{count} åben | {count} åben",
+        "REFRESH_WITH_TIME": "Opdater profil (opdateret {time})"
+      },
+      "FACTS": {
+        "INDUSTRY": "Branche",
+        "SIZE": "Ansatte",
+        "LOCATION": "Baseret i",
+        "ADDED": "Tilføjet",
+        "UNKNOWN": "Ukendt",
+        "YES": "Ja",
+        "NO": "Nej"
+      },
+      "PEOPLE": {
+        "ADD": "Tilføj",
+        "SEARCH": "Søg efter personer",
+        "EMPTY": "Ingen fra denne virksomhed endnu.",
+        "NO_MATCHES": "Ingen personer matcher din søgning.",
+        "DIALOG_TITLE": "Tilføj personer til {name}"
+      },
+      "TABS": {
+        "CONVERSATIONS": "Samtaler",
+        "NOTES": "Noter",
+        "PEOPLE": "Personer"
+      },
+      "ACTIVITY": {
+        "TODAY": "I dag",
+        "YESTERDAY": "I går",
+        "UNKNOWN_AUTHOR": "Nogen",
+        "EMPTY_CONVERSATIONS": "Ingen samtaler endnu. De vil dukke op her, når denne virksomheds personer kommer i kontakt.",
+        "EMPTY_NOTES": "Ingen noter endnu. Noter tilføjet til denne virksomheds personer vises her.",
+        "LOAD_MORE": "Indlæs mere",
+        "SEARCH_NOTES": "Søg i noter",
+        "NO_MATCHING_NOTES": "Ingen noter matcher din søgning.",
+        "NO_MATCHING_CONVERSATIONS": "Ingen samtaler matcher disse filtre."
+      },
+      "EDIT": {
+        "TITLE": "Rediger virksomhed",
+        "SAVE": "Gem ændringer",
+        "DESCRIPTION": "Beskrivelse",
+        "DETAILS": "Detaljer",
+        "CITY": "By",
+        "COUNTRY": "Land",
+        "PHONE": "Telefon",
+        "SOCIAL": {
+          "TITLE": "Sociale profiler",
+          "LINKEDIN": "LinkedIn",
+          "X": "X",
+          "FACEBOOK": "Facebook",
+          "INSTAGRAM": "Instagram",
+          "GITHUB": "GitHub",
+          "YOUTUBE": "YouTube"
+        },
+        "PLACEHOLDERS": {
+          "DOMAIN": "acme.dk",
+          "INDUSTRY": "Software",
+          "EMPLOYEES": "51 til 200",
+          "USERNAME": "username"
         }
-      },
-      "HISTORY": {
-        "EMPTY": "No conversations found for this company's contacts yet."
-      },
-      "NOTES": {
-        "EMPTY": "No notes found for this company's contacts yet."
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Søg attributter...",
-        "EMPTY_STATE": "There are no company custom attributes configured yet.",
-        "NO_ATTRIBUTES": "No matching attributes found.",
-        "UNUSED_ATTRIBUTES": "{count} unused attribute | {count} unused attributes",
+        "EMPTY_STATE": "Der er endnu ingen virksomhedstilpassede attributter.",
+        "NO_ATTRIBUTES": "Ingen matchende attributter fundet.",
+        "UNUSED_ATTRIBUTES": "{count} ubrugt attribut | {count} ubrugte attributter",
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company attribute updated.",
-          "UPDATE_ERROR": "Could not update company attribute.",
-          "DELETE_SUCCESS": "Company attribute removed.",
-          "DELETE_ERROR": "Could not remove company attribute."
-        }
+          "UPDATE_SUCCESS": "Virksomhedsattribut opdateret.",
+          "UPDATE_ERROR": "Kunne ikke opdatere virksomhedsattribut.",
+          "DELETE_SUCCESS": "Virksomhedsattribut fjernet.",
+          "DELETE_ERROR": "Kunne ikke fjerne virksomhedsattribut."
+        },
+        "TITLE": "Brugerdefinerede attributter"
       },
       "CONTACTS": {
         "LOADING": "Indlæser kontakter...",
-        "EMPTY": "No contacts are linked to this company yet.",
-        "UNNAMED_CONTACT": "Unnamed contact",
+        "UNNAMED_CONTACT": "Unavngiven kontakt",
         "ACTIONS": {
-          "ADD": "Add contact",
-          "REMOVE": "Remove contact"
+          "ADD": "Tilføj kontakt",
+          "REMOVE": "Fjern kontakt"
         },
         "DIALOGS": {
           "ADD": {
-            "DESCRIPTION": "Search for an existing contact and link it to this company.",
+            "DESCRIPTION": "Søg efter en eksisterende kontakt og link den til denne virksomhed.",
             "SEARCH_PLACEHOLDER": "Search contacts...",
-            "INITIAL": "Start typing to search contacts.",
+            "INITIAL": "Begynd at skrive for at søge kontakter.",
             "EMPTY": "No contacts found.",
-            "CONFIRM_TITLE": "Link contact",
-            "CONFIRM_DESCRIPTION": "Confirm the company and contact before linking them.",
+            "CONFIRM_TITLE": "Link kontakt",
+            "CONFIRM_DESCRIPTION": "Bekræft virksomheden og kontakt før du forbinder dem.",
             "COMPANY_LABEL": "Virksomhed",
             "CONTACT_LABEL": "Kontakt",
-            "CURRENT_COMPANY": "Currently linked to {companyName}",
-            "ADD": "Link contact",
+            "CURRENT_COMPANY": "I øjeblikket knyttet til {companyName}",
+            "ADD": "Link kontakt",
             "CANCEL": "Annuller"
           }
         },
@@ -111,16 +159,15 @@
         "DELETE_ERROR": "Could not remove the company avatar."
       },
       "PROFILE": {
-        "TITLE": "Edit company details",
-        "CREATED_AT": "Created {date}",
-        "LAST_ACTIVE": "Last active {date}",
         "DESCRIPTION_PLACEHOLDER": "Add a short description for this company",
         "ACTIONS": {
-          "SAVE": "Update company"
+          "REFRESH": "Refresh profile"
         },
         "MESSAGES": {
           "UPDATE_SUCCESS": "Company updated.",
-          "UPDATE_ERROR": "Could not update the company."
+          "UPDATE_ERROR": "Could not update the company.",
+          "REFRESH_SUCCESS": "Company profile refreshed.",
+          "REFRESH_ERROR": "Could not refresh the company profile."
         },
         "FIELDS": {
           "NAME": "Navn",
@@ -128,8 +175,6 @@
         }
       },
       "DELETE": {
-        "SECTION_TITLE": "Danger zone",
-        "SECTION_DESCRIPTION": "Delete this company and unlink its contacts. The contacts will remain in the account.",
         "BUTTON": "Delete company",
         "TITLE": "Delete company?",
         "DESCRIPTION": "This will remove the company and unlink all associated contacts. Contacts themselves will be preserved.",
@@ -139,10 +184,30 @@
           "SUCCESS": "Company deleted.",
           "ERROR": "Could not delete the company."
         }
+      },
+      "CONVERSATION_FILTERS": {
+        "BUTTON": "Filtrer",
+        "BUTTON_WITH_COUNT": "Filter ({count})",
+        "ANY": "Any"
+      },
+      "ENRICHMENT_UPGRADE": {
+        "TITLE": "Enrich company profiles on the Business plan",
+        "DESCRIPTION": "Automatically fill in a company's description, industry, size, location and social profiles from its domain. Available on the Business and Enterprise plans.",
+        "UPGRADE": "See plans"
       }
     },
     "EMPTY_STATE": {
       "TITLE": "No companies found"
+    },
+    "CARD": {
+      "EMPLOYEES": "{count} employees"
+    },
+    "PAYWALL": {
+      "TITLE": "Upgrade to use Companies",
+      "AVAILABLE_ON": "Companies is not available on the free plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to group contacts by company, see every conversation with an account and keep company details in one place.",
+      "UPGRADE_NOW": "Opgradér nu",
+      "CANCEL_ANYTIME": "Du kan ændre eller annullere dit abonnement når som helst"
     }
   },
   "COMPANIES_LAYOUT": {

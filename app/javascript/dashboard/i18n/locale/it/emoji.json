@@ -6,30 +6,30 @@
   },
   "EMOJI_ICON_PICKER": {
     "TABS": {
-      "ICONS": "Icons",
-      "EMOJIS": "Emojis"
+      "ICONS": "Icone",
+      "EMOJIS": "Emoji"
     },
-    "SEARCH_EMOJI": "Search emoji…",
-    "SEARCH_ICON": "Search icons…",
-    "FREQUENTLY_USED": "Frequently used",
+    "SEARCH_EMOJI": "Cerca emoji…",
+    "SEARCH_ICON": "Cerca icone…",
+    "FREQUENTLY_USED": "Usate di frequente",
     "NO_EMOJI": "Nessuna emoji corrisponde alla tua ricerca",
-    "NO_ICON": "No icons match your search",
+    "NO_ICON": "Nessuna icona corrisponde alla ricerca",
     "REMOVE": "Rimuovi",
     "STYLE": {
-      "OUTLINE": "Outline icons",
-      "FILLED": "Filled icons"
+      "OUTLINE": "Icone a contorno",
+      "FILLED": "Icone piene"
     },
     "COLORS": {
-      "SLATE": "Slate",
-      "RED": "Red",
-      "ORANGE": "Orange",
-      "AMBER": "Amber",
-      "GREEN": "Green",
-      "TEAL": "Teal",
-      "BLUE": "Blue",
-      "INDIGO": "Indigo",
-      "VIOLET": "Violet",
-      "PINK": "Pink"
+      "SLATE": "Ardesia",
+      "RED": "Rosso",
+      "ORANGE": "Arancione",
+      "AMBER": "Ambra",
+      "GREEN": "Verde",
+      "TEAL": "Verde acqua",
+      "BLUE": "Blu",
+      "INDIGO": "Indaco",
+      "VIOLET": "Viola",
+      "PINK": "Rosa"
     }
   }
 }

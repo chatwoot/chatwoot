@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "未読メッセージ",
     "UNREAD_MESSAGE": "未読メッセージ",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "ここをクリック",
     "LOADING_INBOXES": "受信トレイを読み込み中",
     "LOADING_CONVERSATIONS": "会話データを読み込んでいます",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "この会話はあなたに割り当てられていません。自分に割り当てますか？",
     "ASSIGN_TO_ME": "自分に割り当て",
     "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "a bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Take over",
     "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "メッセージの削除に成功",
     "FAIL_DELETE_MESSSAGE": "メッセージを削除できませんでした！もう一度お試しください",
     "NO_RESPONSE": "返信なし",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "回答",
     "RATING_TITLE": "評価",
     "FEEDBACK_TITLE": "フィードバック",
@@ -198,6 +216,16 @@
       "TITLE": "までスヌーズする",
       "APPLY": "スヌーズ",
       "CANCEL": "キャンセル"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "Accept",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "閉じる",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "優先度",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "非公開設定の注意：あなたとあなたのチームのみに表示されます",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "コピー",
       "REPLY_TO": "このメッセージに返信",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "削除",
       "CREATE_A_CANNED_RESPONSE": "定型文応答に追加",
       "TRANSLATE": "翻訳",
@@ -529,7 +556,16 @@
     "BCC": "ビーシーシー",
     "CC": "シーシー",
     "SUBJECT": "件名",
+    "DATE": "Date",
     "EXPAND": "メールを展開"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "宛先:",
+    "TO_PLACEHOLDER": "Enter at least 2 characters to search by email",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "参加者",

@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此联系人没有关联到以前的会话。",
-      "TITLE": "上一次对话"
+      "TITLE": "上一次对话",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

@@ -18,7 +18,8 @@
     "OAUTH": {
       "GOOGLE_LOGIN": "Увійти через Google",
       "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
-      "NO_ACCOUNT_FOUND": "Ми не змогли знайти аккаунт для вашої адреси електронної пошти."
+      "NO_ACCOUNT_FOUND": "Ми не змогли знайти аккаунт для вашої адреси електронної пошти.",
+      "SHOPIFY_INSTALLATION_FAILED": "We couldn't complete your Shopify installation. Please restart installation from Shopify."
     },
     "FORGOT_PASSWORD": "Забули пароль?",
     "CREATE_NEW_ACCOUNT": "Створити новий обліковий запис",

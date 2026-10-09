@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Не було попередніх бесід, пов'язаних з цим контактом.",
-      "TITLE": "Попередні бесіди"
+      "TITLE": "Попередні бесіди",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

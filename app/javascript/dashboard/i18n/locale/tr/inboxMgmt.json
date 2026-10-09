@@ -50,7 +50,7 @@
         "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Bir değer seçin",
         "CREATE_INBOX": "Gelen Kutusu Oluştur",
-        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "RESTRICTED_WARNING": "Facebook gelen kutusu oluşturma, Meta tarafındaki API düzeyindeki bir sorun nedeniyle geçici olarak kullanılamıyor. Sorun Chatwoot kaynaklı değildir. Sorunu mümkün olan en kısa sürede çözmek için Meta ile yakın bir şekilde çalışıyoruz.",
         "STATUS_LINK": "Durum güncellemelerini görüntüle"
       },
       "INSTAGRAM": {
@@ -61,7 +61,7 @@
         "ERROR_AUTH": "Instagram'a bağlanırken bir hata oluştu, lütfen tekrar deneyin",
         "NEW_INBOX_SUGGESTION": "Bu Instagram hesabı daha önce farklı bir gelen kutusuna bağlıydı ve şimdi buraya taşındı. Tüm yeni mesajlar burada görünecektir. Eski gelen kutusu, bu hesap için artık mesaj gönderemeyecek veya alamayacaktır.",
         "DUPLICATE_INBOX_BANNER": "Bu Instagram hesabı yeni Instagram kanal gelen kutusuna taşındı. Artık bu gelen kutusundan Instagram mesajı gönderip alamayacaksınız.",
-        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
+        "RESTRICTED_WARNING": "Instagram gelen kutusu oluşturma, Meta tarafındaki API düzeyindeki bir sorun nedeniyle geçici olarak kullanılamıyor. Sorun Chatwoot kaynaklı değildir. Sorunu mümkün olan en kısa sürede çözmek için Meta ile yakın bir şekilde çalışıyoruz.",
         "SETTINGS_RESTRICTED_WARNING": "Instagram mesajlaşması şu anda Chatwoot kaynaklı olmayan, Meta tarafındaki API düzeyinde bir sorundan etkileniyor. Bazı mesajlar veya işlemler gecikebilir ya da kullanılamayabilir. Sorunu mümkün olan en kısa sürede çözmek için Meta ile yakın şekilde çalışıyoruz.",
         "STATUS_LINK": "Durum güncellemelerini görüntüle"
       },
@@ -71,7 +71,7 @@
         "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
         "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again",
-        "NORTH_AMERICA_WARNING": "TikTok connections for North American accounts are temporarily unavailable while we wait for an update from the TikTok team."
+        "NORTH_AMERICA_WARNING": "Kuzey Amerika hesapları için TikTok bağlantıları, TikTok ekibinden gelecek güncellemeyi beklediğimiz için geçici olarak kullanılamıyor."
       },
       "TWITTER": {
         "HELP": "Twitter profilinizi bir kanal olarak eklemek için, 'Twitter ile Giriş Yap'ı tıklayarak Twitter Profilinizi doğrulamanız gerekir.",
@@ -140,7 +140,6 @@
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp Kanalı",
-        "DESC": "Twilio'yu entegre edin ve müşterilerinizi SMS veya WhatsApp ile desteklemeye başlayın.",
         "ACCOUNT_SID": {
           "LABEL": "Hesap SID'si",
           "PLACEHOLDER": "Lütfen Twilio Hesap SID'nizi girin",
@@ -182,13 +181,13 @@
           "PLACEHOLDER": "Lütfen mesajın gönderileceği telefon numarasını girin.",
           "ERROR": "Lütfen `+` işareti ile başlayan ve boşluk içermeyen geçerli bir telefon numarası sağlayın."
         },
-        "API_CALLBACK": {
-          "TITLE": "Geri Ara URL'si",
-          "SUBTITLE": "Twilio'daki mesaj geri arama URL'sini burada belirtilen URL ile yapılandırmanız gerekir."
-        },
         "SUBMIT_BUTTON": "Twilio Kanalı Oluştur",
         "API": {
           "ERROR_MESSAGE": "Twilio kimlik bilgileri doğrulanamadı, lütfen tekrar deneyin"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Geri Ara URL'si",
+          "SUBTITLE": "Twilio'daki mesaj geri arama URL'sini burada belirtilen URL ile yapılandırmanız gerekir."
         }
       },
       "SMS": {
@@ -426,9 +425,13 @@
           "MANUAL_LINK_TEXT": "manuel kurulum akışı",
           "ACCESS_REQUEST": {
             "TITLE": "Meta ile hızlı kurulum",
-            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
-            "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
-            "BUTTON": "Request access"
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. Tell us what your business does and how you’ll use WhatsApp to enable this option.",
+            "BUTTON": "Request access",
+            "FORM_DESCRIPTION": "Tell us about your business and how you plan to use WhatsApp. Submit your use case to enable quick setup for your account.",
+            "USE_CASE_LABEL": "Business use case",
+            "USE_CASE_PLACEHOLDER": "For example, we sell home furnishings and use WhatsApp to answer product questions and help customers with their orders.",
+            "SUBMIT": "Gönder",
+            "ERROR": "We couldn’t enable access. Please try again."
           },
           "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
           "STATUS_LINK": "Durum güncellemelerini görüntüle",
@@ -676,6 +679,9 @@
       "MORE_SETTINGS": "Daha fazla ayar",
       "WEBSITE_SUCCESS": "Bir web sitesi kanalı oluşturmayı başarıyla tamamladınız. Aşağıda gösterilen kodu kopyalayın ve web sitenize yapıştırın. Bir müşteri canlı sohbeti bir dahaki sefere kullandığında, konuşma otomatik olarak gelen kutunuzda görünecektir.",
       "WHATSAPP_QR_INSTRUCTION": "WhatsApp gelen kutunuzu hızlıca test etmek için yukarıdaki QR kodu tarayın",
+      "SMS_QR_INSTRUCTION": "Scan the QR code above to quickly test your SMS inbox",
+      "SMS_QR_ALT": "QR code to test the SMS inbox",
+      "TWILIO_CALLBACK_FALLBACK": "Webhooks are configured automatically. If incoming messages do not arrive, use this callback URL in Twilio.",
       "MESSENGER_QR_INSTRUCTION": "Facebook Messenger gelen kutunuzu hızlıca test etmek için yukarıdaki QR kodu tarayın",
       "TELEGRAM_QR_INSTRUCTION": "Telegram gelen kutunuzu hızlıca test etmek için yukarıdaki QR kodu tarayın"
     },
@@ -795,7 +801,7 @@
         "HELP_TEXT": "WhatsApp number that customers will call."
       },
       "HOW_IT_WORKS": {
-        "LABEL": "How it works",
+        "LABEL": "Nasıl çalışır",
         "DESCRIPTION": "Aramalar, temsilcinin tarayıcısı ile Meta arasında peer-to-peer olarak gerçekleştirilir; ekstra bir kimlik doğrulama bilgisi gerekmez. Temsilcinin tarayıcısının bu site için mikrofon iznine sahip olduğundan emin olun."
       },
       "PERMISSION_REQUEST_BODY": {
@@ -806,6 +812,98 @@
     },
     "CHANNEL_PREFERENCES": "Channel Preferences",
     "WIDGET_FEATURES": "Widget features",
+    "TWILIO_HEALTH": {
+      "TITLE": "Manage your Twilio number",
+      "DESCRIPTION": "Review the Twilio account, sender and webhooks backing this inbox. Anything Chatwoot cannot receive is flagged here",
+      "GO_TO_SETTINGS": "Go to Twilio Console",
+      "NO_DATA": "Sağlık verisi mevcut değil",
+      "LOADING": "Fetching health data from Twilio…",
+      "ERROR_TITLE": "Could not reach Twilio",
+      "STATUS": {
+        "HEALTHY": "All checks passed",
+        "MISCONFIGURED": "Needs attention"
+      },
+      "FIELDS": {
+        "ACCOUNT_NAME": {
+          "LABEL": "Twilio account",
+          "TOOLTIP": "The Twilio account these credentials belong to"
+        },
+        "ACCOUNT_STATUS": {
+          "LABEL": "Hesap durumu",
+          "TOOLTIP": "A suspended or closed Twilio account cannot send or receive anything"
+        },
+        "ACCOUNT_TYPE": {
+          "LABEL": "Hesap türü",
+          "TOOLTIP": "Trial accounts can only message or call phone numbers you have verified with Twilio"
+        },
+        "SENDER": {
+          "LABEL": "Gönderen",
+          "TOOLTIP": "The phone number or messaging service that carries this inbox"
+        },
+        "CAPABILITIES": {
+          "LABEL": "Number capabilities",
+          "TOOLTIP": "Capabilities Twilio has enabled on this number. A capability this inbox needs but does not have will never work"
+        },
+        "VOICE_CALLING": {
+          "LABEL": "Voice calling",
+          "TOOLTIP": "Whether calling is turned on for this inbox"
+        }
+      },
+      "VALUES": {
+        "ACCOUNT_STATUSES": {
+          "ACTIVE": "Aktif",
+          "SUSPENDED": "Suspended",
+          "CLOSED": "Kapalı"
+        },
+        "ACCOUNT_TYPES": {
+          "TRIAL": "Deneme",
+          "FULL": "Full"
+        },
+        "CAPABILITIES": {
+          "SMS": "SMS",
+          "VOICE": "Ses"
+        },
+        "SENDER_TYPES": {
+          "PHONE_NUMBER": "Telefon numarası",
+          "MESSAGING_SERVICE": "Messaging service"
+        },
+        "ENABLED": "Etkin",
+        "DISABLED": "Devre dışı"
+      },
+      "WEBHOOKS": {
+        "TITLE": "Webhooks",
+        "DESCRIPTION": "Twilio calls these URLs when a message or call arrives. Register them again after changing your installation URL",
+        "REGISTER_ALL": "Register webhooks",
+        "MESSAGING": "Messaging webhook",
+        "VOICE": "Voice webhook",
+        "VOICE_STATUS": "Voice status callback",
+        "VOICE_APP": "Outbound calling (TwiML app)"
+      },
+      "WEBHOOK": {
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "NOT_SET": "belirlenmemiş",
+        "EXPECTED": "Expected",
+        "CURRENT": "Currently set to",
+        "REASONS": {
+          "NOT_SET": "Webhook not configured",
+          "URL_MISMATCH": "Webhook URL mismatch",
+          "WRONG_HTTP_METHOD": "Webhook uses the wrong HTTP method",
+          "OVERRIDDEN_BY_NUMBER": "Messaging service defers to the number",
+          "OVERRIDDEN_BY_APPLICATION": "Overridden by a TwiML app",
+          "OVERRIDDEN_BY_TRUNK": "Overridden by a SIP trunk",
+          "MISSING_TWIML_APP": "TwiML app not created"
+        },
+        "HINTS": {
+          "NOT_SET": "Twilio has no webhook on this sender, so nothing reaches Chatwoot.",
+          "URL_MISMATCH": "Twilio is calling a different URL, so traffic goes elsewhere.",
+          "WRONG_HTTP_METHOD": "The URL is right but Twilio calls it with {method} instead of POST, and Chatwoot only answers POST.",
+          "OVERRIDDEN_BY_NUMBER": "This messaging service has \"Use webhook on number\" turned on, so Twilio ignores the service webhook.",
+          "OVERRIDDEN_BY_APPLICATION": "A TwiML app is attached to this number, and Twilio uses the app's URLs instead of the number's. Detach it in the Twilio Console.",
+          "OVERRIDDEN_BY_TRUNK": "This number is attached to a SIP trunk, so Twilio routes calls to the trunk and ignores voice webhooks entirely. Detach the trunk in the Twilio Console.",
+          "MISSING_TWIML_APP": "Chatwoot has no TwiML app for this number, so outbound calls cannot be placed."
+        }
+      }
+    },
     "ACCOUNT_HEALTH": {
       "TITLE": "WhatsApp hesabınızı yönetin",
       "DESCRIPTION": "Review your WhatsApp phone number health, messaging capacity, and linked Meta business details.",
@@ -825,7 +923,7 @@
       "SECTIONS": {
         "BUSINESS_PROFILE": "Business profile",
         "PHONE_NUMBER": "Telefon numarası",
-        "HEALTH_AND_CAPACITY": "Health and capacity",
+        "HEALTH_AND_CAPACITY": "Sağlık ve kapasite",
         "BUSINESS_ACCOUNT": "Business account"
       },
       "FIELDS": {
@@ -842,7 +940,7 @@
           "TOOLTIP": "Contact email shown in the WhatsApp business profile"
         },
         "PROFILE_WEBSITES": {
-          "LABEL": "Websites",
+          "LABEL": "Web siteleri",
           "TOOLTIP": "Website links shown in the WhatsApp business profile"
         },
         "DISPLAY_PHONE_NUMBER": {
@@ -896,7 +994,7 @@
           "TOOLTIP": "Current operating mode of this WhatsApp phone number"
         },
         "CODE_VERIFICATION_STATUS": {
-          "LABEL": "Code verification",
+          "LABEL": "Kod Doğrulama",
           "TOOLTIP": "Verification-code status reported by Meta for this phone number"
         },
         "THROUGHPUT_LEVEL": {
@@ -934,25 +1032,39 @@
         },
         "STATUSES": {
           "APPROVED": "Approved",
-          "CONNECTED": "Connected",
+          "CONNECTED": "Bağlı",
           "VERIFIED": "Doğrulandı",
           "STANDARD": "Standart",
           "ACTIVE": "Aktif",
-          "EXPIRED": "Expired",
-          "FLAGGED": "Flagged",
-          "RESTRICTED": "Restricted",
-          "BANNED": "Banned",
-          "DISCONNECTED": "Disconnected",
+          "EXPIRED": "Süresi dolmuş",
+          "FLAGGED": "İşaretlendi",
+          "RESTRICTED": "Sınırlı erişim",
+          "BANNED": "Yasaklandı",
+          "DISCONNECTED": "Bağlantı kesildi",
           "UNKNOWN": "Şu anda müsait değil",
-          "PENDING_REVIEW": "Under review",
-          "AVAILABLE_WITHOUT_REVIEW": "Not reviewed yet",
-          "REJECTED": "Not approved",
-          "DECLINED": "Not approved",
+          "PENDING_REVIEW": "İnceleniyor",
+          "AVAILABLE_WITHOUT_REVIEW": "Henüz incelenmemiş",
+          "REJECTED": "Onaylanmadı",
+          "DECLINED": "Onaylanmadı",
           "NON_EXISTS": "Mevcut değil"
         },
         "MODES": {
           "SANDBOX": "Sandbox",
           "LIVE": "Canlı"
+        },
+        "QUALITY": {
+          "GREEN": "Yeşil",
+          "YELLOW": "Sarı",
+          "RED": "Kırmızı"
+        },
+        "TIER_NAMES": {
+          "TIER_250": "Tier 250",
+          "TIER_1000": "Tier 1K",
+          "TIER_1K": "Tier 1K",
+          "TIER_2K": "Tier 2K",
+          "TIER_10K": "Tier 10K",
+          "TIER_100K": "Tier 100K",
+          "TIER_UNLIMITED": "Unlimited"
         }
       },
       "BUSINESS_PROFILE": {
@@ -999,7 +1111,18 @@
         "SECRET_KEY": "Gizli Anahtar",
         "VIEW_DOCS": "Dokümantasyonu görüntüle",
         "REQUIRE_LABEL": "Tüm sohbetler için kimlik doğrulamayı zorunlu kıl",
-        "REQUIRE_DESCRIPTION": "Etkinleştirildiğinde, kullanıcıların sohbet başlatabilmesi için geçerli bir kimlik token'ı sunması gerekir. Geçerli bir token içermeyen istekler reddedilecektir."
+        "REQUIRE_DESCRIPTION": "Etkinleştirildiğinde, kullanıcıların sohbet başlatabilmesi için geçerli bir kimlik token'ı sunması gerekir. Geçerli bir token içermeyen istekler reddedilecektir.",
+        "ROTATE": {
+          "BUTTON": "Rotate key",
+          "TITLE": "Rotate secret key?",
+          "WARNING": "The current key is revoked the instant you rotate it.",
+          "WARNING_DETAIL": "There is no overlap period and it cannot be restored.",
+          "IMPACT": "Your servers must sign users with the new key. Anyone still signed with the old one fails verification. If identity validation is required, they cannot start a conversation.",
+          "CONFIRM": "Rotate key",
+          "CANCEL": "İptal Et",
+          "SUCCESS": "Secret key rotated successfully",
+          "ERROR": "Could not rotate the secret key, please try again"
+        }
       },
       "INBOX_AGENTS": "Kullanıcılar",
       "INBOX_AGENTS_SUB_TEXT": "Bu gelen kutusuna aracı ekleyin veya aracıları kaldırın",
@@ -1040,7 +1163,7 @@
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Add Business Management Token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Replace Business Management Token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Business management token configured",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when Chatwoot cannot retrieve its message templates. Chatwoot uses this token only for template synchronization.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Chatwoot mesaj şablonlarını alamadığında, bu WhatsApp Business Hesabı’na erişim izni veren bir token sağlayın. Chatwoot bu token’ı yalnızca şablon senkronizasyonu için kullanır.",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Enter the business management token",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "Ekle",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Replace",
@@ -1093,7 +1216,7 @@
           "GUIDE_LINK": "Open the manual setup guide",
           "PRESERVED_TITLE": "Preserved",
           "PRESERVED_DESCRIPTION": "Conversations, contacts, collaborators, routing, business hours, and inbox settings.",
-          "UPDATED_TITLE": "Updated",
+          "UPDATED_TITLE": "Güncellendi",
           "UPDATED_DESCRIPTION": "WABA ID, phone number ID, access token, and webhook configuration.",
           "WABA_ID": "WABA ID",
           "WABA_PLACEHOLDER": "Enter WABA ID",
@@ -1124,11 +1247,11 @@
         },
         "STEPS": {
           "BEFORE_YOU_START": {
-            "TITLE": "Before you start",
+            "TITLE": "Başlamadan önce",
             "DESCRIPTION": "This reconnects the WhatsApp API details for this inbox. Conversations, collaborators, routing, business hours, CSAT, and bot settings will be preserved."
           },
           "BUSINESS_DETAILS": {
-            "TITLE": "Business details",
+            "TITLE": "Şirket bilgileri",
             "DESCRIPTION": "Enter the WhatsApp assets from the customer Meta Business account."
           },
           "ACCESS_TOKEN": {
@@ -1142,7 +1265,7 @@
         }
       },
       "WHATSAPP_CALLING_ENABLED": {
-        "LABEL": "Enable voice calling",
+        "LABEL": "Sesli aramayı etkinleştir",
         "DESCRIPTION": "Temsilcilerin bu gelen kutusunda WhatsApp sesli aramaları başlatmasına ve almasına izin verin. Yalnızca Meta tarafından arama izni verilmiş, gömülü kayıtlı WhatsApp Cloud kanallarında kullanılabilir."
       },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Sohbet Öncesi Form Ayarlarını Güncelleme"
@@ -1332,7 +1455,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "IMAP detaylarınızı ayarlayın",
-      "NOTE_TEXT": "SMTP'yi etkinleştirmek için lütfen IMAP'ı yapılandırın.",
+      "NOTE_TEXT": "Configure IMAP to receive emails directly from your mailbox. Leave it disabled if you use email forwarding.",
       "UPDATE": "IMAP ayarlarını güncelle",
       "TOGGLE_AVAILABILITY": "Bu gelen kutusu için IMAP yapılandırmasını etkinleştir",
       "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
@@ -1390,8 +1513,8 @@
         "PLACE_HOLDER": "Parola"
       },
       "DOMAIN": {
-        "LABEL": "Alan",
-        "PLACE_HOLDER": "Alan"
+        "LABEL": "Alan Adı",
+        "PLACE_HOLDER": "Alan Adı"
       },
       "ENCRYPTION": "Şifreleme",
       "SSL_TLS": "SSL/TLS",

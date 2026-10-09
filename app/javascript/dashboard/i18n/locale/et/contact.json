@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Selle kontaktiga seotud varasemaid vestlusi ei leitud.",
-      "TITLE": "Varasemad vestlused"
+      "TITLE": "Varasemad vestlused",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

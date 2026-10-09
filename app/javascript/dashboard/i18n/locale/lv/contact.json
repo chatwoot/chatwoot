@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Ar šo kontaktpersonu nav saistītas iepriekšējās sarunas.",
-      "TITLE": "Iepriekšējās Sarunas"
+      "TITLE": "Iepriekšējās Sarunas",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

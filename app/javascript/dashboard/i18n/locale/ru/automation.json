@@ -28,6 +28,19 @@
           "PLACEHOLDER": "Пожалуйста, выберите одно",
           "ERROR": "Необходимо указать событие"
         },
+        "MONITOR": {
+          "LABEL": "Monitor",
+          "PLACEHOLDER": "Select a live monitor",
+          "ERROR": "Select a live monitor",
+          "FETCH_FAILED": "Could not load monitors. Try again later.",
+          "API_UNAVAILABLE": "This monitor is no longer available. Select a live monitor and try again.",
+          "EMPTY": "No live monitors yet. Create or resume a monitor to use this event.",
+          "GO_TO_MONITORS": "Go to monitors",
+          "RETRY": "Повторить",
+          "UNAVAILABLE": "Unavailable monitor",
+          "UNAVAILABLE_HELP": "This monitor is unavailable for automation. Select a live monitor to activate this rule.",
+          "HELP": "Runs once when the monitor first matches a conversation from new live activity. Historical scans do not trigger actions."
+        },
         "RUN_TYPE": {
           "LABEL": "When should this rule run?",
           "OPTIONS": {
@@ -83,8 +96,7 @@
       "TABLE_HEADER": {
         "NAME": "Название",
         "ACTIVE": "Активно",
-        "CREATED_ON": "Дата создания",
-        "ACTIONS": "Действия"
+        "CREATED_ON": "Дата создания"
       },
       "404": "Правила автоматизации не найдены",
       "404_DELAYED": "No rules run after a wait yet",
@@ -93,6 +105,9 @@
         "DELAYED": "Runs after a wait"
       },
       "DELAY_BADGE": "Runs after {delay}",
+      "MONITOR_PAUSED": "Monitor paused",
+      "MONITOR_DELETED": "Monitor deleted",
+      "MONITOR_UNAVAILABLE": "Monitor feature unavailable",
       "DELAY_DISABLED_BANNER": "Delayed execution is turned off for this account, so the rules below that run after a wait are paused until it is turned back on."
     },
     "DELETE": {
@@ -136,7 +151,10 @@
     "CONDITION": {
       "DELETE_MESSAGE": "Для сохранения необходимо указать хотя бы одно условие",
       "CONTACT_CUSTOM_ATTR_LABEL": "Пользовательские атрибуты контакта",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Пользовательские атрибуты диалога"
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Пользовательские атрибуты диалога",
+      "PLACEHOLDERS": {
+        "CAPTAIN": "Describe what to look for, e.g. customer wants to cancel"
+      }
     },
     "ACTION": {
       "DELETE_MESSAGE": "Для сохранения необходимо указать хотя бы одно действие",
@@ -181,7 +199,8 @@
       "CONVERSATION_UPDATED": "Диалог обновлён",
       "MESSAGE_CREATED": "Сообщение создано",
       "CONVERSATION_RESOLVED": "Диалог завершён",
-      "CONVERSATION_OPENED": "Диалог открыт"
+      "CONVERSATION_OPENED": "Диалог открыт",
+      "MONITOR_MATCHED": "Monitor Matched"
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "Назначить агента",
@@ -232,7 +251,8 @@
       "ASSIGNEE_NAME": "Назначенный агент",
       "TEAM_NAME": "Команда",
       "PRIORITY": "Приоритет",
-      "LABELS": "Метки"
+      "LABELS": "Метки",
+      "CAPTAIN": "Капитан"
     }
   }
 }

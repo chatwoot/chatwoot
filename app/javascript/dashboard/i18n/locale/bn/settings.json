@@ -262,6 +262,10 @@
     "EMAIL_VERIFICATION_PENDING": "মনে হচ্ছে আপনি এখনও আপনার ইমেল ঠিকানা যাচাই করেননি। অনুগ্রহ করে যাচাইকরণ ইমেলটি দেখতে আপনার ইনবক্স চেক করুন।.",
     "RESEND_VERIFICATION_MAIL": "যাচাইকরণ ইমেল পুনরায় পাঠান",
     "EMAIL_VERIFICATION_SENT": "যাচাইকরণ ইমেল পাঠানো হয়েছে। অনুগ্রহ করে আপনার ইনবক্স চেক করুন।.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "অ্যাকাউন্ট স্থগিত করা হয়েছে",
       "MESSAGE": "আপনার অ্যাকাউন্ট স্থগিত করা হয়েছে। আরও তথ্যের জন্য অনুগ্রহ করে সাপোর্ট টিমের সাথে যোগাযোগ করুন।.",
@@ -278,7 +282,8 @@
     "CODE": {
       "BUTTON_TEXT": "কপি করুন",
       "CODEPEN": "CodePen-এ খুলুন",
-      "COPY_SUCCESSFUL": "ক্লিপবোর্ডে কপি হয়েছে"
+      "COPY_SUCCESSFUL": "ক্লিপবোর্ডে কপি হয়েছে",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "আরও দেখান",
@@ -578,6 +583,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "বিলিং",
     "DESCRIPTION": "এখানে আপনার সাবস্ক্রিপশন পরিচালনা করুন, আপনার প্ল্যান আপগ্রেড করুন এবং আপনার দলের জন্য আরও সুবিধা পান।.",
     "CURRENT_PLAN": {
@@ -585,6 +594,7 @@
       "PLAN_NOTE": "আপনি বর্তমানে **{plan}** প্ল্যানে **{quantity}** লাইসেন্সে সাবস্ক্রাইব করেছেন",
       "SEAT_COUNT": "আসনের সংখ্যা",
       "RENEWS_ON": "নবায়নের তারিখ",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {
@@ -618,6 +628,38 @@
       "BUTTON_TXT": "আমাদের সাথে চ্যাট করুন"
     },
     "NO_BILLING_USER": "আপনার বিলিং অ্যাকাউন্ট কনফিগার করা হচ্ছে। দয়া করে পৃষ্ঠা রিফ্রেশ করুন এবং আবার চেষ্টা করুন।.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "অবস্থা",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "নবায়নের তারিখ",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "Pending",
+        "ACTIVE": "Active",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "আরও ক্রেডিট কিনুন",
       "MODAL_TITLE": "AI ক্রেডিট কিনুন",
@@ -648,6 +690,7 @@
     "DESCRIPTION": "আপনার অ্যাকাউন্টের নিরাপত্তা সেটিংস পরিচালনা করুন.",
     "LINK_TEXT": "SAML SSO সম্পর্কে আরও জানুন",
     "SAML_DISABLED_MESSAGE": "SAML SSO বর্তমানে নিষ্ক্রিয়। এই ফিচারটি সক্রিয় করতে আপনার প্রশাসকের সাথে যোগাযোগ করুন।.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "আপনার অ্যাকাউন্টের জন্য SAML সিঙ্গেল সাইন-অন কনফিগার করুন। ব্যবহারকারীরা ইমেল/পাসওয়ার্ড ব্যবহার করার পরিবর্তে আপনার পরিচয় প্রদানকারীর মাধ্যমে প্রমাণীকরণ করবেন।.",

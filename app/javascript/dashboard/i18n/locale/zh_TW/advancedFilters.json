@@ -33,6 +33,8 @@
       "is_less_than": "小於",
       "days_before": "x 天前",
       "starts_with": "開頭為",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "等於",
       "notEqualTo": "不等於",
       "contains": "包含",

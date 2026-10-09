@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "Messages non lus",
     "UNREAD_MESSAGE": "Message non lu",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "Cliquez ici",
     "LOADING_INBOXES": "Chargement des boîtes de réception",
     "LOADING_CONVERSATIONS": "Chargement des conversations",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "Cette conversation ne vous est pas assignée. Voulez-vous vous assigner cette conversation ?",
     "ASSIGN_TO_ME": "M’assigner la conversation",
     "BOT_HANDOFF_MESSAGE": "Cette conversation est actuellement prise en charge par {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "un bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Prise en charge",
     "BOT_HANDOFF_REOPEN_ACTION": "Marquer la conversation comme ouverte",
     "BOT_HANDOFF_SUCCESS": "La conversation vous a été attribuée",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "Le message a bien été supprimé",
     "FAIL_DELETE_MESSSAGE": "Impossible de supprimer le message ! Veuillez réessayez",
     "NO_RESPONSE": "Pas de réponse",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "Réponse",
     "RATING_TITLE": "Note",
     "FEEDBACK_TITLE": "Commentaires",
@@ -198,6 +216,16 @@
       "TITLE": "Reporter jusqu'à",
       "APPLY": "Reporter",
       "CANCEL": "Annuler"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "Accepter",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "Rejeter",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "Priorité",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Inclure le fil de discussion de l'e-mail cité",
-        "DISABLE_TOOLTIP": "Ne pas inclure le fil de discussion cité",
-        "REMOVE_PREVIEW": "Supprimer le fil d'e-mail cité",
-        "COLLAPSE": "Réduire l'aperçu",
-        "EXPAND": "Agrandir l'aperçu"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "Note privée : uniquement visible par vous et votre équipe",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "Copier",
       "REPLY_TO": "Répondre à ce message",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "Supprimer",
       "CREATE_A_CANNED_RESPONSE": "Ajouter aux réponses préenregistrées",
       "TRANSLATE": "Traduire",
@@ -529,7 +556,16 @@
     "BCC": "Cci",
     "CC": "Cc",
     "SUBJECT": "Objet",
+    "DATE": "Date",
     "EXPAND": "Développer l'e-mail"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "À:",
+    "TO_PLACEHOLDER": "Entrez au moins 2 caractères à rechercher par email",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participe",

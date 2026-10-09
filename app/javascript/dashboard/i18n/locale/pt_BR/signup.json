@@ -9,6 +9,10 @@
     "OAUTH": {
       "GOOGLE_SIGNUP": "Cadastre-se com o Google"
     },
+    "SHOPIFY": {
+      "TITLE": "Configurar o Chatwoot para sua loja da Shopify",
+      "DESCRIPTION": "Crie sua conta para acessar os preços do aplicativo da Shopify e escolher um plano."
+    },
     "COMPANY_NAME": {
       "LABEL": "Nome Empresa",
       "PLACEHOLDER": "Digite seu nome da sua empresa. Ex: Empresas Wayne",

@@ -9,6 +9,10 @@
     "OAUTH": {
       "GOOGLE_SIGNUP": "Prijavite se z Googlom"
     },
+    "SHOPIFY": {
+      "TITLE": "Set up Chatwoot for your Shopify store",
+      "DESCRIPTION": "Create your account to continue to Shopify App Pricing and choose a plan."
+    },
     "COMPANY_NAME": {
       "LABEL": "Ime podjetja",
       "PLACEHOLDER": "Vnesite ime vašega podjetja. Npr. Wayne Enterprises",

@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "Mensagens não lidas",
     "UNREAD_MESSAGE": "Mensagem não lida",
+    "CONTACT_HISTORY": {
+      "OLDER": "Conversa anterior",
+      "NEWER": "Próxima conversa",
+      "OLDER_WITH": "Conversa anterior com {name} · {time}",
+      "NEWER_WITH": "Próxima conversa com {name} · {time}",
+      "CUSTOMER": "este cliente",
+      "REPLY_TO_OLDER": "Responder a esta conversa antiga",
+      "GO_TO_LATEST": "Ir para a última conversa"
+    },
     "CLICK_HERE": "Clique aqui",
     "LOADING_INBOXES": "Carregando caixas de entrada",
     "LOADING_CONVERSATIONS": "Carregando conversas",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "Esta conversa não está atribuída a você. Gostaria de atribuir esta conversa a você mesmo?",
     "ASSIGN_TO_ME": "Atribuir a mim",
     "BOT_HANDOFF_MESSAGE": "Esta conversa está sendo atendida por {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "um bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "um agente de IA",
     "BOT_HANDOFF_ACTION": "Assumir atendimento",
     "BOT_HANDOFF_REOPEN_ACTION": "Marcar conversa como aberta",
     "BOT_HANDOFF_SUCCESS": "Uma conversa foi atribuída a você",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
     "NO_RESPONSE": "Sem resposta",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Peça ao cliente para compartilhar seu número de telefone do WhatsApp",
+      "PENDING_ACTION": "Solicitação de informações de contato pendente",
+      "STATES": {
+        "PENDING": "Aguardando informações de contato",
+        "SHARED": "Número de telefone compartilhado",
+        "IDENTITY_CONFLICT": "O número de telefone precisa ser revisado"
+      }
+    },
     "RESPONSE": "Resposta",
     "RATING_TITLE": "Classificação",
     "FEEDBACK_TITLE": "Feedback",
@@ -199,6 +217,16 @@
       "APPLY": "Adiar",
       "CANCEL": "Cancelar"
     },
+    "SUGGESTIONS": {
+      "SUGGEST": "Sugerir com o Captain",
+      "EMPTY": "Nenhuma nova sugestão",
+      "ACCEPT": "Aceitar",
+      "APPLY_HINT": "Clique para aplicar",
+      "REJECT": "Recusar",
+      "ACCEPT_ALL": "Aceitar todos",
+      "ERROR": "Não foi possível carregar as sugestões. Por favor, tente novamente.",
+      "APPLY_ERROR": "Não foi possível aplicar as etiquetas sugeridas. Por favor, tente novamente."
+    },
     "PRIORITY": {
       "TITLE": "Prioridade",
       "OPTIONS": {
@@ -272,7 +300,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "Você só pode responder usando uma mensagem de modelo devido à restrição da janela de 24 horas",
       "MESSAGING_RESTRICTED_API": "Você só pode responder usando uma mensagem de template devido à restrição da janela de mensagens",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "A assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
-      "COPILOT_MSG_INPUT": "Forneça instruções adicionais ao Copiloto ou pergunte algo mais... Pressione Enter para enviar",
+      "COPILOT_MSG_INPUT": "Forneça instruções adicionais ao Copilot ou pergunte algo mais... Pressione Enter para enviar",
       "CLICK_HERE": "Clique aqui para atualizar",
       "WHATSAPP_TEMPLATES": "Modelos do Whatsapp"
     },
@@ -294,7 +322,7 @@
       "IMAGE_UPLOAD_SUCCESS": "Imagem enviada com sucesso",
       "START_AUDIO_RECORDING": "Iniciar gravação de áudio",
       "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
-      "COPILOT_THINKING": "O Copiloto está pensando",
+      "COPILOT_THINKING": "O Copilot está pensando",
       "EMAIL_HEAD": {
         "TO": "Para",
         "ADD_BCC": "Adicionar cco",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Incluir o encadeamento de e-mails citado",
-        "DISABLE_TOOLTIP": "Não incluir o encadeamento de e-mails citado",
-        "REMOVE_PREVIEW": "Remover o encadeamento de e-mails citado",
-        "COLLAPSE": "Recolher a prévia",
-        "EXPAND": "Expandir a prévia"
+        "SHOW_TOOLTIP": "Mostrar conteúdo cortado",
+        "HIDE_TOOLTIP": "Ocultar conteúdo cortado",
+        "REMOVE": "Remover citação"
       }
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e seu time",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "Copiar",
       "REPLY_TO": "Responder mensagem",
+      "FORWARD_EMAIL": "Encaminhar e-mail",
       "DELETE": "Excluir",
       "CREATE_A_CANNED_RESPONSE": "Adicionar às respostas prontas",
       "TRANSLATE": "Traduzir",
@@ -365,8 +392,8 @@
       },
       "REPORT_MESSAGE": {
         "LABEL": "Reportar mensagem",
-        "TITLE": "Reportar mensagem do Capitão",
-        "DESCRIPTION": "Encontrou algum problema com esta resposta da IA? Conte-nos o que deu errado e nossa equipe irá analisar para ajudar a melhorar a precisão do Capitão.",
+        "TITLE": "Reportar mensagem do Captain",
+        "DESCRIPTION": "Encontrou algum problema com esta resposta da IA? Conte-nos o que deu errado e nossa equipe irá analisar para ajudar a melhorar a precisão do Captain.",
         "PROBLEM_TYPE": "Tipo de problema",
         "PROBLEM_TYPE_PLACEHOLDER": "Selecione um tipo de problema",
         "DESCRIPTION_LABEL": "Descrição",
@@ -385,7 +412,7 @@
     },
     "SIDEBAR": {
       "CONTACT": "Contatos",
-      "COPILOT": "Copiloto"
+      "COPILOT": "Copilot"
     },
     "VOICE_WIDGET": {
       "INCOMING_CALL": "Chamada recebida",
@@ -529,7 +556,16 @@
     "BCC": "CCO",
     "CC": "Cc",
     "SUBJECT": "Assunto",
+    "DATE": "Data",
     "EXPAND": "Expandir e-mail"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Mensagem encaminhada ---------",
+    "TO_LABEL": "Para:",
+    "TO_PLACEHOLDER": "Digite pelo menos 2 caracteres para pesquisar por e-mail",
+    "MESSAGE_PLACEHOLDER": "Adicionar uma mensagem (opcional)",
+    "FORWARDED_TO": "Encaminhado para {emails}",
+    "CONTACT_CANNOT_SEE": "{name} não pode ver isto"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participantes",

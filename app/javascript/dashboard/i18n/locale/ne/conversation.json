@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "पढ्न बाँकी सन्देशहरू",
     "UNREAD_MESSAGE": "पढ्न बाँकी सन्देश",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "यहाँ क्लिक गर्नुहोस्",
     "LOADING_INBOXES": "इनबक्सहरू लोड हुँदैछन्",
     "LOADING_CONVERSATIONS": "संवादहरू लोड हुँदैछ",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "यो कुराकानी तपाईंलाई सौंपिएको छैन। के तपाईं यो कुराकानी आफैंलाई सौंप्न चाहनुहुन्छ?",
     "ASSIGN_TO_ME": "मलाई तोक्नुहोस्",
     "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "a bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Take over",
     "BOT_HANDOFF_REOPEN_ACTION": "कुराकानी खोलिएको मार्क गर्नुहोस्",
     "BOT_HANDOFF_SUCCESS": "वार्ता तपाईंलाई सुम्पिएको छ",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "सन्देश सफलतापूर्वक मेटाइयो",
     "FAIL_DELETE_MESSSAGE": "सन्देश मेटाउन सकिएन! फेरि प्रयास गर्नुहोस्",
     "NO_RESPONSE": "कुनै प्रतिक्रिया छैन",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "प्रतिक्रिया",
     "RATING_TITLE": "मूल्याङ्कन",
     "FEEDBACK_TITLE": "प्रतिक्रिया",
@@ -198,6 +216,16 @@
       "TITLE": "यस मितिसम्म सुस्काउनुहोस्",
       "APPLY": "सुस्काउनुहोस्",
       "CANCEL": "रद्द गर्नुहोस्"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "Accept",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "Dismiss",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "प्राथमिकता",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "उद्धृत इमेल थ्रेड समावेश गर्नुहोस्",
-        "DISABLE_TOOLTIP": "उद्धृत इमेल थ्रेड समावेश नगर्नुहोस्",
-        "REMOVE_PREVIEW": "उद्धृत इमेल थ्रेड हटाउनुहोस्",
-        "COLLAPSE": "पूर्वावलोकन संक्षिप्त गर्नुहोस्",
-        "EXPAND": "पूर्वावलोकन विस्तार गर्नुहोस्"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "निजी नोट: केवल तपाईं र तपाईंको टिमलाई देखिन्छ",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "प्रतिलिपि गर्नुहोस्",
       "REPLY_TO": "यो सन्देशमा जवाफ दिनुहोस्",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "हटाउनुहोस्",
       "CREATE_A_CANNED_RESPONSE": "क्यान्ड प्रतिक्रियामा थप्नुहोस्",
       "TRANSLATE": "अनुवाद गर्नुहोस्",
@@ -529,7 +556,16 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "विषय",
+    "DATE": "Date",
     "EXPAND": "इमेल विस्तार गर्नुहोस्"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "लाई:",
+    "TO_PLACEHOLDER": "इमेलले खोज्न कम्तिमा 2 अक्षर प्रविष्ट गर्नुहोस्",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "सहभागी हुँदै",

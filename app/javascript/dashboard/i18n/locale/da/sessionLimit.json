@@ -1,12 +1,12 @@
 {
   "SESSION_LIMIT": {
-    "TITLE": "Active session limit reached",
-    "DESCRIPTION": "You have reached your limit of active sessions. Please end a session before logging in.",
-    "END": "End",
-    "END_ALL": "End all sessions",
-    "LOG_IN": "Log in",
-    "CANCEL": "Back to login",
-    "UNKNOWN_DEVICE": "Unknown device",
-    "STARTED": "Started"
+    "TITLE": "Grænsen for aktiv sessioner er nået",
+    "DESCRIPTION": "Du har nået din grænse for aktive sessioner. Afslut en session, før du logger ind.",
+    "END": "Afslut",
+    "END_ALL": "Afslut alle sessioner",
+    "LOG_IN": "Log ind",
+    "CANCEL": "Tilbage til login",
+    "UNKNOWN_DEVICE": "Ukendt enhed",
+    "STARTED": "Startede"
   }
 }

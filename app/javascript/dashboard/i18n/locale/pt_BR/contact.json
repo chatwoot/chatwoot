@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contato.",
-      "TITLE": "Conversas anteriores"
+      "TITLE": "Conversas anteriores",
+      "VIEW_ALL": "Ver todas as conversas"
     },
     "LABELS": {
       "CONTACT": {

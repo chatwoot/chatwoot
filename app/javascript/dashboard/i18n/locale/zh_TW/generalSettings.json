@@ -104,6 +104,14 @@
           "ERROR": "無法更新語音轉文字設定"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Enforce two-factor authentication",
+        "NOTE": "Require every member of this account to set up two-factor authentication. Members without it will be asked to set it up at their next password sign-in. Sign-ins through Google or SAML are exempt. API access tokens of members who have not set up two-factor authentication stop working for this account until they enrol.",
+        "API": {
+          "SUCCESS": "Two-factor authentication enforcement updated successfully",
+          "ERROR": "Failed to update two-factor authentication enforcement"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "無活動自動解決時間",
         "HELP": "對話在無活動多久後應自動解決",
@@ -125,7 +133,8 @@
     },
     "UPDATE_CHATWOOT": "Chatwoot 有新版本 {latestChatwootVersion} 可供更新，請更新您的執行個體。",
     "LEARN_MORE": "瞭解更多",
-    "PAYMENT_PENDING": "您的付款尚未完成，請更新付款資訊以繼續使用 Chatwoot",
+    "PAYMENT_PENDING": "Your account payment is past due. Please update your payment information to avoid subscription cancellation.",
+    "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
     "UPGRADE": "升級以繼續使用 Chatwoot",
     "LIMITS_UPGRADE": "您的帳戶已超過使用量上限，請升級方案以繼續使用 Chatwoot",
     "OPEN_BILLING": "開啟帳單"

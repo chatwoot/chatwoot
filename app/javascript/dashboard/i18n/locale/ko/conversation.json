@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "안 읽은 메시지",
     "UNREAD_MESSAGE": "안 읽은 메시지",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "여기를 클릭하십시오",
     "LOADING_INBOXES": "받은 메시지함 불러오는 중",
     "LOADING_CONVERSATIONS": "대화 불러오는 중",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "이 대화는 귀하에게 배정되지 않았습니다. 이 대화를 자신에게 배정하시겠습니까?",
     "ASSIGN_TO_ME": "나에게 배정",
     "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "a bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Take over",
     "BOT_HANDOFF_REOPEN_ACTION": "대화를 열림으로 표시",
     "BOT_HANDOFF_SUCCESS": "대화가 귀하에게 인계되었습니다",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "메시지가 성공적으로 삭제되었습니다",
     "FAIL_DELETE_MESSSAGE": "메시지를 삭제할 수 없습니다! 다시 시도해 주십시오.",
     "NO_RESPONSE": "응답 없음",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "응답",
     "RATING_TITLE": "평점",
     "FEEDBACK_TITLE": "피드백",
@@ -198,6 +216,16 @@
       "TITLE": "다음까지 일시 중지",
       "APPLY": "일시 중지",
       "CANCEL": "취소"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "수락",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "닫기",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "우선순위",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "인용된 이메일 스레드 포함",
-        "DISABLE_TOOLTIP": "인용된 이메일 스레드 포함하지 않음",
-        "REMOVE_PREVIEW": "인용된 이메일 스레드 제거",
-        "COLLAPSE": "미리보기 축소",
-        "EXPAND": "미리보기 확장"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "개인 노트: 귀하와 귀하의 팀만 볼 수 있습니다",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "복사",
       "REPLY_TO": "이 메시지에 답장",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "삭제",
       "CREATE_A_CANNED_RESPONSE": "미리 준비된 답변에 추가",
       "TRANSLATE": "번역",
@@ -529,7 +556,16 @@
     "BCC": "숨은 참조",
     "CC": "참조",
     "SUBJECT": "제목",
+    "DATE": "날짜",
     "EXPAND": "이메일 펼치기"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "받는 사람:",
+    "TO_PLACEHOLDER": "이메일 주소로 연락처 검색",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "참여 중",

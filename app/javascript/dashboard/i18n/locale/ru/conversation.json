@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "Непрочитанные сообщения",
     "UNREAD_MESSAGE": "Непрочитанное сообщение",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "Нажмите здесь",
     "LOADING_INBOXES": "Загружаем источники",
     "LOADING_CONVERSATIONS": "Загрузка диалогов",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "Этот диалог вам не назначен. Вы хотите назначить этот диалог себе?",
     "ASSIGN_TO_ME": "Назначить мне",
     "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "a bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Take over",
     "BOT_HANDOFF_REOPEN_ACTION": "Отметить диалог как открытый",
     "BOT_HANDOFF_SUCCESS": "Диалог был передан вам",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
     "FAIL_DELETE_MESSSAGE": "Не удалось удалить сообщение! Попробуйте еще раз",
     "NO_RESPONSE": "Нет ответа",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "Ответ",
     "RATING_TITLE": "Оценка",
     "FEEDBACK_TITLE": "Обратная связь",
@@ -198,6 +216,16 @@
       "TITLE": "Отложить до",
       "APPLY": "Отложено",
       "CANCEL": "Отменить"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "Accept",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "Отклонить",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "Приоритет",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Включить цитируемые сообщения email",
-        "DISABLE_TOOLTIP": "Не включать цитируемые сообщения электронной почты",
-        "REMOVE_PREVIEW": "Удалить цитируемые сообщения email",
-        "COLLAPSE": "Свернуть предпросмотр",
-        "EXPAND": "Развернуть предпросмотр"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "Приватная заметка: видна только вам и вашей команде",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "Копировать",
       "REPLY_TO": "Ответить на это сообщение",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "Удалить",
       "CREATE_A_CANNED_RESPONSE": "Добавить в шаблонные ответы",
       "TRANSLATE": "Перевести",
@@ -529,7 +556,16 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Тема",
+    "DATE": "Дата",
     "EXPAND": "Развернуть email"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "Кому:",
+    "TO_PLACEHOLDER": "Введите не менее 2 символов для поиска по электронной почте",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Участвующие",

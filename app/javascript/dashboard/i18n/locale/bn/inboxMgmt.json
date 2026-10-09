@@ -140,7 +140,6 @@
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp চ্যানেল",
-        "DESC": "Twilio ইন্টিগ্রেট করুন এবং SMS অথবা WhatsApp-এর মাধ্যমে আপনার গ্রাহকদের সাপোর্ট দিন।.",
         "ACCOUNT_SID": {
           "LABEL": "অ্যাকাউন্ট SID",
           "PLACEHOLDER": "আপনার Twilio অ্যাকাউন্ট SID লিখুন",
@@ -182,13 +181,13 @@
           "PLACEHOLDER": "যে ফোন নম্বর থেকে মেসেজ পাঠানো হবে তা লিখুন।",
           "ERROR": "অনুগ্রহ করে একটি বৈধ ফোন নম্বর দিন, যা `+` চিহ্ন দিয়ে শুরু এবং কোনো স্পেস ছাড়া।."
         },
-        "API_CALLBACK": {
-          "TITLE": "কলব্যাক URL",
-          "SUBTITLE": "Twilio-তে মেসেজ কলব্যাক URL এখানে উল্লেখিত URL দিয়ে কনফিগার করতে হবে।"
-        },
         "SUBMIT_BUTTON": "Twilio চ্যানেল তৈরি করুন",
         "API": {
           "ERROR_MESSAGE": "আমরা Twilio প্রমাণীকরণ করতে পারিনি, অনুগ্রহ করে আবার চেষ্টা করুন"
+        },
+        "API_CALLBACK": {
+          "TITLE": "কলব্যাক URL",
+          "SUBTITLE": "Twilio-তে মেসেজ কলব্যাক URL এখানে উল্লেখিত URL দিয়ে কনফিগার করতে হবে।"
         }
       },
       "SMS": {
@@ -426,9 +425,13 @@
           "MANUAL_LINK_TEXT": "ম্যানুয়াল সেটআপ ফ্লো",
           "ACCESS_REQUEST": {
             "TITLE": "Meta-র মাধ্যমে দ্রুত সেটআপ",
-            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
-            "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
-            "BUTTON": "Request access"
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. Tell us what your business does and how you’ll use WhatsApp to enable this option.",
+            "BUTTON": "Request access",
+            "FORM_DESCRIPTION": "Tell us about your business and how you plan to use WhatsApp. Submit your use case to enable quick setup for your account.",
+            "USE_CASE_LABEL": "Business use case",
+            "USE_CASE_PLACEHOLDER": "For example, we sell home furnishings and use WhatsApp to answer product questions and help customers with their orders.",
+            "SUBMIT": "Submit",
+            "ERROR": "We couldn’t enable access. Please try again."
           },
           "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
           "STATUS_LINK": "View status updates",
@@ -676,6 +679,9 @@
       "MORE_SETTINGS": "আরও সেটিংস",
       "WEBSITE_SUCCESS": "আপনি সফলভাবে একটি ওয়েবসাইট চ্যানেল তৈরি করেছেন। নিচে প্রদর্শিত কোডটি কপি করে আপনার ওয়েবসাইটে পেস্ট করুন। পরবর্তীবার যখন গ্রাহক লাইভ চ্যাট ব্যবহার করবেন, কথোপকথন স্বয়ংক্রিয়ভাবে আপনার ইনবক্সে প্রদর্শিত হবে।",
       "WHATSAPP_QR_INSTRUCTION": "আপনার WhatsApp ইনবক্স দ্রুত পরীক্ষা করতে উপরের QR কোডটি স্ক্যান করুন",
+      "SMS_QR_INSTRUCTION": "Scan the QR code above to quickly test your SMS inbox",
+      "SMS_QR_ALT": "QR code to test the SMS inbox",
+      "TWILIO_CALLBACK_FALLBACK": "Webhooks are configured automatically. If incoming messages do not arrive, use this callback URL in Twilio.",
       "MESSENGER_QR_INSTRUCTION": "আপনার Facebook Messenger ইনবক্স দ্রুত পরীক্ষা করতে উপরের QR কোডটি স্ক্যান করুন",
       "TELEGRAM_QR_INSTRUCTION": "আপনার Telegram ইনবক্স দ্রুত পরীক্ষা করতে উপরের QR কোডটি স্ক্যান করুন"
     },
@@ -806,6 +812,98 @@
     },
     "CHANNEL_PREFERENCES": "চ্যানেল পছন্দসমূহ",
     "WIDGET_FEATURES": "উইজেট ফিচারসমূহ",
+    "TWILIO_HEALTH": {
+      "TITLE": "Manage your Twilio number",
+      "DESCRIPTION": "Review the Twilio account, sender and webhooks backing this inbox. Anything Chatwoot cannot receive is flagged here",
+      "GO_TO_SETTINGS": "Go to Twilio Console",
+      "NO_DATA": "স্বাস্থ্য তথ্য উপলব্ধ নয়",
+      "LOADING": "Fetching health data from Twilio…",
+      "ERROR_TITLE": "Could not reach Twilio",
+      "STATUS": {
+        "HEALTHY": "All checks passed",
+        "MISCONFIGURED": "Needs attention"
+      },
+      "FIELDS": {
+        "ACCOUNT_NAME": {
+          "LABEL": "Twilio account",
+          "TOOLTIP": "The Twilio account these credentials belong to"
+        },
+        "ACCOUNT_STATUS": {
+          "LABEL": "Account status",
+          "TOOLTIP": "A suspended or closed Twilio account cannot send or receive anything"
+        },
+        "ACCOUNT_TYPE": {
+          "LABEL": "Account type",
+          "TOOLTIP": "Trial accounts can only message or call phone numbers you have verified with Twilio"
+        },
+        "SENDER": {
+          "LABEL": "Sender",
+          "TOOLTIP": "The phone number or messaging service that carries this inbox"
+        },
+        "CAPABILITIES": {
+          "LABEL": "Number capabilities",
+          "TOOLTIP": "Capabilities Twilio has enabled on this number. A capability this inbox needs but does not have will never work"
+        },
+        "VOICE_CALLING": {
+          "LABEL": "Voice calling",
+          "TOOLTIP": "Whether calling is turned on for this inbox"
+        }
+      },
+      "VALUES": {
+        "ACCOUNT_STATUSES": {
+          "ACTIVE": "Active",
+          "SUSPENDED": "Suspended",
+          "CLOSED": "Closed"
+        },
+        "ACCOUNT_TYPES": {
+          "TRIAL": "Trial",
+          "FULL": "Full"
+        },
+        "CAPABILITIES": {
+          "SMS": "এসএমএস",
+          "VOICE": "ভয়েস"
+        },
+        "SENDER_TYPES": {
+          "PHONE_NUMBER": "ফোন নম্বর",
+          "MESSAGING_SERVICE": "Messaging service"
+        },
+        "ENABLED": "সক্রিয়",
+        "DISABLED": "নিষ্ক্রিয়"
+      },
+      "WEBHOOKS": {
+        "TITLE": "ওয়েবহুকস",
+        "DESCRIPTION": "Twilio calls these URLs when a message or call arrives. Register them again after changing your installation URL",
+        "REGISTER_ALL": "Register webhooks",
+        "MESSAGING": "Messaging webhook",
+        "VOICE": "Voice webhook",
+        "VOICE_STATUS": "Voice status callback",
+        "VOICE_APP": "Outbound calling (TwiML app)"
+      },
+      "WEBHOOK": {
+        "CONFIGURED_SUCCESS": "ওয়েবহুক সফলভাবে কনফিগার করা হয়েছে",
+        "NOT_SET": "not set",
+        "EXPECTED": "Expected",
+        "CURRENT": "Currently set to",
+        "REASONS": {
+          "NOT_SET": "Webhook কনফিগার করা হয়নি",
+          "URL_MISMATCH": "ওয়েবহুক URL মেলেনি",
+          "WRONG_HTTP_METHOD": "Webhook uses the wrong HTTP method",
+          "OVERRIDDEN_BY_NUMBER": "Messaging service defers to the number",
+          "OVERRIDDEN_BY_APPLICATION": "Overridden by a TwiML app",
+          "OVERRIDDEN_BY_TRUNK": "Overridden by a SIP trunk",
+          "MISSING_TWIML_APP": "TwiML app not created"
+        },
+        "HINTS": {
+          "NOT_SET": "Twilio has no webhook on this sender, so nothing reaches Chatwoot.",
+          "URL_MISMATCH": "Twilio is calling a different URL, so traffic goes elsewhere.",
+          "WRONG_HTTP_METHOD": "The URL is right but Twilio calls it with {method} instead of POST, and Chatwoot only answers POST.",
+          "OVERRIDDEN_BY_NUMBER": "This messaging service has \"Use webhook on number\" turned on, so Twilio ignores the service webhook.",
+          "OVERRIDDEN_BY_APPLICATION": "A TwiML app is attached to this number, and Twilio uses the app's URLs instead of the number's. Detach it in the Twilio Console.",
+          "OVERRIDDEN_BY_TRUNK": "This number is attached to a SIP trunk, so Twilio routes calls to the trunk and ignores voice webhooks entirely. Detach the trunk in the Twilio Console.",
+          "MISSING_TWIML_APP": "Chatwoot has no TwiML app for this number, so outbound calls cannot be placed."
+        }
+      }
+    },
     "ACCOUNT_HEALTH": {
       "TITLE": "আপনার WhatsApp অ্যাকাউন্ট পরিচালনা করুন",
       "DESCRIPTION": "Review your WhatsApp phone number health, messaging capacity, and linked Meta business details.",
@@ -953,6 +1051,20 @@
         "MODES": {
           "SANDBOX": "Sandbox",
           "LIVE": "সরাসরি"
+        },
+        "QUALITY": {
+          "GREEN": "Green",
+          "YELLOW": "Yellow",
+          "RED": "Red"
+        },
+        "TIER_NAMES": {
+          "TIER_250": "Tier 250",
+          "TIER_1000": "Tier 1K",
+          "TIER_1K": "Tier 1K",
+          "TIER_2K": "Tier 2K",
+          "TIER_10K": "Tier 10K",
+          "TIER_100K": "Tier 100K",
+          "TIER_UNLIMITED": "Unlimited"
         }
       },
       "BUSINESS_PROFILE": {
@@ -999,7 +1111,18 @@
         "SECRET_KEY": "সিক্রেট কী",
         "VIEW_DOCS": "ডকুমেন্টেশন দেখুন",
         "REQUIRE_LABEL": "সব কথোপকথনের জন্য পরিচয় যাচাই বাধ্যতামূলক করুন",
-        "REQUIRE_DESCRIPTION": "এটি সক্রিয় করলে, ব্যবহারকারীদের কথোপকথন শুরু করতে একটি বৈধ পরিচয় টোকেন প্রদান করতে হবে। বৈধ টোকেন ছাড়া অনুরোধগুলি প্রত্যাখ্যান করা হবে।."
+        "REQUIRE_DESCRIPTION": "এটি সক্রিয় করলে, ব্যবহারকারীদের কথোপকথন শুরু করতে একটি বৈধ পরিচয় টোকেন প্রদান করতে হবে। বৈধ টোকেন ছাড়া অনুরোধগুলি প্রত্যাখ্যান করা হবে।.",
+        "ROTATE": {
+          "BUTTON": "Rotate key",
+          "TITLE": "Rotate secret key?",
+          "WARNING": "The current key is revoked the instant you rotate it.",
+          "WARNING_DETAIL": "There is no overlap period and it cannot be restored.",
+          "IMPACT": "Your servers must sign users with the new key. Anyone still signed with the old one fails verification. If identity validation is required, they cannot start a conversation.",
+          "CONFIRM": "Rotate key",
+          "CANCEL": "বাতিল করুন",
+          "SUCCESS": "Secret key rotated successfully",
+          "ERROR": "Could not rotate the secret key, please try again"
+        }
       },
       "INBOX_AGENTS": "এজেন্ট",
       "INBOX_AGENTS_SUB_TEXT": "এই ইনবক্স থেকে এজেন্ট যোগ বা সরান",
@@ -1332,7 +1455,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "আপনার IMAP বিবরণ সেট করুন",
-      "NOTE_TEXT": "SMTP সক্রিয় করতে, অনুগ্রহ করে IMAP কনফিগার করুন।.",
+      "NOTE_TEXT": "Configure IMAP to receive emails directly from your mailbox. Leave it disabled if you use email forwarding.",
       "UPDATE": "IMAP সেটিংস আপডেট করুন",
       "TOGGLE_AVAILABILITY": "এই ইনবক্সের জন্য IMAP কনফিগারেশন সক্রিয় করুন",
       "TOGGLE_HELP": "IMAP সক্রিয় করলে ব্যবহারকারী ইমেইল গ্রহণ করতে পারবেন",

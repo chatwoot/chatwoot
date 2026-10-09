@@ -18,7 +18,8 @@
     "OAUTH": {
       "GOOGLE_LOGIN": "Entrar com o Google",
       "BUSINESS_ACCOUNTS_ONLY": "Você não pode criar uma nova conta com um endereço de e-mail pessoal. Cadastre-se usando seu e-mail profissional.",
-      "NO_ACCOUNT_FOUND": "Não encontramos uma conta para seu endereço de correio eletrônico."
+      "NO_ACCOUNT_FOUND": "Não encontramos uma conta para seu endereço de correio eletrônico.",
+      "SHOPIFY_INSTALLATION_FAILED": "Não foi possível concluir a instalação da Shopify. Por favor, reinicie a instalação pela Shopify."
     },
     "FORGOT_PASSWORD": "Esqueceu-se da sua senha?",
     "CREATE_NEW_ACCOUNT": "Criar nova conta",

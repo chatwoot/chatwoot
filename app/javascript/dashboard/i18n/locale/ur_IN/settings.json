@@ -262,6 +262,10 @@
     "EMAIL_VERIFICATION_PENDING": "ایسا لگتا ہے کہ آپ نے ابھی تک اپنا ای میل پتہ تصدیق نہیں کیا ہے۔ براہ کرم تصدیقی ای میل کے لیے اپنے انباکس کو چیک کریں۔.",
     "RESEND_VERIFICATION_MAIL": "تصدیقی ای میل دوبارہ بھیجیں",
     "EMAIL_VERIFICATION_SENT": "تصدیقی ای میل بھیج دی گئی ہے۔ براہ کرم اپنے انباکس کو چیک کریں۔.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "اکاؤنٹ معطل",
       "MESSAGE": "آپ کا اکاؤنٹ معطل ہے۔ مزید معلومات کے لیے سپورٹ ٹیم سے رابطہ کریں۔.",
@@ -278,7 +282,8 @@
     "CODE": {
       "BUTTON_TEXT": "کاپی کریں",
       "CODEPEN": "CodePen میں کھولیں",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "COPY_SUCCESSFUL": "Code copied to clipboard successfully",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "مزید دکھائیں",
@@ -578,6 +583,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "بلنگ",
     "DESCRIPTION": "یہاں اپنی سبسکرپشن کا انتظام کریں، اپنا پلان اپ گریڈ کریں اور اپنی ٹیم کے لیے مزید حاصل کریں۔.",
     "CURRENT_PLAN": {
@@ -585,6 +594,7 @@
       "PLAN_NOTE": "آپ اس وقت **{plan}** پلان کے ساتھ **{quantity}** لائسنس کے سبسکرائب ہیں",
       "SEAT_COUNT": "سیٹوں کی تعداد",
       "RENEWS_ON": "دوبارہ تجدید کی تاریخ",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {
@@ -618,6 +628,38 @@
       "BUTTON_TXT": "ہم سے چیٹ کریں"
     },
     "NO_BILLING_USER": "آپ کا بلنگ اکاؤنٹ ترتیب دیا جا رہا ہے۔ براہ کرم صفحہ ریفریش کریں اور دوبارہ کوشش کریں۔.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "Status",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "دوبارہ تجدید کی تاریخ",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "Pending",
+        "ACTIVE": "Active",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "مزید کریڈٹس خریدیں",
       "MODAL_TITLE": "AI کریڈٹس خریدیں",
@@ -648,6 +690,7 @@
     "DESCRIPTION": "اپنے اکاؤنٹ کی سیکیورٹی کی ترتیبات کا انتظام کریں۔.",
     "LINK_TEXT": "SAML SSO کے بارے میں مزید جانیں",
     "SAML_DISABLED_MESSAGE": "SAML SSO فی الحال غیر فعال ہے۔ براہ کرم اسے فعال کرنے کے لیے اپنے ایڈمنسٹریٹر سے رابطہ کریں۔.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "اپنے اکاؤنٹ کے لیے SAML سنگل سائن آن ترتیب دیں۔ صارفین ای میل/پاس ورڈ کے بجائے آپ کے شناختی فراہم کنندہ کے ذریعے تصدیق کریں گے۔.",

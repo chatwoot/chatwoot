@@ -40,6 +40,15 @@
   "LABEL": {
     "TAG_BUTTON": "tag"
   },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "New",
+    "DISMISS": "Got it",
+    "PREVIOUS": "Precedente",
+    "NEXT": "Successivo",
+    "DISMISS_HINT": "Press {key} to close",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "Chiudi"
+  },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Scopri di più",
     "WATCH_VIDEO": "Guarda video"
@@ -66,18 +75,18 @@
     "TABLE": "Table",
     "IMAGE": "Immagine",
     "VIDEO": "Video",
-    "DIVIDER": "Divider"
+    "DIVIDER": "Divisore"
   },
   "VIDEO_EMBED": {
-    "TAB_EMBED": "Embed link",
-    "TAB_UPLOAD": "Upload",
-    "PLACEHOLDER": "Paste a video link",
-    "HINT": "Works with YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen, GuideJar and mp4 links",
-    "ERROR": "That doesn't look like a supported video link",
-    "UPLOAD_LABEL": "Choose a video file",
-    "UPLOAD_HINT": "MP4 · up to {size}MB · or drop it here",
-    "UPLOAD_ERROR": "Only MP4 files can be uploaded",
-    "ADD": "Embed",
+    "TAB_EMBED": "Link da incorporare",
+    "TAB_UPLOAD": "Carica",
+    "PLACEHOLDER": "Incolla il link di un video",
+    "HINT": "Funziona con i link di YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen, GuideJar e mp4",
+    "ERROR": "Non sembra un link video supportato",
+    "UPLOAD_LABEL": "Scegli un file video",
+    "UPLOAD_HINT": "MP4 · fino a {size}MB · o trascinalo qui",
+    "UPLOAD_ERROR": "Si possono caricare solo file MP4",
+    "ADD": "Incorpora",
     "CANCEL": "Annulla"
   }
 }

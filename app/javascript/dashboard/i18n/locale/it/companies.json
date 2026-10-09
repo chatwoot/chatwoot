@@ -26,8 +26,8 @@
       "CREATE": "Aggiungi azienda"
     },
     "SELECTOR": {
-      "PLACEHOLDER": "Select company",
-      "CREATE_OPTION": "Add \"{name}\""
+      "PLACEHOLDER": "Seleziona un'azienda",
+      "CREATE_OPTION": "Aggiungi \"{name}\""
     },
     "CREATE": {
       "TITLE": "Aggiungi dettagli azienda",
@@ -40,24 +40,72 @@
       }
     },
     "DETAIL": {
-      "LOADING": "Caricamento dettagli dell'azienda...",
       "EMPTY_STATE": {
         "TITLE": "Azienda non trovata",
         "SUBTITLE": "Questa azienda potrebbe essere stata rimossa o non è più disponibile in questo account."
       },
-      "SIDEBAR": {
-        "TABS": {
-          "ATTRIBUTES": "Attributi",
-          "CONTACTS": "Contatti",
-          "HISTORY": "Cronologia",
-          "NOTES": "Note"
+      "HEADER": {
+        "EDIT": "Modifica",
+        "MORE": "Mostra di più",
+        "LESS": "Mostra meno",
+        "OPEN_COUNT": "{count} open | {count} open",
+        "REFRESH_WITH_TIME": "Refresh profile (updated {time})"
+      },
+      "FACTS": {
+        "INDUSTRY": "Settore",
+        "SIZE": "Employees",
+        "LOCATION": "Based in",
+        "ADDED": "Added",
+        "UNKNOWN": "Unknown",
+        "YES": "Sì",
+        "NO": "No"
+      },
+      "PEOPLE": {
+        "ADD": "Aggiungi",
+        "SEARCH": "Search people",
+        "EMPTY": "No one from this company yet.",
+        "NO_MATCHES": "No people match your search.",
+        "DIALOG_TITLE": "Add people to {name}"
+      },
+      "TABS": {
+        "CONVERSATIONS": "Conversazioni",
+        "NOTES": "Note",
+        "PEOPLE": "People"
+      },
+      "ACTIVITY": {
+        "TODAY": "Oggi",
+        "YESTERDAY": "Ieri",
+        "UNKNOWN_AUTHOR": "Someone",
+        "EMPTY_CONVERSATIONS": "No conversations yet. They'll show up here when this company's people get in touch.",
+        "EMPTY_NOTES": "No notes yet. Notes added to this company's people show up here.",
+        "LOAD_MORE": "Carica altro",
+        "SEARCH_NOTES": "Search notes",
+        "NO_MATCHING_NOTES": "No notes match your search.",
+        "NO_MATCHING_CONVERSATIONS": "No conversations match these filters."
+      },
+      "EDIT": {
+        "TITLE": "Edit company",
+        "SAVE": "Salva modifiche",
+        "DESCRIPTION": "Descrizione",
+        "DETAILS": "Dettagli",
+        "CITY": "Città",
+        "COUNTRY": "Paese",
+        "PHONE": "Telefono",
+        "SOCIAL": {
+          "TITLE": "Social profiles",
+          "LINKEDIN": "LinkedIn",
+          "X": "X",
+          "FACEBOOK": "Facebook",
+          "INSTAGRAM": "Instagram",
+          "GITHUB": "GitHub",
+          "YOUTUBE": "YouTube"
+        },
+        "PLACEHOLDERS": {
+          "DOMAIN": "acme.com",
+          "INDUSTRY": "Software",
+          "EMPLOYEES": "51 to 200",
+          "USERNAME": "nome Utente"
         }
-      },
-      "HISTORY": {
-        "EMPTY": "Nessuna conversazione trovata per i contatti di questa azienda."
-      },
-      "NOTES": {
-        "EMPTY": "Nessuna nota trovata per i contatti di questa azienda."
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Cerca attributi...",
@@ -69,11 +117,11 @@
           "UPDATE_ERROR": "Impossibile aggiornare l'attributo azienda.",
           "DELETE_SUCCESS": "Attributo azienda rimosso.",
           "DELETE_ERROR": "Impossibile rimuovere l'attributo azienda."
-        }
+        },
+        "TITLE": "Attributi personalizzati"
       },
       "CONTACTS": {
         "LOADING": "Caricamento contatti...",
-        "EMPTY": "Nessun contatto è ancora collegato a questa azienda.",
         "UNNAMED_CONTACT": "Contatto senza nome",
         "ACTIONS": {
           "ADD": "Aggiungi contatto",
@@ -111,16 +159,15 @@
         "DELETE_ERROR": "Impossibile rimuovere l'avatar dell'azienda."
       },
       "PROFILE": {
-        "TITLE": "Modifica dettagli azienda",
-        "CREATED_AT": "Creato {date}",
-        "LAST_ACTIVE": "Ultima attività {date}",
         "DESCRIPTION_PLACEHOLDER": "Aggiungi una breve descrizione per questa azienda",
         "ACTIONS": {
-          "SAVE": "Aggiorna azienda"
+          "REFRESH": "Refresh profile"
         },
         "MESSAGES": {
           "UPDATE_SUCCESS": "Azienda aggiornata.",
-          "UPDATE_ERROR": "Impossibile aggiornare l'azienda."
+          "UPDATE_ERROR": "Impossibile aggiornare l'azienda.",
+          "REFRESH_SUCCESS": "Company profile refreshed.",
+          "REFRESH_ERROR": "Could not refresh the company profile."
         },
         "FIELDS": {
           "NAME": "Nome",
@@ -128,8 +175,6 @@
         }
       },
       "DELETE": {
-        "SECTION_TITLE": "Zona pericolosa",
-        "SECTION_DESCRIPTION": "Elimina questa azienda e scollega i suoi contatti. I contatti rimarranno nell'account.",
         "BUTTON": "Elimina azienda",
         "TITLE": "Eliminare l'azienda?",
         "DESCRIPTION": "Questo rimuoverà l'azienda e scollegherà tutti i contatti associati. I contatti stessi verranno conservati.",
@@ -139,10 +184,30 @@
           "SUCCESS": "Azienda eliminata.",
           "ERROR": "Impossibile eliminare l'azienda."
         }
+      },
+      "CONVERSATION_FILTERS": {
+        "BUTTON": "Filtro",
+        "BUTTON_WITH_COUNT": "Filter ({count})",
+        "ANY": "Any"
+      },
+      "ENRICHMENT_UPGRADE": {
+        "TITLE": "Enrich company profiles on the Business plan",
+        "DESCRIPTION": "Automatically fill in a company's description, industry, size, location and social profiles from its domain. Available on the Business and Enterprise plans.",
+        "UPGRADE": "See plans"
       }
     },
     "EMPTY_STATE": {
       "TITLE": "Nessuna azienda trovata"
+    },
+    "CARD": {
+      "EMPLOYEES": "{count} employees"
+    },
+    "PAYWALL": {
+      "TITLE": "Upgrade to use Companies",
+      "AVAILABLE_ON": "Companies is not available on the free plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to group contacts by company, see every conversation with an account and keep company details in one place.",
+      "UPGRADE_NOW": "Aggiorna ora",
+      "CANCEL_ANYTIME": "Puoi modificare o annullare il tuo piano in qualsiasi momento"
     }
   },
   "COMPANIES_LAYOUT": {

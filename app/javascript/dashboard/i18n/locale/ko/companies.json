@@ -40,24 +40,72 @@
       }
     },
     "DETAIL": {
-      "LOADING": "Loading company details...",
       "EMPTY_STATE": {
         "TITLE": "Company not found",
         "SUBTITLE": "This company may have been removed or is no longer available in this account."
       },
-      "SIDEBAR": {
-        "TABS": {
-          "ATTRIBUTES": "속성",
-          "CONTACTS": "연락처",
-          "HISTORY": "기록",
-          "NOTES": "노트"
+      "HEADER": {
+        "EDIT": "수정",
+        "MORE": "Show more",
+        "LESS": "Show less",
+        "OPEN_COUNT": "{count} open | {count} open",
+        "REFRESH_WITH_TIME": "Refresh profile (updated {time})"
+      },
+      "FACTS": {
+        "INDUSTRY": "Industry",
+        "SIZE": "Employees",
+        "LOCATION": "Based in",
+        "ADDED": "Added",
+        "UNKNOWN": "Unknown",
+        "YES": "예",
+        "NO": "아니오"
+      },
+      "PEOPLE": {
+        "ADD": "추가",
+        "SEARCH": "Search people",
+        "EMPTY": "No one from this company yet.",
+        "NO_MATCHES": "No people match your search.",
+        "DIALOG_TITLE": "Add people to {name}"
+      },
+      "TABS": {
+        "CONVERSATIONS": "대화",
+        "NOTES": "노트",
+        "PEOPLE": "People"
+      },
+      "ACTIVITY": {
+        "TODAY": "오늘",
+        "YESTERDAY": "어제",
+        "UNKNOWN_AUTHOR": "Someone",
+        "EMPTY_CONVERSATIONS": "No conversations yet. They'll show up here when this company's people get in touch.",
+        "EMPTY_NOTES": "No notes yet. Notes added to this company's people show up here.",
+        "LOAD_MORE": "더 불러오기",
+        "SEARCH_NOTES": "Search notes",
+        "NO_MATCHING_NOTES": "No notes match your search.",
+        "NO_MATCHING_CONVERSATIONS": "No conversations match these filters."
+      },
+      "EDIT": {
+        "TITLE": "Edit company",
+        "SAVE": "변경사항 저장",
+        "DESCRIPTION": "설명",
+        "DETAILS": "세부 사항",
+        "CITY": "도시",
+        "COUNTRY": "국가",
+        "PHONE": "전화번호",
+        "SOCIAL": {
+          "TITLE": "Social profiles",
+          "LINKEDIN": "LinkedIn",
+          "X": "X",
+          "FACEBOOK": "Facebook",
+          "INSTAGRAM": "Instagram",
+          "GITHUB": "GitHub",
+          "YOUTUBE": "YouTube"
+        },
+        "PLACEHOLDERS": {
+          "DOMAIN": "acme.com",
+          "INDUSTRY": "Software",
+          "EMPLOYEES": "51 to 200",
+          "USERNAME": "사용자 이름"
         }
-      },
-      "HISTORY": {
-        "EMPTY": "No conversations found for this company's contacts yet."
-      },
-      "NOTES": {
-        "EMPTY": "No notes found for this company's contacts yet."
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "사용자 지정 속성 검색...",
@@ -69,11 +117,11 @@
           "UPDATE_ERROR": "Could not update company attribute.",
           "DELETE_SUCCESS": "Company attribute removed.",
           "DELETE_ERROR": "Could not remove company attribute."
-        }
+        },
+        "TITLE": "사용자 정의 속성"
       },
       "CONTACTS": {
         "LOADING": "연락처를 불러오는 중...",
-        "EMPTY": "No contacts are linked to this company yet.",
         "UNNAMED_CONTACT": "Unnamed contact",
         "ACTIONS": {
           "ADD": "연락처 추가",
@@ -111,16 +159,15 @@
         "DELETE_ERROR": "Could not remove the company avatar."
       },
       "PROFILE": {
-        "TITLE": "Edit company details",
-        "CREATED_AT": "{date}에 생성됨",
-        "LAST_ACTIVE": "마지막 활동 {date}",
         "DESCRIPTION_PLACEHOLDER": "Add a short description for this company",
         "ACTIONS": {
-          "SAVE": "Update company"
+          "REFRESH": "Refresh profile"
         },
         "MESSAGES": {
           "UPDATE_SUCCESS": "Company updated.",
-          "UPDATE_ERROR": "Could not update the company."
+          "UPDATE_ERROR": "Could not update the company.",
+          "REFRESH_SUCCESS": "Company profile refreshed.",
+          "REFRESH_ERROR": "Could not refresh the company profile."
         },
         "FIELDS": {
           "NAME": "이름",
@@ -128,8 +175,6 @@
         }
       },
       "DELETE": {
-        "SECTION_TITLE": "Danger zone",
-        "SECTION_DESCRIPTION": "Delete this company and unlink its contacts. The contacts will remain in the account.",
         "BUTTON": "Delete company",
         "TITLE": "Delete company?",
         "DESCRIPTION": "This will remove the company and unlink all associated contacts. Contacts themselves will be preserved.",
@@ -139,10 +184,30 @@
           "SUCCESS": "Company deleted.",
           "ERROR": "Could not delete the company."
         }
+      },
+      "CONVERSATION_FILTERS": {
+        "BUTTON": "필터",
+        "BUTTON_WITH_COUNT": "Filter ({count})",
+        "ANY": "Any"
+      },
+      "ENRICHMENT_UPGRADE": {
+        "TITLE": "Enrich company profiles on the Business plan",
+        "DESCRIPTION": "Automatically fill in a company's description, industry, size, location and social profiles from its domain. Available on the Business and Enterprise plans.",
+        "UPGRADE": "See plans"
       }
     },
     "EMPTY_STATE": {
       "TITLE": "회사를 찾을 수 없습니다"
+    },
+    "CARD": {
+      "EMPLOYEES": "{count} employees"
+    },
+    "PAYWALL": {
+      "TITLE": "Upgrade to use Companies",
+      "AVAILABLE_ON": "Companies is not available on the free plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to group contacts by company, see every conversation with an account and keep company details in one place.",
+      "UPGRADE_NOW": "지금 업그레이드",
+      "CANCEL_ANYTIME": "언제든지 플랜을 변경하거나 취소할 수 있습니다"
     }
   },
   "COMPANIES_LAYOUT": {

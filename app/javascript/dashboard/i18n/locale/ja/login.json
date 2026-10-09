@@ -18,7 +18,8 @@
     "OAUTH": {
       "GOOGLE_LOGIN": "Googleでログイン",
       "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
-      "NO_ACCOUNT_FOUND": "このメールアドレスに該当するアカウントが見つかりませんでした。"
+      "NO_ACCOUNT_FOUND": "このメールアドレスに該当するアカウントが見つかりませんでした。",
+      "SHOPIFY_INSTALLATION_FAILED": "We couldn't complete your Shopify installation. Please restart installation from Shopify."
     },
     "FORGOT_PASSWORD": "パスワードをお忘れですか?",
     "CREATE_NEW_ACCOUNT": "新しいアカウントを作成",

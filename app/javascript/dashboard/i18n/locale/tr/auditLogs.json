@@ -9,29 +9,29 @@
     "SIDEBAR_TXT": "<p><b>Denetim Kayıtları</b></p><p>Denetim Kayıtları, Chatwoot Sistemi'ndeki olaylar ve eylemler için izlerdir.</p>",
     "COUNT": "{n} event | {n} events",
     "FILTERS": {
-      "SEARCH_PLACEHOLDER": "Search by name or email",
-      "ALL_EVENTS": "All events",
-      "DATE_RANGE": "Date range",
+      "SEARCH_PLACEHOLDER": "Ad veya e-posta adresine göre ara",
+      "ALL_EVENTS": "Tüm olaylar",
+      "DATE_RANGE": "Tarih aralığı",
       "CLEAR_ALL": "Filtreleri Temizle",
       "EVENT_TYPE_GROUPS": {
-        "ACCESS": "Access",
-        "AGENTS_TEAMS": "Agents & teams",
+        "ACCESS": "Erişim",
+        "AGENTS_TEAMS": "Temsilciler & ekipler",
         "CONFIGURATION": "Yapılandırma",
         "CONVERSATIONS": "Konuşmalar"
       },
       "EVENT_TYPES": {
-        "SIGN_IN_OUT": "Sign in / sign out",
+        "SIGN_IN_OUT": "Giriş yap / Çıkış yap",
         "AGENTS": "Kullanıcılar",
         "TEAMS": "Ekipler",
-        "TEAM_MEMBERS": "Team members",
+        "TEAM_MEMBERS": "Ekip üyeleri",
         "INBOX_MEMBERS": "Inbox collaborators",
         "ACCOUNT": "Hesap Ayarları",
         "INBOXES": "Gelen kutuları",
         "WEBHOOKS": "Webhooks",
-        "AUTOMATION_RULES": "Automation rules",
+        "AUTOMATION_RULES": "Otomasyon kuralları",
         "MACROS": "Kısayollar",
-        "CONVERSATION_DELETIONS": "Conversation deletions",
-        "MESSAGE_DELETIONS": "Message deletions"
+        "CONVERSATION_DELETIONS": "Sohbet silme işlemleri",
+        "MESSAGE_DELETIONS": "Mesaj silme işlemleri"
       },
       "SORT": {
         "NEWEST": "Önce en yeniler",

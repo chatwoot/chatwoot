@@ -140,7 +140,6 @@
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp 頻道",
-        "DESC": "整合 Twilio，透過 SMS 或 WhatsApp 為客戶提供支援服務。",
         "ACCOUNT_SID": {
           "LABEL": "帳戶 SID",
           "PLACEHOLDER": "請輸入您的 Twilio 帳戶 SID",
@@ -182,13 +181,13 @@
           "PLACEHOLDER": "請輸入發送訊息的電話號碼。",
           "ERROR": "請提供以 `+` 開頭且不含空格的有效電話號碼。"
         },
-        "API_CALLBACK": {
-          "TITLE": "回呼 URL",
-          "SUBTITLE": "您需要在 Twilio 中使用此處的 URL 設定訊息回呼 URL。"
-        },
         "SUBMIT_BUTTON": "建立 Twilio 頻道",
         "API": {
           "ERROR_MESSAGE": "無法驗證 Twilio 憑證，請重試"
+        },
+        "API_CALLBACK": {
+          "TITLE": "回呼 URL",
+          "SUBTITLE": "您需要在 Twilio 中使用此處的 URL 設定訊息回呼 URL。"
         }
       },
       "SMS": {
@@ -426,9 +425,13 @@
           "MANUAL_LINK_TEXT": "手動設定流程",
           "ACCESS_REQUEST": {
             "TITLE": "透過 Meta 快速設定",
-            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
-            "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
-            "BUTTON": "Request access"
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. Tell us what your business does and how you’ll use WhatsApp to enable this option.",
+            "BUTTON": "Request access",
+            "FORM_DESCRIPTION": "Tell us about your business and how you plan to use WhatsApp. Submit your use case to enable quick setup for your account.",
+            "USE_CASE_LABEL": "Business use case",
+            "USE_CASE_PLACEHOLDER": "For example, we sell home furnishings and use WhatsApp to answer product questions and help customers with their orders.",
+            "SUBMIT": "送出",
+            "ERROR": "We couldn’t enable access. Please try again."
           },
           "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
           "STATUS_LINK": "View status updates",
@@ -676,6 +679,9 @@
       "MORE_SETTINGS": "更多設定",
       "WEBSITE_SUCCESS": "您已成功建立網站頻道。複製下方顯示的程式碼，並貼到您的網站上。下次客戶使用即時聊天時，對話將自動出現在您的收件匣中。",
       "WHATSAPP_QR_INSTRUCTION": "掃描上方 QR Code 以快速測試您的 WhatsApp 收件匣",
+      "SMS_QR_INSTRUCTION": "Scan the QR code above to quickly test your SMS inbox",
+      "SMS_QR_ALT": "QR code to test the SMS inbox",
+      "TWILIO_CALLBACK_FALLBACK": "Webhooks are configured automatically. If incoming messages do not arrive, use this callback URL in Twilio.",
       "MESSENGER_QR_INSTRUCTION": "掃描上方 QR Code 以快速測試您的 Facebook Messenger 收件匣",
       "TELEGRAM_QR_INSTRUCTION": "掃描上方 QR Code 以快速測試您的 Telegram 收件匣"
     },
@@ -806,6 +812,98 @@
     },
     "CHANNEL_PREFERENCES": "頻道偏好設定",
     "WIDGET_FEATURES": "小工具功能",
+    "TWILIO_HEALTH": {
+      "TITLE": "Manage your Twilio number",
+      "DESCRIPTION": "Review the Twilio account, sender and webhooks backing this inbox. Anything Chatwoot cannot receive is flagged here",
+      "GO_TO_SETTINGS": "Go to Twilio Console",
+      "NO_DATA": "無法取得健康狀態資料",
+      "LOADING": "Fetching health data from Twilio…",
+      "ERROR_TITLE": "Could not reach Twilio",
+      "STATUS": {
+        "HEALTHY": "All checks passed",
+        "MISCONFIGURED": "Needs attention"
+      },
+      "FIELDS": {
+        "ACCOUNT_NAME": {
+          "LABEL": "Twilio account",
+          "TOOLTIP": "The Twilio account these credentials belong to"
+        },
+        "ACCOUNT_STATUS": {
+          "LABEL": "Account status",
+          "TOOLTIP": "A suspended or closed Twilio account cannot send or receive anything"
+        },
+        "ACCOUNT_TYPE": {
+          "LABEL": "Account type",
+          "TOOLTIP": "Trial accounts can only message or call phone numbers you have verified with Twilio"
+        },
+        "SENDER": {
+          "LABEL": "發送者",
+          "TOOLTIP": "The phone number or messaging service that carries this inbox"
+        },
+        "CAPABILITIES": {
+          "LABEL": "Number capabilities",
+          "TOOLTIP": "Capabilities Twilio has enabled on this number. A capability this inbox needs but does not have will never work"
+        },
+        "VOICE_CALLING": {
+          "LABEL": "Voice calling",
+          "TOOLTIP": "Whether calling is turned on for this inbox"
+        }
+      },
+      "VALUES": {
+        "ACCOUNT_STATUSES": {
+          "ACTIVE": "啟用",
+          "SUSPENDED": "Suspended",
+          "CLOSED": "Closed"
+        },
+        "ACCOUNT_TYPES": {
+          "TRIAL": "Trial",
+          "FULL": "Full"
+        },
+        "CAPABILITIES": {
+          "SMS": "SMS",
+          "VOICE": "語音"
+        },
+        "SENDER_TYPES": {
+          "PHONE_NUMBER": "電話號碼",
+          "MESSAGING_SERVICE": "Messaging service"
+        },
+        "ENABLED": "已啟用",
+        "DISABLED": "已停用"
+      },
+      "WEBHOOKS": {
+        "TITLE": "Webhooks",
+        "DESCRIPTION": "Twilio calls these URLs when a message or call arrives. Register them again after changing your installation URL",
+        "REGISTER_ALL": "Register webhooks",
+        "MESSAGING": "Messaging webhook",
+        "VOICE": "Voice webhook",
+        "VOICE_STATUS": "Voice status callback",
+        "VOICE_APP": "Outbound calling (TwiML app)"
+      },
+      "WEBHOOK": {
+        "CONFIGURED_SUCCESS": "Webhook 設定成功",
+        "NOT_SET": "not set",
+        "EXPECTED": "Expected",
+        "CURRENT": "Currently set to",
+        "REASONS": {
+          "NOT_SET": "Webhook 尚未設定",
+          "URL_MISMATCH": "Webhook URL 不符",
+          "WRONG_HTTP_METHOD": "Webhook uses the wrong HTTP method",
+          "OVERRIDDEN_BY_NUMBER": "Messaging service defers to the number",
+          "OVERRIDDEN_BY_APPLICATION": "Overridden by a TwiML app",
+          "OVERRIDDEN_BY_TRUNK": "Overridden by a SIP trunk",
+          "MISSING_TWIML_APP": "TwiML app not created"
+        },
+        "HINTS": {
+          "NOT_SET": "Twilio has no webhook on this sender, so nothing reaches Chatwoot.",
+          "URL_MISMATCH": "Twilio is calling a different URL, so traffic goes elsewhere.",
+          "WRONG_HTTP_METHOD": "The URL is right but Twilio calls it with {method} instead of POST, and Chatwoot only answers POST.",
+          "OVERRIDDEN_BY_NUMBER": "This messaging service has \"Use webhook on number\" turned on, so Twilio ignores the service webhook.",
+          "OVERRIDDEN_BY_APPLICATION": "A TwiML app is attached to this number, and Twilio uses the app's URLs instead of the number's. Detach it in the Twilio Console.",
+          "OVERRIDDEN_BY_TRUNK": "This number is attached to a SIP trunk, so Twilio routes calls to the trunk and ignores voice webhooks entirely. Detach the trunk in the Twilio Console.",
+          "MISSING_TWIML_APP": "Chatwoot has no TwiML app for this number, so outbound calls cannot be placed."
+        }
+      }
+    },
     "ACCOUNT_HEALTH": {
       "TITLE": "管理您的 WhatsApp 帳號",
       "DESCRIPTION": "Review your WhatsApp phone number health, messaging capacity, and linked Meta business details.",
@@ -953,6 +1051,20 @@
         "MODES": {
           "SANDBOX": "沙箱模式",
           "LIVE": "正式環境"
+        },
+        "QUALITY": {
+          "GREEN": "Green",
+          "YELLOW": "Yellow",
+          "RED": "Red"
+        },
+        "TIER_NAMES": {
+          "TIER_250": "Tier 250",
+          "TIER_1000": "Tier 1K",
+          "TIER_1K": "Tier 1K",
+          "TIER_2K": "Tier 2K",
+          "TIER_10K": "Tier 10K",
+          "TIER_100K": "Tier 100K",
+          "TIER_UNLIMITED": "Unlimited"
         }
       },
       "BUSINESS_PROFILE": {
@@ -999,7 +1111,18 @@
         "SECRET_KEY": "密鑰",
         "VIEW_DOCS": "查看文件",
         "REQUIRE_LABEL": "要求所有對話進行身份驗證",
-        "REQUIRE_DESCRIPTION": "啟用後，使用者必須提供有效的身份 Token 才能開始對話。未提供有效 Token 的請求將被拒絕。"
+        "REQUIRE_DESCRIPTION": "啟用後，使用者必須提供有效的身份 Token 才能開始對話。未提供有效 Token 的請求將被拒絕。",
+        "ROTATE": {
+          "BUTTON": "Rotate key",
+          "TITLE": "Rotate secret key?",
+          "WARNING": "The current key is revoked the instant you rotate it.",
+          "WARNING_DETAIL": "There is no overlap period and it cannot be restored.",
+          "IMPACT": "Your servers must sign users with the new key. Anyone still signed with the old one fails verification. If identity validation is required, they cannot start a conversation.",
+          "CONFIRM": "Rotate key",
+          "CANCEL": "取消",
+          "SUCCESS": "Secret key rotated successfully",
+          "ERROR": "Could not rotate the secret key, please try again"
+        }
       },
       "INBOX_AGENTS": "客服人員",
       "INBOX_AGENTS_SUB_TEXT": "新增或移除此收件匣中的客服人員",
@@ -1332,7 +1455,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "設定您的 IMAP 資訊",
-      "NOTE_TEXT": "若要啟用 SMTP，請先設定 IMAP。",
+      "NOTE_TEXT": "Configure IMAP to receive emails directly from your mailbox. Leave it disabled if you use email forwarding.",
       "UPDATE": "更新 IMAP 設定",
       "TOGGLE_AVAILABILITY": "為此收件匣啟用 IMAP 設定",
       "TOGGLE_HELP": "啟用 IMAP 將可接收電子郵件",

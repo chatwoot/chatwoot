@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "Непрочитані повідомлення",
     "UNREAD_MESSAGE": "Непрочитане повідомлення",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "Натисніть тут",
     "LOADING_INBOXES": "Завантаження скриньок",
     "LOADING_CONVERSATIONS": "Завантаження бесід",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "Ця розмова не призначена на вас. Ви бажаєте призначити цю розмову на себе?",
     "ASSIGN_TO_ME": "Призначити мені",
     "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "a bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Take over",
     "BOT_HANDOFF_REOPEN_ACTION": "Позначити розмову відкритою",
     "BOT_HANDOFF_SUCCESS": "Розмова була призначена на вас",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "Повідомлення успішно видалено",
     "FAIL_DELETE_MESSSAGE": "Не вдалося видалити повідомлення! Спробуйте ще раз",
     "NO_RESPONSE": "Немає відповіді",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "Response",
     "RATING_TITLE": "Оцінка",
     "FEEDBACK_TITLE": "Зворотній зв'язок",
@@ -198,6 +216,16 @@
       "TITLE": "Відкласти до",
       "APPLY": "Відкласти",
       "CANCEL": "Скасувати"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "Accept",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "Відхилити",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "Пріоритет",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "Приватна нотатка: видима тільки вам та вашій команді",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "Копіювати",
       "REPLY_TO": "Відповісти на це повідомлення",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "Видалити",
       "CREATE_A_CANNED_RESPONSE": "Додати швидку відповідь",
       "TRANSLATE": "Перекласти",
@@ -529,7 +556,16 @@
     "BCC": "Прихована копія",
     "CC": "Копія",
     "SUBJECT": "Тема",
+    "DATE": "Date",
     "EXPAND": "Expand email"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "Для:",
+    "TO_PLACEHOLDER": "Enter at least 2 characters to search by email",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Підключені агенти",

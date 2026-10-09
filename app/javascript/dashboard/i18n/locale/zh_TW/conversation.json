@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "未讀訊息",
     "UNREAD_MESSAGE": "未讀訊息",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "點擊這裡",
     "LOADING_INBOXES": "正在載入收件匣",
     "LOADING_CONVERSATIONS": "正在載入對話",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "此對話尚未指派給您。您是否要將此對話指派給自己？",
     "ASSIGN_TO_ME": "指派給我",
     "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "a bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Take over",
     "BOT_HANDOFF_REOPEN_ACTION": "將對話標記為開啟",
     "BOT_HANDOFF_SUCCESS": "對話已移交給您",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "已成功刪除訊息",
     "FAIL_DELETE_MESSSAGE": "無法刪除訊息！請再試一次",
     "NO_RESPONSE": "無回應",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "回應",
     "RATING_TITLE": "評分",
     "FEEDBACK_TITLE": "意見回饋",
@@ -198,6 +216,16 @@
       "TITLE": "延後至",
       "APPLY": "延後",
       "CANCEL": "取消"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "接受",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "關閉",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "優先程度",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "包含引用的電子郵件串",
-        "DISABLE_TOOLTIP": "不包含引用的電子郵件串",
-        "REMOVE_PREVIEW": "移除引用的電子郵件串",
-        "COLLAPSE": "收合預覽",
-        "EXPAND": "展開預覽"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "私人筆記：僅對您和您的團隊可見",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "複製",
       "REPLY_TO": "回覆此訊息",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "刪除",
       "CREATE_A_CANNED_RESPONSE": "新增至快捷回覆",
       "TRANSLATE": "翻譯",
@@ -529,7 +556,16 @@
     "BCC": "密件副本",
     "CC": "副本",
     "SUBJECT": "主旨",
+    "DATE": "日期",
     "EXPAND": "展開電子郵件"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "收件人：",
+    "TO_PLACEHOLDER": "請輸入至少 2 個字元以搜尋電子信箱",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "參與中",

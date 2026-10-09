@@ -18,7 +18,8 @@
     "OAUTH": {
       "GOOGLE_LOGIN": "با گوگل وارد شوید",
       "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
-      "NO_ACCOUNT_FOUND": "ما نتوانستیم حسابی برای آدرس ایمیل شما پیدا کنیم."
+      "NO_ACCOUNT_FOUND": "ما نتوانستیم حسابی برای آدرس ایمیل شما پیدا کنیم.",
+      "SHOPIFY_INSTALLATION_FAILED": "We couldn't complete your Shopify installation. Please restart installation from Shopify."
     },
     "FORGOT_PASSWORD": "رمز عبورتان را فراموش کردید؟",
     "CREATE_NEW_ACCOUNT": "حساب جدید بسازید",

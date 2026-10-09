@@ -40,6 +40,15 @@
   "LABEL": {
     "TAG_BUTTON": "태그"
   },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "New",
+    "DISMISS": "Got it",
+    "PREVIOUS": "이전",
+    "NEXT": "다음",
+    "DISMISS_HINT": "Press {key} to close",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "닫기"
+  },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "더 알아보기",
     "WATCH_VIDEO": "동영상 보기"
