@@ -98,7 +98,11 @@ const startWhatsappCall = async () => {
       provider: VOICE_CALL_PROVIDERS.WHATSAPP,
     });
   } catch (error) {
-    useAlert(error?.message || t('CONVERSATION.HEADER.WHATSAPP_CALL_FAILED'));
+    useAlert(
+      error?.response?.data?.error ||
+        error?.message ||
+        t('CONVERSATION.HEADER.WHATSAPP_CALL_FAILED')
+    );
   }
 };
 
