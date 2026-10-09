@@ -58,6 +58,16 @@
           "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
           "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
           "USE_ACCOUNT_DEFAULT": "Use account default"
+        },
+        "TIME_FORMAT": {
+          "TITLE": "Time format",
+          "NOTE": "Choose between 12-hour (AM/PM) and 24-hour time display.",
+          "UPDATE_SUCCESS": "Your time format settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the time format settings, please try again",
+          "OPTIONS": {
+            "TWELVE_HOUR": "12-hour (1:30 PM)",
+            "TWENTY_FOUR_HOUR": "24-hour (13:30)"
+          }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
