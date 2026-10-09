@@ -34,5 +34,20 @@ RSpec.describe Webhooks::LineEventsJob do
       expect(process_service).to receive(:perform)
       described_class.perform_now(params: params, post_body: post_body, signature: signature)
     end
+
+    it 'attempts to acquire a lock and then processes the message' do
+      process_service = double
+      allow(Line::IncomingMessageService).to receive(:new).and_return(process_service)
+      allow(process_service).to receive(:perform)
+
+      lock_key = format(Redis::Alfred::LINE_MESSAGE_MUTEX, line_channel_id: line_channel.line_channel_id)
+      job_instance = described_class.new
+      allow(job_instance).to receive(:with_lock).and_call_original
+
+      job_instance.perform(params: params, post_body: post_body, signature: signature)
+
+      expect(job_instance).to have_received(:with_lock).with(lock_key, 10.seconds)
+      expect(process_service).to have_received(:perform)
+    end
   end
 end
