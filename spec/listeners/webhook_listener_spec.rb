@@ -15,6 +15,34 @@ describe WebhookListener do
   let!(:conversation_created_event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
   let!(:contact_event) { Events::Base.new(event_name, Time.zone.now, contact: contact) }
 
+  describe 'performed_by' do
+    let(:event_name) { 'message.created' }
+
+    after { Current.reset }
+
+    %w[conversation_created conversation_updated conversation_status_changed message_created message_updated].each do |event_name|
+      it "forwards the captured actor for #{event_name} after Current has changed" do
+        actor = { type: 'user', id: user.id }
+        message = create(:message, message_type: :outgoing, account: account, inbox: inbox, conversation: conversation)
+        resource = event_name.start_with?('message') ? { message: message } : { conversation: conversation }
+        event = Events::Base.new(event_name.sub('_', '.'), Time.zone.now, **resource, webhook_actor: actor)
+        Current.user = create(:user)
+        expect(listener).to receive(:deliver_webhook_payloads).with(hash_including(event: event_name, performed_by: actor), inbox)
+
+        listener.public_send(event_name, event)
+      end
+    end
+
+    it 'does not read the worker Current or infer the sender when no actor was captured' do
+      message = create(:message, message_type: :outgoing, account: account, inbox: inbox, conversation: conversation)
+      Current.user = user
+      event = Events::Base.new('message.created', Time.zone.now, message: message)
+      expect(listener).to receive(:deliver_webhook_payloads).with(hash_including(performed_by: nil), inbox)
+
+      listener.message_created(event)
+    end
+  end
+
   describe '#message_created' do
     let(:event_name) { :'message.created' }
 
@@ -29,7 +57,7 @@ describe WebhookListener do
       it 'triggers the webhook event' do
         webhook = create(:webhook, inbox: inbox, account: account)
         expect(WebhookJob).to receive(:perform_later).with(
-          webhook.url, message.webhook_data.merge(event: 'message_created'), :account_webhook,
+          webhook.url, message.webhook_data.merge(event: 'message_created', performed_by: nil), :account_webhook,
           secret: webhook.secret, delivery_id: instance_of(String)
         ).once
         listener.message_created(message_created_event)
@@ -66,7 +94,7 @@ describe WebhookListener do
         allow(api_message).to receive(:inbox).and_return(api_inbox)
         allow(api_inbox).to receive(:account).and_return(account)
         expect(WebhookJob).to receive(:perform_later).with(
-          channel_api.webhook_url, api_message.webhook_data.merge(event: 'message_created'),
+          channel_api.webhook_url, api_message.webhook_data.merge(event: 'message_created', performed_by: nil),
           :api_inbox_webhook, secret: channel_api.secret, delivery_id: instance_of(String)
         ).once
         listener.message_created(api_event)
@@ -80,7 +108,7 @@ describe WebhookListener do
         webhook = create(:webhook, inbox: inbox, account: account)
 
         expect(WebhookJob).to receive(:perform_later).with(
-          webhook.url, message.webhook_data.merge(event: 'message_created'), :account_webhook,
+          webhook.url, message.webhook_data.merge(event: 'message_created', performed_by: nil), :account_webhook,
           secret: webhook.secret, delivery_id: instance_of(String)
         ).once
 
@@ -102,7 +130,7 @@ describe WebhookListener do
         )
         api_event = Events::Base.new(event_name, Time.zone.now, message: api_message)
         expect(WebhookJob).to receive(:perform_later).with(
-          channel_api.webhook_url, api_message.webhook_data.merge(event: 'message_created'),
+          channel_api.webhook_url, api_message.webhook_data.merge(event: 'message_created', performed_by: nil),
           :api_inbox_webhook, secret: channel_api.secret, delivery_id: instance_of(String)
         ).once
         listener.message_created(api_event)
@@ -140,7 +168,7 @@ describe WebhookListener do
       it 'triggers webhook' do
         webhook = create(:webhook, inbox: inbox, account: account)
         expect(WebhookJob).to receive(:perform_later).with(
-          webhook.url, conversation.webhook_data.merge(event: 'conversation_created'), :account_webhook,
+          webhook.url, conversation.webhook_data.merge(event: 'conversation_created', performed_by: nil), :account_webhook,
           secret: webhook.secret, delivery_id: instance_of(String)
         ).once
         listener.conversation_created(conversation_created_event)
@@ -166,7 +194,7 @@ describe WebhookListener do
         api_event = Events::Base.new(event_name, Time.zone.now, conversation: api_conversation)
         expect(WebhookJob).to receive(:perform_later).with(
           channel_api.webhook_url,
-          api_conversation.webhook_data.merge(event: 'conversation_created'),
+          api_conversation.webhook_data.merge(event: 'conversation_created', performed_by: nil),
           :api_inbox_webhook, secret: channel_api.secret, delivery_id: instance_of(String)
         ).once
         listener.conversation_created(api_event)
@@ -212,7 +240,7 @@ describe WebhookListener do
         expect(WebhookJob).to receive(:perform_later).with(
           webhook.url,
           conversation.webhook_data.merge(
-            event: 'conversation_updated',
+            event: 'conversation_updated', performed_by: nil,
             changed_attributes: [
               {
                 custom_attributes: {
