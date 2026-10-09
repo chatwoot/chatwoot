@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
@@ -37,6 +37,7 @@ const isSmallScreen = computed(
 const selectedCopilotThreadId = ref(null);
 const isLoadingSelectedThread = ref(false);
 let selectionVersion = 0;
+let accountVersion = 0;
 const messages = computed(() =>
   store.getters['copilotMessages/getMessagesByThreadId'](
     selectedCopilotThreadId.value
@@ -50,6 +51,7 @@ const isFeatureEnabledonAccount = useMapGetter(
 
 const threads = ref([]);
 const locallyCreatedThreadIds = new Set();
+const serverThreadIds = new Set();
 const historyPage = ref(0);
 const hasMoreThreads = ref(false);
 const isLoadingThreads = ref(false);
@@ -57,29 +59,39 @@ const selectedThread = computed(() =>
   threads.value.find(thread => thread.id === selectedCopilotThreadId.value)
 );
 
+const accountAssistants = computed(() =>
+  assistants.value.filter(
+    assistant =>
+      !assistant.account_id ||
+      Number(assistant.account_id) === Number(currentAccountId.value)
+  )
+);
+
 const legacyAssistant = computed(() => {
   const preferredId = uiSettings.value.preferred_captain_assistant_id;
 
   // If the user has selected a specific assistant, it takes first preference for Copilot.
   if (preferredId) {
-    const preferredAssistant = assistants.value.find(a => a.id === preferredId);
+    const preferredAssistant = accountAssistants.value.find(
+      assistant => assistant.id === preferredId
+    );
     // Return the preferred assistant if found, otherwise continue to next cases
     if (preferredAssistant) return preferredAssistant;
   }
 
   // If the above is not available, the assistant connected to the inbox takes preference.
   if (inboxAssistant.value) {
-    const inboxMatchedAssistant = assistants.value.find(
+    const inboxMatchedAssistant = accountAssistants.value.find(
       a => a.id === inboxAssistant.value.id
     );
     if (inboxMatchedAssistant) return inboxMatchedAssistant;
   }
   // If neither of the above is available, the first assistant in the account takes preference.
-  return assistants.value[0];
+  return accountAssistants.value[0];
 });
 const configuredAssistant = computed(() => {
   return (
-    assistants.value.find(
+    accountAssistants.value.find(
       assistant => assistant.id === Number(captainConfig.copilotAssistantId)
     ) || legacyAssistant.value
   );
@@ -118,11 +130,21 @@ const handleReset = () => {
 };
 
 const loadThreads = async (page = 1) => {
+  const version = accountVersion;
+  const accountId = currentAccountId.value;
   isLoadingThreads.value = true;
   try {
     const { data } = await CopilotThreadsAPI.get({ page });
+    if (
+      version !== accountVersion ||
+      Number(accountId) !== Number(currentAccountId.value)
+    ) {
+      return;
+    }
+
     const knownIds = new Set(threads.value.map(thread => thread.id));
     if (page === 1) {
+      serverThreadIds.clear();
       const localThreads = threads.value.filter(thread =>
         locallyCreatedThreadIds.has(thread.id)
       );
@@ -137,38 +159,72 @@ const loadThreads = async (page = 1) => {
         ...data.payload.filter(thread => !knownIds.has(thread.id)),
       ];
     }
+    data.payload.forEach(thread => serverThreadIds.add(thread.id));
     historyPage.value = page;
-    hasMoreThreads.value = threads.value.length < data.meta.total_count;
+    hasMoreThreads.value = serverThreadIds.size < data.meta.total_count;
   } catch (error) {
-    useAlert(error.message);
+    if (version === accountVersion) useAlert(error.message);
   } finally {
-    isLoadingThreads.value = false;
+    if (version === accountVersion) isLoadingThreads.value = false;
   }
 };
 
 const selectThread = async thread => {
   selectionVersion += 1;
   const version = selectionVersion;
+  const currentVersion = accountVersion;
+  const accountId = currentAccountId.value;
   const previousThreadId = selectedCopilotThreadId.value;
   selectedCopilotThreadId.value = thread.id;
   isLoadingSelectedThread.value = true;
   try {
-    await store.dispatch('copilotMessages/get', thread.id);
+    await store.dispatch('copilotMessages/get', {
+      threadId: thread.id,
+      accountId,
+    });
   } catch (error) {
-    if (selectionVersion === version) {
+    if (selectionVersion === version && accountVersion === currentVersion) {
       selectedCopilotThreadId.value = previousThreadId;
       useAlert(error.message);
     }
   } finally {
-    if (selectionVersion === version) isLoadingSelectedThread.value = false;
+    if (selectionVersion === version && accountVersion === currentVersion) {
+      isLoadingSelectedThread.value = false;
+    }
   }
 };
 
 watch(() => currentChat.value?.id, handleReset);
 
+const initializeAccount = () => {
+  accountVersion += 1;
+  selectionVersion += 1;
+  selectedCopilotThreadId.value = null;
+  isLoadingSelectedThread.value = false;
+  threads.value = [];
+  locallyCreatedThreadIds.clear();
+  serverThreadIds.clear();
+  historyPage.value = 0;
+  hasMoreThreads.value = false;
+  isLoadingThreads.value = false;
+  store.dispatch('copilotMessages/reset', currentAccountId.value);
+  store.dispatch('copilotThreads/reset', currentAccountId.value);
+  captainConfig.reset();
+
+  if (!isEnterprise || !currentAccountId.value) return;
+
+  store.dispatch('captainAssistants/get');
+  captainConfig.fetch();
+  loadThreads();
+};
+
+watch(currentAccountId, initializeAccount, { immediate: true, flush: 'sync' });
+
 const sendMessage = async payload => {
   if (isLoadingSelectedThread.value) return false;
 
+  const currentVersion = accountVersion;
+  const accountId = currentAccountId.value;
   const message = typeof payload === 'string' ? payload : payload.message;
   const requestType =
     typeof payload === 'string' ? undefined : payload.requestType;
@@ -180,6 +236,12 @@ const sendMessage = async payload => {
         threadId: selectedCopilotThreadId.value,
         message,
       });
+      if (
+        currentVersion !== accountVersion ||
+        Number(accountId) !== Number(currentAccountId.value)
+      ) {
+        return false;
+      }
     } else {
       const conversationId = currentChat.value?.id;
       const version = selectionVersion;
@@ -190,28 +252,34 @@ const sendMessage = async payload => {
         ...(requestType && { request_type: requestType }),
       });
       if (
+        currentVersion !== accountVersion ||
+        Number(accountId) !== Number(currentAccountId.value)
+      ) {
+        return false;
+      }
+
+      if (
         currentChat.value?.id === conversationId &&
         selectionVersion === version
       ) {
         selectedCopilotThreadId.value = response.id;
       }
-      threads.value.unshift(response);
+      if (!threads.value.some(thread => thread.id === response.id)) {
+        threads.value.unshift(response);
+      }
       locallyCreatedThreadIds.add(response.id);
     }
     return true;
   } catch (error) {
-    useAlert(error.message);
+    if (
+      currentVersion === accountVersion &&
+      Number(accountId) === Number(currentAccountId.value)
+    ) {
+      useAlert(error.message);
+    }
     return false;
   }
 };
-
-onMounted(() => {
-  if (isEnterprise) {
-    store.dispatch('captainAssistants/get');
-    captainConfig.fetch();
-    loadThreads();
-  }
-});
 </script>
 
 <template>
@@ -227,6 +295,7 @@ onMounted(() => {
     ]"
   >
     <Copilot
+      :key="currentAccountId"
       :messages="messages"
       :active-assistant="activeAssistant"
       :threads="threads"

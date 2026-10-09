@@ -195,8 +195,9 @@ watch(
         <span
           v-if="thread.assistant"
           class="block truncate text-xs text-n-slate-10"
-          >{{ thread.assistant.name }}</span
         >
+          {{ thread.assistant.name }}
+        </span>
       </button>
       <button
         v-if="hasMoreThreads"
@@ -247,7 +248,7 @@ watch(
       />
     </div>
 
-    <div v-if="!showHistory" class="mx-3 mt-px mb-2">
+    <div v-show="!showHistory" class="mx-3 mt-px mb-2">
       <div
         v-if="activeAssistant"
         class="mb-2 flex items-center gap-1.5 px-1 text-xs text-n-slate-10"

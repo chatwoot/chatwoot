@@ -14,6 +14,7 @@ vi.mock('dashboard/store/captain/preferences', () => ({
   useCaptainConfigStore: () => ({
     copilotAssistantId: testState.copilotAssistantId,
     fetch: vi.fn(),
+    reset: vi.fn(),
   }),
 }));
 vi.mock('dashboard/api/captain/copilotThreads', () => ({
@@ -147,7 +148,10 @@ describe('CopilotContainer', () => {
     await nextTick();
     await nextTick();
 
-    expect(testState.dispatch).toHaveBeenCalledWith('copilotMessages/get', 42);
+    expect(testState.dispatch).toHaveBeenCalledWith('copilotMessages/get', {
+      threadId: 42,
+      accountId: 1,
+    });
     expect(copilot.props('selectedThreadId')).toBe(42);
 
     copilot.vm.$emit('reset');
@@ -266,10 +270,15 @@ describe('CopilotContainer', () => {
   });
 
   it('does not repeat a locally created chat when loading the next page', async () => {
+    const pages = {
+      1: [{ id: 2 }, { id: 1 }],
+      2: [{ id: 1 }, { id: 0 }],
+      3: [{ id: -1 }],
+    };
     CopilotThreadsAPI.get.mockImplementation(({ page }) =>
       Promise.resolve({
         data: {
-          payload: page === 1 ? [{ id: 2 }, { id: 1 }] : [{ id: 1 }, { id: 0 }],
+          payload: pages[page],
           meta: { total_count: 4 },
         },
       })
@@ -289,6 +298,14 @@ describe('CopilotContainer', () => {
 
     expect(copilot.props('threads').map(thread => thread.id)).toEqual([
       3, 2, 1, 0,
+    ]);
+    expect(copilot.props('hasMoreThreads')).toBe(true);
+
+    copilot.vm.$emit('loadMoreThreads');
+    await flushPromises();
+
+    expect(copilot.props('threads').map(thread => thread.id)).toEqual([
+      3, 2, 1, 0, -1,
     ]);
     expect(copilot.props('hasMoreThreads')).toBe(false);
   });
