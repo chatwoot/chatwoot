@@ -214,6 +214,7 @@ describe('#actions', () => {
           'conversation/setConversationUIFlag',
           {
             isCreating: true,
+            isAwaitingCampaign: true,
           },
           {
             root: true,
@@ -241,12 +242,22 @@ describe('#actions', () => {
           'conversation/setConversationUIFlag',
           {
             isCreating: true,
+            isAwaitingCampaign: true,
           },
           {
             root: true,
           },
         ],
         ['setError', true],
+        [
+          'conversation/setConversationUIFlag',
+          {
+            isAwaitingCampaign: false,
+          },
+          {
+            root: true,
+          },
+        ],
         [
           'conversation/setConversationUIFlag',
           {

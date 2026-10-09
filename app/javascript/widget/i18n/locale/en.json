@@ -47,6 +47,20 @@
   "CONTINUE_CONVERSATION": "Continue conversation",
   "YOU": "You",
   "START_NEW_CONVERSATION": "Start a new conversation",
+  "BACK": "Go back",
+  "TABS": {
+    "HOME": "Home",
+    "MESSAGES": "Messages",
+    "UNREAD_CONVERSATIONS": "{count} unread conversation | {count} unread conversations"
+  },
+  "CONVERSATIONS": {
+    "TITLE": "All conversations",
+    "EMPTY_TITLE": "No conversations yet",
+    "EMPTY_DESCRIPTION": "Start a conversation and we will get back to you here.",
+    "RESOLVED": "Resolved",
+    "UNREAD_COUNT": "{count} unread message | {count} unread messages",
+    "ATTACHMENT": "Attachment"
+  },
   "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "See new messages",

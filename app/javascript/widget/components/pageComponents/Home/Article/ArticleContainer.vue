@@ -77,7 +77,7 @@ onMounted(() => fetchArticles());
 <template>
   <div
     v-if="portal && (articleUiFlags.isFetching || !!popularArticles.length)"
-    class="w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-background dark:bg-n-solid-2 px-5 py-4"
+    class="w-full surface-card"
   >
     <ArticleBlock
       v-if="hasArticles"
@@ -85,7 +85,7 @@ onMounted(() => fetchArticles());
       @view="openArticleInArticleViewer"
       @view-all="viewAllArticles"
     />
-    <ArticleCardSkeletonLoader v-if="articleUiFlags.isFetching" />
+    <ArticleCardSkeletonLoader v-if="articleUiFlags.isFetching" class="p-4" />
   </div>
   <div v-else class="hidden" />
 </template>

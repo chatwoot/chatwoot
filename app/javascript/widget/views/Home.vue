@@ -20,14 +20,39 @@ export default {
       availableAgents: 'agent/availableAgents',
       conversationSize: 'conversation/getConversationSize',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
+      latestConversation: 'conversationList/getLatestConversation',
     }),
+    hasConversation() {
+      if (this.hasMultipleConversationsEnabled) {
+        return (
+          !!this.latestConversation &&
+          this.latestConversation.status !== 'resolved'
+        );
+      }
+      return !!this.conversationSize;
+    },
   },
   methods: {
     startConversation() {
+      if (this.hasMultipleConversationsEnabled) {
+        return this.hasConversation
+          ? this.openConversation(this.latestConversation.id)
+          : this.startNewConversation();
+      }
       if (this.preChatFormEnabled && !this.conversationSize) {
         return this.router.replace({ name: 'prechat-form' });
       }
       return this.router.replace({ name: 'messages' });
+    },
+    async openConversation(id) {
+      await this.$store.dispatch('conversationList/open', id);
+      this.router.replace({ name: 'messages' });
+    },
+    async startNewConversation() {
+      await this.$store.dispatch('conversationList/startNew');
+      this.router.replace({
+        name: this.preChatFormEnabled ? 'prechat-form' : 'messages',
+      });
     },
   },
 };
@@ -37,7 +62,7 @@ export default {
   <div class="z-50 flex flex-col justify-end flex-1 w-full p-4 gap-4">
     <TeamAvailability
       :available-agents="availableAgents"
-      :has-conversation="!!conversationSize"
+      :has-conversation="hasConversation"
       :unread-count="unreadMessageCount"
       @start-conversation="startConversation"
     />
