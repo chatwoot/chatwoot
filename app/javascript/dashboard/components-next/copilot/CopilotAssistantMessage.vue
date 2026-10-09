@@ -77,7 +77,7 @@ const useCopilotResponse = () => {
     <div
       v-else
       v-dompurify-html="messageContent"
-      class="prose prose-sm max-w-none break-words prose-a:text-n-blue-11 prose-a:underline"
+      class="prose prose-bubble !max-w-none break-words prose-a:text-n-blue-11 prose-a:underline"
       @click="openConversation"
     />
     <div class="flex flex-row mt-1">
