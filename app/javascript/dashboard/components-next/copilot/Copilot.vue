@@ -1,8 +1,10 @@
 <script setup>
 import { nextTick, ref, watch, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useTrack } from 'dashboard/composables';
 import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 import CopilotInput from './CopilotInput.vue';
 import CopilotLoader from './CopilotLoader.vue';
@@ -56,6 +58,9 @@ const props = defineProps({
 const emit = defineEmits(['reset', 'selectThread', 'loadMoreThreads']);
 
 const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
+const { isAdmin } = useAdmin();
 
 const sendMessage = async message => {
   if (props.isLoadingSelectedThread) return false;
@@ -125,6 +130,11 @@ const handleSidebarAction = action => {
     showHistory.value = false;
   } else if (action === 'history') {
     showHistory.value = !showHistory.value;
+  } else if (action === 'settings') {
+    router.push({
+      name: 'copilot_settings_index',
+      params: { accountId: route.params.accountId },
+    });
   }
 };
 
@@ -141,6 +151,15 @@ const copilotButtons = computed(() => [
     icon: 'i-lucide-square-pen',
     tooltip: t('CAPTAIN.COPILOT.NEW_CHAT'),
   },
+  ...(isAdmin.value
+    ? [
+        {
+          key: 'settings',
+          icon: 'i-lucide-settings',
+          tooltip: t('CAPTAIN_SETTINGS.COPILOT_CONFIGURATION_LINK'),
+        },
+      ]
+    : []),
 ]);
 const openThread = thread => {
   emit('selectThread', thread);
