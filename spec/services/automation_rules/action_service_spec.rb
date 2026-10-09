@@ -51,6 +51,41 @@ RSpec.describe AutomationRules::ActionService do
         expect(WebhookJob).to receive(:perform_later)
         described_class.new(rule, account, conversation).perform
       end
+
+      context 'with a triggering message' do
+        before { rule.actions.delete_if { |a| a['action_name'] == 'send_message' } }
+
+        it 'embeds the triggering message, not whatever is currently last in the conversation' do
+          triggering_message = create(:message, account: account, conversation: conversation, content: 'first')
+          # AutomationRuleListener dispatches message_created asynchronously (AsyncDispatcher ->
+          # EventDispatcherJob), so by the time this rule's ActionService actually runs, a later
+          # message can already exist -- e.g. a macro sending several messages back to back.
+          create(:message, account: account, conversation: conversation, content: 'second, created after the rule fired')
+
+          payload = nil
+          allow(WebhookJob).to receive(:perform_later) { |_url, sent_payload| payload = sent_payload }
+
+          described_class.new(rule, account, conversation, message: triggering_message).perform
+
+          expect(payload[:messages].first[:id]).to eq(triggering_message.id)
+          expect(payload[:messages].first[:content]).to eq('first')
+        end
+      end
+
+      context 'without a triggering message (conversation-level rule)' do
+        before { rule.actions.delete_if { |a| a['action_name'] == 'send_message' } }
+
+        it 'falls back to the conversation current last message, unchanged from before' do
+          last_message = create(:message, account: account, conversation: conversation, content: 'only message')
+
+          payload = nil
+          allow(WebhookJob).to receive(:perform_later) { |_url, sent_payload| payload = sent_payload }
+
+          described_class.new(rule, account, conversation).perform
+
+          expect(payload[:messages].first[:id]).to eq(last_message.id)
+        end
+      end
     end
 
     describe '#perform with send_message action' do
