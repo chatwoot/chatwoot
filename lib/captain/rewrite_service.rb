@@ -35,12 +35,38 @@ class Captain::RewriteService < Captain::BaseTaskService
   end
 
   def call_llm_with_prompt(system_content, user_content = content)
-    make_api_call(
+    messages, placeholders = protect_urls_in_messages([
+                                                        { role: 'system', content: system_content },
+                                                        { role: 'user', content: user_content }
+                                                      ])
+    response = make_api_call(
       feature: 'editor',
-      messages: [
-        { role: 'system', content: system_content },
-        { role: 'user', content: user_content }
-      ]
+      messages: messages
+    )
+
+    preserve_urls(response, placeholders)
+  end
+
+  def preserve_urls(response, placeholders)
+    return response if response[:error] || placeholders.empty?
+
+    expected_placeholders = content.scan(URL_PATTERN).map { |url| placeholders.fetch(url) }
+    actual_placeholders = response[:message].to_s.scan(URL_PLACEHOLDER_PATTERN)
+    message = if safe_url_placeholder_output?(response[:message], placeholders) && actual_placeholders.tally == expected_placeholders.tally
+                restore_url_placeholders(response[:message], placeholders)
+              else
+                content
+              end
+
+    response_with_message(response, message)
+  end
+
+  def response_with_message(response, message)
+    updated_response = response.merge(message: message)
+    return updated_response unless response[:follow_up_context]
+
+    updated_response.merge(
+      follow_up_context: response[:follow_up_context].merge(original_context: content, last_response: message)
     )
   end
 
