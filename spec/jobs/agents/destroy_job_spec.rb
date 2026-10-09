@@ -32,6 +32,22 @@ RSpec.describe Agents::DestroyJob do
       expect(user.assigned_conversations.where(account: account).length).to eq 0
     end
 
+    it 'removes the user\'s conversation participants for the account, keeping other accounts intact' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      create(:conversation_participant, conversation: conversation, account: account, user: user)
+
+      other_account = create(:account)
+      other_inbox = create(:inbox, account: other_account)
+      create(:inbox_member, inbox: other_inbox, user: user)
+      other_conversation = create(:conversation, account: other_account, inbox: other_inbox)
+      create(:conversation_participant, conversation: other_conversation, account: other_account, user: user)
+
+      described_class.perform_now(account, user)
+
+      expect(user.conversation_participants.where(account_id: account.id).length).to eq 0
+      expect(user.conversation_participants.where(account_id: other_account.id).length).to eq 1
+    end
+
     it 'invalidates saved filter snapshots when assigned conversations are unassigned' do
       account.enable_features!(:unread_count_for_filters)
 
