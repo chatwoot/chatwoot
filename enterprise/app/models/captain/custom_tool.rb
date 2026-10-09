@@ -2,24 +2,25 @@
 #
 # Table name: captain_custom_tools
 #
-#  id                :bigint           not null, primary key
-#  auth_config       :jsonb
-#  auth_type         :string           default("none")
-#  description       :text
-#  enabled           :boolean          default(TRUE), not null
-#  endpoint_url      :text             not null
-#  headers           :jsonb            not null
-#  http_method       :string           default("GET"), not null
-#  param_schema      :jsonb
-#  request_template  :text
-#  response_template :text
-#  slug              :string           not null
-#  source_metadata   :jsonb
-#  title             :string           not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  account_id        :bigint           not null
-#  assistant_id      :bigint
+#  id                  :bigint          not null, primary key
+#  auth_config         :jsonb
+#  auth_type           :string          default("none")
+#  copilot_permissions :text            default([]), not null, is an Array
+#  description         :text
+#  enabled             :boolean         default(TRUE), not null
+#  endpoint_url        :text            not null
+#  headers             :jsonb           not null
+#  http_method         :string          default("GET"), not null
+#  param_schema        :jsonb
+#  request_template    :text
+#  response_template   :text
+#  slug                :string          not null
+#  source_metadata     :jsonb
+#  title               :string          not null
+#  created_at          :datetime        not null
+#  updated_at          :datetime        not null
+#  account_id          :bigint          not null
+#  assistant_id        :bigint
 #
 # Indexes
 #
@@ -82,6 +83,8 @@ class Captain::CustomTool < ApplicationRecord
     'required': %w[source repository path tool_id revision version manifest_digest installation_id],
     'additionalProperties': false
   }.to_json.freeze
+  # Administrators can always use a tool in Copilot. These widen it to plain agents or to custom roles with a permission.
+  COPILOT_PERMISSIONS = ['agent', *CustomRole::PERMISSIONS].freeze
 
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
@@ -101,10 +104,16 @@ class Captain::CustomTool < ApplicationRecord
   validates_with JsonSchemaValidator,
                  schema: SOURCE_METADATA_VALIDATION,
                  attribute_resolver: ->(record) { record.source_metadata }
+  validates :copilot_permissions, inclusion: { in: COPILOT_PERMISSIONS }
   validate :validate_headers
   validate :validate_auth_config
 
   scope :enabled, -> { where(enabled: true) }
+  # Copilot only reads, so it gets GET tools, and only those the agent's role or custom-role permissions allow
+  scope :available_in_copilot_to, lambda { |account_user|
+    tools = enabled.where(http_method: 'GET')
+    account_user.administrator? ? tools : tools.where('copilot_permissions && ARRAY[?]::text[]', account_user.permissions)
+  }
   scope :from_github, lambda { |repository, path|
     where("source_metadata->>'source' = 'github'")
       .where("source_metadata->>'repository' = ? AND source_metadata->>'path' = ?", repository, path)

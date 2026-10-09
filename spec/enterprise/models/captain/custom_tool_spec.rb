@@ -301,6 +301,44 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(enabled_ids).not_to include(disabled_tool.id)
       end
     end
+
+    describe '.available_in_copilot_to' do
+      let(:assistant) { create(:captain_assistant, account: account) }
+      let(:account_user) { create(:account_user, account: account, role: :agent) }
+      let!(:admin_only_tool) { create(:captain_custom_tool, account: account, assistant: assistant) }
+      let!(:agent_tool) { create(:captain_custom_tool, account: account, assistant: assistant, copilot_permissions: ['agent']) }
+      let!(:contact_tool) { create(:captain_custom_tool, account: account, assistant: assistant, copilot_permissions: ['contact_manage']) }
+
+      before do
+        create(:captain_custom_tool, :with_post, account: account, assistant: assistant, copilot_permissions: ['agent'])
+        create(:captain_custom_tool, :disabled, account: account, assistant: assistant, copilot_permissions: ['agent'])
+      end
+
+      it 'returns every enabled GET tool to administrators' do
+        account_user.update!(role: :administrator)
+
+        expect(described_class.available_in_copilot_to(account_user)).to contain_exactly(admin_only_tool, agent_tool, contact_tool)
+      end
+
+      it 'returns only tools opened to agents to an agent' do
+        expect(described_class.available_in_copilot_to(account_user)).to contain_exactly(agent_tool)
+      end
+
+      it 'returns tools opened to a permission of the agent custom role' do
+        account_user.update!(custom_role: create(:custom_role, account: account, permissions: ['contact_manage']))
+
+        expect(described_class.available_in_copilot_to(account_user)).to contain_exactly(contact_tool)
+      end
+    end
+  end
+
+  describe 'copilot_permissions validation' do
+    it 'rejects values that are not a role or custom role permission' do
+      tool = build(:captain_custom_tool, copilot_permissions: %w[agent administrator])
+
+      expect(tool).not_to be_valid
+      expect(tool.errors[:copilot_permissions]).to be_present
+    end
   end
 
   describe '#enabled_scenarios_count' do
