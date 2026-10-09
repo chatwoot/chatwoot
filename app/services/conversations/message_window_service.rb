@@ -7,6 +7,10 @@ class Conversations::MessageWindowService
   end
 
   def can_reply?
+    if @conversation.inbox.google_play?
+      return !@conversation.messages.where(message_type: [:outgoing, :template], private: false).where.not(status: :failed).exists?
+    end
+
     return true if messaging_window.blank?
 
     last_message_in_messaging_window?(messaging_window)
