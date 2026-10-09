@@ -1,6 +1,8 @@
 class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseController
   before_action :set_voice_inbox_for_conference
   rescue_from CustomExceptions::CallAlreadyAccepted, with: :render_call_already_accepted
+  # A claim refused because the ring timeout is ending the call
+  rescue_from Voice::CallErrors::CallAlreadyEnded, with: :render_call_already_accepted
 
   def token
     render json: Voice::Provider::Twilio::TokenService.new(

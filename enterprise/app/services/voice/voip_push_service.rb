@@ -22,8 +22,6 @@ class Voice::VoipPushService
   RING_EXPIRY_SECONDS = 45
   APPLE = 'apns_voip'.freeze
   ANDROID = 'fcm'.freeze
-  # Android deliveries in flight at once per call
-  ANDROID_BATCH_SIZE = 20
 
   # The agents a call rings: the assignee if the conversation has one, otherwise everyone
   # who could be assigned the inbox, keeping only agents whose status is online, as the
@@ -42,6 +40,15 @@ class Voice::VoipPushService
     end
   end
 
+  # The agents the ring reaches: those chosen for it with a phone on a configured platform,
+  # less any the pushes turned out not to reach
+  def ringable_user_ids
+    subscriptions = []
+    subscriptions += apple_subscriptions.to_a if configured?(:apple)
+    subscriptions += android_subscriptions if configured?(:android)
+    subscriptions.map(&:user_id).uniq - call.ring_state.fetch('unreached_user_ids', [])
+  end
+
   private
 
   # Both platforms and every device go out at the same time, so no phone waits on another
@@ -57,23 +64,27 @@ class Voice::VoipPushService
     apple, android = call.with_lock { call.ringing? ? remember_ring : nil }
     return if apple.nil? || (apple.empty? && android.empty?)
 
-    stale_apple, stale_android = deliver_ring(apple, android)
-    forget_devices(APPLE, stale_apple)
-    forget_devices(ANDROID, stale_android)
+    apple_results, android_results = deliver_ring(apple, android)
+    settle_ring(apple_results, android_results)
     # The tokens just rung are used, not the stored ones: a cancel that ran while these
     # pushes were in flight has already removed those
-    cancel(android - stale_android.to_a) unless call.reload.ringing?
+    cancel(android - gone(android_results)) unless call.reload.ringing?
   end
 
+  # A platform whose delivery failed as a whole, its connection included, reached nobody
   def deliver_ring(apple, android)
-    sender = Voice::ApnsVoipSender.new(settings: apple_settings, call_id: call.id) if apple.any?
-    client = fcm_client if android.any?
-    payload = ring_payload
-    data = ring_data
+    apple_sender = Voice::ApnsVoipSender.new(settings: apple_settings, call_id: call.id) if apple.any?
+    android_sender = fcm_sender if android.any?
+    payload = payloads.ring
+    data = payloads.ring_data
     [
-      Thread.new { with_rails { sender ? sender.ring(apple, payload) : [] } },
-      Thread.new { with_rails { deliver_android_all(client, android, data, 'ring') } }
+      deliver_in_thread(apple) { apple_sender.ring(apple, payload) },
+      deliver_in_thread(android) { android_sender.deliver(android, data, 'ring') }
     ].map(&:value)
+  end
+
+  def deliver_in_thread(tokens, &)
+    Thread.new { tokens.empty? ? {} : with_rails(&) || tokens.index_with(:failed) }
   end
 
   def devices_to_ring
@@ -88,9 +99,13 @@ class Voice::VoipPushService
     forget_rung_devices
     return if tokens.blank?
 
-    data = cancel_data
-    client = fcm_client
-    forget_devices(ANDROID, with_rails { deliver_android_all(client, tokens, data, 'cancel') })
+    data = payloads.cancel_data
+    sender = fcm_sender
+    forget_devices(ANDROID, gone(with_rails { sender.deliver(tokens, data, 'cancel') }.to_h))
+  end
+
+  def payloads
+    @payloads ||= Voice::VoipPushPayloads.new(call: call)
   end
 
   def with_rails(&)
@@ -102,24 +117,43 @@ class Voice::VoipPushService
 
   # MARK: recipients and devices
 
-  # Resolved once per ring so the devices rung and the agents recorded are one set
+  # The agents recorded when the ring started, or the same choice made now for a call
+  # that has none recorded; resolved once per ring so the devices rung and the agents
+  # recorded are one set
   def recipients
-    @recipients ||= self.class.recipients_for(call)
+    @recipients ||= call.ring_state['ring_recipient_ids']&.then { |ids| call.account.users.where(id: ids).to_a } || self.class.recipients_for(call)
   end
 
-  def apple_tokens
-    NotificationSubscription.apns_voip
-                            .where(user_id: recipients.map(&:id))
-                            .filter_map { |subscription| subscription.subscription_attributes['push_token'] }
-                            .uniq
+  def apple_subscriptions
+    NotificationSubscription.apns_voip.where(user_id: recipients.map(&:id))
   end
 
-  def android_tokens
+  def android_subscriptions
     NotificationSubscription.fcm
                             .where(user_id: recipients.map(&:id))
                             .select { |subscription| subscription.subscription_attributes['devicePlatform'].to_s.casecmp('android').zero? }
-                            .filter_map { |subscription| subscription.subscription_attributes['push_token'] }
-                            .uniq
+  end
+
+  def apple_tokens
+    push_tokens(apple_subscriptions)
+  end
+
+  def android_tokens
+    push_tokens(android_subscriptions)
+  end
+
+  # Each token's owner is noted as the ring is put together, since a subscription can change
+  # while the pushes are in flight
+  def push_tokens(subscriptions)
+    subscriptions.filter_map do |subscription|
+      token = subscription.subscription_attributes['push_token']
+      token_owners[token] = subscription.user_id if token
+      token
+    end.uniq
+  end
+
+  def token_owners
+    @token_owners ||= {}
   end
 
   def rung_devices
@@ -133,8 +167,7 @@ class Voice::VoipPushService
     apple, android = devices_to_ring
     rung = { 'ring_recipient_ids' => recipients.map(&:id) }
     rung['rung_devices'] = { APPLE => apple, ANDROID => android } if apple.any? || android.any?
-    Call.where(id: call.id).update_all(['ring_state = ring_state || ?::jsonb', rung.to_json]) # rubocop:disable Rails/SkipsModelValidations
-    call.reload
+    merge_ring_state(rung)
     [apple, android]
   end
 
@@ -144,6 +177,34 @@ class Voice::VoipPushService
     Call.where(id: call.id).update_all("ring_state = ring_state - 'rung_devices'") # rubocop:disable Rails/SkipsModelValidations
   end
 
+  def merge_ring_state(values)
+    Call.where(id: call.id).update_all(['ring_state = ring_state || ?::jsonb', values.to_json]) # rubocop:disable Rails/SkipsModelValidations
+    call.reload
+  end
+
+  def gone(results) = results.filter_map { |token, outcome| token if outcome == :gone }
+
+  # The new-message notification is held back for agents whose phone the ring reaches. Once
+  # the pushes are out, the agents no push reached are recorded, and the notification goes
+  # to them; agents already notified for the message are skipped. Devices the platforms no
+  # longer know are removed.
+  def settle_ring(apple_results, android_results)
+    unreached = unreached_user_ids(apple_results.merge(android_results))
+    forget_devices(APPLE, gone(apple_results))
+    forget_devices(ANDROID, gone(android_results))
+    return if unreached.empty?
+
+    merge_ring_state('unreached_user_ids' => unreached)
+    message = call.reload.message
+    Messages::NewMessageNotificationService.new(message: message).perform if message
+  end
+
+  # The agents none of whose devices took the ring
+  def unreached_user_ids(results)
+    owners = results.keys.filter_map { |token| [token_owners[token], token] if token_owners[token] }
+    owners.map(&:first).uniq - owners.filter_map { |user_id, token| user_id if results[token] == :sent }
+  end
+
   # A device the platform no longer knows is removed so it stops costing a request per ring
   def forget_devices(type, tokens)
     return if tokens.blank?
@@ -151,41 +212,6 @@ class Voice::VoipPushService
     NotificationSubscription.where(subscription_type: type)
                             .where("subscription_attributes->>'push_token' IN (?)", tokens)
                             .destroy_all
-  end
-
-  # MARK: payloads
-
-  def base_payload
-    {
-      call_id: call.provider_call_id,
-      id: call.id,
-      provider: call.provider,
-      direction: call.direction_label,
-      # The app addresses conversations by their display id
-      conversation_id: call.conversation.display_id,
-      inbox_id: call.inbox_id,
-      account_id: call.account_id
-    }
-  end
-
-  def ring_payload
-    contact = call.contact
-    base_payload.merge(
-      type: 'voice_call.incoming',
-      caller: { name: contact&.name, phone: contact&.phone_number, avatar: contact&.avatar_url.presence },
-      inbox_name: call.inbox.name
-    )
-  end
-
-  # FCM data values must all be strings, and the caller travels as JSON
-  def ring_data
-    data = ring_payload.except(:caller).transform_keys(&:to_s).transform_values(&:to_s)
-    data['caller'] = ring_payload[:caller].to_json
-    data
-  end
-
-  def cancel_data
-    base_payload.merge(type: 'voice_call.cancel', reason: call.status).transform_keys(&:to_s).transform_values(&:to_s)
   end
 
   # MARK: Apple
@@ -234,33 +260,9 @@ class Voice::VoipPushService
 
   # MARK: Android
 
-  def fcm_client
-    Notification::FcmService.new(config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')).fcm_client
-  end
-
-  # Returns the tokens Firebase reported as unregistered
-  def deliver_android_all(client, tokens, data, kind)
-    return [] if tokens.empty?
-
-    tokens.each_slice(ANDROID_BATCH_SIZE).flat_map do |batch|
-      batch.map { |token| Thread.new { with_rails { deliver_android(client, token, data, kind) } } }
-           .map(&:value)
-           .zip(batch)
-           .filter_map { |result, token| token if result == :gone }
-    end
-  end
-
-  def deliver_android(client, token, data, kind)
-    response = client.send_v1(
-      token: token,
-      data: data,
-      android: { priority: 'high', ttl: "#{RING_EXPIRY_SECONDS}s" }
-    )
-    Rails.logger.info("[VOIP PUSH] android #{kind} call #{call.id} to #{token[0, 8]}… status=#{response[:status_code]}")
-    response[:status_code] == 404 && response[:body].to_s.include?('UNREGISTERED') ? :gone : :sent
-  rescue StandardError => e
-    Rails.logger.error("[VOIP PUSH] android #{kind} call #{call.id} to #{token[0, 8]}… failed: #{e.class}: #{e.message}")
-    :failed
+  def fcm_sender
+    client = Notification::FcmService.new(config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')).fcm_client
+    Voice::FcmVoipSender.new(client: client, call_id: call.id, expiry_seconds: RING_EXPIRY_SECONDS)
   end
 
   def config(name, default = nil)

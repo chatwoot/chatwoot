@@ -8,6 +8,16 @@ RSpec.describe AccountUser, type: :model do
     it { is_expected.to belong_to(:custom_role).optional }
   end
 
+  describe 'notification settings' do
+    it 'pushes missed calls by default' do
+      account_user = create(:account_user)
+
+      setting = account_user.user.notification_settings.find_by(account_id: account_user.account_id)
+      expect(setting.push_voice_call_missed?).to be(true)
+      expect(setting.push_conversation_assignment?).to be(true)
+    end
+  end
+
   describe 'permissions' do
     context 'when custom role is assigned' do
       it 'returns permissions of the custom role along with `custom_role` permission' do

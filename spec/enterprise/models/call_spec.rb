@@ -35,6 +35,52 @@ RSpec.describe Call do
     end
   end
 
+  describe 'recording a missed call' do
+    let(:account) { create(:account) }
+    let(:rang) { { 'ring_recipient_ids' => [] } }
+    let(:call) { create(:call, conversation: create(:conversation, account: account), ring_state: rang) }
+
+    it 'enqueues the missed-call notification when an inbound ring is not answered' do
+      expect { call.update!(status: 'no_answer') }.to have_enqueued_job(Voice::MissedCallNotificationJob).with(call.id)
+    end
+
+    it 'enqueues it for a call created and ended in one transaction, when its end arrived first' do
+      conversation = create(:conversation, account: account)
+
+      expect do
+        ActiveRecord::Base.transaction do
+          create(:call, conversation: conversation, ring_state: rang).update!(status: 'no_answer')
+        end
+      end.to have_enqueued_job(Voice::MissedCallNotificationJob)
+    end
+
+    it 'enqueues it when the caller hangs up during the ring and the provider reports the call completed' do
+      expect { call.update!(status: 'completed') }.to have_enqueued_job(Voice::MissedCallNotificationJob).with(call.id)
+    end
+
+    it 'does not for a call an agent answered' do
+      call.update!(status: 'in_progress', accepted_by_agent: create(:user, account: account))
+
+      expect { call.update!(status: 'completed') }.not_to have_enqueued_job(Voice::MissedCallNotificationJob)
+    end
+
+    it 'does not for a declined call' do
+      expect { call.update!(status: 'rejected') }.not_to have_enqueued_job(Voice::MissedCallNotificationJob)
+    end
+
+    it 'does not for an outbound call nobody picked up' do
+      call.update!(direction: :outgoing)
+
+      expect { call.update!(status: 'no_answer') }.not_to have_enqueued_job(Voice::MissedCallNotificationJob)
+    end
+
+    it 'does not for a call that rang no phones' do
+      call.update!(ring_state: {})
+
+      expect { call.update!(status: 'no_answer') }.not_to have_enqueued_job(Voice::MissedCallNotificationJob)
+    end
+  end
+
   describe '#push_event_data' do
     let(:account) { create(:account) }
     let(:channel) { create(:channel_twilio_sms, :with_voice, account: account, phone_number: '+15551239999') }

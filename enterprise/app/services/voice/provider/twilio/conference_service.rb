@@ -36,8 +36,12 @@ class Voice::Provider::Twilio::ConferenceService
 
   def claim_call!(user)
     call.with_lock do
+      raise Voice::CallErrors::CallAlreadyEnded, 'Call has timed out' if call.ring_timeout_in_progress?
+
       raise_already_accepted!(call.accepted_by_agent) if claimed_by_other_agent?(user)
-      call.update!(accepted_by_agent: user) if call.accepted_by_agent_id != user.id
+      # When it was last claimed, a retry by the same agent included, so the ring timeout
+      # gives each join its time from that moment
+      call.update!(accepted_by_agent: user, ring_state: call.ring_state.merge('claimed_at' => Time.zone.now.to_i))
     end
   end
 

@@ -1,0 +1,167 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+RSpec.describe Voice::RingingTimeoutService do
+  let(:account) { create(:account) }
+  let(:channel) { create(:channel_twilio_sms, :with_voice, account: account, phone_number: '+15551239999') }
+  let(:inbox) { channel.inbox }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+  let(:call) { create(:call, conversation: conversation, provider: :whatsapp, status: 'ringing') }
+  let(:conference) { instance_double(Voice::Provider::Twilio::ConferenceService, terminate_call: nil) }
+
+  before do
+    allow(Twilio::VoiceWebhookSetupService).to receive(:new)
+      .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
+    account.enable_features!('mobile_voice_push')
+    allow(Voice::Provider::Twilio::ConferenceService).to receive(:new).and_return(conference)
+    allow(ActionCable.server).to receive(:broadcast)
+    call.update!(message: Voice::CallMessageBuilder.new(call).perform!)
+  end
+
+  describe '.overdue' do
+    def ringing(provider, age)
+      create(:call, conversation: create(:conversation, account: account, inbox: inbox), provider: provider, status: 'ringing',
+                    created_at: age.ago, ring_state: { 'ring_recipient_ids' => [] })
+    end
+
+    it 'ignores a call that rang no phones, with no agents recorded for it' do
+      ringing(:whatsapp, 5.minutes).update!(ring_state: {})
+
+      expect(described_class.overdue).to be_empty
+    end
+
+    it 'returns WhatsApp calls ringing for more than 60 s, and leaves Twilio callers waiting' do
+      overdue_whatsapp = ringing(:whatsapp, 61.seconds)
+      ringing(:twilio, 5.minutes)
+      ringing(:whatsapp, 59.seconds)
+
+      expect(described_class.overdue).to contain_exactly(overdue_whatsapp)
+    end
+
+    it 'ignores calls that are no longer ringing' do
+      old = ringing(:whatsapp, 5.minutes)
+      old.update!(status: 'in_progress')
+
+      expect(described_class.overdue).to be_empty
+    end
+
+    it 'ignores a call an agent has just claimed but not yet joined, however long it rang first' do
+      claimed = ringing(:twilio, 5.minutes)
+      claimed.update!(accepted_by_agent: create(:user, account: account),
+                      ring_state: { 'ring_recipient_ids' => [], 'claimed_at' => 5.seconds.ago.to_i })
+
+      expect(described_class.overdue).to be_empty
+    end
+
+    it 'returns a claimed call whose join was abandoned a while ago' do
+      claimed = ringing(:whatsapp, 3.minutes)
+      claimed.update!(accepted_by_agent: create(:user, account: account),
+                      ring_state: { 'ring_recipient_ids' => [], 'claimed_at' => 2.minutes.ago.to_i })
+
+      expect(described_class.overdue).to contain_exactly(claimed)
+    end
+
+    it 'ignores outbound calls, which end with the provider' do
+      ringing(:whatsapp, 5.minutes).update!(direction: :outgoing)
+
+      expect(described_class.overdue).to be_empty
+    end
+
+    it 'ignores calls on accounts that do not ring phones' do
+      ringing(:whatsapp, 5.minutes)
+      account.disable_features!('mobile_voice_push')
+
+      expect(described_class.overdue).to be_empty
+    end
+  end
+
+  describe '#perform' do
+    before { call.update!(created_at: 61.seconds.ago) }
+
+    it 'ends the call as missed' do
+      described_class.new(call: call).perform
+
+      call.reload
+      expect(call.status).to eq('no_answer')
+      expect(call.end_reason).to eq('ring_timeout')
+      expect(call.meta['ended_at']).to be_present
+    end
+
+    it 'updates the call message and the conversation the way a provider hang-up does' do
+      described_class.new(call: call).perform
+
+      expect(call.reload.message.content_attributes.dig('data', 'status')).to eq('no-answer')
+      expect(conversation.reload.additional_attributes['call_status']).to eq('no-answer')
+    end
+
+    it 'broadcasts voice_call.ended to the account' do
+      described_class.new(call: call).perform
+
+      expect(ActionCable.server).to have_received(:broadcast).with(
+        "account_#{account.id}", hash_including(event: 'voice_call.ended', data: hash_including(id: call.id, status: 'no-answer'))
+      )
+    end
+
+    it 'does not end a call an agent claimed before the sweep reached it' do
+      call.update!(accepted_by_agent: create(:user, account: account), ring_state: { 'claimed_at' => Time.zone.now.to_i })
+
+      described_class.new(call: call).perform
+
+      expect(call.reload.status).to eq('ringing')
+      expect(ActionCable.server).not_to have_received(:broadcast)
+    end
+
+    it 'ends a claimed call whose join was abandoned' do
+      call.update!(created_at: 3.minutes.ago, accepted_by_agent: create(:user, account: account),
+                   ring_state: { 'ring_recipient_ids' => [], 'claimed_at' => 2.minutes.ago.to_i })
+
+      described_class.new(call: call).perform
+
+      expect(call.reload.status).to eq('no_answer')
+    end
+
+    it 'leaves a call alone while another sweep is hanging it up' do
+      call.update!(ring_state: { 'timing_out_at' => 10.seconds.ago.to_i })
+
+      described_class.new(call: call).perform
+
+      expect(call.reload.status).to eq('ringing')
+      expect(ActionCable.server).not_to have_received(:broadcast)
+    end
+
+    it 'takes over from a sweep that died long ago' do
+      call.update!(ring_state: { 'timing_out_at' => 5.minutes.ago.to_i })
+
+      described_class.new(call: call).perform
+
+      expect(call.reload.status).to eq('no_answer')
+    end
+
+    it 'leaves a Twilio caller waiting on hold, as on the web' do
+      call.update!(provider: :twilio, created_at: 5.minutes.ago)
+
+      described_class.new(call: call).perform
+
+      expect(call.reload.status).to eq('ringing')
+      expect(conference).not_to have_received(:terminate_call)
+    end
+
+    it 'does not touch a call that was answered in the meantime' do
+      call.update!(status: 'in_progress')
+
+      described_class.new(call: call).perform
+
+      expect(call.reload.status).to eq('in_progress')
+      expect(ActionCable.server).not_to have_received(:broadcast)
+    end
+
+    it 'leaves a late provider end-of-ring with nothing to change' do
+      described_class.new(call: call).perform
+      described_class.new(call: call).perform
+
+      expect(call.reload.status).to eq('no_answer')
+      expect(ActionCable.server).to have_received(:broadcast).once
+    end
+  end
+end

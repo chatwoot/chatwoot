@@ -75,6 +75,16 @@ RSpec.describe Voice::InboundCallBuilder do
       expect(call).to be_ringing
     end
 
+    it 'records the agents it rings as the ring starts' do
+      account.enable_features!('mobile_voice_push')
+      agent = create(:user, account: account, role: :agent)
+      create(:inbox_member, inbox: inbox, user: agent)
+
+      call = perform_builder
+
+      expect(call.reload.ring_state['ring_recipient_ids']).to include(agent.id)
+    end
+
     it 'does not ring phones without the feature' do
       expect { perform_builder }.not_to have_enqueued_job(Voice::VoipPushJob)
     end

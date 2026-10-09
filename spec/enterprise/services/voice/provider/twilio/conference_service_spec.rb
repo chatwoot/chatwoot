@@ -42,6 +42,24 @@ describe Voice::Provider::Twilio::ConferenceService do
       service.mark_agent_joined(user: agent)
 
       expect(call.reload.accepted_by_agent_id).to eq(agent.id)
+      expect(call.ring_state['claimed_at']).to be_within(5).of(Time.zone.now.to_i)
+    end
+
+    it 'refreshes the claim time when the same agent tries joining again' do
+      agent = create(:user, account: account)
+      call.update!(accepted_by_agent: agent, ring_state: { 'claimed_at' => 5.minutes.ago.to_i })
+
+      service.mark_agent_joined(user: agent)
+
+      expect(call.reload.ring_state['claimed_at']).to be_within(5).of(Time.zone.now.to_i)
+    end
+
+    it 'refuses the claim while the ring timeout is hanging the caller up' do
+      agent = create(:user, account: account)
+      call.update!(ring_state: { 'timing_out_at' => Time.zone.now.to_i })
+
+      expect { service.mark_agent_joined(user: agent) }.to raise_error(Voice::CallErrors::CallAlreadyEnded)
+      expect(call.reload.accepted_by_agent_id).to be_nil
     end
 
     it 'keeps an existing AgentBot conversation owner' do

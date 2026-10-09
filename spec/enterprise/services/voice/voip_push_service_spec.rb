@@ -101,6 +101,70 @@ RSpec.describe Voice::VoipPushService do
       expect { described_class.new(call: call).perform('ring') }.to change(NotificationSubscription, :count).by(-2)
     end
 
+    it 'sends the new-message notification to agents the ring turned out not to reach' do
+      message = create(:message, message_type: :incoming, content_type: :voice_call, account: account, conversation: conversation)
+      call.update!(message: message)
+      subscribe(agent, 'apns_voip', 'apple-gone')
+      allow(apple_response).to receive(:status).and_return('410')
+      service = instance_double(Messages::NewMessageNotificationService, perform: nil)
+      allow(Messages::NewMessageNotificationService).to receive(:new).with(message: message).and_return(service)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(service).to have_received(:perform)
+    end
+
+    it 'treats an agent whose every push failed as not rung' do
+      message = create(:message, message_type: :incoming, content_type: :voice_call, account: account, conversation: conversation)
+      call.update!(message: message)
+      subscribe(agent, 'apns_voip', 'apple-down')
+      subscribe(other_agent, 'apns_voip', 'apple-up')
+      allow(apple_connection).to receive(:push) do |notification|
+        raise Errno::ECONNRESET if notification.token == 'apple-down'
+
+        apple_response
+      end
+      service = instance_double(Messages::NewMessageNotificationService, perform: nil)
+      allow(Messages::NewMessageNotificationService).to receive(:new).with(message: message).and_return(service)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+      expect(described_class.new(call: call).ringable_user_ids).to eq([other_agent.id])
+      expect(service).to have_received(:perform)
+      expect(NotificationSubscription.where(user: agent)).to exist
+    end
+
+    it 'treats a push the platform rejected as not reaching the agent' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      allow(apple_response).to receive(:status).and_return('500')
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+    end
+
+    it 'knows whose device failed even when its subscription goes away during the ring' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      allow(apple_connection).to receive(:push) do
+        NotificationSubscription.where(user: agent).destroy_all
+        raise Errno::ECONNRESET
+      end
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+    end
+
+    it 'treats every device as not reached when the connection cannot be made' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      allow(Apnotic::Connection).to receive(:new).and_raise(SocketError)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+    end
+
     it 'does not ring for a call that stopped ringing before the job ran' do
       subscribe(agent, 'apns_voip', 'apple-1')
       call.update!(status: 'failed')
@@ -120,6 +184,18 @@ RSpec.describe Voice::VoipPushService do
 
       expect(call.reload.meta).to include('twilio_conference_sid' => 'CF999')
       expect(call.ring_state['rung_devices']).to eq('apns_voip' => ['apple-1'], 'fcm' => [])
+    end
+
+    it 'rings the agents recorded when the ring started, not a later assignee' do
+      call.update!(ring_state: { 'ring_recipient_ids' => [agent.id] })
+      conversation.update!(assignee: other_agent)
+      subscribe(agent, 'apns_voip', 'apple-1')
+      subscribe(other_agent, 'apns_voip', 'apple-2')
+
+      described_class.new(call: call).perform('ring')
+
+      expect(apple_connection).to have_received(:push).once
+      expect(call.reload.ring_state['rung_devices']).to eq('apns_voip' => ['apple-1'], 'fcm' => [])
     end
 
     it 'records the agents chosen for the ring even when none of them has a phone' do
