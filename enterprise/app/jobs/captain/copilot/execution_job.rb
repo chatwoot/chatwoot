@@ -23,8 +23,9 @@ class Captain::Copilot::ExecutionJob < ApplicationJob
 
   private
 
+  # Turns run in order; a message sent while an earlier turn waits on its review is answered after that turn.
   def earlier_chat_pending?(run)
-    run.copilot_thread.copilot_runs.where(kind: 'chat', status: %w[queued running waiting_for_approval])
+    run.copilot_thread.copilot_runs.where(kind: 'chat', status: %w[queued running waiting])
        .where(CopilotRun.arel_table[:copilot_message_id].lt(run.copilot_message_id)).exists?
   end
 

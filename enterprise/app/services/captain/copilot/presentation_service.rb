@@ -24,7 +24,7 @@ class Captain::Copilot::PresentationService
   private
 
   def visible_findings(visible, matched_only)
-    scope = @run.findings.where(conversation_id: visible.select(:id)).order(:conversation_id)
+    scope = @run.findings.where(conversation_id: visible.select(:id)).where.not(status: %w[screened_in screened_out]).order(:conversation_id)
     matched_only ? scope.where(matched: true) : scope
   end
 
@@ -41,16 +41,22 @@ class Captain::Copilot::PresentationService
 
     table = ['| Conversation | Category | Finding |', '| --- | --- | --- |']
     table += rows.map do |row|
-      "| [##{row[:conversation_id]}](#{row[:url]}) | #{escape(row[:category])} | " \
-        "#{escape(row[:reason] || row[:error])} (#{row[:status]}) |"
+      "| [##{row[:conversation_id]}](#{row[:url]}) | #{escape(row[:category])} | #{escape(finding_text(row))} |"
     end
     (lines + [table.join("\n"), "Page #{page}, #{total} accessible findings. Ask for another page to see more."]).join("\n\n")
   end
 
+  # A finding's status describes the review, not the conversation, so only failed reviews are labelled.
+  def finding_text(row)
+    row[:status] == 'resolved' ? row[:reason] : "Not reviewed: #{row[:error] || row[:status]}"
+  end
+
   def summary
     receipt = @run.receipt
-    lines = ["Review ##{@run.id}: #{receipt[:status]}. Reviewed #{receipt[:reviewed]} of #{receipt[:selected]}. " \
-             "Errors: #{receipt[:errors]}.", "Filters: #{escape(@run.filters.to_json)}."]
+    lines = ["Review ##{@run.id}: #{receipt[:status]}. Processed #{receipt[:processed]} of #{receipt[:selected]}: " \
+             "#{receipt[:screened_out]} screened out, #{receipt[:reviewed]} reviewed, #{receipt[:matched]} matched, #{receipt[:errors]} errors.",
+             "Filters: #{escape(@run.filters.to_json)}."]
+    lines << "Screening question: #{escape(@run.match)}" if @run.match.present?
     lines << 'The selection limit was reached. Narrow the filters to cover the rest.' if receipt[:selection_truncated]
     lines << "Execution stopped: #{escape(receipt[:error])}." if receipt[:error]
     lines << 'Recent messages were reviewed. Attachment contents were not reviewed.'

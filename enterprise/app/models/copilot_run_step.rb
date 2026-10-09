@@ -3,7 +3,6 @@
 # Table name: copilot_run_steps
 #
 #  id             :bigint           not null, primary key
-#  approval       :jsonb            not null
 #  arguments      :jsonb            not null
 #  attempts       :integer          default(0), not null
 #  error          :string
@@ -22,9 +21,11 @@
 #
 class CopilotRunStep < ApplicationRecord
   belongs_to :copilot_run
+  # A run this tool call started in the background, such as a review; the calling run waits for it to finish.
+  has_one :background_run, class_name: 'CopilotRun', dependent: nil, inverse_of: :copilot_run_step
 
   validates :call_id, :name, presence: true
-  validates :status, inclusion: { in: %w[queued running waiting_for_approval succeeded failed] }
+  validates :status, inclusion: { in: %w[queued running succeeded failed] }
 
   def receipt
     { step_id: id, name: name, status: status, arguments: arguments, result: result, error: error, attempts: attempts }
