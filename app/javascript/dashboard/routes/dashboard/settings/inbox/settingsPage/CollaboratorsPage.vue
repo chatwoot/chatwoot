@@ -312,7 +312,16 @@ const navigateToAssignmentPolicyEdit = () => {
   });
 };
 
-const navigateToBilling = () => {
+const handleUpgrade = () => {
+  if (!isOnChatwootCloud.value) {
+    window.open(
+      'https://www.chatwoot.com/pricing/self-hosted-plans',
+      '_blank',
+      'noopener,noreferrer'
+    );
+    return;
+  }
+
   const accountId = route.params.accountId;
   router.push({
     name: 'billing_settings_index',
@@ -630,12 +639,15 @@ onMounted(() => {
                       }}
                     </p>
                     <NextButton
-                      v-if="isOnChatwootCloud"
-                      :label="$t('INBOX_MGMT.ASSIGNMENT.UPGRADE_TO_BUSINESS')"
+                      :label="
+                        isOnChatwootCloud
+                          ? $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_TO_BUSINESS')
+                          : $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_TO_PREMIUM')
+                      "
                       icon="i-lucide-arrow-right"
                       trailing-icon
                       link
-                      @click="navigateToBilling"
+                      @click="handleUpgrade"
                     />
                   </div>
                 </div>
