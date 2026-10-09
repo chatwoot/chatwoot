@@ -1,5 +1,5 @@
 class Voice::Conference::Manager
-  pattr_initialize [:call!, :event!, :participant_label]
+  pattr_initialize [:call!, :event!, :participant_label, :participant_call_sid, :leave_reason]
 
   AGENT_LABEL_PATTERN = /\Aagent-(\d+)-account-(\d+)\z/
 
@@ -75,6 +75,7 @@ class Voice::Conference::Manager
     return if conversation.assigned_entity.present?
 
     Conversations::AssignmentService.new(conversation: conversation, assignee_id: user_id).perform
+    conference_service.remember_claim_assignment(user_id)
   end
 
   # Parses agent user_id from participant_label. Only returns an id when the
@@ -88,13 +89,108 @@ class Voice::Conference::Manager
     match[1].to_i
   end
 
+  # A live call ends when the contact leaves, or when an agent leaves and no other agent
+  # remains: the conference is ended, so nobody is left in it, and the call completes. A
+  # phone can drop its leg without ever sending DELETE conference: the app was killed, the
+  # network went, or the OS ended the call. A phone whose socket is down learns the call
+  # ended only because its own leg is hung up.
+  #
+  # A call still ringing is marked unanswered under the row lock it was read under, so a
+  # join cannot land between the check and the change; a join committed first is seen and
+  # the leave ends the live call instead. So does the leave of the agent who claimed the
+  # call: their leg was in the conference, and its join callback has yet to arrive. A
+  # contact leaving a call that already ended still ends the conference.
+  #
+  # A leg Twilio could not add never joined. On an inbound call its claim is released and
+  # the call rings on for the other agents, with the ring timeout as its end; on an outbound
+  # call the agent was the only one, so the call is unanswered and the conference ended.
   def handle_leave!
-    case call.status
-    when 'ringing'
-      status_manager.process_status_update('no_answer', timestamp: now)
-    when 'in_progress'
-      status_manager.process_status_update('completed', timestamp: now)
+    return handle_failed_add! if failed_add?
+
+    live = leave_finds_live_call?
+    return end_conference! if contact_leaving_answered_call?
+    return unless live
+    return if agent_participant? && other_agents_remain?
+
+    end_conference!
+    status_manager.process_status_update('completed', timestamp: now)
+  end
+
+  # Whether the leave left a live call behind; a call still ringing is marked unanswered
+  def leave_finds_live_call?
+    call.with_lock do
+      next true if call.in_progress? || claimant_leaving_unjoined_call?
+
+      status_manager.process_status_update('no_answer', timestamp: now) if call.ringing?
+      false
     end
+  end
+
+  # The contact's own status callback can end the call before their leave arrives; the
+  # agents still in the conference are hung up all the same
+  def contact_leaving_answered_call?
+    !agent_participant? && call.terminal? && call.accepted_by_agent_id.present?
+  end
+
+  def failed_add?
+    agent_participant? && leave_reason == 'participant_add_failed'
+  end
+
+  def handle_failed_add!
+    user_id = extract_user_id
+    released = call.with_lock do
+      next false unless call.ringing?
+      next true if call.outgoing?
+
+      call.update!(accepted_by_agent_id: nil) if user_id && call.accepted_by_agent_id == user_id
+      false
+    end
+    return release_claim_assignment(user_id) unless released
+
+    status_manager.process_status_update('no_answer', timestamp: now)
+    end_conference!
+  end
+
+  # The conversation the failed claim assigned goes back to unassigned, so it rings for
+  # everyone again; an assignment made otherwise stays
+  def release_claim_assignment(user_id)
+    return unless user_id && call.reload.ring_state['assigned_by_claim'] == user_id
+
+    conversation = call.conversation
+    # Checked under the conversation's lock, so an assignment made meanwhile is kept
+    conversation.with_lock do
+      next unless conversation.assignee_id == user_id
+
+      Conversations::AssignmentService.new(conversation: conversation, assignee_id: nil).perform
+    end
+  end
+
+  def claimant_leaving_unjoined_call?
+    call.ringing? && agent_participant? && call.accepted_by_agent_id.present? &&
+      call.accepted_by_agent_id == extract_user_id
+  end
+
+  # When Twilio cannot say who is left, the call stays live and a job repeats the check:
+  # the contact does not leave a conference on their own, so an unknown answer cannot be
+  # allowed to stand
+  def other_agents_remain?
+    conference_service.agents_remain?(leaving_call_sid: participant_call_sid)
+  rescue StandardError => e
+    Rails.logger.error("[VOICE] call #{call.id}: could not list conference participants: #{e.class}: #{e.message}")
+    Voice::EndConferenceJob.perform_later(call.id, leaving_call_sid: participant_call_sid)
+    true
+  end
+
+  # The conference must end even if Twilio is briefly unreachable, so a failed attempt is retried by a job
+  def end_conference!
+    conference_service.end_conference
+  rescue StandardError => e
+    Rails.logger.error("[VOICE] call #{call.id}: could not end conference after a leave: #{e.class}: #{e.message}")
+    Voice::EndConferenceJob.perform_later(call.id)
+  end
+
+  def conference_service
+    @conference_service ||= Voice::Provider::Twilio::ConferenceService.new(call: call)
   end
 
   def finalize!

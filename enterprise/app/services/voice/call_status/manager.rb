@@ -6,13 +6,7 @@ class Voice::CallStatus::Manager
 
     # Guards run on the locked row, not the caller's copy, so a callback racing an agent hangup can't overwrite its outcome.
     call.with_lock do
-      next if call.status == status
-      # Don't overwrite a terminal status — Twilio's late `completed` events would
-      # otherwise clobber an agent-rejection reason.
-      next if Call::TERMINAL_STATUSES.include?(call.status)
-      # The ring timeout is hanging the caller up and records the outcome itself; the
-      # provider's own status for that hang-up would otherwise land first as `completed`
-      next if call.ringing? && call.ring_timeout_in_progress?
+      next if keep_current_status?(status)
 
       apply_call_updates!(status, duration: duration, timestamp: timestamp)
       call.conversation.update!(last_activity_at: Time.zone.now)
@@ -22,6 +16,19 @@ class Voice::CallStatus::Manager
   end
 
   private
+
+  def keep_current_status?(status)
+    call.status == status ||
+      # Don't overwrite a terminal status — Twilio's late `completed` events would
+      # otherwise clobber an agent-rejection reason.
+      Call::TERMINAL_STATUSES.include?(call.status) ||
+      # The ring timeout is hanging the caller up and records the outcome itself; the
+      # provider's own status for that hang-up would otherwise land first as `completed`
+      (call.ringing? && call.ring_timeout_in_progress?) ||
+      # A call that was answered does not ring again; a late or replayed ringing status
+      # would otherwise undo the answer
+      (status == 'ringing' && call.in_progress?)
+  end
 
   def apply_call_updates!(status, duration:, timestamp:)
     attrs = { status: status }

@@ -151,6 +151,20 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(call.reload.parent_call_sid).to eq(parent_sid)
     end
 
+    it 'keeps a provider status written while the parent call sid is recorded' do
+      parent_sid = 'CA_PARENT_RACE'
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
+                           direction: :outgoing, provider_call_id: parent_sid)
+      call.update!(conference_sid: call.default_conference_sid)
+      stale_copy = Call.find(call.id)
+      Call.where(id: call.id).update_all("meta = meta || '{\"provider_status\": \"ringing\"}'::jsonb") # rubocop:disable Rails/SkipsModelValidations
+
+      stale_copy.merge_meta!('parent_call_sid' => parent_sid)
+
+      expect(call.reload).to have_attributes(parent_call_sid: parent_sid, provider_status: 'ringing')
+    end
+
     it 'raises not found when inbox is not present' do
       expect(Voice::InboundCallBuilder).not_to receive(:perform!)
       post '/twilio/voice/call/19998887777', params: {

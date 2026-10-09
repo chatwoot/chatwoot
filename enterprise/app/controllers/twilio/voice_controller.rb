@@ -48,7 +48,9 @@ class Twilio::VoiceController < ApplicationController
     Voice::Conference::Manager.new(
       call: call,
       event: event,
-      participant_label: participant_label
+      participant_label: participant_label,
+      participant_call_sid: twilio_call_sid,
+      leave_reason: params[:ReasonParticipantLeft]
     ).process
 
     head :no_content
@@ -136,7 +138,7 @@ class Twilio::VoiceController < ApplicationController
     lookup_sid = direction == 'outbound-dial' ? parent_sid || call_sid : call_sid
     call = inbox_calls.find_by!(provider_call_id: lookup_sid)
 
-    call.update!(parent_call_sid: parent_sid) if parent_sid.present? && call.parent_call_sid != parent_sid
+    call.merge_meta!('parent_call_sid' => parent_sid) if parent_sid.present? && call.parent_call_sid != parent_sid
     call
   end
 
@@ -169,7 +171,7 @@ class Twilio::VoiceController < ApplicationController
   def ensure_conference_sid!(call)
     return call.conference_sid if call.conference_sid.present?
 
-    call.update!(conference_sid: call.default_conference_sid)
+    call.merge_meta!('conference_sid' => call.default_conference_sid)
     call.conference_sid
   end
 
@@ -202,7 +204,7 @@ class Twilio::VoiceController < ApplicationController
     return if sid.blank?
     return if call.twilio_conference_sid == sid
 
-    call.update!(twilio_conference_sid: sid)
+    call.merge_meta!('twilio_conference_sid' => sid)
   end
 
   def set_inbox!

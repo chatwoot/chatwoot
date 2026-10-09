@@ -69,6 +69,68 @@ RSpec.describe Voice::StatusUpdateService do
     expect(call.reload.status).to eq('no_answer')
   end
 
+  it 'keeps the provider status beside the call status and rebroadcasts the message when only that changes' do
+    described_class.new(account: account, call_sid: call_sid, call_status: 'initiated').perform
+    touched_at = message.reload.updated_at
+    travel_to(1.second.from_now) do
+      described_class.new(account: account, call_sid: call_sid, call_status: 'ringing').perform
+    end
+
+    expect(call.reload.status).to eq('ringing')
+    expect(call.provider_status).to eq('ringing')
+    expect(call.push_event_data[:provider_status]).to eq('ringing')
+    expect(message.reload.updated_at).to be > touched_at
+  end
+
+  it 'sends one message update when a callback changes both the provider status and the call status' do
+    call.update!(status: 'ringing', provider_status: 'ringing')
+    allow(Rails.configuration.dispatcher).to receive(:dispatch).and_call_original
+
+    described_class.new(account: account, call_sid: call_sid, call_status: 'answered').perform
+
+    expect(call.reload.status).to eq('in_progress')
+    expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(Events::Types::MESSAGE_UPDATED, any_args).once
+  end
+
+  it 'keeps the provider status when another webhook saves the conference sid from an earlier copy of the call' do
+    earlier_copy = Call.find(call.id)
+
+    described_class.new(account: account, call_sid: call_sid, call_status: 'ringing').perform
+    earlier_copy.merge_meta!('twilio_conference_sid' => 'CF123')
+
+    expect(call.reload).to have_attributes(provider_status: 'ringing', twilio_conference_sid: 'CF123')
+  end
+
+  it 'ignores a delayed callback for an earlier stage' do
+    described_class.new(account: account, call_sid: call_sid, call_status: 'ringing').perform
+    described_class.new(account: account, call_sid: call_sid, call_status: 'initiated').perform
+
+    expect(call.reload.provider_status).to eq('ringing')
+  end
+
+  it 'ranks the in-progress aliases with in-progress' do
+    described_class.new(account: account, call_sid: call_sid, call_status: 'answered').perform
+    described_class.new(account: account, call_sid: call_sid, call_status: 'ringing').perform
+
+    expect(call.reload.provider_status).to eq('answered')
+  end
+
+  it 'does not let a delayed live callback follow a terminal one' do
+    described_class.new(account: account, call_sid: call_sid, call_status: 'completed').perform
+    Call.where(id: call.id).update_all(status: 'in_progress') # rubocop:disable Rails/SkipsModelValidations
+    described_class.new(account: account, call_sid: call_sid, call_status: 'ringing').perform
+
+    expect(call.reload.provider_status).to eq('completed')
+  end
+
+  it 'leaves the provider status alone once the call has ended' do
+    call.update!(status: 'completed')
+
+    described_class.new(account: account, call_sid: call_sid, call_status: 'completed').perform
+
+    expect(call.reload.provider_status).to be_nil
+  end
+
   it 'no-ops when no Call matches the provided call_sid' do
     expect do
       described_class.new(account: account, call_sid: 'UNKNOWN', call_status: 'busy').perform

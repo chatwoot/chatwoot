@@ -36,7 +36,7 @@ class Call < ApplicationRecord
   TERMINAL_STATUSES = %w[completed no_answer failed rejected].freeze
 
   store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at,
-                 :accepted_broadcast_at, :recording_enabled
+                 :accepted_broadcast_at, :recording_enabled, :provider_status
 
   # Frontend voice bubbles/stores expect inbound/outbound string values
   DISPLAY_DIRECTION = { 'incoming' => 'inbound', 'outgoing' => 'outbound' }.freeze
@@ -127,6 +127,13 @@ class Call < ApplicationRecord
     TERMINAL_STATUSES.include?(status)
   end
 
+  # Merges keys into `meta` in the database, leaving the other keys as they are there. A
+  # save of `meta` from a copy loaded earlier would otherwise drop keys written since.
+  def merge_meta!(values)
+    self.class.where(id: id).update_all(["meta = COALESCE(meta, '{}'::jsonb) || ?::jsonb", values.to_json]) # rubocop:disable Rails/SkipsModelValidations
+    reload
+  end
+
   # The ring timeout is hanging the caller up. A mark left by an attempt that died long ago
   # no longer counts, so a later sweep can finish the job.
   def ring_timeout_in_progress?
@@ -170,6 +177,7 @@ class Call < ApplicationRecord
       provider: provider,
       direction: direction,
       status: display_status,
+      provider_status: provider_status,
       duration_seconds: duration_seconds,
       end_reason: end_reason,
       conference_sid: conference_sid,

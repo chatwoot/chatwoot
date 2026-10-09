@@ -4,7 +4,7 @@ class Voice::Provider::Twilio::ConferenceService
   def ensure_conference_sid
     return call.conference_sid if call.conference_sid.present?
 
-    call.update!(conference_sid: call.default_conference_sid)
+    call.merge_meta!('conference_sid' => call.default_conference_sid)
     call.conference_sid
   end
 
@@ -16,11 +16,16 @@ class Voice::Provider::Twilio::ConferenceService
   def end_conference
     return if call.conference_sid.blank?
 
-    client = call.inbox.channel.client
-    client
-      .conferences
-      .list(friendly_name: call.conference_sid, status: 'in-progress')
-      .each { |conf| client.conferences(conf.sid).update(status: 'completed') }
+    in_progress_conferences.each { |conf| client.conferences(conf.sid).update(status: 'completed') }
+  end
+
+  # Whether an agent leg other than the one leaving is still on the conference. Legs are
+  # told apart by call SID: an agent who reconnected carries the same label as the leg
+  # that left.
+  def agents_remain?(leaving_call_sid:)
+    return false if call.conference_sid.blank?
+
+    in_progress_conferences.any? { |conf| other_agent_present?(conf.sid, leaving_call_sid) }
   end
 
   # Hangs up legs that never joined the conference (e.g. a PSTN leg still ringing). `completed` ends
@@ -32,7 +37,27 @@ class Voice::Provider::Twilio::ConferenceService
     end
   end
 
+  # The conversation was assigned by this claim, so a leg Twilio then fails to add can
+  # give it back
+  def remember_claim_assignment(user_id)
+    Call.where(id: call.id).update_all(['ring_state = ring_state || ?::jsonb', { 'assigned_by_claim' => user_id }.to_json]) # rubocop:disable Rails/SkipsModelValidations
+  end
+
   private
+
+  def client
+    @client ||= call.inbox.channel.client
+  end
+
+  def in_progress_conferences
+    client.conferences.list(friendly_name: call.conference_sid, status: 'in-progress')
+  end
+
+  def other_agent_present?(conference_sid, leaving_call_sid)
+    client.conferences(conference_sid).participants.list.any? do |participant|
+      participant.label.to_s.start_with?('agent-') && participant.call_sid != leaving_call_sid
+    end
+  end
 
   def claim_call!(user)
     call.with_lock do
@@ -60,5 +85,6 @@ class Voice::Provider::Twilio::ConferenceService
     return if conversation.assigned_entity.present?
 
     Conversations::AssignmentService.new(conversation: conversation, assignee_id: user.id).perform
+    remember_claim_assignment(user.id)
   end
 end
