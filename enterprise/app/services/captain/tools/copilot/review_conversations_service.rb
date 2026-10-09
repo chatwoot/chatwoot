@@ -15,7 +15,7 @@ class Captain::Tools::Copilot::ReviewConversationsService < Captain::Tools::Copi
       raise ArgumentError, 'Screening is unavailable. Retry without match.' unless Captain::Copilot::ScreeningService.available?
     end
 
-    collection = saved_run(collection_id, 'collection')
+    collection = review_source(collection_id)
     review = run.with_lease(lease_token) do
       run.copilot_thread.copilot_runs.create_or_find_by!(copilot_run_step: step) do |record|
         record.assign_attributes(account: run.account, user: run.user, parent_run: collection, kind: 'review',
@@ -27,6 +27,13 @@ class Captain::Tools::Copilot::ReviewConversationsService < Captain::Tools::Copi
   end
 
   private
+
+  def review_source(collection_id)
+    collection = saved_run(collection_id, 'collection')
+    return collection if collection.resource == 'conversations'
+
+    raise ArgumentError, "Reviews read conversations. Call get_data with resource conversations and from #{collection.id} first."
+  end
 
   def validate_text!(value, label, limit)
     return if value.is_a?(String) && value.present? && value.size <= limit

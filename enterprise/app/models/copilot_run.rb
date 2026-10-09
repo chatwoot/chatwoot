@@ -93,6 +93,20 @@ class CopilotRun < ApplicationRecord
     context.fetch('selected_ids', [])
   end
 
+  # A saved set is a collection from get_data or a finished review. A review's records are always conversations.
+  def resource
+    kind == 'collection' ? context.fetch('resource', 'conversations') : 'conversations'
+  end
+
+  def record_ids(only_matched: true)
+    return selected_ids if kind == 'collection'
+    raise ArgumentError, 'The review has not finished yet' unless terminal?
+
+    reviewed = findings.where(status: 'resolved')
+    reviewed = reviewed.where(matched: true) if only_matched
+    reviewed.order(:conversation_id).pluck(:conversation_id)
+  end
+
   def boundary_at
     Time.iso8601(context.fetch('boundary_at'))
   end
