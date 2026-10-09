@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Tidak Tersedia",
     "EMAIL_ADDRESS": "Alamat Email",
     "PHONE_NUMBER": "Nomor Telepon",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Pengenal",
     "COPY_SUCCESSFUL": "Berhasil disalin ke clipboard",
     "COMPANY": "Perusahaan",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

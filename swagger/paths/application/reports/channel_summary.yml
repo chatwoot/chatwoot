@@ -3,6 +3,7 @@ tags:
 operationId: get-channel-summary-report
 summary: Get conversation statistics grouped by channel type
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: |
   Get conversation counts grouped by channel type and status for a given date range.

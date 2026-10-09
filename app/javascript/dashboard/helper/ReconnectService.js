@@ -134,6 +134,9 @@ class ReconnectService {
   };
 
   onReconnect = async () => {
+    // A billing change while the cable was down loses its account.billing_updated
+    // broadcast, and the focus listener never fires if the tab stayed focused.
+    await this.store.dispatch('accounts/get', { silent: true });
     await this.handleRouteSpecificFetch();
     await this.revalidateCaches();
     emitter.emit(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);

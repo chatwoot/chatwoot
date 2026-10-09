@@ -1,10 +1,13 @@
 <script setup>
-import { computed, onMounted, ref, nextTick } from 'vue';
+import { computed, watch, ref, nextTick } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { usePolicy } from 'dashboard/composables/usePolicy';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
@@ -13,22 +16,30 @@ import CreateCustomToolDialog from 'dashboard/components-next/captain/pageCompon
 import CustomToolCard from 'dashboard/components-next/captain/pageComponents/customTool/CustomToolCard.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import ToolsetInstallFlow from 'dashboard/components-next/captain/pageComponents/customTool/ToolsetInstallFlow.vue';
+import AssistantToolsBanner from 'dashboard/components-next/captain/pageComponents/customTool/AssistantToolsBanner.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+import Policy from 'dashboard/components/policy.vue';
 
 const store = useStore();
+const route = useRoute();
+const router = useRouter();
+const assistantId = computed(() => route.params.assistantId);
 const { t } = useI18n();
-const { isFeatureFlagEnabled, shouldShowPaywall } = usePolicy();
-
-const SOFT_LIMIT = 10;
-const isV2 = computed(() => isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_V2));
+const { shouldShowPaywall } = usePolicy();
+const { isAdmin } = useAdmin();
 
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
-const customTools = useMapGetter('captainCustomTools/getRecords');
-const isFetching = computed(() => uiFlags.value.fetchingList);
-const customToolsMeta = useMapGetter('captainCustomTools/getMeta');
-
-const showSoftLimitWarning = computed(
-  () => !isV2.value && customToolsMeta.value.totalCount > SOFT_LIMIT
+const globalConfig = useMapGetter('globalConfig/get');
+const { run, isPending: isFetchingTools } = useAbortableRequest();
+const records = useMapGetter('captainCustomTools/getRecords');
+const customTools = computed(() =>
+  records.value.filter(tool => tool.assistant_id === Number(assistantId.value))
 );
+const isFetching = computed(
+  () => uiFlags.value.fetchingList || isFetchingTools.value
+);
+const customToolsMeta = useMapGetter('captainCustomTools/getMeta');
 
 const createDialogRef = ref(null);
 const deleteDialogRef = ref(null);
@@ -66,11 +77,25 @@ const setTogglePending = (id, isPending) => {
   pendingToggleIds.value = pendingIds;
 };
 
-const fetchCustomTools = (page = 1) => {
-  store.dispatch('captainCustomTools/get', { page });
-};
+const fetchCustomTools = (page = 1) =>
+  run(signal =>
+    store.dispatch('captainCustomTools/get', {
+      assistantId: assistantId.value,
+      page,
+      signal,
+    })
+  );
 
 const onPageChange = page => fetchCustomTools(page);
+
+const openCatalog = () =>
+  router.push({
+    name: 'captain_tools_explore',
+    params: {
+      accountId: route.params.accountId,
+      assistantId: assistantId.value,
+    },
+  });
 
 const openCreateDialog = () => {
   dialogType.value = 'create';
@@ -78,8 +103,8 @@ const openCreateDialog = () => {
   nextTick(() => createDialogRef.value.dialogRef.open());
 };
 
-const handleEdit = tool => {
-  dialogType.value = 'edit';
+const openToolPanel = (type, tool) => {
+  dialogType.value = type;
   selectedTool.value = tool;
   nextTick(() => createDialogRef.value.dialogRef.open());
 };
@@ -91,8 +116,8 @@ const handleDelete = tool => {
 
 const handleAction = ({ action, id }) => {
   const tool = customTools.value.find(item => item.id === id);
-  if (action === 'edit') {
-    handleEdit(tool);
+  if (action === 'edit' || action === 'view') {
+    openToolPanel(action, tool);
   } else if (action === 'delete') {
     handleDelete(tool);
   }
@@ -100,7 +125,11 @@ const handleAction = ({ action, id }) => {
 
 const updateCustomToolStatus = async ({ id, enabled }) => {
   try {
-    await store.dispatch('captainCustomTools/update', { id, enabled });
+    await store.dispatch('captainCustomTools/update', {
+      id,
+      enabled,
+      assistantId: assistantId.value,
+    });
     const successMessage = enabled
       ? t('CAPTAIN.CUSTOM_TOOLS.TOGGLE.ENABLED')
       : t('CAPTAIN.CUSTOM_TOOLS.TOGGLE.DISABLED');
@@ -119,7 +148,10 @@ const toggleCustomTool = async ({ id, enabled }) => {
 
   if (!enabled) {
     try {
-      const tool = await store.dispatch('captainCustomTools/show', id);
+      const tool = await store.dispatch('captainCustomTools/show', {
+        id,
+        assistantId: assistantId.value,
+      });
       if (tool.enabled_scenarios_count > 0) {
         pendingDisable.value = {
           id,
@@ -165,11 +197,25 @@ const handleDialogClose = () => {
   selectedTool.value = null;
 };
 
+const handleToolCreated = () => fetchCustomTools();
+
+// Install links land here with ?install=<source>; another assistant's tools load when the route changes
+const onToolsetInstalled = installedAssistantId => {
+  if (installedAssistantId === Number(assistantId.value)) fetchCustomTools();
+};
+
+const finishToolsetInstall = installedAssistantId =>
+  router.replace({
+    name: 'captain_tools_index',
+    params: {
+      accountId: route.params.accountId,
+      assistantId: installedAssistantId,
+    },
+  });
+
 const onDeleteSuccess = () => {
   selectedTool.value = null;
-  // Check if page will be empty after deletion
-  if (customTools.value.length === 1 && customToolsMeta.value.page > 1) {
-    // Go to previous page if current page will be empty
+  if (customTools.value.length === 0 && customToolsMeta.value.page > 1) {
     onPageChange(customToolsMeta.value.page - 1);
   } else {
     // Refresh current page
@@ -177,11 +223,19 @@ const onDeleteSuccess = () => {
   }
 };
 
-onMounted(() => {
-  if (!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)) {
-    fetchCustomTools();
-  }
-});
+// On a full reload account features load after mount, so the paywall briefly shows;
+// watching it too fetches the tools once access resolves, not only when the assistant changes
+const showPaywall = computed(() =>
+  shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
+);
+
+watch(
+  [assistantId, showPaywall],
+  () => {
+    if (!showPaywall.value) fetchCustomTools();
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
@@ -199,6 +253,25 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @click="openCreateDialog"
   >
+    <template #headerActions>
+      <Policy
+        v-if="
+          globalConfig.captainToolsManifestEnabled &&
+          !shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
+        "
+        :permissions="['administrator']"
+      >
+        <Button
+          :label="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.BUTTON')"
+          icon="i-lucide-blocks"
+          size="sm"
+          faded
+          slate
+          @click="openCatalog"
+        />
+      </Policy>
+    </template>
+
     <template #paywall>
       <CaptainPaywall feature-prefix="CAPTAIN.CUSTOM_TOOLS" />
     </template>
@@ -207,15 +280,12 @@ onMounted(() => {
       <CustomToolsPageEmptyState @click="openCreateDialog" />
     </template>
 
+    <template #controls>
+      <AssistantToolsBanner />
+    </template>
+
     <template #body>
       <div class="flex flex-col gap-4">
-        <div
-          v-if="showSoftLimitWarning"
-          class="flex items-center gap-2 px-4 py-3 text-sm rounded-lg bg-n-amber-2 text-n-amber-11"
-        >
-          <span class="i-lucide-triangle-alert size-4 shrink-0" />
-          {{ $t('CAPTAIN.CUSTOM_TOOLS.SOFT_LIMIT_WARNING') }}
-        </div>
         <CustomToolCard
           v-for="tool in customTools"
           :id="tool.id"
@@ -227,6 +297,7 @@ onMounted(() => {
           :auth-type="tool.auth_type"
           :param-schema="tool.param_schema"
           :enabled="tool.enabled"
+          :source-metadata="tool.source_metadata"
           :is-updating="pendingToggleIds.has(tool.id)"
           :created-at="tool.created_at"
           :updated-at="tool.updated_at"
@@ -237,18 +308,28 @@ onMounted(() => {
     </template>
   </PageLayout>
 
+  <ToolsetInstallFlow
+    v-if="isAdmin && !showPaywall && route.query.install"
+    :source="route.query.install"
+    :assistant-id="assistantId"
+    @installed="onToolsetInstalled"
+    @done="finishToolsetInstall"
+  />
+
   <CreateCustomToolDialog
     v-if="dialogType"
     ref="createDialogRef"
     :type="dialogType"
     :selected-tool="selectedTool"
     @close="handleDialogClose"
+    @created="handleToolCreated"
   />
 
   <DeleteDialog
     v-if="selectedTool"
     ref="deleteDialogRef"
     :entity="selectedTool"
+    :delete-payload="{ id: selectedTool.id, assistantId }"
     type="CustomTools"
     translation-key="CUSTOM_TOOLS"
     @delete-success="onDeleteSuccess"

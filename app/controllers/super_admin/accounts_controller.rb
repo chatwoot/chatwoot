@@ -125,7 +125,7 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
 
   def suspension_history_with_changes
     history = requested_resource.suspension_history.map(&:dup)
-    return history << new_suspension_event if requested_resource.active?
+    return history << new_suspension_event.merge('suspended_by' => current_super_admin.id) if requested_resource.active?
     return append_legacy_suspension(history) if history.empty?
     return unless suspension_metadata_changed?(history.last)
 

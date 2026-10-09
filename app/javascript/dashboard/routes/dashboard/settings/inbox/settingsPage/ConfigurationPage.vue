@@ -385,7 +385,6 @@ export default {
     </div>
     <ImapSettings v-if="!isForwardingEmailInbox" :inbox="inbox" />
     <SmtpSettings
-      v-if="isForwardingEmailInbox || inbox.imap_enabled"
       :inbox="inbox"
       :class="{
         'border-t border-n-weak pt-4 mt-2': isForwardingEmailInbox,

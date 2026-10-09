@@ -11,6 +11,7 @@ vi.mock('dashboard/composables/useAccount', () => ({
   useAccount: () => ({ currentAccount: account }),
 }));
 vi.mock('dashboard/composables/store', () => ({
+  useMapGetter: () => globalConfig,
   useStoreGetters: () => ({
     'globalConfig/get': globalConfig,
     'globalConfig/isAChatwootInstance': ref(false),

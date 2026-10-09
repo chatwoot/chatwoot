@@ -6,7 +6,7 @@ RSpec.describe Captain::ReplySuggestionService do
 
     before do
       allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
-      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(false)
+      allow(ChatwootApp).to receive(:enterprise?).and_return(true)
       allow(ChatwootHub).to receive(:pricing_plan).and_return('premium')
     end
 

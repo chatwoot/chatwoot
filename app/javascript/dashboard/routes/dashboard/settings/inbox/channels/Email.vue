@@ -11,11 +11,13 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
+import { useBranding } from 'shared/composables/useBranding';
 
 const provider = ref('');
 
 const getters = useStoreGetters();
 const { t } = useI18n();
+const { replaceInstallationName } = useBranding();
 const { currentAccount } = useAccount();
 
 const globalConfig = getters['globalConfig/get'];
@@ -96,7 +98,7 @@ function onClick(emailProvider) {
         v-for="emailProvider in emailProviderList"
         :key="emailProvider.key"
         :title="emailProvider.title"
-        :description="emailProvider.description"
+        :description="replaceInstallationName(emailProvider.description)"
         :icon="emailProvider.icon"
         :disabled="!emailProvider.isEnabled"
         @click="() => onClick(emailProvider)"

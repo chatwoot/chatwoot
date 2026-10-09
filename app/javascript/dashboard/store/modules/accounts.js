@@ -67,12 +67,12 @@ export const actions = {
       features: data.features,
     });
   },
-  get: async ({ commit }, { silent } = {}) => {
+  get: async ({ commit }, { silent, accountId } = {}) => {
     if (!silent) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: true });
     }
     try {
-      const response = await AccountAPI.get();
+      const response = await AccountAPI.get(accountId);
       commit(types.default.ADD_ACCOUNT, response.data);
     } catch {
       // silent failure

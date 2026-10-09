@@ -1,0 +1,52 @@
+<%
+  browser_icons = {
+    "Chrome" => "i-logos-chrome", "Firefox" => "i-logos-firefox", "Safari" => "i-logos-safari",
+    "Microsoft Edge" => "i-logos-microsoft-edge", "Opera" => "i-logos-opera", "Brave" => "i-logos-brave"
+  }
+%>
+
+<%= render "card", title: t("#{scope}.web_sessions.heading"), count: @web_sessions.size do %>
+  <% if @web_sessions.empty? %>
+    <%= render "empty", icon: "i-lucide-monitor", title: t("#{scope}.web_sessions.empty.title"), description: t("#{scope}.web_sessions.empty.description") %>
+  <% else %>
+    <p class="flex items-start gap-1.5 px-4 py-3 text-label-small text-n-slate-11">
+      <span class="i-lucide-info size-3.5 shrink-0 translate-y-px"></span>
+      <%= t("#{scope}.web_sessions.description") %>
+    </p>
+    <div class="overflow-x-auto rounded-b-xl border-t border-n-weak">
+      <%= render "table" do %>
+        <thead>
+          <tr>
+            <% %w[browser browser_version os os_version first_seen last_active].each do |column| %>
+              <th><%= t("#{scope}.web_sessions.columns.#{column}") %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% @web_sessions.each do |session| %>
+            <tr>
+              <td>
+                <span class="inline-flex items-center gap-1.5">
+                  <span class="<%= browser_icons.fetch(session.browser_name.to_s, 'i-lucide-globe text-n-slate-11') %> size-4 shrink-0"></span>
+                  <%= session.browser_name.presence || '—' %>
+                </span>
+              </td>
+              <td class="font-mono text-xs"><%= session.browser_version.presence || '—' %></td>
+              <td><%= session.platform_name.presence || '—' %></td>
+              <td class="font-mono text-xs"><%= session.platform_version.presence || '—' %></td>
+              <td class="whitespace-nowrap tabular-nums text-n-slate-11"><%= session.created_at.strftime('%Y-%m-%d') %></td>
+              <td class="whitespace-nowrap tabular-nums">
+                <% if session.last_activity_at %>
+                  <%= session.last_activity_at.strftime('%Y-%m-%d %H:%M') %>
+                  <span class="text-xs text-n-slate-10">(<%= t("super_admin.record.time_ago", time: time_ago_in_words(session.last_activity_at)) %>)</span>
+                <% else %>
+                  <span class="text-n-slate-10">—</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

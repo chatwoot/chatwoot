@@ -1,0 +1,181 @@
+<%
+  field_label = "text-label-small text-n-slate-11"
+  type_icons = { "fcm" => "i-lucide-smartphone", "browser_push" => "i-lucide-globe" }
+%>
+
+<%= render "card", title: t("#{scope}.push_settings.heading") do %>
+  <p class="flex items-start gap-1.5 px-4 py-3 text-label-small text-n-slate-11">
+    <span class="i-lucide-info size-3.5 shrink-0 translate-y-px"></span>
+    <%= t("#{scope}.push_settings.description") %>
+  </p>
+
+  <% if @notification_settings.empty? %>
+    <%= render "empty", icon: "i-lucide-bell-off", title: t("#{scope}.push_settings.empty.title"), description: t("#{scope}.push_settings.empty.description") %>
+  <% else %>
+    <div class="overflow-x-auto border-t border-n-weak">
+      <%= render "table" do %>
+        <thead>
+          <tr>
+            <th><%= t("#{scope}.push_settings.notification_type") %></th>
+            <% @notification_settings.each do |setting| %>
+              <th>
+                <span class="inline-flex items-center gap-1.5" title="<%= account_label(setting) %>">
+                  <span class="i-lucide-building-2 size-3.5 shrink-0"></span>
+                  <span class="max-w-40 truncate"><%= account_label(setting) %></span>
+                  <span class="shrink-0 font-normal normal-case tracking-normal text-n-slate-9"><%= t("#{scope}.user.id", id: setting.account_id) %></span>
+                </span>
+              </th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% @push_types.each do |type| %>
+            <tr>
+              <td><%= push_type_label(type) %></td>
+              <% @notification_settings.each do |setting| %>
+                <td>
+                  <% case push_state(setting, type) %>
+                  <% when :unavailable %>
+                    <span class="text-n-slate-9" title="<%= t("#{scope}.push_settings.sla_unavailable") %>">—</span>
+                  <% when :on %>
+                    <input type="checkbox" class="<%= ui(:checkbox, "pointer-events-none") %>" checked tabindex="-1" aria-disabled="true">
+                  <% else %>
+                    <input type="checkbox" class="<%= ui(:checkbox, "pointer-events-none") %>" tabindex="-1" aria-disabled="true">
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      <% end %>
+    </div>
+
+    <% if @accounts_without_push.any? %>
+      <div class="border-t border-n-weak p-4">
+        <%= render "notice", icon: "i-lucide-bell-off" do %>
+          <%= t("#{scope}.push_settings.none_enabled",
+                count: @accounts_without_push.size,
+                names: @accounts_without_push.map { |setting| account_label(setting) }.join(', ')) %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= render "card", title: t("#{scope}.devices.heading"), count: @subscriptions.size do %>
+  <% if @subscriptions.empty? %>
+    <%= render "empty", icon: "i-lucide-bell-ring", title: t("#{scope}.devices.empty.title"), description: t("#{scope}.devices.empty.description") %>
+  <% else %>
+    <%= form_with url: super_admin_user_diagnostics_path, method: :post, local: true, class: 'space-y-4 p-4' do |f| %>
+      <%= f.hidden_field :user_id, value: @user.id %>
+
+      <%= render "notice" do %>
+        <%= t("#{scope}.push.real_push_warning") %>
+      <% end %>
+
+      <div class="grid max-w-2xl gap-3">
+        <div>
+          <%= label_tag :push_title, t("#{scope}.push.title_label"), class: field_label %>
+          <%= text_field_tag :push_title,
+                             params[:push_title].presence || Notification::PushTestService.default_title,
+                             class: ui(:input, "mt-1") %>
+        </div>
+        <div>
+          <%= label_tag :push_body, t("#{scope}.push.body_label"), class: field_label %>
+          <%= text_area_tag :push_body,
+                            params[:push_body].presence || Notification::PushTestService.default_body,
+                            rows: 2,
+                            class: ui(:input, "mt-1") %>
+          <p class="mt-1 <%= field_label %>"><%= t("#{scope}.push.body_hint") %></p>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-n-weak">
+        <%= render "table" do %>
+          <thead>
+            <tr>
+              <th><input type="checkbox" class="<%= ui(:checkbox) %>" aria-label="<%= t("super_admin.actions.select_all") %>" data-check-toggle></th>
+              <% %w[id type device token details registered last_updated].each do |column| %>
+                <th><%= t("#{scope}.devices.columns.#{column}") %></th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @subscriptions.each do |subscription| %>
+              <% details = device_details(subscription) %>
+              <tr class="align-top">
+                <td><%= check_box_tag 'subscription_ids[]', subscription.id, false, id: "subscription_#{subscription.id}", class: ui(:checkbox) %></td>
+                <td class="tabular-nums"><%= subscription.id %></td>
+                <td>
+                  <span class="inline-flex items-center gap-1.5 whitespace-nowrap">
+                    <span class="<%= type_icons.fetch(subscription.subscription_type, 'i-lucide-bell') %> size-4 shrink-0 text-n-slate-11"></span>
+                    <%= subscription.subscription_type %>
+                  </span>
+                </td>
+                <td class="break-all font-mono text-xs"><%= device_identifier(subscription) || tag.span('—', class: 'text-n-slate-10') %></td>
+                <td class="break-all font-mono text-xs"><%= device_token_tail(subscription) || tag.span('—', class: 'text-n-slate-10') %></td>
+                <td class="text-xs">
+                  <% if details.present? %>
+                    <% details.each do |key, value| %>
+                      <div><span class="text-n-slate-11"><%= key %>:</span> <span class="font-mono"><%= value.to_s.truncate(40) %></span></div>
+                    <% end %>
+                  <% else %>
+                    <span class="text-n-slate-10">—</span>
+                  <% end %>
+                </td>
+                <td class="whitespace-nowrap tabular-nums"><%= subscription.created_at.strftime('%Y-%m-%d %H:%M') %></td>
+                <td class="whitespace-nowrap tabular-nums">
+                  <%= subscription.updated_at.strftime('%Y-%m-%d %H:%M') %>
+                  <span class="text-xs text-n-slate-10">(<%= t("super_admin.record.time_ago", time: time_ago_in_words(subscription.updated_at)) %>)</span>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        <% end %>
+      </div>
+      <p class="flex items-start gap-1.5 <%= field_label %>">
+        <span class="i-lucide-info size-3.5 shrink-0 translate-y-px"></span>
+        <%= t("#{scope}.devices.build_number_note") %>
+      </p>
+
+      <div class="flex flex-wrap gap-2">
+        <%= render "button", label: t("#{scope}.push.send_test"), submit: f %>
+        <%= render "button",
+                   label: t("#{scope}.push.delete_selected"),
+                   variant: :danger,
+                   submit: f,
+                   formaction: destroy_subscriptions_super_admin_user_diagnostics_path,
+                   formmethod: 'post',
+                   data: { confirm: t("#{scope}.push.delete_confirm") } %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @results.present? %>
+  <%= render "card", title: t("#{scope}.push.results_heading") do %>
+    <div class="overflow-x-auto rounded-b-xl">
+      <%= render "table" do %>
+        <thead>
+          <tr>
+            <% %w[id type device token status details].each do |column| %>
+              <th><%= t("#{scope}.push.results_columns.#{column}") %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% @results.each do |result| %>
+            <tr class="align-top">
+              <td class="tabular-nums"><%= result[:id] %></td>
+              <td><%= result[:type] %></td>
+              <td class="break-all font-mono text-xs"><%= result[:device] %></td>
+              <td class="break-all font-mono text-xs"><%= result[:token_tail] %></td>
+              <td><%= render "badge", label: result[:status].to_s.titleize, tone: { success: :success, failure: :danger }.fetch(result[:status], :neutral) %></td>
+              <td class="whitespace-pre-wrap break-all font-mono text-xs"><%= result[:message] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

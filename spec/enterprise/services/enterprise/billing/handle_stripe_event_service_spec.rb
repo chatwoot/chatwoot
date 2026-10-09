@@ -168,6 +168,33 @@ describe Enterprise::Billing::HandleStripeEventService do
     end
   end
 
+  context 'when a Stripe customer id belongs to a Shopify-billed account' do
+    let!(:account) do
+      create(
+        :account,
+        internal_attributes: { 'billing_provider' => 'shopify' },
+        custom_attributes: { 'stripe_customer_id' => 'cus_123' }
+      )
+    end
+
+    it 'ignores subscription updates' do
+      allow(subscription).to receive(:[]).with('plan')
+                                         .and_return({ 'id' => 'test', 'product' => 'plan_id_startups', 'name' => 'Startups' })
+      previous_attributes = account.custom_attributes.deep_dup
+
+      stripe_event_service.new.perform(event: event)
+
+      expect(account.reload.custom_attributes).to eq(previous_attributes)
+    end
+
+    it 'ignores subscription deletions' do
+      allow(event).to receive(:type).and_return('customer.subscription.deleted')
+      expect(Enterprise::Billing::CreateStripeCustomerService).not_to receive(:new)
+
+      stripe_event_service.new.perform(event: event)
+    end
+  end
+
   describe 'plan-specific feature management' do
     context 'with default plan (Hacker)' do
       it 'disables all premium features' do
@@ -178,7 +205,7 @@ describe Enterprise::Billing::HandleStripeEventService do
         described_class::STARTUP_PLAN_FEATURES.each do |feature|
           account.enable_features(feature)
         end
-        account.enable_features('captain_integration_v2')
+        account.enable_features('captain_integration')
         account.enable_features(*described_class::BUSINESS_PLAN_FEATURES)
         account.enable_features(*described_class::ENTERPRISE_PLAN_FEATURES)
         account.save!
@@ -197,7 +224,7 @@ describe Enterprise::Billing::HandleStripeEventService do
         all_features.each do |feature|
           expect(account).not_to be_feature_enabled(feature)
         end
-        expect(account).not_to be_feature_enabled('captain_integration_v2')
+        expect(account).not_to be_feature_enabled('captain_integration')
       end
     end
 
@@ -230,7 +257,7 @@ describe Enterprise::Billing::HandleStripeEventService do
 
         stripe_event_service.new.perform(event: event)
 
-        expect(account.reload).to be_feature_enabled('captain_integration_v2')
+        expect(account.reload).to be_feature_enabled('captain_integration')
       end
 
       it 'enables Captain V2 for new paid cloud accounts during reconciliation' do
@@ -241,7 +268,7 @@ describe Enterprise::Billing::HandleStripeEventService do
 
         stripe_event_service.new.perform(event: event)
 
-        expect(new_account.reload).to be_feature_enabled('captain_integration_v2')
+        expect(new_account.reload).to be_feature_enabled('captain_integration')
       end
     end
 

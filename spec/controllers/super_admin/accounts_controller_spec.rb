@@ -43,11 +43,11 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(summaries).not_to include('All features', 'Captain models')
         expect(routing_panel.text.squish).to include('Customer features', 'Internal features')
         expect(completion_card.text.squish).to include('Inactive conversation completion evaluator', 'GPT-5.2', 'Account override')
-        expect(response.body).to include('Editor', 'OpenAI', 'openai', 'gpt-4.1', 'Label suggestion', 'Default')
+        expect(response.body).to include('Editor', 'OpenAI', 'openai', 'gpt-4.1', 'Help center query translation', 'Default')
       end
 
       it 'shows the installation model for internal routing on self-hosted Enterprise', if: ChatwootApp.enterprise? do
-        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
         sign_in(super_admin, scope: :super_admin)
 
@@ -69,7 +69,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
   describe 'GET /super_admin/accounts/{account_id}/edit' do
     context 'when it is an authenticated user' do
       it 'renders separate Captain model selectors for customer and internal AI features', if: ChatwootApp.enterprise? do
-        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
         account.update!(captain_models: { 'editor' => 'gpt-4.1' })
         sign_in(super_admin, scope: :super_admin)
@@ -97,7 +97,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
       end
 
       it 'shows the Captain V2 assistant default in the model selector', if: ChatwootApp.enterprise? do
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
         sign_in(super_admin, scope: :super_admin)
 
         get "/super_admin/accounts/#{account.id}/edit"
@@ -155,13 +155,13 @@ RSpec.describe 'Super Admin accounts API', type: :request do
                   locale: account.locale,
                   status: account.status,
                   captain_models: {
-                    label_suggestion: 'gpt-5.1'
+                    help_center_query_translation: 'gpt-5.1'
                   }
                 }
               }
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to include('not a valid model for label_suggestion')
+        expect(response.body).to include('not a valid model for help_center_query_translation')
         expect(account.reload.captain_models).to eq(existing_captain_models)
       end
     end
