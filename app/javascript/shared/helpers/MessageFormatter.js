@@ -40,6 +40,26 @@ const imgResizeManager = md => {
   });
 };
 
+const bareUrlHardBreaks = md => {
+  md.inline.ruler.before('linkify', 'bare-url-hard-break', (state, silent) => {
+    if (
+      silent ||
+      !md.options.linkify ||
+      state.linkLevel > 0 ||
+      !/(?:^|[^\w])https?$/.test(state.pending)
+    ) {
+      return false;
+    }
+    const match = state.src.slice(state.pos).match(/^:\/\/[^\s\\]+\\(?=\n)/);
+    if (match) {
+      const index = state.pos + match[0].length - 1;
+      state.src = `${state.src.slice(0, index)} ${state.src.slice(index)}`;
+      state.posMax += 1;
+    }
+    return false;
+  });
+};
+
 // Empty table cells collapse to zero height; fill them with an nbsp like the email renderer.
 const fillEmptyTableCells = md => {
   md.core.ruler.after('inline', 'fill-empty-table-cells', state => {
@@ -66,6 +86,7 @@ const createMarkdownInstance = (linkify = true) => {
     maxNesting: 20,
   })
     .disable(['lheading'])
+    .use(bareUrlHardBreaks)
     .use(mentionPlugin)
     .use(imgResizeManager)
     .use(fillEmptyTableCells)
