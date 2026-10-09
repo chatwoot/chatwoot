@@ -30,6 +30,11 @@ class Channel::Whatsapp < ApplicationRecord
   EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
   encrypts :business_management_token if Chatwoot.encryption_configured?
 
+  has_one :whatsapp_history_sync,
+          foreign_key: :whatsapp_channel_id,
+          dependent: :destroy_async,
+          inverse_of: :channel
+
   # default at the moment is 360dialog lets change later.
   PROVIDERS = %w[default whatsapp_cloud].freeze
   before_validation :ensure_webhook_verify_token

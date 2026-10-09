@@ -27,7 +27,9 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   end
 
   def process_events(channel, params, locked_sender_id = nil)
-    if message_echo_event?(params)
+    if history_sync_event?(params)
+      handle_history_sync(channel, params)
+    elsif message_echo_event?(params)
       handle_message_echo(channel, params)
     else
       handle_message_events(channel, params, locked_sender_id)
@@ -79,6 +81,14 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   # - contacts[] contains the same contact identifiers
   def message_echo_event?(params)
     params.dig(:entry, 0, :changes, 0, :field) == 'smb_message_echoes'
+  end
+
+  def history_sync_event?(params)
+    params.dig(:entry, 0, :changes, 0, :field) == 'history'
+  end
+
+  def handle_history_sync(channel, params)
+    Whatsapp::HistorySync::IngestService.new(channel: channel, params: params).perform
   end
 
   def handle_message_echo(channel, params)
