@@ -38,19 +38,22 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   private
 
   def render_create_error_not_confirmed
-    if @resource && params[:password].present? && !@resource.valid_password?(params[:password])
-      return render_create_error_bad_credentials
-    end
-
-    if @resource && @resource.account_users.present? && !@resource.account_users.exists?(active: true)
-      return render_create_error_account_suspended
-    end
+    return render_create_error_bad_credentials if invalid_credentials_for_not_confirmed?
+    return render_create_error_account_suspended if suspended_resource?
 
     render_error(
       :unauthorized,
       I18n.t('devise_token_auth.sessions.not_confirmed', email: @resource.email),
       error_code: 'user_not_confirmed'
     )
+  end
+
+  def invalid_credentials_for_not_confirmed?
+    @resource && params[:password].present? && !@resource.valid_password?(params[:password])
+  end
+
+  def suspended_resource?
+    @resource&.account_users.present? && !@resource.account_users.exists?(active: true)
   end
 
   def render_create_error_account_suspended

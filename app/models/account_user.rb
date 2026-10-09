@@ -37,9 +37,9 @@ class AccountUser < ApplicationRecord
   accepts_nested_attributes_for :account
 
   after_create_commit :notify_creation, :create_notification_setting
+  after_update :handle_active_status_change, if: :saved_change_to_active?
   after_destroy :notify_deletion, :remove_user_from_account
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
-  after_update :handle_active_status_change, if: :saved_change_to_active?
 
   scope :active, -> { where(active: true) }
   scope :suspended, -> { where(active: false) }
@@ -104,9 +104,7 @@ class AccountUser < ApplicationRecord
   end
 
   def unassign_active_conversations
-    # rubocop:disable Rails/SkipsModelValidations
-    user.assigned_conversations.where(account: account, status: [:open, :pending]).in_batches.update_all(assignee_id: nil)
-    # rubocop:enable Rails/SkipsModelValidations
+    user.assigned_conversations.where(account: account, status: [:open, :pending]).in_batches.update_all(assignee_id: nil) # rubocop:disable Rails/SkipsModelValidations
     ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).conversation_changed!
   end
 

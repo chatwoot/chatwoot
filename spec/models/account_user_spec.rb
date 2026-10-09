@@ -85,8 +85,8 @@ RSpec.describe AccountUser do
   describe 'active and suspended states' do
     it 'defaults to active' do
       expect(account_user.active).to be(true)
-      expect(AccountUser.active).to include(account_user)
-      expect(AccountUser.suspended).not_to include(account_user)
+      expect(described_class.active).to include(account_user)
+      expect(described_class.suspended).not_to include(account_user)
     end
 
     it 'suspends agent and unassigns active conversations' do
@@ -96,7 +96,7 @@ RSpec.describe AccountUser do
       account_user.suspend!
 
       expect(account_user.reload.active).to be(false)
-      expect(AccountUser.suspended).to include(account_user)
+      expect(described_class.suspended).to include(account_user)
       expect(conversation.reload.assignee_id).to be_nil
       expect(resolved_conversation.reload.assignee_id).to eq(account_user.user.id)
     end
@@ -107,7 +107,7 @@ RSpec.describe AccountUser do
 
       account_user.reactivate!
       expect(account_user.reload.active).to be(true)
-      expect(AccountUser.active).to include(account_user)
+      expect(described_class.active).to include(account_user)
     end
   end
 end
