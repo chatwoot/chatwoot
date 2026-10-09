@@ -52,12 +52,12 @@ Rails.application.reloader.to_prepare do
   end
 
   Facebook::Messenger::Bot.on :delivery do |delivery|
-    Rails.logger.info "Recieved delivery status #{delivery.to_json}"
+    Rails.logger.info "Received delivery status #{delivery.to_json}"
     Webhooks::FacebookDeliveryJob.perform_later(delivery.to_json)
   end
 
   Facebook::Messenger::Bot.on :read do |read|
-    Rails.logger.info "Recieved read status  #{read.to_json}"
+    Rails.logger.info "Received read status #{read.to_json}"
     Webhooks::FacebookDeliveryJob.perform_later(read.to_json)
   end
 
