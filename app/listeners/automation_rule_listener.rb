@@ -90,7 +90,7 @@ class AutomationRuleListener < BaseListener
       event_name: event_name,
       account_id: account.id,
       active: true
-    )
+    ).order(:id)
   end
 
   def performed_by_automation?(event)
