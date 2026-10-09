@@ -9,6 +9,7 @@
     "UPDATE_SUCCESS": "Your profile has been updated successfully",
     "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "EMAIL_CONFIRMATION_PENDING": "We sent a confirmation link to {email}. Your current email keeps working until you click it.",
     "FORM": {
       "PICTURE": "Profile Picture",
       "AVATAR": "Profile Image",
