@@ -243,8 +243,8 @@ export const IFrameHelper = {
       removeUnreadClass();
     },
 
-    onBubbleToggle: isOpen => {
-      IFrameHelper.sendMessage('toggle-open', { isOpen });
+    onBubbleToggle: (isOpen, isUserInitiated = false) => {
+      IFrameHelper.sendMessage('toggle-open', { isOpen, isUserInitiated });
       if (isOpen) {
         IFrameHelper.pushEvent('webwidget.triggered');
       }
