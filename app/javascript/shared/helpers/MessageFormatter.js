@@ -40,6 +40,26 @@ const imgResizeManager = md => {
   });
 };
 
+const bareUrlHardBreaks = md => {
+  md.inline.ruler.before('linkify', 'bare-url-hard-break', (state, silent) => {
+    if (
+      silent ||
+      !md.options.linkify ||
+      state.linkLevel > 0 ||
+      !/(?:^|[^\w])https?$/.test(state.pending)
+    ) {
+      return false;
+    }
+    const match = state.src.slice(state.pos).match(/^:\/\/[^\s\\]+\\(?=\n)/);
+    if (match) {
+      const index = state.pos + match[0].length - 1;
+      state.src = `${state.src.slice(0, index)} ${state.src.slice(index)}`;
+      state.posMax += 1;
+    }
+    return false;
+  });
+};
+
 const createMarkdownInstance = (linkify = true) => {
   return MarkdownIt({
     html: false,
@@ -52,6 +72,7 @@ const createMarkdownInstance = (linkify = true) => {
     maxNesting: 20,
   })
     .disable(['lheading'])
+    .use(bareUrlHardBreaks)
     .use(mentionPlugin)
     .use(imgResizeManager)
     .use(mila, {
@@ -73,32 +94,6 @@ const createMarkdownInstance = (linkify = true) => {
 const COLWIDTHS_MARKER_REGEX =
   /^[ \t>]*<!--cw-colwidths:[\d,]+-->[ \t]*\r?\n?/gm;
 
-const BARE_URL_HARD_BREAK_LINE_REGEX = /(https?:\/\/[^\s\\]+)\\(\r?)$/;
-const FENCE_LINE_REGEX = /^\s{0,3}(`{3,}|~{3,})/;
-
-// markdown-it does not linkify code tokens, so the bare-URL hard-break
-// workaround must skip fenced code blocks; rewriting them would alter the
-// user's verbatim code (an extra space before the backslash).
-const escapeBareUrlHardBreaks = message => {
-  const lines = message.split('\n');
-  let inFence = false;
-  let fenceChar = '';
-  for (let i = 0; i < lines.length; i += 1) {
-    const fence = lines[i].match(FENCE_LINE_REGEX);
-    if (fence) {
-      if (!inFence) {
-        inFence = true;
-        fenceChar = fence[1][0];
-      } else if (fence[1][0] === fenceChar) {
-        inFence = false;
-      }
-    } else if (!inFence) {
-      lines[i] = lines[i].replace(BARE_URL_HARD_BREAK_LINE_REGEX, '$1 \\$2');
-    }
-  }
-  return lines.join('\n');
-};
-
 const TWITTER_USERNAME_REGEX = /(^|[^@\w])@(\w{1,15})\b/g;
 const TWITTER_USERNAME_REPLACEMENT = '$1[@$2](http://twitter.com/$2)';
 const TWITTER_HASH_REGEX = /(^|\s)#(\w+)/g;
@@ -111,9 +106,7 @@ class MessageFormatter {
     isAPrivateNote = false,
     linkify = true
   ) {
-    this.message = escapeBareUrlHardBreaks(
-      (message || '').replace(COLWIDTHS_MARKER_REGEX, '')
-    );
+    this.message = (message || '').replace(COLWIDTHS_MARKER_REGEX, '');
     this.isAPrivateNote = isAPrivateNote;
     this.isATweet = isATweet;
     this.linkify = linkify;

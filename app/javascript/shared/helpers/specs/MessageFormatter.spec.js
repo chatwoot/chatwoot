@@ -35,6 +35,19 @@ describe('#MessageFormatter', () => {
       expect(result).not.toMatch('api \\');
       expect(result).toContain('https://example.com/api\\');
     });
+    it.each([
+      ['indented code', '    https://example.com/api\\\n    next'],
+      [
+        'quoted fenced code',
+        '> ```sh\n> https://example.com/api\\\n> next\n> ```',
+      ],
+      ['inline code', '`https://example.com/api\\\nnext`'],
+    ])('preserves the URL backslash in %s', (_name, message) => {
+      const result = new MessageFormatter(message).formattedMessage;
+      expect(result).not.toContain('https://example.com/api \\');
+      expect(result).toContain('https://example.com/api\\');
+      expect(result).not.toContain('<a ');
+    });
   });
 
   describe('parses heading to strong', () => {
