@@ -43,18 +43,21 @@ class CopilotRun < ApplicationRecord
   has_many :derived_runs, class_name: 'CopilotRun', foreign_key: :source_run_id, dependent: :destroy, inverse_of: :source_run
   has_many :tool_calls, class_name: 'CopilotToolCall', dependent: :delete_all
   has_many :findings, class_name: 'CopilotReviewFinding', dependent: :delete_all
+  has_many :action_items, class_name: 'CopilotActionItem', dependent: :delete_all
 
-  FINISHED_STATUSES = %w[completed incomplete failed].freeze
+  FINISHED_STATUSES = %w[completed incomplete failed rejected].freeze
   MAX_SELECTION = 5000
   # Conversations a review finishes per turn. The rest wait until the agent asks to continue.
   CONVERSATIONS_PER_TURN = 100
 
   LEASE_DURATION = 2.minutes
 
-  enum :kind, { turn: 'turn', collection: 'collection', review: 'review' }, validate: true
+  enum :kind, { turn: 'turn', collection: 'collection', review: 'review', action: 'action' }, validate: true
   # awaiting_background_run: a turn parked until a background run started by one of its tool calls finishes.
-  enum :status, { queued: 'queued', running: 'running', awaiting_background_run: 'awaiting_background_run', completed: 'completed',
-                  incomplete: 'incomplete', failed: 'failed' }, validate: true
+  # awaiting_approval: an action run that writes nothing until the agent approves it.
+  enum :status, { queued: 'queued', running: 'running', awaiting_background_run: 'awaiting_background_run',
+                  awaiting_approval: 'awaiting_approval', completed: 'completed', incomplete: 'incomplete', failed: 'failed',
+                  rejected: 'rejected' }, validate: true
 
   # Runs a job may pick up: waiting for a worker, or held by one whose lease may have expired.
   scope :claimable, -> { where(status: %i[queued running]) }
@@ -67,7 +70,7 @@ class CopilotRun < ApplicationRecord
 
   def claim
     with_lock do
-      return if finished? || awaiting_background_run? || lease_until&.future?
+      return if finished? || awaiting_background_run? || awaiting_approval? || lease_until&.future?
 
       update!(status: :running, lease_until: Time.current + LEASE_DURATION, lease_token: SecureRandom.uuid)
       lease_token
@@ -108,6 +111,28 @@ class CopilotRun < ApplicationRecord
       awaiting_background_run? && update!(status: :queued)
     end
     Captain::Copilot::TurnJob.perform_later(id) if resumed
+  end
+
+  # Approving starts the action. Returns false when the action was already decided.
+  def approve
+    decided = decide('queued')
+    Captain::Copilot::ActionJob.perform_later(id) if decided
+    decided
+  end
+
+  # Rejecting hands a rejected summary back to the waiting tool call, so the turn continues without the change.
+  def reject(reason)
+    decided = decide('rejected', reason: reason)
+    copilot_tool_call.copilot_run.resume_with(copilot_tool_call, summary) if decided
+    decided
+  end
+
+  def action
+    Captain::Copilot::Actions.build(context.fetch('action'), account: account, user: user, arguments: context.fetch('arguments'))
+  end
+
+  def target_ids
+    context.fetch('target_ids', [])
   end
 
   # The turn this run belongs to. Collections and reviews are started by one of its tool calls.
@@ -180,11 +205,41 @@ class CopilotRun < ApplicationRecord
   end
 
   def remaining_ids
+    return target_ids - action_items.where(status: CopilotActionItem::FINISHED_STATUSES).pluck(:record_id) if action?
+
     selected_ids - findings.finished.pluck(:conversation_id)
   end
 
   def summary
-    { run_id: id, status: status, error: error }.merge(collection? ? collection_summary : review_summary)
+    details = case kind
+              when 'action' then action_summary
+              when 'collection' then collection_summary
+              else review_summary
+              end
+    { run_id: id, status: status, error: error }.merge(details)
+  end
+
+  def processed_count
+    findings.finished.count
+  end
+
+  def publish_progress
+    progress = summary
+    return if copilot_thread.copilot_messages.assistant_thinking.last&.message&.dig('progress') == progress.as_json
+
+    copilot_thread.copilot_messages.create!(message_type: :assistant_thinking, message: { content: progress_text(progress), progress: progress })
+  end
+
+  private
+
+  def decide(new_status, reason: nil)
+    with_lock do
+      next false unless status == 'awaiting_approval'
+
+      update!(status: new_status, context: context.merge('decided_at' => Time.current.iso8601, 'rejection_reason' => reason).compact)
+      card = copilot_thread.copilot_messages.find(context.fetch('approval_message_id'))
+      card.update!(message: card.message.deep_merge('approval' => { 'status' => new_status == 'queued' ? 'approved' : 'rejected' }))
+    end
   end
 
   # A collection is a saved selection, so it has no review counts.
@@ -201,16 +256,18 @@ class CopilotRun < ApplicationRecord
       failed: counts['failed'].to_i, selection_truncated: context['selection_truncated'] }
   end
 
-  def processed_count
-    findings.finished.count
+  def action_summary
+    counts = action_items.group(:status).count
+    { action: context['action'], arguments: context['arguments'], targets: target_ids.size, applied: counts['applied'].to_i,
+      skipped: counts['skipped'].to_i, failed: counts['failed'].to_i, rejection_reason: context['rejection_reason'] }.compact
   end
 
-  def publish_progress
-    progress = summary
-    return if copilot_thread.copilot_messages.assistant_thinking.last&.message&.dig('progress') == progress.as_json
+  def progress_text(progress)
+    if kind == 'action'
+      return "Applied #{progress[:applied]} of #{progress[:targets]} changes: #{progress[:skipped]} already done, #{progress[:failed]} failed."
+    end
 
-    content = "Processed #{progress[:processed]} of #{progress[:selected]} conversations: #{progress[:matched]} matched, " \
-              "#{progress[:screened_out]} screened out, #{progress[:failed]} failed."
-    copilot_thread.copilot_messages.create!(message_type: :assistant_thinking, message: { content: content, progress: progress })
+    "Processed #{progress[:processed]} of #{progress[:selected]} conversations: #{progress[:matched]} matched, " \
+      "#{progress[:screened_out]} screened out, #{progress[:failed]} failed."
   end
 end
