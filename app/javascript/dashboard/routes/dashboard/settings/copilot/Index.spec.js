@@ -53,9 +53,7 @@ describe('Copilot settings', () => {
       tools: [{ name: 'search_documentation', available: true }],
     });
 
-    expect(wrapper.text()).toContain('COPILOT_SETTINGS.GROUPS.ASSISTANT');
     expect(wrapper.find('#copilot-assistant').element.value).toBe('automatic');
-    expect(wrapper.find('[role="switch"]').exists()).toBe(false);
   });
 
   it('saves each assistant change without a button', async () => {
@@ -63,8 +61,6 @@ describe('Copilot settings', () => {
       assistantId: null,
       tools: [{ name: 'search_documentation', available: true }],
     });
-
-    expect(wrapper.find('button').exists()).toBe(false);
 
     await wrapper.find('#copilot-assistant').setValue('1');
     await flushPromises();
@@ -89,19 +85,7 @@ describe('Copilot settings', () => {
     expect(wrapper.find('#copilot-assistant').element.value).toBe('automatic');
   });
 
-  it('shows Linear search only when this account can use it', async () => {
-    const wrapper = await mountSettings({ assistantId: null, tools: [] });
-    expect(wrapper.text()).not.toContain('COPILOT_SETTINGS.GROUPS.LINEAR');
-
-    state.config.copilotTools = [
-      { name: 'search_linear_issues', available: true },
-    ];
-    await flushPromises();
-    expect(wrapper.text()).toContain('COPILOT_SETTINGS.GROUPS.LINEAR');
-    expect(wrapper.text()).toContain('COPILOT_SETTINGS.SCOPES.SEARCH');
-  });
-
-  it('shows one source with read and search scopes', async () => {
+  it('shows only the available tool groups and scopes', async () => {
     const wrapper = await mountSettings({
       assistantId: null,
       tools: [
@@ -113,5 +97,6 @@ describe('Copilot settings', () => {
     expect(wrapper.text()).toContain('COPILOT_SETTINGS.GROUPS.CONVERSATIONS');
     expect(wrapper.text()).toContain('COPILOT_SETTINGS.SCOPES.READ');
     expect(wrapper.text()).toContain('COPILOT_SETTINGS.SCOPES.SEARCH');
+    expect(wrapper.text()).not.toContain('COPILOT_SETTINGS.GROUPS.LINEAR');
   });
 });

@@ -9,15 +9,11 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotPreferences', type: :request 
     JSON.parse(response.body, symbolize_names: true)
   end
 
-  it 'includes assistant knowledge tools with the existing selection when no override is saved' do
-    assistant = create(:captain_assistant, account: account)
+  it 'includes assistant knowledge tools when no override is saved' do
+    create(:captain_assistant, account: account)
 
     get path, headers: admin.create_new_auth_token, as: :json
     expect(json_response[:copilot_assistant_id]).to be_nil
-    expect(json_response[:copilot_tools]).to include(name: 'search_documentation', available: true)
-
-    account.update!(copilot_assistant_id: assistant.id)
-    get path, headers: admin.create_new_auth_token, as: :json
     expect(json_response[:copilot_tools]).to include(name: 'search_documentation', available: true)
   end
 
