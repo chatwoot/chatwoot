@@ -81,3 +81,5 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
     Llm::Models.default_model_for(feature_key)
   end
 end
+
+Api::V1::Accounts::Captain::PreferencesController.prepend_mod_with('Api::V1::Accounts::Captain::PreferencesController')

@@ -1,11 +1,15 @@
 import { defineStore } from 'pinia';
 import CaptainPreferencesAPI from 'dashboard/api/captain/preferences';
 
+let requestVersion = 0;
+
 export const useCaptainConfigStore = defineStore('captainConfig', {
   state: () => ({
     providers: {},
     models: {},
     features: {},
+    copilotAssistantId: null,
+    copilotTools: [],
     uiFlags: {
       isFetching: false,
     },
@@ -47,25 +51,42 @@ export const useCaptainConfigStore = defineStore('captainConfig', {
   },
 
   actions: {
+    reset() {
+      requestVersion += 1;
+      this.$reset();
+    },
+
     async fetch() {
+      requestVersion += 1;
+      const version = requestVersion;
       this.uiFlags.isFetching = true;
       try {
         const response = await CaptainPreferencesAPI.get();
+        if (version !== requestVersion) return;
+
         this.providers = response.data.providers || {};
         this.models = response.data.models || {};
         this.features = response.data.features || {};
+        this.copilotAssistantId = response.data.copilot_assistant_id;
+        this.copilotTools = response.data.copilot_tools || [];
       } catch (error) {
         // Ignore error
       } finally {
-        this.uiFlags.isFetching = false;
+        if (version === requestVersion) this.uiFlags.isFetching = false;
       }
     },
 
     async updatePreferences(data) {
+      requestVersion += 1;
+      const version = requestVersion;
       const response = await CaptainPreferencesAPI.updatePreferences(data);
+      if (version !== requestVersion) return;
+
       this.providers = response.data.providers || {};
       this.models = response.data.models || {};
       this.features = response.data.features || {};
+      this.copilotAssistantId = response.data.copilot_assistant_id;
+      this.copilotTools = response.data.copilot_tools || [];
     },
   },
 });

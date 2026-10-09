@@ -103,6 +103,18 @@ describe('CopilotInput', () => {
     expect(document.activeElement).toBe(textarea.element);
   });
 
+  it('blocks sending while a past chat loads', async () => {
+    const onSend = vi.fn();
+    const wrapper = mountCopilotInput(onSend);
+    await wrapper.find('textarea').setValue('Wait for the chat');
+    await wrapper.setProps({ disabled: true });
+
+    expect(wrapper.find('textarea').attributes('readonly')).toBeDefined();
+    expect(wrapper.find('button').attributes('disabled')).toBeDefined();
+    await wrapper.find('form').trigger('submit');
+    expect(onSend).not.toHaveBeenCalled();
+  });
+
   it('allows vertical scrolling when the input reaches its max height', () => {
     const wrapper = mountCopilotInput(vi.fn());
     const textarea = wrapper.find('textarea');

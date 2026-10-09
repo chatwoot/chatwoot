@@ -55,7 +55,7 @@ class Account < ApplicationRecord
   store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
 
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label
-  store_accessor :settings, :captain_models, :captain_features
+  store_accessor :settings, :captain_models, :captain_features, :copilot_assistant_id
   store_accessor :settings, :reporting_timezone
   store_accessor :settings, :keep_pending_on_bot_failure
   store_accessor :settings, :captain_auto_resolve_mode

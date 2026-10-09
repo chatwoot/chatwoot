@@ -16,6 +16,7 @@ module AccountSettingsSchema
         'enforce_mfa': { 'type': %w[boolean null] },
         'keep_pending_on_bot_failure': { 'type': %w[boolean null] },
         'captain_auto_resolve_mode': { 'type': %w[string null], 'enum': ['evaluated', 'legacy', 'disabled', nil] },
+        'copilot_assistant_id': { 'type': %w[integer null] },
         'conversation_required_attributes': {
           'type': %w[array null],
           'items': { 'type': 'string' }
