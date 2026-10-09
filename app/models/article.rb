@@ -78,6 +78,7 @@ class Article < ApplicationRecord
   scope :search_by_locale, ->(locale) { where(locale: locale) if locale.present? }
   scope :search_by_author, ->(author_id) { where(author_id: author_id) if author_id.present? }
   scope :search_by_status, ->(status) { where(status: status) if status.present? }
+  scope :search_indexable, -> { where.not('meta @> ?', { noindex: true }.to_json) }
   scope :order_by_updated_at, -> { reorder(updated_at: :desc) }
   scope :order_by_position, -> { reorder(position: :asc) }
   scope :order_by_views, -> { reorder(views: :desc) }
@@ -127,6 +128,10 @@ class Article < ApplicationRecord
   # Make sure we always associate the parent's associated id to avoid the deeper associations od articles.
   def self.find_root_article_id(article)
     article.associated_article_id || article.id
+  end
+
+  def noindex?
+    meta['noindex'] == true
   end
 
   def draft!
