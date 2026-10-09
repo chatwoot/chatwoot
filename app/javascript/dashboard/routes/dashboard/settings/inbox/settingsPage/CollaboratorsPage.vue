@@ -7,6 +7,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { minValue } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { useConfig } from 'dashboard/composables/useConfig';
+import { useAccount } from 'dashboard/composables/useAccount';
 import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
 import SettingsAccordion from 'dashboard/components-next/Settings/SettingsAccordion.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -29,6 +30,7 @@ const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
 const { isEnterprise } = useConfig();
+const { isOnChatwootCloud } = useAccount();
 
 const selectedAgentIds = ref([]);
 const isAgentListUpdating = ref(false);
@@ -618,12 +620,17 @@ onMounted(() => {
 
                   <div class="w-full h-px bg-n-weak my-4" />
 
-                  <!-- Upgrade prompt when advanced_assignment is not enabled -->
+                  <!-- Enablement guidance when advanced_assignment is not enabled -->
                   <div v-if="!hasAdvancedAssignment">
                     <p class="text-body-main text-n-slate-11 mb-1">
-                      {{ $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_PROMPT') }}
+                      {{
+                        isOnChatwootCloud
+                          ? $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_PROMPT')
+                          : $t('INBOX_MGMT.ASSIGNMENT.SELF_HOSTED_PROMPT')
+                      }}
                     </p>
                     <NextButton
+                      v-if="isOnChatwootCloud"
                       :label="$t('INBOX_MGMT.ASSIGNMENT.UPGRADE_TO_BUSINESS')"
                       icon="i-lucide-arrow-right"
                       trailing-icon

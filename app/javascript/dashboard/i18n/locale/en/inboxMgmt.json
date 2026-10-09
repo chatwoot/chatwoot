@@ -1311,6 +1311,7 @@
         "BALANCED": "Balanced assignment"
       },
       "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
+      "SELF_HOSTED_PROMPT": "Custom assignment policies are available on paid self-hosted plans. If your instance is licensed, ask your administrator to enable Advanced Assignment for this account in the Super Admin console.",
       "UPGRADE_TO_BUSINESS": "Upgrade to Business",
       "DEFAULT_POLICY_LINKED": "Default policy linked",
       "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
