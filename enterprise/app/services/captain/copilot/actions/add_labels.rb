@@ -1,5 +1,6 @@
 class Captain::Copilot::Actions::AddLabels < Captain::Copilot::Actions::BaseAction
   NAME = 'add_labels'.freeze
+  RESOURCE = 'conversations'.freeze
   DESCRIPTION = 'Add existing account labels to each conversation. Arguments: labels, an array of label titles.'.freeze
   ARGUMENTS = {
     type: 'object', additionalProperties: false, required: %w[labels],
