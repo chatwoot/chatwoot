@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import * as Sentry from '@sentry/vue';
 import FormSelect from 'v3/components/Form/Select.vue';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
 const props = defineProps({
   value: {
@@ -18,6 +19,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['change']);
+
+const assetUrl = useAssetUrl();
 
 const alertTones = computed(() => [
   {
@@ -54,7 +57,7 @@ const audio = new Audio();
 const playAudio = async () => {
   try {
     // Has great support https://caniuse.com/mdn-api_htmlaudioelement
-    audio.src = `/audio/dashboard/${selectedValue.value}.mp3`;
+    audio.src = assetUrl(`/audio/dashboard/${selectedValue.value}.mp3`);
     await audio.play();
   } catch (error) {
     Sentry.captureException(error);
