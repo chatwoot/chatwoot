@@ -8,7 +8,7 @@ describe Webhooks::Trigger do
   let!(:account) { create(:account) }
   let!(:inbox) { create(:inbox, account: account) }
   let!(:conversation) { create(:conversation, inbox: inbox) }
-  let!(:message) { create(:message, account: account, inbox: inbox, conversation: conversation) }
+  let!(:message) { create(:message, message_type: :outgoing, account: account, inbox: inbox, conversation: conversation) }
 
   let(:webhook_type) { :api_inbox_webhook }
   let(:url) { 'https://test.com' }
@@ -60,6 +60,15 @@ describe Webhooks::Trigger do
       expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('500 Internal Server Error'))
 
       expect { trigger.execute(url, payload, webhook_type) }.to change { message.reload.status }.from('sent').to('failed')
+    end
+
+    it 'does not update the status of an incoming message if the webhook fails' do
+      incoming_message = create(:message, message_type: :incoming, account: account, inbox: inbox, conversation: conversation)
+      payload = { event: 'message_created', conversation: { id: conversation.id }, id: incoming_message.id }
+
+      expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('500 Internal Server Error'))
+
+      expect { trigger.execute(url, payload, webhook_type) }.not_to(change { incoming_message.reload.status })
     end
 
     it 'treats blocked private webhook URLs as failures' do
