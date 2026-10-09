@@ -16,6 +16,17 @@ RSpec.describe 'Devise::Mailer' do
       confirmable_user.send(:generate_confirmation_token)
     end
 
+    context 'when enterprise model extensions are disabled' do
+      before do
+        allow(account).to receive(:respond_to?).with(:saml_settings).and_return(false)
+      end
+
+      it 'renders the confirmation email without the SAML association' do
+        expect { mail.body.to_s }.not_to raise_error
+        expect(mail_body).to include('Confirm your email to get started')
+      end
+    end
+
     it 'has the correct header data' do
       expect(mail.reply_to).to contain_exactly('accounts@chatwoot.com')
       expect(mail.to).to contain_exactly(confirmable_user.email)
