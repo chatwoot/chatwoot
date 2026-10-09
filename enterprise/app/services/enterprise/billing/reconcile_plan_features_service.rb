@@ -2,6 +2,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
   SHOPIFY_MANAGED_FEATURES = 'shopify_managed_features'.freeze
   PAID_PLAN_FEATURES = %w[captain_classifier].freeze
+  PLAN_INDEPENDENT_FEATURES = %w[data_import].freeze
 
   # Plan hierarchy: Hacker (default) -> Startups -> Business -> Enterprise
   # Each higher tier includes all features from the lower tiers
@@ -21,7 +22,6 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     channel_voice
     whatsapp_embedded_signup_inbox_creation
     api_and_webhooks
-    data_import
     companies
   ] + PAID_PLAN_FEATURES).freeze
 
@@ -43,13 +43,15 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   pattr_initialize [:account!, { shopify_lifecycle_cleanup: false }]
 
   def perform
-    return if shopify_billing? && !shopify_lifecycle_cleanup && !Shopify::FeatureGate.enabled?(account: account)
+    # Reload the flags under a lock so a stale account cannot restore an independently disabled feature.
+    account.with_lock do
+      next if shopify_billing? && !shopify_lifecycle_cleanup && !Shopify::FeatureGate.enabled?(account: account)
 
-    account.disable_features(*managed_plan_features)
-    account.enable_features(*current_plan_features)
-    account.enable_features(*manually_managed_features)
-    update_shopify_managed_features
-    account.save!
+      account.disable_features(*(managed_plan_features - PLAN_INDEPENDENT_FEATURES))
+      account.enable_features(*((current_plan_features + manually_managed_features) - PLAN_INDEPENDENT_FEATURES))
+      update_shopify_managed_features
+      account.save!
+    end
   end
 
   private
@@ -100,7 +102,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   def update_shopify_managed_features
     return unless shopify_billing?
 
-    account.internal_attributes[SHOPIFY_MANAGED_FEATURES] = current_shopify_catalog_features
+    account.internal_attributes[SHOPIFY_MANAGED_FEATURES] = current_shopify_catalog_features - PLAN_INDEPENDENT_FEATURES
   end
 
   def shopify_billing?
