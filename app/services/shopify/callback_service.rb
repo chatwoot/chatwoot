@@ -34,6 +34,7 @@ class Shopify::CallbackService
   end
 
   def reusable_hook?(hook)
+    return false if hook&.settings&.fetch('custom_app_id', nil).present?
     return false unless hook&.enabled? && hook.access_token.present?
 
     granted_scopes = hook.settings['scope'].to_s.split(',').map(&:strip)

@@ -74,6 +74,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_06_233107) do
     t.jsonb "internal_attributes", default: {}, null: false
     t.jsonb "settings", default: {}
     t.bigint "feature_flags_ext_1", default: 0, null: false
+    t.index "((custom_attributes #>> '{shopify_subscription_snapshot,shop_domain}'::text[]))", name: "index_shopify_accounts_on_snapshot_shop_domain", where: "(((internal_attributes ->> 'billing_provider'::text) = 'shopify'::text) AND ((internal_attributes ->> 'signup_source'::text) = 'shopify'::text))"
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -1302,6 +1303,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_06_233107) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "settings", default: {}
+    t.index "lower((reference_id)::text)", name: "index_shopify_hooks_on_lower_reference_id", where: "((app_id)::text = 'shopify'::text)"
+    t.index ["account_id"], name: "index_shopify_hooks_on_account_id", where: "((app_id)::text = 'shopify'::text)"
   end
 
   create_table "labels", force: :cascade do |t|
@@ -1550,6 +1553,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_06_233107) do
     t.index ["account_id", "metric", "date"], name: "index_rollup_timeseries"
   end
 
+  create_table "shopify_custom_apps", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "shop_domain", null: false
+    t.string "client_id", null: false
+    t.text "client_secret", null: false
+    t.text "install_url", null: false
+    t.boolean "enabled", default: true, null: false
+    t.integer "installation_generation", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_shopify_custom_apps_on_account_id", unique: true
+    t.index ["client_id"], name: "index_shopify_custom_apps_on_client_id", unique: true
+    t.index ["shop_domain"], name: "index_shopify_custom_apps_on_shop_domain", unique: true
+  end
+
   create_table "sla_events", force: :cascade do |t|
     t.bigint "applied_sla_id", null: false
     t.bigint "conversation_id", null: false
@@ -1735,6 +1753,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_06_233107) do
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitors", "users", on_delete: :nullify
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "shopify_custom_apps", "accounts"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
