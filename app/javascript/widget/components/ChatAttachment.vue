@@ -3,15 +3,22 @@ import FileUpload from 'vue-upload-component';
 import Spinner from 'shared/components/Spinner.vue';
 import {
   checkFileSizeLimit,
+  isFileTypeAllowedForChannel,
   resolveMaximumFileUploadSize,
 } from 'shared/helpers/FileHelper';
-import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
+import {
+  ALLOWED_FILE_TYPES,
+  MAXIMUM_ATTACHMENTS,
+} from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
 import { mapGetters } from 'vuex';
 import { emitter } from 'shared/helpers/mitt';
 import { useAttachments } from '../composables/useAttachments';
+
+// vue-upload-component emits one event per file; wait briefly to group one picker/paste action into a single message.
+const UPLOAD_BATCH_DELAY = 50;
 
 export default {
   components: { FluentIcon, FileUpload, Spinner },
@@ -26,7 +33,12 @@ export default {
     return { canHandleAttachments };
   },
   data() {
-    return { isUploading: false };
+    return {
+      activeUploadBatches: 0,
+      isUploading: false,
+      pendingFiles: [],
+      uploadBatchTimer: null,
+    };
   },
   computed: {
     ...mapGetters({
@@ -46,6 +58,9 @@ export default {
   },
   unmounted() {
     document.removeEventListener('paste', this.handleClipboardPaste);
+    if (this.uploadBatchTimer) {
+      clearTimeout(this.uploadBatchTimer);
+    }
   },
   methods: {
     handleClipboardPaste(e) {
@@ -66,77 +81,175 @@ export default {
     getFileType(fileType) {
       return fileType.includes('image') ? 'image' : 'file';
     },
-    async onFileUpload(file) {
-      if (this.globalConfig.directUploadsEnabled) {
-        await this.onDirectFileUpload(file);
-      } else {
-        await this.onIndirectFileUpload(file);
-      }
-    },
-    async onDirectFileUpload(file) {
+    onFileUpload(file) {
       if (!file) {
         return;
       }
-      this.isUploading = true;
-      try {
-        if (checkFileSizeLimit(file, this.fileUploadSizeLimit)) {
-          const { websiteToken } = window.chatwootWebChannel;
-          const upload = new DirectUpload(
-            file.file,
-            `/api/v1/widget/direct_uploads?website_token=${websiteToken}`,
-            {
-              directUploadWillCreateBlobWithXHR: xhr => {
-                xhr.setRequestHeader('X-Auth-Token', window.authToken);
-              },
-            }
-          );
 
-          upload.create((error, blob) => {
-            if (error) {
-              emitter.emit(BUS_EVENTS.SHOW_ALERT, {
-                message: error,
-              });
-            } else {
-              this.onAttach({
-                file: blob.signed_id,
-                ...this.getLocalFileAttributes(file),
-              });
-            }
-          });
-        } else {
-          emitter.emit(BUS_EVENTS.SHOW_ALERT, {
-            message: this.$t('FILE_SIZE_LIMIT', {
-              MAXIMUM_FILE_UPLOAD_SIZE: this.fileUploadSizeLimit,
-            }),
-          });
-        }
-      } catch (error) {
-        // Error
-      }
-      this.isUploading = false;
+      this.pendingFiles.push(file);
+      this.scheduleUploadBatch();
     },
-    async onIndirectFileUpload(file) {
-      if (!file) {
+    scheduleUploadBatch() {
+      if (this.uploadBatchTimer) {
+        clearTimeout(this.uploadBatchTimer);
+      }
+
+      this.uploadBatchTimer = setTimeout(
+        () => this.flushUploadBatch(),
+        UPLOAD_BATCH_DELAY
+      );
+    },
+    flushUploadBatch() {
+      const files = [...this.pendingFiles];
+      this.pendingFiles = [];
+      this.uploadBatchTimer = null;
+
+      if (!files.length) {
         return;
       }
+
+      if (this.globalConfig.directUploadsEnabled) {
+        this.onDirectFileUpload(files);
+      } else {
+        this.onIndirectFileUpload(files);
+      }
+    },
+    getUploadableFiles(files) {
+      const filesWithAllowedTypes = files.filter(file =>
+        isFileTypeAllowedForChannel(file.file, {
+          channelType: 'Channel::WebWidget',
+        })
+      );
+
+      if (filesWithAllowedTypes.length !== files.length) {
+        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          message: this.$t('FILE_TYPE_NOT_SUPPORTED'),
+        });
+      }
+
+      const validFiles = filesWithAllowedTypes.filter(file =>
+        checkFileSizeLimit(file, this.fileUploadSizeLimit)
+      );
+
+      if (validFiles.length !== filesWithAllowedTypes.length) {
+        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          message: this.$t('FILE_SIZE_LIMIT', {
+            MAXIMUM_FILE_UPLOAD_SIZE: this.fileUploadSizeLimit,
+          }),
+        });
+      }
+
+      return validFiles;
+    },
+    splitIntoUploadBatches(items) {
+      return Array.from(
+        { length: Math.ceil(items.length / MAXIMUM_ATTACHMENTS) },
+        (_, index) =>
+          items.slice(
+            index * MAXIMUM_ATTACHMENTS,
+            (index + 1) * MAXIMUM_ATTACHMENTS
+          )
+      );
+    },
+    processBatchesSequentially(batches, processBatch) {
+      return batches.reduce(
+        (promise, batch) => promise.then(() => processBatch(batch)),
+        Promise.resolve()
+      );
+    },
+    startUploadBatch() {
+      this.activeUploadBatches += 1;
       this.isUploading = true;
+    },
+    finishUploadBatch() {
+      this.activeUploadBatches = Math.max(this.activeUploadBatches - 1, 0);
+      this.isUploading = this.activeUploadBatches > 0;
+    },
+    async onDirectFileUpload(files) {
+      const validFiles = this.getUploadableFiles(files);
+
+      if (!validFiles.length) {
+        return;
+      }
+
+      this.startUploadBatch();
       try {
-        if (checkFileSizeLimit(file, this.fileUploadSizeLimit)) {
-          await this.onAttach({
+        const uploadBatches = this.splitIntoUploadBatches(validFiles);
+        await this.processBatchesSequentially(
+          uploadBatches,
+          async uploadBatch => {
+            const attachments = await Promise.all(
+              uploadBatch.map(file => this.uploadFileDirectly(file))
+            );
+            const successfulAttachments = attachments.filter(Boolean);
+
+            if (successfulAttachments.length) {
+              await this.attachFiles(successfulAttachments);
+            }
+          }
+        );
+      } finally {
+        this.finishUploadBatch();
+      }
+    },
+    uploadFileDirectly(file) {
+      const { websiteToken } = window.chatwootWebChannel;
+      const upload = new DirectUpload(
+        file.file,
+        `/api/v1/widget/direct_uploads?website_token=${websiteToken}`,
+        {
+          directUploadWillCreateBlobWithXHR: xhr => {
+            xhr.setRequestHeader('X-Auth-Token', window.authToken);
+          },
+        }
+      );
+
+      return new Promise(resolve => {
+        upload.create((error, blob) => {
+          if (error) {
+            emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+              message: error,
+            });
+            resolve(null);
+          } else {
+            resolve({
+              file: blob.signed_id,
+              ...this.getLocalFileAttributes(file),
+            });
+          }
+        });
+      });
+    },
+    async onIndirectFileUpload(files) {
+      const validFiles = this.getUploadableFiles(files);
+
+      if (!validFiles.length) {
+        return;
+      }
+
+      const uploadBatches = this.splitIntoUploadBatches(validFiles);
+
+      this.startUploadBatch();
+      try {
+        await this.processBatchesSequentially(uploadBatches, uploadBatch => {
+          const attachments = uploadBatch.map(file => ({
             file: file.file,
             ...this.getLocalFileAttributes(file),
-          });
-        } else {
-          emitter.emit(BUS_EVENTS.SHOW_ALERT, {
-            message: this.$t('FILE_SIZE_LIMIT', {
-              MAXIMUM_FILE_UPLOAD_SIZE: this.fileUploadSizeLimit,
-            }),
-          });
-        }
-      } catch (error) {
-        // Error
+          }));
+          return this.attachFiles(attachments);
+        });
+      } finally {
+        this.finishUploadBatch();
       }
-      this.isUploading = false;
+    },
+    async attachFiles(attachments) {
+      try {
+        await this.onAttach(attachments);
+      } catch (error) {
+        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          message: error?.message || error,
+        });
+      }
     },
     getLocalFileAttributes(file) {
       return {
@@ -153,6 +266,7 @@ export default {
     ref="upload"
     :size="4096 * 2048"
     :accept="allowedFileTypes"
+    multiple
     :data="{
       direct_upload_url: '/api/v1/widget/direct_uploads',
       direct_upload: true,
@@ -160,7 +274,7 @@ export default {
     @input-file="onFileUpload"
   >
     <button class="min-h-8 min-w-8 flex items-center justify-center">
-      <FluentIcon v-if="!isUploading.image" icon="attach" />
+      <FluentIcon v-if="!isUploading" icon="attach" />
       <Spinner v-if="isUploading" size="small" />
     </button>
   </FileUpload>

@@ -38,8 +38,7 @@ export default {
   },
   data() {
     return {
-      hasImageError: false,
-      hasVideoError: false,
+      failedAttachmentIds: {},
     };
   },
   computed: {
@@ -75,13 +74,11 @@ export default {
   },
   watch: {
     message() {
-      this.hasImageError = false;
-      this.hasVideoError = false;
+      this.failedAttachmentIds = {};
     },
   },
   mounted() {
-    this.hasImageError = false;
-    this.hasVideoError = false;
+    this.failedAttachmentIds = {};
   },
   methods: {
     async retrySendMessage() {
@@ -89,11 +86,11 @@ export default {
         message: this.message,
       });
     },
-    onImageLoadError() {
-      this.hasImageError = true;
-    },
-    onVideoLoadError() {
-      this.hasVideoError = true;
+    onMediaLoadError(attachmentId) {
+      this.failedAttachmentIds = {
+        ...this.failedAttachmentIds,
+        [attachmentId]: true,
+      };
     },
     toggleReply() {
       emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
@@ -137,18 +134,24 @@ export default {
                 :key="attachment.id"
               >
                 <ImageBubble
-                  v-if="attachment.file_type === 'image' && !hasImageError"
+                  v-if="
+                    attachment.file_type === 'image' &&
+                    !failedAttachmentIds[attachment.id]
+                  "
                   :url="attachment.data_url"
                   :thumb="attachment.data_url"
                   :readable-time="readableTime"
-                  @error="onImageLoadError"
+                  @error="onMediaLoadError(attachment.id)"
                 />
 
                 <VideoBubble
-                  v-if="attachment.file_type === 'video' && !hasVideoError"
+                  v-else-if="
+                    attachment.file_type === 'video' &&
+                    !failedAttachmentIds[attachment.id]
+                  "
                   :url="attachment.data_url"
                   :readable-time="readableTime"
-                  @error="onVideoLoadError"
+                  @error="onMediaLoadError(attachment.id)"
                 />
 
                 <FileBubble
