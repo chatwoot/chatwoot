@@ -59,6 +59,7 @@ export default {
           },
         });
       } else {
+        const { pendingCustomAttributes } = this.$store.state.conversation;
         this.clearConversations();
         this.clearConversationAttributes();
         this.$store.dispatch('conversation/createConversation', {
@@ -66,7 +67,10 @@ export default {
           emailAddress: emailAddress,
           message: message,
           phoneNumber: phoneNumber,
-          customAttributes: conversationCustomAttributes,
+          customAttributes: {
+            ...pendingCustomAttributes,
+            ...conversationCustomAttributes,
+          },
           contactCustomAttributes: contactCustomAttributes,
         });
       }
