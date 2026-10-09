@@ -1047,7 +1047,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_14_152259) do
     t.bigint "copilot_run_id", null: false
     t.bigint "conversation_id", null: false
     t.string "status", null: false
-    t.boolean "needs_attention", default: false, null: false
+    t.boolean "matched", default: false, null: false
     t.string "category"
     t.text "reason"
     t.jsonb "evidence_message_ids", default: [], null: false

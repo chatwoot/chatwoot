@@ -26,7 +26,7 @@ class Captain::Copilot::DataService
     raise ArgumentError, 'Invalid conversation filters' unless JSONSchemer.schema(FILTER_SCHEMA).valid?(filters)
 
     boundary = Time.current
-    filters = filters.stringify_keys.reverse_merge('date_field' => 'last_activity_at', 'limit' => 100)
+    filters = filters.stringify_keys.reverse_merge('date_field' => 'last_activity_at', 'limit' => CopilotRun::MAX_SELECTION)
     ids = filtered_conversations(filters, boundary).order(id: :desc).limit(filters['limit'] + 1).pluck(:id)
     collection = persist_collection(filters, ids, boundary)
     collection.receipt.merge(collection_id: collection.id, resource: resource, boundary_at: collection.boundary_at.iso8601)

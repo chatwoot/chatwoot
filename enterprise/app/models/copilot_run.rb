@@ -43,7 +43,7 @@ class CopilotRun < ApplicationRecord
   TERMINAL_STATUSES = %w[completed incomplete cancelled failed].freeze
   MAX_SELECTION = 5000
 
-  LEASE_DURATION = 5.minutes
+  LEASE_DURATION = 2.minutes
 
   validates :kind, inclusion: { in: %w[chat collection review] }
   validates :status, inclusion: { in: %w[queued running waiting_for_approval completed incomplete cancelled failed] }

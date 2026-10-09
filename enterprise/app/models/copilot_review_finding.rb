@@ -8,7 +8,7 @@
 #  error                :string
 #  evidence_message_ids :jsonb            not null
 #  history_truncated    :boolean          default(FALSE), not null
-#  needs_attention      :boolean          default(FALSE), not null
+#  matched              :boolean          default(FALSE), not null
 #  reason               :text
 #  reviewed_message_ids :jsonb            not null
 #  status               :string           not null

@@ -9,10 +9,11 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService
     Return JSON with content (string) and reply_suggestion (boolean). Do not expose private provider continuation data.
   PROMPT
 
+  # search_conversation dumps full transcripts into context; get_data and review_conversations replace it here.
   def self.tool_inventory(assistant:, user:)
-    super + [Captain::Tools::Copilot::GetDataService.new(assistant, user: user),
-             Captain::Tools::Copilot::ReviewConversationsService.new(assistant, user: user),
-             Captain::Tools::Copilot::DisplayService.new(assistant, user: user)]
+    workflow_tools = [Captain::Tools::Copilot::GetDataService, Captain::Tools::Copilot::ReviewConversationsService,
+                      Captain::Tools::Copilot::DisplayService].map { |tool| tool.new(assistant, user: user) }
+    super.grep_v(Captain::Tools::Copilot::SearchConversationsService) + workflow_tools
   end
 
   def initialize(run, token)

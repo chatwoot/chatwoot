@@ -2,7 +2,7 @@ class Captain::Copilot::ReviewResponseSchema < Schematist::Schema
   array :results do
     object do
       integer :conversation_id
-      boolean :needs_attention
+      boolean :matched
       boolean :needs_more_history
       string :category
       string :reason
