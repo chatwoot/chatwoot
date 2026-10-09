@@ -48,11 +48,13 @@ export default {
       userInput: '',
       showEmojiPicker: false,
       isFocused: false,
+      hasInitialMessageDraft: false,
     };
   },
 
   computed: {
     ...mapGetters({
+      initialMessage: 'conversation/getInitialMessage',
       widgetColor: 'appConfig/getWidgetColor',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
       shouldShowEmojiPicker: 'appConfig/getShouldShowEmojiPicker',
@@ -69,6 +71,31 @@ export default {
       if (isWidgetOpen) {
         this.focusInput();
       }
+    },
+    initialMessage: {
+      immediate: true,
+      handler(initialMessage) {
+        if (!initialMessage) {
+          if (this.hasInitialMessageDraft) {
+            this.userInput = '';
+          }
+          this.hasInitialMessageDraft = false;
+          return;
+        }
+        if (this.userInput && !this.hasInitialMessageDraft) return;
+
+        this.hasInitialMessageDraft = true;
+        if (this.userInput === initialMessage) return;
+
+        this.userInput = initialMessage;
+        this.$nextTick(() => this.focusInput());
+      },
+    },
+    userInput(userInput) {
+      if (!this.hasInitialMessageDraft) return;
+      if (userInput === this.initialMessage) return;
+
+      this.$store.dispatch('conversation/updateInitialMessage', userInput);
     },
   },
   unmounted() {
@@ -91,6 +118,7 @@ export default {
     handleButtonClick() {
       if (this.userInput && this.userInput.trim()) {
         this.onSendMessage(this.userInput);
+        this.$store.dispatch('conversation/clearInitialMessage');
       }
       this.userInput = '';
       this.focusInput();
@@ -126,7 +154,7 @@ export default {
       this.$store.dispatch('conversation/toggleUserTyping', { typingStatus });
     },
     focusInput() {
-      this.$refs.chatInput.focus();
+      this.$refs.chatInput?.focus();
     },
   },
 };
