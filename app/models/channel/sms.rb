@@ -22,7 +22,6 @@ class Channel::Sms < ApplicationRecord
   EDITABLE_ATTRS = [:phone_number, { provider_config: {} }].freeze
 
   validates :phone_number, presence: true, uniqueness: true
-  # before_save :validate_provider_config
 
   def name
     'Sms'
@@ -45,6 +44,16 @@ class Channel::Sms < ApplicationRecord
     send_to_bandwidth(body)
   end
 
+  def oauth?
+    provider_config.to_h.key?('client_id') || provider_config.to_h.key?('client_secret')
+  end
+
+  def media_download_options
+    return { headers: authorization_headers } if oauth?
+
+    { http_basic_authentication: provider_config.values_at('api_key', 'api_secret') }
+  end
+
   private
 
   def message_body(contact_number, message_content)
@@ -59,41 +68,39 @@ class Channel::Sms < ApplicationRecord
   def send_to_bandwidth(body, message = nil)
     response = HTTParty.post(
       "#{api_base_path}/users/#{provider_config['account_id']}/messages",
-      basic_auth: bandwidth_auth,
-      headers: { 'Content-Type' => 'application/json' },
+      **authentication_options,
       body: body.to_json
     )
 
     if response.success?
       response.parsed_response['id']
     else
-      handle_error(response, message)
+      handle_error(response.parsed_response['description'], message)
       nil
     end
+  rescue CustomExceptions::Bandwidth::AuthenticationError => e
+    handle_error(e.message, message)
+    nil
   end
 
-  def handle_error(response, message)
-    Rails.logger.error("[#{account_id}] Error sending SMS: #{response.parsed_response['description']}")
+  def handle_error(description, message)
+    Rails.logger.error("[#{account_id}] Error sending SMS: #{description}")
     return if message.blank?
 
     # https://dev.bandwidth.com/apis/messaging-apis/messaging/#tag/Messages/operation/createMessage
-    message.external_error = response.parsed_response['description']
+    message.external_error = description
     message.status = :failed
     message.save!
   end
 
-  def bandwidth_auth
-    { username: provider_config['api_key'], password: provider_config['api_secret'] }
+  def authentication_options
+    headers = { 'Content-Type' => 'application/json' }
+    return { headers: headers.merge(authorization_headers) } if oauth?
+
+    { headers: headers, basic_auth: { username: provider_config['api_key'], password: provider_config['api_secret'] } }
   end
 
-  # Extract later into provider Service
-  # let's revisit later
-  def validate_provider_config
-    response = HTTParty.post(
-      "#{api_base_path}/users/#{provider_config['account_id']}/messages",
-      basic_auth: bandwidth_auth,
-      headers: { 'Content-Type': 'application/json' }
-    )
-    errors.add(:provider_config, 'error setting up') unless response.success?
+  def authorization_headers
+    { 'Authorization' => "Bearer #{Sms::BandwidthTokenService.new(config: provider_config).token}" }
   end
 end

@@ -7,6 +7,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   include Api::V1::Accounts::Concerns::InboxHealthManagement
   include Api::V1::Accounts::Concerns::InboxSecretManagement
+  include Api::V1::Accounts::Concerns::BandwidthConfiguration
+  before_action :prepare_bandwidth_configuration, only: [:create, :update]
 
   def index
     @inboxes = policy_scope(Current.account.inboxes)
