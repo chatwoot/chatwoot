@@ -81,4 +81,33 @@ RSpec.describe AccountUser do
       expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id).twice
     end
   end
+
+  describe 'active and suspended states' do
+    it 'defaults to active' do
+      expect(account_user.active).to be(true)
+      expect(AccountUser.active).to include(account_user)
+      expect(AccountUser.suspended).not_to include(account_user)
+    end
+
+    it 'suspends agent and unassigns active conversations' do
+      conversation = create(:conversation, account: account_user.account, assignee: account_user.user, inbox: inbox, status: :open)
+      resolved_conversation = create(:conversation, account: account_user.account, assignee: account_user.user, inbox: inbox, status: :resolved)
+
+      account_user.suspend!
+
+      expect(account_user.reload.active).to be(false)
+      expect(AccountUser.suspended).to include(account_user)
+      expect(conversation.reload.assignee_id).to be_nil
+      expect(resolved_conversation.reload.assignee_id).to eq(account_user.user.id)
+    end
+
+    it 'reactivates suspended agent' do
+      account_user.suspend!
+      expect(account_user.reload.active).to be(false)
+
+      account_user.reactivate!
+      expect(account_user.reload.active).to be(true)
+      expect(AccountUser.active).to include(account_user)
+    end
+  end
 end

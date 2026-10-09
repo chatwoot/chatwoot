@@ -172,7 +172,7 @@ class Inbox < ApplicationRecord
   end
 
   def assignable_agents
-    (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
+    (account.users.where(id: members.select(:user_id), account_users: { active: true }) + account.administrators.where(account_users: { active: true })).uniq
   end
 
   def inbox_type
