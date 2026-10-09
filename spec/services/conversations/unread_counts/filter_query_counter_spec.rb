@@ -18,4 +18,20 @@ RSpec.describe Conversations::UnreadCounts::FilterQueryCounter do
         .not_to include('inbox_id + 0')
     end
   end
+
+  describe '#perform' do
+    it 'counts conversations when a text custom attribute filter uses a numeric JSON value' do
+      create(:custom_attribute_definition,
+             attribute_key: 'ticket_reference',
+             account: account,
+             attribute_model: 'conversation_attribute',
+             attribute_display_type: 'text')
+      conversation = create(:conversation, account: account, inbox: inbox, custom_attributes: { ticket_reference: '12345' })
+      create(:message, account: account, conversation: conversation, inbox: inbox, message_type: :incoming)
+
+      query = { payload: [{ attribute_key: 'ticket_reference', filter_operator: 'equal_to', values: [12_345], query_operator: nil }] }
+
+      expect(described_class.new(account: account, user: agent, query: query).perform).to eq(1)
+    end
+  end
 end
