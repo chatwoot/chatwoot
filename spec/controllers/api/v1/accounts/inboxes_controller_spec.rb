@@ -586,6 +586,82 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.body).to include('test@test.com')
       end
 
+      it 'creates an IMAP inbox and queues the default fetch' do
+        imap_connection = instance_double(Net::IMAP, disconnected?: false)
+
+        allow(Net::IMAP).to receive(:new).and_return(imap_connection)
+        allow(imap_connection).to receive(:login)
+        allow(imap_connection).to receive(:disconnect)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/inboxes",
+               headers: admin.create_new_auth_token,
+               params: {
+                 name: 'Support',
+                 channel: {
+                   type: 'email',
+                   email: 'support@example.com',
+                   imap_enabled: true,
+                   imap_address: 'imap.example.com',
+                   imap_port: 993,
+                   imap_login: 'support@example.com',
+                   imap_password: 'imap-password',
+                   imap_enable_ssl: true,
+                   imap_authentication: 'login'
+                 }
+               },
+               as: :json
+        end.to have_enqueued_job(Inboxes::FetchImapEmailsJob).with(a_kind_of(Channel::Email))
+
+        expect(response).to have_http_status(:success)
+        channel = Channel::Email.find_by!(email: 'support@example.com')
+        expect(channel.imap_enabled).to be true
+        expect(channel.smtp_enabled).to be false
+      end
+
+      it 'does not create an inbox or enqueue an import when the IMAP connection fails' do
+        allow(Net::IMAP).to receive(:new).and_raise(Errno::ECONNREFUSED)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/inboxes",
+               headers: admin.create_new_auth_token,
+               params: {
+                 name: 'Support',
+                 channel: { type: 'email', email: 'support@example.com', imap_enabled: true,
+                            imap_address: 'imap.example.com', imap_port: 993 }
+               }, as: :json
+        end.not_to change(Inbox, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(Channel::Email.exists?(email: 'support@example.com')).to be false
+        expect(Inboxes::FetchImapEmailsJob).not_to have_been_enqueued
+      end
+
+      it 'does not queue an initial IMAP import for a Cloud default-plan account' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        InstallationConfig.find_or_initialize_by(name: 'CHATWOOT_CLOUD_PLANS').update!(value: [{ 'name' => 'Hacker' }])
+        imap_connection = instance_double(Net::IMAP, disconnected?: false)
+        allow(Net::IMAP).to receive(:new).and_return(imap_connection)
+        allow(imap_connection).to receive(:login)
+        allow(imap_connection).to receive(:disconnect)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/inboxes",
+               headers: admin.create_new_auth_token,
+               params: {
+                 name: 'Support',
+                 channel: {
+                   type: 'email', email: 'support@example.com', imap_enabled: true,
+                   imap_address: 'imap.example.com', imap_port: 993,
+                   imap_login: 'support@example.com', imap_password: 'password',
+                   imap_enable_ssl: true, imap_authentication: 'login'
+                 }
+               }, as: :json
+        end.not_to have_enqueued_job(Inboxes::FetchImapEmailsJob)
+
+        expect(response).to have_http_status(:success)
+      end
+
       it 'creates an api inbox when administrator' do
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
