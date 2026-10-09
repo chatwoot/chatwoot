@@ -171,6 +171,14 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
       end
 
+      it 'stores the provider timestamp as external_created_at' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+
+        message = whatsapp_channel.inbox.messages.last
+        expect(message.content_attributes['external_created_at']).to eq('1633034394')
+        expect(message.webhook_data[:content_attributes]['external_created_at']).to eq('1633034394')
+      end
+
       it 'appends to last conversation when if conversation already exists' do
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
         2.times.each { create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact) }
