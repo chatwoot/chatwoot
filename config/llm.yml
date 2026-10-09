@@ -187,7 +187,7 @@ features:
     default: gpt-4.1
   help_center_query_translation:
     models: [gpt-4.1-nano, gpt-4.1-mini, gpt-5-mini]
-    default: gpt-4.1-nano
+    default: gpt-4.1-mini
   audio_transcription:
     models: [gpt-4o-mini-transcribe, whisper-1]
     default: gpt-4o-mini-transcribe
