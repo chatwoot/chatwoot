@@ -95,6 +95,10 @@ const hasTextHeaderVariables = computed(() => {
   return headerText.value?.match(/{{([^}]+)}}/g) !== null;
 });
 
+const hasButtonVariables = computed(() =>
+  processedParams.value.buttons?.some(Boolean)
+);
+
 const hasVariables = computed(
   () => hasBodyVariables.value || hasTextHeaderVariables.value
 );
@@ -113,9 +117,19 @@ const renderedTemplate = computed(() => {
   );
 });
 
+const hasCompleteButtonParameters = computed(() =>
+  (processedParams.value.buttons ?? []).every(
+    button => !button || !!button.parameter
+  )
+);
+
 // Completeness validation is shared with the mobile app via @chatwoot/utils.
+// Dynamic button parameters are not covered there, so mirror the campaign
+// form guard here before allowing the template to send.
 const isFormInvalid = computed(
-  () => !isWhatsAppComplete(props.template, processedParams.value)
+  () =>
+    !isWhatsAppComplete(props.template, processedParams.value) ||
+    !hasCompleteButtonParameters.value
 );
 
 const v$ = useVuelidate(
@@ -147,7 +161,7 @@ const updateMediaName = value => {
 
 const sendMessage = () => {
   v$.value.$touch();
-  if (v$.value.$invalid) return;
+  if (v$.value.$invalid || isFormInvalid.value) return;
 
   const { name, category, language, namespace } = props.template;
 
@@ -190,6 +204,8 @@ watch(
 defineExpose({
   processedParams,
   hasVariables,
+  hasButtonVariables,
+  hasCompleteButtonParameters,
   hasMediaHeader,
   isDocumentTemplate,
   headerComponent,
@@ -236,7 +252,7 @@ defineExpose({
       </div>
     </div>
 
-    <div v-if="hasVariables || hasMediaHeader">
+    <div v-if="hasVariables || hasMediaHeader || hasButtonVariables">
       <div v-if="hasMediaHeader" class="mb-4">
         <p class="mb-2.5 text-sm font-semibold">
           {{
