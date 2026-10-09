@@ -18,6 +18,8 @@ class Imap::ImapMailbox
     return unless incoming_email_from_valid_email?
 
     ActiveRecord::Base.transaction do
+      next if duplicate_email?
+
       find_or_create_contact
       find_or_create_conversation
       create_message
@@ -37,6 +39,17 @@ class Imap::ImapMailbox
 
   def decorate_mail
     @processed_mail = MailPresenter.new(@inbound_mail, @account)
+  end
+
+  # Fetch jobs for an inbox can overlap and hold the same email, long after their own duplicate check ran.
+  # The advisory lock lets only one job save a given email at a time. Postgres releases it when the transaction ends.
+  # The check after the lock sees a copy that another job has already committed.
+  def duplicate_email?
+    source_id = sanitize_mailbox_value(@processed_mail.message_id)
+    lock_key = Digest::SHA256.digest(source_id).unpack1('l>')
+    locked = ActiveRecord::Base.connection.select_value("SELECT pg_try_advisory_xact_lock(#{@inbox.id}, #{lock_key})")
+
+    !locked || @inbox.messages.exists?(source_id: source_id)
   end
 
   # Replies to a forwarded email stay in the forward recipient's own conversation
