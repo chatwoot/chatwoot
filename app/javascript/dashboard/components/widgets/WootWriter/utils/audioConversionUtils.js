@@ -1,5 +1,4 @@
-import lamejs from '@breezystack/lamejs';
-
+import { encodePcmToMp3 } from './mp3Encoder';
 import { remuxWebmToOgg } from './webmOpusToOgg';
 
 const writeString = (view, offset, string) => {
@@ -66,35 +65,40 @@ export const convertToWav = async audioBlob => {
   );
 };
 
-/**
- * Encodes audio samples to MP3 format.
- * @param {number} channels - Number of audio channels.
- * @param {number} sampleRate - Sample rate in Hz.
- * @param {Int16Array} samples - Audio samples to be encoded.
- * @param {number} bitrate - MP3 bitrate (default: 128)
- * @returns {Blob} - The MP3 encoded audio as a Blob.
- */
-export const encodeToMP3 = (channels, sampleRate, samples, bitrate = 128) => {
-  const outputBuffer = [];
-  const encoder = new lamejs.Mp3Encoder(channels, sampleRate, bitrate);
-  const maxSamplesPerFrame = 1152;
+const encodeInWorker = (channelData, sampleRate, bitrate) =>
+  new Promise((resolve, reject) => {
+    const worker = new Worker(
+      new URL('./mp3Encoder.worker.js', import.meta.url),
+      { type: 'module' }
+    );
+    worker.onmessage = ({ data }) => {
+      worker.terminate();
+      resolve(data);
+    };
+    worker.onerror = event => {
+      worker.terminate();
+      reject(event);
+    };
+    worker.postMessage({ channelData, sampleRate, bitrate });
+  });
 
-  for (let offset = 0; offset < samples.length; offset += maxSamplesPerFrame) {
-    const sliceEnd = Math.min(offset + maxSamplesPerFrame, samples.length);
-    const sampleSlice = samples.subarray(offset, sliceEnd);
-    const mp3Buffer = encoder.encodeBuffer(sampleSlice);
-
-    if (mp3Buffer.length > 0) {
-      outputBuffer.push(new Int8Array(mp3Buffer));
-    }
+// lamejs is synchronous: encoding a long recording on the main thread freezes
+// the UI for seconds, so the work runs in a Web Worker whenever possible.
+const encodeMp3 = async (channelData, sampleRate, bitrate) => {
+  if (typeof Worker === 'undefined') {
+    return encodePcmToMp3(channelData, sampleRate, bitrate);
   }
 
-  const remainingData = encoder.flush();
-  if (remainingData.length > 0) {
-    outputBuffer.push(new Int8Array(remainingData));
+  let result;
+  try {
+    result = await encodeInWorker(channelData, sampleRate, bitrate);
+  } catch (error) {
+    // The worker script could not be loaded, encode on the main thread.
+    return encodePcmToMp3(channelData, sampleRate, bitrate);
   }
 
-  return new Blob(outputBuffer, { type: 'audio/mp3' });
+  if (result.error) throw new Error(result.error);
+  return result.chunks;
 };
 
 /**
@@ -106,30 +110,16 @@ export const encodeToMP3 = (channels, sampleRate, samples, bitrate = 128) => {
 export const convertToMp3 = async (audioBlob, bitrate = 128) => {
   try {
     const audioBuffer = await decodeAudioData(audioBlob);
-    const samples = new Int16Array(
-      audioBuffer.length * audioBuffer.numberOfChannels
+    const channelData = Array.from(
+      { length: audioBuffer.numberOfChannels },
+      (_, channel) => audioBuffer.getChannelData(channel)
     );
-    let offset = 0;
-    for (let i = 0; i < audioBuffer.length; i += 1) {
-      for (
-        let channel = 0;
-        channel < audioBuffer.numberOfChannels;
-        channel += 1
-      ) {
-        const sample = Math.max(
-          -1,
-          Math.min(1, audioBuffer.getChannelData(channel)[i])
-        );
-        samples[offset] = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
-        offset += 1;
-      }
-    }
-    return encodeToMP3(
-      audioBuffer.numberOfChannels,
+    const chunks = await encodeMp3(
+      channelData,
       audioBuffer.sampleRate,
-      samples,
       bitrate
     );
+    return new Blob(chunks, { type: 'audio/mp3' });
   } catch (error) {
     throw new Error('Conversion to MP3 failed.');
   }
