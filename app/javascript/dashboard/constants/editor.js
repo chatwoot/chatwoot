@@ -101,8 +101,20 @@ export const FORMATTING = {
   },
   'Channel::Telegram': {
     marks: ['strong', 'em', 'link', 'code'],
-    nodes: [],
-    menu: ['copilot', 'strong', 'em', 'link', 'code', 'undo', 'redo'],
+    // Telegram has no list entity; TelegramRenderer sends list items as
+    // "1. " / "• " text, so the editor can keep them instead of stripping.
+    nodes: ['bulletList', 'orderedList'],
+    menu: [
+      'copilot',
+      'strong',
+      'em',
+      'link',
+      'code',
+      'bulletList',
+      'orderedList',
+      'undo',
+      'redo',
+    ],
   },
   'Channel::Instagram': {
     marks: ['strong', 'em', 'code', 'strike'],
