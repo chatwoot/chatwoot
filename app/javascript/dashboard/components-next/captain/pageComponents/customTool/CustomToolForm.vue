@@ -10,6 +10,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 import ParamRow from './ParamRow.vue';
 import AuthConfig from './AuthConfig.vue';
 import HeadersConfig from './HeadersConfig.vue';
@@ -43,9 +44,13 @@ const initialState = {
   auth_config: {},
   headers: {},
   param_schema: [],
+  settings: { requires_email_verification: false },
 };
 
-const state = reactive({ ...initialState });
+const state = reactive({
+  ...initialState,
+  settings: { ...initialState.settings },
+});
 
 // Tools installed from a manifest are shown read-only
 const isReadOnly = computed(() => props.mode === 'view');
@@ -65,6 +70,7 @@ watch(
       state.auth_config = newTool.auth_config || {};
       state.headers = newTool.headers || {};
       state.param_schema = newTool.param_schema || [];
+      state.settings = { ...initialState.settings, ...newTool.settings };
     }
   },
   { immediate: true }
@@ -265,6 +271,22 @@ const handleTest = async () => {
         v-model:auth-config="state.auth_config"
         :auth-type="state.auth_type"
       />
+
+      <label class="flex items-start justify-between gap-3">
+        <span class="flex flex-col gap-0.5">
+          <span class="text-sm font-medium text-n-slate-12">
+            {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.LABEL') }}
+          </span>
+          <span class="text-sm text-n-slate-11">
+            {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.DESCRIPTION') }}
+          </span>
+        </span>
+        <Switch
+          v-model="state.settings.requires_email_verification"
+          :disabled="isReadOnly"
+          class="shrink-0"
+        />
+      </label>
 
       <div class="flex flex-col">
         <ToolFormSection
