@@ -7,12 +7,12 @@ class Captain::Copilot::PresentationService
     @run = run
   end
 
-  def table(page: 1, attention_only: false)
+  def table(page: 1, matched_only: false)
     raise ArgumentError, 'page must be a positive integer' unless page.is_a?(Integer) && page.positive?
-    raise ArgumentError, 'attention_only must be a boolean' unless [true, false].include?(attention_only)
+    raise ArgumentError, 'matched_only must be a boolean' unless [true, false].include?(matched_only)
 
     visible = accessible_conversations(account: @run.account, user: @run.user)
-    scope = visible_findings(visible, attention_only)
+    scope = visible_findings(visible, matched_only)
     findings = scope.page(page).per(PAGE_SIZE)
     display_ids = visible.where(id: findings.map(&:conversation_id)).pluck(:id, :display_id).to_h
     rows = findings.map { |finding| result_row(finding, display_ids.fetch(finding.conversation_id)) }
@@ -23,14 +23,14 @@ class Captain::Copilot::PresentationService
 
   private
 
-  def visible_findings(visible, attention_only)
+  def visible_findings(visible, matched_only)
     scope = @run.findings.where(conversation_id: visible.select(:id)).order(:conversation_id)
-    attention_only ? scope.where(needs_attention: true) : scope
+    matched_only ? scope.where(matched: true) : scope
   end
 
   def result_row(finding, display_id)
     { conversation_id: display_id, url: "/app/accounts/#{@run.account_id}/conversations/#{display_id}", status: finding.status,
-      needs_attention: finding.needs_attention, category: finding.category, reason: finding.reason, error: finding.error,
+      matched: finding.matched, category: finding.category, reason: finding.reason, error: finding.error,
       evidence_message_ids: finding.evidence_message_ids, reviewed_message_ids: finding.reviewed_message_ids,
       history_truncated: finding.history_truncated }
   end

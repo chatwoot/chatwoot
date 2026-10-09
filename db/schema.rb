@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_06_233107) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_09_094528) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1044,7 +1044,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_06_233107) do
     t.bigint "copilot_run_id", null: false
     t.bigint "conversation_id", null: false
     t.string "status", null: false
-    t.boolean "needs_attention", default: false, null: false
+    t.boolean "matched", default: false, null: false
     t.string "category"
     t.text "reason"
     t.jsonb "evidence_message_ids", default: [], null: false

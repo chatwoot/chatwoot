@@ -1,4 +1,4 @@
-class CreateCopilotRuns < ActiveRecord::Migration[7.1]
+class CreateCopilotRuns < ActiveRecord::Migration[7.2]
   def change # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     create_table :copilot_runs do |t|
       t.references :account, null: false
@@ -36,7 +36,7 @@ class CreateCopilotRuns < ActiveRecord::Migration[7.1]
       t.references :copilot_run, null: false
       t.bigint :conversation_id, null: false
       t.string :status, null: false
-      t.boolean :needs_attention, null: false, default: false
+      t.boolean :matched, null: false, default: false
       t.string :category
       t.text :reason
       t.jsonb :evidence_message_ids, null: false, default: []
