@@ -5,6 +5,11 @@
 # icon: Icon name for frontend display (frontend icon system)
 #######################################################
 
+- id: verify_customer_email
+  title: 'Verify Customer Email'
+  description: 'Request and verify an email code before accessing private customer data'
+  icon: 'mail'
+
 - id: add_contact_note
   title: 'Add Contact Note'
   description: 'Add a note to a contact profile'

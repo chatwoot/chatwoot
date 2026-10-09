@@ -11,11 +11,14 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   end
 
   def perform(tool_context, **params)
+    params = Captain::ToolCustomerAuthorization.new(assistant: @assistant, tool: @custom_tool, state: tool_context.state).parameters(params)
     url = @custom_tool.build_request_url(params)
     body = @custom_tool.build_request_body(params)
 
     response_body = execute_http_request(url, body, tool_context)
     @custom_tool.format_response(response_body)
+  rescue Captain::ToolCustomerAuthorization::Unauthorized => e
+    failure_result(e.message, tool_context.state)
   rescue StandardError => e
     Rails.logger.error("HttpTool execution error for #{@custom_tool.slug}: #{e.class} - #{e.message}")
     failure_result('An error occurred while executing the request', tool_context.state)

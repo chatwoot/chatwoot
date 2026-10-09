@@ -126,6 +126,7 @@ class Captain::Assistant < ApplicationRecord
 
   def available_agent_tools
     tools = self.class.built_in_agent_tools.dup
+    tools.reject! { |tool| tool[:id] == 'verify_customer_email' } if config['customer_verification_tools'].blank?
 
     tools.concat(custom_tools.enabled.map(&:to_tool_metadata))
 
@@ -207,6 +208,7 @@ class Captain::Assistant < ApplicationRecord
     [
       self.class.resolve_tool_class('faq_lookup').new(self),
       self.class.resolve_tool_class('handoff').new(self),
+      *(config['customer_verification_tools'].present? ? [Captain::Tools::VerifyCustomerEmailTool.new(self)] : []),
       *custom_tools.enabled.map { |custom_tool| custom_tool.tool(self) }
     ]
   end
