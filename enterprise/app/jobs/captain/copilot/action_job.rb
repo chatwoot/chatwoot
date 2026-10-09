@@ -1,6 +1,5 @@
 class Captain::Copilot::ActionJob < ApplicationJob
   include Captain::Copilot::BackgroundRunJob
-  include Captain::Copilot::ConversationAccess
 
   queue_as :default
 
@@ -14,10 +13,11 @@ class Captain::Copilot::ActionJob < ApplicationJob
     Current.user = run.user
     action = run.action
     ids = run.remaining_ids.first(STEP_SIZE)
-    conversations = accessible_conversations(account: run.account, user: run.user).where(id: ids).index_by(&:id)
+    resource = Captain::Copilot::Resources.build(action.class::RESOURCE, account: run.account, user: run.user)
+    records = resource.scope.where(id: ids).index_by(&:id)
     ids.each do |id|
       run.renew_lease(token)
-      apply(run, token, action, id, conversations[id])
+      apply(run, token, action, id, records[id])
     end
     run.with_lease(token) { run.publish_progress }
     continue_or_finalize(run, token)
@@ -25,9 +25,9 @@ class Captain::Copilot::ActionJob < ApplicationJob
     Current.reset
   end
 
-  def apply(run, token, action, id, conversation)
-    status = conversation ? action.perform(conversation) : 'failed'
-    run.with_lease(token) { save_item(run, id, status, conversation ? nil : 'Conversation is no longer accessible') }
+  def apply(run, token, action, id, record)
+    status = record ? action.perform(record) : 'failed'
+    run.with_lease(token) { save_item(run, id, status, record ? nil : 'Record is no longer accessible') }
   rescue Captain::Copilot::LeaseLostError
     raise
   rescue StandardError => e

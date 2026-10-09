@@ -1,9 +1,10 @@
 # An action changes one record at a time. A subclass declares:
 #   NAME        the value the model passes to the act tool
+#   RESOURCE    the resource it changes, as named in Captain::Copilot::Resources
 #   DESCRIPTION what the action does, shown to the model
 #   ARGUMENTS   a JSON schema for its arguments
 # and implements perform(record), which returns 'applied', or 'skipped' when the record already has the change.
-# Records are conversations the user can access; ActionJob checks access again before each change.
+# ActionJob loads records through the resource's scope, so the user's access is checked again before each change.
 class Captain::Copilot::Actions::BaseAction
   def initialize(account:, user:, arguments:)
     @account = account

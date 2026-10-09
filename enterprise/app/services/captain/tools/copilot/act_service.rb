@@ -10,17 +10,17 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
               "approves it. Returns what was applied, skipped or failed after the agent decides. Actions:\n#{ACTIONS_HELP}"
   parameters type: 'object', required: %w[source_id action arguments], additionalProperties: false,
              properties: {
-               source_id: { type: 'integer', description: 'ID of a saved collection from get_data or a finished review' },
+               source_id: { type: 'integer', description: "ID of a saved collection or finished review holding the action's resource" },
                only_matched: { type: 'boolean', description: 'For a review, change only the conversations that matched. Defaults to true' },
                action: { type: 'string', enum: Captain::Copilot::Actions.all.map { |action| action::NAME } },
                arguments: { type: 'object', description: 'Arguments for the action, as described above' }
              }
 
   def execute(source_id:, action:, arguments:, only_matched: true)
-    Captain::Copilot::Actions.build(action, account: run.account, user: run.user, arguments: arguments)
-    target_ids = target_ids(source_id, only_matched)
-    raise ArgumentError, 'There are no conversations to change' if target_ids.empty?
-    raise ArgumentError, "At most #{MAX_TARGETS} conversations can be changed at once. Narrow the selection." if target_ids.size > MAX_TARGETS
+    proposed = Captain::Copilot::Actions.build(action, account: run.account, user: run.user, arguments: arguments)
+    target_ids = target_ids(source_id, proposed.class::RESOURCE, only_matched)
+    raise ArgumentError, 'There are no records to change' if target_ids.empty?
+    raise ArgumentError, "At most #{MAX_TARGETS} records can be changed at once. Narrow the selection." if target_ids.size > MAX_TARGETS
 
     action_run = run.with_lease(lease_token) { step.background_run || request_approval(source_id, action, arguments, target_ids) }
     action_run.receipt
@@ -28,17 +28,15 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
 
   private
 
-  def target_ids(source_id, only_matched)
-    source = run.copilot_thread.copilot_runs.where(account: run.account, user: run.user, kind: %w[collection review]).find(source_id)
-    return source.selected_ids if source.kind == 'collection'
-    raise ArgumentError, 'The review has not finished yet' unless source.terminal?
+  def target_ids(source_id, resource, only_matched)
+    source = saved_run(source_id, %w[collection review])
+    return source.record_ids(only_matched: only_matched) if source.resource == resource
 
-    findings = source.findings.where(status: 'resolved')
-    findings = findings.where(matched: true) if only_matched
-    findings.order(:conversation_id).pluck(:conversation_id)
+    raise ArgumentError, "This action changes #{resource}, but the source holds #{source.resource}. " \
+                         "Use get_data with resource #{resource} and from #{source.id} first."
   end
 
-  # The target IDs are frozen here, so the agent approves exactly the conversations shown on the approval card.
+  # The target IDs are frozen here, so the agent approves exactly the records shown on the approval card.
   def request_approval(source_id, action, arguments, target_ids)
     action_run = run.copilot_thread.copilot_runs.create!(
       account: run.account, user: run.user, copilot_run_step: step, parent_run_id: source_id, kind: 'action', status: 'awaiting_approval',
