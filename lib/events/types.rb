@@ -63,4 +63,5 @@ module Events::Types
 
   # copilot events
   COPILOT_MESSAGE_CREATED = 'copilot.message.created'
+  COPILOT_MESSAGE_UPDATED = 'copilot.message.updated'
 end

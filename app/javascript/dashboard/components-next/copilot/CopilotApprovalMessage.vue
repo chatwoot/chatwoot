@@ -20,11 +20,15 @@ const isSubmitting = ref(false);
 const approval = computed(() => props.message.approval);
 const status = computed(() => decision.value || approval.value.status);
 const isPending = computed(() => status.value === 'pending');
-const statusLabel = computed(() =>
-  status.value === 'approved'
-    ? t('CAPTAIN.COPILOT.APPROVAL.STATUS.APPROVED')
-    : t('CAPTAIN.COPILOT.APPROVAL.STATUS.REJECTED')
-);
+const statusLabel = computed(() => {
+  if (status.value === 'approved') {
+    return t('CAPTAIN.COPILOT.APPROVAL.STATUS.APPROVED');
+  }
+  if (status.value === 'expired') {
+    return t('CAPTAIN.COPILOT.APPROVAL.STATUS.EXPIRED');
+  }
+  return t('CAPTAIN.COPILOT.APPROVAL.STATUS.REJECTED');
+});
 
 const summary = computed(() => {
   const { action, arguments: args, count } = approval.value;
@@ -45,6 +49,12 @@ const decide = async choice => {
     decision.value = choice === 'approve' ? 'approved' : 'rejected';
     emit('decided', props.message.run_id);
   } catch (error) {
+    // A change that expired or was already decided reports its current status.
+    const currentStatus = error?.response?.data?.status;
+    if (currentStatus) {
+      decision.value = currentStatus;
+      emit('decided', props.message.run_id);
+    }
     useAlert(
       error?.response?.data?.error || t('CAPTAIN.COPILOT.APPROVAL.ERROR')
     );

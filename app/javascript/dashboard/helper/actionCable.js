@@ -66,6 +66,8 @@ class ActionCableConnector extends BaseActionCableConnector {
       'account.enrichment_completed': this.onEnrichmentCompleted,
       'account.billing_updated': this.onBillingUpdated,
       'copilot.message.created': this.onCopilotMessageCreated,
+      // The store upserts by ID, so an updated approval card replaces the old one.
+      'copilot.message.updated': this.onCopilotMessageCreated,
       'captain.playground.response': this.onCaptainPlaygroundResponse,
       'voice_call.incoming': this.onVoiceCallIncoming,
       'voice_call.accepted': this.onVoiceCallAccepted,

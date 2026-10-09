@@ -42,13 +42,14 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
   def request_approval(source_id, action, arguments, target_ids)
     action_run = run.copilot_thread.copilot_runs.create!(
       account: run.account, user: run.user, copilot_run_step: step, parent_run_id: source_id, kind: 'action', status: 'awaiting_approval',
-      context: { action: action, arguments: arguments, target_ids: target_ids }
+      context: { action: action, arguments: arguments, target_ids: target_ids, approval_expires_at: CopilotRun::APPROVAL_TTL.from_now.iso8601 }
     )
     message = run.copilot_thread.copilot_messages.create!(
       message_type: :assistant_approval,
       message: { run_id: action_run.id, approval: { status: 'pending', action: action, arguments: arguments, count: target_ids.size } }
     )
     action_run.update!(context: action_run.context.merge('approval_message_id' => message.id))
+    Captain::Copilot::ApprovalExpiryJob.set(wait: CopilotRun::APPROVAL_TTL).perform_later(action_run.id)
     action_run
   end
 end

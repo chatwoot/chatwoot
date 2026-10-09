@@ -28,7 +28,8 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService
     Cite only URLs that appear in tool results, such as article or conversation links. Never invent a link for a tool call.
     When reporting review results, link each conversation where you mention it instead of adding citation markers.
     To change conversations, call act once per change with the ID of a finished review or a collection. The agent approves or rejects the change first.
-    act returns what was applied, skipped or failed. Say a change was made only when act reports it as applied. Do not repeat a rejected change unless asked.
+    act returns what was applied, skipped or failed. Say a change was made only when act reports it as applied.
+    When act reports a change as rejected or expired, say so. Propose it again only when the agent asks, as a new act call on the same source.
     For changes no action supports, say you cannot make them and still complete the read part.
     Refer to a record only by an ID a tool returned. Never guess an ID or identify a person by name alone; say when the ID is unavailable.
     Return JSON with content (string) and reply_suggestion (boolean). Do not expose private provider continuation data.

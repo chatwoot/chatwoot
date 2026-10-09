@@ -2,13 +2,13 @@ class Api::V1::Accounts::Captain::CopilotRunsController < Api::V1::Accounts::Bas
   before_action :set_action_run
 
   def approve
-    return render_already_decided unless @action_run.approve
+    return render_not_pending unless @action_run.approve
 
     render json: @action_run.receipt
   end
 
   def reject
-    return render_already_decided unless @action_run.reject(I18n.t('captain.copilot.approval_rejected'))
+    return render_not_pending unless @action_run.reject(I18n.t('captain.copilot.approval_rejected'))
 
     render json: @action_run.receipt
   end
@@ -20,7 +20,10 @@ class Api::V1::Accounts::Captain::CopilotRunsController < Api::V1::Accounts::Bas
     @action_run = CopilotRun.find_by!(id: params[:id], account: Current.account, user: Current.user, kind: 'action')
   end
 
-  def render_already_decided
-    render json: { error: I18n.t('captain.copilot.approval_already_decided') }, status: :unprocessable_content
+  # The status lets the approval card show what actually happened, e.g. that the change expired.
+  def render_not_pending
+    status = @action_run.reload.status
+    error = status == 'expired' ? I18n.t('captain.copilot.approval_expired_notice') : I18n.t('captain.copilot.approval_already_decided')
+    render json: { error: error, status: %w[rejected expired].include?(status) ? status : 'approved' }, status: :unprocessable_content
   end
 end

@@ -721,7 +721,8 @@
         },
         "STATUS": {
           "APPROVED": "Approved",
-          "REJECTED": "Rejected"
+          "REJECTED": "Rejected",
+          "EXPIRED": "Expired. Ask Copilot to propose it again."
         }
       }
     },
