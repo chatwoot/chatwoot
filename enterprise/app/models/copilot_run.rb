@@ -45,19 +45,20 @@ class CopilotRun < ApplicationRecord
   has_many :findings, class_name: 'CopilotReviewFinding', dependent: :delete_all
   has_many :action_items, class_name: 'CopilotActionItem', dependent: :delete_all
 
-  FINISHED_STATUSES = %w[completed incomplete failed rejected].freeze
+  FINISHED_STATUSES = %w[completed incomplete failed rejected expired].freeze
   MAX_SELECTION = 5000
   # Conversations a review finishes per turn. The rest wait until the agent asks to continue.
   CONVERSATIONS_PER_TURN = 100
 
   LEASE_DURATION = 2.minutes
+  # The approval card shows a fixed set of conversations. After this long that set may be stale, so the agent has to ask again.
+  APPROVAL_TTL = 5.minutes
 
   enum :kind, { turn: 'turn', collection: 'collection', review: 'review', action: 'action' }, validate: true
   # awaiting_background_run: a turn parked until a background run started by one of its tool calls finishes.
   # awaiting_approval: an action run that writes nothing until the agent approves it.
-  enum :status, { queued: 'queued', running: 'running', awaiting_background_run: 'awaiting_background_run',
-                  awaiting_approval: 'awaiting_approval', completed: 'completed', incomplete: 'incomplete', failed: 'failed',
-                  rejected: 'rejected' }, validate: true
+  enum :status, { queued: 'queued', running: 'running', awaiting_background_run: 'awaiting_background_run', awaiting_approval: 'awaiting_approval',
+                  completed: 'completed', incomplete: 'incomplete', failed: 'failed', rejected: 'rejected', expired: 'expired' }, validate: true
 
   # Runs a job may pick up: waiting for a worker, or held by one whose lease may have expired.
   scope :claimable, -> { where(status: %i[queued running]) }
@@ -113,18 +114,28 @@ class CopilotRun < ApplicationRecord
     Captain::Copilot::TurnJob.perform_later(id) if resumed
   end
 
-  # Approving starts the action. Returns false when the action was already decided.
+  # Approving starts the action. Returns false when the action was already decided, or has expired, which also closes it.
   def approve
+    if approval_expired?
+      expire
+      return false
+    end
+
     decided = decide('queued')
     Captain::Copilot::ActionJob.perform_later(id) if decided
     decided
   end
 
-  # Rejecting hands a rejected summary back to the waiting tool call, so the turn continues without the change.
   def reject(reason)
-    decided = decide('rejected', reason: reason)
-    copilot_tool_call.copilot_run.resume_with(copilot_tool_call, summary) if decided
-    decided
+    close('rejected', reason)
+  end
+
+  def expire
+    close('expired', I18n.t('captain.copilot.approval_expired', minutes: APPROVAL_TTL.in_minutes.to_i))
+  end
+
+  def approval_expired?
+    Time.iso8601(context.fetch('approval_expires_at')).past?
   end
 
   def action
@@ -232,13 +243,20 @@ class CopilotRun < ApplicationRecord
 
   private
 
+  # Closing hands the decision back to the waiting tool call, so the turn continues without the change.
+  def close(new_status, reason)
+    decided = decide(new_status, reason: reason)
+    copilot_tool_call.copilot_run.resume_with(copilot_tool_call, summary) if decided
+    decided
+  end
+
   def decide(new_status, reason: nil)
     with_lock do
       next false unless status == 'awaiting_approval'
 
-      update!(status: new_status, context: context.merge('decided_at' => Time.current.iso8601, 'rejection_reason' => reason).compact)
+      update!(status: new_status, context: context.merge('decided_at' => Time.current.iso8601, 'decision_reason' => reason).compact)
       card = copilot_thread.copilot_messages.find(context.fetch('approval_message_id'))
-      card.update!(message: card.message.deep_merge('approval' => { 'status' => new_status == 'queued' ? 'approved' : 'rejected' }))
+      card.update!(message: card.message.deep_merge('approval' => { 'status' => { 'queued' => 'approved' }.fetch(new_status, new_status) }))
     end
   end
 
@@ -259,7 +277,7 @@ class CopilotRun < ApplicationRecord
   def action_summary
     counts = action_items.group(:status).count
     { action: context['action'], arguments: context['arguments'], targets: target_ids.size, applied: counts['applied'].to_i,
-      skipped: counts['skipped'].to_i, failed: counts['failed'].to_i, rejection_reason: context['rejection_reason'] }.compact
+      skipped: counts['skipped'].to_i, failed: counts['failed'].to_i, decision_reason: context['decision_reason'] }.compact
   end
 
   def progress_text(progress)

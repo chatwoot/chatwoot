@@ -27,6 +27,7 @@ class CopilotMessage < ApplicationRecord
   before_validation :ensure_account
   validate :validate_message_attributes
   after_create_commit :broadcast_message
+  after_update_commit :broadcast_update
 
   def push_event_data
     {
@@ -67,6 +68,11 @@ class CopilotMessage < ApplicationRecord
 
   def broadcast_message
     Rails.configuration.dispatcher.dispatch(COPILOT_MESSAGE_CREATED, Time.zone.now, copilot_message: self)
+  end
+
+  # Approval cards change status after they are created.
+  def broadcast_update
+    Rails.configuration.dispatcher.dispatch(COPILOT_MESSAGE_UPDATED, Time.zone.now, copilot_message: self)
   end
 
   # Turns run in order, so a change still waiting for approval would hold this message back. Sending a new message
