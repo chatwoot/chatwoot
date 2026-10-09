@@ -158,6 +158,29 @@ describe AgentBotListener do
     end
   end
 
+  describe '#conversation_viewed' do
+    let(:event_name) { 'conversation.viewed' }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, viewed_by: user) }
+
+    context 'when agent bot is not configured' do
+      it 'does not send event to agent bot' do
+        expect(AgentBots::WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.conversation_viewed(event)
+      end
+    end
+
+    context 'when agent bot is configured' do
+      it 'sends the event to the agent bot' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url, conversation.webhook_data.merge(event: 'conversation_viewed'),
+          :agent_bot_webhook, secret: agent_bot.secret, delivery_id: instance_of(String)
+        ).once
+        listener.conversation_viewed(event)
+      end
+    end
+  end
+
   describe '#conversation_resolved' do
     let(:event_name) { 'conversation.resolved' }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }

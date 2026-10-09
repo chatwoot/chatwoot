@@ -18,6 +18,7 @@ module Events::Types
   CONVERSATION_UPDATED = 'conversation.updated'
   CONVERSATION_DELETED = 'conversation.deleted'
   CONVERSATION_READ = 'conversation.read'
+  CONVERSATION_VIEWED = 'conversation.viewed'
   CONVERSATION_BOT_HANDOFF = 'conversation.bot_handoff'
   # FIXME: deprecate the opened and resolved events in future in favor of status changed event.
   CONVERSATION_OPENED = 'conversation.opened'
