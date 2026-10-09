@@ -1472,6 +1472,10 @@
         "AUTH_TYPE": {
           "LABEL": "Authentication Type"
         },
+        "EMAIL_VERIFICATION": {
+          "LABEL": "Require email verification",
+          "DESCRIPTION": "Captain can use this tool only after the customer verifies their email with a one-time code."
+        },
         "AUTH_TYPES": {
           "NONE": "None",
           "BEARER": "Bearer Token",

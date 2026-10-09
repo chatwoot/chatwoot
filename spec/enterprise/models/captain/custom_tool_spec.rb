@@ -288,6 +288,41 @@ RSpec.describe Captain::CustomTool, type: :model do
     end
   end
 
+  describe 'settings' do
+    let(:account) { create(:account) }
+
+    it 'does not require email verification by default' do
+      tool = create(:captain_custom_tool, account: account)
+
+      expect(tool.settings).to eq({})
+      expect(tool.requires_email_verification?).to be(false)
+    end
+
+    it 'requires email verification when the setting is true' do
+      tool = create(:captain_custom_tool, account: account, settings: { 'requires_email_verification' => true })
+
+      expect(tool.reload.requires_email_verification?).to be(true)
+    end
+
+    it 'does not require email verification when the setting is false' do
+      tool = create(:captain_custom_tool, account: account, settings: { 'requires_email_verification' => false })
+
+      expect(tool.requires_email_verification?).to be(false)
+    end
+
+    it 'is invalid when the setting is not a boolean' do
+      tool = build(:captain_custom_tool, account: account, settings: { 'requires_email_verification' => 'false' })
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid with unknown settings' do
+      tool = build(:captain_custom_tool, account: account, settings: { 'require_verification' => true })
+
+      expect(tool).not_to be_valid
+    end
+  end
+
   describe 'scopes' do
     let(:account) { create(:account) }
 

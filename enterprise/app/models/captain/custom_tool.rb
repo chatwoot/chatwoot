@@ -13,6 +13,7 @@
 #  param_schema      :jsonb
 #  request_template  :text
 #  response_template :text
+#  settings          :jsonb            not null
 #  slug              :string           not null
 #  source_metadata   :jsonb
 #  title             :string           not null
@@ -83,6 +84,15 @@ class Captain::CustomTool < ApplicationRecord
     'additionalProperties': false
   }.to_json.freeze
 
+  # Only known settings with boolean values are accepted, so a typo or a string can never switch a safety setting off
+  SETTINGS_VALIDATION = {
+    'type': 'object',
+    'properties': {
+      'requires_email_verification': { 'type': 'boolean' }
+    },
+    'additionalProperties': false
+  }.to_json.freeze
+
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
 
@@ -101,6 +111,9 @@ class Captain::CustomTool < ApplicationRecord
   validates_with JsonSchemaValidator,
                  schema: SOURCE_METADATA_VALIDATION,
                  attribute_resolver: ->(record) { record.source_metadata }
+  validates_with JsonSchemaValidator,
+                 schema: SETTINGS_VALIDATION,
+                 attribute_resolver: ->(record) { record.settings }
   validate :validate_headers
   validate :validate_auth_config
 
@@ -117,6 +130,11 @@ class Captain::CustomTool < ApplicationRecord
       description: description,
       custom: true
     }
+  end
+
+  # The tool only runs for a customer who verified an email with a one-time code
+  def requires_email_verification?
+    settings['requires_email_verification'] == true
   end
 
   def enabled_scenarios_count

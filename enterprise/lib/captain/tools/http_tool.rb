@@ -11,6 +11,8 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   end
 
   def perform(tool_context, **params)
+    return email_verification_required_message(tool_context.state) unless email_verification_satisfied?(tool_context.state)
+
     url = @custom_tool.build_request_url(params)
     body = @custom_tool.build_request_body(params)
 
@@ -26,6 +28,27 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   end
 
   private
+
+  # Runs where an admin or an agent is the user. Everywhere else a customer is, and has to verify first.
+  AGENT_FACING_SOURCES = %w[playground copilot_reply_suggestion].freeze
+
+  # Checked against the stored verification on every call, never against the run state the model can influence
+  def email_verification_satisfied?(state)
+    return true unless @custom_tool.requires_email_verification?
+    return true if AGENT_FACING_SOURCES.include?(state&.dig(:source))
+
+    contact_inbox = find_contact_inbox(state)
+    contact_inbox.present? && Captain::EmailVerification.new(contact_inbox).verified_email.present?
+  end
+
+  def email_verification_required_message(state)
+    failure_result(
+      'This tool needs a verified email, and this customer has not verified an email yet. ' \
+      'Verify their email with a one-time code first, then call this tool again. ' \
+      'If that is not possible, ask whether they want to talk to a support agent.',
+      state
+    )
+  end
 
   def safe_to_run_after_new_customer_message?
     @custom_tool.http_method == 'GET'

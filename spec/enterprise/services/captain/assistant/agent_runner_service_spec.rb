@@ -49,6 +49,9 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     allow(mock_runner).to receive(:on_run_complete).and_return(mock_runner)
     allow(mock_agent).to receive(:register_handoffs)
     allow(mock_scenario_agent).to receive(:register_handoffs)
+    # The runner adds the email verification tools with clone, so the doubles return themselves
+    allow(mock_agent).to receive_messages(tools: [], clone: mock_agent)
+    allow(mock_scenario_agent).to receive_messages(tools: [], clone: mock_scenario_agent)
   end
 
   describe '#initialize' do
