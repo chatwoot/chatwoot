@@ -15,7 +15,7 @@ module Enterprise::Message
     end
   end
 
-  def push_event_data
+  def push_event_data(**)
     data = super
     data[:call] = call.push_event_data if content_type == 'voice_call' && call.present?
     data
