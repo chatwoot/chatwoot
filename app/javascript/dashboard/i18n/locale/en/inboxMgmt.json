@@ -1311,7 +1311,8 @@
         "BALANCED": "Balanced assignment"
       },
       "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
-      "SELF_HOSTED_PROMPT": "Custom assignment policies are not enabled for this account.",
+      "SELF_HOSTED_PROMPT": "Custom assignment policies are available on the Premium plan",
+      "FEATURE_DISABLED_PROMPT": "Custom assignment policies are not enabled for this account.",
       "UPGRADE_TO_BUSINESS": "Upgrade to Business",
       "UPGRADE_TO_PREMIUM": "Upgrade to Premium",
       "DEFAULT_POLICY_LINKED": "Default policy linked",

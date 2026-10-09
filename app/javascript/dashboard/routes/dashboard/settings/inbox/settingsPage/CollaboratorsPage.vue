@@ -29,8 +29,15 @@ const store = useStore();
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
-const { isEnterprise } = useConfig();
+const { isEnterprise, enterprisePlanName } = useConfig();
 const { isOnChatwootCloud } = useAccount();
+
+const isLicensedSelfHosted = computed(
+  () =>
+    !isOnChatwootCloud.value &&
+    isEnterprise &&
+    enterprisePlanName !== 'community'
+);
 
 const selectedAgentIds = ref([]);
 const isAgentListUpdating = ref(false);
@@ -631,7 +638,13 @@ onMounted(() => {
 
                   <!-- Enablement guidance when advanced_assignment is not enabled -->
                   <div v-if="!hasAdvancedAssignment">
-                    <p class="text-body-main text-n-slate-11 mb-1">
+                    <p
+                      v-if="isLicensedSelfHosted"
+                      class="text-body-main text-n-slate-11 mb-1"
+                    >
+                      {{ $t('INBOX_MGMT.ASSIGNMENT.FEATURE_DISABLED_PROMPT') }}
+                    </p>
+                    <p v-else class="text-body-main text-n-slate-11 mb-1">
                       {{
                         isOnChatwootCloud
                           ? $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_PROMPT')
@@ -639,6 +652,7 @@ onMounted(() => {
                       }}
                     </p>
                     <NextButton
+                      v-if="!isLicensedSelfHosted"
                       :label="
                         isOnChatwootCloud
                           ? $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_TO_BUSINESS')
