@@ -154,5 +154,10 @@
   },
   "FOOTER_REPLY_TO": {
     "REPLY_TO": "Replying to:"
+  },
+  "DELIVERY_PROBLEM": {
+    "SYNC_FAILED": "Some messages may be missing.",
+    "SYNC_RETRY": "Try again",
+    "CREATE_FAILED": "We could not start the chat. Please check your connection and try again."
   }
 }
