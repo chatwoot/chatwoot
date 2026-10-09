@@ -138,7 +138,8 @@ class Captain::ToolsManifest::InstallService
     @assistant.custom_tools.create!(attributes.merge(account: @assistant.account, enabled: tool['enabled']))
   end
 
-  # Everything except enabled comes from the manifest; enabled belongs to the user once a tool exists
+  # Everything except enabled comes from the manifest; enabled belongs to the user once a tool exists.
+  # The manifest keeps tool options flat; they are stored together in settings.
   def tool_attributes(tool, manifest, values, metadata)
     {
       title: tool['title'],
@@ -151,6 +152,7 @@ class Captain::ToolsManifest::InstallService
       request_template: interpolate(tool['request_template'], values),
       response_template: tool['response_template'],
       headers: manifest['headers'],
+      settings: { 'requires_email_verification' => tool['requires_email_verification'] },
       source_metadata: metadata.merge('tool_id' => tool['id'])
     }
   end
