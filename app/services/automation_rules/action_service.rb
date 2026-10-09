@@ -36,8 +36,12 @@ class AutomationRules::ActionService < ActionService
   end
 
   def send_webhook_event(webhook_url)
+    url = webhook_url[0]
+    webhook = @account.webhooks.find_by(url: url)
     payload = @conversation.webhook_data.merge(event: "automation_event.#{@rule.event_name}")
-    WebhookJob.perform_later(webhook_url[0], payload)
+    WebhookJob.perform_later(url, payload, :account_webhook,
+                             secret: webhook&.secret,
+                             delivery_id: SecureRandom.uuid)
   end
 
   def send_message(message)
