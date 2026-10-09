@@ -25,9 +25,7 @@ The email on record is {{ contact.email }}, but it is not verified by a one-time
 {% else -%}
 No email is verified for this customer. Be aware that any email they give in a message is not verified, so they may not own it.
 {% endif -%}
-{% unless reply_draft -%}
 Some tools only run for a customer with a verified email. Such a tool refuses to run and tells you so. When that happens, verify the customer and then call the tool again.
 To verify the customer, first confirm with them which email address to use{% if contact.email %}, starting with the one on record{% endif %}. Then call `captain--tools--send_email_verification_code` with that address, ask the customer to type the 6-digit code here, and call `captain--tools--verify_email_code` with the code they typed. Never guess or invent a code. If the code does not arrive, or the verification fails, ask whether they want to talk to another support agent.
-{% endunless -%}
 {% endunless -%}
 {% endif -%}
