@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "创建时间",
         "OLDEST": "创建于："
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "上次操作：",
-        "ACTIVE": "上次操作"
+        "NOT_ACTIVE": "上次操作："
       }
     },
     "SORT_ORDER_ITEMS": {

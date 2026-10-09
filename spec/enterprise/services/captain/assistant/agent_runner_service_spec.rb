@@ -33,6 +33,10 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     ]
   end
 
+  def run_options(**attributes)
+    described_class::RunOptions.new(**attributes)
+  end
+
   before do
     allow(assistant).to receive(:agent).and_return(mock_agent)
     scenarios_relation = instance_double(Captain::Scenario)
@@ -58,19 +62,26 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
     it 'accepts callbacks parameter' do
       callbacks = { on_agent_thinking: proc { |x| x } }
-      service = described_class.new(assistant: assistant, callbacks: callbacks)
+      service = described_class.new(assistant: assistant, run_options: run_options(callbacks: callbacks))
 
       expect(service.instance_variable_get(:@callbacks)).to eq(callbacks)
     end
 
     it 'accepts the message id it is responding to' do
-      service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: 123)
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(responding_to_message_id: 123)
+      )
 
       expect(service.instance_variable_get(:@responding_to_message_id)).to eq(123)
     end
 
     it 'accepts reply suggestion mode' do
-      service = described_class.new(assistant: assistant, source: described_class::REPLY_SUGGESTION_SOURCE)
+      service = described_class.new(
+        assistant: assistant,
+        run_options: run_options(source: described_class::REPLY_SUGGESTION_SOURCE)
+      )
 
       expect(service.instance_variable_get(:@source)).to eq('copilot_reply_suggestion')
       expect(service.send(:trace_config)).to include(
@@ -87,7 +98,10 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         scenarios: [scenario],
         agent_name_for: 'scenario_runtime_agent'
       )
-      service = described_class.new(assistant: assistant, runtime_configuration: runtime_configuration)
+      service = described_class.new(
+        assistant: assistant,
+        run_options: run_options(runtime_configuration: runtime_configuration)
+      )
 
       expect(assistant).to receive(:agent).with(runtime_configuration: runtime_configuration).and_return(mock_agent)
       expect(scenario).to receive(:agent).with(
@@ -108,7 +122,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       service = described_class.new(
         assistant: assistant,
         conversation: conversation,
-        source: described_class::REPLY_SUGGESTION_SOURCE
+        run_options: run_options(source: described_class::REPLY_SUGGESTION_SOURCE)
       )
 
       allow(assistant).to receive(:agent).and_return(assistant_agent)
@@ -125,7 +139,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       service = described_class.new(
         assistant: assistant,
         conversation: conversation,
-        source: described_class::REPLY_SUGGESTION_SOURCE
+        run_options: run_options(source: described_class::REPLY_SUGGESTION_SOURCE)
       )
       context = instance_double(Agents::RunContext)
 
@@ -187,7 +201,11 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     it 'adds the responding message id to the runner state' do
-      service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: 123)
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(responding_to_message_id: 123)
+      )
 
       expect(mock_runner).to receive(:run).with(
         'I need help with my account',
@@ -214,9 +232,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       it 'passes image attachments to the runner input' do
         expect(mock_runner).to receive(:run) do |input, context:, max_turns:|
-          expect(input).to be_a(RubyLLM::Content)
-          expect(input.text).to eq('What does this error mean?')
-          expect(input.attachments.first.source.to_s).to eq('https://example.com/error.png')
+          expect(input).to eq(multimodal_message_history.last[:content])
           expect(context[:conversation_history]).to eq([{ role: :assistant, content: 'Please share a screenshot', agent_name: nil }])
           expect(max_turns).to eq(10)
         end
@@ -652,9 +668,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       result = service.send(:extract_last_user_message, multimodal_message_history)
 
-      expect(result).to be_a(RubyLLM::Content)
-      expect(result.text).to eq('Can you check this screenshot?')
-      expect(result.attachments.first.source.to_s).to eq('https://example.com/image.jpg')
+      expect(result).to eq(multimodal_message_history.first[:content])
     end
   end
 
@@ -755,8 +769,11 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
     it 'marks a protected generation as not discarded when no newer message has arrived' do
       responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
-      runner_service = described_class.new(assistant: assistant, conversation: conversation,
-                                           responding_to_message_id: responding_to_message.id)
+      runner_service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(responding_to_message_id: responding_to_message.id)
+      )
       attribute_provider = Captain::Assistant::InstrumentationAttributeProvider.new(runner_service)
       message = instance_double(RubyLLM::Message, tool_calls: {})
 
@@ -776,8 +793,11 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
     it 'marks a generation as discarded when a newer message has arrived' do
       responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
-      runner_service = described_class.new(assistant: assistant, conversation: conversation,
-                                           responding_to_message_id: responding_to_message.id)
+      runner_service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(responding_to_message_id: responding_to_message.id)
+      )
       attribute_provider = Captain::Assistant::InstrumentationAttributeProvider.new(runner_service)
       message = instance_double(RubyLLM::Message, tool_calls: {})
       create(:message, conversation: conversation, message_type: :incoming)
@@ -943,7 +963,11 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
     it 'tracks discarded responses when OTEL is disabled' do
       responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
-      service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: responding_to_message.id)
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(responding_to_message_id: responding_to_message.id)
+      )
       runner = instance_double(Agents::AgentRunner)
       run_complete_callback = nil
 
@@ -976,7 +1000,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       service = described_class.new(
         assistant: assistant,
         conversation: conversation,
-        source: described_class::REPLY_SUGGESTION_SOURCE
+        run_options: run_options(source: described_class::REPLY_SUGGESTION_SOURCE)
       )
       runner = instance_double(Agents::AgentRunner)
 
@@ -1012,7 +1036,11 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
     it 'marks the trace discarded and does not use credit when a newer message arrived' do
       responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
-      service = described_class.new(assistant: assistant, conversation: conversation, responding_to_message_id: responding_to_message.id)
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(responding_to_message_id: responding_to_message.id)
+      )
       runner = instance_double(Agents::AgentRunner)
       run_complete_callback = nil
       span_class = Class.new do

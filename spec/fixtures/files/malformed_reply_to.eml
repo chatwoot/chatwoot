@@ -1,0 +1,8 @@
+From: Sender <SENDER@EXAMPLE.COM>
+To: inbox@example.com
+Reply-To: <"">
+Subject: Empty Reply-To address
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+
+Regression fixture.

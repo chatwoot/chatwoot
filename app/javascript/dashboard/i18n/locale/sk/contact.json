@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "NIe je k dispozícii",
     "EMAIL_ADDRESS": "E-mailová adresa",
     "PHONE_NUMBER": "Telefónne číslo",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Úspešne nakopírované",
     "COMPANY": "Spoločnosť",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

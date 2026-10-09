@@ -520,6 +520,32 @@ RSpec.describe 'Conversations API', type: :request do
           expect(response_data[:meta][:assignee][:name]).to eq(agent.name)
           expect(response_data[:meta][:team][:name]).to eq(team.name)
         end
+
+        it 'does not create a conversation with an assignee from another account' do
+          other_user = create(:user, account: create(:account))
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/conversations",
+                 headers: agent.create_new_auth_token,
+                 params: { source_id: contact_inbox.source_id, assignee_id: other_user.id },
+                 as: :json
+          end.not_to change(Conversation, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'does not create a conversation with a team from another account' do
+          other_team = create(:team, account: create(:account))
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/conversations",
+                 headers: agent.create_new_auth_token,
+                 params: { source_id: contact_inbox.source_id, team_id: other_team.id },
+                 as: :json
+          end.not_to change(Conversation, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
       end
     end
 
@@ -713,7 +739,7 @@ RSpec.describe 'Conversations API', type: :request do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
-      it 'toggles the conversation priority to nil if no value is passed' do
+      it 'updates the conversation priority' do
         expect(conversation.priority).to be_nil
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
@@ -725,10 +751,8 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.priority).to eq('low')
       end
 
-      it 'toggles the conversation priority' do
-        conversation.priority = 'low'
-        conversation.save!
-        expect(conversation.reload.priority).to eq('low')
+      it 'clears the conversation priority when priority is missing' do
+        conversation.update!(priority: 'low')
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
              headers: agent.create_new_auth_token,
@@ -736,6 +760,32 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.priority).to be_nil
+      end
+
+      it 'clears the conversation priority when priority is nil' do
+        conversation.priority = 'low'
+        conversation.save!
+        expect(conversation.reload.priority).to eq('low')
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
+             headers: agent.create_new_auth_token,
+             params: { priority: nil },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.priority).to be_nil
+      end
+
+      it 'returns unprocessable entity for invalid priority values' do
+        ['none', '', false].each do |invalid_priority|
+          post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_priority",
+               headers: agent.create_new_auth_token,
+               params: { priority: invalid_priority },
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to include('priority')
+        end
       end
     end
 

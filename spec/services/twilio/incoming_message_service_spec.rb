@@ -16,6 +16,37 @@ describe Twilio::IncomingMessageService do
   end
 
   describe '#perform' do
+    context 'when a WhatsApp message replies to an earlier message' do
+      let!(:twilio_channel) do
+        create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                               inbox: create(:inbox, account: account, greeting_enabled: false))
+      end
+      let!(:contact) { create(:contact, account: account, phone_number: '+14155550123') }
+      let(:contact_inbox) do
+        create(:contact_inbox, source_id: 'whatsapp:+14155550123', contact: contact, inbox: twilio_channel.inbox)
+      end
+      let!(:original_message) { create(:message, :outgoing, conversation: conversation, source_id: 'SMoriginal') }
+
+      it 'persists the external reply SID and the original message ID' do
+        described_class.new(
+          params: {
+            SmsSid: 'SMreply',
+            From: contact_inbox.source_id,
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: twilio_channel.messaging_service_sid,
+            Body: 'This one, please',
+            OriginalRepliedMessageSid: original_message.source_id
+          }
+        ).perform
+
+        message = conversation.messages.find_by!(source_id: 'SMreply')
+        expect(message.content_attributes).to include(
+          'in_reply_to_external_id' => original_message.source_id,
+          'in_reply_to' => original_message.id
+        )
+      end
+    end
+
     it 'creates a new message in existing conversation' do
       params = {
         SmsSid: 'SMxx',
