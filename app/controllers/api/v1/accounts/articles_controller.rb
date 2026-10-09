@@ -88,7 +88,32 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   end
 
   def portal
-    @portal ||= Current.account.portals.find_by!(slug: params[:portal_id])
+    return @portal if @portal
+
+    if ambiguous_portal_identifier?
+      render_ambiguous_portal_error
+      return
+    end
+
+    @portal = slug_match_portal || id_match_portal || raise(ActiveRecord::RecordNotFound)
+  end
+
+  def ambiguous_portal_identifier?
+    slug_match_portal && id_match_portal && slug_match_portal != id_match_portal
+  end
+
+  def render_ambiguous_portal_error
+    render_could_not_create_error('Portal identifier is ambiguous between an existing slug and an existing id')
+  end
+
+  def slug_match_portal
+    @slug_match_portal ||= Current.account.portals.find_by(slug: params[:portal_id])
+  end
+
+  def id_match_portal
+    return unless params[:portal_id].match?(/\A\d+\z/)
+
+    @id_match_portal ||= Current.account.portals.find_by(id: params[:portal_id])
   end
 
   # Draft-only autosaves must not bump the public-facing updated_at, so write
