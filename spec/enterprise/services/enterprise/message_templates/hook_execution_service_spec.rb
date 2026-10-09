@@ -191,11 +191,14 @@ RSpec.describe MessageTemplates::HookExecutionService do
 
   it 'does not schedule Captain for inbox bot integrations' do
     expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
-    agent_bot_inbox = create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: account))
+    agent_bot_inbox = create(:agent_bot_inbox, inbox: inbox, agent_bot: create(:agent_bot, account: account), status: :inactive)
+    # Preserve a legacy mixed-provider inbox.
+    agent_bot_inbox.update_column(:status, AgentBotInbox.statuses[:active]) # rubocop:disable Rails/SkipsModelValidations
     create(:message, conversation: conversation, message_type: :incoming, account: account)
 
     agent_bot_inbox.destroy!
-    create(:integrations_hook, :dialogflow, inbox: inbox, account: account)
+    hook = create(:integrations_hook, :dialogflow, inbox: inbox, account: account, status: :disabled)
+    hook.update_column(:status, Integrations::Hook.statuses[:enabled]) # rubocop:disable Rails/SkipsModelValidations
     create(:message, conversation: conversation, message_type: :incoming, account: account)
   end
 
