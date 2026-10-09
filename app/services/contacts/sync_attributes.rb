@@ -13,10 +13,40 @@ class Contacts::SyncAttributes
   private
 
   def update_contact_location_and_country_code
-    # Ensure that location and country_code are updated from additional_attributes.
-    # TODO: Remove this once all contacts are updated and both the location and country_code fields are standardized throughout the app.
     @contact.location = @contact.additional_attributes['city']
-    @contact.country_code = @contact.additional_attributes['country']
+    sync_country_code
+  end
+
+  def sync_country_code
+    attributes = contact.additional_attributes
+    previous_attributes = contact.additional_attributes_in_database || {}
+    changed_key = changed_country_key(attributes, previous_attributes)
+    root_changed = contact.will_save_change_to_country_code?
+    return unless root_changed || changed_key
+
+    code = if root_changed
+             CountryCodeNormalizer.normalize(contact.country_code)
+           else
+             CountryCodeNormalizer.normalize(attributes[changed_key])
+           end
+    contact.country_code = code
+
+    # Keep legacy writers and filters consistent with the canonical column during migration.
+    sync_legacy_country(attributes, previous_attributes, code, changed_key)
+  end
+
+  def changed_country_key(attributes, previous_attributes)
+    changed_keys = %w[country_code country].reject { |key| attributes[key] == previous_attributes[key] }
+    changed_keys.find { |key| attributes.key?(key) } || changed_keys.first
+  end
+
+  def sync_legacy_country(attributes, previous_attributes, code, changed_key)
+    return if code.nil? && changed_key && attributes[changed_key].present?
+
+    values = { 'country_code' => code, 'country' => CountryCodeNormalizer.name_for(code) }
+    values.each do |key, value|
+      attributes[key] = value if attributes.key?(key) || previous_attributes.key?(key)
+    end
   end
 
   def set_contact_type

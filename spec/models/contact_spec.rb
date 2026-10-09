@@ -98,6 +98,53 @@ RSpec.describe Contact do
     end
   end
 
+  describe '#canonical_country_code' do
+    it 'prefers the contact country_code column when it has a valid country code' do
+      contact = create(:contact, additional_attributes: { country_code: 'IN', country: 'India' })
+      contact[:country_code] = 'US'
+
+      expect(contact.canonical_country_code).to eq('US')
+      expect(contact.canonical_country_name).to eq('United States')
+    end
+
+    it 'falls back to additional_attributes country_code' do
+      contact = create(:contact, additional_attributes: { country_code: 'in' })
+
+      expect(contact.canonical_country_code).to eq('IN')
+      expect(contact.canonical_country_name).to eq('India')
+    end
+
+    it 'normalizes legacy country names from additional_attributes country' do
+      contact = create(:contact, additional_attributes: { country: 'United States' })
+
+      expect(contact.canonical_country_code).to eq('US')
+      expect(contact.canonical_country_name).to eq('United States')
+    end
+
+    it 'preserves the historical country code emitted by the country selector' do
+      contact = create(:contact, additional_attributes: { country_code: 'AN', country: 'Netherlands Antilles' })
+
+      expect(contact.reload.country_code).to eq('AN')
+      expect(contact.canonical_country_name).to eq('Netherlands Antilles')
+      expect(contact.push_event_data).to include(
+        country_code: 'AN',
+        additional_attributes: { 'country_code' => 'AN', 'country' => 'Netherlands Antilles' }
+      )
+    end
+  end
+
+  describe '#additional_attributes_with_canonical_country' do
+    it 'returns additional attributes with normalized country values without persisting them' do
+      contact = create(:contact, additional_attributes: { country: 'United States' })
+
+      expect(contact.additional_attributes_with_canonical_country).to include(
+        'country_code' => 'US',
+        'country' => 'United States'
+      )
+      expect(contact.reload.additional_attributes).not_to include('country_code')
+    end
+  end
+
   context 'when a contact is created' do
     it 'has contact type "visitor" by default' do
       contact = create(:contact)
