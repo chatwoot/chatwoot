@@ -2,6 +2,8 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   include Captain::Copilot::Tracing
   include Captain::ChatGenerationRecorder
 
+  attr_reader :llm_protocol
+
   FIRST_PASS_MESSAGES = 8
   DEEP_PASS_MESSAGES = 50
   SYSTEM_PROMPT = <<~PROMPT.freeze
@@ -29,19 +31,20 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
 
     evidence = conversation_evidence(conversation, deep)
     prompt = { match: @run.match, criteria: @run.criteria, boundary_at: @run.boundary_at.iso8601, conversation: evidence }.compact.to_json
-    response = with_copilot_trace('llm.captain.copilot_review', trace_params(conversation)) { build_chat.ask(prompt) }
+    response = with_copilot_trace('llm.captain.copilot_review', trace_params(conversation), turn: @run.turn) { build_chat.ask(prompt) }
     parse_result(JSON.parse(sanitize_json_response(response.content)), evidence)
   end
 
   private
 
   def trace_params(conversation)
-    { account_id: @run.account_id, feature_name: 'copilot_review', model: model,
-      session_id: "copilot_thread_#{@run.copilot_thread_id}", metadata: { run_id: @run.id, conversation_id: conversation.id } }
+    { account_id: @run.account_id, feature_name: 'copilot_review', model: model, metadata: { run_id: @run.id, conversation_id: conversation.id } }
   end
 
   def build_chat
     options = Captain::ResponsesConfig.options(model: @model, temperature: @temperature, feature: 'copilot')
+    # ChatGenerationRecorder reads the protocol to record model, tokens and cost on the generation.
+    @llm_protocol = options[:protocol]
     llm = chat(model: @model, **options).with_instructions(SYSTEM_PROMPT).with_schema(Captain::Copilot::ReviewResponseSchema)
     llm.after_message do |message|
       record_llm_generation(llm, message)

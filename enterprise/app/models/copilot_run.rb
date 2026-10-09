@@ -84,6 +84,11 @@ class CopilotRun < ApplicationRecord
     Captain::Copilot::ExecutionJob.perform_later(id) if resumed
   end
 
+  # The chat run whose turn this run belongs to. Collections and reviews are started by one of its tool calls.
+  def turn
+    kind == 'chat' ? self : copilot_run_step.copilot_run
+  end
+
   def selected_ids
     context.fetch('selected_ids', [])
   end

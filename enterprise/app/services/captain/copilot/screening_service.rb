@@ -31,9 +31,9 @@ class Captain::Copilot::ScreeningService
   private
 
   def scores(conversations)
-    params = { account_id: @run.account_id, feature_name: 'copilot_screening', model: MODEL, session_id: "copilot_thread_#{@run.copilot_thread_id}",
+    params = { account_id: @run.account_id, feature_name: 'copilot_screening', model: MODEL,
                metadata: { run_id: @run.id, conversation_ids: conversations.map(&:id) } }
-    with_copilot_trace('llm.captain.copilot_screening', params) do
+    with_copilot_trace('llm.captain.copilot_screening', params, turn: @run.turn) do
       conversations.to_h { |conversation| [conversation.id, score(conversation)] }
     end
   end
