@@ -3,7 +3,7 @@ import { usePolicy } from 'dashboard/composables/usePolicy';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { useGoToCommandHotKeys } from '../useGoToCommandHotKeys';
+import { useGoToCommands } from '../useGoToCommands';
 import { MOCK_FEATURE_FLAGS } from './fixtures';
 
 vi.mock('dashboard/composables/store');
@@ -77,7 +77,7 @@ const ROUTE_META = {
 
 const DEFAULT_META = { permissions: ['administrator', 'agent'] };
 
-describe('useGoToCommandHotKeys', () => {
+describe('useGoToCommands', () => {
   let store;
   let userPermissions;
   let installationType;
@@ -90,6 +90,11 @@ describe('useGoToCommandHotKeys', () => {
     store = {
       getters: {
         getCurrentAccountId: 1,
+        'inboxes/getInboxes': [
+          { id: 7, name: 'Support', channel_type: 'Channel::WebWidget' },
+        ],
+        'teams/getTeams': [{ id: 3, name: 'Sales' }],
+        'labels/getLabels': [{ id: 9, title: 'billing', color: '#ff0000' }],
       },
     };
 
@@ -120,26 +125,26 @@ describe('useGoToCommandHotKeys', () => {
     });
   });
 
-  it('should return goToCommandHotKeys computed property', () => {
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
-    expect(goToCommandHotKeys.value).toBeDefined();
-    expect(goToCommandHotKeys.value.length).toBeGreaterThan(0);
+  it('should return goToCommands computed property', () => {
+    const { goToCommands } = useGoToCommands();
+    expect(goToCommands.value).toBeDefined();
+    expect(goToCommands.value.length).toBeGreaterThan(0);
   });
 
   it('should filter commands based on feature flags', () => {
     disabledFeatures = [MOCK_FEATURE_FLAGS.CRM];
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
+    const { goToCommands } = useGoToCommands();
 
-    const ids = goToCommandHotKeys.value.map(cmd => cmd.id);
+    const ids = goToCommands.value.map(cmd => cmd.id);
     expect(ids).not.toContain('goto_contacts_dashboard');
     expect(ids).toContain('open_account_settings');
   });
 
   it('should filter commands for non-admin users', () => {
     userPermissions = ['agent'];
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
+    const { goToCommands } = useGoToCommands();
 
-    const adminOnlyCommands = goToCommandHotKeys.value.filter(
+    const adminOnlyCommands = goToCommands.value.filter(
       cmd =>
         cmd.id.includes('agent_settings') ||
         cmd.id.includes('team_settings') ||
@@ -149,11 +154,11 @@ describe('useGoToCommandHotKeys', () => {
   });
 
   it('should include commands for both admin and agent roles when user is admin', () => {
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
-    const adminCommand = goToCommandHotKeys.value.find(cmd =>
+    const { goToCommands } = useGoToCommands();
+    const adminCommand = goToCommands.value.find(cmd =>
       cmd.id.includes('agent_settings')
     );
-    const agentCommand = goToCommandHotKeys.value.find(cmd =>
+    const agentCommand = goToCommands.value.find(cmd =>
       cmd.id.includes('profile_settings')
     );
     expect(adminCommand).toBeDefined();
@@ -162,66 +167,65 @@ describe('useGoToCommandHotKeys', () => {
 
   it('should include commands granted by a custom role permission', () => {
     userPermissions = ['custom_role', 'report_manage'];
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
+    const { goToCommands } = useGoToCommands();
 
     expect(
-      goToCommandHotKeys.value.find(cmd => cmd.id.includes('reports_overview'))
+      goToCommands.value.find(cmd => cmd.id.includes('reports_overview'))
     ).toBeDefined();
     expect(
-      goToCommandHotKeys.value.find(cmd => cmd.id.includes('agent_settings'))
+      goToCommands.value.find(cmd => cmd.id.includes('agent_settings'))
     ).toBeUndefined();
   });
 
   it('should hide the help center from agents, who cannot open it', () => {
     userPermissions = ['agent'];
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
+    const { goToCommands } = useGoToCommands();
 
-    expect(goToCommandHotKeys.value.map(cmd => cmd.id)).not.toContain(
+    expect(goToCommands.value.map(cmd => cmd.id)).not.toContain(
       'goto_help_center'
     );
   });
 
   it('should offer the help center to a knowledge base manager', () => {
     userPermissions = ['custom_role', 'knowledge_base_manage'];
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
+    const { goToCommands } = useGoToCommands();
 
-    expect(goToCommandHotKeys.value.map(cmd => cmd.id)).toContain(
-      'goto_help_center'
-    );
+    expect(goToCommands.value.map(cmd => cmd.id)).toContain('goto_help_center');
   });
 
   it('should drop report commands when the reports feature is disabled', () => {
     disabledFeatures = [MOCK_FEATURE_FLAGS.REPORTS];
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
+    const { goToCommands } = useGoToCommands();
 
-    const ids = goToCommandHotKeys.value.map(cmd => cmd.id);
+    const ids = goToCommands.value.map(cmd => cmd.id);
     expect(ids).not.toContain('open_reports_overview');
     expect(ids).not.toContain('open_agent_reports');
   });
 
   it('should drop commands whose route is not available on the installation', () => {
     installationType = 'community';
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
+    const { goToCommands } = useGoToCommands();
 
     expect(
-      goToCommandHotKeys.value.find(cmd => cmd.id === 'goto_calls_dashboard')
+      goToCommands.value.find(cmd => cmd.id === 'goto_calls_dashboard')
     ).toBeUndefined();
   });
 
   it('should only keep routes that bypass the upgrade page when paywalled', () => {
-    const { goToCommandHotKeys } = useGoToCommandHotKeys(ref(true));
+    const { goToCommands } = useGoToCommands(ref(true));
 
-    expect(goToCommandHotKeys.value.map(cmd => cmd.id).sort()).toEqual([
+    expect(goToCommands.value.map(cmd => cmd.id).sort()).toEqual([
       'open_account_settings',
       'open_agent_settings',
       'open_billing_settings',
       'open_inbox_settings',
+      'open_security_settings',
     ]);
   });
 
   it('should translate section and title for each command', () => {
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
-    goToCommandHotKeys.value.forEach(command => {
+    const { goToCommands } = useGoToCommands();
+    goToCommands.value.forEach(command => {
       expect(useI18n().t).toHaveBeenCalledWith(
         expect.stringContaining('COMMAND_BAR.SECTIONS.')
       );
@@ -233,10 +237,10 @@ describe('useGoToCommandHotKeys', () => {
     });
   });
 
-  it('should push the resolved route when handler is called', () => {
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
-    goToCommandHotKeys.value.forEach(command => {
-      command.handler();
+  it('should push the resolved route when run', () => {
+    const { goToCommands } = useGoToCommands();
+    goToCommands.value.forEach(command => {
+      command.run?.();
       expect(useRouter().push).toHaveBeenCalledWith(
         expect.objectContaining({ name: expect.any(String) })
       );
@@ -245,9 +249,9 @@ describe('useGoToCommandHotKeys', () => {
 
   it('should resolve every route against the current account', () => {
     store.getters.getCurrentAccountId = 42;
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
-    goToCommandHotKeys.value.forEach(command => {
-      command.handler();
+    const { goToCommands } = useGoToCommands();
+    goToCommands.value.forEach(command => {
+      command.run?.();
       expect(useRouter().push).toHaveBeenCalledWith(
         expect.objectContaining({
           params: expect.objectContaining({ accountId: 42 }),
@@ -257,23 +261,66 @@ describe('useGoToCommandHotKeys', () => {
   });
 
   it('should include icon for each command', () => {
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
-    goToCommandHotKeys.value.forEach(command => {
-      expect(command.icon).toBeDefined();
+    const { goToCommands } = useGoToCommands();
+    goToCommands.value.forEach(command => {
+      expect(command.icon).toMatch(/^i-/);
     });
   });
 
+  it('should offer inboxes, teams and labels as pages of jump targets', () => {
+    const { goToCommands } = useGoToCommands();
+    const byId = id => goToCommands.value.find(cmd => cmd.id === id);
+
+    expect(byId('goto_inbox').page).toBe(true);
+    expect(byId('inbox-7')).toEqual(
+      expect.objectContaining({ parent: 'goto_inbox', title: 'Support' })
+    );
+    expect(byId('team-3')).toEqual(
+      expect.objectContaining({ parent: 'goto_team', title: 'Sales' })
+    );
+    expect(byId('label-billing')).toEqual(
+      expect.objectContaining({ parent: 'goto_label', prefix: '#' })
+    );
+
+    byId('inbox-7').run();
+    expect(useRouter().push).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: 'inbox_dashboard',
+        params: expect.objectContaining({ inbox_id: 7 }),
+      })
+    );
+  });
+
+  it('should offer create shortcuts that lead to the new-record routes', () => {
+    const { goToCommands } = useGoToCommands();
+    const newInbox = goToCommands.value.find(cmd => cmd.id === 'new_inbox');
+
+    expect(newInbox.scopes).toEqual(['settings']);
+    newInbox.run();
+    expect(useRouter().push).toHaveBeenCalledWith(
+      expect.objectContaining({ name: 'settings_inbox_new' })
+    );
+  });
+
+  it('should show the keyboard shortcut of pages that have one', () => {
+    const { goToCommands } = useGoToCommands();
+    const dashboard = goToCommands.value.find(
+      cmd => cmd.id === 'goto_conversation_dashboard'
+    );
+    expect(dashboard.shortcut).toHaveLength(2);
+  });
+
   it('should return commands for all enabled features', () => {
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
-    const ids = goToCommandHotKeys.value.map(cmd => cmd.id);
+    const { goToCommands } = useGoToCommands();
+    const ids = goToCommands.value.map(cmd => cmd.id);
     expect(ids).toContain('goto_contacts_dashboard');
     expect(ids).toContain('open_automation_settings');
   });
 
   it('should not return commands for disabled features', () => {
     disabledFeatures = Object.values(MOCK_FEATURE_FLAGS);
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
-    const ids = goToCommandHotKeys.value.map(cmd => cmd.id);
+    const { goToCommands } = useGoToCommands();
+    const ids = goToCommands.value.map(cmd => cmd.id);
     expect(ids).not.toContain('goto_contacts_dashboard');
     expect(ids).not.toContain('open_automation_settings');
     expect(ids).not.toContain('open_audit_logs_settings');
@@ -281,9 +328,9 @@ describe('useGoToCommandHotKeys', () => {
 
   it('should not offer settings the custom role cannot open', () => {
     userPermissions = ['custom_role', 'conversation_manage'];
-    const { goToCommandHotKeys } = useGoToCommandHotKeys();
+    const { goToCommands } = useGoToCommands();
 
-    const ids = goToCommandHotKeys.value.map(cmd => cmd.id);
+    const ids = goToCommands.value.map(cmd => cmd.id);
     expect(ids).not.toContain('open_automation_settings');
     expect(ids).not.toContain('open_audit_logs_settings');
     expect(ids).toContain('open_canned_response_settings');

@@ -6,13 +6,15 @@ import { useMacroExecution } from 'dashboard/composables/useMacroExecution';
 import { useOrderedMacros } from 'dashboard/composables/useOrderedMacros';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { ICON_TOY_BRICK } from 'dashboard/helper/commandbar/icons';
 import {
   isAConversationRoute,
   isAInboxViewRoute,
 } from 'dashboard/helper/routeHelpers';
 
-export function useMacroHotKeys() {
+const ICON = 'i-lucide-toy-brick';
+const SCOPES = ['conversation'];
+
+export function useMacroCommands() {
   const { t } = useI18n();
   const store = useStore();
   const route = useRoute();
@@ -39,36 +41,34 @@ export function useMacroHotKeys() {
     { immediate: true }
   );
 
-  const macroHotKeys = computed(() => {
-    if (!isMacrosAvailable.value || !orderedMacros.value.length) {
-      return [];
-    }
-
-    const options = orderedMacros.value.map(macro => ({
-      id: `macro-${macro.id}`,
-      title: macro.name,
-      parent: 'execute_a_macro',
-      section: t('COMMAND_BAR.SECTIONS.EXECUTE_MACRO'),
-      icon: ICON_TOY_BRICK,
-      handler: () => {
-        pendingAttributes.value = execute(macro, currentChat.value.id);
-      },
-    }));
+  const macroCommands = computed(() => {
+    if (!isMacrosAvailable.value || !orderedMacros.value.length) return [];
 
     return [
       {
         id: 'execute_a_macro',
         title: t('COMMAND_BAR.COMMANDS.EXECUTE_A_MACRO'),
         section: t('COMMAND_BAR.SECTIONS.CONVERSATION'),
-        icon: ICON_TOY_BRICK,
-        children: options.map(option => option.id),
+        icon: ICON,
+        scopes: SCOPES,
+        page: true,
       },
-      ...options,
+      ...orderedMacros.value.map(macro => ({
+        id: `macro-${macro.id}`,
+        title: macro.name,
+        parent: 'execute_a_macro',
+        section: t('COMMAND_BAR.SECTIONS.EXECUTE_MACRO'),
+        icon: ICON,
+        scopes: SCOPES,
+        run: () => {
+          pendingAttributes.value = execute(macro, currentChat.value.id);
+        },
+      })),
     ];
   });
 
   return {
-    macroHotKeys,
+    macroCommands,
     pendingAttributes,
     submitPendingAttributes,
     dismissPendingAttributes,

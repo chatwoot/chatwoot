@@ -1,5 +1,9 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
+import {
+  usePageCommands,
+  recordCommands,
+} from 'dashboard/composables/commands/usePageCommands';
 import { computed, onMounted, ref } from 'vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import { useI18n } from 'vue-i18n';
@@ -125,6 +129,7 @@ const openDeletePopup = agent => {
   showDeletePopup.value = true;
   currentAgent.value = agent;
 };
+
 const closeDeletePopup = () => {
   showDeletePopup.value = false;
 };
@@ -142,6 +147,26 @@ const confirmDeletion = () => {
   closeDeletePopup();
   deleteAgent(currentAgent.value.id);
 };
+
+usePageCommands(() => [
+  { id: 'add_agent', title: t('AGENT_MGMT.HEADER_BTN_TXT'), run: openAddPopup },
+  ...recordCommands({
+    id: 'edit_agent',
+    title: t('AGENT_MGMT.EDIT.TITLE'),
+    icon: 'i-lucide-pencil',
+    records: agentList.value.filter(showEditAction),
+    label: agent => agent.name,
+    run: openEditPopup,
+  }),
+  ...recordCommands({
+    id: 'delete_agent',
+    title: t('COMMAND_BAR.COMMANDS.DELETE_AGENT'),
+    icon: 'i-lucide-trash-2',
+    records: agentList.value.filter(showDeleteAction),
+    label: agent => agent.name,
+    run: openDeletePopup,
+  }),
+]);
 </script>
 
 <template>

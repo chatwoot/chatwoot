@@ -1,5 +1,8 @@
 <script setup>
 import { useSlots } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store';
+import { usePageCommands } from 'dashboard/composables/commands/usePageCommands';
 import CustomBrandPolicyWrapper from 'dashboard/components/CustomBrandPolicyWrapper.vue';
 import { getHelpUrlForFeature } from '../../../../helper/featureHelper';
 import BackButton from '../../../../components/widgets/BackButton.vue';
@@ -38,6 +41,22 @@ const slots = useSlots();
 const searchQuery = defineModel('searchQuery', { type: String, default: '' });
 
 const helpURL = getHelpUrlForFeature(props.featureName);
+
+const { t } = useI18n();
+const isCustomBranded = useMapGetter('globalConfig/isACustomBrandedInstance');
+
+usePageCommands(() =>
+  helpURL && props.linkText && !isCustomBranded.value
+    ? [
+        {
+          id: 'page_docs',
+          title: t('COMMAND_BAR.COMMANDS.PAGE_DOCS', { title: props.title }),
+          icon: 'i-lucide-book',
+          run: () => window.open(helpURL, '_blank', 'noopener'),
+        },
+      ]
+    : []
+);
 </script>
 
 <template>

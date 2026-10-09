@@ -3,6 +3,7 @@ import { colors } from './theme/colors';
 import { icons } from './theme/icons';
 const defaultTheme = require('tailwindcss/defaultTheme');
 const plugin = require('tailwindcss/plugin');
+const jumpbar = require('@bysivin/jumpbar/tailwind');
 const {
   iconsPlugin,
   getIconCollections,
@@ -22,6 +23,7 @@ const defaultSansFonts = [
 
 const tailwindConfig = {
   darkMode: 'class',
+  presets: [jumpbar],
   content: [
     './enterprise/app/views/**/*.erb',
     './app/javascript/widget/**/*.vue',
@@ -35,10 +37,29 @@ const tailwindConfig = {
     './app/javascript/dashboard/composables/**/*.js',
     './app/javascript/dashboard/components-next/**/*.js',
     './app/javascript/dashboard/routes/dashboard/**/**/*.js',
+    './node_modules/@bysivin/jumpbar/dist/*.js',
     './app/views/**/*.erb',
   ],
   theme: {
     extend: {
+      colors: {
+        jumpbar: {
+          background: colors.n.background,
+          foreground: colors.n.slate[12],
+          'muted-foreground': colors.n.slate[11],
+          'subtle-foreground': colors.n.slate[10],
+          muted: colors.n.alpha[2],
+          subtle: colors.n.alpha[1],
+          border: colors.n.weak,
+          ring: colors.n.strong.replace('<alpha-value>', '0.5'),
+          primary: colors.n.brand,
+          'primary-soft': `${colors.n.brand}1a`,
+          overlay: colors.n.alpha.black1,
+          online: colors.n.teal[10],
+          busy: colors.n.amber[10],
+          offline: colors.n.slate[10],
+        },
+      },
       fontFamily: {
         sans: defaultSansFonts,
         inter: ['Inter', ...defaultSansFonts],

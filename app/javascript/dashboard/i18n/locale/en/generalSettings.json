@@ -161,6 +161,15 @@
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "Search or jump to",
     "SNOOZE_PLACEHOLDER": "Type a time e.g. tomorrow, 2 hours, next friday, jan 15...",
+    "EMPTY": "No matches for \"{query}\"",
+    "LINK_COPIED": "Conversation link copied",
+    "SELECTED_COUNT": "{count} selected",
+    "HINTS": {
+      "NAVIGATE": "navigate",
+      "SELECT": "select",
+      "BACK": "back",
+      "CLOSE": "close"
+    },
     "SECTIONS": {
       "GENERAL": "General",
       "REPORTS": "Reports",
@@ -176,7 +185,15 @@
       "SETTINGS": "Settings",
       "AI_ASSIST": "AI Assist",
       "APPEARANCE": "Appearance",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Snooze Notification",
+      "CONVERSATIONS": "Conversations",
+      "CONTACTS": "Contacts",
+      "ARTICLES": "Articles",
+      "CANNED_RESPONSES": "Canned responses",
+      "ACCOUNT": "Account",
+      "HELP": "Help",
+      "PAGE": "This page",
+      "CREATE": "Create"
     },
     "COMMANDS": {
       "GO_TO_MY_INBOX": "Go to My Inbox",
@@ -202,12 +219,16 @@
       "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
       "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Go to Custom Attributes",
       "GO_TO_SETTINGS_AUTOMATION": "Go to Automation",
+      "GO_TO_SETTINGS_AGENT_BOTS": "Go to Agent Bots",
       "GO_TO_SETTINGS_MACROS": "Go to Macros",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
       "GO_TO_SETTINGS_SLA": "Go to SLA Settings",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
+      "GO_TO_SETTINGS_CONVERSATION_WORKFLOW": "Go to Conversation Workflow",
+      "GO_TO_SETTINGS_INTEGRATIONS": "Go to Integration Settings",
       "GO_TO_SETTINGS_DATA": "Go to Data",
       "GO_TO_SETTINGS_AUDIT_LOGS": "Go to Audit Logs",
+      "GO_TO_SETTINGS_CUSTOM_ROLES": "Go to Custom Roles",
+      "GO_TO_SETTINGS_SECURITY": "Go to Security Settings",
       "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
       "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
@@ -234,7 +255,26 @@
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
       "SYSTEM_MODE": "System",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Snooze Notification",
+      "GO_TO_INBOX": "Go to inbox",
+      "GO_TO_TEAM": "Go to team",
+      "GO_TO_LABEL": "Go to label",
+      "VIEW_CONTACT": "View contact",
+      "COPY_CONVERSATION_LINK": "Copy conversation link",
+      "INSERT_CANNED_RESPONSE": "Insert canned response",
+      "SET_AVAILABILITY": "Set availability",
+      "SWITCH_ACCOUNT": "Switch account",
+      "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+      "SEE_ALL_RESULTS": "See all results for \"{query}\"",
+      "NEW_INBOX": "New inbox",
+      "NEW_TEAM": "New team",
+      "NEW_MACRO": "New macro",
+      "NEW_CAMPAIGN": "New campaign",
+      "PAGE_DOCS": "{title} documentation",
+      "DELETE_AGENT": "Delete agent",
+      "DELETE_LABEL": "Delete label",
+      "DELETE_CANNED_RESPONSE": "Delete canned response",
+      "BACK_TO": "Back to {page}"
     }
   },
   "DASHBOARD_APPS": {

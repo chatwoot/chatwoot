@@ -1,63 +1,205 @@
 <script setup>
-import '@chatwoot/ninja-keys';
-import { ref, toRef, computed, watch, watchEffect, onMounted } from 'vue';
-import { useStore } from 'dashboard/composables/store';
-import { useTrack } from 'dashboard/composables';
+import { computed, onBeforeUnmount, ref, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useLocale } from 'shared/composables/useLocale';
-import { useAppearanceHotKeys } from 'dashboard/composables/commands/useAppearanceHotKeys';
-import { useInboxHotKeys } from 'dashboard/composables/commands/useInboxHotKeys';
-import { useGoToCommandHotKeys } from 'dashboard/composables/commands/useGoToCommandHotKeys';
-import { useBulkActionsHotKeys } from 'dashboard/composables/commands/useBulkActionsHotKeys';
-import { useConversationHotKeys } from 'dashboard/composables/commands/useConversationHotKeys';
-import { useMacroHotKeys } from 'dashboard/composables/commands/useMacroHotKeys';
+import { useRoute } from 'vue-router';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useTrack } from 'dashboard/composables';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { CommandBar, createFrecency, useCommandBar } from '@bysivin/jumpbar';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 import wootConstants from 'dashboard/constants/globals';
+import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import {
-  GENERAL_EVENTS,
-  SNOOZE_EVENTS,
-} from 'dashboard/helper/AnalyticsHelper/events';
-import { generateSnoozeSuggestions } from 'dashboard/helper/snoozeHelpers';
-import { ICON_SNOOZE_CONVERSATION } from 'dashboard/helper/commandbar/icons';
-import {
-  CMD_SNOOZE_CONVERSATION,
-  CMD_SNOOZE_NOTIFICATION,
-  CMD_BULK_ACTION_SNOOZE_CONVERSATION,
-} from 'dashboard/helper/commandbar/events';
-import { emitter } from 'shared/helpers/mitt';
+  isAConversationRoute,
+  isAInboxViewRoute,
+} from 'dashboard/helper/routeHelpers';
+import { useGoToCommands } from 'dashboard/composables/commands/useGoToCommands';
+import { useAppearanceCommands } from 'dashboard/composables/commands/useAppearanceCommands';
+import { useInboxCommands } from 'dashboard/composables/commands/useInboxCommands';
+import { useBulkActionCommands } from 'dashboard/composables/commands/useBulkActionCommands';
+import { useConversationCommands } from 'dashboard/composables/commands/useConversationCommands';
+import { useMacroCommands } from 'dashboard/composables/commands/useMacroCommands';
+import { useCannedResponseCommands } from 'dashboard/composables/commands/useCannedResponseCommands';
+import { useAccountCommands } from 'dashboard/composables/commands/useAccountCommands';
+import { useHelpCommands } from 'dashboard/composables/commands/useHelpCommands';
+import { useSnoozeSuggestions } from 'dashboard/composables/commands/useSnoozeSuggestions';
+import { useSearchCommands } from 'dashboard/composables/commands/useSearchCommands';
+import { useBackCommands } from 'dashboard/composables/commands/useBackCommands';
 
 const props = defineProps({
-  isPaywalled: {
-    type: Boolean,
-    default: false,
-  },
+  isPaywalled: { type: Boolean, default: false },
 });
 
+const PREFIXES = ['@', '#', '/', '?'];
+const PATH_SCOPES = { reports: '/reports', settings: '/settings' };
+const atRoot = ({ page }) => !page;
+
 const store = useStore();
-const { t, tm } = useI18n();
-const { resolvedLocale } = useLocale();
+const route = useRoute();
+const { t } = useI18n();
+const bar = useCommandBar();
 
-const ninjakeys = ref(null);
-const resolveAttributesModalRef = ref(null);
-
-// Added selectedSnoozeType to track the selected snooze type
-// So if the selected snooze type is "custom snooze" then we set selectedSnoozeType with the CMD action id
-// So that we can track the selected snooze type and when we close the command bar
-const selectedSnoozeType = ref(null);
-
-const { goToAppearanceHotKeys } = useAppearanceHotKeys();
-const { inboxHotKeys } = useInboxHotKeys();
-const { goToCommandHotKeys } = useGoToCommandHotKeys(
-  toRef(props, 'isPaywalled')
+const currentChat = useMapGetter('getSelectedChat');
+const selectedConversationIds = useMapGetter(
+  'bulkActions/getSelectedConversationIds'
 );
-const { bulkActionsHotKeys } = useBulkActionsHotKeys();
-const { conversationHotKeys } = useConversationHotKeys();
+const accountId = useMapGetter('getCurrentAccountId');
+const isRTL = useMapGetter('accounts/isRTL');
+
+const { goToCommands } = useGoToCommands(toRef(props, 'isPaywalled'));
+const { appearanceCommands } = useAppearanceCommands();
+const { inboxCommands } = useInboxCommands();
+const { bulkActionCommands } = useBulkActionCommands();
+const { conversationCommands } = useConversationCommands();
+const { cannedResponseCommands } = useCannedResponseCommands();
+const { accountCommands } = useAccountCommands();
+const { helpCommands } = useHelpCommands();
+const { backCommands } = useBackCommands();
+const { searchSnoozeSuggestions, snoozeCommands } = useSnoozeSuggestions();
 const {
-  macroHotKeys,
+  searchLoadedConversations,
+  searchConversations,
+  searchContacts,
+  searchArticles,
+  searchEverything,
+} = useSearchCommands();
+const {
+  macroCommands,
   pendingAttributes,
   submitPendingAttributes,
   dismissPendingAttributes,
-} = useMacroHotKeys();
+} = useMacroCommands();
+
+const resolveAttributesModalRef = ref(null);
+
+const scopes = computed(() => {
+  const list = ['page'];
+  if (isAConversationRoute(route.name) || isAInboxViewRoute(route.name)) {
+    list.push('conversation');
+  }
+  if (isAInboxViewRoute(route.name)) list.push('inbox_view');
+  if (selectedConversationIds.value.length) list.push('bulk');
+  Object.entries(PATH_SCOPES).forEach(([scope, path]) => {
+    if (route.path?.includes(path)) list.push(scope);
+  });
+  return list;
+});
+
+const scopeLabel = computed(() => {
+  const count = selectedConversationIds.value.length;
+  if (count) return t('COMMAND_BAR.SELECTED_COUNT', { count });
+  if (scopes.value.includes('conversation')) {
+    return currentChat.value?.meta?.sender?.name ?? '';
+  }
+  return '';
+});
+
+const hints = computed(() => [
+  { keys: ['↑', '↓'], label: t('COMMAND_BAR.HINTS.NAVIGATE') },
+  { keys: ['↵'], label: t('COMMAND_BAR.HINTS.SELECT') },
+  bar.page.value
+    ? { keys: ['⌫'], label: t('COMMAND_BAR.HINTS.BACK') }
+    : { keys: ['esc'], label: t('COMMAND_BAR.HINTS.CLOSE') },
+]);
+
+const sources = computed(() => {
+  const general = [
+    { id: 'goto', commands: () => goToCommands.value },
+    { id: 'appearance', commands: () => appearanceCommands.value },
+  ];
+  if (props.isPaywalled) return general;
+
+  return [
+    { id: 'conversation', commands: () => conversationCommands.value },
+    { id: 'snooze', commands: snoozeCommands },
+    { id: 'bulk', commands: () => bulkActionCommands.value },
+    { id: 'inbox', commands: () => inboxCommands.value },
+    { id: 'macros', commands: () => macroCommands.value },
+    { id: 'canned', commands: () => cannedResponseCommands.value },
+    ...general,
+    { id: 'account', commands: () => accountCommands.value },
+    { id: 'help', commands: () => helpCommands.value },
+    { id: 'snooze_suggestions', search: searchSnoozeSuggestions },
+    ...[
+      {
+        id: 'loaded_conversations',
+        minQuery: 1,
+        search: searchLoadedConversations,
+      },
+      {
+        id: 'conversations',
+        minQuery: 3,
+        debounce: 300,
+        search: searchConversations,
+      },
+      { id: 'contacts', minQuery: 3, debounce: 300, search: searchContacts },
+      { id: 'articles', minQuery: 3, debounce: 300, search: searchArticles },
+      { id: 'everything', minQuery: 3, search: searchEverything },
+    ].map(source => ({ ...source, when: atRoot })),
+  ];
+});
+
+let keepContextMenuChat = false;
+
+bar.configure({
+  prefixes: PREFIXES,
+  context: () => ({ scopes: scopes.value }),
+  onSelect: item => {
+    keepContextMenuChat = item.id.endsWith(
+      wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME
+    );
+    useTrack(GENERAL_EVENTS.COMMAND_BAR, {
+      section: item.section,
+      action: item.title,
+    });
+  },
+  onClose: () => {
+    if (!keepContextMenuChat) store.dispatch('setContextMenuChatId', null);
+    keepContextMenuChat = false;
+  },
+});
+
+watch(
+  () => accountId.value,
+  id => {
+    bar.configure({
+      frecency: createFrecency({
+        key: `command_bar_usage_${id}`,
+        storage: localStorage,
+      }),
+    });
+  },
+  { immediate: true }
+);
+
+let unregister = [];
+watch(
+  sources,
+  list => {
+    unregister.forEach(remove => remove());
+    unregister = list.map(bar.register);
+  },
+  { immediate: true }
+);
+
+// Registered after the page sources so "Back to" lands below their actions.
+let unregisterBack = () => {};
+watch(
+  () => route.fullPath,
+  () => {
+    unregisterBack();
+    unregisterBack = bar.register({
+      id: 'back',
+      commands: () => backCommands.value,
+    });
+  },
+  { immediate: true, flush: 'post' }
+);
+
+onBeforeUnmount(() => {
+  unregister.forEach(remove => remove());
+  unregisterBack();
+});
 
 watch(pendingAttributes, pending => {
   if (pending) {
@@ -68,197 +210,24 @@ watch(pendingAttributes, pending => {
   }
 });
 
-const SNOOZE_PARENT_IDS = [
-  'snooze_conversation',
-  'snooze_notification',
-  'bulk_action_snooze_conversation',
-];
-const DYNAMIC_SNOOZE_PREFIX = 'dynamic_snooze_';
-
-const CUSTOM_SNOOZE = wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME;
-
-const dynamicSnoozeActions = ref([]);
-const currentCommandRoot = ref(null);
-
-const placeholder = computed(() =>
-  SNOOZE_PARENT_IDS.includes(currentCommandRoot.value)
-    ? t('COMMAND_BAR.SNOOZE_PLACEHOLDER')
-    : t('COMMAND_BAR.SEARCH_PLACEHOLDER')
-);
-
-const SNOOZE_PRESET_IDS = new Set(Object.values(wootConstants.SNOOZE_OPTIONS));
-
-const hotKeys = computed(() => {
-  if (props.isPaywalled) {
-    return [...goToAppearanceHotKeys.value, ...goToCommandHotKeys.value];
-  }
-
-  const allActions = [
-    ...dynamicSnoozeActions.value,
-    ...inboxHotKeys.value,
-    ...goToCommandHotKeys.value,
-    ...goToAppearanceHotKeys.value,
-    ...bulkActionsHotKeys.value,
-    ...conversationHotKeys.value,
-    ...macroHotKeys.value,
-  ];
-  // When dynamic NLP snooze suggestions exist, hide all preset snooze actions to avoid duplication
-  if (!dynamicSnoozeActions.value.length) return allActions;
-  return allActions.filter(
-    a => !SNOOZE_PRESET_IDS.has(a.id) || !SNOOZE_PARENT_IDS.includes(a.parent)
-  );
-});
-
-const setCommandBarData = () => {
-  ninjakeys.value.data = hotKeys.value;
-};
-
-const SNOOZE_EVENT_MAP = {
-  snooze_conversation: CMD_SNOOZE_CONVERSATION,
-  snooze_notification: CMD_SNOOZE_NOTIFICATION,
-  bulk_action_snooze_conversation: CMD_BULK_ACTION_SNOOZE_CONVERSATION,
-};
-
-const SNOOZE_SECTION_MAP = {
-  snooze_conversation: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
-  snooze_notification: 'COMMAND_BAR.SECTIONS.SNOOZE_NOTIFICATION',
-  bulk_action_snooze_conversation: 'COMMAND_BAR.SECTIONS.BULK_ACTIONS',
-};
-
-const snoozeTranslations = computed(() => {
-  const raw = tm('SNOOZE_PARSER');
-  if (!raw || typeof raw !== 'object') return {};
-  return JSON.parse(JSON.stringify(raw));
-});
-
-const buildDynamicSnoozeActions = (search, parentId) => {
-  const suggestions = generateSnoozeSuggestions(search, new Date(), {
-    translations: snoozeTranslations.value,
-    locale: resolvedLocale.value,
-  });
-  if (!suggestions.length) return [];
-
-  const busEvent = SNOOZE_EVENT_MAP[parentId];
-  const section = t(SNOOZE_SECTION_MAP[parentId]);
-
-  return suggestions.map((parsed, index) => ({
-    id: `${DYNAMIC_SNOOZE_PREFIX}${index}`,
-    title:
-      parsed.label !== parsed.formattedDate
-        ? `${parsed.label} - ${parsed.formattedDate}`
-        : parsed.formattedDate,
-    parent: parentId,
-    section,
-    icon: ICON_SNOOZE_CONVERSATION,
-    keywords: search,
-    handler: () => {
-      emitter.emit(busEvent, parsed.resolve());
-      useTrack(SNOOZE_EVENTS.NLP_SNOOZE_APPLIED, { label: parsed.label });
+useKeyboardEvents({
+  '$mod+KeyK': {
+    action: event => {
+      event.preventDefault();
+      bar.toggle();
     },
-  }));
-};
-
-const resetSnoozeState = () => {
-  currentCommandRoot.value = null;
-  dynamicSnoozeActions.value = [];
-};
-
-const patchNinjaKeysOpenClose = el => {
-  if (!el || typeof el.open !== 'function' || typeof el.close !== 'function') {
-    return;
-  }
-
-  const originalOpen = el.open.bind(el);
-  const originalClose = el.close.bind(el);
-
-  el.open = (...args) => {
-    const [options = {}] = args;
-    currentCommandRoot.value = options.parent || null;
-    dynamicSnoozeActions.value = [];
-    return originalOpen(...args);
-  };
-
-  el.close = (...args) => {
-    resetSnoozeState();
-    return originalClose(...args);
-  };
-};
-
-const onSelected = item => {
-  const {
-    detail: {
-      action: { title = null, section = null, id = null, children = null } = {},
-    } = {},
-  } = item;
-
-  selectedSnoozeType.value = id === CUSTOM_SNOOZE ? id : null;
-
-  if (Array.isArray(children) && children.length) {
-    currentCommandRoot.value = id;
-  }
-
-  useTrack(GENERAL_EVENTS.COMMAND_BAR, { section, action: title });
-  setCommandBarData();
-};
-
-const onCommandBarChange = item => {
-  const { detail: { search = '', actions = [] } = {} } = item;
-  const normalizedSearch = search.trim();
-
-  if (actions.length > 0) {
-    const uniqueParents = [
-      ...new Set(actions.map(action => action.parent).filter(Boolean)),
-    ];
-    if (uniqueParents.length === 1) {
-      currentCommandRoot.value = uniqueParents[0];
-    } else {
-      currentCommandRoot.value = null;
-    }
-  }
-
-  if (
-    !normalizedSearch ||
-    !SNOOZE_PARENT_IDS.includes(currentCommandRoot.value || '')
-  ) {
-    dynamicSnoozeActions.value = [];
-    return;
-  }
-
-  dynamicSnoozeActions.value = buildDynamicSnoozeActions(
-    normalizedSearch,
-    currentCommandRoot.value
-  );
-};
-
-const onClosed = () => {
-  if (selectedSnoozeType.value !== CUSTOM_SNOOZE) {
-    store.dispatch('setContextMenuChatId', null);
-  }
-  resetSnoozeState();
-};
-
-watchEffect(() => {
-  if (ninjakeys.value) {
-    ninjakeys.value.data = hotKeys.value;
-  }
-});
-
-onMounted(() => {
-  setCommandBarData();
-  patchNinjaKeysOpenClose(ninjakeys.value);
+    allowOnFocusedInput: true,
+  },
 });
 </script>
 
-<!-- eslint-disable vue/attribute-hyphenation -->
 <template>
-  <ninja-keys
-    ref="ninjakeys"
-    noAutoLoadMdIcons
-    hideBreadcrumbs
-    :placeholder="placeholder"
-    @change="onCommandBarChange"
-    @selected="onSelected"
-    @closed="onClosed"
+  <CommandBar
+    :placeholder="t('COMMAND_BAR.SEARCH_PLACEHOLDER')"
+    :empty-text="t('COMMAND_BAR.EMPTY', { query: bar.query.value })"
+    :scope-label="scopeLabel"
+    :hints="hints"
+    :dir="isRTL ? 'rtl' : 'ltr'"
   />
   <ConversationResolveAttributesModal
     ref="resolveAttributesModalRef"
@@ -266,26 +235,3 @@ onMounted(() => {
     @close="dismissPendingAttributes"
   />
 </template>
-
-<style lang="scss">
-ninja-keys {
-  --ninja-accent-color: rgba(39, 129, 246, 1);
-  --ninja-font-family: 'Inter';
-  z-index: 9999;
-}
-
-// Wrapped with body.dark to avoid overriding the default theme
-// If OS is in dark theme and app is in light mode, It will prevent showing dark theme in command bar
-body.dark {
-  ninja-keys {
-    --ninja-overflow-background: rgba(26, 29, 30, 0.5);
-    --ninja-modal-background: #151718;
-    --ninja-secondary-background-color: #26292b;
-    --ninja-selected-background: #26292b;
-    --ninja-footer-background: #2b2f31;
-    --ninja-text-color: #f8faf9;
-    --ninja-icon-color: #f8faf9;
-    --ninja-secondary-text-color: #c2c9c6;
-  }
-}
-</style>

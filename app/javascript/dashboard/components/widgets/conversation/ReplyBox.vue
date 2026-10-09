@@ -104,14 +104,6 @@ export default {
         action: () => proxy.hideEmojiPicker(),
         allowOnFocusedInput: true,
       },
-      '$mod+KeyK': {
-        action: e => {
-          e.preventDefault();
-          const ninja = document.querySelector('ninja-keys');
-          ninja.open();
-        },
-        allowOnFocusedInput: true,
-      },
       Enter: {
         action: e => {
           if (isComposing(e)) return;

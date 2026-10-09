@@ -11,6 +11,7 @@ import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 import { emitter } from 'shared/helpers/mitt';
 import BackButton from 'dashboard/components/widgets/BackButton.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { useCommandBar } from '@bysivin/jumpbar';
 
 export default {
   components: {
@@ -48,8 +49,7 @@ export default {
   },
   methods: {
     openSnoozeNotificationModal() {
-      const ninja = document.querySelector('ninja-keys');
-      ninja.open({ parent: 'snooze_notification' });
+      useCommandBar().open({ page: 'snooze_notification' });
     },
     hideCustomSnoozeModal() {
       this.showCustomSnoozeModal = false;
