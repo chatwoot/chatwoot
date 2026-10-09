@@ -85,4 +85,6 @@ Rails.application.configure do
     Bullet.bullet_logger = true
     Bullet.rails_logger = true
   end
+
+  config.action_mailer.preview_path = "#{Rails.root}/spec/mailers/previews"
 end
