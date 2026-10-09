@@ -366,6 +366,17 @@ RSpec.describe 'Reports API', type: :request do
 
         expect(response).to have_http_status(:success)
       end
+
+      it 'prepends a UTF-8 BOM so that spreadsheet applications detect the encoding' do
+        get "/api/v2/accounts/#{account.id}/reports/agents.csv",
+            params: params,
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.headers['Content-Type']).to eq('text/csv')
+        expect(response.body.bytes[0..2]).to eq([0xEF, 0xBB, 0xBF])
+        expect(CSV.parse(response.body.delete_prefix("\xEF\xBB\xBF")).first).to be_present
+      end
     end
 
     context 'when an agent has access to multiple accounts' do
