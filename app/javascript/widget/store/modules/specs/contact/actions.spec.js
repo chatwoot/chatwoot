@@ -18,14 +18,17 @@ describe('#actions', () => {
         name: 'Adu Thoma',
         avatar_url: '',
       };
-      vi.spyOn(API, 'patch').mockResolvedValue({
-        data: { widget_auth_token: 'token' },
-      });
+      const response = {
+        widget_auth_token: 'token',
+        has_email: true,
+        has_name: true,
+      };
+      vi.spyOn(API, 'patch').mockResolvedValue({ data: response });
       await actions.setUser({ commit, dispatch }, { identifier: 1, user });
       expect(sendMessage.mock.calls).toEqual([
         [{ data: { widgetAuthToken: 'token' }, event: 'setAuthCookie' }],
       ]);
-      expect(commit.mock.calls).toEqual([]);
+      expect(commit.mock.calls).toEqual([['SET_CURRENT_USER', response]]);
       expect(dispatch.mock.calls).toEqual([
         ['get'],
         ['conversation/clearConversations', {}, { root: true }],
@@ -41,10 +44,14 @@ describe('#actions', () => {
         avatar_url: '',
         identifier_hash: '12345',
       };
-      vi.spyOn(API, 'patch').mockResolvedValue({ data: { id: 1 } });
+      vi.spyOn(API, 'patch').mockResolvedValue({
+        data: { id: 1, has_email: true },
+      });
       await actions.setUser({ commit, dispatch }, { identifier: 1, user });
       expect(sendMessage.mock.calls).toEqual([]);
-      expect(commit.mock.calls).toEqual([]);
+      expect(commit.mock.calls).toEqual([
+        ['SET_CURRENT_USER', { id: 1, has_email: true }],
+      ]);
       expect(dispatch.mock.calls).toEqual([
         ['get'],
         ['conversation/clearConversations', {}, { root: true }],
@@ -59,10 +66,12 @@ describe('#actions', () => {
         name: 'Adu Thoma',
         avatar_url: '',
       };
-      API.patch.mockResolvedValue({ data: { id: 1 } });
+      API.patch.mockResolvedValue({ data: { id: 1, has_email: true } });
       await actions.setUser({ commit, dispatch }, { identifier: 1, user });
       expect(sendMessage.mock.calls).toEqual([]);
-      expect(commit.mock.calls).toEqual([]);
+      expect(commit.mock.calls).toEqual([
+        ['SET_CURRENT_USER', { id: 1, has_email: true }],
+      ]);
       expect(dispatch.mock.calls).toEqual([['get']]);
     });
   });
