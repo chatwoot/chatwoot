@@ -1,6 +1,7 @@
 import { flushPromises, mount } from '@vue/test-utils';
 import { KeepAlive, defineComponent, h, nextTick, ref } from 'vue';
 import DataImportsAPI from 'dashboard/api/dataImports';
+import DataExportsAPI from 'dashboard/api/dataExports';
 import Index from '../Index.vue';
 import Show from '../Show.vue';
 
@@ -10,6 +11,7 @@ vi.mock('dashboard/api/dataImports', () => ({
     show: vi.fn(),
   },
 }));
+vi.mock('dashboard/api/dataExports', () => ({ default: { get: vi.fn() } }));
 
 vi.mock('dashboard/composables/store', () => ({
   useStoreGetters: () => ({ getCurrentAccountId: { value: 1 } }),
@@ -25,8 +27,8 @@ vi.mock('vue-i18n', () => ({
 
 vi.mock('vue-router', async importOriginal => ({
   ...(await importOriginal()),
-  useRoute: () => ({ params: { dataImportId: 1 } }),
-  useRouter: () => ({ push: vi.fn() }),
+  useRoute: () => ({ params: { dataImportId: 1 }, query: {} }),
+  useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
 }));
 
 const deferredRequest = () => {
@@ -59,6 +61,7 @@ const mountKeptAlive = component => {
         Icon: true,
         TabBar: true,
         NewImportDialog: true,
+        NewExportDialog: true,
         ImportDetailHeader: true,
         ImportSummaryTiles: true,
         ImportProgress: true,
@@ -75,6 +78,7 @@ const mountKeptAlive = component => {
 describe('data import polling lifecycle', () => {
   beforeEach(() => {
     vi.useFakeTimers();
+    DataExportsAPI.get.mockResolvedValue({ data: { payload: [] } });
   });
 
   afterEach(() => {

@@ -87,6 +87,7 @@
     "markdown-it-link-attributes": "^4.0.1",
     "mitt": "^3.0.1",
     "opus-recorder": "^8.0.5",
+    "papaparse": "5.7.0",
     "pinia": "^3.0.4",
     "qrcode": "^1.5.4",
     "semver": "7.6.3",

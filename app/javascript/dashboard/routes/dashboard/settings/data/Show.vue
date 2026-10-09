@@ -11,6 +11,9 @@ import { useRoute } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 
 import DataImportsAPI from 'dashboard/api/dataImports';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import { POLL_INTERVAL_MS, isActiveImport } from './importStatus';
 import SettingsLayout from '../SettingsLayout.vue';
 import ImportDetailHeader from './components/ImportDetailHeader.vue';
@@ -119,29 +122,48 @@ const startPolling = () => {
 
 const abandonImport = async () => {
   isAbandoning.value = true;
+  importRequestVersion += 1;
   try {
     const response = await DataImportsAPI.abandon(dataImport.value.id);
     dataImport.value = response.data;
     stopPolling();
     useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_ABANDONED'));
+  } catch {
+    useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_FAILED'));
   } finally {
     isAbandoning.value = false;
   }
 };
 
-const retryImport = async () => {
+const retryImport = async (resume = false) => {
   isRetrying.value = true;
   importRequestVersion += 1;
   stopPolling();
   try {
-    const response = await DataImportsAPI.retry(dataImport.value.id);
+    const response = resume
+      ? await DataImportsAPI.start(dataImport.value.id)
+      : await DataImportsAPI.retry(dataImport.value.id);
     dataImport.value = response.data;
     useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_RETRIED'));
-  } catch {
-    useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_RETRY_FAILED'));
+  } catch (error) {
+    useAlert(
+      error?.response?.data?.message ||
+        t('DATA_IMPORTS.ALERTS.IMPORT_RETRY_FAILED')
+    );
   } finally {
     isRetrying.value = false;
     if (hasActiveImport.value) startPolling();
+  }
+};
+
+const downloadRejectedRows = async () => {
+  try {
+    const response = await DataImportsAPI.downloadRejectedRows(
+      dataImport.value.id
+    );
+    window.location.assign(response.data.download_url);
+  } catch {
+    useAlert(t('DATA_EXPORTS.DOWNLOAD_ERROR'));
   }
 };
 
@@ -197,12 +219,14 @@ onActivated(async () => {
 });
 
 onDeactivated(() => {
+  importRequestVersion += 1;
   isPageActive = false;
   stopPolling();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
 });
 
 onBeforeUnmount(() => {
+  importRequestVersion += 1;
   isPageActive = false;
   stopPolling();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
@@ -222,14 +246,33 @@ onBeforeUnmount(() => {
         :is-abandoning="isAbandoning"
         :is-polling="isPolling"
         @refresh="fetchImport({ manual: true })"
-        @retry="retryImport"
+        @retry="retryImport(false)"
+        @start="retryImport(true)"
         @abandon="abandonImport"
       />
     </template>
 
     <template #body>
-      <div v-if="dataImport" class="flex flex-col gap-3">
+      <div v-if="dataImport" class="flex flex-col gap-4">
         <ImportSummaryTiles :data-import="dataImport" />
+        <div
+          v-if="dataImport.source_provider === 'csv'"
+          class="flex items-center gap-3 rounded-xl border border-n-weak bg-n-solid-1 px-5 py-4"
+        >
+          <span
+            class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-n-alpha-2"
+          >
+            <Icon icon="i-lucide-file-text" class="size-5 text-n-slate-11" />
+          </span>
+          <div class="flex min-w-0 flex-col gap-1">
+            <span class="text-label-small text-n-slate-11">{{
+              $t('DATA_IMPORTS.CSV.FILE')
+            }}</span>
+            <span class="break-words text-heading-3 text-n-slate-12">{{
+              dataImport.file_name
+            }}</span>
+          </div>
+        </div>
 
         <ImportProgress
           v-if="dataImport.import_types?.length"
@@ -237,7 +280,36 @@ onBeforeUnmount(() => {
           :title="$t('DATA_IMPORTS.DETAIL.PROGRESS')"
         />
 
+        <Banner v-if="dataImport.artifacts_expired_at" color="amber">
+          {{ $t('DATA_IMPORTS.CSV.EXPIRED') }}
+        </Banner>
+        <div
+          v-else-if="dataImport.rejected_rows_available"
+          class="flex flex-col items-start gap-4 rounded-xl border border-n-amber-5 bg-n-amber-2 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div class="flex min-w-0 flex-1 flex-col gap-1">
+            <h2 class="text-heading-3 text-n-slate-12">
+              {{ $t('DATA_IMPORTS.CSV.REJECTED_TITLE') }}
+            </h2>
+            <p class="text-body-main text-n-slate-11">
+              {{ $t('DATA_IMPORTS.CSV.REJECTED_HELP') }}
+            </p>
+          </div>
+          <Button
+            slate
+            outline
+            size="sm"
+            icon="i-lucide-download"
+            :label="$t('DATA_IMPORTS.CSV.DOWNLOAD_REJECTED')"
+            @click="downloadRejectedRows"
+          />
+        </div>
+
         <ImportErrorsSection
+          v-if="
+            dataImport.source_provider !== 'csv' ||
+            dataImport.import_errors_count
+          "
           :data-import="dataImport"
           :is-open="errorsOpen"
           :is-downloading="isDownloadingErrorLogs"
