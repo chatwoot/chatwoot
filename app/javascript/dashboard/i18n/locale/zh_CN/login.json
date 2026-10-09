@@ -2,7 +2,7 @@
   "LOGIN": {
     "TITLE": "登录到Chatwoot",
     "EMAIL": {
-      "LABEL": "Email",
+      "LABEL": "电子邮件",
       "PLACEHOLDER": "实例 {'@'}companyname.com",
       "ERROR": "请输入一个有效的电子邮件"
     },
@@ -24,17 +24,17 @@
     "CREATE_NEW_ACCOUNT": "创建新账户",
     "SUBMIT": "登录",
     "SAML": {
-      "LABEL": "Login via SSO",
-      "TITLE": "Initiate Single Sign-on (SSO)",
-      "SUBTITLE": "Enter your work email to access your organization",
-      "BACK_TO_LOGIN": "Login via Password",
+      "LABEL": "通过 SSO 登录",
+      "TITLE": "发起单点登录 (SSO)",
+      "SUBTITLE": "请输入您的工作邮箱以访问组织",
+      "BACK_TO_LOGIN": "使用密码登录",
       "WORK_EMAIL": {
-        "LABEL": "Work Email",
-        "PLACEHOLDER": "Enter your work email"
+        "LABEL": "工作邮箱",
+        "PLACEHOLDER": "请输入您的工作邮箱"
       },
-      "SUBMIT": "Continue with SSO",
+      "SUBMIT": "继续使用 SSO",
       "API": {
-        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+        "ERROR_MESSAGE": "SSO 身份验证失败，请检查您的凭据后重试。"
       }
     }
   }
