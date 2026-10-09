@@ -826,6 +826,7 @@
     "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
       "OPEN_CONVERSATION": "Open conversation",
+      "CLOSE_CONVERSATION": "Close active conversation",
       "RESOLVE_AND_NEXT": "Resolve and move to next",
       "NAVIGATE_DROPDOWN": "Navigate dropdown items",
       "RESOLVE_CONVERSATION": "Resolve Conversation",
