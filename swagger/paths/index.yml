@@ -495,6 +495,12 @@
     $ref: ./application/conversation/messages/index.yml
   post:
     $ref: ./application/conversation/messages/create.yml
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages/search:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  get:
+    $ref: ./application/conversation/messages/search.yml
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/messages/{message_id}:
   parameters:
     - $ref: '#/components/parameters/account_id'
