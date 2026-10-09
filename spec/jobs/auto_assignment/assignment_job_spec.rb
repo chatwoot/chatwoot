@@ -83,11 +83,32 @@ RSpec.describe AutoAssignment::AssignmentJob, type: :job do
     after { Redis::Alfred.delete(format(Redis::Alfred::AUTO_ASSIGNMENT_IN_FLIGHT_KEY, inbox_id: inbox.id)) }
 
     it 'enqueues one run per inbox and coalesces concurrent triggers' do
-      allow(described_class).to receive(:perform_later).and_return(true)
+      # enqueue_for_inbox delays the run, so the stub has to sit on the configured job
+      configured = double
+      allow(configured).to receive(:perform_later).and_return(true)
+      allow(described_class).to receive(:set).and_return(configured)
 
       expect(described_class.enqueue_for_inbox(inbox.id)).to be(true)
       expect(described_class.enqueue_for_inbox(inbox.id)).to be(false)
-      expect(described_class).to have_received(:perform_later).once
+      expect(configured).to have_received(:perform_later).once
+    end
+
+    it 'delays the run so automation rules can set the team first' do
+      allow(described_class).to receive(:set).and_call_original
+
+      described_class.enqueue_for_inbox(inbox.id)
+
+      expect(described_class).to have_received(:set).with(wait: described_class::ENQUEUE_DELAY)
+    end
+
+    it 'releases its own marker when the enqueue is halted' do
+      configured = double
+      allow(configured).to receive(:perform_later).and_return(false)
+      allow(described_class).to receive(:set).and_return(configured)
+      key = format(Redis::Alfred::AUTO_ASSIGNMENT_IN_FLIGHT_KEY, inbox_id: inbox.id)
+
+      expect(described_class.enqueue_for_inbox(inbox.id)).to be(false)
+      expect(Redis::Alfred.get(key)).to be_nil
     end
 
     it 'does not release a newer run marker when its own token is stale' do
