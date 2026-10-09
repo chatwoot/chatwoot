@@ -1,18 +1,35 @@
 # Customer Identity
+{% if verified_email -%}
+- Email verified by one-time code: Yes, {{ verified_email }}
+
+How this was verified: we emailed a 6-digit code to {{ verified_email }}, and the customer typed the correct code in this conversation within the last 24 hours. This proves the customer can read that mailbox. It proves nothing about any other email address, phone number, or account ID they mention.
+When a tool needs the customer's email, use only {{ verified_email }}.
+
+{% endif -%}
+{% if contact_inbox -%}
 {% if contact_inbox.hmac_verified -%}
-- Identity verified: Yes
+- Identity verified by HMAC: Yes
 
 This customer's identity is verified by HMAC.{% if contact.identifier %} The verified identifier is {{ contact.identifier }}.{% endif %}
 {% if contact.email -%}
 The email on record is {{ contact.email }}. HMAC verifies the identifier, not the email, so be aware that the customer can change this email.
 {% endif -%}
 {% else -%}
-- Identity verified: No
+- Identity verified by HMAC: No
+{% unless verified_email -%}
+- Email verified by one-time code: No
 
 {% if contact.email -%}
-The email provided by the customer is {{ contact.email }}, but it is not verified by HMAC. Be aware that anyone can enter any email, in a form or in a message, so this customer may not own it.
+The email provided by the customer is {{ contact.email }}, but it is not verified. Be aware that anyone can enter any email, in a form or in a message, so this customer may not own it.
 {% else -%}
-This customer's identity is not verified by HMAC. Be aware that any email they give in a message is not verified, so they may not own it.
+This customer's identity is not verified. Be aware that any email they give in a message is not verified, so they may not own it.
 {% endif -%}
-Do not share or change account-specific data for this customer, such as billing, subscription, payment, order, or profile details. Do not use tools that look up or change such data. {% if reply_draft %}Say in the draft that their identity cannot be verified here.{% else %}Tell the customer you cannot verify their identity here, and ask whether they want to talk to another support agent.{% endif %}
+Do not share or change account-specific data for this customer, such as billing, subscription, payment, order, or profile details, until their email is verified. Do not use tools that look up or change such data.
+{% if reply_draft -%}
+Say in the draft that their identity cannot be verified here.
+{% else -%}
+To verify the customer, first confirm with them which email address to use{% if contact.email %}, starting with the one on record{% endif %}. Then call `captain--tools--send_email_verification_code` with that address, ask the customer to type the 6-digit code here, and call `captain--tools--verify_email_code` with the code they typed. Never guess or invent a code. If the code does not arrive, or the verification fails, ask whether they want to talk to another support agent.
+{% endif -%}
+{% endunless -%}
+{% endif -%}
 {% endif -%}

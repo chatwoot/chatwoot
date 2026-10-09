@@ -28,6 +28,7 @@ module Concerns::Agentable
         conversation: state[:conversation] || {},
         contact: config['feature_contact_attributes'].present? ? state[:contact] : nil,
         contact_inbox: verifiable_contact_inbox(state),
+        verified_email: state[:verified_email],
         campaign: state[:campaign] || {},
         message_length_limit: state[:message_length_limit]
       )
