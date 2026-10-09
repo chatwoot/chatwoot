@@ -11,6 +11,7 @@ import ConversationContextMenu from './widgets/conversation/contextMenu/Index.vu
 const props = defineProps({
   source: { type: Object, required: true },
   teamId: { type: [String, Number], default: 0 },
+  channelGroupId: { type: [String, Number], default: 0 },
   label: { type: String, default: '' },
   conversationType: { type: String, default: '' },
   foldersId: { type: [String, Number], default: 0 },
@@ -87,6 +88,7 @@ const conversationPath = computed(() =>
       id: props.source.id,
       label: props.label,
       teamId: props.teamId,
+      channelGroupId: props.channelGroupId,
       conversationType: props.conversationType,
       foldersId: props.foldersId,
     })
