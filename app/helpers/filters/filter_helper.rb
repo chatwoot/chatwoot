@@ -2,8 +2,6 @@ module Filters::FilterHelper
   def build_condition_query(model_filters, query_hash, current_index)
     current_filter = model_filters[query_hash['attribute_key']]
 
-    # Throw InvalidOperator Error if the attribute is a standard attribute
-    # and the operator is not allowed in the config
     if current_filter.present? && current_filter['filter_operators'].exclude?(query_hash[:filter_operator])
       raise CustomExceptions::CustomFilter::InvalidOperator.new(
         attribute_name: query_hash['attribute_key'],
@@ -11,17 +9,13 @@ module Filters::FilterHelper
       )
     end
 
-    # Every other filter expects a value to be present
     if %w[is_present is_not_present].exclude?(query_hash[:filter_operator]) && query_hash['values'].blank?
       raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash['attribute_key'])
     end
 
     condition_query = build_condition_query_string(current_filter, query_hash, current_index)
-    # The query becomes empty only when it doesn't match to any supported
-    # standard attribute or custom attribute defined in the account.
     if condition_query.empty?
-      raise CustomExceptions::CustomFilter::InvalidAttribute.new(key: query_hash['attribute_key'],
-                                                                 allowed_keys: model_filters.keys)
+      raise CustomExceptions::CustomFilter::InvalidAttribute.new(key: query_hash['attribute_key'], allowed_keys: model_filters.keys)
     end
 
     condition_query
@@ -46,27 +40,15 @@ module Filters::FilterHelper
   end
 
   def handle_additional_attributes(query_hash, filter_operator_value, data_type)
-    if data_type == 'text_case_insensitive'
-      ActiveRecord::Base.sanitize_sql_array(
-        ["LOWER(#{filter_config[:table_name]}.additional_attributes ->> ?) #{filter_operator_value} #{query_hash[:query_operator]}",
-         query_hash[:attribute_key]]
-      )
-    else
-      ActiveRecord::Base.sanitize_sql_array(
-        ["#{filter_config[:table_name]}.additional_attributes ->> ? #{filter_operator_value} #{query_hash[:query_operator]} ",
-         query_hash[:attribute_key]]
-      )
-    end
+    col = data_type == 'text_case_insensitive' ? "LOWER(#{filter_config[:table_name]}.additional_attributes ->> ?)" : "#{filter_config[:table_name]}.additional_attributes ->> ?"
+    ActiveRecord::Base.sanitize_sql_array(["#{col} #{filter_operator_value} #{query_hash[:query_operator]}", query_hash[:attribute_key]])
   end
 
   def handle_standard_attributes(current_filter, query_hash, current_index, filter_operator_value)
     case current_filter['data_type']
-    when 'date'
-      date_filter(current_filter, query_hash, filter_operator_value)
-    when 'labels'
-      tag_filter_query(query_hash, current_index)
-    when 'text_case_insensitive'
-      text_case_insensitive_filter(query_hash, filter_operator_value)
+    when 'date' then date_filter(current_filter, query_hash, filter_operator_value)
+    when 'labels' then tag_filter_query(query_hash, current_index)
+    when 'text_case_insensitive' then text_case_insensitive_filter(query_hash, filter_operator_value)
     else
       return text_cast_filter(query_hash, filter_operator_value) if text_search_on_display_id?(query_hash)
 
@@ -75,13 +57,11 @@ module Filters::FilterHelper
   end
 
   def date_filter(current_filter, query_hash, filter_operator_value)
-    "(#{filter_config[:table_name]}.#{query_hash[:attribute_key]})::#{current_filter['data_type']} " \
-      "#{filter_operator_value} #{query_hash[:query_operator]}"
+    "(#{filter_config[:table_name]}.#{query_hash[:attribute_key]})::#{current_filter['data_type']} #{filter_operator_value} #{query_hash[:query_operator]}"
   end
 
   def text_case_insensitive_filter(query_hash, filter_operator_value)
-    "LOWER(#{filter_config[:table_name]}.#{query_hash[:attribute_key]}) " \
-      "#{filter_operator_value} #{query_hash[:query_operator]}"
+    "LOWER(#{filter_config[:table_name]}.#{query_hash[:attribute_key]}) #{filter_operator_value} #{query_hash[:query_operator]}"
   end
 
   def text_cast_filter(query_hash, filter_operator_value)
@@ -92,7 +72,6 @@ module Filters::FilterHelper
     if query_hash[:attribute_key] == 'assignee_id' && query_hash[:filter_operator].in?(%w[is_present is_not_present])
       return assignee_presence_filter(filter_config[:table_name], query_hash)
     end
-
     if query_hash[:attribute_key] == 'status' && Array.wrap(query_hash['values']).include?('unread')
       return conversation_unread_status_filter(query_hash, filter_operator_value)
     end
@@ -101,23 +80,14 @@ module Filters::FilterHelper
   end
 
   def conversation_unread_status_filter(query_hash, filter_operator_value)
-    other_statuses = Array.wrap(query_hash['values']).reject { |v| v == 'unread' }
-    unread_sql = if query_hash[:filter_operator] == 'equal_to'
-                   "#{Conversation.unread_messages_count_arel.to_sql} > 0"
-                 else
-                   "#{Conversation.unread_messages_count_arel.to_sql} = 0"
-                 end
+    other = Array.wrap(query_hash['values']).reject { |v| v == 'unread' }
+    op = query_hash[:filter_operator] == 'equal_to' ? ['>', 'OR'] : ['=', 'AND']
+    unread_sql = "#{Conversation.unread_messages_count_arel.to_sql} #{op[0]} 0"
+    return "(#{unread_sql}) #{query_hash[:query_operator]}" if other.empty?
 
-    if other_statuses.empty?
-      "(#{unread_sql}) #{query_hash[:query_operator]}"
-    elsif query_hash[:filter_operator] == 'equal_to'
-      "((#{filter_config[:table_name]}.status #{filter_operator_value}) OR (#{unread_sql})) #{query_hash[:query_operator]}"
-    else
-      "((#{filter_config[:table_name]}.status #{filter_operator_value}) AND (#{unread_sql})) #{query_hash[:query_operator]}"
-    end
+    "((#{filter_config[:table_name]}.status #{filter_operator_value}) #{op[1]} (#{unread_sql})) #{query_hash[:query_operator]}"
   end
 
-  # Assignee ownership can live in either column until it is standardized as a polymorphic association.
   def assignee_presence_filter(table_name, query_hash)
     if query_hash[:filter_operator] == 'is_present'
       return "(#{table_name}.assignee_id IS NOT NULL OR #{table_name}.assignee_agent_bot_id IS NOT NULL) #{query_hash[:query_operator]}"
