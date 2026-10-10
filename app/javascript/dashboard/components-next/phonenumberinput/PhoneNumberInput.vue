@@ -1,10 +1,11 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
-import parsePhoneNumber from 'libphonenumber-js';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { formatAsYouTypeInput } from 'shared/helpers/PhoneNumberHelper';
 import { useI18n } from 'vue-i18n';
 import countries from 'shared/constants/countries.js';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength, numeric } from '@vuelidate/validators';
+import { required, minLength } from '@vuelidate/validators';
 import {
   getActiveCountryCode,
   getActiveDialCode,
@@ -45,7 +46,7 @@ const phoneNumber = ref('');
 const rules = {
   phoneNumber: {
     minLength: minLength(2),
-    numeric,
+    validFormat: value => !value || /^[\d\s()+-]+$/.test(value),
   },
   activeDialCode: {
     required,
@@ -113,7 +114,8 @@ const phoneNumberError = computed(() => {
 });
 
 const emitPhoneNumber = value => {
-  const newValue = value ? `${activeDialCode.value}${value}` : '';
+  const cleanDigits = (value || '').replace(/\D/g, '');
+  const newValue = cleanDigits ? `${activeDialCode.value}${cleanDigits}` : '';
   modelValue.value = newValue;
 };
 
@@ -124,6 +126,17 @@ const onSelectCountry = async ({ value, dialCode }) => {
   activeDialCode.value = dialCode;
   searchQuery.value = '';
   showDropdown.value = false;
+  if (phoneNumber.value) {
+    if (!/^[\d\s()+-]*$/.test(phoneNumber.value)) {
+      await v$.value.$touch();
+      return;
+    }
+    phoneNumber.value = formatAsYouTypeInput(
+      dialCode,
+      value,
+      phoneNumber.value
+    );
+  }
   if (!v$.value.$invalid && phoneNumber.value) {
     emitPhoneNumber(phoneNumber.value);
   }
@@ -138,6 +151,45 @@ const closeCountryDropdown = () => {
 };
 
 watch(phoneNumber, async value => {
+  if (!value) {
+    emitPhoneNumber('');
+    return;
+  }
+
+  // Prevent formatters from silently stripping invalid characters (e.g., 1-800-FLOWERS)
+  // Let invalid characters remain so Vuelidate triggers the format validation error.
+  const hasInvalidCharacters = !/^[\d\s()+-]*$/.test(value);
+  if (hasInvalidCharacters) {
+    await v$.value.$touch();
+    return;
+  }
+
+  if (value.startsWith('+')) {
+    const parsed = parsePhoneNumberFromString(value);
+    if (parsed && parsed.countryCallingCode) {
+      if (parsed.country) {
+        activeCountryCode.value = parsed.country;
+      }
+      activeDialCode.value = `+${parsed.countryCallingCode}`;
+      const raw = value.replace(`+${parsed.countryCallingCode}`, '').trim();
+      phoneNumber.value = formatAsYouTypeInput(
+        `+${parsed.countryCallingCode}`,
+        parsed.country || '',
+        raw
+      );
+      return;
+    }
+  }
+
+  const formatted = formatAsYouTypeInput(
+    activeDialCode.value,
+    activeCountryCode.value,
+    value
+  );
+  if (formatted !== value) {
+    phoneNumber.value = formatted;
+    return;
+  }
   await v$.value.$touch();
   if (!v$.value.$invalid) {
     emitPhoneNumber(value);
@@ -147,12 +199,24 @@ watch(phoneNumber, async value => {
 watch(
   modelValue,
   newValue => {
-    const number = parsePhoneNumber(newValue);
+    if (!newValue) {
+      phoneNumber.value = '';
+      return;
+    }
+    const number = parsePhoneNumberFromString(newValue);
     if (number) {
       if (number?.country) activeCountryCode.value = number.country;
       if (number?.countryCallingCode)
         activeDialCode.value = `+${number.countryCallingCode}`;
-      phoneNumber.value = newValue.replace(`+${number.countryCallingCode}`, '');
+      const raw = newValue.replace(`+${number.countryCallingCode}`, '');
+      const formatted = formatAsYouTypeInput(
+        `+${number.countryCallingCode}`,
+        number.country || '',
+        raw
+      );
+      if (phoneNumber.value !== formatted) {
+        phoneNumber.value = formatted;
+      }
     }
   },
   { immediate: true }
