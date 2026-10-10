@@ -1,4 +1,5 @@
 import Auth from '../api/auth';
+import { normalizeInstallationAssetURLs } from './URLHelper';
 
 const parseErrorCode = error => Promise.reject(error);
 
@@ -24,7 +25,10 @@ export default axios => {
   }
   // Response parsing interceptor
   wootApi.interceptors.response.use(
-    response => response,
+    response => ({
+      ...response,
+      data: normalizeInstallationAssetURLs(response.data),
+    }),
     error => parseErrorCode(error)
   );
   return wootApi;

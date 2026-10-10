@@ -120,23 +120,42 @@ export const timeStampAppendedURL = dataUrl => {
 };
 
 export const getInstallationAssetURL = dataUrl => {
-  if (!dataUrl) return dataUrl;
+  if (!dataUrl?.includes('/rails/active_storage/')) return dataUrl;
 
-  const url = new URL(dataUrl, window.location.origin);
-  const hostURL = window.chatwootConfig?.hostURL;
+  try {
+    const url = new URL(dataUrl, window.location.origin);
+    const hostURL = window.chatwootConfig?.hostURL;
 
-  if (
-    hostURL &&
-    url.origin === new URL(hostURL).origin &&
-    url.pathname.startsWith('/rails/active_storage/')
-  ) {
-    return new URL(
-      `${url.pathname}${url.search}${url.hash}`,
-      window.location.origin
-    ).href;
+    if (hostURL && url.origin === new URL(hostURL).origin) {
+      return new URL(
+        `${url.pathname}${url.search}${url.hash}`,
+        window.location.origin
+      ).href;
+    }
+  } catch (error) {
+    return dataUrl;
   }
 
-  return url.href;
+  return dataUrl;
+};
+
+export const normalizeInstallationAssetURLs = value => {
+  if (typeof value === 'string') return getInstallationAssetURL(value);
+  if (Array.isArray(value)) return value.map(normalizeInstallationAssetURLs);
+  if (
+    !value ||
+    typeof value !== 'object' ||
+    Object.getPrototypeOf(value) !== Object.prototype
+  ) {
+    return value;
+  }
+
+  return Object.fromEntries(
+    Object.entries(value).map(([key, nestedValue]) => [
+      key,
+      normalizeInstallationAssetURLs(nestedValue),
+    ])
+  );
 };
 
 export const getHostNameFromURL = url => {
