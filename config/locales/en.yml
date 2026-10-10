@@ -489,6 +489,11 @@ en:
     api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: 'Using tool %{function_name}'
+      approval_superseded: 'The agent sent a new message instead of approving this change.'
+      approval_rejected: 'The agent rejected this change.'
+      approval_already_decided: 'This change has already been approved or rejected.'
+      approval_expired: 'The agent did not approve this change within %{minutes} minutes.'
+      approval_expired_notice: 'This change expired. Ask Copilot to propose it again.'
       completed_tool_call: 'Completed %{function_name} tool call'
       invalid_tool_call: 'Invalid tool call'
       tool_not_available: 'Tool not available'

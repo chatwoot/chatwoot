@@ -8,6 +8,7 @@ import CopilotInput from './CopilotInput.vue';
 import CopilotLoader from './CopilotLoader.vue';
 import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
+import CopilotApprovalMessage from './CopilotApprovalMessage.vue';
 import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
 import CopilotEmptyState from './CopilotEmptyState.vue';
@@ -91,6 +92,18 @@ const isLastMessageFromAssistant = computed(() => {
   );
 });
 
+// A pending approval waits on the agent, not on Copilot, so the loader stays hidden until they decide.
+const decidedRunIds = ref([]);
+const isCopilotWorking = computed(() => {
+  const hasPendingApproval = props.messages.some(
+    message =>
+      message.message_type === 'assistant_approval' &&
+      message.message.approval.status === 'pending' &&
+      !decidedRunIds.value.includes(message.message.run_id)
+  );
+  return !isLastMessageFromAssistant.value && !hasPendingApproval;
+});
+
 const { updateUISettings } = useUISettings();
 
 const closeCopilotPanel = () => {
@@ -152,6 +165,11 @@ watch(
             :message="item.message"
             :is-last-message="index === groupedMessages.length - 1"
           />
+          <CopilotApprovalMessage
+            v-else-if="item.message_type === 'assistant_approval'"
+            :message="item.message"
+            @decided="runId => decidedRunIds.push(runId)"
+          />
           <CopilotThinkingGroup
             v-else
             :messages="item.messages"
@@ -159,7 +177,7 @@ watch(
           />
         </template>
 
-        <CopilotLoader v-if="!isLastMessageFromAssistant" />
+        <CopilotLoader v-if="isCopilotWorking" />
       </div>
       <CopilotEmptyState
         v-else

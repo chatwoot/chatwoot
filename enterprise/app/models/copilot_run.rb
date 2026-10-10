@@ -39,17 +39,21 @@ class CopilotRun < ApplicationRecord
   has_many :child_runs, class_name: 'CopilotRun', foreign_key: :parent_run_id, dependent: :destroy, inverse_of: :parent_run
   has_many :steps, class_name: 'CopilotRunStep', dependent: :delete_all
   has_many :findings, class_name: 'CopilotReviewFinding', dependent: :delete_all
+  has_many :action_items, class_name: 'CopilotActionItem', dependent: :delete_all
 
-  TERMINAL_STATUSES = %w[completed incomplete failed].freeze
+  TERMINAL_STATUSES = %w[completed incomplete failed rejected expired].freeze
   MAX_SELECTION = 5000
   # Conversations a review finishes per turn. The rest wait until the agent asks to continue.
   REVIEW_BUDGET = 100
 
   LEASE_DURATION = 2.minutes
+  # The approval card shows a fixed set of conversations. After this long that set may be stale, so the agent has to ask again.
+  APPROVAL_TTL = 5.minutes
 
-  validates :kind, inclusion: { in: %w[chat collection review] }
+  validates :kind, inclusion: { in: %w[chat collection review action] }
   # waiting: a chat run parked until a background run started by one of its tool calls finishes.
-  validates :status, inclusion: { in: %w[queued running waiting completed incomplete failed] }
+  # awaiting_approval: an action run that writes nothing until the agent approves it.
+  validates :status, inclusion: { in: %w[queued running waiting awaiting_approval completed incomplete failed rejected expired] }
 
   def terminal?
     TERMINAL_STATUSES.include?(status)
@@ -57,7 +61,7 @@ class CopilotRun < ApplicationRecord
 
   def claim
     with_lock do
-      return if terminal? || status == 'waiting' || lease_until&.future?
+      return if terminal? || %w[waiting awaiting_approval].include?(status) || lease_until&.future?
 
       update!(status: 'running', lease_until: Time.current + LEASE_DURATION, lease_token: SecureRandom.uuid)
       lease_token
@@ -76,11 +80,12 @@ class CopilotRun < ApplicationRecord
     with_lease(token) { update!(lease_until: Time.current + LEASE_DURATION) }
   end
 
-  # Checked before every model call, so turning the feature off or running out of credits also stops work in flight.
-  def ensure_allowed!
+  # Checked before every model call and batch of changes, so turning the feature off or running out of credits also
+  # stops work in flight. Changes make no model call, so they skip the credit check.
+  def ensure_allowed!(credits: true)
     account.reload
     raise Captain::Copilot::LimitExceededError, I18n.t('captain.copilot_workflows_disabled') unless account.feature_enabled?('copilot_workflows')
-    return if account.usage_limits[:captain][:responses][:current_available].positive?
+    return if !credits || account.usage_limits[:captain][:responses][:current_available].positive?
 
     raise Captain::Copilot::LimitExceededError, I18n.t('captain.copilot_limit')
   end
@@ -99,6 +104,38 @@ class CopilotRun < ApplicationRecord
       status == 'waiting' && update!(status: 'queued')
     end
     Captain::Copilot::ExecutionJob.perform_later(id) if resumed
+  end
+
+  # Approving starts the action. Returns false when the action was already decided, or has expired, which also closes it.
+  def approve
+    if approval_expired?
+      expire
+      return false
+    end
+
+    decided = decide('queued')
+    Captain::Copilot::ActionJob.perform_later(id) if decided
+    decided
+  end
+
+  def reject(reason)
+    close('rejected', reason)
+  end
+
+  def expire
+    close('expired', I18n.t('captain.copilot.approval_expired', minutes: APPROVAL_TTL.in_minutes.to_i))
+  end
+
+  def approval_expired?
+    Time.iso8601(context.fetch('approval_expires_at')).past?
+  end
+
+  def action
+    Captain::Copilot::Actions.build(context.fetch('action'), account: account, user: user, arguments: context.fetch('arguments'))
+  end
+
+  def target_ids
+    context.fetch('target_ids', [])
   end
 
   # The chat run whose turn this run belongs to. Collections and reviews are started by one of its tool calls.
@@ -157,16 +194,13 @@ class CopilotRun < ApplicationRecord
   end
 
   def remaining_ids
+    return target_ids - action_items.where(status: CopilotActionItem::FINAL_STATUSES).pluck(:record_id) if kind == 'action'
+
     selected_ids - findings.where(status: CopilotReviewFinding::FINAL_STATUSES).pluck(:conversation_id)
   end
 
   def receipt
-    counts = findings.group(:status).count
-    selected = selected_ids.size
-    processed = counts.values_at(*CopilotReviewFinding::FINAL_STATUSES).sum(&:to_i)
-    { run_id: id, status: status, filters: filters, match: match, selected: selected, processed: processed, remaining: selected - processed,
-      screened_out: counts['screened_out'].to_i, reviewed: counts['resolved'].to_i, matched: findings.where(matched: true).count,
-      errors: counts['error'].to_i, selection_truncated: context['selection_truncated'], error: error }
+    { run_id: id, status: status, error: error }.merge(kind == 'action' ? action_receipt : review_receipt)
   end
 
   def processed_count
@@ -177,8 +211,49 @@ class CopilotRun < ApplicationRecord
     progress = receipt
     return if copilot_thread.copilot_messages.assistant_thinking.last&.message&.dig('progress') == progress.as_json
 
-    content = "Processed #{progress[:processed]} of #{progress[:selected]} conversations: #{progress[:matched]} matched, " \
-              "#{progress[:screened_out]} screened out, #{progress[:errors]} errors."
-    copilot_thread.copilot_messages.create!(message_type: :assistant_thinking, message: { content: content, progress: progress })
+    copilot_thread.copilot_messages.create!(message_type: :assistant_thinking, message: { content: progress_text(progress), progress: progress })
+  end
+
+  private
+
+  # Closing hands the decision back to the waiting tool call, so the turn continues without the change.
+  def close(new_status, reason)
+    decided = decide(new_status, reason: reason)
+    copilot_run_step.copilot_run.resume_with(copilot_run_step, receipt) if decided
+    decided
+  end
+
+  def decide(new_status, reason: nil)
+    with_lock do
+      next false unless status == 'awaiting_approval'
+
+      update!(status: new_status, context: context.merge('decided_at' => Time.current.iso8601, 'decision_reason' => reason).compact)
+      card = copilot_thread.copilot_messages.find(context.fetch('approval_message_id'))
+      card.update!(message: card.message.deep_merge('approval' => { 'status' => { 'queued' => 'approved' }.fetch(new_status, new_status) }))
+    end
+  end
+
+  def review_receipt
+    counts = findings.group(:status).count
+    selected = selected_ids.size
+    processed = counts.values_at(*CopilotReviewFinding::FINAL_STATUSES).sum(&:to_i)
+    { filters: filters, match: match, selected: selected, processed: processed, remaining: selected - processed,
+      screened_out: counts['screened_out'].to_i, reviewed: counts['resolved'].to_i, matched: findings.where(matched: true).count,
+      errors: counts['error'].to_i, selection_truncated: context['selection_truncated'] }
+  end
+
+  def action_receipt
+    counts = action_items.group(:status).count
+    { action: context['action'], arguments: context['arguments'], targets: target_ids.size, applied: counts['applied'].to_i,
+      skipped: counts['skipped'].to_i, failed: counts['failed'].to_i, decision_reason: context['decision_reason'] }.compact
+  end
+
+  def progress_text(progress)
+    if kind == 'action'
+      return "Applied #{progress[:applied]} of #{progress[:targets]} changes: #{progress[:skipped]} already done, #{progress[:failed]} failed."
+    end
+
+    "Processed #{progress[:processed]} of #{progress[:selected]} conversations: #{progress[:matched]} matched, " \
+      "#{progress[:screened_out]} screened out, #{progress[:errors]} errors."
   end
 end

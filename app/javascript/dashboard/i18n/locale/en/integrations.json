@@ -709,6 +709,22 @@
           "LABEL": "List contacts",
           "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
         }
+      },
+      "APPROVAL": {
+        "TITLE": "Approve this change?",
+        "APPROVE": "Approve",
+        "REJECT": "Reject",
+        "ERROR": "Could not save your decision. Please try again.",
+        "MORE_TARGETS": "and {count} more",
+        "ACTIONS": {
+          "ADD_LABELS": "Add {labels} to {count} conversation | Add {labels} to {count} conversations",
+          "OTHER": "Run {action} on {count} conversation | Run {action} on {count} conversations"
+        },
+        "STATUS": {
+          "APPROVED": "Approved",
+          "REJECTED": "Rejected",
+          "EXPIRED": "Expired. Ask Copilot to propose it again."
+        }
       }
     },
     "PLAYGROUND": {
