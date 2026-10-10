@@ -4,7 +4,7 @@ Stack: `docker-compose.prod.yaml`. Usa una imagen ya construida (sin `build:`) y
 
 ## Variables
 
-Se leen desde un archivo de entorno en el servidor (`QEVA_ENV_FILE`, por defecto `.env.prod`). Ese archivo no se commitea.
+Se cargan como variables del stack. En Portainer: *Stacks → Editor → Environment variables*. No van en el repo.
 
 | Variable | Descripción |
 | --- | --- |
