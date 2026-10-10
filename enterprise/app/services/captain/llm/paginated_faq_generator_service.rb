@@ -109,7 +109,8 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
       end
       message.merge(content: content)
     end
-    params = { model: @model, input: input, text: { format: { type: 'json_object' } } }
+    # RubyLLM's Responses requests send store: false; this hand-built request must too, or OpenAI keeps the document.
+    params = { model: @model, input: input, text: { format: { type: 'json_object' } }, store: false }
     params[:reasoning] = request_options[:thinking] if request_options[:thinking]
     params
   end
