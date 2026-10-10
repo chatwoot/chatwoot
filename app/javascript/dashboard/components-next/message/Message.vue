@@ -46,6 +46,7 @@ import WhatsappFlowResponseBubble from './bubbles/WhatsappFlowResponse.vue';
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import { useBranding } from 'shared/composables/useBranding';
+import { getInstallationAssetURL } from 'dashboard/helper/URLHelper';
 
 /**
  * @typedef {Object} Attachment
@@ -150,6 +151,14 @@ const inboxGetter = useMapGetter('inboxes/getInbox');
 const inbox = computed(() => inboxGetter.value(props.inboxId) || {});
 const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
 const { replaceInstallationName } = useBranding();
+
+const attachments = computed(() =>
+  props.attachments.map(attachment => ({
+    ...attachment,
+    dataUrl: getInstallationAssetURL(attachment.dataUrl),
+    thumbUrl: getInstallationAssetURL(attachment.thumbUrl),
+  }))
+);
 
 const isCaptainMessage = computed(() => {
   const senderType = props.sender?.type ?? props.senderType;
@@ -528,6 +537,7 @@ onMounted(setupHighlightTimer);
 
 provideMessageContext({
   ...toRefs(props),
+  attachments,
   isPrivate: computed(() => props.private),
   variant,
   orientation,

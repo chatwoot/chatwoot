@@ -2,6 +2,7 @@ import { inject, provide, computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { ATTACHMENT_TYPES } from './constants';
+import { getInstallationAssetURL } from 'dashboard/helper/URLHelper';
 
 const MessageControl = Symbol('MessageControl');
 
@@ -130,7 +131,11 @@ export function useMessageContext() {
       ].includes(attachment.file_type)
     );
 
-    return useSnakeCase(attachments);
+    return useSnakeCase(attachments).map(attachment => ({
+      ...attachment,
+      data_url: getInstallationAssetURL(attachment.data_url),
+      thumb_url: getInstallationAssetURL(attachment.thumb_url),
+    }));
   });
 
   return { ...context, filteredCurrentChatAttachments };

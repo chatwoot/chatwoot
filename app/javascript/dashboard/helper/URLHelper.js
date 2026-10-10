@@ -119,6 +119,26 @@ export const timeStampAppendedURL = dataUrl => {
   return url.toString();
 };
 
+export const getInstallationAssetURL = dataUrl => {
+  if (!dataUrl) return dataUrl;
+
+  const url = new URL(dataUrl, window.location.origin);
+  const hostURL = window.chatwootConfig?.hostURL;
+
+  if (
+    hostURL &&
+    url.origin === new URL(hostURL).origin &&
+    url.pathname.startsWith('/rails/active_storage/')
+  ) {
+    return new URL(
+      `${url.pathname}${url.search}${url.hash}`,
+      window.location.origin
+    ).href;
+  }
+
+  return url.href;
+};
+
 export const getHostNameFromURL = url => {
   try {
     return new URL(url).hostname;

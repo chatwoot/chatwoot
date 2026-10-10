@@ -7,7 +7,10 @@ import {
   getCurrentInstance,
 } from 'vue';
 import Icon from 'next/icon/Icon.vue';
-import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
+import {
+  getInstallationAssetURL,
+  timeStampAppendedURL,
+} from 'dashboard/helper/URLHelper';
 import { downloadFile } from '@chatwoot/utils';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { emitter } from 'shared/helpers/mitt';
@@ -28,19 +31,7 @@ defineOptions({
 });
 
 const audioUrl = computed(() => {
-  const url = new URL(attachment.dataUrl, window.location.origin);
-  const hostURL = window.chatwootConfig?.hostURL;
-
-  // Storage URLs can point at a public tunnel even when the dashboard is local.
-  if (
-    hostURL &&
-    url.origin === new URL(hostURL).origin &&
-    url.pathname.startsWith('/rails/active_storage/')
-  ) {
-    return new URL(`${url.pathname}${url.search}`, window.location.origin).href;
-  }
-
-  return url.href;
+  return getInstallationAssetURL(attachment.dataUrl);
 });
 const timeStampURL = computed(() => {
   return timeStampAppendedURL(audioUrl.value);
