@@ -10,7 +10,7 @@ Aplicar el diseño de la bandeja de QEVA CRM (canvas `WrQN1m9GniFikYyEfof6uJ`, a
 ## Tasks
 - [x] T1: Baseline `ConversationCard.spec.js` (4 tests verdes).
 - [x] T2: Fila de conversación (`widgets/conversation/ConversationCard.vue`): bordes redondeados (`rounded-2xl`), separación con `mx-2 my-0.5`, sin separadores de borde inferior, estado activo con fondo `#E3EDFC` / `#10264A`.
-- [ ] T3: Pestañas de asignación (`ChatTypeTabs`) y encabezado de la lista (`ChatListHeader`).
+- [x] T3: Pestañas de asignación: nuevo `components-next/tabbar/InboxTabs.vue` (con atajo Alt+N y spec de 4 tests) reemplaza a `ChatTypeTabs.vue`, que se eliminó. Encabezado de la lista (`ChatListHeader`) queda pendiente.
 - [ ] T4: Encabezado y composer del hilo (`ConversationHeader.vue`, `ReplyBox.vue`).
 - [ ] T5: Burbujas (`components-next/message/bubbles/Base.vue`, `Text/Index.vue`).
 - [ ] T6: Panel de contacto (`ContactPanel.vue`, `ConversationInfo.vue`).
@@ -21,4 +21,4 @@ Aplicar el diseño de la bandeja de QEVA CRM (canvas `WrQN1m9GniFikYyEfof6uJ`, a
 - Pendiente de verificación visual: no revisado en navegador.
 
 ## Next step
-T3.
+T4 (encabezado y composer del hilo).
