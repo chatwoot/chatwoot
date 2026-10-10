@@ -24,7 +24,7 @@ module AutoAssignmentHandler
   def run_auto_assignment
     # Assignment V2: Also trigger assignment when conversation is resolved or snoozed,
     # bypassing the open-only condition so the AssignmentJob can redistribute capacity.
-    return unless conversation_status_changed_to_open? || conversation_status_changed_to_resolved_or_snoozed?
+    return unless conversation_status_changed_to_open? || conversation_status_changed_to_resolved_or_snoozed? || team_assignment_changed?
     return unless should_run_auto_assignment?
 
     if inbox.auto_assignment_v2_enabled?
@@ -38,6 +38,10 @@ module AutoAssignmentHandler
       # finalized by before_create callbacks, which run after before_save.
       AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: legacy_allowed_agent_ids).perform
     end
+  end
+
+  def team_assignment_changed?
+    inbox.auto_assignment_v2_enabled? && saved_change_to_team_id? && open?
   end
 
   def legacy_allowed_agent_ids

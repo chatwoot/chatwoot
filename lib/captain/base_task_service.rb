@@ -84,7 +84,7 @@ class Captain::BaseTaskService
 
   def build_chat(context, model:, messages:, schema: nil, tools: [])
     chat = context.chat(model: model)
-    chat.with_params(reasoning_effort: 'none') if model == 'gpt-5.6-luna'
+    chat.with_provider_options(reasoning_effort: 'none') if model == 'gpt-5.6-luna'
     system_msg = messages.find { |m| m[:role] == 'system' }
     chat.with_instructions(system_msg[:content]) if system_msg
     chat.with_schema(schema) if schema

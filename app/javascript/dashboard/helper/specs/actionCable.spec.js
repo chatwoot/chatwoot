@@ -3,6 +3,16 @@ import ActionCableConnector from '../actionCable';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
+import AuthAPI from 'dashboard/api/auth';
+import {
+  clearCookiesOnLogout,
+  deleteIndexedDBOnLogout,
+} from 'dashboard/store/utils/api';
+
+vi.mock('dashboard/store/utils/api', () => ({
+  clearCookiesOnLogout: vi.fn(),
+  deleteIndexedDBOnLogout: vi.fn(),
+}));
 
 vi.mock('shared/helpers/mitt', () => ({
   emitter: {
@@ -50,6 +60,23 @@ describe('ActionCableConnector - Copilot Tests', () => {
     vi.useRealTimers();
   });
   describe('copilot event handlers', () => {
+    it('clears a revoked browser session without requiring another sign-out request', () => {
+      vi.spyOn(AuthAPI, 'getAuthData').mockReturnValue({
+        client: 'old-client',
+      });
+      actionCable.onLogout({ client_ids: ['old-client'] });
+      expect(deleteIndexedDBOnLogout).toHaveBeenCalledOnce();
+      expect(clearCookiesOnLogout).toHaveBeenCalledOnce();
+    });
+
+    it('preserves a new login when a delayed logout event names an older client', () => {
+      vi.spyOn(AuthAPI, 'getAuthData').mockReturnValue({
+        client: 'new-client',
+      });
+      actionCable.onLogout({ client_ids: ['old-client'] });
+      expect(clearCookiesOnLogout).not.toHaveBeenCalled();
+    });
+
     it('should register the copilot.message.created event handler', () => {
       expect(Object.keys(actionCable.events)).toContain(
         'copilot.message.created'

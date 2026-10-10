@@ -23,6 +23,8 @@ module AssignmentHandler
 
   def find_assignee_from_team
     return if team&.allow_auto_assign.blank?
+    # Policy-based assignment must share the queue, eligibility and capacity checks.
+    return if inbox.auto_assignment_v2_enabled? && inbox.assignment_policy.present?
 
     team_members_with_capacity = inbox.member_ids_with_assignment_capacity & team.members.ids
     ::AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: team_members_with_capacity).find_assignee

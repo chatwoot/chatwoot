@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_10_06_233107) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_10_160000) do
+  create_schema "mcp"
+
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -295,8 +297,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_06_233107) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "exclude_older_than_hours", default: 168
+    t.boolean "business_hours_only", default: false, null: false
+    t.bigint "eligible_custom_role_id"
     t.index ["account_id", "name"], name: "index_assignment_policies_on_account_id_and_name", unique: true
     t.index ["account_id"], name: "index_assignment_policies_on_account_id"
+    t.index ["eligible_custom_role_id"], name: "index_assignment_policies_on_eligible_custom_role_id"
     t.index ["enabled"], name: "index_assignment_policies_on_enabled"
   end
 
@@ -449,7 +454,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_06_233107) do
     t.jsonb "audience", default: []
     t.datetime "scheduled_at", precision: nil
     t.boolean "trigger_only_during_business_hours", default: false
-    t.jsonb "template_params"
+    t.jsonb "template_params", default: {}, null: false
     t.datetime "started_at"
     t.datetime "completed_at"
     t.index ["account_id"], name: "index_campaigns_on_account_id"
@@ -674,8 +679,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_06_233107) do
     t.boolean "smtp_enable_ssl_tls", default: false
     t.jsonb "provider_config", default: {}
     t.string "provider"
-    t.string "imap_authentication", default: "plain"
     t.boolean "verified_for_sending", default: false, null: false
+    t.string "imap_authentication", default: "plain"
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
@@ -801,7 +806,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_06_233107) do
 
   create_table "channel_whatsapp", force: :cascade do |t|
     t.integer "account_id", null: false
-    t.text "business_management_token"
     t.string "phone_number", null: false
     t.string "provider", default: "default"
     t.jsonb "provider_config", default: {}
@@ -812,6 +816,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_06_233107) do
     t.jsonb "phone_number_health", default: {}, null: false
     t.datetime "phone_number_health_checked_at"
     t.string "phone_number_health_error", limit: 500
+    t.text "business_management_token"
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
     t.index ["phone_number_health_checked_at"], name: "index_channel_whatsapp_on_phone_number_health_checked_at"
   end
@@ -823,7 +828,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_06_233107) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "contacts_count"
+    t.integer "contacts_count", default: 0, null: false
     t.jsonb "additional_attributes", default: {}
     t.jsonb "custom_attributes", default: {}
     t.datetime "last_activity_at", precision: nil
@@ -984,9 +989,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_06_233107) do
     t.string "error_code"
     t.datetime "matched_at"
     t.datetime "evaluated_at"
-    t.datetime "first_matched_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "first_matched_at"
     t.index ["account_id"], name: "index_conversation_monitor_evaluations_on_account_id"
     t.index ["conversation_id"], name: "index_conversation_monitor_evaluations_on_conversation_id"
     t.index ["monitor_id", "conversation_id"], name: "index_monitor_evaluations_unique", unique: true
@@ -1023,10 +1028,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_06_233107) do
     t.string "error_code"
     t.datetime "requested_at"
     t.datetime "activity_at"
-    t.bigint "live_activity_revision", default: 0, null: false
-    t.datetime "live_activity_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "live_activity_revision", default: 0, null: false
+    t.datetime "live_activity_at"
     t.index ["account_id"], name: "index_conversation_monitor_work_items_on_account_id"
     t.index ["conversation_id"], name: "index_conversation_monitor_work_items_on_conversation_id", unique: true
     t.index ["due_at"], name: "index_monitor_work_due", where: "(due_at IS NOT NULL)"
@@ -1140,8 +1145,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_06_233107) do
     t.datetime "waiting_since"
     t.text "cached_label_list"
     t.bigint "assignee_agent_bot_id"
-    t.string "ai_assignee_type"
     t.datetime "status_changed_at"
+    t.string "ai_assignee_type"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -1876,7 +1881,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_06_233107) do
     t.text "message_signature"
     t.string "otp_secret"
     t.integer "consumed_timestep"
-    t.boolean "otp_required_for_login", default: false
+    t.boolean "otp_required_for_login", default: false, null: false
     t.text "otp_backup_codes"
     t.integer "device_trust_version", default: 0, null: false
     t.index ["email"], name: "index_users_on_email"
@@ -1923,6 +1928,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_06_233107) do
   add_foreign_key "ad_conversions", "conversation_ad_referrals"
   add_foreign_key "agent_working_hours", "accounts"
   add_foreign_key "agent_working_hours", "users"
+  add_foreign_key "assignment_policies", "custom_roles", column: "eligible_custom_role_id"
   add_foreign_key "campaign_recipients", "accounts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
@@ -1935,14 +1941,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_06_233107) do
   add_foreign_key "conversation_evaluation_reports", "users"
   add_foreign_key "conversation_insights", "accounts"
   add_foreign_key "conversation_insights", "conversations"
-  add_foreign_key "conversation_risk_monitor_configs", "accounts"
-  add_foreign_key "conversation_risk_monitor_configs", "inboxes"
-  add_foreign_key "conversation_risk_monitor_configs", "labels", column: "complaint_label_id"
-  add_foreign_key "conversation_risk_monitor_configs", "labels", column: "critical_label_id"
-  add_foreign_key "conversation_risk_monitor_configs", "teams", column: "management_team_id"
-  add_foreign_key "follow_up_reminders", "accounts"
-  add_foreign_key "follow_up_reminders", "conversations"
-  add_foreign_key "follow_up_reminders", "users"
   add_foreign_key "conversation_monitor_daily_usages", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitor_evaluations", "conversation_monitors", column: "monitor_id", on_delete: :cascade
@@ -1952,6 +1950,14 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_06_233107) do
   add_foreign_key "conversation_monitor_work_items", "conversations", on_delete: :cascade
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitors", "users", on_delete: :nullify
+  add_foreign_key "conversation_risk_monitor_configs", "accounts"
+  add_foreign_key "conversation_risk_monitor_configs", "inboxes"
+  add_foreign_key "conversation_risk_monitor_configs", "labels", column: "complaint_label_id"
+  add_foreign_key "conversation_risk_monitor_configs", "labels", column: "critical_label_id"
+  add_foreign_key "conversation_risk_monitor_configs", "teams", column: "management_team_id"
+  add_foreign_key "follow_up_reminders", "accounts"
+  add_foreign_key "follow_up_reminders", "conversations"
+  add_foreign_key "follow_up_reminders", "users"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "scheduled_messages", "accounts"
   add_foreign_key "scheduled_messages", "conversations"

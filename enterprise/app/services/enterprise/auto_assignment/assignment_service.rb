@@ -18,6 +18,7 @@ module Enterprise::AutoAssignment::AssignmentService
     agents = filter_agents_by_team(inbox.available_agents, conversation)
     return nil if agents.nil?
 
+    agents = filter_agents_by_role(agents)
     agents = filter_agents_by_rate_limit(agents)
     agents = filter_agents_by_capacity(agents) if capacity_filtering_enabled?
     return nil if agents.empty?
@@ -25,6 +26,13 @@ module Enterprise::AutoAssignment::AssignmentService
     # Use balanced selector only if advanced_assignment feature is enabled
     selector = policy&.balanced? && account.feature_enabled?('advanced_assignment') ? balanced_selector : round_robin_selector
     selector.select_agent(agents)
+  end
+
+  def filter_agents_by_role(agents)
+    return agents unless policy&.eligible_custom_role_id
+
+    eligible_users = account.account_users.where(custom_role_id: policy.eligible_custom_role_id).select(:user_id)
+    agents.where(user_id: eligible_users)
   end
 
   def filter_agents_by_capacity(agents)
@@ -65,14 +73,7 @@ module Enterprise::AutoAssignment::AssignmentService
     # Then apply the capacity policy's exclusion rules (labels and age)
     scope = apply_exclusion_rules(scope)
 
-    # Apply conversation priority using enum methods if policy exists
-    scope = if policy&.longest_waiting?
-              scope.reorder(last_activity_at: :asc, created_at: :asc)
-            else
-              scope.reorder(created_at: :asc)
-            end
-
-    scope.limit(limit)
+    prioritize_conversations(scope).limit(limit)
   end
 
   def apply_exclusion_rules(scope)

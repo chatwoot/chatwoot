@@ -31,7 +31,9 @@ class Api::V1::Accounts::AssignmentPoliciesController < Api::V1::Accounts::BaseC
     params.require(:assignment_policy).permit(
       :name, :description, :assignment_order, :conversation_priority,
       :fair_distribution_limit, :fair_distribution_window, :enabled,
-      :exclude_older_than_hours
+      :exclude_older_than_hours, :business_hours_only
     )
   end
 end
+
+Api::V1::Accounts::AssignmentPoliciesController.prepend_mod_with('Api::V1::Accounts::AssignmentPoliciesController')

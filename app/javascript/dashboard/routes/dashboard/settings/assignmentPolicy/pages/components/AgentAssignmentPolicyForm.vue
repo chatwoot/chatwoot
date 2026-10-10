@@ -1,8 +1,10 @@
 <script setup>
-import { computed, reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
+import Select from 'dashboard/components-next/select/Select.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 import BaseInfo from 'dashboard/components-next/AssignmentPolicy/components/BaseInfo.vue';
 import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 import FairDistribution from 'dashboard/components-next/AssignmentPolicy/components/FairDistribution.vue';
@@ -32,6 +34,8 @@ const props = defineProps({
       fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
       fairDistributionWindow: DEFAULT_FAIR_DISTRIBUTION_WINDOW,
       excludeOlderThanHours: DEFAULT_EXCLUDE_OLDER_THAN_HOURS,
+      businessHoursOnly: false,
+      eligibleCustomRoleId: null,
     }),
   },
   mode: {
@@ -72,6 +76,8 @@ const MIN_EXCLUSION_MINUTES = 60;
 const MAX_EXCLUSION_MINUTES = 1438560;
 
 const { t } = useI18n();
+const store = useStore();
+const customRoles = useMapGetter('customRole/getCustomRoles');
 const route = useRoute();
 
 const accountId = computed(() => Number(route.params.accountId));
@@ -90,6 +96,25 @@ const state = reactive({
   fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
   fairDistributionWindow: DEFAULT_FAIR_DISTRIBUTION_WINDOW,
   excludeOlderThanHours: DEFAULT_EXCLUDE_OLDER_THAN_HOURS,
+  businessHoursOnly: false,
+  eligibleCustomRoleId: null,
+});
+
+const hasAdvancedAssignment = computed(() =>
+  isFeatureEnabledonAccount.value(accountId.value, 'advanced_assignment')
+);
+const roleOptions = computed(() => [
+  { value: '', label: t(`${BASE_KEY}.FORM.ELIGIBILITY.ALL_ROLES`) },
+  ...customRoles.value.map(role => ({ value: role.id, label: role.name })),
+]);
+const eligibleRole = computed({
+  get: () => state.eligibleCustomRoleId ?? '',
+  set: value => {
+    state.eligibleCustomRoleId = value || null;
+  },
+});
+onMounted(() => {
+  if (hasAdvancedAssignment.value) store.dispatch('customRole/getCustomRole');
 });
 
 const validationState = ref({
@@ -129,14 +154,9 @@ const createOption = (
 });
 
 const assignmentOrderOptions = computed(() => {
-  const hasAdvancedAssignment = isFeatureEnabledonAccount.value(
-    accountId.value,
-    'advanced_assignment'
-  );
-
   return OPTIONS.ORDER.map(key => {
     const isBalanced = key === 'balanced';
-    const disabled = isBalanced && !hasAdvancedAssignment;
+    const disabled = isBalanced && !hasAdvancedAssignment.value;
     const disabledMessage = disabled
       ? t(`${BASE_KEY}.FORM.ASSIGNMENT_ORDER.BALANCED.PREMIUM_MESSAGE`)
       : '';
@@ -193,6 +213,8 @@ const resetForm = () => {
     fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
     fairDistributionWindow: DEFAULT_FAIR_DISTRIBUTION_WINDOW,
     excludeOlderThanHours: DEFAULT_EXCLUDE_OLDER_THAN_HOURS,
+    businessHoursOnly: false,
+    eligibleCustomRoleId: null,
   });
 };
 
@@ -260,6 +282,26 @@ defineExpose({
             </div>
           </WithLabel>
         </div>
+      </div>
+
+      <div class="pt-4 flex flex-col gap-3">
+        <label class="flex items-center gap-3 text-sm text-n-slate-12">
+          <Switch v-model="state.businessHoursOnly" />
+          {{ t(`${BASE_KEY}.FORM.ELIGIBILITY.BUSINESS_HOURS`) }}
+        </label>
+        <p class="text-sm text-n-slate-11">
+          {{ t(`${BASE_KEY}.FORM.ELIGIBILITY.BUSINESS_HOURS_HELP`) }}
+        </p>
+        <WithLabel
+          v-if="hasAdvancedAssignment"
+          :label="t(`${BASE_KEY}.FORM.ELIGIBILITY.ROLE`)"
+        >
+          <Select
+            v-model="eligibleRole"
+            :options="roleOptions"
+            :aria-label="t(`${BASE_KEY}.FORM.ELIGIBILITY.ROLE`)"
+          />
+        </WithLabel>
       </div>
 
       <div class="pt-4 pb-2 flex-col flex gap-4">

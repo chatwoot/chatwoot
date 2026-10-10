@@ -973,6 +973,10 @@
           "LONGEST_WAITING": {
             "LABEL": "Longest waiting",
             "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+          },
+          "LATEST_CUSTOMER_MESSAGE": {
+            "LABEL": "Latest customer message",
+            "DESCRIPTION": "Assign the conversation with the most recent customer message first. Agent replies and private notes do not change its priority."
           }
         },
         "FAIR_DISTRIBUTION": {
@@ -998,6 +1002,12 @@
             "SUCCESS_MESSAGE": "Inbox successfully added to policy",
             "ERROR_MESSAGE": "Failed to add inbox to policy"
           }
+        },
+        "ELIGIBILITY": {
+          "BUSINESS_HOURS": "Assign only during inbox business hours",
+          "BUSINESS_HOURS_HELP": "Enable and configure business hours in each linked inbox. Conversations wait in the queue outside those hours. Only online agents receive assignments.",
+          "ROLE": "Eligible custom role",
+          "ALL_ROLES": "All roles"
         }
       },
       "DELETE_POLICY": {

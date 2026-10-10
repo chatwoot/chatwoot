@@ -1,4 +1,8 @@
 import AuthAPI from '../api/auth';
+import {
+  clearCookiesOnLogout,
+  deleteIndexedDBOnLogout,
+} from 'dashboard/store/utils/api';
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -188,7 +192,15 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   // eslint-disable-next-line class-methods-use-this
-  onLogout = () => AuthAPI.logout();
+  onLogout = data => {
+    if (!data?.client_ids) return AuthAPI.logout();
+    if (!data.client_ids.includes(AuthAPI.getAuthData()?.client))
+      return undefined;
+
+    deleteIndexedDBOnLogout();
+    clearCookiesOnLogout();
+    return undefined;
+  };
 
   onMessageCreated = data => {
     const {
