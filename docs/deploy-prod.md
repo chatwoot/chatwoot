@@ -8,7 +8,7 @@ Se leen desde un archivo de entorno en el servidor (`QEVA_ENV_FILE`, por defecto
 
 | Variable | Descripción |
 | --- | --- |
-| `QEVA_DOMAIN` | Dominio público, sin protocolo. Definir antes del deploy. |
+| `QEVA_DOMAIN` | Dominio público, sin protocolo. Por defecto `crm.qeva-ai.com`. Requiere un registro DNS `A` apuntando al servidor. |
 | `QEVA_IMAGE` | Imagen publicada en el registro, por ejemplo `ghcr.io/<owner>/qeva-crm:<tag>`. |
 | `SECRET_KEY_BASE` | Clave de Rails. Generar una nueva, no reutilizar la de Chatwoot. |
 | `POSTGRES_HOST` | `postgres_postgres-vector` |
