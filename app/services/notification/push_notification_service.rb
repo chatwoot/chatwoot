@@ -124,26 +124,44 @@ class Notification::PushNotificationService
   end
 
   def fcm_options(subscription)
-    {
+    options = {
       'token': subscription.subscription_attributes['push_token'],
       'data': fcm_data,
-      'notification': fcm_notification,
       'android': fcm_android_options,
       'apns': fcm_apns_options,
       'fcm_options': {
         analytics_label: 'Label'
       }
     }
+
+    options['notification'] = fcm_notification unless android_subscription?(subscription)
+    options
   end
 
   def fcm_data
     {
       payload: {
         data: {
-          notification: notification.fcm_push_data
+          notification: notification.fcm_push_data.merge(
+            account_id: notification.account_id,
+            conversation_id: conversation.display_id,
+            push_message_title: notification.push_message_title,
+            push_message_body: notification.push_message_body,
+            sender_name: push_sender_name,
+            message_preview: notification.push_message_body.delete_prefix("#{push_sender_name}: "),
+            created_at: notification.created_at.to_i
+          )
         }
       }.to_json
     }
+  end
+
+  def push_sender_name
+    notification.secondary_actor.try(:sender)&.name || conversation.contact&.name || ''
+  end
+
+  def android_subscription?(subscription)
+    subscription.subscription_attributes['devicePlatform'].to_s.casecmp?('Android')
   end
 
   def fcm_notification
