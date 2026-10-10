@@ -134,7 +134,7 @@ class Notification::PushNotificationService
       }
     }
 
-    options['notification'] = fcm_notification unless android_subscription?(subscription)
+    options['notification'] = fcm_notification unless android_local_rendering_subscription?(subscription)
     options
   end
 
@@ -160,8 +160,9 @@ class Notification::PushNotificationService
     notification.secondary_actor.try(:sender)&.name || conversation.contact&.name || ''
   end
 
-  def android_subscription?(subscription)
-    subscription.subscription_attributes['devicePlatform'].to_s.casecmp?('Android')
+  def android_local_rendering_subscription?(subscription)
+    attributes = subscription.subscription_attributes
+    attributes['devicePlatform'].to_s.casecmp?('Android') && attributes['supportsGroupedNotifications'] == true
   end
 
   def fcm_notification
