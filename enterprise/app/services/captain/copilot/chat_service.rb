@@ -83,7 +83,19 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
   end
 
   def build_tools
-    self.class.tool_inventory(assistant: @assistant, user: @user).select(&:active?)
+    self.class.tool_inventory(assistant: @assistant, user: @user).select(&:active?) + custom_tools
+  end
+
+  # Custom tools receive the viewed conversation's contact headers, as they do when the assistant replies to that customer
+  def custom_tools
+    return [] unless @account.feature_enabled?('copilot_workflows')
+
+    account_user = @account.account_users.find_by(user: @user)
+    return [] if account_user.blank?
+
+    @assistant.custom_tools.available_in_copilot_to(account_user).map do |custom_tool|
+      custom_tool.tool(@assistant, base_class: Captain::Tools::CustomHttpTool, conversation: @conversation)
+    end
   end
 
   def system_message

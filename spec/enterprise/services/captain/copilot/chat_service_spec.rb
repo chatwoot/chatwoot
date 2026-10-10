@@ -247,6 +247,52 @@ RSpec.describe Captain::Copilot::ChatService do
     end
   end
 
+  describe 'custom tools' do
+    let(:custom_tool) do
+      create(:captain_custom_tool, account: account, assistant: assistant, endpoint_url: 'https://example.com/orders',
+                                   response_template: 'Status: {{ r.status }}')
+    end
+    let(:offered_tools) { [] }
+
+    before do
+      account.enable_features!('copilot_workflows')
+      create(:inbox_member, user: user, inbox: inbox)
+      allow(mock_chat).to receive(:with_tools) do |*tools|
+        offered_tools.concat(tools)
+        mock_chat
+      end
+    end
+
+    it 'offers tools opened to agents and sends the viewed contact with only the templated response' do
+      custom_tool.update!(copilot_permissions: ['agent'])
+      stub_request(:get, 'https://example.com/orders')
+        .with(headers: { 'X-Chatwoot-Contact-Id' => contact.id.to_s, 'X-Chatwoot-Conversation-Id' => conversation.id.to_s })
+        .to_return(status: 200, body: '{"status": "shipped", "card_last4": "4242"}')
+
+      described_class.new(assistant, config).generate_response('Hello')
+      tool = offered_tools.find { |offered| offered.name == custom_tool.slug }
+
+      expect(tool.call).to eq('Status: shipped')
+    end
+
+    it 'hides tools that only administrators can use' do
+      custom_tool
+
+      described_class.new(assistant, config).generate_response('Hello')
+
+      expect(offered_tools.map(&:name)).not_to include(custom_tool.slug)
+    end
+
+    it 'offers no custom tools without copilot workflows' do
+      account.disable_features!('copilot_workflows')
+      custom_tool.update!(copilot_permissions: ['agent'])
+
+      described_class.new(assistant, config).generate_response('Hello')
+
+      expect(offered_tools.map(&:name)).not_to include(custom_tool.slug)
+    end
+  end
+
   describe 'message persistence behavior' do
     context 'when copilot_thread is present' do
       it 'creates a copilot message with the response' do
