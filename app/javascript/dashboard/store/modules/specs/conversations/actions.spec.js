@@ -411,6 +411,24 @@ describe('#actions', () => {
       actions.addMessage({ commit }, message);
       expect(commit.mock.calls).toEqual([[types.ADD_MESSAGE, message]]);
     });
+    it('fetches conversation if conversation is not present in store when incoming message arrives', () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn();
+      const message = {
+        id: 1,
+        message_type: 0,
+        conversation_id: 2,
+      };
+      actions.addMessage(
+        {
+          commit: localCommit,
+          dispatch: localDispatch,
+          state: { allConversations: [{ id: 1 }] },
+        },
+        message
+      );
+      expect(localDispatch).toHaveBeenCalledWith('getConversation', 2);
+    });
   });
 
   describe('#updateMessage', () => {
