@@ -41,14 +41,14 @@ class Captain::Copilot::ReviewJob < ApplicationJob
       review(run, token, service, conversation)
     end
     run.with_lease(token) { run.publish_progress } if conversations.any?
-    return finalize(run, token) if run.remaining_ids.empty?
+    return finalize(run, token) if run.remaining_ids.empty? || run.budget_left <= 0
 
     run.with_lease(token) { run.update!(status: 'queued', lease_token: nil, lease_until: nil) }
     self.class.perform_later(run.id)
   end
 
   def accessible_step(run, token)
-    ids = run.remaining_ids.first(STEP_SIZE)
+    ids = run.remaining_ids.first([STEP_SIZE, run.budget_left].min)
     conversations = accessible_conversations(account: run.account, user: run.user).where(id: ids).to_a
     run.with_lease(token) { (ids - conversations.map(&:id)).each { |id| record_error(run, id, 'Conversation is no longer accessible') } }
     conversations
@@ -85,7 +85,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
   # The chat run that started this review is parked on its tool call; the receipt becomes that call's result.
   def finalize(run, token, error: nil)
     receipt = run.with_lease(token) do
-      incomplete = error || run.findings.exists?(status: 'error') || run.context['selection_truncated']
+      incomplete = error || run.findings.exists?(status: 'error') || run.context['selection_truncated'] || run.remaining_ids.any?
       run.update!(status: incomplete ? 'incomplete' : 'completed', lease_token: nil, lease_until: nil, error: error)
       run.receipt
     end

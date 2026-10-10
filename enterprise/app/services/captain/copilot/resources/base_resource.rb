@@ -9,10 +9,9 @@
 class Captain::Copilot::Resources::BaseResource
   include Captain::Copilot::ConversationAccess
 
-  COMMON_FILTERS = {
-    since: { type: 'string', format: 'date-time' }, before: { type: 'string', format: 'date-time' },
-    limit: { type: 'integer', minimum: 1, maximum: CopilotRun::MAX_SELECTION }
-  }.freeze
+  # No limit filter: the model capped selections the agent asked for in full, so Ruby always selects everything up to
+  # MAX_SELECTION and reviews it in budgeted batches.
+  COMMON_FILTERS = { since: { type: 'string', format: 'date-time' }, before: { type: 'string', format: 'date-time' } }.freeze
 
   def self.filter_schema
     properties = COMMON_FILTERS.merge(date_field: { type: 'string', enum: self::DATE_FIELDS }).merge(self::FILTERS)
@@ -42,7 +41,7 @@ class Captain::Copilot::Resources::BaseResource
       raise ArgumentError, "Invalid #{self.class::NAME} filters. Allowed: #{self.class.filters_help}"
     end
 
-    filters.reverse_merge('date_field' => self.class::DATE_FIELDS.first, 'limit' => CopilotRun::MAX_SELECTION)
+    filters.reverse_merge('date_field' => self.class::DATE_FIELDS.first)
   end
 
   # The visible records that match the filters and, when a source set is given, are linked to its records.

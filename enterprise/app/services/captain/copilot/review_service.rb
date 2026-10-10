@@ -25,10 +25,7 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
 
   # Reviews one conversation per model call, so a response can never omit or mix up conversations.
   def analyze(conversation, deep: false)
-    unless @run.account.reload.usage_limits[:captain][:responses][:current_available].positive?
-      raise Captain::Copilot::LimitExceededError, I18n.t('captain.copilot_limit')
-    end
-
+    @run.ensure_allowed!
     evidence = conversation_evidence(conversation, deep)
     prompt = { match: @run.match, criteria: @run.criteria, boundary_at: @run.boundary_at.iso8601, conversation: evidence }.compact.to_json
     response = with_copilot_trace('llm.captain.copilot_review', trace_params(conversation), turn: @run.turn) { build_chat.ask(prompt) }

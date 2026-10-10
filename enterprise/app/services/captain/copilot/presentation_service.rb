@@ -85,10 +85,17 @@ class Captain::Copilot::PresentationService
              "#{receipt[:screened_out]} screened out, #{receipt[:reviewed]} reviewed, #{receipt[:matched]} matched, #{receipt[:errors]} errors.",
              "Filters: #{escape(@run.filters.to_json)}."]
     lines << "Screening question: #{escape(@run.match)}" if @run.match.present?
-    lines << 'The selection limit was reached. Narrow the filters to cover the rest.' if receipt[:selection_truncated]
-    lines << "Execution stopped: #{escape(receipt[:error])}." if receipt[:error]
-    lines << 'Recent messages were reviewed. Attachment contents were not reviewed.'
-    lines
+    lines + coverage_gaps(receipt) + ['Recent messages were reviewed. Attachment contents were not reviewed.']
+  end
+
+  def coverage_gaps(receipt)
+    gaps = []
+    gaps << 'The selection limit was reached. Narrow the filters to cover the rest.' if receipt[:selection_truncated]
+    if @run.terminal? && receipt[:remaining].positive?
+      gaps << "#{receipt[:remaining]} conversations are not reviewed yet. Ask to continue the review."
+    end
+    gaps << "Execution stopped: #{escape(receipt[:error])}." if receipt[:error]
+    gaps
   end
 
   def escape(value)
