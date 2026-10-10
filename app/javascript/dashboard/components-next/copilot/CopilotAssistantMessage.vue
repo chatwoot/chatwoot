@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { emitter } from 'shared/helpers/mitt';
 import { useTrack } from 'dashboard/composables';
 
@@ -19,6 +20,8 @@ const props = defineProps({
     required: true,
   },
 });
+const route = useRoute();
+const router = useRouter();
 const hasEmptyMessageContent = computed(() => !props.message?.content);
 
 const showUseButton = computed(() => {
@@ -33,6 +36,27 @@ const messageContent = computed(() => {
   const formatter = new MessageFormatter(props.message.content);
   return formatter.formattedMessage;
 });
+
+const openConversation = event => {
+  if (
+    event.button ||
+    event.ctrlKey ||
+    event.metaKey ||
+    event.shiftKey ||
+    event.altKey
+  )
+    return;
+
+  const href = event.target.closest('a')?.getAttribute('href');
+  const conversation = href?.match(
+    /^\/app\/accounts\/(\d+)\/conversations\/(\d+)$/
+  );
+  if (!conversation || conversation[1] !== String(route.params.accountId))
+    return;
+
+  event.preventDefault();
+  router.push(href);
+};
 
 const useCopilotResponse = () => {
   // Always insert through the rich editor so the markdown is parsed into proper
@@ -53,7 +77,8 @@ const useCopilotResponse = () => {
     <div
       v-else
       v-dompurify-html="messageContent"
-      class="prose-sm break-words"
+      class="prose prose-bubble !max-w-none break-words prose-a:text-n-blue-11 prose-a:underline"
+      @click="openConversation"
     />
     <div class="flex flex-row mt-1">
       <Button

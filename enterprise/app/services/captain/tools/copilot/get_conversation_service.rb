@@ -12,7 +12,8 @@ class Captain::Tools::Copilot::GetConversationService < Captain::Tools::BaseTool
     conversation = accessible_conversation(account: @assistant.account, user: @user, display_id: conversation_id)
     return 'Conversation not found' if conversation.blank?
 
-    conversation.to_llm_text(include_private_messages: true)
+    # Only the ID: contact details stay behind get_contact and its contact_manage permission.
+    "#{conversation.to_llm_text(include_private_messages: true)}\nContact ID: ##{conversation.contact_id}"
   end
 
   def active?
