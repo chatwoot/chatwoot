@@ -124,7 +124,8 @@ export default {
         rawInput
       );
       this.phoneNumber = formatted;
-      this.$emit('update:modelValue', formatted);
+      const cleanDigits = (rawInput || '').replace(/\D/g, '');
+      this.$emit('update:modelValue', cleanDigits);
       this.$emit('setCode', this.activeDialCode);
     },
     onBlur(e) {
@@ -169,7 +170,8 @@ export default {
           country.id,
           this.phoneNumber
         );
-        this.$emit('update:modelValue', this.phoneNumber);
+        const cleanDigits = (this.phoneNumber || '').replace(/\D/g, '');
+        this.$emit('update:modelValue', cleanDigits);
       }
       this.$emit('setCode', country.dial_code);
       this.closeDropdown();

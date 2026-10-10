@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useDebounceFn } from '@vueuse/core';
 
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
+import { formatPhoneNumber } from 'shared/helpers/PhoneNumberHelper';
 import ContactAPI from 'dashboard/api/contacts';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
