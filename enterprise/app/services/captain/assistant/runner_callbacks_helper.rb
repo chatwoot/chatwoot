@@ -9,6 +9,16 @@ module Captain::Assistant::RunnerCallbacksHelper
     runner
   end
 
+  # Cancelling after the halting tool result keeps that result in the history but
+  # makes RubyLLM raise before the next tool call or provider request.
+  def add_run_guard_callback(runner)
+    runner.on_chat_created do |chat, _agent_name, _model, context_wrapper|
+      chat.after_tool_result do
+        chat.cancel if Captain::Tools::RunGuard.halt_reason(context_wrapper.context[:state])
+      end
+    end
+  end
+
   def register_trace_input_callback(runner)
     runner.on_agent_thinking do |_agent_name, _input, context_wrapper|
       tracing = context_wrapper&.context&.dig(:__otel_tracing)

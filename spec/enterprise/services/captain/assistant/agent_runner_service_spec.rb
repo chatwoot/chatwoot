@@ -47,6 +47,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     allow(mock_runner).to receive(:run).and_return(mock_result)
     allow(mock_runner).to receive(:on_tool_complete).and_return(mock_runner)
     allow(mock_runner).to receive(:on_run_complete).and_return(mock_runner)
+    allow(mock_runner).to receive(:on_chat_created).and_return(mock_runner)
     allow(mock_agent).to receive(:register_handoffs)
     allow(mock_scenario_agent).to receive(:register_handoffs)
   end
@@ -343,6 +344,57 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
                                'agent_name' => nil,
                                'handoff_tool_called' => true
                              })
+      end
+    end
+
+    context 'when a run guard halted the run' do
+      let(:mock_result) do
+        instance_double(Agents::RunResult, output: nil, error: RubyLLM::CancelledError.new,
+                                           context: { state: { captain_v2_halt_reason: halt_reason } })
+      end
+
+      context 'with a completed handoff' do
+        let(:halt_reason) { Captain::Tools::RunGuard::HANDOFF_COMPLETED }
+
+        it 'signals the handoff without reporting the cancelled chat as an error' do
+          result = service.generate_response(message_history: message_history)
+
+          expect(result['response']).to eq('conversation_handoff')
+          expect(result['reasoning']).to eq('Run halted: handoff_completed')
+          expect(result).not_to have_key('error')
+        end
+      end
+
+      context 'with a stale run' do
+        let(:halt_reason) { Captain::Tools::RunGuard::STALE_RUN }
+
+        it 'does not report an error so the job simply discards the run' do
+          result = service.generate_response(message_history: message_history)
+
+          expect(result['response']).to eq('conversation_handoff')
+          expect(result).not_to have_key('error')
+        end
+      end
+
+      context 'with an exhausted tool call budget' do
+        let(:halt_reason) { Captain::Tools::RunGuard::TOOL_CALL_BUDGET_EXCEEDED }
+
+        it 'returns an error response so the job hands the conversation to a human' do
+          result = service.generate_response(message_history: message_history)
+
+          expect(result).to include(
+            'response' => 'conversation_handoff',
+            'reasoning' => Captain::Tools::RunGuard::BUDGET_EXCEEDED_MESSAGE,
+            'error' => true,
+            'error_reason' => 'tool_call_budget_exceeded'
+          )
+        end
+
+        it 'does not report the halt as an exception' do
+          expect(ChatwootExceptionTracker).not_to receive(:new)
+
+          service.generate_response(message_history: message_history)
+        end
       end
     end
 

@@ -102,6 +102,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
             expect(result).to eq('Handoff skipped because a newer customer message arrived')
           end.not_to change(Message, :count)
           expect(conversation.reload.status).to eq('pending')
+          expect(Captain::Tools::RunGuard.halt_reason(tool_context.state)).to eq(Captain::Tools::RunGuard::STALE_RUN)
         end
 
         it 'emits a captain handoff event with the tool source after the locked handoff completes' do
@@ -135,6 +136,12 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
             result = tool.perform(tool_context, reason: reason)
             expect(result).to eq("Conversation handed off to human support team (Reason: #{reason})")
           end.to change(Message, :count).by(1)
+        end
+
+        it 'halts the agent loop so the model cannot hand off again in the same run' do
+          tool.perform(tool_context, reason: 'Customer needs specialized support')
+
+          expect(Captain::Tools::RunGuard.halt_reason(tool_context.state)).to eq(Captain::Tools::RunGuard::HANDOFF_COMPLETED)
         end
 
         it 'creates message with correct attributes' do
