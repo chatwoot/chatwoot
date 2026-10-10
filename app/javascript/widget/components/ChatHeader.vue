@@ -103,7 +103,7 @@ const onBackButtonClick = () => {
         :aria-label="$t('LANGUAGE_SWITCHER')"
         @click="toggleLocale"
       >
-        <FluentIcon icon="globe-outline" size="20" />
+        <FluentIcon icon="globe" size="20" />
       </button>
       <HeaderActions :show-popout-button="showPopoutButton" />
     </div>
