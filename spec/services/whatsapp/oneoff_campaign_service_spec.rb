@@ -320,8 +320,8 @@ describe Whatsapp::OneoffCampaignService do
       end
     end
 
-    context 'when template_params is missing' do
-      let(:template_params) { nil }
+    context 'when template_params is empty' do
+      let(:template_params) { {} }
 
       it 'skips contacts and logs error' do
         contact = create(:contact, :with_phone_number, account: account)

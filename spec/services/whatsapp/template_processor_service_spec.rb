@@ -155,7 +155,7 @@ describe Whatsapp::TemplateProcessorService do
 
     it 'preserves the dynamic button index through normalization and payload generation' do
       expect(processed_components).to eq([
-                                           { type: 'button', sub_type: 'copy_code', index: 1,
+                                           { type: 'button', sub_type: 'copy_code', index: '1',
                                              parameters: [{ type: 'coupon_code', coupon_code: 'WELCOME' }] }
                                          ])
     end

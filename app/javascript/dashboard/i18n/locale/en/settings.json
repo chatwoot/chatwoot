@@ -419,7 +419,13 @@
     "DOCS": "Read docs",
     "SECURITY": "Security",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "Conversation Workflow"
+    "CONVERSATION_WORKFLOW": "Conversation Workflow",
+    "CRM_TITLE": "Sales CRM",
+    "CRM_PIPELINE": "Pipeline",
+    "CRM_FUNNEL": "Sales funnel",
+    "CRM_SALES_REPORTS": "Sales reports",
+    "CRM_AD_REPORTS": "Ad performance",
+    "CRM_AD_GALLERY": "Ad gallery"
   },
   "DATA_IMPORTS": {
     "HEADER": "Data",

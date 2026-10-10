@@ -294,9 +294,11 @@ defineExpose({
         </p>
         <WithLabel
           v-if="hasAdvancedAssignment"
+          name="eligible-custom-role"
           :label="t(`${BASE_KEY}.FORM.ELIGIBILITY.ROLE`)"
         >
           <Select
+            id="eligible-custom-role"
             v-model="eligibleRole"
             :options="roleOptions"
             :aria-label="t(`${BASE_KEY}.FORM.ELIGIBILITY.ROLE`)"

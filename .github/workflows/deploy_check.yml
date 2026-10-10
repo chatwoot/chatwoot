@@ -17,6 +17,7 @@ permissions:
 jobs:
   deployment_check:
     name: Check Deployment
+    if: github.repository == 'chatwoot/chatwoot'
     runs-on: ubuntu-latest
     steps:
       - name: Install jq
