@@ -144,7 +144,7 @@ class Whatsapp::IncomingMessageBaseService
         filename: attachment_file.original_filename,
         content_type: attachment_file.content_type
       }
-    )
+    ).tap { |attachment| normalize_ogg_audio_content_type(attachment, attachment_payload) }
   end
 
   def attach_location

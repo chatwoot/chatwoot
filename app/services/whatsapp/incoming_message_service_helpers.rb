@@ -52,6 +52,13 @@ module Whatsapp::IncomingMessageServiceHelpers
     :file
   end
 
+  def normalize_ogg_audio_content_type(attachment, attachment_payload)
+    return unless attachment_payload[:mime_type]&.start_with?('audio/ogg')
+    return unless attachment.file.blob.content_type == 'audio/opus'
+
+    attachment.file.blob.update!(content_type: 'audio/ogg')
+  end
+
   def unprocessable_message_type?(message_type)
     %w[reaction ephemeral request_welcome].include?(message_type)
   end
