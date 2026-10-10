@@ -1,0 +1,80 @@
+# QEVA CRM validation: lint, unit tests and security checks.
+# Reused by the release workflow (workflow_call), and run on PRs and feature branches.
+
+name: QEVA CI
+
+on:
+  workflow_call:
+  pull_request:
+  push:
+    branches:
+      - develop
+      - "feat/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qeva-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    name: Frontend lint and unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.2.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint and formatting (eslint + prettier)
+        run: pnpm eslint
+
+      - name: Unit tests
+        run: TZ=UTC pnpm vitest run
+
+  backend-lint:
+    name: Backend lint (rubocop)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4.4"
+          bundler-cache: true
+
+      - name: Rubocop
+        run: bundle exec rubocop
+
+  security:
+    name: Security (secrets and vulnerabilities)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Secret scanning (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Dependency and config scan (trivy, critical only)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scanners: vuln,secret,misconfig
+          severity: CRITICAL
+          ignore-unfixed: true
+          exit-code: "1"

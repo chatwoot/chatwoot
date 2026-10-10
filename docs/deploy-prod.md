@@ -62,3 +62,27 @@ El contenido no se commitea. Las contraseñas de `chatwoot_qeva` están en `~/.c
 
 - El límite de memoria es 1 GB por servicio. El stack de Chatwoot de producción tiene 512 MB y se reinicia bajo carga.
 - No reutilizar la base `chatwoot` ni sus credenciales.
+
+## Publicar una versión (release)
+
+Workflows: `qeva-ci.yml` (validación) y `qeva-release.yml` (release y deploy).
+
+1. Crear un tag con el formato `vX.Y.Z` (por ejemplo `v1.0.0`) y pushearlo. Cualquier otro formato se rechaza.
+2. El pipeline corre en orden:
+   - **Validación:** lint (eslint + prettier), rubocop, tests de frontend, gitleaks y trivy. Si algo falla, no se publica nada.
+   - **Imagen:** build desde `docker/Dockerfile`, escaneo de vulnerabilidades críticas y push a `ghcr.io/<owner>/qeva-crm` con tags `vX.Y.Z` y `latest`.
+   - **Release:** se crea el GitHub release con notas generadas a partir de los commits.
+   - **Deploy:** se llama al webhook de Portainer, que redeploya el stack.
+
+### Webhook de Portainer
+
+1. En Portainer, abrir el stack `qeva` y activar **Webhook** (en versiones con stacks desde Git, la opción está en la configuración del stack).
+2. Copiar la URL del webhook. Es un secreto: no la pegues en el repo ni en el chat.
+3. En GitHub: *Settings → Secrets and variables → Actions → New repository secret*, nombre `PORTAINER_WEBHOOK_URL`.
+4. En GitHub: *Settings → Environments → New environment* `production`. Opcional: agregar revisores para aprobar cada deploy.
+5. En el stack de Portainer, dejar `QEVA_IMAGE=ghcr.io/fer336/qeva-crm:latest` y activar **Re-pull image** para que el webhook descargue la imagen nueva.
+
+### Requisitos
+
+- El paquete `qeva-crm` en ghcr.io tiene que ser accesible para el servidor. Si es privado, Portainer necesita las credenciales de ghcr.io en *Registries*.
+- Verificar en tu versión de Portainer que el webhook redeploya el stack con re-pull. Si no lo hace, el deploy queda en la versión anterior aunque la imagen esté publicada.
