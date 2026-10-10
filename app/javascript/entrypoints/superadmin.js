@@ -238,6 +238,27 @@ const initializeAccountSuspensionForm = () => {
   updateFields();
 };
 
+const initializeCaptainModelControls = () => {
+  document.querySelectorAll('[data-captain-model-controls]').forEach(card => {
+    const effort = card.querySelector('[data-captain-effort]');
+    if (!effort) return;
+
+    const model = card.querySelector('[data-captain-model]');
+    const options = JSON.parse(card.dataset.effortOptions);
+    model.addEventListener('change', () => {
+      const previous = effort.value;
+      const choices = options[model.value];
+      effort.replaceChildren(
+        effort.options[0],
+        ...choices.map(([label, value]) => new Option(label, value))
+      );
+      effort.value = choices.some(([, value]) => value === previous)
+        ? previous
+        : '';
+    });
+  });
+};
+
 // Platform banners: a title and a video only apply to feature announcements.
 const initializeBannerForm = () => {
   const type = document.getElementById('platform_banner_banner_type');
@@ -423,6 +444,7 @@ const initializePageProgress = () => {
 };
 
 initializeAccountSuspensionForm();
+initializeCaptainModelControls();
 initializeBannerForm();
 initializeTabs();
 initializeFilters();

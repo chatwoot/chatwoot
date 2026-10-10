@@ -37,6 +37,17 @@ RSpec.describe Captain::ConversationCompletionService do
       end
     end
 
+    it 'applies the saved evaluator effort and records it in generation metadata' do
+      account.update!(captain_models: { 'conversation_completion' => 'gpt-5.2' }, captain_reasoning_efforts: { 'conversation_completion' => 'low' })
+      chat = service.send(:build_chat, context, model: 'gpt-5.2', messages: messages, schema: described_class::RESPONSE_SCHEMA,
+                                                feature: 'conversation_completion')
+      chat.add_message(role: :user, content: 'Customer: Thanks!')
+
+      expect(chat.render).to include(reasoning: { effort: 'low' })
+      expect(service.send(:build_instrumentation_params, 'gpt-5.2', messages, feature: 'conversation_completion')[:metadata])
+        .to include(api_protocol: 'responses', reasoning_effort: :low)
+    end
+
     it 'retains Chat Completions for a custom OpenAI endpoint' do
       InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
       context.config.openai_protocol = :chat_completions

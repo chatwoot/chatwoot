@@ -19,7 +19,7 @@ class Llm::BaseAiService
   end
 
   def chat(model: @model, temperature: @temperature, thinking: nil, feature: @llm_feature, **)
-    options = Captain::ResponsesConfig.options(model: model, temperature: temperature, feature: feature)
+    options = Captain::ResponsesConfig.options(model: model, temperature: temperature, feature: feature, account: @llm_account)
     thinking ||= options[:thinking]
     llm_chat = RubyLLM.chat(model: model, **options.slice(:protocol), **)
     llm_chat.with_thinking(**thinking) if thinking
@@ -30,7 +30,7 @@ class Llm::BaseAiService
 
   def json_chat(model: @model, feature: @llm_feature, temperature: @temperature)
     llm_chat = chat(model: model, feature: feature, temperature: temperature)
-    options = Captain::ResponsesConfig.options(model: model, temperature: temperature, feature: feature)
+    options = Captain::ResponsesConfig.options(model: model, temperature: temperature, feature: feature, account: @llm_account)
     format = { type: 'json_object' }
     # Responses JSON mode requires a JSON instruction in input, even when instructions already specify the output format.
     llm_chat.add_message(role: :user, content: 'Respond with valid JSON.') if options[:protocol] == :responses
@@ -41,8 +41,8 @@ class Llm::BaseAiService
 
   def llm_instrumentation_params(params)
     feature = params[:llm_feature] || @llm_feature
-    options = Captain::ResponsesConfig.options(model: params[:model], temperature: params[:temperature], feature: feature)
-    metadata = Captain::ResponsesConfig.request_metadata(model: params[:model], feature: feature)
+    options = Captain::ResponsesConfig.options(model: params[:model], temperature: params[:temperature], feature: feature, account: @llm_account)
+    metadata = Captain::ResponsesConfig.request_metadata(model: params[:model], feature: feature, account: @llm_account)
     params.merge(temperature: options[:temperature], metadata: params[:metadata].to_h.merge(metadata))
   end
 

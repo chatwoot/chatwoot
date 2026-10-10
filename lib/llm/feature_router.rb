@@ -2,6 +2,8 @@ module Llm::FeatureRouter
   class UnknownFeatureError < StandardError; end
 
   CAPTAIN_V2_ASSISTANT_MODEL = 'gpt-5.2'.freeze
+  REASONING_FEATURES = (Llm::Models.model_feature_keys - %w[audio_transcription help_center_search]).freeze
+  GPT_6_REASONING_ONLY_MODELS = %w[gpt-6-astra gpt-6.1-sol].freeze
 
   class << self
     def resolve(feature:, account: nil)
@@ -15,14 +17,15 @@ module Llm::FeatureRouter
         provider: provider_for(model, source),
         model: model,
         source: source,
-        reasoning_effort: reasoning_effort(feature: feature_key, model: model)
+        reasoning_effort: reasoning_effort(feature: feature_key, model: model, account: account)
       }
     end
 
-    def reasoning_effort(feature:, model:)
+    def reasoning_effort(feature:, model:, account: nil)
       return unless Llm::Models.provider_for(model) == 'openai' && standard_openai_endpoint?
 
-      effort = Llm::Models.features.dig(feature.to_s, 'reasoning_effort')
+      effort = configured_reasoning_effort(feature, account)
+      effort = 'low' if effort == 'none' && GPT_6_REASONING_ONLY_MODELS.include?(model)
       effort.to_sym if RubyLLM.models.find(model).reasoning_option_values(:effort).include?(effort)
     end
 
@@ -32,6 +35,10 @@ module Llm::FeatureRouter
     end
 
     private
+
+    def configured_reasoning_effort(feature, account)
+      account&.captain_reasoning_efforts.to_h[feature.to_s].presence || Llm::Models.features.dig(feature.to_s, 'reasoning_effort')
+    end
 
     def model_and_source(account, feature_key)
       account_model = account_model_override(account, feature_key)

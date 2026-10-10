@@ -100,7 +100,7 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
       allow(Llm::FeatureRouter).to receive(:standard_openai_endpoint?).and_return(true)
       allow(document).to receive(:openai_file_id).and_return('file-123')
       document.account.update!(captain_models: { 'pdf_faq_generation' => 'gpt-5.2' })
-      allow(Llm::FeatureRouter).to receive(:reasoning_effort).with(feature: 'pdf_faq_generation', model: 'gpt-5.2').and_return(:high)
+      document.account.update!(captain_reasoning_efforts: { 'pdf_faq_generation' => 'high' })
     end
 
     it 'sends file input, JSON format and effort to Responses without storing it, and parses message output after reasoning' do

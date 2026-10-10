@@ -25,7 +25,7 @@ module Captain::ChatHelper
   private
 
   def build_chat
-    options = Captain::ResponsesConfig.options(model: @model, temperature: temperature, feature: @llm_feature)
+    options = Captain::ResponsesConfig.options(model: @model, temperature: temperature, feature: @llm_feature, account: @llm_account)
     @llm_protocol = options[:protocol]
     llm_chat = chat(model: @model, **options)
     format = { type: 'json_object' }

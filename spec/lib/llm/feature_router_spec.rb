@@ -143,6 +143,27 @@ RSpec.describe Llm::FeatureRouter do
       expect(described_class.reasoning_effort(feature: 'copilot', model: 'gpt-5.2')).to eq(:high)
     end
 
+    defaults = { 'gpt-6-astra' => :low, 'gpt-6-sol' => :none, 'gpt-6-luna' => :none, 'gpt-6.1-sol' => :low }
+    %w[assistant copilot].each do |feature|
+      defaults.each do |model, effort|
+        it "persists and routes #{model} for #{feature} with the supported default effort" do
+          account.update!(captain_models: { feature => model })
+
+          expect(described_class.resolve(feature: feature, account: account.reload)).to include(
+            model: model, source: :account_override, reasoning_effort: effort
+          )
+        end
+      end
+    end
+
+    it 'keeps saved effort inactive for custom endpoints' do
+      account.update!(captain_models: { 'copilot' => 'gpt-6-luna' }, captain_reasoning_efforts: { 'copilot' => 'high' })
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
+
+      expect(described_class.resolve(feature: 'copilot', account: account)[:reasoning_effort]).to be_nil
+      expect(account.reload.captain_reasoning_efforts).to eq('copilot' => 'high')
+    end
+
     it 'does not force reasoning parameters onto custom endpoints' do
       InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
       account.captain_models = { 'copilot' => 'gpt-5.2' }

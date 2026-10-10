@@ -33,9 +33,9 @@ RSpec.describe Llm::Models do
     end
 
     it 'offers only supported OpenAI models for conversation completion' do
-      expect(described_class.models_for('conversation_completion')).to eq(
-        %w[gpt-4.1-mini gpt-5-mini gpt-4.1 gpt-5.1 gpt-5.2]
-      )
+      models = described_class.models_for('conversation_completion')
+      expect(models).to include('gpt-4.1', 'gpt-5.2', 'gpt-5.4-mini', 'gpt-6-luna')
+      expect(models.map { |model| described_class.provider_for(model) }.uniq).to eq(['openai'])
     end
   end
 

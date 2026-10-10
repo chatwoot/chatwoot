@@ -122,11 +122,11 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
   end
 
   def request_options
-    @request_options ||= Captain::ResponsesConfig.options(model: @model, temperature: nil, feature: 'pdf_faq_generation')
+    @request_options ||= Captain::ResponsesConfig.options(model: @model, temperature: nil, feature: 'pdf_faq_generation', account: @document.account)
   end
 
   def request_metadata
-    Captain::ResponsesConfig.request_metadata(model: @model, feature: 'pdf_faq_generation')
+    Captain::ResponsesConfig.request_metadata(model: @model, feature: 'pdf_faq_generation', account: @document.account)
   end
 
   def build_user_content(start_page, end_page)

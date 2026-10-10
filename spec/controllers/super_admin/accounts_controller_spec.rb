@@ -115,6 +115,75 @@ RSpec.describe 'Super Admin accounts API', type: :request do
 
   describe 'PATCH /super_admin/accounts/{account_id}' do
     context 'when it is an authenticated user' do
+      it 'saves supported Assistant and Copilot model and effort overrides', if: ChatwootApp.enterprise? do
+        account.enable_features!('captain_integration')
+        account.update!(keep_pending_on_bot_failure: true)
+        sign_in(super_admin, scope: :super_admin)
+
+        patch "/super_admin/accounts/#{account.id}", params: {
+          account: {
+            name: account.name, locale: account.locale, status: account.status,
+            captain_models: { assistant: 'gpt-6-astra', copilot: 'gpt-6-luna' },
+            captain_reasoning_efforts: { assistant: 'high', copilot: 'none' }
+          }
+        }
+
+        expect(response).to have_http_status(:redirect)
+        expect(account.reload.keep_pending_on_bot_failure).to be true
+        routes = %w[assistant copilot].map do |feature|
+          Llm::FeatureRouter.resolve(feature: feature, account: account).slice(:model, :reasoning_effort)
+        end
+        expect(routes).to eq(
+          [{ model: 'gpt-6-astra', reasoning_effort: :high }, { model: 'gpt-6-luna', reasoning_effort: :none }]
+        )
+        expect(account.captain_reasoning_efforts).to eq('assistant' => 'high', 'copilot' => 'none')
+
+        get "/super_admin/accounts/#{account.id}/edit"
+        document = Nokogiri::HTML(response.body)
+        expect(document.css('select[data-captain-effort] option[selected]').pluck('value')).to eq(%w[high none])
+
+        patch "/super_admin/accounts/#{account.id}", params: {
+          account: {
+            captain_reasoning_efforts: { assistant: '', copilot: '' }
+          }
+        }
+
+        expect(response).to have_http_status(:redirect)
+        default_effort = Llm::FeatureRouter.resolve(feature: 'assistant', account: account.reload)[:reasoning_effort]
+        expect([account.captain_reasoning_efforts, default_effort]).to eq([nil, :low])
+      end
+
+      it 'rejects unsupported efforts without saving model changes', if: ChatwootApp.enterprise? do
+        account.update!(captain_models: { 'assistant' => 'gpt-5.2' })
+        sign_in(super_admin, scope: :super_admin)
+
+        patch "/super_admin/accounts/#{account.id}", params: {
+          account: {
+            captain_models: { assistant: 'gpt-6-astra' },
+            captain_reasoning_efforts: { assistant: 'none' }
+          }
+        }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.reload.captain_models).to eq('assistant' => 'gpt-5.2')
+        expect(account.captain_reasoning_efforts).to be_nil
+      end
+
+      it 'saves model and effort controls for every text feature', if: ChatwootApp.enterprise? do
+        sign_in(super_admin, scope: :super_admin)
+        features = Llm::FeatureRouter::REASONING_FEATURES
+        patch "/super_admin/accounts/#{account.id}", params: {
+          account: { captain_models: features.index_with { 'gpt-5.2' }, captain_reasoning_efforts: features.index_with { 'medium' } }
+        }
+
+        expect(response).to have_http_status(:redirect)
+        features.each do |feature|
+          expect(Llm::FeatureRouter.resolve(feature: feature, account: account.reload)).to include(model: 'gpt-5.2', reasoning_effort: :medium)
+        end
+        expect(account.captain_reasoning_efforts).not_to have_key('audio_transcription')
+        expect(account.captain_reasoning_efforts).not_to have_key('help_center_search')
+      end
+
       it 'updates Captain model overrides without changing unrelated settings' do
         account.update!(
           captain_models: { 'editor' => 'gpt-4.1' },
@@ -155,7 +224,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
                   locale: account.locale,
                   status: account.status,
                   captain_models: {
-                    help_center_query_translation: 'gpt-5.1'
+                    help_center_query_translation: 'unknown-model'
                   }
                 }
               }
