@@ -10,6 +10,10 @@ RSpec.describe Captain::AssistantResolutionTrendStatsBuilder do
   let(:timezone_offset) { 0 }
   let(:now) { Time.zone.parse('2025-06-30 12:00:00') }
 
+  before do
+    allow(Captain::OutcomeTrackingHistory).to receive(:started_at).and_return(Time.zone.parse('2025-04-01 12:00:00'))
+  end
+
   around do |example|
     travel_to(now) { example.run }
   end
@@ -19,12 +23,19 @@ RSpec.describe Captain::AssistantResolutionTrendStatsBuilder do
       expect(metrics).to eq(
         granularity: :week,
         buckets: [
-          { starts_on: Date.new(2025, 6, 1), ends_on: Date.new(2025, 6, 7), conversations_handled: 0, resolved_by_captain: 0 },
-          { starts_on: Date.new(2025, 6, 8), ends_on: Date.new(2025, 6, 14), conversations_handled: 0, resolved_by_captain: 0 },
-          { starts_on: Date.new(2025, 6, 15), ends_on: Date.new(2025, 6, 21), conversations_handled: 0, resolved_by_captain: 0 },
-          { starts_on: Date.new(2025, 6, 22), ends_on: Date.new(2025, 6, 28), conversations_handled: 0, resolved_by_captain: 0 },
-          { starts_on: Date.new(2025, 6, 29), ends_on: Date.new(2025, 6, 30), conversations_handled: 0, resolved_by_captain: 0 }
-        ]
+          { starts_on: Date.new(2025, 6, 1), ends_on: Date.new(2025, 6, 7), conversations_handled: 0, resolved_by_captain: 0,
+            current_resolution_rate: nil, previous_resolution_rate: nil },
+          { starts_on: Date.new(2025, 6, 8), ends_on: Date.new(2025, 6, 14), conversations_handled: 0, resolved_by_captain: 0,
+            current_resolution_rate: nil, previous_resolution_rate: nil },
+          { starts_on: Date.new(2025, 6, 15), ends_on: Date.new(2025, 6, 21), conversations_handled: 0, resolved_by_captain: 0,
+            current_resolution_rate: nil, previous_resolution_rate: nil },
+          { starts_on: Date.new(2025, 6, 22), ends_on: Date.new(2025, 6, 28), conversations_handled: 0, resolved_by_captain: 0,
+            current_resolution_rate: nil, previous_resolution_rate: nil },
+          { starts_on: Date.new(2025, 6, 29), ends_on: Date.new(2025, 6, 30), conversations_handled: 0, resolved_by_captain: 0,
+            current_resolution_rate: nil, previous_resolution_rate: nil }
+        ].map do |bucket|
+          bucket.merge(previous_starts_on: bucket[:starts_on] - 5.weeks, previous_ends_on: bucket[:ends_on] - 5.weeks)
+        end
       )
     end
   end

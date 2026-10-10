@@ -1,0 +1,51 @@
+name: Migration Version Check
+
+on:
+  pull_request:
+    paths:
+      - 'db/migrate/**'
+
+concurrency:
+  group: pr-${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  migration_version_check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Reject hand-written migration versions
+        run: |
+          # Released upstream migrations keep their original versions during a fork sync.
+          upstream=e212425e7b1814614bdf8b0beea42ce689baad5c
+          git fetch --no-tags --depth=1 https://github.com/chatwoot/chatwoot.git "$upstream"
+          rounded=""
+          while IFS= read -r path; do
+            if git cat-file -e "$upstream:$path" 2>/dev/null &&
+               [ "$(git rev-parse "$upstream:$path")" = "$(git rev-parse "HEAD:$path")" ]; then
+              continue
+            fi
+            rounded+="$path"$'\n'
+          done < <(git diff --name-only --diff-filter=AR HEAD^1 HEAD -- db/migrate | grep -E '^db/migrate/[0-9]{10}0000_' || true)
+          if [ -n "$rounded" ]; then
+            echo "::error::Rounded migration versions collide across branches. Regenerate with 'bundle exec rails g migration':"
+            echo "$rounded"
+            exit 1
+          fi
+
+      - name: Reject duplicate migration versions
+        run: |
+          duplicates=$(ls db/migrate | cut -d_ -f1 | sort | uniq -d)
+          if [ -n "$duplicates" ]; then
+            echo "::error::Duplicate migration versions break db:migrate:"
+            echo "$duplicates"
+            exit 1
+          fi

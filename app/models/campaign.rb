@@ -69,13 +69,13 @@ class Campaign < ApplicationRecord
   private
 
   def feature_enabled?
-    inbox.inbox_type != 'Whatsapp' || account.feature_enabled?(:whatsapp_campaign)
+    account.feature_enabled?(:campaigns)
   end
 
   def mark_processing!
     # Multiple scheduler jobs can pick the same active campaign; lock before flipping status to avoid duplicate sends.
     with_lock do
-      next if completed? || processing?
+      next if completed? || processing? || scheduled_at > Time.current
 
       update!(campaign_status: :processing, started_at: Time.current)
     end

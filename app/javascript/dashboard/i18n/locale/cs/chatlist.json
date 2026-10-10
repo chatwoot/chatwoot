@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Created",
         "OLDEST": "Created at:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Poslední aktivita:",
-        "ACTIVE": "Poslední aktivita"
+        "NOT_ACTIVE": "Poslední aktivita:"
       }
     },
     "SORT_ORDER_ITEMS": {

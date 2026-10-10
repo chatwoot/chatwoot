@@ -11,7 +11,7 @@ module AssignmentHandler
 
   def ensure_assignee_is_from_team
     return unless team_id_changed?
-    return if assignee_agent_bot_id.present?
+    return if ai_assignee_type.present?
 
     validate_current_assignee_team
     self.assignee ||= find_assignee_from_team
@@ -23,6 +23,8 @@ module AssignmentHandler
 
   def find_assignee_from_team
     return if team&.allow_auto_assign.blank?
+    # Policy-based assignment must share the queue, eligibility and capacity checks.
+    return if inbox.auto_assignment_v2_enabled? && inbox.assignment_policy.present?
 
     team_members_with_capacity = inbox.member_ids_with_assignment_capacity & team.members.ids
     ::AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: team_members_with_capacity).find_assignee
@@ -30,7 +32,9 @@ module AssignmentHandler
 
   def notify_assignment_change
     {
-      ASSIGNEE_CHANGED => -> { saved_change_to_assignee_id? || saved_change_to_assignee_agent_bot_id? },
+      ASSIGNEE_CHANGED => lambda {
+        saved_change_to_assignee_id? || saved_change_to_assignee_agent_bot_id? || saved_change_to_ai_assignee_type?
+      },
       TEAM_CHANGED => -> { saved_change_to_team_id? }
     }.each do |event, condition|
       condition.call && dispatcher_dispatch(event, previous_changes)

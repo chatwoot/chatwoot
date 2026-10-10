@@ -19,11 +19,11 @@ RSpec.describe Captain::Llm::ConversationFaqService do
   let(:embedding_two) { [0.0, 1.0] + Array.new(1534, 0.0) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_API_KEY').update!(value: 'test-key')
     allow(Captain::Llm::EmbeddingService).to receive(:new).and_return(embedding_service)
     allow(RubyLLM).to receive(:chat).and_return(mock_chat)
     allow(mock_chat).to receive(:with_temperature).and_return(mock_chat)
-    allow(mock_chat).to receive(:with_params).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_provider_options).and_return(mock_chat)
     allow(mock_chat).to receive(:with_instructions).and_return(mock_chat)
     allow(mock_chat).to receive(:ask).and_return(mock_response)
   end
@@ -43,7 +43,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
 
       it 'uses the conversation FAQ default ahead of the legacy global installation model' do
-        create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-mini')
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-4.1-mini')
 
         expect(RubyLLM).to receive(:chat).with(
           model: Llm::Models.default_model_for('conversation_faq_generation')
@@ -53,7 +53,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
 
       it 'keeps account conversation FAQ model overrides ahead of the feature default' do
-        create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1')
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-4.1')
         conversation.account.update!(captain_models: { 'conversation_faq_generation' => 'gpt-4.1-mini' })
 
         expect(RubyLLM).to receive(:chat).with(model: 'gpt-4.1-mini').and_return(mock_chat)
@@ -270,7 +270,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       context 'when the comparison provider fails' do
         before do
           allow(mock_chat).to receive(:ask) do |input|
-            raise RubyLLM::Error.new(nil, 'API Error') if input.start_with?('{')
+            raise RubyLLM::Error, 'API Error' if input.start_with?('{')
 
             mock_response
           end
@@ -367,11 +367,11 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
 
       before do
-        conversation.update!(additional_attributes: { conversation_language: 'pt-BR' })
+        conversation.account.update!(locale: 'pt_BR')
         allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
       end
 
-      it 'creates a separate suggestion in the conversation language' do
+      it 'creates a separate suggestion in the account language' do
         expect do
           service.generate_suggestions
         end.to change(captain_assistant.faq_suggestions, :count).by(1)
@@ -424,7 +424,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         create(:captain_assistant_response, assistant: captain_assistant, account: captain_assistant.account,
                                             question: 'How do I enable the feature?', answer: 'Turn it on in settings.',
                                             embedding: embedding_one)
-        conversation.update!(additional_attributes: { conversation_language: 'pt-BR' })
+        conversation.account.update!(locale: 'pt_BR')
         allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
         allow(mock_chat).to receive(:ask) do |input|
           input.start_with?('{') ? match_response : mock_response
@@ -471,7 +471,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
     context 'when LLM API fails' do
       before do
-        allow(mock_chat).to receive(:ask).and_raise(RubyLLM::Error.new(nil, 'API Error'))
+        allow(mock_chat).to receive(:ask).and_raise(RubyLLM::Error.new('API Error'))
         allow(Rails.logger).to receive(:error)
       end
 
@@ -512,7 +512,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
   end
 
   describe 'language handling' do
-    context 'when conversation has different language' do
+    context 'when conversation has no detected language' do
       let(:account) { create(:account, locale: 'fr') }
       let(:captain_assistant) { create(:captain_assistant, account: account) }
       let(:conversation) do
@@ -545,13 +545,16 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         allow(embedding_service).to receive(:get_embedding).and_return(embedding_one, embedding_two)
       end
 
-      it 'uses the conversation language for the system prompt' do
+      it 'uses account language for the prompt and stored suggestions and observations' do
         expect(Captain::Llm::ConversationFaqPromptsService).to receive(:generator)
-          .with('portuguese')
+          .with('english')
           .at_least(:once)
           .and_call_original
 
         service.generate_suggestions
+
+        expect(captain_assistant.faq_suggestions.pluck(:language)).to eq(%w[en en])
+        expect(Captain::FaqObservation.where(conversation: conversation).pluck(:language)).to eq(%w[en en])
       end
     end
   end

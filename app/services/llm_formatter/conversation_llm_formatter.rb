@@ -3,6 +3,7 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
     sections = []
     sections << "Conversation ID: ##{@record.display_id}"
     sections << "Channel: #{@record.inbox.channel.name}"
+    sections << "Created At: #{@record.created_at}"
     sections << 'Message History:'
     sections << if @record.messages.any?
                   build_messages(config)
@@ -26,7 +27,7 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
   def build_messages(config = {})
     return "No messages in this conversation\n" if @record.messages.empty?
 
-    messages = @record.messages.where.not(message_type: [:activity, :template])
+    messages = @record.messages.where.not(message_type: [:activity, :template]).not_forwarded
 
     if config[:token_limit]
       build_limited_messages(messages, config)

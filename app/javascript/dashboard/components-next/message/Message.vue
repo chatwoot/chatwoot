@@ -45,6 +45,8 @@ import WhatsappFlowResponseBubble from './bubbles/WhatsappFlowResponse.vue';
 import WhatsappReferral from './bubbles/Text/WhatsappReferral.vue';
 
 import MessageError from './MessageError.vue';
+import ForwardEmailPanel from './forward/ForwardEmailPanel.vue';
+import ForwardedEmailBanner from './forward/ForwardedEmailBanner.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import { useBranding } from 'shared/composables/useBranding';
 
@@ -145,6 +147,8 @@ const emit = defineEmits(['retry']);
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
+const showForwardEmail = ref(false);
+const forwardEmailPosition = ref({});
 const { t } = useI18n();
 const route = useRoute();
 const inboxGetter = useMapGetter('inboxes/getInbox');
@@ -371,6 +375,10 @@ const isMessageDeleted = computed(() => {
   return props.contentAttributes?.deleted;
 });
 
+const isForwardedEmail = computed(
+  () => !!props.contentAttributes?.forwardedMessageId && !isMessageDeleted.value
+);
+
 const shouldShowWhatsappReferral = computed(
   () =>
     variant.value === MESSAGE_VARIANTS.USER &&
@@ -408,6 +416,11 @@ const contextMenuEnabledOptions = computed(() => {
       !props.private &&
       props.inboxSupportsReplyTo.outgoing &&
       !isFailedOrProcessing,
+    forwardEmail:
+      props.isEmailInbox &&
+      !props.private &&
+      !isFailedOrProcessing &&
+      !isMessageDeleted.value,
     report:
       isOnChatwootCloud.value &&
       isCaptainMessage.value &&
@@ -461,6 +474,11 @@ function openContextMenu(e) {
 function closeContextMenu() {
   showContextMenu.value = false;
   contextMenuPosition.value = { x: null, y: null };
+}
+
+function openForwardEmail() {
+  forwardEmailPosition.value = { ...contextMenuPosition.value };
+  showForwardEmail.value = true;
 }
 
 function handleReplyTo() {
@@ -588,7 +606,8 @@ provideMessageContext({
         :class="{
           'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
           'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
-          'flex-col items-start gap-2': shouldShowWhatsappReferral,
+          'flex-col items-start gap-2':
+            shouldShowWhatsappReferral || isForwardedEmail,
         }"
         @contextmenu="openContextMenu($event)"
       >
@@ -596,6 +615,7 @@ provideMessageContext({
           v-if="shouldShowWhatsappReferral"
           :referral="contentAttributes.referral"
         />
+        <ForwardedEmailBanner v-if="isForwardedEmail" />
         <Component :is="componentToRender" />
       </div>
       <MessageError
@@ -617,6 +637,13 @@ provideMessageContext({
         @open="openContextMenu"
         @close="closeContextMenu"
         @reply-to="handleReplyTo"
+        @forward-email="openForwardEmail"
+      />
+      <ForwardEmailPanel
+        v-if="showForwardEmail"
+        :x="forwardEmailPosition.x"
+        :y="forwardEmailPosition.y"
+        @close="showForwardEmail = false"
       />
     </div>
   </div>

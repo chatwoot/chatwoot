@@ -28,6 +28,15 @@ describe CustomMarkdownRenderer do
     end
   end
 
+  describe '#html' do
+    it 'omits raw HTML' do
+      rendered = render_markdown('<script>alert("xss")</script>')
+
+      expect(rendered).to include('<!-- raw HTML omitted -->')
+      expect(rendered).not_to include('<script>')
+    end
+  end
+
   describe 'broken ^ usage' do
     it 'does not convert text that only starts with ^' do
       markdown = 'This is an example with ^broken superscript.'
@@ -92,6 +101,31 @@ describe CustomMarkdownRenderer do
         expect(output).to include('<video width="640" height="360" controls')
         expect(output).to include('<source src="https://example.com/video.mp4" type="video/mp4">')
       end
+
+      it 'sizes the video from a cw_video_width param without leaking it into the source' do
+        output = render_markdown_link("#{mp4_url}?cw_video_width=480px")
+        expect(output).to include('<div style="width: 480px; max-width: 100%;">')
+        expect(output).to match(/<video[^>]+style="width: 100%; height: auto;"/)
+        expect(output).to include('<source src="https://example.com/video.mp4" type="video/mp4">')
+      end
+
+      it 'keeps percentage padding relative to the saved width' do
+        output = render_markdown_link('https://www.youtube.com/watch?v=VIDEO_ID&cw_video_width=480px')
+        expect(output).to include('<div style="width: 480px; max-width: 100%;">')
+        # The aspect box keeps its template padding and fills the wrapper.
+        expect(output).to include('style="position: relative; padding-bottom: 62.5%; height: 0; width: 100%; height: auto;"')
+      end
+
+      it 'lets the saved width cap a full-width template' do
+        output = render_markdown_link('https://app.arcade.software/share/ARCADE_ID?cw_video_width=480px')
+        expect(output).to include('<div style="width: 480px; max-width: 100%;">')
+        expect(output).to include('src="https://app.arcade.software/embed/ARCADE_ID"')
+      end
+
+      it 'keeps the sizing param out of captured embed ids' do
+        output = render_markdown_link('https://youtu.be/VIDEO_ID?cw_video_width=480px')
+        expect(output).to include('src="https://www.youtube-nocookie.com/embed/VIDEO_ID"')
+      end
     end
 
     context 'when link is a normal URL' do
@@ -100,6 +134,15 @@ describe CustomMarkdownRenderer do
       it 'renders a normal link' do
         output = render_markdown_link(normal_url)
         expect(output).to include('<a href="https://example.com">')
+      end
+    end
+
+    context 'when link uses an unsafe URL' do
+      it 'blanks the URL' do
+        output = render_markdown_link('jav&#x61;script:alert(1)')
+
+        expect(output).to include('<a href="">link</a>')
+        expect(output).not_to include('javascript:')
       end
     end
 
@@ -322,6 +365,13 @@ describe CustomMarkdownRenderer do
     it 'ignores a non-numeric width' do
       markdown = '![Sample](https://example.com/image.jpg?cw_image_width=auto)'
       expect(render_markdown(markdown)).not_to include('style=')
+    end
+
+    it 'blanks unsafe sources' do
+      output = render_markdown('![Sample](vbscript:alert(1))')
+
+      expect(output).to include('<img src=""')
+      expect(output).not_to include('vbscript:')
     end
   end
 end

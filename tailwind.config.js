@@ -2,6 +2,7 @@ const { slateDark } = require('@radix-ui/colors');
 import { colors } from './theme/colors';
 import { icons } from './theme/icons';
 const defaultTheme = require('tailwindcss/defaultTheme');
+const plugin = require('tailwindcss/plugin');
 const {
   iconsPlugin,
   getIconCollections,
@@ -23,7 +24,6 @@ const tailwindConfig = {
   darkMode: 'class',
   content: [
     './enterprise/app/views/**/*.erb',
-    './app/javascript/superadmin_pages/**/*.vue',
     './app/javascript/widget/**/*.vue',
     './app/javascript/v3/**/*.vue',
     './app/javascript/dashboard/**/*.vue',
@@ -56,7 +56,7 @@ const tailwindConfig = {
           css: {
             color: 'rgb(var(--slate-12))',
             lineHeight: '1.6',
-            fontSize: '14px',
+            fontSize: '0.875rem',
             '*': {
               '&:first-child': {
                 marginTop: '0',
@@ -252,6 +252,33 @@ const tailwindConfig = {
         '50%': { transform: 'translateX(-0.234375rem)' },
         '75%': { transform: 'translateX(0.234375rem)' },
       },
+      shimmer: {
+        '0%': { transform: 'translateX(-100%)' },
+        '100%': { transform: 'translateX(100%)' },
+      },
+      twinkle: {
+        '0%, 100%': { transform: 'scale(1) rotate(0deg)', opacity: 1 },
+        '50%': { transform: 'scale(1.25) rotate(20deg)', opacity: 0.7 },
+      },
+      'pop-in': {
+        '0%': { opacity: 0, transform: 'scale(0.8) translateY(0.25rem)' },
+        '60%': { opacity: 1, transform: 'scale(1.04) translateY(0)' },
+        '100%': { opacity: 1, transform: 'scale(1) translateY(0)' },
+      },
+      'fade-in': {
+        '0%': { opacity: 0 },
+      },
+      'scale-in': {
+        '0%': { opacity: 0, transform: 'scale(0.97)' },
+      },
+      'sheet-in': {
+        from: { opacity: 0, transform: 'translateY(-1rem)' },
+        to: { opacity: 1, transform: 'translateY(0)' },
+      },
+      'page-progress': {
+        from: { transform: 'scaleX(0)' },
+        to: { transform: 'scaleX(0.9)' },
+      },
     },
     animation: {
       ...defaultTheme.animation,
@@ -260,6 +287,14 @@ const tailwindConfig = {
       'loader-pulse': 'loader-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       'card-select': 'card-select 0.25s ease-in-out',
       shake: 'shake 0.3s ease-in-out 0s 2',
+      shimmer: 'shimmer 1.4s ease-in-out infinite',
+      'pop-in': 'pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) backwards',
+      twinkle: 'twinkle 0.9s ease-in-out infinite',
+      'fade-in': 'fade-in 0.3s ease-out',
+      'scale-in': 'scale-in 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+      'sheet-in': 'sheet-in 0.2s ease-out',
+      'page-progress':
+        'page-progress 8s cubic-bezier(0.1, 0.8, 0.2, 1) 0.15s forwards',
     },
   },
   plugins: [
@@ -278,6 +313,9 @@ const tailwindConfig = {
           'fluent',
         ]),
       },
+    }),
+    plugin(({ addVariant }) => {
+      addVariant('touch', '@media (pointer: coarse)');
     }),
   ],
 };

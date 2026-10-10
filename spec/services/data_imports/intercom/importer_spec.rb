@@ -1272,10 +1272,23 @@ RSpec.describe DataImports::Intercom::Importer do
     end
   end
 
-  context 'when an existing visitor contact matches the Intercom external id' do
-    let!(:existing_contact) { create(:contact, account: account, identifier: 'external_1') }
+  context 'when the Intercom contact has no email or phone' do
+    let(:contact_payload) { super().merge('email' => nil, 'phone' => nil) }
 
-    it 'promotes the contact to a lead when adding email or phone', :aggregate_failures do
+    it 'imports the contact as a lead' do
+      described_class.new(data_import: data_import).import_contacts_page
+
+      expect(account.contacts.find_by!(identifier: 'external_1')).to be_lead
+    end
+  end
+
+  context 'when an existing visitor contact matches the Intercom external id' do
+    let!(:existing_contact) do
+      Contact.import([build(:contact, account: account, identifier: 'external_1')])
+      account.contacts.find_by!(identifier: 'external_1')
+    end
+
+    it 'promotes the contact to a lead', :aggregate_failures do
       expect(existing_contact).to be_visitor
 
       described_class.new(data_import: data_import).import_contacts_page
@@ -1287,7 +1300,10 @@ RSpec.describe DataImports::Intercom::Importer do
   end
 
   context 'when an identifier match has contact details owned by another contact' do
-    let!(:existing_contact) { create(:contact, account: account, identifier: 'external_1') }
+    let!(:existing_contact) do
+      Contact.import([build(:contact, account: account, identifier: 'external_1')])
+      account.contacts.find_by!(identifier: 'external_1')
+    end
     let!(:email_owner) { create(:contact, account: account, email: 'customer@example.com') }
     let!(:phone_owner) { create(:contact, account: account, phone_number: '+15551234567') }
 
@@ -1296,7 +1312,7 @@ RSpec.describe DataImports::Intercom::Importer do
 
       expect(existing_contact.reload.email).to be_nil
       expect(existing_contact.phone_number).to be_nil
-      expect(existing_contact).to be_visitor
+      expect(existing_contact).to be_lead
       expect(email_owner.reload.email).to eq('customer@example.com')
       expect(phone_owner.reload.phone_number).to eq('+15551234567')
       expect(account.contacts.where(email: 'customer@example.com').count).to eq(1)

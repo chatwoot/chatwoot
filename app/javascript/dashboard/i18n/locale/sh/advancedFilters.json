@@ -19,6 +19,8 @@
       "OR": "OR"
     },
     "INPUT_PLACEHOLDER": "Enter value",
+    "MULTI_VALUE_INPUT_PLACEHOLDER": "Type a value, then press Enter to add more",
+    "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Type a value",
     "CONTACT_SEARCH_PLACEHOLDER": "Search contacts",
     "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {

@@ -9,6 +9,7 @@ class AutoAssignment::PeriodicAssignmentJob < ApplicationJob
         account.inboxes.joins(:assignment_policy).find_in_batches do |inboxes|
           inboxes.each do |inbox|
             next unless inbox.auto_assignment_v2_enabled?
+            next if !inbox.assignment_policy.business_hours_only? && Time.current.min % 30 != 0
 
             AutoAssignment::AssignmentJob.enqueue_for_inbox(inbox.id)
           end

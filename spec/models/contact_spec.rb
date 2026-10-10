@@ -115,6 +115,15 @@ RSpec.describe Contact do
     end
   end
 
+  describe '#webhook_data and #push_event_data' do
+    it 'carry the contact type, so a changed contact_type can be read from the event itself' do
+      contact = create(:contact, email: 'lead@example.com')
+
+      expect(contact.webhook_data[:contact_type]).to eq('lead')
+      expect(contact.push_event_data[:contact_type]).to eq('lead')
+    end
+  end
+
   describe '.resolved_contacts' do
     let(:account) { create(:account) }
 

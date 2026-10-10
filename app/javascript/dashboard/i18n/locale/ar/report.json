@@ -23,12 +23,14 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "وقت انتظار العميل",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "وقت الانتظار هو {metricValue} (بناء على ردود {conversationCount})",
         "DESC": ""
       }
@@ -544,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "نظرة عامة",
     "LIVE": "مباشر",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "المحادثات المفتوحة",
       "LOADING_MESSAGE": "جارٍ تحميل مقاييس المحادثات...",

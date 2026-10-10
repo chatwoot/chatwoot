@@ -1,5 +1,6 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, useSlots } from 'vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
   color: {
@@ -12,9 +13,16 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['action']);
+const slots = useSlots();
+
+const hasActions = computed(() => Boolean(props.actionLabel || slots.actions));
 
 const bannerClass = computed(() => {
   const classMap = {
@@ -43,6 +51,7 @@ const buttonClass = computed(() => {
 });
 
 const triggerAction = () => {
+  if (props.isLoading) return;
   emit('action');
 };
 </script>
@@ -53,23 +62,26 @@ const triggerAction = () => {
     :class="[
       bannerClass,
       {
-        'py-2 px-3': !actionLabel,
-        'pl-3 p-2': actionLabel,
+        'py-2 px-3': !hasActions,
+        'ps-3 p-2': hasActions,
       },
     ]"
   >
     <div>
       <slot />
     </div>
-    <div class="flex-shrink-0">
-      <button
-        v-if="actionLabel"
-        class="px-3 py-1 w-auto grid place-content-center rounded-lg whitespace-nowrap"
-        :class="buttonClass"
-        @click="triggerAction"
-      >
-        {{ actionLabel }}
-      </button>
+    <div v-if="hasActions" class="flex-shrink-0">
+      <slot name="actions">
+        <button
+          class="px-3 py-1 w-auto grid place-content-center rounded-lg whitespace-nowrap"
+          :class="buttonClass"
+          :disabled="isLoading"
+          @click="triggerAction"
+        >
+          <Spinner v-if="isLoading" :size="16" />
+          <span v-else>{{ actionLabel }}</span>
+        </button>
+      </slot>
     </div>
   </div>
 </template>

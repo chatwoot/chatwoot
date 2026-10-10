@@ -105,6 +105,7 @@
       "MUTE_CONVERSATION": "Mettre la conversation en sourdine",
       "SNOOZE_CONVERSATION": "Clôturer la conversation",
       "RESOLVE_CONVERSATION": "Résoudre la conversation",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "Envoyer la pièce jointe",
       "SEND_MESSAGE": "Envoyer un message",
       "CHANGE_PRIORITY": "Modifier la priorité",

@@ -161,7 +161,7 @@ RSpec.describe Conversations::UnreadCounts::Refresher do
     Conversations::UnreadCounts::Builder.new(account).build_assignment!
     agent_bot = create(:agent_bot, account: account)
 
-    conversation.update!(assignee_agent_bot: agent_bot)
+    conversation.update!(ai_assignee: agent_bot)
     result = described_class.new(conversation.reload, changed_attributes: { assignee_agent_bot_id: [nil, agent_bot.id] }).perform
 
     key = store.inbox_unassigned_key(account.id, inbox.id)

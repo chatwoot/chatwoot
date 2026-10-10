@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Létrehozva",
         "OLDEST": "Létrehozva:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Utolsó aktivitás:",
-        "ACTIVE": "Utolsó aktivitás"
+        "NOT_ACTIVE": "Utolsó aktivitás:"
       }
     },
     "SORT_ORDER_ITEMS": {

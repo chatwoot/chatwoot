@@ -15,9 +15,9 @@ module AccountSettingsSchema
         'auto_reply_suggestions': { 'type': %w[boolean null] },
         'reply_suggestion_prompt': { 'type': %w[string null], 'maxLength': 4000 },
         'auto_resolve_label': { 'type': %w[string null] },
+        'enforce_mfa': { 'type': %w[boolean null] },
         'keep_pending_on_bot_failure': { 'type': %w[boolean null] },
         'captain_auto_resolve_mode': { 'type': %w[string null], 'enum': ['evaluated', 'legacy', 'disabled', nil] },
-        'captain_false_promise_harness_enabled': { 'type': %w[boolean null] },
         'conversation_required_attributes': {
           'type': %w[array null],
           'items': { 'type': 'string' }

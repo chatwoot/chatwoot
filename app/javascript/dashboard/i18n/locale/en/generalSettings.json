@@ -104,12 +104,12 @@
           "ERROR": "Failed to update audio transcription setting"
         }
       },
-      "AUTO_FIX_GRAMMAR": {
-        "TITLE": "Correção automática de gramática",
-        "NOTE": "Corrige automaticamente a gramática e ortografia de todas as mensagens enviadas pelos agentes antes do envio. Apenas administradores podem ativar ou desativar esta configuração.",
+      "ENFORCE_MFA": {
+        "TITLE": "Enforce two-factor authentication",
+        "NOTE": "Require every member of this account to set up two-factor authentication. Members without it will be asked to set it up at their next password sign-in. Sign-ins through Google or SAML are exempt. API access tokens of members who have not set up two-factor authentication stop working for this account until they enrol.",
         "API": {
-          "SUCCESS": "Configuração de correção automática atualizada com sucesso",
-          "ERROR": "Erro ao atualizar configuração de correção automática"
+          "SUCCESS": "Two-factor authentication enforcement updated successfully",
+          "ERROR": "Failed to update two-factor authentication enforcement"
         }
       },
       "AUTO_RESOLVE_DURATION": {
@@ -129,11 +129,20 @@
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+      },
+      "AUTO_FIX_GRAMMAR": {
+        "TITLE": "Correção automática de gramática",
+        "NOTE": "Corrige automaticamente a gramática e ortografia de todas as mensagens enviadas pelos agentes antes do envio. Apenas administradores podem ativar ou desativar esta configuração.",
+        "API": {
+          "SUCCESS": "Configuração de correção automática atualizada com sucesso",
+          "ERROR": "Erro ao atualizar configuração de correção automática"
+        }
       }
     },
     "UPDATE_CHATWOOT": "An update {latestChatwootVersion} for Chatwoot is available. Please update your instance.",
     "LEARN_MORE": "Learn more",
-    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "PAYMENT_PENDING": "Your account payment is past due. Please update your payment information to avoid subscription cancellation.",
+    "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
     "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
     "OPEN_BILLING": "Open billing"

@@ -24,9 +24,19 @@ class CaptainAssistantStats extends ApiClient {
     return this.getStats('resolution_trend', params);
   }
 
-  getStats(endpoint, { assistantId, range, signal }) {
+  getDrilldown(params) {
+    return this.getStats('drilldown', params);
+  }
+
+  getStats(endpoint, { assistantId, range, metric, reason, page, signal }) {
     const requestConfig = {
-      params: { range, timezone_offset: getTimezoneOffset() },
+      params: {
+        range,
+        metric,
+        reason,
+        page,
+        timezone_offset: getTimezoneOffset(),
+      },
     };
     if (signal) requestConfig.signal = signal;
 

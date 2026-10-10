@@ -19,6 +19,8 @@
       "OR": "ALI"
     },
     "INPUT_PLACEHOLDER": "Vnesite vrednost",
+    "MULTI_VALUE_INPUT_PLACEHOLDER": "Type a value, then press Enter to add more",
+    "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Type a value",
     "CONTACT_SEARCH_PLACEHOLDER": "Išči stike",
     "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {

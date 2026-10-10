@@ -21,10 +21,24 @@ class AutoAssignment::AssignmentService
   def perform_for_conversation(conversation)
     return false unless assignable?(conversation)
 
-    agent = find_available_agent(conversation)
-    return false unless agent
+    Current.executed_by = inbox.assignment_policy || inbox
+    # Serialize selection and accounting across overlapping workers for this inbox.
+    inbox.with_lock do
+      next false unless assignment_window_open?
 
-    assign_conversation(conversation, agent)
+      agent = find_available_agent(conversation)
+      next false unless agent
+
+      assign_conversation(conversation, agent)
+    end
+  ensure
+    Current.executed_by = nil
+  end
+
+  def assignment_window_open?
+    return true unless inbox.assignment_policy&.business_hours_only?
+
+    inbox.working_hours_enabled? && inbox.working_now?
   end
 
   def assignable?(conversation)
@@ -39,14 +53,27 @@ class AutoAssignment::AssignmentService
     policy = inbox.assignment_policy
     scope = apply_age_exclusions(scope, age_exclusion_hours(policy))
 
-    # Apply conversation priority using assignment policy if available
-    scope = if policy&.longest_waiting?
-              scope.reorder(last_activity_at: :asc, created_at: :asc)
-            else
-              scope.reorder(created_at: :asc)
-            end
+    prioritize_conversations(scope).limit(limit)
+  end
 
-    scope.limit(limit)
+  def prioritize_conversations(scope)
+    case inbox.assignment_policy&.conversation_priority
+    when 'longest_waiting'
+      scope.reorder(last_activity_at: :asc, created_at: :asc)
+    when 'latest_customer_message'
+      # The existing conversation/account/type/date index serves this latest-message lookup.
+      latest_message = <<~SQL.squish
+        COALESCE((SELECT messages.created_at FROM messages
+          WHERE messages.conversation_id = conversations.id
+            AND messages.account_id = conversations.account_id
+            AND messages.message_type = 0 AND messages.private = FALSE
+          ORDER BY messages.created_at DESC LIMIT 1), conversations.created_at) DESC,
+        conversations.id DESC
+      SQL
+      scope.reorder(Arel.sql(latest_message))
+    else
+      scope.reorder(created_at: :asc)
+    end
   end
 
   def age_exclusion_hours(policy)
@@ -107,11 +134,9 @@ class AutoAssignment::AssignmentService
   # Atomically claim the row so two bulk runs that overlap (the in-flight gate
   # is best-effort and can lapse on TTL) can't both assign the same conversation.
   def claim_and_assign(conversation, agent)
-    Current.executed_by = inbox.assignment_policy || inbox
-
     Conversation.transaction do
       locked = inbox.conversations
-                    .where(id: conversation.id).unassigned
+                    .where(id: conversation.id).unassigned.open
                     .lock('FOR UPDATE SKIP LOCKED')
                     .first
       next false unless locked
@@ -119,8 +144,6 @@ class AutoAssignment::AssignmentService
       locked.update!(assignee: agent)
       true
     end
-  ensure
-    Current.executed_by = nil
   end
 
   def dispatch_assignment_event(conversation, agent)

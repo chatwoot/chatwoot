@@ -109,7 +109,7 @@ class Captain::ConversationOutcomeTracker
   end
 
   def public_human_reply?(message)
-    return false unless message.outgoing? && !message.private?
+    return false unless message.outgoing? && !message.private? && !message.forwarded?
     return false if message.content_attributes['automation_rule_id'].present?
     return false if message.additional_attributes['campaign_id'].present?
 

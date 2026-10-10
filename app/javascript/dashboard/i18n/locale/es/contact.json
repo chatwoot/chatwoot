@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "No Disponible",
     "EMAIL_ADDRESS": "Dirección de correo",
     "PHONE_NUMBER": "Número de teléfono",
+    "WHATSAPP_USERNAME": "Nombre de usuario WhatsApp",
     "IDENTIFIER": "Idenrificador",
     "COPY_SUCCESSFUL": "Copiado al portapapeles satisfactoriamente",
     "COMPANY": "Empresa",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Agregar Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Añadir WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

@@ -45,9 +45,14 @@
         "TITLE": "Upload de imagem",
         "UPLOADING": "Enviando...",
         "SUCCESS": "Imagem enviada com sucesso",
-        "ERROR": "Erro ao fazer upload da imagem",
-        "UN_AUTHORIZED_ERROR": "Você não está autorizado a enviar imagens",
+        "UPLOAD_FAILED": "Falha no upload",
+        "RATE_LIMITED": "Limite de uploads atingido. Tente novamente em alguns minutos.",
+        "RETRY": "Tentar novamente",
+        "REMOVE": "Excluir",
+        "CANCEL": "Cancelar upload",
         "ERROR_FILE_SIZE": "O tamanho da imagem deve ser menor que {size}MB",
+        "ERROR_ATTACHMENT_FILE_SIZE": "O tamanho do arquivo deve ser menor que {size}MB",
+        "ERROR_UNSUPPORTED_TYPE": "Este tipo de arquivo não é suportado",
         "ERROR_FILE_FORMAT": "O formato da imagem deve ser jpg, jpeg ou png",
         "ERROR_FILE_DIMENSIONS": "Dimensões da imagem devem ser menores que 2000 x 2000"
       }
@@ -800,7 +805,8 @@
         "PUBLISH_CHANGES": "Publicar alterações",
         "PUBLISH_CHANGES_SUCCESS": "Alterações publicadas com sucesso",
         "PUBLISH_CHANGES_ERROR": "Não foi possível publicar as alterações",
-        "SAVE_IN_PROGRESS": "Ainda salvando as alterações mais recentes — por favor, tente novamente em um momento.",
+        "SAVE_IN_PROGRESS": "Ainda estamos salvando suas alterações mais recentes. Por favor, tente novamente em instantes.",
+        "UPLOAD_IN_PROGRESS": "Há um upload de arquivo não concluído. Aguarde a conclusão ou remova-o primeiro.",
         "DISCARD_CHANGES": "Descartar alterações",
         "DISCARD_CHANGES_SUCCESS": "Alterações descartadas",
         "DISCARD_CHANGES_ERROR": "Não foi possível descartar as alterações",
@@ -966,7 +972,7 @@
         "SOCIAL_LINKS": {
           "HEADER": "Links sociais",
           "DESCRIPTION": "Adicione o identificador de cada rede e sua central de ajuda criará o link completo automaticamente. Exibido no rodapé do leiaute da documentação.",
-          "PLACEHOLDER": "@usuario",
+          "PLACEHOLDER": "{'@'}usuario",
           "ADD": "Adicionar link social",
           "REMOVE": "Excluir"
         },
@@ -1030,7 +1036,7 @@
           "HELP": "Encontre o ID do pixel no Gerenciador de Eventos da Meta. Deixe em branco para desativar.",
           "INVALID": "Insira um ID numérico do pixel."
         },
-        "SAVE": "Salvar Alterações"
+        "SAVE": "Salvar alterações"
       },
       "NAV": {
         "GENERAL": "Geral",

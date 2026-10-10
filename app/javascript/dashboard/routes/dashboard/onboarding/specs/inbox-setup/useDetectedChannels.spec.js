@@ -13,7 +13,7 @@ vi.mock('vue-router');
 // channel_type, social ordering) derived from CHANNEL_LIST.
 const mountComposable = ({
   brandInfo,
-  features = { channel_instagram: true },
+  features = { channel_instagram: true, channel_tiktok: true },
   inboxes = [],
   isOnChatwootCloud = false,
   disableMetaInboxCreation = false,
@@ -219,6 +219,7 @@ describe('useDetectedChannels', () => {
       const { displayedChannels } = mountComposable({
         features: {
           channel_instagram: true,
+          channel_tiktok: true,
           whatsapp_embedded_signup_inbox_creation: true,
         },
         isOnChatwootCloud: true,
@@ -240,7 +241,7 @@ describe('useDetectedChannels', () => {
 
     it('hides Instagram when disabled for the account', () => {
       const { displayedChannels } = mountComposable({
-        features: { channel_instagram: false },
+        features: { channel_instagram: false, channel_tiktok: true },
         isOnChatwootCloud: true,
         brandInfo: {
           socials: [
@@ -253,6 +254,40 @@ describe('useDetectedChannels', () => {
       expect(displayedChannels.value.map(channel => channel.type)).toEqual([
         'tiktok',
       ]);
+    });
+
+    it('keeps disabled TikTok in the secondary channel catalog on Chatwoot Cloud', () => {
+      const { displayedChannels, remainingChannels } = mountComposable({
+        features: { channel_instagram: true, channel_tiktok: false },
+        isOnChatwootCloud: true,
+        brandInfo: {
+          socials: [{ type: 'tiktok', url: 'https://tiktok.com/@acme' }],
+        },
+      });
+
+      expect(
+        displayedChannels.value.map(channel => channel.type)
+      ).not.toContain('tiktok');
+      expect(remainingChannels.value.map(channel => channel.type)).toContain(
+        'tiktok'
+      );
+    });
+
+    it('shows configured TikTok on self-hosted installations even when the Cloud feature is disabled', () => {
+      const { displayedChannels, remainingChannels } = mountComposable({
+        features: { channel_tiktok: false },
+        isOnChatwootCloud: false,
+        brandInfo: {
+          socials: [{ type: 'tiktok', url: 'https://tiktok.com/@acme' }],
+        },
+      });
+
+      expect(displayedChannels.value.map(channel => channel.type)).toContain(
+        'tiktok'
+      );
+      expect(
+        remainingChannels.value.map(channel => channel.type)
+      ).not.toContain('tiktok');
     });
   });
 

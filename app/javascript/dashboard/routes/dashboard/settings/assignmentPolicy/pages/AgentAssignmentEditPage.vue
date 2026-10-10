@@ -109,6 +109,8 @@ const formData = computed(() => ({
   fairDistributionLimit: selectedPolicy.value?.fairDistributionLimit || 100,
   fairDistributionWindow: selectedPolicy.value?.fairDistributionWindow || 3600,
   excludeOlderThanHours: selectedPolicy.value?.excludeOlderThanHours ?? null,
+  businessHoursOnly: selectedPolicy.value?.businessHoursOnly ?? false,
+  eligibleCustomRoleId: selectedPolicy.value?.eligibleCustomRoleId ?? null,
 }));
 
 const handleDeleteInbox = async inboxId => {

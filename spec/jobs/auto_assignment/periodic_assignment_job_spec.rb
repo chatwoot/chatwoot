@@ -8,6 +8,7 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
   let(:agent) { create(:user, account: account, role: :agent) }
 
   before do
+    travel_to Time.current.change(min: 0, sec: 0)
     create(:inbox_member, inbox: inbox, user: agent)
   end
 

@@ -1,54 +1,179 @@
 <script setup>
-import { ref, watch } from 'vue';
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+  toRef,
+  watch,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
 import MessageList from './MessageList.vue';
+import PlaygroundTestSetup from './PlaygroundTestSetup.vue';
+import { usePlaygroundSession } from './usePlaygroundSession';
 import CaptainAssistant from 'dashboard/api/captain/assistant';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 
-const { assistantId } = defineProps({
+const props = defineProps({
   assistantId: {
     type: Number,
     required: true,
   },
 });
 
+const PLAYGROUND_RESPONSE_TIMEOUT_MS = 120000;
+
 const { t } = useI18n();
+const isBelowXL = useBreakpoints(breakpointsTailwind).smaller('xl');
+
 const messages = ref([]);
 const newMessage = ref('');
 const isLoading = ref(false);
+const isSetupOpen = ref(true);
+const setupPanelRef = ref(null);
+const setupInstanceKey = ref(0);
+let activeRequest = null;
+
+const session = reactive(
+  usePlaygroundSession({
+    assistantId: toRef(props, 'assistantId'),
+  })
+);
+
+const isSendDisabled = computed(
+  () =>
+    !newMessage.value.trim() ||
+    isLoading.value ||
+    session.isInitializing ||
+    Boolean(session.loadError)
+);
 
 const formatMessagesForApi = () => {
-  return messages.value.map(message => {
-    const payload = {
-      role: message.sender,
-      content: message.content,
-    };
+  return messages.value
+    .filter(message => !message.isError)
+    .map(message => {
+      const payload = {
+        role: message.sender,
+        content: message.content,
+      };
 
-    if (message.sender === 'assistant' && message.agentName) {
-      payload.agent_name = message.agentName;
-    }
+      if (message.sender === 'assistant' && message.agentName) {
+        payload.agent_name = message.agentName;
+      }
 
-    return payload;
+      return payload;
+    });
+};
+
+const pushAssistantError = content => {
+  messages.value.push({
+    content,
+    sender: 'assistant',
+    isError: true,
+    timestamp: new Date().toISOString(),
   });
 };
 
 const resetConversation = () => {
+  clearTimeout(activeRequest?.timeoutId);
+  activeRequest = null;
+  isLoading.value = false;
   messages.value = [];
   newMessage.value = '';
 };
 
-// Watch for assistant ID changes and reset conversation
+const playgroundResponseContent = data => {
+  if (!data.error) return data.response || data.content;
+  if (typeof data.error === 'string') return data.error;
+
+  return t('CAPTAIN.PLAYGROUND.RESPONSE_ERROR');
+};
+
+const handlePlaygroundResponse = data => {
+  if (data.request_id !== activeRequest?.id) return;
+
+  const { setupSummary } = activeRequest;
+  clearTimeout(activeRequest.timeoutId);
+  activeRequest = null;
+  isLoading.value = false;
+  messages.value.push({
+    content: playgroundResponseContent(data),
+    sender: 'assistant',
+    agentName: data.agent_name,
+    runDetails: data.run_details,
+    setupSummary,
+    isError: Boolean(data.error),
+    timestamp: new Date().toISOString(),
+  });
+};
+
+const failActiveRequest = (
+  content = t('CAPTAIN.PLAYGROUND.RESPONSE_ERROR')
+) => {
+  if (!activeRequest) return;
+
+  clearTimeout(activeRequest.timeoutId);
+  activeRequest = null;
+  isLoading.value = false;
+  pushAssistantError(content);
+};
+
+onMounted(() => {
+  emitter.on(BUS_EVENTS.CAPTAIN_PLAYGROUND_RESPONSE, handlePlaygroundResponse);
+  emitter.on(BUS_EVENTS.WEBSOCKET_DISCONNECT, failActiveRequest);
+});
+
+onBeforeUnmount(() => {
+  emitter.off(BUS_EVENTS.CAPTAIN_PLAYGROUND_RESPONSE, handlePlaygroundResponse);
+  emitter.off(BUS_EVENTS.WEBSOCKET_DISCONNECT, failActiveRequest);
+  clearTimeout(activeRequest?.timeoutId);
+});
+
+const resetTestSetup = async () => {
+  resetConversation();
+  setupInstanceKey.value += 1;
+  await session.reset();
+};
+
+const toggleSetup = () => {
+  if (isBelowXL.value) {
+    setupPanelRef.value?.open();
+  } else {
+    isSetupOpen.value = !isSetupOpen.value;
+  }
+};
+
 watch(
-  () => assistantId,
+  () => props.assistantId,
   (newId, oldId) => {
     if (oldId && newId !== oldId) {
       resetConversation();
+      setupInstanceKey.value += 1;
+      isSetupOpen.value = true;
+      session.reset();
     }
   }
 );
 
+session.initialize();
+
 const sendMessage = async () => {
-  if (!newMessage.value.trim() || isLoading.value) return;
+  if (!newMessage.value.trim() || isLoading.value || session.isInitializing) {
+    return;
+  }
+  if (session.loadError) {
+    pushAssistantError(session.loadError);
+    return;
+  }
+  if (!session.isValid) {
+    pushAssistantError(t('CAPTAIN.PLAYGROUND.SETUP.INVALID_CONFIGURATION'));
+    return;
+  }
 
   const userMessage = {
     content: newMessage.value,
@@ -57,27 +182,32 @@ const sendMessage = async () => {
   };
   messages.value.push(userMessage);
   const currentMessage = newMessage.value;
+  const setupSummary = session.configurationSummary();
+  const requestId = `playground-${Date.now()}-${Math.random().toString(36).slice(2)}`;
   newMessage.value = '';
+  activeRequest = {
+    id: requestId,
+    setupSummary,
+    timeoutId: setTimeout(failActiveRequest, PLAYGROUND_RESPONSE_TIMEOUT_MS),
+  };
 
   try {
     isLoading.value = true;
-    const { data } = await CaptainAssistant.playground({
-      assistantId,
+    await CaptainAssistant.playground({
+      assistantId: props.assistantId,
       messageContent: currentMessage,
       messageHistory: formatMessagesForApi(),
-    });
-
-    messages.value.push({
-      content: data.response,
-      sender: 'assistant',
-      agentName: data.agent_name,
-      timestamp: new Date().toISOString(),
+      playgroundConfig: session.playgroundConfig,
+      requestId,
     });
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Error getting assistant response:', error);
-  } finally {
-    isLoading.value = false;
+    if (requestId !== activeRequest?.id) return;
+
+    const errorMessage =
+      error?.response?.data?.error ||
+      error?.response?.data?.message ||
+      t('CAPTAIN.PLAYGROUND.RESPONSE_ERROR');
+    failActiveRequest(errorMessage);
   }
 };
 
@@ -90,48 +220,128 @@ const handleEnterKey = event => {
 
 <template>
   <div
-    class="flex flex-col h-full rounded-xl border py-6 border-n-weak text-n-slate-11"
+    class="flex h-full overflow-hidden rounded-xl border border-n-weak text-n-slate-11"
   >
-    <div class="mb-8 px-6">
-      <div class="flex justify-between items-center mb-1">
-        <h3 class="text-lg font-medium">
-          {{ t('CAPTAIN.PLAYGROUND.HEADER') }}
-        </h3>
+    <div class="flex min-w-0 flex-1 flex-col pt-6 pb-16 xl:pb-6">
+      <div class="mb-8 px-6">
+        <div class="mb-1 flex items-center justify-between gap-3">
+          <h3 class="text-lg font-medium">
+            {{ t('CAPTAIN.PLAYGROUND.HEADER') }}
+          </h3>
+          <div class="flex items-center gap-1">
+            <NextButton
+              ghost
+              sm
+              slate
+              icon="i-lucide-rotate-ccw"
+              :aria-label="t('CAPTAIN.PLAYGROUND.CLEAR_CONVERSATION')"
+              @click="resetConversation"
+            />
+            <NextButton
+              ghost
+              sm
+              slate
+              icon="i-lucide-settings-2"
+              :aria-label="t('CAPTAIN.PLAYGROUND.SETUP.TOGGLE')"
+              @click="toggleSetup"
+            />
+          </div>
+        </div>
+        <p class="text-sm text-n-slate-11">
+          {{ t('CAPTAIN.PLAYGROUND.DESCRIPTION') }}
+        </p>
+      </div>
+
+      <MessageList :messages="messages" :is-loading="isLoading" />
+
+      <div
+        class="mx-6 flex items-center rounded-xl bg-n-background p-3 outline outline-1 outline-n-weak"
+      >
+        <input
+          v-model="newMessage"
+          class="mb-0 flex-1 border-none bg-transparent text-sm text-n-slate-12 placeholder:text-n-slate-10 focus:outline-none"
+          :placeholder="t('CAPTAIN.PLAYGROUND.MESSAGE_PLACEHOLDER')"
+          @keydown.enter.exact="handleEnterKey"
+        />
+        <NextButton
+          ghost
+          sm
+          :disabled="isSendDisabled"
+          icon="i-lucide-send"
+          :aria-label="t('CAPTAIN.PLAYGROUND.SEND_MESSAGE')"
+          @click="sendMessage"
+        />
+      </div>
+
+      <p class="pt-2 text-center text-xs text-n-slate-11">
+        {{ t('CAPTAIN.PLAYGROUND.CREDIT_NOTE') }}
+      </p>
+    </div>
+
+    <aside
+      v-if="isSetupOpen && !isBelowXL"
+      aria-labelledby="playground-test-setup-title"
+      class="flex w-[36rem] flex-none flex-col border-s border-n-weak bg-n-surface-1 text-n-slate-12"
+    >
+      <div
+        class="flex items-start justify-between gap-3 border-b border-n-weak p-5"
+      >
+        <div>
+          <h3 id="playground-test-setup-title" class="text-base font-medium">
+            {{ t('CAPTAIN.PLAYGROUND.SETUP.TITLE') }}
+          </h3>
+          <p class="mt-1 text-sm text-n-slate-11">
+            {{ t('CAPTAIN.PLAYGROUND.SETUP.DESCRIPTION') }}
+          </p>
+        </div>
         <NextButton
           ghost
           sm
           slate
-          icon="i-lucide-rotate-ccw"
-          @click="resetConversation"
+          icon="i-lucide-x"
+          :aria-label="t('CAPTAIN.PLAYGROUND.SETUP.CLOSE')"
+          @click="isSetupOpen = false"
         />
       </div>
-      <p class="text-sm text-n-slate-11">
-        {{ t('CAPTAIN.PLAYGROUND.DESCRIPTION') }}
-      </p>
-    </div>
+      <PlaygroundTestSetup
+        :key="setupInstanceKey"
+        :session="session"
+        class="min-h-0 flex-1"
+      />
+      <div class="border-t border-n-weak bg-n-solid-1 p-4">
+        <NextButton
+          ghost
+          sm
+          slate
+          :label="t('CAPTAIN.PLAYGROUND.SETUP.RESET')"
+          icon="i-lucide-refresh-cw"
+          :disabled="session.isInitializing"
+          :is-loading="session.isInitializing"
+          @click="resetTestSetup"
+        />
+      </div>
+    </aside>
 
-    <MessageList :messages="messages" :is-loading="isLoading" />
-
-    <div
-      class="flex items-center mx-6 bg-n-background outline outline-1 outline-n-weak rounded-xl p-3"
+    <SidePanel
+      v-if="isBelowXL"
+      ref="setupPanelRef"
+      width="lg"
+      :title="t('CAPTAIN.PLAYGROUND.SETUP.TITLE')"
+      :description="t('CAPTAIN.PLAYGROUND.SETUP.DESCRIPTION')"
     >
-      <input
-        v-model="newMessage"
-        class="flex-1 bg-transparent border-none focus:outline-none text-sm mb-0 text-n-slate-12 placeholder:text-n-slate-10"
-        :placeholder="t('CAPTAIN.PLAYGROUND.MESSAGE_PLACEHOLDER')"
-        @keydown.enter.exact="handleEnterKey"
-      />
-      <NextButton
-        ghost
-        sm
-        :disabled="!newMessage.trim()"
-        icon="i-lucide-send"
-        @click="sendMessage"
-      />
-    </div>
-
-    <p class="text-xs text-n-slate-11 pt-2 text-center">
-      {{ t('CAPTAIN.PLAYGROUND.CREDIT_NOTE') }}
-    </p>
+      <PlaygroundTestSetup :key="setupInstanceKey" :session="session" />
+      <template #footer>
+        <NextButton
+          ghost
+          sm
+          slate
+          :label="t('CAPTAIN.PLAYGROUND.SETUP.RESET')"
+          icon="i-lucide-refresh-cw"
+          :disabled="session.isInitializing"
+          :is-loading="session.isInitializing"
+          @click="resetTestSetup"
+        />
+      </template>
+    </SidePanel>
   </div>
 </template>

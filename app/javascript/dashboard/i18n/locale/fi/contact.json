@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Ei saatavilla",
     "EMAIL_ADDRESS": "Sähköpostiosoite",
     "PHONE_NUMBER": "Puhelinnumero",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Kopioitu leikepöydälle onnistuneesti",
     "COMPANY": "Yritys",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

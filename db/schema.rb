@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_10_161059) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -295,8 +295,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "exclude_older_than_hours", default: 168
+    t.boolean "business_hours_only", default: false, null: false
+    t.bigint "eligible_custom_role_id"
     t.index ["account_id", "name"], name: "index_assignment_policies_on_account_id_and_name", unique: true
     t.index ["account_id"], name: "index_assignment_policies_on_account_id"
+    t.index ["eligible_custom_role_id"], name: "index_assignment_policies_on_eligible_custom_role_id"
     t.index ["enabled"], name: "index_assignment_policies_on_enabled"
   end
 
@@ -331,6 +334,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.string "remote_address"
     t.string "request_uuid"
     t.datetime "created_at", precision: nil
+    t.string "city"
+    t.string "country"
+    t.string "country_code"
     t.index ["associated_type", "associated_id", "created_at"], name: "index_audits_on_associated_and_created_at"
     t.index ["associated_type", "associated_id"], name: "associated_index"
     t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
@@ -369,7 +375,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
     t.integer "execution_delay"
+    t.bigint "monitor_id"
+    t.datetime "monitor_event_activated_at"
     t.index ["account_id"], name: "index_automation_rules_on_account_id"
+    t.index ["monitor_id"], name: "index_automation_rules_on_monitor_id"
   end
 
   create_table "calls", force: :cascade do |t|
@@ -414,12 +423,14 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.datetime "failed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "contact_inbox_id"
     t.index ["account_id", "campaign_id"], name: "index_campaign_recipients_on_account_id_and_campaign_id"
     t.index ["account_id"], name: "index_campaign_recipients_on_account_id"
     t.index ["campaign_id", "contact_id"], name: "index_campaign_recipients_on_campaign_id_and_contact_id", unique: true
     t.index ["campaign_id", "status"], name: "index_campaign_recipients_on_campaign_id_and_status"
     t.index ["campaign_id"], name: "index_campaign_recipients_on_campaign_id"
     t.index ["contact_id"], name: "index_campaign_recipients_on_contact_id"
+    t.index ["contact_inbox_id"], name: "index_campaign_recipients_on_contact_inbox_id"
     t.index ["inbox_id"], name: "index_campaign_recipients_on_inbox_id"
     t.index ["source_id"], name: "index_campaign_recipients_on_source_id", unique: true, where: "(source_id IS NOT NULL)"
   end
@@ -441,7 +452,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.jsonb "audience", default: []
     t.datetime "scheduled_at", precision: nil
     t.boolean "trigger_only_during_business_hours", default: false
-    t.jsonb "template_params"
+    t.jsonb "template_params", default: {}, null: false
     t.datetime "started_at"
     t.datetime "completed_at"
     t.index ["account_id"], name: "index_campaigns_on_account_id"
@@ -505,8 +516,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.boolean "enabled", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id", "slug"], name: "index_captain_custom_tools_on_account_id_and_slug", unique: true
+    t.bigint "assistant_id"
+    t.jsonb "headers", default: {}, null: false
+    t.jsonb "source_metadata"
     t.index ["account_id"], name: "index_captain_custom_tools_on_account_id"
+    t.index ["assistant_id", "slug"], name: "index_captain_custom_tools_on_assistant_id_and_slug", unique: true
   end
 
   create_table "captain_documents", force: :cascade do |t|
@@ -663,8 +677,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.boolean "smtp_enable_ssl_tls", default: false
     t.jsonb "provider_config", default: {}
     t.string "provider"
-    t.string "imap_authentication", default: "plain"
     t.boolean "verified_for_sending", default: false, null: false
+    t.string "imap_authentication", default: "plain"
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
@@ -677,6 +691,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "instagram_id"
+    t.string "provider_name"
     t.index ["page_id", "account_id"], name: "index_channel_facebook_pages_on_page_id_and_account_id", unique: true
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
   end
@@ -688,6 +703,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.string "instagram_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "provider_name"
     t.index ["instagram_id"], name: "index_channel_instagram_on_instagram_id", unique: true
   end
 
@@ -729,6 +745,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.datetime "refresh_token_expires_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "provider_name"
     t.index ["business_id"], name: "index_channel_tiktok_on_business_id", unique: true
   end
 
@@ -787,7 +804,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
 
   create_table "channel_whatsapp", force: :cascade do |t|
     t.integer "account_id", null: false
-    t.text "business_management_token"
     t.string "phone_number", null: false
     t.string "provider", default: "default"
     t.jsonb "provider_config", default: {}
@@ -798,6 +814,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.jsonb "phone_number_health", default: {}, null: false
     t.datetime "phone_number_health_checked_at"
     t.string "phone_number_health_error", limit: 500
+    t.text "business_management_token"
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
     t.index ["phone_number_health_checked_at"], name: "index_channel_whatsapp_on_phone_number_health_checked_at"
   end
@@ -809,7 +826,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "contacts_count"
+    t.integer "contacts_count", default: 0, null: false
     t.jsonb "additional_attributes", default: {}
     t.jsonb "custom_attributes", default: {}
     t.datetime "last_activity_at", precision: nil
@@ -928,6 +945,118 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.index ["no_response"], name: "idx_conv_insights_no_response"
   end
 
+  create_table "conversation_monitor_automation_deliveries", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "monitor_id", null: false
+    t.bigint "automation_rule_id", null: false
+    t.bigint "conversation_id", null: false
+    t.string "status", default: "pending", null: false
+    t.string "skip_reason"
+    t.datetime "claimed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_conversation_monitor_automation_deliveries_on_account_id"
+    t.index ["automation_rule_id", "monitor_id", "conversation_id"], name: "index_monitor_automation_deliveries_unique", unique: true
+    t.index ["automation_rule_id"], name: "idx_on_automation_rule_id_c6ed670e50"
+    t.index ["conversation_id"], name: "idx_on_conversation_id_ea2ef1d691"
+    t.index ["monitor_id"], name: "index_conversation_monitor_automation_deliveries_on_monitor_id"
+    t.index ["status", "updated_at"], name: "index_monitor_automation_deliveries_sweep"
+  end
+
+  create_table "conversation_monitor_daily_usages", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.date "usage_date", null: false
+    t.integer "calls_count", default: 0, null: false
+    t.datetime "limit_reached_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "usage_date"], name: "index_monitor_daily_usage_unique", unique: true
+    t.check_constraint "calls_count >= 0", name: "monitor_daily_usage_nonnegative"
+  end
+
+  create_table "conversation_monitor_evaluations", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "monitor_id", null: false
+    t.bigint "conversation_id", null: false
+    t.string "status", default: "pending", null: false
+    t.bigint "input_revision", default: 0, null: false
+    t.bigint "generation", default: 0, null: false
+    t.bigint "requested_version"
+    t.float "score"
+    t.string "model"
+    t.string "error_code"
+    t.datetime "matched_at"
+    t.datetime "evaluated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "first_matched_at"
+    t.index ["account_id"], name: "index_conversation_monitor_evaluations_on_account_id"
+    t.index ["conversation_id"], name: "index_conversation_monitor_evaluations_on_conversation_id"
+    t.index ["monitor_id", "conversation_id"], name: "index_monitor_evaluations_unique", unique: true
+    t.index ["monitor_id", "status", "conversation_id"], name: "index_monitor_evaluations_status"
+    t.index ["monitor_id"], name: "index_conversation_monitor_evaluations_on_monitor_id"
+  end
+
+  create_table "conversation_monitor_scans", force: :cascade do |t|
+    t.bigint "monitor_id", null: false
+    t.string "kind", null: false
+    t.bigint "collection_version", null: false
+    t.datetime "started_at", null: false
+    t.datetime "ended_at", null: false
+    t.bigint "cursor", default: 0, null: false
+    t.datetime "enumerated_at"
+    t.datetime "cancelled_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["monitor_id", "collection_version", "kind"], name: "index_monitor_scans_version_kind", unique: true
+    t.index ["monitor_id"], name: "index_monitor_scans_initial", unique: true, where: "((kind)::text = 'initial'::text)"
+  end
+
+  create_table "conversation_monitor_work_items", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "revision", default: 0, null: false
+    t.bigint "processed_revision", default: 0, null: false
+    t.bigint "full_history_revision", default: 0, null: false
+    t.bigint "generation", default: 0, null: false
+    t.datetime "due_at"
+    t.string "lease_token"
+    t.datetime "lease_expires_at"
+    t.integer "attempts", default: 0, null: false
+    t.string "error_code"
+    t.datetime "requested_at"
+    t.datetime "activity_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "live_activity_revision", default: 0, null: false
+    t.datetime "live_activity_at"
+    t.index ["account_id"], name: "index_conversation_monitor_work_items_on_account_id"
+    t.index ["conversation_id"], name: "index_conversation_monitor_work_items_on_conversation_id", unique: true
+    t.index ["due_at"], name: "index_monitor_work_due", where: "(due_at IS NOT NULL)"
+  end
+
+  create_table "conversation_monitors", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id"
+    t.string "name", null: false
+    t.text "condition", null: false
+    t.string "model", null: false
+    t.float "threshold", null: false
+    t.datetime "history_since", null: false
+    t.datetime "paused_at"
+    t.datetime "resumed_at"
+    t.datetime "deleted_at"
+    t.bigint "data_revision", default: 0, null: false
+    t.bigint "collection_version", default: 0, null: false
+    t.datetime "recheck_requested_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "icon", default: "chat-3-line", null: false
+    t.string "icon_color", default: "#3B82F6", null: false
+    t.index ["account_id"], name: "index_conversation_monitors_on_account_id"
+    t.index ["user_id"], name: "index_conversation_monitors_on_user_id"
+  end
+
   create_table "conversation_outcomes", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "assistant_id", null: false
@@ -1014,8 +1143,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.datetime "waiting_since"
     t.text "cached_label_list"
     t.bigint "assignee_agent_bot_id"
-    t.string "ai_assignee_type"
     t.datetime "status_changed_at"
+    t.string "ai_assignee_type"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -1524,6 +1653,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
+    t.string "video_url"
   end
 
   create_table "portals", force: :cascade do |t|
@@ -1748,8 +1879,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
     t.text "message_signature"
     t.string "otp_secret"
     t.integer "consumed_timestep"
-    t.boolean "otp_required_for_login", default: false
+    t.boolean "otp_required_for_login", default: false, null: false
     t.text "otp_backup_codes"
+    t.integer "device_trust_version", default: 0, null: false
     t.index ["email"], name: "index_users_on_email"
     t.index ["otp_required_for_login"], name: "index_users_on_otp_required_for_login"
     t.index ["otp_secret"], name: "index_users_on_otp_secret", unique: true
@@ -1794,6 +1926,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
   add_foreign_key "ad_conversions", "conversation_ad_referrals"
   add_foreign_key "agent_working_hours", "accounts"
   add_foreign_key "agent_working_hours", "users"
+  add_foreign_key "assignment_policies", "custom_roles", column: "eligible_custom_role_id"
   add_foreign_key "campaign_recipients", "accounts", on_delete: :cascade
   add_foreign_key "campaign_recipients", "campaigns", on_delete: :cascade
   add_foreign_key "campaign_recipients", "contacts", on_delete: :cascade
@@ -1806,6 +1939,15 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_22_120000) do
   add_foreign_key "conversation_evaluation_reports", "users"
   add_foreign_key "conversation_insights", "accounts"
   add_foreign_key "conversation_insights", "conversations"
+  add_foreign_key "conversation_monitor_daily_usages", "accounts", on_delete: :cascade
+  add_foreign_key "conversation_monitor_evaluations", "accounts", on_delete: :cascade
+  add_foreign_key "conversation_monitor_evaluations", "conversation_monitors", column: "monitor_id", on_delete: :cascade
+  add_foreign_key "conversation_monitor_evaluations", "conversations", on_delete: :cascade
+  add_foreign_key "conversation_monitor_scans", "conversation_monitors", column: "monitor_id", on_delete: :cascade
+  add_foreign_key "conversation_monitor_work_items", "accounts", on_delete: :cascade
+  add_foreign_key "conversation_monitor_work_items", "conversations", on_delete: :cascade
+  add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
+  add_foreign_key "conversation_monitors", "users", on_delete: :nullify
   add_foreign_key "conversation_risk_monitor_configs", "accounts"
   add_foreign_key "conversation_risk_monitor_configs", "inboxes"
   add_foreign_key "conversation_risk_monitor_configs", "labels", column: "complaint_label_id"

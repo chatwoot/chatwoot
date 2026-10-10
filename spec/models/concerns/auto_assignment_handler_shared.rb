@@ -47,7 +47,7 @@ shared_examples_for 'auto_assignment_handler' do
 
     it 'keeps AgentBot ownership when the conversation opens' do
       agent_bot = create(:agent_bot, account: account)
-      conversation = create(:conversation, account: account, inbox: inbox, status: 'pending', assignee_agent_bot: agent_bot)
+      conversation = create(:conversation, account: account, inbox: inbox, status: 'pending', ai_assignee: agent_bot)
 
       conversation.update!(status: 'open')
 
@@ -56,12 +56,12 @@ shared_examples_for 'auto_assignment_handler' do
 
     it 'assigns an agent when bot handoff clears the agent bot in the same save' do
       agent_bot = create(:agent_bot, account: account)
-      handoff_conversation = create(:conversation, account: account, inbox: inbox, status: 'pending', assignee_agent_bot: agent_bot)
+      handoff_conversation = create(:conversation, account: account, inbox: inbox, status: 'pending', ai_assignee: agent_bot)
 
       handoff_conversation.bot_handoff!
 
       expect(handoff_conversation.reload.assignee).to eq(agent)
-      expect(handoff_conversation.assignee_agent_bot).to be_nil
+      expect(handoff_conversation.ai_assignee).to be_nil
     end
 
     it 'emits conversation.opened when auto assignment runs on the open transition' do
@@ -103,6 +103,31 @@ shared_examples_for 'auto_assignment_handler' do
       expect(stale.reload.assignee).to eq(agent)
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
         .with(described_class::CONVERSATION_OPENED, kind_of(Time), hash_including(conversation: stale))
+    end
+
+    context 'with assignment v2' do
+      before do
+        account.enable_features!('assignment_v2')
+        allow(AutoAssignment::AssignmentJob).to receive(:enqueue_for_inbox)
+      end
+
+      it 'enqueues the assignment job only after the creating transaction commits' do
+        ActiveRecord::Base.transaction do
+          create(:conversation, account: account, inbox: inbox, assignee: nil)
+          expect(AutoAssignment::AssignmentJob).not_to have_received(:enqueue_for_inbox)
+        end
+
+        expect(AutoAssignment::AssignmentJob).to have_received(:enqueue_for_inbox).with(inbox.id).once
+      end
+
+      it 'does not enqueue the assignment job when the transaction rolls back' do
+        ActiveRecord::Base.transaction do
+          create(:conversation, account: account, inbox: inbox, assignee: nil)
+          raise ActiveRecord::Rollback
+        end
+
+        expect(AutoAssignment::AssignmentJob).not_to have_received(:enqueue_for_inbox)
+      end
     end
 
     it 'gets triggered on update only when status changes to open' do

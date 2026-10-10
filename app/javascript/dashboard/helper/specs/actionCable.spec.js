@@ -1,6 +1,18 @@
 import { describe, it, beforeEach, afterEach, expect, vi } from 'vitest';
 import ActionCableConnector from '../actionCable';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
+import AuthAPI from 'dashboard/api/auth';
+import {
+  clearCookiesOnLogout,
+  deleteIndexedDBOnLogout,
+} from 'dashboard/store/utils/api';
+
+vi.mock('dashboard/store/utils/api', () => ({
+  clearCookiesOnLogout: vi.fn(),
+  deleteIndexedDBOnLogout: vi.fn(),
+}));
 
 vi.mock('shared/helpers/mitt', () => ({
   emitter: {
@@ -48,6 +60,23 @@ describe('ActionCableConnector - Copilot Tests', () => {
     vi.useRealTimers();
   });
   describe('copilot event handlers', () => {
+    it('clears a revoked browser session without requiring another sign-out request', () => {
+      vi.spyOn(AuthAPI, 'getAuthData').mockReturnValue({
+        client: 'old-client',
+      });
+      actionCable.onLogout({ client_ids: ['old-client'] });
+      expect(deleteIndexedDBOnLogout).toHaveBeenCalledOnce();
+      expect(clearCookiesOnLogout).toHaveBeenCalledOnce();
+    });
+
+    it('preserves a new login when a delayed logout event names an older client', () => {
+      vi.spyOn(AuthAPI, 'getAuthData').mockReturnValue({
+        client: 'new-client',
+      });
+      actionCable.onLogout({ client_ids: ['old-client'] });
+      expect(clearCookiesOnLogout).not.toHaveBeenCalled();
+    });
+
     it('should register the copilot.message.created event handler', () => {
       expect(Object.keys(actionCable.events)).toContain(
         'copilot.message.created'
@@ -72,6 +101,57 @@ describe('ActionCableConnector - Copilot Tests', () => {
       expect(mockDispatch).toHaveBeenCalledWith(
         'copilotMessages/upsert',
         copilotData
+      );
+    });
+  });
+
+  describe('Captain Playground event handlers', () => {
+    it('registers the captain.playground.response event handler', () => {
+      expect(actionCable.events['captain.playground.response']).toBe(
+        actionCable.onCaptainPlaygroundResponse
+      );
+    });
+
+    it('emits the Playground response on the dashboard event bus', () => {
+      const playgroundData = {
+        account_id: 1,
+        request_id: 'playground-request-1',
+        response: 'Hello from Captain',
+      };
+
+      actionCable.onReceived({
+        event: 'captain.playground.response',
+        data: playgroundData,
+      });
+
+      expect(emitter.emit).toHaveBeenCalledWith(
+        BUS_EVENTS.CAPTAIN_PLAYGROUND_RESPONSE,
+        playgroundData
+      );
+    });
+  });
+
+  describe('monitor.updated', () => {
+    it('forwards updates for the active account', () => {
+      const data = { account_id: 1, monitor_id: 2, data_revision: 3 };
+
+      actionCable.onReceived({ event: 'monitor.updated', data });
+
+      expect(emitter.emit).toHaveBeenCalledWith(
+        BUS_EVENTS.MONITOR_UPDATED,
+        data
+      );
+    });
+
+    it('ignores updates from another account', () => {
+      actionCable.onReceived({
+        event: 'monitor.updated',
+        data: { account_id: 2, monitor_id: 2 },
+      });
+
+      expect(emitter.emit).not.toHaveBeenCalledWith(
+        BUS_EVENTS.MONITOR_UPDATED,
+        expect.anything()
       );
     });
   });
