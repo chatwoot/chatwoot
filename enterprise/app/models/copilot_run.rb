@@ -80,11 +80,12 @@ class CopilotRun < ApplicationRecord
     with_lease(token) { update!(lease_until: Time.current + LEASE_DURATION) }
   end
 
-  # Checked before every model call, so turning the feature off or running out of credits also stops work in flight.
-  def ensure_allowed!
+  # Checked before every model call and batch of changes, so turning the feature off or running out of credits also
+  # stops work in flight. Changes make no model call, so they skip the credit check.
+  def ensure_allowed!(credits: true)
     account.reload
     raise Captain::Copilot::LimitExceededError, I18n.t('captain.copilot_workflows_disabled') unless account.feature_enabled?('copilot_workflows')
-    return if account.usage_limits[:captain][:responses][:current_available].positive?
+    return if !credits || account.usage_limits[:captain][:responses][:current_available].positive?
 
     raise Captain::Copilot::LimitExceededError, I18n.t('captain.copilot_limit')
   end

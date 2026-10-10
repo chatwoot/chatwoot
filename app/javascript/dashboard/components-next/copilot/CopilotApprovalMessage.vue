@@ -30,6 +30,12 @@ const statusLabel = computed(() => {
   return t('CAPTAIN.COPILOT.APPROVAL.STATUS.REJECTED');
 });
 
+// The card links the first few records the change will touch; the count covers the rest.
+const targets = computed(() => approval.value.targets || []);
+const hiddenTargetCount = computed(
+  () => approval.value.count - targets.value.length
+);
+
 const summary = computed(() => {
   const { action, arguments: args, count } = approval.value;
   if (action === 'add_labels') {
@@ -71,6 +77,23 @@ const decide = async choice => {
     <div class="flex flex-col gap-1">
       <span class="font-medium">{{ t('CAPTAIN.COPILOT.APPROVAL.TITLE') }}</span>
       <span class="break-words text-n-slate-11">{{ summary }}</span>
+    </div>
+    <div v-if="targets.length" class="flex flex-wrap gap-x-2 gap-y-1">
+      <router-link
+        v-for="target in targets"
+        :key="target.url"
+        :to="target.url"
+        class="text-n-blue-11 hover:underline"
+      >
+        {{ target.label }}
+      </router-link>
+      <span v-if="hiddenTargetCount > 0" class="text-n-slate-11">
+        {{
+          t('CAPTAIN.COPILOT.APPROVAL.MORE_TARGETS', {
+            count: hiddenTargetCount,
+          })
+        }}
+      </span>
     </div>
     <div v-if="isPending" class="flex flex-row gap-2">
       <Button

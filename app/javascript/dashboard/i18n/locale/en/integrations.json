@@ -715,6 +715,7 @@
         "APPROVE": "Approve",
         "REJECT": "Reject",
         "ERROR": "Could not save your decision. Please try again.",
+        "MORE_TARGETS": "and {count} more",
         "ACTIONS": {
           "ADD_LABELS": "Add {labels} to {count} conversation | Add {labels} to {count} conversations",
           "OTHER": "Run {action} on {count} conversation | Run {action} on {count} conversations"

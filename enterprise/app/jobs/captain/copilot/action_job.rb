@@ -10,6 +10,7 @@ class Captain::Copilot::ActionJob < ApplicationJob
 
   # Current.user makes activity messages, such as "added the label", name the agent who approved the change.
   def process_step(run, token)
+    run.ensure_allowed!(credits: false)
     Current.user = run.user
     action = run.action
     ids = run.remaining_ids.first(STEP_SIZE)
