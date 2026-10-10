@@ -398,7 +398,7 @@ export default {
 
 <template>
   <main
-    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+    class="flex flex-col justify-center w-full min-h-screen py-16 bg-[#EDF1F7] dark:bg-[#0A101C] sm:px-6 lg:px-8"
   >
     <section class="max-w-5xl mx-auto">
       <img
@@ -412,12 +412,17 @@ export default {
         :alt="globalConfig.installationName"
         class="hidden w-auto h-8 mx-auto dark:block"
       />
-      <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
+      <h2
+        class="mt-6 text-3xl font-semibold tracking-tight text-center text-[#101828] dark:text-[#E8EEF8]"
+      >
         {{ replaceInstallationName($t('LOGIN.TITLE')) }}
       </h2>
       <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
         {{ $t('COMMON.OR') }}
-        <router-link :to="signupRoute" class="lowercase text-link text-n-brand">
+        <router-link
+          :to="signupRoute"
+          class="lowercase text-link text-[#1F63D6] dark:text-[#86B6FF]"
+        >
           {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
         </router-link>
       </p>
@@ -458,7 +463,7 @@ export default {
     <!-- Regular Login Section -->
     <section
       v-else
-      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
+      class="flex flex-col gap-6 bg-white dark:bg-[#0E1627] border border-[#DCE3EE] dark:border-[#1B2640] shadow-sm sm:mx-auto mt-11 sm:w-full sm:max-w-md p-8 sm:p-10 rounded-3xl"
       :class="{
         'mb-8 mt-15': !showGoogleOAuth,
         'animate-wiggle': loginApi.hasErrored,
@@ -530,7 +535,7 @@ export default {
             lg
             type="submit"
             data-testid="submit_button"
-            class="w-full"
+            class="w-full !bg-[#2A72E8] hover:!bg-[#1F63D6] !text-white"
             :tabindex="3"
             :label="$t('LOGIN.SUBMIT')"
             :disabled="loginApi.showLoading"

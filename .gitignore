@@ -105,3 +105,7 @@ CLAUDE.local.md
 local/
 Procfile.worktree
 .nodeterm/project.json
+
+# Production secrets (never commit)
+.env.prod
+.env.*.local

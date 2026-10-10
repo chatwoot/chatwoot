@@ -1,6 +1,3 @@
-<img src="./.github/screenshots/header.png#gh-light-mode-only" width="100%" alt="Header light mode"/>
-<img src="./.github/screenshots/header-dark.png#gh-dark-mode-only" width="100%" alt="Header dark mode"/>
-
 ___
 
 # Chatwoot
@@ -29,8 +26,14 @@ The modern customer support platform, an open-source alternative to Intercom, Ze
   </a>
 </p>
 
-<img src="./.github/screenshots/dashboard.png#gh-light-mode-only" width="100%" alt="Chat dashboard dark mode"/>
-<img src="./.github/screenshots/dashboard-dark.png#gh-dark-mode-only" width="100%" alt="Chat dashboard"/>
+### Nuevo diseño de interfaz
+
+<p align="center">
+  <img src="./.github/screenshots/qeva-bandeja-claro.png" width="49%" alt="Bandeja de conversaciones, modo claro"/>
+  <img src="./.github/screenshots/qeva-bandeja-oscuro.png" width="49%" alt="Bandeja de conversaciones, modo oscuro"/>
+  <img src="./.github/screenshots/qeva-ingreso-claro.png" width="49%" alt="Ingreso, modo claro"/>
+  <img src="./.github/screenshots/qeva-ingreso-oscuro.png" width="49%" alt="Ingreso, modo oscuro"/>
+</p>
 
 ---
 
