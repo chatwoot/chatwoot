@@ -25,8 +25,7 @@ RSpec.describe Captain::Tools::BasePublicTool do
       results = Array.new(budget + 1) { |index| tool.execute(tool_context, label_name: "label-#{index}") }
 
       expect(tool).to have_received(:perform).exactly(budget).times
-      expect(results.last).to be_a(RubyLLM::Tool::Halt)
-      expect(results.last.content).to eq(Captain::Tools::RunGuard::BUDGET_EXCEEDED_MESSAGE)
+      expect(results.last).to eq(Captain::Tools::RunGuard::BUDGET_EXCEEDED_MESSAGE)
       expect(Captain::Tools::RunGuard.halt_reason(tool_context.state)).to eq(Captain::Tools::RunGuard::TOOL_CALL_BUDGET_EXCEEDED)
     end
 
@@ -68,8 +67,7 @@ RSpec.describe Captain::Tools::BasePublicTool do
         result = tool.execute(tool_context, label_name: 'sales')
 
         expect(tool).not_to have_received(:perform)
-        expect(result).to be_a(RubyLLM::Tool::Halt)
-        expect(result.content).to eq(Captain::Tools::BasePublicTool::STALE_RUN_MESSAGE)
+        expect(result).to eq(Captain::Tools::BasePublicTool::STALE_RUN_MESSAGE)
         expect(Captain::Tools::RunGuard.halt_reason(tool_context.state)).to eq(Captain::Tools::RunGuard::STALE_RUN)
       end
 

@@ -349,7 +349,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
     context 'when a run guard halted the run' do
       let(:mock_result) do
-        instance_double(Agents::RunResult, output: nil, context: { state: { captain_v2_halt_reason: halt_reason } }, error: RubyLLM::CancelledError.new)
+        instance_double(Agents::RunResult, output: nil, error: RubyLLM::CancelledError.new,
+                                           context: { state: { captain_v2_halt_reason: halt_reason } })
       end
 
       context 'with a completed handoff' do

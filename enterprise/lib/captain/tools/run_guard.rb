@@ -2,12 +2,11 @@
 
 # Runtime protection against runaway tool-call loops in a Captain V2 generation.
 #
-# RubyLLM::Chat#handle_tool_calls recurses back into #complete after every tool
-# result, so a model that keeps asking for tools never returns control to
-# Agents::Runner and its max_turns budget is never evaluated. A tool can only
-# break that recursion by returning a RubyLLM::Tool::Halt, so this guard both
-# builds those halts for terminal conditions and caps how many tool calls a
-# single generation may execute.
+# Agents::Runner keeps asking the model for another turn while it requests tools,
+# up to max_turns, and a single turn may request many tools at once. Tools record
+# a halt reason here when the run must end (handoff done, stale run, budget spent)
+# and AgentRunnerService cancels the chat as soon as that tool result is in, so
+# the model gets no further provider request or tool call.
 #
 # Counters live in the run state hash, which AgentRunnerService rebuilds for every
 # generation, so nothing is shared between conversations or Sidekiq threads.
@@ -58,11 +57,12 @@ class Captain::Tools::RunGuard
     @state.dig(TOOL_CALLS_KEY, :total) || 0
   end
 
-  # Ends the LLM tool loop and records why, so AgentRunnerService can tell an
-  # interrupted run apart from a model-authored answer.
-  def halt(reason, message)
+  # Records why the run must end and returns the tool result unchanged, so
+  # AgentRunnerService can stop the chat and tell the interrupted run apart from
+  # a model-authored answer.
+  def halt(reason, result)
     @state[HALT_REASON_KEY] = reason
-    RubyLLM::Tool::Halt.new(message)
+    result
   end
 
   private

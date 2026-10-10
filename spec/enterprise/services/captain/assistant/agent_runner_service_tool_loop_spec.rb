@@ -2,9 +2,8 @@
 
 require 'rails_helper'
 
-# Runs the real Agents::Runner and RubyLLM::Chat against a scripted provider.
-# RubyLLM keeps calling #complete after every tool result, so without the run
-# guards these examples would loop until the worker is killed.
+# Runs the real Agents::Runner and RubyLLM::Chat against a scripted provider
+# that keeps asking for tools, so the examples cover how each run actually ends.
 RSpec.describe Captain::Assistant::AgentRunnerService do
   subject(:service) { described_class.new(assistant: assistant, conversation: conversation, run_options: run_options) }
 
@@ -28,14 +27,25 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     allow(Captain::AssistantResponse).to receive(:search).and_return(Captain::AssistantResponse.none)
   end
 
-  context 'when the model keeps requesting the same tool with different arguments' do
-    it 'stops the run at the tool call budget instead of looping forever' do
+  context 'when the model keeps requesting tools turn after turn' do
+    it 'ends the run at the turn limit and hands the conversation off' do
+      response = service.generate_response(message_history: message_history)
+
+      expect(provider.completions).to eq(10)
+      expect(response).to include('response' => 'conversation_handoff', 'error' => true, 'error_reason' => 'agents_runner_max_turns_exceeded')
+    end
+  end
+
+  context 'when the model fans out many tool calls per response' do
+    let(:provider) { CaptainScriptedLlmProvider.new(tool_name: faq_tool.name, tool_calls_per_response: 5) }
+
+    it 'stops the run at the tool call budget' do
       allow(faq_tool).to receive(:perform).and_call_original
 
       response = service.generate_response(message_history: message_history)
 
       expect(faq_tool).to have_received(:perform).exactly(Captain::Tools::RunGuard::MAX_TOOL_CALLS_PER_RUN).times
-      expect(provider.completions).to eq(Captain::Tools::RunGuard::MAX_TOOL_CALLS_PER_RUN + 1)
+      expect(provider.completions).to eq(5)
       expect(response).to include(
         'response' => 'conversation_handoff',
         'error' => true,
@@ -56,12 +66,6 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       expect(faq_tool).to have_received(:perform).exactly(Captain::Tools::RunGuard::MAX_IDENTICAL_TOOL_CALLS).times
     end
-
-    it 'still ends the run once the tool call budget is spent' do
-      response = service.generate_response(message_history: message_history)
-
-      expect(response['error_reason']).to eq(Captain::Tools::RunGuard::TOOL_CALL_BUDGET_EXCEEDED)
-    end
   end
 
   context 'when the model calls a handoff tool' do
@@ -70,6 +74,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     let(:provider) do
       CaptainScriptedLlmProvider.new(
         tool_name: handoff_tool.name,
+        tool_calls_per_response: 2,
         arguments: ->(_index) { { 'reason' => 'Customer asked for a human', 'reason_category' => 'customer_request' } }
       )
     end

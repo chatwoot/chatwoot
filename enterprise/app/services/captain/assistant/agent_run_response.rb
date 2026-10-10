@@ -3,9 +3,8 @@ module Captain::Assistant::AgentRunResponse
 
   private
 
-  # A run guard ended the LLM loop, so the halt content is an internal notice and
-  # never an answer for the customer. The job routes these through its handoff or
-  # discard paths using the flags below.
+  # A run guard ended the run before the model produced an answer for the customer.
+  # The job routes these through its handoff or discard paths using the flags below.
   def run_halted? = halt_reason.present?
 
   def halt_reason

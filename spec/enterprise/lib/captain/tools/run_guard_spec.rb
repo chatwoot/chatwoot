@@ -50,11 +50,10 @@ RSpec.describe Captain::Tools::RunGuard do
   end
 
   describe '#halt' do
-    it 'returns a RubyLLM halt that records the reason on the run state' do
+    it 'records the reason on the run state and returns the tool result' do
       result = guard.halt(described_class::STALE_RUN, 'stopped')
 
-      expect(result).to be_a(RubyLLM::Tool::Halt)
-      expect(result.content).to eq('stopped')
+      expect(result).to eq('stopped')
       expect(described_class.halt_reason(state)).to eq(described_class::STALE_RUN)
     end
   end
