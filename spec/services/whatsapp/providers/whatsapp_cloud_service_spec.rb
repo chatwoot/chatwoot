@@ -31,6 +31,48 @@ describe Whatsapp::Providers::WhatsappCloudService do
     stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
   end
 
+  describe 'product cards sent through the message API' do
+    let(:card) do
+      { 'sku' => 'SKU-1', 'body' => "Rack\nR$ 950,00 no Pix\nCartão R$ 1.000,00 em até 12x sem juros",
+        'image_url' => 'https://cdn.example.com/rack.jpg', 'url' => 'https://example.com/rack' }
+    end
+
+    it 'sends a carousel and keeps the human-readable message record' do
+      message.update!(content: 'Lia enviou 2 produtos: Rack, Painel',
+                      content_attributes: { whatsapp_products: { body: 'Veja as opções:', items: [card, card] } })
+      request = stub_request(:post, 'https://graph.facebook.com/v23.0/123456789/messages')
+                .with(body: { messaging_product: 'whatsapp', recipient_type: 'individual', to: '+123456789', context: nil,
+                              type: 'interactive',
+                              interactive: Whatsapp::ProductCardsPayload.build(message.content_attributes['whatsapp_products']) }.to_json)
+                .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+      expect(service.send_message('+123456789', message)).to eq('message_id')
+      expect(request).to have_been_requested.once
+      expect(message.reload.content).to eq('Lia enviou 2 produtos: Rack, Painel')
+    end
+
+    it 'marks a rejected Meta payload failed instead of claiming delivery' do
+      message.update!(content_attributes: { whatsapp_products: { body: 'Veja:', items: [card] } })
+      stub_request(:post, 'https://graph.facebook.com/v23.0/123456789/messages')
+        .to_return(status: 400, body: { error: { message: 'Unsupported interactive type' } }.to_json, headers: response_headers)
+      expect(service.send_message('+123456789', message)).to be_nil
+      expect(message.reload).to be_failed
+    end
+
+    it 'does not send an invalid card or a bot reply after a human response' do
+      message.update!(content_attributes: { whatsapp_products: { body: 'Veja:', items: [] } })
+      expect(service.send_message('+123456789', message)).to be_nil
+      expect(message.reload).to be_failed
+      bot = create(:agent_bot, account: conversation.account)
+      conversation.pending!
+      message.update!(sender: bot, content_attributes: { bot_reply_to_id: message.id })
+      create(:message, conversation: conversation, inbox: whatsapp_channel.inbox, message_type: :outgoing,
+                       sender: create(:user), content: 'Assumi o atendimento')
+      expect(service.send_message('+123456789', message)).to be_nil
+      expect(message.reload).to be_failed
+      expect(WebMock).not_to have_requested(:post, /graph.facebook.com/)
+    end
+  end
+
   describe '#send_message' do
     context 'when called' do
       it 'calls message endpoints for normal messages' do
