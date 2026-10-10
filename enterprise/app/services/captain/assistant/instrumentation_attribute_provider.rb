@@ -11,10 +11,16 @@ class Captain::Assistant::InstrumentationAttributeProvider
     @service.send(:dynamic_trace_attributes, context_wrapper)
   end
 
-  def generation_attributes(_context_wrapper, _chat, message)
+  def generation_attributes(context_wrapper, chat, message)
     attributes = {
       format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'generation_stage') => generation_stage(message)
     }
+    if chat
+      protocol = context_wrapper&.context&.dig(:__otel_tracing, :request_attributes, :protocol)
+      Captain::ResponsesConfig.metadata(chat, protocol: protocol).each do |key, value|
+        attributes[format(ATTR_LANGFUSE_OBSERVATION_METADATA, key)] = value.to_s
+      end
+    end
     if @service.send(:message_burst_protection_active?)
       attributes[format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'discarded')] = @service.send(:newer_customer_message_arrived?).to_s
     end

@@ -17,7 +17,8 @@ RSpec.describe Llm::FeatureRouter do
         feature: 'editor',
         provider: 'openai',
         model: 'gpt-4.1-mini',
-        source: :default
+        source: :default,
+        reasoning_effort: nil
       )
     end
 
@@ -57,7 +58,8 @@ RSpec.describe Llm::FeatureRouter do
         feature: 'conversation_completion',
         provider: 'openai',
         model: 'gpt-5.1',
-        source: :installation_override
+        source: :installation_override,
+        reasoning_effort: nil
       )
     end
 
@@ -133,6 +135,19 @@ RSpec.describe Llm::FeatureRouter do
         model: 'gpt-4.1-mini',
         source: :default
       )
+    end
+
+    it 'uses the feature reasoning effort when the model supports it' do
+      allow(Llm::Models).to receive(:features).and_return('copilot' => { 'reasoning_effort' => 'high' })
+
+      expect(described_class.reasoning_effort(feature: 'copilot', model: 'gpt-5.2')).to eq(:high)
+    end
+
+    it 'does not force reasoning parameters onto custom endpoints' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
+      account.captain_models = { 'copilot' => 'gpt-5.2' }
+
+      expect(described_class.resolve(feature: 'copilot', account: account)[:reasoning_effort]).to be_nil
     end
 
     it 'raises for unknown features' do

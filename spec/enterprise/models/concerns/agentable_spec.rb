@@ -52,6 +52,7 @@ RSpec.describe Concerns::Agentable do
         tools: [],
         model: 'gpt-5-mini',
         temperature: nil,
+        protocol: :responses,
         response_schema: Captain::ResponseSchema
       )
 

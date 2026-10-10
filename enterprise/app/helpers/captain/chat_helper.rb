@@ -3,6 +3,8 @@ module Captain::ChatHelper
   include Captain::ChatResponseHelper
   include Captain::ChatGenerationRecorder
 
+  attr_reader :llm_protocol
+
   def request_chat_completion
     log_chat_completion_request
     chat = build_chat
@@ -23,19 +25,19 @@ module Captain::ChatHelper
   private
 
   def build_chat
-    llm_chat = chat(model: @model, temperature: temperature)
-    llm_chat = llm_chat.with_provider_options(response_format: { type: 'json_object' })
-
-    llm_chat = setup_tools(llm_chat)
-    llm_chat = setup_system_instructions(llm_chat)
-    setup_event_handlers(llm_chat)
-  end
-
-  def setup_tools(llm_chat)
-    @tools&.each do |tool|
-      llm_chat = llm_chat.with_tools(tool)
+    options = Captain::ResponsesConfig.options(model: @model, temperature: temperature, feature: @llm_feature)
+    @llm_protocol = options[:protocol]
+    llm_chat = chat(model: @model, **options)
+    format = { type: 'json_object' }
+    # Responses JSON mode requires "json" in input, excluding system instructions.
+    if options[:protocol] == :responses
+      format = { type: 'json_schema', name: 'copilot_response', schema: { type: 'object', additionalProperties: true }, strict: false }
     end
-    llm_chat
+    provider_options = options[:protocol] == :responses ? { text: { format: format } } : { response_format: format }
+    llm_chat = llm_chat.with_provider_options(**provider_options)
+
+    llm_chat = setup_system_instructions(llm_chat.with_tools(*Array(@tools)))
+    setup_event_handlers(llm_chat)
   end
 
   def setup_system_instructions(chat)

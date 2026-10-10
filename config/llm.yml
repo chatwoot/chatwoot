@@ -95,6 +95,7 @@ features:
       ]
     default: gpt-4.1-mini
   assistant:
+    reasoning_effort: none
     models:
       [
         gpt-4.1-mini,
@@ -109,6 +110,7 @@ features:
       ]
     default: gpt-4.1
   copilot:
+    reasoning_effort: none
     models:
       [
         gpt-4.1-mini,

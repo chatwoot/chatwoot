@@ -26394,7 +26394,18 @@
         "input": 272000,
         "output": 128000
       },
-      "knowledge": "2024-05-30"
+      "knowledge": "2024-05-30",
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "minimal",
+            "low",
+            "medium",
+            "high"
+          ]
+        }
+      ]
     }
   },
   {
@@ -26722,7 +26733,18 @@
         "input": 272000,
         "output": 128000
       },
-      "knowledge": "2024-09-30"
+      "knowledge": "2024-09-30",
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high"
+          ]
+        }
+      ]
     }
   },
   {
@@ -27029,7 +27051,19 @@
         "input": 272000,
         "output": 128000
       },
-      "knowledge": "2025-08-31"
+      "knowledge": "2025-08-31",
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh"
+          ]
+        }
+      ]
     }
   },
   {

@@ -1,0 +1,31 @@
+module Captain::ResponsesConfig
+  def self.options(model:, temperature:, feature: 'assistant')
+    options = { temperature: Llm::Models.temperature_for(model, temperature) }
+    return options unless Llm::Models.provider_for(model) == 'openai' && Llm::FeatureRouter.standard_openai_endpoint?
+
+    options[:protocol] = :responses
+    effort = Llm::FeatureRouter.reasoning_effort(feature: feature, model: model)
+    options[:thinking] = { effort: effort } if effort
+    options[:temperature] = nil if effort && effort != :none
+    options
+  end
+
+  def self.request_metadata(model:, feature: nil)
+    return {} unless Llm::Models.provider_for(model) == 'openai'
+
+    request_options = options(model: model, temperature: nil, feature: feature)
+    {
+      api_protocol: (request_options[:protocol] || :chat_completions).to_s,
+      reasoning_effort: request_options.dig(:thinking, :effort)
+    }.compact
+  end
+
+  def self.metadata(chat, protocol: nil)
+    return {} unless chat.provider.slug == 'openai'
+
+    {
+      api_protocol: protocol || chat.provider.config.openai_protocol,
+      reasoning_effort: chat.thinking&.dig(:effort)
+    }.compact
+  end
+end
