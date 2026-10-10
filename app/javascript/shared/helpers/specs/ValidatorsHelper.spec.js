@@ -49,6 +49,7 @@ describe('#isPhoneE164OrEmpty', () => {
 describe('#isPhoneNumberValid', () => {
   it('should return correct phone number', () => {
     expect(isPhoneNumberValid('1234567890', '+91')).toEqual(true);
+    expect(isPhoneNumberValid('532 123 45 67', '+90')).toEqual(true);
   });
   it('should return wrong phone number', () => {
     expect(isPhoneNumberValid('12345A67890', '+1')).toEqual(false);

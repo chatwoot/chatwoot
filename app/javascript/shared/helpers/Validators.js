@@ -12,7 +12,8 @@ export const isPhoneE164 = value => !!value.match(/^\+[1-9]\d{1,14}$/);
  * @returns {boolean} True if the number (without dial code) is valid, false otherwise.
  */
 export const isPhoneNumberValid = (value, dialCode) => {
-  const number = value.replace(dialCode, '');
+  if (!value) return false;
+  const number = value.replace(dialCode, '').replace(/[\s-]/g, '');
   return !!number.match(/^[0-9]{1,14}$/);
 };
 
@@ -29,7 +30,8 @@ export const isPhoneE164OrEmpty = value => isPhoneE164(value) || value === '';
  * @returns {boolean} True if the number is valid, false otherwise.
  */
 export const isPhoneNumberValidWithDialCode = value => {
-  const number = value.replace(/^\+/, ''); // Remove the '+' sign
+  if (!value) return false;
+  const number = value.replace(/^\+/, '').replace(/[\s-]/g, ''); // Remove the '+' sign and whitespace
   return !!number.match(/^[1-9]\d{4,}$/); // Validate the phone number with minimum 5 digits
 };
 

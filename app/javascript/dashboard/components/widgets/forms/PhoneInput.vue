@@ -1,6 +1,7 @@
 <script>
 import countries from 'shared/constants/countries.js';
 import parsePhoneNumber from 'libphonenumber-js';
+import { formatAsYouTypeInput } from 'shared/helpers/PhoneNumberHelper';
 import {
   getActiveCountryCode,
   getActiveDialCode,
@@ -76,16 +77,30 @@ export default {
     },
   },
   watch: {
-    modelValue() {
-      const number = parsePhoneNumber(this.modelValue);
-      if (number) {
-        this.activeCountryCode = number.country;
-        this.activeDialCode = `+${number.countryCallingCode}`;
-        this.phoneNumber = this.modelValue.replace(
-          `+${number.countryCallingCode}`,
-          ''
-        );
-      }
+    modelValue: {
+      immediate: true,
+      handler() {
+        if (!this.modelValue) {
+          this.phoneNumber = '';
+          return;
+        }
+        const number = parsePhoneNumber(this.modelValue);
+        if (number) {
+          this.activeCountryCode = number.country;
+          this.activeDialCode = `+${number.countryCallingCode}`;
+          const rawNational = this.modelValue.replace(
+            `+${number.countryCallingCode}`,
+            ''
+          );
+          this.phoneNumber = formatAsYouTypeInput(
+            `+${number.countryCallingCode}`,
+            number.country,
+            rawNational
+          );
+        } else {
+          this.phoneNumber = this.modelValue;
+        }
+      },
     },
   },
   mounted() {
@@ -102,8 +117,14 @@ export default {
       }
     },
     onChange(e) {
-      this.phoneNumber = e.target.value;
-      this.$emit('update:modelValue', e.target.value);
+      const rawInput = e.target.value;
+      const formatted = formatAsYouTypeInput(
+        this.activeDialCode,
+        this.activeCountryCode,
+        rawInput
+      );
+      this.phoneNumber = formatted;
+      this.$emit('update:modelValue', formatted);
       this.$emit('setCode', this.activeDialCode);
     },
     onBlur(e) {
@@ -142,6 +163,14 @@ export default {
       this.activeCountryCode = country.id;
       this.searchCountry = '';
       this.activeDialCode = country.dial_code;
+      if (this.phoneNumber) {
+        this.phoneNumber = formatAsYouTypeInput(
+          country.dial_code,
+          country.id,
+          this.phoneNumber
+        );
+        this.$emit('update:modelValue', this.phoneNumber);
+      }
       this.$emit('setCode', country.dial_code);
       this.closeDropdown();
       this.$refs.phoneNumberInput.focus();

@@ -159,7 +159,7 @@ const handleSearch = useDebounceFn(() => {
               </span>
             </div>
             <span class="truncate shrink-0 text-body-main text-n-slate-11">
-              {{ contact.phone_number || contact.email }}
+              {{ formatPhoneNumber(contact.phone_number) || contact.email }}
             </span>
           </div>
           <p
@@ -250,7 +250,7 @@ const handleSearch = useDebounceFn(() => {
               </span>
             </div>
             <span class="truncate shrink-0 text-body-main text-n-slate-11">
-              {{ contact.phone_number || contact.email }}
+              {{ formatPhoneNumber(contact.phone_number) || contact.email }}
             </span>
           </div>
           <p
