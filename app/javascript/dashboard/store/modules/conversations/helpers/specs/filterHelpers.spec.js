@@ -2043,5 +2043,39 @@ describe('filterHelpers', () => {
         matchesFilters({ status: 'resolved', unread_count: 0 }, filters)
       ).toBe(false);
     });
+
+    it('matches when status equal_to [all, unread]', () => {
+      const filters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: ['all', 'unread'],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters({ status: 'open', unread_count: 0 }, filters)).toBe(
+        true
+      );
+      expect(
+        matchesFilters({ status: 'resolved', unread_count: 0 }, filters)
+      ).toBe(true);
+    });
+
+    it('does not match when status not_equal_to [all, unread]', () => {
+      const filters = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'not_equal_to',
+          values: ['all', 'unread'],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters({ status: 'open', unread_count: 0 }, filters)).toBe(
+        false
+      );
+      expect(matchesFilters({ status: 'open', unread_count: 2 }, filters)).toBe(
+        false
+      );
+    });
   });
 });

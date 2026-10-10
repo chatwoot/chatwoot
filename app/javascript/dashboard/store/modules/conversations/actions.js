@@ -445,7 +445,7 @@ const actions = {
     return data;
   },
 
-  addMessage({ commit, rootGetters }, message) {
+  addMessage({ commit, dispatch, rootGetters, state }, message) {
     commit(types.ADD_MESSAGE, message);
     if (message.message_type === MESSAGE_TYPE.INCOMING) {
       commit(types.SET_CONVERSATION_CAN_REPLY, {
@@ -453,6 +453,13 @@ const actions = {
         canReply: true,
       });
       commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
+
+      const hasChat = state?.allConversations?.some(
+        c => c.id === message.conversation_id
+      );
+      if (!hasChat && dispatch) {
+        dispatch('getConversation', message.conversation_id);
+      }
     }
     handleVoiceCallCreated(
       message,

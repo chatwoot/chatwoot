@@ -389,10 +389,12 @@ const matchesConversationCondition = (conversation, filter) => {
       const otherValues = rawValues.filter(v => v !== 'unread');
 
       if (filter.filter_operator === 'equal_to') {
+        if (otherValues.includes('all')) return true;
         if (otherValues.length === 0) return isUnread;
         return isUnread || otherValues.includes(conversation.status);
       }
       if (filter.filter_operator === 'not_equal_to') {
+        if (otherValues.includes('all')) return false;
         if (otherValues.length === 0) return !isUnread;
         return !isUnread && !otherValues.includes(conversation.status);
       }
