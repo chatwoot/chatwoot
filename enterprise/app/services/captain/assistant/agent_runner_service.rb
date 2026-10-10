@@ -33,8 +33,9 @@ class Captain::Assistant::AgentRunnerService
   def generate_response(message_history: [])
     message_to_process, context = run_payload(message_history)
     @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
-    raise @last_run_result.error if @last_run_result.error
+    # A halted run ends with RubyLLM::CancelledError by design, so it is not reported as a failure.
     return halted_run_response if run_halted?
+    raise @last_run_result.error if @last_run_result.error
 
     channel_ready_response
   rescue StandardError => e
@@ -80,10 +81,7 @@ class Captain::Assistant::AgentRunnerService
     content = last_user_msg[:content]
     return extract_text_from_content(content) unless content.is_a?(Array)
 
-    text, attachments = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(content)
-    return text if attachments.blank?
-
-    RubyLLM::Content.new(text, attachments)
+    content
   end
 
   def message_history_without_last_user_message(message_history)
@@ -156,6 +154,7 @@ class Captain::Assistant::AgentRunnerService
     @runner ||= begin
       configured_runner = Agents::Runner.with_agents(*build_and_wire_agents)
       configured_runner = add_usage_metadata_callback(configured_runner)
+      configured_runner = add_run_guard_callback(configured_runner)
       configured_runner = add_callbacks_to_runner(configured_runner) if @callbacks.any?
       install_instrumentation(configured_runner)
       configured_runner

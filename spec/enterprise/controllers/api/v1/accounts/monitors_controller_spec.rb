@@ -13,10 +13,19 @@ RSpec.describe 'Monitors API', type: :request do
 
   before do
     account.enable_features!('reports', 'conversation_monitors')
-    create(:installation_config, name: 'CAPTAIN_OPENROUTER_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPENROUTER_API_KEY').update!(value: 'test-key')
   end
 
   after { Redis::Alfred.delete(preview_key) }
+
+  it 'forbids monitor access after downgrading to Startups' do
+    account.update!(custom_attributes: { 'plan_name' => 'Startups' })
+    Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+
+    get base, headers: headers
+
+    expect(response).to have_http_status(:forbidden)
+  end
 
   it 'creates a durable historical scan with immutable evaluation settings' do
     expect do
@@ -31,7 +40,7 @@ RSpec.describe 'Monitors API', type: :request do
   end
 
   it 'rejects overlong creation fields at the monitor request boundary' do
-    [{ name: 'x' * 101, condition: 'Refunds' }, { name: 'Refunds', condition: 'x' * 2001 }].each do |attributes|
+    [{ name: 'x' * 101, condition: 'Refunds' }, { name: 'Refunds', condition: 'x' * 501 }].each do |attributes|
       post base, headers: headers, params: attributes, as: :json
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body).to eq('error' => 'invalid_parameters')
@@ -101,13 +110,17 @@ RSpec.describe 'Monitors API', type: :request do
   end
 
   it 'returns shared account usage on the list and every monitor without hiding historical reports' do
+    travel_to(Time.utc(2026, 10, 31, 12))
     other_monitor = create(:conversation_monitor, account: account)
     now = Time.current.utc
-    ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 100_000, limit_reached_at: now)
+    (1..19).each do |days_ago|
+      ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date - days_ago, calls_count: 500_000)
+    end
+    ConversationMonitors::DailyUsage.create!(account: account, usage_date: now.to_date, calls_count: 500_000, limit_reached_at: now)
 
     get base, headers: headers
     usage = response.parsed_body.dig('meta', 'usage')
-    expect(usage).to include('limit' => 100_000, 'used' => 100_000, 'remaining' => 0, 'limit_reached' => true,
+    expect(usage).to include('limit' => 10_000_000, 'used' => 10_000_000, 'remaining' => 0, 'limit_reached' => true,
                              'limit_reached_at' => now.to_i, 'resets_at' => now.beginning_of_month.next_month.to_i)
     [monitor, other_monitor].each do |record|
       get "#{base}/#{record.id}/timeseries", headers: headers, params: query
@@ -119,8 +132,12 @@ RSpec.describe 'Monitors API', type: :request do
   end
 
   it 'applies the same allowance to preview and does not send requests after exhaustion' do
+    travel_to(Time.utc(2026, 10, 31, 12))
     message
-    ConversationMonitors::DailyUsage.create!(account: account, usage_date: Time.current.utc.to_date, calls_count: 100_000,
+    (1..19).each do |days_ago|
+      ConversationMonitors::DailyUsage.create!(account: account, usage_date: Time.current.utc.to_date - days_ago, calls_count: 500_000)
+    end
+    ConversationMonitors::DailyUsage.create!(account: account, usage_date: Time.current.utc.to_date, calls_count: 500_000,
                                              limit_reached_at: Time.current)
     ConversationMonitors::PreviewJob.write(preview_key, { status: 'pending', condition: 'refund' })
     ConversationMonitors::PreviewJob.perform_now(account.id, admin.id, 'sample')
@@ -255,7 +272,7 @@ RSpec.describe 'Monitors API', type: :request do
   end
 
   it 'rejects invalid descriptions and stale edits without replacing the current rule' do
-    ['', 'a' * 2001, ['refund'], { text: 'refund' }].each do |condition|
+    ['', 'a' * 501, ['refund'], { text: 'refund' }].each do |condition|
       patch "#{base}/#{monitor.id}", headers: headers, params: { condition: condition, collection_version: 0 }, as: :json
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body['error']).to eq('invalid_parameters')

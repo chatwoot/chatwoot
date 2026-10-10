@@ -324,17 +324,20 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
-        "TO": "TO",
-        "ADD_BCC": "Add bcc",
+        "TO": "To",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Cc",
           "PLACEHOLDER": "Emails separated by commas",
           "ERROR": "Please enter valid email addresses"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "Bcc",
           "PLACEHOLDER": "Emails separated by commas",
           "ERROR": "Please enter valid email addresses"
+        },
+        "SUBJECT": {
+          "LABEL": "Subject",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
@@ -378,6 +381,7 @@
     "CONTEXT_MENU": {
       "COPY": "Copy",
       "REPLY_TO": "Reply to this message",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "Delete",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",
@@ -555,7 +559,16 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject",
+    "DATE": "Date",
     "EXPAND": "Expand email"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "To:",
+    "TO_PLACEHOLDER": "Enter at least 2 characters to search by email",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",

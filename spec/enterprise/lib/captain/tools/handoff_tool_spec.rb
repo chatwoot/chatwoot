@@ -16,9 +16,9 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
     end
   end
 
-  describe '#params_schema' do
+  describe '#parameters_schema' do
     it 'constrains the reason category to the supported values and keeps the reason optional' do
-      schema = tool.params_schema
+      schema = tool.parameters_schema
 
       expect(schema['properties']['reason']['type']).to eq('string')
       expect(schema['properties']['reason_category']['enum']).to eq(described_class::REASON_CATEGORIES)
@@ -29,10 +29,10 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
       expect(ConversationOutcome::HANDOFF_REASON_CATEGORIES).to include(*described_class::REASON_CATEGORIES)
     end
 
-    it 'survives Agents::ToolWrapper reading the class params at wrap time' do
-      described_class.params
+    it 'survives Agents::ToolWrapper reading the schema at wrap time' do
+      wrapper = Agents::ToolWrapper.new(tool, Agents::RunContext.new({}))
 
-      expect(described_class.new(assistant).params_schema['properties'].keys).to contain_exactly('reason', 'reason_category')
+      expect(wrapper.parameters_schema['properties'].keys).to contain_exactly('reason', 'reason_category')
     end
   end
 
@@ -60,7 +60,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
           expect do
             result = tool.perform(tool_context, reason: 'Customer needs specialized support')
-            expect(result.content).to include('Conversation handed off')
+            expect(result).to include('Conversation handed off')
           end.to change(Message, :count).by(1)
           expect(tool_context.state[:captain_v2_handoff_tool_completed]).to be true
         end
@@ -99,8 +99,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
           expect do
             result = tool.perform(tool_context, reason: 'Customer needs specialized support')
-            expect(result).to be_a(RubyLLM::Tool::Halt)
-            expect(result.content).to eq('Handoff skipped because a newer customer message arrived')
+            expect(result).to eq('Handoff skipped because a newer customer message arrived')
           end.not_to change(Message, :count)
           expect(conversation.reload.status).to eq('pending')
           expect(Captain::Tools::RunGuard.halt_reason(tool_context.state)).to eq(Captain::Tools::RunGuard::STALE_RUN)
@@ -135,14 +134,13 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
           expect do
             result = tool.perform(tool_context, reason: reason)
-            expect(result.content).to eq("Conversation handed off to human support team (Reason: #{reason})")
+            expect(result).to eq("Conversation handed off to human support team (Reason: #{reason})")
           end.to change(Message, :count).by(1)
         end
 
         it 'halts the agent loop so the model cannot hand off again in the same run' do
-          result = tool.perform(tool_context, reason: 'Customer needs specialized support')
+          tool.perform(tool_context, reason: 'Customer needs specialized support')
 
-          expect(result).to be_a(RubyLLM::Tool::Halt)
           expect(Captain::Tools::RunGuard.halt_reason(tool_context.state)).to eq(Captain::Tools::RunGuard::HANDOFF_COMPLETED)
         end
 
@@ -235,7 +233,7 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
         it 'creates a private note with nil content and hands off conversation' do
           expect do
             result = tool.perform(tool_context)
-            expect(result.content).to eq('Conversation handed off to human support team')
+            expect(result).to eq('Conversation handed off to human support team')
           end.to change(Message, :count).by(1)
 
           created_message = Message.last

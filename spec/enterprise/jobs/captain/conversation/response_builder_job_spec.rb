@@ -141,6 +141,8 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         )
         create(:message, conversation: conversation, message_type: :activity, content: 'Assigned to agent', created_at: same_second,
                          updated_at: same_second)
+        create(:message, conversation: conversation, content: 'Note to supplier', message_type: :outgoing,
+                         content_attributes: { forwarded_message_id: 1 }, created_at: same_second, updated_at: same_second)
         create(:message, conversation: conversation, content: 'Fresh question', message_type: :incoming, created_at: same_second,
                          updated_at: same_second)
 

@@ -1,10 +1,5 @@
 class Captain::ConversationClassifierService
   MODEL = 'jev-latest'.freeze
-  SYSTEM_ONE_PATH = '/v1/systemone'.freeze
-  REQUEST_TIMEOUT = 15
-  MESSAGE_LIMIT = 20
-  STATE_TOKEN_BUDGET = 15_000
-  CHARACTERS_PER_TOKEN = 4
   MAX_LABEL_SUGGESTIONS = 3
   LABEL_THRESHOLD = 0.5
   PRIORITY_CRITERIA = {
@@ -60,43 +55,11 @@ class Captain::ConversationClassifierService
   end
 
   def ask(questions)
-    response = HTTParty.post(
-      "#{GlobalConfigService.load('CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT', nil)}#{SYSTEM_ONE_PATH}",
-      headers: {
-        'Authorization' => "Bearer #{GlobalConfigService.load('CAPTAIN_OPENROUTER_API_KEY', nil)}",
-        'Content-Type' => 'application/json'
-      },
-      body: { model: MODEL, state: state, questions: questions }.to_json,
-      timeout: REQUEST_TIMEOUT
-    )
-    raise Error, "Jev request failed with status #{response.code}: #{response.body}" unless response.success?
-
-    response.parsed_response['answers']
-  end
-
-  def state
-    { conversation: { messages: recent_messages } }
-  end
-
-  # Walks newest-first so the latest messages survive the token budget; returns chronological order.
-  def recent_messages
-    remaining = STATE_TOKEN_BUDGET * CHARACTERS_PER_TOKEN
-    messages = []
-
-    conversation.messages
-                .where(message_type: [:incoming, :outgoing], private: false)
-                .reorder(id: :desc)
-                .limit(MESSAGE_LIMIT)
-                .each do |message|
-      content = message.content_for_llm
-      next if content.blank? || message.deleted
-      break if remaining <= 0
-
-      text = content[0, remaining]
-      remaining -= text.length
-      messages.prepend({ sender: message.incoming? ? 'customer' : 'agent', text: text })
-    end
-
-    messages
+    state = { conversation: { messages: Captain::ConversationTranscript.new(conversation: conversation).messages } }
+    body = Captain::JevClient.request_body(model: MODEL, state: state, questions: questions)
+    Captain::JevClient.new(account_id: conversation.account_id, conversation_id: conversation.display_id,
+                           feature: 'captain_classifier').call(body: body)['answers']
+  rescue Captain::JevClient::HTTPError => e
+    raise Error, e.message
   end
 end

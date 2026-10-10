@@ -47,6 +47,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     allow(mock_runner).to receive(:run).and_return(mock_result)
     allow(mock_runner).to receive(:on_tool_complete).and_return(mock_runner)
     allow(mock_runner).to receive(:on_run_complete).and_return(mock_runner)
+    allow(mock_runner).to receive(:on_chat_created).and_return(mock_runner)
     allow(mock_agent).to receive(:register_handoffs)
     allow(mock_scenario_agent).to receive(:register_handoffs)
   end
@@ -232,9 +233,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       it 'passes image attachments to the runner input' do
         expect(mock_runner).to receive(:run) do |input, context:, max_turns:|
-          expect(input).to be_a(RubyLLM::Content)
-          expect(input.text).to eq('What does this error mean?')
-          expect(input.attachments.first.source.to_s).to eq('https://example.com/error.png')
+          expect(input).to eq(multimodal_message_history.last[:content])
           expect(context[:conversation_history]).to eq([{ role: :assistant, content: 'Please share a screenshot', agent_name: nil }])
           expect(max_turns).to eq(10)
         end
@@ -350,33 +349,23 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
     context 'when a run guard halted the run' do
       let(:mock_result) do
-        instance_double(Agents::RunResult, output: halt_content, context: { state: { captain_v2_halt_reason: halt_reason } }, error: nil)
+        instance_double(Agents::RunResult, output: nil, context: { state: { captain_v2_halt_reason: halt_reason } }, error: RubyLLM::CancelledError.new)
       end
 
       context 'with a completed handoff' do
         let(:halt_reason) { Captain::Tools::RunGuard::HANDOFF_COMPLETED }
-        let(:halt_content) { 'Conversation handed off to human support team (Reason: customer asked for a human)' }
 
-        it 'signals the handoff instead of sending the halt content to the customer' do
+        it 'signals the handoff without reporting the cancelled chat as an error' do
           result = service.generate_response(message_history: message_history)
 
           expect(result['response']).to eq('conversation_handoff')
           expect(result['reasoning']).to eq('Run halted: handoff_completed')
           expect(result).not_to have_key('error')
         end
-
-        it 'never asks the rewriter to shorten the halt content for a narrow channel' do
-          allow(Captain::MessageLengthLimit).to receive(:for).with(conversation).and_return(10)
-
-          service.generate_response(message_history: message_history)
-
-          expect(mock_runner).to have_received(:run).once
-        end
       end
 
       context 'with a stale run' do
         let(:halt_reason) { Captain::Tools::RunGuard::STALE_RUN }
-        let(:halt_content) { Captain::Tools::BasePublicTool::STALE_RUN_MESSAGE }
 
         it 'does not report an error so the job simply discards the run' do
           result = service.generate_response(message_history: message_history)
@@ -388,7 +377,6 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       context 'with an exhausted tool call budget' do
         let(:halt_reason) { Captain::Tools::RunGuard::TOOL_CALL_BUDGET_EXCEEDED }
-        let(:halt_content) { Captain::Tools::RunGuard::BUDGET_EXCEEDED_MESSAGE }
 
         it 'returns an error response so the job hands the conversation to a human' do
           result = service.generate_response(message_history: message_history)
@@ -731,9 +719,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       result = service.send(:extract_last_user_message, multimodal_message_history)
 
-      expect(result).to be_a(RubyLLM::Content)
-      expect(result.text).to eq('Can you check this screenshot?')
-      expect(result.attachments.first.source.to_s).to eq('https://example.com/image.jpg')
+      expect(result).to eq(multimodal_message_history.first[:content])
     end
   end
 

@@ -16,12 +16,13 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
     end
   end
 
-  describe '#parameters' do
+  describe '#parameters_schema' do
     it 'returns the correct parameters' do
-      expect(tool.parameters).to have_key(:note)
-      expect(tool.parameters[:note].name).to eq(:note)
-      expect(tool.parameters[:note].type).to eq('string')
-      expect(tool.parameters[:note].description).to eq('The private note content')
+      properties = tool.parameters_schema.fetch('properties')
+
+      expect(properties).to have_key('note')
+      expect(properties['note']['type']).to eq('string')
+      expect(properties['note']['description']).to eq('The private note content')
     end
   end
 
@@ -146,8 +147,7 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
 
       expect do
         result = tool.execute(tool_context, note: 'Do not create this note')
-        expect(result).to be_a(RubyLLM::Tool::Halt)
-        expect(result.content).to eq('Tool skipped because a newer customer message arrived')
+        expect(result).to eq('Tool skipped because a newer customer message arrived')
       end.not_to change(Message, :count)
 
       expect(Captain::Tools::RunGuard.halt_reason(tool_context.state)).to eq(Captain::Tools::RunGuard::STALE_RUN)
@@ -159,7 +159,7 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
 
       result = tool.execute(tool_context, note: 'Do not create this note')
 
-      expect(result.content).to eq('ERROR: Tool skipped because a newer customer message arrived')
+      expect(result).to eq('ERROR: Tool skipped because a newer customer message arrived')
     end
   end
 

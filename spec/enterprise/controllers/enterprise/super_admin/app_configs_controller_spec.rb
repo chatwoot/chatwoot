@@ -29,7 +29,7 @@ RSpec.describe 'Enterprise Super Admin Application Config API', type: :request d
                       CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT: 'https://openrouter.ai/api' }
       }
 
-      expect(response).to redirect_to(super_admin_settings_path)
+      expect(response).to redirect_to(super_admin_app_config_path(config: 'captain'))
       expect(GlobalConfig.get_value('CAPTAIN_OPENROUTER_API_KEY')).to eq('openrouter-test-key')
       expect(GlobalConfig.get_value('CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT')).to eq('https://openrouter.ai/api')
     end
@@ -39,12 +39,12 @@ RSpec.describe 'Enterprise Super Admin Application Config API', type: :request d
     post '/super_admin/app_config?config=shopify',
          params: { app_config: { ENABLE_SHOPIFY_INTEGRATION: 'false', SHOPIFY_APP_HANDLE: '' } }
 
-    expect(response).to redirect_to(super_admin_settings_path)
+    expect(response).to redirect_to(super_admin_app_config_path(config: 'shopify'))
 
     post '/super_admin/app_config?config=shopify',
          params: { app_config: { SHOPIFY_APP_HANDLE: 'chatwoot' } }
 
-    expect(response).to redirect_to(super_admin_settings_path)
+    expect(response).to redirect_to(super_admin_app_config_path(config: 'shopify'))
     expect(GlobalConfig.get('SHOPIFY_APP_HANDLE')['SHOPIFY_APP_HANDLE']).to eq('chatwoot')
   end
 
@@ -52,7 +52,7 @@ RSpec.describe 'Enterprise Super Admin Application Config API', type: :request d
     post '/super_admin/app_config?config=internal',
          params: { app_config: { DEVICE_VERIFICATION_ENABLED: 'true' } }
 
-    expect(response).to redirect_to(super_admin_settings_path)
+    expect(response).to redirect_to(super_admin_app_config_path(config: 'internal'))
     expect(GlobalConfig.get('DEVICE_VERIFICATION_ENABLED')['DEVICE_VERIFICATION_ENABLED']).to be(true)
   end
 

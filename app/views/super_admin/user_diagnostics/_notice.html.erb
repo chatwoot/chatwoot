@@ -1,0 +1,6 @@
+<%# An amber callout for a condition that blocks or risks delivery. %>
+<%# locals: (icon: "i-lucide-triangle-alert", extra: nil) -%>
+<div class="<%= class_names("flex items-start gap-2 rounded-lg border border-n-amber-6 bg-n-amber-2 px-3.5 py-2.5 text-body-main text-n-amber-12 [&_a]:font-medium [&_a]:underline", extra) %>">
+  <span class="<%= icon %> mt-0.5 size-4 shrink-0 text-n-amber-11"></span>
+  <div class="min-w-0"><%= yield %></div>
+</div>

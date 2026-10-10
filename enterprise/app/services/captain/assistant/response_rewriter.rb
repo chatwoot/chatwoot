@@ -63,11 +63,12 @@ class Captain::Assistant::ResponseRewriter
 
   def runner
     @runner ||= begin
+      model = @assistant.agent_model
       agent = Agents::Agent.new(
         name: AGENT_NAME,
         instructions: INSTRUCTIONS,
-        model: @assistant.agent_model,
-        temperature: 0,
+        model: model,
+        temperature: Llm::Models.temperature_for(model, 0),
         response_schema: Captain::ResponseSchema
       )
       Agents::Runner.with_agents(agent).tap { |runner| install_instrumentation(runner) }
