@@ -1,0 +1,85 @@
+version: "3.8"
+
+# Production stack for the QEVA CRM fork.
+# No `build:` section: the image is built outside the server and pulled from the registry.
+# Postgres and Redis are the shared services already running on the server (network_public).
+# Secrets live in QEVA_ENV_FILE (not committed). Variables are documented in docs/deploy-prod.md.
+
+x-app-env: &app-env
+  env_file: ${QEVA_ENV_FILE:-.env.prod}
+  environment:
+    NODE_ENV: production
+    RAILS_ENV: production
+    INSTALLATION_ENV: docker
+    FRONTEND_URL: https://${QEVA_DOMAIN}
+    INSTALLATION_NAME: QEVA CRM
+    DEFAULT_LOCALE: es
+    FORCE_SSL: "true"
+    ENABLE_ACCOUNT_SIGNUP: "false"
+    ACTIVE_STORAGE_SERVICE: local
+    RAILS_LOG_TO_STDOUT: "true"
+
+services:
+  qeva_app:
+    image: ${QEVA_IMAGE:?set QEVA_IMAGE to the image published in the registry}
+    command: bundle exec rails s -p 3000 -b 0.0.0.0
+    entrypoint: docker/entrypoints/rails.sh
+    <<: *app-env
+    volumes:
+      - qeva_storage:/app/storage
+    networks:
+      - network_public
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+      placement:
+        constraints:
+          - node.role == manager
+      # The upstream 512M limit was too tight for Rails and caused restarts under load.
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1024M
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=network_public
+        - traefik.http.routers.qeva_app.rule=Host(`${QEVA_DOMAIN}`)
+        - traefik.http.routers.qeva_app.service=qeva_app
+        - traefik.http.routers.qeva_app.entrypoints=websecure
+        - traefik.http.routers.qeva_app.tls=true
+        - traefik.http.routers.qeva_app.tls.certresolver=letsencryptresolver
+        - traefik.http.services.qeva_app.loadbalancer.server.port=3000
+        - traefik.http.middlewares.qeva_sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
+        - traefik.http.routers.qeva_app.middlewares=qeva_sslheader
+
+  qeva_worker:
+    image: ${QEVA_IMAGE:?set QEVA_IMAGE to the image published in the registry}
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    <<: *app-env
+    volumes:
+      - qeva_storage:/app/storage
+    networks:
+      - network_public
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1024M
+
+volumes:
+  qeva_storage:
+
+networks:
+  network_public:
+    external: true
