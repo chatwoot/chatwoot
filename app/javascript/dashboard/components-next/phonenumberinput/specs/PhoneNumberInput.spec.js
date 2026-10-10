@@ -115,4 +115,19 @@ describe('PhoneNumberInput.vue', () => {
     expect(wrapper.text()).toContain('+93');
     expect(wrapper.find('.text-n-ruby-9').exists()).toBe(false);
   });
+
+  it('does not format and shows error when entering invalid characters like 1-800-FLOWERS', async () => {
+    const wrapper = createWrapper({
+      modelValue: '',
+    });
+    await nextTick();
+
+    const input = wrapper.find('input[type="tel"]');
+    await input.setValue('1-800-FLOWERS');
+    await nextTick();
+
+    expect(input.element.value).toBe('1-800-FLOWERS');
+    expect(wrapper.find('.text-n-ruby-9').exists()).toBe(true);
+    expect(wrapper.emitted('update:modelValue')).toBeFalsy();
+  });
 });

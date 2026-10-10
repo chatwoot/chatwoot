@@ -152,6 +152,14 @@ watch(phoneNumber, async value => {
     return;
   }
 
+  // Prevent formatters from silently stripping invalid characters (e.g., 1-800-FLOWERS)
+  // Let invalid characters remain so Vuelidate triggers the format validation error.
+  const hasInvalidCharacters = !/^[\d\s()+-]*$/.test(value);
+  if (hasInvalidCharacters) {
+    await v$.value.$touch();
+    return;
+  }
+
   if (value.startsWith('+')) {
     const parsed = parsePhoneNumberFromString(value);
     if (parsed && parsed.country && parsed.countryCallingCode) {

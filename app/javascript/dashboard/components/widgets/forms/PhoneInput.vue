@@ -84,6 +84,14 @@ export default {
           this.phoneNumber = '';
           return;
         }
+
+        // Prevent echo from parent ContactForm overwriting the active formatted display
+        const currentDigits = (this.phoneNumber || '').replace(/\D/g, '');
+        const newDigits = (this.modelValue || '').replace(/\D/g, '');
+        if (currentDigits === newDigits && this.phoneNumber) {
+          return;
+        }
+
         const number = parsePhoneNumber(this.modelValue);
         if (number) {
           this.activeCountryCode = number.country;
@@ -98,7 +106,11 @@ export default {
             rawNational
           );
         } else {
-          this.phoneNumber = this.modelValue;
+          this.phoneNumber = formatAsYouTypeInput(
+            this.activeDialCode,
+            this.activeCountryCode,
+            this.modelValue
+          );
         }
       },
     },
