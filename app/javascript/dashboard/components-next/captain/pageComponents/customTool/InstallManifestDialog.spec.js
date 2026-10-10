@@ -15,7 +15,7 @@ vi.mock('dashboard/composables', () => ({ useAlert: mocks.alert }));
 vi.mock('vue-i18n', () => ({ useI18n: () => ({ t: key => key }) }));
 
 const DialogStub = {
-  emits: ['confirm'],
+  emits: ['confirm', 'close'],
   methods: {
     open() {},
     close() {
@@ -63,8 +63,7 @@ const mountDialog = () =>
 
 const loadPreview = async (wrapper, data) => {
   mocks.preview.mockResolvedValue({ data });
-  await wrapper.find('input').setValue(' Chatwoot/Support-Tools/Shopify ');
-  await wrapper.findAll('button').at(-1).trigger('click');
+  wrapper.vm.open('Chatwoot/Tools/Shopify');
   await flushPromises();
 };
 
@@ -85,8 +84,8 @@ describe('InstallManifestDialog', () => {
 
     expect(mocks.install).toHaveBeenCalledWith({
       assistantId: 7,
-      // Sent as entered: the preview's identity is lowercase, but GitHub folder names are case-sensitive
-      source: 'Chatwoot/Support-Tools/Shopify',
+      // Sent as opened: the preview's identity is lowercase, but GitHub folder names are case-sensitive
+      source: 'Chatwoot/Tools/Shopify',
       revision: previewData.revision,
       configuration: { inputs: {}, secrets: { access_token: 'shpat_secret' } },
     });
@@ -100,8 +99,7 @@ describe('InstallManifestDialog', () => {
       return new Promise(() => {});
     });
     const wrapper = mountDialog();
-    await wrapper.find('input').setValue('chatwoot/tools/shopify');
-    await wrapper.findAll('button').at(-1).trigger('click');
+    wrapper.vm.open('chatwoot/tools/shopify');
 
     wrapper.findComponent(DialogStub).vm.$emit('close');
 
@@ -124,12 +122,32 @@ describe('InstallManifestDialog', () => {
       wrapper.findAll('button').at(0).attributes('disabled')
     ).toBeDefined();
 
-    wrapper.vm.open();
+    wrapper.vm.open('chatwoot/tools/shopify');
     finishInstall({ data: { payload: [] } });
     await flushPromises();
 
-    expect(wrapper.emitted('installed')).toHaveLength(1);
+    expect(wrapper.emitted('installed')).toBeUndefined();
     expect(mocks.dialogClose).not.toHaveBeenCalled();
+    expect(mocks.alert).not.toHaveBeenCalled();
+  });
+
+  it('ignores an install that finishes after the dialog was dismissed', async () => {
+    let finishInstall;
+    mocks.install.mockReturnValue(
+      new Promise(resolve => {
+        finishInstall = resolve;
+      })
+    );
+    const wrapper = mountDialog();
+    await loadPreview(wrapper, previewData);
+    await wrapper.find('input[type="password"]').setValue('shpat_secret');
+    await wrapper.findAll('button').at(-1).trigger('click');
+
+    wrapper.findComponent(DialogStub).vm.$emit('close');
+    finishInstall({ data: { payload: [] } });
+    await flushPromises();
+
+    expect(wrapper.emitted('installed')).toBeUndefined();
     expect(mocks.alert).not.toHaveBeenCalled();
   });
 

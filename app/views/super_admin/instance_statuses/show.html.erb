@@ -1,23 +1,33 @@
-<% content_for(:title) do %>
-  Instance Status
-<% end %>
-<header class="main-content__header" role="banner">
-  <h1 class="main-content__page-title" id="page-title">
-    <%= content_for(:title) %>
-  </h1>
-</header>
-<section class="main-content__body">
-  <table>
-  <tr>
-    <th>Metric</th>
-    <th>Value</th>
-  </tr>
-  <% @metrics.each do |key,value| %>
-   <tr>
-   <td> <%= key %> </td>
-   <td> <%= value %></td>
-  </tr>
-  <% end %>
-</table>
+<% content_for(:title) { t("super_admin.navigation.instance_health") } %>
+<%
+  status_icons = {
+    "Postgres alive" => "i-logos-postgresql",
+    "Redis alive" => "i-logos-redis",
+    "Database Migrations" => "i-lucide-database-zap"
+  }
+%>
 
-</section>
+<%= render "section",
+           title: t("super_admin.navigation.instance_health"),
+           description: t("super_admin.instance_status.description") do %>
+  <div class="rounded-xl border border-n-weak bg-n-solid-1 divide-y divide-n-weak">
+    <% @metrics.slice(*status_icons.keys).each do |key, value| %>
+      <div class="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 px-5 py-4">
+        <%= render "icon_tile", icon: status_icons[key] %>
+        <h2 class="text-heading-3"><%= key %></h2>
+        <%= render "badge", label: value.to_s.titleize, tone: (value.to_s.in?(%w[true completed]) ? :success : :danger) %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= render "card", title: t("super_admin.instance_status.details") do %>
+    <dl class="-mb-px grid grid-cols-1 overflow-hidden rounded-b-xl sm:grid-cols-2">
+      <% @metrics.except(*status_icons.keys).each do |key, value| %>
+        <div class="flex min-w-0 items-baseline justify-between gap-4 border-b border-n-weak px-5 py-3 sm:odd:border-e">
+          <dt class="text-body-main text-n-slate-11"><%= key %></dt>
+          <dd class="min-w-0 break-all text-end font-mono text-xs text-n-slate-12"><%= value %></dd>
+        </div>
+      <% end %>
+    </dl>
+  <% end %>
+<% end %>

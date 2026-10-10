@@ -220,6 +220,31 @@ describe Messages::MessageBuilder do
         expect(message.content_attributes[:bcc_emails]).to eq ['test1@test.com', 'test2@test.com', 'test3@test.com']
       end
 
+      it 'saves the subject on the message' do
+        params = ActionController::Parameters.new({ content: 'test', subject: 'Refund approved' })
+
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes.dig(:email, :subject)).to eq 'Refund approved'
+        expect(message.content_attributes.dig(:email, :html_content, :full)).to be_present
+      end
+
+      it 'does not save a blank subject' do
+        params = ActionController::Parameters.new({ content: 'test', subject: ' ' })
+
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes[:email]).not_to have_key(:subject)
+      end
+
+      it 'does not save the subject on a private note' do
+        params = ActionController::Parameters.new({ content: 'test', subject: 'Refund approved', private: true })
+
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes[:email]).to be_nil
+      end
+
       context 'when forwarding a message' do
         let(:forwarded_message) { create(:message, conversation: conversation, account: account, message_type: :incoming) }
         let(:forwarded_attachment) do
