@@ -149,4 +149,18 @@ describe('PhoneNumberInput.vue', () => {
     expect(wrapper.find('.text-n-ruby-9').exists()).toBe(true);
     expect(wrapper.emitted('update:modelValue')).toBeFalsy();
   });
+
+  it('handles non-geographic international numbers with countryCallingCode', async () => {
+    const wrapper = createWrapper({
+      modelValue: '',
+    });
+    await nextTick();
+
+    const input = wrapper.find('input[type="tel"]');
+    await input.setValue('+80012345678');
+    await nextTick();
+
+    expect(wrapper.vm.activeDialCode).toBe('+800');
+    expect(input.element.value).toBe('1234 5678');
+  });
 });

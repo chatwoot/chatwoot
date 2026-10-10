@@ -136,6 +136,30 @@ export default {
         this.$emit('setCode', this.activeDialCode);
         return;
       }
+
+      // Handle pasted numbers with leading plus (e.g. +12025550123)
+      if (rawInput && rawInput.startsWith('+')) {
+        const number = parsePhoneNumber(rawInput);
+        if (number && number.countryCallingCode) {
+          if (number.country) {
+            this.activeCountryCode = number.country;
+          }
+          this.activeDialCode = `+${number.countryCallingCode}`;
+          const rawNational = rawInput
+            .replace(`+${number.countryCallingCode}`, '')
+            .trim();
+          this.phoneNumber = formatAsYouTypeInput(
+            this.activeDialCode,
+            number.country || '',
+            rawNational
+          );
+          const cleanDigits = (rawNational || '').replace(/\D/g, '');
+          this.$emit('update:modelValue', cleanDigits);
+          this.$emit('setCode', this.activeDialCode);
+          return;
+        }
+      }
+
       const formatted = formatAsYouTypeInput(
         this.activeDialCode,
         this.activeCountryCode,

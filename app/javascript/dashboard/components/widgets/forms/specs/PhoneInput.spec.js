@@ -64,4 +64,18 @@ describe('PhoneInput.vue', () => {
     expect(wrapper.vm.phoneNumber).toBe('1-800-FLOWERS');
     expect(wrapper.emitted('update:modelValue')[0]).toEqual(['1-800-FLOWERS']);
   });
+
+  it('parses pasted numbers with leading plus and extracts national digits without duplicating country code', async () => {
+    const wrapper = createWrapper();
+    wrapper.vm.activeCountryCode = 'US';
+    wrapper.vm.activeDialCode = '+1';
+
+    const input = wrapper.find('input[type="tel"]');
+    await input.setValue('+12025550123');
+    await input.trigger('input');
+
+    expect(wrapper.vm.phoneNumber).toBe('(202) 555-0123');
+    expect(wrapper.vm.activeDialCode).toBe('+1');
+    expect(wrapper.emitted('update:modelValue')[0]).toEqual(['2025550123']);
+  });
 });

@@ -166,13 +166,15 @@ watch(phoneNumber, async value => {
 
   if (value.startsWith('+')) {
     const parsed = parsePhoneNumberFromString(value);
-    if (parsed && parsed.country && parsed.countryCallingCode) {
-      activeCountryCode.value = parsed.country;
+    if (parsed && parsed.countryCallingCode) {
+      if (parsed.country) {
+        activeCountryCode.value = parsed.country;
+      }
       activeDialCode.value = `+${parsed.countryCallingCode}`;
       const raw = value.replace(`+${parsed.countryCallingCode}`, '').trim();
       phoneNumber.value = formatAsYouTypeInput(
         `+${parsed.countryCallingCode}`,
-        parsed.country,
+        parsed.country || '',
         raw
       );
       return;
@@ -209,7 +211,7 @@ watch(
       const raw = newValue.replace(`+${number.countryCallingCode}`, '');
       const formatted = formatAsYouTypeInput(
         `+${number.countryCallingCode}`,
-        number.country,
+        number.country || '',
         raw
       );
       if (phoneNumber.value !== formatted) {
