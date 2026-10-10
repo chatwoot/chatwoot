@@ -5,6 +5,7 @@
 Rails.application.config.active_storage.content_types_allowed_inline += %w[
   audio/webm
   audio/ogg
+  audio/opus
   audio/mpeg
   audio/mp4
   audio/x-m4a
