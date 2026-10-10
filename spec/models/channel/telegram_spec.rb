@@ -3,6 +3,58 @@ require 'rails_helper'
 RSpec.describe Channel::Telegram do
   let(:telegram_channel) { create(:channel_telegram) }
 
+  describe '#setup_telegram_webhook' do
+    let(:channel) { build(:channel_telegram) }
+    let(:requests) { [] }
+
+    before do
+      allow(HTTParty).to receive(:post) do |url, options = {}|
+        requests << [url, options]
+        instance_double(HTTParty::Response, success?: true)
+      end
+    end
+
+    it 'uses FRONTEND_URL when the webhook origin is unset' do
+      with_modified_env('TELEGRAM_WEBHOOK_BASE_URL' => nil, 'FRONTEND_URL' => 'https://app.example.test') do
+        channel.send(:setup_telegram_webhook)
+      end
+
+      expect(requests.last.last.dig(:body, :url)).to eq('https://app.example.test/webhooks/telegram/2324234324')
+    end
+
+    it 'uses FRONTEND_URL when the webhook origin is blank' do
+      with_modified_env('TELEGRAM_WEBHOOK_BASE_URL' => ' ', 'FRONTEND_URL' => 'https://app.example.test') do
+        channel.send(:setup_telegram_webhook)
+      end
+
+      expect(requests.last.last.dig(:body, :url)).to eq('https://app.example.test/webhooks/telegram/2324234324')
+    end
+
+    it 'normalizes the configured origin and preserves a custom port' do
+      with_modified_env('TELEGRAM_WEBHOOK_BASE_URL' => 'https://hooks.example.test:8443/', 'FRONTEND_URL' => 'https://app.example.test') do
+        channel.send(:setup_telegram_webhook)
+      end
+
+      expect(requests.last.last.dig(:body, :url)).to eq('https://hooks.example.test:8443/webhooks/telegram/2324234324')
+    end
+
+    it 'rejects an invalid configured origin before deleting the existing webhook' do
+      with_modified_env('TELEGRAM_WEBHOOK_BASE_URL' => 'http://hooks.example.test') do
+        expect { channel.send(:setup_telegram_webhook) }.to raise_error(ArgumentError, /HTTPS origin/)
+      end
+
+      expect(requests).to be_empty
+    end
+
+    it 'rejects a Telegram webhook port that Telegram does not support' do
+      with_modified_env('TELEGRAM_WEBHOOK_BASE_URL' => 'https://hooks.example.test:9443') do
+        expect { channel.send(:setup_telegram_webhook) }.to raise_error(ArgumentError, /port unsupported by Telegram/)
+      end
+
+      expect(requests).to be_empty
+    end
+  end
+
   describe '#convert_markdown_to_telegram_html' do
     subject { telegram_channel.send(:convert_markdown_to_telegram_html, text) }
 

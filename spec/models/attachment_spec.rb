@@ -30,6 +30,60 @@ RSpec.describe Attachment do
       attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       expect(attachment.download_url).not_to be_nil
     end
+
+    it 'uses the configured origin for local signed downloads and preserves the custom port' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+
+      with_modified_env('EXTERNAL_MEDIA_BASE_URL' => 'https://media.example.test:8443/') do
+        download_uri = URI.parse(attachment.download_url)
+
+        expect(download_uri.host).to eq('media.example.test')
+        expect(download_uri.port).to eq(8443)
+        expect(download_uri.path).to include('/rails/active_storage/disk/')
+      end
+    end
+
+    it 'restores the current URL options when URL generation raises' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      original_options = { host: 'caller.example.test', protocol: 'http' }
+      allow(attachment.file.blob).to receive(:url).and_raise(StandardError, 'generation failed')
+
+      ActiveStorage::Current.set(url_options: original_options) do
+        with_modified_env('EXTERNAL_MEDIA_BASE_URL' => 'https://media.example.test') do
+          expect { attachment.download_url }.to raise_error(StandardError, 'generation failed')
+          expect(ActiveStorage::Current.url_options).to eq(original_options)
+        end
+      end
+    end
+
+    it 'does not apply the external media origin to file_url' do
+      attachment = message.attachments.create!(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      original_url = attachment.file_url
+
+      with_modified_env('EXTERNAL_MEDIA_BASE_URL' => 'https://media.example.test') do
+        expect(attachment.file_url).to eq(original_url)
+      end
+    end
+
+    it 'returns an empty string when no file is attached' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+
+      with_modified_env('EXTERNAL_MEDIA_BASE_URL' => 'https://media.example.test') do
+        expect(attachment.download_url).to eq('')
+      end
+    end
+
+    it 'uses default URL generation when the external media origin is blank' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+
+      with_modified_env('EXTERNAL_MEDIA_BASE_URL' => ' ') do
+        expect(attachment.download_url).to be_present
+      end
+    end
   end
 
   describe 'with_attached_file?' do
