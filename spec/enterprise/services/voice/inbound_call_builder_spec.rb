@@ -114,14 +114,69 @@ RSpec.describe Voice::InboundCallBuilder do
 
     before { account.enable_features!('channel_voice') }
 
+    # A dashboard merge leaves unrelated identities on one contact, so reuse has to be scoped to
+    # the resolved ContactInbox. A contact-wide lookup would answer this call through the other
+    # identity's source_id.
+    it 'does not reuse a conversation that belongs to another identity on the same contact' do
+      other_contact_inbox = create(:contact_inbox, contact: stored_contact, inbox: whatsapp_inbox, source_id: '5541977776666')
+      foreign = create(:conversation, account: account, inbox: whatsapp_inbox, contact: stored_contact,
+                                      contact_inbox: other_contact_inbox, status: :open)
+
+      call = described_class.perform!(
+        inbox: whatsapp_inbox,
+        call_sid: 'wacall_bsuid_merge',
+        provider: :whatsapp,
+        caller: { source_ids: ['IN.2081978709342942'], contact_attributes: { name: 'Ada Lovelace' } }
+      )
+
+      expect(call.conversation).not_to eq(foreign)
+      expect(call.conversation.contact_inbox).to eq(stored_contact_inbox)
+    end
+
+    it 'leaves the phone conversation untouched instead of repointing it' do
+      phone_contact_inbox = create(:contact_inbox, contact: stored_contact, inbox: whatsapp_inbox, source_id: '5541988887777')
+      phone_conversation = create(:conversation, account: account, inbox: whatsapp_inbox, contact: stored_contact,
+                                                 contact_inbox: phone_contact_inbox, status: :open)
+
+      described_class.perform!(
+        inbox: whatsapp_inbox,
+        call_sid: 'wacall_bsuid_no_repoint',
+        provider: :whatsapp,
+        caller: { source_ids: ['IN.2081978709342942'], contact_attributes: { name: 'Ada Lovelace' } }
+      )
+
+      expect(phone_conversation.reload.contact_inbox_id).to eq(phone_contact_inbox.id)
+    end
+
+    # The lower-level builder honors the leading source_id it is given. The WhatsApp-specific
+    # identity builder decides whether that should be the phone or BSUID for a real webhook.
+    it 'creates the preferred contact inbox when the caller only had a secondary alias' do
+      legacy_contact = create(:contact, account: account)
+      create(:contact_inbox, contact: legacy_contact, inbox: whatsapp_inbox, source_id: '5541966665555')
+
+      call = described_class.perform!(
+        inbox: whatsapp_inbox,
+        call_sid: 'wacall_bsuid_adopt',
+        provider: :whatsapp,
+        caller: { source_ids: ['IN.3092089810453053', '5541966665555'],
+                  contact_attributes: { name: 'Grace Hopper', phone_number: '+5541966665555' } }
+      )
+
+      expect(call.contact).to eq(legacy_contact)
+      expect(call.conversation.contact_inbox.source_id).to eq('IN.3092089810453053')
+    end
+
     # Closes the gap: the contact was keyed by BSUID, but the call also carries a phone.
     # Matching across every source_id reuses the contact instead of forking on the phone.
+    #
+    # The order matters and is the caller's contract: the builder trusts the leading source_id as
+    # the identity to land on.
     it 'reuses the contact by matching any source_id, not just the first' do
       call = described_class.perform!(
         inbox: whatsapp_inbox,
         call_sid: 'wacall_bsuid_1',
         provider: :whatsapp,
-        caller: { source_ids: ['5541988887777', 'IN.2081978709342942'],
+        caller: { source_ids: ['IN.2081978709342942', '5541988887777'],
                   contact_attributes: { name: 'Ada Lovelace', phone_number: '+5541988887777' } }
       )
 

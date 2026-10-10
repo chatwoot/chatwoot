@@ -60,7 +60,7 @@ RSpec.describe Voice::Provider::Twilio::RecordingAttachmentService do
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
 
     allow(SafeFetch).to receive(:fetch)
-      .with(recording_url, http_basic_authentication: %w[AC_account_sid auth_token_value],
+      .with(recording_url, http_basic_authentication: [channel.api_key_sid, channel.api_key_secret],
                            allowed_content_type_prefixes: %w[audio/])
       .and_yield(safe_fetch_result)
   end
@@ -131,6 +131,17 @@ RSpec.describe Voice::Provider::Twilio::RecordingAttachmentService do
       end
 
       expect { perform_service }.not_to have_enqueued_job(Voice::CallTranscriptionJob)
+    end
+
+    it 'is a no-op when the call was created with recording disabled' do
+      call.update!(recording_enabled: false)
+
+      expect { perform_service }.not_to have_enqueued_job(Voice::CallTranscriptionJob)
+
+      aggregate_failures do
+        expect(SafeFetch).not_to have_received(:fetch)
+        expect(call.reload.recording).not_to be_attached
+      end
     end
 
     it 'is a no-op when recording_sid is blank' do

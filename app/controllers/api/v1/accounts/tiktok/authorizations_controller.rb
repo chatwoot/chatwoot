@@ -1,6 +1,8 @@
 class Api::V1::Accounts::Tiktok::AuthorizationsController < Api::V1::Accounts::OauthAuthorizationController
   include Tiktok::IntegrationHelper
 
+  before_action :ensure_tiktok_enabled
+
   def create
     redirect_url = Tiktok::AuthClient.authorize_url(
       state: generate_tiktok_token(Current.account.id, params[:return_to])
@@ -11,5 +13,11 @@ class Api::V1::Accounts::Tiktok::AuthorizationsController < Api::V1::Accounts::O
     else
       render json: { success: false }, status: :unprocessable_entity
     end
+  end
+
+  private
+
+  def ensure_tiktok_enabled
+    raise Pundit::NotAuthorizedError unless Current.account.feature_enabled?('channel_tiktok')
   end
 end

@@ -35,8 +35,8 @@ module Captain::ChatGenerationRecorder
       ATTR_GEN_AI_PROVIDER => determine_provider(model),
       ATTR_GEN_AI_REQUEST_MODEL => model,
       ATTR_GEN_AI_REQUEST_TEMPERATURE => temperature,
-      ATTR_GEN_AI_USAGE_INPUT_TOKENS => message.input_tokens,
-      ATTR_GEN_AI_USAGE_OUTPUT_TOKENS => message.respond_to?(:output_tokens) ? message.output_tokens : nil,
+      ATTR_GEN_AI_USAGE_INPUT_TOKENS => message.tokens.input,
+      ATTR_GEN_AI_USAGE_OUTPUT_TOKENS => message.tokens.output,
       ATTR_LANGFUSE_OBSERVATION_INPUT => format_input_messages(chat),
       ATTR_LANGFUSE_OBSERVATION_OUTPUT => message.respond_to?(:content) ? message.content.to_s : nil,
       format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'generation_stage') => generation_stage(message)

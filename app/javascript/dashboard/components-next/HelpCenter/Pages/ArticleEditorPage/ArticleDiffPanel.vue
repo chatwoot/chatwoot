@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import MessageFormatter from 'shared/helpers/MessageFormatter';
+import { embeds } from 'dashboard/helper/markdownEmbeds';
 import {
   renderInlineDiff,
   buildDiffBlocks,
@@ -50,10 +51,9 @@ const contentChanged = computed(() =>
 const COLWIDTHS_RE = /<!--cw-colwidths:([\d,]+)-->/;
 const DEFAULT_COL_WIDTH = 50;
 
-const applyColumnWidths = (html, widths) => {
-  const doc = new DOMParser().parseFromString(html, 'text/html');
+const applyColumnWidths = (doc, widths) => {
   const table = doc.body.querySelector('table');
-  if (!table) return html;
+  if (!table) return;
 
   const sized = widths.map(width => (width > 0 ? width : DEFAULT_COL_WIDTH));
   const colgroup = doc.createElement('colgroup');
@@ -66,16 +66,44 @@ const applyColumnWidths = (html, widths) => {
 
   table.style.tableLayout = 'fixed';
   table.style.width = `${sized.reduce((sum, width) => sum + width, 0)}px`;
-  return doc.body.innerHTML;
+};
+
+// Match the portal renderer: solo video links become players, sized by their
+// cw_video_width param. (Images are sized by MessageFormatter itself.)
+const videoEmbeds = embeds.filter(embed => embed.hideSource);
+const DEFAULT_VIDEO_WIDTH = 640;
+
+const savedVideoWidth = href => {
+  const width = Number(href.match(/[?&]cw_video_width=(\d+)px(?:[&#]|$)/)?.[1]);
+  return width >= 1 && width <= 2000 ? width : null;
+};
+
+const applyVideoPreviews = doc => {
+  doc.body.querySelectorAll('p > a:only-child').forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || !videoEmbeds.some(({ regex }) => regex.test(href))) return;
+    const paragraph = link.parentElement;
+    if (paragraph.textContent.trim() !== link.textContent.trim()) return;
+
+    const video = Object.assign(doc.createElement('video'), {
+      controls: true,
+      preload: 'metadata',
+      src: href,
+      width: savedVideoWidth(href) || DEFAULT_VIDEO_WIDTH,
+      className: 'max-w-full h-auto',
+    });
+    paragraph.replaceWith(video);
+  });
 };
 
 const renderMarkdown = markdown => {
   if (!markdown) return '';
   const html = new MessageFormatter(markdown).formattedMessage;
+  const doc = new DOMParser().parseFromString(html, 'text/html');
   const match = markdown.match(COLWIDTHS_RE);
-  return match
-    ? applyColumnWidths(html, match[1].split(',').map(Number))
-    : html;
+  if (match) applyColumnWidths(doc, match[1].split(',').map(Number));
+  applyVideoPreviews(doc);
+  return doc.body.innerHTML;
 };
 
 const blockClass = type => {
@@ -120,8 +148,8 @@ const blockClass = type => {
           {{ t('HELP_CENTER.EDIT_ARTICLE_PAGE.DIFF_DIALOG.TITLE_LABEL') }}
         </span>
         <h1
+          v-dompurify-html="titleDiff"
           class="text-lg font-semibold leading-snug text-n-slate-12"
-          v-html="titleDiff"
         />
       </div>
 
@@ -132,9 +160,9 @@ const blockClass = type => {
         <div
           v-for="(block, index) in contentBlocks"
           :key="index"
+          v-dompurify-html="renderMarkdown(block.md)"
           class="px-3 py-1.5 overflow-x-auto text-sm leading-relaxed break-words border-s-[3px] rounded-e-md text-n-slate-12 prose-sm prose dark:prose-invert max-w-none [&_p]:my-0 [&>:first-child]:mt-0 [&>:last-child]:mb-0"
           :class="blockClass(block.type)"
-          v-html="renderMarkdown(block.md)"
         />
       </div>
     </div>

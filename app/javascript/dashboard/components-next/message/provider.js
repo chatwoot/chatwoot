@@ -78,6 +78,7 @@ const MessageControl = Symbol('MessageControl');
  * @property {string} [referral.videoUrl] - Video URL of a Cloud API referral
  * @property {string} [referral.mediaUrl] - Media URL of a Twilio referral
  * @property {string} [referral.mediaContentType] - Media content type of a Twilio referral
+ * @property {{type: 'request', state: 'pending'|'shared'|'identity_conflict'}} [whatsappContactInfo] - WhatsApp contact information request state
  */
 
 /**
@@ -112,7 +113,7 @@ const MessageControl = Symbol('MessageControl');
  * @property {import('vue').ComputedRef<MessageVariant>} variant - The visual variant of the message
  * @property {import('vue').ComputedRef<boolean>} isBotOrAgentMessage - Does the message belong to the current user
  * @property {import('vue').ComputedRef<boolean>} isPrivate - Proxy computed value for private
- * @property {import('vue').ComputedRef<boolean>} shouldGroupWithNext - Should group with the next message or not, it is differnt from groupWithNext, this has a bypass for a failed message
+ * @property {import('vue').ComputedRef<boolean>} shouldGroupWithNext - Should group with the next message or not, it is different from groupWithNext, this has a bypass for a failed message
  */
 
 /**

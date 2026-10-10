@@ -3,6 +3,7 @@ tags:
 operationId: get-agent-conversation-metrics
 summary: Agent Conversation Metrics
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: Get conversation metrics for Agent
 responses:

@@ -95,7 +95,9 @@ he:
     saml:
       feature_not_enabled: תכונת SAML לא מופעלת עבור חשבון זה
       sso_not_enabled: SAML SSO is not enabled for this installation
+      multi_account_invitation_not_allowed: Users associated with another account cannot be added while SAML is enabled
     conversations:
+      resolved: Conversation is resolved and does not accept new messages
       unread_counts:
         feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
@@ -148,6 +150,7 @@ he:
         already_ended: 'This call has already ended'
         already_accepted: 'Call already accepted by another agent'
         no_recording: 'No recording file provided'
+        recording_disabled: 'Call recording is disabled for this inbox'
         no_message: 'Call has no associated message'
         sdp_offer_required: 'sdp_offer is required'
         contact_phone_required: 'Contact phone number is required'
@@ -428,6 +431,8 @@ he:
       completed_tool_call: 'הושלם קריאת כלי %{function_name}'
       invalid_tool_call: 'קריאת כלי לא תקינה'
       tool_not_available: 'כלי לא זמין'
+      reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
+      reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
     documents:
       limit_exceeded: 'מגבלת מסמכים חרגה'
       pdf_format_error: 'חייב להיות קובץ PDF'
@@ -466,7 +471,6 @@ he:
       found_results:
         one: Found 1 result
         two: 'Found %{count} results'
-        many: 'Found %{count} results'
         other: 'Found %{count} results'
       submit: חפש
     toc_header: 'בעמוד זה'
@@ -545,22 +549,18 @@ he:
     days:
       one: '%{count} day'
       two: '%{count} days'
-      many: '%{count} days'
       other: '%{count} days'
     hours:
       one: '%{count} hour'
       two: '%{count} hours'
-      many: '%{count} hours'
       other: '%{count} hours'
     minutes:
       one: '%{count} minute'
       two: '%{count} minutes'
-      many: '%{count} minutes'
       other: '%{count} minutes'
     seconds:
       one: '%{count} second'
       two: '%{count} seconds'
-      many: '%{count} seconds'
       other: '%{count} seconds'
   auto_assignment:
     default_policy_name: 'Default Policy'
@@ -624,16 +624,21 @@ he:
         empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:
-        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        helper_text: 'Leave a model blank to use the default routing for that AI feature.'
+        customer_features: 'Customer features'
+        internal_features: 'Internal features'
         use_default: 'Use default: %{model} (%{model_id})'
+        use_installation_model: 'Use installation model: %{model} (%{model_id})'
       show:
         summary: 'View model routing'
         provider: 'Provider'
         model: 'מודל'
       sources:
         account_override: 'Account override'
+        installation_override: 'Installation setting'
         default: 'ברירת מחדל'
       features:
+        conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: 'עוזר'
         copilot: 'טייס משנה'
@@ -650,4 +655,12 @@ he:
       user_not_found: 'User not found.'
       no_subscriptions_to_test: 'Select at least one subscription to test.'
       no_subscriptions_to_delete: 'Select at least one subscription to delete.'
-      subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."
+      subscriptions_deleted:
+        one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
+        two: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+        other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+    users:
+      resend_confirmation:
+        button: 'Resend confirmation email'
+        sent: 'Confirmation email sent.'
+        already_confirmed: 'User is already confirmed.'

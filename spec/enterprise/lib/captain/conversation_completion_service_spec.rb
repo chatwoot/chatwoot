@@ -21,7 +21,7 @@ RSpec.describe Captain::ConversationCompletionService do
   describe '#perform' do
     describe 'model routing' do
       let(:mock_response) do
-        instance_double(RubyLLM::Message, content: { 'complete' => true, 'reason' => 'Done' }, input_tokens: 10, output_tokens: 5)
+        instance_double(RubyLLM::Message, parsed: { 'complete' => true, 'reason' => 'Done' }, tokens: RubyLLM::Tokens.new(input: 10, output: 5))
       end
 
       before do
@@ -30,16 +30,16 @@ RSpec.describe Captain::ConversationCompletionService do
       end
 
       it 'uses the internal GPT-4.1 route on Chatwoot Cloud' do
-        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(false)
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(false)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
         allow(mock_context).to receive(:chat).with(model: 'gpt-4.1').and_return(mock_chat)
 
         expect(service.perform).to include(complete: true)
       end
 
       it 'uses the installation model on self-hosted Enterprise' do
-        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
         allow(mock_context).to receive(:chat).with(model: 'gpt-5.1').and_return(mock_chat)
 
@@ -47,7 +47,7 @@ RSpec.describe Captain::ConversationCompletionService do
       end
 
       it 'uses the account override ahead of the installation model on self-hosted Enterprise' do
-        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
         account.update!(captain_models: { 'conversation_completion' => 'gpt-5.2' })
         allow(mock_context).to receive(:chat).with(model: 'gpt-5.2').and_return(mock_chat)
@@ -56,7 +56,7 @@ RSpec.describe Captain::ConversationCompletionService do
       end
 
       it 'falls back to the internal GPT-4.1 route when the self-hosted installation model is blank' do
-        allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
         InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: '')
         allow(mock_context).to receive(:chat).with(model: 'gpt-4.1').and_return(mock_chat)
 
@@ -68,9 +68,8 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: { 'complete' => true, 'reason' => 'Customer question was fully answered' },
-          input_tokens: 100,
-          output_tokens: 20
+          parsed: { 'complete' => true, 'reason' => 'Customer question was fully answered' },
+          tokens: RubyLLM::Tokens.new(input: 100, output: 20)
         )
       end
 
@@ -93,9 +92,8 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: { 'complete' => false, 'reason' => 'Assistant asked for order number but customer did not respond' },
-          input_tokens: 100,
-          output_tokens: 20
+          parsed: { 'complete' => false, 'reason' => 'Assistant asked for order number but customer did not respond' },
+          tokens: RubyLLM::Tokens.new(input: 100, output: 20)
         )
       end
 
@@ -118,9 +116,8 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: { 'complete' => false, 'reason' => 'Human follow-up is still pending' },
-          input_tokens: 100,
-          output_tokens: 20
+          parsed: { 'complete' => false, 'reason' => 'Human follow-up is still pending' },
+          tokens: RubyLLM::Tokens.new(input: 100, output: 20)
         )
       end
 
@@ -230,9 +227,8 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: 'unexpected string response',
-          input_tokens: 100,
-          output_tokens: 20
+          parsed: 'unexpected string response',
+          tokens: RubyLLM::Tokens.new(input: 100, output: 20)
         )
       end
 
@@ -285,7 +281,7 @@ RSpec.describe Captain::ConversationCompletionService do
       it 'uses the system API key instead of the account hook key' do
         expect(Llm::Config).to receive(:with_api_key).with('test-key', api_base: anything).and_yield(mock_context)
         allow(mock_chat).to receive(:ask).and_return(
-          instance_double(RubyLLM::Message, content: { 'complete' => true, 'reason' => 'Done' }, input_tokens: 10, output_tokens: 5)
+          instance_double(RubyLLM::Message, parsed: { 'complete' => true, 'reason' => 'Done' }, tokens: RubyLLM::Tokens.new(input: 10, output: 5))
         )
 
         service.perform
@@ -307,9 +303,8 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: { 'complete' => true, 'reason' => 'Customer question was fully answered' },
-          input_tokens: 100,
-          output_tokens: 20
+          parsed: { 'complete' => true, 'reason' => 'Customer question was fully answered' },
+          tokens: RubyLLM::Tokens.new(input: 100, output: 20)
         )
       end
 

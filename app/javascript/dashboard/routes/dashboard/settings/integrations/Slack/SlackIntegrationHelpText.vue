@@ -2,9 +2,14 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { useBranding } from 'shared/composables/useBranding';
 
 const props = defineProps({
   selectedChannelName: {
+    type: String,
+    required: true,
+  },
+  messageMode: {
     type: String,
     required: true,
   },
@@ -12,12 +17,17 @@ const props = defineProps({
 
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
+const { replaceInstallationName } = useBranding();
 
 const formattedHelpText = computed(() => {
+  const bodyKey =
+    props.messageMode === 'alert'
+      ? 'INTEGRATION_SETTINGS.SLACK.HELP_TEXT.BODY_ALERT'
+      : 'INTEGRATION_SETTINGS.SLACK.HELP_TEXT.BODY';
   return formatMessage(
-    t('INTEGRATION_SETTINGS.SLACK.HELP_TEXT.BODY', {
-      selectedChannelName: props.selectedChannelName,
-    }),
+    replaceInstallationName(
+      t(bodyKey, { selectedChannelName: props.selectedChannelName })
+    ),
     false
   );
 });

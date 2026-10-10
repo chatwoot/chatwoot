@@ -13,6 +13,7 @@ class ContactMergeAction
       merge_messages
       merge_contact_inboxes
       merge_contact_notes
+      merge_calls
       merge_and_remove_mergee_contact
     end
     @base_contact
@@ -46,6 +47,10 @@ class ContactMergeAction
     ContactInbox.where(contact_id: @mergee_contact.id).update(contact_id: @base_contact.id)
   end
 
+  def merge_calls
+    # overridden in enterprise/app/actions/enterprise/contact_merge_action.rb
+  end
+
   def merge_and_remove_mergee_contact
     mergable_attribute_keys = %w[identifier name email phone_number additional_attributes custom_attributes]
     base_contact_attributes = base_contact.attributes.slice(*mergable_attribute_keys).compact_blank
@@ -53,10 +58,17 @@ class ContactMergeAction
 
     # attributes in base contact are given preference
     merged_attributes = mergee_contact_attributes.deep_merge(base_contact_attributes)
+    merged_attributes['contact_type'] = higher_contact_type
 
     @mergee_contact.reload.destroy!
     Rails.configuration.dispatcher.dispatch(CONTACT_MERGED, Time.zone.now, contact: @base_contact,
                                                                            tokens: [@base_contact.contact_inboxes.filter_map(&:pubsub_token)])
     @base_contact.update!(merged_attributes)
   end
+
+  def higher_contact_type
+    [base_contact, mergee_contact].map(&:contact_type).max_by { |type| Contact.contact_types[type] }
+  end
 end
+
+ContactMergeAction.prepend_mod_with('ContactMergeAction')

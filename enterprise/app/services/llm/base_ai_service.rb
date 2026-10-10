@@ -19,7 +19,11 @@ class Llm::BaseAiService
   end
 
   def chat(model: @model, temperature: @temperature)
-    RubyLLM.chat(model: model).with_temperature(temperature)
+    temperature = Llm::Models.temperature_for(model, temperature)
+    llm_chat = RubyLLM.chat(model: model)
+    return llm_chat if temperature.nil?
+
+    llm_chat.with_temperature(temperature)
   end
 
   private
@@ -34,7 +38,7 @@ class Llm::BaseAiService
 
   def setup_model
     route = feature_route
-    return @model = route[:model] if account_override_route?(route) || captain_v2_assistant?
+    return @model = route[:model] if account_override_route?(route) || captain_assistant?
 
     @model = @fallback_model.presence || installation_model.presence || route&.dig(:model) || DEFAULT_MODEL
   end
@@ -49,8 +53,8 @@ class Llm::BaseAiService
     route&.dig(:source) == :account_override
   end
 
-  def captain_v2_assistant?
-    @llm_feature.to_s == 'assistant' && @llm_account&.feature_enabled?('captain_integration_v2')
+  def captain_assistant?
+    @llm_feature.to_s == 'assistant' && @llm_account&.feature_enabled?('captain_integration')
   end
 
   def installation_model

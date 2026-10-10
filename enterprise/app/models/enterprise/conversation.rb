@@ -31,7 +31,14 @@ module Enterprise::Conversation
     return if inbox.external_bot_active?
 
     assistant = inbox.captain_assistant
-    self.status = :open if assistant.present? && !assistant.engages?(contact, self)
+    return if assistant.blank?
+
+    unless assistant.engages?(contact, self)
+      self.status = :open
+      return
+    end
+
+    self.ai_assignee = assistant if assignee_id.blank?
   end
 
   def handle_resolved_status_change

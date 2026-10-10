@@ -45,9 +45,14 @@
         "TITLE": "Subir imagen",
         "UPLOADING": "Subiendo...",
         "SUCCESS": "Imagen subida con éxito",
-        "ERROR": "Error al subir la imagen",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
+        "UPLOAD_FAILED": "Subida fallida",
+        "RATE_LIMITED": "Límite de subida alcanzado. Inténtalo de nuevo en unos minutos.",
+        "RETRY": "Reintentar",
+        "REMOVE": "Eliminar",
+        "CANCEL": "Cancelar subida",
         "ERROR_FILE_SIZE": "El tamaño de la imagen debe ser menor que {size}MB",
+        "ERROR_ATTACHMENT_FILE_SIZE": "El tamaño del archivo debe ser inferior a {size}MB",
+        "ERROR_UNSUPPORTED_TYPE": "Este tipo de archivo no está soportado",
         "ERROR_FILE_FORMAT": "El formato de la imagen debe ser jpg, jpeg o png",
         "ERROR_FILE_DIMENSIONS": "Las dimensiones de la imagen deben ser menores de 2000 x 2000"
       }
@@ -800,7 +805,8 @@
         "PUBLISH_CHANGES": "Publicar cambios",
         "PUBLISH_CHANGES_SUCCESS": "Cambios publicados con éxito",
         "PUBLISH_CHANGES_ERROR": "No se pudo publicar los cambios",
-        "SAVE_IN_PROGRESS": "Todavía guarda tus últimos cambios — por favor inténtalo de nuevo en un momento.",
+        "SAVE_IN_PROGRESS": "Aún guardando tus últimos cambios. Por favor, inténtalo de nuevo en un momento.",
+        "UPLOAD_IN_PROGRESS": "La subida de un archivo no ha finalizado. Espere a que termine o elimine primero.",
         "DISCARD_CHANGES": "Descartar cambios",
         "DISCARD_CHANGES_SUCCESS": "Cambios descartados",
         "DISCARD_CHANGES_ERROR": "No se pudo descartar los cambios",
@@ -1073,14 +1079,14 @@
       "GENERATING": "Generando...",
       "CONFIRM_DELETE": "¿Está seguro que desea borrar {filename}?",
       "EMPTY_STATE": {
-        "TITLE": "Aún no hay documentos PDF",
-        "DESCRIPTION": "Sube documentos PDF para generar preguntas frecuentes automáticamente con IA"
+        "TITLE": "No PDF documents yet",
+        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
       },
       "STATUS": {
-        "UPLOADED": "Listo",
-        "PROCESSING": "Procesando",
+        "UPLOADED": "Ready",
+        "PROCESSING": "Processing",
         "PROCESSED": "Completado",
-        "FAILED": "Fallido"
+        "FAILED": "Failed"
       }
     },
     "CONTENT_GENERATION": {

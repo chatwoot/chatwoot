@@ -15,6 +15,7 @@ module AutoAssignmentHandler
   def run_legacy_auto_assignment
     return unless status_changed? && open?
     return if inbox.auto_assignment_v2_enabled?
+    return if will_save_change_to_assignee_id? && assignee_id.present?
     return unless should_run_auto_assignment?
 
     AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: legacy_allowed_agent_ids).assign_under_lock
@@ -27,10 +28,11 @@ module AutoAssignmentHandler
     return unless should_run_auto_assignment?
 
     if inbox.auto_assignment_v2_enabled?
-      # Coalesces bursts of triggers per inbox. Fine if the job runs even when the
-      # surrounding save rolls back: it only scans the inbox's current unassigned
-      # conversations, so running it for an uncommitted change is harmless.
-      AutoAssignment::AssignmentJob.enqueue_for_inbox(inbox.id)
+      # Enqueue after commit so the job's scan can see this conversation.
+      inbox_id = inbox.id
+      ActiveRecord.after_all_transactions_commit do
+        AutoAssignment::AssignmentJob.enqueue_for_inbox(inbox_id)
+      end
     elsif saved_change_to_id?
       # Legacy (V1) assignment for new conversations stays post-save: their status is only
       # finalized by before_create callbacks, which run after before_save.

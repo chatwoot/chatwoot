@@ -1,0 +1,61 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: Account-scoped campaign ID. Use this value in campaign API paths.
+  title:
+    type: string
+  description:
+    type: [string, 'null']
+  account_id:
+    type: integer
+  inbox:
+    $ref: '#/components/schemas/inbox'
+  sender:
+    type: object
+    description: Sender details, or an empty object when no sender is assigned.
+    additionalProperties: true
+  message:
+    type: string
+  template_params:
+    type: [object, 'null']
+    additionalProperties: true
+  campaign_status:
+    type: string
+    enum: [active, processing, completed]
+  campaign_type:
+    type: string
+    enum: [ongoing, one_off]
+    description: Derived from the inbox type; website campaigns are ongoing and supported messaging campaigns are one-off.
+  enabled:
+    type: boolean
+  scheduled_at:
+    type: integer
+    description: Scheduled time in Unix seconds. Only present for one-off campaigns.
+  started_at:
+    type: [integer, 'null']
+    description: Start time in Unix seconds. Only present for one-off campaigns.
+  completed_at:
+    type: [integer, 'null']
+    description: Completion time in Unix seconds. Only present for one-off campaigns.
+  audience:
+    type: [array, 'null']
+    description: Audience for a one-off campaign. Only present for one-off campaigns.
+    items:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: integer
+  trigger_rules:
+    type: object
+    additionalProperties: true
+  trigger_only_during_business_hours:
+    type: boolean
+  created_at:
+    type: string
+    format: date-time
+  updated_at:
+    type: string
+    format: date-time

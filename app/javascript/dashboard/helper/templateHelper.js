@@ -1,3 +1,4 @@
+import { url } from '@vuelidate/validators';
 import {
   processVariable,
   buildWhatsAppProcessedParams,
@@ -53,4 +54,36 @@ export const buildTemplateParameters = template => {
   if (textHeaderParams) params.header = textHeaderParams;
 
   return params;
+};
+
+// 360dialog templates may not have a provider ID.
+export const getTemplateKey = template =>
+  template.id ?? `${template.name}:${template.language}`;
+
+export const isValidTemplateMediaUrl = value =>
+  !value || (/^https?:\/\//i.test(value) && url.$validator(value));
+
+// Match the legacy body-only formats still supported by TemplateParameterConverterService.
+export const normalizeTemplateParameters = (params = {}) => {
+  const componentKeys = ['body', 'header', 'footer', 'buttons'];
+  const isParameterMap = value =>
+    value == null || (typeof value === 'object' && !Array.isArray(value));
+  const validButtons =
+    params.buttons == null ||
+    (Array.isArray(params.buttons) &&
+      params.buttons.every(
+        button => button == null || (isParameterMap(button) && button.type)
+      ));
+  if (
+    componentKeys.some(key => key in params) &&
+    isParameterMap(params.body) &&
+    isParameterMap(params.header) &&
+    validButtons
+  ) {
+    return params;
+  }
+  const entries = Array.isArray(params)
+    ? params.map((value, index) => [String(index + 1), String(value ?? '')])
+    : Object.entries(params).map(([key, value]) => [key, String(value ?? '')]);
+  return entries.length ? { body: Object.fromEntries(entries) } : {};
 };

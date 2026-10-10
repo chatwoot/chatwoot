@@ -2,13 +2,13 @@
   "HELP_CENTER": {
     "TITLE": "Yardım Merkezi",
     "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "DESCRIPTION": "Müşterileriniz için self-servis yardım merkezi portalları oluşturun. Beklemeden, yanıtları hızla bulmalarına yardımcı olun. Talepleri düzene sokun, temsilci verimliliğini artırın ve müşteri desteğini üst seviyeye taşıyın.",
       "CREATE_PORTAL_BUTTON": "Portal Oluştur"
     },
     "HEADER": {
       "FILTER": "Filtrele",
       "SORT": "Sırala",
-      "LOCALE": "Yerel",
+      "LOCALE": "Dil",
       "SETTINGS_BUTTON": "Ayarlar",
       "NEW_BUTTON": "Yeni Makale",
       "DROPDOWN_OPTIONS": {
@@ -45,9 +45,14 @@
         "TITLE": "Resim Yükleniyor",
         "UPLOADING": "Yükleniyor...",
         "SUCCESS": "Resim başarıyla yüklendi",
-        "ERROR": "Resim yüklenirken hata oluştu",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
+        "UPLOAD_FAILED": "Upload failed",
+        "RATE_LIMITED": "Upload limit reached. Try again in a few minutes.",
+        "RETRY": "Tekrar dene",
+        "REMOVE": "Kaldır",
+        "CANCEL": "Cancel upload",
         "ERROR_FILE_SIZE": "Resim boyutu {size}MB'dan küçük olmalıdır",
+        "ERROR_ATTACHMENT_FILE_SIZE": "File size should be less than {size}MB",
+        "ERROR_UNSUPPORTED_TYPE": "This file type is not supported",
         "ERROR_FILE_FORMAT": "Resim formatı jpg, jpeg veya png olmalıdır",
         "ERROR_FILE_DIMENSIONS": "Resim boyutları 2000 x 2000'den küçük olmalıdır"
       }
@@ -319,8 +324,8 @@
       },
       "DRAFT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
-          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+          "SUCCESS_MESSAGE": "Dil seçeneği başarıyla taslağa taşındı",
+          "ERROR_MESSAGE": "Dil seçeneği taslağa taşınamadı. Tekrar deneyin."
         }
       },
       "PUBLISH_LOCALE": {
@@ -595,24 +600,24 @@
         }
       },
       "BULK_TRANSLATE": {
-        "TITLE": "Translate article | Translate {count} articles",
-        "DESCRIPTION": "Translate the selected article to another language. | Translate the selected articles to another language.",
-        "LOCALE_LABEL": "Target language",
-        "LOCALE_PLACEHOLDER": "Select a language",
-        "CATEGORY_LABEL": "Target category",
-        "CATEGORY_PLACEHOLDER": "Select a category",
-        "OPTIONAL": "(optional)",
+        "TITLE": "Makaleyi çevir | {count} makaleyi çevir",
+        "DESCRIPTION": "Seçilen makaleyi başka bir dile çevirin. | Seçilen makaleleri başka bir dile çevirin.",
+        "LOCALE_LABEL": "Hedef dil",
+        "LOCALE_PLACEHOLDER": "Bir dil seçin",
+        "CATEGORY_LABEL": "Hedef kategori",
+        "CATEGORY_PLACEHOLDER": "Bir kategori seçin",
+        "OPTIONAL": "(isteğe bağlı)",
         "CONFIRM": "Çevir",
         "SELECT_ALL": "Tümünü seç ({count})",
         "SELECTED_COUNT": "{count} selected",
         "CLEAR_SELECTION": "Seçimi temizle",
         "TRANSLATE_BUTTON": "Çevir",
-        "CONFIRM_OVERWRITE": "Overwrite and translate",
-        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
-        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
+        "CONFIRM_OVERWRITE": "Üzerine yaz ve çevir",
+        "DUPLICATE_WARNING": "Seçilen dilde bu makale için zaten bir çeviri mevcut. | Seçilen dilde {count} makale için zaten çeviri mevcut.",
+        "DUPLICATE_CONFIRM_HINT": "Mevcut çevirinin üzerine yazmak için tekrar çevir'e tıklayın.",
         "API": {
-          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
-          "ERROR_MESSAGE": "Failed to start translation. Please try again."
+          "SUCCESS_MESSAGE": "Çeviri devam ediyor. Makale hazır olduğunda taslak olarak görünecektir.",
+          "ERROR_MESSAGE": "Çeviri başlatılamadı. Lütfen tekrar deneyin."
         }
       },
       "BULK_ACTIONS": {
@@ -722,40 +727,40 @@
         "DEFAULT": "Varsayılan",
         "DRAFT": "Taslak",
         "DROPDOWN_MENU": {
-          "MAKE_DEFAULT": "Make default",
-          "MOVE_TO_DRAFT": "Move to draft",
+          "MAKE_DEFAULT": "Varsayılan yap",
+          "MOVE_TO_DRAFT": "Taslağa taşı",
           "PUBLISH_LOCALE": "Publish locale",
-          "CUSTOMIZE_CONTENT": "Localize content",
-          "SELECT_POPULAR_CONTENT": "Select recommended content",
+          "CUSTOMIZE_CONTENT": "İçeriği yerelleştir",
+          "SELECT_POPULAR_CONTENT": "Önerilen içeriği seçin",
           "DELETE": "Sil"
         }
       },
       "POPULAR_CONTENT_DIALOG": {
-        "TITLE": "Recommended content",
-        "DESCRIPTION": "Pick up to 3 categories and 6 articles to feature on this locale's help center home page. Drag them into the order you want visitors to see.",
+        "TITLE": "Önerilen içerikler",
+        "DESCRIPTION": "Bu dil seçeneğinin yardım merkezi ana sayfasında öne çıkarmak için en fazla 3 kategori ve 6 makale seçin. Ziyaretçilerin görmesini istediğiniz sıraya göre sürükleyin.",
         "SEARCH": "Ara...",
         "EMPTY": "No matching results",
-        "ADD_ANOTHER": "Add another...",
-        "SLOTS_LEFT": "{count} slots left",
-        "OVERRIDING_DEFAULTS": "Overriding defaults for this locale",
-        "CONFIRM": "Save recommendations",
+        "ADD_ANOTHER": "Bir tane daha ekle...",
+        "SLOTS_LEFT": "{count} yer kaldı",
+        "OVERRIDING_DEFAULTS": "Bu dil seçeneği için varsayılanların üzerine yazılıyor",
+        "CONFIRM": "Önerileri kaydet",
         "CATEGORIES": {
-          "LABEL": "Recommended categories",
+          "LABEL": "Önerilen kategoriler",
           "ARTICLES_COUNT": "No articles | {count} article | {count} articles"
         },
         "ARTICLES": {
-          "LABEL": "Recommended articles",
+          "LABEL": "Önerilen makaleler",
           "IN_CATEGORY": "in {category}",
           "UNCATEGORIZED": "Kategorize Edilmemiş"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Recommended content updated successfully",
-          "ERROR_MESSAGE": "Unable to update recommended content. Try again."
+          "SUCCESS_MESSAGE": "Önerilen içerik başarıyla güncellendi",
+          "ERROR_MESSAGE": "Önerilen içerik güncellenemedi. Lütfen tekrar deneyin."
         }
       },
       "CONTENT_DIALOG": {
-        "TITLE": "Localize content",
-        "DESCRIPTION": "Set values specific to this locale. Anything left blank falls back to the default locale.",
+        "TITLE": "İçeriği yerelleştir",
+        "DESCRIPTION": "Bu dil seçeneğine özgü değerleri belirleyin. Boş bırakılan alanlar varsayılan dil seçeneğine aktarılır.",
         "NAME": {
           "LABEL": "İsim"
         },
@@ -800,7 +805,8 @@
         "PUBLISH_CHANGES": "Publish changes",
         "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
         "PUBLISH_CHANGES_ERROR": "Could not publish changes",
-        "SAVE_IN_PROGRESS": "Still saving your latest changes — please try again in a moment.",
+        "SAVE_IN_PROGRESS": "Still saving your latest changes. Please try again in a moment.",
+        "UPLOAD_IN_PROGRESS": "A file upload is unfinished. Wait for it to finish or remove it first.",
         "DISCARD_CHANGES": "Discard changes",
         "DISCARD_CHANGES_SUCCESS": "Changes discarded",
         "DISCARD_CHANGES_ERROR": "Could not discard changes",
@@ -840,15 +846,15 @@
       }
     },
     "PORTAL_SWITCHER": {
-      "NEW_PORTAL": "New portal",
+      "NEW_PORTAL": "Yeni Portal",
       "PORTALS": "Portallar",
-      "CREATE_PORTAL": "Create and manage multiple portals",
+      "CREATE_PORTAL": "Birden fazla portal oluşturun ve yönetin",
       "ARTICLES": "makaleler",
       "DOMAIN": "alan",
       "PORTAL_NAME": "Portal adı"
     },
     "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create new portal",
+      "TITLE": "Yeni portal oluştur",
       "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
       "CONFIRM_BUTTON_LABEL": "Yarat",
       "NAME": {
@@ -952,22 +958,22 @@
       },
       "LAYOUT_CONTENT": {
         "HEADER": "Görünüm",
-        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "DESCRIPTION": "Ziyaretçilerinizin nasıl okuduğuna uygun bir düzen seçin.",
         "LAYOUT": {
           "CLASSIC": {
             "TITLE": "Classic",
-            "DESCRIPTION": "A welcoming home page with search and featured topics."
+            "DESCRIPTION": "Arama ve öne çıkan konular içeren karşılayıcı bir ana sayfa."
           },
           "SIDEBAR": {
             "TITLE": "Documentation",
-            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+            "DESCRIPTION": "Her rehbere tek bir tıklamayla ulaşmanızı sağlayan yan yana gezinme."
           }
         },
         "SOCIAL_LINKS": {
-          "HEADER": "Social links",
-          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "HEADER": "Sosyal medya bağlantıları",
+          "DESCRIPTION": "Her ağ için kullanıcı adını ekleyin, yardım merkeziniz tam bağlantıyı otomatik oluştursun. Dokümantasyon düzeninin altbilgisinde gösterilir.",
           "PLACEHOLDER": "handle",
-          "ADD": "Add social link",
+          "ADD": "Sosyal medya bağlantısı ekle",
           "REMOVE": "Kaldır"
         },
         "SAVE": "Değişiklikleri Kaydet"

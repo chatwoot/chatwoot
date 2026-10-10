@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Izveidots",
         "OLDEST": "Izveidots plkst:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Pēdējā darbība:",
-        "ACTIVE": "Pēdējā darbība"
+        "NOT_ACTIVE": "Pēdējā darbība:"
       }
     },
     "SORT_ORDER_ITEMS": {

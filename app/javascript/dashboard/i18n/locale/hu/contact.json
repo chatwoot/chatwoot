@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Nem elérhető",
     "EMAIL_ADDRESS": "Email cím",
     "PHONE_NUMBER": "Telefonszám",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Azonosító",
     "COPY_SUCCESSFUL": "Vágólapra másolva",
     "COMPANY": "Cég",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

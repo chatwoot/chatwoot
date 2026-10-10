@@ -61,12 +61,14 @@ const documentContentLength = computed(
   () => documentContent.value?.length || 0
 );
 const isPdf = computed(() => documentDetails.value?.pdf_document);
+const isMarkdown = computed(() => documentDetails.value?.markdown_document);
 const displayUrl = computed(() => documentDetails.value?.display_url);
 const externalLink = computed(() => documentDetails.value?.external_link);
 const sourceHref = computed(() => displayUrl.value || externalLink.value);
 const hasSafeLink = computed(() => isSafeHttpLink(sourceHref.value));
 const displayLink = computed(() => {
   if (isPdf.value) return formatDocumentLink(externalLink.value);
+  if (isMarkdown.value) return documentDetails.value?.name;
   return getDocumentDisplayPath(displayUrl.value || externalLink.value);
 });
 const contentTabLabel = computed(() =>

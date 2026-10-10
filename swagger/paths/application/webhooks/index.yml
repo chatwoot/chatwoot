@@ -3,6 +3,7 @@ tags:
 operationId: list-all-webhooks
 summary: List all webhooks
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: List all webhooks in the account
 responses:

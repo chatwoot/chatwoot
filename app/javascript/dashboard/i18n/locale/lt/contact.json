@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Nepasiekiamas",
     "EMAIL_ADDRESS": "El. pašto adresas",
     "PHONE_NUMBER": "Telefono numeris",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identifikatorius",
     "COPY_SUCCESSFUL": "Sėkmingai nukopijuota į iškarpinę",
     "COMPANY": "Įmonė",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

@@ -17,11 +17,12 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
   end
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_API_KEY').update!(value: 'test-key')
     allow(Captain::Tools::SimplePageCrawlService).to receive(:new).and_return(mock_crawler)
     allow(RubyLLM).to receive(:chat).and_return(mock_chat)
     allow(mock_chat).to receive(:with_temperature).and_return(mock_chat)
-    allow(mock_chat).to receive(:with_params).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_provider_options).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_max_output_tokens).and_return(mock_chat)
     allow(mock_chat).to receive(:with_instructions).and_return(mock_chat)
     allow(mock_chat).to receive(:ask).and_return(mock_response)
   end
@@ -51,6 +52,17 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
       it 'uses low temperature for deterministic analysis' do
         expect(mock_chat).to receive(:with_temperature).with(0.1).and_return(mock_chat)
         service.analyze
+      end
+
+      context 'when GPT-5 Mini is configured' do
+        before do
+          InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5-mini')
+        end
+
+        it 'omits temperature' do
+          expect(mock_chat).not_to receive(:with_temperature)
+          service.analyze
+        end
       end
     end
 

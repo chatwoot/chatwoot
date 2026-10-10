@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Nu este disponibil",
     "EMAIL_ADDRESS": "Adresa Email",
     "PHONE_NUMBER": "Număr de telefon",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Identificator",
     "COPY_SUCCESSFUL": "Cod copiat în clipboard cu succes",
     "COMPANY": "Companie",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

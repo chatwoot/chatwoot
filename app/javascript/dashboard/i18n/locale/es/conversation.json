@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Anuncio",
+      "POST_LABEL": "Publicación",
+      "VIEW_AD": "Ver anuncio",
+      "WELCOME_MESSAGE_LABEL": "Mensaje prellenado: ",
+      "REPLIED_BELOW": "El cliente respondió a continuación"
+    },
     "SELECT_A_CONVERSATION": "Por favor, selecciona una conversación del panel izquierdo",
     "CSAT_REPLY_MESSAGE": "Por favor, valora la conversación",
     "404": "Lo sentimos, no podemos encontrar la conversación. Por favor, inténtalo de nuevo",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "Este mensaje no es compatible. Puedes ver este mensaje en la aplicación de WhatsApp.",
     "WHATSAPP_FLOW_RESPONSE": "Envió una respuesta de flujo",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Publicidad"
+    },
     "SUCCESS_DELETE_MESSAGE": "Mensaje eliminado correctamente",
     "FAIL_DELETE_MESSSAGE": "¡No se pudo eliminar el mensaje! Inténtalo de nuevo",
     "NO_RESPONSE": "No hay respuesta",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "Agentes",
       "TEAMS": "Equipos"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Buscar variables",
+        "DESCRIPTION": "Descripción",
+        "VALUE": "Valor",
+        "NO_VALUE": "No hay valor para esta conversación"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Buscar emojis",
+        "EMPTY_STATE": "Escribe para buscar emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Buscar macros",
+        "ACTION_COUNT": "1 acción | {count} acciones"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Buscar agentes y equipos",
+        "FILTER": {
+          "ALL": "Todos"
+        },
+        "AVAILABILITY": "Disponibilidad",
+        "ROLE": "Tipo de agente",
+        "AUTO_ASSIGN": "Auto asignar",
+        "ENABLED": "Activado",
+        "DISABLED": "Deshabilitado",
+        "YOU_ARE_A_MEMBER": "Eres un miembro de este equipo"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Posponer hasta",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} más",
     "TOTAL_PARTICIPANTS_TEXT": "{count} personas están participando.",
     "TOTAL_PARTICIPANT_TEXT": "{count} personas están participando.",
-    "NO_PARTICIPANTS_TEXT": "Nadie está participando!.",
+    "NO_PARTICIPANTS_TEXT": "Nadie está participando!",
     "WATCH_CONVERSATION": "Abrir conversación",
     "YOU_ARE_WATCHING": "Estás participando",
     "API": {

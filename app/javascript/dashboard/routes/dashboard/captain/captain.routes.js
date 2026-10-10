@@ -10,7 +10,7 @@ import CaptainPageRouteView from './pages/CaptainPageRouteView.vue';
 import AssistantsIndexPage from './pages/AssistantsIndexPage.vue';
 import AssistantEmptyStateIndex from './assistants/Index.vue';
 
-import AssistantOverviewIndex from './assistants/overview/Index.vue';
+import AssistantOverviewIndex from 'dashboard/components-next/captain/pageComponents/overview/v2/OverviewV2.vue';
 import AssistantSettingsIndex from './assistants/settings/Index.vue';
 import AssistantSystemSettingsIndex from './assistants/settings/System.vue';
 import AssistantAudienceSettingsIndex from './assistants/settings/Audience.vue';
@@ -24,6 +24,8 @@ import DocumentsIndex from './documents/Index.vue';
 import ResponsesIndex from './responses/Index.vue';
 import FaqSuggestionsIndex from './responses/FaqSuggestions.vue';
 import CustomToolsIndex from './tools/Index.vue';
+import CustomToolsExplore from './tools/Explore.vue';
+import CustomToolsInstall from './tools/Install.vue';
 
 const meta = {
   permissions: ['administrator', 'agent'],
@@ -44,7 +46,7 @@ const metaCustomTools = {
 
 const metaV2 = {
   permissions: ['administrator', 'agent'],
-  featureFlag: FEATURE_FLAGS.CAPTAIN_V2,
+  featureFlag: FEATURE_FLAGS.CAPTAIN,
   installationTypes: [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE],
 };
 
@@ -74,6 +76,18 @@ const assistantRoutes = [
     meta: metaCustomTools,
   },
   {
+    path: frontendURL('accounts/:accountId/captain/:assistantId/tools/explore'),
+    component: CustomToolsExplore,
+    name: 'captain_tools_explore',
+    meta: metaCustomTools,
+  },
+  {
+    path: frontendURL('accounts/:accountId/captain/toolsets/install'),
+    component: CustomToolsInstall,
+    name: 'captain_toolset_install',
+    meta: { ...metaCustomTools, permissions: ['administrator'] },
+  },
+  {
     path: frontendURL('accounts/:accountId/captain/:assistantId/scenarios'),
     component: AssistantScenariosIndex,
     name: 'captain_assistants_scenarios_index',
@@ -83,7 +97,7 @@ const assistantRoutes = [
     path: frontendURL('accounts/:accountId/captain/:assistantId/playground'),
     component: AssistantPlaygroundIndex,
     name: 'captain_assistants_playground_index',
-    meta,
+    meta: metaV2,
   },
   {
     path: frontendURL('accounts/:accountId/captain/:assistantId/inboxes'),

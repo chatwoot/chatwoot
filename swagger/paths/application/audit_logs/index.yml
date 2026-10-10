@@ -4,6 +4,7 @@ operationId: get-account-audit-logs
 summary: List Audit Logs in Account
 description: Get Details of Audit Log entries for an Account. This endpoint is only available in Enterprise editions and requires the audit_logs feature to be enabled.
 security:
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - name: page

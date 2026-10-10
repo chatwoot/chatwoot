@@ -63,45 +63,46 @@ defineExpose({ validate });
 <template>
   <li class="list-none">
     <div
-      class="flex items-start gap-2 p-3 rounded-lg border border-n-weak bg-n-alpha-2"
+      class="flex flex-col gap-2 p-3 rounded-lg border border-n-weak"
       :class="{
         'animate-wiggle border-n-ruby-9': showErrors && validationError,
       }"
     >
-      <div class="flex flex-col flex-1 gap-3">
-        <div class="grid grid-cols-3 gap-2">
-          <Input
-            v-model="name"
-            :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_NAME.PLACEHOLDER')"
-            class="col-span-2"
-          />
-          <ComboBox
-            v-model="type"
-            :options="paramTypeOptions"
-            :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_TYPE.PLACEHOLDER')"
-            class="[&>div>button]:bg-n-alpha-black2"
-          />
-        </div>
+      <div class="grid grid-cols-3 gap-2">
         <Input
-          v-model="description"
-          :placeholder="
-            t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_DESCRIPTION.PLACEHOLDER')
-          "
+          v-model="name"
+          :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_NAME.PLACEHOLDER')"
+          class="col-span-2 [&_input]:font-mono"
         />
+        <ComboBox
+          v-model="type"
+          :options="paramTypeOptions"
+          :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_TYPE.PLACEHOLDER')"
+          class="[&>div>button]:bg-n-alpha-black2"
+        />
+      </div>
+      <Input
+        v-model="description"
+        :placeholder="
+          t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_DESCRIPTION.PLACEHOLDER')
+        "
+      />
+      <div class="flex items-center justify-between">
         <label class="flex items-center gap-2 cursor-pointer">
           <Checkbox v-model="required" />
           <span class="text-sm text-n-slate-11">
             {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_REQUIRED.LABEL') }}
           </span>
         </label>
+        <Button
+          type="button"
+          ghost
+          slate
+          xs
+          icon="i-lucide-trash-2"
+          @click.stop="emit('remove')"
+        />
       </div>
-      <Button
-        solid
-        slate
-        icon="i-lucide-trash"
-        class="flex-shrink-0"
-        @click.stop="emit('remove')"
-      />
     </div>
     <span
       v-if="showErrors && validationError"
