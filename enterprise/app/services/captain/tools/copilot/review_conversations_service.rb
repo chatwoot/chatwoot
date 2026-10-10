@@ -2,7 +2,8 @@ class Captain::Tools::Copilot::ReviewConversationsService < Captain::Tools::Copi
   def self.name
     'review_conversations'
   end
-  description 'Review a saved conversation collection one conversation at a time. Returns the review ID and coverage once it has finished.'
+  description "Review a saved conversation collection one conversation at a time, newest first, up to #{CopilotRun::REVIEW_BUDGET} per turn. " \
+              'Returns the review ID and coverage, including conversations remaining, once the batch has finished.'
   parameter :collection_id, type: :integer, description: 'Collection ID from get_data'
   parameter :criteria, type: :string, description: 'The exact requested checks, including how to classify each conversation'
   parameter :match, type: :string, required: false,
@@ -19,7 +20,8 @@ class Captain::Tools::Copilot::ReviewConversationsService < Captain::Tools::Copi
     review = run.with_lease(lease_token) do
       run.copilot_thread.copilot_runs.create_or_find_by!(copilot_run_step: step) do |record|
         record.assign_attributes(account: run.account, user: run.user, parent_run: collection, kind: 'review',
-                                 context: collection.context.merge('criteria' => criteria, 'match' => match).compact)
+                                 context: collection.context.merge('criteria' => criteria, 'match' => match,
+                                                                   'budget' => CopilotRun::REVIEW_BUDGET).compact)
       end
     end
     Captain::Copilot::ReviewJob.perform_later(review.id)

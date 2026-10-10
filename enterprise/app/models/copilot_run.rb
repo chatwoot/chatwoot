@@ -42,6 +42,8 @@ class CopilotRun < ApplicationRecord
 
   TERMINAL_STATUSES = %w[completed incomplete failed].freeze
   MAX_SELECTION = 5000
+  # Conversations a review finishes per turn. The rest wait until the agent asks to continue.
+  REVIEW_BUDGET = 100
 
   LEASE_DURATION = 2.minutes
 
@@ -74,6 +76,21 @@ class CopilotRun < ApplicationRecord
     with_lease(token) { update!(lease_until: Time.current + LEASE_DURATION) }
   end
 
+  # Checked before every model call, so turning the feature off or running out of credits also stops work in flight.
+  def ensure_allowed!
+    account.reload
+    raise Captain::Copilot::LimitExceededError, I18n.t('captain.copilot_workflows_disabled') unless account.feature_enabled?('copilot_workflows')
+    return if account.usage_limits[:captain][:responses][:current_available].positive?
+
+    raise Captain::Copilot::LimitExceededError, I18n.t('captain.copilot_limit')
+  end
+
+  # Turns run in order; a message sent while an earlier turn waits on its review is answered after that turn.
+  def behind_earlier_turn?
+    copilot_thread.copilot_runs.where(kind: 'chat', status: %w[queued running waiting])
+                  .where(CopilotRun.arel_table[:copilot_message_id].lt(copilot_message_id)).exists?
+  end
+
   # Called when a background run finishes. This run may not have parked yet; it checks the step under this same lock
   # before parking, so exactly one side re-queues it.
   def resume_with(step, result)
@@ -98,13 +115,29 @@ class CopilotRun < ApplicationRecord
     kind == 'collection' ? context.fetch('resource', 'conversations') : 'conversations'
   end
 
+  # For a review, the matched conversations or every conversation it decided on, including those screened out.
   def record_ids(only_matched: true)
     return selected_ids if kind == 'collection'
     raise ArgumentError, 'The review has not finished yet' unless terminal?
 
-    reviewed = findings.where(status: 'resolved')
-    reviewed = reviewed.where(matched: true) if only_matched
-    reviewed.order(:conversation_id).pluck(:conversation_id)
+    decided = only_matched ? findings.where(status: 'resolved', matched: true) : findings.where(status: %w[resolved screened_out])
+    decided.order(:conversation_id).pluck(:conversation_id)
+  end
+
+  # Moves an unfinished review to the tool call that continues it, with budget for the next batch.
+  def continue_review(step)
+    with_lock do
+      return if copilot_run_step_id == step.id
+      raise ArgumentError, 'The review is still running' unless terminal?
+      raise ArgumentError, 'The review has no conversations left to review' if remaining_ids.empty?
+      raise ArgumentError, 'This turn already reviewed a batch. Ask the agent before continuing.' if turn.id == step.copilot_run_id
+
+      update!(copilot_run_step: step, status: 'queued', error: nil, context: context.merge('budget' => processed_count + REVIEW_BUDGET))
+    end
+  end
+
+  def budget_left
+    context.fetch('budget') - processed_count
   end
 
   def boundary_at
@@ -129,10 +162,15 @@ class CopilotRun < ApplicationRecord
 
   def receipt
     counts = findings.group(:status).count
-    { run_id: id, status: status, filters: filters, match: match, selected: selected_ids.size,
-      processed: counts.values_at(*CopilotReviewFinding::FINAL_STATUSES).sum(&:to_i), screened_out: counts['screened_out'].to_i,
-      reviewed: counts['resolved'].to_i, matched: findings.where(matched: true).count, errors: counts['error'].to_i,
-      selection_truncated: context['selection_truncated'], error: error }
+    selected = selected_ids.size
+    processed = counts.values_at(*CopilotReviewFinding::FINAL_STATUSES).sum(&:to_i)
+    { run_id: id, status: status, filters: filters, match: match, selected: selected, processed: processed, remaining: selected - processed,
+      screened_out: counts['screened_out'].to_i, reviewed: counts['resolved'].to_i, matched: findings.where(matched: true).count,
+      errors: counts['error'].to_i, selection_truncated: context['selection_truncated'], error: error }
+  end
+
+  def processed_count
+    findings.where(status: CopilotReviewFinding::FINAL_STATUSES).count
   end
 
   def publish_progress

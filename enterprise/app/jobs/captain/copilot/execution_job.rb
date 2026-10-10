@@ -7,7 +7,7 @@ class Captain::Copilot::ExecutionJob < ApplicationJob
     run = CopilotRun.where(kind: 'chat', status: %w[queued running]).find_by(id: run_id)
     return unless run
 
-    return self.class.set(wait: 5.seconds).perform_later(run.id) if earlier_chat_pending?(run)
+    return self.class.set(wait: 5.seconds).perform_later(run.id) if run.behind_earlier_turn?
 
     token = run.claim
     self.class.set(wait_until: (run.lease_until || Time.current) + 30.seconds).perform_later(run.id)
@@ -22,12 +22,6 @@ class Captain::Copilot::ExecutionJob < ApplicationJob
   end
 
   private
-
-  # Turns run in order; a message sent while an earlier turn waits on its review is answered after that turn.
-  def earlier_chat_pending?(run)
-    run.copilot_thread.copilot_runs.where(kind: 'chat', status: %w[queued running waiting])
-       .where(CopilotRun.arel_table[:copilot_message_id].lt(run.copilot_message_id)).exists?
-  end
 
   def handle_failure(run, token, exception)
     return unless run && token
