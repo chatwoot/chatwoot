@@ -25,6 +25,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check whether deployment requires database migrations
+        id: migrations
+        if: github.event_name == 'push' && github.ref_type == 'branch'
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          git fetch --no-tags --depth=1 origin "$BEFORE_SHA"
+          if git diff --name-only "$BEFORE_SHA" "$GITHUB_SHA" -- db/migrate | grep -q .; then
+            echo "required=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::Database migrations changed. Publishing the image only; deploy through the maintenance runbook after backup and migrations."
+          fi
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -38,16 +52,18 @@ jobs:
       - name: Resolve image tags
         id: tags
         run: |
-          # latest only for branch pushes/dispatch; tag refs become the literal tag
+          # Preview branch builds publish only an immutable SHA tag.
           if [[ "${{ github.ref_type }}" == "tag" ]]; then
             echo "tags=${{ env.IMAGE_NAME }}:${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
-          else
+          elif [[ "$GITHUB_REF" == "refs/heads/develop" || "$GITHUB_REF" == "refs/heads/main" || "$GITHUB_REF" == "refs/heads/master" ]]; then
             {
               echo "tags<<EOF"
               echo "${{ env.IMAGE_NAME }}:latest"
               echo "${{ env.IMAGE_NAME }}:${{ github.sha }}"
               echo "EOF"
             } >> "$GITHUB_OUTPUT"
+          else
+            echo "tags=${{ env.IMAGE_NAME }}:${{ github.sha }}" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Build and push Docker image
@@ -61,7 +77,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Deploy to Portainer
-        if: github.event_name != 'workflow_dispatch' && github.ref_type == 'branch' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        if: github.event_name != 'workflow_dispatch' && steps.migrations.outputs.required != 'true' && github.ref_type == 'branch' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
         env:
           PORTAINER_URL: ${{ secrets.PORTAINER_URL }}
           PORTAINER_TOKEN: ${{ secrets.PORTAINER_API_TOKEN }}
