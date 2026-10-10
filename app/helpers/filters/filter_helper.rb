@@ -93,7 +93,28 @@ module Filters::FilterHelper
       return assignee_presence_filter(filter_config[:table_name], query_hash)
     end
 
+    if query_hash[:attribute_key] == 'status' && Array.wrap(query_hash['values']).include?('unread')
+      return conversation_unread_status_filter(query_hash, filter_operator_value)
+    end
+
     "#{filter_config[:table_name]}.#{query_hash[:attribute_key]} #{filter_operator_value} #{query_hash[:query_operator]}"
+  end
+
+  def conversation_unread_status_filter(query_hash, filter_operator_value)
+    other_statuses = Array.wrap(query_hash['values']).reject { |v| v == 'unread' }
+    unread_sql = if query_hash[:filter_operator] == 'equal_to'
+                   "#{Conversation.unread_messages_count_arel.to_sql} > 0"
+                 else
+                   "#{Conversation.unread_messages_count_arel.to_sql} = 0"
+                 end
+
+    if other_statuses.empty?
+      "(#{unread_sql}) #{query_hash[:query_operator]}"
+    elsif query_hash[:filter_operator] == 'equal_to'
+      "((#{filter_config[:table_name]}.status #{filter_operator_value}) OR (#{unread_sql})) #{query_hash[:query_operator]}"
+    else
+      "((#{filter_config[:table_name]}.status #{filter_operator_value}) AND (#{unread_sql})) #{query_hash[:query_operator]}"
+    end
   end
 
   # Assignee ownership can live in either column until it is standardized as a polymorphic association.
@@ -121,7 +142,7 @@ module Filters::FilterHelper
   def conversation_status_values(values)
     return Conversation.statuses.values if values.include?('all')
 
-    values.map { |x| Conversation.statuses[x.to_sym] }
+    values.reject { |x| x == 'unread' }.map { |x| Conversation.statuses[x.to_sym] }
   end
 
   def conversation_priority_values(values)

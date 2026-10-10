@@ -24,6 +24,9 @@
       "open": {
         "TEXT": "Açık"
       },
+      "unread": {
+        "TEXT": "Okunmamış"
+      },
       "resolved": {
         "TEXT": "Çözüldü"
       },

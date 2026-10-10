@@ -379,6 +379,26 @@ const matchesConversationCondition = (conversation, filter) => {
     return false;
   }
 
+  if (filter.attribute_key === 'status') {
+    const rawValues = Array.isArray(filter.values)
+      ? filter.values.map(resolveValue)
+      : [resolveValue(filter.values)];
+
+    if (rawValues.includes('unread')) {
+      const isUnread = (conversation.unread_count || 0) > 0;
+      const otherValues = rawValues.filter(v => v !== 'unread');
+
+      if (filter.filter_operator === 'equal_to') {
+        if (otherValues.length === 0) return isUnread;
+        return isUnread || otherValues.includes(conversation.status);
+      }
+      if (filter.filter_operator === 'not_equal_to') {
+        if (otherValues.length === 0) return !isUnread;
+        return !isUnread && !otherValues.includes(conversation.status);
+      }
+    }
+  }
+
   return matchesCondition(
     getValueFromConversation(conversation, filter.attribute_key),
     filter

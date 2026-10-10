@@ -1,6 +1,7 @@
 import {
   findPendingMessageIndex,
   applyPageFilters,
+  filterByStatus,
   filterByInbox,
   filterByTeam,
   filterByLabel,
@@ -121,6 +122,22 @@ describe('#applyPageFilters', () => {
       };
       expect(applyPageFilters(conversationList[1], filters)).toEqual(true);
     });
+    it('returns true if conversation has unread messages and status filter is unread', () => {
+      const filters = {
+        status: 'unread',
+      };
+      expect(
+        applyPageFilters({ ...conversationList[0], unread_count: 2 }, filters)
+      ).toEqual(true);
+    });
+    it('returns false if conversation has no unread messages and status filter is unread', () => {
+      const filters = {
+        status: 'unread',
+      };
+      expect(
+        applyPageFilters({ ...conversationList[0], unread_count: 0 }, filters)
+      ).toEqual(false);
+    });
   });
 });
 
@@ -170,5 +187,23 @@ describe('#filterByUnattended', () => {
   });
   it('returns true if conversation type is unattended and has first reply', () => {
     expect(filterByUnattended(true, 'mentions', 123)).toEqual(true);
+  });
+});
+
+describe('#filterByStatus', () => {
+  it('returns true if status matches filterStatus', () => {
+    expect(filterByStatus('open', 'open')).toEqual(true);
+  });
+  it('returns false if status does not match filterStatus', () => {
+    expect(filterByStatus('open', 'resolved')).toEqual(false);
+  });
+  it('returns true if filterStatus is all', () => {
+    expect(filterByStatus('resolved', 'all')).toEqual(true);
+  });
+  it('returns true if filterStatus is unread and unreadCount is greater than zero', () => {
+    expect(filterByStatus('open', 'unread', 2)).toEqual(true);
+  });
+  it('returns false if filterStatus is unread and unreadCount is zero', () => {
+    expect(filterByStatus('open', 'unread', 0)).toEqual(false);
   });
 });
