@@ -68,11 +68,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Dependency and config scan (trivy, critical only)
+      - name: Dependency and config scan (trivy, critical only; secrets are handled by gitleaks)
         uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: fs
-          scanners: vuln,secret,misconfig
+          scanners: vuln,misconfig
           severity: CRITICAL
           ignore-unfixed: true
           exit-code: "1"
