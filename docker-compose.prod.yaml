@@ -1,36 +1,20 @@
+# Production stack for QEVA CRM (Portainer / Docker Swarm).
+#
+# All sensitive values live in ONE Swarm secret named `qeva_env`, created in Portainer
+# (Secrets → Add secret). Its content is a dotenv file: one KEY="value" per line.
+# It is mounted at /run/secrets/qeva_env and sourced before the app starts.
+#
+# Non-sensitive settings are below in x-app-env. QEVA_IMAGE and QEVA_DOMAIN are stack variables.
+
 x-app-env: &app-env
-  INSTALLATION_NAME: ${INSTALLATION_NAME:-QEVA CRM}
   NODE_ENV: production
   RAILS_ENV: production
   INSTALLATION_ENV: docker
-
-  SECRET_KEY_BASE: ${SECRET_KEY_BASE:?set SECRET_KEY_BASE}
+  INSTALLATION_NAME: QEVA CRM
   FRONTEND_URL: https://${QEVA_DOMAIN:-crm.qeva.xyz}
-
   DEFAULT_LOCALE: es
   FORCE_SSL: "true"
   ENABLE_ACCOUNT_SIGNUP: "false"
-
-  REDIS_URL: ${REDIS_URL:?set REDIS_URL}
-  REDIS_PASSWORD: ${REDIS_PASSWORD:?set REDIS_PASSWORD}
-
-  MAILER_SENDER_EMAIL: ${MAILER_SENDER_EMAIL:-QEVA CRM <no-reply@qeva.xyz>}
-  SMTP_DOMAIN: ${SMTP_DOMAIN:-gmail.com}
-  SMTP_ADDRESS: ${SMTP_ADDRESS:-smtp.gmail.com}
-  SMTP_PORT: ${SMTP_PORT:-587}
-  SMTP_USERNAME: ${SMTP_USERNAME:-}
-  SMTP_PASSWORD: ${SMTP_PASSWORD:-}
-  SMTP_AUTHENTICATION: plain
-  SMTP_ENABLE_STARTTLS_AUTO: "true"
-  SMTP_OPENSSL_VERIFY_MODE: peer
-  MAILER_INBOUND_EMAIL_DOMAIN: ${MAILER_INBOUND_EMAIL_DOMAIN:-gmail.com}
-
-  POSTGRES_HOST: ${POSTGRES_HOST:-postgres_postgres-vector}
-  POSTGRES_PORT: ${POSTGRES_PORT:-5432}
-  POSTGRES_USERNAME: ${POSTGRES_USERNAME:-chatwoot_qeva}
-  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
-  POSTGRES_DATABASE: ${POSTGRES_DATABASE:-chatwoot_qeva}
-
   ACTIVE_STORAGE_SERVICE: local
   RAILS_LOG_TO_STDOUT: "true"
   USE_INBOX_AVATAR_FOR_BOT: "true"
@@ -38,15 +22,16 @@ x-app-env: &app-env
 services:
   qeva_app:
     image: ${QEVA_IMAGE:?set QEVA_IMAGE to the image published in the registry}
-    command: bundle exec rails s -p 3000 -b 0.0.0.0
-    entrypoint: docker/entrypoints/rails.sh
-
+    command:
+      - sh
+      - -c
+      - set -a; . /run/secrets/qeva_env; set +a; exec docker/entrypoints/rails.sh bundle exec rails s -p 3000 -b 0.0.0.0
+    secrets:
+      - qeva_env
     volumes:
       - qeva_storage:/app/storage
-
     networks:
       - network_public
-
     environment:
       <<: *app-env
 
@@ -86,14 +71,16 @@ services:
 
   qeva_worker:
     image: ${QEVA_IMAGE:?set QEVA_IMAGE to the image published in the registry}
-    command: bundle exec sidekiq -C config/sidekiq.yml
-
+    command:
+      - sh
+      - -c
+      - set -a; . /run/secrets/qeva_env; set +a; exec docker/entrypoints/rails.sh bundle exec sidekiq -C config/sidekiq.yml
+    secrets:
+      - qeva_env
     volumes:
       - qeva_storage:/app/storage
-
     networks:
       - network_public
-
     environment:
       <<: *app-env
 
@@ -113,6 +100,10 @@ services:
         limits:
           cpus: "1.0"
           memory: 1024M
+
+secrets:
+  qeva_env:
+    external: true
 
 volumes:
   qeva_storage:
