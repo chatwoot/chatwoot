@@ -130,6 +130,12 @@ export default {
     },
     onChange(e) {
       const rawInput = e.target.value;
+      if (rawInput && !/^[\d\s()+-]*$/.test(rawInput)) {
+        this.phoneNumber = rawInput;
+        this.$emit('update:modelValue', rawInput);
+        this.$emit('setCode', this.activeDialCode);
+        return;
+      }
       const formatted = formatAsYouTypeInput(
         this.activeDialCode,
         this.activeCountryCode,
@@ -177,13 +183,17 @@ export default {
       this.searchCountry = '';
       this.activeDialCode = country.dial_code;
       if (this.phoneNumber) {
-        this.phoneNumber = formatAsYouTypeInput(
-          country.dial_code,
-          country.id,
-          this.phoneNumber
-        );
-        const cleanDigits = (this.phoneNumber || '').replace(/\D/g, '');
-        this.$emit('update:modelValue', cleanDigits);
+        if (!/^[\d\s()+-]*$/.test(this.phoneNumber)) {
+          this.$emit('update:modelValue', this.phoneNumber);
+        } else {
+          this.phoneNumber = formatAsYouTypeInput(
+            country.dial_code,
+            country.id,
+            this.phoneNumber
+          );
+          const cleanDigits = (this.phoneNumber || '').replace(/\D/g, '');
+          this.$emit('update:modelValue', cleanDigits);
+        }
       }
       this.$emit('setCode', country.dial_code);
       this.closeDropdown();

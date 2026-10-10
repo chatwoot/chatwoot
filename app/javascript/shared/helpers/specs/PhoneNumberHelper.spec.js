@@ -66,5 +66,17 @@ describe('PhoneNumberHelper', () => {
         '6 12 34 56 78'
       );
     });
+
+    it('preserves raw string and does not strip characters when input contains invalid non-phone characters', () => {
+      expect(formatAsYouTypeInput('+1', 'US', '1-800-FLOWERS')).toBe(
+        '1-800-FLOWERS'
+      );
+      expect(formatAsYouTypeInput('+90', 'TR', '0555 ABC 1234')).toBe(
+        '0555 ABC 1234'
+      );
+      expect(formatAsYouTypeInput('+1', 'US', 'invalid phone')).toBe(
+        'invalid phone'
+      );
+    });
   });
 });

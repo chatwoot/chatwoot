@@ -130,4 +130,23 @@ describe('PhoneNumberInput.vue', () => {
     expect(wrapper.find('.text-n-ruby-9').exists()).toBe(true);
     expect(wrapper.emitted('update:modelValue')).toBeFalsy();
   });
+
+  it('retains invalid characters and error state when selecting another country', async () => {
+    const wrapper = createWrapper({
+      modelValue: '',
+    });
+    await nextTick();
+
+    const input = wrapper.find('input[type="tel"]');
+    await input.setValue('800-FLOWERS');
+    await nextTick();
+
+    // Trigger country change
+    await wrapper.vm.onSelectCountry({ value: 'GB', dialCode: '+44' });
+    await nextTick();
+
+    expect(input.element.value).toBe('800-FLOWERS');
+    expect(wrapper.find('.text-n-ruby-9').exists()).toBe(true);
+    expect(wrapper.emitted('update:modelValue')).toBeFalsy();
+  });
 });

@@ -44,6 +44,12 @@ export const formatAsYouTypeInput = (dialCode, countryCode, value) => {
     return '';
   }
 
+  // Preserve raw input if it contains invalid non-phone characters (e.g. letters in '1-800-FLOWERS')
+  // This ensures form validation rules can detect and reject malformed input rather than silently stripping characters.
+  if (!/^[\d\s()+-]*$/.test(value)) {
+    return value;
+  }
+
   const digits = value.replace(/\D/g, '');
   if (!digits) {
     return '';

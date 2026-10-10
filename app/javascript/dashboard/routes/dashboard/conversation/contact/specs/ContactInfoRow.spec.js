@@ -56,4 +56,18 @@ describe('ContactInfoRow', () => {
 
     expect(wrapper.text()).toContain('CONTACT_PANEL.NOT_AVAILABLE');
   });
+
+  it('does not drop characters when editValue contains letters', async () => {
+    const wrapper = mountComponent({
+      value: '+18001234567',
+      displayValue: '+1 800 123 4567',
+      editable: true,
+    });
+
+    wrapper.vm.startEditing();
+    wrapper.vm.editValue = '+1 800 FLOWERS';
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.editValue).toBe('+1 800 FLOWERS');
+  });
 });

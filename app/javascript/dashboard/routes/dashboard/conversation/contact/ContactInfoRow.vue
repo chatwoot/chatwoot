@@ -61,6 +61,10 @@ export default {
   watch: {
     editValue(val) {
       if (this.displayValue && val && val.startsWith('+')) {
+        // Prevent AsYouType from dropping non-digit characters on unsupported inputs (e.g. +1 800 FLOWERS)
+        if (!/^[\d\s()+-]*$/.test(val)) {
+          return;
+        }
         const formatter = new AsYouType();
         const formatted = formatter.input(val);
         if (formatted !== val) {
@@ -80,7 +84,7 @@ export default {
       this.editValue = this.value || '';
       this.isEditing = true;
       this.$nextTick(() => {
-        this.$refs.editInput?.focus();
+        this.$refs.editInput?.focus?.();
       });
     },
     saveEdit() {

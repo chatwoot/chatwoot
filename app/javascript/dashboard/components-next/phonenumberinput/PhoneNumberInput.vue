@@ -127,6 +127,10 @@ const onSelectCountry = async ({ value, dialCode }) => {
   searchQuery.value = '';
   showDropdown.value = false;
   if (phoneNumber.value) {
+    if (!/^[\d\s()+-]*$/.test(phoneNumber.value)) {
+      await v$.value.$touch();
+      return;
+    }
     phoneNumber.value = formatAsYouTypeInput(
       dialCode,
       value,
