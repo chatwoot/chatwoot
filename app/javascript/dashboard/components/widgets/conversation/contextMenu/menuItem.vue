@@ -11,11 +11,19 @@ defineProps({
     type: String,
     default: 'default',
   },
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>
 
 <template>
-  <div class="menu group text-n-slate-12 min-h-7 min-w-0" role="button">
+  <div
+    class="menu group text-n-slate-12 min-h-7 min-w-0"
+    :class="{ 'bg-n-brand text-white active': isActive }"
+    role="button"
+  >
     <fluent-icon
       v-if="variant === 'icon' && option.icon"
       :icon="option.icon"
@@ -66,7 +74,8 @@ defineProps({
     @apply my-0 mx-2 text-xs flex-shrink-0;
   }
 
-  &:hover {
+  &:hover,
+  &.active {
     @apply bg-n-brand text-white;
   }
 }
