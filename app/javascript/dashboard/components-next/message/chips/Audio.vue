@@ -27,8 +27,23 @@ defineOptions({
   inheritAttrs: false,
 });
 
+const audioUrl = computed(() => {
+  const url = new URL(attachment.dataUrl, window.location.origin);
+  const hostURL = window.chatwootConfig?.hostURL;
+
+  // Storage URLs can point at a public tunnel even when the dashboard is local.
+  if (
+    hostURL &&
+    url.origin === new URL(hostURL).origin &&
+    url.pathname.startsWith('/rails/active_storage/')
+  ) {
+    return new URL(`${url.pathname}${url.search}`, window.location.origin).href;
+  }
+
+  return url.href;
+});
 const timeStampURL = computed(() => {
-  return timeStampAppendedURL(attachment.dataUrl);
+  return timeStampAppendedURL(audioUrl.value);
 });
 
 const TRANSCRIPT_PREVIEW_LENGTH = 200;
@@ -156,8 +171,8 @@ const changePlaybackSpeed = () => {
 };
 
 const downloadAudio = async () => {
-  const { fileType, dataUrl, extension } = attachment;
-  downloadFile({ url: dataUrl, type: fileType, extension });
+  const { fileType, extension } = attachment;
+  downloadFile({ url: audioUrl.value, type: fileType, extension });
 };
 </script>
 
