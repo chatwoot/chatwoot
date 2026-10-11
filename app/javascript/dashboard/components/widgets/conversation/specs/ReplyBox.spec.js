@@ -353,6 +353,40 @@ describe('ReplyBox', () => {
     expect(bottomPanel(dialogWrapper).enableLocationRequest).toBe(false);
   });
 
+  it('lets agents edit a location request before sending it', async () => {
+    const { wrapper } = mountWith({
+      inbox: {
+        channel_type: 'Channel::Whatsapp',
+        provider: 'whatsapp_cloud',
+      },
+    });
+    const sendMessage = vi
+      .spyOn(wrapper.vm, 'sendMessage')
+      .mockResolvedValue(undefined);
+
+    wrapper.vm.requestLocation();
+    expect(wrapper.vm.isLocationRequest).toBe(true);
+    expect(wrapper.vm.message).toBe(
+      'CONVERSATION.REPLYBOX.REQUEST_LOCATION_DEFAULT'
+    );
+
+    wrapper.vm.message = 'Comparte tu ubicación actual.';
+    await nextTick();
+    wrapper.vm.confirmOnSendReply();
+
+    expect(sendMessage).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: 'Comparte tu ubicación actual.',
+        contentAttributes: {
+          whatsapp_interactive: { type: 'location_request_message' },
+        },
+      }),
+      'Comparte tu ubicación actual.',
+      ''
+    );
+    expect(wrapper.vm.isLocationRequest).toBe(false);
+  });
+
   describe('on selecting a conversation', () => {
     const selectChat = async chat => {
       const { wrapper, store } = mountWith({

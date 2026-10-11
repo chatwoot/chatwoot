@@ -139,6 +139,7 @@ export default {
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
       copilotAcceptedMessages: {},
+      isLocationRequest: false,
     };
   },
   computed: {
@@ -343,8 +344,10 @@ export default {
       );
     },
     replyButtonLabel() {
-      let sendMessageText = this.$t('CONVERSATION.REPLYBOX.SEND');
-      if (this.isPrivate) {
+      let sendMessageText = this.isLocationRequest
+        ? this.$t('CONVERSATION.REPLYBOX.SEND_LOCATION_REQUEST')
+        : this.$t('CONVERSATION.REPLYBOX.SEND');
+      if (this.isPrivate && !this.isLocationRequest) {
         sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
       }
       const keyLabel = this.isEditorHotKeyEnabled('cmd_enter')
@@ -528,6 +531,7 @@ export default {
     },
     conversationIdByRoute(conversationId, oldConversationId) {
       if (conversationId !== oldConversationId) {
+        this.isLocationRequest = false;
         this.switchDraftContext(conversationId, this.effectiveReplyMode);
         this.resetRecorderAndClearAttachments();
       }
@@ -543,6 +547,7 @@ export default {
       if (!isAvailable) this.hideContentTemplatesModal();
     },
     effectiveReplyMode(updatedReplyType) {
+      this.isLocationRequest = false;
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode: updatedReplyType,
       });
@@ -790,6 +795,8 @@ export default {
       // Don't handle paste if compose new conversation modal is open
       if (this.newConversationModalActive) return;
 
+      if (this.isLocationRequest) return;
+
       // Don't handle paste if editor is disabled
       if (this.isEditorDisabled) return;
       if (!this.showFileUpload && !this.isOnPrivateNote) return;
@@ -858,7 +865,21 @@ export default {
         // To handle both cases, text and attachments are always sent as separate messages.
         const isOnInstagram = this.isAnInstagramChannel;
         const isOnTiktok = this.isATiktokChannel;
-        if ((isOnWhatsApp || isOnInstagram || isOnTiktok) && !this.isPrivate) {
+        if (this.isLocationRequest) {
+          const messagePayload = this.getMessagePayload(this.message);
+          messagePayload.contentAttributes = {
+            ...messagePayload.contentAttributes,
+            whatsapp_interactive: { type: 'location_request_message' },
+          };
+          this.sendMessage(
+            messagePayload,
+            this.message,
+            copilotAcceptedMessage
+          );
+        } else if (
+          (isOnWhatsApp || isOnInstagram || isOnTiktok) &&
+          !this.isPrivate
+        ) {
           this.sendMessageAsMultipleMessages(
             this.message,
             copilotAcceptedMessage
@@ -998,18 +1019,14 @@ export default {
       this.hideContentTemplatesModal();
     },
     requestLocation() {
-      const prompt = this.hasMeaningfulEditorContent
-        ? this.message
-        : this.$t('CONVERSATION.REPLYBOX.REQUEST_LOCATION_DEFAULT');
-      const messagePayload = this.getMessagePayload(prompt);
-      messagePayload.contentAttributes = {
-        ...messagePayload.contentAttributes,
-        whatsapp_interactive: { type: 'location_request_message' },
-      };
-
-      this.sendMessage(messagePayload, this.message);
-      this.clearMessage();
+      this.isLocationRequest = !this.isLocationRequest;
+      if (this.isLocationRequest && !this.hasMeaningfulEditorContent) {
+        this.message = this.$t(
+          'CONVERSATION.REPLYBOX.REQUEST_LOCATION_DEFAULT'
+        );
+      }
       this.hideEmojiPicker();
+      this.$nextTick(() => this.messageEditor?.focusEditorInputField?.());
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       // Clear attachments when switching between private note and reply modes
@@ -1033,6 +1050,7 @@ export default {
       this.copilot.execute(action, data);
     },
     clearMessage() {
+      this.isLocationRequest = false;
       this.message = '';
       this.clearCopilotAcceptedMessage();
       if (this.sendWithSignature && !this.isPrivate) {
@@ -1494,6 +1512,7 @@ export default {
         :enable-whats-app-templates="showWhatsappTemplates"
         :enable-content-templates="showContentTemplates"
         :enable-location-request="showLocationRequest"
+        :is-location-request="isLocationRequest"
         :inbox="inbox"
         :is-on-private-note="isOnPrivateNote"
         :is-recording-audio="isRecordingAudio"

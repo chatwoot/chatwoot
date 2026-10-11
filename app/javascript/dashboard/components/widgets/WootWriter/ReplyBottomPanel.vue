@@ -96,6 +96,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isLocationRequest: {
+      type: Boolean,
+      default: false,
+    },
     conversationId: {
       type: Number,
       required: true,
@@ -183,10 +187,12 @@ export default {
     },
     showAttachButton() {
       if (this.isEditorDisabled) return false;
+      if (this.isLocationRequest) return false;
       return this.showFileUpload || this.isNote;
     },
     showAudioRecorderButton() {
       if (this.isEditorDisabled) return false;
+      if (this.isLocationRequest) return false;
       if (this.isALineChannel || this.isATiktokChannel) {
         return false;
       }
@@ -264,6 +270,11 @@ export default {
       return this.quotedReplyEnabled
         ? this.$t('CONVERSATION.REPLYBOX.QUOTED_REPLY.DISABLE_TOOLTIP')
         : this.$t('CONVERSATION.REPLYBOX.QUOTED_REPLY.ENABLE_TOOLTIP');
+    },
+    locationRequestTooltip() {
+      return this.isLocationRequest
+        ? this.$t('CONVERSATION.REPLYBOX.CANCEL_LOCATION_REQUEST')
+        : this.$t('CONVERSATION.REPLYBOX.REQUEST_LOCATION');
     },
   },
   mounted() {
@@ -355,7 +366,7 @@ export default {
         @click="$emit('toggleQuotedReply')"
       />
       <NextButton
-        v-if="enableWhatsAppTemplates"
+        v-if="enableWhatsAppTemplates && !isLocationRequest"
         v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
         icon="i-ph-whatsapp-logo"
         slate
@@ -364,7 +375,7 @@ export default {
         @click="$emit('selectWhatsappTemplate')"
       />
       <NextButton
-        v-if="enableContentTemplates"
+        v-if="enableContentTemplates && !isLocationRequest"
         v-tooltip.top-end="'Content Templates'"
         icon="i-ph-whatsapp-logo"
         slate
@@ -374,11 +385,12 @@ export default {
       />
       <NextButton
         v-if="enableLocationRequest && !isEditorDisabled"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.REQUEST_LOCATION')"
+        v-tooltip.top-end="locationRequestTooltip"
         icon="i-ph-map-pin"
-        slate
-        faded
+        :variant="isLocationRequest ? 'solid' : 'faded'"
+        :color="isLocationRequest ? 'blue' : 'slate'"
         sm
+        :aria-pressed="isLocationRequest"
         @click="$emit('requestLocation')"
       />
       <VideoCallButton
