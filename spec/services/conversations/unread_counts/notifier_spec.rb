@@ -41,6 +41,17 @@ RSpec.describe Conversations::UnreadCounts::Notifier do
         conversation: conversation
       )
     end
+
+    it 'dispatches for personal read counts even without a shared Redis membership change' do
+      conversation.account.enable_features!(:individual_conversation_reads)
+      conversation.account.disable_features!(:unread_count_for_filters)
+
+      described_class.new(conversation).perform
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'conversation.unread_count_changed', kind_of(Time), conversation: conversation
+      )
+    end
   end
 
   context 'when conversation unread counts feature is disabled' do

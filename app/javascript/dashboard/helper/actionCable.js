@@ -63,6 +63,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'notification.deleted': this.onNotificationDeleted,
       'notification.updated': this.onNotificationUpdated,
       'conversation.read': this.onConversationRead,
+      'conversation.read_state_changed': this.onConversationReadStateChanged,
       'conversation.updated': this.onConversationUpdated,
       'conversation.unread_count_changed':
         this.onConversationUnreadCountChanged,
@@ -189,6 +190,10 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onConversationRead = data => {
     this.app.$store.dispatch('updateConversation', data);
+  };
+
+  onConversationReadStateChanged = data => {
+    this.app.$store.dispatch('updateConversationReadState', data);
   };
 
   // eslint-disable-next-line class-methods-use-this

@@ -142,7 +142,7 @@ class Conversations::UnreadCounts::Listener < BaseListener
   end
 
   def notify_deleted_filtered_count_change(account, conversation_data)
-    return unless account.feature_enabled?(filtered_count_feature_flag)
+    return unless account.feature_enabled?(filtered_count_feature_flag) || account.feature_enabled?(Conversations::ReadStateService::FEATURE_FLAG)
 
     Rails.configuration.dispatcher.dispatch(CONVERSATION_UNREAD_COUNT_CHANGED, Time.zone.now, conversation_data: conversation_data.to_h)
   end

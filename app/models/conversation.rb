@@ -129,6 +129,7 @@ class Conversation < ApplicationRecord
   has_many :scheduled_messages, dependent: :destroy_async
   has_one :csat_survey_response, dependent: :destroy_async
   has_many :conversation_participants, dependent: :destroy_async
+  has_many :conversation_read_states, dependent: :delete_all
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
   has_many :attachments, through: :messages
   has_many :reporting_events, dependent: :destroy_async
@@ -199,16 +200,28 @@ class Conversation < ApplicationRecord
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
   end
 
-  def unread_messages
-    agent_last_seen_at.present? ? messages.created_since(agent_last_seen_at) : messages
+  def read_state_for(user)
+    @read_states ||= {}
+    @read_states[user.id] ||= Conversations::ReadStateService.new(conversation: self, user: user)
+  end
+
+  def agent_last_seen_at_for(user)
+    return agent_last_seen_at unless Conversations::ReadStateService.enabled?(account, user)
+
+    read_state_for(user).last_seen_at
+  end
+
+  def unread_messages(user: nil)
+    last_seen = agent_last_seen_at_for(user)
+    last_seen.present? ? messages.created_since(last_seen) : messages
   end
 
   def assignee_unread_messages
     assignee_last_seen_at.present? ? messages.created_since(assignee_last_seen_at) : messages
   end
 
-  def unread_incoming_messages
-    unread_messages.where(account_id: account_id).incoming.last(10)
+  def unread_incoming_messages(user: nil)
+    unread_messages(user: user).where(account_id: account_id).incoming.last(10)
   end
 
   def cached_label_list_array
@@ -244,19 +257,21 @@ class Conversation < ApplicationRecord
     conversations = arel_table
     unread_messages = messages
                       .project(messages[:id].count)
-                      .where(unread_messages_condition(messages, conversations))
+                      .where(unread_messages_condition(messages, conversations, user: Current.user, account: Current.account))
 
     Arel::Nodes::Grouping.new(unread_messages.ast)
   end
 
-  def self.unread_messages_condition(messages, conversations)
+  def self.unread_messages_condition(messages, conversations, user: nil, account: nil)
+    unseen = if account && Conversations::ReadStateService.enabled?(account, user)
+               messages[:created_at].gt(ConversationReadState.last_seen_arel(user.id))
+             else
+               conversations[:agent_last_seen_at].eq(nil).or(messages[:created_at].gt(conversations[:agent_last_seen_at]))
+             end
     messages[:conversation_id].eq(conversations[:id])
                               .and(messages[:account_id].eq(conversations[:account_id]))
                               .and(messages[:message_type].eq(Message.message_types[:incoming]))
-                              .and(
-                                conversations[:agent_last_seen_at].eq(nil)
-                                  .or(messages[:created_at].gt(conversations[:agent_last_seen_at]))
-                              )
+                              .and(unseen)
   end
 
   def recent_messages

@@ -10,7 +10,9 @@ class Conversations::UnreadCounts::Notifier
 
   def perform
     return false unless conversation.account.feature_enabled?('conversation_unread_counts')
-    return dispatch_unread_count_changed if ::Conversations::UnreadCounts::Refresher.new(conversation, changed_attributes: changed_attributes).perform
+
+    changed = ::Conversations::UnreadCounts::Refresher.new(conversation, changed_attributes: changed_attributes).perform
+    return dispatch_unread_count_changed if changed || conversation.account.feature_enabled?(Conversations::ReadStateService::FEATURE_FLAG)
     return false unless conversation.account.feature_enabled?(filtered_count_feature_flag)
 
     dispatch_unread_count_changed

@@ -149,6 +149,6 @@ class Conversations::UnreadCounts::FilterQueryCounter < Conversations::FilterSer
     conversations = Conversation.arel_table
     messages = Message.arel_table
 
-    conversations[:agent_last_seen_at].eq(nil).or(messages[:created_at].gt(conversations[:agent_last_seen_at]))
+    Conversation.unread_messages_condition(messages, conversations, user: @user, account: @account)
   end
 end

@@ -191,9 +191,12 @@ class ConversationFinder
   end
 
   def conversations_base_query
-    @conversations.includes(
+    relation = @conversations.includes(
       :taggings, :team, :contact_inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }
     ).preload(inbox: :channel, ai_assignee: { avatar_attachment: [:blob] })
+    return relation unless Conversations::ReadStateService.enabled?(current_account, current_user)
+
+    relation.preload(:conversation_read_states)
   end
 
   def conversations

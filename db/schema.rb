@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_10_10_161059) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_11_153624) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1100,6 +1100,18 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_10_161059) do
     t.index ["user_id"], name: "index_conversation_participants_on_user_id"
   end
 
+  create_table "conversation_read_states", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "last_seen_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_conversation_read_states_on_account_id"
+    t.index ["conversation_id"], name: "index_conversation_read_states_on_conversation_id"
+    t.index ["user_id", "conversation_id"], name: "index_conversation_read_states_on_user_id_and_conversation_id", unique: true
+  end
+
   create_table "conversation_risk_monitor_configs", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "inbox_id", null: false
@@ -1145,6 +1157,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_10_161059) do
     t.bigint "assignee_agent_bot_id"
     t.datetime "status_changed_at"
     t.string "ai_assignee_type"
+    t.datetime "read_baseline_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"

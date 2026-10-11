@@ -60,6 +60,19 @@ describe('ActionCableConnector - Copilot Tests', () => {
     vi.useRealTimers();
   });
   describe('copilot event handlers', () => {
+    it('updates only read state without inserting a partial conversation into another tab', () => {
+      const data = { id: 7, agent_last_seen_at: 123, unread_count: 0 };
+      actionCable.onConversationReadStateChanged(data);
+      expect(mockDispatch).toHaveBeenCalledWith(
+        'updateConversationReadState',
+        data
+      );
+      expect(mockDispatch).not.toHaveBeenCalledWith(
+        'updateConversation',
+        expect.anything()
+      );
+    });
+
     it('clears a revoked browser session without requiring another sign-out request', () => {
       vi.spyOn(AuthAPI, 'getAuthData').mockReturnValue({
         client: 'old-client',

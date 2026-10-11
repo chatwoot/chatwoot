@@ -16,6 +16,13 @@ class Conversations::UnreadCounts::Counter
   def perform
     return with_filtered_counts(empty_counts, build: false) if permission_mode == :none
 
+    if Conversations::ReadStateService.enabled?(
+      account, user
+    )
+      return with_filtered_counts(Conversations::UnreadCounts::PersonalCounter.new(account: account,
+                                                                                   user: user).perform)
+    end
+
     ensure_base_cache!
     ensure_assignment_cache! if assignment_mode?
 
@@ -180,11 +187,7 @@ class Conversations::UnreadCounts::Counter
   end
 
   def visible_inbox_ids
-    @visible_inbox_ids ||= if account_user&.administrator?
-                             account.inboxes.pluck(:id)
-                           else
-                             user.inboxes.where(account_id: account.id).pluck(:id)
-                           end
+    @visible_inbox_ids ||= (account_user&.administrator? ? account.inboxes : user.inboxes.where(account_id: account.id)).pluck(:id)
   end
 
   def sidebar_label_ids
@@ -192,11 +195,7 @@ class Conversations::UnreadCounts::Counter
   end
 
   def visible_team_ids
-    @visible_team_ids ||= if account_user&.administrator?
-                            account.teams.pluck(:id)
-                          else
-                            user.teams.where(account_id: account.id).pluck(:id)
-                          end
+    @visible_team_ids ||= (account_user&.administrator? ? account.teams : user.teams.where(account_id: account.id)).pluck(:id)
   end
 
   def empty_counts

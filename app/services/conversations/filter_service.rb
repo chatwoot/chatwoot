@@ -33,6 +33,7 @@ class Conversations::FilterService < FilterService
       inbox: :channel,
       ai_assignee: { avatar_attachment: [:blob] }
     )
+    conversations = conversations.preload(:conversation_read_states) if Conversations::ReadStateService.enabled?(@account, @user)
 
     Conversations::PermissionFilterService.new(
       conversations,
