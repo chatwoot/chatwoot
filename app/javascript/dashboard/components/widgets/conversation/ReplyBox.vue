@@ -987,12 +987,13 @@ export default {
       copilotAcceptedMessage = ''
     ) {
       try {
-        await this.$store.dispatch(
+        const messageRequest = this.$store.dispatch(
           'createPendingMessageAndSend',
           messagePayload
         );
-        emitter.emit(BUS_EVENTS.MESSAGE_SENT);
         this.removeFromDraft();
+        await messageRequest;
+        emitter.emit(BUS_EVENTS.MESSAGE_SENT);
         this.sendMessageAnalyticsData(messagePayload.private, {
           editorMessage,
           copilotAcceptedMessage,
@@ -1068,6 +1069,7 @@ export default {
       this.isRecordingAudio = false;
       this.resetReplyToMessage();
       this.resetAudioRecorderInput();
+      this.messageEditor?.setEditorContent?.(this.message);
     },
     clearEmailField() {
       this.ccEmails = '';

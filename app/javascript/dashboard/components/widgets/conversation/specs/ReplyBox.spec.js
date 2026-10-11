@@ -353,6 +353,21 @@ describe('ReplyBox', () => {
     expect(bottomPanel(dialogWrapper).enableLocationRequest).toBe(false);
   });
 
+  it('clears the rendered editor content immediately', async () => {
+    const { wrapper } = mountWith({
+      inbox: { channel_type: 'Channel::Whatsapp' },
+    });
+    await nextTick();
+    const setEditorContent = vi.fn();
+    wrapper.vm.messageEditor.setEditorContent = setEditorContent;
+    wrapper.vm.message = 'Message being sent';
+
+    wrapper.vm.clearMessage();
+
+    expect(wrapper.vm.message).toBe('');
+    expect(setEditorContent).toHaveBeenCalledWith('');
+  });
+
   it('lets agents edit a location request before sending it', async () => {
     const { wrapper } = mountWith({
       inbox: {

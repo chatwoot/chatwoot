@@ -860,7 +860,7 @@ onMounted(() => {
   }
 });
 
-defineExpose({ focusEditorInputField });
+defineExpose({ focusEditorInputField, setEditorContent: reloadState });
 
 // BUS Event to insert text or markdown into the editor at the
 // current cursor position.

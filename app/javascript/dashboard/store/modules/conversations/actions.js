@@ -293,7 +293,7 @@ const actions = {
 
   createPendingMessageAndSend: async ({ dispatch }, data) => {
     const pendingMessage = createPendingMessage(data);
-    dispatch('sendMessageWithData', pendingMessage);
+    return dispatch('sendMessageWithData', pendingMessage);
   },
 
   sendMessageWithData: async ({ commit }, pendingMessage) => {
