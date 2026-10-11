@@ -41,6 +41,17 @@ RSpec.describe Message do
       expect(conversation.reload).to have_attributes(status: 'open', ai_assignee: nil, ai_assignee_type: nil)
     end
 
+    it 'measures the first response from before the reply opened the conversation' do
+      conversation.update!(created_at: 10.minutes.ago)
+
+      perform_enqueued_jobs(only: EventDispatcherJob) do
+        create(:message, message_type: :outgoing, conversation: conversation)
+      end
+
+      first_response = ReportingEvent.find_by(conversation_id: conversation.id, name: 'first_response')
+      expect(first_response.value).to be_within(5).of(600)
+    end
+
     it 'creates an activity message when a human sends a public outgoing message' do
       expect do
         create(:message, message_type: :outgoing, conversation: conversation)
