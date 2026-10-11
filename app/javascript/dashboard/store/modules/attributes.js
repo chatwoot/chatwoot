@@ -10,6 +10,7 @@ export const state = {
     isCreating: false,
     isUpdating: false,
     isDeleting: false,
+    fetchedAccountId: null,
   },
 };
 
@@ -43,15 +44,32 @@ export const getters = {
 };
 
 export const actions = {
-  get: async function getAttributesByModel({ commit }) {
+  get: async function getAttributesByModel({
+    commit,
+    rootGetters,
+    state: currentState,
+  }) {
+    const accountId = rootGetters.getCurrentAccountId;
+    if (
+      currentState.uiFlags.isFetching ||
+      currentState.uiFlags.fetchedAccountId === accountId
+    ) {
+      return;
+    }
+
     commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: true });
+    let hasFetched = false;
     try {
       const response = await AttributeAPI.getAttributesByModel();
       commit(types.SET_CUSTOM_ATTRIBUTE, response.data);
+      hasFetched = true;
     } catch (error) {
       // Ignore error
     } finally {
-      commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: false });
+      commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, {
+        isFetching: false,
+        ...(hasFetched && { fetchedAccountId: accountId }),
+      });
     }
   },
   create: async function createAttribute({ commit }, attributeObj) {

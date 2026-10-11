@@ -259,7 +259,6 @@ export default {
       if (newChat.id === oldChat.id) {
         return;
       }
-      this.fetchAllAttachmentsFromCurrentChat();
       this.fetchSuggestions();
       this.messageSentSinceOpened = false;
       this.resetReplyEditorHeight();
@@ -277,7 +276,6 @@ export default {
 
   mounted() {
     this.addScrollListener();
-    this.fetchAllAttachmentsFromCurrentChat();
     this.fetchSuggestions();
   },
 
@@ -327,9 +325,6 @@ export default {
         this.currentAccountId,
         this.currentChat.id
       );
-    },
-    fetchAllAttachmentsFromCurrentChat() {
-      this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
     },
     removeBusListeners() {
       emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);

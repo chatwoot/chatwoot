@@ -30,9 +30,36 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to conform_schema(200)
         body = JSON.parse(response.body, symbolize_names: true)
         expect(body[:data][:meta][:all_count]).to eq(1)
-        expect(body[:data][:meta].keys).to include(:all_count, :mine_count, :assigned_count, :unassigned_count)
+        expect(body[:data][:meta].keys).to include(:all_count, :mine_count, :assigned_count, :unassigned_count, :next_page)
         expect(body[:data][:payload].first[:uuid]).to eq(conversation.uuid)
         expect(body[:data][:payload].first[:messages].first[:id]).to eq(message.id)
+      end
+
+      it 'returns the next page until the final page' do
+        create(:conversation, account: account, inbox: conversation.inbox, assignee: agent)
+
+        with_modified_env CONVERSATION_RESULTS_PER_PAGE: '1' do
+          get "/api/v1/accounts/#{account.id}/conversations",
+              headers: agent.create_new_auth_token,
+              params: { page: 1 },
+              as: :json
+
+          expect(response.parsed_body.dig('data', 'meta', 'next_page')).to eq(2)
+
+          get "/api/v1/accounts/#{account.id}/conversations",
+              headers: agent.create_new_auth_token,
+              params: { page: 2 },
+              as: :json
+
+          expect(response.parsed_body.dig('data', 'meta', 'next_page')).to be_nil
+
+          get "/api/v1/accounts/#{account.id}/conversations",
+              headers: agent.create_new_auth_token,
+              params: { page: 1, assignee_type: 'me' },
+              as: :json
+
+          expect(response.parsed_body.dig('data', 'meta', 'next_page')).to be_nil
+        end
       end
 
       it 'returns conversations with empty messages array for conversations with out messages' do
@@ -262,6 +289,7 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to conform_schema(200)
         response_data = JSON.parse(response.body, symbolize_names: true)
         expect(response_data.count).to eq(2)
+        expect(response_data.dig(:meta, :next_page)).to be_nil
       end
 
       it 'returns error if the filters contain invalid attributes' do
@@ -809,6 +837,8 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.agent_last_seen_at).not_to be_nil
+        expect(response.parsed_body.keys).to contain_exactly('id', 'agent_last_seen_at')
+        expect(response.parsed_body['id']).to eq(conversation.display_id)
       end
 
       it 'updates assignee last seen' do

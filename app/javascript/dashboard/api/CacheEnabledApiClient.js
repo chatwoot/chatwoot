@@ -2,6 +2,9 @@
 import { DataManager } from '../helper/CacheHelper/DataManager';
 import ApiClient from './ApiClient';
 
+const CACHE_KEYS_REQUEST_TTL = 1000;
+const cacheKeysRequests = new Map();
+
 class CacheEnabledApiClient extends ApiClient {
   constructor(resource, options = {}) {
     super(resource, options);
@@ -43,9 +46,7 @@ class CacheEnabledApiClient extends ApiClient {
       return this.getFromNetwork();
     }
 
-    const { data } = await axios.get(
-      `/api/v1/accounts/${this.accountIdFromRoute}/cache_keys`
-    );
+    const { data } = await this.getCacheKeys();
     const cacheKeyFromApi = data.cache_keys[this.cacheModelName];
     const isCacheValid = await this.validateCacheKey(cacheKeyFromApi);
 
@@ -61,6 +62,34 @@ class CacheEnabledApiClient extends ApiClient {
     }
 
     return this.marshallData(localData);
+  }
+
+  getCacheKeys() {
+    const accountId = this.accountIdFromRoute;
+    const cachedRequest = cacheKeysRequests.get(accountId);
+
+    if (
+      cachedRequest &&
+      (!cachedRequest.expiresAt || Date.now() < cachedRequest.expiresAt)
+    ) {
+      return cachedRequest.promise;
+    }
+
+    const request = { expiresAt: null, promise: null };
+    const promise = axios
+      .get(`/api/v1/accounts/${accountId}/cache_keys`)
+      .then(response => {
+        request.expiresAt = Date.now() + CACHE_KEYS_REQUEST_TTL;
+        return response;
+      })
+      .catch(error => {
+        cacheKeysRequests.delete(accountId);
+        throw error;
+      });
+    request.promise = promise;
+    cacheKeysRequests.set(accountId, request);
+
+    return promise;
   }
 
   async refetchAndCommit(newKey = null) {

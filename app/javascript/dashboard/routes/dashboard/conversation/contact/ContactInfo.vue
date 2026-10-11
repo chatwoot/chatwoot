@@ -96,17 +96,15 @@ export default {
       };
     },
   },
-  watch: {
-    'contact.id': {
-      handler(id) {
-        this.$store.dispatch('contacts/fetchContactableInbox', id);
-      },
-      immediate: true,
-    },
-  },
   methods: {
     dynamicTime,
-    toggleEditModal() {
+    async toggleEditModal() {
+      if (!this.showEditModal) {
+        await this.$store.dispatch(
+          'contacts/fetchContactableInbox',
+          this.contact.id
+        );
+      }
       this.showEditModal = !this.showEditModal;
     },
     findCountryFlag(countryCode, cityAndCountry) {
@@ -320,6 +318,7 @@ export default {
           slate
           faded
           sm
+          :disabled="uiFlags.isFetchingInboxes"
           @click="toggleEditModal"
         />
         <ContactMergeModal :primary-contact="contact">

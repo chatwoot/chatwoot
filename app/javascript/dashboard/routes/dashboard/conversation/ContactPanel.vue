@@ -97,7 +97,7 @@ const contactAdditionalAttributes = computed(
 );
 
 const getContactDetails = () => {
-  if (contactId.value) {
+  if (contactId.value && !contact.value.id) {
     store.dispatch('contacts/show', { id: contactId.value });
   }
 };
@@ -307,7 +307,7 @@ onMounted(() => {
                 value => toggleSidebarUIState('is_shared_files_open', value)
               "
             >
-              <SharedFiles />
+              <SharedFiles :conversation-id="conversationId" />
             </AccordionItem>
           </div>
         </template>

@@ -16,6 +16,7 @@ const state = {
     isCreatingSlack: false,
     isUpdatingSlack: false,
     isFetchingSlackChannels: false,
+    fetchedAccountId: null,
   },
 };
 
@@ -37,12 +38,23 @@ export const getters = {
 };
 
 export const actions = {
-  get: async ({ commit }) => {
+  get: async ({ commit, rootGetters, state: currentState }) => {
+    const accountId = rootGetters.getCurrentAccountId;
+    if (
+      currentState.uiFlags.isFetching ||
+      currentState.uiFlags.fetchedAccountId === accountId
+    ) {
+      return;
+    }
+
     commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isFetching: true });
     try {
       const response = await IntegrationsAPI.get();
       commit(types.default.SET_INTEGRATIONS, response.data.payload);
-      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isFetching: false });
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+        isFetching: false,
+        fetchedAccountId: accountId,
+      });
     } catch (error) {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isFetching: false });
     }

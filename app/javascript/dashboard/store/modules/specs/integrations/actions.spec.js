@@ -8,24 +8,54 @@ global.axios = axios;
 vi.mock('axios');
 
 const errorMessage = { message: 'Incorrect header' };
+const buildState = uiFlags => ({
+  uiFlags: { isFetching: false, fetchedAccountId: null, ...uiFlags },
+});
+const rootGetters = { getCurrentAccountId: 1 };
+
 describe('#actions', () => {
   describe('#get', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({ data: integrationsList });
-      await actions.get({ commit });
+      await actions.get({ commit, rootGetters, state: buildState() });
       expect(commit.mock.calls).toEqual([
         [types.SET_INTEGRATIONS_UI_FLAG, { isFetching: true }],
         [types.SET_INTEGRATIONS, integrationsList.payload],
-        [types.SET_INTEGRATIONS_UI_FLAG, { isFetching: false }],
+        [
+          types.SET_INTEGRATIONS_UI_FLAG,
+          { isFetching: false, fetchedAccountId: 1 },
+        ],
       ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue(errorMessage);
-      await actions.get({ commit });
+      await actions.get({ commit, rootGetters, state: buildState() });
       expect(commit.mock.calls).toEqual([
         [types.SET_INTEGRATIONS_UI_FLAG, { isFetching: true }],
         [types.SET_INTEGRATIONS_UI_FLAG, { isFetching: false }],
       ]);
+    });
+
+    it.each([{ isFetching: true }, { fetchedAccountId: 1 }])(
+      'does not fetch again when %o',
+      async uiFlags => {
+        await actions.get({ commit, rootGetters, state: buildState(uiFlags) });
+
+        expect(axios.get).not.toHaveBeenCalled();
+        expect(commit).not.toHaveBeenCalled();
+      }
+    );
+
+    it('fetches when the account changes', async () => {
+      axios.get.mockResolvedValue({ data: integrationsList });
+
+      await actions.get({
+        commit,
+        rootGetters: { getCurrentAccountId: 2 },
+        state: buildState({ fetchedAccountId: 1 }),
+      });
+
+      expect(axios.get).toHaveBeenCalledOnce();
     });
   });
 

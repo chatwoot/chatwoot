@@ -65,6 +65,6 @@ export const buildConversationList = (
     dispatch: context.dispatch,
     filter: filterType,
     page: requestPayload.page,
-    markEndReached: !conversationList.length,
+    markEndReached: metaData.next_page === null || !conversationList.length,
   });
 };

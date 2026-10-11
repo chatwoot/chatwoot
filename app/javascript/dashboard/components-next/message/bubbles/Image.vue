@@ -8,16 +8,24 @@ import Button from 'next/button/Button.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useMessageContext } from '../provider.js';
+import { useStore } from 'dashboard/composables/store';
 import { downloadFile } from '@chatwoot/utils';
 
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 
 const { t } = useI18n();
 
-const { filteredCurrentChatAttachments, attachments } = useMessageContext();
+const store = useStore();
+const { filteredCurrentChatAttachments, attachments, conversationId } =
+  useMessageContext();
 
 const attachment = computed(() => {
   return attachments.value[0];
+});
+
+const imageUrl = computed(() => {
+  const { dataUrl, thumbUrl, extension } = attachment.value || {};
+  return extension?.toLowerCase() === 'gif' ? dataUrl : thumbUrl || dataUrl;
 });
 
 const { isLoaded, hasError, loadWithRetry } = useLoadWithRetry();
@@ -26,10 +34,19 @@ const showGallery = ref(false);
 const isDownloading = ref(false);
 
 onMounted(() => {
-  if (attachment.value?.dataUrl) {
-    loadWithRetry(attachment.value.dataUrl);
+  if (imageUrl.value) {
+    loadWithRetry(imageUrl.value);
   }
 });
+
+const openGallery = () => {
+  showGallery.value = true;
+
+  const attachmentsByConversation = store.state.conversations.attachments;
+  if (attachmentsByConversation[conversationId.value] === undefined) {
+    store.dispatch('fetchAllAttachments', conversationId.value);
+  }
+};
 
 const downloadAttachment = async () => {
   const { fileType, dataUrl, extension } = attachment.value;
@@ -52,7 +69,7 @@ const handleImageError = () => {
   <BaseBubble
     class="overflow-hidden p-3"
     data-bubble-name="image"
-    @click="showGallery = true"
+    @click="openGallery"
   >
     <div v-if="hasError" class="flex items-center gap-1 text-center rounded-lg">
       <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
@@ -63,7 +80,7 @@ const handleImageError = () => {
     <div v-else-if="isLoaded" class="relative group rounded-lg overflow-hidden">
       <img
         class="skip-context-menu"
-        :src="attachment.dataUrl"
+        :src="imageUrl"
         :width="attachment.width"
         :height="attachment.height"
       />

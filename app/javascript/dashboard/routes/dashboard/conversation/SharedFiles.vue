@@ -1,7 +1,7 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import {
   MEDIA_TYPES,
   NON_FILE_TYPES,
@@ -12,12 +12,33 @@ import Media from 'dashboard/components-next/SharedAttachments/Media.vue';
 import Files from 'dashboard/components-next/SharedAttachments/Files.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
+const props = defineProps({
+  conversationId: {
+    type: [Number, String],
+    required: true,
+  },
+});
+
 const MEDIA_PEEK_LIMIT = 6;
 const FILES_PEEK_LIMIT = 3;
 
+const store = useStore();
 const allAttachments = useMapGetter('getSelectedChatAttachments');
-const attachmentsLoaded = useMapGetter('getSelectedChatAttachmentsLoaded');
+const attachmentsLoaded = computed(
+  () =>
+    store.state.conversations.attachments[props.conversationId] !== undefined
+);
 const { t } = useI18n();
+
+watch(
+  () => props.conversationId,
+  conversationId => {
+    if (conversationId && !attachmentsLoaded.value) {
+      store.dispatch('fetchAllAttachments', conversationId);
+    }
+  },
+  { immediate: true }
+);
 
 const mediaAttachments = computed(() =>
   allAttachments.value
