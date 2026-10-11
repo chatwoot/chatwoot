@@ -9,9 +9,13 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  showHdToggle: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['removeAttachment']);
+const emit = defineEmits(['removeAttachment', 'toggleHd']);
 
 const nonRecordedAudioAttachments = computed(() => {
   return props.attachments.filter(attachment => !attachment?.isVoiceMessage);
@@ -74,7 +78,17 @@ const fileName = file => {
           {{ formatFileSize(attachment.resource) }}
         </span>
       </div>
-      <div class="flex items-center justify-center">
+      <div class="flex items-center justify-center gap-1">
+        <Button
+          v-if="showHdToggle && isTypeImage(attachment.resource)"
+          v-tooltip.top="$t('CONVERSATION.REPLYBOX.TIP_HD_ATTACHMENT')"
+          xs
+          label="HD"
+          :variant="attachment.isHd ? 'solid' : 'ghost'"
+          :color="attachment.isHd ? 'blue' : 'slate'"
+          :aria-pressed="!!attachment.isHd"
+          @click="emit('toggleHd', attachment)"
+        />
         <Button
           ghost
           slate

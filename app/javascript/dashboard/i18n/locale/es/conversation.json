@@ -286,6 +286,7 @@
       "REPLYING_TO": "Respondiendo a:",
       "TIP_EMOJI_ICON": "Mostrar selector de emoji",
       "TIP_ATTACH_ICON": "Adjuntar archivos",
+      "TIP_HD_ATTACHMENT": "Enviar en calidad HD",
       "TIP_AUDIORECORDER_ICON": "Grabar audio",
       "TIP_AUDIORECORDER_PERMISSION": "Permitir el acceso a audio",
       "TIP_AUDIORECORDER_ERROR": "No se pudo abrir el audio",
