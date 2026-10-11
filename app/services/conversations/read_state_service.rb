@@ -22,7 +22,7 @@ class Conversations::ReadStateService
 
   def mark_read
     now = Time.current
-    return if last_seen_at && last_seen_at >= 1.hour.ago && !incoming_messages.exists?
+    return if last_seen_at && last_seen_at >= 1.hour.ago && !conversation.messages.created_since(last_seen_at).exists?
 
     write(now, monotonic: true)
     updates = { agent_last_seen_at: [conversation.agent_last_seen_at, now].compact.max }

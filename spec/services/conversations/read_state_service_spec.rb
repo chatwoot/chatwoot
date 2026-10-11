@@ -41,6 +41,16 @@ RSpec.describe Conversations::ReadStateService do
     end
   end
 
+  it 'advances the personal timeline marker when reading a new internal note' do
+    service.mark_read
+    travel_to 1.minute.from_now do
+      note = create(:message, conversation: conversation, account: account, inbox: inbox, sender: admin, message_type: :outgoing, private: true)
+      service.mark_read
+      expect(service.last_seen_at).to be >= note.created_at
+      expect(service.payload[:unread_count]).to eq(0)
+    end
+  end
+
   it 'uses the personal marker when ordering by unread messages' do
     other = create(:conversation, account: account, inbox: inbox, read_baseline_at: 1.hour.ago)
     create_list(:message, 2, conversation: other, account: account, inbox: inbox, message_type: :incoming, created_at: 1.minute.ago)
