@@ -6,6 +6,9 @@ import yaml from '@rollup/plugin-yaml';
 
 export default defineConfig({
   plugins: [ruby(), vue(vueOptions), yaml()],
+  server: {
+    allowedHosts: ['vite'],
+  },
   css: {
     preprocessorOptions: {
       scss: {
