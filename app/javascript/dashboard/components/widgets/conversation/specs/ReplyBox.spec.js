@@ -338,6 +338,21 @@ describe('ReplyBox', () => {
     expect(bottomPanel(wrapper).enableContentTemplates).toBe(true);
   });
 
+  it('offers location requests only for WhatsApp Cloud conversations', () => {
+    const { wrapper: cloudWrapper } = mountWith({
+      inbox: {
+        channel_type: 'Channel::Whatsapp',
+        provider: 'whatsapp_cloud',
+      },
+    });
+    const { wrapper: dialogWrapper } = mountWith({
+      inbox: { channel_type: 'Channel::Whatsapp', provider: 'default' },
+    });
+
+    expect(bottomPanel(cloudWrapper).enableLocationRequest).toBe(true);
+    expect(bottomPanel(dialogWrapper).enableLocationRequest).toBe(false);
+  });
+
   describe('on selecting a conversation', () => {
     const selectChat = async chat => {
       const { wrapper, store } = mountWith({

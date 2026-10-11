@@ -92,6 +92,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    enableLocationRequest: {
+      type: Boolean,
+      default: false,
+    },
     conversationId: {
       type: Number,
       required: true,
@@ -130,6 +134,7 @@ export default {
     'toggleInsertArticle',
     'selectWhatsappTemplate',
     'selectContentTemplate',
+    'requestLocation',
     'toggleQuotedReply',
   ],
   setup(props) {
@@ -366,6 +371,15 @@ export default {
         faded
         sm
         @click="$emit('selectContentTemplate')"
+      />
+      <NextButton
+        v-if="enableLocationRequest && !isEditorDisabled"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.REQUEST_LOCATION')"
+        icon="i-ph-map-pin"
+        slate
+        faded
+        sm
+        @click="$emit('requestLocation')"
       />
       <VideoCallButton
         v-if="

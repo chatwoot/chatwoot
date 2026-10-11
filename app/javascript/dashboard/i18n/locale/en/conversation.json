@@ -249,6 +249,8 @@
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
       "TIP_AUDIORECORDER_ICON": "Record audio",
+      "REQUEST_LOCATION": "Request location",
+      "REQUEST_LOCATION_DEFAULT": "Please share your current location.",
       "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
       "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",

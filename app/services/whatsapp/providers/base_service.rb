@@ -104,6 +104,14 @@ class Whatsapp::Providers::BaseService
     end
   end
 
+  def location_request_message?(message)
+    message.content_attributes.dig('whatsapp_interactive', 'type') == 'location_request_message'
+  end
+
+  def create_location_request_payload(message)
+    create_payload('location_request_message', message.outgoing_content, { name: 'send_location' })
+  end
+
   def create_button_payload(message)
     buttons = create_buttons(message.content_attributes['items'])
     json_hash = { 'buttons' => buttons }

@@ -140,6 +140,33 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
   describe '#send_interactive message' do
     context 'when called' do
+      it 'sends a location request message' do
+        message = create(
+          :message,
+          message_type: :outgoing,
+          content: 'Please share your current location.',
+          inbox: whatsapp_channel.inbox,
+          content_attributes: { whatsapp_interactive: { type: 'location_request_message' } }
+        )
+
+        stub_request(:post, 'https://graph.facebook.com/v24.0/123456789/messages')
+          .with(
+            body: {
+              messaging_product: 'whatsapp',
+              to: '+123456789',
+              interactive: {
+                type: 'location_request_message',
+                body: { text: 'Please share your current location.' },
+                action: { name: 'send_location' }
+              },
+              type: 'interactive'
+            }.to_json
+          )
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+        expect(service.send_message('+123456789', message)).to eq 'message_id'
+      end
+
       it 'calls message endpoints with button payload when number of items is less than or equal to 3' do
         message = create(:message, message_type: :outgoing, content: 'test',
                                    inbox: whatsapp_channel.inbox, content_type: 'input_select',

@@ -175,6 +175,14 @@ export default {
     showContentTemplates() {
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
     },
+    showLocationRequest() {
+      return (
+        this.isAWhatsAppCloudChannel &&
+        !this.isPrivate &&
+        !this.hasAttachments &&
+        !this.hasRecordedAudio
+      );
+    },
     isWithinMessagingWindow() {
       return !!(
         this.currentChat?.can_reply ||
@@ -989,6 +997,20 @@ export default {
       });
       this.hideContentTemplatesModal();
     },
+    requestLocation() {
+      const prompt = this.hasMeaningfulEditorContent
+        ? this.message
+        : this.$t('CONVERSATION.REPLYBOX.REQUEST_LOCATION_DEFAULT');
+      const messagePayload = this.getMessagePayload(prompt);
+      messagePayload.contentAttributes = {
+        ...messagePayload.contentAttributes,
+        whatsapp_interactive: { type: 'location_request_message' },
+      };
+
+      this.sendMessage(messagePayload, this.message);
+      this.clearMessage();
+      this.hideEmojiPicker();
+    },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       // Clear attachments when switching between private note and reply modes
       // This is to prevent from breaking the upload rules
@@ -1471,6 +1493,7 @@ export default {
         :enable-multiple-file-upload="enableMultipleFileUpload"
         :enable-whats-app-templates="showWhatsappTemplates"
         :enable-content-templates="showContentTemplates"
+        :enable-location-request="showLocationRequest"
         :inbox="inbox"
         :is-on-private-note="isOnPrivateNote"
         :is-recording-audio="isRecordingAudio"
@@ -1496,6 +1519,7 @@ export default {
         :new-conversation-modal-active="newConversationModalActive"
         @select-whatsapp-template="openWhatsappTemplateModal"
         @select-content-template="openContentTemplateModal"
+        @request-location="requestLocation"
         @toggle-insert-article="toggleInsertArticle"
         @toggle-quoted-reply="toggleQuotedReply"
       />
