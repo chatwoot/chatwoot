@@ -157,7 +157,9 @@ class Notification::PushNotificationService
   end
 
   def push_sender_name
-    notification.secondary_actor.try(:sender)&.name || conversation.contact&.name || ''
+    sender = notification.secondary_actor.try(:sender)
+    sender.try(:name).presence || sender.try(:phone_number).presence ||
+      conversation.contact&.name.presence || conversation.contact&.phone_number.to_s
   end
 
   def android_local_rendering_subscription?(subscription)

@@ -138,7 +138,8 @@ class Notification < ApplicationRecord
   end
 
   def sender_name(actor)
-    actor.try(:sender)&.name || ''
+    sender = actor.try(:sender)
+    sender.try(:name).presence || sender.try(:phone_number).presence || ''
   end
 
   def message_content(actor)
