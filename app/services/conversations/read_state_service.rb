@@ -25,10 +25,7 @@ class Conversations::ReadStateService
     return if last_seen_at && last_seen_at >= 1.hour.ago && !conversation.messages.created_since(last_seen_at).exists?
 
     write(now, monotonic: true)
-    updates = { agent_last_seen_at: [conversation.agent_last_seen_at, now].compact.max }
-    updates[:assignee_last_seen_at] = now if conversation.assignee_id == user.id
-    conversation.update_columns(updates) # rubocop:disable Rails/SkipsModelValidations
-    Conversations::UnreadCounts::Refresher.new(conversation).perform
+    update_shared_read_metadata(now)
     notify_user
   end
 
@@ -39,6 +36,13 @@ class Conversations::ReadStateService
   end
 
   private
+
+  def update_shared_read_metadata(now)
+    updates = { agent_last_seen_at: [conversation.agent_last_seen_at, now].compact.max }
+    updates[:assignee_last_seen_at] = now if conversation.assignee_id == user.id
+    conversation.update_columns(updates) # rubocop:disable Rails/SkipsModelValidations
+    Conversations::UnreadCounts::Refresher.new(conversation).perform
+  end
 
   def record
     return @record if defined?(@record)
