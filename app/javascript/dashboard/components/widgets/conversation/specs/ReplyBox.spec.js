@@ -265,6 +265,200 @@ describe('ReplyBox', () => {
       wrapper.vm.toggleWhatsappInteractive();
       expect(wrapper.vm.isWhatsappInteractive).toBe(false);
     });
+
+    it('submits text headers and footers as normalized visible fields', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      const sendMessage = vi
+        .spyOn(wrapper.vm, 'sendMessage')
+        .mockResolvedValue(undefined);
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: 'Choose',
+        buttons: ['Confirm'],
+        headerType: 'text',
+        headerText: ' Header ',
+        footer: ' Footer ',
+      };
+      wrapper.vm.confirmOnSendReply();
+      expect(
+        sendMessage.mock.calls[0][0].contentAttributes.whatsapp_interactive
+      ).toMatchObject({
+        header: { type: 'text', text: 'Header' },
+        footer: { text: 'Footer' },
+      });
+      expect(sendMessage.mock.calls[0][0].files).toBeUndefined();
+    });
+
+    it.each(['image', 'video', 'document'])(
+      'submits one %s header upload without a client attachment ID',
+      type => {
+        const { wrapper } = mountWith({
+          inbox: {
+            channel_type: 'Channel::Whatsapp',
+            provider: 'whatsapp_cloud',
+          },
+          chat: { whatsapp_interactive: capability },
+        });
+        const sendMessage = vi
+          .spyOn(wrapper.vm, 'sendMessage')
+          .mockResolvedValue(undefined);
+        wrapper.vm.toggleWhatsappInteractive();
+        wrapper.vm.whatsappInteractiveDraft = {
+          body: 'Choose',
+          buttons: ['Confirm'],
+          headerType: type,
+          media: { file: 'signed-upload', name: 'media' },
+        };
+        wrapper.vm.confirmOnSendReply();
+        expect(sendMessage).toHaveBeenCalledTimes(1);
+        expect(sendMessage.mock.calls[0][0]).toMatchObject({
+          files: ['signed-upload'],
+          contentAttributes: { whatsapp_interactive: { header: { type } } },
+        });
+        expect(wrapper.vm.whatsappInteractiveDraft).toEqual({
+          body: '',
+          buttons: [''],
+        });
+      }
+    );
+
+    it('rejects blank, duplicate, overflow, and incomplete media drafts using capability limits', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      const valid = {
+        body: 'x'.repeat(1024),
+        buttons: ['1'.repeat(20), '2', '3'],
+        headerType: 'text',
+        headerText: 'h'.repeat(60),
+        footer: 'f'.repeat(60),
+      };
+      wrapper.vm.whatsappInteractiveDraft = valid;
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(true);
+      [
+        { body: 'x'.repeat(1025) },
+        { headerText: 'h'.repeat(61) },
+        { headerText: ' ' },
+        { footer: 'f'.repeat(61) },
+        { footer: ' ' },
+        { buttons: ['Same', 'Same'] },
+        { buttons: ['x'.repeat(21)] },
+        { headerType: 'image', media: null },
+        { headerType: 'audio' },
+      ].forEach(invalid => {
+        wrapper.vm.whatsappInteractiveDraft = { ...valid, ...invalid };
+        expect(wrapper.vm.isWhatsappInteractiveValid).toBe(false);
+      });
+    });
+
+    it('uses the existing upload method for one matching file and clears media on reset', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.whatsappInteractiveDraft.headerType = 'image';
+      const upload = vi
+        .spyOn(wrapper.vm, 'onFileUpload')
+        .mockImplementation(() => {});
+      const file = new File(['image'], 'header.png', { type: 'image/png' });
+      wrapper.vm.uploadWhatsappHeader(file);
+      expect(upload).toHaveBeenCalledWith(
+        expect.objectContaining({ file, conversationId: 1 })
+      );
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(false);
+      wrapper.vm.resetWhatsappInteractive();
+      expect(wrapper.vm.whatsappInteractiveDraft).toEqual({
+        body: '',
+        buttons: [''],
+      });
+    });
+
+    it('keeps an upload when visible fields change while it finishes', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.whatsappInteractiveDraft.headerType = 'image';
+      const upload = vi
+        .spyOn(wrapper.vm, 'onFileUpload')
+        .mockImplementation(() => {});
+      const file = new File(['image'], 'header.png', { type: 'image/png' });
+      wrapper.vm.uploadWhatsappHeader(file);
+      const reader = {
+        readAsDataURL: vi.fn(),
+        result: 'data:image/png;base64,image',
+      };
+      const readerMock = vi
+        .spyOn(window, 'FileReader')
+        .mockImplementation(() => reader);
+      wrapper.vm.attachFile({
+        file: upload.mock.calls[0][0],
+        blob: { signed_id: 'signed-upload' },
+      });
+      wrapper.vm.whatsappInteractiveDraft = {
+        ...wrapper.vm.whatsappInteractiveDraft,
+        body: 'Edited during upload',
+      };
+      reader.onloadend();
+      expect(wrapper.vm.whatsappInteractiveDraft.media).toMatchObject({
+        file: 'signed-upload',
+        name: 'header.png',
+      });
+      expect(wrapper.vm.attachedFiles).toEqual([]);
+      readerMock.mockRestore();
+    });
+
+    it('ignores an upload that finishes after leaving the interactive composer', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.whatsappInteractiveDraft.headerType = 'image';
+      const upload = vi
+        .spyOn(wrapper.vm, 'onFileUpload')
+        .mockImplementation(() => {});
+      wrapper.vm.uploadWhatsappHeader(
+        new File(['image'], 'header.png', { type: 'image/png' })
+      );
+      const reader = {
+        readAsDataURL: vi.fn(),
+        result: 'data:image/png;base64,image',
+      };
+      const readerMock = vi
+        .spyOn(window, 'FileReader')
+        .mockImplementation(() => reader);
+      wrapper.vm.attachFile({ file: upload.mock.calls[0][0] });
+      wrapper.vm.resetWhatsappInteractive();
+      reader.onloadend();
+      expect(wrapper.vm.whatsappInteractiveDraft).toEqual({
+        body: '',
+        buttons: [''],
+      });
+      expect(wrapper.vm.attachedFiles).toEqual([]);
+      readerMock.mockRestore();
+    });
   });
 
   describe('Instagram incident restriction', () => {

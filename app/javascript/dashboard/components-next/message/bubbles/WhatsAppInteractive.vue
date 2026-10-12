@@ -1,15 +1,26 @@
 <script setup>
 import { computed } from 'vue';
 import BaseBubble from './Base.vue';
+import WhatsAppInteractivePreview from 'dashboard/components-next/whatsapp/WhatsAppInteractivePreview.vue';
 import { useMessageContext } from '../provider.js';
 
-const { content, contentAttributes } = useMessageContext();
+const { content, contentAttributes, attachments } = useMessageContext();
 
 const interactive = computed(
   () => contentAttributes.value?.whatsappInteractive ?? {}
 );
 const body = computed(() => interactive.value.body?.text || content.value);
 const buttons = computed(() => interactive.value.action?.buttons ?? []);
+const attachment = computed(() => {
+  const media = attachments?.value?.find(
+    item => item.id === interactive.value.header?.attachmentId
+  );
+  if (!media) return null;
+  return {
+    ...media,
+    name: decodeURI(media.dataUrl?.split('?')[0].split('/').pop() || ''),
+  };
+});
 </script>
 
 <template>
@@ -17,19 +28,12 @@ const buttons = computed(() => interactive.value.action?.buttons ?? []);
     class="px-4 py-3 min-w-64 max-w-lg"
     data-bubble-name="whatsapp-interactive"
   >
-    <p class="mb-3 whitespace-pre-wrap break-words">
-      {{ body }}
-    </p>
-    <div class="flex flex-col gap-2 border-t border-n-weak pt-2">
-      <button
-        v-for="button in buttons"
-        :key="button.deliveryId"
-        type="button"
-        disabled
-        class="w-full rounded-lg px-3 py-2 text-sm font-medium text-n-blue-11 bg-n-alpha-2 disabled:cursor-default disabled:opacity-100"
-      >
-        {{ button.title }}
-      </button>
-    </div>
+    <WhatsAppInteractivePreview
+      :body="body"
+      :header="interactive.header"
+      :attachment="attachment"
+      :footer="interactive.footer?.text"
+      :buttons="buttons"
+    />
   </BaseBubble>
 </template>

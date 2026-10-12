@@ -266,7 +266,10 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def send_whatsapp_interactive_message(phone_number, message)
-    payload = Whatsapp::InteractiveMessages::Registry.provider_payload(message.content_attributes['whatsapp_interactive'])
+    snapshot = message.content_attributes['whatsapp_interactive']
+    attachment_id = snapshot.dig('header', 'attachment_id')
+    attachment = message.attachments.find_by(id: attachment_id, account_id: message.account_id) if attachment_id
+    payload = Whatsapp::InteractiveMessages::Registry.provider_payload(snapshot, attachment: attachment)
     response = HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,

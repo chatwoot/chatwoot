@@ -88,6 +88,27 @@ RSpec.describe 'Conversation Messages API', type: :request do
           expect(snapshot.dig('action', 'buttons').pluck('title')).to eq(%w[Confirm Change])
           expect(snapshot.dig('action', 'buttons').pluck('delivery_id')).to all(start_with('reply_'))
         end
+
+        it 'returns a resolved media header through the existing multipart message upload path' do
+          interactive = {
+            schema_version: 1, type: 'button', header: { type: 'image' }, footer: { text: 'Footer' },
+            body: { text: 'Choose' }, action: { buttons: [{ title: 'Confirm' }] }
+          }
+          upload = Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+
+          with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+            post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+                 params: { content_attributes: { whatsapp_interactive: interactive }.to_json, attachments: [upload] },
+                 headers: agent.create_new_auth_token
+          end
+
+          expect(response).to have_http_status(:success)
+          message = conversation.messages.outgoing.last
+          expect(response.parsed_body.dig('content_attributes', 'whatsapp_interactive', 'header')).to eq(
+            'type' => 'image', 'attachment_id' => message.attachments.sole.id
+          )
+          expect(message.content_attributes.dig('whatsapp_interactive', 'footer', 'text')).to eq('Footer')
+        end
       end
 
       it 'does not create the message' do

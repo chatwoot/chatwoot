@@ -139,6 +139,64 @@ describe Whatsapp::Providers::WhatsappCloudService do
   end
 
   describe '#send_interactive message' do
+    context 'with normalized reply-button headers' do
+      let(:snapshot) { JSON.parse(Rails.root.join('spec/fixtures/whatsapp_interactive_messages/button.json').read) }
+
+      { 'image' => ['avatar.png', 'image/png'], 'video' => ['sample.mp4', 'video/mp4'],
+        'document' => ['sample.pdf', 'application/pdf'] }.each do |type, file|
+        it "sends a #{type} header and footer in one interactive request with trusted media" do
+          attachment = message.attachments.create!(
+            account_id: message.account_id, file_type: type == 'document' ? :file : type,
+            file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets', file.first), file.last)
+          )
+          snapshot['header'] = { 'type' => type, 'attachment_id' => attachment.id }
+          snapshot['footer'] = { 'text' => 'Footer' }
+          message.update!(content_attributes: { whatsapp_interactive: snapshot })
+          allow(attachment).to receive(:download_url).and_return('https://trusted.example/media')
+          allow(message.attachments).to receive(:find_by).with(id: attachment.id, account_id: message.account_id).and_return(attachment)
+          media = { link: 'https://trusted.example/media' }
+          media[:filename] = file.first if type == 'document'
+          expected = Whatsapp::InteractiveMessages::Registry.provider_payload(snapshot, attachment: attachment)
+          expect(expected).to include(header: { :type => type, type.to_sym => media }, footer: { text: 'Footer' })
+
+          request = stub_request(:post, 'https://graph.facebook.com/v22.0/123456789/messages')
+                    .with(body: hash_including(type: 'interactive', interactive: expected))
+                    .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+          expect(service.send_message('+123456789', message)).to eq('message_id')
+          expect(request).to have_been_requested.once
+          expect(WebMock).not_to have_requested(:post, 'https://graph.facebook.com/v22.0/123456789/messages').with(body: hash_including(type: type))
+        end
+      end
+
+      it 'sends a text header and footer without media' do
+        snapshot['header'] = { 'type' => 'text', 'text' => 'Header' }
+        snapshot['footer'] = { 'text' => 'Footer' }
+        message.update!(content_attributes: { whatsapp_interactive: snapshot })
+        request = stub_request(:post, 'https://graph.facebook.com/v22.0/123456789/messages')
+                  .with(body: hash_including(interactive: Whatsapp::InteractiveMessages::Registry.provider_payload(snapshot)))
+                  .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+        expect(service.send_message('+123456789', message)).to eq('message_id')
+        expect(request).to have_been_requested.once
+      end
+
+      it 'rejects foreign, unassociated, missing, and mismatched stored media before provider contact' do
+        other_message = create(:message, account: message.account, inbox: message.inbox)
+        unrelated = other_message.attachments.create!(account_id: message.account_id, file_type: :image,
+                                                      file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png'))
+        foreign = message.attachments.create!(account_id: create(:account).id, file_type: :image,
+                                              file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png'))
+        mismatched = message.attachments.create!(account_id: message.account_id, file_type: :file,
+                                                 file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/sample.pdf'), 'application/pdf'))
+        [unrelated.id, foreign.id, mismatched.id, 0].each do |id|
+          snapshot['header'] = { 'type' => 'image', 'attachment_id' => id }
+          message.update!(content_attributes: { whatsapp_interactive: snapshot })
+          expect { service.send_message('+123456789', message) }.to raise_error(Whatsapp::InteractiveMessages::ValidationError)
+        end
+        expect(WebMock).not_to have_requested(:post, %r{graph\.facebook\.com/.*/messages})
+      end
+    end
+
     context 'when called' do
       it 'sends a location request message' do
         message = create(

@@ -198,18 +198,35 @@ export default {
       const limits = this.whatsappInteractiveCapability?.limits ?? {};
       return {
         bodyMaxLength: limits.body_max_length ?? 1024,
+        headerMaxLength: limits.header_max_length ?? 60,
+        footerMaxLength: limits.footer_max_length ?? 60,
+        headerTypes: limits.header_types ?? [
+          'text',
+          'image',
+          'video',
+          'document',
+        ],
         buttonTitleMaxLength: limits.button_title_max_length ?? 20,
         buttonMinCount: limits.button_min_count ?? 1,
         buttonMaxCount: limits.button_max_count ?? 3,
       };
     },
     isWhatsappInteractiveValid() {
-      const { body, buttons } = this.whatsappInteractiveDraft;
+      const { body, buttons, headerType, headerText, footer, media } =
+        this.whatsappInteractiveDraft;
       const limits = this.whatsappInteractiveLimits;
       const titles = buttons.map(title => title.trim());
       return (
         body.trim().length >= 1 &&
         body.length <= limits.bodyMaxLength &&
+        (!headerType || limits.headerTypes.includes(headerType)) &&
+        (headerType !== 'text' ||
+          (headerText?.trim().length >= 1 &&
+            headerText.length <= limits.headerMaxLength)) &&
+        (!headerType || headerType === 'text' || !!media) &&
+        (!footer ||
+          (footer.trim().length >= 1 &&
+            footer.length <= limits.footerMaxLength)) &&
         buttons.length >= limits.buttonMinCount &&
         buttons.length <= limits.buttonMaxCount &&
         titles.every(
@@ -306,7 +323,10 @@ export default {
       if (this.isEditorDisabled) return true;
       if (this.isATwitterInbox) return true;
       if (this.isWhatsappInteractive) {
-        return !this.isWhatsappInteractiveValid;
+        return (
+          !this.whatsappInteractiveCapability?.available ||
+          !this.isWhatsappInteractiveValid
+        );
       }
       if (this.hasAttachments || this.hasRecordedAudio) return false;
 
@@ -922,6 +942,8 @@ export default {
         const isOnInstagram = this.isAnInstagramChannel;
         const isOnTiktok = this.isATiktokChannel;
         if (this.isWhatsappInteractive) {
+          const { headerType, headerText, footer, media } =
+            this.whatsappInteractiveDraft;
           const body = this.whatsappInteractiveDraft.body.trim();
           const buttons = this.whatsappInteractiveDraft.buttons.map(button => ({
             title: button.trim(),
@@ -938,8 +960,16 @@ export default {
                   type: 'button',
                   body: { text: body },
                   action: { buttons },
+                  ...(headerType && {
+                    header: {
+                      type: headerType,
+                      ...(headerType === 'text' && { text: headerText.trim() }),
+                    },
+                  }),
+                  ...(footer && { footer: { text: footer.trim() } }),
                 },
               },
+              ...(media && { files: [media.file] }),
             },
             body,
             copilotAcceptedMessage
@@ -1121,6 +1151,31 @@ export default {
       this.isWhatsappInteractive = false;
       this.whatsappInteractiveDraft = { body: '', buttons: [''] };
     },
+    uploadWhatsappHeader(file) {
+      const { headerType } = this.whatsappInteractiveDraft;
+      const mime = file.type;
+      const matchingType =
+        headerType === 'document'
+          ? !/^(image|video|audio)\//.test(mime)
+          : mime.startsWith(`${headerType}/`);
+      this.whatsappInteractiveDraft.media = null;
+      this.whatsappInteractiveDraft.uploadFile = null;
+      if (!matchingType) {
+        useAlert(
+          this.$t('CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.MEDIA_MISMATCH')
+        );
+        return;
+      }
+      this.whatsappInteractiveDraft.uploadFile = file;
+      this.onFileUpload({
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        file,
+        interactiveDraft: this.whatsappInteractiveDraft,
+        conversationId: this.currentChat.id,
+      });
+    },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       // Clear attachments when switching between private note and reply modes
       // This is to prevent from breaking the upload rules
@@ -1239,6 +1294,24 @@ export default {
       });
     },
     attachFile({ blob, file }) {
+      if (file.interactiveDraft) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.file);
+        reader.onloadend = () => {
+          if (
+            !this.isWhatsappInteractive ||
+            file.conversationId !== this.currentChat.id ||
+            this.whatsappInteractiveDraft.uploadFile !== file.file
+          )
+            return;
+          this.whatsappInteractiveDraft.media = {
+            name: file.name,
+            dataUrl: reader.result,
+            file: blob ? blob.signed_id : file.file,
+          };
+        };
+        return;
+      }
       if (!this.showFileUpload && !this.isOnPrivateNote) return;
 
       const reader = new FileReader();
@@ -1528,6 +1601,7 @@ export default {
           v-else-if="isWhatsappInteractive"
           v-model="whatsappInteractiveDraft"
           :limits="whatsappInteractiveLimits"
+          @upload="uploadWhatsappHeader"
           @close="resetWhatsappInteractive"
         />
         <WootMessageEditor

@@ -34,6 +34,42 @@ RSpec.describe Whatsapp::InteractiveMessages::Registry do
         .to raise_error(Whatsapp::InteractiveMessages::ValidationError, /unsupported fields: delivery_id/)
     end
 
+    it 'retains optional text headers and footers at the exact limits' do
+      payload[:body][:text] = 'x' * 1024
+      payload[:header] = { type: 'text', text: 'h' * 60 }
+      payload[:footer] = { text: 'f' * 60 }
+      payload[:action][:buttons] = Array.new(3) { |index| { title: index.to_s * 20 } }
+      snapshot = described_class.resolve(payload)
+
+      expect(snapshot['header']).to eq('type' => 'text', 'text' => 'h' * 60)
+      expect(snapshot['footer']).to eq('text' => 'f' * 60)
+      expect(described_class.provider_payload(snapshot)).to include(
+        header: { type: 'text', text: 'h' * 60 }, footer: { text: 'f' * 60 }
+      )
+    end
+
+    %w[image video document].each do |type|
+      it "accepts a transient #{type} header without client attachment identifiers" do
+        payload[:header] = { type: type }
+        expect(described_class.resolve(payload)['header']).to eq('type' => type)
+
+        payload[:header][:attachment_id] = 123
+        expect { described_class.resolve(payload) }.to raise_error(Whatsapp::InteractiveMessages::ValidationError, /attachment_id/)
+      end
+    end
+
+    it 'rejects malformed header/footer shapes and blank or overflowing visible fields' do
+      invalid_fields = [
+        { header: nil }, { header: { type: 'audio' } }, { header: { type: 'text', text: ' ' } },
+        { header: { type: 'text', text: 'h' * 61 } }, { header: { type: 'image', link: 'https://example.com/image' } },
+        { footer: { text: 'f' * 61 } }, { footer: { text: '' } }, { footer: { text: 'ok', unknown: true } },
+        { body: { text: 'x' * 1025 } }
+      ]
+      invalid_fields.each do |fields|
+        expect { described_class.resolve(payload.merge(fields)) }.to raise_error(Whatsapp::InteractiveMessages::ValidationError)
+      end
+    end
+
     it 'rejects unknown versions and raw provider payload fields' do
       payload[:schema_version] = 2
       payload[:interactive] = { type: 'button' }

@@ -28,7 +28,7 @@ class Messages::MessageBuilder
     # When the message has no quoted content, it will just be rendered as a regular message
     # The frontend is equipped to handle this case
     process_email_content
-    @message.save!
+    Whatsapp::InteractiveMessages::Resolver.persist!(@message)
     @message
   end
 
