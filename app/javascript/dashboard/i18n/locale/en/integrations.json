@@ -724,6 +724,9 @@
         "MORE_TARGETS": "and {count} more",
         "ACTIONS": {
           "ADD_LABELS": "Add {labels} to {count} conversation | Add {labels} to {count} conversations",
+          "SET_PRIORITY": "Set the priority to {priority} on {count} conversation | Set the priority to {priority} on {count} conversations",
+          "ASSIGN_AGENT": "Assign {count} conversation to {agent} | Assign {count} conversations to {agent}",
+          "SEND_REPLY": "Send this reply to {count} conversation: | Send this reply to {count} conversations:",
           "OTHER": "Run {action} on {count} conversation | Run {action} on {count} conversations"
         },
         "STATUS": {

@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
+import { CONVERSATION_PRIORITY } from 'shared/constants/messages';
 import CopilotRunsAPI from 'dashboard/api/captain/copilotRuns';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -36,17 +37,51 @@ const hiddenTargetCount = computed(
   () => approval.value.count - targets.value.length
 );
 
+const priorityLabels = computed(() => ({
+  [CONVERSATION_PRIORITY.URGENT]: t('CONVERSATION.PRIORITY.OPTIONS.URGENT'),
+  [CONVERSATION_PRIORITY.HIGH]: t('CONVERSATION.PRIORITY.OPTIONS.HIGH'),
+  [CONVERSATION_PRIORITY.MEDIUM]: t('CONVERSATION.PRIORITY.OPTIONS.MEDIUM'),
+  [CONVERSATION_PRIORITY.LOW]: t('CONVERSATION.PRIORITY.OPTIONS.LOW'),
+}));
+
 const summary = computed(() => {
-  const { action, arguments: args, count } = approval.value;
-  if (action === 'add_labels') {
-    return t(
-      'CAPTAIN.COPILOT.APPROVAL.ACTIONS.ADD_LABELS',
-      { labels: args.labels.join(', '), count },
-      count
-    );
+  const { action, arguments: args, details, count } = approval.value;
+  switch (action) {
+    case 'add_labels':
+      return t(
+        'CAPTAIN.COPILOT.APPROVAL.ACTIONS.ADD_LABELS',
+        { labels: args.labels.join(', '), count },
+        count
+      );
+    case 'set_priority':
+      return t(
+        'CAPTAIN.COPILOT.APPROVAL.ACTIONS.SET_PRIORITY',
+        { priority: priorityLabels.value[args.priority], count },
+        count
+      );
+    case 'assign_agent':
+      return t(
+        'CAPTAIN.COPILOT.APPROVAL.ACTIONS.ASSIGN_AGENT',
+        { agent: details.agent_name, count },
+        count
+      );
+    case 'send_reply':
+      return t('CAPTAIN.COPILOT.APPROVAL.ACTIONS.SEND_REPLY', { count }, count);
+    default:
+      return t(
+        'CAPTAIN.COPILOT.APPROVAL.ACTIONS.OTHER',
+        { action, count },
+        count
+      );
   }
-  return t('CAPTAIN.COPILOT.APPROVAL.ACTIONS.OTHER', { action, count }, count);
 });
+
+// The exact text the customer will receive, so the agent approves the words and not a description of them.
+const replyContent = computed(() =>
+  approval.value.action === 'send_reply'
+    ? approval.value.arguments.content
+    : null
+);
 
 const decide = async choice => {
   isSubmitting.value = true;
@@ -78,6 +113,12 @@ const decide = async choice => {
       <span class="font-medium">{{ t('CAPTAIN.COPILOT.APPROVAL.TITLE') }}</span>
       <span class="break-words text-n-slate-11">{{ summary }}</span>
     </div>
+    <p
+      v-if="replyContent"
+      class="px-3 py-2 m-0 rounded-lg whitespace-pre-wrap break-words bg-n-alpha-2 text-n-slate-12"
+    >
+      {{ replyContent }}
+    </p>
     <div v-if="targets.length" class="flex flex-wrap gap-x-2 gap-y-1">
       <router-link
         v-for="target in targets"

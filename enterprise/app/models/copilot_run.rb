@@ -123,7 +123,8 @@ class CopilotRun < ApplicationRecord
   end
 
   def action
-    Captain::Copilot::Actions.build(context.fetch('action'), account: account, user: user, arguments: context.fetch('arguments'))
+    Captain::Copilot::Actions.build(context.fetch('action'), account: account, user: user, arguments: context.fetch('arguments'),
+                                                             proposal_states: context.fetch('proposal_states', {}))
   end
 
   def target_ids
@@ -243,10 +244,12 @@ class CopilotRun < ApplicationRecord
       failed: counts['failed'].to_i, selection_truncated: context['selection_truncated'] }
   end
 
+  # failure_reasons counts the failed records by error, so the model can tell the agent why, e.g. that reply windows had closed.
   def action_summary
     counts = action_items.group(:status).count
     { action: context['action'], arguments: context['arguments'], targets: target_ids.size, applied: counts['applied'].to_i,
-      skipped: counts['skipped'].to_i, failed: counts['failed'].to_i, not_processed: not_processed(counts),
+      skipped: counts['skipped'].to_i, failed: counts['failed'].to_i,
+      failure_reasons: action_items.where(status: 'failed').group(:error).count.presence, not_processed: not_processed(counts),
       decision_reason: context['decision_reason'] }.compact
   end
 
