@@ -12,6 +12,7 @@ class Captain::Tools::SendEmailVerificationCodeTool < Captain::Tools::BasePublic
     case Captain::EmailVerification.new(contact_inbox).send_code(email)
     when :sent then sent_message(email)
     when :already_verified then 'This email address is already verified for this customer. No code was sent. Continue with their request.'
+    when :unavailable then 'Email verification is not available right now. Do not try again. Ask whether the customer wants a support agent.'
     when :rate_limited then 'Too many codes were sent recently. Do not try again now. Ask whether the customer wants to talk to a support agent.'
     else 'That is not a valid email address. Ask the customer for the correct email address.'
     end

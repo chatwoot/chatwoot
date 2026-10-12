@@ -31,6 +31,14 @@ RSpec.describe Captain::Tools::SendEmailVerificationCodeTool, type: :model do
     expect(tool.perform(tool_context, email: 'jane@example.com')).to include('already verified').and include('No code was sent')
   end
 
+  it 'tells Captain to offer a support agent when email cannot be sent' do
+    allow(verification).to receive(:send_code).and_return(:unavailable)
+
+    result = tool.perform(tool_context, email: 'jane@example.com')
+
+    expect(result).to include('Email verification is not available right now').and include('support agent')
+  end
+
   it 'asks for a correct address when the email is invalid' do
     allow(verification).to receive(:send_code).and_return(:invalid_email)
 

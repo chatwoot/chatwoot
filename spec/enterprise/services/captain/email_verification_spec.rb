@@ -10,6 +10,7 @@ RSpec.describe Captain::EmailVerification do
   let(:mailer) { class_double(Captain::EmailVerificationMailer) }
 
   before do
+    allow(Captain::EmailVerificationMailer).to receive(:deliverable?).and_return(true)
     allow(Captain::EmailVerificationMailer).to receive(:with).with(account: account).and_return(mailer)
     allow(mailer).to receive(:verification_code) do |_inbox, _email, encrypted_code|
       emailed_codes << described_class.decrypt_code(encrypted_code)
@@ -41,6 +42,22 @@ RSpec.describe Captain::EmailVerification do
     it 'rejects an invalid email address' do
       expect(verification.send_code('not-an-email')).to eq(:invalid_email)
       expect(emailed_codes).to be_empty
+    end
+
+    it 'sends nothing and stores no code when email cannot be delivered' do
+      allow(Captain::EmailVerificationMailer).to receive(:deliverable?).and_return(false)
+
+      expect(verification.send_code(email)).to eq(:unavailable)
+      expect(emailed_codes).to be_empty
+      expect(verification.pending_email).to be_nil
+    end
+
+    it 'does not use the send budget when email cannot be delivered' do
+      allow(Captain::EmailVerificationMailer).to receive(:deliverable?).and_return(false)
+      6.times { verification.send_code(email) }
+      allow(Captain::EmailVerificationMailer).to receive(:deliverable?).and_return(true)
+
+      expect(verification.send_code(email)).to eq(:sent)
     end
 
     it 'allows 5 codes per hour from one contact inbox' do
