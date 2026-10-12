@@ -115,6 +115,32 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(service.send(:build_and_wire_agents)).to eq([mock_agent, mock_scenario_agent])
     end
 
+    context 'with a tool that uses the session email' do
+      before do
+        create(:captain_custom_tool, account: account, assistant: assistant, endpoint_url: 'https://example.com/c?email={{ session.verified_email }}')
+        allow(assistant).to receive(:agent).and_call_original
+        allow(assistant).to receive(:scenarios).and_return(instance_double(Captain::Scenario, enabled: []))
+      end
+
+      def email_parameters(source)
+        service = described_class.new(assistant: assistant, conversation: conversation, run_options: run_options(source: source))
+        http_tool = service.send(:build_and_wire_agents).first.tools.find { |tool| tool.is_a?(Captain::Tools::HttpTool) }
+        http_tool.class.declared_parameters.keys
+      end
+
+      it 'gives the model no email parameter in a customer conversation' do
+        expect(email_parameters(nil)).to be_empty
+      end
+
+      it 'gives the model an email parameter in the playground' do
+        expect(email_parameters('playground')).to contain_exactly(:email)
+      end
+
+      it 'gives the model an email parameter for a reply suggestion' do
+        expect(email_parameters('copilot_reply_suggestion')).to contain_exactly(:email)
+      end
+    end
+
     it 'keeps only reply-safe tools and excludes scenarios in reply suggestion mode' do
       faq_tool = Captain::Tools::FaqLookupTool.new(assistant)
       handoff_tool = Captain::Tools::HandoffTool.new(assistant)

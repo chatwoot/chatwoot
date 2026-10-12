@@ -132,12 +132,23 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def wire_agents(assistant_agent, scenario_agents)
-    assistant_agent = with_email_verification_tools(assistant_agent)
-    scenario_agents = scenario_agents.map { |agent| with_email_verification_tools(agent) }
+    assistant_agent = with_session_tools(assistant_agent)
+    scenario_agents = scenario_agents.map { |agent| with_session_tools(agent) }
     assistant_agent.register_handoffs(*scenario_agents) if scenario_agents.any?
     scenario_agents.each { |scenario_agent| scenario_agent.register_handoffs(assistant_agent) }
 
     [assistant_agent] + scenario_agents
+  end
+
+  def with_session_tools(agent)
+    return agent.clone(tools: open_session_tools(agent.tools)) if Captain::Tools::HttpTool::AGENT_FACING_SOURCES.include?(@source)
+
+    with_email_verification_tools(agent)
+  end
+
+  # An admin or an agent is the user here, so tools that read the session email take the email from the model
+  def open_session_tools(tools)
+    tools.map { |tool| tool.is_a?(Captain::Tools::HttpTool) ? tool.open_session_tool : tool }
   end
 
   # Every agent in a customer conversation can verify the customer, so whichever one is asked for account data can do it.
@@ -152,7 +163,7 @@ class Captain::Assistant::AgentRunnerService
     agent = @assistant.agent
     agent.clone(
       instructions: ->(context) { @assistant.agent_instructions(context, prompt_template: 'copilot_reply_suggestion') },
-      tools: agent.tools.select { |tool| available_in_reply_suggestion?(tool) }
+      tools: open_session_tools(agent.tools.select { |tool| available_in_reply_suggestion?(tool) })
     )
   end
 
