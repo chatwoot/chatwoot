@@ -84,10 +84,7 @@ class Captain::Assistant::AgentRunnerService
     content = last_user_msg[:content]
     return extract_text_from_content(content) unless content.is_a?(Array)
 
-    text, attachments = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(content)
-    return text if attachments.blank?
-
-    RubyLLM::Content.new(text, attachments)
+    content
   end
 
   def message_history_without_last_user_message(message_history)

@@ -124,7 +124,7 @@ stripe:
   name: 'Stripe'
   description: 'Configure the Stripe customer billing integration'
   enabled: true
-  icon: 'icon-settings-2-line'
+  icon: 'i-woot-stripe-color'
   config_key: 'stripe'
 linear:
   name: 'Linear'
