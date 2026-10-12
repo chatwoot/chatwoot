@@ -85,11 +85,10 @@ class Captain::CustomTool < ApplicationRecord
   }.to_json.freeze
 
   # Only known settings with boolean values are accepted, so a typo or a string can never switch a safety setting off
+  SETTING_KEYS = %w[requires_email_verification].freeze
   SETTINGS_VALIDATION = {
     'type': 'object',
-    'properties': {
-      'requires_email_verification': { 'type': 'boolean' }
-    },
+    'properties': SETTING_KEYS.index_with { { 'type': 'boolean' } },
     'additionalProperties': false
   }.to_json.freeze
 

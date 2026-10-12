@@ -6,6 +6,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   before_action :set_current_page, only: [:index]
   before_action :set_custom_tool, only: [:show, :update, :destroy]
   before_action :validate_headers_param, only: [:create, :update, :test]
+  before_action :validate_settings_param, only: [:create, :update]
 
   def index
     @custom_tools_count = assistant_custom_tools.count
@@ -67,6 +68,21 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
     render_could_not_create_error("#{Captain::CustomTool.human_attribute_name(:headers)} #{I18n.t('captain.custom_tool.headers.invalid')}")
   end
 
+  # permit silently drops unknown keys and non-object values, so a misspelled setting would look saved and leave the tool unprotected
+  def validate_settings_param
+    return unless params[:custom_tool]&.key?(:settings)
+
+    settings = params[:custom_tool][:settings]
+    return render_settings_error(I18n.t('captain.custom_tool.settings.invalid')) unless settings.is_a?(ActionController::Parameters)
+
+    unknown_keys = settings.keys - Captain::CustomTool::SETTING_KEYS
+    render_settings_error(I18n.t('captain.custom_tool.settings.unknown', names: unknown_keys.join(', '))) if unknown_keys.any?
+  end
+
+  def render_settings_error(message)
+    render_could_not_create_error("#{Captain::CustomTool.human_attribute_name(:settings)} #{message}")
+  end
+
   def set_custom_tool
     @custom_tool = assistant_custom_tools.find(params[:id])
   end
@@ -99,7 +115,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
       :enabled,
       auth_config: {},
       headers: {},
-      settings: [:requires_email_verification],
+      settings: Captain::CustomTool::SETTING_KEYS,
       param_schema: [:name, :type, :description, :required]
     )
   end
