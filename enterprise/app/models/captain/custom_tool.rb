@@ -116,6 +116,7 @@ class Captain::CustomTool < ApplicationRecord
                  schema: SETTINGS_VALIDATION,
                  attribute_resolver: ->(record) { record.settings }
   validate :validate_headers
+  validate :validate_param_names
   validate :validate_auth_config
 
   scope :enabled, -> { where(enabled: true) }
@@ -133,9 +134,19 @@ class Captain::CustomTool < ApplicationRecord
     }
   end
 
-  # The tool only runs for a customer who verified an email with a one-time code
+  # The tool only runs for a customer who verified an email with a one-time code.
+  # A tool that reads the session email cannot run without one, so it needs no setting.
   def requires_email_verification?
-    settings['requires_email_verification'] == true
+    settings['requires_email_verification'] == true || uses_session_email?
+  end
+
+  # Whether the request reads the email from the session, which Chatwoot fills in, in place of a parameter the model fills in
+  def uses_session_email?
+    [endpoint_url, request_template].any? { |template| template.to_s.match?(SESSION_EMAIL_PATTERN) }
+  end
+
+  def session_email_parameter_needed?
+    uses_session_email? && param_schema.none? { |param_def| param_def['name'] == OPEN_SESSION_EMAIL_PARAM.to_s }
   end
 
   def enabled_scenarios_count
@@ -143,6 +154,12 @@ class Captain::CustomTool < ApplicationRecord
   end
 
   private
+
+  def validate_param_names
+    return unless param_schema.is_a?(Array) && param_schema.any? { |param_def| param_def.is_a?(Hash) && param_def['name'] == SESSION_NAMESPACE }
+
+    errors.add(:param_schema, I18n.t('captain.custom_tool.param_schema.reserved_name', name: SESSION_NAMESPACE))
+  end
 
   def validate_headers
     return errors.add(:headers, I18n.t('captain.custom_tool.headers.invalid')) unless headers.is_a?(Hash)
