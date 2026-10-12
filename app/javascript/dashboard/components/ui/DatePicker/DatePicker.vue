@@ -26,6 +26,7 @@ import {
   getWeek,
 } from 'date-fns';
 import { useAlert } from 'dashboard/composables';
+import SheetHandle from 'dashboard/components-next/sheet-handle/SheetHandle.vue';
 import DatePickerButton from './components/DatePickerButton.vue';
 import CalendarDateInput from './components/CalendarDateInput.vue';
 import CalendarDateRange from './components/CalendarDateRange.vue';
@@ -386,16 +387,18 @@ const closeDatePicker = () => {
     <div
       v-if="showDatePicker"
       v-on-clickaway="closeDatePicker"
-      class="flex absolute top-9 ltr:left-0 rtl:right-0 z-30 shadow-md select-none w-[880px] rounded-2xl bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container"
+      data-mobile-sheet
+      class="flex flex-col fixed inset-x-0 bottom-0 max-h-[85dvh] overflow-y-auto rounded-t-2xl pt-6 lg:pt-0 lg:flex-row lg:absolute lg:inset-x-auto lg:bottom-auto lg:top-9 lg:ltr:left-0 lg:rtl:right-0 lg:w-[880px] lg:max-h-none lg:overflow-visible lg:rounded-2xl z-30 shadow-md select-none bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container"
     >
+      <SheetHandle @close="closeDatePicker" />
       <CalendarDateRange
         :selected-range="selectedRange"
         @set-range="setDateRange"
       />
       <div
-        class="flex flex-col w-[680px] ltr:border-l rtl:border-r border-n-strong"
+        class="flex flex-col w-full border-t lg:border-t-0 lg:w-[680px] lg:ltr:border-l lg:rtl:border-r border-n-strong"
       >
-        <div class="flex justify-around h-fit">
+        <div class="flex flex-col lg:flex-row lg:justify-around h-fit">
           <!-- Calendars for Start and End Dates -->
           <div
             v-for="calendar in [START_CALENDAR, END_CALENDAR]"
@@ -421,10 +424,10 @@ const closeDatePicker = () => {
             />
             <div class="py-5 border-b border-n-strong">
               <div
-                class="flex flex-col items-center gap-2 px-5 min-w-[340px] max-h-[352px]"
+                class="flex flex-col items-center gap-2 px-5 w-full lg:min-w-[340px] max-h-[352px]"
                 :class="
                   calendar === START_CALENDAR &&
-                  'ltr:border-r rtl:border-l border-n-strong'
+                  'lg:ltr:border-r lg:rtl:border-l border-n-strong'
                 "
               >
                 <CalendarYear
