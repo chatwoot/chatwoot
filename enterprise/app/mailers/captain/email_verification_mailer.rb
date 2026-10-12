@@ -1,25 +1,32 @@
 class Captain::EmailVerificationMailer < ApplicationMailer
-  def verification_code(inbox, email, encrypted_code)
-    return unless smtp_config_set_or_development?
+  include EmailAddressParseable
 
+  # Checked before a code is issued, so the customer is never told an email was sent when none can be
+  def self.deliverable?
+    new.smtp_config_set_or_development?
+  end
+
+  def verification_code(inbox, email, encrypted_code)
     @inbox_name = inbox.sanitized_business_name
     @code = Captain::EmailVerification.decrypt_code(encrypted_code)
 
     # The code stays out of the subject, which is written to the mail log
-    send_mail_with_liquid(to: email, from: "#{@inbox_name} <#{sender_address}>", subject: "Your #{@inbox_name} verification code")
+    send_mail_with_liquid(
+      to: email,
+      from: format_email_with_name(@inbox_name, default_sender_email_address),
+      subject: I18n.t('captain.email_verification.subject', inbox_name: @inbox_name)
+    )
   end
 
   private
 
-  def sender_address
-    Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')).address
-  end
-
   def liquid_locals
+    minutes = Captain::EmailVerification::CODE_TTL.in_minutes.to_i
     super.merge(
-      inbox_name: @inbox_name,
       code: @code,
-      expires_in_minutes: Captain::EmailVerification::CODE_TTL.in_minutes.to_i
+      heading: I18n.t('captain.email_verification.heading'),
+      instructions: I18n.t('captain.email_verification.instructions', inbox_name: @inbox_name, minutes: minutes),
+      ignore: I18n.t('captain.email_verification.ignore')
     )
   end
 end
