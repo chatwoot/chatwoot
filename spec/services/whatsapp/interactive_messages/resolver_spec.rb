@@ -443,6 +443,101 @@ RSpec.describe Whatsapp::InteractiveMessages::Resolver do
     expect(described_class.message_params(conversation, params, {})).to eq({})
   end
 
+  it 'copies only proven preset identities into sends while generating fresh delivery IDs' do
+    preset = create(:whatsapp_interactive_preset, account: account, created_by: user, definition: interactive)
+    payload = preset.definition.deep_merge(
+      'body' => { 'text' => 'Surrounding copy changed' },
+      'source' => { 'preset_id' => preset.id }
+    )
+    payload['action']['buttons'].reverse!
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      first = described_class.new(conversation: conversation, payload: payload).perform
+      second = described_class.new(conversation: conversation, payload: payload).perform
+
+      expect(first.dig('action', 'buttons').pluck('preset_option_id')).to eq(payload.dig('action', 'buttons').pluck('preset_option_id'))
+      expect(first.dig('action', 'buttons').pluck('delivery_id')).not_to eq(second.dig('action', 'buttons').pluck('delivery_id'))
+      expect(first['source']).to eq('preset_id' => preset.id)
+    end
+  end
+
+  it 'detaches changed, moved, missing, and forged option identities at send time' do
+    list = {
+      schema_version: 1, type: 'list', body: { text: 'Choose' }, action: {
+        button: 'Open', sections: [
+          { rows: [{ title: 'Alpha', description: 'A' }, { title: 'Beta' }] },
+          { rows: [{ title: 'Gamma' }] }
+        ]
+      }
+    }
+    preset = create(:whatsapp_interactive_preset, account: account, created_by: user, definition: list)
+    payload = preset.definition.deep_dup
+    alpha_id = payload.dig('action', 'sections', 0, 'rows', 0, 'preset_option_id')
+    payload['source'] = { 'preset_id' => preset.id }
+    payload.dig('action', 'sections', 0, 'rows', 0)['description'] = 'Changed'
+    payload.dig('action', 'sections', 0, 'rows', 1).delete('preset_option_id')
+    payload.dig('action', 'sections', 1, 'rows', 0)['preset_option_id'] = SecureRandom.uuid
+    payload.dig('action', 'sections', 1, 'rows') << payload.dig('action', 'sections', 0, 'rows').shift
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      rows = described_class.new(conversation: conversation, payload: payload).perform
+                            .dig('action', 'sections').flat_map { |section| section['rows'] }
+      expect(rows.pluck('preset_option_id').compact).to be_empty
+      expect(rows.pluck('delivery_id').uniq.length).to eq(3)
+      expect(rows.to_json).not_to include(alpha_id)
+    end
+  end
+
+  it 'rejects malformed, inactive, and cross-account preset provenance before persistence' do
+    foreign_preset = create(:whatsapp_interactive_preset)
+    archived_preset = create(:whatsapp_interactive_preset, account: account, created_by: user, archived_at: Time.current)
+    payloads = [
+      interactive.deep_merge(source: { preset_id: 'not-an-integer' }),
+      interactive.deep_merge(source: { preset_id: foreign_preset.id }),
+      interactive.deep_merge(source: { preset_id: archived_preset.id })
+    ]
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      expect { described_class.new(conversation: conversation, payload: payloads.shift).perform }
+        .to raise_error(Whatsapp::InteractiveMessages::ValidationError, /positive integer preset_id/)
+      payloads.each do |payload|
+        expect { described_class.new(conversation: conversation, payload: payload).perform }
+          .to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+    expect(conversation.messages.outgoing).to be_empty
+  end
+
+  it 'rejects an active same-account source preset with a different interaction type' do
+    list = {
+      schema_version: 1, type: 'list', body: { text: 'Choose' },
+      action: { button: 'Open', sections: [{ rows: [{ title: 'First' }] }] }
+    }
+    preset = create(:whatsapp_interactive_preset, account: account, created_by: user, definition: list)
+    payload = interactive.deep_merge(source: { preset_id: preset.id })
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      expect { described_class.new(conversation: conversation, payload: payload).perform }
+        .to raise_error(Whatsapp::InteractiveMessages::ValidationError, /type must match the source preset/)
+    end
+  end
+
+  it 'does not mutate an earlier outbound snapshot when its source preset changes' do
+    preset = create(:whatsapp_interactive_preset, account: account, created_by: user, definition: interactive)
+    payload = preset.definition.merge('source' => { 'preset_id' => preset.id })
+    params = ActionController::Parameters.new(content_attributes: { whatsapp_interactive: payload })
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      message = Messages::MessageBuilder.new(user, conversation, params).perform
+      original_snapshot = message.reload.content_attributes['whatsapp_interactive'].deep_dup
+      updated = preset.definition.deep_dup
+      updated.dig('action', 'buttons', 0)['title'] = 'Changed later'
+      preset.update!(definition: updated)
+
+      expect(message.reload.content_attributes['whatsapp_interactive']).to eq(original_snapshot)
+    end
+  end
+
   it 'validates every explicitly supplied whatsapp_interactive value' do
     invalid_values = [{}, [], false, '']
 

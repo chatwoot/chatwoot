@@ -60,6 +60,8 @@ RSpec.describe 'WhatsApp interactive presets API', type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body).to include('name' => 'My copy', 'creator' => { 'id' => other_agent.id, 'name' => other_agent.name })
+      expect(response.parsed_body.dig('definition', 'action', 'buttons', 0, 'preset_option_id'))
+        .not_to eq(preset.definition.dig('action', 'buttons', 0, 'preset_option_id'))
       expect(preset.reload.definition).to eq(original_definition)
       expect(account.whatsapp_interactive_presets.last.created_by).to eq(other_agent)
     end

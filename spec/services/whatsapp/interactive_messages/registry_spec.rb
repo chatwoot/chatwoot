@@ -551,5 +551,25 @@ RSpec.describe Whatsapp::InteractiveMessages::Registry do
       expect { described_class.normalize_preset(payload) }
         .to raise_error(Whatsapp::InteractiveMessages::ValidationError, /unsupported fields: delivery_id/)
     end
+
+    it 'admits UUID metadata only on a trusted path and omits it and source provenance from provider payloads' do
+      option_id = SecureRandom.uuid
+      payload = {
+        schema_version: 1, type: 'button', body: { text: 'Choose' },
+        action: { buttons: [{ title: 'First', preset_option_id: option_id }] }
+      }
+
+      expect { described_class.normalize_preset(payload) }
+        .to raise_error(Whatsapp::InteractiveMessages::ValidationError, /unsupported fields: preset_option_id/)
+
+      snapshot = described_class.resolve(
+        payload.deep_merge(source: { preset_id: 42 }), trusted_identity: true
+      )
+      provider_payload = described_class.provider_payload(snapshot)
+
+      expect(snapshot.dig('action', 'buttons', 0, 'preset_option_id')).to eq(option_id)
+      expect(snapshot['source']).to eq('preset_id' => 42)
+      expect(provider_payload.to_json).not_to include('preset_option_id', 'preset_id', 'source')
+    end
   end
 end

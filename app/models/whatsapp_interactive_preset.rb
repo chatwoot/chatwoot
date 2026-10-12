@@ -45,7 +45,10 @@ class WhatsappInteractivePreset < ApplicationRecord
   private
 
   def normalize_definition
-    normalized = Whatsapp::InteractiveMessages::Registry.normalize_preset(definition)
+    normalized = Whatsapp::InteractiveMessages::PresetIdentity.for_save(
+      definition,
+      previous_definition: persisted? ? definition_in_database : nil
+    )
     self.definition = normalized
     self.interactive_type = normalized.fetch('type')
     self.schema_version = normalized.fetch('schema_version')

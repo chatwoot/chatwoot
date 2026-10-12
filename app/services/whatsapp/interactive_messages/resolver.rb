@@ -155,8 +155,28 @@ class Whatsapp::InteractiveMessages::Resolver
   end
 
   def perform
-    resolved = Whatsapp::InteractiveMessages::Registry.resolve(@payload)
+    resolved = resolve_payload
     Whatsapp::InteractiveMessages::Eligibility.new(@conversation).ensure_available!(resolved['type'])
     resolved
+  end
+
+  private
+
+  def resolve_payload
+    return Whatsapp::InteractiveMessages::Registry.resolve(@payload) unless @payload.respond_to?(:to_h)
+
+    payload = @payload.to_h.deep_stringify_keys
+    return Whatsapp::InteractiveMessages::Registry.resolve(payload) unless payload.key?('source')
+
+    source = payload['source']
+    valid_source = source.is_a?(Hash) && source.keys == ['preset_id'] && source['preset_id'].is_a?(Integer) && source['preset_id'].positive?
+    unless valid_source
+      raise Whatsapp::InteractiveMessages::ValidationError,
+            'whatsapp_interactive.source must contain one positive integer preset_id'
+    end
+
+    preset = @conversation.account.whatsapp_interactive_presets.active.find(source['preset_id'])
+    trusted_payload = Whatsapp::InteractiveMessages::PresetIdentity.for_send(payload, preset: preset)
+    Whatsapp::InteractiveMessages::Registry.resolve(trusted_payload, trusted_identity: true)
   end
 end

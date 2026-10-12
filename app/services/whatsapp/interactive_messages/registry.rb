@@ -105,22 +105,24 @@ class Whatsapp::InteractiveMessages::Registry
       }[type.to_s]
     end
 
-    def resolve(payload)
-      normalize(payload, generate_delivery_ids: true)
+    def resolve(payload, trusted_identity: false)
+      normalize(payload, generate_delivery_ids: true, trusted_identity: trusted_identity)
     end
 
-    def normalize_preset(payload)
-      normalize(payload, generate_delivery_ids: false)
+    def normalize_preset(payload, trusted_identity: false)
+      normalize(payload, generate_delivery_ids: false, trusted_identity: trusted_identity)
     end
 
-    def normalize(payload, generate_delivery_ids:)
+    def normalize(payload, generate_delivery_ids:, trusted_identity:)
       path = 'whatsapp_interactive'
       interactive = hash!(payload, path)
       case interactive['type']
-      when BUTTON_TYPE then resolve_button_message(interactive, path, generate_delivery_ids: generate_delivery_ids)
-      when LIST_TYPE then resolve_list_message(interactive, path, generate_delivery_ids: generate_delivery_ids)
-      when CAROUSEL_TYPE then resolve_carousel_message(interactive, path, generate_delivery_ids: generate_delivery_ids)
-      when CTA_URL_TYPE then resolve_cta_url_message(interactive, path)
+      when BUTTON_TYPE
+        resolve_button_message(interactive, path, generate_delivery_ids: generate_delivery_ids, trusted_identity: trusted_identity)
+      when LIST_TYPE then resolve_list_message(interactive, path, generate_delivery_ids: generate_delivery_ids, trusted_identity: trusted_identity)
+      when CAROUSEL_TYPE
+        resolve_carousel_message(interactive, path, generate_delivery_ids: generate_delivery_ids, trusted_identity: trusted_identity)
+      when CTA_URL_TYPE then resolve_cta_url_message(interactive, path, trusted_identity: trusted_identity)
       else raise_validation!("#{path}.type must be button, list, carousel, or cta_url")
       end
     end
@@ -159,31 +161,24 @@ class Whatsapp::InteractiveMessages::Registry
 
     private
 
-    def resolve_button_message(interactive, path, generate_delivery_ids:)
-      validated_interactive!(interactive, path, BUTTON_TYPE, %w[schema_version type body action], optional: %w[header footer])
-      body_text = validated_body_text(interactive, path)
-      buttons = validated_buttons(interactive, path)
-      value!(BUTTON_COUNT_RANGE.cover?(buttons.length), 'whatsapp_interactive.action.buttons must contain 1 to 3 buttons')
-
-      resolved_buttons = buttons.map.with_index do |button, index|
-        resolve_button(button, index, path, generate_delivery_ids: generate_delivery_ids)
-      end
-      titles = resolved_buttons.pluck('title')
-      value!(titles.uniq.length == titles.length, 'whatsapp_interactive button titles must be unique')
-
+    def resolve_button_message(interactive, path, generate_delivery_ids:, trusted_identity:)
+      optional = %w[header footer]
+      optional << 'source' if trusted_identity
+      validated_interactive!(interactive, path, BUTTON_TYPE, %w[schema_version type body action], optional: optional)
       resolved = {
         'schema_version' => SCHEMA_VERSION,
         'type' => BUTTON_TYPE,
-        'body' => { 'text' => body_text },
-        'action' => { 'buttons' => resolved_buttons }
+        'body' => { 'text' => validated_body_text(interactive, path) },
+        'action' => resolved_button_action(interactive, path, generate_delivery_ids, trusted_identity)
       }
       resolved['header'] = validated_header(interactive, path) if interactive.key?('header')
       resolved['footer'] = validated_footer(interactive, path) if interactive.key?('footer')
+      resolved['source'] = validated_source(interactive, path) if interactive.key?('source')
       resolved
     end
 
     def button_provider_payload(interactive, path, attachment)
-      validated_interactive!(interactive, path, BUTTON_TYPE, %w[schema_version type body action], optional: %w[header footer])
+      validated_interactive!(interactive, path, BUTTON_TYPE, %w[schema_version type body action], optional: %w[header footer source])
       body_text = validated_body_text(interactive, path)
       buttons = validated_buttons(interactive, path)
       value!(BUTTON_COUNT_RANGE.cover?(buttons.length), 'stored whatsapp_interactive.action.buttons must contain 1 to 3 buttons')
@@ -199,28 +194,24 @@ class Whatsapp::InteractiveMessages::Registry
       payload
     end
 
-    def resolve_list_message(interactive, path, generate_delivery_ids:)
-      validated_interactive!(interactive, path, LIST_TYPE, %w[schema_version type body action], optional: %w[header footer])
-      body_text = validated_list_body_text(interactive, path)
-      sections = validated_list_sections(interactive, path)
+    def resolve_list_message(interactive, path, generate_delivery_ids:, trusted_identity:)
+      optional = %w[header footer]
+      optional << 'source' if trusted_identity
+      validated_interactive!(interactive, path, LIST_TYPE, %w[schema_version type body action], optional: optional)
       resolved = {
         'schema_version' => SCHEMA_VERSION,
         'type' => LIST_TYPE,
-        'body' => { 'text' => body_text },
-        'action' => {
-          'button' => validated_list_button(interactive, path),
-          'sections' => sections.map.with_index do |section, index|
-            resolve_list_section(section, index, path, generate_delivery_ids: generate_delivery_ids)
-          end
-        }
+        'body' => { 'text' => validated_list_body_text(interactive, path) },
+        'action' => resolved_list_action(interactive, path, generate_delivery_ids, trusted_identity)
       }
       resolved['header'] = validated_list_header(interactive, path) if interactive.key?('header')
       resolved['footer'] = validated_footer(interactive, path) if interactive.key?('footer')
+      resolved['source'] = validated_source(interactive, path) if interactive.key?('source')
       resolved
     end
 
     def list_provider_payload(interactive, path)
-      validated_interactive!(interactive, path, LIST_TYPE, %w[schema_version type body action], optional: %w[header footer])
+      validated_interactive!(interactive, path, LIST_TYPE, %w[schema_version type body action], optional: %w[header footer source])
       payload = {
         type: LIST_TYPE,
         body: { text: validated_list_body_text(interactive, path) },
@@ -234,8 +225,10 @@ class Whatsapp::InteractiveMessages::Registry
       payload
     end
 
-    def resolve_cta_url_message(interactive, path)
-      validated_interactive!(interactive, path, CTA_URL_TYPE, %w[schema_version type body action], optional: %w[header footer])
+    def resolve_cta_url_message(interactive, path, trusted_identity:)
+      optional = %w[header footer]
+      optional << 'source' if trusted_identity
+      validated_interactive!(interactive, path, CTA_URL_TYPE, %w[schema_version type body action], optional: optional)
       resolved = {
         'schema_version' => SCHEMA_VERSION,
         'type' => CTA_URL_TYPE,
@@ -244,11 +237,12 @@ class Whatsapp::InteractiveMessages::Registry
       }
       resolved['header'] = validated_header(interactive, path) if interactive.key?('header')
       resolved['footer'] = validated_footer(interactive, path) if interactive.key?('footer')
+      resolved['source'] = validated_source(interactive, path) if interactive.key?('source')
       resolved
     end
 
     def cta_url_provider_payload(interactive, path, attachment)
-      validated_interactive!(interactive, path, CTA_URL_TYPE, %w[schema_version type body action], optional: %w[header footer])
+      validated_interactive!(interactive, path, CTA_URL_TYPE, %w[schema_version type body action], optional: %w[header footer source])
       action = validated_cta_url_action(interactive, path)
       payload = {
         type: CTA_URL_TYPE,
@@ -263,26 +257,29 @@ class Whatsapp::InteractiveMessages::Registry
       payload
     end
 
-    def resolve_carousel_message(interactive, path, generate_delivery_ids:)
-      validated_interactive!(interactive, path, CAROUSEL_TYPE, %w[schema_version type body action])
+    def resolve_carousel_message(interactive, path, generate_delivery_ids:, trusted_identity:)
+      optional = trusted_identity ? %w[source] : []
+      validated_interactive!(interactive, path, CAROUSEL_TYPE, %w[schema_version type body action], optional: optional)
       cards = validated_carousel_cards(interactive, path)
       action_type = validated_carousel_action_type(cards, path)
       used_delivery_ids = Set.new if generate_delivery_ids
       resolved_cards = cards.map.with_index do |card, index|
-        resolve_carousel_card(card, index, path, action_type, used_delivery_ids)
+        resolve_carousel_card(card, index, path, used_delivery_ids, trusted_identity)
       end
       validate_uniform_carousel_replies!(resolved_cards, path) if action_type == BUTTON_TYPE
 
-      {
+      resolved = {
         'schema_version' => SCHEMA_VERSION,
         'type' => CAROUSEL_TYPE,
         'body' => { 'text' => validated_body_text(interactive, path) },
         'action' => { 'cards' => resolved_cards }
       }
+      resolved['source'] = validated_source(interactive, path) if interactive.key?('source')
+      resolved
     end
 
     def carousel_provider_payload(interactive, path, attachments)
-      validated_interactive!(interactive, path, CAROUSEL_TYPE, %w[schema_version type body action])
+      validated_interactive!(interactive, path, CAROUSEL_TYPE, %w[schema_version type body action], optional: %w[source])
       cards = validated_carousel_cards(interactive, path)
       action_type = validated_carousel_action_type(cards, path)
       validate_unique_carousel_attachment_ids!(cards, path)
@@ -320,16 +317,16 @@ class Whatsapp::InteractiveMessages::Registry
       types.first
     end
 
-    def resolve_carousel_card(card, index, path, action_type, used_delivery_ids)
+    def resolve_carousel_card(card, index, path, used_delivery_ids, trusted_identity)
       card_path = "#{path}.action.cards[#{index}]"
       card = hash!(card, card_path)
       exact_keys!(card, %w[card_index type header action], card_path, optional: %w[body])
       validate_carousel_card_index!(card, index, card_path)
       resolved = {
         'card_index' => index,
-        'type' => action_type,
+        'type' => card['type'],
         'header' => validated_carousel_header(card, card_path),
-        'action' => resolve_carousel_action(card, card_path, action_type, used_delivery_ids)
+        'action' => resolve_carousel_action(card, card_path, card['type'], used_delivery_ids, trusted_identity)
       }
       resolved['body'] = validated_carousel_card_body(card, card_path) if card.key?('body')
       resolved
@@ -379,7 +376,7 @@ class Whatsapp::InteractiveMessages::Registry
       { 'text' => text }
     end
 
-    def resolve_carousel_action(card, card_path, action_type, used_delivery_ids)
+    def resolve_carousel_action(card, card_path, action_type, used_delivery_ids, trusted_identity)
       return validated_carousel_url_action(card, card_path) if action_type == CTA_URL_TYPE
 
       action_path = "#{card_path}.action"
@@ -388,7 +385,7 @@ class Whatsapp::InteractiveMessages::Registry
       buttons = array!(action['buttons'], "#{action_path}.buttons")
       value!(buttons.present?, "#{action_path}.buttons must contain at least one button")
       resolved_buttons = buttons.map.with_index do |button, index|
-        resolve_carousel_reply(button, index, action_path, used_delivery_ids)
+        resolve_carousel_reply(button, index, action_path, used_delivery_ids, trusted_identity)
       end
       titles = resolved_buttons.pluck('title')
       value!(titles.uniq.length == titles.length, "#{action_path}.button titles must be unique")
@@ -412,7 +409,7 @@ class Whatsapp::InteractiveMessages::Registry
     def provider_carousel_reply(button, index, action_path)
       button_path = "#{action_path}.buttons[#{index}]"
       button = hash!(button, button_path)
-      exact_keys!(button, %w[delivery_id title], button_path)
+      exact_keys!(button, %w[delivery_id title], button_path, optional: %w[preset_option_id])
       {
         type: 'quick_reply',
         quick_reply: {
@@ -440,11 +437,12 @@ class Whatsapp::InteractiveMessages::Registry
       }
     end
 
-    def resolve_carousel_reply(button, index, action_path, used_delivery_ids)
+    def resolve_carousel_reply(button, index, action_path, used_delivery_ids, trusted_identity)
       button_path = "#{action_path}.buttons[#{index}]"
       button = hash!(button, button_path)
-      exact_keys!(button, %w[title], button_path)
+      exact_keys!(button, %w[title], button_path, optional: trusted_identity ? %w[preset_option_id] : [])
       resolved = { 'title' => text!(button['title'], "#{button_path}.title", BUTTON_TITLE_MAX_LENGTH) }
+      resolved['preset_option_id'] = uuid!(button['preset_option_id'], "#{button_path}.preset_option_id") if button.key?('preset_option_id')
       return resolved unless used_delivery_ids
 
       delivery_id = "reply_#{SecureRandom.uuid}"
@@ -544,18 +542,29 @@ class Whatsapp::InteractiveMessages::Registry
       array!(action['buttons'], "#{path}.action.buttons")
     end
 
-    def resolve_button(button, index, path, generate_delivery_ids:)
+    def resolved_button_action(interactive, path, generate_delivery_ids, trusted_identity)
+      buttons = validated_buttons(interactive, path)
+      value!(BUTTON_COUNT_RANGE.cover?(buttons.length), 'whatsapp_interactive.action.buttons must contain 1 to 3 buttons')
+      resolved = buttons.map.with_index do |button, index|
+        resolve_button(button, index, path, generate_delivery_ids: generate_delivery_ids, trusted_identity: trusted_identity)
+      end
+      value!(resolved.pluck('title').uniq.length == resolved.length, 'whatsapp_interactive button titles must be unique')
+      { 'buttons' => resolved }
+    end
+
+    def resolve_button(button, index, path, generate_delivery_ids:, trusted_identity:)
       button_path = "#{path}.action.buttons[#{index}]"
       button = hash!(button, button_path)
-      exact_keys!(button, %w[title], button_path)
+      exact_keys!(button, %w[title], button_path, optional: trusted_identity ? %w[preset_option_id] : [])
       resolved = { 'title' => text!(button['title'], "#{button_path}.title", BUTTON_TITLE_MAX_LENGTH) }
+      resolved['preset_option_id'] = uuid!(button['preset_option_id'], "#{button_path}.preset_option_id") if button.key?('preset_option_id')
       generate_delivery_ids ? resolved.merge('delivery_id' => "reply_#{SecureRandom.uuid}") : resolved
     end
 
     def provider_button(button, index, path)
       button_path = "#{path}.action.buttons[#{index}]"
       button = hash!(button, button_path)
-      exact_keys!(button, %w[delivery_id title], button_path)
+      exact_keys!(button, %w[delivery_id title], button_path, optional: %w[preset_option_id])
       delivery_id = text!(button['delivery_id'], "#{button_path}.delivery_id", 256)
       title = text!(button['title'], "#{button_path}.title", BUTTON_TITLE_MAX_LENGTH)
       { type: 'reply', reply: { id: delivery_id, title: title } }
@@ -581,7 +590,14 @@ class Whatsapp::InteractiveMessages::Registry
       sections
     end
 
-    def resolve_list_section(section, index, path, generate_delivery_ids:)
+    def resolved_list_action(interactive, path, generate_delivery_ids, trusted_identity)
+      sections = validated_list_sections(interactive, path).map.with_index do |section, index|
+        resolve_list_section(section, index, path, generate_delivery_ids: generate_delivery_ids, trusted_identity: trusted_identity)
+      end
+      { 'button' => validated_list_button(interactive, path), 'sections' => sections }
+    end
+
+    def resolve_list_section(section, index, path, generate_delivery_ids:, trusted_identity:)
       section_path = "#{path}.action.sections[#{index}]"
       section = hash!(section, section_path)
       exact_keys!(section, %w[rows], section_path, optional: %w[title])
@@ -589,20 +605,23 @@ class Whatsapp::InteractiveMessages::Registry
       value!(rows.present?, "#{section_path}.rows must contain at least one row")
       resolved = {
         'rows' => rows.map.with_index do |row, row_index|
-          resolve_list_row(row, row_index, section_path, generate_delivery_ids: generate_delivery_ids)
+          resolve_list_row(row, row_index, section_path, generate_delivery_ids: generate_delivery_ids, trusted_identity: trusted_identity)
         end
       }
       resolved['title'] = text!(section['title'], "#{section_path}.title", LIST_SECTION_TITLE_MAX_LENGTH) if section.key?('title')
       resolved
     end
 
-    def resolve_list_row(row, index, section_path, generate_delivery_ids:)
+    def resolve_list_row(row, index, section_path, generate_delivery_ids:, trusted_identity:)
       row_path = "#{section_path}.rows[#{index}]"
       row = hash!(row, row_path)
-      exact_keys!(row, %w[title], row_path, optional: %w[description])
+      optional = %w[description]
+      optional << 'preset_option_id' if trusted_identity
+      exact_keys!(row, %w[title], row_path, optional: optional)
       resolved = { 'title' => text!(row['title'], "#{row_path}.title", LIST_ROW_TITLE_MAX_LENGTH) }
       resolved['delivery_id'] = "row_#{SecureRandom.uuid}" if generate_delivery_ids
       resolved['description'] = text!(row['description'], "#{row_path}.description", LIST_ROW_DESCRIPTION_MAX_LENGTH) if row.key?('description')
+      resolved['preset_option_id'] = uuid!(row['preset_option_id'], "#{row_path}.preset_option_id") if row.key?('preset_option_id')
       resolved
     end
 
@@ -620,7 +639,7 @@ class Whatsapp::InteractiveMessages::Registry
     def provider_list_row(row, index, section_path)
       row_path = "#{section_path}.rows[#{index}]"
       row = hash!(row, row_path)
-      exact_keys!(row, %w[delivery_id title], row_path, optional: %w[description])
+      exact_keys!(row, %w[delivery_id title], row_path, optional: %w[description preset_option_id])
       provider_row = {
         id: text!(row['delivery_id'], "#{row_path}.delivery_id", LIST_ROW_DELIVERY_ID_MAX_LENGTH),
         title: text!(row['title'], "#{row_path}.title", LIST_ROW_TITLE_MAX_LENGTH)
@@ -669,6 +688,20 @@ class Whatsapp::InteractiveMessages::Registry
       value!(value.present?, "#{path} cannot be blank")
       value!(value.length <= maximum, "#{path} must be #{maximum} characters or fewer")
       value
+    end
+
+    def uuid!(value, path)
+      value!(value.is_a?(String) && value.match?(/\A[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\z/i),
+             "#{path} must be a UUID")
+      value
+    end
+
+    def validated_source(interactive, path)
+      source_path = "#{path}.source"
+      source = hash!(interactive['source'], source_path)
+      exact_keys!(source, %w[preset_id], source_path)
+      value!(source['preset_id'].is_a?(Integer) && source['preset_id'].positive?, "#{source_path}.preset_id must be a positive integer")
+      { 'preset_id' => source['preset_id'] }
     end
 
     def url!(value, path)

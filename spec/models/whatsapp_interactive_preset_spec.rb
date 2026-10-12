@@ -16,7 +16,92 @@ RSpec.describe WhatsappInteractivePreset do
     preset = described_class.create!(account: account, created_by: creator, name: 'Greeting', definition: definition)
 
     expect(preset).to have_attributes(interactive_type: 'button', schema_version: 1)
-    expect(preset.definition.dig('action', 'buttons', 0)).to eq('title' => 'Continue')
+    expect(preset.definition.dig('action', 'buttons', 0)).to include('title' => 'Continue')
+    expect(preset.definition.dig('action', 'buttons', 0, 'preset_option_id')).to match(
+      /\A[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\z/i
+    )
+    expect(preset.definition.to_json).not_to include('delivery_id')
+  end
+
+  it 'keeps same-parent identities through reorder and surrounding edits but replaces changed or missing identities' do
+    preset = described_class.create!(
+      account: account, created_by: creator, name: 'Greeting',
+      definition: definition.deep_merge(action: { buttons: [{ title: 'Continue' }, { title: 'Stop' }] })
+    )
+    original_ids = preset.definition.dig('action', 'buttons').index_by { |button| button['title'] }.transform_values do |button|
+      button['preset_option_id']
+    end
+    updated = preset.definition.deep_dup
+    updated['body']['text'] = 'Updated surrounding copy'
+    updated['action']['buttons'].reverse!
+    updated['action']['buttons'].first['title'] = 'Changed'
+    updated['action']['buttons'].last.delete('preset_option_id')
+
+    preset.update!(definition: updated)
+    changed, missing = preset.definition.dig('action', 'buttons')
+
+    expect(changed['preset_option_id']).not_to eq(original_ids['Stop'])
+    expect(missing['preset_option_id']).not_to eq(original_ids['Continue'])
+  end
+
+  it 'preserves list rows only inside their authoritative section and includes description in owned fields' do
+    list_definition = {
+      schema_version: 1, type: 'list', body: { text: 'Choose' }, action: {
+        button: 'Open', sections: [
+          { title: 'First', rows: [{ title: 'Alpha', description: 'A' }, { title: 'Beta' }] },
+          { title: 'Second', rows: [{ title: 'Gamma' }] }
+        ]
+      }
+    }
+    preset = described_class.create!(account: account, created_by: creator, name: 'List', definition: list_definition)
+    original = preset.definition.deep_dup
+    updated = preset.definition.deep_dup
+    updated['action']['sections'][0]['rows'].reverse!
+    updated['action']['sections'][0]['rows'][1]['description'] = 'Changed'
+    moved = updated['action']['sections'][0]['rows'].shift
+    updated['action']['sections'][1]['rows'] << moved
+
+    preset.update!(definition: updated)
+    rows = preset.definition.dig('action', 'sections').flat_map { |section| section['rows'] }.index_by { |row| row['title'] }
+
+    expect(rows['Alpha']['preset_option_id']).not_to eq(original.dig('action', 'sections', 0, 'rows', 0, 'preset_option_id'))
+    expect(rows['Beta']['preset_option_id']).not_to eq(original.dig('action', 'sections', 0, 'rows', 1, 'preset_option_id'))
+    expect(rows['Gamma']['preset_option_id']).to eq(original.dig('action', 'sections', 1, 'rows', 0, 'preset_option_id'))
+  end
+
+  it 'preserves carousel replies within a card, replaces moved replies, and never identifies URL actions' do
+    carousel = {
+      schema_version: 1, type: 'carousel', body: { text: 'Choose' }, action: { cards: Array.new(2) do |index|
+        {
+          card_index: index, type: 'button', header: { type: 'image' }, body: { text: "Card #{index}" },
+          action: { buttons: [{ title: "Choose #{index}" }, { title: "Details #{index}" }] }
+        }
+      end }
+    }
+    preset = described_class.create!(account: account, created_by: creator, name: 'Carousel', definition: carousel)
+    original = preset.definition.deep_dup
+    updated = preset.definition.deep_dup
+    updated['action']['cards'][0]['body']['text'] = 'Surrounding card copy changed'
+    updated['action']['cards'][0]['action']['buttons'].reverse!
+    moved = updated['action']['cards'][0]['action']['buttons'].shift
+    displaced = updated['action']['cards'][1]['action']['buttons'].shift
+    updated['action']['cards'][1]['action']['buttons'] << moved
+    updated['action']['cards'][0]['action']['buttons'] << displaced
+
+    preset.update!(definition: updated)
+    first_card_reply = preset.definition.dig('action', 'cards', 0, 'action', 'buttons', 0)
+    moved_reply = preset.definition.dig('action', 'cards', 1, 'action', 'buttons', 1)
+
+    expect(first_card_reply['preset_option_id']).to eq(original.dig('action', 'cards', 0, 'action', 'buttons', 0, 'preset_option_id'))
+    expect(moved_reply['preset_option_id']).not_to eq(original.dig('action', 'cards', 0, 'action', 'buttons', 1, 'preset_option_id'))
+
+    url_carousel = carousel.deep_dup
+    url_carousel[:action][:cards].each_with_index do |card, index|
+      card[:type] = 'cta_url'
+      card[:action] = { button: 'View', url: "https://example.test/#{index}" }
+    end
+    url_preset = described_class.create!(account: account, created_by: creator, name: 'URLs', definition: url_carousel)
+    expect(url_preset.definition.to_json).not_to include('preset_option_id')
   end
 
   it 'rejects invalid structures and client-owned technical IDs' do
