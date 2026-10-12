@@ -298,6 +298,7 @@
     },
     "MEDIA": {
       "IMAGE_UNAVAILABLE": "Esta imagen ya no está disponible.",
+      "HD_BADGE": "HD",
       "LOADING_FAILED": "Error al cargar"
     }
   },
