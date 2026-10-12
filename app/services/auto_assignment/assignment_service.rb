@@ -141,9 +141,13 @@ class AutoAssignment::AssignmentService
                     .first
       next false unless locked
 
-      locked.update!(assignee: agent)
+      locked.update!(assignment_attributes(locked, agent))
       true
     end
+  end
+
+  def assignment_attributes(_conversation, agent)
+    { assignee: agent }
   end
 
   def dispatch_assignment_event(conversation, agent)

@@ -71,6 +71,11 @@ daily_agent_logout_job:
   class: 'Internal::DailyAgentLogoutJob'
   queue: scheduled_jobs
 
+sync_assignment_ledger_job:
+  cron: '* * * * *'
+  class: 'Internal::SyncAssignmentLedgerJob'
+  queue: scheduled_jobs
+
 # executed daily at 2230 UTC
 # removes old notifications (>1 month) and trims to 300 per user
 remove_old_notification_job:

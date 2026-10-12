@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_10_11_153624) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_12_195502) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -880,6 +880,26 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_11_153624) do
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["name", "email", "phone_number", "identifier"], name: "index_contacts_on_name_email_phone_number_identifier", opclass: :gin_trgm_ops, using: :gin
     t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
+  end
+
+  create_table "conversation_assignment_events", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "inbox_id", null: false
+    t.bigint "agent_id", null: false
+    t.bigint "conversation_display_id", null: false
+    t.string "agent_name", null: false
+    t.string "event_kind", null: false
+    t.string "source", null: false
+    t.jsonb "routing", default: {}, null: false
+    t.datetime "first_customer_message_at"
+    t.datetime "assigned_at", null: false
+    t.datetime "synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_conversation_assignment_events_on_account_id"
+    t.index ["conversation_id"], name: "index_conversation_assignment_events_on_conversation_id"
+    t.index ["id"], name: "assignment_events_pending", where: "(synced_at IS NULL)"
   end
 
   create_table "conversation_ad_referrals", force: :cascade do |t|

@@ -1,4 +1,6 @@
 module Enterprise::AutoAssignment::AssignmentService
+  prepend SalesRouting::Assignment
+
   private
 
   # Override assignment config to use policy if available
