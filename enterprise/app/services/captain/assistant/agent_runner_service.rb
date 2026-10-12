@@ -11,6 +11,7 @@ class Captain::Assistant::AgentRunnerService
   attr_reader :last_run_result
 
   REPLY_SUGGESTION_SOURCE = 'copilot_reply_suggestion'.freeze
+  EMAIL_VERIFICATION_TOOLS = [Captain::Tools::SendEmailVerificationCodeTool, Captain::Tools::VerifyEmailCodeTool].freeze
   RunOptions = Data.define(:callbacks, :source, :responding_to_message_id, :runtime_configuration) do
     def initialize(callbacks: {}, source: nil, responding_to_message_id: nil, runtime_configuration: nil)
       super
@@ -131,17 +132,38 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def wire_agents(assistant_agent, scenario_agents)
+    assistant_agent = with_session_tools(assistant_agent)
+    scenario_agents = scenario_agents.map { |agent| with_session_tools(agent) }
     assistant_agent.register_handoffs(*scenario_agents) if scenario_agents.any?
     scenario_agents.each { |scenario_agent| scenario_agent.register_handoffs(assistant_agent) }
 
     [assistant_agent] + scenario_agents
   end
 
+  def with_session_tools(agent)
+    return agent.clone(tools: open_session_tools(agent.tools)) if Captain::Tools::HttpTool::AGENT_FACING_SOURCES.include?(@source)
+
+    with_email_verification_tools(agent)
+  end
+
+  # An admin or an agent is the user here, so tools that read the session email take the email from the model
+  def open_session_tools(tools)
+    tools.map { |tool| tool.is_a?(Captain::Tools::HttpTool) ? tool.open_session_tool : tool }
+  end
+
+  # Every agent in a customer conversation can verify the customer, so whichever one is asked for account data can do it.
+  # Email conversations are left out: a code sent to the address the customer already writes from proves nothing new.
+  def with_email_verification_tools(agent)
+    return agent if @conversation&.contact_inbox.blank? || @conversation.inbox.email?
+
+    agent.clone(tools: agent.tools + EMAIL_VERIFICATION_TOOLS.map { |tool_class| tool_class.new(@assistant) })
+  end
+
   def reply_suggestion_agent
     agent = @assistant.agent
     agent.clone(
       instructions: ->(context) { @assistant.agent_instructions(context, prompt_template: 'copilot_reply_suggestion') },
-      tools: agent.tools.select { |tool| available_in_reply_suggestion?(tool) }
+      tools: open_session_tools(agent.tools.select { |tool| available_in_reply_suggestion?(tool) })
     )
   end
 
