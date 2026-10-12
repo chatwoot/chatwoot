@@ -116,4 +116,23 @@ describe('ContextMenu/Index (Agent Search)', () => {
       wrapper.vm.filteredAssignableAgents[0]
     );
   });
+
+  it('resets activeAgentIndex to 0 when agentSearchQuery changes', async () => {
+    const wrapper = mountMenu();
+    wrapper.vm.moveActiveAgent(1);
+    expect(wrapper.vm.activeAgentIndex).toBe(1);
+
+    wrapper.vm.agentSearchQuery = 'Two';
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.activeAgentIndex).toBe(0);
+  });
+
+  it('shows no agents found message when no agent matches the query', async () => {
+    const wrapper = mountMenu();
+    wrapper.vm.agentSearchQuery = 'NonExistentAgent';
+    await wrapper.vm.$nextTick();
+    expect(wrapper.vm.filteredAssignableAgents.length).toBe(0);
+    const noAgentsText = wrapper.find('.text-n-slate-11');
+    expect(noAgentsText.exists()).toBe(true);
+  });
 });
