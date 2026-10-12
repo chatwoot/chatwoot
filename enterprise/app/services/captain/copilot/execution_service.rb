@@ -128,7 +128,9 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # ruboc
   def finish_step(result)
     @run.with_lease(@token) do
       failure = result.is_a?(Hash) && (result[:error] || result['error'])
-      @step.update!(status: failure ? 'failed' : 'succeeded', result: result, error: failure.to_s.presence)
+      # The result keeps the whole error for the model; the column holds a summary within the string limit.
+      @step.update!(status: failure ? 'failed' : 'succeeded', result: result,
+                    error: failure.to_s.truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH).presence)
       persist_message({ content: "#{failure ? 'Failed' : 'Completed'} #{@step.name}", function_name: @step.name,
                         tool: @step.receipt }, 'assistant_thinking')
     end
