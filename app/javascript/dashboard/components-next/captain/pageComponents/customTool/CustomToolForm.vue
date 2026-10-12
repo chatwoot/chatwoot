@@ -55,7 +55,8 @@ const state = reactive({
 // A tool whose URL or request body reads this value gets the email from the verified session, so it always needs verification
 // Any reference to session inside {{ }} or {% %} counts, matching the check on the server
 const LIQUID_BLOCK_PATTERN = /\{\{[\s\S]*?\}\}|\{%[\s\S]*?%\}/g;
-const SESSION_REFERENCE_PATTERN = /\bsession\b/;
+// A property such as order.session, or the text "session", is not the namespace
+const SESSION_REFERENCE_PATTERN = /(?<![.\w"'])session(?![\w"'])/;
 
 // Tools installed from a manifest are shown read-only
 const isReadOnly = computed(() => props.mode === 'view');
