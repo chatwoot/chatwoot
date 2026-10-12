@@ -1,6 +1,6 @@
 # A resource declares:
 #   NAME         the value the model passes to get_data
-#   DATE_FIELDS  the columns that since and before can use; the first one is the default
+#   DATE_FIELDS  the columns that since, before and newest use; the first one is the default
 #   FILTERS      JSON schema properties for its own filters
 #   SOURCES      { saved set resource => lambda taking record IDs and returning this resource's linked records }
 #   COLUMNS      display headers after the first column, which links to the record
@@ -9,9 +9,12 @@
 class Captain::Copilot::Resources::BaseResource
   include Captain::Copilot::ConversationAccess
 
-  # No limit filter: the model capped selections the agent asked for in full, so Ruby always selects everything up to
-  # MAX_SELECTION and reviews it in budgeted batches.
-  COMMON_FILTERS = { since: { type: 'string', format: 'date-time' }, before: { type: 'string', format: 'date-time' } }.freeze
+  # newest is only for a number the agent states, e.g. "the last 20 conversations". A generic limit let the model cap
+  # selections the agent asked for in full, so without newest Ruby selects everything up to MAX_SELECTION.
+  COMMON_FILTERS = {
+    since: { type: 'string', format: 'date-time' }, before: { type: 'string', format: 'date-time' },
+    newest: { type: 'integer', minimum: 1, maximum: CopilotRun::MAX_SELECTION, description: 'The number of most recent records by date_field' }
+  }.freeze
 
   def self.filter_schema
     properties = COMMON_FILTERS.merge(date_field: { type: 'string', enum: self::DATE_FIELDS }).merge(self::FILTERS)
@@ -44,11 +47,17 @@ class Captain::Copilot::Resources::BaseResource
     filters.reverse_merge('date_field' => self.class::DATE_FIELDS.first)
   end
 
-  # The visible records that match the filters and, when a source set is given, are linked to its records.
-  def records(filters, boundary:, source: nil)
+  # IDs of the visible records that match the filters and, when a source set is given, are linked to its records. With
+  # newest, the most recent records by the date field; otherwise up to one more than MAX_SELECTION, so the caller can
+  # tell when the selection was cut.
+  def selected_ids(filters, boundary:, source: nil)
     relation = scope
     relation = relation.where(id: linked(source).select(:id)) if source
-    filter(apply_dates(relation, filters, boundary), filters)
+    relation = filter(apply_dates(relation, filters, boundary), filters)
+    return relation.reorder(id: :desc).limit(CopilotRun::MAX_SELECTION + 1).pluck(:id) unless filters['newest']
+
+    table = relation.klass.arel_table
+    relation.reorder(table[filters['date_field']].desc.nulls_last, table[:id].desc).limit(filters['newest']).pluck(:id)
   end
 
   # Display rows for records the user can still see, in the order of ids.

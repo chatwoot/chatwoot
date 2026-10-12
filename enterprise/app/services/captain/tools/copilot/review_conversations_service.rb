@@ -16,19 +16,23 @@ class Captain::Tools::Copilot::ReviewConversationsService < Captain::Tools::Copi
       raise ArgumentError, 'Screening is unavailable. Retry without match.' unless Captain::Copilot::ScreeningService.available?
     end
 
-    collection = review_source(collection_id)
-    review = run.with_lease(lease_token) do
-      run.copilot_thread.copilot_runs.create_or_find_by!(copilot_run_step: step) do |record|
-        record.assign_attributes(account: run.account, user: run.user, parent_run: collection, kind: 'review',
-                                 context: collection.context.merge('criteria' => criteria, 'match' => match,
-                                                                   'budget' => CopilotRun::REVIEW_BUDGET).compact)
-      end
-    end
+    review = create_review(review_source(collection_id), criteria, match)
     Captain::Copilot::ReviewJob.perform_later(review.id)
     review.receipt
   end
 
   private
+
+  # The agent's own message is saved with the model's match and criteria, so the reviewer can follow the agent's words.
+  def create_review(collection, criteria, match)
+    context = collection.context.merge('request' => run.copilot_message.message['content'], 'criteria' => criteria, 'match' => match,
+                                       'budget' => CopilotRun::REVIEW_BUDGET).compact
+    run.with_lease(lease_token) do
+      run.copilot_thread.copilot_runs.create_or_find_by!(copilot_run_step: step) do |record|
+        record.assign_attributes(account: run.account, user: run.user, parent_run: collection, kind: 'review', context: context)
+      end
+    end
+  end
 
   def review_source(collection_id)
     collection = saved_run(collection_id, 'collection')

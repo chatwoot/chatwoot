@@ -85,7 +85,7 @@ class Captain::Copilot::PresentationService
              "#{receipt[:screened_out]} screened out, #{receipt[:reviewed]} reviewed, #{receipt[:matched]} matched, #{receipt[:errors]} errors.",
              "Filters: #{escape(@run.filters.to_json)}."]
     lines << "Screening question: #{escape(@run.match)}" if @run.match.present?
-    lines + coverage_gaps(receipt) + ['Recent messages were reviewed. Attachment contents were not reviewed.']
+    lines + coverage_gaps(receipt) + ['The opening and newest messages were reviewed. Attachment contents were not reviewed.']
   end
 
   def coverage_gaps(receipt)

@@ -12,7 +12,7 @@ class Captain::Copilot::DataService
     filters = selector.normalize(filters)
     source = saved_set(from) if from
     boundary = Time.current
-    ids = selector.records(filters, boundary: boundary, source: source).order(id: :desc).limit(CopilotRun::MAX_SELECTION + 1).pluck(:id)
+    ids = selector.selected_ids(filters, boundary: boundary, source: source)
     collection = persist_collection(resource, filters, ids, boundary, source)
     collection.receipt.merge(collection_id: collection.id, resource: resource, boundary_at: collection.boundary_at.iso8601)
   end

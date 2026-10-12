@@ -57,7 +57,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
   def review(run, token, service, conversation)
     deep = run.findings.exists?(conversation_id: conversation.id, status: 'more_history')
     attributes = service.analyze(conversation, deep: deep)
-    attributes = attributes.merge(status: 'error', error: 'The last 50 messages were insufficient') if attributes[:status] == 'more_history' && deep
+    attributes = attributes.merge(status: 'error', error: 'The 50 messages read were insufficient') if attributes[:status] == 'more_history' && deep
     run.with_lease(token) { save_result(run, conversation.id, attributes) }
   rescue Captain::Copilot::LeaseLostError, Captain::Copilot::LimitExceededError
     raise

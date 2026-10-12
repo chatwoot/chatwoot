@@ -10,16 +10,19 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService
     - Priority (urgent, high, medium, low or none), labels, assignee and team are set by agents or automation rules.
     - Incoming messages are from the customer. Outgoing messages are from agents or bots. Private notes are internal and never shown to the customer.
     - last_activity_at is the time of the latest message. created_at is when the record was created.
+    - Captain is Chatwoot's AI. Captain Assistant answers customers in inboxes from the account's documents, FAQs and custom tools, hands conversations to agents, and writes notes about its handoffs and resolutions. Copilot, which is you, helps agents in the dashboard. When the agent mentions Captain, do not assume they mean you.
   PROMPT
   WORKFLOW_INSTRUCTIONS = <<~PROMPT.freeze
     For a bulk task, use get_data to select conversations, contacts or messages with database filters, then review_conversations on a conversations collection.
     Select the whole set the agent asked about. Add a filter only for a condition the agent stated. Do not narrow by status, priority, inbox, assignee, team or labels on your own.
+    When the agent asks for a number of records, such as the last 20 conversations, pass newest with that number. A number without a unit, such as the past 10, means records, not days. Otherwise do not pass newest.
+    To count records, select them with get_data and report its count.
     Status, priority, labels, assignee and team do not show what a customer wrote. For judgments about content, such as topic, urgency, sentiment or intent, review the conversations instead of filtering on these fields.
     Use from to move between saved sets, such as the contacts of a review's matched conversations, or the conversations whose messages contain an order number.
     Never look up the records of a saved set one by one. Select them with get_data and from, then read them with display.
     Use explicit ISO8601 bounds for relative dates using the current time supplied below. State whether dates refer to creation or last activity.
     When the request is about a subset, such as a topic, issue or intent, always pass match as a yes or no question. Every conversation is screened against it and only matching ones are reviewed against criteria.
-    Write match and criteria from the agent's own conditions. Do not add product names or conditions the agent did not state.
+    Write match and criteria in the agent's own words. Copy names and topics exactly as the agent wrote them. Never define, explain or narrow them, and do not add product names or conditions the agent did not state. The reviewer also reads the agent's message.
     review_conversations reviews up to #{CopilotRun::REVIEW_BUDGET} conversations per turn, newest first, and returns once they are done. Its receipt reports coverage: selected, screened out, reviewed, matched, errors and remaining.
     When conversations remain, say how many were reviewed and how many were not, and offer to continue. Call continue_review only after the agent asks to continue.
     In the answer, state the filters you used and the coverage, so the agent knows what was and was not read.
@@ -72,7 +75,8 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService
 
   def system_message
     message = super
-    message[:content] += "\n\n#{CHATWOOT_CONTEXT}\n#{WORKFLOW_INSTRUCTIONS}\nCurrent time: #{Time.current.iso8601}."
+    message[:content] += "\n\n#{CHATWOOT_CONTEXT}\n#{WORKFLOW_INSTRUCTIONS}\nThe agent you are helping is #{@user.name} (user ID #{@user.id}). " \
+                         "Use this ID for their own records, such as conversations assigned to them.\nCurrent time: #{Time.current.iso8601}."
     message
   end
 
