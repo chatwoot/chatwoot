@@ -362,7 +362,8 @@ RSpec.describe Captain::CustomTool, type: :model do
 
     it 'does not require email verification for a property or a text value named session' do
       ['https://api.example.com/c?s={{ order.session }}', 'https://api.example.com/c?s={{ "session" }}',
-       "https://api.example.com/c?s={{ 'session' | upcase }}"].each do |url|
+       "https://api.example.com/c?s={{ 'session' | upcase }}", 'https://api.example.com/c?s={{ "customer session value" }}',
+       "https://api.example.com/c?s={{ 'the session' | append: order_id }}"].each do |url|
         tool = build(:captain_custom_tool, account: account, endpoint_url: url)
 
         expect(tool.requires_email_verification?).to be(false), "expected #{url} not to count"
