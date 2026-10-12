@@ -203,12 +203,24 @@ describe('imageOptimizer', () => {
       );
     });
 
-    it('throws TOO_LARGE when the blob is under 2 KB', async () => {
+    it('throws TOO_LARGE when a heavy source comes out under 2 KB (blank canvas)', async () => {
       sizeFor = () => 100;
+      const heavyFile = new File([new Uint8Array(300 * 1024)], 'photo.png', {
+        type: 'image/png',
+      });
       await expectCode(
-        optimizeImage(makeFile(), { maxBytes: 200000, ladder: LADDER }),
+        optimizeImage(heavyFile, { maxBytes: 200000, ladder: LADDER }),
         IMAGE_OPTIMIZATION_ERRORS.TOO_LARGE
       );
+    });
+
+    it('accepts a tiny result from a light source such as a flat banner', async () => {
+      sizeFor = () => 100;
+      const result = await optimizeImage(makeFile(), {
+        maxBytes: 200000,
+        ladder: LADDER,
+      });
+      expect(result.file.size).toBe(100);
     });
 
     it('revokes the object URL on success and on failure', async () => {

@@ -4,8 +4,10 @@ export const IMAGE_OPTIMIZATION_ERRORS = {
   TOO_LARGE: 'TOO_LARGE',
 };
 
-// A blob smaller than this is treated as a silently blank canvas (Safari).
+// A tiny result from a heavy source means the canvas silently came out blank (Safari).
+// Light sources are exempt: a flat banner can legitimately encode to a few hundred bytes.
 const MIN_VALID_BLOB_BYTES = 2048;
+const BLANK_GUARD_MIN_SOURCE_BYTES = 256 * 1024;
 
 export class ImageOptimizationError extends Error {
   constructor(code, message = code) {
@@ -100,7 +102,10 @@ export const optimizeImage = async (file, { maxBytes, ladder }) => {
       if (!blob) {
         throw new ImageOptimizationError(IMAGE_OPTIMIZATION_ERRORS.UNSUPPORTED);
       }
-      if (blob.size < MIN_VALID_BLOB_BYTES) {
+      if (
+        blob.size < MIN_VALID_BLOB_BYTES &&
+        file.size > BLANK_GUARD_MIN_SOURCE_BYTES
+      ) {
         throw new ImageOptimizationError(IMAGE_OPTIMIZATION_ERRORS.TOO_LARGE);
       }
       if (blob.size <= maxBytes) {
