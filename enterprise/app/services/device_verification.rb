@@ -4,6 +4,10 @@ module DeviceVerification
       ActiveModel::Type::Boolean.new.cast(GlobalConfig.get_value('DEVICE_VERIFICATION_ENABLED')).present?
   end
 
+  def self.exempt?(user)
+    GlobalConfig.get_value('DEVICE_VERIFICATION_EXEMPT_EMAILS').to_s.split("\n").map { |email| email.strip.downcase }.include?(user.email.downcase)
+  end
+
   # Cleared on credential recovery so a legitimate password reset does not leave
   # the user's other devices blocked by an already-exhausted challenge budget.
   def self.reset_issuance_budget(user_id)
