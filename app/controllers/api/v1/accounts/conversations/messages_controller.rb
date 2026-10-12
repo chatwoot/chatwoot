@@ -28,6 +28,8 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   def retry
     return if message.blank?
 
+    return Whatsapp::InteractiveMessages::RetryService.new(message).perform if normalized_whatsapp_interactive_message?
+
     service = Messages::StatusUpdateService.new(message, 'sent')
     service.perform
     message.update!(content_attributes: {})
@@ -73,6 +75,12 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def already_translated_content_available?
     message.translations.present? && message.translations[permitted_params[:target_language]].present?
+  end
+
+  def normalized_whatsapp_interactive_message?
+    channel = message.inbox.channel
+    channel.is_a?(Channel::Whatsapp) && channel.provider == 'whatsapp_cloud' &&
+      Whatsapp::InteractiveMessages::Registry.implemented?(message.content_attributes.dig('whatsapp_interactive', 'type'))
   end
 
   # API inbox check

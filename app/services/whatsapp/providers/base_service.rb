@@ -49,9 +49,22 @@ class Whatsapp::Providers::BaseService
     error_message = error_message(response)
     return if error_message.blank?
 
-    message.external_error = error_message
+    content_attributes = message.content_attributes.deep_dup
+    normalized_error = provider_error(response)
+    if normalized_error.present?
+      delivery = content_attributes['whatsapp_delivery'].to_h
+      delivery['provider_error'] = normalized_error
+      content_attributes['whatsapp_delivery'] = delivery
+    end
+    content_attributes['external_error'] = error_message
+
+    message.content_attributes = content_attributes
     message.status = :failed
     message.save!
+  end
+
+  def provider_error(_response)
+    nil
   end
 
   # WhatsApp coexistence / username migration: a contact may become addressable only by a Business-Scoped

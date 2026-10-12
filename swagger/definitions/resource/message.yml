@@ -34,7 +34,7 @@ properties:
     type:
       - string
       - 'null'
-    enum: ["sent", "delivered", "read", "failed", null]
+    enum: ["sent", "delivered", "read", "failed", "pending", null]
     description: The status of the message
   source_id:
     type:

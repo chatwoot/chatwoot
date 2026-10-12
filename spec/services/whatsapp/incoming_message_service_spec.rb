@@ -273,7 +273,8 @@ describe Whatsapp::IncomingMessageService do
       it 'update status message to failed' do
         status_params = {
           'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'failed',
-                           'errors' => [{ 'code': 123, 'title': 'abc' }] }]
+                           'errors' => [{ 'code': 123, 'title': 'abc',
+                                          'error_data': { 'details': 'The recipient cannot receive this message' } }] }]
         }.with_indifferent_access
 
         message = Message.find_by!(source_id: from)
@@ -281,6 +282,84 @@ describe Whatsapp::IncomingMessageService do
         described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
         expect(message.reload.status).to eq('failed')
         expect(message.external_error).to eq('123: abc')
+        expect(message.content_attributes.dig('whatsapp_delivery', 'provider_error')).to be_nil
+      end
+
+      it 'preserves prior error data for a later successful 360dialog status' do
+        message = Message.find_by!(source_id: from)
+        message.update!(
+          status: :failed,
+          content_attributes: {
+            external_error: '123: abc',
+            whatsapp_delivery: {
+              retry_count: 1,
+              provider_error: { code: 123, reason: 'abc' }
+            }
+          }
+        )
+        status_params = {
+          'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'delivered' }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+
+        expect(message.reload).to have_attributes(status: 'delivered', external_error: '123: abc')
+        expect(message.content_attributes['whatsapp_delivery']).to eq(
+          'retry_count' => 1,
+          'provider_error' => { 'code' => 123, 'reason' => 'abc' }
+        )
+      end
+
+      it 'stores and clears compact error data for WhatsApp Cloud statuses' do
+        cloud_channel = create(
+          :channel_whatsapp,
+          provider: 'whatsapp_cloud',
+          validate_provider_config: false,
+          sync_templates: false
+        )
+        cloud_message = create(
+          :message,
+          conversation: create(:conversation, inbox: cloud_channel.inbox),
+          inbox: cloud_channel.inbox,
+          message_type: :outgoing,
+          source_id: 'wamid.cloud-current',
+          content_attributes: { whatsapp_delivery: { retry_count: 1 } }
+        )
+        failed_status = {
+          'statuses' => [{ 'id' => cloud_message.source_id, 'status' => 'failed',
+                           'errors' => [{ 'code': 131_000, 'title': 'Failed',
+                                          'error_data': { 'details': 'Recipient is not eligible' } }] }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: cloud_channel.inbox, params: failed_status).perform
+
+        expect(cloud_message.reload).to have_attributes(status: 'failed', external_error: '131000: Failed')
+        expect(cloud_message.content_attributes.dig('whatsapp_delivery', 'provider_error')).to eq(
+          'code' => 131_000,
+          'reason' => 'Recipient is not eligible'
+        )
+
+        successful_status = {
+          'statuses' => [{ 'id' => cloud_message.source_id, 'status' => 'delivered' }]
+        }.with_indifferent_access
+        described_class.new(inbox: cloud_channel.inbox, params: successful_status).perform
+
+        expect(cloud_message.reload).to have_attributes(status: 'delivered', external_error: nil)
+        expect(cloud_message.content_attributes['whatsapp_delivery']).to eq('retry_count' => 1)
+      end
+
+      it 'ignores a delayed callback for a provider id superseded by retry' do
+        message = Message.find_by!(source_id: from)
+        message.update!(source_id: 'wamid.current', status: :sent)
+        stale_status_params = {
+          'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'failed',
+                           'errors' => [{ 'code': 123, 'title': 'stale failure' }] }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: stale_status_params).perform
+
+        expect(message.reload).to have_attributes(status: 'sent', source_id: 'wamid.current')
+        expect(message.external_error).to be_nil
       end
 
       it 'will not throw error if unsupported status' do

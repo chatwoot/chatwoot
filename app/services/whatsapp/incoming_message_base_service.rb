@@ -1,6 +1,7 @@
 # Mostly modeled after the intial implementation of the service based on 360 Dialog
 # https://docs.360dialog.com/whatsapp-api/whatsapp-api/media
 # https://developers.facebook.com/docs/whatsapp/api/media/
+# rubocop:disable Metrics/ClassLength
 class Whatsapp::IncomingMessageBaseService
   include ::Whatsapp::IncomingMessageServiceHelpers
   include ::Whatsapp::IncomingMessageIdentifierHelper
@@ -58,11 +59,49 @@ class Whatsapp::IncomingMessageBaseService
 
   def update_message_with_status(message, status)
     message.status = status[:status]
+    return update_non_cloud_message_with_status(message, status) unless whatsapp_cloud?
+
+    attributes = message.content_attributes.deep_dup
+    update_error_attributes(attributes, status)
+    message.content_attributes = attributes
+    message.save!
+  end
+
+  def update_non_cloud_message_with_status(message, status)
     if status[:status] == 'failed' && status[:errors].present?
-      error = status[:errors]&.first
+      error = status[:errors].first
       message.external_error = "#{error[:code]}: #{error[:title]}"
     end
     message.save!
+  end
+
+  def whatsapp_cloud?
+    @inbox.channel.is_a?(Channel::Whatsapp) && @inbox.channel.provider == 'whatsapp_cloud'
+  end
+
+  def update_error_attributes(attributes, status)
+    return clear_error_attributes(attributes) unless status[:status] == 'failed'
+    return if status[:errors].blank?
+
+    error = status[:errors].first
+    reason = error.dig(:error_data, :details).presence || error[:message].presence || error[:title].presence
+    attributes['external_error'] = [error[:code], error[:title].presence || reason].compact.join(': ')
+    set_provider_error(attributes, error[:code], reason)
+  end
+
+  def set_provider_error(attributes, code, reason)
+    delivery = attributes['whatsapp_delivery'].to_h
+    delivery['provider_error'] = { 'code' => code, 'reason' => reason }.compact
+    attributes['whatsapp_delivery'] = delivery
+  end
+
+  def clear_error_attributes(attributes)
+    attributes.delete('external_error')
+    return unless attributes.key?('whatsapp_delivery')
+
+    delivery = attributes['whatsapp_delivery'].to_h
+    delivery.delete('provider_error')
+    attributes['whatsapp_delivery'] = delivery
   end
 
   def create_messages
@@ -233,3 +272,4 @@ class Whatsapp::IncomingMessageBaseService
     @contact.name == phone_number || @contact.name == formatted_phone_number
   end
 end
+# rubocop:enable Metrics/ClassLength

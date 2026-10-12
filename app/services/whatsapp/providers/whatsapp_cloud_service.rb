@@ -170,6 +170,14 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     response.parsed_response.dig('error', 'message') if response.parsed_response.is_a?(Hash)
   end
 
+  def provider_error(response)
+    error = response.parsed_response['error'] if response.parsed_response.is_a?(Hash)
+    return unless error.is_a?(Hash)
+
+    reason = error.dig('error_data', 'details').presence || error['message'].presence || error['title'].presence
+    { 'code' => error['code'], 'reason' => reason }.compact
+  end
+
   def voice_message?(type, attachment)
     type == 'audio' && attachment.meta&.dig('is_voice_message') && attachment.file.content_type == 'audio/ogg'
   end

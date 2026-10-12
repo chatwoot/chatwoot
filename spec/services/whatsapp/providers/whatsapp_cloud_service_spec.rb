@@ -548,6 +548,32 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
         expect(message.reload.status).to eq('failed')
         expect(message.reload.external_error).to eq(error_message)
+        expect(message.reload.content_attributes.dig('whatsapp_delivery', 'provider_error')).to eq(
+          'code' => 100,
+          'reason' => error_message
+        )
+      end
+    end
+
+    context 'when Meta includes actionable error details' do
+      let(:error_response) do
+        {
+          'error' => {
+            'message' => error_message,
+            'code' => 131_000,
+            'error_data' => { 'details' => 'Recipient is not eligible for this message' }
+          }
+        }
+      end
+
+      it 'stores the compact code and actionable reason without the raw response' do
+        service.send(:handle_error, error_response_object, message)
+
+        expect(message.reload.content_attributes.dig('whatsapp_delivery', 'provider_error')).to eq(
+          'code' => 131_000,
+          'reason' => 'Recipient is not eligible for this message'
+        )
+        expect(message.content_attributes.to_json).not_to include('error_data')
       end
     end
 

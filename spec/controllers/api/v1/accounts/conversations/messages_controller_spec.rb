@@ -374,6 +374,20 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(message.reload.status).to eq('sent')
         expect(message.reload.content_attributes['external_error']).to be_nil
       end
+
+      it 'keeps the generic retry path when a non-Cloud message has interactive-shaped metadata' do
+        message.update!(content_attributes: {
+                          external_error: 'error',
+                          whatsapp_interactive: { type: 'button' }
+                        })
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{message.conversation.display_id}/messages/#{message.id}/retry",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(message.reload).to have_attributes(status: 'sent', content_attributes: {})
+      end
     end
 
     context 'when the message id is invalid' do
@@ -389,6 +403,100 @@ RSpec.describe 'Conversation Messages API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+
+    context 'with a failed normalized WhatsApp Cloud interaction' do
+      let(:whatsapp_channel) do
+        create(
+          :channel_whatsapp,
+          account: account,
+          provider: 'whatsapp_cloud',
+          validate_provider_config: false,
+          sync_templates: false
+        )
+      end
+      let(:conversation) { create(:conversation, account: account, inbox: whatsapp_channel.inbox) }
+      let(:snapshot) { JSON.parse(Rails.root.join('spec/fixtures/whatsapp_interactive_messages/button.json').read) }
+      let(:message) do
+        create(
+          :message,
+          account: account,
+          inbox: whatsapp_channel.inbox,
+          conversation: conversation,
+          message_type: :outgoing,
+          status: :failed,
+          source_id: 'wamid.superseded',
+          content_attributes: {
+            external_error: 'old provider error',
+            whatsapp_interactive: snapshot,
+            whatsapp_delivery: {
+              retry_count: 2,
+              provider_error: { code: 131_000, reason: 'Old provider reason' }
+            },
+            custom_metadata: { preserved: true }
+          }
+        )
+      end
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+        message.attachments.create!(
+          account_id: account.id,
+          file_type: :image,
+          file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        )
+      end
+
+      it 'claims the same message once while preserving its snapshot, errors, metadata, and attachments' do
+        original_snapshot = message.content_attributes['whatsapp_interactive'].deep_dup
+        original_attachment_ids = message.attachments.ids
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}/retry",
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.to have_enqueued_job(SendReplyJob).with(message.id).once
+
+        expect(response).to have_http_status(:success)
+        expect(message.reload).to have_attributes(status: 'pending', source_id: nil, external_error: 'old provider error')
+        expect(message.content_attributes).to include(
+          'whatsapp_interactive' => original_snapshot,
+          'whatsapp_delivery' => {
+            'retry_count' => 3,
+            'provider_error' => { 'code' => 131_000, 'reason' => 'Old provider reason' }
+          },
+          'custom_metadata' => { 'preserved' => true }
+        )
+        expect(message.attachments.ids).to eq(original_attachment_ids)
+        expect(conversation.messages.where(id: message.id).count).to eq(1)
+      end
+
+      it 'rejects a duplicate retry without enqueueing a second send' do
+        Whatsapp::InteractiveMessages::RetryService.new(message).perform
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}/retry",
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.not_to have_enqueued_job(SendReplyJob)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(message.reload.content_attributes.dig('whatsapp_delivery', 'retry_count')).to eq(3)
+      end
+
+      it 'restores the exact failed state when enqueueing raises' do
+        original_attributes = message.content_attributes.deep_dup
+        allow(SendReplyJob).to receive(:perform_later).with(message.id).and_raise(ActiveJob::EnqueueError, 'queue unavailable')
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}/retry",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(message.reload).to have_attributes(status: 'failed', source_id: 'wamid.superseded')
+        expect(message.content_attributes).to eq(original_attributes)
       end
     end
   end

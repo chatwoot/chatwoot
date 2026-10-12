@@ -22,7 +22,7 @@ properties:
     description: The type of the message content
   status:
     type: string
-    enum: ["sent", "delivered", "read", "failed"]
+    enum: ["sent", "delivered", "read", "failed", "pending"]
     description: The status of the message
   content_attributes:
     type: object

@@ -48,12 +48,23 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
                                          lang_code: lang_code,
                                          parameters: processed_parameters
                                        }, message)
-    message.update!(source_id: message_id) if message_id.present?
+    complete_send(message_id)
   end
 
   def send_session_message
     message_id = channel.send_message(message.conversation.contact_inbox.source_id, message)
-    message.update!(source_id: message_id) if message_id.present?
+    complete_send(message_id)
+  end
+
+  def complete_send(message_id)
+    return if message_id.blank?
+
+    attributes = message.content_attributes.deep_dup
+    attributes.delete('external_error')
+    delivery = attributes['whatsapp_delivery'].to_h
+    delivery.delete('provider_error')
+    attributes['whatsapp_delivery'] = delivery if attributes.key?('whatsapp_delivery')
+    message.update!(source_id: message_id, status: :sent, content_attributes: attributes)
   end
 
   def template_params
