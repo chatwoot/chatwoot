@@ -762,8 +762,11 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
     it 'marks final response generations for observation-level evaluators' do
       message = instance_double(RubyLLM::Message, tool_calls: {})
+      context_wrapper = Struct.new(:context).new(
+        { __otel_tracing: { request_attributes: { protocol: :responses } } }
+      )
 
-      attributes = provider.generation_attributes(nil, chat, message)
+      attributes = provider.generation_attributes(context_wrapper, chat, message)
 
       expect(attributes).to include(
         'langfuse.observation.metadata.generation_stage' => 'final_response',
