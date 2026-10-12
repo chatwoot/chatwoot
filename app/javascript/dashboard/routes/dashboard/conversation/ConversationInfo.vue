@@ -105,6 +105,9 @@ const staticElements = computed(() =>
       attribute-class="conversation--attribute"
       attribute-from="conversation_panel"
       attribute-type="conversation_attribute"
+      :empty-state-message="
+        $t('CONVERSATION_CUSTOM_ATTRIBUTES.NO_RECORDS_FOUND')
+      "
     >
       <template #staticItem="{ element }">
         <ContactDetailsItem
