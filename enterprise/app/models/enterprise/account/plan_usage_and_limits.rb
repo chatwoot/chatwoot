@@ -2,7 +2,9 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   CAPTAIN_RESPONSES = 'captain_responses'.freeze
   CAPTAIN_DOCUMENTS = 'captain_documents'.freeze
   CAPTAIN_RESPONSES_USAGE = 'captain_responses_usage'.freeze
+  CAPTAIN_RESPONSES_USAGE_ALERTED = 'captain_responses_usage_alerted'.freeze
   CAPTAIN_DOCUMENTS_USAGE = 'captain_documents_usage'.freeze
+  CAPTAIN_RESPONSES_USAGE_ALERT_THRESHOLD = 0.8
 
   def usage_limits
     {
@@ -19,10 +21,38 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     return unless ChatwootApp.chatwoot_cloud?
 
     increment_custom_attribute(CAPTAIN_RESPONSES_USAGE)
+    reload
+    Captain::ResponseUsageAlertJob.perform_later(id) if captain_response_usage_alert_required?
   end
 
   def reset_response_usage
-    update_custom_attribute(CAPTAIN_RESPONSES_USAGE, 0)
+    # rubocop:disable Rails/SkipsModelValidations
+    Account.where(id: id).update_all([
+                                       "custom_attributes = jsonb_set(jsonb_set(COALESCE(custom_attributes, '{}'), " \
+                                       'ARRAY[:usage_key], :usage::jsonb), ARRAY[:alert_key], :alerted::jsonb)',
+                                       {
+                                         usage_key: CAPTAIN_RESPONSES_USAGE,
+                                         usage: 0.to_json,
+                                         alert_key: CAPTAIN_RESPONSES_USAGE_ALERTED,
+                                         alerted: false.to_json
+                                       }
+                                     ])
+    # rubocop:enable Rails/SkipsModelValidations
+    custom_attributes[CAPTAIN_RESPONSES_USAGE] = 0
+    custom_attributes[CAPTAIN_RESPONSES_USAGE_ALERTED] = false
+  end
+
+  def captain_response_usage_alert_required?
+    return false unless ChatwootApp.chatwoot_cloud?
+    return false unless feature_enabled?('captain_integration')
+    return false if custom_attributes[CAPTAIN_RESPONSES_USAGE_ALERTED]
+
+    limits = usage_limits[:captain][:responses]
+    limits[:total_count].positive? && limits[:consumed].fdiv(limits[:total_count]) > CAPTAIN_RESPONSES_USAGE_ALERT_THRESHOLD
+  end
+
+  def mark_captain_response_usage_alerted
+    update_custom_attribute(CAPTAIN_RESPONSES_USAGE_ALERTED, true)
   end
 
   def update_document_usage

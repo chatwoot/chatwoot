@@ -308,6 +308,72 @@ RSpec.describe Account, type: :model do
     end
   end
 
+  describe 'Captain response usage alerts' do
+    let(:account) do
+      create(
+        :account,
+        limits: { 'captain_responses' => 300 },
+        custom_attributes: { 'captain_responses_usage' => 239 }
+      )
+    end
+
+    before do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      account.enable_features!('captain_integration')
+      allow(Captain::ResponseUsageAlertJob).to receive(:perform_later)
+    end
+
+    it 'queues the alert only after usage exceeds 80 percent of the persisted account limit' do
+      account.increment_response_usage
+      expect(Captain::ResponseUsageAlertJob).not_to have_received(:perform_later)
+
+      account.increment_response_usage
+      expect(Captain::ResponseUsageAlertJob).to have_received(:perform_later).with(account.id).once
+      expect(account.reload.custom_attributes['captain_responses_usage']).to eq(241)
+    end
+
+    it 'does not queue an alert when Captain is disabled' do
+      account.disable_features!('captain_integration')
+      account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 240))
+
+      account.increment_response_usage
+
+      expect(Captain::ResponseUsageAlertJob).not_to have_received(:perform_later)
+    end
+
+    it 'does not count or queue response usage outside Chatwoot Cloud' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+
+      account.increment_response_usage
+
+      expect(account.reload.custom_attributes['captain_responses_usage']).to eq(239)
+      expect(Captain::ResponseUsageAlertJob).not_to have_received(:perform_later)
+    end
+
+    it 'does not queue an alert for a zero response limit' do
+      account.update!(limits: { 'captain_responses' => 0 })
+
+      account.increment_response_usage
+
+      expect(Captain::ResponseUsageAlertJob).not_to have_received(:perform_later)
+    end
+
+    it 'rearms the alert and preserves other custom attributes when usage resets' do
+      account.update!(custom_attributes: account.custom_attributes.merge(
+        'captain_responses_usage_alerted' => true,
+        'unrelated_key' => 'preserved'
+      ))
+
+      account.reset_response_usage
+
+      expect(account.reload.custom_attributes).to include(
+        'captain_responses_usage' => 0,
+        'captain_responses_usage_alerted' => false,
+        'unrelated_key' => 'preserved'
+      )
+    end
+  end
+
   context 'with Shopify plan entitlements' do
     let(:account) do
       create(
