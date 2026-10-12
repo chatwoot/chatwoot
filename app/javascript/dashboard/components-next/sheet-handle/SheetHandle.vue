@@ -1,5 +1,5 @@
 <script setup>
-import { computed, useTemplateRef } from 'vue';
+import { computed, onBeforeUnmount, useTemplateRef } from 'vue';
 import { useSwipe } from '@vueuse/core';
 
 const props = defineProps({
@@ -13,14 +13,13 @@ const props = defineProps({
 
 const emit = defineEmits(['close']);
 
-// A downward swipe longer than this closes the sheet.
-const CLOSE_DISTANCE_PX = 64;
+// The sheet closes once it is dragged past this share of its own height (or this distance, if larger).
+const CLOSE_DISTANCE_RATIO = 0.3;
+const MIN_CLOSE_DISTANCE_PX = 64;
 const SLIDE_DURATION_MS = 200;
-const SLIDE_CLASSES = [
-  'translate-y-full',
-  'transition-transform',
-  'duration-200',
-  'ease-out',
+const SLIDE_KEYFRAMES = [
+  { transform: 'translateY(0)' },
+  { transform: 'translateY(100%)' },
 ];
 
 const HIDE_FROM_CLASSES = { sm: 'sm:hidden', lg: 'lg:hidden' };
@@ -33,27 +32,81 @@ const getSheet = () => handleRef.value?.parentElement;
 
 const close = () => emit('close');
 
-const slideDownAndClose = () => {
+// The slide is a paused Web Animation scrubbed by the drag, so no style attribute is written on the sheet.
+let slide = null;
+
+const cancelSlide = () => {
+  slide?.cancel();
+  slide = null;
+};
+
+const createSlide = (sheet, paused) => {
+  cancelSlide();
+  slide = sheet.animate(SLIDE_KEYFRAMES, {
+    duration: SLIDE_DURATION_MS,
+    easing: 'linear',
+    fill: 'both',
+  });
+  if (paused) slide.pause();
+  return slide;
+};
+
+const slideOutAndClose = sheet => {
+  const animation = slide || createSlide(sheet, false);
+  animation.onfinish = () => {
+    close();
+    cancelSlide();
+  };
+  animation.playbackRate = 1;
+  animation.play();
+};
+
+const snapBack = () => {
+  const animation = slide;
+  if (!animation) return;
+  animation.onfinish = cancelSlide;
+  animation.reverse();
+};
+
+// Tapping the handle (no drag) closes the sheet as well.
+const onTap = () => {
   const sheet = getSheet();
-  if (!sheet) {
+  if (!sheet || typeof sheet.animate !== 'function') {
     close();
     return;
   }
-  sheet.classList.add(...SLIDE_CLASSES);
-  setTimeout(() => {
-    close();
-    sheet.classList.remove(...SLIDE_CLASSES);
-  }, SLIDE_DURATION_MS);
+  slideOutAndClose(sheet);
 };
 
 // Only the handle listens for the gesture, so scrolling the sheet content never closes it.
 const { lengthY } = useSwipe(handleRef, {
   threshold: 10,
+  // lengthY is negative while swiping down: the sheet follows the finger
+  onSwipe: () => {
+    const sheet = getSheet();
+    if (!sheet || typeof sheet.animate !== 'function') return;
+    const distance = Math.max(0, -lengthY.value);
+    const progress = Math.min(1, distance / (sheet.offsetHeight || 1));
+    (slide || createSlide(sheet, true)).currentTime =
+      progress * SLIDE_DURATION_MS;
+  },
   onSwipeEnd: () => {
-    // lengthY is negative while swiping down
-    if (-lengthY.value >= CLOSE_DISTANCE_PX) slideDownAndClose();
+    const sheet = getSheet();
+    if (!sheet || !slide) return;
+    const distance = Math.max(0, -lengthY.value);
+    const closeDistance = Math.max(
+      MIN_CLOSE_DISTANCE_PX,
+      sheet.offsetHeight * CLOSE_DISTANCE_RATIO
+    );
+    if (distance >= closeDistance) {
+      slideOutAndClose(sheet);
+    } else {
+      snapBack();
+    }
   },
 });
+
+onBeforeUnmount(cancelSlide);
 </script>
 
 <template>
@@ -61,7 +114,7 @@ const { lengthY } = useSwipe(handleRef, {
     ref="handleRef"
     class="absolute inset-x-0 top-0 z-10 flex items-center justify-center h-6 touch-none"
     :class="hideClass"
-    @click="close"
+    @click="onTap"
   >
     <span class="w-10 h-1 rounded-full bg-n-slate-8" />
   </div>
