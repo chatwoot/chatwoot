@@ -5,16 +5,23 @@ class Captain::Copilot::DataService
     @token = token
   end
 
-  def retrieve(resource:, filters:, from: nil)
+  # total is the exact number of matching records, while the saved selection stops at MAX_SELECTION. Counts per group
+  # cover the same records as total.
+  def retrieve(resource:, filters:, from: nil, group_by: nil)
     raise ArgumentError, 'filters must be an object' unless filters.is_a?(Hash)
 
     selector = Captain::Copilot::Resources.build(resource, account: @run.account, user: @run.user)
     filters = selector.normalize(filters)
     source = saved_set(from) if from
     boundary = Time.current
-    ids = selector.selected_ids(filters, boundary: boundary, source: source)
+    matching = selector.matching(filters, boundary: boundary, source: source)
+    ids = selector.selected_ids(matching, filters)
+    counted = filters['newest'] ? matching.where(id: ids) : matching
+    groups = selector.group_counts(counted, filters, boundary, group_by) if group_by
     collection = persist_collection(resource, filters, ids, boundary, source)
-    collection.receipt.merge(collection_id: collection.id, resource: resource, boundary_at: collection.boundary_at.iso8601)
+    result = collection.receipt.merge(collection_id: collection.id, resource: resource, boundary_at: collection.boundary_at.iso8601,
+                                      total: counted.count)
+    groups ? result.merge(group_by: group_by, groups: groups) : result
   end
 
   private

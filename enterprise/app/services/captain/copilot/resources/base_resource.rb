@@ -5,9 +5,14 @@
 #   SOURCES      { saved set resource => lambda taking record IDs and returning this resource's linked records }
 #   COLUMNS      display headers after the first column, which links to the record
 #   PRELOAD      associations row(record) reads, loaded once per display page
-# and implements scope (the records the user may see), filter(scope, filters) and row(record) for display.
+#   GROUPS       values get_data can count records by, besides periods of the date field
+# and implements scope (the records the user may see), filter(scope, filters), row(record) for display and
+# counts_by(relation, group) for GROUPS.
 class Captain::Copilot::Resources::BaseResource
   include Captain::Copilot::ConversationAccess
+
+  PERIODS = { 'day' => '%Y-%m-%d', 'week' => 'week of %Y-%m-%d', 'month' => '%Y-%m', 'year' => '%Y' }.freeze
+  MAX_GROUPS = 100
 
   # newest is only for a number the agent states, e.g. "the last 20 conversations". A generic limit let the model cap
   # selections the agent asked for in full, so without newest Ruby selects everything up to MAX_SELECTION.
@@ -22,14 +27,19 @@ class Captain::Copilot::Resources::BaseResource
   end
 
   def self.help
-    "- #{self::NAME}: filters #{filters_help}. Can start from: #{self::SOURCES.keys.join(', ')}"
+    "- #{self::NAME}: filters #{filters_help}. Group by: #{group_options.join(', ')}. Can start from: #{self::SOURCES.keys.join(', ')}"
   end
 
-  # Lists allowed values for enum filters, so the model does not have to guess them.
+  def self.group_options
+    PERIODS.keys + self::GROUPS
+  end
+
+  # Lists allowed values and descriptions, so the model does not have to guess them.
   def self.filters_help
     filter_schema['properties'].map do |name, property|
       allowed = property['enum'] || property.dig('items', 'enum')
-      allowed ? "#{name} (#{allowed.join(' or ')})" : name
+      detail = allowed ? allowed.join(' or ') : property['description']
+      detail ? "#{name} (#{detail})" : name
     end.join(', ')
   end
 
@@ -47,17 +57,35 @@ class Captain::Copilot::Resources::BaseResource
     filters.reverse_merge('date_field' => self.class::DATE_FIELDS.first)
   end
 
-  # IDs of the visible records that match the filters and, when a source set is given, are linked to its records. With
-  # newest, the most recent records by the date field; otherwise up to one more than MAX_SELECTION, so the caller can
-  # tell when the selection was cut.
-  def selected_ids(filters, boundary:, source: nil)
+  # The visible records that match the filters and, when a source set is given, are linked to its records.
+  def matching(filters, boundary:, source: nil)
     relation = scope
     relation = relation.where(id: linked(source).select(:id)) if source
-    relation = filter(apply_dates(relation, filters, boundary), filters)
+    filter(apply_dates(relation, filters, boundary), filters).reorder(nil)
+  end
+
+  # With newest, the most recent records by the date field; otherwise up to one more than MAX_SELECTION, so the caller
+  # can tell when the selection was cut.
+  def selected_ids(relation, filters)
     return relation.reorder(id: :desc).limit(CopilotRun::MAX_SELECTION + 1).pluck(:id) unless filters['newest']
 
     table = relation.klass.arel_table
     relation.reorder(table[filters['date_field']].desc.nulls_last, table[:id].desc).limit(filters['newest']).pluck(:id)
+  end
+
+  # Counts per period or value, computed by the database so the model never tallies rows itself. Periods are UTC and
+  # include empty ones within since and before.
+  def group_counts(relation, filters, boundary, group)
+    raise ArgumentError, "group_by must be one of: #{self.class.group_options.join(', ')}" unless self.class.group_options.include?(group)
+
+    counts = if PERIODS.key?(group)
+               period_counts(relation, filters, boundary, group)
+             else
+               counts_by(relation, group).sort_by { |_, count| -count }.to_h
+             end
+    raise ArgumentError, "group_by #{group} gives #{counts.size} groups. Use a larger period or narrower filters." if counts.size > MAX_GROUPS
+
+    counts.map { |value, count| { group: value, count: count } }
   end
 
   # Display rows for records the user can still see, in the order of ids.
@@ -96,6 +124,32 @@ class Captain::Copilot::Resources::BaseResource
     raise ArgumentError, 'before cannot be in the future' if before > boundary
 
     [since, before]
+  end
+
+  def period_counts(relation, filters, boundary, period)
+    field = filters['date_field']
+    options = { time_zone: 'UTC' }
+    options[:week_start] = :monday if period == 'week'
+    options[:range] = Range.new(*date_range(filters, boundary), true) if filters['since']
+    counts = relation.where.not(field => nil).group_by_period(period, field, **options).count
+    counts = counts.transform_keys { |date| date.strftime(PERIODS.fetch(period)) }
+    undated = relation.where(field => nil).count
+    undated.positive? ? counts.merge('No date' => undated) : counts
+  end
+
+  # Counts a column's values, naming IDs by the records they point to, e.g. an inbox's name instead of its ID.
+  def column_counts(relation, column, none:, names: nil)
+    counts = relation.group(column).count
+    named = names ? names.where(id: counts.keys.compact).to_h { |record| [record.id, "#{record.name} (ID #{record.id})"] } : {}
+    counts.transform_keys { |key| key.nil? ? none : named.fetch(key) { key.to_s } }
+  end
+
+  # A record with several labels counts once for each of them.
+  def label_counts(relation)
+    taggings = ActsAsTaggableOn::Tagging.where(taggable_type: relation.klass.name, context: 'labels')
+    counts = taggings.where(taggable_id: relation.select(:id)).joins(:tag).group('tags.name').count
+    unlabeled = relation.where.not(id: taggings.select(:taggable_id)).count
+    unlabeled.positive? ? counts.merge('No label' => unlabeled) : counts
   end
 
   def permitted?(permission)

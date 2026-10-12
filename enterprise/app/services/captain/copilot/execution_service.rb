@@ -7,7 +7,7 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService
     How Chatwoot records support work:
     - A conversation is a thread with one contact, the customer, in one inbox. An inbox is a channel such as website chat, email or WhatsApp.
     - Conversation status: open means it waits on the team. pending means a bot is handling it and it has not been handed to an agent yet. snoozed means it is set aside until a chosen time or the customer's next message, when it reopens. resolved means it is closed; it reopens when the customer writes again.
-    - Priority (urgent, high, medium, low or none), labels, assignee and team are set by agents or automation rules.
+    - Priority (urgent, high, medium, low or none), labels, assignee and team are set by agents or automation rules. They are often missing or out of date, so they do not show what a customer needs now.
     - Incoming messages are from the customer. Outgoing messages are from agents or bots. Private notes are internal and never shown to the customer.
     - last_activity_at is the time of the latest message. created_at is when the record was created.
     - Captain is Chatwoot's AI. Captain Assistant answers customers in inboxes from the account's documents, FAQs and custom tools, hands conversations to agents, and writes notes about its handoffs and resolutions. Copilot, which is you, helps agents in the dashboard. When the agent mentions Captain, do not assume they mean you.
@@ -16,8 +16,10 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService
     For a bulk task, use get_data to select conversations, contacts or messages with database filters, then review_conversations on a conversations collection.
     Select the whole set the agent asked about. Add a filter only for a condition the agent stated. Do not narrow by status, priority, inbox, assignee, team or labels on your own.
     When the agent asks for a number of records, such as the last 20 conversations, pass newest with that number. A number without a unit, such as the past 10, means records, not days. Otherwise do not pass newest.
-    To count records, select them with get_data and report its count.
-    Status, priority, labels, assignee and team do not show what a customer wrote. For judgments about content, such as topic, urgency, sentiment or intent, review the conversations instead of filtering on these fields.
+    To count records, call get_data and report its total. For counts per period or per value, such as per month, status, inbox, assignee or label, pass group_by and report its groups exactly as returned.
+    Every number in your answer must come from a tool result, or be a ratio or percentage of two numbers a tool returned. Never count, add up or estimate from rows you read with display or from findings. When no tool can compute what the agent asked, say so instead of approximating.
+    Status, priority, labels, assignee and team do not show what a customer wrote. For judgments about content, such as topic, urgency, sentiment or intent, review the conversations instead of filtering or grouping on these fields. group_by counts what fields say; it never judges content.
+    To find which conversations need attention or are most urgent, review them against what customers wrote. Priority may be mentioned, but never answer from it alone.
     Use from to move between saved sets, such as the contacts of a review's matched conversations, or the conversations whose messages contain an order number.
     Never look up the records of a saved set one by one. Select them with get_data and from, then read them with display.
     Use explicit ISO8601 bounds for relative dates using the current time supplied below. State whether dates refer to creation or last activity.
@@ -61,7 +63,8 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService
     params = instrumentation_params
     outcome = with_copilot_trace(params[:span_name], params, turn: @run) do
       save_trace_carrier
-      complete_loop(llm)
+      result = complete_loop(llm)
+      result == :complete && request_number_check(llm) ? complete_loop(llm) : result
     end
     outcome == :waiting ? wait_for_background_run : finish(llm)
   end
@@ -152,13 +155,30 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService
     Captain::Copilot::ExecutionJob.perform_later(@run.id) if finished
   end
 
+  def request_number_check(llm)
+    note = number_check.request(parse_json_response(llm.messages.last.content)['content'].to_s)
+    return false unless note
+
+    llm.add_message(role: :user, content: note)
+    @history.checkpoint(@token)
+    true
+  end
+
+  def number_check
+    @number_check ||= Captain::Copilot::NumberCheck.new(@run, @token)
+  end
+
+  # Numbers the model still could not source after the check stay in the answer with a visible note, and on the run.
   def finish(llm)
     @run.with_lease(@token) do
       response = parse_json_response(llm.messages.last.content).slice('content', 'reply_suggestion')
       response['content'] = response['content'].to_s
+      remaining = number_check.remaining(response['content'])
+      response['content'] += "\n\n_#{I18n.t('captain.copilot.unsupported_numbers', numbers: remaining.join(', '))}_" if remaining.any?
       persist_message(response)
       @account.increment_response_usage
-      @run.update!(status: 'completed', lease_token: nil, lease_until: nil, error: nil)
+      @run.update!(status: 'completed', lease_token: nil, lease_until: nil, error: nil,
+                   context: @run.context.merge('number_check_remaining' => remaining))
       response
     end
   end

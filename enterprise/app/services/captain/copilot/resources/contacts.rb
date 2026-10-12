@@ -3,7 +3,7 @@ class Captain::Copilot::Resources::Contacts < Captain::Copilot::Resources::BaseR
   DATE_FIELDS = %w[last_activity_at created_at].freeze
   FILTERS = {
     search: { type: 'string', minLength: 2, description: 'Matches name, email or phone number' },
-    labels: { type: 'array', items: { type: 'string' } }, company_id: { type: 'integer' },
+    labels: { type: 'array', items: { type: 'string' } }, company_id: { type: %w[integer null], minimum: 1, description: 'null for no company' },
     country_code: { type: 'string' }, blocked: { type: 'boolean' }
   }.freeze
   SOURCES = {
@@ -12,6 +12,7 @@ class Captain::Copilot::Resources::Contacts < Captain::Copilot::Resources::BaseR
   }.freeze
   COLUMNS = %w[Email Phone Company Labels].freeze
   PRELOAD = [:company].freeze
+  GROUPS = %w[label country blocked].freeze
 
   # Contact details follow the same permission as the contacts page and the get_contact tool.
   def scope
@@ -27,6 +28,14 @@ class Captain::Copilot::Resources::Contacts < Captain::Copilot::Resources::BaseR
 
     term = "%#{Contact.sanitize_sql_like(filters['search'])}%"
     relation.where('contacts.name ILIKE :term OR contacts.email ILIKE :term OR contacts.phone_number ILIKE :term', term: term)
+  end
+
+  def counts_by(relation, group)
+    case group
+    when 'label' then label_counts(relation)
+    when 'country' then column_counts(relation, :country_code, none: 'No country')
+    when 'blocked' then column_counts(relation, :blocked, none: 'Unknown')
+    end
   end
 
   def row(contact)

@@ -10,6 +10,7 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
   }.freeze
   COLUMNS = %w[Sender Sent Excerpt].freeze
   PRELOAD = [:conversation].freeze
+  GROUPS = %w[sender private].freeze
   EXCERPT_LENGTH = 160
 
   # Customer and agent messages in conversations the user can open. Activity and template messages are left out.
@@ -24,6 +25,12 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
     return relation if filters['contains'].blank?
 
     relation.where('messages.content ILIKE ?', "%#{Message.sanitize_sql_like(filters['contains'])}%")
+  end
+
+  def counts_by(relation, group)
+    return column_counts(relation, :private, none: 'Unknown') if group == 'private'
+
+    column_counts(relation, :message_type, none: 'Unknown').transform_keys { |type| type == 'incoming' ? 'customer' : 'agent' }
   end
 
   def row(message)
