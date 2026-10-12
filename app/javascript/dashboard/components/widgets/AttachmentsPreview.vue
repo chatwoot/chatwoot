@@ -54,7 +54,8 @@ const fileName = file => {
     <div
       v-for="(attachment, index) in nonRecordedAudioAttachments"
       :key="attachment.id"
-      class="flex items-center p-1 bg-n-slate-3 gap-1 rounded-md w-[15rem]"
+      class="flex items-center p-1 bg-n-slate-3 gap-1 rounded-md"
+      :class="showHdToggle ? 'w-[18rem]' : 'w-[15rem]'"
     >
       <div class="max-w-[4rem] flex-shrink-0 w-6 flex items-center">
         <img
@@ -66,19 +67,17 @@ const fileName = file => {
           📄
         </span>
       </div>
-      <div class="max-w-3/5 min-w-[50%] overflow-hidden text-ellipsis">
-        <span
-          class="h-4 overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap"
-        >
+      <div class="flex-1 min-w-0">
+        <span class="block h-4 text-sm font-medium truncate">
           {{ fileName(attachment.resource) }}
         </span>
       </div>
-      <div class="w-[30%] justify-center">
-        <span class="overflow-hidden text-xs text-ellipsis whitespace-nowrap">
+      <div class="flex-shrink-0">
+        <span class="text-xs whitespace-nowrap">
           {{ formatFileSize(attachment.resource) }}
         </span>
       </div>
-      <div class="flex items-center justify-center gap-1">
+      <div class="flex items-center justify-center flex-shrink-0 gap-1">
         <Button
           v-if="showHdToggle && isTypeImage(attachment.resource)"
           v-tooltip.top="$t('CONVERSATION.REPLYBOX.TIP_HD_ATTACHMENT')"
