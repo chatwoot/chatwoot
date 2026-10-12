@@ -34,6 +34,7 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   AGENT_FACING_SOURCES = %w[playground copilot_reply_suggestion].freeze
   OPEN_SESSION_EMAIL_PARAM = Concerns::Toolable::OPEN_SESSION_EMAIL_PARAM
   # In an open session the model supplied the email, so the result says nobody verified it
+  EMAIL_IN_TEXT_PATTERN = /[^\s@<>"',;:()]+@[^\s@<>"',;:()]+/
   UNVERIFIED_EMAIL_NOTE = 'This email was not verified by the customer.'.freeze
 
   private
@@ -48,13 +49,25 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   def perform_with_verified_session(tool_context, params)
     state = tool_context.state
     verified_email = stored_verified_email(state)
-    return email_verification_required_message(state) if verified_email.blank? && !open_session?(state)
+    return perform_for_customer(tool_context, params, verified_email) unless open_session?(state)
     return request(tool_context, params, { verified_email: verified_email }) if verified_email.present? || !@custom_tool.uses_session_email?
 
     supplied_email = params[OPEN_SESSION_EMAIL_PARAM].to_s.strip
     return session_email_required_message(state) if supplied_email.blank?
 
     "#{request(tool_context, params, { verified_email: supplied_email })}\n\n#{UNVERIFIED_EMAIL_NOTE}"
+  end
+
+  # The verified email is the only email a customer's request can carry, in the session or in a parameter the model fills in
+  def perform_for_customer(tool_context, params, verified_email)
+    return email_verification_required_message(tool_context.state) if verified_email.blank?
+    return other_email_message(tool_context.state, verified_email) if other_email?(params, verified_email)
+
+    request(tool_context, params, { verified_email: verified_email })
+  end
+
+  def other_email?(params, verified_email)
+    params.values.grep(String).flat_map { |value| value.scan(EMAIL_IN_TEXT_PATTERN) }.any? { |email| !email.casecmp?(verified_email) }
   end
 
   def open_session?(state)
@@ -69,6 +82,14 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
 
   def session_email_required_message(state)
     failure_result("This tool needs the customer's email. Pass it as the email parameter.", state)
+  end
+
+  def other_email_message(state, verified_email)
+    failure_result(
+      "This tool can only run for #{verified_email}, the email this customer verified. " \
+      'Call it again with that email only. To use another email, verify it with a one-time code first.',
+      state
+    )
   end
 
   def email_verification_required_message(state)

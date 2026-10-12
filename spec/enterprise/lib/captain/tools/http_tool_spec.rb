@@ -75,8 +75,8 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
         expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=jane%40example.com')
       end
 
-      it 'sends the verified email even when the model passes another one' do
-        tool.perform(tool_context, email: 'victim@example.com', session: { verified_email: 'victim@example.com' })
+      it 'sends the verified email even when the model passes a session of its own' do
+        tool.perform(tool_context, session: { verified_email: 'victim@example.com' })
 
         expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=jane%40example.com')
         expect(WebMock).not_to have_requested(:get, 'https://example.com/customers?email=victim%40example.com')
@@ -190,6 +190,45 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
 
           expect(result).to eq('{"status": "success"}')
           expect(WebMock).to have_requested(:get, 'https://example.com/orders/123')
+        end
+      end
+
+      context 'when the request takes an email from the model' do
+        let(:verified_email) { 'jane@example.com' }
+        let(:request_stub) { stub_request(:get, %r{\Ahttps://example.com/customers}).to_return(status: 200, body: '{"found": true}') }
+
+        before do
+          custom_tool.update!(endpoint_url: 'https://example.com/customers?email={{ email | url_encode }}&note={{ note | url_encode }}',
+                              param_schema: [{ 'name' => 'email', 'type' => 'string', 'description' => 'Customer email' },
+                                             { 'name' => 'note', 'type' => 'string', 'description' => 'Note' }])
+          request_stub
+        end
+
+        it 'runs with the verified email, whatever its case' do
+          tool.perform(tool_context, email: ' Jane@Example.com ')
+
+          expect(request_stub).to have_been_requested
+        end
+
+        it 'does not run with another email' do
+          result = tool.perform(tool_context, email: 'victim@example.com')
+
+          expect(result).to include('only run for jane@example.com')
+          expect(request_stub).not_to have_been_requested
+        end
+
+        it 'does not run with another email inside a longer value' do
+          tool.perform(tool_context, email: 'jane@example.com', note: 'also check <victim@example.com>')
+
+          expect(request_stub).not_to have_been_requested
+        end
+
+        it 'runs with another email for a reply suggestion, which an agent reviews' do
+          state[:source] = 'copilot_reply_suggestion'
+
+          tool.perform(tool_context, email: 'typed@example.com')
+
+          expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=typed%40example.com&note=')
         end
       end
 
