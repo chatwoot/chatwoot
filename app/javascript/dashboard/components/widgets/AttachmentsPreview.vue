@@ -79,10 +79,10 @@ const fileName = file => {
       </div>
       <div class="flex items-center justify-center flex-shrink-0 gap-1">
         <Button
-          v-if="showHdToggle && isTypeImage(attachment.resource)"
+          v-if="showHdToggle && attachment.canToggleHd"
           v-tooltip.top="$t('CONVERSATION.REPLYBOX.TIP_HD_ATTACHMENT')"
           xs
-          label="HD"
+          :label="$t('COMPONENTS.MEDIA.HD_BADGE')"
           :variant="attachment.isHd ? 'solid' : 'ghost'"
           :color="attachment.isHd ? 'blue' : 'slate'"
           :aria-pressed="!!attachment.isHd"

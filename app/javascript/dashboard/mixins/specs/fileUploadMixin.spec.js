@@ -230,7 +230,7 @@ describe('FileUploadMixin', () => {
       [IMAGE_OPTIMIZATION_ERRORS.UNSUPPORTED, 'UNSUPPORTED'],
       [IMAGE_OPTIMIZATION_ERRORS.DECODE_FAILED, 'FAILED'],
     ])(
-      'on %s with an original over the limit, warns and falls through to the size check',
+      'on %s with an original over the limit, warns and does not attach it',
       async (code, key) => {
         optimizeImage.mockRejectedValue(new ImageOptimizationError(code));
         const file = buildFile(8 * MB);
@@ -238,9 +238,33 @@ describe('FileUploadMixin', () => {
         expect(useAlert).toHaveBeenCalledWith(
           `CONVERSATION.IMAGE_OPTIMIZATION.${key}`
         );
-        expect(wrapper.vm.onDirectFileUpload).toHaveBeenCalledWith(file);
+        expect(wrapper.vm.onDirectFileUpload).not.toHaveBeenCalled();
       }
     );
+
+    it('discards the prepared image when the conversation changed meanwhile', async () => {
+      let finish;
+      optimizeImage.mockReturnValue(
+        new Promise(resolve => {
+          finish = resolve;
+        })
+      );
+      const pending = wrapper.vm.onFileUpload(buildFile(8 * MB));
+      mockCurrentChat.id = 789;
+      finish({ file: optimizedFile, width: 1600, height: 900 });
+      await pending;
+      expect(wrapper.vm.onDirectFileUpload).not.toHaveBeenCalled();
+    });
+
+    it('re-optimizes a small image above 4096 px with the HD profile', async () => {
+      getLongestSide.mockResolvedValue(6000);
+      const result = await wrapper.vm.prepareImageForUpload(
+        buildFile(1 * MB),
+        'hd'
+      );
+      expect(optimizeImage).toHaveBeenCalled();
+      expect(result.file).toBe(optimizedFile);
+    });
 
     it('does not touch images in channels without a policy', async () => {
       mockInbox.channel_type = 'Channel::WebWidget';

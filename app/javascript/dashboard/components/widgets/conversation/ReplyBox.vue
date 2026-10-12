@@ -41,7 +41,10 @@ import {
   CAPTAIN_EVENTS,
 } from '../../../helper/AnalyticsHelper/events';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
-import { getImageOptimizationPolicy } from 'dashboard/helper/imageOptimizationPolicy';
+import {
+  getImageOptimizationPolicy,
+  isOptimizableImageMime,
+} from 'dashboard/helper/imageOptimizationPolicy';
 import { getLongestSide } from 'shared/helpers/imageOptimizer';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import {
@@ -1159,6 +1162,10 @@ export default {
           blobSignedId: blob ? blob.signed_id : undefined,
           isVoiceMessage: file?.isVoiceMessage || false,
           originalFile: file.originalFile || file,
+          canToggleHd: isOptimizableImageMime(
+            (file.originalFile || file).file?.type ||
+              (file.originalFile || file).type
+          ),
           isHd: false,
           sendAsHd: false,
           isOptimizing: false,
@@ -1176,13 +1183,14 @@ export default {
           attachment.originalFile.file?.type || attachment.originalFile.type,
         installationLimit: this.installationLimit,
       });
+      const chatId = this.currentChat?.id;
       attachment.isOptimizing = true;
       try {
         const prepared = await this.prepareImageForUpload(
           attachment.originalFile,
           isHd ? 'hd' : 'standard'
         );
-        if (!prepared) return;
+        if (!prepared || this.currentChat?.id !== chatId) return;
 
         const blob = this.globalConfig.directUploadsEnabled
           ? await this.uploadDirectly(prepared)
@@ -1197,6 +1205,7 @@ export default {
         const longestSide = isHd
           ? await getLongestSide(prepared.file).catch(() => null)
           : null;
+        if (this.currentChat?.id !== chatId) return;
 
         Object.assign(attachment, {
           resource: blob || prepared,

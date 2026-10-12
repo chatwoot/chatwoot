@@ -144,7 +144,7 @@ describe('imageNeedsOptimization', () => {
     ).toBe(false);
   });
 
-  it('crops by side only in the WhatsApp standard profile', () => {
+  it('crops by side with the profile cap, only on WhatsApp', () => {
     expect(
       imageNeedsOptimization(whatsapp, 'standard', {
         size: MB,
@@ -159,6 +159,9 @@ describe('imageNeedsOptimization', () => {
     ).toBe(false);
     expect(
       imageNeedsOptimization(whatsapp, 'hd', { size: MB, longestSide: 6000 })
+    ).toBe(true);
+    expect(
+      imageNeedsOptimization(whatsapp, 'hd', { size: MB, longestSide: 4096 })
     ).toBe(false);
     expect(
       imageNeedsOptimization(facebook, 'standard', {

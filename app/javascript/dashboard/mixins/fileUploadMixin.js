@@ -13,6 +13,7 @@ import {
   getImageOptimizationPolicy,
   imageNeedsOptimization,
   getImageLadder,
+  getProfileMaxSide,
 } from 'dashboard/helper/imageOptimizationPolicy';
 import {
   optimizeImage,
@@ -85,11 +86,7 @@ export default {
       const native = file.file || file;
       const { size } = native;
       let longestSide;
-      if (
-        profile === 'standard' &&
-        policy.standardMaxSide &&
-        size <= policy.limitBytes
-      ) {
+      if (getProfileMaxSide(policy, profile) && size <= policy.limitBytes) {
         try {
           longestSide = await getLongestSide(native);
         } catch (e) {
@@ -139,7 +136,8 @@ export default {
             : this.$t('CONVERSATION.IMAGE_OPTIMIZATION.FAILED');
         }
         useAlert(message);
-        return file;
+        // An original that is over the channel limit must never be attached
+        return fits ? file : null;
       } finally {
         this.optimizingImages -= 1;
       }
@@ -148,8 +146,10 @@ export default {
     async onFileUpload(file) {
       if (!file) return;
 
+      const chatId = this.currentChat?.id;
       const prepared = await this.prepareImageForUpload(file);
-      if (!prepared) return;
+      // The agent may have switched conversations while the image was being prepared
+      if (!prepared || this.currentChat?.id !== chatId) return;
 
       if (this.globalConfig.directUploadsEnabled) {
         this.onDirectFileUpload(prepared);

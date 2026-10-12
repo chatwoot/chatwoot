@@ -9,6 +9,8 @@ const BYTES_PER_MB = 1024 * 1024;
 const SAFETY_MARGIN = 0.9;
 const OPTIMIZABLE_MIMES = ['image/jpeg', 'image/png'];
 
+export const isOptimizableImageMime = mime => OPTIMIZABLE_MIMES.includes(mime);
+
 // Ladders go from the highest to the lowest step: { maxSide, quality (0..1) }.
 const WHATSAPP_STANDARD_LADDER = [
   { maxSide: 1600, quality: 0.85 },
@@ -44,7 +46,7 @@ export const getImageOptimizationPolicy = ({
 }) => {
   const channelType = inbox?.channel_type;
   if (!channelType || channelType === INBOX_TYPES.WEB) return null;
-  if (!OPTIMIZABLE_MIMES.includes(mime)) return null;
+  if (!isOptimizableImageMime(mime)) return null;
 
   const channelLimit = getMaxUploadSizeByChannel({
     channelType,
@@ -80,18 +82,17 @@ export const getImageOptimizationPolicy = ({
   };
 };
 
+export const getProfileMaxSide = (policy, profile) =>
+  profile === 'hd' ? policy.hdMaxSide : policy.standardMaxSide;
+
 export const imageNeedsOptimization = (
   policy,
   profile,
   { size, longestSide }
 ) => {
   if (size > policy.limitBytes) return true;
-  return (
-    profile === 'standard' &&
-    !!policy.standardMaxSide &&
-    longestSide != null &&
-    longestSide > policy.standardMaxSide
-  );
+  const maxSide = getProfileMaxSide(policy, profile);
+  return !!maxSide && longestSide != null && longestSide > maxSide;
 };
 
 export const getImageLadder = (policy, profile) =>
