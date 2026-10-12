@@ -1,0 +1,77 @@
+<% scope = 'super_admin.user_diagnostics' %>
+<% content_for(:title) { t("super_admin.navigation.user_diagnostics") } %>
+<% tab_icons = { "push" => "i-lucide-bell-ring", "mobile" => "i-lucide-smartphone", "web" => "i-lucide-monitor" } %>
+
+<%= render "section",
+           title: t("super_admin.navigation.user_diagnostics"),
+           description: t("#{scope}.description") do %>
+  <%= render "card", title: t("#{scope}.search.title") do %>
+    <div class="p-4">
+      <%= form_with url: super_admin_user_diagnostics_path, method: :get, local: true, class: 'flex flex-wrap items-center gap-2' do |f| %>
+        <%= f.hidden_field :tab, value: @tab %>
+        <div class="relative w-full sm:w-80">
+          <span class="i-lucide-search pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-n-slate-10"></span>
+          <%= f.text_field :user_query, value: @query, placeholder: t("#{scope}.search.placeholder"), class: ui(:input, "ps-9") %>
+        </div>
+        <%= render "button", label: t("#{scope}.search.submit"), variant: :secondary, submit: f %>
+      <% end %>
+
+      <% if @query.present? && @user.nil? %>
+        <%= render "alert", extra: "mt-3 flex items-center gap-2" do %>
+          <span class="i-lucide-user-x size-4 shrink-0"></span>
+          <%= t("#{scope}.search.not_found", query: @query) %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @user %>
+    <section class="rounded-xl border border-n-weak bg-n-solid-1">
+      <div class="h-16 rounded-t-[calc(theme(borderRadius.xl)-1px)] bg-pixel-band opacity-80"></div>
+      <div class="relative flex flex-wrap items-start gap-x-4 gap-y-3 px-5 pb-5">
+        <%= image_tag AvatarField.new(:avatar_url, @user.avatar_url, :show, resource: @user).avatar_url,
+                      alt: "", class: "-mt-7 size-14 shrink-0 rounded-full bg-n-solid-1 object-cover ring-4 ring-n-solid-1" %>
+        <div class="min-w-0 flex-1 pt-3">
+          <h2 class="text-heading-1 text-n-slate-12"><%= @user.name %></h2>
+          <p class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-body-main text-n-slate-11">
+            <span class="inline-flex items-center gap-1"><span class="i-lucide-hash size-3.5"></span><%= @user.id %></span>
+            <span class="inline-flex min-w-0 items-center gap-1"><span class="i-lucide-mail size-3.5 shrink-0"></span><span class="truncate"><%= @user.email %></span></span>
+          </p>
+          <% if @user.accounts.any? %>
+            <ul class="mt-3 flex flex-wrap gap-1.5" aria-label="<%= t("#{scope}.user.accounts") %>">
+              <% @user.accounts.each do |account| %>
+                <li class="inline-flex h-6 min-w-0 max-w-full items-center gap-1 rounded-md border border-n-weak bg-n-slate-2 px-2 text-label-small text-n-slate-11"
+                    title="<%= account.name %>">
+                  <span class="i-lucide-building-2 size-3.5 shrink-0"></span>
+                  <span class="max-w-60 truncate"><%= account.name %></span>
+                  <span class="shrink-0 text-n-slate-9"><%= t("#{scope}.user.id", id: account.id) %></span>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
+        <div class="pt-3">
+          <%= render "button", label: t("#{scope}.user.details_link"), variant: :secondary, icon_end: "i-lucide-arrow-up-right size-4", url: super_admin_user_path(@user) %>
+        </div>
+      </div>
+    </section>
+
+    <div class="space-y-6">
+      <nav class="border-b border-n-weak" aria-label="<%= t("#{scope}.tabs.label") %>">
+        <div class="-mb-px flex gap-5 overflow-x-auto sm:gap-6">
+          <% SuperAdmin::UserDiagnosticsController::TABS.each do |tab| %>
+            <%= link_to super_admin_user_diagnostics_path(user_query: @query, tab: tab),
+                        class: 'inline-flex h-10 shrink-0 items-center gap-1.5 border-b-2 border-transparent text-body-main text-n-slate-11 hover:text-n-slate-12 ' \
+                               'aria-[current=page]:border-n-brand aria-[current=page]:font-medium aria-[current=page]:text-n-slate-12 touch:h-11',
+                        aria: { current: ('page' if @tab == tab) } do %>
+              <span class="<%= tab_icons[tab] %> hidden size-4 sm:block"></span>
+              <%= t("#{scope}.tabs.#{tab}") %>
+            <% end %>
+          <% end %>
+        </div>
+      </nav>
+
+      <%= render @tab, scope: scope %>
+    </div>
+  <% end %>
+<% end %>
