@@ -85,6 +85,114 @@ RSpec.describe Whatsapp::InteractiveMessages::Resolver do
     end
   end
 
+  it 'persists ordered carousel image IDs and every URL card field before dispatch' do
+    carousel = {
+      schema_version: 1,
+      type: 'carousel',
+      body: { text: 'Choose a destination.' },
+      action: {
+        cards: [
+          {
+            card_index: 0, type: 'cta_url', header: { type: 'image' }, body: { text: 'Mountain escape' },
+            action: { button: 'View mountain', url: 'https://example.test/mountain' }
+          },
+          {
+            card_index: 1, type: 'cta_url', header: { type: 'image' },
+            action: { button: 'View beach', url: 'https://example.test/beach' }
+          }
+        ]
+      }
+    }
+    uploads = [
+      Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png'),
+      Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+    ]
+    params = ActionController::Parameters.new(content_attributes: { whatsapp_interactive: carousel }, attachments: uploads)
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      message = Messages::MessageBuilder.new(user, conversation, params).perform
+      cards = message.reload.content_attributes.dig('whatsapp_interactive', 'action', 'cards')
+
+      expect(message.content).to eq('Choose a destination.')
+      expect(cards.pluck('card_index')).to eq([0, 1])
+      expect(cards.pluck('header').pluck('attachment_id')).to eq(message.attachments.order(:id).pluck(:id))
+      expect(cards.first['body']).to eq('text' => 'Mountain escape')
+      expect(cards.pluck('action')).to eq(
+        [
+          { 'button' => 'View mountain', 'url' => 'https://example.test/mountain' },
+          { 'button' => 'View beach', 'url' => 'https://example.test/beach' }
+        ]
+      )
+      expect(message.attachments).to all(have_attributes(account_id: account.id, file_type: 'image'))
+    end
+  end
+
+  it 'persists globally unique carousel reply IDs mapped to their card and option' do
+    carousel = {
+      schema_version: 1,
+      type: 'carousel',
+      body: { text: 'Choose a destination.' },
+      action: {
+        cards: Array.new(2) do |index|
+          {
+            card_index: index, type: 'button', header: { type: 'image' },
+            action: { buttons: [{ title: 'Choose' }, { title: 'Details' }] }
+          }
+        end
+      }
+    }
+    uploads = Array.new(2) { Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png') }
+    params = ActionController::Parameters.new(content_attributes: { whatsapp_interactive: carousel }, attachments: uploads)
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      message = Messages::MessageBuilder.new(user, conversation, params).perform
+      cards = message.reload.content_attributes.dig('whatsapp_interactive', 'action', 'cards')
+      replies = cards.flat_map { |card| card.dig('action', 'buttons') }
+
+      expect(replies.pluck('delivery_id')).to all(start_with('reply_'))
+      expect(replies.pluck('delivery_id').uniq.length).to eq(4)
+      expect(cards.map { |card| card.dig('action', 'buttons').pluck('title') }).to eq([%w[Choose Details], %w[Choose Details]])
+    end
+  end
+
+  it 'rejects invalid carousel structure or media before persistence and provider contact' do
+    carousel = {
+      schema_version: 1,
+      type: 'carousel',
+      body: { text: 'Choose a destination.' },
+      action: {
+        cards: Array.new(2) do |index|
+          {
+            card_index: index, type: 'cta_url', header: { type: 'image' },
+            action: { button: 'View', url: "https://example.test/#{index}" }
+          }
+        end
+      }
+    }
+    image = Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+    video = Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/sample.mp4'), 'video/mp4')
+    invalid_inputs = [
+      [carousel.deep_dup.tap { |value| value[:action][:cards][1][:type] = 'button' }, [image, image]],
+      [carousel, []],
+      [carousel, [image]],
+      [carousel, [image, image, image]],
+      [carousel, [image, video]]
+    ]
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      invalid_inputs.each do |interactive_payload, uploads|
+        params = ActionController::Parameters.new(
+          content_attributes: { whatsapp_interactive: interactive_payload }, attachments: uploads
+        )
+        expect { Messages::MessageBuilder.new(user, conversation, params).perform }
+          .to raise_error(Whatsapp::InteractiveMessages::ValidationError)
+      end
+    end
+
+    expect(conversation.messages.outgoing).to be_empty
+    expect(WebMock).not_to have_requested(:post, %r{graph\.facebook\.com/.*/messages})
+  end
+
   it 'persists a CTA URL message-owned media header transactionally' do
     cta_url = {
       schema_version: 1,

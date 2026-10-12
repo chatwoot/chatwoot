@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "type": "carousel",
+  "body": {
+    "text": "Choose a destination."
+  },
+  "action": {
+    "cards": [
+      {
+        "card_index": 0,
+        "type": "button",
+        "header": {
+          "type": "image",
+          "attachment_id": 101
+        },
+        "body": {
+          "text": "Mountain escape"
+        },
+        "action": {
+          "buttons": [
+            {
+              "delivery_id": "reply_00000000-0000-4000-8000-000000000001",
+              "title": "Choose"
+            },
+            {
+              "delivery_id": "reply_00000000-0000-4000-8000-000000000002",
+              "title": "Details"
+            }
+          ]
+        }
+      },
+      {
+        "card_index": 1,
+        "type": "button",
+        "header": {
+          "type": "image",
+          "attachment_id": 102
+        },
+        "action": {
+          "buttons": [
+            {
+              "delivery_id": "reply_00000000-0000-4000-8000-000000000003",
+              "title": "Choose"
+            },
+            {
+              "delivery_id": "reply_00000000-0000-4000-8000-000000000004",
+              "title": "Details"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

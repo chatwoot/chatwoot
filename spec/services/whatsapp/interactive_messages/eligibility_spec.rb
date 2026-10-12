@@ -45,6 +45,13 @@ RSpec.describe Whatsapp::InteractiveMessages::Eligibility do
         available: true,
         unavailable_reasons: []
       )
+      expect(types[:carousel]).to include(
+        implemented: true,
+        enabled: true,
+        available: true,
+        unavailable_reasons: [],
+        limits: include(card_min_count: 2, card_max_count: 10, media: ['image'], action_modes: %w[quick_reply url])
+      )
       expect(types[:location_request_message]).to include(implemented: true, existing: true, available: true)
       expect(types.keys).to contain_exactly(:button, :list, :carousel, :cta_url, :location_request_message)
     end
@@ -287,6 +294,14 @@ RSpec.describe Whatsapp::InteractiveMessages::Eligibility do
       with_modified_env described_class::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
         expect(eligibility.reasons('cta_url')).to eq(['provider_not_supported'])
         expect { eligibility.ensure_available!('cta_url') }
+          .to raise_error(Whatsapp::InteractiveMessages::EligibilityError, 'provider_not_supported')
+      end
+    end
+
+    it 'rejects carousels with the provider-specific reason' do
+      with_modified_env described_class::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+        expect(eligibility.reasons('carousel')).to eq(['provider_not_supported'])
+        expect { eligibility.ensure_available!('carousel') }
           .to raise_error(Whatsapp::InteractiveMessages::EligibilityError, 'provider_not_supported')
       end
     end

@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Whatsapp::InteractiveMessages::Registry do
   it 'exposes only interaction types with implemented adapters' do
-    expect(described_class.implemented_types).to eq(%w[button list cta_url])
+    expect(described_class.implemented_types).to eq(%w[button list carousel cta_url])
     expect(described_class).to be_implemented('button')
     expect(described_class).to be_implemented('list')
+    expect(described_class).to be_implemented('carousel')
     expect(described_class).to be_implemented('cta_url')
   end
 
@@ -333,6 +334,193 @@ RSpec.describe Whatsapp::InteractiveMessages::Registry do
           parameters: { display_text: 'View details', url: 'https://example.test/details' }
         }
       )
+    end
+  end
+
+  describe 'image carousels' do
+    let(:url_payload) do
+      {
+        schema_version: 1,
+        type: 'carousel',
+        body: { text: 'Choose a destination.' },
+        action: {
+          cards: [
+            {
+              card_index: 0, type: 'cta_url', header: { type: 'image' }, body: { text: 'Mountain escape' },
+              action: { button: 'View mountain', url: 'https://example.test/mountain' }
+            },
+            {
+              card_index: 1, type: 'cta_url', header: { type: 'image' },
+              action: { button: 'View beach', url: 'https://example.test/beach' }
+            }
+          ]
+        }
+      }
+    end
+    let(:reply_payload) do
+      url_payload.deep_dup.tap do |payload|
+        payload[:action][:cards].each do |card|
+          card[:type] = 'button'
+          card[:action] = { buttons: [{ title: 'Choose' }, { title: 'Details' }] }
+        end
+      end
+    end
+
+    it 'resolves URL cards without response identity and publishes every carousel limit' do
+      snapshot = described_class.resolve(url_payload)
+
+      expect(snapshot.dig('action', 'cards').pluck('card_index')).to eq([0, 1])
+      expect(snapshot.dig('action', 'cards').pluck('action')).to eq(
+        [
+          { 'button' => 'View mountain', 'url' => 'https://example.test/mountain' },
+          { 'button' => 'View beach', 'url' => 'https://example.test/beach' }
+        ]
+      )
+      expect(snapshot.to_json).not_to include('delivery_id', 'quick_reply')
+      expect(described_class.limits_for('carousel')).to eq(
+        body_max_length: 1024,
+        card_min_count: 2,
+        card_max_count: 10,
+        card_body_max_length: 160,
+        card_body_max_line_breaks: 2,
+        media: ['image'],
+        action_modes: %w[quick_reply url],
+        button_max_length: 20
+      )
+    end
+
+    it 'generates reply IDs that are unique across every card and preserves card-local mappings' do
+      allow(SecureRandom).to receive(:uuid).and_return(
+        '00000000-0000-4000-8000-000000000001', '00000000-0000-4000-8000-000000000002',
+        '00000000-0000-4000-8000-000000000003', '00000000-0000-4000-8000-000000000004'
+      )
+
+      snapshot = described_class.resolve(reply_payload)
+      cards = snapshot.dig('action', 'cards')
+      delivery_ids = cards.flat_map { |card| card.dig('action', 'buttons').pluck('delivery_id') }
+
+      expect(delivery_ids).to eq(
+        %w[
+          reply_00000000-0000-4000-8000-000000000001 reply_00000000-0000-4000-8000-000000000002
+          reply_00000000-0000-4000-8000-000000000003 reply_00000000-0000-4000-8000-000000000004
+        ]
+      )
+      expect(cards.map { |card| card.dig('action', 'buttons').pluck('title') }).to eq([%w[Choose Details], %w[Choose Details]])
+    end
+
+    it 'accepts the exact card, body, line-break, label, and count boundaries' do
+      url_payload[:body][:text] = 'b' * 1024
+      url_payload[:action][:cards] = Array.new(10) do |index|
+        {
+          card_index: index, type: 'cta_url', header: { type: 'image' }, body: { text: "#{'c' * 52}\n#{'d' * 52}\n#{'e' * 52}" },
+          action: { button: 'a' * 20, url: "https://example.test/#{index}" }
+        }
+      end
+
+      expect(described_class.resolve(url_payload).dig('action', 'cards').length).to eq(10)
+    end
+
+    it 'rejects every documented structural, media, content, and URL violation' do
+      invalid_payloads = [
+        url_payload.deep_dup.tap { |value| value[:header] = { type: 'image' } },
+        url_payload.deep_dup.tap { |value| value[:footer] = { text: 'Footer' } },
+        url_payload.deep_dup.tap { |value| value[:body][:text] = '' },
+        url_payload.deep_dup.tap { |value| value[:body][:text] = 'b' * 1025 },
+        url_payload.deep_dup.tap { |value| value[:action][:cards] = [value[:action][:cards].first] },
+        url_payload.deep_dup.tap { |value| value[:action][:cards] += Array.new(9, value[:action][:cards].last) },
+        url_payload.deep_dup.tap { |value| value[:action][:cards][1][:card_index] = 2 },
+        url_payload.deep_dup.tap { |value| value[:action][:cards][0][:header] = nil },
+        url_payload.deep_dup.tap { |value| value[:action][:cards][0][:header][:type] = 'video' },
+        url_payload.deep_dup.tap { |value| value[:action][:cards][0][:header][:attachment_id] = 1 },
+        url_payload.deep_dup.tap { |value| value[:action][:cards][0][:body][:text] = '' },
+        url_payload.deep_dup.tap { |value| value[:action][:cards][0][:body][:text] = 'c' * 161 },
+        url_payload.deep_dup.tap { |value| value[:action][:cards][0][:body][:text] = "one\ntwo\nthree\nfour" },
+        url_payload.deep_dup.tap { |value| value[:action][:cards][0][:body][:text] = "one\rtwo\rthree\rfour" },
+        url_payload.deep_dup.tap { |value| value[:action][:cards][0][:action][:button] = '' },
+        url_payload.deep_dup.tap { |value| value[:action][:cards][0][:action][:button] = 'a' * 21 },
+        url_payload.deep_dup.tap { |value| value[:action][:cards][0][:action][:url] = 'ftp://example.test' },
+        url_payload.deep_dup.tap { |value| value[:action][:cards][0][:unknown] = true },
+        url_payload.deep_dup.tap { |value| value[:action][:cards][0][:action][:name] = 'cta_url' }
+      ]
+
+      invalid_payloads.each do |invalid_payload|
+        expect { described_class.resolve(invalid_payload) }.to raise_error(Whatsapp::InteractiveMessages::ValidationError)
+      end
+    end
+
+    it 'rejects mixed modes, empty or unequal replies, duplicate labels, client IDs, and provider fields' do
+      invalid_payloads = [
+        reply_payload.deep_dup.tap { |value| value[:action][:cards][1][:type] = 'cta_url' },
+        reply_payload.deep_dup.tap { |value| value[:action][:cards][0][:action][:buttons] = [] },
+        reply_payload.deep_dup.tap { |value| value[:action][:cards][1][:action][:buttons].pop },
+        reply_payload.deep_dup.tap { |value| value[:action][:cards][0][:action][:buttons][1][:title] = 'Choose' },
+        reply_payload.deep_dup.tap { |value| value[:action][:cards][0][:action][:buttons][0][:title] = 'x' * 21 },
+        reply_payload.deep_dup.tap { |value| value[:action][:cards][0][:action][:buttons][0][:delivery_id] = 'client-id' },
+        reply_payload.deep_dup.tap { |value| value[:action][:cards][0][:action][:buttons][0][:quick_reply] = {} }
+      ]
+
+      invalid_payloads.each do |invalid_payload|
+        expect { described_class.resolve(invalid_payload) }.to raise_error(Whatsapp::InteractiveMessages::ValidationError)
+      end
+    end
+
+    it 'maps URL and reply fixtures to native carousel cards with trusted image links' do
+      attachments = [
+        instance_double(Attachment, id: 101, download_url: 'https://trusted.test/one'),
+        instance_double(Attachment, id: 102, download_url: 'https://trusted.test/two')
+      ]
+      allow(described_class).to receive(:matching_media?) { |_type, attachment| attachment.present? }
+
+      url_snapshot = JSON.parse(Rails.root.join('spec/fixtures/whatsapp_interactive_messages/carousel_url.json').read)
+      reply_snapshot = JSON.parse(Rails.root.join('spec/fixtures/whatsapp_interactive_messages/carousel_quick_reply.json').read)
+      url_cards = described_class.provider_payload(url_snapshot, attachments: attachments).dig(:action, :cards)
+      reply_cards = described_class.provider_payload(reply_snapshot, attachments: attachments).dig(:action, :cards)
+
+      expect(url_cards.first).to eq(
+        card_index: 0,
+        type: 'cta_url',
+        header: { type: 'image', image: { link: 'https://trusted.test/one' } },
+        body: { text: 'Mountain escape' },
+        action: { name: 'cta_url', parameters: { display_text: 'View mountain', url: 'https://example.test/mountain' } }
+      )
+      expect(reply_cards.first.dig(:action, :buttons)).to eq(
+        [
+          {
+            type: 'quick_reply',
+            quick_reply: { id: 'reply_00000000-0000-4000-8000-000000000001', title: 'Choose' }
+          },
+          {
+            type: 'quick_reply',
+            quick_reply: { id: 'reply_00000000-0000-4000-8000-000000000002', title: 'Details' }
+          }
+        ]
+      )
+    end
+
+    it 'rejects missing media and duplicate or overflowing stored reply IDs before provider contact' do
+      snapshot = JSON.parse(Rails.root.join('spec/fixtures/whatsapp_interactive_messages/carousel_quick_reply.json').read)
+      allow(described_class).to receive(:matching_media?) { |_type, attachment| attachment.present? }
+      attachments = [
+        instance_double(Attachment, id: 101, download_url: 'https://trusted.test/one'),
+        instance_double(Attachment, id: 102, download_url: 'https://trusted.test/two')
+      ]
+
+      expect { described_class.provider_payload(snapshot, attachments: attachments.first(1)) }
+        .to raise_error(Whatsapp::InteractiveMessages::ValidationError, /unavailable or mismatched/)
+
+      snapshot.dig('action', 'cards', 1, 'header')['attachment_id'] = 101
+      expect { described_class.provider_payload(snapshot, attachments: attachments) }
+        .to raise_error(Whatsapp::InteractiveMessages::ValidationError, /one attachment per card/)
+      snapshot.dig('action', 'cards', 1, 'header')['attachment_id'] = 102
+
+      snapshot.dig('action', 'cards', 1, 'action', 'buttons', 0)['delivery_id'] =
+        snapshot.dig('action', 'cards', 0, 'action', 'buttons', 0, 'delivery_id')
+      expect { described_class.provider_payload(snapshot, attachments: attachments) }
+        .to raise_error(Whatsapp::InteractiveMessages::ValidationError, /unique across the carousel/)
+
+      snapshot.dig('action', 'cards', 1, 'action', 'buttons', 0)['delivery_id'] = 'x' * 257
+      expect { described_class.provider_payload(snapshot, attachments: attachments) }
+        .to raise_error(Whatsapp::InteractiveMessages::ValidationError, /256 characters or fewer/)
     end
   end
 end

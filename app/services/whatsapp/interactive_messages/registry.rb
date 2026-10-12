@@ -6,6 +6,7 @@ class Whatsapp::InteractiveMessages::Registry
   SCHEMA_VERSION = 1
   BUTTON_TYPE = 'button'.freeze
   LIST_TYPE = 'list'.freeze
+  CAROUSEL_TYPE = 'carousel'.freeze
   CTA_URL_TYPE = 'cta_url'.freeze
   BODY_MAX_LENGTH = 1024
   LIST_BODY_MAX_LENGTH = 4096
@@ -22,8 +23,12 @@ class Whatsapp::InteractiveMessages::Registry
   LIST_ROW_DESCRIPTION_MAX_LENGTH = 72
   LIST_ROW_DELIVERY_ID_MAX_LENGTH = 200
   CTA_BUTTON_MAX_LENGTH = 20
+  CAROUSEL_CARD_COUNT_RANGE = (2..10)
+  CAROUSEL_CARD_BODY_MAX_LENGTH = 160
+  CAROUSEL_CARD_BODY_MAX_LINE_BREAKS = 2
+  CAROUSEL_ACTION_TYPES = %w[cta_url button].freeze
 
-  IMPLEMENTED_TYPES = [BUTTON_TYPE, LIST_TYPE, CTA_URL_TYPE].freeze
+  IMPLEMENTED_TYPES = [BUTTON_TYPE, LIST_TYPE, CAROUSEL_TYPE, CTA_URL_TYPE].freeze
 
   class << self
     def limits
@@ -70,6 +75,19 @@ class Whatsapp::InteractiveMessages::Registry
       }
     end
 
+    def carousel_limits
+      {
+        body_max_length: BODY_MAX_LENGTH,
+        card_min_count: CAROUSEL_CARD_COUNT_RANGE.min,
+        card_max_count: CAROUSEL_CARD_COUNT_RANGE.max,
+        card_body_max_length: CAROUSEL_CARD_BODY_MAX_LENGTH,
+        card_body_max_line_breaks: CAROUSEL_CARD_BODY_MAX_LINE_BREAKS,
+        media: ['image'],
+        action_modes: %w[quick_reply url],
+        button_max_length: BUTTON_TITLE_MAX_LENGTH
+      }
+    end
+
     def implemented_types
       IMPLEMENTED_TYPES
     end
@@ -79,7 +97,12 @@ class Whatsapp::InteractiveMessages::Registry
     end
 
     def limits_for(type)
-      { BUTTON_TYPE => button_limits, LIST_TYPE => list_limits, CTA_URL_TYPE => cta_url_limits }[type.to_s]
+      {
+        BUTTON_TYPE => button_limits,
+        LIST_TYPE => list_limits,
+        CAROUSEL_TYPE => carousel_limits,
+        CTA_URL_TYPE => cta_url_limits
+      }[type.to_s]
     end
 
     def resolve(payload)
@@ -88,19 +111,21 @@ class Whatsapp::InteractiveMessages::Registry
       case interactive['type']
       when BUTTON_TYPE then resolve_button_message(interactive, path)
       when LIST_TYPE then resolve_list_message(interactive, path)
+      when CAROUSEL_TYPE then resolve_carousel_message(interactive, path)
       when CTA_URL_TYPE then resolve_cta_url_message(interactive, path)
-      else raise_validation!("#{path}.type must be button, list, or cta_url")
+      else raise_validation!("#{path}.type must be button, list, carousel, or cta_url")
       end
     end
 
-    def provider_payload(snapshot, attachment: nil)
+    def provider_payload(snapshot, attachment: nil, attachments: nil)
       path = 'stored whatsapp_interactive'
       interactive = hash!(snapshot, path)
       case interactive['type']
       when BUTTON_TYPE then button_provider_payload(interactive, path, attachment)
       when LIST_TYPE then list_provider_payload(interactive, path)
+      when CAROUSEL_TYPE then carousel_provider_payload(interactive, path, attachments)
       when CTA_URL_TYPE then cta_url_provider_payload(interactive, path, attachment)
-      else raise_validation!("#{path}.type must be button, list, or cta_url")
+      else raise_validation!("#{path}.type must be button, list, carousel, or cta_url")
       end
     end
 
@@ -224,6 +249,211 @@ class Whatsapp::InteractiveMessages::Registry
       payload[:header] = provider_header(interactive, path, attachment) if interactive.key?('header')
       payload[:footer] = { text: validated_footer(interactive, path)['text'] } if interactive.key?('footer')
       payload
+    end
+
+    def resolve_carousel_message(interactive, path)
+      validated_interactive!(interactive, path, CAROUSEL_TYPE, %w[schema_version type body action])
+      cards = validated_carousel_cards(interactive, path)
+      action_type = validated_carousel_action_type(cards, path)
+      used_delivery_ids = Set.new
+      resolved_cards = cards.map.with_index do |card, index|
+        resolve_carousel_card(card, index, path, action_type, used_delivery_ids)
+      end
+      validate_uniform_carousel_replies!(resolved_cards, path) if action_type == BUTTON_TYPE
+
+      {
+        'schema_version' => SCHEMA_VERSION,
+        'type' => CAROUSEL_TYPE,
+        'body' => { 'text' => validated_body_text(interactive, path) },
+        'action' => { 'cards' => resolved_cards }
+      }
+    end
+
+    def carousel_provider_payload(interactive, path, attachments)
+      validated_interactive!(interactive, path, CAROUSEL_TYPE, %w[schema_version type body action])
+      cards = validated_carousel_cards(interactive, path)
+      action_type = validated_carousel_action_type(cards, path)
+      validate_unique_carousel_attachment_ids!(cards, path)
+      attachments_by_id = Array(attachments).index_by(&:id)
+      provider_cards = cards.map.with_index do |card, index|
+        provider_carousel_card(card, index, path, action_type, attachments_by_id)
+      end
+      validate_uniform_carousel_replies!(cards, path) if action_type == BUTTON_TYPE
+      validate_unique_carousel_delivery_ids!(cards, path) if action_type == BUTTON_TYPE
+
+      {
+        type: CAROUSEL_TYPE,
+        body: { text: validated_body_text(interactive, path) },
+        action: { cards: provider_cards }
+      }
+    end
+
+    def validated_carousel_cards(interactive, path)
+      action_path = "#{path}.action"
+      action = hash!(interactive['action'], action_path)
+      exact_keys!(action, %w[cards], action_path)
+      cards = array!(action['cards'], "#{action_path}.cards")
+      value!(CAROUSEL_CARD_COUNT_RANGE.cover?(cards.length), "#{action_path}.cards must contain 2 to 10 cards")
+      cards
+    end
+
+    def validated_carousel_action_type(cards, path)
+      types = cards.map.with_index do |card, index|
+        card_path = "#{path}.action.cards[#{index}]"
+        card = hash!(card, card_path)
+        value!(CAROUSEL_ACTION_TYPES.include?(card['type']), "#{card_path}.type must be cta_url or button")
+        card['type']
+      end
+      value!(types.uniq.one?, "#{path}.action.cards must use one uniform action type")
+      types.first
+    end
+
+    def resolve_carousel_card(card, index, path, action_type, used_delivery_ids)
+      card_path = "#{path}.action.cards[#{index}]"
+      card = hash!(card, card_path)
+      exact_keys!(card, %w[card_index type header action], card_path, optional: %w[body])
+      validate_carousel_card_index!(card, index, card_path)
+      resolved = {
+        'card_index' => index,
+        'type' => action_type,
+        'header' => validated_carousel_header(card, card_path),
+        'action' => resolve_carousel_action(card, card_path, action_type, used_delivery_ids)
+      }
+      resolved['body'] = validated_carousel_card_body(card, card_path) if card.key?('body')
+      resolved
+    end
+
+    def provider_carousel_card(card, index, path, action_type, attachments_by_id)
+      card_path = "#{path}.action.cards[#{index}]"
+      card = hash!(card, card_path)
+      exact_keys!(card, %w[card_index type header action], card_path, optional: %w[body])
+      validate_carousel_card_index!(card, index, card_path)
+      header = validated_carousel_header(card, card_path, stored: true)
+      attachment = attachments_by_id[header['attachment_id']]
+      value!(matching_media?('image', attachment), "#{card_path}.header image is unavailable or mismatched")
+      provider_card = {
+        card_index: index,
+        type: action_type,
+        header: { type: 'image', image: { link: attachment.download_url } },
+        action: provider_carousel_action(card, card_path, action_type)
+      }
+      provider_card[:body] = { text: validated_carousel_card_body(card, card_path)['text'] } if card.key?('body')
+      provider_card
+    end
+
+    def validate_carousel_card_index!(card, index, card_path)
+      value!(card['card_index'] == index, "#{card_path}.card_index must be #{index}")
+    end
+
+    def validated_carousel_header(card, card_path, stored: false)
+      header_path = "#{card_path}.header"
+      header = hash!(card['header'], header_path)
+      exact_keys!(header, stored ? %w[type attachment_id] : %w[type], header_path)
+      value!(header['type'] == 'image', "#{header_path}.type must be image")
+      if stored
+        value!(header['attachment_id'].is_a?(Integer) && header['attachment_id'].positive?,
+               "#{header_path}.attachment_id must be a server attachment ID")
+      end
+      header
+    end
+
+    def validated_carousel_card_body(card, card_path)
+      body_path = "#{card_path}.body"
+      body = hash!(card['body'], body_path)
+      exact_keys!(body, %w[text], body_path)
+      text = text!(body['text'], "#{body_path}.text", CAROUSEL_CARD_BODY_MAX_LENGTH)
+      line_break_count = text.scan(/\r\n|\r|\n/).length
+      value!(line_break_count <= CAROUSEL_CARD_BODY_MAX_LINE_BREAKS, "#{body_path}.text must contain at most two line breaks")
+      { 'text' => text }
+    end
+
+    def resolve_carousel_action(card, card_path, action_type, used_delivery_ids)
+      return validated_carousel_url_action(card, card_path) if action_type == CTA_URL_TYPE
+
+      action_path = "#{card_path}.action"
+      action = hash!(card['action'], action_path)
+      exact_keys!(action, %w[buttons], action_path)
+      buttons = array!(action['buttons'], "#{action_path}.buttons")
+      value!(buttons.present?, "#{action_path}.buttons must contain at least one button")
+      resolved_buttons = buttons.map.with_index do |button, index|
+        resolve_carousel_reply(button, index, action_path, used_delivery_ids)
+      end
+      titles = resolved_buttons.pluck('title')
+      value!(titles.uniq.length == titles.length, "#{action_path}.button titles must be unique")
+      { 'buttons' => resolved_buttons }
+    end
+
+    def provider_carousel_action(card, card_path, action_type)
+      return provider_carousel_url_action(card, card_path) if action_type == CTA_URL_TYPE
+
+      action_path = "#{card_path}.action"
+      action = hash!(card['action'], action_path)
+      exact_keys!(action, %w[buttons], action_path)
+      buttons = array!(action['buttons'], "#{action_path}.buttons")
+      value!(buttons.present?, "#{action_path}.buttons must contain at least one button")
+      provider_buttons = buttons.map.with_index { |button, index| provider_carousel_reply(button, index, action_path) }
+      titles = provider_buttons.map { |button| button.dig(:quick_reply, :title) }
+      value!(titles.uniq.length == titles.length, "#{action_path}.button titles must be unique")
+      { buttons: provider_buttons }
+    end
+
+    def provider_carousel_reply(button, index, action_path)
+      button_path = "#{action_path}.buttons[#{index}]"
+      button = hash!(button, button_path)
+      exact_keys!(button, %w[delivery_id title], button_path)
+      {
+        type: 'quick_reply',
+        quick_reply: {
+          id: text!(button['delivery_id'], "#{button_path}.delivery_id", 256),
+          title: text!(button['title'], "#{button_path}.title", BUTTON_TITLE_MAX_LENGTH)
+        }
+      }
+    end
+
+    def validated_carousel_url_action(card, card_path)
+      action_path = "#{card_path}.action"
+      action = hash!(card['action'], action_path)
+      exact_keys!(action, %w[button url], action_path)
+      {
+        'button' => text!(action['button'], "#{action_path}.button", CTA_BUTTON_MAX_LENGTH),
+        'url' => url!(action['url'], "#{action_path}.url")
+      }
+    end
+
+    def provider_carousel_url_action(card, card_path)
+      action = validated_carousel_url_action(card, card_path)
+      {
+        name: CTA_URL_TYPE,
+        parameters: { display_text: action['button'], url: action['url'] }
+      }
+    end
+
+    def resolve_carousel_reply(button, index, action_path, used_delivery_ids)
+      button_path = "#{action_path}.buttons[#{index}]"
+      button = hash!(button, button_path)
+      exact_keys!(button, %w[title], button_path)
+      delivery_id = "reply_#{SecureRandom.uuid}"
+      value!(used_delivery_ids.exclude?(delivery_id), 'whatsapp_interactive carousel delivery IDs must be unique')
+      used_delivery_ids << delivery_id
+      {
+        'delivery_id' => delivery_id,
+        'title' => text!(button['title'], "#{button_path}.title", BUTTON_TITLE_MAX_LENGTH)
+      }
+    end
+
+    def validate_uniform_carousel_replies!(cards, path)
+      counts = cards.map { |card| hash!(card['action'], "#{path}.action.cards.action")['buttons']&.length }
+      value!(counts.uniq.one?, "#{path}.action.cards must have the same number of quick replies")
+    end
+
+    def validate_unique_carousel_delivery_ids!(cards, path)
+      ids = cards.flat_map { |card| card.dig('action', 'buttons').pluck('delivery_id') }
+      value!(ids.uniq.length == ids.length, "#{path}.action.cards delivery IDs must be unique across the carousel")
+    end
+
+    def validate_unique_carousel_attachment_ids!(cards, path)
+      ids = cards.pluck('header').pluck('attachment_id')
+      value!(ids.uniq.length == ids.length, "#{path}.action.cards must reference one attachment per card")
     end
 
     def validated_interactive!(interactive, path, type, required, optional: [])

@@ -16,7 +16,7 @@ class Whatsapp::InteractiveMessages::Resolver
 
     def persist!(message)
       type = message.content_attributes.dig('whatsapp_interactive', 'type')
-      return message.save! unless %w[button cta_url].include?(type)
+      return message.save! unless %w[button carousel cta_url].include?(type)
 
       validate_attachment!(message)
       Message.transaction do
@@ -28,6 +28,8 @@ class Whatsapp::InteractiveMessages::Resolver
     private
 
     def validate_attachment!(message)
+      return validate_carousel_attachments!(message) if carousel?(message)
+
       header = message.content_attributes.dig('whatsapp_interactive', 'header')
       return unless header && header['type'] != 'text'
 
@@ -38,10 +40,38 @@ class Whatsapp::InteractiveMessages::Resolver
     end
 
     def finalize_attachment!(message)
+      return finalize_carousel_attachments!(message) if carousel?(message)
+
       header = message.content_attributes.dig('whatsapp_interactive', 'header')
       return unless header && header['type'] != 'text'
 
       header['attachment_id'] = message.attachments.first.id
+      # The validated snapshot must be complete before create callbacks dispatch, without firing update callbacks.
+      message.update_columns(content_attributes: message.content_attributes) # rubocop:disable Rails/SkipsModelValidations
+    end
+
+    def carousel?(message)
+      message.content_attributes.dig('whatsapp_interactive', 'type') == 'carousel'
+    end
+
+    def carousel_cards(message)
+      message.content_attributes.dig('whatsapp_interactive', 'action', 'cards')
+    end
+
+    def validate_carousel_attachments!(message)
+      attachments = message.attachments.to_a
+      valid = attachments.length == carousel_cards(message).length &&
+              attachments.all? { |attachment| Whatsapp::InteractiveMessages::Registry.matching_media?('image', attachment) }
+      return if valid
+
+      raise Whatsapp::InteractiveMessages::ValidationError,
+            'whatsapp_interactive carousel uploads must contain one image per card in card order'
+    end
+
+    def finalize_carousel_attachments!(message)
+      carousel_cards(message).zip(message.attachments.to_a).each do |card, attachment|
+        card['header']['attachment_id'] = attachment.id
+      end
       # The validated snapshot must be complete before create callbacks dispatch, without firing update callbacks.
       message.update_columns(content_attributes: message.content_attributes) # rubocop:disable Rails/SkipsModelValidations
     end
@@ -68,6 +98,8 @@ class Whatsapp::InteractiveMessages::Resolver
     end
 
     def validate_uploads!(params, resolved, account_id)
+      return validate_carousel_uploads!(params, resolved, account_id) if resolved['type'] == 'carousel'
+
       header_type = resolved.dig('header', 'type')
       media_header = %w[image video document].include?(header_type)
       uploads = params[:attachments] || []
@@ -78,6 +110,17 @@ class Whatsapp::InteractiveMessages::Resolver
       return unless media_header
 
       validate_upload!(uploads.first, account_id)
+    end
+
+    def validate_carousel_uploads!(params, resolved, account_id)
+      uploads = params[:attachments] || []
+      card_count = resolved.dig('action', 'cards').length
+      unless uploads.is_a?(Array) && uploads.length == card_count
+        raise Whatsapp::InteractiveMessages::ValidationError,
+              'whatsapp_interactive carousel requires exactly one ordered image upload per card'
+      end
+
+      uploads.each { |upload| validate_upload!(upload, account_id) }
     end
 
     def validate_upload!(upload, account_id)

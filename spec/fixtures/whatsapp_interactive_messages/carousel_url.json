@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "type": "carousel",
+  "body": {
+    "text": "Choose a destination."
+  },
+  "action": {
+    "cards": [
+      {
+        "card_index": 0,
+        "type": "cta_url",
+        "header": {
+          "type": "image",
+          "attachment_id": 101
+        },
+        "body": {
+          "text": "Mountain escape"
+        },
+        "action": {
+          "button": "View mountain",
+          "url": "https://example.test/mountain"
+        }
+      },
+      {
+        "card_index": 1,
+        "type": "cta_url",
+        "header": {
+          "type": "image",
+          "attachment_id": 102
+        },
+        "action": {
+          "button": "View beach",
+          "url": "https://example.test/beach"
+        }
+      }
+    ]
+  }
+}

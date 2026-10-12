@@ -271,9 +271,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def send_whatsapp_interactive_message(phone_number, message)
     snapshot = message.content_attributes['whatsapp_interactive']
-    attachment_id = snapshot.dig('header', 'attachment_id')
-    attachment = message.attachments.find_by(id: attachment_id, account_id: message.account_id) if attachment_id
-    payload = Whatsapp::InteractiveMessages::Registry.provider_payload(snapshot, attachment: attachment)
+    payload = whatsapp_interactive_provider_payload(message, snapshot)
     response = HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,
@@ -286,6 +284,18 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     )
 
     process_response(response, message)
+  end
+
+  def whatsapp_interactive_provider_payload(message, snapshot)
+    if snapshot['type'] == 'carousel'
+      attachment_ids = snapshot.dig('action', 'cards').pluck('header').pluck('attachment_id')
+      attachments = message.attachments.where(id: attachment_ids, account_id: message.account_id).to_a
+      return Whatsapp::InteractiveMessages::Registry.provider_payload(snapshot, attachments: attachments)
+    end
+
+    attachment_id = snapshot.dig('header', 'attachment_id')
+    attachment = message.attachments.find_by(id: attachment_id, account_id: message.account_id) if attachment_id
+    Whatsapp::InteractiveMessages::Registry.provider_payload(snapshot, attachment: attachment)
   end
 end
 # rubocop:enable Metrics/ClassLength
