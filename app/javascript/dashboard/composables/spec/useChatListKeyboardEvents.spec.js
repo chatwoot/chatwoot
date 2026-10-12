@@ -70,6 +70,17 @@ describe('useChatListKeyboardEvents', () => {
       expect(mockRouter.push).not.toHaveBeenCalled();
     });
 
+    it('does not navigate when ninja-keys command palette is open', () => {
+      const ninjaKeys = document.createElement('ninja-keys');
+      ninjaKeys.opened = true;
+      document.body.appendChild(ninjaKeys);
+
+      useChatListKeyboardEvents(listRef);
+      registeredEvents.Escape.action();
+
+      expect(mockRouter.push).not.toHaveBeenCalled();
+    });
+
     it('does not navigate when on a non-conversation route', () => {
       mockRoute.name = 'home';
 
