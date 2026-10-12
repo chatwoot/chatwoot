@@ -14,8 +14,7 @@ module Llm::FeatureRouter
         feature: feature_key,
         provider: provider_for(model, source),
         model: model,
-        source: source,
-        reasoning_effort: reasoning_effort(feature: feature_key, model: model)
+        source: source
       }
     end
 

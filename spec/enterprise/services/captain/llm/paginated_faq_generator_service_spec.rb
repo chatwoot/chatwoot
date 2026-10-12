@@ -100,18 +100,22 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
       allow(Llm::FeatureRouter).to receive(:standard_openai_endpoint?).and_return(true)
       allow(document).to receive(:openai_file_id).and_return('file-123')
       document.account.update!(captain_models: { 'pdf_faq_generation' => 'gpt-5.2' })
-      allow(Llm::FeatureRouter).to receive(:reasoning_effort).with(feature: 'pdf_faq_generation', model: 'gpt-5.2').and_return(:high)
     end
 
-    it 'sends file input, JSON format and effort to Responses without storing it, and parses message output after reasoning' do
+    it 'sends file input and JSON format to Responses without storing it, and parses message output after reasoning' do
       response = { 'output' => [
         { 'type' => 'reasoning' },
         { 'type' => 'message', 'content' => [{ 'type' => 'output_text', 'text' => '{"faqs":[],"has_content":false}' }] }
       ] }
-      expect(openai_client).to receive(:json_post).with(path: 'responses', parameters: include(
-        model: 'gpt-5.2', reasoning: { effort: :high }, text: { format: { type: 'json_object' } }, store: false,
-        input: [include(role: 'user', content: include({ type: 'input_file', file_id: 'file-123' }))]
-      )).and_return(response)
+      expect(openai_client).to receive(:json_post) do |path:, parameters:|
+        expect(path).to eq('responses')
+        expect(parameters).to include(
+          model: 'gpt-5.2', text: { format: { type: 'json_object' } }, store: false,
+          input: [include(role: 'user', content: include({ type: 'input_file', file_id: 'file-123' }))]
+        )
+        expect(parameters).not_to have_key(:reasoning)
+        response
+      end
       expect(openai_client).not_to receive(:chat)
 
       expect(service.generate).to eq([])
