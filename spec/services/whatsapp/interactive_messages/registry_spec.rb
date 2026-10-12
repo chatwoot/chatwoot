@@ -523,4 +523,33 @@ RSpec.describe Whatsapp::InteractiveMessages::Registry do
         .to raise_error(Whatsapp::InteractiveMessages::ValidationError, /256 characters or fewer/)
     end
   end
+
+  describe '.normalize_preset' do
+    it 'uses structural validation without generating delivery IDs' do
+      payload = {
+        schema_version: 1,
+        type: 'list',
+        body: { text: 'Choose' },
+        action: { button: 'Open', sections: [{ rows: [{ title: 'First' }] }] }
+      }
+      allow(SecureRandom).to receive(:uuid)
+
+      normalized = described_class.normalize_preset(payload)
+
+      expect(normalized.dig('action', 'sections', 0, 'rows', 0)).to eq('title' => 'First')
+      expect(SecureRandom).not_to have_received(:uuid)
+    end
+
+    it 'rejects client delivery IDs and provider fields' do
+      payload = {
+        schema_version: 1,
+        type: 'button',
+        body: { text: 'Choose' },
+        action: { buttons: [{ title: 'First', delivery_id: 'raw' }] }
+      }
+
+      expect { described_class.normalize_preset(payload) }
+        .to raise_error(Whatsapp::InteractiveMessages::ValidationError, /unsupported fields: delivery_id/)
+    end
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_12_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_12_000001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1539,6 +1539,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_12_000000) do
     t.string "name"
     t.string "secret"
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
+  end
+
+  create_table "whatsapp_interactive_presets", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "created_by_id"
+    t.string "name", null: false
+    t.string "interactive_type", null: false
+    t.integer "schema_version", null: false
+    t.jsonb "definition", default: {}, null: false
+    t.datetime "archived_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name"], name: "index_whatsapp_interactive_presets_on_account_id_and_name"
+    t.index ["account_id"], name: "index_whatsapp_interactive_presets_on_account_id"
+    t.index ["created_by_id"], name: "index_whatsapp_interactive_presets_on_created_by_id"
   end
 
   create_table "working_hours", force: :cascade do |t|
