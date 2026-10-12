@@ -23,7 +23,7 @@ class Captain::Copilot::PresentationService
     resource = Captain::Copilot::Resources.build(@run.resource, account: @run.account, user: @run.user)
     total = @run.selected_ids.size
     rows = resource.rows(@run.selected_ids.slice((page - 1) * PAGE_SIZE, PAGE_SIZE) || [])
-    { run: @run.receipt, type: 'table', page: page, total: total, has_more: page * PAGE_SIZE < total, rows: rows,
+    { run: @run.receipt, type: 'table', page: page, total: total, has_more: page * PAGE_SIZE < total,
       content: collection_markdown(resource, rows, page, total) }
   end
 
@@ -42,13 +42,11 @@ class Captain::Copilot::PresentationService
 
   def review_table(page, matched_only)
     visible = accessible_conversations(account: @run.account, user: @run.user)
-    scope = visible_findings(visible, matched_only)
-    findings = scope.page(page).per(REVIEW_PAGE_SIZE)
+    findings = visible_findings(visible, matched_only).page(page).per(REVIEW_PAGE_SIZE)
     display_ids = visible.where(id: findings.map(&:conversation_id)).pluck(:id, :display_id).to_h
-    rows = findings.map { |finding| result_row(finding, display_ids.fetch(finding.conversation_id)) }
     total = findings.total_count
-    { run: @run.receipt, type: 'table', page: page, total: total, has_more: page * REVIEW_PAGE_SIZE < total, rows: rows,
-      content: markdown(rows, page, total) }
+    { run: @run.receipt, type: 'table', page: page, total: total, has_more: page * REVIEW_PAGE_SIZE < total,
+      content: markdown(findings, display_ids, page, total, matched_only) }
   end
 
   # Matched findings come first, so they fill the first page when a continued review holds more than one page.
@@ -58,20 +56,24 @@ class Captain::Copilot::PresentationService
     scope.order(matched: :desc, conversation_id: :asc)
   end
 
-  def result_row(finding, display_id)
-    { conversation_id: display_id, url: "/app/accounts/#{@run.account_id}/conversations/#{display_id}", status: finding.status,
-      matched: finding.matched, category: finding.category, reason: finding.reason, error: finding.error,
-      evidence_message_ids: finding.evidence_message_ids, reviewed_message_ids: finding.reviewed_message_ids,
-      history_truncated: finding.history_truncated }
+  # The table is the only copy of the findings the model gets. A table of every finding says which ones matched.
+  def markdown(findings, display_ids, page, total, matched_only)
+    lines = summary
+    return (lines + ['No saved findings on this page.']).join("\n\n") if findings.empty?
+
+    header = matched_only ? %w[Conversation Category Finding] : %w[Conversation Matched Category Finding]
+    cells = findings.map do |finding|
+      display_id = display_ids.fetch(finding.conversation_id)
+      link = "[##{display_id}](/app/accounts/#{@run.account_id}/conversations/#{display_id})"
+      [link, (matched_cell(finding) unless matched_only), escape(finding.category), escape(finding_text(finding))].compact
+    end
+    (lines + [markdown_table(header, cells), page_note(page, findings.size, total)]).join("\n\n")
   end
 
-  def markdown(rows, page, total)
-    lines = summary
-    return (lines + ['No saved findings on this page.']).join("\n\n") if rows.empty?
+  def matched_cell(finding)
+    return '' unless finding.status == 'resolved'
 
-    cells = rows.map { |row| ["[##{row[:conversation_id]}](#{row[:url]})", escape(row[:category]), escape(finding_text(row))] }
-    table = markdown_table(%w[Conversation Category Finding], cells)
-    (lines + [table, page_note(page, rows.size, total)]).join("\n\n")
+    finding.matched ? 'yes' : 'no'
   end
 
   def page_note(page, count, total)
@@ -86,8 +88,8 @@ class Captain::Copilot::PresentationService
   end
 
   # A finding's status describes the review, not the conversation, so only failed reviews are labelled.
-  def finding_text(row)
-    row[:status] == 'resolved' ? row[:reason] : "Not reviewed: #{row[:error] || row[:status]}"
+  def finding_text(finding)
+    finding.status == 'resolved' ? finding.reason : "Not reviewed: #{finding.error || finding.status}"
   end
 
   def summary
