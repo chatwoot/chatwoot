@@ -1,5 +1,13 @@
 {
   "CONVERSATION": {
+    "IMAGE_OPTIMIZATION": {
+      "OPTIMIZING": "Optimizando imagen...",
+      "UNSUPPORTED": "Tu navegador no puede optimizar imágenes. Prueba con una imagen más pequeña u otro navegador.",
+      "UNSUPPORTED_USING_ORIGINAL": "Tu navegador no puede optimizar imágenes. Se enviará el original.",
+      "FAILED": "No pudimos optimizar esta imagen.",
+      "FAILED_USING_ORIGINAL": "No pudimos optimizar esta imagen. Se enviará el original.",
+      "TOO_LARGE": "No pudimos reducir la imagen lo suficiente para enviarla. Prueba con una imagen más pequeña."
+    },
     "REFERRAL": {
       "AD_LABEL": "Anuncio",
       "POST_LABEL": "Publicación",

@@ -9,9 +9,26 @@ import {
   resolveMaximumFileUploadSize,
 } from 'shared/helpers/FileHelper';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import {
+  getImageOptimizationPolicy,
+  imageNeedsOptimization,
+  getImageLadder,
+} from 'dashboard/helper/imageOptimizationPolicy';
+import {
+  optimizeImage,
+  getLongestSide,
+  ImageOptimizationError,
+  IMAGE_OPTIMIZATION_ERRORS,
+} from 'shared/helpers/imageOptimizer';
 
 export default {
+  data() {
+    return { optimizingImages: 0 };
+  },
   computed: {
+    isOptimizingImage() {
+      return this.optimizingImages > 0;
+    },
     ...mapGetters({
       accountId: 'getCurrentAccountId',
     }),
@@ -54,12 +71,113 @@ export default {
         })
       );
     },
-    onFileUpload(file) {
-      if (this.globalConfig.directUploadsEnabled) {
-        this.onDirectFileUpload(file);
-      } else {
-        this.onIndirectFileUpload(file);
+    async prepareImageForUpload(file, profile = 'standard') {
+      const mime = file.file?.type || file.type;
+      if (this.isOnPrivateNote) return file;
+
+      const policy = getImageOptimizationPolicy({
+        inbox: this.inbox,
+        mime,
+        installationLimit: this.installationLimit,
+      });
+      if (!policy) return file;
+
+      const native = file.file || file;
+      const { size } = native;
+      let longestSide;
+      if (
+        profile === 'standard' &&
+        policy.standardMaxSide &&
+        size <= policy.limitBytes
+      ) {
+        try {
+          longestSide = await getLongestSide(native);
+        } catch (e) {
+          longestSide = undefined;
+        }
       }
+
+      if (!imageNeedsOptimization(policy, profile, { size, longestSide })) {
+        return file;
+      }
+
+      this.optimizingImages += 1;
+      try {
+        const optimized = await optimizeImage(native, {
+          maxBytes: policy.maxBytes,
+          ladder: getImageLadder(policy, profile),
+        });
+        return {
+          ...file,
+          file: optimized.file,
+          name: optimized.file.name,
+          type: optimized.file.type,
+          size: optimized.file.size,
+          originalFile: file.originalFile || file,
+        };
+      } catch (error) {
+        const code =
+          error instanceof ImageOptimizationError
+            ? error.code
+            : IMAGE_OPTIMIZATION_ERRORS.DECODE_FAILED;
+        if (code === IMAGE_OPTIMIZATION_ERRORS.TOO_LARGE) {
+          useAlert(this.$t('CONVERSATION.IMAGE_OPTIMIZATION.TOO_LARGE'));
+          return null;
+        }
+        const fits = size <= policy.limitBytes;
+        const unsupported = code === IMAGE_OPTIMIZATION_ERRORS.UNSUPPORTED;
+        let message;
+        if (unsupported) {
+          message = fits
+            ? this.$t(
+                'CONVERSATION.IMAGE_OPTIMIZATION.UNSUPPORTED_USING_ORIGINAL'
+              )
+            : this.$t('CONVERSATION.IMAGE_OPTIMIZATION.UNSUPPORTED');
+        } else {
+          message = fits
+            ? this.$t('CONVERSATION.IMAGE_OPTIMIZATION.FAILED_USING_ORIGINAL')
+            : this.$t('CONVERSATION.IMAGE_OPTIMIZATION.FAILED');
+        }
+        useAlert(message);
+        return file;
+      } finally {
+        this.optimizingImages -= 1;
+      }
+    },
+
+    async onFileUpload(file) {
+      if (!file) return;
+
+      const prepared = await this.prepareImageForUpload(file);
+      if (!prepared) return;
+
+      if (this.globalConfig.directUploadsEnabled) {
+        this.onDirectFileUpload(prepared);
+      } else {
+        this.onIndirectFileUpload(prepared);
+      }
+    },
+
+    uploadDirectly(file) {
+      const upload = new DirectUpload(
+        file.file,
+        `/api/v1/accounts/${this.accountId}/conversations/${this.currentChat.id}/direct_uploads`,
+        {
+          directUploadWillCreateBlobWithXHR: xhr => {
+            setDirectUploadAuthHeaders(xhr);
+          },
+        }
+      );
+
+      return new Promise((resolve, reject) => {
+        upload.create((error, blob) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(blob);
+          }
+        });
+      });
     },
 
     onDirectFileUpload(file) {
@@ -73,23 +191,10 @@ export default {
         return;
       }
 
-      const upload = new DirectUpload(
-        file.file,
-        `/api/v1/accounts/${this.accountId}/conversations/${this.currentChat.id}/direct_uploads`,
-        {
-          directUploadWillCreateBlobWithXHR: xhr => {
-            setDirectUploadAuthHeaders(xhr);
-          },
-        }
+      this.uploadDirectly(file).then(
+        blob => this.attachFile({ file, blob }),
+        error => useAlert(error)
       );
-
-      upload.create((error, blob) => {
-        if (error) {
-          useAlert(error);
-        } else {
-          this.attachFile({ file, blob });
-        }
-      });
     },
 
     onIndirectFileUpload(file) {
