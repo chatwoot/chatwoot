@@ -107,7 +107,7 @@ const handleOrderChange = value => {
       v-if="isMenuOpen"
       v-on-clickaway="() => (isMenuOpen = false)"
       data-mobile-sheet
-      class="fixed inset-x-0 bottom-0 max-h-[85dvh] min-h-[55dvh] overflow-y-auto rounded-t-xl p-4 pt-6 sm:pt-4 sm:absolute sm:inset-x-auto sm:bottom-auto sm:top-full sm:mt-1 sm:ltr:right-0 sm:rtl:left-0 sm:w-72 sm:min-h-0 sm:max-h-none sm:overflow-visible sm:rounded-xl flex flex-col gap-4 bg-n-alpha-3 backdrop-blur-[100px] border border-n-weak z-50"
+      class="fixed inset-x-0 bottom-0 max-h-[85dvh] min-h-[55dvh] overflow-y-auto rounded-t-xl p-4 pt-6 sm:pt-4 sm:absolute sm:inset-x-auto sm:bottom-auto sm:top-full sm:mt-1 sm:end-0 sm:w-72 sm:min-h-0 sm:max-h-none sm:overflow-visible sm:rounded-xl flex flex-col gap-4 bg-n-alpha-3 backdrop-blur-[100px] border border-n-weak z-50"
     >
       <SheetHandle @close="isMenuOpen = false" />
       <div class="flex items-center justify-between gap-2">

@@ -388,15 +388,15 @@ const closeDatePicker = () => {
       v-if="showDatePicker"
       v-on-clickaway="closeDatePicker"
       data-mobile-sheet
-      class="flex flex-col fixed inset-x-0 bottom-0 max-h-[85dvh] overflow-y-auto rounded-t-2xl pt-6 lg:pt-0 lg:flex-row lg:absolute lg:inset-x-auto lg:bottom-auto lg:top-9 lg:ltr:left-0 lg:rtl:right-0 lg:w-[880px] lg:max-h-none lg:overflow-visible lg:rounded-2xl z-30 shadow-md select-none bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container"
+      class="flex flex-col fixed inset-x-0 bottom-0 max-h-[85dvh] overflow-y-auto rounded-t-2xl pt-6 lg:pt-0 lg:flex-row lg:absolute lg:inset-x-auto lg:bottom-auto lg:top-9 lg:start-0 lg:w-[880px] lg:max-h-none lg:overflow-visible lg:rounded-2xl z-30 shadow-md select-none bg-n-alpha-3 backdrop-blur-[100px] border-0 outline outline-1 outline-n-container"
     >
-      <SheetHandle @close="closeDatePicker" />
+      <SheetHandle hide-from="lg" @close="closeDatePicker" />
       <CalendarDateRange
         :selected-range="selectedRange"
         @set-range="setDateRange"
       />
       <div
-        class="flex flex-col w-full border-t lg:border-t-0 lg:w-[680px] lg:ltr:border-l lg:rtl:border-r border-n-strong"
+        class="flex flex-col w-full border-t lg:border-t-0 lg:w-[680px] lg:border-s border-n-strong"
       >
         <div class="flex flex-col lg:flex-row lg:justify-around h-fit">
           <!-- Calendars for Start and End Dates -->
@@ -426,8 +426,7 @@ const closeDatePicker = () => {
               <div
                 class="flex flex-col items-center gap-2 px-5 w-full lg:min-w-[340px] max-h-[352px]"
                 :class="
-                  calendar === START_CALENDAR &&
-                  'lg:ltr:border-r lg:rtl:border-l border-n-strong'
+                  calendar === START_CALENDAR && 'lg:border-e border-n-strong'
                 "
               >
                 <CalendarYear

@@ -1,42 +1,57 @@
 <script setup>
-import { useTemplateRef } from 'vue';
+import { computed, useTemplateRef } from 'vue';
 import { useSwipe } from '@vueuse/core';
+
+const props = defineProps({
+  // Breakpoint from which the sheet turns into a popover and the handle disappears.
+  hideFrom: {
+    type: String,
+    default: 'sm',
+    validator: value => ['sm', 'lg'].includes(value),
+  },
+});
 
 const emit = defineEmits(['close']);
 
-// The sheet closes once it is dragged past this share of its own height.
-const CLOSE_DISTANCE_RATIO = 0.3;
+// A downward swipe longer than this closes the sheet.
+const CLOSE_DISTANCE_PX = 64;
 const SLIDE_DURATION_MS = 200;
+const SLIDE_CLASSES = [
+  'translate-y-full',
+  'transition-transform',
+  'duration-200',
+  'ease-out',
+];
+
+const HIDE_FROM_CLASSES = { sm: 'sm:hidden', lg: 'lg:hidden' };
+const hideClass = computed(() => HIDE_FROM_CLASSES[props.hideFrom]);
 
 const handleRef = useTemplateRef('handleRef');
 
-// The handle is the first child of the sheet, so the sheet is its parent. The offset is dynamic,
-// so it is written straight to the sheet's transform instead of a Tailwind class.
+// The handle is the first child of the sheet, so the sheet is its parent.
 const getSheet = () => handleRef.value?.parentElement;
 
-const moveSheet = (distance, animated) => {
+const close = () => emit('close');
+
+const slideDownAndClose = () => {
   const sheet = getSheet();
-  if (!sheet) return;
-  sheet.style.transition = animated
-    ? `transform ${SLIDE_DURATION_MS}ms ease-out`
-    : 'none';
-  sheet.style.transform = distance ? `translateY(${distance}px)` : '';
+  if (!sheet) {
+    close();
+    return;
+  }
+  sheet.classList.add(...SLIDE_CLASSES);
+  setTimeout(() => {
+    close();
+    sheet.classList.remove(...SLIDE_CLASSES);
+  }, SLIDE_DURATION_MS);
 };
 
 // Only the handle listens for the gesture, so scrolling the sheet content never closes it.
 const { lengthY } = useSwipe(handleRef, {
   threshold: 10,
-  onSwipe: () => moveSheet(Math.max(0, -lengthY.value), false),
   onSwipeEnd: () => {
-    const sheet = getSheet();
-    if (!sheet) return;
-    const distance = Math.max(0, -lengthY.value);
-    if (distance < sheet.offsetHeight * CLOSE_DISTANCE_RATIO) {
-      moveSheet(0, true);
-      return;
-    }
-    moveSheet(sheet.offsetHeight, true);
-    setTimeout(() => emit('close'), SLIDE_DURATION_MS);
+    // lengthY is negative while swiping down
+    if (-lengthY.value >= CLOSE_DISTANCE_PX) slideDownAndClose();
   },
 });
 </script>
@@ -44,7 +59,9 @@ const { lengthY } = useSwipe(handleRef, {
 <template>
   <div
     ref="handleRef"
-    class="absolute inset-x-0 top-0 z-10 flex items-center justify-center h-6 sm:hidden touch-none"
+    class="absolute inset-x-0 top-0 z-10 flex items-center justify-center h-6 touch-none"
+    :class="hideClass"
+    @click="close"
   >
     <span class="w-10 h-1 rounded-full bg-n-slate-8" />
   </div>
