@@ -775,6 +775,7 @@ en:
       go_to: 'Go to'
       create: 'Create'
       open: 'Open'
+      see_all: 'See all matching %{resource}'
       navigate: 'Navigate'
       select: 'Select'
     dashboard:
@@ -831,7 +832,7 @@ en:
       logout: 'Logout'
       overview: 'Overview'
       instance_health: 'Instance Health'
-      push_diagnostics: 'Push Diagnostics'
+      user_diagnostics: 'User Diagnostics'
       sidekiq_dashboard: 'Sidekiq Dashboard'
       tabs:
         agent_bots: 'Bots'
@@ -847,43 +848,108 @@ en:
         system: 'Match system'
         light: 'Light'
         dark: 'Dark'
-    push_diagnostics:
+    user_diagnostics:
+      description: 'Look up a user to troubleshoot an issue they have reported. Each tab covers one part of their setup.'
       user_not_found: 'User not found.'
-      description: 'Send a test push notification to a specific user''s registered devices to diagnose delivery issues. Results show the raw FCM / Web Push / relay response so you can see exactly what failed.'
-      lookup_title: '1. Look up user'
-      lookup_placeholder: 'user@example.com or numeric user ID'
-      lookup: 'Look up'
-      no_user_for_query: 'No user found for "%{query}".'
-      user_id: 'ID %{id}'
-      user_accounts: 'Accounts: %{accounts}'
-      account_with_id: '%{name} (ID %{id})'
-      subscriptions_title: '2. Select subscriptions (%{count})'
-      real_push_warning: 'This sends a real push to every selected device. Use only when diagnosing a reported issue.'
-      no_subscriptions: 'This user has no push subscriptions registered.'
-      push_title: 'Title'
-      push_body: 'Body'
-      push_body_hint: 'Customers will see this text as a real push notification on their device.'
-      columns:
-        id: 'ID'
-        type: 'Type'
-        device_endpoint: 'Device / endpoint'
-        push_token: 'Push token'
-        device_details: 'Device details'
-        created: 'Created'
-        last_updated: 'Last updated'
-        sub_id: 'Sub ID'
-        device: 'Device'
-        status: 'Status'
-        details: 'Details'
-      send_test: 'Send Test Push to Selected'
-      delete_selected: 'Delete Selected Subscriptions'
-      delete_confirm: 'Delete the selected subscription(s)? The user won''t receive pushes on those devices until their app re-registers.'
-      results_title: '3. Results'
-      no_subscriptions_to_test: 'Select at least one subscription to test.'
-      no_subscriptions_to_delete: 'Select at least one subscription to delete.'
-      subscriptions_deleted:
-        one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
-        other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+      tabs:
+        label: 'Diagnostics sections'
+        mobile: 'Mobile app'
+        push: 'Push delivery'
+        web: 'Web'
+      search:
+        title: 'Look up user'
+        placeholder: 'user@example.com or numeric user ID'
+        submit: 'Look up'
+        not_found: 'No user found for "%{query}".'
+      user:
+        id: 'ID %{id}'
+        accounts: 'Accounts'
+        details_link: 'User details'
+      sessions:
+        heading: 'Mobile sessions'
+        description: 'Populated from the X-Chatwoot-* headers the app sends on every request, so it reflects the build currently installed on the device.'
+        empty:
+          title: 'No mobile sessions recorded.'
+          description: 'This user has not signed in from the iOS or Android app.'
+        legacy_build: 'legacy build'
+        legacy_note: '"legacy build" means the session predates app version 4.8.0, which is when the app began sending X-Chatwoot-Client-Version. The exact build is unknown.'
+        columns:
+          app_version: 'App version'
+          platform: 'Platform'
+          os_version: 'OS version'
+          device: 'Device'
+          first_seen: 'First seen'
+          last_active: 'Last active'
+      web_sessions:
+        heading: 'Web sessions'
+        description: 'Read from the browser user agent at sign-in and refreshed as the user works, so it reflects the browser in use. Only sessions that are still signed in are listed.'
+        empty:
+          title: 'No web sessions recorded.'
+          description: 'This user is not signed in from a browser.'
+        columns:
+          browser: 'Browser'
+          browser_version: 'Version'
+          os: 'Operating system'
+          os_version: 'OS version'
+          first_seen: 'First seen'
+          last_active: 'Last active'
+      devices:
+        heading: 'Registered devices'
+        empty:
+          title: 'No registered devices.'
+          description: 'This user has no device registered to receive push notifications.'
+        build_number_note: 'buildNumber here is the native build number, not the app version listed on the Mobile app tab.'
+        columns:
+          id: 'ID'
+          type: 'Type'
+          device: 'Device'
+          token: 'Token'
+          details: 'Device details'
+          registered: 'Registered'
+          last_updated: 'Last updated'
+      push_settings:
+        heading: 'Push notification settings'
+        description: 'Set per account, and checked once before any subscription is tried. With every type switched off the user receives no push on any device, however healthy the registrations below look.'
+        review_link: 'Review push notification settings →'
+        empty:
+          title: 'No notification settings recorded.'
+          description: 'This user does not belong to any account.'
+        notification_type: 'Notification type'
+        unnamed_account: 'Account %{id}'
+        sla_unavailable: 'SLA is not enabled on this account'
+        none_enabled:
+          one: 'No push types are enabled for %{names}. This user receives no push notification from that account.'
+          other: 'No push types are enabled for %{names}. This user receives no push notification from those accounts.'
+      push_types:
+        conversation_creation: 'A new conversation is created'
+        conversation_assignment: 'A conversation is assigned to the user'
+        conversation_mention: 'The user is mentioned in a conversation'
+        assigned_conversation_new_message: 'A new message is created in an assigned conversation'
+        participating_conversation_new_message: 'A new message is created in a participating conversation'
+        sla_missed_first_response: 'A conversation misses first response SLA'
+        sla_missed_next_response: 'A conversation misses next response SLA'
+        sla_missed_resolution: 'A conversation misses resolution SLA'
+      push:
+        real_push_warning: 'This sends a real push to every selected device. Use only when diagnosing a reported issue.'
+        title_label: 'Title'
+        body_label: 'Body'
+        body_hint: 'Customers will see this text as a real push notification on their device.'
+        send_test: 'Send Test Push to Selected'
+        delete_selected: 'Delete Selected Subscriptions'
+        delete_confirm: "Delete the selected subscription(s)? The user won't receive pushes on those devices until their app re-registers."
+        no_subscriptions_to_test: 'Select at least one subscription to test.'
+        no_subscriptions_to_delete: 'Select at least one subscription to delete.'
+        subscriptions_deleted:
+          one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
+          other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+        results_heading: 'Results'
+        results_columns:
+          id: 'Sub ID'
+          type: 'Type'
+          device: 'Device'
+          token: 'Push token'
+          status: 'Status'
+          details: 'Details'
     record:
       overview: 'Overview'
       profile: 'Profile'
