@@ -347,6 +347,27 @@ RSpec.describe Captain::CustomTool, type: :model do
       expect(tool.requires_email_verification?).to be(true)
     end
 
+    it 'requires email verification when the session email is read with bracket syntax' do
+      tool = build(:captain_custom_tool, account: account, endpoint_url: 'https://api.example.com/c?email={{ session["verified_email"] }}')
+
+      expect(tool.requires_email_verification?).to be(true)
+    end
+
+    it 'requires email verification when the session is read through another variable' do
+      tool = build(:captain_custom_tool, :with_post, account: account,
+                                                     request_template: '{% assign s = session %}{ "email": "{{ s.verified_email }}" }')
+
+      expect(tool.requires_email_verification?).to be(true)
+    end
+
+    it 'does not require email verification for the word session outside a template' do
+      tool = build(:captain_custom_tool, account: account, endpoint_url: 'https://api.example.com/session/{{ session_id }}',
+                                         param_schema: [{ 'name' => 'session_id', 'type' => 'string', 'description' => 'An ID', 'required' => true }])
+
+      expect(tool).to be_valid
+      expect(tool.requires_email_verification?).to be(false)
+    end
+
     it 'does not require email verification for a tool that takes the email as a parameter' do
       tool = build(:captain_custom_tool, account: account, endpoint_url: 'https://api.example.com/customers?email={{ verified_email }}')
 

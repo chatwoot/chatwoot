@@ -53,7 +53,9 @@ const state = reactive({
 });
 
 // A tool whose URL or request body reads this value gets the email from the verified session, so it always needs verification
-const SESSION_EMAIL_PATTERN = /\bsession\.verified_email\b/;
+// Any reference to session inside {{ }} or {% %} counts, matching the check on the server
+const LIQUID_BLOCK_PATTERN = /\{\{[\s\S]*?\}\}|\{%[\s\S]*?%\}/g;
+const SESSION_REFERENCE_PATTERN = /\bsession\b/;
 
 // Tools installed from a manifest are shown read-only
 const isReadOnly = computed(() => props.mode === 'view');
@@ -80,7 +82,11 @@ watch(
 );
 
 const usesSessionEmail = computed(() =>
-  SESSION_EMAIL_PATTERN.test(`${state.endpoint_url} ${state.request_template}`)
+  [state.endpoint_url, state.request_template].some(template =>
+    (template || '')
+      .match(LIQUID_BLOCK_PATTERN)
+      ?.some(block => SESSION_REFERENCE_PATTERN.test(block))
+  )
 );
 
 const requiresEmailVerification = computed({

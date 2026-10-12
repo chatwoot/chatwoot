@@ -7,7 +7,9 @@ module Concerns::Toolable
 
   # Templates read values Chatwoot vouches for under this name, such as {{ session.verified_email }}
   SESSION_NAMESPACE = 'session'.freeze
-  SESSION_EMAIL_PATTERN = /\bsession\.verified_email\b/
+  # Any reference to session inside {{ }} or {% %} counts, so bracket access or an alias is not missed
+  LIQUID_BLOCK_PATTERN = /\{\{.*?\}\}|\{%.*?%\}/m
+  SESSION_REFERENCE_PATTERN = /\bsession\b/
   OPEN_SESSION_EMAIL_PARAM = :email
 
   # In an open session an admin or agent is the user, so the model supplies the email that Chatwoot otherwise takes from the verified session
