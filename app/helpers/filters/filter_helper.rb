@@ -4,8 +4,7 @@ module Filters::FilterHelper
 
     if current_filter.present? && current_filter['filter_operators'].exclude?(query_hash[:filter_operator])
       raise CustomExceptions::CustomFilter::InvalidOperator.new(
-        attribute_name: query_hash['attribute_key'],
-        allowed_keys: current_filter['filter_operators']
+        attribute_name: query_hash['attribute_key'], allowed_keys: current_filter['filter_operators']
       )
     end
 
@@ -40,13 +39,9 @@ module Filters::FilterHelper
   end
 
   def handle_additional_attributes(query_hash, filter_operator_value, data_type)
-    col = if data_type == 'text_case_insensitive'
-            "LOWER(#{filter_config[:table_name]}.additional_attributes ->> ?)"
-          else
-            "#{filter_config[:table_name]}.additional_attributes ->> ?"
-          end
-    sql = "#{col} #{filter_operator_value} #{query_hash[:query_operator]}"
-    ActiveRecord::Base.sanitize_sql_array([sql, query_hash[:attribute_key]])
+    attr_col = "#{filter_config[:table_name]}.additional_attributes ->> ?"
+    col = data_type == 'text_case_insensitive' ? "LOWER(#{attr_col})" : attr_col
+    ActiveRecord::Base.sanitize_sql_array(["#{col} #{filter_operator_value} #{query_hash[:query_operator]}", query_hash[:attribute_key]])
   end
 
   def handle_standard_attributes(current_filter, query_hash, current_index, filter_operator_value)
