@@ -216,7 +216,7 @@ window.addEventListener('chatwoot:ready', function() {
     logEvent(expectsRejection ? 'setUser with invalid HMAC' : 'setUser with HMAC', { identifier: identifier });
     if (expectsRejection) watchForRejection(identifier);
   }
-  if (window.location.search.includes('setUser')) {
+  if (new URLSearchParams(window.location.search).has('setUser')) {
     window.$chatwoot.setUser('<%= user_id %>', {
       identifier_hash: '<%= user_hash %>',
       email: 'jane@example.com',
