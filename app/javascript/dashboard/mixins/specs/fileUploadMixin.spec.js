@@ -189,7 +189,7 @@ describe('FileUploadMixin', () => {
         })
       );
       const pending = wrapper.vm.onFileUpload(buildFile(8 * MB));
-      await vi.waitFor(() => expect(wrapper.vm.optimizingImages).toBe(1));
+      await vi.waitFor(() => expect(wrapper.vm.optimizingImages).toBe(2));
       expect(wrapper.vm.isOptimizingImage).toBe(true);
       resolveOptimize({ file: optimizedFile });
       await pending;
@@ -254,6 +254,43 @@ describe('FileUploadMixin', () => {
       finish({ file: optimizedFile, width: 1600, height: 900 });
       await pending;
       expect(wrapper.vm.onDirectFileUpload).not.toHaveBeenCalled();
+    });
+
+    it('discards the prepared image when the reply mode changed meanwhile', async () => {
+      let finish;
+      optimizeImage.mockReturnValue(
+        new Promise(resolve => {
+          finish = resolve;
+        })
+      );
+      const pending = wrapper.vm.onFileUpload(buildFile(8 * MB));
+      await wrapper.setData({ isOnPrivateNote: true });
+      finish({ file: optimizedFile, width: 1600, height: 900 });
+      await pending;
+      expect(wrapper.vm.onDirectFileUpload).not.toHaveBeenCalled();
+    });
+
+    it('keeps the processing state until the direct upload is attached', async () => {
+      wrapper.vm.onDirectFileUpload =
+        fileUploadMixin.methods.onDirectFileUpload.bind(wrapper.vm);
+      let finishUpload;
+      wrapper.vm.uploadDirectly = vi.fn(
+        () =>
+          new Promise(resolve => {
+            finishUpload = resolve;
+          })
+      );
+      const attachFile = vi.fn();
+      wrapper.vm.attachFile = attachFile;
+      const pending = wrapper.vm.onFileUpload(buildFile(8 * MB));
+      await vi.waitFor(() =>
+        expect(wrapper.vm.uploadDirectly).toHaveBeenCalled()
+      );
+      expect(wrapper.vm.isOptimizingImage).toBe(true);
+      finishUpload({ signed_id: 'abc' });
+      await pending;
+      expect(wrapper.vm.isOptimizingImage).toBe(false);
+      expect(attachFile).toHaveBeenCalled();
     });
 
     it('re-optimizes a small image above 4096 px with the HD profile', async () => {

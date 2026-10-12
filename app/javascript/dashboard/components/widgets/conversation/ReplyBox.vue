@@ -1149,28 +1149,33 @@ export default {
       });
     },
     attachFile({ blob, file }) {
-      if (!this.showFileUpload && !this.isOnPrivateNote) return;
+      if (!this.showFileUpload && !this.isOnPrivateNote) {
+        return Promise.resolve();
+      }
 
-      const reader = new FileReader();
-      reader.readAsDataURL(file.file);
-      reader.onloadend = () => {
-        this.attachedFiles.push({
-          currentChatId: this.currentChat.id,
-          resource: blob || file,
-          isPrivate: this.isPrivate,
-          thumb: reader.result,
-          blobSignedId: blob ? blob.signed_id : undefined,
-          isVoiceMessage: file?.isVoiceMessage || false,
-          originalFile: file.originalFile || file,
-          canToggleHd: isOptimizableImageMime(
-            (file.originalFile || file).file?.type ||
-              (file.originalFile || file).type
-          ),
-          isHd: false,
-          sendAsHd: false,
-          isOptimizing: false,
-        });
-      };
+      return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.file);
+        reader.onloadend = () => {
+          this.attachedFiles.push({
+            currentChatId: this.currentChat.id,
+            resource: blob || file,
+            isPrivate: this.isPrivate,
+            thumb: reader.result,
+            blobSignedId: blob ? blob.signed_id : undefined,
+            isVoiceMessage: file?.isVoiceMessage || false,
+            originalFile: file.originalFile || file,
+            canToggleHd: isOptimizableImageMime(
+              (file.originalFile || file).file?.type ||
+                (file.originalFile || file).type
+            ),
+            isHd: false,
+            sendAsHd: false,
+            isOptimizing: false,
+          });
+          resolve();
+        };
+      });
     },
     // Re-optimizes the original image with the HD (or standard) profile and uploads it again
     async toggleHd(attachment) {
@@ -1183,14 +1188,14 @@ export default {
           attachment.originalFile.file?.type || attachment.originalFile.type,
         installationLimit: this.installationLimit,
       });
-      const chatId = this.currentChat?.id;
+      const context = this.getComposerContext();
       attachment.isOptimizing = true;
       try {
         const prepared = await this.prepareImageForUpload(
           attachment.originalFile,
           isHd ? 'hd' : 'standard'
         );
-        if (!prepared || this.currentChat?.id !== chatId) return;
+        if (!prepared || !this.isSameComposerContext(context)) return;
 
         const blob = this.globalConfig.directUploadsEnabled
           ? await this.uploadDirectly(prepared)
@@ -1205,7 +1210,7 @@ export default {
         const longestSide = isHd
           ? await getLongestSide(prepared.file).catch(() => null)
           : null;
-        if (this.currentChat?.id !== chatId) return;
+        if (!this.isSameComposerContext(context)) return;
 
         Object.assign(attachment, {
           resource: blob || prepared,

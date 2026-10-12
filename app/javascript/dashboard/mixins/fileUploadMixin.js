@@ -143,18 +143,39 @@ export default {
       }
     },
 
+    // The prepared file belongs to the conversation and reply mode it was picked in
+    getComposerContext() {
+      return {
+        chatId: this.currentChat?.id,
+        isOnPrivateNote: this.isOnPrivateNote,
+      };
+    },
+    isSameComposerContext(context) {
+      const current = this.getComposerContext();
+      return (
+        current.chatId === context.chatId &&
+        current.isOnPrivateNote === context.isOnPrivateNote
+      );
+    },
+
     async onFileUpload(file) {
       if (!file) return;
 
-      const chatId = this.currentChat?.id;
-      const prepared = await this.prepareImageForUpload(file);
-      // The agent may have switched conversations while the image was being prepared
-      if (!prepared || this.currentChat?.id !== chatId) return;
+      const context = this.getComposerContext();
+      // Keeps Send disabled until the file is attached, including the direct upload
+      this.optimizingImages += 1;
+      try {
+        const prepared = await this.prepareImageForUpload(file);
+        // The agent may have switched conversation or reply mode while it was prepared
+        if (!prepared || !this.isSameComposerContext(context)) return;
 
-      if (this.globalConfig.directUploadsEnabled) {
-        this.onDirectFileUpload(prepared);
-      } else {
-        this.onIndirectFileUpload(prepared);
+        if (this.globalConfig.directUploadsEnabled) {
+          await this.onDirectFileUpload(prepared);
+        } else {
+          await this.onIndirectFileUpload(prepared);
+        }
+      } finally {
+        this.optimizingImages -= 1;
       }
     },
 
@@ -181,34 +202,38 @@ export default {
     },
 
     onDirectFileUpload(file) {
-      if (!file) return;
+      if (!file) return undefined;
 
       const mime = file.file?.type || file.type;
       const maxSizeMB = this.maxSizeFor(mime);
 
       if (!checkFileSizeLimit(file, maxSizeMB)) {
         this.alertOverLimit(maxSizeMB);
-        return;
+        return undefined;
       }
 
-      this.uploadDirectly(file).then(
-        blob => this.attachFile({ file, blob }),
+      const context = this.getComposerContext();
+      return this.uploadDirectly(file).then(
+        blob => {
+          if (!this.isSameComposerContext(context)) return undefined;
+          return this.attachFile({ file, blob });
+        },
         error => useAlert(error)
       );
     },
 
     onIndirectFileUpload(file) {
-      if (!file) return;
+      if (!file) return undefined;
 
       const mime = file.file?.type || file.type;
       const maxSizeMB = this.maxSizeFor(mime);
 
       if (!checkFileSizeLimit(file, maxSizeMB)) {
         this.alertOverLimit(maxSizeMB);
-        return;
+        return undefined;
       }
 
-      this.attachFile({ file });
+      return this.attachFile({ file });
     },
   },
 };
