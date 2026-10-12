@@ -44,6 +44,17 @@ RSpec.describe Captain::EmailVerification do
       expect(emailed_codes).to be_empty
     end
 
+    it 'rejects an address with characters that can change a URL or a JSON body' do
+      ['jane%40example.com#@evil.test', 'jane/invoices@evil.test', 'jane&id=1@evil.test', 'jane","id":"1@evil.test'].each do |address|
+        expect(verification.send_code(address)).to eq(:invalid_email)
+      end
+      expect(emailed_codes).to be_empty
+    end
+
+    it 'accepts an address with dots, plus signs, hyphens and underscores' do
+      expect(verification.send_code('jane.doe+billing_1@mail-server.example.com')).to eq(:sent)
+    end
+
     it 'sends nothing and stores no code when email cannot be delivered' do
       allow(Captain::EmailVerificationMailer).to receive(:deliverable?).and_return(false)
 
