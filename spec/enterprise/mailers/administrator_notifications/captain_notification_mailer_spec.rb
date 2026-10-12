@@ -13,12 +13,18 @@ RSpec.describe AdministratorNotifications::CaptainNotificationMailer do
     with_modified_env('FRONTEND_URL' => 'https://app.chatwoot.com') do
       mail = described_class.with(account: account).response_usage_alert(consumed: 241, remaining: 59)
 
-      expect(mail.subject).to eq('Your AI response credits are running low')
+      expect(mail.subject).to eq(I18n.t('administrator_notifications.captain.response_usage_alert.subject'))
       expect(mail.to).to contain_exactly(administrator.email, another_administrator.email)
       expect(mail.to).not_to include(agent.email)
       expect(mail.body.encoded).to include('Acme Inc')
       expect(mail.body.encoded).to include('241 credits have been used, and 59 credits remain')
       expect(mail.body.encoded).to include("https://app.chatwoot.com/app/accounts/#{account.id}/settings/billing")
     end
+  end
+
+  it 're-raises SMTP failures so the alert job can retry' do
+    expect do
+      described_class.new.send(:handle_smtp_exceptions, Net::SMTPSyntaxError.new('bad recipient'))
+    end.to raise_error(Net::SMTPSyntaxError)
   end
 end

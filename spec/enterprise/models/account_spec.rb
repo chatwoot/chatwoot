@@ -320,16 +320,23 @@ RSpec.describe Account, type: :model do
     before do
       allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
       account.enable_features!('captain_integration')
-      allow(Captain::ResponseUsageAlertJob).to receive(:perform_later)
+      allow(Captain::ResponseUsageAlertJob).to receive(:perform_later).and_return(true)
+      allow(Captain::ResponseUsageAlertJob).to receive(:enqueue_for_account).and_call_original
     end
 
-    it 'queues the alert only after usage exceeds 80 percent of the persisted account limit' do
+    it 'claims and queues one alert after usage exceeds 80 percent of the persisted account limit' do
       account.increment_response_usage
-      expect(Captain::ResponseUsageAlertJob).not_to have_received(:perform_later)
+      expect(Captain::ResponseUsageAlertJob).not_to have_received(:enqueue_for_account)
 
       account.increment_response_usage
-      expect(Captain::ResponseUsageAlertJob).to have_received(:perform_later).with(account.id).once
-      expect(account.reload.custom_attributes['captain_responses_usage']).to eq(241)
+      3.times { account.increment_response_usage }
+
+      expect(Captain::ResponseUsageAlertJob).to have_received(:enqueue_for_account).with(account).once
+      expect(Captain::ResponseUsageAlertJob).to have_received(:perform_later).with(account.id, kind_of(String)).once
+      expect(account.reload.custom_attributes).to include(
+        'captain_responses_usage' => 244,
+        'captain_responses_usage_alert_claim' => kind_of(String)
+      )
     end
 
     it 'does not queue an alert when Captain is disabled' do
@@ -338,7 +345,7 @@ RSpec.describe Account, type: :model do
 
       account.increment_response_usage
 
-      expect(Captain::ResponseUsageAlertJob).not_to have_received(:perform_later)
+      expect(Captain::ResponseUsageAlertJob).not_to have_received(:enqueue_for_account)
     end
 
     it 'does not count or queue response usage outside Chatwoot Cloud' do
@@ -347,7 +354,7 @@ RSpec.describe Account, type: :model do
       account.increment_response_usage
 
       expect(account.reload.custom_attributes['captain_responses_usage']).to eq(239)
-      expect(Captain::ResponseUsageAlertJob).not_to have_received(:perform_later)
+      expect(Captain::ResponseUsageAlertJob).not_to have_received(:enqueue_for_account)
     end
 
     it 'does not queue an alert for a zero response limit' do
@@ -355,12 +362,13 @@ RSpec.describe Account, type: :model do
 
       account.increment_response_usage
 
-      expect(Captain::ResponseUsageAlertJob).not_to have_received(:perform_later)
+      expect(Captain::ResponseUsageAlertJob).not_to have_received(:enqueue_for_account)
     end
 
     it 'rearms the alert and preserves other custom attributes when usage resets' do
       account.update!(custom_attributes: account.custom_attributes.merge(
         'captain_responses_usage_alerted' => true,
+        'captain_responses_usage_alert_claim' => 'stale-token',
         'unrelated_key' => 'preserved'
       ))
 
@@ -369,6 +377,7 @@ RSpec.describe Account, type: :model do
       expect(account.reload.custom_attributes).to include(
         'captain_responses_usage' => 0,
         'captain_responses_usage_alerted' => false,
+        'captain_responses_usage_alert_claim' => false,
         'unrelated_key' => 'preserved'
       )
     end
