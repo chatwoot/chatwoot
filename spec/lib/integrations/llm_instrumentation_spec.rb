@@ -4,6 +4,12 @@ RSpec.describe Integrations::LlmInstrumentation do
   let(:test_class) do
     Class.new do
       include Integrations::LlmInstrumentation
+
+      private
+
+      def llm_instrumentation_params(params)
+        params
+      end
     end
   end
 
@@ -65,6 +71,8 @@ RSpec.describe Integrations::LlmInstrumentation do
       before { otel_config.update(value: '') }
 
       it 'executes the block without tracing' do
+        expect(instance).not_to receive(:llm_instrumentation_params)
+
         result = instance.instrument_llm_call(params) { 'my_result' }
         expect(result).to eq('my_result')
       end

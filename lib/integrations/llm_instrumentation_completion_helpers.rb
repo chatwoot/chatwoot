@@ -76,7 +76,7 @@ module Integrations::LlmInstrumentationCompletionHelpers
       ATTR_GEN_AI_USAGE_INPUT_TOKENS => usage['prompt_tokens'] || usage['input_tokens'],
       ATTR_GEN_AI_USAGE_OUTPUT_TOKENS => usage['completion_tokens'] || usage['output_tokens'],
       ATTR_GEN_AI_USAGE_TOTAL_TOKENS => usage['total_tokens'],
-      'gen_ai.usage.reasoning.output_tokens' => usage['reasoning_tokens'] || usage.dig('output_tokens_details', 'reasoning_tokens')
+      ATTR_GEN_AI_USAGE_REASONING_OUTPUT_TOKENS => usage['reasoning_tokens'] || usage.dig('output_tokens_details', 'reasoning_tokens')
     }.compact.each { |key, value| span.set_attribute(key, value) }
   end
 
