@@ -10,6 +10,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 import ParamRow from './ParamRow.vue';
 import AuthConfig from './AuthConfig.vue';
 import HeadersConfig from './HeadersConfig.vue';
@@ -43,9 +44,18 @@ const initialState = {
   auth_config: {},
   headers: {},
   param_schema: [],
+  settings: { requires_email_verification: false },
 };
 
-const state = reactive({ ...initialState });
+const state = reactive({
+  ...initialState,
+  settings: { ...initialState.settings },
+});
+
+// A tool whose URL or request body reads this value gets the email from the verified session, so it always needs verification
+// Any reference to session inside {{ }} or {% %} counts, matching the check on the server
+const LIQUID_BLOCK_PATTERN = /\{\{[\s\S]*?\}\}|\{%[\s\S]*?%\}/g;
+const SESSION_REFERENCE_PATTERN = /\bsession\b/;
 
 // Tools installed from a manifest are shown read-only
 const isReadOnly = computed(() => props.mode === 'view');
@@ -65,10 +75,27 @@ watch(
       state.auth_config = newTool.auth_config || {};
       state.headers = newTool.headers || {};
       state.param_schema = newTool.param_schema || [];
+      state.settings = { ...initialState.settings, ...newTool.settings };
     }
   },
   { immediate: true }
 );
+
+const usesSessionEmail = computed(() =>
+  [state.endpoint_url, state.request_template].some(template =>
+    (template || '')
+      .match(LIQUID_BLOCK_PATTERN)
+      ?.some(block => SESSION_REFERENCE_PATTERN.test(block))
+  )
+);
+
+const requiresEmailVerification = computed({
+  get: () =>
+    usesSessionEmail.value || state.settings.requires_email_verification,
+  set: value => {
+    state.settings.requires_email_verification = value;
+  },
+});
 
 const DEFAULT_PARAM = {
   name: '',
@@ -265,6 +292,26 @@ const handleTest = async () => {
         v-model:auth-config="state.auth_config"
         :auth-type="state.auth_type"
       />
+
+      <label class="flex items-start justify-between gap-3">
+        <span class="flex flex-col gap-0.5">
+          <span class="text-sm font-medium text-n-slate-12">
+            {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.LABEL') }}
+          </span>
+          <span class="text-sm text-n-slate-11">
+            {{
+              usesSessionEmail
+                ? t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.IMPLIED')
+                : t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.DESCRIPTION')
+            }}
+          </span>
+        </span>
+        <Switch
+          v-model="requiresEmailVerification"
+          :disabled="isReadOnly || usesSessionEmail"
+          class="shrink-0"
+        />
+      </label>
 
       <div class="flex flex-col">
         <ToolFormSection
