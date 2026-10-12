@@ -1,4 +1,5 @@
-class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService
+# The prompt heredocs below take up a fifth of the class, as in Captain::Llm::SystemPromptsService.
+class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # rubocop:disable Metrics/ClassLength
   include Captain::Copilot::Tracing
 
   MAX_GENERATIONS = 12
