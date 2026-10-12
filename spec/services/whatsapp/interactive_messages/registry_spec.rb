@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Whatsapp::InteractiveMessages::Registry do
+  it 'exposes only interaction types with implemented adapters' do
+    expect(described_class.implemented_types).to eq(['button'])
+    expect(described_class).to be_implemented('button')
+    expect(described_class).not_to be_implemented('list')
+  end
+
   describe '.resolve' do
     let(:payload) do
       {

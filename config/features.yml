@@ -272,3 +272,19 @@
   display_name: Delayed Automations
   enabled: false
   column: feature_flags_ext_1
+- name: whatsapp_interactive_button
+  display_name: WhatsApp Interactive Reply Buttons
+  enabled: true
+  column: feature_flags_ext_1
+- name: whatsapp_interactive_list
+  display_name: WhatsApp Interactive Lists
+  enabled: true
+  column: feature_flags_ext_1
+- name: whatsapp_interactive_carousel
+  display_name: WhatsApp Interactive Carousels
+  enabled: true
+  column: feature_flags_ext_1
+- name: whatsapp_interactive_cta_url
+  display_name: WhatsApp Interactive CTA URLs
+  enabled: true
+  column: feature_flags_ext_1

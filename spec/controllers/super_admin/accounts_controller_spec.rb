@@ -85,6 +85,24 @@ RSpec.describe 'Super Admin accounts API', type: :request do
 
   describe 'PATCH /super_admin/accounts/{account_id}' do
     context 'when it is an authenticated user' do
+      it 'persists unchecked feature controls as disabled' do
+        account.enable_features!('whatsapp_interactive_button', 'whatsapp_interactive_list')
+        sign_in(super_admin, scope: :super_admin)
+
+        patch "/super_admin/accounts/#{account.id}",
+              params: {
+                account: { name: account.name, locale: account.locale, status: account.status },
+                enabled_features: {
+                  feature_whatsapp_interactive_button: '0',
+                  feature_whatsapp_interactive_list: '1'
+                }
+              }
+
+        expect(response).to have_http_status(:redirect)
+        expect(account.reload).not_to be_feature_whatsapp_interactive_button
+        expect(account).to be_feature_whatsapp_interactive_list
+      end
+
       it 'updates Captain model overrides without changing unrelated settings' do
         account.update!(
           captain_models: { 'editor' => 'gpt-4.1' },

@@ -40,7 +40,11 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
     permitted_params.extract!(:suspension_category, :suspension_reason)
     permitted_params[:limits] = permitted_params[:limits].to_h.compact if permitted_params.key?(:limits)
     permitted_params[:captain_models] = permitted_params[:captain_models].to_h.compact_blank.presence if permitted_params.key?(:captain_models)
-    permitted_params[:selected_feature_flags] = params[:enabled_features].keys.map(&:to_sym) if params[:enabled_features].present?
+    if params.key?(:enabled_features)
+      permitted_params[:selected_feature_flags] = params[:enabled_features].select do |_feature, enabled|
+        ActiveModel::Type::Boolean.new.cast(enabled)
+      end.keys.map(&:to_sym)
+    end
     permitted_params
   end
 

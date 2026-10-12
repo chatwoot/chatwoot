@@ -5,6 +5,8 @@ class Whatsapp::InteractiveMessages::Registry
   BUTTON_TITLE_MAX_LENGTH = 20
   BUTTON_COUNT_RANGE = (1..3)
 
+  IMPLEMENTED_TYPES = [BUTTON_TYPE].freeze
+
   class << self
     def limits
       {
@@ -13,6 +15,18 @@ class Whatsapp::InteractiveMessages::Registry
         button_min_count: BUTTON_COUNT_RANGE.min,
         button_max_count: BUTTON_COUNT_RANGE.max
       }
+    end
+
+    def implemented_types
+      IMPLEMENTED_TYPES
+    end
+
+    def implemented?(type)
+      implemented_types.include?(type.to_s)
+    end
+
+    def limits_for(type)
+      type.to_s == BUTTON_TYPE ? limits : nil
     end
 
     def resolve(payload)

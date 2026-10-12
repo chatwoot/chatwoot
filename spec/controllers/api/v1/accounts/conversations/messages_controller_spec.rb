@@ -52,6 +52,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
         let(:conversation) { create(:conversation, inbox: inbox, account: account, contact_inbox: contact_inbox) }
 
         before do
+          account.enable_features!(*Whatsapp::InteractiveMessages::Eligibility::TYPE_FEATURES.values)
           create(:message, :incoming, conversation: conversation, account: account, inbox: inbox)
         end
 

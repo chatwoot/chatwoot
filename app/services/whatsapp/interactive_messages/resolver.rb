@@ -43,7 +43,8 @@ class Whatsapp::InteractiveMessages::Resolver
   end
 
   def perform
-    Whatsapp::InteractiveMessages::Eligibility.new(@conversation).ensure_available!
-    Whatsapp::InteractiveMessages::Registry.resolve(@payload)
+    resolved = Whatsapp::InteractiveMessages::Registry.resolve(@payload)
+    Whatsapp::InteractiveMessages::Eligibility.new(@conversation).ensure_available!(resolved['type'])
+    resolved
   end
 end

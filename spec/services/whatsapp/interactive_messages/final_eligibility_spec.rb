@@ -23,7 +23,19 @@ RSpec.describe Whatsapp::SendOnWhatsappService, '#perform final reply-button eli
   end
 
   before do
+    conversation.account.enable_features!(*Whatsapp::InteractiveMessages::Eligibility::TYPE_FEATURES.values)
     create(:message, :incoming, conversation: conversation, inbox: whatsapp_channel.inbox, account: conversation.account)
+  end
+
+  it 'fails without provider contact when the type is disabled after message creation' do
+    conversation.account.disable_features!('whatsapp_interactive_button')
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      described_class.new(message: message).perform
+    end
+
+    expect(message.reload).to have_attributes(status: 'failed', external_error: 'temporarily_disabled')
+    expect(WebMock).not_to have_requested(:post, %r{graph\.facebook\.com/.*/messages})
   end
 
   it 'fails without provider contact when the service window closes before dispatch' do

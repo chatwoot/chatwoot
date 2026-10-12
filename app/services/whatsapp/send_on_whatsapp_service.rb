@@ -14,14 +14,18 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
   end
 
   def send_interactive_message
-    Whatsapp::InteractiveMessages::Eligibility.new(message.conversation).ensure_available!
+    Whatsapp::InteractiveMessages::Eligibility.new(message.conversation).ensure_available!(interactive_type)
     send_session_message
   rescue Whatsapp::InteractiveMessages::EligibilityError => e
     message.update!(status: :failed, external_error: e.reason)
   end
 
   def whatsapp_interactive_message?
-    message.content_attributes.dig('whatsapp_interactive', 'type') == 'button'
+    Whatsapp::InteractiveMessages::Eligibility::TYPE_FEATURES.key?(interactive_type)
+  end
+
+  def interactive_type
+    message.content_attributes.dig('whatsapp_interactive', 'type')
   end
 
   def send_template_message

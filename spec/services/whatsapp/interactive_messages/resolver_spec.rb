@@ -19,6 +19,7 @@ RSpec.describe Whatsapp::InteractiveMessages::Resolver do
   end
 
   before do
+    account.enable_features!(*Whatsapp::InteractiveMessages::Eligibility::TYPE_FEATURES.values)
     create(:message, :incoming, conversation: conversation, account: account, inbox: conversation.inbox)
   end
 

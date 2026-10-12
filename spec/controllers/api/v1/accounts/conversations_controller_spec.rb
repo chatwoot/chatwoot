@@ -370,6 +370,70 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
       end
+
+      it 'serializes protected contextual capabilities for a WhatsApp Cloud conversation' do
+        channel = create(
+          :channel_whatsapp,
+          account: account,
+          provider: 'whatsapp_cloud',
+          validate_provider_config: false,
+          sync_templates: false,
+          phone_number_health: {
+            'waba_review_status' => 'approved',
+            'business_verification_status' => 'not_verified',
+            'message_quality_status' => 'insufficient'
+          }
+        )
+        contact = create(:contact, account: account, phone_number: '+15550000001')
+        contact_inbox = create(:contact_inbox, inbox: channel.inbox, contact: contact, source_id: '15550000001')
+        whatsapp_conversation = create(:conversation, account: account, inbox: channel.inbox, contact_inbox: contact_inbox)
+        create(:message, :incoming, account: account, inbox: channel.inbox, conversation: whatsapp_conversation)
+        account.enable_features!(*Whatsapp::InteractiveMessages::Eligibility::TYPE_FEATURES.values)
+
+        with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+          get "/api/v1/accounts/#{account.id}/conversations/#{whatsapp_conversation.display_id}",
+              headers: administrator.create_new_auth_token,
+              as: :json
+        end
+
+        capability = response.parsed_body['whatsapp_interactive']
+        expect(capability).to include(
+          'account_mode' => 'test',
+          'waba_review_status' => 'approved',
+          'business_verification_status' => 'not_verified'
+        )
+        expect(capability.dig('recipient', 'test_allowlisted')).to be(true)
+        expect(capability.dig('interactive_types', 'button')).to include('implemented' => true, 'available' => true)
+        expect(capability.dig('interactive_types', 'location_request_message')).to include(
+          'implemented' => true,
+          'existing' => true,
+          'available' => true
+        )
+        expect(capability.dig('excluded_capabilities', 'flow', 'unavailable_reasons')).to eq(
+          %w[business_not_verified message_quality_insufficient]
+        )
+        expect(capability.to_json).not_to include('+15550000001', '+15550000002')
+      end
+
+      it 'omits the Cloud capability contract from a 360dialog conversation' do
+        channel = create(
+          :channel_whatsapp,
+          account: account,
+          provider: 'default',
+          validate_provider_config: false,
+          sync_templates: false
+        )
+        contact = create(:contact, account: account, phone_number: '+15550000001')
+        contact_inbox = create(:contact_inbox, inbox: channel.inbox, contact: contact, source_id: '15550000001')
+        whatsapp_conversation = create(:conversation, account: account, inbox: channel.inbox, contact_inbox: contact_inbox)
+
+        get "/api/v1/accounts/#{account.id}/conversations/#{whatsapp_conversation.display_id}",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body).not_to have_key('whatsapp_interactive')
+      end
     end
   end
 

@@ -17,25 +17,19 @@ class Whatsapp::HealthService
   BASE_URI = 'https://graph.facebook.com'.freeze
   MINIMUM_HEALTH_API_VERSION = 24.0
   BUSINESS_HEALTH_FIELDS = %i[business_account_id business_account_name business_portfolio_id business_portfolio_name].freeze
-  PERSISTED_FIELDS = %i[
-    id
-    display_phone_number
-    verified_name
-    name_status
-    quality_rating
-    messaging_limit_tier
-    status
-    account_mode
-    code_verification_status
-    throughput_level
-    last_onboarded_time
-    is_on_biz_app
-    platform_type
-    business_account_id
-    business_account_name
-    business_portfolio_id
-    business_portfolio_name
+  INDEPENDENT_READINESS_FIELDS = %i[
+    waba_review_status business_verification_status production_phone_onboarded
+    app_publication_status billing_configured message_quality_status product_enrollment_status
+    catalog_linked calling_enabled direct_send_enrollment_status address_market_eligible
+    payment_market_eligible payment_transaction_integration_configured
+    order_market_eligible order_transaction_integration_configured
   ].freeze
+  PERSISTED_FIELDS = (%i[
+    id display_phone_number verified_name name_status quality_rating messaging_limit_tier
+    status account_mode code_verification_status throughput_level last_onboarded_time
+    is_on_biz_app platform_type business_account_id business_account_name
+    business_portfolio_id business_portfolio_name
+  ] + INDEPENDENT_READINESS_FIELDS).freeze
   RISKY_QUALITY_RATINGS = %w[YELLOW RED].freeze
   RISKY_STATUSES = %w[BANNED RESTRICTED RATE_LIMITED FLAGGED DISCONNECTED DELETED].freeze
 
@@ -53,7 +47,8 @@ class Whatsapp::HealthService
     attempted_at = Time.current
     previous_health = @channel.phone_number_health
     health_status, error = fetch_health_status_with_error
-    health_status = previous_health.symbolize_keys.slice(*BUSINESS_HEALTH_FIELDS).merge(health_status) if error
+    preserved_fields = INDEPENDENT_READINESS_FIELDS + (error ? BUSINESS_HEALTH_FIELDS : [])
+    health_status = previous_health.symbolize_keys.slice(*preserved_fields).merge(health_status)
 
     log_risky_transition(previous_health, health_status) if persist_health_status(health_status, attempted_at, error)
 

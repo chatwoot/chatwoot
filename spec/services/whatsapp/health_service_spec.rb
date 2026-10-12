@@ -140,6 +140,30 @@ RSpec.describe Whatsapp::HealthService do
       end
     end
 
+    context 'with independently stored readiness facts' do
+      let(:previous_health) do
+        {
+          account_mode: 'TEST',
+          business_verification_status: 'not_verified',
+          message_quality_status: 'insufficient',
+          catalog_linked: false,
+          payment_transaction_integration_configured: false
+        }
+      end
+
+      it 'preserves them across an ordinary successful health refresh' do
+        service.sync_health_status!
+
+        expect(channel.reload.phone_number_health).to include(
+          'account_mode' => 'LIVE',
+          'business_verification_status' => 'not_verified',
+          'message_quality_status' => 'insufficient',
+          'catalog_linked' => false,
+          'payment_transaction_integration_configured' => false
+        )
+      end
+    end
+
     context 'when Meta rejects the access token' do
       let(:previous_health) { { quality_rating: 'GREEN', status: 'CONNECTED' } }
 
