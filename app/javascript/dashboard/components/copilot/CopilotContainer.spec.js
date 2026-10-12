@@ -37,7 +37,9 @@ vi.mock('dashboard/composables/store', async () => {
     getSelectedChat: createRef({ id: 1 }),
     getLastEmailInSelectedChat: createRef({ message_type: 0 }),
     getCurrentAccountId: createRef(1),
-    'accounts/isFeatureEnabledonAccount': createRef(() => true),
+    'accounts/isFeatureEnabledonAccount': createRef(
+      (accountId, flag) => flag === 'captain_integration'
+    ),
   };
   testState.refs = refs;
 
