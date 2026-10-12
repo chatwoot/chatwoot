@@ -5,7 +5,15 @@ module Concerns::Toolable
   # Keeps them separate from built-in classes in Captain::Tools (e.g., HttpTool, CustomHttpTool).
   module CustomTools; end
 
-  def tool(assistant, base_class: Captain::Tools::HttpTool, **)
+  # Templates read values Chatwoot vouches for under this name, such as {{ session.verified_email }}
+  SESSION_NAMESPACE = 'session'.freeze
+  # Any reference to session inside {{ }} or {% %} counts, so bracket access or an alias is not missed
+  LIQUID_BLOCK_PATTERN = /\{\{.*?\}\}|\{%.*?%\}/m
+  SESSION_REFERENCE_PATTERN = /\bsession\b/
+  OPEN_SESSION_EMAIL_PARAM = :email
+
+  # In an open session an admin or agent is the user, so the model supplies the email that Chatwoot otherwise takes from the verified session
+  def tool(assistant, base_class: Captain::Tools::HttpTool, open_session: false, **)
     custom_tool_record = self
     class_name = custom_tool_record.slug.underscore.camelize
 
@@ -24,6 +32,10 @@ module Concerns::Toolable
                   description: param_def['description'],
                   required: param_def.fetch('required', true)
       end
+
+      if open_session && custom_tool_record.session_email_parameter_needed?
+        parameter OPEN_SESSION_EMAIL_PARAM, type: 'string', description: "The customer's email address", required: true
+      end
     end
 
     # Register as a constant so the class gets a proper name (Class#name).
@@ -36,16 +48,16 @@ module Concerns::Toolable
     tool_class.new(assistant, self, **)
   end
 
-  def build_request_url(params)
+  def build_request_url(params, session = {})
     return endpoint_url if endpoint_url.blank? || (endpoint_url.exclude?('{{') && endpoint_url.exclude?('{%'))
 
-    render_template(endpoint_url, params)
+    render_template(endpoint_url, template_context(params, session))
   end
 
-  def build_request_body(params)
+  def build_request_body(params, session = {})
     return nil if request_template.blank?
 
-    render_template(request_template, params)
+    render_template(request_template, template_context(params, session))
   end
 
   def build_auth_headers
@@ -106,6 +118,11 @@ module Concerns::Toolable
   end
 
   private
+
+  # session is set last, so a parameter from the model can never replace what Chatwoot supplies
+  def template_context(params, session)
+    params.deep_stringify_keys.merge(SESSION_NAMESPACE => session.deep_stringify_keys)
+  end
 
   # Syntax errors fail the call. Missing variables render as nil, so templates can branch on optional
   # params and response fields ({% if response.error %}, | default:). strict_variables would not fail
