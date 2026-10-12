@@ -395,6 +395,16 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(custom_tool.reload.enabled).to be(false)
       end
 
+      it 'returns the stored setting for a tool that reads the session email' do
+        custom_tool.update!(endpoint_url: 'https://api.example.com/c?email={{ session.verified_email }}')
+
+        get "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(custom_tool.reload.requires_email_verification?).to be(true)
+        expect(json_response[:settings]).to eq({ requires_email_verification: false })
+      end
+
       it 'turns email verification on and off' do
         tool_url = "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}"
 
