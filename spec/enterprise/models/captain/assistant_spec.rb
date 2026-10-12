@@ -369,5 +369,15 @@ RSpec.describe Captain::Assistant, type: :model do
       )
       expect(instructions).not_to include('# Human Handoff Protocol', scenario.title, "handoff_to_#{scenario.handoff_key}")
     end
+
+    it 'names the verified address even when contact information is not allowed' do
+      state = { channel_type: 'Channel::WebWidget', contact_inbox: { id: 1, hmac_verified: false }, verified_email: 'jane@example.com',
+                contact: { id: 1, name: 'Jane Doe', email: 'jane@example.com' }, assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions).to include('Email verified by one-time code: Yes, jane@example.com')
+      expect(instructions).not_to include('# Contact Information', 'Jane Doe')
+    end
   end
 end
