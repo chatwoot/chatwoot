@@ -340,6 +340,7 @@ export default {
     isProcessingAttachment() {
       return (
         this.isOptimizingImage ||
+        this.isUploadingFile ||
         this.attachedFiles.some(attachment => attachment.isOptimizing)
       );
     },
@@ -1153,10 +1154,16 @@ export default {
         return Promise.resolve();
       }
 
+      const context = this.getComposerContext();
       return new Promise(resolve => {
         const reader = new FileReader();
         reader.readAsDataURL(file.file);
         reader.onloadend = () => {
+          // The agent may have switched conversation or reply mode while the thumbnail was read
+          if (!this.isSameComposerContext(context)) {
+            resolve();
+            return;
+          }
           this.attachedFiles.push({
             currentChatId: this.currentChat.id,
             resource: blob || file,

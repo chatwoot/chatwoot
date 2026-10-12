@@ -24,11 +24,15 @@ import {
 
 export default {
   data() {
-    return { optimizingImages: 0 };
+    // Composer contexts with an image being optimized or a file being uploaded
+    return { optimizingImages: [], uploadingFiles: [] };
   },
   computed: {
     isOptimizingImage() {
-      return this.optimizingImages > 0;
+      return this.optimizingImages.some(this.isSameComposerContext);
+    },
+    isUploadingFile() {
+      return this.uploadingFiles.some(this.isSameComposerContext);
     },
     ...mapGetters({
       accountId: 'getCurrentAccountId',
@@ -98,7 +102,8 @@ export default {
         return file;
       }
 
-      this.optimizingImages += 1;
+      const optimizing = this.getComposerContext();
+      this.optimizingImages.push(optimizing);
       try {
         const optimized = await optimizeImage(native, {
           maxBytes: policy.maxBytes,
@@ -139,8 +144,13 @@ export default {
         // An original that is over the channel limit must never be attached
         return fits ? file : null;
       } finally {
-        this.optimizingImages -= 1;
+        this.untrack('optimizingImages', optimizing);
       }
+    },
+
+    untrack(list, context) {
+      const index = this[list].indexOf(context);
+      if (index !== -1) this[list].splice(index, 1);
     },
 
     // The prepared file belongs to the conversation and reply mode it was picked in
@@ -163,7 +173,7 @@ export default {
 
       const context = this.getComposerContext();
       // Keeps Send disabled until the file is attached, including the direct upload
-      this.optimizingImages += 1;
+      this.uploadingFiles.push(context);
       try {
         const prepared = await this.prepareImageForUpload(file);
         // The agent may have switched conversation or reply mode while it was prepared
@@ -175,7 +185,7 @@ export default {
           await this.onIndirectFileUpload(prepared);
         }
       } finally {
-        this.optimizingImages -= 1;
+        this.untrack('uploadingFiles', context);
       }
     },
 

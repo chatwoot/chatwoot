@@ -189,11 +189,13 @@ describe('FileUploadMixin', () => {
         })
       );
       const pending = wrapper.vm.onFileUpload(buildFile(8 * MB));
-      await vi.waitFor(() => expect(wrapper.vm.optimizingImages).toBe(2));
+      await vi.waitFor(() =>
+        expect(wrapper.vm.optimizingImages).toHaveLength(1)
+      );
       expect(wrapper.vm.isOptimizingImage).toBe(true);
       resolveOptimize({ file: optimizedFile });
       await pending;
-      expect(wrapper.vm.optimizingImages).toBe(0);
+      expect(wrapper.vm.optimizingImages).toHaveLength(0);
       expect(wrapper.vm.isOptimizingImage).toBe(false);
     });
 
@@ -206,7 +208,7 @@ describe('FileUploadMixin', () => {
         'CONVERSATION.IMAGE_OPTIMIZATION.TOO_LARGE'
       );
       expect(wrapper.vm.onDirectFileUpload).not.toHaveBeenCalled();
-      expect(wrapper.vm.optimizingImages).toBe(0);
+      expect(wrapper.vm.optimizingImages).toHaveLength(0);
     });
 
     it.each([
@@ -286,10 +288,10 @@ describe('FileUploadMixin', () => {
       await vi.waitFor(() =>
         expect(wrapper.vm.uploadDirectly).toHaveBeenCalled()
       );
-      expect(wrapper.vm.isOptimizingImage).toBe(true);
+      expect(wrapper.vm.isUploadingFile).toBe(true);
       finishUpload({ signed_id: 'abc' });
       await pending;
-      expect(wrapper.vm.isOptimizingImage).toBe(false);
+      expect(wrapper.vm.isUploadingFile).toBe(false);
       expect(attachFile).toHaveBeenCalled();
     });
 
@@ -317,6 +319,50 @@ describe('FileUploadMixin', () => {
       await wrapper.vm.onFileUpload(file);
       expect(optimizeImage).not.toHaveBeenCalled();
       expect(wrapper.vm.onDirectFileUpload).toHaveBeenCalledWith(file);
+    });
+
+    it('does not report image optimization for a non-image upload', async () => {
+      let finishUpload;
+      wrapper.vm.onDirectFileUpload = vi.fn(
+        () =>
+          new Promise(resolve => {
+            finishUpload = resolve;
+          })
+      );
+      const pdf = {
+        file: new File(['x'], 'doc.pdf', { type: 'application/pdf' }),
+        type: 'application/pdf',
+        size: 1 * MB,
+      };
+      const pending = wrapper.vm.onFileUpload(pdf);
+      await vi.waitFor(() =>
+        expect(wrapper.vm.onDirectFileUpload).toHaveBeenCalled()
+      );
+      expect(wrapper.vm.isUploadingFile).toBe(true);
+      expect(wrapper.vm.isOptimizingImage).toBe(false);
+      finishUpload();
+      await pending;
+      expect(wrapper.vm.isUploadingFile).toBe(false);
+    });
+
+    it('does not block another conversation while a file is uploading', async () => {
+      let finishUpload;
+      wrapper.vm.onDirectFileUpload = vi.fn(
+        () =>
+          new Promise(resolve => {
+            finishUpload = resolve;
+          })
+      );
+      const pending = wrapper.vm.onFileUpload(buildFile(1 * MB));
+      await vi.waitFor(() =>
+        expect(wrapper.vm.onDirectFileUpload).toHaveBeenCalled()
+      );
+      expect(wrapper.vm.isUploadingFile).toBe(true);
+      mockCurrentChat.id = 789;
+      await wrapper.vm.$nextTick();
+      expect(wrapper.vm.isUploadingFile).toBe(false);
+      finishUpload();
+      await pending;
     });
 
     it('uploadDirectly resolves the blob', async () => {
