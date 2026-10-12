@@ -22,6 +22,8 @@
 class WhatsappInteractivePreset < ApplicationRecord
   belongs_to :account
   belongs_to :created_by, class_name: 'User', optional: true, inverse_of: :whatsapp_interactive_presets
+  has_many :media, -> { order(:position) },
+           class_name: 'WhatsappInteractivePresetMedia', dependent: :destroy, inverse_of: :whatsapp_interactive_preset
 
   validates :name, presence: true, length: { maximum: 255 }
   validates :definition, presence: true

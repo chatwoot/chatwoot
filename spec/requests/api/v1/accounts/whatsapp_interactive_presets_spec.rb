@@ -95,6 +95,82 @@ RSpec.describe 'WhatsApp interactive presets API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
+
+    it 'pins account-owned media and returns ordered reusable signed references' do
+      source_message = create(:message, account: account)
+      source_attachment = source_message.attachments.create!(
+        account: account, file_type: :image,
+        file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+      )
+      media_definition = definition.merge(header: { type: 'image' })
+
+      post base_path,
+           params: { name: 'Media greeting', definition: media_definition, attachments: [source_attachment.file.blob.signed_id] },
+           headers: creator.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['definition']).not_to have_key('attachments')
+      expect(response.parsed_body['attachments']).to contain_exactly(
+        include(
+          'position' => 0, 'signed_id' => source_attachment.file.blob.signed_id,
+          'file_type' => 'image', 'content_type' => 'image/png'
+        )
+      )
+      expect(account.whatsapp_interactive_presets.last.media.sole.file.blob).to eq(source_attachment.file.blob)
+    end
+
+    it 'claims a fresh direct upload for the account without requiring a message send' do
+      blob = ActiveStorage::Blob.create_and_upload!(
+        io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png'
+      )
+      media_definition = definition.merge(header: { type: 'image' })
+
+      post base_path,
+           params: { name: 'Saved before send', definition: media_definition, attachments: [blob.signed_id] },
+           headers: creator.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(account.whatsapp_interactive_presets.last.media.sole.file.blob).to eq(blob)
+    end
+
+    it 'rejects malformed, missing, mismatched, and foreign media atomically' do
+      source_message = create(:message, account: account)
+      image = source_message.attachments.create!(
+        account: account, file_type: :image,
+        file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+      )
+      document = source_message.attachments.create!(
+        account: account, file_type: :file,
+        file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/sample.pdf'), 'application/pdf')
+      )
+      image.file.blob.update!(content_type: 'image')
+      foreign_message = create(:message)
+      foreign_image = foreign_message.attachments.create!(
+        account: foreign_message.account, file_type: :image,
+        file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+      )
+      media_definition = definition.merge(header: { type: 'image' })
+      invalid_attachments = [
+        :omitted, nil, 'not-an-array', [], ['forged'], [document.file.blob.signed_id],
+        [image.file.blob.signed_id], [foreign_image.file.blob.signed_id]
+      ]
+
+      invalid_attachments.each_with_index do |attachments, index|
+        request_params = { name: "Invalid media #{index}", definition: media_definition }
+        request_params[:attachments] = attachments unless attachments == :omitted
+        post base_path, params: request_params, headers: creator.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      post base_path,
+           params: { name: 'Malformed no-media', definition: definition, attachments: image.file.blob.signed_id },
+           headers: creator.create_new_auth_token,
+           as: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(account.whatsapp_interactive_presets.where("name LIKE 'Invalid media %' OR name = 'Malformed no-media'")).to be_empty
+    end
   end
 
   describe 'PATCH /api/v1/accounts/:account_id/whatsapp_interactive_presets/:id' do
@@ -141,6 +217,40 @@ RSpec.describe 'WhatsApp interactive presets API', type: :request do
 
       delete "#{base_path}/#{preset.id}", headers: administrator.create_new_auth_token, as: :json
       expect(response).to have_http_status(:no_content)
+    end
+
+    it 'adds replacement media before removing old references and rolls invalid replacements back' do
+      first_message = create(:message, account: account)
+      first_attachment = first_message.attachments.create!(
+        account: account, file_type: :image,
+        file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+      )
+      second_message = create(:message, account: account)
+      second_attachment = second_message.attachments.create!(
+        account: account, file_type: :image,
+        file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+      )
+      media_definition = definition.merge(header: { type: 'image' })
+      preset.update!(definition: media_definition)
+      Whatsapp::InteractiveMessages::PresetMedia.sync!(preset, attachments: [first_attachment.file.blob.signed_id])
+
+      patch "#{base_path}/#{preset.id}",
+            params: { name: 'Broken replacement', attachments: ['forged'] },
+            headers: creator.create_new_auth_token,
+            as: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(preset.reload).to have_attributes(name: 'Welcome menu')
+      expect(preset.media.sole.file.blob).to eq(first_attachment.file.blob)
+
+      patch "#{base_path}/#{preset.id}",
+            params: { attachments: [second_attachment.file.blob.signed_id] },
+            headers: creator.create_new_auth_token,
+            as: :json
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['attachments']).to contain_exactly(
+        include('position' => 0, 'signed_id' => second_attachment.file.blob.signed_id)
+      )
+      expect(preset.reload.media.sole.file.blob).to eq(second_attachment.file.blob)
     end
   end
 

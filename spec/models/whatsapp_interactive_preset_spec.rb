@@ -51,4 +51,84 @@ RSpec.describe WhatsappInteractivePreset do
 
     expect(described_class.search_by_name('100%')).to contain_exactly(matching)
   end
+
+  it 'keeps ordered duplicate carousel blob references through archive and source deletion' do
+    source_message = create(:message, account: account)
+    source_attachment = source_message.attachments.create!(
+      account: account, file_type: :image,
+      file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+    )
+    carousel_definition = {
+      schema_version: 1,
+      type: 'carousel',
+      body: { text: 'Choose a destination' },
+      action: {
+        cards: Array.new(2) do |index|
+          {
+            card_index: index, type: 'cta_url', header: { type: 'image' },
+            action: { button: 'View', url: "https://example.test/#{index}" }
+          }
+        end
+      }
+    }
+    preset = described_class.create!(account: account, created_by: creator, name: 'Carousel', definition: carousel_definition)
+
+    Whatsapp::InteractiveMessages::PresetMedia.sync!(
+      preset, attachments: [source_attachment.file.blob.signed_id, source_attachment.file.blob.signed_id]
+    )
+    blob = source_attachment.file.blob
+
+    expect(preset.media.pluck(:position)).to eq([0, 1])
+    expect(preset.media.map { |medium| medium.file.blob_id }).to eq([blob.id, blob.id])
+
+    preset.update!(archived_at: Time.current)
+    source_message.destroy!
+
+    expect(preset.reload.media.map { |medium| medium.file.blob_id }).to eq([blob.id, blob.id])
+    preset.update!(archived_at: nil)
+    expect(preset.reload.media.map { |medium| medium.file.blob.signed_id }).to eq([blob.signed_id, blob.signed_id])
+    expect(ActiveStorage::Blob.exists?(blob.id)).to be(true)
+  end
+
+  it 'retains media after its source conversation and messages are removed' do
+    source_message = create(:message, account: account)
+    source_attachment = source_message.attachments.create!(
+      account: account, file_type: :image,
+      file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+    )
+    blob = source_attachment.file.blob
+    media_definition = definition.merge(header: { type: 'image' })
+    preset = described_class.create!(account: account, created_by: creator, name: 'Reusable', definition: media_definition)
+    Whatsapp::InteractiveMessages::PresetMedia.sync!(preset, attachments: [blob.signed_id])
+
+    source_message.conversation.destroy!
+    perform_enqueued_jobs(only: [ActiveRecord::DestroyAssociationAsyncJob, ActiveStorage::PurgeJob])
+
+    expect(preset.reload.media.sole.file.blob).to eq(blob)
+    expect(ActiveStorage::Blob.exists?(blob.id)).to be(true)
+  end
+
+  it 'allows blob cleanup only after the final message or preset reference is removed' do
+    source_message = create(:message, account: account)
+    source_attachment = source_message.attachments.create!(
+      account: account, file_type: :image,
+      file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+    )
+    media_definition = definition.merge(header: { type: 'image' })
+    first_preset = described_class.create!(account: account, created_by: creator, name: 'First', definition: media_definition)
+    second_preset = described_class.create!(account: account, created_by: creator, name: 'Second', definition: media_definition)
+    signed_id = source_attachment.file.blob.signed_id
+    Whatsapp::InteractiveMessages::PresetMedia.sync!(first_preset, attachments: [signed_id])
+    Whatsapp::InteractiveMessages::PresetMedia.sync!(second_preset, attachments: [signed_id])
+    blob_id = source_attachment.file.blob_id
+
+    perform_enqueued_jobs do
+      source_message.destroy!
+      first_preset.destroy!
+    end
+    expect(ActiveStorage::Blob.exists?(blob_id)).to be(true)
+
+    perform_enqueued_jobs { second_preset.destroy! }
+    expect(ActiveStorage::Blob.exists?(blob_id)).to be(false)
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_12_000001) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_12_000002) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1541,6 +1541,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_12_000001) do
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 
+  create_table "whatsapp_interactive_preset_media", force: :cascade do |t|
+    t.bigint "whatsapp_interactive_preset_id", null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["whatsapp_interactive_preset_id", "position"], name: "index_preset_media_on_preset_id_and_position", unique: true
+    t.index ["whatsapp_interactive_preset_id"], name: "index_preset_media_on_preset_id"
+  end
+
   create_table "whatsapp_interactive_presets", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "created_by_id"
@@ -1576,6 +1585,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_12_000001) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
+  add_foreign_key "whatsapp_interactive_preset_media", "whatsapp_interactive_presets"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

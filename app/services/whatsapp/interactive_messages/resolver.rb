@@ -132,9 +132,20 @@ class Whatsapp::InteractiveMessages::Resolver
 
     def validate_blob_upload!(upload, account_id)
       blob = ActiveStorage::Blob.find_signed(upload)
-      return if blob&.attachments&.all? { |association| association.record.is_a?(Attachment) && association.record.account_id == account_id }
+      return if valid_blob_ownership?(blob, account_id)
 
       raise Whatsapp::InteractiveMessages::ValidationError, 'whatsapp_interactive header upload is invalid or belongs to another account'
+    end
+
+    def valid_blob_ownership?(blob, account_id)
+      return false unless blob
+      return true if blob.attachments.empty?
+
+      blob.attachments.all? do |association|
+        record = association.record
+        (record.is_a?(Attachment) && record.account_id == account_id) ||
+          (record.is_a?(WhatsappInteractivePresetMedia) && record.account_id == account_id)
+      end
     end
   end
 

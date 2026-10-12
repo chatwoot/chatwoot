@@ -331,6 +331,32 @@ RSpec.describe Whatsapp::InteractiveMessages::Resolver do
     end
   end
 
+  it 'lets another account agent send a preset-owned blob after the source message is removed' do
+    source_message = create(:message, account: account)
+    source_attachment = source_message.attachments.create!(
+      account: account, file_type: :image,
+      file: Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+    )
+    preset = create(
+      :whatsapp_interactive_preset,
+      account: account,
+      created_by: create(:user, account: account),
+      definition: interactive.deep_merge(header: { type: 'image' })
+    )
+    Whatsapp::InteractiveMessages::PresetMedia.sync!(preset, attachments: [source_attachment.file.blob.signed_id])
+    reusable_signed_id = preset.media.sole.file.blob.signed_id
+    source_message.destroy!
+    params = ActionController::Parameters.new(
+      content_attributes: { whatsapp_interactive: interactive.deep_merge(header: { type: 'image' }) },
+      attachments: [reusable_signed_id]
+    )
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      message = Messages::MessageBuilder.new(user, conversation, params).perform
+      expect(message.attachments.sole.file.blob).to eq(preset.media.sole.file.blob)
+    end
+  end
+
   it 'rejects missing, multiple, mismatched, and forged media before persistence or dispatch' do
     interactive[:header] = { type: 'image' }
     upload = Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/sample.pdf'), 'application/pdf')
