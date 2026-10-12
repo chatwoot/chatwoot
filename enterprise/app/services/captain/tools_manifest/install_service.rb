@@ -16,11 +16,18 @@ class Captain::ToolsManifest::InstallService
   # call time. Secrets are only used in auth_config, which is never rendered, so they may contain these characters.
   LIQUID_DELIMITER_PATTERN = /\{\{|\{%/
 
-  # Installed at this commit with every manifest tool present, so there is nothing to add or update
+  # Installed at this commit with every manifest tool present and its settings applied, so there is nothing to add or update
   def self.complete?(tools, manifest, revision)
     tools.any? &&
       tools.all? { |tool| tool.source_metadata['revision'] == revision } &&
-      (manifest['tools'].pluck('id') - tools.map { |tool| tool.source_metadata['tool_id'] }).empty?
+      (manifest['tools'].pluck('id') - tools.map { |tool| tool.source_metadata['tool_id'] }).empty? &&
+      settings_applied?(tools, manifest)
+  end
+
+  # A version that did not know a setting records the commit without it, so the commit alone does not prove the install is current
+  def self.settings_applied?(tools, manifest)
+    verification_required = manifest['tools'].to_h { |tool| [tool['id'], tool['requires_email_verification'] == true] }
+    tools.all? { |tool| (tool.settings['requires_email_verification'] == true) == verification_required[tool.source_metadata['tool_id']] }
   end
 
   # Fields filled into auth_config must have a value even when optional, or the tool would send blank credentials

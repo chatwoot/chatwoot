@@ -79,6 +79,17 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       it 'installs that tool with email verification required' do
         expect(install.map(&:requires_email_verification?)).to eq([true, false])
       end
+
+      it 'applies the setting on a reinstall when the same commit was installed without it' do
+        tools = install
+        # An older version records the commit but ignores the key
+        tools.first.update_columns(settings: {}) # rubocop:disable Rails/SkipsModelValidations
+
+        parsed_manifest = Captain::ToolsManifest::Manifest.parse(manifest.to_yaml)
+
+        expect(described_class.complete?(assistant.custom_tools.to_a, parsed_manifest, latest_revision)).to be(false)
+        expect(install.map(&:requires_email_verification?)).to eq([true, false])
+      end
     end
 
     it 'installs tools that call their endpoint with the install-time values and manifest headers' do
