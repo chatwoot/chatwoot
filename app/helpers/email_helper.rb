@@ -21,7 +21,9 @@ module EmailHelper
     Array(email_string).flat_map do |value|
       value.to_s.split(/[,;]+/).flat_map do |part|
         if part.count('@') > 1
-          part.split(/(?<=\S)\s+(?=[^\s@]+@)/).map { |email| email.gsub(/\s+/, '') }
+          # Attach any whitespace around `@` to its address first, so the
+          # remaining whitespace only separates addresses.
+          part.gsub(/\s*@\s*/, '@').split(/\s+/)
         else
           part.gsub(/\s+/, '')
         end

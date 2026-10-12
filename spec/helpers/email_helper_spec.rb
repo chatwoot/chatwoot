@@ -25,5 +25,10 @@ describe EmailHelper do
     it 'handles array inputs and removes whitespace within individual emails' do
       expect(helper.process_email_string(['a @example.com', 'b@example.com c@example.com'])).to eq ['a@example.com', 'b@example.com', 'c@example.com']
     end
+
+    it 'separates whitespace-delimited addresses when one has whitespace before its @' do
+      expect(helper.process_email_string('first@example.com second @example.com')).to eq ['first@example.com', 'second@example.com']
+      expect(helper.process_email_string('a@example.com b @ example.com')).to eq ['a@example.com', 'b@example.com']
+    end
   end
 end
