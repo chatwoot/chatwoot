@@ -296,23 +296,209 @@ describe Whatsapp::IncomingMessageService do
     end
 
     context 'when valid interactive message params' do
-      it 'creates appropriate conversations, message and contacts' do
-        params = {
+      let(:contact) { create(:contact, account: whatsapp_channel.account, name: 'Sojan Jose', phone_number: '+2423423243') }
+      let(:contact_inbox) do
+        create(:contact_inbox, contact: contact, inbox: whatsapp_channel.inbox, source_id: '2423423243')
+      end
+      let(:conversation) do
+        create(:conversation, account: whatsapp_channel.account, inbox: whatsapp_channel.inbox, contact: contact, contact_inbox: contact_inbox)
+      end
+      let(:context_id) { 'wamid.originating-interactive-message' }
+      let(:origin_message_type) { :outgoing }
+      let(:reply_id) { snapshot.dig('action', 'buttons', 0, 'delivery_id') }
+      let(:reply_type) { 'button_reply' }
+      let(:provider_reply) { { 'id' => reply_id, 'title' => 'Confirm' } }
+      let(:snapshot) do
+        JSON.parse(Rails.root.join('spec/fixtures/whatsapp_interactive_messages/button.json').read).tap do |value|
+          value.dig('action', 'buttons', 0)['preset_option_id'] = '6ee65bd4-6ef0-4a7c-b5d1-d55ac85b9418'
+        end
+      end
+      let!(:outgoing_message) do
+        create(:message, account: whatsapp_channel.account, inbox: whatsapp_channel.inbox, conversation: conversation,
+                         message_type: origin_message_type, source_id: context_id,
+                         content_attributes: { 'whatsapp_interactive' => snapshot })
+      end
+      let(:interactive_params) do
+        {
           'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
-          'messages' => [{ 'from' => '2423423243', 'id' => 'SDFADSf23sfasdafasdfa',
-                           :interactive => {
-                             'button_reply': {
-                               'id': '1',
-                               'title': 'First Button'
-                             },
-                             'type': 'button_reply'
-                           },
-                           'timestamp' => '1633034394', 'type' => 'interactive' }]
+          'messages' => [{
+            'context' => { 'id' => context_id },
+            'from' => '2423423243',
+            'id' => 'wamid.inbound-interactive-message',
+            'interactive' => { reply_type => provider_reply, 'type' => reply_type },
+            'timestamp' => '1633034394',
+            'type' => 'interactive'
+          }]
         }.with_indifferent_access
-        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
-        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
-        expect(whatsapp_channel.inbox.messages.first.content).to eq('First Button')
+      end
+
+      it 'persists a readable button reply and its exact snapshot identity alongside threading' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: interactive_params).perform
+
+        message = conversation.messages.last
+        expect(message.content).to eq('Confirm')
+        expect(message.content_attributes).to include(
+          'in_reply_to' => outgoing_message.id,
+          'in_reply_to_external_id' => context_id,
+          'whatsapp_interactive_reply' => {
+            'type' => 'button_reply',
+            'delivery_id' => reply_id,
+            'title' => 'Confirm',
+            'context_id' => context_id,
+            'originating_message_id' => outgoing_message.id,
+            'preset_option_id' => '6ee65bd4-6ef0-4a7c-b5d1-d55ac85b9418'
+          }
+        )
+      end
+
+      context 'with a list reply' do
+        let(:reply_type) { 'list_reply' }
+        let(:reply_id) { snapshot.dig('action', 'sections', 0, 'rows', 0, 'delivery_id') }
+        let(:provider_reply) { { 'id' => reply_id, 'title' => 'Pasta', 'description' => 'Tomato and basil' } }
+        let(:snapshot) do
+          JSON.parse(Rails.root.join('spec/fixtures/whatsapp_interactive_messages/list.json').read).tap do |value|
+            value.dig('action', 'sections', 0, 'rows', 0)['preset_option_id'] = 'd6de08cc-03d3-49f4-9cb6-19d5c76efdf5'
+          end
+        end
+
+        it 'persists the provider description and exact list-row identity' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: interactive_params).perform
+
+          message = conversation.messages.last
+          expect(message.content).to eq('Pasta')
+          expect(message.content_attributes['whatsapp_interactive_reply']).to eq(
+            'type' => 'list_reply',
+            'delivery_id' => reply_id,
+            'title' => 'Pasta',
+            'description' => 'Tomato and basil',
+            'context_id' => context_id,
+            'originating_message_id' => outgoing_message.id,
+            'preset_option_id' => 'd6de08cc-03d3-49f4-9cb6-19d5c76efdf5'
+          )
+        end
+
+        it 'omits the optional description when Meta does not send it' do
+          provider_reply.delete('description')
+
+          described_class.new(inbox: whatsapp_channel.inbox, params: interactive_params).perform
+
+          expect(conversation.messages.last.content_attributes['whatsapp_interactive_reply']).not_to have_key('description')
+        end
+      end
+
+      context 'with a carousel quick reply' do
+        let(:reply_id) { snapshot.dig('action', 'cards', 1, 'action', 'buttons', 0, 'delivery_id') }
+        let(:provider_reply) { { 'id' => reply_id, 'title' => 'Choose' } }
+        let(:snapshot) do
+          JSON.parse(Rails.root.join('spec/fixtures/whatsapp_interactive_messages/carousel_quick_reply.json').read).tap do |value|
+            value.dig('action', 'cards', 1, 'action', 'buttons', 0)['preset_option_id'] = '957dd2f4-254f-4a7d-902c-9e89347c69d0'
+          end
+        end
+
+        it 'maps the globally unique delivery ID to its historical card and preset option' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: interactive_params).perform
+
+          expect(conversation.messages.last.content_attributes['whatsapp_interactive_reply']).to include(
+            'originating_message_id' => outgoing_message.id,
+            'preset_option_id' => '957dd2f4-254f-4a7d-902c-9e89347c69d0',
+            'card_index' => 1
+          )
+        end
+      end
+
+      context 'when the delivery ID does not exist in the context-linked snapshot' do
+        let(:reply_id) { 'reply_unknown' }
+
+        it 'keeps provider evidence and message context without inventing option or card identity' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: interactive_params).perform
+
+          reply = conversation.messages.last.content_attributes['whatsapp_interactive_reply']
+          expect(reply).to include(
+            'delivery_id' => 'reply_unknown',
+            'title' => 'Confirm',
+            'context_id' => context_id,
+            'originating_message_id' => outgoing_message.id
+          )
+          expect(reply).not_to have_key('preset_option_id')
+          expect(reply).not_to have_key('card_index')
+        end
+      end
+
+      context 'when the context-linked message is incoming' do
+        let(:origin_message_type) { :incoming }
+
+        it 'does not trust its shaped snapshot for preset identity' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: interactive_params).perform
+
+          reply = conversation.messages.last.content_attributes['whatsapp_interactive_reply']
+          expect(reply).to include('originating_message_id' => outgoing_message.id)
+          expect(reply).not_to have_key('preset_option_id')
+          expect(reply).not_to have_key('card_index')
+        end
+      end
+
+      context 'when the context-linked snapshot has an unsupported schema version' do
+        let(:snapshot) do
+          JSON.parse(Rails.root.join('spec/fixtures/whatsapp_interactive_messages/button.json').read).tap do |value|
+            value['schema_version'] = 2
+            value.dig('action', 'buttons', 0)['preset_option_id'] = '6ee65bd4-6ef0-4a7c-b5d1-d55ac85b9418'
+          end
+        end
+
+        it 'does not trust its preset identity' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: interactive_params).perform
+
+          reply = conversation.messages.last.content_attributes['whatsapp_interactive_reply']
+          expect(reply).to include('originating_message_id' => outgoing_message.id)
+          expect(reply).not_to have_key('preset_option_id')
+          expect(reply).not_to have_key('card_index')
+        end
+      end
+
+      context 'when the provider context does not identify a stored message' do
+        let(:context_id) { 'wamid.missing-originating-message' }
+
+        it 'keeps readable provider evidence and context without inventing message identity' do
+          outgoing_message.update!(source_id: 'wamid.different-originating-message')
+
+          described_class.new(inbox: whatsapp_channel.inbox, params: interactive_params).perform
+
+          message = conversation.messages.last
+          reply = message.content_attributes['whatsapp_interactive_reply']
+          expect(message.content).to eq('Confirm')
+          expect(reply).to include('delivery_id' => reply_id, 'title' => 'Confirm', 'context_id' => context_id)
+          expect(reply).not_to have_key('originating_message_id')
+          expect(reply).not_to have_key('preset_option_id')
+          expect(reply).not_to have_key('card_index')
+        end
+      end
+
+      it 'uses only the context-linked historical snapshot when a newer message reuses readable content' do
+        create(:message, account: whatsapp_channel.account, inbox: whatsapp_channel.inbox, conversation: conversation,
+                         message_type: :outgoing, source_id: 'wamid.newer-interactive-message',
+                         content_attributes: {
+                           'whatsapp_interactive' => snapshot.deep_dup.tap do |value|
+                             value.dig('action', 'buttons', 0)['preset_option_id'] = '5d4e0ff7-d8f2-405f-82bc-80414ae29353'
+                           end
+                         })
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: interactive_params).perform
+
+        expect(conversation.messages.last.content_attributes.dig('whatsapp_interactive_reply', 'preset_option_id'))
+          .to eq('6ee65bd4-6ef0-4a7c-b5d1-d55ac85b9418')
+      end
+
+      it 'does not add a structured selection for an unrelated interactive subtype' do
+        interactive_params[:messages].first[:interactive] = {
+          'type' => 'nfm_reply',
+          'nfm_reply' => { 'name' => 'flow', 'body' => 'Submitted', 'response_json' => '{"answer":"yes"}' }
+        }
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: interactive_params).perform
+
+        message = conversation.messages.last
+        expect(message.content_attributes).to include('whatsapp_flow_response')
+        expect(message.content_attributes).not_to have_key('whatsapp_interactive_reply')
       end
     end
 

@@ -175,7 +175,7 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def message_content_attributes(message)
-    content_attrs = outgoing_echo ? { external_echo: true } : {}
+    content_attrs = (outgoing_echo ? { external_echo: true } : {}).merge(whatsapp_interactive_reply_content_attributes(message))
     content_attrs[:in_reply_to] = @in_reply_to_message_id if @in_reply_to_message_id.present?
     content_attrs[:in_reply_to_external_id] = @in_reply_to_external_id if @in_reply_to_external_id.present?
     referral_content_attrs = referral_attributes(message)

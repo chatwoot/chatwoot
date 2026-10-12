@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ModuleLength
 module Whatsapp::IncomingMessageServiceHelpers
   def download_attachment_file(attachment_payload)
     Down.download(inbox.channel.media_url(attachment_payload[:id]), headers: inbox.channel.api_headers)
@@ -87,10 +88,76 @@ module Whatsapp::IncomingMessageServiceHelpers
     @in_reply_to_external_id = message['context']&.[]('id')
     return if @in_reply_to_external_id.blank?
 
-    @in_reply_to_message_id = Whatsapp::InReplyToMessageFinder.new(
+    @in_reply_to_message = Whatsapp::InReplyToMessageFinder.new(
       conversation: @conversation,
       source_id: @in_reply_to_external_id
-    ).perform&.id
+    ).perform
+    @in_reply_to_message_id = @in_reply_to_message&.id
+  end
+
+  def whatsapp_interactive_reply_attributes(message)
+    interactive = message[:interactive]
+    reply_type = interactive&.[](:type)
+    return if %w[button_reply list_reply].exclude?(reply_type)
+
+    provider_reply = interactive[reply_type]
+    return unless provider_reply.is_a?(Hash)
+
+    {
+      type: reply_type,
+      delivery_id: provider_reply[:id],
+      title: provider_reply[:title],
+      description: provider_reply[:description],
+      context_id: message.dig(:context, :id),
+      originating_message_id: @in_reply_to_message_id
+    }.compact.merge(whatsapp_interactive_reply_snapshot_match(reply_type, provider_reply[:id]))
+  end
+
+  def whatsapp_interactive_reply_content_attributes(message)
+    reply = whatsapp_interactive_reply_attributes(message)
+    reply.present? ? { whatsapp_interactive_reply: reply } : {}
+  end
+
+  def whatsapp_interactive_reply_snapshot_match(reply_type, delivery_id)
+    return {} if delivery_id.blank?
+
+    snapshot = trusted_whatsapp_interactive_snapshot
+    return {} unless snapshot
+
+    option, card_index = whatsapp_interactive_snapshot_options(snapshot, reply_type).find do |candidate, _index|
+      candidate['delivery_id'] == delivery_id
+    end
+    return {} unless option
+
+    { preset_option_id: option['preset_option_id'], card_index: card_index }.compact
+  end
+
+  def trusted_whatsapp_interactive_snapshot
+    return unless @in_reply_to_message&.outgoing?
+
+    snapshot = @in_reply_to_message.content_attributes['whatsapp_interactive']
+    snapshot if snapshot.is_a?(Hash) && snapshot['schema_version'] == Whatsapp::InteractiveMessages::Registry::SCHEMA_VERSION
+  end
+
+  def whatsapp_interactive_snapshot_options(snapshot, reply_type)
+    case "#{snapshot['type']}:#{reply_type}"
+    when 'button:button_reply'
+      Array(snapshot.dig('action', 'buttons')).map { |button| [button, nil] }
+    when 'list:list_reply'
+      Array(snapshot.dig('action', 'sections')).flat_map do |section|
+        Array(section['rows']).map { |row| [row, nil] }
+      end
+    when 'carousel:button_reply'
+      whatsapp_carousel_reply_options(snapshot)
+    else
+      []
+    end
+  end
+
+  def whatsapp_carousel_reply_options(snapshot)
+    Array(snapshot.dig('action', 'cards')).select { |card| card['type'] == 'button' }.flat_map do |card|
+      Array(card.dig('action', 'buttons')).map { |button| [button, card['card_index']] }
+    end
   end
 
   def referral_attributes(message)
@@ -111,3 +178,4 @@ module Whatsapp::IncomingMessageServiceHelpers
     Whatsapp::MessageDedupLock.new(messages_data.first[:id]).acquire!
   end
 end
+# rubocop:enable Metrics/ModuleLength
