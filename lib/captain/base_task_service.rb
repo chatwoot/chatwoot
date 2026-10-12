@@ -86,7 +86,6 @@ class Captain::BaseTaskService
     tools = request.fetch(:tools, [])
     options = Captain::ResponsesConfig.options(model: model, temperature: nil, feature: request[:feature], account: account)
     chat = context.chat(model: model, **options.slice(:protocol))
-    chat.with_thinking(**options[:thinking]) if options[:thinking]
     system_msg = messages.find { |m| m[:role] == 'system' }
     chat.with_instructions(system_msg[:content]) if system_msg
     chat.with_schema(request[:schema]) if request[:schema]
