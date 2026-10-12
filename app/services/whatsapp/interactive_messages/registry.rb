@@ -1,8 +1,12 @@
+require 'uri'
+require 'ipaddr'
+
 # rubocop:disable Metrics/ClassLength
 class Whatsapp::InteractiveMessages::Registry
   SCHEMA_VERSION = 1
   BUTTON_TYPE = 'button'.freeze
   LIST_TYPE = 'list'.freeze
+  CTA_URL_TYPE = 'cta_url'.freeze
   BODY_MAX_LENGTH = 1024
   LIST_BODY_MAX_LENGTH = 4096
   HEADER_MAX_LENGTH = 60
@@ -17,8 +21,9 @@ class Whatsapp::InteractiveMessages::Registry
   LIST_ROW_TITLE_MAX_LENGTH = 24
   LIST_ROW_DESCRIPTION_MAX_LENGTH = 72
   LIST_ROW_DELIVERY_ID_MAX_LENGTH = 200
+  CTA_BUTTON_MAX_LENGTH = 20
 
-  IMPLEMENTED_TYPES = [BUTTON_TYPE, LIST_TYPE].freeze
+  IMPLEMENTED_TYPES = [BUTTON_TYPE, LIST_TYPE, CTA_URL_TYPE].freeze
 
   class << self
     def limits
@@ -53,6 +58,18 @@ class Whatsapp::InteractiveMessages::Registry
       }
     end
 
+    def cta_url_limits
+      {
+        body_max_length: BODY_MAX_LENGTH,
+        header_max_length: HEADER_MAX_LENGTH,
+        footer_max_length: FOOTER_MAX_LENGTH,
+        header_types: HEADER_TYPES,
+        button_max_length: CTA_BUTTON_MAX_LENGTH,
+        action_count: 1,
+        url_schemes: %w[http https]
+      }
+    end
+
     def implemented_types
       IMPLEMENTED_TYPES
     end
@@ -62,7 +79,7 @@ class Whatsapp::InteractiveMessages::Registry
     end
 
     def limits_for(type)
-      { BUTTON_TYPE => button_limits, LIST_TYPE => list_limits }[type.to_s]
+      { BUTTON_TYPE => button_limits, LIST_TYPE => list_limits, CTA_URL_TYPE => cta_url_limits }[type.to_s]
     end
 
     def resolve(payload)
@@ -71,7 +88,8 @@ class Whatsapp::InteractiveMessages::Registry
       case interactive['type']
       when BUTTON_TYPE then resolve_button_message(interactive, path)
       when LIST_TYPE then resolve_list_message(interactive, path)
-      else raise_validation!("#{path}.type must be button or list")
+      when CTA_URL_TYPE then resolve_cta_url_message(interactive, path)
+      else raise_validation!("#{path}.type must be button, list, or cta_url")
       end
     end
 
@@ -81,7 +99,8 @@ class Whatsapp::InteractiveMessages::Registry
       case interactive['type']
       when BUTTON_TYPE then button_provider_payload(interactive, path, attachment)
       when LIST_TYPE then list_provider_payload(interactive, path)
-      else raise_validation!("#{path}.type must be button or list")
+      when CTA_URL_TYPE then cta_url_provider_payload(interactive, path, attachment)
+      else raise_validation!("#{path}.type must be button, list, or cta_url")
       end
     end
 
@@ -178,6 +197,35 @@ class Whatsapp::InteractiveMessages::Registry
       payload
     end
 
+    def resolve_cta_url_message(interactive, path)
+      validated_interactive!(interactive, path, CTA_URL_TYPE, %w[schema_version type body action], optional: %w[header footer])
+      resolved = {
+        'schema_version' => SCHEMA_VERSION,
+        'type' => CTA_URL_TYPE,
+        'body' => { 'text' => validated_body_text(interactive, path) },
+        'action' => validated_cta_url_action(interactive, path)
+      }
+      resolved['header'] = validated_header(interactive, path) if interactive.key?('header')
+      resolved['footer'] = validated_footer(interactive, path) if interactive.key?('footer')
+      resolved
+    end
+
+    def cta_url_provider_payload(interactive, path, attachment)
+      validated_interactive!(interactive, path, CTA_URL_TYPE, %w[schema_version type body action], optional: %w[header footer])
+      action = validated_cta_url_action(interactive, path)
+      payload = {
+        type: CTA_URL_TYPE,
+        body: { text: validated_body_text(interactive, path) },
+        action: {
+          name: CTA_URL_TYPE,
+          parameters: { display_text: action['button'], url: action['url'] }
+        }
+      }
+      payload[:header] = provider_header(interactive, path, attachment) if interactive.key?('header')
+      payload[:footer] = { text: validated_footer(interactive, path)['text'] } if interactive.key?('footer')
+      payload
+    end
+
     def validated_interactive!(interactive, path, type, required, optional: [])
       exact_keys!(interactive, required, path, optional: optional)
       value!(interactive['schema_version'] == SCHEMA_VERSION, "#{path}.schema_version must be 1")
@@ -225,6 +273,16 @@ class Whatsapp::InteractiveMessages::Registry
       footer = hash!(interactive['footer'], "#{path}.footer")
       exact_keys!(footer, %w[text], "#{path}.footer")
       { 'text' => text!(footer['text'], "#{path}.footer.text", FOOTER_MAX_LENGTH) }
+    end
+
+    def validated_cta_url_action(interactive, path)
+      action_path = "#{path}.action"
+      action = hash!(interactive['action'], action_path)
+      exact_keys!(action, %w[button url], action_path)
+      {
+        'button' => text!(action['button'], "#{action_path}.button", CTA_BUTTON_MAX_LENGTH),
+        'url' => url!(action['url'], "#{action_path}.url")
+      }
     end
 
     def provider_header(interactive, path, attachment)
@@ -366,6 +424,30 @@ class Whatsapp::InteractiveMessages::Registry
       value!(value.present?, "#{path} cannot be blank")
       value!(value.length <= maximum, "#{path} must be #{maximum} characters or fewer")
       value
+    end
+
+    def url!(value, path)
+      value!(value.is_a?(String), "#{path} must be text")
+      uri = URI.parse(value)
+      value!(uri.is_a?(URI::HTTP) && valid_http_host?(uri.host) && uri.port.between?(1, 65_535),
+             "#{path} must be a valid HTTP(S) URL")
+      value
+    rescue URI::InvalidURIError, URI::InvalidComponentError
+      raise_validation!("#{path} must be a valid HTTP(S) URL")
+    end
+
+    def valid_http_host?(host)
+      return false if host.blank? || host.length > 253
+
+      normalized_host = host.delete_prefix('[').delete_suffix(']')
+      IPAddr.new(normalized_host)
+      true
+    rescue IPAddr::InvalidAddressError
+      return false if normalized_host.match?(/\A[\d.]+\z/)
+
+      normalized_host.split('.', -1).all? do |label|
+        label.length.between?(1, 63) && label.match?(/\A[a-z\d](?:[a-z\d-]*[a-z\d])?\z/i)
+      end
     end
 
     def value!(condition, message)

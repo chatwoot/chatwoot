@@ -66,6 +66,76 @@ RSpec.describe Whatsapp::InteractiveMessages::Resolver do
     end
   end
 
+  it 'persists a resolved CTA URL snapshot without generating click identity' do
+    cta_url = {
+      schema_version: 1,
+      type: 'cta_url',
+      body: { text: 'Your order is ready.' },
+      action: { button: 'View details', url: 'https://example.test/details' }
+    }
+    params = ActionController::Parameters.new(content: 'untrusted', content_attributes: { whatsapp_interactive: cta_url })
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      message = Messages::MessageBuilder.new(user, conversation, params).perform
+      snapshot = message.reload.content_attributes['whatsapp_interactive']
+
+      expect(message.content).to eq('Your order is ready.')
+      expect(snapshot['action']).to eq('button' => 'View details', 'url' => 'https://example.test/details')
+      expect(snapshot.to_json).not_to include('delivery_id', 'preset_option_id', 'uuid')
+    end
+  end
+
+  it 'persists a CTA URL message-owned media header transactionally' do
+    cta_url = {
+      schema_version: 1,
+      type: 'cta_url',
+      header: { type: 'image' },
+      body: { text: 'Your order is ready.' },
+      action: { button: 'View details', url: 'https://example.test/details' }
+    }
+    upload = Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+    params = ActionController::Parameters.new(content_attributes: { whatsapp_interactive: cta_url }, attachments: [upload])
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      message = Messages::MessageBuilder.new(user, conversation, params).perform
+      attachment = message.attachments.sole
+
+      expect(message.reload.content_attributes.dig('whatsapp_interactive', 'header')).to eq(
+        'type' => 'image', 'attachment_id' => attachment.id
+      )
+      expect(attachment.file_type).to eq('image')
+    end
+  end
+
+  it 'rejects invalid CTA structure and missing or multiple media uploads before persistence or provider contact' do
+    cta_url = {
+      schema_version: 1,
+      type: 'cta_url',
+      header: { type: 'image' },
+      body: { text: 'Your order is ready.' },
+      action: { button: 'View details', url: 'https://example.test/details' }
+    }
+    upload = Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+    invalid_inputs = [
+      [cta_url.deep_dup.tap { |value| value[:action][:url] = 'javascript:alert(1)' }, [upload]],
+      [cta_url, []],
+      [cta_url, [upload, upload]]
+    ]
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      invalid_inputs.each do |interactive_payload, uploads|
+        params = ActionController::Parameters.new(
+          content_attributes: { whatsapp_interactive: interactive_payload }, attachments: uploads
+        )
+        expect { Messages::MessageBuilder.new(user, conversation, params).perform }
+          .to raise_error(Whatsapp::InteractiveMessages::ValidationError)
+      end
+    end
+
+    expect(conversation.messages.outgoing).to be_empty
+    expect(WebMock).not_to have_requested(:post, %r{graph\.facebook\.com/.*/messages})
+  end
+
   it 'rejects an invalid list before persistence or provider contact' do
     invalid_list = {
       schema_version: 1, type: 'list', body: { text: 'Choose.' },

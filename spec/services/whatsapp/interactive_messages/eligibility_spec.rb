@@ -215,12 +215,39 @@ RSpec.describe Whatsapp::InteractiveMessages::Eligibility do
     whatsapp_channel.update_columns( # rubocop:disable Rails/SkipsModelValidations
       phone_number_health: { 'business_verification_status' => 'not_verified' }
     )
-    allow(Whatsapp::InteractiveMessages::Registry).to receive(:implemented?) do |type|
-      %w[button cta_url].include?(type)
-    end
-
     with_modified_env described_class::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
-      expect(eligibility.capabilities.dig(:interactive_types, :cta_url)).to include(implemented: true, available: true)
+      expect(eligibility.capabilities.dig(:interactive_types, :cta_url)).to include(
+        implemented: true,
+        enabled: true,
+        available: true,
+        unavailable_reasons: [],
+        limits: include(body_max_length: 1024, button_max_length: 20, action_count: 1)
+      )
+    end
+  end
+
+  it 'keeps CTA provider, flag, service-window, and recipient restrictions independent from business verification' do
+    whatsapp_channel.update_columns( # rubocop:disable Rails/SkipsModelValidations
+      phone_number_health: { 'business_verification_status' => 'not_verified' }
+    )
+    conversation.account.disable_features!('whatsapp_interactive_cta_url')
+    conversation.messages.incoming.update_all(created_at: 25.hours.ago) # rubocop:disable Rails/SkipsModelValidations
+
+    with_modified_env described_class::TEST_ALLOWLIST_ENV => '+15550000002,+15550000003' do
+      expect(eligibility.reasons('cta_url')).to eq(
+        %w[temporarily_disabled service_window_closed test_recipient_not_allowlisted]
+      )
+      expect(eligibility.reasons('cta_url')).not_to include('business_not_verified')
+      expect { eligibility.ensure_available!('cta_url') }
+        .to raise_error(Whatsapp::InteractiveMessages::EligibilityError, 'temporarily_disabled')
+
+      conversation.account.enable_features!('whatsapp_interactive_cta_url')
+      expect { eligibility.ensure_available!('cta_url') }
+        .to raise_error(Whatsapp::InteractiveMessages::EligibilityError, 'service_window_closed')
+
+      conversation.messages.incoming.update_all(created_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
+      expect { eligibility.ensure_available!('cta_url') }
+        .to raise_error(Whatsapp::InteractiveMessages::EligibilityError, 'test_recipient_not_allowlisted')
     end
   end
 
@@ -253,6 +280,14 @@ RSpec.describe Whatsapp::InteractiveMessages::Eligibility do
           unavailable_reason: 'provider_not_supported',
           unavailable_reasons: ['provider_not_supported']
         )
+      end
+    end
+
+    it 'rejects CTA URLs with the provider-specific reason' do
+      with_modified_env described_class::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+        expect(eligibility.reasons('cta_url')).to eq(['provider_not_supported'])
+        expect { eligibility.ensure_available!('cta_url') }
+          .to raise_error(Whatsapp::InteractiveMessages::EligibilityError, 'provider_not_supported')
       end
     end
   end

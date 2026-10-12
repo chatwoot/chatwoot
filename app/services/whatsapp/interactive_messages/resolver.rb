@@ -15,7 +15,8 @@ class Whatsapp::InteractiveMessages::Resolver
     end
 
     def persist!(message)
-      return message.save! unless message.content_attributes.dig('whatsapp_interactive', 'type') == 'button'
+      type = message.content_attributes.dig('whatsapp_interactive', 'type')
+      return message.save! unless %w[button cta_url].include?(type)
 
       validate_attachment!(message)
       Message.transaction do

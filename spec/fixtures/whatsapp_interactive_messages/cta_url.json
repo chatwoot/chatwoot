@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "type": "cta_url",
+  "header": {
+    "type": "text",
+    "text": "Order update"
+  },
+  "body": {
+    "text": "Your order is ready to review."
+  },
+  "footer": {
+    "text": "Secure link"
+  },
+  "action": {
+    "button": "View details",
+    "url": "https://example.test/details"
+  }
+}
