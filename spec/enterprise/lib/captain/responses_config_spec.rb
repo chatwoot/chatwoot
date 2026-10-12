@@ -52,6 +52,18 @@ RSpec.describe Captain::ResponsesConfig do
     expect(described_class.metadata(chat)).to eq(api_protocol: :chat_completions)
   end
 
+  describe '.json_format_options' do
+    it 'wraps formats for Responses' do
+      format = { type: 'json_schema', name: 'answer', schema: { type: 'object' }, strict: false }
+
+      expect(described_class.json_format_options(protocol: :responses, format: format)).to eq(text: { format: format })
+    end
+
+    it 'wraps formats for Chat Completions' do
+      expect(described_class.json_format_options(protocol: nil)).to eq(response_format: { type: 'json_object' })
+    end
+  end
+
   %w[low high].each do |effort|
     it "applies configured #{effort} effort and omits temperature" do
       allow(Llm::Models).to receive(:features).and_return(Llm::Models.features.deep_merge('assistant' => { 'reasoning_effort' => effort }))

@@ -98,7 +98,8 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
   end
 
   def completion_parameters(messages)
-    return { model: @model, response_format: { type: 'json_object' }, messages: messages } unless request_options[:protocol] == :responses
+    format_options = Captain::ResponsesConfig.json_format_options(protocol: request_options[:protocol])
+    return { model: @model, messages: messages, **format_options } unless request_options[:protocol] == :responses
 
     input = messages.map do |message|
       content = message[:content]
@@ -110,7 +111,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
       message.merge(content: content)
     end
     # RubyLLM's Responses requests send store: false; this hand-built request must too, or OpenAI keeps the document.
-    params = { model: @model, input: input, text: { format: { type: 'json_object' } }, store: false }
+    params = { model: @model, input: input, store: false, **format_options }
     params[:reasoning] = request_options[:thinking] if request_options[:thinking]
     params
   end

@@ -34,7 +34,7 @@ class Llm::BaseAiService
     format = { type: 'json_object' }
     # Responses JSON mode requires a JSON instruction in input, even when instructions already specify the output format.
     llm_chat.add_message(role: :user, content: 'Respond with valid JSON.') if options[:protocol] == :responses
-    llm_chat.with_provider_options(options[:protocol] == :responses ? { text: { format: format } } : { response_format: format })
+    llm_chat.with_provider_options(Captain::ResponsesConfig.json_format_options(protocol: options[:protocol], format: format))
   end
 
   private

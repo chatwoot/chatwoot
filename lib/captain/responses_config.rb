@@ -20,6 +20,12 @@ module Captain::ResponsesConfig
     }.compact
   end
 
+  def self.json_format_options(protocol:, format: { type: 'json_object' })
+    return { text: { format: format } } if protocol == :responses
+
+    { response_format: format }
+  end
+
   def self.metadata(chat, protocol: nil)
     return {} unless chat.provider.slug == 'openai'
 

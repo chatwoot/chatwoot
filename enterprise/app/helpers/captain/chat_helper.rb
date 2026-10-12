@@ -33,7 +33,7 @@ module Captain::ChatHelper
     if options[:protocol] == :responses
       format = { type: 'json_schema', name: 'copilot_response', schema: { type: 'object', additionalProperties: true }, strict: false }
     end
-    provider_options = options[:protocol] == :responses ? { text: { format: format } } : { response_format: format }
+    provider_options = Captain::ResponsesConfig.json_format_options(protocol: options[:protocol], format: format)
     llm_chat = llm_chat.with_provider_options(**provider_options)
 
     llm_chat = setup_system_instructions(llm_chat.with_tools(*Array(@tools)))
