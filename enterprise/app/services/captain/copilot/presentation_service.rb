@@ -2,6 +2,8 @@ class Captain::Copilot::PresentationService
   include Captain::Copilot::ConversationAccess
 
   PAGE_SIZE = 20
+  # A review page holds a whole review batch, so an answer about the matches never rests on part of them.
+  REVIEW_PAGE_SIZE = CopilotRun::REVIEW_BUDGET
 
   def initialize(run)
     @run = run
@@ -41,17 +43,19 @@ class Captain::Copilot::PresentationService
   def review_table(page, matched_only)
     visible = accessible_conversations(account: @run.account, user: @run.user)
     scope = visible_findings(visible, matched_only)
-    findings = scope.page(page).per(PAGE_SIZE)
+    findings = scope.page(page).per(REVIEW_PAGE_SIZE)
     display_ids = visible.where(id: findings.map(&:conversation_id)).pluck(:id, :display_id).to_h
     rows = findings.map { |finding| result_row(finding, display_ids.fetch(finding.conversation_id)) }
     total = findings.total_count
-    { run: @run.receipt, type: 'table', page: page, total: total, has_more: page * PAGE_SIZE < total, rows: rows,
+    { run: @run.receipt, type: 'table', page: page, total: total, has_more: page * REVIEW_PAGE_SIZE < total, rows: rows,
       content: markdown(rows, page, total) }
   end
 
+  # Matched findings come first, so they fill the first page when a continued review holds more than one page.
   def visible_findings(visible, matched_only)
-    scope = @run.findings.where(conversation_id: visible.select(:id)).where.not(status: %w[screened_in screened_out]).order(:conversation_id)
-    matched_only ? scope.where(matched: true) : scope
+    scope = @run.findings.where(conversation_id: visible.select(:id)).where.not(status: %w[screened_in screened_out])
+    scope = scope.where(matched: true) if matched_only
+    scope.order(matched: :desc, conversation_id: :asc)
   end
 
   def result_row(finding, display_id)
@@ -67,7 +71,14 @@ class Captain::Copilot::PresentationService
 
     cells = rows.map { |row| ["[##{row[:conversation_id]}](#{row[:url]})", escape(row[:category]), escape(finding_text(row))] }
     table = markdown_table(%w[Conversation Category Finding], cells)
-    (lines + [table, "Page #{page}, #{total} accessible findings. Ask for another page to see more."]).join("\n\n")
+    (lines + [table, page_note(page, rows.size, total)]).join("\n\n")
+  end
+
+  def page_note(page, count, total)
+    first = ((page - 1) * REVIEW_PAGE_SIZE) + 1
+    last = first + count - 1
+    note = "Findings #{first} to #{last} of #{total} accessible findings, matched first."
+    last < total ? "#{note} #{total - last} more are on later pages. Ask for page #{page + 1} to read them." : note
   end
 
   def markdown_table(header, rows)
