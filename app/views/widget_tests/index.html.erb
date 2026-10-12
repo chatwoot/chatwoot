@@ -30,7 +30,7 @@
   </style>
   <aside class="tools-column">
     <section class="tool">
-      <form method="get" onsubmit="beforeIdentify(this)">
+      <form method="get" onsubmit="return beforeIdentify(this)">
         <input type="hidden" name="inbox_id" value="<%= @inbox.id %>" />
         <% %w[position type widget_style dark_mode].each do |key| %>
           <% if params[key].present? %><input type="hidden" name="<%= key %>" value="<%= params[key] %>" /><% end %>
@@ -122,7 +122,13 @@ function updateHashChoice(form) {
 
 // An invalid hash is only a real test on a fresh session, and the SDK skips a repeated identical setUser
 function beforeIdentify(form) {
+  // The SDK throws on setUser without an email, a name or an avatar
+  if (!form.email.value.trim() && !form.name.value.trim()) {
+    setHmacStatus('Add an email or a name. The SDK rejects setUser without one.', 'failed');
+    return false;
+  }
   if (form.hash.value === 'invalid' && window.$chatwoot) window.$chatwoot.reset();
+  return true;
 }
 
 // Shows the outcome of the invalid hash test in the status line
