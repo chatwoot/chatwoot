@@ -36,6 +36,59 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.first.content).to eq(params[:content])
       end
 
+      context 'with an eligible WhatsApp Cloud conversation' do
+        let(:whatsapp_channel) do
+          create(
+            :channel_whatsapp,
+            account: account,
+            provider: 'whatsapp_cloud',
+            validate_provider_config: false,
+            sync_templates: false
+          )
+        end
+        let(:inbox) { whatsapp_channel.inbox }
+        let(:contact) { create(:contact, account: account, phone_number: '+15550000001') }
+        let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact, source_id: '15550000001') }
+        let(:conversation) { create(:conversation, inbox: inbox, account: account, contact_inbox: contact_inbox) }
+
+        before do
+          create(:message, :incoming, conversation: conversation, account: account, inbox: inbox)
+        end
+
+        it 'returns the server-resolved interactive snapshot from message creation' do
+          params = {
+            content_attributes: {
+              whatsapp_interactive: {
+                schema_version: 1,
+                type: 'button',
+                body: { text: 'Please choose one option.' },
+                action: { buttons: [{ title: 'Confirm' }, { title: 'Change' }] }
+              }
+            }
+          }
+
+          with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+            post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+                 params: params,
+                 headers: agent.create_new_auth_token,
+                 as: :json
+          end
+
+          expect(response).to have_http_status(:success)
+          snapshot = response.parsed_body.dig('content_attributes', 'whatsapp_interactive')
+          persisted_snapshot = conversation.messages.outgoing.last.content_attributes['whatsapp_interactive']
+
+          expect(snapshot).to eq(persisted_snapshot)
+          expect(snapshot.except('action')).to eq(
+            'schema_version' => 1,
+            'type' => 'button',
+            'body' => { 'text' => 'Please choose one option.' }
+          )
+          expect(snapshot.dig('action', 'buttons').pluck('title')).to eq(%w[Confirm Change])
+          expect(snapshot.dig('action', 'buttons').pluck('delivery_id')).to all(start_with('reply_'))
+        end
+      end
+
       it 'does not create the message' do
         params = { content: "#{'h' * 150 * 1000}a", private: true }
 

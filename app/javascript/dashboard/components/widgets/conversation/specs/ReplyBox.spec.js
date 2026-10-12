@@ -124,6 +124,149 @@ const editor = wrapper =>
   wrapper.findComponent({ name: 'WootMessageEditor' }).props();
 
 describe('ReplyBox', () => {
+  describe('WhatsApp reply buttons', () => {
+    const capability = {
+      schema_version: 1,
+      account_mode: 'test',
+      interactive_types: {
+        button: {
+          implemented: true,
+          available: true,
+          limits: {
+            body_max_length: 1024,
+            button_title_max_length: 20,
+            button_min_count: 1,
+            button_max_count: 3,
+          },
+        },
+      },
+    };
+
+    it('submits only the normalized text-button input fields', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      const sendMessage = vi
+        .spyOn(wrapper.vm, 'sendMessage')
+        .mockResolvedValue(undefined);
+
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: ' Choose one. ',
+        buttons: [' Confirm ', 'Change'],
+      };
+      wrapper.vm.confirmOnSendReply();
+
+      expect(sendMessage).toHaveBeenCalledWith(
+        expect.objectContaining({
+          message: 'Choose one.',
+          contentAttributes: {
+            whatsapp_interactive: {
+              schema_version: 1,
+              type: 'button',
+              body: { text: 'Choose one.' },
+              action: {
+                buttons: [{ title: 'Confirm' }, { title: 'Change' }],
+              },
+            },
+          },
+        }),
+        'Choose one.',
+        ''
+      );
+      expect(wrapper.vm.whatsappInteractiveDraft).toEqual({
+        body: '',
+        buttons: [''],
+      });
+    });
+
+    it('discards the unfinished interaction when the conversation changes', async () => {
+      const { wrapper, store } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: 'Unfinished',
+        buttons: ['Continue'],
+      };
+
+      store.commit('selectChat', {
+        ...REPLIABLE,
+        id: 2,
+        whatsapp_interactive: capability,
+      });
+      await nextTick();
+
+      expect(wrapper.vm.isWhatsappInteractive).toBe(false);
+      expect(wrapper.vm.whatsappInteractiveDraft).toEqual({
+        body: '',
+        buttons: [''],
+      });
+    });
+
+    it('discards the unfinished interaction when switching to a private note', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: 'Unfinished',
+        buttons: ['Continue'],
+      };
+
+      wrapper.vm.setReplyMode(REPLY_EDITOR_MODES.NOTE);
+      await nextTick();
+
+      expect(wrapper.vm.isWhatsappInteractive).toBe(false);
+      expect(wrapper.vm.whatsappInteractiveDraft).toEqual({
+        body: '',
+        buttons: [''],
+      });
+      expect(wrapper.vm.isPrivate).toBe(true);
+    });
+
+    it('keeps an unavailable capability visible but disabled', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: {
+          whatsapp_interactive: {
+            ...capability,
+            interactive_types: {
+              button: {
+                ...capability.interactive_types.button,
+                available: false,
+                unavailable_reason: 'test_recipient_not_allowlisted',
+              },
+            },
+          },
+        },
+      });
+
+      expect(bottomPanel(wrapper).whatsappInteractiveCapability).toMatchObject({
+        implemented: true,
+        available: false,
+        unavailable_reason: 'test_recipient_not_allowlisted',
+      });
+      wrapper.vm.toggleWhatsappInteractive();
+      expect(wrapper.vm.isWhatsappInteractive).toBe(false);
+    });
+  });
+
   describe('Instagram incident restriction', () => {
     it('opens in note mode and restores only the private-note draft', async () => {
       const { wrapper, store } = mountWith({

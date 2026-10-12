@@ -12,6 +12,7 @@ import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel
 import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
 import CopilotReplyBottomPanel from 'dashboard/components/widgets/WootWriter/CopilotReplyBottomPanel.vue';
+import WhatsAppInteractiveComposer from 'dashboard/components-next/whatsapp/WhatsAppInteractiveComposer.vue';
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import CopilotEditorSection from './CopilotEditorSection.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
@@ -81,6 +82,7 @@ export default {
     QuotedEmailPreview,
     CopilotEditorSection,
     CopilotReplyBottomPanel,
+    WhatsAppInteractiveComposer,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
   emits: ['toggleEditorSize'],
@@ -140,6 +142,8 @@ export default {
       hasRecordedAudio: false,
       copilotAcceptedMessages: {},
       isLocationRequest: false,
+      isWhatsappInteractive: false,
+      whatsappInteractiveDraft: { body: '', buttons: [''] },
     };
   },
   computed: {
@@ -182,6 +186,37 @@ export default {
         !this.isPrivate &&
         !this.hasAttachments &&
         !this.hasRecordedAudio
+      );
+    },
+    whatsappInteractiveCapability() {
+      return (
+        this.currentChat?.whatsapp_interactive?.interactive_types?.button ??
+        null
+      );
+    },
+    whatsappInteractiveLimits() {
+      const limits = this.whatsappInteractiveCapability?.limits ?? {};
+      return {
+        bodyMaxLength: limits.body_max_length ?? 1024,
+        buttonTitleMaxLength: limits.button_title_max_length ?? 20,
+        buttonMinCount: limits.button_min_count ?? 1,
+        buttonMaxCount: limits.button_max_count ?? 3,
+      };
+    },
+    isWhatsappInteractiveValid() {
+      const { body, buttons } = this.whatsappInteractiveDraft;
+      const limits = this.whatsappInteractiveLimits;
+      const titles = buttons.map(title => title.trim());
+      return (
+        body.trim().length >= 1 &&
+        body.length <= limits.bodyMaxLength &&
+        buttons.length >= limits.buttonMinCount &&
+        buttons.length <= limits.buttonMaxCount &&
+        titles.every(
+          title =>
+            title.length >= 1 && title.length <= limits.buttonTitleMaxLength
+        ) &&
+        new Set(titles).size === titles.length
       );
     },
     isWithinMessagingWindow() {
@@ -270,6 +305,9 @@ export default {
     isReplyButtonDisabled() {
       if (this.isEditorDisabled) return true;
       if (this.isATwitterInbox) return true;
+      if (this.isWhatsappInteractive) {
+        return !this.isWhatsappInteractiveValid;
+      }
       if (this.hasAttachments || this.hasRecordedAudio) return false;
 
       return (
@@ -344,9 +382,16 @@ export default {
       );
     },
     replyButtonLabel() {
-      let sendMessageText = this.isLocationRequest
-        ? this.$t('CONVERSATION.REPLYBOX.SEND_LOCATION_REQUEST')
-        : this.$t('CONVERSATION.REPLYBOX.SEND');
+      let sendMessageText = this.$t('CONVERSATION.REPLYBOX.SEND');
+      if (this.isLocationRequest) {
+        sendMessageText = this.$t(
+          'CONVERSATION.REPLYBOX.SEND_LOCATION_REQUEST'
+        );
+      } else if (this.isWhatsappInteractive) {
+        sendMessageText = this.$t(
+          'CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.SEND'
+        );
+      }
       if (this.isPrivate && !this.isLocationRequest) {
         sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
       }
@@ -365,7 +410,11 @@ export default {
       return this.attachedFiles.length;
     },
     showAudioRecorder() {
-      return !this.isOnPrivateNote && this.showFileUpload;
+      return (
+        !this.isOnPrivateNote &&
+        !this.isWhatsappInteractive &&
+        this.showFileUpload
+      );
     },
     showAudioRecorderEditor() {
       return this.showAudioRecorder && this.isRecordingAudio;
@@ -481,7 +530,11 @@ export default {
       );
     },
     isDefaultEditorMode() {
-      return !this.showAudioRecorderEditor && !this.copilot.isActive.value;
+      return (
+        !this.showAudioRecorderEditor &&
+        !this.copilot.isActive.value &&
+        !this.isWhatsappInteractive
+      );
     },
     isEditorDisabled() {
       return (
@@ -500,6 +553,7 @@ export default {
         this.setCCAndToEmailsFromLastChat();
         // Reset Copilot editor state (includes cancelling ongoing generation)
         this.copilot.reset();
+        this.resetWhatsappInteractive();
       }
 
       if (this.isInstagramReplyRestricted) {
@@ -532,6 +586,7 @@ export default {
     conversationIdByRoute(conversationId, oldConversationId) {
       if (conversationId !== oldConversationId) {
         this.isLocationRequest = false;
+        this.resetWhatsappInteractive();
         this.switchDraftContext(conversationId, this.effectiveReplyMode);
         this.resetRecorderAndClearAttachments();
       }
@@ -548,6 +603,7 @@ export default {
     },
     effectiveReplyMode(updatedReplyType) {
       this.isLocationRequest = false;
+      this.resetWhatsappInteractive();
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode: updatedReplyType,
       });
@@ -865,7 +921,31 @@ export default {
         // To handle both cases, text and attachments are always sent as separate messages.
         const isOnInstagram = this.isAnInstagramChannel;
         const isOnTiktok = this.isATiktokChannel;
-        if (this.isLocationRequest) {
+        if (this.isWhatsappInteractive) {
+          const body = this.whatsappInteractiveDraft.body.trim();
+          const buttons = this.whatsappInteractiveDraft.buttons.map(button => ({
+            title: button.trim(),
+          }));
+          this.sendMessage(
+            {
+              conversationId: this.currentChat.id,
+              message: body,
+              private: this.isPrivate,
+              sender: this.sender,
+              contentAttributes: {
+                whatsapp_interactive: {
+                  schema_version: 1,
+                  type: 'button',
+                  body: { text: body },
+                  action: { buttons },
+                },
+              },
+            },
+            body,
+            copilotAcceptedMessage
+          );
+          this.resetWhatsappInteractive();
+        } else if (this.isLocationRequest) {
           const messagePayload = this.getMessagePayload(this.message);
           messagePayload.contentAttributes = {
             ...messagePayload.contentAttributes,
@@ -1019,6 +1099,7 @@ export default {
       this.hideContentTemplatesModal();
     },
     requestLocation() {
+      this.resetWhatsappInteractive();
       this.isLocationRequest = !this.isLocationRequest;
       if (this.isLocationRequest && !this.hasMeaningfulEditorContent) {
         this.message = this.$t(
@@ -1027,6 +1108,18 @@ export default {
       }
       this.hideEmojiPicker();
       this.$nextTick(() => this.messageEditor?.focusEditorInputField?.());
+    },
+    toggleWhatsappInteractive() {
+      if (!this.whatsappInteractiveCapability?.available) return;
+
+      this.isWhatsappInteractive = !this.isWhatsappInteractive;
+      this.isLocationRequest = false;
+      this.hideEmojiPicker();
+      if (!this.isWhatsappInteractive) this.resetWhatsappInteractive();
+    },
+    resetWhatsappInteractive() {
+      this.isWhatsappInteractive = false;
+      this.whatsappInteractiveDraft = { body: '', buttons: [''] };
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       // Clear attachments when switching between private note and reply modes
@@ -1051,6 +1144,7 @@ export default {
     },
     clearMessage() {
       this.isLocationRequest = false;
+      this.resetWhatsappInteractive();
       this.message = '';
       this.clearCopilotAcceptedMessage();
       if (this.sendWithSignature && !this.isPrivate) {
@@ -1430,6 +1524,12 @@ export default {
           @content-ready="copilot.setContentReady"
           @send="copilot.sendFollowUp"
         />
+        <WhatsAppInteractiveComposer
+          v-else-if="isWhatsappInteractive"
+          v-model="whatsappInteractiveDraft"
+          :limits="whatsappInteractiveLimits"
+          @close="resetWhatsappInteractive"
+        />
         <WootMessageEditor
           v-else-if="!showAudioRecorderEditor"
           ref="messageEditor"
@@ -1514,6 +1614,8 @@ export default {
         :enable-content-templates="showContentTemplates"
         :enable-location-request="showLocationRequest"
         :is-location-request="isLocationRequest"
+        :whatsapp-interactive-capability="whatsappInteractiveCapability"
+        :is-whatsapp-interactive="isWhatsappInteractive"
         :inbox="inbox"
         :is-on-private-note="isOnPrivateNote"
         :is-recording-audio="isRecordingAudio"
@@ -1540,6 +1642,7 @@ export default {
         @select-whatsapp-template="openWhatsappTemplateModal"
         @select-content-template="openContentTemplateModal"
         @request-location="requestLocation"
+        @toggle-whatsapp-interactive="toggleWhatsappInteractive"
         @toggle-insert-article="toggleInsertArticle"
         @toggle-quoted-reply="toggleQuotedReply"
       />

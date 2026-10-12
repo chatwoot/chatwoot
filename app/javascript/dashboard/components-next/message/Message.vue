@@ -42,6 +42,7 @@ import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
 import VoiceCallBubble from './bubbles/VoiceCall.vue';
 import WhatsappFlowResponseBubble from './bubbles/WhatsappFlowResponse.vue';
+import WhatsAppInteractiveBubble from './bubbles/WhatsAppInteractive.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -310,6 +311,10 @@ const componentToRender = computed(() => {
     return WhatsappFlowResponseBubble;
   }
 
+  if (props.contentAttributes?.whatsappInteractive?.type === 'button') {
+    return WhatsAppInteractiveBubble;
+  }
+
   if (props.contentType === CONTENT_TYPES.INPUT_CSAT) {
     return CSATBubble;
   }
@@ -435,6 +440,7 @@ const shouldRenderMessage = computed(() => {
     isUnsupported ||
     isAnIntegrationMessage ||
     hasWhatsappFlowResponse ||
+    !!props.contentAttributes?.whatsappInteractive ||
     isFailedMessage ||
     hasExternalError
   );

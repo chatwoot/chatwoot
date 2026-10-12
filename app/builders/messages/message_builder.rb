@@ -10,7 +10,6 @@ class Messages::MessageBuilder
     @private = params[:private] || false
     @conversation = conversation
     @user = user
-    @account = conversation.account
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
     @is_voice_message = ActiveModel::Type::Boolean.new.cast(params[:is_voice_message])
@@ -22,6 +21,7 @@ class Messages::MessageBuilder
   end
 
   def perform
+    @params.merge!(Whatsapp::InteractiveMessages::Resolver.message_params(@conversation, @params, content_attributes))
     @message = @conversation.messages.build(message_params)
     process_attachments
     process_emails

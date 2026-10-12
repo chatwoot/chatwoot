@@ -4,8 +4,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
   subject(:service) { described_class.new(whatsapp_channel: whatsapp_channel) }
 
   let(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false) }
-  # Call-flow endpoints use the configured WHATSAPP_API_VERSION (fallback v22.0),
-  # not the OSS v13.0 path locked for legacy /messages compatibility.
+  # Call-flow endpoints use the same configured WHATSAPP_API_VERSION as other Cloud requests.
   let(:calls_url) { 'https://graph.facebook.com/v22.0/123456789/calls' }
   let(:messages_url) { 'https://graph.facebook.com/v22.0/123456789/messages' }
   let(:headers) { { 'Content-Type' => 'application/json' } }
@@ -26,6 +25,15 @@ describe Whatsapp::Providers::WhatsappCloudService do
       stub_request(:post, calls_url).to_return(status: 400, body: '{}', headers: headers)
 
       expect(service.reject_call('WACALL')).to be false
+    end
+
+    it 'uses the configured Graph version' do
+      allow(GlobalConfigService).to receive(:load).with('WHATSAPP_API_VERSION', 'v22.0').and_return('v25.0')
+      request = stub_request(:post, 'https://graph.facebook.com/v25.0/123456789/calls')
+                .to_return(status: 200, body: '{}', headers: headers)
+
+      expect(service.reject_call('WACALL')).to be true
+      expect(request).to have_been_requested.once
     end
   end
 

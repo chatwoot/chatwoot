@@ -7,9 +7,21 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
 
   def perform_reply
     return send_template_message if template_params.present?
+    return send_interactive_message if whatsapp_interactive_message?
     return send_session_message if message.conversation.can_reply?
 
     message.update!(status: :failed, external_error: I18n.t('errors.whatsapp.message_outside_messaging_window'))
+  end
+
+  def send_interactive_message
+    Whatsapp::InteractiveMessages::Eligibility.new(message.conversation).ensure_available!
+    send_session_message
+  rescue Whatsapp::InteractiveMessages::EligibilityError => e
+    message.update!(status: :failed, external_error: e.reason)
+  end
+
+  def whatsapp_interactive_message?
+    message.content_attributes.dig('whatsapp_interactive', 'type') == 'button'
   end
 
   def send_template_message

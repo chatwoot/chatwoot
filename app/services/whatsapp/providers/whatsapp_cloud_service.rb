@@ -1,8 +1,12 @@
+# The provider keeps all WhatsApp Cloud request lanes together so shared routing and response handling remain visible.
+# rubocop:disable Metrics/ClassLength
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
     @message = message
 
-    if message.attachments.present?
+    if whatsapp_interactive_message?(message)
+      send_whatsapp_interactive_message(phone_number, message)
+    elsif message.attachments.present?
       send_attachment_message(phone_number, message)
     elsif location_request_message?(message) || message.content_type == 'input_select'
       send_interactive_text_message(phone_number, message)
@@ -90,7 +94,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def media_url(media_id)
-    "#{api_base_path}/v13.0/#{media_id}"
+    "#{api_base_path}/#{api_version}/#{media_id}"
   end
 
   private
@@ -113,13 +117,16 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
   end
 
-  # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
-  def phone_id_path(version = 'v13.0')
-    "#{api_base_path}/#{version}/#{whatsapp_channel.provider_config['phone_number_id']}"
+  def api_version
+    GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')
+  end
+
+  def phone_id_path
+    "#{api_base_path}/#{api_version}/#{whatsapp_channel.provider_config['phone_number_id']}"
   end
 
   def business_account_path
-    "#{api_base_path}/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
+    "#{api_base_path}/#{api_version}/#{whatsapp_channel.provider_config['business_account_id']}"
   end
 
   def send_text_message(phone_number, message)
@@ -144,7 +151,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
     type_content = build_attachment_content(type, attachment, message)
     response = HTTParty.post(
-      "#{phone_id_path('v24.0')}/messages",
+      "#{phone_id_path}/messages",
       headers: api_headers,
       body: {
         :messaging_product => 'whatsapp',
@@ -241,7 +248,27 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     payload = location_request ? create_location_request_payload(message) : create_payload_based_on_items(message)
 
     response = HTTParty.post(
-      "#{phone_id_path(location_request ? 'v24.0' : 'v13.0')}/messages",
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        **recipient_params(phone_number),
+        interactive: payload,
+        type: 'interactive'
+      }.to_json
+    )
+
+    process_response(response, message)
+  end
+
+  def whatsapp_interactive_message?(message)
+    message.content_attributes.dig('whatsapp_interactive', 'type') == 'button'
+  end
+
+  def send_whatsapp_interactive_message(phone_number, message)
+    payload = Whatsapp::InteractiveMessages::Registry.provider_payload(message.content_attributes['whatsapp_interactive'])
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
       headers: api_headers,
       body: {
         messaging_product: 'whatsapp',
@@ -254,5 +281,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     process_response(response, message)
   end
 end
+# rubocop:enable Metrics/ClassLength
 
 Whatsapp::Providers::WhatsappCloudService.prepend_mod_with('Whatsapp::Providers::WhatsappCloudService')

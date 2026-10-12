@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "type": "button",
+  "body": {
+    "text": "Please choose one option."
+  },
+  "action": {
+    "buttons": [
+      {
+        "delivery_id": "reply_00000000-0000-4000-8000-000000000001",
+        "title": "Confirm"
+      },
+      {
+        "delivery_id": "reply_00000000-0000-4000-8000-000000000002",
+        "title": "Change"
+      }
+    ]
+  }
+}

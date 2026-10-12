@@ -253,6 +253,24 @@
       "CANCEL_LOCATION_REQUEST": "Cancel location request",
       "REQUEST_LOCATION_DEFAULT": "Please share your current location.",
       "SEND_LOCATION_REQUEST": "Send location request",
+      "WHATSAPP_BUTTONS": {
+        "TITLE": "WhatsApp reply buttons",
+        "DESCRIPTION": "Add up to three choices. WhatsApp sends the labels as disabled options in the conversation history.",
+        "OPEN": "Add WhatsApp reply buttons",
+        "CLOSE": "Close reply-button composer",
+        "SEND": "Send buttons",
+        "BODY": "Message",
+        "BODY_PLACEHOLDER": "Ask the customer to choose an option",
+        "BUTTON_LABEL": "Button {number}",
+        "BUTTON_PLACEHOLDER": "Enter a label",
+        "ADD_BUTTON": "Add button",
+        "REMOVE_BUTTON": "Remove button {number}",
+        "UNAVAILABLE": {
+          "test_recipient_not_allowlisted": "Reply buttons are limited to approved test recipients.",
+          "service_window_closed": "Reply buttons require an open 24-hour service window.",
+          "provider_not_supported": "Reply buttons are available only for WhatsApp Cloud inboxes."
+        }
+      },
       "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
       "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",

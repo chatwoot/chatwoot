@@ -100,6 +100,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    whatsappInteractiveCapability: {
+      type: Object,
+      default: null,
+    },
+    isWhatsappInteractive: {
+      type: Boolean,
+      default: false,
+    },
     conversationId: {
       type: Number,
       required: true,
@@ -139,6 +147,7 @@ export default {
     'selectWhatsappTemplate',
     'selectContentTemplate',
     'requestLocation',
+    'toggleWhatsappInteractive',
     'toggleQuotedReply',
   ],
   setup(props) {
@@ -188,11 +197,13 @@ export default {
     showAttachButton() {
       if (this.isEditorDisabled) return false;
       if (this.isLocationRequest) return false;
+      if (this.isWhatsappInteractive) return false;
       return this.showFileUpload || this.isNote;
     },
     showAudioRecorderButton() {
       if (this.isEditorDisabled) return false;
       if (this.isLocationRequest) return false;
+      if (this.isWhatsappInteractive) return false;
       if (this.isALineChannel || this.isATiktokChannel) {
         return false;
       }
@@ -249,6 +260,7 @@ export default {
     },
     showMessageSignatureButton() {
       if (this.isEditorDisabled) return false;
+      if (this.isWhatsappInteractive) return false;
       return !this.isOnPrivateNote;
     },
     sendWithSignature() {
@@ -276,6 +288,24 @@ export default {
         ? this.$t('CONVERSATION.REPLYBOX.CANCEL_LOCATION_REQUEST')
         : this.$t('CONVERSATION.REPLYBOX.REQUEST_LOCATION');
     },
+    whatsappInteractiveTooltip() {
+      const reason = this.whatsappInteractiveCapability?.unavailable_reason;
+      if (!reason) {
+        return this.$t('CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.OPEN');
+      }
+      const unavailableMessages = {
+        test_recipient_not_allowlisted: this.$t(
+          'CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.UNAVAILABLE.test_recipient_not_allowlisted'
+        ),
+        service_window_closed: this.$t(
+          'CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.UNAVAILABLE.service_window_closed'
+        ),
+        provider_not_supported: this.$t(
+          'CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.UNAVAILABLE.provider_not_supported'
+        ),
+      };
+      return unavailableMessages[reason];
+    },
   },
   mounted() {
     ActiveStorage.start();
@@ -295,7 +325,7 @@ export default {
   <div class="flex justify-between p-3" :class="wrapClass">
     <div class="left-wrap">
       <NextButton
-        v-if="!isEditorDisabled"
+        v-if="!isEditorDisabled && !isWhatsappInteractive"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
         icon="i-ph-smiley-sticker"
         slate
@@ -366,7 +396,11 @@ export default {
         @click="$emit('toggleQuotedReply')"
       />
       <NextButton
-        v-if="enableWhatsAppTemplates && !isLocationRequest"
+        v-if="
+          enableWhatsAppTemplates &&
+          !isLocationRequest &&
+          !isWhatsappInteractive
+        "
         v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
         icon="i-ph-whatsapp-logo"
         slate
@@ -375,7 +409,9 @@ export default {
         @click="$emit('selectWhatsappTemplate')"
       />
       <NextButton
-        v-if="enableContentTemplates && !isLocationRequest"
+        v-if="
+          enableContentTemplates && !isLocationRequest && !isWhatsappInteractive
+        "
         v-tooltip.top-end="'Content Templates'"
         icon="i-ph-whatsapp-logo"
         slate
@@ -384,7 +420,9 @@ export default {
         @click="$emit('selectContentTemplate')"
       />
       <NextButton
-        v-if="enableLocationRequest && !isEditorDisabled"
+        v-if="
+          enableLocationRequest && !isEditorDisabled && !isWhatsappInteractive
+        "
         v-tooltip.top-end="locationRequestTooltip"
         icon="i-ph-map-pin"
         :variant="isLocationRequest ? 'solid' : 'faded'"
@@ -392,6 +430,17 @@ export default {
         sm
         :aria-pressed="isLocationRequest"
         @click="$emit('requestLocation')"
+      />
+      <NextButton
+        v-if="whatsappInteractiveCapability?.implemented"
+        v-tooltip.top-end="whatsappInteractiveTooltip"
+        icon="i-ph-chat-circle-dots"
+        :variant="isWhatsappInteractive ? 'solid' : 'faded'"
+        :color="isWhatsappInteractive ? 'blue' : 'slate'"
+        sm
+        :aria-pressed="isWhatsappInteractive"
+        :disabled="!whatsappInteractiveCapability.available || isOnPrivateNote"
+        @click="$emit('toggleWhatsappInteractive')"
       />
       <VideoCallButton
         v-if="
