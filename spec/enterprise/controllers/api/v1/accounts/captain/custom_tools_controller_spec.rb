@@ -166,6 +166,55 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
                                                    ])
       end
 
+      it 'returns email verification as not required by default' do
+        post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
+             params: valid_attributes, headers: admin.create_new_auth_token, as: :json
+
+        expect(json_response[:settings]).to eq({ requires_email_verification: false })
+      end
+
+      it 'creates a tool that requires email verification' do
+        attributes = valid_attributes.deep_merge(custom_tool: { settings: { requires_email_verification: true } })
+
+        post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
+             params: attributes, headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:settings]).to eq({ requires_email_verification: true })
+        expect(Captain::CustomTool.last.requires_email_verification?).to be(true)
+      end
+
+      it 'rejects a setting it does not know' do
+        attributes = valid_attributes.deep_merge(custom_tool: { settings: { require_email_verification: true } })
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
+               params: attributes, headers: admin.create_new_auth_token, as: :json
+        end.not_to change(Captain::CustomTool, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:error]).to eq('Settings has unknown settings: require_email_verification')
+      end
+
+      it 'rejects settings that are not an object' do
+        attributes = valid_attributes.deep_merge(custom_tool: { settings: 'requires_email_verification' })
+
+        post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
+             params: attributes, headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:error]).to eq('Settings must be an object')
+      end
+
+      it 'rejects a setting that is not a boolean' do
+        attributes = valid_attributes.deep_merge(custom_tool: { settings: { requires_email_verification: 'yes' } })
+
+        post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
+             params: attributes, headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
       context 'with invalid parameters' do
         let(:invalid_attributes) do
           {
@@ -346,6 +395,48 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(custom_tool.reload.enabled).to be(false)
       end
 
+      it 'turns email verification on and off' do
+        tool_url = "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}"
+
+        patch tool_url, params: { custom_tool: { settings: { requires_email_verification: true } } }, headers: admin.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:success)
+        expect(custom_tool.reload.requires_email_verification?).to be(true)
+
+        patch tool_url, params: { custom_tool: { settings: { requires_email_verification: false } } }, headers: admin.create_new_auth_token, as: :json
+        expect(custom_tool.reload.requires_email_verification?).to be(false)
+      end
+
+      it 'keeps email verification on when another field is updated' do
+        custom_tool.update!(settings: { 'requires_email_verification' => true })
+
+        patch "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
+              params: update_attributes, headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(custom_tool.reload.requires_email_verification?).to be(true)
+      end
+
+      it 'rejects an update with a setting it does not know and changes nothing' do
+        custom_tool.update!(settings: { 'requires_email_verification' => true })
+
+        patch "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
+              params: { custom_tool: { title: 'Renamed', settings: { unknown_key: true } } }, headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:error]).to eq('Settings has unknown settings: unknown_key')
+        expect(custom_tool.reload).to have_attributes(title: custom_tool.title, requires_email_verification?: true)
+        expect(custom_tool.title).not_to eq('Renamed')
+      end
+
+      it 'keeps email verification on when settings are sent empty' do
+        custom_tool.update!(settings: { 'requires_email_verification' => true })
+
+        patch "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
+              params: { custom_tool: { title: 'Renamed', settings: {} } }, headers: admin.create_new_auth_token, as: :json
+
+        expect(custom_tool.reload).to have_attributes(title: 'Renamed', requires_email_verification?: true)
+      end
+
       context 'with invalid parameters' do
         let(:invalid_attributes) do
           {
@@ -382,6 +473,15 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(json_response[:error]).to eq('Tools installed from a manifest are read-only; you can only enable or disable them')
       expect(installed_tool.reload).to have_attributes(title: 'Get Order', enabled: true)
+    end
+
+    it 'rejects turning email verification off' do
+      installed_tool.update!(settings: { 'requires_email_verification' => true })
+
+      patch tool_url, params: { custom_tool: { settings: { requires_email_verification: false } } }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(installed_tool.reload.requires_email_verification?).to be(true)
     end
 
     it 'allows enabling and disabling' do
