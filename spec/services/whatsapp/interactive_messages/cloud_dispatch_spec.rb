@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-# rubocop:disable RSpec/SpecFilePathFormat
+# rubocop:disable RSpec/MultipleDescribes
 RSpec.describe Whatsapp::Providers::WhatsappCloudService, '#send_message with a reply-button snapshot' do
   subject(:service) { described_class.new(whatsapp_channel: whatsapp_channel) }
 
@@ -52,4 +52,37 @@ RSpec.describe Whatsapp::Providers::WhatsappCloudService, '#send_message with a 
     expect(request).to have_been_requested.once
   end
 end
-# rubocop:enable RSpec/SpecFilePathFormat
+
+RSpec.describe Whatsapp::Providers::WhatsappCloudService, '#send_message with a list snapshot' do
+  subject(:service) { described_class.new(whatsapp_channel: whatsapp_channel) }
+
+  let(:whatsapp_channel) do
+    create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+  end
+  let(:snapshot) { JSON.parse(Rails.root.join('spec/fixtures/whatsapp_interactive_messages/list.json').read) }
+  let(:message) do
+    create(
+      :message,
+      conversation: create(:conversation, inbox: whatsapp_channel.inbox),
+      inbox: whatsapp_channel.inbox,
+      message_type: :outgoing,
+      content: snapshot.dig('body', 'text'),
+      content_attributes: { whatsapp_interactive: snapshot }
+    )
+  end
+
+  it 'dispatches the stored hierarchy as one native list request' do
+    expected = Whatsapp::InteractiveMessages::Registry.provider_payload(snapshot)
+    request = stub_request(:post, 'https://graph.facebook.com/v22.0/123456789/messages')
+              .with(body: hash_including(type: 'interactive', interactive: expected))
+              .to_return(
+                status: 200,
+                body: { messages: [{ id: 'message_id' }] }.to_json,
+                headers: { 'Content-Type' => 'application/json' }
+              )
+
+    expect(service.send_message('+15550000001', message)).to eq('message_id')
+    expect(request).to have_been_requested.once
+  end
+end
+# rubocop:enable RSpec/MultipleDescribes

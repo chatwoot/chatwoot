@@ -245,7 +245,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def send_interactive_text_message(phone_number, message)
     location_request = location_request_message?(message)
-    payload = location_request ? create_location_request_payload(message) : create_payload_based_on_items(message)
+    payload = if location_request
+                create_location_request_payload(message)
+              else
+                Whatsapp::InteractiveMessages::Registry.legacy_input_select_payload(message)
+              end
 
     response = HTTParty.post(
       "#{phone_id_path}/messages",
@@ -262,7 +266,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def whatsapp_interactive_message?(message)
-    message.content_attributes.dig('whatsapp_interactive', 'type') == 'button'
+    Whatsapp::InteractiveMessages::Registry.implemented?(message.content_attributes.dig('whatsapp_interactive', 'type'))
   end
 
   def send_whatsapp_interactive_message(phone_number, message)

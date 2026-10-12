@@ -23,6 +23,11 @@ RSpec.describe Whatsapp::InteractiveMessages::Eligibility do
       capability = eligibility.capabilities
 
       expect(capability.dig(:interactive_types, :button)).to include(implemented: true, available: true)
+      expect(capability.dig(:interactive_types, :list)).to include(
+        implemented: true,
+        available: true,
+        limits: include(body_max_length: 4096, section_max_count: 10, row_max_count: 10)
+      )
       expect(capability.dig(:recipient, :test_allowlisted)).to be(true)
       expect(capability[:send_lanes]).to contain_exactly('service', 'template')
       expect(capability.to_json).not_to include('+15550000001', '+15550000002')
@@ -35,11 +40,10 @@ RSpec.describe Whatsapp::InteractiveMessages::Eligibility do
 
       expect(types[:button]).to include(implemented: true, enabled: true, available: true, unavailable_reasons: [])
       expect(types[:list]).to include(
-        implemented: false,
+        implemented: true,
         enabled: true,
-        available: false,
-        unavailable_reason: 'unsupported_by_linoo_version',
-        unavailable_reasons: ['unsupported_by_linoo_version']
+        available: true,
+        unavailable_reasons: []
       )
       expect(types[:location_request_message]).to include(implemented: true, existing: true, available: true)
       expect(types.keys).to contain_exactly(:button, :list, :carousel, :cta_url, :location_request_message)
@@ -91,7 +95,7 @@ RSpec.describe Whatsapp::InteractiveMessages::Eligibility do
       types = eligibility.capabilities[:interactive_types]
 
       expect(types[:button]).to include(enabled: false, available: false, unavailable_reason: 'temporarily_disabled')
-      expect(types[:list]).to include(enabled: true, unavailable_reason: 'unsupported_by_linoo_version')
+      expect(types[:list]).to include(enabled: true, available: true, unavailable_reasons: [])
     end
   end
 

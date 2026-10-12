@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Whatsapp::InteractiveMessages::Registry do
   it 'exposes only interaction types with implemented adapters' do
-    expect(described_class.implemented_types).to eq(['button'])
+    expect(described_class.implemented_types).to eq(%w[button list])
     expect(described_class).to be_implemented('button')
-    expect(described_class).not_to be_implemented('list')
+    expect(described_class).to be_implemented('list')
   end
 
   describe '.resolve' do
@@ -106,6 +106,129 @@ RSpec.describe Whatsapp::InteractiveMessages::Registry do
           ]
         }
       )
+    end
+  end
+
+  describe 'native lists' do
+    let(:payload) do
+      {
+        schema_version: 1,
+        type: 'list',
+        header: { type: 'text', text: 'Available meals' },
+        body: { text: 'Choose a meal.' },
+        footer: { text: 'One selection per order.' },
+        action: {
+          button: 'View meals',
+          sections: [
+            { title: 'Lunch', rows: [{ title: 'Pasta', description: 'Tomato and basil' }, { title: 'Salad' }] }
+          ]
+        }
+      }
+    end
+
+    it 'resolves the canonical snapshot with unique server-owned row IDs' do
+      allow(SecureRandom).to receive(:uuid).and_return(
+        '00000000-0000-4000-8000-000000000001',
+        '00000000-0000-4000-8000-000000000002'
+      )
+
+      expect(described_class.resolve(payload)).to eq(
+        JSON.parse(Rails.root.join('spec/fixtures/whatsapp_interactive_messages/list.json').read)
+      )
+    end
+
+    it 'accepts every exact list boundary and publishes the limits' do
+      payload[:body][:text] = 'b' * 4096
+      payload[:header][:text] = 'h' * 60
+      payload[:footer][:text] = 'f' * 60
+      payload[:action][:button] = 'o' * 20
+      payload[:action][:sections] = Array.new(10) do |index|
+        { title: index.to_s * 24, rows: [{ title: index.to_s * 24, description: 'd' * 72 }] }
+      end
+
+      snapshot = described_class.resolve(payload)
+      expect(snapshot.dig('action', 'sections').sum { |section| section['rows'].length }).to eq(10)
+      expect(snapshot.dig('action', 'sections').flat_map { |section| section['rows'] }.pluck('delivery_id').uniq.length).to eq(10)
+      expect(described_class.limits_for('list')).to eq(
+        body_max_length: 4096,
+        header_max_length: 60,
+        footer_max_length: 60,
+        button_max_length: 20,
+        section_min_count: 1,
+        section_max_count: 10,
+        row_min_count: 1,
+        row_max_count: 10,
+        section_title_max_length: 24,
+        row_title_max_length: 24,
+        row_description_max_length: 72
+      )
+    end
+
+    it 'rejects empty collections and every documented overflow' do
+      invalid_payloads = [
+        payload.deep_dup.tap { |value| value[:body][:text] = '' },
+        payload.deep_dup.tap { |value| value[:body][:text] = 'b' * 4097 },
+        payload.deep_dup.tap { |value| value[:header][:text] = 'h' * 61 },
+        payload.deep_dup.tap { |value| value[:footer][:text] = 'f' * 61 },
+        payload.deep_dup.tap { |value| value[:action][:button] = 'o' * 21 },
+        payload.deep_dup.tap { |value| value[:action][:sections] = [] },
+        payload.deep_dup.tap { |value| value[:action][:sections] = Array.new(11) { { rows: [{ title: 'Row' }] } } },
+        payload.deep_dup.tap { |value| value[:action][:sections] = [{ rows: [] }] },
+        payload.deep_dup.tap { |value| value[:action][:sections] = [{ rows: Array.new(11) { { title: 'Row' } } }] },
+        payload.deep_dup.tap { |value| value[:action][:sections][0][:title] = 's' * 25 },
+        payload.deep_dup.tap { |value| value[:action][:sections][0][:rows][0][:title] = 'r' * 25 },
+        payload.deep_dup.tap { |value| value[:action][:sections][0][:rows][0][:description] = 'd' * 73 }
+      ]
+
+      invalid_payloads.each do |invalid_payload|
+        expect { described_class.resolve(invalid_payload) }.to raise_error(Whatsapp::InteractiveMessages::ValidationError)
+      end
+    end
+
+    it 'rejects unsupported fields, raw provider shapes, and client row IDs' do
+      invalid_payloads = [
+        payload.deep_dup.tap { |value| value[:unknown] = true },
+        payload.deep_dup.tap { |value| value[:action][:unknown] = true },
+        payload.deep_dup.tap { |value| value[:action][:sections][0][:unknown] = true },
+        payload.deep_dup.tap { |value| value[:action][:sections][0][:rows][0][:delivery_id] = 'client-id' },
+        payload.deep_dup.tap { |value| value[:header][:link] = 'https://example.test/header' }
+      ]
+
+      invalid_payloads.each do |invalid_payload|
+        expect { described_class.resolve(invalid_payload) }
+          .to raise_error(Whatsapp::InteractiveMessages::ValidationError, /unsupported fields/)
+      end
+    end
+
+    it 'maps the canonical snapshot to a native Cloud list object' do
+      snapshot = JSON.parse(Rails.root.join('spec/fixtures/whatsapp_interactive_messages/list.json').read)
+
+      expect(described_class.provider_payload(snapshot)).to eq(
+        type: 'list',
+        header: { type: 'text', text: 'Available meals' },
+        body: { text: 'Choose a meal.' },
+        footer: { text: 'One selection per order.' },
+        action: {
+          button: 'View meals',
+          sections: [
+            {
+              title: 'Lunch',
+              rows: [
+                { id: 'row_00000000-0000-4000-8000-000000000001', title: 'Pasta', description: 'Tomato and basil' },
+                { id: 'row_00000000-0000-4000-8000-000000000002', title: 'Salad' }
+              ]
+            }
+          ]
+        }
+      )
+    end
+
+    it 'rejects invalid stored row IDs instead of contacting the provider' do
+      snapshot = JSON.parse(Rails.root.join('spec/fixtures/whatsapp_interactive_messages/list.json').read)
+      snapshot.dig('action', 'sections', 0, 'rows', 0)['delivery_id'] = 'x' * 201
+
+      expect { described_class.provider_payload(snapshot) }
+        .to raise_error(Whatsapp::InteractiveMessages::ValidationError, /200 characters or fewer/)
     end
   end
 end

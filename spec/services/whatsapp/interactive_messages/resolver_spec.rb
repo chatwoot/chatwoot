@@ -44,6 +44,44 @@ RSpec.describe Whatsapp::InteractiveMessages::Resolver do
     end
   end
 
+  it 'persists a resolved native list snapshot before dispatch without attachments' do
+    list = {
+      schema_version: 1,
+      type: 'list',
+      body: { text: 'Choose a meal.' },
+      action: { button: 'View meals', sections: [{ rows: [{ title: 'Pasta' }, { title: 'Salad', description: 'Fresh' }] }] }
+    }
+    params = ActionController::Parameters.new(content: 'untrusted', content_attributes: { whatsapp_interactive: list })
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      message = Messages::MessageBuilder.new(user, conversation, params).perform
+      snapshot = message.reload.content_attributes['whatsapp_interactive']
+      rows = snapshot.dig('action', 'sections', 0, 'rows')
+
+      expect(message.content).to eq('Choose a meal.')
+      expect(rows.pluck('title')).to eq(%w[Pasta Salad])
+      expect(rows.pluck('delivery_id').uniq.length).to eq(2)
+      expect(rows.last['description']).to eq('Fresh')
+      expect(message.attachments).to be_empty
+    end
+  end
+
+  it 'rejects an invalid list before persistence or provider contact' do
+    invalid_list = {
+      schema_version: 1, type: 'list', body: { text: 'Choose.' },
+      action: { button: 'Open', sections: [{ rows: [] }] }
+    }
+    params = ActionController::Parameters.new(content_attributes: { whatsapp_interactive: invalid_list })
+
+    with_modified_env Whatsapp::InteractiveMessages::Eligibility::TEST_ALLOWLIST_ENV => '+15550000001,+15550000002' do
+      expect { Messages::MessageBuilder.new(user, conversation, params).perform }
+        .to raise_error(Whatsapp::InteractiveMessages::ValidationError)
+    end
+
+    expect(conversation.messages.outgoing).to be_empty
+    expect(WebMock).not_to have_requested(:post, %r{graph\.facebook\.com/.*/messages})
+  end
+
   it 'rejects an ineligible direct create before persistence' do
     params = ActionController::Parameters.new(content_attributes: { whatsapp_interactive: interactive })
 

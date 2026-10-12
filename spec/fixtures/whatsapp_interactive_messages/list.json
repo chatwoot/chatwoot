@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "type": "list",
+  "header": {
+    "type": "text",
+    "text": "Available meals"
+  },
+  "body": {
+    "text": "Choose a meal."
+  },
+  "footer": {
+    "text": "One selection per order."
+  },
+  "action": {
+    "button": "View meals",
+    "sections": [
+      {
+        "title": "Lunch",
+        "rows": [
+          {
+            "delivery_id": "row_00000000-0000-4000-8000-000000000001",
+            "title": "Pasta",
+            "description": "Tomato and basil"
+          },
+          {
+            "delivery_id": "row_00000000-0000-4000-8000-000000000002",
+            "title": "Salad"
+          }
+        ]
+      }
+    ]
+  }
+}
