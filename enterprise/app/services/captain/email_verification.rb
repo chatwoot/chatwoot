@@ -33,6 +33,7 @@ class Captain::EmailVerification
     email = email.to_s.strip.downcase
     return :invalid_email unless Devise.email_regexp.match?(email)
     return :already_verified if verified_email == email
+    return :unavailable unless Captain::EmailVerificationMailer.deliverable?
     return :rate_limited unless send_allowed?(email)
 
     code = format("%0#{CODE_LENGTH}d", SecureRandom.random_number(10**CODE_LENGTH))
