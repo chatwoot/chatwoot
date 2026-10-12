@@ -1474,7 +1474,8 @@
         },
         "EMAIL_VERIFICATION": {
           "LABEL": "Require email verification",
-          "DESCRIPTION": "Captain can use this tool only after the customer verifies their email with a one-time code."
+          "DESCRIPTION": "Captain can use this tool only after the customer verifies their email with a one-time code.",
+          "IMPLIED": "This tool reads the customer's verified email, so email verification is always required."
         },
         "AUTH_TYPES": {
           "NONE": "None",

@@ -52,6 +52,9 @@ const state = reactive({
   settings: { ...initialState.settings },
 });
 
+// A tool whose URL or request body reads this value gets the email from the verified session, so it always needs verification
+const SESSION_EMAIL_PATTERN = /\bsession\.verified_email\b/;
+
 // Tools installed from a manifest are shown read-only
 const isReadOnly = computed(() => props.mode === 'view');
 
@@ -75,6 +78,18 @@ watch(
   },
   { immediate: true }
 );
+
+const usesSessionEmail = computed(() =>
+  SESSION_EMAIL_PATTERN.test(`${state.endpoint_url} ${state.request_template}`)
+);
+
+const requiresEmailVerification = computed({
+  get: () =>
+    usesSessionEmail.value || state.settings.requires_email_verification,
+  set: value => {
+    state.settings.requires_email_verification = value;
+  },
+});
 
 const DEFAULT_PARAM = {
   name: '',
@@ -278,12 +293,16 @@ const handleTest = async () => {
             {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.LABEL') }}
           </span>
           <span class="text-sm text-n-slate-11">
-            {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.DESCRIPTION') }}
+            {{
+              usesSessionEmail
+                ? t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.IMPLIED')
+                : t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.DESCRIPTION')
+            }}
           </span>
         </span>
         <Switch
-          v-model="state.settings.requires_email_verification"
-          :disabled="isReadOnly"
+          v-model="requiresEmailVerification"
+          :disabled="isReadOnly || usesSessionEmail"
           class="shrink-0"
         />
       </label>
