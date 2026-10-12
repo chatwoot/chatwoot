@@ -87,4 +87,36 @@ describe('ContextMenu/Index', () => {
     wrapper.vm.selectActiveLabel();
     expect(toggleSpy).toHaveBeenCalledWith(labels[1]);
   });
+
+  it('filters labels based on labelSearchQuery', async () => {
+    const labels = [
+      { id: 1, title: 'Bug', color: '#000' },
+      { id: 2, title: 'Feature', color: '#fff' },
+    ];
+    const wrapper = mountMenu({}, labels);
+
+    expect(wrapper.vm.filteredLabels.length).toBe(2);
+
+    wrapper.vm.labelSearchQuery = 'Bug';
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.filteredLabels.length).toBe(1);
+    expect(wrapper.vm.filteredLabels[0].title).toBe('Bug');
+  });
+
+  it('resets activeLabelIndex to 0 when labelSearchQuery changes', async () => {
+    const labels = [
+      { id: 1, title: 'Bug', color: '#000' },
+      { id: 2, title: 'Feature', color: '#fff' },
+    ];
+    const wrapper = mountMenu({}, labels);
+
+    wrapper.vm.moveActiveLabel(1);
+    expect(wrapper.vm.activeLabelIndex).toBe(1);
+
+    wrapper.vm.labelSearchQuery = 'Bug';
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.activeLabelIndex).toBe(0);
+  });
 });
