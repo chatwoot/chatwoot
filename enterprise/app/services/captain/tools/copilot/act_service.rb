@@ -49,17 +49,27 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
       account: run.account, user: run.user, copilot_tool_call: tool_call, source_run_id: source.id, kind: :action, status: :awaiting_approval,
       context: context
     )
-    card = approval_card(action_run, proposed)
+    card = approval_card(action_run, proposed, source)
     action_run.update!(context: action_run.context.merge('approval_message_id' => card.id))
     Captain::Copilot::ApprovalExpiryJob.set(wait: CopilotRun::APPROVAL_TTL).perform_later(action_run.id)
     action_run
   end
 
-  def approval_card(action_run, proposed)
+  def approval_card(action_run, proposed, source)
     resource = Captain::Copilot::Resources.build(proposed.class::RESOURCE, account: run.account, user: run.user)
     links = resource.rows(action_run.target_ids.first(PREVIEW_TARGETS)).map { |row| row.slice(:label, :url) }
     approval = { status: 'awaiting_approval', action: action_run.context['action'], arguments: action_run.context['arguments'],
-                 details: proposed.card_details, count: action_run.target_ids.size, targets: links }
+                 details: proposed.card_details, coverage: review_coverage(source), count: action_run.target_ids.size, targets: links }
     run.copilot_thread.copilot_messages.create!(message_type: :assistant_approval, message: { run_id: action_run.id, approval: approval.compact })
+  end
+
+  # A review that stopped at its budget, or could not review some conversations, covers only part of its selection. The card
+  # says so, so the agent does not approve a partial set as if it were complete.
+  def review_coverage(source)
+    return unless source.kind == 'review'
+
+    summary = source.summary
+    reviewed = summary[:processed] - summary[:failed]
+    { reviewed: reviewed, total: summary[:selected] } if reviewed < summary[:selected]
   end
 end

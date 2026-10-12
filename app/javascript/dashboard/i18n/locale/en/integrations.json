@@ -722,6 +722,7 @@
         "REJECT": "Reject",
         "ERROR": "Could not save your decision. Please try again.",
         "MORE_TARGETS": "and {count} more",
+        "PARTIAL_REVIEW": "Only {reviewed} of {total} conversations were reviewed. The other {remaining} are not part of this change.",
         "ACTIONS": {
           "ADD_LABELS": "Add {labels} to {count} conversation | Add {labels} to {count} conversations",
           "SET_PRIORITY": "Set the priority to {priority} on {count} conversation | Set the priority to {priority} on {count} conversations",

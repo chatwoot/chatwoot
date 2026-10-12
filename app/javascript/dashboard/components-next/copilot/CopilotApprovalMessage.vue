@@ -83,6 +83,9 @@ const replyContent = computed(() =>
     : null
 );
 
+// Set when the change comes from a review that has not read every conversation it selected.
+const coverage = computed(() => approval.value.coverage);
+
 const decide = async choice => {
   isSubmitting.value = true;
   try {
@@ -119,6 +122,15 @@ const decide = async choice => {
     >
       {{ replyContent }}
     </p>
+    <span v-if="coverage" class="text-n-amber-11">
+      {{
+        t('CAPTAIN.COPILOT.APPROVAL.PARTIAL_REVIEW', {
+          reviewed: coverage.reviewed,
+          total: coverage.total,
+          remaining: coverage.total - coverage.reviewed,
+        })
+      }}
+    </span>
     <div v-if="targets.length" class="flex flex-wrap gap-x-2 gap-y-1">
       <router-link
         v-for="target in targets"
