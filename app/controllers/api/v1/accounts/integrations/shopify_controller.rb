@@ -1,25 +1,27 @@
 class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Integrations::BaseController
   include Shopify::IntegrationHelper
-  before_action :setup_shopify_context, only: [:orders]
-  before_action :fetch_hook, except: [:auth]
-  before_action :check_authorization, only: [:destroy]
+  before_action :ensure_shopify_enabled
+  before_action -> { Shopify::ApiContext.setup! }, only: [:orders]
+  before_action :fetch_hook, except: [:auth, :complete_install]
+  before_action :check_authorization, only: [:auth, :complete_install, :destroy]
   before_action :validate_contact, only: [:orders]
 
   def auth
     shop_domain = params[:shop_domain]
-    return render json: { error: 'Shop domain is required' }, status: :unprocessable_entity if shop_domain.blank?
+    unless shop_domain.is_a?(String) && Shopify::ShopDomain.valid?(shop_domain)
+      return render json: { error: 'Invalid Shopify shop domain' }, status: :unprocessable_entity
+    end
 
     state = generate_shopify_token(Current.account.id)
+    raise 'Shopify OAuth is not configured' if client_id.blank? || state.blank?
 
-    auth_url = "https://#{shop_domain}/admin/oauth/authorize?"
-    auth_url += URI.encode_www_form(
-      client_id: client_id,
-      scope: REQUIRED_SCOPES.join(','),
-      redirect_uri: redirect_uri,
-      state: state
-    )
-
-    render json: { redirect_url: auth_url }
+    oauth_client = OAuth2::Client.new(client_id, client_secret,
+                                      site: "https://#{Shopify::ShopDomain.normalize(shop_domain)}",
+                                      authorize_url: '/admin/oauth/authorize')
+    render json: { redirect_url: oauth_client.auth_code.authorize_url(
+      redirect_uri: "#{ENV.fetch('FRONTEND_URL', '')}/shopify/callback",
+      scope: REQUIRED_SCOPES.join(','), state: state
+    ) }
   end
 
   def orders
@@ -32,6 +34,25 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
+  def complete_install
+    pending_installation = Shopify::PendingInstallation.claim(
+      token: params[:pending_install_token]
+    )
+    Shopify::InstallationService.new(account: Current.account, pending_installation: pending_installation).perform
+    head :ok
+  rescue Shopify::PendingInstallation::AlreadyClaimed => e
+    pending_installation&.release!
+    render json: { error: e.message }, status: :conflict
+  rescue Shopify::PendingInstallation::CommitOutcomeUnknown
+    raise
+  rescue Shopify::PendingInstallation::Error => e
+    pending_installation&.release!
+    render json: { error: e.message }, status: :unprocessable_entity
+  rescue StandardError
+    pending_installation&.release!
+    raise
+  end
+
   def destroy
     @hook.destroy!
     head :ok
@@ -41,8 +62,8 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
 
   private
 
-  def redirect_uri
-    "#{ENV.fetch('FRONTEND_URL', '')}/shopify/callback"
+  def ensure_shopify_enabled
+    head :not_found unless Shopify::FeatureGate.enabled?(account: Current.account)
   end
 
   def contact
@@ -50,7 +71,9 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   end
 
   def fetch_hook
-    @hook = Integrations::Hook.find_by!(account: Current.account, app_id: 'shopify')
+    hooks = Integrations::Hook.where(account: Current.account, app_id: 'shopify')
+    hooks = hooks.enabled if action_name == 'orders'
+    @hook = hooks.first!
   end
 
   def fetch_customers
@@ -82,25 +105,15 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
     end
   end
 
-  def setup_shopify_context
-    return if client_id.blank? || client_secret.blank?
-
-    ShopifyAPI::Context.setup(
-      api_key: client_id,
-      api_secret_key: client_secret,
-      api_version: '2025-01'.freeze,
-      scope: REQUIRED_SCOPES.join(','),
-      is_embedded: true,
-      is_private: false
-    )
-  end
-
   def shopify_session
     ShopifyAPI::Auth::Session.new(shop: @hook.reference_id, access_token: @hook.access_token)
   end
 
   def shopify_client
-    @shopify_client ||= ShopifyAPI::Clients::Rest::Admin.new(session: shopify_session)
+    @shopify_client ||= ShopifyAPI::Clients::Rest::Admin.new(
+      session: shopify_session,
+      api_version: Shopify::ApiContext::API_VERSION
+    )
   end
 
   def validate_contact

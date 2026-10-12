@@ -7,7 +7,7 @@ RSpec.describe ConversationMonitors::Update do
   let(:endpoint) { ConversationMonitors::Configuration.endpoint }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPENROUTER_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPENROUTER_API_KEY').update!(value: 'test-key')
     account.enable_features!('reports', 'conversation_monitors')
   end
 

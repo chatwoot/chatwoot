@@ -8,7 +8,10 @@ import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { useConversationSuggestions } from 'dashboard/composables/useConversationSuggestions';
 import { CONVERSATION_PRIORITY } from 'shared/constants/messages';
-import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import {
+  CAPTAIN_EVENTS,
+  CONVERSATION_EVENTS,
+} from 'dashboard/helper/AnalyticsHelper/events';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import ConversationLabels from './labels/LabelBox.vue';
@@ -260,7 +263,21 @@ const acceptSuggestedPriority = () => {
   dismissPrioritySuggestion();
 };
 
+const suggestPriority = () => {
+  if (!isPrioritySuggestionActive.value) {
+    useTrack(CAPTAIN_EVENTS.PRIORITY_SUGGESTION_REQUESTED, {
+      conversationId: currentChat.value.id,
+    });
+  }
+  togglePrioritySuggestion();
+};
+
 const suggestLabels = () => {
+  if (!isLabelSuggestionActive.value) {
+    useTrack(CAPTAIN_EVENTS.LABEL_SUGGESTIONS_REQUESTED, {
+      conversationId: currentChat.value.id,
+    });
+  }
   rejectedLabels.value = [];
   toggleLabelSuggestions();
 };
@@ -341,7 +358,7 @@ const rejectSuggestedLabel = ({ title }) => {
             v-if="isSuggestionsEnabled"
             :is-active="isPrioritySuggestionActive"
             :is-loading="isSuggestingPriority"
-            @click="togglePrioritySuggestion"
+            @click="suggestPriority"
           />
         </template>
       </ContactDetailsItem>

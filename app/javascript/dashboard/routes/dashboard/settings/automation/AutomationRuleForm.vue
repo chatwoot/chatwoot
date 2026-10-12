@@ -2,6 +2,7 @@
 import { ref, computed, h, shallowRef, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { useOperators } from 'dashboard/components-next/filter/operators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
@@ -14,15 +15,19 @@ import { getAttributeIcon } from 'dashboard/components-next/filter/helper/filter
 import { provideDropdownTeleport } from 'dashboard/components-next/dropdown-menu/base/provider';
 import { isEmptyValue, validateAutomation } from 'dashboard/helper/validations';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import MonitorsAPI from 'dashboard/api/monitors';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 import {
   AUTOMATION_RULE_EVENTS,
   AUTOMATION_ACTION_TYPES,
+  CAPTAIN_CONDITION,
   DEFAULT_DELAY_MINUTES,
 } from './constants';
 import AutomationRunTypeSelector from './components/AutomationRunTypeSelector.vue';
 import AutomationWaitCondition from './components/AutomationWaitCondition.vue';
 import AutomationInstantTrigger from './components/AutomationInstantTrigger.vue';
+import AutomationMonitorSelect from './components/AutomationMonitorSelect.vue';
 import AutomationActions from './components/AutomationActions.vue';
 
 const props = defineProps({
@@ -76,12 +81,14 @@ const INPUT_TYPE_MAP = {
   multi_select: 'multiSelect',
   search_select: 'searchSelect',
   plain_text: 'plainText',
+  long_text: 'longText',
   multi_text: 'multiText',
   date: 'date',
 };
 
 const { t } = useI18n();
-const { isCloudFeatureEnabled } = useAccount();
+const { accountId, isCloudFeatureEnabled, isOnChatwootCloud } = useAccount();
+const { isEnterprise } = useConfig();
 const { operators } = useOperators();
 
 provideDropdownTeleport();
@@ -90,11 +97,29 @@ const panelRef = ref(null);
 const instantTriggerRef = useTemplateRef('instantTriggerRef');
 const waitConditionRef = useTemplateRef('waitConditionRef');
 const errors = ref({});
+const monitorOptions = ref([]);
+const monitorsError = ref(false);
+const isOpen = ref(false);
+const {
+  run: runMonitors,
+  abort: abortMonitors,
+  isPending: monitorsLoading,
+} = useAbortableRequest();
 
 const isEditMode = computed(() => props.mode === 'edit');
 
 const allowsDelayedExecution = computed(() =>
   isCloudFeatureEnabled(FEATURE_FLAGS.DELAYED_AUTOMATIONS)
+);
+const allowsMonitorEvents = computed(
+  () =>
+    (isEnterprise || isOnChatwootCloud.value) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.REPORTS) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.CONVERSATION_MONITORS) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.AUTOMATIONS)
+);
+const allowsCaptainConditions = computed(() =>
+  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_CLASSIFIER)
 );
 
 // The wait lives here rather than in the wait section so that switching between the two run
@@ -216,12 +241,24 @@ const getTranslatedAttributes = (type, event) => {
 };
 
 const eventName = computed(() => automation.value?.event_name);
+const usesCaptainCondition = computed(() =>
+  automation.value.conditions.some(
+    condition => condition.attribute_key === CAPTAIN_CONDITION.key
+  )
+);
 
 const filterTypes = computed(() => {
   const event = eventName.value;
   if (!event || !props.automationTypes[event]) return [];
 
-  const attributes = getTranslatedAttributes(props.automationTypes, event);
+  // A type the account can no longer use stays while the rule still has it, so the saved row
+  // renders, but it cannot be picked again.
+  const isUnavailable = attr =>
+    attr.key === CAPTAIN_CONDITION.key && !allowsCaptainConditions.value;
+  const attributes = getTranslatedAttributes(
+    props.automationTypes,
+    event
+  ).filter(attr => !isUnavailable(attr) || usesCaptainCondition.value);
 
   return attributes.map(attr => {
     if (attr.disabled) {
@@ -253,16 +290,26 @@ const filterTypes = computed(() => {
         attributeDisplayType: attr.attributeDisplayType,
       }),
       inputType: mappedInputType,
+      placeholder: attr.placeholder
+        ? t(`AUTOMATION.CONDITION.PLACEHOLDERS.${attr.placeholder}`)
+        : undefined,
+      maxLength: attr.maxLength,
       options,
       filterOperators,
       dataType: 'text',
       attributeModel: attr.customAttributeType || 'standard',
+      disabled: isUnavailable(attr),
     };
   });
 });
 
 const automationRuleEvents = computed(() =>
-  AUTOMATION_RULE_EVENTS.map(event => ({
+  AUTOMATION_RULE_EVENTS.filter(
+    event =>
+      event.key !== 'monitor_matched' ||
+      allowsMonitorEvents.value ||
+      automation.value?.event_name === 'monitor_matched'
+  ).map(event => ({
     ...event,
     value: t(`AUTOMATION.EVENTS.${event.value}`),
   }))
@@ -319,16 +366,66 @@ const syncCustomAttributeTypes = () => {
   });
 };
 
+const fetchMonitors = async () => {
+  if (!allowsMonitorEvents.value) {
+    abortMonitors();
+    monitorOptions.value = [];
+    monitorsError.value = false;
+    return;
+  }
+  const requestedAccount = accountId.value;
+  monitorOptions.value = [];
+  monitorsError.value = false;
+  try {
+    const pages = await runMonitors(async signal => {
+      const firstPage = await MonitorsAPI.get(
+        { active: 'true', page: 1 },
+        signal
+      );
+      if (signal.aborted) return null;
+      const pageCount = Math.ceil(firstPage.data.meta.total_count / 20);
+      const remainingPages = await Promise.all(
+        Array.from({ length: pageCount - 1 }, (_, index) =>
+          MonitorsAPI.get({ active: 'true', page: index + 2 }, signal)
+        )
+      );
+      return [firstPage, ...remainingPages];
+    });
+    if (!pages || requestedAccount !== accountId.value) return;
+    monitorOptions.value = pages.flatMap(({ data }) =>
+      data.payload.map(({ id, name }) => ({ id, name }))
+    );
+  } catch {
+    monitorsError.value = true;
+  }
+};
+
 const open = (executionDelay = null) => {
   resetValidation();
   syncDelayState(executionDelay);
+  isOpen.value = true;
   panelRef.value?.open();
+  fetchMonitors();
+};
+
+const onInstantEventChange = () => {
+  automation.value.monitor_id = null;
+  props.onEventChange();
 };
 
 const close = () => {
   resetValidation();
   panelRef.value?.close();
 };
+
+const onPanelClosed = () => {
+  isOpen.value = false;
+  abortMonitors();
+};
+
+watch([allowsMonitorEvents, accountId], () => {
+  if (isOpen.value) fetchMonitors();
+});
 
 const emitSaveAutomation = () => {
   syncCustomAttributeTypes();
@@ -349,7 +446,12 @@ defineExpose({ open, close });
 </script>
 
 <template>
-  <SidePanel ref="panelRef" width="3xl" :title="$t(titleKey)">
+  <SidePanel
+    ref="panelRef"
+    width="3xl"
+    :title="$t(titleKey)"
+    @close="onPanelClosed"
+  >
     <div v-if="automation" class="flex flex-col w-full gap-6">
       <div class="flex flex-col">
         <woot-input
@@ -372,7 +474,9 @@ defineExpose({ open, close });
         />
       </div>
       <AutomationRunTypeSelector
-        v-if="allowsDelayedExecution"
+        v-if="
+          allowsDelayedExecution && automation.event_name !== 'monitor_matched'
+        "
         v-model="isDelayed"
       />
       <AutomationWaitCondition
@@ -401,8 +505,19 @@ defineExpose({ open, close });
         :show-reset-message="!isEditMode && hasAutomationMutated"
         :append-new-condition="appendNewCondition"
         :remove-filter="removeFilter"
-        :on-event-change="onEventChange"
-      />
+        :on-event-change="onInstantEventChange"
+      >
+        <AutomationMonitorSelect
+          v-if="automation.event_name === 'monitor_matched'"
+          v-model="automation.monitor_id"
+          :options="monitorOptions"
+          :selected-name="automation.monitor_name"
+          :loading="monitorsLoading"
+          :error="monitorsError"
+          :invalid="Boolean(errors.monitor_id)"
+          @retry="fetchMonitors"
+        />
+      </AutomationInstantTrigger>
       <AutomationActions
         v-model="automation.actions"
         :action-types="automationActionTypes"

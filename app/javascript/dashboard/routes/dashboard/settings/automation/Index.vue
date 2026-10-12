@@ -1,10 +1,14 @@
 <script setup>
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { getCaptainConditionUsage } from 'dashboard/helper/automationHelper';
 import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { until } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import {
@@ -23,9 +27,13 @@ const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
 const confirmDialog = ref(null);
+const route = useRoute();
+const router = useRouter();
+const { accountScopedRoute } = useAccount();
 
 const loading = ref({});
 const addDialogRef = ref(null);
+const creationSourceMonitorId = ref(null);
 const editDialogRef = ref(null);
 const showDeleteConfirmationPopup = ref(false);
 const selectedAutomation = ref({});
@@ -40,7 +48,11 @@ const records = computed(() => getters['automations/getAutomations'].value);
 const filteredRecords = computed(() => {
   const query = searchQuery.value.trim();
   if (!query) return records.value;
-  return picoSearch(records.value, query, ['name', 'description']);
+  return picoSearch(records.value, query, [
+    'name',
+    'description',
+    'monitor_name',
+  ]);
 });
 
 const uiFlags = computed(() => getters['automations/getUIFlags'].value);
@@ -149,11 +161,30 @@ onMounted(() => {
   store.dispatch('automations/get');
 });
 
-const openAddPopup = () => {
+const openAddPopup = (monitorId = null) => {
+  creationSourceMonitorId.value = monitorId;
   const startsWithWait =
-    isDelayedAutomationsEnabled.value && activeTab.value === 'delayed';
-  addDialogRef.value?.open(startsWithWait ? DEFAULT_DELAY_MINUTES : null);
+    !monitorId &&
+    isDelayedAutomationsEnabled.value &&
+    activeTab.value === 'delayed';
+  addDialogRef.value?.open(
+    startsWithWait ? DEFAULT_DELAY_MINUTES : null,
+    monitorId
+  );
 };
+
+watch(
+  () => route.query.monitor_id,
+  async monitorId => {
+    if (typeof monitorId !== 'string' || !/^\d+$/.test(monitorId)) return;
+    activeTab.value = 'instant';
+    await nextTick();
+    openAddPopup(Number(monitorId));
+    router.replace({ query: { ...route.query, monitor_id: undefined } });
+  },
+  { immediate: true }
+);
+
 const hideAddPopup = () => {
   addDialogRef.value?.close();
 };
@@ -170,6 +201,19 @@ const openEditPopup = async response => {
 const hideEditPopup = () => {
   editDialogRef.value?.close();
 };
+
+watch(
+  [() => route.query.edit_id, records],
+  async ([editId, rules]) => {
+    if (typeof editId !== 'string') return;
+    const rule = rules.find(item => String(item.id) === editId);
+    if (!rule) return;
+    await nextTick();
+    openEditPopup(rule);
+    router.replace({ query: { ...route.query, edit_id: undefined } });
+  },
+  { immediate: true }
+);
 
 const openDeletePopup = response => {
   showDeleteConfirmationPopup.value = true;
@@ -215,15 +259,37 @@ const submitAutomation = async (payload, mode) => {
         ? t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
         : t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
     await store.dispatch(action, payload);
+    const captainUsage = getCaptainConditionUsage(payload);
+    if (captainUsage) {
+      useTrack(CAPTAIN_EVENTS.AUTOMATION_CONDITION_SAVED, {
+        mode,
+        ...captainUsage,
+      });
+    }
     useAlert(successMessage);
     hideAddPopup();
     hideEditPopup();
+    if (mode !== 'edit' && creationSourceMonitorId.value) {
+      router.push(
+        accountScopedRoute('monitor_reports_show', {
+          monitorId: creationSourceMonitorId.value,
+        })
+      );
+    }
+    creationSourceMonitorId.value = null;
   } catch (error) {
     const fallbackMessage =
       mode === 'edit'
         ? t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
         : t('AUTOMATION.ADD.API.ERROR_MESSAGE');
-    useAlert(error?.response?.data?.error || fallbackMessage);
+    const reason = error?.response?.data?.error;
+    let message = fallbackMessage;
+    if (['monitor_not_available', 'invalid_monitor_id'].includes(reason)) {
+      message = t('AUTOMATION.ADD.FORM.MONITOR.API_UNAVAILABLE');
+    } else if (typeof reason === 'string') {
+      message = reason;
+    }
+    useAlert(message);
   }
 };
 const toggleAutomation = async ({ id, name, status }) => {
@@ -267,7 +333,6 @@ const tableHeaders = computed(() => {
     t('AUTOMATION.LIST.TABLE_HEADER.NAME'),
     t('AUTOMATION.LIST.TABLE_HEADER.ACTIVE'),
     t('AUTOMATION.LIST.TABLE_HEADER.CREATED_ON'),
-    t('AUTOMATION.LIST.TABLE_HEADER.ACTIONS'),
   ];
 });
 </script>
@@ -304,7 +369,7 @@ const tableHeaders = computed(() => {
           <Button
             :label="$t('AUTOMATION.HEADER_BTN_TXT')"
             size="sm"
-            @click="openAddPopup"
+            @click="openAddPopup()"
           />
         </template>
       </BaseSettingsHeader>
@@ -321,6 +386,9 @@ const tableHeaders = computed(() => {
         :items="visibleRecords"
         :no-data-message="noDataMessage"
       >
+        <template #header-2="{ header }">
+          <span class="hidden text-end md:block">{{ header }}</span>
+        </template>
         <template #row="{ items }">
           <AutomationRuleRow
             v-for="automation in items"

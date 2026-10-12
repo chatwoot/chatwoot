@@ -7,7 +7,7 @@ class ConversationMonitors::Presenter
 
   def as_json
     {
-      id: @monitor.id, name: @monitor.name, condition: @monitor.condition,
+      id: @monitor.id, name: @monitor.name, condition: @monitor.condition, icon: @monitor.icon, icon_color: @monitor.icon_color,
       created_at: @monitor.created_at.to_i, history_since: @monitor.history_since.to_i,
       data_revision: @monitor.data_revision, collection_version: @monitor.collection_version,
       # Report bounds are whole seconds; include matches created within the pause second.

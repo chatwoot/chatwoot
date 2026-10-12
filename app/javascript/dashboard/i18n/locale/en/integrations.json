@@ -1,4 +1,54 @@
 {
+  "STRIPE_INTEGRATION": {
+    "UNAVAILABLE": "Stripe is unavailable for this account. Contact your administrator to check the integration configuration.",
+    "TITLE": "Stripe",
+    "DESCRIPTION": "View customer details, subscriptions, and invoices alongside your conversations.",
+    "CONNECT": "Connect",
+    "DISCONNECT": "Disconnect from Chatwoot",
+    "DISCONNECT_NOTE": "Disconnecting removes the saved credentials from Chatwoot. Uninstall the app in Stripe to revoke its access there.",
+    "CONNECTED": "Connected",
+    "RECONNECT": "Reconnect Stripe",
+    "REAUTHORIZATION_REQUIRED": "Reconnect required",
+    "ACCOUNT": "Connected account",
+    "ACCOUNT_ID": "Account ID",
+    "ENVIRONMENT": "Environment",
+    "SANDBOX": "Sandbox",
+    "LIVE": "Live",
+    "CONNECTED_ON": "Connected on",
+    "OPEN_STRIPE": "Open Stripe dashboard",
+    "ERROR": "Unable to load Stripe. Please try again or reconnect the integration.",
+    "EMPTY": "No Stripe customer matches this contact's email.",
+    "NO_EMAIL": "Add an email to this contact to look up Stripe customers.",
+    "SELECT": "Select a matching customer",
+    "CUSTOMER_OPTION": "{name} — {id}",
+    "MORE": "Showing the first 100 matching customers. Refine the contact email if the customer is not listed.",
+    "SUBSCRIPTIONS": "Latest five subscriptions",
+    "SUBSCRIPTION": "Subscription",
+    "VIEW_SUBSCRIPTION": "View {name} subscription details",
+    "COPY_ID": "Copy ID",
+    "COPIED": "Copied",
+    "QUANTITY": "Quantity: {count}",
+    "PRICE_INTERVAL": "{amount} / {interval}",
+    "INTERVAL": {
+      "day": "day | {count} days",
+      "week": "week | {count} weeks",
+      "month": "month | {count} months",
+      "year": "year | {count} years"
+    },
+    "VARIABLE_PRICE": "Usage-based or tiered pricing",
+    "RENEWS": "Renews {date}",
+    "PERIOD_START": "Period starts {date}",
+    "PERIOD_END": "Period ends {date}",
+    "TRIAL_ENDS": "Trial ends {date}",
+    "CANCELS": "Cancels {date}",
+    "CANCELS_AT_PERIOD_END": "Cancels at the end of the billing period",
+    "CANCELED_ON": "Canceled {date}",
+    "MORE_ITEMS": "Additional subscription items are not shown.",
+    "PRICE_NOTE": "Prices are per unit, before discounts and taxes. They are not an estimate of the next invoice.",
+    "INVOICES": "Recent invoices",
+    "NO_SUBSCRIPTIONS": "No subscriptions found.",
+    "NO_INVOICES": "No invoices found."
+  },
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
       "HEADER": "Shopify",
@@ -19,7 +69,16 @@
         "TITLE": "How to use the Shopify Integration?",
         "BODY": "With this integration, your Shopify store ***{storeDomain}*** is connected to your Chatwoot workspace. Here's what you can do:\n\n**Track orders in conversations:** When you open a conversation, the Shopify sidebar will automatically display recent orders for the customer based on their email address. This gives your support team instant context without switching tabs.\n\n**Access order details:** View order status, fulfillment status, and total amount directly within the conversation panel."
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists.",
+      "PENDING_INSTALL": {
+        "SUCCESS": "Shopify store connected successfully.",
+        "ERROR": "Unable to complete the Shopify installation. Please try again."
+      },
+      "SELECT_ACCOUNT": {
+        "TITLE": "Choose a workspace",
+        "DESCRIPTION": "Select the workspace to connect to your Shopify store. To restore a previous connection, choose its original workspace.",
+        "UNAVAILABLE": "No eligible workspace or valid installation was found. Restart installation or sign in as a workspace administrator."
+      }
     },
     "HEADER": "Integrations",
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
@@ -1252,7 +1311,6 @@
         "SUCCESS_MESSAGE": "The document has been successfully deleted",
         "ERROR_MESSAGE": "There was an error deleting the document, please try again."
       },
-
       "OPTIONS": {
         "VIEW_DETAILS": "View details",
         "SYNC_NOW": "Refresh now",
@@ -1273,6 +1331,47 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "CATALOG": {
+        "BUTTON": "Tools Catalog",
+        "HEADER": "Tools Catalog",
+        "DESCRIPTION": "Browse toolsets from the Captain tools catalog and install them on this assistant.",
+        "ALL": "All",
+        "EMPTY": "No toolsets in this category yet.",
+        "LOAD_ERROR": "Could not load the tools catalog. Check the catalog URL in the Captain settings.",
+        "TOOL_COUNT": "{n} tool | {n} tools",
+        "VERSION": "v{version}",
+        "UPDATED": "Updated {time}",
+        "REPOSITORY": "Repository",
+        "MANIFEST": "Manifest",
+        "CONFIGURATION": "Configuration",
+        "REQUIRED": "Required",
+        "DETAILS_ERROR": "Could not load the toolset details.",
+        "INSTALLED": "Installed",
+        "UPDATE_AVAILABLE": "Update available"
+      },
+      "INSTALL_LINK": {
+        "TITLE": "Choose an assistant",
+        "DESCRIPTION": "Pick the assistant to install this toolset on.",
+        "PLACEHOLDER": "Select an assistant",
+        "LOAD_ERROR": "Could not load your assistants. Reload the page to try again."
+      },
+      "INSTALL_MANIFEST": {
+        "TITLE": "Install a toolset",
+        "DESCRIPTION": "Install a toolset from the Captain tools catalog.",
+        "VERSION_LABEL": "v{version} · {revision}",
+        "UPDATE_NOTE": "A different version is installed. Updating replaces its tools and keeps whether each one is enabled. Enter the secrets again.",
+        "TOOLS_LABEL": "Tools",
+        "CONFIGURATION_LABEL": "Configuration",
+        "CONTINUE": "Continue",
+        "INSTALL": "Install",
+        "UPDATE": "Update",
+        "REINSTALL": "Reinstall",
+        "REINSTALL_NOTE": "Some tools from this toolset were deleted. Reinstalling adds them back and keeps whether each one is enabled. Enter the secrets again.",
+        "ALREADY_INSTALLED": "Already installed",
+        "SUCCESS_MESSAGE": "Toolset installed",
+        "ERROR_MESSAGE": "Could not install the toolset",
+        "PREVIEW_ERROR": "Could not load the toolset"
+      },
       "ASSISTANT_TOOLS_BANNER": {
         "MESSAGE": "Custom tools are now managed per assistant. Switch assistants to customize their tools.",
         "LEARN_MORE": "Learn more",
@@ -1294,6 +1393,7 @@
       "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
       "OPTIONS": {
         "EDIT_TOOL": "Edit tool",
+        "VIEW_TOOL": "View tool",
         "DELETE_TOOL": "Delete tool"
       },
       "STATUS": {
@@ -1316,6 +1416,9 @@
         "TITLE": "Create Custom Tool",
         "SUCCESS_MESSAGE": "Custom tool created successfully",
         "ERROR_MESSAGE": "Failed to create custom tool"
+      },
+      "VIEW": {
+        "TITLE": "Custom Tool Details"
       },
       "EDIT": {
         "TITLE": "Edit Custom Tool",
@@ -1386,6 +1489,19 @@
           "API_KEY_PLACEHOLDER": "X-API-Key",
           "API_VALUE": "Header Value",
           "API_VALUE_PLACEHOLDER": "Enter API key value"
+        },
+        "SECTIONS": {
+          "TEMPLATES": "Templates",
+          "TEMPLATES_HELP_TEXT": "Supports Liquid syntax, like {'{{'} order_id {'}}'} or {'{{'} response.status {'}}'}."
+        },
+        "HEADERS": {
+          "LABEL": "Headers",
+          "HELP_TEXT": "Static headers sent with every request. Values are sent exactly as entered; use Authentication for credentials.",
+          "NAME_PLACEHOLDER": "Header name (e.g., cal-api-version)",
+          "VALUE_PLACEHOLDER": "Header value",
+          "NAME_REQUIRED": "Header name is required",
+          "NAME_DUPLICATE": "Header names must be unique",
+          "ADD": "Add Header"
         },
         "PARAMETERS": {
           "LABEL": "Parameters",

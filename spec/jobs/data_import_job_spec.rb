@@ -43,6 +43,16 @@ RSpec.describe DataImportJob do
         expect(contact).to be_truthy
         expect(contact['additional_attributes']['company_name']).to eq('My Company Name')
       end
+
+      it 'imports the contacts as leads' do
+        name_only_import = create(:data_import, import_file: generate_csv_file([%w[name], ['Name Only']]))
+
+        described_class.perform_now(data_import)
+        described_class.perform_now(name_only_import)
+
+        expect(data_import.account.contacts.visitor).to be_empty
+        expect(name_only_import.account.contacts.find_by(name: 'Name Only')).to be_lead
+      end
     end
 
     context 'when the data contains errors' do

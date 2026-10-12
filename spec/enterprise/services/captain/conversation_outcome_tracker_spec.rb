@@ -152,6 +152,12 @@ RSpec.describe Captain::ConversationOutcomeTracker do
         sender: agent, message_type: :outgoing, created_at: 15.minutes.ago,
         content_attributes: { automation_rule_id: 1 }
       )
+      create(
+        :message,
+        account: account, inbox: inbox, conversation: conversation,
+        sender: agent, message_type: :outgoing, created_at: 12.minutes.ago,
+        content_attributes: { forwarded_message_id: 1 }
+      )
       human_reply = create(
         :message,
         account: account, inbox: inbox, conversation: conversation,

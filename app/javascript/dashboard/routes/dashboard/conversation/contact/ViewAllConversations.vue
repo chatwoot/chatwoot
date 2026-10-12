@@ -1,7 +1,9 @@
 <script setup>
 import { computed, inject } from 'vue';
 import { useRoute } from 'vue-router';
+import { useTrack } from 'dashboard/composables';
 import { useMapGetter } from 'dashboard/composables/store';
+import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { CONTACT_CONVERSATION_NAVIGATION } from 'dashboard/composables/useContactConversationNavigation';
 import { useConversationRoutePath } from 'dashboard/composables/useConversationRoutePath';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -20,6 +22,8 @@ const isOnInboxView = computed(() =>
 );
 
 const viewAllConversations = () => {
+  useTrack(CONVERSATION_EVENTS.VIEWED_ALL_CONTACT_CONVERSATIONS);
+
   // The expanded layout moves to the list, so there is no open thread left to keep.
   if (isOnExpandedLayout.value) {
     return navigation.viewContactHistory({

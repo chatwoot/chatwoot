@@ -1,10 +1,10 @@
 class ConversationMonitors::Configuration
   MODEL = 'typesafe/jev-1.13'.freeze
-  ENDPOINT = 'https://openrouter.ai/api'.freeze
-  SYSTEM_ONE_PATH = '/v1/systemone'.freeze
+  ENDPOINT = Captain::JevClient::ENDPOINT
   THRESHOLD = 0.6
   MAX_MONITORS = 20
-  MONTHLY_CALL_LIMIT = 100_000
+  MONTHLY_CALL_LIMIT = 10_000_000
+  DAILY_CALL_LIMIT = 500_000
   MAX_CONTEXT_BYTES = 28_000
   MAX_CUSTOMER_CONTEXT_BYTES = 4_000
   LIVE_MESSAGE_LIMIT = 5
@@ -19,12 +19,11 @@ class ConversationMonitors::Configuration
   end
 
   def self.api_key
-    GlobalConfigService.load('CAPTAIN_OPENROUTER_API_KEY', nil)
+    Captain::JevClient.api_key
   end
 
   def self.endpoint
-    base_url = GlobalConfigService.load('CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT', nil).presence || ENDPOINT
-    "#{base_url.chomp('/')}#{SYSTEM_ONE_PATH}"
+    Captain::JevClient.endpoint
   end
 
   def self.model

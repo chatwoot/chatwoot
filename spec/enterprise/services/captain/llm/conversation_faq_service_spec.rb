@@ -19,11 +19,11 @@ RSpec.describe Captain::Llm::ConversationFaqService do
   let(:embedding_two) { [0.0, 1.0] + Array.new(1534, 0.0) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_API_KEY').update!(value: 'test-key')
     allow(Captain::Llm::EmbeddingService).to receive(:new).and_return(embedding_service)
     allow(RubyLLM).to receive(:chat).and_return(mock_chat)
     allow(mock_chat).to receive(:with_temperature).and_return(mock_chat)
-    allow(mock_chat).to receive(:with_params).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_provider_options).and_return(mock_chat)
     allow(mock_chat).to receive(:with_instructions).and_return(mock_chat)
     allow(mock_chat).to receive(:ask).and_return(mock_response)
   end
@@ -43,7 +43,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
 
       it 'uses the conversation FAQ default ahead of the legacy global installation model' do
-        create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-mini')
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-4.1-mini')
 
         expect(RubyLLM).to receive(:chat).with(
           model: Llm::Models.default_model_for('conversation_faq_generation')
@@ -53,7 +53,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
 
       it 'keeps account conversation FAQ model overrides ahead of the feature default' do
-        create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1')
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-4.1')
         conversation.account.update!(captain_models: { 'conversation_faq_generation' => 'gpt-4.1-mini' })
 
         expect(RubyLLM).to receive(:chat).with(model: 'gpt-4.1-mini').and_return(mock_chat)
@@ -270,7 +270,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       context 'when the comparison provider fails' do
         before do
           allow(mock_chat).to receive(:ask) do |input|
-            raise RubyLLM::Error.new(nil, 'API Error') if input.start_with?('{')
+            raise RubyLLM::Error, 'API Error' if input.start_with?('{')
 
             mock_response
           end
@@ -471,7 +471,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
     context 'when LLM API fails' do
       before do
-        allow(mock_chat).to receive(:ask).and_raise(RubyLLM::Error.new(nil, 'API Error'))
+        allow(mock_chat).to receive(:ask).and_raise(RubyLLM::Error.new('API Error'))
         allow(Rails.logger).to receive(:error)
       end
 

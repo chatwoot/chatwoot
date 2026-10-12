@@ -8,7 +8,11 @@ RSpec.describe Captain::CustomTool, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:endpoint_url) }
-    it { is_expected.to define_enum_for(:http_method).with_values('GET' => 'GET', 'POST' => 'POST').backed_by_column_of_type(:string) }
+
+    it {
+      expect(subject).to define_enum_for(:http_method).with_values('GET' => 'GET', 'POST' => 'POST', 'PUT' => 'PUT', 'PATCH' => 'PATCH',
+                                                                   'DELETE' => 'DELETE').backed_by_column_of_type(:string)
+    }
 
     it {
       expect(subject).to define_enum_for(:auth_type).with_values('none' => 'none', 'bearer' => 'bearer', 'basic' => 'basic',
@@ -100,6 +104,187 @@ RSpec.describe Captain::CustomTool, type: :model do
 
         expect(tool).to be_valid
       end
+    end
+
+    describe 'headers validation' do
+      let(:account) { create(:account) }
+
+      it 'defaults to empty headers' do
+        expect(build(:captain_custom_tool, account: account).headers).to eq({})
+      end
+
+      it 'is valid with static headers' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'Accept' => 'application/json', 'X-Tenant-Id' => 'acme' })
+
+        expect(tool).to be_valid
+      end
+
+      it 'allows non-standard header names without an X- prefix' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'cal-api-version' => '2024-08-13' })
+
+        expect(tool).to be_valid
+      end
+
+      it 'is invalid when headers is not an object' do
+        tool = build(:captain_custom_tool, account: account, headers: nil)
+
+        expect(tool).not_to be_valid
+        expect(tool.errors[:headers]).to be_present
+      end
+
+      it 'is invalid with an invalid header name' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X Tenant' => 'acme' })
+
+        expect(tool).not_to be_valid
+        expect(tool.errors[:headers]).to be_present
+      end
+
+      it 'is invalid when a header value is not a string' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Retries' => 3 })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid when a header value contains a line break' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => "acme\r\nX-Injected: 1" })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid with more than the maximum number of headers' do
+        headers = (1..(Captain::CustomTool::MAX_HEADERS + 1)).to_h { |index| ["X-Header-#{index}", 'value'] }
+        tool = build(:captain_custom_tool, account: account, headers: headers)
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid with header names that differ only by case' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => 'a', 'x-tenant' => 'b' })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid with reserved headers regardless of case' do
+        %w[authorization Host content-length content-type X-Chatwoot-Account-Id X-Chatwoot X-ChatwootToken].each do |name|
+          tool = build(:captain_custom_tool, account: account, headers: { name => 'value' })
+
+          expect(tool).not_to be_valid, "expected #{name} to be rejected"
+        end
+      end
+
+      it 'is invalid when a header value is longer than 1 KiB' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => 'a' * 1025 })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid when a header value contains a control character' do
+        tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => "acme\u0000" })
+
+        expect(tool).not_to be_valid
+      end
+
+      it 'is invalid when a header value contains a placeholder' do
+        ['acme {{ order_id }}', '${{ secrets.token }}'].each do |value|
+          tool = build(:captain_custom_tool, account: account, headers: { 'X-Tenant' => value })
+
+          expect(tool).not_to be_valid, "expected #{value} to be rejected"
+        end
+      end
+    end
+  end
+
+  describe 'auth_config validation' do
+    let(:account) { create(:account) }
+
+    it 'is valid with a proper API key header' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => 'X-API-Key', 'key' => 'secret' })
+
+      expect(tool).to be_valid
+    end
+
+    it 'is invalid when the API key header name is not a valid header name' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => 'X API Key', 'key' => 'secret' })
+
+      expect(tool).not_to be_valid
+      expect(tool.errors[:auth_config]).to include('X API Key is not a valid header name')
+    end
+
+    it 'is invalid when the API key header name is one Chatwoot sets itself' do
+      %w[X-Chatwoot-Account-Id x-chatwoot-custom X-Chatwoot X-ChatwootToken Content-Type host].each do |name|
+        tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => name, 'key' => 'secret' })
+
+        expect(tool).not_to be_valid, "expected #{name} to be rejected"
+        expect(tool.errors[:auth_config]).to include("#{name} is managed by Chatwoot and cannot be set")
+      end
+    end
+
+    it 'allows Authorization as the API key header name' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'api_key', auth_config: { 'name' => 'Authorization', 'key' => 'Token secret' })
+
+      expect(tool).to be_valid
+    end
+
+    it 'is invalid when a basic auth username contains a colon' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'basic', auth_config: { 'username' => 'acme:ops', 'password' => 'secret' })
+
+      expect(tool).not_to be_valid
+      expect(tool.errors[:auth_config]).to be_present
+    end
+
+    it 'is invalid when a credential contains control characters' do
+      tool = build(:captain_custom_tool, account: account, auth_type: 'bearer', auth_config: { 'token' => "secret\r\nX-Injected: 1" })
+
+      expect(tool).not_to be_valid
+      expect(tool.errors[:auth_config]).to be_present
+    end
+  end
+
+  describe 'source_metadata validation' do
+    let(:account) { create(:account) }
+    let(:source_metadata) do
+      {
+        'source' => 'github',
+        'repository' => 'chatwoot/support-tools',
+        'path' => 'shopify',
+        'tool_id' => 'get_order',
+        'revision' => 'a' * 40,
+        'version' => '1.2.0',
+        'manifest_digest' => "sha256:#{'b' * 64}",
+        'installation_id' => SecureRandom.uuid
+      }
+    end
+
+    it 'is valid without source metadata' do
+      expect(build(:captain_custom_tool, account: account, source_metadata: nil)).to be_valid
+    end
+
+    it 'is valid with complete GitHub source metadata' do
+      expect(build(:captain_custom_tool, account: account, source_metadata: source_metadata)).to be_valid
+    end
+
+    it 'is invalid with an unsupported source' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.merge('source' => 'gitlab'))
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid with an abbreviated revision' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.merge('revision' => 'abc1234'))
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid when a field is missing' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.except('tool_id'))
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid with unknown fields' do
+      tool = build(:captain_custom_tool, account: account, source_metadata: source_metadata.merge('category' => 'Commerce'))
+
+      expect(tool).not_to be_valid
     end
   end
 
@@ -248,6 +433,27 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(tool.build_request_url({ order_id: '12345' })).to eq('https://api.example.com/orders/12345')
       end
 
+      it 'accepts Liquid tags in the endpoint and renders them when called' do
+        tool = create(:captain_custom_tool, account: account,
+                                            endpoint_url: '{% assign kind = kind | downcase %}https://api.example.com/{{ kind }}/{{ id }}')
+
+        expect(tool.build_request_url({ kind: 'Orders', id: '7' })).to eq('https://api.example.com/orders/7')
+      end
+
+      it 'renders an endpoint that only uses Liquid tags' do
+        tool = create(:captain_custom_tool, account: account,
+                                            endpoint_url: 'https://api.example.com/{% if verbose %}details{% else %}summary{% endif %}')
+
+        expect(tool.build_request_url({ verbose: true })).to eq('https://api.example.com/details')
+      end
+
+      it 'still checks the URL around Liquid tags' do
+        tool = build(:captain_custom_tool, account: account, endpoint_url: '{% if id %}http://api.example.com/{{ id }}{% endif %}')
+
+        expect(tool).not_to be_valid
+        expect(tool.errors[:endpoint_url]).to include('must use HTTPS protocol')
+      end
+
       it 'handles multiple template variables' do
         tool = create(:captain_custom_tool, account: account,
                                             endpoint_url: 'https://api.example.com/{{ resource }}/{{ id }}?details={{ show_details }}')
@@ -270,6 +476,19 @@ RSpec.describe Captain::CustomTool, type: :model do
 
         result = tool.build_request_body({ order_id: '12345' })
         expect(result).to eq('{ "order_id": "12345", "source": "chatwoot" }')
+      end
+
+      it 'skips optional params the model did not send' do
+        tool = create(:captain_custom_tool, account: account,
+                                            request_template: '{ "order_id": "{{ order_id }}"{% if note %}, "note": "{{ note }}"{% endif %} }')
+
+        expect(tool.build_request_body({ order_id: '12345' })).to eq('{ "order_id": "12345" }')
+      end
+
+      it 'raises on invalid Liquid syntax' do
+        tool = build(:captain_custom_tool, account: account, request_template: '{ "order_id": "{{ order_id | }}" }')
+
+        expect { tool.build_request_body({ order_id: '12345' }) }.to raise_error(/Template rendering failed/)
       end
     end
 
@@ -345,6 +564,21 @@ RSpec.describe Captain::CustomTool, type: :model do
 
         result = tool.format_response(raw_response)
         expect(result).to eq('Response: plain text response')
+      end
+
+      it 'branches on optional response fields' do
+        template = '{% if response.error %}Failed: {{ response.error }}{% else %}Status: {{ response.status }}{% endif %}'
+        tool = create(:captain_custom_tool, account: account, response_template: template)
+
+        expect(tool.format_response('{"status": "shipped"}')).to eq('Status: shipped')
+        expect(tool.format_response('{"error": "not found"}')).to eq('Failed: not found')
+      end
+
+      it 'falls back to defaults for missing response fields' do
+        tool = create(:captain_custom_tool, account: account,
+                                            response_template: 'Tracking: {{ response.tracking | default: "not available" }}')
+
+        expect(tool.format_response('{"status": "shipped"}')).to eq('Tracking: not available')
       end
     end
 
@@ -515,7 +749,7 @@ RSpec.describe Captain::CustomTool, type: :model do
         tool = create(:captain_custom_tool, :with_params, account: account)
 
         tool_instance = tool.tool(assistant)
-        params = tool_instance.parameters
+        params = tool_instance.class.declared_parameters
 
         expect(params.keys).to contain_exactly(:order_id, :include_details)
         expect(params[:order_id].name).to eq(:order_id)
@@ -531,7 +765,7 @@ RSpec.describe Captain::CustomTool, type: :model do
         tool = create(:captain_custom_tool, account: account, param_schema: [])
 
         tool_instance = tool.tool(assistant)
-        expect(tool_instance.parameters).to be_empty
+        expect(tool_instance.class.declared_parameters).to be_empty
       end
     end
   end

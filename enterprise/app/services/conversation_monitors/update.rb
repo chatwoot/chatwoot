@@ -20,13 +20,14 @@ class ConversationMonitors::Update
 
   def update_monitor
     previous_version = @monitor.collection_version
-    @monitor.assign_attributes(@attributes.slice('name', 'condition'))
+    @monitor.assign_attributes(@attributes.slice('name', 'condition', 'icon', 'icon_color'))
     @condition_changed = @monitor.condition_changed?
     validate!
     update_collection
     @monitor.recheck_requested_at = Time.current if @condition_changed
     @monitor.data_revision += 1
     @monitor.save!
+    @monitor.disable_automations! if @monitor.saved_change_to_paused_at? && @monitor.paused_at
     reset_evaluations(previous_version) if @condition_changed
   end
 

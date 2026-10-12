@@ -145,7 +145,6 @@ export function useContactConversationNavigation() {
     newerConversation,
     hasHistory,
     isReadingHistory,
-    isReplyRevealed,
     latestConversation,
     leaveReadingMode,
     openConversation,

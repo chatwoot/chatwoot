@@ -27,8 +27,64 @@ RSpec.describe Enterprise::Whatsapp::OneoffCampaignService do
   end
 
   before do
-    account.enable_features!(:whatsapp_campaign)
+    account.enable_features!(:campaigns)
     allow_any_instance_of(Whatsapp::OneoffCampaignService).to receive(:channel).and_return(whatsapp_channel) # rubocop:disable RSpec/AnyInstance
+  end
+
+  it 'records delivery progress across core cursor batches' do
+    stub_const('Whatsapp::OneoffCampaignService::BATCH_SIZE', 1)
+    contacts = create_list(:contact, 2, :with_phone_number, account: account)
+    contacts.each { |contact| contact.update_labels([label.title]) }
+    allow(whatsapp_channel).to receive(:send_template).and_return('wamid.first', 'wamid.second')
+
+    campaign.trigger!
+
+    Campaigns::SendWhatsappBatchJob.perform_now(campaign)
+    expect(campaign.campaign_recipients.sent.count).to eq(1)
+    recipient = campaign.campaign_recipients.sent.first
+    expect(recipient.contact_inbox.source_id).to eq(contacts.first.phone_number.delete_prefix('+'))
+    expect(recipient.contact_inbox.contact_id).to eq(contacts.first.id)
+    expect(campaign.reload).to be_processing
+
+    Campaigns::SendWhatsappBatchJob.perform_now(campaign, contacts.first.id)
+    expect(campaign.campaign_recipients.sent.count).to eq(2)
+    Campaigns::SendWhatsappBatchJob.perform_now(campaign, contacts.last.id)
+    expect(campaign.reload).to be_completed
+  end
+
+  [
+    ['+5541988887777', '554188887777'],
+    ['+554188887777', '5541988887777']
+  ].each do |phone_number, source_id|
+    it "reuses the existing WhatsApp identity #{source_id} for #{phone_number}" do
+      contact = create(:contact, account: account, phone_number: phone_number)
+      contact.update_labels([label.title])
+      contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: source_id)
+      allow(whatsapp_channel).to receive(:send_template).and_return('wamid.normalized')
+
+      expect do
+        Whatsapp::OneoffCampaignService.new(campaign: campaign).perform_batch(0)
+      end.not_to change(ContactInbox, :count)
+
+      recipient = campaign.campaign_recipients.find_by!(contact: contact)
+      expect(recipient).to be_sent
+      expect(recipient.contact_inbox).to eq(contact_inbox)
+    end
+  end
+
+  it 'does not associate a normalized identity belonging to another contact' do
+    contact = create(:contact, account: account, phone_number: '+5541988887777')
+    contact.update_labels([label.title])
+    other_contact = create(:contact, account: account)
+    create(:contact_inbox, contact: other_contact, inbox: whatsapp_inbox, source_id: '554188887777')
+    allow(whatsapp_channel).to receive(:send_template).and_return('wamid.original')
+
+    Whatsapp::OneoffCampaignService.new(campaign: campaign).perform_batch(0)
+
+    recipient = campaign.campaign_recipients.find_by!(contact: contact)
+    expect(recipient).to be_sent
+    expect(recipient.contact_inbox.contact).to eq(contact)
+    expect(recipient.contact_inbox.source_id).to eq('5541988887777')
   end
 
   it 'marks contacts without phone or BSUID as skipped' do
@@ -37,7 +93,9 @@ RSpec.describe Enterprise::Whatsapp::OneoffCampaignService do
 
     expect(whatsapp_channel).not_to receive(:send_template)
 
-    Whatsapp::OneoffCampaignService.new(campaign: campaign).perform
+    perform_enqueued_jobs do
+      Whatsapp::OneoffCampaignService.new(campaign: campaign).perform
+    end
 
     expect(CampaignRecipient.find_by!(campaign: campaign, contact: contact)).to be_skipped
   end
@@ -50,7 +108,9 @@ RSpec.describe Enterprise::Whatsapp::OneoffCampaignService do
 
     expect(whatsapp_channel).not_to receive(:send_template)
 
-    Whatsapp::OneoffCampaignService.new(campaign: campaign).perform
+    perform_enqueued_jobs do
+      Whatsapp::OneoffCampaignService.new(campaign: campaign).perform
+    end
 
     expect(CampaignRecipient.find_by!(campaign: campaign, contact: contact)).to be_skipped
   end
@@ -71,7 +131,9 @@ RSpec.describe Enterprise::Whatsapp::OneoffCampaignService do
 
     expect(whatsapp_channel).not_to receive(:send_template)
 
-    Whatsapp::OneoffCampaignService.new(campaign: campaign).perform
+    perform_enqueued_jobs do
+      Whatsapp::OneoffCampaignService.new(campaign: campaign).perform
+    end
 
     expect(CampaignRecipient.find_by!(campaign: campaign, contact: contact)).to be_skipped
   end

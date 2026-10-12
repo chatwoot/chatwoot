@@ -3,15 +3,19 @@ class Voice::CallStatus::Manager
 
   def process_status_update(status, duration: nil, timestamp: nil)
     return unless Call::STATUSES.include?(status)
-    return if call.status == status
-    # Don't overwrite a terminal status — Twilio's late `completed` events would
-    # otherwise clobber an agent-rejection reason.
-    return if Call::TERMINAL_STATUSES.include?(call.status)
 
-    apply_call_updates!(status, duration: duration, timestamp: timestamp)
-    call.conversation.update!(last_activity_at: Time.zone.now)
-    # Bump updated_at so the message.updated dispatcher rebroadcasts with the fresh Call embedded.
-    call.message&.touch # rubocop:disable Rails/SkipsModelValidations
+    # Guards run on the locked row, not the caller's copy, so a callback racing an agent hangup can't overwrite its outcome.
+    call.with_lock do
+      next if call.status == status
+      # Don't overwrite a terminal status — Twilio's late `completed` events would
+      # otherwise clobber an agent-rejection reason.
+      next if Call::TERMINAL_STATUSES.include?(call.status)
+
+      apply_call_updates!(status, duration: duration, timestamp: timestamp)
+      call.conversation.update!(last_activity_at: Time.zone.now)
+      # Bump updated_at so the message.updated dispatcher rebroadcasts with the fresh Call embedded.
+      call.message&.touch # rubocop:disable Rails/SkipsModelValidations
+    end
   end
 
   private

@@ -27,7 +27,7 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
   def build_messages(config = {})
     return "No messages in this conversation\n" if @record.messages.empty?
 
-    messages = @record.messages.where.not(message_type: [:activity, :template])
+    messages = @record.messages.where.not(message_type: [:activity, :template]).not_forwarded
 
     if config[:token_limit]
       build_limited_messages(messages, config)
