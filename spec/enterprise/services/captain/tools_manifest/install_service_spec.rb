@@ -66,6 +66,21 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       expect(tools.map(&:enabled)).to eq([true, false])
     end
 
+    it 'installs tools without email verification unless the manifest asks for it' do
+      expect(install.map(&:requires_email_verification?)).to eq([false, false])
+    end
+
+    context 'when a tool in the manifest requires email verification' do
+      before do
+        manifest['tools'].first['requires_email_verification'] = true
+        stub_request(:get, manifest_url).to_return(status: 200, body: manifest.to_yaml)
+      end
+
+      it 'installs that tool with email verification required' do
+        expect(install.map(&:requires_email_verification?)).to eq([true, false])
+      end
+    end
+
     it 'installs tools that call their endpoint with the install-time values and manifest headers' do
       allow(Resolv).to receive(:getaddresses).and_return(['23.227.38.33'])
       order_url = 'https://acme.myshopify.com/admin/api/orders/1001.json'
@@ -179,6 +194,16 @@ RSpec.describe Captain::ToolsManifest::InstallService do
         expect(updated.enabled).to be(false)
         expect(updated.source_metadata['revision']).to eq(latest_revision)
         expect(updated.source_metadata['installation_id']).to eq(installed_tools.first.source_metadata['installation_id'])
+      end
+
+      it 'follows the manifest when a tool starts requiring email verification' do
+        manifest['tools'].first['requires_email_verification'] = true
+        stub_request(:get, manifest_url).to_return(status: 200, body: manifest.to_yaml)
+
+        updated = install.find { |tool| tool.source_metadata['tool_id'] == 'get_order' }
+
+        expect(updated.id).to eq(installed_tools.first.id)
+        expect(updated.requires_email_verification?).to be(true)
       end
 
       it 'creates tools added to the manifest and deletes tools it dropped' do
