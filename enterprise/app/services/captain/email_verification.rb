@@ -11,6 +11,8 @@ class Captain::EmailVerification
   SEND_LIMIT = 5
   SEND_WINDOW = 1.hour
   VERIFIED_TTL = 24.hours
+  # Tools place the verified address in URLs and JSON bodies, so it can only hold characters that cannot change the request
+  EMAIL_PATTERN = /\A[a-z0-9._+-]+@[a-z0-9.-]+\z/
 
   pattr_initialize :contact_inbox
 
@@ -31,7 +33,7 @@ class Captain::EmailVerification
 
   def send_code(email)
     email = email.to_s.strip.downcase
-    return :invalid_email unless Devise.email_regexp.match?(email)
+    return :invalid_email unless EMAIL_PATTERN.match?(email)
     return :already_verified if verified_email == email
     return :unavailable unless Captain::EmailVerificationMailer.deliverable?
     return :rate_limited unless send_allowed?(email)
