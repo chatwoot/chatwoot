@@ -37,7 +37,100 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
     end
   end
 
+  describe '#open_session_tool' do
+    it 'returns a tool with an email parameter when the tool uses the session email' do
+      custom_tool.update!(endpoint_url: 'https://example.com/customers?email={{ session.verified_email }}')
+
+      open_tool = tool.open_session_tool
+
+      expect(open_tool).to be_a(described_class)
+      expect(open_tool.class.declared_parameters.keys).to contain_exactly(:email)
+      expect(tool.class.declared_parameters.keys).to be_empty
+    end
+
+    it 'returns the same tool when the tool does not use the session email' do
+      expect(tool.open_session_tool).to be(tool)
+    end
+  end
+
   describe '#perform' do
+    context 'when the tool uses the session email' do
+      let(:inbox) { create(:inbox, account: account) }
+      let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account)) }
+      let(:state) { { account_id: account.id, channel_type: 'Channel::WebWidget', contact_inbox: { id: contact_inbox.id, hmac_verified: false } } }
+      let(:tool_context) { Struct.new(:state).new(state) }
+      let(:verified_email) { 'jane@example.com' }
+      let(:request_stub) { stub_request(:get, %r{\Ahttps://example.com/customers}).to_return(status: 200, body: '{"found": true}') }
+
+      before do
+        custom_tool.update!(http_method: 'GET', endpoint_url: 'https://example.com/customers?email={{ session.verified_email | url_encode }}',
+                            response_template: nil)
+        request_stub
+        verification = instance_double(Captain::EmailVerification, verified_email: verified_email)
+        allow(Captain::EmailVerification).to receive(:new).with(contact_inbox).and_return(verification)
+      end
+
+      it 'sends the verified email' do
+        expect(tool.perform(tool_context)).to eq('{"found": true}')
+        expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=jane%40example.com')
+      end
+
+      it 'sends the verified email even when the model passes another one' do
+        tool.perform(tool_context, email: 'victim@example.com', session: { verified_email: 'victim@example.com' })
+
+        expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=jane%40example.com')
+        expect(WebMock).not_to have_requested(:get, 'https://example.com/customers?email=victim%40example.com')
+      end
+
+      it 'prefers the verified email over the one an agent-facing run supplies' do
+        state[:source] = 'copilot_reply_suggestion'
+
+        result = tool.perform(tool_context, email: 'typed@example.com')
+
+        expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=jane%40example.com')
+        expect(result).to eq('{"found": true}')
+      end
+
+      context 'when the customer has not verified an email' do
+        let(:verified_email) { nil }
+
+        it 'is blocked without the setting being turned on' do
+          expect(custom_tool.settings).to eq({})
+
+          result = tool.perform(tool_context, email: 'victim@example.com')
+
+          expect(result).to include('has not verified an email')
+          expect(request_stub).not_to have_been_requested
+        end
+
+        it 'uses the email an agent supplies for a reply suggestion and says it is unverified' do
+          state[:source] = 'copilot_reply_suggestion'
+
+          result = tool.perform(tool_context, email: 'typed@example.com')
+
+          expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=typed%40example.com')
+          expect(result).to start_with('{"found": true}')
+          expect(result).to include('This email was not verified by the customer.')
+        end
+
+        it 'uses the email an admin supplies in the playground' do
+          result = tool.perform(Struct.new(:state).new({ source: 'playground' }), email: 'test@example.com')
+
+          expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=test%40example.com')
+          expect(result).to include('This email was not verified by the customer.')
+        end
+
+        it 'asks for an email when an agent-facing run supplies none' do
+          state[:source] = 'copilot_reply_suggestion'
+
+          result = tool.perform(tool_context)
+
+          expect(result).to include("needs the customer's email")
+          expect(request_stub).not_to have_been_requested
+        end
+      end
+    end
+
     context 'when the tool requires email verification' do
       let(:inbox) { create(:inbox, account: account) }
       let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account)) }

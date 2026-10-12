@@ -11,34 +11,64 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   end
 
   def perform(tool_context, **params)
-    return email_verification_required_message(tool_context.state) unless email_verification_satisfied?(tool_context.state)
+    return perform_with_verified_session(tool_context, params) if @custom_tool.requires_email_verification?
 
-    url = @custom_tool.build_request_url(params)
-    body = @custom_tool.build_request_body(params)
-
-    response_body = execute_http_request(url, body, tool_context)
-    @custom_tool.format_response(response_body)
+    request(tool_context, params)
   rescue StandardError => e
     Rails.logger.error("HttpTool execution error for #{@custom_tool.slug}: #{e.class} - #{e.message}")
     failure_result('An error occurred while executing the request', tool_context.state)
+  end
+
+  # The same tool with an email parameter for the model, for runs where an admin or an agent is the user
+  def open_session_tool
+    return self unless @custom_tool.uses_session_email?
+
+    @custom_tool.tool(@assistant, open_session: true)
   end
 
   def available_in_reply_suggestion?
     @custom_tool.http_method == 'GET'
   end
 
-  private
-
   # Runs where an admin or an agent is the user. Everywhere else a customer is, and has to verify first.
   AGENT_FACING_SOURCES = %w[playground copilot_reply_suggestion].freeze
+  OPEN_SESSION_EMAIL_PARAM = Concerns::Toolable::OPEN_SESSION_EMAIL_PARAM
+  # In an open session the model supplied the email, so the result says nobody verified it
+  UNVERIFIED_EMAIL_NOTE = 'This email was not verified by the customer.'.freeze
 
-  # Checked against the stored verification on every call, never against the run state the model can influence
-  def email_verification_satisfied?(state)
-    return true unless @custom_tool.requires_email_verification?
-    return true if AGENT_FACING_SOURCES.include?(state&.dig(:source))
+  private
 
+  def request(tool_context, params, session = {})
+    url = @custom_tool.build_request_url(params, session)
+    body = @custom_tool.build_request_body(params, session)
+    @custom_tool.format_response(execute_http_request(url, body, tool_context))
+  end
+
+  # A customer has to verify an email first. In an open session the model supplies the email in their place.
+  def perform_with_verified_session(tool_context, params)
+    state = tool_context.state
+    verified_email = stored_verified_email(state)
+    return email_verification_required_message(state) if verified_email.blank? && !open_session?(state)
+    return request(tool_context, params, { verified_email: verified_email }) if verified_email.present? || !@custom_tool.uses_session_email?
+
+    supplied_email = params[OPEN_SESSION_EMAIL_PARAM].to_s.strip
+    return session_email_required_message(state) if supplied_email.blank?
+
+    "#{request(tool_context, params, { verified_email: supplied_email })}\n\n#{UNVERIFIED_EMAIL_NOTE}"
+  end
+
+  def open_session?(state)
+    AGENT_FACING_SOURCES.include?(state&.dig(:source))
+  end
+
+  # Read from the stored verification on every call, never from the run state the model can influence
+  def stored_verified_email(state)
     contact_inbox = find_contact_inbox(state)
-    contact_inbox.present? && Captain::EmailVerification.new(contact_inbox).verified_email.present?
+    contact_inbox && Captain::EmailVerification.new(contact_inbox).verified_email
+  end
+
+  def session_email_required_message(state)
+    failure_result("This tool needs the customer's email. Pass it as the email parameter.", state)
   end
 
   def email_verification_required_message(state)
