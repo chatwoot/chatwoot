@@ -143,7 +143,7 @@ class Captain::CustomTool < ApplicationRecord
   # Whether the request reads the email from the session, which Chatwoot fills in, in place of a parameter the model fills in
   def uses_session_email?
     [endpoint_url, request_template].any? do |template|
-      template.to_s.scan(LIQUID_BLOCK_PATTERN).any? { |block| block.match?(SESSION_REFERENCE_PATTERN) }
+      template.to_s.scan(LIQUID_BLOCK_PATTERN).any? { |block| block.gsub(LIQUID_STRING_PATTERN, '').match?(SESSION_REFERENCE_PATTERN) }
     end
   end
 

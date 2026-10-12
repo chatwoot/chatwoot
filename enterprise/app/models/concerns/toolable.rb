@@ -9,8 +9,9 @@ module Concerns::Toolable
   SESSION_NAMESPACE = 'session'.freeze
   # Any reference to session inside {{ }} or {% %} counts, so bracket access or an alias is not missed
   LIQUID_BLOCK_PATTERN = /\{\{.*?\}\}|\{%.*?%\}/m
-  # A property such as order.session, or the text "session", is not the namespace
-  SESSION_REFERENCE_PATTERN = /(?<![.\w"'])session(?![\w"'])/
+  # Text values are removed first, and a property such as order.session is not the namespace
+  LIQUID_STRING_PATTERN = /"[^"]*"|'[^']*'/
+  SESSION_REFERENCE_PATTERN = /(?<![.\w])session(?!\w)/
   OPEN_SESSION_EMAIL_PARAM = :email
 
   # In an open session an admin or agent is the user, so the model supplies the email that Chatwoot otherwise takes from the verified session
