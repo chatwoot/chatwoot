@@ -86,6 +86,8 @@ const fileName = file => {
           :variant="attachment.isHd ? 'solid' : 'ghost'"
           :color="attachment.isHd ? 'blue' : 'slate'"
           :aria-pressed="!!attachment.isHd"
+          :is-loading="!!attachment.isOptimizing"
+          :disabled="!!attachment.isOptimizing"
           @click="emit('toggleHd', attachment)"
         />
         <Button
