@@ -55,8 +55,9 @@ const state = reactive({
 // A tool whose URL or request body reads this value gets the email from the verified session, so it always needs verification
 // Any reference to session inside {{ }} or {% %} counts, matching the check on the server
 const LIQUID_BLOCK_PATTERN = /\{\{[\s\S]*?\}\}|\{%[\s\S]*?%\}/g;
-// A property such as order.session, or the text "session", is not the namespace
-const SESSION_REFERENCE_PATTERN = /(?<![.\w"'])session(?![\w"'])/;
+// Text values are removed first, and a property such as order.session is not the namespace
+const LIQUID_STRING_PATTERN = /"[^"]*"|'[^']*'/g;
+const SESSION_REFERENCE_PATTERN = /(?<![.\w])session(?!\w)/;
 
 // Tools installed from a manifest are shown read-only
 const isReadOnly = computed(() => props.mode === 'view');
@@ -86,7 +87,9 @@ const usesSessionEmail = computed(() =>
   [state.endpoint_url, state.request_template].some(template =>
     (template || '')
       .match(LIQUID_BLOCK_PATTERN)
-      ?.some(block => SESSION_REFERENCE_PATTERN.test(block))
+      ?.some(block =>
+        SESSION_REFERENCE_PATTERN.test(block.replace(LIQUID_STRING_PATTERN, ''))
+      )
   )
 );
 
