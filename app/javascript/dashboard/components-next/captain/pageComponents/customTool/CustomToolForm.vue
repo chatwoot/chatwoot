@@ -83,8 +83,15 @@ watch(
   { immediate: true }
 );
 
+// A GET request has no body, so its request template is never sent
+const sentTemplates = computed(() =>
+  state.http_method === 'GET'
+    ? [state.endpoint_url]
+    : [state.endpoint_url, state.request_template]
+);
+
 const usesSessionEmail = computed(() =>
-  [state.endpoint_url, state.request_template].some(template =>
+  sentTemplates.value.some(template =>
     (template || '')
       .match(LIQUID_BLOCK_PATTERN)
       ?.some(block =>
