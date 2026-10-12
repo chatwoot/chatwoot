@@ -14,8 +14,15 @@
     <% command_groups.each do |group| %>
       <%= render "command_group", group %>
     <% end %>
-    <%# Stays out of the way while a command still matches. %>
-    <p class="px-3 py-8 text-center text-body-main text-n-slate-11 [#command-bar-list:has([data-command-item]:not([hidden]))_&]:hidden"><%= t("super_admin.command_bar.empty") %></p>
+    <div data-command-results="<%= accounts_super_admin_search_index_path %>"></div>
+    <div data-command-results="<%= users_super_admin_search_index_path %>"></div>
+    <div class="hidden space-y-4 px-3 py-4 [[data-searching]_&]:block" aria-hidden="true">
+      <% 3.times do %>
+        <div class="flex items-center gap-2.5"><span class="size-4 animate-pulse rounded bg-n-slate-3"></span><span class="h-3 w-48 animate-pulse rounded bg-n-slate-3"></span></div>
+      <% end %>
+    </div>
+    <%# Stays out of the way while a command still matches or a search is on its way. %>
+    <p class="px-3 py-8 text-center text-body-main text-n-slate-11 [#command-bar-list:has([data-command-item]:not([hidden]))_&]:hidden [[data-searching]_&]:hidden"><%= t("super_admin.command_bar.empty") %></p>
   </div>
 
   <footer class="flex items-center gap-4 border-t border-n-weak px-4 py-2 text-label-small text-n-slate-10 touch:hidden">
