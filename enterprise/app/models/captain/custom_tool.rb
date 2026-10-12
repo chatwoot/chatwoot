@@ -142,9 +142,14 @@ class Captain::CustomTool < ApplicationRecord
 
   # Whether the request reads the email from the session, which Chatwoot fills in, in place of a parameter the model fills in
   def uses_session_email?
-    [endpoint_url, request_template].any? do |template|
+    sent_templates.any? do |template|
       template.to_s.scan(LIQUID_BLOCK_PATTERN).any? { |block| block.gsub(LIQUID_STRING_PATTERN, '').match?(SESSION_REFERENCE_PATTERN) }
     end
+  end
+
+  # A GET request has no body, so its request template is never sent
+  def sent_templates
+    http_method == 'GET' ? [endpoint_url] : [endpoint_url, request_template]
   end
 
   def session_email_parameter_needed?

@@ -11,8 +11,9 @@ json.auth_config custom_tool.auth_config if Current.user&.administrator?
 json.headers custom_tool.headers if Current.user&.administrator?
 json.param_schema custom_tool.param_schema
 json.enabled custom_tool.enabled
+# The stored setting only. A tool that reads the session email needs verification without it, and saving that back would turn it on for good.
 json.settings do
-  json.requires_email_verification custom_tool.requires_email_verification?
+  json.requires_email_verification custom_tool.settings['requires_email_verification'] == true
 end
 json.source_metadata custom_tool.source_metadata
 json.account_id custom_tool.account_id

@@ -378,6 +378,13 @@ RSpec.describe Captain::CustomTool, type: :model do
       expect(tool.requires_email_verification?).to be(false)
     end
 
+    it 'ignores the request body of a GET tool, which is never sent' do
+      tool = build(:captain_custom_tool, account: account, http_method: 'GET', request_template: '{ "email": "{{ session.verified_email }}" }')
+
+      expect(tool.uses_session_email?).to be(false)
+      expect(tool.requires_email_verification?).to be(false)
+    end
+
     it 'does not require email verification for a tool that takes the email as a parameter' do
       tool = build(:captain_custom_tool, account: account, endpoint_url: 'https://api.example.com/customers?email={{ verified_email }}')
 
