@@ -53,10 +53,11 @@ class Voice::EndConferenceJob < ApplicationJob
   # once their time to join is up; with none, the call is completed first, under the row
   # lock opening a connection takes, so one opened later finds the call over
   def agent_still_on_call?(conference, call, leaving_call_sid)
+    looked_at = Time.zone.now.to_i
     return true if conference.agents_remain?(leaving_call_sid: leaving_call_sid)
 
-    wait = conference.complete_unless_agent_joining(leaving_call_sid: leaving_call_sid)
-    self.class.set(wait: wait.seconds).perform_later(call.id, leaving_call_sid: leaving_call_sid) if wait
+    wait = conference.complete_unless_agent_joining(leaving_call_sid: leaving_call_sid, since: looked_at)
+    self.class.set(wait: wait.seconds).perform_later(call.id, leaving_call_sid: leaving_call_sid) if wait&.positive?
     wait.present?
   end
 

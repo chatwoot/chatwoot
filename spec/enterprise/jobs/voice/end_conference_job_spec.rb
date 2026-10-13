@@ -14,8 +14,8 @@ RSpec.describe Voice::EndConferenceJob do
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
     real = Voice::Provider::Twilio::ConferenceService.method(:new)
     allow(Voice::Provider::Twilio::ConferenceService).to receive(:new) do |call:|
-      allow(conference).to receive(:complete_unless_agent_joining) do |leaving_call_sid:|
-        real.call(call: call).complete_unless_agent_joining(leaving_call_sid: leaving_call_sid)
+      allow(conference).to receive(:complete_unless_agent_joining) do |leaving_call_sid:, since:|
+        real.call(call: call).complete_unless_agent_joining(leaving_call_sid: leaving_call_sid, since: since)
       end
       conference
     end

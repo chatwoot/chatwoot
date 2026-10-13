@@ -50,6 +50,7 @@ class Voice::Conference::Manager
 
       call.update!(accepted_by_agent_id: user_id) if call.accepted_by_agent_id != user_id
       call.record_agent_leg!(participant_call_sid, 'joined')
+      call.forget_pending_agent_leg!(participant_label)
       claimed = true
     end
 
@@ -124,12 +125,13 @@ class Voice::Conference::Manager
   # Another agent is in the conference or on their way in; with none, the call is completed
   # under the row lock that opening a connection takes
   def agent_still_on_call?
+    looked_at = now
     return true if other_agents_remain?
 
-    wait = conference_service.complete_unless_agent_joining(leaving_call_sid: participant_call_sid)
+    wait = conference_service.complete_unless_agent_joining(leaving_call_sid: participant_call_sid, since: looked_at)
     return false unless wait
 
-    Voice::EndConferenceJob.set(wait: wait.seconds).perform_later(call.id, leaving_call_sid: participant_call_sid)
+    Voice::EndConferenceJob.set(wait: wait.seconds).perform_later(call.id, leaving_call_sid: participant_call_sid) if wait.positive?
     true
   end
 

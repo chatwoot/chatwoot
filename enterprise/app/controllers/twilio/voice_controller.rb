@@ -125,7 +125,7 @@ class Twilio::VoiceController < ApplicationController
   end
 
   # An agent's connection is recorded as on its way in, unless the call has ended
-  def open_leg?(call) = agent_leg?(twilio_from) ? call.open_agent_leg!(twilio_call_sid, participant_label_for(twilio_from)) : !call.terminal?
+  def open_leg?(call) = agent_leg?(twilio_from) ? call.open_agent_leg!(twilio_call_sid) : !call.terminal?
 
   def find_call_for_agent
     sid = params[:call_sid].presence

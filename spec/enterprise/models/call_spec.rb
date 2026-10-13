@@ -114,24 +114,24 @@ RSpec.describe Call do
     let(:call) { create(:call, conversation: create(:conversation)) }
 
     it 'records an agent connection as on its way in while the call is live' do
-      expect(call.open_agent_leg!('CA-1', 'agent-1-account-1')).to be(true)
+      expect(call.open_agent_leg!('CA-1')).to be(true)
       expect(call.reload.agent_legs.dig('CA-1', 'state')).to eq('joining')
     end
 
     it 'refuses a connection to a call that has ended' do
       call.update!(status: 'completed')
 
-      expect(call.open_agent_leg!('CA-1', 'agent-1-account-1')).to be(false)
+      expect(call.open_agent_leg!('CA-1')).to be(false)
       expect(call.reload.agent_legs).to be_empty
     end
 
-    it 'gives up the place an accepted join held once its connection opens' do
+    it 'keeps the place an accepted join holds when a connection opens, which may belong to an earlier attempt' do
       pending_key = described_class.pending_agent_leg('agent-1-account-1')
       call.with_lock { call.record_agent_leg!(pending_key, 'joining') }
 
-      call.open_agent_leg!('CA-1', 'agent-1-account-1')
+      call.open_agent_leg!('CA-1')
 
-      expect(call.reload.agent_legs.keys).to eq(['CA-1'])
+      expect(call.reload.agent_legs.keys).to contain_exactly(pending_key, 'CA-1')
     end
 
     it 'keeps a leg gone when a late callback for it arrives' do

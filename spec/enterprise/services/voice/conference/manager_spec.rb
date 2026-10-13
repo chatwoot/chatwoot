@@ -15,8 +15,8 @@ RSpec.describe Voice::Conference::Manager do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
     real = Voice::Provider::Twilio::ConferenceService.new(call: call)
-    allow(conference).to receive(:complete_unless_agent_joining) do |leaving_call_sid:|
-      real.complete_unless_agent_joining(leaving_call_sid: leaving_call_sid)
+    allow(conference).to receive(:complete_unless_agent_joining) do |leaving_call_sid:, since:|
+      real.complete_unless_agent_joining(leaving_call_sid: leaving_call_sid, since: since)
     end
     allow(Voice::Provider::Twilio::ConferenceService).to receive(:new).and_return(conference)
   end
@@ -217,6 +217,16 @@ RSpec.describe Voice::Conference::Manager do
   end
 
   describe 'an agent joining' do
+    it 'clears the place their accepted join held' do
+      call.update!(status: 'ringing')
+      conversation.update!(assignee: agent)
+      with_legs('CA-join' => 'joining', Call.pending_agent_leg(agent_label) => 'joining')
+
+      described_class.new(call: call, event: 'join', participant_label: agent_label, participant_call_sid: 'CA-join').process
+
+      expect(call.reload.agent_legs.keys).to eq(['CA-join'])
+    end
+
     it 'records their connection as on the call' do
       call.update!(status: 'ringing')
       conversation.update!(assignee: agent)
@@ -231,11 +241,27 @@ RSpec.describe Voice::Conference::Manager do
   describe 'an agent leaving while a new connection opens during the participant lookup' do
     it 'keeps the call for the new connection' do
       allow(conference).to receive(:agents_remain?) do
-        Call.find(call.id).open_agent_leg!('CA-new', agent_label)
+        Call.find(call.id).open_agent_leg!('CA-new')
         false
       end
 
       expect { leave(agent_label) }.to have_enqueued_job(Voice::EndConferenceJob)
+
+      expect(call.reload.status).to eq('in_progress')
+      expect(conference).not_to have_received(:end_conference)
+    end
+  end
+
+  describe 'an agent leaving while a new connection joins during the participant lookup' do
+    it 'keeps the call for the new connection' do
+      allow(conference).to receive(:agents_remain?) do
+        fresh = Call.find(call.id)
+        fresh.open_agent_leg!('CA-new')
+        fresh.with_lock { fresh.record_agent_leg!('CA-new', 'joined') }
+        false
+      end
+
+      leave(agent_label)
 
       expect(call.reload.status).to eq('in_progress')
       expect(conference).not_to have_received(:end_conference)

@@ -156,22 +156,27 @@ class Call < ApplicationRecord
     joining.map { |leg| leg['at'].to_i + AGENT_LEG_JOIN_GRACE_SECONDS - now }.max&.clamp(1..)
   end
 
-  def agent_leg_joined?(except: nil)
-    agent_legs.except(except.to_s).values.any? { |leg| leg['state'] == 'joined' }
+  # Whether another connection is in the conference, or joined it at or after the time given
+  def agent_leg_joined?(except: nil, since: nil)
+    agent_legs.except(except.to_s).values.any? { |leg| leg['state'] == 'joined' && (since.nil? || leg['at'].to_i >= since) }
   end
 
-  # An agent whose join was accepted holds a place until Twilio asks for their connection's
-  # instructions and its call SID is known
+  # An agent whose join was accepted holds a place for their connection, which nothing ties
+  # to a particular attempt: it lasts its time to join, or until one of their connections
+  # joins
   def self.pending_agent_leg(label) = "pending:#{label}"
 
+  def forget_pending_agent_leg!(label)
+    self.class.where(id: id).update_all(['meta = meta #- ARRAY[?, ?]', 'agent_legs', self.class.pending_agent_leg(label)]) # rubocop:disable Rails/SkipsModelValidations
+    reload
+  end
+
   # Records an agent's connection as joining unless the call has ended, under the row lock,
-  # so a decision that ends the call either sees the connection or is seen by it. The
-  # place the agent's join held is given up to it.
-  def open_agent_leg!(sid, label)
+  # so a decision that ends the call either sees the connection or is seen by it
+  def open_agent_leg!(sid)
     with_lock do
       next false if terminal?
 
-      self.class.where(id: id).update_all(['meta = meta #- ARRAY[?, ?]', 'agent_legs', self.class.pending_agent_leg(label)]) # rubocop:disable Rails/SkipsModelValidations
       record_agent_leg!(sid, 'joining')
       true
     end

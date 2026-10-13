@@ -45,9 +45,13 @@ class Voice::Provider::Twilio::ConferenceService
 
   # Completes the call once no agent connection is still on its way in, under the row lock
   # that opening a connection takes, so a connection either counts here or finds the call
-  # over and is hung up. Returns the seconds to wait for the connections still joining.
-  def complete_unless_agent_joining(leaving_call_sid:)
+  # over and is hung up. A connection that joined since the participants were looked up
+  # (`since`) is on the call. Returns 0 for a connection on the call, the seconds to wait
+  # for the connections still joining, or nil once the call is completed.
+  def complete_unless_agent_joining(leaving_call_sid:, since:)
     call.with_lock do
+      next 0 if call.agent_leg_joined?(except: leaving_call_sid, since: since)
+
       wait = call.agent_leg_join_wait(except: leaving_call_sid)
       next wait if wait
 
