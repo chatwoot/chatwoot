@@ -23,12 +23,14 @@ class Voice::VoipPushService
   APPLE = 'apns_voip'.freeze
   ANDROID = 'fcm'.freeze
 
-  # The agents a call rings: the assignee if the conversation has one, otherwise everyone
-  # who could be assigned the inbox, keeping only agents whose status is online, as the
-  # web does. Socket presence is not consulted: a locked phone is offline on the socket
-  # and is exactly the device this push exists for.
+  # The agents a call rings: the assignee if the conversation has one who can still be
+  # assigned the inbox, otherwise everyone who could be, keeping only agents whose status
+  # is online, as the web does. Socket presence is not consulted: a locked phone is offline
+  # on the socket and is exactly the device this push exists for.
   def self.recipients_for(call)
-    candidates = call.conversation.assignee.then { |assignee| assignee ? [assignee] : call.inbox.assignable_agents.to_a }
+    assignable = call.inbox.assignable_agents.to_a
+    assignee = call.conversation.assignee
+    candidates = assignee && assignable.include?(assignee) ? [assignee] : assignable
     online_ids = AccountUser.where(account_id: call.account_id, availability: :online).pluck(:user_id)
     candidates.select { |user| online_ids.include?(user.id) }
   end
@@ -40,17 +42,20 @@ class Voice::VoipPushService
     end
   end
 
-  # The agents the ring reaches: those chosen for it with a phone on a configured platform
-  # that has a push token, less any the pushes turned out not to reach
+  # The agents the ring reaches: those it was sent to a device of, less any the pushes
+  # turned out not to reach. Before the ring is prepared, those with a device it would be
+  # sent to; a device registered after it is not counted.
   def ringable_user_ids
-    subscriptions = []
-    subscriptions += apple_subscriptions.to_a if configured?(:apple)
-    subscriptions += android_subscriptions if configured?(:android)
-    subscriptions.select { |subscription| subscription.subscription_attributes['push_token'].present? }
-                 .map(&:user_id).uniq - call.ring_state.fetch('unreached_user_ids', [])
+    rung = call.ring_state.fetch('rung_user_ids') { subscribed_user_ids }
+    rung - call.ring_state.fetch('unreached_user_ids', [])
   end
 
   private
+
+  def subscribed_user_ids
+    subscriptions = (configured?(:apple) ? apple_subscriptions.to_a : []) + (configured?(:android) ? android_subscriptions : [])
+    subscriptions.select { |subscription| subscription.subscription_attributes['push_token'].present? }.map(&:user_id).uniq
+  end
 
   # Both platforms and every device go out at the same time, so no phone waits on another
   # device's round trip. Payloads and configuration are read here, on the job's thread and
@@ -164,16 +169,14 @@ class Voice::VoipPushService
 
   def token_owners = (@token_owners ||= {})
 
-  def rung_devices
-    call.ring_state.fetch('rung_devices', {})
-  end
+  def rung_devices = call.ring_state.fetch('rung_devices', {})
 
-  # Records the agents chosen for this ring and, where there are any, the devices being
-  # rung. Merged into its own column in place, so neither another ring's record nor a
+  # Records the agents chosen for this ring, those it is sent to a device of and, where there
+  # are any, the devices being rung. Merged into its own column in place, so neither another ring's record nor a
   # write of `meta` erases it. Returns the device tokens by platform.
   def remember_ring
     apple, android = devices_to_ring
-    rung = { 'ring_recipient_ids' => recipients.map(&:id) }
+    rung = { 'ring_recipient_ids' => recipients.map(&:id), 'rung_user_ids' => token_owners.values.uniq }
     rung['rung_devices'] = { APPLE => apple, ANDROID => android } if apple.any? || android.any?
     merge_ring_state(rung)
     [apple, android]

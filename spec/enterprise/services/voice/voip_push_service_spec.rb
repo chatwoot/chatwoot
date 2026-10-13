@@ -39,6 +39,21 @@ RSpec.describe Voice::VoipPushService do
                                        subscription_attributes: attributes)
   end
 
+  describe 'choosing who a call rings' do
+    it 'rings the inbox agents in place of an assignee removed from the inbox' do
+      outsider = create(:user, account: account, role: :agent)
+      conversation.update!(assignee: outsider)
+
+      expect(described_class.recipients_for(call)).to contain_exactly(agent, other_agent)
+    end
+
+    it 'rings only the assignee who can still be assigned the inbox' do
+      conversation.update!(assignee: agent)
+
+      expect(described_class.recipients_for(call)).to eq([agent])
+    end
+  end
+
   describe 'ring' do
     it 'sends a VoIP push to each iPhone of the eligible agents' do
       subscribe(agent, 'apns_voip', 'apple-1')
@@ -96,6 +111,14 @@ RSpec.describe Voice::VoipPushService do
       described_class.new(call: call).perform('ring')
 
       expect(fcm_client).to have_received(:send_v1).with(hash_including(token: 'android-1'))
+    end
+
+    it 'does not count an agent whose phone registered after the ring was sent' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      described_class.new(call: call).perform('ring')
+      subscribe(other_agent, 'apns_voip', 'apple-late')
+
+      expect(described_class.new(call: call.reload).ringable_user_ids).to eq([agent.id])
     end
 
     it 'does not count an agent whose only phone has no push token as reachable' do

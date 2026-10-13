@@ -100,6 +100,7 @@ describe CallFinder do
     end
 
     it 'hides a ringing call whose conversation is assigned to someone else' do
+      create(:inbox_member, user: other_agent, inbox: inbox)
       conversation.update!(assignee: other_agent)
       ringing_call(conversation)
 
