@@ -59,7 +59,8 @@ class Voice::VoipPushService
   # overtaken by the ring, so the ring is followed by a cancel of its own in that case.
   def ring
     apple, android = call.with_lock { call.ringing? ? remember_ring : nil }
-    return if apple.nil? || (apple.empty? && android.empty?)
+    return if apple.nil?
+    return replay_new_message_notification if apple.empty? && android.empty?
 
     apple_results, android_results = deliver_ring(apple, android)
     settle_ring(apple_results, android_results)
@@ -187,16 +188,19 @@ class Voice::VoipPushService
   def gone(results) = results.filter_map { |token, outcome| token if outcome == :gone }
 
   # The new-message notification is held back for agents whose phone the ring reaches. Once
-  # the pushes are out, the agents no push reached are recorded, and the notification goes
-  # to them; agents already notified for the message are skipped. Devices the platforms no
-  # longer know are removed.
+  # the pushes are out, the agents no push reached are recorded, and the notification runs
+  # again: it reaches them, and any agent it held back before the ring was prepared who the
+  # ring then left out; agents already notified for the message are skipped. Devices the
+  # platforms no longer know are removed.
   def settle_ring(apple_results, android_results)
     unreached = unreached_user_ids(apple_results.merge(android_results))
     forget_devices(APPLE, gone(apple_results))
     forget_devices(ANDROID, gone(android_results))
-    return if unreached.empty?
+    merge_ring_state('unreached_user_ids' => unreached) if unreached.any?
+    replay_new_message_notification
+  end
 
-    merge_ring_state('unreached_user_ids' => unreached)
+  def replay_new_message_notification
     message = call.reload.message
     Messages::NewMessageNotificationService.new(message: message).perform if message
   end
