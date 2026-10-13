@@ -88,7 +88,10 @@ describe('CopilotContainer', () => {
     });
     testState.refs.getSelectedChat.value = { id: 1 };
     testState.refs.getCurrentAccountId.value = 1;
-    testState.refs['accounts/isFeatureEnabledonAccount'].value = () => true;
+    testState.refs['accounts/isFeatureEnabledonAccount'].value = (
+      accountId,
+      flag
+    ) => flag === 'captain_integration';
   });
 
   it('does not load history when Copilot is unavailable', async () => {
