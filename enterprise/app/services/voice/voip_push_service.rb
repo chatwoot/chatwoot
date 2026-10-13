@@ -58,8 +58,8 @@ class Voice::VoipPushService
   # while the pushes are in flight, whether answered or ended, may have its cancel
   # overtaken by the ring, so the ring is followed by a cancel of its own in that case.
   #
-  # A call is rung once. A second ring job, such as one a retried inbound call queued while
-  # the first was waiting, only replays the new-message notification.
+  # A call is rung once. A second ring job after the ring settled, such as one a retried
+  # inbound call queued while the first was waiting, only replays the new-message notification.
   def ring
     apple, android = call.with_lock { call.ringing? ? prepare_ring : nil }
     return if apple.nil?
@@ -175,7 +175,9 @@ class Voice::VoipPushService
   # Records the agents chosen for this ring, those it is sent to a device of and, where there
   # are any, the devices being rung. Merged into its own column in place, so neither another ring's record nor a
   # write of `meta` erases it. Returns the device tokens by platform.
-  def prepare_ring = call.ring_state.key?('rung_user_ids') ? [[], []] : remember_ring
+  # A ring counts as done once its outcome is recorded; one that stopped after choosing whom
+  # to ring but before that is prepared and sent again
+  def prepare_ring = call.ring_state.key?('unreached_user_ids') ? [[], []] : remember_ring
 
   def remember_ring
     apple, android = devices_to_ring

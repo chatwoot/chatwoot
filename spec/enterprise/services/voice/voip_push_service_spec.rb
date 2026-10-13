@@ -249,14 +249,14 @@ RSpec.describe Voice::VoipPushService do
       expect(NotificationSubscription.where(user: agent)).to exist
     end
 
-    it 'clears the agents an earlier ring left unreached once a retry reaches them' do
+    it 'keeps the agents a settled ring left unreached when the job runs again' do
       subscribe(agent, 'apns_voip', 'apple-1')
-      call.update!(ring_state: { 'unreached_user_ids' => [agent.id] })
+      call.update!(ring_state: { 'ring_recipient_ids' => [agent.id], 'rung_user_ids' => [agent.id], 'unreached_user_ids' => [agent.id] })
 
       described_class.new(call: call).perform('ring')
 
-      expect(call.reload.ring_state['unreached_user_ids']).to eq([])
-      expect(described_class.new(call: call).ringable_user_ids).to include(agent.id)
+      expect(apple_connection).not_to have_received(:push)
+      expect(described_class.new(call: call).ringable_user_ids).not_to include(agent.id)
     end
 
     it 'treats a push the platform rejected as not reaching the agent' do
@@ -409,6 +409,16 @@ RSpec.describe Voice::VoipPushService do
 
       expect(fcm_client).to have_received(:send_v1).exactly(5).times
       expect(Thread).to have_received(:new).exactly(7).times
+    end
+
+    it 'rings again when an earlier ring chose whom to ring but stopped before its outcome' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      call.update!(ring_state: { 'ring_recipient_ids' => [agent.id], 'rung_user_ids' => [agent.id] })
+
+      described_class.new(call: call).perform('ring')
+
+      expect(apple_connection).to have_received(:push).once
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([])
     end
 
     it 'rings a call once when a second ring job runs' do
