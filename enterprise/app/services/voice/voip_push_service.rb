@@ -24,6 +24,9 @@ class Voice::VoipPushService
   ANDROID = 'fcm'.freeze
   # Android deliveries in flight at once per call
   ANDROID_BATCH_SIZE = 20
+  # How long a batch of Android pushes may take; the FCM client sets no timeout of its own.
+  # A push still waiting then counts as failed and is left to finish on its own.
+  ANDROID_PUSH_TIMEOUT_SECONDS = 10
 
   # The agents a call rings; see Voice::RingRecipients
   def self.recipients_for(call) = Voice::RingRecipients.new(call: call).agents
@@ -244,7 +247,9 @@ class Voice::VoipPushService
   end
 
   def deliver_android_batch(client, batch, data, kind)
-    outcomes = batch.map { |token| Thread.new { with_rails { deliver_android(client, token, data, kind) } } }.map(&:value)
+    threads = batch.map { |token| Thread.new { with_rails { deliver_android(client, token, data, kind) } } }
+    deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + ANDROID_PUSH_TIMEOUT_SECONDS
+    outcomes = threads.map { |thread| thread.join([deadline - Process.clock_gettime(Process::CLOCK_MONOTONIC), 0].max) ? thread.value : :failed }
     batch.zip(outcomes).filter_map { |token, outcome| token if outcome == :gone }
   end
 

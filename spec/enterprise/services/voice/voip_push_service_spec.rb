@@ -309,20 +309,37 @@ RSpec.describe Voice::VoipPushService do
       expect(Thread).to have_received(:new).exactly(7).times
     end
 
-    it 'gives up a connection whose first push does not finish in time' do
+    it 'gives up a connection whose first push does not finish in time, closing it once that push returns' do
       stub_const('Voice::ApnsVoipSender::FIRST_PUSH_DEADLINE_SECONDS', 0.1)
       3.times { |i| subscribe(agent, 'apns_voip', "apple-#{i}") }
       allow(apple_connection).to receive(:push) do
-        sleep 1
+        sleep 0.5
         apple_response
+      end
+      # Closing waits on the stalled push, as net-http2's close does on its TLS setup
+      allow(apple_connection).to receive(:close) { sleep 0.5 }
+
+      started = Time.zone.now
+      described_class.new(call: call).perform('ring')
+
+      expect(Time.zone.now - started).to be < 0.5
+      expect(apple_connection).to have_received(:push).once
+      sleep 1.2
+      expect(apple_connection).to have_received(:close)
+    end
+
+    it 'does not wait past its timeout for an Android push that stalls' do
+      stub_const('Voice::VoipPushService::ANDROID_PUSH_TIMEOUT_SECONDS', 0.1)
+      subscribe(agent, 'fcm', 'android-1', platform: 'Android')
+      allow(fcm_client).to receive(:send_v1) do
+        sleep 1
+        { status_code: 200, body: '' }
       end
 
       started = Time.zone.now
       described_class.new(call: call).perform('ring')
 
       expect(Time.zone.now - started).to be < 1
-      expect(apple_connection).to have_received(:push).once
-      expect(apple_connection).to have_received(:close)
     end
 
     it 'bounds each iPhone push so a stalled one cannot hold up the rest of the ring' do
