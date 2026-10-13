@@ -38,6 +38,7 @@ RSpec.describe Voice::SyncProviderStatusJob do
     call.reload
     expect(call.status).to eq('completed')
     expect(call.duration_seconds).to eq(42)
+    expect(call.started_at).to eq(started)
   end
 
   it 'leaves an ended call alone' do
