@@ -79,13 +79,15 @@ class Voice::VoipPushService
     data = payloads.ring_data
     [
       deliver_in_thread(apple) { platform_client('apple') { Voice::ApnsVoipSender.new(settings: settings, call_id: call.id) }&.ring(apple, payload) },
-      deliver_in_thread(android) { fcm_sender(*firebase)&.deliver(android, data, 'ring') }
+      deliver_in_thread(android) { fcm_sender(*firebase)&.deliver(android, data, 'ring', proceed: -> { still_ringing? }) }
     ].map(&:value)
   end
 
   def deliver_in_thread(tokens, &)
     Thread.new { tokens.empty? ? {} : with_rails(&) || tokens.index_with(:failed) }
   end
+
+  def still_ringing? = Call.where(id: call.id).first&.ringing?
 
   def devices_to_ring
     apple_environment if configured?(:apple)

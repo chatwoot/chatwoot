@@ -99,6 +99,19 @@ RSpec.describe Voice::InboundCallBuilder do
       expect(recorded_inside).to be(true)
     end
 
+    it 'queues the ring from inside the transaction that records the agents it rings' do
+      account.enable_features!('channel_voice', 'mobile_voice_push')
+      outer = ActiveRecord::Base.connection.open_transactions
+      registered_inside = nil
+      allow(ActiveRecord).to receive(:after_all_transactions_commit).and_wrap_original do |original, &block|
+        registered_inside = ActiveRecord::Base.connection.open_transactions > outer
+        original.call(&block)
+      end
+
+      expect { perform_builder }.to have_enqueued_job(Voice::VoipPushJob)
+      expect(registered_inside).to be(true)
+    end
+
     it 'does not ring phones without the feature' do
       expect { perform_builder }.not_to have_enqueued_job(Voice::VoipPushJob)
     end

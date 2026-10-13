@@ -20,7 +20,7 @@ class Voice::InboundCallBuilder
     existing = find_existing_call
     return existing if existing
 
-    call = ActiveRecord::Base.transaction do
+    ActiveRecord::Base.transaction do
       contact_inbox = ensure_contact_inbox!
       contact = contact_inbox.contact
       conversation = resolve_conversation!(contact, contact_inbox)
@@ -28,10 +28,9 @@ class Voice::InboundCallBuilder
       message = Voice::CallMessageBuilder.new(created).perform!
       created.update!(message_id: message.id)
       record_ring_audience(created)
+      ring_phones(created)
       created
     end
-    ring_phones(call)
-    call
   rescue ActiveRecord::RecordNotUnique
     # A concurrent provider retry won the create race; return what now exists.
     find_existing_call || raise
@@ -54,8 +53,9 @@ class Voice::InboundCallBuilder
     call.update_columns(ring_state: call.ring_state.merge('ring_recipient_ids' => recipient_ids)) # rubocop:disable Rails/SkipsModelValidations
   end
 
+  # Registered in the transaction that records the audience, so the job is queued with it.
   # The job runs once the call row is visible to the worker, which otherwise finds nothing
-  # to ring for
+  # to ring for.
   def ring_phones(call)
     return unless call.ringing? && call.ring_state.key?('ring_recipient_ids')
 
