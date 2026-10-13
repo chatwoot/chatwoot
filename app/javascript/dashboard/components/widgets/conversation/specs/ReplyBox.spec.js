@@ -157,6 +157,20 @@ describe('ReplyBox', () => {
             row_description_max_length: 72,
           },
         },
+        carousel: {
+          implemented: true,
+          available: true,
+          limits: {
+            body_max_length: 1024,
+            card_min_count: 2,
+            card_max_count: 10,
+            card_body_max_length: 160,
+            card_body_max_line_breaks: 2,
+            media: ['image'],
+            action_modes: ['quick_reply', 'url'],
+            button_max_length: 20,
+          },
+        },
         cta_url: {
           implemented: true,
           available: true,
@@ -368,6 +382,282 @@ describe('ReplyBox', () => {
         available: false,
         unavailable_reason: 'service_window_closed',
       });
+    });
+
+    it('submits ordered URL carousel cards and uploads without client fields', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      const sendMessage = vi
+        .spyOn(wrapper.vm, 'sendMessage')
+        .mockResolvedValue(true);
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.selectWhatsappInteractiveType('carousel');
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: ' Choose a destination. ',
+        actionMode: 'url',
+        cards: [
+          {
+            clientKey: 'mountain',
+            body: ' Mountain escape ',
+            media: {
+              file: 'mountain-upload',
+              name: 'mountain.png',
+              type: 'image/png',
+            },
+            action: {
+              button: ' View mountain ',
+              url: ' https://example.test/mountain ',
+            },
+          },
+          {
+            clientKey: 'beach',
+            body: ' ',
+            media: {
+              file: 'beach-upload',
+              name: 'beach.png',
+              type: 'image/png',
+            },
+            action: {
+              button: 'View beach',
+              url: 'https://example.test/beach',
+            },
+          },
+        ],
+      };
+
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(true);
+      wrapper.vm.confirmOnSendReply();
+
+      const payload = sendMessage.mock.calls[0][0];
+      expect(payload.files).toEqual(['mountain-upload', 'beach-upload']);
+      expect(payload.contentAttributes.whatsapp_interactive).toEqual({
+        schema_version: 1,
+        type: 'carousel',
+        body: { text: 'Choose a destination.' },
+        action: {
+          cards: [
+            {
+              card_index: 0,
+              type: 'cta_url',
+              header: { type: 'image' },
+              body: { text: 'Mountain escape' },
+              action: {
+                button: 'View mountain',
+                url: 'https://example.test/mountain',
+              },
+            },
+            {
+              card_index: 1,
+              type: 'cta_url',
+              header: { type: 'image' },
+              action: {
+                button: 'View beach',
+                url: 'https://example.test/beach',
+              },
+            },
+          ],
+        },
+      });
+      expect(JSON.stringify(payload.contentAttributes)).not.toMatch(
+        /clientKey|uploadFile|delivery_id|attachment_id/
+      );
+      await flushPromises();
+    });
+
+    it('validates uniform quick replies and preserves option identity and order', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      const sendMessage = vi
+        .spyOn(wrapper.vm, 'sendMessage')
+        .mockResolvedValue(false);
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.selectWhatsappInteractiveType('carousel');
+      const card = (clientKey, buttons) => ({
+        clientKey,
+        body: '',
+        media: { file: `${clientKey}-upload`, type: 'image/png' },
+        action: { buttons },
+      });
+      const firstReply = {
+        clientKey: 'reply-a',
+        title: ' Choose ',
+        preset_option_id: '11111111-1111-4111-8111-111111111111',
+      };
+      const secondReply = {
+        clientKey: 'reply-b',
+        title: 'Details',
+        preset_option_id: '22222222-2222-4222-8222-222222222222',
+      };
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: 'Choose',
+        actionMode: 'quick_reply',
+        source: { preset_id: 42 },
+        cards: [
+          card('first', [secondReply, firstReply]),
+          card('second', [
+            { clientKey: 'reply-c', title: 'Choose' },
+            { clientKey: 'reply-d', title: 'Details' },
+          ]),
+        ],
+      };
+
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(true);
+      wrapper.vm.confirmOnSendReply();
+      const interactive =
+        sendMessage.mock.calls[0][0].contentAttributes.whatsapp_interactive;
+      expect(interactive.source).toEqual({ preset_id: 42 });
+      expect(interactive.action.cards[0].action.buttons).toEqual([
+        {
+          title: 'Details',
+          preset_option_id: '22222222-2222-4222-8222-222222222222',
+        },
+        {
+          title: 'Choose',
+          preset_option_id: '11111111-1111-4111-8111-111111111111',
+        },
+      ]);
+
+      wrapper.vm.whatsappInteractiveDraft = {
+        ...wrapper.vm.whatsappInteractiveDraft,
+        cards: [
+          wrapper.vm.whatsappInteractiveDraft.cards[0],
+          card('second', [{ clientKey: 'reply-c', title: 'Choose' }]),
+        ],
+      };
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(false);
+      wrapper.vm.whatsappInteractiveDraft.cards[1].action.buttons = [
+        { title: 'Same' },
+        { title: 'Same' },
+      ];
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(false);
+      wrapper.vm.whatsappInteractiveDraft = {
+        ...wrapper.vm.whatsappInteractiveDraft,
+        cards: [
+          card('first', [{ title: ' ' }, { title: 'Details' }]),
+          card('second', [{ title: 'Choose' }, { title: 'Details' }]),
+        ],
+      };
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(false);
+      wrapper.vm.whatsappInteractiveDraft = {
+        ...wrapper.vm.whatsappInteractiveDraft,
+        cards: [
+          card('first', [{ title: 'x'.repeat(21) }, { title: 'Details' }]),
+          card('second', [{ title: 'Choose' }, { title: 'Details' }]),
+        ],
+      };
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(false);
+    });
+
+    it('rejects missing images, video cards, overflow content, and excess line breaks', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.selectWhatsappInteractiveType('carousel');
+      const valid = wrapper.vm.whatsappInteractiveDraft;
+      valid.body = 'Choose';
+      valid.cards.forEach((card, index) => {
+        card.media = { file: `image-${index}`, type: 'image/png' };
+        card.action = {
+          button: `Card ${index + 1}`,
+          url: `https://example.test/${index}`,
+        };
+      });
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(true);
+
+      const original = valid.cards[0];
+      wrapper.vm.whatsappInteractiveDraft = {
+        ...valid,
+        cards: [{ ...original, media: null }, valid.cards[1]],
+      };
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(false);
+      wrapper.vm.whatsappInteractiveDraft = {
+        ...valid,
+        cards: [
+          { ...original, media: { file: 'video', type: 'video/mp4' } },
+          valid.cards[1],
+        ],
+      };
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(false);
+      wrapper.vm.whatsappInteractiveDraft = {
+        ...valid,
+        cards: [{ ...original, body: 'x'.repeat(161) }, valid.cards[1]],
+      };
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(false);
+      wrapper.vm.whatsappInteractiveDraft = {
+        ...valid,
+        cards: [{ ...original, body: 'one\ntwo\nthree\nfour' }, valid.cards[1]],
+      };
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(false);
+    });
+
+    it('correlates concurrent carousel uploads after edits and reordering', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.selectWhatsappInteractiveType('carousel');
+      vi.spyOn(wrapper.vm, 'onFileUpload').mockImplementation(() => {});
+      const keys = wrapper.vm.whatsappInteractiveDraft.cards.map(
+        card => card.clientKey
+      );
+      const firstFile = new File(['first'], 'first.png', { type: 'image/png' });
+      const secondFile = new File(['second'], 'second.png', {
+        type: 'image/png',
+      });
+      wrapper.vm.uploadWhatsappHeader(firstFile, keys[0]);
+      wrapper.vm.uploadWhatsappHeader(secondFile, keys[1]);
+      const uploads = wrapper.vm.onFileUpload.mock.calls.map(call => call[0]);
+      const readers = [];
+      const readerMock = vi
+        .spyOn(window, 'FileReader')
+        .mockImplementation(() => {
+          const reader = { readAsDataURL: vi.fn(), result: '' };
+          readers.push(reader);
+          return reader;
+        });
+      wrapper.vm.attachFile({ file: uploads[0], blob: { signed_id: 'first' } });
+      wrapper.vm.attachFile({
+        file: uploads[1],
+        blob: { signed_id: 'second' },
+      });
+      wrapper.vm.whatsappInteractiveDraft = {
+        ...wrapper.vm.whatsappInteractiveDraft,
+        cards: [...wrapper.vm.whatsappInteractiveDraft.cards].reverse(),
+      };
+      readers[1].result = 'data:image/png;base64,second';
+      readers[1].onloadend();
+      readers[0].result = 'data:image/png;base64,first';
+      readers[0].onloadend();
+
+      expect(
+        wrapper.vm.whatsappInteractiveDraft.cards.map(card => [
+          card.clientKey,
+          card.media.file,
+        ])
+      ).toEqual([
+        [keys[1], 'second'],
+        [keys[0], 'first'],
+      ]);
+      readerMock.mockRestore();
     });
 
     it.each([undefined, 'text', 'image', 'video', 'document'])(

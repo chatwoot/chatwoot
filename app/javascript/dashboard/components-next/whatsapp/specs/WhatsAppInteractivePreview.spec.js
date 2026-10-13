@@ -69,4 +69,69 @@ describe('WhatsAppInteractivePreview', () => {
     expect(wrapper.text()).toContain('Your order is ready');
     expect(wrapper.text()).toContain('Secure link');
   });
+
+  it.each([
+    [
+      'url',
+      [
+        {
+          clientKey: 'one',
+          body: 'Mountain escape',
+          media: { dataUrl: 'data:image/png;base64,one' },
+          action: {
+            button: 'View mountain',
+            url: 'https://example.test/mountain',
+          },
+        },
+        {
+          clientKey: 'two',
+          body: 'Beach escape',
+          media: { dataUrl: 'data:image/png;base64,two' },
+          action: {
+            button: 'View beach',
+            url: 'https://example.test/beach',
+          },
+        },
+      ],
+      ['View mountain', 'View beach', 'https://example.test/beach'],
+    ],
+    [
+      'quick_reply',
+      [
+        {
+          clientKey: 'one',
+          body: 'Mountain escape',
+          media: { dataUrl: 'data:image/png;base64,one' },
+          action: { buttons: [{ title: 'Choose' }, { title: 'Details' }] },
+        },
+        {
+          clientKey: 'two',
+          body: 'Beach escape',
+          media: { dataUrl: 'data:image/png;base64,two' },
+          action: { buttons: [{ title: 'Book' }, { title: 'More' }] },
+        },
+      ],
+      ['Choose', 'Details', 'Book', 'More'],
+    ],
+  ])('shows a horizontal read-only %s carousel', (actionMode, cards, copy) => {
+    const wrapper = mount(WhatsAppInteractivePreview, {
+      global,
+      props: {
+        type: 'carousel',
+        body: 'Choose a destination',
+        actionMode,
+        cards,
+      },
+    });
+
+    expect(
+      wrapper.get('[data-testid="whatsapp-carousel-preview"]').classes()
+    ).toContain('overflow-x-auto');
+    expect(wrapper.findAll('article')).toHaveLength(2);
+    expect(wrapper.findAll('img')).toHaveLength(2);
+    copy.forEach(value => expect(wrapper.text()).toContain(value));
+    wrapper
+      .findAll('button')
+      .forEach(button => expect(button.attributes('disabled')).toBe(''));
+  });
 });

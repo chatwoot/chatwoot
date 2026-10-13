@@ -308,7 +308,6 @@ describe('WhatsAppInteractiveComposer', () => {
         urlSchemes: ['http', 'https'],
       },
     });
-
     expect(wrapper.find('input[value="cta_url"]').exists()).toBe(true);
     expect(
       wrapper.find('#whatsapp-interactive-cta-button').attributes('maxlength')
@@ -408,5 +407,269 @@ describe('WhatsAppInteractiveComposer', () => {
     ).toBe(
       'CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.UNAVAILABLE.service_window_closed'
     );
+  });
+
+  it('keeps an unavailable carousel visible with the server reason', () => {
+    const wrapper = mountComposer(
+      { body: 'Choose', buttons: ['One'] },
+      {
+        capabilities: {
+          ...capabilities,
+          carousel: {
+            implemented: true,
+            available: false,
+            unavailable_reason: 'temporarily_disabled',
+          },
+        },
+      }
+    );
+
+    expect(wrapper.find('input[value="carousel"]').attributes('disabled')).toBe(
+      ''
+    );
+    expect(
+      wrapper.find('[data-testid="whatsapp-unavailable-carousel"]').text()
+    ).toBe(
+      'CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.UNAVAILABLE.temporarily_disabled'
+    );
+  });
+
+  it('renders image-only carousel cards and moves whole card objects', async () => {
+    const first = {
+      clientKey: 'first',
+      opaqueCardIdentity: 'keep-first',
+      body: 'First',
+      media: { name: 'first.png', dataUrl: 'data:first' },
+      action: { button: 'Open first', url: 'https://example.test/first' },
+    };
+    const second = {
+      clientKey: 'second',
+      opaqueCardIdentity: 'keep-second',
+      body: 'Second',
+      media: { name: 'second.png', dataUrl: 'data:second' },
+      action: { button: 'Open second', url: 'https://example.test/second' },
+    };
+    const wrapper = mountComposer(
+      { body: 'Choose', actionMode: 'url', cards: [first, second] },
+      {
+        type: 'carousel',
+        capabilities: {
+          ...capabilities,
+          carousel: { implemented: true, available: true },
+        },
+        limits: {
+          bodyMaxLength: 1024,
+          cardMinCount: 2,
+          cardMaxCount: 10,
+          cardBodyMaxLength: 160,
+          cardBodyMaxLineBreaks: 2,
+          actionModes: ['quick_reply', 'url'],
+          buttonMaxLength: 20,
+          urlSchemes: ['http', 'https'],
+        },
+      }
+    );
+
+    expect(wrapper.findAll('input[type="file"]')).toHaveLength(2);
+    expect(wrapper.find('input[type="file"]').attributes('accept')).toBe(
+      'image/*'
+    );
+    expect(
+      wrapper.findAll('[data-testid^="whatsapp-carousel-card-"]')
+    ).toHaveLength(2);
+    const moveDown = wrapper
+      .findAllComponents(Button)
+      .find(
+        button =>
+          button.attributes('aria-label') ===
+          'CONVERSATION.REPLYBOX.WHATSAPP_CAROUSEL.MOVE_CARD_DOWN'
+      );
+    await moveDown.vm.$emit('click');
+    expect(wrapper.emitted('update:modelValue')[0][0].cards).toEqual([
+      second,
+      first,
+    ]);
+  });
+
+  it('enforces the configured carousel card count in its controls', async () => {
+    const carouselLimits = {
+      bodyMaxLength: 1024,
+      cardMinCount: 2,
+      cardMaxCount: 3,
+      cardBodyMaxLength: 160,
+      cardBodyMaxLineBreaks: 2,
+      actionModes: ['url'],
+      buttonMaxLength: 20,
+      urlSchemes: ['http', 'https'],
+    };
+    const card = clientKey => ({
+      clientKey,
+      body: '',
+      action: { button: '', url: '' },
+    });
+    const wrapper = mountComposer(
+      {
+        body: '',
+        actionMode: 'url',
+        cards: [card('one'), card('two')],
+      },
+      { type: 'carousel', limits: carouselLimits }
+    );
+    const labels = () =>
+      wrapper.findAllComponents(Button).map(button => button.props('label'));
+    expect(labels()).toContain(
+      'CONVERSATION.REPLYBOX.WHATSAPP_CAROUSEL.ADD_CARD'
+    );
+    expect(
+      wrapper
+        .findAllComponents(Button)
+        .some(
+          button =>
+            button.attributes('aria-label') ===
+            'CONVERSATION.REPLYBOX.WHATSAPP_CAROUSEL.REMOVE_CARD'
+        )
+    ).toBe(false);
+
+    const add = wrapper
+      .findAllComponents(Button)
+      .find(
+        button =>
+          button.props('label') ===
+          'CONVERSATION.REPLYBOX.WHATSAPP_CAROUSEL.ADD_CARD'
+      );
+    await add.vm.$emit('click');
+    const threeCards = wrapper.emitted('update:modelValue')[0][0];
+    expect(threeCards.cards).toHaveLength(3);
+    expect(new Set(threeCards.cards.map(item => item.clientKey)).size).toBe(3);
+    await wrapper.setProps({ modelValue: threeCards });
+    expect(labels()).not.toContain(
+      'CONVERSATION.REPLYBOX.WHATSAPP_CAROUSEL.ADD_CARD'
+    );
+    const remove = wrapper
+      .findAllComponents(Button)
+      .find(
+        button =>
+          button.attributes('aria-label') ===
+          'CONVERSATION.REPLYBOX.WHATSAPP_CAROUSEL.REMOVE_CARD'
+      );
+    await remove.vm.$emit('click');
+    expect(wrapper.emitted('update:modelValue')[1][0].cards).toHaveLength(2);
+  });
+
+  it('preserves reply identity fields through title edits and reordering', async () => {
+    const firstReply = {
+      clientKey: 'reply-1',
+      title: 'First',
+      preset_option_id: 'preset-1',
+    };
+    const secondReply = {
+      clientKey: 'reply-2',
+      title: 'Second',
+      preset_option_id: 'preset-2',
+    };
+    const modelValue = {
+      body: 'Choose',
+      actionMode: 'quick_reply',
+      cards: [
+        {
+          clientKey: 'card-1',
+          body: '',
+          action: { buttons: [firstReply, secondReply] },
+        },
+        {
+          clientKey: 'card-2',
+          body: '',
+          action: { buttons: [{ clientKey: 'reply-3', title: 'Third' }] },
+        },
+      ],
+    };
+    const wrapper = mountComposer(modelValue, {
+      type: 'carousel',
+      limits: {
+        bodyMaxLength: 1024,
+        cardMinCount: 2,
+        cardMaxCount: 10,
+        cardBodyMaxLength: 160,
+        cardBodyMaxLineBreaks: 2,
+        actionModes: ['quick_reply', 'url'],
+        buttonMaxLength: 20,
+        urlSchemes: ['http', 'https'],
+      },
+    });
+    expect(wrapper.text()).toContain(
+      'CONVERSATION.REPLYBOX.WHATSAPP_CAROUSEL.REPLY_COUNT_MISMATCH'
+    );
+    const firstInput = wrapper
+      .findAllComponents(Input)
+      .find(input => input.attributes('id') === 'whatsapp-carousel-reply-0-0');
+    await firstInput.vm.$emit('update:modelValue', 'Edited');
+    expect(
+      wrapper.emitted('update:modelValue')[0][0].cards[0].action.buttons[0]
+    ).toEqual({ ...firstReply, title: 'Edited' });
+
+    const moveDown = wrapper
+      .findAllComponents(Button)
+      .find(
+        button =>
+          button.attributes('aria-label') ===
+          'CONVERSATION.REPLYBOX.WHATSAPP_CAROUSEL.MOVE_REPLY_DOWN'
+      );
+    await moveDown.vm.$emit('click');
+    expect(
+      wrapper.emitted('update:modelValue')[1][0].cards[0].action.buttons
+    ).toEqual([secondReply, firstReply]);
+  });
+
+  it('allocates a unique key for the first added quick reply', async () => {
+    const wrapper = mountComposer(
+      {
+        body: 'Choose',
+        actionMode: 'quick_reply',
+        cards: [
+          {
+            clientKey: 'card-1',
+            body: '',
+            action: {
+              buttons: [{ clientKey: 'card-1-reply-1', title: 'First' }],
+            },
+          },
+          {
+            clientKey: 'card-2',
+            body: '',
+            action: {
+              buttons: [{ clientKey: 'card-2-reply-1', title: 'First' }],
+            },
+          },
+        ],
+      },
+      {
+        type: 'carousel',
+        limits: {
+          bodyMaxLength: 1024,
+          cardMinCount: 2,
+          cardMaxCount: 10,
+          cardBodyMaxLength: 160,
+          cardBodyMaxLineBreaks: 2,
+          actionModes: ['quick_reply', 'url'],
+          buttonMaxLength: 20,
+          urlSchemes: ['http', 'https'],
+        },
+      }
+    );
+
+    const addReply = wrapper
+      .findAllComponents(Button)
+      .find(
+        button =>
+          button.props('label') ===
+          'CONVERSATION.REPLYBOX.WHATSAPP_CAROUSEL.ADD_REPLY'
+      );
+    await addReply.vm.$emit('click');
+
+    const keys = wrapper
+      .emitted('update:modelValue')[0][0]
+      .cards[0].action.buttons.map(button => button.clientKey);
+    expect(keys).toEqual(['card-1-reply-1', 'card-1-reply-2']);
+    expect(new Set(keys).size).toBe(keys.length);
   });
 });

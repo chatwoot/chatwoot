@@ -147,6 +147,7 @@ export default {
       selectedWhatsappInteractiveType: null,
       whatsappInteractiveDraft: { body: '', buttons: [''] },
       whatsappInteractiveSendingDraft: null,
+      whatsappInteractiveKeySequence: 0,
     };
   },
   computed: {
@@ -195,7 +196,7 @@ export default {
       const capabilities =
         this.currentChat?.whatsapp_interactive?.interactive_types ?? {};
       return Object.fromEntries(
-        ['button', 'list', 'cta_url']
+        ['button', 'list', 'carousel', 'cta_url']
           .filter(type => capabilities[type]?.implemented)
           .map(type => [type, capabilities[type]])
       );
@@ -236,6 +237,19 @@ export default {
             'video',
             'document',
           ],
+          buttonMaxLength: limits.button_max_length ?? 20,
+          urlSchemes: limits.url_schemes ?? ['http', 'https'],
+        };
+      }
+      if (this.selectedWhatsappInteractiveType === 'carousel') {
+        return {
+          bodyMaxLength: limits.body_max_length ?? 1024,
+          cardMinCount: limits.card_min_count ?? 2,
+          cardMaxCount: limits.card_max_count ?? 10,
+          cardBodyMaxLength: limits.card_body_max_length ?? 160,
+          cardBodyMaxLineBreaks: limits.card_body_max_line_breaks ?? 2,
+          media: limits.media ?? ['image'],
+          actionModes: limits.action_modes ?? ['quick_reply', 'url'],
           buttonMaxLength: limits.button_max_length ?? 20,
           urlSchemes: limits.url_schemes ?? ['http', 'https'],
         };
@@ -304,6 +318,54 @@ export default {
           button.trim().length >= 1 &&
           button.trim().length <= limits.buttonMaxLength &&
           isValidHttpUrl(url.trim(), limits.urlSchemes)
+        );
+      }
+      if (this.selectedWhatsappInteractiveType === 'carousel') {
+        const { actionMode, cards } = this.whatsappInteractiveDraft;
+        const validCardBodies = cards.every(card => {
+          const cardBody = card.body?.trim() ?? '';
+          const lineBreaks = cardBody.match(/\r\n|\r|\n/g)?.length ?? 0;
+          return (
+            cardBody.length <= limits.cardBodyMaxLength &&
+            lineBreaks <= limits.cardBodyMaxLineBreaks
+          );
+        });
+        const validMedia = cards.every(
+          card => card.media && card.media.type?.startsWith('image/')
+        );
+        const validActions = cards.every(card => {
+          if (actionMode === 'url') {
+            const label = card.action.button?.trim() ?? '';
+            return (
+              label.length >= 1 &&
+              label.length <= limits.buttonMaxLength &&
+              isValidHttpUrl(card.action.url?.trim(), limits.urlSchemes)
+            );
+          }
+          const buttons = card.action.buttons ?? [];
+          const titles = buttons.map(button => button.title?.trim() ?? '');
+          return (
+            buttons.length >= 1 &&
+            titles.every(
+              title =>
+                title.length >= 1 && title.length <= limits.buttonMaxLength
+            ) &&
+            new Set(titles).size === titles.length
+          );
+        });
+        const replyCounts = cards.map(card => card.action.buttons?.length ?? 0);
+        return (
+          body.trim().length >= 1 &&
+          body.trim().length <= limits.bodyMaxLength &&
+          limits.actionModes.includes(actionMode) &&
+          cards.length >= limits.cardMinCount &&
+          cards.length <= limits.cardMaxCount &&
+          validCardBodies &&
+          validMedia &&
+          validActions &&
+          (actionMode !== 'quick_reply' ||
+            (replyCounts[0] > 0 &&
+              replyCounts.every(count => count === replyCounts[0])))
         );
       }
       const { buttons, headerType, headerText, media } =
@@ -1084,6 +1146,41 @@ export default {
               }),
               ...(footer.trim() && { footer: { text: footer.trim() } }),
             };
+          } else if (type === 'carousel') {
+            const { actionMode, cards, source } = this.whatsappInteractiveDraft;
+            interactive = {
+              schema_version: 1,
+              type: 'carousel',
+              body: { text: body },
+              ...(source?.preset_id && {
+                source: { preset_id: source.preset_id },
+              }),
+              action: {
+                cards: cards.map((card, cardIndex) => ({
+                  card_index: cardIndex,
+                  type: actionMode === 'url' ? 'cta_url' : 'button',
+                  header: { type: 'image' },
+                  ...(card.body.trim() && {
+                    body: { text: card.body.trim() },
+                  }),
+                  action:
+                    actionMode === 'url'
+                      ? {
+                          button: card.action.button.trim(),
+                          url: card.action.url.trim(),
+                        }
+                      : {
+                          buttons: card.action.buttons.map(button => ({
+                            title: button.title.trim(),
+                            ...(button.preset_option_id && {
+                              preset_option_id: button.preset_option_id,
+                            }),
+                          })),
+                        },
+                })),
+              },
+            };
+            files = cards.map(card => card.media.file);
           } else if (type === 'cta_url') {
             const { headerType, headerText, footer, media, button, url } =
               this.whatsappInteractiveDraft;
@@ -1361,14 +1458,69 @@ export default {
       if (type === 'cta_url') {
         return { body: '', footer: '', button: '', url: '' };
       }
+      if (type === 'carousel') {
+        const actionMode = this.whatsappInteractiveLimits.actionModes.includes(
+          'url'
+        )
+          ? 'url'
+          : this.whatsappInteractiveLimits.actionModes[0];
+        return {
+          body: '',
+          actionMode,
+          cards: Array.from(
+            { length: this.whatsappInteractiveLimits.cardMinCount },
+            () => this.newWhatsappCarouselCard(actionMode)
+          ),
+        };
+      }
       return { body: '', buttons: [''] };
+    },
+    newWhatsappCarouselCard(actionMode) {
+      this.whatsappInteractiveKeySequence += 1;
+      const clientKey = `carousel-card-${this.whatsappInteractiveKeySequence}`;
+      return {
+        clientKey,
+        body: '',
+        action:
+          actionMode === 'url'
+            ? { button: '', url: '' }
+            : {
+                buttons: [{ clientKey: `${clientKey}-reply-1`, title: '' }],
+              },
+      };
     },
     resetWhatsappInteractive() {
       this.isWhatsappInteractive = false;
       this.selectedWhatsappInteractiveType = null;
       this.whatsappInteractiveDraft = { body: '', buttons: [''] };
     },
-    uploadWhatsappHeader(file) {
+    uploadWhatsappHeader(file, cardKey) {
+      if (this.selectedWhatsappInteractiveType === 'carousel') {
+        const matchingType = file.type.startsWith('image/');
+        if (!matchingType) {
+          useAlert(
+            this.$t('CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.MEDIA_MISMATCH')
+          );
+          return;
+        }
+        const draft = this.whatsappInteractiveDraft;
+        const cards = draft.cards.map(card =>
+          card.clientKey === cardKey
+            ? { ...card, media: null, uploadFile: file }
+            : card
+        );
+        this.whatsappInteractiveDraft = { ...draft, cards };
+        this.onFileUpload({
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          file,
+          interactiveDraft: draft,
+          interactiveCardKey: cardKey,
+          conversationId: this.currentChat.id,
+        });
+        return;
+      }
       const { headerType } = this.whatsappInteractiveDraft;
       const mime = file.type;
       const matchingType =
@@ -1519,6 +1671,42 @@ export default {
         const reader = new FileReader();
         reader.readAsDataURL(file.file);
         reader.onloadend = () => {
+          if (file.interactiveCardKey) {
+            if (
+              !this.isWhatsappInteractive ||
+              file.conversationId !== this.currentChat.id ||
+              this.selectedWhatsappInteractiveType !== 'carousel'
+            )
+              return;
+            const cardIndex = this.whatsappInteractiveDraft.cards.findIndex(
+              card => card.clientKey === file.interactiveCardKey
+            );
+            if (
+              cardIndex === -1 ||
+              this.whatsappInteractiveDraft.cards[cardIndex].uploadFile !==
+                file.file
+            )
+              return;
+            const cards = this.whatsappInteractiveDraft.cards.map(
+              (card, index) =>
+                index === cardIndex
+                  ? {
+                      ...card,
+                      media: {
+                        name: file.name,
+                        type: file.type,
+                        dataUrl: reader.result,
+                        file: blob ? blob.signed_id : file.file,
+                      },
+                    }
+                  : card
+            );
+            this.whatsappInteractiveDraft = {
+              ...this.whatsappInteractiveDraft,
+              cards,
+            };
+            return;
+          }
           if (
             !this.isWhatsappInteractive ||
             file.conversationId !== this.currentChat.id ||

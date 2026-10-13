@@ -299,6 +299,7 @@
         "TYPES": {
           "button": "Reply buttons",
           "list": "List",
+          "carousel": "Image carousel",
           "cta_url": "Call to action"
         },
         "UNAVAILABLE": {
@@ -338,6 +339,33 @@
         "URL_PLACEHOLDER": "https://example.com",
         "URL_HELP": "Enter a full URL starting with http:// or https://.",
         "INVALID_URL": "Enter a valid URL starting with http:// or https://."
+      },
+      "WHATSAPP_CAROUSEL": {
+        "ACTION_MODE": "Action on every card",
+        "MODES": {
+          "url": "URL button",
+          "quick_reply": "Quick replies"
+        },
+        "CARD": "Card {number}",
+        "IMAGE": "Card image",
+        "IMAGE_REQUIRED": "Image required",
+        "CARD_IMAGE_ALT": "Image for card {number}",
+        "REMOVE_IMAGE": "Remove card image",
+        "CARD_BODY": "Card text (optional)",
+        "TOO_MANY_LINES": "Card text can contain at most two line breaks.",
+        "URL_LABEL": "Button label",
+        "URL": "Destination URL",
+        "REPLY": "Quick reply {number}",
+        "ADD_REPLY": "Add quick reply",
+        "DUPLICATE_REPLIES": "Quick-reply labels must be unique within this card.",
+        "REPLY_COUNT_MISMATCH": "Every card must have the same number of quick replies.",
+        "REMOVE_REPLY": "Remove quick reply",
+        "MOVE_REPLY_UP": "Move quick reply up",
+        "MOVE_REPLY_DOWN": "Move quick reply down",
+        "ADD_CARD": "Add card",
+        "REMOVE_CARD": "Remove card",
+        "MOVE_CARD_UP": "Move card up",
+        "MOVE_CARD_DOWN": "Move card down"
       },
       "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
       "TIP_AUDIORECORDER_ERROR": "Could not open the audio",

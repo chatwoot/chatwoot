@@ -9,6 +9,8 @@ defineProps({
   opener: { type: String, default: '' },
   url: { type: String, default: '' },
   sections: { type: Array, default: () => [] },
+  cards: { type: Array, default: () => [] },
+  actionMode: { type: String, default: '' },
 });
 </script>
 
@@ -60,6 +62,60 @@ defineProps({
       >
         {{ button.title }}
       </button>
+    </div>
+    <div
+      v-else-if="type === 'carousel'"
+      class="flex gap-3 overflow-x-auto pb-2"
+      data-testid="whatsapp-carousel-preview"
+    >
+      <article
+        v-for="(card, cardIndex) in cards"
+        :key="card.clientKey || cardIndex"
+        class="flex w-56 shrink-0 flex-col gap-2 rounded-lg border border-n-weak p-2"
+      >
+        <img
+          v-if="card.media"
+          :src="card.media.dataUrl"
+          :alt="
+            $t('CONVERSATION.REPLYBOX.WHATSAPP_CAROUSEL.CARD_IMAGE_ALT', {
+              number: cardIndex + 1,
+            })
+          "
+          class="h-32 w-full rounded-lg object-cover"
+        />
+        <div
+          v-else
+          class="flex h-32 items-center justify-center rounded-lg bg-n-alpha-1 text-xs text-n-slate-11"
+        >
+          {{ $t('CONVERSATION.REPLYBOX.WHATSAPP_CAROUSEL.IMAGE_REQUIRED') }}
+        </div>
+        <p v-if="card.body" class="mb-0 whitespace-pre-wrap break-words">
+          {{ card.body }}
+        </p>
+        <template v-if="actionMode === 'url'">
+          <button
+            type="button"
+            disabled
+            class="w-full rounded-lg bg-n-alpha-2 px-3 py-2 text-sm font-medium text-n-blue-11 disabled:cursor-default disabled:opacity-100"
+          >
+            {{ card.action.button }}
+          </button>
+          <p class="mb-0 break-all text-xs text-n-slate-11">
+            {{ card.action.url }}
+          </p>
+        </template>
+        <div v-else class="flex flex-col gap-1">
+          <button
+            v-for="(reply, replyIndex) in card.action.buttons"
+            :key="reply.clientKey || reply.preset_option_id || replyIndex"
+            type="button"
+            disabled
+            class="w-full rounded-lg bg-n-alpha-2 px-3 py-2 text-sm font-medium text-n-blue-11 disabled:cursor-default disabled:opacity-100"
+          >
+            {{ reply.title }}
+          </button>
+        </div>
+      </article>
     </div>
     <div
       v-else-if="type === 'cta_url'"
