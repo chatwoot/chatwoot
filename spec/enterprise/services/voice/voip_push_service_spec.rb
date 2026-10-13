@@ -309,6 +309,15 @@ RSpec.describe Voice::VoipPushService do
       expect(Thread).to have_received(:new).exactly(7).times
     end
 
+    it 'bounds each iPhone push so a stalled one cannot hold up the rest of the ring' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+
+      described_class.new(call: call).perform('ring')
+
+      expect(Apnotic::Connection).to have_received(:new).with(hash_including(connect_timeout: Voice::ApnsVoipSender::PUSH_TIMEOUT_SECONDS))
+      expect(apple_connection).to have_received(:push).with(anything, timeout: Voice::ApnsVoipSender::PUSH_TIMEOUT_SECONDS)
+    end
+
     it 'checks the call afresh before each later batch, past the query cache' do
       stub_const('Voice::ApnsVoipSender::BATCH_SIZE', 1)
       4.times { |i| subscribe(agent, 'apns_voip', "apple-#{i}") }
