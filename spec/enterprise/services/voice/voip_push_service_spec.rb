@@ -486,18 +486,22 @@ RSpec.describe Voice::VoipPushService do
       expect(apple_connection).to have_received(:close)
     end
 
-    it 'does not wait past its timeout for an Android push that stalls' do
+    it 'stops an Android push that stalls past its timeout' do
       stub_const('Voice::FcmVoipSender::PUSH_TIMEOUT_SECONDS', 0.1)
       subscribe(agent, 'fcm', 'android-1', platform: 'Android')
+      finished = false
       allow(fcm_client).to receive(:send_v1) do
         sleep 1
+        finished = true
         { status_code: 200, body: '' }
       end
 
       started = Time.zone.now
       described_class.new(call: call).perform('ring')
+      sleep 1.2
 
-      expect(Time.zone.now - started).to be < 1
+      expect(Time.zone.now - started).to be < 2
+      expect(finished).to be(false)
     end
 
     it 'bounds each iPhone push so a stalled one cannot hold up the rest of the ring' do
