@@ -149,8 +149,14 @@ RSpec.describe Voice::InboundCallBuilder do
       expect { perform_builder }.to have_enqueued_job(Voice::VoipPushJob).with(existing_call.id, 'ring')
     end
 
-    it 'does not queue another ring once the call has rung' do
+    it 'queues the ring again when its job stopped before recording an outcome' do
       existing_call.update!(status: 'ringing', ring_state: { 'ring_recipient_ids' => [1], 'rung_user_ids' => [1] })
+
+      expect { perform_builder }.to have_enqueued_job(Voice::VoipPushJob).with(existing_call.id, 'ring')
+    end
+
+    it 'does not queue another ring once the ring has an outcome' do
+      existing_call.update!(status: 'ringing', ring_state: { 'ring_recipient_ids' => [1], 'rung_user_ids' => [1], 'unreached_user_ids' => [] })
 
       expect { perform_builder }.not_to have_enqueued_job(Voice::VoipPushJob)
     end

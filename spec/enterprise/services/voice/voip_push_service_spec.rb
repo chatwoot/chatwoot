@@ -421,12 +421,47 @@ RSpec.describe Voice::VoipPushService do
       expect(call.reload.ring_state['unreached_user_ids']).to eq([])
     end
 
+    it 'leaves a ring under way to its job and checks again once its lease is over' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      call.update!(ring_state: { 'ring_recipient_ids' => [agent.id], 'rung_user_ids' => [agent.id], 'ring_started_at' => 5.seconds.ago.to_i })
+
+      expect { described_class.new(call: call).perform('ring') }.to have_enqueued_job(Voice::VoipPushJob).with(call.id, 'ring')
+      expect(apple_connection).not_to have_received(:push)
+    end
+
+    it 'keeps an agent reached by another attempt at the ring reached' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      call.update!(ring_state: { 'ring_recipient_ids' => [agent.id], 'unreached_user_ids' => [] })
+      service = described_class.new(call: call)
+      service.send(:token_owners)['apple-1'] = agent.id
+
+      service.send(:settle_ring, { 'apple-1' => :failed }, {})
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([])
+    end
+
     it 'rings a call once when a second ring job runs' do
       subscribe(agent, 'apns_voip', 'apple-1')
 
       2.times { described_class.new(call: Call.find(call.id)).perform('ring') }
 
       expect(apple_connection).to have_received(:push).once
+    end
+
+    it 'gives up a connection whose first push does not finish in time' do
+      stub_const('Voice::ApnsVoipSender::FIRST_PUSH_DEADLINE_SECONDS', 0.1)
+      3.times { |i| subscribe(agent, 'apns_voip', "apple-#{i}") }
+      allow(apple_connection).to receive(:push) do
+        sleep 1
+        apple_response
+      end
+
+      started = Time.zone.now
+      described_class.new(call: call).perform('ring')
+
+      expect(Time.zone.now - started).to be < 1
+      expect(apple_connection).to have_received(:push).once
+      expect(apple_connection).to have_received(:close)
     end
 
     it 'bounds each iPhone push so a stalled one cannot hold up the rest of the ring' do

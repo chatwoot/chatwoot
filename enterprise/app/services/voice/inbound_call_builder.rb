@@ -7,11 +7,12 @@ class Voice::InboundCallBuilder
     new(inbox: inbox, call_sid: call_sid, caller: caller, provider: provider, extra_meta: extra_meta).perform!
   end
 
-  # Queues the ring of a call that recorded who it rings and has not rung them yet: when the
-  # call is created, and again when a retried inbound event finds it, as when queueing the
-  # first job failed
+  # Queues the ring of a call that recorded who it rings and has no outcome for that ring
+  # yet: when the call is created, and again when a retried inbound event finds it, as when
+  # queueing the first job failed or its worker stopped. A ring still under way makes the
+  # extra job wait for it.
   def self.queue_ring(call)
-    return unless call.ringing? && call.ring_state.key?('ring_recipient_ids') && !call.ring_state.key?('rung_user_ids')
+    return unless call.ringing? && call.ring_state.key?('ring_recipient_ids') && !call.ring_state.key?('unreached_user_ids')
 
     ActiveRecord.after_all_transactions_commit { Voice::VoipPushJob.perform_later(call.id, 'ring') }
   end

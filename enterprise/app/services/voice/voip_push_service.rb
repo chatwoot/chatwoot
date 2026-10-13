@@ -20,6 +20,8 @@ class Voice::VoipPushService
   pattr_initialize [:call!]
 
   RING_EXPIRY_SECONDS = 45
+  # How long a ring under way holds the call's ring before another job may take it over
+  RING_LEASE_SECONDS = 30
   APPLE = 'apns_voip'.freeze
   ANDROID = 'fcm'.freeze
 
@@ -59,10 +61,14 @@ class Voice::VoipPushService
   # overtaken by the ring, so the ring is followed by a cancel of its own in that case.
   #
   # A call is rung once. A second ring job after the ring settled, such as one a retried
-  # inbound call queued while the first was waiting, only replays the new-message notification.
+  # inbound call queued while the first was waiting, only replays the new-message
+  # notification; one that finds the ring under way checks again once its lease is over.
   def ring
-    apple, android = call.with_lock { call.ringing? ? prepare_ring : nil }
-    return if apple.nil?
+    prepared = call.with_lock { call.ringing? ? prepare_ring : nil }
+    return if prepared.nil?
+    return Voice::VoipPushJob.set(wait: prepared.seconds).perform_later(call.id, 'ring') if prepared.is_a?(Integer)
+
+    apple, android = prepared
     return replay_new_message_notification if apple.empty? && android.empty?
 
     apple_results, android_results = deliver_ring(apple, android)
@@ -115,9 +121,7 @@ class Voice::VoipPushService
     forget_devices(ANDROID, gone(with_rails { sender.deliver(tokens, data, 'cancel') }.to_h))
   end
 
-  def payloads
-    @payloads ||= Voice::VoipPushPayloads.new(call: call)
-  end
+  def payloads = (@payloads ||= Voice::VoipPushPayloads.new(call: call))
 
   # A platform whose client cannot be set up, such as when Google's token request fails,
   # is not rung; the other platform still is
@@ -144,9 +148,7 @@ class Voice::VoipPushService
     @recipients ||= call.ring_state['ring_recipient_ids']&.then { |ids| call.account.users.where(id: ids).to_a } || self.class.recipients_for(call)
   end
 
-  def apple_subscriptions
-    NotificationSubscription.apns_voip.where(user_id: recipients.map(&:id))
-  end
+  def apple_subscriptions = NotificationSubscription.apns_voip.where(user_id: recipients.map(&:id))
 
   def android_subscriptions
     NotificationSubscription.fcm
@@ -172,16 +174,24 @@ class Voice::VoipPushService
 
   def rung_devices = call.ring_state.fetch('rung_devices', {})
 
+  # A ring counts as done once its outcome is recorded. One under way holds the ring for
+  # RING_LEASE_SECONDS, and another job meanwhile returns the seconds left to wait; one that
+  # stopped after choosing whom to ring, without recording an outcome, is prepared and sent
+  # again once that lease runs out.
+  def prepare_ring
+    return [[], []] if call.ring_state.key?('unreached_user_ids')
+
+    lease_left = call.ring_state['ring_started_at'].to_i + RING_LEASE_SECONDS - Time.zone.now.to_i
+    lease_left.positive? ? lease_left : remember_ring
+  end
+
   # Records the agents chosen for this ring, those it is sent to a device of and, where there
   # are any, the devices being rung. Merged into its own column in place, so neither another ring's record nor a
   # write of `meta` erases it. Returns the device tokens by platform.
-  # A ring counts as done once its outcome is recorded; one that stopped after choosing whom
-  # to ring but before that is prepared and sent again
-  def prepare_ring = call.ring_state.key?('unreached_user_ids') ? [[], []] : remember_ring
-
   def remember_ring
     apple, android = devices_to_ring
-    rung = { 'ring_recipient_ids' => recipients.map(&:id), 'rung_user_ids' => token_owners.values.uniq }
+    rung = { 'ring_recipient_ids' => recipients.map(&:id), 'rung_user_ids' => token_owners.values.uniq,
+             'ring_started_at' => Time.zone.now.to_i }
     rung['rung_devices'] = { APPLE => apple, ANDROID => android } if apple.any? || android.any?
     merge_ring_state(rung)
     [apple, android]
@@ -189,9 +199,7 @@ class Voice::VoipPushService
 
   # The tokens are needed only until the ring is cancelled; the agents rung stay for the
   # missed-call notice
-  def forget_rung_devices
-    Call.where(id: call.id).update_all("ring_state = ring_state - 'rung_devices'") # rubocop:disable Rails/SkipsModelValidations
-  end
+  def forget_rung_devices = Call.where(id: call.id).update_all("ring_state = ring_state - 'rung_devices'") # rubocop:disable Rails/SkipsModelValidations
 
   def merge_ring_state(values)
     Call.where(id: call.id).update_all(['ring_state = ring_state || ?::jsonb', values.to_json]) # rubocop:disable Rails/SkipsModelValidations
@@ -209,14 +217,19 @@ class Voice::VoipPushService
     unreached = unreached_user_ids(apple_results.merge(android_results))
     forget_devices(APPLE, gone(apple_results))
     forget_devices(ANDROID, gone(android_results))
-    merge_ring_state('unreached_user_ids' => unreached)
+    record_unreached(unreached)
     replay_new_message_notification
   end
 
-  def replay_new_message_notification
-    message = call.reload.message
-    Messages::NewMessageNotificationService.new(message: message).perform if message
+  # An agent another attempt at this ring already reached stays reached
+  def record_unreached(unreached)
+    call.with_lock do
+      earlier = call.ring_state['unreached_user_ids']
+      merge_ring_state('unreached_user_ids' => earlier ? unreached & earlier : unreached)
+    end
   end
+
+  def replay_new_message_notification = call.reload.message&.then { |message| Messages::NewMessageNotificationService.new(message: message).perform }
 
   # The agents none of whose devices took the ring
   def unreached_user_ids(results)
@@ -280,9 +293,7 @@ class Voice::VoipPushService
 
   # MARK: Android
 
-  def firebase_config
-    [config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')]
-  end
+  def firebase_config = [config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')]
 
   # nil when the client cannot be set up
   def fcm_sender(project_id, credentials)
@@ -292,7 +303,5 @@ class Voice::VoipPushService
     end
   end
 
-  def config(name, default = nil)
-    GlobalConfigService.load(name, default)
-  end
+  def config(name, default = nil) = GlobalConfigService.load(name, default)
 end
