@@ -260,12 +260,14 @@ const moveReply = (cardIndex, replyIndex, offset) => {
 
 <template>
   <section
-    class="flex flex-col gap-3 py-3"
+    class="flex min-h-0 max-h-full flex-1 flex-col gap-3 overflow-y-auto overscroll-contain py-3"
     data-testid="whatsapp-interactive-composer"
     :inert="presetBusy || undefined"
     :aria-busy="presetBusy"
   >
-    <div class="flex items-center justify-between gap-3">
+    <div
+      class="sticky top-0 z-10 flex shrink-0 items-center justify-between gap-3 bg-n-solid-1"
+    >
       <div>
         <h3 class="mb-0 text-sm font-medium text-n-slate-12">
           {{ $t('CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.TITLE') }}

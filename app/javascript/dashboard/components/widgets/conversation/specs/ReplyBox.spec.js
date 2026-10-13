@@ -111,6 +111,7 @@ const mountWith = ({
   drafts,
   inboxes,
   isMetaMessageSendingDisabled,
+  stubs = {},
 }) => {
   const store = buildStore({
     inbox,
@@ -126,7 +127,7 @@ const mountWith = ({
       mocks: { $t: key => key },
       // The bottom panel sits inside a <Transition>, which shallowMount stubs
       // without rendering its children.
-      stubs: { transition: false },
+      stubs: { transition: false, ...stubs },
     },
   });
   return { wrapper, store };
@@ -210,6 +211,55 @@ describe('ReplyBox', () => {
       whatsappInteractivePresetsAPI.update.mockReset();
       whatsappInteractivePresetsAPI.delete.mockReset();
       uploadFile.mockReset();
+    });
+
+    it('keeps the interactive scroll region separate from the send control', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+        stubs: {
+          WhatsAppInteractiveComposer: {
+            template:
+              '<section data-testid="interactive-scroll-region"></section>',
+          },
+          ReplyBottomPanel: {
+            template:
+              '<footer><button data-testid="interactive-send">Send interaction</button></footer>',
+          },
+        },
+      });
+
+      wrapper.vm.toggleWhatsappInteractive();
+      await nextTick();
+
+      const scrollRegion = wrapper.get(
+        '[data-testid="interactive-scroll-region"]'
+      );
+      const send = wrapper.get('[data-testid="interactive-send"]');
+      expect(wrapper.get('.reply-box').classes()).toEqual(
+        expect.arrayContaining([
+          'flex',
+          'max-h-[calc(100dvh-8rem)]',
+          'flex-col',
+          'overflow-hidden',
+        ])
+      );
+      expect(wrapper.get('.reply-box__top').classes()).toEqual(
+        expect.arrayContaining([
+          'flex',
+          'min-h-0',
+          'flex-1',
+          'flex-col',
+          'overflow-hidden',
+        ])
+      );
+      expect(scrollRegion.element.contains(send.element)).toBe(false);
+      expect(scrollRegion.element.parentElement).not.toBe(
+        send.element.parentElement
+      );
     });
 
     it('submits only the normalized text-button input fields', async () => {

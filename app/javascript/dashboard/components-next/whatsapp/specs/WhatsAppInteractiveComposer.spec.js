@@ -38,6 +38,28 @@ const mountComposer = (modelValue, props = {}) =>
   });
 
 describe('WhatsAppInteractiveComposer', () => {
+  it('keeps setup content in a viewport-constrained scroll region', () => {
+    const wrapper = mountComposer({
+      body: 'Choose one.',
+      buttons: ['Confirm'],
+    });
+    const composer = wrapper.get(
+      '[data-testid="whatsapp-interactive-composer"]'
+    );
+    expect(composer.classes()).toEqual(
+      expect.arrayContaining([
+        'min-h-0',
+        'max-h-full',
+        'flex-1',
+        'flex-col',
+        'overflow-y-auto',
+        'overscroll-contain',
+      ])
+    );
+    expect(composer.find('.sticky.top-0').exists()).toBe(true);
+    expect(composer.find('input[value="button"]').exists()).toBe(true);
+  });
+
   it('locks every editable control while a preset mutation is pending', () => {
     const wrapper = mountComposer(
       { body: 'Choose one.', buttons: ['Confirm'] },

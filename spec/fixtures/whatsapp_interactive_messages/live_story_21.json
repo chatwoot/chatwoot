@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "story": 21,
+  "observed_at": "2026-10-13T12:22:52Z",
+  "environment": {
+    "revision": "afb29e3b0ff5ec9830994337052227256cd09c07",
+    "composer": "authenticated_web",
+    "account_mode": "test",
+    "webhook_verified": true,
+    "messages_subscription_active": true,
+    "recipient_allowlisted": true,
+    "recipient_consent_confirmed": true
+  },
+  "implementation_follow_up": {
+    "source": "recipient_observation",
+    "defect": "interactive setup exceeded the normal-zoom viewport without an internal scroll region",
+    "status": "fixed_and_regression_tested",
+    "viewport_constrained": true,
+    "internal_scroll_region": true,
+    "send_controls_remain_outside_scroll_region": true,
+    "browser_normal_zoom_verified": true,
+    "internal_overflow_observed": true,
+    "send_controls_within_viewport": true
+  },
+  "scenarios": {
+    "reply_button": {
+      "result": "passed",
+      "outbound": {
+        "created_at": "2026-10-13T12:16:43Z",
+        "status": "read",
+        "body": "Story 21 reply-button verification",
+        "selected_button_title": "Confirm",
+        "provider_message_fingerprint": "sha256:513e4b53209197e064726651de09cb3dace42a8b09f899d5a7634a470d0f8606",
+        "delivery_fingerprint": "sha256:823085d5df9a4e211a3210fe293a9d251801aad8b6787a855129fdcc2a7e14bc",
+        "preset_fingerprint": "sha256:835d5e8314340ab852a2f979ab4cd53e994dbe38366afb6eed84fe4957b980c8",
+        "preset_option_fingerprint": "sha256:df0321118fb62be29abef009f7b354516afddee0d78f02ce1df32044910701ca"
+      },
+      "recipient_observation": {
+        "rendering": "native_reply_buttons",
+        "flattened": false,
+        "selection_performed": true
+      },
+      "inbound": {
+        "created_at": "2026-10-13T12:16:53Z",
+        "reply_type": "button_reply",
+        "title": "Confirm",
+        "delivery_fingerprint": "sha256:823085d5df9a4e211a3210fe293a9d251801aad8b6787a855129fdcc2a7e14bc",
+        "context_fingerprint": "sha256:513e4b53209197e064726651de09cb3dace42a8b09f899d5a7634a470d0f8606",
+        "preset_option_fingerprint": "sha256:df0321118fb62be29abef009f7b354516afddee0d78f02ce1df32044910701ca",
+        "originating_snapshot_found": true,
+        "readable_content_persisted": true
+      }
+    },
+    "native_list": {
+      "result": "passed",
+      "outbound": {
+        "created_at": "2026-10-13T12:18:18Z",
+        "status": "read",
+        "body": "Story 21 native-list verification",
+        "opening_button": "View options",
+        "row_title": "Native list confirmed",
+        "row_description": "Recipient observed the native list",
+        "provider_message_fingerprint": "sha256:d3cb792bb9be87053934a24ed88c1f21e6f4258bba4df89d6ae4f3f987174dc9",
+        "delivery_fingerprint": "sha256:250f47af0e4b946e9f098f05822a58319e67773dd264b663b0b5b44c109a084a",
+        "preset_fingerprint": "sha256:c0509a487a18b003ba05e505419ebb63e57a29158073e381f57160b5c5b86426",
+        "preset_option_fingerprint": "sha256:24e52f5146ad5a09caa9521ab067c73a30f9efae30d999d86dd6a912a5d5e5d4"
+      },
+      "recipient_observation": {
+        "rendering": "native_list_bottom_sheet",
+        "flattened": false,
+        "description_visible": true,
+        "selection_performed": true
+      },
+      "inbound": {
+        "created_at": "2026-10-13T12:18:29Z",
+        "reply_type": "list_reply",
+        "title": "Native list confirmed",
+        "description": "Recipient observed the native list",
+        "delivery_fingerprint": "sha256:250f47af0e4b946e9f098f05822a58319e67773dd264b663b0b5b44c109a084a",
+        "context_fingerprint": "sha256:d3cb792bb9be87053934a24ed88c1f21e6f4258bba4df89d6ae4f3f987174dc9",
+        "preset_option_fingerprint": "sha256:24e52f5146ad5a09caa9521ab067c73a30f9efae30d999d86dd6a912a5d5e5d4",
+        "originating_snapshot_found": true,
+        "readable_content_persisted": true,
+        "description_persisted": true
+      }
+    }
+  },
+  "coverage": ["SCN-04", "SCN-05", "SCN-20"]
+}

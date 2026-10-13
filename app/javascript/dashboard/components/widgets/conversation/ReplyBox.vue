@@ -427,6 +427,8 @@ export default {
       return {
         'is-private': this.isPrivate,
         'is-focused': this.isFocused || this.hasAttachments,
+        'flex max-h-[calc(100dvh-8rem)] flex-col overflow-hidden':
+          this.isWhatsappInteractive,
       };
     },
     hasAttachments() {
@@ -1899,7 +1901,13 @@ export default {
       leave-from-class="opacity-100 translate-y-0 scale-100"
       leave-to-class="opacity-0 translate-y-2 scale-[0.98]"
     >
-      <div :key="copilot.editorTransitionKey.value" class="reply-box__top">
+      <div
+        :key="copilot.editorTransitionKey.value"
+        class="reply-box__top"
+        :class="{
+          'flex min-h-0 flex-1 flex-col overflow-hidden': isWhatsappInteractive,
+        }"
+      >
         <ReplyToMessage
           v-if="shouldShowReplyToMessage"
           :message="inReplyTo"
