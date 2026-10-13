@@ -65,7 +65,9 @@ class Voice::VoipPushService
   # inbound call queued while the first was waiting, only replays the new-message
   # notification; one that finds the ring under way checks again once its lease is over.
   def ring
-    prepared = call.with_lock { call.ringing? ? prepare_ring : nil }
+    # A settled ring's notification is replayed even once the call is over; only sending
+    # needs the call still ringing
+    prepared = call.with_lock { call.ringing? || ring_settled? ? prepare_ring : nil }
     return if prepared.nil?
     return Voice::VoipPushJob.set(wait: prepared.seconds).perform_later(call.id, 'ring') if prepared.is_a?(Integer)
 
@@ -184,8 +186,10 @@ class Voice::VoipPushService
   # RING_LEASE_SECONDS, and another job meanwhile returns the seconds left to wait; one that
   # stopped after choosing whom to ring, without recording an outcome, is prepared and sent
   # again once that lease runs out.
+  def ring_settled? = call.ring_state.key?('unreached_user_ids')
+
   def prepare_ring
-    return :settled if call.ring_state.key?('unreached_user_ids')
+    return :settled if ring_settled?
 
     lease_left = call.ring_state['ring_started_at'].to_i + RING_LEASE_SECONDS - Time.zone.now.to_i
     lease_left.positive? ? lease_left : remember_ring
