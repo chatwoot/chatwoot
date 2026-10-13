@@ -83,7 +83,8 @@ class Voice::VoipPushService
     deliver_android_all(client, tokens, data, 'ring', proceed: -> { still_ringing? })
   end
 
-  def still_ringing? = Call.where(id: call.id).first&.ringing?
+  # Read past the query cache, which would otherwise answer every check after the first
+  def still_ringing? = Call.uncached { Call.where(id: call.id).first&.ringing? }
 
   def devices_to_ring
     apple_environment if configured?(:apple)
