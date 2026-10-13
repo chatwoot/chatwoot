@@ -195,7 +195,8 @@ class Voice::Conference::Manager
   end
 
   # The conversation the failed claim assigned goes back to unassigned, so it rings for
-  # everyone again; an assignment made otherwise stays
+  # everyone again, or to an agent who claimed the call since, whose own claim found it
+  # still assigned; an assignment made otherwise stays
   def release_claim_assignment(user_id)
     return unless user_id && call.reload.ring_state['assigned_by_claim'] == user_id
 
@@ -204,7 +205,11 @@ class Voice::Conference::Manager
     conversation.with_lock do
       next unless conversation.assignee_id == user_id
 
-      Conversations::AssignmentService.new(conversation: conversation, assignee_id: nil).perform
+      claimant = call.reload.accepted_by_agent_id
+      next if claimant == user_id
+
+      Conversations::AssignmentService.new(conversation: conversation, assignee_id: claimant).perform
+      conference_service.remember_claim_assignment(claimant) if claimant
     end
   end
 

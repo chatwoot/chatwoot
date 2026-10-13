@@ -126,6 +126,23 @@ RSpec.describe Voice::Conference::Manager do
       expect(conversation.reload.assignee).to be_nil
     end
 
+    it 'gives the conversation to an agent who claimed the call before it was released' do
+      other = create(:user, account: account, role: :agent)
+      call.update!(status: 'ringing', ring_state: { 'assigned_by_claim' => agent.id })
+      conversation.update!(assignee: agent)
+      allow(conference).to receive(:remember_claim_assignment)
+      manager = described_class.new(call: call, event: 'leave', participant_label: agent_label, participant_call_sid: 'CA-leaving',
+                                    leave_reason: 'participant_add_failed')
+      allow(manager).to receive(:release_failed_claim).and_wrap_original do |original, user_id|
+        original.call(user_id).tap { Call.where(id: call.id).update_all(accepted_by_agent_id: other.id) } # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      manager.process
+
+      expect(conversation.reload.assignee).to eq(other)
+      expect(conference).to have_received(:remember_claim_assignment).with(other.id)
+    end
+
     it 'keeps an assignment the claim did not make' do
       call.update!(status: 'ringing')
       conversation.update!(assignee: agent)
