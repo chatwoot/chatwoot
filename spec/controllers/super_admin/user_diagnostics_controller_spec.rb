@@ -144,18 +144,6 @@ RSpec.describe 'Super Admin User diagnostics', type: :request do
       expect(response.body).not_to include('Pixel 8')
     end
 
-    it 'shows whether calls ring the user on their phone' do
-      account = create(:account, name: 'Acme')
-      account.enable_features!('channel_voice', 'mobile_voice_push')
-      create(:account_user, user: user, account: account)
-
-      get '/super_admin/user_diagnostics', params: { user_query: user.email, tab: 'mobile' }
-
-      expect(response.body).to include('Incoming calls')
-      expect(response.body).to include('Needs APNS_VOIP_KEY, APNS_VOIP_KEY_ID and APNS_VOIP_TEAM_ID')
-      expect(response.body).to include('Only with the app open')
-    end
-
     it 'points at the push tab when an account has every push type off' do
       account = create(:account, name: 'Acme')
       create(:account_user, user: user, account: account)

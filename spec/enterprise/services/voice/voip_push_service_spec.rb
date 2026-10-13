@@ -56,6 +56,23 @@ RSpec.describe Voice::VoipPushService do
       expect(fcm_client).not_to have_received(:send_v1)
     end
 
+    it 'rings iPhones while the Firebase client is still being set up' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      subscribe(other_agent, 'fcm', 'android-1', platform: 'Android')
+      apple_pushed = Queue.new
+      allow(apple_connection).to receive(:push) do
+        apple_pushed << true
+        apple_response
+      end
+      firebase = instance_double(Notification::FcmService)
+      allow(firebase).to receive(:fcm_client) { Timeout.timeout(2) { apple_pushed.pop } && fcm_client }
+      allow(Notification::FcmService).to receive(:new).and_return(firebase)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(fcm_client).to have_received(:send_v1).with(hash_including(token: 'android-1'))
+    end
+
     it 'still rings iPhones when the Firebase client cannot be set up' do
       subscribe(agent, 'apns_voip', 'apple-1')
       subscribe(other_agent, 'fcm', 'android-1', platform: 'Android')
