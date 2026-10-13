@@ -86,7 +86,10 @@ module Api::V1::Accounts::Concerns::WhatsappHealthManagement
   end
 
   def message_template_data
-    return [@inbox.channel.message_templates.presence || [], @inbox.channel.message_templates_last_updated, 'name'] unless @inbox.twilio_whatsapp?
+    unless @inbox.twilio_whatsapp?
+      templates = @inbox.channel.classified_message_templates
+      return [templates, @inbox.channel.message_templates_last_updated, 'name']
+    end
 
     [@inbox.channel.content_templates&.dig('templates') || [], @inbox.channel.content_templates_last_updated, 'friendly_name']
   end

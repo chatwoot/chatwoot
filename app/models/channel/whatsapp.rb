@@ -130,6 +130,14 @@ class Channel::Whatsapp < ApplicationRecord
     # rubocop:enable Rails/SkipsModelValidations
   end
 
+  def classified_message_templates
+    return message_templates.presence || [] unless provider == 'whatsapp_cloud'
+
+    Array(message_templates).map do |template|
+      Whatsapp::TemplateClassifierService.new(template).classified_template
+    end
+  end
+
   delegate :send_message, to: :provider_service
   delegate :send_template, to: :provider_service
   delegate :sync_templates, to: :provider_service

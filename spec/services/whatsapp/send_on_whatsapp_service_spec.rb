@@ -395,5 +395,136 @@ describe Whatsapp::SendOnWhatsappService do
           ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
       end
     end
+
+    context 'with a WhatsApp Cloud template' do
+      let(:account) { create(:account) }
+      let(:whatsapp_channel) do
+        create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false,
+                                  message_templates: [synchronized_template])
+      end
+      let(:contact_inbox) { create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '123456789') }
+      let(:conversation) { create(:conversation, contact_inbox: contact_inbox, inbox: whatsapp_channel.inbox) }
+      let(:synchronized_template) do
+        {
+          'name' => 'hello_world', 'language' => 'en_US', 'status' => 'APPROVED', 'category' => 'UTILITY',
+          'components' => [{ 'type' => 'BODY', 'text' => 'Hello World!' }]
+        }
+      end
+
+      it 'sends an approved parameterless template outside the service window' do
+        create(:message, message_type: :incoming, content: 'old', created_at: 25.hours.ago,
+                         conversation: conversation, account: account)
+        message = create(
+          :message,
+          message_type: :outgoing,
+          conversation: conversation,
+          account: account,
+          additional_attributes: {
+            template_params: { name: 'hello_world', language: 'en_US', processed_params: {} }
+          }
+        )
+
+        expect(whatsapp_channel).to receive(:send_template).with(
+          '123456789',
+          { name: 'hello_world', namespace: nil, lang_code: 'en_US', parameters: [] },
+          message
+        ).and_return('wamid.template')
+
+        described_class.new(message: message).perform
+
+        expect(message.reload).to have_attributes(status: 'sent', source_id: 'wamid.template')
+      end
+
+      it 'fails a spoofed template identity without contacting the provider' do
+        message = create(
+          :message,
+          message_type: :outgoing,
+          conversation: conversation,
+          account: account,
+          additional_attributes: {
+            template_params: { name: 'hello_world', language: 'en_us', processed_params: {} }
+          }
+        )
+
+        expect(whatsapp_channel).not_to receive(:send_template)
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.external_error).to eq('Template is not an approved synchronized template')
+      end
+
+      it 'fails an excluded specialized template without contacting the provider' do
+        synchronized_template['category'] = 'AUTHENTICATION'
+        message = create(
+          :message,
+          message_type: :outgoing,
+          conversation: conversation,
+          account: account,
+          additional_attributes: {
+            template_params: { name: 'hello_world', language: 'en_US', processed_params: {} }
+          }
+        )
+
+        expect(whatsapp_channel).not_to receive(:send_template)
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.external_error).to eq('Template cannot be sent: unsupported_by_linoo_version')
+      end
+
+      it 'fails an invalid media URL without contacting the provider' do
+        synchronized_template['components'] = [{ 'type' => 'HEADER', 'format' => 'DOCUMENT' }]
+        message = create(
+          :message,
+          message_type: :outgoing,
+          conversation: conversation,
+          account: account,
+          additional_attributes: {
+            template_params: {
+              name: 'hello_world',
+              language: 'en_US',
+              processed_params: {
+                header: { media_url: 'ftp://example.com/report.pdf', media_type: 'document', media_name: 'report.pdf' }
+              }
+            }
+          }
+        )
+
+        expect(whatsapp_channel).not_to receive(:send_template)
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.external_error).to eq('Invalid URL scheme: ftp. Only http and https are allowed')
+      end
+
+      it 'fails an oversized copy code without contacting the provider' do
+        synchronized_template['components'] = [
+          { 'type' => 'BUTTONS', 'buttons' => [{ 'type' => 'COPY_CODE', 'text' => 'Copy offer code' }] }
+        ]
+        message = create(
+          :message,
+          message_type: :outgoing,
+          conversation: conversation,
+          account: account,
+          additional_attributes: {
+            template_params: {
+              name: 'hello_world',
+              language: 'en_US',
+              processed_params: { buttons: [{ type: 'copy_code', parameter: 'SIXTEEN-CHAR-CODE' }] }
+            }
+          }
+        )
+
+        expect(whatsapp_channel).not_to receive(:send_template)
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.external_error).to eq('Coupon code cannot exceed 15 characters')
+      end
+    end
   end
 end

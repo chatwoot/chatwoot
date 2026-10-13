@@ -156,6 +156,49 @@ describe('templateHelper', () => {
       ]);
     });
 
+    it('should preserve synchronized metadata order for multiple dynamic URL buttons', () => {
+      const templateWithMultipleUrlButtons = {
+        category: 'MARKETING',
+        components: [
+          { type: 'BODY', text: 'Track either order.' },
+          {
+            type: 'BUTTONS',
+            buttons: [
+              {
+                type: 'URL',
+                url: 'https://example.com/{{first_order}}',
+                text: 'First order',
+              },
+              { type: 'PHONE_NUMBER', phone_number: '+15555550123' },
+              {
+                type: 'URL',
+                url: 'https://example.com/{{second_order}}',
+                text: 'Second order',
+              },
+            ],
+          },
+        ],
+      };
+
+      expect(buildTemplateParameters(templateWithMultipleUrlButtons)).toEqual({
+        buttons: [
+          {
+            type: 'url',
+            parameter: '',
+            url: 'https://example.com/{{first_order}}',
+            variables: ['first_order'],
+          },
+          undefined,
+          {
+            type: 'url',
+            parameter: '',
+            url: 'https://example.com/{{second_order}}',
+            variables: ['second_order'],
+          },
+        ],
+      });
+    });
+
     it('should handle templates with no variables but a media header', () => {
       const emptyTemplate = templates.find(
         t => t.name === 'no_variable_template'

@@ -1356,6 +1356,18 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['error']).to eq('Message templates are only available for WhatsApp channels')
       end
+
+      it 'adds classifications for Cloud templates without mutating synchronized records' do
+        whatsapp_channel.update!(provider: 'whatsapp_cloud')
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/message_templates",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to all(include('classification', 'required_parameters'))
+        expect(whatsapp_channel.reload.message_templates).to eq(message_templates)
+      end
     end
   end
 

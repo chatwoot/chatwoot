@@ -1,8 +1,11 @@
 class Whatsapp::TemplateProcessorService
+  ValidationError = Whatsapp::TemplateParameterValidationService::ValidationError
+
   pattr_initialize [:channel!, :template_params, :message]
 
   def call
     return [nil, nil, nil, nil] if template_params.blank?
+    return process_cloud_template if channel.provider == 'whatsapp_cloud'
 
     process_template_with_params
   end
@@ -18,11 +21,45 @@ class Whatsapp::TemplateProcessorService
     ]
   end
 
+  def process_cloud_template
+    template = find_exact_cloud_template
+    raise ValidationError, 'Template is not an approved synchronized template' if template.blank?
+
+    classifier = Whatsapp::TemplateClassifierService.new(template)
+    raise ValidationError, "Template cannot be sent: #{classifier.classification_reason}" unless classifier.sendable?
+
+    normalized_params = normalized_processed_params(template)
+    Whatsapp::TemplateParameterValidationService.new(
+      template: template,
+      requirements: classifier.parameter_requirements,
+      processed_params: normalized_params
+    ).call
+
+    [template['name'], template['namespace'], template['language'], process_enhanced_template_params(template, normalized_params)]
+  rescue ArgumentError => e
+    raise ValidationError, e.message
+  end
+
+  def find_exact_cloud_template
+    Array(channel.message_templates).find do |template|
+      template['name'] == template_params['name'] &&
+        template['language'] == template_params['language'] &&
+        template['status'].to_s.casecmp('approved').zero?
+    end
+  end
+
+  def normalized_processed_params(template)
+    params = template_params.deep_dup
+    Whatsapp::TemplateParameterConverterService.new(params, template).normalize_to_enhanced.fetch('processed_params', {}) || {}
+  rescue ArgumentError => e
+    raise ValidationError, e.message
+  end
+
   def find_template
     channel.message_templates.find do |t|
-      t['name'] == template_params['name'] &&
-        t['language']&.downcase == template_params['language']&.downcase &&
-        t['status']&.downcase == 'approved'
+      t['name'].to_s.casecmp?(template_params['name'].to_s) &&
+        t['language'].to_s.casecmp?(template_params['language'].to_s) &&
+        t['status'].to_s.casecmp?('approved')
     end
   end
 
@@ -44,7 +81,7 @@ class Whatsapp::TemplateProcessorService
     components.concat(process_header_components(processed_params, template))
     components.concat(process_body_components(processed_params, template))
     components.concat(process_footer_components(processed_params))
-    components.concat(process_button_components(processed_params))
+    components.concat(process_button_components(processed_params, template))
 
     @template_params = components
   end
@@ -64,7 +101,10 @@ class Whatsapp::TemplateProcessorService
   end
 
   def build_text_header_params(header_data, template)
-    header_data.filter_map do |key, value|
+    header_parameters = header_data
+    header_parameters = header_parameters.sort_by { |key, _value| key.to_i } unless template['parameter_format'] == 'NAMED'
+
+    header_parameters.filter_map do |key, value|
       build_text_parameter(key, value, template) if value.present?
     end
   end
@@ -109,23 +149,51 @@ class Whatsapp::TemplateProcessorService
     footer_params.present? ? [{ type: 'footer', parameters: footer_params }] : []
   end
 
-  def process_button_components(processed_params)
+  def process_button_components(processed_params, template = nil)
     return [] if processed_params['buttons'].blank?
 
-    button_params = processed_params['buttons'].filter_map.with_index do |button, index|
+    buttons = processed_params['buttons']
+    dynamic_indexes = dynamic_button_indexes(template)
+    sparse_buttons = buttons.any?(&:blank?)
+    button_params = buttons.filter_map.with_index do |button, index|
       next if button.blank?
 
-      if button['type'] == 'url' || button['parameter'].present?
-        {
-          type: 'button',
-          sub_type: button['type'] || 'url',
-          index: index,
-          parameters: [parameter_builder.build_button_parameter(button)]
-        }
-      end
+      build_button_component(button, index, dynamic_indexes, sparse_buttons)
     end
 
     button_params.compact
+  end
+
+  def build_button_component(button, index, dynamic_indexes, sparse_buttons)
+    return unless button['type'] == 'url' || button['parameter'].present?
+
+    {
+      type: 'button',
+      sub_type: button['type'] || 'url',
+      index: provider_button_index(index, dynamic_indexes, sparse_buttons),
+      parameters: [parameter_builder.build_button_parameter(button)]
+    }
+  end
+
+  def provider_button_index(index, dynamic_indexes, sparse_buttons)
+    return index unless channel.provider == 'whatsapp_cloud'
+    return index if sparse_buttons
+
+    dynamic_indexes.fetch(index, index)
+  end
+
+  def dynamic_button_indexes(template)
+    return [] if template.blank?
+
+    buttons_component = Array(template['components']).find { |component| component['type'].to_s.upcase == 'BUTTONS' }
+    Array(buttons_component&.dig('buttons')).filter_map.with_index do |button, index|
+      index if dynamic_button?(button)
+    end
+  end
+
+  def dynamic_button?(button)
+    type = button['type'].to_s.upcase
+    type == 'COPY_CODE' || (type == 'URL' && button['url'].to_s.match?(/{{[^{}]+}}/))
   end
 
   def parameter_builder

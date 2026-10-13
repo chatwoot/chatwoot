@@ -49,6 +49,8 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
                                          parameters: processed_parameters
                                        }, message)
     complete_send(message_id)
+  rescue Whatsapp::TemplateProcessorService::ValidationError => e
+    message.update!(status: :failed, external_error: e.message)
   end
 
   def send_session_message
