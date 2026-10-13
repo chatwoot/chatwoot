@@ -7,6 +7,10 @@ class Voice::FcmVoipSender
   # Deliveries in flight at once
   BATCH_SIZE = 20
 
+  # How long a batch may take; the FCM client sets no timeout of its own. A push still
+  # waiting then counts as failed and is left to finish on its own.
+  PUSH_TIMEOUT_SECONDS = 10
+
   # Returns each token's outcome: :sent, :gone when Firebase reports it unregistered, or :failed.
   # `proceed` is asked on the calling thread before each batch after the first; once it returns
   # false the remaining tokens are not sent and have no outcome.
@@ -14,12 +18,17 @@ class Voice::FcmVoipSender
     tokens.each_slice(BATCH_SIZE).with_index.each_with_object({}) do |(batch, index), results|
       break results if index.positive? && !proceed.call
 
-      outcomes = batch.map { |token| Thread.new { deliver_one(token, data, kind) } }.map(&:value)
+      outcomes = within_timeout(batch.map { |token| Thread.new { deliver_one(token, data, kind) } })
       results.merge!(batch.zip(outcomes).to_h)
     end
   end
 
   private
+
+  def within_timeout(threads)
+    deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + PUSH_TIMEOUT_SECONDS
+    threads.map { |thread| thread.join([deadline - Process.clock_gettime(Process::CLOCK_MONOTONIC), 0].max) ? thread.value : :failed }
+  end
 
   def deliver_one(token, data, kind)
     # One collapse key per call, so a cancel queued for an offline phone replaces the ring
