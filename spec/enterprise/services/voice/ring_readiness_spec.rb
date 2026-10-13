@@ -66,6 +66,16 @@ RSpec.describe Voice::RingReadiness do
     expect(readiness.rings?(readiness.memberships.first)).to be(false)
   end
 
+  it 'does not ring an Android phone while the APNs environment would stop the ring' do
+    config.merge!('APNS_VOIP_ENVIRONMENT' => 'prod', 'FIREBASE_PROJECT_ID' => 'project', 'FIREBASE_CREDENTIALS' => '{}')
+    user.notification_subscriptions.where(subscription_type: 'apns_voip').destroy_all
+    user.notification_subscriptions.create!(subscription_type: 'fcm', identifier: 'android-1',
+                                            subscription_attributes: { 'push_token' => 'a1', 'devicePlatform' => 'Android' })
+
+    expect(readiness.android).to have_attributes(configured: true, devices: 1)
+    expect(readiness.rings?(readiness.memberships.first)).to be(false)
+  end
+
   it 'reports an APNs environment the push would reject' do
     config['APNS_VOIP_ENVIRONMENT'] = 'prod'
 
