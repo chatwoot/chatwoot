@@ -11,6 +11,10 @@ class Voice::ApnsVoipSender
   # stalled first push does not hold up the iPhones after it
   PUSH_TIMEOUT_SECONDS = 10
 
+  # How long the first push, which also sets up TLS, may take in all. The connection's own
+  # timeouts do not cover the TLS handshake, so a connection that stalls there is given up.
+  FIRST_PUSH_DEADLINE_SECONDS = 15
+
   # Returns the tokens Apple reported as gone. The first push goes alone: APNs allows more
   # requests at once on a connection only after its first. `proceed` is asked on the calling
   # thread before each batch after the first push; once it returns false the rest are not sent.
@@ -19,18 +23,33 @@ class Voice::ApnsVoipSender
 
     connection = new_connection
     first, *rest = tokens
-    outcomes = { first => deliver(connection, first, payload) }
-    rest.each_slice(BATCH_SIZE) do |batch|
-      break unless proceed.call
+    outcomes = { first => deliver_first(connection, first, payload) }
+    return [] if outcomes[first].nil?
 
-      outcomes.merge!(deliver_batch(connection, batch, payload))
-    end
+    outcomes.merge!(deliver_rest(connection, rest, payload, proceed))
     outcomes.filter_map { |token, outcome| token if outcome == :gone }
   ensure
     connection&.close
   end
 
   private
+
+  # nil when the push did not finish in time; closing the connection then ends it
+  def deliver_first(connection, token, payload)
+    attempt = Thread.new { deliver(connection, token, payload) }
+    return attempt.value if attempt.join(FIRST_PUSH_DEADLINE_SECONDS)
+
+    Rails.logger.error("[VOIP PUSH] apple ring call #{call_id}: connection did not finish its first push in time")
+    nil
+  end
+
+  def deliver_rest(connection, tokens, payload, proceed)
+    tokens.each_slice(BATCH_SIZE).with_object({}) do |batch, outcomes|
+      break outcomes unless proceed.call
+
+      outcomes.merge!(deliver_batch(connection, batch, payload))
+    end
+  end
 
   def deliver_batch(connection, tokens, payload)
     tokens.zip(tokens.map { |token| Thread.new { deliver(connection, token, payload) } }.map(&:value)).to_h
