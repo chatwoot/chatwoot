@@ -25,7 +25,7 @@ class Voice::VoipPushService
   # Android deliveries in flight at once per call
   ANDROID_BATCH_SIZE = 20
   # How long a batch of Android pushes may take; the FCM client sets no timeout of its own.
-  # A push still waiting then counts as failed and is left to finish on its own.
+  # A push still waiting then is stopped and counts as failed.
   ANDROID_PUSH_TIMEOUT_SECONDS = 10
 
   # The agents a call rings; see Voice::RingRecipients
@@ -117,9 +117,7 @@ class Voice::VoipPushService
     nil
   end
 
-  def payloads
-    @payloads ||= Voice::VoipPushPayloads.new(call: call)
-  end
+  def payloads = (@payloads ||= Voice::VoipPushPayloads.new(call: call))
 
   def with_rails(&)
     Rails.application.executor.wrap(&)
@@ -228,9 +226,7 @@ class Voice::VoipPushService
 
   # MARK: Android
 
-  def firebase_config
-    [config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')]
-  end
+  def firebase_config = [config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')]
 
   def fcm_client(project_id, credentials)
     Notification::FcmService.new(project_id, credentials).fcm_client
@@ -249,8 +245,17 @@ class Voice::VoipPushService
   def deliver_android_batch(client, batch, data, kind)
     threads = batch.map { |token| Thread.new { with_rails { deliver_android(client, token, data, kind) } } }
     deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + ANDROID_PUSH_TIMEOUT_SECONDS
-    outcomes = threads.map { |thread| thread.join([deadline - Process.clock_gettime(Process::CLOCK_MONOTONIC), 0].max) ? thread.value : :failed }
+    outcomes = threads.map { |thread| finish_by(thread, deadline) }
     batch.zip(outcomes).filter_map { |token, outcome| token if outcome == :gone }
+  end
+
+  # A push still waiting at the deadline is stopped, so it neither lingers nor lands after
+  # the cancel that follows a ring
+  def finish_by(thread, deadline)
+    return thread.value if thread.join([deadline - Process.clock_gettime(Process::CLOCK_MONOTONIC), 0].max)
+
+    thread.kill
+    :failed
   end
 
   def deliver_android(client, token, data, kind)
@@ -275,7 +280,5 @@ class Voice::VoipPushService
     response[:status_code] == 404 && response[:body].to_s.include?('UNREGISTERED') ? :gone : :failed
   end
 
-  def config(name, default = nil)
-    GlobalConfigService.load(name, default)
-  end
+  def config(name, default = nil) = GlobalConfigService.load(name, default)
 end
