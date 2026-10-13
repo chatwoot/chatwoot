@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "story": 22,
+  "observed_at": "2026-10-13T13:24:11Z",
+  "environment": {
+    "revision": "1d945ccdc5ea618d77b8dc4b40d7d2c614ebd0f1",
+    "composer": "authenticated_web",
+    "account_mode": "test",
+    "webhook_verified": true,
+    "messages_subscription_active": true,
+    "recipient_allowlisted": true,
+    "recipient_consent_confirmed": true
+  },
+  "scenarios": {
+    "url_carousel": {
+      "result": "passed",
+      "outbound": {
+        "created_at": "2026-10-13T13:17:17Z",
+        "status": "read",
+        "body": "Story 22 URL carousel verification",
+        "card_count": 2,
+        "provider_message_fingerprint": "sha256:d259fb8899d3da8538130960aac95a1a2c47288b38e0081f2d35c0f387e6ef3d",
+        "delivery_fingerprint": "sha256:0eaa69a16d7c358a329a7111a809bd2f9a7ff489596bdda17538705e9e03e05d"
+      },
+      "recipient_observation": {
+        "rendering": "native_image_carousel",
+        "flattened": false,
+        "card_count": 2,
+        "both_images_visible": true,
+        "actions": [
+          {
+            "title": "Open Wikipedia",
+            "destination": "https://www.wikipedia.org/",
+            "opened": true
+          },
+          {
+            "title": "Open Mozilla",
+            "destination": "https://www.mozilla.org/",
+            "opened": true
+          }
+        ],
+        "url_click_webhook_claimed": false
+      }
+    },
+    "quick_reply_carousel": {
+      "result": "passed",
+      "outbound": {
+        "created_at": "2026-10-13T13:19:58Z",
+        "status": "read",
+        "body": "Story 22 quick-reply carousel verification",
+        "card_count": 2,
+        "provider_message_fingerprint": "sha256:4d149c20ecf4cf0b6f4fac4a65b83b91320ec33a284c17c9a2abe148f2334227",
+        "delivery_fingerprint": "sha256:a3ab7bbaf7390c1faafb17a4075a3a633882f897fa93ace3976bb64b0712842c",
+        "options": [
+          {
+            "card_index": 0,
+            "title": "Select Alpha",
+            "delivery_fingerprint": "sha256:e45dd9aa62f57b673e5b426a4d4c7b90fb305484f8ce147499b3b87d2c3009fb",
+            "preset_mapping_present": false
+          },
+          {
+            "card_index": 1,
+            "title": "Choose Beta",
+            "delivery_fingerprint": "sha256:9e683de0f0fe8257c7ca66ea9c607e1058127e60ca32256146eef0b03e6b4a1d",
+            "preset_mapping_present": false
+          }
+        ]
+      },
+      "recipient_observation": {
+        "rendering": "native_image_carousel",
+        "flattened": false,
+        "card_count": 2,
+        "both_images_visible": true,
+        "button_titles": [
+          "Select Alpha",
+          "Choose Beta"
+        ],
+        "selection_performed": true,
+        "selection_count": 2,
+        "additional_selection_observed": true
+      },
+      "correlation_boundary": {
+        "provider_reply_shape": "legacy_button",
+        "level": "message_and_context_only",
+        "structured_reply_persisted": false,
+        "delivery_correlation_present": false,
+        "preset_mapping_present": false,
+        "card_index_present": false
+      },
+      "inbound": [
+        {
+          "created_at": "2026-10-13T13:20:51Z",
+          "title": "Select Alpha",
+          "inbound_message_fingerprint": "sha256:a367613375c7fcd7402955ec5143e208948604a13765c1805450f350ba570d3d",
+          "context_fingerprint": "sha256:4d149c20ecf4cf0b6f4fac4a65b83b91320ec33a284c17c9a2abe148f2334227",
+          "originating_message_fingerprint": "sha256:a3ab7bbaf7390c1faafb17a4075a3a633882f897fa93ace3976bb64b0712842c",
+          "readable_content_persisted": true
+        },
+        {
+          "created_at": "2026-10-13T13:20:54Z",
+          "title": "Choose Beta",
+          "inbound_message_fingerprint": "sha256:c28474616c0273f299e922da2138b3ba7949770067a57f40a3896a0564bb5036",
+          "context_fingerprint": "sha256:4d149c20ecf4cf0b6f4fac4a65b83b91320ec33a284c17c9a2abe148f2334227",
+          "originating_message_fingerprint": "sha256:a3ab7bbaf7390c1faafb17a4075a3a633882f897fa93ace3976bb64b0712842c",
+          "readable_content_persisted": true
+        }
+      ]
+    }
+  },
+  "coverage": [
+    "SCN-06",
+    "SCN-07",
+    "SCN-13",
+    "SCN-20"
+  ]
+}
