@@ -8,7 +8,8 @@ class Voice::FcmVoipSender
   BATCH_SIZE = 20
 
   # How long a batch may take; the FCM client sets no timeout of its own. A push still
-  # waiting then counts as failed and is left to finish on its own.
+  # waiting then is stopped, so it neither lingers nor lands after the cancel that follows
+  # a ring, and counts as failed.
   PUSH_TIMEOUT_SECONDS = 10
 
   # Returns each token's outcome: :sent, :gone when Firebase reports it unregistered, or :failed.
@@ -27,7 +28,12 @@ class Voice::FcmVoipSender
 
   def within_timeout(threads)
     deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + PUSH_TIMEOUT_SECONDS
-    threads.map { |thread| thread.join([deadline - Process.clock_gettime(Process::CLOCK_MONOTONIC), 0].max) ? thread.value : :failed }
+    threads.map do |thread|
+      next thread.value if thread.join([deadline - Process.clock_gettime(Process::CLOCK_MONOTONIC), 0].max)
+
+      thread.kill
+      :failed
+    end
   end
 
   def deliver_one(token, data, kind)
