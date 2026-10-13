@@ -18,9 +18,7 @@ class Voice::Conference::Manager
 
   private
 
-  def status_manager
-    @status_manager ||= Voice::CallStatus::Manager.new(call: call)
-  end
+  def status_manager = (@status_manager ||= Voice::CallStatus::Manager.new(call: call))
 
   def mark_ringing!
     # Guard against delayed conference-start retries rolling a progressed call back to ringing.
@@ -128,8 +126,15 @@ class Voice::Conference::Manager
     return unless live
     return if agent_participant? && agent_still_on_call?
 
+    complete_call!
+  end
+
+  # An outbound contact still being dialled is not in the conference yet, so ending it does
+  # not reach them; their leg is hung up as well
+  def complete_call!
     status_manager.process_status_update('completed', timestamp: now)
     end_conference!
+    hang_up_contact! if call.outgoing?
   end
 
   # Another agent is in the conference or on their way in; with none, the call is completed
@@ -145,9 +150,7 @@ class Voice::Conference::Manager
     true
   end
 
-  def leave_agent_leg!
-    call.with_lock { call.record_agent_leg!(participant_call_sid, 'gone') }
-  end
+  def leave_agent_leg! = call.with_lock { call.record_agent_leg!(participant_call_sid, 'gone') }
 
   # Whether the leave left a live call behind; a call still ringing is marked unanswered
   def leave_finds_live_call?
@@ -190,12 +193,17 @@ class Voice::Conference::Manager
   end
 
   # A conference no agent entered has not started, so ending it finds nothing; the
-  # contact's leg waiting in it is hung up as well, by a job that retries if Twilio fails
+  # contact's leg waiting in it is hung up as well
   def end_unjoined_call!
     end_conference!
+    hang_up_contact!
+  end
+
+  # The contact's leg is hung up, by a job that retries if Twilio fails
+  def hang_up_contact!
     conference_service.terminate_call
   rescue StandardError => e
-    Rails.logger.error("[VOICE] call #{call.id}: could not hang up the contact after a failed join: #{e.class}: #{e.message}")
+    Rails.logger.error("[VOICE] call #{call.id}: could not hang up the contact: #{e.class}: #{e.message}")
     Voice::HangUpContactJob.perform_later(call.id)
   end
 
@@ -274,9 +282,7 @@ class Voice::Conference::Manager
     Voice::EndConferenceJob.perform_later(call.id)
   end
 
-  def conference_service
-    @conference_service ||= Voice::Provider::Twilio::ConferenceService.new(call: call)
-  end
+  def conference_service = (@conference_service ||= Voice::Provider::Twilio::ConferenceService.new(call: call))
 
   def finalize!
     return if Call::TERMINAL_STATUSES.include?(call.status)

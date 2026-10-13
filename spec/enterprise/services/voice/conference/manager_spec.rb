@@ -49,6 +49,22 @@ RSpec.describe Voice::Conference::Manager do
       expect(conference).to have_received(:end_conference)
     end
 
+    it 'hangs up an outbound contact still being dialled when the last agent leaves' do
+      call.update!(direction: :outgoing)
+
+      leave(agent_label)
+
+      expect(call.reload.status).to eq('completed')
+      expect(conference).to have_received(:terminate_call)
+    end
+
+    it 'leaves that hang-up to a job when Twilio cannot do it' do
+      call.update!(direction: :outgoing)
+      allow(conference).to receive(:terminate_call).and_raise(Twilio::REST::TwilioError)
+
+      expect { leave(agent_label) }.to have_enqueued_job(Voice::HangUpContactJob).with(call.id)
+    end
+
     it 'keeps the call live while another agent is still on it' do
       allow(conference).to receive(:agents_remain?).and_return(true)
 
