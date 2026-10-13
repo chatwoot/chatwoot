@@ -45,8 +45,8 @@ class Voice::VoipPushService
   private
 
   # Both platforms and every device go out at the same time, so no phone waits on another
-  # device's round trip. Payloads, configuration and clients are built here, on the job's
-  # thread and connection; the threads only make the HTTP requests.
+  # device's round trip. Payloads and configuration are read here, on the job's thread and
+  # connection; the threads set up the clients and make the HTTP requests.
   #
   # The status check and the record of who is rung happen under the row lock, so a
   # terminate cannot slip between them: it either lands first and there is nothing to
@@ -65,15 +65,27 @@ class Voice::VoipPushService
     cancel(android - stale_android.to_a) unless call.reload.ringing?
   end
 
+  # Each platform's client is set up on its own thread, so a slow Google token request does
+  # not hold up the iPhones
   def deliver_ring(apple, android)
-    sender = platform_client('apple') { Voice::ApnsVoipSender.new(settings: apple_settings, call_id: call.id) } if apple.any?
-    client = platform_client('android') { fcm_client } if android.any?
-    payload = ring_payload
-    data = ring_data
+    settings = apple_settings if apple.any?
+    firebase = firebase_config if android.any?
+    payload = payloads.ring
+    data = payloads.ring_data
     [
-      Thread.new { with_rails { sender ? sender.ring(apple, payload) : [] } },
-      Thread.new { with_rails { client ? deliver_android_all(client, android, data, 'ring') : [] } }
+      Thread.new { with_rails { apple.any? ? ring_apple(settings, apple, payload) : [] } },
+      Thread.new { with_rails { android.any? ? ring_android(firebase, android, data) : [] } }
     ].map(&:value)
+  end
+
+  def ring_apple(settings, tokens, payload)
+    sender = platform_client('apple') { Voice::ApnsVoipSender.new(settings: settings, call_id: call.id) }
+    sender ? sender.ring(tokens, payload) : []
+  end
+
+  def ring_android(firebase, tokens, data)
+    client = platform_client('android') { fcm_client(*firebase) }
+    client ? deliver_android_all(client, tokens, data, 'ring') : []
   end
 
   def devices_to_ring
@@ -88,8 +100,8 @@ class Voice::VoipPushService
     forget_rung_devices
     return if tokens.blank?
 
-    data = cancel_data
-    client = platform_client('android') { fcm_client }
+    data = payloads.cancel_data
+    client = platform_client('android') { fcm_client(*firebase_config) }
     return unless client
 
     forget_devices(ANDROID, with_rails { deliver_android_all(client, tokens, data, 'cancel') })
@@ -102,6 +114,10 @@ class Voice::VoipPushService
   rescue StandardError => e
     Rails.logger.error("[VOIP PUSH] call #{call.id}: #{platform} client failed: #{e.class}: #{e.message}")
     nil
+  end
+
+  def payloads
+    @payloads ||= Voice::VoipPushPayloads.new(call: call)
   end
 
   def with_rails(&)
@@ -164,39 +180,6 @@ class Voice::VoipPushService
                             .destroy_all
   end
 
-  # MARK: payloads
-
-  def base_payload
-    {
-      call_id: call.provider_call_id,
-      id: call.id,
-      provider: call.provider,
-      direction: call.direction_label,
-      # The app addresses conversations by their display id
-      conversation_id: call.conversation.display_id,
-      inbox_id: call.inbox_id,
-      account_id: call.account_id
-    }
-  end
-
-  def ring_payload
-    contact = call.contact
-    base_payload.merge(
-      type: 'voice_call.incoming',
-      caller: { name: contact&.name, phone: contact&.phone_number, avatar: contact&.avatar_url.presence },
-      inbox_name: call.inbox.name
-    )
-  end
-
-  # FCM data values must all be strings, and the caller travels as JSON
-  def ring_data
-    ring_payload.except(:caller).transform_keys(&:to_s).transform_values(&:to_s).merge('caller' => ring_payload[:caller].to_json)
-  end
-
-  def cancel_data
-    base_payload.merge(type: 'voice_call.cancel', reason: call.status).transform_keys(&:to_s).transform_values(&:to_s)
-  end
-
   # MARK: Apple
 
   APNS_ENVIRONMENTS = %w[development production].freeze
@@ -244,8 +227,12 @@ class Voice::VoipPushService
 
   # MARK: Android
 
-  def fcm_client
-    Notification::FcmService.new(config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')).fcm_client
+  def firebase_config
+    [config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')]
+  end
+
+  def fcm_client(project_id, credentials)
+    Notification::FcmService.new(project_id, credentials).fcm_client
   end
 
   # Returns the tokens Firebase reported as unregistered
