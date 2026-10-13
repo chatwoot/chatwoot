@@ -82,7 +82,15 @@ class Call < ApplicationRecord
   def missed?
     return false unless incoming?
 
-    status == 'no_answer' || (%w[completed failed].include?(status) && accepted_by_agent_id.nil?)
+    status == 'no_answer' || (%w[completed failed].include?(status) && !answered_by_agent?)
+  end
+
+  # A Twilio claim counts once the agent's leg joined the conference: a claim whose leg
+  # never joined leaves the caller unanswered
+  def answered_by_agent?
+    return false if accepted_by_agent_id.nil?
+
+    !twilio? || accepted_broadcast_at.present?
   end
 
   # nil = a channel with no call settings, or a call that predates them: record.

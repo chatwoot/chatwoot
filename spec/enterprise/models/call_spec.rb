@@ -59,7 +59,19 @@ RSpec.describe Call do
     end
 
     it 'does not for a call an agent answered' do
-      call.update!(status: 'in_progress', accepted_by_agent: create(:user, account: account))
+      call.update!(status: 'in_progress', accepted_by_agent: create(:user, account: account), accepted_broadcast_at: Time.zone.now.to_i)
+
+      expect { call.update!(status: 'completed') }.not_to have_enqueued_job(Voice::MissedCallNotificationJob)
+    end
+
+    it 'enqueues it for a Twilio call an agent claimed but never joined' do
+      call.update!(accepted_by_agent: create(:user, account: account))
+
+      expect { call.update!(status: 'completed') }.to have_enqueued_job(Voice::MissedCallNotificationJob).with(call.id)
+    end
+
+    it 'does not for a WhatsApp call an agent answered' do
+      call.update!(provider: :whatsapp, status: 'in_progress', accepted_by_agent: create(:user, account: account))
 
       expect { call.update!(status: 'completed') }.not_to have_enqueued_job(Voice::MissedCallNotificationJob)
     end
