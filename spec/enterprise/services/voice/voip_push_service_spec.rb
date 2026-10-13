@@ -449,6 +449,27 @@ RSpec.describe Voice::VoipPushService do
       expect(lease_at_second_push).to be > 1.minute.ago.to_i
     end
 
+    it 'settles a ring that had no device to send to' do
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([])
+    end
+
+    it 'counts an agent whose devices the ring stopped before sending to as not reached' do
+      stub_const('Voice::ApnsVoipSender::BATCH_SIZE', 1)
+      subscribe(other_agent, 'apns_voip', 'apple-first')
+      subscribe(agent, 'apns_voip', 'apple-skipped')
+      allow(apple_connection).to receive(:push) do
+        call.update_columns(status: 'in_progress') # rubocop:disable Rails/SkipsModelValidations
+        apple_response
+      end
+
+      described_class.new(call: call).perform('ring')
+
+      expect(apple_connection).to have_received(:push).once
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+    end
+
     it 'keeps an agent reached by another attempt at the ring reached' do
       subscribe(agent, 'apns_voip', 'apple-1')
       call.update!(ring_state: { 'ring_recipient_ids' => [agent.id], 'unreached_user_ids' => [] })

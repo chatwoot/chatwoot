@@ -69,9 +69,10 @@ class Voice::VoipPushService
     return if prepared.nil?
     return Voice::VoipPushJob.set(wait: prepared.seconds).perform_later(call.id, 'ring') if prepared.is_a?(Integer)
 
-    apple, android = prepared
-    return replay_new_message_notification if apple.empty? && android.empty?
+    return replay_new_message_notification if prepared == :settled
 
+    # A ring with no device to send to is settled all the same, so it is not taken up again
+    apple, android = prepared
     apple_results, android_results = deliver_ring(apple, android)
     settle_ring(apple_results, android_results)
     # The tokens just rung are used, not the stored ones: a cancel that ran while these
@@ -184,7 +185,7 @@ class Voice::VoipPushService
   # stopped after choosing whom to ring, without recording an outcome, is prepared and sent
   # again once that lease runs out.
   def prepare_ring
-    return [[], []] if call.ring_state.key?('unreached_user_ids')
+    return :settled if call.ring_state.key?('unreached_user_ids')
 
     lease_left = call.ring_state['ring_started_at'].to_i + RING_LEASE_SECONDS - Time.zone.now.to_i
     lease_left.positive? ? lease_left : remember_ring
@@ -236,10 +237,9 @@ class Voice::VoipPushService
 
   def replay_new_message_notification = call.reload.message&.then { |message| Messages::NewMessageNotificationService.new(message: message).perform }
 
-  # The agents none of whose devices took the ring
+  # The agents none of whose devices took the ring, a device the ring stopped before sending to included
   def unreached_user_ids(results)
-    owners = results.keys.filter_map { |token| [token_owners[token], token] if token_owners[token] }
-    owners.map(&:first).uniq - owners.filter_map { |user_id, token| user_id if results[token] == :sent }
+    token_owners.values.uniq - results.filter_map { |token, outcome| token_owners[token] if outcome == :sent }
   end
 
   # A device the platform no longer knows is removed so it stops costing a request per ring
