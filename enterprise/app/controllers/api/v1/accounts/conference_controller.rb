@@ -53,7 +53,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def valid_attempt_id?
     attempt = params[:attempt_id]
-    attempt.blank? || (attempt.is_a?(String) && attempt.match?(ATTEMPT_ID_FORMAT))
+    attempt.nil? || (attempt.is_a?(String) && attempt.match?(ATTEMPT_ID_FORMAT))
   end
 
   def resolve_call!

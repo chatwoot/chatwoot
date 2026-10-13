@@ -110,6 +110,18 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
         expect(conference_service).not_to have_received(:mark_agent_joined)
       end
 
+      [false, [], {}, ''].each do |attempt|
+        it "refuses a blank attempt id given as #{attempt.inspect}" do
+          post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
+               headers: agent.create_new_auth_token,
+               params: { conversation_id: conversation.display_id, call_sid: 'CALL123', attempt_id: attempt },
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(conference_service).not_to have_received(:mark_agent_joined)
+        end
+      end
+
       it 'rejects the request when call_sid is missing' do
         post "/api/v1/accounts/#{account.id}/inboxes/#{voice_inbox.id}/conference",
              headers: agent.create_new_auth_token,
