@@ -941,10 +941,12 @@ en:
         credentials:
           apple: 'Needs APNS_VOIP_KEY, APNS_VOIP_KEY_ID and APNS_VOIP_TEAM_ID'
           android: 'Needs FIREBASE_PROJECT_ID and FIREBASE_CREDENTIALS'
+        invalid_environment: 'APNS_VOIP_ENVIRONMENT must be development or production'
         account_columns:
           account: 'Account'
           voice: 'Voice Channel'
           ringing: 'Mobile Voice Push'
+          inboxes: 'Voice inboxes'
           status: 'Status'
           rings: 'Phone rings'
         'on': 'On'

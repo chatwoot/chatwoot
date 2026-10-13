@@ -6,22 +6,34 @@ RSpec.describe Voice::RingReadiness do
   let!(:account_user) { create(:account_user, account: account, user: user) }
   let(:config) { { 'APNS_VOIP_KEY' => 'p8', 'APNS_VOIP_KEY_ID' => 'KEY1', 'APNS_VOIP_TEAM_ID' => 'TEAM1' } }
   let(:readiness) { described_class.new(user: user) }
+  let(:voice_inbox) { create(:channel_twilio_sms, :with_voice, account: account).inbox }
 
   before do
+    allow(Twilio::VoiceWebhookSetupService).to receive(:new)
+      .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(16)}"))
     allow(GlobalConfigService).to receive(:load) { |key, default| config.fetch(key, default) }
     account.enable_features!('channel_voice', 'mobile_voice_push')
+    create(:inbox_member, inbox: voice_inbox, user: user)
     user.notification_subscriptions.create!(subscription_type: 'apns_voip', identifier: 'voip:device-1',
                                             subscription_attributes: { 'push_token' => 'voip-1', 'device_id' => 'device-1' })
   end
 
-  it 'rings an online agent with an iPhone on an account with both features' do
+  it 'rings an online agent of a voice inbox with an iPhone on an account with both features' do
     expect(readiness.apple).to have_attributes(configured: true, devices: 1)
+    expect(readiness.memberships.first.voice_inboxes).to eq(1)
     expect(readiness.rings?(readiness.memberships.first)).to be(true)
   end
 
   it 'does not ring an agent who is not online' do
     account_user.update!(availability: :busy)
 
+    expect(readiness.rings?(readiness.memberships.first)).to be(false)
+  end
+
+  it 'does not ring an agent outside every voice inbox' do
+    InboxMember.where(user: user).destroy_all
+
+    expect(readiness.memberships.first.voice_inboxes).to eq(0)
     expect(readiness.rings?(readiness.memberships.first)).to be(false)
   end
 
@@ -34,7 +46,14 @@ RSpec.describe Voice::RingReadiness do
   it 'does not ring when the installation cannot push to any registered device' do
     config.delete('APNS_VOIP_KEY')
 
-    expect(readiness.apple.configured).to be(false)
+    expect(readiness.apple).to have_attributes(configured: false, problem: 'credentials')
+    expect(readiness.rings?(readiness.memberships.first)).to be(false)
+  end
+
+  it 'reports an APNs environment the push would reject' do
+    config['APNS_VOIP_ENVIRONMENT'] = 'prod'
+
+    expect(readiness.apple).to have_attributes(configured: false, problem: 'environment')
     expect(readiness.rings?(readiness.memberships.first)).to be(false)
   end
 

@@ -36,7 +36,7 @@
               <% else %>
                 <span class="inline-flex flex-wrap items-center gap-1.5">
                   <%= render "badge", label: t("#{calls}.not_configured"), tone: :danger %>
-                  <span class="text-label-small text-n-slate-11"><%= t("#{calls}.credentials.#{platform}") %></span>
+                  <span class="text-label-small text-n-slate-11"><%= t(state.problem == "environment" ? "#{calls}.invalid_environment" : "#{calls}.credentials.#{platform}") %></span>
                 </span>
               <% end %>
             </td>
@@ -53,7 +53,7 @@
       <%= render "table" do %>
         <thead>
           <tr>
-            <% %w[account voice ringing status rings].each do |column| %>
+            <% %w[account voice ringing inboxes status rings].each do |column| %>
               <th><%= t("#{calls}.account_columns.#{column}") %></th>
             <% end %>
           </tr>
@@ -70,6 +70,7 @@
               <% [membership.voice_enabled, membership.ringing_enabled].each do |enabled| %>
                 <td><%= render "badge", label: t("#{calls}.#{enabled ? 'on' : 'off'}"), tone: enabled ? :success : :neutral %></td>
               <% end %>
+              <td class="tabular-nums"><%= membership.voice_inboxes %></td>
               <td><%= render "badge", label: t("#{calls}.availability.#{membership.availability}"), tone: availability_tones.fetch(membership.availability, :neutral) %></td>
               <td>
                 <% if readiness.rings?(membership) %>
