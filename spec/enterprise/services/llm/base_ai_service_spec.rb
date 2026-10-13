@@ -43,6 +43,30 @@ RSpec.describe Llm::BaseAiService do
     end
   end
 
+  describe 'routed request format' do
+    it 'uses Responses JSON mode and the requested effort for a shared text flow' do
+      allow(Llm::FeatureRouter).to receive(:reasoning_effort).and_call_original
+      allow(Llm::FeatureRouter).to receive(:reasoning_effort).with(feature: 'document_faq_generation', model: 'gpt-5.2').and_return(:high)
+      chat = described_class.new(feature: 'document_faq_generation', account: account).json_chat(model: 'gpt-5.2')
+      chat.with_instructions('Generate FAQs as JSON.').add_message(role: :user, content: 'Acme opens at 9 am.')
+
+      expect(chat.render).to include(input: an_instance_of(Array), text: { format: { type: 'json_object' } }, reasoning: { effort: 'high' })
+      expect(chat.render[:input].to_json).to include('Respond with valid JSON.')
+      expect(chat.render).not_to have_key(:temperature)
+      expect(chat.render).not_to have_key(:response_format)
+    end
+
+    it 'retains the existing JSON format and protocol on custom endpoints' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
+      chat = described_class.new(feature: 'document_faq_generation', account: account).json_chat(model: 'gpt-4.1')
+      chat.add_message(role: :user, content: 'Generate JSON FAQs.')
+
+      expect(chat.render).to include(messages: an_instance_of(Array), response_format: { type: 'json_object' })
+      expect(chat.render).not_to have_key(:reasoning)
+      expect(chat.render).not_to have_key(:input)
+    end
+  end
+
   describe '#sanitize_json_response' do
     it 'strips ```json fences' do
       input = "```json\n{\"key\": \"value\"}\n```"
@@ -73,7 +97,7 @@ RSpec.describe Llm::BaseAiService do
     %w[gpt-5.1 gpt-5.2].each do |model|
       it "omits temperature for #{model} when the model registry marks it unsupported" do
         llm_chat = instance_double(RubyLLM::Chat)
-        allow(RubyLLM).to receive(:chat).with(model: model).and_return(llm_chat)
+        allow(RubyLLM).to receive(:chat).with(model: model, protocol: :responses).and_return(llm_chat)
 
         expect(llm_chat).not_to receive(:with_temperature)
         expect(service.chat(model: model)).to eq(llm_chat)
@@ -83,7 +107,7 @@ RSpec.describe Llm::BaseAiService do
     it 'sets temperature when the model registry marks it supported' do
       llm_chat = instance_double(RubyLLM::Chat)
       configured_chat = instance_double(RubyLLM::Chat)
-      allow(RubyLLM).to receive(:chat).with(model: 'gpt-4.1-mini').and_return(llm_chat)
+      allow(RubyLLM).to receive(:chat).with(model: 'gpt-4.1-mini', protocol: :responses).and_return(llm_chat)
       allow(llm_chat).to receive(:with_temperature).with(0.7).and_return(configured_chat)
 
       expect(service.chat(model: 'gpt-4.1-mini', temperature: 0.7)).to eq(configured_chat)
