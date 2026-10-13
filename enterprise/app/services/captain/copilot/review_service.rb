@@ -57,6 +57,7 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
     llm = chat(model: @model, **options).with_instructions(SYSTEM_PROMPT).with_schema(Captain::Copilot::ReviewResponseSchema)
     llm.after_message do |message|
       record_llm_generation(llm, message)
+      record_generation_cost(@run, message)
       @run.with_lease(@token) { @run.account.increment_response_usage }
     end
     llm

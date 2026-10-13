@@ -11,6 +11,8 @@ class CreateCopilotRuns < ActiveRecord::Migration[7.2]
       t.string :status, null: false, default: 'queued'
       t.jsonb :context, null: false, default: {}
       t.jsonb :transcript, null: false, default: {}
+      t.decimal :total_cost_usd, precision: 16, scale: 10, null: false, default: 0
+      t.boolean :cost_complete, null: false, default: true
       t.datetime :lease_until
       t.string :lease_token
       t.integer :attempts, null: false, default: 0

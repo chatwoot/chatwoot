@@ -54,10 +54,19 @@ class Captain::Copilot::ScreeningService
     state = { conversation: { messages: messages } }
     question = { type: 'noul', instructions: { question: @run.question, evidence: EVIDENCE_RULE } }
     body = Captain::JevClient.request_body(model: MODEL, state: state, questions: { match: question })
-    Float(@client.call(body: body).dig('answers', 'match', 'noul'))
+    response = @client.call(body: body)
+    record_cost(response.dig('usage', 'cost'))
+    Float(response.dig('answers', 'match', 'noul'))
   rescue StandardError => e
+    record_cost(nil) unless response
     ChatwootExceptionTracker.new(e, account: @run.account).capture_exception
     nil
+  end
+
+  def record_cost(amount)
+    @run.record_cost!(amount)
+  rescue StandardError => e
+    Rails.logger.warn "Failed to record Jev screening cost: #{e.message}"
   end
 
   # Customer and agent messages up to as_of, with private notes, as the review model sees them.

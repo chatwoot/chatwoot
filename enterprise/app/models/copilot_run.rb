@@ -5,11 +5,13 @@
 #  id                   :bigint           not null, primary key
 #  attempts             :integer          default(0), not null
 #  context              :jsonb            not null
+#  cost_complete        :boolean          default(TRUE), not null
 #  error                :string
 #  kind                 :string           not null
 #  lease_token          :string
 #  lease_until          :datetime
 #  status               :string           default("queued"), not null
+#  total_cost_usd       :decimal(16, 10)   default(0.0), not null
 #  transcript           :jsonb            not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
@@ -111,6 +113,19 @@ class CopilotRun < ApplicationRecord
   # The turn this run belongs to. Collections and reviews are started by one of its tool calls.
   def turn
     turn? ? self : copilot_tool_call.copilot_run
+  end
+
+  # Provider costs are stored on the user turn, including calls made by its background review.
+  # This keeps account and turn-level reporting simple without double-counting child runs.
+  def record_cost!(amount)
+    target = turn
+    target.with_lock do
+      if amount.nil?
+        target.update!(cost_complete: false)
+      else
+        target.update!(total_cost_usd: target.total_cost_usd + BigDecimal(amount.to_s))
+      end
+    end
   end
 
   def selected_ids

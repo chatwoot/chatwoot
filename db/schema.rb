@@ -1073,6 +1073,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_14_152259) do
     t.string "status", default: "queued", null: false
     t.jsonb "context", default: {}, null: false
     t.jsonb "transcript", default: {}, null: false
+    t.decimal "total_cost_usd", precision: 16, scale: 10, default: "0.0", null: false
+    t.boolean "cost_complete", default: true, null: false
     t.datetime "lease_until"
     t.string "lease_token"
     t.integer "attempts", default: 0, null: false

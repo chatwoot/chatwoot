@@ -90,6 +90,7 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService # rubocop:di
   def setup_event_handlers(llm)
     llm.after_message do |message|
       record_llm_generation(llm, message)
+      record_generation_cost(@run, message)
       @transcript.save(@token)
     end
     llm.before_tool_call { |call| start_tool_call(call) }
