@@ -10,6 +10,7 @@
     .tool input { display: block; width: 100%; box-sizing: border-box; margin-top: 0.25rem; padding: 0.375rem 0.5rem; font: inherit; color: #1f2933; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; }
     .tool button { width: 100%; padding: 0.375rem 0.5rem; font: inherit; color: #1f2933; background: #fff; border: 1px solid #d1d5db; border-radius: 0.375rem; cursor: pointer; }
     .tool button:hover { background: #f9fafb; }
+    .tool button:disabled { opacity: 0.5; cursor: not-allowed; }
     .tool .row { display: flex; gap: 0.5rem; }
     .tool .note, .tool .status { margin: 0 0 0.625rem; color: #6b7280; }
     .tool .status.verified { color: #15803d; }
@@ -60,7 +61,7 @@
 
     <section class="tool">
       <p class="note">Runs <code>$chatwoot.reset()</code> and reloads as an anonymous visitor.</p>
-      <button type="button" onclick="resetSession()">Reset session</button>
+      <button type="button" id="reset-session" onclick="resetSession()" disabled>Reset session</button>
     </section>
 
     <section class="tool fill">
@@ -203,6 +204,8 @@ window.chatwootSettings = {
 window.addEventListener('chatwoot:ready', function() {
   console.log('chatwoot:ready', window.$chatwoot);
   logEvent('chatwoot:ready');
+  // Reset needs the SDK, so the button stays disabled until here
+  document.getElementById('reset-session').disabled = false;
   // Open the widget on load
   window.$chatwoot.toggle('open');
   // Identify with the HMAC-signed details from the form
