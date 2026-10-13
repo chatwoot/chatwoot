@@ -9,6 +9,7 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
     params_to_update = captain_params
     @current_account.captain_models = params_to_update[:captain_models] if params_to_update.key?(:captain_models)
     @current_account.captain_features = params_to_update[:captain_features] if params_to_update.key?(:captain_features)
+    clear_incompatible_reasoning_efforts(permitted_captain_models.keys) if params_to_update.key?(:captain_models)
     @current_account.save!
 
     render json: preferences_payload
@@ -46,7 +47,7 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
   end
 
   def permitted_captain_models
-    params.require(:captain_models).permit(*captain_feature_keys).to_h.stringify_keys
+    @permitted_captain_models ||= params.require(:captain_models).permit(*captain_feature_keys).to_h.stringify_keys
   end
 
   def permitted_captain_features
@@ -55,6 +56,21 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
 
   def captain_feature_keys
     Llm::Models.feature_keys.map(&:to_sym)
+  end
+
+  def clear_incompatible_reasoning_efforts(updated_features)
+    efforts = @current_account.captain_reasoning_efforts.to_h.stringify_keys
+
+    updated_features.each do |feature|
+      effort = efforts[feature]
+      next if effort.blank?
+
+      model = Llm::FeatureRouter.resolve(feature: feature, account: @current_account)[:model]
+      supported = Llm::Models.provider_for(model) == 'openai' && RubyLLM.models.find(model).reasoning_option_values(:effort).include?(effort)
+      efforts.delete(feature) unless supported
+    end
+
+    @current_account.captain_reasoning_efforts = efforts.presence
   end
 
   def features_with_account_preferences

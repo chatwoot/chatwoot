@@ -96,6 +96,21 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(completion_select.css('option').pluck('value')).to eq([''] + Llm::Models.models_for('conversation_completion'))
       end
 
+      it 'uses the installation model efforts for the blank internal option', if: ChatwootApp.enterprise? do
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
+        sign_in(super_admin, scope: :super_admin)
+
+        get "/super_admin/accounts/#{account.id}/edit"
+
+        document = Nokogiri::HTML(response.body)
+        completion_select = document.at_css('select[name="account[captain_models][conversation_completion]"]')
+        completion_card = completion_select.ancestors('[data-captain-model-controls]').first
+        completion_efforts = JSON.parse(completion_card['data-effort-options'])
+
+        expect(completion_efforts.fetch('').map(&:last)).to eq(%w[none low medium high])
+      end
+
       it 'shows the Captain V2 assistant default in the model selector', if: ChatwootApp.enterprise? do
         account.enable_features!('captain_integration')
         sign_in(super_admin, scope: :super_admin)

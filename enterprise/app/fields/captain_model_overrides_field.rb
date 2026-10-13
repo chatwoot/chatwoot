@@ -40,7 +40,7 @@ class CaptainModelOverridesField < Administrate::Field::Base
       selected_effort: resource.captain_reasoning_efforts&.[](feature_key),
       effort_options: effort_options(route[:model]),
       effort_options_by_model: (Llm::Models.models_for(feature_key) + ['']).index_with do |model|
-        effort_options(model.presence || default_model_id(feature_key))
+        effort_options(model.presence || blank_model_id(feature_key))
       end,
       effective_effort: effective_effort_label(route),
       custom_endpoint: !Llm::FeatureRouter.standard_openai_endpoint?
@@ -72,6 +72,12 @@ class CaptainModelOverridesField < Administrate::Field::Base
     return Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL if feature_key == 'assistant' && resource.feature_enabled?('captain_integration')
 
     Llm::Models.default_model_for(feature_key)
+  end
+
+  def blank_model_id(feature_key)
+    return Llm::FeatureRouter.resolve(feature: feature_key)[:model] if Llm::Models.internal_feature?(feature_key)
+
+    default_model_id(feature_key)
   end
 
   def model_options(feature_key)

@@ -171,12 +171,43 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
       it 'rejects invalid captain model values for the feature' do
         put "/api/v1/accounts/#{account.id}/captain/preferences",
             headers: admin.create_new_auth_token,
-            params: { captain_models: { help_center_query_translation: 'gpt-5.1' } },
+            params: { captain_models: { help_center_query_translation: 'unknown-model' } },
             as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(json_response[:message]).to include('not a valid model for help_center_query_translation')
         expect(account.reload.captain_models).to be_nil
+      end
+
+      it 'clears an incompatible hidden effort when the model changes' do
+        account.update!(
+          captain_models: { 'copilot' => 'gpt-6-luna' },
+          captain_reasoning_efforts: { 'copilot' => 'max' }
+        )
+
+        put "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            params: { captain_models: { copilot: 'gpt-5.2' } },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(account.reload.captain_models).to include('copilot' => 'gpt-5.2')
+        expect(account.captain_reasoning_efforts).to be_nil
+      end
+
+      it 'keeps a compatible hidden effort when the model changes' do
+        account.update!(
+          captain_models: { 'copilot' => 'gpt-6-luna' },
+          captain_reasoning_efforts: { 'copilot' => 'high' }
+        )
+
+        put "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            params: { captain_models: { copilot: 'gpt-5.2' } },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(account.reload.captain_reasoning_efforts).to eq('copilot' => 'high')
       end
 
       it 'removes blank captain model overrides' do

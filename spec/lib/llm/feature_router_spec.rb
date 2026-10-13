@@ -17,7 +17,8 @@ RSpec.describe Llm::FeatureRouter do
         feature: 'editor',
         provider: 'openai',
         model: 'gpt-4.1-mini',
-        source: :default
+        source: :default,
+        reasoning_effort: nil
       )
     end
 
@@ -57,7 +58,8 @@ RSpec.describe Llm::FeatureRouter do
         feature: 'conversation_completion',
         provider: 'openai',
         model: 'gpt-5.1',
-        source: :installation_override
+        source: :installation_override,
+        reasoning_effort: nil
       )
     end
 
