@@ -4,7 +4,7 @@
 #   DESCRIPTION what the action does, shown to the model
 #   ARGUMENTS   a JSON schema for its arguments
 #   REPEATABLE  false when running the change twice repeats its effect, e.g. sending a message. ActionJob then marks the
-#               record started before perform and never runs it again for that record after a crash.
+#               record applying before perform and never runs it again for that record after a crash.
 # and implements perform(record), which returns :applied, or :skipped when the record already has the change. perform
 # raises Captain::Copilot::ActionNotApplicableError when the change no longer applies to the record.
 # ActionJob loads records through the resource's scope, so the user's access is checked again before each change.

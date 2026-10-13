@@ -26,7 +26,7 @@ class Captain::Copilot::ActionJob < ApplicationJob
     Current.reset
   end
 
-  # A change that is not safe to repeat is marked started before it runs. If the worker dies before the outcome is saved,
+  # A change that is not safe to repeat is marked applying before it runs. If the worker dies before the outcome is saved,
   # the next attempt finds the marker and fails the record instead of making the change twice.
   def apply(run, token, action, id, record)
     raise Captain::Copilot::ActionNotApplicableError, 'Record is no longer accessible' unless record
@@ -43,7 +43,7 @@ class Captain::Copilot::ActionJob < ApplicationJob
     save_item(run, token, id, action.class::REPEATABLE ? :awaiting_retry : :failed, "Change failed (#{e.class.name})")
   end
 
-  # Finishing a started record completes the same attempt.
+  # Finishing an applying record completes the same attempt.
   def save_item(run, token, id, status, error = nil)
     run.with_lease(token) do
       item = run.action_items.find_or_initialize_by(record_id: id)

@@ -22,7 +22,7 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
 
   def execute(saved_set_id:, action:, arguments:, only_matched: true)
     proposed = Captain::Copilot::Actions.build(action, account: run.account, user: run.user, arguments: arguments)
-    source = run.saved_set(saved_set_id, kind: %i[collection review])
+    source = run.copilot_thread.saved_set(saved_set_id)
     target_ids = target_ids(source, proposed.class::RESOURCE, only_matched)
     raise ArgumentError, 'There are no records to change' if target_ids.empty?
     raise ArgumentError, "At most #{MAX_TARGETS} records can be changed at once. Narrow the selection." if target_ids.size > MAX_TARGETS
@@ -46,7 +46,7 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
                 proposal_states: proposed.proposal_states(target_ids).presence,
                 approval_expires_at: CopilotRun::APPROVAL_TTL.from_now.iso8601 }.compact
     action_run = run.copilot_thread.copilot_runs.create!(
-      account: run.account, user: run.user, copilot_tool_call: tool_call, source_run_id: source.id, kind: :action, status: :awaiting_approval,
+      account: run.account, user: run.user, copilot_tool_call: tool_call, source_run: source, kind: :action, status: :awaiting_approval,
       context: context
     )
     card = approval_card(action_run, proposed, source)
@@ -63,7 +63,7 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
     run.copilot_thread.copilot_messages.create!(message_type: :assistant_approval, message: { run_id: action_run.id, approval: approval.compact })
   end
 
-  # A review that stopped at its budget, or could not review some conversations, covers only part of its selection. The card
+  # A review that stopped at its turn limit, or could not review some conversations, covers only part of its selection. The card
   # says so, so the agent does not approve a partial set as if it were complete.
   def review_coverage(source)
     return unless source.review?
