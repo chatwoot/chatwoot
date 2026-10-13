@@ -3,7 +3,8 @@ require 'rails_helper'
 describe Messages::NewMessageNotificationService do
   let(:account) { create(:account) }
   let(:assignee) { create(:user, account: account) }
-  let(:conversation) { create(:conversation, account: account, assignee: assignee) }
+  let(:inbox) { create(:channel_twilio_sms, :with_voice, account: account).inbox }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: assignee) }
   let(:message) do
     create(:message, message_type: :incoming, content_type: :voice_call, account: account, conversation: conversation)
   end
@@ -14,6 +15,7 @@ describe Messages::NewMessageNotificationService do
     allow(GlobalConfigService).to receive(:load) do |key, default|
       { 'APNS_VOIP_KEY' => 'p8', 'APNS_VOIP_KEY_ID' => 'KEY1', 'APNS_VOIP_TEAM_ID' => 'TEAM1' }.fetch(key, default)
     end
+    create(:inbox_member, inbox: conversation.inbox, user: assignee)
     create(:call, conversation: conversation, message_id: message.id)
   end
 
