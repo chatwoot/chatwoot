@@ -9,10 +9,12 @@ class Voice::SyncProviderStatusJob < ApplicationJob
 
   def perform(call_id)
     call = Call.find_by(id: call_id)
-    return if call.blank? || !call.twilio? || (call.terminal? && !missing_start?(call))
+    return if call.blank? || !call.twilio? || (call.terminal? && !missing_start?(call) && !call.unanswered_by_failed_join?)
 
     twilio_call = call.inbox.channel.client.calls(call.provider_call_id).fetch
-    replay(call, twilio_call) unless call.terminal?
+    # The status manager keeps an ended call as it is, apart from an answer that comes in
+    # after a failed join ended it unanswered
+    replay(call, twilio_call)
     fill_start(call, twilio_call.start_time) if ANSWERED_STATUSES.include?(twilio_call.status)
   end
 

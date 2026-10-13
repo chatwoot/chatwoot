@@ -136,4 +136,13 @@ RSpec.describe Voice::StatusUpdateService do
       described_class.new(account: account, call_sid: 'UNKNOWN', call_status: 'busy').perform
     end.not_to raise_error
   end
+
+  it 'records the answered status Twilio reports after a failed join ended the call unanswered' do
+    call.update!(status: 'no_answer', direction: :outgoing,
+                 meta: call.meta.merge('unanswered_by_failed_join' => true, 'provider_status' => 'ringing'))
+
+    described_class.new(account: account, call_sid: call_sid, call_status: 'in-progress', payload: { 'Timestamp' => Time.zone.now.iso8601 }).perform
+
+    expect(call.reload).to have_attributes(status: 'failed', provider_status: 'in-progress')
+  end
 end

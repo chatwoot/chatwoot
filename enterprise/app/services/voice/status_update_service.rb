@@ -53,7 +53,7 @@ class Voice::StatusUpdateService
     # Callbacks for one call can run at the same time; the check and the write share the
     # row lock, and the write touches only this key so another webhook's meta keeps it
     call.with_lock do
-      next false if call.terminal? || call.provider_status == provider_status
+      next false if (call.terminal? && !call.unanswered_by_failed_join?) || call.provider_status == provider_status
       next false if stale_provider_status?(call.provider_status, provider_status)
 
       call.merge_meta!('provider_status' => provider_status)

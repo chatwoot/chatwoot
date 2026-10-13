@@ -208,11 +208,15 @@ RSpec.describe Voice::Conference::Manager do
     it 'records the call as failed, with its answer, when the contact had answered after all' do
       call.update!(status: 'ringing', direction: :outgoing, started_at: nil)
       failed_add
-      answered_at = Time.zone.now.to_i
+      ended_at = call.reload.ended_at.to_i
+      answered_at = ended_at - 20
+      conversation.update_columns(last_activity_at: 1.hour.ago) # rubocop:disable Rails/SkipsModelValidations
 
       Voice::CallStatus::Manager.new(call: Call.find(call.id)).process_status_update('in_progress', timestamp: answered_at)
 
-      expect(call.reload).to have_attributes(status: 'failed', started_at: Time.zone.at(answered_at))
+      expect(call.reload).to have_attributes(status: 'failed', started_at: Time.zone.at(answered_at), duration_seconds: 20)
+      # The correction reaches clients as any status change does
+      expect(conversation.reload.last_activity_at).to be > 1.minute.ago
     end
 
     it 'ends an outbound call as unanswered, with its conference and the contact waiting in it' do

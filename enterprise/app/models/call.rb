@@ -195,6 +195,10 @@ class Call < ApplicationRecord
     reload
   end
 
+  # Ended unanswered because the agent's leg could not be added; the contact's answer may
+  # still be reported after it
+  def unanswered_by_failed_join? = status == 'no_answer' && meta&.dig('unanswered_by_failed_join').present?
+
   # Called under the row lock
   def retire_pending_agent_legs!
     legs = agent_legs.reject { |sid, _| sid.start_with?('pending:') }

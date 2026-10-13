@@ -80,6 +80,16 @@ RSpec.describe Voice::SyncProviderStatusJob do
     expect(call.reload).to have_attributes(status: 'completed', started_at: started)
   end
 
+  it 'corrects a call a failed join ended unanswered before it ran, when Twilio says it was answered' do
+    started = 2.minutes.ago.change(usec: 0)
+    call.update!(status: 'no_answer', meta: call.meta.merge('unanswered_by_failed_join' => true, 'ended_at' => (started + 42).to_i))
+    allow(twilio_call).to receive_messages(status: 'completed', start_time: started, end_time: started + 42, duration: '42')
+
+    described_class.perform_now(call.id)
+
+    expect(call.reload).to have_attributes(status: 'failed', started_at: started, duration_seconds: 42)
+  end
+
   it 'fills in when a call that completed before it ran was answered' do
     started = 2.minutes.ago.change(usec: 0)
     call.update!(status: 'completed')
