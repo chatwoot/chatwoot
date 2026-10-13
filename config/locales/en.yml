@@ -926,10 +926,10 @@ en:
       calls:
         heading: 'Incoming calls'
         description: 'Whether a call rings this user on their phone while the app is in the background or closed. With the app open, calls ring over its live connection.'
-        platform_columns:
-          platform: 'Platform'
-          installation: 'Installation'
-          devices: 'Devices registered for calls'
+        platforms_label: 'Platforms'
+        devices:
+          one: '%{count} device registered for calls'
+          other: '%{count} devices registered for calls'
         platforms:
           apple: 'iPhone'
           android: 'Android'
