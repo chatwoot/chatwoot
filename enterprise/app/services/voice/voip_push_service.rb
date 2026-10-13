@@ -25,22 +25,8 @@ class Voice::VoipPushService
   # Android deliveries in flight at once per call
   ANDROID_BATCH_SIZE = 20
 
-  # The agents a call rings: the assignee if the conversation has one who can still be
-  # assigned the inbox, otherwise everyone who could be, keeping only agents whose status
-  # is online and who may open the conversation, as the web does. Socket presence is not
-  # consulted: a locked phone is offline on the socket and is exactly the device this push
-  # exists for.
-  def self.recipients_for(call)
-    conversation = call.conversation
-    assignable = call.inbox.assignable_agents.to_a
-    assignee = conversation.assignee
-    candidates = assignee && assignable.include?(assignee) ? [assignee] : assignable
-    online = AccountUser.where(account_id: call.account_id, user_id: candidates.map(&:id), availability: :online).index_by(&:user_id)
-    candidates.select do |user|
-      account_user = online[user.id]
-      account_user && ConversationPolicy.new({ user: user, account: call.account, account_user: account_user }, conversation).show?
-    end
-  end
+  # The agents a call rings; see Voice::RingRecipients
+  def self.recipients_for(call) = Voice::RingRecipients.new(call: call).agents
 
   def perform(action)
     case action
