@@ -143,7 +143,9 @@ export default {
       copilotAcceptedMessages: {},
       isLocationRequest: false,
       isWhatsappInteractive: false,
+      selectedWhatsappInteractiveType: null,
       whatsappInteractiveDraft: { body: '', buttons: [''] },
+      whatsappInteractiveSendingDraft: null,
     };
   },
   computed: {
@@ -188,14 +190,40 @@ export default {
         !this.hasRecordedAudio
       );
     },
-    whatsappInteractiveCapability() {
-      return (
-        this.currentChat?.whatsapp_interactive?.interactive_types?.button ??
-        null
+    whatsappInteractiveCapabilities() {
+      const capabilities =
+        this.currentChat?.whatsapp_interactive?.interactive_types ?? {};
+      return Object.fromEntries(
+        ['button', 'list']
+          .filter(type => capabilities[type]?.implemented)
+          .map(type => [type, capabilities[type]])
       );
+    },
+    whatsappInteractiveAccountMode() {
+      return this.currentChat?.whatsapp_interactive?.account_mode ?? '';
+    },
+    whatsappInteractiveCapability() {
+      return this.whatsappInteractiveCapabilities[
+        this.selectedWhatsappInteractiveType
+      ];
     },
     whatsappInteractiveLimits() {
       const limits = this.whatsappInteractiveCapability?.limits ?? {};
+      if (this.selectedWhatsappInteractiveType === 'list') {
+        return {
+          bodyMaxLength: limits.body_max_length ?? 4096,
+          headerMaxLength: limits.header_max_length ?? 60,
+          footerMaxLength: limits.footer_max_length ?? 60,
+          buttonMaxLength: limits.button_max_length ?? 20,
+          sectionMinCount: limits.section_min_count ?? 1,
+          sectionMaxCount: limits.section_max_count ?? 10,
+          rowMinCount: limits.row_min_count ?? 1,
+          rowMaxCount: limits.row_max_count ?? 10,
+          sectionTitleMaxLength: limits.section_title_max_length ?? 24,
+          rowTitleMaxLength: limits.row_title_max_length ?? 24,
+          rowDescriptionMaxLength: limits.row_description_max_length ?? 72,
+        };
+      }
       return {
         bodyMaxLength: limits.body_max_length ?? 1024,
         headerMaxLength: limits.header_max_length ?? 60,
@@ -212,21 +240,53 @@ export default {
       };
     },
     isWhatsappInteractiveValid() {
-      const { body, buttons, headerType, headerText, footer, media } =
-        this.whatsappInteractiveDraft;
       const limits = this.whatsappInteractiveLimits;
+      const { body, footer } = this.whatsappInteractiveDraft;
+      if (this.selectedWhatsappInteractiveType === 'list') {
+        const { header, button, sections } = this.whatsappInteractiveDraft;
+        const totalRows = sections.reduce(
+          (count, section) => count + section.rows.length,
+          0
+        );
+        return (
+          body.trim().length >= 1 &&
+          body.trim().length <= limits.bodyMaxLength &&
+          header.trim().length <= limits.headerMaxLength &&
+          footer.trim().length <= limits.footerMaxLength &&
+          button.trim().length >= 1 &&
+          button.trim().length <= limits.buttonMaxLength &&
+          sections.length >= limits.sectionMinCount &&
+          sections.length <= limits.sectionMaxCount &&
+          totalRows >= limits.rowMinCount &&
+          totalRows <= limits.rowMaxCount &&
+          sections.every(
+            section =>
+              section.title.trim().length <= limits.sectionTitleMaxLength &&
+              section.rows.length >= 1 &&
+              section.rows.every(
+                row =>
+                  row.title.trim().length >= 1 &&
+                  row.title.trim().length <= limits.rowTitleMaxLength &&
+                  row.description.trim().length <=
+                    limits.rowDescriptionMaxLength
+              )
+          )
+        );
+      }
+      const { buttons, headerType, headerText, media } =
+        this.whatsappInteractiveDraft;
       const titles = buttons.map(title => title.trim());
       return (
         body.trim().length >= 1 &&
-        body.length <= limits.bodyMaxLength &&
+        body.trim().length <= limits.bodyMaxLength &&
         (!headerType || limits.headerTypes.includes(headerType)) &&
         (headerType !== 'text' ||
           (headerText?.trim().length >= 1 &&
-            headerText.length <= limits.headerMaxLength)) &&
+            headerText.trim().length <= limits.headerMaxLength)) &&
         (!headerType || headerType === 'text' || !!media) &&
         (!footer ||
           (footer.trim().length >= 1 &&
-            footer.length <= limits.footerMaxLength)) &&
+            footer.trim().length <= limits.footerMaxLength)) &&
         buttons.length >= limits.buttonMinCount &&
         buttons.length <= limits.buttonMaxCount &&
         titles.every(
@@ -324,6 +384,8 @@ export default {
       if (this.isATwitterInbox) return true;
       if (this.isWhatsappInteractive) {
         return (
+          this.whatsappInteractiveSendingDraft ===
+            this.whatsappInteractiveDraft ||
           !this.whatsappInteractiveCapability?.available ||
           !this.isWhatsappInteractiveValid
         );
@@ -409,7 +471,7 @@ export default {
         );
       } else if (this.isWhatsappInteractive) {
         sendMessageText = this.$t(
-          'CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.SEND'
+          'CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.SEND'
         );
       }
       if (this.isPrivate && !this.isLocationRequest) {
@@ -574,6 +636,21 @@ export default {
         // Reset Copilot editor state (includes cancelling ongoing generation)
         this.copilot.reset();
         this.resetWhatsappInteractive();
+      }
+
+      if (
+        this.isWhatsappInteractive &&
+        !this.whatsappInteractiveCapabilities[
+          this.selectedWhatsappInteractiveType
+        ]
+      ) {
+        const availableType = Object.entries(
+          this.whatsappInteractiveCapabilities
+        ).find(([, capability]) => capability.available)?.[0];
+        const nextType =
+          availableType ?? Object.keys(this.whatsappInteractiveCapabilities)[0];
+        if (nextType) this.selectWhatsappInteractiveType(nextType);
+        else this.resetWhatsappInteractive();
       }
 
       if (this.isInstagramReplyRestricted) {
@@ -942,39 +1019,92 @@ export default {
         const isOnInstagram = this.isAnInstagramChannel;
         const isOnTiktok = this.isATiktokChannel;
         if (this.isWhatsappInteractive) {
-          const { headerType, headerText, footer, media } =
-            this.whatsappInteractiveDraft;
+          const submittedConversationId = this.currentChat.id;
+          const submittedDraft = this.whatsappInteractiveDraft;
+          const type = this.selectedWhatsappInteractiveType;
           const body = this.whatsappInteractiveDraft.body.trim();
-          const buttons = this.whatsappInteractiveDraft.buttons.map(button => ({
-            title: button.trim(),
-          }));
-          this.sendMessage(
+          let interactive;
+          let files;
+          if (type === 'list') {
+            const { header, footer, button, sections } =
+              this.whatsappInteractiveDraft;
+            interactive = {
+              schema_version: 1,
+              type: 'list',
+              body: { text: body },
+              action: {
+                button: button.trim(),
+                sections: sections.map(section => ({
+                  ...(section.title.trim() && {
+                    title: section.title.trim(),
+                  }),
+                  rows: section.rows.map(row => ({
+                    title: row.title.trim(),
+                    ...(row.description.trim() && {
+                      description: row.description.trim(),
+                    }),
+                  })),
+                })),
+              },
+              ...(header.trim() && {
+                header: { type: 'text', text: header.trim() },
+              }),
+              ...(footer.trim() && { footer: { text: footer.trim() } }),
+            };
+          } else {
+            const { headerType, headerText, footer, media } =
+              this.whatsappInteractiveDraft;
+            const buttons = this.whatsappInteractiveDraft.buttons.map(
+              button => ({
+                title: button.trim(),
+              })
+            );
+            interactive = {
+              schema_version: 1,
+              type: 'button',
+              body: { text: body },
+              action: { buttons },
+              ...(headerType && {
+                header: {
+                  type: headerType,
+                  ...(headerType === 'text' && { text: headerText.trim() }),
+                },
+              }),
+              ...(footer && { footer: { text: footer.trim() } }),
+            };
+            files = media ? [media.file] : undefined;
+          }
+          const sendRequest = this.sendMessage(
             {
               conversationId: this.currentChat.id,
               message: body,
               private: this.isPrivate,
               sender: this.sender,
               contentAttributes: {
-                whatsapp_interactive: {
-                  schema_version: 1,
-                  type: 'button',
-                  body: { text: body },
-                  action: { buttons },
-                  ...(headerType && {
-                    header: {
-                      type: headerType,
-                      ...(headerType === 'text' && { text: headerText.trim() }),
-                    },
-                  }),
-                  ...(footer && { footer: { text: footer.trim() } }),
-                },
+                whatsapp_interactive: interactive,
               },
-              ...(media && { files: [media.file] }),
+              ...(files && { files }),
             },
             body,
-            copilotAcceptedMessage
+            copilotAcceptedMessage,
+            { preserveDraft: true }
           );
-          this.resetWhatsappInteractive();
+          this.whatsappInteractiveSendingDraft = submittedDraft;
+          sendRequest
+            .then(sent => {
+              if (
+                sent &&
+                this.currentChat.id === submittedConversationId &&
+                this.whatsappInteractiveDraft === submittedDraft
+              ) {
+                this.resetWhatsappInteractive();
+              }
+            })
+            .finally(() => {
+              if (this.whatsappInteractiveSendingDraft === submittedDraft) {
+                this.whatsappInteractiveSendingDraft = null;
+              }
+            });
         } else if (this.isLocationRequest) {
           const messagePayload = this.getMessagePayload(this.message);
           messagePayload.contentAttributes = {
@@ -1007,7 +1137,7 @@ export default {
           this.clearEmailField();
         }
 
-        this.clearMessage();
+        if (!this.isWhatsappInteractive) this.clearMessage();
         this.hideEmojiPicker();
       }
     },
@@ -1068,6 +1198,10 @@ export default {
           });
     },
     async onSendReply() {
+      if (this.isWhatsappInteractive) {
+        this.confirmOnSendReply();
+        return;
+      }
       const undefinedVariables = getUndefinedVariablesInMessage({
         message: this.message,
         variables: this.messageVariables,
@@ -1094,24 +1228,27 @@ export default {
     async sendMessage(
       messagePayload,
       editorMessage = '',
-      copilotAcceptedMessage = ''
+      copilotAcceptedMessage = '',
+      { preserveDraft = false } = {}
     ) {
       try {
         const messageRequest = this.$store.dispatch(
           'createPendingMessageAndSend',
           messagePayload
         );
-        this.removeFromDraft();
+        if (!preserveDraft) this.removeFromDraft();
         await messageRequest;
         emitter.emit(BUS_EVENTS.MESSAGE_SENT);
         this.sendMessageAnalyticsData(messagePayload.private, {
           editorMessage,
           copilotAcceptedMessage,
         });
+        return true;
       } catch (error) {
         const errorMessage =
           error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');
         useAlert(errorMessage);
+        return false;
       }
     },
     async onSendWhatsAppReply(messagePayload) {
@@ -1140,15 +1277,42 @@ export default {
       this.$nextTick(() => this.messageEditor?.focusEditorInputField?.());
     },
     toggleWhatsappInteractive() {
-      if (!this.whatsappInteractiveCapability?.available) return;
+      if (!Object.keys(this.whatsappInteractiveCapabilities).length) return;
 
       this.isWhatsappInteractive = !this.isWhatsappInteractive;
       this.isLocationRequest = false;
       this.hideEmojiPicker();
-      if (!this.isWhatsappInteractive) this.resetWhatsappInteractive();
+      if (!this.isWhatsappInteractive) {
+        this.resetWhatsappInteractive();
+        return;
+      }
+      const availableType = Object.entries(
+        this.whatsappInteractiveCapabilities
+      ).find(([, capability]) => capability.available)?.[0];
+      this.selectWhatsappInteractiveType(
+        availableType ?? Object.keys(this.whatsappInteractiveCapabilities)[0]
+      );
+    },
+    selectWhatsappInteractiveType(type) {
+      if (!this.whatsappInteractiveCapabilities[type]?.implemented) return;
+      this.selectedWhatsappInteractiveType = type;
+      this.whatsappInteractiveDraft = this.newWhatsappInteractiveDraft(type);
+    },
+    newWhatsappInteractiveDraft(type) {
+      if (type === 'list') {
+        return {
+          header: '',
+          body: '',
+          footer: '',
+          button: '',
+          sections: [{ title: '', rows: [{ title: '', description: '' }] }],
+        };
+      }
+      return { body: '', buttons: [''] };
     },
     resetWhatsappInteractive() {
       this.isWhatsappInteractive = false;
+      this.selectedWhatsappInteractiveType = null;
       this.whatsappInteractiveDraft = { body: '', buttons: [''] };
     },
     uploadWhatsappHeader(file) {
@@ -1158,21 +1322,25 @@ export default {
         headerType === 'document'
           ? !/^(image|video|audio)\//.test(mime)
           : mime.startsWith(`${headerType}/`);
-      this.whatsappInteractiveDraft.media = null;
-      this.whatsappInteractiveDraft.uploadFile = null;
+      const draft = {
+        ...this.whatsappInteractiveDraft,
+        media: null,
+        uploadFile: null,
+      };
+      this.whatsappInteractiveDraft = draft;
       if (!matchingType) {
         useAlert(
           this.$t('CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.MEDIA_MISMATCH')
         );
         return;
       }
-      this.whatsappInteractiveDraft.uploadFile = file;
+      draft.uploadFile = file;
       this.onFileUpload({
         name: file.name,
         type: file.type,
         size: file.size,
         file,
-        interactiveDraft: this.whatsappInteractiveDraft,
+        interactiveDraft: draft,
         conversationId: this.currentChat.id,
       });
     },
@@ -1600,7 +1768,11 @@ export default {
         <WhatsAppInteractiveComposer
           v-else-if="isWhatsappInteractive"
           v-model="whatsappInteractiveDraft"
+          :type="selectedWhatsappInteractiveType"
+          :capabilities="whatsappInteractiveCapabilities"
+          :account-mode="whatsappInteractiveAccountMode"
           :limits="whatsappInteractiveLimits"
+          @select-type="selectWhatsappInteractiveType"
           @upload="uploadWhatsappHeader"
           @close="resetWhatsappInteractive"
         />
@@ -1688,7 +1860,7 @@ export default {
         :enable-content-templates="showContentTemplates"
         :enable-location-request="showLocationRequest"
         :is-location-request="isLocationRequest"
-        :whatsapp-interactive-capability="whatsappInteractiveCapability"
+        :whatsapp-interactive-capabilities="whatsappInteractiveCapabilities"
         :is-whatsapp-interactive="isWhatsappInteractive"
         :inbox="inbox"
         :is-on-private-note="isOnPrivateNote"

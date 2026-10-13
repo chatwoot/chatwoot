@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils';
+import { flushPromises, shallowMount } from '@vue/test-utils';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import { nextTick } from 'vue';
 import { createStore } from 'vuex';
@@ -62,6 +62,7 @@ const buildStore = ({
       'draftMessages/setReplyEditorMode': ({ commit }, { mode }) =>
         commit('setReplyEditorMode', mode),
       'draftMessages/set': ({ commit }, payload) => commit('setDraft', payload),
+      createPendingMessageAndSend: () => Promise.resolve(),
     },
     getters: {
       getSelectedChat: s => s.chat,
@@ -139,10 +140,27 @@ describe('ReplyBox', () => {
             button_max_count: 3,
           },
         },
+        list: {
+          implemented: true,
+          available: true,
+          limits: {
+            body_max_length: 4096,
+            header_max_length: 60,
+            footer_max_length: 60,
+            button_max_length: 20,
+            section_min_count: 1,
+            section_max_count: 10,
+            row_min_count: 1,
+            row_max_count: 10,
+            section_title_max_length: 24,
+            row_title_max_length: 24,
+            row_description_max_length: 72,
+          },
+        },
       },
     };
 
-    it('submits only the normalized text-button input fields', () => {
+    it('submits only the normalized text-button input fields', async () => {
       const { wrapper } = mountWith({
         inbox: {
           channel_type: 'Channel::Whatsapp',
@@ -152,7 +170,7 @@ describe('ReplyBox', () => {
       });
       const sendMessage = vi
         .spyOn(wrapper.vm, 'sendMessage')
-        .mockResolvedValue(undefined);
+        .mockResolvedValue(true);
 
       wrapper.vm.toggleWhatsappInteractive();
       wrapper.vm.whatsappInteractiveDraft = {
@@ -176,8 +194,10 @@ describe('ReplyBox', () => {
           },
         }),
         'Choose one.',
-        ''
+        '',
+        { preserveDraft: true }
       );
+      await flushPromises();
       expect(wrapper.vm.whatsappInteractiveDraft).toEqual({
         body: '',
         buttons: [''],
@@ -237,7 +257,7 @@ describe('ReplyBox', () => {
       expect(wrapper.vm.isPrivate).toBe(true);
     });
 
-    it('keeps an unavailable capability visible but disabled', () => {
+    it('keeps unavailable capabilities visible and opens their explanations', () => {
       const { wrapper } = mountWith({
         inbox: {
           channel_type: 'Channel::Whatsapp',
@@ -252,18 +272,454 @@ describe('ReplyBox', () => {
                 available: false,
                 unavailable_reason: 'test_recipient_not_allowlisted',
               },
+              list: capability.interactive_types.list,
             },
           },
         },
       });
 
-      expect(bottomPanel(wrapper).whatsappInteractiveCapability).toMatchObject({
+      expect(
+        bottomPanel(wrapper).whatsappInteractiveCapabilities.button
+      ).toMatchObject({
         implemented: true,
         available: false,
         unavailable_reason: 'test_recipient_not_allowlisted',
       });
       wrapper.vm.toggleWhatsappInteractive();
+      expect(wrapper.vm.isWhatsappInteractive).toBe(true);
+      expect(wrapper.vm.selectedWhatsappInteractiveType).toBe('list');
+    });
+
+    it('reacts to a refreshed one-type flag without changing the other type', async () => {
+      const { wrapper, store } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+
+      store.commit('selectChat', {
+        ...REPLIABLE,
+        whatsapp_interactive: {
+          ...capability,
+          interactive_types: {
+            button: {
+              ...capability.interactive_types.button,
+              available: false,
+              unavailable_reason: 'temporarily_disabled',
+            },
+            list: capability.interactive_types.list,
+          },
+        },
+      });
+      await nextTick();
+
+      expect(
+        bottomPanel(wrapper).whatsappInteractiveCapabilities
+      ).toMatchObject({
+        button: {
+          available: false,
+          unavailable_reason: 'temporarily_disabled',
+        },
+        list: { available: true },
+      });
+    });
+
+    it('submits a boundary-valid native list without client IDs', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      const sendMessage = vi
+        .spyOn(wrapper.vm, 'sendMessage')
+        .mockResolvedValue(true);
+      wrapper.vm.message = 'Keep the ordinary draft';
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.selectWhatsappInteractiveType('list');
+      wrapper.vm.whatsappInteractiveDraft = {
+        header: ` ${'h'.repeat(60)} `,
+        body: ` ${'b'.repeat(4096)} `,
+        footer: ` ${'f'.repeat(60)} `,
+        button: ` ${'o'.repeat(20)} `,
+        sections: Array.from({ length: 10 }, (_, index) => ({
+          title: `Section ${index + 1}`,
+          rows: [
+            {
+              title: `${index + 1}`.padEnd(24, 'r'),
+              description: 'd'.repeat(72),
+            },
+          ],
+        })),
+      };
+
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(true);
+      wrapper.vm.confirmOnSendReply();
+
+      const interactive =
+        sendMessage.mock.calls[0][0].contentAttributes.whatsapp_interactive;
+      expect(interactive).toMatchObject({
+        schema_version: 1,
+        type: 'list',
+        header: { type: 'text', text: 'h'.repeat(60) },
+        body: { text: 'b'.repeat(4096) },
+        footer: { text: 'f'.repeat(60) },
+        action: { button: 'o'.repeat(20) },
+      });
+      expect(interactive.action.sections).toHaveLength(10);
+      expect(interactive.action.sections[0].rows[0]).toEqual({
+        title: '1'.padEnd(24, 'r'),
+        description: 'd'.repeat(72),
+      });
+      expect(JSON.stringify(interactive)).not.toMatch(/delivery_id|"id"/);
+      await flushPromises();
       expect(wrapper.vm.isWhatsappInteractive).toBe(false);
+      expect(wrapper.vm.message).toBe('Keep the ordinary draft');
+    });
+
+    it('rejects blank and overflow list structures before submission', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.selectWhatsappInteractiveType('list');
+      const valid = {
+        header: '',
+        body: 'Choose',
+        footer: '',
+        button: 'Open',
+        sections: [{ title: '', rows: [{ title: 'One', description: '' }] }],
+      };
+      wrapper.vm.whatsappInteractiveDraft = valid;
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(true);
+
+      [
+        { body: ' ' },
+        { body: 'x'.repeat(4097) },
+        { header: 'x'.repeat(61) },
+        { footer: 'x'.repeat(61) },
+        { button: 'x'.repeat(21) },
+        { sections: [] },
+        {
+          sections: Array.from({ length: 11 }, () => ({
+            title: '',
+            rows: [{ title: 'Row', description: '' }],
+          })),
+        },
+        { sections: [{ title: '', rows: [] }] },
+        {
+          sections: [
+            {
+              title: 'x'.repeat(25),
+              rows: [{ title: 'Row', description: '' }],
+            },
+          ],
+        },
+        {
+          sections: [
+            {
+              title: '',
+              rows: [{ title: 'x'.repeat(25), description: '' }],
+            },
+          ],
+        },
+        {
+          sections: [
+            {
+              title: '',
+              rows: [{ title: 'Row', description: 'x'.repeat(73) }],
+            },
+          ],
+        },
+        {
+          sections: [{ title: '', rows: [{ title: ' ', description: '' }] }],
+        },
+        {
+          sections: [
+            {
+              title: '',
+              rows: Array.from({ length: 11 }, () => ({
+                title: 'Row',
+                description: '',
+              })),
+            },
+          ],
+        },
+      ].forEach(invalid => {
+        wrapper.vm.whatsappInteractiveDraft = { ...valid, ...invalid };
+        expect(wrapper.vm.isWhatsappInteractiveValid).toBe(false);
+      });
+    });
+
+    it('normalizes whitespace-only optional list fields to absence', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      const sendMessage = vi
+        .spyOn(wrapper.vm, 'sendMessage')
+        .mockResolvedValue(true);
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.selectWhatsappInteractiveType('list');
+      wrapper.vm.whatsappInteractiveDraft = {
+        header: '   ',
+        body: 'Choose',
+        footer: '   ',
+        button: 'Open',
+        sections: [
+          {
+            title: '   ',
+            rows: [{ title: 'One', description: '   ' }],
+          },
+        ],
+      };
+
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(true);
+      wrapper.vm.confirmOnSendReply();
+
+      const interactive =
+        sendMessage.mock.calls[0][0].contentAttributes.whatsapp_interactive;
+      expect(interactive).not.toHaveProperty('header');
+      expect(interactive).not.toHaveProperty('footer');
+      expect(interactive.action.sections[0]).not.toHaveProperty('title');
+      expect(interactive.action.sections[0].rows[0]).toEqual({ title: 'One' });
+      await flushPromises();
+    });
+
+    it('discards structured state without changing the ordinary text draft', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      wrapper.vm.message = 'Keep this ordinary reply';
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.selectWhatsappInteractiveType('list');
+      wrapper.vm.whatsappInteractiveDraft.body = 'Discard this list';
+
+      wrapper.vm.resetWhatsappInteractive();
+
+      expect(wrapper.vm.message).toBe('Keep this ordinary reply');
+      expect(wrapper.vm.whatsappInteractiveDraft).toEqual({
+        body: '',
+        buttons: [''],
+      });
+    });
+
+    it('keeps structured content when sending fails', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      vi.spyOn(wrapper.vm, 'sendMessage').mockResolvedValue(false);
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: 'Choose',
+        buttons: ['Confirm'],
+      };
+
+      wrapper.vm.confirmOnSendReply();
+      await flushPromises();
+
+      expect(wrapper.vm.isWhatsappInteractive).toBe(true);
+      expect(wrapper.vm.whatsappInteractiveDraft).toEqual({
+        body: 'Choose',
+        buttons: ['Confirm'],
+      });
+    });
+
+    it('preserves the ordinary draft entry only for structured sends', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      const removeFromDraft = vi.spyOn(wrapper.vm, 'removeFromDraft');
+
+      await wrapper.vm.sendMessage({}, '', '', { preserveDraft: true });
+      expect(removeFromDraft).not.toHaveBeenCalled();
+
+      await wrapper.vm.sendMessage({});
+      expect(removeFromDraft).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not reset a newer interactive draft after an earlier send succeeds', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      let resolveSend;
+      vi.spyOn(wrapper.vm, 'sendMessage').mockReturnValue(
+        new Promise(resolve => {
+          resolveSend = resolve;
+        })
+      );
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: 'First',
+        buttons: ['Send'],
+      };
+      wrapper.vm.confirmOnSendReply();
+      const newerDraft = { body: 'Second', buttons: ['Keep'] };
+      wrapper.vm.whatsappInteractiveDraft = newerDraft;
+
+      resolveSend(true);
+      await flushPromises();
+
+      expect(wrapper.vm.isWhatsappInteractive).toBe(true);
+      expect(wrapper.vm.whatsappInteractiveDraft).toBe(newerDraft);
+    });
+
+    it('dispatches an interactive draft only once while its send is pending', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      const sendMessage = vi
+        .spyOn(wrapper.vm, 'sendMessage')
+        .mockReturnValue(new Promise(() => {}));
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: 'Send once',
+        buttons: ['Confirm'],
+      };
+
+      wrapper.vm.confirmOnSendReply();
+      wrapper.vm.confirmOnSendReply();
+
+      expect(sendMessage).toHaveBeenCalledTimes(1);
+      expect(wrapper.vm.isReplyButtonDisabled).toBe(true);
+    });
+
+    it('keeps a replacement header upload selected while a send completes', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      let resolveSend;
+      vi.spyOn(wrapper.vm, 'sendMessage').mockReturnValue(
+        new Promise(resolve => {
+          resolveSend = resolve;
+        })
+      );
+      vi.spyOn(wrapper.vm, 'onFileUpload').mockImplementation(() => {});
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: 'First',
+        buttons: ['Send'],
+        headerType: 'image',
+        media: { file: 'signed-upload', name: 'first.png' },
+      };
+      wrapper.vm.confirmOnSendReply();
+      const replacement = new File(['replacement'], 'replacement.png', {
+        type: 'image/png',
+      });
+
+      wrapper.vm.uploadWhatsappHeader(replacement);
+      resolveSend(true);
+      await flushPromises();
+
+      expect(wrapper.vm.isWhatsappInteractive).toBe(true);
+      expect(wrapper.vm.whatsappInteractiveDraft.uploadFile).toBe(replacement);
+    });
+
+    it('does not reset a new conversation composer after an earlier send succeeds', async () => {
+      const { wrapper, store } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      let resolveSend;
+      vi.spyOn(wrapper.vm, 'sendMessage').mockReturnValue(
+        new Promise(resolve => {
+          resolveSend = resolve;
+        })
+      );
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: 'First conversation',
+        buttons: ['Send'],
+      };
+      wrapper.vm.confirmOnSendReply();
+
+      store.commit('selectChat', {
+        ...REPLIABLE,
+        id: 2,
+        whatsapp_interactive: capability,
+      });
+      await nextTick();
+      wrapper.vm.toggleWhatsappInteractive();
+      const newerDraft = { body: 'Second conversation', buttons: ['Keep'] };
+      wrapper.vm.whatsappInteractiveDraft = newerDraft;
+      resolveSend(true);
+      await flushPromises();
+
+      expect(wrapper.vm.isWhatsappInteractive).toBe(true);
+      expect(wrapper.vm.whatsappInteractiveDraft).toBe(newerDraft);
+    });
+
+    it('bypasses hidden ordinary-editor variable checks for interactive sends', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      wrapper.vm.message = 'Hidden {{unknown.variable}}';
+      wrapper.vm.toggleWhatsappInteractive();
+      const confirmOnSendReply = vi
+        .spyOn(wrapper.vm, 'confirmOnSendReply')
+        .mockImplementation(() => {});
+
+      await wrapper.vm.onSendReply();
+
+      expect(confirmOnSendReply).toHaveBeenCalledTimes(1);
+    });
+
+    it('uses type-neutral send copy for native lists', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.selectWhatsappInteractiveType('list');
+      await nextTick();
+
+      expect(bottomPanel(wrapper).sendButtonText).toContain(
+        'CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.SEND'
+      );
     });
 
     it('submits text headers and footers as normalized visible fields', () => {
@@ -297,7 +753,7 @@ describe('ReplyBox', () => {
 
     it.each(['image', 'video', 'document'])(
       'submits one %s header upload without a client attachment ID',
-      type => {
+      async type => {
         const { wrapper } = mountWith({
           inbox: {
             channel_type: 'Channel::Whatsapp',
@@ -307,7 +763,7 @@ describe('ReplyBox', () => {
         });
         const sendMessage = vi
           .spyOn(wrapper.vm, 'sendMessage')
-          .mockResolvedValue(undefined);
+          .mockResolvedValue(true);
         wrapper.vm.toggleWhatsappInteractive();
         wrapper.vm.whatsappInteractiveDraft = {
           body: 'Choose',
@@ -321,6 +777,7 @@ describe('ReplyBox', () => {
           files: ['signed-upload'],
           contentAttributes: { whatsapp_interactive: { header: { type } } },
         });
+        await flushPromises();
         expect(wrapper.vm.whatsappInteractiveDraft).toEqual({
           body: '',
           buttons: [''],

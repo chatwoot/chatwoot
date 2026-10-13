@@ -100,9 +100,9 @@ export default {
       type: Boolean,
       default: false,
     },
-    whatsappInteractiveCapability: {
+    whatsappInteractiveCapabilities: {
       type: Object,
-      default: null,
+      default: () => ({}),
     },
     isWhatsappInteractive: {
       type: Boolean,
@@ -289,22 +289,42 @@ export default {
         : this.$t('CONVERSATION.REPLYBOX.REQUEST_LOCATION');
     },
     whatsappInteractiveTooltip() {
-      const reason = this.whatsappInteractiveCapability?.unavailable_reason;
-      if (!reason) {
-        return this.$t('CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.OPEN');
+      if (
+        Object.values(this.whatsappInteractiveCapabilities).some(
+          capability => capability.available
+        )
+      ) {
+        return this.$t('CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.OPEN');
       }
+      const unavailableReason = Object.values(
+        this.whatsappInteractiveCapabilities
+      ).find(capability => !capability.available)?.unavailable_reason;
       const unavailableMessages = {
         test_recipient_not_allowlisted: this.$t(
-          'CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.UNAVAILABLE.test_recipient_not_allowlisted'
+          'CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.UNAVAILABLE.test_recipient_not_allowlisted'
         ),
         service_window_closed: this.$t(
-          'CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.UNAVAILABLE.service_window_closed'
+          'CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.UNAVAILABLE.service_window_closed'
+        ),
+        temporarily_disabled: this.$t(
+          'CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.UNAVAILABLE.temporarily_disabled'
         ),
         provider_not_supported: this.$t(
-          'CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.UNAVAILABLE.provider_not_supported'
+          'CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.UNAVAILABLE.provider_not_supported'
         ),
       };
-      return unavailableMessages[reason];
+      if (unavailableReason) {
+        return (
+          unavailableMessages[unavailableReason] ??
+          this.$t(
+            'CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.UNAVAILABLE.generic'
+          )
+        );
+      }
+      return this.$t('CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.OPEN');
+    },
+    hasWhatsappInteractiveCapabilities() {
+      return Object.keys(this.whatsappInteractiveCapabilities).length > 0;
     },
   },
   mounted() {
@@ -432,14 +452,14 @@ export default {
         @click="$emit('requestLocation')"
       />
       <NextButton
-        v-if="whatsappInteractiveCapability?.implemented"
+        v-if="hasWhatsappInteractiveCapabilities"
         v-tooltip.top-end="whatsappInteractiveTooltip"
         icon="i-ph-chat-circle-dots"
         :variant="isWhatsappInteractive ? 'solid' : 'faded'"
         :color="isWhatsappInteractive ? 'blue' : 'slate'"
         sm
         :aria-pressed="isWhatsappInteractive"
-        :disabled="!whatsappInteractiveCapability.available || isOnPrivateNote"
+        :disabled="isOnPrivateNote"
         @click="$emit('toggleWhatsappInteractive')"
       />
       <VideoCallButton

@@ -278,10 +278,58 @@
         "ADD_BUTTON": "Add button",
         "REMOVE_BUTTON": "Remove button {number}",
         "UNAVAILABLE": {
+          "generic": "This interaction is unavailable in the current conversation.",
           "test_recipient_not_allowlisted": "Reply buttons are limited to approved test recipients.",
           "service_window_closed": "Reply buttons require an open 24-hour service window.",
           "provider_not_supported": "Reply buttons are available only for WhatsApp Cloud inboxes."
         }
+      },
+      "WHATSAPP_INTERACTIVE": {
+        "TITLE": "WhatsApp interactive message",
+        "DESCRIPTION": "Choose the interaction that fits this conversation.",
+        "OPEN": "Add a WhatsApp interactive message",
+        "SEND": "Send interaction",
+        "CLOSE": "Close interactive-message composer",
+        "TYPE": "Interaction type",
+        "TEST_MODE": "Test mode: messages can be sent only to approved test recipients.",
+        "BODY": "Message",
+        "BODY_PLACEHOLDER": "Enter the message shown above the choices",
+        "FOOTER": "Footer (optional)",
+        "PREVIEW": "Preview",
+        "TYPES": {
+          "button": "Reply buttons",
+          "list": "List"
+        },
+        "UNAVAILABLE": {
+          "test_recipient_not_allowlisted": "This recipient is not approved for the Meta test sender.",
+          "service_window_closed": "The 24-hour service window is closed. Send an approved template instead.",
+          "temporarily_disabled": "This interaction is temporarily disabled for this account.",
+          "provider_not_supported": "This interaction is available only for WhatsApp Cloud inboxes.",
+          "unsupported_by_linoo_version": "This interaction is not supported by this version of Linoo.",
+          "business_not_verified": "Business verification is required for this interaction.",
+          "message_quality_insufficient": "The WhatsApp account does not meet the required message quality.",
+          "production_phone_not_onboarded": "A production WhatsApp phone number is not onboarded.",
+          "app_unpublished": "The Meta app must be published before this interaction is available.",
+          "billing_not_configured": "Billing must be configured before this interaction is available.",
+          "asset_unavailable": "A required WhatsApp asset is unavailable.",
+          "not_enrolled": "This WhatsApp account is not enrolled for the interaction.",
+          "market_ineligible": "This interaction is not available for the current market.",
+          "transaction_integration_missing": "This interaction requires a transaction integration."
+        }
+      },
+      "WHATSAPP_LIST": {
+        "HEADER": "Text header (optional)",
+        "BUTTON": "Opening button label",
+        "SECTION": "Section {number}",
+        "SECTION_TITLE": "Section title (optional)",
+        "ROW": "Row {number}",
+        "ROW_TITLE": "Row title",
+        "ROW_DESCRIPTION": "Row description (optional)",
+        "ADD_SECTION": "Add section",
+        "REMOVE_SECTION": "Remove section {number}",
+        "ADD_ROW": "Add row",
+        "REMOVE_ROW": "Remove row {number}",
+        "ROW_COUNT": "{count} of {maximum} rows"
       },
       "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
       "TIP_AUDIORECORDER_ERROR": "Could not open the audio",

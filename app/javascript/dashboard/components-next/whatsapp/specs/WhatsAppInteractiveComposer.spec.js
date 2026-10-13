@@ -14,9 +14,20 @@ const limits = {
   buttonMaxCount: 3,
 };
 
-const mountComposer = modelValue =>
+const capabilities = {
+  button: { implemented: true, available: true },
+  list: { implemented: true, available: true },
+};
+
+const mountComposer = (modelValue, props = {}) =>
   shallowMount(WhatsAppInteractiveComposer, {
-    props: { modelValue, limits },
+    props: {
+      modelValue,
+      limits,
+      type: 'button',
+      capabilities,
+      ...props,
+    },
     global: { mocks: { $t: key => key } },
   });
 
@@ -133,5 +144,146 @@ describe('WhatsAppInteractiveComposer', () => {
     expect(
       wrapper.find('input[type="file"]').attributes('multiple')
     ).toBeUndefined();
+  });
+
+  it('shows current type availability and test-mode guidance', () => {
+    const wrapper = mountComposer(
+      { body: 'Choose', buttons: ['One'] },
+      {
+        accountMode: 'test',
+        capabilities: {
+          button: { implemented: true, available: true },
+          list: {
+            implemented: true,
+            available: false,
+            unavailable_reason: 'service_window_closed',
+          },
+        },
+      }
+    );
+
+    expect(wrapper.find('[data-testid="whatsapp-test-mode"]').exists()).toBe(
+      true
+    );
+    expect(
+      wrapper.find('[data-testid="whatsapp-unavailable-list"]').text()
+    ).toBe(
+      'CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.UNAVAILABLE.service_window_closed'
+    );
+    expect(wrapper.find('input[value="list"]').attributes('disabled')).toBe('');
+  });
+
+  it('shows normalized list limits without restricting raw input length', () => {
+    const listLimits = {
+      bodyMaxLength: 4096,
+      headerMaxLength: 60,
+      footerMaxLength: 60,
+      buttonMaxLength: 20,
+      sectionMinCount: 1,
+      sectionMaxCount: 10,
+      rowMinCount: 1,
+      rowMaxCount: 10,
+      sectionTitleMaxLength: 24,
+      rowTitleMaxLength: 24,
+      rowDescriptionMaxLength: 72,
+    };
+    const modelValue = {
+      header: ` ${'h'.repeat(60)} `,
+      body: ` ${'b'.repeat(4096)} `,
+      footer: ` ${'f'.repeat(60)} `,
+      button: ` ${'o'.repeat(20)} `,
+      sections: [
+        {
+          title: ` ${'s'.repeat(24)} `,
+          rows: [
+            {
+              title: ` ${'t'.repeat(24)} `,
+              description: ` ${'d'.repeat(72)} `,
+            },
+          ],
+        },
+      ],
+    };
+    const wrapper = mountComposer(modelValue, {
+      type: 'list',
+      limits: listLimits,
+    });
+
+    expect(wrapper.findComponent(TextArea).props()).toMatchObject({
+      maxLength: 4096,
+      showCharacterCount: false,
+      message: '4096/4096',
+    });
+    expect(
+      wrapper.find('#whatsapp-interactive-list-button').attributes('maxlength')
+    ).toBeUndefined();
+    expect(
+      wrapper.find('#whatsapp-list-section-title-0').attributes('maxlength')
+    ).toBeUndefined();
+    expect(
+      wrapper.find('#whatsapp-list-row-title-0-0').attributes('maxlength')
+    ).toBeUndefined();
+    expect(
+      wrapper.find('#whatsapp-list-row-description-0-0').attributes('maxlength')
+    ).toBeUndefined();
+    expect(
+      wrapper.find('#whatsapp-interactive-list-header').attributes('maxlength')
+    ).toBeUndefined();
+    expect(
+      wrapper.find('#whatsapp-interactive-footer').attributes('maxlength')
+    ).toBeUndefined();
+    expect(
+      wrapper.find('#whatsapp-interactive-list-button').attributes('message')
+    ).toBe('20/20');
+    expect(
+      wrapper.findComponent({ name: 'WhatsAppInteractivePreview' }).props()
+    ).toMatchObject({
+      type: 'list',
+      body: ` ${'b'.repeat(4096)} `,
+      header: { type: 'text', text: ` ${'h'.repeat(60)} ` },
+      footer: ` ${'f'.repeat(60)} `,
+      opener: ` ${'o'.repeat(20)} `,
+      sections: modelValue.sections,
+    });
+  });
+
+  it('stops adding list rows and sections at ten total rows', () => {
+    const rows = Array.from({ length: 10 }, (_, index) => ({
+      title: `Row ${index + 1}`,
+      description: '',
+    }));
+    const wrapper = mountComposer(
+      {
+        header: '',
+        body: 'Choose',
+        footer: '',
+        button: 'Open',
+        sections: [{ title: '', rows }],
+      },
+      {
+        type: 'list',
+        limits: {
+          bodyMaxLength: 4096,
+          headerMaxLength: 60,
+          footerMaxLength: 60,
+          buttonMaxLength: 20,
+          sectionMinCount: 1,
+          sectionMaxCount: 10,
+          rowMinCount: 1,
+          rowMaxCount: 10,
+          sectionTitleMaxLength: 24,
+          rowTitleMaxLength: 24,
+          rowDescriptionMaxLength: 72,
+        },
+      }
+    );
+
+    const labels = wrapper
+      .findAllComponents(Button)
+      .map(button => button.props('label'));
+    expect(labels).not.toContain('CONVERSATION.REPLYBOX.WHATSAPP_LIST.ADD_ROW');
+    expect(labels).not.toContain(
+      'CONVERSATION.REPLYBOX.WHATSAPP_LIST.ADD_SECTION'
+    );
   });
 });
