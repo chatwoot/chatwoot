@@ -75,7 +75,7 @@ class CopilotMessage < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(COPILOT_MESSAGE_UPDATED, Time.zone.now, copilot_message: self)
   end
 
-  # Turns run in order, so a change still waiting for approval would hold this message back. Sending a new message
+  # Turns run in order, so a change awaiting approval would hold this message back. Sending a new message
   # declines it instead.
   def reject_changes_awaiting_approval
     copilot_thread.copilot_runs.action.awaiting_approval.find_each do |action_run|

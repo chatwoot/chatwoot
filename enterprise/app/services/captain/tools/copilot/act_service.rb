@@ -34,7 +34,7 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
   private
 
   def target_ids(saved_set_id, resource, only_matched)
-    source = run.saved_set(saved_set_id, kind: %i[collection review])
+    source = run.copilot_thread.saved_set(saved_set_id)
     return source.record_ids(only_matched: only_matched) if source.resource == resource
 
     raise ArgumentError, "This action changes #{resource}, but the source holds #{source.resource}. " \

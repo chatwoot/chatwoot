@@ -18,7 +18,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
       review(run, token, service, conversation)
     end
     run.with_lease(token) { run.publish_progress } if conversations.any?
-    # A review stops at its budget; continue_review raises it when the agent asks for the next batch.
+    # A review stops at its turn limit; continue_review raises it when the agent asks for the next batch.
     return finalize(run, token) if run.left_this_turn <= 0
 
     continue_or_finalize(run, token)

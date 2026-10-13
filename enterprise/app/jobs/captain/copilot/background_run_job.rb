@@ -1,5 +1,5 @@
 # Lifecycle shared by the background runs a Copilot turn waits on, such as reviews and approved actions. Each job claims
-# the run's lease, works through one step of records, re-queues itself until no records remain, and then hands its
+# the run's lease, works through one batch of records, re-queues itself until no records remain, and then hands its
 # summary back to the waiting tool call. Including jobs set RUN_KIND and implement process_batch and incomplete?.
 module Captain::Copilot::BackgroundRunJob
   BATCH_SIZE = 25

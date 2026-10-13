@@ -38,7 +38,7 @@ class CopilotRun < ApplicationRecord
   belongs_to :copilot_message, optional: true
   # The tool call that started this run. A turn has none; it starts from the agent's message.
   belongs_to :copilot_tool_call, optional: true, inverse_of: :background_run
-  # The saved set this run reads: a collection's from set, or the collection a review reads.
+  # The saved set this run reads: a collection's from set, the collection a review reads, or the set an action changes.
   belongs_to :source_run, class_name: 'CopilotRun', optional: true
   has_many :derived_runs, class_name: 'CopilotRun', foreign_key: :source_run_id, dependent: :destroy, inverse_of: :source_run
   has_many :tool_calls, class_name: 'CopilotToolCall', dependent: :delete_all
@@ -152,7 +152,7 @@ class CopilotRun < ApplicationRecord
     context.fetch('target_ids', [])
   end
 
-  # The turn this run belongs to. Collections and reviews are started by one of its tool calls.
+  # The turn this run belongs to. Collections, reviews and actions are started by one of its tool calls.
   def turn
     turn? ? self : copilot_tool_call.copilot_run
   end
