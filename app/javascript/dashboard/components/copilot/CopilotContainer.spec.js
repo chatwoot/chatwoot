@@ -119,6 +119,42 @@ describe('CopilotContainer', () => {
     expect(copilot.props('selectedThreadId')).toBe(42);
   });
 
+  it('keeps a newly created chat when the initial history request finishes later', async () => {
+    let resolveHistory;
+    testState.getThreads.mockImplementation(
+      () =>
+        new Promise(resolve => {
+          resolveHistory = resolve;
+        })
+    );
+    testState.dispatch.mockImplementation(action =>
+      action === 'copilotThreads/create'
+        ? Promise.resolve({ id: 99, title: 'New question' })
+        : Promise.resolve()
+    );
+    const wrapper = mountComponent();
+    await nextTick();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+
+    await copilot.props('onSendMessage')('New question');
+    expect(copilot.props('threads')).toEqual([
+      { id: 99, title: 'New question' },
+    ]);
+
+    resolveHistory({
+      data: {
+        payload: [{ id: 42, title: 'Older question' }],
+        meta: { total_count: 1, page: 1 },
+      },
+    });
+    await flushPromises();
+
+    expect(copilot.props('threads')).toEqual([
+      { id: 99, title: 'New question' },
+      { id: 42, title: 'Older question' },
+    ]);
+  });
+
   it('clears the selected thread when the conversation changes', async () => {
     testState.dispatch.mockImplementation(action =>
       action === 'copilotThreads/create'

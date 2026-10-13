@@ -1,8 +1,9 @@
-import { shallowMount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 
 import Copilot from '../Copilot.vue';
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import ToggleCopilotAssistant from '../ToggleCopilotAssistant.vue';
+import CopilotInput from '../CopilotInput.vue';
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
@@ -31,6 +32,33 @@ describe('Copilot', () => {
       'history',
       'new',
     ]);
+  });
+
+  it('gives every header action an accessible name', () => {
+    const wrapper = mount(SidebarActionsHeader, {
+      props: {
+        title: 'Copilot',
+        buttons: [
+          {
+            key: 'history',
+            icon: 'i-lucide-history',
+            tooltip: 'History',
+          },
+          {
+            key: 'new',
+            icon: 'i-lucide-square-pen',
+            tooltip: 'New chat',
+          },
+        ],
+      },
+      global: {
+        mocks: { $t: key => key },
+      },
+    });
+
+    expect(
+      wrapper.findAll('button').map(button => button.attributes('aria-label'))
+    ).toEqual(['History', 'New chat', 'GENERAL.CLOSE']);
   });
 
   it('opens a past chat and starts a new one', async () => {
@@ -63,5 +91,31 @@ describe('Copilot', () => {
     });
 
     expect(wrapper.findComponent(ToggleCopilotAssistant).exists()).toBe(false);
+  });
+
+  it('preserves a draft while a saved chat is loading', async () => {
+    const wrapper = mount(Copilot, {
+      props: {
+        onSendMessage: vi.fn(),
+        assistants: [{ id: 7, name: 'Support' }],
+      },
+      global: {
+        mocks: { $t: key => key },
+        stubs: {
+          SidebarActionsHeader: true,
+          CopilotEmptyState: true,
+        },
+      },
+    });
+    const input = wrapper.findComponent(CopilotInput);
+    const textarea = input.find('textarea');
+
+    await textarea.setValue('Keep this draft');
+    await wrapper.setProps({ isLoadingSelectedThread: true });
+    await wrapper.setProps({ isLoadingSelectedThread: false });
+
+    expect(
+      wrapper.findComponent(CopilotInput).find('textarea').element.value
+    ).toBe('Keep this draft');
   });
 });

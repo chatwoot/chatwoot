@@ -267,7 +267,8 @@ watch(
         <div v-else />
       </div>
       <CopilotInput
-        v-if="hasAssistants && !isLoadingSelectedThread"
+        v-if="hasAssistants"
+        v-show="!isLoadingSelectedThread"
         class="mb-1 w-full"
         :on-send="sendMessage"
       />

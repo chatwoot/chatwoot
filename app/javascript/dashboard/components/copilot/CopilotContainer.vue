@@ -124,6 +124,9 @@ watch(() => currentChat.value?.id, handleReset);
 const loadThreads = async (page = 1) => {
   const version = accountVersion;
   const accountId = currentAccountId.value;
+  const threadIdsAtRequestStart = new Set(
+    threads.value.map(thread => thread.id)
+  );
   isLoadingThreads.value = true;
 
   try {
@@ -135,14 +138,20 @@ const loadThreads = async (page = 1) => {
       return;
     }
 
-    const knownIds = new Set(threads.value.map(thread => thread.id));
-    threads.value =
-      page === 1
-        ? data.payload
-        : [
-            ...threads.value,
-            ...data.payload.filter(thread => !knownIds.has(thread.id)),
-          ];
+    const responseIds = new Set(data.payload.map(thread => thread.id));
+    if (page === 1) {
+      const threadsCreatedWhileLoading = threads.value.filter(
+        thread =>
+          !threadIdsAtRequestStart.has(thread.id) && !responseIds.has(thread.id)
+      );
+      threads.value = [...threadsCreatedWhileLoading, ...data.payload];
+    } else {
+      const knownIds = new Set(threads.value.map(thread => thread.id));
+      threads.value = [
+        ...threads.value,
+        ...data.payload.filter(thread => !knownIds.has(thread.id)),
+      ];
+    }
     historyPage.value = page;
     hasMoreThreads.value = threads.value.length < data.meta.total_count;
   } catch (error) {
