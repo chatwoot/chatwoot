@@ -1,0 +1,536 @@
+{
+  "schema_version": 1,
+  "outgoing_messages": {
+    "button": {
+      "id": 2001,
+      "content": "Please choose one option.",
+      "inbox_id": 31,
+      "conversation_id": 401,
+      "message_type": 1,
+      "content_type": "text",
+      "status": "delivered",
+      "content_attributes": {
+        "whatsapp_interactive": {
+          "schema_version": 1,
+          "type": "button",
+          "header": {
+            "type": "image",
+            "attachment_id": 501
+          },
+          "body": {
+            "text": "Please choose one option."
+          },
+          "footer": {
+            "text": "Reply once"
+          },
+          "action": {
+            "buttons": [
+              {
+                "delivery_id": "reply_00000000-0000-4000-8000-000000000001",
+                "title": "Confirm",
+                "preset_option_id": "6ee65bd4-6ef0-4a7c-b5d1-d55ac85b9418"
+              },
+              {
+                "delivery_id": "reply_00000000-0000-4000-8000-000000000002",
+                "title": "Change",
+                "preset_option_id": "a9ef6905-73b1-4a83-b42d-98c705c7430b"
+              }
+            ]
+          },
+          "source": {
+            "preset_id": 9001
+          }
+        }
+      },
+      "created_at": 1791763201,
+      "private": false,
+      "source_id": "wamid.handoff.button",
+      "sender": {
+        "id": 81,
+        "name": "Fixture Agent",
+        "available_name": "Fixture Agent",
+        "avatar_url": null,
+        "type": "user",
+        "availability_status": "online",
+        "thumbnail": null
+      },
+      "attachments": [
+        {
+          "id": 501,
+          "message_id": 2001,
+          "file_type": "image",
+          "account_id": 71,
+          "extension": "png",
+          "content_type": "image/png",
+          "data_url": "https://example.test/rails/active_storage/blobs/button-header.png",
+          "thumb_url": "https://example.test/rails/active_storage/representations/button-header.png",
+          "file_size": 2048,
+          "width": 640,
+          "height": 360
+        }
+      ]
+    },
+    "list": {
+      "id": 2002,
+      "content": "Choose a meal.",
+      "inbox_id": 31,
+      "conversation_id": 401,
+      "message_type": 1,
+      "content_type": "text",
+      "status": "delivered",
+      "content_attributes": {
+        "whatsapp_interactive": {
+          "schema_version": 1,
+          "type": "list",
+          "header": {
+            "type": "text",
+            "text": "Available meals"
+          },
+          "body": {
+            "text": "Choose a meal."
+          },
+          "footer": {
+            "text": "One selection per order."
+          },
+          "action": {
+            "button": "View meals",
+            "sections": [
+              {
+                "title": "Lunch",
+                "rows": [
+                  {
+                    "delivery_id": "row_00000000-0000-4000-8000-000000000001",
+                    "title": "Pasta",
+                    "description": "Tomato and basil",
+                    "preset_option_id": "d6de08cc-03d3-49f4-9cb6-19d5c76efdf5"
+                  },
+                  {
+                    "delivery_id": "row_00000000-0000-4000-8000-000000000002",
+                    "title": "Salad",
+                    "preset_option_id": "e8d25cf1-202e-4796-bb8e-1ef173f91f98"
+                  }
+                ]
+              }
+            ]
+          },
+          "source": {
+            "preset_id": 9002
+          }
+        }
+      },
+      "created_at": 1791763202,
+      "private": false,
+      "source_id": "wamid.handoff.list",
+      "sender": {
+        "id": 81,
+        "name": "Fixture Agent",
+        "available_name": "Fixture Agent",
+        "avatar_url": null,
+        "type": "user",
+        "availability_status": "online",
+        "thumbnail": null
+      }
+    },
+    "cta_url": {
+      "id": 2003,
+      "content": "Your order is ready to review.",
+      "inbox_id": 31,
+      "conversation_id": 401,
+      "message_type": 1,
+      "content_type": "text",
+      "status": "delivered",
+      "content_attributes": {
+        "whatsapp_interactive": {
+          "schema_version": 1,
+          "type": "cta_url",
+          "header": {
+            "type": "text",
+            "text": "Order update"
+          },
+          "body": {
+            "text": "Your order is ready to review."
+          },
+          "footer": {
+            "text": "Secure link"
+          },
+          "action": {
+            "button": "View details",
+            "url": "https://example.test/details"
+          },
+          "source": {
+            "preset_id": 9003
+          }
+        }
+      },
+      "created_at": 1791763203,
+      "private": false,
+      "source_id": "wamid.handoff.cta-url",
+      "sender": {
+        "id": 81,
+        "name": "Fixture Agent",
+        "available_name": "Fixture Agent",
+        "avatar_url": null,
+        "type": "user",
+        "availability_status": "online",
+        "thumbnail": null
+      }
+    },
+    "carousel_url": {
+      "id": 2004,
+      "content": "Choose a destination.",
+      "inbox_id": 31,
+      "conversation_id": 401,
+      "message_type": 1,
+      "content_type": "text",
+      "status": "delivered",
+      "content_attributes": {
+        "whatsapp_interactive": {
+          "schema_version": 1,
+          "type": "carousel",
+          "body": {
+            "text": "Choose a destination."
+          },
+          "action": {
+            "cards": [
+              {
+                "card_index": 0,
+                "type": "cta_url",
+                "header": {
+                  "type": "image",
+                  "attachment_id": 502
+                },
+                "body": {
+                  "text": "Mountain escape"
+                },
+                "action": {
+                  "button": "View mountain",
+                  "url": "https://example.test/mountain"
+                }
+              },
+              {
+                "card_index": 1,
+                "type": "cta_url",
+                "header": {
+                  "type": "image",
+                  "attachment_id": 503
+                },
+                "body": {
+                  "text": "Beach escape"
+                },
+                "action": {
+                  "button": "View beach",
+                  "url": "https://example.test/beach"
+                }
+              }
+            ]
+          },
+          "source": {
+            "preset_id": 9004
+          }
+        }
+      },
+      "created_at": 1791763204,
+      "private": false,
+      "source_id": "wamid.handoff.carousel-url",
+      "sender": {
+        "id": 81,
+        "name": "Fixture Agent",
+        "available_name": "Fixture Agent",
+        "avatar_url": null,
+        "type": "user",
+        "availability_status": "online",
+        "thumbnail": null
+      },
+      "attachments": [
+        {
+          "id": 502,
+          "message_id": 2004,
+          "file_type": "image",
+          "account_id": 71,
+          "extension": "jpg",
+          "content_type": "image/jpeg",
+          "data_url": "https://example.test/rails/active_storage/blobs/mountain.jpg",
+          "thumb_url": "https://example.test/rails/active_storage/representations/mountain.jpg",
+          "file_size": 4096,
+          "width": 800,
+          "height": 800
+        },
+        {
+          "id": 503,
+          "message_id": 2004,
+          "file_type": "image",
+          "account_id": 71,
+          "extension": "jpg",
+          "content_type": "image/jpeg",
+          "data_url": "https://example.test/rails/active_storage/blobs/beach.jpg",
+          "thumb_url": "https://example.test/rails/active_storage/representations/beach.jpg",
+          "file_size": 4096,
+          "width": 800,
+          "height": 800
+        }
+      ]
+    },
+    "carousel_quick_reply": {
+      "id": 2005,
+      "content": "Choose a destination.",
+      "inbox_id": 31,
+      "conversation_id": 401,
+      "message_type": 1,
+      "content_type": "text",
+      "status": "delivered",
+      "content_attributes": {
+        "whatsapp_interactive": {
+          "schema_version": 1,
+          "type": "carousel",
+          "body": {
+            "text": "Choose a destination."
+          },
+          "action": {
+            "cards": [
+              {
+                "card_index": 0,
+                "type": "button",
+                "header": {
+                  "type": "image",
+                  "attachment_id": 504
+                },
+                "body": {
+                  "text": "Mountain escape"
+                },
+                "action": {
+                  "buttons": [
+                    {
+                      "delivery_id": "reply_00000000-0000-4000-8000-000000000101",
+                      "title": "Choose",
+                      "preset_option_id": "817681fc-3f61-4502-8de6-f41934c73a30"
+                    },
+                    {
+                      "delivery_id": "reply_00000000-0000-4000-8000-000000000102",
+                      "title": "Details",
+                      "preset_option_id": "88aefc48-c03b-48e2-9932-978e07e1667e"
+                    }
+                  ]
+                }
+              },
+              {
+                "card_index": 1,
+                "type": "button",
+                "header": {
+                  "type": "image",
+                  "attachment_id": 505
+                },
+                "body": {
+                  "text": "Beach escape"
+                },
+                "action": {
+                  "buttons": [
+                    {
+                      "delivery_id": "reply_00000000-0000-4000-8000-000000000103",
+                      "title": "Choose",
+                      "preset_option_id": "957dd2f4-254f-4a7d-902c-9e89347c69d0"
+                    },
+                    {
+                      "delivery_id": "reply_00000000-0000-4000-8000-000000000104",
+                      "title": "Details",
+                      "preset_option_id": "cb514b51-57c4-4137-be76-736b2401e711"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "source": {
+            "preset_id": 9005
+          }
+        }
+      },
+      "created_at": 1791763205,
+      "private": false,
+      "source_id": "wamid.handoff.carousel-quick-reply",
+      "sender": {
+        "id": 81,
+        "name": "Fixture Agent",
+        "available_name": "Fixture Agent",
+        "avatar_url": null,
+        "type": "user",
+        "availability_status": "online",
+        "thumbnail": null
+      },
+      "attachments": [
+        {
+          "id": 504,
+          "message_id": 2005,
+          "file_type": "image",
+          "account_id": 71,
+          "extension": "jpg",
+          "content_type": "image/jpeg",
+          "data_url": "https://example.test/rails/active_storage/blobs/quick-mountain.jpg",
+          "thumb_url": "https://example.test/rails/active_storage/representations/quick-mountain.jpg",
+          "file_size": 4096,
+          "width": 800,
+          "height": 800
+        },
+        {
+          "id": 505,
+          "message_id": 2005,
+          "file_type": "image",
+          "account_id": 71,
+          "extension": "jpg",
+          "content_type": "image/jpeg",
+          "data_url": "https://example.test/rails/active_storage/blobs/quick-beach.jpg",
+          "thumb_url": "https://example.test/rails/active_storage/representations/quick-beach.jpg",
+          "file_size": 4096,
+          "width": 800,
+          "height": 800
+        }
+      ]
+    }
+  },
+  "inbound_selections": {
+    "button": {
+      "id": 2101,
+      "content": "Confirm",
+      "inbox_id": 31,
+      "conversation_id": 401,
+      "message_type": 0,
+      "content_type": "text",
+      "status": "sent",
+      "content_attributes": {
+        "in_reply_to": 2001,
+        "in_reply_to_external_id": "wamid.handoff.button",
+        "whatsapp_interactive_reply": {
+          "type": "button_reply",
+          "delivery_id": "reply_00000000-0000-4000-8000-000000000001",
+          "title": "Confirm",
+          "context_id": "wamid.handoff.button",
+          "originating_message_id": 2001,
+          "preset_option_id": "6ee65bd4-6ef0-4a7c-b5d1-d55ac85b9418"
+        }
+      },
+      "created_at": 1791763301,
+      "private": false,
+      "source_id": "wamid.handoff.inbound-button",
+      "sender": {
+        "additional_attributes": {},
+        "custom_attributes": {},
+        "email": null,
+        "id": 91,
+        "identifier": null,
+        "name": "Fixture Contact",
+        "phone_number": null,
+        "thumbnail": null,
+        "blocked": false,
+        "type": "contact"
+      }
+    },
+    "list": {
+      "id": 2102,
+      "content": "Pasta",
+      "inbox_id": 31,
+      "conversation_id": 401,
+      "message_type": 0,
+      "content_type": "text",
+      "status": "sent",
+      "content_attributes": {
+        "in_reply_to": 2002,
+        "in_reply_to_external_id": "wamid.handoff.list",
+        "whatsapp_interactive_reply": {
+          "type": "list_reply",
+          "delivery_id": "row_00000000-0000-4000-8000-000000000001",
+          "title": "Pasta",
+          "description": "Tomato and basil",
+          "context_id": "wamid.handoff.list",
+          "originating_message_id": 2002,
+          "preset_option_id": "d6de08cc-03d3-49f4-9cb6-19d5c76efdf5"
+        }
+      },
+      "created_at": 1791763302,
+      "private": false,
+      "source_id": "wamid.handoff.inbound-list",
+      "sender": {
+        "additional_attributes": {},
+        "custom_attributes": {},
+        "email": null,
+        "id": 91,
+        "identifier": null,
+        "name": "Fixture Contact",
+        "phone_number": null,
+        "thumbnail": null,
+        "blocked": false,
+        "type": "contact"
+      }
+    },
+    "carousel": {
+      "id": 2103,
+      "content": "Choose",
+      "inbox_id": 31,
+      "conversation_id": 401,
+      "message_type": 0,
+      "content_type": "text",
+      "status": "sent",
+      "content_attributes": {
+        "in_reply_to": 2005,
+        "in_reply_to_external_id": "wamid.handoff.carousel-quick-reply",
+        "whatsapp_interactive_reply": {
+          "type": "button_reply",
+          "delivery_id": "reply_00000000-0000-4000-8000-000000000103",
+          "title": "Choose",
+          "context_id": "wamid.handoff.carousel-quick-reply",
+          "originating_message_id": 2005,
+          "preset_option_id": "957dd2f4-254f-4a7d-902c-9e89347c69d0",
+          "card_index": 1
+        }
+      },
+      "created_at": 1791763303,
+      "private": false,
+      "source_id": "wamid.handoff.inbound-carousel",
+      "sender": {
+        "additional_attributes": {},
+        "custom_attributes": {},
+        "email": null,
+        "id": 91,
+        "identifier": null,
+        "name": "Fixture Contact",
+        "phone_number": null,
+        "thumbnail": null,
+        "blocked": false,
+        "type": "contact"
+      }
+    },
+    "unknown_delivery_id": {
+      "id": 2104,
+      "content": "A provider-only choice",
+      "inbox_id": 31,
+      "conversation_id": 401,
+      "message_type": 0,
+      "content_type": "text",
+      "status": "sent",
+      "content_attributes": {
+        "in_reply_to": 2005,
+        "in_reply_to_external_id": "wamid.handoff.carousel-quick-reply",
+        "whatsapp_interactive_reply": {
+          "type": "button_reply",
+          "delivery_id": "reply_unknown_provider_value",
+          "title": "A provider-only choice",
+          "context_id": "wamid.handoff.carousel-quick-reply",
+          "originating_message_id": 2005
+        }
+      },
+      "created_at": 1791763304,
+      "private": false,
+      "source_id": "wamid.handoff.inbound-unknown",
+      "sender": {
+        "additional_attributes": {},
+        "custom_attributes": {},
+        "email": null,
+        "id": 91,
+        "identifier": null,
+        "name": "Fixture Contact",
+        "phone_number": null,
+        "thumbnail": null,
+        "blocked": false,
+        "type": "contact"
+      }
+    }
+  }
+}
