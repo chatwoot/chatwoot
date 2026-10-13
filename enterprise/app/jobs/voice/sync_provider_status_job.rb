@@ -4,13 +4,16 @@
 class Voice::SyncProviderStatusJob < ApplicationJob
   queue_as :high
 
+  # Twilio statuses of a call that was answered, whose start time is when that happened
+  ANSWERED_STATUSES = %w[in-progress completed].freeze
+
   def perform(call_id)
     call = Call.find_by(id: call_id)
     return if call.blank? || !call.twilio? || (call.terminal? && !missing_start?(call))
 
     twilio_call = call.inbox.channel.client.calls(call.provider_call_id).fetch
     replay(call, twilio_call) unless call.terminal?
-    fill_start(call, twilio_call.start_time) if twilio_call.status == 'completed'
+    fill_start(call, twilio_call.start_time) if ANSWERED_STATUSES.include?(twilio_call.status)
   end
 
   private
@@ -26,7 +29,8 @@ class Voice::SyncProviderStatusJob < ApplicationJob
 
   # A completed callback that came in after the row committed, before this ran or while it
   # asked Twilio, may have left the call without the answer that came in before it; Twilio
-  # still has when it started. Filled under the row lock, and only where nothing set it.
+  # still has when it started, whether it reported the call live or over. Filled under the
+  # row lock, and only where nothing set it.
   def fill_start(call, start_time)
     return unless start_time
 

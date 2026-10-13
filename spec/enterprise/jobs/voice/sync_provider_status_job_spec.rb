@@ -65,6 +65,21 @@ RSpec.describe Voice::SyncProviderStatusJob do
     expect(call.reload).to have_attributes(status: 'completed', started_at: started)
   end
 
+  it 'fills in the start time from a live answer that completion overtook during the request' do
+    started = 2.minutes.ago.change(usec: 0)
+    allow(twilio_call).to receive_messages(status: 'in-progress', start_time: started)
+    calls = instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext)
+    allow(calls).to receive(:fetch) do
+      Call.where(id: call.id).update_all(status: 'completed', duration_seconds: 42) # rubocop:disable Rails/SkipsModelValidations
+      twilio_call
+    end
+    allow(call.inbox.channel.client).to receive(:calls).with('CA-out').and_return(calls)
+
+    described_class.perform_now(call.id)
+
+    expect(call.reload).to have_attributes(status: 'completed', started_at: started)
+  end
+
   it 'fills in when a call that completed before it ran was answered' do
     started = 2.minutes.ago.change(usec: 0)
     call.update!(status: 'completed')
