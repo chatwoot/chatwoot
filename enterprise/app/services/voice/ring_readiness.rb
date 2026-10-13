@@ -47,7 +47,10 @@ class Voice::RingReadiness
 
   private
 
+  # An APNs environment the push rejects stops the ring before either platform is sent to
   def ringable_device?
+    return false if apple.problem == 'environment'
+
     [apple, android].any? { |platform| platform.configured && platform.devices.positive? }
   end
 

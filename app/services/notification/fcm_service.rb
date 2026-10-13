@@ -7,6 +7,11 @@ class Notification::FcmService
   # How long a token request to Google may take. Callers for the same credentials wait on
   # it, so it is kept well inside a call's ring.
   TOKEN_REQUEST_TIMEOUT_SECONDS = 10
+  # After a token request fails, callers for the same credentials fail at once for this
+  # long instead of each repeating the request in turn
+  TOKEN_RETRY_SECONDS = 30
+
+  class TokenUnavailable < StandardError; end
 
   def initialize(project_id, credentials)
     @project_id = project_id
@@ -34,12 +39,18 @@ class Notification::FcmService
   # bearer token is never written to a shared or on-disk cache
   def cached_token_info
     TOKENS_LOCK.synchronize do
-      cached = TOKENS[cache_key]
-      return cached if cached && Time.zone.now < cached[:expires_at] - TOKEN_MARGIN_SECONDS
+      cached = TOKENS[cache_key] || {}
+      return cached if before?(cached[:expires_at], TOKEN_MARGIN_SECONDS)
+      raise TokenUnavailable, 'Google token request failed recently' if before?(cached[:failed_until])
 
       TOKENS[cache_key] = generate_token
+    rescue StandardError => e
+      TOKENS[cache_key] = { failed_until: Time.zone.now + TOKEN_RETRY_SECONDS } unless e.is_a?(TokenUnavailable)
+      raise
     end
   end
+
+  def before?(time, margin = 0) = time.present? && Time.zone.now < time - margin
 
   def cache_key
     "fcm_access_token:#{@project_id}:#{Digest::SHA256.hexdigest(@credentials.to_s)[0, 12]}"
