@@ -156,6 +156,13 @@ RSpec.describe Voice::Conference::Manager do
       expect(conversation.reload.assignee).to eq(agent)
     end
 
+    it 'leaves hanging up the contact to a job when Twilio cannot do it at once' do
+      call.update!(status: 'ringing', direction: :outgoing)
+      allow(conference).to receive(:terminate_call).and_raise(Twilio::REST::TwilioError)
+
+      expect { failed_add }.to have_enqueued_job(Voice::HangUpContactJob).with(call.id)
+    end
+
     it 'ends an outbound call as unanswered, with its conference and the contact waiting in it' do
       call.update!(status: 'ringing', direction: :outgoing)
 

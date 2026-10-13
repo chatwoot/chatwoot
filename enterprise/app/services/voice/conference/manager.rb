@@ -189,12 +189,13 @@ class Voice::Conference::Manager
   end
 
   # A conference no agent entered has not started, so ending it finds nothing; the
-  # contact's leg waiting in it is hung up as well
+  # contact's leg waiting in it is hung up as well, by a job that retries if Twilio fails
   def end_unjoined_call!
     end_conference!
     conference_service.terminate_call
   rescue StandardError => e
     Rails.logger.error("[VOICE] call #{call.id}: could not hang up the contact after a failed join: #{e.class}: #{e.message}")
+    Voice::HangUpContactJob.perform_later(call.id)
   end
 
   def recheck_failed_add(wait)
