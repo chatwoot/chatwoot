@@ -8,37 +8,32 @@ class Voice::RingingTimeoutService
   # caller still hears it ring. A Twilio caller waits on hold music until they hang up or
   # an agent joins, as on the web, so Twilio calls have no timeout here.
   RING_TIMEOUT_SECONDS = { 'whatsapp' => 60 }.freeze
-  # A claim normally turns into a joined call within seconds; one still ringing this long
-  # past the timeout was abandoned (the agent's join failed or the tab closed)
-  CLAIM_GRACE_SECONDS = 60
-  # When a call was claimed; a claim without a recorded time counts from when the call started
-  CLAIMED_AT_SQL = "COALESCE((calls.ring_state->>'claimed_at')::bigint, EXTRACT(EPOCH FROM calls.created_at)::bigint)".freeze
   # A timeout attempt older than this is taken to have died, and another may start
   ATTEMPT_TTL_SECONDS = 120
 
-  # Inbound calls still ringing past their provider's timeout, unclaimed or with an
-  # abandoned claim, that rang phones: on the accounts that ring them, with the agents
-  # rung recorded. An outbound call ends with the provider's own word.
+  # Inbound calls still ringing past their provider's timeout that rang phones: on the
+  # accounts that ring them, with the agents rung recorded. A WhatsApp answer moves the
+  # call on as it is claimed, so a ringing call has no claim. An outbound call ends with
+  # the provider's own word.
   def self.overdue
     RING_TIMEOUT_SECONDS.map { |provider, seconds| Call.where(status: 'ringing', provider: provider).where(created_at: ...seconds.seconds.ago) }
                         .reduce(:or)
                         .where(direction: :incoming)
-                        .where("calls.accepted_by_agent_id IS NULL OR #{CLAIMED_AT_SQL} < ?", CLAIM_GRACE_SECONDS.seconds.ago.to_i)
                         .where(account_id: Account.feature_mobile_voice_push.select(:id))
                         .where("calls.ring_state ? 'ring_recipient_ids'")
   end
 
-  # The call is marked as timing out under the row lock, which an agent's claim checks, so
-  # a claim made from here on is refused, and another sweep leaves the call alone while
-  # the mark is fresh. The call is ended only if no claim has changed since the mark;
-  # otherwise this attempt's mark is cleared and the next sweep tries again.
+  # The call is marked as timing out under the row lock, so another sweep, and the
+  # provider's own status for the hang-up, leave the call alone while the mark is fresh.
+  # The call is ended only if it is still ringing; one answered meanwhile has this
+  # attempt's mark cleared.
   def perform
     return unless start_timeout
 
     call.with_lock do
       next unless call.ring_state['timing_out_at'] == @attempt_at
 
-      if call.ringing? && call.accepted_by_agent_id == @claim_at_start
+      if call.ringing?
         finalize
       else
         clear_timeout_mark
@@ -53,20 +48,14 @@ class Voice::RingingTimeoutService
       next false unless call.ringing? && call.incoming? && due? && !call.ring_timeout_in_progress?
 
       @attempt_at = Time.zone.now.to_i
-      @claim_at_start = call.accepted_by_agent_id
       call.update_columns(ring_state: call.ring_state.merge('timing_out_at' => @attempt_at)) # rubocop:disable Rails/SkipsModelValidations
       true
     end
   end
 
-  # Rung past its provider's timeout, and either unclaimed or claimed long enough ago that
-  # the join was abandoned
   def due?
     timeout = RING_TIMEOUT_SECONDS[call.provider]
-    return false unless timeout && call.created_at < timeout.seconds.ago
-    return true if call.accepted_by_agent_id.nil?
-
-    (call.ring_state['claimed_at'] || call.created_at.to_i) < CLAIM_GRACE_SECONDS.seconds.ago.to_i
+    timeout.present? && call.created_at < timeout.seconds.ago
   end
 
   def clear_timeout_mark
