@@ -3,17 +3,30 @@
 class Voice::ApnsVoipSender
   pattr_initialize [:settings!, :call_id!]
 
-  # Returns each token's outcome: :sent, :gone when Apple no longer knows it, or :failed
+  # Pushes in flight at once over the connection, so one slow response does not hold up
+  # the iPhones after it
+  BATCH_SIZE = 20
+
+  # Returns each token's outcome: :sent, :gone when Apple no longer knows it, or :failed.
+  # The first push goes alone: APNs allows more requests at once on a connection only
+  # after its first.
   def ring(tokens, payload)
     return {} if tokens.empty?
 
     connection = new_connection
-    tokens.index_with { |token| deliver(connection, token, payload) }
+    first, *rest = tokens
+    outcomes = { first => deliver(connection, first, payload) }
+    rest.each_slice(BATCH_SIZE) { |batch| outcomes.merge!(deliver_batch(connection, batch, payload)) }
+    outcomes
   ensure
     connection&.close
   end
 
   private
+
+  def deliver_batch(connection, tokens, payload)
+    tokens.zip(tokens.map { |token| Thread.new { deliver(connection, token, payload) } }.map(&:value)).to_h
+  end
 
   def new_connection
     Apnotic::Connection.new(
