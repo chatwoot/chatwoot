@@ -73,15 +73,17 @@ class Voice::VoipPushService
 
   def ring_apple(settings, tokens, payload)
     sender = platform_client('apple') { Voice::ApnsVoipSender.new(settings: settings, call_id: call.id) }
-    sender ? sender.ring(tokens, payload) : []
+    sender ? sender.ring(tokens, payload, proceed: -> { still_ringing? }) : []
   end
 
   def ring_android(firebase, tokens, data)
     client = platform_client('android') { fcm_client(*firebase) }
     return [] unless client
 
-    deliver_android_all(client, tokens, data, 'ring', proceed: -> { Call.where(id: call.id).first&.ringing? })
+    deliver_android_all(client, tokens, data, 'ring', proceed: -> { still_ringing? })
   end
+
+  def still_ringing? = Call.where(id: call.id).first&.ringing?
 
   def devices_to_ring
     apple_environment if configured?(:apple)

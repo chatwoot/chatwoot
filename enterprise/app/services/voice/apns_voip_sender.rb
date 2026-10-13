@@ -8,14 +8,19 @@ class Voice::ApnsVoipSender
   BATCH_SIZE = 20
 
   # Returns the tokens Apple reported as gone. The first push goes alone: APNs allows more
-  # requests at once on a connection only after its first.
-  def ring(tokens, payload)
+  # requests at once on a connection only after its first. `proceed` is asked on the calling
+  # thread before each batch after the first push; once it returns false the rest are not sent.
+  def ring(tokens, payload, proceed: -> { true })
     return [] if tokens.empty?
 
     connection = new_connection
     first, *rest = tokens
     outcomes = { first => deliver(connection, first, payload) }
-    rest.each_slice(BATCH_SIZE) { |batch| outcomes.merge!(deliver_batch(connection, batch, payload)) }
+    rest.each_slice(BATCH_SIZE) do |batch|
+      break unless proceed.call
+
+      outcomes.merge!(deliver_batch(connection, batch, payload))
+    end
     outcomes.filter_map { |token, outcome| token if outcome == :gone }
   ensure
     connection&.close
