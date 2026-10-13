@@ -22,9 +22,6 @@ class Voice::CallStatus::Manager
       # Don't overwrite a terminal status — Twilio's late `completed` events would
       # otherwise clobber an agent-rejection reason.
       Call::TERMINAL_STATUSES.include?(call.status) ||
-      # The ring timeout is hanging the caller up and records the outcome itself; the
-      # provider's own status for that hang-up would otherwise land first as `completed`
-      (call.ringing? && call.ring_timeout_in_progress?) ||
       # A call that was answered does not ring again; a late or replayed ringing status
       # would otherwise undo the answer
       (status == 'ringing' && call.in_progress?)
