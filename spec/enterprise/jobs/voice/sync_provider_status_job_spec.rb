@@ -41,11 +41,21 @@ RSpec.describe Voice::SyncProviderStatusJob do
     expect(call.started_at).to eq(started)
   end
 
-  it 'leaves an ended call alone' do
-    call.update!(status: 'completed')
+  it 'leaves the status of an ended call alone' do
+    call.update!(status: 'completed', started_at: 1.minute.ago)
 
     described_class.perform_now(call.id)
 
     expect(call.reload.provider_status).to be_nil
+  end
+
+  it 'fills in when a call that completed before it ran was answered' do
+    started = 2.minutes.ago.change(usec: 0)
+    call.update!(status: 'completed')
+    allow(twilio_call).to receive_messages(status: 'completed', start_time: started)
+
+    described_class.perform_now(call.id)
+
+    expect(call.reload.started_at).to eq(started)
   end
 end
