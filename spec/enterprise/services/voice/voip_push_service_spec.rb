@@ -113,6 +113,14 @@ RSpec.describe Voice::VoipPushService do
       expect(fcm_client).to have_received(:send_v1).with(hash_including(token: 'android-1'))
     end
 
+    it 'does not count an agent whose phone registered after the ring was sent' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      described_class.new(call: call).perform('ring')
+      subscribe(other_agent, 'apns_voip', 'apple-late')
+
+      expect(described_class.new(call: call.reload).ringable_user_ids).to eq([agent.id])
+    end
+
     it 'does not count an agent whose only phone has no push token as reachable' do
       create(:notification_subscription, user: agent, subscription_type: 'fcm', identifier: 'fcm:no-token',
                                          subscription_attributes: { device_id: 'device-no-token', devicePlatform: 'Android' })
