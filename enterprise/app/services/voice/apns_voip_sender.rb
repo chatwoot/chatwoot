@@ -51,8 +51,11 @@ class Voice::ApnsVoipSender
   def deliver(connection, token, payload)
     response = connection.push(notification(token, payload))
     status = response ? response.status.to_s : 'no response'
-    Rails.logger.info("[VOIP PUSH] apple ring call #{call_id} to #{token[0, 8]}… status=#{status} #{response&.body}")
-    { '200' => :sent, '410' => :gone }.fetch(status, :failed)
+    outcome = { '200' => :sent, '410' => :gone }.fetch(status, :failed)
+    # A rejection such as a wrong key or topic leaves the iPhone silent, so it is logged as an error
+    Rails.logger.public_send(outcome == :failed ? :error : :info,
+                             "[VOIP PUSH] apple ring call #{call_id} to #{token[0, 8]}… status=#{status} #{response&.body}")
+    outcome
   rescue StandardError => e
     Rails.logger.error("[VOIP PUSH] apple ring call #{call_id} to #{token[0, 8]}… failed: #{e.class}: #{e.message}")
     :failed
