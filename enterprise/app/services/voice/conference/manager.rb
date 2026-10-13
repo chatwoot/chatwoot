@@ -33,7 +33,8 @@ class Voice::Conference::Manager
     user_id = extract_user_id
     return unless user_id
 
-    claim_for_user!(user_id)
+    return if claim_for_user!(user_id) == :gone
+
     status_manager.process_status_update('in_progress', timestamp: now)
     return unless call.accepted_by_agent_id == user_id && mark_accepted_broadcast!
 
@@ -43,9 +44,12 @@ class Voice::Conference::Manager
   # First-join wins; later joins by other agents are silently ignored so the
   # webhook doesn't stomp the original assignee. User-facing rejection happens
   # at the API layer.
+  # A join reported late for a connection that has already left changes nothing, and
+  # returns :gone
   def claim_for_user!(user_id)
     claimed = false
-    call.with_lock do
+    outcome = call.with_lock do
+      next :gone if leg_gone?
       next if call.terminal? || (call.accepted_by_agent_id.present? && call.accepted_by_agent_id != user_id)
 
       call.update!(accepted_by_agent_id: user_id) if call.accepted_by_agent_id != user_id
@@ -55,6 +59,11 @@ class Voice::Conference::Manager
     end
 
     auto_assign_conversation!(user_id) if claimed
+    outcome
+  end
+
+  def leg_gone?
+    participant_call_sid.present? && call.agent_legs.dig(participant_call_sid, 'state') == 'gone'
   end
 
   # Exactly-once gate for the accepted broadcast, tracked separately from the claim: the

@@ -217,6 +217,16 @@ RSpec.describe Voice::Conference::Manager do
   end
 
   describe 'an agent joining' do
+    it 'ignores a late join for a connection that has already left, keeping the place a newer join holds' do
+      call.update!(status: 'ringing')
+      with_legs('CA-old' => 'gone', Call.pending_agent_leg(agent_label) => 'joining')
+
+      described_class.new(call: call, event: 'join', participant_label: agent_label, participant_call_sid: 'CA-old').process
+
+      expect(call.reload).to have_attributes(status: 'ringing')
+      expect(call.agent_legs.dig(Call.pending_agent_leg(agent_label), 'state')).to eq('joining')
+    end
+
     it 'clears the place their accepted join held' do
       call.update!(status: 'ringing')
       conversation.update!(assignee: agent)
