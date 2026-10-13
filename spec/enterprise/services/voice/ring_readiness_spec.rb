@@ -37,6 +37,13 @@ RSpec.describe Voice::RingReadiness do
     expect(readiness.rings?(readiness.memberships.first)).to be(false)
   end
 
+  it 'does not count a voice inbox whose calls the role of the agent cannot open' do
+    account_user.update!(custom_role: create(:custom_role, account: account, permissions: ['conversation_participating_manage']))
+
+    expect(readiness.memberships.first.voice_inboxes).to eq(0)
+    expect(readiness.rings?(readiness.memberships.first)).to be(false)
+  end
+
   it 'does not ring on an account without the mobile push feature' do
     account.disable_features!('mobile_voice_push')
 

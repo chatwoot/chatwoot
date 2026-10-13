@@ -24,7 +24,7 @@ class Voice::RingReadiness
       account = account_user.account
       Membership.new(account: account, voice_enabled: account.feature_enabled?('channel_voice'),
                      ringing_enabled: account.feature_enabled?('mobile_voice_push'),
-                     voice_inboxes: voice_inboxes(account).count { |inbox| inbox.assignable_agents.include?(user) },
+                     voice_inboxes: voice_inboxes(account).count { |inbox| rung_for?(inbox, account_user) },
                      availability: account_user.availability)
     end
   end
@@ -52,6 +52,15 @@ class Voice::RingReadiness
 
   def credentials?(platform)
     Voice::VoipPushService::CREDENTIALS.fetch(platform).all? { |name| GlobalConfigService.load(name, nil).present? }
+  end
+
+  # Whether an unassigned call in the inbox rings the agent: they can be assigned it and their
+  # role lets them open its conversation, as Voice::RingRecipients decides for a real call
+  def rung_for?(inbox, account_user)
+    return false unless inbox.assignable_agents.include?(user)
+
+    conversation = Conversation.new(account: account_user.account, inbox: inbox)
+    ConversationPolicy.new({ user: user, account: account_user.account, account_user: account_user }, conversation).show?
   end
 
   # The inboxes that take incoming calls
