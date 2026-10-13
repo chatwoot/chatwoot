@@ -46,8 +46,25 @@ RSpec.describe Voice::RingReadiness do
   it 'does not ring when the installation cannot push to any registered device' do
     config.delete('APNS_VOIP_KEY')
 
-    expect(readiness.apple).to have_attributes(configured: false, problem: 'credentials')
-    expect(readiness.rings?(readiness.memberships.first)).to be(false)
+    with_modified_env(ENABLE_PUSH_RELAY_SERVER: 'false') do
+      expect(readiness.apple).to have_attributes(configured: false, problem: 'credentials')
+      expect(readiness.rings?(readiness.memberships.first)).to be(false)
+    end
+  end
+
+  it 'rings iPhones through the hub relay once the hub has issued its token' do
+    config.delete('APNS_VOIP_KEY')
+    allow(ChatwootHub).to receive(:push_relay_token).and_return('relay-token')
+
+    expect(readiness.apple).to have_attributes(configured: true, relayed: true, problem: nil)
+    expect(readiness.rings?(readiness.memberships.first)).to be(true)
+  end
+
+  it 'reports the missing relay token when iPhones would go through the hub' do
+    config.delete('APNS_VOIP_KEY')
+    allow(ChatwootHub).to receive(:push_relay_token).and_return(nil)
+
+    expect(readiness.apple).to have_attributes(configured: false, problem: 'relay_token')
   end
 
   it 'reports an APNs environment the push would reject' do
@@ -64,6 +81,10 @@ RSpec.describe Voice::RingReadiness do
     user.notification_subscriptions.create!(subscription_type: 'fcm', identifier: 'ios-1',
                                             subscription_attributes: { 'push_token' => 'i1', 'devicePlatform' => 'iOS' })
 
-    expect(readiness.android).to have_attributes(configured: true, devices: 1)
+    expect(readiness.android).to have_attributes(configured: true, relayed: false, devices: 1)
+  end
+
+  it 'counts Android as configured through the hub relay without Firebase credentials' do
+    expect(readiness.android).to have_attributes(configured: true, relayed: true, problem: nil)
   end
 end

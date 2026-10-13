@@ -53,6 +53,20 @@ describe ChatwootHub do
     end
   end
 
+  context 'when sending VoIP pushes' do
+    it 'posts the tokens and payload with the relay token the hub issued' do
+      InstallationConfig.find_or_initialize_by(name: 'CHATWOOT_PUSH_RELAY_TOKEN').update!(value: 'relay-token')
+      allow(RestClient).to receive(:post)
+
+      described_class.send_voip_push(['voip-1'], { type: 'voice_call.incoming' })
+
+      expect(RestClient).to have_received(:post)
+        .with('https://hub.2.chatwoot.com/send_voip_push',
+              { tokens: ['voip-1'], payload: { type: 'voice_call.incoming' } }.merge(described_class.instance_config).to_json,
+              { content_type: :json, accept: :json, authorization: 'Bearer relay-token' })
+    end
+  end
+
   context 'when sending events' do
     let(:event_name) { 'sample_event' }
     let(:event_data) { { 'sample_data' => 'sample_data' } }
