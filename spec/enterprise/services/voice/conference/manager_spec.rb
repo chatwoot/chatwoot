@@ -235,14 +235,14 @@ RSpec.describe Voice::Conference::Manager do
       expect(call.agent_legs.dig(Call.pending_agent_leg(agent_label), 'state')).to eq('joining')
     end
 
-    it 'clears the place their accepted join held' do
+    it 'keeps the place an accepted join holds, which may belong to a newer attempt' do
       call.update!(status: 'ringing')
       conversation.update!(assignee: agent)
       with_legs('CA-join' => 'joining', Call.pending_agent_leg(agent_label) => 'joining')
 
       described_class.new(call: call, event: 'join', participant_label: agent_label, participant_call_sid: 'CA-join').process
 
-      expect(call.reload.agent_legs.keys).to eq(['CA-join'])
+      expect(call.reload.agent_legs.dig(Call.pending_agent_leg(agent_label), 'state')).to eq('joining')
     end
 
     it 'records their connection as on the call' do

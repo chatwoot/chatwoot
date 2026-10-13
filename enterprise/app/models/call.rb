@@ -163,14 +163,8 @@ class Call < ApplicationRecord
   end
 
   # An agent whose join was accepted holds a place for their connection, which nothing ties
-  # to a particular attempt: it lasts its time to join, or until one of their connections
-  # joins
+  # to a particular attempt, so it lasts its whole time to join
   def self.pending_agent_leg(label) = "pending:#{label}"
-
-  def forget_pending_agent_leg!(label)
-    self.class.where(id: id).update_all(['meta = meta #- ARRAY[?, ?]', 'agent_legs', self.class.pending_agent_leg(label)]) # rubocop:disable Rails/SkipsModelValidations
-    reload
-  end
 
   # Records an agent's connection as joining unless the call has ended, under the row lock,
   # so a decision that ends the call either sees the connection or is seen by it

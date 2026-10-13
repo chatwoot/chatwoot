@@ -56,7 +56,6 @@ class Voice::Conference::Manager
       unless call.accepted_by_agent_id.present? && call.accepted_by_agent_id != user_id
         call.update!(accepted_by_agent_id: user_id) if call.accepted_by_agent_id != user_id
         call.record_agent_leg!(participant_call_sid, 'joined')
-        call.forget_pending_agent_leg!(participant_label)
         claimed = true
       end
       status_manager.process_status_update('in_progress', timestamp: now)
