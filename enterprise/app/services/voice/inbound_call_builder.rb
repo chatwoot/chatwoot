@@ -48,7 +48,7 @@ class Voice::InboundCallBuilder
   # go to the same agents even when the conversation is reassigned before the job runs, and
   # a call the caller ends as soon as it is visible still has them.
   def record_ring_audience(call)
-    return unless account.feature_enabled?('mobile_voice_push')
+    return unless account.feature_enabled?('channel_voice') && account.feature_enabled?('mobile_voice_push')
 
     recipient_ids = Voice::VoipPushService.recipients_for(call).map(&:id)
     call.update_columns(ring_state: call.ring_state.merge('ring_recipient_ids' => recipient_ids)) # rubocop:disable Rails/SkipsModelValidations
