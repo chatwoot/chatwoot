@@ -16,7 +16,7 @@ describe Messages::NewMessageNotificationService do
       { 'APNS_VOIP_KEY' => 'p8', 'APNS_VOIP_KEY_ID' => 'KEY1', 'APNS_VOIP_TEAM_ID' => 'TEAM1' }.fetch(key, default)
     end
     create(:inbox_member, inbox: conversation.inbox, user: assignee)
-    create(:call, conversation: conversation, message_id: message.id)
+    create(:call, conversation: conversation, message_id: message.id, ring_state: { 'ring_recipient_ids' => [assignee.id] })
   end
 
   def subscribe_phone(user)
@@ -29,6 +29,17 @@ describe Messages::NewMessageNotificationService do
     subscribe_phone(assignee)
 
     expect(NotificationBuilder).not_to receive(:new)
+    described_class.new(message: message).perform
+  end
+
+  it 'keeps notifying for a call that never entered the ring' do
+    account.enable_features!('mobile_voice_push')
+    subscribe_phone(assignee)
+    Call.find_by(message_id: message.id).update!(ring_state: {})
+
+    expect(NotificationBuilder).to receive(:new)
+      .with(hash_including(notification_type: 'assigned_conversation_new_message', user: assignee))
+      .and_call_original
     described_class.new(message: message).perform
   end
 
