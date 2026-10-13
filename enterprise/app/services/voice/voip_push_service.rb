@@ -196,7 +196,7 @@ class Voice::VoipPushService
     unreached = unreached_user_ids(apple_results.merge(android_results))
     forget_devices(APPLE, gone(apple_results))
     forget_devices(ANDROID, gone(android_results))
-    merge_ring_state('unreached_user_ids' => unreached) if unreached.any?
+    merge_ring_state('unreached_user_ids' => unreached)
     replay_new_message_notification
   end
 

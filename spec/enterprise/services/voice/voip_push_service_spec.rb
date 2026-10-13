@@ -249,6 +249,16 @@ RSpec.describe Voice::VoipPushService do
       expect(NotificationSubscription.where(user: agent)).to exist
     end
 
+    it 'clears the agents an earlier ring left unreached once a retry reaches them' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      call.update!(ring_state: { 'unreached_user_ids' => [agent.id] })
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([])
+      expect(described_class.new(call: call).ringable_user_ids).to include(agent.id)
+    end
+
     it 'treats a push the platform rejected as not reaching the agent' do
       subscribe(agent, 'apns_voip', 'apple-1')
       allow(apple_response).to receive(:status).and_return('500')
