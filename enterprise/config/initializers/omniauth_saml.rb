@@ -9,6 +9,8 @@ SAML_SETUP_PROC = proc do |env|
   account_id = request.params['account_id'] ||
                env['omniauth.params']&.dig('account_id')
   relay_state = request.params['RelayState'] || ''
+  # Strategy options are shared across requests, so clear the previous account's certificates.
+  env['omniauth.strategy'].options[:idp_cert_multi] = nil
 
   if account_id
     # Keep SAML request context in OmniAuth env so the callback can be processed
@@ -21,6 +23,7 @@ SAML_SETUP_PROC = proc do |env|
     settings = AccountSamlSettings.find_by(account_id: account_id)
 
     if settings
+      settings.refresh_metadata
       # Configure the strategy options dynamically
       env['omniauth.strategy'].options[:idp_sso_service_url_runtime_params] = { RelayState: :RelayState }
       base_url = GlobalConfigService.load('FRONTEND_URL', 'http://localhost:3000')
@@ -29,6 +32,8 @@ SAML_SETUP_PROC = proc do |env|
       env['omniauth.strategy'].options[:idp_entity_id] = settings.idp_entity_id
       env['omniauth.strategy'].options[:idp_sso_service_url] = settings.sso_url
       env['omniauth.strategy'].options[:idp_cert] = settings.certificate
+      signing_certificates = settings.signing_certificates
+      env['omniauth.strategy'].options[:idp_cert_multi] = { signing: signing_certificates } if signing_certificates.many?
       env['omniauth.strategy'].options[:name_identifier_format] = 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
     else
       # Set a dummy certificate to avoid the error
