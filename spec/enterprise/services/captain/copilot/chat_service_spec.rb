@@ -73,7 +73,7 @@ RSpec.describe Captain::Copilot::ChatService do
       account.update!(captain_models: { 'copilot' => 'gpt-5.2' })
 
       expect(RubyLLM).to receive(:chat).with(model: 'gpt-5.2', protocol: :responses).and_return(mock_chat)
-      expect(mock_chat).to receive(:with_thinking).with(effort: :none).and_return(mock_chat)
+      expect(mock_chat).to receive(:with_thinking).with(effort: :medium).and_return(mock_chat)
       expect(mock_chat).to receive(:with_provider_options).with(
         text: { format: { type: 'json_schema', name: 'copilot_response', schema: { type: 'object', additionalProperties: true }, strict: false } }
       ).and_return(mock_chat)

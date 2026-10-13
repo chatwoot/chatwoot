@@ -110,7 +110,7 @@ features:
       ]
     default: gpt-4.1
   copilot:
-    reasoning_effort: none
+    reasoning_effort: medium
     models:
       [
         gpt-4.1-mini,
@@ -123,7 +123,7 @@ features:
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-4.1
+    default: gpt-5.2
   document_faq_generation:
     models:
       [
