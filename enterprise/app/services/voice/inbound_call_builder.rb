@@ -46,7 +46,7 @@ class Voice::InboundCallBuilder
   # the call row is visible to the worker, which otherwise finds nothing to ring for.
   def ring_phones(call)
     return unless call.ringing?
-    return unless account.feature_enabled?('mobile_voice_push')
+    return unless account.feature_enabled?('channel_voice') && account.feature_enabled?('mobile_voice_push')
 
     ActiveRecord.after_all_transactions_commit { Voice::VoipPushJob.perform_later(call.id, 'ring') }
   end
