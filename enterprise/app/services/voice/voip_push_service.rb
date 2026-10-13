@@ -66,13 +66,13 @@ class Voice::VoipPushService
   end
 
   def deliver_ring(apple, android)
-    sender = Voice::ApnsVoipSender.new(settings: apple_settings, call_id: call.id) if apple.any?
-    client = fcm_client if android.any?
+    sender = platform_client('apple') { Voice::ApnsVoipSender.new(settings: apple_settings, call_id: call.id) } if apple.any?
+    client = platform_client('android') { fcm_client } if android.any?
     payload = ring_payload
     data = ring_data
     [
       Thread.new { with_rails { sender ? sender.ring(apple, payload) : [] } },
-      Thread.new { with_rails { deliver_android_all(client, android, data, 'ring') } }
+      Thread.new { with_rails { client ? deliver_android_all(client, android, data, 'ring') : [] } }
     ].map(&:value)
   end
 
@@ -89,8 +89,19 @@ class Voice::VoipPushService
     return if tokens.blank?
 
     data = cancel_data
-    client = fcm_client
+    client = platform_client('android') { fcm_client }
+    return unless client
+
     forget_devices(ANDROID, with_rails { deliver_android_all(client, tokens, data, 'cancel') })
+  end
+
+  # A platform whose client cannot be set up, such as when Google's token request fails,
+  # is not rung; the other platform still is
+  def platform_client(platform)
+    yield
+  rescue StandardError => e
+    Rails.logger.error("[VOIP PUSH] call #{call.id}: #{platform} client failed: #{e.class}: #{e.message}")
+    nil
   end
 
   def with_rails(&)
@@ -179,9 +190,7 @@ class Voice::VoipPushService
 
   # FCM data values must all be strings, and the caller travels as JSON
   def ring_data
-    data = ring_payload.except(:caller).transform_keys(&:to_s).transform_values(&:to_s)
-    data['caller'] = ring_payload[:caller].to_json
-    data
+    ring_payload.except(:caller).transform_keys(&:to_s).transform_values(&:to_s).merge('caller' => ring_payload[:caller].to_json)
   end
 
   def cancel_data
@@ -252,11 +261,7 @@ class Voice::VoipPushService
   end
 
   def deliver_android(client, token, data, kind)
-    response = client.send_v1(
-      token: token,
-      data: data,
-      android: { priority: 'high', ttl: "#{RING_EXPIRY_SECONDS}s" }
-    )
+    response = client.send_v1(token: token, data: data, android: { priority: 'high', ttl: "#{RING_EXPIRY_SECONDS}s" })
     Rails.logger.info("[VOIP PUSH] android #{kind} call #{call.id} to #{token[0, 8]}… status=#{response[:status_code]}")
     response[:status_code] == 404 && response[:body].to_s.include?('UNREGISTERED') ? :gone : :sent
   rescue StandardError => e
