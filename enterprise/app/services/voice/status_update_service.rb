@@ -53,13 +53,17 @@ class Voice::StatusUpdateService
     # Callbacks for one call can run at the same time; the check and the write share the
     # row lock, and the write touches only this key so another webhook's meta keeps it
     call.with_lock do
-      next false if (call.terminal? && !call.unanswered_by_failed_join?) || call.provider_status == provider_status
+      next false if call.provider_status == provider_status || !provider_status_recordable?(call)
       next false if stale_provider_status?(call.provider_status, provider_status)
 
       call.merge_meta!('provider_status' => provider_status)
       true
     end
   end
+
+  # An ended call keeps the provider status it ended with, apart from one a failed join ended
+  # unanswered: the answer that comes in after it, and then the final status, are recorded
+  def provider_status_recordable?(call) = !call.terminal? || call.meta&.dig('unanswered_by_failed_join').present?
 
   # A delayed callback for an earlier stage does not move the status backwards
   def stale_provider_status?(current, incoming)

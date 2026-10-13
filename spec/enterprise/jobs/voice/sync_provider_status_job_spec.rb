@@ -87,7 +87,7 @@ RSpec.describe Voice::SyncProviderStatusJob do
 
     described_class.perform_now(call.id)
 
-    expect(call.reload).to have_attributes(status: 'failed', started_at: started, duration_seconds: 42)
+    expect(call.reload).to have_attributes(status: 'failed', started_at: started, duration_seconds: 42, provider_status: 'completed')
   end
 
   it 'fills in the duration along with the start of a call that completed without either' do
