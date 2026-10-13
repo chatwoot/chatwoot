@@ -44,12 +44,18 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect(call.reload.accepted_by_agent_id).to eq(agent.id)
     end
 
-    it 'holds a place for the agent connection on its way in' do
+    it 'holds a place for the connection of the attempt the agent names' do
       agent = create(:user, account: account)
 
-      service.mark_agent_joined(user: agent)
+      service.mark_agent_joined(user: agent, attempt: 'attempt-1')
 
-      expect(call.reload.agent_legs.dig(Call.pending_agent_leg("agent-#{agent.id}-account-#{account.id}"), 'state')).to eq('joining')
+      expect(call.reload.agent_legs.dig(Call.pending_agent_leg('attempt-1'), 'state')).to eq('joining')
+    end
+
+    it 'holds no place for a client that names no attempt' do
+      service.mark_agent_joined(user: create(:user, account: account))
+
+      expect(call.reload.agent_legs).to be_empty
     end
 
     it 'keeps an existing AgentBot conversation owner' do

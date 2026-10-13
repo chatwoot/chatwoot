@@ -8,8 +8,10 @@ class Voice::Provider::Twilio::ConferenceService
     call.conference_sid
   end
 
-  def mark_agent_joined(user:)
-    claim_call!(user)
+  # `attempt` identifies the connection the agent is about to open, which passes the same id
+  # to Twilio; a client that sends none holds no place for it
+  def mark_agent_joined(user:, attempt: nil)
+    claim_call!(user, attempt)
     assign_conversation!(user)
   end
 
@@ -77,11 +79,11 @@ class Voice::Provider::Twilio::ConferenceService
   end
 
   # The agent's connection is on its way from here, before Twilio asks for its instructions
-  def claim_call!(user)
+  def claim_call!(user, attempt)
     call.with_lock do
       raise_already_accepted!(call.accepted_by_agent) if claimed_by_other_agent?(user)
       call.update!(accepted_by_agent: user) if call.accepted_by_agent_id != user.id
-      call.record_agent_leg!(Call.pending_agent_leg("agent-#{user.id}-account-#{call.account_id}"), 'joining')
+      call.record_agent_leg!(Call.pending_agent_leg(attempt), 'joining') if attempt.present?
     end
   end
 

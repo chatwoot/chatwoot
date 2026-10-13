@@ -131,13 +131,17 @@ RSpec.describe Call do
       expect(call.reload.agent_legs).to be_empty
     end
 
-    it 'keeps the place an accepted join holds when a connection opens, which may belong to an earlier attempt' do
-      pending_key = described_class.pending_agent_leg('agent-1-account-1')
-      call.with_lock { call.record_agent_leg!(pending_key, 'joining') }
+    it 'gives up only the place its own attempt held when a connection opens' do
+      own = described_class.pending_agent_leg('attempt-1')
+      newer = described_class.pending_agent_leg('attempt-2')
+      call.with_lock do
+        call.record_agent_leg!(own, 'joining')
+        call.record_agent_leg!(newer, 'joining')
+      end
 
-      call.open_agent_leg!('CA-1')
+      call.open_agent_leg!('CA-1', attempt: 'attempt-1')
 
-      expect(call.reload.agent_legs.keys).to contain_exactly(pending_key, 'CA-1')
+      expect(call.reload.agent_legs.keys).to contain_exactly(newer, 'CA-1')
     end
 
     it 'keeps a leg gone when a late callback for it arrives' do

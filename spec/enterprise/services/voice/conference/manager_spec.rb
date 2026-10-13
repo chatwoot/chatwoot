@@ -227,22 +227,22 @@ RSpec.describe Voice::Conference::Manager do
   describe 'an agent joining' do
     it 'ignores a late join for a connection that has already left, keeping the place a newer join holds' do
       call.update!(status: 'ringing')
-      with_legs('CA-old' => 'gone', Call.pending_agent_leg(agent_label) => 'joining')
+      with_legs('CA-old' => 'gone', Call.pending_agent_leg('attempt-2') => 'joining')
 
       described_class.new(call: call, event: 'join', participant_label: agent_label, participant_call_sid: 'CA-old').process
 
       expect(call.reload).to have_attributes(status: 'ringing')
-      expect(call.agent_legs.dig(Call.pending_agent_leg(agent_label), 'state')).to eq('joining')
+      expect(call.agent_legs.dig(Call.pending_agent_leg('attempt-2'), 'state')).to eq('joining')
     end
 
     it 'keeps the place an accepted join holds, which may belong to a newer attempt' do
       call.update!(status: 'ringing')
       conversation.update!(assignee: agent)
-      with_legs('CA-join' => 'joining', Call.pending_agent_leg(agent_label) => 'joining')
+      with_legs('CA-join' => 'joining', Call.pending_agent_leg('attempt-2') => 'joining')
 
       described_class.new(call: call, event: 'join', participant_label: agent_label, participant_call_sid: 'CA-join').process
 
-      expect(call.reload.agent_legs.dig(Call.pending_agent_leg(agent_label), 'state')).to eq('joining')
+      expect(call.reload.agent_legs.dig(Call.pending_agent_leg('attempt-2'), 'state')).to eq('joining')
     end
 
     it 'records their connection as on the call' do
@@ -288,7 +288,7 @@ RSpec.describe Voice::Conference::Manager do
 
   describe 'an agent whose join was accepted but whose connection has not asked for its instructions' do
     it 'keeps the call when the old connection leaves meanwhile' do
-      call.update!(meta: call.meta.merge('agent_legs' => { Call.pending_agent_leg(agent_label) => { 'state' => 'joining',
+      call.update!(meta: call.meta.merge('agent_legs' => { Call.pending_agent_leg('attempt-2') => { 'state' => 'joining',
                                                                                                     'at' => Time.zone.now.to_i } }))
 
       leave(agent_label)
