@@ -43,6 +43,19 @@ class Voice::Provider::Twilio::ConferenceService
     Call.where(id: call.id).update_all(['ring_state = ring_state || ?::jsonb', { 'assigned_by_claim' => user_id }.to_json]) # rubocop:disable Rails/SkipsModelValidations
   end
 
+  # Completes the call once no agent connection is still on its way in, under the row lock
+  # that opening a connection takes, so a connection either counts here or finds the call
+  # over and is hung up. Returns the seconds to wait for the connections still joining.
+  def complete_unless_agent_joining(leaving_call_sid:)
+    call.with_lock do
+      wait = call.agent_leg_join_wait(except: leaving_call_sid)
+      next wait if wait
+
+      Voice::CallStatus::Manager.new(call: call).process_status_update('completed', timestamp: Time.zone.now.to_i) unless call.terminal?
+      nil
+    end
+  end
+
   private
 
   def client
@@ -59,10 +72,12 @@ class Voice::Provider::Twilio::ConferenceService
     end
   end
 
+  # The agent's connection is on its way from here, before Twilio asks for its instructions
   def claim_call!(user)
     call.with_lock do
       raise_already_accepted!(call.accepted_by_agent) if claimed_by_other_agent?(user)
       call.update!(accepted_by_agent: user) if call.accepted_by_agent_id != user.id
+      call.record_agent_leg!(Call.pending_agent_leg("agent-#{user.id}-account-#{call.account_id}"), 'joining')
     end
   end
 

@@ -26,10 +26,9 @@ class Voice::EndConferenceJob < ApplicationJob
     return if call.blank? || !call.twilio?
 
     conference = Voice::Provider::Twilio::ConferenceService.new(call: call)
-    return if leaving_call_sid && conference.agents_remain?(leaving_call_sid: leaving_call_sid)
+    return if leaving_call_sid && agent_still_on_call?(conference, call, leaving_call_sid)
 
     conference.end_conference
-    complete(call) if leaving_call_sid
   end
 
   private
@@ -39,7 +38,7 @@ class Voice::EndConferenceJob < ApplicationJob
   # round, and the call completes once the rounds run out
   def give_up(call, round, leaving_call_sid)
     conference = Voice::Provider::Twilio::ConferenceService.new(call: call)
-    return if leaving_call_sid && conference.agents_remain?(leaving_call_sid: leaving_call_sid)
+    return if leaving_call_sid && agent_still_on_call?(conference, call, leaving_call_sid)
 
     conference.end_conference
     complete(call)
@@ -48,6 +47,17 @@ class Voice::EndConferenceJob < ApplicationJob
     return complete(call) if round >= LATE_ROUNDS
 
     self.class.set(wait: LATE_ROUND_WAIT).perform_later(call.id, leaving_call_sid: leaving_call_sid, round: round + 1)
+  end
+
+  # Another agent is in the conference or on their way in, in which case the check runs again
+  # once their time to join is up; with none, the call is completed first, under the row
+  # lock opening a connection takes, so one opened later finds the call over
+  def agent_still_on_call?(conference, call, leaving_call_sid)
+    return true if conference.agents_remain?(leaving_call_sid: leaving_call_sid)
+
+    wait = conference.complete_unless_agent_joining(leaving_call_sid: leaving_call_sid)
+    self.class.set(wait: wait.seconds).perform_later(call.id, leaving_call_sid: leaving_call_sid) if wait
+    wait.present?
   end
 
   def complete(call)

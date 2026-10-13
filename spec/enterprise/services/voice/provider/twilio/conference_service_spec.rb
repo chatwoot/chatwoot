@@ -44,6 +44,14 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect(call.reload.accepted_by_agent_id).to eq(agent.id)
     end
 
+    it 'holds a place for the agent connection on its way in' do
+      agent = create(:user, account: account)
+
+      service.mark_agent_joined(user: agent)
+
+      expect(call.reload.agent_legs.dig(Call.pending_agent_leg("agent-#{agent.id}-account-#{account.id}"), 'state')).to eq('joining')
+    end
+
     it 'keeps an existing AgentBot conversation owner' do
       agent = create(:user, account: account)
       agent_bot = create(:agent_bot, account: account)

@@ -2,9 +2,6 @@ class Voice::Conference::Manager
   pattr_initialize [:call!, :event!, :participant_label, :participant_call_sid, :leave_reason]
 
   AGENT_LABEL_PATTERN = /\Aagent-(\d+)-account-(\d+)\z/
-  # How long an agent's connection counts as on its way into the conference after Twilio
-  # asked for its instructions; one not in by then is taken to have failed
-  LEG_JOIN_GRACE_SECONDS = 30
 
   def process
     case event
@@ -106,7 +103,9 @@ class Voice::Conference::Manager
   # contact leaving a call that already ended still ends the conference.
   #
   # An agent who reconnects has their new connection still on its way in when the old one
-  # leaves: the call waits for it, and a job checks again once its time to join is up.
+  # leaves: the call waits for it, and a job checks again once its time to join is up. The
+  # call is completed before its conference is ended, so a connection opened after that
+  # finds the call over and is hung up.
   #
   # A leg Twilio could not add never joined; see handle_failed_add!.
   def handle_leave!
@@ -116,29 +115,26 @@ class Voice::Conference::Manager
     live = leave_finds_live_call?
     return end_conference! if contact_leaving_answered_call?
     return unless live
-    return if agent_still_on_call?
+    return if agent_participant? && agent_still_on_call?
 
-    end_conference!
     status_manager.process_status_update('completed', timestamp: now)
+    end_conference!
   end
 
+  # Another agent is in the conference or on their way in; with none, the call is completed
+  # under the row lock that opening a connection takes
   def agent_still_on_call?
-    agent_participant? && (other_agents_remain? || await_joining_leg)
+    return true if other_agents_remain?
+
+    wait = conference_service.complete_unless_agent_joining(leaving_call_sid: participant_call_sid)
+    return false unless wait
+
+    Voice::EndConferenceJob.set(wait: wait.seconds).perform_later(call.id, leaving_call_sid: participant_call_sid)
+    true
   end
 
   def leave_agent_leg!
     call.with_lock { call.record_agent_leg!(participant_call_sid, 'gone') }
-  end
-
-  # Whether another of the agents' connections is still on its way in; the conference is
-  # checked again when its time to join runs out
-  def await_joining_leg
-    joining = other_agent_legs.select { |leg| joining?(leg) }
-    return false if joining.empty?
-
-    wait = joining.map { |leg| leg['at'].to_i + LEG_JOIN_GRACE_SECONDS - now }.max
-    Voice::EndConferenceJob.set(wait: [wait, 1].max.seconds).perform_later(call.id, leaving_call_sid: participant_call_sid)
-    true
   end
 
   # Whether the leave left a live call behind; a call still ringing is marked unanswered
@@ -170,17 +166,29 @@ class Voice::Conference::Manager
   #
   # The leg is marked gone and the outcome decided under one row lock, which a new
   # connection is recorded under too, so a retry is either seen here or finds the call ended.
+  # A failure set aside for a connection still on its way in is decided again once that
+  # connection's time to join is up.
   def handle_failed_add!
     user_id = extract_user_id
     outcome = call.with_lock { failed_add_outcome(user_id) }
     return release_claim_assignment(user_id) if outcome == :release
+    return end_conference! if outcome == :end
 
-    end_conference! if outcome == :end
+    recheck_failed_add(outcome) if outcome.is_a?(Integer)
   end
 
+  def recheck_failed_add(wait)
+    Voice::FailedAddRecheckJob.set(wait: wait.seconds).perform_later(call.id, participant_label, participant_call_sid)
+  end
+
+  # :release, :end, nil when another connection is on the call, or the seconds to wait for
+  # one still on its way in
   def failed_add_outcome(user_id)
     call.record_agent_leg!(participant_call_sid, 'gone')
-    return if other_agent_legs.any? { |leg| on_call_or_joining?(leg) }
+    return if call.agent_leg_joined?(except: participant_call_sid)
+
+    wait = call.agent_leg_join_wait(except: participant_call_sid)
+    return wait if wait
     return release_failed_claim(user_id) if call.ringing? && call.incoming?
     return unless call.ringing? || call.in_progress?
 
@@ -196,38 +204,28 @@ class Voice::Conference::Manager
 
   # The conversation the failed claim assigned goes back to unassigned, so it rings for
   # everyone again, or to an agent who claimed the call since, whose own claim found it
-  # still assigned; an assignment made otherwise stays
+  # still assigned; an assignment made otherwise stays. The call's lock is taken first, as
+  # a claim takes it, then the conversation's, so a claim lands wholly before or after.
   def release_claim_assignment(user_id)
     return unless user_id && call.reload.ring_state['assigned_by_claim'] == user_id
 
     conversation = call.conversation
-    # Checked under the conversation's lock, so an assignment made meanwhile is kept
-    conversation.with_lock do
-      next unless conversation.assignee_id == user_id
+    call.with_lock do
+      conversation.with_lock do
+        next unless conversation.assignee_id == user_id
 
-      claimant = call.reload.accepted_by_agent_id
-      next if claimant == user_id
+        claimant = call.accepted_by_agent_id
+        next if claimant == user_id
 
-      Conversations::AssignmentService.new(conversation: conversation, assignee_id: claimant).perform
-      conference_service.remember_claim_assignment(claimant) if claimant
+        Conversations::AssignmentService.new(conversation: conversation, assignee_id: claimant).perform
+        conference_service.remember_claim_assignment(claimant) if claimant
+      end
     end
   end
 
   def release_failed_claim(user_id)
     call.update!(accepted_by_agent_id: nil) if user_id && call.accepted_by_agent_id == user_id
     :release
-  end
-
-  def other_agent_legs
-    call.agent_legs.except(participant_call_sid.to_s).values
-  end
-
-  def on_call_or_joining?(leg)
-    leg['state'] == 'joined' || joining?(leg)
-  end
-
-  def joining?(leg)
-    leg['state'] == 'joining' && leg['at'].to_i > now - LEG_JOIN_GRACE_SECONDS
   end
 
   def claimant_leaving_unjoined_call?

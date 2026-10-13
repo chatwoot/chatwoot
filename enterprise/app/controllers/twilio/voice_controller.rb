@@ -28,7 +28,7 @@ class Twilio::VoiceController < ApplicationController
 
     call = resolve_call
     # The leg was answered after the call ended (e.g. hangup raced the cancel); don't strand it in an empty conference.
-    return render xml: hangup_twiml if agent_leg?(twilio_from) ? !call.open_agent_leg!(twilio_call_sid) : call.terminal?
+    return render xml: hangup_twiml unless open_leg?(call)
 
     render xml: conference_twiml(call)
   end
@@ -67,9 +67,7 @@ class Twilio::VoiceController < ApplicationController
 
   private
 
-  def twilio_call_sid
-    params[:CallSid]
-  end
+  def twilio_call_sid = params[:CallSid]
 
   def twilio_from
     params[:From].to_s
@@ -125,6 +123,9 @@ class Twilio::VoiceController < ApplicationController
       raise ArgumentError, "Unsupported Twilio direction: #{twilio_direction}"
     end
   end
+
+  # An agent's connection is recorded as on its way in, unless the call has ended
+  def open_leg?(call) = agent_leg?(twilio_from) ? call.open_agent_leg!(twilio_call_sid, participant_label_for(twilio_from)) : !call.terminal?
 
   def find_call_for_agent
     sid = params[:call_sid].presence

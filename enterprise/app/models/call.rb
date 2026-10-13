@@ -144,12 +144,34 @@ class Call < ApplicationRecord
     meta&.fetch('agent_legs', nil) || {}
   end
 
+  # How long an agent's connection counts as on its way into the conference; one not in by
+  # then is taken to have failed
+  AGENT_LEG_JOIN_GRACE_SECONDS = 30
+
+  # Seconds until the last of the connections still on its way in, other than the one
+  # given, runs out of time to join; nil when there is none
+  def agent_leg_join_wait(except: nil)
+    now = Time.zone.now.to_i
+    joining = agent_legs.except(except.to_s).values.select { |leg| leg['state'] == 'joining' && leg['at'].to_i > now - AGENT_LEG_JOIN_GRACE_SECONDS }
+    joining.map { |leg| leg['at'].to_i + AGENT_LEG_JOIN_GRACE_SECONDS - now }.max&.clamp(1..)
+  end
+
+  def agent_leg_joined?(except: nil)
+    agent_legs.except(except.to_s).values.any? { |leg| leg['state'] == 'joined' }
+  end
+
+  # An agent whose join was accepted holds a place until Twilio asks for their connection's
+  # instructions and its call SID is known
+  def self.pending_agent_leg(label) = "pending:#{label}"
+
   # Records an agent's connection as joining unless the call has ended, under the row lock,
-  # so a decision that ends the call either sees the connection or is seen by it
-  def open_agent_leg!(sid)
+  # so a decision that ends the call either sees the connection or is seen by it. The
+  # place the agent's join held is given up to it.
+  def open_agent_leg!(sid, label)
     with_lock do
       next false if terminal?
 
+      self.class.where(id: id).update_all(['meta = meta #- ARRAY[?, ?]', 'agent_legs', self.class.pending_agent_leg(label)]) # rubocop:disable Rails/SkipsModelValidations
       record_agent_leg!(sid, 'joining')
       true
     end

@@ -14,6 +14,10 @@ RSpec.describe Voice::Conference::Manager do
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
+    real = Voice::Provider::Twilio::ConferenceService.new(call: call)
+    allow(conference).to receive(:complete_unless_agent_joining) do |leaving_call_sid:|
+      real.complete_unless_agent_joining(leaving_call_sid: leaving_call_sid)
+    end
     allow(Voice::Provider::Twilio::ConferenceService).to receive(:new).and_return(conference)
   end
 
@@ -194,6 +198,14 @@ RSpec.describe Voice::Conference::Manager do
       expect(conference).to have_received(:end_conference)
     end
 
+    it 'decides again once a connection still on its way in has had its time' do
+      call.update!(status: 'ringing', direction: :outgoing)
+      with_legs('CA-retry' => 'joining')
+
+      expect { failed_add }.to have_enqueued_job(Voice::FailedAddRecheckJob).with(call.id, agent_label, 'CA-leaving')
+      expect(call.reload.status).to eq('ringing')
+    end
+
     it 'treats a connection that has not joined within its time as failed' do
       call.update!(status: 'ringing', direction: :outgoing)
       call.update!(meta: call.meta.merge('agent_legs' => { 'CA-retry' => { 'state' => 'joining', 'at' => 2.minutes.ago.to_i } }))
@@ -213,6 +225,32 @@ RSpec.describe Voice::Conference::Manager do
       described_class.new(call: call, event: 'join', participant_label: agent_label, participant_call_sid: 'CA-join').process
 
       expect(call.reload.agent_legs.dig('CA-join', 'state')).to eq('joined')
+    end
+  end
+
+  describe 'an agent leaving while a new connection opens during the participant lookup' do
+    it 'keeps the call for the new connection' do
+      allow(conference).to receive(:agents_remain?) do
+        Call.find(call.id).open_agent_leg!('CA-new', agent_label)
+        false
+      end
+
+      expect { leave(agent_label) }.to have_enqueued_job(Voice::EndConferenceJob)
+
+      expect(call.reload.status).to eq('in_progress')
+      expect(conference).not_to have_received(:end_conference)
+    end
+  end
+
+  describe 'an agent whose join was accepted but whose connection has not asked for its instructions' do
+    it 'keeps the call when the old connection leaves meanwhile' do
+      call.update!(meta: call.meta.merge('agent_legs' => { Call.pending_agent_leg(agent_label) => { 'state' => 'joining',
+                                                                                                    'at' => Time.zone.now.to_i } }))
+
+      leave(agent_label)
+
+      expect(call.reload.status).to eq('in_progress')
+      expect(conference).not_to have_received(:end_conference)
     end
   end
 

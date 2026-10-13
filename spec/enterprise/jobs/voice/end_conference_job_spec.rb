@@ -12,7 +12,13 @@ RSpec.describe Voice::EndConferenceJob do
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
-    allow(Voice::Provider::Twilio::ConferenceService).to receive(:new).and_return(conference)
+    real = Voice::Provider::Twilio::ConferenceService.method(:new)
+    allow(Voice::Provider::Twilio::ConferenceService).to receive(:new) do |call:|
+      allow(conference).to receive(:complete_unless_agent_joining) do |leaving_call_sid:|
+        real.call(call: call).complete_unless_agent_joining(leaving_call_sid: leaving_call_sid)
+      end
+      conference
+    end
   end
 
   it 'ends the conference of the call' do
@@ -45,6 +51,16 @@ RSpec.describe Voice::EndConferenceJob do
 
     expect(conference).to have_received(:end_conference)
     expect(live.reload.status).to eq('completed')
+  end
+
+  it 'waits for an agent connection still on its way in' do
+    live = create(:call, conversation: conversation, status: 'in_progress', started_at: 1.minute.ago,
+                         meta: { 'agent_legs' => { 'CA-new' => { 'state' => 'joining', 'at' => Time.zone.now.to_i } } })
+
+    expect { described_class.perform_now(live.id, leaving_call_sid: 'CA-agent-1') }
+      .to have_enqueued_job(described_class).with(live.id, leaving_call_sid: 'CA-agent-1')
+    expect(conference).not_to have_received(:end_conference)
+    expect(live.reload.status).to eq('in_progress')
   end
 
   it 'retries when Twilio cannot be reached' do
