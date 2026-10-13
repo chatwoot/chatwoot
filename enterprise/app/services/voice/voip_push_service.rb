@@ -241,7 +241,10 @@ class Voice::VoipPushService
   end
 
   def deliver_android(client, token, data, kind)
-    response = client.send_v1(token: token, data: data, android: { priority: 'high', ttl: "#{RING_EXPIRY_SECONDS}s" })
+    # One collapse key per call, so a cancel queued for an offline phone replaces the ring
+    # rather than arriving before it
+    android = { priority: 'high', ttl: "#{RING_EXPIRY_SECONDS}s", collapse_key: "voice_call_#{call.id}" }
+    response = client.send_v1(token: token, data: data, android: android)
     outcome = android_outcome(response)
     Rails.logger.public_send(outcome == :failed ? :error : :info,
                              "[VOIP PUSH] android #{kind} call #{call.id} to #{token[0, 8]}… status=#{response[:status_code]}")

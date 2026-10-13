@@ -161,7 +161,7 @@ RSpec.describe Voice::VoipPushService do
       described_class.new(call: call).perform('ring')
 
       expect(fcm_client).to have_received(:send_v1).once.with(
-        hash_including(token: 'android-1', android: { priority: 'high', ttl: '45s' })
+        hash_including(token: 'android-1', android: { priority: 'high', ttl: '45s', collapse_key: "voice_call_#{call.id}" })
       ) do |args|
         expect(args[:data]).to include('type' => 'voice_call.incoming', 'id' => call.id.to_s, 'inbox_name' => inbox.name,
                                        'conversation_id' => call.conversation.display_id.to_s)
