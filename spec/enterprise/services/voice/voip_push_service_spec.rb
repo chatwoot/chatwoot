@@ -96,6 +96,18 @@ RSpec.describe Voice::VoipPushService do
       expect(events.count(:start)).to eq(3)
     end
 
+    it 'logs an APNs rejection as an error and keeps the device' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      allow(apple_connection).to receive(:push).and_return(instance_double(Apnotic::Response, status: '403',
+                                                                                              body: { 'reason' => 'InvalidProviderToken' }))
+      allow(Rails.logger).to receive(:error)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(Rails.logger).to have_received(:error).with(/status=403/)
+      expect(NotificationSubscription.where(user: agent)).to exist
+    end
+
     it 'rings iPhones while the Firebase client is still being set up' do
       subscribe(agent, 'apns_voip', 'apple-1')
       subscribe(other_agent, 'fcm', 'android-1', platform: 'Android')
