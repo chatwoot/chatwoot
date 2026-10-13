@@ -50,6 +50,12 @@ RSpec.describe 'Super Admin User diagnostics', type: :request do
         expect(response).to redirect_to("/super_admin/user_diagnostics?tab=push&user_query=#{user.id}")
       end
 
+      it 'opens the push tab from the retired path even when the link names another tab' do
+        get '/super_admin/push_diagnostics', params: { user_query: user.id.to_s, tab: 'mobile' }
+
+        expect(response).to redirect_to("/super_admin/user_diagnostics?tab=push&user_query=#{user.id}")
+      end
+
       it 'falls back to the push tab for an unknown tab' do
         get '/super_admin/user_diagnostics', params: { user_query: user.email, tab: 'nonsense' }
 
