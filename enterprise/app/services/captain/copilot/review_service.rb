@@ -117,7 +117,7 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
     # The reviewer sometimes rules a conversation out on text it never saw, so a first-pass no on a cut message goes to
     # the deep pass, which has room for more of it.
     more = row['needs_more_history'] || (!deep && !row['matched'] && evidence[:messages].any? { |message| message[:content_truncated] })
-    { status: more ? 'more_history' : 'resolved', matched: more ? false : row['matched'],
+    { status: more ? :more_history : :resolved, matched: more ? false : row['matched'],
       category: row['category'].to_s.first(80), reason: row['reason'].to_s.first(500), evidence_message_ids: evidence_ids,
       reviewed_message_ids: reviewed_ids, history_truncated: evidence[:history_truncated] }
   end

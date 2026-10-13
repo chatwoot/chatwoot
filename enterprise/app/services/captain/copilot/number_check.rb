@@ -28,7 +28,7 @@ class Captain::Copilot::NumberCheck
 
   # Everything the model was given in this thread: the agent's messages, and every tool call and its result.
   def unsupported(answer)
-    steps = CopilotRunStep.where(copilot_run: @run.copilot_thread.copilot_runs.where(kind: 'chat'))
+    steps = CopilotRunStep.where(copilot_run: @run.copilot_thread.copilot_runs.chat)
     sources = [@run.copilot_thread.copilot_messages.user.map(&:message), steps.pluck(:arguments, :result), @run.user_id, @run.account_id]
     Captain::Copilot::AnswerNumbers.new(answer, sources).unsupported
   end

@@ -4,7 +4,7 @@ class Captain::Copilot::ExecutionJob < ApplicationJob
   MAX_ATTEMPTS = 3
 
   def perform(run_id)
-    run = CopilotRun.where(kind: 'chat', status: %w[queued running]).find_by(id: run_id)
+    run = CopilotRun.chat.claimable.find_by(id: run_id)
     return unless run
 
     return self.class.set(wait: 5.seconds).perform_later(run.id) if run.behind_earlier_turn?
@@ -29,7 +29,7 @@ class Captain::Copilot::ExecutionJob < ApplicationJob
     run.with_lease(token) do
       attempts = run.attempts + 1
       failed = terminal_failure?(attempts, exception)
-      run.update!(status: failed ? 'failed' : 'queued', attempts: attempts, error: exception.class.name, lease_token: nil, lease_until: nil)
+      run.update!(status: failed ? :failed : :queued, attempts: attempts, error: exception.class.name, lease_token: nil, lease_until: nil)
       if failed
         persist_failure(run, exception)
       else

@@ -47,9 +47,15 @@ class CopilotRun < ApplicationRecord
 
   LEASE_DURATION = 2.minutes
 
-  validates :kind, inclusion: { in: %w[chat collection review] }
+  enum :kind, { chat: 'chat', collection: 'collection', review: 'review' }, validate: true
   # waiting: a chat run parked until a background run started by one of its tool calls finishes.
-  validates :status, inclusion: { in: %w[queued running waiting completed incomplete failed] }
+  enum :status, { queued: 'queued', running: 'running', waiting: 'waiting', completed: 'completed', incomplete: 'incomplete',
+                  failed: 'failed' }, validate: true
+
+  # Runs a job may pick up: waiting for a worker, or held by one whose lease may have expired.
+  scope :claimable, -> { where(status: %i[queued running]) }
+  scope :finished, -> { where(status: TERMINAL_STATUSES) }
+  scope :unfinished, -> { where.not(status: TERMINAL_STATUSES) }
 
   def terminal?
     TERMINAL_STATUSES.include?(status)
@@ -57,16 +63,16 @@ class CopilotRun < ApplicationRecord
 
   def claim
     with_lock do
-      return if terminal? || status == 'waiting' || lease_until&.future?
+      return if terminal? || waiting? || lease_until&.future?
 
-      update!(status: 'running', lease_until: Time.current + LEASE_DURATION, lease_token: SecureRandom.uuid)
+      update!(status: :running, lease_until: Time.current + LEASE_DURATION, lease_token: SecureRandom.uuid)
       lease_token
     end
   end
 
   def with_lease(token)
     with_lock do
-      raise Captain::Copilot::LeaseLostError unless status == 'running' && lease_token == token
+      raise Captain::Copilot::LeaseLostError unless running? && lease_token == token
 
       yield
     end
@@ -87,23 +93,22 @@ class CopilotRun < ApplicationRecord
 
   # Turns run in order; a message sent while an earlier turn waits on its review is answered after that turn.
   def behind_earlier_turn?
-    copilot_thread.copilot_runs.where(kind: 'chat', status: %w[queued running waiting])
-                  .where(CopilotRun.arel_table[:copilot_message_id].lt(copilot_message_id)).exists?
+    copilot_thread.copilot_runs.chat.unfinished.where(CopilotRun.arel_table[:copilot_message_id].lt(copilot_message_id)).exists?
   end
 
   # Called when a background run finishes. This run may not have parked yet; it checks the step under this same lock
   # before parking, so exactly one side re-queues it.
   def resume_with(step, result)
     resumed = with_lock do
-      step.update!(status: 'succeeded', result: result)
-      status == 'waiting' && update!(status: 'queued')
+      step.update!(status: :succeeded, result: result)
+      waiting? && update!(status: :queued)
     end
     Captain::Copilot::ExecutionJob.perform_later(id) if resumed
   end
 
   # The chat run whose turn this run belongs to. Collections and reviews are started by one of its tool calls.
   def turn
-    kind == 'chat' ? self : copilot_run_step.copilot_run
+    chat? ? self : copilot_run_step.copilot_run
   end
 
   def selected_ids
@@ -112,15 +117,15 @@ class CopilotRun < ApplicationRecord
 
   # A saved set is a collection from get_data or a finished review. A review's records are always conversations.
   def resource
-    kind == 'collection' ? context.fetch('resource', 'conversations') : 'conversations'
+    collection? ? context.fetch('resource', 'conversations') : 'conversations'
   end
 
   # For a review, the matched conversations or every conversation it decided on, including those screened out.
   def record_ids(only_matched: true)
-    return selected_ids if kind == 'collection'
+    return selected_ids if collection?
     raise ArgumentError, 'The review has not finished yet' unless terminal?
 
-    decided = only_matched ? findings.where(status: 'resolved', matched: true) : findings.where(status: %w[resolved screened_out])
+    decided = only_matched ? findings.status_resolved.where(matched: true) : findings.where(status: %i[resolved screened_out])
     decided.order(:conversation_id).pluck(:conversation_id)
   end
 
@@ -132,7 +137,7 @@ class CopilotRun < ApplicationRecord
       raise ArgumentError, 'The review has no conversations left to review' if remaining_ids.empty?
       raise ArgumentError, 'This turn already reviewed a batch. Ask the agent before continuing.' if turn.id == step.copilot_run_id
 
-      update!(copilot_run_step: step, status: 'queued', error: nil, context: context.merge('budget' => processed_count + REVIEW_BUDGET))
+      update!(copilot_run_step: step, status: :queued, error: nil, context: context.merge('budget' => processed_count + REVIEW_BUDGET))
     end
   end
 
@@ -157,7 +162,7 @@ class CopilotRun < ApplicationRecord
   end
 
   def remaining_ids
-    selected_ids - findings.where(status: CopilotReviewFinding::FINAL_STATUSES).pluck(:conversation_id)
+    selected_ids - findings.final.pluck(:conversation_id)
   end
 
   def receipt
@@ -170,7 +175,7 @@ class CopilotRun < ApplicationRecord
   end
 
   def processed_count
-    findings.where(status: CopilotReviewFinding::FINAL_STATUSES).count
+    findings.final.count
   end
 
   def publish_progress

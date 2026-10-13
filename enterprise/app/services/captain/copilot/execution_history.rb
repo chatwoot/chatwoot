@@ -39,7 +39,7 @@ class Captain::Copilot::ExecutionHistory
   end
 
   def append_execution(prior)
-    if prior.provider_state['identity'] == @identity && prior.status == 'completed'
+    if prior.provider_state['identity'] == @identity && prior.completed?
       prior.provider_state.fetch('messages', []).each { |attributes| @chat.add_message(attributes.symbolize_keys) }
       @replayed_run_ids << prior.id
     else

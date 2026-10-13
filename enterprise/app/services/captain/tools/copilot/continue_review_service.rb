@@ -7,7 +7,7 @@ class Captain::Tools::Copilot::ContinueReviewService < Captain::Tools::Copilot::
   parameter :review_id, type: :integer, description: 'ID of a review whose receipt reports remaining conversations'
 
   def execute(review_id:)
-    review = saved_run(review_id, 'review')
+    review = saved_run(review_id, :review)
     run.with_lease(lease_token) { review.continue_review(step) }
     Captain::Copilot::ReviewJob.perform_later(review.id)
     review.receipt

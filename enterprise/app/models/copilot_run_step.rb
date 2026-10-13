@@ -25,7 +25,7 @@ class CopilotRunStep < ApplicationRecord
   has_one :background_run, class_name: 'CopilotRun', dependent: nil, inverse_of: :copilot_run_step
 
   validates :call_id, :name, presence: true
-  validates :status, inclusion: { in: %w[queued running succeeded failed] }
+  enum :status, { queued: 'queued', running: 'running', succeeded: 'succeeded', failed: 'failed' }, validate: true
 
   def receipt
     { step_id: id, name: name, status: status, arguments: arguments, result: result, error: error, attempts: attempts }

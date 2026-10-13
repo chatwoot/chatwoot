@@ -27,13 +27,13 @@ class Captain::Copilot::DataService
   private
 
   def saved_set(id)
-    @run.copilot_thread.copilot_runs.where(account: @run.account, user: @run.user, kind: %w[collection review]).find(id)
+    @run.copilot_thread.copilot_runs.where(account: @run.account, user: @run.user, kind: %i[collection review]).find(id)
   end
 
   def persist_collection(resource, filters, ids, boundary, source)
     @run.with_lease(@token) do
       @run.copilot_thread.copilot_runs.create_or_find_by!(copilot_run_step: @step) do |record|
-        record.assign_attributes(account: @run.account, user: @run.user, parent_run: @run, kind: 'collection', status: 'completed',
+        record.assign_attributes(account: @run.account, user: @run.user, parent_run: @run, kind: :collection, status: :completed,
                                  context: { resource: resource, filters: filters, source_id: source&.id,
                                             selected_ids: ids.first(CopilotRun::MAX_SELECTION), boundary_at: boundary.iso8601(6),
                                             selection_truncated: ids.size > CopilotRun::MAX_SELECTION }.compact)

@@ -118,9 +118,9 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # ruboc
   def start_step(call)
     @run.with_lease(@token) do
       @step = @run.steps.find_or_create_by!(call_id: call.id) { |record| record.assign_attributes(name: call.name, arguments: call.arguments) }
-      next if @step.status == 'succeeded'
+      next if @step.succeeded?
 
-      @step.update!(status: 'running', attempts: @step.attempts + 1)
+      @step.update!(status: :running, attempts: @step.attempts + 1)
       persist_message({ content: "Using #{call.name}", function_name: call.name, tool: @step.receipt }, 'assistant_thinking')
     end
   end
@@ -129,7 +129,7 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # ruboc
     @run.with_lease(@token) do
       failure = result.is_a?(Hash) && (result[:error] || result['error'])
       # The result keeps the whole error for the model; the column holds a summary within the string limit.
-      @step.update!(status: failure ? 'failed' : 'succeeded', result: result,
+      @step.update!(status: failure ? :failed : :succeeded, result: result,
                     error: failure.to_s.truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH).presence)
       persist_message({ content: "#{failure ? 'Failed' : 'Completed'} #{@step.name}", function_name: @step.name,
                         tool: @step.receipt }, 'assistant_thinking')
@@ -150,8 +150,8 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # ruboc
   # on the step, and the resumed loop replays that call, which returns the saved result instead of running the tool again.
   def wait_for_background_run
     finished = @run.with_lease(@token) do
-      done = @step.reload.status == 'succeeded'
-      @run.update!(status: done ? 'queued' : 'waiting', lease_token: nil, lease_until: nil)
+      done = @step.reload.succeeded?
+      @run.update!(status: done ? :queued : :waiting, lease_token: nil, lease_until: nil)
       persist_message({ content: "Waiting for #{@step.name} to finish" }, 'assistant_thinking') unless done
       done
     end
@@ -180,7 +180,7 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # ruboc
       response['content'] += "\n\n_#{I18n.t('captain.copilot.unsupported_numbers', numbers: remaining.join(', '))}_" if remaining.any?
       persist_message(response)
       @account.increment_response_usage
-      @run.update!(status: 'completed', lease_token: nil, lease_until: nil, error: nil,
+      @run.update!(status: :completed, lease_token: nil, lease_until: nil, error: nil,
                    context: @run.context.merge('number_check_remaining' => remaining))
       response
     end
@@ -193,12 +193,12 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # ruboc
   public
 
   def perform_tool(tool, original, tool_call, arguments)
-    return @step.result if @step.status == 'succeeded'
+    return @step.result if @step.succeeded?
 
     tool.step = @step if tool.respond_to?(:step=)
     result = original.call(tool_call: tool_call, **arguments)
     # A background run that already finished has saved its receipt on the step, which supersedes the tool's queued receipt.
-    return @step.reload.result if @step.status == 'succeeded'
+    return @step.reload.result if @step.reload.succeeded?
 
     background_run = @step.background_run
     raise Captain::Copilot::BackgroundRunPending if background_run && !background_run.terminal?

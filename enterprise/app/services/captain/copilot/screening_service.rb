@@ -30,7 +30,7 @@ class Captain::Copilot::ScreeningService
     findings = @run.findings.where(conversation_id: conversations.map(&:id))
     screened_ids = findings.pluck(:conversation_id).to_set
     record(scores(conversations.reject { |conversation| screened_ids.include?(conversation.id) }))
-    kept_ids = findings.where.not(status: 'screened_out').pluck(:conversation_id).to_set
+    kept_ids = findings.where.not(status: :screened_out).pluck(:conversation_id).to_set
     conversations.select { |conversation| kept_ids.include?(conversation.id) }
   end
 
@@ -73,7 +73,7 @@ class Captain::Copilot::ScreeningService
   def record(scores)
     @run.with_lease(@token) do
       scores.each do |id, score|
-        status = score && score < THRESHOLD ? 'screened_out' : 'screened_in'
+        status = score && score < THRESHOLD ? :screened_out : :screened_in
         @run.findings.create!(conversation_id: id, status: status, screening_score: score)
       end
     end

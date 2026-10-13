@@ -13,7 +13,7 @@ class Captain::Copilot::PresentationService
     raise ArgumentError, 'page must be a positive integer' unless page.is_a?(Integer) && page.positive?
     raise ArgumentError, 'matched_only must be a boolean' unless [true, false].include?(matched_only)
 
-    @run.kind == 'collection' ? collection_table(page) : review_table(page, matched_only)
+    @run.collection? ? collection_table(page) : review_table(page, matched_only)
   end
 
   private
@@ -51,7 +51,7 @@ class Captain::Copilot::PresentationService
 
   # Matched findings come first, so they fill the first page when a continued review holds more than one page.
   def visible_findings(visible, matched_only)
-    scope = @run.findings.where(conversation_id: visible.select(:id)).where.not(status: %w[screened_in screened_out])
+    scope = @run.findings.where(conversation_id: visible.select(:id)).where.not(status: %i[screened_in screened_out])
     scope = scope.where(matched: true) if matched_only
     scope.order(matched: :desc, conversation_id: :asc)
   end
@@ -71,7 +71,7 @@ class Captain::Copilot::PresentationService
   end
 
   def matched_cell(finding)
-    return '' unless finding.status == 'resolved'
+    return '' unless finding.status_resolved?
 
     finding.matched ? 'yes' : 'no'
   end
@@ -89,7 +89,7 @@ class Captain::Copilot::PresentationService
 
   # A finding's status describes the review, not the conversation, so only failed reviews are labelled.
   def finding_text(finding)
-    finding.status == 'resolved' ? finding.reason : "Not reviewed: #{finding.error || finding.status}"
+    finding.status_resolved? ? finding.reason : "Not reviewed: #{finding.error || finding.status}"
   end
 
   def summary

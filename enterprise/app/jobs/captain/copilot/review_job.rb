@@ -8,7 +8,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
   MAX_RUN_FAILURES = 3
 
   def perform(run_id)
-    run = CopilotRun.where(kind: 'review', status: %w[queued running]).find_by(id: run_id)
+    run = CopilotRun.review.claimable.find_by(id: run_id)
     return unless run
 
     token = claim(run)
@@ -43,7 +43,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
     run.with_lease(token) { run.publish_progress } if conversations.any?
     return finalize(run, token) if run.remaining_ids.empty? || run.budget_left <= 0
 
-    run.with_lease(token) { run.update!(status: 'queued', lease_token: nil, lease_until: nil) }
+    run.with_lease(token) { run.update!(status: :queued, lease_token: nil, lease_until: nil) }
     self.class.perform_later(run.id)
   end
 
@@ -55,9 +55,9 @@ class Captain::Copilot::ReviewJob < ApplicationJob
   end
 
   def review(run, token, service, conversation)
-    deep = run.findings.exists?(conversation_id: conversation.id, status: 'more_history')
+    deep = run.findings.status_more_history.exists?(conversation_id: conversation.id)
     attributes = service.analyze(conversation, deep: deep)
-    attributes = attributes.merge(status: 'error', error: 'The 50 messages read were insufficient') if attributes[:status] == 'more_history' && deep
+    attributes = attributes.merge(status: :error, error: 'The 50 messages read were insufficient') if attributes[:status] == :more_history && deep
     run.with_lease(token) { save_result(run, conversation.id, attributes) }
   rescue Captain::Copilot::LeaseLostError, Captain::Copilot::LimitExceededError
     raise
@@ -69,24 +69,24 @@ class Captain::Copilot::ReviewJob < ApplicationJob
 
   def save_result(run, id, attributes)
     finding = run.findings.find_or_initialize_by(conversation_id: id)
-    return if finding.status == 'resolved'
+    return if finding.status_resolved?
 
     finding.update!(error: nil, **attributes, attempts: finding.attempts + 1)
   end
 
   def record_error(run, id, error)
     finding = run.findings.find_or_initialize_by(conversation_id: id)
-    return if finding.status == 'resolved'
+    return if finding.status_resolved?
 
     attempts = finding.attempts + 1
-    finding.update!(status: attempts >= MAX_ATTEMPTS ? 'error' : 'retry', error: error, attempts: attempts)
+    finding.update!(status: attempts >= MAX_ATTEMPTS ? :error : :retry, error: error, attempts: attempts)
   end
 
   # The chat run that started this review is parked on its tool call; the receipt becomes that call's result.
   def finalize(run, token, error: nil)
     receipt = run.with_lease(token) do
-      incomplete = error || run.findings.exists?(status: 'error') || run.context['selection_truncated'] || run.remaining_ids.any?
-      run.update!(status: incomplete ? 'incomplete' : 'completed', lease_token: nil, lease_until: nil, error: error)
+      incomplete = error || run.findings.status_error.exists? || run.context['selection_truncated'] || run.remaining_ids.any?
+      run.update!(status: incomplete ? :incomplete : :completed, lease_token: nil, lease_until: nil, error: error)
       run.receipt
     end
     step = run.copilot_run_step
@@ -100,7 +100,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
     # Outside the lease transaction, so the parent's wake-up is committed before its job can run.
     return finalize(run, token, error: exception.class.name) if attempts >= MAX_RUN_FAILURES
 
-    run.with_lease(token) { run.update!(status: 'queued', lease_token: nil, lease_until: nil) }
+    run.with_lease(token) { run.update!(status: :queued, lease_token: nil, lease_until: nil) }
     self.class.set(wait: 10.seconds).perform_later(run.id)
   rescue Captain::Copilot::LeaseLostError
     nil
