@@ -309,22 +309,21 @@ RSpec.describe Voice::VoipPushService do
       expect(Thread).to have_received(:new).exactly(7).times
     end
 
-    it 'gives up a connection whose first push does not finish in time, closing it once that push returns' do
+    it 'gives up a connection whose first push does not finish in time, stopping that push and closing it' do
       stub_const('Voice::ApnsVoipSender::FIRST_PUSH_DEADLINE_SECONDS', 0.1)
       3.times { |i| subscribe(agent, 'apns_voip', "apple-#{i}") }
       allow(apple_connection).to receive(:push) do
-        sleep 0.5
+        sleep 5
         apple_response
       end
-      # Closing waits on the stalled push, as net-http2's close does on its TLS setup
-      allow(apple_connection).to receive(:close) { sleep 0.5 }
 
       started = Time.zone.now
       described_class.new(call: call).perform('ring')
 
       expect(Time.zone.now - started).to be < 0.5
       expect(apple_connection).to have_received(:push).once
-      sleep 1.2
+      # The stalled push is stopped, so the connection closes without waiting for it
+      sleep 0.3
       expect(apple_connection).to have_received(:close)
     end
 
