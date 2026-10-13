@@ -138,13 +138,8 @@ class Voice::Conference::Manager
 
   def handle_failed_add!
     user_id = extract_user_id
-    released = call.with_lock do
-      next false unless call.ringing?
-      next true if call.outgoing?
-
-      call.update!(accepted_by_agent_id: nil) if user_id && call.accepted_by_agent_id == user_id
-      false
-    end
+    released = release_failed_claim(user_id)
+    return if released.nil?
     return release_claim_assignment(user_id) unless released
 
     status_manager.process_status_update('no_answer', timestamp: now)
@@ -163,6 +158,24 @@ class Voice::Conference::Manager
 
       Conversations::AssignmentService.new(conversation: conversation, assignee_id: nil).perform
     end
+  end
+
+  # Whether the failure ends the call: true on an outbound call, where the agent was the
+  # only one; false when the claim is released and the call rings on. nil when the failure
+  # is stale, reported for a leg other than the agent's latest or after the call moved on:
+  # the agent has retried or is on the call, and it is left alone.
+  def release_failed_claim(user_id)
+    call.with_lock do
+      next unless call.ringing? && current_agent_leg?
+      next true if call.outgoing?
+
+      call.update!(accepted_by_agent_id: nil) if user_id && call.accepted_by_agent_id == user_id
+      false
+    end
+  end
+
+  def current_agent_leg?
+    call.agent_call_sid.blank? || call.agent_call_sid == participant_call_sid
   end
 
   def claimant_leaving_unjoined_call?

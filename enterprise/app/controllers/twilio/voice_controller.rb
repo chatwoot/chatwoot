@@ -130,7 +130,7 @@ class Twilio::VoiceController < ApplicationController
     sid = params[:call_sid].presence
     raise ArgumentError, 'call_sid is required for agent leg' if sid.blank?
 
-    inbox_calls.find_by!(provider_call_id: sid)
+    inbox_calls.find_by!(provider_call_id: sid).tap { |call| call.merge_meta!('agent_call_sid' => twilio_call_sid) }
   end
 
   def sync_outbound_leg(call_sid:, direction:)

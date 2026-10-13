@@ -139,6 +139,25 @@ RSpec.describe Voice::Conference::Manager do
       expect(call.reload.status).to eq('no_answer')
       expect(conference).to have_received(:end_conference)
     end
+
+    it 'leaves an outbound call alone when the failure is for a leg the agent has since replaced' do
+      call.update!(status: 'ringing', direction: :outgoing, agent_call_sid: 'CA-retry')
+
+      failed_add
+
+      expect(call.reload.status).to eq('ringing')
+      expect(conference).not_to have_received(:end_conference)
+    end
+
+    it 'keeps the claim and its assignment once the agent is on the call' do
+      call.update!(status: 'in_progress', ring_state: { 'assigned_by_claim' => agent.id })
+      conversation.update!(assignee: agent)
+
+      failed_add
+
+      expect(call.reload).to have_attributes(status: 'in_progress', accepted_by_agent_id: agent.id)
+      expect(conversation.reload.assignee).to eq(agent)
+    end
   end
 
   describe 'an agent leg leaving while the call is still ringing' do

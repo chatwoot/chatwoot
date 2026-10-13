@@ -124,6 +124,20 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(call.reload.conference_sid).to be_nil
     end
 
+    it 'records the agent leg as the call joins it' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
+                           provider_call_id: call_sid, status: 'ringing')
+
+      post "/twilio/voice/call/#{digits}", params: {
+        'CallSid' => 'CA_agent_leg', 'From' => "client:agent-1-account-#{account.id}", 'To' => to_number,
+        'Direction' => 'inbound', 'call_sid' => call_sid
+      }
+
+      expect(response.body).to include('<Dial>')
+      expect(call.reload.agent_call_sid).to eq('CA_agent_leg')
+    end
+
     it 'records the parent call SID when syncing outbound-dial legs' do
       parent_sid = 'CA_parent'
       child_sid = 'CA_child'
