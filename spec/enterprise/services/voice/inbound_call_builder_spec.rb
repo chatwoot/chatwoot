@@ -67,8 +67,8 @@ RSpec.describe Voice::InboundCallBuilder do
   end
 
   context 'when ringing phones' do
-    it 'enqueues the ring push once the call is committed, when the account has the feature' do
-      account.enable_features!('mobile_voice_push')
+    it 'enqueues the ring push once the call is committed, when the account has both voice features' do
+      account.enable_features!('channel_voice', 'mobile_voice_push')
 
       call = nil
       expect { call = perform_builder }.to have_enqueued_job(Voice::VoipPushJob).with(kind_of(Integer), 'ring')
@@ -76,7 +76,7 @@ RSpec.describe Voice::InboundCallBuilder do
     end
 
     it 'records the agents it rings as the ring starts' do
-      account.enable_features!('mobile_voice_push')
+      account.enable_features!('channel_voice', 'mobile_voice_push')
       agent = create(:user, account: account, role: :agent)
       create(:inbox_member, inbox: inbox, user: agent)
 
@@ -86,7 +86,7 @@ RSpec.describe Voice::InboundCallBuilder do
     end
 
     it 'records the agents it rings in the transaction that creates the call' do
-      account.enable_features!('mobile_voice_push')
+      account.enable_features!('channel_voice', 'mobile_voice_push')
       outer = ActiveRecord::Base.connection.open_transactions
       recorded_inside = nil
       allow(Voice::VoipPushService).to receive(:recipients_for).and_wrap_original do |original, call|
@@ -100,6 +100,13 @@ RSpec.describe Voice::InboundCallBuilder do
     end
 
     it 'does not ring phones without the feature' do
+      expect { perform_builder }.not_to have_enqueued_job(Voice::VoipPushJob)
+    end
+
+    it 'does not ring phones when the voice channel feature is off' do
+      account.enable_features!('mobile_voice_push')
+      account.disable_features!('channel_voice')
+
       expect { perform_builder }.not_to have_enqueued_job(Voice::VoipPushJob)
     end
   end
