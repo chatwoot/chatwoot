@@ -40,20 +40,21 @@ class Voice::VoipPushService
     end
   end
 
-  # The agents the ring reaches: those chosen for it with a phone on a configured platform,
-  # less any the pushes turned out not to reach
+  # The agents the ring reaches: those chosen for it with a phone on a configured platform
+  # that has a push token, less any the pushes turned out not to reach
   def ringable_user_ids
     subscriptions = []
     subscriptions += apple_subscriptions.to_a if configured?(:apple)
     subscriptions += android_subscriptions if configured?(:android)
-    subscriptions.map(&:user_id).uniq - call.ring_state.fetch('unreached_user_ids', [])
+    subscriptions.select { |subscription| subscription.subscription_attributes['push_token'].present? }
+                 .map(&:user_id).uniq - call.ring_state.fetch('unreached_user_ids', [])
   end
 
   private
 
   # Both platforms and every device go out at the same time, so no phone waits on another
-  # device's round trip. Payloads, configuration and clients are built here, on the job's
-  # thread and connection; the threads only make the HTTP requests.
+  # device's round trip. Payloads and configuration are read here, on the job's thread and
+  # connection; the threads set up the clients and make the HTTP requests.
   #
   # The status check and the record of who is rung happen under the row lock, so a
   # terminate cannot slip between them: it either lands first and there is nothing to
@@ -71,15 +72,17 @@ class Voice::VoipPushService
     cancel(android - gone(android_results)) unless call.reload.ringing?
   end
 
-  # A platform whose delivery failed as a whole, its connection included, reached nobody
+  # A platform whose delivery failed as a whole, its connection included, reached nobody.
+  # Each platform's client is set up on its own thread, so a slow Google token request does
+  # not hold up the iPhones.
   def deliver_ring(apple, android)
-    apple_sender = platform_client('apple') { Voice::ApnsVoipSender.new(settings: apple_settings, call_id: call.id) } if apple.any?
-    android_sender = platform_client('android') { fcm_sender } if android.any?
+    settings = apple_settings if apple.any?
+    firebase = firebase_config if android.any?
     payload = payloads.ring
     data = payloads.ring_data
     [
-      deliver_in_thread(apple) { apple_sender&.ring(apple, payload) },
-      deliver_in_thread(android) { android_sender&.deliver(android, data, 'ring') }
+      deliver_in_thread(apple) { platform_client('apple') { Voice::ApnsVoipSender.new(settings: settings, call_id: call.id) }&.ring(apple, payload) },
+      deliver_in_thread(android) { fcm_sender(*firebase)&.deliver(android, data, 'ring') }
     ].map(&:value)
   end
 
@@ -100,7 +103,7 @@ class Voice::VoipPushService
     return if tokens.blank?
 
     data = payloads.cancel_data
-    sender = platform_client('android') { fcm_sender }
+    sender = fcm_sender(*firebase_config)
     return unless sender
 
     forget_devices(ANDROID, gone(with_rails { sender.deliver(tokens, data, 'cancel') }.to_h))
@@ -145,13 +148,9 @@ class Voice::VoipPushService
                             .select { |subscription| subscription.subscription_attributes['devicePlatform'].to_s.casecmp('android').zero? }
   end
 
-  def apple_tokens
-    push_tokens(apple_subscriptions)
-  end
+  def apple_tokens = push_tokens(apple_subscriptions)
 
-  def android_tokens
-    push_tokens(android_subscriptions)
-  end
+  def android_tokens = push_tokens(android_subscriptions)
 
   # Each token's owner is noted as the ring is put together, since a subscription can change
   # while the pushes are in flight
@@ -163,9 +162,7 @@ class Voice::VoipPushService
     end.uniq
   end
 
-  def token_owners
-    @token_owners ||= {}
-  end
+  def token_owners = (@token_owners ||= {})
 
   def rung_devices
     call.ring_state.fetch('rung_devices', {})
@@ -272,9 +269,16 @@ class Voice::VoipPushService
 
   # MARK: Android
 
-  def fcm_sender
-    client = Notification::FcmService.new(config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')).fcm_client
-    Voice::FcmVoipSender.new(client: client, call_id: call.id, expiry_seconds: RING_EXPIRY_SECONDS)
+  def firebase_config
+    [config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')]
+  end
+
+  # nil when the client cannot be set up
+  def fcm_sender(project_id, credentials)
+    platform_client('android') do
+      client = Notification::FcmService.new(project_id, credentials).fcm_client
+      Voice::FcmVoipSender.new(client: client, call_id: call.id, expiry_seconds: RING_EXPIRY_SECONDS)
+    end
   end
 
   def config(name, default = nil)
