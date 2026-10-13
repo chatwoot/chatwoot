@@ -429,6 +429,26 @@ RSpec.describe Voice::VoipPushService do
       expect(apple_connection).not_to have_received(:push)
     end
 
+    it 'renews the lease before each batch, so a long ring keeps it' do
+      stub_const('Voice::ApnsVoipSender::BATCH_SIZE', 1)
+      2.times { |i| subscribe(agent, 'apns_voip', "apple-#{i}") }
+      lease_at_second_push = nil
+      allow(apple_connection).to receive(:push) do
+        if lease_at_second_push.nil? && Call.find(call.id).ring_state['ring_started_at'].to_i.positive?
+          # The first push: age the lease as a long ring would
+          Call.where(id: call.id).update_all("ring_state = ring_state || '{\"ring_started_at\": 1}'::jsonb") # rubocop:disable Rails/SkipsModelValidations
+          lease_at_second_push = false
+        else
+          lease_at_second_push = Call.find(call.id).ring_state['ring_started_at']
+        end
+        apple_response
+      end
+
+      described_class.new(call: call).perform('ring')
+
+      expect(lease_at_second_push).to be > 1.minute.ago.to_i
+    end
+
     it 'keeps an agent reached by another attempt at the ring reached' do
       subscribe(agent, 'apns_voip', 'apple-1')
       call.update!(ring_state: { 'ring_recipient_ids' => [agent.id], 'unreached_user_ids' => [] })

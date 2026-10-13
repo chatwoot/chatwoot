@@ -20,7 +20,8 @@ class Voice::VoipPushService
   pattr_initialize [:call!]
 
   RING_EXPIRY_SECONDS = 45
-  # How long a ring under way holds the call's ring before another job may take it over
+  # How long a ring under way holds the call's ring, from its start or its latest batch,
+  # before another job may take it over
   RING_LEASE_SECONDS = 30
   APPLE = 'apns_voip'.freeze
   ANDROID = 'fcm'.freeze
@@ -87,8 +88,8 @@ class Voice::VoipPushService
     payload = payloads.ring
     data = payloads.ring_data
     [
-      deliver_in_thread(apple) { apple_sender(settings)&.ring(apple, payload, proceed: -> { still_ringing? }) },
-      deliver_in_thread(android) { fcm_sender(*firebase)&.deliver(android, data, 'ring', proceed: -> { still_ringing? }) }
+      deliver_in_thread(apple) { apple_sender(settings)&.ring(apple, payload, proceed: -> { keep_ringing? }) },
+      deliver_in_thread(android) { fcm_sender(*firebase)&.deliver(android, data, 'ring', proceed: -> { keep_ringing? }) }
     ].map(&:value)
   end
 
@@ -96,8 +97,12 @@ class Voice::VoipPushService
     Thread.new { tokens.empty? ? {} : with_rails(&) || tokens.index_with(:failed) }
   end
 
-  # Read past the query cache, which would otherwise answer every check after the first
-  def still_ringing? = Call.uncached { Call.where(id: call.id).first&.ringing? }
+  # Asked before each batch after the first. The status is read past the query cache, which
+  # would otherwise answer every check after the first, and the lease is renewed, so it
+  # outlasts a ring of any size; neither reloads the call, which the delivery threads share.
+  def keep_ringing? = Call.uncached { Call.where(id: call.id).first&.ringing? } && hold_ring_lease
+
+  def hold_ring_lease = merge_ring_state({ 'ring_started_at' => Time.zone.now.to_i }, reload: false) || true
 
   # nil when the sender cannot be set up
   def apple_sender(settings) = platform_client('apple') { Voice::ApnsVoipSender.new(settings: settings, call_id: call.id) }
@@ -201,9 +206,9 @@ class Voice::VoipPushService
   # missed-call notice
   def forget_rung_devices = Call.where(id: call.id).update_all("ring_state = ring_state - 'rung_devices'") # rubocop:disable Rails/SkipsModelValidations
 
-  def merge_ring_state(values)
+  def merge_ring_state(values, reload: true)
     Call.where(id: call.id).update_all(['ring_state = ring_state || ?::jsonb', values.to_json]) # rubocop:disable Rails/SkipsModelValidations
-    call.reload
+    call.reload if reload
   end
 
   def gone(results) = results.filter_map { |token, outcome| token if outcome == :gone }
@@ -225,7 +230,7 @@ class Voice::VoipPushService
   def record_unreached(unreached)
     call.with_lock do
       earlier = call.ring_state['unreached_user_ids']
-      merge_ring_state('unreached_user_ids' => earlier ? unreached & earlier : unreached)
+      merge_ring_state({ 'unreached_user_ids' => earlier ? unreached & earlier : unreached })
     end
   end
 
