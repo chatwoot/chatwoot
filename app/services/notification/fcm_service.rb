@@ -7,6 +7,8 @@ class Notification::FcmService
   # How long a token request to Google may take. Callers for the same credentials wait on
   # it, so it is kept well inside a call's ring.
   TOKEN_REQUEST_TIMEOUT_SECONDS = 10
+  # How long a whole token refresh may take, the auth library's own retries included
+  TOKEN_REFRESH_BUDGET_SECONDS = 15
   # After a token request fails, callers for the same credentials fail at once for this
   # long instead of each repeating the request in turn
   TOKEN_RETRY_SECONDS = 30
@@ -65,7 +67,7 @@ class Notification::FcmService
       json_key_io: credentials_path,
       scope: SCOPES
     )
-    token = authorizer.fetch_access_token!(connection: token_connection)
+    token = Timeout.timeout(TOKEN_REFRESH_BUDGET_SECONDS) { authorizer.fetch_access_token!(connection: token_connection) }
     {
       token: token['access_token'],
       expires_at: Time.zone.now + token['expires_in'].to_i
