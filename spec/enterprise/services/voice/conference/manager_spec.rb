@@ -17,6 +17,10 @@ RSpec.describe Voice::Conference::Manager do
     allow(Voice::Provider::Twilio::ConferenceService).to receive(:new).and_return(conference)
   end
 
+  def with_legs(legs)
+    call.update!(meta: call.meta.merge('agent_legs' => legs.transform_values { |state| { 'state' => state, 'at' => Time.zone.now.to_i } }))
+  end
+
   def leave(label, call_sid: 'CA-leaving')
     described_class.new(call: call, event: 'leave', participant_label: label, participant_call_sid: call_sid).process
   end
@@ -140,23 +144,69 @@ RSpec.describe Voice::Conference::Manager do
       expect(conference).to have_received(:end_conference)
     end
 
-    it 'leaves an outbound call alone when the failure is for a leg the agent has since replaced' do
-      call.update!(status: 'ringing', direction: :outgoing, agent_call_sid: 'CA-retry')
+    it 'leaves an outbound call alone when the agent has another connection on its way in' do
+      call.update!(status: 'ringing', direction: :outgoing)
+      with_legs('CA-leaving' => 'joining', 'CA-retry' => 'joining')
 
       failed_add
 
       expect(call.reload.status).to eq('ringing')
+      expect(call.agent_legs.dig('CA-leaving', 'state')).to eq('gone')
       expect(conference).not_to have_received(:end_conference)
     end
 
-    it 'keeps the claim and its assignment once the agent is on the call' do
+    it 'keeps the claim and its assignment when a late failure arrives for a connection the agent replaced' do
       call.update!(status: 'in_progress', ring_state: { 'assigned_by_claim' => agent.id })
+      with_legs('CA-retry' => 'joined')
       conversation.update!(assignee: agent)
 
       failed_add
 
       expect(call.reload).to have_attributes(status: 'in_progress', accepted_by_agent_id: agent.id)
       expect(conversation.reload.assignee).to eq(agent)
+      expect(conference).not_to have_received(:end_conference)
+    end
+
+    it 'ends an outbound call the contact answered when the agent never got in' do
+      call.update!(status: 'in_progress', direction: :outgoing)
+      with_legs('CA-leaving' => 'joining')
+
+      failed_add
+
+      expect(call.reload.status).to eq('failed')
+      expect(conference).to have_received(:end_conference)
+    end
+
+    it 'treats a connection that has not joined within its time as failed' do
+      call.update!(status: 'ringing', direction: :outgoing)
+      call.update!(meta: call.meta.merge('agent_legs' => { 'CA-retry' => { 'state' => 'joining', 'at' => 2.minutes.ago.to_i } }))
+
+      failed_add
+
+      expect(call.reload.status).to eq('no_answer')
+    end
+  end
+
+  describe 'an agent joining' do
+    it 'records their connection as on the call' do
+      call.update!(status: 'ringing')
+      conversation.update!(assignee: agent)
+      with_legs('CA-join' => 'joining')
+
+      described_class.new(call: call, event: 'join', participant_label: agent_label, participant_call_sid: 'CA-join').process
+
+      expect(call.reload.agent_legs.dig('CA-join', 'state')).to eq('joined')
+    end
+  end
+
+  describe 'an agent leaving while their new connection is on its way in' do
+    it 'keeps the call and checks the conference again once the new connection has had its time' do
+      with_legs('CA-leaving' => 'joined', 'CA-retry' => 'joining')
+
+      expect { leave(agent_label) }.to have_enqueued_job(Voice::EndConferenceJob).with(call.id, leaving_call_sid: 'CA-leaving')
+
+      expect(call.reload.status).to eq('in_progress')
+      expect(conference).not_to have_received(:end_conference)
     end
   end
 

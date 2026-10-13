@@ -28,7 +28,7 @@ class Twilio::VoiceController < ApplicationController
 
     call = resolve_call
     # The leg was answered after the call ended (e.g. hangup raced the cancel); don't strand it in an empty conference.
-    return render xml: hangup_twiml if call.terminal?
+    return render xml: hangup_twiml if agent_leg?(twilio_from) ? !call.open_agent_leg!(twilio_call_sid) : call.terminal?
 
     render xml: conference_twiml(call)
   end
@@ -130,7 +130,7 @@ class Twilio::VoiceController < ApplicationController
     sid = params[:call_sid].presence
     raise ArgumentError, 'call_sid is required for agent leg' if sid.blank?
 
-    inbox_calls.find_by!(provider_call_id: sid).tap { |call| call.merge_meta!('agent_call_sid' => twilio_call_sid) }
+    inbox_calls.find_by!(provider_call_id: sid)
   end
 
   def sync_outbound_leg(call_sid:, direction:)

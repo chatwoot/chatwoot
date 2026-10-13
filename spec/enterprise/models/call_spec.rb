@@ -109,4 +109,34 @@ RSpec.describe Call do
       expect(data[:from_number]).to be_nil
     end
   end
+
+  describe 'agent legs' do
+    let(:call) { create(:call, conversation: create(:conversation)) }
+
+    it 'records an agent connection as on its way in while the call is live' do
+      expect(call.open_agent_leg!('CA-1')).to be(true)
+      expect(call.reload.agent_legs.dig('CA-1', 'state')).to eq('joining')
+    end
+
+    it 'refuses a connection to a call that has ended' do
+      call.update!(status: 'completed')
+
+      expect(call.open_agent_leg!('CA-1')).to be(false)
+      expect(call.reload.agent_legs).to be_empty
+    end
+
+    it 'keeps a leg gone when a late callback for it arrives' do
+      call.with_lock { call.record_agent_leg!('CA-1', 'gone') }
+      call.with_lock { call.record_agent_leg!('CA-1', 'joined') }
+
+      expect(call.reload.agent_legs.dig('CA-1', 'state')).to eq('gone')
+    end
+
+    it 'keeps other meta written alongside' do
+      call.merge_meta!('provider_status' => 'ringing')
+      call.with_lock { call.record_agent_leg!('CA-1', 'joining') }
+
+      expect(call.reload).to have_attributes(provider_status: 'ringing')
+    end
+  end
 end

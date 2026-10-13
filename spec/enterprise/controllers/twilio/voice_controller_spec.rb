@@ -124,7 +124,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(call.reload.conference_sid).to be_nil
     end
 
-    it 'records the agent leg as the call joins it' do
+    it 'records the agent leg as on its way in' do
       conversation = create(:conversation, account: account, inbox: inbox)
       call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
                            provider_call_id: call_sid, status: 'ringing')
@@ -135,7 +135,21 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       }
 
       expect(response.body).to include('<Dial>')
-      expect(call.reload.agent_call_sid).to eq('CA_agent_leg')
+      expect(call.reload.agent_legs.dig('CA_agent_leg', 'state')).to eq('joining')
+    end
+
+    it 'hangs up an agent leg for a call that has ended, without recording it' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
+                           provider_call_id: call_sid, status: 'no_answer')
+
+      post "/twilio/voice/call/#{digits}", params: {
+        'CallSid' => 'CA_agent_leg', 'From' => "client:agent-1-account-#{account.id}", 'To' => to_number,
+        'Direction' => 'inbound', 'call_sid' => call_sid
+      }
+
+      expect(response.body).to include('<Hangup/>')
+      expect(call.reload.agent_legs).to be_empty
     end
 
     it 'records the parent call SID when syncing outbound-dial legs' do

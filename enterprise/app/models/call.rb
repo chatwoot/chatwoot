@@ -36,7 +36,7 @@ class Call < ApplicationRecord
   TERMINAL_STATUSES = %w[completed no_answer failed rejected].freeze
 
   store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at,
-                 :accepted_broadcast_at, :recording_enabled, :provider_status, :agent_call_sid
+                 :accepted_broadcast_at, :recording_enabled, :provider_status
 
   # Frontend voice bubbles/stores expect inbound/outbound string values
   DISPLAY_DIRECTION = { 'incoming' => 'inbound', 'outgoing' => 'outbound' }.freeze
@@ -137,6 +137,36 @@ class Call < ApplicationRecord
 
   # Merges keys into `meta` in the database, leaving the other keys as they are there. A
   # save of `meta` from a copy loaded earlier would otherwise drop keys written since.
+  # The agents' connections to the Twilio conference, keyed by call SID: joining from when
+  # Twilio asks for the leg's instructions, then joined, or gone once it leaves or could
+  # not be added. Each carries the time it last changed.
+  def agent_legs
+    meta&.fetch('agent_legs', nil) || {}
+  end
+
+  # Records an agent's connection as joining unless the call has ended, under the row lock,
+  # so a decision that ends the call either sees the connection or is seen by it
+  def open_agent_leg!(sid)
+    with_lock do
+      next false if terminal?
+
+      record_agent_leg!(sid, 'joining')
+      true
+    end
+  end
+
+  # Called under the row lock. A leg that has gone stays gone, since Twilio's callbacks for
+  # one leg can arrive out of order. Merged in place, so other webhooks' meta keys stay.
+  def record_agent_leg!(sid, state)
+    return if sid.blank? || agent_legs.dig(sid, 'state') == 'gone'
+
+    leg = { sid => { 'state' => state, 'at' => Time.zone.now.to_i } }
+    self.class.where(id: id).update_all( # rubocop:disable Rails/SkipsModelValidations
+      ["meta = jsonb_set(COALESCE(meta, '{}'::jsonb), '{agent_legs}', COALESCE(meta->'agent_legs', '{}'::jsonb) || ?::jsonb)", leg.to_json]
+    )
+    reload
+  end
+
   def merge_meta!(values)
     self.class.where(id: id).update_all(["meta = COALESCE(meta, '{}'::jsonb) || ?::jsonb", values.to_json]) # rubocop:disable Rails/SkipsModelValidations
     reload
