@@ -5,29 +5,52 @@
   platform_icons = { "apple" => "i-ri-apple-fill", "android" => "i-ri-android-fill" }
 %>
 
+<%= render "card", title: t("#{calls}.setup.heading") do %>
+  <p class="flex items-start gap-1.5 px-4 py-3 text-label-small text-n-slate-11">
+    <span class="i-lucide-info size-3.5 shrink-0 translate-y-px"></span>
+    <%= t("#{calls}.setup.description") %>
+  </p>
+  <div class="overflow-x-auto border-t border-n-weak">
+    <%= render "table" do %>
+      <thead>
+        <tr>
+          <% %w[platform installation devices].each do |column| %>
+            <th><%= t("#{calls}.setup.columns.#{column}") %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% { "apple" => readiness.apple, "android" => readiness.android }.each do |platform, state| %>
+          <tr>
+            <td>
+              <span class="inline-flex items-center gap-1.5">
+                <span class="<%= platform_icons.fetch(platform) %> size-4 shrink-0 text-n-slate-11"></span>
+                <%= t("#{calls}.platforms.#{platform}") %>
+              </span>
+            </td>
+            <td>
+              <% if state.configured %>
+                <%= render "badge", label: t("#{calls}.configured"), tone: :success %>
+              <% else %>
+                <span class="inline-flex flex-wrap items-center gap-1.5">
+                  <%= render "badge", label: t("#{calls}.not_configured"), tone: :danger %>
+                  <span class="text-label-small text-n-slate-11"><%= t("#{calls}.credentials.#{platform}") %></span>
+                </span>
+              <% end %>
+            </td>
+            <td class="tabular-nums"><%= state.devices %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    <% end %>
+  </div>
+<% end %>
+
 <%= render "card", title: t("#{calls}.heading") do %>
   <p class="flex items-start gap-1.5 px-4 py-3 text-label-small text-n-slate-11">
     <span class="i-lucide-phone-incoming size-3.5 shrink-0 translate-y-px"></span>
     <%= t("#{calls}.description") %>
   </p>
-
-  <ul class="flex flex-wrap gap-x-8 gap-y-3 border-t border-n-weak px-4 py-3" aria-label="<%= t("#{calls}.platforms_label") %>">
-    <% { "apple" => readiness.apple, "android" => readiness.android }.each do |platform, state| %>
-      <li class="flex flex-wrap items-center gap-2 text-body-main text-n-slate-12">
-        <span class="<%= platform_icons.fetch(platform) %> size-4 shrink-0 text-n-slate-11"></span>
-        <%= t("#{calls}.platforms.#{platform}") %>
-        <% if state.configured %>
-          <%= render "badge", label: t("#{calls}.configured"), tone: :success %>
-        <% else %>
-          <%= render "badge", label: t("#{calls}.not_configured"), tone: :danger %>
-        <% end %>
-        <span class="text-label-small tabular-nums text-n-slate-11"><%= t("#{calls}.devices", count: state.devices) %></span>
-        <% unless state.configured %>
-          <span class="basis-full text-label-small text-n-slate-11"><%= t("#{calls}.credentials.#{platform}") %></span>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
 
   <% if readiness.memberships.any? %>
     <div class="overflow-x-auto border-t border-n-weak">
