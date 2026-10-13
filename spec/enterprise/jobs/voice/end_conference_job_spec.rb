@@ -21,6 +21,14 @@ RSpec.describe Voice::EndConferenceJob do
     end
   end
 
+  it 'hangs up an outbound contact still being dialled once no agent is left' do
+    call.update!(status: 'in_progress', direction: :outgoing)
+
+    expect { described_class.perform_now(call.id, leaving_call_sid: 'CA-left') }
+      .to have_enqueued_job(Voice::HangUpContactJob).with(call.id)
+    expect(call.reload.status).to eq('completed')
+  end
+
   it 'ends the conference of the call' do
     described_class.perform_now(call.id)
 

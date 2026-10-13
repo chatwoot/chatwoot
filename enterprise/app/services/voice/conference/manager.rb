@@ -164,13 +164,9 @@ class Voice::Conference::Manager
 
   # The contact's own status callback can end the call before their leave arrives; the
   # agents still in the conference are hung up all the same
-  def contact_leaving_answered_call?
-    !agent_participant? && call.terminal? && call.accepted_by_agent_id.present?
-  end
+  def contact_leaving_answered_call? = !agent_participant? && call.terminal? && call.accepted_by_agent_id.present?
 
-  def failed_add?
-    agent_participant? && leave_reason == 'participant_add_failed'
-  end
+  def failed_add? = agent_participant? && leave_reason == 'participant_add_failed'
 
   # A leg Twilio could not add never joined. It is left alone while another of the agents'
   # connections is on the call or on its way in: the agent retried, or a late report
@@ -241,6 +237,10 @@ class Voice::Conference::Manager
 
     conversation = call.conversation
     call.with_lock do
+      # The marker is used up here, so a repeated report cannot undo a later assignment
+      next unless call.ring_state['assigned_by_claim'] == user_id
+
+      Call.where(id: call.id).update_all("ring_state = ring_state - 'assigned_by_claim'") # rubocop:disable Rails/SkipsModelValidations
       conversation.with_lock do
         next unless conversation.assignee_id == user_id
 

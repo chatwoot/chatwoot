@@ -163,6 +163,19 @@ RSpec.describe Voice::Conference::Manager do
       expect(conference).to have_received(:remember_claim_assignment).with(other.id)
     end
 
+    it 'does not undo a later assignment when the same failure is reported again' do
+      call.update!(status: 'ringing', ring_state: { 'assigned_by_claim' => agent.id })
+      conversation.update!(assignee: agent)
+      failed_add
+      conversation.reload.update!(assignee: agent)
+
+      # The repeated report arrives as a webhook of its own, with the call loaded afresh
+      described_class.new(call: Call.find(call.id), event: 'leave', participant_label: agent_label, participant_call_sid: 'CA-leaving',
+                          leave_reason: 'participant_add_failed').process
+
+      expect(conversation.reload.assignee).to eq(agent)
+    end
+
     it 'keeps an assignment the claim did not make' do
       call.update!(status: 'ringing')
       conversation.update!(assignee: agent)
