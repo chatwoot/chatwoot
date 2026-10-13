@@ -104,6 +104,17 @@ RSpec.describe Voice::VoipPushService do
       expect(events.count(:start)).to eq(3)
     end
 
+    it 'logs a Firebase rejection as an error and keeps the device' do
+      subscribe(agent, 'fcm', 'android-1', platform: 'Android')
+      allow(fcm_client).to receive(:send_v1).and_return(status_code: 401, body: '{"error":{"status":"UNAUTHENTICATED"}}')
+      allow(Rails.logger).to receive(:error)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(Rails.logger).to have_received(:error).with(/status=401/)
+      expect(NotificationSubscription.where(user: agent)).to exist
+    end
+
     it 'logs an APNs rejection as an error and keeps the device' do
       subscribe(agent, 'apns_voip', 'apple-1')
       allow(apple_connection).to receive(:push).and_return(instance_double(Apnotic::Response, status: '403',

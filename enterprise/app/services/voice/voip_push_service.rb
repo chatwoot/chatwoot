@@ -242,11 +242,21 @@ class Voice::VoipPushService
 
   def deliver_android(client, token, data, kind)
     response = client.send_v1(token: token, data: data, android: { priority: 'high', ttl: "#{RING_EXPIRY_SECONDS}s" })
-    Rails.logger.info("[VOIP PUSH] android #{kind} call #{call.id} to #{token[0, 8]}… status=#{response[:status_code]}")
-    response[:status_code] == 404 && response[:body].to_s.include?('UNREGISTERED') ? :gone : :sent
+    outcome = android_outcome(response)
+    Rails.logger.public_send(outcome == :failed ? :error : :info,
+                             "[VOIP PUSH] android #{kind} call #{call.id} to #{token[0, 8]}… status=#{response[:status_code]}")
+    outcome
   rescue StandardError => e
     Rails.logger.error("[VOIP PUSH] android #{kind} call #{call.id} to #{token[0, 8]}… failed: #{e.class}: #{e.message}")
     :failed
+  end
+
+  # Only a 2xx response delivered the message; a rejection such as bad credentials or a
+  # Firebase outage leaves the phone silent and is a failure
+  def android_outcome(response)
+    return :sent if response[:status_code].to_i.between?(200, 299)
+
+    response[:status_code] == 404 && response[:body].to_s.include?('UNREGISTERED') ? :gone : :failed
   end
 
   def config(name, default = nil)
