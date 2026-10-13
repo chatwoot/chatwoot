@@ -41,14 +41,16 @@ class Voice::EndConferenceJob < ApplicationJob
     conference = Voice::Provider::Twilio::ConferenceService.new(call: call)
     return if leaving_call_sid && agent_still_on_call?(conference, call, leaving_call_sid)
 
-    hang_up_dialled_contact(call)
+    hung_up = hang_up_dialled_contact(call)
     conference.end_conference
     complete(call)
   rescue StandardError => e
     Rails.logger.error("[VOICE] call #{call.id}: last attempt to end the conference failed: #{e.class}: #{e.message}")
-    return complete(call) if round >= LATE_ROUNDS
+    return self.class.set(wait: LATE_ROUND_WAIT).perform_later(call.id, leaving_call_sid: leaving_call_sid, round: round + 1) if round < LATE_ROUNDS
 
-    self.class.set(wait: LATE_ROUND_WAIT).perform_later(call.id, leaving_call_sid: leaving_call_sid, round: round + 1)
+    # The rounds are spent, even if who is on the call could not be checked
+    hang_up_dialled_contact(call) unless hung_up
+    complete(call)
   end
 
   # Another agent is in the conference or on their way in, in which case the check runs again
@@ -67,6 +69,7 @@ class Voice::EndConferenceJob < ApplicationJob
   # not reach them; their leg is hung up by a job that retries if Twilio fails
   def hang_up_dialled_contact(call)
     Voice::HangUpContactJob.perform_later(call.id) if call.outgoing?
+    true
   end
 
   def complete(call)

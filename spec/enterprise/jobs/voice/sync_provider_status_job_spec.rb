@@ -100,6 +100,16 @@ RSpec.describe Voice::SyncProviderStatusJob do
     expect(call.reload).to have_attributes(started_at: started, duration_seconds: 42)
   end
 
+  it 'updates the call message when it fills in the times, so clients showing it get them' do
+    message = create(:message, conversation: conversation, account: account, content_type: :voice_call, updated_at: 1.hour.ago)
+    call.update!(status: 'completed', started_at: nil, message: message)
+    allow(twilio_call).to receive_messages(status: 'completed', start_time: 2.minutes.ago, end_time: 1.minute.ago, duration: '60')
+
+    described_class.perform_now(call.id)
+
+    expect(message.reload.updated_at).to be > 1.minute.ago
+  end
+
   it 'fills in when a call that completed before it ran was answered' do
     started = 2.minutes.ago.change(usec: 0)
     call.update!(status: 'completed')

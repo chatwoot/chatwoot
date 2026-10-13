@@ -40,6 +40,8 @@ class Voice::SyncProviderStatusJob < ApplicationJob
       next unless missing_start?(call)
 
       call.update!(started_at: twilio_call.start_time, duration_seconds: call.duration_seconds || twilio_call.duration&.to_i)
+      # Clients showing the call get the times, as with a status change
+      call.message&.touch # rubocop:disable Rails/SkipsModelValidations
     end
   end
 
