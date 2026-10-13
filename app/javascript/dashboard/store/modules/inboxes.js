@@ -50,6 +50,32 @@ export const getters = {
 
     return messagesTemplates;
   },
+  getVisibleWhatsAppTemplates: $state => inboxId => {
+    const [inbox] = $state.records.filter(
+      record => record.id === Number(inboxId)
+    );
+
+    const {
+      message_templates: whatsAppMessageTemplates,
+      additional_attributes: additionalAttributes,
+    } = inbox || {};
+
+    const { message_templates: apiInboxMessageTemplates } =
+      additionalAttributes || {};
+    const templates = whatsAppMessageTemplates || apiInboxMessageTemplates;
+
+    if (!templates || !Array.isArray(templates)) {
+      return [];
+    }
+
+    if (inbox?.provider === 'whatsapp_cloud') {
+      return templates.filter(
+        template => template?.status?.toLowerCase() === 'approved'
+      );
+    }
+
+    return templates.filter(isSendableTemplate);
+  },
   getFilteredWhatsAppTemplates: $state => inboxId => {
     const [inbox] = $state.records.filter(
       record => record.id === Number(inboxId)
@@ -66,6 +92,14 @@ export const getters = {
 
     if (!templates || !Array.isArray(templates)) {
       return [];
+    }
+
+    if (inbox?.provider === 'whatsapp_cloud') {
+      return templates.filter(
+        template =>
+          template?.status?.toLowerCase() === 'approved' &&
+          template.classification === 'sendable'
+      );
     }
 
     // Sendable-template filtering is shared with the mobile app via @chatwoot/utils.

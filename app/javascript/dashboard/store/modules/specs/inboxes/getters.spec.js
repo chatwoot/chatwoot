@@ -141,6 +141,68 @@ describe('#getters', () => {
       expect(getters.getFilteredWhatsAppTemplates(state)(1)).toEqual([]);
     });
 
+    it('keeps every approved classified Cloud template visible', () => {
+      const classifiedTemplates = [
+        {
+          name: 'sendable_template',
+          status: 'APPROVED',
+          classification: 'sendable',
+          components: [{ type: 'BODY', text: 'Ready' }],
+        },
+        {
+          name: 'preview_template',
+          status: 'APPROVED',
+          classification: 'preview_only',
+          classification_reason: 'parameter_adapter_unavailable',
+          components: [{ type: 'FOOTER', text: '{{1}}' }],
+        },
+        {
+          name: 'unsupported_product_template',
+          status: 'APPROVED',
+          classification: 'unsupported',
+          classification_reason: 'unsupported_by_linoo_version',
+          components: [{ type: 'PRODUCT' }],
+        },
+        {
+          name: 'malformed_classification_template',
+          status: 'APPROVED',
+          classification: 'unexpected',
+          components: [],
+        },
+        {
+          name: 'pending_template',
+          status: 'PENDING',
+          classification: 'preview_only',
+          components: [{ type: 'BODY', text: 'Pending' }],
+        },
+      ];
+      const state = {
+        records: [
+          {
+            id: 1,
+            provider: 'whatsapp_cloud',
+            message_templates: classifiedTemplates,
+          },
+        ],
+      };
+
+      expect(
+        getters
+          .getVisibleWhatsAppTemplates(state)(1)
+          .map(({ name }) => name)
+      ).toEqual([
+        'sendable_template',
+        'preview_template',
+        'unsupported_product_template',
+        'malformed_classification_template',
+      ]);
+      expect(
+        getters
+          .getFilteredWhatsAppTemplates(state)(1)
+          .map(({ name }) => name)
+      ).toEqual(['sendable_template']);
+    });
+
     it('filters out templates without required properties', () => {
       const invalidTemplates = [
         { name: 'incomplete_template' }, // missing status and components

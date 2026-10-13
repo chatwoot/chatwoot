@@ -95,8 +95,15 @@ const hasTextHeaderVariables = computed(() => {
   return headerText.value?.match(/{{([^}]+)}}/g) !== null;
 });
 
+const hasButtonParameters = computed(() => {
+  return processedParams.value.buttons?.some(button => button) ?? false;
+});
+
 const hasVariables = computed(
-  () => hasBodyVariables.value || hasTextHeaderVariables.value
+  () =>
+    hasBodyVariables.value ||
+    hasTextHeaderVariables.value ||
+    hasButtonParameters.value
 );
 
 const renderedHeader = computed(() => {
@@ -114,9 +121,18 @@ const renderedTemplate = computed(() => {
 });
 
 // Completeness validation is shared with the mobile app via @chatwoot/utils.
-const isFormInvalid = computed(
-  () => !isWhatsAppComplete(props.template, processedParams.value)
-);
+const areButtonParametersComplete = computed(() => {
+  return (processedParams.value.buttons || [])
+    .filter(Boolean)
+    .every(button => button.parameter?.trim());
+});
+
+const isFormInvalid = computed(() => {
+  return (
+    !isWhatsAppComplete(props.template, processedParams.value) ||
+    !areButtonParametersComplete.value
+  );
+});
 
 const v$ = useVuelidate(
   {
@@ -147,7 +163,7 @@ const updateMediaName = value => {
 
 const sendMessage = () => {
   v$.value.$touch();
-  if (v$.value.$invalid) return;
+  if (v$.value.$invalid || isFormInvalid.value) return;
 
   const { name, category, language, namespace } = props.template;
 
@@ -190,6 +206,7 @@ watch(
 defineExpose({
   processedParams,
   hasVariables,
+  hasButtonParameters,
   hasMediaHeader,
   isDocumentTemplate,
   headerComponent,

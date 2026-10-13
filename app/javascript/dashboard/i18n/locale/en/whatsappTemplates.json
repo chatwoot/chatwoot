@@ -19,8 +19,21 @@
       "REFRESH_BUTTON": "Refresh templates",
       "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
       "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "CLASSIFICATIONS": {
+        "SENDABLE": "Sendable",
+        "PREVIEW_ONLY": "Preview only",
+        "UNSUPPORTED": "Unsupported",
+        "UNAVAILABLE": "Unavailable"
+      },
+      "REASONS": {
+        "PARAMETER_ADAPTER_UNAVAILABLE": "This template requires values that Linoo cannot collect yet.",
+        "UNSUPPORTED_BY_LINOO_VERSION": "This template is not supported by this version of Linoo.",
+        "TEMPLATE_NOT_APPROVED": "This template is not approved for sending.",
+        "CLASSIFICATION_UNAVAILABLE": "This template has no valid sending classification and cannot be selected."
+      },
       "LABELS": {
         "LANGUAGE": "Language",
+        "LANGUAGE_VALUE": "Language: {language}",
         "TEMPLATE_BODY": "Template Body",
         "CATEGORY": "Category"
       }

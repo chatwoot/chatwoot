@@ -9,6 +9,7 @@ import {
 } from 'dashboard/helper/templateHelper';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { useI18n } from 'vue-i18n';
+import { isSendableTemplate } from '@chatwoot/utils';
 
 const props = defineProps({
   inboxId: {
@@ -19,14 +20,21 @@ const props = defineProps({
 
 const emit = defineEmits(['onSelect']);
 
+const TEMPLATE_CLASSIFICATIONS = ['sendable', 'preview_only', 'unsupported'];
+
 const { t } = useI18n();
 const store = useStore();
 const query = ref('');
 const isRefreshing = ref(false);
 
 const whatsAppTemplateMessages = useFunctionGetter(
-  'inboxes/getFilteredWhatsAppTemplates',
+  'inboxes/getVisibleWhatsAppTemplates',
   toRef(props, 'inboxId')
+);
+const inbox = useFunctionGetter('inboxes/getInbox', toRef(props, 'inboxId'));
+
+const isCloudProvider = computed(
+  () => inbox.value?.provider === 'whatsapp_cloud'
 );
 
 const filteredTemplateMessages = computed(() =>
@@ -54,6 +62,58 @@ const getTemplateButtons = template => {
 const hasMediaContent = template => {
   const header = getTemplateHeader(template);
   return header && MEDIA_FORMATS.includes(header.format);
+};
+
+const getTemplateClassification = template => {
+  return TEMPLATE_CLASSIFICATIONS.includes(template.classification)
+    ? template.classification
+    : 'unavailable';
+};
+
+const getClassificationLabel = template => {
+  switch (getTemplateClassification(template)) {
+    case 'sendable':
+      return t('WHATSAPP_TEMPLATES.PICKER.CLASSIFICATIONS.SENDABLE');
+    case 'preview_only':
+      return t('WHATSAPP_TEMPLATES.PICKER.CLASSIFICATIONS.PREVIEW_ONLY');
+    case 'unsupported':
+      return t('WHATSAPP_TEMPLATES.PICKER.CLASSIFICATIONS.UNSUPPORTED');
+    default:
+      return t('WHATSAPP_TEMPLATES.PICKER.CLASSIFICATIONS.UNAVAILABLE');
+  }
+};
+
+const isTemplateSendable = template => {
+  if (isCloudProvider.value) {
+    return template.classification === 'sendable';
+  }
+
+  return isSendableTemplate(template);
+};
+
+const getClassificationReason = template => {
+  if (isTemplateSendable(template)) return '';
+
+  switch (template.classification_reason) {
+    case 'parameter_adapter_unavailable':
+      return t(
+        'WHATSAPP_TEMPLATES.PICKER.REASONS.PARAMETER_ADAPTER_UNAVAILABLE'
+      );
+    case 'unsupported_by_linoo_version':
+      return t(
+        'WHATSAPP_TEMPLATES.PICKER.REASONS.UNSUPPORTED_BY_LINOO_VERSION'
+      );
+    case 'template_not_approved':
+      return t('WHATSAPP_TEMPLATES.PICKER.REASONS.TEMPLATE_NOT_APPROVED');
+    default:
+      return t('WHATSAPP_TEMPLATES.PICKER.REASONS.CLASSIFICATION_UNAVAILABLE');
+  }
+};
+
+const selectTemplate = template => {
+  if (isTemplateSendable(template)) {
+    emit('onSelect', template);
+  }
 };
 
 const refreshTemplates = async () => {
@@ -101,21 +161,42 @@ const refreshTemplates = async () => {
     >
       <div v-for="(template, i) in filteredTemplateMessages" :key="template.id">
         <button
-          class="block p-2.5 w-full text-left rounded-lg cursor-pointer hover:bg-n-alpha-2 dark:hover:bg-n-solid-2"
-          @click="emit('onSelect', template)"
+          data-testid="template-row"
+          class="block p-2.5 w-full text-left rounded-lg enabled:cursor-pointer enabled:hover:bg-n-alpha-2 dark:enabled:hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-70"
+          :disabled="!isTemplateSendable(template)"
+          @click="selectTemplate(template)"
         >
           <div>
             <div class="flex justify-between items-center mb-2.5">
               <p class="text-sm">
                 {{ template.name }}
               </p>
-              <span
-                class="inline-block px-2 py-1 text-xs leading-none rounded-lg cursor-default bg-n-slate-3 text-n-slate-12"
-              >
-                {{ t('WHATSAPP_TEMPLATES.PICKER.LABELS.LANGUAGE') }}:
-                {{ template.language }}
-              </span>
+              <div class="flex gap-1.5 items-center">
+                <span
+                  v-if="isCloudProvider"
+                  data-testid="template-classification"
+                  class="inline-block px-2 py-1 text-xs leading-none rounded-lg cursor-default bg-n-slate-3 text-n-slate-12"
+                >
+                  {{ getClassificationLabel(template) }}
+                </span>
+                <span
+                  class="inline-block px-2 py-1 text-xs leading-none rounded-lg cursor-default bg-n-slate-3 text-n-slate-12"
+                >
+                  {{
+                    t('WHATSAPP_TEMPLATES.PICKER.LABELS.LANGUAGE_VALUE', {
+                      language: template.language,
+                    })
+                  }}
+                </span>
+              </div>
             </div>
+            <p
+              v-if="getClassificationReason(template)"
+              data-testid="template-classification-reason"
+              class="mb-2.5 text-xs text-n-slate-11"
+            >
+              {{ getClassificationReason(template) }}
+            </p>
             <!-- Header -->
             <div v-if="getTemplateHeader(template)" class="mb-3">
               <p class="text-xs font-medium text-n-slate-11">
