@@ -131,6 +131,20 @@ RSpec.describe Call do
       expect(call.reload.agent_legs).to be_empty
     end
 
+    it 'keeps a joined connection joined when its instructions are asked for again' do
+      call.with_lock { call.record_agent_leg!('CA-1', 'joined') }
+
+      expect(call.open_agent_leg!('CA-1')).to be(true)
+      expect(call.reload.agent_legs.dig('CA-1', 'state')).to eq('joined')
+    end
+
+    it 'refuses a repeated request for a connection that has already left' do
+      call.with_lock { call.record_agent_leg!('CA-1', 'gone') }
+
+      expect(call.open_agent_leg!('CA-1')).to be(false)
+      expect(call.reload.agent_legs.dig('CA-1', 'state')).to eq('gone')
+    end
+
     it 'gives up only the place its own attempt held when a connection opens' do
       own = described_class.pending_agent_leg('attempt-1')
       newer = described_class.pending_agent_leg('attempt-2')
