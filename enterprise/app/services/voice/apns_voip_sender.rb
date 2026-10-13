@@ -9,14 +9,19 @@ class Voice::ApnsVoipSender
 
   # Returns each token's outcome: :sent, :gone when Apple no longer knows it, or :failed.
   # The first push goes alone: APNs allows more requests at once on a connection only
-  # after its first.
-  def ring(tokens, payload)
+  # after its first. `proceed` is asked on the calling thread before each batch after the
+  # first push; once it returns false the remaining tokens are not sent and have no outcome.
+  def ring(tokens, payload, proceed: -> { true })
     return {} if tokens.empty?
 
     connection = new_connection
     first, *rest = tokens
     outcomes = { first => deliver(connection, first, payload) }
-    rest.each_slice(BATCH_SIZE) { |batch| outcomes.merge!(deliver_batch(connection, batch, payload)) }
+    rest.each_slice(BATCH_SIZE) do |batch|
+      break unless proceed.call
+
+      outcomes.merge!(deliver_batch(connection, batch, payload))
+    end
     outcomes
   ensure
     connection&.close
