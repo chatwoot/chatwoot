@@ -11,15 +11,14 @@ class Voice::RingingTimeoutService
   # A timeout attempt older than this is taken to have died, and another may start
   ATTEMPT_TTL_SECONDS = 120
 
-  # Inbound calls still ringing past their provider's timeout that rang phones: on the
-  # accounts that ring them, with the agents rung recorded. A WhatsApp answer moves the
-  # call on as it is claimed, so a ringing call has no claim. An outbound call ends with
-  # the provider's own word.
+  # Inbound calls still ringing past their provider's timeout that rang phones, as the
+  # agents rung recorded on the call show, so one stays covered if the account stops
+  # ringing phones meanwhile. A WhatsApp answer moves the call on as it is claimed, so a
+  # ringing call has no claim. An outbound call ends with the provider's own word.
   def self.overdue
     RING_TIMEOUT_SECONDS.map { |provider, seconds| Call.where(status: 'ringing', provider: provider).where(created_at: ...seconds.seconds.ago) }
                         .reduce(:or)
                         .where(direction: :incoming)
-                        .where(account_id: Account.feature_mobile_voice_push.select(:id))
                         .where("calls.ring_state ? 'ring_recipient_ids'")
   end
 

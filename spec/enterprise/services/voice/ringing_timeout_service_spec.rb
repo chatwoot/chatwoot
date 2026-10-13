@@ -52,11 +52,11 @@ RSpec.describe Voice::RingingTimeoutService do
       expect(described_class.overdue).to be_empty
     end
 
-    it 'ignores calls on accounts that do not ring phones' do
-      ringing(:whatsapp, 5.minutes)
+    it 'still returns a call that rang phones after the account stopped ringing them' do
+      overdue = ringing(:whatsapp, 5.minutes)
       account.disable_features!('mobile_voice_push')
 
-      expect(described_class.overdue).to be_empty
+      expect(described_class.overdue).to contain_exactly(overdue)
     end
   end
 

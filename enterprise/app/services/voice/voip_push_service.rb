@@ -40,13 +40,14 @@ class Voice::VoipPushService
     end
   end
 
-  # The agents the ring reaches: those chosen for it with a phone on a configured platform,
-  # less any the pushes turned out not to reach
+  # The agents the ring reaches: those chosen for it with a phone on a configured platform
+  # that has a push token, less any the pushes turned out not to reach
   def ringable_user_ids
     subscriptions = []
     subscriptions += apple_subscriptions.to_a if configured?(:apple)
     subscriptions += android_subscriptions if configured?(:android)
-    subscriptions.map(&:user_id).uniq - call.ring_state.fetch('unreached_user_ids', [])
+    subscriptions.select { |subscription| subscription.subscription_attributes['push_token'].present? }
+                 .map(&:user_id).uniq - call.ring_state.fetch('unreached_user_ids', [])
   end
 
   private
