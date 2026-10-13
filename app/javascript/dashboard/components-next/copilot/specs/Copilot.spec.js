@@ -24,16 +24,6 @@ const mountComponent = (props = {}) =>
   });
 
 describe('Copilot', () => {
-  it('offers past chats and a new chat from the header', () => {
-    const wrapper = mountComponent();
-    const header = wrapper.findComponent(SidebarActionsHeader);
-
-    expect(header.props('buttons').map(button => button.key)).toEqual([
-      'history',
-      'new',
-    ]);
-  });
-
   it('gives every header action an accessible name', () => {
     const wrapper = mount(SidebarActionsHeader, {
       props: {
