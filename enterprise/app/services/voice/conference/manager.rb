@@ -239,15 +239,16 @@ class Voice::Conference::Manager
 
     conversation = call.conversation
     call.with_lock do
-      # The marker is used up here, so a repeated report cannot undo a later assignment
       next unless call.ring_state['assigned_by_claim'] == user_id
 
-      Call.where(id: call.id).update_all("ring_state = ring_state - 'assigned_by_claim'") # rubocop:disable Rails/SkipsModelValidations
       conversation.with_lock do
-        next unless conversation.assignee_id == user_id
-
+        # A claim the same agent has made again since owns the marker now
         claimant = call.accepted_by_agent_id
         next if claimant == user_id
+
+        # The marker is used up here, so a repeated report cannot undo a later assignment
+        Call.where(id: call.id).update_all("ring_state = ring_state - 'assigned_by_claim'") # rubocop:disable Rails/SkipsModelValidations
+        next unless conversation.assignee_id == user_id
 
         Conversations::AssignmentService.new(conversation: conversation, assignee_id: claimant).perform
         conference_service.remember_claim_assignment(claimant) if claimant

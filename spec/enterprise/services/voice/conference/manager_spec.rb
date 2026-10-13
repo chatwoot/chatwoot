@@ -176,6 +176,19 @@ RSpec.describe Voice::Conference::Manager do
       expect(conversation.reload.assignee).to eq(agent)
     end
 
+    it 'leaves the marker to a claim the same agent made again before the cleanup ran' do
+      call.update!(status: 'ringing', ring_state: { 'assigned_by_claim' => agent.id })
+      conversation.update!(assignee: agent)
+      manager = described_class.new(call: call, event: 'leave', participant_label: agent_label, participant_call_sid: 'CA-leaving',
+                                    leave_reason: 'participant_add_failed')
+
+      # The agent's claim is released, then they claim the call again
+      manager.send(:release_claim_assignment, agent.id)
+
+      expect(call.reload.ring_state['assigned_by_claim']).to eq(agent.id)
+      expect(conversation.reload.assignee).to eq(agent)
+    end
+
     it 'keeps an assignment the claim did not make' do
       call.update!(status: 'ringing')
       conversation.update!(assignee: agent)
