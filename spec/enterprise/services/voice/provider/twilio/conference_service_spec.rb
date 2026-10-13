@@ -52,6 +52,16 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect(call.reload.agent_legs.dig(Call.pending_agent_leg('attempt-1'), 'state')).to eq('joining')
     end
 
+    it 'replaces the place an earlier attempt held, which may never have reached Twilio' do
+      agent = create(:user, account: account)
+      call.with_lock { call.record_agent_leg!('CA-live', 'joined') }
+      service.mark_agent_joined(user: agent, attempt: 'attempt-1')
+
+      service.mark_agent_joined(user: agent, attempt: 'attempt-2')
+
+      expect(call.reload.agent_legs.keys).to contain_exactly('CA-live', Call.pending_agent_leg('attempt-2'))
+    end
+
     it 'holds no place for a client that names no attempt' do
       service.mark_agent_joined(user: create(:user, account: account))
 

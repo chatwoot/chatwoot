@@ -41,8 +41,8 @@ class Voice::EndConferenceJob < ApplicationJob
     conference = Voice::Provider::Twilio::ConferenceService.new(call: call)
     return if leaving_call_sid && agent_still_on_call?(conference, call, leaving_call_sid)
 
-    conference.end_conference
     hang_up_dialled_contact(call)
+    conference.end_conference
     complete(call)
   rescue StandardError => e
     Rails.logger.error("[VOICE] call #{call.id}: last attempt to end the conference failed: #{e.class}: #{e.message}")

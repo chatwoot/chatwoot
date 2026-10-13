@@ -83,7 +83,11 @@ class Voice::Provider::Twilio::ConferenceService
     call.with_lock do
       raise_already_accepted!(call.accepted_by_agent) if claimed_by_other_agent?(user)
       call.update!(accepted_by_agent: user) if call.accepted_by_agent_id != user.id
-      call.record_agent_leg!(Call.pending_agent_leg(attempt), 'joining') if attempt.present?
+      next if attempt.blank?
+
+      # A newer attempt replaces older ones, which may never have reached Twilio
+      call.retire_pending_agent_legs!
+      call.record_agent_leg!(Call.pending_agent_leg(attempt), 'joining')
     end
   end
 

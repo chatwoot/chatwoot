@@ -222,8 +222,10 @@ class Voice::Conference::Manager
     :end
   end
 
+  # An unanswered outcome is marked as such, since the contact's answer may be on its way
+  # behind this report; see Voice::CallStatus::Manager
   def failed_add_status
-    return 'no_answer' if call.ringing?
+    return 'no_answer'.tap { call.merge_meta!('unanswered_by_failed_join' => true) } if call.ringing?
 
     call.accepted_broadcast_at.present? ? 'completed' : 'failed'
   end

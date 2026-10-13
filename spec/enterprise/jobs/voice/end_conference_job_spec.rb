@@ -29,6 +29,15 @@ RSpec.describe Voice::EndConferenceJob do
     expect(call.reload.status).to eq('completed')
   end
 
+  it 'still hangs up an outbound contact when its last round cannot end the conference' do
+    call.update!(status: 'in_progress', direction: :outgoing)
+    allow(conference).to receive(:end_conference).and_raise(Twilio::REST::TwilioError)
+
+    expect { described_class.new.send(:give_up, call, described_class::LATE_ROUNDS, nil) }
+      .to have_enqueued_job(Voice::HangUpContactJob).with(call.id)
+    expect(call.reload.status).to eq('completed')
+  end
+
   it 'ends the conference of the call' do
     described_class.perform_now(call.id)
 

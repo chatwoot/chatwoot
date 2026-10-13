@@ -195,6 +195,13 @@ class Call < ApplicationRecord
     reload
   end
 
+  # Called under the row lock
+  def retire_pending_agent_legs!
+    legs = agent_legs.reject { |sid, _| sid.start_with?('pending:') }
+    self.class.where(id: id).update_all(["meta = jsonb_set(COALESCE(meta, '{}'::jsonb), '{agent_legs}', ?::jsonb)", legs.to_json]) # rubocop:disable Rails/SkipsModelValidations
+    reload
+  end
+
   def merge_meta!(values)
     self.class.where(id: id).update_all(["meta = COALESCE(meta, '{}'::jsonb) || ?::jsonb", values.to_json]) # rubocop:disable Rails/SkipsModelValidations
     reload

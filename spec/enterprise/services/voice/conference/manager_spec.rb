@@ -192,6 +192,16 @@ RSpec.describe Voice::Conference::Manager do
       expect { failed_add }.to have_enqueued_job(Voice::HangUpContactJob).with(call.id)
     end
 
+    it 'records the call as failed, with its answer, when the contact had answered after all' do
+      call.update!(status: 'ringing', direction: :outgoing, started_at: nil)
+      failed_add
+      answered_at = Time.zone.now.to_i
+
+      Voice::CallStatus::Manager.new(call: Call.find(call.id)).process_status_update('in_progress', timestamp: answered_at)
+
+      expect(call.reload).to have_attributes(status: 'failed', started_at: Time.zone.at(answered_at))
+    end
+
     it 'ends an outbound call as unanswered, with its conference and the contact waiting in it' do
       call.update!(status: 'ringing', direction: :outgoing)
 
