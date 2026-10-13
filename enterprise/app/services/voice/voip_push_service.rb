@@ -27,14 +27,19 @@ class Voice::VoipPushService
 
   # The agents a call rings: the assignee if the conversation has one who can still be
   # assigned the inbox, otherwise everyone who could be, keeping only agents whose status
-  # is online, as the web does. Socket presence is not consulted: a locked phone is offline
-  # on the socket and is exactly the device this push exists for.
+  # is online and who may open the conversation, as the web does. Socket presence is not
+  # consulted: a locked phone is offline on the socket and is exactly the device this push
+  # exists for.
   def self.recipients_for(call)
+    conversation = call.conversation
     assignable = call.inbox.assignable_agents.to_a
-    assignee = call.conversation.assignee
+    assignee = conversation.assignee
     candidates = assignee && assignable.include?(assignee) ? [assignee] : assignable
-    online_ids = AccountUser.where(account_id: call.account_id, availability: :online).pluck(:user_id)
-    candidates.select { |user| online_ids.include?(user.id) }
+    online = AccountUser.where(account_id: call.account_id, user_id: candidates.map(&:id), availability: :online).index_by(&:user_id)
+    candidates.select do |user|
+      account_user = online[user.id]
+      account_user && ConversationPolicy.new({ user: user, account: call.account, account_user: account_user }, conversation).show?
+    end
   end
 
   def perform(action)

@@ -47,6 +47,14 @@ RSpec.describe Voice::VoipPushService do
       expect(described_class.recipients_for(call)).to contain_exactly(agent, other_agent)
     end
 
+    it 'leaves out an inbox agent whose role does not let them open the conversation' do
+      custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
+      AccountUser.find_by(account: account, user: other_agent).update!(custom_role: custom_role)
+      conversation.update!(assignee: create(:user, account: account, role: :agent))
+
+      expect(described_class.recipients_for(call)).to eq([agent])
+    end
+
     it 'rings only the assignee who can still be assigned the inbox' do
       conversation.update!(assignee: agent)
 
