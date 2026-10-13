@@ -132,6 +132,39 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
         end
       end
 
+      context 'with a metadata URL' do
+        let(:metadata_url) { 'https://idp.example.com/saml/v2/metadata' }
+        let(:certificate) { build(:account_saml_settings).certificate }
+        let(:metadata) { { sso_url: 'https://idp.example.com/saml/v2/SSO', idp_entity_id: metadata_url, certificate: certificate } }
+        let(:metadata_service) { instance_double(Saml::IdpMetadataService, perform: metadata) }
+
+        before do
+          allow(Saml::IdpMetadataService).to receive(:new).with(metadata_url).and_return(metadata_service)
+        end
+
+        it 'creates SAML settings from the metadata' do
+          post "/api/v1/accounts/#{account.id}/saml_settings",
+               params: { saml_settings: { metadata_url: metadata_url } },
+               headers: administrator.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(json_response).to include(metadata_url: metadata_url, sso_url: metadata[:sso_url], certificate: metadata[:certificate])
+        end
+
+        it 'returns unprocessable entity when the metadata cannot be read' do
+          allow(metadata_service).to receive(:perform).and_raise(Saml::IdpMetadataService::Error, 'boom')
+
+          post "/api/v1/accounts/#{account.id}/saml_settings",
+               params: { saml_settings: { metadata_url: metadata_url } },
+               headers: administrator.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(json_response[:errors].first).to eq("Metadata url #{I18n.t('errors.account_saml_settings.invalid_metadata_url')}")
+        end
+      end
+
       context 'with invalid parameters' do
         let(:invalid_params) do
           valid_params.tap do |params|
