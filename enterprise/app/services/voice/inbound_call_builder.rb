@@ -18,7 +18,9 @@ class Voice::InboundCallBuilder
 
   def perform!
     existing = find_existing_call
-    return existing if existing
+    # A retry of the inbound event queues the ring again if the call recorded who it rings
+    # but its ring never went out
+    return existing.tap { |call| ring_phones(call) } if existing
 
     ActiveRecord::Base.transaction do
       contact_inbox = ensure_contact_inbox!
@@ -57,7 +59,7 @@ class Voice::InboundCallBuilder
   # The job runs once the call row is visible to the worker, which otherwise finds nothing
   # to ring for.
   def ring_phones(call)
-    return unless call.ringing? && call.ring_state.key?('ring_recipient_ids')
+    return unless call.ringing? && call.ring_state.key?('ring_recipient_ids') && !call.ring_state.key?('rung_user_ids')
 
     ActiveRecord.after_all_transactions_commit { Voice::VoipPushJob.perform_later(call.id, 'ring') }
   end
