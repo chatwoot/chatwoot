@@ -46,4 +46,27 @@ describe('WhatsAppInteractivePreview', () => {
     expect(wrapper.get('button').attributes('disabled')).toBe('');
     expect(wrapper.get('button').text()).toBe('Confirm');
   });
+
+  it('shows a disabled CTA action and readable destination', () => {
+    const wrapper = mount(WhatsAppInteractivePreview, {
+      global,
+      props: {
+        type: 'cta_url',
+        header: { type: 'text', text: 'Order update' },
+        body: 'Your order is ready',
+        footer: 'Secure link',
+        opener: 'View details',
+        url: 'https://example.test/details',
+      },
+    });
+
+    expect(wrapper.get('button').attributes('disabled')).toBe('');
+    expect(wrapper.get('button').text()).toBe('View details');
+    expect(wrapper.get('[data-testid="whatsapp-cta-destination"]').text()).toBe(
+      'https://example.test/details'
+    );
+    expect(wrapper.text()).toContain('Order update');
+    expect(wrapper.text()).toContain('Your order is ready');
+    expect(wrapper.text()).toContain('Secure link');
+  });
 });

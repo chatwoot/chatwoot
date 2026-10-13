@@ -13,6 +13,7 @@ import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
 import CopilotReplyBottomPanel from 'dashboard/components/widgets/WootWriter/CopilotReplyBottomPanel.vue';
 import WhatsAppInteractiveComposer from 'dashboard/components-next/whatsapp/WhatsAppInteractiveComposer.vue';
+import { isValidHttpUrl } from 'dashboard/components-next/whatsapp/urlValidation';
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import CopilotEditorSection from './CopilotEditorSection.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
@@ -194,7 +195,7 @@ export default {
       const capabilities =
         this.currentChat?.whatsapp_interactive?.interactive_types ?? {};
       return Object.fromEntries(
-        ['button', 'list']
+        ['button', 'list', 'cta_url']
           .filter(type => capabilities[type]?.implemented)
           .map(type => [type, capabilities[type]])
       );
@@ -222,6 +223,21 @@ export default {
           sectionTitleMaxLength: limits.section_title_max_length ?? 24,
           rowTitleMaxLength: limits.row_title_max_length ?? 24,
           rowDescriptionMaxLength: limits.row_description_max_length ?? 72,
+        };
+      }
+      if (this.selectedWhatsappInteractiveType === 'cta_url') {
+        return {
+          bodyMaxLength: limits.body_max_length ?? 1024,
+          headerMaxLength: limits.header_max_length ?? 60,
+          footerMaxLength: limits.footer_max_length ?? 60,
+          headerTypes: limits.header_types ?? [
+            'text',
+            'image',
+            'video',
+            'document',
+          ],
+          buttonMaxLength: limits.button_max_length ?? 20,
+          urlSchemes: limits.url_schemes ?? ['http', 'https'],
         };
       }
       return {
@@ -271,6 +287,23 @@ export default {
                     limits.rowDescriptionMaxLength
               )
           )
+        );
+      }
+      if (this.selectedWhatsappInteractiveType === 'cta_url') {
+        const { button, url, headerType, headerText, media } =
+          this.whatsappInteractiveDraft;
+        return (
+          body.trim().length >= 1 &&
+          body.trim().length <= limits.bodyMaxLength &&
+          (!headerType || limits.headerTypes.includes(headerType)) &&
+          (headerType !== 'text' ||
+            (headerText?.trim().length >= 1 &&
+              headerText.trim().length <= limits.headerMaxLength)) &&
+          (!headerType || headerType === 'text' || !!media) &&
+          footer.trim().length <= limits.footerMaxLength &&
+          button.trim().length >= 1 &&
+          button.trim().length <= limits.buttonMaxLength &&
+          isValidHttpUrl(url.trim(), limits.urlSchemes)
         );
       }
       const { buttons, headerType, headerText, media } =
@@ -1051,6 +1084,23 @@ export default {
               }),
               ...(footer.trim() && { footer: { text: footer.trim() } }),
             };
+          } else if (type === 'cta_url') {
+            const { headerType, headerText, footer, media, button, url } =
+              this.whatsappInteractiveDraft;
+            interactive = {
+              schema_version: 1,
+              type: 'cta_url',
+              body: { text: body },
+              action: { button: button.trim(), url: url.trim() },
+              ...(headerType && {
+                header: {
+                  type: headerType,
+                  ...(headerType === 'text' && { text: headerText.trim() }),
+                },
+              }),
+              ...(footer.trim() && { footer: { text: footer.trim() } }),
+            };
+            files = media ? [media.file] : undefined;
           } else {
             const { headerType, headerText, footer, media } =
               this.whatsappInteractiveDraft;
@@ -1307,6 +1357,9 @@ export default {
           button: '',
           sections: [{ title: '', rows: [{ title: '', description: '' }] }],
         };
+      }
+      if (type === 'cta_url') {
+        return { body: '', footer: '', button: '', url: '' };
       }
       return { body: '', buttons: [''] };
     },

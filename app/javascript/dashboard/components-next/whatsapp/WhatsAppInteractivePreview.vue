@@ -7,6 +7,7 @@ defineProps({
   footer: { type: String, default: '' },
   buttons: { type: Array, default: () => [] },
   opener: { type: String, default: '' },
+  url: { type: String, default: '' },
   sections: { type: Array, default: () => [] },
 });
 </script>
@@ -60,7 +61,28 @@ defineProps({
         {{ button.title }}
       </button>
     </div>
-    <div v-else class="flex flex-col gap-3 border-t border-n-weak pt-2">
+    <div
+      v-else-if="type === 'cta_url'"
+      class="flex flex-col gap-2 border-t border-n-weak pt-2"
+    >
+      <button
+        type="button"
+        disabled
+        class="w-full rounded-lg px-3 py-2 text-sm font-medium text-n-blue-11 bg-n-alpha-2 disabled:cursor-default disabled:opacity-100"
+      >
+        {{ opener }}
+      </button>
+      <p
+        class="mb-0 text-xs text-n-slate-11 break-all"
+        data-testid="whatsapp-cta-destination"
+      >
+        {{ url }}
+      </p>
+    </div>
+    <div
+      v-else-if="type === 'list'"
+      class="flex flex-col gap-3 border-t border-n-weak pt-2"
+    >
       <button
         type="button"
         disabled

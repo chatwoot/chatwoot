@@ -4,6 +4,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import WhatsAppInteractivePreview from './WhatsAppInteractivePreview.vue';
+import { isValidHttpUrl } from './urlValidation';
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
@@ -42,6 +43,10 @@ const totalRows = computed(() =>
   )
 );
 const normalizedLength = value => value?.trim().length ?? 0;
+const isValidUrl = computed(() => {
+  const value = props.modelValue.url?.trim();
+  return isValidHttpUrl(value, props.limits.urlSchemes);
+});
 
 const update = (field, value) => {
   emit('update:modelValue', { ...props.modelValue, [field]: value });
@@ -171,6 +176,11 @@ const removeRow = (sectionIndex, rowIndex) =>
                 $t('CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.TYPES.button')
               }}
             </template>
+            <template v-else-if="capability.type === 'cta_url'">
+              {{
+                $t('CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.TYPES.cta_url')
+              }}
+            </template>
             <template v-else>
               {{ $t('CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.TYPES.list') }}
             </template>
@@ -226,7 +236,7 @@ const removeRow = (sectionIndex, rowIndex) =>
       </label>
     </fieldset>
 
-    <template v-if="type === 'button'">
+    <template v-if="type === 'button' || type === 'cta_url'">
       <label for="whatsapp-interactive-header" class="text-sm text-n-slate-12">
         {{ $t('CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.HEADER') }}
       </label>
@@ -393,7 +403,37 @@ const removeRow = (sectionIndex, rowIndex) =>
       />
     </template>
 
-    <template v-else>
+    <template v-else-if="type === 'cta_url'">
+      <Input
+        id="whatsapp-interactive-cta-button"
+        :model-value="modelValue.button"
+        :label="$t('CONVERSATION.REPLYBOX.WHATSAPP_CTA.BUTTON')"
+        :maxlength="limits.buttonMaxLength"
+        :message="`${normalizedLength(modelValue.button)}/${limits.buttonMaxLength}`"
+        :message-type="
+          normalizedLength(modelValue.button) > limits.buttonMaxLength
+            ? 'error'
+            : 'info'
+        "
+        @update:model-value="update('button', $event)"
+      />
+      <Input
+        id="whatsapp-interactive-cta-url"
+        type="url"
+        :model-value="modelValue.url"
+        :label="$t('CONVERSATION.REPLYBOX.WHATSAPP_CTA.URL')"
+        :placeholder="$t('CONVERSATION.REPLYBOX.WHATSAPP_CTA.URL_PLACEHOLDER')"
+        :message="
+          modelValue.url && !isValidUrl
+            ? $t('CONVERSATION.REPLYBOX.WHATSAPP_CTA.INVALID_URL')
+            : $t('CONVERSATION.REPLYBOX.WHATSAPP_CTA.URL_HELP')
+        "
+        :message-type="modelValue.url && !isValidUrl ? 'error' : 'info'"
+        @update:model-value="update('url', $event)"
+      />
+    </template>
+
+    <template v-else-if="type === 'list'">
       <Input
         id="whatsapp-interactive-list-button"
         :model-value="modelValue.button"
@@ -522,7 +562,7 @@ const removeRow = (sectionIndex, rowIndex) =>
       :type="type"
       :body="modelValue.body"
       :header="
-        type === 'button' && modelValue.headerType
+        (type === 'button' || type === 'cta_url') && modelValue.headerType
           ? { type: modelValue.headerType, text: modelValue.headerText }
           : type === 'list' && modelValue.header
             ? { type: 'text', text: modelValue.header }
@@ -532,6 +572,7 @@ const removeRow = (sectionIndex, rowIndex) =>
       :footer="modelValue.footer"
       :buttons="modelValue.buttons?.map(title => ({ title }))"
       :opener="modelValue.button"
+      :url="modelValue.url"
       :sections="modelValue.sections"
     />
   </section>

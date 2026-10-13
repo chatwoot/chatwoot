@@ -298,7 +298,8 @@
         "PREVIEW": "Preview",
         "TYPES": {
           "button": "Reply buttons",
-          "list": "List"
+          "list": "List",
+          "cta_url": "Call to action"
         },
         "UNAVAILABLE": {
           "test_recipient_not_allowlisted": "This recipient is not approved for the Meta test sender.",
@@ -330,6 +331,13 @@
         "ADD_ROW": "Add row",
         "REMOVE_ROW": "Remove row {number}",
         "ROW_COUNT": "{count} of {maximum} rows"
+      },
+      "WHATSAPP_CTA": {
+        "BUTTON": "Button label",
+        "URL": "Destination URL",
+        "URL_PLACEHOLDER": "https://example.com",
+        "URL_HELP": "Enter a full URL starting with http:// or https://.",
+        "INVALID_URL": "Enter a valid URL starting with http:// or https://."
       },
       "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
       "TIP_AUDIORECORDER_ERROR": "Could not open the audio",

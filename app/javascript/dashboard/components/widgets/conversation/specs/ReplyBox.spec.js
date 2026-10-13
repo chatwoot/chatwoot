@@ -157,6 +157,19 @@ describe('ReplyBox', () => {
             row_description_max_length: 72,
           },
         },
+        cta_url: {
+          implemented: true,
+          available: true,
+          limits: {
+            body_max_length: 1024,
+            header_max_length: 60,
+            footer_max_length: 60,
+            header_types: ['text', 'image', 'video', 'document'],
+            button_max_length: 20,
+            action_count: 1,
+            url_schemes: ['http', 'https'],
+          },
+        },
       },
     };
 
@@ -324,6 +337,140 @@ describe('ReplyBox', () => {
         },
         list: { available: true },
       });
+    });
+
+    it('keeps an unavailable CTA visible with its independent server reason', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: {
+          whatsapp_interactive: {
+            ...capability,
+            business_verification_status: 'not_verified',
+            interactive_types: {
+              ...capability.interactive_types,
+              cta_url: {
+                ...capability.interactive_types.cta_url,
+                available: false,
+                unavailable_reason: 'service_window_closed',
+              },
+            },
+          },
+        },
+      });
+
+      expect(
+        bottomPanel(wrapper).whatsappInteractiveCapabilities.cta_url
+      ).toMatchObject({
+        implemented: true,
+        available: false,
+        unavailable_reason: 'service_window_closed',
+      });
+    });
+
+    it.each([undefined, 'text', 'image', 'video', 'document'])(
+      'submits a boundary-valid CTA with a %s header and no client attachment ID',
+      async headerType => {
+        const { wrapper } = mountWith({
+          inbox: {
+            channel_type: 'Channel::Whatsapp',
+            provider: 'whatsapp_cloud',
+          },
+          chat: { whatsapp_interactive: capability },
+        });
+        const sendMessage = vi
+          .spyOn(wrapper.vm, 'sendMessage')
+          .mockResolvedValue(true);
+        wrapper.vm.toggleWhatsappInteractive();
+        wrapper.vm.selectWhatsappInteractiveType('cta_url');
+        wrapper.vm.whatsappInteractiveDraft = {
+          body: ` ${'b'.repeat(1024)} `,
+          footer: ` ${'f'.repeat(60)} `,
+          button: ` ${'a'.repeat(20)} `,
+          url: ' https://example.test/details ',
+          ...(headerType && { headerType }),
+          ...(headerType === 'text' && {
+            headerText: ` ${'h'.repeat(60)} `,
+          }),
+          ...(['image', 'video', 'document'].includes(headerType) && {
+            media: { file: 'signed-upload', name: 'header-media' },
+          }),
+        };
+
+        expect(wrapper.vm.isWhatsappInteractiveValid).toBe(true);
+        wrapper.vm.confirmOnSendReply();
+
+        const payload = sendMessage.mock.calls[0][0];
+        expect(payload.contentAttributes.whatsapp_interactive).toMatchObject({
+          schema_version: 1,
+          type: 'cta_url',
+          body: { text: 'b'.repeat(1024) },
+          footer: { text: 'f'.repeat(60) },
+          action: {
+            button: 'a'.repeat(20),
+            url: 'https://example.test/details',
+          },
+          ...(headerType && {
+            header: {
+              type: headerType,
+              ...(headerType === 'text' && { text: 'h'.repeat(60) }),
+            },
+          }),
+        });
+        expect(payload.files).toEqual(
+          ['image', 'video', 'document'].includes(headerType)
+            ? ['signed-upload']
+            : undefined
+        );
+        expect(JSON.stringify(payload.contentAttributes)).not.toMatch(
+          /attachment_id|delivery_id/
+        );
+        await flushPromises();
+      }
+    );
+
+    it('blocks invalid CTA content and non-HTTP destinations', () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      wrapper.vm.toggleWhatsappInteractive();
+      wrapper.vm.selectWhatsappInteractiveType('cta_url');
+      const sendMessage = vi.spyOn(wrapper.vm, 'sendMessage');
+      const valid = {
+        body: 'Review your order',
+        footer: '',
+        button: 'View details',
+        url: 'https://example.test/details',
+      };
+      wrapper.vm.whatsappInteractiveDraft = valid;
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(true);
+
+      [
+        { body: ' ' },
+        { body: 'x'.repeat(1025) },
+        { footer: 'x'.repeat(61) },
+        { button: ' ' },
+        { button: 'x'.repeat(21) },
+        { url: '' },
+        { url: 'not a URL' },
+        { url: 'ftp://example.test/file' },
+        { url: 'https:///missing-host' },
+        { url: 'https://example.test/a path' },
+        { url: 'https://invalid_host.example/path' },
+        { headerType: 'text', headerText: ' ' },
+        { headerType: 'image', media: null },
+      ].forEach(invalid => {
+        wrapper.vm.whatsappInteractiveDraft = { ...valid, ...invalid };
+        expect(wrapper.vm.isWhatsappInteractiveValid).toBe(false);
+        wrapper.vm.confirmOnSendReply();
+      });
+      expect(sendMessage).not.toHaveBeenCalled();
     });
 
     it('submits a boundary-valid native list without client IDs', async () => {

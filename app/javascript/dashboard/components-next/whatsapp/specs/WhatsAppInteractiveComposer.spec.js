@@ -17,6 +17,7 @@ const limits = {
 const capabilities = {
   button: { implemented: true, available: true },
   list: { implemented: true, available: true },
+  cta_url: { implemented: true, available: true },
 };
 
 const mountComposer = (modelValue, props = {}) =>
@@ -284,6 +285,128 @@ describe('WhatsAppInteractiveComposer', () => {
     expect(labels).not.toContain('CONVERSATION.REPLYBOX.WHATSAPP_LIST.ADD_ROW');
     expect(labels).not.toContain(
       'CONVERSATION.REPLYBOX.WHATSAPP_LIST.ADD_SECTION'
+    );
+  });
+
+  it('renders CTA fields, URL feedback, and the structured preview', async () => {
+    const modelValue = {
+      body: 'Review your order',
+      footer: 'Secure link',
+      button: 'View details',
+      url: 'ftp://example.test/file',
+      headerType: 'text',
+      headerText: 'Order update',
+    };
+    const wrapper = mountComposer(modelValue, {
+      type: 'cta_url',
+      limits: {
+        bodyMaxLength: 1024,
+        headerMaxLength: 60,
+        footerMaxLength: 60,
+        headerTypes: ['text', 'image', 'video', 'document'],
+        buttonMaxLength: 20,
+        urlSchemes: ['http', 'https'],
+      },
+    });
+
+    expect(wrapper.find('input[value="cta_url"]').exists()).toBe(true);
+    expect(
+      wrapper.find('#whatsapp-interactive-cta-button').attributes('maxlength')
+    ).toBe('20');
+    expect(
+      wrapper
+        .findAllComponents(Input)
+        .find(
+          input => input.attributes('id') === 'whatsapp-interactive-cta-url'
+        )
+        .props('messageType')
+    ).toBe('error');
+    expect(
+      wrapper.findComponent({ name: 'WhatsAppInteractivePreview' }).props()
+    ).toMatchObject({
+      type: 'cta_url',
+      body: 'Review your order',
+      header: { type: 'text', text: 'Order update' },
+      footer: 'Secure link',
+      opener: 'View details',
+      url: 'ftp://example.test/file',
+    });
+
+    await wrapper
+      .findAllComponents(Input)
+      .find(input => input.attributes('id') === 'whatsapp-interactive-cta-url')
+      .vm.$emit('update:modelValue', 'https://example.test/details');
+    expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([
+      { ...modelValue, url: 'https://example.test/details' },
+    ]);
+  });
+
+  it.each(['https://example.test/a path', 'https://invalid_host.example/path'])(
+    'shows immediate feedback for server-invalid URL %s',
+    url => {
+      const wrapper = mountComposer(
+        { body: 'Review', footer: '', button: 'Open', url },
+        {
+          type: 'cta_url',
+          limits: {
+            bodyMaxLength: 1024,
+            headerMaxLength: 60,
+            footerMaxLength: 60,
+            headerTypes: ['text', 'image', 'video', 'document'],
+            buttonMaxLength: 20,
+            urlSchemes: ['http', 'https'],
+          },
+        }
+      );
+
+      const urlInput = wrapper
+        .findAllComponents(Input)
+        .find(
+          input => input.attributes('id') === 'whatsapp-interactive-cta-url'
+        );
+      expect(urlInput.props()).toMatchObject({
+        message: 'CONVERSATION.REPLYBOX.WHATSAPP_CTA.INVALID_URL',
+        messageType: 'error',
+      });
+    }
+  );
+
+  it('keeps an unavailable CTA visible and disabled with its exact reason', () => {
+    const wrapper = mountComposer(
+      {
+        body: 'Review',
+        footer: '',
+        button: 'Open',
+        url: 'https://example.test',
+      },
+      {
+        type: 'cta_url',
+        limits: {
+          bodyMaxLength: 1024,
+          headerMaxLength: 60,
+          footerMaxLength: 60,
+          headerTypes: ['text', 'image', 'video', 'document'],
+          buttonMaxLength: 20,
+          urlSchemes: ['http', 'https'],
+        },
+        capabilities: {
+          button: { implemented: true, available: true },
+          cta_url: {
+            implemented: true,
+            available: false,
+            unavailable_reason: 'service_window_closed',
+          },
+        },
+      }
+    );
+
+    expect(wrapper.find('input[value="cta_url"]').attributes('disabled')).toBe(
+      ''
+    );
+    expect(
+      wrapper.get('[data-testid="whatsapp-unavailable-cta_url"]').text()
+    ).toBe(
+      'CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.UNAVAILABLE.service_window_closed'
     );
   });
 });
