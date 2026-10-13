@@ -309,6 +309,19 @@ RSpec.describe Voice::VoipPushService do
       expect(Thread).to have_received(:new).exactly(7).times
     end
 
+    it 'stops sending later Android batches once the call stops ringing' do
+      stub_const('Voice::VoipPushService::ANDROID_BATCH_SIZE', 2)
+      5.times { |i| subscribe(agent, 'fcm', "android-#{i}", platform: 'Android') }
+      allow(fcm_client).to receive(:send_v1) do |message|
+        call.update_columns(status: 'in_progress') if message[:data]['type'] != 'voice_call.cancel' # rubocop:disable Rails/SkipsModelValidations
+        { status_code: 200 }
+      end
+
+      described_class.new(call: call).perform('ring')
+
+      expect(fcm_client).to have_received(:send_v1).with(hash_including(data: hash_excluding('type' => 'voice_call.cancel'))).twice
+    end
+
     it 'does nothing without any registered phone' do
       described_class.new(call: call).perform('ring')
 

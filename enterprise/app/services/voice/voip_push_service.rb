@@ -78,7 +78,9 @@ class Voice::VoipPushService
 
   def ring_android(firebase, tokens, data)
     client = platform_client('android') { fcm_client(*firebase) }
-    client ? deliver_android_all(client, tokens, data, 'ring') : []
+    return [] unless client
+
+    deliver_android_all(client, tokens, data, 'ring', proceed: -> { Call.where(id: call.id).first&.ringing? })
   end
 
   def devices_to_ring
@@ -228,16 +230,19 @@ class Voice::VoipPushService
     Notification::FcmService.new(project_id, credentials).fcm_client
   end
 
-  # Returns the tokens Firebase reported as unregistered
-  def deliver_android_all(client, tokens, data, kind)
-    return [] if tokens.empty?
+  # Returns the tokens Firebase reported as unregistered. `proceed` is asked before each batch
+  # after the first, and the remaining batches are skipped once it returns false.
+  def deliver_android_all(client, tokens, data, kind, proceed: -> { true })
+    tokens.each_slice(ANDROID_BATCH_SIZE).with_index.each_with_object([]) do |(batch, index), gone|
+      break gone if index.positive? && !proceed.call
 
-    tokens.each_slice(ANDROID_BATCH_SIZE).flat_map do |batch|
-      batch.map { |token| Thread.new { with_rails { deliver_android(client, token, data, kind) } } }
-           .map(&:value)
-           .zip(batch)
-           .filter_map { |result, token| token if result == :gone }
+      gone.concat(deliver_android_batch(client, batch, data, kind))
     end
+  end
+
+  def deliver_android_batch(client, batch, data, kind)
+    outcomes = batch.map { |token| Thread.new { with_rails { deliver_android(client, token, data, kind) } } }.map(&:value)
+    batch.zip(outcomes).filter_map { |token, outcome| token if outcome == :gone }
   end
 
   def deliver_android(client, token, data, kind)
