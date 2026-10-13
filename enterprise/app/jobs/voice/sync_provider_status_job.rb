@@ -6,25 +6,31 @@ class Voice::SyncProviderStatusJob < ApplicationJob
 
   def perform(call_id)
     call = Call.find_by(id: call_id)
-    return if call.blank? || !call.twilio?
-    return backfill_start(call) if call.terminal?
+    return if call.blank? || !call.twilio? || (call.terminal? && !missing_start?(call))
 
     twilio_call = call.inbox.channel.client.calls(call.provider_call_id).fetch
-    # A call answered and over by now is taken through its answer first, so it keeps when
-    # it started as well as when it ended
-    apply(call, 'in-progress', 'Timestamp' => twilio_call.start_time.iso8601) if twilio_call.status == 'completed' && twilio_call.start_time
-    apply(call, twilio_call.status, timing(twilio_call))
+    replay(call, twilio_call) unless call.terminal?
+    fill_start(call, twilio_call.start_time) if twilio_call.status == 'completed'
   end
 
   private
 
-  # A call that completed before this ran, from a callback that came in after its row
-  # committed, may have missed the answer that came in before; Twilio still has when it started
-  def backfill_start(call)
-    return unless call.status == 'completed' && call.started_at.nil?
+  # A call answered and over by now is taken through its answer first, so it keeps when it
+  # started as well as when it ended
+  def replay(call, twilio_call)
+    apply(call, 'in-progress', 'Timestamp' => twilio_call.start_time.iso8601) if twilio_call.status == 'completed' && twilio_call.start_time
+    apply(call, twilio_call.status, timing(twilio_call))
+  end
 
-    start_time = call.inbox.channel.client.calls(call.provider_call_id).fetch.start_time
-    call.update!(started_at: start_time) if start_time
+  def missing_start?(call) = call.status == 'completed' && call.started_at.nil?
+
+  # A completed callback that came in after the row committed, before this ran or while it
+  # asked Twilio, may have left the call without the answer that came in before it; Twilio
+  # still has when it started. Filled under the row lock, and only where nothing set it.
+  def fill_start(call, start_time)
+    return unless start_time
+
+    call.with_lock { call.update!(started_at: start_time) if missing_start?(call) }
   end
 
   def apply(call, status, payload)
