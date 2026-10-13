@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "story": 23,
+  "observed_at": "2026-10-13T14:04:23Z",
+  "environment": {
+    "revision": "15512ea30e2a5070db975e33e50d71b542309c26",
+    "composer": "authenticated_web",
+    "account_mode": "test",
+    "webhook_verified": true,
+    "messages_subscription_active": true,
+    "recipient_allowlisted": true,
+    "recipient_consent_confirmed": true
+  },
+  "scenario": {
+    "standalone_cta_url": {
+      "result": "passed",
+      "outbound": {
+        "created_at": "2026-10-13T13:49:13Z",
+        "status": "read",
+        "body": "Story 23 standalone CTA verification",
+        "button_label": "Open example",
+        "destination": "https://example.com/",
+        "provider_message_fingerprint": "sha256:7bef25cc586f2212ee67166cd2319c96b3d0b7235fe571bc7411c9befa09ec6b",
+        "delivery_fingerprint": "sha256:06ec44ccee3b23b9e067e96afb796d3b8d75ac7701185f649c61e405c282bdf8"
+      },
+      "recipient_observation": {
+        "rendering": "native_cta_url_button",
+        "observed_body": "Story 23 standalone CTA verification",
+        "observed_button_label": "Open example",
+        "content_visible": true,
+        "button_visible": true,
+        "destination_opened": true,
+        "opened_destination": "https://example.com/",
+        "url_click_webhook_claimed": false
+      }
+    }
+  },
+  "release": {
+    "result": "passed",
+    "paths": [
+      {
+        "name": "reply_button",
+        "story": 21,
+        "source": "live_story_21.json",
+        "result": "passed",
+        "proof_boundary": "native rendering and correlated recipient selection"
+      },
+      {
+        "name": "native_list",
+        "story": 21,
+        "source": "live_story_21.json",
+        "result": "passed",
+        "proof_boundary": "native rendering, row description, and correlated recipient selection"
+      },
+      {
+        "name": "url_carousel",
+        "story": 22,
+        "source": "live_story_22.json",
+        "result": "passed",
+        "proof_boundary": "native rendering and opened destinations without click-webhook evidence"
+      },
+      {
+        "name": "quick_reply_carousel",
+        "story": 22,
+        "source": "live_story_22.json",
+        "result": "passed",
+        "proof_boundary": "readable selections with message-and-context-only correlation"
+      },
+      {
+        "name": "standalone_cta_url",
+        "story": 23,
+        "source": "live_story_23.json",
+        "result": "passed",
+        "proof_boundary": "native rendering and opened destination without click-webhook evidence"
+      }
+    ]
+  },
+  "limitations": {
+    "test_only": true,
+    "account_mode": "test",
+    "production_readiness_claimed": false,
+    "mobile_completion_claimed": false,
+    "promotion_state_claimed": false,
+    "url_click_analytics_claimed": false
+  },
+  "coverage": [
+    "SCN-08",
+    "SCN-20"
+  ]
+}
