@@ -29,6 +29,6 @@ class Captain::Copilot::Actions::SendReply < Captain::Copilot::Actions::BaseActi
     end
 
     Messages::MessageBuilder.new(@user, conversation, { content: @arguments['content'], private: false }).perform
-    'applied'
+    :applied
   end
 end

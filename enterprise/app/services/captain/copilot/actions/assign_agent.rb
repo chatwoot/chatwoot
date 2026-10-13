@@ -10,7 +10,7 @@ class Captain::Copilot::Actions::AssignAgent < Captain::Copilot::Actions::BaseAc
 
   # Uses the dashboard's assignment path, so a conversation a bot holds is opened and the activity message names the agent.
   def perform(conversation)
-    return 'skipped' if conversation.assignee_id == agent.id
+    return :skipped if conversation.assignee_id == agent.id
 
     # Inbox members and administrators, the agents the dashboard offers as assignees for the inbox.
     unless conversation.inbox.assignable_agents.include?(agent)
@@ -18,7 +18,7 @@ class Captain::Copilot::Actions::AssignAgent < Captain::Copilot::Actions::BaseAc
     end
 
     Conversations::AssignmentService.new(conversation: conversation, assignee_id: agent.id).perform
-    'applied'
+    :applied
   end
 
   def card_details

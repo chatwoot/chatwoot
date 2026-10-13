@@ -8,9 +8,9 @@ class Captain::Copilot::Actions::SetPriority < Captain::Copilot::Actions::BaseAc
   }.deep_stringify_keys.freeze
 
   def perform(conversation)
-    return 'skipped' if conversation.priority == @arguments['priority']
+    return :skipped if conversation.priority == @arguments['priority']
 
     conversation.update!(priority: @arguments['priority'])
-    'applied'
+    :applied
   end
 end

@@ -22,7 +22,7 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
 
   def execute(saved_set_id:, action:, arguments:, only_matched: true)
     proposed = Captain::Copilot::Actions.build(action, account: run.account, user: run.user, arguments: arguments)
-    source = run.saved_set(saved_set_id, kind: %w[collection review])
+    source = run.saved_set(saved_set_id, kind: %i[collection review])
     target_ids = target_ids(source, proposed.class::RESOURCE, only_matched)
     raise ArgumentError, 'There are no records to change' if target_ids.empty?
     raise ArgumentError, "At most #{MAX_TARGETS} records can be changed at once. Narrow the selection." if target_ids.size > MAX_TARGETS
@@ -66,7 +66,7 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
   # A review that stopped at its budget, or could not review some conversations, covers only part of its selection. The card
   # says so, so the agent does not approve a partial set as if it were complete.
   def review_coverage(source)
-    return unless source.kind == 'review'
+    return unless source.review?
 
     summary = source.summary
     reviewed = summary[:processed] - summary[:failed]

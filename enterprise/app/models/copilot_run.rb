@@ -249,7 +249,7 @@ class CopilotRun < ApplicationRecord
     counts = action_items.group(:status).count
     { action: context['action'], arguments: context['arguments'], targets: target_ids.size, applied: counts['applied'].to_i,
       skipped: counts['skipped'].to_i, failed: counts['failed'].to_i,
-      failure_reasons: action_items.where(status: 'failed').group(:error).count.presence, not_processed: not_processed(counts),
+      failure_reasons: action_items.failed.group(:error).count.presence, not_processed: not_processed(counts),
       decision_reason: context['decision_reason'] }.compact
   end
 
