@@ -29,7 +29,9 @@ class Captain::Copilot::ScreeningService
 
     findings = @run.findings.where(conversation_id: conversations.map(&:id))
     screened_ids = findings.pluck(:conversation_id).to_set
-    record(scores(conversations.reject { |conversation| screened_ids.include?(conversation.id) }))
+    # A batch can hold only conversations screened earlier, such as ones waiting for a deep review.
+    unscreened = conversations.reject { |conversation| screened_ids.include?(conversation.id) }
+    record(scores(unscreened)) if unscreened.any?
     kept_ids = findings.where.not(status: :screened_out).pluck(:conversation_id).to_set
     conversations.select { |conversation| kept_ids.include?(conversation.id) }
   end
@@ -39,7 +41,7 @@ class Captain::Copilot::ScreeningService
   def scores(conversations)
     params = { account_id: @run.account_id, feature_name: 'copilot_screening', model: MODEL,
                metadata: { run_id: @run.id, conversation_ids: conversations.map(&:id) } }
-    with_copilot_trace('llm.captain.copilot_screening', params, turn: @run.turn) do
+    with_copilot_trace('llm.captain.copilot_screening', params, turn: @run.turn, input: @run.question) do
       conversations.to_h { |conversation| [conversation.id, score(conversation)] }
     end
   end

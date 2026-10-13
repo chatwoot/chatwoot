@@ -62,12 +62,15 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService # rubocop:di
     @transcript.load
     @transcript.save(@token)
     params = instrumentation_params
-    outcome = with_copilot_trace(params[:span_name], params, turn: @run) do
+    with_copilot_trace(params[:span_name], params, turn: @run, input: @run.copilot_message.message['content']) do |span|
       save_trace_carrier
-      result = complete_loop(llm)
-      result == :complete && ask_to_source_numbers(llm) ? complete_loop(llm) : result
+      outcome = complete_loop(llm)
+      outcome = complete_loop(llm) if outcome == :complete && ask_to_source_numbers(llm)
+      next wait_for_background_run if outcome == :awaiting_background_run
+
+      # Langfuse takes a trace's output from its first span. A turn that waited on a background run finishes in a later span.
+      finish(llm).tap { |response| span&.set_attribute(ATTR_LANGFUSE_TRACE_OUTPUT, response.to_json) }
     end
-    outcome == :awaiting_background_run ? wait_for_background_run : finish(llm)
   end
 
   private
@@ -158,6 +161,7 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService # rubocop:di
       done
     end
     Captain::Copilot::TurnJob.perform_later(@run.id) if finished
+    @tool_call.summary
   end
 
   def ask_to_source_numbers(llm)
@@ -198,7 +202,7 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService # rubocop:di
     return @tool_call.result if @tool_call.completed?
 
     tool.tool_call = @tool_call if tool.respond_to?(:tool_call=)
-    result = original.call(tool_call: tool_call, **arguments)
+    result = instrument_tool_call(@tool_call.name, arguments) { original.call(tool_call: tool_call, **arguments) }
     # A background run that already finished has saved its summary on the tool call, which supersedes the tool's queued summary.
     return @tool_call.reload.result if @tool_call.reload.completed?
 

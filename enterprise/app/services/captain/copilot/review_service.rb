@@ -37,8 +37,11 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
     evidence = conversation_for_review(conversation, deep)
     prompt = { product: @run.copilot_thread.assistant.config['product_name'], request: @run.context['request'], question: @run.question,
                criteria: @run.criteria, as_of: @run.as_of.iso8601, conversation: evidence }.compact.to_json
-    response = with_copilot_trace('llm.captain.copilot_review', trace_params(conversation), turn: @run.turn) { build_chat.ask(prompt) }
-    parse_result(JSON.parse(sanitize_json_response(response.content)), evidence, deep)
+    input = { conversation_id: conversation.id, deep: deep }
+    content = with_copilot_trace('llm.captain.copilot_review', trace_params(conversation), turn: @run.turn, input: input) do
+      build_chat.ask(prompt).content
+    end
+    parse_result(JSON.parse(sanitize_json_response(content)), evidence, deep)
   end
 
   private
