@@ -1,4 +1,12 @@
 module Enterprise::Messages::NewMessageNotificationService
+  # A call message is notified by its own job and again once its ring settles. Both run
+  # under the message's row lock, so the later one sees what the earlier one created.
+  def perform
+    return super unless message.voice_call?
+
+    message.with_lock { super }
+  end
+
   private
 
   def already_notified?(user)
