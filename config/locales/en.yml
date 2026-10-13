@@ -924,9 +924,9 @@ en:
       calls:
         heading: 'Incoming calls'
         description: 'Whether a call rings this user on their phone while the app is in the background or closed. With the app open, calls ring over its live connection.'
+        accounts_heading: 'Accounts'
         setup:
-          heading: 'Call push setup'
-          description: 'A call reaches a phone in the background through a push this installation must be able to send, to a device the app registered for calls.'
+          heading: 'Push setup'
           columns:
             platform: 'Platform'
             installation: 'Installation'
