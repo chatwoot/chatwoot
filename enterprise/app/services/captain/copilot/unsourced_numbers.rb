@@ -1,7 +1,12 @@
-# Finds numbers in an answer that appear in no tool result and no agent message, such as a count the model tallied
-# from rows it read. Record references, dates, times, years and list markers are ignored, because they are not claims
-# about how much of something there is.
-class Captain::Copilot::AnswerNumbers
+# Numbers in Copilot's answer that appear in no tool result and no agent message, such as a count the model tallied
+# from rows it read. The model is asked once per turn to source or drop them, and the ones still unsourced stay in the
+# answer with a visible note. Record references, dates, times, years and list markers are ignored, because they are not
+# claims about how much of something there is.
+class Captain::Copilot::UnsourcedNumbers
+  NOTE = 'Automatic check, not a message from the agent: these numbers in your answer do not appear in any tool result: ' \
+         '%<numbers>s. Every number must come from a tool result, or be a ratio or percentage of two numbers a tool returned. ' \
+         'Recompute counts with get_data, using group_by for counts per period or value, or remove each number you cannot ' \
+         'source. Then give the complete answer again.'.freeze
   IGNORED = [
     /\]\([^)]*\)/,
     %r{https?://\S+},
@@ -48,18 +53,36 @@ class Captain::Copilot::AnswerNumbers
     number.end_with?('%') ? "#{digits}%" : digits
   end
 
-  def initialize(answer, sources)
-    @answer = answer
-    @sources = sources
+  def initialize(run, token)
+    @run = run
+    @token = token
   end
 
-  def unsupported
-    known = self.class.in_data(@sources)
-    terms = self.class.counts_in(@sources).uniq.first(MAX_RATIO_TERMS)
-    self.class.in_text(@answer).reject { |number| known.include?(number.delete('%')) || ratio?(number, terms) }.sort_by(&:to_f)
+  # The note asking the model to source the numbers in its draft, or nil when the draft needs none or this turn was
+  # already checked.
+  def note_for(draft)
+    return if @run.context.key?('unsourced_numbers_in_draft')
+
+    numbers = find(draft)
+    @run.with_lease(@token) { @run.update!(context: @run.context.merge('unsourced_numbers_in_draft' => numbers)) }
+    format(NOTE, numbers: numbers.join(', ')) if numbers.any?
+  end
+
+  # The numbers still unsourced in the answer the model gave after the note.
+  def in_answer(answer)
+    @run.context['unsourced_numbers_in_draft'].present? ? find(answer) : []
   end
 
   private
+
+  # Sources are everything the model was given in this thread: the agent's messages, and every tool call and its result.
+  def find(answer)
+    tool_calls = CopilotToolCall.where(copilot_run: @run.copilot_thread.copilot_runs.turn)
+    sources = [@run.copilot_thread.copilot_messages.user.map(&:message), tool_calls.pluck(:arguments, :result), @run.user_id, @run.account_id]
+    known = self.class.in_data(sources)
+    terms = self.class.counts_in(sources).uniq.first(MAX_RATIO_TERMS)
+    self.class.in_text(answer).reject { |number| known.include?(number.delete('%')) || ratio?(number, terms) }.sort_by(&:to_f)
+  end
 
   # A decimal or percentage that equals a ratio of two numbers the tools returned, rounded as the answer writes it, is
   # arithmetic on sourced numbers. Whole numbers must appear as they are, because small counts can be made from almost

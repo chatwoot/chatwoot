@@ -19,7 +19,7 @@ class Captain::Tools::Copilot::GetDataService < Captain::Tools::Copilot::Workflo
              }
 
   def execute(resource:, filters:, from: nil, group_by: nil)
-    Captain::Copilot::DataService.new(run, step: step, token: lease_token).retrieve(resource: resource, filters: filters, from: from,
-                                                                                    group_by: group_by)
+    Captain::Copilot::CollectionService.new(run, tool_call: tool_call, token: lease_token).create(resource: resource, filters: filters, from: from,
+                                                                                                  group_by: group_by)
   end
 end

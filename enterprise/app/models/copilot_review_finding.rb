@@ -26,13 +26,12 @@
 class CopilotReviewFinding < ApplicationRecord
   belongs_to :copilot_run
 
-  # screened_in waits for the review model; screened_out never reaches it.
-  FINAL_STATUSES = %w[screened_out resolved error].freeze
+  # awaiting_review waits for the review model; screened_out never reaches it.
+  FINISHED_STATUSES = %w[screened_out reviewed failed].freeze
 
   validates :conversation_id, uniqueness: { scope: :copilot_run_id }
-  # Prefixed, because an `error` value would clash with the error column's error? and `retry` is a Ruby keyword.
-  enum :status, { screened_in: 'screened_in', screened_out: 'screened_out', more_history: 'more_history', retry: 'retry',
-                  resolved: 'resolved', error: 'error' }, prefix: true, validate: true
+  enum :status, { awaiting_review: 'awaiting_review', screened_out: 'screened_out', needs_more_history: 'needs_more_history',
+                  awaiting_retry: 'awaiting_retry', reviewed: 'reviewed', failed: 'failed' }, validate: true
 
-  scope :final, -> { where(status: FINAL_STATUSES) }
+  scope :finished, -> { where(status: FINISHED_STATUSES) }
 end

@@ -1,10 +1,10 @@
-class Captain::Copilot::ExecutionJob < ApplicationJob
+class Captain::Copilot::TurnJob < ApplicationJob
   queue_as :default
 
   MAX_ATTEMPTS = 3
 
   def perform(run_id)
-    run = CopilotRun.chat.claimable.find_by(id: run_id)
+    run = CopilotRun.turn.claimable.find_by(id: run_id)
     return unless run
 
     return self.class.set(wait: 5.seconds).perform_later(run.id) if run.behind_earlier_turn?
@@ -13,7 +13,7 @@ class Captain::Copilot::ExecutionJob < ApplicationJob
     self.class.set(wait_until: (run.lease_until || Time.current) + 30.seconds).perform_later(run.id)
     return unless token
 
-    Captain::Copilot::ExecutionService.new(run, token).generate_response
+    Captain::Copilot::TurnService.new(run, token).generate_response
   rescue Captain::Copilot::LeaseLostError
     nil
   rescue StandardError => e

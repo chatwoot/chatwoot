@@ -23,9 +23,9 @@ class Captain::Copilot::ScreeningService
     @client = Captain::JevClient.new(account_id: run.account_id, feature: 'copilot_screening')
   end
 
-  # Screens conversations that have no finding yet against the run's match question and returns the ones to review.
+  # Screens conversations that have no finding yet against the run's question and returns the ones to review.
   def screen(conversations)
-    return conversations if @run.match.blank?
+    return conversations if @run.question.blank?
 
     findings = @run.findings.where(conversation_id: conversations.map(&:id))
     screened_ids = findings.pluck(:conversation_id).to_set
@@ -50,7 +50,7 @@ class Captain::Copilot::ScreeningService
     return unless messages
 
     state = { conversation: { messages: messages } }
-    question = { type: 'noul', instructions: { question: @run.match, evidence: EVIDENCE_RULE } }
+    question = { type: 'noul', instructions: { question: @run.question, evidence: EVIDENCE_RULE } }
     body = Captain::JevClient.request_body(model: MODEL, state: state, questions: { match: question })
     Float(@client.call(body: body).dig('answers', 'match', 'noul'))
   rescue StandardError => e
@@ -58,9 +58,9 @@ class Captain::Copilot::ScreeningService
     nil
   end
 
-  # Customer and agent messages up to the boundary, with private notes, as the review model sees them.
+  # Customer and agent messages up to as_of, with private notes, as the review model sees them.
   def transcript(conversation)
-    messages = conversation.messages.where(message_type: %w[incoming outgoing]).where(Message.arel_table[:created_at].lteq(@run.boundary_at))
+    messages = conversation.messages.where(message_type: %w[incoming outgoing]).where(Message.arel_table[:created_at].lteq(@run.as_of))
                            .reorder(id: :desc).limit(WINDOW + 1).to_a
     return if messages.size > WINDOW
 
@@ -73,7 +73,7 @@ class Captain::Copilot::ScreeningService
   def record(scores)
     @run.with_lease(@token) do
       scores.each do |id, score|
-        status = score && score < THRESHOLD ? :screened_out : :screened_in
+        status = score && score < THRESHOLD ? :screened_out : :awaiting_review
         @run.findings.create!(conversation_id: id, status: status, screening_score: score)
       end
     end

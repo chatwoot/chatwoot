@@ -1,4 +1,4 @@
-class Captain::Copilot::ExecutionHistory
+class Captain::Copilot::TurnTranscript
   def initialize(run, chat, protocol:)
     @run = run
     @chat = chat
@@ -8,12 +8,12 @@ class Captain::Copilot::ExecutionHistory
                   'endpoint' => InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value }
   end
 
-  def restore
+  def load
     history = @run.copilot_thread.copilot_messages.where(message_type: %w[user assistant])
                   .where(CopilotMessage.arel_table[:id].lteq(@run.copilot_message_id)).includes(:copilot_run).order(:id)
     history.each { |message| add_history(message) }
     @offset = @chat.messages.size
-    state = @run.provider_state
+    state = @run.transcript
     return if state.empty?
 
     raise ArgumentError, 'The model or provider changed during this run' unless state['identity'] == @identity
@@ -21,9 +21,9 @@ class Captain::Copilot::ExecutionHistory
     state.fetch('messages', []).each { |attributes| @chat.add_message(attributes.symbolize_keys) }
   end
 
-  def checkpoint(token)
+  def save(token)
     messages = @chat.messages[@offset..].map { |message| serialized_message(message) }
-    @run.with_lease(token) { @run.update!(provider_state: { identity: @identity, messages: messages }) }
+    @run.with_lease(token) { @run.update!(transcript: { identity: @identity, messages: messages }) }
   end
 
   private
@@ -35,16 +35,16 @@ class Captain::Copilot::ExecutionHistory
     prior = message.copilot_run
     return unless prior && prior.id != @run.id
 
-    append_execution(prior)
+    append_earlier_turn(prior)
   end
 
-  def append_execution(prior)
-    if prior.provider_state['identity'] == @identity && prior.completed?
-      prior.provider_state.fetch('messages', []).each { |attributes| @chat.add_message(attributes.symbolize_keys) }
+  def append_earlier_turn(prior)
+    if prior.transcript['identity'] == @identity && prior.completed?
+      prior.transcript.fetch('messages', []).each { |attributes| @chat.add_message(attributes.symbolize_keys) }
       @replayed_run_ids << prior.id
     else
-      outcomes = prior.steps.order(:id).map(&:receipt)
-      @chat.add_message(role: :assistant, content: { run: prior.receipt, steps: outcomes }.to_json) if outcomes.any?
+      outcomes = prior.tool_calls.order(:id).map(&:summary)
+      @chat.add_message(role: :assistant, content: { run: prior.summary, tool_calls: outcomes }.to_json) if outcomes.any?
     end
   end
 

@@ -1,8 +1,8 @@
 # The prompt heredocs below take up a fifth of the class, as in Captain::Llm::SystemPromptsService.
-class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # rubocop:disable Metrics/ClassLength
+class Captain::Copilot::TurnService < Captain::Copilot::ChatService # rubocop:disable Metrics/ClassLength
   include Captain::Copilot::Tracing
 
-  MAX_GENERATIONS = 12
+  MAX_MODEL_CALLS = 12
   # Field meanings the model needs to pick filters and read records. Without them it treats status and priority as content.
   CHATWOOT_CONTEXT = <<~PROMPT.freeze
     How Chatwoot records support work:
@@ -24,9 +24,9 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # ruboc
     Use from to move between saved sets, such as the contacts of a review's matched conversations, or the conversations whose messages contain an order number.
     Never look up the records of a saved set one by one. Select them with get_data and from, then read them with display.
     Use explicit ISO8601 bounds for relative dates using the current time supplied below. State whether dates refer to creation or last activity.
-    When the request is about a subset, such as a topic, issue or intent, always pass match as a yes or no question. Every conversation is screened against it and only matching ones are reviewed against criteria.
-    Write match and criteria in the agent's own words. Copy names and topics exactly as the agent wrote them. Never define, explain or narrow them, and do not add product names or conditions the agent did not state. The reviewer also reads the agent's message.
-    review_conversations reviews up to #{CopilotRun::REVIEW_BUDGET} conversations per turn, newest first, and returns once they are done. Its receipt reports coverage: selected, screened out, reviewed, matched, errors and remaining.
+    When the request is about a subset, such as a topic, issue or intent, always pass question as a yes or no question. Every conversation is screened against it and only matching ones are reviewed against criteria.
+    Write question and criteria in the agent's own words. Copy names and topics exactly as the agent wrote them. Never define, explain or narrow them, and do not add product names or conditions the agent did not state. The reviewer also reads the agent's message.
+    review_conversations reviews up to #{CopilotRun::CONVERSATIONS_PER_TURN} conversations per turn, newest first, and returns once they are done. Its summary reports coverage: selected, screened out, reviewed, matched, failed and remaining.
     When conversations remain, say how many were reviewed and how many were not, and offer to continue. Call continue_review only after the agent asks to continue.
     In the answer, state the filters you used and the coverage, so the agent knows what was and was not read.
     Use display to read saved collections and findings, including for follow-up questions. Preserve its coverage and links. Tables may be returned in content.
@@ -58,16 +58,16 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # ruboc
   def generate_response
     llm = build_chat.with_tool_options(calls: :one, concurrency: false)
     protocol = Captain::ResponsesConfig.options(model: @model, temperature: temperature, feature: 'copilot')[:protocol]
-    @history = Captain::Copilot::ExecutionHistory.new(@run, llm, protocol: protocol)
-    @history.restore
-    @history.checkpoint(@token)
+    @transcript = Captain::Copilot::TurnTranscript.new(@run, llm, protocol: protocol)
+    @transcript.load
+    @transcript.save(@token)
     params = instrumentation_params
     outcome = with_copilot_trace(params[:span_name], params, turn: @run) do
       save_trace_carrier
       result = complete_loop(llm)
-      result == :complete && request_number_check(llm) ? complete_loop(llm) : result
+      result == :complete && ask_to_source_numbers(llm) ? complete_loop(llm) : result
     end
-    outcome == :waiting ? wait_for_background_run : finish(llm)
+    outcome == :awaiting_background_run ? wait_for_background_run : finish(llm)
   end
 
   private
@@ -87,10 +87,10 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # ruboc
   def setup_event_handlers(llm)
     llm.after_message do |message|
       record_llm_generation(llm, message)
-      @history.checkpoint(@token)
+      @transcript.save(@token)
     end
-    llm.before_tool_call { |call| start_step(call) }
-    llm.after_tool_result { |result| finish_step(result) }
+    llm.before_tool_call { |call| start_tool_call(call) }
+    llm.after_tool_result { |result| finish_tool_call(result) }
     llm
   end
 
@@ -103,36 +103,38 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # ruboc
   def complete_loop(llm)
     until llm.complete?
       @run.renew_lease(@token)
-      generations = @run.provider_state.fetch('messages', []).count { |message| message['role'] == 'assistant' }
-      raise Captain::Copilot::LimitExceededError, 'The execution reached its model-call limit' if generations >= MAX_GENERATIONS
+      model_calls = @run.transcript.fetch('messages', []).count { |message| message['role'] == 'assistant' }
+      raise Captain::Copilot::LimitExceededError, 'The turn reached its model-call limit' if model_calls >= MAX_MODEL_CALLS
 
-      @run.ensure_allowed!
+      @run.ensure_can_continue!
 
       llm.step
     end
     :complete
   rescue Captain::Copilot::BackgroundRunPending
-    :waiting
+    :awaiting_background_run
   end
 
-  def start_step(call)
+  def start_tool_call(call)
     @run.with_lease(@token) do
-      @step = @run.steps.find_or_create_by!(call_id: call.id) { |record| record.assign_attributes(name: call.name, arguments: call.arguments) }
-      next if @step.succeeded?
+      @tool_call = @run.tool_calls.find_or_create_by!(call_id: call.id) do |record|
+        record.assign_attributes(name: call.name, arguments: call.arguments)
+      end
+      next if @tool_call.completed?
 
-      @step.update!(status: :running, attempts: @step.attempts + 1)
-      persist_message({ content: "Using #{call.name}", function_name: call.name, tool: @step.receipt }, 'assistant_thinking')
+      @tool_call.update!(status: :running, attempts: @tool_call.attempts + 1)
+      persist_message({ content: "Using #{call.name}", function_name: call.name, tool: @tool_call.summary }, 'assistant_thinking')
     end
   end
 
-  def finish_step(result)
+  def finish_tool_call(result)
     @run.with_lease(@token) do
       failure = result.is_a?(Hash) && (result[:error] || result['error'])
       # The result keeps the whole error for the model; the column holds a summary within the string limit.
-      @step.update!(status: failure ? :failed : :succeeded, result: result,
-                    error: failure.to_s.truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH).presence)
-      persist_message({ content: "#{failure ? 'Failed' : 'Completed'} #{@step.name}", function_name: @step.name,
-                        tool: @step.receipt }, 'assistant_thinking')
+      @tool_call.update!(status: failure ? :failed : :completed, result: result,
+                         error: failure.to_s.truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH).presence)
+      persist_message({ content: "#{failure ? 'Failed' : 'Completed'} #{@tool_call.name}", function_name: @tool_call.name,
+                        tool: @tool_call.summary }, 'assistant_thinking')
     end
   end
 
@@ -146,29 +148,29 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # ruboc
     end
   end
 
-  # The pending tool call stays in provider_state without a result. When the background run finishes it saves its receipt
-  # on the step, and the resumed loop replays that call, which returns the saved result instead of running the tool again.
+  # The pending tool call stays in the transcript without a result. When the background run finishes it saves its summary
+  # on the tool call, and the resumed loop replays that call, which returns the saved result instead of running the tool again.
   def wait_for_background_run
     finished = @run.with_lease(@token) do
-      done = @step.reload.succeeded?
-      @run.update!(status: done ? :queued : :waiting, lease_token: nil, lease_until: nil)
-      persist_message({ content: "Waiting for #{@step.name} to finish" }, 'assistant_thinking') unless done
+      done = @tool_call.reload.completed?
+      @run.update!(status: done ? :queued : :awaiting_background_run, lease_token: nil, lease_until: nil)
+      persist_message({ content: "Waiting for #{@tool_call.name} to finish" }, 'assistant_thinking') unless done
       done
     end
-    Captain::Copilot::ExecutionJob.perform_later(@run.id) if finished
+    Captain::Copilot::TurnJob.perform_later(@run.id) if finished
   end
 
-  def request_number_check(llm)
-    note = number_check.request(parse_json_response(llm.messages.last.content)['content'].to_s)
+  def ask_to_source_numbers(llm)
+    note = unsourced_numbers.note_for(parse_json_response(llm.messages.last.content)['content'].to_s)
     return false unless note
 
     llm.add_message(role: :user, content: note)
-    @history.checkpoint(@token)
+    @transcript.save(@token)
     true
   end
 
-  def number_check
-    @number_check ||= Captain::Copilot::NumberCheck.new(@run, @token)
+  def unsourced_numbers
+    @unsourced_numbers ||= Captain::Copilot::UnsourcedNumbers.new(@run, @token)
   end
 
   # Numbers the model still could not source after the check stay in the answer with a visible note, and on the run.
@@ -176,12 +178,12 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # ruboc
     @run.with_lease(@token) do
       response = parse_json_response(llm.messages.last.content).slice('content', 'reply_suggestion')
       response['content'] = response['content'].to_s
-      remaining = number_check.remaining(response['content'])
-      response['content'] += "\n\n_#{I18n.t('captain.copilot.unsupported_numbers', numbers: remaining.join(', '))}_" if remaining.any?
+      unsourced = unsourced_numbers.in_answer(response['content'])
+      response['content'] += "\n\n_#{I18n.t('captain.copilot.unsourced_numbers', numbers: unsourced.join(', '))}_" if unsourced.any?
       persist_message(response)
       @account.increment_response_usage
       @run.update!(status: :completed, lease_token: nil, lease_until: nil, error: nil,
-                   context: @run.context.merge('number_check_remaining' => remaining))
+                   context: @run.context.merge('unsourced_numbers_in_answer' => unsourced))
       response
     end
   end
@@ -193,15 +195,15 @@ class Captain::Copilot::ExecutionService < Captain::Copilot::ChatService # ruboc
   public
 
   def perform_tool(tool, original, tool_call, arguments)
-    return @step.result if @step.succeeded?
+    return @tool_call.result if @tool_call.completed?
 
-    tool.step = @step if tool.respond_to?(:step=)
+    tool.tool_call = @tool_call if tool.respond_to?(:tool_call=)
     result = original.call(tool_call: tool_call, **arguments)
-    # A background run that already finished has saved its receipt on the step, which supersedes the tool's queued receipt.
-    return @step.reload.result if @step.reload.succeeded?
+    # A background run that already finished has saved its summary on the tool call, which supersedes the tool's queued summary.
+    return @tool_call.reload.result if @tool_call.reload.completed?
 
-    background_run = @step.background_run
-    raise Captain::Copilot::BackgroundRunPending if background_run && !background_run.terminal?
+    background_run = @tool_call.background_run
+    raise Captain::Copilot::BackgroundRunPending if background_run && !background_run.finished?
 
     result
   rescue Captain::Copilot::LeaseLostError, Captain::Copilot::BackgroundRunPending

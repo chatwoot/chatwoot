@@ -1,29 +1,29 @@
-class Captain::Copilot::PresentationService
+class Captain::Copilot::ResultTable
   include Captain::Copilot::ConversationAccess
 
   PAGE_SIZE = 20
   # A review page holds a whole review batch, so an answer about the matches never rests on part of them.
-  REVIEW_PAGE_SIZE = CopilotRun::REVIEW_BUDGET
+  REVIEW_PAGE_SIZE = CopilotRun::CONVERSATIONS_PER_TURN
 
   def initialize(run)
     @run = run
   end
 
-  def table(page: 1, matched_only: false)
-    raise ArgumentError, 'page must be a positive integer' unless page.is_a?(Integer) && page.positive?
+  def page(number, matched_only: false)
+    raise ArgumentError, 'page must be a positive integer' unless number.is_a?(Integer) && number.positive?
     raise ArgumentError, 'matched_only must be a boolean' unless [true, false].include?(matched_only)
 
-    @run.collection? ? collection_table(page) : review_table(page, matched_only)
+    @run.collection? ? collection_page(number) : review_page(number, matched_only)
   end
 
   private
 
   # Rows come from the resource, which shows only the records the user can still see.
-  def collection_table(page)
+  def collection_page(page)
     resource = Captain::Copilot::Resources.build(@run.resource, account: @run.account, user: @run.user)
     total = @run.selected_ids.size
     rows = resource.rows(@run.selected_ids.slice((page - 1) * PAGE_SIZE, PAGE_SIZE) || [])
-    { run: @run.receipt, type: 'table', page: page, total: total, has_more: page * PAGE_SIZE < total,
+    { run: @run.summary, type: 'table', page: page, total: total, has_more: page * PAGE_SIZE < total,
       content: collection_markdown(resource, rows, page, total) }
   end
 
@@ -40,25 +40,25 @@ class Captain::Copilot::PresentationService
     markdown_table(header, rows.map { |row| ["[#{escape(row[:label])}](#{row[:url]})", *row[:values].map { |value| escape(value) }] })
   end
 
-  def review_table(page, matched_only)
+  def review_page(page, matched_only)
     visible = accessible_conversations(account: @run.account, user: @run.user)
     findings = visible_findings(visible, matched_only).page(page).per(REVIEW_PAGE_SIZE)
     display_ids = visible.where(id: findings.map(&:conversation_id)).pluck(:id, :display_id).to_h
     total = findings.total_count
-    { run: @run.receipt, type: 'table', page: page, total: total, has_more: page * REVIEW_PAGE_SIZE < total,
+    { run: @run.summary, type: 'table', page: page, total: total, has_more: page * REVIEW_PAGE_SIZE < total,
       content: markdown(findings, display_ids, page, total, matched_only) }
   end
 
   # Matched findings come first, so they fill the first page when a continued review holds more than one page.
   def visible_findings(visible, matched_only)
-    scope = @run.findings.where(conversation_id: visible.select(:id)).where.not(status: %i[screened_in screened_out])
+    scope = @run.findings.where(conversation_id: visible.select(:id)).where.not(status: %i[awaiting_review screened_out])
     scope = scope.where(matched: true) if matched_only
     scope.order(matched: :desc, conversation_id: :asc)
   end
 
   # The table is the only copy of the findings the model gets. A table of every finding says which ones matched.
   def markdown(findings, display_ids, page, total, matched_only)
-    lines = summary
+    lines = summary_lines
     return (lines + ['No saved findings on this page.']).join("\n\n") if findings.empty?
 
     header = matched_only ? %w[Conversation Category Finding] : %w[Conversation Matched Category Finding]
@@ -71,7 +71,7 @@ class Captain::Copilot::PresentationService
   end
 
   def matched_cell(finding)
-    return '' unless finding.status_resolved?
+    return '' unless finding.reviewed?
 
     finding.matched ? 'yes' : 'no'
   end
@@ -89,25 +89,25 @@ class Captain::Copilot::PresentationService
 
   # A finding's status describes the review, not the conversation, so only failed reviews are labelled.
   def finding_text(finding)
-    finding.status_resolved? ? finding.reason : "Not reviewed: #{finding.error || finding.status}"
+    finding.reviewed? ? finding.reason : "Not reviewed: #{finding.error || finding.status}"
   end
 
-  def summary
-    receipt = @run.receipt
-    lines = ["Review ##{@run.id}: #{receipt[:status]}. Processed #{receipt[:processed]} of #{receipt[:selected]}: " \
-             "#{receipt[:screened_out]} screened out, #{receipt[:reviewed]} reviewed, #{receipt[:matched]} matched, #{receipt[:errors]} errors.",
+  def summary_lines
+    summary = @run.summary
+    lines = ["Review ##{@run.id}: #{summary[:status]}. Processed #{summary[:processed]} of #{summary[:selected]}: " \
+             "#{summary[:screened_out]} screened out, #{summary[:reviewed]} reviewed, #{summary[:matched]} matched, #{summary[:failed]} failed.",
              "Filters: #{escape(@run.filters.to_json)}."]
-    lines << "Screening question: #{escape(@run.match)}" if @run.match.present?
-    lines + coverage_gaps(receipt) + ['The opening and newest messages were reviewed. Attachment contents were not reviewed.']
+    lines << "Screening question: #{escape(@run.question)}" if @run.question.present?
+    lines + coverage_gaps(summary) + ['The opening and newest messages were reviewed. Attachment contents were not reviewed.']
   end
 
-  def coverage_gaps(receipt)
+  def coverage_gaps(summary)
     gaps = []
-    gaps << 'The selection limit was reached. Narrow the filters to cover the rest.' if receipt[:selection_truncated]
-    if @run.terminal? && receipt[:remaining].positive?
-      gaps << "#{receipt[:remaining]} conversations are not reviewed yet. Ask to continue the review."
+    gaps << 'The selection limit was reached. Narrow the filters to cover the rest.' if summary[:selection_truncated]
+    if @run.finished? && summary[:remaining].positive?
+      gaps << "#{summary[:remaining]} conversations are not reviewed yet. Ask to continue the review."
     end
-    gaps << "Execution stopped: #{escape(receipt[:error])}." if receipt[:error]
+    gaps << "Execution stopped: #{escape(summary[:error])}." if summary[:error]
     gaps
   end
 

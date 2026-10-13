@@ -5,12 +5,12 @@ class CreateCopilotRuns < ActiveRecord::Migration[7.2]
       t.references :user, null: false
       t.references :copilot_thread, null: false
       t.references :copilot_message, index: { unique: true }
-      t.references :copilot_run_step, index: { unique: true }
-      t.references :parent_run
+      t.references :copilot_tool_call, index: { unique: true }
+      t.references :source_run
       t.string :kind, null: false
       t.string :status, null: false, default: 'queued'
       t.jsonb :context, null: false, default: {}
-      t.jsonb :provider_state, null: false, default: {}
+      t.jsonb :transcript, null: false, default: {}
       t.datetime :lease_until
       t.string :lease_token
       t.integer :attempts, null: false, default: 0
@@ -18,7 +18,7 @@ class CreateCopilotRuns < ActiveRecord::Migration[7.2]
       t.timestamps
     end
 
-    create_table :copilot_run_steps do |t|
+    create_table :copilot_tool_calls do |t|
       t.references :copilot_run, null: false
       t.string :call_id, null: false
       t.string :name, null: false
@@ -29,7 +29,7 @@ class CreateCopilotRuns < ActiveRecord::Migration[7.2]
       t.string :error
       t.timestamps
     end
-    add_index :copilot_run_steps, [:copilot_run_id, :call_id], unique: true
+    add_index :copilot_tool_calls, [:copilot_run_id, :call_id], unique: true
 
     create_table :copilot_review_findings do |t|
       t.references :copilot_run, null: false

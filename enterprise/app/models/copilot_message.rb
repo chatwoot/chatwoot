@@ -43,10 +43,10 @@ class CopilotMessage < ApplicationRecord
       run = copilot_thread.copilot_runs.create_or_find_by!(copilot_message: self) do |record|
         record.account = account
         record.user = copilot_thread.user
-        record.kind = :chat
+        record.kind = :turn
         record.context = { conversation_id: conversation_id }
       end
-      return Captain::Copilot::ExecutionJob.perform_later(run.id)
+      return Captain::Copilot::TurnJob.perform_later(run.id)
     end
 
     Captain::Copilot::ResponseJob.perform_later(

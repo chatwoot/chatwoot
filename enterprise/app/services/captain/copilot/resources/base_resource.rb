@@ -58,10 +58,10 @@ class Captain::Copilot::Resources::BaseResource
   end
 
   # The visible records that match the filters and, when a source set is given, are linked to its records.
-  def matching(filters, boundary:, source: nil)
+  def matching(filters, as_of:, source: nil)
     relation = scope
     relation = relation.where(id: linked(source).select(:id)) if source
-    filter(apply_dates(relation, filters, boundary), filters).reorder(nil)
+    filter(apply_dates(relation, filters, as_of), filters).reorder(nil)
   end
 
   # With newest, the most recent records by the date field; otherwise up to one more than MAX_SELECTION, so the caller
@@ -75,11 +75,11 @@ class Captain::Copilot::Resources::BaseResource
 
   # Counts per period or value, computed by the database so the model never tallies rows itself. Periods are UTC and
   # include empty ones within since and before.
-  def group_counts(relation, filters, boundary, group)
+  def group_counts(relation, filters, as_of, group)
     raise ArgumentError, "group_by must be one of: #{self.class.group_options.join(', ')}" unless self.class.group_options.include?(group)
 
     counts = if PERIODS.key?(group)
-               period_counts(relation, filters, boundary, group)
+               period_counts(relation, filters, as_of, group)
              else
                counts_by(relation, group).sort_by { |_, count| -count }.to_h
              end
@@ -107,30 +107,30 @@ class Captain::Copilot::Resources::BaseResource
   end
 
   # Dates apply only when asked for. A default upper bound would drop records whose date field is empty, such as contacts
-  # that were never active, and the query already runs at the boundary.
-  def apply_dates(relation, filters, boundary)
+  # that were never active, and the query already runs at as_of.
+  def apply_dates(relation, filters, as_of)
     return relation unless filters['since'] || filters['before']
 
-    since, before = date_range(filters, boundary)
+    since, before = date_range(filters, as_of)
     field = relation.klass.arel_table[filters['date_field']]
     relation = relation.where(field.lt(before))
     since ? relation.where(field.gteq(since)) : relation
   end
 
-  def date_range(filters, boundary)
+  def date_range(filters, as_of)
     since = Time.iso8601(filters['since']) if filters['since']
-    before = filters['before'] ? Time.iso8601(filters['before']) : boundary
+    before = filters['before'] ? Time.iso8601(filters['before']) : as_of
     raise ArgumentError, 'since must be earlier than before' if since && since >= before
-    raise ArgumentError, 'before cannot be in the future' if before > boundary
+    raise ArgumentError, 'before cannot be in the future' if before > as_of
 
     [since, before]
   end
 
-  def period_counts(relation, filters, boundary, period)
+  def period_counts(relation, filters, as_of, period)
     field = filters['date_field']
     options = { time_zone: 'UTC' }
     options[:week_start] = :monday if period == 'week'
-    options[:range] = Range.new(*date_range(filters, boundary), true) if filters['since']
+    options[:range] = Range.new(*date_range(filters, as_of), true) if filters['since']
     counts = relation.where.not(field => nil).group_by_period(period, field, **options).count
     counts = counts.transform_keys { |date| date.strftime(PERIODS.fetch(period)) }
     undated = relation.where(field => nil).count

@@ -3,7 +3,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
 
   queue_as :default
 
-  STEP_SIZE = 25
+  BATCH_SIZE = 25
   MAX_ATTEMPTS = 2
   MAX_RUN_FAILURES = 3
 
@@ -14,7 +14,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
     token = claim(run)
     return unless token
 
-    process_step(run, token)
+    process_batch(run, token)
   rescue Captain::Copilot::LeaseLostError
     nil
   rescue Captain::Copilot::LimitExceededError => e
@@ -32,65 +32,68 @@ class Captain::Copilot::ReviewJob < ApplicationJob
     token
   end
 
-  def process_step(run, token)
-    conversations = Captain::Copilot::ScreeningService.new(run, token).screen(accessible_step(run, token))
-    run.with_lease(token) { run.publish_progress } if run.match.present?
+  def process_batch(run, token)
+    conversations = Captain::Copilot::ScreeningService.new(run, token).screen(accessible_batch(run, token))
+    run.with_lease(token) { run.publish_progress } if run.question.present?
     service = Captain::Copilot::ReviewService.new(run, token)
     conversations.each do |conversation|
       run.renew_lease(token)
       review(run, token, service, conversation)
     end
     run.with_lease(token) { run.publish_progress } if conversations.any?
-    return finalize(run, token) if run.remaining_ids.empty? || run.budget_left <= 0
+    return finalize(run, token) if run.remaining_ids.empty? || run.left_this_turn <= 0
 
     run.with_lease(token) { run.update!(status: :queued, lease_token: nil, lease_until: nil) }
     self.class.perform_later(run.id)
   end
 
-  def accessible_step(run, token)
-    ids = run.remaining_ids.first([STEP_SIZE, run.budget_left].min)
+  def accessible_batch(run, token)
+    ids = run.remaining_ids.first([BATCH_SIZE, run.left_this_turn].min)
     conversations = accessible_conversations(account: run.account, user: run.user).where(id: ids).to_a
     run.with_lease(token) { (ids - conversations.map(&:id)).each { |id| record_error(run, id, 'Conversation is no longer accessible') } }
     conversations
   end
 
   def review(run, token, service, conversation)
-    deep = run.findings.status_more_history.exists?(conversation_id: conversation.id)
-    attributes = service.analyze(conversation, deep: deep)
-    attributes = attributes.merge(status: :error, error: 'The 50 messages read were insufficient') if attributes[:status] == :more_history && deep
+    deep = run.findings.needs_more_history.exists?(conversation_id: conversation.id)
+    attributes = service.review(conversation, deep: deep)
+    if attributes[:status] == :needs_more_history && deep
+      attributes = attributes.merge(status: :failed,
+                                    error: 'The 50 messages read were insufficient')
+    end
     run.with_lease(token) { save_result(run, conversation.id, attributes) }
   rescue Captain::Copilot::LeaseLostError, Captain::Copilot::LimitExceededError
     raise
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: run.account).capture_exception
-    error = e.is_a?(ArgumentError) ? e.message : "Analysis failed (#{e.class.name})"
+    error = e.is_a?(ArgumentError) ? e.message : "Review failed (#{e.class.name})"
     run.with_lease(token) { record_error(run, conversation.id, error) }
   end
 
   def save_result(run, id, attributes)
     finding = run.findings.find_or_initialize_by(conversation_id: id)
-    return if finding.status_resolved?
+    return if finding.reviewed?
 
     finding.update!(error: nil, **attributes, attempts: finding.attempts + 1)
   end
 
   def record_error(run, id, error)
     finding = run.findings.find_or_initialize_by(conversation_id: id)
-    return if finding.status_resolved?
+    return if finding.reviewed?
 
     attempts = finding.attempts + 1
-    finding.update!(status: attempts >= MAX_ATTEMPTS ? :error : :retry, error: error, attempts: attempts)
+    finding.update!(status: attempts >= MAX_ATTEMPTS ? :failed : :awaiting_retry, error: error, attempts: attempts)
   end
 
-  # The chat run that started this review is parked on its tool call; the receipt becomes that call's result.
+  # The turn that started this review is parked on its tool call; the summary becomes that call's result.
   def finalize(run, token, error: nil)
-    receipt = run.with_lease(token) do
-      incomplete = error || run.findings.status_error.exists? || run.context['selection_truncated'] || run.remaining_ids.any?
+    summary = run.with_lease(token) do
+      incomplete = error || run.findings.failed.exists? || run.context['selection_truncated'] || run.remaining_ids.any?
       run.update!(status: incomplete ? :incomplete : :completed, lease_token: nil, lease_until: nil, error: error)
-      run.receipt
+      run.summary
     end
-    step = run.copilot_run_step
-    step.copilot_run.resume_with(step, receipt)
+    tool_call = run.copilot_tool_call
+    tool_call.copilot_run.resume_with(tool_call, summary)
   end
 
   def handle_failure(run, token, exception)

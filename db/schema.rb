@@ -1062,32 +1062,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_14_152259) do
     t.index ["copilot_run_id"], name: "index_copilot_review_findings_on_copilot_run_id"
   end
 
-  create_table "copilot_run_steps", force: :cascade do |t|
-    t.bigint "copilot_run_id", null: false
-    t.string "call_id", null: false
-    t.string "name", null: false
-    t.string "status", default: "queued", null: false
-    t.jsonb "arguments", default: {}, null: false
-    t.jsonb "result"
-    t.integer "attempts", default: 0, null: false
-    t.string "error"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["copilot_run_id", "call_id"], name: "index_copilot_run_steps_on_copilot_run_id_and_call_id", unique: true
-    t.index ["copilot_run_id"], name: "index_copilot_run_steps_on_copilot_run_id"
-  end
-
   create_table "copilot_runs", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "user_id", null: false
     t.bigint "copilot_thread_id", null: false
     t.bigint "copilot_message_id"
-    t.bigint "copilot_run_step_id"
-    t.bigint "parent_run_id"
+    t.bigint "copilot_tool_call_id"
+    t.bigint "source_run_id"
     t.string "kind", null: false
     t.string "status", default: "queued", null: false
     t.jsonb "context", default: {}, null: false
-    t.jsonb "provider_state", default: {}, null: false
+    t.jsonb "transcript", default: {}, null: false
     t.datetime "lease_until"
     t.string "lease_token"
     t.integer "attempts", default: 0, null: false
@@ -1096,9 +1081,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_14_152259) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_copilot_runs_on_account_id"
     t.index ["copilot_message_id"], name: "index_copilot_runs_on_copilot_message_id", unique: true
-    t.index ["copilot_run_step_id"], name: "index_copilot_runs_on_copilot_run_step_id", unique: true
     t.index ["copilot_thread_id"], name: "index_copilot_runs_on_copilot_thread_id"
-    t.index ["parent_run_id"], name: "index_copilot_runs_on_parent_run_id"
+    t.index ["copilot_tool_call_id"], name: "index_copilot_runs_on_copilot_tool_call_id", unique: true
+    t.index ["source_run_id"], name: "index_copilot_runs_on_source_run_id"
     t.index ["user_id"], name: "index_copilot_runs_on_user_id"
   end
 
@@ -1112,6 +1097,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_14_152259) do
     t.index ["account_id"], name: "index_copilot_threads_on_account_id"
     t.index ["assistant_id"], name: "index_copilot_threads_on_assistant_id"
     t.index ["user_id"], name: "index_copilot_threads_on_user_id"
+  end
+
+  create_table "copilot_tool_calls", force: :cascade do |t|
+    t.bigint "copilot_run_id", null: false
+    t.string "call_id", null: false
+    t.string "name", null: false
+    t.string "status", default: "queued", null: false
+    t.jsonb "arguments", default: {}, null: false
+    t.jsonb "result"
+    t.integer "attempts", default: 0, null: false
+    t.string "error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["copilot_run_id", "call_id"], name: "index_copilot_tool_calls_on_copilot_run_id_and_call_id", unique: true
+    t.index ["copilot_run_id"], name: "index_copilot_tool_calls_on_copilot_run_id"
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|

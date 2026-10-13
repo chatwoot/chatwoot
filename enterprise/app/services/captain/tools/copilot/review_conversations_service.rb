@@ -2,40 +2,41 @@ class Captain::Tools::Copilot::ReviewConversationsService < Captain::Tools::Copi
   def self.name
     'review_conversations'
   end
-  description "Review a saved conversation collection one conversation at a time, newest first, up to #{CopilotRun::REVIEW_BUDGET} per turn. " \
+  description 'Review a saved conversation collection one conversation at a time, newest first, ' \
+              "up to #{CopilotRun::CONVERSATIONS_PER_TURN} per turn. " \
               'Returns the review ID and coverage, including conversations remaining, once the batch has finished.'
   parameter :collection_id, type: :integer, description: 'Collection ID from get_data'
   parameter :criteria, type: :string, description: 'The exact requested checks, including how to classify each conversation'
-  parameter :match, type: :string, required: false,
-                    description: 'Optional yes or no question. Conversations that clearly do not satisfy it are screened out before review'
+  parameter :question, type: :string, required: false,
+                       description: 'Optional yes or no question. Conversations whose answer is clearly no are screened out before review'
 
-  def execute(collection_id:, criteria:, match: nil)
+  def execute(collection_id:, criteria:, question: nil)
     validate_text!(criteria, 'Criteria', 4000)
-    if match
-      validate_text!(match, 'Match', 500)
-      raise ArgumentError, 'Screening is unavailable. Retry without match.' unless Captain::Copilot::ScreeningService.available?
+    if question
+      validate_text!(question, 'Question', 500)
+      raise ArgumentError, 'Screening is unavailable. Retry without question.' unless Captain::Copilot::ScreeningService.available?
     end
 
-    review = create_review(review_source(collection_id), criteria, match)
+    review = create_review(review_source(collection_id), criteria, question)
     Captain::Copilot::ReviewJob.perform_later(review.id)
-    review.receipt
+    review.summary
   end
 
   private
 
-  # The agent's own message is saved with the model's match and criteria, so the reviewer can follow the agent's words.
-  def create_review(collection, criteria, match)
-    context = collection.context.merge('request' => run.copilot_message.message['content'], 'criteria' => criteria, 'match' => match,
-                                       'budget' => CopilotRun::REVIEW_BUDGET).compact
+  # The agent's own message is saved with the model's question and criteria, so the reviewer can follow the agent's words.
+  def create_review(collection, criteria, question)
+    context = collection.context.merge('request' => run.copilot_message.message['content'], 'criteria' => criteria, 'question' => question,
+                                       'turn_limit' => CopilotRun::CONVERSATIONS_PER_TURN).compact
     run.with_lease(lease_token) do
-      run.copilot_thread.copilot_runs.create_or_find_by!(copilot_run_step: step) do |record|
-        record.assign_attributes(account: run.account, user: run.user, parent_run: collection, kind: :review, context: context)
+      run.copilot_thread.copilot_runs.create_or_find_by!(copilot_tool_call: tool_call) do |record|
+        record.assign_attributes(account: run.account, user: run.user, source_run: collection, kind: :review, context: context)
       end
     end
   end
 
   def review_source(collection_id)
-    collection = saved_run(collection_id, :collection)
+    collection = run.copilot_thread.saved_set(collection_id, kind: :collection)
     return collection if collection.resource == 'conversations'
 
     raise ArgumentError, "Reviews read conversations. Call get_data with resource conversations and from #{collection.id} first."

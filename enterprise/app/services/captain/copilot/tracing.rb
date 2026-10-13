@@ -3,7 +3,7 @@ module Captain::Copilot::Tracing
 
   private
 
-  # A Copilot turn runs across several jobs. Each job opens its span inside the trace context saved on the turn's chat run,
+  # A Copilot turn runs across several jobs. Each job opens its span inside the trace context saved on the turn,
   # so Langfuse shows the whole turn as one trace and groups the thread's turns into one session.
   def with_copilot_trace(span_name, params, turn:)
     return yield unless ChatwootApp.otel_enabled?

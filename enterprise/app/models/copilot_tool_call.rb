@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: copilot_run_steps
+# Table name: copilot_tool_calls
 #
 #  id             :bigint           not null, primary key
 #  arguments      :jsonb            not null
@@ -16,18 +16,18 @@
 #
 # Indexes
 #
-#  index_copilot_run_steps_on_copilot_run_id              (copilot_run_id)
-#  index_copilot_run_steps_on_copilot_run_id_and_call_id  (copilot_run_id,call_id) UNIQUE
+#  index_copilot_tool_calls_on_copilot_run_id              (copilot_run_id)
+#  index_copilot_tool_calls_on_copilot_run_id_and_call_id  (copilot_run_id,call_id) UNIQUE
 #
-class CopilotRunStep < ApplicationRecord
+class CopilotToolCall < ApplicationRecord
   belongs_to :copilot_run
   # A run this tool call started in the background, such as a review; the calling run waits for it to finish.
-  has_one :background_run, class_name: 'CopilotRun', dependent: nil, inverse_of: :copilot_run_step
+  has_one :background_run, class_name: 'CopilotRun', dependent: nil, inverse_of: :copilot_tool_call
 
   validates :call_id, :name, presence: true
-  enum :status, { queued: 'queued', running: 'running', succeeded: 'succeeded', failed: 'failed' }, validate: true
+  enum :status, { queued: 'queued', running: 'running', completed: 'completed', failed: 'failed' }, validate: true
 
-  def receipt
-    { step_id: id, name: name, status: status, arguments: arguments, result: result, error: error, attempts: attempts }
+  def summary
+    { tool_call_id: id, name: name, status: status, arguments: arguments, result: result, error: error, attempts: attempts }
   end
 end
