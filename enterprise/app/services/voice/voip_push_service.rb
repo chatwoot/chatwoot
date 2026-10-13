@@ -253,7 +253,8 @@ class Voice::VoipPushService
       key: config('APNS_VOIP_KEY'),
       key_id: config('APNS_VOIP_KEY_ID'),
       team_id: config('APNS_VOIP_TEAM_ID'),
-      topic: "#{config('APNS_VOIP_BUNDLE_ID', 'com.chatwoot.app')}.voip",
+      # A cleared bundle ID falls back to the app's, as an unset one does
+      topic: "#{config('APNS_VOIP_BUNDLE_ID').presence || 'com.chatwoot.app'}.voip",
       expiry_seconds: RING_EXPIRY_SECONDS
     }
   end

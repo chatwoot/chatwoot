@@ -257,6 +257,17 @@ RSpec.describe Voice::VoipPushService do
         .with(hash_including(token: 'android-1', data: hash_including('type' => 'voice_call.cancel'))).once
     end
 
+    it 'sends to the app bundle when the bundle ID is cleared' do
+      config['APNS_VOIP_BUNDLE_ID'] = ''
+      subscribe(agent, 'apns_voip', 'apple-1')
+
+      described_class.new(call: call).perform('ring')
+
+      expect(apple_connection).to have_received(:push).once do |notification|
+        expect(notification.topic).to eq('com.chatwoot.app.voip')
+      end
+    end
+
     it 'fails loudly on an APNs environment it does not know' do
       config['APNS_VOIP_ENVIRONMENT'] = 'prod'
       subscribe(agent, 'apns_voip', 'apple-1')
