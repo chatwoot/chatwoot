@@ -90,6 +90,16 @@ RSpec.describe Voice::SyncProviderStatusJob do
     expect(call.reload).to have_attributes(status: 'failed', started_at: started, duration_seconds: 42)
   end
 
+  it 'fills in the duration along with the start of a call that completed without either' do
+    started = 2.minutes.ago.change(usec: 0)
+    call.update!(status: 'completed', started_at: nil, duration_seconds: nil)
+    allow(twilio_call).to receive_messages(status: 'completed', start_time: started, end_time: started + 42, duration: '42')
+
+    described_class.perform_now(call.id)
+
+    expect(call.reload).to have_attributes(started_at: started, duration_seconds: 42)
+  end
+
   it 'fills in when a call that completed before it ran was answered' do
     started = 2.minutes.ago.change(usec: 0)
     call.update!(status: 'completed')

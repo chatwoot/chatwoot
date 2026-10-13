@@ -15,7 +15,7 @@ class Voice::SyncProviderStatusJob < ApplicationJob
     # The status manager keeps an ended call as it is, apart from an answer that comes in
     # after a failed join ended it unanswered
     replay(call, twilio_call)
-    fill_start(call, twilio_call.start_time) if ANSWERED_STATUSES.include?(twilio_call.status)
+    fill_start(call, twilio_call) if ANSWERED_STATUSES.include?(twilio_call.status)
   end
 
   private
@@ -31,12 +31,16 @@ class Voice::SyncProviderStatusJob < ApplicationJob
 
   # A completed callback that came in after the row committed, before this ran or while it
   # asked Twilio, may have left the call without the answer that came in before it; Twilio
-  # still has when it started, whether it reported the call live or over. Filled under the
-  # row lock, and only where nothing set it.
-  def fill_start(call, start_time)
-    return unless start_time
+  # still has when it started, and how long it lasted, whether it reported the call live or
+  # over. Filled under the row lock, and only where nothing set them.
+  def fill_start(call, twilio_call)
+    return unless twilio_call.start_time
 
-    call.with_lock { call.update!(started_at: start_time) if missing_start?(call) }
+    call.with_lock do
+      next unless missing_start?(call)
+
+      call.update!(started_at: twilio_call.start_time, duration_seconds: call.duration_seconds || twilio_call.duration&.to_i)
+    end
   end
 
   def apply(call, status, payload)
