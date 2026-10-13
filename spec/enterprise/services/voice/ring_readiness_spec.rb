@@ -22,6 +22,7 @@ RSpec.describe Voice::RingReadiness do
     expect(readiness.apple).to have_attributes(configured: true, devices: 1)
     expect(readiness.memberships.first.voice_inboxes).to eq(1)
     expect(readiness.rings?(readiness.memberships.first)).to be(true)
+    expect(readiness.rings_assigned_only?(readiness.memberships.first)).to be(false)
   end
 
   it 'does not ring an agent who is not online' do
@@ -37,8 +38,16 @@ RSpec.describe Voice::RingReadiness do
     expect(readiness.rings?(readiness.memberships.first)).to be(false)
   end
 
-  it 'does not count a voice inbox whose calls the role of the agent cannot open' do
+  it 'rings an agent whose role opens only assigned conversations for the calls assigned to them' do
     account_user.update!(custom_role: create(:custom_role, account: account, permissions: ['conversation_participating_manage']))
+
+    expect(readiness.memberships.first).to have_attributes(voice_inboxes: 1, assigned_only_inboxes: 1)
+    expect(readiness.rings?(readiness.memberships.first)).to be(true)
+    expect(readiness.rings_assigned_only?(readiness.memberships.first)).to be(true)
+  end
+
+  it 'does not count a voice inbox whose calls the role of the agent cannot open' do
+    account_user.update!(custom_role: create(:custom_role, account: account, permissions: ['report_manage']))
 
     expect(readiness.memberships.first.voice_inboxes).to eq(0)
     expect(readiness.rings?(readiness.memberships.first)).to be(false)

@@ -9,7 +9,10 @@ class Voice::RingReadiness
   Platform = Struct.new(:problem, :devices, keyword_init: true) do
     def configured = problem.nil?
   end
-  Membership = Struct.new(:account, :voice_enabled, :ringing_enabled, :voice_inboxes, :availability, keyword_init: true)
+  # voice_inboxes: inboxes whose calls ring the agent; assigned_only_inboxes: of those, the ones
+  # where their role limits it to calls already assigned to them
+  Membership = Struct.new(:account, :voice_enabled, :ringing_enabled, :voice_inboxes, :assigned_only_inboxes, :availability,
+                          keyword_init: true)
 
   def apple
     @apple ||= Platform.new(problem: apple_problem, devices: user.notification_subscriptions.apns_voip.count)
@@ -22,9 +25,10 @@ class Voice::RingReadiness
   def memberships
     @memberships ||= user.account_users.includes(:account).order(:account_id).map do |account_user|
       account = account_user.account
+      reach = voice_inboxes(account).filter_map { |inbox| rung_for(inbox, account_user) }
       Membership.new(account: account, voice_enabled: account.feature_enabled?('channel_voice'),
                      ringing_enabled: account.feature_enabled?('mobile_voice_push'),
-                     voice_inboxes: voice_inboxes(account).count { |inbox| rung_for?(inbox, account_user) },
+                     voice_inboxes: reach.size, assigned_only_inboxes: reach.count(:assigned),
                      availability: account_user.availability)
     end
   end
@@ -34,6 +38,11 @@ class Voice::RingReadiness
   def rings?(membership)
     membership.voice_enabled && membership.ringing_enabled && membership.voice_inboxes.positive? &&
       membership.availability == 'online' && ringable_device?
+  end
+
+  # Rings, but only for calls in conversations already assigned to the agent
+  def rings_assigned_only?(membership)
+    rings?(membership) && membership.assigned_only_inboxes == membership.voice_inboxes
   end
 
   private
@@ -54,12 +63,17 @@ class Voice::RingReadiness
     Voice::VoipPushService::CREDENTIALS.fetch(platform).all? { |name| GlobalConfigService.load(name, nil).present? }
   end
 
-  # Whether an unassigned call in the inbox rings the agent: they can be assigned it and their
-  # role lets them open its conversation, as Voice::RingRecipients decides for a real call
-  def rung_for?(inbox, account_user)
-    return false unless inbox.assignable_agents.include?(user)
+  # Which calls in the inbox ring the agent, as Voice::RingRecipients decides for a real call:
+  # :all when their role lets them open an unassigned call's conversation, :assigned when it
+  # only lets them open conversations assigned to them, nil when none ring them
+  def rung_for(inbox, account_user)
+    return unless inbox.assignable_agents.include?(user)
+    return :all if opens?(Conversation.new(account: account_user.account, inbox: inbox), account_user)
 
-    conversation = Conversation.new(account: account_user.account, inbox: inbox)
+    :assigned if opens?(Conversation.new(account: account_user.account, inbox: inbox, assignee: user), account_user)
+  end
+
+  def opens?(conversation, account_user)
     ConversationPolicy.new({ user: user, account: account_user.account, account_user: account_user }, conversation).show?
   end
 
