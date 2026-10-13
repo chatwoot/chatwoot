@@ -449,6 +449,17 @@ RSpec.describe Voice::VoipPushService do
       expect(lease_at_second_push).to be > 1.minute.ago.to_i
     end
 
+    it 'replays the notification of a settled ring after the call is over' do
+      message = create(:message, message_type: :incoming, content_type: :voice_call, account: account, conversation: conversation)
+      call.update!(message: message, status: 'completed', ring_state: { 'ring_recipient_ids' => [agent.id], 'unreached_user_ids' => [agent.id] })
+      service = instance_double(Messages::NewMessageNotificationService, perform: nil)
+      allow(Messages::NewMessageNotificationService).to receive(:new).with(message: message).and_return(service)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(service).to have_received(:perform)
+    end
+
     it 'settles a ring that had no device to send to' do
       described_class.new(call: call).perform('ring')
 

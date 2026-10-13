@@ -4,6 +4,9 @@ class Notification::FcmService
   # Google access tokens by credentials, held in this process only
   TOKENS = {} # rubocop:disable Style/MutableConstant
   TOKENS_LOCK = Mutex.new
+  # How long a token request to Google may take. Callers for the same credentials wait on
+  # it, so it is kept well inside a call's ring.
+  TOKEN_REQUEST_TIMEOUT_SECONDS = 10
 
   def initialize(project_id, credentials)
     @project_id = project_id
@@ -51,11 +54,15 @@ class Notification::FcmService
       json_key_io: credentials_path,
       scope: SCOPES
     )
-    token = authorizer.fetch_access_token!
+    token = authorizer.fetch_access_token!(connection: token_connection)
     {
       token: token['access_token'],
       expires_at: Time.zone.now + token['expires_in'].to_i
     }
+  end
+
+  def token_connection
+    Faraday.new(request: { timeout: TOKEN_REQUEST_TIMEOUT_SECONDS, open_timeout: TOKEN_REQUEST_TIMEOUT_SECONDS })
   end
 
   def credentials_path

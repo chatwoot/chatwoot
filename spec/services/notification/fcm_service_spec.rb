@@ -18,6 +18,16 @@ describe Notification::FcmService do
   end
 
   describe '#fcm_client' do
+    it 'bounds the token request to Google by a timeout' do
+      allow(fcm_service).to receive(:generate_token).and_call_original
+
+      fcm_service.fcm_client
+
+      expect(creds_double).to have_received(:fetch_access_token!).with(
+        connection: having_attributes(options: having_attributes(timeout: described_class::TOKEN_REQUEST_TIMEOUT_SECONDS))
+      )
+    end
+
     it 'returns an FCM client' do
       expect(fcm_service.fcm_client).to eq(fcm_double)
       expect(FCM).to have_received(:new).with('test_token', anything, project_id)
