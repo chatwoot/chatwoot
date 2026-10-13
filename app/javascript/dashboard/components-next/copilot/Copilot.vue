@@ -259,7 +259,7 @@ watch(
     <div v-show="!showHistory" class="mx-3 mt-px mb-2">
       <div class="flex items-center gap-2 justify-between w-full mb-1">
         <ToggleCopilotAssistant
-          v-if="assistants.length > 1"
+          v-if="assistants.length > 1 && !selectedThreadId"
           :assistants="assistants"
           :active-assistant="activeAssistant"
           @set-assistant="$event => emit('setAssistant', $event)"

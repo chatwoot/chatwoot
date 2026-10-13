@@ -86,6 +86,16 @@ describe('CopilotContainer', () => {
     });
     testState.refs.getSelectedChat.value = { id: 1 };
     testState.refs.getCurrentAccountId.value = 1;
+    testState.refs['accounts/isFeatureEnabledonAccount'].value = () => true;
+  });
+
+  it('does not load history when Copilot is unavailable', async () => {
+    testState.refs['accounts/isFeatureEnabledonAccount'].value = () => false;
+
+    mountComponent();
+    await flushPromises();
+
+    expect(testState.getThreads).not.toHaveBeenCalled();
   });
 
   it('lists and opens a past chat', async () => {
@@ -149,6 +159,29 @@ describe('CopilotContainer', () => {
     expect(await sendPromise).toBe(true);
 
     expect(copilot.props('messages')).toEqual([]);
+  });
+
+  it('ignores a thread created for an account that is no longer selected', async () => {
+    let resolveRequest;
+    testState.dispatch.mockImplementation(action => {
+      if (action !== 'copilotThreads/create') return Promise.resolve();
+      return new Promise(resolve => {
+        resolveRequest = resolve;
+      });
+    });
+    const wrapper = mountComponent();
+    await flushPromises();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+
+    const sendPromise = copilot.props('onSendMessage')('Draft a reply');
+    await nextTick();
+    testState.refs.getCurrentAccountId.value = 2;
+    await nextTick();
+    resolveRequest({ id: 99, title: 'Previous account thread' });
+
+    expect(await sendPromise).toBe(true);
+    expect(copilot.props('selectedThreadId')).toBeNull();
+    expect(copilot.props('threads')).toEqual([]);
   });
 
   it('reports a failed send', async () => {

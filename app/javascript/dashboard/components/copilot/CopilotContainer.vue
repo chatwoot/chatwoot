@@ -51,6 +51,14 @@ const currentAccountId = useMapGetter('getCurrentAccountId');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
+const isCopilotAvailable = computed(
+  () =>
+    isEnterprise &&
+    isFeatureEnabledonAccount.value(
+      currentAccountId.value,
+      FEATURE_FLAGS.CAPTAIN
+    )
+);
 
 const selectedAssistantId = ref(null);
 const selectedThread = computed(() =>
@@ -97,15 +105,12 @@ const setAssistant = async assistant => {
 };
 
 const shouldShowCopilotPanel = computed(() => {
-  if (!isEnterprise) {
-    return false;
-  }
-  const isCaptainEnabled = isFeatureEnabledonAccount.value(
-    currentAccountId.value,
-    FEATURE_FLAGS.CAPTAIN
-  );
   const { is_copilot_panel_open: isCopilotPanelOpen } = uiSettings.value;
-  return isCaptainEnabled && isCopilotPanelOpen && !uiFlags.value.fetchingList;
+  return (
+    isCopilotAvailable.value &&
+    isCopilotPanelOpen &&
+    !uiFlags.value.fetchingList
+  );
 });
 
 const handleReset = () => {
@@ -172,8 +177,8 @@ const selectThread = async thread => {
 };
 
 watch(
-  currentAccountId,
-  () => {
+  [currentAccountId, isCopilotAvailable],
+  ([, isAvailable]) => {
     accountVersion += 1;
     selectionVersion += 1;
     selectedCopilotThreadId.value = null;
@@ -182,7 +187,7 @@ watch(
     historyPage.value = 0;
     hasMoreThreads.value = false;
     isLoadingThreads.value = false;
-    loadThreads();
+    if (isAvailable) loadThreads();
   },
   { immediate: true }
 );
@@ -203,6 +208,8 @@ const sendMessage = async payload => {
         message,
       });
     } else {
+      const currentVersion = accountVersion;
+      const accountId = currentAccountId.value;
       const conversationId = currentChat.value?.id;
       const response = await store.dispatch('copilotThreads/create', {
         assistant_id: activeAssistant.value.id,
@@ -210,6 +217,12 @@ const sendMessage = async payload => {
         message,
         ...(requestType && { request_type: requestType }),
       });
+      if (
+        currentVersion !== accountVersion ||
+        Number(accountId) !== Number(currentAccountId.value)
+      ) {
+        return true;
+      }
       if (currentChat.value?.id === conversationId) {
         selectedCopilotThreadId.value = response.id;
       }
