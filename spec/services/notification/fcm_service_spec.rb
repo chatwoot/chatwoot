@@ -28,6 +28,16 @@ describe Notification::FcmService do
       expect(other).not_to have_received(:generate_token)
     end
 
+    it 'gives up a token refresh that runs past its budget, retries included' do
+      stub_const('Notification::FcmService::TOKEN_REFRESH_BUDGET_SECONDS', 0.1)
+      allow(fcm_service).to receive(:generate_token).and_call_original
+      allow(creds_double).to receive(:fetch_access_token!) { sleep 1 }
+
+      started = Time.zone.now
+      expect { fcm_service.fcm_client }.to raise_error(Timeout::Error)
+      expect(Time.zone.now - started).to be < 1
+    end
+
     it 'bounds the token request to Google by a timeout' do
       allow(fcm_service).to receive(:generate_token).and_call_original
 
