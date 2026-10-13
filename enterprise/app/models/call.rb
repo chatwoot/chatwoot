@@ -85,12 +85,13 @@ class Call < ApplicationRecord
     status == 'no_answer' || (%w[completed failed].include?(status) && !answered_by_agent?)
   end
 
-  # A Twilio claim counts once the agent's leg joined the conference: a claim whose leg
-  # never joined leaves the caller unanswered
+  # A Twilio claim counts once the agent's leg joined the conference: the join moves an
+  # inbound call to in progress and stamps started_at in the same update, before its
+  # broadcast is marked. A claim whose leg never joined leaves the caller unanswered.
   def answered_by_agent?
     return false if accepted_by_agent_id.nil?
 
-    !twilio? || accepted_broadcast_at.present?
+    !twilio? || started_at.present? || accepted_broadcast_at.present?
   end
 
   # nil = a channel with no call settings, or a call that predates them: record.

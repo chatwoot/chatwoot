@@ -64,6 +64,12 @@ RSpec.describe Call do
       expect { call.update!(status: 'completed') }.not_to have_enqueued_job(Voice::MissedCallNotificationJob)
     end
 
+    it 'does not for a Twilio call an agent joined that ended before its broadcast was marked' do
+      call.update!(status: 'in_progress', accepted_by_agent: create(:user, account: account), started_at: Time.current)
+
+      expect { call.update!(status: 'completed') }.not_to have_enqueued_job(Voice::MissedCallNotificationJob)
+    end
+
     it 'enqueues it for a Twilio call an agent claimed but never joined' do
       call.update!(accepted_by_agent: create(:user, account: account))
 
