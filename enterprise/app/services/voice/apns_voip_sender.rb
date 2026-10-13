@@ -7,6 +7,10 @@ class Voice::ApnsVoipSender
   # the iPhones after it
   BATCH_SIZE = 20
 
+  # How long one push may wait to connect and for Apple's answer, well inside the ring, so a
+  # stalled first push does not hold up the iPhones after it
+  PUSH_TIMEOUT_SECONDS = 10
+
   # Returns each token's outcome: :sent, :gone when Apple no longer knows it, or :failed.
   # The first push goes alone: APNs allows more requests at once on a connection only
   # after its first. `proceed` is asked on the calling thread before each batch after the
@@ -39,7 +43,8 @@ class Voice::ApnsVoipSender
       auth_method: :token,
       cert_path: StringIO.new(settings[:key]),
       key_id: settings[:key_id],
-      team_id: settings[:team_id]
+      team_id: settings[:team_id],
+      connect_timeout: PUSH_TIMEOUT_SECONDS
     )
   end
 
@@ -54,7 +59,7 @@ class Voice::ApnsVoipSender
   end
 
   def deliver(connection, token, payload)
-    response = connection.push(notification(token, payload))
+    response = connection.push(notification(token, payload), timeout: PUSH_TIMEOUT_SECONDS)
     status = response ? response.status.to_s : 'no response'
     outcome = { '200' => :sent, '410' => :gone }.fetch(status, :failed)
     # A rejection such as a wrong key or topic leaves the iPhone silent, so it is logged as an error
