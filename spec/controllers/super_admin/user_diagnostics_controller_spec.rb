@@ -144,6 +144,18 @@ RSpec.describe 'Super Admin User diagnostics', type: :request do
       expect(response.body).not_to include('Pixel 8')
     end
 
+    it 'shows whether calls ring the user on their phone' do
+      account = create(:account, name: 'Acme')
+      account.enable_features!('channel_voice', 'mobile_voice_push')
+      create(:account_user, user: user, account: account)
+
+      get '/super_admin/user_diagnostics', params: { user_query: user.email, tab: 'mobile' }
+
+      expect(response.body).to include('Incoming calls')
+      expect(response.body).to include('Needs APNS_VOIP_KEY, APNS_VOIP_KEY_ID and APNS_VOIP_TEAM_ID')
+      expect(response.body).to include('Only with the app open')
+    end
+
     it 'points at the push tab when an account has every push type off' do
       account = create(:account, name: 'Acme')
       create(:account_user, user: user, account: account)
@@ -227,6 +239,17 @@ RSpec.describe 'Super Admin User diagnostics', type: :request do
 
       expect(response).to redirect_to(super_admin_user_diagnostics_path(user_query: user.id, tab: 'push'))
       expect(user.notification_subscriptions.count).to eq(0)
+    end
+
+    it 'skips a test send to a VoIP token, which would ring a call' do
+      subscription = user.notification_subscriptions.create!(
+        subscription_type: 'apns_voip', identifier: 'voip:DEVICE-ABC',
+        subscription_attributes: { 'device_id' => 'DEVICE-ABC', 'push_token' => 'voip-token' }
+      )
+
+      post '/super_admin/user_diagnostics', params: { user_id: user.id, subscription_ids: [subscription.id] }
+
+      expect(response.body).to include('VoIP tokens only ring calls')
     end
 
     it 'renders the results of a test send on the push tab' do
