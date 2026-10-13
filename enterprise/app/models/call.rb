@@ -193,8 +193,12 @@ class Call < ApplicationRecord
     }
   end
 
+  # The devices are read from the row, since the ring may have recorded them after this
+  # instance was loaded
   def ring_just_ended?
-    saved_change_to_status? && status_before_last_save == 'ringing' && ring_state['rung_devices'].present?
+    return false unless saved_change_to_status? && status_before_last_save == 'ringing'
+
+    self.class.uncached { self.class.where(id: id).pick(:ring_state) }&.dig('rung_devices').present?
   end
 
   def cancel_phone_ring

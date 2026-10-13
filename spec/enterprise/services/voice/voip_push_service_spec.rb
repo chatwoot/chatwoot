@@ -429,6 +429,22 @@ RSpec.describe Voice::VoipPushService do
       expect(apple_connection).to have_received(:push).once
     end
 
+    it 'gives up a connection whose first push does not finish in time' do
+      stub_const('Voice::ApnsVoipSender::FIRST_PUSH_DEADLINE_SECONDS', 0.1)
+      3.times { |i| subscribe(agent, 'apns_voip', "apple-#{i}") }
+      allow(apple_connection).to receive(:push) do
+        sleep 1
+        apple_response
+      end
+
+      started = Time.zone.now
+      described_class.new(call: call).perform('ring')
+
+      expect(Time.zone.now - started).to be < 1
+      expect(apple_connection).to have_received(:push).once
+      expect(apple_connection).to have_received(:close)
+    end
+
     it 'bounds each iPhone push so a stalled one cannot hold up the rest of the ring' do
       subscribe(agent, 'apns_voip', 'apple-1')
 

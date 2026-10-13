@@ -18,6 +18,14 @@ RSpec.describe Call do
       expect { call.update!(status: 'no_answer') }.to have_enqueued_job(Voice::VoipPushJob).with(call.id, 'cancel')
     end
 
+    it 'enqueues a cancel push for devices the ring recorded after this copy of the call was loaded' do
+      call.update!(ring_state: {})
+      stale = described_class.find(call.id)
+      described_class.where(id: call.id).update_all(ring_state: { 'rung_devices' => { 'fcm' => ['android-1'] } }) # rubocop:disable Rails/SkipsModelValidations
+
+      expect { stale.update!(status: 'in_progress') }.to have_enqueued_job(Voice::VoipPushJob).with(call.id, 'cancel')
+    end
+
     it 'does not enqueue for a change that is not a status change' do
       expect { call.update!(meta: call.meta.merge('note' => 'x')) }.not_to have_enqueued_job(Voice::VoipPushJob)
     end
