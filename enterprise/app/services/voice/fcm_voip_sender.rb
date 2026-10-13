@@ -18,7 +18,10 @@ class Voice::FcmVoipSender
   private
 
   def deliver_one(token, data, kind)
-    response = client.send_v1(token: token, data: data, android: { priority: 'high', ttl: "#{expiry_seconds}s" })
+    # One collapse key per call, so a cancel queued for an offline phone replaces the ring
+    # rather than arriving before it
+    android = { priority: 'high', ttl: "#{expiry_seconds}s", collapse_key: "voice_call_#{call_id}" }
+    response = client.send_v1(token: token, data: data, android: android)
     outcome = outcome(response)
     # A rejection such as bad credentials or a Firebase outage leaves the phone silent, so it
     # is logged as an error

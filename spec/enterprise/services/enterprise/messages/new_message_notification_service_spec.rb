@@ -32,6 +32,14 @@ describe Messages::NewMessageNotificationService do
     described_class.new(message: message).perform
   end
 
+  it 'notifies under the message row lock, which the replay after a ring takes too' do
+    allow(message).to receive(:with_lock).and_call_original
+
+    described_class.new(message: message).perform
+
+    expect(message).to have_received(:with_lock)
+  end
+
   it 'keeps notifying for a call that never entered the ring' do
     account.enable_features!('mobile_voice_push')
     subscribe_phone(assignee)
