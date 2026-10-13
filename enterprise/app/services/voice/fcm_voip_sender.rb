@@ -7,9 +7,13 @@ class Voice::FcmVoipSender
   # Deliveries in flight at once
   BATCH_SIZE = 20
 
-  # Returns each token's outcome: :sent, :gone when Firebase reports it unregistered, or :failed
-  def deliver(tokens, data, kind)
-    tokens.each_slice(BATCH_SIZE).with_object({}) do |batch, results|
+  # Returns each token's outcome: :sent, :gone when Firebase reports it unregistered, or :failed.
+  # `proceed` is asked on the calling thread before each batch after the first; once it returns
+  # false the remaining tokens are not sent and have no outcome.
+  def deliver(tokens, data, kind, proceed: -> { true })
+    tokens.each_slice(BATCH_SIZE).with_index.each_with_object({}) do |(batch, index), results|
+      break results if index.positive? && !proceed.call
+
       outcomes = batch.map { |token| Thread.new { deliver_one(token, data, kind) } }.map(&:value)
       results.merge!(batch.zip(outcomes).to_h)
     end
