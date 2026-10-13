@@ -18,7 +18,7 @@ class Api::V1::Accounts::Captain::CopilotRunsController < Api::V1::Accounts::Bas
 
   # Only the agent who asked Copilot for the change can decide it.
   def set_action_run
-    @action_run = CopilotRun.find_by!(id: params[:id], account: Current.account, user: Current.user, kind: 'action')
+    @action_run = CopilotRun.action.find_by!(id: params[:id], account: Current.account, user: Current.user)
   end
 
   # Turning the feature off rejects a change awaiting approval instead of applying it.
@@ -29,8 +29,8 @@ class Api::V1::Accounts::Captain::CopilotRunsController < Api::V1::Accounts::Bas
 
   # The status lets the approval card show what actually happened, e.g. that the change expired.
   def render_already_decided(error = nil)
-    status = @action_run.reload.status
-    error ||= status == 'expired' ? I18n.t('captain.copilot.approval_expired_notice') : I18n.t('captain.copilot.approval_already_decided')
-    render json: { error: error, status: %w[rejected expired].include?(status) ? status : 'approved' }, status: :unprocessable_content
+    @action_run.reload
+    error ||= @action_run.expired? ? I18n.t('captain.copilot.approval_expired_notice') : I18n.t('captain.copilot.approval_already_decided')
+    render json: { error: error, status: @action_run.approval_status }, status: :unprocessable_content
   end
 end

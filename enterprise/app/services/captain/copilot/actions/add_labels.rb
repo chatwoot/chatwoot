@@ -8,10 +8,10 @@ class Captain::Copilot::Actions::AddLabels < Captain::Copilot::Actions::BaseActi
   }.deep_stringify_keys.freeze
 
   def perform(conversation)
-    return 'skipped' if (labels - conversation.label_list).empty?
+    return :skipped if (labels - conversation.label_list).empty?
 
     conversation.add_labels(labels)
-    'applied'
+    :applied
   end
 
   private

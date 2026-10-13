@@ -6,7 +6,7 @@ module Captain::Copilot::BackgroundRunJob
   MAX_RUN_FAILURES = 3
 
   def perform(run_id)
-    run = CopilotRun.where(kind: self.class::RUN_KIND, status: %w[queued running]).find_by(id: run_id)
+    run = CopilotRun.where(kind: self.class::RUN_KIND).claimable.find_by(id: run_id)
     return unless run
 
     token = claim(run)
@@ -33,14 +33,14 @@ module Captain::Copilot::BackgroundRunJob
   def continue_or_finalize(run, token)
     return finalize(run, token) if run.remaining_ids.empty?
 
-    run.with_lease(token) { run.update!(status: 'queued', lease_token: nil, lease_until: nil) }
+    run.with_lease(token) { run.update!(status: :queued, lease_token: nil, lease_until: nil) }
     self.class.perform_later(run.id)
   end
 
   def finalize(run, token, error: nil)
     summary = run.with_lease(token) do
       incomplete = error || run.remaining_ids.any? || incomplete?(run)
-      run.update!(status: incomplete ? 'incomplete' : 'completed', lease_token: nil, lease_until: nil, error: error)
+      run.update!(status: incomplete ? :incomplete : :completed, lease_token: nil, lease_until: nil, error: error)
       run.summary
     end
     tool_call = run.copilot_tool_call
@@ -54,7 +54,7 @@ module Captain::Copilot::BackgroundRunJob
     # Outside the lease transaction, so the parent's wake-up is committed before its job can run.
     return finalize(run, token, error: exception.class.name) if attempts >= MAX_RUN_FAILURES
 
-    run.with_lease(token) { run.update!(status: 'queued', lease_token: nil, lease_until: nil) }
+    run.with_lease(token) { run.update!(status: :queued, lease_token: nil, lease_until: nil) }
     self.class.set(wait: 10.seconds).perform_later(run.id)
   rescue Captain::Copilot::LeaseLostError
     nil

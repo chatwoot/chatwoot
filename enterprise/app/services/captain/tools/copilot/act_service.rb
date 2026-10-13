@@ -34,7 +34,7 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
   private
 
   def target_ids(saved_set_id, resource, only_matched)
-    source = run.saved_set(saved_set_id, kind: %w[collection review])
+    source = run.saved_set(saved_set_id, kind: %i[collection review])
     return source.record_ids(only_matched: only_matched) if source.resource == resource
 
     raise ArgumentError, "This action changes #{resource}, but the source holds #{source.resource}. " \
@@ -44,7 +44,7 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
   # The target IDs are frozen here, so the agent approves exactly the records counted and linked on the approval card.
   def request_approval(saved_set_id, action, arguments, targets)
     action_run = run.copilot_thread.copilot_runs.create!(
-      account: run.account, user: run.user, copilot_tool_call: tool_call, source_run_id: saved_set_id, kind: 'action', status: 'awaiting_approval',
+      account: run.account, user: run.user, copilot_tool_call: tool_call, source_run_id: saved_set_id, kind: :action, status: :awaiting_approval,
       context: { action: action, arguments: arguments, target_ids: targets[:ids], approval_expires_at: CopilotRun::APPROVAL_TTL.from_now.iso8601 }
     )
     card = approval_card(action_run, targets)

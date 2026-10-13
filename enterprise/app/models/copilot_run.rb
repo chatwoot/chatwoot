@@ -122,17 +122,22 @@ class CopilotRun < ApplicationRecord
       return false
     end
 
-    decided = decide('queued')
+    decided = decide(:queued)
     Captain::Copilot::ActionJob.perform_later(id) if decided
     decided
   end
 
   def reject(reason)
-    close('rejected', reason)
+    close(:rejected, reason)
   end
 
   def expire
-    close('expired', I18n.t('captain.copilot.approval_expired', minutes: APPROVAL_TTL.in_minutes.to_i))
+    close(:expired, I18n.t('captain.copilot.approval_expired', minutes: APPROVAL_TTL.in_minutes.to_i))
+  end
+
+  # The approval card's status: awaiting_approval until the agent decides, then approved, rejected or expired.
+  def approval_status
+    awaiting_approval? || rejected? || expired? ? status : 'approved'
   end
 
   def approval_expired?
@@ -217,16 +222,18 @@ class CopilotRun < ApplicationRecord
   end
 
   def remaining_ids
-    return target_ids - action_items.where(status: CopilotActionItem::FINISHED_STATUSES).pluck(:record_id) if action?
+    return target_ids - action_items.finished.pluck(:record_id) if action?
 
     selected_ids - findings.finished.pluck(:conversation_id)
   end
 
   def summary
-    details = case kind
-              when 'action' then action_summary
-              when 'collection' then collection_summary
-              else review_summary
+    details = if action?
+                action_summary
+              elsif collection?
+                collection_summary
+              else
+                review_summary
               end
     { run_id: id, status: status, error: error }.merge(details)
   end
@@ -253,11 +260,11 @@ class CopilotRun < ApplicationRecord
 
   def decide(new_status, reason: nil)
     with_lock do
-      next false unless status == 'awaiting_approval'
+      next false unless awaiting_approval?
 
       update!(status: new_status, context: context.merge('decided_at' => Time.current.iso8601, 'decision_reason' => reason).compact)
       card = copilot_thread.copilot_messages.find(context.fetch('approval_message_id'))
-      card.update!(message: card.message.deep_merge('approval' => { 'status' => { 'queued' => 'approved' }.fetch(new_status, new_status) }))
+      card.update!(message: card.message.deep_merge('approval' => { 'status' => approval_status }))
     end
   end
 
@@ -282,7 +289,7 @@ class CopilotRun < ApplicationRecord
   end
 
   def progress_text(progress)
-    if kind == 'action'
+    if action?
       return "Applied #{progress[:applied]} of #{progress[:targets]} changes: #{progress[:skipped]} already done, #{progress[:failed]} failed."
     end
 

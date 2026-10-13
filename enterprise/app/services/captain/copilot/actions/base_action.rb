@@ -3,7 +3,7 @@
 #   RESOURCE    the resource it changes, as named in Captain::Copilot::Resources
 #   DESCRIPTION what the action does, shown to the model
 #   ARGUMENTS   a JSON schema for its arguments
-# and implements perform(record), which returns 'applied', or 'skipped' when the record already has the change.
+# and implements perform(record), which returns :applied, or :skipped when the record already has the change.
 # ActionJob loads records through the resource's scope, so the user's access is checked again before each change.
 class Captain::Copilot::Actions::BaseAction
   def initialize(account:, user:, arguments:)

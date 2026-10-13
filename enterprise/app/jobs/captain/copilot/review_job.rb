@@ -4,7 +4,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
 
   queue_as :default
 
-  RUN_KIND = 'review'.freeze
+  RUN_KIND = :review
   MAX_ATTEMPTS = 2
 
   private

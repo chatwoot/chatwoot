@@ -3,7 +3,7 @@ class Captain::Copilot::ActionJob < ApplicationJob
 
   queue_as :default
 
-  RUN_KIND = 'action'.freeze
+  RUN_KIND = :action
   MAX_ATTEMPTS = 2
 
   private
@@ -27,23 +27,23 @@ class Captain::Copilot::ActionJob < ApplicationJob
   end
 
   def apply(run, token, action, id, record)
-    status = record ? action.perform(record) : 'failed'
+    status = record ? action.perform(record) : :failed
     run.with_lease(token) { save_item(run, id, status, record ? nil : 'Record is no longer accessible') }
   rescue Captain::Copilot::LeaseLostError
     raise
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: run.account).capture_exception
-    run.with_lease(token) { save_item(run, id, 'retry', "Change failed (#{e.class.name})") }
+    run.with_lease(token) { save_item(run, id, :awaiting_retry, "Change failed (#{e.class.name})") }
   end
 
   def save_item(run, id, status, error)
     item = run.action_items.find_or_initialize_by(record_id: id)
     attempts = item.attempts + 1
-    status = 'failed' if status == 'retry' && attempts >= MAX_ATTEMPTS
+    status = :failed if status == :awaiting_retry && attempts >= MAX_ATTEMPTS
     item.update!(status: status, error: error, attempts: attempts)
   end
 
   def incomplete?(run)
-    run.action_items.exists?(status: 'failed')
+    run.action_items.failed.exists?
   end
 end

@@ -20,9 +20,10 @@
 class CopilotActionItem < ApplicationRecord
   belongs_to :copilot_run
 
-  STATUSES = %w[applied skipped retry failed].freeze
   FINISHED_STATUSES = %w[applied skipped failed].freeze
 
   validates :record_id, uniqueness: { scope: :copilot_run_id }
-  validates :status, inclusion: { in: STATUSES }
+  enum :status, { applied: 'applied', skipped: 'skipped', awaiting_retry: 'awaiting_retry', failed: 'failed' }, validate: true
+
+  scope :finished, -> { where(status: FINISHED_STATUSES) }
 end
