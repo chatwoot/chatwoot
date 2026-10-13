@@ -104,7 +104,10 @@ defineProps({
             {{ card.action.url }}
           </p>
         </template>
-        <div v-else class="flex flex-col gap-1">
+        <div
+          v-else-if="actionMode === 'quick_reply'"
+          class="flex flex-col gap-1"
+        >
           <button
             v-for="(reply, replyIndex) in card.action.buttons"
             :key="reply.clientKey || reply.preset_option_id || replyIndex"

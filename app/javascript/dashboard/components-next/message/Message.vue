@@ -83,7 +83,7 @@ import { getInstallationAssetURL } from 'dashboard/helper/URLHelper';
 
 /**
  * @typedef {Object} Props
- * @property {('sent'|'delivered'|'read'|'failed'|'progress')} status - The delivery status of the message
+ * @property {('sent'|'delivered'|'read'|'failed'|'pending'|'progress')} status - The delivery status of the message
  * @property {ContentAttributes} [contentAttributes={}] - Additional attributes of the message content
  * @property {Attachment[]} [attachments=[]] - The attachments associated with the message
  * @property {Sender|null} [sender=null] - The sender information
@@ -164,6 +164,19 @@ const attachments = computed(() =>
 const isCaptainMessage = computed(() => {
   const senderType = props.sender?.type ?? props.senderType;
   return senderType === SENDER_TYPES.CAPTAIN_ASSISTANT;
+});
+
+const supportedWhatsAppInteractiveTypes = [
+  'button',
+  'list',
+  'carousel',
+  'cta_url',
+];
+
+const failedExternalError = computed(() => {
+  if (props.status !== MESSAGE_STATUS.FAILED) return '';
+
+  return props.contentAttributes?.externalError ?? '';
 });
 
 /**
@@ -311,7 +324,11 @@ const componentToRender = computed(() => {
     return WhatsappFlowResponseBubble;
   }
 
-  if (props.contentAttributes?.whatsappInteractive?.type === 'button') {
+  if (
+    supportedWhatsAppInteractiveTypes.includes(
+      props.contentAttributes?.whatsappInteractive?.type
+    )
+  ) {
     return WhatsAppInteractiveBubble;
   }
 
@@ -400,7 +417,8 @@ const contextMenuEnabledOptions = computed(() => {
   const isOutgoing = props.messageType === MESSAGE_TYPES.OUTGOING;
   const isFailedOrProcessing =
     props.status === MESSAGE_STATUS.FAILED ||
-    props.status === MESSAGE_STATUS.PROGRESS;
+    props.status === MESSAGE_STATUS.PROGRESS ||
+    props.status === MESSAGE_STATUS.PENDING;
 
   return {
     copy: hasText,
@@ -431,7 +449,7 @@ const shouldRenderMessage = computed(() => {
   const hasWhatsappFlowResponse =
     !!props.contentAttributes?.whatsappFlowResponse;
   const isFailedMessage = props.status === MESSAGE_STATUS.FAILED;
-  const hasExternalError = !!props.contentAttributes?.externalError;
+  const hasExternalError = !!failedExternalError.value;
 
   return (
     hasAttachments ||
@@ -575,7 +593,7 @@ provideMessageContext({
       :class="[
         gridClass,
         {
-          'gap-y-2': contentAttributes.externalError,
+          'gap-y-2': failedExternalError,
           'w-full': variant === MESSAGE_VARIANTS.EMAIL,
         },
       ]"
@@ -602,10 +620,10 @@ provideMessageContext({
         <Component :is="componentToRender" />
       </div>
       <MessageError
-        v-if="contentAttributes.externalError"
+        v-if="failedExternalError"
         class="[grid-area:meta]"
         :class="flexOrientationClass"
-        :error="contentAttributes.externalError"
+        :error="failedExternalError"
         @retry="emit('retry')"
       />
     </div>

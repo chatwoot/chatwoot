@@ -19,6 +19,13 @@ import {
   syncConversationCallVisibility,
 } from 'dashboard/helper/voice';
 
+const NORMALIZED_WHATSAPP_INTERACTIVE_TYPES = [
+  'button',
+  'list',
+  'carousel',
+  'cta_url',
+];
+
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
   // We have two cases
@@ -298,33 +305,48 @@ const actions = {
 
   sendMessageWithData: async ({ commit }, pendingMessage) => {
     const { conversation_id: conversationId, id } = pendingMessage;
+    const shouldRetry = hasMessageFailedWithExternalError(pendingMessage);
     try {
       commit(types.ADD_MESSAGE, {
         ...pendingMessage,
         status: MESSAGE_STATUS.PROGRESS,
       });
-      const response = hasMessageFailedWithExternalError(pendingMessage)
+      const response = shouldRetry
         ? await MessageApi.retry(conversationId, id)
         : await MessageApi.create(pendingMessage);
+      const message = shouldRetry
+        ? response.data
+        : { ...response.data, status: MESSAGE_STATUS.SENT };
       commit(types.ADD_MESSAGE, {
-        ...response.data,
-        status: MESSAGE_STATUS.SENT,
+        ...message,
       });
       commit(types.ADD_CONVERSATION_ATTACHMENTS, {
-        ...response.data,
-        status: MESSAGE_STATUS.SENT,
+        ...message,
       });
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.error
         : undefined;
-      commit(types.ADD_MESSAGE, {
+      const failedMessage = {
         ...pendingMessage,
         meta: {
           error: errorMessage,
         },
         status: MESSAGE_STATUS.FAILED,
-      });
+      };
+      const interactiveType =
+        pendingMessage.content_attributes?.whatsapp_interactive?.type;
+      if (
+        shouldRetry &&
+        NORMALIZED_WHATSAPP_INTERACTIVE_TYPES.includes(interactiveType) &&
+        errorMessage
+      ) {
+        failedMessage.content_attributes = {
+          ...pendingMessage.content_attributes,
+          external_error: errorMessage,
+        };
+      }
+      commit(types.ADD_MESSAGE, failedMessage);
       throw error;
     }
   },

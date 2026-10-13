@@ -89,6 +89,147 @@ describe('#actions', () => {
     });
   });
 
+  describe('#sendMessageWithData', () => {
+    const failedInteractiveMessage = {
+      id: 42,
+      conversation_id: 7,
+      status: 'failed',
+      content: 'Choose an option',
+      content_attributes: {
+        external_error: 'Old provider error',
+        whatsapp_interactive: {
+          schema_version: 1,
+          type: 'button',
+          body: { text: 'Choose an option' },
+          action: {
+            buttons: [{ delivery_id: 'reply-1', title: 'Confirm' }],
+          },
+        },
+        whatsapp_delivery: { retry_count: 1 },
+      },
+    };
+
+    it('preserves the accepted retry response pending state and metadata', async () => {
+      const localCommit = vi.fn();
+      const retryResponse = {
+        ...failedInteractiveMessage,
+        status: 'pending',
+        source_id: null,
+        content_attributes: {
+          ...failedInteractiveMessage.content_attributes,
+          whatsapp_delivery: { retry_count: 2 },
+        },
+      };
+      axios.post.mockResolvedValue({ data: retryResponse });
+
+      await actions.sendMessageWithData(
+        { commit: localCommit },
+        failedInteractiveMessage
+      );
+
+      expect(localCommit).toHaveBeenNthCalledWith(
+        2,
+        types.ADD_MESSAGE,
+        retryResponse
+      );
+      expect(localCommit).toHaveBeenNthCalledWith(
+        3,
+        types.ADD_CONVERSATION_ATTACHMENTS,
+        retryResponse
+      );
+      expect(
+        localCommit.mock.calls.filter(
+          ([mutation, message]) =>
+            mutation === types.ADD_MESSAGE && message.id === 42
+        )
+      ).toHaveLength(2);
+    });
+
+    it('keeps the same failed message and exposes the current retry refusal', async () => {
+      const localCommit = vi.fn();
+      const error = {
+        response: { data: { error: 'Only failed messages can be retried' } },
+      };
+      axios.post.mockRejectedValue(error);
+
+      await expect(
+        actions.sendMessageWithData(
+          { commit: localCommit },
+          failedInteractiveMessage
+        )
+      ).rejects.toBe(error);
+
+      expect(localCommit).toHaveBeenLastCalledWith(
+        types.ADD_MESSAGE,
+        expect.objectContaining({
+          id: 42,
+          status: 'failed',
+          content_attributes: expect.objectContaining({
+            external_error: 'Only failed messages can be retried',
+            whatsapp_interactive:
+              failedInteractiveMessage.content_attributes.whatsapp_interactive,
+            whatsapp_delivery: { retry_count: 1 },
+          }),
+        })
+      );
+    });
+
+    it('preserves the prior external error for a generic retry refusal', async () => {
+      const localCommit = vi.fn();
+      const genericFailedMessage = {
+        ...failedInteractiveMessage,
+        content_attributes: { external_error: 'Prior generic failure' },
+      };
+      const error = {
+        response: { data: { error: 'Generic retry refused' } },
+      };
+      axios.post.mockRejectedValue(error);
+
+      await expect(
+        actions.sendMessageWithData(
+          { commit: localCommit },
+          genericFailedMessage
+        )
+      ).rejects.toBe(error);
+
+      expect(localCommit).toHaveBeenLastCalledWith(
+        types.ADD_MESSAGE,
+        expect.objectContaining({
+          id: 42,
+          status: 'failed',
+          content_attributes: {
+            external_error: 'Prior generic failure',
+          },
+        })
+      );
+    });
+
+    it('keeps the existing sent normalization for ordinary message creation', async () => {
+      const localCommit = vi.fn();
+      const outgoingMessage = {
+        id: 'temporary-id',
+        conversation_id: 7,
+        status: 'progress',
+        content: 'Hello',
+        content_attributes: {},
+      };
+      axios.mockResolvedValue({
+        data: { ...outgoingMessage, id: 43, status: 'pending' },
+      });
+
+      await actions.sendMessageWithData(
+        { commit: localCommit },
+        outgoingMessage
+      );
+
+      expect(localCommit).toHaveBeenNthCalledWith(
+        2,
+        types.ADD_MESSAGE,
+        expect.objectContaining({ id: 43, status: 'sent' })
+      );
+    });
+  });
+
   describe('#getConversation', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({
