@@ -8,7 +8,7 @@ RSpec.describe Voice::Conference::Manager do
   let(:channel) { create(:channel_twilio_sms, :with_voice, account: account, phone_number: '+15551239999') }
   let(:conversation) { create(:conversation, account: account, inbox: channel.inbox) }
   let(:call) { create(:call, conversation: conversation, status: 'in_progress', accepted_by_agent: agent, started_at: 1.minute.ago) }
-  let(:conference) { instance_double(Voice::Provider::Twilio::ConferenceService, agents_remain?: false, end_conference: nil) }
+  let(:conference) { instance_double(Voice::Provider::Twilio::ConferenceService, agents_remain?: false, end_conference: nil, terminate_call: nil) }
   let(:agent_label) { "agent-#{agent.id}-account-#{account.id}" }
 
   before do
@@ -156,13 +156,14 @@ RSpec.describe Voice::Conference::Manager do
       expect(conversation.reload.assignee).to eq(agent)
     end
 
-    it 'ends an outbound call as unanswered, with its conference' do
+    it 'ends an outbound call as unanswered, with its conference and the contact waiting in it' do
       call.update!(status: 'ringing', direction: :outgoing)
 
       failed_add
 
       expect(call.reload.status).to eq('no_answer')
       expect(conference).to have_received(:end_conference)
+      expect(conference).to have_received(:terminate_call)
     end
 
     it 'leaves an outbound call alone when the agent has another connection on its way in' do

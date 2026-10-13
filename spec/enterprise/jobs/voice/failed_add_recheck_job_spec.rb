@@ -8,7 +8,7 @@ RSpec.describe Voice::FailedAddRecheckJob do
   let(:channel) { create(:channel_twilio_sms, :with_voice, account: account, phone_number: '+15551239999') }
   let(:conversation) { create(:conversation, account: account, inbox: channel.inbox) }
   let(:label) { "agent-#{agent.id}-account-#{account.id}" }
-  let(:conference) { instance_double(Voice::Provider::Twilio::ConferenceService, end_conference: nil) }
+  let(:conference) { instance_double(Voice::Provider::Twilio::ConferenceService, end_conference: nil, terminate_call: nil) }
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)

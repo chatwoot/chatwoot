@@ -183,9 +183,18 @@ class Voice::Conference::Manager
     user_id = extract_user_id
     outcome = call.with_lock { failed_add_outcome(user_id) }
     return release_claim_assignment(user_id) if outcome == :release
-    return end_conference! if outcome == :end
+    return end_unjoined_call! if outcome == :end
 
     recheck_failed_add(outcome) if outcome.is_a?(Integer)
+  end
+
+  # A conference no agent entered has not started, so ending it finds nothing; the
+  # contact's leg waiting in it is hung up as well
+  def end_unjoined_call!
+    end_conference!
+    conference_service.terminate_call
+  rescue StandardError => e
+    Rails.logger.error("[VOICE] call #{call.id}: could not hang up the contact after a failed join: #{e.class}: #{e.message}")
   end
 
   def recheck_failed_add(wait)
@@ -273,11 +282,7 @@ class Voice::Conference::Manager
     status_manager.process_status_update('completed', timestamp: now)
   end
 
-  def agent_participant?
-    participant_label.to_s.start_with?('agent-')
-  end
+  def agent_participant? = participant_label.to_s.start_with?('agent-')
 
-  def now
-    Time.zone.now.to_i
-  end
+  def now = Time.zone.now.to_i
 end
