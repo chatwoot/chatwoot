@@ -36,13 +36,15 @@ class Voice::ApnsVoipSender
 
   private
 
-  # nil when the push did not finish in time. The connection is then closed once that push
-  # returns, on a thread of its own, since closing it waits for a TLS setup still under way.
+  # nil when the push did not finish in time. That push is then stopped, which releases the
+  # connection's lock held through a TLS setup still under way, and the connection is closed
+  # on a thread of its own, so nothing here waits on it.
   def deliver_first(connection, token, payload)
     attempt = Thread.new { deliver(connection, token, payload) }
     return attempt.value if attempt.join(FIRST_PUSH_DEADLINE_SECONDS)
 
     Rails.logger.error("[VOIP PUSH] apple ring call #{call_id}: connection did not finish its first push in time")
+    attempt.kill
     Thread.new { attempt.join && connection.close }
     nil
   end
