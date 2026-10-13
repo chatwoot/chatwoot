@@ -56,6 +56,31 @@ RSpec.describe Voice::VoipPushService do
       expect(fcm_client).not_to have_received(:send_v1)
     end
 
+    it 'does not hold up later iPhones behind a slow response' do
+      third_agent = create(:user, account: account, role: :agent)
+      create(:inbox_member, inbox: inbox, user: third_agent)
+      [[agent, 'apple-1'], [other_agent, 'apple-2'], [third_agent, 'apple-3']].each { |user, token| subscribe(user, 'apns_voip', token) }
+      third_started = Queue.new
+      events = []
+      lock = Mutex.new
+      allow(apple_connection).to receive(:push) do
+        order = lock.synchronize do
+          events << :start
+          events.count(:start)
+        end
+        # The second push waits for the third, which only starts if they are sent together
+        Timeout.timeout(2) { third_started.pop } if order == 2
+        third_started << true if order == 3
+        lock.synchronize { events << :"finish_#{order}" }
+        apple_response
+      end
+
+      described_class.new(call: call).perform('ring')
+
+      expect(events).to include(:finish_2)
+      expect(events.count(:start)).to eq(3)
+    end
+
     it 'rings iPhones while the Firebase client is still being set up' do
       subscribe(agent, 'apns_voip', 'apple-1')
       subscribe(other_agent, 'fcm', 'android-1', platform: 'Android')
