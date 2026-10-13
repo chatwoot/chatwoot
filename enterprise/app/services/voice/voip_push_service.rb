@@ -57,8 +57,11 @@ class Voice::VoipPushService
   # ring, or it waits and then finds the devices to cancel. A call that stops ringing
   # while the pushes are in flight, whether answered or ended, may have its cancel
   # overtaken by the ring, so the ring is followed by a cancel of its own in that case.
+  #
+  # A call is rung once. A second ring job, such as one a retried inbound call queued while
+  # the first was waiting, only replays the new-message notification.
   def ring
-    apple, android = call.with_lock { call.ringing? ? remember_ring : nil }
+    apple, android = call.with_lock { call.ringing? ? prepare_ring : nil }
     return if apple.nil?
     return replay_new_message_notification if apple.empty? && android.empty?
 
@@ -87,7 +90,8 @@ class Voice::VoipPushService
     Thread.new { tokens.empty? ? {} : with_rails(&) || tokens.index_with(:failed) }
   end
 
-  def still_ringing? = Call.where(id: call.id).first&.ringing?
+  # Read past the query cache, which would otherwise answer every check after the first
+  def still_ringing? = Call.uncached { Call.where(id: call.id).first&.ringing? }
 
   # nil when the sender cannot be set up
   def apple_sender(settings) = platform_client('apple') { Voice::ApnsVoipSender.new(settings: settings, call_id: call.id) }
@@ -171,6 +175,8 @@ class Voice::VoipPushService
   # Records the agents chosen for this ring, those it is sent to a device of and, where there
   # are any, the devices being rung. Merged into its own column in place, so neither another ring's record nor a
   # write of `meta` erases it. Returns the device tokens by platform.
+  def prepare_ring = call.ring_state.key?('rung_user_ids') ? [[], []] : remember_ring
+
   def remember_ring
     apple, android = devices_to_ring
     rung = { 'ring_recipient_ids' => recipients.map(&:id), 'rung_user_ids' => token_owners.values.uniq }

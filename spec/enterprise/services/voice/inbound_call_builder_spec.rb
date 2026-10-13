@@ -142,6 +142,18 @@ RSpec.describe Voice::InboundCallBuilder do
       expect { perform_builder }.not_to change(Call, :count)
       expect(perform_builder).to eq(existing_call)
     end
+
+    it 'queues the ring again when the call recorded who it rings but never rang them' do
+      existing_call.update!(status: 'ringing', ring_state: { 'ring_recipient_ids' => [1] })
+
+      expect { perform_builder }.to have_enqueued_job(Voice::VoipPushJob).with(existing_call.id, 'ring')
+    end
+
+    it 'does not queue another ring once the call has rung' do
+      existing_call.update!(status: 'ringing', ring_state: { 'ring_recipient_ids' => [1], 'rung_user_ids' => [1] })
+
+      expect { perform_builder }.not_to have_enqueued_job(Voice::VoipPushJob)
+    end
   end
 
   context 'when a ContactInbox already exists for the source_id (different contact)' do

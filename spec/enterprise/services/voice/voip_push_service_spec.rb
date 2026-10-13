@@ -411,6 +411,30 @@ RSpec.describe Voice::VoipPushService do
       expect(Thread).to have_received(:new).exactly(7).times
     end
 
+    it 'rings a call once when a second ring job runs' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+
+      2.times { described_class.new(call: Call.find(call.id)).perform('ring') }
+
+      expect(apple_connection).to have_received(:push).once
+    end
+
+    it 'checks the call afresh before each later batch, past the query cache' do
+      stub_const('Voice::ApnsVoipSender::BATCH_SIZE', 1)
+      4.times { |i| subscribe(agent, 'apns_voip', "apple-#{i}") }
+      pushes = 0
+      allow(apple_connection).to receive(:push) do
+        pushes += 1
+        # Another worker ends the call once the second push is out, after a check has run
+        Call.uncached(dirties: false) { Call.where(id: call.id).update_all(status: 'in_progress') } if pushes == 2 # rubocop:disable Rails/SkipsModelValidations
+        apple_response
+      end
+
+      ActiveRecord::Base.cache { described_class.new(call: call).perform('ring') }
+
+      expect(pushes).to eq(2)
+    end
+
     it 'stops sending later iPhone batches once the call stops ringing' do
       stub_const('Voice::ApnsVoipSender::BATCH_SIZE', 2)
       5.times { |i| subscribe(agent, 'apns_voip', "apple-#{i}") }
