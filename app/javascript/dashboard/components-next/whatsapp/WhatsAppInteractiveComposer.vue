@@ -12,12 +12,25 @@ const props = defineProps({
   capabilities: { type: Object, default: () => ({}) },
   accountMode: { type: String, default: '' },
   limits: { type: Object, required: true },
+  presets: { type: Array, default: () => [] },
+  presetSearch: { type: String, default: '' },
+  presetsLoading: { type: Boolean, default: false },
+  selectedPreset: { type: Object, default: null },
+  presetName: { type: String, default: '' },
+  presetBusy: { type: Boolean, default: false },
+  structurallyValid: { type: Boolean, default: false },
 });
 const emit = defineEmits([
   'update:modelValue',
   'selectType',
   'close',
   'upload',
+  'searchPresets',
+  'selectPreset',
+  'update:presetName',
+  'savePreset',
+  'updatePreset',
+  'deletePreset',
 ]);
 let carouselKeySequence = 0;
 const nextCarouselKey = prefix => {
@@ -35,7 +48,10 @@ const mediaHeader = computed(() =>
   ['image', 'video', 'document'].includes(props.modelValue.headerType)
 );
 const duplicateTitles = computed(() => {
-  const titles = props.modelValue.buttons?.map(title => title.trim()) ?? [];
+  const titles =
+    props.modelValue.buttons?.map(button =>
+      (typeof button === 'string' ? button : button.title).trim()
+    ) ?? [];
   return titles.some(
     (title, index) => title && titles.indexOf(title) !== index
   );
@@ -94,7 +110,8 @@ const removeMedia = () => {
 };
 const updateButton = (index, title) => {
   const buttons = [...props.modelValue.buttons];
-  buttons[index] = title;
+  const current = buttons[index];
+  buttons[index] = typeof current === 'string' ? title : { ...current, title };
   update('buttons', buttons);
 };
 const addButton = () => update('buttons', [...props.modelValue.buttons, '']);
@@ -245,6 +262,8 @@ const moveReply = (cardIndex, replyIndex, offset) => {
   <section
     class="flex flex-col gap-3 py-3"
     data-testid="whatsapp-interactive-composer"
+    :inert="presetBusy || undefined"
+    :aria-busy="presetBusy"
   >
     <div class="flex items-center justify-between gap-3">
       <div>
@@ -272,6 +291,112 @@ const moveReply = (cardIndex, replyIndex, offset) => {
     >
       {{ $t('CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.TEST_MODE') }}
     </p>
+
+    <section class="flex flex-col gap-2 rounded-lg border border-n-weak p-3">
+      <h4 class="mb-0 text-sm font-medium text-n-slate-12">
+        {{ $t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.TITLE') }}
+      </h4>
+      <label for="whatsapp-preset-search" class="text-sm text-n-slate-12">
+        {{ $t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.SEARCH') }}
+      </label>
+      <input
+        id="whatsapp-preset-search"
+        type="search"
+        :value="presetSearch"
+        class="mb-0 rounded-lg border border-n-weak bg-n-surface-1 text-sm"
+        @input="$emit('searchPresets', $event.target.value)"
+      />
+      <p v-if="presetsLoading" class="mb-0 text-xs text-n-slate-11">
+        {{ $t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.LOADING') }}
+      </p>
+      <div v-else class="flex max-h-40 flex-col gap-1 overflow-y-auto">
+        <button
+          v-for="preset in presets"
+          :key="preset.id"
+          type="button"
+          class="flex items-center justify-between gap-2 rounded-md px-2 py-2 text-left hover:bg-n-alpha-2"
+          :class="{ 'bg-n-alpha-2': selectedPreset?.id === preset.id }"
+          :data-testid="`whatsapp-preset-${preset.id}`"
+          @click="$emit('selectPreset', preset)"
+        >
+          <span class="min-w-0">
+            <span class="block truncate text-sm font-medium text-n-slate-12">
+              {{ preset.name }}
+            </span>
+            <span class="block text-xs text-n-slate-11">
+              <template v-if="preset.interactive_type === 'button'">
+                {{
+                  $t('CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.TYPES.button')
+                }}
+              </template>
+              <template v-else-if="preset.interactive_type === 'list'">
+                {{
+                  $t('CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.TYPES.list')
+                }}
+              </template>
+              <template v-else-if="preset.interactive_type === 'carousel'">
+                {{
+                  $t(
+                    'CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.TYPES.carousel'
+                  )
+                }}
+              </template>
+              <template v-else>
+                {{
+                  $t('CONVERSATION.REPLYBOX.WHATSAPP_INTERACTIVE.TYPES.cta_url')
+                }}
+              </template>
+              {{
+                $t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.CREATOR', {
+                  creator: preset.creator.name,
+                })
+              }}
+            </span>
+          </span>
+        </button>
+        <p v-if="!presets.length" class="mb-0 text-xs text-n-slate-11">
+          {{ $t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.EMPTY') }}
+        </p>
+      </div>
+      <label for="whatsapp-preset-name" class="text-sm text-n-slate-12">
+        {{ $t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.NAME') }}
+      </label>
+      <input
+        id="whatsapp-preset-name"
+        type="text"
+        :value="presetName"
+        class="mb-0 rounded-lg border border-n-weak bg-n-surface-1 text-sm"
+        @input="$emit('update:presetName', $event.target.value)"
+      />
+      <div class="flex flex-wrap gap-2">
+        <Button
+          :label="$t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.SAVE_NEW')"
+          :disabled="presetBusy || !structurallyValid || !presetName.trim()"
+          slate
+          faded
+          sm
+          @click="$emit('savePreset')"
+        />
+        <Button
+          v-if="selectedPreset?.permissions.update"
+          :label="$t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.UPDATE')"
+          :disabled="presetBusy || !structurallyValid || !presetName.trim()"
+          slate
+          faded
+          sm
+          @click="$emit('updatePreset')"
+        />
+        <Button
+          v-if="selectedPreset?.permissions.delete"
+          :label="$t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.DELETE')"
+          :disabled="presetBusy"
+          ruby
+          ghost
+          sm
+          @click="$emit('deletePreset')"
+        />
+      </div>
+    </section>
 
     <fieldset class="flex flex-col gap-2">
       <legend class="text-sm text-n-slate-12">
@@ -482,7 +607,7 @@ const moveReply = (cardIndex, replyIndex, offset) => {
           v-for="(button, index) in modelValue.buttons"
           :id="`whatsapp-interactive-button-${index}`"
           :key="index"
-          :model-value="button"
+          :model-value="typeof button === 'string' ? button : button.title"
           :label="
             $t('CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.BUTTON_LABEL', {
               number: index + 1,
@@ -492,7 +617,9 @@ const moveReply = (cardIndex, replyIndex, offset) => {
             $t('CONVERSATION.REPLYBOX.WHATSAPP_BUTTONS.BUTTON_PLACEHOLDER')
           "
           :maxlength="limits.buttonTitleMaxLength"
-          :message="`${button.length}/${limits.buttonTitleMaxLength}`"
+          :message="`${
+            (typeof button === 'string' ? button : button.title).length
+          }/${limits.buttonTitleMaxLength}`"
           @update:model-value="updateButton(index, $event)"
         >
           <template
@@ -814,7 +941,7 @@ const moveReply = (cardIndex, replyIndex, offset) => {
       />
       <div
         v-for="(section, sectionIndex) in modelValue.sections"
-        :key="sectionIndex"
+        :key="section.clientKey || sectionIndex"
         class="flex flex-col gap-3 rounded-lg border border-n-weak p-3"
         :data-testid="`whatsapp-list-section-${sectionIndex}`"
       >
@@ -849,7 +976,7 @@ const moveReply = (cardIndex, replyIndex, offset) => {
         />
         <div
           v-for="(row, rowIndex) in section.rows"
-          :key="rowIndex"
+          :key="row.clientKey || row.preset_option_id || rowIndex"
           class="flex flex-col gap-2 rounded-lg bg-n-alpha-1 p-3"
         >
           <div class="flex items-center justify-between gap-2">
@@ -941,7 +1068,11 @@ const moveReply = (cardIndex, replyIndex, offset) => {
       "
       :attachment="modelValue.media"
       :footer="modelValue.footer"
-      :buttons="modelValue.buttons?.map(title => ({ title }))"
+      :buttons="
+        modelValue.buttons?.map(button => ({
+          title: typeof button === 'string' ? button : button.title,
+        }))
+      "
       :opener="modelValue.button"
       :url="modelValue.url"
       :sections="modelValue.sections"

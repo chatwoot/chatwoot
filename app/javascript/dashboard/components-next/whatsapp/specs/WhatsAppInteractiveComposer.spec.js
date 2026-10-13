@@ -29,10 +29,109 @@ const mountComposer = (modelValue, props = {}) =>
       capabilities,
       ...props,
     },
-    global: { mocks: { $t: key => key } },
+    global: {
+      mocks: {
+        $t: (key, params) =>
+          params?.creator ? `${key}: ${params.creator}` : key,
+      },
+    },
   });
 
 describe('WhatsAppInteractiveComposer', () => {
+  it('locks every editable control while a preset mutation is pending', () => {
+    const wrapper = mountComposer(
+      { body: 'Choose one.', buttons: ['Confirm'] },
+      { presetBusy: true, presetName: 'Pending', structurallyValid: true }
+    );
+
+    expect(
+      wrapper
+        .find('[data-testid="whatsapp-interactive-composer"]')
+        .attributes('inert')
+    ).toBe('true');
+    expect(
+      wrapper
+        .find('[data-testid="whatsapp-interactive-composer"]')
+        .attributes('aria-busy')
+    ).toBe('true');
+  });
+
+  it('shows flat preset metadata and exposes only serialized permissions', async () => {
+    const preset = {
+      id: 42,
+      name: 'Welcome menu',
+      interactive_type: 'list',
+      creator: { id: null, name: 'Former agent' },
+      permissions: { update: false, delete: true },
+    };
+    const wrapper = mountComposer(
+      { body: 'Choose one.', buttons: ['Confirm'] },
+      {
+        presets: [preset],
+        selectedPreset: preset,
+        presetName: 'Welcome menu',
+        structurallyValid: true,
+      }
+    );
+
+    expect(wrapper.find('[data-testid="whatsapp-preset-42"]').text()).toContain(
+      'Welcome menu'
+    );
+    expect(wrapper.find('[data-testid="whatsapp-preset-42"]').text()).toContain(
+      'Former agent'
+    );
+    expect(
+      wrapper
+        .findAllComponents(Button)
+        .some(
+          button =>
+            button.props('label') ===
+            'CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.UPDATE'
+        )
+    ).toBe(false);
+    expect(
+      wrapper
+        .findAllComponents(Button)
+        .some(
+          button =>
+            button.props('label') ===
+            'CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.DELETE'
+        )
+    ).toBe(true);
+
+    await wrapper.find('[data-testid="whatsapp-preset-42"]').trigger('click');
+    expect(wrapper.emitted('selectPreset')).toEqual([[preset]]);
+  });
+
+  it('keeps save enabled independently from current send availability', () => {
+    const wrapper = mountComposer(
+      { body: 'Choose one.', buttons: ['Confirm'] },
+      {
+        capabilities: {
+          button: {
+            implemented: true,
+            available: false,
+            unavailable_reason: 'service_window_closed',
+          },
+        },
+        presetName: 'Reusable',
+        structurallyValid: true,
+      }
+    );
+
+    const save = wrapper
+      .findAllComponents(Button)
+      .find(
+        button =>
+          button.props('label') ===
+          'CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.SAVE_NEW'
+      );
+    expect(save.props('disabled')).not.toBe(true);
+    expect(
+      wrapper.find('[data-testid="whatsapp-unavailable-button"]').exists()
+    ).toBe(true);
+  });
+
   it('applies the server-provided limits and emits only editable fields', async () => {
     const wrapper = mountComposer({
       body: 'Choose one.',

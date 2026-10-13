@@ -319,6 +319,23 @@
           "transaction_integration_missing": "This interaction requires a transaction integration."
         }
       },
+      "WHATSAPP_PRESETS": {
+        "TITLE": "Interactive presets",
+        "SEARCH": "Search presets",
+        "LOADING": "Loading presets…",
+        "EMPTY": "No presets found.",
+        "NAME": "Preset name",
+        "CREATOR": "by {creator}",
+        "SAVE_NEW": "Save as new",
+        "UPDATE": "Update original",
+        "DELETE": "Delete preset",
+        "SAVED": "Preset saved.",
+        "UPDATED": "Preset updated.",
+        "DELETED": "Preset deleted. Your editable copy is still available.",
+        "LOAD_ERROR": "Could not load interactive presets.",
+        "SAVE_ERROR": "Could not save the preset. Your draft was preserved.",
+        "DELETE_ERROR": "Could not delete the preset. Nothing was changed."
+      },
       "WHATSAPP_LIST": {
         "HEADER": "Text header (optional)",
         "BUTTON": "Opening button label",

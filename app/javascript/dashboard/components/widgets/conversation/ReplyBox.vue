@@ -14,6 +14,12 @@ import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBotto
 import CopilotReplyBottomPanel from 'dashboard/components/widgets/WootWriter/CopilotReplyBottomPanel.vue';
 import WhatsAppInteractiveComposer from 'dashboard/components-next/whatsapp/WhatsAppInteractiveComposer.vue';
 import { isValidHttpUrl } from 'dashboard/components-next/whatsapp/urlValidation';
+import whatsappInteractivePresetsAPI from 'dashboard/api/whatsappInteractivePresets';
+import {
+  detachPresetProvenance,
+  hydrateInteractivePreset,
+  serializeInteractiveDraft,
+} from 'dashboard/components-next/whatsapp/interactivePreset';
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import CopilotEditorSection from './CopilotEditorSection.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
@@ -56,6 +62,7 @@ import {
 import { useCopilotReply } from 'dashboard/composables/useCopilotReply';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { isFileTypeAllowedForChannel } from 'shared/helpers/FileHelper';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -148,6 +155,14 @@ export default {
       whatsappInteractiveDraft: { body: '', buttons: [''] },
       whatsappInteractiveSendingDraft: null,
       whatsappInteractiveKeySequence: 0,
+      whatsappPresets: [],
+      whatsappPresetSearch: '',
+      whatsappPresetsLoading: false,
+      whatsappPresetRequestSequence: 0,
+      selectedWhatsappPreset: null,
+      whatsappPresetName: '',
+      whatsappPresetBusy: false,
+      whatsappPresetMutationSequence: 0,
     };
   },
   computed: {
@@ -370,7 +385,9 @@ export default {
       }
       const { buttons, headerType, headerText, media } =
         this.whatsappInteractiveDraft;
-      const titles = buttons.map(title => title.trim());
+      const titles = buttons.map(button =>
+        (typeof button === 'string' ? button : button.title).trim()
+      );
       return (
         body.trim().length >= 1 &&
         body.trim().length <= limits.bodyMaxLength &&
@@ -1118,109 +1135,8 @@ export default {
           const submittedDraft = this.whatsappInteractiveDraft;
           const type = this.selectedWhatsappInteractiveType;
           const body = this.whatsappInteractiveDraft.body.trim();
-          let interactive;
-          let files;
-          if (type === 'list') {
-            const { header, footer, button, sections } =
-              this.whatsappInteractiveDraft;
-            interactive = {
-              schema_version: 1,
-              type: 'list',
-              body: { text: body },
-              action: {
-                button: button.trim(),
-                sections: sections.map(section => ({
-                  ...(section.title.trim() && {
-                    title: section.title.trim(),
-                  }),
-                  rows: section.rows.map(row => ({
-                    title: row.title.trim(),
-                    ...(row.description.trim() && {
-                      description: row.description.trim(),
-                    }),
-                  })),
-                })),
-              },
-              ...(header.trim() && {
-                header: { type: 'text', text: header.trim() },
-              }),
-              ...(footer.trim() && { footer: { text: footer.trim() } }),
-            };
-          } else if (type === 'carousel') {
-            const { actionMode, cards, source } = this.whatsappInteractiveDraft;
-            interactive = {
-              schema_version: 1,
-              type: 'carousel',
-              body: { text: body },
-              ...(source?.preset_id && {
-                source: { preset_id: source.preset_id },
-              }),
-              action: {
-                cards: cards.map((card, cardIndex) => ({
-                  card_index: cardIndex,
-                  type: actionMode === 'url' ? 'cta_url' : 'button',
-                  header: { type: 'image' },
-                  ...(card.body.trim() && {
-                    body: { text: card.body.trim() },
-                  }),
-                  action:
-                    actionMode === 'url'
-                      ? {
-                          button: card.action.button.trim(),
-                          url: card.action.url.trim(),
-                        }
-                      : {
-                          buttons: card.action.buttons.map(button => ({
-                            title: button.title.trim(),
-                            ...(button.preset_option_id && {
-                              preset_option_id: button.preset_option_id,
-                            }),
-                          })),
-                        },
-                })),
-              },
-            };
-            files = cards.map(card => card.media.file);
-          } else if (type === 'cta_url') {
-            const { headerType, headerText, footer, media, button, url } =
-              this.whatsappInteractiveDraft;
-            interactive = {
-              schema_version: 1,
-              type: 'cta_url',
-              body: { text: body },
-              action: { button: button.trim(), url: url.trim() },
-              ...(headerType && {
-                header: {
-                  type: headerType,
-                  ...(headerType === 'text' && { text: headerText.trim() }),
-                },
-              }),
-              ...(footer.trim() && { footer: { text: footer.trim() } }),
-            };
-            files = media ? [media.file] : undefined;
-          } else {
-            const { headerType, headerText, footer, media } =
-              this.whatsappInteractiveDraft;
-            const buttons = this.whatsappInteractiveDraft.buttons.map(
-              button => ({
-                title: button.trim(),
-              })
-            );
-            interactive = {
-              schema_version: 1,
-              type: 'button',
-              body: { text: body },
-              action: { buttons },
-              ...(headerType && {
-                header: {
-                  type: headerType,
-                  ...(headerType === 'text' && { text: headerText.trim() }),
-                },
-              }),
-              ...(footer && { footer: { text: footer.trim() } }),
-            };
-            files = media ? [media.file] : undefined;
-          }
+          const { definition: interactive, attachments: files } =
+            serializeInteractiveDraft(type, this.whatsappInteractiveDraft);
           const sendRequest = this.sendMessage(
             {
               conversationId: this.currentChat.id,
@@ -1439,11 +1355,15 @@ export default {
       this.selectWhatsappInteractiveType(
         availableType ?? Object.keys(this.whatsappInteractiveCapabilities)[0]
       );
+      this.fetchWhatsappPresets();
     },
     selectWhatsappInteractiveType(type) {
+      if (this.whatsappPresetBusy) return;
       if (!this.whatsappInteractiveCapabilities[type]?.implemented) return;
       this.selectedWhatsappInteractiveType = type;
       this.whatsappInteractiveDraft = this.newWhatsappInteractiveDraft(type);
+      this.selectedWhatsappPreset = null;
+      this.whatsappPresetName = '';
     },
     newWhatsappInteractiveDraft(type) {
       if (type === 'list') {
@@ -1490,11 +1410,200 @@ export default {
       };
     },
     resetWhatsappInteractive() {
+      this.whatsappPresetRequestSequence += 1;
+      this.whatsappPresetMutationSequence += 1;
       this.isWhatsappInteractive = false;
       this.selectedWhatsappInteractiveType = null;
       this.whatsappInteractiveDraft = { body: '', buttons: [''] };
+      this.whatsappPresets = [];
+      this.whatsappPresetSearch = '';
+      this.whatsappPresetsLoading = false;
+      this.selectedWhatsappPreset = null;
+      this.whatsappPresetName = '';
+      this.whatsappPresetBusy = false;
+    },
+    async fetchWhatsappPresets(search = this.whatsappPresetSearch) {
+      this.whatsappPresetRequestSequence += 1;
+      const requestSequence = this.whatsappPresetRequestSequence;
+      this.whatsappPresetsLoading = true;
+      try {
+        const { data } = await whatsappInteractivePresetsAPI.get({ search });
+        if (
+          requestSequence !== this.whatsappPresetRequestSequence ||
+          !this.isWhatsappInteractive
+        )
+          return;
+        this.whatsappPresets = data.payload;
+      } catch (error) {
+        if (requestSequence !== this.whatsappPresetRequestSequence) return;
+        useAlert(
+          error?.response?.data?.error ||
+            this.$t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.LOAD_ERROR')
+        );
+      } finally {
+        if (requestSequence === this.whatsappPresetRequestSequence) {
+          this.whatsappPresetsLoading = false;
+        }
+      }
+    },
+    searchWhatsappPresets(search) {
+      if (this.whatsappPresetBusy) return;
+      this.whatsappPresetSearch = search;
+      this.fetchWhatsappPresets(search);
+    },
+    selectWhatsappPreset(preset) {
+      if (this.whatsappPresetBusy) return;
+      const { type, draft } = hydrateInteractivePreset(preset);
+      if (!this.whatsappInteractiveCapabilities[type]?.implemented) return;
+      this.selectedWhatsappInteractiveType = type;
+      this.whatsappInteractiveDraft = draft;
+      this.selectedWhatsappPreset = preset;
+      this.whatsappPresetName = preset.name;
+    },
+    updateWhatsappInteractiveDraft(draft) {
+      if (this.whatsappPresetBusy) return;
+      this.whatsappInteractiveDraft = draft;
+    },
+    updateWhatsappPresetName(name) {
+      if (this.whatsappPresetBusy) return;
+      this.whatsappPresetName = name;
+    },
+    async saveWhatsappPreset(mode) {
+      if (
+        this.whatsappPresetBusy ||
+        !this.isWhatsappInteractiveValid ||
+        !this.whatsappPresetName.trim()
+      )
+        return;
+      const updating = mode === 'update';
+      if (updating && !this.selectedWhatsappPreset?.permissions.update) return;
+      const submittedConversationId = this.currentChat.id;
+      this.whatsappPresetMutationSequence += 1;
+      const mutationSequence = this.whatsappPresetMutationSequence;
+      const serialized = serializeInteractiveDraft(
+        this.selectedWhatsappInteractiveType,
+        this.whatsappInteractiveDraft,
+        updating ? 'update' : 'create'
+      );
+      this.whatsappPresetBusy = true;
+      try {
+        const attachments = await Promise.all(
+          (serialized.attachments ?? []).map(async attachment => {
+            if (typeof attachment === 'string') return attachment;
+            const { blobId } = await uploadFile(attachment, this.accountId);
+            return blobId;
+          })
+        );
+        const payload = {
+          name: this.whatsappPresetName.trim(),
+          definition: serialized.definition,
+          ...((serialized.attachments || updating) && { attachments }),
+        };
+        const { data } = updating
+          ? await whatsappInteractivePresetsAPI.update(
+              this.selectedWhatsappPreset.id,
+              payload
+            )
+          : await whatsappInteractivePresetsAPI.create(payload);
+        if (
+          !this.isCurrentWhatsappPresetMutation(
+            mutationSequence,
+            submittedConversationId
+          )
+        )
+          return;
+        const { type, draft } = hydrateInteractivePreset(data);
+        this.selectedWhatsappInteractiveType = type;
+        this.whatsappInteractiveDraft = draft;
+        this.selectedWhatsappPreset = data;
+        this.whatsappPresetName = data.name;
+        await this.fetchWhatsappPresets();
+        if (
+          !this.isCurrentWhatsappPresetMutation(
+            mutationSequence,
+            submittedConversationId
+          )
+        )
+          return;
+        useAlert(
+          updating
+            ? this.$t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.UPDATED')
+            : this.$t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.SAVED')
+        );
+      } catch (error) {
+        if (
+          !this.isCurrentWhatsappPresetMutation(
+            mutationSequence,
+            submittedConversationId
+          )
+        )
+          return;
+        useAlert(
+          error?.response?.data?.error ||
+            this.$t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.SAVE_ERROR')
+        );
+      } finally {
+        if (mutationSequence === this.whatsappPresetMutationSequence) {
+          this.whatsappPresetBusy = false;
+        }
+      }
+    },
+    async deleteWhatsappPreset() {
+      if (
+        this.whatsappPresetBusy ||
+        !this.selectedWhatsappPreset?.permissions.delete
+      )
+        return;
+      const deletedId = this.selectedWhatsappPreset.id;
+      const submittedConversationId = this.currentChat.id;
+      this.whatsappPresetMutationSequence += 1;
+      const mutationSequence = this.whatsappPresetMutationSequence;
+      this.whatsappPresetBusy = true;
+      try {
+        await whatsappInteractivePresetsAPI.delete(deletedId);
+        if (
+          !this.isCurrentWhatsappPresetMutation(
+            mutationSequence,
+            submittedConversationId
+          ) ||
+          this.selectedWhatsappPreset?.id !== deletedId
+        )
+          return;
+        this.whatsappPresets = this.whatsappPresets.filter(
+          preset => preset.id !== deletedId
+        );
+        this.whatsappInteractiveDraft = detachPresetProvenance(
+          this.whatsappInteractiveDraft
+        );
+        this.selectedWhatsappPreset = null;
+        useAlert(this.$t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.DELETED'));
+      } catch (error) {
+        if (
+          !this.isCurrentWhatsappPresetMutation(
+            mutationSequence,
+            submittedConversationId
+          )
+        )
+          return;
+        useAlert(
+          error?.response?.data?.error ||
+            this.$t('CONVERSATION.REPLYBOX.WHATSAPP_PRESETS.DELETE_ERROR')
+        );
+      } finally {
+        if (mutationSequence === this.whatsappPresetMutationSequence) {
+          this.whatsappPresetBusy = false;
+        }
+      }
+    },
+    isCurrentWhatsappPresetMutation(sequence, conversationId) {
+      return (
+        sequence === this.whatsappPresetMutationSequence &&
+        this.isWhatsappInteractive &&
+        this.currentChat.id === conversationId
+      );
     },
     uploadWhatsappHeader(file, cardKey) {
+      if (this.whatsappPresetBusy) return;
       if (this.selectedWhatsappInteractiveType === 'carousel') {
         const matchingType = file.type.startsWith('image/');
         if (!matchingType) {
@@ -2008,12 +2117,26 @@ export default {
         />
         <WhatsAppInteractiveComposer
           v-else-if="isWhatsappInteractive"
-          v-model="whatsappInteractiveDraft"
+          :model-value="whatsappInteractiveDraft"
           :type="selectedWhatsappInteractiveType"
           :capabilities="whatsappInteractiveCapabilities"
           :account-mode="whatsappInteractiveAccountMode"
           :limits="whatsappInteractiveLimits"
+          :presets="whatsappPresets"
+          :preset-search="whatsappPresetSearch"
+          :presets-loading="whatsappPresetsLoading"
+          :selected-preset="selectedWhatsappPreset"
+          :preset-name="whatsappPresetName"
+          :preset-busy="whatsappPresetBusy"
+          :structurally-valid="isWhatsappInteractiveValid"
           @select-type="selectWhatsappInteractiveType"
+          @search-presets="searchWhatsappPresets"
+          @select-preset="selectWhatsappPreset"
+          @update:model-value="updateWhatsappInteractiveDraft"
+          @update:preset-name="updateWhatsappPresetName"
+          @save-preset="saveWhatsappPreset('create')"
+          @update-preset="saveWhatsappPreset('update')"
+          @delete-preset="deleteWhatsappPreset"
           @upload="uploadWhatsappHeader"
           @close="resetWhatsappInteractive"
         />

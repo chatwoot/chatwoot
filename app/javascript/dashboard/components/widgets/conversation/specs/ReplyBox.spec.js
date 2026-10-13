@@ -4,6 +4,21 @@ import { nextTick } from 'vue';
 import { createStore } from 'vuex';
 import ReplyBox from '../ReplyBox.vue';
 import WhatsappTemplates from '../WhatsappTemplates/Modal.vue';
+import whatsappInteractivePresetsAPI from 'dashboard/api/whatsappInteractivePresets';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
+
+vi.mock('dashboard/api/whatsappInteractivePresets', () => ({
+  default: {
+    get: vi.fn(),
+    create: vi.fn(),
+    update: vi.fn(),
+    delete: vi.fn(),
+  },
+}));
+
+vi.mock('dashboard/helper/uploadHelper', () => ({
+  uploadFile: vi.fn(),
+}));
 
 const CHANNELS = [
   { name: 'WhatsApp Cloud', inbox: { channel_type: 'Channel::Whatsapp' } },
@@ -186,6 +201,16 @@ describe('ReplyBox', () => {
         },
       },
     };
+
+    beforeEach(() => {
+      whatsappInteractivePresetsAPI.get.mockReset().mockResolvedValue({
+        data: { payload: [] },
+      });
+      whatsappInteractivePresetsAPI.create.mockReset();
+      whatsappInteractivePresetsAPI.update.mockReset();
+      whatsappInteractivePresetsAPI.delete.mockReset();
+      uploadFile.mockReset();
+    });
 
     it('submits only the normalized text-button input fields', async () => {
       const { wrapper } = mountWith({
@@ -1352,6 +1377,465 @@ describe('ReplyBox', () => {
       });
       expect(wrapper.vm.attachedFiles).toEqual([]);
       readerMock.mockRestore();
+    });
+
+    it('keeps only the newest preset search response', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      let resolveFirst;
+      let resolveSecond;
+      whatsappInteractivePresetsAPI.get
+        .mockReturnValueOnce(
+          new Promise(resolve => {
+            resolveFirst = resolve;
+          })
+        )
+        .mockReturnValueOnce(
+          new Promise(resolve => {
+            resolveSecond = resolve;
+          })
+        );
+      wrapper.vm.isWhatsappInteractive = true;
+
+      const first = wrapper.vm.fetchWhatsappPresets('first');
+      const second = wrapper.vm.fetchWhatsappPresets('second');
+      resolveSecond({ data: { payload: [{ id: 2, name: 'Second' }] } });
+      await second;
+      resolveFirst({ data: { payload: [{ id: 1, name: 'First' }] } });
+      await first;
+
+      expect(wrapper.vm.whatsappPresets).toEqual([{ id: 2, name: 'Second' }]);
+    });
+
+    it('preserves the draft and existing results when preset search fails', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      const draft = { body: 'Keep this', buttons: ['Continue'] };
+      const presets = [{ id: 42, name: 'Existing' }];
+      whatsappInteractivePresetsAPI.get.mockRejectedValue(
+        new Error('request failed')
+      );
+      wrapper.vm.isWhatsappInteractive = true;
+      wrapper.vm.whatsappInteractiveDraft = draft;
+      wrapper.vm.whatsappPresets = presets;
+
+      await wrapper.vm.fetchWhatsappPresets('missing');
+
+      expect(wrapper.vm.whatsappInteractiveDraft).toBe(draft);
+      expect(wrapper.vm.whatsappPresets).toBe(presets);
+      expect(wrapper.vm.whatsappPresetsLoading).toBe(false);
+    });
+
+    it('saves while sending is unavailable and rehydrates the response', async () => {
+      const unavailableCapability = {
+        ...capability,
+        interactive_types: {
+          ...capability.interactive_types,
+          button: {
+            ...capability.interactive_types.button,
+            available: false,
+            unavailable_reason: 'service_window_closed',
+          },
+        },
+      };
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: unavailableCapability },
+      });
+      const source = {
+        id: 42,
+        name: 'Original',
+        interactive_type: 'button',
+        creator: { id: 8, name: 'Other agent' },
+        permissions: { update: false, delete: false },
+        attachments: [],
+        definition: {
+          schema_version: 1,
+          type: 'button',
+          body: { text: 'Choose' },
+          action: {
+            buttons: [{ title: 'Continue', preset_option_id: 'old-option' }],
+          },
+        },
+      };
+      const saved = {
+        ...source,
+        id: 43,
+        name: 'My copy',
+        creator: { id: 7, name: 'Agent' },
+        permissions: { update: true, delete: false },
+        definition: {
+          ...source.definition,
+          action: {
+            buttons: [{ title: 'Continue', preset_option_id: 'new-option' }],
+          },
+        },
+      };
+      whatsappInteractivePresetsAPI.create.mockResolvedValue({ data: saved });
+      wrapper.vm.isWhatsappInteractive = true;
+      wrapper.vm.selectWhatsappPreset(source);
+      wrapper.vm.whatsappPresetName = 'My copy';
+
+      expect(wrapper.vm.isWhatsappInteractiveValid).toBe(true);
+      expect(wrapper.vm.isReplyButtonDisabled).toBe(true);
+      await wrapper.vm.saveWhatsappPreset('create');
+
+      expect(whatsappInteractivePresetsAPI.create).toHaveBeenCalledWith({
+        name: 'My copy',
+        definition: {
+          schema_version: 1,
+          type: 'button',
+          body: { text: 'Choose' },
+          action: { buttons: [{ title: 'Continue' }] },
+        },
+      });
+      expect(wrapper.vm.selectedWhatsappPreset.id).toBe(43);
+      expect(
+        wrapper.vm.whatsappInteractiveDraft.buttons[0].preset_option_id
+      ).toBe('new-option');
+      expect(wrapper.vm.whatsappInteractiveCapability.unavailable_reason).toBe(
+        'service_window_closed'
+      );
+    });
+
+    it('uploads indirect media before saving a preset', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      const file = new File(['image'], 'header.png', { type: 'image/png' });
+      const saved = {
+        id: 43,
+        name: 'Media preset',
+        interactive_type: 'button',
+        creator: { id: 7, name: 'Agent' },
+        permissions: { update: true, delete: false },
+        attachments: [
+          {
+            position: 0,
+            filename: 'header.png',
+            content_type: 'image/png',
+            data_url: 'data:image/png;base64,image',
+            signed_id: 'saved-blob',
+          },
+        ],
+        definition: {
+          schema_version: 1,
+          type: 'button',
+          body: { text: 'Choose' },
+          header: { type: 'image' },
+          action: { buttons: [{ title: 'Continue' }] },
+        },
+      };
+      uploadFile.mockResolvedValue({ blobId: 'uploaded-blob' });
+      whatsappInteractivePresetsAPI.create.mockResolvedValue({ data: saved });
+      wrapper.vm.isWhatsappInteractive = true;
+      wrapper.vm.selectedWhatsappInteractiveType = 'button';
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: 'Choose',
+        headerType: 'image',
+        headerText: '',
+        footer: '',
+        buttons: ['Continue'],
+        media: { name: 'header.png', file },
+      };
+      wrapper.vm.whatsappPresetName = 'Media preset';
+
+      await wrapper.vm.saveWhatsappPreset('create');
+
+      expect(uploadFile).toHaveBeenCalledWith(file, 1);
+      expect(whatsappInteractivePresetsAPI.create).toHaveBeenCalledWith(
+        expect.objectContaining({ attachments: ['uploaded-blob'] })
+      );
+    });
+
+    it('owns the draft until save rehydrates the canonical response', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      let resolveSave;
+      const response = {
+        id: 77,
+        name: 'Saved copy',
+        interactive_type: 'button',
+        creator: { id: 7, name: 'Agent' },
+        permissions: { update: true, delete: false },
+        attachments: [],
+        definition: {
+          schema_version: 1,
+          type: 'button',
+          body: { text: 'Choose' },
+          action: {
+            buttons: [{ title: 'Continue', preset_option_id: 'canonical-id' }],
+          },
+        },
+      };
+      whatsappInteractivePresetsAPI.create.mockReturnValue(
+        new Promise(resolve => {
+          resolveSave = resolve;
+        })
+      );
+      wrapper.vm.isWhatsappInteractive = true;
+      wrapper.vm.selectedWhatsappInteractiveType = 'button';
+      const submittedDraft = { body: 'Choose', buttons: ['Continue'] };
+      wrapper.vm.whatsappInteractiveDraft = submittedDraft;
+      wrapper.vm.whatsappPresetName = 'Saved copy';
+
+      const saving = wrapper.vm.saveWhatsappPreset('create');
+      wrapper.vm.updateWhatsappInteractiveDraft({
+        body: 'Changed',
+        buttons: ['Stop'],
+      });
+      wrapper.vm.updateWhatsappPresetName('Changed name');
+      wrapper.vm.selectWhatsappInteractiveType('list');
+
+      expect(wrapper.vm.whatsappPresetBusy).toBe(true);
+      expect(wrapper.vm.whatsappInteractiveDraft).toBe(submittedDraft);
+      expect(wrapper.vm.whatsappPresetName).toBe('Saved copy');
+      expect(wrapper.vm.selectedWhatsappInteractiveType).toBe('button');
+
+      resolveSave({ data: response });
+      await saving;
+
+      expect(whatsappInteractivePresetsAPI.get).toHaveBeenCalled();
+      expect(wrapper.vm.selectedWhatsappPreset.id).toBe(77);
+      expect(
+        wrapper.vm.whatsappInteractiveDraft.buttons[0].preset_option_id
+      ).toBe('canonical-id');
+      expect(wrapper.vm.whatsappPresetBusy).toBe(false);
+    });
+
+    it('updates only a permitted original with identity hints and media removal', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      const preset = {
+        id: 42,
+        name: 'Original',
+        interactive_type: 'button',
+        creator: { id: 7, name: 'Agent' },
+        permissions: { update: true, delete: false },
+        attachments: [],
+        definition: {
+          schema_version: 1,
+          type: 'button',
+          body: { text: 'Choose' },
+          action: {
+            buttons: [{ title: 'Continue', preset_option_id: 'option-1' }],
+          },
+        },
+      };
+      whatsappInteractivePresetsAPI.update.mockResolvedValue({ data: preset });
+      wrapper.vm.isWhatsappInteractive = true;
+      wrapper.vm.selectWhatsappPreset(preset);
+
+      await wrapper.vm.saveWhatsappPreset('update');
+
+      expect(whatsappInteractivePresetsAPI.update).toHaveBeenCalledWith(42, {
+        name: 'Original',
+        definition: {
+          schema_version: 1,
+          type: 'button',
+          body: { text: 'Choose' },
+          action: {
+            buttons: [{ title: 'Continue', preset_option_id: 'option-1' }],
+          },
+        },
+        attachments: [],
+      });
+    });
+
+    it('preserves the editable draft when saving fails', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      const draft = { body: 'Choose', buttons: ['Continue'] };
+      whatsappInteractivePresetsAPI.create.mockRejectedValue(
+        new Error('request failed')
+      );
+      wrapper.vm.isWhatsappInteractive = true;
+      wrapper.vm.selectedWhatsappInteractiveType = 'button';
+      wrapper.vm.whatsappInteractiveDraft = draft;
+      wrapper.vm.whatsappPresetName = 'Keep me';
+
+      await wrapper.vm.saveWhatsappPreset('create');
+
+      expect(wrapper.vm.whatsappInteractiveDraft).toBe(draft);
+      expect(wrapper.vm.whatsappPresetName).toBe('Keep me');
+    });
+
+    it('deletes only with permission and keeps a copy without provenance', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      whatsappInteractivePresetsAPI.delete.mockResolvedValue({});
+      wrapper.vm.isWhatsappInteractive = true;
+      wrapper.vm.selectedWhatsappInteractiveType = 'button';
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: 'Choose',
+        source: { preset_id: 42 },
+        buttons: [{ title: 'Continue', preset_option_id: 'option-1' }],
+      };
+      wrapper.vm.selectedWhatsappPreset = {
+        id: 42,
+        permissions: { update: false, delete: true },
+      };
+      wrapper.vm.whatsappPresets = [{ id: 42 }];
+
+      await wrapper.vm.deleteWhatsappPreset();
+
+      expect(whatsappInteractivePresetsAPI.delete).toHaveBeenCalledWith(42);
+      expect(wrapper.vm.selectedWhatsappPreset).toBeNull();
+      expect(wrapper.vm.whatsappPresets).toEqual([]);
+      expect(wrapper.vm.whatsappInteractiveDraft).toEqual({
+        body: 'Choose',
+        buttons: [{ title: 'Continue' }],
+      });
+    });
+
+    it('owns the selected draft until deletion detaches its provenance', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      let resolveDelete;
+      whatsappInteractivePresetsAPI.delete.mockReturnValue(
+        new Promise(resolve => {
+          resolveDelete = resolve;
+        })
+      );
+      wrapper.vm.isWhatsappInteractive = true;
+      wrapper.vm.selectedWhatsappInteractiveType = 'button';
+      const submittedDraft = {
+        body: 'Choose',
+        source: { preset_id: 42 },
+        buttons: [{ title: 'Continue', preset_option_id: 'option-1' }],
+      };
+      wrapper.vm.whatsappInteractiveDraft = submittedDraft;
+      wrapper.vm.selectedWhatsappPreset = {
+        id: 42,
+        permissions: { update: false, delete: true },
+      };
+
+      const deleting = wrapper.vm.deleteWhatsappPreset();
+      wrapper.vm.updateWhatsappInteractiveDraft({
+        body: 'Changed',
+        buttons: ['Stop'],
+      });
+      wrapper.vm.selectWhatsappPreset({
+        id: 99,
+        definition: { type: 'button' },
+      });
+
+      expect(wrapper.vm.whatsappInteractiveDraft).toBe(submittedDraft);
+      expect(wrapper.vm.selectedWhatsappPreset.id).toBe(42);
+
+      resolveDelete({});
+      await deleting;
+
+      expect(wrapper.vm.selectedWhatsappPreset).toBeNull();
+      expect(wrapper.vm.whatsappInteractiveDraft).toEqual({
+        body: 'Choose',
+        buttons: [{ title: 'Continue' }],
+      });
+      expect(wrapper.vm.whatsappPresetBusy).toBe(false);
+    });
+
+    it('does not let an old mutation clear a newer operation busy state', async () => {
+      const { wrapper } = mountWith({
+        inbox: {
+          channel_type: 'Channel::Whatsapp',
+          provider: 'whatsapp_cloud',
+        },
+        chat: { whatsapp_interactive: capability },
+      });
+      let resolveFirst;
+      let resolveSecond;
+      whatsappInteractivePresetsAPI.create
+        .mockReturnValueOnce(
+          new Promise(resolve => {
+            resolveFirst = resolve;
+          })
+        )
+        .mockReturnValueOnce(
+          new Promise(resolve => {
+            resolveSecond = resolve;
+          })
+        );
+      wrapper.vm.isWhatsappInteractive = true;
+      wrapper.vm.selectedWhatsappInteractiveType = 'button';
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: 'First',
+        buttons: ['Continue'],
+      };
+      wrapper.vm.whatsappPresetName = 'First';
+      const first = wrapper.vm.saveWhatsappPreset('create');
+
+      wrapper.vm.resetWhatsappInteractive();
+      wrapper.vm.isWhatsappInteractive = true;
+      wrapper.vm.selectedWhatsappInteractiveType = 'button';
+      wrapper.vm.whatsappInteractiveDraft = {
+        body: 'Second',
+        buttons: ['Continue'],
+      };
+      wrapper.vm.whatsappPresetName = 'Second';
+      const second = wrapper.vm.saveWhatsappPreset('create');
+
+      resolveFirst({ data: {} });
+      await first;
+      expect(wrapper.vm.whatsappPresetBusy).toBe(true);
+      expect(wrapper.vm.whatsappPresetName).toBe('Second');
+
+      resolveSecond({
+        data: {
+          id: 2,
+          name: 'Second',
+          attachments: [],
+          definition: {
+            schema_version: 1,
+            type: 'button',
+            body: { text: 'Second' },
+            action: { buttons: [{ title: 'Continue' }] },
+          },
+        },
+      });
+      await second;
+      expect(wrapper.vm.whatsappPresetBusy).toBe(false);
     });
   });
 
