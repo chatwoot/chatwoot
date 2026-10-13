@@ -73,7 +73,9 @@
               <td class="tabular-nums"><%= membership.voice_inboxes %></td>
               <td><%= render "badge", label: t("#{calls}.availability.#{membership.availability}"), tone: availability_tones.fetch(membership.availability, :neutral) %></td>
               <td>
-                <% if readiness.rings?(membership) %>
+                <% if readiness.rings_assigned_only?(membership) %>
+                  <%= render "badge", label: t("#{calls}.assigned_only"), tone: :success %>
+                <% elsif readiness.rings?(membership) %>
                   <%= render "badge", label: t("#{calls}.rings"), tone: :success %>
                 <% else %>
                   <%= render "badge", label: t("#{calls}.app_open_only"), tone: :warning %>

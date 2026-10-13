@@ -957,6 +957,7 @@ en:
           offline: 'Offline'
         rings: 'Yes'
         app_open_only: 'Only with the app open'
+        assigned_only: 'Calls assigned to them'
       push_types:
         conversation_creation: 'A new conversation is created'
         conversation_assignment: 'A conversation is assigned to the user'
