@@ -1,6 +1,6 @@
 <%
   regular_features, premium_features = SuperAdmin::AccountFeaturesHelper.partition_features(field.data)
-  premium_locked = ChatwootHub.pricing_plan == 'community'
+  premium_locked = SuperAdmin::AccountFeaturesHelper.premium_locked?
   icons = SuperAdmin::AccountFeaturesHelper.feature_icons
   help_urls = SuperAdmin::AccountFeaturesHelper.feature_help_urls
 %>

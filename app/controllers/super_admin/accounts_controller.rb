@@ -42,7 +42,7 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
     %i[captain_models captain_reasoning_efforts].each do |key|
       permitted_params[key] = permitted_params[key].to_h.compact_blank.presence if permitted_params.key?(key)
     end
-    permitted_params[:selected_feature_flags] = params[:enabled_features].keys.map(&:to_sym) if params[:enabled_features].present?
+    permitted_params[:selected_feature_flags] = selected_feature_flags if params[:enabled_features].present?
     permitted_params
   end
 
@@ -78,6 +78,16 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
   end
 
   private
+
+  # The form posts only the checked boxes it shows. Features it hides or locks, such as internal ones on self-hosted
+  # installs, keep their current state instead of being turned off.
+  def selected_feature_flags
+    chosen = params[:enabled_features].keys.map(&:to_sym)
+    return chosen unless action_name == 'update'
+
+    editable = SuperAdmin::AccountFeaturesHelper.editable_feature_names(requested_resource.all_features)
+    chosen + (requested_resource.enabled_features.keys - editable).map { |name| :"feature_#{name}" }
+  end
 
   def validate_suspension_metadata
     return unless suspension_metadata_required?

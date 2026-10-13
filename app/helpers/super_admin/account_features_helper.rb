@@ -25,8 +25,9 @@ module SuperAdmin::AccountFeaturesHelper
     end
   end
 
+  # Internal features are for Chatwoot Cloud. Development shows them too, so they can be turned on locally.
   def self.filter_internal_features(features)
-    return features if ChatwootApp.chatwoot_cloud?
+    return features if ChatwootApp.chatwoot_cloud? || Rails.env.development?
 
     internal_features = account_features.select { |f| f['chatwoot_internal'] }.pluck('name')
     features.except(*internal_features)
@@ -35,6 +36,16 @@ module SuperAdmin::AccountFeaturesHelper
   def self.filter_deprecated_features(features)
     deprecated_features = account_features.select { |f| f['deprecated'] }.pluck('name')
     features.except(*deprecated_features)
+  end
+
+  def self.premium_locked?
+    ChatwootHub.pricing_plan == 'community'
+  end
+
+  # The features the edit form shows and lets an admin change. Saving the form leaves every other feature as it is.
+  def self.editable_feature_names(features)
+    shown = filter_deprecated_features(filter_internal_features(features)).keys
+    premium_locked? ? shown - account_premium_features : shown
   end
 
   def self.sort_and_transform_features(features, display_names)
