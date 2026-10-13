@@ -104,7 +104,17 @@ describe Messages::NewMessageNotificationService do
     described_class.new(message: message).perform
   end
 
-  it 'keeps notifying for call messages on accounts without mobile voice push' do
+  it 'keeps holding back a rung agent once the feature is turned off during the call' do
+    subscribe_phone(assignee)
+
+    expect(NotificationBuilder).not_to receive(:new)
+    described_class.new(message: message).perform
+  end
+
+  it 'keeps notifying for call messages on accounts without mobile voice push, whose calls never enter the ring' do
+    subscribe_phone(assignee)
+    Call.find_by(message_id: message.id).update!(ring_state: {})
+
     expect(NotificationBuilder).to receive(:new)
       .with(hash_including(notification_type: 'assigned_conversation_new_message', user: assignee))
       .and_call_original

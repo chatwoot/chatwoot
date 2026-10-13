@@ -78,7 +78,7 @@ class Voice::VoipPushService
     payload = payloads.ring
     data = payloads.ring_data
     [
-      deliver_in_thread(apple) { platform_client('apple') { Voice::ApnsVoipSender.new(settings: settings, call_id: call.id) }&.ring(apple, payload) },
+      deliver_in_thread(apple) { apple_sender(settings)&.ring(apple, payload, proceed: -> { still_ringing? }) },
       deliver_in_thread(android) { fcm_sender(*firebase)&.deliver(android, data, 'ring', proceed: -> { still_ringing? }) }
     ].map(&:value)
   end
@@ -88,6 +88,9 @@ class Voice::VoipPushService
   end
 
   def still_ringing? = Call.where(id: call.id).first&.ringing?
+
+  # nil when the sender cannot be set up
+  def apple_sender(settings) = platform_client('apple') { Voice::ApnsVoipSender.new(settings: settings, call_id: call.id) }
 
   def devices_to_ring
     apple_environment if configured?(:apple)

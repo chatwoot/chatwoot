@@ -411,6 +411,19 @@ RSpec.describe Voice::VoipPushService do
       expect(Thread).to have_received(:new).exactly(7).times
     end
 
+    it 'stops sending later iPhone batches once the call stops ringing' do
+      stub_const('Voice::ApnsVoipSender::BATCH_SIZE', 2)
+      5.times { |i| subscribe(agent, 'apns_voip', "apple-#{i}") }
+      allow(apple_connection).to receive(:push) do
+        call.update_columns(status: 'in_progress') # rubocop:disable Rails/SkipsModelValidations
+        apple_response
+      end
+
+      described_class.new(call: call).perform('ring')
+
+      expect(apple_connection).to have_received(:push).once
+    end
+
     it 'stops sending later Android batches once the call stops ringing' do
       stub_const('Voice::FcmVoipSender::BATCH_SIZE', 2)
       5.times { |i| subscribe(agent, 'fcm', "android-#{i}", platform: 'Android') }
