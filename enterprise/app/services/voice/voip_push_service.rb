@@ -23,17 +23,8 @@ class Voice::VoipPushService
   APPLE = 'apns_voip'.freeze
   ANDROID = 'fcm'.freeze
 
-  # The agents a call rings: the assignee if the conversation has one who can still be
-  # assigned the inbox, otherwise everyone who could be, keeping only agents whose status
-  # is online, as the web does. Socket presence is not consulted: a locked phone is offline
-  # on the socket and is exactly the device this push exists for.
-  def self.recipients_for(call)
-    assignable = call.inbox.assignable_agents.to_a
-    assignee = call.conversation.assignee
-    candidates = assignee && assignable.include?(assignee) ? [assignee] : assignable
-    online_ids = AccountUser.where(account_id: call.account_id, availability: :online).pluck(:user_id)
-    candidates.select { |user| online_ids.include?(user.id) }
-  end
+  # The agents a call rings; see Voice::RingRecipients
+  def self.recipients_for(call) = Voice::RingRecipients.new(call: call).agents
 
   def perform(action)
     case action
@@ -68,7 +59,8 @@ class Voice::VoipPushService
   # overtaken by the ring, so the ring is followed by a cancel of its own in that case.
   def ring
     apple, android = call.with_lock { call.ringing? ? remember_ring : nil }
-    return if apple.nil? || (apple.empty? && android.empty?)
+    return if apple.nil?
+    return replay_new_message_notification if apple.empty? && android.empty?
 
     apple_results, android_results = deliver_ring(apple, android)
     settle_ring(apple_results, android_results)
@@ -196,16 +188,19 @@ class Voice::VoipPushService
   def gone(results) = results.filter_map { |token, outcome| token if outcome == :gone }
 
   # The new-message notification is held back for agents whose phone the ring reaches. Once
-  # the pushes are out, the agents no push reached are recorded, and the notification goes
-  # to them; agents already notified for the message are skipped. Devices the platforms no
-  # longer know are removed.
+  # the pushes are out, the agents no push reached are recorded, and the notification runs
+  # again: it reaches them, and any agent it held back before the ring was prepared who the
+  # ring then left out; agents already notified for the message are skipped. Devices the
+  # platforms no longer know are removed.
   def settle_ring(apple_results, android_results)
     unreached = unreached_user_ids(apple_results.merge(android_results))
     forget_devices(APPLE, gone(apple_results))
     forget_devices(ANDROID, gone(android_results))
-    return if unreached.empty?
+    merge_ring_state('unreached_user_ids' => unreached) if unreached.any?
+    replay_new_message_notification
+  end
 
-    merge_ring_state('unreached_user_ids' => unreached)
+  def replay_new_message_notification
     message = call.reload.message
     Messages::NewMessageNotificationService.new(message: message).perform if message
   end

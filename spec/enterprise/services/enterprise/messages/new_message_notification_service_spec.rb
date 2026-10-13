@@ -32,6 +32,18 @@ describe Messages::NewMessageNotificationService do
     described_class.new(message: message).perform
   end
 
+  it 'notifies an agent held back before the ring once the ring reaches no phone of theirs' do
+    account.enable_features!('mobile_voice_push')
+    phone = subscribe_phone(assignee)
+    described_class.new(message: message).perform
+    phone.destroy!
+
+    expect(NotificationBuilder).to receive(:new)
+      .with(hash_including(notification_type: 'assigned_conversation_new_message', user: assignee))
+      .and_call_original
+    Voice::VoipPushService.new(call: Call.find_by(message_id: message.id)).perform('ring')
+  end
+
   it 'keeps notifying a rung agent who gets missed calls by neither push nor email' do
     account.enable_features!('mobile_voice_push')
     subscribe_phone(assignee)
