@@ -87,7 +87,8 @@ class Voice::VoipPushService
     Thread.new { tokens.empty? ? {} : with_rails(&) || tokens.index_with(:failed) }
   end
 
-  def still_ringing? = Call.where(id: call.id).first&.ringing?
+  # Read past the query cache, which would otherwise answer every check after the first
+  def still_ringing? = Call.uncached { Call.where(id: call.id).first&.ringing? }
 
   # nil when the sender cannot be set up
   def apple_sender(settings) = platform_client('apple') { Voice::ApnsVoipSender.new(settings: settings, call_id: call.id) }
