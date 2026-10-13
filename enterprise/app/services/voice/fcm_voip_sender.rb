@@ -19,12 +19,20 @@ class Voice::FcmVoipSender
 
   def deliver_one(token, data, kind)
     response = client.send_v1(token: token, data: data, android: { priority: 'high', ttl: "#{expiry_seconds}s" })
-    Rails.logger.info("[VOIP PUSH] android #{kind} call #{call_id} to #{token[0, 8]}… status=#{response[:status_code]}")
-    return :sent if response[:status_code] == 200
-
-    response[:status_code] == 404 && response[:body].to_s.include?('UNREGISTERED') ? :gone : :failed
+    outcome = outcome(response)
+    # A rejection such as bad credentials or a Firebase outage leaves the phone silent, so it
+    # is logged as an error
+    Rails.logger.public_send(outcome == :failed ? :error : :info,
+                             "[VOIP PUSH] android #{kind} call #{call_id} to #{token[0, 8]}… status=#{response[:status_code]}")
+    outcome
   rescue StandardError => e
     Rails.logger.error("[VOIP PUSH] android #{kind} call #{call_id} to #{token[0, 8]}… failed: #{e.class}: #{e.message}")
     :failed
+  end
+
+  def outcome(response)
+    return :sent if response[:status_code].to_i.between?(200, 299)
+
+    response[:status_code] == 404 && response[:body].to_s.include?('UNREGISTERED') ? :gone : :failed
   end
 end
