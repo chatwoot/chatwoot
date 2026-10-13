@@ -2,21 +2,26 @@
 #
 # Table name: account_saml_settings
 #
-#  id            :bigint           not null, primary key
-#  certificate   :text
-#  role_mappings :json
-#  sso_url       :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  account_id    :bigint           not null
-#  idp_entity_id :string
-#  sp_entity_id  :string
+#  id                    :bigint           not null, primary key
+#  certificate           :text
+#  metadata_refreshed_at :datetime
+#  metadata_url          :string
+#  role_mappings         :json
+#  sso_url               :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  account_id            :bigint           not null
+#  idp_entity_id         :string
+#  sp_entity_id          :string
 #
 # Indexes
 #
 #  index_account_saml_settings_on_account_id  (account_id)
 #
 class AccountSamlSettings < ApplicationRecord
+  METADATA_REFRESH_INTERVAL = 5.minutes
+  PEM_CERTIFICATE_PATTERN = /-----BEGIN CERTIFICATE-----.+?-----END CERTIFICATE-----/m
+
   belongs_to :account
 
   validates :account_id, presence: true
@@ -26,6 +31,7 @@ class AccountSamlSettings < ApplicationRecord
   validate :certificate_must_be_valid_x509
 
   before_validation :set_sp_entity_id, if: :sp_entity_id_needs_generation?
+  before_validation :assign_idp_metadata, if: -> { metadata_url.present? && metadata_url_changed? }
 
   after_create_commit :update_account_users_provider
   after_destroy_commit :reset_account_users_provider
@@ -46,7 +52,31 @@ class AccountSamlSettings < ApplicationRecord
     end
   end
 
+  # Metadata can list more than one signing certificate while the IdP rotates its key.
+  def signing_certificates
+    certificate.to_s.scan(PEM_CERTIFICATE_PATTERN)
+  end
+
+  def refresh_metadata
+    return if metadata_url.blank? || metadata_refreshed_at&.after?(METADATA_REFRESH_INTERVAL.ago)
+
+    update!(idp_metadata)
+  rescue Saml::IdpMetadataService::Error => e
+    Rails.logger.warn "SAML metadata refresh failed for account #{account_id}: #{e.message}"
+    update!(metadata_refreshed_at: Time.current)
+  end
+
   private
+
+  def idp_metadata
+    Saml::IdpMetadataService.new(metadata_url).perform.merge(metadata_refreshed_at: Time.current)
+  end
+
+  def assign_idp_metadata
+    assign_attributes(idp_metadata)
+  rescue Saml::IdpMetadataService::Error
+    errors.add(:metadata_url, I18n.t('errors.account_saml_settings.invalid_metadata_url'))
+  end
 
   def set_sp_entity_id
     base_url = GlobalConfigService.load('FRONTEND_URL', 'http://localhost:3000')

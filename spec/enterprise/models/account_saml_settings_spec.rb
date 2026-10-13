@@ -115,6 +115,90 @@ RSpec.describe AccountSamlSettings, type: :model do
     end
   end
 
+  describe 'IdP metadata' do
+    let(:metadata_url) { 'https://idp.example.com/saml/v2/metadata' }
+    let(:certificate) { build(:account_saml_settings).certificate.strip }
+    let(:rotated_certificate) { build(:account_saml_settings).certificate.strip }
+    let(:metadata) { { sso_url: 'https://idp.example.com/saml/v2/SSO', idp_entity_id: metadata_url, certificate: certificate } }
+    let(:metadata_service) { instance_double(Saml::IdpMetadataService, perform: metadata) }
+
+    before do
+      allow(Saml::IdpMetadataService).to receive(:new).with(metadata_url).and_return(metadata_service)
+    end
+
+    describe 'saving with a metadata URL' do
+      it 'fills the IdP fields from the metadata' do
+        settings = described_class.create!(account: account, metadata_url: metadata_url)
+
+        expect(settings).to have_attributes(metadata)
+        expect(settings.metadata_refreshed_at).to be_within(1.second).of(Time.current)
+      end
+
+      it 'adds an error when the metadata cannot be read' do
+        allow(metadata_service).to receive(:perform).and_raise(Saml::IdpMetadataService::Error, 'boom')
+        settings = described_class.new(account: account, metadata_url: metadata_url)
+
+        expect(settings).not_to be_valid
+        expect(settings.errors[:metadata_url]).to include(I18n.t('errors.account_saml_settings.invalid_metadata_url'))
+      end
+
+      it 'does not fetch the metadata when the URL is unchanged' do
+        settings = described_class.create!(account: account, metadata_url: metadata_url)
+        settings.update!(role_mappings: { 'Admins' => { 'role' => 1 } })
+
+        expect(metadata_service).to have_received(:perform).once
+      end
+    end
+
+    describe '#refresh_metadata' do
+      let(:settings) { described_class.create!(account: account, metadata_url: metadata_url) }
+
+      before { settings }
+
+      it 'does not fetch within the refresh interval' do
+        settings.refresh_metadata
+
+        expect(metadata_service).to have_received(:perform).once
+      end
+
+      it 'stores the rotated certificate after the refresh interval' do
+        allow(metadata_service).to receive(:perform).and_return(metadata.merge(certificate: rotated_certificate))
+
+        travel_to((described_class::METADATA_REFRESH_INTERVAL + 1.second).from_now) do
+          settings.refresh_metadata
+
+          expect(settings.reload.certificate).to eq(rotated_certificate)
+          expect(settings.metadata_refreshed_at).to be_within(1.second).of(Time.current)
+        end
+      end
+
+      it 'keeps the stored values when the fetch fails' do
+        allow(metadata_service).to receive(:perform).and_raise(Saml::IdpMetadataService::Error, 'boom')
+
+        travel_to((described_class::METADATA_REFRESH_INTERVAL + 1.second).from_now) do
+          settings.refresh_metadata
+
+          expect(settings.reload.certificate).to eq(certificate)
+          expect(settings.metadata_refreshed_at).to be_within(1.second).of(Time.current)
+        end
+      end
+
+      it 'does nothing without a metadata URL' do
+        manual_settings = create(:account_saml_settings, account: create(:account))
+
+        expect { manual_settings.refresh_metadata }.not_to(change { manual_settings.reload.updated_at })
+      end
+    end
+
+    describe '#signing_certificates' do
+      it 'returns every certificate in the stored value' do
+        settings = build(:account_saml_settings, account: account, certificate: "#{certificate}\n#{rotated_certificate}")
+
+        expect(settings.signing_certificates).to eq([certificate, rotated_certificate])
+      end
+    end
+  end
+
   describe 'callbacks' do
     describe 'after_create_commit' do
       it 'queues job to set account users to saml provider' do
