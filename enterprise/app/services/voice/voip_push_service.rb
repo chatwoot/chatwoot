@@ -73,13 +73,13 @@ class Voice::VoipPushService
 
   # A platform whose delivery failed as a whole, its connection included, reached nobody
   def deliver_ring(apple, android)
-    apple_sender = Voice::ApnsVoipSender.new(settings: apple_settings, call_id: call.id) if apple.any?
-    android_sender = fcm_sender if android.any?
+    apple_sender = platform_client('apple') { Voice::ApnsVoipSender.new(settings: apple_settings, call_id: call.id) } if apple.any?
+    android_sender = platform_client('android') { fcm_sender } if android.any?
     payload = payloads.ring
     data = payloads.ring_data
     [
-      deliver_in_thread(apple) { apple_sender.ring(apple, payload) },
-      deliver_in_thread(android) { android_sender.deliver(android, data, 'ring') }
+      deliver_in_thread(apple) { apple_sender&.ring(apple, payload) },
+      deliver_in_thread(android) { android_sender&.deliver(android, data, 'ring') }
     ].map(&:value)
   end
 
@@ -100,12 +100,23 @@ class Voice::VoipPushService
     return if tokens.blank?
 
     data = payloads.cancel_data
-    sender = fcm_sender
+    sender = platform_client('android') { fcm_sender }
+    return unless sender
+
     forget_devices(ANDROID, gone(with_rails { sender.deliver(tokens, data, 'cancel') }.to_h))
   end
 
   def payloads
     @payloads ||= Voice::VoipPushPayloads.new(call: call)
+  end
+
+  # A platform whose client cannot be set up, such as when Google's token request fails,
+  # is not rung; the other platform still is
+  def platform_client(platform)
+    yield
+  rescue StandardError => e
+    Rails.logger.error("[VOIP PUSH] call #{call.id}: #{platform} client failed: #{e.class}: #{e.message}")
+    nil
   end
 
   def with_rails(&)

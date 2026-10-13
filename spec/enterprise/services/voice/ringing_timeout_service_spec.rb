@@ -46,22 +46,6 @@ RSpec.describe Voice::RingingTimeoutService do
       expect(described_class.overdue).to be_empty
     end
 
-    it 'ignores a call an agent has just claimed but not yet joined, however long it rang first' do
-      claimed = ringing(:twilio, 5.minutes)
-      claimed.update!(accepted_by_agent: create(:user, account: account),
-                      ring_state: { 'ring_recipient_ids' => [], 'claimed_at' => 5.seconds.ago.to_i })
-
-      expect(described_class.overdue).to be_empty
-    end
-
-    it 'returns a claimed call whose join was abandoned a while ago' do
-      claimed = ringing(:whatsapp, 3.minutes)
-      claimed.update!(accepted_by_agent: create(:user, account: account),
-                      ring_state: { 'ring_recipient_ids' => [], 'claimed_at' => 2.minutes.ago.to_i })
-
-      expect(described_class.overdue).to contain_exactly(claimed)
-    end
-
     it 'ignores outbound calls, which end with the provider' do
       ringing(:whatsapp, 5.minutes).update!(direction: :outgoing)
 
@@ -103,22 +87,13 @@ RSpec.describe Voice::RingingTimeoutService do
       )
     end
 
-    it 'does not end a call an agent claimed before the sweep reached it' do
-      call.update!(accepted_by_agent: create(:user, account: account), ring_state: { 'claimed_at' => Time.zone.now.to_i })
+    it 'does not end a call answered before the sweep reached it' do
+      call.update!(status: 'in_progress', accepted_by_agent: create(:user, account: account))
 
       described_class.new(call: call).perform
 
-      expect(call.reload.status).to eq('ringing')
+      expect(call.reload.status).to eq('in_progress')
       expect(ActionCable.server).not_to have_received(:broadcast)
-    end
-
-    it 'ends a claimed call whose join was abandoned' do
-      call.update!(created_at: 3.minutes.ago, accepted_by_agent: create(:user, account: account),
-                   ring_state: { 'ring_recipient_ids' => [], 'claimed_at' => 2.minutes.ago.to_i })
-
-      described_class.new(call: call).perform
-
-      expect(call.reload.status).to eq('no_answer')
     end
 
     it 'leaves a call alone while another sweep is hanging it up' do

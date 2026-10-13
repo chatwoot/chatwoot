@@ -56,6 +56,17 @@ RSpec.describe Voice::VoipPushService do
       expect(fcm_client).not_to have_received(:send_v1)
     end
 
+    it 'still rings iPhones when the Firebase client cannot be set up' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      subscribe(other_agent, 'fcm', 'android-1', platform: 'Android')
+      allow(Notification::FcmService).to receive(:new).and_raise(IOError, 'token request failed')
+
+      described_class.new(call: call).perform('ring')
+
+      expect(apple_connection).to have_received(:push).once
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([other_agent.id])
+    end
+
     it 'sends a high-priority data message to each Android phone of the eligible agents' do
       subscribe(agent, 'fcm', 'android-1', platform: 'Android')
       subscribe(other_agent, 'fcm', 'ios-fcm', platform: 'iOS')
