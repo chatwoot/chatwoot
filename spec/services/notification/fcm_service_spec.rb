@@ -18,6 +18,16 @@ describe Notification::FcmService do
   end
 
   describe '#fcm_client' do
+    it 'fails at once for a while after a token request fails, instead of each caller retrying it' do
+      allow(fcm_service).to receive(:generate_token).and_raise(Faraday::TimeoutError)
+      other = described_class.new(project_id, credentials)
+      allow(other).to receive(:generate_token)
+
+      expect { fcm_service.fcm_client }.to raise_error(Faraday::TimeoutError)
+      expect { other.fcm_client }.to raise_error(described_class::TokenUnavailable)
+      expect(other).not_to have_received(:generate_token)
+    end
+
     it 'bounds the token request to Google by a timeout' do
       allow(fcm_service).to receive(:generate_token).and_call_original
 
