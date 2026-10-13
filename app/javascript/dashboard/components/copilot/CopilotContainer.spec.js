@@ -1,13 +1,17 @@
 import { nextTick, ref } from 'vue';
-import { shallowMount } from '@vue/test-utils';
+import { flushPromises, shallowMount } from '@vue/test-utils';
 import CopilotContainer from './CopilotContainer.vue';
 
 const testState = vi.hoisted(() => ({
   dispatch: vi.fn(),
+  getThreads: vi.fn(),
   refs: {},
 }));
 
 vi.mock('dashboard/composables', () => ({ useAlert: vi.fn() }));
+vi.mock('dashboard/api/captain/copilotThreads', () => ({
+  default: { get: testState.getThreads },
+}));
 vi.mock('dashboard/composables/useConfig', () => ({
   useConfig: () => ({ isEnterprise: true }),
 }));
@@ -56,7 +60,16 @@ const mountComponent = () =>
       stubs: {
         Copilot: {
           name: 'Copilot',
-          props: ['messages', 'onSendMessage'],
+          props: [
+            'messages',
+            'onSendMessage',
+            'threads',
+            'selectedThreadId',
+            'hasMoreThreads',
+            'isLoadingThreads',
+            'isLoadingSelectedThread',
+          ],
+          emits: ['reset', 'setAssistant', 'selectThread', 'loadMoreThreads'],
           template: '<div />',
         },
       },
@@ -67,7 +80,33 @@ describe('CopilotContainer', () => {
   beforeEach(() => {
     testState.dispatch.mockReset();
     testState.dispatch.mockResolvedValue(undefined);
+    testState.getThreads.mockReset();
+    testState.getThreads.mockResolvedValue({
+      data: { payload: [], meta: { total_count: 0, page: 1 } },
+    });
     testState.refs.getSelectedChat.value = { id: 1 };
+    testState.refs.getCurrentAccountId.value = 1;
+  });
+
+  it('lists and opens a past chat', async () => {
+    const thread = { id: 42, title: 'Older question', assistant: { id: 7 } };
+    testState.getThreads.mockResolvedValue({
+      data: { payload: [thread], meta: { total_count: 1, page: 1 } },
+    });
+    const wrapper = mountComponent();
+    await flushPromises();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+
+    expect(copilot.props('threads')).toEqual([thread]);
+
+    copilot.vm.$emit('selectThread', thread);
+    await flushPromises();
+
+    expect(testState.dispatch).toHaveBeenCalledWith(
+      'copilotMessages/fetchThread',
+      { threadId: 42 }
+    );
+    expect(copilot.props('selectedThreadId')).toBe(42);
   });
 
   it('clears the selected thread when the conversation changes', async () => {
