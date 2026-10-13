@@ -193,14 +193,37 @@ document.addEventListener('submit', event => {
   showPendingLabel(event);
 });
 
+const updateCaptainEffortOptions = model => {
+  const card = model.closest('[data-captain-model-controls]');
+  const effort = card?.querySelector('[data-captain-effort]');
+  if (!effort) return;
+
+  const previous = effort.value;
+  const options = JSON.parse(card.dataset.effortOptions);
+  const choices = options[model.value] || [];
+  effort.replaceChildren(
+    effort.options[0],
+    ...choices.map(([label, value]) => new Option(label, value))
+  );
+  effort.value = choices.some(([, value]) => value === previous)
+    ? previous
+    : '';
+};
+
 document.addEventListener('change', event => {
-  if (!event.target.matches('[data-check-toggle]')) return;
-  event.target
-    .closest('table')
-    .querySelectorAll('tbody [type="checkbox"]')
-    .forEach(checkbox => {
-      checkbox.checked = event.target.checked;
-    });
+  if (event.target.matches('[data-check-toggle]')) {
+    event.target
+      .closest('table')
+      .querySelectorAll('tbody [type="checkbox"]')
+      .forEach(checkbox => {
+        checkbox.checked = event.target.checked;
+      });
+    return;
+  }
+
+  if (event.target.matches('[data-captain-model]')) {
+    updateCaptainEffortOptions(event.target);
+  }
 });
 
 const initializeAccountSuspensionForm = () => {
@@ -236,27 +259,6 @@ const initializeAccountSuspensionForm = () => {
   status.addEventListener('change', updateFields);
   controls.forEach(control => control.addEventListener('input', updateFields));
   updateFields();
-};
-
-const initializeCaptainModelControls = () => {
-  document.querySelectorAll('[data-captain-model-controls]').forEach(card => {
-    const effort = card.querySelector('[data-captain-effort]');
-    if (!effort) return;
-
-    const model = card.querySelector('[data-captain-model]');
-    const options = JSON.parse(card.dataset.effortOptions);
-    model.addEventListener('change', () => {
-      const previous = effort.value;
-      const choices = options[model.value];
-      effort.replaceChildren(
-        effort.options[0],
-        ...choices.map(([label, value]) => new Option(label, value))
-      );
-      effort.value = choices.some(([, value]) => value === previous)
-        ? previous
-        : '';
-    });
-  });
 };
 
 // Platform banners: a title and a video only apply to feature announcements.
@@ -444,7 +446,6 @@ const initializePageProgress = () => {
 };
 
 initializeAccountSuspensionForm();
-initializeCaptainModelControls();
 initializeBannerForm();
 initializeTabs();
 initializeFilters();

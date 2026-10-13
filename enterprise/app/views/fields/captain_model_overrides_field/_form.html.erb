@@ -6,7 +6,7 @@
      }.each do |section_name, features| %>
     <section class="mb-4 last:mb-0">
       <h3 class="mb-2 text-label-small text-n-slate-11"><%= section_name %></h3>
-      <div class="grid grid-cols-1 gap-2 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
         <% features.each do |feature| %>
           <div class="rounded-md border border-n-weak p-2.5" <%= tag.attributes(data: { captain_model_controls: true, effort_options: feature[:effort_options_by_model]&.to_json }) %>>
             <div class="mb-1.5">

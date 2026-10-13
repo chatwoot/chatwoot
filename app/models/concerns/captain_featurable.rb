@@ -89,7 +89,7 @@ module CaptainFeaturable
       end
 
       model = Llm::FeatureRouter.resolve(feature: feature, account: self)[:model]
-      next if Llm::Models.provider_for(model) == 'openai' && RubyLLM.models.find(model).reasoning_option_values(:effort).include?(effort)
+      next if Llm::Models.reasoning_efforts_for(model).include?(effort)
 
       errors.add(:captain_reasoning_efforts, "'#{effort}' is not supported by #{model} for #{feature}")
     end

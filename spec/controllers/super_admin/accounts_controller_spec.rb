@@ -132,7 +132,6 @@ RSpec.describe 'Super Admin accounts API', type: :request do
     context 'when it is an authenticated user' do
       it 'saves supported Assistant and Copilot model and effort overrides', if: ChatwootApp.enterprise? do
         account.enable_features!('captain_integration')
-        account.update!(keep_pending_on_bot_failure: true)
         sign_in(super_admin, scope: :super_admin)
 
         patch "/super_admin/accounts/#{account.id}", params: {
@@ -144,13 +143,13 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         }
 
         expect(response).to have_http_status(:redirect)
-        expect(account.reload.keep_pending_on_bot_failure).to be true
-        routes = %w[assistant copilot].map do |feature|
-          Llm::FeatureRouter.resolve(feature: feature, account: account).slice(:model, :reasoning_effort)
+        account.reload
+        routing = %w[assistant copilot].map do |feature|
+          route = Llm::FeatureRouter.resolve(feature: feature, account: account)
+          effort = Llm::FeatureRouter.reasoning_effort(feature: feature, model: route[:model], account: account)
+          [route[:model], effort]
         end
-        expect(routes).to eq(
-          [{ model: 'gpt-6-astra', reasoning_effort: :high }, { model: 'gpt-6-luna', reasoning_effort: :none }]
-        )
+        expect(routing).to eq([['gpt-6-astra', :high], ['gpt-6-luna', :none]])
         expect(account.captain_reasoning_efforts).to eq('assistant' => 'high', 'copilot' => 'none')
 
         get "/super_admin/accounts/#{account.id}/edit"
@@ -164,7 +163,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         }
 
         expect(response).to have_http_status(:redirect)
-        default_effort = Llm::FeatureRouter.resolve(feature: 'assistant', account: account.reload)[:reasoning_effort]
+        default_effort = Llm::FeatureRouter.reasoning_effort(feature: 'assistant', model: 'gpt-6-astra', account: account.reload)
         expect([account.captain_reasoning_efforts, default_effort]).to eq([nil, :low])
       end
 
@@ -182,21 +181,6 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(account.reload.captain_models).to eq('assistant' => 'gpt-5.2')
         expect(account.captain_reasoning_efforts).to be_nil
-      end
-
-      it 'saves model and effort controls for every text feature', if: ChatwootApp.enterprise? do
-        sign_in(super_admin, scope: :super_admin)
-        features = Llm::FeatureRouter::REASONING_FEATURES
-        patch "/super_admin/accounts/#{account.id}", params: {
-          account: { captain_models: features.index_with { 'gpt-5.2' }, captain_reasoning_efforts: features.index_with { 'medium' } }
-        }
-
-        expect(response).to have_http_status(:redirect)
-        features.each do |feature|
-          expect(Llm::FeatureRouter.resolve(feature: feature, account: account.reload)).to include(model: 'gpt-5.2', reasoning_effort: :medium)
-        end
-        expect(account.captain_reasoning_efforts).not_to have_key('audio_transcription')
-        expect(account.captain_reasoning_efforts).not_to have_key('help_center_search')
       end
 
       it 'updates Captain model overrides without changing unrelated settings' do

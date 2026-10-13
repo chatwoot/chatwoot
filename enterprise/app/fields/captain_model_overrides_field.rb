@@ -22,8 +22,6 @@ class CaptainModelOverridesField < Administrate::Field::Base
         provider_id: route[:provider],
         model: model_label(route[:model]),
         model_id: route[:model],
-        default_model: model_label(default_model_id(feature_key)),
-        default_model_id: default_model_id(feature_key),
         default_option_label: default_option_label(feature_key),
         source: route[:source],
         source_label: source_label(route[:source]),
@@ -36,29 +34,34 @@ class CaptainModelOverridesField < Administrate::Field::Base
   def reasoning_attributes(feature_key, route)
     return {} unless Llm::FeatureRouter::REASONING_FEATURES.include?(feature_key)
 
+    standard_endpoint = standard_openai_endpoint?
     {
       selected_effort: resource.captain_reasoning_efforts&.[](feature_key),
       effort_options: effort_options(route[:model]),
       effort_options_by_model: (Llm::Models.models_for(feature_key) + ['']).index_with do |model|
         effort_options(model.presence || blank_model_id(feature_key))
       end,
-      effective_effort: effective_effort_label(route),
-      custom_endpoint: !Llm::FeatureRouter.standard_openai_endpoint?
+      effective_effort: effective_effort_label(feature_key, route[:model], standard_endpoint: standard_endpoint),
+      custom_endpoint: !standard_endpoint
     }
   end
 
   def effort_options(model)
-    return [] unless Llm::Models.provider_for(model) == 'openai'
-
-    RubyLLM.models.find(model).reasoning_option_values(:effort).map do |effort|
+    Llm::Models.reasoning_efforts_for(model).map do |effort|
       [I18n.t("super_admin.captain_model_overrides.efforts.#{effort}", default: effort.humanize), effort]
     end
   end
 
-  def effective_effort_label(route)
-    return I18n.t('super_admin.captain_model_overrides.show.custom_endpoint') unless Llm::FeatureRouter.standard_openai_endpoint?
+  def effective_effort_label(feature_key, model, standard_endpoint:)
+    return I18n.t('super_admin.captain_model_overrides.show.provider_default') unless Llm::Models.provider_for(model) == 'openai'
+    return I18n.t('super_admin.captain_model_overrides.show.custom_endpoint') unless standard_endpoint
 
-    effort = route[:reasoning_effort]
+    effort = Llm::FeatureRouter.reasoning_effort(
+      feature: feature_key,
+      model: model,
+      account: resource,
+      standard_endpoint: standard_endpoint
+    )
     return I18n.t("super_admin.captain_model_overrides.efforts.#{effort}") if effort
 
     I18n.t('super_admin.captain_model_overrides.show.provider_default')
@@ -118,5 +121,11 @@ class CaptainModelOverridesField < Administrate::Field::Base
 
   def source_label(source)
     I18n.t("super_admin.captain_model_overrides.sources.#{source}")
+  end
+
+  def standard_openai_endpoint?
+    return @standard_openai_endpoint if defined?(@standard_openai_endpoint)
+
+    @standard_openai_endpoint = Llm::FeatureRouter.standard_openai_endpoint?
   end
 end

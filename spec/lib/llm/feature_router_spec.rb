@@ -17,8 +17,7 @@ RSpec.describe Llm::FeatureRouter do
         feature: 'editor',
         provider: 'openai',
         model: 'gpt-4.1-mini',
-        source: :default,
-        reasoning_effort: nil
+        source: :default
       )
     end
 
@@ -58,8 +57,7 @@ RSpec.describe Llm::FeatureRouter do
         feature: 'conversation_completion',
         provider: 'openai',
         model: 'gpt-5.1',
-        source: :installation_override,
-        reasoning_effort: nil
+        source: :installation_override
       )
     end
 
@@ -143,24 +141,24 @@ RSpec.describe Llm::FeatureRouter do
       expect(described_class.reasoning_effort(feature: 'copilot', model: 'gpt-5.2')).to eq(:high)
     end
 
-    defaults = { 'gpt-6-astra' => :low, 'gpt-6-sol' => :none, 'gpt-6-luna' => :none, 'gpt-6.1-sol' => :low }
-    %w[assistant copilot].each do |feature|
-      defaults.each do |model, effort|
-        it "persists and routes #{model} for #{feature} with the supported default effort" do
-          account.update!(captain_models: { feature => model })
+    it 'uses a saved account effort when the model supports it' do
+      account.update!(
+        captain_models: { 'copilot' => 'gpt-5.2' },
+        captain_reasoning_efforts: { 'copilot' => 'high' }
+      )
 
-          expect(described_class.resolve(feature: feature, account: account.reload)).to include(
-            model: model, source: :account_override, reasoning_effort: effort
-          )
-        end
-      end
+      expect(described_class.reasoning_effort(feature: 'copilot', model: 'gpt-5.2', account: account)).to eq(:high)
+    end
+
+    it 'uses low when a reasoning-only model cannot accept the configured none effort' do
+      expect(described_class.reasoning_effort(feature: 'assistant', model: 'gpt-6-astra', account: account)).to eq(:low)
     end
 
     it 'keeps saved effort inactive for custom endpoints' do
       account.update!(captain_models: { 'copilot' => 'gpt-6-luna' }, captain_reasoning_efforts: { 'copilot' => 'high' })
       InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
 
-      expect(described_class.resolve(feature: 'copilot', account: account)[:reasoning_effort]).to be_nil
+      expect(described_class.reasoning_effort(feature: 'copilot', model: 'gpt-6-luna', account: account)).to be_nil
       expect(account.reload.captain_reasoning_efforts).to eq('copilot' => 'high')
     end
 

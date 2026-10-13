@@ -42,7 +42,12 @@ class Llm::BaseAiService
   def llm_instrumentation_params(params)
     feature = params[:llm_feature] || @llm_feature
     options = Captain::ResponsesConfig.options(model: params[:model], temperature: params[:temperature], feature: feature, account: @llm_account)
-    metadata = Captain::ResponsesConfig.request_metadata(model: params[:model], feature: feature, account: @llm_account)
+    metadata = Captain::ResponsesConfig.request_metadata(
+      model: params[:model],
+      feature: feature,
+      account: @llm_account,
+      request_options: options
+    )
     params.merge(temperature: options[:temperature], metadata: params[:metadata].to_h.merge(metadata))
   end
 

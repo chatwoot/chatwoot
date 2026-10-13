@@ -66,8 +66,7 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
       next if effort.blank?
 
       model = Llm::FeatureRouter.resolve(feature: feature, account: @current_account)[:model]
-      supported = Llm::Models.provider_for(model) == 'openai' && RubyLLM.models.find(model).reasoning_option_values(:effort).include?(effort)
-      efforts.delete(feature) unless supported
+      efforts.delete(feature) unless Llm::Models.reasoning_efforts_for(model).include?(effort)
     end
 
     @current_account.captain_reasoning_efforts = efforts.presence

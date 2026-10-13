@@ -37,6 +37,12 @@ module Llm::Models
       model_config(model_name)&.dig('provider')
     end
 
+    def reasoning_efforts_for(model_name)
+      return [] unless provider_for(model_name) == 'openai'
+
+      RubyLLM.models.find(model_name).reasoning_option_values(:effort)
+    end
+
     def temperature_for(model_name, temperature)
       temperature unless RubyLLM.models.find(model_name).metadata[:temperature] == false
     end

@@ -16,17 +16,19 @@ module Llm::FeatureRouter
         feature: feature_key,
         provider: provider_for(model, source),
         model: model,
-        source: source,
-        reasoning_effort: reasoning_effort(feature: feature_key, model: model, account: account)
+        source: source
       }
     end
 
-    def reasoning_effort(feature:, model:, account: nil)
-      return unless Llm::Models.provider_for(model) == 'openai' && standard_openai_endpoint?
+    def reasoning_effort(feature:, model:, account: nil, standard_endpoint: nil)
+      return unless Llm::Models.provider_for(model) == 'openai'
+
+      standard_endpoint = standard_openai_endpoint? if standard_endpoint.nil?
+      return unless standard_endpoint
 
       effort = configured_reasoning_effort(feature, account)
       effort = 'low' if effort == 'none' && GPT_6_REASONING_ONLY_MODELS.include?(model)
-      effort.to_sym if RubyLLM.models.find(model).reasoning_option_values(:effort).include?(effort)
+      effort.to_sym if Llm::Models.reasoning_efforts_for(model).include?(effort)
     end
 
     def standard_openai_endpoint?

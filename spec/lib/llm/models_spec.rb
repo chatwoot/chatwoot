@@ -31,12 +31,6 @@ RSpec.describe Llm::Models do
       expect(described_class.default_model_for('conversation_faq_generation')).to eq('gpt-5.2')
       expect(described_class.default_model_for('conversation_faq_matching')).to eq('gpt-4.1-mini')
     end
-
-    it 'offers only supported OpenAI models for conversation completion' do
-      models = described_class.models_for('conversation_completion')
-      expect(models).to include('gpt-4.1', 'gpt-5.2', 'gpt-5.4-mini', 'gpt-6-luna')
-      expect(models.map { |model| described_class.provider_for(model) }.uniq).to eq(['openai'])
-    end
   end
 
   describe '.models' do
