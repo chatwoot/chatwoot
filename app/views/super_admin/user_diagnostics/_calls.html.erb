@@ -5,12 +5,14 @@
   platform_icons = { "apple" => "i-ri-apple-fill", "android" => "i-ri-android-fill" }
 %>
 
-<%= render "card", title: t("#{calls}.setup.heading") do %>
+<%= render "card", title: t("#{calls}.heading") do %>
   <p class="flex items-start gap-1.5 px-4 py-3 text-label-small text-n-slate-11">
-    <span class="i-lucide-info size-3.5 shrink-0 translate-y-px"></span>
-    <%= t("#{calls}.setup.description") %>
+    <span class="i-lucide-phone-incoming size-3.5 shrink-0 translate-y-px"></span>
+    <%= t("#{calls}.description") %>
   </p>
-  <div class="overflow-x-auto border-t border-n-weak">
+
+  <h3 class="border-t border-n-weak px-4 pb-2 pt-3 text-label-small font-medium text-n-slate-12"><%= t("#{calls}.setup.heading") %></h3>
+  <div class="overflow-x-auto">
     <%= render "table" do %>
       <thead>
         <tr>
@@ -44,16 +46,10 @@
       </tbody>
     <% end %>
   </div>
-<% end %>
-
-<%= render "card", title: t("#{calls}.heading") do %>
-  <p class="flex items-start gap-1.5 px-4 py-3 text-label-small text-n-slate-11">
-    <span class="i-lucide-phone-incoming size-3.5 shrink-0 translate-y-px"></span>
-    <%= t("#{calls}.description") %>
-  </p>
 
   <% if readiness.memberships.any? %>
-    <div class="overflow-x-auto border-t border-n-weak">
+    <h3 class="border-t border-n-weak px-4 pb-2 pt-3 text-label-small font-medium text-n-slate-12"><%= t("#{calls}.accounts_heading") %></h3>
+    <div class="overflow-x-auto">
       <%= render "table" do %>
         <thead>
           <tr>
