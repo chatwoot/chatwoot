@@ -118,9 +118,9 @@ module Redis::RedisKeys
   CAPTAIN_EMAIL_VERIFICATION_CODE = 'CAPTAIN::EMAIL_VERIFICATION::CODE::%<contact_inbox_id>d'.freeze
   # Wrong-code counter for the active code
   CAPTAIN_EMAIL_VERIFICATION_ATTEMPTS = 'CAPTAIN::EMAIL_VERIFICATION::ATTEMPTS::%<contact_inbox_id>d'.freeze
-  # Rolling budget of codes sent from one contact inbox
+  # Hourly budget of codes sent from one contact inbox, counted from the first send
   CAPTAIN_EMAIL_VERIFICATION_SENDS = 'CAPTAIN::EMAIL_VERIFICATION::SENDS::%<contact_inbox_id>d'.freeze
-  # Rolling budget of codes sent to one email address, across contact inboxes
+  # Hourly budget of codes sent to one email address across contact inboxes, counted from the first send
   CAPTAIN_EMAIL_VERIFICATION_EMAIL_SENDS = 'CAPTAIN::EMAIL_VERIFICATION::EMAIL_SENDS::%<email_digest>s'.freeze
   # Email address the contact inbox has verified
   CAPTAIN_EMAIL_VERIFICATION_VERIFIED = 'CAPTAIN::EMAIL_VERIFICATION::VERIFIED::%<contact_inbox_id>d'.freeze
