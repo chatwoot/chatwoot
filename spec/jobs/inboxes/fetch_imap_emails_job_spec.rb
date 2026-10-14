@@ -116,16 +116,30 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
     end
 
     context 'when a fetch succeeds after earlier authorization errors' do
-      it 'clears the count, so only consecutive failures lock the inbox' do
+      before do
         fetch_service = double
         allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
         allow(fetch_service).to receive(:perform).and_return([])
+      end
+
+      it 'clears the count, so only consecutive failures lock the inbox' do
         (Channel::Email::AUTHORIZATION_ERROR_THRESHOLD - 1).times { imap_email_channel.authorization_error! }
 
         described_class.perform_now(imap_email_channel)
 
         expect(imap_email_channel.authorization_error_count).to eq 0
         expect(imap_email_channel.reauthorization_required?).to be false
+      end
+
+      # Once the lock is released a newer run can count a refused refresh; a reset after that would wipe it.
+      it 'clears the count before releasing the inbox lock' do
+        lock_manager = Redis::LockManager.new
+        allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
+
+        expect(imap_email_channel).to receive(:reset_authorization_errors!).ordered.and_call_original
+        expect(lock_manager).to receive(:unlock).ordered.and_call_original
+
+        described_class.perform_now(imap_email_channel)
       end
     end
 

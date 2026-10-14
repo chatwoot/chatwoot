@@ -41,12 +41,13 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     with_lock(key, 5.minutes) do
       Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Lock acquired for inbox #{inbox_id}"
       success = process_email_for_channel(channel, interval)
+      # The mailbox authenticated, so earlier failures were not consecutive. Reset before the lock is
+      # released, or a newer run's refused refresh could be counted and then wiped by this reset.
+      channel.reset_authorization_errors! if success
     end
 
     duration = (Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at).round(1)
     if success
-      # The mailbox authenticated, so earlier failures were not consecutive.
-      channel.reset_authorization_errors!
       Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Job completed for inbox #{inbox_id} in #{duration}s"
     else
       Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] Job completed with authorization error for inbox #{inbox_id} in #{duration}s"
