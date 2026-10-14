@@ -86,6 +86,15 @@ RSpec.describe Saml::IdpMetadataService do
       end
     end
 
+    context 'when the URL uses HTTP' do
+      let(:http_url) { 'http://idp.example.com/saml/v2/metadata' }
+
+      it 'raises an error without fetching the URL' do
+        expect { described_class.new(http_url).perform }.to raise_error(described_class::Error)
+        expect(a_request(:get, http_url)).not_to have_been_made
+      end
+    end
+
     context 'when the fetch fails' do
       before { stub_request(:get, metadata_url).to_return(status: 500) }
 

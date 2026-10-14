@@ -22,7 +22,7 @@ class Saml::IdpMetadataService
       idp_entity_id: metadata[:idp_entity_id],
       certificate: certificates.map { |certificate| validated_certificate(certificate) }.join("\n")
     }
-  rescue SafeFetch::Error, REXML::ParseException, ArgumentError, OpenSSL::X509::CertificateError => e
+  rescue SafeFetch::Error, URI::InvalidURIError, REXML::ParseException, ArgumentError, OpenSSL::X509::CertificateError => e
     raise Error, e.message
   end
 
@@ -36,6 +36,9 @@ class Saml::IdpMetadataService
   end
 
   def fetch_metadata
+    # Chatwoot does not check the metadata signature, so only TLS protects the certificates it returns
+    raise Error, 'metadata URL must use HTTPS' unless URI.parse(@metadata_url).is_a?(URI::HTTPS)
+
     SafeFetch.fetch(@metadata_url, validate_content_type: false, max_bytes: MAX_METADATA_BYTES, read_timeout: READ_TIMEOUT) do |result|
       result.tempfile.read
     end
