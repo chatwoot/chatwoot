@@ -229,6 +229,22 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         end
       end
 
+      it 'rejects a parameter with a nested value or an unknown field instead of dropping it' do
+        email_param = { name: 'email', type: 'string', description: 'Customer email' }
+
+        [{ source: {} }, { source: ['verified.email'] }, { required: {} }, { soruce: 'verified.email' }].each do |field|
+          attributes = valid_attributes.deep_merge(custom_tool: { param_schema: [email_param.merge(field)] })
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
+                 params: attributes, headers: admin.create_new_auth_token, as: :json
+          end.not_to change(Captain::CustomTool, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(json_response[:error]).to eq('Param schema must list parameters with known fields and plain values')
+        end
+      end
+
       it 'saves a parameter that takes the verified email' do
         attributes = valid_attributes.deep_merge(custom_tool: { param_schema: [
                                                    { name: 'email', type: 'string', description: 'Customer email', source: 'verified.email' }
