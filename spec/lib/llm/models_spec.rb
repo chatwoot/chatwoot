@@ -32,10 +32,10 @@ RSpec.describe Llm::Models do
       expect(described_class.default_model_for('conversation_faq_matching')).to eq('gpt-4.1-mini')
     end
 
-    it 'uses GPT-5.2 with medium reasoning only for Copilot workflows' do
+    it 'uses GPT-5.2 for Copilot workflows' do
       expect(described_class.default_model_for('copilot')).to eq('gpt-4.1')
       expect(described_class.default_model_for('copilot_workflows')).to eq('gpt-5.2')
-      expect(described_class.features.dig('copilot_workflows', 'reasoning_effort')).to eq('medium')
+      expect(described_class.features.dig('copilot_workflows', 'reasoning_effort')).to eq('none')
       expect(described_class.internal_feature?('copilot_workflows')).to be(true)
     end
 

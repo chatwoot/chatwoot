@@ -124,10 +124,10 @@ features:
         gemini-3-pro,
       ]
     default: gpt-4.1
-  # Copilot workflows, behind the copilot_workflows account flag. They select and review records over several model
-  # calls, which needs a reasoning model.
+  # Copilot workflows, behind the copilot_workflows account flag. Reasoning stays off: at medium the model asked agents
+  # for a scope instead of reviewing, and reviews ran two to three times slower with no gain in the eval.
   copilot_workflows:
-    reasoning_effort: medium
+    reasoning_effort: none
     models:
       [
         gpt-4.1-mini,
