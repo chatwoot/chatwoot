@@ -366,6 +366,7 @@ const handleTest = async () => {
               @click="addParam"
             />
             <Button
+              v-if="!usesVerifiedEmail"
               type="button"
               sm
               ghost
