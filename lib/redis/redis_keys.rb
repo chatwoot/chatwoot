@@ -114,10 +114,8 @@ module Redis::RedisKeys
   DEVICE_VERIFICATION_ISSUANCE = 'DEVICE_VERIFICATION::ISSUANCE::%<user_id>d'.freeze
 
   ## Captain email verification (one-time code typed by the customer in a conversation)
-  # HMAC digest of the emailed code, consumed atomically on verification
+  # Email address the active code was sent to, with the HMAC digest of the code, consumed atomically on verification
   CAPTAIN_EMAIL_VERIFICATION_CODE = 'CAPTAIN::EMAIL_VERIFICATION::CODE::%<contact_inbox_id>d'.freeze
-  # Email address the active code was sent to
-  CAPTAIN_EMAIL_VERIFICATION_PENDING = 'CAPTAIN::EMAIL_VERIFICATION::PENDING::%<contact_inbox_id>d'.freeze
   # Wrong-code counter for the active code
   CAPTAIN_EMAIL_VERIFICATION_ATTEMPTS = 'CAPTAIN::EMAIL_VERIFICATION::ATTEMPTS::%<contact_inbox_id>d'.freeze
   # Rolling budget of codes sent from one contact inbox
