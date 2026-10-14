@@ -361,6 +361,30 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(result).to include('response' => 'conversation_handoff', 'error' => true)
       end
 
+      it 'does not retry when a newer customer message discarded the turn' do
+        responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+        service = described_class.new(
+          assistant: assistant,
+          conversation: conversation,
+          run_options: run_options(responding_to_message_id: responding_to_message.id)
+        )
+        run_complete_callbacks = []
+        allow(mock_runner).to receive(:on_run_complete) do |&callback|
+          run_complete_callbacks << callback
+          mock_runner
+        end
+        allow(mock_runner).to receive(:run) do
+          create(:message, conversation: conversation, message_type: :incoming)
+          run_complete_callbacks.each { |callback| callback.call('assistant', leaked_result, nil) }
+          leaked_result
+        end
+
+        service.generate_response(message_history: message_history)
+
+        expect(mock_runner).to have_received(:run).once
+        expect(service.response_discarded?).to be true
+      end
+
       [
         '{"commentary":null}',
         '{"commentary":""}',

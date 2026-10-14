@@ -59,7 +59,8 @@ class Captain::Assistant::AgentRunnerService
   def run_agents_with_leak_retry(message_history)
     run_agents(message_history)
     # A retry replays the whole turn, so it would repeat any tool that already ran, such as a custom HTTP POST.
-    run_agents(message_history) if leaked_tool_call? && !@tool_executed
+    # It is also wasted once a newer customer message has discarded this turn.
+    run_agents(message_history) if leaked_tool_call? && !@tool_executed && !response_discarded?
     raise LeakedToolCallError, 'Captain replied with tool call text' if leaked_tool_call?
   end
 
