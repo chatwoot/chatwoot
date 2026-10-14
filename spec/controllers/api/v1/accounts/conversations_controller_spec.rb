@@ -520,6 +520,32 @@ RSpec.describe 'Conversations API', type: :request do
           expect(response_data[:meta][:assignee][:name]).to eq(agent.name)
           expect(response_data[:meta][:team][:name]).to eq(team.name)
         end
+
+        it 'does not create a conversation with an assignee from another account' do
+          other_user = create(:user, account: create(:account))
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/conversations",
+                 headers: agent.create_new_auth_token,
+                 params: { source_id: contact_inbox.source_id, assignee_id: other_user.id },
+                 as: :json
+          end.not_to change(Conversation, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'does not create a conversation with a team from another account' do
+          other_team = create(:team, account: create(:account))
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/conversations",
+                 headers: agent.create_new_auth_token,
+                 params: { source_id: contact_inbox.source_id, team_id: other_team.id },
+                 as: :json
+          end.not_to change(Conversation, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
       end
     end
 

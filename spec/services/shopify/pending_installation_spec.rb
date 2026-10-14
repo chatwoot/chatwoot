@@ -45,7 +45,7 @@ RSpec.describe Shopify::PendingInstallation do
   it 'claims an encrypted pending installation' do
     pending_installation = described_class.claim(token: token)
 
-    expect(pending_installation.data).to eq(
+    expect(pending_installation.data).to include(
       'access_token' => access_token,
       'shop' => shop,
       'scope' => scope

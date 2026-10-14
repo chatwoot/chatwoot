@@ -12,7 +12,11 @@ vi.mock('vue-i18n', async importOriginal => ({
 }));
 vi.mock('dashboard/composables/useAccount', () => ({
   useAccount: () => ({
-    accountScopedRoute: (name, params) => ({ name, params }),
+    accountScopedRoute: (name, params, query) => ({
+      name,
+      params,
+      ...(query ? { query } : {}),
+    }),
   }),
 }));
 
@@ -24,7 +28,11 @@ const monitor = {
   paused_at: null,
 };
 const global = {
-  stubs: { Button: false, RouterLink: { template: '<a><slot /></a>' } },
+  stubs: {
+    Button: false,
+    HoverActions: false,
+    RouterLink: { template: '<a><slot /></a>' },
+  },
 };
 
 describe('MonitorListItem', () => {
@@ -62,6 +70,39 @@ describe('MonitorListItem', () => {
       name: 'monitor_reports_show',
       params: { monitorId: 3 },
     });
+  });
+
+  it('opens automation creation for an active monitor without opening its report', async () => {
+    const wrapper = shallowMount(MonitorListItem, {
+      props: { monitor, showActions: true, canCreateAutomation: true },
+      global,
+    });
+
+    await wrapper
+      .find('[aria-label="MONITORS.AUTOMATIONS.CREATE"]')
+      .trigger('click');
+
+    expect(state.push).toHaveBeenCalledOnce();
+    expect(state.push).toHaveBeenCalledWith({
+      name: 'automation_list',
+      params: {},
+      query: { monitor_id: 3 },
+    });
+  });
+
+  it('hides automation creation for a paused monitor', () => {
+    const wrapper = shallowMount(MonitorListItem, {
+      props: {
+        monitor: { ...monitor, paused_at: 1790000000 },
+        showActions: true,
+        canCreateAutomation: true,
+      },
+      global,
+    });
+
+    expect(
+      wrapper.find('[aria-label="MONITORS.AUTOMATIONS.CREATE"]').exists()
+    ).toBe(false);
   });
 
   it('shows the monitor icon in its color and falls back to the monitor icon', async () => {

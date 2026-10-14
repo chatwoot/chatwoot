@@ -1,5 +1,5 @@
 class ConversationMonitors::Scheduler
-  def self.request(conversation, invalidate: false, activity_at: Time.current, full_history: false)
+  def self.request(conversation, invalidate: false, activity_at: Time.current, full_history: false, live_activity_at: nil)
     # Record work even while disabled if monitors exist: reenabling must catch up.
     account = conversation.account
     return unless account # Async cleanup can destroy an account before its messages.
@@ -8,11 +8,11 @@ class ConversationMonitors::Scheduler
     return unless monitors.exists?
 
     item = ConversationMonitors::WorkItem.for_conversation(conversation)
-    item.request!(invalidate: invalidate, activity_at: activity_at, full_history: full_history)
+    item.request!(invalidate: invalidate, activity_at: activity_at, full_history: full_history, live_activity_at: live_activity_at)
     item
   end
 
-  def self.request_for_monitor(conversation, monitor, version)
+  def self.request_for_monitor(conversation, monitor, version, live_activity_at: nil)
     item = ConversationMonitors::WorkItem.for_conversation(conversation)
     item.with_lock do
       monitor.with_lock do
@@ -23,7 +23,7 @@ class ConversationMonitors::Scheduler
         return item if evaluation.status == 'matched'
 
         evaluation.update!(status: 'pending', requested_version: version, error_code: nil)
-        item.request!(full_history: true)
+        item.request!(full_history: true, live_activity_at: live_activity_at)
       end
     end
     item

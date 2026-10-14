@@ -287,6 +287,19 @@ describe('getStandardAttributeInputType', () => {
 });
 
 describe('generateAutomationPayload', () => {
+  it('keeps an empty condition list for a monitor trigger', () => {
+    const payload = {
+      name: 'Route refunds',
+      description: 'Match refunds',
+      event_name: 'monitor_matched',
+      monitor_id: 7,
+      conditions: [],
+      actions: [{ action_name: 'resolve_conversation', action_params: [] }],
+    };
+
+    expect(helpers.generateAutomationPayload(payload)).toEqual(payload);
+  });
+
   it('returns the resp default action model', () => {
     const testPayload = {
       name: 'Test',

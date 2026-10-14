@@ -1,7 +1,9 @@
 class ConversationMonitors::ContextBuilder
-  def initialize(conversation, message_limit: nil)
+  def initialize(conversation, message_limit: nil, message_cutoff_at: nil, exclude_automation_messages: false)
     @conversation = conversation
     @message_limit = message_limit
+    @message_cutoff_at = message_cutoff_at
+    @exclude_automation_messages = exclude_automation_messages
     @truncated = false
   end
 
@@ -33,6 +35,7 @@ class ConversationMonitors::ContextBuilder
 
   def public_text(message)
     return if message.content_attributes['deleted']
+    return if @exclude_automation_messages && message.content_attributes['automation_rule_id'].present?
 
     text = message.content_for_llm
     return if text.blank? || text == '[Attachment]'
@@ -57,6 +60,7 @@ class ConversationMonitors::ContextBuilder
   def each_message(&)
     scope = @conversation.messages.where(private: false, message_type: [:incoming, :outgoing])
                          .includes(:attachments).reorder(created_at: :desc, id: :desc)
+    scope = scope.where(created_at: ..@message_cutoff_at) if @message_cutoff_at
     batch_size = @message_limit ? @message_limit + 1 : 50
     loop do
       batch = scope.limit(batch_size).to_a

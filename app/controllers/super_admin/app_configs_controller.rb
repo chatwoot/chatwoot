@@ -29,7 +29,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   end
 
   def create
-    errors = shopify_partner_config_errors
+    errors = shopify_partner_config_errors + stripe_config_errors
     params['app_config'].each do |key, value|
       break if errors.any?
       next unless @allowed_configs.include?(key)
@@ -39,14 +39,18 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
       errors.concat(i.errors.full_messages) unless i.save
     end
 
-    if errors.any?
-      redirect_to super_admin_app_config_path(config: @config), alert: errors.join(', ')
-    else
-      redirect_to super_admin_settings_path, flash: success_flash
-    end
+    redirect_to super_admin_app_config_path(config: @config), flash: errors.any? ? { alert: errors.join(', ') } : success_flash
   end
 
   private
+
+  def stripe_config_errors
+    return [] unless @config == 'stripe'
+
+    values = InstallationConfig.where(name: @allowed_configs).to_h { |config| [config.name, config.value] }
+    values.merge!(params.fetch('app_config', {}).permit(*@allowed_configs).to_h)
+    Integrations::Stripe::Oauth.configuration_errors(url: values['STRIPE_APP_AUTHORIZE_URL'], key: values['STRIPE_APP_SECRET_KEY'])
+  end
 
   def set_config
     @config = params[:config] || 'general'
@@ -61,6 +65,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
       'microsoft' => %w[AZURE_APP_ID AZURE_APP_SECRET],
       'email' => %w[MAILER_INBOUND_EMAIL_DOMAIN ACCOUNT_EMAILS_LIMIT ACCOUNT_EMAILS_PLAN_LIMITS],
       'linear' => %w[LINEAR_CLIENT_ID LINEAR_CLIENT_SECRET],
+      'stripe' => %w[STRIPE_APP_AUTHORIZE_URL STRIPE_APP_SECRET_KEY],
       'slack' => %w[SLACK_CLIENT_ID SLACK_CLIENT_SECRET SLACK_SIGNING_SECRET],
       'instagram' => %w[INSTAGRAM_APP_ID INSTAGRAM_APP_SECRET INSTAGRAM_VERIFY_TOKEN INSTAGRAM_API_VERSION ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT],
       'tiktok' => %w[TIKTOK_APP_ID TIKTOK_APP_SECRET TIKTOK_API_VERSION],

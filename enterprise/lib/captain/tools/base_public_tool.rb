@@ -50,6 +50,10 @@ class Captain::Tools::BasePublicTool < Agents::Tool
     account_scoped(::Contact).find_by(id: contact_id)
   end
 
+  def find_contact_inbox(state)
+    ::ContactInbox.joins(:inbox).find_by(id: state&.dig(:contact_inbox, :id), inboxes: { account_id: @assistant.account_id })
+  end
+
   def safe_to_run_after_new_customer_message?
     false
   end
