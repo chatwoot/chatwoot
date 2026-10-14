@@ -20,30 +20,31 @@ const adjustHeight = () => {
   textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`;
 };
 
+const focus = () => textareaRef.value?.focus();
+
 const sendMessage = async () => {
   const sentMessage = message.value;
-  if (sentMessage.trim() && !isSending.value) {
-    isSending.value = true;
-    try {
-      const isSuccess = await props.onSend(sentMessage);
-      if (isSuccess) {
-        // The box stays editable while sending, so only the sent text is removed and anything
-        // typed or dictated in the meantime is kept.
-        message.value = message.value.startsWith(sentMessage)
-          ? message.value.slice(sentMessage.length).trimStart()
-          : message.value;
-        // Reset textarea height after sending
-        nextTick(() => {
-          adjustHeight();
-        });
-      }
-    } finally {
-      isSending.value = false;
+  if (!sentMessage.trim() || isSending.value) return;
+
+  isSending.value = true;
+  // A click on the send button moves focus to it, and the button stays disabled until the request ends.
+  focus();
+  // The box stays editable while sending, so from here on it only holds what is pasted or typed next.
+  message.value = '';
+  nextTick(adjustHeight);
+  try {
+    const isSuccess = await props.onSend(sentMessage);
+    if (!isSuccess) {
+      // The unsent message goes back in front of anything added while the request was in flight.
+      message.value = message.value
+        ? `${sentMessage}\n${message.value}`
+        : sentMessage;
+      nextTick(adjustHeight);
     }
+  } finally {
+    isSending.value = false;
   }
 };
-
-const focus = () => textareaRef.value?.focus();
 
 defineExpose({ focus });
 

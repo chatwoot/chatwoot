@@ -68,7 +68,7 @@ const { t } = useI18n();
 
 const chatContainer = ref(null);
 const copilotInput = ref(null);
-// Dictation tools paste into whatever has focus, so actions that move focus off the input hand it back.
+// A paste only lands in a focused field, so actions that move focus off the input hand it back.
 const focusInput = () => nextTick(() => copilotInput.value?.focus());
 // Within this distance of the end, the agent is following the chat and new messages keep it in view.
 const FOLLOW_DISTANCE_PX = 80;
