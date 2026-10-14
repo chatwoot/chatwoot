@@ -14,19 +14,24 @@ module SuperAdmin::UserDiagnosticsHelper
   PUSH_NOTIFICATION_TYPES = (PUSH_TYPE_ORDER + Notification::NOTIFICATION_TYPES.keys).uniq.freeze
   # Available only on accounts with the SLA feature.
   SLA_PUSH_TYPES = %i[sla_missed_first_response sla_missed_next_response sla_missed_resolution].freeze
+  # Available only on accounts that take calls and ring phones, as on the agent preferences screen.
+  CALL_PUSH_TYPES = %i[voice_call_missed].freeze
+  CALL_FEATURES = %w[channel_voice mobile_voice_push].freeze
   # Subscription attributes rendered on the page. Excludes push_token, device_id and web push keys.
   DEVICE_DETAIL_KEYS = %w[devicePlatform deviceName brandName apiLevel buildNumber].freeze
 
-  # SLA types are included only when an account has the feature.
+  # SLA and call types are included only when an account has their features.
   def push_types(settings)
-    return PUSH_NOTIFICATION_TYPES if settings.any? { |setting| sla_enabled?(setting) }
-
-    PUSH_NOTIFICATION_TYPES - SLA_PUSH_TYPES
+    types = PUSH_NOTIFICATION_TYPES
+    types -= SLA_PUSH_TYPES unless settings.any? { |setting| sla_enabled?(setting) }
+    types -= CALL_PUSH_TYPES unless settings.any? { |setting| calls_enabled?(setting) }
+    types
   end
 
   # Returns :on, :off, or :unavailable.
   def push_state(setting, type)
     return :unavailable if SLA_PUSH_TYPES.include?(type) && !sla_enabled?(setting)
+    return :unavailable if CALL_PUSH_TYPES.include?(type) && !calls_enabled?(setting)
 
     setting.public_send("push_#{type}?") ? :on : :off
   end
@@ -37,6 +42,14 @@ module SuperAdmin::UserDiagnosticsHelper
 
   def sla_enabled?(setting)
     setting.account&.feature_enabled?('sla')
+  end
+
+  def calls_enabled?(setting)
+    setting.account.present? && CALL_FEATURES.all? { |feature| setting.account.feature_enabled?(feature) }
+  end
+
+  def unavailable_reason(type)
+    t("super_admin.user_diagnostics.push_settings.#{CALL_PUSH_TYPES.include?(type) ? 'calls_unavailable' : 'sla_unavailable'}")
   end
 
   def push_type_label(type)

@@ -68,6 +68,7 @@ class Whatsapp::IncomingCallService
     return accept_outbound_call(call, payload) if call.outgoing?
 
     Rails.logger.info "[WHATSAPP CALL] Duplicate inbound connect for #{payload[:id]}; ignoring"
+    Voice::InboundCallBuilder.queue_ring(call)
   end
 
   def inbound_offer?(payload)
