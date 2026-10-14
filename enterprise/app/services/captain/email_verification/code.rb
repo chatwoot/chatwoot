@@ -9,10 +9,14 @@ class Captain::EmailVerification::Code
 
   pattr_initialize :contact_inbox
 
-  # A new code starts with a full set of attempts
+  # A new code starts with a full set of attempts. Both writes run together, so an overlapping store cannot clear the attempts of a newer code.
   def store(email, code)
-    ::Redis::Alfred.setex(code_key, stored_value(email, code), TTL)
-    ::Redis::Alfred.delete(attempts_key)
+    ::Redis::Alfred.with do |conn|
+      conn.multi do |transaction|
+        transaction.setex(code_key, TTL.to_i, stored_value(email, code))
+        transaction.del(attempts_key)
+      end
+    end
   end
 
   # Yields the address on a correct code, and returns :verified, :invalid_code, :locked or :expired
