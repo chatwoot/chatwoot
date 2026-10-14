@@ -5,7 +5,9 @@ RSpec.describe Captain::Conversation::MessageText do
   let(:conversation) { create(:conversation, account: account) }
   let(:html) do
     '<div style="display:none">Preheader</div><title>Old thread</title><style>p {}</style>' \
-      '<p>Bonjour <b>Camille</b>, <a href="/x">voir la commande</a></p><blockquote>Ancien message</blockquote>'
+      '<p>Bonjour <b>Camille</b>, <a href="/x">voir la commande</a></p><blockquote>Ancien message</blockquote>' \
+      '<div class="gmail_quote"><div class="gmail_attr">Le mardi, Support a écrit :</div></div>' \
+      '<div id="divRplyFwdMsg"><b>From:</b> Support</div><div>Old Outlook thread</div>'
   end
   let(:email) do
     create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'Bonjour Camille',

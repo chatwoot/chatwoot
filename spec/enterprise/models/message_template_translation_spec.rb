@@ -30,6 +30,16 @@ RSpec.describe Message do
     expect(message.translations).to be_nil
   end
 
+  it 'translates a template written in another language than the account' do
+    conversation.update!(additional_attributes: { 'conversation_language' => 'en' })
+    allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => 0, 'text' => 'Hello! How can we help you today?' }])
+    message = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :template,
+                               content: '¡Hola! Gracias por escribirnos. Nuestro equipo te responderá lo antes posible.')
+
+    expect(message.content).to eq('Hello! How can we help you today?')
+    expect(message.translations).to eq('es' => '¡Hola! Gracias por escribirnos. Nuestro equipo te responderá lo antes posible.')
+  end
+
   it 'skips templates when the contact already writes the account language' do
     conversation.update!(additional_attributes: { 'conversation_language' => 'en' })
     message = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :template, content: 'Hi there!')

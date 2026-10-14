@@ -3,6 +3,8 @@ class Captain::Conversation::MessageText
   # Quoted replies were translated as messages of their own; hidden preheaders and titles are never seen.
   TEXT_NODES = <<~XPATH.strip.freeze
     .//text()[not(ancestor::style or ancestor::script or ancestor::title or ancestor::blockquote
+      or ancestor::*[contains(@class, 'quote') or contains(@class, 'Quote')]
+      or (ancestor::* | preceding::*)[@id='divRplyFwdMsg' or @id='appendonsend']
       or ancestor::*[contains(translate(@style, ' ', ''), 'display:none')])]
   XPATH
 

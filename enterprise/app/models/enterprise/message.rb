@@ -35,7 +35,11 @@ module Enterprise::Message
   # Templates are translated before the insert because channels send the message as soon as it exists.
   def translate_template_content?
     template? && content.present? && account.auto_translate_enabled? && conversation.language.present? &&
-      !Captain::Llm::MessageTranslationService.same_language?(conversation.language, account.locale)
+      !Captain::Llm::MessageTranslationService.same_language?(conversation.language, template_language)
+  end
+
+  def template_language
+    @template_language ||= Captain::Conversation::DetectLanguageService.language_of(content) || account.locale
   end
 
   def translate_template_content
@@ -45,7 +49,7 @@ module Enterprise::Message
     translated_content = response[:message]&.first&.dig('text')
     return if response[:error] || translated_content.blank? || translated_content == content
 
-    self.translations = { account.locale => content }
+    self.translations = { template_language => content }
     self.content = translated_content
   end
 
