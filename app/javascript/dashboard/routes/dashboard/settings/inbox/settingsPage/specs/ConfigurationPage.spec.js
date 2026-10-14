@@ -1,6 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
 import ConfigurationPage from '../ConfigurationPage.vue';
+import SmtpSettings from '../../SmtpSettings.vue';
 
 vi.mock('dashboard/composables', () => ({
   useAlert: vi.fn(),
@@ -41,6 +42,20 @@ const mountComponent = inbox =>
   });
 
 describe('ConfigurationPage', () => {
+  it.each([false, true])(
+    'shows SMTP settings for email inboxes when IMAP is %s',
+    imapEnabled => {
+      const inbox = {
+        channel_type: 'Channel::Email',
+        imap_enabled: imapEnabled,
+      };
+      const wrapper = mountComponent(inbox);
+
+      expect(wrapper.findComponent(SmtpSettings).exists()).toBe(true);
+      expect(wrapper.findComponent(SmtpSettings).props('inbox')).toEqual(inbox);
+    }
+  );
+
   it('shows the WhatsApp reconfigure option for embedded signup inboxes without checking account feature flags', () => {
     const wrapper = mountComponent({
       channel_type: 'Channel::Whatsapp',

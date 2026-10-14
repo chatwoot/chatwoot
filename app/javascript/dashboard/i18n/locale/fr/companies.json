@@ -12,7 +12,7 @@
       }
     },
     "ORDER": {
-      "LABEL": "Ordre de tri",
+      "LABEL": "Ordre",
       "OPTIONS": {
         "ASCENDING": "Ascendant",
         "DESCENDING": "Décroissant"
@@ -147,7 +147,7 @@
   },
   "COMPANIES_LAYOUT": {
     "PAGINATION_FOOTER": {
-      "SHOWING": "Affichage {startItem} - {endItem} sur {totalItems} société | Affichage {startItem} - {endItem} sur {totalItems} sociétés"
+      "SHOWING": "Affichage de {startItem} à {endItem} sur {totalItems} société | Affichage de {startItem} à {endItem} sur {totalItems} sociétés"
     }
   }
 }

@@ -39,7 +39,8 @@
       "NO_AGENT": "No agent answered this call",
       "NO_CONTACT_ANSWER": "Contact did not answer",
       "FAILED": "This call could not be connected",
-      "YESTERDAY": "Вчера"
+      "YESTERDAY": "Вчера",
+      "DELETED_CONTACT": "Deleted contact"
     }
   }
 }

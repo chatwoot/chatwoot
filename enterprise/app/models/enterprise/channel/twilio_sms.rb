@@ -49,6 +49,14 @@ module Enterprise::Channel::TwilioSms
     end
   end
 
+  def basic_auth_credentials
+    if api_key_sid.present? && api_key_secret.present?
+      [api_key_sid, api_key_secret]
+    else
+      super
+    end
+  end
+
   private
 
   def voice_requires_phone_number

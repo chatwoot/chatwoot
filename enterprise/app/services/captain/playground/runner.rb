@@ -18,11 +18,14 @@ class Captain::Playground::Runner
   private
 
   def agent_runner(configuration, run_details)
-    Captain::Assistant::AgentRunnerService.new(
-      assistant: @assistant,
+    run_options = Captain::Assistant::AgentRunnerService::RunOptions.new(
       callbacks: run_details.callbacks,
       source: 'playground',
       runtime_configuration: configuration
+    )
+    Captain::Assistant::AgentRunnerService.new(
+      assistant: @assistant,
+      run_options: run_options
     )
   end
 end

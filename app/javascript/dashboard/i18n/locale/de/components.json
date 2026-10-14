@@ -69,9 +69,14 @@
     "DIVIDER": "Trennlinie"
   },
   "VIDEO_EMBED": {
+    "TAB_EMBED": "Embed link",
+    "TAB_UPLOAD": "Upload",
     "PLACEHOLDER": "Videolink einfügen",
     "HINT": "Funktioniert mit Links zu YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen und GuideJar sowie mit mp4-Links",
     "ERROR": "Das sieht nicht nach einem unterstützten Videolink aus",
+    "UPLOAD_LABEL": "Choose a video file",
+    "UPLOAD_HINT": "MP4 · up to {size}MB · or drop it here",
+    "UPLOAD_ERROR": "Only MP4 files can be uploaded",
     "ADD": "Einbetten",
     "CANCEL": "Abbrechen"
   }

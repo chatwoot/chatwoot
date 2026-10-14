@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "Kérjük válassz egy beszélgetést a bal sávból",
     "CSAT_REPLY_MESSAGE": "Kérlek értékeld a beszélgetést",
     "404": "Elnézést, a beszélgetés nem található. Kérlek, próbáld újra",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "Üzenet törölve",
     "FAIL_DELETE_MESSSAGE": "Nem tudtad törölni az üzenetet! Próbáld újra",
     "NO_RESPONSE": "Nincs válasz",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "Ügynökök",
       "TEAMS": "Csapatok"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "Leírás",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Emoji keresése",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "Mind"
+        },
+        "AVAILABILITY": "Elérhetőség",
+        "ROLE": "Agent Type",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "Engedélyezve",
+        "DISABLED": "Letiltva",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Halasztás eddig",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} fő",
     "TOTAL_PARTICIPANTS_TEXT": "+{count} fő vesz részt.",
     "TOTAL_PARTICIPANT_TEXT": "+{count} fő vesz részt.",
-    "NO_PARTICIPANTS_TEXT": "Nincs részvevő!.",
+    "NO_PARTICIPANTS_TEXT": "Nincs részvevő!",
     "WATCH_CONVERSATION": "Csatlakozás a beszélgetéshez",
     "YOU_ARE_WATCHING": "Te részt veszel",
     "API": {

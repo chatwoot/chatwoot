@@ -60,7 +60,7 @@ RSpec.describe Voice::Provider::Twilio::RecordingAttachmentService do
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
 
     allow(SafeFetch).to receive(:fetch)
-      .with(recording_url, http_basic_authentication: %w[AC_account_sid auth_token_value],
+      .with(recording_url, http_basic_authentication: [channel.api_key_sid, channel.api_key_secret],
                            allowed_content_type_prefixes: %w[audio/])
       .and_yield(safe_fetch_result)
   end

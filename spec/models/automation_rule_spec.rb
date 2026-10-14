@@ -138,6 +138,131 @@ RSpec.describe AutomationRule do
     end
   end
 
+  describe 'Captain conditions' do
+    let(:account) { create(:account) }
+    let(:rule) do
+      build(:automation_rule, account: account, conditions: [
+              { 'attribute_key' => 'captain_condition', 'filter_operator' => 'detects',
+                'values' => ['the customer wants a refund'], 'query_operator' => nil }
+            ])
+    end
+
+    it 'is allowed when the account has the Captain Classifier feature' do
+      account.enable_features!('captain_classifier')
+
+      expect(rule).to be_valid
+    end
+
+    it 'is rejected without the feature' do
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions require the Captain Classifier feature.')
+    end
+
+    it 'is rejected with an operator Captain does not support' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['filter_operator'] = 'contains'
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions support only the detects and does_not_detect operators.')
+    end
+
+    it 'is rejected without a description of what to detect' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = ['']
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions need exactly one description of what to detect.')
+    end
+
+    it 'is rejected when the description is not given as a list' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = 'the customer wants a refund'
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions need exactly one description of what to detect.')
+    end
+
+    it 'is rejected with more than one description' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = ['the customer wants a refund', 'the customer is angry']
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions need exactly one description of what to detect.')
+    end
+
+    it 'is rejected when the description is not text' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = [42]
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions need exactly one description of what to detect.')
+    end
+
+    it 'accepts a description at the length limit' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = ['a' * 500]
+
+      expect(rule).to be_valid
+    end
+
+    it 'is rejected with a description over the length limit' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = ['a' * 501]
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain condition descriptions can have at most 500 characters.')
+    end
+
+    context 'when the feature is revoked after the rule was saved' do
+      let(:status_condition) do
+        { 'attribute_key' => 'status', 'filter_operator' => 'equal_to', 'values' => ['open'], 'query_operator' => 'AND' }
+      end
+
+      before do
+        account.enable_features!('captain_classifier')
+        rule.save!
+        account.disable_features!('captain_classifier')
+      end
+
+      it 'can still be deactivated' do
+        expect(rule.update(active: false)).to be(true)
+      end
+
+      it 'keeps its Captain condition while the rest of the rule changes' do
+        rule.assign_attributes(name: 'Renamed', conditions: [status_condition, rule.conditions.first])
+
+        expect(rule).to be_valid
+      end
+
+      it 'can drop its Captain condition' do
+        rule.conditions = [status_condition.merge('query_operator' => nil)]
+
+        expect(rule).to be_valid
+      end
+
+      it 'cannot change what Captain detects' do
+        rule.conditions = [rule.conditions.first.merge('values' => ['the customer is angry'])]
+
+        expect(rule).not_to be_valid
+        expect(rule.errors[:conditions]).to include('Captain conditions require the Captain Classifier feature.')
+      end
+
+      it 'cannot gain another Captain condition' do
+        rule.conditions = [rule.conditions.first.merge('query_operator' => 'OR'),
+                           rule.conditions.first.merge('values' => ['the customer is angry'])]
+
+        expect(rule).not_to be_valid
+      end
+
+      it 'cannot gain a copy of its saved Captain condition' do
+        rule.conditions = [rule.conditions.first.merge('query_operator' => 'OR'), rule.conditions.first]
+
+        expect(rule).not_to be_valid
+        expect(rule.errors[:conditions]).to include('Captain conditions require the Captain Classifier feature.')
+      end
+    end
+  end
+
   describe 'execution_delay validations' do
     let(:rule) { build(:automation_rule, account: create(:account)) }
 

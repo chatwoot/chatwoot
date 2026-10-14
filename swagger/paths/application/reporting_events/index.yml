@@ -3,6 +3,7 @@ tags:
 operationId: get-account-reporting-events
 summary: Account Reporting Events
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: Get paginated reporting events for the account. This endpoint returns reporting events such as first response time, resolution time, and other metrics. Only administrators can access this endpoint. Results are paginated with 25 items per page.
 parameters:

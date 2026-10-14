@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "Пожалуйста, выберите диалог из левой панели",
     "CSAT_REPLY_MESSAGE": "Пожалуйста, оцените диалог",
     "404": "Мы не можем найти диалог. Пожалуйста, попробуйте еще раз",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении TikTok.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
     "FAIL_DELETE_MESSSAGE": "Не удалось удалить сообщение! Попробуйте еще раз",
     "NO_RESPONSE": "Нет ответа",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "Операторы",
       "TEAMS": "Команды"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "Описание",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Поиск эмодзи",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "Все"
+        },
+        "AVAILABILITY": "Доступность",
+        "ROLE": "Тип оператора",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "Включено",
+        "DISABLED": "Выключено",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Отложить до",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} другие",
     "TOTAL_PARTICIPANTS_TEXT": "{count} человек участвуют.",
     "TOTAL_PARTICIPANT_TEXT": "{count} человек участвуют.",
-    "NO_PARTICIPANTS_TEXT": "Никто не участвует!.",
+    "NO_PARTICIPANTS_TEXT": "Никто не участвует!",
     "WATCH_CONVERSATION": "Присоединиться к диалогу",
     "YOU_ARE_WATCHING": "Вы участвуете",
     "API": {

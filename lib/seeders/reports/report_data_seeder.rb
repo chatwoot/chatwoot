@@ -51,7 +51,7 @@ class Seeders::Reports::ReportDataSeeder
   END_DATE = Time.current
 
   def initialize(account:)
-    raise 'Account Seeding is not allowed.' unless ENV.fetch('ENABLE_ACCOUNT_SEEDING', !Rails.env.production?)
+    raise 'Account Seeding is not allowed.' unless Seeders::AccountSeeder.allowed?
 
     @account = account
     @teams = []
@@ -238,7 +238,7 @@ class Seeders::Reports::ReportDataSeeder
 
   # One assistant, bound to a single web inbox (the first one), as the overview page expects.
   def create_assistant
-    @account.enable_features!('captain_integration', 'captain_integration_v2')
+    @account.enable_features!('captain_integration')
     @assistant_inbox = @inboxes.first
     @assistant = Captain::Assistant.create!(
       account: @account,

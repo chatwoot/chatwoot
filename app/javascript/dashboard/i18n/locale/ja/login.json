@@ -17,7 +17,7 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Googleでログイン",
-      "BUSINESS_ACCOUNTS_ONLY": "会社のメールアドレスを使用してログインしてください",
+      "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
       "NO_ACCOUNT_FOUND": "このメールアドレスに該当するアカウントが見つかりませんでした。"
     },
     "FORGOT_PASSWORD": "パスワードをお忘れですか?",

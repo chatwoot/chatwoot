@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Ekki í boði",
     "EMAIL_ADDRESS": "Netfang",
     "PHONE_NUMBER": "Símanúmer",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Einkenni",
     "COPY_SUCCESSFUL": "Afritað á klemmuspjald",
     "COMPANY": "Fyrirtæki",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

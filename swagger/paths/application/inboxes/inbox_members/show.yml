@@ -4,6 +4,7 @@ operationId: get-inbox-members
 summary: List Agents in Inbox
 description: Get Details of Agents in an Inbox
 security:
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - $ref: '#/components/parameters/inbox_id'

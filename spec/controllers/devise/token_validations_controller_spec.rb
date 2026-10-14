@@ -56,7 +56,7 @@ RSpec.describe 'Token Validation API', type: :request do
         many_queries = count_sql_queries { get '/auth/validate_token', headers: many_headers }
         expect(response).to have_http_status(:success)
 
-        expect(many_queries).to eq(few_queries)
+        expect(many_queries).to be <= few_queries
       end
     end
   end

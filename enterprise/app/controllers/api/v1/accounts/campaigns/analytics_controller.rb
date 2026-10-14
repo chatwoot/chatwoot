@@ -29,7 +29,9 @@ class Api::V1::Accounts::Campaigns::AnalyticsController < Api::V1::Accounts::Bas
   end
 
   def ensure_whatsapp_campaign_analytics_enabled!
-    return if @campaign.one_off? && @campaign.inbox.inbox_type == 'Whatsapp' && Current.account.feature_enabled?(:whatsapp_campaign)
+    raise Pundit::NotAuthorizedError unless Current.account.feature_enabled?(:campaign_analytics)
+
+    return if @campaign.one_off? && @campaign.inbox.inbox_type == 'Whatsapp' && Current.account.feature_enabled?(:campaigns)
 
     raise Pundit::NotAuthorizedError
   end

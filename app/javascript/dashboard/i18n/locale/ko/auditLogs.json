@@ -7,6 +7,37 @@
     "LEARN_MORE": "감사 로그에 대해 알아보기",
     "SEARCH_404": "이 쿼리와 일치하는 항목이 없습니다.",
     "SIDEBAR_TXT": "<p><b>감사 로그</b> </p><p> 감사 로그는 Chatwoot 시스템의 이벤트 및 작업에 대한 기록입니다. </p>",
+    "COUNT": "{n} event | {n} events",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Search by name or email",
+      "ALL_EVENTS": "All events",
+      "DATE_RANGE": "Date range",
+      "CLEAR_ALL": "필터 초기화",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Access",
+        "AGENTS_TEAMS": "Agents & teams",
+        "CONFIGURATION": "구성",
+        "CONVERSATIONS": "대화"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Sign in / sign out",
+        "AGENTS": "에이전트",
+        "TEAMS": "팀",
+        "TEAM_MEMBERS": "Team members",
+        "INBOX_MEMBERS": "Inbox collaborators",
+        "ACCOUNT": "계정 설정",
+        "INBOXES": "받은 편지함",
+        "WEBHOOKS": "Webhooks",
+        "AUTOMATION_RULES": "Automation rules",
+        "MACROS": "매크로",
+        "CONVERSATION_DELETIONS": "Conversation deletions",
+        "MESSAGE_DELETIONS": "Message deletions"
+      },
+      "SORT": {
+        "NEWEST": "Newest first",
+        "OLDEST": "Oldest first"
+      }
+    },
     "LIST": {
       "404": "이 계정에 사용 가능한 감사 로그가 없습니다.",
       "TITLE": "감사 로그 관리",
@@ -72,6 +103,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName}님이 대화 #{id}을(를) 삭제했습니다"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
     }
   }
 }

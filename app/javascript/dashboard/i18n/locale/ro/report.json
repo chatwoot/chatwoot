@@ -23,12 +23,14 @@
         "NAME": "Primul timp de răspuns",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Primul timp de răspuns este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
         "DESC": "(Medie)",
         "INFO_TEXT": "Numărul total de conversații utilizate pentru calcul:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Timpul de rezolvare este {metricValue} (pe baza conversațiilor {conversationCount})"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
@@ -544,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Prezentare generală",
     "LIVE": "Live",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Deschiderea conversațiilor",
       "LOADING_MESSAGE": "Încărcarea valorilor conversației...",

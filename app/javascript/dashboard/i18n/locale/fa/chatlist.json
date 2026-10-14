@@ -45,12 +45,10 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "ایجاد شده",
         "OLDEST": "ایجاد شده در:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "آخرین فعالیت:",
-        "ACTIVE": "آخرین فعالیت"
+        "NOT_ACTIVE": "آخرین فعالیت:"
       }
     },
     "SORT_ORDER_ITEMS": {

@@ -19,10 +19,10 @@ module Concerns::Toolable
       define_method(:name) { tool_slug }
 
       custom_tool_record.param_schema.each do |param_def|
-        param param_def['name'].to_sym,
-              type: param_def['type'],
-              desc: param_def['description'],
-              required: param_def.fetch('required', true)
+        parameter param_def['name'].to_sym,
+                  type: param_def['type'],
+                  description: param_def['description'],
+                  required: param_def.fetch('required', true)
       end
     end
 
@@ -37,7 +37,7 @@ module Concerns::Toolable
   end
 
   def build_request_url(params)
-    return endpoint_url if endpoint_url.blank? || endpoint_url.exclude?('{{')
+    return endpoint_url if endpoint_url.blank? || (endpoint_url.exclude?('{{') && endpoint_url.exclude?('{%'))
 
     render_template(endpoint_url, params)
   end
@@ -107,10 +107,13 @@ module Concerns::Toolable
 
   private
 
+  # Syntax errors fail the call. Missing variables render as nil, so templates can branch on optional
+  # params and response fields ({% if response.error %}, | default:). strict_variables would not fail
+  # the call here, since render does not raise, but it blanks any block that looks up a missing key.
   def render_template(template, context)
     liquid_template = Liquid::Template.parse(template, error_mode: :strict)
-    liquid_template.render(context.deep_stringify_keys, registers: {}, strict_variables: true, strict_filters: true)
-  rescue Liquid::SyntaxError, Liquid::UndefinedVariable, Liquid::UndefinedFilter => e
+    liquid_template.render(context.deep_stringify_keys, registers: {}, strict_filters: true)
+  rescue Liquid::SyntaxError => e
     Rails.logger.error("Liquid template error: #{e.message}")
     raise "Template rendering failed: #{e.message}"
   end

@@ -5,6 +5,7 @@ get:
   description: Listing all the resolved contacts with pagination (Page size = 15). Resolved contacts are the ones with a value for identifier, email or phone number
   summary: List Contacts
   security:
+    - userBearerAuth: []
     - userApiKey: []
   parameters:
     - $ref: '#/components/parameters/account_id'
@@ -31,6 +32,7 @@ post:
   description: Create a new Contact
   summary: Create Contact
   security:
+    - userBearerAuth: []
     - userApiKey: []
   parameters:
     - $ref: '#/components/parameters/account_id'

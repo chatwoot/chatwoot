@@ -23,12 +23,14 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Kliento laukimo laikas",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
@@ -544,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Apžvalga",
     "LIVE": "Tiesiogiai",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Atidaryti pokalbius",
       "LOADING_MESSAGE": "Įkeliama pokalbio metrika...",
