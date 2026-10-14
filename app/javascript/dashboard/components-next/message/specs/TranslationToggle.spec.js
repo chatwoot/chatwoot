@@ -116,6 +116,15 @@ describe('TranslationToggle', () => {
     expect(grouped.find('span').exists()).toBe(false);
   });
 
+  it('warns when a reply could not be translated', () => {
+    const wrapper = mountToggle({
+      messageType: MESSAGE_TYPES.OUTGOING,
+      state: { failed: true },
+    });
+
+    expect(wrapper.text()).toBe('CONVERSATION.TRANSLATION_FAILED');
+  });
+
   it('keeps the plain toggle when auto translate is off', () => {
     const wrapper = mountToggle({ hasTranslations: true, language: '' });
 

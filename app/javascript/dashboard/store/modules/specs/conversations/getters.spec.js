@@ -969,11 +969,13 @@ describe('#getters', () => {
 
       expect(translationState(1)).toEqual({
         pending: false,
+        failed: false,
         sameLanguage: true,
         sourceLanguage: 'French',
       });
       expect(translationState(2)).toEqual({
         pending: false,
+        failed: false,
         sameLanguage: false,
         sourceLanguage: 'French',
       });
@@ -1006,6 +1008,22 @@ describe('#getters', () => {
       expect(translationState(1)).toMatchObject({
         pending: false,
         sameLanguage: true,
+      });
+    });
+
+    it('reports a reply the backend could not translate', () => {
+      const translationState = stateFor([
+        {
+          id: 1,
+          message_type: 1,
+          content: 'Hi',
+          content_attributes: { translation_failed: true },
+        },
+      ]);
+
+      expect(translationState(1)).toMatchObject({
+        failed: true,
+        pending: false,
       });
     });
 

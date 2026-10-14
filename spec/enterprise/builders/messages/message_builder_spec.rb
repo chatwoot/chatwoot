@@ -73,18 +73,29 @@ RSpec.describe Messages::MessageBuilder do
       .to raise_error(StandardError, 'Captain AI API key is not configured.')
   end
 
-  it 'sends the reply as written when the translator fails' do
+  it 'sends the reply as written and flags it when the translator fails' do
     allow(llm_service).to receive(:perform).and_return(error: 'You are out of Copilot credits.', error_code: 429)
     message = described_class.new(user, conversation, params).perform
 
     expect(message.content).to eq('Hello there')
-    expect(message.translations).to be_nil
+    expect(message.content_attributes).to eq('translation_failed' => true)
   end
 
-  it 'sends the reply as written when the translator returns nothing' do
+  it 'sends the reply as written and flags it when the translator returns nothing' do
     allow(llm_service).to receive(:perform).and_return(message: [])
+    message = described_class.new(user, conversation, params).perform
 
-    expect(described_class.new(user, conversation, params).perform.content).to eq('Hello there')
+    expect(message.content).to eq('Hello there')
+    expect(message.content_attributes).to eq('translation_failed' => true)
+  end
+
+  it 'flags a reply the translator hands back unchanged although it is in another language' do
+    typed = ActionController::Parameters.new(content: 'This one takes four seconds to load before it is ready.')
+    allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => 0, 'text' => 'This one takes four seconds to load before it is ready.' }])
+    message = described_class.new(user, conversation, typed).perform
+
+    expect(message.content).to eq('This one takes four seconds to load before it is ready.')
+    expect(message.content_attributes).to eq('translation_failed' => true)
   end
 
   describe 'messages that are never translated' do

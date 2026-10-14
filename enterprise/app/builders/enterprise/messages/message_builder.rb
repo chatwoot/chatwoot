@@ -18,13 +18,14 @@ module Enterprise::Messages::MessageBuilder
     return params unless auto_translate?(params)
 
     content = process_liquid_in_email_body(params[:content])
-    translated_content = translate(content)
-    return params if translated_content == content
+    translated = translate(content)
+    # A short reply the model hands back unchanged was already in the contact language; a detected one it could not translate.
+    return params if translated == content && detected_language.blank?
 
-    params.merge(
-      content: translated_content,
-      content_attributes: (params[:content_attributes] || {}).merge(translations: { source_locale => content })
-    )
+    attributes = params[:content_attributes] || {}
+    return params.merge(content_attributes: attributes.merge(translation_failed: true)) if translated.blank? || translated == content
+
+    params.merge(content: translated, content_attributes: attributes.merge(translations: { source_locale => content }))
   end
 
   def auto_translate?(params)
@@ -52,16 +53,21 @@ module Enterprise::Messages::MessageBuilder
     # A Captain that is disabled or has no key is a setup bug and must surface; a quota or model failure must not stop replies.
     raise StandardError, response[:error] if MISCONFIGURED_CAPTAIN_CODES.include?(response[:error_code])
 
-    translated_content = response[:message]&.first&.dig('text') unless response[:error]
-    return translated_content if translated_content.present?
+    translated = response[:message]&.first&.dig('text') unless response[:error]
+    return translated if translated.present?
 
     Rails.logger.warn("[AutoTranslate] reply sent as written in conversation #{@conversation.display_id}: #{response[:error] || 'empty translation'}")
-    content
+    nil
+  end
+
+  def detected_language
+    return @detected_language if defined?(@detected_language)
+
+    @detected_language = Captain::Conversation::DetectLanguageService.language_of(@params[:content])
   end
 
   # The language the agent actually wrote in; the profile language is the fallback for texts too short to detect.
   def source_locale
-    @source_locale ||= Captain::Conversation::DetectLanguageService.language_of(@params[:content]) ||
-                       @user.ui_settings['locale'].presence || @account.locale
+    detected_language || @user.ui_settings['locale'].presence || @account.locale
   end
 end

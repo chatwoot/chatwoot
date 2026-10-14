@@ -109,7 +109,7 @@ const morphHeight = () => {
               <FormattedContent :content="renderContent" />
             </div>
             <TranslationToggle
-              class="mt-1.5"
+              class="mt-0.5"
               :showing-original="showingOriginal"
               @toggle="handleSeeOriginal"
             />

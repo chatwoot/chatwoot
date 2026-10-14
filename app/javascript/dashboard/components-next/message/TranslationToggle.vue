@@ -23,7 +23,7 @@ const translationState = useMapGetter('getMessageTranslationState');
 const state = computed(() => translationState.value(id.value));
 // "Already in X" reads once per group, on its last message, like the timestamp.
 const visible = computed(() => {
-  if (state.value.pending) return true;
+  if (state.value.pending || state.value.failed) return true;
   if (state.value.sameLanguage) return !shouldGroupWithNext.value;
   return hasTranslations.value;
 });
@@ -46,7 +46,12 @@ const showsTranslation = computed(() =>
     class="text-xs text-n-slate-11 inline-flex items-center gap-1.5 select-none"
   >
     <Icon
-      v-if="autoTranslate.language"
+      v-if="state.failed"
+      icon="i-lucide-triangle-alert"
+      class="size-3 text-n-amber-11"
+    />
+    <Icon
+      v-else-if="autoTranslate.language"
       icon="i-lucide-sparkles"
       class="size-3 text-n-iris-9"
       :class="{ 'animate-twinkle motion-reduce:animate-none': state.pending }"
@@ -62,6 +67,9 @@ const showsTranslation = computed(() =>
             })
           : $t('CONVERSATION.TRANSLATING')
       }}
+    </span>
+    <span v-else-if="state.failed" class="text-n-amber-11">
+      {{ $t('CONVERSATION.TRANSLATION_FAILED') }}
     </span>
     <span v-else-if="state.sameLanguage">
       {{

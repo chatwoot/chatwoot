@@ -253,6 +253,7 @@ const getters = {
 
     return {
       pending: active && untranslated && waiting,
+      failed: enabled && !!attributes.translation_failed,
       sameLanguage: enabled && incoming && writtenInAgentLanguage,
       sourceLanguage: attributes.source_language
         ? languageName(attributes.source_language)
