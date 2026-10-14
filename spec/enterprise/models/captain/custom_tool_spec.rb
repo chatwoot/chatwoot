@@ -323,82 +323,61 @@ RSpec.describe Captain::CustomTool, type: :model do
     end
   end
 
-  describe 'session email' do
+  describe 'verified parameters' do
     let(:account) { create(:account) }
-    let(:bound_url) { 'https://api.example.com/customers?email={{ session.verified_email | url_encode }}' }
+    let(:email_param) { { 'name' => 'email', 'type' => 'string', 'description' => 'Customer email', 'source' => 'verified.email' } }
+    let(:identifier_param) { { 'name' => 'user_id', 'type' => 'string', 'description' => 'Customer ID', 'source' => 'verified.identifier' } }
+    let(:order_param) { { 'name' => 'order_id', 'type' => 'string', 'description' => 'Order ID' } }
 
-    it 'requires email verification when the URL uses the session email' do
-      tool = build(:captain_custom_tool, account: account, endpoint_url: bound_url)
-
-      expect(tool.uses_session_email?).to be(true)
-      expect(tool.requires_email_verification?).to be(true)
-    end
-
-    it 'requires email verification when the request body uses the session email' do
-      tool = build(:captain_custom_tool, :with_post, account: account, request_template: '{ "email": "{{session.verified_email}}" }')
-
-      expect(tool.requires_email_verification?).to be(true)
-    end
-
-    it 'requires email verification when a tag uses the session email' do
-      tool = build(:captain_custom_tool, :with_post, account: account,
-                                                     request_template: '{% if session.verified_email %}{ "known": true }{% endif %}')
-
-      expect(tool.requires_email_verification?).to be(true)
-    end
-
-    it 'requires email verification when the session email is read with bracket syntax' do
-      tool = build(:captain_custom_tool, account: account, endpoint_url: 'https://api.example.com/c?email={{ session["verified_email"] }}')
-
-      expect(tool.requires_email_verification?).to be(true)
-    end
-
-    it 'requires email verification when the session is read through another variable' do
-      tool = build(:captain_custom_tool, :with_post, account: account,
-                                                     request_template: '{% assign s = session %}{ "email": "{{ s.verified_email }}" }')
-
-      expect(tool.requires_email_verification?).to be(true)
-    end
-
-    it 'does not require email verification for a property or a text value named session' do
-      ['https://api.example.com/c?s={{ order.session }}', 'https://api.example.com/c?s={{ "session" }}',
-       "https://api.example.com/c?s={{ 'session' | upcase }}", 'https://api.example.com/c?s={{ "customer session value" }}',
-       "https://api.example.com/c?s={{ 'the session' | append: order_id }}"].each do |url|
-        tool = build(:captain_custom_tool, account: account, endpoint_url: url)
-
-        expect(tool.requires_email_verification?).to be(false), "expected #{url} not to count"
-      end
-    end
-
-    it 'does not require email verification for the word session outside a template' do
-      tool = build(:captain_custom_tool, account: account, endpoint_url: 'https://api.example.com/session/{{ session_id }}',
-                                         param_schema: [{ 'name' => 'session_id', 'type' => 'string', 'description' => 'An ID', 'required' => true }])
+    it 'accepts the verified email and the verified identifier as sources' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [email_param, identifier_param])
 
       expect(tool).to be_valid
-      expect(tool.requires_email_verification?).to be(false)
+      expect(tool.verified_sources).to contain_exactly('verified.email', 'verified.identifier')
     end
 
-    it 'ignores the request body of a GET tool, which is never sent' do
-      tool = build(:captain_custom_tool, account: account, http_method: 'GET', request_template: '{ "email": "{{ session.verified_email }}" }')
-
-      expect(tool.uses_session_email?).to be(false)
-      expect(tool.requires_email_verification?).to be(false)
-    end
-
-    it 'does not require email verification for a tool that takes the email as a parameter' do
-      tool = build(:captain_custom_tool, account: account, endpoint_url: 'https://api.example.com/customers?email={{ verified_email }}')
-
-      expect(tool.uses_session_email?).to be(false)
-      expect(tool.requires_email_verification?).to be(false)
-    end
-
-    it 'is invalid when a parameter is named session' do
-      tool = build(:captain_custom_tool, account: account, param_schema: [
-                     { 'name' => 'session', 'type' => 'string', 'description' => 'A session', 'required' => true }
-                   ])
+    it 'is invalid when a parameter that takes a verified value is not a string' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [email_param.merge('type' => 'number')])
 
       expect(tool).not_to be_valid
-      expect(tool.errors[:param_schema]).to include('cannot use the reserved name session')
+    end
+
+    it 'is invalid with an unknown source' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [email_param.merge('source' => 'verified.phone')])
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'requires email verification when a parameter takes the verified email' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [email_param])
+
+      expect(tool.requires_email_verification?).to be(true)
+    end
+
+    it 'does not require email verification for a parameter that takes the verified identifier' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [identifier_param])
+
+      expect(tool.requires_email_verification?).to be(false)
+    end
+
+    it 'has no verified sources when every parameter comes from the model' do
+      expect(build(:captain_custom_tool, account: account, param_schema: [order_param]).verified_sources).to be_empty
+    end
+
+    describe '#with_verified_values' do
+      let(:tool) { build(:captain_custom_tool, account: account, param_schema: [email_param, identifier_param, order_param]) }
+      let(:verified_values) { { 'verified.email' => 'jane@example.com', 'verified.identifier' => 'user_42' } }
+
+      it 'fills each verified parameter from the matching value' do
+        expect(tool.with_verified_values({ order_id: '7' }, verified_values))
+          .to eq({ 'order_id' => '7', 'email' => 'jane@example.com', 'user_id' => 'user_42' })
+      end
+
+      it 'does not let the model replace a verified value' do
+        [{ email: 'victim@example.com' }, { 'email' => 'victim@example.com' }].each do |params|
+          expect(tool.with_verified_values(params, verified_values)['email']).to eq('jane@example.com')
+        end
+      end
     end
   end
 
@@ -541,21 +520,6 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(tool.build_request_url({})).to eq('https://api.example.com/orders')
       end
 
-      it 'renders the session email supplied by Chatwoot' do
-        tool = create(:captain_custom_tool, account: account,
-                                            endpoint_url: 'https://api.example.com/c?email={{ session.verified_email | url_encode }}')
-
-        expect(tool.build_request_url({}, { verified_email: 'jane@example.com' })).to eq('https://api.example.com/c?email=jane%40example.com')
-      end
-
-      it 'does not let a parameter replace the session email' do
-        tool = create(:captain_custom_tool, account: account, endpoint_url: 'https://api.example.com/c?email={{ session.verified_email }}')
-
-        [{ session: { verified_email: 'victim@example.com' } }, { 'session' => { 'verified_email' => 'victim@example.com' } }].each do |params|
-          expect(tool.build_request_url(params, { verified_email: 'jane@example.com' })).to eq('https://api.example.com/c?email=jane@example.com')
-        end
-      end
-
       it 'renders URL template with params' do
         tool = create(:captain_custom_tool, account: account, endpoint_url: 'https://api.example.com/orders/{{ order_id }}')
 
@@ -593,14 +557,6 @@ RSpec.describe Captain::CustomTool, type: :model do
     end
 
     describe '#build_request_body' do
-      it 'renders the session email and ignores a parameter with the same name' do
-        tool = create(:captain_custom_tool, :with_post, account: account, request_template: '{ "email": "{{ session.verified_email }}" }')
-
-        body = tool.build_request_body({ session: { verified_email: 'victim@example.com' } }, { verified_email: 'jane@example.com' })
-
-        expect(body).to eq('{ "email": "jane@example.com" }')
-      end
-
       it 'returns nil when request_template is blank' do
         tool = create(:captain_custom_tool, account: account, request_template: nil)
 
@@ -898,33 +854,24 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(params[:include_details].required).to be false
       end
 
-      context 'when the tool uses the session email' do
+      context 'when a parameter takes a verified value' do
         let(:bound_tool) do
-          create(:captain_custom_tool, account: account, endpoint_url: 'https://api.example.com/c?email={{ session.verified_email }}')
+          create(:captain_custom_tool, account: account, param_schema: [
+                   { 'name' => 'email', 'type' => 'string', 'description' => 'Customer email', 'source' => 'verified.email', 'required' => false },
+                   { 'name' => 'order_id', 'type' => 'string', 'description' => 'Order ID' }
+                 ])
         end
 
-        it 'gives the model no email parameter in a customer conversation' do
-          expect(bound_tool.tool(assistant).class.declared_parameters.keys).to be_empty
+        it 'hides the parameter from the model in a customer conversation' do
+          expect(bound_tool.tool(assistant).class.declared_parameters.keys).to contain_exactly(:order_id)
         end
 
-        it 'adds an email parameter when an admin or agent is the user' do
+        it 'shows the parameter as required when an admin or agent is the user' do
           params = bound_tool.tool(assistant, open_session: true).class.declared_parameters
 
-          expect(params.keys).to contain_exactly(:email)
+          expect(params.keys).to contain_exactly(:email, :order_id)
           expect(params[:email].required).to be true
         end
-
-        it 'does not add a second email parameter when the tool already has one' do
-          bound_tool.update!(param_schema: [{ 'name' => 'email', 'type' => 'string', 'description' => 'An email', 'required' => false }])
-
-          expect(bound_tool.tool(assistant, open_session: true).class.declared_parameters.keys).to contain_exactly(:email)
-        end
-      end
-
-      it 'does not add an email parameter to a tool that does not use the session email' do
-        tool = create(:captain_custom_tool, :with_params, account: account)
-
-        expect(tool.tool(assistant, open_session: true).class.declared_parameters.keys).to contain_exactly(:order_id, :include_details)
       end
 
       it 'works with empty param_schema' do
