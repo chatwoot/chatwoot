@@ -23,7 +23,7 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService # rubocop:di
     To find which conversations need attention or are most urgent, review them against what customers wrote. Priority may be mentioned, but never answer from it alone.
     Use from to move between saved sets, such as the contacts of a review's matched conversations, or the conversations whose messages contain an order number.
     Never look up the records of a saved set one by one. Select them with get_data and from, then read them with display.
-    Use explicit ISO8601 bounds for relative dates using the current time supplied below. State whether dates refer to creation or last activity.
+    Use explicit ISO8601 bounds for relative dates using the current time given with the agent's latest message. State whether dates refer to creation or last activity.
     When the request is about a subset, such as a topic, issue or intent, always pass question as a yes or no question. Every conversation is screened against it and only matching ones are reviewed against criteria.
     Write question and criteria in the agent's own words. Copy names and topics exactly as the agent wrote them. Never define, explain or narrow them, and do not add product names or conditions the agent did not state. The reviewer also reads the agent's message.
     review_conversations reviews up to #{CopilotRun::CONVERSATIONS_PER_TURN} conversations per turn, newest first, and returns once they are done. Its summary reports coverage: selected, screened out, reviewed, matched, failed and remaining.
@@ -88,7 +88,7 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService # rubocop:di
   def system_message
     message = super
     message[:content] += "\n\n#{CHATWOOT_CONTEXT}\n#{WORKFLOW_INSTRUCTIONS}\nThe agent you are helping is #{@user.name} (user ID #{@user.id}). " \
-                         "Use this ID for their own records, such as conversations assigned to them.\nCurrent time: #{Time.current.iso8601}."
+                         'Use this ID for their own records, such as conversations assigned to them.'
     message
   end
 
@@ -138,13 +138,21 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService # rubocop:di
 
   def finish_tool_call(result)
     @run.with_lease(@token) do
-      failure = result.is_a?(Hash) && (result[:error] || result['error'])
+      failure = tool_error(result)
       # The result keeps the whole error for the model; the column holds a summary within the string limit.
       @tool_call.update!(status: failure ? :failed : :completed, result: result,
                          error: failure.to_s.truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH).presence)
       persist_message({ content: "#{failure ? 'Failed' : 'Completed'} #{@tool_call.name}", function_name: @tool_call.name,
                         tool: @tool_call.summary }, 'assistant_thinking')
     end
+  end
+
+  # A run summary reports the run's own error, such as a review the flag stopped, so the tool call itself worked.
+  def tool_error(result)
+    return unless result.is_a?(Hash)
+
+    result = result.with_indifferent_access
+    result[:error] unless result.key?(:run_id)
   end
 
   def wrap_tool(tool)
@@ -202,23 +210,24 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService # rubocop:di
     super(message.merge('run_id' => @run.id), message_type)
   end
 
+  # A started run parks the turn until it finishes: wait_for_background_run and resume_with check the tool call under the
+  # turn's lock, so one of them requeues the turn. A run that already finished gives its final summary, not the tool's
+  # queued one. A collection is saved before the tool returns and never resumes the turn.
+  def started_run_result(result)
+    background_run = @tool_call.reload.background_run
+    return result if background_run.nil? || background_run.collection?
+    raise Captain::Copilot::BackgroundRunPending unless background_run.finished?
+
+    background_run.summary
+  end
+
   public
 
   def perform_tool(tool, original, tool_call, arguments)
     return @tool_call.result if @tool_call.completed?
 
     tool.tool_call = @tool_call if tool.respond_to?(:tool_call=)
-    result = instrument_tool_call(@tool_call.name, arguments) { original.call(tool_call: tool_call, **arguments) }
-    # A background run that already finished has saved its summary on the tool call, which supersedes the tool's queued summary.
-    return @tool_call.reload.result if @tool_call.reload.completed?
-
-    # A started run parks the turn even when it has just finished: wait_for_background_run and resume_with check the tool
-    # call under the turn's lock, so one of them requeues the turn with the final summary. A collection is saved before
-    # the tool returns and never resumes the turn.
-    background_run = @tool_call.background_run
-    raise Captain::Copilot::BackgroundRunPending if background_run && !background_run.collection?
-
-    result
+    started_run_result(instrument_tool_call(@tool_call.name, arguments) { original.call(tool_call: tool_call, **arguments) })
   rescue Captain::Copilot::LeaseLostError, Captain::Copilot::BackgroundRunPending
     raise
   rescue ArgumentError, ActiveRecord::RecordNotFound => e

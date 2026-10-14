@@ -63,8 +63,8 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
     llm = chat(model: @model, **options).with_instructions(SYSTEM_PROMPT).with_schema(Captain::Copilot::ReviewResponseSchema)
     llm.after_message do |message|
       record_llm_generation(llm, message)
+      # The credit is charged once for the turn's answer, not for each conversation reviewed.
       record_generation_cost(@run, message)
-      @run.with_lease(@token) { @run.account.increment_response_usage }
     end
     llm
   end

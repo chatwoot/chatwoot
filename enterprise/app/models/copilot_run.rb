@@ -184,12 +184,21 @@ class CopilotRun < ApplicationRecord
   end
 
   def summary
+    { run_id: id, status: status, error: error }.merge(collection? ? collection_summary : review_summary)
+  end
+
+  # A collection is a saved selection, so it has no review counts.
+  def collection_summary
+    { resource: resource, filters: filters, selected: selected_ids.size, selection_truncated: context['selection_truncated'] }
+  end
+
+  def review_summary
     counts = findings.group(:status).count
     selected = selected_ids.size
     processed = counts.values_at(*CopilotReviewFinding::FINISHED_STATUSES).sum(&:to_i)
-    { run_id: id, status: status, filters: filters, question: question, selected: selected, processed: processed, remaining: selected - processed,
+    { filters: filters, question: question, selected: selected, processed: processed, remaining: selected - processed,
       screened_out: counts['screened_out'].to_i, reviewed: counts['reviewed'].to_i, matched: findings.where(matched: true).count,
-      failed: counts['failed'].to_i, selection_truncated: context['selection_truncated'], error: error }
+      failed: counts['failed'].to_i, selection_truncated: context['selection_truncated'] }
   end
 
   def processed_count

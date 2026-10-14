@@ -1,4 +1,8 @@
 class Captain::Copilot::TurnTranscript
+  # Earlier turns replayed whole, with their tool results and reasoning. Older ones keep what their tool calls did and the
+  # saved sets they made, so a thread kept open all day does not resend everything on every model call.
+  REPLAYED_TURNS = 3
+
   def initialize(run, chat, protocol:)
     @run = run
     @chat = chat
@@ -9,8 +13,8 @@ class Captain::Copilot::TurnTranscript
   end
 
   def load
-    history = @run.copilot_thread.copilot_messages.where(message_type: %w[user assistant])
-                  .where(CopilotMessage.arel_table[:id].lteq(@run.copilot_message_id)).includes(:copilot_run).order(:id)
+    history = thread_history
+    @whole_turn_ids = history.filter_map(&:copilot_run).map(&:id).excluding(@run.id).last(REPLAYED_TURNS)
     history.each { |message| add_history(message) }
     @offset = @chat.messages.size
     state = @run.transcript
@@ -28,24 +32,44 @@ class Captain::Copilot::TurnTranscript
 
   private
 
+  # The thread's messages up to and including this turn's, oldest first.
+  def thread_history
+    @run.copilot_thread.copilot_messages.where(message_type: %w[user assistant])
+        .where(CopilotMessage.arel_table[:id].lteq(@run.copilot_message_id)).includes(:copilot_run).order(:id).to_a
+  end
+
   def add_history(message)
     return if message.assistant? && @replayed_run_ids.include?(message.message['run_id'])
 
-    @chat.add_message(role: message.message_type.to_sym, content: message.message['content'].to_s)
+    @chat.add_message(role: message.message_type.to_sym, content: history_content(message))
     prior = message.copilot_run
     return unless prior && prior.id != @run.id
 
     append_earlier_turn(prior)
   end
 
+  # The current time comes with the agent's latest message, not the instructions, so the instructions and earlier turns
+  # stay the same from turn to turn and the provider can reuse its prompt cache. The turn's own time keeps it stable
+  # across retries.
+  def history_content(message)
+    content = message.message['content'].to_s
+    message.id == @run.copilot_message_id ? "#{content}\n\nCurrent time: #{@run.created_at.iso8601}." : content
+  end
+
   def append_earlier_turn(prior)
-    if prior.transcript['identity'] == @identity && prior.completed?
+    if @whole_turn_ids.include?(prior.id) && prior.transcript['identity'] == @identity && prior.completed?
       prior.transcript.fetch('messages', []).each { |attributes| @chat.add_message(attributes.symbolize_keys) }
       @replayed_run_ids << prior.id
     else
-      outcomes = prior.tool_calls.order(:id).map(&:summary)
-      @chat.add_message(role: :assistant, content: { run: prior.summary, tool_calls: outcomes }.to_json) if outcomes.any?
+      steps = prior.tool_calls.includes(:background_run).order(:id).map { |tool_call| outline(tool_call) }
+      @chat.add_message(role: :assistant, content: { tool_calls: steps }.to_json) if steps.any?
     end
+  end
+
+  # What a tool call did and the saved set it made, without its result. display can show a saved set again.
+  def outline(tool_call)
+    { name: tool_call.name, arguments: tool_call.arguments, status: tool_call.status, error: tool_call.error,
+      saved_set: tool_call.background_run&.summary }.compact
   end
 
   def serialized_message(message)
