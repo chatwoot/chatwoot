@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue';
+import { useEventListener } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import { useStore, useFunctionGetter } from 'dashboard/composables/store';
 import { useBranding } from 'shared/composables/useBranding';
@@ -71,6 +72,16 @@ const disconnect = async () => {
     busy.value = false;
   }
 };
+
+useEventListener(window, 'focus', async () => {
+  if (!loaded.value || busy.value) return;
+
+  try {
+    await loadIntegration();
+  } catch {
+    error.value = true;
+  }
+});
 
 onMounted(async () => {
   try {
