@@ -17,6 +17,7 @@ RSpec.describe Captain::ResponseUsageAlertJob do
 
   before do
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+    allow(ActiveRecord).to receive(:after_all_transactions_commit).and_yield
     account.enable_features!('captain_integration')
     account.claim_captain_response_usage_alert(token)
     allow(AdministratorNotifications::CaptainNotificationMailer).to receive(:with).and_return(mailer)
@@ -43,6 +44,32 @@ RSpec.describe Captain::ResponseUsageAlertJob do
     expect(described_class.enqueue_for_account(account)).to be(true)
     expect(described_class.enqueue_for_account(account)).to be(false)
     expect(described_class).to have_received(:perform_later).once
+  end
+
+  it 'releases the claim when a deferred enqueue is rejected after commit' do
+    account.release_captain_response_usage_alert(token)
+    after_commit = nil
+    allow(ActiveRecord).to receive(:after_all_transactions_commit) { |&callback| after_commit = callback }
+    allow(described_class).to receive(:perform_later).and_return(false)
+
+    expect(described_class.enqueue_for_account(account)).to be(true)
+    expect(account.reload.custom_attributes['captain_responses_usage_alert_claim']).to be_present
+
+    expect { after_commit.call }.to change {
+      account.reload.custom_attributes['captain_responses_usage_alert_claim']
+    }.to(false)
+  end
+
+  it 'releases the claim when a deferred enqueue raises after commit' do
+    account.release_captain_response_usage_alert(token)
+    after_commit = nil
+    allow(ActiveRecord).to receive(:after_all_transactions_commit) { |&callback| after_commit = callback }
+    allow(described_class).to receive(:perform_later).and_raise(StandardError, 'queue unavailable')
+
+    expect(described_class.enqueue_for_account(account)).to be(true)
+
+    expect { after_commit.call }.to raise_error(StandardError, 'queue unavailable')
+    expect(account.reload.custom_attributes['captain_responses_usage_alert_claim']).to be(false)
   end
 
   it 'releases a failed delivery claim and lets the retry reclaim it' do

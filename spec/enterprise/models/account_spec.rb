@@ -319,6 +319,7 @@ RSpec.describe Account, type: :model do
 
     before do
       allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      allow(ActiveRecord).to receive(:after_all_transactions_commit).and_yield
       account.enable_features!('captain_integration')
       allow(Captain::ResponseUsageAlertJob).to receive(:perform_later).and_return(true)
       allow(Captain::ResponseUsageAlertJob).to receive(:enqueue_for_account).and_call_original
