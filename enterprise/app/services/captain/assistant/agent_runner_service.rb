@@ -8,6 +8,8 @@ class Captain::Assistant::AgentRunnerService
   include Captain::Assistant::TracePayloadHelper
   include Captain::Assistant::RunnerStateHelper
 
+  class LeakedToolCallError < StandardError; end
+
   attr_reader :last_run_result
 
   REPLY_SUGGESTION_SOURCE = 'copilot_reply_suggestion'.freeze
@@ -31,11 +33,8 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def generate_response(message_history: [])
-    message_to_process, context = run_payload(message_history)
-    @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
-    # A halted run ends with RubyLLM::CancelledError by design, so it is not reported as a failure.
+    run_agents_with_leak_retry(message_history)
     return halted_run_response if run_halted?
-    raise @last_run_result.error if @last_run_result.error
 
     channel_ready_response
   rescue StandardError => e
@@ -52,6 +51,25 @@ class Captain::Assistant::AgentRunnerService
   def handoff_completed? = @handoff_tool_completed == true
 
   private
+
+  def run_agents_with_leak_retry(message_history)
+    run_agents(message_history)
+    # A retry replays the whole turn, so it would repeat any tool that already ran, such as a custom HTTP POST.
+    # It is also wasted once a newer customer message has discarded this turn.
+    run_agents(message_history) if leaked_tool_call? && !@tool_executed && !response_discarded?
+    raise LeakedToolCallError, 'Captain replied with tool call text' if leaked_tool_call?
+  end
+
+  def run_agents(message_history)
+    message_to_process, context = run_payload(message_history)
+    @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
+    # A halted run ends with RubyLLM::CancelledError by design, so it is not reported as a failure.
+    raise @last_run_result.error if @last_run_result.error && !run_halted?
+  end
+
+  def leaked_tool_call?(run_result = @last_run_result)
+    Captain::Assistant::ResponseParts.from_response(run_result.output).leaked_tool_call?
+  end
 
   def build_context(message_history)
     conversation_history = message_history.map do |msg|
