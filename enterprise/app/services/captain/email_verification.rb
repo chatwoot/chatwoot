@@ -76,11 +76,16 @@ class Captain::EmailVerification
 
   private
 
-  # A new code replaces the previous one and starts with a full set of attempts
+  # A new code replaces the previous one and starts with a full set of attempts.
+  # The writes run together, so overlapping sends cannot pair one code with another address.
   def store_code(email, code)
-    ::Redis::Alfred.setex(key(:CODE), digest(email, code), CODE_TTL)
-    ::Redis::Alfred.setex(key(:PENDING), email, CODE_TTL)
-    ::Redis::Alfred.delete(key(:ATTEMPTS))
+    ::Redis::Alfred.with do |conn|
+      conn.multi do |transaction|
+        transaction.setex(key(:CODE), CODE_TTL.to_i, digest(email, code))
+        transaction.setex(key(:PENDING), CODE_TTL.to_i, email)
+        transaction.del(key(:ATTEMPTS))
+      end
+    end
   end
 
   # Both budgets are counted on every request, so a blocked session still cannot be used to flood one address
