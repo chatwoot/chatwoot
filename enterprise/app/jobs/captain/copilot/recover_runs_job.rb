@@ -8,11 +8,17 @@ class Captain::Copilot::RecoverRunsJob < ApplicationJob
 
   def perform
     stale = CopilotRun.where(updated_at: ...STALE_AFTER.ago)
+    expire_overdue_approvals
     resume_turns_of_finished_runs(stale)
     requeue_runs(stale)
   end
 
   private
+
+  # An approval whose expiry job was lost would keep its turn waiting until the agent answered the card or wrote again.
+  def expire_overdue_approvals
+    CopilotRun.action.awaiting_approval.find_each { |run| run.expire if run.approval_expired? }
+  end
 
   # A review or action that finished without waking the turn parked on its tool call.
   def resume_turns_of_finished_runs(stale)
