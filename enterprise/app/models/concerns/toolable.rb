@@ -2,7 +2,7 @@ module Concerns::Toolable
   extend ActiveSupport::Concern
 
   # Isolated namespace for user-defined custom tool classes.
-  # Keeps them separate from built-in classes in Captain::Tools (e.g., HttpTool, CustomHttpTool).
+  # Keeps them separate from built-in classes in Captain::Tools (e.g., HttpTool).
   module CustomTools; end
 
   # A parameter with a source is filled by Chatwoot from what the customer verified, so the model does not see it.
