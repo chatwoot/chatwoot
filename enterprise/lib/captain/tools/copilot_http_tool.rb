@@ -15,10 +15,18 @@ class Captain::Tools::CopilotHttpTool < Captain::Tools::HttpTool
     return failure_result(missing_value_message(missing), tool_context.state) if missing.any?
 
     result = super(tool_context, **@custom_tool.with_verified_values(params, verified_values).symbolize_keys)
-    supplied.any? ? "#{result}\n\n#{UNVERIFIED_VALUE_NOTE}" : result
+    [result, *used_value_notes(verified_values), (UNVERIFIED_VALUE_NOTE if supplied.any?)].compact.join("\n\n")
   end
 
   private
+
+  # The model passed its own value, so it needs to know which value the data is for
+  def used_value_notes(verified_values)
+    @custom_tool.param_schema.filter_map do |param_def|
+      value = verified_values[param_def['source']]
+      "Used the verified #{param_def['name']} #{value} in place of the value passed." if value
+    end
+  end
 
   def missing_value_message(missing)
     "This tool needs the customer's #{missing.pluck('name').join(', ')}. Pass it as a parameter."
