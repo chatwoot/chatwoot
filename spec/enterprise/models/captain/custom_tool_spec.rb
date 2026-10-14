@@ -332,7 +332,7 @@ RSpec.describe Captain::CustomTool, type: :model do
       tool = build(:captain_custom_tool, account: account, param_schema: [email_param])
 
       expect(tool).to be_valid
-      expect(tool.verified_sources).to eq(['verified.email'])
+      expect(tool.verified_email_param).to eq('email')
     end
 
     it 'is invalid when a parameter that takes a verified value is not a string' do
@@ -359,24 +359,11 @@ RSpec.describe Captain::CustomTool, type: :model do
       expect(tool.requires_email_verification?).to be(true)
     end
 
-    it 'has no verified sources when every parameter comes from the model' do
-      expect(build(:captain_custom_tool, account: account, param_schema: [order_param]).verified_sources).to be_empty
-    end
+    it 'has no verified email parameter when every parameter comes from the model' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [order_param])
 
-    describe '#with_verified_values' do
-      let(:tool) { build(:captain_custom_tool, account: account, param_schema: [email_param, order_param]) }
-      let(:verified_values) { { 'verified.email' => 'jane@example.com' } }
-
-      it 'fills each verified parameter from the matching value' do
-        expect(tool.with_verified_values({ order_id: '7' }, verified_values))
-          .to eq({ 'order_id' => '7', 'email' => 'jane@example.com' })
-      end
-
-      it 'does not let the model replace a verified value' do
-        [{ email: 'victim@example.com' }, { 'email' => 'victim@example.com' }].each do |params|
-          expect(tool.with_verified_values(params, verified_values)['email']).to eq('jane@example.com')
-        end
-      end
+      expect(tool.verified_email_param).to be_nil
+      expect(tool.requires_email_verification?).to be(false)
     end
   end
 

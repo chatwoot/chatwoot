@@ -254,7 +254,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
              params: attributes, headers: admin.create_new_auth_token, as: :json
 
         expect(response).to have_http_status(:success)
-        expect(Captain::CustomTool.last.verified_sources).to eq(['verified.email'])
+        expect(Captain::CustomTool.last.verified_email_param).to eq('email')
       end
 
       context 'with invalid parameters' do
