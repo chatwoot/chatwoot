@@ -36,7 +36,7 @@
                 <td>
                   <% case push_state(setting, type) %>
                   <% when :unavailable %>
-                    <span class="text-n-slate-9" title="<%= t("#{scope}.push_settings.sla_unavailable") %>">—</span>
+                    <span class="text-n-slate-9" title="<%= unavailable_reason(type) %>">—</span>
                   <% when :on %>
                     <input type="checkbox" class="<%= ui(:checkbox, "pointer-events-none") %>" checked tabindex="-1" aria-disabled="true">
                   <% else %>

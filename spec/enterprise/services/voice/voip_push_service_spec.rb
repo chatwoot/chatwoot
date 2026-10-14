@@ -144,6 +144,21 @@ RSpec.describe Voice::VoipPushService do
       expect(fcm_client).to have_received(:send_v1).with(hash_including(token: 'android-1'))
     end
 
+    it 'does not count an agent whose phone registered after the ring was sent' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      described_class.new(call: call).perform('ring')
+      subscribe(other_agent, 'apns_voip', 'apple-late')
+
+      expect(described_class.new(call: call.reload).ringable_user_ids).to eq([agent.id])
+    end
+
+    it 'does not count an agent whose only phone has no push token as reachable' do
+      create(:notification_subscription, user: agent, subscription_type: 'fcm', identifier: 'fcm:no-token',
+                                         subscription_attributes: { device_id: 'device-no-token', devicePlatform: 'Android' })
+
+      expect(described_class.new(call: call).ringable_user_ids).to be_empty
+    end
+
     it 'still rings iPhones when the Firebase client cannot be set up' do
       subscribe(agent, 'apns_voip', 'apple-1')
       subscribe(other_agent, 'fcm', 'android-1', platform: 'Android')
@@ -152,6 +167,7 @@ RSpec.describe Voice::VoipPushService do
       described_class.new(call: call).perform('ring')
 
       expect(apple_connection).to have_received(:push).once
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([other_agent.id])
     end
 
     it 'sends a high-priority data message to each Android phone of the eligible agents' do
@@ -199,6 +215,80 @@ RSpec.describe Voice::VoipPushService do
       expect { described_class.new(call: call).perform('ring') }.to change(NotificationSubscription, :count).by(-2)
     end
 
+    it 'sends the new-message notification to agents the ring turned out not to reach' do
+      message = create(:message, message_type: :incoming, content_type: :voice_call, account: account, conversation: conversation)
+      call.update!(message: message)
+      subscribe(agent, 'apns_voip', 'apple-gone')
+      allow(apple_response).to receive(:status).and_return('410')
+      service = instance_double(Messages::NewMessageNotificationService, perform: nil)
+      allow(Messages::NewMessageNotificationService).to receive(:new).with(message: message).and_return(service)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(service).to have_received(:perform)
+    end
+
+    it 'treats an agent whose every push failed as not rung' do
+      message = create(:message, message_type: :incoming, content_type: :voice_call, account: account, conversation: conversation)
+      call.update!(message: message)
+      subscribe(agent, 'apns_voip', 'apple-down')
+      subscribe(other_agent, 'apns_voip', 'apple-up')
+      allow(apple_connection).to receive(:push) do |notification|
+        raise Errno::ECONNRESET if notification.token == 'apple-down'
+
+        apple_response
+      end
+      service = instance_double(Messages::NewMessageNotificationService, perform: nil)
+      allow(Messages::NewMessageNotificationService).to receive(:new).with(message: message).and_return(service)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+      expect(described_class.new(call: call).ringable_user_ids).to eq([other_agent.id])
+      expect(service).to have_received(:perform)
+      expect(NotificationSubscription.where(user: agent)).to exist
+    end
+
+    it 'keeps the agents a settled ring left unreached when the job runs again' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      call.update!(ring_state: { 'ring_recipient_ids' => [agent.id], 'rung_user_ids' => [agent.id], 'unreached_user_ids' => [agent.id] })
+
+      described_class.new(call: call).perform('ring')
+
+      expect(apple_connection).not_to have_received(:push)
+      expect(described_class.new(call: call).ringable_user_ids).not_to include(agent.id)
+    end
+
+    it 'treats a push the platform rejected as not reaching the agent' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      allow(apple_response).to receive(:status).and_return('500')
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+    end
+
+    it 'knows whose device failed even when its subscription goes away during the ring' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      allow(apple_connection).to receive(:push) do
+        NotificationSubscription.where(user: agent).destroy_all
+        raise Errno::ECONNRESET
+      end
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+    end
+
+    it 'treats every device as not reached when the connection cannot be made' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      allow(Apnotic::Connection).to receive(:new).and_raise(SocketError)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+    end
+
     it 'does not ring for a call that stopped ringing before the job ran' do
       subscribe(agent, 'apns_voip', 'apple-1')
       call.update!(status: 'failed')
@@ -218,6 +308,18 @@ RSpec.describe Voice::VoipPushService do
 
       expect(call.reload.meta).to include('twilio_conference_sid' => 'CF999')
       expect(call.ring_state['rung_devices']).to eq('apns_voip' => ['apple-1'], 'fcm' => [])
+    end
+
+    it 'rings the agents recorded when the ring started, not a later assignee' do
+      call.update!(ring_state: { 'ring_recipient_ids' => [agent.id] })
+      conversation.update!(assignee: other_agent)
+      subscribe(agent, 'apns_voip', 'apple-1')
+      subscribe(other_agent, 'apns_voip', 'apple-2')
+
+      described_class.new(call: call).perform('ring')
+
+      expect(apple_connection).to have_received(:push).once
+      expect(call.reload.ring_state['rung_devices']).to eq('apns_voip' => ['apple-1'], 'fcm' => [])
     end
 
     it 'records the agents chosen for the ring even when none of them has a phone' do
@@ -299,7 +401,7 @@ RSpec.describe Voice::VoipPushService do
     end
 
     it 'sends to Android phones a batch at a time' do
-      stub_const('Voice::VoipPushService::ANDROID_BATCH_SIZE', 2)
+      stub_const('Voice::FcmVoipSender::BATCH_SIZE', 2)
       5.times { |i| subscribe(agent, 'fcm', "android-#{i}", platform: 'Android') }
       allow(Thread).to receive(:new).and_call_original
 
@@ -307,6 +409,95 @@ RSpec.describe Voice::VoipPushService do
 
       expect(fcm_client).to have_received(:send_v1).exactly(5).times
       expect(Thread).to have_received(:new).exactly(7).times
+    end
+
+    it 'rings again when an earlier ring chose whom to ring but stopped before its outcome' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      call.update!(ring_state: { 'ring_recipient_ids' => [agent.id], 'rung_user_ids' => [agent.id] })
+
+      described_class.new(call: call).perform('ring')
+
+      expect(apple_connection).to have_received(:push).once
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([])
+    end
+
+    it 'leaves a ring under way to its job and checks again once its lease is over' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      call.update!(ring_state: { 'ring_recipient_ids' => [agent.id], 'rung_user_ids' => [agent.id], 'ring_started_at' => 5.seconds.ago.to_i })
+
+      expect { described_class.new(call: call).perform('ring') }.to have_enqueued_job(Voice::VoipPushJob).with(call.id, 'ring')
+      expect(apple_connection).not_to have_received(:push)
+    end
+
+    it 'renews the lease before each batch, so a long ring keeps it' do
+      stub_const('Voice::ApnsVoipSender::BATCH_SIZE', 1)
+      2.times { |i| subscribe(agent, 'apns_voip', "apple-#{i}") }
+      lease_at_second_push = nil
+      allow(apple_connection).to receive(:push) do
+        if lease_at_second_push.nil? && Call.find(call.id).ring_state['ring_started_at'].to_i.positive?
+          # The first push: age the lease as a long ring would
+          Call.where(id: call.id).update_all("ring_state = ring_state || '{\"ring_started_at\": 1}'::jsonb") # rubocop:disable Rails/SkipsModelValidations
+          lease_at_second_push = false
+        else
+          lease_at_second_push = Call.find(call.id).ring_state['ring_started_at']
+        end
+        apple_response
+      end
+
+      described_class.new(call: call).perform('ring')
+
+      expect(lease_at_second_push).to be > 1.minute.ago.to_i
+    end
+
+    it 'replays the notification of a settled ring after the call is over' do
+      message = create(:message, message_type: :incoming, content_type: :voice_call, account: account, conversation: conversation)
+      call.update!(message: message, status: 'completed', ring_state: { 'ring_recipient_ids' => [agent.id], 'unreached_user_ids' => [agent.id] })
+      service = instance_double(Messages::NewMessageNotificationService, perform: nil)
+      allow(Messages::NewMessageNotificationService).to receive(:new).with(message: message).and_return(service)
+
+      described_class.new(call: call).perform('ring')
+
+      expect(service).to have_received(:perform)
+    end
+
+    it 'settles a ring that had no device to send to' do
+      described_class.new(call: call).perform('ring')
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([])
+    end
+
+    it 'counts an agent whose devices the ring stopped before sending to as not reached' do
+      stub_const('Voice::ApnsVoipSender::BATCH_SIZE', 1)
+      subscribe(other_agent, 'apns_voip', 'apple-first')
+      subscribe(agent, 'apns_voip', 'apple-skipped')
+      allow(apple_connection).to receive(:push) do
+        call.update_columns(status: 'in_progress') # rubocop:disable Rails/SkipsModelValidations
+        apple_response
+      end
+
+      described_class.new(call: call).perform('ring')
+
+      expect(apple_connection).to have_received(:push).once
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([agent.id])
+    end
+
+    it 'keeps an agent reached by another attempt at the ring reached' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+      call.update!(ring_state: { 'ring_recipient_ids' => [agent.id], 'unreached_user_ids' => [] })
+      service = described_class.new(call: call)
+      service.send(:token_owners)['apple-1'] = agent.id
+
+      service.send(:settle_ring, { 'apple-1' => :failed }, {})
+
+      expect(call.reload.ring_state['unreached_user_ids']).to eq([])
+    end
+
+    it 'rings a call once when a second ring job runs' do
+      subscribe(agent, 'apns_voip', 'apple-1')
+
+      2.times { described_class.new(call: Call.find(call.id)).perform('ring') }
+
+      expect(apple_connection).to have_received(:push).once
     end
 
     it 'gives up a connection whose first push does not finish in time, stopping that push and closing it' do
@@ -328,7 +519,7 @@ RSpec.describe Voice::VoipPushService do
     end
 
     it 'stops an Android push that stalls past its timeout' do
-      stub_const('Voice::VoipPushService::ANDROID_PUSH_TIMEOUT_SECONDS', 0.1)
+      stub_const('Voice::FcmVoipSender::PUSH_TIMEOUT_SECONDS', 0.1)
       subscribe(agent, 'fcm', 'android-1', platform: 'Android')
       finished = false
       allow(fcm_client).to receive(:send_v1) do
@@ -384,7 +575,7 @@ RSpec.describe Voice::VoipPushService do
     end
 
     it 'stops sending later Android batches once the call stops ringing' do
-      stub_const('Voice::VoipPushService::ANDROID_BATCH_SIZE', 2)
+      stub_const('Voice::FcmVoipSender::BATCH_SIZE', 2)
       5.times { |i| subscribe(agent, 'fcm', "android-#{i}", platform: 'Android') }
       allow(fcm_client).to receive(:send_v1) do |message|
         call.update_columns(status: 'in_progress') if message[:data]['type'] != 'voice_call.cancel' # rubocop:disable Rails/SkipsModelValidations

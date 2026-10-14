@@ -292,6 +292,26 @@ RSpec.describe 'Super Admin User diagnostics', type: :request do
       expect(response.body).to include('A conversation misses first response SLA')
     end
 
+    it 'hides the missed-call push type for an account that cannot ring phones' do
+      account = create(:account, name: 'Acme')
+      account.enable_features!('channel_voice')
+      create(:account_user, user: user, account: account)
+
+      get '/super_admin/user_diagnostics', params: { user_query: user.email, tab: 'push' }
+
+      expect(response.body).not_to include('A call the user was rung for is missed')
+    end
+
+    it 'lists the missed-call push type for an account that rings phones' do
+      account = create(:account, name: 'Acme')
+      account.enable_features!('channel_voice', 'mobile_voice_push')
+      create(:account_user, user: user, account: account)
+
+      get '/super_admin/user_diagnostics', params: { user_query: user.email, tab: 'push' }
+
+      expect(response.body).to include('A call the user was rung for is missed')
+    end
+
     it 'orders the notification types as the agent preferences screen does' do
       account = create(:account, name: 'Acme')
       create(:account_user, user: user, account: account)

@@ -15,19 +15,21 @@ class Voice::ApnsVoipSender
   # timeouts do not cover the TLS handshake, so a connection that stalls there is given up.
   FIRST_PUSH_DEADLINE_SECONDS = 15
 
-  # Returns the tokens Apple reported as gone. The first push goes alone: APNs allows more
-  # requests at once on a connection only after its first. `proceed` is asked on the calling
-  # thread before each batch after the first push; once it returns false the rest are not sent.
+  # Returns each token's outcome: :sent, :gone when Apple no longer knows it, or :failed.
+  # The first push goes alone: APNs allows more requests at once on a connection only
+  # after its first. `proceed` is asked on the calling thread before each batch after the
+  # first push; once it returns false the remaining tokens are not sent and have no outcome.
   def ring(tokens, payload, proceed: -> { true })
-    return [] if tokens.empty?
+    return {} if tokens.empty?
 
     connection = new_connection
     first, *rest = tokens
     outcomes = { first => deliver_first(connection, first, payload) }
-    return [] if (abandoned = outcomes[first].nil?)
+    # A connection given up reached nobody
+    return tokens.index_with(:failed) if (abandoned = outcomes[first].nil?)
 
     outcomes.merge!(deliver_rest(connection, rest, payload, proceed))
-    outcomes.filter_map { |token, outcome| token if outcome == :gone }
+    outcomes
   ensure
     connection&.close unless abandoned
   end

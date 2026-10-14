@@ -326,6 +326,7 @@ en:
       sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
       sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
       sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
+      voice_call_missed: 'Missed call · %{inbox_name}'
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
@@ -918,6 +919,7 @@ en:
         notification_type: 'Notification type'
         unnamed_account: 'Account %{id}'
         sla_unavailable: 'SLA is not enabled on this account'
+        calls_unavailable: 'Voice Channel and Mobile Voice Push are not both enabled on this account'
         none_enabled:
           one: 'No push types are enabled for %{names}. This user receives no push notification from that account.'
           other: 'No push types are enabled for %{names}. This user receives no push notification from those accounts.'
@@ -965,6 +967,7 @@ en:
         sla_missed_first_response: 'A conversation misses first response SLA'
         sla_missed_next_response: 'A conversation misses next response SLA'
         sla_missed_resolution: 'A conversation misses resolution SLA'
+        voice_call_missed: 'A call the user was rung for is missed'
       push:
         real_push_warning: 'This sends a real push to every selected device. Use only when diagnosing a reported issue.'
         title_label: 'Title'

@@ -75,6 +75,43 @@ RSpec.describe Voice::InboundCallBuilder do
       expect(call).to be_ringing
     end
 
+    it 'records the agents it rings as the ring starts' do
+      account.enable_features!('channel_voice', 'mobile_voice_push')
+      agent = create(:user, account: account, role: :agent)
+      create(:inbox_member, inbox: inbox, user: agent)
+
+      call = perform_builder
+
+      expect(call.reload.ring_state['ring_recipient_ids']).to include(agent.id)
+    end
+
+    it 'records the agents it rings in the transaction that creates the call' do
+      account.enable_features!('channel_voice', 'mobile_voice_push')
+      outer = ActiveRecord::Base.connection.open_transactions
+      recorded_inside = nil
+      allow(Voice::VoipPushService).to receive(:recipients_for).and_wrap_original do |original, call|
+        recorded_inside = ActiveRecord::Base.connection.open_transactions > outer
+        original.call(call)
+      end
+
+      perform_builder
+
+      expect(recorded_inside).to be(true)
+    end
+
+    it 'queues the ring from inside the transaction that records the agents it rings' do
+      account.enable_features!('channel_voice', 'mobile_voice_push')
+      outer = ActiveRecord::Base.connection.open_transactions
+      registered_inside = nil
+      allow(ActiveRecord).to receive(:after_all_transactions_commit).and_wrap_original do |original, &block|
+        registered_inside = ActiveRecord::Base.connection.open_transactions > outer
+        original.call(&block)
+      end
+
+      expect { perform_builder }.to have_enqueued_job(Voice::VoipPushJob)
+      expect(registered_inside).to be(true)
+    end
+
     it 'does not ring phones without the feature' do
       expect { perform_builder }.not_to have_enqueued_job(Voice::VoipPushJob)
     end
@@ -104,6 +141,24 @@ RSpec.describe Voice::InboundCallBuilder do
       existing_call
       expect { perform_builder }.not_to change(Call, :count)
       expect(perform_builder).to eq(existing_call)
+    end
+
+    it 'queues the ring again when the call recorded who it rings but never rang them' do
+      existing_call.update!(status: 'ringing', ring_state: { 'ring_recipient_ids' => [1] })
+
+      expect { perform_builder }.to have_enqueued_job(Voice::VoipPushJob).with(existing_call.id, 'ring')
+    end
+
+    it 'queues the ring again when its job stopped before recording an outcome' do
+      existing_call.update!(status: 'ringing', ring_state: { 'ring_recipient_ids' => [1], 'rung_user_ids' => [1] })
+
+      expect { perform_builder }.to have_enqueued_job(Voice::VoipPushJob).with(existing_call.id, 'ring')
+    end
+
+    it 'does not queue another ring once the ring has an outcome' do
+      existing_call.update!(status: 'ringing', ring_state: { 'ring_recipient_ids' => [1], 'rung_user_ids' => [1], 'unreached_user_ids' => [] })
+
+      expect { perform_builder }.not_to have_enqueued_job(Voice::VoipPushJob)
     end
   end
 
