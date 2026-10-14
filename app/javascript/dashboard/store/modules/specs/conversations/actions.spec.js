@@ -230,6 +230,7 @@ describe('#actions', () => {
         [types.UPDATE_CONVERSATION, conversation],
       ]);
       expect(dispatch.mock.calls).toEqual([
+        ['autoTranslateMessages', 1],
         [
           'conversationLabels/setConversationLabel',
           { id: 1, data: ['support'] },
@@ -1084,6 +1085,23 @@ describe('#addMentions', () => {
           { id: 1, name: 'Assistant', description: 'Assistant description' },
         ],
       ]);
+    });
+  });
+
+  describe('#updateConversation', () => {
+    it('re-checks translation once the conversation language may have changed', () => {
+      const localDispatch = vi.fn();
+
+      actions.updateConversation(
+        { commit: vi.fn(), dispatch: localDispatch, rootGetters: {} },
+        {
+          id: 7,
+          labels: [],
+          additional_attributes: { conversation_language: 'fr' },
+        }
+      );
+
+      expect(localDispatch).toHaveBeenCalledWith('autoTranslateMessages', 7);
     });
   });
 

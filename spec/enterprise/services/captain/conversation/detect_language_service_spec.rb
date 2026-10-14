@@ -32,14 +32,14 @@ RSpec.describe Captain::Conversation::DetectLanguageService do
     expect(conversation.reload.language).to eq('en')
   end
 
-  it 'keeps a foreign language when the contact writes one line in the account language' do
+  it 'follows a contact who switches back to the account language' do
     conversation.update!(additional_attributes: { 'conversation_language' => 'fr' })
     message = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
                                content: 'I want to note three incidents on my account this month.')
 
     described_class.new(message: message).perform
 
-    expect(conversation.reload.language).to eq('fr')
+    expect(conversation.reload.language).to eq('en')
   end
 
   it 'ignores outgoing messages' do

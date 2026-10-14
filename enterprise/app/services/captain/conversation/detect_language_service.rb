@@ -18,8 +18,6 @@ class Captain::Conversation::DetectLanguageService
     language = Captain::Conversation::MessageText.new(message).language
     conversation = message.conversation
     return if language.blank? || conversation.language == language
-    # One line in the account language (a pasted error, a signature) must not switch replies back to it.
-    return if conversation.language.present? && Captain::Llm::MessageTranslationService.same_language?(language, message.account.locale)
 
     conversation.update!(additional_attributes: conversation.additional_attributes.merge(conversation_language: language))
   end

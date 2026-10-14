@@ -552,6 +552,8 @@ const actions = {
 
     commit(types.UPDATE_CONVERSATION, conversation);
     syncConversationCallVisibility(conversation, rootGetters?.getCurrentUserID);
+    // The contact language can change after a message arrived; the action skips anything already handled.
+    dispatch('autoTranslateMessages', conversation.id);
 
     dispatch('conversationLabels/setConversationLabel', {
       id: conversation.id,

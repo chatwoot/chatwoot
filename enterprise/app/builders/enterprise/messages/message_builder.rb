@@ -42,9 +42,9 @@ module Enterprise::Messages::MessageBuilder
     @rendered_content ||= process_liquid_in_email_body(@params[:content].to_s)
   end
 
-  # The reply box appends the quoted history as markdown quote lines; only the text above them is the agent's reply.
+  # The email reply box appends the quoted history as markdown quote lines; only the text above them is the agent's reply.
   def quoted_history
-    @quoted_history ||= rendered_content[/^>.*\z/m].to_s
+    @quoted_history ||= email_inbox? ? rendered_content[/^>.*\z/m].to_s : ''
   end
 
   def reply_text

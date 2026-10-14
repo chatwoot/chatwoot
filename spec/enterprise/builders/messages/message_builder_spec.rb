@@ -60,6 +60,17 @@ RSpec.describe Messages::MessageBuilder do
     expect(message.translations['en']).to include('<p>Hello there</p>', '<blockquote>')
   end
 
+  it 'translates a chat reply that quotes something as one text' do
+    allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => 0, 'text' => "Bonjour\n\n> cité" }])
+    typed = ActionController::Parameters.new(content: "Hello there\n\n> quoted")
+
+    message = described_class.new(user, conversation, typed).perform
+
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: [{ id: 0,
+                                                                                                         content: "Hello there\n\n> quoted" }]))
+    expect(message.content).to eq("Bonjour\n\n> cité")
+  end
+
   it 'leaves the message untouched when the translator returns the same text' do
     allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => 0, 'text' => 'Hello there' }])
     message = described_class.new(user, conversation, params).perform
