@@ -29,23 +29,18 @@ RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
   end
 
   describe '#perform' do
-    it 'uses a value the customer verified and the model value for the rest, and says those were not verified' do
+    it 'uses the values passed, and says when one is not what the customer verified' do
       result = tool.perform(tool_context, email: 'typed@example.com', user_id: 'typed_7')
 
-      expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=jane%40example.com&user=typed_7')
+      expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=typed%40example.com&user=typed_7')
       expect(result).to start_with('{"found": true}')
-      expect(result).to include('Used the verified email jane@example.com in place of the value passed')
       expect(result).to include('was not verified by the customer')
     end
 
-    it 'says only which verified values were used when every value was verified by the customer' do
+    it 'adds no note when every value passed is what the customer verified' do
       contact_inbox.update!(hmac_verified: true)
 
-      result = tool.perform(tool_context, email: 'typed@example.com', user_id: 'typed_7')
-
-      expect(result).to include('Used the verified email jane@example.com in place of the value passed')
-      expect(result).to include('Used the verified user_id user_42 in place of the value passed')
-      expect(result).not_to include('was not verified by the customer')
+      expect(tool.perform(tool_context, email: 'Jane@example.com', user_id: 'user_42')).to eq('{"found": true}')
     end
 
     it 'uses the values an admin supplies in the playground' do

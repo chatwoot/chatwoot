@@ -1,7 +1,6 @@
 # A custom tool where an admin or an agent is the user: the playground and reply suggestions.
-# The model fills verified parameters, and a value the customer verified is still used in its place.
+# The model fills verified parameters with the value it was given, and the result says when that value is not one the customer verified.
 class Captain::Tools::CopilotHttpTool < Captain::Tools::HttpTool
-  # The model supplied a verified value, so the result says nobody verified it
   UNVERIFIED_VALUE_NOTE = 'The email or identifier passed to this tool was not verified by the customer.'.freeze
 
   def self.model_fills_verified_values?
@@ -9,23 +8,22 @@ class Captain::Tools::CopilotHttpTool < Captain::Tools::HttpTool
   end
 
   def perform(tool_context, **params)
-    verified_values = stored_verified_values(tool_context.state)
-    supplied = @custom_tool.param_schema.select { |param_def| param_def['source'] && verified_values.exclude?(param_def['source']) }
-    missing = supplied.select { |param_def| params[param_def['name'].to_sym].blank? }
+    missing = verified_params.select { |param_def| params[param_def['name'].to_sym].blank? }
     return failure_result(missing_value_message(missing), tool_context.state) if missing.any?
 
-    result = super(tool_context, **@custom_tool.with_verified_values(params, verified_values).symbolize_keys)
-    [result, *used_value_notes(verified_values), (UNVERIFIED_VALUE_NOTE if supplied.any?)].compact.join("\n\n")
+    result = super
+    unverified_value?(tool_context, params) ? "#{result}\n\n#{UNVERIFIED_VALUE_NOTE}" : result
   end
 
   private
 
-  # The model passed its own value, so it needs to know which value the data is for
-  def used_value_notes(verified_values)
-    @custom_tool.param_schema.filter_map do |param_def|
-      value = verified_values[param_def['source']]
-      "Used the verified #{param_def['name']} #{value} in place of the value passed." if value
-    end
+  def verified_params
+    @custom_tool.param_schema.select { |param_def| param_def['source'] }
+  end
+
+  def unverified_value?(tool_context, params)
+    verified_values = stored_verified_values(tool_context.state)
+    verified_params.any? { |param_def| !params[param_def['name'].to_sym].to_s.strip.casecmp?(verified_values[param_def['source']].to_s) }
   end
 
   def missing_value_message(missing)
