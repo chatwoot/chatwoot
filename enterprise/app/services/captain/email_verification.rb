@@ -83,10 +83,10 @@ class Captain::EmailVerification
     "#{email}:#{OpenSSL::HMAC.hexdigest('SHA256', Rails.application.secret_key_base, "#{contact_inbox.id}:#{email}:#{code}")}"
   end
 
-  # Both budgets are counted on every request, so a blocked session still cannot be used to flood one address
+  # The contact inbox is checked first, so a blocked contact inbox does not use up the address's budget
   def send_allowed?(email)
     email_key = format(::Redis::RedisKeys::CAPTAIN_EMAIL_VERIFICATION_EMAIL_SENDS, email_digest: Digest::SHA256.hexdigest(email))
-    [key(:SENDS), email_key].map { |send_key| ::Redis::RateLimit.new(send_key, limit: SEND_LIMIT, window: SEND_WINDOW).exceeded? }.none?
+    [key(:SENDS), email_key].none? { |send_key| ::Redis::RateLimit.new(send_key, limit: SEND_LIMIT, window: SEND_WINDOW).exceeded? }
   end
 
   def attempts_limit

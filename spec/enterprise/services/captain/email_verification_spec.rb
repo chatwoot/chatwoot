@@ -77,6 +77,14 @@ RSpec.describe Captain::EmailVerification do
       expect(results).to eq(([:sent] * 5) + [:rate_limited])
     end
 
+    it 'does not use the address budget for a contact inbox that is over its own budget' do
+      5.times { verification.send_code("customer-#{SecureRandom.hex(4)}@example.com") }
+      5.times { verification.send_code(email) }
+      other_contact_inbox = create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account))
+
+      expect(described_class.new(other_contact_inbox).send_code(email)).to eq(:sent)
+    end
+
     it 'allows 5 codes per hour to one email address across contact inboxes' do
       results = Array.new(6) do
         other_contact_inbox = create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account))
