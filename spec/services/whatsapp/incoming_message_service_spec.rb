@@ -12,6 +12,9 @@ describe Whatsapp::IncomingMessageService do
       Redis::Alfred.scan_each(match: 'MESSAGE_SOURCE_KEY::*') do |key|
         Redis::Alfred.delete(key)
       end
+      Redis::Alfred.scan_each(match: 'WHATSAPP_REVOKE_TOMBSTONE::*') do |key|
+        Redis::Alfred.delete(key)
+      end
     end
 
     let!(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false) }

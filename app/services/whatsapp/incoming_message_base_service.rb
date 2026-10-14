@@ -5,6 +5,7 @@ class Whatsapp::IncomingMessageBaseService
   include ::Whatsapp::IncomingMessageServiceHelpers
   include ::Whatsapp::IncomingMessageIdentifierHelper
   include ::Whatsapp::IncomingContactMessageHandler
+  include ::Whatsapp::IncomingRevokeHandler
 
   pattr_initialize [:inbox!, :params!, :outgoing_echo, { locked_sender_id: nil }]
 
@@ -15,9 +16,10 @@ class Whatsapp::IncomingMessageBaseService
 
     process_identity_change_messages
     return if messages_data.blank?
-    return process_revoke if message_type == 'revoke'
+    return process_revoke if revoke_event?
 
     process_messages
+    apply_pending_revoke
   end
 
   # Returns messages array for both regular messages and echo events
@@ -49,27 +51,6 @@ class Whatsapp::IncomingMessageBaseService
       set_conversation
       create_messages
     end
-  end
-
-  # WhatsApp sends type: revoke when a message is deleted for everyone, by the contact (messages) or
-  # from the WhatsApp Business app (message_echoes). The event has no content of its own and only names
-  # the deleted message, so we mark that message deleted instead of storing a new, empty one.
-  # A revoke for a message we never stored (e.g. history from before the inbox existed) is dropped.
-  def process_revoke
-    original_message_id = messages_data.first.dig(:revoke, :original_message_id)
-    return if original_message_id.blank?
-
-    # A contact can only revoke what they sent, the business app only what the business sent.
-    # A shared contacts message is stored as one row per contact, all with the same source id.
-    revoked_messages = @inbox.messages.where(source_id: original_message_id, message_type: outgoing_echo ? :outgoing : :incoming)
-    revoked_messages.reject(&:deleted).each { |message| tombstone_message(message) }
-  end
-
-  # Same tombstone as an agent delete, so structured attributes such as a Flow response are dropped too
-  def tombstone_message(message)
-    message.attachments.destroy_all
-    message.update!(content: I18n.t('conversations.messages.deleted'), content_type: :text,
-                    content_attributes: message.content_attributes.slice('forwarded_message_id').merge(deleted: true))
   end
 
   def process_statuses

@@ -4,6 +4,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
   describe '#perform' do
     after do
       Redis::Alfred.scan_each(match: 'MESSAGE_SOURCE_KEY::*') { |key| Redis::Alfred.delete(key) }
+      Redis::Alfred.scan_each(match: 'WHATSAPP_REVOKE_TOMBSTONE::*') { |key| Redis::Alfred.delete(key) }
     end
 
     let!(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
@@ -1040,6 +1041,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
         message = whatsapp_channel.inbox.messages.find_by!(source_id: 'wamid.original')
         expect(message.content).to eq(I18n.t('conversations.messages.deleted'))
+        expect(message.processed_message_content).to eq(I18n.t('conversations.messages.deleted'))
         expect(message.content_attributes['deleted']).to be(true)
         expect(whatsapp_channel.inbox.messages.find_by(source_id: 'wamid.revoke')).to be_nil
       end
@@ -1093,6 +1095,38 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect { deliver(revoke_params) }.not_to(change { [Contact.count, Conversation.count, Message.count] })
       end
 
+      it 'tombstones an original that arrives after its revoke' do
+        deliver(revoke_params)
+        deliver(text_params)
+
+        message = whatsapp_channel.inbox.messages.find_by!(source_id: 'wamid.original')
+        expect(message.content).to eq(I18n.t('conversations.messages.deleted'))
+        expect(message.content_attributes['deleted']).to be(true)
+      end
+
+      it 'tombstones a Business app message that arrives after its revoke' do
+        deliver(text_params)
+        echo = { from: business_number, to: customer_number, id: 'wamid.business-echo', timestamp: '1791969150' }
+        deliver(cloud_params('smb_message_echoes', :message_echoes,
+                             echo.merge(id: 'wamid.echo-revoke', type: 'revoke', revoke: { original_message_id: 'wamid.business-echo' })),
+                outgoing_echo: true)
+        deliver(cloud_params('smb_message_echoes', :message_echoes, echo.merge(text: { body: 'Withdrawn reply' }, type: 'text')),
+                outgoing_echo: true)
+
+        message = whatsapp_channel.inbox.messages.find_by!(source_id: 'wamid.business-echo')
+        expect(message).to be_outgoing
+        expect(message.content_attributes['deleted']).to be(true)
+      end
+
+      it 'tombstones the message in a conversation that is over the message flood limit' do
+        deliver(text_params)
+        allow(Limits).to receive(:conversation_message_per_minute_limit).and_return(1)
+
+        deliver(revoke_params)
+
+        expect(whatsapp_channel.inbox.messages.find_by!(source_id: 'wamid.original').content_attributes['deleted']).to be(true)
+      end
+
       it 'does not touch a message with the same source id in another inbox' do
         other_message = create(:message, account: whatsapp_channel.account, inbox: create(:inbox, account: whatsapp_channel.account),
                                          source_id: 'wamid.original', content: 'Elsewhere')
@@ -1110,6 +1144,10 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
                                                      type: 'revoke', revoke: { original_message_id: 'wamid.business' })
 
         deliver(params)
+        # a redelivered business message must not pick up the contact's revoke later either
+        deliver(cloud_params('smb_message_echoes', :message_echoes,
+                             from: business_number, to: customer_number, id: 'wamid.business', timestamp: '1791969141',
+                             text: { body: 'Our reply' }, type: 'text'), outgoing_echo: true)
 
         expect(outgoing.reload.content).to eq('Our reply')
       end
