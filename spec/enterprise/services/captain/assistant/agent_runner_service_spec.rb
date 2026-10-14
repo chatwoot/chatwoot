@@ -411,12 +411,17 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       end
     end
 
-    context 'when a normal reply mentions JSON inside a sentence' do
-      let(:reply_text) { 'Send {"plate": "ABC1234"} in the request body to update the vehicle.' }
+    context 'when a normal reply includes a JSON sample' do
+      let(:response_parts) do
+        [
+          { 'text' => 'Send {"plate": "ABC1234"} in the request body, like this:', 'citation_indexes' => [] },
+          { 'text' => '{"plate": "ABC1234"}', 'citation_indexes' => [] }
+        ]
+      end
       let(:mock_result) do
         instance_double(
           Agents::RunResult,
-          output: { 'response_parts' => [{ 'text' => reply_text, 'citation_indexes' => [] }], 'reasoning' => 'Answer from FAQ' },
+          output: { 'response_parts' => response_parts, 'reasoning' => 'Answer from FAQ' },
           context: nil,
           error: nil
         )
@@ -426,7 +431,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         result = service.generate_response(message_history: message_history)
 
         expect(mock_runner).to have_received(:run).once
-        expect(result['response']).to eq(reply_text)
+        expect(result['response_parts']).to eq(response_parts)
       end
     end
 
