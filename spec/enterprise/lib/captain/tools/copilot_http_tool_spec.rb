@@ -38,6 +38,13 @@ RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
       expect(tool.perform(tool_context, email: 'Jane@example.com')).to eq('{"found": true}')
     end
 
+    it 'says an empty email is not verified when the customer has verified none' do
+      unverified = instance_double(Captain::EmailVerification, verified_email: nil)
+      allow(Captain::EmailVerification).to receive(:new).with(contact_inbox).and_return(unverified)
+
+      expect(tool.perform(tool_context, email: ' ')).to include('was not verified by the customer')
+    end
+
     it 'uses the values an admin supplies in the playground' do
       result = tool.perform(Struct.new(:state).new({ source: 'playground' }), email: 'test@example.com')
 
