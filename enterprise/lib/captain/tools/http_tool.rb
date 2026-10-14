@@ -6,6 +6,11 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
     super(assistant)
   end
 
+  # A customer is the user, so Chatwoot fills a verified parameter and the model does not see it
+  def self.model_fills_verified_values?
+    false
+  end
+
   def active?
     @custom_tool.enabled?
   end

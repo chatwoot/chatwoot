@@ -870,8 +870,10 @@ RSpec.describe Captain::CustomTool, type: :model do
           expect(bound_tool.tool(assistant).class.declared_parameters.keys).to contain_exactly(:order_id)
         end
 
-        it 'shows the parameter as required when an admin or agent is the user' do
-          params = bound_tool.tool(assistant, open_session: true).class.declared_parameters
+        it 'shows the parameter as required to a tool class where the model fills verified values' do
+          model_filled_class = Class.new(Captain::Tools::HttpTool) { def self.model_fills_verified_values? = true }
+
+          params = bound_tool.tool(assistant, base_class: model_filled_class).class.declared_parameters
 
           expect(params.keys).to contain_exactly(:email, :order_id)
           expect(params[:email].required).to be true
