@@ -75,6 +75,9 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
+      invalid_metadata_url: could not be read. Use an HTTPS URL that returns your identity provider's metadata
     account:
       not_authorized: You are not authorized to access this account
       email_limit_exceeded: The daily email limit for this account has been reached
@@ -252,9 +255,6 @@ en:
     mfa:
       enabled: MFA enabled successfully
       disabled: MFA disabled successfully
-    account_saml_settings:
-      invalid_certificate: must be a valid X.509 certificate in PEM format
-      invalid_metadata_url: could not be read. Use an HTTPS URL that returns your identity provider's metadata
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone

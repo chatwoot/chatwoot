@@ -161,7 +161,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
                as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(json_response[:errors].first).to eq("Metadata url #{I18n.t('errors.account_saml_settings.invalid_metadata_url')}")
+          expect(json_response[:errors].first).to start_with('Metadata url could not be read. Use an HTTPS URL')
         end
       end
 

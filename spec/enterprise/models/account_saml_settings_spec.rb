@@ -29,7 +29,7 @@ RSpec.describe AccountSamlSettings, type: :model do
       settings = build(:account_saml_settings, account: account, certificate: "#{valid_certificate}#{malformed_certificate}")
 
       expect(settings).not_to be_valid
-      expect(settings.errors[:certificate]).to include(I18n.t('errors.account_saml_settings.invalid_certificate'))
+      expect(settings.errors[:certificate]).to include('must be a valid X.509 certificate in PEM format')
     end
 
     it 'requires idp_entity_id' do
@@ -148,7 +148,7 @@ RSpec.describe AccountSamlSettings, type: :model do
         settings = described_class.new(account: account, metadata_url: metadata_url)
 
         expect(settings).not_to be_valid
-        expect(settings.errors[:metadata_url]).to include(I18n.t('errors.account_saml_settings.invalid_metadata_url'))
+        expect(settings.errors[:metadata_url]).to include("could not be read. Use an HTTPS URL that returns your identity provider's metadata")
       end
 
       it 'does not fetch the metadata when the URL is unchanged' do
