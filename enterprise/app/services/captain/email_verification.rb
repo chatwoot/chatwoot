@@ -52,9 +52,8 @@ class Captain::EmailVerification
     # Count the attempt before checking it, so parallel guesses cannot all pass under the cap
     return :locked if increment(key(:ATTEMPTS), CODE_TTL) > MAX_ATTEMPTS
 
-    # delete_if_equals checks and consumes the code in one step. Only an executed MULTI, which returns [1], is a match.
-    deleted = ::Redis::Alfred.delete_if_equals(key(:CODE), digest(email, code.to_s.strip))
-    return :invalid_code unless deleted.is_a?(Array) && deleted.first.to_i == 1
+    # delete_if_equals checks and consumes the code in one step
+    return :invalid_code unless ::Redis::Alfred.delete_if_equals(key(:CODE), digest(email, code.to_s.strip)) == [1]
 
     ::Redis::Alfred.setex(key(:VERIFIED), email, VERIFIED_TTL)
     ::Redis::Alfred.delete(key(:PENDING))
@@ -66,12 +65,8 @@ class Captain::EmailVerification
     ::Redis::Alfred.get(key(:VERIFIED)).presence
   end
 
-  def pending_email
-    ::Redis::Alfred.get(key(:PENDING)).presence
-  end
-
   def attempts_left
-    [MAX_ATTEMPTS - ::Redis::Alfred.get(key(:ATTEMPTS)).to_i, 0].max
+    MAX_ATTEMPTS - ::Redis::Alfred.get(key(:ATTEMPTS)).to_i
   end
 
   private

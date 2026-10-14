@@ -28,7 +28,6 @@ RSpec.describe Captain::EmailVerification do
 
       expect(emailed_codes.last).to match(/\A\d{6}\z/)
       expect(mailer).to have_received(:verification_code).with(inbox, email, anything)
-      expect(verification.pending_email).to eq(email)
     end
 
     it 'never passes the plain code to the mail job' do
@@ -60,7 +59,7 @@ RSpec.describe Captain::EmailVerification do
 
       expect(verification.send_code(email)).to eq(:unavailable)
       expect(emailed_codes).to be_empty
-      expect(verification.pending_email).to be_nil
+      expect(verification.verify('000000')).to eq(:expired)
     end
 
     it 'does not use the send budget when email cannot be delivered' do
@@ -109,7 +108,7 @@ RSpec.describe Captain::EmailVerification do
 
       expect(verification.verify(" #{emailed_codes.last} ")).to eq(:verified)
       expect(verification.verified_email).to eq(email)
-      expect(verification.pending_email).to be_nil
+      expect(verification.verify(emailed_codes.last)).to eq(:expired)
     end
 
     it 'rejects a wrong code and counts the attempt' do
