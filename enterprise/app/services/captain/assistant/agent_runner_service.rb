@@ -146,7 +146,7 @@ class Captain::Assistant::AgentRunnerService
     with_email_verification_tools(agent)
   end
 
-  # An admin or an agent is the user here, so tools that read the session email take the email from the model
+  # An admin or an agent is the user here, so the model fills a tool's verified parameters
   def open_session_tools(tools)
     tools.map { |tool| tool.is_a?(Captain::Tools::HttpTool) ? tool.open_session_tool : tool }
   end

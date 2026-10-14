@@ -115,9 +115,11 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(service.send(:build_and_wire_agents)).to eq([mock_agent, mock_scenario_agent])
     end
 
-    context 'with a tool that uses the session email' do
+    context 'with a tool that has a verified parameter' do
       before do
-        create(:captain_custom_tool, account: account, assistant: assistant, endpoint_url: 'https://example.com/c?email={{ session.verified_email }}')
+        email_param = { 'name' => 'email', 'type' => 'string', 'description' => 'Email', 'source' => 'verified.email' }
+        create(:captain_custom_tool, account: account, assistant: assistant, endpoint_url: 'https://example.com/c?email={{ email }}',
+                                     param_schema: [email_param])
         allow(assistant).to receive(:agent).and_call_original
         allow(assistant).to receive(:scenarios).and_return(instance_double(Captain::Scenario, enabled: []))
       end
