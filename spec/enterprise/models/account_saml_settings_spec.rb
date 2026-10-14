@@ -23,6 +23,15 @@ RSpec.describe AccountSamlSettings, type: :model do
       expect(settings.errors[:certificate]).to include("can't be blank")
     end
 
+    it 'rejects a malformed certificate after a valid one' do
+      valid_certificate = build(:account_saml_settings).certificate
+      malformed_certificate = "-----BEGIN CERTIFICATE-----\nbm90IGEgY2VydGlmaWNhdGU=\n-----END CERTIFICATE-----"
+      settings = build(:account_saml_settings, account: account, certificate: "#{valid_certificate}#{malformed_certificate}")
+
+      expect(settings).not_to be_valid
+      expect(settings.errors[:certificate]).to include(I18n.t('errors.account_saml_settings.invalid_certificate'))
+    end
+
     it 'requires idp_entity_id' do
       settings = build(:account_saml_settings, account: account, idp_entity_id: nil)
       expect(settings).not_to be_valid

@@ -103,6 +103,8 @@ class AccountSamlSettings < ApplicationRecord
     return if certificate.blank?
 
     OpenSSL::X509::Certificate.new(certificate)
+    # ruby-saml parses every block when the value holds more than one certificate
+    signing_certificates.each { |pem| OpenSSL::X509::Certificate.new(pem) }
   rescue OpenSSL::X509::CertificateError
     errors.add(:certificate, I18n.t('errors.account_saml_settings.invalid_certificate'))
   end
