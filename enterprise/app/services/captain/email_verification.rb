@@ -57,8 +57,8 @@ class Captain::EmailVerification
     # delete_if_equals checks and consumes the code in one step
     return :invalid_code unless ::Redis::Alfred.delete_if_equals(key(:CODE), code_value(email, code.to_s.strip)) == [1]
 
+    # The attempts are left to expire. Clearing them here could reset the count of a code sent a moment ago.
     ::Redis::Alfred.setex(key(:VERIFIED), email, VERIFIED_TTL)
-    ::Redis::Alfred.delete(key(:ATTEMPTS))
     :verified
   end
 
