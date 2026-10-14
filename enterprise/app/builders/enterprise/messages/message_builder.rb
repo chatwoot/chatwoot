@@ -24,7 +24,10 @@ module Enterprise::Messages::MessageBuilder
     attributes = params[:content_attributes] || {}
     return params.merge(content_attributes: attributes.merge(translation_failed: true)) if translated.blank? || translated == reply_text
 
-    params.merge(content: with_quoted_history(translated), content_attributes: attributes.merge(translations: { source_locale => agent_text }))
+    params.merge(
+      content: with_quoted_history(translated),
+      content_attributes: attributes.merge(translations: { source_locale => agent_text }, source_language: @conversation.language)
+    )
   end
 
   def auto_translate?(params)

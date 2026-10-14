@@ -41,7 +41,9 @@ export default {
           !message.content_attributes?.deleted &&
           !message.content_attributes?.translations?.[locale] &&
           attempted[message.id] === undefined &&
-          (!sameLanguage || foreign(message))
+          (!sameLanguage ||
+            foreign(message) ||
+            !!message.content_attributes?.translations)
       )
       .map(message => message.id);
 

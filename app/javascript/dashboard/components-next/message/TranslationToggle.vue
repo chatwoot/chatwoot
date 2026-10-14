@@ -52,7 +52,7 @@ const toggleLabel = computed(() => {
     });
   }
   return t('CONVERSATION.VIEW_TRANSLATED_IN', {
-    language: isOutgoing.value ? language : agentLanguage,
+    language: isOutgoing.value ? state.value.sourceLanguage : agentLanguage,
   });
 });
 </script>
