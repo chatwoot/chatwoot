@@ -30,6 +30,41 @@ const required = defineModel('required', {
   default: false,
 });
 
+const source = defineModel('source', {
+  type: String,
+  default: undefined,
+});
+
+// The model fills a parameter unless Chatwoot fills it from what the customer verified
+const MODEL_SOURCE = 'model';
+const VERIFIED_SOURCES = ['verified.email', 'verified.identifier'];
+
+const sourceOptions = computed(() => [
+  {
+    value: MODEL_SOURCE,
+    label: t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_SOURCES.MODEL'),
+  },
+  {
+    value: 'verified.email',
+    label: t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_SOURCES.VERIFIED_EMAIL'),
+  },
+  {
+    value: 'verified.identifier',
+    label: t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_SOURCES.VERIFIED_IDENTIFIER'),
+  },
+]);
+
+const isVerified = computed(() => VERIFIED_SOURCES.includes(source.value));
+
+// A verified value is always text, and Chatwoot always fills it
+const selectedSource = computed({
+  get: () => source.value || MODEL_SOURCE,
+  set: value => {
+    source.value = value === MODEL_SOURCE ? undefined : value;
+    if (isVerified.value) type.value = 'string';
+  },
+});
+
 const paramTypeOptions = computed(() => [
   { value: 'string', label: t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_TYPES.STRING') },
   { value: 'number', label: t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_TYPES.NUMBER') },
@@ -48,7 +83,7 @@ const validationError = computed(() => {
   return null;
 });
 
-watch([name, type, description, required], () => {
+watch([name, type, description, required, source], () => {
   showErrors.value = false;
 });
 
@@ -78,9 +113,15 @@ defineExpose({ validate });
           v-model="type"
           :options="paramTypeOptions"
           :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_TYPE.PLACEHOLDER')"
+          :disabled="isVerified"
           class="[&>div>button]:bg-n-alpha-black2"
         />
       </div>
+      <ComboBox
+        v-model="selectedSource"
+        :options="sourceOptions"
+        class="[&>div>button]:bg-n-alpha-black2"
+      />
       <Input
         v-model="description"
         :placeholder="
@@ -88,12 +129,18 @@ defineExpose({ validate });
         "
       />
       <div class="flex items-center justify-between">
-        <label class="flex items-center gap-2 cursor-pointer">
+        <label
+          v-if="!isVerified"
+          class="flex items-center gap-2 cursor-pointer"
+        >
           <Checkbox v-model="required" />
           <span class="text-sm text-n-slate-11">
             {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_REQUIRED.LABEL') }}
           </span>
         </label>
+        <span v-else class="text-sm text-n-slate-11">
+          {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAM_SOURCES.HELP') }}
+        </span>
         <Button
           type="button"
           ghost

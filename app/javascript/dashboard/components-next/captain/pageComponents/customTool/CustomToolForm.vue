@@ -52,13 +52,6 @@ const state = reactive({
   settings: { ...initialState.settings },
 });
 
-// A tool whose URL or request body reads this value gets the email from the verified session, so it always needs verification
-// Any reference to session inside {{ }} or {% %} counts, matching the check on the server
-const LIQUID_BLOCK_PATTERN = /\{\{[\s\S]*?\}\}|\{%[\s\S]*?%\}/g;
-// Text values are removed first, and a property such as order.session is not the namespace
-const LIQUID_STRING_PATTERN = /"[^"]*"|'[^']*'/g;
-const SESSION_REFERENCE_PATTERN = /(?<![.\w])session(?!\w)/;
-
 // Tools installed from a manifest are shown read-only
 const isReadOnly = computed(() => props.mode === 'view');
 
@@ -83,26 +76,14 @@ watch(
   { immediate: true }
 );
 
-// A GET request has no body, so its request template is never sent
-const sentTemplates = computed(() =>
-  state.http_method === 'GET'
-    ? [state.endpoint_url]
-    : [state.endpoint_url, state.request_template]
-);
-
-const usesSessionEmail = computed(() =>
-  sentTemplates.value.some(template =>
-    (template || '')
-      .match(LIQUID_BLOCK_PATTERN)
-      ?.some(block =>
-        SESSION_REFERENCE_PATTERN.test(block.replace(LIQUID_STRING_PATTERN, ''))
-      )
-  )
+// A parameter that takes the verified email means the tool cannot run without one
+const usesVerifiedEmail = computed(() =>
+  state.param_schema.some(param => param.source === 'verified.email')
 );
 
 const requiresEmailVerification = computed({
   get: () =>
-    usesSessionEmail.value || state.settings.requires_email_verification,
+    usesVerifiedEmail.value || state.settings.requires_email_verification,
   set: value => {
     state.settings.requires_email_verification = value;
   },
@@ -311,7 +292,7 @@ const handleTest = async () => {
           </span>
           <span class="text-sm text-n-slate-11">
             {{
-              usesSessionEmail
+              usesVerifiedEmail
                 ? t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.IMPLIED')
                 : t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.DESCRIPTION')
             }}
@@ -319,7 +300,7 @@ const handleTest = async () => {
         </span>
         <Switch
           v-model="requiresEmailVerification"
-          :disabled="isReadOnly || usesSessionEmail"
+          :disabled="isReadOnly || usesVerifiedEmail"
           class="shrink-0"
         />
       </label>
@@ -350,6 +331,7 @@ const handleTest = async () => {
               v-model:type="param.type"
               v-model:description="param.description"
               v-model:required="param.required"
+              v-model:source="param.source"
               @remove="removeParam(index)"
             />
           </ul>

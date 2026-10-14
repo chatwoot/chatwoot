@@ -1481,7 +1481,7 @@
         "EMAIL_VERIFICATION": {
           "LABEL": "Require email verification",
           "DESCRIPTION": "Captain can use this tool only after the customer verifies their email with a one-time code.",
-          "IMPLIED": "This tool reads the customer's verified email, so email verification is always required."
+          "IMPLIED": "A parameter takes the customer's verified email, so email verification is always required."
         },
         "AUTH_TYPES": {
           "NONE": "None",
@@ -1537,6 +1537,12 @@
         },
         "PARAM_REQUIRED": {
           "LABEL": "Required"
+        },
+        "PARAM_SOURCES": {
+          "MODEL": "Filled by Captain",
+          "VERIFIED_EMAIL": "Verified email (one-time code)",
+          "VERIFIED_IDENTIFIER": "Verified identifier (HMAC)",
+          "HELP": "Filled by Chatwoot. Captain cannot see or change it in customer conversations."
         },
         "REQUEST_TEMPLATE": {
           "LABEL": "Request Body Template (Optional)",
