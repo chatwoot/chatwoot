@@ -4,13 +4,6 @@ import { useI18n } from 'vue-i18n';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 
-const props = defineProps({
-  source: {
-    type: String,
-    required: true,
-  },
-});
-
 const emit = defineEmits(['remove']);
 const { t } = useI18n();
 const showErrors = ref(false);
@@ -20,11 +13,6 @@ const name = defineModel('name', {
   required: true,
 });
 
-const sourceLabel = computed(() =>
-  props.source === 'verified.email'
-    ? t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.EMAIL')
-    : t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.IDENTIFIER')
-);
 const isNameMissing = computed(() => !name.value || name.value.trim() === '');
 
 watch(name, () => {
@@ -57,7 +45,9 @@ defineExpose({ validate });
           class="flex items-center gap-1.5 h-10 px-3 rounded-lg outline outline-1 outline-offset-[-1px] outline-n-weak bg-n-alpha-black2 text-sm text-n-slate-12 min-w-0"
         >
           <span class="i-lucide-lock size-3.5 shrink-0 text-n-slate-11" />
-          <span class="truncate">{{ sourceLabel }}</span>
+          <span class="truncate">{{
+            t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.EMAIL')
+          }}</span>
         </span>
       </div>
       <div class="flex items-center justify-between gap-2">

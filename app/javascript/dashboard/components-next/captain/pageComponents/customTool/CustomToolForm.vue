@@ -11,9 +11,6 @@ import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
-import DropdownContainer from 'dashboard/components-next/dropdown-menu/base/DropdownContainer.vue';
-import DropdownBody from 'dashboard/components-next/dropdown-menu/base/DropdownBody.vue';
-import DropdownItem from 'dashboard/components-next/dropdown-menu/base/DropdownItem.vue';
 import ParamRow from './ParamRow.vue';
 import VerifiedParamRow from './VerifiedParamRow.vue';
 import AuthConfig from './AuthConfig.vue';
@@ -182,45 +179,16 @@ const addParam = () => {
   state.param_schema.push({ ...DEFAULT_PARAM });
 };
 
-// Chatwoot fills these from what the customer verified. Captain sees the description only where a team member is the user.
-const verifiedParams = computed(() => ({
-  'verified.email': {
+// Chatwoot fills this from the email the customer verified. Captain sees the description only where a team member is the user.
+const addVerifiedEmailParam = () => {
+  state.param_schema.push({
     name: 'email',
+    type: 'string',
     description: t(
       'CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.EMAIL_DESCRIPTION'
     ),
-  },
-  'verified.identifier': {
-    name: 'identifier',
-    description: t(
-      'CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.IDENTIFIER_DESCRIPTION'
-    ),
-  },
-}));
-
-const verifiedOptions = computed(() => [
-  {
-    source: 'verified.email',
-    icon: 'i-lucide-mail-check',
-    label: t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.EMAIL'),
-    hint: t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.EMAIL_HINT'),
-  },
-  {
-    source: 'verified.identifier',
-    icon: 'i-lucide-fingerprint',
-    label: t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.IDENTIFIER'),
-    hint: t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.IDENTIFIER_HINT'),
-  },
-]);
-
-const addVerifiedParam = source => {
-  const { name, description } = verifiedParams.value[source];
-  state.param_schema.push({
-    name,
-    type: 'string',
-    description,
     required: true,
-    source,
+    source: 'verified.email',
   });
 };
 
@@ -374,7 +342,6 @@ const handleTest = async () => {
                 v-if="param.source"
                 ref="paramsRef"
                 v-model:name="param.name"
-                :source="param.source"
                 @remove="removeParam(index)"
               />
               <ParamRow
@@ -398,38 +365,15 @@ const handleTest = async () => {
               :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.ADD_PARAMETER')"
               @click="addParam"
             />
-            <DropdownContainer>
-              <template #trigger="{ toggle }">
-                <Button
-                  type="button"
-                  sm
-                  ghost
-                  blue
-                  icon="i-lucide-user-check"
-                  :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.ADD')"
-                  @click="toggle"
-                />
-              </template>
-              <DropdownBody class="top-0 z-50 min-w-72" strong>
-                <DropdownItem
-                  v-for="option in verifiedOptions"
-                  :key="option.source"
-                  :icon="option.icon"
-                  :click="() => addVerifiedParam(option.source)"
-                >
-                  <template #label>
-                    <span class="flex flex-col min-w-0">
-                      <span class="text-sm text-n-slate-12">{{
-                        option.label
-                      }}</span>
-                      <span class="text-xs text-n-slate-11">{{
-                        option.hint
-                      }}</span>
-                    </span>
-                  </template>
-                </DropdownItem>
-              </DropdownBody>
-            </DropdownContainer>
+            <Button
+              type="button"
+              sm
+              ghost
+              blue
+              icon="i-lucide-mail-check"
+              :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.ADD')"
+              @click="addVerifiedEmailParam"
+            />
           </div>
         </ToolFormSection>
 

@@ -1539,14 +1539,10 @@
           "LABEL": "Required"
         },
         "VERIFIED_VALUES": {
-          "ADD": "Add verified parameter",
+          "ADD": "Add verified email",
           "EMAIL": "Contact email",
-          "IDENTIFIER": "Contact identifier",
-          "EMAIL_HINT": "Confirmed with a one-time code",
-          "IDENTIFIER_HINT": "Signed by your app with HMAC",
           "EMAIL_DESCRIPTION": "The contact's verified email address",
-          "IDENTIFIER_DESCRIPTION": "The contact's verified identifier from your app",
-          "HELP": "Filled by Chatwoot. Captain cannot see or change it in customer conversations."
+          "HELP": "Filled by Chatwoot from the email the contact confirmed with a one-time code. Captain cannot see or change it in customer conversations."
         },
         "REQUEST_TEMPLATE": {
           "LABEL": "Request Body Template (Optional)",
