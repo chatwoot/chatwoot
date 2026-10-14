@@ -41,19 +41,11 @@ class Captain::Copilot::TurnTranscript
   def add_history(message)
     return if message.assistant? && @replayed_run_ids.include?(message.message['run_id'])
 
-    @chat.add_message(role: message.message_type.to_sym, content: history_content(message))
+    @chat.add_message(role: message.message_type.to_sym, content: message.message['content'].to_s)
     prior = message.copilot_run
     return unless prior && prior.id != @run.id
 
     append_earlier_turn(prior)
-  end
-
-  # The current time comes with the agent's latest message, not the instructions, so the instructions and earlier turns
-  # stay the same from turn to turn and the provider can reuse its prompt cache. The turn's own time keeps it stable
-  # across retries.
-  def history_content(message)
-    content = message.message['content'].to_s
-    message.id == @run.copilot_message_id ? "#{content}\n\nCurrent time: #{@run.created_at.iso8601}." : content
   end
 
   def append_earlier_turn(prior)

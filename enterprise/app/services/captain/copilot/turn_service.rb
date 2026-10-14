@@ -23,7 +23,7 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService # rubocop:di
     To find which conversations need attention or are most urgent, review them against what customers wrote. Priority may be mentioned, but never answer from it alone.
     Use from to move between saved sets, such as the contacts of a review's matched conversations, or the conversations whose messages contain an order number.
     Never look up the records of a saved set one by one. Select them with get_data and from, then read them with display.
-    Use explicit ISO8601 bounds for relative dates using the current time given with the agent's latest message. State whether dates refer to creation or last activity.
+    Use explicit ISO8601 bounds for relative dates using the current time supplied below. State whether dates refer to creation or last activity.
     When the request is about a subset, such as a topic, issue or intent, always pass question as a yes or no question. Every conversation is screened against it and only matching ones are reviewed against criteria.
     Write question and criteria in the agent's own words. Copy names and topics exactly as the agent wrote them. Never define, explain or narrow them, and do not add product names or conditions the agent did not state. The reviewer also reads the agent's message.
     review_conversations reviews up to #{CopilotRun::CONVERSATIONS_PER_TURN} conversations per turn, newest first, and returns once they are done. Its summary reports coverage: selected, screened out, reviewed, matched, failed and remaining.
@@ -87,8 +87,10 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService # rubocop:di
 
   def system_message
     message = super
+    # The current time is the turn's own, so a retried or resumed turn reads the same dates.
     message[:content] += "\n\n#{CHATWOOT_CONTEXT}\n#{WORKFLOW_INSTRUCTIONS}\nThe agent you are helping is #{@user.name} (user ID #{@user.id}). " \
-                         'Use this ID for their own records, such as conversations assigned to them.'
+                         "Use this ID for their own records, such as conversations assigned to them.\n" \
+                         "Current time: #{@run.created_at.iso8601}."
     message
   end
 
