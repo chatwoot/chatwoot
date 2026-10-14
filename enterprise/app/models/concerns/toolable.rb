@@ -5,16 +5,8 @@ module Concerns::Toolable
   # Keeps them separate from built-in classes in Captain::Tools (e.g., HttpTool, CustomHttpTool).
   module CustomTools; end
 
-  # Templates read values Chatwoot vouches for under this name, such as {{ session.verified_email }}
-  SESSION_NAMESPACE = 'session'.freeze
-  # Any reference to session inside {{ }} or {% %} counts, so bracket access or an alias is not missed
-  LIQUID_BLOCK_PATTERN = /\{\{.*?\}\}|\{%.*?%\}/m
-  # Text values are removed first, and a property such as order.session is not the namespace
-  LIQUID_STRING_PATTERN = /"[^"]*"|'[^']*'/
-  SESSION_REFERENCE_PATTERN = /(?<![.\w])session(?!\w)/
-  OPEN_SESSION_EMAIL_PARAM = :email
-
-  # In an open session an admin or agent is the user, so the model supplies the email that Chatwoot otherwise takes from the verified session
+  # A parameter with a source is filled by Chatwoot from what the customer verified, so the model does not see it.
+  # In an open session an admin or agent is the user, so the model fills it in their place.
   def tool(assistant, base_class: Captain::Tools::HttpTool, open_session: false, **)
     custom_tool_record = self
     class_name = custom_tool_record.slug.underscore.camelize
@@ -29,14 +21,12 @@ module Concerns::Toolable
       define_method(:name) { tool_slug }
 
       custom_tool_record.param_schema.each do |param_def|
+        next if param_def['source'].present? && !open_session
+
         parameter param_def['name'].to_sym,
                   type: param_def['type'],
                   description: param_def['description'],
-                  required: param_def.fetch('required', true)
-      end
-
-      if open_session && custom_tool_record.session_email_parameter_needed?
-        parameter OPEN_SESSION_EMAIL_PARAM, type: 'string', description: "The customer's email address", required: true
+                  required: param_def['source'].present? || param_def.fetch('required', true)
       end
     end
 
@@ -50,16 +40,16 @@ module Concerns::Toolable
     tool_class.new(assistant, self, **)
   end
 
-  def build_request_url(params, session = {})
+  def build_request_url(params)
     return endpoint_url if endpoint_url.blank? || (endpoint_url.exclude?('{{') && endpoint_url.exclude?('{%'))
 
-    render_template(endpoint_url, template_context(params, session))
+    render_template(endpoint_url, params)
   end
 
-  def build_request_body(params, session = {})
+  def build_request_body(params)
     return nil if request_template.blank?
 
-    render_template(request_template, template_context(params, session))
+    render_template(request_template, params)
   end
 
   def build_auth_headers
@@ -120,11 +110,6 @@ module Concerns::Toolable
   end
 
   private
-
-  # session is set last, so a parameter from the model can never replace what Chatwoot supplies
-  def template_context(params, session)
-    params.deep_stringify_keys.merge(SESSION_NAMESPACE => session.deep_stringify_keys)
-  end
 
   # Syntax errors fail the call. Missing variables render as nil, so templates can branch on optional
   # params and response fields ({% if response.error %}, | default:). strict_variables would not fail

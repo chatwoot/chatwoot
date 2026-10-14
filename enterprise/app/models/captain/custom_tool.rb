@@ -53,6 +53,8 @@ class Captain::CustomTool < ApplicationRecord
   RESERVED_HEADERS = %w[authorization host content-length content-type].freeze
   # Any name starting with x-chatwoot, dash or not, is reserved for headers Chatwoot sets
   RESERVED_HEADER_PREFIX = 'x-chatwoot'.freeze
+  # Values Chatwoot fills into a parameter from what the customer verified: an email by one-time code, or an identifier by HMAC
+  VERIFIED_SOURCES = %w[verified.email verified.identifier].freeze
   PARAM_SCHEMA_VALIDATION = {
     'type': 'array',
     'items': {
@@ -61,9 +63,13 @@ class Captain::CustomTool < ApplicationRecord
         'name': { 'type': 'string' },
         'type': { 'type': 'string' },
         'description': { 'type': 'string' },
-        'required': { 'type': 'boolean' }
+        'required': { 'type': 'boolean' },
+        'source': { 'enum': VERIFIED_SOURCES }
       },
       'required': %w[name type description],
+      # Verified values are text, so a parameter that takes one must be a string
+      'if': { 'required': ['source'] },
+      'then': { 'properties': { 'type': { 'const': 'string' } } },
       'additionalProperties': false
     }
   }.to_json.freeze
@@ -116,7 +122,6 @@ class Captain::CustomTool < ApplicationRecord
                  schema: SETTINGS_VALIDATION,
                  attribute_resolver: ->(record) { record.settings }
   validate :validate_headers
-  validate :validate_param_names
   validate :validate_auth_config
 
   scope :enabled, -> { where(enabled: true) }
@@ -135,25 +140,20 @@ class Captain::CustomTool < ApplicationRecord
   end
 
   # The tool only runs for a customer who verified an email with a one-time code.
-  # A tool that reads the session email cannot run without one, so it needs no setting.
+  # A tool with a parameter that takes the verified email cannot run without one, so it needs no setting.
   def requires_email_verification?
-    settings['requires_email_verification'] == true || uses_session_email?
+    settings['requires_email_verification'] == true || verified_sources.include?('verified.email')
   end
 
-  # Whether the request reads the email from the session, which Chatwoot fills in, in place of a parameter the model fills in
-  def uses_session_email?
-    sent_templates.any? do |template|
-      template.to_s.scan(LIQUID_BLOCK_PATTERN).any? { |block| block.gsub(LIQUID_STRING_PATTERN, '').match?(SESSION_REFERENCE_PATTERN) }
-    end
+  def verified_sources
+    param_schema.filter_map { |param_def| param_def['source'] }.uniq
   end
 
-  # A GET request has no body, so its request template is never sent
-  def sent_templates
-    http_method == 'GET' ? [endpoint_url] : [endpoint_url, request_template]
-  end
-
-  def session_email_parameter_needed?
-    uses_session_email? && param_schema.none? { |param_def| param_def['name'] == OPEN_SESSION_EMAIL_PARAM.to_s }
+  # Verified values are set last, so a value from the model can never replace one Chatwoot fills in.
+  # The caller checks that every source has a value first, so a missing one raises.
+  def with_verified_values(params, verified_values)
+    bound = param_schema.select { |param_def| param_def['source'] }
+    params.deep_stringify_keys.merge(bound.to_h { |param_def| [param_def['name'], verified_values.fetch(param_def['source'])] })
   end
 
   def enabled_scenarios_count
@@ -161,12 +161,6 @@ class Captain::CustomTool < ApplicationRecord
   end
 
   private
-
-  def validate_param_names
-    return unless param_schema.is_a?(Array) && param_schema.any? { |param_def| param_def.is_a?(Hash) && param_def['name'] == SESSION_NAMESPACE }
-
-    errors.add(:param_schema, I18n.t('captain.custom_tool.param_schema.reserved_name', name: SESSION_NAMESPACE))
-  end
 
   def validate_headers
     return errors.add(:headers, I18n.t('captain.custom_tool.headers.invalid')) unless headers.is_a?(Hash)
