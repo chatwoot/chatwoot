@@ -48,6 +48,18 @@ RSpec.describe Messages::MessageBuilder do
     expect(Captain::Llm::MessageTranslationService).not_to have_received(:new)
   end
 
+  it 'translates only the reply above the quoted history of an email and keeps the agent text as html' do
+    email_inbox = create(:inbox, account: account, channel: create(:channel_email, account: account))
+    email_conversation = create(:conversation, account: account, inbox: email_inbox, additional_attributes: { 'conversation_language' => 'fr' })
+    typed = ActionController::Parameters.new(content: "Hello there\n\n> On Wed, Oct 1 wrote:\n> Bonjour", message_type: 'outgoing')
+
+    message = described_class.new(user, email_conversation, typed).perform
+
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: [{ id: 0, content: 'Hello there' }]))
+    expect(message.content).to eq("Bonjour\n\n> On Wed, Oct 1 wrote:\n> Bonjour")
+    expect(message.translations['en']).to include('<p>Hello there</p>', '<blockquote>')
+  end
+
   it 'leaves the message untouched when the translator returns the same text' do
     allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => 0, 'text' => 'Hello there' }])
     message = described_class.new(user, conversation, params).perform

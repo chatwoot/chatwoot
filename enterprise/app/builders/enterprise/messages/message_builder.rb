@@ -17,15 +17,14 @@ module Enterprise::Messages::MessageBuilder
     params = super
     return params unless auto_translate?(params)
 
-    content = process_liquid_in_email_body(params[:content])
-    translated = translate(content)
+    translated = translate(reply_text)
     # A short reply the model hands back unchanged was already in the contact language; a detected one it could not translate.
-    return params if translated == content && detected_language.blank?
+    return params if translated == reply_text && detected_language.blank?
 
     attributes = params[:content_attributes] || {}
-    return params.merge(content_attributes: attributes.merge(translation_failed: true)) if translated.blank? || translated == content
+    return params.merge(content_attributes: attributes.merge(translation_failed: true)) if translated.blank? || translated == reply_text
 
-    params.merge(content: translated, content_attributes: attributes.merge(translations: { source_locale => content }))
+    params.merge(content: with_quoted_history(translated), content_attributes: attributes.merge(translations: { source_locale => agent_text }))
   end
 
   def auto_translate?(params)
@@ -35,8 +34,30 @@ module Enterprise::Messages::MessageBuilder
   end
 
   def translatable_message?(params)
-    params[:message_type] == 'outgoing' && !params[:private] && params[:content].present? &&
+    params[:message_type] == 'outgoing' && !params[:private] && reply_text.present? &&
       params[:content_type].to_s.in?(['', 'text']) && @params[:template_params].blank? && @params[:email_html_content].blank?
+  end
+
+  def rendered_content
+    @rendered_content ||= process_liquid_in_email_body(@params[:content].to_s)
+  end
+
+  # The reply box appends the quoted history as markdown quote lines; only the text above them is the agent's reply.
+  def quoted_history
+    @quoted_history ||= rendered_content[/^>.*\z/m].to_s
+  end
+
+  def reply_text
+    @reply_text ||= quoted_history.blank? ? rendered_content : rendered_content.delete_suffix(quoted_history).strip
+  end
+
+  def with_quoted_history(translated)
+    quoted_history.blank? ? translated : "#{translated.strip}\n\n#{quoted_history}"
+  end
+
+  # Agents keep their own text; for email it is rendered like the sent mail so the quoted history stays collapsed.
+  def agent_text
+    email_inbox? ? render_email_html(normalize_email_body(rendered_content)) : rendered_content
   end
 
   def translatable_conversation?
@@ -63,7 +84,7 @@ module Enterprise::Messages::MessageBuilder
   def detected_language
     return @detected_language if defined?(@detected_language)
 
-    @detected_language = Captain::Conversation::DetectLanguageService.language_of(@params[:content])
+    @detected_language = Captain::Conversation::DetectLanguageService.language_of(reply_text)
   end
 
   # The language the agent actually wrote in; the profile language is the fallback for texts too short to detect.
