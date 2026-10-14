@@ -36,7 +36,7 @@ class Call < ApplicationRecord
   TERMINAL_STATUSES = %w[completed no_answer failed rejected].freeze
 
   store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at,
-                 :accepted_broadcast_at, :recording_enabled
+                 :accepted_broadcast_at, :recording_enabled, :provider_status
 
   # Frontend voice bubbles/stores expect inbound/outbound string values
   DISPLAY_DIRECTION = { 'incoming' => 'inbound', 'outgoing' => 'outbound' }.freeze
@@ -136,6 +136,81 @@ class Call < ApplicationRecord
     TERMINAL_STATUSES.include?(status)
   end
 
+  # Merges keys into `meta` in the database, leaving the other keys as they are there. A
+  # save of `meta` from a copy loaded earlier would otherwise drop keys written since.
+  # The agents' connections to the Twilio conference, keyed by call SID: joining from when
+  # Twilio asks for the leg's instructions, then joined, or gone once it leaves or could
+  # not be added. Each carries the time it last changed.
+  def agent_legs
+    meta&.fetch('agent_legs', nil) || {}
+  end
+
+  # How long an agent's connection counts as on its way into the conference; one not in by
+  # then is taken to have failed
+  AGENT_LEG_JOIN_GRACE_SECONDS = 30
+
+  # Seconds until the last of the connections still on its way in, other than the one
+  # given, runs out of time to join; nil when there is none
+  def agent_leg_join_wait(except: nil)
+    now = Time.zone.now.to_i
+    joining = agent_legs.except(except.to_s).values.select { |leg| leg['state'] == 'joining' && leg['at'].to_i > now - AGENT_LEG_JOIN_GRACE_SECONDS }
+    joining.map { |leg| leg['at'].to_i + AGENT_LEG_JOIN_GRACE_SECONDS - now }.max&.clamp(1..)
+  end
+
+  # Whether another connection is in the conference, or joined it at or after the time given
+  def agent_leg_joined?(except: nil, since: nil)
+    agent_legs.except(except.to_s).values.any? { |leg| leg['state'] == 'joined' && (since.nil? || leg['at'].to_i >= since) }
+  end
+
+  # A join accepted with an attempt id holds a place for its connection, until Twilio asks
+  # for that connection's instructions with the same id or its time to join runs out
+  def self.pending_agent_leg(attempt) = "pending:#{attempt}"
+
+  # Records an agent's connection as joining unless the call has ended, under the row lock,
+  # so a decision that ends the call either sees the connection or is seen by it. The place
+  # its own attempt held is given up to it. A repeated request for a connection keeps the
+  # state its callbacks already reached: one that joined stays joined, one that left is refused.
+  def open_agent_leg!(sid, attempt: nil)
+    with_lock do
+      leg_state = agent_legs.dig(sid.to_s, 'state')
+      next false if terminal? || leg_state == 'gone'
+
+      if attempt.present?
+        self.class.where(id: id).update_all(['meta = meta #- ARRAY[?, ?]', 'agent_legs', self.class.pending_agent_leg(attempt)]) # rubocop:disable Rails/SkipsModelValidations
+      end
+      record_agent_leg!(sid, 'joining') unless leg_state == 'joined'
+      true
+    end
+  end
+
+  # Called under the row lock. A leg that has gone stays gone, since Twilio's callbacks for
+  # one leg can arrive out of order. Merged in place, so other webhooks' meta keys stay.
+  def record_agent_leg!(sid, state)
+    return if sid.blank? || agent_legs.dig(sid, 'state') == 'gone'
+
+    leg = { sid => { 'state' => state, 'at' => Time.zone.now.to_i } }
+    self.class.where(id: id).update_all( # rubocop:disable Rails/SkipsModelValidations
+      ["meta = jsonb_set(COALESCE(meta, '{}'::jsonb), '{agent_legs}', COALESCE(meta->'agent_legs', '{}'::jsonb) || ?::jsonb)", leg.to_json]
+    )
+    reload
+  end
+
+  # Ended unanswered because the agent's leg could not be added; the contact's answer may
+  # still be reported after it
+  def unanswered_by_failed_join? = status == 'no_answer' && meta&.dig('unanswered_by_failed_join').present?
+
+  # Called under the row lock
+  def retire_pending_agent_legs!
+    legs = agent_legs.reject { |sid, _| sid.start_with?('pending:') }
+    self.class.where(id: id).update_all(["meta = jsonb_set(COALESCE(meta, '{}'::jsonb), '{agent_legs}', ?::jsonb)", legs.to_json]) # rubocop:disable Rails/SkipsModelValidations
+    reload
+  end
+
+  def merge_meta!(values)
+    self.class.where(id: id).update_all(["meta = COALESCE(meta, '{}'::jsonb) || ?::jsonb", values.to_json]) # rubocop:disable Rails/SkipsModelValidations
+    reload
+  end
+
   # The ring timeout is hanging the caller up. A mark left by an attempt that died long ago
   # no longer counts, so a later sweep can finish the job.
   def ring_timeout_in_progress?
@@ -179,6 +254,7 @@ class Call < ApplicationRecord
       provider: provider,
       direction: direction,
       status: display_status,
+      provider_status: provider_status,
       duration_seconds: duration_seconds,
       end_reason: end_reason,
       conference_sid: conference_sid,
