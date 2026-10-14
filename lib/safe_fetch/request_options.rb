@@ -91,7 +91,11 @@ class SafeFetch::RequestOptions
 
   def request_proc
     proc do |request|
-      credentials = http_basic_authentication.presence || basic_authentication_for(request.uri)
+      credentials = if same_origin?(request.uri, uri)
+                      http_basic_authentication.presence || basic_authentication_for(request.uri)
+                    else
+                      uri_basic_authentication(request.uri)
+                    end
       request.basic_auth(*credentials) if credentials.present?
     end
   end
