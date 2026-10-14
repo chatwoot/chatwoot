@@ -326,14 +326,13 @@ RSpec.describe Captain::CustomTool, type: :model do
   describe 'verified parameters' do
     let(:account) { create(:account) }
     let(:email_param) { { 'name' => 'email', 'type' => 'string', 'description' => 'Customer email', 'source' => 'verified.email' } }
-    let(:identifier_param) { { 'name' => 'user_id', 'type' => 'string', 'description' => 'Customer ID', 'source' => 'verified.identifier' } }
     let(:order_param) { { 'name' => 'order_id', 'type' => 'string', 'description' => 'Order ID' } }
 
-    it 'accepts the verified email and the verified identifier as sources' do
-      tool = build(:captain_custom_tool, account: account, param_schema: [email_param, identifier_param])
+    it 'accepts the verified email as a source' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [email_param])
 
       expect(tool).to be_valid
-      expect(tool.verified_sources).to contain_exactly('verified.email', 'verified.identifier')
+      expect(tool.verified_sources).to eq(['verified.email'])
     end
 
     it 'is invalid when a parameter that takes a verified value is not a string' do
@@ -343,7 +342,13 @@ RSpec.describe Captain::CustomTool, type: :model do
     end
 
     it 'is invalid with an unknown source' do
-      tool = build(:captain_custom_tool, account: account, param_schema: [email_param.merge('source' => 'verified.phone')])
+      %w[verified.identifier verified.phone].each do |source|
+        expect(build(:captain_custom_tool, account: account, param_schema: [email_param.merge('source' => source)])).not_to be_valid
+      end
+    end
+
+    it 'is invalid with a source that is not text' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [email_param.merge('source' => true)])
 
       expect(tool).not_to be_valid
     end
@@ -354,23 +359,17 @@ RSpec.describe Captain::CustomTool, type: :model do
       expect(tool.requires_email_verification?).to be(true)
     end
 
-    it 'does not require email verification for a parameter that takes the verified identifier' do
-      tool = build(:captain_custom_tool, account: account, param_schema: [identifier_param])
-
-      expect(tool.requires_email_verification?).to be(false)
-    end
-
     it 'has no verified sources when every parameter comes from the model' do
       expect(build(:captain_custom_tool, account: account, param_schema: [order_param]).verified_sources).to be_empty
     end
 
     describe '#with_verified_values' do
-      let(:tool) { build(:captain_custom_tool, account: account, param_schema: [email_param, identifier_param, order_param]) }
-      let(:verified_values) { { 'verified.email' => 'jane@example.com', 'verified.identifier' => 'user_42' } }
+      let(:tool) { build(:captain_custom_tool, account: account, param_schema: [email_param, order_param]) }
+      let(:verified_values) { { 'verified.email' => 'jane@example.com' } }
 
       it 'fills each verified parameter from the matching value' do
         expect(tool.with_verified_values({ order_id: '7' }, verified_values))
-          .to eq({ 'order_id' => '7', 'email' => 'jane@example.com', 'user_id' => 'user_42' })
+          .to eq({ 'order_id' => '7', 'email' => 'jane@example.com' })
       end
 
       it 'does not let the model replace a verified value' do

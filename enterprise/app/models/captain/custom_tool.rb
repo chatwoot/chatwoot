@@ -53,8 +53,8 @@ class Captain::CustomTool < ApplicationRecord
   RESERVED_HEADERS = %w[authorization host content-length content-type].freeze
   # Any name starting with x-chatwoot, dash or not, is reserved for headers Chatwoot sets
   RESERVED_HEADER_PREFIX = 'x-chatwoot'.freeze
-  # Values Chatwoot fills into a parameter from what the customer verified: an email by one-time code, or an identifier by HMAC
-  VERIFIED_SOURCES = %w[verified.email verified.identifier].freeze
+  # Values Chatwoot fills into a parameter from what the customer verified: an email by one-time code
+  VERIFIED_SOURCES = %w[verified.email].freeze
   PARAM_SCHEMA_VALIDATION = {
     'type': 'array',
     'items': {
