@@ -455,6 +455,26 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
         )
       end
 
+      it 'sends the email the customer verified with a one-time code, next to the contact email' do
+        allow(Captain::EmailVerification).to receive(:new).with(conversation.contact_inbox)
+                                                          .and_return(instance_double(Captain::EmailVerification, verified_email: 'jane@example.com'))
+        stub_request(:get, 'https://example.com/api/data').to_return(status: 200, body: '{}')
+
+        tool.perform(tool_context_with_state)
+
+        expect(WebMock).to(have_requested(:get, 'https://example.com/api/data').with do |request|
+          request.headers['X-Chatwoot-Verified-Email'] == 'jane@example.com' && request.headers['X-Chatwoot-Contact-Email'] == contact.email
+        end)
+      end
+
+      it 'leaves out the verified email header when the customer has not verified an email' do
+        stub_request(:get, 'https://example.com/api/data').to_return(status: 200, body: '{}')
+
+        tool.perform(tool_context_with_state)
+
+        expect(WebMock).to(have_requested(:get, 'https://example.com/api/data').with { |request| !request.headers.key?('X-Chatwoot-Verified-Email') })
+      end
+
       it 'includes metadata headers in GET request' do
         stub_request(:get, 'https://example.com/api/data')
           .with(headers: {

@@ -78,6 +78,10 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   def request_headers(tool_context, json_body, auth_headers)
     headers = @custom_tool.headers.merge(auth_headers)
     headers.merge!(@custom_tool.build_metadata_headers(tool_context&.state || {}))
+    # The contact email can be typed by anyone, so the email the customer verified travels in its own header.
+    # The admin test request runs without a conversation, so it has no customer to look up.
+    verified_email = stored_verified_values(tool_context.state)['verified.email'] if tool_context
+    headers['X-Chatwoot-Verified-Email'] = verified_email if verified_email
     headers['Content-Type'] = 'application/json' if json_body.present?
     headers
   end
