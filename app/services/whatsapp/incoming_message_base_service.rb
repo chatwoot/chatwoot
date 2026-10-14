@@ -59,13 +59,17 @@ class Whatsapp::IncomingMessageBaseService
     original_message_id = messages_data.first.dig(:revoke, :original_message_id)
     return if original_message_id.blank?
 
-    message = @inbox.messages.find_by(source_id: original_message_id)
-    return if message.blank? || message.deleted
-    # a contact can only revoke what they sent, the business app only what the business sent
-    return unless outgoing_echo ? message.outgoing? : message.incoming?
+    # A contact can only revoke what they sent, the business app only what the business sent.
+    # A shared contacts message is stored as one row per contact, all with the same source id.
+    revoked_messages = @inbox.messages.where(source_id: original_message_id, message_type: outgoing_echo ? :outgoing : :incoming)
+    revoked_messages.reject(&:deleted).each { |message| tombstone_message(message) }
+  end
 
+  # Same tombstone as an agent delete, so structured attributes such as a Flow response are dropped too
+  def tombstone_message(message)
     message.attachments.destroy_all
-    message.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
+    message.update!(content: I18n.t('conversations.messages.deleted'), content_type: :text,
+                    content_attributes: message.content_attributes.slice('forwarded_message_id').merge(deleted: true))
   end
 
   def process_statuses

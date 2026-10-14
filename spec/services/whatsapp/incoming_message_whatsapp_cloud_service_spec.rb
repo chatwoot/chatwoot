@@ -1056,6 +1056,31 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(message.reload.attachments).to be_empty
       end
 
+      it 'drops structured attributes such as a Flow response' do
+        deliver(text_params)
+        message = whatsapp_channel.inbox.messages.find_by!(source_id: 'wamid.original')
+        message.update!(content_attributes: { whatsapp_flow_response: { name: 'flow', response_json: { 'answer' => 'secret' } } })
+
+        deliver(revoke_params)
+
+        expect(message.reload.content_attributes).to eq('deleted' => true)
+      end
+
+      it 'marks every message stored for a shared contacts message deleted' do
+        deliver(text_params)
+        conversation = whatsapp_channel.inbox.conversations.last
+        cards = Array.new(2) do |index|
+          create(:message, account: whatsapp_channel.account, inbox: whatsapp_channel.inbox, conversation: conversation,
+                           source_id: 'wamid.contacts', content: "Contact #{index}")
+        end
+        params = cloud_params('messages', :messages, from: customer_number, id: 'wamid.revoke-contacts', timestamp: '1791969145',
+                                                     type: 'revoke', revoke: { original_message_id: 'wamid.contacts' })
+
+        deliver(params)
+
+        expect(cards.map { |card| card.reload.content_attributes['deleted'] }).to all(be(true))
+      end
+
       it 'is a no-op when the same revoke is delivered again' do
         deliver(text_params)
         deliver(revoke_params)
