@@ -76,7 +76,10 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
     return render_settings_error(I18n.t('captain.custom_tool.settings.invalid')) unless settings.is_a?(ActionController::Parameters)
 
     unknown_keys = settings.keys - Captain::CustomTool::SETTING_KEYS
-    render_settings_error(I18n.t('captain.custom_tool.settings.unknown', names: unknown_keys.join(', '))) if unknown_keys.any?
+    return render_settings_error(I18n.t('captain.custom_tool.settings.unknown', names: unknown_keys.join(', '))) if unknown_keys.any?
+
+    # permit drops a nested value, so it would save as off instead of failing
+    render_settings_error(I18n.t('captain.custom_tool.settings.not_boolean')) unless settings.values.all? { |value| [true, false].include?(value) }
   end
 
   def render_settings_error(message)

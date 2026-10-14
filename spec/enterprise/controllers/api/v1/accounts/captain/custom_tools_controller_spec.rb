@@ -215,6 +215,20 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
+      it 'rejects a setting with a nested value instead of saving it as off' do
+        [{}, [true], { on: true }].each do |value|
+          attributes = valid_attributes.deep_merge(custom_tool: { settings: { requires_email_verification: value } })
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
+                 params: attributes, headers: admin.create_new_auth_token, as: :json
+          end.not_to change(Captain::CustomTool, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(json_response[:error]).to eq('Settings values must be true or false')
+        end
+      end
+
       context 'with invalid parameters' do
         let(:invalid_attributes) do
           {

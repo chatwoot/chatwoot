@@ -540,6 +540,7 @@ en:
       settings:
         invalid: 'must be an object'
         unknown: 'has unknown settings: %{names}'
+        not_boolean: 'values must be true or false'
     tools_manifest:
       invalid_source: 'Enter a toolset from the Captain tools catalog as chatwoot/tools/folder'
       invalid_configuration: 'Invalid configuration'
