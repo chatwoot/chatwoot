@@ -42,7 +42,12 @@ class Captain::Copilot::ScreeningService
     params = { account_id: @run.account_id, feature_name: 'copilot_screening', model: MODEL,
                metadata: { run_id: @run.id, conversation_ids: conversations.map(&:id) } }
     with_copilot_trace('llm.captain.copilot_screening', params, turn: @run.turn, input: @run.question) do
-      conversations.to_h { |conversation| [conversation.id, score(conversation)] }
+      conversations.to_h do |conversation|
+        # A batch of Jev calls can outlast the lease, and turning workflows off should stop it between calls.
+        @run.renew_lease(@token)
+        @run.ensure_can_continue!
+        [conversation.id, score(conversation)]
+      end
     end
   end
 
@@ -71,12 +76,12 @@ class Captain::Copilot::ScreeningService
 
   # Customer and agent messages up to as_of, with private notes, as the review model sees them.
   def transcript(conversation)
-    messages = conversation.messages.where(message_type: %w[incoming outgoing]).where(Message.arel_table[:created_at].lteq(@run.as_of))
-                           .reorder(id: :desc).limit(WINDOW + 1).to_a
+    messages = conversation.messages.where(message_type: %w[incoming outgoing]).not_forwarded
+                           .where(Message.arel_table[:created_at].lteq(@run.as_of)).reorder(id: :desc).limit(WINDOW + 1).to_a
     return if messages.size > WINDOW
 
     transcript = messages.reverse.map do |message|
-      { sender: message.incoming? ? 'customer' : 'agent', private: message.private?, text: message.content_for_llm.to_s }
+      { sender: Captain::Copilot::ReviewService.sender_role(message), private: message.private?, text: message.content_for_llm.to_s }
     end
     transcript if transcript.sum { |entry| entry[:text].size } <= CHARACTER_BUDGET
   end

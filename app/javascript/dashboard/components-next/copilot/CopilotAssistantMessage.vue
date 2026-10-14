@@ -19,6 +19,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  canUseReply: {
+    type: Boolean,
+    default: true,
+  },
 });
 const route = useRoute();
 const router = useRouter();
@@ -28,7 +32,8 @@ const showUseButton = computed(() => {
   return (
     !hasEmptyMessageContent.value &&
     props.message.reply_suggestion &&
-    props.isLastMessage
+    props.isLastMessage &&
+    props.canUseReply
   );
 });
 

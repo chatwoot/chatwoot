@@ -75,13 +75,20 @@ class Captain::Copilot::UnsourcedNumbers
 
   private
 
-  # Sources are everything the model was given in this thread: the agent's messages, and every tool call and its result.
   def find(answer)
-    tool_calls = CopilotToolCall.where(copilot_run: @run.copilot_thread.copilot_runs.turn)
-    sources = [@run.copilot_thread.copilot_messages.user.map(&:message), tool_calls.pluck(:arguments, :result), @run.user_id, @run.account_id]
-    known = self.class.in_data(sources)
-    terms = self.class.counts_in(sources).uniq.first(MAX_RATIO_TERMS)
-    self.class.in_text(answer).reject { |number| known.include?(number.delete('%')) || ratio?(number, terms) }.sort_by(&:to_f)
+    given = sources
+    known = self.class.in_data(given)
+    terms = self.class.counts_in(given).uniq.first(MAX_RATIO_TERMS)
+    # A percentage must appear as one or be a ratio of returned numbers; a count with the same digits is not a source.
+    self.class.in_text(answer).reject { |number| known.include?(number) || ratio?(number, terms) }.sort_by(&:to_f)
+  end
+
+  # What the model was told in this thread up to this turn: the agent's messages and every tool result. Tool arguments
+  # are left out, because the model wrote them. Read on every check, so numbers from a recount count as sources.
+  def sources
+    messages = @run.copilot_thread.copilot_messages.user.where(CopilotMessage.arel_table[:id].lteq(@run.copilot_message_id))
+    results = CopilotToolCall.where(copilot_run: @run.copilot_thread.copilot_runs.turn).pluck(:result)
+    [messages.map(&:message), results, @run.user_id, @run.account_id]
   end
 
   # A decimal or percentage that equals a ratio of two numbers the tools returned, rounded as the answer writes it, is

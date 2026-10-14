@@ -7,6 +7,7 @@ class Captain::Copilot::Resources::Contacts < Captain::Copilot::Resources::BaseR
     country_code: { type: 'string' }, blocked: { type: 'boolean' }
   }.freeze
   SOURCES = {
+    'contacts' => ->(ids) { Contact.where(id: ids) },
     'conversations' => ->(ids) { Contact.where(id: Conversation.where(id: ids).select(:contact_id)) },
     'messages' => ->(ids) { Contact.where(id: Conversation.where(id: Message.where(id: ids).select(:conversation_id)).select(:contact_id)) }
   }.freeze

@@ -38,7 +38,7 @@ class Captain::Copilot::Resources::BaseResource
   def self.filters_help
     filter_schema['properties'].map do |name, property|
       allowed = property['enum'] || property.dig('items', 'enum')
-      detail = allowed ? allowed.join(' or ') : property['description']
+      detail = allowed ? allowed.map { |value| value || 'null' }.join(' or ') : property['description']
       detail ? "#{name} (#{detail})" : name
     end.join(', ')
   end
@@ -64,13 +64,12 @@ class Captain::Copilot::Resources::BaseResource
     filter(apply_dates(relation, filters, as_of), filters).reorder(nil)
   end
 
-  # With newest, the most recent records by the date field; otherwise up to one more than MAX_SELECTION, so the caller
-  # can tell when the selection was cut.
+  # Newest first by the date field, because reviews work through a selection in order. With newest, that many records;
+  # otherwise up to one more than MAX_SELECTION, so the caller can tell when the selection was cut.
   def selected_ids(relation, filters)
-    return relation.reorder(id: :desc).limit(CopilotRun::MAX_SELECTION + 1).pluck(:id) unless filters['newest']
-
     table = relation.klass.arel_table
-    relation.reorder(table[filters['date_field']].desc.nulls_last, table[:id].desc).limit(filters['newest']).pluck(:id)
+    relation.reorder(table[filters['date_field']].desc.nulls_last, table[:id].desc)
+            .limit(filters['newest'] || (CopilotRun::MAX_SELECTION + 1)).pluck(:id)
   end
 
   # Counts per period or value, computed by the database so the model never tallies rows itself. Periods are UTC and

@@ -25,6 +25,12 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
     Cite only supplied message IDs. Do not claim to have read attachments, truncated content or unseen history.
   PROMPT
 
+  # A role instead of the sender's class, so a bot's name such as Captain::Assistant is not read as conversation content.
+  # Screening and the messages resource use the same roles.
+  def self.sender_role(message)
+    { 'Contact' => 'customer', 'User' => 'agent' }.fetch(message.sender_type, message.sender_type ? 'bot' : 'system')
+  end
+
   def initialize(run, token)
     @run = run
     @token = token
@@ -66,7 +72,7 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   def conversation_for_review(conversation, deep)
     window = deep ? DEEP_PASS : FIRST_PASS
     messages, omitted = window_messages(conversation, window)
-    contents = messages.map { |message| message.content.to_s }
+    contents = messages.map { |message| message.content_for_llm.to_s }
     excerpts = contents.zip(shares(contents.map(&:size), window[:characters])).map { |content, share| excerpt(content, share) }
     { id: conversation.id, display_id: conversation.display_id, status: conversation.status,
       priority: conversation.priority, assignee_id: conversation.assignee_id, last_activity_at: conversation.last_activity_at,
@@ -74,10 +80,12 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
       messages: messages.zip(contents, excerpts).map { |message, content, text| message_for_review(message, text, text != content) } }
   end
 
-  # Customer and agent messages, private notes included, as screening reads them. Activity messages are left out.
+  # Customer and agent messages, private notes included, as screening reads them. Activity messages and emails an agent
+  # forwarded elsewhere are left out.
   # reorder, because Message's default scope sorts oldest first and order would only add a second sort key.
   def window_messages(conversation, window)
-    scope = conversation.messages.where(message_type: %w[incoming outgoing]).where(Message.arel_table[:created_at].lteq(@run.as_of))
+    scope = conversation.messages.where(message_type: %w[incoming outgoing]).not_forwarded
+                        .where(Message.arel_table[:created_at].lteq(@run.as_of))
     opening = scope.reorder(created_at: :asc, id: :asc).limit(window[:opening]).to_a
     latest = scope.reorder(created_at: :desc, id: :desc).limit(window[:latest]).to_a.reverse
     messages = (opening + latest).uniq(&:id)
@@ -105,13 +113,8 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   end
 
   def message_for_review(message, content, truncated)
-    { id: message.id, at: message.created_at, type: message.message_type, private: message.private?, sender: sender_role(message),
+    { id: message.id, at: message.created_at, type: message.message_type, private: message.private?, sender: self.class.sender_role(message),
       content: content, content_truncated: truncated }
-  end
-
-  # A role instead of the sender's class, so a bot's name such as Captain::Assistant is not read as conversation content.
-  def sender_role(message)
-    { 'Contact' => 'customer', 'User' => 'agent' }.fetch(message.sender_type, message.sender_type ? 'bot' : 'system')
   end
 
   def parse_result(row, evidence, deep)

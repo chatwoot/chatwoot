@@ -2,7 +2,7 @@ class Captain::Copilot::Resources::Conversations < Captain::Copilot::Resources::
   NAME = 'conversations'.freeze
   DATE_FIELDS = %w[last_activity_at created_at].freeze
   FILTERS = {
-    status: { type: 'string', enum: Conversation.statuses.keys }, priority: { type: 'string', enum: Conversation.priorities.keys },
+    status: { type: 'string', enum: Conversation.statuses.keys }, priority: { type: %w[string null], enum: Conversation.priorities.keys + [nil] },
     inbox_id: { type: 'integer', minimum: 1 }, assignee_id: { type: %w[integer null], minimum: 1, description: 'null for unassigned' },
     team_id: { type: %w[integer null], minimum: 1, description: 'null for no team' }, contact_id: { type: 'integer', minimum: 1 },
     labels: { type: 'array', items: { type: 'string' } }

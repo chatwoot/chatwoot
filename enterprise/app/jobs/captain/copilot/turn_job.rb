@@ -1,4 +1,8 @@
 class Captain::Copilot::TurnJob < ApplicationJob
+  # A new thread creates its first turn inside a transaction. Enqueued before the commit, the job can find no run and
+  # leave the turn to the recovery job minutes later.
+  self.enqueue_after_transaction_commit = true
+
   queue_as :default
 
   MAX_ATTEMPTS = 3

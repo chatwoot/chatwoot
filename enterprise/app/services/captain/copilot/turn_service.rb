@@ -212,8 +212,11 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService # rubocop:di
     # A background run that already finished has saved its summary on the tool call, which supersedes the tool's queued summary.
     return @tool_call.reload.result if @tool_call.reload.completed?
 
+    # A started run parks the turn even when it has just finished: wait_for_background_run and resume_with check the tool
+    # call under the turn's lock, so one of them requeues the turn with the final summary. A collection is saved before
+    # the tool returns and never resumes the turn.
     background_run = @tool_call.background_run
-    raise Captain::Copilot::BackgroundRunPending if background_run && !background_run.finished?
+    raise Captain::Copilot::BackgroundRunPending if background_run && !background_run.collection?
 
     result
   rescue Captain::Copilot::LeaseLostError, Captain::Copilot::BackgroundRunPending
