@@ -229,6 +229,18 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         end
       end
 
+      it 'saves a parameter that takes the verified email' do
+        attributes = valid_attributes.deep_merge(custom_tool: { param_schema: [
+                                                   { name: 'email', type: 'string', description: 'Customer email', source: 'verified.email' }
+                                                 ] })
+
+        post "/api/v1/accounts/#{account.id}/captain/custom_tools?assistant_id=#{assistant.id}",
+             params: attributes, headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Captain::CustomTool.last.verified_sources).to eq(['verified.email'])
+      end
+
       context 'with invalid parameters' do
         let(:invalid_attributes) do
           {
@@ -409,8 +421,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(custom_tool.reload.enabled).to be(false)
       end
 
-      it 'returns the stored setting for a tool that reads the session email' do
-        custom_tool.update!(endpoint_url: 'https://api.example.com/c?email={{ session.verified_email }}')
+      it 'returns the stored setting for a tool with a verified email parameter' do
+        custom_tool.update!(param_schema: [{ 'name' => 'email', 'type' => 'string', 'description' => 'Email', 'source' => 'verified.email' }])
 
         get "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
             headers: admin.create_new_auth_token, as: :json

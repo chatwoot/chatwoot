@@ -119,7 +119,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
       auth_config: {},
       headers: {},
       settings: Captain::CustomTool::SETTING_KEYS,
-      param_schema: [:name, :type, :description, :required]
+      param_schema: [:name, :type, :description, :required, :source]
     )
   end
 end
