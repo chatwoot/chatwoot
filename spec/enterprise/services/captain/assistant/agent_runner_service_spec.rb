@@ -1081,7 +1081,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       tool_complete_callback.call(Captain::Tools::HandoffTool.new(assistant).name, 'ok', context_wrapper)
 
       expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
-      run_complete_callback.call('assistant', nil, context_wrapper)
+      run_complete_callback.call('assistant', mock_result, context_wrapper)
     end
 
     it 'registers handoff tracking callback when OTEL is disabled' do
@@ -1126,7 +1126,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       service.send(:add_usage_metadata_callback, runner)
       create(:message, conversation: conversation, message_type: :incoming)
-      run_complete_callback.call('assistant', nil, Struct.new(:context).new({}))
+      run_complete_callback.call('assistant', mock_result, Struct.new(:context).new({}))
 
       expect(service.response_discarded?).to be true
     end
@@ -1177,7 +1177,34 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       service.send(:add_usage_metadata_callback, runner)
 
       expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'true')
-      run_complete_callback.call('assistant', nil, context_wrapper)
+      run_complete_callback.call('assistant', mock_result, context_wrapper)
+    end
+
+    it 'sets credit_used=false when the reply is leaked tool call text' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      runner = instance_double(Agents::AgentRunner)
+      run_complete_callback = nil
+      span_class = Class.new do
+        def set_attribute(*); end
+      end
+      root_span = instance_double(span_class)
+      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
+      leaked_result = instance_double(
+        Agents::RunResult,
+        output: { 'response_parts' => [{ 'text' => '{"query":"refund policy"}', 'citation_indexes' => [] }], 'reasoning' => 'Use faq_lookup' }
+      )
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      allow(runner).to receive(:on_run_complete) do |&block|
+        run_complete_callback = block
+        runner
+      end
+
+      service.send(:add_usage_metadata_callback, runner)
+
+      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
+      run_complete_callback.call('assistant', leaked_result, context_wrapper)
     end
 
     it 'marks the trace discarded and does not use credit when a newer message arrived' do
@@ -1207,7 +1234,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.discarded', 'true')
       expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
-      run_complete_callback.call('assistant', nil, context_wrapper)
+      run_complete_callback.call('assistant', mock_result, context_wrapper)
 
       expect(service.response_discarded?).to be true
     end

@@ -70,8 +70,8 @@ class Captain::Assistant::AgentRunnerService
     raise @last_run_result.error if @last_run_result.error
   end
 
-  def leaked_tool_call?
-    Captain::Assistant::ResponseParts.from_response(@last_run_result.output).leaked_tool_call?
+  def leaked_tool_call?(run_result = @last_run_result)
+    Captain::Assistant::ResponseParts.from_response(run_result.output).leaked_tool_call?
   end
 
   def build_context(message_history)

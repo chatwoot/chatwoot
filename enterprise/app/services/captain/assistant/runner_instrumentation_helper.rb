@@ -59,13 +59,13 @@ module Captain::Assistant::RunnerInstrumentationHelper
     return runner if reply_suggestion?
 
     if message_burst_protection_active?
-      runner.on_run_complete do |_agent_name, _result, context_wrapper|
+      runner.on_run_complete do |_agent_name, result, context_wrapper|
         @response_discarded = newer_customer_message_arrived?
-        write_run_metadata(context_wrapper) if ChatwootApp.otel_enabled?
+        write_run_metadata(context_wrapper, result) if ChatwootApp.otel_enabled?
       end
     elsif ChatwootApp.otel_enabled?
-      runner.on_run_complete do |_agent_name, _result, context_wrapper|
-        write_credits_used_metadata(context_wrapper)
+      runner.on_run_complete do |_agent_name, result, context_wrapper|
+        write_credits_used_metadata(context_wrapper, result)
       end
     end
     runner
@@ -85,19 +85,24 @@ module Captain::Assistant::RunnerInstrumentationHelper
     @handoff_tool_completed = true
   end
 
-  def write_run_metadata(context_wrapper)
+  def write_run_metadata(context_wrapper, result)
     root_span = context_wrapper&.context&.dig(:__otel_tracing, :root_span)
     return unless root_span
 
     root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'discarded'), response_discarded?.to_s)
-    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), (!@handoff_tool_called && !response_discarded?).to_s)
+    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), credit_used?(result).to_s)
   end
 
-  def write_credits_used_metadata(context_wrapper)
+  def write_credits_used_metadata(context_wrapper, result)
     root_span = context_wrapper&.context&.dig(:__otel_tracing, :root_span)
     return unless root_span
 
-    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), @handoff_tool_called ? 'false' : 'true')
+    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), credit_used?(result).to_s)
+  end
+
+  # A run whose reply leaked tool call text is retried or handed off, so it never consumes a credit.
+  def credit_used?(result)
+    !@handoff_tool_called && !response_discarded? && !leaked_tool_call?(result)
   end
 
   def message_burst_protection_active? = @responding_to_message_id.present?
