@@ -309,6 +309,8 @@ RSpec.describe Account, type: :model do
   end
 
   describe 'Captain response usage alerts' do
+    let(:mailer) { double }
+    let(:message_delivery) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
     let(:account) do
       create(
         :account,
@@ -321,22 +323,22 @@ RSpec.describe Account, type: :model do
       allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
       allow(ActiveRecord).to receive(:after_all_transactions_commit).and_yield
       account.enable_features!('captain_integration')
-      allow(Captain::ResponseUsageAlertJob).to receive(:perform_later).and_return(true)
-      allow(Captain::ResponseUsageAlertJob).to receive(:enqueue_for_account).and_call_original
+      allow(AdministratorNotifications::CaptainNotificationMailer).to receive(:with).with(account: account).and_return(mailer)
+      allow(mailer).to receive(:response_usage_alert).and_return(message_delivery)
     end
 
-    it 'claims and queues one alert after usage exceeds 80 percent of the persisted account limit' do
+    it 'queues one alert after usage exceeds 80 percent of the persisted account limit' do
       account.increment_response_usage
-      expect(Captain::ResponseUsageAlertJob).not_to have_received(:enqueue_for_account)
+      expect(message_delivery).not_to have_received(:deliver_later)
 
       account.increment_response_usage
       3.times { account.increment_response_usage }
 
-      expect(Captain::ResponseUsageAlertJob).to have_received(:enqueue_for_account).with(account).once
-      expect(Captain::ResponseUsageAlertJob).to have_received(:perform_later).with(account.id, kind_of(String)).once
+      expect(mailer).to have_received(:response_usage_alert).with(consumed: 241, remaining: 59).once
+      expect(message_delivery).to have_received(:deliver_later).once
       expect(account.reload.custom_attributes).to include(
         'captain_responses_usage' => 244,
-        'captain_responses_usage_alert_claim' => kind_of(String)
+        'captain_responses_usage_alerted' => true
       )
     end
 
@@ -346,7 +348,7 @@ RSpec.describe Account, type: :model do
 
       account.increment_response_usage
 
-      expect(Captain::ResponseUsageAlertJob).not_to have_received(:enqueue_for_account)
+      expect(message_delivery).not_to have_received(:deliver_later)
     end
 
     it 'does not count or queue response usage outside Chatwoot Cloud' do
@@ -355,7 +357,7 @@ RSpec.describe Account, type: :model do
       account.increment_response_usage
 
       expect(account.reload.custom_attributes['captain_responses_usage']).to eq(239)
-      expect(Captain::ResponseUsageAlertJob).not_to have_received(:enqueue_for_account)
+      expect(message_delivery).not_to have_received(:deliver_later)
     end
 
     it 'does not queue an alert for a zero response limit' do
@@ -363,33 +365,43 @@ RSpec.describe Account, type: :model do
 
       account.increment_response_usage
 
-      expect(Captain::ResponseUsageAlertJob).not_to have_received(:enqueue_for_account)
+      expect(message_delivery).not_to have_received(:deliver_later)
     end
 
-    it 'keeps the response successful and retries alert enqueueing after a queue failure' do
+    it 'waits for the surrounding transaction to commit before queueing the alert' do
+      after_commit = nil
+      allow(ActiveRecord).to receive(:after_all_transactions_commit) { |&block| after_commit = block }
       account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 240))
-      allow(Captain::ResponseUsageAlertJob).to receive(:perform_later).and_raise(StandardError, 'queue unavailable')
+
+      account.increment_response_usage
+
+      expect(message_delivery).not_to have_received(:deliver_later)
+      after_commit.call
+      expect(message_delivery).to have_received(:deliver_later).once
+    end
+
+    it 'keeps the response successful when the alert cannot be queued' do
+      account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 240))
+      allow(message_delivery).to receive(:deliver_later).and_raise(StandardError, 'queue unavailable')
       allow(Rails.logger).to receive(:error)
 
       expect { account.increment_response_usage }.not_to raise_error
       expect(account.reload.custom_attributes).to include(
         'captain_responses_usage' => 241,
-        'captain_responses_usage_alert_claim' => false
+        'captain_responses_usage_alerted' => true
       )
 
-      allow(Captain::ResponseUsageAlertJob).to receive(:perform_later).and_return(true)
       account.increment_response_usage
 
-      expect(account.reload.custom_attributes).to include(
-        'captain_responses_usage' => 242,
-        'captain_responses_usage_alert_claim' => kind_of(String)
+      expect(mailer).to have_received(:response_usage_alert).once
+      expect(Rails.logger).to have_received(:error).with(
+        "Captain response usage alert enqueue failed for account #{account.id}: StandardError - queue unavailable"
       )
     end
 
     it 'rearms the alert and preserves other custom attributes when usage resets' do
       account.update!(custom_attributes: account.custom_attributes.merge(
         'captain_responses_usage_alerted' => true,
-        'captain_responses_usage_alert_claim' => 'stale-token',
         'unrelated_key' => 'preserved'
       ))
 
@@ -398,7 +410,6 @@ RSpec.describe Account, type: :model do
       expect(account.reload.custom_attributes).to include(
         'captain_responses_usage' => 0,
         'captain_responses_usage_alerted' => false,
-        'captain_responses_usage_alert_claim' => false,
         'unrelated_key' => 'preserved'
       )
     end

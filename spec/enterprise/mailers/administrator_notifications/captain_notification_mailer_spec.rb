@@ -21,10 +21,4 @@ RSpec.describe AdministratorNotifications::CaptainNotificationMailer do
       expect(mail.body.encoded).to include("https://app.chatwoot.com/app/accounts/#{account.id}/settings/billing")
     end
   end
-
-  it 're-raises SMTP failures so the alert job can retry' do
-    expect do
-      described_class.new.send(:handle_smtp_exceptions, Net::SMTPSyntaxError.new('bad recipient'))
-    end.to raise_error(Net::SMTPSyntaxError)
-  end
 end
