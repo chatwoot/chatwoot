@@ -11,6 +11,11 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
     super.grep_v(Captain::Tools::Copilot::SearchConversationsService) + workflow_tools.map { |tool| tool.new(assistant, user: user) }
   end
 
+  # The agents named in the instructions with their user IDs. The number check counts these IDs as sources.
+  def self.listed_agents(account)
+    account.users.order(:name).limit(MAX_LISTED_AGENTS)
+  end
+
   def initialize(run, token)
     @run = run
     @token = token
@@ -56,7 +61,7 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
     # The prompt explains Chatwoot's fields, because without them the model treats status and priority as content. Agents
     # refer to each other by name, but assignee filters and assign_agent take user IDs. The current time is the turn's own,
     # so a retried or resumed turn reads the same dates.
-    agents = @run.account.users.order(:name).limit(MAX_LISTED_AGENTS).map { |agent| { name: agent.name, id: agent.id } }
+    agents = self.class.listed_agents(@run.account).map { |agent| { name: agent.name, id: agent.id } }
     instructions = Captain::PromptRenderer.render('copilot_workflows', conversations_per_turn: CopilotRun::CONVERSATIONS_PER_TURN,
                                                                        user_name: @user.name, user_id: @user.id, agents: agents,
                                                                        current_time: @run.created_at.iso8601)
