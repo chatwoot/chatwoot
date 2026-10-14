@@ -16,7 +16,8 @@ RSpec.describe Captain::ResponsesConfig do
 
   feature_efforts = {
     'assistant' => { 'gpt-5.1' => 'none', 'gpt-5.2' => 'none' },
-    'copilot' => { 'gpt-5.1' => 'medium', 'gpt-5.2' => 'medium' }
+    'copilot' => { 'gpt-5.1' => 'none', 'gpt-5.2' => 'none' },
+    'copilot_workflows' => { 'gpt-5.1' => 'medium', 'gpt-5.2' => 'medium' }
   }
   feature_efforts.each do |feature, efforts|
     efforts.each do |model, effort|

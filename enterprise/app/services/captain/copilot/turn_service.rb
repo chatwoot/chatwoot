@@ -57,7 +57,7 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService # rubocop:di
 
   def generate_response
     llm = build_chat.with_tool_options(calls: :one, concurrency: false)
-    protocol = Captain::ResponsesConfig.options(model: @model, temperature: temperature, feature: 'copilot')[:protocol]
+    protocol = Captain::ResponsesConfig.options(model: @model, temperature: temperature, feature: @llm_feature)[:protocol]
     @transcript = Captain::Copilot::TurnTranscript.new(@run, llm, protocol: protocol)
     @transcript.load
     @transcript.save(@token)
@@ -74,6 +74,11 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService # rubocop:di
   end
 
   private
+
+  # Workflows have their own model setting, so the copilot_workflows flag leaves Copilot unchanged for other accounts.
+  def llm_feature
+    'copilot_workflows'
+  end
 
   def setup_message_history(_config)
     @copilot_thread = @run.copilot_thread

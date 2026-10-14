@@ -18,7 +18,7 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
   end
 
   def initialize(assistant, config)
-    super(feature: 'copilot', account: assistant.account)
+    super(feature: llm_feature, account: assistant.account)
 
     @assistant = assistant
     @account = assistant.account
@@ -129,6 +129,10 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
       message: message,
       message_type: message_type
     )
+  end
+
+  def llm_feature
+    'copilot'
   end
 
   def feature_name

@@ -28,7 +28,7 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   def initialize(run, token)
     @run = run
     @token = token
-    super(feature: 'copilot', account: run.account)
+    super(feature: 'copilot_workflows', account: run.account)
   end
 
   # Reviews one conversation per model call, so a response can never omit or mix up conversations.
@@ -51,7 +51,7 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   end
 
   def build_chat
-    options = Captain::ResponsesConfig.options(model: @model, temperature: @temperature, feature: 'copilot')
+    options = Captain::ResponsesConfig.options(model: @model, temperature: @temperature, feature: @llm_feature)
     # ChatGenerationRecorder reads the protocol to record model, tokens and cost on the generation.
     @llm_protocol = options[:protocol]
     llm = chat(model: @model, **options).with_instructions(SYSTEM_PROMPT).with_schema(Captain::Copilot::ReviewResponseSchema)

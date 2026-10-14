@@ -778,6 +778,7 @@ en:
         editor: 'Editor'
         assistant: 'Assistant'
         copilot: 'Copilot'
+        copilot_workflows: 'Copilot workflows'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
         conversation_faq_matching: 'Conversation FAQ matching'

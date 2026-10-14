@@ -110,6 +110,23 @@ features:
       ]
     default: gpt-4.1
   copilot:
+    reasoning_effort: none
+    models:
+      [
+        gpt-4.1-mini,
+        gpt-5-mini,
+        gpt-4.1,
+        gpt-5.1,
+        gpt-5.2,
+        claude-haiku-4.5,
+        claude-sonnet-4.5,
+        gemini-3-flash,
+        gemini-3-pro,
+      ]
+    default: gpt-4.1
+  # Copilot workflows, behind the copilot_workflows account flag. They select and review records over several model
+  # calls, which needs a reasoning model.
+  copilot_workflows:
     reasoning_effort: medium
     models:
       [
@@ -124,6 +141,7 @@ features:
         gemini-3-pro,
       ]
     default: gpt-5.2
+    internal: true
   document_faq_generation:
     models:
       [
