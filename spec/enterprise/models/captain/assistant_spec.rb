@@ -379,5 +379,15 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(instructions).to include('Email verified by one-time code: Yes, jane@example.com')
       expect(instructions).not_to include('# Contact Information', 'Jane Doe')
     end
+
+    it 'does not name the identifier of a contact verified by HMAC as verified' do
+      state = { channel_type: 'Channel::WebWidget', contact_inbox: { id: 1, hmac_verified: true },
+                contact: { id: 1, identifier: 'user_42' }, assistant_config: { 'feature_contact_attributes' => true } }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions).to include('Identity verified by HMAC: Yes')
+      expect(instructions).not_to include('The verified identifier is')
+    end
   end
 end

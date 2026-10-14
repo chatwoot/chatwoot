@@ -10,7 +10,7 @@ When a tool needs the customer's email, use only {{ verified_email }}.
 {% if contact_inbox.hmac_verified -%}
 - Identity verified by HMAC: Yes
 
-This customer's identity is verified by HMAC.{% if contact.identifier %} The verified identifier is {{ contact.identifier }}.{% endif %}
+This customer's identity is verified by HMAC.
 {% if contact.email -%}
 The email on record is {{ contact.email }}. HMAC verifies the identifier, not the email, so be aware that the customer can change this email.
 {% endif -%}
