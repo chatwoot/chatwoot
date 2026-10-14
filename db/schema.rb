@@ -1086,6 +1086,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_14_152259) do
     t.index ["copilot_thread_id"], name: "index_copilot_runs_on_copilot_thread_id"
     t.index ["copilot_tool_call_id"], name: "index_copilot_runs_on_copilot_tool_call_id", unique: true
     t.index ["source_run_id"], name: "index_copilot_runs_on_source_run_id"
+    t.index ["status"], name: "index_copilot_runs_claimable", where: "((status)::text = ANY ((ARRAY['queued'::character varying, 'running'::character varying])::text[]))"
     t.index ["user_id"], name: "index_copilot_runs_on_user_id"
   end
 
@@ -1114,6 +1115,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_14_152259) do
     t.datetime "updated_at", null: false
     t.index ["copilot_run_id", "call_id"], name: "index_copilot_tool_calls_on_copilot_run_id_and_call_id", unique: true
     t.index ["copilot_run_id"], name: "index_copilot_tool_calls_on_copilot_run_id"
+    t.index ["status"], name: "index_copilot_tool_calls_running", where: "((status)::text = 'running'::text)"
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|

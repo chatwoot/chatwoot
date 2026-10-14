@@ -32,6 +32,10 @@ class CreateCopilotRuns < ActiveRecord::Migration[7.2]
       t.timestamps
     end
     add_index :copilot_tool_calls, [:copilot_run_id, :call_id], unique: true
+    # Captain::Copilot::RecoverRunsJob checks every account for unfinished runs and running tool calls, a small part of
+    # tables that keep growing.
+    add_index :copilot_runs, :status, where: "status IN ('queued', 'running')", name: 'index_copilot_runs_claimable'
+    add_index :copilot_tool_calls, :status, where: "status = 'running'", name: 'index_copilot_tool_calls_running'
 
     create_table :copilot_review_findings do |t|
       t.references :copilot_run, null: false
