@@ -14,6 +14,21 @@ class Captain::EmailVerification
 
   pattr_initialize :contact_inbox
 
+  # The code must never appear in serialized job arguments, since Sidekiq logs the payload when a job fails
+  def self.encrypt_code(code)
+    code_encryptor.encrypt_and_sign(code)
+  end
+
+  def self.decrypt_code(ciphertext)
+    code_encryptor.decrypt_and_verify(ciphertext)
+  end
+
+  def self.code_encryptor
+    key = ActiveSupport::KeyGenerator.new(Rails.application.secret_key_base).generate_key('captain_email_verification_code', 32)
+    ActiveSupport::MessageEncryptor.new(key)
+  end
+  private_class_method :code_encryptor
+
   def send_code(email)
     email = email.to_s.strip.downcase
     return :invalid_email unless EMAIL_PATTERN.match?(email) && URI::MailTo::EMAIL_REGEXP.match?(email)
@@ -23,7 +38,8 @@ class Captain::EmailVerification
 
     code = format("%0#{CODE_LENGTH}d", SecureRandom.random_number(10**CODE_LENGTH))
     pending_code.store(email, code)
-    Captain::EmailVerificationMailer.deliver_code_later(contact_inbox.inbox, email, code)
+    inbox = contact_inbox.inbox
+    Captain::EmailVerificationMailer.with(account: inbox.account).verification_code(inbox, email, self.class.encrypt_code(code)).deliver_later
     :sent
   end
 
