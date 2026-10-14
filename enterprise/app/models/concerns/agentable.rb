@@ -12,8 +12,8 @@ module Concerns::Agentable
       instructions: ->(context) { agent_instructions(context, runtime_configuration: runtime_configuration) },
       tools: agent_tools,
       model: model,
-      temperature: Llm::Models.temperature_for(model, temperature.presence&.to_f || DEFAULT_TEMPERATURE),
-      response_schema: agent_response_schema
+      response_schema: agent_response_schema,
+      **Captain::ResponsesConfig.options(model: model, temperature: temperature.presence&.to_f || DEFAULT_TEMPERATURE)
     )
   end
 
