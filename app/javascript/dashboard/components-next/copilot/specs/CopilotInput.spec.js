@@ -73,7 +73,7 @@ describe('CopilotInput', () => {
     await flushPromises();
   });
 
-  it('prevents edits while a send is in flight', async () => {
+  it('keeps text added while a send is in flight', async () => {
     let resolveSend;
     const onSend = vi.fn(
       () =>
@@ -85,21 +85,20 @@ describe('CopilotInput', () => {
     const textarea = wrapper.find('textarea');
     const button = wrapper.find('button');
 
-    await textarea.setValue('Keep this message');
+    await textarea.setValue('First message');
     textarea.element.focus();
     await wrapper.find('form').trigger('submit');
 
-    expect(textarea.attributes('readonly')).toBeDefined();
+    expect(textarea.attributes('readonly')).toBeUndefined();
     expect(button.attributes('disabled')).toBeDefined();
-    expect(textarea.element.value).toBe('Keep this message');
-    expect(document.activeElement).toBe(textarea.element);
 
-    resolveSend(false);
+    await textarea.setValue('First message dictated follow-up');
+    resolveSend(true);
     await flushPromises();
 
-    expect(textarea.attributes('readonly')).toBeUndefined();
+    expect(onSend).toHaveBeenCalledWith('First message');
+    expect(textarea.element.value).toBe('dictated follow-up');
     expect(button.attributes('disabled')).toBeUndefined();
-    expect(textarea.element.value).toBe('Keep this message');
     expect(document.activeElement).toBe(textarea.element);
   });
 

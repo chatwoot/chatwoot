@@ -67,6 +67,9 @@ const emit = defineEmits([
 const { t } = useI18n();
 
 const chatContainer = ref(null);
+const copilotInput = ref(null);
+// Dictation tools paste into whatever has focus, so actions that move focus off the input hand it back.
+const focusInput = () => nextTick(() => copilotInput.value?.focus());
 // Within this distance of the end, the agent is following the chat and new messages keep it in view.
 const FOLLOW_DISTANCE_PX = 80;
 
@@ -92,6 +95,11 @@ const sendMessage = async message => {
   useTrack(COPILOT_EVENTS.SEND_MESSAGE);
   if (isSuccess) scrollToBottom();
   return isSuccess;
+};
+
+const sendSuggestion = suggestion => {
+  focusInput();
+  return sendMessage(suggestion);
 };
 
 const groupedMessages = computed(() => {
@@ -143,6 +151,7 @@ const handleSidebarAction = action => {
   if (action === 'new') {
     emit('reset');
     showHistory.value = false;
+    focusInput();
   } else if (action === 'history') {
     showHistory.value = !showHistory.value;
   }
@@ -178,8 +187,11 @@ watch(
 // An opened chat starts at its latest message.
 watch(
   () => [props.selectedThreadId, props.isLoadingSelectedThread],
-  ([, isLoading]) => {
-    if (!isLoading) scrollToBottom();
+  ([threadId, isLoading], [, wasLoading]) => {
+    if (isLoading) return;
+    scrollToBottom();
+    // The input is hidden while a chat loads, which drops focus.
+    if (wasLoading && threadId) focusInput();
   }
 );
 </script>
@@ -272,7 +284,7 @@ watch(
         v-else
         :has-assistants="hasAssistants"
         :can-suggest-reply="canSuggestReply"
-        @use-suggestion="sendMessage"
+        @use-suggestion="sendSuggestion"
       />
     </div>
 
@@ -289,6 +301,7 @@ watch(
       <CopilotInput
         v-if="hasAssistants"
         v-show="!isLoadingSelectedThread"
+        ref="copilotInput"
         class="mb-1 w-full"
         :on-send="sendMessage"
       />
