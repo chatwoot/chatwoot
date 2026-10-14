@@ -66,21 +66,32 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 
-const sendMessage = async message => {
-  if (props.isLoadingSelectedThread) return false;
-
-  const isSuccess = await props.onSendMessage(message);
-  useTrack(COPILOT_EVENTS.SEND_MESSAGE);
-  return isSuccess;
-};
-
 const chatContainer = ref(null);
+// Within this distance of the end, the agent is following the chat and new messages keep it in view.
+const FOLLOW_DISTANCE_PX = 80;
 
 const scrollToBottom = async () => {
   await nextTick();
   if (chatContainer.value) {
     chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
   }
+};
+
+const isFollowingChat = () => {
+  const container = chatContainer.value;
+  if (!container) return true;
+
+  const { scrollHeight, scrollTop, clientHeight } = container;
+  return scrollHeight - scrollTop - clientHeight <= FOLLOW_DISTANCE_PX;
+};
+
+const sendMessage = async message => {
+  if (props.isLoadingSelectedThread) return false;
+
+  const isSuccess = await props.onSendMessage(message);
+  useTrack(COPILOT_EVENTS.SEND_MESSAGE);
+  if (isSuccess) scrollToBottom();
+  return isSuccess;
 };
 
 const groupedMessages = computed(() => {
@@ -155,12 +166,21 @@ const openThread = thread => {
   emit('selectThread', thread);
   showHistory.value = false;
 };
+// The store refreshes the message list for every thread's update, so only a new last message in this chat counts.
+// Watchers run before the DOM updates, so the position checked is the one the agent was reading.
 watch(
-  [() => props.messages],
+  () => props.messages[props.messages.length - 1]?.id,
   () => {
-    scrollToBottom();
-  },
-  { deep: true }
+    if (isFollowingChat()) scrollToBottom();
+  }
+);
+
+// An opened chat starts at its latest message.
+watch(
+  () => [props.selectedThreadId, props.isLoadingSelectedThread],
+  ([, isLoading]) => {
+    if (!isLoading) scrollToBottom();
+  }
 );
 </script>
 
