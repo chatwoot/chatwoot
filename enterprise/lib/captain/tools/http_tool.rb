@@ -49,6 +49,8 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   # Limit response size to prevent memory exhaustion and match LLM token limits
   # 1MB of text ≈ 250K tokens, which exceeds most LLM context windows
   MAX_RESPONSE_SIZE = 1.megabyte
+  # Customer details Chatwoot sends with every request. They are dropped on a redirect to another origin, like credentials.
+  PERSONAL_HEADERS = %w[X-Chatwoot-Contact-Email X-Chatwoot-Contact-Phone X-Chatwoot-Verified-Email].freeze
 
   # Route through SafeFetch so custom tool requests share the app's centralized HTTP
   # fetching (resolution, timeouts, response size limits, and redirect handling).
@@ -65,7 +67,7 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
       method: @custom_tool.http_method.downcase.to_sym,
       body: json_body,
       headers: request_headers(tool_context, json_body, auth_headers),
-      sensitive_headers: auth_headers.keys + @custom_tool.headers.keys,
+      sensitive_headers: auth_headers.keys + @custom_tool.headers.keys + PERSONAL_HEADERS,
       http_basic_authentication: @custom_tool.build_basic_auth_credentials,
       max_bytes: MAX_RESPONSE_SIZE,
       validate_content_type: false

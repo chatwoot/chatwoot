@@ -467,6 +467,23 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
         end)
       end
 
+      it 'strips the contact and verified email headers on cross-origin redirects' do
+        contact.update!(email: 'jane@example.com', phone_number: '+14155550100')
+        tool_context_with_state.state[:contact].merge!(email: contact.email, phone_number: contact.phone_number)
+        allow(Captain::EmailVerification).to receive(:new).with(conversation.contact_inbox)
+                                                          .and_return(instance_double(Captain::EmailVerification, verified_email: 'jane@example.com'))
+        redirected_headers = nil
+        stub_request(:get, 'https://example.com/api/data').to_return(status: 302, headers: { 'Location' => 'http://example.com/data' })
+        stub_request(:get, 'http://example.com/data').with do |request|
+          redirected_headers = request.headers.transform_keys(&:downcase)
+          true
+        end
+
+        tool.perform(tool_context_with_state)
+
+        expect(redirected_headers.keys).not_to include('x-chatwoot-verified-email', 'x-chatwoot-contact-email', 'x-chatwoot-contact-phone')
+      end
+
       it 'leaves out the verified email header when the customer has not verified an email' do
         stub_request(:get, 'https://example.com/api/data').to_return(status: 200, body: '{}')
 
