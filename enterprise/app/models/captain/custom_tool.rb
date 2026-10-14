@@ -150,10 +150,10 @@ class Captain::CustomTool < ApplicationRecord
   end
 
   # Verified values are set last, so a value from the model can never replace one Chatwoot fills in.
-  # A parameter whose source has no value keeps what the model sent, which only happens where an admin or an agent is the user.
+  # The caller checks that every source has a value first, so a missing one raises.
   def with_verified_values(params, verified_values)
-    bound = param_schema.select { |param_def| verified_values[param_def['source']].present? }
-    params.deep_stringify_keys.merge(bound.to_h { |param_def| [param_def['name'], verified_values[param_def['source']]] })
+    bound = param_schema.select { |param_def| param_def['source'] }
+    params.deep_stringify_keys.merge(bound.to_h { |param_def| [param_def['name'], verified_values.fetch(param_def['source'])] })
   end
 
   def enabled_scenarios_count
