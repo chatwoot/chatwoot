@@ -135,7 +135,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
                            provider_call_id: call_sid, status: 'ringing')
 
-      post "/twilio/voice/call/#{digits}", params: {
+      post_twilio_webhook "/twilio/voice/call/#{digits}", params: {
         'CallSid' => 'CA_agent_leg', 'From' => "client:agent-1-account-#{account.id}", 'To' => to_number,
         'Direction' => 'inbound', 'call_sid' => call_sid
       }
@@ -149,7 +149,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
                            provider_call_id: call_sid, status: 'no_answer')
 
-      post "/twilio/voice/call/#{digits}", params: {
+      post_twilio_webhook "/twilio/voice/call/#{digits}", params: {
         'CallSid' => 'CA_agent_leg', 'From' => "client:agent-1-account-#{account.id}", 'To' => to_number,
         'Direction' => 'inbound', 'call_sid' => call_sid
       }
