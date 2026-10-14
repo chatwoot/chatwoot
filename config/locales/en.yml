@@ -538,6 +538,12 @@ en:
         invalid_name: '%{name} is not a valid header name'
         reserved: '%{name} is managed by Chatwoot and cannot be set'
         invalid_value: 'value for %{name} must be fixed text up to 1 KiB, without placeholders or control characters'
+      param_schema:
+        invalid: 'must list parameters with known fields and plain values'
+      settings:
+        invalid: 'must be an object'
+        unknown: 'has unknown settings: %{names}'
+        not_boolean: 'values must be true or false'
     tools_manifest:
       invalid_source: 'Enter a toolset from the Captain tools catalog as chatwoot/tools/folder'
       invalid_configuration: 'Invalid configuration'
