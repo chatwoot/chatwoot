@@ -61,8 +61,7 @@ describe('TranslationToggle', () => {
   it('offers the original text for a translated incoming message', () => {
     const wrapper = mountToggle({ hasTranslations: true });
 
-    expect(wrapper.text()).toContain('CONVERSATION.TRANSLATED_FROM');
-    expect(wrapper.text()).toContain('CONVERSATION.VIEW_ORIGINAL');
+    expect(wrapper.text()).toBe('CONVERSATION.VIEW_ORIGINAL_IN');
     expect(wrapper.find('[data-icon]').exists()).toBe(true);
   });
 
@@ -72,7 +71,7 @@ describe('TranslationToggle', () => {
       showingOriginal: true,
     });
 
-    expect(wrapper.text()).toContain('CONVERSATION.VIEW_TRANSLATED');
+    expect(wrapper.text()).toBe('CONVERSATION.VIEW_TRANSLATED_IN');
   });
 
   it('describes a reply that went out translated', () => {
@@ -81,8 +80,7 @@ describe('TranslationToggle', () => {
       messageType: MESSAGE_TYPES.OUTGOING,
     });
 
-    expect(wrapper.text()).toContain('CONVERSATION.SENT_IN');
-    expect(wrapper.text()).toContain('CONVERSATION.VIEW_TRANSLATED');
+    expect(wrapper.text()).toBe('CONVERSATION.VIEW_TRANSLATED_IN');
   });
 
   it('shows the in-progress label instead of the toggle', () => {

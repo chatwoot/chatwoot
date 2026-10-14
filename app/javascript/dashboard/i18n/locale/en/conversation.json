@@ -23,8 +23,8 @@
     "VIEW_TRANSLATED": "View translated",
     "TRANSLATING": "Translating…",
     "TRANSLATING_TO": "Translating to {language}…",
-    "TRANSLATED_FROM": "Translated from {language}",
-    "SENT_IN": "Sent in {language}",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
     "ALREADY_IN_LANGUAGE": "Already in {language}",
     "TRANSLATION_FAILED": "Could not translate, sent as typed",
     "EMPTY_STATE": {

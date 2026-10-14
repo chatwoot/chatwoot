@@ -855,7 +855,7 @@ describe('#getters', () => {
   describe('#getAutoTranslate', () => {
     const rootGetters = {
       getUISettings: { locale: 'en' },
-      getCurrentAccount: { locale: 'en' },
+      'accounts/getAccount': () => ({ locale: 'en' }),
       getCurrentAccountId: 1,
       'accounts/isFeatureEnabledonAccount': () => true,
     };
@@ -877,6 +877,20 @@ describe('#getters', () => {
         language: 'French',
         agentLanguage: 'English',
       });
+    });
+
+    it('is off when the account switched it off', () => {
+      const switchedOff = {
+        ...rootGetters,
+        'accounts/getAccount': () => ({
+          locale: 'en',
+          settings: { auto_translate: false },
+        }),
+      };
+
+      expect(
+        getters.getAutoTranslate({}, chatIn('fr'), {}, switchedOff)
+      ).toMatchObject({ enabled: false, active: false });
     });
 
     it('is inactive for the agent language, an unknown language or a disabled flag', () => {

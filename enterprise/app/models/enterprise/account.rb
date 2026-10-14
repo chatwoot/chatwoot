@@ -64,9 +64,9 @@ module Enterprise::Account
     interval_hours.hours
   end
 
-  # Translation runs through Captain tasks, so the account needs both flags.
+  # The plan grants the feature, Captain tasks run it, and the account setting is the admin's own switch (on unless turned off).
   def auto_translate_enabled?
-    feature_enabled?('auto_translate') && feature_enabled?('captain_tasks')
+    feature_enabled?('auto_translate') && feature_enabled?('captain_tasks') && auto_translate != false
   end
 
   def saml_enabled?

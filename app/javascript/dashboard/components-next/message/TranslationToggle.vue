@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import Icon from 'next/icon/Icon.vue';
 import { MESSAGE_TYPES } from './constants';
@@ -14,6 +15,7 @@ defineEmits(['toggle']);
 
 defineOptions({ inheritAttrs: false });
 
+const { t } = useI18n();
 const { id, contentAttributes, messageType, shouldGroupWithNext } =
   useMessageContext();
 const { hasTranslations } = useTranslations(contentAttributes);
@@ -36,6 +38,23 @@ const showsTranslation = computed(() =>
     ? props.showingOriginal
     : !props.showingOriginal
 );
+// The link names the version it switches to, with its language when auto translate knows it.
+const toggleLabel = computed(() => {
+  const { language, agentLanguage } = autoTranslate.value;
+  if (!language) {
+    return showsTranslation.value
+      ? t('CONVERSATION.VIEW_ORIGINAL')
+      : t('CONVERSATION.VIEW_TRANSLATED');
+  }
+  if (showsTranslation.value) {
+    return t('CONVERSATION.VIEW_ORIGINAL_IN', {
+      language: isOutgoing.value ? agentLanguage : state.value.sourceLanguage,
+    });
+  }
+  return t('CONVERSATION.VIEW_TRANSLATED_IN', {
+    language: isOutgoing.value ? language : agentLanguage,
+  });
+});
 </script>
 
 <!-- eslint-disable-next-line vue/no-root-v-if -->
@@ -78,23 +97,12 @@ const showsTranslation = computed(() =>
         })
       }}
     </span>
-    <template v-else>
-      <span v-if="autoTranslate.language">
-        {{
-          isOutgoing
-            ? $t('CONVERSATION.SENT_IN', { language: autoTranslate.language })
-            : $t('CONVERSATION.TRANSLATED_FROM', {
-                language: state.sourceLanguage,
-              })
-        }}
-      </span>
-      <span class="cursor-pointer hover:underline" @click="$emit('toggle')">
-        {{
-          showsTranslation
-            ? $t('CONVERSATION.VIEW_ORIGINAL')
-            : $t('CONVERSATION.VIEW_TRANSLATED')
-        }}
-      </span>
-    </template>
+    <span
+      v-else
+      class="cursor-pointer hover:underline"
+      @click="$emit('toggle')"
+    >
+      {{ toggleLabel }}
+    </span>
   </span>
 </template>

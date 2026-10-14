@@ -197,10 +197,9 @@ const getters = {
   },
 
   getAutoTranslate: (_state, _getters, _rootState, rootGetters) => {
-    const locale =
-      rootGetters.getUISettings?.locale ||
-      rootGetters.getCurrentAccount?.locale ||
-      'en';
+    const account =
+      rootGetters['accounts/getAccount'](rootGetters.getCurrentAccountId) || {};
+    const locale = rootGetters.getUISettings?.locale || account.locale || 'en';
     const chat = _getters.getSelectedChat;
     const language = chat.additional_attributes?.conversation_language;
     const isFeatureEnabled = feature =>
@@ -210,7 +209,8 @@ const getters = {
       );
     const enabled =
       isFeatureEnabled(FEATURE_FLAGS.AUTO_TRANSLATE) &&
-      isFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS);
+      isFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS) &&
+      account.settings?.auto_translate !== false;
     const sameLanguage =
       !!language && languageCode(language) === languageCode(locale);
 

@@ -68,6 +68,13 @@ RSpec.describe Account, type: :model do
       account.enable_features('captain_tasks')
       expect(account).to be_auto_translate_enabled
     end
+
+    it 'respects the account switch' do
+      account = create(:account, settings: { auto_translate: false })
+      account.enable_features('auto_translate', 'captain_tasks')
+
+      expect(account).not_to be_auto_translate_enabled
+    end
   end
 
   describe '#api_and_webhooks_enabled?' do
