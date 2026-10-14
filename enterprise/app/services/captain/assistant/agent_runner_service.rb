@@ -33,9 +33,7 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def generate_response(message_history: [])
-    run_agents(message_history)
-    run_agents(message_history) if leaked_tool_call?
-    raise LeakedToolCallError, 'Captain replied with tool call text twice' if leaked_tool_call?
+    run_agents_with_leak_retry(message_history)
 
     record_turn_start(@last_run_result)
     @last_run_result = rewrite_oversized_response(@last_run_result) if response_too_long?(@last_run_result)
@@ -57,6 +55,13 @@ class Captain::Assistant::AgentRunnerService
   def handoff_completed? = @handoff_tool_completed == true
 
   private
+
+  def run_agents_with_leak_retry(message_history)
+    run_agents(message_history)
+    # A retry replays the whole turn, so it would repeat any tool that already ran, such as a custom HTTP POST.
+    run_agents(message_history) if leaked_tool_call? && !@tool_executed
+    raise LeakedToolCallError, 'Captain replied with tool call text' if leaked_tool_call?
+  end
 
   def run_agents(message_history)
     message_to_process, context = run_payload(message_history)

@@ -344,6 +344,23 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(result['response']).to eq('Test response')
       end
 
+      it 'hands off without retrying when a tool already ran' do
+        tool_complete_callbacks = []
+        allow(mock_runner).to receive(:on_tool_complete) do |&callback|
+          tool_complete_callbacks << callback
+          mock_runner
+        end
+        allow(mock_runner).to receive(:run) do
+          tool_complete_callbacks.each { |callback| callback.call('captain--tools--create_order', 'Order created', nil) }
+          leaked_result
+        end
+
+        result = service.generate_response(message_history: message_history)
+
+        expect(mock_runner).to have_received(:run).once
+        expect(result).to include('response' => 'conversation_handoff', 'error' => true)
+      end
+
       [
         '{"commentary":null}',
         '{"commentary":""}',

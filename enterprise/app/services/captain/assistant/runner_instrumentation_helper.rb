@@ -52,6 +52,7 @@ module Captain::Assistant::RunnerInstrumentationHelper
     # Tool tracking always runs — process_response in the job consumes the resulting
     # handoff_tool_called flag regardless of whether OTEL is enabled.
     runner.on_tool_complete do |tool_name, _tool_result, context_wrapper|
+      @tool_executed = true
       track_handoff_usage(tool_name, handoff_tool_name, context_wrapper)
     end
 
