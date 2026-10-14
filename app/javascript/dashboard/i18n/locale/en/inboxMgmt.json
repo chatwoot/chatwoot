@@ -775,7 +775,7 @@
         "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
       },
       "CREDENTIALS": {
-        "DESCRIPTION": "Enter your Twilio Account Auth Token to verify call webhooks. This is different from your API Key Secret, which is used for agent connections and calls."
+        "DESCRIPTION": "Voice calling requires an Account Auth Token for webhook verification and API key credentials for calls."
       },
       "INBOUND": {
         "LABEL": "Allow incoming calls",
