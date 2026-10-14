@@ -62,6 +62,13 @@ RSpec.describe 'Auto translate messages API', type: :request do
     expect(Captain::Llm::MessageTranslationService).not_to have_received(:new)
   end
 
+  it 'rejects message ids that are not a list' do
+    post url, params: { message_ids: message.id, target_language: 'en' }, headers: agent.create_new_auth_token, as: :json
+
+    expect(response).to have_http_status(422)
+    expect(Captain::Llm::MessageTranslationService).not_to have_received(:new)
+  end
+
   it 'rejects a request without a target language' do
     post url, params: { message_ids: [message.id] }, headers: agent.create_new_auth_token, as: :json
 

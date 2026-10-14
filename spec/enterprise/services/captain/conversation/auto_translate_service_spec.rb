@@ -59,6 +59,17 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
     expect(question.reload.content_attributes).to include('source_language' => 'fr')
   end
 
+  it 'keeps changes made to a message while the translator was running' do
+    allow(llm_service).to receive(:perform) do
+      greeting.update!(content_attributes: greeting.content_attributes.merge('deleted' => true))
+      llm_response
+    end
+
+    service.perform
+
+    expect(greeting.reload.content_attributes).to include('deleted' => true, 'translations' => { 'en' => 'Hello' })
+  end
+
   it 'leaves messages above the size limit untranslated' do
     long_message = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'a' * 20_001)
 

@@ -16,7 +16,7 @@ class Captain::Conversation::AutoTranslateService
   private
 
   def messages
-    @messages ||= conversation.messages.incoming.where(id: Array(message_ids).first(BATCH_LIMIT)).where.not(content: [nil, '']).order(:id)
+    @messages ||= conversation.messages.incoming.where(id: message_ids.first(BATCH_LIMIT)).where.not(content: [nil, '']).order(:id)
   end
 
   def untranslated
@@ -57,13 +57,16 @@ class Captain::Conversation::AutoTranslateService
     end
   end
 
-  # The detected source language keeps the "Translated from" label right when a thread switches language later.
+  # Merged under the row lock: the model call takes seconds, and another agent's translation or a deletion
+  # may have landed on the message meanwhile. The source language keeps "Translated from" right after a thread switch.
   def store(message, content)
-    attributes = message.content_attributes.merge(
-      'translations' => (message.translations || {}).merge(target_language => content),
-      'source_language' => text(message).language
-    )
-    message.update!(content_attributes: attributes.compact)
+    message.with_lock do
+      attributes = message.content_attributes.merge(
+        'translations' => (message.translations || {}).merge(target_language => content),
+        'source_language' => text(message).language
+      )
+      message.update!(content_attributes: attributes.compact)
+    end
   end
 
   def detect_conversation_language
