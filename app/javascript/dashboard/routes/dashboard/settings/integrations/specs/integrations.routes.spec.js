@@ -27,6 +27,7 @@ vi.mock('../Index.vue', () => ({ default: {} }));
 vi.mock('../Webhooks/Index.vue', () => ({ default: {} }));
 vi.mock('../DashboardApps/Index.vue', () => ({ default: {} }));
 vi.mock('../Slack.vue', () => ({ default: {} }));
+vi.mock('../Stripe.vue', () => ({ default: {} }));
 vi.mock('../Linear.vue', () => ({ default: {} }));
 vi.mock('../Notion.vue', () => ({ default: {} }));
 vi.mock('../Shopify.vue', () => ({ default: {} }));

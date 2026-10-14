@@ -232,9 +232,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       it 'passes image attachments to the runner input' do
         expect(mock_runner).to receive(:run) do |input, context:, max_turns:|
-          expect(input).to be_a(RubyLLM::Content)
-          expect(input.text).to eq('What does this error mean?')
-          expect(input.attachments.first.source.to_s).to eq('https://example.com/error.png')
+          expect(input).to eq(multimodal_message_history.last[:content])
           expect(context[:conversation_history]).to eq([{ role: :assistant, content: 'Please share a screenshot', agent_name: nil }])
           expect(max_turns).to eq(10)
         end
@@ -670,9 +668,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       result = service.send(:extract_last_user_message, multimodal_message_history)
 
-      expect(result).to be_a(RubyLLM::Content)
-      expect(result.text).to eq('Can you check this screenshot?')
-      expect(result.attachments.first.source.to_s).to eq('https://example.com/image.jpg')
+      expect(result).to eq(multimodal_message_history.first[:content])
     end
   end
 
@@ -743,6 +739,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     subject(:provider) { Captain::Assistant::InstrumentationAttributeProvider.new(service) }
 
     let(:service) { described_class.new(assistant: assistant, conversation: conversation) }
+    let(:llm_context) { RubyLLM.context { |config| config.openai_api_key = 'test-key' } }
+    let(:chat) { llm_context.chat(model: 'gpt-5.2', protocol: :responses).with_thinking(effort: :low) }
 
     it 'delegates root trace attributes to the service' do
       context = {
@@ -764,10 +762,17 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
     it 'marks final response generations for observation-level evaluators' do
       message = instance_double(RubyLLM::Message, tool_calls: {})
+      context_wrapper = Struct.new(:context).new(
+        { __otel_tracing: { request_attributes: { protocol: :responses } } }
+      )
 
-      attributes = provider.generation_attributes(nil, nil, message)
+      attributes = provider.generation_attributes(context_wrapper, chat, message)
 
-      expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('final_response')
+      expect(attributes).to include(
+        'langfuse.observation.metadata.generation_stage' => 'final_response',
+        'langfuse.observation.metadata.api_protocol' => 'responses',
+        'langfuse.observation.metadata.reasoning_effort' => 'low'
+      )
       expect(attributes).not_to have_key('langfuse.observation.metadata.discarded')
     end
 
@@ -781,7 +786,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       attribute_provider = Captain::Assistant::InstrumentationAttributeProvider.new(runner_service)
       message = instance_double(RubyLLM::Message, tool_calls: {})
 
-      attributes = attribute_provider.generation_attributes(nil, nil, message)
+      attributes = attribute_provider.generation_attributes(nil, chat, message)
 
       expect(attributes['langfuse.observation.metadata.discarded']).to eq('false')
     end
@@ -790,7 +795,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       tool_call = instance_double(RubyLLM::ToolCall)
       message = instance_double(RubyLLM::Message, tool_calls: { 'call_1' => tool_call })
 
-      attributes = provider.generation_attributes(nil, nil, message)
+      attributes = provider.generation_attributes(nil, chat, message)
 
       expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('tool_call')
     end
@@ -806,7 +811,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       message = instance_double(RubyLLM::Message, tool_calls: {})
       create(:message, conversation: conversation, message_type: :incoming)
 
-      attributes = attribute_provider.generation_attributes(nil, nil, message)
+      attributes = attribute_provider.generation_attributes(nil, chat, message)
 
       expect(attributes['langfuse.observation.metadata.discarded']).to eq('true')
     end

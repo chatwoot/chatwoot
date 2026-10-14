@@ -25,10 +25,18 @@ class Companies::EnrichmentService
     @company.additional_attributes = merge_attributes(enriched_attributes(brand))
     @company.additional_attributes['enriched_at'] = Time.current.iso8601
     @company.save!
+    attach_logo(Array(brand['logos']))
     @company
   end
 
   private
+
+  def attach_logo(logos)
+    return if @company.avatar.attached? && !@overwrite
+
+    logo = logos.find { |candidate| candidate['type'] == 'icon' } || logos.first
+    Avatar::AvatarFromUrlJob.perform_now(@company, logo['url']) if logo
+  end
 
   def fetch_brand
     response = HTTParty.post(

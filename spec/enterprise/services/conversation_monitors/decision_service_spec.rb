@@ -13,7 +13,6 @@ RSpec.describe ConversationMonitors::DecisionService do
     end
   end
   let(:endpoint) { "#{ConversationMonitors::Configuration::ENDPOINT}/v1/systemone" }
-  let(:token_key) { "conversation_monitors:account:#{account.id}:tokens:#{Time.current.utc.strftime('%Y%m%d')}" }
   let(:response_body) do
     { id: 'gen-test', model: 'typesafe/jev-1.13-20260917', provider: 'TypeSafe',
       answers: { monitor.id.to_s => { type: 'noul', noul: 0.9 } }, usage: { input_tokens: 100, output_tokens: 10, cost: 0.00003 } }
@@ -24,55 +23,18 @@ RSpec.describe ConversationMonitors::DecisionService do
                                  .to_return(status: 200, body: response_body.to_json)
   end
 
-  after { Redis::Alfred.delete(token_key) }
-
-  context 'when reconciling a successful response' do
-    let(:usage) { ConversationMonitors::Usage.new(account.id) }
-
-    before do
-      allow(ConversationMonitors::Usage).to receive(:new).with(account.id).and_return(usage)
-      allow(Rails.logger).to receive(:warn)
-    end
-
-    [Redis::CannotConnectError, Redis::TimeoutError, ConnectionPool::TimeoutError].each do |error_class|
-      it "preserves the response and reservation after #{error_class.name}" do
-        allow(usage).to receive(:reconcile!).and_raise(error_class, 'test outage')
-        reserved_bytes = nil
-        stub_request(:post, endpoint).to_return do |request|
-          reserved_bytes = request.body.bytesize
-          { status: 200, body: response_body.to_json }
-        end
-
-        expect(evaluate).to eq(response_body.deep_stringify_keys)
-        expect(Redis::Alfred.get(token_key).to_i).to eq(reserved_bytes)
-        expect(usage.snapshot[:used]).to eq(1)
-        expect(WebMock).to have_requested(:post, endpoint).once
-        expect(Rails.logger).to have_received(:warn).with(
-          "Conversation monitor token reconciliation failed: account_id=#{account.id} error=#{error_class.name}"
-        )
-      end
-    end
-
-    it 'does not swallow unrelated accounting errors' do
-      allow(usage).to receive(:reconcile!).and_raise(ArgumentError, 'invalid adjustment')
-
-      expect { evaluate }.to raise_error(ArgumentError, 'invalid adjustment')
-    end
-  end
-
-  it 'does not call the provider when Redis cannot reserve the token budget' do
+  it 'counts a successful provider call without Redis token accounting' do
     allow(Redis::Alfred).to receive(:with).and_raise(Redis::CannotConnectError, 'test outage')
 
-    expect { evaluate }.to raise_error(Redis::CannotConnectError)
-    expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(0)
-    expect(WebMock).not_to have_requested(:post, endpoint)
+    expect(evaluate).to eq(response_body.deep_stringify_keys)
+    expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1)
+    expect(WebMock).to have_requested(:post, endpoint).once
   end
 
-  it 'releases the reservation and never calls the provider when credit persistence fails' do
+  it 'does not charge the account or call the provider when credit persistence fails' do
     allow(ConversationMonitors::DailyUsage).to receive(:record_call!).and_raise(ActiveRecord::StatementInvalid)
 
     expect { evaluate }.to(raise_error { |error| expect(error.class.name).to eq('ActiveRecord::StatementInvalid') })
-    expect(Redis::Alfred.get(token_key).to_i).to eq(0)
     expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(0)
     expect(WebMock).not_to have_requested(:post, endpoint)
   end
@@ -82,17 +44,15 @@ RSpec.describe ConversationMonitors::DecisionService do
 
     expect { evaluate }.to raise_error(CustomExceptions::MonitorEvaluationError, 'provider_unavailable')
     expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1)
-    expect(Redis::Alfred.get(token_key).to_i).to be_positive
     expect(WebMock).to have_requested(:post, endpoint).once
   end
 
   { 401 => 'credentials_invalid', 429 => 'provider_busy' }.each do |status, code|
-    it "releases token capacity after a #{status} rejection while retaining the call credit" do
+    it "retains the call credit after a #{status} rejection" do
       stub_request(:post, endpoint).to_return(status: status)
 
       expect { evaluate }.to raise_error(CustomExceptions::MonitorEvaluationError, code)
       expect(ConversationMonitors::Usage.new(account.id).snapshot[:used]).to eq(1)
-      expect(Redis::Alfred.get(token_key).to_i).to eq(0)
     end
   end
 
