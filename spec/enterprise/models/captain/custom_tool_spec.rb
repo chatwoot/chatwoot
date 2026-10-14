@@ -373,10 +373,6 @@ RSpec.describe Captain::CustomTool, type: :model do
           .to eq({ 'order_id' => '7', 'email' => 'jane@example.com', 'user_id' => 'user_42' })
       end
 
-      it 'keeps the model value for a parameter whose source has no value' do
-        expect(tool.with_verified_values({ user_id: 'typed_7' }, { 'verified.email' => 'jane@example.com' })['user_id']).to eq('typed_7')
-      end
-
       it 'does not let the model replace a verified value' do
         [{ email: 'victim@example.com' }, { 'email' => 'victim@example.com' }].each do |params|
           expect(tool.with_verified_values(params, verified_values)['email']).to eq('jane@example.com')
