@@ -134,15 +134,15 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def wire_agents(assistant_agent, scenario_agents)
-    assistant_agent = with_session_tools(assistant_agent)
-    scenario_agents = scenario_agents.map { |agent| with_session_tools(agent) }
+    assistant_agent = with_tools_for_user(assistant_agent)
+    scenario_agents = scenario_agents.map { |agent| with_tools_for_user(agent) }
     assistant_agent.register_handoffs(*scenario_agents) if scenario_agents.any?
     scenario_agents.each { |scenario_agent| scenario_agent.register_handoffs(assistant_agent) }
 
     [assistant_agent] + scenario_agents
   end
 
-  def with_session_tools(agent)
+  def with_tools_for_user(agent)
     return agent.clone(tools: copilot_tools(agent.tools)) if COPILOT_SOURCES.include?(@source)
 
     with_email_verification_tools(agent)
