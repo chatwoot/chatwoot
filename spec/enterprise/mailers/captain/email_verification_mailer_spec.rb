@@ -3,8 +3,12 @@ require 'rails_helper'
 RSpec.describe Captain::EmailVerificationMailer do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account, name: 'Acme Support') }
-  let(:encrypted_code) { Captain::EmailVerification.encrypt_code('482913') }
-  let(:mail) { described_class.with(account: account).verification_code(inbox, 'jane@example.com', encrypted_code).deliver_now }
+  # Built from the queued job's arguments, so the specs cover the encryption round trip
+  let(:mail) do
+    described_class.deliver_code_later(inbox, 'jane@example.com', '482913')
+    job_arguments = ActiveJob::Arguments.deserialize(ActiveJob::Base.queue_adapter.enqueued_jobs.last['arguments']).last
+    described_class.with(job_arguments[:params]).verification_code(*job_arguments[:args]).message
+  end
 
   it 'sends the code to the address, from the inbox name' do
     expect(mail.to).to eq(['jane@example.com'])
@@ -30,6 +34,16 @@ RSpec.describe Captain::EmailVerificationMailer do
 
     expect(mail.subject).to eq('Votre code')
     expect(mail.body.encoded).to include('Votre code de verification')
+  end
+
+  describe '.deliver_code_later' do
+    it 'never passes the plain code to the mail job' do
+      described_class.deliver_code_later(inbox, 'jane@example.com', '482913')
+
+      job = ActiveJob::Base.queue_adapter.enqueued_jobs.last
+      expect(job['job_class']).to eq('ActionMailer::MailDeliveryJob')
+      expect(job['arguments'].to_s).not_to include('482913')
+    end
   end
 
   describe '.deliverable?' do
