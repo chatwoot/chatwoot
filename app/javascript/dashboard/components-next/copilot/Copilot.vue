@@ -219,7 +219,7 @@ watch(
         v-for="thread in threads"
         :key="thread.id"
         type="button"
-        class="mb-1 w-full rounded-lg px-3 py-2 text-left hover:bg-n-alpha-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-blue-11"
+        class="mb-1 w-full rounded-lg px-3 py-2 text-start hover:bg-n-alpha-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-blue-11"
         :class="{ 'bg-n-alpha-2': thread.id === selectedThreadId }"
         @click="openThread(thread)"
       >
