@@ -52,7 +52,7 @@ class Captain::EmailVerification
     email = stored.rpartition(':').first
 
     # Count the attempt before checking it, so parallel guesses cannot all pass under the cap
-    return :locked if increment(key(:ATTEMPTS), CODE_TTL) > MAX_ATTEMPTS
+    return :locked if attempts_limit.exceeded?
 
     # delete_if_equals checks and consumes the code in one step
     return :invalid_code unless ::Redis::Alfred.delete_if_equals(key(:CODE), code_value(email, code.to_s.strip)) == [1]
@@ -67,7 +67,7 @@ class Captain::EmailVerification
   end
 
   def attempts_left
-    MAX_ATTEMPTS - ::Redis::Alfred.get(key(:ATTEMPTS)).to_i
+    attempts_limit.remaining
   end
 
   private
@@ -86,14 +86,11 @@ class Captain::EmailVerification
   # Both budgets are counted on every request, so a blocked session still cannot be used to flood one address
   def send_allowed?(email)
     email_key = format(::Redis::RedisKeys::CAPTAIN_EMAIL_VERIFICATION_EMAIL_SENDS, email_digest: Digest::SHA256.hexdigest(email))
-    [increment(key(:SENDS), SEND_WINDOW), increment(email_key, SEND_WINDOW)].max <= SEND_LIMIT
+    [key(:SENDS), email_key].map { |send_key| ::Redis::RateLimit.new(send_key, limit: SEND_LIMIT, window: SEND_WINDOW).exceeded? }.none?
   end
 
-  def increment(redis_key, window)
-    count = ::Redis::Alfred.incr(redis_key)
-    # Also repairs a counter left without an expiry by a crash between INCR and EXPIRE
-    ::Redis::Alfred.expire(redis_key, window.to_i) if count == 1 || ::Redis::Alfred.ttl(redis_key).to_i.negative?
-    count
+  def attempts_limit
+    ::Redis::RateLimit.new(key(:ATTEMPTS), limit: MAX_ATTEMPTS, window: CODE_TTL)
   end
 
   def key(name)
