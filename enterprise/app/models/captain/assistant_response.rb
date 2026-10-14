@@ -26,6 +26,8 @@
 class Captain::AssistantResponse < ApplicationRecord
   self.table_name = 'captain_assistant_responses'
 
+  attr_accessor :faq_import_context
+
   belongs_to :assistant, class_name: 'Captain::Assistant'
   belongs_to :account
   belongs_to :documentable, polymorphic: true, optional: true
@@ -79,6 +81,9 @@ class Captain::AssistantResponse < ApplicationRecord
   def update_response_embedding
     return unless saved_change_to_question? || saved_change_to_answer? || embedding.nil?
 
-    Captain::Llm::UpdateEmbeddingJob.perform_later(self, "#{question}: #{answer}")
+    embedding_target = faq_import_context.present? ? id : self
+    arguments = [embedding_target, "#{question}: #{answer}"]
+    arguments << faq_import_context if faq_import_context.present?
+    Captain::Llm::UpdateEmbeddingJob.perform_later(*arguments)
   end
 end
