@@ -1538,10 +1538,14 @@
         "PARAM_REQUIRED": {
           "LABEL": "Required"
         },
-        "PARAM_SOURCES": {
-          "MODEL": "Filled by Captain",
-          "VERIFIED_EMAIL": "Verified email (one-time code)",
-          "VERIFIED_IDENTIFIER": "Verified identifier (HMAC)",
+        "VERIFIED_VALUES": {
+          "ADD": "Add verified parameter",
+          "EMAIL": "Contact email",
+          "IDENTIFIER": "Contact identifier",
+          "EMAIL_HINT": "Confirmed with a one-time code",
+          "IDENTIFIER_HINT": "Signed by your app with HMAC",
+          "EMAIL_DESCRIPTION": "The contact's verified email address",
+          "IDENTIFIER_DESCRIPTION": "The contact's verified identifier from your app",
           "HELP": "Filled by Chatwoot. Captain cannot see or change it in customer conversations."
         },
         "REQUEST_TEMPLATE": {
