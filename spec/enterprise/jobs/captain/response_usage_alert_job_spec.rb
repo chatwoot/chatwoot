@@ -65,11 +65,15 @@ RSpec.describe Captain::ResponseUsageAlertJob do
     after_commit = nil
     allow(ActiveRecord).to receive(:after_all_transactions_commit) { |&callback| after_commit = callback }
     allow(described_class).to receive(:perform_later).and_raise(StandardError, 'queue unavailable')
+    allow(Rails.logger).to receive(:error)
 
     expect(described_class.enqueue_for_account(account)).to be(true)
 
-    expect { after_commit.call }.to raise_error(StandardError, 'queue unavailable')
+    expect { after_commit.call }.not_to raise_error
     expect(account.reload.custom_attributes['captain_responses_usage_alert_claim']).to be(false)
+    expect(Rails.logger).to have_received(:error).with(
+      "Captain response usage alert enqueue failed for account #{account.id}: StandardError - queue unavailable"
+    )
   end
 
   it 'releases a failed delivery claim and lets the retry reclaim it' do

@@ -366,6 +366,26 @@ RSpec.describe Account, type: :model do
       expect(Captain::ResponseUsageAlertJob).not_to have_received(:enqueue_for_account)
     end
 
+    it 'keeps the response successful and retries alert enqueueing after a queue failure' do
+      account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 240))
+      allow(Captain::ResponseUsageAlertJob).to receive(:perform_later).and_raise(StandardError, 'queue unavailable')
+      allow(Rails.logger).to receive(:error)
+
+      expect { account.increment_response_usage }.not_to raise_error
+      expect(account.reload.custom_attributes).to include(
+        'captain_responses_usage' => 241,
+        'captain_responses_usage_alert_claim' => false
+      )
+
+      allow(Captain::ResponseUsageAlertJob).to receive(:perform_later).and_return(true)
+      account.increment_response_usage
+
+      expect(account.reload.custom_attributes).to include(
+        'captain_responses_usage' => 242,
+        'captain_responses_usage_alert_claim' => kind_of(String)
+      )
+    end
+
     it 'rearms the alert and preserves other custom attributes when usage resets' do
       account.update!(custom_attributes: account.custom_attributes.merge(
         'captain_responses_usage_alerted' => true,

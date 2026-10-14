@@ -18,18 +18,28 @@ class Captain::ResponseUsageAlertJob < ApplicationJob
   def self.enqueue_claimed_alert(account_id, token)
     return true if perform_later(account_id, token)
 
-    release_claim(account_id, token)
-    false
-  rescue StandardError
-    release_claim(account_id, token)
-    raise
+    handle_enqueue_failure(account_id, token, 'queue adapter rejected the job')
+  rescue StandardError => e
+    handle_enqueue_failure(account_id, token, "#{e.class} - #{e.message}")
   end
 
   def self.release_claim(account_id, token)
     Account.find_by(id: account_id)&.release_captain_response_usage_alert(token)
   end
 
-  private_class_method :enqueue_claimed_alert, :release_claim
+  def self.handle_enqueue_failure(account_id, token, reason)
+    release_claim(account_id, token)
+    Rails.logger.error("Captain response usage alert enqueue failed for account #{account_id}: #{reason}")
+    false
+  rescue StandardError => e
+    Rails.logger.error(
+      "Captain response usage alert enqueue failed for account #{account_id}: #{reason}; " \
+      "claim release failed: #{e.class} - #{e.message}"
+    )
+    false
+  end
+
+  private_class_method :enqueue_claimed_alert, :release_claim, :handle_enqueue_failure
 
   def perform(account_id, token)
     account = Account.find(account_id)
