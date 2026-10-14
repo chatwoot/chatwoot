@@ -15,6 +15,7 @@ json.enabled custom_tool.enabled
 json.settings do
   json.requires_email_verification custom_tool.settings['requires_email_verification'] == true
 end
+json.copilot_permissions custom_tool.copilot_permissions
 json.source_metadata custom_tool.source_metadata
 json.account_id custom_tool.account_id
 json.assistant_id custom_tool.assistant_id

@@ -1,5 +1,7 @@
 class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::BaseController
   RESULTS_PER_PAGE = 25
+  # Settings the account owns, which stay editable on tools installed from a manifest
+  ACCOUNT_SETTINGS = %w[enabled copilot_permissions].freeze
 
   before_action :ensure_custom_tools_enabled
   before_action -> { check_authorization(Captain::CustomTool) }
@@ -25,8 +27,8 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   end
 
   def update
-    # Tools installed from a manifest are managed by their manifest; only the user-owned enabled flag can change
-    if @custom_tool.source_metadata.present? && (custom_tool_params.keys - ['enabled']).any?
+    # Tools installed from a manifest are managed by their manifest; only the account's own settings can change
+    if @custom_tool.source_metadata.present? && (custom_tool_params.keys - ACCOUNT_SETTINGS).any?
       return render_could_not_create_error(I18n.t('captain.custom_tool.installed_read_only'))
     end
 
@@ -139,7 +141,8 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
       auth_config: {},
       headers: {},
       settings: Captain::CustomTool::SETTING_KEYS,
-      param_schema: PARAM_FIELDS.map(&:to_sym)
+      param_schema: PARAM_FIELDS.map(&:to_sym),
+      copilot_permissions: []
     )
   end
 end
