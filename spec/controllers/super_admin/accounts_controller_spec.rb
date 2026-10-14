@@ -96,6 +96,15 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(completion_select.css('option').pluck('value')).to eq([''] + Llm::Models.models_for('conversation_completion'))
       end
 
+      it 'leaves Calls on mobile out of the feature list', if: ChatwootApp.enterprise? do
+        sign_in(super_admin, scope: :super_admin)
+
+        get "/super_admin/accounts/#{account.id}/edit"
+
+        expect(response.body).to include('enabled_features[feature_channel_voice]')
+        expect(response.body).not_to include('enabled_features[feature_mobile_voice_push]')
+      end
+
       it 'shows the Captain V2 assistant default in the model selector', if: ChatwootApp.enterprise? do
         account.enable_features!('captain_integration')
         sign_in(super_admin, scope: :super_admin)
@@ -142,6 +151,35 @@ RSpec.describe 'Super Admin accounts API', type: :request do
           'conversation_completion' => 'gpt-5.2'
         )
         expect(account.keep_pending_on_bot_failure).to be true
+      end
+
+      context 'with a hidden feature' do
+        before { sign_in(super_admin, scope: :super_admin) }
+
+        def update_with_voice_channel
+          patch "/super_admin/accounts/#{account.id}",
+                params: {
+                  account: { name: account.name, locale: account.locale, status: account.status },
+                  enabled_features: { feature_channel_voice: true }
+                }
+        end
+
+        it 'keeps Calls on mobile on when the form is saved' do
+          account.enable_features!('mobile_voice_push')
+
+          update_with_voice_channel
+
+          expect(account.reload.feature_enabled?('channel_voice')).to be true
+          expect(account.feature_enabled?('mobile_voice_push')).to be true
+        end
+
+        it 'keeps Calls on mobile off when the form is saved' do
+          account.disable_features!('mobile_voice_push')
+
+          update_with_voice_channel
+
+          expect(account.reload.feature_enabled?('mobile_voice_push')).to be false
+        end
       end
 
       it 'rejects invalid Captain model overrides' do
