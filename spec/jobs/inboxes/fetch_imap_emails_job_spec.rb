@@ -70,20 +70,62 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
     end
 
     context 'when IMAP OAuth errors out' do
-      it 'marks the connection as requiring authorization' do
-        error_response = double
-        oauth_error = OAuth2::Error.new(error_response)
+      def oauth_error(status, body)
+        faraday_response = Faraday::Response.new(status: status, body: body.to_json, response_headers: { 'Content-Type' => 'application/json' })
+        OAuth2::Error.new(OAuth2::Response.new(faraday_response))
+      end
 
+      def refresh_fails_with(error)
         allow(Imap::MicrosoftFetchEmailService).to receive(:new)
           .with(channel: microsoft_imap_email_channel, interval: 1)
-          .and_raise(oauth_error)
+          .and_raise(error)
+      end
 
-        allow(Redis::Alfred).to receive(:incr)
-
-        expect(Redis::Alfred).to receive(:incr)
-          .with("AUTHORIZATION_ERROR_COUNT:channel_email:#{microsoft_imap_email_channel.id}")
+      it 'counts a refresh token the provider refuses' do
+        refresh_fails_with(oauth_error(400, { error: 'invalid_grant' }))
 
         described_class.perform_now(microsoft_imap_email_channel)
+
+        expect(microsoft_imap_email_channel.authorization_error_count).to eq 1
+      end
+
+      it 'counts an OAuth client the provider refuses' do
+        refresh_fails_with(oauth_error(401, { error: 'invalid_client' }))
+
+        described_class.perform_now(microsoft_imap_email_channel)
+
+        expect(microsoft_imap_email_channel.authorization_error_count).to eq 1
+      end
+
+      it 'does not count a token endpoint outage or rate limit' do
+        refresh_fails_with(oauth_error(503, { error: 'backend_error' }))
+        described_class.perform_now(microsoft_imap_email_channel)
+        refresh_fails_with(oauth_error(429, { error: 'rate_limit_exceeded' }))
+        described_class.perform_now(microsoft_imap_email_channel)
+
+        expect(microsoft_imap_email_channel.authorization_error_count).to eq 0
+      end
+
+      it 'locks the inbox after consecutive refused refreshes' do
+        refresh_fails_with(oauth_error(400, { error: 'invalid_grant' }))
+
+        Channel::Email::AUTHORIZATION_ERROR_THRESHOLD.times { described_class.perform_now(microsoft_imap_email_channel) }
+
+        expect(microsoft_imap_email_channel.reauthorization_required?).to be true
+      end
+    end
+
+    context 'when a fetch succeeds after earlier authorization errors' do
+      it 'clears the count, so only consecutive failures lock the inbox' do
+        fetch_service = double
+        allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
+        allow(fetch_service).to receive(:perform).and_return([])
+        (Channel::Email::AUTHORIZATION_ERROR_THRESHOLD - 1).times { imap_email_channel.authorization_error! }
+
+        described_class.perform_now(imap_email_channel)
+
+        expect(imap_email_channel.authorization_error_count).to eq 0
+        expect(imap_email_channel.reauthorization_required?).to be false
       end
     end
 

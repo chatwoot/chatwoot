@@ -12,6 +12,15 @@ shared_examples_for 'reauthorizable' do
     expect(obj.authorization_error_count).to eq 1
   end
 
+  it 'reset_authorization_errors! clears the count without prompting reauthorization' do
+    obj.authorization_error!
+
+    obj.reset_authorization_errors!
+
+    expect(obj.authorization_error_count).to eq 0
+    expect(obj.reauthorization_required?).to be false
+  end
+
   it 'prompts reauthorization when error threshold is passed' do
     expect(obj.reauthorization_required?).to be false
 
