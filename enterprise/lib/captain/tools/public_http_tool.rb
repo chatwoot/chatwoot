@@ -35,7 +35,9 @@ class Captain::Tools::PublicHttpTool < Captain::Tools::HttpTool
   end
 
   def other_email?(params, verified_email)
-    params.values.grep(String).flat_map { |value| value.scan(EMAIL_IN_TEXT_PATTERN) }.any? { |email| !email.casecmp?(verified_email) }
+    emails = params.values.grep(String).flat_map { |value| value.scan(EMAIL_IN_TEXT_PATTERN) }
+    # An email at the end of a sentence carries its punctuation, such as a trailing period
+    emails.map { |email| email.sub(/[^a-z0-9]+\z/i, '') }.any? { |email| !email.casecmp?(verified_email) }
   end
 
   def other_email_message(verified_email)

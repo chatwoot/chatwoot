@@ -182,6 +182,12 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
           expect(request_stub).to have_been_requested
         end
 
+        it 'runs with the verified email inside a sentence' do
+          tool.perform(tool_context, email: 'jane@example.com', note: 'Contact jane@example.com. Or (jane@example.com)!')
+
+          expect(request_stub).to have_been_requested
+        end
+
         it 'does not run with another email inside a longer value' do
           tool.perform(tool_context, email: 'jane@example.com', note: 'also check <victim@example.com>')
 
