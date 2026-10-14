@@ -40,7 +40,7 @@ RSpec.describe CaptainFeaturable do
 
       it 'returns false for disabled features' do
         expect(account.captain_copilot_enabled?).to be false
-        expect(account.captain_label_suggestion_enabled?).to be false
+        expect(account.captain_help_center_query_translation_enabled?).to be false
       end
     end
 
@@ -58,28 +58,19 @@ RSpec.describe CaptainFeaturable do
   end
 
   describe 'model accessor methods' do
-    context 'when no models are explicitly configured' do
-      it 'returns default models for all features' do
-        Llm::Models.feature_keys.each do |feature_key|
-          expected_default = Llm::Models.default_model_for(feature_key)
-          expect(account.send("captain_#{feature_key}_model")).to eq(expected_default)
-        end
-      end
-    end
-
     context 'when models are explicitly configured' do
       before do
         account.update!(captain_models: {
                           'editor' => 'gpt-4.1-mini',
                           'assistant' => 'gpt-5.1',
-                          'label_suggestion' => 'gpt-4.1-nano'
+                          'help_center_query_translation' => 'gpt-4.1-mini'
                         })
       end
 
       it 'returns configured models for configured features' do
         expect(account.captain_editor_model).to eq('gpt-4.1-mini')
         expect(account.captain_assistant_model).to eq('gpt-5.1')
-        expect(account.captain_label_suggestion_model).to eq('gpt-4.1-nano')
+        expect(account.captain_help_center_query_translation_model).to eq('gpt-4.1-mini')
       end
 
       it 'returns default models for unconfigured features' do

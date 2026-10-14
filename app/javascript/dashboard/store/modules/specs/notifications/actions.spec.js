@@ -6,38 +6,6 @@ global.axios = axios;
 vi.mock('axios');
 
 describe('#actions', () => {
-  describe('#get', () => {
-    it('sends correct actions if API is success', async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          data: {
-            payload: [{ id: 1 }],
-            meta: { count: 3, current_page: 1, unread_count: 2 },
-          },
-        },
-      });
-      await actions.get({ commit });
-      expect(commit.mock.calls).toEqual([
-        [types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: true }],
-        [types.CLEAR_NOTIFICATIONS],
-        [types.SET_NOTIFICATIONS, [{ id: 1 }]],
-        [
-          types.SET_NOTIFICATIONS_META,
-          { count: 3, current_page: 1, unread_count: 2 },
-        ],
-        [types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false }],
-      ]);
-    });
-    it('sends correct actions if API is error', async () => {
-      axios.get.mockRejectedValue({ message: 'Incorrect header' });
-      await actions.get({ commit });
-      expect(commit.mock.calls).toEqual([
-        [types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: true }],
-        [types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false }],
-      ]);
-    });
-  });
-
   describe('#index', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({

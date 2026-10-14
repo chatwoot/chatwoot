@@ -83,20 +83,61 @@ class Sms::IncomingMessageService
       # we don't need to process this files since chatwoot doesn't support it
       next if media_url.end_with?('.smil', '.xml')
 
-      attachment_file = Down.download(
-        media_url,
-        http_basic_authentication: [channel.provider_config['api_key'], channel.provider_config['api_secret']]
-      )
-
-      @message.attachments.new(
-        account_id: @message.account_id,
-        file_type: file_type(attachment_file.content_type),
-        file: {
-          io: attachment_file,
-          filename: attachment_file.original_filename,
-          content_type: attachment_file.content_type
-        }
-      )
+      download_media(media_url) do |io, filename, content_type|
+        @message.attachments.new(
+          account_id: @message.account_id,
+          file_type: file_type(content_type),
+          file: { io: io, filename: filename, content_type: content_type }
+        )
+      end
     end
+  end
+
+  # Provider media comes from a known host and is fetched directly with credentials.
+  # Any other URL from the payload is fetched through SafeFetch so it cannot reach
+  # internal addresses.
+  def download_media(media_url)
+    if provider_hosted?(media_url)
+      file = Down.download(media_url, http_basic_authentication: provider_credentials, max_redirects: 0)
+      yield file, file.original_filename, file.content_type
+    else
+      # SafeFetch closes its tempfile when the block returns, but the attachment is
+      # uploaded later on save!, so stream the contents into a tempfile that survives.
+      SafeFetch.fetch(media_url, validate_content_type: false) do |result|
+        yield persisted_copy(result.tempfile), result.original_filename, result.content_type
+      end
+    end
+    # Skip only unsafe/permanent failures; let transient errors (timeout, 5xx) raise
+    # so the job retries, as before this change.
+  rescue SafeFetch::UnsafeUrlError, SafeFetch::InvalidUrlError, SafeFetch::FileTooLargeError, SafeFetch::UnsupportedContentTypeError => e
+    Rails.logger.warn("[SMS] skipping media download: #{e.class}")
+  end
+
+  def provider_credentials
+    [channel.provider_config['api_key'], channel.provider_config['api_secret']]
+  end
+
+  # Copy the streamed download into a tempfile that outlives the SafeFetch block
+  # (cleaned up on GC), without buffering the whole file in memory.
+  def persisted_copy(source)
+    tempfile = Tempfile.new('sms-media', binmode: true)
+    IO.copy_stream(source, tempfile)
+    tempfile.rewind
+    tempfile
+  end
+
+  # Attach credentials only to the provider's exact configured endpoint: same
+  # scheme, host and port, and no embedded userinfo. Anything else from the
+  # payload is treated as untrusted and fetched without credentials.
+  def provider_hosted?(media_url)
+    uri = URI.parse(media_url)
+    uri.userinfo.nil? && uri.scheme == provider_uri.scheme &&
+      uri.port == provider_uri.port && provider_uri.host.casecmp?(uri.host.to_s)
+  rescue URI::InvalidURIError
+    false
+  end
+
+  def provider_uri
+    @provider_uri ||= URI.parse(channel.api_base_path)
   end
 end

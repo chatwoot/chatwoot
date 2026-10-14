@@ -4,13 +4,14 @@ import { useAdmin } from 'dashboard/composables/useAdmin';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import { computed, ref } from 'vue';
-import { picoSearch } from '@scmmishra/pico-search';
+import { picoSearch } from '@chatwoot/pico-search';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 
 const store = useStore();
 const { t } = useI18n();
@@ -123,9 +124,16 @@ const confirmPlaceHolderText = computed(() =>
         >
           <div class="flex items-start gap-4">
             <div
-              class="flex items-center flex-shrink-0 size-10 justify-center rounded-xl outline outline-1 outline-n-weak -outline-offset-1"
+              class="flex items-center flex-shrink-0 size-10 justify-center rounded-xl outline outline-1 outline-n-weak -outline-offset-1 text-lg"
             >
+              <EmojiIcon
+                v-if="team.icon"
+                :value="team.icon"
+                :color="team.icon_color"
+                class="size-5"
+              />
               <Icon
+                v-else
                 icon="i-lucide-users-round"
                 class="size-4 text-n-slate-11"
               />

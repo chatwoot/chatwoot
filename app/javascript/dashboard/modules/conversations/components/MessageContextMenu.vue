@@ -6,6 +6,7 @@ import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned.vue';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
 import {
   ACCOUNT_EVENTS,
@@ -14,6 +15,7 @@ import {
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 import { useTrack } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ReportCaptainMessageDialog from './ReportCaptainMessageDialog.vue';
 
 export default {
   components: {
@@ -21,6 +23,7 @@ export default {
     MenuItem,
     ContextMenu,
     NextButton,
+    ReportCaptainMessageDialog,
   },
   props: {
     message: {
@@ -44,7 +47,7 @@ export default {
       default: false,
     },
   },
-  emits: ['open', 'close', 'replyTo'],
+  emits: ['open', 'close', 'replyTo', 'forwardEmail'],
   setup() {
     const { getPlainText } = useMessageFormatter();
 
@@ -117,20 +120,28 @@ export default {
     handleClose(e) {
       this.$emit('close', e);
     },
-    handleTranslate() {
+    async handleTranslate() {
       const { locale: accountLocale } = this.getAccount(this.currentAccountId);
       const agentLocale = this.getUISettings?.locale;
       const targetLanguage = agentLocale || accountLocale || 'en';
-      this.$store.dispatch('translateMessage', {
-        conversationId: this.conversationId,
-        messageId: this.messageId,
-        targetLanguage,
-      });
-      useTrack(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
+      try {
+        await this.$store.dispatch('translateMessage', {
+          conversationId: this.conversationId,
+          messageId: this.messageId,
+          targetLanguage,
+        });
+        useTrack(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
+      } catch (error) {
+        useAlert(parseAPIErrorResponse(error));
+      }
       this.handleClose();
     },
     handleReplyTo() {
       this.$emit('replyTo', this.message);
+      this.handleClose();
+    },
+    handleForwardEmail() {
+      this.$emit('forwardEmail');
       this.handleClose();
     },
     openDeleteModal() {
@@ -151,6 +162,10 @@ export default {
     },
     closeDeleteModal() {
       this.showDeleteModal = false;
+    },
+    openReportDialog() {
+      this.handleClose();
+      this.$refs.reportDialog?.open();
     },
   },
 };
@@ -198,6 +213,15 @@ export default {
     >
       <div class="menu-container">
         <MenuItem
+          v-if="enabledOptions['forwardEmail']"
+          :option="{
+            icon: 'arrow-forward',
+            label: $t('CONVERSATION.CONTEXT_MENU.FORWARD_EMAIL'),
+          }"
+          variant="icon"
+          @click.stop="handleForwardEmail"
+        />
+        <MenuItem
           v-if="enabledOptions['replyTo']"
           :option="{
             icon: 'arrow-reply',
@@ -243,6 +267,16 @@ export default {
           variant="icon"
           @click.stop="showCannedResponseModal"
         />
+        <hr v-if="enabledOptions['report']" />
+        <MenuItem
+          v-if="enabledOptions['report']"
+          :option="{
+            icon: 'warning',
+            label: $t('CONVERSATION.CONTEXT_MENU.REPORT_MESSAGE.LABEL'),
+          }"
+          variant="icon"
+          @click.stop="openReportDialog"
+        />
         <hr v-if="enabledOptions['delete']" />
         <MenuItem
           v-if="enabledOptions['delete']"
@@ -255,6 +289,11 @@ export default {
         />
       </div>
     </ContextMenu>
+    <ReportCaptainMessageDialog
+      v-if="enabledOptions['report']"
+      ref="reportDialog"
+      :message-id="messageId"
+    />
   </div>
 </template>
 

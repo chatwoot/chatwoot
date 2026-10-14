@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Variabler",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Sprog",
       "CATEGORY": "Kategori",
       "VARIABLE_PLACEHOLDER": "Indtast {variable} værdi",

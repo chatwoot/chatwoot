@@ -16,7 +16,6 @@ import { useAlert } from 'dashboard/composables';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import { useCallsStore } from 'dashboard/stores/calls';
 import { useWhatsappCallSession } from 'dashboard/composables/useWhatsappCallSession';
-import ContactAPI from 'dashboard/api/contacts';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
@@ -51,8 +50,23 @@ const voiceInboxes = computed(() =>
   (inboxesList.value || []).filter(isVoiceCallEnabled)
 );
 const hasVoiceInboxes = computed(() => voiceInboxes.value.length > 0);
+const conversationVoiceInbox = computed(() => {
+  if (!props.conversationId) return null;
 
-const shouldRender = computed(() => hasVoiceInboxes.value && !!props.phone);
+  const conversation = store.getters.getConversationById(props.conversationId);
+  return voiceInboxes.value.find(inbox => inbox.id === conversation?.inbox_id);
+});
+const hasWhatsappConversationIdentity = computed(
+  () =>
+    getVoiceCallProvider(conversationVoiceInbox.value) ===
+    VOICE_CALL_PROVIDERS.WHATSAPP
+);
+
+const shouldRender = computed(
+  () =>
+    hasVoiceInboxes.value &&
+    (!!props.phone || hasWhatsappConversationIdentity.value)
+);
 
 const isInitiatingCall = computed(() => {
   return contactsUiFlags.value?.isInitiatingCall || false;
@@ -83,39 +97,18 @@ const navigateToConversation = conversationId => {
 
 const whatsappCallSession = useWhatsappCallSession();
 
-// Find the most recent open conversation for this contact in the picked inbox.
-// WhatsApp /initiate is conversation-scoped (unlike Twilio's contact-scoped path).
-// Pass inboxId so the BE applies the filter before the 20-row cap — without it,
-// contacts whose latest WhatsApp conversation falls outside the 20 most recent
-// across all inboxes would be treated as having no conversation.
-const findWhatsappConversationId = async inboxId => {
-  const { data } = await ContactAPI.getConversations(props.contactId, {
-    inboxId,
-  });
-  const conversations = data?.payload || [];
-  const match = [...conversations].sort(
-    (a, b) => (b.last_activity_at || 0) - (a.last_activity_at || 0)
-  )[0];
-  return match?.id || null;
-};
-
 const startWhatsappCall = async (inboxId, conversationIdHint) => {
-  // WhatsApp /initiate is conversation-scoped, so we must hand it a
-  // conversation. Use the caller's hint when given (in-conversation flow);
-  // otherwise pick the most recent one in the inbox.
-  const conversationId =
-    conversationIdHint || (await findWhatsappConversationId(inboxId));
-  if (!conversationId) {
-    useAlert(t('CONTACT_PANEL.CALL_FAILED'));
-    return;
-  }
-
-  const response =
-    await whatsappCallSession.initiateOutboundCall(conversationId);
+  const response = await whatsappCallSession.initiateOutboundCall(
+    conversationIdHint
+      ? { conversationId: conversationIdHint }
+      : { contactId: props.contactId, inboxId }
+  );
   // The composable returns { status: 'locked' } when an init is already in
   // flight or a call is already active; treat that as a soft no-op rather than
   // claiming success.
   if (response?.status === VOICE_CALL_OUTBOUND_INIT_STATUS.LOCKED) return;
+
+  const conversationId = response?.conversation_id || conversationIdHint;
   if (!response?.id) {
     // Permission template path returns no call id. Mirror the header button and
     // surface whether the request was just sent or is already pending instead of
@@ -153,7 +146,11 @@ const startCall = async (inboxId, conversationIdHint = null) => {
     try {
       await startWhatsappCall(inboxId, conversationIdHint);
     } catch (error) {
-      useAlert(error?.message || t('CONTACT_PANEL.CALL_FAILED'));
+      useAlert(
+        error?.response?.data?.error ||
+          error?.message ||
+          t('CONTACT_PANEL.CALL_FAILED')
+      );
     }
     return;
   }
@@ -186,17 +183,9 @@ const onClick = async () => {
   // itself voice-capable (works the same for Twilio and WhatsApp). For
   // non-voice channels (email, web, …) fall back to the picker so the call
   // goes out via a voice inbox.
-  if (props.conversationId) {
-    const conversation = store.getters.getConversationById(
-      props.conversationId
-    );
-    const conversationInbox = (inboxesList.value || []).find(
-      i => i.id === conversation?.inbox_id
-    );
-    if (conversationInbox && isVoiceCallEnabled(conversationInbox)) {
-      await startCall(conversationInbox.id, props.conversationId);
-      return;
-    }
+  if (conversationVoiceInbox.value) {
+    await startCall(conversationVoiceInbox.value.id, props.conversationId);
+    return;
   }
   if (voiceInboxes.value.length > 1) {
     dialogRef.value?.open();

@@ -3,10 +3,10 @@
     "HEADER": "Bots",
     "LOADING_EDITOR": "Chargement de l'éditeur...",
     "DESCRIPTION": "Les bots agents sont comme les membres les plus formidables de votre équipe. Ils peuvent gérer les petites tâches, vous permettant ainsi de vous concentrer sur ce qui compte vraiment. Essayez-les. Vous pouvez gérer vos bots depuis cette page ou en créer de nouveaux en cliquant sur le bouton 'Ajouter un bot'.",
-    "LEARN_MORE": "Learn about agent bots",
+    "LEARN_MORE": "En savoir plus sur les robots des agents",
     "COUNT": "{n} bot | {n} bots",
-    "SEARCH_PLACEHOLDER": "Search bots...",
-    "NO_RESULTS": "No bots found matching your search",
+    "SEARCH_PLACEHOLDER": "Rechercher des bots...",
+    "NO_RESULTS": "Aucun bot trouvé correspondant à votre recherche",
     "GLOBAL_BOT": "Bot système",
     "GLOBAL_BOT_BADGE": "Système",
     "AVATAR": {
@@ -64,14 +64,14 @@
       }
     },
     "SECRET": {
-      "LABEL": "Webhook Secret",
-      "COPY": "Copy secret to clipboard",
-      "COPY_SUCCESS": "Secret copied to clipboard",
-      "TOGGLE": "Toggle secret visibility",
-      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
-      "DONE": "Done",
-      "RESET_SUCCESS": "Webhook secret regenerated successfully",
-      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+      "LABEL": "Secret du webhook",
+      "COPY": "Copier le secret dans le presse-papiers",
+      "COPY_SUCCESS": "Secret copié dans le presse-papiers",
+      "TOGGLE": "Activer/désactiver la visibilité secrète",
+      "CREATED_DESC": "Utilisez le secret ci-dessous pour vérifier les signatures du webhook. Copiez-le maintenant ; vous pourrez également le retrouver plus tard dans les paramètres du bot.",
+      "DONE": "Fait",
+      "RESET_SUCCESS": "Le secret du webhook a été régénéré avec succès",
+      "RESET_ERROR": "Impossible de régénérer le secret du webhook. Veuillez réessayer"
     },
     "ACCESS_TOKEN": {
       "TITLE": "Jeton d'accès",

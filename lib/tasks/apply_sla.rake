@@ -62,7 +62,9 @@ namespace :sla do
       exit(1)
     end
 
-    conversations = account.conversations.where(sla_policy_id: nil).order(id: :desc).limit(batch_size)
+    conversations = account.conversations.where(sla_policy_id: nil)
+    conversations = conversations.with_sla_applicable_contact if conversations.respond_to?(:with_sla_applicable_contact)
+    conversations = conversations.order(id: :desc).limit(batch_size)
     total_count = conversations.count
 
     if total_count.zero?

@@ -23,7 +23,8 @@ SAML_SETUP_PROC = proc do |env|
     if settings
       # Configure the strategy options dynamically
       env['omniauth.strategy'].options[:idp_sso_service_url_runtime_params] = { RelayState: :RelayState }
-      env['omniauth.strategy'].options[:assertion_consumer_service_url] = "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/omniauth/saml/callback?account_id=#{account_id}"
+      base_url = GlobalConfigService.load('FRONTEND_URL', 'http://localhost:3000')
+      env['omniauth.strategy'].options[:assertion_consumer_service_url] = "#{base_url}/omniauth/saml/callback?account_id=#{account_id}"
       env['omniauth.strategy'].options[:sp_entity_id] = settings.sp_entity_id
       env['omniauth.strategy'].options[:idp_entity_id] = settings.idp_entity_id
       env['omniauth.strategy'].options[:idp_sso_service_url] = settings.sso_url

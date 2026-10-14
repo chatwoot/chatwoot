@@ -17,13 +17,9 @@ module PortalHelper
     uri.to_s
   end
 
-  def generate_portal_bg_color(portal_color, theme)
+  def generate_portal_bg(portal_color, theme)
     base_color = theme == 'dark' ? 'black' : 'white'
     "color-mix(in srgb, #{portal_color} 20%, #{base_color})"
-  end
-
-  def generate_portal_bg(portal_color, theme)
-    generate_portal_bg_color(portal_color, theme)
   end
 
   def generate_gradient_to_bottom(theme)
@@ -39,6 +35,10 @@ module PortalHelper
   def language_name(locale)
     language_map = YAML.load_file(Rails.root.join('config/languages/language_map.yml'))
     language_map[locale] || locale
+  end
+
+  def html_lang_attribute(locale)
+    locale.to_s.tr('_', '-')
   end
 
   def theme_query_string(theme)
@@ -95,6 +95,18 @@ module PortalHelper
 
   def render_category_content(content)
     ChatwootMarkdownRenderer.new(content).render_markdown_to_plain_text
+  end
+
+  # Renders a stored category icon: a bare ri icon name (e.g. `vip-crown-2-fill/line`) saved color, or a plain emoji character.
+  def render_emoji_or_icon(value, color = nil)
+    return '' if value.blank?
+
+    # Emojis are non-ascii; bare icon names match this safe charset.
+    return ERB::Util.html_escape(value) unless value.match?(/\A[a-z][a-z0-9-]*\z/)
+
+    icon_class = value.start_with?('i-') ? value : "i-ri-#{value}"
+    style = "color: #{color};" if color.to_s.match?(/\A#\h{3,8}\z/)
+    tag.span(class: icon_class, style: style, 'aria-hidden': true)
   end
 
   def thumbnail_bg_color(username)

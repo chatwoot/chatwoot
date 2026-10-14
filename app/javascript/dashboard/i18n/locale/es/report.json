@@ -23,12 +23,14 @@
         "NAME": "Tiempo de primera respuesta",
         "DESC": "( Media )",
         "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
+        "TOOLTIP_DESCRIPTION": "Basado en {count} conversación| Basado en {count} conversaciones",
         "TOOLTIP_TEXT": "Tiempo de primera respuesta es {metricValue} (basado en {conversationCount} conversaciones)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Tiempo de resolución",
         "DESC": "( Media )",
         "INFO_TEXT": "Número total de conversaciones utilizadas en el cálculo:",
+        "TOOLTIP_DESCRIPTION": "Basado en {count} conversación| Basado en {count} conversaciones",
         "TOOLTIP_TEXT": "El tiempo de resolución es {metricValue} (basado en {conversationCount} conversaciones)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Tiempo de espera del cliente",
+        "TOOLTIP_LABEL": "Tiempo de espera",
+        "TOOLTIP_DESCRIPTION": "Basado en {count} respuesta | Basado en {count} respuestas",
         "TOOLTIP_TEXT": "El tiempo de espera es {metricValue} (basado en {conversationCount} conversaciones)",
         "DESC": ""
       }
@@ -120,6 +124,25 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Limpiar filtros",
       "EMPTY_LIST": "No se encontraron resultados"
+    },
+    "DRILLDOWN": {
+      "TITLE": "Detalles de {metric}",
+      "RESULT_COUNT_CONVERSATION": "Conversación {count} | Conversaciones {count}",
+      "RESULT_COUNT_MESSAGE": "Mensaje {count} | Mensajes {count}",
+      "EMPTY": "No se encontraron registros para esta barra.",
+      "ERROR": "No se pudo cargar los registros. Por favor, inténtelo de nuevo.",
+      "ADMIN_ONLY": "Sólo los administradores pueden perforar en registros de reporte.",
+      "LOAD_MORE": "Cargar más",
+      "PREVIOUS_BUCKET": "Barra anterior",
+      "NEXT_BUCKET": "Barra siguiente",
+      "UNKNOWN_CONTACT": "Contacto desconocido",
+      "UNKNOWN_INBOX": "Bandeja de entrada desconocida",
+      "UNASSIGNED_AGENT": "Sin asignar",
+      "NO_MESSAGE_CONTENT": "Sin contenido de mensaje",
+      "MESSAGE_CREATED_AT": "Mensaje creado a la {time}",
+      "EVENT_OCCURRED_AT": "El evento se produjo en {time}",
+      "INCOMING_MESSAGE": "Mensaje entrante",
+      "OUTGOING_MESSAGE": "Mensaje saliente"
     },
     "PAGINATION": {
       "RESULTS": "Mostrando {start} a {end} de {total} resultados",
@@ -525,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Resumen",
     "LIVE": "En vivo",
+    "HEATMAP_ARIA_LABEL": "{metric} por día y hora",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Conversaciones abiertas",
       "LOADING_MESSAGE": "Cargando métricas de conversación...",

@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "不可用",
     "EMAIL_ADDRESS": "电子邮件地址",
     "PHONE_NUMBER": "电话号码",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "标识符",
     "COPY_SUCCESSFUL": "已成功复制到剪贴板",
     "COMPANY": "公司",
@@ -461,6 +462,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "添加 Instagram"
           },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
+          },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"
           },
@@ -510,6 +514,7 @@
         "ATTRIBUTES": "属性",
         "HISTORY": "历史记录",
         "NOTES": "备注",
+        "MEDIA": "媒体",
         "MERGE": "合并"
       },
       "HISTORY": {
@@ -588,7 +593,7 @@
     "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "已成功分配标签.",
     "ASSIGN_LABELS_FAILED": "Failed to assign labels",
-    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_SUCCESS": "标签删除成功。",
     "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
@@ -610,6 +615,9 @@
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "我们无法完成搜索。请稍后再试。"
+    },
+    "CONTACT_CREATE": {
+      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "查看",

@@ -4,7 +4,7 @@ class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseAiService
   MAX_CONTENT_LENGTH = 8000
 
   def initialize(website_url)
-    super()
+    super(feature: 'onboarding_content_generation')
     @website_url = normalize_url(website_url)
     @website_content = nil
     @favicon_url = nil
@@ -60,9 +60,8 @@ class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseAiService
 
   def extract_business_info
     response = instrument_llm_call(instrumentation_params) do
-      chat
-        .with_params(response_format: { type: 'json_object' }, max_tokens: 1000)
-        .with_temperature(0.1)
+      json_chat(temperature: 0.1)
+        .with_max_output_tokens(1000)
         .with_instructions(build_analysis_prompt)
         .ask(@website_content)
     end
@@ -97,7 +96,7 @@ class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseAiService
       Guidelines:
       - business_name: Extract the actual company/brand name from the content
       - suggested_assistant_name: Create a friendly, professional name that customers would want to interact with
-      - description: Provide context about the business and what the assistant can help with. Keep it general and adaptable rather than overly specific. For example: "You specialize in helping customers with their orders and product questions" or "You assist customers with their account needs and general inquiries"
+      - description: Provide context about the business and what the assistant can help with in no more than 500 characters. Keep it general and adaptable rather than overly specific. For example: "You specialize in helping customers with their orders and product questions" or "You assist customers with their account needs and general inquiries"
 
       Website content:
       #{@website_content}

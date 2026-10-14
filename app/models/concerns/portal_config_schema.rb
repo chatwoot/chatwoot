@@ -14,6 +14,18 @@ module PortalConfigSchema
     'additionalProperties' => false
   }.freeze
 
+  # Per-locale recommended content for the portal home page: an ordered list of
+  # `category_ids` (the hero's "Recommended topics" pills) and `article_ids` (the
+  # "Recommended" articles section). When empty, the portal uses its defaults.
+  POPULAR_CONTENT_SCHEMA = {
+    'type' => 'object',
+    'properties' => {
+      'category_ids' => { 'type' => %w[array null], 'items' => { 'type' => 'integer' } },
+      'article_ids' => { 'type' => %w[array null], 'items' => { 'type' => 'integer' } }
+    },
+    'additionalProperties' => false
+  }.freeze
+
   CONFIG_PARAMS_SCHEMA = {
     'type' => 'object',
     'properties' => {
@@ -27,6 +39,24 @@ module PortalConfigSchema
       'locale_translations' => {
         'type' => %w[object null],
         'additionalProperties' => LOCALE_TRANSLATION_SCHEMA
+      },
+      'popular_content' => {
+        'type' => %w[object null],
+        'additionalProperties' => POPULAR_CONTENT_SCHEMA
+      },
+      # Analytics ids grouped under one object (see Portal::ANALYTICS_CONFIG_FORMATS).
+      'analytics' => {
+        'type' => %w[object null],
+        'properties' => {
+          'gtm_container_id' => { 'type' => %w[string null] },
+          'ga4_measurement_id' => { 'type' => %w[string null] },
+          'hotjar_site_id' => { 'type' => %w[string null] },
+          'plausible_domain' => { 'type' => %w[string null] },
+          'amplitude_api_key' => { 'type' => %w[string null] },
+          'clarity_project_id' => { 'type' => %w[string null] },
+          'meta_pixel_id' => { 'type' => %w[string null] }
+        },
+        'additionalProperties' => false
       }
     },
     'required' => [],

@@ -34,7 +34,8 @@ class SearchService
     conversations_query = current_account.conversations.where(inbox_id: accessable_inbox_ids)
                                          .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
                                          .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
-                            ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search", search: "%#{search_query}%")
+                            ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search
+                            OR conversations.additional_attributes->>'mail_subject' ILIKE :search", search: "%#{search_query}%")
 
     if current_account.feature_enabled?('advanced_search')
       conversations_query = apply_time_filter(conversations_query,
@@ -85,11 +86,11 @@ class SearchService
 
       # Apply the text search using the GIN index
       base_query.where('content @@ to_tsquery(?)', tsquery)
-                .reorder('created_at DESC')
+                .reorder('messages.created_at DESC, messages.id DESC')
                 .page(params[:page])
                 .per(15)
     else
-      base_query.reorder('created_at DESC')
+      base_query.reorder('messages.created_at DESC, messages.id DESC')
                 .page(params[:page])
                 .per(15)
     end
@@ -99,7 +100,7 @@ class SearchService
     base_query = message_base_query
     base_query = apply_message_filters(base_query)
     base_query.where('messages.content ILIKE :search', search: "%#{search_query}%")
-              .reorder('created_at DESC')
+              .reorder('messages.created_at DESC, messages.id DESC')
               .page(params[:page])
               .per(15)
   end

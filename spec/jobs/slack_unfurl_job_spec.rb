@@ -74,8 +74,10 @@ RSpec.describe SlackUnfurlJob do
     end
 
     context 'when another account URL is shared' do
+      let(:another_account) { create(:account) }
+
       before do
-        link_shared[:event][:links][0][:url] = 'https://qa.chatwoot.com/app/accounts/123/conversations/123'
+        link_shared[:event][:links][0][:url] = "https://qa.chatwoot.com/app/accounts/#{another_account.id}/conversations/123"
       end
 
       it 'does not unfurl' do

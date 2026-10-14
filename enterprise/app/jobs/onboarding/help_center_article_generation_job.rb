@@ -20,6 +20,16 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
   rescue Onboarding::HelpCenterErrors::CurationSkipped => e
     Rails.logger.info "[HelpCenterGenerationJob] gen=#{generation_id} skipped: #{e.message}"
     skip_generation(generation_id: generation_id, reason: e.message)
+  rescue Firecrawl::FirecrawlError
+    # Must propagate untouched: retry_on handles it, and recording a skipped
+    # state here would make the retries no-op via the state guard above.
+    raise
+  rescue StandardError => e
+    # Any other failure is terminal (missing LLM config, code bug). Record a
+    # skipped state so the onboarding status row stops polling instead of
+    # showing "generating" forever, then re-raise for error tracking.
+    skip_generation(generation_id: generation_id, reason: "#{e.class}: #{e.message}")
+    raise
   end
 
   private

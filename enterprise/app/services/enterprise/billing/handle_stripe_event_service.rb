@@ -1,4 +1,6 @@
 class Enterprise::Billing::HandleStripeEventService
+  include BillingHelper
+
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
   CAPTAIN_CLOUD_PLAN_LIMITS = 'CAPTAIN_CLOUD_PLAN_LIMITS'.freeze
 
@@ -22,15 +24,25 @@ class Enterprise::Billing::HandleStripeEventService
   private
 
   def process_subscription_updated
+    # A cancelled subscription keeps emitting updates that still carry its old plan.
+    # Acting on one re-applies that plan over the downgrade customer.subscription.deleted
+    # just made, so the account keeps paid features it no longer pays for.
+    return if subscription['status'] == 'canceled'
+
     plan = find_plan(subscription['plan']['product']) if subscription['plan'].present?
 
     # skipping self hosted plan events
-    return if plan.blank? || account.blank?
+    return if plan.blank? || !stripe_billed_account?
 
     previous_usage = capture_previous_usage
     update_account_attributes(subscription, plan)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+    sync_subscription_credits(plan, previous_usage)
+    track_marketing_plan_activation(previous_plan_name, plan['name']) if plan_changed?
+    broadcast_billing_updated
+  end
 
+  def sync_subscription_credits(plan, previous_usage)
     if billing_period_renewed?
       ActiveRecord::Base.transaction do
         handle_subscription_credits(plan, previous_usage)
@@ -61,14 +73,40 @@ class Enterprise::Billing::HandleStripeEventService
         'plan_name' => plan['name'],
         'subscribed_quantity' => subscription['quantity'],
         'subscription_status' => subscription['status'],
-        'subscription_ends_on' => Time.zone.at(subscription['current_period_end'])
+        'subscription_ends_on' => subscription_ends_on(subscription),
+        'subscription_cancels_on' => subscription_cancels_on(subscription),
+        'billing_currency' => billing_currency_for(subscription, plan)
       )
     )
   end
 
+  # Paid subscriptions define the currency; the free/default plan keeps the stored preference.
+  def billing_currency_for(subscription, plan)
+    return account.billing_currency if plan['name'] == Enterprise::Billing::PlanConfiguration.default_plan&.dig('name')
+
+    Enterprise::Billing::Currencies.to_supported(subscription['plan']['currency'])
+  end
+
+  def track_marketing_plan_activation(previous_plan_name, current_plan_name)
+    subscription_plan = subscription['plan']
+
+    Internal::Accounts::CloudPlanActivationConversionService.new(
+      account: account,
+      previous_plan_name: previous_plan_name,
+      current_plan_name: current_plan_name,
+      activated_at: Time.zone.at(@event.created),
+      conversion_value: subscription_conversion_value(subscription_plan),
+      currency_code: subscription_plan['currency'].upcase
+    ).perform
+  end
+
+  def subscription_conversion_value(subscription_plan)
+    ((subscription_plan['amount'] || subscription_plan['amount_decimal']).to_d * subscription['quantity'].to_i / 100).to_f
+  end
+
   def process_subscription_deleted
     # skipping self hosted plan events
-    return if account.blank?
+    return unless stripe_billed_account?
 
     previous_monthly_credits = current_plan_credits[:responses]
     return unless Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
@@ -78,6 +116,13 @@ class Enterprise::Billing::HandleStripeEventService
       adjust_captain_credits(previous_usage, new_plan_credits: 0)
       account.reset_response_usage
     end
+    broadcast_billing_updated
+  end
+
+  # Stripe returns the admin from the billing portal before this webhook lands, so push the
+  # refreshed status to any dashboard already open instead of waiting for another reload.
+  def broadcast_billing_updated
+    ActionCableBroadcastJob.perform_later(["account_#{account.id}"], 'account.billing_updated', { account_id: account.id })
   end
 
   def handle_subscription_credits(plan, previous_usage)
@@ -140,8 +185,18 @@ class Enterprise::Billing::HandleStripeEventService
     @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", subscription.customer).first
   end
 
-  def find_plan(plan_id)
-    cloud_plans = InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
-    cloud_plans.find { |config| config['product_id'].include?(plan_id) }
+  def stripe_billed_account?
+    account&.billing_provider == Account::DEFAULT_BILLING_PROVIDER
+  end
+
+  def find_plan(product_id)
+    Enterprise::Billing::PlanConfiguration.find_plan_by_product_id(product_id)
+  end
+
+  def previous_plan_name
+    stripe_plan = previous_attributes['plan']
+    return if stripe_plan.blank?
+
+    find_plan(stripe_plan['product'])&.dig('name')
   end
 end

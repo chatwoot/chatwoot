@@ -42,4 +42,18 @@ module CustomExceptions::Account
       I18n.t 'errors.plan_upgrade_required.failed'
     end
   end
+
+  class EmailLimitExceeded < CustomExceptions::Base
+    def message
+      I18n.t('errors.account.email_limit_exceeded')
+    end
+
+    def to_hash
+      { error: message }
+    end
+
+    def http_status
+      :too_many_requests
+    end
+  end
 end

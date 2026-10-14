@@ -29,6 +29,9 @@ class CustomAttributeDefinition < ApplicationRecord
     :company => %w[name domain description contacts_count created_at updated_at last_activity_at]
   }.freeze
 
+  # Keys automation rules use for conditions that are not backed by an attribute.
+  AUTOMATION_ATTRIBUTES = [Captain::AutomationConditionService::ATTRIBUTE_KEY].freeze
+
   scope :with_attribute_model, ->(attribute_model) { attribute_model.presence && where(attribute_model: attribute_model) }
   validates :attribute_display_name, presence: true
   before_validation :normalize_attribute_fields
@@ -48,6 +51,8 @@ class CustomAttributeDefinition < ApplicationRecord
   belongs_to :account
   after_update :update_widget_pre_chat_custom_fields, unless: :company_attribute?
   after_destroy :sync_widget_pre_chat_custom_fields, unless: :company_attribute?
+  after_update_commit :invalidate_filtered_unread_count_filters_update, if: :conversation_attribute_before_or_after?
+  after_destroy_commit :invalidate_filtered_unread_count_filters_destroy, if: :conversation_attribute?
 
   private
 
@@ -64,11 +69,30 @@ class CustomAttributeDefinition < ApplicationRecord
     ::Inboxes::UpdateWidgetPreChatCustomFieldsJob.perform_later(account, self)
   end
 
+  def invalidate_filtered_unread_count_filters_update
+    invalidate_filtered_unread_count_filters
+  end
+
+  def invalidate_filtered_unread_count_filters_destroy
+    invalidate_filtered_unread_count_filters
+  end
+
+  def invalidate_filtered_unread_count_filters
+    filters_changed = ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).custom_attribute_definition_changed!(self)
+    dispatch_account_cache_invalidated if filters_changed
+  end
+
+  def dispatch_account_cache_invalidated
+    Rails.configuration.dispatcher.dispatch(ACCOUNT_CACHE_INVALIDATED, Time.zone.now, account: account, cache_keys: account.cache_keys)
+  end
+
+  def conversation_attribute_before_or_after?
+    conversation_attribute? || attribute_model_previously_was == 'conversation_attribute'
+  end
+
   def attribute_must_not_conflict
     model_keys = attribute_model.to_s.delete_suffix('_attribute').to_sym
-    standard_attributes = STANDARD_ATTRIBUTES[model_keys]
-    return if standard_attributes.blank?
-    return unless attribute_key.in?(standard_attributes)
+    return unless attribute_key.in?(STANDARD_ATTRIBUTES.fetch(model_keys, []) + AUTOMATION_ATTRIBUTES)
 
     errors.add(:attribute_key, I18n.t('errors.custom_attribute_definition.key_conflict'))
   end

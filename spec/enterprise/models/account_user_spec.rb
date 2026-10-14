@@ -29,6 +29,29 @@ RSpec.describe AccountUser, type: :model do
     end
   end
 
+  describe 'filtered unread count invalidation' do
+    it 'invalidates filtered counts when the custom role assignment changes' do
+      account = create(:account)
+      user = create(:user)
+      account_user = create(:account_user, account: account, user: user)
+      custom_role = create(:custom_role, account: account)
+      invalidator = instance_double(Conversations::UnreadCounts::FilteredCountInvalidator, user_visibility_changed!: true)
+
+      allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).and_return(invalidator)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      account_user.update!(custom_role_id: custom_role.id)
+
+      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id)
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'account.cache_invalidated',
+        kind_of(Time),
+        account: account,
+        cache_keys: account.cache_keys
+      )
+    end
+  end
+
   describe 'audit log' do
     context 'when account user is created' do
       it 'has associated audit log created' do

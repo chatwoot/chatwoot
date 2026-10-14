@@ -9,10 +9,10 @@ RSpec.describe Captain::RewriteService do
   let(:service) { described_class.new(account: account, content: content, operation: operation, conversation_display_id: conversation.display_id) }
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
   let(:mock_context) { instance_double(RubyLLM::Context, chat: mock_chat) }
-  let(:mock_response) { instance_double(RubyLLM::Message, content: 'Rewritten text', input_tokens: 10, output_tokens: 5) }
+  let(:mock_response) { instance_double(RubyLLM::Message, content: 'Rewritten text', tokens: RubyLLM::Tokens.new(input: 10, output: 5)) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_API_KEY').update!(value: 'test-key')
     allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
     allow(mock_chat).to receive(:with_instructions)
     allow(mock_chat).to receive(:ask).and_return(mock_response)
@@ -29,6 +29,7 @@ RSpec.describe Captain::RewriteService do
       expect(service).to receive(:prompt_from_file).with('fix_spelling_grammar').and_return('Fix errors')
 
       expect(service).to receive(:make_api_call) do |args|
+        expect(args[:feature]).to eq('editor')
         expect(args[:messages][0][:content]).to eq('Fix errors')
         expect(args[:messages][1][:content]).to eq(content)
         { message: 'Fixed' }
@@ -122,6 +123,7 @@ RSpec.describe Captain::RewriteService do
 
     it 'uses conversation context and draft message with Liquid template' do
       expect(service).to receive(:make_api_call) do |args|
+        expect(args[:feature]).to eq('editor')
         system_content = args[:messages][0][:content]
 
         expect(system_content).to include('Context:')

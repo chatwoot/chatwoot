@@ -33,7 +33,7 @@ const store = useStore();
 const route = useRoute();
 const conversationHeader = ref(null);
 const { width } = useElementSize(conversationHeader);
-const { isAWebWidgetInbox } = useInbox();
+const { isAWebWidgetInbox, isAnEmailChannel } = useInbox();
 
 const currentChat = computed(() => store.getters.getSelectedChat);
 const accountId = computed(() => store.getters.getCurrentAccountId);
@@ -68,6 +68,11 @@ const isHMACVerified = computed(() => {
   return chatMetadata.value.hmac_verified;
 });
 
+const mailSubject = computed(() => {
+  if (!isAnEmailChannel.value) return '';
+  return props.chat.additional_attributes?.mail_subject;
+});
+
 const currentContact = computed(() =>
   store.getters['contacts/getContact'](props.chat.meta.sender.id)
 );
@@ -93,7 +98,9 @@ const hasMultipleInboxes = computed(
   () => store.getters['inboxes/getInboxes'].length > 1
 );
 
-const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
+const hasSlaPolicyId = computed(
+  () => props.chat?.applied_sla?.id && !currentContact.value?.blocked
+);
 
 const copyConversationId = async () => {
   try {
@@ -116,7 +123,7 @@ const copyConversationId = async () => {
       <BackButton
         v-if="showBackButton"
         :back-url="backButtonUrl"
-        class="ltr:mr-2 rtl:ml-2"
+        class="me-2"
       />
       <Avatar
         :name="currentContact.name"
@@ -125,9 +132,7 @@ const copyConversationId = async () => {
         :status="currentContact.availability_status"
         hide-offline-status
       />
-      <div
-        class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2"
-      >
+      <div class="flex flex-col items-start min-w-0 ms-2 overflow-hidden">
         <div class="flex flex-row items-center max-w-full gap-1 p-0 m-0">
           <span
             class="text-sm font-medium truncate leading-tight text-n-slate-12"
@@ -144,19 +149,30 @@ const copyConversationId = async () => {
         </div>
 
         <div
-          class="flex items-center gap-1 overflow-hidden text-xs conversation--header--actions text-n-slate-11 text-ellipsis whitespace-nowrap"
+          class="flex items-center max-w-full gap-1 overflow-hidden text-xs conversation--header--actions text-n-slate-11 text-ellipsis whitespace-nowrap"
         >
           <button
             type="button"
-            class="truncate text-label-small text-n-slate-11 hover:text-n-slate-12 !p-0 cucursor-pointer"
+            class="truncate shrink-0 text-label-small text-n-slate-11 hover:text-n-slate-12 !p-0 cucursor-pointer"
             @click="copyConversationId"
           >
             {{ `#${chat.id}` }}
           </button>
           <span v-if="hasMultipleInboxes">•</span>
           <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
+          <span v-if="mailSubject">•</span>
+          <span
+            v-if="mailSubject"
+            v-tooltip="mailSubject"
+            class="flex-1 min-w-16 truncate text-label-small text-n-slate-11"
+          >
+            {{ mailSubject }}
+          </span>
           <span v-if="isSnoozed">•</span>
-          <span v-if="isSnoozed" class="font-medium text-n-amber-10">
+          <span
+            v-if="isSnoozed"
+            class="min-w-0 truncate font-medium text-n-amber-10 shrink-0"
+          >
             {{ snoozedDisplayText }}
           </span>
         </div>

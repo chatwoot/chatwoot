@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import Integration from './Integration.vue';
 import SelectChannelWarning from './Slack/SelectChannelWarning.vue';
 import SlackIntegrationHelpText from './Slack/SlackIntegrationHelpText.vue';
+import SlackMessageMode from './Slack/SlackMessageMode.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 
@@ -41,6 +42,11 @@ const isIntegrationHookEnabled = computed(() => {
 
 const hasConnectedAChannel = computed(() => {
   return !!hook.value.reference_id;
+});
+
+const messageMode = computed(() => {
+  const { settings: { message_mode: mode = '' } = {} } = hook.value;
+  return mode || 'two_way';
 });
 
 const selectedChannelName = computed(() => {
@@ -108,8 +114,13 @@ onMounted(() => {
             v-if="!isIntegrationHookEnabled"
             :has-connected-a-channel="hasConnectedAChannel"
           />
+          <SlackMessageMode
+            v-if="isIntegrationHookEnabled"
+            :message-mode="messageMode"
+          />
           <SlackIntegrationHelpText
             :selected-channel-name="selectedChannelName"
+            :message-mode="messageMode"
           />
         </div>
       </div>

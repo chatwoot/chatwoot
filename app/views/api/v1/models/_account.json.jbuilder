@@ -1,4 +1,5 @@
 json.settings resource.settings
+json.reporting_timezone ActiveSupport::TimeZone[resource.reporting_timezone].tzinfo.name if resource.reporting_timezone.present?
 json.created_at resource.created_at
 if resource.custom_attributes.present?
   json.custom_attributes do
@@ -6,6 +7,8 @@ if resource.custom_attributes.present?
     json.subscribed_quantity resource.custom_attributes['subscribed_quantity']
     json.subscription_status resource.custom_attributes['subscription_status']
     json.subscription_ends_on resource.custom_attributes['subscription_ends_on']
+    json.subscription_cancels_on resource.custom_attributes['subscription_cancels_on']
+    json.billing_currency resource.billing_currency if resource.respond_to?(:billing_currency) && Enterprise::Billing::Currencies.enabled?
     json.website resource.custom_attributes['website'] if resource.custom_attributes['website'].present?
     json.industry resource.custom_attributes['industry'] if resource.custom_attributes['industry'].present?
     json.company_size resource.custom_attributes['company_size'] if resource.custom_attributes['company_size'].present?
@@ -24,7 +27,9 @@ if resource.custom_attributes.present?
   end
 end
 json.domain @account.domain
-json.features @account.enabled_features
+features = @account.enabled_features
+features.delete(Shopify::FeatureGate::ACCOUNT_FEATURE) unless Shopify::FeatureGate.enabled?(account: @account)
+json.features features
 json.id @account.id
 json.locale @account.locale
 json.name @account.name

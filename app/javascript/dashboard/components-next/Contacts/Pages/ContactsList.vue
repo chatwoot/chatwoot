@@ -34,7 +34,10 @@ const selectedIdsSet = computed(() => new Set(props.selectedContactIds || []));
 
 const updateContact = async updatedData => {
   try {
-    await store.dispatch('contacts/update', updatedData);
+    await store.dispatch('contacts/update', {
+      ...updatedData,
+      resolveLegacyCompany: true,
+    });
     useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.SUCCESS_MESSAGE'));
   } catch (error) {
     const i18nPrefix = 'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM';
@@ -92,6 +95,7 @@ const handleAvatarHover = (id, isHovered) => {
         :id="contact.id"
         :name="contact.name"
         :email="contact.email"
+        :company-id="contact.companyId"
         :thumbnail="contact.thumbnail"
         :phone-number="contact.phoneNumber"
         :additional-attributes="contact.additionalAttributes"

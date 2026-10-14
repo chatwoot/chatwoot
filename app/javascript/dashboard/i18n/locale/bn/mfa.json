@@ -49,6 +49,11 @@
       "DISABLE_MFA_DESC": "আপনার অ্যাকাউন্ট থেকে দুই-ধাপ যাচাইকরণ সরান",
       "DISABLE_BUTTON": "দুই-ধাপ যাচাইকরণ নিষ্ক্রিয় করুন"
     },
+    "LOW_BACKUP_CODES": {
+      "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",
+      "NONE_LEFT": "You have no backup codes remaining. Generate new codes now to avoid getting locked out if you lose access to your authenticator.",
+      "ACTION": "Generate codes"
+    },
     "DISABLE": {
       "TITLE": "দুই-ধাপ যাচাইকরণ নিষ্ক্রিয় করুন",
       "DESCRIPTION": "দুই-ধাপ যাচাইকরণ নিষ্ক্রিয় করতে আপনাকে আপনার পাসওয়ার্ড এবং একটি যাচাইকরণ কোড প্রবেশ করতে হবে.",

@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Εκτέλεση",
       "PREVIEW": "Προεπισκόπηση Μακροεντολής",
-      "EXECUTED_SUCCESSFULLY": "Η μακροεντολή εκτελέστηκε επιτυχώς"
+      "EXECUTED_SUCCESSFULLY": "Η μακροεντολή εκτελέστηκε επιτυχώς",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
@@ -104,6 +105,7 @@
       "MUTE_CONVERSATION": "Σίγαση Συνομιλίας",
       "SNOOZE_CONVERSATION": "Αναβολή Συνομιλίας",
       "RESOLVE_CONVERSATION": "Επίλυση Συνομιλίας",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
       "CHANGE_PRIORITY": "Change Priority",

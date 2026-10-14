@@ -40,6 +40,20 @@ const imgResizeManager = md => {
   });
 };
 
+// Empty table cells collapse to zero height; fill them with an nbsp like the email renderer.
+const fillEmptyTableCells = md => {
+  md.core.ruler.after('inline', 'fill-empty-table-cells', state => {
+    state.tokens.forEach((token, index) => {
+      if (token.type !== 'th_open' && token.type !== 'td_open') return;
+      const inline = state.tokens[index + 1];
+      if (inline.children.length) return;
+      const nbsp = new state.Token('text', '', 0);
+      nbsp.content = '\u00a0';
+      inline.children.push(nbsp);
+    });
+  });
+};
+
 const createMarkdownInstance = (linkify = true) => {
   return MarkdownIt({
     html: false,
@@ -54,6 +68,7 @@ const createMarkdownInstance = (linkify = true) => {
     .disable(['lheading'])
     .use(mentionPlugin)
     .use(imgResizeManager)
+    .use(fillEmptyTableCells)
     .use(mila, {
       attrs: {
         class: 'link',
@@ -67,8 +82,11 @@ const createMarkdownInstance = (linkify = true) => {
 // `<!--cw-colwidths:...-->` comment before the table. It exists only for the
 // editor's markdown round-trip and must never surface as text — markdown-it runs
 // with `html: false`, which would otherwise escape it into a visible comment in
-// rendered/plain output (e.g. dashboard search snippets). Strip it on the way in.
-const COLWIDTHS_MARKER_REGEX = /<!--cw-colwidths:[\d,]+-->\r?\n?/g;
+// rendered/plain output (e.g. dashboard search snippets). Strip the whole marker
+// line, including any blockquote prefix, so a quoted table's `>` prefixes don't
+// collapse together and break table parsing.
+const COLWIDTHS_MARKER_REGEX =
+  /^[ \t>]*<!--cw-colwidths:[\d,]+-->[ \t]*\r?\n?/gm;
 
 const TWITTER_USERNAME_REGEX = /(^|[^@\w])@(\w{1,15})\b/g;
 const TWITTER_USERNAME_REPLACEMENT = '$1[@$2](http://twitter.com/$2)';
@@ -102,6 +120,11 @@ class MessageFormatter {
       );
     }
     return this.md.render(updatedMessage);
+  }
+
+  disableImageRendering() {
+    this.md.disable(['add-image-sizing']);
+    this.md.renderer.rules.image = () => '';
   }
 
   get formattedMessage() {

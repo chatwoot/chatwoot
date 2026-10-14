@@ -13,7 +13,9 @@ RSpec.describe 'Linear Integration API', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/:account_id/integrations/linear' do
-    it 'deletes the linear integration' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+
+    it 'deletes the linear integration when the user is an administrator' do
       # Stub the HTTP call to Linear's revoke endpoint
       allow(HTTParty).to receive(:post).with(
         'https://api.linear.app/oauth/revoke',
@@ -21,10 +23,18 @@ RSpec.describe 'Linear Integration API', type: :request do
       ).and_return(instance_double(HTTParty::Response, success?: true))
 
       delete "/api/v1/accounts/#{account.id}/integrations/linear",
-             headers: agent.create_new_auth_token,
+             headers: admin.create_new_auth_token,
              as: :json
       expect(response).to have_http_status(:ok)
       expect(account.hooks.count).to eq(0)
+    end
+
+    it 'returns unauthorized for an agent and keeps the integration' do
+      delete "/api/v1/accounts/#{account.id}/integrations/linear",
+             headers: agent.create_new_auth_token,
+             as: :json
+      expect(response).to have_http_status(:unauthorized)
+      expect(account.hooks.count).to eq(1)
     end
   end
 

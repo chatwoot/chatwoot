@@ -106,6 +106,82 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
     end
   end
 
+  describe 'GET /public/api/v1/portals/{portal_slug}/{locale} recommended content' do
+    let(:category_a) { create(:category, portal: portal, account: account, name: 'Getting Started', locale: 'en') }
+    let(:category_b) { create(:category, portal: portal, account: account, name: 'Billing', locale: 'en') }
+    let(:alpha) { create(:article, account: account, author: agent, portal: portal, locale: 'en', status: :published, title: 'Alpha Guide') }
+    let(:beta) { create(:article, account: account, author: agent, portal: portal, locale: 'en', status: :published, title: 'Beta Guide') }
+    let(:gamma) { create(:article, account: account, author: agent, portal: portal, locale: 'en', status: :published, title: 'Gamma Guide') }
+
+    it 'renders recommended articles in the configured order' do
+      portal.update!(config: { allowed_locales: %w[en], default_locale: 'en',
+                               popular_content: { 'en' => { 'article_ids' => [gamma.id, alpha.id] } } })
+
+      get "/hc/#{portal.slug}/en"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Recommended articles')
+      expect(response.body.index('Gamma Guide')).to be < response.body.index('Alpha Guide')
+    end
+
+    it 'drops draft and other-locale ids from the recommended articles' do
+      draft = create(:article, account: account, author: agent, portal: portal, locale: 'en', status: :draft, title: 'Draft Secret')
+      spanish = create(:article, account: account, author: agent, portal: portal, locale: 'es', status: :published, title: 'Spanish Only')
+      portal.update!(config: { allowed_locales: %w[en es], default_locale: 'en',
+                               popular_content: { 'en' => { 'article_ids' => [alpha.id, draft.id, spanish.id] } } })
+
+      get "/hc/#{portal.slug}/en"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Alpha Guide')
+      expect(response.body).not_to include('Draft Secret')
+      expect(response.body).not_to include('Spanish Only')
+    end
+
+    it 'does not leak one locale\'s recommendations into another' do
+      portal.update!(config: { allowed_locales: %w[en es], default_locale: 'en',
+                               popular_content: { 'es' => { 'article_ids' => [alpha.id] } } })
+
+      get "/hc/#{portal.slug}/en"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).not_to include('Recommended articles')
+    end
+
+    it 'renders recommended categories as hero pills in the configured order' do
+      portal.update!(config: { allowed_locales: %w[en], default_locale: 'en',
+                               popular_content: { 'en' => { 'category_ids' => [category_b.id, category_a.id] } } })
+
+      get "/hc/#{portal.slug}/en"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('recommended-pill')
+      expect(response.body).to include('Getting Started', 'Billing')
+      expect(response.body.index('Billing')).to be < response.body.index('Getting Started')
+    end
+
+    it 'falls back to featured articles when no recommendations are configured' do
+      create_list(:article, 6, account: account, author: agent, portal: portal, locale: 'en', status: :published, category: category_a)
+
+      get "/hc/#{portal.slug}/en"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Featured Articles')
+      expect(response.body).not_to include('Recommended articles')
+    end
+
+    it 'renders recommended articles in the documentation layout' do
+      portal.update!(config: { allowed_locales: %w[en], default_locale: 'en', layout: 'documentation',
+                               popular_content: { 'en' => { 'article_ids' => [alpha.id, beta.id] } } })
+
+      get "/hc/#{portal.slug}/en"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Recommended articles')
+      expect(response.body).to include('Alpha Guide', 'Beta Guide')
+    end
+  end
+
   describe 'GET /public/api/v1/portals/{portal_slug}/sitemap' do
     context 'when custom_domain is present' do
       it 'returns a valid urlset sitemap with the correct namespace' do

@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Variabili",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Lingua",
       "CATEGORY": "Categoria",
       "VARIABLE_PLACEHOLDER": "Inserisci il valore di {variable}",

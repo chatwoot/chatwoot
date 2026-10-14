@@ -1,0 +1,1 @@
+json.branded_email_layout @branded_email_layout

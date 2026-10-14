@@ -13,7 +13,15 @@ RSpec.describe 'Twilio::CallbacksController', type: :request do
         'SmsSid' => 'SM123',
         'ExternalUserId' => 'IN.2081978709342942',
         'ParentExternalUserId' => 'IN.ENT.9081726354',
-        'ProfileUsername' => 'muhsin'
+        'ProfileUsername' => 'muhsin',
+        'ReferralCtwaClid' => 'AfjyUDlaIoiweZDnlzmDTEaG',
+        'ReferralSourceId' => '120237244350960485',
+        'ReferralSourceUrl' => 'https://fb.me/4tBfhWhjr',
+        'ReferralSourceType' => 'ad',
+        'ReferralHeadline' => 'German citizenship lawyer',
+        'ReferralBody' => 'Fast-track your German citizenship',
+        'ReferralMediaId' => '',
+        'ReferralNumMedia' => '0'
       }
     end
 
@@ -26,6 +34,14 @@ RSpec.describe 'Twilio::CallbacksController', type: :request do
     it 'returns no content status' do
       post twilio_callback_index_url, params: params
       expect(response).to have_http_status(:no_content)
+    end
+
+    it 'forwards the quoted message SID to the Twilio events job' do
+      params['OriginalRepliedMessageSid'] = 'SMoriginal'
+
+      expect do
+        post twilio_callback_index_url, params: params
+      end.to have_enqueued_job(Webhooks::TwilioEventsJob).with(params)
     end
   end
 end

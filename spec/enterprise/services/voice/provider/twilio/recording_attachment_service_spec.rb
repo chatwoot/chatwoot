@@ -60,7 +60,7 @@ RSpec.describe Voice::Provider::Twilio::RecordingAttachmentService do
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
 
     allow(SafeFetch).to receive(:fetch)
-      .with(recording_url, http_basic_authentication: %w[AC_account_sid auth_token_value],
+      .with(recording_url, http_basic_authentication: [channel.api_key_sid, channel.api_key_secret],
                            allowed_content_type_prefixes: %w[audio/])
       .and_yield(safe_fetch_result)
   end
@@ -109,6 +109,39 @@ RSpec.describe Voice::Provider::Twilio::RecordingAttachmentService do
 
       expect(SafeFetch).to have_received(:fetch).once
       expect(call.reload.recording.blob.checksum).to be_present
+    end
+
+    it 'enqueues transcription for the invocation that stored the recording' do
+      expect { perform_service }.to have_enqueued_job(Voice::CallTranscriptionJob).with(call.id)
+    end
+
+    it 'does not enqueue transcription when another invocation already stored the recording' do
+      perform_service
+
+      expect { perform_service }.not_to have_enqueued_job(Voice::CallTranscriptionJob)
+    end
+
+    it 'does not enqueue transcription when it loses the race inside the lock' do
+      call.recording.attach(io: StringIO.new('AUDIO'), filename: 'winner.wav', content_type: 'audio/wav')
+      # The outer guard passes while recording_sid is still blank; the winning writer's
+      # value only lands once this invocation takes the lock, so the inner guard trips.
+      allow(call).to receive(:with_lock) do |&block|
+        call.recording_sid = recording_sid
+        block.call
+      end
+
+      expect { perform_service }.not_to have_enqueued_job(Voice::CallTranscriptionJob)
+    end
+
+    it 'is a no-op when the call was created with recording disabled' do
+      call.update!(recording_enabled: false)
+
+      expect { perform_service }.not_to have_enqueued_job(Voice::CallTranscriptionJob)
+
+      aggregate_failures do
+        expect(SafeFetch).not_to have_received(:fetch)
+        expect(call.reload.recording).not_to be_attached
+      end
     end
 
     it 'is a no-op when recording_sid is blank' do

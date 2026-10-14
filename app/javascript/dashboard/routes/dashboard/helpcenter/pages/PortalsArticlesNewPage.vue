@@ -72,7 +72,7 @@ const createNewArticle = async ({ title, content }) => {
     )?.slug;
     const startedFromCategorySlug = route.params.categorySlug;
 
-    router.replace({
+    await router.replace({
       name: isCategoryArticles.value
         ? 'portals_categories_articles_edit'
         : 'portals_articles_edit',

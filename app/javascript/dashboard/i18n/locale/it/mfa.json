@@ -49,6 +49,11 @@
       "DISABLE_MFA_DESC": "Rimuovi l'autenticazione a due fattori dal tuo account",
       "DISABLE_BUTTON": "Disattiva Autenticazione A Due Fattori"
     },
+    "LOW_BACKUP_CODES": {
+      "MESSAGE": "You have {n} backup code remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator. | You have {n} backup codes remaining. Generate new codes to avoid getting locked out if you lose access to your authenticator.",
+      "NONE_LEFT": "You have no backup codes remaining. Generate new codes now to avoid getting locked out if you lose access to your authenticator.",
+      "ACTION": "Generate codes"
+    },
     "DISABLE": {
       "TITLE": "Disattiva Autenticazione A Due Fattori",
       "DESCRIPTION": "Dovrai inserire la tua password e un codice di verifica per disabilitare l'autenticazione a due fattori.",

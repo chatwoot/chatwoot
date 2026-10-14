@@ -31,15 +31,6 @@ class Api::V1::Accounts::Captain::TasksController < Api::V1::Accounts::BaseContr
     render_result(result)
   end
 
-  def label_suggestion
-    result = Captain::LabelSuggestionService.new(
-      account: Current.account,
-      conversation_display_id: params[:conversation_display_id]
-    ).perform
-
-    render_result(result)
-  end
-
   def follow_up
     result = Captain::FollowUpService.new(
       account: Current.account,

@@ -28,8 +28,7 @@ RSpec.describe ContactInbox do
       obj.reload
 
       # ensure the column is nil in database
-      results = ActiveRecord::Base.connection.execute('Select * from contact_inboxes;')
-      expect(results.first['pubsub_token']).to be_nil
+      expect(described_class.where(id: obj.id).pick(:pubsub_token)).to be_nil
 
       new_token = obj.pubsub_token
       obj.update(source_id: '234234323')
