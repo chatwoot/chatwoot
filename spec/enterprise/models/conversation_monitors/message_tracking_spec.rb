@@ -28,12 +28,16 @@ RSpec.describe ConversationMonitors::MessageTracking do
 
   %w[catch_up from_now].product(%i[incoming outgoing]).each do |mode, message_type|
     it "handles an uncommitted #{message_type} message when resuming with #{mode}" do
+      # Commit the sender membership before opening the message transaction;
+      # creating a membership holds the account lock needed by Resume.
+      sender = message_type == :outgoing ? create(:user, account: account) : conversation.contact
       inserted = Queue.new
       continue_commit = Queue.new
       writer = Thread.new do
         ActiveRecord::Base.connection_pool.with_connection do
           Message.transaction do
-            message = create(:message, account: account, conversation: conversation, message_type: message_type, content: 'Refund while paused')
+            message = create(:message, account: account, conversation: conversation, message_type: message_type, sender: sender,
+                                       content: 'Refund while paused')
             inserted << message.id
             Timeout.timeout(10) { continue_commit.pop }
           end

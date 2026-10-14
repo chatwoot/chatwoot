@@ -3,6 +3,9 @@ class Shopify::CallbacksController < ApplicationController
 
   def show
     @account_id = verified_account_id
+    custom_app = Shopify::CustomApp.enabled.exists?(shop_domain: Shopify::ShopDomain.normalize(params[:shop]))
+    raise 'This store uses an account-specific custom app' if custom_app
+
     raise StandardError, 'Shopify authorization was denied' if params[:error].present?
 
     if chatwoot_initiated?
@@ -178,6 +181,8 @@ class Shopify::CallbacksController < ApplicationController
   end
 
   def ensure_shopify_enabled!(account: nil)
+    raise 'This account uses a custom app' if account&.shopify_custom_app&.enabled?
+
     raise StandardError, 'Shopify integration is disabled' unless Shopify::FeatureGate.enabled?(account: account)
   end
 
