@@ -46,17 +46,18 @@ class Captain::EmailVerification
   end
 
   def verify(code)
-    email = ::Redis::Alfred.get(key(:PENDING))
-    return :expired if email.blank?
+    stored = ::Redis::Alfred.get(key(:CODE))
+    return :expired if stored.blank?
+
+    email = stored.rpartition(':').first
 
     # Count the attempt before checking it, so parallel guesses cannot all pass under the cap
     return :locked if increment(key(:ATTEMPTS), CODE_TTL) > MAX_ATTEMPTS
 
     # delete_if_equals checks and consumes the code in one step
-    return :invalid_code unless ::Redis::Alfred.delete_if_equals(key(:CODE), digest(email, code.to_s.strip)) == [1]
+    return :invalid_code unless ::Redis::Alfred.delete_if_equals(key(:CODE), code_value(email, code.to_s.strip)) == [1]
 
     ::Redis::Alfred.setex(key(:VERIFIED), email, VERIFIED_TTL)
-    ::Redis::Alfred.delete(key(:PENDING))
     ::Redis::Alfred.delete(key(:ATTEMPTS))
     :verified
   end
@@ -71,16 +72,15 @@ class Captain::EmailVerification
 
   private
 
-  # A new code replaces the previous one and starts with a full set of attempts.
-  # The writes run together, so overlapping sends cannot pair one code with another address.
+  # A new code replaces the previous one and its address in one write, and starts with a full set of attempts
   def store_code(email, code)
-    ::Redis::Alfred.with do |conn|
-      conn.multi do |transaction|
-        transaction.setex(key(:CODE), CODE_TTL.to_i, digest(email, code))
-        transaction.setex(key(:PENDING), CODE_TTL.to_i, email)
-        transaction.del(key(:ATTEMPTS))
-      end
-    end
+    ::Redis::Alfred.setex(key(:CODE), code_value(email, code), CODE_TTL)
+    ::Redis::Alfred.delete(key(:ATTEMPTS))
+  end
+
+  # The address is stored next to the digest of its code. The address pattern does not allow a colon, so the last one separates them.
+  def code_value(email, code)
+    "#{email}:#{OpenSSL::HMAC.hexdigest('SHA256', Rails.application.secret_key_base, "#{contact_inbox.id}:#{email}:#{code}")}"
   end
 
   # Both budgets are counted on every request, so a blocked session still cannot be used to flood one address
@@ -94,10 +94,6 @@ class Captain::EmailVerification
     # Also repairs a counter left without an expiry by a crash between INCR and EXPIRE
     ::Redis::Alfred.expire(redis_key, window.to_i) if count == 1 || ::Redis::Alfred.ttl(redis_key).to_i.negative?
     count
-  end
-
-  def digest(email, code)
-    OpenSSL::HMAC.hexdigest('SHA256', Rails.application.secret_key_base, "#{contact_inbox.id}:#{email}:#{code}")
   end
 
   def key(name)
