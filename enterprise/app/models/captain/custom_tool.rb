@@ -142,18 +142,12 @@ class Captain::CustomTool < ApplicationRecord
   # The tool only runs for a customer who verified an email with a one-time code.
   # A tool with a parameter that takes the verified email cannot run without one, so it needs no setting.
   def requires_email_verification?
-    settings['requires_email_verification'] == true || verified_sources.include?('verified.email')
+    settings['requires_email_verification'] == true || verified_email_param.present?
   end
 
-  def verified_sources
-    param_schema.filter_map { |param_def| param_def['source'] }.uniq
-  end
-
-  # Verified values are set last, so a value from the model can never replace one Chatwoot fills in.
-  # The caller checks that every source has a value first, so a missing one raises.
-  def with_verified_values(params, verified_values)
-    bound = param_schema.select { |param_def| param_def['source'] }
-    params.deep_stringify_keys.merge(bound.to_h { |param_def| [param_def['name'], verified_values.fetch(param_def['source'])] })
+  # The name of the parameter Chatwoot fills with the verified email, if the tool has one
+  def verified_email_param
+    param_schema.find { |param_def| param_def['source'] == 'verified.email' }&.dig('name')
   end
 
   def enabled_scenarios_count
