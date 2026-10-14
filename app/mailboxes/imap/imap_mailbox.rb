@@ -42,14 +42,16 @@ class Imap::ImapMailbox
   end
 
   # Fetch jobs for an inbox can overlap and hold the same email, long after their own duplicate check ran.
-  # The advisory lock lets only one job save a given email at a time. Postgres releases it when the transaction ends.
-  # The check after the lock sees a copy that another job has already committed.
+  # The advisory lock makes a job wait while another job saves the same email. Postgres releases it when the transaction ends.
+  # Waiting, instead of skipping, means a reply later in the batch can find this email's conversation.
+  # The check after the lock sees the copy the other job committed. It bypasses the query cache,
+  # which can still hold the result of the same query from the fetch-stage check.
   def duplicate_email?
     source_id = sanitize_mailbox_value(@processed_mail.message_id)
     lock_key = Digest::SHA256.digest(source_id).unpack1('l>')
-    locked = ActiveRecord::Base.connection.select_value("SELECT pg_try_advisory_xact_lock(#{@inbox.id}, #{lock_key})")
+    ActiveRecord::Base.connection.select_value("SELECT pg_advisory_xact_lock(#{@inbox.id}, #{lock_key})")
 
-    !locked || @inbox.messages.exists?(source_id: source_id)
+    Message.uncached { @inbox.messages.exists?(source_id: source_id) }
   end
 
   # Replies to a forwarded email stay in the forward recipient's own conversation
