@@ -12,6 +12,8 @@ class Captain::Assistant::AgentRunnerService
 
   REPLY_SUGGESTION_SOURCE = 'copilot_reply_suggestion'.freeze
   EMAIL_VERIFICATION_TOOLS = [Captain::Tools::SendEmailVerificationCodeTool, Captain::Tools::VerifyEmailCodeTool].freeze
+  # Runs where an admin or an agent is the user. The playground runs a tool the way Copilot would. Everywhere else a customer is.
+  COPILOT_SOURCES = %w[playground copilot_reply_suggestion].freeze
   RunOptions = Data.define(:callbacks, :source, :responding_to_message_id, :runtime_configuration) do
     def initialize(callbacks: {}, source: nil, responding_to_message_id: nil, runtime_configuration: nil)
       super
@@ -141,14 +143,14 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def with_session_tools(agent)
-    return agent.clone(tools: open_session_tools(agent.tools)) if Captain::Tools::HttpTool::AGENT_FACING_SOURCES.include?(@source)
+    return agent.clone(tools: copilot_tools(agent.tools)) if COPILOT_SOURCES.include?(@source)
 
     with_email_verification_tools(agent)
   end
 
-  # An admin or an agent is the user here, so the model fills a tool's verified parameters
-  def open_session_tools(tools)
-    tools.map { |tool| tool.is_a?(Captain::Tools::HttpTool) ? tool.open_session_tool : tool }
+  # Custom tools are built for customers by default. Here an admin or an agent is the user, so they are rebuilt for Copilot.
+  def copilot_tools(tools)
+    tools.map { |tool| tool.is_a?(Captain::Tools::HttpTool) ? tool.custom_tool.tool(@assistant, base_class: Captain::Tools::CopilotHttpTool) : tool }
   end
 
   # Every agent in a customer conversation can verify the customer, so whichever one is asked for account data can do it.
@@ -163,7 +165,7 @@ class Captain::Assistant::AgentRunnerService
     agent = @assistant.agent
     agent.clone(
       instructions: ->(context) { @assistant.agent_instructions(context, prompt_template: 'copilot_reply_suggestion') },
-      tools: open_session_tools(agent.tools.select { |tool| available_in_reply_suggestion?(tool) })
+      tools: copilot_tools(agent.tools.select { |tool| available_in_reply_suggestion?(tool) })
     )
   end
 

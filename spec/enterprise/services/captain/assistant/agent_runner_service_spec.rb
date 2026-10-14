@@ -124,10 +124,21 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         allow(assistant).to receive(:scenarios).and_return(instance_double(Captain::Scenario, enabled: []))
       end
 
-      def email_parameters(source)
+      def http_tool_for(source)
         service = described_class.new(assistant: assistant, conversation: conversation, run_options: run_options(source: source))
-        http_tool = service.send(:build_and_wire_agents).first.tools.find { |tool| tool.is_a?(Captain::Tools::HttpTool) }
-        http_tool.class.declared_parameters.keys
+        service.send(:build_and_wire_agents).first.tools.find { |tool| tool.is_a?(Captain::Tools::HttpTool) }
+      end
+
+      def email_parameters(source)
+        http_tool_for(source).class.declared_parameters.keys
+      end
+
+      it 'uses the customer tool in a customer conversation' do
+        expect(http_tool_for(nil)).to be_a(Captain::Tools::PublicHttpTool)
+      end
+
+      it 'uses the Copilot tool where an admin or an agent is the user' do
+        expect(http_tool_for('playground')).to be_a(Captain::Tools::CopilotHttpTool)
       end
 
       it 'gives the model no email parameter in a customer conversation' do
@@ -146,8 +157,9 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     it 'keeps only reply-safe tools and excludes scenarios in reply suggestion mode' do
       faq_tool = Captain::Tools::FaqLookupTool.new(assistant)
       handoff_tool = Captain::Tools::HandoffTool.new(assistant)
-      get_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'GET'))
-      post_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'POST'))
+      get_custom_tool = create(:captain_custom_tool, account: account, http_method: 'GET')
+      get_tool = get_custom_tool.tool(assistant)
+      post_tool = create(:captain_custom_tool, account: account, http_method: 'POST').tool(assistant)
       private_note_tool = Captain::Tools::AddPrivateNoteTool.new(assistant)
       assistant_agent = Agents::Agent.new(name: 'assistant', tools: [faq_tool, handoff_tool, get_tool, post_tool, private_note_tool])
       service = described_class.new(
@@ -161,7 +173,10 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       configured_assistant = service.send(:build_and_wire_agents).sole
 
-      expect(configured_assistant.tools).to contain_exactly(faq_tool, get_tool)
+      expect(configured_assistant.tools.first).to be(faq_tool)
+      expect(configured_assistant.tools.second).to be_a(Captain::Tools::CopilotHttpTool)
+      expect(configured_assistant.tools.second.custom_tool).to eq(get_custom_tool)
+      expect(configured_assistant.tools.size).to eq(2)
       expect(configured_assistant.handoff_agents).to be_empty
     end
 

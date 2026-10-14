@@ -23,7 +23,7 @@ class Captain::Tools::CustomHttpTool < Captain::Tools::BaseTool
   end
 
   def execute(**params)
-    http_tool = Captain::Tools::HttpTool.new(assistant, @custom_tool)
+    http_tool = Captain::Tools::PublicHttpTool.new(assistant, @custom_tool)
     http_tool.perform(build_tool_context, **params)
   end
 
