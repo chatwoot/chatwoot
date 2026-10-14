@@ -21,6 +21,19 @@ module Concerns::CopilotRunApprovable
     close(:rejected, reason)
   end
 
+  # A new message replaces the change. The turn that proposed it ends without another answer, so the agent's new message
+  # is answered next and in order. The turn stays incomplete, so later turns read it as an outline.
+  def supersede
+    return false unless decide(:rejected, reason: I18n.t('captain.copilot.approval_superseded'))
+
+    turn = copilot_tool_call.copilot_run
+    turn.with_lock do
+      copilot_tool_call.update!(status: :completed, result: summary)
+      turn.update!(status: :incomplete, lease_token: nil, lease_until: nil) if turn.awaiting_background_run?
+    end
+    true
+  end
+
   def expire
     close(:expired, I18n.t('captain.copilot.approval_expired', minutes: APPROVAL_TTL.in_minutes.to_i))
   end

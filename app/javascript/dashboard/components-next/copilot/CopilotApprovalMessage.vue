@@ -100,6 +100,7 @@ const decide = async choice => {
         :label="t('CAPTAIN.COPILOT.APPROVAL.APPROVE')"
         size="sm"
         :is-loading="isSubmitting"
+        :disabled="isSubmitting"
         @click="decide('approve')"
       />
       <Button

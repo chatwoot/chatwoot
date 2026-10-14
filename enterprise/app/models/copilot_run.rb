@@ -239,7 +239,16 @@ class CopilotRun < ApplicationRecord
   def action_summary
     counts = action_items.group(:status).count
     { action: context['action'], arguments: context['arguments'], targets: target_ids.size, applied: counts['applied'].to_i,
-      skipped: counts['skipped'].to_i, failed: counts['failed'].to_i, decision_reason: context['decision_reason'] }.compact
+      skipped: counts['skipped'].to_i, failed: counts['failed'].to_i, not_processed: not_processed(counts),
+      decision_reason: context['decision_reason'] }.compact
+  end
+
+  # Targets an approved change never reached, such as when workflows were turned off partway through.
+  def not_processed(counts)
+    return unless completed? || incomplete?
+
+    missing = target_ids.size - counts.values_at('applied', 'skipped', 'failed').sum(&:to_i)
+    missing if missing.positive?
   end
 
   def progress_text(progress)

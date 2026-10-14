@@ -40,8 +40,8 @@ class CopilotMessage < ApplicationRecord
   end
 
   def enqueue_response_job(conversation_id, user_id)
+    supersede_changes_awaiting_approval
     if account.feature_enabled?('copilot_workflows')
-      reject_changes_awaiting_approval
       run = copilot_thread.copilot_runs.create_or_find_by!(copilot_message: self) do |record|
         record.account = account
         record.user = copilot_thread.user
@@ -75,12 +75,10 @@ class CopilotMessage < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(COPILOT_MESSAGE_UPDATED, Time.zone.now, copilot_message: self)
   end
 
-  # Turns run in order, so a change awaiting approval would hold this message back. Sending a new message
-  # declines it instead.
-  def reject_changes_awaiting_approval
-    copilot_thread.copilot_runs.action.awaiting_approval.find_each do |action_run|
-      action_run.reject(I18n.t('captain.copilot.approval_superseded'))
-    end
+  # Turns run in order, so a change awaiting approval would hold this message back. Sending a new message declines it
+  # instead, whether or not workflows are still on.
+  def supersede_changes_awaiting_approval
+    copilot_thread.copilot_runs.action.awaiting_approval.find_each(&:supersede)
   end
 
   def validate_message_attributes

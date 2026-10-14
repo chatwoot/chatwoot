@@ -13,12 +13,11 @@ class Captain::Copilot::ActionJob < ApplicationJob
     run.ensure_can_continue!(credits: false)
     Current.user = run.user
     action = run.action
-    ids = run.remaining_ids.first(BATCH_SIZE)
     resource = Captain::Copilot::Resources.build(action.class::RESOURCE, account: run.account, user: run.user)
-    records = resource.scope.where(id: ids).index_by(&:id)
-    ids.each do |id|
+    run.remaining_ids.first(BATCH_SIZE).each do |id|
       run.renew_lease(token)
-      apply(run, token, action, id, records[id])
+      # Loaded through the access scope right before the change, so access lost partway through a batch stops it.
+      apply(run, token, action, id, resource.scope.find_by(id: id))
     end
     run.with_lease(token) { run.publish_progress }
     continue_or_finalize(run, token)
