@@ -75,6 +75,8 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    notification_subscription:
+      voip_attributes_required: A VoIP push subscription needs a device_id and a push_token
     account:
       not_authorized: You are not authorized to access this account
       email_limit_exceeded: The daily email limit for this account has been reached
@@ -919,6 +921,41 @@ en:
         none_enabled:
           one: 'No push types are enabled for %{names}. This user receives no push notification from that account.'
           other: 'No push types are enabled for %{names}. This user receives no push notification from those accounts.'
+      calls:
+        heading: 'Incoming calls'
+        description: 'Whether a call rings this user on their phone while the app is in the background or closed. With the app open, calls ring over its live connection.'
+        accounts_heading: 'Accounts'
+        setup:
+          heading: 'Push setup'
+          columns:
+            platform: 'Platform'
+            installation: 'Installation'
+            devices: 'Devices registered for calls'
+        platforms:
+          apple: 'iPhone'
+          android: 'Android'
+        configured: 'Configured'
+        not_configured: 'Not configured'
+        credentials:
+          apple: 'Needs APNS_VOIP_KEY, APNS_VOIP_KEY_ID and APNS_VOIP_TEAM_ID'
+          android: 'Needs FIREBASE_PROJECT_ID and FIREBASE_CREDENTIALS'
+        invalid_environment: 'APNS_VOIP_ENVIRONMENT must be development or production'
+        account_columns:
+          account: 'Account'
+          voice: 'Voice Channel'
+          ringing: 'Mobile Voice Push'
+          inboxes: 'Voice inboxes'
+          status: 'Status'
+          rings: 'Phone rings'
+        'on': 'On'
+        'off': 'Off'
+        availability:
+          online: 'Online'
+          busy: 'Busy'
+          offline: 'Offline'
+        rings: 'Yes'
+        app_open_only: 'Only with the app open'
+        assigned_only: 'Calls assigned to them'
       push_types:
         conversation_creation: 'A new conversation is created'
         conversation_assignment: 'A conversation is assigned to the user'

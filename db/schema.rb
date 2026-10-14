@@ -341,6 +341,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_08_090132) do
     t.text "transcript"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "ring_state", default: {}, null: false
     t.index ["account_id", "contact_id"], name: "index_calls_on_account_id_and_contact_id"
     t.index ["account_id", "conversation_id"], name: "index_calls_on_account_id_and_conversation_id"
     t.index ["account_id", "created_at"], name: "index_calls_on_account_id_and_created_at"

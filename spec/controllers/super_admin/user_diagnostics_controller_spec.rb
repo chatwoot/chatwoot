@@ -229,6 +229,17 @@ RSpec.describe 'Super Admin User diagnostics', type: :request do
       expect(user.notification_subscriptions.count).to eq(0)
     end
 
+    it 'skips a test send to a VoIP token, which would ring a call' do
+      subscription = user.notification_subscriptions.create!(
+        subscription_type: 'apns_voip', identifier: 'voip:DEVICE-ABC',
+        subscription_attributes: { 'device_id' => 'DEVICE-ABC', 'push_token' => 'voip-token' }
+      )
+
+      post '/super_admin/user_diagnostics', params: { user_id: user.id, subscription_ids: [subscription.id] }
+
+      expect(response.body).to include('VoIP tokens only ring calls')
+    end
+
     it 'renders the results of a test send on the push tab' do
       subscription = user.notification_subscriptions.create!(
         subscription_type: 'fcm', identifier: 'token-test',
