@@ -7,7 +7,7 @@ module Concerns::Toolable
 
   # A parameter with a source is filled by Chatwoot from what the customer verified, so the model does not see it.
   # The base class says whether the model fills it instead, for runs where an admin or an agent is the user.
-  def tool(assistant, base_class: Captain::Tools::HttpTool, **)
+  def tool(assistant, base_class: Captain::Tools::HttpTool, **) # rubocop:disable Metrics/AbcSize
     custom_tool_record = self
     class_name = custom_tool_record.slug.underscore.camelize
 
@@ -20,7 +20,9 @@ module Concerns::Toolable
       # that RubyLLM's default normalization would produce (e.g., "captain--tools--custom_dog_facts").
       define_method(:name) { tool_slug }
 
-      custom_tool_record.model_param_schema(base_class.model_fills_verified_values?).each do |param_def|
+      custom_tool_record.param_schema.each do |param_def|
+        next if param_def['source'].present? && !base_class.model_fills_verified_values?
+
         parameter param_def['name'].to_sym,
                   type: param_def['type'],
                   description: param_def['description'],
@@ -36,11 +38,6 @@ module Concerns::Toolable
     CustomTools.const_set(class_name, tool_class)
 
     tool_class.new(assistant, self, **)
-  end
-
-  # The parameters the model sees. Verified ones are left out unless the model fills them.
-  def model_param_schema(include_verified)
-    include_verified ? param_schema : param_schema.reject { |param_def| param_def['source'].present? }
   end
 
   def build_request_url(params)
