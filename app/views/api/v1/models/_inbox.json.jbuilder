@@ -76,6 +76,10 @@ json.line_channel_id resource.channel.try(:line_channel_id) if resource.channel_
 ## Twilio Attributes
 json.messaging_service_sid resource.channel.try(:messaging_service_sid)
 json.phone_number resource.channel.try(:phone_number)
+if resource.sms? && Current.account_user&.administrator?
+  json.provider_config resource.channel.provider_config.to_h.slice('account_id', 'application_id', 'client_id')
+  json.bandwidth_oauth_enabled resource.channel.oauth?
+end
 json.medium resource.channel.try(:medium) if resource.twilio?
 if resource.twilio?
   json.content_templates resource.channel.try(:content_templates)
