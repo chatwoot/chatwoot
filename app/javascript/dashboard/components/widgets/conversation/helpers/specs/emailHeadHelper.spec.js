@@ -13,6 +13,39 @@ describe('#validEmailsByComma', () => {
   it('strips spaces between emails before validating', () => {
     expect(validEmailsByComma('1@test.com  , 2@test.com')).toEqual(true);
   });
+
+  // The server accepts these through `EmailHelper#process_email_string`; the composer has to
+  // agree with it, or CC/BCC shows an error for input that sends successfully.
+  it('accepts semicolon separated emails', () => {
+    expect(validEmailsByComma('1@test.com;2@test.com')).toEqual(true);
+    expect(validEmailsByComma('1@test.com; 2@test.com')).toEqual(true);
+  });
+  it('accepts space separated emails', () => {
+    expect(validEmailsByComma('1@test.com 2@test.com')).toEqual(true);
+  });
+  it('accepts display name forms', () => {
+    expect(validEmailsByComma('Jane Smith <jane@test.com>')).toEqual(true);
+    expect(
+      validEmailsByComma('Jane Smith <jane@test.com>, John Doe <john@test.com>')
+    ).toEqual(true);
+  });
+  it('keeps a comma inside a quoted display name out of the split', () => {
+    expect(validEmailsByComma('"Doe, John" <john@test.com>')).toEqual(true);
+    expect(
+      validEmailsByComma('"Doe, John" <john@test.com>, jane@test.com')
+    ).toEqual(true);
+  });
+  it('accepts a quoted display name that contains an escaped quote', () => {
+    expect(
+      validEmailsByComma('"support@test.com \\"team\\"" <agent@test.com>')
+    ).toEqual(true);
+  });
+  it('still rejects an invalid address in any of those forms', () => {
+    expect(validEmailsByComma('1@test.com;pova.da')).toEqual(false);
+    expect(validEmailsByComma('1@test.com pova.da')).toEqual(false);
+    expect(validEmailsByComma('Jane Smith <pova.da>')).toEqual(false);
+    expect(validEmailsByComma('"Doe, John" <pova.da>')).toEqual(false);
+  });
 });
 
 describe('#getDefaultSubject', () => {

@@ -345,6 +345,16 @@ describe Messages::MessageBuilder do
         expect(message.content_attributes[:cc_emails]).to eq ['john@test.com', 'jane@test.com']
       end
 
+      it 'keeps a quoted display name that contains an escaped quote' do
+        # `display_name` comes back unquoted and unescaped, so it cannot be matched back against
+        # the raw input; the address's own `raw` source is what says it was quoted.
+        params = ActionController::Parameters.new({ cc_emails: '"support@test.com \\"team\\"" <agent@test.com>, jane@test.com' })
+
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes[:cc_emails]).to eq ['agent@test.com', 'jane@test.com']
+      end
+
       it 'rejects an unparseable recipient instead of dropping it' do
         params = ActionController::Parameters.new({ cc_emails: 'Jane <' })
 
