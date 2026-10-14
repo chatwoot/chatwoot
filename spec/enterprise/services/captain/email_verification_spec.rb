@@ -7,10 +7,15 @@ RSpec.describe Captain::EmailVerification do
   let(:verification) { described_class.new(contact_inbox) }
   let(:email) { "customer-#{SecureRandom.hex(4)}@example.com" }
   let(:emailed_codes) { [] }
+  let(:mailer) { class_double(Captain::EmailVerificationMailer) }
 
   before do
     allow(Captain::EmailVerificationMailer).to receive(:deliverable?).and_return(true)
-    allow(Captain::EmailVerificationMailer).to receive(:deliver_code_later) { |_inbox, _email, code| emailed_codes << code }
+    allow(Captain::EmailVerificationMailer).to receive(:with).with(account: account).and_return(mailer)
+    allow(mailer).to receive(:verification_code) do |_inbox, _email, encrypted_code|
+      emailed_codes << described_class.decrypt_code(encrypted_code)
+      instance_double(ActionMailer::MessageDelivery, deliver_later: true)
+    end
   end
 
   def wrong_code
@@ -22,7 +27,15 @@ RSpec.describe Captain::EmailVerification do
       expect(verification.send_code(" #{email.upcase} ")).to eq(:sent)
 
       expect(emailed_codes.last).to match(/\A\d{6}\z/)
-      expect(Captain::EmailVerificationMailer).to have_received(:deliver_code_later).with(inbox, email, emailed_codes.last)
+      expect(mailer).to have_received(:verification_code).with(inbox, email, anything)
+    end
+
+    it 'never passes the plain code to the mail job' do
+      verification.send_code(email)
+
+      expect(mailer).to have_received(:verification_code) do |_inbox, _email, encrypted_code|
+        expect(encrypted_code).not_to include(emailed_codes.last)
+      end
     end
 
     it 'rejects an invalid email address' do
