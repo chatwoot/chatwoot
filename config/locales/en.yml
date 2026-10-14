@@ -522,6 +522,11 @@ en:
       processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
+    email_verification:
+      subject: 'Your %{inbox_name} verification code'
+      heading: 'Your verification code'
+      instructions: 'Enter this code in your chat with %{inbox_name} to confirm this email address. It expires in %{minutes} minutes.'
+      ignore: 'If you did not ask for this code, you can ignore this email. Do not share the code with anyone else.'
     custom_tool:
       slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
       limit_exceeded: 'You can create a maximum of %{limit} custom tools per assistant'
