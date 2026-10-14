@@ -359,6 +359,12 @@ RSpec.describe Captain::CustomTool, type: :model do
       expect(tool.requires_email_verification?).to be(true)
     end
 
+    it 'requires email verification for a verified email parameter with a blank name' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [email_param.merge('name' => '')])
+
+      expect(tool.requires_email_verification?).to be(true)
+    end
+
     it 'has no verified email parameter when every parameter comes from the model' do
       tool = build(:captain_custom_tool, account: account, param_schema: [order_param])
 

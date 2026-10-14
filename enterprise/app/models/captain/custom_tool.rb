@@ -142,7 +142,7 @@ class Captain::CustomTool < ApplicationRecord
   # The tool only runs for a customer who verified an email with a one-time code.
   # A tool with a parameter that takes the verified email cannot run without one, so it needs no setting.
   def requires_email_verification?
-    settings['requires_email_verification'] == true || verified_email_param.present?
+    settings['requires_email_verification'] == true || param_schema.any? { |param_def| param_def['source'] == 'verified.email' }
   end
 
   # The name of the parameter Chatwoot fills with the verified email, if the tool has one
