@@ -37,11 +37,9 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   end
 
   # Read from stored data on every call, never from the run state the model can influence
-  def stored_verified_values(state)
+  def stored_verified_email(state)
     contact_inbox = find_contact_inbox(state)
-    return {} unless contact_inbox
-
-    { 'verified.email' => Captain::EmailVerification.new(contact_inbox).verified_email }.compact_blank
+    contact_inbox && Captain::EmailVerification.new(contact_inbox).verified_email
   end
 
   def safe_to_run_after_new_customer_message?
@@ -80,7 +78,7 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
     headers.merge!(@custom_tool.build_metadata_headers(tool_context&.state || {}))
     # The contact email can be typed by anyone, so the email the customer verified travels in its own header.
     # The admin test request runs without a conversation, so it has no customer to look up.
-    verified_email = stored_verified_values(tool_context.state)['verified.email'] if tool_context
+    verified_email = stored_verified_email(tool_context.state) if tool_context
     headers['X-Chatwoot-Verified-Email'] = verified_email if verified_email
     headers['Content-Type'] = 'application/json' if json_body.present?
     headers
