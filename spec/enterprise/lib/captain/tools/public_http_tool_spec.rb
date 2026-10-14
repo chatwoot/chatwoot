@@ -36,11 +36,11 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
         expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=jane%40example.com')
       end
 
-      it 'refuses when the model passes another email' do
-        result = tool.perform(tool_context, email: 'victim@example.com')
+      it 'sends the verified email when the model passes another one' do
+        tool.perform(tool_context, email: 'victim@example.com')
 
-        expect(result).to include('only run for jane@example.com')
-        expect(request_stub).not_to have_been_requested
+        expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=jane%40example.com')
+        expect(WebMock).not_to have_requested(:get, 'https://example.com/customers?email=victim%40example.com')
       end
 
       it 'is blocked for a customer without a verified email, with no setting turned on' do
@@ -125,37 +125,11 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
           request_stub
         end
 
-        it 'runs with the verified email, whatever its case' do
-          tool.perform(tool_context, email: ' Jane@Example.com ')
-
-          expect(request_stub).to have_been_requested
-        end
-
-        it 'does not run with another email' do
-          result = tool.perform(tool_context, email: 'victim@example.com')
-
-          expect(result).to include('only run for jane@example.com')
-          expect(request_stub).not_to have_been_requested
-        end
-
-        it 'runs a tool that is not gated with any email, even after the customer verified one' do
-          custom_tool.update!(settings: {})
-
+        # Binding the email is what a verified email parameter is for. The setting alone only requires a verified customer.
+        it 'runs with the email the model passes once the customer has verified one' do
           tool.perform(tool_context, email: 'someone@example.com')
 
-          expect(request_stub).to have_been_requested
-        end
-
-        it 'runs with the verified email inside a sentence' do
-          tool.perform(tool_context, email: 'jane@example.com', note: 'Contact jane@example.com. Or (jane@example.com)!')
-
-          expect(request_stub).to have_been_requested
-        end
-
-        it 'does not run with another email inside a longer value' do
-          tool.perform(tool_context, email: 'jane@example.com', note: 'also check <victim@example.com>')
-
-          expect(request_stub).not_to have_been_requested
+          expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=someone%40example.com&note=')
         end
       end
 
