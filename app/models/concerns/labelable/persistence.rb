@@ -31,8 +31,8 @@ module Labelable::Persistence
   # It prevents unrelated saves from overwriting labels; it does not coordinate
   # two workers that both intentionally edit labels.
   included do
-    after_commit :apply_saved_tag_lists
-    after_rollback :discard_saved_tag_lists
+    after_commit :forget_tag_lists_before_transaction
+    after_rollback :restore_tag_lists_before_transaction
   end
 
   def tag_list_cache_on(context)
@@ -53,30 +53,34 @@ module Labelable::Persistence
     super && tag_list_cache_on(context) != @original_tag_lists.fetch(context.to_s)
   end
 
-  # The saved list becomes the new baseline only once the transaction commits.
-  # If it rolls back, the database still has the old list, so keep the old baseline
-  # and let a retry on this instance persist the edit again.
+  # The saved list becomes the new baseline right away, so a second edit in the same
+  # transaction is compared with what was just written. The baseline from before the
+  # transaction is kept until it ends. If the transaction rolls back, the database still
+  # has the old list, so that baseline comes back and a retry persists the edit again.
   def save_tags
     super.tap do
-      @saved_tag_lists = @original_tag_lists&.to_h { |context, _| [context, tag_list_cache_on(context).dup] }
+      next unless @original_tag_lists
+
+      @tag_lists_before_transaction ||= @original_tag_lists.dup
+      @original_tag_lists.each_key { |context| @original_tag_lists[context] = tag_list_cache_on(context).dup }
     end
   end
 
   # Reloading discards the old copy, so discard our remembered list too.
   def reload(*)
     @original_tag_lists = nil
-    @saved_tag_lists = nil
+    @tag_lists_before_transaction = nil
     super
   end
 
   private
 
-  def apply_saved_tag_lists
-    @original_tag_lists&.merge!(@saved_tag_lists) if @saved_tag_lists
-    @saved_tag_lists = nil
+  def forget_tag_lists_before_transaction
+    @tag_lists_before_transaction = nil
   end
 
-  def discard_saved_tag_lists
-    @saved_tag_lists = nil
+  def restore_tag_lists_before_transaction
+    @original_tag_lists = @tag_lists_before_transaction if @tag_lists_before_transaction
+    @tag_lists_before_transaction = nil
   end
 end

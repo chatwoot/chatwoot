@@ -91,6 +91,15 @@ RSpec.describe Labelable::Persistence do
         expect(other_instance.reload.labels.pluck(:name)).to eq(['runner'])
       end
 
+      it 'persists a second label edit saved in the same transaction' do
+        record.class.transaction(requires_new: true) do
+          record.update_labels(['runner'])
+          record.update_labels([])
+        end
+
+        expect(other_instance.reload.labels).to be_empty
+      end
+
       it 'persists a list set through set_tag_list_on without a prior read' do
         other_instance.set_tag_list_on(:labels, ['runner'])
         other_instance.save!
