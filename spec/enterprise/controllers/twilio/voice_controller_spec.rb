@@ -13,6 +13,12 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(16)}"))
   end
 
+  def post_twilio_webhook(path, params:)
+    validator = Twilio::Security::RequestValidator.new(channel.auth_token)
+    signature = validator.build_signature_for("http://www.example.com#{path}", params)
+    post path, params: params, headers: { 'X-Twilio-Signature' => signature }
+  end
+
   describe 'POST /twilio/voice/call/:phone' do
     let(:call_sid) { 'CA_test_call_sid_123' }
     let(:from_number) { '+15550003333' }
@@ -38,7 +44,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         caller: { source_ids: [from_number], contact_attributes: { name: from_number, phone_number: from_number } }
       ).and_return(call)
 
-      post "/twilio/voice/call/#{digits}", params: {
+      post_twilio_webhook "/twilio/voice/call/#{digits}", params: {
         'CallSid' => call_sid,
         'From' => from_number,
         'To' => to_number,
@@ -57,7 +63,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact, provider_call_id: call_sid)
       allow(Voice::InboundCallBuilder).to receive(:perform!).and_return(call)
 
-      post "/twilio/voice/call/#{digits}", params: inbound_call_params
+      post_twilio_webhook "/twilio/voice/call/#{digits}", params: inbound_call_params
 
       expect(response.body).to include('record="record-from-start"')
     end
@@ -68,7 +74,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact, provider_call_id: call_sid)
       allow(Voice::InboundCallBuilder).to receive(:perform!).and_return(call)
 
-      post "/twilio/voice/call/#{digits}", params: inbound_call_params
+      post_twilio_webhook "/twilio/voice/call/#{digits}", params: inbound_call_params
 
       expect(response.body).to include('record="do-not-record"')
     end
@@ -86,7 +92,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       )
       call.update!(conference_sid: call.default_conference_sid)
 
-      post "/twilio/voice/call/#{digits}", params: {
+      post_twilio_webhook "/twilio/voice/call/#{digits}", params: {
         'CallSid' => call_sid,
         'From' => to_number,
         'To' => from_number,
@@ -111,7 +117,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         status: 'rejected'
       )
 
-      post "/twilio/voice/call/#{digits}", params: {
+      post_twilio_webhook "/twilio/voice/call/#{digits}", params: {
         'CallSid' => call_sid,
         'From' => to_number,
         'To' => from_number,
@@ -139,7 +145,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       )
       call.update!(conference_sid: call.default_conference_sid)
 
-      post "/twilio/voice/call/#{digits}", params: {
+      post_twilio_webhook "/twilio/voice/call/#{digits}", params: {
         'CallSid' => child_sid,
         'ParentCallSid' => parent_sid,
         'From' => to_number,
@@ -153,7 +159,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
 
     it 'raises not found when inbox is not present' do
       expect(Voice::InboundCallBuilder).not_to receive(:perform!)
-      post '/twilio/voice/call/19998887777', params: {
+      post_twilio_webhook '/twilio/voice/call/19998887777', params: {
         'CallSid' => call_sid,
         'From' => from_number,
         'To' => to_number,
@@ -167,7 +173,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(Voice::InboundCallBuilder).not_to receive(:perform!)
 
       expect do
-        post "/twilio/voice/call/#{digits}", params: {
+        post_twilio_webhook "/twilio/voice/call/#{digits}", params: {
           'CallSid' => call_sid,
           'From' => from_number,
           'To' => to_number,
@@ -195,7 +201,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       ).and_return(service_double)
       expect(service_double).to receive(:perform)
 
-      post "/twilio/voice/status/#{digits}", params: {
+      post_twilio_webhook "/twilio/voice/status/#{digits}", params: {
         'CallSid' => call_sid,
         'CallStatus' => 'completed'
       }
@@ -205,7 +211,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
 
     it 'raises not found when inbox is not present' do
       expect(Voice::StatusUpdateService).not_to receive(:new)
-      post '/twilio/voice/status/18005550101', params: {
+      post_twilio_webhook '/twilio/voice/status/18005550101', params: {
         'CallSid' => call_sid,
         'CallStatus' => 'busy'
       }
