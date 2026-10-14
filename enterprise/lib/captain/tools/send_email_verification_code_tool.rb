@@ -21,7 +21,7 @@ class Captain::Tools::SendEmailVerificationCodeTool < Captain::Tools::BasePublic
   private
 
   def sent_message(email)
-    minutes = Captain::EmailVerification::CODE_TTL.in_minutes.to_i
+    minutes = Captain::EmailVerification::Code::TTL.in_minutes.to_i
     "A #{Captain::EmailVerification::CODE_LENGTH}-digit code was emailed to #{email.to_s.strip.downcase}. It expires in #{minutes} minutes. " \
       'Ask the customer to type the code here, then check it with the verify email code tool. ' \
       'If the code does not arrive, ask whether they want to talk to a support agent.'
