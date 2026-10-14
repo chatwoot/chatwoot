@@ -76,6 +76,34 @@ RSpec.describe Llm::SpeechToTextService, type: :service do
     ensure
       FileUtils.rm_f(temp_file_path) if temp_file_path.present?
     end
+
+    it 'renames the .oga extension the endpoint rejects to .ogg' do
+      attachment.file.attach(
+        io: File.open(Rails.public_path.join('audio/widget/ding.mp3')),
+        filename: 'voice-note.oga',
+        content_type: 'audio/ogg'
+      )
+
+      temp_file_path = service.send(:fetch_audio_file)
+
+      expect(File.extname(temp_file_path)).to eq('.ogg')
+    ensure
+      FileUtils.rm_f(temp_file_path) if temp_file_path.present?
+    end
+
+    it 'keeps an extension the endpoint accepts' do
+      attachment.file.attach(
+        io: File.open(Rails.public_path.join('audio/widget/ding.mp3')),
+        filename: 'voice-note.mp3',
+        content_type: 'audio/mpeg'
+      )
+
+      temp_file_path = service.send(:fetch_audio_file)
+
+      expect(File.extname(temp_file_path)).to eq('.mp3')
+    ensure
+      FileUtils.rm_f(temp_file_path) if temp_file_path.present?
+    end
   end
 
   describe '#perform' do
