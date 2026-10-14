@@ -1,22 +1,92 @@
 <script setup>
-defineProps({
+import { computed } from 'vue';
+import { useMapGetter } from 'dashboard/composables/store';
+import Icon from 'next/icon/Icon.vue';
+import { MESSAGE_TYPES } from './constants';
+import { useMessageContext } from './provider.js';
+import { useTranslations } from 'dashboard/composables/useTranslations';
+
+const props = defineProps({
   showingOriginal: Boolean,
 });
 
 defineEmits(['toggle']);
+
+defineOptions({ inheritAttrs: false });
+
+const { id, contentAttributes, messageType, shouldGroupWithNext } =
+  useMessageContext();
+const { hasTranslations } = useTranslations(contentAttributes);
+const autoTranslate = useMapGetter('getAutoTranslate');
+const translationState = useMapGetter('getMessageTranslationState');
+
+const state = computed(() => translationState.value(id.value));
+// "Already in X" reads once per group, on its last message, like the timestamp.
+const visible = computed(() => {
+  if (state.value.pending) return true;
+  if (state.value.sameLanguage) return !shouldGroupWithNext.value;
+  return hasTranslations.value;
+});
+const isOutgoing = computed(() =>
+  [MESSAGE_TYPES.OUTGOING, MESSAGE_TYPES.TEMPLATE].includes(messageType.value)
+);
+// An auto-translated reply is stored in the contact's language, so "original" means the translation there.
+const showsTranslation = computed(() =>
+  isOutgoing.value && autoTranslate.value.language
+    ? props.showingOriginal
+    : !props.showingOriginal
+);
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
-  <span>
+  <span
+    v-if="visible"
+    v-bind="$attrs"
+    class="text-xs text-n-slate-11 inline-flex items-center gap-1.5 select-none"
+  >
+    <Icon
+      v-if="autoTranslate.language"
+      icon="i-lucide-sparkles"
+      class="size-3 text-n-iris-9"
+      :class="{ 'animate-twinkle motion-reduce:animate-none': state.pending }"
+    />
     <span
-      class="text-xs text-n-slate-11 cursor-pointer hover:underline select-none"
-      @click="$emit('toggle')"
+      v-if="state.pending"
+      class="bg-clip-text text-transparent bg-gradient-to-r from-n-slate-11 from-40% via-n-iris-9 to-n-slate-11 to-60% bg-[length:300%_100%] animate-text-shimmer motion-reduce:animate-none"
     >
       {{
-        showingOriginal
-          ? $t('CONVERSATION.VIEW_TRANSLATED')
-          : $t('CONVERSATION.VIEW_ORIGINAL')
+        isOutgoing
+          ? $t('CONVERSATION.TRANSLATING_TO', {
+              language: autoTranslate.language,
+            })
+          : $t('CONVERSATION.TRANSLATING')
       }}
     </span>
+    <span v-else-if="state.sameLanguage">
+      {{
+        $t('CONVERSATION.ALREADY_IN_LANGUAGE', {
+          language: autoTranslate.agentLanguage,
+        })
+      }}
+    </span>
+    <template v-else>
+      <span v-if="autoTranslate.language">
+        {{
+          isOutgoing
+            ? $t('CONVERSATION.SENT_IN', { language: autoTranslate.language })
+            : $t('CONVERSATION.TRANSLATED_FROM', {
+                language: state.sourceLanguage,
+              })
+        }}
+      </span>
+      <span class="cursor-pointer hover:underline" @click="$emit('toggle')">
+        {{
+          showsTranslation
+            ? $t('CONVERSATION.VIEW_ORIGINAL')
+            : $t('CONVERSATION.VIEW_TRANSLATED')
+        }}
+      </span>
+    </template>
   </span>
 </template>

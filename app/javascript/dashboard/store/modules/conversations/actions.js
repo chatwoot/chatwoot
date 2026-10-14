@@ -169,7 +169,7 @@ const actions = {
     commit(types.CLEAR_CURRENT_CHAT_WINDOW);
   },
 
-  fetchPreviousMessages: ({ commit }, data) => {
+  fetchPreviousMessages: ({ commit, dispatch }, data) => {
     const requestKey = JSON.stringify([
       MessageApi.url,
       data.conversationId,
@@ -190,6 +190,7 @@ const actions = {
           id: data.conversationId,
           data: payload,
         });
+        dispatch('autoTranslateMessages', data.conversationId);
         // A short backward page means the start is reached; `after` requests only prove it when empty.
         const hasReachedFirstMessage = data.after
           ? !payload.length
@@ -445,7 +446,7 @@ const actions = {
     return data;
   },
 
-  addMessage({ commit, rootGetters }, message) {
+  addMessage({ commit, dispatch, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
     if (message.message_type === MESSAGE_TYPE.INCOMING) {
       commit(types.SET_CONVERSATION_CAN_REPLY, {
@@ -453,6 +454,7 @@ const actions = {
         canReply: true,
       });
       commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
+      dispatch('autoTranslateMessages', message.conversation_id);
     }
     handleVoiceCallCreated(
       message,

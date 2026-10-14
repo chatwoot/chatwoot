@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { emitter } from 'shared/helpers/mitt';
 import { createStore } from 'vuex';
 import { mutations } from '../../conversations';
 import conversationMetadata from '../../conversationMetadata';
@@ -75,6 +76,7 @@ describe('#actions', () => {
           allConversations: [conversationA, conversationB],
           selectedChatId: null,
         },
+        getters: { getAutoTranslate: () => ({ enabled: false }) },
         actions,
         mutations,
         modules: {
@@ -392,7 +394,7 @@ describe('#actions', () => {
         message_type: 0,
         conversation_id: 1,
       };
-      actions.addMessage({ commit }, message);
+      actions.addMessage({ commit, dispatch }, message);
       expect(commit.mock.calls).toEqual([
         [types.ADD_MESSAGE, message],
         [
@@ -401,6 +403,7 @@ describe('#actions', () => {
         ],
         [types.ADD_CONVERSATION_ATTACHMENTS, message],
       ]);
+      expect(dispatch).toHaveBeenCalledWith('autoTranslateMessages', 1);
     });
     it('sends correct mutations if message is not an incoming message', () => {
       const message = {
@@ -1081,6 +1084,121 @@ describe('#addMentions', () => {
           { id: 1, name: 'Assistant', description: 'Assistant description' },
         ],
       ]);
+    });
+  });
+
+  describe('#autoTranslateMessages', () => {
+    const messages = [
+      { id: 1, message_type: 0, content: 'Bonjour', content_attributes: {} },
+      {
+        id: 2,
+        message_type: 0,
+        content: 'Hello',
+        content_attributes: { translations: { en: 'Hello' } },
+      },
+      { id: 3, message_type: 1, content: 'Hi', content_attributes: {} },
+      { id: 4, message_type: 0, content: 'Merci', content_attributes: {} },
+    ];
+    const getters = {
+      getAutoTranslate: { enabled: true, locale: 'en', sameLanguage: false },
+      getSelectedChat: { id: 7, messages },
+    };
+    const state = { selectedChatId: 7, autoTranslating: { 4: false } };
+
+    it('translates the incoming messages that have no translation yet', async () => {
+      const localCommit = vi.fn();
+      axios.post.mockResolvedValue({
+        data: { payload: [{ id: 1, conversation_id: 7 }] },
+      });
+
+      await actions.autoTranslateMessages(
+        { state, commit: localCommit, getters },
+        7
+      );
+
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/conversations/7/messages/auto_translate'),
+        {
+          message_ids: [1],
+          target_language: 'en',
+        }
+      );
+      expect(localCommit.mock.calls).toEqual([
+        [types.SET_AUTO_TRANSLATING, { messageIds: [1], translating: true }],
+        [types.ADD_MESSAGE, { id: 1, conversation_id: 7 }],
+        [types.SET_AUTO_TRANSLATING, { messageIds: [1], translating: false }],
+      ]);
+    });
+
+    it('does nothing for another conversation, the agent language or a disabled flag', async () => {
+      await actions.autoTranslateMessages({ state, commit, getters }, 8);
+      await actions.autoTranslateMessages(
+        {
+          state,
+          commit,
+          getters: {
+            getAutoTranslate: {
+              ...getters.getAutoTranslate,
+              sameLanguage: true,
+            },
+          },
+        },
+        7
+      );
+      await actions.autoTranslateMessages(
+        {
+          state,
+          commit,
+          getters: {
+            getAutoTranslate: { ...getters.getAutoTranslate, enabled: false },
+          },
+        },
+        7
+      );
+
+      expect(axios.post).not.toHaveBeenCalled();
+    });
+
+    it('alerts and settles the batch when the request fails', async () => {
+      const localCommit = vi.fn();
+      const emit = vi.spyOn(emitter, 'emit');
+      axios.post.mockRejectedValue({
+        response: {
+          status: 422,
+          data: { error: 'You are out of Copilot credits.' },
+        },
+      });
+
+      await actions.autoTranslateMessages(
+        { state, commit: localCommit, getters },
+        7
+      );
+
+      expect(localCommit).toHaveBeenLastCalledWith(types.SET_AUTO_TRANSLATING, {
+        messageIds: [1],
+        translating: false,
+      });
+      expect(emit).toHaveBeenCalledWith('newToastMessage', {
+        message: 'You are out of Copilot credits.',
+        action: null,
+      });
+    });
+
+    it('stays quiet when the feature is off for the account', async () => {
+      const emit = vi.spyOn(emitter, 'emit');
+      axios.post.mockRejectedValue({
+        response: { status: 403, data: { error: 'Auto translate is off.' } },
+      });
+
+      await actions.autoTranslateMessages(
+        { state, commit: vi.fn(), getters },
+        7
+      );
+
+      expect(emit).not.toHaveBeenCalledWith(
+        'newToastMessage',
+        expect.anything()
+      );
     });
   });
 });

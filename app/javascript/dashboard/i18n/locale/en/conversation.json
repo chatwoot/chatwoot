@@ -21,6 +21,11 @@
     "SEARCH_MESSAGES": "Search for messages in conversations",
     "VIEW_ORIGINAL": "View original",
     "VIEW_TRANSLATED": "View translated",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "TRANSLATED_FROM": "Translated from {language}",
+    "SENT_IN": "Sent in {language}",
+    "ALREADY_IN_LANGUAGE": "Already in {language}",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"

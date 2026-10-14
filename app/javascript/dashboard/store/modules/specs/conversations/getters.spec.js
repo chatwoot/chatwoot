@@ -851,4 +851,178 @@ describe('#getters', () => {
       expect(getters.getAppliedContactFilter(state)).toBeNull();
     });
   });
+
+  describe('#getAutoTranslate', () => {
+    const rootGetters = {
+      getUISettings: { locale: 'en' },
+      getCurrentAccount: { locale: 'en' },
+      getCurrentAccountId: 1,
+      'accounts/isFeatureEnabledonAccount': () => true,
+    };
+    const chatIn = language => ({
+      getSelectedChat: {
+        additional_attributes: { conversation_language: language },
+      },
+    });
+
+    it('is active when the contact writes another language than the agent', () => {
+      expect(
+        getters.getAutoTranslate({}, chatIn('fr'), {}, rootGetters)
+      ).toEqual({
+        enabled: true,
+        locale: 'en',
+        sameLanguage: false,
+        translated: false,
+        active: true,
+        language: 'French',
+        agentLanguage: 'English',
+      });
+    });
+
+    it('is inactive for the agent language, an unknown language or a disabled flag', () => {
+      expect(
+        getters.getAutoTranslate({}, chatIn('en'), {}, rootGetters)
+      ).toMatchObject({ active: false, sameLanguage: true });
+      expect(
+        getters.getAutoTranslate({}, chatIn(undefined), {}, rootGetters)
+      ).toMatchObject({ active: false, language: '' });
+      expect(
+        getters.getAutoTranslate(
+          {},
+          chatIn('fr'),
+          {},
+          { ...rootGetters, 'accounts/isFeatureEnabledonAccount': () => false }
+        )
+      ).toMatchObject({ enabled: false, active: false, language: '' });
+    });
+  });
+
+  describe('#getMessageTranslationState', () => {
+    const stateFor = (messages, autoTranslating = {}) =>
+      getters.getMessageTranslationState(
+        { autoTranslating },
+        {
+          getAutoTranslate: {
+            enabled: true,
+            active: true,
+            locale: 'en',
+            language: 'French',
+            sameLanguage: false,
+            translated: true,
+          },
+          getSelectedChat: { messages },
+        }
+      );
+
+    it('keeps a message pending until its request settles', () => {
+      const translationState = stateFor(
+        [
+          {
+            id: 1,
+            message_type: 0,
+            content: 'Bonjour',
+            content_attributes: {},
+          },
+          { id: 2, message_type: 0, content: 'Merci', content_attributes: {} },
+          {
+            id: 3,
+            message_type: 1,
+            status: 'progress',
+            content: 'Hi',
+            content_attributes: {},
+          },
+          {
+            id: 4,
+            message_type: 1,
+            status: 'progress',
+            content: 'Hi',
+            private: true,
+            content_attributes: {},
+          },
+        ],
+        { 2: false }
+      );
+
+      expect([1, 2, 3, 4].map(id => translationState(id).pending)).toEqual([
+        true,
+        false,
+        true,
+        false,
+      ]);
+    });
+
+    it('recognises a message already written in the agent language', () => {
+      const translationState = stateFor([
+        {
+          id: 1,
+          message_type: 0,
+          content: 'ok thanks',
+          content_attributes: { translations: { en: 'ok thanks' } },
+        },
+        {
+          id: 2,
+          message_type: 0,
+          content: 'Bonjour',
+          content_attributes: { translations: { en: 'Hello' } },
+        },
+      ]);
+
+      expect(translationState(1)).toEqual({
+        pending: false,
+        sameLanguage: true,
+        sourceLanguage: 'French',
+      });
+      expect(translationState(2)).toEqual({
+        pending: false,
+        sameLanguage: false,
+        sourceLanguage: 'French',
+      });
+    });
+
+    it('treats untranslated messages of a translated thread that switched to the agent language as already in it', () => {
+      const messages = [
+        {
+          id: 1,
+          message_type: 0,
+          content: 'ok thanks',
+          content_attributes: {},
+        },
+      ];
+      const translationState = getters.getMessageTranslationState(
+        { autoTranslating: {} },
+        {
+          getAutoTranslate: {
+            enabled: true,
+            active: false,
+            locale: 'en',
+            language: 'English',
+            sameLanguage: true,
+            translated: true,
+          },
+          getSelectedChat: { messages },
+        }
+      );
+
+      expect(translationState(1)).toMatchObject({
+        pending: false,
+        sameLanguage: true,
+      });
+    });
+
+    it('labels a message with its own detected language when the thread switched later', () => {
+      const translationState = stateFor([
+        {
+          id: 1,
+          message_type: 0,
+          content: '你好',
+          content_attributes: {
+            translations: { en: 'Hello' },
+            source_language: 'zh',
+          },
+        },
+      ]);
+
+      expect(translationState(1).sourceLanguage).toBe('Chinese');
+    });
+  });
 });

@@ -49,6 +49,7 @@ import ForwardEmailPanel from './forward/ForwardEmailPanel.vue';
 import ForwardedEmailBanner from './forward/ForwardedEmailBanner.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import { useBranding } from 'shared/composables/useBranding';
+import { useTranslations } from 'dashboard/composables/useTranslations';
 
 /**
  * @typedef {Object} Attachment
@@ -155,6 +156,26 @@ const inboxGetter = useMapGetter('inboxes/getInbox');
 const inbox = computed(() => inboxGetter.value(props.inboxId) || {});
 const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
 const { replaceInstallationName } = useBranding();
+const autoTranslate = useMapGetter('getAutoTranslate');
+const translationState = useMapGetter('getMessageTranslationState');
+const showingOriginal = ref(false);
+const { translationContent } = useTranslations(
+  computed(() => props.contentAttributes)
+);
+// Copy and canned responses take the text the bubble shows, translated or original.
+const displayedContent = computed(
+  () => (!showingOriginal.value && translationContent.value) || props.content
+);
+
+// Manual translation stays available where auto translate is off or did not handle the message.
+const isAutoTranslated = computed(() => {
+  const { language, locale } = autoTranslate.value;
+  return (
+    !!language &&
+    (!!props.contentAttributes?.translations?.[locale] ||
+      translationState.value(props.id).pending)
+  );
+});
 
 const isCaptainMessage = computed(() => {
   const senderType = props.sender?.type ?? props.senderType;
@@ -389,7 +410,7 @@ const payloadForContextMenu = computed(() => {
   return {
     id: props.id,
     content_attributes: props.contentAttributes,
-    content: props.content,
+    content: displayedContent.value,
     conversation_id: props.conversationId,
   };
 });
@@ -411,7 +432,11 @@ const contextMenuEnabledOptions = computed(() => {
       !isMessageDeleted.value,
     cannedResponse: isOutgoing && hasText && !isMessageDeleted.value,
     copyLink: !isFailedOrProcessing,
-    translate: !isFailedOrProcessing && !isMessageDeleted.value && hasText,
+    translate:
+      !isFailedOrProcessing &&
+      !isMessageDeleted.value &&
+      hasText &&
+      !isAutoTranslated.value,
     replyTo:
       !props.private &&
       props.inboxSupportsReplyTo.outgoing &&
@@ -554,6 +579,7 @@ onMounted(setupHighlightTimer);
 
 provideMessageContext({
   ...toRefs(props),
+  showingOriginal,
   isPrivate: computed(() => props.private),
   variant,
   orientation,

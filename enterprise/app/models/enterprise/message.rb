@@ -1,6 +1,8 @@
 module Enterprise::Message
   def self.prepended(base)
     base.class_eval do
+      before_create :translate_template_content, if: :translate_template_content?
+
       has_one :call, class_name: 'Call', foreign_key: :message_id, dependent: :nullify, inverse_of: :message
 
       scope :with_call, -> { includes(call: [:contact, { inbox: :channel }]) }
@@ -28,6 +30,23 @@ module Enterprise::Message
   end
 
   private
+
+  # Templates are translated before the insert because channels send the message as soon as it exists.
+  def translate_template_content?
+    template? && content.present? && account.auto_translate_enabled? && conversation.language.present? &&
+      !Captain::Llm::MessageTranslationService.same_language?(conversation.language, account.locale)
+  end
+
+  def translate_template_content
+    response = Captain::Llm::MessageTranslationService.new(
+      account: account, texts: [{ id: 0, content: content }], target_language: conversation.language, conversation_display_id: conversation.display_id
+    ).perform
+    translated_content = response[:message]&.first&.dig('text')
+    return if response[:error] || translated_content.blank? || translated_content == content
+
+    self.translations = { account.locale => content }
+    self.content = translated_content
+  end
 
   def reopen_resolved_conversation
     assistant = conversation.inbox.captain_assistant
