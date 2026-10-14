@@ -33,7 +33,7 @@ class Captain::EmailVerification
 
   def send_code(email)
     email = email.to_s.strip.downcase
-    return :invalid_email unless EMAIL_PATTERN.match?(email)
+    return :invalid_email unless EMAIL_PATTERN.match?(email) && URI::MailTo::EMAIL_REGEXP.match?(email)
     return :already_verified if verified_email == email
     return :unavailable unless Captain::EmailVerificationMailer.deliverable?
     return :rate_limited unless send_allowed?(email)
