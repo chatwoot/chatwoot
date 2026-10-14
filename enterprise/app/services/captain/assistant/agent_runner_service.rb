@@ -8,6 +8,8 @@ class Captain::Assistant::AgentRunnerService
   include Captain::Assistant::TracePayloadHelper
   include Captain::Assistant::RunnerStateHelper
 
+  class LeakedToolCallError < StandardError; end
+
   attr_reader :last_run_result
 
   REPLY_SUGGESTION_SOURCE = 'copilot_reply_suggestion'.freeze
@@ -31,9 +33,9 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def generate_response(message_history: [])
-    message_to_process, context = run_payload(message_history)
-    @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
-    raise @last_run_result.error if @last_run_result.error
+    run_agents(message_history)
+    run_agents(message_history) if leaked_tool_call?
+    raise LeakedToolCallError, 'Captain replied with tool call text twice' if leaked_tool_call?
 
     record_turn_start(@last_run_result)
     @last_run_result = rewrite_oversized_response(@last_run_result) if response_too_long?(@last_run_result)
@@ -55,6 +57,16 @@ class Captain::Assistant::AgentRunnerService
   def handoff_completed? = @handoff_tool_completed == true
 
   private
+
+  def run_agents(message_history)
+    message_to_process, context = run_payload(message_history)
+    @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
+    raise @last_run_result.error if @last_run_result.error
+  end
+
+  def leaked_tool_call?
+    Captain::Assistant::ResponseParts.from_response(@last_run_result.output).leaked_tool_call?
+  end
 
   def build_context(message_history)
     conversation_history = message_history.map do |msg|

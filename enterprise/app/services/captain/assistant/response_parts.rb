@@ -49,7 +49,18 @@ class Captain::Assistant::ResponseParts
     parts
   end
 
+  # The model sometimes writes a tool call as reply text instead of calling the tool.
+  def leaked_tool_call?
+    parts.any? { |part| part['text'].include?('to=functions.') || json_object?(part['text']) }
+  end
+
   private
+
+  def json_object?(text)
+    JSON.parse(text).is_a?(Hash)
+  rescue JSON::ParserError
+    false
+  end
 
   def normalize_part(part)
     return unless part.is_a?(Hash)

@@ -319,6 +319,76 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       end
     end
 
+    context 'when the model writes a tool call as reply text' do
+      let(:leaked_text) { '{"commentary":null}' }
+      let(:leaked_result) do
+        instance_double(
+          Agents::RunResult,
+          output: { 'response_parts' => [{ 'text' => leaked_text, 'citation_indexes' => [] }], 'reasoning' => 'Use faq_lookup' },
+          context: nil,
+          error: nil
+        )
+      end
+
+      before do
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(
+          instance_double(ChatwootExceptionTracker, capture_exception: true)
+        )
+      end
+
+      it 'retries and returns the clean reply' do
+        allow(mock_runner).to receive(:run).and_return(leaked_result, mock_result)
+
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['response']).to eq('Test response')
+      end
+
+      [
+        '{"commentary":null}',
+        '{"commentary":""}',
+        '{"query":"dar baixa em títulos a receber a pagar retroativo"}',
+        '{"tool_call": "functions.captain--tools--faq_lookup", "parameters": {"query": "baixa"}}',
+        '{"commentary to=functions.captain--tools--faq_lookup 日日啪  strict":{'
+      ].each do |text|
+        context "when the retry also returns #{text}" do
+          let(:leaked_text) { text }
+
+          it 'hands off instead of sending it' do
+            allow(mock_runner).to receive(:run).and_return(leaked_result)
+
+            result = service.generate_response(message_history: message_history)
+
+            expect(mock_runner).to have_received(:run).twice
+            expect(result).to include(
+              'response' => 'conversation_handoff',
+              'error' => true,
+              'error_reason' => 'captain_assistant_agent_runner_service_leaked_tool_call_error'
+            )
+          end
+        end
+      end
+    end
+
+    context 'when a normal reply mentions JSON inside a sentence' do
+      let(:reply_text) { 'Send {"plate": "ABC1234"} in the request body to update the vehicle.' }
+      let(:mock_result) do
+        instance_double(
+          Agents::RunResult,
+          output: { 'response_parts' => [{ 'text' => reply_text, 'citation_indexes' => [] }], 'reasoning' => 'Answer from FAQ' },
+          context: nil,
+          error: nil
+        )
+      end
+
+      it 'sends the reply without retrying' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(mock_runner).to have_received(:run).once
+        expect(result['response']).to eq(reply_text)
+      end
+    end
+
     context 'when handoff tool was called during agent execution' do
       let(:runner_context) { { captain_v2_handoff_tool_called: true } }
       let(:mock_result) do
