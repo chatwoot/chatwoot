@@ -997,6 +997,109 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect { rotate }.not_to change(ContactInbox, :count)
       end
     end
+
+    context 'when a message is deleted for everyone' do
+      let(:customer_number) { '15550001111' }
+      let(:business_number) { whatsapp_channel.phone_number.delete('+') }
+      let(:text_params) do
+        cloud_params('messages', :messages, from: customer_number, id: 'wamid.original', timestamp: '1791969119',
+                                            text: { body: 'Hello there' }, type: 'text')
+      end
+      let(:revoke_params) do
+        cloud_params('messages', :messages, from: customer_number, id: 'wamid.revoke', timestamp: '1791969137',
+                                            type: 'revoke', revoke: { original_message_id: 'wamid.original' })
+      end
+
+      def cloud_params(field, key, message)
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              field: field,
+              value: { contacts: [{ profile: { name: 'Customer' }, wa_id: customer_number }] }.merge(key => [message])
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      def deliver(params, outgoing_echo: false)
+        described_class.new(inbox: whatsapp_channel.inbox, params: params, outgoing_echo: outgoing_echo).perform
+      end
+
+      def create_business_message
+        create(:message, account: whatsapp_channel.account, inbox: whatsapp_channel.inbox,
+                         conversation: whatsapp_channel.inbox.conversations.last,
+                         message_type: :outgoing, source_id: 'wamid.business', content: 'Our reply')
+      end
+
+      it 'marks the original message deleted instead of creating an empty message' do
+        deliver(text_params)
+
+        expect { deliver(revoke_params) }.not_to change(Message, :count)
+
+        message = whatsapp_channel.inbox.messages.find_by!(source_id: 'wamid.original')
+        expect(message.content).to eq(I18n.t('conversations.messages.deleted'))
+        expect(message.content_attributes['deleted']).to be(true)
+        expect(whatsapp_channel.inbox.messages.find_by(source_id: 'wamid.revoke')).to be_nil
+      end
+
+      it 'removes the attachments of the deleted message' do
+        deliver(text_params)
+        message = whatsapp_channel.inbox.messages.find_by!(source_id: 'wamid.original')
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: Rails.root.join('spec/assets/sample.png').open, filename: 'sample.png', content_type: 'image/png')
+        attachment.save!
+
+        deliver(revoke_params)
+
+        expect(message.reload.attachments).to be_empty
+      end
+
+      it 'is a no-op when the same revoke is delivered again' do
+        deliver(text_params)
+        deliver(revoke_params)
+        message = whatsapp_channel.inbox.messages.find_by!(source_id: 'wamid.original')
+
+        expect { deliver(revoke_params) }.not_to(change { [Message.count, message.reload.updated_at] })
+      end
+
+      it 'creates no contact, conversation or message when the original message is unknown' do
+        expect { deliver(revoke_params) }.not_to(change { [Contact.count, Conversation.count, Message.count] })
+      end
+
+      it 'does not touch a message with the same source id in another inbox' do
+        other_message = create(:message, account: whatsapp_channel.account, inbox: create(:inbox, account: whatsapp_channel.account),
+                                         source_id: 'wamid.original', content: 'Elsewhere')
+
+        deliver(revoke_params)
+
+        expect(other_message.reload.content).to eq('Elsewhere')
+        expect(other_message.content_attributes['deleted']).to be_nil
+      end
+
+      it 'does not let the contact delete a message the business sent' do
+        deliver(text_params)
+        outgoing = create_business_message
+        params = cloud_params('messages', :messages, from: customer_number, id: 'wamid.revoke-business', timestamp: '1791969140',
+                                                     type: 'revoke', revoke: { original_message_id: 'wamid.business' })
+
+        deliver(params)
+
+        expect(outgoing.reload.content).to eq('Our reply')
+      end
+
+      it 'marks a business message deleted when it is revoked from the WhatsApp Business app' do
+        deliver(text_params)
+        outgoing = create_business_message
+        echo_params = cloud_params('smb_message_echoes', :message_echoes,
+                                   from: business_number, to: customer_number, id: 'wamid.echo-revoke', timestamp: '1791969150',
+                                   type: 'revoke', revoke: { original_message_id: 'wamid.business' })
+
+        expect { deliver(echo_params, outgoing_echo: true) }.not_to change(Message, :count)
+        expect(outgoing.reload.content_attributes['deleted']).to be(true)
+      end
+    end
   end
 
   # Métodos auxiliares para reduzir o tamanho do exemplo

@@ -14,7 +14,10 @@ class Whatsapp::IncomingMessageBaseService
     return process_statuses if processed_params.try(:[], :statuses).present?
 
     process_identity_change_messages
-    return process_messages if messages_data.present?
+    return if messages_data.blank?
+    return process_revoke if message_type == 'revoke'
+
+    process_messages
   end
 
   # Returns messages array for both regular messages and echo events
@@ -46,6 +49,23 @@ class Whatsapp::IncomingMessageBaseService
       set_conversation
       create_messages
     end
+  end
+
+  # WhatsApp sends type: revoke when a message is deleted for everyone, by the contact (messages) or
+  # from the WhatsApp Business app (message_echoes). The event has no content of its own and only names
+  # the deleted message, so we mark that message deleted instead of storing a new, empty one.
+  # A revoke for a message we never stored (e.g. history from before the inbox existed) is dropped.
+  def process_revoke
+    original_message_id = messages_data.first.dig(:revoke, :original_message_id)
+    return if original_message_id.blank?
+
+    message = @inbox.messages.find_by(source_id: original_message_id)
+    return if message.blank? || message.deleted
+    # a contact can only revoke what they sent, the business app only what the business sent
+    return unless outgoing_echo ? message.outgoing? : message.incoming?
+
+    message.attachments.destroy_all
+    message.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
   end
 
   def process_statuses

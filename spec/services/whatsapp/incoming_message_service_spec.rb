@@ -369,6 +369,31 @@ describe Whatsapp::IncomingMessageService do
       end
     end
 
+    context 'when a message is deleted for everyone' do
+      let(:revoke_params) do
+        {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => wa_id }],
+          'messages' => [{ 'from' => wa_id, 'id' => 'wamid.revoke', 'timestamp' => '1633034400', 'type' => 'revoke',
+                           'revoke' => { 'original_message_id' => 'SDFADSf23sfasdafasdfa' } }]
+        }.with_indifferent_access
+      end
+
+      it 'marks the original message deleted without creating a new message' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: revoke_params).perform }.not_to change(Message, :count)
+
+        message = whatsapp_channel.inbox.messages.find_by!(source_id: 'SDFADSf23sfasdafasdfa')
+        expect(message.content).to eq('This message was deleted')
+        expect(message.content_attributes['deleted']).to be(true)
+      end
+
+      it 'ignores a revoke for a message that was never stored' do
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: revoke_params).perform }
+          .not_to(change { [Contact.count, Conversation.count, Message.count] })
+      end
+    end
+
     context 'when valid status params' do
       let(:from) { '2423423243' }
       let(:contact_inbox) { create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: from) }
