@@ -37,7 +37,7 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
         post '/super_admin/app_config?config=facebook', params: { app_config: { FB_APP_ID: 'FB_APP_ID' } }
 
         expect(response).to have_http_status(:found)
-        expect(response).to redirect_to(super_admin_settings_path)
+        expect(response).to redirect_to(super_admin_app_config_path(config: 'facebook'))
         expect(flash[:notice]).to be_present
         expect(flash[:alert]).to be_blank
         expect(flash[:success]).to be_blank
@@ -51,7 +51,7 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
         post '/super_admin/app_config?config=captain', params: { app_config: { CAPTAIN_OPEN_AI_ENDPOINT: 'https://api.openai.com' } }
 
         expect(response).to have_http_status(:found)
-        expect(response).to redirect_to(super_admin_settings_path)
+        expect(response).to redirect_to(super_admin_app_config_path(config: 'captain'))
         expect(flash[:success]).to be_present
         expect(flash[:alert]).to be_blank
         expect(flash[:notice]).to be_blank
@@ -91,7 +91,7 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
         post '/super_admin/app_config?config=shopify',
              params: { app_config: { SHOPIFY_PARTNER_API_VERSION: '2026-10' } }
 
-        expect(response).to redirect_to(super_admin_settings_path)
+        expect(response).to redirect_to(super_admin_app_config_path(config: 'shopify'))
         expect(flash[:alert]).to be_blank
         expect(GlobalConfig.get('SHOPIFY_PARTNER_API_VERSION')['SHOPIFY_PARTNER_API_VERSION']).to eq('2026-10')
       end

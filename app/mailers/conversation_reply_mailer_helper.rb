@@ -6,7 +6,7 @@ module ConversationReplyMailerHelper
       to: to_emails,
       from: email_from,
       reply_to: email_reply_to,
-      subject: mail_subject,
+      subject: @message&.content_attributes&.dig('email', 'subject').presence || mail_subject,
       message_id: custom_message_id,
       in_reply_to: in_reply_to_email,
       references: references_header

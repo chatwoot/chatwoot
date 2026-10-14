@@ -164,5 +164,28 @@ describe('#ConversationAPI', () => {
         forwarded_attachment_ids: [7],
       });
     });
+
+    it('includes the subject in the object payload', () => {
+      expect(
+        buildCreatePayload({
+          message: 'test content',
+          isPrivate: false,
+          subject: 'Refund approved',
+        })
+      ).toMatchObject({ subject: 'Refund approved' });
+    });
+
+    it('appends the subject to the form payload only when it is set', () => {
+      const files = [new Blob(['test-content'], { type: 'application/pdf' })];
+
+      expect(
+        buildCreatePayload({ isPrivate: false, files, subject: 'Refund' }).get(
+          'subject'
+        )
+      ).toEqual('Refund');
+      expect(
+        buildCreatePayload({ isPrivate: false, files }).get('subject')
+      ).toBeNull();
+    });
   });
 });

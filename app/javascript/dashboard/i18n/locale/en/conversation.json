@@ -326,17 +326,20 @@
       "APP_STORE_RESPONSE_DELAY": "Apple may take up to 24 hours to make submitted replies or updates public.",
       "APP_STORE_RESPONSE_UPDATE": "This review already has a reply. Apple may take up to 24 hours to make submitted replies or updates public. Sending another reply updates the existing public App Store response.",
       "EMAIL_HEAD": {
-        "TO": "TO",
-        "ADD_BCC": "Add bcc",
+        "TO": "To",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Cc",
           "PLACEHOLDER": "Emails separated by commas",
           "ERROR": "Please enter valid email addresses"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "Bcc",
           "PLACEHOLDER": "Emails separated by commas",
           "ERROR": "Please enter valid email addresses"
+        },
+        "SUBJECT": {
+          "LABEL": "Subject",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {

@@ -40,7 +40,7 @@ RSpec.describe CaptainFeaturable do
 
       it 'returns false for disabled features' do
         expect(account.captain_copilot_enabled?).to be false
-        expect(account.captain_label_suggestion_enabled?).to be false
+        expect(account.captain_help_center_query_translation_enabled?).to be false
       end
     end
 
@@ -63,14 +63,14 @@ RSpec.describe CaptainFeaturable do
         account.update!(captain_models: {
                           'editor' => 'gpt-4.1-mini',
                           'assistant' => 'gpt-5.1',
-                          'label_suggestion' => 'gpt-4.1-nano'
+                          'help_center_query_translation' => 'gpt-4.1-mini'
                         })
       end
 
       it 'returns configured models for configured features' do
         expect(account.captain_editor_model).to eq('gpt-4.1-mini')
         expect(account.captain_assistant_model).to eq('gpt-5.1')
-        expect(account.captain_label_suggestion_model).to eq('gpt-4.1-nano')
+        expect(account.captain_help_center_query_translation_model).to eq('gpt-4.1-mini')
       end
 
       it 'returns default models for unconfigured features' do

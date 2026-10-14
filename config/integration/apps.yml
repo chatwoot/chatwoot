@@ -36,7 +36,6 @@ openai:
       'properties':
         {
           'api_key': { 'type': 'string' },
-          'label_suggestion': { 'type': 'boolean' },
         },
       'required': ['api_key'],
       'additionalProperties': false,
@@ -49,14 +48,14 @@ openai:
         'name': 'api_key',
         'validation': 'required',
       },
-      {
-        'label': 'Show label suggestions',
-        'type': 'checkbox',
-        'name': 'label_suggestion',
-        'validation': '',
-      },
     ]
-  visible_properties: ['label_suggestion']
+stripe:
+  id: stripe
+  logo: stripe.svg
+  i18n_key: stripe
+  hook_type: account
+  allow_multiple_hooks: false
+  visible_properties: []
 linear:
   id: linear
   logo: linear.png
