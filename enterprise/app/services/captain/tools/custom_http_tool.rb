@@ -12,6 +12,11 @@ class Captain::Tools::CustomHttpTool < Captain::Tools::BaseTool
 
   attr_reader :custom_tool
 
+  # Copilot runs these tools for an agent, not a customer, so the model fills a parameter that takes a verified value
+  def self.model_fills_verified_values?
+    true
+  end
+
   def initialize(assistant, custom_tool, conversation: nil)
     @custom_tool = custom_tool
     @conversation = conversation
