@@ -10,17 +10,15 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
   describe '#perform' do
     context 'when a parameter takes a verified value' do
       let(:inbox) { create(:inbox, account: account) }
-      let(:contact) { create(:contact, account: account, identifier: 'user_42') }
-      let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact) }
+      let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account)) }
       let(:state) { { account_id: account.id, channel_type: 'Channel::WebWidget', contact_inbox: { id: contact_inbox.id, hmac_verified: false } } }
       let(:tool_context) { Struct.new(:state).new(state) }
       let(:verified_email) { 'jane@example.com' }
       let(:request_stub) { stub_request(:get, %r{\Ahttps://example.com/customers}).to_return(status: 200, body: '{"found": true}') }
       let(:email_param) { { 'name' => 'email', 'type' => 'string', 'description' => 'Email', 'source' => 'verified.email' } }
-      let(:user_param) { { 'name' => 'user_id', 'type' => 'string', 'description' => 'User ID', 'source' => 'verified.identifier' } }
 
       before do
-        custom_tool.update!(http_method: 'GET', endpoint_url: 'https://example.com/customers?email={{ email | url_encode }}&user={{ user_id }}',
+        custom_tool.update!(http_method: 'GET', endpoint_url: 'https://example.com/customers?email={{ email | url_encode }}',
                             param_schema: [email_param], response_template: nil)
         request_stub
         verification = instance_double(Captain::EmailVerification, verified_email: verified_email)
@@ -29,13 +27,13 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
 
       it 'sends the verified email' do
         expect(tool.perform(tool_context)).to eq('{"found": true}')
-        expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=jane%40example.com&user=')
+        expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=jane%40example.com')
       end
 
       it 'replaces an email the model passes with the verified one' do
         tool.perform(tool_context, email: ' JANE@example.com ')
 
-        expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=jane%40example.com&user=')
+        expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=jane%40example.com')
       end
 
       it 'refuses when the model passes another email' do
@@ -51,40 +49,6 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
 
         expect(tool.perform(tool_context)).to include('has not verified an email')
         expect(request_stub).not_to have_been_requested
-      end
-
-      context 'when a parameter takes the verified identifier' do
-        before { custom_tool.update!(param_schema: [email_param, user_param]) }
-
-        it 'sends the identifier of a contact verified by HMAC' do
-          contact_inbox.update!(hmac_verified: true)
-
-          tool.perform(tool_context)
-
-          expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=jane%40example.com&user=user_42')
-        end
-
-        it 'is blocked for a contact that is not verified by HMAC, even with a verified email' do
-          result = tool.perform(tool_context, user_id: 'user_42')
-
-          expect(result).to include('identity is verified by the website or app')
-          expect(request_stub).not_to have_been_requested
-        end
-
-        it 'is blocked for a contact verified by HMAC without an identifier' do
-          contact.update!(identifier: nil)
-          contact_inbox.update!(hmac_verified: true)
-
-          expect(tool.perform(tool_context)).to include('identity is verified by the website or app')
-        end
-
-        it 'reads the HMAC status from the contact inbox, not from the run state' do
-          state[:contact_inbox][:hmac_verified] = true
-
-          tool.perform(tool_context)
-
-          expect(request_stub).not_to have_been_requested
-        end
       end
     end
 

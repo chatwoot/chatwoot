@@ -41,10 +41,7 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
     contact_inbox = find_contact_inbox(state)
     return {} unless contact_inbox
 
-    {
-      'verified.email' => Captain::EmailVerification.new(contact_inbox).verified_email,
-      'verified.identifier' => (contact_inbox.contact.identifier if contact_inbox.hmac_verified?)
-    }.compact_blank
+    { 'verified.email' => Captain::EmailVerification.new(contact_inbox).verified_email }.compact_blank
   end
 
   def safe_to_run_after_new_customer_message?

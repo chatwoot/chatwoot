@@ -4,16 +4,13 @@ RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
-  let(:contact) { create(:contact, account: account, identifier: 'user_42') }
-  let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact) }
+  let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account)) }
   let(:state) { { account_id: account.id, source: 'copilot_reply_suggestion', contact_inbox: { id: contact_inbox.id } } }
   let(:tool_context) { Struct.new(:state).new(state) }
   let(:email_param) { { 'name' => 'email', 'type' => 'string', 'description' => 'Email', 'source' => 'verified.email' } }
-  let(:user_param) { { 'name' => 'user_id', 'type' => 'string', 'description' => 'User ID', 'source' => 'verified.identifier' } }
   let(:custom_tool) do
     create(:captain_custom_tool, account: account, http_method: 'GET', response_template: nil,
-                                 endpoint_url: 'https://example.com/customers?email={{ email | url_encode }}&user={{ user_id }}',
-                                 param_schema: [email_param, user_param])
+                                 endpoint_url: 'https://example.com/customers?email={{ email | url_encode }}', param_schema: [email_param])
   end
   let(:tool) { custom_tool.tool(assistant, base_class: described_class) }
   let(:request_stub) { stub_request(:get, %r{\Ahttps://example.com/customers}).to_return(status: 200, body: '{"found": true}') }
@@ -25,35 +22,33 @@ RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
   end
 
   it 'shows verified parameters to the model' do
-    expect(tool.class.declared_parameters.keys).to contain_exactly(:email, :user_id)
+    expect(tool.class.declared_parameters.keys).to contain_exactly(:email)
   end
 
   describe '#perform' do
-    it 'uses the values passed, and says when one is not what the customer verified' do
-      result = tool.perform(tool_context, email: 'typed@example.com', user_id: 'typed_7')
+    it 'uses the email passed, and says when it is not what the customer verified' do
+      result = tool.perform(tool_context, email: 'typed@example.com')
 
-      expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=typed%40example.com&user=typed_7')
+      expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=typed%40example.com')
       expect(result).to start_with('{"found": true}')
       expect(result).to include('was not verified by the customer')
     end
 
-    it 'adds no note when every value passed is what the customer verified' do
-      contact_inbox.update!(hmac_verified: true)
-
-      expect(tool.perform(tool_context, email: 'Jane@example.com', user_id: 'user_42')).to eq('{"found": true}')
+    it 'adds no note when the email passed is what the customer verified' do
+      expect(tool.perform(tool_context, email: 'Jane@example.com')).to eq('{"found": true}')
     end
 
     it 'uses the values an admin supplies in the playground' do
-      result = tool.perform(Struct.new(:state).new({ source: 'playground' }), email: 'test@example.com', user_id: 'u_1')
+      result = tool.perform(Struct.new(:state).new({ source: 'playground' }), email: 'test@example.com')
 
-      expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=test%40example.com&user=u_1')
+      expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=test%40example.com')
       expect(result).to include('was not verified by the customer')
     end
 
     it 'asks for a value the model left out' do
-      result = tool.perform(Struct.new(:state).new({ source: 'playground' }), email: 'test@example.com')
+      result = tool.perform(Struct.new(:state).new({ source: 'playground' }))
 
-      expect(result).to include("needs the customer's user_id")
+      expect(result).to include("needs the customer's email")
       expect(request_stub).not_to have_been_requested
     end
 

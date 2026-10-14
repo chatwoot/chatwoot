@@ -5,9 +5,6 @@ class Captain::Tools::PublicHttpTool < Captain::Tools::HttpTool
   EMAIL_REQUIRED = 'This tool needs a verified email, and this customer has not verified an email yet. ' \
                    'Verify their email with a one-time code first, then call this tool again. ' \
                    'If that is not possible, ask whether they want to talk to a support agent.'.freeze
-  IDENTITY_REQUIRED = 'This tool needs a customer whose identity is verified by the website or app they are signed in to, ' \
-                      'and this customer is not. This cannot be done in the conversation. ' \
-                      'Ask whether they want to talk to a support agent.'.freeze
 
   def perform(tool_context, **params)
     return super if required_sources.empty?
@@ -23,7 +20,6 @@ class Captain::Tools::PublicHttpTool < Captain::Tools::HttpTool
 
   def refusal(params, verified_values)
     missing = required_sources - verified_values.keys
-    return IDENTITY_REQUIRED if missing.include?('verified.identifier')
     return EMAIL_REQUIRED if missing.include?('verified.email')
 
     verified_email = verified_values['verified.email']

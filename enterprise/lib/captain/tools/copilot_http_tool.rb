@@ -1,7 +1,7 @@
 # A custom tool where an admin or an agent is the user: the playground and reply suggestions.
 # The model fills verified parameters with the value it was given, and the result says when that value is not one the customer verified.
 class Captain::Tools::CopilotHttpTool < Captain::Tools::HttpTool
-  UNVERIFIED_VALUE_NOTE = 'The email or identifier passed to this tool was not verified by the customer.'.freeze
+  UNVERIFIED_VALUE_NOTE = 'The email passed to this tool was not verified by the customer.'.freeze
 
   def self.model_fills_verified_values?
     true
