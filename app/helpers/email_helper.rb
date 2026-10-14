@@ -18,13 +18,20 @@ module EmailHelper
 
     normalized = email_string.match?(/[<"]/) ? email_string : email_string.strip.gsub(/[\s,;]+/, ',')
     addresses = Mail::AddressList.new(normalized).addresses
-    # `a@example.com Jane Doe <b@example.com>` parses as one recipient with the first address
-    # swallowed into the display name. Reject that rather than dropping a recipient silently.
-    raise StandardError, 'Invalid email address' if addresses.any? { |address| address.display_name.to_s.include?('@') }
+    raise StandardError, 'Invalid email address' if addresses.any? { |address| swallowed_address?(address, normalized) }
 
     addresses.map(&:address)
   rescue Mail::Field::ParseError
     raise StandardError, 'Invalid email address'
+  end
+
+  # `a@example.com Jane Doe <b@example.com>` parses as one recipient with the first address
+  # swallowed into the display name. A quoted display name may legitimately contain an `@`,
+  # as in `"support@example.com" <agent@example.org>`, so only an unquoted one is a swallowed
+  # address.
+  def swallowed_address?(address, source)
+    display_name = address.display_name.to_s
+    display_name.include?('@') && source.exclude?(%("#{display_name}"))
   end
 
   # Raise a standard error if any email address is invalid
