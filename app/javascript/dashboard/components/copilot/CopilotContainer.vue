@@ -197,6 +197,7 @@ const selectThread = async thread => {
   const version = selectionVersion;
   const currentVersion = accountVersion;
   const previousThreadId = selectedCopilotThreadId.value;
+  const previousConversationId = threadConversationId.value;
   selectedCopilotThreadId.value = thread.id;
   threadConversationId.value = currentChat.value?.id;
   isLoadingSelectedThread.value = true;
@@ -208,6 +209,7 @@ const selectThread = async thread => {
   } catch (error) {
     if (selectionVersion === version && accountVersion === currentVersion) {
       selectedCopilotThreadId.value = previousThreadId;
+      threadConversationId.value = previousConversationId;
       useAlert(error.message);
     }
   } finally {

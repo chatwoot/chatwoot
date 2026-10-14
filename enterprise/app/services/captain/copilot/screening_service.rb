@@ -77,7 +77,7 @@ class Captain::Copilot::ScreeningService
   # Customer and agent messages up to as_of, with private notes, as the review model sees them.
   def transcript(conversation)
     messages = conversation.messages.where(message_type: %w[incoming outgoing]).not_forwarded
-                           .where(Message.arel_table[:created_at].lteq(@run.as_of)).reorder(id: :desc).limit(WINDOW + 1).to_a
+                           .where(Message.arel_table[:created_at].lteq(@run.as_of)).reorder(created_at: :desc, id: :desc).limit(WINDOW + 1).to_a
     return if messages.size > WINDOW
 
     transcript = messages.reverse.map do |message|
