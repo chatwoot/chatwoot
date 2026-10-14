@@ -44,7 +44,8 @@ RSpec.describe Captain::EmailVerification do
     end
 
     it 'rejects an address with characters that can change a URL or a JSON body' do
-      ['jane%40example.com#@evil.test', 'jane/invoices@evil.test', 'jane&id=1@evil.test', 'jane","id":"1@evil.test'].each do |address|
+      ['a@.', 'a@-example.com', 'a@example..com', 'jane%40example.com#@evil.test', 'jane/invoices@evil.test', 'jane&id=1@evil.test',
+       'jane","id":"1@evil.test'].each do |address|
         expect(verification.send_code(address)).to eq(:invalid_email)
       end
       expect(emailed_codes).to be_empty
