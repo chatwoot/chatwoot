@@ -914,6 +914,7 @@ describe('#addMentions', () => {
       },
       { conversationId: 1 }
     );
+    expect(dispatch).toHaveBeenCalledWith('autoTranslateMessages', 1);
     expect(commit.mock.calls).toEqual([
       [
         'conversationMetadata/SET_CONVERSATION_METADATA',
@@ -1121,7 +1122,7 @@ describe('#addMentions', () => {
       getAutoTranslate: { enabled: true, locale: 'en', sameLanguage: false },
       getSelectedChat: { id: 7, messages },
     };
-    const state = { selectedChatId: 7, autoTranslating: { 4: false } };
+    const state = { selectedChatId: 7, autoTranslating: { en: { 4: false } } };
 
     it('translates the incoming messages that have no translation yet', async () => {
       const localCommit = vi.fn();
@@ -1142,9 +1143,15 @@ describe('#addMentions', () => {
         }
       );
       expect(localCommit.mock.calls).toEqual([
-        [types.SET_AUTO_TRANSLATING, { messageIds: [1], translating: true }],
+        [
+          types.SET_AUTO_TRANSLATING,
+          { locale: 'en', messageIds: [1], translating: true },
+        ],
         [types.ADD_MESSAGE, { id: 1, conversation_id: 7 }],
-        [types.SET_AUTO_TRANSLATING, { messageIds: [1], translating: false }],
+        [
+          types.SET_AUTO_TRANSLATING,
+          { locale: 'en', messageIds: [1], translating: false },
+        ],
       ]);
     });
 
@@ -1155,6 +1162,7 @@ describe('#addMentions', () => {
           state,
           commit,
           getters: {
+            ...getters,
             getAutoTranslate: {
               ...getters.getAutoTranslate,
               sameLanguage: true,
@@ -1193,6 +1201,7 @@ describe('#addMentions', () => {
       );
 
       expect(localCommit).toHaveBeenLastCalledWith(types.SET_AUTO_TRANSLATING, {
+        locale: 'en',
         messageIds: [1],
         translating: false,
       });

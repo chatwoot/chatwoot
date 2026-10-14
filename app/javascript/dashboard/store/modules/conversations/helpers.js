@@ -1,5 +1,7 @@
 import { CONVERSATION_PRIORITY_ORDER } from 'shared/constants/messages';
 
+export const languageCode = locale => locale?.split(/[-_]/)[0];
+
 export const findPendingMessageIndex = (chat, message) => {
   const { echo_id: tempMessageId } = message;
   return chat.messages.findIndex(

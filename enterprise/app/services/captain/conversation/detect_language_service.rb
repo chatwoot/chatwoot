@@ -16,8 +16,11 @@ class Captain::Conversation::DetectLanguageService
     return unless message.incoming?
 
     language = Captain::Conversation::MessageText.new(message).language
+    return if language.blank?
+
+    message.content_attributes['source_language'] = language
     conversation = message.conversation
-    return if language.blank? || conversation.language == language
+    return if conversation.language == language
 
     conversation.update!(additional_attributes: conversation.additional_attributes.merge(conversation_language: language))
   end

@@ -1,7 +1,12 @@
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
-import { applyPageFilters, applyRoleFilter, sortComparator } from './helpers';
+import {
+  applyPageFilters,
+  applyRoleFilter,
+  languageCode,
+  sortComparator,
+} from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import { createFiltersMatcher } from './helpers/filterHelpers';
 import {
@@ -10,7 +15,6 @@ import {
 } from '../../../helper/permissionsHelper';
 import camelcaseKeys from 'camelcase-keys';
 
-const languageCode = locale => locale?.split(/[-_]/)[0];
 const languageName = code =>
   languages.find(language => language.id === languageCode(code))?.name || code;
 
@@ -241,10 +245,14 @@ const getters = {
       !!message.content &&
       !attributes.deleted;
     const waiting = incoming
-      ? _state.autoTranslating[messageId] !== false
+      ? _state.autoTranslating[locale]?.[messageId] !== false
       : message.status === MESSAGE_STATUS.PROGRESS && !message.private;
 
     const untranslated = !Object.keys(translations).length;
+    const sourceLanguage = attributes.source_language;
+    // Stored with another language, a message is translated even after the thread switched to the agent language.
+    const foreign =
+      !!sourceLanguage && languageCode(sourceLanguage) !== languageCode(locale);
     // Once a translated thread switches to the agent language, its remaining messages need no translation either.
     const writtenInAgentLanguage = untranslated
       ? sameLanguage && translated
@@ -252,12 +260,10 @@ const getters = {
         (attributes.email?.html_content?.full || message.content);
 
     return {
-      pending: active && untranslated && waiting,
+      pending: (active || (enabled && foreign)) && untranslated && waiting,
       failed: enabled && !!attributes.translation_failed,
-      sameLanguage: enabled && incoming && writtenInAgentLanguage,
-      sourceLanguage: attributes.source_language
-        ? languageName(attributes.source_language)
-        : language,
+      sameLanguage: enabled && incoming && writtenInAgentLanguage && !foreign,
+      sourceLanguage: sourceLanguage ? languageName(sourceLanguage) : language,
     };
   },
 };

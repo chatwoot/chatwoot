@@ -1,6 +1,5 @@
 module Enterprise::MessageTemplates::HookExecutionService
   def trigger_templates
-    Captain::Conversation::DetectLanguageService.new(message: message).perform if message.account.auto_translate_enabled?
     super
     return unless captain_conversation_message?
 

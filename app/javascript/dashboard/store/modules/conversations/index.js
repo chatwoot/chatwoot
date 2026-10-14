@@ -265,9 +265,10 @@ export const mutations = {
     }
   },
 
-  [types.SET_AUTO_TRANSLATING](_state, { messageIds, translating }) {
+  [types.SET_AUTO_TRANSLATING](_state, { locale, messageIds, translating }) {
+    _state.autoTranslating[locale] ??= {};
     messageIds.forEach(id => {
-      _state.autoTranslating[id] = translating;
+      _state.autoTranslating[locale][id] = translating;
     });
   },
 

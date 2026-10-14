@@ -2,6 +2,7 @@ module Enterprise::Message
   def self.prepended(base)
     base.class_eval do
       before_create :translate_template_content, if: :translate_template_content?
+      before_create :detect_language, if: -> { incoming? && account.auto_translate_enabled? }
 
       has_one :call, class_name: 'Call', foreign_key: :message_id, dependent: :nullify, inverse_of: :message
 
@@ -46,6 +47,10 @@ module Enterprise::Message
 
     self.translations = { account.locale => content }
     self.content = translated_content
+  end
+
+  def detect_language
+    Captain::Conversation::DetectLanguageService.new(message: self).perform
   end
 
   def reopen_resolved_conversation

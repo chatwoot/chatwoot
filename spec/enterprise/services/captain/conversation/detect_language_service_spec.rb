@@ -5,12 +5,13 @@ RSpec.describe Captain::Conversation::DetectLanguageService do
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox, additional_attributes: { 'conversation_language' => 'en' }) }
 
-  it 'follows the language of a new incoming message' do
+  it 'stores the language on the message and follows it in the conversation' do
     message = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
                                content: 'Celui-ci met quatre secondes à charger.')
 
     described_class.new(message: message).perform
 
+    expect(message.content_attributes['source_language']).to eq('fr')
     expect(conversation.reload.language).to eq('fr')
   end
 

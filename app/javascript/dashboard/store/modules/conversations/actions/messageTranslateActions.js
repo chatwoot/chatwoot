@@ -3,6 +3,7 @@ import MessageApi from '../../../../api/inbox/message';
 import { useAlert } from 'dashboard/composables';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
+import { languageCode } from '../helpers';
 
 const BATCH_SIZE = 20;
 
@@ -24,10 +25,14 @@ export default {
   // on open, on every page scrolled into history and on every live message.
   async autoTranslateMessages({ state, commit, getters }, conversationId) {
     const { enabled, locale, sameLanguage } = getters.getAutoTranslate;
-    if (!enabled || sameLanguage || conversationId !== state.selectedChatId) {
+    if (!enabled || conversationId !== state.selectedChatId) {
       return;
     }
 
+    const attempted = state.autoTranslating[locale] ?? {};
+    const foreign = ({ content_attributes: attributes }) =>
+      !!attributes?.source_language &&
+      languageCode(attributes.source_language) !== languageCode(locale);
     const untranslated = (getters.getSelectedChat.messages ?? [])
       .filter(
         message =>
@@ -35,13 +40,18 @@ export default {
           message.content &&
           !message.content_attributes?.deleted &&
           !message.content_attributes?.translations?.[locale] &&
-          state.autoTranslating[message.id] === undefined
+          attempted[message.id] === undefined &&
+          (!sameLanguage || foreign(message))
       )
       .map(message => message.id);
 
     await Promise.all(
       batchesOf(untranslated, BATCH_SIZE).map(async messageIds => {
-        commit(types.SET_AUTO_TRANSLATING, { messageIds, translating: true });
+        commit(types.SET_AUTO_TRANSLATING, {
+          locale,
+          messageIds,
+          translating: true,
+        });
         try {
           const { data } = await MessageApi.autoTranslate(
             conversationId,
@@ -56,6 +66,7 @@ export default {
           }
         } finally {
           commit(types.SET_AUTO_TRANSLATING, {
+            locale,
             messageIds,
             translating: false,
           });
