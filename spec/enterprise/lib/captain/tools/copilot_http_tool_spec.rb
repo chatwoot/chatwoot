@@ -45,13 +45,6 @@ RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
       expect(result).to include('was not verified by the customer')
     end
 
-    it 'asks for a value the model left out' do
-      result = tool.perform(Struct.new(:state).new({ source: 'playground' }))
-
-      expect(result).to include("needs the customer's email")
-      expect(request_stub).not_to have_been_requested
-    end
-
     it 'runs a tool that only has the setting turned on, for a customer who has not verified' do
       custom_tool.update!(param_schema: [], endpoint_url: 'https://example.com/customers', settings: { 'requires_email_verification' => true })
       allow(Captain::EmailVerification).to receive(:new).and_return(instance_double(Captain::EmailVerification, verified_email: nil))

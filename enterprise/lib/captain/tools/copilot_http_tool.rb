@@ -11,10 +11,7 @@ class Captain::Tools::CopilotHttpTool < Captain::Tools::HttpTool
     email_param = @custom_tool.verified_email_param
     return super unless email_param
 
-    passed_email = params[email_param.to_sym].to_s.strip
-    return failure_result("This tool needs the customer's #{email_param}. Pass it as a parameter.", tool_context.state) if passed_email.blank?
-
     result = super
-    passed_email.casecmp?(stored_verified_email(tool_context.state).to_s) ? result : "#{result}\n\n#{UNVERIFIED_VALUE_NOTE}"
+    params[email_param.to_sym].to_s.strip.casecmp?(stored_verified_email(tool_context.state).to_s) ? result : "#{result}\n\n#{UNVERIFIED_VALUE_NOTE}"
   end
 end
