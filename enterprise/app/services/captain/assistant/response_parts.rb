@@ -49,9 +49,10 @@ class Captain::Assistant::ResponseParts
     parts
   end
 
-  # The model sometimes writes a tool call as its whole reply instead of calling the tool.
+  # The model sometimes writes a tool call as reply text instead of calling the tool,
+  # either as the whole reply or as one part before the answer.
   def leaked_tool_call?
-    plain_text.include?('to=functions.') || json_object?(plain_text)
+    parts.any? { |part| part['text'].include?('to=functions.') || json_object?(part['text']) }
   end
 
   private

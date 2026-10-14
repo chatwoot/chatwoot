@@ -344,6 +344,27 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(result['response']).to eq('Test response')
       end
 
+      it 'retries when the tool call is one part before the answer' do
+        leaked_before_answer = instance_double(
+          Agents::RunResult,
+          output: {
+            'response_parts' => [
+              { 'text' => '{"query":"inventory scan mode"}', 'citation_indexes' => [] },
+              { 'text' => 'In scan mode you can count items by barcode.', 'citation_indexes' => [] }
+            ],
+            'reasoning' => 'Use faq_lookup'
+          },
+          context: nil,
+          error: nil
+        )
+        allow(mock_runner).to receive(:run).and_return(leaked_before_answer, mock_result)
+
+        result = service.generate_response(message_history: message_history)
+
+        expect(mock_runner).to have_received(:run).twice
+        expect(result['response']).to eq('Test response')
+      end
+
       it 'hands off without retrying when a tool already ran' do
         tool_complete_callbacks = []
         allow(mock_runner).to receive(:on_tool_complete) do |&callback|
@@ -411,11 +432,11 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       end
     end
 
-    context 'when a normal reply includes a JSON sample' do
+    context 'when a normal reply includes JSON' do
       let(:response_parts) do
         [
           { 'text' => 'Send {"plate": "ABC1234"} in the request body, like this:', 'citation_indexes' => [] },
-          { 'text' => '{"plate": "ABC1234"}', 'citation_indexes' => [] }
+          { 'text' => "```json\n{\"plate\": \"ABC1234\"}\n```", 'citation_indexes' => [] }
         ]
       end
       let(:mock_result) do
