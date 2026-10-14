@@ -49,9 +49,10 @@ class Captain::Copilot::ReviewJob < ApplicationJob
 
   def accessible_batch(run, token)
     ids = run.remaining_ids.first([BATCH_SIZE, run.left_this_turn].min)
-    conversations = accessible_conversations(account: run.account, user: run.user).where(id: ids).to_a
-    run.with_lease(token) { (ids - conversations.map(&:id)).each { |id| record_error(run, id, 'Conversation is no longer accessible') } }
-    conversations
+    found = accessible_conversations(account: run.account, user: run.user).where(id: ids).index_by(&:id)
+    run.with_lease(token) { (ids - found.keys).each { |id| record_error(run, id, 'Conversation is no longer accessible') } }
+    # In the saved order, newest first, so a run that stops partway has reviewed the newest conversations.
+    ids.filter_map { |id| found[id] }
   end
 
   def review(run, token, service, conversation)

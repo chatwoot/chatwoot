@@ -17,10 +17,11 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
   SENDER_ROLE = Arel.sql("CASE WHEN messages.sender_type = 'Contact' THEN 'customer' WHEN messages.sender_type = 'User' THEN 'agent' " \
                          "WHEN messages.sender_type IS NULL THEN 'system' ELSE 'bot' END")
 
-  # Customer and agent messages in conversations the user can open. Activity and template messages are left out.
+  # Customer and agent messages in conversations the user can open. Activity and template messages, and emails an agent
+  # forwarded elsewhere, are left out.
   def scope
     @account.messages.where(conversation_id: accessible_conversations(account: @account, user: @user).select(:id),
-                            message_type: %w[incoming outgoing])
+                            message_type: %w[incoming outgoing]).not_forwarded
   end
 
   def filter(relation, filters)
