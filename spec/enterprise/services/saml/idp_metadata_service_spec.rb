@@ -51,6 +51,17 @@ RSpec.describe Saml::IdpMetadataService do
       end
     end
 
+    context 'when one of the signing certificates is malformed' do
+      let(:key_descriptors) do
+        malformed = "-----BEGIN CERTIFICATE-----\nbm90IGEgY2VydGlmaWNhdGU=\n-----END CERTIFICATE-----\n"
+        key_descriptor(certificate) + key_descriptor(malformed)
+      end
+
+      it 'raises an error' do
+        expect { described_class.new(metadata_url).perform }.to raise_error(described_class::Error)
+      end
+    end
+
     context 'when the metadata has no signing certificate' do
       let(:key_descriptors) { '' }
 

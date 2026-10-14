@@ -20,13 +20,20 @@ class Saml::IdpMetadataService
     {
       sso_url: metadata[:idp_sso_service_url],
       idp_entity_id: metadata[:idp_entity_id],
-      certificate: certificates.map { |certificate| OneLogin::RubySaml::Utils.format_cert(certificate) }.join("\n")
+      certificate: certificates.map { |certificate| validated_certificate(certificate) }.join("\n")
     }
-  rescue SafeFetch::Error, REXML::ParseException, ArgumentError => e
+  rescue SafeFetch::Error, REXML::ParseException, ArgumentError, OpenSSL::X509::CertificateError => e
     raise Error, e.message
   end
 
   private
+
+  # Each certificate is parsed on its own, because ruby-saml parses every entry when it validates a response.
+  def validated_certificate(certificate)
+    pem = OneLogin::RubySaml::Utils.format_cert(certificate)
+    OpenSSL::X509::Certificate.new(pem)
+    pem
+  end
 
   def fetch_metadata
     SafeFetch.fetch(@metadata_url, validate_content_type: false, max_bytes: MAX_METADATA_BYTES, read_timeout: READ_TIMEOUT) do |result|
