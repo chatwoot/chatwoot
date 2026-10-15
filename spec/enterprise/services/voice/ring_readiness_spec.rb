@@ -22,6 +22,7 @@ RSpec.describe Voice::RingReadiness do
     expect(readiness.apple).to have_attributes(configured: true, devices: 1)
     expect(readiness.memberships.first.voice_inboxes).to eq(1)
     expect(readiness.rings?(readiness.memberships.first)).to be(true)
+    expect(readiness.blocker(readiness.memberships.first)).to be_nil
     expect(readiness.rings_assigned_only?(readiness.memberships.first)).to be(false)
   end
 
@@ -29,6 +30,7 @@ RSpec.describe Voice::RingReadiness do
     account_user.update!(availability: :busy)
 
     expect(readiness.rings?(readiness.memberships.first)).to be(false)
+    expect(readiness.blocker(readiness.memberships.first)).to eq('not_online')
   end
 
   it 'does not ring an agent outside every voice inbox' do
@@ -36,6 +38,7 @@ RSpec.describe Voice::RingReadiness do
 
     expect(readiness.memberships.first.voice_inboxes).to eq(0)
     expect(readiness.rings?(readiness.memberships.first)).to be(false)
+    expect(readiness.blocker(readiness.memberships.first)).to eq('no_inboxes')
   end
 
   it 'rings an agent whose role opens only assigned conversations for the calls assigned to them' do
@@ -57,6 +60,21 @@ RSpec.describe Voice::RingReadiness do
     account.disable_features!('mobile_voice_push')
 
     expect(readiness.rings?(readiness.memberships.first)).to be(false)
+    expect(readiness.blocker(readiness.memberships.first)).to eq('ringing_off')
+  end
+
+  it 'reports Voice Channel before the other reasons on an account without it' do
+    account.disable_features!('channel_voice')
+    user.notification_subscriptions.destroy_all
+
+    expect(readiness.blocker(readiness.memberships.first)).to eq('voice_off')
+  end
+
+  it 'does not ring an agent without a phone registered for calls' do
+    user.notification_subscriptions.destroy_all
+
+    expect(readiness.rings?(readiness.memberships.first)).to be(false)
+    expect(readiness.blocker(readiness.memberships.first)).to eq('no_device')
   end
 
   it 'does not ring when the installation cannot push to any registered device' do
@@ -64,6 +82,7 @@ RSpec.describe Voice::RingReadiness do
 
     expect(readiness.apple).to have_attributes(configured: false, problem: 'credentials')
     expect(readiness.rings?(readiness.memberships.first)).to be(false)
+    expect(readiness.blocker(readiness.memberships.first)).to eq('push_unavailable')
   end
 
   it 'does not ring an Android phone while the APNs environment would stop the ring' do
