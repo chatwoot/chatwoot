@@ -22,8 +22,20 @@ const collectionName = computed(
   () => firstItem.value?.section || t('CATALOG.NO_COLLECTION')
 );
 const sheetTitle = computed(() =>
-  detailItem.value ? t('CATALOG.PRODUCT.DETAILS_TITLE') : collectionName.value
+  detailItem.value
+    ? t('CATALOG.PRODUCT.DETAILS_TITLE')
+    : catalog.value.header || collectionName.value
 );
+const groupedItems = computed(() => {
+  const groups = new Map();
+  items.value.forEach(item => {
+    const title = item.section || '';
+    if (!groups.has(title)) groups.set(title, { title, items: [] });
+    groups.get(title).items.push(item);
+  });
+  return [...groups.values()];
+});
+const showSectionTitles = computed(() => groupedItems.value.length > 1);
 const firstImage = item => item?.imageUrls?.[0];
 
 const openFromCard = item => {
@@ -146,27 +158,36 @@ const onSheetClose = () => {
     >
       <ProductDetail v-if="detailItem" :item="detailItem" />
       <template v-else>
-        <button
-          v-for="item in items"
-          :key="item.retailerId"
-          type="button"
-          class="flex items-center gap-3 p-3 text-start border-t border-n-weak first:border-t-0 hover:bg-n-alpha-2"
-          data-test-id="catalog-list-row"
-          @click="openFromList(item)"
-        >
-          <img
-            v-if="firstImage(item)"
-            :src="firstImage(item)"
-            :alt="item.name"
-            loading="lazy"
-            class="object-cover rounded-md size-12"
-          />
-          <span v-else class="rounded-md size-12 bg-n-alpha-2" />
-          <span class="flex flex-col min-w-0">
-            <span class="text-sm font-medium truncate">{{ item.name }}</span>
-            <span class="text-sm text-n-slate-11">{{ item.price }}</span>
-          </span>
-        </button>
+        <div v-for="group in groupedItems" :key="group.title">
+          <div
+            v-if="showSectionTitles"
+            class="px-3 py-2 text-xs font-medium border-t first:border-t-0 border-n-weak bg-n-alpha-1 text-n-slate-11"
+            data-test-id="catalog-list-section"
+          >
+            {{ group.title || t('CATALOG.NO_COLLECTION') }}
+          </div>
+          <button
+            v-for="item in group.items"
+            :key="item.retailerId"
+            type="button"
+            class="flex items-center w-full gap-3 p-3 text-start border-t border-n-weak first:border-t-0 hover:bg-n-alpha-2"
+            data-test-id="catalog-list-row"
+            @click="openFromList(item)"
+          >
+            <img
+              v-if="firstImage(item)"
+              :src="firstImage(item)"
+              :alt="item.name"
+              loading="lazy"
+              class="object-cover rounded-md size-12"
+            />
+            <span v-else class="rounded-md size-12 bg-n-alpha-2" />
+            <span class="flex flex-col min-w-0">
+              <span class="text-sm font-medium truncate">{{ item.name }}</span>
+              <span class="text-sm text-n-slate-11">{{ item.price }}</span>
+            </span>
+          </button>
+        </div>
       </template>
     </CatalogSheet>
   </BaseBubble>

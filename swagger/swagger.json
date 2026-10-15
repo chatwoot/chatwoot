@@ -8191,13 +8191,7 @@
             "userBearerAuth": []
           },
           {
-            "agentBotBearerAuth": []
-          },
-          {
             "userApiKey": []
-          },
-          {
-            "agentBotApiKey": []
           }
         ],
         "requestBody": {
@@ -14380,6 +14374,7 @@
         "type": "object",
         "required": [
           "kind",
+          "catalog_id",
           "products"
         ],
         "properties": {

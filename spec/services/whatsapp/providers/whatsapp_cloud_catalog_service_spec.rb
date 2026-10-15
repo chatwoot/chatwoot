@@ -66,6 +66,15 @@ describe Whatsapp::Providers::WhatsappCloudCatalogService do
       expect(described_class.perform(whatsapp_channel, '+123456789', message)).to eq 'message_id'
     end
 
+    it 'marks the message as failed with the error returned by Meta' do
+      stub_request(:post, catalog_url)
+        .to_return(status: 400, body: { error: { message: 'Product not found in catalog' } }.to_json, headers: response_headers)
+
+      expect(described_class.perform(whatsapp_channel, '+123456789', message)).to be_nil
+      expect(message.reload.status).to eq 'failed'
+      expect(message.external_error).to eq 'Product not found in catalog'
+    end
+
     it 'marks the message as failed when the catalog is invalid' do
       message.update!(content_attributes: { 'whatsapp_catalog' => catalog.merge('catalog_id' => nil) })
 
