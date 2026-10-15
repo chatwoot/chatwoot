@@ -61,17 +61,21 @@ export default {
             locale
           );
           data.payload.forEach(message => commit(types.ADD_MESSAGE, message));
-        } catch (error) {
-          // A 403 only means the feature was switched off since this tab loaded.
-          if (error.response?.status !== 403) {
-            useAlert(parseAPIErrorResponse(error));
-          }
-        } finally {
           commit(types.SET_AUTO_TRANSLATING, {
             locale,
             messageIds,
             translating: false,
           });
+        } catch (error) {
+          // Left retryable for the next change; a 403 only means the feature was switched off since this tab loaded.
+          commit(types.SET_AUTO_TRANSLATING, {
+            locale,
+            messageIds,
+            translating: undefined,
+          });
+          if (error.response?.status !== 403) {
+            useAlert(parseAPIErrorResponse(error));
+          }
         }
       })
     );

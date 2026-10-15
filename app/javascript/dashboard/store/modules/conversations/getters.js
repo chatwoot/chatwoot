@@ -245,7 +245,7 @@ const getters = {
       !!message.content &&
       !attributes.deleted;
     const waiting = incoming
-      ? _state.autoTranslating[locale]?.[messageId] !== false
+      ? _state.autoTranslating[locale]?.[messageId] === true
       : message.status === MESSAGE_STATUS.PROGRESS && !message.private;
 
     const untranslated = !Object.keys(translations).length;

@@ -954,7 +954,7 @@ describe('#getters', () => {
             content_attributes: {},
           },
         ],
-        { en: { 2: false } }
+        { en: { 1: true, 2: false } }
       );
 
       expect([1, 2, 3, 4].map(id => translationState(id).pending)).toEqual([

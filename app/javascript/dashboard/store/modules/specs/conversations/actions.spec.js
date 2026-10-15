@@ -1185,7 +1185,7 @@ describe('#addMentions', () => {
       expect(axios.post).not.toHaveBeenCalled();
     });
 
-    it('alerts and settles the batch when the request fails', async () => {
+    it('alerts and leaves the batch retryable when the request fails', async () => {
       const localCommit = vi.fn();
       const emit = vi.spyOn(emitter, 'emit');
       axios.post.mockRejectedValue({
@@ -1203,7 +1203,7 @@ describe('#addMentions', () => {
       expect(localCommit).toHaveBeenLastCalledWith(types.SET_AUTO_TRANSLATING, {
         locale: 'en',
         messageIds: [1],
-        translating: false,
+        translating: undefined,
       });
       expect(emit).toHaveBeenCalledWith('newToastMessage', {
         message: 'You are out of Copilot credits.',
