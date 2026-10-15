@@ -73,9 +73,16 @@ class CopilotRun < ApplicationRecord
     with_lock do
       return if finished? || awaiting_background_run? || awaiting_approval? || lease_until&.future?
 
+      @taken_over = running?
       update!(status: :running, lease_until: Time.current + LEASE_DURATION, lease_token: SecureRandom.uuid)
       lease_token
     end
+  end
+
+  # True after claim took a lease that expired while the run was running: its worker died, or is still waiting on a step
+  # that outlived the lease. Jobs count it as a failed attempt, so a step that never finishes in time is not retried forever.
+  def taken_over?
+    @taken_over == true
   end
 
   def with_lease(token)

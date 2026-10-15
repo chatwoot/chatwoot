@@ -11,6 +11,7 @@ module Captain::Copilot::BackgroundRunJob
 
     token = claim(run)
     return unless token
+    raise Captain::Copilot::LeaseExpiredError if run.taken_over?
 
     process_batch(run, token)
   rescue Captain::Copilot::LeaseLostError
