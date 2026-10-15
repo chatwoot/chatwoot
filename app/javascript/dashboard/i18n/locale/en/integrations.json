@@ -1538,6 +1538,15 @@
         "PARAM_REQUIRED": {
           "LABEL": "Required"
         },
+        "RISK": {
+          "MEDIUM": "This tool may return customer data. Consider requiring email verification.",
+          "HIGH": "This tool looks like it reads or changes customer data. Require email verification so only a verified customer can use it.",
+          "TITLE": "Save without email verification?",
+          "GO_BACK": "Go back",
+          "SAVE_ANYWAY": "Save anyway",
+          "EMAIL_PARAM": "This email is not verified. A customer could type someone else's.",
+          "USE_VERIFIED_EMAIL": "Use verified email"
+        },
         "VERIFIED_VALUES": {
           "ADD": "Add verified email",
           "EMAIL": "Contact email",

@@ -11,11 +11,13 @@ import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import ParamRow from './ParamRow.vue';
 import VerifiedParamRow from './VerifiedParamRow.vue';
 import AuthConfig from './AuthConfig.vue';
 import HeadersConfig from './HeadersConfig.vue';
 import ToolFormSection from './ToolFormSection.vue';
+import { toolRiskLevel, isEmailLikeParam, RISK_LEVELS } from './toolRisk';
 
 const props = defineProps({
   mode: {
@@ -180,6 +182,29 @@ const addParam = () => {
 };
 
 // Chatwoot fills this from the email the customer verified. Captain sees the description only where a team member is the user.
+// Advice only. Saving a tool that looks like it handles customer data asks once whether to require verification.
+const riskDialogRef = useTemplateRef('riskDialogRef');
+const riskLevel = computed(() =>
+  requiresEmailVerification.value ? RISK_LEVELS.NONE : toolRiskLevel(state)
+);
+const riskMessage = computed(() =>
+  riskLevel.value === RISK_LEVELS.HIGH
+    ? t('CAPTAIN.CUSTOM_TOOLS.FORM.RISK.HIGH')
+    : t('CAPTAIN.CUSTOM_TOOLS.FORM.RISK.MEDIUM')
+);
+
+const suggestsVerifiedEmail = param =>
+  !isReadOnly.value && !usesVerifiedEmail.value && isEmailLikeParam(param);
+
+// Keeps the name and description, so templates that read the parameter keep working
+const useVerifiedEmail = param => {
+  Object.assign(param, {
+    type: 'string',
+    required: true,
+    source: 'verified.email',
+  });
+};
+
 const addVerifiedEmailParam = () => {
   state.param_schema.push({
     name: 'email',
@@ -201,7 +226,16 @@ const handleSubmit = async () => {
   if (!isFormValid || !areParamsValid || !isHeadersValid) {
     return;
   }
+  if (riskLevel.value !== RISK_LEVELS.NONE) {
+    riskDialogRef.value.open();
+    return;
+  }
 
+  emit('submit', state);
+};
+
+const saveDespiteRisk = () => {
+  riskDialogRef.value.close();
   emit('submit', state);
 };
 
@@ -351,7 +385,9 @@ const handleTest = async () => {
                 v-model:type="param.type"
                 v-model:description="param.description"
                 v-model:required="param.required"
+                :suggest-verified-email="suggestsVerifiedEmail(param)"
                 @remove="removeParam(index)"
+                @use-verified-email="useVerifiedEmail(param)"
               />
             </template>
           </ul>
@@ -456,5 +492,15 @@ const handleTest = async () => {
         </div>
       </div>
     </fieldset>
+    <Dialog
+      ref="riskDialogRef"
+      type="alert"
+      width="md"
+      :title="t('CAPTAIN.CUSTOM_TOOLS.FORM.RISK.TITLE')"
+      :description="riskMessage"
+      :cancel-button-label="t('CAPTAIN.CUSTOM_TOOLS.FORM.RISK.GO_BACK')"
+      :confirm-button-label="t('CAPTAIN.CUSTOM_TOOLS.FORM.RISK.SAVE_ANYWAY')"
+      @confirm="saveDespiteRisk"
+    />
   </form>
 </template>
