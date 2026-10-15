@@ -94,6 +94,13 @@ RSpec.describe 'Inbox WhatsApp catalog API', type: :request do
       end
     end
 
+    it 'rejects filters that are not strings' do
+      get "#{url}?q[]=mug", headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(service).not_to have_received(:products)
+    end
+
     it 'returns 422 for a collection outside the catalog' do
       allow(service).to receive(:products).and_return(status: 'invalid_collection')
 
