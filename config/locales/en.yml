@@ -31,6 +31,14 @@
 
 en:
   hello: 'Hello world'
+  administrator_notifications:
+    captain:
+      response_usage_alert:
+        subject: 'Your Captain credits are running low'
+        greeting: 'Hello,'
+        usage_html: '%{account_name} has used more than 80% of its AI response credits for the current billing period.'
+        balance: '%{consumed} credits have been used, and %{remaining} credits remain.'
+        action: 'View usage and add credits'
   inbox:
     reauthorization:
       success: 'Channel reauthorized successfully'
@@ -930,7 +938,7 @@ en:
         notification_type: 'Notification type'
         unnamed_account: 'Account %{id}'
         sla_unavailable: 'SLA is not enabled on this account'
-        calls_unavailable: 'Voice Channel and Mobile Voice Push are not both enabled on this account'
+        calls_unavailable: 'Voice Channel and Calls on mobile are not both enabled on this account'
         none_enabled:
           one: 'No push types are enabled for %{names}. This user receives no push notification from that account.'
           other: 'No push types are enabled for %{names}. This user receives no push notification from those accounts.'
@@ -956,7 +964,7 @@ en:
         account_columns:
           account: 'Account'
           voice: 'Voice Channel'
-          ringing: 'Mobile Voice Push'
+          ringing: 'Calls on mobile'
           inboxes: 'Voice inboxes'
           status: 'Status'
           rings: 'Phone rings'
@@ -967,7 +975,13 @@ en:
           busy: 'Busy'
           offline: 'Offline'
         rings: 'Yes'
-        app_open_only: 'Only with the app open'
+        blockers:
+          voice_off: 'No, Voice Channel is off'
+          ringing_off: 'No, Calls on mobile is off'
+          no_inboxes: 'No, no voice inboxes'
+          not_online: 'No, not online'
+          no_device: 'No, no phone registered'
+          push_unavailable: 'Only with the app open'
         assigned_only: 'Calls assigned to them'
       push_types:
         conversation_creation: 'A new conversation is created'

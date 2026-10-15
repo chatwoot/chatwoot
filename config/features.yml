@@ -305,6 +305,7 @@
   enabled: false
   column: feature_flags_ext_1
 - name: mobile_voice_push
-  display_name: Mobile Voice Push
-  enabled: false
+  display_name: Calls on mobile
+  enabled: true
+  hidden: true
   column: feature_flags_ext_1
