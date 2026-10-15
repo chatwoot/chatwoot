@@ -1152,6 +1152,42 @@ describe('#addMentions', () => {
           types.SET_AUTO_TRANSLATING,
           { locale: 'en', messageIds: [1], translating: false },
         ],
+        [
+          types.SET_AUTO_TRANSLATING,
+          { locale: 'en', messageIds: [], translating: undefined },
+        ],
+      ]);
+    });
+
+    it('leaves a message the translator left out retryable', async () => {
+      const localCommit = vi.fn();
+      axios.post.mockResolvedValue({
+        data: { payload: [{ id: 1, conversation_id: 7 }] },
+      });
+
+      await actions.autoTranslateMessages(
+        {
+          state: { selectedChatId: 7, autoTranslating: {} },
+          commit: localCommit,
+          getters,
+        },
+        7
+      );
+
+      expect(localCommit.mock.calls).toEqual([
+        [
+          types.SET_AUTO_TRANSLATING,
+          { locale: 'en', messageIds: [1, 4], translating: true },
+        ],
+        [types.ADD_MESSAGE, { id: 1, conversation_id: 7 }],
+        [
+          types.SET_AUTO_TRANSLATING,
+          { locale: 'en', messageIds: [1], translating: false },
+        ],
+        [
+          types.SET_AUTO_TRANSLATING,
+          { locale: 'en', messageIds: [4], translating: undefined },
+        ],
       ]);
     });
 

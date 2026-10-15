@@ -61,10 +61,17 @@ export default {
             locale
           );
           data.payload.forEach(message => commit(types.ADD_MESSAGE, message));
+          // Only the messages that came back are done; one the model left out stays retryable.
+          const translated = data.payload.map(message => message.id);
           commit(types.SET_AUTO_TRANSLATING, {
             locale,
-            messageIds,
+            messageIds: translated,
             translating: false,
+          });
+          commit(types.SET_AUTO_TRANSLATING, {
+            locale,
+            messageIds: messageIds.filter(id => !translated.includes(id)),
+            translating: undefined,
           });
         } catch (error) {
           // Left retryable for the next change; a 403 only means the feature was switched off since this tab loaded.

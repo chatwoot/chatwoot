@@ -53,6 +53,8 @@ module Enterprise::Message
 
     self.translations = { template_language => content }
     self.content = translated_content
+    # The core before_save copied the untranslated content already.
+    ensure_processed_message_content
   end
 
   def detect_language?

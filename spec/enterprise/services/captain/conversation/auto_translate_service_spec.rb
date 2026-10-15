@@ -90,15 +90,17 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
     expect(email.reload.translations['en']).to eq('<div style="color:red"><p>Hello <b>Camille</b></p><blockquote>Ancien message</blockquote></div>')
   end
 
-  it 'detects the contact language from the batch when the conversation has none' do
-    allow(detection).to receive(:perform).and_return('fr')
+  it 'detects the contact language from the newest message when the conversation has none, whatever the batch holds' do
+    allow(detection).to receive(:perform).and_return('es')
     question = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
                                 content: 'Celui-ci met quatre secondes à charger.')
+    create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Gracias, ya funciona.')
     allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => "#{question.id}:0", 'text' => 'This one takes four seconds to load.' }])
 
     described_class.new(conversation: conversation, message_ids: [question.id], target_language: 'en').perform
 
-    expect(conversation.reload.language).to eq('fr')
+    expect(Captain::Llm::LanguageDetectionService).to have_received(:new).with(account: account, text: 'Gracias, ya funciona.')
+    expect(conversation.reload.language).to eq('es')
   end
 
   it 'keeps the language a message set while the translator was running' do
