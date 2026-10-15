@@ -930,7 +930,7 @@ en:
         notification_type: 'Notification type'
         unnamed_account: 'Account %{id}'
         sla_unavailable: 'SLA is not enabled on this account'
-        calls_unavailable: 'Voice Channel and Mobile Voice Push are not both enabled on this account'
+        calls_unavailable: 'Voice Channel and Calls on mobile are not both enabled on this account'
         none_enabled:
           one: 'No push types are enabled for %{names}. This user receives no push notification from that account.'
           other: 'No push types are enabled for %{names}. This user receives no push notification from those accounts.'
@@ -956,7 +956,7 @@ en:
         account_columns:
           account: 'Account'
           voice: 'Voice Channel'
-          ringing: 'Mobile Voice Push'
+          ringing: 'Calls on mobile'
           inboxes: 'Voice inboxes'
           status: 'Status'
           rings: 'Phone rings'
