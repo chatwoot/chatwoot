@@ -250,14 +250,18 @@ const loadNextPage = async () => {
 };
 
 const loadCatalogAndFirstPage = async ({ force = false } = {}) => {
+  // loadFirstPage starts a new request id synchronously, so a slow catalog
+  // answer from a previous open or inbox is ignored.
+  const firstPage = loadFirstPage({ force });
+  const currentRequest = requestId;
   const catalogRequest = loadCatalog(props.inboxId, { force })
     .then(data => {
-      catalog.value = data;
+      if (currentRequest === requestId) catalog.value = data;
     })
     .catch(() => {
-      loadFailed.value = true;
+      if (currentRequest === requestId) loadFailed.value = true;
     });
-  await Promise.all([catalogRequest, loadFirstPage({ force })]);
+  await Promise.all([catalogRequest, firstPage]);
 };
 
 const refresh = async () => {
