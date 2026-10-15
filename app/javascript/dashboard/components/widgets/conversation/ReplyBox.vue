@@ -869,6 +869,10 @@ export default {
     insertWhatsappCatalogLink(link) {
       this.message = this.message ? `${this.message}\n${link}` : link;
     },
+    onWhatsappCatalogSent() {
+      this.message = '';
+      this.removeFromDraft();
+    },
     openWhatsappTemplateModal() {
       this.requestContactInfoTemplatesOnly = false;
       this.showWhatsAppTemplatesModal = true;
@@ -1576,8 +1580,11 @@ export default {
     <WhatsappCatalogModal
       v-model:show="showWhatsappCatalogModal"
       :inbox-id="inbox.id"
+      :conversation-id="conversationId"
+      :initial-body="message"
       :catalog-link="whatsappCatalogLink"
       @insert-link="insertWhatsappCatalogLink"
+      @sent="onWhatsappCatalogSent"
     />
 
     <ContentTemplates
