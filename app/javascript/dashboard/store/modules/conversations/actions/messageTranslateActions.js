@@ -46,50 +46,37 @@ export default {
       )
       .map(message => message.id);
 
-    // Reserved up front, so a dispatch during the first batch does not submit the later ones again.
-    commit(types.SET_AUTO_TRANSLATING, {
-      locale,
-      messageIds: untranslated,
-      translating: true,
-    });
-
-    const translateBatch = async messageIds => {
-      try {
-        const { data } = await MessageApi.autoTranslate(
-          conversationId,
-          messageIds,
-          locale
-        );
-        data.payload.forEach(message => commit(types.ADD_MESSAGE, message));
-        // Only the messages that came back are done; one the model left out stays retryable.
-        const translated = data.payload.map(message => message.id);
-        commit(types.SET_AUTO_TRANSLATING, {
-          locale,
-          messageIds: translated,
-          translating: false,
-        });
-        commit(types.SET_AUTO_TRANSLATING, {
-          locale,
-          messageIds: messageIds.filter(id => !translated.includes(id)),
-          translating: undefined,
-        });
-      } catch (error) {
-        // Left retryable for the next change; a 403 only means the feature was switched off since this tab loaded.
+    await Promise.all(
+      batchesOf(untranslated, BATCH_SIZE).map(async messageIds => {
         commit(types.SET_AUTO_TRANSLATING, {
           locale,
           messageIds,
-          translating: undefined,
+          translating: true,
         });
-        if (error.response?.status !== 403) {
-          useAlert(parseAPIErrorResponse(error));
+        try {
+          const { data } = await MessageApi.autoTranslate(
+            conversationId,
+            messageIds,
+            locale
+          );
+          data.payload.forEach(message => commit(types.ADD_MESSAGE, message));
+          commit(types.SET_AUTO_TRANSLATING, {
+            locale,
+            messageIds,
+            translating: false,
+          });
+        } catch (error) {
+          // Left retryable for the next change; a 403 only means the feature was switched off since this tab loaded.
+          commit(types.SET_AUTO_TRANSLATING, {
+            locale,
+            messageIds,
+            translating: undefined,
+          });
+          if (error.response?.status !== 403) {
+            useAlert(parseAPIErrorResponse(error));
+          }
         }
-      }
-    };
-
-    // One batch at a time: the server checks the Captain quota before each model call and counts it after.
-    await batchesOf(untranslated, BATCH_SIZE).reduce(
-      (previous, messageIds) => previous.then(() => translateBatch(messageIds)),
-      Promise.resolve()
+      })
     );
   },
 };

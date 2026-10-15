@@ -13,7 +13,6 @@ import {
   isOnUnattendedView,
   isOnFoldersView,
 } from './helpers/actionHelpers';
-import { isContactSide } from './helpers';
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
 import * as Sentry from '@sentry/vue';
@@ -456,8 +455,6 @@ const actions = {
         canReply: true,
       });
       commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
-    }
-    if (isContactSide(message.message_type, message.sender?.type)) {
       dispatch('autoTranslateMessages', message.conversation_id);
     }
     handleVoiceCallCreated(

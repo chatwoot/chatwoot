@@ -406,17 +406,6 @@ describe('#actions', () => {
       ]);
       expect(dispatch).toHaveBeenCalledWith('autoTranslateMessages', 1);
     });
-    it('requests translation for a live bot reply', () => {
-      const message = {
-        id: 1,
-        message_type: 1,
-        conversation_id: 1,
-        sender: { type: 'captain_assistant' },
-      };
-      actions.addMessage({ commit, dispatch }, message);
-      expect(commit.mock.calls).toEqual([[types.ADD_MESSAGE, message]]);
-      expect(dispatch).toHaveBeenCalledWith('autoTranslateMessages', 1);
-    });
     it('sends correct mutations if message is not an incoming message', () => {
       const message = {
         id: 1,
@@ -1163,10 +1152,6 @@ describe('#addMentions', () => {
           types.SET_AUTO_TRANSLATING,
           { locale: 'en', messageIds: [1], translating: false },
         ],
-        [
-          types.SET_AUTO_TRANSLATING,
-          { locale: 'en', messageIds: [], translating: undefined },
-        ],
       ]);
     });
 
@@ -1205,70 +1190,6 @@ describe('#addMentions', () => {
         expect.stringContaining('/conversations/7/messages/auto_translate'),
         { message_ids: [5], target_language: 'en' }
       );
-    });
-
-    it('reserves every queued message before the first batch so a second dispatch submits nothing', async () => {
-      const many = Array.from({ length: 21 }, (_, index) => ({
-        id: index + 1,
-        message_type: 0,
-        content: 'Bonjour',
-        content_attributes: {},
-      }));
-      const liveState = { selectedChatId: 7, autoTranslating: {} };
-      const context = {
-        state: liveState,
-        commit: (type, payload) => mutations[type](liveState, payload),
-        getters: { ...getters, getSelectedChat: { id: 7, messages: many } },
-      };
-      let finishFirst;
-      axios.post
-        .mockReturnValueOnce(
-          new Promise(resolve => {
-            finishFirst = resolve;
-          })
-        )
-        .mockResolvedValue({ data: { payload: [] } });
-
-      const first = actions.autoTranslateMessages(context, 7);
-      await Promise.resolve();
-      await actions.autoTranslateMessages(context, 7);
-
-      expect(axios.post).toHaveBeenCalledTimes(1);
-      finishFirst({ data: { payload: [] } });
-      await first;
-      expect(axios.post).toHaveBeenCalledTimes(2);
-    });
-
-    it('leaves a message the translator left out retryable', async () => {
-      const localCommit = vi.fn();
-      axios.post.mockResolvedValue({
-        data: { payload: [{ id: 1, conversation_id: 7 }] },
-      });
-
-      await actions.autoTranslateMessages(
-        {
-          state: { selectedChatId: 7, autoTranslating: {} },
-          commit: localCommit,
-          getters,
-        },
-        7
-      );
-
-      expect(localCommit.mock.calls).toEqual([
-        [
-          types.SET_AUTO_TRANSLATING,
-          { locale: 'en', messageIds: [1, 4], translating: true },
-        ],
-        [types.ADD_MESSAGE, { id: 1, conversation_id: 7 }],
-        [
-          types.SET_AUTO_TRANSLATING,
-          { locale: 'en', messageIds: [1], translating: false },
-        ],
-        [
-          types.SET_AUTO_TRANSLATING,
-          { locale: 'en', messageIds: [4], translating: undefined },
-        ],
-      ]);
     });
 
     it('does nothing for another conversation, the agent language or a disabled flag', async () => {

@@ -858,7 +858,6 @@ describe('#getters', () => {
       'accounts/getAccount': () => ({ locale: 'en' }),
       getCurrentAccountId: 1,
       'accounts/isFeatureEnabledonAccount': () => true,
-      'globalConfig/get': { isCaptainConfigured: true },
     };
     const chatIn = language => ({
       getSelectedChat: {

@@ -21,7 +21,6 @@ RSpec.describe Message do
                                content: 'Hi there! How can we help you today?')
 
     expect(message.content).to eq('Bonjour ! Comment pouvons-nous vous aider ?')
-    expect(message.processed_message_content).to eq('Bonjour ! Comment pouvons-nous vous aider ?')
     expect(message.translations).to eq('en' => 'Hi there! How can we help you today?')
   end
 

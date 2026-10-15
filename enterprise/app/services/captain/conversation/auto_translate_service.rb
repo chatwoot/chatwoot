@@ -66,12 +66,11 @@ class Captain::Conversation::AutoTranslateService
     end
   end
 
-  # Messages from before the feature carry no language; the thread follows its newest one, whichever batch gets here first.
+  # Messages from before the feature carry no language; the thread follows its latest one.
   def detect_conversation_language
-    newest = conversation.messages.incoming.where.not(content: [nil, '']).last
-    return if newest.nil?
+    return if untranslated.empty?
 
-    language = text(newest).language
+    language = text(untranslated.last).language
     conversation.update!(additional_attributes: conversation.additional_attributes.merge(conversation_language: language)) if language
   end
 
