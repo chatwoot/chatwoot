@@ -29,6 +29,10 @@ module Llm::Config
       yield context
     end
 
+    def configured?
+      system_api_key.present?
+    end
+
     private
 
     def configure_ruby_llm

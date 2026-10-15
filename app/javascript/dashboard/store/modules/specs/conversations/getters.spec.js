@@ -858,6 +858,7 @@ describe('#getters', () => {
       'accounts/getAccount': () => ({ locale: 'en' }),
       getCurrentAccountId: 1,
       'accounts/isFeatureEnabledonAccount': () => true,
+      'globalConfig/get': { isCaptainConfigured: true },
     };
     const chatIn = language => ({
       getSelectedChat: {
@@ -963,6 +964,22 @@ describe('#getters', () => {
         true,
         false,
       ]);
+    });
+
+    it('keeps a message pending for the agent locale although other locales have theirs', () => {
+      const translationState = stateFor(
+        [
+          {
+            id: 1,
+            message_type: 0,
+            content: 'Bonjour',
+            content_attributes: { translations: { es: 'Hola' } },
+          },
+        ],
+        { en: { 1: true } }
+      );
+
+      expect(translationState(1).pending).toBe(true);
     });
 
     it('recognises a message already written in the agent language', () => {

@@ -1,6 +1,7 @@
 import { computed } from 'vue';
 import { useUISettings } from './useUISettings';
 import { useAccount } from './useAccount';
+import { useMapGetter } from './store';
 
 /**
  * Select translation based on locale priority.
@@ -29,21 +30,23 @@ export function selectTranslation(translations, agentLocale, accountLocale) {
 export function useTranslations(contentAttributes) {
   const { uiSettings } = useUISettings();
   const { currentAccount } = useAccount();
-
-  const hasTranslations = computed(() => {
-    if (!contentAttributes.value) return false;
-    const { translations = {} } = contentAttributes.value;
-    return Object.keys(translations || {}).length > 0;
-  });
+  const autoTranslate = useMapGetter('getAutoTranslate');
 
   const translationContent = computed(() => {
-    if (!hasTranslations.value) return null;
+    const { translations } = contentAttributes.value ?? {};
+    if (!translations || !Object.keys(translations).length) return null;
+    // With auto translate on, each agent reads the translation into their own language, or the original until it is there.
+    if (autoTranslate.value.enabled) {
+      return translations[autoTranslate.value.locale] ?? null;
+    }
     return selectTranslation(
-      contentAttributes.value.translations,
+      translations,
       uiSettings.value?.locale,
       currentAccount.value?.locale
     );
   });
+
+  const hasTranslations = computed(() => !!translationContent.value);
 
   return { hasTranslations, translationContent };
 }

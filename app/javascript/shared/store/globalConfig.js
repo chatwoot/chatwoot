@@ -23,6 +23,7 @@ const {
   PRIVACY_URL: privacyURL,
   IS_ENTERPRISE: isEnterprise,
   IS_COMPANY_ENRICHMENT_ENABLED: isCompanyEnrichmentEnabled,
+  IS_CAPTAIN_CONFIGURED: isCaptainConfigured,
   TERMS_URL: termsURL,
   WIDGET_BRAND_URL: widgetBrandURL,
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
@@ -61,6 +62,7 @@ const state = {
   widgetBrandURL,
   isEnterprise: parseBoolean(isEnterprise),
   isCompanyEnrichmentEnabled: parseBoolean(isCompanyEnrichmentEnabled),
+  isCaptainConfigured: parseBoolean(isCaptainConfigured),
   activePlatformBanners: activePlatformBanners || [],
   activeFeatureAnnouncements: activeFeatureAnnouncements || [],
 };

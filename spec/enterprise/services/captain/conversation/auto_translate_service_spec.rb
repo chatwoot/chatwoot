@@ -109,6 +109,7 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
   it 'keeps the language a message set while the translator was running' do
     question = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
                                 content: 'Celui-ci met quatre secondes à charger.')
+    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
     account.enable_features('auto_translate', 'captain_tasks')
     account.save!
     allow(llm_service).to receive(:perform) do

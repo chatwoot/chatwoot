@@ -550,6 +550,7 @@ RSpec.describe MessageTemplates::HookExecutionService do
     end
 
     it 'records the contact language when auto translate is on' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
       account.enable_features!(:auto_translate, :captain_tasks)
 
       create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,

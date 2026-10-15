@@ -214,7 +214,8 @@ const getters = {
     const enabled =
       isFeatureEnabled(FEATURE_FLAGS.AUTO_TRANSLATE) &&
       isFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS) &&
-      account.settings?.auto_translate !== false;
+      account.settings?.auto_translate !== false &&
+      rootGetters['globalConfig/get'].isCaptainConfigured;
     const sameLanguage =
       !!language && languageCode(language) === languageCode(locale);
 
@@ -248,7 +249,7 @@ const getters = {
       ? _state.autoTranslating[locale]?.[messageId] === true
       : message.status === MESSAGE_STATUS.PROGRESS && !message.private;
 
-    const untranslated = !Object.keys(translations).length;
+    const untranslated = !translations[locale];
     const sourceLanguage = attributes.source_language;
     // Stored with another language, a message is translated even after the thread switched to the agent language.
     const foreign =
