@@ -21,6 +21,7 @@ const available = ref(false);
 const busy = ref(false);
 const error = ref(!!route.query.error);
 const account = ref(null);
+let refreshVersion = 0;
 const STRIPE_LOGO = '/dashboard/images/integrations/stripe.svg';
 const STRIPE_LOGO_DARK = '/dashboard/images/integrations/stripe-dark.svg';
 
@@ -30,18 +31,30 @@ const dashboardURL = computed(() => {
 });
 
 const loadIntegration = async () => {
-  const { data } = await IntegrationsAPI.get();
-  store.commit('integrations/SET_INTEGRATIONS', data.payload);
-  const stripe = data.payload.find(item => item.id === 'stripe');
-  available.value = !!stripe && !stripe.cleanup_only;
-  account.value =
-    stripe && (integration.value.enabled || stripe.cleanup_only)
-      ? (await StripeAPI.get()).data
-      : null;
-  loaded.value = true;
+  refreshVersion += 1;
+  const version = refreshVersion;
+  try {
+    const { data } = await IntegrationsAPI.get();
+    if (version !== refreshVersion) return;
+
+    const stripe = data.payload.find(item => item.id === 'stripe');
+    const details =
+      stripe && (stripe.enabled || stripe.cleanup_only)
+        ? (await StripeAPI.get()).data
+        : null;
+    if (version !== refreshVersion) return;
+
+    store.commit('integrations/SET_INTEGRATIONS', data.payload);
+    available.value = !!stripe && !stripe.cleanup_only;
+    account.value = details;
+    loaded.value = true;
+  } catch (err) {
+    if (version === refreshVersion) throw err;
+  }
 };
 
 const connect = async () => {
+  refreshVersion += 1;
   busy.value = true;
   error.value = false;
   try {
@@ -55,6 +68,7 @@ const connect = async () => {
 };
 
 const disconnect = async () => {
+  refreshVersion += 1;
   busy.value = true;
   error.value = false;
   try {

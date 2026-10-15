@@ -8,7 +8,8 @@ class Integrations::Stripe::UninstallationService
       Account.find(account_id).with_lock do
         hooks.where(account_id: account_id).lock.each do |hook|
           connected_at = hook.settings['connected_at']
-          next if connected_at.present? && @event.created < Time.iso8601(connected_at).to_i
+          # Equal timestamps cannot distinguish an uninstall from a newer reconnection in the same second.
+          next if connected_at.present? && @event.created <= Time.iso8601(connected_at).to_i
 
           hook.reauthorized!
           hook.destroy!
