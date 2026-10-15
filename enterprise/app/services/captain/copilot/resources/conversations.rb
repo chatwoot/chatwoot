@@ -37,6 +37,6 @@ class Captain::Copilot::Resources::Conversations < Captain::Copilot::Resources::
 
   def row(conversation)
     { label: "##{conversation.display_id}", url: url("conversations/#{conversation.display_id}"),
-      values: [conversation.status, conversation.label_list.join(', '), conversation.last_activity_at&.to_date] }
+      values: [conversation.status, conversation.cached_label_list_array.join(', '), conversation.last_activity_at&.to_date] }
   end
 end
