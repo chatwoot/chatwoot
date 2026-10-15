@@ -1,6 +1,8 @@
 class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
-  GENERAL_CONFIGS = %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS WEBHOOK_TIMEOUT MAXIMUM_FILE_UPLOAD_SIZE
-                       WIDGET_TOKEN_EXPIRY MOBILE_APP_MIN_IOS_VERSION MOBILE_APP_MIN_ANDROID_VERSION].freeze
+  MOBILE_APP_VERSION_CONFIGS = %w[MOBILE_APP_MIN_IOS_VERSION MOBILE_APP_MIN_ANDROID_VERSION].freeze
+  MOBILE_APP_VERSION_FORMAT = /\A\d+\.\d+\.\d+\z/
+  GENERAL_CONFIGS = (%w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS WEBHOOK_TIMEOUT MAXIMUM_FILE_UPLOAD_SIZE
+                        WIDGET_TOKEN_EXPIRY] + MOBILE_APP_VERSION_CONFIGS).freeze
   META_INCIDENT_CONFIGS = %w[DISABLE_META_INBOX_CREATION DISABLE_META_MESSAGE_SENDING].freeze
   SHOPIFY_CONFIGS = %w[
     ENABLE_SHOPIFY_INTEGRATION
@@ -29,7 +31,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   end
 
   def create
-    errors = shopify_partner_config_errors + stripe_config_errors
+    errors = shopify_partner_config_errors + stripe_config_errors + mobile_app_version_errors
     params['app_config'].each do |key, value|
       break if errors.any?
       next unless @allowed_configs.include?(key)
@@ -50,6 +52,12 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     values = InstallationConfig.where(name: @allowed_configs).to_h { |config| [config.name, config.value] }
     values.merge!(params.fetch('app_config', {}).permit(*@allowed_configs).to_h)
     Integrations::Stripe::Oauth.configuration_errors(url: values['STRIPE_APP_AUTHORIZE_URL'], key: values['STRIPE_APP_SECRET_KEY'])
+  end
+
+  def mobile_app_version_errors
+    params.fetch('app_config', {}).permit(*MOBILE_APP_VERSION_CONFIGS).to_h.values.filter_map do |value|
+      "#{value} is not a valid app version. Use a version like 4.10.0." unless value.blank? || value.match?(MOBILE_APP_VERSION_FORMAT)
+    end
   end
 
   def set_config

@@ -12,9 +12,9 @@ class ApiController < ApplicationController
   private
 
   def mobile_app_min_versions
-    configs = GlobalConfig.get('MOBILE_APP_MIN_IOS_VERSION', 'MOBILE_APP_MIN_ANDROID_VERSION')
-    { ios: configs['MOBILE_APP_MIN_IOS_VERSION'].presence, android: configs['MOBILE_APP_MIN_ANDROID_VERSION'].presence }
-  rescue Redis::BaseError, ActiveRecord::ActiveRecordError
+    { ios: GlobalConfig.get_value('MOBILE_APP_MIN_IOS_VERSION').presence,
+      android: GlobalConfig.get_value('MOBILE_APP_MIN_ANDROID_VERSION').presence }
+  rescue Redis::BaseError, ConnectionPool::TimeoutError, ActiveRecord::ActiveRecordError
     { ios: nil, android: nil }
   end
 
