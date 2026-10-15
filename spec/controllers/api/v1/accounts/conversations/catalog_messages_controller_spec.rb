@@ -119,6 +119,18 @@ RSpec.describe 'Conversation Catalog Messages API', type: :request do
       end
     end
 
+    context 'with products sent as an object instead of a list' do
+      let(:products) { { first: { retailer_id: 'sku-1' }, second: { retailer_id: 'sku-2' } } }
+
+      it 'returns unprocessable entity and creates no message' do
+        post_catalog
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('products must be a list of products')
+        expect(conversation.messages.count).to eq(0)
+      end
+    end
+
     context 'with an unknown kind' do
       let(:kind) { 'grid' }
 
