@@ -33,8 +33,13 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   def request(tool_context, params)
     url = @custom_tool.build_request_url(params)
     body = @custom_tool.build_request_body(params)
-    @custom_tool.format_response(execute_http_request(url, body, tool_context))
+    response_body = execute_http_request(url, body, tool_context)
+    record_response(tool_context, response_body)
+    @custom_tool.format_response(response_body)
   end
+
+  # Runs after a successful request, before the response template. PublicHttpTool keeps stored values here.
+  def record_response(_tool_context, _response_body); end
 
   # Read from stored data on every call, never from the run state the model can influence
   def stored_verified_email(state)
