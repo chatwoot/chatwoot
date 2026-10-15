@@ -26,8 +26,12 @@ class Captain::ToolsManifest::InstallService
 
   # A version that did not know a setting records the commit without it, so the commit alone does not prove the install is current
   def self.settings_applied?(tools, manifest)
-    verification_required = manifest['tools'].to_h { |tool| [tool['id'], tool['requires_email_verification'] == true] }
-    tools.all? { |tool| (tool.settings['requires_email_verification'] == true) == verification_required[tool.source_metadata['tool_id']] }
+    manifest_tools = manifest['tools'].index_by { |tool| tool['id'] }
+    tools.all? do |tool|
+      manifest_tool = manifest_tools.fetch(tool.source_metadata['tool_id'], {})
+      (tool.settings['requires_email_verification'] == true) == (manifest_tool['requires_email_verification'] == true) &&
+        tool.stores == manifest_tool.fetch('stores', {})
+    end
   end
 
   # Fields filled into auth_config must have a value even when optional, or the tool would send blank credentials
@@ -160,6 +164,7 @@ class Captain::ToolsManifest::InstallService
       response_template: tool['response_template'],
       headers: manifest['headers'],
       settings: { 'requires_email_verification' => tool['requires_email_verification'] },
+      stores: tool['stores'],
       source_metadata: metadata.merge('tool_id' => tool['id'])
     }
   end
