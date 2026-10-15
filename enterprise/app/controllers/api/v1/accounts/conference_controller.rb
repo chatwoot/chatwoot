@@ -11,11 +11,13 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   end
 
   def create
+    return render json: { error: 'Invalid attempt_id' }, status: :unprocessable_entity unless valid_attempt_id?
+
     call = resolve_call!
 
     conference_service = Voice::Provider::Twilio::ConferenceService.new(call: call)
     conference_sid = conference_service.ensure_conference_sid
-    conference_service.mark_agent_joined(user: current_user)
+    conference_service.mark_agent_joined(user: current_user, attempt: params[:attempt_id].presence)
     # voice_call.accepted broadcasts from Voice::Conference::Manager#join_agent! once
     # Twilio confirms the leg joined, not here — joinClientCall can still fail after this.
 
@@ -44,6 +46,15 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   end
 
   private
+
+  # An attempt id is the short token a client makes for one connection and sends to Twilio
+  # as well, so only that shape is kept
+  ATTEMPT_ID_FORMAT = /\A[\w-]{1,64}\z/
+
+  def valid_attempt_id?
+    attempt = params[:attempt_id]
+    attempt.nil? || (attempt.is_a?(String) && attempt.match?(ATTEMPT_ID_FORMAT))
+  end
 
   def resolve_call!
     sid = params[:call_sid].presence
