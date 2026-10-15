@@ -173,7 +173,6 @@ const { translationContent } = useTranslations(
   computed(() => props.contentAttributes),
   contactSide
 );
-// Copy and canned responses take the text the bubble shows, translated or original.
 const displayedContent = computed(() => {
   if (showingOriginal.value || !translationContent.value) return props.content;
   if (!props.contentAttributes?.email?.htmlContent?.full) {
@@ -188,7 +187,6 @@ const displayedContent = computed(() => {
     .body.textContent.trim();
 });
 
-// Manual translation stays available where auto translate is off or did not handle the message.
 const isAutoTranslated = computed(() => {
   const { language, locale } = autoTranslate.value;
   const { pending, sameLanguage } = translationState.value(props.id);

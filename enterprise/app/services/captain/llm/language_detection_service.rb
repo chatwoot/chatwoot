@@ -10,7 +10,6 @@ class Captain::Llm::LanguageDetectionService < Captain::BaseTaskService
     make_api_call(feature: 'language_detection', messages: messages, schema: Captain::Llm::LanguageDetectionSchema)
   end
 
-  # The code of the language the text is written in, or nil when it cannot be told.
   def language
     response = perform
     Rails.logger.warn("[AutoTranslate] language detection failed: #{response[:error]}") if response[:error]

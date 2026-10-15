@@ -9,7 +9,6 @@ import { useTranslations } from 'dashboard/composables/useTranslations';
 
 const props = defineProps({
   showingOriginal: Boolean,
-  // Off inside a row that already carries the Captain sparkle.
   icon: { type: Boolean, default: true },
 });
 
@@ -31,7 +30,6 @@ const visible = computed(() => {
   if (state.value.sameLanguage) return !shouldGroupWithNext.value;
   return hasTranslations.value;
 });
-// A bot reply is written in the contact language, so it reads in the contact direction.
 const isOutgoing = computed(
   () =>
     !contactSide.value &&
@@ -43,7 +41,6 @@ const showsTranslation = computed(() =>
     ? props.showingOriginal
     : !props.showingOriginal
 );
-// The link names the version it switches to, with its language when auto translate knows it.
 const toggleLabel = computed(() => {
   const { language, agentLanguage } = autoTranslate.value;
   if (!language) {

@@ -233,7 +233,6 @@ const getters = {
     };
   },
 
-  // A message still waiting for its translation, or one already written in the agent language.
   getMessageTranslationState: (_state, _getters) => messageId => {
     const { enabled, active, locale, language, sameLanguage, translated } =
       _getters.getAutoTranslate;

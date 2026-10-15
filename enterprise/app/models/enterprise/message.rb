@@ -66,7 +66,6 @@ module Enterprise::Message
     content_attributes['source_language'] = language if language.present?
   end
 
-  # The conversation follows the latest message the contact wrote in another language.
   def follow_language
     language = content_attributes['source_language']
     return if language.blank? || conversation.language == language
