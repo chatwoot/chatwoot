@@ -5,13 +5,14 @@ class Api::V1::Accounts::Inboxes::WhatsappCatalogsController < Api::V1::Accounts
   before_action :fetch_inbox
   before_action :ensure_whatsapp_cloud_inbox
   before_action :validate_products_limit, only: [:products]
+  before_action :validate_products_filters, only: [:products]
 
   def show
     render json: catalog_service.perform
   end
 
   def products
-    result = catalog_service.products(limit: products_limit, after: params[:after], query: params[:q].to_s.strip,
+    result = catalog_service.products(limit: products_limit, after: params[:after], query: params[:q]&.strip,
                                       collection_id: params[:collection_id].presence)
     return render_could_not_create_error(I18n.t('errors.whatsapp.catalog_read.invalid_collection')) if result[:status] == 'invalid_collection'
 
@@ -40,6 +41,12 @@ class Api::V1::Accounts::Inboxes::WhatsappCatalogsController < Api::V1::Accounts
     return if products_limit&.between?(1, MAX_PRODUCTS_LIMIT)
 
     render_could_not_create_error(I18n.t('errors.whatsapp.catalog_read.invalid_limit', max: MAX_PRODUCTS_LIMIT))
+  end
+
+  def validate_products_filters
+    return if %i[q after collection_id].all? { |key| params[key].nil? || params[key].is_a?(String) }
+
+    render_could_not_create_error(I18n.t('errors.whatsapp.catalog_read.invalid_filters'))
   end
 
   def catalog_service
