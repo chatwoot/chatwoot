@@ -102,7 +102,7 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
       next if @tool_call.completed?
 
       @tool_call.update!(status: :running, attempts: @tool_call.attempts + 1)
-      persist_message({ content: "Using #{call.name}", function_name: call.name, tool: @tool_call.summary }, 'assistant_thinking')
+      persist_message({ content: "Using #{call.name}", function_name: call.name }, 'assistant_thinking')
     end
   end
 
@@ -112,8 +112,8 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
       # The result keeps the whole error for the model; the column holds a summary within the string limit.
       @tool_call.update!(status: failure ? :failed : :completed, result: result,
                          error: failure.to_s.truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH).presence)
-      persist_message({ content: "#{failure ? 'Failed' : 'Completed'} #{@tool_call.name}", function_name: @tool_call.name,
-                        tool: @tool_call.summary }, 'assistant_thinking')
+      # The result is already on the tool call; the panel shows only the step.
+      persist_message({ content: "#{failure ? 'Failed' : 'Completed'} #{@tool_call.name}", function_name: @tool_call.name }, 'assistant_thinking')
     end
   end
 
