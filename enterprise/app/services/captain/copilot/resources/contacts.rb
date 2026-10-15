@@ -34,7 +34,8 @@ class Captain::Copilot::Resources::Contacts < Captain::Copilot::Resources::BaseR
   def counts_by(relation, group)
     case group
     when 'label' then label_counts(relation)
-    when 'country' then column_counts(relation, :country_code, none: 'No country')
+    # Contacts saved before country_code was synced from additional_attributes store a missing country as an empty string.
+    when 'country' then column_counts(relation, Arel.sql("NULLIF(contacts.country_code, '')"), none: 'No country')
     when 'blocked' then column_counts(relation, :blocked, none: 'Unknown')
     end
   end
