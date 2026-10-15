@@ -29,7 +29,8 @@ class InstallationConfig < ApplicationRecord
   ]).freeze
 
   MOBILE_APP_VERSION_CONFIG_KEYS = %w[MOBILE_APP_MIN_IOS_VERSION MOBILE_APP_MIN_ANDROID_VERSION].freeze
-  MOBILE_APP_VERSION_FORMAT = /\A\d+\.\d+\.\d+\z/
+  # MAJOR.MINOR.PATCH without leading zeros, as semantic versioning requires.
+  MOBILE_APP_VERSION_FORMAT = /\A(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)\z/
 
   # https://stackoverflow.com/questions/72970170/upgrading-to-rails-6-1-6-1-causes-psychdisallowedclass-tried-to-load-unspecif
   # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
