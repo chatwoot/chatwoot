@@ -14,6 +14,7 @@ class Captain::Conversation::DetectLanguageService
 
   def perform
     return unless message.incoming?
+    return if message.auto_reply_email?
 
     language = Captain::Conversation::MessageText.new(message).language
     return if language.blank?

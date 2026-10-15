@@ -43,6 +43,17 @@ RSpec.describe Captain::Conversation::DetectLanguageService do
     expect(conversation.reload.language).to eq('en')
   end
 
+  it 'ignores auto reply emails' do
+    conversation.update!(additional_attributes: { 'conversation_language' => 'fr' })
+    message = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content_type: :incoming_email,
+                               content: 'I am out of the office until Monday and will reply to your email when I return.',
+                               content_attributes: { email: { auto_reply: true } })
+
+    described_class.new(message: message).perform
+
+    expect(conversation.reload.language).to eq('fr')
+  end
+
   it 'ignores outgoing messages' do
     message = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :outgoing,
                                content: 'Celui-ci met quatre secondes à charger.')

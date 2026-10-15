@@ -8,7 +8,8 @@ class Captain::Conversation::AutoTranslateService
     already_in_target, pending = untranslated.partition { |message| same_language?(text(message).language, target_language) }
     already_in_target.each { |message| store(message, text(message).original) }
     translate(pending) if pending.any?
-    detect_conversation_language if conversation.language.blank?
+    # Reloaded: a message that arrived during the model call may have set the language already.
+    detect_conversation_language if conversation.reload.language.blank?
 
     messages.select { |message| message.translations&.key?(target_language) }
   end

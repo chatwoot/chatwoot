@@ -106,6 +106,22 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
     expect(conversation.reload.language).to eq('fr')
   end
 
+  it 'keeps the language a message set while the translator was running' do
+    question = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
+                                content: 'Celui-ci met quatre secondes à charger.')
+    account.enable_features('auto_translate', 'captain_tasks')
+    account.save!
+    allow(llm_service).to receive(:perform) do
+      create(:message, account: account, inbox: inbox, conversation: Conversation.find(conversation.id), message_type: :incoming,
+                       content: 'This one takes four seconds to load before it is ready.')
+      { message: [{ 'id' => "#{question.id}:0", 'text' => 'This one takes four seconds to load.' }] }
+    end
+
+    described_class.new(conversation: conversation, message_ids: [question.id], target_language: 'en').perform
+
+    expect(conversation.reload.language).to eq('en')
+  end
+
   it 'keeps a language that was detected earlier' do
     conversation.update!(additional_attributes: { 'conversation_language' => 'es' })
     question = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
