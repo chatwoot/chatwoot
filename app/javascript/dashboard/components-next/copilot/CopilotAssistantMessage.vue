@@ -24,6 +24,10 @@ const props = defineProps({
     default: true,
   },
 });
+
+const CONVERSATION_PATH_PATTERN =
+  /^\/app\/accounts\/(\d+)\/conversations\/(\d+)$/;
+
 const route = useRoute();
 const router = useRouter();
 const hasEmptyMessageContent = computed(() => !props.message?.content);
@@ -53,9 +57,7 @@ const openConversation = event => {
     return;
 
   const href = event.target.closest('a')?.getAttribute('href');
-  const conversation = href?.match(
-    /^\/app\/accounts\/(\d+)\/conversations\/(\d+)$/
-  );
+  const conversation = href?.match(CONVERSATION_PATH_PATTERN);
   if (!conversation || conversation[1] !== String(route.params.accountId))
     return;
 
