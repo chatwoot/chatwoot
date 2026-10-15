@@ -93,6 +93,17 @@
     "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
     "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_CATALOG": {
+      "VIEW": "View",
+      "VIEW_ITEMS": "View items",
+      "ITEMS_COUNT": "{count} items",
+      "BACK": "Back",
+      "DETAILS": "Details",
+      "DESCRIPTION": "Description",
+      "PHOTO_OF": "Photo {current} of {total}",
+      "PREVIOUS_PHOTO": "Previous photo",
+      "NEXT_PHOTO": "Next photo"
+    },
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
     },
