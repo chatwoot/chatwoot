@@ -1,6 +1,4 @@
 module Enterprise::Messages::MessageBuilder
-  MISCONFIGURED_CAPTAIN_CODES = [401, 403].freeze
-
   private
 
   def message_type
@@ -74,9 +72,6 @@ module Enterprise::Messages::MessageBuilder
       target_language: @conversation.language,
       conversation_display_id: @conversation.display_id
     ).perform
-    # A Captain that is disabled or has no key is a setup bug and must surface; a quota or model failure must not stop replies.
-    raise StandardError, response[:error] if MISCONFIGURED_CAPTAIN_CODES.include?(response[:error_code])
-
     translated = response[:message]&.first&.dig('text') unless response[:error]
     return translated if translated.present?
 

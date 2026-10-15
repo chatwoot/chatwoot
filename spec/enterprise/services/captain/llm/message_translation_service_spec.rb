@@ -45,4 +45,10 @@ RSpec.describe Captain::Llm::MessageTranslationService do
 
     expect(service.perform).to eq(error: 'LLM timeout', error_code: 500)
   end
+
+  it 'raises when Captain is disabled or has no API key' do
+    allow(service).to receive(:make_api_call).and_return(error: 'Captain AI API key is not configured.', error_code: 401)
+
+    expect { service.perform }.to raise_error(StandardError, 'Captain AI API key is not configured.')
+  end
 end

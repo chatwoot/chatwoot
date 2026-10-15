@@ -90,7 +90,7 @@ RSpec.describe Messages::MessageBuilder do
   end
 
   it 'blocks the send when Captain is not configured' do
-    allow(llm_service).to receive(:perform).and_return(error: 'Captain AI API key is not configured.', error_code: 401)
+    allow(llm_service).to receive(:perform).and_raise(StandardError, 'Captain AI API key is not configured.')
 
     expect { described_class.new(user, conversation, params).perform }
       .to raise_error(StandardError, 'Captain AI API key is not configured.')
