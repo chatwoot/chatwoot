@@ -26,13 +26,32 @@ module EmailHelper
   end
 
   # `a@example.com Jane Doe <b@example.com>` parses as one recipient with the first address
-  # swallowed into the display name. A quoted display name may legitimately contain an `@`,
-  # as in `"support@example.com" <agent@example.org>`, so only an unquoted one is a swallowed
-  # address. Which it was has to come from the address's own `raw` source: `display_name` is
-  # returned unquoted and unescaped, so `"a@b.com \"team\"" <c@d.com>` cannot be matched back
-  # against the input it came from.
+  # swallowed into the display name, and `"Team" jane@example.com John Doe <john@example.com>`
+  # drops it from `display_name` altogether. Both lose a recipient silently, so the question is
+  # asked of the address's own `raw` source rather than of the parsed name: an `@` in front of
+  # the `<...>` address, outside any quoted string, is a recipient that is not being sent to.
+  # A quoted display name may hold an `@` of its own -- `"support@example.com" <agent@example.org>`
+  # -- and a bare address has no display name to swallow anything into.
   def swallowed_address?(address)
-    address.display_name.to_s.include?('@') && !address.raw.to_s.lstrip.start_with?('"')
+    raw = address.raw.to_s
+    angle = raw.index('<')
+    return false if angle.nil?
+
+    at_outside_quotes?(raw[0...angle])
+  end
+
+  # Is there an `@` in `text` that is not inside a quoted string? Only an odd run of backslashes
+  # escapes the quote that follows it, so `"Ops \\"` closes.
+  def at_outside_quotes?(text)
+    quoted = false
+    backslashes = 0
+    text.each_char do |c|
+      quoted = !quoted if c == '"' && backslashes.even?
+      return true if c == '@' && !quoted
+
+      backslashes = c == '\\' ? backslashes + 1 : 0
+    end
+    false
   end
 
   # Raise a standard error if any email address is invalid

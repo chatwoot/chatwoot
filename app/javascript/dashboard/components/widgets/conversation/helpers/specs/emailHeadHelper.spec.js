@@ -70,6 +70,33 @@ describe('#validEmailsByComma', () => {
     ).toEqual(true);
   });
 
+  // Forms `Mail::AddressList` or `swallowed_address?` reject on the server. The composer has to
+  // reject them too, or it shows no error and the send 422s.
+  it('rejects two display-name entries with no separator between them', () => {
+    expect(
+      validEmailsByComma('Jane Smith <jane@test.com> John Doe <john@test.com>')
+    ).toEqual(false);
+    expect(validEmailsByComma('<a@test.com> <b@test.com>')).toEqual(false);
+  });
+  it('rejects a recipient list that ends inside a quote', () => {
+    expect(validEmailsByComma('"Jane <jane@test.com>')).toEqual(false);
+    expect(
+      validEmailsByComma('"Doe, John <john@test.com>, jane@test.com')
+    ).toEqual(false);
+  });
+  it('rejects an address swallowed in after a quoted word', () => {
+    expect(
+      validEmailsByComma('"Team" jane@test.com John Doe <john@test.com>')
+    ).toEqual(false);
+  });
+  it('still accepts the display-name forms the server takes', () => {
+    expect(
+      validEmailsByComma('Jane Smith <jane@test.com>, John Doe <john@test.com>')
+    ).toEqual(true);
+    expect(validEmailsByComma('"Team" <team@test.com>')).toEqual(true);
+    expect(validEmailsByComma('<only@test.com>')).toEqual(true);
+  });
+
   it('still rejects an invalid address in any of those forms', () => {
     expect(validEmailsByComma('1@test.com;pova.da')).toEqual(false);
     expect(validEmailsByComma('1@test.com pova.da')).toEqual(false);
