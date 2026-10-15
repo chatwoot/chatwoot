@@ -144,4 +144,42 @@ describe('WhatsappCatalog', () => {
     expect(dialogs()).toHaveLength(1);
     wrapper.unmount();
   });
+
+  it('groups the dialog list by section when there are several', async () => {
+    const twoSections = [
+      { ...items[0], section: 'Kitchen' },
+      { ...items[1], section: 'Living room' },
+      { ...items[2], section: 'Kitchen' },
+    ];
+    const wrapper = mountCatalog('product_list', twoSections);
+    await wrapper.find('[data-test-id="catalog-view-items"]').trigger('click');
+
+    const titles = [
+      ...document.body.querySelectorAll(
+        '[data-test-id="catalog-section-title"]'
+      ),
+    ].map(el => el.textContent.trim());
+    expect(titles).toEqual(['Kitchen', 'Living room']);
+
+    const sections = document.body.querySelectorAll(
+      '[data-test-id="catalog-list-section"]'
+    );
+    const names = [...sections].map(section =>
+      [...section.querySelectorAll('[data-test-id="catalog-list-row"]')].map(
+        row => row.textContent.trim()
+      )
+    );
+    expect(names[0].join(' ')).toContain('Mug');
+    expect(names[0].join(' ')).toContain('Bowl');
+    expect(names[1].join(' ')).toContain('Plate');
+    expect(dialogs()[0].textContent).toContain('Head');
+    wrapper.unmount();
+  });
+
+  it('shows no section titles when all items share one section', async () => {
+    const wrapper = mountCatalog('product_list');
+    await wrapper.find('[data-test-id="catalog-view-items"]').trigger('click');
+    expect(q('catalog-section-title')).toBeNull();
+    wrapper.unmount();
+  });
 });

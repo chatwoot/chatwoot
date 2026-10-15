@@ -26,8 +26,18 @@ const collectionName = computed(
 const dialogTitle = computed(() =>
   detailItem.value
     ? t('CONVERSATION.WHATSAPP_CATALOG.DETAILS')
-    : collectionName.value
+    : catalog.value.header || firstItem.value?.section || ''
 );
+const groupedItems = computed(() => {
+  const groups = new Map();
+  items.value.forEach(item => {
+    const title = item.section || '';
+    if (!groups.has(title)) groups.set(title, { title, items: [] });
+    groups.get(title).items.push(item);
+  });
+  return [...groups.values()];
+});
+const showSectionTitles = computed(() => groupedItems.value.length > 1);
 const showBack = computed(() => !!detailItem.value && openedFromList.value);
 
 const firstImage = item => item?.imageUrls?.[0];
@@ -186,27 +196,41 @@ const onDialogClose = () => {
         <WhatsappCatalogProductDetail :item="detailItem" />
       </template>
       <div v-else-if="showList" class="flex flex-col">
-        <button
-          v-for="item in items"
-          :key="item.retailerId"
-          type="button"
-          class="flex items-center gap-3 p-3 border-t text-start border-n-weak first:border-t-0 hover:bg-n-alpha-2"
-          data-test-id="catalog-list-row"
-          @click="openDetailFromList(item)"
+        <div
+          v-for="group in groupedItems"
+          :key="group.title"
+          class="flex flex-col"
+          data-test-id="catalog-list-section"
         >
-          <img
-            v-if="firstImage(item)"
-            :src="firstImage(item)"
-            :alt="item.name"
-            loading="lazy"
-            class="object-cover rounded-md size-12"
-          />
-          <span v-else class="rounded-md size-12 bg-n-alpha-2" />
-          <span class="flex flex-col min-w-0">
-            <span class="text-sm font-medium truncate">{{ item.name }}</span>
-            <span class="text-sm text-n-slate-11">{{ item.price }}</span>
-          </span>
-        </button>
+          <div
+            v-if="showSectionTitles && group.title"
+            class="px-3 pt-3 pb-1 text-xs font-medium text-n-slate-11"
+            data-test-id="catalog-section-title"
+          >
+            {{ group.title }}
+          </div>
+          <button
+            v-for="item in group.items"
+            :key="item.retailerId"
+            type="button"
+            class="flex items-center gap-3 p-3 border-t text-start border-n-weak first:border-t-0 hover:bg-n-alpha-2"
+            data-test-id="catalog-list-row"
+            @click="openDetailFromList(item)"
+          >
+            <img
+              v-if="firstImage(item)"
+              :src="firstImage(item)"
+              :alt="item.name"
+              loading="lazy"
+              class="object-cover rounded-md size-12"
+            />
+            <span v-else class="rounded-md size-12 bg-n-alpha-2" />
+            <span class="flex flex-col min-w-0">
+              <span class="text-sm font-medium truncate">{{ item.name }}</span>
+              <span class="text-sm text-n-slate-11">{{ item.price }}</span>
+            </span>
+          </button>
+        </div>
       </div>
     </Dialog>
   </BaseBubble>
