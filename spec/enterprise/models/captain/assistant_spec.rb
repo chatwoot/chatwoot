@@ -380,6 +380,20 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(instructions).not_to include('# Contact Information', 'Jane Doe')
     end
 
+    it 'tells Captain to use only IDs found for the verified email' do
+      state = { channel_type: 'Channel::WebWidget', conversation: { id: 1 }, verified_email: 'jane@example.com', assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions).to include('use only an ID that a tool returned in this conversation for jane@example.com')
+    end
+
+    it 'leaves out the ID rule before the customer verifies' do
+      state = { channel_type: 'Channel::WebWidget', conversation: { id: 1 }, assistant_config: {} }
+
+      expect(assistant.agent_instructions(Struct.new(:context).new({ state: state }))).not_to include('use only an ID that a tool returned')
+    end
+
     it 'gives the steps to verify on a messaging channel, without any HMAC status' do
       state = { channel_type: 'Channel::Whatsapp', conversation: { id: 1 }, contact_inbox: { id: 1, hmac_verified: true }, assistant_config: {} }
 
