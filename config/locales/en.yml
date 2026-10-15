@@ -538,6 +538,12 @@ en:
         invalid_name: '%{name} is not a valid header name'
         reserved: '%{name} is managed by Chatwoot and cannot be set'
         invalid_value: 'value for %{name} must be fixed text up to 1 KiB, without placeholders or control characters'
+      param_schema:
+        invalid: 'must list parameters with known fields and plain values'
+      settings:
+        invalid: 'must be an object'
+        unknown: 'has unknown settings: %{names}'
+        not_boolean: 'values must be true or false'
     tools_manifest:
       invalid_source: 'Enter a toolset from the Captain tools catalog as chatwoot/tools/folder'
       invalid_configuration: 'Invalid configuration'
@@ -924,7 +930,7 @@ en:
         notification_type: 'Notification type'
         unnamed_account: 'Account %{id}'
         sla_unavailable: 'SLA is not enabled on this account'
-        calls_unavailable: 'Voice Channel and Mobile Voice Push are not both enabled on this account'
+        calls_unavailable: 'Voice Channel and Calls on mobile are not both enabled on this account'
         none_enabled:
           one: 'No push types are enabled for %{names}. This user receives no push notification from that account.'
           other: 'No push types are enabled for %{names}. This user receives no push notification from those accounts.'
@@ -950,7 +956,7 @@ en:
         account_columns:
           account: 'Account'
           voice: 'Voice Channel'
-          ringing: 'Mobile Voice Push'
+          ringing: 'Calls on mobile'
           inboxes: 'Voice inboxes'
           status: 'Status'
           rings: 'Phone rings'

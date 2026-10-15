@@ -1,4 +1,5 @@
 class Voice::Provider::Twilio::RecordingAttachmentService
+  API_HOST_PATTERN = /\Aapi(?:\.[a-z0-9-]+){0,2}\.twilio\.com\z/i
   DEFAULT_FILENAME_EXTENSION = 'wav'.freeze
   ALLOWED_CONTENT_TYPE_PREFIXES = %w[audio/].freeze
 
@@ -6,6 +7,8 @@ class Voice::Provider::Twilio::RecordingAttachmentService
 
   def perform
     return unless attachable?
+
+    raise SafeFetch::InvalidUrlError, 'invalid Twilio recording URL' unless valid_recording_url?
 
     SafeFetch.fetch(
       recording_url,
@@ -25,6 +28,18 @@ class Voice::Provider::Twilio::RecordingAttachmentService
   end
 
   private
+
+  def valid_recording_url?
+    uri = URI.parse(recording_url)
+    return false unless uri.is_a?(URI::HTTPS) && uri.host.to_s.match?(API_HOST_PATTERN)
+    return false unless uri.port == 443
+    return false if [uri.userinfo, uri.query, uri.fragment].any?(&:present?)
+
+    path = "/2010-04-01/Accounts/#{channel.account_sid}/Recordings/#{recording_sid}"
+    [path, "#{path}.wav", "#{path}.mp3"].include?(uri.path)
+  rescue URI::InvalidURIError
+    false
+  end
 
   def attachable?
     return false if recording_sid.blank? || recording_url.blank?

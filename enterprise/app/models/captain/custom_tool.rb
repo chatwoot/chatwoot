@@ -13,6 +13,7 @@
 #  param_schema      :jsonb
 #  request_template  :text
 #  response_template :text
+#  settings          :jsonb            not null
 #  slug              :string           not null
 #  source_metadata   :jsonb
 #  title             :string           not null
@@ -52,6 +53,8 @@ class Captain::CustomTool < ApplicationRecord
   RESERVED_HEADERS = %w[authorization host content-length content-type].freeze
   # Any name starting with x-chatwoot, dash or not, is reserved for headers Chatwoot sets
   RESERVED_HEADER_PREFIX = 'x-chatwoot'.freeze
+  # Values Chatwoot fills into a parameter from what the customer verified: an email by one-time code
+  VERIFIED_SOURCES = %w[verified.email].freeze
   PARAM_SCHEMA_VALIDATION = {
     'type': 'array',
     'items': {
@@ -60,9 +63,13 @@ class Captain::CustomTool < ApplicationRecord
         'name': { 'type': 'string' },
         'type': { 'type': 'string' },
         'description': { 'type': 'string' },
-        'required': { 'type': 'boolean' }
+        'required': { 'type': 'boolean' },
+        'source': { 'enum': VERIFIED_SOURCES }
       },
       'required': %w[name type description],
+      # Verified values are text, so a parameter that takes one must be a string
+      'if': { 'required': ['source'] },
+      'then': { 'properties': { 'type': { 'const': 'string' } } },
       'additionalProperties': false
     }
   }.to_json.freeze
@@ -80,6 +87,14 @@ class Captain::CustomTool < ApplicationRecord
       'installation_id': { 'type': 'string', 'format': 'uuid' }
     },
     'required': %w[source repository path tool_id revision version manifest_digest installation_id],
+    'additionalProperties': false
+  }.to_json.freeze
+
+  # Only known settings with boolean values are accepted, so a typo or a string can never switch a safety setting off
+  SETTING_KEYS = %w[requires_email_verification].freeze
+  SETTINGS_VALIDATION = {
+    'type': 'object',
+    'properties': SETTING_KEYS.index_with { { 'type': 'boolean' } },
     'additionalProperties': false
   }.to_json.freeze
 
@@ -103,6 +118,9 @@ class Captain::CustomTool < ApplicationRecord
   validates_with JsonSchemaValidator,
                  schema: SOURCE_METADATA_VALIDATION,
                  attribute_resolver: ->(record) { record.source_metadata }
+  validates_with JsonSchemaValidator,
+                 schema: SETTINGS_VALIDATION,
+                 attribute_resolver: ->(record) { record.settings }
   validate :validate_headers
   validate :validate_auth_config
 
@@ -119,6 +137,17 @@ class Captain::CustomTool < ApplicationRecord
       description: description,
       custom: true
     }
+  end
+
+  # The tool only runs for a customer who verified an email with a one-time code.
+  # A tool with a parameter that takes the verified email cannot run without one, so it needs no setting.
+  def requires_email_verification?
+    settings['requires_email_verification'] == true || param_schema.any? { |param_def| param_def['source'] == 'verified.email' }
+  end
+
+  # The name of the parameter Chatwoot fills with the verified email, if the tool has one
+  def verified_email_param
+    param_schema.find { |param_def| param_def['source'] == 'verified.email' }&.dig('name')
   end
 
   def enabled_scenarios_count
