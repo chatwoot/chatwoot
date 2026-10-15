@@ -34,4 +34,8 @@ class Whatsapp::Providers::WhatsappCloudCatalogService < Whatsapp::Providers::Ba
   def api_headers
     { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
   end
+
+  def error_message(response)
+    response.parsed_response.dig('error', 'message') if response.parsed_response.is_a?(Hash)
+  end
 end
