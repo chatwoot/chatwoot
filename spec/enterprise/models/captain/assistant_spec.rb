@@ -381,7 +381,7 @@ RSpec.describe Captain::Assistant, type: :model do
     end
 
     it 'gives the steps to verify on a messaging channel, without any HMAC status' do
-      state = { channel_type: 'Channel::Whatsapp', contact_inbox: { id: 1, hmac_verified: true }, assistant_config: {} }
+      state = { channel_type: 'Channel::Whatsapp', conversation: { id: 1 }, contact_inbox: { id: 1, hmac_verified: true }, assistant_config: {} }
 
       instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
 
@@ -389,12 +389,18 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(instructions).not_to include('HMAC')
     end
 
-    it 'leaves out the identity section in an email conversation, which cannot verify' do
-      state = { channel_type: 'Channel::Email', contact_inbox: { id: 1, hmac_verified: false }, assistant_config: {} }
+    it 'gives the steps to verify in an email conversation too' do
+      state = { channel_type: 'Channel::Email', conversation: { id: 1 }, contact_inbox: { id: 1, hmac_verified: false }, assistant_config: {} }
 
       instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
 
-      expect(instructions).not_to include('# Customer Identity')
+      expect(instructions).to include('Email verified by one-time code: No', 'captain--tools--send_email_verification_code')
+    end
+
+    it 'leaves out the verification steps where an admin or an agent is the user' do
+      state = { source: 'playground', conversation: { id: 1 }, assistant_config: {} }
+
+      expect(assistant.agent_instructions(Struct.new(:context).new({ state: state }))).not_to include('# Customer Identity')
     end
   end
 end

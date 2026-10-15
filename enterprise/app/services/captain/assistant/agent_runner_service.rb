@@ -171,10 +171,9 @@ class Captain::Assistant::AgentRunnerService
     tools.map { |tool| tool.is_a?(Captain::Tools::HttpTool) ? tool.custom_tool.tool(@assistant, base_class: Captain::Tools::CopilotHttpTool) : tool }
   end
 
-  # Every agent in a customer conversation can verify the customer, so whichever one is asked for account data can do it.
-  # Email conversations are left out: a code sent to the address the customer already writes from proves nothing new.
+  # Every agent in a customer conversation can verify the customer, so whichever one is asked for account data can do it
   def with_email_verification_tools(agent)
-    return agent if @conversation&.contact_inbox.blank? || @conversation.inbox.email?
+    return agent if @conversation.blank?
 
     agent.clone(tools: agent.tools + EMAIL_VERIFICATION_TOOLS.map { |tool_class| tool_class.new(@assistant) })
   end

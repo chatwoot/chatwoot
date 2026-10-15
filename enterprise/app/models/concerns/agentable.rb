@@ -44,9 +44,9 @@ module Concerns::Agentable
 
   private
 
-  # Matches where the runner gives Captain the verification tools: a conversation with a contact inbox, outside email
+  # Matches where the runner gives Captain the verification tools: a conversation where a customer is the user
   def can_verify_email?(state)
-    state[:contact_inbox].present? && state[:channel_type] != 'Channel::Email'
+    state[:conversation].present? && Captain::Assistant::AgentRunnerService::COPILOT_SOURCES.exclude?(state[:source])
   end
 
   def runtime_prompt_context(context, runtime_configuration)
