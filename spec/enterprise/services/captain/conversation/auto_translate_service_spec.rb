@@ -16,11 +16,15 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
     ] }
   end
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
+  let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, perform: nil) }
   let(:service) do
     described_class.new(conversation: conversation, message_ids: [greeting.id, thanks.id, english.id, reply.id], target_language: 'en')
   end
 
-  before { allow(Captain::Llm::MessageTranslationService).to receive(:new).and_return(llm_service) }
+  before do
+    allow(Captain::Llm::MessageTranslationService).to receive(:new).and_return(llm_service)
+    allow(Captain::Llm::LanguageDetectionService).to receive(:new).and_return(detection)
+  end
 
   it 'sends only the incoming messages to the translator' do
     service.perform
@@ -41,22 +45,12 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
 
   it 'stores a message already written in the target language without calling the translator' do
     english = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
-                               content: 'This one takes four seconds to load before it is ready.')
+                               content: 'This one takes four seconds to load before it is ready.', content_attributes: { source_language: 'en' })
 
     described_class.new(conversation: conversation, message_ids: [english.id], target_language: 'en').perform
 
     expect(Captain::Llm::MessageTranslationService).not_to have_received(:new)
     expect(english.reload.content_attributes).to include('translations' => { 'en' => english.content }, 'source_language' => 'en')
-  end
-
-  it 'remembers the detected language of a translated message' do
-    question = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
-                                content: 'Celui-ci met quatre secondes à charger.')
-    allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => "#{question.id}:0", 'text' => 'This one takes four seconds to load.' }])
-
-    described_class.new(conversation: conversation, message_ids: [question.id], target_language: 'en').perform
-
-    expect(question.reload.content_attributes).to include('source_language' => 'fr')
   end
 
   it 'keeps changes made to a message while the translator was running' do
@@ -97,6 +91,7 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
   end
 
   it 'detects the contact language from the batch when the conversation has none' do
+    allow(detection).to receive(:perform).and_return('fr')
     question = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
                                 content: 'Celui-ci met quatre secondes à charger.')
     allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => "#{question.id}:0", 'text' => 'This one takes four seconds to load.' }])
@@ -107,6 +102,7 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
   end
 
   it 'keeps the language a message set while the translator was running' do
+    allow(detection).to receive(:perform).and_return('en')
     question = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
                                 content: 'Celui-ci met quatre secondes à charger.')
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')

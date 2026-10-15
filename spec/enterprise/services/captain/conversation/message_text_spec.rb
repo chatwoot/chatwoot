@@ -18,6 +18,7 @@ RSpec.describe Captain::Conversation::MessageText do
   end
 
   it 'reads a plain message as one text and detects its language' do
+    allow(Captain::Llm::LanguageDetectionService).to receive(:new).and_return(instance_double(Captain::Llm::LanguageDetectionService, perform: 'fr'))
     text = described_class.new(chat)
 
     expect(text.texts).to eq(['Celui-ci met quatre secondes à charger.'])

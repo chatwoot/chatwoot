@@ -5,7 +5,7 @@ class Captain::Conversation::AutoTranslateService
   pattr_initialize [:conversation!, :message_ids!, :target_language!]
 
   def perform
-    already_in_target, pending = untranslated.partition { |message| same_language?(text(message).language, target_language) }
+    already_in_target, pending = untranslated.partition { |message| same_language?(message.content_attributes['source_language'], target_language) }
     already_in_target.each { |message| store(message, text(message).original) }
     translate(pending) if pending.any?
     # Reloaded: a message that arrived during the model call may have set the language already.
@@ -59,19 +59,20 @@ class Captain::Conversation::AutoTranslateService
   end
 
   # Merged under the row lock: the model call takes seconds, and another agent's translation or a deletion
-  # may have landed on the message meanwhile. The source language keeps "Translated from" right after a thread switch.
+  # may have landed on the message meanwhile.
   def store(message, content)
     message.with_lock do
-      attributes = message.content_attributes.merge(
-        'translations' => (message.translations || {}).merge(target_language => content),
-        'source_language' => text(message).language
-      )
-      message.update!(content_attributes: attributes.compact)
+      translations = (message.translations || {}).merge(target_language => content)
+      message.update!(content_attributes: message.content_attributes.merge('translations' => translations))
     end
   end
 
+  # Messages from before the feature carry no language; the thread follows its latest one.
   def detect_conversation_language
-    untranslated.each { |message| Captain::Conversation::DetectLanguageService.new(message: message).perform }
+    return if untranslated.empty?
+
+    language = text(untranslated.last).language
+    conversation.update!(additional_attributes: conversation.additional_attributes.merge(conversation_language: language)) if language
   end
 
   def same_language?(first, second)

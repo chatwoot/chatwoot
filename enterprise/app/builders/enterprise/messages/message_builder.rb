@@ -82,7 +82,7 @@ module Enterprise::Messages::MessageBuilder
   def detected_language
     return @detected_language if defined?(@detected_language)
 
-    @detected_language = Captain::Conversation::DetectLanguageService.language_of(reply_text)
+    @detected_language = Captain::Llm::LanguageDetectionService.new(account: @account, text: reply_text).perform
   end
 
   # The language the agent actually wrote in; the profile language is the fallback for texts too short to detect.

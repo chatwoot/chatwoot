@@ -90,4 +90,56 @@ RSpec.describe Message do
       expect(conversation.reload.pending?).to be true
     end
   end
+
+  describe 'language detection' do
+    let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, perform: 'fr') }
+
+    before do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+      conversation.account.enable_features('auto_translate', 'captain_tasks')
+      conversation.account.save!
+      allow(Captain::Llm::LanguageDetectionService).to receive(:new).and_return(detection)
+    end
+
+    it 'saves a message built through the conversation once while the conversation follows its language' do
+      message = conversation.messages.build(account: conversation.account, inbox: conversation.inbox, message_type: :incoming,
+                                            content: 'Celui-ci met quatre secondes à charger.')
+      message.save!
+
+      expect(conversation.messages.count).to eq(1)
+      expect(message.reload.content_attributes['source_language']).to eq('fr')
+      expect(conversation.reload.language).to eq('fr')
+    end
+
+    it 'reads an html email from its text nodes' do
+      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
+                       content: '[Voir](https://example.com/_t/c/AAC40W9FOTSX_t_qFpbD) ͏ ͏ ͏ ͏ ͏ ͏',
+                       content_attributes: { email: { html_content: { full: '<p>Celui-ci met quatre secondes à charger.</p>' } } })
+
+      expect(Captain::Llm::LanguageDetectionService).to have_received(:new)
+        .with(account: conversation.account, text: 'Celui-ci met quatre secondes à charger.')
+      expect(conversation.reload.language).to eq('fr')
+    end
+
+    it 'leaves the conversation alone when the contact writes its language again' do
+      allow(detection).to receive(:perform).and_return('en')
+      conversation.update!(additional_attributes: { 'conversation_language' => 'en' })
+
+      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
+                       content: 'This one takes four seconds to load before it is ready.')
+
+      expect(conversation.reload.additional_attributes).to eq('conversation_language' => 'en')
+    end
+
+    it 'ignores auto reply emails and outgoing messages' do
+      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
+                       content_type: :incoming_email, content: 'I am out of the office until Monday and will reply when I return.',
+                       content_attributes: { email: { auto_reply: true } })
+      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                       content: 'Celui-ci met quatre secondes à charger.')
+
+      expect(Captain::Llm::LanguageDetectionService).not_to have_received(:new)
+      expect(conversation.reload.language).to be_nil
+    end
+  end
 end

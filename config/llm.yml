@@ -201,6 +201,9 @@ features:
   message_translation:
     models: [gpt-6-luna, gpt-6.1-sol, gpt-5.2, gpt-5-mini, gpt-4.1-mini]
     default: gpt-6-luna
+  language_detection:
+    models: [gpt-5-nano, gpt-5-mini]
+    default: gpt-5-nano
   audio_transcription:
     models: [gpt-4o-mini-transcribe, whisper-1]
     default: gpt-4o-mini-transcribe
