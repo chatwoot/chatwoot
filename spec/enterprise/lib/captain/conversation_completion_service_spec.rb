@@ -13,6 +13,7 @@ RSpec.describe Captain::ConversationCompletionService do
     allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
     allow(mock_chat).to receive(:with_instructions)
     allow(mock_chat).to receive(:with_schema).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_thinking).and_return(mock_chat)
     allow(mock_chat).to receive(:with_model).and_return(mock_chat)
     allow(account).to receive(:feature_enabled?).and_call_original
     allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
