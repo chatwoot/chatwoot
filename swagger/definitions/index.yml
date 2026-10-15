@@ -141,6 +141,8 @@ conversation_create_payload:
   $ref: ./request/conversation/create_payload.yml
 conversation_message_create_payload:
   $ref: ./request/conversation/create_message_payload.yml
+conversation_catalog_message_create_payload:
+  $ref: ./request/conversation/create_catalog_message_payload.yml
 
 # Inbox
 inbox_create_payload:
