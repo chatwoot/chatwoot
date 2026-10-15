@@ -1,10 +1,8 @@
 import { defineComponent, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { createI18n } from 'vue-i18n';
-import { createStore } from 'vuex';
 import WhatsappCatalog from '../WhatsappCatalog.vue';
 import { provideMessageContext } from '../../provider.js';
-import en from 'dashboard/i18n/locale/en/conversation.json';
 
 const items = [
   {
@@ -20,15 +18,6 @@ const items = [
     retailerId: 'b',
     name: 'Plate',
     price: '$ 7.000',
-    imageUrls: [],
-    description: null,
-    url: null,
-    section: 'Kitchen',
-  },
-  {
-    retailerId: 'c',
-    name: 'Bowl',
-    price: '$ 3.000',
     imageUrls: [],
     description: null,
     url: null,
@@ -59,48 +48,72 @@ const mountCatalog = (kind, catalogItems = items) => {
   const i18n = createI18n({
     legacy: false,
     locale: 'en',
-    messages: { en: { CONVERSATION: en.CONVERSATION } },
-  });
-
-  const store = createStore({
-    getters: { 'accounts/isRTL': () => false },
+    messages: {
+      en: {
+        CATALOG: {
+          PRODUCT: {
+            VIEW: 'View',
+            VIEW_ITEMS: 'View items',
+            ITEMS_COUNT: '{count} items',
+            DESCRIPTION: 'Description',
+            LINK: 'Link',
+            PHOTO_OF: 'Photo {current} of {total}',
+            DETAILS_TITLE: 'Details',
+          },
+          NO_COLLECTION: 'Collection',
+          ACTIONS: { CLOSE: 'Close', BACK: 'Back' },
+        },
+      },
+    },
   });
 
   return mount(TestHost, {
     attachTo: document.body,
     global: {
-      plugins: [i18n, store],
+      plugins: [i18n],
       stubs: { BaseBubble: { template: '<div><slot /></div>' } },
     },
   });
 };
 
-const dialogs = () => document.body.querySelectorAll('dialog');
-const q = id => document.body.querySelector(`[data-test-id="${id}"]`);
-
 describe('WhatsappCatalog', () => {
-  beforeEach(() => {
-    HTMLDialogElement.prototype.showModal = vi.fn();
-    HTMLDialogElement.prototype.close = vi.fn();
-  });
-
   afterEach(() => {
     document.body.innerHTML = '';
   });
 
-  it('renders a carousel with header, body, footer and opens the detail', async () => {
+  it('renders a carousel and opens the detail without an order button', async () => {
     const wrapper = mountCatalog('carousel');
-    expect(wrapper.text()).toContain('Head');
     expect(wrapper.text()).toContain('Body text');
     expect(wrapper.text()).toContain('Foot');
-    expect(wrapper.findAll('[data-test-id="catalog-card"]')).toHaveLength(3);
+    expect(wrapper.findAll('[data-test-id="catalog-card"]')).toHaveLength(2);
 
-    await wrapper.find('[data-test-id="catalog-card-view"]').trigger('click');
-    expect(dialogs()).toHaveLength(1);
-    expect(q('catalog-gallery')).not.toBeNull();
-    expect(dialogs()[0].textContent).toContain('Ceramic mug');
-    expect(dialogs()[0].textContent).toContain('Details');
-    expect(q('catalog-back')).toBeNull();
+    await wrapper
+      .find('[data-test-id="catalog-card"] button + div + button')
+      .trigger('click');
+    const detail = document.body.querySelector(
+      '[data-test-id="catalog-detail"]'
+    );
+    expect(detail.textContent).toContain('Mug');
+    expect(detail.textContent).toContain('$ 5.000');
+    expect(detail.textContent).toContain('Ceramic mug');
+    expect(detail.textContent).toContain('Photo 1 of 2');
+    const sheet = document.body.querySelector('[data-test-id="catalog-sheet"]');
+    expect(
+      sheet.querySelector('[data-test-id="catalog-sheet-header"]').textContent
+    ).toContain('Details');
+    expect(
+      sheet
+        .querySelector('[data-test-id="catalog-sheet-close"]')
+        .getAttribute('aria-label')
+    ).toBe('Close');
+    expect(
+      detail.querySelector('[data-test-id="catalog-detail-close"]')
+    ).toBeNull();
+    const link = detail.querySelector('[data-test-id="catalog-detail-link"]');
+    expect(link.textContent.trim()).toBe('https://x/mug');
+    expect(link.getAttribute('target')).toBe('_blank');
+    expect(detail.querySelector('video')).toBeNull();
+    expect(detail.textContent).not.toMatch(/cart|order/i);
     wrapper.unmount();
   });
 
@@ -111,75 +124,67 @@ describe('WhatsappCatalog', () => {
     wrapper.unmount();
   });
 
-  it('renders a product list and navigates list -> detail -> list in one dialog', async () => {
+  it('renders a product list with header, count and opens the list inside the sheet', async () => {
     const wrapper = mountCatalog('product_list');
     expect(wrapper.text()).toContain('Head');
-    expect(wrapper.text()).toContain('Body text');
     expect(wrapper.text()).toContain('Kitchen');
-    expect(wrapper.text()).toContain('3 items');
+    expect(wrapper.text()).toContain('2 items');
     expect(wrapper.text()).toContain('View items');
-    expect(wrapper.text().indexOf('Head')).toBeLessThan(
-      wrapper.text().indexOf('Body text')
-    );
 
-    await wrapper.find('[data-test-id="catalog-view-items"]').trigger('click');
-    expect(dialogs()).toHaveLength(1);
-    const rows = document.body.querySelectorAll(
+    await wrapper.find('[data-test-id="catalog-list-header"]').trigger('click');
+    const sheets = document.body.querySelectorAll(
+      '[data-test-id="catalog-sheet"]'
+    );
+    expect(sheets).toHaveLength(1);
+    expect(
+      sheets[0].querySelector('[data-test-id="catalog-sheet-header"]')
+        .textContent
+    ).toContain('Kitchen');
+    const rows = sheets[0].querySelectorAll(
       '[data-test-id="catalog-list-row"]'
     );
-    expect(rows).toHaveLength(3);
+    expect(rows).toHaveLength(2);
 
     rows[1].click();
     await wrapper.vm.$nextTick();
-    expect(dialogs()).toHaveLength(1);
-    expect(dialogs()[0].textContent).toContain('Plate');
-    expect(q('catalog-list-row')).toBeNull();
+    expect(
+      document.body.querySelectorAll('[data-test-id="catalog-sheet"]')
+    ).toHaveLength(1);
+    expect(
+      document.body.querySelector('[data-test-id="catalog-detail"]').textContent
+    ).toContain('Plate');
+    expect(
+      document.body.querySelector('[data-test-id="catalog-list-row"]')
+    ).toBeNull();
 
-    q('catalog-back').click();
+    document.body.querySelector('[data-test-id="catalog-sheet-back"]').click();
     await wrapper.vm.$nextTick();
     expect(
       document.body.querySelectorAll('[data-test-id="catalog-list-row"]')
-    ).toHaveLength(3);
-    expect(q('catalog-back')).toBeNull();
-    expect(dialogs()).toHaveLength(1);
+    ).toHaveLength(2);
+    expect(
+      document.body.querySelector('[data-test-id="catalog-detail"]')
+    ).toBeNull();
+
+    document.body.querySelector('[data-test-id="catalog-sheet-close"]').click();
+    await wrapper.vm.$nextTick();
+    expect(
+      document.body.querySelector('[data-test-id="catalog-sheet"]')
+    ).toBeNull();
     wrapper.unmount();
   });
 
-  it('groups the dialog list by section when there are several', async () => {
-    const twoSections = [
-      { ...items[0], section: 'Kitchen' },
-      { ...items[1], section: 'Living room' },
-      { ...items[2], section: 'Kitchen' },
-    ];
-    const wrapper = mountCatalog('product_list', twoSections);
-    await wrapper.find('[data-test-id="catalog-view-items"]').trigger('click');
-
-    const titles = [
-      ...document.body.querySelectorAll(
-        '[data-test-id="catalog-section-title"]'
-      ),
-    ].map(el => el.textContent.trim());
-    expect(titles).toEqual(['Kitchen', 'Living room']);
-
-    const sections = document.body.querySelectorAll(
-      '[data-test-id="catalog-list-section"]'
-    );
-    const names = [...sections].map(section =>
-      [...section.querySelectorAll('[data-test-id="catalog-list-row"]')].map(
-        row => row.textContent.trim()
-      )
-    );
-    expect(names[0].join(' ')).toContain('Mug');
-    expect(names[0].join(' ')).toContain('Bowl');
-    expect(names[1].join(' ')).toContain('Plate');
-    expect(dialogs()[0].textContent).toContain('Head');
-    wrapper.unmount();
-  });
-
-  it('shows no section titles when all items share one section', async () => {
-    const wrapper = mountCatalog('product_list');
-    await wrapper.find('[data-test-id="catalog-view-items"]').trigger('click');
-    expect(q('catalog-section-title')).toBeNull();
+  it('closes a detail opened from a card without a back arrow', async () => {
+    const wrapper = mountCatalog('carousel');
+    await wrapper.find('[data-test-id="catalog-card"] button').trigger('click');
+    expect(
+      document.body.querySelector('[data-test-id="catalog-sheet-back"]')
+    ).toBeNull();
+    document.body.querySelector('[data-test-id="catalog-sheet-close"]').click();
+    await wrapper.vm.$nextTick();
+    expect(
+      document.body.querySelector('[data-test-id="catalog-sheet"]')
+    ).toBeNull();
     wrapper.unmount();
   });
 });

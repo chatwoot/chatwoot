@@ -2,17 +2,15 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import BaseBubble from './Base.vue';
-import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
-import WhatsappCatalogProductDetail from './WhatsappCatalogProductDetail.vue';
+import CatalogSheet from 'dashboard/components-next/whatsapp-catalog/CatalogSheet.vue';
+import ProductDetail from 'dashboard/components-next/whatsapp-catalog/ProductDetail.vue';
 import { useMessageContext } from '../provider.js';
 
 const { content, contentAttributes } = useMessageContext();
 const { t } = useI18n();
 
-const dialogRef = ref(null);
 const detailItem = ref(null);
-const showList = ref(false);
+const listOpen = ref(false);
 const openedFromList = ref(false);
 
 const catalog = computed(() => contentAttributes.value?.whatsappCatalog ?? {});
@@ -21,55 +19,31 @@ const isCarousel = computed(() => catalog.value.kind === 'carousel');
 const isList = computed(() => catalog.value.kind === 'product_list');
 const firstItem = computed(() => items.value[0]);
 const collectionName = computed(
-  () => firstItem.value?.section || catalog.value.header || ''
+  () => firstItem.value?.section || t('CATALOG.NO_COLLECTION')
 );
-const dialogTitle = computed(() =>
-  detailItem.value
-    ? t('CONVERSATION.WHATSAPP_CATALOG.DETAILS')
-    : catalog.value.header || firstItem.value?.section || ''
+const sheetTitle = computed(() =>
+  detailItem.value ? t('CATALOG.PRODUCT.DETAILS_TITLE') : collectionName.value
 );
-const groupedItems = computed(() => {
-  const groups = new Map();
-  items.value.forEach(item => {
-    const title = item.section || '';
-    if (!groups.has(title)) groups.set(title, { title, items: [] });
-    groups.get(title).items.push(item);
-  });
-  return [...groups.values()];
-});
-const showSectionTitles = computed(() => groupedItems.value.length > 1);
-const showBack = computed(() => !!detailItem.value && openedFromList.value);
-
 const firstImage = item => item?.imageUrls?.[0];
 
-const openDetail = item => {
+const openFromCard = item => {
   openedFromList.value = false;
-  showList.value = false;
   detailItem.value = item;
-  dialogRef.value?.open();
 };
 
-const openList = () => {
-  openedFromList.value = false;
-  detailItem.value = null;
-  showList.value = true;
-  dialogRef.value?.open();
-};
-
-const openDetailFromList = item => {
+const openFromList = item => {
   openedFromList.value = true;
   detailItem.value = item;
 };
 
-const backToList = () => {
-  openedFromList.value = false;
+// Back arrow, X, handle, Escape and backdrop: a detail opened from the list returns to it.
+const onSheetClose = () => {
+  if (detailItem.value && openedFromList.value) {
+    detailItem.value = null;
+    return;
+  }
   detailItem.value = null;
-};
-
-const onDialogClose = () => {
-  detailItem.value = null;
-  showList.value = false;
-  openedFromList.value = false;
+  listOpen.value = false;
 };
 </script>
 
@@ -79,20 +53,16 @@ const onDialogClose = () => {
     :class="isCarousel ? 'sm:max-w-xl' : 'sm:max-w-xs'"
     data-bubble-name="whatsapp-catalog"
   >
-    <div class="flex flex-col gap-2 min-w-0 max-w-full">
+    <div class="flex flex-col gap-2 min-w-0">
       <div v-if="catalog.header" class="font-medium break-words">
         {{ catalog.header }}
       </div>
-      <div v-if="content" class="whitespace-pre-wrap break-words">
-        {{ content }}
-      </div>
-
       <button
         v-if="isList"
         type="button"
         class="flex items-center gap-3 p-2 text-start border rounded-lg border-n-weak"
         data-test-id="catalog-list-header"
-        @click="openList"
+        @click="listOpen = true"
       >
         <img
           v-if="firstImage(firstItem)"
@@ -105,31 +75,29 @@ const onDialogClose = () => {
         <span class="flex flex-col min-w-0">
           <span class="font-medium truncate">{{ collectionName }}</span>
           <span class="text-xs text-n-slate-11">
-            {{
-              t('CONVERSATION.WHATSAPP_CATALOG.ITEMS_COUNT', {
-                count: items.length,
-              })
-            }}
+            {{ t('CATALOG.PRODUCT.ITEMS_COUNT', { count: items.length }) }}
           </span>
         </span>
       </button>
+      <div v-if="content" class="whitespace-pre-wrap break-words">
+        {{ content }}
+      </div>
 
       <div
         v-if="!isList"
-        class="flex gap-2 min-w-0 max-w-full pb-1 overflow-x-auto snap-x snap-mandatory"
+        class="flex gap-2 max-w-full pb-1 overflow-x-auto snap-x snap-mandatory"
         data-test-id="catalog-cards"
       >
         <div
           v-for="item in items"
           :key="item.retailerId"
-          class="flex flex-col overflow-hidden border rounded-lg shrink-0 snap-start w-60 border-n-weak bg-n-solid-2"
+          class="flex flex-col shrink-0 snap-start overflow-hidden border rounded-lg w-60 border-n-weak bg-n-solid-2"
           data-test-id="catalog-card"
         >
           <button
             type="button"
             class="block w-full aspect-square bg-n-alpha-2"
-            data-test-id="catalog-card-image"
-            @click="openDetail(item)"
+            @click="openFromCard(item)"
           >
             <img
               v-if="firstImage(item)"
@@ -148,10 +116,9 @@ const onDialogClose = () => {
           <button
             type="button"
             class="py-2 text-sm font-medium text-center border-t text-n-brand border-n-weak hover:bg-n-alpha-2"
-            data-test-id="catalog-card-view"
-            @click="openDetail(item)"
+            @click="openFromCard(item)"
           >
-            {{ t('CONVERSATION.WHATSAPP_CATALOG.VIEW') }}
+            {{ t('CATALOG.PRODUCT.VIEW') }}
           </button>
         </div>
       </div>
@@ -160,10 +127,9 @@ const onDialogClose = () => {
         v-else
         type="button"
         class="py-2 text-sm font-medium text-center border rounded-lg text-n-brand border-n-weak hover:bg-n-alpha-2"
-        data-test-id="catalog-view-items"
-        @click="openList"
+        @click="listOpen = true"
       >
-        {{ t('CONVERSATION.WHATSAPP_CATALOG.VIEW_ITEMS') }}
+        {{ t('CATALOG.PRODUCT.VIEW_ITEMS') }}
       </button>
 
       <div v-if="catalog.footer" class="text-xs break-words text-n-slate-11">
@@ -171,67 +137,37 @@ const onDialogClose = () => {
       </div>
     </div>
 
-    <Dialog
-      ref="dialogRef"
-      :title="dialogTitle"
-      width="md"
-      overflow-y-auto
-      :show-cancel-button="false"
-      :show-confirm-button="false"
-      @close="onDialogClose"
+    <CatalogSheet
+      :show="listOpen || !!detailItem"
+      :title="sheetTitle"
+      :back-button="!!detailItem && openedFromList"
+      size="lg"
+      @close="onSheetClose"
     >
-      <template v-if="detailItem">
-        <NextButton
-          v-if="showBack"
-          icon="i-lucide-chevron-left"
-          slate
-          ghost
-          sm
+      <ProductDetail v-if="detailItem" :item="detailItem" />
+      <template v-else>
+        <button
+          v-for="item in items"
+          :key="item.retailerId"
           type="button"
-          class="self-start"
-          :label="t('CONVERSATION.WHATSAPP_CATALOG.BACK')"
-          data-test-id="catalog-back"
-          @click="backToList"
-        />
-        <WhatsappCatalogProductDetail :item="detailItem" />
-      </template>
-      <div v-else-if="showList" class="flex flex-col">
-        <div
-          v-for="group in groupedItems"
-          :key="group.title"
-          class="flex flex-col"
-          data-test-id="catalog-list-section"
+          class="flex items-center gap-3 p-3 text-start border-t border-n-weak first:border-t-0 hover:bg-n-alpha-2"
+          data-test-id="catalog-list-row"
+          @click="openFromList(item)"
         >
-          <div
-            v-if="showSectionTitles && group.title"
-            class="px-3 pt-3 pb-1 text-xs font-medium text-n-slate-11"
-            data-test-id="catalog-section-title"
-          >
-            {{ group.title }}
-          </div>
-          <button
-            v-for="item in group.items"
-            :key="item.retailerId"
-            type="button"
-            class="flex items-center gap-3 p-3 border-t text-start border-n-weak first:border-t-0 hover:bg-n-alpha-2"
-            data-test-id="catalog-list-row"
-            @click="openDetailFromList(item)"
-          >
-            <img
-              v-if="firstImage(item)"
-              :src="firstImage(item)"
-              :alt="item.name"
-              loading="lazy"
-              class="object-cover rounded-md size-12"
-            />
-            <span v-else class="rounded-md size-12 bg-n-alpha-2" />
-            <span class="flex flex-col min-w-0">
-              <span class="text-sm font-medium truncate">{{ item.name }}</span>
-              <span class="text-sm text-n-slate-11">{{ item.price }}</span>
-            </span>
-          </button>
-        </div>
-      </div>
-    </Dialog>
+          <img
+            v-if="firstImage(item)"
+            :src="firstImage(item)"
+            :alt="item.name"
+            loading="lazy"
+            class="object-cover rounded-md size-12"
+          />
+          <span v-else class="rounded-md size-12 bg-n-alpha-2" />
+          <span class="flex flex-col min-w-0">
+            <span class="text-sm font-medium truncate">{{ item.name }}</span>
+            <span class="text-sm text-n-slate-11">{{ item.price }}</span>
+          </span>
+        </button>
+      </template>
+    </CatalogSheet>
   </BaseBubble>
 </template>
