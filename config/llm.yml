@@ -107,8 +107,9 @@ features:
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-6-luna
+    default: gpt-5.2
   document_faq_generation:
+    reasoning_effort: medium
     models:
       [
         gpt-6-luna,
