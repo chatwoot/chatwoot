@@ -40,6 +40,36 @@ describe('#validEmailsByComma', () => {
       validEmailsByComma('"support@test.com \\"team\\"" <agent@test.com>')
     ).toEqual(true);
   });
+  // `EmailHelper#swallowed_address?` rejects a recipient absorbed into an unquoted display
+  // name; the composer has to agree, or it shows no error and the send 422s.
+  it('rejects an address swallowed into an unquoted display name', () => {
+    expect(
+      validEmailsByComma('jane@test.com John Doe <john@test.com>')
+    ).toEqual(false);
+    expect(validEmailsByComma('a@test.com <b@test.com>')).toEqual(false);
+    expect(
+      validEmailsByComma('ok@test.com, jane@test.com John Doe <john@test.com>')
+    ).toEqual(false);
+  });
+  it('still accepts an @ inside a quoted display name', () => {
+    expect(validEmailsByComma('"support@test.com" <agent@test.com>')).toEqual(
+      true
+    );
+    expect(
+      validEmailsByComma('"support@test.com" <agent@test.com>, jane@test.com')
+    ).toEqual(true);
+  });
+  it('closes a quoted display name that ends in a literal backslash', () => {
+    // An even run of backslashes does not escape the quote, so the comma after it separates
+    // recipients and the second one is validated rather than swallowed into the first token.
+    expect(validEmailsByComma('"Ops \\\\" <ops@test.com>, invalid')).toEqual(
+      false
+    );
+    expect(
+      validEmailsByComma('"Ops \\\\" <ops@test.com>, jane@test.com')
+    ).toEqual(true);
+  });
+
   it('still rejects an invalid address in any of those forms', () => {
     expect(validEmailsByComma('1@test.com;pova.da')).toEqual(false);
     expect(validEmailsByComma('1@test.com pova.da')).toEqual(false);

@@ -12,24 +12,34 @@ const splitRecipients = value => {
   const parts = [];
   let current = '';
   let quoted = false;
-  value.split('').forEach((char, i) => {
-    const escaped = quoted && value[i - 1] === '\\';
-    if (char === '"' && !escaped) quoted = !quoted;
+  // Only an odd run of backslashes escapes the quote that follows it: the display name
+  // `"Ops \\"` ends in a literal backslash, and its closing quote still closes.
+  let backslashes = 0;
+  value.split('').forEach(char => {
+    if (char === '"' && backslashes % 2 === 0) quoted = !quoted;
     if ((char === ',' || char === ';') && !quoted) {
       parts.push(current);
       current = '';
     } else {
       current += char;
     }
+    backslashes = char === '\\' ? backslashes + 1 : 0;
   });
   parts.push(current);
   return parts;
 };
 
-// `Jane Smith <jane@example.com>` is addressed to `jane@example.com`.
+// `Jane Smith <jane@example.com>` is addressed to `jane@example.com`. An unquoted display name
+// carrying an `@` is a recipient swallowed into it (`a@x.com Jane <b@y.com>`), which the server
+// rejects in `EmailHelper#swallowed_address?`; that is returned whole so it fails validation
+// here too, rather than passing the composer and 422-ing on send.
 const addressOf = recipient => {
-  const angled = recipient.match(/<([^<>]*)>/);
-  return (angled ? angled[1] : recipient).trim();
+  const trimmed = recipient.trim();
+  const angled = trimmed.match(/<([^<>]*)>/);
+  if (!angled) return trimmed;
+  const phrase = trimmed.slice(0, trimmed.indexOf('<')).trim();
+  if (phrase.includes('@') && !phrase.startsWith('"')) return trimmed;
+  return angled[1].trim();
 };
 
 export const validEmailsByComma = value => {
