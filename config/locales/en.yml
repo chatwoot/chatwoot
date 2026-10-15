@@ -179,6 +179,7 @@ en:
         header_required: 'product_list requires a header'
         text_too_long: 'The %{field} must be at most %{max} characters long'
         attachments_not_supported: 'Catalog messages cannot include attachments'
+        cloud_inbox_required: 'Catalog messages require a WhatsApp Cloud inbox'
       contact_info_request:
         unsupported_provider: 'Contact information requests are currently available only for WhatsApp Cloud inboxes.'
         phone_already_available: 'This contact already has a phone number.'
