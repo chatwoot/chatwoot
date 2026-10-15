@@ -20,7 +20,14 @@ class Captain::ToolsManifest::InstallService
   def self.complete?(tools, manifest, revision)
     tools.any? &&
       tools.all? { |tool| tool.source_metadata['revision'] == revision } &&
-      (manifest['tools'].pluck('id') - tools.map { |tool| tool.source_metadata['tool_id'] }).empty?
+      (manifest['tools'].pluck('id') - tools.map { |tool| tool.source_metadata['tool_id'] }).empty? &&
+      stores_applied?(tools, manifest)
+  end
+
+  # A version that did not know stores records the commit without them, so the commit alone does not prove the install is current
+  def self.stores_applied?(tools, manifest)
+    manifest_stores = manifest['tools'].to_h { |tool| [tool['id'], tool['stores']] }
+    tools.all? { |tool| tool.stores == manifest_stores[tool.source_metadata['tool_id']] }
   end
 
   # Fields filled into auth_config must have a value even when optional, or the tool would send blank credentials
@@ -155,6 +162,7 @@ class Captain::ToolsManifest::InstallService
       request_template: interpolate(tool['request_template'], values),
       response_template: tool['response_template'],
       headers: manifest['headers'],
+      stores: tool['stores'],
       source_metadata: metadata.merge('tool_id' => tool['id'])
     }
   end
