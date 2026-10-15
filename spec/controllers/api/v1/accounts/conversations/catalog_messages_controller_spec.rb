@@ -19,7 +19,9 @@ RSpec.describe 'Conversation Catalog Messages API', type: :request do
       }
     end
   end
-  let(:params) { { kind: kind, content: 'Look at these options', header: header, footer: 'Acme Store', catalog_id: catalog_id, products: products } }
+  let(:params) do
+    { kind: kind, content: 'Look at these options', header: header, footer: 'Acme Store', catalog_id: catalog_id, products: products }.compact
+  end
   let(:url) { api_v1_account_conversation_catalog_message_url(account_id: account.id, conversation_id: conversation.display_id) }
 
   context 'when it is an unauthenticated user' do
@@ -41,6 +43,7 @@ RSpec.describe 'Conversation Catalog Messages API', type: :request do
       expect { post_catalog }.to change { conversation.messages.count }.by(1)
 
       expect(response).to have_http_status(:success)
+      expect(response).to conform_schema(200)
       body = response.parsed_body
       expect(body['content']).to eq('Look at these options')
       expect(body['message_type']).to eq(1)
@@ -56,6 +59,7 @@ RSpec.describe 'Conversation Catalog Messages API', type: :request do
         post_catalog
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(response.parsed_body['content_attributes']['whatsapp_catalog']['kind']).to eq('product')
       end
 
@@ -79,6 +83,7 @@ RSpec.describe 'Conversation Catalog Messages API', type: :request do
         post_catalog
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(response.parsed_body['content_attributes']['whatsapp_catalog']['header']).to eq('Our packages')
       end
 
@@ -141,6 +146,7 @@ RSpec.describe 'Conversation Catalog Messages API', type: :request do
         post_catalog
 
         expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to conform_schema(422)
         expect(response.parsed_body['error']).to eq(I18n.t('errors.whatsapp.catalog.cloud_inbox_required'))
         expect(conversation.messages.count).to eq(0)
       end
