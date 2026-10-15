@@ -147,6 +147,12 @@ describe Whatsapp::CatalogMessagePayloadBuilder do
 
       it { expect { payload }.to raise_error(described_class::Error, 'The section must be at most 24 characters long') }
     end
+
+    context 'when the products belong to more than 10 sections' do
+      let(:items) { Array.new(11) { |index| { 'retailer_id' => "sku-#{index}", 'section' => "Section #{index}" } } }
+
+      it { expect { payload }.to raise_error(described_class::Error, 'product_list supports at most 10 sections') }
+    end
   end
 
   describe 'validation common to all formats' do
@@ -160,6 +166,12 @@ describe Whatsapp::CatalogMessagePayloadBuilder do
       let(:items) { [{ 'retailer_id' => 'sku-a' }, { 'retailer_id' => '' }] }
 
       it { expect { payload }.to raise_error(described_class::Error, 'Every product requires a retailer ID (SKU)') }
+    end
+
+    context 'when a product link is not an http or https URL' do
+      let(:items) { [{ 'retailer_id' => 'sku-a', 'url' => 'https://example.com/a' }, { 'retailer_id' => 'sku-b', 'url' => 'javascript:alert(1)' }] }
+
+      it { expect { payload }.to raise_error(described_class::Error, 'Product links must be http or https URLs') }
     end
 
     context 'when the kind is unknown' do

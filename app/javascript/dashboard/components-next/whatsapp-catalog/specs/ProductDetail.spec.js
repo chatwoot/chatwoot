@@ -57,4 +57,12 @@ describe('ProductDetail', () => {
       false
     );
   });
+
+  it('does not render links that are not http or https', () => {
+    const unsafeUrl = ['javascript', 'alert(1)'].join(':');
+    const wrapper = mountDetail({ ...item, url: unsafeUrl });
+    expect(wrapper.find('[data-test-id="catalog-detail-link"]').exists()).toBe(
+      false
+    );
+  });
 });
