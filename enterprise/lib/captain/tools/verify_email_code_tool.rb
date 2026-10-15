@@ -12,7 +12,7 @@ class Captain::Tools::VerifyEmailCodeTool < Captain::Tools::BasePublicTool
     log_tool_usage('verify_email_code', { conversation_id: conversation.id, result: result })
 
     case result
-    when :verified then verified_message(tool_context, verification.verified_email)
+    when :verified then verified_message(tool_context, verification)
     when :invalid_code then invalid_code_message(verification.attempts_left)
     when :locked then 'Too many wrong codes were entered, so this code no longer works. Send a new code, or offer a support agent.'
     else 'There is no active code. It may have expired. Send a new code first.'
@@ -22,10 +22,11 @@ class Captain::Tools::VerifyEmailCodeTool < Captain::Tools::BasePublicTool
   private
 
   # The rest of this run reads the state, so the prompt shows the email as verified straight away
-  def verified_message(tool_context, email)
+  def verified_message(tool_context, verification)
+    email = verification.verified_email
     tool_context.state[:verified_email] = email
-    hours = Captain::EmailVerification::VERIFIED_TTL.in_hours.to_i
-    "Verified. The customer entered the code that was emailed to #{email}, so they can read that mailbox. This stays valid for #{hours} hours."
+    "Verified. The customer entered the code that was emailed to #{email}, so they can read that mailbox. " \
+      "This stays valid for #{verification.verified_ttl.inspect}."
   end
 
   def invalid_code_message(attempts_left)

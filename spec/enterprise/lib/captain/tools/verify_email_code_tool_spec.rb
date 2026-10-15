@@ -7,7 +7,7 @@ RSpec.describe Captain::Tools::VerifyEmailCodeTool, type: :model do
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:tool) { described_class.new(assistant) }
   let(:tool_context) { Struct.new(:state).new({ conversation: { id: conversation.id } }) }
-  let(:verification) { instance_double(Captain::EmailVerification, verified_email: 'jane@example.com', attempts_left: 3) }
+  let(:verification) { instance_double(Captain::EmailVerification, verified_email: 'jane@example.com', attempts_left: 3, verified_ttl: 1.hour) }
 
   before { allow(Captain::EmailVerification).to receive(:new).with(conversation).and_return(verification) }
 
@@ -16,7 +16,7 @@ RSpec.describe Captain::Tools::VerifyEmailCodeTool, type: :model do
 
     result = tool.perform(tool_context, code: '482913')
 
-    expect(result).to start_with('Verified.').and include('jane@example.com').and include('24 hours')
+    expect(result).to start_with('Verified.').and include('jane@example.com').and include('This stays valid for 1 hour.')
     expect(tool_context.state[:verified_email]).to eq('jane@example.com')
   end
 

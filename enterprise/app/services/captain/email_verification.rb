@@ -9,7 +9,9 @@ class Captain::EmailVerification
   CODE_LENGTH = 6
   SEND_LIMIT = 5
   SEND_WINDOW = 1.hour
-  VERIFIED_TTL = 24.hours
+  VERIFIED_TTL = 1.hour
+  # Email replies arrive slowly, and only people who received the thread can add messages to it
+  EMAIL_VERIFIED_TTL = 3.hours
   # Tools place the verified address in URLs and JSON bodies, so it can only hold characters that cannot change the request
   EMAIL_PATTERN = /\A[a-z0-9._+-]+@[a-z0-9.-]+\z/
 
@@ -45,7 +47,7 @@ class Captain::EmailVerification
   end
 
   def verify(typed_code)
-    pending_code.consume(typed_code) { |email| ::Redis::Alfred.setex(verified_key, email, VERIFIED_TTL) }
+    pending_code.consume(typed_code) { |email| ::Redis::Alfred.setex(verified_key, email, verified_ttl) }
   end
 
   def verified_email
@@ -54,6 +56,10 @@ class Captain::EmailVerification
 
   def attempts_left
     pending_code.attempts_left
+  end
+
+  def verified_ttl
+    conversation.inbox.email? ? EMAIL_VERIFIED_TTL : VERIFIED_TTL
   end
 
   private

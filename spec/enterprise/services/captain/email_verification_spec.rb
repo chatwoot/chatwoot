@@ -181,5 +181,20 @@ RSpec.describe Captain::EmailVerification do
 
       expect(described_class.new(conversation_for(contact_inbox)).verified_email).to be_nil
     end
+
+    it 'keeps the verification for 1 hour' do
+      verification.send_code(email)
+      verification.verify(emailed_codes.last)
+
+      expect(Redis::Alfred.ttl(format(Redis::RedisKeys::CAPTAIN_EMAIL_VERIFICATION_VERIFIED, conversation_id: conversation.id))).to eq(1.hour.to_i)
+    end
+  end
+
+  describe '#verified_ttl' do
+    it 'keeps an email conversation verified for 3 hours' do
+      conversation.inbox.update!(channel: create(:channel_email, account: account))
+
+      expect(verification.verified_ttl).to eq(3.hours)
+    end
   end
 end
