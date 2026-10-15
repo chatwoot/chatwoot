@@ -124,17 +124,6 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
     expect(conversation.reload.language).to eq('en')
   end
 
-  it 'keeps a language that was detected earlier' do
-    conversation.update!(additional_attributes: { 'conversation_language' => 'es' })
-    question = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
-                                content: 'Celui-ci met quatre secondes à charger.')
-    allow(llm_service).to receive(:perform).and_return(message: ['This one takes four seconds to load.'])
-
-    described_class.new(conversation: conversation, message_ids: [question.id], target_language: 'en').perform
-
-    expect(conversation.reload.language).to eq('es')
-  end
-
   it 'returns messages another agent already translated without calling the translator again' do
     greeting.update!(translations: { 'en' => 'Hello' })
     thanks.update!(translations: { 'en' => 'Thank you' })

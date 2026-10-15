@@ -129,6 +129,17 @@ RSpec.describe Message do
       expect(conversation.reload.language).to be_nil
     end
 
+    it 'does nothing when auto translate is off for the account' do
+      conversation.account.disable_features('auto_translate')
+      conversation.account.save!
+
+      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
+                       content: 'Celui-ci met quatre secondes à charger.')
+
+      expect(Captain::Llm::LanguageDetectionService).not_to have_received(:new)
+      expect(conversation.reload.language).to be_nil
+    end
+
     it 'ignores auto reply emails and outgoing messages' do
       create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
                        content_type: :incoming_email, content: 'I am out of the office until Monday and will reply when I return.',

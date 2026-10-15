@@ -542,30 +542,4 @@ RSpec.describe MessageTemplates::HookExecutionService do
       end
     end
   end
-
-  describe 'auto translate language detection' do
-    before do
-      allow(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later)
-      allow(Captain::Conversation::ResponseBuilderJob).to receive(:set).and_return(instance_double(ActiveJob::ConfiguredJob, perform_later: true))
-    end
-
-    it 'records the contact language when auto translate is on' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
-      account.enable_features!(:auto_translate, :captain_tasks)
-      allow(Captain::Llm::LanguageDetectionService).to receive(:new)
-        .and_return(instance_double(Captain::Llm::LanguageDetectionService, language: 'fr'))
-
-      create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
-                       content: 'Celui-ci met quatre secondes à charger.')
-
-      expect(conversation.reload.language).to eq('fr')
-    end
-
-    it 'leaves the language alone when auto translate is off' do
-      create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
-                       content: 'Celui-ci met quatre secondes à charger.')
-
-      expect(conversation.reload.language).to be_nil
-    end
-  end
 end
