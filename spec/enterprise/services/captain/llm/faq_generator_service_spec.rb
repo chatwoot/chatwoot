@@ -20,6 +20,7 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
     allow(RubyLLM).to receive(:chat).and_return(mock_chat)
     allow(mock_chat).to receive(:with_temperature).and_return(mock_chat)
     allow(mock_chat).to receive(:with_provider_options).and_return(mock_chat)
+    allow(mock_chat).to receive(:add_message).with(role: :user, content: 'Respond with valid JSON.')
     allow(mock_chat).to receive(:with_instructions).and_return(mock_chat)
     allow(mock_chat).to receive(:ask).and_return(mock_response)
   end
@@ -28,7 +29,7 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
     context 'when successful' do
       it 'uses the document FAQ generation feature model' do
         expect(RubyLLM).to receive(:chat).with(
-          model: Llm::Models.default_model_for('document_faq_generation')
+          model: Llm::Models.default_model_for('document_faq_generation'), protocol: :responses
         ).and_return(mock_chat)
 
         described_class.new(document: document).generate
@@ -49,7 +50,7 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
       end
 
       it 'sends content to LLM with JSON response format' do
-        expect(mock_chat).to receive(:with_provider_options).with(response_format: { type: 'json_object' }).and_return(mock_chat)
+        expect(mock_chat).to receive(:with_provider_options).with({ text: { format: { type: 'json_object' } } }).and_return(mock_chat)
         service.generate
       end
 
