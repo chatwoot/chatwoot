@@ -11,12 +11,13 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
   end
 
   def initialize(run, token)
+    # Checked before super, which builds the instructions from the user's name.
+    raise ArgumentError, 'The user is no longer a member of this account' unless run.account.users.exists?(run.user_id)
+
     @run = run
     @token = token
     super(run.copilot_thread.assistant, user_id: run.user_id, copilot_thread_id: run.copilot_thread_id,
                                         conversation_id: run.context['conversation_id'])
-    raise ArgumentError, 'The user is no longer a member of this account' unless @user
-
     @tools.each { |tool| wrap_tool(tool) }
   end
 
