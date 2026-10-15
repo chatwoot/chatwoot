@@ -36,8 +36,19 @@ class Voice::RingReadiness
   # A call rings the agents its inbox can be assigned to, when they are online, on
   # accounts with both features, on a platform the installation can push to
   def rings?(membership)
-    membership.voice_enabled && membership.ringing_enabled && membership.voice_inboxes.positive? &&
-      membership.availability == 'online' && ringable_device?
+    blocker(membership).nil?
+  end
+
+  # The first reason a call does not ring the agent's phone on the account, nil when it rings:
+  # 'voice_off', 'ringing_off', 'no_inboxes', 'not_online', 'no_device' or 'push_unavailable'
+  def blocker(membership)
+    return 'voice_off' unless membership.voice_enabled
+    return 'ringing_off' unless membership.ringing_enabled
+    return 'no_inboxes' unless membership.voice_inboxes.positive?
+    return 'not_online' unless membership.availability == 'online'
+    return 'no_device' unless registered_device?
+
+    'push_unavailable' unless ringable_device?
   end
 
   # Rings, but only for calls in conversations already assigned to the agent
@@ -46,6 +57,10 @@ class Voice::RingReadiness
   end
 
   private
+
+  def registered_device?
+    apple.devices.positive? || android.devices.positive?
+  end
 
   # An APNs environment the push rejects stops the ring before either platform is sent to
   def ringable_device?
