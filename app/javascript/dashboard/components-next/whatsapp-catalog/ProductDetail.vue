@@ -29,7 +29,7 @@ const onScroll = () => {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col" data-test-id="catalog-detail">
     <div class="relative w-full shrink-0 bg-n-alpha-2">
       <div
         v-if="images.length"
@@ -55,11 +55,11 @@ const onScroll = () => {
       </div>
       <template v-if="images.length > 1">
         <span
-          class="absolute px-2 py-0.5 text-white rounded-full text-label-small bottom-2 end-2 bg-n-alpha-black2"
+          class="absolute px-2 py-0.5 text-xs text-white rounded-full bottom-2 end-2 bg-n-alpha-black2"
           data-test-id="catalog-photo-indicator"
         >
           {{
-            t('CONVERSATION.WHATSAPP_CATALOG.PHOTO_OF', {
+            t('CATALOG.PRODUCT.PHOTO_OF', {
               current: photoIndex + 1,
               total: images.length,
             })
@@ -70,7 +70,6 @@ const onScroll = () => {
           slate
           faded
           sm
-          :aria-label="t('CONVERSATION.WHATSAPP_CATALOG.PREVIOUS_PHOTO')"
           class="absolute -translate-y-1/2 start-2 top-1/2 !rounded-full max-sm:hidden"
           data-test-id="catalog-photo-prev"
           @click="showPhoto(-1)"
@@ -80,27 +79,24 @@ const onScroll = () => {
           slate
           faded
           sm
-          :aria-label="t('CONVERSATION.WHATSAPP_CATALOG.NEXT_PHOTO')"
           class="absolute -translate-y-1/2 end-2 top-1/2 !rounded-full max-sm:hidden"
           data-test-id="catalog-photo-next"
           @click="showPhoto(1)"
         />
       </template>
     </div>
-    <div class="flex flex-col gap-2 py-4 min-w-0">
-      <h3 class="break-words text-heading-3 text-n-slate-12">
+    <div class="flex flex-col gap-2 px-4 py-4 min-w-0">
+      <h3 class="text-base font-semibold break-words text-n-slate-12">
         {{ item.name }}
       </h3>
-      <p v-if="item.price" class="text-body-main text-n-slate-12">
+      <p v-if="item.price" class="text-sm font-medium text-n-slate-12">
         {{ item.price }}
       </p>
       <div v-if="item.description">
-        <div class="text-label-small text-n-slate-11">
-          {{ t('CONVERSATION.WHATSAPP_CATALOG.DESCRIPTION') }}
+        <div class="text-xs text-n-slate-11">
+          {{ t('CATALOG.PRODUCT.DESCRIPTION') }}
         </div>
-        <p
-          class="whitespace-pre-wrap break-words text-body-main text-n-slate-11"
-        >
+        <p class="text-sm whitespace-pre-wrap break-words text-n-slate-11">
           {{ item.description }}
         </p>
       </div>
@@ -109,7 +105,7 @@ const onScroll = () => {
         :href="item.url"
         target="_blank"
         rel="noopener noreferrer"
-        class="break-all text-body-main text-n-teal-10 hover:underline"
+        class="text-sm break-all text-n-teal-10 hover:underline"
         data-test-id="catalog-detail-link"
       >
         {{ item.url }}
