@@ -92,7 +92,7 @@ RSpec.describe Message do
   end
 
   describe 'language detection' do
-    let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, perform: 'fr') }
+    let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: 'fr') }
 
     before do
       create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
@@ -122,7 +122,7 @@ RSpec.describe Message do
     end
 
     it 'leaves the conversation alone when the contact writes its language again' do
-      allow(detection).to receive(:perform).and_return('en')
+      allow(detection).to receive(:language).and_return('en')
       conversation.update!(additional_attributes: { 'conversation_language' => 'en' })
 
       create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,

@@ -41,7 +41,7 @@ module Enterprise::Message
   end
 
   def template_language
-    @template_language ||= Captain::Llm::LanguageDetectionService.new(account: account, text: content).perform || account.locale
+    @template_language ||= Captain::Llm::LanguageDetectionService.new(account: account, text: content).language || account.locale
   end
 
   def translate_template_content

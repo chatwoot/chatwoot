@@ -6,7 +6,7 @@ RSpec.describe Message do
   let(:conversation) { create(:conversation, account: account, inbox: inbox, additional_attributes: { 'conversation_language' => 'fr' }) }
   let(:llm_response) { { message: ['Bonjour ! Comment pouvons-nous vous aider ?'] } }
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
-  let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, perform: nil) }
+  let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: nil) }
 
   before do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
@@ -42,7 +42,7 @@ RSpec.describe Message do
   end
 
   it 'translates a template written in another language than the account' do
-    allow(detection).to receive(:perform).and_return('es')
+    allow(detection).to receive(:language).and_return('es')
     conversation.update!(additional_attributes: { 'conversation_language' => 'en' })
     allow(llm_service).to receive(:perform).and_return(message: ['Hello! How can we help you today?'])
     message = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :template,

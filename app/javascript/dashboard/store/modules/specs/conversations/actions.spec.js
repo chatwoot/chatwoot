@@ -1196,6 +1196,39 @@ describe('#addMentions', () => {
       );
     });
 
+    it('sends the batches one after another', async () => {
+      const many = Array.from({ length: 21 }, (_, index) => ({
+        id: index + 1,
+        message_type: 0,
+        content: 'Bonjour',
+        content_attributes: {},
+      }));
+      let finishFirst;
+      axios.post
+        .mockReturnValueOnce(
+          new Promise(resolve => {
+            finishFirst = resolve;
+          })
+        )
+        .mockResolvedValueOnce({ data: { payload: [] } });
+
+      const run = actions.autoTranslateMessages(
+        {
+          state: { selectedChatId: 7, autoTranslating: {} },
+          commit,
+          getters: { ...getters, getSelectedChat: { id: 7, messages: many } },
+        },
+        7
+      );
+      await Promise.resolve();
+
+      expect(axios.post).toHaveBeenCalledTimes(1);
+      finishFirst({ data: { payload: [] } });
+      await run;
+      expect(axios.post).toHaveBeenCalledTimes(2);
+      expect(axios.post.mock.calls[1][1].message_ids).toEqual([21]);
+    });
+
     it('leaves a message the translator left out retryable', async () => {
       const localCommit = vi.fn();
       axios.post.mockResolvedValue({

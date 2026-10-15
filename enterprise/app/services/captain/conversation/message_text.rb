@@ -19,7 +19,7 @@ class Captain::Conversation::MessageText
   end
 
   def language
-    Captain::Llm::LanguageDetectionService.new(account: @message.account, text: texts.join("\n")).perform
+    Captain::Llm::LanguageDetectionService.new(account: @message.account, text: texts.join("\n")).language
   end
 
   def original

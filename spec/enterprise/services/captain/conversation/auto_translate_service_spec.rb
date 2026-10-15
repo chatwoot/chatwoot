@@ -10,7 +10,7 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
   let(:reply) { create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :outgoing, content: 'Hi') }
   let(:llm_response) { { message: ['Hello', 'Thank you', 'ok thanks'] } }
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
-  let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, perform: nil) }
+  let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: nil) }
   let(:service) do
     described_class.new(conversation: conversation, message_ids: [greeting.id, thanks.id, english.id, reply.id], target_language: 'en')
   end
@@ -94,7 +94,7 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
   end
 
   it 'detects the contact language from the newest message when the conversation has none, whatever the batch holds' do
-    allow(detection).to receive(:perform).and_return('es')
+    allow(detection).to receive(:language).and_return('es')
     question = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
                                 content: 'Celui-ci met quatre secondes à charger.')
     create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Gracias, ya funciona.')
@@ -107,7 +107,7 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
   end
 
   it 'keeps the language a message set while the translator was running' do
-    allow(detection).to receive(:perform).and_return('en')
+    allow(detection).to receive(:language).and_return('en')
     question = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
                                 content: 'Celui-ci met quatre secondes à charger.')
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')

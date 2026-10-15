@@ -553,7 +553,7 @@ RSpec.describe MessageTemplates::HookExecutionService do
       create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
       account.enable_features!(:auto_translate, :captain_tasks)
       allow(Captain::Llm::LanguageDetectionService).to receive(:new)
-        .and_return(instance_double(Captain::Llm::LanguageDetectionService, perform: 'fr'))
+        .and_return(instance_double(Captain::Llm::LanguageDetectionService, language: 'fr'))
 
       create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
                        content: 'Celui-ci met quatre secondes à charger.')

@@ -5,18 +5,29 @@ class Captain::Llm::LanguageDetectionService < Captain::BaseTaskService
   pattr_initialize [:account!, :text!]
 
   def perform
-    return if text.to_s.bytesize < MIN_TEXT_BYTES
+    return {} if text.to_s.bytesize < MIN_TEXT_BYTES
 
-    response = make_api_call(feature: 'language_detection', messages: messages, schema: Captain::Llm::LanguageDetectionSchema)
+    make_api_call(feature: 'language_detection', messages: messages, schema: Captain::Llm::LanguageDetectionSchema)
+  end
+
+  # The code of the language the text is written in, or nil when it cannot be told.
+  def language
+    response = perform
     Rails.logger.warn("[AutoTranslate] language detection failed: #{response[:error]}") if response[:error]
-    language = response.dig(:message, 'language')
-    language.presence unless language == 'und'
+    code = response.dig(:message, 'language')
+    code unless code.blank? || code == 'und'
   end
 
   private
 
   def event_name
     'language_detection'
+  end
+
+  # Runs on every inbound message before anyone reads the thread, like the help center query translation:
+  # a two-letter answer from a nano model is not a Captain response.
+  def counts_toward_usage?
+    false
   end
 
   # Two letters about one line of text: the default reasoning effort of the gpt-5 models adds seconds for nothing.

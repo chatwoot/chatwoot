@@ -25,7 +25,7 @@ export function selectTranslation(translations, agentLocale, accountLocale) {
 /**
  * Composable to extract translation state/content from contentAttributes.
  * @param {Ref|Reactive} contentAttributes - Ref or reactive object containing `translations` property
- * @param {Ref|number} messageType - The message type, one of MESSAGE_TYPE
+ * @param {Ref|boolean} contactSide - Whether the message reads in the contact language (contact or bot authored)
  * @returns {Object} { hasTranslations, translationContent }
  */
 export function useTranslations(contentAttributes, contactSide) {

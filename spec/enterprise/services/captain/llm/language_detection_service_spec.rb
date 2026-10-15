@@ -11,35 +11,40 @@ RSpec.describe Captain::Llm::LanguageDetectionService do
     allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
   end
 
-  it 'asks the model for the language code of the text' do
-    expect(service).to receive(:make_api_call) do |args|
-      expect(args[:feature]).to eq('language_detection')
-      expect(args[:schema]).to eq(Captain::Llm::LanguageDetectionSchema)
-      expect(args[:messages].last[:content]).to eq("Hi, it is on it's way!")
-      { message: { 'language' => 'en' } }
-    end
+  it 'asks the model for the language code of the text and hands the response back' do
+    allow(service).to receive(:make_api_call).and_return(message: { 'language' => 'en' })
 
-    expect(service.perform).to eq('en')
+    expect(service.perform).to eq(message: { 'language' => 'en' })
+    expect(service.language).to eq('en')
+    expect(service).to have_received(:make_api_call).with(
+      hash_including(feature: 'language_detection', schema: Captain::Llm::LanguageDetectionSchema,
+                     messages: array_including(hash_including(role: 'user', content: "Hi, it is on it's way!")))
+    ).twice
   end
 
-  it 'returns nothing when the model cannot tell' do
+  it 'returns no language when the model cannot tell or the call fails' do
     allow(service).to receive(:make_api_call).and_return(message: { 'language' => 'und' })
+    expect(service.language).to be_nil
 
-    expect(service.perform).to be_nil
-  end
-
-  it 'returns nothing when the model call fails' do
     allow(service).to receive(:make_api_call).and_return(error: 'You are out of Copilot credits.', error_code: 429)
-
-    expect(service.perform).to be_nil
+    expect(service.language).to be_nil
   end
 
   it 'skips a greeting or a thank-you without a model call' do
     service = described_class.new(account: account, text: 'Gracias')
     allow(service).to receive(:make_api_call)
 
-    expect(service.perform).to be_nil
+    expect(service.language).to be_nil
     expect(service).not_to have_received(:make_api_call)
+  end
+
+  it 'does not debit Captain responses' do
+    allow(service).to receive(:make_api_call).and_return(message: { 'language' => 'en' })
+    allow(account).to receive(:increment_response_usage)
+
+    service.perform
+
+    expect(account).not_to have_received(:increment_response_usage)
   end
 
   it 'asks the model to answer without reasoning' do

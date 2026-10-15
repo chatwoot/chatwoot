@@ -8,7 +8,7 @@ RSpec.describe Messages::MessageBuilder do
   let(:params) { ActionController::Parameters.new(content: 'Hello there') }
   let(:llm_response) { { message: ['Bonjour'] } }
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
-  let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, perform: nil) }
+  let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: nil) }
 
   before do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
@@ -35,7 +35,7 @@ RSpec.describe Messages::MessageBuilder do
   end
 
   it 'translates what the agent wrote even when the profile language matches the contact' do
-    allow(detection).to receive(:perform).and_return('en')
+    allow(detection).to receive(:language).and_return('en')
     user.update!(ui_settings: { 'locale' => 'fr' })
     typed = ActionController::Parameters.new(content: 'This one takes four seconds to load before it is ready.')
 
@@ -46,7 +46,7 @@ RSpec.describe Messages::MessageBuilder do
   end
 
   it 'sends a reply already written in the contact language as it is' do
-    allow(detection).to receive(:perform).and_return('fr')
+    allow(detection).to receive(:language).and_return('fr')
     typed = ActionController::Parameters.new(content: 'Celui-ci met quatre secondes à charger.')
 
     expect(described_class.new(user, conversation, typed).perform.content).to eq('Celui-ci met quatre secondes à charger.')
@@ -117,7 +117,7 @@ RSpec.describe Messages::MessageBuilder do
   end
 
   it 'flags a reply the translator hands back unchanged although it is in another language' do
-    allow(detection).to receive(:perform).and_return('en')
+    allow(detection).to receive(:language).and_return('en')
     typed = ActionController::Parameters.new(content: 'This one takes four seconds to load before it is ready.')
     allow(llm_service).to receive(:perform).and_return(message: ['This one takes four seconds to load before it is ready.'])
     message = described_class.new(user, conversation, typed).perform
