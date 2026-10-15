@@ -162,12 +162,7 @@ const autoTranslate = useMapGetter('getAutoTranslate');
 const translationState = useMapGetter('getMessageTranslationState');
 const showingOriginal = ref(false);
 const contactSide = computed(() =>
-  isContactSide({
-    message_type: props.messageType,
-    private: props.private,
-    content_type: props.contentType,
-    sender: props.sender ?? { type: props.senderType },
-  })
+  isContactSide(props.messageType, props.sender?.type ?? props.senderType)
 );
 const { translationContent } = useTranslations(
   computed(() => props.contentAttributes),

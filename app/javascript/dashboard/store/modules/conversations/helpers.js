@@ -7,9 +7,8 @@ export const languageCode = locale => locale?.split(/[-_]/)[0];
 
 const BOT_SENDERS = ['agent_bot', 'captain_assistant'];
 // A contact message, or a bot reply written in the contact language: both read in the agent language.
-export const isContactSide = message =>
-  message.message_type === MESSAGE_TYPE.INCOMING ||
-  BOT_SENDERS.includes(message.sender?.type);
+export const isContactSide = (messageType, senderType) =>
+  messageType === MESSAGE_TYPE.INCOMING || BOT_SENDERS.includes(senderType);
 
 export const findPendingMessageIndex = (chat, message) => {
   const { echo_id: tempMessageId } = message;

@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { emitter } from 'shared/helpers/mitt';
 import { createStore } from 'vuex';
-import { mutations } from '../../conversations';
+import types from '../../../mutation-types';
 import conversationMetadata from '../../conversationMetadata';
+import { mutations } from '../../conversations';
 import actions, {
   hasMessageFailedWithExternalError,
 } from '../../conversations/actions';
-import types from '../../../mutation-types';
+import { dataReceived } from './testConversationResponse';
 const dataToSend = {
   page: 1,
   queryData: {
@@ -20,7 +21,6 @@ const dataToSend = {
     ],
   },
 };
-import { dataReceived } from './testConversationResponse';
 
 const commit = vi.fn();
 const dispatch = vi.fn();
@@ -404,6 +404,17 @@ describe('#actions', () => {
         ],
         [types.ADD_CONVERSATION_ATTACHMENTS, message],
       ]);
+      expect(dispatch).toHaveBeenCalledWith('autoTranslateMessages', 1);
+    });
+    it('requests translation for a live bot reply', () => {
+      const message = {
+        id: 1,
+        message_type: 1,
+        conversation_id: 1,
+        sender: { type: 'captain_assistant' },
+      };
+      actions.addMessage({ commit, dispatch }, message);
+      expect(commit.mock.calls).toEqual([[types.ADD_MESSAGE, message]]);
       expect(dispatch).toHaveBeenCalledWith('autoTranslateMessages', 1);
     });
     it('sends correct mutations if message is not an incoming message', () => {
@@ -1196,13 +1207,19 @@ describe('#addMentions', () => {
       );
     });
 
-    it('sends the batches one after another', async () => {
+    it('reserves every queued message before the first batch so a second dispatch submits nothing', async () => {
       const many = Array.from({ length: 21 }, (_, index) => ({
         id: index + 1,
         message_type: 0,
         content: 'Bonjour',
         content_attributes: {},
       }));
+      const liveState = { selectedChatId: 7, autoTranslating: {} };
+      const context = {
+        state: liveState,
+        commit: (type, payload) => mutations[type](liveState, payload),
+        getters: { ...getters, getSelectedChat: { id: 7, messages: many } },
+      };
       let finishFirst;
       axios.post
         .mockReturnValueOnce(
@@ -1210,23 +1227,16 @@ describe('#addMentions', () => {
             finishFirst = resolve;
           })
         )
-        .mockResolvedValueOnce({ data: { payload: [] } });
+        .mockResolvedValue({ data: { payload: [] } });
 
-      const run = actions.autoTranslateMessages(
-        {
-          state: { selectedChatId: 7, autoTranslating: {} },
-          commit,
-          getters: { ...getters, getSelectedChat: { id: 7, messages: many } },
-        },
-        7
-      );
+      const first = actions.autoTranslateMessages(context, 7);
       await Promise.resolve();
+      await actions.autoTranslateMessages(context, 7);
 
       expect(axios.post).toHaveBeenCalledTimes(1);
       finishFirst({ data: { payload: [] } });
-      await run;
+      await first;
       expect(axios.post).toHaveBeenCalledTimes(2);
-      expect(axios.post.mock.calls[1][1].message_ids).toEqual([21]);
     });
 
     it('leaves a message the translator left out retryable', async () => {

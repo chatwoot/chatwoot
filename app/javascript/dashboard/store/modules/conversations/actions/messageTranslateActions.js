@@ -35,7 +35,7 @@ export default {
     const untranslated = (getters.getSelectedChat.messages ?? [])
       .filter(
         message =>
-          isContactSide(message) &&
+          isContactSide(message.message_type, message.sender?.type) &&
           message.content &&
           !message.content_attributes?.deleted &&
           !message.content_attributes?.translations?.[locale] &&
@@ -46,12 +46,14 @@ export default {
       )
       .map(message => message.id);
 
+    // Reserved up front, so a dispatch during the first batch does not submit the later ones again.
+    commit(types.SET_AUTO_TRANSLATING, {
+      locale,
+      messageIds: untranslated,
+      translating: true,
+    });
+
     const translateBatch = async messageIds => {
-      commit(types.SET_AUTO_TRANSLATING, {
-        locale,
-        messageIds,
-        translating: true,
-      });
       try {
         const { data } = await MessageApi.autoTranslate(
           conversationId,

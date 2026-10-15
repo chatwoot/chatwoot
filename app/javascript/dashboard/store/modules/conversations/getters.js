@@ -242,7 +242,9 @@ const getters = {
     const attributes = message.content_attributes ?? {};
     const translations = attributes.translations ?? {};
     const contactSide =
-      isContactSide(message) && !!message.content && !attributes.deleted;
+      isContactSide(message.message_type, message.sender?.type) &&
+      !!message.content &&
+      !attributes.deleted;
     const waiting = contactSide
       ? _state.autoTranslating[locale]?.[messageId] === true
       : message.status === MESSAGE_STATUS.PROGRESS && !message.private;

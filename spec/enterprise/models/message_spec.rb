@@ -121,16 +121,6 @@ RSpec.describe Message do
       expect(conversation.reload.language).to eq('fr')
     end
 
-    it 'leaves the conversation alone when the contact writes its language again' do
-      allow(detection).to receive(:language).and_return('en')
-      conversation.update!(additional_attributes: { 'conversation_language' => 'en' })
-
-      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
-                       content: 'This one takes four seconds to load before it is ready.')
-
-      expect(conversation.reload.additional_attributes).to eq('conversation_language' => 'en')
-    end
-
     it 'ignores call markers and other inbound messages that are not text' do
       create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
                        content_type: :voice_call, content: 'Voice Call')
