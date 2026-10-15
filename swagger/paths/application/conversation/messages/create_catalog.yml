@@ -55,9 +55,7 @@ description: |
   ```
 security:
   - userBearerAuth: []
-  - agentBotBearerAuth: []
   - userApiKey: []
-  - agentBotApiKey: []
 requestBody:
   required: true
   content:

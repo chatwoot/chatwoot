@@ -3348,6 +3348,7 @@
         "type": "object",
         "required": [
           "kind",
+          "catalog_id",
           "products"
         ],
         "properties": {
