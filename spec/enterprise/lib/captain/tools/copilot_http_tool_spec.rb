@@ -5,7 +5,8 @@ RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account)) }
-  let(:state) { { account_id: account.id, source: 'copilot_reply_suggestion', contact_inbox: { id: contact_inbox.id } } }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact) }
+  let(:state) { { account_id: account.id, source: 'copilot_reply_suggestion', conversation: { id: conversation.id } } }
   let(:tool_context) { Struct.new(:state).new(state) }
   let(:email_param) { { 'name' => 'email', 'type' => 'string', 'description' => 'Email', 'source' => 'verified.email' } }
   let(:custom_tool) do
@@ -17,7 +18,7 @@ RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
 
   before do
     request_stub
-    allow(Captain::EmailVerification).to receive(:new).with(contact_inbox)
+    allow(Captain::EmailVerification).to receive(:new).with(conversation)
                                                       .and_return(instance_double(Captain::EmailVerification, verified_email: 'jane@example.com'))
   end
 
@@ -40,7 +41,7 @@ RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
 
     it 'says an empty email is not verified when the customer has verified none' do
       unverified = instance_double(Captain::EmailVerification, verified_email: nil)
-      allow(Captain::EmailVerification).to receive(:new).with(contact_inbox).and_return(unverified)
+      allow(Captain::EmailVerification).to receive(:new).with(conversation).and_return(unverified)
 
       expect(tool.perform(tool_context, email: ' ')).to include('was not verified by the customer')
     end

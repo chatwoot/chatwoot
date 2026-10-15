@@ -41,7 +41,7 @@ module Captain::Assistant::RunnerStateHelper
 
   def build_contact_inbox_state(state)
     state[:contact_inbox] = slice_attrs(@conversation.contact_inbox, CONTACT_INBOX_STATE_ATTRIBUTES)
-    state[:verified_email] = Captain::EmailVerification.new(@conversation.contact_inbox).verified_email
+    state[:verified_email] = Captain::EmailVerification.new(@conversation).verified_email
   end
 
   def slice_attrs(record, keys)

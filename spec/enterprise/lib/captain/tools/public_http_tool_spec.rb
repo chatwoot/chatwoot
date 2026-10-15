@@ -11,7 +11,8 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
     context 'when a parameter takes a verified value' do
       let(:inbox) { create(:inbox, account: account) }
       let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account)) }
-      let(:state) { { account_id: account.id, channel_type: 'Channel::WebWidget', contact_inbox: { id: contact_inbox.id, hmac_verified: false } } }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact) }
+      let(:state) { { account_id: account.id, conversation: { id: conversation.id }, contact_inbox: { id: contact_inbox.id, hmac_verified: false } } }
       let(:tool_context) { Struct.new(:state).new(state) }
       let(:verified_email) { 'jane@example.com' }
       let(:request_stub) { stub_request(:get, %r{\Ahttps://example.com/customers}).to_return(status: 200, body: '{"found": true}') }
@@ -22,7 +23,7 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
                             param_schema: [email_param], response_template: nil)
         request_stub
         verification = instance_double(Captain::EmailVerification, verified_email: verified_email)
-        allow(Captain::EmailVerification).to receive(:new).with(contact_inbox).and_return(verification)
+        allow(Captain::EmailVerification).to receive(:new).with(conversation).and_return(verification)
       end
 
       it 'sends the verified email' do
@@ -45,7 +46,7 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
 
       it 'is blocked for a customer without a verified email, with no setting turned on' do
         unverified = instance_double(Captain::EmailVerification, verified_email: nil)
-        allow(Captain::EmailVerification).to receive(:new).with(contact_inbox).and_return(unverified)
+        allow(Captain::EmailVerification).to receive(:new).with(conversation).and_return(unverified)
 
         expect(tool.perform(tool_context)).to include('has not verified an email')
         expect(request_stub).not_to have_been_requested
@@ -55,7 +56,8 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
     context 'when the tool requires email verification' do
       let(:inbox) { create(:inbox, account: account) }
       let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account)) }
-      let(:state) { { account_id: account.id, channel_type: 'Channel::WebWidget', contact_inbox: { id: contact_inbox.id, hmac_verified: false } } }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact) }
+      let(:state) { { account_id: account.id, conversation: { id: conversation.id }, contact_inbox: { id: contact_inbox.id, hmac_verified: false } } }
       let(:tool_context) { Struct.new(:state).new(state) }
       let(:verified_email) { nil }
 
@@ -64,7 +66,7 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
                             settings: { 'requires_email_verification' => true })
         stub_request(:get, 'https://example.com/orders/123').to_return(status: 200, body: '{"status": "success"}')
         verification = instance_double(Captain::EmailVerification, verified_email: verified_email)
-        allow(Captain::EmailVerification).to receive(:new).with(contact_inbox).and_return(verification)
+        allow(Captain::EmailVerification).to receive(:new).with(conversation).and_return(verification)
       end
 
       it 'does not call the endpoint for a customer without a verified email' do
@@ -83,8 +85,8 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
         expect(WebMock).not_to have_requested(:get, 'https://example.com/orders/123')
       end
 
-      it 'does not call the endpoint when the conversation has no contact inbox' do
-        state.delete(:contact_inbox)
+      it 'does not call the endpoint when the run has no conversation' do
+        state.delete(:conversation)
 
         result = tool.perform(tool_context)
 
@@ -92,11 +94,11 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
         expect(WebMock).not_to have_requested(:get, 'https://example.com/orders/123')
       end
 
-      it 'does not look up a contact inbox from another account' do
-        other_contact_inbox = create(:contact_inbox)
-        allow(Captain::EmailVerification).to receive(:new).with(other_contact_inbox)
+      it 'does not look up a conversation from another account' do
+        other_conversation = create(:conversation)
+        allow(Captain::EmailVerification).to receive(:new).with(other_conversation)
                                                           .and_return(instance_double(Captain::EmailVerification, verified_email: 'jane@example.com'))
-        state[:contact_inbox][:id] = other_contact_inbox.id
+        state[:conversation][:id] = other_conversation.id
 
         tool.perform(tool_context)
 

@@ -38,8 +38,8 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
 
   # Read from stored data on every call, never from the run state the model can influence
   def stored_verified_email(state)
-    contact_inbox = find_contact_inbox(state)
-    contact_inbox && Captain::EmailVerification.new(contact_inbox).verified_email
+    conversation = find_conversation(state)
+    conversation && Captain::EmailVerification.new(conversation).verified_email
   end
 
   def safe_to_run_after_new_customer_message?

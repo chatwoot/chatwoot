@@ -456,7 +456,7 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
       end
 
       it 'sends the email the customer verified with a one-time code, next to the contact email' do
-        allow(Captain::EmailVerification).to receive(:new).with(conversation.contact_inbox)
+        allow(Captain::EmailVerification).to receive(:new).with(conversation)
                                                           .and_return(instance_double(Captain::EmailVerification, verified_email: 'jane@example.com'))
         stub_request(:get, 'https://example.com/api/data').to_return(status: 200, body: '{}')
 
@@ -470,7 +470,7 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
       it 'strips the contact and verified email headers on cross-origin redirects' do
         contact.update!(email: 'jane@example.com', phone_number: '+14155550100')
         tool_context_with_state.state[:contact].merge!(email: contact.email, phone_number: contact.phone_number)
-        allow(Captain::EmailVerification).to receive(:new).with(conversation.contact_inbox)
+        allow(Captain::EmailVerification).to receive(:new).with(conversation)
                                                           .and_return(instance_double(Captain::EmailVerification, verified_email: 'jane@example.com'))
         redirected_headers = nil
         stub_request(:get, 'https://example.com/api/data').to_return(status: 302, headers: { 'Location' => 'http://example.com/data' })
