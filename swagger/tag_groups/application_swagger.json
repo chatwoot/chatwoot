@@ -1912,6 +1912,11 @@
                           },
                           "description": "array of the attribute values to filter"
                         },
+                        "timezone": {
+                          "type": "string",
+                          "description": "IANA timezone for created_at and last_activity_at date comparisons, including days_before. Omit to retain UTC behavior. Date-only custom attributes are not converted.",
+                          "example": "America/Sao_Paulo"
+                        },
                         "query_operator": {
                           "type": "string",
                           "description": "query operator name",
@@ -3442,6 +3447,11 @@
                             "type": "string"
                           },
                           "description": "array of the attribute values to filter"
+                        },
+                        "timezone": {
+                          "type": "string",
+                          "description": "IANA timezone for created_at and last_activity_at date comparisons, including days_before. Omit to retain UTC behavior. Date-only custom attributes are not converted.",
+                          "example": "America/Sao_Paulo"
                         },
                         "query_operator": {
                           "type": "string",
@@ -5244,6 +5254,305 @@
           },
           "422": {
             "description": "The inbox is not a WhatsApp inbox",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/inboxes/{id}/whatsapp_catalog": {
+      "get": {
+        "tags": [
+          "Inboxes"
+        ],
+        "operationId": "getWhatsappInboxCatalog",
+        "summary": "Get the WhatsApp catalog of an inbox",
+        "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Read the catalog of a WhatsApp Cloud inbox from Meta: its ID and its collections (without the default\n\"All Products\" collection). The catalog saved as `catalog_id` in the inbox provider configuration is used\nwhen present, otherwise the catalog connected to the WhatsApp Business account.\n\nA failure to read the catalog is reported in `status` (`no_catalog`, `missing_permission` or `error`)\nwith a 200 response, not as an HTTP error. The access token is never returned.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/account_id"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "number"
+            },
+            "description": "ID of the WhatsApp Cloud inbox",
+            "required": true
+          },
+          {
+            "name": "refresh",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Skip the cache and read the catalog from Meta again",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok",
+                        "no_catalog",
+                        "missing_permission",
+                        "error"
+                      ]
+                    },
+                    "catalog_id": {
+                      "type": "string",
+                      "description": "Present when status is ok"
+                    },
+                    "collections": {
+                      "type": "array",
+                      "description": "Present when status is ok",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "count": {
+                            "type": "integer",
+                            "description": "Number of products in the collection"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Inbox not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The inbox is not a WhatsApp Cloud inbox",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/inboxes/{id}/whatsapp_catalog_products": {
+      "get": {
+        "tags": [
+          "Inboxes"
+        ],
+        "operationId": "listWhatsappInboxCatalogProducts",
+        "summary": "List the products of the WhatsApp catalog of an inbox",
+        "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Read one page of products from the catalog of a WhatsApp Cloud inbox, optionally filtered by name or\ncollection. Every request reads a single page from Meta; pass `next_cursor` as `after` to get the next one.\nThe first page without search is cached for 15 minutes per inbox and collection.\n\nA failure to read the catalog is reported in `status` (`no_catalog`, `missing_permission` or `error`)\nwith a 200 response, not as an HTTP error.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/account_id"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "number"
+            },
+            "description": "ID of the WhatsApp Cloud inbox",
+            "required": true
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 24
+            },
+            "description": "Products per page",
+            "required": false
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cursor returned as `next_cursor` by the previous page",
+            "required": false
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search by product name, run by Meta",
+            "required": false
+          },
+          {
+            "name": "collection_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Only return products of this collection (it must belong to the catalog)",
+            "required": false
+          },
+          {
+            "name": "refresh",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Skip the cache of the first page",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok",
+                        "no_catalog",
+                        "missing_permission",
+                        "error"
+                      ]
+                    },
+                    "products": {
+                      "type": "array",
+                      "description": "Present when status is ok",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "retailer_id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "price": {
+                            "type": "string"
+                          },
+                          "image_urls": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "description": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "url": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "collection_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "next_cursor": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "description": "Cursor of the next page, null on the last one"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Inbox not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The inbox is not a WhatsApp Cloud inbox, the limit is out of range or the collection does not belong to the catalog",
             "content": {
               "application/json": {
                 "schema": {
