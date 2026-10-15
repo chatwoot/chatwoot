@@ -1,8 +1,10 @@
-class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
+class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService # rubocop:disable Metrics/ClassLength
   def send_message(phone_number, message)
     @message = message
 
-    if message.attachments.present?
+    if message.content_attributes['whatsapp_catalog'].present?
+      send_catalog_message(phone_number, message)
+    elsif message.attachments.present?
       send_attachment_message(phone_number, message)
     elsif message.content_type == 'input_select'
       send_interactive_text_message(phone_number, message)
@@ -241,10 +243,25 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def send_interactive_text_message(phone_number, message)
-    payload = create_payload_based_on_items(message)
+    post_interactive_message(phone_number, message, create_payload_based_on_items(message))
+  end
 
+  def send_catalog_message(phone_number, message)
+    raise Whatsapp::CatalogMessagePayloadBuilder::Error, I18n.t('errors.whatsapp.catalog.attachments_not_supported') if message.attachments.present?
+
+    payload = Whatsapp::CatalogMessagePayloadBuilder.new(
+      body: message.outgoing_content.presence, catalog: message.content_attributes['whatsapp_catalog']
+    ).perform
+
+    post_interactive_message(phone_number, message, payload, 'v24.0')
+  rescue Whatsapp::CatalogMessagePayloadBuilder::Error => e
+    message.update!(status: :failed, external_error: e.message)
+    nil
+  end
+
+  def post_interactive_message(phone_number, message, payload, version = 'v13.0')
     response = HTTParty.post(
-      "#{phone_id_path}/messages",
+      "#{phone_id_path(version)}/messages",
       headers: api_headers,
       body: {
         messaging_product: 'whatsapp',
