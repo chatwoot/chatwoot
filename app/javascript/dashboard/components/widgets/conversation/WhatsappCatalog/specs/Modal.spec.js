@@ -550,4 +550,27 @@ describe('WhatsappCatalog Modal', () => {
     await rows(w)[0].trigger('click');
     expect(q(w, 'catalog-counter').text()).toContain('3 / 30');
   });
+
+  it('ignores a slow catalog response after the dialog was reopened for another inbox', async () => {
+    let resolveSlow;
+    loadCatalog.mockReturnValueOnce(
+      new Promise(resolve => {
+        resolveSlow = resolve;
+      })
+    );
+    loadCatalog.mockResolvedValue({
+      ...catalogData(),
+      collections: [{ id: 'c9', name: 'Other inbox', count: 1 }],
+    });
+    const w = await mountModal();
+    await w.setProps({ show: false });
+    await w.setProps({ show: true, inboxId: 2 });
+    await flushPromises();
+
+    resolveSlow(catalogData());
+    await flushPromises();
+
+    expect(q(w, 'catalog-chip-c9').exists()).toBe(true);
+    expect(q(w, 'catalog-chip-c1').exists()).toBe(false);
+  });
 });
