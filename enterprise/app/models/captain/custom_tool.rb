@@ -16,6 +16,7 @@
 #  settings          :jsonb            not null
 #  slug              :string           not null
 #  source_metadata   :jsonb
+#  stores            :jsonb            not null
 #  title             :string           not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
@@ -33,6 +34,7 @@ class Captain::CustomTool < ApplicationRecord
   MAX_PER_ASSISTANT = 50
 
   include Concerns::Toolable
+  include Concerns::ToolStorable
   include Concerns::SafeEndpointValidatable
 
   self.table_name = 'captain_custom_tools'
@@ -53,8 +55,8 @@ class Captain::CustomTool < ApplicationRecord
   RESERVED_HEADERS = %w[authorization host content-length content-type].freeze
   # Any name starting with x-chatwoot, dash or not, is reserved for headers Chatwoot sets
   RESERVED_HEADER_PREFIX = 'x-chatwoot'.freeze
-  # Values Chatwoot fills into a parameter from what the customer verified: an email by one-time code
-  VERIFIED_SOURCES = %w[verified.email].freeze
+  # Values Chatwoot fills into a parameter: the email the customer verified by one-time code, or a value
+  # an earlier tool of the same toolset returned for that customer (stored.<name>)
   PARAM_SCHEMA_VALIDATION = {
     'type': 'array',
     'items': {
@@ -64,7 +66,7 @@ class Captain::CustomTool < ApplicationRecord
         'type': { 'type': 'string' },
         'description': { 'type': 'string' },
         'required': { 'type': 'boolean' },
-        'source': { 'enum': VERIFIED_SOURCES }
+        'source': { 'type': 'string', 'pattern': '^(verified\\.email|stored\\.[a-z][a-z0-9_]*)$' }
       },
       'required': %w[name type description],
       # Verified values are text, so a parameter that takes one must be a string
@@ -141,8 +143,9 @@ class Captain::CustomTool < ApplicationRecord
 
   # The tool only runs for a customer who verified an email with a one-time code.
   # A tool with a parameter that takes the verified email cannot run without one, so it needs no setting.
+  # A stored value only exists for a verified customer, so a tool that takes one is gated too.
   def requires_email_verification?
-    settings['requires_email_verification'] == true || param_schema.any? { |param_def| param_def['source'] == 'verified.email' }
+    settings['requires_email_verification'] == true || param_schema.any? { |param_def| param_def['source'].present? }
   end
 
   # The name of the parameter Chatwoot fills with the verified email, if the tool has one
