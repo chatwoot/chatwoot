@@ -3,10 +3,6 @@
 # answer with a visible note. Record references, dates, times, years and list markers are ignored, because they are not
 # claims about how much of something there is.
 class Captain::Copilot::UnsourcedNumbers
-  NOTE = 'Automatic check, not a message from the agent: these numbers in your answer do not appear in any tool result: ' \
-         '%<numbers>s. Every number must come from a tool result, or be a ratio or percentage of two numbers a tool returned. ' \
-         'Recompute counts with get_data, using group_by for counts per period or value, or remove each number you cannot ' \
-         'source. Then give the complete answer again.'.freeze
   IGNORED = [
     /\]\([^)]*\)/,
     %r{https?://\S+},
@@ -65,7 +61,7 @@ class Captain::Copilot::UnsourcedNumbers
 
     numbers = find(draft)
     @run.with_lease(@token) { @run.update!(context: @run.context.merge('unsourced_numbers_in_draft' => numbers)) }
-    format(NOTE, numbers: numbers.join(', ')) if numbers.any?
+    Captain::PromptRenderer.render('copilot_unsourced_numbers', numbers: numbers.join(', ')) if numbers.any?
   end
 
   # The numbers still unsourced in the answer the model gave after the note.
