@@ -10,6 +10,7 @@ class Whatsapp::CatalogMessagePayloadBuilder
   FOOTER_MAX_LENGTH = 60
   HEADER_MAX_LENGTH = 60
   SECTION_TITLE_MAX_LENGTH = 24
+  MAX_SECTIONS = 10
 
   pattr_initialize [:body!, :catalog!]
 
@@ -32,6 +33,7 @@ class Whatsapp::CatalogMessagePayloadBuilder
     raise Error, I18n.t('errors.whatsapp.catalog.unknown_kind', kind: kind) unless ITEM_LIMITS.key?(kind)
 
     validate_products!
+    validate_product_fields!
     validate_texts!
   end
 
@@ -39,7 +41,17 @@ class Whatsapp::CatalogMessagePayloadBuilder
     limit = ITEM_LIMITS[kind]
     raise Error, I18n.t('errors.whatsapp.catalog.catalog_id_required') if catalog['catalog_id'].blank?
     raise Error, I18n.t('errors.whatsapp.catalog.items_out_of_range', kind: kind, min: limit.min, max: limit.max) unless limit.cover?(items.size)
+  end
+
+  def validate_product_fields!
     raise Error, I18n.t('errors.whatsapp.catalog.retailer_id_required') if items.any? { |item| item['retailer_id'].blank? }
+    raise Error, I18n.t('errors.whatsapp.catalog.invalid_url') unless items.all? { |item| item['url'].blank? || http_url?(item['url']) }
+  end
+
+  def http_url?(url)
+    URI.parse(url.to_s).is_a?(URI::HTTP)
+  rescue URI::InvalidURIError
+    false
   end
 
   def validate_texts!
@@ -54,6 +66,9 @@ class Whatsapp::CatalogMessagePayloadBuilder
   def validate_list_lengths!
     validate_length!('header', catalog['header'], HEADER_MAX_LENGTH)
     items.each { |item| validate_length!('section', item['section'], SECTION_TITLE_MAX_LENGTH) }
+    return if items.pluck('section').uniq.size <= MAX_SECTIONS
+
+    raise Error, I18n.t('errors.whatsapp.catalog.too_many_sections', max: MAX_SECTIONS)
   end
 
   def validate_length!(field, text, max)

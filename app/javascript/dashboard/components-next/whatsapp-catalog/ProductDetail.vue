@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { isSafeHttpLink } from 'shared/helpers/documentHelper';
 
 const props = defineProps({
   item: { type: Object, required: true },
@@ -101,7 +102,7 @@ const onScroll = () => {
         </p>
       </div>
       <a
-        v-if="item.url"
+        v-if="isSafeHttpLink(item.url)"
         :href="item.url"
         target="_blank"
         rel="noopener noreferrer"
