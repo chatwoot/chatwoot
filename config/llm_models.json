@@ -28005,6 +28005,67 @@
     }
   },
   {
+    "id": "gpt-6-luna",
+    "name": "GPT-6 Luna",
+    "provider": "openai",
+    "family": "gpt-luna",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-05-18",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "tool_choice",
+      "parallel_tool_calls"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "cache_read_input_per_million": 0.01,
+          "cache_write_input_per_million": 0.125
+        },
+        "long_context": {
+          "input_per_million": 0.2,
+          "output_per_million": 0.75,
+          "cache_read_input_per_million": 0.02,
+          "cache_write_input_per_million": 0.25
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "source": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+      "temperature": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "default": "medium"
+        }
+      ]
+    }
+  },
+  {
     "id": "gpt-audio",
     "name": "gpt-audio",
     "provider": "openai",

@@ -3,7 +3,7 @@ class Captain::BaseTaskService
   include Captain::ToolInstrumentation
   include Llm::ExceptionTrackable
 
-  # gpt-4o-mini supports 128,000 tokens
+  # Sized for a 128,000-token context window
   # 1 token is approx 4 characters
   # sticking with 120000 to be safe
   # 120000 * 4 = 480,000 characters (rounding off downwards to 400,000 to be safe)

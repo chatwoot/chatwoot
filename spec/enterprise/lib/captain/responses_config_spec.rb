@@ -41,13 +41,13 @@ RSpec.describe Captain::ResponsesConfig do
   it 'keeps custom endpoints on their existing protocol without forced reasoning' do
     InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.example')
 
-    expect(described_class.options(model: 'gpt-4.1', temperature: 0.7, feature: 'copilot')).to eq(temperature: 0.7)
+    expect(described_class.options(model: 'gpt-6-luna', temperature: 0.7, feature: 'copilot')).to eq(temperature: 0.7)
     expect(described_class.options(model: 'gpt-5-mini', temperature: 0.7, feature: 'copilot')).to eq(temperature: nil)
   end
 
   it 'reports Chat Completions and omits effort when thinking is not configured' do
     context.config.openai_protocol = :chat_completions
-    chat = context.chat(model: 'gpt-4.1')
+    chat = context.chat(model: 'gpt-6-luna')
 
     expect(described_class.metadata(chat)).to eq(api_protocol: :chat_completions)
   end
