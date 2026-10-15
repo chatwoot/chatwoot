@@ -4,6 +4,10 @@ import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, maxLength } from '@vuelidate/validators';
+import { useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import CustomToolsAPI from 'dashboard/api/captain/customTools';
 
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -35,6 +39,8 @@ const emit = defineEmits(['submit']);
 
 const { t } = useI18n();
 const route = useRoute();
+const store = useStore();
+const { isAdmin } = useAdmin();
 
 const initialState = {
   title: '',
@@ -57,6 +63,10 @@ const state = reactive({
 
 // Tools installed from a manifest are shown read-only
 const isReadOnly = computed(() => props.mode === 'view');
+// Except email verification, which admins can change on an installed tool. It saves as soon as it changes.
+const canChangeInstalledVerification = computed(
+  () => isReadOnly.value && isAdmin.value && !!props.tool.source_metadata
+);
 
 // Populate form when editing or viewing an existing tool
 watch(
@@ -84,11 +94,29 @@ const usesVerifiedEmail = computed(() =>
   state.param_schema.some(param => param.source === 'verified.email')
 );
 
+const saveInstalledVerification = async value => {
+  try {
+    await store.dispatch('captainCustomTools/update', {
+      id: props.tool.id,
+      settings: { requires_email_verification: value },
+      assistantId: route.params.assistantId,
+    });
+    useAlert(t('CAPTAIN.CUSTOM_TOOLS.EDIT.SUCCESS_MESSAGE'));
+  } catch (error) {
+    state.settings.requires_email_verification = !value;
+    useAlert(
+      parseAPIErrorResponse(error) ||
+        t('CAPTAIN.CUSTOM_TOOLS.EDIT.ERROR_MESSAGE')
+    );
+  }
+};
+
 const requiresEmailVerification = computed({
   get: () =>
     usesVerifiedEmail.value || state.settings.requires_email_verification,
   set: value => {
     state.settings.requires_email_verification = value;
+    if (canChangeInstalledVerification.value) saveInstalledVerification(value);
   },
 });
 
@@ -332,27 +360,31 @@ const handleTest = async () => {
         v-model:auth-config="state.auth_config"
         :auth-type="state.auth_type"
       />
+    </fieldset>
 
-      <label class="flex items-start justify-between gap-3">
-        <span class="flex flex-col gap-0.5">
-          <span class="text-sm font-medium text-n-slate-12">
-            {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.LABEL') }}
-          </span>
-          <span class="text-sm text-n-slate-11">
-            {{
-              usesVerifiedEmail
-                ? t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.IMPLIED')
-                : t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.DESCRIPTION')
-            }}
-          </span>
+    <label class="flex items-start justify-between gap-3">
+      <span class="flex flex-col gap-0.5">
+        <span class="text-sm font-medium text-n-slate-12">
+          {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.LABEL') }}
         </span>
-        <Switch
-          v-model="requiresEmailVerification"
-          :disabled="isReadOnly || usesVerifiedEmail"
-          class="shrink-0"
-        />
-      </label>
+        <span class="text-sm text-n-slate-11">
+          {{
+            usesVerifiedEmail
+              ? t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.IMPLIED')
+              : t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.DESCRIPTION')
+          }}
+        </span>
+      </span>
+      <Switch
+        v-model="requiresEmailVerification"
+        :disabled="
+          (isReadOnly && !canChangeInstalledVerification) || usesVerifiedEmail
+        "
+        class="shrink-0"
+      />
+    </label>
 
+    <fieldset :disabled="isReadOnly" class="contents">
       <div class="flex flex-col">
         <ToolFormSection
           v-model:open="openSections.headers"
