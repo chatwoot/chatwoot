@@ -653,10 +653,14 @@
     },
     "NO_COLLECTION": "No collection",
     "ACTIONS": {
+      "SEND": "Send",
       "BACK": "Back",
+      "NEXT": "Next",
       "CLOSE": "Close",
+      "SELECT": "Select",
       "SEE_MORE": "See more",
       "REFRESH": "Refresh",
+      "CANCEL": "Cancel",
       "INSERT_LINK": "Insert catalog link"
     },
     "PRODUCT": {
@@ -666,6 +670,40 @@
       "DESCRIPTION": "Description",
       "PHOTO_OF": "Photo {current} of {total}",
       "DETAILS_TITLE": "Details"
+    },
+    "FORMATS": {
+      "CAROUSEL": {
+        "NAME": "Carousel",
+        "RULE": "From 2 to 10 products"
+      },
+      "PRODUCT": {
+        "NAME": "Single product",
+        "RULE": "1 product"
+      },
+      "PRODUCT_LIST": {
+        "NAME": "Product list",
+        "RULE": "From 1 to 30 products"
+      }
+    },
+    "COUNTER": "{count} / {max}",
+    "FIELDS": {
+      "HEADER": "Header",
+      "BODY": "Message text",
+      "FOOTER": "Footer",
+      "REQUIRED": "Required",
+      "OPTIONAL": "Optional",
+      "CHARACTERS": "{count} / {max} characters"
+    },
+    "ERRORS": {
+      "MIN_ITEMS": "Select at least {min} products",
+      "MAX_ITEMS": "Up to {max} product | Up to {max} products",
+      "REQUIRED": "This field is required",
+      "TOO_LONG": "The text is too long",
+      "SEND_FAILED": "Could not send the catalog message. Please try again."
+    },
+    "FORMAT": {
+      "LABEL": "Delivery format",
+      "UNAVAILABLE": "Not available: {reason}"
     }
   }
 }

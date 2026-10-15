@@ -9,6 +9,7 @@ import {
   peekCatalog,
   peekProductsPage,
 } from 'dashboard/helper/whatsappCatalogCache';
+import whatsappCatalogMessages from 'dashboard/api/whatsappCatalogMessages';
 
 vi.mock('dashboard/helper/whatsappCatalogCache', () => ({
   loadCatalog: vi.fn(),
@@ -19,6 +20,9 @@ vi.mock('dashboard/helper/whatsappCatalogCache', () => ({
 vi.mock('@vueuse/core', async importOriginal => ({
   ...(await importOriginal()),
   useIntersectionObserver: vi.fn(),
+}));
+vi.mock('dashboard/api/whatsappCatalogMessages', () => ({
+  default: { create: vi.fn() },
 }));
 vi.mock('vue-i18n', () => ({ useI18n: () => ({ t: key => key }) }));
 vi.mock('dashboard/composables/useAdmin', () => ({
@@ -69,7 +73,7 @@ const ButtonStub = {
 
 const mountModal = async (props = {}) => {
   const w = mount(Modal, {
-    props: { show: true, inboxId: 1, ...props },
+    props: { show: true, inboxId: 1, conversationId: 9, ...props },
     global: {
       mocks: {
         $t: (key, params) =>
@@ -190,6 +194,32 @@ describe('WhatsappCatalog Modal', () => {
     });
   });
 
+  it('keeps the selection across collections and sends it', async () => {
+    whatsappCatalogMessages.create.mockResolvedValue({});
+    const w = await mountModal({ initialBody: 'Hola' });
+    await q(w, 'catalog-select').trigger('click');
+    await rows(w)[0].trigger('click');
+    loadProductsPage.mockResolvedValue({
+      status: 'ok',
+      next_cursor: null,
+      products: [product(9, { name: 'Other' })],
+    });
+    await q(w, 'catalog-chip-c2').trigger('click');
+    await flushPromises();
+    expect(rows(w)).toHaveLength(1);
+    expect(q(w, 'catalog-counter').text()).toContain('CATALOG.COUNTER');
+    await rows(w)[0].trigger('click');
+    await q(w, 'catalog-next').trigger('click');
+    await q(w, 'catalog-format-product_list').setValue(true);
+    await q(w, 'catalog-send').trigger('click');
+    await flushPromises();
+    const { products } = whatsappCatalogMessages.create.mock.calls[0][1];
+    expect(products.map(p => [p.retailer_id, p.section])).toEqual([
+      ['sku-0', 'Summer'],
+      ['sku-9', 'CATALOG.NO_COLLECTION'],
+    ]);
+  });
+
   it('passes backButton to the sheet only with the detail open', async () => {
     const w = await mountModal();
     const sheet = w.findComponent(CatalogSheet);
@@ -210,6 +240,28 @@ describe('WhatsappCatalog Modal', () => {
     expect(w.findAll('[data-test-id="catalog-sheet"]')).toHaveLength(1);
     expect(q(w, 'catalog-search').isVisible()).toBe(false);
     expect(rows(w)[0].isVisible()).toBe(false);
+  });
+
+  it('goes back from the detail keeping search and selection', async () => {
+    const w = await mountModal();
+    const sheet = w.findComponent(CatalogSheet);
+    await q(w, 'catalog-select').trigger('click');
+    await rows(w)[0].trigger('click');
+    await q(w, 'catalog-search').setValue('red');
+    await rows(w)[0].find('[data-testid="catalog-see-more"]').trigger('click');
+    sheet.vm.$emit('close');
+    await flushPromises();
+    expect(w.find('[data-test-id="catalog-detail"]').exists()).toBe(false);
+    expect(q(w, 'catalog-search').element.value).toBe('red');
+    expect(q(w, 'catalog-search').isVisible()).toBe(true);
+    expect(rows(w)).toHaveLength(3);
+    expect(rows(w)[0].find('input').element.checked).toBe(true);
+    expect(loadProductsPage).toHaveBeenCalledTimes(1);
+    expect(w.emitted('close')).toBeFalsy();
+    expect(w.emitted('update:show')).toBeFalsy();
+    sheet.vm.$emit('close');
+    expect(w.emitted('update:show')[0]).toEqual([false]);
+    expect(w.emitted('close')).toBeTruthy();
   });
 
   it('gives the search input the same height as the buttons', async () => {
@@ -241,6 +293,83 @@ describe('WhatsappCatalog Modal', () => {
     });
   });
 
+  it('disables the carousel with one product and keeps the list', async () => {
+    const w = await mountModal();
+    expect(q(w, 'catalog-next').exists()).toBe(false);
+    await q(w, 'catalog-select').trigger('click');
+    expect(q(w, 'catalog-next').element.disabled).toBe(true);
+    await rows(w)[0].trigger('click');
+    expect(q(w, 'catalog-counter').text()).toContain('CATALOG.COUNTER');
+    expect(
+      w.find('[data-testid="catalog-next"]').element.parentElement.textContent
+    ).not.toContain('CATALOG.COUNTER');
+    expect(q(w, 'catalog-cancel-selection').text()).toBe(
+      'CATALOG.ACTIONS.CANCEL'
+    );
+    expect(q(w, 'catalog-next').text()).toBe('CATALOG.ACTIONS.NEXT');
+    await q(w, 'catalog-next').trigger('click');
+    expect(q(w, 'catalog-format-carousel').element.disabled).toBe(true);
+    expect(q(w, 'catalog-format-product_list').element.disabled).toBe(false);
+    expect(q(w, 'catalog-format-reason-carousel').exists()).toBe(true);
+    expect(q(w, 'catalog-back-link').exists()).toBe(false);
+    await q(w, 'catalog-back').trigger('click');
+    expect(rows(w)[0].find('input').element.checked).toBe(true);
+  });
+
+  it('requires header and body for a list', async () => {
+    const w = await mountModal();
+    await q(w, 'catalog-select').trigger('click');
+    await rows(w)[0].trigger('click');
+    await q(w, 'catalog-next').trigger('click');
+    await q(w, 'catalog-format-product_list').setValue(true);
+    await q(w, 'catalog-field-header').setValue('');
+    await q(w, 'catalog-send').trigger('click');
+    expect(whatsappCatalogMessages.create).not.toHaveBeenCalled();
+    expect(w.text()).toContain('CATALOG.ERRORS.REQUIRED');
+  });
+
+  it('sends the expected payload and emits sent', async () => {
+    whatsappCatalogMessages.create.mockResolvedValue({});
+    const w = await mountModal({ initialBody: 'Hola' });
+    await q(w, 'catalog-select').trigger('click');
+    await rows(w)[0].trigger('click');
+    await rows(w)[2].trigger('click');
+    await q(w, 'catalog-next').trigger('click');
+    await q(w, 'catalog-format-product_list').setValue(true);
+    expect(q(w, 'catalog-field-header').element.value).toBe('Summer');
+    await q(w, 'catalog-send').trigger('click');
+    await flushPromises();
+    expect(whatsappCatalogMessages.create).toHaveBeenCalledWith(9, {
+      kind: 'product_list',
+      content: 'Hola',
+      header: 'Summer',
+      footer: '',
+      catalog_id: 'cat-1',
+      products: [
+        {
+          retailer_id: 'sku-0',
+          name: 'Red Shirt',
+          price: '$1',
+          description: 'Soft cotton',
+          url: 'https://x.test/0',
+          section: 'Summer',
+          image_urls: ['a.jpg'],
+        },
+        {
+          retailer_id: 'sku-2',
+          name: 'Green Sock',
+          price: '$3',
+          description: null,
+          url: null,
+          section: 'CATALOG.NO_COLLECTION',
+          image_urls: [],
+        },
+      ],
+    });
+    expect(w.emitted('sent')).toBeTruthy();
+    expect(w.emitted('close')).toBeTruthy();
+  });
+
   it('shows the link button only with a catalog link and emits it', async () => {
     loadCatalog.mockResolvedValue(catalogData());
     const without = await mountModal();
@@ -253,6 +382,7 @@ describe('WhatsappCatalog Modal', () => {
     ]);
     expect(w.emitted('update:show')[0]).toEqual([false]);
     expect(w.emitted('close')).toBeTruthy();
+    expect(whatsappCatalogMessages.create).not.toHaveBeenCalled();
   });
 
   it('shows the permission guide mentioning catalog_management', async () => {
@@ -285,7 +415,7 @@ describe('WhatsappCatalog Modal', () => {
   describe('with prefetched data', () => {
     const mountCached = () =>
       mount(Modal, {
-        props: { show: true, inboxId: 1 },
+        props: { show: true, inboxId: 1, conversationId: 9 },
         global: {
           mocks: { $t: key => key },
           stubs: { Teleport: true, Button: ButtonStub },
@@ -363,22 +493,61 @@ describe('WhatsappCatalog Modal', () => {
     expect(w.text()).toContain('CATALOG.STATES.LOADING');
   });
 
-  it('goes back from the detail keeping the search', async () => {
+  it('opens the detail with See more without selecting the product', async () => {
     const w = await mountModal();
     const sheet = w.findComponent(CatalogSheet);
-    await q(w, 'catalog-search').setValue('red');
+    await q(w, 'catalog-select').trigger('click');
     await rows(w)[0].find('[data-testid="catalog-see-more"]').trigger('click');
+    expect(w.find('[data-test-id="catalog-detail"]').exists()).toBe(true);
     sheet.vm.$emit('close');
     await flushPromises();
-    expect(w.find('[data-test-id="catalog-detail"]').exists()).toBe(false);
-    expect(q(w, 'catalog-search').element.value).toBe('red');
-    expect(q(w, 'catalog-search').isVisible()).toBe(true);
-    expect(rows(w)).toHaveLength(3);
-    expect(loadProductsPage).toHaveBeenCalledTimes(1);
-    expect(w.emitted('close')).toBeFalsy();
-    expect(w.emitted('update:show')).toBeFalsy();
-    sheet.vm.$emit('close');
-    expect(w.emitted('update:show')[0]).toEqual([false]);
-    expect(w.emitted('close')).toBeTruthy();
+    expect(q(w, 'catalog-counter').text()).toContain('0 / 30');
+    expect(q(w, 'catalog-next').element.disabled).toBe(true);
+    expect(rows(w)[0].find('input').element.checked).toBe(false);
+  });
+
+  it('stops the selection at 30 products', async () => {
+    loadProductsPage.mockResolvedValue({
+      status: 'ok',
+      next_cursor: null,
+      products: Array.from({ length: 31 }, (_, n) => product(n)),
+    });
+    const w = await mountModal();
+    await q(w, 'catalog-select').trigger('click');
+    for (let n = 0; n < 30; n += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await rows(w)[n].trigger('click');
+    }
+    expect(q(w, 'catalog-counter').text()).toContain('30 / 30');
+    await rows(w)[30].trigger('click');
+    expect(rows(w)[30].find('input').element.checked).toBe(false);
+    expect(rows(w)[30].find('input').element.disabled).toBe(true);
+    expect(q(w, 'catalog-counter').text()).toContain('30 / 30');
+  });
+
+  it('keeps the selection across pages and searches', async () => {
+    const w = await mountModal();
+    await q(w, 'catalog-select').trigger('click');
+    await rows(w)[0].trigger('click');
+    loadProductsPage.mockResolvedValueOnce({
+      status: 'ok',
+      next_cursor: null,
+      products: [product(3)],
+    });
+    await reachEnd();
+    await rows(w)[3].trigger('click');
+    expect(q(w, 'catalog-counter').text()).toContain('2 / 30');
+    loadProductsPage.mockResolvedValue({
+      status: 'ok',
+      next_cursor: null,
+      products: [product(7)],
+    });
+    await q(w, 'catalog-search').setValue('x');
+    await vi.advanceTimersByTimeAsync(400);
+    await flushPromises();
+    expect(rows(w)).toHaveLength(1);
+    expect(q(w, 'catalog-counter').text()).toContain('2 / 30');
+    await rows(w)[0].trigger('click');
+    expect(q(w, 'catalog-counter').text()).toContain('3 / 30');
   });
 });
