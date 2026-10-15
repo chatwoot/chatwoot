@@ -31,6 +31,14 @@
 
 en:
   hello: 'Hello world'
+  administrator_notifications:
+    captain:
+      response_usage_alert:
+        subject: 'Your Captain credits are running low'
+        greeting: 'Hello,'
+        usage_html: '%{account_name} has used more than 80% of its AI response credits for the current billing period.'
+        balance: '%{consumed} credits have been used, and %{remaining} credits remain.'
+        action: 'View usage and add credits'
   inbox:
     reauthorization:
       success: 'Channel reauthorized successfully'
