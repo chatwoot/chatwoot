@@ -1,4 +1,5 @@
-import { computed } from 'vue';
+import { computed, unref } from 'vue';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { useUISettings } from './useUISettings';
 import { useAccount } from './useAccount';
 import { useMapGetter } from './store';
@@ -25,9 +26,10 @@ export function selectTranslation(translations, agentLocale, accountLocale) {
 /**
  * Composable to extract translation state/content from contentAttributes.
  * @param {Ref|Reactive} contentAttributes - Ref or reactive object containing `translations` property
+ * @param {Ref|number} messageType - The message type, one of MESSAGE_TYPE
  * @returns {Object} { hasTranslations, translationContent }
  */
-export function useTranslations(contentAttributes) {
+export function useTranslations(contentAttributes, messageType) {
   const { uiSettings } = useUISettings();
   const { currentAccount } = useAccount();
   const autoTranslate = useMapGetter('getAutoTranslate');
@@ -35,9 +37,12 @@ export function useTranslations(contentAttributes) {
   const translationContent = computed(() => {
     const { translations } = contentAttributes.value ?? {};
     if (!translations || !Object.keys(translations).length) return null;
-    // With auto translate on, each agent reads the translation into their own language, or the original until it is there.
+    // With auto translate on, an incoming message shows the translation into the agent language or the original until it
+    // is there; a reply or template shows its author's own text, stored under the language it was written in.
     if (autoTranslate.value.enabled) {
-      return translations[autoTranslate.value.locale] ?? null;
+      const own = translations[autoTranslate.value.locale];
+      if (unref(messageType) === MESSAGE_TYPE.INCOMING) return own ?? null;
+      return own ?? Object.values(translations)[0];
     }
     return selectTranslation(
       translations,

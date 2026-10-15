@@ -18,7 +18,7 @@ defineOptions({ inheritAttrs: false });
 const { t } = useI18n();
 const { id, contentAttributes, messageType, shouldGroupWithNext } =
   useMessageContext();
-const { hasTranslations } = useTranslations(contentAttributes);
+const { hasTranslations } = useTranslations(contentAttributes, messageType);
 const autoTranslate = useMapGetter('getAutoTranslate');
 const translationState = useMapGetter('getMessageTranslationState');
 

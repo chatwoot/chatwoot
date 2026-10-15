@@ -161,7 +161,8 @@ const autoTranslate = useMapGetter('getAutoTranslate');
 const translationState = useMapGetter('getMessageTranslationState');
 const showingOriginal = ref(false);
 const { translationContent } = useTranslations(
-  computed(() => props.contentAttributes)
+  computed(() => props.contentAttributes),
+  computed(() => props.messageType)
 );
 // Copy and canned responses take the text the bubble shows, translated or original.
 const displayedContent = computed(() => {

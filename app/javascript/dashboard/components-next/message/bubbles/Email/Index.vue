@@ -36,8 +36,10 @@ onMounted(() => {
 const isOutgoing = computed(() => messageType.value === MESSAGE_TYPES.OUTGOING);
 const isIncoming = computed(() => !isOutgoing.value);
 
-const { hasTranslations, translationContent } =
-  useTranslations(contentAttributes);
+const { hasTranslations, translationContent } = useTranslations(
+  contentAttributes,
+  messageType
+);
 const showsTranslation = computed(
   () => hasTranslations.value && !showingOriginal.value
 );

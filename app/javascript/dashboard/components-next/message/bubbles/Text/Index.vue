@@ -28,8 +28,10 @@ const {
   showingOriginal,
 } = useMessageContext();
 
-const { hasTranslations, translationContent } =
-  useTranslations(contentAttributes);
+const { hasTranslations, translationContent } = useTranslations(
+  contentAttributes,
+  messageType
+);
 const reducedMotion = usePreferredReducedMotion();
 
 const translationState = useMapGetter('getMessageTranslationState');
