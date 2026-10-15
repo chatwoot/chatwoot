@@ -176,6 +176,7 @@ en:
         items_out_of_range: '%{kind} requires between %{min} and %{max} products'
         retailer_id_required: 'Every product requires a retailer ID (SKU)'
         invalid_url: 'Product links must be http or https URLs'
+        invalid_products: 'products must be a list of products'
         too_many_sections: 'product_list supports at most %{max} sections'
         body_required: '%{kind} requires a body'
         header_required: 'product_list requires a header'
