@@ -173,9 +173,14 @@ class Captain::Assistant::AgentRunnerService
 
   # Every agent in a customer conversation can verify the customer, so whichever one is asked for account data can do it
   def with_email_verification_tools(agent)
-    return agent if @conversation.blank?
+    return agent unless can_verify_email?
 
     agent.clone(tools: agent.tools + EMAIL_VERIFICATION_TOOLS.map { |tool_class| tool_class.new(@assistant) })
+  end
+
+  # A customer is the user, and a tool needs their verified email. The prompt reads this from the state.
+  def can_verify_email?
+    @conversation.present? && COPILOT_SOURCES.exclude?(@source) && @assistant.custom_tools.enabled.any?(&:requires_email_verification?)
   end
 
   def reply_suggestion_agent

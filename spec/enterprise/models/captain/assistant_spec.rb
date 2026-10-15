@@ -389,13 +389,14 @@ RSpec.describe Captain::Assistant, type: :model do
     end
 
     it 'leaves out the ID rule before the customer verifies' do
-      state = { channel_type: 'Channel::WebWidget', conversation: { id: 1 }, assistant_config: {} }
+      state = { channel_type: 'Channel::WebWidget', conversation: { id: 1 }, can_verify_email: true, assistant_config: {} }
 
       expect(assistant.agent_instructions(Struct.new(:context).new({ state: state }))).not_to include('use only an ID that a tool returned')
     end
 
     it 'gives the steps to verify on a messaging channel, without any HMAC status' do
-      state = { channel_type: 'Channel::Whatsapp', conversation: { id: 1 }, contact_inbox: { id: 1, hmac_verified: true }, assistant_config: {} }
+      state = { channel_type: 'Channel::Whatsapp', conversation: { id: 1 }, contact_inbox: { id: 1, hmac_verified: true }, can_verify_email: true,
+                assistant_config: {} }
 
       instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
 
@@ -404,15 +405,16 @@ RSpec.describe Captain::Assistant, type: :model do
     end
 
     it 'gives the steps to verify in an email conversation too' do
-      state = { channel_type: 'Channel::Email', conversation: { id: 1 }, contact_inbox: { id: 1, hmac_verified: false }, assistant_config: {} }
+      state = { channel_type: 'Channel::Email', conversation: { id: 1 }, contact_inbox: { id: 1, hmac_verified: false }, can_verify_email: true,
+                assistant_config: {} }
 
       instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
 
       expect(instructions).to include('Email verified by one-time code: No', 'captain--tools--send_email_verification_code')
     end
 
-    it 'leaves out the verification steps where an admin or an agent is the user' do
-      state = { source: 'playground', conversation: { id: 1 }, assistant_config: {} }
+    it 'leaves out the verification steps when Captain cannot verify the customer' do
+      state = { channel_type: 'Channel::WebWidget', conversation: { id: 1 }, assistant_config: {} }
 
       expect(assistant.agent_instructions(Struct.new(:context).new({ state: state }))).not_to include('# Customer Identity')
     end

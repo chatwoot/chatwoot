@@ -25,7 +25,7 @@ module Concerns::Agentable
         current_time: format_current_time(state[:timezone]),
         conversation: state[:conversation] || {},
         contact: config['feature_contact_attributes'].present? ? state[:contact] : nil,
-        can_verify_email: can_verify_email?(state),
+        can_verify_email: state[:can_verify_email],
         verified_email: state[:verified_email],
         campaign: state[:campaign] || {},
         message_length_limit: state[:message_length_limit]
@@ -43,11 +43,6 @@ module Concerns::Agentable
   end
 
   private
-
-  # Matches where the runner gives Captain the verification tools: a conversation where a customer is the user
-  def can_verify_email?(state)
-    state[:conversation].present? && Captain::Assistant::AgentRunnerService::COPILOT_SOURCES.exclude?(state[:source])
-  end
 
   def runtime_prompt_context(context, runtime_configuration)
     return context unless runtime_configuration

@@ -1054,6 +1054,24 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       )
     end
 
+    it 'lets Captain verify the customer when an enabled tool needs a verified email' do
+      create(:captain_custom_tool, account: account, assistant: assistant, settings: { 'requires_email_verification' => true })
+
+      expect(service.send(:build_state)[:can_verify_email]).to be(true)
+    end
+
+    it 'does not let Captain verify the customer when no tool needs a verified email' do
+      expect(service.send(:build_state)[:can_verify_email]).to be(false)
+    end
+
+    it 'does not let Captain verify anyone where an admin or an agent is the user' do
+      create(:captain_custom_tool, account: account, assistant: assistant, settings: { 'requires_email_verification' => true })
+      service = described_class.new(assistant: assistant, conversation: conversation,
+                                    run_options: described_class::RunOptions.new(source: 'playground'))
+
+      expect(service.send(:build_state)[:can_verify_email]).to be(false)
+    end
+
     it 'does not include campaign when conversation has no campaign' do
       state = service.send(:build_state)
 
