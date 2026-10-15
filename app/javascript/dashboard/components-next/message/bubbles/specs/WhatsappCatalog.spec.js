@@ -25,6 +25,15 @@ const items = [
     url: null,
     section: 'Kitchen',
   },
+  {
+    retailerId: 'c',
+    name: 'Bowl',
+    price: '$ 3.000',
+    imageUrls: [],
+    description: null,
+    url: null,
+    section: 'Kitchen',
+  },
 ];
 
 const mountCatalog = (kind, catalogItems = items) => {
@@ -84,7 +93,7 @@ describe('WhatsappCatalog', () => {
     expect(wrapper.text()).toContain('Head');
     expect(wrapper.text()).toContain('Body text');
     expect(wrapper.text()).toContain('Foot');
-    expect(wrapper.findAll('[data-test-id="catalog-card"]')).toHaveLength(2);
+    expect(wrapper.findAll('[data-test-id="catalog-card"]')).toHaveLength(3);
 
     await wrapper.find('[data-test-id="catalog-card-view"]').trigger('click');
     expect(dialogs()).toHaveLength(1);
@@ -107,7 +116,7 @@ describe('WhatsappCatalog', () => {
     expect(wrapper.text()).toContain('Head');
     expect(wrapper.text()).toContain('Body text');
     expect(wrapper.text()).toContain('Kitchen');
-    expect(wrapper.text()).toContain('2 items');
+    expect(wrapper.text()).toContain('3 items');
     expect(wrapper.text()).toContain('View items');
     expect(wrapper.text().indexOf('Head')).toBeLessThan(
       wrapper.text().indexOf('Body text')
@@ -118,7 +127,7 @@ describe('WhatsappCatalog', () => {
     const rows = document.body.querySelectorAll(
       '[data-test-id="catalog-list-row"]'
     );
-    expect(rows).toHaveLength(2);
+    expect(rows).toHaveLength(3);
 
     rows[1].click();
     await wrapper.vm.$nextTick();
@@ -130,7 +139,7 @@ describe('WhatsappCatalog', () => {
     await wrapper.vm.$nextTick();
     expect(
       document.body.querySelectorAll('[data-test-id="catalog-list-row"]')
-    ).toHaveLength(2);
+    ).toHaveLength(3);
     expect(q('catalog-back')).toBeNull();
     expect(dialogs()).toHaveLength(1);
     wrapper.unmount();

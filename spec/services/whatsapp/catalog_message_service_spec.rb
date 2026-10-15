@@ -14,13 +14,13 @@ RSpec.describe Whatsapp::CatalogMessageService do
   let(:products) do
     Array.new(3) do |index|
       {
-        retailer_id: "sku-#{index}", name: "Producto #{index}", price: '$10', image_urls: ["https://example.com/#{index}.jpg"],
-        description: 'Descripcion', url: "https://example.com/p/#{index}", section: 'Cuadros'
+        retailer_id: "sku-#{index}", name: "Product #{index}", price: '$10', image_urls: ["https://example.com/#{index}.jpg"],
+        description: 'Description', url: "https://example.com/p/#{index}", section: 'Packages'
       }
     end
   end
   let(:params) do
-    { kind: kind, content: 'Mira estas opciones', header: header, footer: 'Picnic Art', catalog_id: 'cat-123', products: products }
+    { kind: kind, content: 'Look at these options', header: header, footer: 'Acme Store', catalog_id: 'cat-123', products: products }
       .with_indifferent_access
   end
 
@@ -31,13 +31,13 @@ RSpec.describe Whatsapp::CatalogMessageService do
       expect { message }.to change { conversation.messages.count }.by(1)
 
       expect(message).to be_outgoing
-      expect(message.content).to eq('Mira estas opciones')
+      expect(message.content).to eq('Look at these options')
       expect(message.content_attributes['whatsapp_catalog']).to include(
-        'kind' => 'carousel', 'catalog_id' => 'cat-123', 'footer' => 'Picnic Art'
+        'kind' => 'carousel', 'catalog_id' => 'cat-123', 'footer' => 'Acme Store'
       )
       expect(message.content_attributes['whatsapp_catalog']['items'].pluck('retailer_id')).to eq(%w[sku-0 sku-1 sku-2])
       expect(message.content_attributes['whatsapp_catalog']['items'].first).to include(
-        'name' => 'Producto 0', 'price' => '$10', 'image_urls' => ['https://example.com/0.jpg'], 'section' => 'Cuadros'
+        'name' => 'Product 0', 'price' => '$10', 'image_urls' => ['https://example.com/0.jpg'], 'section' => 'Packages'
       )
     end
 
@@ -61,7 +61,7 @@ RSpec.describe Whatsapp::CatalogMessageService do
 
   context 'with a single product' do
     let(:kind) { 'product' }
-    let(:products) { [{ retailer_id: 'sku-0', name: 'Producto 0' }] }
+    let(:products) { [{ retailer_id: 'sku-0', name: 'Product 0' }] }
 
     it 'creates the product message' do
       expect(message.content_attributes['whatsapp_catalog']['kind']).to eq('product')
@@ -79,10 +79,10 @@ RSpec.describe Whatsapp::CatalogMessageService do
 
   context 'with a product list' do
     let(:kind) { 'product_list' }
-    let(:header) { 'Nuestros cuadros' }
+    let(:header) { 'Our packages' }
 
     it 'creates the product list message' do
-      expect(message.content_attributes['whatsapp_catalog']).to include('kind' => 'product_list', 'header' => 'Nuestros cuadros')
+      expect(message.content_attributes['whatsapp_catalog']).to include('kind' => 'product_list', 'header' => 'Our packages')
     end
 
     context 'without a header' do
@@ -94,7 +94,7 @@ RSpec.describe Whatsapp::CatalogMessageService do
     end
 
     context 'with more than 30 products' do
-      let(:products) { Array.new(31) { |index| { retailer_id: "sku-#{index}", section: 'Cuadros' } } }
+      let(:products) { Array.new(31) { |index| { retailer_id: "sku-#{index}", section: 'Packages' } } }
 
       it 'raises' do
         expect { message }.to raise_error(Whatsapp::CatalogMessagePayloadBuilder::Error, /between 1 and 30/)
@@ -103,7 +103,7 @@ RSpec.describe Whatsapp::CatalogMessageService do
   end
 
   context 'with a product without retailer ID' do
-    let(:products) { [{ retailer_id: 'sku-0' }, { name: 'Sin SKU' }] }
+    let(:products) { [{ retailer_id: 'sku-0' }, { name: 'No SKU' }] }
 
     it 'raises' do
       expect { message }.to raise_error(Whatsapp::CatalogMessagePayloadBuilder::Error, /retailer ID/)
