@@ -3344,6 +3344,101 @@
           }
         }
       },
+      "conversation_catalog_message_create_payload": {
+        "type": "object",
+        "required": [
+          "kind",
+          "products"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "carousel",
+              "product",
+              "product_list"
+            ],
+            "description": "Type of catalog message to send",
+            "example": "carousel"
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "Message body text (max 1024 characters). Required for `carousel` and `product_list`, optional for `product`.",
+            "example": "Check out our new arrivals"
+          },
+          "header": {
+            "type": "string",
+            "maxLength": 60,
+            "description": "Header text (max 60 characters). Required for `product_list`, ignored for the other kinds.",
+            "example": "New arrivals"
+          },
+          "footer": {
+            "type": "string",
+            "maxLength": 60,
+            "description": "Footer text (max 60 characters)",
+            "example": "Free shipping over $50"
+          },
+          "catalog_id": {
+            "type": "string",
+            "description": "ID of the WhatsApp catalog that contains the products",
+            "example": "1234567890"
+          },
+          "products": {
+            "type": "array",
+            "description": "Products to send. `carousel` takes 2 to 10, `product` takes 1, `product_list` takes 1 to 30.",
+            "items": {
+              "type": "object",
+              "required": [
+                "retailer_id"
+              ],
+              "properties": {
+                "retailer_id": {
+                  "type": "string",
+                  "description": "Product identifier in the catalog",
+                  "example": "SKU-001"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Product name",
+                  "example": "Ceramic mug"
+                },
+                "price": {
+                  "type": "string",
+                  "description": "Product price",
+                  "example": "12.50"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Product description",
+                  "example": "Handmade 350 ml mug"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "Product page URL",
+                  "example": "https://example.com/products/ceramic-mug"
+                },
+                "section": {
+                  "type": "string",
+                  "maxLength": 24,
+                  "description": "Section title (max 24 characters), used by `product_list`",
+                  "example": "Kitchen"
+                },
+                "image_urls": {
+                  "type": "array",
+                  "description": "Product image URLs",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": [
+                    "https://example.com/images/mug.png"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
       "inbox_create_payload": {
         "type": "object",
         "properties": {
