@@ -5552,7 +5552,7 @@
             }
           },
           "422": {
-            "description": "The inbox is not a WhatsApp Cloud inbox, the limit is out of range or the collection does not belong to the catalog",
+            "description": "The inbox is not a WhatsApp Cloud inbox, the limit is out of range, a filter is not a string or the collection does not belong to the catalog",
             "content": {
               "application/json": {
                 "schema": {

@@ -63,6 +63,24 @@ describe Whatsapp::CatalogService do
     end
   end
 
+  context 'when the collections span several pages' do
+    before do
+      stub_graph('cat_1/product_sets', { data: [sets[1]], paging: { cursors: { after: 'p1' }, next: 'x' } },
+                 query: { 'fields' => 'id,name,product_count', 'limit' => '100' })
+      stub_graph('cat_1/product_sets', { data: [sets[2]] }, query: { 'after' => 'p1' })
+    end
+
+    it 'follows the cursor and lists every collection' do
+      expect(result[:collections].pluck(:id)).to eq(%w[set_1 set_2])
+    end
+  end
+
+  it 'reads the catalog with the API key of the inbox' do
+    result
+
+    expect(a_request(:get, /product_catalogs/).with(headers: { 'Authorization' => 'Bearer test_key' })).to have_been_made
+  end
+
   context 'when catalog_id is configured' do
     before { channel.update!(provider_config: channel.provider_config.merge('catalog_id' => 'cat_9')) }
 
@@ -96,7 +114,7 @@ describe Whatsapp::CatalogService do
       before do
         stub_graph('cat_1/products', { data: [product_a, product_c], paging: { cursors: { after: 'c1' }, next: 'x' } },
                    query: { 'limit' => '2' })
-        stub_graph('cat_1/products', { data: [product_c], paging: { cursors: { after: 'c2' }, next: 'y' } },
+        stub_graph('cat_1/products', { data: [product_c], paging: { cursors: { after: 'c2' } } },
                    query: { 'limit' => '2', 'after' => 'c1' })
       end
 
@@ -106,6 +124,18 @@ describe Whatsapp::CatalogService do
 
         expect(page[:products].pluck(:retailer_id)).to eq(['c'])
         expect(page[:next_cursor]).to be_nil
+      end
+    end
+
+    context 'with a short page that still has a next page' do
+      let(:products_args) { { limit: 2 } }
+
+      before do
+        stub_graph('cat_1/products', { data: [product_c], paging: { cursors: { after: 'c1' }, next: 'x' } }, query: { 'limit' => '2' })
+      end
+
+      it 'keeps the Meta cursor' do
+        expect(result[:next_cursor]).to eq('c1')
       end
     end
 
