@@ -172,7 +172,9 @@ export const IFrameHelper = {
         enableFileUpload: window.$chatwoot.enableFileUpload,
         enableEmojiPicker: window.$chatwoot.enableEmojiPicker,
         enableEndConversation: window.$chatwoot.enableEndConversation,
+        initialMessage: window.$chatwoot.initialMessage,
       });
+      window.$chatwoot.initialMessage = '';
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
       });
