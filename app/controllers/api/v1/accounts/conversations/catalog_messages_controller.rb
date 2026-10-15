@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Conversations::CatalogMessagesController < Api::V1::Accounts::Conversations::BaseController
   before_action :ensure_whatsapp_cloud_inbox
+  before_action :ensure_products_list
 
   rescue_from Whatsapp::CatalogMessagePayloadBuilder::Error do |error|
     render_could_not_create_error(error.message)
@@ -17,6 +18,13 @@ class Api::V1::Accounts::Conversations::CatalogMessagesController < Api::V1::Acc
     return if channel.is_a?(Channel::Whatsapp) && channel.provider == 'whatsapp_cloud'
 
     render_could_not_create_error(I18n.t('errors.whatsapp.catalog.cloud_inbox_required'))
+  end
+
+  def ensure_products_list
+    products = params[:products]
+    return if products.nil? || (products.is_a?(Array) && products.all?(ActionController::Parameters))
+
+    render_could_not_create_error(I18n.t('errors.whatsapp.catalog.invalid_products'))
   end
 
   def permitted_params
