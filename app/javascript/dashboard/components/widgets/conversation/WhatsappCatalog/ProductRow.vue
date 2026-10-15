@@ -1,16 +1,37 @@
 <script setup>
-defineProps({
+const props = defineProps({
   product: { type: Object, required: true },
+  selectable: { type: Boolean, default: false },
+  checked: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(['view']);
+const emit = defineEmits(['toggle', 'view']);
+
+const onRowClick = () => {
+  if (props.selectable && !props.disabled) emit('toggle', props.product);
+};
 </script>
 
 <template>
   <div
-    class="flex items-center gap-3 p-1 rounded-lg outline outline-1 -outline-offset-1 outline-n-container"
+    class="flex items-center gap-3 p-1 rounded-lg outline outline-1 -outline-offset-1"
+    :class="[
+      checked ? 'outline-n-brand bg-n-alpha-2' : 'outline-n-container',
+      selectable && disabled ? 'opacity-50 cursor-not-allowed' : '',
+      selectable && !disabled ? 'cursor-pointer' : '',
+    ]"
     data-testid="catalog-product-row"
+    @click="onRowClick"
   >
+    <input
+      v-if="selectable"
+      type="checkbox"
+      class="mb-0 shrink-0"
+      :checked="checked"
+      :disabled="disabled"
+      @click.stop="emit('toggle', product)"
+    />
     <img
       v-if="product.image_urls?.length"
       :src="product.image_urls[0]"
@@ -32,7 +53,7 @@ const emit = defineEmits(['view']);
       type="button"
       class="px-2 py-1 text-sm rounded-lg shrink-0 text-n-brand hover:bg-n-alpha-2"
       data-testid="catalog-see-more"
-      @click="emit('view', product)"
+      @click.stop="emit('view', product)"
     >
       {{ $t('CATALOG.ACTIONS.SEE_MORE') }}
     </button>
