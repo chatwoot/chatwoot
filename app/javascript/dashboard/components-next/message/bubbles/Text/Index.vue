@@ -24,13 +24,15 @@ const {
   attachments,
   contentAttributes,
   messageType,
+  contactSide,
   status,
   showingOriginal,
+  isCaptainMessage,
 } = useMessageContext();
 
 const { hasTranslations, translationContent } = useTranslations(
   contentAttributes,
-  messageType
+  contactSide
 );
 const reducedMotion = usePreferredReducedMotion();
 
@@ -111,6 +113,7 @@ const morphHeight = () => {
               <FormattedContent :content="renderContent" />
             </div>
             <TranslationToggle
+              v-if="!isCaptainMessage"
               class="mt-0.5"
               :showing-original="showingOriginal"
               @toggle="handleSeeOriginal"

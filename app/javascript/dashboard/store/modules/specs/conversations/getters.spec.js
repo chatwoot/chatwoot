@@ -929,6 +929,24 @@ describe('#getters', () => {
         }
       );
 
+    it('treats the text reply of a bot like a contact message', () => {
+      const translationState = stateFor(
+        [
+          {
+            id: 9,
+            message_type: 1,
+            content: 'Bonjour',
+            content_type: 'text',
+            sender: { type: 'captain_assistant' },
+            content_attributes: {},
+          },
+        ],
+        { en: { 9: true } }
+      );
+
+      expect(translationState(9).pending).toBe(true);
+    });
+
     it('keeps a message pending until its request settles', () => {
       const translationState = stateFor(
         [

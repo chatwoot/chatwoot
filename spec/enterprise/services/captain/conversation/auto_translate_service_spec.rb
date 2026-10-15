@@ -43,6 +43,18 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
     expect(english.reload.translations).to eq('en' => 'ok thanks')
   end
 
+  it 'translates bot replies, which are written in the contact language, but not agent replies' do
+    bot_reply = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :outgoing,
+                                 sender: create(:agent_bot, account: account), content: 'Bonjour, comment puis-je vous aider ?')
+    allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => "#{bot_reply.id}:0", 'text' => 'Hello, how can I help you?' }])
+
+    described_class.new(conversation: conversation, message_ids: [bot_reply.id, reply.id], target_language: 'en').perform
+
+    expect(Captain::Llm::MessageTranslationService)
+      .to have_received(:new).with(hash_including(texts: [{ id: "#{bot_reply.id}:0", content: 'Bonjour, comment puis-je vous aider ?' }]))
+    expect(bot_reply.reload.translations).to eq('en' => 'Hello, how can I help you?')
+  end
+
   it 'stores a message already written in the target language without calling the translator' do
     english = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
                                content: 'This one takes four seconds to load before it is ready.', content_attributes: { source_language: 'en' })

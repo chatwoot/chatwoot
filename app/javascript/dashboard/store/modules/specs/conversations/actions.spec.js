@@ -1159,6 +1159,43 @@ describe('#addMentions', () => {
       ]);
     });
 
+    it('requests bot replies, which are written in the contact language, but not agent replies', async () => {
+      axios.post.mockResolvedValue({ data: { payload: [] } });
+      const botMessages = [
+        {
+          id: 5,
+          message_type: 1,
+          content: 'Bonjour',
+          sender: { type: 'captain_assistant' },
+          content_attributes: {},
+        },
+        {
+          id: 8,
+          message_type: 1,
+          content: 'Bonjour',
+          sender: { type: 'user' },
+          content_attributes: {},
+        },
+      ];
+
+      await actions.autoTranslateMessages(
+        {
+          state: { selectedChatId: 7, autoTranslating: {} },
+          commit,
+          getters: {
+            ...getters,
+            getSelectedChat: { id: 7, messages: botMessages },
+          },
+        },
+        7
+      );
+
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/conversations/7/messages/auto_translate'),
+        { message_ids: [5], target_language: 'en' }
+      );
+    });
+
     it('leaves a message the translator left out retryable', async () => {
       const localCommit = vi.fn();
       axios.post.mockResolvedValue({

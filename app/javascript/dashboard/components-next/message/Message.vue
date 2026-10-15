@@ -2,6 +2,7 @@
 import { onMounted, computed, ref, toRefs } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
+import { isContactSide } from 'dashboard/store/modules/conversations/helpers';
 import { useTrack } from 'dashboard/composables';
 import { useMapGetter } from 'dashboard/composables/store';
 import { emitter } from 'shared/helpers/mitt';
@@ -160,9 +161,17 @@ const { replaceInstallationName } = useBranding();
 const autoTranslate = useMapGetter('getAutoTranslate');
 const translationState = useMapGetter('getMessageTranslationState');
 const showingOriginal = ref(false);
+const contactSide = computed(() =>
+  isContactSide({
+    message_type: props.messageType,
+    private: props.private,
+    content_type: props.contentType,
+    sender: props.sender ?? { type: props.senderType },
+  })
+);
 const { translationContent } = useTranslations(
   computed(() => props.contentAttributes),
-  computed(() => props.messageType)
+  contactSide
 );
 // Copy and canned responses take the text the bubble shows, translated or original.
 const displayedContent = computed(() => {
@@ -594,6 +603,8 @@ onMounted(setupHighlightTimer);
 provideMessageContext({
   ...toRefs(props),
   showingOriginal,
+  contactSide,
+  isCaptainMessage,
   isPrivate: computed(() => props.private),
   variant,
   orientation,

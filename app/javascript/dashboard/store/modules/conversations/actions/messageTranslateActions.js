@@ -2,8 +2,7 @@ import types from '../../../mutation-types';
 import MessageApi from '../../../../api/inbox/message';
 import { useAlert } from 'dashboard/composables';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
-import { MESSAGE_TYPE } from 'shared/constants/messages';
-import { languageCode } from '../helpers';
+import { isContactSide, languageCode } from '../helpers';
 
 const BATCH_SIZE = 20;
 
@@ -36,7 +35,7 @@ export default {
     const untranslated = (getters.getSelectedChat.messages ?? [])
       .filter(
         message =>
-          message.message_type === MESSAGE_TYPE.INCOMING &&
+          isContactSide(message) &&
           message.content &&
           !message.content_attributes?.deleted &&
           !message.content_attributes?.translations?.[locale] &&

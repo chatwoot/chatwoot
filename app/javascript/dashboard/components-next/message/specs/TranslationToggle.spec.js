@@ -23,6 +23,7 @@ vi.mock('dashboard/composables/useTranslations', async () => {
 
 const mountToggle = ({
   messageType = MESSAGE_TYPES.INCOMING,
+  contactSide = messageType === MESSAGE_TYPES.INCOMING,
   hasTranslations = false,
   groupedWithNext = false,
   language = 'French',
@@ -46,6 +47,7 @@ const mountToggle = ({
         id: ref(1),
         contentAttributes: ref({}),
         messageType: ref(messageType),
+        contactSide: ref(contactSide),
         shouldGroupWithNext: ref(groupedWithNext),
       });
     },
@@ -72,6 +74,17 @@ describe('TranslationToggle', () => {
     });
 
     expect(wrapper.text()).toBe('CONVERSATION.VIEW_TRANSLATED_IN');
+  });
+
+  it('reads a bot reply in the contact direction', () => {
+    const wrapper = mountToggle({
+      hasTranslations: true,
+      messageType: MESSAGE_TYPES.OUTGOING,
+      contactSide: true,
+      state: { sourceLanguage: 'French' },
+    });
+
+    expect(wrapper.text()).toBe('CONVERSATION.VIEW_ORIGINAL_IN');
   });
 
   it('describes a reply that went out translated', () => {

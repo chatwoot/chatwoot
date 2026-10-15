@@ -8,12 +8,12 @@ import TranslationToggle from 'dashboard/components-next/message/TranslationTogg
 import { useMessageContext } from '../provider.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
 
-const { contentAttributes, content, messageType, showingOriginal } =
+const { contentAttributes, content, contactSide, showingOriginal } =
   useMessageContext();
 const { t } = useI18n();
 const { hasTranslations, translationContent } = useTranslations(
   contentAttributes,
-  messageType
+  contactSide
 );
 
 const renderContent = computed(() =>

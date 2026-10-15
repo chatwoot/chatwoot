@@ -9,6 +9,8 @@ import { useTranslations } from 'dashboard/composables/useTranslations';
 
 const props = defineProps({
   showingOriginal: Boolean,
+  // Off inside a row that already carries the Captain sparkle.
+  icon: { type: Boolean, default: true },
 });
 
 defineEmits(['toggle']);
@@ -16,9 +18,9 @@ defineEmits(['toggle']);
 defineOptions({ inheritAttrs: false });
 
 const { t } = useI18n();
-const { id, contentAttributes, messageType, shouldGroupWithNext } =
+const { id, contentAttributes, messageType, contactSide, shouldGroupWithNext } =
   useMessageContext();
-const { hasTranslations } = useTranslations(contentAttributes, messageType);
+const { hasTranslations } = useTranslations(contentAttributes, contactSide);
 const autoTranslate = useMapGetter('getAutoTranslate');
 const translationState = useMapGetter('getMessageTranslationState');
 
@@ -29,8 +31,11 @@ const visible = computed(() => {
   if (state.value.sameLanguage) return !shouldGroupWithNext.value;
   return hasTranslations.value;
 });
-const isOutgoing = computed(() =>
-  [MESSAGE_TYPES.OUTGOING, MESSAGE_TYPES.TEMPLATE].includes(messageType.value)
+// A bot reply is written in the contact language, so it reads in the contact direction.
+const isOutgoing = computed(
+  () =>
+    !contactSide.value &&
+    [MESSAGE_TYPES.OUTGOING, MESSAGE_TYPES.TEMPLATE].includes(messageType.value)
 );
 // An auto-translated reply is stored in the contact's language, so "original" means the translation there.
 const showsTranslation = computed(() =>
@@ -70,7 +75,7 @@ const toggleLabel = computed(() => {
       class="size-3 text-n-amber-11"
     />
     <Icon
-      v-else-if="autoTranslate.language"
+      v-else-if="icon && autoTranslate.language"
       icon="i-lucide-sparkles"
       class="size-3 text-n-iris-9"
       :class="{ 'animate-twinkle motion-reduce:animate-none': state.pending }"

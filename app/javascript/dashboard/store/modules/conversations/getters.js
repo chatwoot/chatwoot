@@ -4,6 +4,7 @@ import languages from 'dashboard/components/widgets/conversation/advancedFilterI
 import {
   applyPageFilters,
   applyRoleFilter,
+  isContactSide,
   languageCode,
   sortComparator,
 } from './helpers';
@@ -241,11 +242,9 @@ const getters = {
       {};
     const attributes = message.content_attributes ?? {};
     const translations = attributes.translations ?? {};
-    const incoming =
-      message.message_type === MESSAGE_TYPE.INCOMING &&
-      !!message.content &&
-      !attributes.deleted;
-    const waiting = incoming
+    const contactSide =
+      isContactSide(message) && !!message.content && !attributes.deleted;
+    const waiting = contactSide
       ? _state.autoTranslating[locale]?.[messageId] === true
       : message.status === MESSAGE_STATUS.PROGRESS && !message.private;
 
@@ -263,7 +262,8 @@ const getters = {
     return {
       pending: (active || (enabled && foreign)) && untranslated && waiting,
       failed: enabled && !!attributes.translation_failed,
-      sameLanguage: enabled && incoming && writtenInAgentLanguage && !foreign,
+      sameLanguage:
+        enabled && contactSide && writtenInAgentLanguage && !foreign,
       sourceLanguage: sourceLanguage ? languageName(sourceLanguage) : language,
     };
   },

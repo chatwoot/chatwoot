@@ -21,7 +21,9 @@ const {
   contentAttributes,
   attachments,
   messageType,
+  contactSide,
   showingOriginal,
+  isCaptainMessage,
 } = useMessageContext();
 
 const isExpandable = ref(false);
@@ -38,7 +40,7 @@ const isIncoming = computed(() => !isOutgoing.value);
 
 const { hasTranslations, translationContent } = useTranslations(
   contentAttributes,
-  messageType
+  contactSide
 );
 const showsTranslation = computed(
   () => hasTranslations.value && !showingOriginal.value
@@ -196,6 +198,7 @@ const handleSeeOriginal = () => {
       </div>
     </section>
     <TranslationToggle
+      v-if="!isCaptainMessage"
       class="py-2 px-3"
       :showing-original="showingOriginal"
       @toggle="handleSeeOriginal"

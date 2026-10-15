@@ -1,6 +1,7 @@
 class Captain::Conversation::AutoTranslateService
   BATCH_LIMIT = 20
   MAX_CONTENT_LENGTH = 20_000
+  BOT_SENDERS = %w[AgentBot Captain::Assistant].freeze
 
   pattr_initialize [:conversation!, :message_ids!, :target_language!]
 
@@ -16,8 +17,10 @@ class Captain::Conversation::AutoTranslateService
 
   private
 
+  # Contact messages and bot replies both read in the contact language.
   def messages
-    @messages ||= conversation.messages.incoming.where(id: message_ids.first(BATCH_LIMIT)).where.not(content: [nil, '']).order(:id)
+    @messages ||= conversation.messages.where(id: message_ids.first(BATCH_LIMIT)).where.not(content: [nil, '']).order(:id)
+                              .merge(Message.incoming.or(Message.where(sender_type: BOT_SENDERS)))
   end
 
   def untranslated
