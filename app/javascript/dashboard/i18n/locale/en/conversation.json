@@ -83,6 +83,17 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_CATALOG": {
+      "VIEW": "View",
+      "VIEW_ITEMS": "View items",
+      "ITEMS_COUNT": "{count} items",
+      "BACK": "Back",
+      "DETAILS": "Details",
+      "DESCRIPTION": "Description",
+      "PHOTO_OF": "Photo {current} of {total}",
+      "PREVIOUS_PHOTO": "Previous photo",
+      "NEXT_PHOTO": "Next photo"
+    },
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
     },
