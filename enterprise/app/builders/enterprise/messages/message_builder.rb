@@ -68,11 +68,11 @@ module Enterprise::Messages::MessageBuilder
   def translate(content)
     response = Captain::Llm::MessageTranslationService.new(
       account: @account,
-      texts: [{ id: 0, content: content }],
+      texts: [content],
       target_language: @conversation.language,
       conversation_display_id: @conversation.display_id
     ).perform
-    translated = response[:message]&.first&.dig('text') unless response[:error]
+    translated = response[:message]&.first unless response[:error]
     return translated if translated.present?
 
     Rails.logger.warn("[AutoTranslate] reply sent as written in conversation #{@conversation.display_id}: #{response[:error] || 'empty translation'}")

@@ -4,7 +4,7 @@ RSpec.describe Message do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox, additional_attributes: { 'conversation_language' => 'fr' }) }
-  let(:llm_response) { { message: [{ 'id' => 0, 'text' => 'Bonjour ! Comment pouvons-nous vous aider ?' }] } }
+  let(:llm_response) { { message: ['Bonjour ! Comment pouvons-nous vous aider ?'] } }
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
   let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, perform: nil) }
 
@@ -44,7 +44,7 @@ RSpec.describe Message do
   it 'translates a template written in another language than the account' do
     allow(detection).to receive(:perform).and_return('es')
     conversation.update!(additional_attributes: { 'conversation_language' => 'en' })
-    allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => 0, 'text' => 'Hello! How can we help you today?' }])
+    allow(llm_service).to receive(:perform).and_return(message: ['Hello! How can we help you today?'])
     message = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :template,
                                content: '¡Hola! Gracias por escribirnos. Nuestro equipo te responderá lo antes posible.')
 

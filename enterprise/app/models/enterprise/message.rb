@@ -46,9 +46,9 @@ module Enterprise::Message
 
   def translate_template_content
     response = Captain::Llm::MessageTranslationService.new(
-      account: account, texts: [{ id: 0, content: content }], target_language: conversation.language, conversation_display_id: conversation.display_id
+      account: account, texts: [content], target_language: conversation.language, conversation_display_id: conversation.display_id
     ).perform
-    translated_content = response[:message]&.first&.dig('text')
+    translated_content = response[:message]&.first
     return if response[:error] || translated_content.blank? || translated_content == content
 
     self.translations = { template_language => content }
@@ -58,7 +58,7 @@ module Enterprise::Message
   end
 
   def detect_language?
-    incoming? && !auto_reply_email? && account.auto_translate_enabled?
+    incoming? && (text? || incoming_email?) && !auto_reply_email? && account.auto_translate_enabled?
   end
 
   def stamp_language

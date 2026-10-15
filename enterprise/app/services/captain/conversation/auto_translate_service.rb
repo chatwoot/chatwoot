@@ -12,7 +12,8 @@ class Captain::Conversation::AutoTranslateService
     # Reloaded: a message that arrived during the model call may have set the language already.
     detect_conversation_language if conversation.reload.language.blank?
 
-    messages.select { |message| message.translations&.key?(target_language) }
+    # Everything the server settled: translated, or too long to ever be.
+    messages.select { |message| settled?(message) }
   end
 
   private
@@ -24,9 +25,11 @@ class Captain::Conversation::AutoTranslateService
   end
 
   def untranslated
-    @untranslated ||= messages.reject do |message|
-      message.translations&.key?(target_language) || text(message).texts.sum(&:length) > MAX_CONTENT_LENGTH
-    end
+    @untranslated ||= messages.reject { |message| settled?(message) }
+  end
+
+  def settled?(message)
+    message.translations&.key?(target_language) || text(message).texts.sum(&:length) > MAX_CONTENT_LENGTH
   end
 
   def text(message)
@@ -34,31 +37,24 @@ class Captain::Conversation::AutoTranslateService
     @text[message.id] ||= Captain::Conversation::MessageText.new(message)
   end
 
+  # Every text of a message is a segment of its own, so html emails come back with their markup untouched.
   def translate(pending)
+    segments = pending.flat_map { |message| text(message).texts.map { |content| [message, content] } }
+    translations = translations_for(segments.map(&:last))
+    raise StandardError, I18n.t('captain.translation_incomplete') if translations.size != segments.size
+
+    by_message = Hash.new { |hash, key| hash[key] = [] }
+    segments.zip(translations) { |(message, _), translated| by_message[message.id] << translated }
+    pending.each { |message| store(message, text(message).translated(by_message[message.id])) }
+  end
+
+  def translations_for(texts)
     response = Captain::Llm::MessageTranslationService.new(
-      account: conversation.account,
-      texts: segments(pending),
-      target_language: target_language,
-      conversation_display_id: conversation.display_id
+      account: conversation.account, texts: texts, target_language: target_language, conversation_display_id: conversation.display_id
     ).perform
     raise StandardError, response[:error] if response[:error]
 
-    translations = translations_by_message(response[:message])
-    pending.each { |message| store(message, text(message).translated(translations[message.id])) if translations.key?(message.id) }
-  end
-
-  # Every text of a message is a segment of its own, so html emails come back with their markup untouched.
-  def segments(pending)
-    pending.flat_map do |message|
-      text(message).texts.each_with_index.map { |content, index| { id: "#{message.id}:#{index}", content: content } }
-    end
-  end
-
-  def translations_by_message(items)
-    items.each_with_object(Hash.new { |hash, key| hash[key] = {} }) do |item, grouped|
-      message_id, index = item['id'].to_s.split(':').map(&:to_i)
-      grouped[message_id][index] = item['text']
-    end
+    response[:message]
   end
 
   # Merged under the row lock: the model call takes seconds, and another agent's translation or a deletion

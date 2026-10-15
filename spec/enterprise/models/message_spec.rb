@@ -131,6 +131,14 @@ RSpec.describe Message do
       expect(conversation.reload.additional_attributes).to eq('conversation_language' => 'en')
     end
 
+    it 'ignores call markers and other inbound messages that are not text' do
+      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
+                       content_type: :voice_call, content: 'Voice Call')
+
+      expect(Captain::Llm::LanguageDetectionService).not_to have_received(:new)
+      expect(conversation.reload.language).to be_nil
+    end
+
     it 'ignores auto reply emails and outgoing messages' do
       create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
                        content_type: :incoming_email, content: 'I am out of the office until Monday and will reply when I return.',

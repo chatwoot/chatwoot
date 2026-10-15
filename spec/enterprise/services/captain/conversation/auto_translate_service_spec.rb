@@ -8,13 +8,7 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
   let(:thanks) { create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Merci') }
   let(:english) { create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'ok thanks') }
   let(:reply) { create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :outgoing, content: 'Hi') }
-  let(:llm_response) do
-    { message: [
-      { 'id' => "#{greeting.id}:0", 'text' => 'Hello' },
-      { 'id' => "#{thanks.id}:0", 'text' => 'Thank you' },
-      { 'id' => "#{english.id}:0", 'text' => 'ok thanks' }
-    ] }
-  end
+  let(:llm_response) { { message: ['Hello', 'Thank you', 'ok thanks'] } }
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
   let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, perform: nil) }
   let(:service) do
@@ -31,9 +25,7 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
 
     expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(
       account: account, target_language: 'en', conversation_display_id: conversation.display_id,
-      texts: [
-        { id: "#{greeting.id}:0", content: 'Bonjour' }, { id: "#{thanks.id}:0", content: 'Merci' }, { id: "#{english.id}:0", content: 'ok thanks' }
-      ]
+      texts: ['Bonjour', 'Merci', 'ok thanks']
     )
   end
 
@@ -46,12 +38,12 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
   it 'translates bot replies, which are written in the contact language, but not agent replies' do
     bot_reply = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :outgoing,
                                  sender: create(:agent_bot, account: account), content: 'Bonjour, comment puis-je vous aider ?')
-    allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => "#{bot_reply.id}:0", 'text' => 'Hello, how can I help you?' }])
+    allow(llm_service).to receive(:perform).and_return(message: ['Hello, how can I help you?'])
 
     described_class.new(conversation: conversation, message_ids: [bot_reply.id, reply.id], target_language: 'en').perform
 
     expect(Captain::Llm::MessageTranslationService)
-      .to have_received(:new).with(hash_including(texts: [{ id: "#{bot_reply.id}:0", content: 'Bonjour, comment puis-je vous aider ?' }]))
+      .to have_received(:new).with(hash_including(texts: ['Bonjour, comment puis-je vous aider ?']))
     expect(bot_reply.reload.translations).to eq('en' => 'Hello, how can I help you?')
   end
 
@@ -76,28 +68,27 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
     expect(greeting.reload.content_attributes).to include('deleted' => true, 'translations' => { 'en' => 'Hello' })
   end
 
-  it 'leaves messages above the size limit untranslated' do
+  it 'returns a message above the size limit as settled without translating it' do
     long_message = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'a' * 20_001)
+    allow(llm_service).to receive(:perform).and_return(message: ['Hello'])
 
-    described_class.new(conversation: conversation, message_ids: [long_message.id, greeting.id], target_language: 'en').perform
+    settled = described_class.new(conversation: conversation, message_ids: [long_message.id, greeting.id], target_language: 'en').perform
 
-    expect(Captain::Llm::MessageTranslationService)
-      .to have_received(:new).with(hash_including(texts: [{ id: "#{greeting.id}:0", content: 'Bonjour' }]))
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: ['Bonjour']))
+    expect(settled).to contain_exactly(greeting, long_message)
+    expect(long_message.reload.translations).to be_nil
   end
 
   it 'translates the text nodes of an html email and keeps its markup' do
     html = '<div style="color:red"><p>Bonjour <b>Camille</b></p><blockquote>Ancien message</blockquote></div>'
     email = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Bonjour Camille',
                              content_attributes: { email: { html_content: { full: html } } })
-    allow(llm_service).to receive(:perform).and_return(message: [
-                                                         { 'id' => "#{email.id}:0", 'text' => 'Hello' },
-                                                         { 'id' => "#{email.id}:1", 'text' => 'Camille' }
-                                                       ])
+    allow(llm_service).to receive(:perform).and_return(message: %w[Hello Camille])
 
     described_class.new(conversation: conversation, message_ids: [email.id], target_language: 'en').perform
 
     expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(
-      hash_including(texts: [{ id: "#{email.id}:0", content: 'Bonjour' }, { id: "#{email.id}:1", content: 'Camille' }])
+      hash_including(texts: %w[Bonjour Camille])
     )
     expect(email.reload.translations['en']).to eq('<div style="color:red"><p>Hello <b>Camille</b></p><blockquote>Ancien message</blockquote></div>')
   end
@@ -107,7 +98,7 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
     question = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
                                 content: 'Celui-ci met quatre secondes à charger.')
     create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Gracias, ya funciona.')
-    allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => "#{question.id}:0", 'text' => 'This one takes four seconds to load.' }])
+    allow(llm_service).to receive(:perform).and_return(message: ['This one takes four seconds to load.'])
 
     described_class.new(conversation: conversation, message_ids: [question.id], target_language: 'en').perform
 
@@ -125,7 +116,7 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
     allow(llm_service).to receive(:perform) do
       create(:message, account: account, inbox: inbox, conversation: Conversation.find(conversation.id), message_type: :incoming,
                        content: 'This one takes four seconds to load before it is ready.')
-      { message: [{ 'id' => "#{question.id}:0", 'text' => 'This one takes four seconds to load.' }] }
+      { message: ['This one takes four seconds to load.'] }
     end
 
     described_class.new(conversation: conversation, message_ids: [question.id], target_language: 'en').perform
@@ -137,7 +128,7 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
     conversation.update!(additional_attributes: { 'conversation_language' => 'es' })
     question = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming,
                                 content: 'Celui-ci met quatre secondes à charger.')
-    allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => "#{question.id}:0", 'text' => 'This one takes four seconds to load.' }])
+    allow(llm_service).to receive(:perform).and_return(message: ['This one takes four seconds to load.'])
 
     described_class.new(conversation: conversation, message_ids: [question.id], target_language: 'en').perform
 
@@ -156,13 +147,19 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
 
   it 'translates at most twenty messages per request' do
     messages = create_list(:message, 22, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Salut')
-    allow(llm_service).to receive(:perform).and_return(message: [])
+    allow(llm_service).to receive(:perform).and_return(message: Array.new(20, 'Hi'))
 
     described_class.new(conversation: conversation, message_ids: messages.map(&:id), target_language: 'en').perform
 
     expect(Captain::Llm::MessageTranslationService).to have_received(:new) do |args|
       expect(args[:texts].size).to eq(20)
     end
+  end
+
+  it 'raises when the translator returns fewer translations than messages' do
+    allow(llm_service).to receive(:perform).and_return(message: ['Hello'])
+
+    expect { service.perform }.to raise_error(StandardError, 'Captain returned an incomplete translation.')
   end
 
   it 'raises with the Captain error when the translator fails' do

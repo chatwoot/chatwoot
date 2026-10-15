@@ -17,7 +17,7 @@ class Captain::Llm::MessageTranslationService < Captain::BaseTaskService
     raise StandardError, response[:error] if MISCONFIGURED_CODES.include?(response[:error_code])
     return response if response[:error]
 
-    response.merge(message: response[:message]['messages'].each { |item| item['text'] = item['text'].to_s.gsub(CONTROL_CHARACTERS, '') })
+    response.merge(message: response[:message]['translations'].map { |text| text.to_s.gsub(CONTROL_CHARACTERS, '') })
   end
 
   private
@@ -36,8 +36,7 @@ class Captain::Llm::MessageTranslationService < Captain::BaseTaskService
   def system_prompt
     <<~SYSTEM_PROMPT_MESSAGE
       You translate messages from a customer support conversation into #{language_name}.
-      The input is a JSON array of messages with "id" and "content".
-      For every message return its id and its content translated into #{language_name}.
+      The input is a JSON array of messages. Return one translation per message, in the same order.
       Keep the meaning, tone and formality of the original.
       Keep markdown, line breaks, URLs, emojis, numbers, names, product terms and template variables such as {{contact.name}} exactly as they are.
       Return a message that is already written in #{language_name} unchanged.

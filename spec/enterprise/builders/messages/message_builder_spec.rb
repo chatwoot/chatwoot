@@ -6,7 +6,7 @@ RSpec.describe Messages::MessageBuilder do
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox, additional_attributes: { 'conversation_language' => 'fr' }) }
   let(:params) { ActionController::Parameters.new(content: 'Hello there') }
-  let(:llm_response) { { message: [{ 'id' => 0, 'text' => 'Bonjour' }] } }
+  let(:llm_response) { { message: ['Bonjour'] } }
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
   let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, perform: nil) }
 
@@ -24,7 +24,7 @@ RSpec.describe Messages::MessageBuilder do
     expect(message.content).to eq('Bonjour')
     expect(message.translations).to eq('en' => 'Hello there')
     expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(
-      account: account, texts: [{ id: 0, content: 'Hello there' }], target_language: 'fr', conversation_display_id: conversation.display_id
+      account: account, texts: ['Hello there'], target_language: 'fr', conversation_display_id: conversation.display_id
     )
   end
 
@@ -60,24 +60,23 @@ RSpec.describe Messages::MessageBuilder do
 
     message = described_class.new(user, email_conversation, typed).perform
 
-    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: [{ id: 0, content: 'Hello there' }]))
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: ['Hello there']))
     expect(message.content).to eq("Bonjour\n\n> On Wed, Oct 1 wrote:\n> Bonjour")
     expect(message.translations['en']).to include('<p>Hello there</p>', '<blockquote>')
   end
 
   it 'translates a chat reply that quotes something as one text' do
-    allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => 0, 'text' => "Bonjour\n\n> cité" }])
+    allow(llm_service).to receive(:perform).and_return(message: ["Bonjour\n\n> cité"])
     typed = ActionController::Parameters.new(content: "Hello there\n\n> quoted")
 
     message = described_class.new(user, conversation, typed).perform
 
-    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: [{ id: 0,
-                                                                                                         content: "Hello there\n\n> quoted" }]))
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: ["Hello there\n\n> quoted"]))
     expect(message.content).to eq("Bonjour\n\n> cité")
   end
 
   it 'leaves the message untouched when the translator returns the same text' do
-    allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => 0, 'text' => 'Hello there' }])
+    allow(llm_service).to receive(:perform).and_return(message: ['Hello there'])
     message = described_class.new(user, conversation, params).perform
 
     expect(message.content).to eq('Hello there')
@@ -86,12 +85,12 @@ RSpec.describe Messages::MessageBuilder do
 
   it 'renders liquid variables before translating and keeps the rendered text as the original' do
     conversation.contact.update!(name: 'Camille')
-    allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => 0, 'text' => 'Bonjour Camille' }])
+    allow(llm_service).to receive(:perform).and_return(message: ['Bonjour Camille'])
     message = described_class.new(user, conversation, ActionController::Parameters.new(content: 'Hi {{contact.name}}')).perform
 
     expect(message.content).to eq('Bonjour Camille')
     expect(message.translations).to eq('en' => 'Hi Camille')
-    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: [{ id: 0, content: 'Hi Camille' }]))
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: ['Hi Camille']))
   end
 
   it 'blocks the send when Captain is not configured' do
@@ -120,7 +119,7 @@ RSpec.describe Messages::MessageBuilder do
   it 'flags a reply the translator hands back unchanged although it is in another language' do
     allow(detection).to receive(:perform).and_return('en')
     typed = ActionController::Parameters.new(content: 'This one takes four seconds to load before it is ready.')
-    allow(llm_service).to receive(:perform).and_return(message: [{ 'id' => 0, 'text' => 'This one takes four seconds to load before it is ready.' }])
+    allow(llm_service).to receive(:perform).and_return(message: ['This one takes four seconds to load before it is ready.'])
     message = described_class.new(user, conversation, typed).perform
 
     expect(message.content).to eq('This one takes four seconds to load before it is ready.')

@@ -10,7 +10,7 @@ RSpec.describe 'Auto translate messages API', type: :request do
                      content: 'Celui-ci met quatre secondes à charger.')
   end
   let(:url) { "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/auto_translate" }
-  let(:llm_response) { { message: [{ 'id' => "#{message.id}:0", 'text' => 'This one takes four seconds to load.' }] } }
+  let(:llm_response) { { message: ['This one takes four seconds to load.'] } }
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
 
   before do
