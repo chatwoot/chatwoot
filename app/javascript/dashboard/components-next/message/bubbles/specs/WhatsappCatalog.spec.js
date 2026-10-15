@@ -82,10 +82,19 @@ describe('WhatsappCatalog', () => {
   });
 
   it('renders a carousel and opens the detail without an order button', async () => {
-    const wrapper = mountCatalog('carousel');
+    const wrapper = mountCatalog('carousel', [
+      ...items,
+      {
+        retailerId: 'c',
+        name: 'Bowl',
+        price: '$ 9.000',
+        imageUrls: [],
+        section: 'Kitchen',
+      },
+    ]);
     expect(wrapper.text()).toContain('Body text');
     expect(wrapper.text()).toContain('Foot');
-    expect(wrapper.findAll('[data-test-id="catalog-card"]')).toHaveLength(2);
+    expect(wrapper.findAll('[data-test-id="catalog-card"]')).toHaveLength(3);
 
     await wrapper
       .find('[data-test-id="catalog-card"] button + div + button')
