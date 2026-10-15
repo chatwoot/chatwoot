@@ -97,6 +97,19 @@ describe('#validEmailsByComma', () => {
     expect(validEmailsByComma('<only@test.com>')).toEqual(true);
   });
 
+  it('looks past angle brackets inside a quoted display name', () => {
+    // `Mail::AddressList` allows `<` and `>` inside a quoted name, so the composer must find
+    // the address delimiter outside the quotes rather than the first `<` in the text.
+    expect(validEmailsByComma('"Ops <West>" <ops@test.com>')).toEqual(true);
+    expect(
+      validEmailsByComma('"Ops <West>" <ops@test.com>, jane@test.com')
+    ).toEqual(true);
+    // The same quoting must not hide a swallowed recipient after it.
+    expect(
+      validEmailsByComma('"Team <West>" jane@test.com John Doe <john@test.com>')
+    ).toEqual(false);
+  });
+
   it('still rejects an invalid address in any of those forms', () => {
     expect(validEmailsByComma('1@test.com;pova.da')).toEqual(false);
     expect(validEmailsByComma('1@test.com pova.da')).toEqual(false);

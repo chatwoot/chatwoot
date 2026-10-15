@@ -25,30 +25,28 @@ module EmailHelper
     raise StandardError, 'Invalid email address'
   end
 
-  # `a@example.com Jane Doe <b@example.com>` parses as one recipient with the first address
-  # swallowed into the display name, and `"Team" jane@example.com John Doe <john@example.com>`
-  # drops it from `display_name` altogether. Both lose a recipient silently, so the question is
-  # asked of the address's own `raw` source rather than of the parsed name: an `@` in front of
-  # the `<...>` address, outside any quoted string, is a recipient that is not being sent to.
-  # A quoted display name may hold an `@` of its own -- `"support@example.com" <agent@example.org>`
-  # -- and a bare address has no display name to swallow anything into.
+  # Does this recipient name an address that is not being sent to? `a@example.com Jane Doe
+  # <b@example.com>` parses as one recipient with the first address swallowed into the display
+  # name, and `"Team" jane@example.com John Doe <john@example.com>` drops it from `display_name`
+  # altogether -- both lose a recipient silently, so the question is asked of the address's own
+  # `raw` source rather than of the parsed name.
+  #
+  # One pass, ignoring anything inside a quoted display name: an `@` before the `<` that opens
+  # the address is a swallowed recipient, while an `@` or a `<` inside quotes is part of the
+  # name (`"support@example.com" <agent@example.org>`, `"Ops <West>" <ops@example.org>`). Only
+  # an odd run of backslashes escapes the quote after it, so `"Ops \\"` closes. A bare address
+  # reaches the end with no `<` and has no display name to swallow anything into.
   def swallowed_address?(address)
-    raw = address.raw.to_s
-    angle = raw.index('<')
-    return false if angle.nil?
-
-    at_outside_quotes?(raw[0...angle])
-  end
-
-  # Is there an `@` in `text` that is not inside a quoted string? Only an odd run of backslashes
-  # escapes the quote that follows it, so `"Ops \\"` closes.
-  def at_outside_quotes?(text)
     quoted = false
     backslashes = 0
-    text.each_char do |c|
+    at = false
+    address.raw.to_s.each_char do |c|
       quoted = !quoted if c == '"' && backslashes.even?
-      return true if c == '@' && !quoted
+      unless quoted
+        return at if c == '<'
 
+        at = true if c == '@'
+      end
       backslashes = c == '\\' ? backslashes + 1 : 0
     end
     false

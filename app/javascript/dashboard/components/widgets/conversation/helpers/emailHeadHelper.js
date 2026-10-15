@@ -32,18 +32,26 @@ const splitRecipients = value => {
   return { parts, unterminated: quoted };
 };
 
-// Is there an `@` in `text` outside any quoted string? A quoted display name may hold one
-// (`"support@example.com" <agent@example.org>`); an unquoted one means a recipient has been
-// swallowed into it, which the server rejects rather than silently dropping.
-const atOutsideQuotes = text => {
+// Where a recipient's `<...>` address opens, and whether an `@` comes before it -- both asked
+// of text outside any quoted display name, in one pass. A quoted name may hold either character
+// (`"support@example.com" <agent@example.org>`, `"Ops <West>" <ops@example.org>`), and only an
+// odd run of backslashes escapes the quote that follows it. `open` is -1 for a bare address.
+const scanRecipient = text => {
   let quoted = false;
   let backslashes = 0;
-  return text.split('').some(char => {
+  let at = false;
+  let open = -1;
+  text.split('').some((char, i) => {
     if (char === '"' && backslashes % 2 === 0) quoted = !quoted;
-    const found = char === '@' && !quoted;
+    if (!quoted && char === '<') {
+      open = i;
+      return true;
+    }
+    if (!quoted && char === '@') at = true;
     backslashes = char === '\\' ? backslashes + 1 : 0;
-    return found;
+    return false;
   });
+  return { open, at };
 };
 
 // The address `recipient` is sent to -- `Jane Smith <jane@example.com>` is sent to
@@ -52,16 +60,15 @@ const atOutsideQuotes = text => {
 // decide on others, so the shapes the server rejects are better not handed to it at all.
 const addressOf = recipient => {
   const trimmed = recipient.trim();
-  const open = trimmed.indexOf('<');
+  const { open, at } = scanRecipient(trimmed);
   if (open < 0) return trimmed;
   // The address has to close the recipient: `A <a@x> B <b@y>` is two entries with no separator
   // between them, and taking only the first would lose B.
   if (!trimmed.endsWith('>')) return null;
   const inner = trimmed.slice(open + 1, -1);
   if (inner.includes('<') || inner.includes('>')) return null;
-  // An `@` before the address, outside any quoted string, is a recipient swallowed into an
-  // unquoted display name.
-  if (atOutsideQuotes(trimmed.slice(0, open))) return null;
+  // An `@` before the address, outside any quoted display name, is a swallowed recipient.
+  if (at) return null;
   return inner.trim();
 };
 

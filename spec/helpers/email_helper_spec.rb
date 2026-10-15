@@ -47,6 +47,17 @@ describe EmailHelper do
       end
     end
 
+    it 'allows angle brackets inside a quoted display name' do
+      expect(helper.process_email_string('"Ops <West>" <ops@test.com>')).to eq ['ops@test.com']
+      expect(helper.process_email_string('"Ops <West>" <ops@test.com>, jane@test.com')).to eq ['ops@test.com', 'jane@test.com']
+    end
+
+    it 'still finds a recipient swallowed in after a quoted name holding angle brackets' do
+      expect do
+        helper.process_email_string('"Team <West>" jane@test.com John Doe <john@test.com>')
+      end.to raise_error StandardError, 'Invalid email address'
+    end
+
     it 'rejects a list it cannot parse' do
       expect { helper.process_email_string('Jane <') }.to raise_error StandardError, 'Invalid email address'
       expect { helper.process_email_string('"Jane <jane@test.com>') }.to raise_error StandardError, 'Invalid email address'
