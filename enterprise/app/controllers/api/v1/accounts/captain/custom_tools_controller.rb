@@ -6,6 +6,10 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   before_action :set_current_page, only: [:index]
   before_action :set_custom_tool, only: [:show, :update, :destroy]
   before_action :validate_headers_param, only: [:create, :update, :test]
+  before_action :validate_settings_param, only: [:create, :update]
+  before_action :validate_param_schema_param, only: [:create, :update]
+
+  PARAM_FIELDS = %w[name type description required source].freeze
 
   def index
     @custom_tools_count = assistant_custom_tools.count
@@ -26,7 +30,7 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
       return render_could_not_create_error(I18n.t('captain.custom_tool.installed_read_only'))
     end
 
-    @custom_tool.update!(custom_tool_params)
+    @custom_tool.update!(custom_tool_params.merge(merged_settings))
   end
 
   def destroy
@@ -67,6 +71,41 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
     render_could_not_create_error("#{Captain::CustomTool.human_attribute_name(:headers)} #{I18n.t('captain.custom_tool.headers.invalid')}")
   end
 
+  # permit silently drops unknown keys and non-object values, so a misspelled setting would look saved and leave the tool unprotected
+  def validate_settings_param
+    return unless params[:custom_tool]&.key?(:settings)
+
+    settings = params[:custom_tool][:settings]
+    return render_settings_error(I18n.t('captain.custom_tool.settings.invalid')) unless settings.is_a?(ActionController::Parameters)
+
+    unknown_keys = settings.keys - Captain::CustomTool::SETTING_KEYS
+    return render_settings_error(I18n.t('captain.custom_tool.settings.unknown', names: unknown_keys.join(', '))) if unknown_keys.any?
+
+    # permit drops a nested value, so it would save as off instead of failing
+    render_settings_error(I18n.t('captain.custom_tool.settings.not_boolean')) unless settings.values.all? { |value| [true, false].include?(value) }
+  end
+
+  # permit drops a nested value or an unknown field, so a parameter meant to take a verified value would save as one the model fills
+  def validate_param_schema_param
+    return unless params[:custom_tool]&.key?(:param_schema)
+
+    param_schema = params[:custom_tool][:param_schema]
+    return if param_schema.is_a?(Array) && param_schema.all? { |param_def| plain_param?(param_def) }
+
+    render_could_not_create_error(
+      "#{Captain::CustomTool.human_attribute_name(:param_schema)} #{I18n.t('captain.custom_tool.param_schema.invalid')}"
+    )
+  end
+
+  def plain_param?(param_def)
+    param_def.is_a?(ActionController::Parameters) && (param_def.keys - PARAM_FIELDS).empty? &&
+      param_def.values.all? { |value| value.is_a?(String) || value.is_a?(Numeric) || [true, false, nil].include?(value) }
+  end
+
+  def render_settings_error(message)
+    render_could_not_create_error("#{Captain::CustomTool.human_attribute_name(:settings)} #{message}")
+  end
+
   def set_custom_tool
     @custom_tool = assistant_custom_tools.find(params[:id])
   end
@@ -78,6 +117,13 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   def execute_test_request(tool)
     http_tool = Captain::Tools::HttpTool.new(nil, tool)
     http_tool.send(:execute_http_request, tool.endpoint_url, nil, nil)
+  end
+
+  # Settings sent in an update are merged into the saved ones, so a partial update can never drop a setting
+  def merged_settings
+    return {} unless custom_tool_params.key?(:settings)
+
+    { settings: @custom_tool.settings.merge(custom_tool_params[:settings]) }
   end
 
   def custom_tool_params
@@ -92,7 +138,8 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
       :enabled,
       auth_config: {},
       headers: {},
-      param_schema: [:name, :type, :description, :required]
+      settings: Captain::CustomTool::SETTING_KEYS,
+      param_schema: PARAM_FIELDS.map(&:to_sym)
     )
   end
 end
