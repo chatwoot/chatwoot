@@ -68,8 +68,20 @@ class Whatsapp::CatalogService
 
   def collections(catalog_id)
     Rails.cache.fetch("whatsapp_catalog_collections/#{channel.id}/#{catalog_id}", expires_in: CACHE_TTL, force: refresh?) do
-      sets = request("#{catalog_id}/product_sets", fields: 'id,name,product_count', limit: PAGE_SIZE)['data'].to_a
+      sets = product_sets(catalog_id)
       sets.reject { |set| default_collection?(set) }.map { |set| { id: set['id'], name: set['name'], count: set['product_count'] } }
+    end
+  end
+
+  # Meta pages this edge too, so every page is followed until it reports no next cursor.
+  def product_sets(catalog_id)
+    sets = []
+    after = nil
+    loop do
+      body = request("#{catalog_id}/product_sets", { fields: 'id,name,product_count', limit: PAGE_SIZE, after: after }.compact)
+      sets.concat(body['data'].to_a)
+      after = body.dig('paging', 'next').present? ? body.dig('paging', 'cursors', 'after').presence : nil
+      return sets if after.blank?
     end
   end
 
@@ -82,8 +94,7 @@ class Whatsapp::CatalogService
     params[:filter] = { name: { i_contains: text } }.to_json if text.present?
     body = request("#{parent_id}/products", params.compact)
     page = body['data'].to_a
-    more = body.dig('paging', 'next').present? && page.size >= limit
-    cursor = body.dig('paging', 'cursors', 'after').presence if more
+    cursor = body.dig('paging', 'cursors', 'after').presence if body.dig('paging', 'next').present?
     { status: 'ok', products: page.map { |product| format_product(product) }, next_cursor: cursor }
   end
 
@@ -100,7 +111,7 @@ class Whatsapp::CatalogService
   end
 
   def request(path, query)
-    response = HTTParty.get("#{base_url}/#{path}", query: query, headers: { 'Authorization' => "Bearer #{channel.template_access_token}" })
+    response = HTTParty.get("#{base_url}/#{path}", query: query, headers: { 'Authorization' => "Bearer #{channel.provider_config['api_key']}" })
     body = response.parsed_response
     return body if response.success?
 
