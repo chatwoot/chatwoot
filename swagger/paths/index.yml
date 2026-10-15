@@ -499,6 +499,12 @@
     $ref: ./application/conversation/messages/index.yml
   post:
     $ref: ./application/conversation/messages/create.yml
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/catalog_message:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/messages/create_catalog.yml
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/messages/{message_id}:
   parameters:
     - $ref: '#/components/parameters/account_id'

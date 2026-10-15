@@ -8170,6 +8170,97 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}/catalog_message": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "$ref": "#/components/parameters/conversation_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "operationId": "create-a-catalog-message-in-a-conversation",
+        "summary": "Create Catalog Message",
+        "description": "Send a WhatsApp catalog message in the conversation. Only available for\nWhatsApp Cloud inboxes. One request sends exactly one message.\n\n### Kinds and limits\n\n- `carousel`: 2 to 10 products. `content` (body) is required.\n- `product`: exactly 1 product. `content` is optional.\n- `product_list`: 1 to 30 products. `content` (body) and `header` are required.\n\nMaximum lengths: body 1024, footer 60, list header 60, section title 24 characters.\n\n### Examples\n\n**Carousel:**\n```json\n{\n  \"kind\": \"carousel\",\n  \"content\": \"Check out our new arrivals\",\n  \"catalog_id\": \"1234567890\",\n  \"products\": [\n    { \"retailer_id\": \"SKU-001\", \"name\": \"Ceramic mug\", \"price\": \"12.50\" },\n    { \"retailer_id\": \"SKU-002\", \"name\": \"Glass bottle\", \"price\": \"8.00\" }\n  ]\n}\n```\n\n**Single product:**\n```json\n{\n  \"kind\": \"product\",\n  \"content\": \"Our best seller\",\n  \"footer\": \"Free shipping\",\n  \"catalog_id\": \"1234567890\",\n  \"products\": [{ \"retailer_id\": \"SKU-001\" }]\n}\n```\n\n**Product list:**\n```json\n{\n  \"kind\": \"product_list\",\n  \"header\": \"Kitchen\",\n  \"content\": \"Pick your favorites\",\n  \"catalog_id\": \"1234567890\",\n  \"products\": [\n    { \"retailer_id\": \"SKU-001\", \"section\": \"Mugs\" },\n    { \"retailer_id\": \"SKU-002\", \"section\": \"Bottles\" }\n  ]\n}\n```\n",
+        "security": [
+          {
+            "userBearerAuth": []
+          },
+          {
+            "agentBotBearerAuth": []
+          },
+          {
+            "userApiKey": []
+          },
+          {
+            "agentBotApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/conversation_catalog_message_create_payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/generic_id"
+                    },
+                    {
+                      "$ref": "#/components/schemas/message"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conversation not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid catalog message or inbox is not WhatsApp Cloud",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages/{message_id}": {
       "parameters": [
         {
@@ -14279,6 +14370,101 @@
                       }
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      },
+      "conversation_catalog_message_create_payload": {
+        "type": "object",
+        "required": [
+          "kind",
+          "products"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "carousel",
+              "product",
+              "product_list"
+            ],
+            "description": "Type of catalog message to send",
+            "example": "carousel"
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "Message body text (max 1024 characters). Required for `carousel` and `product_list`, optional for `product`.",
+            "example": "Check out our new arrivals"
+          },
+          "header": {
+            "type": "string",
+            "maxLength": 60,
+            "description": "Header text (max 60 characters). Required for `product_list`, ignored for the other kinds.",
+            "example": "New arrivals"
+          },
+          "footer": {
+            "type": "string",
+            "maxLength": 60,
+            "description": "Footer text (max 60 characters)",
+            "example": "Free shipping over $50"
+          },
+          "catalog_id": {
+            "type": "string",
+            "description": "ID of the WhatsApp catalog that contains the products",
+            "example": "1234567890"
+          },
+          "products": {
+            "type": "array",
+            "description": "Products to send. `carousel` takes 2 to 10, `product` takes 1, `product_list` takes 1 to 30.",
+            "items": {
+              "type": "object",
+              "required": [
+                "retailer_id"
+              ],
+              "properties": {
+                "retailer_id": {
+                  "type": "string",
+                  "description": "Product identifier in the catalog",
+                  "example": "SKU-001"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Product name",
+                  "example": "Ceramic mug"
+                },
+                "price": {
+                  "type": "string",
+                  "description": "Product price",
+                  "example": "12.50"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Product description",
+                  "example": "Handmade 350 ml mug"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "Product page URL",
+                  "example": "https://example.com/products/ceramic-mug"
+                },
+                "section": {
+                  "type": "string",
+                  "maxLength": 24,
+                  "description": "Section title (max 24 characters), used by `product_list`",
+                  "example": "Kitchen"
+                },
+                "image_urls": {
+                  "type": "array",
+                  "description": "Product image URLs",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": [
+                    "https://example.com/images/mug.png"
+                  ]
                 }
               }
             }
