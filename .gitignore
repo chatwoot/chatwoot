@@ -28,7 +28,6 @@ master.key
 *.rdb
 
 # Ignore env files
-.env
 
 public/uploads
 public/packs*
@@ -91,7 +90,6 @@ yarn-debug.log*
 
 
 # TextEditors & AI Agents config files
-.vscode
 .claude/settings.local.json
 .cursor
 .codex/
@@ -105,3 +103,4 @@ CLAUDE.local.md
 local/
 Procfile.worktree
 .nodeterm/project.json
+config.bat
