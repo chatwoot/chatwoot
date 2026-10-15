@@ -79,12 +79,14 @@ class Captain::Copilot::UnsourcedNumbers
     self.class.in_text(answer).reject { |number| known.include?(number) || ratio?(number, terms) }.sort_by(&:to_f)
   end
 
-  # What the model was told in this thread up to this turn: the agent's messages and every tool result. Tool arguments
-  # are left out, because the model wrote them. Read on every check, so numbers from a recount count as sources.
+  # What the model was told in this thread up to this turn: the agent's messages, every tool result and the agents listed in
+  # the instructions. Tool arguments are left out, because the model wrote them. Read on every check, so numbers from a
+  # recount count as sources.
   def sources
     messages = @run.copilot_thread.copilot_messages.user.where(CopilotMessage.arel_table[:id].lteq(@run.copilot_message_id))
     results = CopilotToolCall.where(copilot_run: @run.copilot_thread.copilot_runs.turn).pluck(:result)
-    [messages.map(&:message), results, @run.user_id, @run.account_id]
+    agent_ids = Captain::Copilot::TurnService.listed_agents(@run.account).pluck(:id)
+    [messages.map(&:message), results, agent_ids, @run.user_id, @run.account_id]
   end
 
   # A decimal or percentage that equals a ratio of two numbers the tools returned, rounded as the answer writes it, is
