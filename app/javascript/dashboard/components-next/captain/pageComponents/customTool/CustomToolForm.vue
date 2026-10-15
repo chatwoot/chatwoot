@@ -4,10 +4,6 @@ import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, maxLength } from '@vuelidate/validators';
-import { useStore } from 'dashboard/composables/store';
-import { useAlert } from 'dashboard/composables';
-import { useAdmin } from 'dashboard/composables/useAdmin';
-import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import CustomToolsAPI from 'dashboard/api/captain/customTools';
 
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -27,7 +23,7 @@ const props = defineProps({
   mode: {
     type: String,
     default: 'create',
-    validator: value => ['create', 'edit', 'view'].includes(value),
+    validator: value => ['create', 'edit'].includes(value),
   },
   tool: {
     type: Object,
@@ -39,8 +35,6 @@ const emit = defineEmits(['submit']);
 
 const { t } = useI18n();
 const route = useRoute();
-const store = useStore();
-const { isAdmin } = useAdmin();
 
 const initialState = {
   title: '',
@@ -61,18 +55,11 @@ const state = reactive({
   settings: { ...initialState.settings },
 });
 
-// Tools installed from a manifest are shown read-only
-const isReadOnly = computed(() => props.mode === 'view');
-// Except email verification, which admins can change on an installed tool. It saves as soon as it changes.
-const canChangeInstalledVerification = computed(
-  () => isReadOnly.value && isAdmin.value && !!props.tool.source_metadata
-);
-
-// Populate form when editing or viewing an existing tool
+// Populate form when editing an existing tool
 watch(
   () => props.tool,
   newTool => {
-    if (props.mode !== 'create' && newTool && newTool.id) {
+    if (props.mode === 'edit' && newTool && newTool.id) {
       state.title = newTool.title || '';
       state.description = newTool.description || '';
       state.endpoint_url = newTool.endpoint_url || '';
@@ -94,29 +81,11 @@ const usesVerifiedEmail = computed(() =>
   state.param_schema.some(param => param.source === 'verified.email')
 );
 
-const saveInstalledVerification = async value => {
-  try {
-    await store.dispatch('captainCustomTools/update', {
-      id: props.tool.id,
-      settings: { requires_email_verification: value },
-      assistantId: route.params.assistantId,
-    });
-    useAlert(t('CAPTAIN.CUSTOM_TOOLS.EDIT.SUCCESS_MESSAGE'));
-  } catch (error) {
-    state.settings.requires_email_verification = !value;
-    useAlert(
-      parseAPIErrorResponse(error) ||
-        t('CAPTAIN.CUSTOM_TOOLS.EDIT.ERROR_MESSAGE')
-    );
-  }
-};
-
 const requiresEmailVerification = computed({
   get: () =>
     usesVerifiedEmail.value || state.settings.requires_email_verification,
   set: value => {
     state.settings.requires_email_verification = value;
-    if (canChangeInstalledVerification.value) saveInstalledVerification(value);
   },
 });
 
@@ -154,11 +123,10 @@ const authTypeOptions = computed(() => [
   },
 ]);
 
-// Read-only section headers can't be clicked, so view mode starts with every section open
 const openSections = reactive({
-  headers: isReadOnly.value,
-  params: isReadOnly.value,
-  templates: isReadOnly.value,
+  headers: false,
+  params: false,
+  templates: false,
 });
 
 const sectionSummaries = computed(() => {
@@ -222,7 +190,7 @@ const riskMessage = computed(() =>
 );
 
 const suggestsVerifiedEmail = param =>
-  !isReadOnly.value && !usesVerifiedEmail.value && isEmailLikeParam(param);
+  !usesVerifiedEmail.value && isEmailLikeParam(param);
 
 // Keeps the name and description, so templates that read the parameter keep working
 const useVerifiedEmail = param => {
@@ -306,61 +274,58 @@ const handleTest = async () => {
     class="flex flex-col gap-4"
     @submit.prevent="handleSubmit"
   >
-    <!-- Disables every field and button inside for read-only (view) mode; contents keeps the form's layout -->
-    <fieldset :disabled="isReadOnly" class="contents">
-      <Input
-        v-model="state.title"
-        :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.TITLE.LABEL')"
-        :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.TITLE.PLACEHOLDER')"
-        :message="formErrors.title"
-        :message-type="formErrors.title ? 'error' : 'info'"
-      />
+    <Input
+      v-model="state.title"
+      :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.TITLE.LABEL')"
+      :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.TITLE.PLACEHOLDER')"
+      :message="formErrors.title"
+      :message-type="formErrors.title ? 'error' : 'info'"
+    />
 
-      <TextArea
-        v-model="state.description"
-        :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.DESCRIPTION.LABEL')"
-        :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.DESCRIPTION.PLACEHOLDER')"
-        auto-height
-        min-height="2.5rem"
-      />
+    <TextArea
+      v-model="state.description"
+      :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.DESCRIPTION.LABEL')"
+      :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.DESCRIPTION.PLACEHOLDER')"
+      auto-height
+      min-height="2.5rem"
+    />
 
-      <div class="flex gap-2">
-        <div class="flex flex-col gap-1 w-32">
-          <label class="mb-0.5 text-sm font-medium text-n-slate-12">
-            {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.HTTP_METHOD.LABEL') }}
-          </label>
-          <ComboBox
-            v-model="state.http_method"
-            :options="httpMethodOptions"
-            class="[&>div>button]:bg-n-alpha-black2 [&_li]:font-mono [&_button]:font-mono [&>div>button]:outline-offset-[-1px]"
-          />
-        </div>
-        <Input
-          v-model="state.endpoint_url"
-          :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.ENDPOINT_URL.LABEL')"
-          :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.ENDPOINT_URL.PLACEHOLDER')"
-          :message="formErrors.endpoint_url"
-          :message-type="formErrors.endpoint_url ? 'error' : 'info'"
-          class="flex-1"
-        />
-      </div>
-
-      <div class="flex flex-col gap-1">
+    <div class="flex gap-2">
+      <div class="flex flex-col gap-1 w-32">
         <label class="mb-0.5 text-sm font-medium text-n-slate-12">
-          {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_TYPE.LABEL') }}
+          {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.HTTP_METHOD.LABEL') }}
         </label>
         <ComboBox
-          v-model="state.auth_type"
-          :options="authTypeOptions"
-          class="[&>div>button]:bg-n-alpha-black2"
+          v-model="state.http_method"
+          :options="httpMethodOptions"
+          class="[&>div>button]:bg-n-alpha-black2 [&_li]:font-mono [&_button]:font-mono [&>div>button]:outline-offset-[-1px]"
         />
       </div>
-
-      <AuthConfig
-        v-model:auth-config="state.auth_config"
-        :auth-type="state.auth_type"
+      <Input
+        v-model="state.endpoint_url"
+        :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.ENDPOINT_URL.LABEL')"
+        :placeholder="t('CAPTAIN.CUSTOM_TOOLS.FORM.ENDPOINT_URL.PLACEHOLDER')"
+        :message="formErrors.endpoint_url"
+        :message-type="formErrors.endpoint_url ? 'error' : 'info'"
+        class="flex-1"
       />
-    </fieldset>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+        {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.AUTH_TYPE.LABEL') }}
+      </label>
+      <ComboBox
+        v-model="state.auth_type"
+        :options="authTypeOptions"
+        class="[&>div>button]:bg-n-alpha-black2"
+      />
+    </div>
+
+    <AuthConfig
+      v-model:auth-config="state.auth_config"
+      :auth-type="state.auth_type"
+    />
 
     <label class="flex items-start justify-between gap-3">
       <span class="flex flex-col gap-0.5">
@@ -377,153 +342,148 @@ const handleTest = async () => {
       </span>
       <Switch
         v-model="requiresEmailVerification"
-        :disabled="
-          (isReadOnly && !canChangeInstalledVerification) || usesVerifiedEmail
-        "
+        :disabled="usesVerifiedEmail"
         class="shrink-0"
       />
     </label>
+    <div class="flex flex-col">
+      <ToolFormSection
+        v-model:open="openSections.headers"
+        :title="t('CAPTAIN.CUSTOM_TOOLS.FORM.HEADERS.LABEL')"
+        :summary="sectionSummaries.headers"
+      >
+        <HeadersConfig ref="headersRef" v-model:headers="state.headers" />
+      </ToolFormSection>
 
-    <fieldset :disabled="isReadOnly" class="contents">
-      <div class="flex flex-col">
-        <ToolFormSection
-          v-model:open="openSections.headers"
-          :title="t('CAPTAIN.CUSTOM_TOOLS.FORM.HEADERS.LABEL')"
-          :summary="sectionSummaries.headers"
-        >
-          <HeadersConfig ref="headersRef" v-model:headers="state.headers" />
-        </ToolFormSection>
-
-        <ToolFormSection
-          v-model:open="openSections.params"
-          :title="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.LABEL')"
-          :summary="sectionSummaries.params"
-        >
-          <p class="text-xs text-n-slate-11">
-            {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.HELP_TEXT') }}
-          </p>
-          <ul v-if="state.param_schema.length > 0" class="grid gap-2 list-none">
-            <template v-for="(param, index) in state.param_schema" :key="index">
-              <VerifiedParamRow
-                v-if="param.source"
-                ref="paramsRef"
-                v-model:name="param.name"
-                @remove="removeParam(index)"
-              />
-              <ParamRow
-                v-else
-                ref="paramsRef"
-                v-model:name="param.name"
-                v-model:type="param.type"
-                v-model:description="param.description"
-                v-model:required="param.required"
-                :suggest-verified-email="suggestsVerifiedEmail(param)"
-                @remove="removeParam(index)"
-                @use-verified-email="useVerifiedEmail(param)"
-              />
-            </template>
-          </ul>
-          <div class="flex items-center gap-2">
-            <Button
-              type="button"
-              sm
-              ghost
-              blue
-              icon="i-lucide-plus"
-              :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.ADD_PARAMETER')"
-              @click="addParam"
-            />
-            <Button
-              v-if="!usesVerifiedEmail"
-              type="button"
-              sm
-              ghost
-              blue
-              icon="i-lucide-mail-check"
-              :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.ADD')"
-              @click="addVerifiedEmailParam"
-            />
-          </div>
-        </ToolFormSection>
-
-        <ToolFormSection
-          v-model:open="openSections.templates"
-          :title="
-            hasRequestBody
-              ? t('CAPTAIN.CUSTOM_TOOLS.FORM.SECTIONS.TEMPLATES')
-              : t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL')
-          "
-          class="border-b"
-        >
-          <p class="text-xs text-n-slate-11">
-            {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.SECTIONS.TEMPLATES_HELP_TEXT') }}
-          </p>
-          <TextArea
-            v-if="hasRequestBody"
-            v-model="state.request_template"
-            :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.LABEL')"
-            :placeholder="
-              t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.PLACEHOLDER')
-            "
-            :rows="4"
-            class="[&_textarea]:font-mono"
-          />
-
-          <TextArea
-            v-model="state.response_template"
-            :label="
-              hasRequestBody
-                ? t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL')
-                : ''
-            "
-            :placeholder="
-              t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.PLACEHOLDER')
-            "
-            :rows="4"
-            class="[&_textarea]:font-mono"
-          />
-        </ToolFormSection>
-      </div>
-
-      <div class="flex flex-col gap-2">
-        <Button
-          type="button"
-          variant="faded"
-          color="slate"
-          icon="i-lucide-play"
-          :label="t('CAPTAIN.CUSTOM_TOOLS.TEST.BUTTON')"
-          :is-loading="isTesting"
-          :disabled="isTesting || !state.endpoint_url || isTestDisabled"
-          @click="handleTest"
-        />
-        <p v-if="isTestDisabled" class="text-xs text-n-slate-11">
-          {{ t('CAPTAIN.CUSTOM_TOOLS.TEST.DISABLED_HINT') }}
+      <ToolFormSection
+        v-model:open="openSections.params"
+        :title="t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.LABEL')"
+        :summary="sectionSummaries.params"
+      >
+        <p class="text-xs text-n-slate-11">
+          {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.PARAMETERS.HELP_TEXT') }}
         </p>
-        <div
-          v-if="testResult"
-          class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg"
-          :class="
-            testResult.success
-              ? 'bg-n-teal-2 text-n-teal-11'
-              : 'bg-n-ruby-2 text-n-ruby-11'
-          "
-        >
-          <span
-            :class="
-              testResult.success ? 'i-lucide-check-circle' : 'i-lucide-x-circle'
-            "
-            class="size-3.5 shrink-0"
+        <ul v-if="state.param_schema.length > 0" class="grid gap-2 list-none">
+          <template v-for="(param, index) in state.param_schema" :key="index">
+            <VerifiedParamRow
+              v-if="param.source"
+              ref="paramsRef"
+              v-model:name="param.name"
+              @remove="removeParam(index)"
+            />
+            <ParamRow
+              v-else
+              ref="paramsRef"
+              v-model:name="param.name"
+              v-model:type="param.type"
+              v-model:description="param.description"
+              v-model:required="param.required"
+              :suggest-verified-email="suggestsVerifiedEmail(param)"
+              @remove="removeParam(index)"
+              @use-verified-email="useVerifiedEmail(param)"
+            />
+          </template>
+        </ul>
+        <div class="flex items-center gap-2">
+          <Button
+            type="button"
+            sm
+            ghost
+            blue
+            icon="i-lucide-plus"
+            :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.ADD_PARAMETER')"
+            @click="addParam"
           />
-          {{
-            testResult.status
-              ? t('CAPTAIN.CUSTOM_TOOLS.TEST.SUCCESS', {
-                  status: testResult.status,
-                })
-              : testResult.message
-          }}
+          <Button
+            v-if="!usesVerifiedEmail"
+            type="button"
+            sm
+            ghost
+            blue
+            icon="i-lucide-mail-check"
+            :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.ADD')"
+            @click="addVerifiedEmailParam"
+          />
         </div>
+      </ToolFormSection>
+
+      <ToolFormSection
+        v-model:open="openSections.templates"
+        :title="
+          hasRequestBody
+            ? t('CAPTAIN.CUSTOM_TOOLS.FORM.SECTIONS.TEMPLATES')
+            : t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL')
+        "
+        class="border-b"
+      >
+        <p class="text-xs text-n-slate-11">
+          {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.SECTIONS.TEMPLATES_HELP_TEXT') }}
+        </p>
+        <TextArea
+          v-if="hasRequestBody"
+          v-model="state.request_template"
+          :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.LABEL')"
+          :placeholder="
+            t('CAPTAIN.CUSTOM_TOOLS.FORM.REQUEST_TEMPLATE.PLACEHOLDER')
+          "
+          :rows="4"
+          class="[&_textarea]:font-mono"
+        />
+
+        <TextArea
+          v-model="state.response_template"
+          :label="
+            hasRequestBody
+              ? t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.LABEL')
+              : ''
+          "
+          :placeholder="
+            t('CAPTAIN.CUSTOM_TOOLS.FORM.RESPONSE_TEMPLATE.PLACEHOLDER')
+          "
+          :rows="4"
+          class="[&_textarea]:font-mono"
+        />
+      </ToolFormSection>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <Button
+        type="button"
+        variant="faded"
+        color="slate"
+        icon="i-lucide-play"
+        :label="t('CAPTAIN.CUSTOM_TOOLS.TEST.BUTTON')"
+        :is-loading="isTesting"
+        :disabled="isTesting || !state.endpoint_url || isTestDisabled"
+        @click="handleTest"
+      />
+      <p v-if="isTestDisabled" class="text-xs text-n-slate-11">
+        {{ t('CAPTAIN.CUSTOM_TOOLS.TEST.DISABLED_HINT') }}
+      </p>
+      <div
+        v-if="testResult"
+        class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg"
+        :class="
+          testResult.success
+            ? 'bg-n-teal-2 text-n-teal-11'
+            : 'bg-n-ruby-2 text-n-ruby-11'
+        "
+      >
+        <span
+          :class="
+            testResult.success ? 'i-lucide-check-circle' : 'i-lucide-x-circle'
+          "
+          class="size-3.5 shrink-0"
+        />
+        {{
+          testResult.status
+            ? t('CAPTAIN.CUSTOM_TOOLS.TEST.SUCCESS', {
+                status: testResult.status,
+              })
+            : testResult.message
+        }}
       </div>
-    </fieldset>
+    </div>
     <Dialog
       ref="riskDialogRef"
       type="alert"

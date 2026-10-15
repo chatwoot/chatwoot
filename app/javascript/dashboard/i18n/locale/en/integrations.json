@@ -1424,7 +1424,9 @@
         "ERROR_MESSAGE": "Failed to create custom tool"
       },
       "VIEW": {
-        "TITLE": "Custom Tool Details"
+        "TITLE": "Custom Tool Details",
+        "REQUEST": "Request and response",
+        "INSTALLED_NOTE": "This tool is read-only because it was installed from the Tools Catalog."
       },
       "EDIT": {
         "TITLE": "Edit Custom Tool",
