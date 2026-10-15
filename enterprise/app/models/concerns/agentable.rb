@@ -2,8 +2,6 @@ module Concerns::Agentable
   extend ActiveSupport::Concern
 
   DEFAULT_TEMPERATURE = 0.5
-  # Only these channels can verify a contact with HMAC, so only they get the customer identity prompt section
-  HMAC_CHANNEL_TYPES = %w[Channel::WebWidget Channel::Api].freeze
 
   def agent(runtime_configuration: nil, runtime_agent_name: nil)
     model = agent_model
@@ -27,7 +25,7 @@ module Concerns::Agentable
         current_time: format_current_time(state[:timezone]),
         conversation: state[:conversation] || {},
         contact: config['feature_contact_attributes'].present? ? state[:contact] : nil,
-        contact_inbox: verifiable_contact_inbox(state),
+        can_verify_email: can_verify_email?(state),
         verified_email: state[:verified_email],
         campaign: state[:campaign] || {},
         message_length_limit: state[:message_length_limit]
@@ -46,8 +44,9 @@ module Concerns::Agentable
 
   private
 
-  def verifiable_contact_inbox(state)
-    state[:contact_inbox] if HMAC_CHANNEL_TYPES.include?(state[:channel_type])
+  # Matches where the runner gives Captain the verification tools: a conversation with a contact inbox, outside email
+  def can_verify_email?(state)
+    state[:contact_inbox].present? && state[:channel_type] != 'Channel::Email'
   end
 
   def runtime_prompt_context(context, runtime_configuration)

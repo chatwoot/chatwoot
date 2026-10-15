@@ -380,14 +380,21 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(instructions).not_to include('# Contact Information', 'Jane Doe')
     end
 
-    it 'does not name the identifier of a contact verified by HMAC as verified' do
-      state = { channel_type: 'Channel::WebWidget', contact_inbox: { id: 1, hmac_verified: true },
-                contact: { id: 1, identifier: 'user_42' }, assistant_config: { 'feature_contact_attributes' => true } }
+    it 'gives the steps to verify on a messaging channel, without any HMAC status' do
+      state = { channel_type: 'Channel::Whatsapp', contact_inbox: { id: 1, hmac_verified: true }, assistant_config: {} }
 
       instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
 
-      expect(instructions).to include('Identity verified by HMAC: Yes')
-      expect(instructions).not_to include('The verified identifier is')
+      expect(instructions).to include('Email verified by one-time code: No', 'captain--tools--send_email_verification_code')
+      expect(instructions).not_to include('HMAC')
+    end
+
+    it 'leaves out the identity section in an email conversation, which cannot verify' do
+      state = { channel_type: 'Channel::Email', contact_inbox: { id: 1, hmac_verified: false }, assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions).not_to include('# Customer Identity')
     end
   end
 end
