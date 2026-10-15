@@ -100,12 +100,12 @@
 - name: MOBILE_APP_MIN_IOS_VERSION
   value:
   display_title: 'Minimum iOS app version'
-  description: 'Oldest version of the Chatwoot iOS app that can use this installation, e.g. 4.10.0. Older apps must update before they can continue. Leave blank to allow all versions.'
+  description: 'Oldest version of the Chatwoot iOS app that can use this installation, e.g. 4.10.0. Older apps must update before they can continue. Set it only after that version is live in the store. Leave blank to allow all versions.'
   locked: false
 - name: MOBILE_APP_MIN_ANDROID_VERSION
   value:
   display_title: 'Minimum Android app version'
-  description: 'Oldest version of the Chatwoot Android app that can use this installation, e.g. 4.10.0. Older apps must update before they can continue. Leave blank to allow all versions.'
+  description: 'Oldest version of the Chatwoot Android app that can use this installation, e.g. 4.10.0. Older apps must update before they can continue. Set it only after that version is live in the store. Leave blank to allow all versions.'
   locked: false
 # ------- End of Mobile App Config ------- #
 
