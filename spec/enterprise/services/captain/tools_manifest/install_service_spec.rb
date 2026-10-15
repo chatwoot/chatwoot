@@ -92,6 +92,29 @@ RSpec.describe Captain::ToolsManifest::InstallService do
       end
     end
 
+    context 'when a tool in the manifest stores values' do
+      before do
+        manifest['tools'].first.merge!(
+          'param_schema' => [{ 'name' => 'email', 'type' => 'string', 'description' => 'Email', 'source' => 'verified.email' }],
+          'stores' => { 'customer_id' => 'customer.id' }
+        )
+        stub_request(:get, manifest_url).to_return(status: 200, body: manifest.to_yaml)
+      end
+
+      it 'installs that tool with its stores' do
+        expect(install.map(&:stores)).to eq([{ 'customer_id' => 'customer.id' }, {}])
+      end
+
+      it 'applies the stores on a reinstall when the same commit was installed without them' do
+        tools = install
+        tools.first.update_columns(stores: {}) # rubocop:disable Rails/SkipsModelValidations
+
+        parsed_manifest = Captain::ToolsManifest::Manifest.parse(manifest.to_yaml)
+
+        expect(described_class.complete?(assistant.custom_tools.to_a, parsed_manifest, latest_revision)).to be(false)
+      end
+    end
+
     it 'installs tools that call their endpoint with the install-time values and manifest headers' do
       allow(Resolv).to receive(:getaddresses).and_return(['23.227.38.33'])
       order_url = 'https://acme.myshopify.com/admin/api/orders/1001.json'
