@@ -222,6 +222,7 @@ const onPopoverHide = () => {
   <div class="flex items-center gap-1.5" :class="rowLayoutClass">
     <Popover
       v-if="showSparkle"
+      class="min-w-0"
       :align="popoverAlign"
       @show="onPopoverShow"
       @hide="onPopoverHide"
