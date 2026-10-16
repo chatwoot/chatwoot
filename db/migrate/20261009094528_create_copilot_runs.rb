@@ -1,0 +1,57 @@
+class CreateCopilotRuns < ActiveRecord::Migration[7.2]
+  def change # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    create_table :copilot_runs do |t|
+      t.references :account, null: false
+      t.references :user, null: false
+      t.references :copilot_thread, null: false
+      t.references :copilot_message, index: { unique: true }
+      t.references :copilot_tool_call, index: { unique: true }
+      t.references :source_run
+      t.string :kind, null: false
+      t.string :status, null: false, default: 'queued'
+      t.jsonb :context, null: false, default: {}
+      t.jsonb :transcript, null: false, default: {}
+      t.decimal :total_cost_usd, precision: 16, scale: 10, null: false, default: 0
+      t.boolean :cost_complete, null: false, default: true
+      t.datetime :lease_until
+      t.string :lease_token
+      t.integer :attempts, null: false, default: 0
+      t.string :error
+      t.timestamps
+    end
+
+    create_table :copilot_tool_calls do |t|
+      t.references :copilot_run, null: false
+      t.string :call_id, null: false
+      t.string :name, null: false
+      t.string :status, null: false, default: 'queued'
+      t.jsonb :arguments, null: false, default: {}
+      t.jsonb :result
+      t.integer :attempts, null: false, default: 0
+      t.string :error
+      t.timestamps
+    end
+    add_index :copilot_tool_calls, [:copilot_run_id, :call_id], unique: true
+    # Captain::Copilot::RecoverRunsJob checks every account for unfinished runs and running tool calls, a small part of
+    # tables that keep growing.
+    add_index :copilot_runs, :status, where: "status IN ('queued', 'running')", name: 'index_copilot_runs_claimable'
+    add_index :copilot_tool_calls, :status, where: "status = 'running'", name: 'index_copilot_tool_calls_running'
+
+    create_table :copilot_review_findings do |t|
+      t.references :copilot_run, null: false
+      t.bigint :conversation_id, null: false
+      t.string :status, null: false
+      t.boolean :matched, null: false, default: false
+      t.string :category
+      t.text :reason
+      t.float :screening_score
+      t.jsonb :evidence_message_ids, null: false, default: []
+      t.jsonb :reviewed_message_ids, null: false, default: []
+      t.boolean :history_truncated, null: false, default: false
+      t.integer :attempts, null: false, default: 0
+      t.string :error
+      t.timestamps
+    end
+    add_index :copilot_review_findings, [:copilot_run_id, :conversation_id], unique: true, name: 'index_copilot_findings_on_run_and_conversation'
+  end
+end
