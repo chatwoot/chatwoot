@@ -73,7 +73,7 @@ describe('CopilotInput', () => {
     await flushPromises();
   });
 
-  it('prevents edits while a send is in flight', async () => {
+  it('keeps text pasted while a send is in flight', async () => {
     let resolveSend;
     const onSend = vi.fn(
       () =>
@@ -85,22 +85,42 @@ describe('CopilotInput', () => {
     const textarea = wrapper.find('textarea');
     const button = wrapper.find('button');
 
-    await textarea.setValue('Keep this message');
-    textarea.element.focus();
-    await wrapper.find('form').trigger('submit');
+    await textarea.setValue('First message');
+    button.element.focus();
+    await button.trigger('click');
 
-    expect(textarea.attributes('readonly')).toBeDefined();
+    expect(onSend).toHaveBeenCalledWith('First message');
+    expect(textarea.attributes('readonly')).toBeUndefined();
     expect(button.attributes('disabled')).toBeDefined();
-    expect(textarea.element.value).toBe('Keep this message');
+    expect(textarea.element.value).toBe('');
     expect(document.activeElement).toBe(textarea.element);
 
+    await textarea.setValue('Pasted follow-up');
+    resolveSend(true);
+    await flushPromises();
+
+    expect(textarea.element.value).toBe('Pasted follow-up');
+    expect(button.attributes('disabled')).toBeUndefined();
+  });
+
+  it('puts a failed message back in front of text pasted while it was sending', async () => {
+    let resolveSend;
+    const onSend = vi.fn(
+      () =>
+        new Promise(resolve => {
+          resolveSend = resolve;
+        })
+    );
+    const wrapper = mountCopilotInput(onSend);
+    const textarea = wrapper.find('textarea');
+
+    await textarea.setValue('First message');
+    await wrapper.find('form').trigger('submit');
+    await textarea.setValue('Pasted follow-up');
     resolveSend(false);
     await flushPromises();
 
-    expect(textarea.attributes('readonly')).toBeUndefined();
-    expect(button.attributes('disabled')).toBeUndefined();
-    expect(textarea.element.value).toBe('Keep this message');
-    expect(document.activeElement).toBe(textarea.element);
+    expect(textarea.element.value).toBe('First message\nPasted follow-up');
   });
 
   it('allows vertical scrolling when the input reaches its max height', () => {

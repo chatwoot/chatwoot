@@ -1,4 +1,8 @@
 class Captain::Copilot::ReplySuggestionJob < ApplicationJob
+  # A new thread is created inside a transaction. Enqueued before the commit, the job cannot find the thread and fails
+  # until Sidekiq retries it.
+  self.enqueue_after_transaction_commit = true
+
   queue_as :default
 
   retry_on Captain::Copilot::ReplySuggestionService::GenerationError, wait: 3.seconds, attempts: 3 do |job, _error|
