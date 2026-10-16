@@ -93,6 +93,9 @@ export default {
     return {
       MENU,
       labelSearchQuery: '',
+      agentSearchQuery: '',
+      activeAgentIndex: 0,
+      isAgentSubmenuHovered: false,
       STATUS_TYPE: wootConstants.STATUS_TYPE,
       readOption: {
         label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.MARK_AS_READ'),
@@ -218,6 +221,13 @@ export default {
         ...this.filteredAgentOnAvailability,
       ];
     },
+    filteredAssignableAgents() {
+      if (!this.agentSearchQuery) return this.assignableAgents;
+      return picoSearch(this.assignableAgents, this.agentSearchQuery, [
+        'name',
+        'email',
+      ]);
+    },
     showSnooze() {
       // Don't show snooze if the conversation is already snoozed/resolved/pending
       return this.status === wootConstants.STATUS_TYPE.OPEN;
@@ -231,8 +241,22 @@ export default {
       return [...labels].sort((a, b) => isAssigned(b) - isAssigned(a));
     },
   },
+  watch: {
+    agentSearchQuery() {
+      this.activeAgentIndex = 0;
+    },
+    filteredAssignableAgents(newAgents) {
+      if (this.activeAgentIndex >= newAgents.length) {
+        this.activeAgentIndex = 0;
+      }
+    },
+  },
   mounted() {
     this.$store.dispatch('inboxAssignableAgents/fetch', [this.inboxId]);
+    window.addEventListener('keydown', this.handleGlobalKeyDown);
+  },
+  beforeUnmount() {
+    window.removeEventListener('keydown', this.handleGlobalKeyDown);
   },
   methods: {
     isAllowed(keys) {
@@ -289,13 +313,116 @@ export default {
         ...(type === 'team' && { label: option.name }),
       };
     },
+    getAgentInputElement() {
+      return (
+        this.$refs.agentSearchInput?.$el?.querySelector('input') ||
+        this.$refs.agentSearchInput
+      );
+    },
+    handleAgentSubmenuLeave() {
+      const input = this.getAgentInputElement();
+      if (input && document.activeElement === input) {
+        this.$el?.focus();
+      }
+    },
+    focusAgentSearchInput() {
+      const input = this.getAgentInputElement();
+      if (input) {
+        input.focus();
+      }
+    },
+    assignSelectedAgent(agent) {
+      if (!agent) return;
+      this.$emit('assignAgent', agent);
+    },
+    selectActiveAgent() {
+      const agent = this.filteredAssignableAgents[this.activeAgentIndex];
+      if (agent) {
+        this.assignSelectedAgent(agent);
+      }
+    },
+    moveActiveAgent(direction) {
+      const total = this.filteredAssignableAgents.length;
+      if (!total) return;
+      let newIndex = this.activeAgentIndex + direction;
+      if (newIndex < 0) {
+        newIndex = total - 1;
+      } else if (newIndex >= total) {
+        newIndex = 0;
+      }
+      this.activeAgentIndex = newIndex;
+      this.$nextTick(() => {
+        this.scrollToActiveAgent();
+      });
+    },
+    scrollToActiveAgent() {
+      const container = this.$refs.agentListContainer;
+      const activeEl = container?.children?.[this.activeAgentIndex];
+      if (activeEl && container) {
+        activeEl?.scrollIntoView?.({ block: 'nearest' });
+      }
+    },
+    handleAgentInputKeyDown(e) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        e.stopPropagation();
+        this.moveActiveAgent(1);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        e.stopPropagation();
+        this.moveActiveAgent(-1);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        e.stopPropagation();
+        this.selectActiveAgent();
+      } else if (e.key === 'Escape') {
+        // let escape bubble
+      } else {
+        e.stopPropagation();
+      }
+    },
+    handleGlobalKeyDown(e) {
+      if (['INPUT', 'TEXTAREA'].includes(e.target?.tagName)) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.key === 'Escape' || e.key === 'Tab') return;
+
+      if (this.isAgentSubmenuHovered && this.isAllowed([MENU.AGENT])) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          this.focusAgentSearchInput();
+          this.moveActiveAgent(1);
+          return;
+        }
+        if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          this.focusAgentSearchInput();
+          this.moveActiveAgent(-1);
+          return;
+        }
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          this.selectActiveAgent();
+          return;
+        }
+        if (e.key.length === 1) {
+          this.focusAgentSearchInput();
+          const input = this.getAgentInputElement();
+          if (input && document.activeElement !== input) {
+            this.agentSearchQuery = (this.agentSearchQuery || '') + e.key;
+            this.activeAgentIndex = 0;
+            e.preventDefault();
+          }
+        }
+      }
+    },
   },
 };
 </script>
 
 <template>
   <div
-    class="p-1 rounded-md shadow-xl bg-n-alpha-3/50 backdrop-blur-[100px] outline-1 outline outline-n-weak/50"
+    tabindex="-1"
+    class="p-1 rounded-md shadow-xl bg-n-alpha-3/50 backdrop-blur-[100px] outline-1 outline outline-n-weak/50 focus:outline-none"
   >
     <template v-if="isAllowed([MENU.MARK_AS_READ, MENU.MARK_AS_UNREAD])">
       <MenuItem
@@ -397,16 +524,55 @@ export default {
         v-if="isAllowed([MENU.AGENT])"
         :option="agentMenuConfig"
         :sub-menu-available="!!assignableAgents.length"
+        :scrollable="false"
+        @mouseenter="isAgentSubmenuHovered = true"
+        @mouseleave="
+          isAgentSubmenuHovered = false;
+          handleAgentSubmenuLeave();
+        "
       >
         <AgentLoadingPlaceholder v-if="assignableAgentsUiFlags.isFetching" />
         <template v-else>
-          <MenuItem
-            v-for="agent in assignableAgents"
-            :key="agent.id"
-            :option="generateMenuLabelConfig(agent, 'agent')"
-            variant="agent"
-            @click.stop="$emit('assignAgent', agent)"
-          />
+          <div class="pb-1 w-[12.5rem] flex-shrink-0">
+            <NextInput
+              ref="agentSearchInput"
+              v-model="agentSearchQuery"
+              type="search"
+              size="sm"
+              class="w-full"
+              custom-input-class="!ps-8 !text-xs"
+              :placeholder="$t('CONVERSATION.CARD_CONTEXT_MENU.SEARCH_AGENTS')"
+              @click.stop
+              @keydown="handleAgentInputKeyDown"
+            >
+              <template #prefix>
+                <Icon
+                  icon="i-lucide-search"
+                  class="absolute z-10 -translate-y-1/2 pointer-events-none size-3.5 text-n-slate-10 top-1/2 start-2"
+                />
+              </template>
+            </NextInput>
+          </div>
+          <div
+            ref="agentListContainer"
+            class="overflow-x-hidden overflow-y-auto max-h-[12.5rem] flex-1"
+          >
+            <MenuItem
+              v-for="(agent, index) in filteredAssignableAgents"
+              :key="agent.id"
+              :option="generateMenuLabelConfig(agent, 'agent')"
+              variant="agent"
+              :is-active="index === activeAgentIndex"
+              @mouseenter="activeAgentIndex = index"
+              @click.stop="assignSelectedAgent(agent)"
+            />
+            <p
+              v-if="!filteredAssignableAgents.length"
+              class="px-2 py-2 m-0 text-xs text-center text-n-slate-11"
+            >
+              {{ $t('CONVERSATION.CARD_CONTEXT_MENU.NO_AGENTS_FOUND') }}
+            </p>
+          </div>
         </template>
       </MenuItemWithSubmenu>
       <MenuItemWithSubmenu

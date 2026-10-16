@@ -262,6 +262,8 @@
         "NEXT_WEEK": "Until next week"
       },
       "ASSIGN_AGENT": "Assign agent",
+      "SEARCH_AGENTS": "Search agents",
+      "NO_AGENTS_FOUND": "No agents found",
       "ASSIGN_LABEL": "Assign label",
       "SEARCH_LABELS": "Search labels",
       "NO_LABELS_FOUND": "No labels found",
