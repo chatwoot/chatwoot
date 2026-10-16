@@ -54,6 +54,12 @@ RSpec.describe Voice::RelayDeviceSync do
     expect(described_class.state('apple', 'apple-1')).to eq('registered')
   end
 
+  it 'raises rather than drop an outcome it cannot write' do
+    allow(Redis::Alfred).to receive(:with).and_yield(instance_double(Redis::Namespace, watch: nil))
+
+    expect { described_class.record_state('apple', 'apple-1', 1, 'registered') }.to raise_error(described_class::StateConflict)
+  end
+
   it 'forgets the state of a token it removes' do
     described_class.record_state('apple', 'apple-old', 0, 'registered')
     described_class.new(platform: 'apple', token: 'apple-old', revision: 1).perform

@@ -7,10 +7,11 @@
 # The outcome of each phone's latest registration is kept for the Super Admin diagnostics, with
 # its revision, so an outcome for an older change arriving late does not replace a newer one.
 class Voice::RelayDeviceSync
-  STATES_KEY = 'VOICE_RELAY_DEVICE_STATES'.freeze
+  STATE_KEY_PREFIX = 'VOICE_RELAY_DEVICE_STATE'.freeze
 
-  # Attempts at writing an outcome while other writes to the states keep changing it
-  RECORD_ATTEMPTS = 3
+  # Attempts at writing an outcome while other writes for the same phone keep changing it
+  RECORD_ATTEMPTS = 10
+  StateConflict = Class.new(StandardError)
 
   pattr_initialize [:platform!, :token!, :revision!]
 
@@ -27,28 +28,28 @@ class Voice::RelayDeviceSync
   # refused the relay secret, 'failed' when the hub could not be reached, or nil before the hub has
   # answered and once the token is removed
   def self.state(platform, token)
-    state = Redis::Alfred.hget(STATES_KEY, state_field(platform, token))&.split(':', 2)&.last
+    state = Redis::Alfred.get(state_key(platform, token))&.split(':', 2)&.last
     state unless state == 'removed'
   end
 
-  # Sets the token's field to "revision:state" unless it holds a newer revision, under WATCH so a
-  # write in between makes it read again
+  # Sets the phone's key to "revision:state" unless it holds a newer revision. The key is watched,
+  # so a write for the same phone in between makes it read again; one that keeps losing raises.
   def self.record_state(platform, token, revision, state)
-    field = state_field(platform, token)
-    Redis::Alfred.with do |redis|
-      RECORD_ATTEMPTS.times do
-        written = redis.watch(STATES_KEY) do
-          current = redis.hget(STATES_KEY, field)
+    key = state_key(platform, token)
+    written = Redis::Alfred.with do |redis|
+      RECORD_ATTEMPTS.times.any? do
+        redis.watch(key) do
+          current = redis.get(key)
           next redis.unwatch && :stale if current && current.to_i > revision.to_i
 
-          redis.multi { |transaction| transaction.hset(STATES_KEY, field, "#{revision}:#{state}") }
+          redis.multi { |transaction| transaction.set(key, "#{revision}:#{state}") }
         end
-        break unless written.nil?
       end
     end
+    raise StateConflict, "#{platform} registration outcome kept changing" unless written
   end
 
-  def self.state_field(platform, token) = "#{platform}:#{Digest::SHA256.hexdigest(token)}"
+  def self.state_key(platform, token) = "#{STATE_KEY_PREFIX}:#{platform}:#{Digest::SHA256.hexdigest(token)}"
 
   # The relay platform of a subscription's phone: iPhones by their VoIP token, Android phones
   # by their FCM token
