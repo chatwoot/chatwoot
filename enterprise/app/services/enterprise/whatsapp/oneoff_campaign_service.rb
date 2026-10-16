@@ -1,10 +1,26 @@
 module Enterprise::Whatsapp::OneoffCampaignService
+  def perform
+    validate_campaign!
+    # A nullable checkpoint keeps campaigns started before this rollout out of automatic recovery.
+    campaign.update!(whatsapp_cursor: 0) if campaign.whatsapp_cursor.nil?
+    super
+  end
+
+  def perform_batch(cursor)
+    next_cursor = super(campaign.whatsapp_cursor || cursor)
+    campaign.update!(whatsapp_cursor: next_cursor) if next_cursor && campaign.whatsapp_cursor.present?
+    next_cursor
+  end
+
   private
 
   def process_contacts(contacts)
     contacts.each do |contact|
       recipient = recipient_for(contact)
-      process_recipient(recipient) if recipient.queued?
+      next unless recipient.claim_send!
+
+      campaign.update!(updated_at: Time.current) if campaign.whatsapp_cursor.present?
+      process_recipient(recipient)
     end
   end
 

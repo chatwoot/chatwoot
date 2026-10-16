@@ -17,6 +17,21 @@ class CampaignRecipient < ApplicationRecord
   validates :contact_id, uniqueness: { scope: :campaign_id }
   validates :source_id, uniqueness: true, allow_blank: true
 
+  def claim_send!
+    with_lock do
+      next false unless queued?
+
+      if send_attempted_at.present?
+        update!(error_message: 'Send outcome unknown after interruption; review before retrying')
+        next false
+      end
+
+      # Persist before calling WhatsApp: an accepted request with a lost response cannot safely be retried.
+      update!(send_attempted_at: Time.current)
+      true
+    end
+  end
+
   def mark_sent!(source_id)
     update!(
       source_id: source_id,
