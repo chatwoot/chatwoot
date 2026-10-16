@@ -160,38 +160,32 @@ RSpec.describe AccountSamlSettings, type: :model do
         expect(settings.errors[:certificate]).to include('must be a valid X.509 certificate in PEM format')
       end
 
-      it 'fetches the metadata again on every save' do
+      it 'does not fetch the metadata when the URL is unchanged' do
         settings = described_class.create!(account: account, metadata_url: metadata_url)
         settings.update!(role_mappings: { 'Admins' => { 'role' => 1 } })
 
-        expect(metadata_service).to have_received(:perform).twice
+        expect(metadata_service).to have_received(:perform).once
       end
     end
 
     describe '#refresh_metadata' do
       let(:settings) { described_class.create!(account: account, metadata_url: metadata_url) }
+      let(:near_expiry) { OpenSSL::X509::Certificate.new(certificate).not_after - 10.minutes }
 
       before { settings }
 
-      it 'does not fetch within the refresh interval' do
-        settings.refresh_metadata
-
-        expect(metadata_service).to have_received(:perform).once
-      end
-
-      it 'does not fetch when another request already claimed the refresh' do
-        travel_to((described_class::METADATA_REFRESH_INTERVAL + 1.second).from_now) do
-          described_class.where(id: settings.id).update_all(metadata_refreshed_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
+      it 'does not fetch while the certificate is far from expiry' do
+        travel_to(near_expiry - 1.day) do
           settings.refresh_metadata
 
           expect(metadata_service).to have_received(:perform).once
         end
       end
 
-      it 'stores the rotated certificate after the refresh interval' do
+      it 'stores the rotated certificate when the certificate is close to expiry' do
         allow(metadata_service).to receive(:perform).and_return(metadata.merge(certificate: rotated_certificate))
 
-        travel_to((described_class::METADATA_REFRESH_INTERVAL + 1.second).from_now) do
+        travel_to(near_expiry) do
           settings.refresh_metadata
 
           expect(settings.reload.certificate).to eq(rotated_certificate)
@@ -199,10 +193,28 @@ RSpec.describe AccountSamlSettings, type: :model do
         end
       end
 
+      it 'does not fetch again within the refresh interval' do
+        travel_to(near_expiry) do
+          settings.refresh_metadata
+          settings.refresh_metadata
+
+          expect(metadata_service).to have_received(:perform).twice
+        end
+      end
+
+      it 'does not fetch when another request already claimed the refresh' do
+        travel_to(near_expiry) do
+          described_class.where(id: settings.id).update_all(metadata_refreshed_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
+          settings.refresh_metadata
+
+          expect(metadata_service).to have_received(:perform).once
+        end
+      end
+
       it 'keeps the stored values when the fetch fails' do
         allow(metadata_service).to receive(:perform).and_raise(Saml::IdpMetadataService::Error, 'boom')
 
-        travel_to((described_class::METADATA_REFRESH_INTERVAL + 1.second).from_now) do
+        travel_to(near_expiry) do
           settings.refresh_metadata
 
           expect(settings.reload.certificate).to eq(certificate)
@@ -213,45 +225,11 @@ RSpec.describe AccountSamlSettings, type: :model do
       it 'keeps the stored values when the fetched metadata is invalid' do
         allow(metadata_service).to receive(:perform).and_return(metadata.merge(sso_url: nil))
 
-        travel_to((described_class::METADATA_REFRESH_INTERVAL + 1.second).from_now) do
+        travel_to(near_expiry) do
           settings.refresh_metadata
 
           expect(settings.sso_url).to eq(metadata[:sso_url])
           expect(settings.reload.sso_url).to eq(metadata[:sso_url])
-        end
-      end
-
-      it 'does not use the shorter interval while the certificate is far from expiry' do
-        travel_to((described_class::EXPIRING_CERTIFICATE_REFRESH_INTERVAL + 1.second).from_now) do
-          settings.refresh_metadata
-
-          expect(metadata_service).to have_received(:perform).once
-        end
-      end
-
-      context 'when a certificate expires within the expiry window' do
-        let(:certificate) do
-          key = OpenSSL::PKey::RSA.new(2048)
-          cert = OpenSSL::X509::Certificate.new
-          cert.version = 2
-          cert.serial = 1
-          cert.subject = OpenSSL::X509::Name.parse('/CN=idp.example.com')
-          cert.issuer = cert.subject
-          cert.public_key = key.public_key
-          cert.not_before = 1.year.ago
-          cert.not_after = 10.minutes.from_now
-          cert.sign(key, OpenSSL::Digest.new('SHA256'))
-          cert.to_pem.strip
-        end
-
-        it 'stores the rotated certificate after the shorter interval' do
-          allow(metadata_service).to receive(:perform).and_return(metadata.merge(certificate: rotated_certificate))
-
-          travel_to((described_class::EXPIRING_CERTIFICATE_REFRESH_INTERVAL + 1.second).from_now) do
-            settings.refresh_metadata
-
-            expect(settings.reload.certificate).to eq(rotated_certificate)
-          end
         end
       end
 

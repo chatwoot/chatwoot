@@ -51,7 +51,7 @@ RSpec.describe 'Enterprise SAML OmniAuth Callbacks', type: :request do
         allow(metadata_service).to receive(:perform).and_return(metadata.merge(certificate: rotated_certificate))
         set_saml_config('new_user@example.com')
 
-        travel_to((AccountSamlSettings::METADATA_REFRESH_INTERVAL + 1.second).from_now) do
+        travel_to(OpenSSL::X509::Certificate.new(metadata[:certificate]).not_after - 10.minutes) do
           get "/omniauth/saml/callback?account_id=#{account.id}"
         end
 
