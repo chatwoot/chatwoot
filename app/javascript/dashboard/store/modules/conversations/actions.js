@@ -410,6 +410,10 @@ const actions = {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
       });
+      commit(types.UPDATE_CONVERSATION_LAST_ACTIVITY, {
+        conversationId,
+        lastActivityAt: response.data.created_at,
+      });
       commit(types.ADD_CONVERSATION_ATTACHMENTS, {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
