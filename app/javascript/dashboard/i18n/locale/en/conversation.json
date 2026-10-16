@@ -604,5 +604,20 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  },
+  "CATALOG": {
+    "NO_COLLECTION": "No collection",
+    "ACTIONS": {
+      "BACK": "Back",
+      "CLOSE": "Close"
+    },
+    "PRODUCT": {
+      "VIEW": "View",
+      "VIEW_ITEMS": "View items",
+      "ITEMS_COUNT": "{count} items",
+      "DESCRIPTION": "Description",
+      "PHOTO_OF": "Photo {current} of {total}",
+      "DETAILS_TITLE": "Details"
+    }
   }
 }
