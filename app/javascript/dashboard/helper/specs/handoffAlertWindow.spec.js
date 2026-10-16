@@ -43,6 +43,8 @@ describe('handoff event → conversation store → audible alert', () => {
         ...conversationModule.getters,
         getCurrentAccountId: state => state.currentAccountId,
         getCurrentUserID: () => 7,
+        'accounts/getAccount': () => () => ({}),
+        'accounts/isFeatureEnabledonAccount': () => () => false,
       },
       modules: {
         conversationLabels: {
