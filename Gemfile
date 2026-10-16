@@ -70,6 +70,7 @@ gem 'redis-namespace'
 gem 'activerecord-import'
 
 gem 'searchkick'
+gem 'elasticsearch', '>= 7', '< 10'
 gem 'opensearch-ruby'
 gem 'faraday_middleware-aws-sigv4'
 
