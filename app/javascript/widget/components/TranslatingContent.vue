@@ -1,78 +1,70 @@
 <script setup>
-import { ref, computed, watch, nextTick, onBeforeUnmount } from 'vue';
+import { ref } from 'vue';
 
-const props = defineProps({
+defineProps({
   translating: { type: Boolean, default: false },
   translated: { type: Boolean, default: false },
 });
-const TEXT_DOTS_CLASS =
-  'select-none bg-clip-text !text-transparent [&_*]:!text-transparent [&_*]:!bg-transparent bg-[image:linear-gradient(90deg,transparent_30%,rgb(var(--iris-7))_50%,transparent_70%),radial-gradient(circle,rgb(var(--iris-10))_0.09375rem,transparent_0.125rem)] [background-size:250%_100%,0.25rem_0.25rem] animate-text-dots motion-reduce:animate-none';
-const TEXT_SOLIDIFY_CLASS =
-  'bg-clip-text !text-transparent [&_*]:!text-transparent [&_*]:!bg-transparent bg-[image:linear-gradient(90deg,rgb(var(--slate-12))_45%,transparent_55%),radial-gradient(circle,rgb(var(--iris-10))_0.09375rem,transparent_0.125rem)] [background-size:200%_100%,0.25rem_0.25rem] animate-text-solidify motion-reduce:animate-none';
-const REVEAL_MS = 600;
+const TEXT_SHIMMER_CLASS =
+  'bg-clip-text bg-gradient-to-r from-n-iris-11 from-35% via-n-iris-7 to-n-iris-11 to-65% bg-[length:300%_100%] animate-text-shimmer motion-reduce:animate-none [&_*]:!text-transparent [&_*]:!bg-transparent';
 const HEIGHT_MORPH = {
-  duration: 350,
-  easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+  duration: 300,
+  easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
 };
 
 const wrap = ref(null);
-const revealing = ref(false);
-let revealTimer = null;
-const active = computed(
-  () => props.translating || props.translated || revealing.value
-);
+let heightBeforeChange = 0;
 
-const morphHeight = async () => {
-  const el = wrap.value;
-  if (!el?.animate) return;
-  const from = el.offsetHeight;
-  await nextTick();
-  const to = el.offsetHeight;
-  if (from === to) return;
-  el.animate([{ height: `${from}px` }, { height: `${to}px` }], HEIGHT_MORPH);
+const measureHeight = () => {
+  heightBeforeChange = wrap.value.offsetHeight;
 };
 
-watch(
-  () => props.translating,
-  (now, before) => {
-    if (!before || now) return;
-    morphHeight();
-    revealing.value = true;
-    clearTimeout(revealTimer);
-    revealTimer = setTimeout(() => {
-      revealing.value = false;
-    }, REVEAL_MS);
-  }
-);
+const morphHeight = () => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-onBeforeUnmount(() => clearTimeout(revealTimer));
+  wrap.value.animate(
+    { height: [`${heightBeforeChange}px`, `${wrap.value.offsetHeight}px`] },
+    HEIGHT_MORPH
+  );
+};
 </script>
 
 <template>
   <div
-    v-if="active"
+    v-if="translating || translated"
     ref="wrap"
-    class="relative"
-    :class="{ 'overflow-hidden': revealing }"
+    class="overflow-hidden"
+    :aria-busy="translating"
   >
-    <div
-      :class="{
-        [TEXT_DOTS_CLASS]: translating,
-        [TEXT_SOLIDIFY_CLASS]: revealing,
-      }"
+    <Transition
+      mode="out-in"
+      enter-from-class="opacity-0 blur-[0.125rem]"
+      enter-active-class="transition duration-300 ease-out motion-reduce:transition-none"
+      leave-active-class="transition duration-150 ease-in motion-reduce:transition-none"
+      leave-to-class="opacity-0 blur-[0.125rem]"
+      @before-leave="measureHeight"
+      @enter="morphHeight"
     >
-      <slot />
-    </div>
-    <div
-      v-if="translating"
-      class="mt-1 flex items-center gap-1 text-xs text-n-iris-11"
-    >
-      <span
-        class="i-lucide-sparkles size-3 animate-twinkle motion-reduce:animate-none"
-        aria-hidden="true"
-      />
-      {{ $t('TRANSLATING') }}
-    </div>
+      <div :key="translating ? 'translating' : 'translated'">
+        <div :class="{ [TEXT_SHIMMER_CLASS]: translating }">
+          <slot />
+        </div>
+        <div
+          v-if="translating"
+          class="mt-1 flex items-center gap-1.5 text-xs text-n-slate-11 select-none"
+        >
+          <span
+            class="i-lucide-sparkles size-3 text-n-iris-9 animate-twinkle motion-reduce:animate-none"
+            aria-hidden="true"
+          />
+          <span
+            class="bg-clip-text text-transparent bg-gradient-to-r from-n-iris-11 from-35% via-n-iris-7 to-n-iris-11 to-65% bg-[length:300%_100%] animate-text-shimmer motion-reduce:animate-none"
+          >
+            {{ $t('TRANSLATING') }}
+          </span>
+        </div>
+      </div>
+    </Transition>
   </div>
   <slot v-else />
 </template>
