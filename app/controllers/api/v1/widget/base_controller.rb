@@ -17,7 +17,17 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def conversation
-    @conversation ||= conversations.last
+    @conversation ||= if !selects_conversation?
+                        conversations.last
+                      elsif params[:conversation_id].present?
+                        conversations.find_by!(display_id: params[:conversation_id])
+                      end
+  end
+
+  # Widgets running multiple conversations always send conversation_id, blank for a new one. With the
+  # feature off, or a widget loaded before it was enabled, requests act on the latest conversation.
+  def selects_conversation?
+    @web_widget.multiple_conversations? && params.key?(:conversation_id)
   end
 
   def create_conversation

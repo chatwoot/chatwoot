@@ -30,9 +30,7 @@ const containerClasses = computed(() => [
 </script>
 
 <template>
-  <header
-    class="header-expanded pt-6 pb-4 px-5 relative box-border w-full bg-transparent"
-  >
+  <header class="header-expanded pt-6 pb-5 px-5 relative box-border w-full">
     <div class="flex items-start" :class="containerClasses">
       <img
         v-if="avatarUrl"
@@ -47,11 +45,11 @@ const containerClasses = computed(() => [
     </div>
     <h2
       v-dompurify-html="introHeading"
-      class="mt-4 text-2xl mb-1.5 font-medium text-n-slate-12 line-clamp-4"
+      class="mt-5 text-[1.75rem] leading-tight tracking-tight mb-2 font-semibold text-n-slate-12 line-clamp-4"
     />
     <p
       v-dompurify-html="formatMessage(introBody)"
-      class="text-lg leading-normal text-n-slate-11 [&_a]:underline line-clamp-6"
+      class="text-base leading-relaxed text-n-slate-12 [&_a]:underline line-clamp-6"
     />
   </header>
 </template>
