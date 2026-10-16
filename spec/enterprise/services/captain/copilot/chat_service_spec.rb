@@ -260,6 +260,56 @@ RSpec.describe Captain::Copilot::ChatService do
       end
     end
 
+    context 'when the model keeps calling tools' do
+      let(:limit_message) { I18n.t('captain.copilot.tool_call_limit_reached', count: described_class::MAX_TOOL_CALLS) }
+
+      before do
+        tool_call = instance_double(RubyLLM::ToolCall, name: 'search_conversation', arguments: {})
+        tool_call_handler = nil
+        allow(mock_chat).to receive(:before_tool_call) do |&block|
+          tool_call_handler = block
+          mock_chat
+        end
+        allow(mock_chat).to receive(:ask) do
+          (described_class::MAX_TOOL_CALLS + 5).times { tool_call_handler.call(tool_call) }
+          mock_response
+        end
+      end
+
+      it 'stops after MAX_TOOL_CALLS and persists a final answer' do
+        expect(described_class.new(assistant, config).generate_response('Hello')).to eq({ 'content' => limit_message })
+        expect(CopilotMessage.where(message_type: 'assistant_thinking').count).to eq(described_class::MAX_TOOL_CALLS)
+        expect(CopilotMessage.last.message['content']).to eq(limit_message)
+      end
+
+      it 'reports the stop and does not charge the response' do
+        reported = []
+        allow(ChatwootExceptionTracker).to receive(:new).and_wrap_original do |original, error, **kwargs|
+          reported << error.class.name
+          original.call(error, **kwargs)
+        end
+
+        expect { described_class.new(assistant, config).generate_response('Hello') }
+          .not_to(change { account.reload.custom_attributes['captain_responses_usage'].to_i })
+        expect(reported).to eq(['Captain::Copilot::ChatService::ToolCallLimitReachedError'])
+      end
+
+      context 'when otel is enabled' do
+        before do
+          span = instance_double(OpenTelemetry::Trace::Span, set_attribute: nil)
+          tracer = instance_double(OpenTelemetry::Trace::Tracer, start_span: span)
+          allow(tracer).to receive(:in_span).and_yield(span)
+          allow(OpentelemetryConfig).to receive(:tracer).and_return(tracer)
+          allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
+        end
+
+        it 'does not re-run the chat' do
+          expect(described_class.new(assistant, config).generate_response('Hello')).to eq({ 'content' => limit_message })
+          expect(mock_chat).to have_received(:ask).once
+        end
+      end
+    end
+
     context 'when copilot_thread is not present' do
       it 'does not create a copilot message' do
         expect do
