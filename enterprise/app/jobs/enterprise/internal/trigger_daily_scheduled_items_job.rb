@@ -5,6 +5,7 @@ module Enterprise::Internal::TriggerDailyScheduledItemsJob
     Captain::Documents::ScheduleSyncsJob.perform_later('enterprise')
     Captain::Documents::ScheduleSyncsJob.perform_later('business') if business_auto_sync_due?
     Captain::Documents::ScheduleSyncsJob.perform_later('startups') if startup_auto_sync_due?
+    Voice::RelayDeviceReconcileJob.perform_later if ChatwootHub.voice_relay_secret
   end
 
   private
