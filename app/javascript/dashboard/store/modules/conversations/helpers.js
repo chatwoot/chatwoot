@@ -10,12 +10,14 @@ const BOT_SENDERS = ['agent_bot', 'captain_assistant'];
 export const isContactSide = (messageType, senderType) =>
   messageType === MESSAGE_TYPE.INCOMING || BOT_SENDERS.includes(senderType);
 
-// Html mail keeps its markup: only plain text is translated for now.
 export const isTranslatable = message =>
   isContactSide(message.message_type, message.sender?.type) &&
   !!message.content &&
-  !message.content_attributes?.deleted &&
-  !message.content_attributes?.email?.html_content?.full;
+  !message.content_attributes?.deleted;
+
+// Email content carries the quoted history; the trimmed reply is what gets translated.
+export const translatableText = message =>
+  message.content_attributes?.email?.text_content?.quoted || message.content;
 
 // Stored with another language, a message stays translated after the thread switched to the agent language.
 export const isForeign = (message, locale) => {

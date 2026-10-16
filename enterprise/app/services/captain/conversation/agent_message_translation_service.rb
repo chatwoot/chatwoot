@@ -43,8 +43,8 @@ class Captain::Conversation::AgentMessageTranslationService
 
   def translate
     Captain::Llm::MessageTranslationService.new(
-      account: account, text: reply, target_language: conversation.language, conversation_display_id: conversation.display_id
-    ).perform[:message]
+      account: account, texts: [reply], target_language: conversation.language, conversation_display_id: conversation.display_id
+    ).perform[:message]&.first
   end
 
   def original_language
