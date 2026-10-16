@@ -7,6 +7,7 @@ RSpec.describe ApplicationMailbox do
     let(:welcome_mail) { create_inbound_email_from_fixture('welcome.eml') }
     let(:reply_mail) { create_inbound_email_from_fixture('reply.eml') }
     let(:reply_cc_mail) { create_inbound_email_from_fixture('reply_cc.eml') }
+    let(:reply_uuid_in_cc_mail) { create_inbound_email_from_fixture('reply_uuid_in_cc.eml') }
     let(:reply_mail_without_uuid) { create_inbound_email_from_fixture('reply.eml') }
     let(:reply_mail_with_in_reply_to) { create_inbound_email_from_fixture('in_reply_to.eml') }
     let(:support_mail) { create_inbound_email_from_fixture('support.eml') }
@@ -35,6 +36,13 @@ RSpec.describe ApplicationMailbox do
         expect(ReplyMailbox).to receive(:new).and_return(dbl)
         expect(dbl).to receive(:perform_processing).and_return(true)
         described_class.route reply_mail_without_uuid
+      end
+
+      it 'routes reply emails to Reply Mailbox when reply+uuid is in Cc' do
+        dbl = double
+        expect(ReplyMailbox).to receive(:new).and_return(dbl)
+        expect(dbl).to receive(:perform_processing).and_return(true)
+        described_class.route reply_uuid_in_cc_mail
       end
     end
 
