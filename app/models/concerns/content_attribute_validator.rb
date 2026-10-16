@@ -20,6 +20,8 @@ class ContentAttributeValidator < ActiveModel::Validator
     when 'article'
       validate_items!(record)
       validate_item_attributes!(record, ALLOWED_ARTICLE_KEYS)
+    when 'input_csat'
+      validate_csat_rating!(record)
     end
   end
 
@@ -34,6 +36,16 @@ class ContentAttributeValidator < ActiveModel::Validator
     item_keys = record.items.collect(&:keys).flatten.filter_map(&:to_sym)
     invalid_keys = item_keys - valid_keys
     record.errors.add(:content_attributes, "contains invalid keys for items : #{invalid_keys}") if invalid_keys.present?
+  end
+
+  # CsatSurveys::ResponseBuilder skips submissions without a rating, so accepting one would leave
+  # the stored CSAT response out of sync with the message.
+  def validate_csat_rating!(record)
+    submitted_values = record.submitted_values
+    return if submitted_values.blank?
+    return if submitted_values.is_a?(Hash) && submitted_values.dig('csat_survey_response', 'rating').present?
+
+    record.errors.add(:content_attributes, 'CSAT response requires a rating')
   end
 
   def validate_item_actions!(record)
