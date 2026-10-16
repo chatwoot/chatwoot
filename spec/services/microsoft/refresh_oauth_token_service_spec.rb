@@ -40,9 +40,8 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
     context 'when token is invalid' do
       it 'fetches new access token and refresh tokens' do
         with_modified_env AZURE_APP_ID: SecureRandom.uuid, AZURE_APP_SECRET: SecureRandom.hex do
-          provider_config = microsoft_channel_with_expired_token.provider_config
           service = described_class.new(channel: microsoft_channel_with_expired_token)
-          expect(service.access_token).not_to eq(provider_config['access_token'])
+          expect(service.access_token).to eq(new_tokens[:access_token])
 
           new_provider_config = microsoft_channel_with_expired_token.reload.provider_config
           expect(new_provider_config['access_token']).to eq(new_tokens[:access_token])
@@ -57,9 +56,8 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
         with_modified_env AZURE_APP_ID: SecureRandom.uuid, AZURE_APP_SECRET: SecureRandom.hex do
           microsoft_channel_with_expired_token.provider_config['expires_on'] = nil
           microsoft_channel_with_expired_token.save!
-          provider_config = microsoft_channel_with_expired_token.provider_config
           service = described_class.new(channel: microsoft_channel_with_expired_token)
-          expect(service.access_token).not_to eq(provider_config['access_token'])
+          expect(service.access_token).to eq(new_tokens[:access_token])
 
           new_provider_config = microsoft_channel_with_expired_token.reload.provider_config
           expect(new_provider_config['access_token']).to eq(new_tokens[:access_token])
