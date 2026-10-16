@@ -87,6 +87,14 @@ jobs:
         env:
           NODE_OPTIONS: --openssl-legacy-provider
 
+      - name: Run tracked WhatsApp campaign regression tests
+        run: |
+          bundle exec rspec \
+            spec/jobs/campaigns/send_whatsapp_batch_job_spec.rb \
+            spec/enterprise/services/enterprise/whatsapp/oneoff_campaign_service_spec.rb \
+            spec/enterprise/models/campaign_recipient_spec.rb \
+            spec/enterprise/jobs/campaigns/recover_whatsapp_campaigns_job_spec.rb
+
       - name: Run MFA-related tests in user_spec
         run: |
           # Run specific MFA-related tests from user_spec
