@@ -20,7 +20,9 @@
       "ACTIONS": "Hareketler",
       "VERIFIED": "Doğrulandı",
       "VERIFICATION_PENDING": "Doğrulama Bekleniyor",
-      "AVAILABLE_CUSTOM_ROLE": "Kullanılabilir özel rol izinleri"
+      "AVAILABLE_CUSTOM_ROLE": "Kullanılabilir özel rol izinleri",
+      "ACTIVE": "Aktif",
+      "SUSPENDED": "Dondurulmuş"
     },
     "ADD": {
       "TITLE": "Ekibinize temsilci ekleyin",
@@ -82,7 +84,12 @@
           "PLACEHOLDER": "Lütfen bir erişilebilirlik durumu seçin",
           "ERROR": "Erişilebilirlik gereklidir"
         },
-        "SUBMIT": "Temsilciyi düzenle"
+        "SUBMIT": "Temsilciyi düzenle",
+        "STATUS": {
+          "LABEL": "Hesap Durumu",
+          "ACTIVE": "Aktif",
+          "SUSPENDED": "Pasife Alınmış / Dondurulmuş (Giriş yapamaz, mesajlar korunur)"
+        }
       },
       "BUTTON_TEXT": "Düzenle",
       "CANCEL_BUTTON_TEXT": "İptal Et",
