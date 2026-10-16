@@ -23,6 +23,11 @@ class NotificationBuilder
   end
 
   def build_notification
+    # Notifications are built from asynchronously dispatched events, so the conversation
+    # can be deleted before this runs (e.g. a contact merge removing the conversation).
+    # Creating the notification anyway would leave an orphan row whose primary_actor
+    # no longer exists, and rendering it breaks the notifications index for the user.
+    return if primary_actor_missing?
     # Create conversation_creation notification only if user is subscribed to it
     return if notification_type == 'conversation_creation' && !user_subscribed_to_notification?
     # skip notifications for blocked conversations except for user mentions
@@ -37,6 +42,13 @@ class NotificationBuilder
       # secondary_actor is secondary_actor if present, else current_user
       secondary_actor: secondary_actor || current_user
     )
+  end
+
+  def primary_actor_missing?
+    conversation = primary_actor.is_a?(Conversation) ? primary_actor : primary_actor.try(:conversation)
+    return false if conversation.blank?
+
+    !Conversation.exists?(conversation.id)
   end
 
   def user_can_access_conversation?
