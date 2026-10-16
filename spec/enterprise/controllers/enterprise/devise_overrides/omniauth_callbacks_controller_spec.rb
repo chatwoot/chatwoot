@@ -44,14 +44,14 @@ RSpec.describe 'Enterprise SAML OmniAuth Callbacks', type: :request do
       with_modified_env FRONTEND_URL: 'http://www.example.com' do
         metadata_url = 'https://idp.example.com/saml/v2/metadata'
         rotated_certificate = build(:account_saml_settings).certificate
-        metadata = saml_settings.slice(:sso_url, :idp_entity_id, :certificate).symbolize_keys
+        metadata = { sso_url: saml_settings.sso_url, idp_entity_id: saml_settings.idp_entity_id, signing_certificates: [saml_settings.certificate] }
         metadata_service = instance_double(Saml::IdpMetadataService, perform: metadata)
         allow(Saml::IdpMetadataService).to receive(:new).with(metadata_url).and_return(metadata_service)
         saml_settings.update!(metadata_url: metadata_url)
-        allow(metadata_service).to receive(:perform).and_return(metadata.merge(certificate: rotated_certificate))
+        allow(metadata_service).to receive(:perform).and_return(metadata.merge(signing_certificates: [rotated_certificate]))
         set_saml_config('new_user@example.com')
 
-        travel_to(OpenSSL::X509::Certificate.new(metadata[:certificate]).not_after - 10.minutes) do
+        travel_to(OpenSSL::X509::Certificate.new(saml_settings.certificate).not_after - 10.minutes) do
           get "/omniauth/saml/callback?account_id=#{account.id}"
         end
 

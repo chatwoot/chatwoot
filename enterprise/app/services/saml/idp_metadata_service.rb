@@ -18,7 +18,7 @@ class Saml::IdpMetadataService
     {
       sso_url: metadata[:idp_sso_service_url],
       idp_entity_id: metadata[:idp_entity_id],
-      certificate: certificates.map { |certificate| OneLogin::RubySaml::Utils.format_cert(certificate) }.join("\n")
+      signing_certificates: certificates.map { |certificate| OneLogin::RubySaml::Utils.format_cert(certificate) }
     }
   rescue SafeFetch::Error, URI::InvalidURIError, REXML::ParseException, ArgumentError => e
     raise Error, e.message

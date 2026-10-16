@@ -128,7 +128,7 @@ RSpec.describe AccountSamlSettings, type: :model do
     let(:metadata_url) { 'https://idp.example.com/saml/v2/metadata' }
     let(:certificate) { build(:account_saml_settings).certificate.strip }
     let(:rotated_certificate) { build(:account_saml_settings).certificate.strip }
-    let(:metadata) { { sso_url: 'https://idp.example.com/saml/v2/SSO', idp_entity_id: metadata_url, certificate: certificate } }
+    let(:metadata) { { sso_url: 'https://idp.example.com/saml/v2/SSO', idp_entity_id: metadata_url, signing_certificates: [certificate] } }
     let(:metadata_service) { instance_double(Saml::IdpMetadataService, perform: metadata) }
 
     before do
@@ -153,7 +153,7 @@ RSpec.describe AccountSamlSettings, type: :model do
 
       it 'adds a certificate error when the metadata has a malformed certificate' do
         malformed_certificate = "-----BEGIN CERTIFICATE-----\nbm90IGEgY2VydGlmaWNhdGU=\n-----END CERTIFICATE-----"
-        allow(metadata_service).to receive(:perform).and_return(metadata.merge(certificate: "#{certificate}\n#{malformed_certificate}"))
+        allow(metadata_service).to receive(:perform).and_return(metadata.merge(signing_certificates: [certificate, malformed_certificate]))
         settings = described_class.new(account: account, metadata_url: metadata_url)
 
         expect(settings).not_to be_valid
@@ -183,7 +183,7 @@ RSpec.describe AccountSamlSettings, type: :model do
       end
 
       it 'stores the rotated certificate when the certificate is close to expiry' do
-        allow(metadata_service).to receive(:perform).and_return(metadata.merge(certificate: rotated_certificate))
+        allow(metadata_service).to receive(:perform).and_return(metadata.merge(signing_certificates: [rotated_certificate]))
 
         travel_to(near_expiry) do
           settings.refresh_metadata

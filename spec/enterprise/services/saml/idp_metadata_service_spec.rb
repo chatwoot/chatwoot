@@ -39,7 +39,7 @@ RSpec.describe Saml::IdpMetadataService do
       expect(described_class.new(metadata_url).perform).to eq(
         sso_url: 'https://idp.example.com/saml/v2/SSO',
         idp_entity_id: 'https://idp.example.com/saml/v2/metadata',
-        certificate: certificate.strip
+        signing_certificates: [certificate.strip]
       )
     end
 
@@ -47,15 +47,15 @@ RSpec.describe Saml::IdpMetadataService do
       let(:key_descriptors) { key_descriptor(certificate) + key_descriptor(rotated_certificate) }
 
       it 'returns both certificates' do
-        expect(described_class.new(metadata_url).perform[:certificate]).to eq("#{certificate.strip}\n#{rotated_certificate.strip}")
+        expect(described_class.new(metadata_url).perform[:signing_certificates]).to eq([certificate.strip, rotated_certificate.strip])
       end
     end
 
     context 'when the metadata has no signing certificate' do
       let(:key_descriptors) { '' }
 
-      it 'returns a blank certificate for the model to reject' do
-        expect(described_class.new(metadata_url).perform[:certificate]).to eq('')
+      it 'returns no certificates for the model to reject' do
+        expect(described_class.new(metadata_url).perform[:signing_certificates]).to eq([])
       end
     end
 

@@ -59,6 +59,10 @@ class AccountSamlSettings < ApplicationRecord
     certificate.to_s.scan(PEM_CERTIFICATE_PATTERN)
   end
 
+  def signing_certificates=(certificates)
+    self.certificate = certificates.join("\n")
+  end
+
   def refresh_metadata
     return if metadata_url.blank? || !certificate_expiring? || metadata_refreshed_at&.after?(METADATA_REFRESH_INTERVAL.ago)
 

@@ -135,7 +135,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
       context 'with a metadata URL' do
         let(:metadata_url) { 'https://idp.example.com/saml/v2/metadata' }
         let(:certificate) { build(:account_saml_settings).certificate }
-        let(:metadata) { { sso_url: 'https://idp.example.com/saml/v2/SSO', idp_entity_id: metadata_url, certificate: certificate } }
+        let(:metadata) { { sso_url: 'https://idp.example.com/saml/v2/SSO', idp_entity_id: metadata_url, signing_certificates: [certificate] } }
         let(:metadata_service) { instance_double(Saml::IdpMetadataService, perform: metadata) }
 
         before do
@@ -149,7 +149,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
                as: :json
 
           expect(response).to have_http_status(:success)
-          expect(json_response).to include(metadata_url: metadata_url, sso_url: metadata[:sso_url], certificate: metadata[:certificate])
+          expect(json_response).to include(metadata_url: metadata_url, sso_url: metadata[:sso_url], certificate: certificate)
         end
 
         it 'returns unprocessable entity when the metadata cannot be read' do
@@ -300,7 +300,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
     let(:metadata_url) { 'https://idp.example.com/saml/v2/metadata' }
     let(:certificate) { build(:account_saml_settings).certificate.strip }
     let(:rotated_certificate) { build(:account_saml_settings).certificate.strip }
-    let(:metadata) { { sso_url: 'https://idp.example.com/saml/v2/SSO', idp_entity_id: metadata_url, certificate: certificate } }
+    let(:metadata) { { sso_url: 'https://idp.example.com/saml/v2/SSO', idp_entity_id: metadata_url, signing_certificates: [certificate] } }
     let(:metadata_service) { instance_double(Saml::IdpMetadataService, perform: metadata) }
 
     before do
@@ -310,7 +310,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
 
     context 'when authenticated as administrator' do
       it 'stores the certificate from the metadata' do
-        allow(metadata_service).to receive(:perform).and_return(metadata.merge(certificate: rotated_certificate))
+        allow(metadata_service).to receive(:perform).and_return(metadata.merge(signing_certificates: [rotated_certificate]))
 
         post "/api/v1/accounts/#{account.id}/saml_settings/refresh",
              headers: administrator.create_new_auth_token,

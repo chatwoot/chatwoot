@@ -9,8 +9,6 @@ SAML_SETUP_PROC = proc do |env|
   account_id = request.params['account_id'] ||
                env['omniauth.params']&.dig('account_id')
   relay_state = request.params['RelayState'] || ''
-  # Strategy options are shared across requests, so clear the previous account's certificates.
-  env['omniauth.strategy'].options[:idp_cert_multi] = nil
 
   if account_id
     # Keep SAML request context in OmniAuth env so the callback can be processed
