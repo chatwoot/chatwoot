@@ -17,6 +17,7 @@ module Enterprise::Concerns::NotificationSubscription
 
     tokens = [subscription_attributes['push_token']]
     tokens << subscription_attributes_before_last_save&.dig('push_token') if saved_change_to_subscription_attributes?
-    tokens.compact_blank.uniq.each { |token| Voice::RelayDeviceSyncJob.perform_later(platform, token) }
+    revision = Voice::RelayDeviceSync.revision
+    tokens.compact_blank.uniq.each { |token| Voice::RelayDeviceSyncJob.perform_later(platform, token, revision) }
   end
 end

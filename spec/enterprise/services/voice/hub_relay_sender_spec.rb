@@ -25,6 +25,12 @@ RSpec.describe Voice::HubRelaySender do
     expect(a_request(:post, relay_url)).not_to have_been_made
   end
 
+  it 'sends no batch once the call has expired' do
+    sender
+    travel(46.seconds) { expect(sender.ring(tokens, { id: 1 })).to eq({}) }
+    expect(a_request(:post, relay_url)).not_to have_been_made
+  end
+
   it 'gives the same absolute expiry to every batch' do
     travel_to(Time.zone.at(1_800_000_000)) { sender }
     sender.ring(tokens, { id: 1 })

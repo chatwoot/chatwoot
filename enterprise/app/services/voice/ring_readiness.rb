@@ -7,8 +7,15 @@ class Voice::RingReadiness
 
   # problem: nil when the platform can be pushed to, otherwise 'credentials', 'relay_secret' or
   # 'environment'. relayed: whether its pushes go through the Chatwoot Hub voice relay.
-  Platform = Struct.new(:problem, :relayed, :devices, keyword_init: true) do
+  # relay_states: for a relayed platform, the devices by the outcome of their registration with the
+  # hub (see Voice::RelayDeviceSync.state), 'pending' for those the hub has not answered for.
+  Platform = Struct.new(:problem, :relayed, :tokens, :relay_states, keyword_init: true) do
     def configured = problem.nil?
+
+    def devices = tokens.size
+
+    # The devices a push can reach: through the relay, only those the hub registered
+    def reachable_devices = relayed ? relay_states.fetch('registered', 0) : devices
   end
   # voice_inboxes: inboxes whose calls ring the agent; assigned_only_inboxes: of those, the ones
   # where their role limits it to calls already assigned to them
@@ -16,12 +23,11 @@ class Voice::RingReadiness
                           keyword_init: true)
 
   def apple
-    @apple ||= Platform.new(problem: apple_problem, relayed: push_config.relayed?(:apple),
-                            devices: user.notification_subscriptions.apns_voip.count)
+    @apple ||= platform(:apple, apple_problem, push_tokens(user.notification_subscriptions.apns_voip))
   end
 
   def android
-    @android ||= Platform.new(problem: push_problem(:android), relayed: push_config.relayed?(:android), devices: android_devices)
+    @android ||= platform(:android, push_problem(:android), push_tokens(android_subscriptions))
   end
 
   def memberships
@@ -68,8 +74,16 @@ class Voice::RingReadiness
   def ringable_device?
     return false if apple.problem == 'environment'
 
-    [apple, android].any? { |platform| platform.configured && platform.devices.positive? }
+    [apple, android].any? { |platform| platform.configured && platform.reachable_devices.positive? }
   end
+
+  def platform(name, problem, tokens)
+    relayed = push_config.relayed?(name)
+    relay_states = tokens.map { |token| Voice::RelayDeviceSync.state(name.to_s, token) || 'pending' }.tally if relayed
+    Platform.new(problem: problem, relayed: relayed, tokens: tokens, relay_states: relay_states)
+  end
+
+  def push_tokens(subscriptions) = subscriptions.filter_map { |subscription| subscription.subscription_attributes['push_token'].presence }
 
   # The checks the push itself makes: every credential set and an environment it accepts, or
   # the relay on with the secret the hub issued
@@ -112,8 +126,8 @@ class Voice::RingReadiness
     end
   end
 
-  def android_devices
-    user.notification_subscriptions.fcm.count do |subscription|
+  def android_subscriptions
+    user.notification_subscriptions.fcm.select do |subscription|
       subscription.subscription_attributes['devicePlatform'].to_s.casecmp('android').zero?
     end
   end

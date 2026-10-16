@@ -24,10 +24,10 @@ class Voice::HubRelaySender
   # Returns each token's outcome: :sent, :gone when the platform no longer knows it, or :failed,
   # which includes a phone the hub has not registered to this installation. `proceed` is asked on
   # the calling thread before each request; once it returns false the remaining tokens are not
-  # sent and have no outcome.
+  # sent and have no outcome, as do those left once the expiry has passed.
   def deliver(tokens, payload, kind, proceed: -> { true })
     tokens.each_slice(BATCH_SIZE).with_object({}) do |batch, outcomes|
-      break outcomes unless proceed.call
+      break outcomes if Time.now.to_i >= @expires_at || !proceed.call
 
       outcomes.merge!(deliver_batch(batch, payload, kind))
     end

@@ -45,7 +45,12 @@
                 </span>
               <% end %>
             </td>
-            <td class="tabular-nums"><%= state.devices %></td>
+            <td class="tabular-nums">
+              <%= state.devices %>
+              <% state.relay_states&.each do |relay_state, count| %>
+                <span class="block text-label-small text-n-slate-11"><%= t("#{calls}.relay_states.#{relay_state}", count: count) %></span>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>
