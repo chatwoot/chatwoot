@@ -19,7 +19,10 @@
 #  index_account_saml_settings_on_account_id  (account_id)
 #
 class AccountSamlSettings < ApplicationRecord
-  METADATA_REFRESH_INTERVAL = 5.minutes
+  METADATA_REFRESH_INTERVAL = 1.day
+  # Some IdPs, such as ZITADEL, switch to a new certificate only minutes before the current one expires
+  CERTIFICATE_EXPIRY_WINDOW = 15.minutes
+  EXPIRING_CERTIFICATE_REFRESH_INTERVAL = 5.minutes
   PEM_CERTIFICATE_PATTERN = /-----BEGIN CERTIFICATE-----.+?-----END CERTIFICATE-----/m
 
   belongs_to :account
@@ -31,7 +34,9 @@ class AccountSamlSettings < ApplicationRecord
   validate :certificate_must_be_valid_x509
 
   before_validation :set_sp_entity_id, if: :sp_entity_id_needs_generation?
-  before_validation :assign_idp_metadata, if: -> { metadata_url.present? && metadata_url_changed? }
+  # Every save from the settings form reads the metadata again, so saving works as a manual refresh.
+  # refresh_metadata sets metadata_refreshed_at with the fetched values, so its own save does not fetch twice.
+  before_validation :assign_idp_metadata, if: -> { metadata_url.present? && !metadata_refreshed_at_changed? }
 
   after_create_commit :update_account_users_provider
   after_destroy_commit :reset_account_users_provider
@@ -58,11 +63,14 @@ class AccountSamlSettings < ApplicationRecord
   end
 
   def refresh_metadata
-    return if metadata_url.blank? || metadata_refreshed_at&.after?(METADATA_REFRESH_INTERVAL.ago)
+    return if metadata_url.blank?
+
+    refresh_before = (certificate_expiring? ? EXPIRING_CERTIFICATE_REFRESH_INTERVAL : METADATA_REFRESH_INTERVAL).ago
+    return if metadata_refreshed_at&.after?(refresh_before)
 
     # Claim the refresh before fetching, so concurrent logins use the stored values instead of all waiting on the IdP
     claimed = self.class.where(id: id)
-                  .where('metadata_refreshed_at IS NULL OR metadata_refreshed_at < ?', METADATA_REFRESH_INTERVAL.ago)
+                  .where('metadata_refreshed_at IS NULL OR metadata_refreshed_at < ?', refresh_before)
                   .update_all(metadata_refreshed_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
     return if claimed.zero?
 
@@ -72,6 +80,10 @@ class AccountSamlSettings < ApplicationRecord
   end
 
   private
+
+  def certificate_expiring?
+    signing_certificates.any? { |pem| OpenSSL::X509::Certificate.new(pem).not_after < CERTIFICATE_EXPIRY_WINDOW.from_now }
+  end
 
   def idp_metadata
     Saml::IdpMetadataService.new(metadata_url).perform.merge(metadata_refreshed_at: Time.current)
