@@ -4,24 +4,31 @@ class Captain::Copilot::RecoverRunsJob < ApplicationJob
   queue_as :scheduled_jobs
 
   STALE_AFTER = 5.minutes
-  JOBS = { turn: Captain::Copilot::TurnJob, review: Captain::Copilot::ReviewJob }.freeze
+  JOBS = { turn: Captain::Copilot::TurnJob, review: Captain::Copilot::ReviewJob, action: Captain::Copilot::ActionJob }.freeze
 
   def perform
     stale = CopilotRun.where(updated_at: ...STALE_AFTER.ago)
+    expire_overdue_approvals
     resume_turns_of_finished_runs(stale)
     requeue_runs(stale)
   end
 
   private
 
-  # A review that finished without waking the turn parked on its tool call.
+  # An approval whose expiry job was lost would keep its turn waiting until the agent answered the card or wrote again.
+  def expire_overdue_approvals
+    CopilotRun.action.awaiting_approval.find_each { |run| run.expire if run.approval_expired? }
+  end
+
+  # A review or action that finished without waking the turn parked on its tool call.
   def resume_turns_of_finished_runs(stale)
-    stale.review.finished.joins(:copilot_tool_call).merge(CopilotToolCall.running).find_each do |run|
+    stale.where(kind: %i[review action]).finished.joins(:copilot_tool_call).merge(CopilotToolCall.running).find_each do |run|
       run.copilot_tool_call.copilot_run.resume_with(run.copilot_tool_call, run.summary)
     end
   end
 
-  # Runs left queued by a lost enqueue, or running on a lease that expired without a heartbeat to reclaim it.
+  # Runs left queued by a lost enqueue, such as an approved action, or running on a lease that expired without a heartbeat
+  # to reclaim it.
   def requeue_runs(stale)
     stale.where(kind: JOBS.keys).claimable.where('lease_until IS NULL OR lease_until < ?', Time.current).find_each do |run|
       JOBS.fetch(run.kind.to_sym).perform_later(run.id) unless run.turn? && run.behind_earlier_turn?

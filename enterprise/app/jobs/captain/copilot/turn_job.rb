@@ -13,9 +13,9 @@ class Captain::Copilot::TurnJob < ApplicationJob
 
     return self.class.set(wait: 5.seconds).perform_later(run.id) if run.behind_earlier_turn?
 
-    token = run.claim
-    self.class.set(wait_until: (run.lease_until || Time.current) + 30.seconds).perform_later(run.id)
+    token = claim(run)
     return unless token
+    raise Captain::Copilot::LeaseExpiredError if run.taken_over?
 
     Captain::Copilot::TurnService.new(run, token).generate_response
   rescue Captain::Copilot::LeaseLostError
@@ -26,6 +26,12 @@ class Captain::Copilot::TurnJob < ApplicationJob
   end
 
   private
+
+  def claim(run)
+    token = run.claim
+    self.class.set(wait_until: (run.lease_until || Time.current) + 30.seconds).perform_later(run.id)
+    token
+  end
 
   def handle_failure(run, token, exception)
     return unless run && token

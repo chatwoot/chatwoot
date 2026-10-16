@@ -20,13 +20,14 @@ class CopilotMessage < ApplicationRecord
   belongs_to :account
   has_one :copilot_run, dependent: :destroy
 
-  enum message_type: { user: 0, assistant: 1, assistant_thinking: 2 }
+  enum message_type: { user: 0, assistant: 1, assistant_thinking: 2, assistant_approval: 3 }
 
   validates :message_type, presence: true
   validates :message, presence: true
   before_validation :ensure_account
   validate :validate_message_attributes
   after_create_commit :broadcast_message
+  after_update_commit :broadcast_update
 
   def push_event_data
     {
@@ -39,6 +40,7 @@ class CopilotMessage < ApplicationRecord
   end
 
   def enqueue_response_job(conversation_id, user_id)
+    supersede_changes_awaiting_approval
     if account.feature_enabled?('copilot_workflows')
       run = copilot_thread.copilot_runs.create_or_find_by!(copilot_message: self) do |record|
         record.account = account
@@ -68,10 +70,21 @@ class CopilotMessage < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(COPILOT_MESSAGE_CREATED, Time.zone.now, copilot_message: self)
   end
 
+  # Approval cards change status after they are created.
+  def broadcast_update
+    Rails.configuration.dispatcher.dispatch(COPILOT_MESSAGE_UPDATED, Time.zone.now, copilot_message: self)
+  end
+
+  # Turns run in order, so a change awaiting approval would hold this message back. Sending a new message declines it
+  # instead, whether or not workflows are still on.
+  def supersede_changes_awaiting_approval
+    copilot_thread.copilot_runs.action.awaiting_approval.find_each(&:supersede)
+  end
+
   def validate_message_attributes
     return if message.blank?
 
-    allowed_keys = %w[content reasoning function_name reply_suggestion tool progress run_id]
+    allowed_keys = %w[content reasoning function_name reply_suggestion tool progress run_id approval]
     invalid_keys = message.keys - allowed_keys
 
     errors.add(:message, "contains invalid attributes: #{invalid_keys.join(', ')}") if invalid_keys.any?

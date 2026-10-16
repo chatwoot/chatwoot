@@ -6,7 +6,7 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
   # search_conversation dumps full transcripts into context; get_data and review_conversations replace it here.
   def self.tool_inventory(assistant:, user:)
     workflow_tools = [Captain::Tools::Copilot::GetDataService, Captain::Tools::Copilot::ReviewConversationsService,
-                      Captain::Tools::Copilot::ContinueReviewService, Captain::Tools::Copilot::DisplayService]
+                      Captain::Tools::Copilot::ContinueReviewService, Captain::Tools::Copilot::DisplayService, Captain::Tools::Copilot::ActService]
     super.grep_v(Captain::Tools::Copilot::SearchConversationsService) + workflow_tools.map { |tool| tool.new(assistant, user: user) }
   end
 
