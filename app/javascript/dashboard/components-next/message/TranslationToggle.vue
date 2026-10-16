@@ -50,7 +50,9 @@ const toggleLabel = computed(() => {
   }
   if (showsTranslation.value) {
     return t('CONVERSATION.VIEW_ORIGINAL_IN', {
-      language: isOutgoing.value ? agentLanguage : state.value.sourceLanguage,
+      language: isOutgoing.value
+        ? state.value.originalLanguage
+        : state.value.sourceLanguage,
     });
   }
   return t('CONVERSATION.VIEW_TRANSLATED_IN', {
