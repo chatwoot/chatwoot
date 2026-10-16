@@ -14,7 +14,6 @@ RSpec.describe 'Auto translate messages API', type: :request do
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
     account.enable_features!(:auto_translate, :captain_tasks)
     create(:inbox_member, inbox: inbox, user: agent)
     allow(Captain::Llm::LanguageDetectionService).to receive(:new).and_return(instance_double(Captain::Llm::LanguageDetectionService, language: 'fr'))

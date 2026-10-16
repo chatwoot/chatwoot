@@ -11,7 +11,6 @@ RSpec.describe Messages::MessageBuilder do
   let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: nil) }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
     account.enable_features('auto_translate', 'captain_tasks')
     account.save!
     allow(Captain::Llm::MessageTranslationService).to receive(:new).and_return(llm_service)
