@@ -1,0 +1,33 @@
+tags:
+  - Reusable Attachments
+operationId: get-details-of-a-reusable-attachment
+summary: Get a Reusable Attachment
+description: Get details of a Reusable Attachment in an Account
+security:
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    schema:
+      type: integer
+    required: true
+    description: The ID of the reusable attachment
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/reusable_attachment'
+  '404':
+    description: Reusable attachment not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

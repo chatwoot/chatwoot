@@ -1,0 +1,23 @@
+tags:
+  - Reusable Attachments
+operationId: list-all-reusable-attachments-in-account
+summary: List all Reusable Attachments in an Account
+description: Get details of Reusable Attachments in an Account
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          description: 'Array of all reusable attachments'
+          items:
+            $ref: '#/components/schemas/reusable_attachment'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

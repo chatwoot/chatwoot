@@ -12,6 +12,8 @@ generic_id:
   $ref: ./resource/extension/generic.yml
 canned_response:
   $ref: ./resource/canned_response.yml
+reusable_attachment:
+  $ref: ./resource/reusable_attachment.yml
 custom_attribute:
   $ref: ./resource/custom_attribute.yml
 automation_rule:
