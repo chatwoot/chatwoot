@@ -777,6 +777,33 @@ describe SearchService do
         expect { search_service.perform }.not_to raise_error
       end
 
+      it 'falls back to LIKE search when the request times out' do
+        allow(account).to receive(:feature_enabled?).and_call_original
+        allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
+        allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
+
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        allow(search_service).to receive(:advanced_search).and_raise(Faraday::TimeoutError.new('timeout'))
+
+        expect(search_service).to receive(:filter_messages_with_like).and_call_original
+        expect { search_service.perform }.not_to raise_error
+      end
+
+      it 'falls back to LIKE search when OpenSearch returns an error response' do
+        allow(account).to receive(:feature_enabled?).and_call_original
+        allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
+        allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
+
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        allow(search_service).to receive(:advanced_search)
+          .and_raise(OpenSearch::Transport::Transport::Errors::ServiceUnavailable.new('[503] unavailable'))
+
+        expect(search_service).to receive(:filter_messages_with_like).and_call_original
+        expect { search_service.perform }.not_to raise_error
+      end
+
       it 'applies filters correctly in SQL fallback when Elasticsearch fails' do
         allow(account).to receive(:feature_enabled?).and_call_original
         allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
