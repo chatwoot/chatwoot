@@ -1,5 +1,6 @@
 {
   "CONVERSATION": {
+    "GOOGLE_PLAY_ALREADY_REPLIED": "You have already replied to this Google Play review. You can still add private notes.",
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",
