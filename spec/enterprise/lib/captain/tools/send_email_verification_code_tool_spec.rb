@@ -4,12 +4,12 @@ RSpec.describe Captain::Tools::SendEmailVerificationCodeTool, type: :model do
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
-  let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account)) }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:tool) { described_class.new(assistant) }
-  let(:tool_context) { Struct.new(:state).new({ contact_inbox: { id: contact_inbox.id } }) }
+  let(:tool_context) { Struct.new(:state).new({ conversation: { id: conversation.id } }) }
   let(:verification) { instance_double(Captain::EmailVerification) }
 
-  before { allow(Captain::EmailVerification).to receive(:new).with(contact_inbox).and_return(verification) }
+  before { allow(Captain::EmailVerification).to receive(:new).with(conversation).and_return(verification) }
 
   it 'tells Captain the code was emailed and what to do next' do
     allow(verification).to receive(:send_code).with('Jane@Example.com').and_return(:sent)
@@ -49,9 +49,8 @@ RSpec.describe Captain::Tools::SendEmailVerificationCodeTool, type: :model do
     expect(tool.perform(Struct.new(:state).new({}), email: 'jane@example.com')).to eq('Email verification is not available in this conversation')
   end
 
-  it 'does not use a contact inbox from another account' do
-    other_contact_inbox = create(:contact_inbox)
-    context = Struct.new(:state).new({ contact_inbox: { id: other_contact_inbox.id } })
+  it 'does not use a conversation from another account' do
+    context = Struct.new(:state).new({ conversation: { id: create(:conversation).id } })
 
     expect(tool.perform(context, email: 'jane@example.com')).to eq('Email verification is not available in this conversation')
   end
