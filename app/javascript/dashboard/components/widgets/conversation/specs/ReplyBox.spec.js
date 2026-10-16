@@ -286,6 +286,25 @@ describe('ReplyBox', () => {
     expect(bottomPanel(wrapper).isOnPrivateNote).toBe(true);
   });
 
+  it('keeps send disabled until the recorded voice note is attached', async () => {
+    const { wrapper } = mountWith({
+      inbox: { channel_type: 'Channel::TwilioSms', medium: 'whatsapp' },
+    });
+    const file = new File(['voice'], 'voice.mp3', { type: 'audio/mpeg' });
+
+    wrapper.vm.onFinishRecorder({
+      name: file.name,
+      type: file.type,
+      size: file.size,
+      file,
+    });
+    await nextTick();
+    expect(bottomPanel(wrapper).isSendDisabled).toBe(true);
+
+    await vi.waitFor(() => expect(wrapper.vm.attachedFiles).toHaveLength(1));
+    expect(bottomPanel(wrapper).isSendDisabled).toBe(false);
+  });
+
   it('hides the template action when the inbox has no templates synced', () => {
     const { wrapper } = mountWith({
       inbox: { channel_type: 'Channel::Whatsapp' },
