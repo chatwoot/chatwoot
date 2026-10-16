@@ -65,7 +65,7 @@ module Enterprise::Account
   end
 
   def auto_translate_enabled?
-    feature_enabled?('auto_translate') && feature_enabled?('captain_tasks') && auto_translate != false && Llm::Config.configured?
+    feature_enabled?('auto_translate') && feature_enabled?('captain_tasks') && auto_translate != false
   end
 
   def saml_enabled?
