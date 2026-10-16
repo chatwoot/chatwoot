@@ -14,10 +14,23 @@ RSpec.describe CacheKeysHelper do
   end
 
   describe '#fetch_value_for_key' do
-    it 'returns the zero epoch time if no value is cached' do
+    it 'starts a fresh expiring value if no value is cached' do
       result = helper.fetch_value_for_key(account_id, 'another-key')
+      prefixed_cache_key = helper.get_prefixed_cache_key(account_id, 'another-key')
 
-      expect(result).to eq('0000000000')
+      expect(result).to match(/\A\d{13}\z/)
+      expect(helper.fetch_value_for_key(account_id, 'another-key')).to eq(result)
+      expect(Redis::Alfred.get(prefixed_cache_key)).to eq(result)
+      expect(Redis::Alfred.ttl(prefixed_cache_key)).to be_between(1, CacheKeys::CACHE_KEYS_EXPIRY.to_i)
+    end
+
+    it 'does not hand out the same value again after the key expires' do
+      first_value = helper.fetch_value_for_key(account_id, 'expiring-key')
+      Redis::Alfred.delete(helper.get_prefixed_cache_key(account_id, 'expiring-key'))
+
+      travel 1.second do
+        expect(helper.fetch_value_for_key(account_id, 'expiring-key')).not_to eq(first_value)
+      end
     end
 
     it 'returns a cached value if it exists' do
