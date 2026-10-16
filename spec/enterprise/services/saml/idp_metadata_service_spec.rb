@@ -51,30 +51,19 @@ RSpec.describe Saml::IdpMetadataService do
       end
     end
 
-    context 'when one of the signing certificates is malformed' do
-      let(:key_descriptors) do
-        malformed = "-----BEGIN CERTIFICATE-----\nbm90IGEgY2VydGlmaWNhdGU=\n-----END CERTIFICATE-----\n"
-        key_descriptor(certificate) + key_descriptor(malformed)
-      end
-
-      it 'raises an error' do
-        expect { described_class.new(metadata_url).perform }.to raise_error(described_class::Error)
-      end
-    end
-
     context 'when the metadata has no signing certificate' do
       let(:key_descriptors) { '' }
 
-      it 'raises an error' do
-        expect { described_class.new(metadata_url).perform }.to raise_error(described_class::Error)
+      it 'returns a blank certificate for the model to reject' do
+        expect(described_class.new(metadata_url).perform[:certificate]).to eq('')
       end
     end
 
     context 'when the metadata has no redirect SSO URL' do
       let(:sso_binding) { 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST' }
 
-      it 'raises an error' do
-        expect { described_class.new(metadata_url).perform }.to raise_error(described_class::Error)
+      it 'returns no SSO URL for the model to reject' do
+        expect(described_class.new(metadata_url).perform[:sso_url]).to be_nil
       end
     end
 

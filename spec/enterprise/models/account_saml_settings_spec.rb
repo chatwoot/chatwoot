@@ -151,6 +151,15 @@ RSpec.describe AccountSamlSettings, type: :model do
         expect(settings.errors[:metadata_url]).to include("could not be read. Use an HTTPS URL that returns your identity provider's metadata")
       end
 
+      it 'adds a certificate error when the metadata has a malformed certificate' do
+        malformed_certificate = "-----BEGIN CERTIFICATE-----\nbm90IGEgY2VydGlmaWNhdGU=\n-----END CERTIFICATE-----"
+        allow(metadata_service).to receive(:perform).and_return(metadata.merge(certificate: "#{certificate}\n#{malformed_certificate}"))
+        settings = described_class.new(account: account, metadata_url: metadata_url)
+
+        expect(settings).not_to be_valid
+        expect(settings.errors[:certificate]).to include('must be a valid X.509 certificate in PEM format')
+      end
+
       it 'fetches the metadata again on every save' do
         settings = described_class.create!(account: account, metadata_url: metadata_url)
         settings.update!(role_mappings: { 'Admins' => { 'role' => 1 } })
@@ -198,6 +207,17 @@ RSpec.describe AccountSamlSettings, type: :model do
 
           expect(settings.reload.certificate).to eq(certificate)
           expect(settings.metadata_refreshed_at).to be_within(1.second).of(Time.current)
+        end
+      end
+
+      it 'keeps the stored values when the fetched metadata is invalid' do
+        allow(metadata_service).to receive(:perform).and_return(metadata.merge(sso_url: nil))
+
+        travel_to((described_class::METADATA_REFRESH_INTERVAL + 1.second).from_now) do
+          settings.refresh_metadata
+
+          expect(settings.sso_url).to eq(metadata[:sso_url])
+          expect(settings.reload.sso_url).to eq(metadata[:sso_url])
         end
       end
 

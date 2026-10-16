@@ -75,8 +75,10 @@ class AccountSamlSettings < ApplicationRecord
     return if claimed.zero?
 
     update!(idp_metadata)
-  rescue Saml::IdpMetadataService::Error => e
+  rescue Saml::IdpMetadataService::Error, ActiveRecord::RecordInvalid => e
     Rails.logger.warn "SAML metadata refresh failed for account #{account_id}: #{e.message}"
+    # The login that called this uses these values, so drop the rejected ones and keep the stored ones
+    restore_attributes
   end
 
   private
