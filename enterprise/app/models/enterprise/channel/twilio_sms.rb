@@ -2,6 +2,10 @@ module Enterprise::Channel::TwilioSms
   extend ActiveSupport::Concern
   include Concerns::CallRecordingSettings
 
+  def voice_region
+    provider_config['voice_region']
+  end
+
   def self.prepended(base)
     base.class_eval do
       encrypts :api_key_secret if Chatwoot.encryption_configured?
