@@ -41,6 +41,8 @@ export default {
   DOCS_URL: 'https://www.chatwoot.com/docs/product/',
   HELP_CENTER_DOCS_URL:
     'https://www.chatwoot.com/docs/product/others/help-center',
+  APP_STORE_REVIEWS_INBOX_DOCS_URL:
+    'https://www.chatwoot.com/hc/user-guide/articles/app-store-reviews-inbox',
   TESTIMONIAL_URL:
     'https://testimonials.cdn.chatwoot.com/testimonial-content.json',
   WHATSAPP_EMBEDDED_SIGNUP_DOCS_URL:

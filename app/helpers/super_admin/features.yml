@@ -71,6 +71,11 @@ sms:
   description: 'Manage your SMS customer interactions from Chatwoot.'
   enabled: true
   icon: 'i-lucide-message-square-text'
+app_store:
+  name: 'App Store Reviews'
+  description: 'Manage your App Store app reviews from Chatwoot.'
+  enabled: true
+  icon: 'i-lucide-layout-grid'
 messenger:
   name: 'Messenger'
   description: 'Stay connected with your customers on Facebook & Instagram.'

@@ -4,6 +4,7 @@ export const isASubmittedFormMessage = (message = {}) =>
 
 export const MESSAGE_MAX_LENGTH = {
   GENERAL: 10000,
+  APP_STORE: 5970,
   // https://developers.facebook.com/docs/messenger-platform/reference/send-api#request
   FACEBOOK: 2000,
   // https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/messaging-api#send-a-text-message

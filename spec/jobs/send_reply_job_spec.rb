@@ -122,5 +122,11 @@ RSpec.describe SendReplyJob do
       message = create(:message, conversation: create(:conversation, inbox: tiktok_channel.inbox))
       expect_mapped_service_to_perform(message, 'Tiktok::SendOnTiktokService')
     end
+
+    it 'calls ::AppStore::SendOnAppStoreService when its app store message' do
+      app_store_channel = create(:channel_app_store)
+      message = create(:message, conversation: create(:conversation, inbox: app_store_channel.inbox))
+      expect_mapped_service_to_perform(message, 'AppStore::SendOnAppStoreService')
+    end
   end
 end

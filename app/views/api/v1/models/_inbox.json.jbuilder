@@ -73,6 +73,14 @@ json.profile_id resource.channel.try(:profile_id) if resource.twitter?
 ## LINE Attributes
 json.line_channel_id resource.channel.try(:line_channel_id) if resource.channel_type == 'Channel::Line'
 
+## App Store Attributes
+if resource.app_store?
+  json.app_id resource.channel.try(:app_id)
+  json.bundle_id resource.channel.try(:bundle_id)
+  json.app_name resource.channel.try(:app_name)
+  json.last_synced_at resource.channel.try(:last_synced_at)
+end
+
 ## Twilio Attributes
 json.messaging_service_sid resource.channel.try(:messaging_service_sid)
 json.phone_number resource.channel.try(:phone_number)
