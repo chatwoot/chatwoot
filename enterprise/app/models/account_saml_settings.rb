@@ -70,11 +70,9 @@ class AccountSamlSettings < ApplicationRecord
     claimed = self.class.where(id: id)
                   .where('metadata_refreshed_at IS NULL OR metadata_refreshed_at < ?', METADATA_REFRESH_INTERVAL.ago)
                   .update_all(metadata_refreshed_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
-    return if claimed.zero?
+    return if claimed.zero? || refresh_metadata
 
-    update!(idp_metadata)
-  rescue Saml::IdpMetadataService::Error, ActiveRecord::RecordInvalid => e
-    Rails.logger.warn "SAML metadata refresh failed for account #{account_id}: #{e.message}"
+    Rails.logger.warn "SAML metadata refresh failed for account #{account_id}: #{errors.full_messages.to_sentence}"
     # The login that called this uses these values, so drop the rejected ones and keep the stored ones
     restore_attributes
   end
@@ -97,12 +95,8 @@ class AccountSamlSettings < ApplicationRecord
     signing_certificates.map { |pem| OpenSSL::X509::Certificate.new(pem).not_after }.max < CERTIFICATE_EXPIRY_WINDOW.from_now
   end
 
-  def idp_metadata
-    Saml::IdpMetadataService.new(metadata_url).perform.merge(metadata_refreshed_at: Time.current)
-  end
-
   def assign_idp_metadata
-    assign_attributes(idp_metadata)
+    assign_attributes(Saml::IdpMetadataService.new(metadata_url).perform.merge(metadata_refreshed_at: Time.current))
   rescue Saml::IdpMetadataService::Error
     errors.add(:metadata_url, I18n.t('errors.account_saml_settings.invalid_metadata_url'))
   end
