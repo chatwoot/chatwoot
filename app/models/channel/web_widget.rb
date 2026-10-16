@@ -62,23 +62,31 @@ class Channel::WebWidget < ApplicationRecord
   end
 
   def web_widget_script
-    "
-    <script>
-      (function(d,t) {
-        var BASE_URL=\"#{ENV.fetch('FRONTEND_URL', '')}\";
-        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src=BASE_URL+\"/packs/js/sdk.js\";
-        g.async = true;
-        s.parentNode.insertBefore(g,s);
-        g.onload=function(){
-          window.chatwootSDK.run({
-            websiteToken: '#{website_token}',
-            baseUrl: BASE_URL
-          })
-        }
-      })(document,\"script\");
-    </script>
-    "
+    base_url = ENV.fetch('FRONTEND_URL', '')
+    cdn_url = Cdn.host_or_empty
+    sdk_src = cdn_url.empty? ? 'BASE_URL+"/packs/js/sdk.js"' : "#{cdn_url}/packs/js/sdk.js".to_json
+    cdn_field = cdn_url.empty? ? '' : ",\n            cdnUrl: #{cdn_url.to_json}"
+    render_web_widget_script(base_url, sdk_src, cdn_field)
+  end
+
+  def render_web_widget_script(base_url, sdk_src, cdn_field)
+    <<~SCRIPT
+      <script>
+        (function(d,t) {
+          var BASE_URL=#{base_url.to_json};
+          var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+          g.src=#{sdk_src};
+          g.async = true;
+          s.parentNode.insertBefore(g,s);
+          g.onload=function(){
+            window.chatwootSDK.run({
+              websiteToken: #{website_token.to_json},
+              baseUrl: BASE_URL#{cdn_field}
+            })
+          }
+        })(document,"script");
+      </script>
+    SCRIPT
   end
 
   def validate_pre_chat_options

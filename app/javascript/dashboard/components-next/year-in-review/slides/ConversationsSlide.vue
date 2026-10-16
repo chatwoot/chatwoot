@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
 const props = defineProps({
   totalConversations: {
@@ -10,11 +11,14 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
+const assetUrl = useAssetUrl();
 
-const cloudImage =
-  '/assets/images/dashboard/year-in-review/second-frame-cloud-icon.png';
-const doubleQuotesImage =
-  '/assets/images/dashboard/year-in-review/double-quotes.png';
+const cloudImage = assetUrl(
+  '/assets/images/dashboard/year-in-review/second-frame-cloud-icon.png'
+);
+const doubleQuotesImage = assetUrl(
+  '/assets/images/dashboard/year-in-review/double-quotes.png'
+);
 
 const hasData = computed(() => {
   return props.totalConversations > 0;

@@ -4,6 +4,7 @@ import { useEventListener } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import { useStore, useFunctionGetter } from 'dashboard/composables/store';
 import { useBranding } from 'shared/composables/useBranding';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 import StripeAPI from 'dashboard/api/integrations/stripe';
 import IntegrationsAPI from 'dashboard/api/integrations';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -13,6 +14,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 
 const store = useStore();
 const { replaceInstallationName } = useBranding();
+const assetUrl = useAssetUrl();
 const route = useRoute();
 const integration = useFunctionGetter('integrations/getIntegration', 'stripe');
 const loading = ref(true);
@@ -22,8 +24,10 @@ const busy = ref(false);
 const error = ref(!!route.query.error);
 const account = ref(null);
 let refreshVersion = 0;
-const STRIPE_LOGO = '/dashboard/images/integrations/stripe.svg';
-const STRIPE_LOGO_DARK = '/dashboard/images/integrations/stripe-dark.svg';
+const STRIPE_LOGO = assetUrl('/dashboard/images/integrations/stripe.svg');
+const STRIPE_LOGO_DARK = assetUrl(
+  '/dashboard/images/integrations/stripe-dark.svg'
+);
 
 const dashboardURL = computed(() => {
   const { account_id: accountId, mode } = account.value;

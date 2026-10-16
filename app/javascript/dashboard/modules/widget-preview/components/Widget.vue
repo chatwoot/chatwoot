@@ -91,14 +91,10 @@ const widgetScript = computed(() => {
     launcherTitle: props.widgetBubbleLauncherTitle,
   };
 
-  const script = props.webWidgetScript;
-  return (
-    script.substring(0, 13) +
-    t('INBOX_MGMT.WIDGET_BUILDER.SCRIPT_SETTINGS', {
-      options: JSON.stringify(options),
-    }) +
-    script.substring(13)
-  );
+  const settings = t('INBOX_MGMT.WIDGET_BUILDER.SCRIPT_SETTINGS', {
+    options: JSON.stringify(options),
+  });
+  return props.webWidgetScript.replace('<script>', `<script>${settings}`);
 });
 
 const replyTimeText = computed(() => {
