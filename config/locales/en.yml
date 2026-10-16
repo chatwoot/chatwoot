@@ -178,6 +178,11 @@ en:
       message_outside_messaging_window: 'Message not sent because the WhatsApp 24-hour customer service window is closed and no template parameters were provided. Send an approved template message instead.'
       authentication_template_requires_phone: 'Authentication templates require a WhatsApp phone number and cannot be sent to a BSUID-only contact.'
       template_category_required_for_bsuid: 'Template category could not be verified for this BSUID-only contact.'
+      catalog_read:
+        cloud_inbox_required: 'The catalog is only available for WhatsApp Cloud inboxes'
+        invalid_limit: 'limit must be between 1 and %{max}'
+        invalid_collection: 'collection_id does not belong to the catalog'
+        invalid_filters: 'q, after and collection_id must be strings'
       contact_info_request:
         unsupported_provider: 'Contact information requests are currently available only for WhatsApp Cloud inboxes.'
         phone_already_available: 'This contact already has a phone number.'
