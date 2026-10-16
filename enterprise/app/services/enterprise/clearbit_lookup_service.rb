@@ -74,7 +74,7 @@ class Enterprise::ClearbitLookupService
 
   # Formats the response data from the Clearbit API.
   #
-  # @param data [Hash] The raw data from the Clearbit API.
+  # @param response [HTTParty::Response] The response from the Clearbit API.
   # @return [Hash] A hash containing the person's full name, company name, and company timezone.
   def self.format_response(response)
     data = response.parsed_response
