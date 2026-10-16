@@ -1,5 +1,14 @@
-import { MESSAGE_TYPE } from 'shared/constants/messages';
-import { applyPageFilters, applyRoleFilter, sortComparator } from './helpers';
+import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import {
+  applyPageFilters,
+  applyRoleFilter,
+  isForeign,
+  isTranslatable,
+  languageCode,
+  sortComparator,
+} from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import { createFiltersMatcher } from './helpers/filterHelpers';
 import {
@@ -7,6 +16,9 @@ import {
   getUserRole,
 } from '../../../helper/permissionsHelper';
 import camelcaseKeys from 'camelcase-keys';
+
+const languageName = code =>
+  languages.find(language => language.id === languageCode(code))?.name || code;
 
 export const getSelectedChatConversation = ({
   allConversations,
@@ -188,6 +200,65 @@ const getters = {
 
   getCopilotAssistant: _state => {
     return _state.copilotAssistant;
+  },
+
+  getAutoTranslate: (_state, _getters, _rootState, rootGetters) => {
+    const accountId = rootGetters.getCurrentAccountId;
+    const account = rootGetters['accounts/getAccount'](accountId) || {};
+    const locale = rootGetters.getUISettings?.locale || account.locale || 'en';
+    const language =
+      _getters.getSelectedChat.additional_attributes?.conversation_language;
+    const isFeatureEnabled = feature =>
+      rootGetters['accounts/isFeatureEnabledonAccount'](accountId, feature);
+    const enabled =
+      isFeatureEnabled(FEATURE_FLAGS.AUTO_TRANSLATE) &&
+      isFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS) &&
+      account.settings?.auto_translate !== false;
+
+    return {
+      enabled,
+      locale,
+      sameLanguage:
+        !!language && languageCode(language) === languageCode(locale),
+      language: enabled && language ? languageName(language) : '',
+      agentLanguage: languageName(locale),
+    };
+  },
+
+  getMessageTranslationState: (_state, _getters) => messageId => {
+    const { enabled, locale, language, sameLanguage } =
+      _getters.getAutoTranslate;
+    const messages = _getters.getSelectedChat.messages ?? [];
+    const message = messages.find(item => item.id === messageId) ?? {};
+    const attributes = message.content_attributes ?? {};
+    const translation = attributes.translations?.[locale];
+    const translatable = isTranslatable(message);
+    const foreign = isForeign(message, locale);
+    const waiting = translatable
+      ? _state.autoTranslating[locale]?.[messageId] === true
+      : message.status === MESSAGE_STATUS.PROGRESS &&
+        !message.private &&
+        !attributes.forwarded_message_id;
+    // The own text stored as the translation marks a message already in the agent language; once a translated
+    // thread switched to the agent language, its untranslated messages are in it too.
+    const alreadyInAgentLanguage = translation
+      ? translation === message.content
+      : sameLanguage &&
+        messages.some(item => item.content_attributes?.translations);
+
+    return {
+      pending:
+        enabled &&
+        (foreign || (!!language && !sameLanguage)) &&
+        !translation &&
+        waiting,
+      failed: enabled && !!attributes.translation_failed,
+      sameLanguage:
+        enabled && translatable && !foreign && alreadyInAgentLanguage,
+      sourceLanguage: attributes.source_language
+        ? languageName(attributes.source_language)
+        : language,
+    };
   },
 };
 
