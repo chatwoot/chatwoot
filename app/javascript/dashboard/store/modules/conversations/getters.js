@@ -231,7 +231,10 @@ const getters = {
     const messages = _getters.getSelectedChat.messages ?? [];
     const message = messages.find(item => item.id === messageId) ?? {};
     const attributes = message.content_attributes ?? {};
-    const translation = attributes.translations?.[locale];
+    const translations = attributes.translations ?? {};
+    const translation = translations[locale];
+    // A reply or template keeps its author's own text under the language it was written in.
+    const ownLanguage = translation ? locale : Object.keys(translations)[0];
     const translatable = isTranslatable(message);
     const foreign = isForeign(message, locale);
     const waiting = translatable
@@ -258,6 +261,7 @@ const getters = {
       sourceLanguage: attributes.source_language
         ? languageName(attributes.source_language)
         : language,
+      originalLanguage: languageName(ownLanguage ?? locale),
     };
   },
 };

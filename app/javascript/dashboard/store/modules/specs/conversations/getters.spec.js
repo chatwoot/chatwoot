@@ -1024,12 +1024,33 @@ describe('#getters', () => {
         failed: false,
         sameLanguage: true,
         sourceLanguage: 'French',
+        originalLanguage: 'English',
       });
       expect(translationState(2)).toEqual({
         pending: false,
         failed: false,
         sameLanguage: false,
         sourceLanguage: 'French',
+        originalLanguage: 'English',
+      });
+    });
+
+    it('names the own text of a reply after the language it was written in', () => {
+      const translationState = stateFor([
+        {
+          id: 1,
+          message_type: 1,
+          content: 'Merci',
+          content_attributes: {
+            translations: { ml: 'നന്ദി' },
+            source_language: 'fr',
+          },
+        },
+      ]);
+
+      expect(translationState(1)).toMatchObject({
+        sourceLanguage: 'French',
+        originalLanguage: 'Malayalam',
       });
     });
 
