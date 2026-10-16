@@ -2,9 +2,9 @@ module Enterprise::Message
   def self.prepended(base)
     base.class_eval do
       before_create :translate_template_content, if: :translate_template_content?
-      before_create :stamp_language, if: :detect_language?
+      before_create :detect_language, if: :detect_language?
       # After the insert: updating the conversation while a built message is still unsaved autosaves it a second time.
-      after_create :follow_language, if: :detect_language?
+      after_create :update_conversation_language, if: :detect_language?
 
       has_one :call, class_name: 'Call', foreign_key: :message_id, dependent: :nullify, inverse_of: :message
 
@@ -64,12 +64,13 @@ module Enterprise::Message
     incoming? && (text? || incoming_email?) && !auto_reply_email? && !html_email? && account.auto_translate_enabled?
   end
 
-  def stamp_language
+  def detect_language
     language = Captain::Llm::LanguageDetectionService.new(account: account, text: content).language
     content_attributes['source_language'] = language if language.present?
   end
 
-  def follow_language
+  # The thread follows the contact's latest language, so replies go out in it.
+  def update_conversation_language
     language = content_attributes['source_language']
     return if language.blank? || conversation.language == language
 

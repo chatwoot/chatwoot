@@ -16,22 +16,20 @@ module Enterprise::Messages::MessageBuilder
     return params unless auto_translate?(params)
 
     translated = translate(reply_text)
-    # A short reply the model hands back unchanged was already in the contact language; a detected one it could not translate.
-    return params if translated == reply_text && detected_language.blank?
-
     attributes = params[:content_attributes] || {}
+    # Unchanged and undetectable, a short reply was already in the contact language; unchanged but detected, the model gave up.
+    return params if translated == reply_text && detected_language.blank?
     return params.merge(content_attributes: attributes.merge(translation_failed: true)) if translated.blank? || translated == reply_text
 
-    params.merge(
-      content: with_quoted_history(translated),
-      content_attributes: attributes.merge(translations: { source_locale => agent_text }, source_language: @conversation.language)
-    )
+    params.merge(content: with_quoted_history(translated),
+                 content_attributes: attributes.merge(translations: { source_locale => agent_text }, source_language: @conversation.language))
   end
 
+  # Agent replies only: bots and automations already write in the contact language.
   def auto_translate?(params)
-    return false unless @account.auto_translate_enabled? && sender.is_a?(User)
+    return false unless @account.auto_translate_enabled? && sender.is_a?(User) && translatable_message?(params)
 
-    translatable_message?(params) && translatable_conversation?
+    @conversation.language.present? && !Captain::Llm::MessageTranslationService.same_language?(@conversation.language, source_locale)
   end
 
   def translatable_message?(params)
@@ -61,22 +59,11 @@ module Enterprise::Messages::MessageBuilder
     email_inbox? ? render_email_html(normalize_email_body(rendered_content)) : rendered_content
   end
 
-  def translatable_conversation?
-    @conversation.language.present? && !Captain::Llm::MessageTranslationService.same_language?(@conversation.language, source_locale)
-  end
-
   def translate(content)
-    response = Captain::Llm::MessageTranslationService.new(
-      account: @account,
-      texts: [content],
-      target_language: @conversation.language,
-      conversation_display_id: @conversation.display_id
-    ).perform
-    translated = response[:message]&.first unless response[:error]
-    return translated if translated.present?
-
-    Rails.logger.warn("[AutoTranslate] reply sent as written in conversation #{@conversation.display_id}: #{response[:error] || 'empty translation'}")
-    nil
+    response = Captain::Llm::MessageTranslationService.new(account: @account, texts: [content], target_language: @conversation.language,
+                                                           conversation_display_id: @conversation.display_id).perform
+    Rails.logger.warn("[AutoTranslate] reply sent as written in conversation #{@conversation.display_id}: #{response[:error]}") if response[:error]
+    response[:message]&.first
   end
 
   def detected_language

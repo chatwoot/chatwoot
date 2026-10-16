@@ -43,7 +43,8 @@ class Captain::Llm::MessageTranslationService < Captain::BaseTaskService
     SYSTEM_PROMPT_MESSAGE
   end
 
+  # Locales and tags share the map: 'pt-BR' and 'pt_BR' are both Portuguese (Brazil).
   def language_name
-    LANGUAGE_NAMES[target_language] || target_language
+    LANGUAGE_NAMES[target_language.to_s.tr('-', '_')] || target_language
   end
 end

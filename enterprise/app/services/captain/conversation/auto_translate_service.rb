@@ -36,11 +36,7 @@ class Captain::Conversation::AutoTranslateService
     translations = translations_for(pending.map(&:content))
     raise StandardError, I18n.t('captain.translation_incomplete') if translations.size != pending.size
 
-    pending.zip(translations) do |message, translated|
-      # An unchanged answer means the message is already in the target language; it keeps its own text.
-      translated = message.content if translated.blank? || translated.strip == message.content.strip
-      store(message, translated)
-    end
+    pending.each_with_index { |message, index| store(message, translations[index]) }
   end
 
   def translations_for(texts)
