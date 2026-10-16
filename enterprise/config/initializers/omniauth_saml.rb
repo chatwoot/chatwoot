@@ -23,6 +23,8 @@ SAML_SETUP_PROC = proc do |env|
     settings = AccountSamlSettings.find_by(account_id: account_id)
 
     if settings
+      # Refresh here instead of in a background job, so the login that triggers it already uses a rotated certificate.
+      # The cost is that one login per account every 5 minutes waits for the metadata fetch, up to about 7 seconds.
       settings.refresh_metadata
       # Configure the strategy options dynamically
       env['omniauth.strategy'].options[:idp_sso_service_url_runtime_params] = { RelayState: :RelayState }
