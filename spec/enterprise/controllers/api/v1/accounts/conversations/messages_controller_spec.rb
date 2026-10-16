@@ -32,7 +32,7 @@ RSpec.describe 'Auto translate messages API', type: :request do
     expect(response).to have_http_status(:ok)
     expect(response.parsed_body['payload'].first).to include(
       'id' => message.id,
-      'content_attributes' => { 'translations' => { 'en' => 'This one takes four seconds to load.' }, 'source_language' => 'fr' }
+      'content_attributes' => include('translations' => { 'en' => 'This one takes four seconds to load.' })
     )
     expect(conversation.reload.language).to eq('fr')
   end

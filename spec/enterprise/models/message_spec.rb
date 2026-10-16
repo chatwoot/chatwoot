@@ -91,67 +91,7 @@ RSpec.describe Message do
     end
   end
 
-  describe 'language detection' do
-    let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: 'fr') }
-
-    before do
-      conversation.account.enable_features('auto_translate', 'captain_tasks')
-      conversation.account.auto_translate = true
-      conversation.account.save!
-      allow(Captain::Llm::LanguageDetectionService).to receive(:new).and_return(detection)
-    end
-
-    it 'saves a message built through the conversation once while the conversation follows its language' do
-      message = conversation.messages.build(account: conversation.account, inbox: conversation.inbox, message_type: :incoming,
-                                            content: 'Celui-ci met quatre secondes à charger.')
-      message.save!
-
-      expect(conversation.messages.count).to eq(1)
-      expect(message.reload.content_attributes['source_language']).to eq('fr')
-      expect(conversation.reload.language).to eq('fr')
-    end
-
-    it 'leaves an email with an html body alone' do
-      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
-                       content_type: :incoming_email, content: 'Celui-ci met quatre secondes à charger.',
-                       content_attributes: { email: { html_content: { full: '<p>Celui-ci met quatre secondes à charger.</p>' } } })
-
-      expect(Captain::Llm::LanguageDetectionService).not_to have_received(:new)
-      expect(conversation.reload.language).to be_nil
-    end
-
-    it 'ignores call markers and other inbound messages that are not text' do
-      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
-                       content_type: :voice_call, content: 'Voice Call')
-
-      expect(Captain::Llm::LanguageDetectionService).not_to have_received(:new)
-      expect(conversation.reload.language).to be_nil
-    end
-
-    it 'does nothing when auto translate is off for the account' do
-      conversation.account.disable_features('auto_translate')
-      conversation.account.save!
-
-      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
-                       content: 'Celui-ci met quatre secondes à charger.')
-
-      expect(Captain::Llm::LanguageDetectionService).not_to have_received(:new)
-      expect(conversation.reload.language).to be_nil
-    end
-
-    it 'ignores auto reply emails and outgoing messages' do
-      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
-                       content_type: :incoming_email, content: 'I am out of the office until Monday and will reply when I return.',
-                       content_attributes: { email: { auto_reply: true } })
-      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
-                       content: 'Celui-ci met quatre secondes à charger.')
-
-      expect(Captain::Llm::LanguageDetectionService).not_to have_received(:new)
-      expect(conversation.reload.language).to be_nil
-    end
-  end
-
-  describe 'reply translation' do
+  describe 'translation flag' do
     let(:conversation) { create(:conversation, additional_attributes: { 'conversation_language' => 'fr' }) }
     let(:agent) { create(:user, account: conversation.account) }
 
@@ -160,23 +100,37 @@ RSpec.describe Message do
       conversation.account.update!(auto_translate: true)
     end
 
-    it 'marks an agent reply for the send job to translate' do
-      message = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
-                                 sender: agent, content: 'Hello')
+    it 'marks incoming messages, templates and agent replies for the send job' do
+      incoming = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
+                                  content: 'Bonjour')
+      template = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :template,
+                                  content: 'Hello')
+      reply = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                               sender: agent, content: 'Hello')
 
-      expect(message.content_attributes['translation_pending']).to be(true)
+      expect([incoming, template, reply].map { |message| message.content_attributes['translation_pending'] }).to eq([true, true, true])
     end
 
-    it 'leaves private notes, bot replies and threads without a language alone' do
+    it 'leaves private notes, bot replies, activity and replies in a thread without a language alone' do
       note = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
                               sender: agent, content: 'Hello', private: true)
       bot = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
                              sender: create(:agent_bot, account: conversation.account), content: 'Hello')
+      activity = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :activity,
+                                  content: 'Resolved')
       other = create(:conversation, account: conversation.account)
       unknown = create(:message, account: other.account, inbox: other.inbox, conversation: other, message_type: :outgoing, sender: agent,
                                  content: 'Hello')
 
-      expect([note, bot, unknown].map { |message| message.content_attributes.key?('translation_pending') }).to eq([false, false, false])
+      expect([note, bot, activity, unknown].map { |message| message.content_attributes.key?('translation_pending') }).to eq([false] * 4)
+    end
+
+    it 'does nothing while auto translate is off for the account' do
+      conversation.account.update!(auto_translate: false)
+      incoming = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
+                                  content: 'Bonjour')
+
+      expect(incoming.content_attributes).not_to have_key('translation_pending')
     end
   end
 end

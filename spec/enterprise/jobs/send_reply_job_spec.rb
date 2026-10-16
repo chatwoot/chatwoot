@@ -4,11 +4,11 @@ RSpec.describe SendReplyJob do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account, channel: create(:channel_twilio_sms, account: account)) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
-  let(:translation) { instance_double(Captain::Conversation::ReplyTranslationService, perform: true) }
+  let(:translation) { instance_double(Captain::Conversation::PendingTranslationService, perform: true) }
   let(:channel_service) { instance_double(Twilio::SendOnTwilioService, perform: true) }
 
   before do
-    allow(Captain::Conversation::ReplyTranslationService).to receive(:new).and_return(translation)
+    allow(Captain::Conversation::PendingTranslationService).to receive(:new).and_return(translation)
     allow(Twilio::SendOnTwilioService).to receive(:new).and_return(channel_service)
   end
 
@@ -18,7 +18,7 @@ RSpec.describe SendReplyJob do
 
     described_class.perform_now(message.id)
 
-    expect(Captain::Conversation::ReplyTranslationService).to have_received(:new).with(message: message).ordered
+    expect(Captain::Conversation::PendingTranslationService).to have_received(:new).with(message: message).ordered
     expect(Twilio::SendOnTwilioService).to have_received(:new).ordered
   end
 
@@ -27,7 +27,7 @@ RSpec.describe SendReplyJob do
 
     described_class.perform_now(message.id)
 
-    expect(Captain::Conversation::ReplyTranslationService).not_to have_received(:new)
+    expect(Captain::Conversation::PendingTranslationService).not_to have_received(:new)
     expect(channel_service).to have_received(:perform)
   end
 end

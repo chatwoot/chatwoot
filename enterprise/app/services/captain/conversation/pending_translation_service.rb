@@ -1,5 +1,4 @@
-# Translates an agent reply into the contact language before the channel sends it; the typed text stays on the message for agents.
-class Captain::Conversation::ReplyTranslationService
+class Captain::Conversation::PendingTranslationService
   include EmailHelper
 
   def initialize(message:)
@@ -7,6 +6,19 @@ class Captain::Conversation::ReplyTranslationService
   end
 
   def perform
+    return stamp_language if message.incoming?
+
+    follow_first_message if message.template? && conversation.language.blank?
+    translatable? ? translate_outgoing : store
+  end
+
+  private
+
+  attr_reader :message
+
+  delegate :conversation, :account, :inbox, to: :message
+
+  def translate_outgoing
     translated = translate(reply_text)
     # Unchanged and undetectable, a short reply was already in the contact language; unchanged but detected, the model gave up.
     return store if translated == reply_text && detected_language.blank?
@@ -15,11 +27,41 @@ class Captain::Conversation::ReplyTranslationService
     store(content: with_quoted_history(translated), translations: { source_locale => agent_text }, source_language: conversation.language)
   end
 
-  private
+  # The thread follows the contact's latest language, so replies go out in it.
+  def stamp_language
+    language = language_of(message)
+    store(**(language.present? ? { source_language: language } : {}))
+    follow(language)
+  end
 
-  attr_reader :message
+  # A greeting is created together with the first message of the thread, whose own job may still be stamping it.
+  def follow_first_message
+    first = conversation.messages.incoming.order(:id).last
+    follow(language_of(first)) if first
+  end
 
-  delegate :conversation, :account, :inbox, to: :message
+  def follow(language)
+    return if language.blank? || conversation.language == language
+
+    conversation.update!(additional_attributes: conversation.additional_attributes.merge(conversation_language: language))
+  end
+
+  def language_of(incoming)
+    detect(incoming.content) if detectable?(incoming)
+  end
+
+  def detectable?(incoming)
+    (incoming.text? || incoming.incoming_email?) && !incoming.auto_reply_email? && !incoming.html_email?
+  end
+
+  # Bots and automations already write in the contact language.
+  def translatable?
+    return false if conversation.language.blank?
+    return true if message.template?
+
+    message.outgoing? && message.text? && message.sender.is_a?(User) &&
+      message.content_attributes['forwarded_message_id'].blank? && message.additional_attributes.to_h['template_params'].blank?
+  end
 
   def store(content: nil, **attributes)
     content_attributes = message.content_attributes.except('translation_pending').merge(attributes.deep_stringify_keys)
@@ -29,7 +71,7 @@ class Captain::Conversation::ReplyTranslationService
     message.update!(content: content, content_attributes: content_attributes)
   end
 
-  # The mailer sends the stored html, so it is rendered again from the translated text like the builder does.
+  # The mailer sends the stored html, so it is rendered again from the translated text.
   def email_content(content)
     text = normalize_email_body(content)
     html = render_email_html(text)
@@ -62,14 +104,21 @@ class Captain::Conversation::ReplyTranslationService
     response[:message]&.first
   end
 
+  def detect(text)
+    Captain::Llm::LanguageDetectionService.new(account: account, text: text).language
+  end
+
   def detected_language
     return @detected_language if defined?(@detected_language)
 
-    @detected_language = Captain::Llm::LanguageDetectionService.new(account: account, text: reply_text).language
+    @detected_language = detect(reply_text)
   end
 
-  # The language the agent actually wrote in; the profile language is the fallback for texts too short to detect.
   def source_locale
-    detected_language || message.sender.ui_settings['locale'].presence || account.locale
+    detected_language || agent_locale || account.locale
+  end
+
+  def agent_locale
+    message.sender.ui_settings['locale'].presence if message.sender.is_a?(User)
   end
 end
