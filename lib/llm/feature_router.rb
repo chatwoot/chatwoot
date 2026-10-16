@@ -18,6 +18,18 @@ module Llm::FeatureRouter
       }
     end
 
+    def reasoning_effort(feature:, model:)
+      return unless Llm::Models.provider_for(model) == 'openai' && standard_openai_endpoint?
+
+      effort = Llm::Models.features.dig(feature.to_s, 'reasoning_effort')
+      effort.to_sym if RubyLLM.models.find(model).reasoning_option_values(:effort).include?(effort)
+    end
+
+    def standard_openai_endpoint?
+      endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value
+      endpoint.blank? || endpoint.chomp('/') == LlmConstants::OPENAI_API_ENDPOINT
+    end
+
     private
 
     def model_and_source(account, feature_key)

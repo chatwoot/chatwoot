@@ -13,6 +13,10 @@ module Enterprise::Channel::TwilioSms
     end
   end
 
+  def account_auth_token_configured?
+    provider_config['account_auth_token_configured'] == true
+  end
+
   def initiate_call(to:, conference_sid: nil, agent_id: nil)
     Voice::Provider::Twilio::Adapter.new(self).initiate_call(
       to: to,
