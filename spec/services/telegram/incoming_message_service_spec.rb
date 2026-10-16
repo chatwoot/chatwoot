@@ -239,6 +239,49 @@ describe Telegram::IncomingMessageService do
       end
     end
 
+    context 'when the telegram file cannot be downloaded (e.g. larger than the 20 MB bot limit)' do
+      before do
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return(nil)
+      end
+
+      it 'flags the message as unsupported instead of leaving it blank' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'video' => {
+              'duration' => 1, 'width' => 720, 'height' => 1280, 'file_name' => 'IMG_2170.MOV', 'mime_type' => 'video/mp4',
+              'file_id' => 'BAACAgUAAxkBAAOGYV3e_F8-v3OoAs23SJIBolyXMMMAAqsDAAKd8fBW4X9xFmpoAlghBA', 'file_unique_id' => 'AgADqwMAAp3x8FY',
+              'file_size' => 30_000_000
+            }
+          }.merge(message_params)
+        }.with_indifferent_access
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        message = telegram_channel.inbox.messages.first
+        expect(message.attachments).to be_empty
+        expect(message.content).to be_blank
+        expect(message.content_attributes['is_unsupported']).to be(true)
+      end
+
+      it 'keeps the caption and flags the message as unsupported' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'caption' => 'here is the video',
+            'video' => {
+              'duration' => 1, 'width' => 720, 'height' => 1280, 'file_name' => 'IMG_2170.MOV', 'mime_type' => 'video/mp4',
+              'file_id' => 'BAACAgUAAxkBAAOGYV3e_F8-v3OoAs23SJIBolyXMMMAAqsDAAKd8fBW4X9xFmpoAlghBA', 'file_unique_id' => 'AgADqwMAAp3x8FY',
+              'file_size' => 30_000_000
+            }
+          }.merge(message_params)
+        }.with_indifferent_access
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        message = telegram_channel.inbox.messages.first
+        expect(message.attachments).to be_empty
+        expect(message.content).to eq('here is the video')
+        expect(message.content_attributes['is_unsupported']).to be(true)
+      end
+    end
+
     context 'when valid video_note messages params' do
       it 'creates appropriate conversations, message and contacts' do
         allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.mov')
