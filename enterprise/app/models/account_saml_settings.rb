@@ -2,21 +2,26 @@
 #
 # Table name: account_saml_settings
 #
-#  id            :bigint           not null, primary key
-#  certificate   :text
-#  role_mappings :json
-#  sso_url       :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  account_id    :bigint           not null
-#  idp_entity_id :string
-#  sp_entity_id  :string
+#  id                    :bigint           not null, primary key
+#  certificate           :text
+#  metadata_refreshed_at :datetime
+#  metadata_url          :string
+#  role_mappings         :json
+#  sso_url               :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  account_id            :bigint           not null
+#  idp_entity_id         :string
+#  sp_entity_id          :string
 #
 # Indexes
 #
 #  index_account_saml_settings_on_account_id  (account_id)
 #
 class AccountSamlSettings < ApplicationRecord
+  # Some IdPs, such as ZITADEL, switch to a new certificate only minutes before the current one expires
+  CERTIFICATE_EXPIRY_WINDOW = 15.minutes
+  METADATA_REFRESH_INTERVAL = 5.minutes
   belongs_to :account
 
   validates :account_id, presence: true
@@ -26,6 +31,7 @@ class AccountSamlSettings < ApplicationRecord
   validate :certificate_must_be_valid_x509
 
   before_validation :set_sp_entity_id, if: :sp_entity_id_needs_generation?
+  before_validation :assign_idp_metadata, if: -> { metadata_url.present? && metadata_url_changed? }
 
   after_create_commit :update_account_users_provider
   after_destroy_commit :reset_account_users_provider
@@ -46,7 +52,57 @@ class AccountSamlSettings < ApplicationRecord
     end
   end
 
+  # Metadata can list more than one signing certificate while the IdP rotates its key.
+  def signing_certificates
+    parsed_certificates.map(&:to_pem)
+  end
+
+  def signing_certificates=(certificates)
+    self.certificate = certificates.join("\n")
+  end
+
+  def refresh_metadata_if_needed
+    return if metadata_url.blank? || !certificate_expiring? || metadata_refreshed_at&.after?(METADATA_REFRESH_INTERVAL.ago)
+
+    # Claim the refresh before fetching, so concurrent logins use the stored values instead of all waiting on the IdP
+    claimed = self.class.where(id: id)
+                  .where('metadata_refreshed_at IS NULL OR metadata_refreshed_at < ?', METADATA_REFRESH_INTERVAL.ago)
+                  .update_all(metadata_refreshed_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
+    return if claimed.zero? || refresh_metadata
+
+    Rails.logger.warn "SAML metadata refresh failed for account #{account_id}: #{errors.full_messages.to_sentence}"
+    # The login that called this uses these values, so drop the rejected ones and keep the stored ones
+    restore_attributes
+  end
+
+  # Reads the metadata again right away, for the refresh button in the settings form
+  def refresh_metadata
+    if metadata_url.blank?
+      errors.add(:metadata_url, :blank)
+      return false
+    end
+
+    assign_idp_metadata
+    errors.empty? && save
+  end
+
   private
+
+  # Uses the newest certificate, so an expired one the IdP still lists does not keep triggering refreshes
+  def certificate_expiring?
+    parsed_certificates.map(&:not_after).max < CERTIFICATE_EXPIRY_WINDOW.from_now
+  end
+
+  # Reads every certificate in the stored value, and raises if any block is malformed or none is found
+  def parsed_certificates
+    OpenSSL::X509::Certificate.load(certificate.to_s)
+  end
+
+  def assign_idp_metadata
+    assign_attributes(Saml::IdpMetadataService.new(metadata_url).perform.merge(metadata_refreshed_at: Time.current))
+  rescue Saml::IdpMetadataService::Error
+    errors.add(:metadata_url, I18n.t('errors.account_saml_settings.invalid_metadata_url'))
+  end
 
   def set_sp_entity_id
     base_url = GlobalConfigService.load('FRONTEND_URL', 'http://localhost:3000')
@@ -72,7 +128,8 @@ class AccountSamlSettings < ApplicationRecord
   def certificate_must_be_valid_x509
     return if certificate.blank?
 
-    OpenSSL::X509::Certificate.new(certificate)
+    # ruby-saml parses every block when the value holds more than one certificate
+    parsed_certificates
   rescue OpenSSL::X509::CertificateError
     errors.add(:certificate, I18n.t('errors.account_saml_settings.invalid_certificate'))
   end
