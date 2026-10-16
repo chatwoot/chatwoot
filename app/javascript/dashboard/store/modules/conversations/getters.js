@@ -236,7 +236,9 @@ const getters = {
     const foreign = isForeign(message, locale);
     const waiting = translatable
       ? _state.autoTranslating[locale]?.[messageId] === true
-      : message.status === MESSAGE_STATUS.PROGRESS && !message.private;
+      : message.status === MESSAGE_STATUS.PROGRESS &&
+        !message.private &&
+        !attributes.forwarded_message_id;
     // The own text stored as the translation marks a message already in the agent language; once a translated
     // thread switched to the agent language, its untranslated messages are in it too.
     const alreadyInAgentLanguage = translation

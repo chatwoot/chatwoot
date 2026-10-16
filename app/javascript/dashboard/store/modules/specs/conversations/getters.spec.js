@@ -967,14 +967,22 @@ describe('#getters', () => {
             private: true,
             content_attributes: {},
           },
+          {
+            id: 5,
+            message_type: 1,
+            status: 'progress',
+            content: 'Fwd: Hi',
+            content_attributes: { forwarded_message_id: 3 },
+          },
         ],
         { en: { 1: true, 2: false } }
       );
 
-      expect([1, 2, 3, 4].map(id => translationState(id).pending)).toEqual([
+      expect([1, 2, 3, 4, 5].map(id => translationState(id).pending)).toEqual([
         true,
         false,
         true,
+        false,
         false,
       ]);
     });
