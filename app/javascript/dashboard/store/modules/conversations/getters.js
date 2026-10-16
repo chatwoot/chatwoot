@@ -5,6 +5,7 @@ import {
   applyPageFilters,
   applyRoleFilter,
   isContactSide,
+  isHtmlEmail,
   languageCode,
   sortComparator,
 } from './helpers';
@@ -243,6 +244,7 @@ const getters = {
     const contactSide =
       isContactSide(message.message_type, message.sender?.type) &&
       !!message.content &&
+      !isHtmlEmail(message) &&
       !attributes.deleted;
     const waiting = contactSide
       ? _state.autoTranslating[locale]?.[messageId] === true
@@ -256,8 +258,7 @@ const getters = {
     // Once a translated thread switches to the agent language, its remaining messages need no translation either.
     const writtenInAgentLanguage = untranslated
       ? sameLanguage && translated
-      : translations[locale] ===
-        (attributes.email?.html_content?.full || message.content);
+      : translations[locale] === message.content;
 
     return {
       pending: (active || (enabled && foreign)) && untranslated && waiting,

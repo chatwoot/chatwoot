@@ -7,7 +7,7 @@ class Captain::Conversation::AutoTranslateService
 
   def perform
     already_in_target, pending = untranslated.partition { |message| same_language?(message.content_attributes['source_language'], target_language) }
-    already_in_target.each { |message| store(message, text(message).original) }
+    already_in_target.each { |message| store(message, message.content) }
     translate(pending) if pending.any?
     # Reloaded: a message that arrived during the model call may have set the language already.
     detect_conversation_language if conversation.reload.language.blank?
@@ -21,7 +21,7 @@ class Captain::Conversation::AutoTranslateService
   # Contact messages and bot replies both read in the contact language.
   def messages
     @messages ||= conversation.messages.where(id: message_ids.first(BATCH_LIMIT)).where.not(content: [nil, '']).order(:id)
-                              .merge(Message.incoming.or(Message.where(sender_type: BOT_SENDERS)))
+                              .merge(Message.incoming.or(Message.where(sender_type: BOT_SENDERS))).reject(&:html_email?)
   end
 
   def untranslated
@@ -29,23 +29,18 @@ class Captain::Conversation::AutoTranslateService
   end
 
   def settled?(message)
-    message.translations&.key?(target_language) || text(message).texts.sum(&:length) > MAX_CONTENT_LENGTH
+    message.translations&.key?(target_language) || message.content.length > MAX_CONTENT_LENGTH
   end
 
-  def text(message)
-    @text ||= {}
-    @text[message.id] ||= Captain::Conversation::MessageText.new(message)
-  end
-
-  # Every text of a message is a segment of its own, so html emails come back with their markup untouched.
   def translate(pending)
-    segments = pending.flat_map { |message| text(message).texts.map { |content| [message, content] } }
-    translations = translations_for(segments.map(&:last))
-    raise StandardError, I18n.t('captain.translation_incomplete') if translations.size != segments.size
+    translations = translations_for(pending.map(&:content))
+    raise StandardError, I18n.t('captain.translation_incomplete') if translations.size != pending.size
 
-    by_message = Hash.new { |hash, key| hash[key] = [] }
-    segments.zip(translations) { |(message, _), translated| by_message[message.id] << translated }
-    pending.each { |message| store(message, text(message).translated(by_message[message.id])) }
+    pending.zip(translations) do |message, translated|
+      # An unchanged answer means the message is already in the target language; it keeps its own text.
+      translated = message.content if translated.blank? || translated.strip == message.content.strip
+      store(message, translated)
+    end
   end
 
   def translations_for(texts)
@@ -70,7 +65,7 @@ class Captain::Conversation::AutoTranslateService
   def detect_conversation_language
     return if untranslated.empty?
 
-    language = text(untranslated.last).language
+    language = Captain::Llm::LanguageDetectionService.new(account: conversation.account, text: untranslated.last.content).language
     conversation.update!(additional_attributes: conversation.additional_attributes.merge(conversation_language: language)) if language
   end
 

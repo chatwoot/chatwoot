@@ -4,14 +4,12 @@ import EmailBubble from '../Index.vue';
 import { provideMessageContext } from '../../../provider.js';
 import { MESSAGE_TYPES } from '../../../constants';
 
-const translation = vi.hoisted(() => ({ content: '' }));
-
 vi.mock('dashboard/composables/useTranslations', async () => {
   const { ref: makeRef } = await import('vue');
   return {
     useTranslations: () => ({
-      hasTranslations: makeRef(Boolean(translation.content)),
-      translationContent: makeRef(translation.content),
+      hasTranslations: makeRef(false),
+      translationContent: makeRef(''),
     }),
   };
 });
@@ -70,19 +68,5 @@ describe('Email bubble', () => {
     expect(letter.text()).toContain('Latest reply');
     expect(letter.text()).toContain('Older reply');
     expect(wrapper.text()).not.toContain('CHAT_LIST.SHOW_QUOTED_TEXT');
-  });
-});
-
-describe('Email bubble translations', () => {
-  afterEach(() => {
-    translation.content = '';
-  });
-
-  it('renders the translated html', () => {
-    translation.content = '<p>Dernière <b>réponse</b></p>';
-    const letter = mountBubble({}).find('.letter-render');
-
-    expect(letter.html()).toContain('<b>réponse</b>');
-    expect(letter.text()).not.toContain('Latest reply');
   });
 });

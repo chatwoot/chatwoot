@@ -2,7 +2,7 @@ import types from '../../../mutation-types';
 import MessageApi from '../../../../api/inbox/message';
 import { useAlert } from 'dashboard/composables';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
-import { isContactSide, languageCode } from '../helpers';
+import { isContactSide, isHtmlEmail, languageCode } from '../helpers';
 
 const BATCH_SIZE = 20;
 
@@ -37,6 +37,7 @@ export default {
         message =>
           isContactSide(message.message_type, message.sender?.type) &&
           message.content &&
+          !isHtmlEmail(message) &&
           !message.content_attributes?.deleted &&
           !message.content_attributes?.translations?.[locale] &&
           attempted[message.id] === undefined &&

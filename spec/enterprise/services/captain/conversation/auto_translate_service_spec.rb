@@ -79,18 +79,12 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
     expect(long_message.reload.translations).to be_nil
   end
 
-  it 'translates the text nodes of an html email and keeps its markup' do
-    html = '<div style="color:red"><p>Bonjour <b>Camille</b></p><blockquote>Ancien message</blockquote></div>'
+  it 'leaves an email with an html body alone' do
     email = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Bonjour Camille',
-                             content_attributes: { email: { html_content: { full: html } } })
-    allow(llm_service).to receive(:perform).and_return(message: %w[Hello Camille])
+                             content_attributes: { email: { html_content: { full: '<p>Bonjour <b>Camille</b></p>' } } })
 
-    described_class.new(conversation: conversation, message_ids: [email.id], target_language: 'en').perform
-
-    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(
-      hash_including(texts: %w[Bonjour Camille])
-    )
-    expect(email.reload.translations['en']).to eq('<div style="color:red"><p>Hello <b>Camille</b></p><blockquote>Ancien message</blockquote></div>')
+    expect(described_class.new(conversation: conversation, message_ids: [email.id], target_language: 'en').perform).to eq([])
+    expect(Captain::Llm::MessageTranslationService).not_to have_received(:new)
   end
 
   it 'detects the contact language from the batch when the conversation has none' do

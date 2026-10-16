@@ -111,14 +111,13 @@ RSpec.describe Message do
       expect(conversation.reload.language).to eq('fr')
     end
 
-    it 'reads an html email from its text nodes' do
+    it 'leaves an email with an html body alone' do
       create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
-                       content: '[Voir](https://example.com/_t/c/AAC40W9FOTSX_t_qFpbD) ͏ ͏ ͏ ͏ ͏ ͏',
+                       content_type: :incoming_email, content: 'Celui-ci met quatre secondes à charger.',
                        content_attributes: { email: { html_content: { full: '<p>Celui-ci met quatre secondes à charger.</p>' } } })
 
-      expect(Captain::Llm::LanguageDetectionService).to have_received(:new)
-        .with(account: conversation.account, text: 'Celui-ci met quatre secondes à charger.')
-      expect(conversation.reload.language).to eq('fr')
+      expect(Captain::Llm::LanguageDetectionService).not_to have_received(:new)
+      expect(conversation.reload.language).to be_nil
     end
 
     it 'ignores call markers and other inbound messages that are not text' do
