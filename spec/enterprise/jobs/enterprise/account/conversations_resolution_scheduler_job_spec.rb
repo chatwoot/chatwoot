@@ -66,7 +66,9 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
     it 'does not enqueue resolution jobs for inboxes with an external bot' do
       regular_inbox = create(:inbox, account: account)
       create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
-      create(:agent_bot_inbox, inbox: regular_inbox, agent_bot: create(:agent_bot, account: account))
+      connection = create(:agent_bot_inbox, inbox: regular_inbox, agent_bot: create(:agent_bot, account: account), status: :inactive)
+      # Preserve a legacy mixed-provider inbox.
+      connection.update_column(:status, AgentBotInbox.statuses[:active]) # rubocop:disable Rails/SkipsModelValidations
 
       expect do
         described_class.perform_now

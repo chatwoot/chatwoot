@@ -128,6 +128,60 @@ RSpec.describe 'Integration Hooks API', type: :request do
         expect(data['app_id']).to eq 'slack'
       end
 
+      context 'when Dialogflow has a legacy Agent Bot conflict' do
+        let(:hook) { create(:integrations_hook, :dialogflow, account: account, inbox: inbox, status: :disabled) }
+        let!(:connection) { create(:agent_bot_inbox, inbox: inbox) }
+        let(:replacement_settings) { hook.settings.merge('project_id' => 'replacement-project') }
+
+        before do
+          # Preserve a legacy mixed-provider inbox.
+          hook.update_column(:status, Integrations::Hook.statuses[:enabled]) # rubocop:disable Rails/SkipsModelValidations
+        end
+
+        it 'rejects changing the enabled Dialogflow settings' do
+          patch api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
+                params: { hook: { settings: replacement_settings } },
+                headers: admin.create_new_auth_token,
+                as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['message']).to include('Disconnect Agent Bot before connecting Dialogflow')
+          expect(hook.reload.settings['project_id']).to eq('test')
+        end
+
+        it 'allows saving unchanged Dialogflow settings' do
+          patch api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
+                params: { hook: { settings: hook.settings } },
+                headers: admin.create_new_auth_token,
+                as: :json
+
+          expect(response).to have_http_status(:success)
+        end
+
+        it 'allows editing Dialogflow settings while disabling the hook' do
+          patch api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
+                params: { hook: { status: 'disabled', settings: replacement_settings } },
+                headers: admin.create_new_auth_token,
+                as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(hook.reload).to be_disabled
+          expect(hook.settings['project_id']).to eq('replacement-project')
+        end
+
+        it 'allows changing settings after the Agent Bot is disabled' do
+          connection.inactive!
+
+          patch api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
+                params: { hook: { settings: replacement_settings } },
+                headers: admin.create_new_auth_token,
+                as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(hook.reload.settings['project_id']).to eq('replacement-project')
+        end
+      end
+
       it 'does not update Shopify hooks when the account feature is disabled' do
         shopify_hook = create(:integrations_hook, :shopify, account: account)
         InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
