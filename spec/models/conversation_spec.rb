@@ -855,6 +855,15 @@ RSpec.describe Conversation do
         }
       )
     end
+
+    it 'deletes the draft message stored for the conversation' do
+      draft_key = format(Redis::Alfred::CONVERSATION_DRAFT_MESSAGE, id: conversation.id)
+      Redis::Alfred.set(draft_key, 'unsent draft')
+
+      conversation.destroy!
+
+      expect(Redis::Alfred.exists?(draft_key)).to be(false)
+    end
   end
 
   describe 'validate invalid referer url' do
