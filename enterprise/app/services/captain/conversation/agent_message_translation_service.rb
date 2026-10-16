@@ -13,7 +13,7 @@ class Captain::Conversation::AgentMessageTranslationService
 
   private
 
-  delegate :conversation, :account, :inbox, to: :message
+  delegate :conversation, :account, to: :message
 
   # Replies go out in the language of the contact's latest message.
   def detect_contact_language
@@ -38,7 +38,7 @@ class Captain::Conversation::AgentMessageTranslationService
     message.translations = { original_language => original_text }
     message.source_language = conversation.language
     message.content = with_quoted_history(translated)
-    message.content_attributes['email'] = email_content(message.content) if inbox.email?
+    message.content_attributes['email'] = email_content(message.content) if email_reply?
   end
 
   def translate
@@ -72,7 +72,7 @@ class Captain::Conversation::AgentMessageTranslationService
   end
 
   def quoted_history
-    @quoted_history ||= inbox.email? ? message.content[/^>.*\z/m].to_s : ''
+    @quoted_history ||= email_reply? ? message.content[/^>.*\z/m].to_s : ''
   end
 
   def with_quoted_history(translated)
@@ -81,7 +81,12 @@ class Captain::Conversation::AgentMessageTranslationService
 
   # Kept as html like the sent mail, so the quoted thread stays collapsed in the dashboard.
   def original_text
-    inbox.email? ? render_email_html(normalize_email_body(message.content)) : message.content
+    email_reply? ? render_email_html(normalize_email_body(message.content)) : message.content
+  end
+
+  # A reply in an email inbox carries the email the mailer sends; a template carries none and is mailed and shown as plain text.
+  def email_reply?
+    message.content_attributes['email'].present?
   end
 
   # The mailer sends the stored html, so it is rendered again from the translated text.
