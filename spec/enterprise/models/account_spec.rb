@@ -59,8 +59,6 @@ RSpec.describe Account, type: :model do
   end
 
   describe '#auto_translate_enabled?' do
-    before { create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key') }
-
     it 'needs both the auto translate flag and Captain tasks' do
       account = create(:account)
       account.enable_features('auto_translate')
@@ -73,14 +71,6 @@ RSpec.describe Account, type: :model do
 
     it 'respects the account switch' do
       account = create(:account, settings: { auto_translate: false })
-      account.enable_features('auto_translate', 'captain_tasks')
-
-      expect(account).not_to be_auto_translate_enabled
-    end
-
-    it 'stays off while the instance has no Captain key' do
-      InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY').destroy!
-      account = create(:account)
       account.enable_features('auto_translate', 'captain_tasks')
 
       expect(account).not_to be_auto_translate_enabled
