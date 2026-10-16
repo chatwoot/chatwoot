@@ -266,6 +266,25 @@ describe ReportingEventListener do
         expect(account.reporting_events.where(name: 'first_response')[0]['value']).to be 42.0
       end
     end
+
+    context 'when the reply opens a pending conversation' do
+      let(:now) { Time.zone.now }
+      let(:new_conversation) do
+        create(:conversation, account: account, inbox: inbox, assignee: user, status: :pending, created_at: now - 10.minutes)
+      end
+      let(:new_message) do
+        create(:message, message_type: 'outgoing', created_at: now, account: account, inbox: inbox, conversation: new_conversation)
+      end
+
+      it 'does not measure the first response from the opened event' do
+        event = Events::Base.new('conversation.opened', now + 1.second, conversation: new_conversation)
+        listener.conversation_opened(event)
+
+        event = Events::Base.new('first.reply.created', now, message: new_message)
+        listener.first_reply_created(event)
+        expect(account.reporting_events.where(name: 'first_response')[0]['value']).to be 600.0
+      end
+    end
   end
 
   describe '#conversation_bot_handoff' do
