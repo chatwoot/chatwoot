@@ -1,137 +1,259 @@
-# Stack Portainer para chat.chatsa.adv.br (funciona colando no Web editor ou via Repository)
-# Requer: Docker standalone (build não funciona em Swarm), Traefik v2/v3 rodando
-# com entrypoint "websecure" e certresolver "letsencryptresolver" na rede externa "traefik_public".
-# Variáveis (definir na aba "Environment variables" do Portainer):
-#   SECRET_KEY_BASE, POSTGRES_PASSWORD, REDIS_PASSWORD  (obrigatórias)
-#   demais (SMTP etc.) são opcionais.
+version: "3.8"
 
-x-chatwoot: &chatwoot
-  image: chatsa/chatwoot:latest
-  build:
-    # Contexto via Git: funciona mesmo colando a stack no Web editor (repo precisa ser público,
-    # ou use https://<TOKEN>@github.com/andremosaiko/chatsa.git#develop)
-    context: https://github.com/andremosaiko/chatsa.git#develop
-    dockerfile: docker/Dockerfile
-  restart: always
-  environment: &chatwoot-env
-    NODE_ENV: production
-    RAILS_ENV: production
-    INSTALLATION_ENV: docker
-    FRONTEND_URL: https://chat.chatsa.adv.br
-    FORCE_SSL: 'true'
-    SECRET_KEY_BASE: ${SECRET_KEY_BASE}
-    POSTGRES_HOST: postgres
-    POSTGRES_PORT: 5432
-    POSTGRES_DATABASE: chatwoot
-    POSTGRES_USERNAME: postgres
-    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
-    REDIS_PASSWORD: ${REDIS_PASSWORD}
-    ACTIVE_STORAGE_SERVICE: local
-    ENABLE_ACCOUNT_SIGNUP: 'false'
-    DEFAULT_LOCALE: pt_BR
-    RAILS_LOG_TO_STDOUT: 'true'
-    LOG_LEVEL: info
-    MAILER_SENDER_EMAIL: ${MAILER_SENDER_EMAIL:-Chatsa <contato@chatsa.adv.br>}
-    SMTP_ADDRESS: ${SMTP_ADDRESS:-}
-    SMTP_PORT: ${SMTP_PORT:-587}
-    SMTP_USERNAME: ${SMTP_USERNAME:-}
-    SMTP_PASSWORD: ${SMTP_PASSWORD:-}
-    SMTP_AUTHENTICATION: ${SMTP_AUTHENTICATION:-login}
-    SMTP_ENABLE_STARTTLS_AUTO: 'true'
-  volumes:
-    - chatsa_storage:/app/storage
-  networks:
-    - internal
+# ============================================================
+# CHATSA (fork Chatwoot) — Docker Swarm + Traefik + Portainer
+# Domínio : https://chat.chatsa.adv.br
+# Imagem  : ghcr.io/andremosaiko/chatsa (publicada pelo workflow publish_ghcr.yml)
+# Variáveis (aba "Environment variables" do Portainer):
+#   POSTGRES_PASSWORD, REDIS_PASSWORD, SECRET_KEY_BASE   (obrigatórias)
+#   SMTP_USERNAME, SMTP_PASSWORD, MAILER_SENDER_EMAIL     (opcionais)
+# ============================================================
+
+x-cw-env: &cw-env
+  POSTGRES_HOST: chatsa_postgres
+  POSTGRES_PORT: "5432"
+  POSTGRES_USERNAME: postgres
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  POSTGRES_DATABASE: chatsa
+  POSTGRES_STATEMENT_TIMEOUT: 30s
+  REDIS_URL: redis://:${REDIS_PASSWORD}@chatsa_redis:6379
+  REDIS_PASSWORD: ${REDIS_PASSWORD}
+  SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+  RAILS_ENV: production
+  NODE_ENV: production
+  INSTALLATION_ENV: docker
+  FRONTEND_URL: https://chat.chatsa.adv.br
+  TZ: America/Sao_Paulo
+  DEFAULT_LOCALE: pt_BR
+  ACTIVE_STORAGE_SERVICE: local
+  RAILS_LOG_TO_STDOUT: "true"
+  LOG_LEVEL: info
+  MAILER_SENDER_EMAIL: ${MAILER_SENDER_EMAIL:-Chatsa <contato@chatsa.adv.br>}
+  SMTP_ADDRESS: ${SMTP_ADDRESS:-smtp.gmail.com}
+  SMTP_PORT: ${SMTP_PORT:-587}
+  SMTP_USERNAME: ${SMTP_USERNAME:-}
+  SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+  SMTP_AUTHENTICATION: plain
+  SMTP_ENABLE_STARTTLS_AUTO: "true"
+  SMTP_DOMAIN: ${SMTP_DOMAIN:-gmail.com}
 
 services:
-  # Roda uma vez: cria/migra o banco e encerra.
-  migrate:
-    <<: *chatwoot
-    restart: 'no'
-    depends_on:
-      - postgres
-      - redis
-    entrypoint: docker/entrypoints/rails.sh
-    command: ['bundle', 'exec', 'rails', 'db:chatwoot_prepare']
 
-  rails:
-    <<: *chatwoot
-    depends_on:
-      migrate:
-        condition: service_completed_successfully
-    entrypoint: docker/entrypoints/rails.sh
-    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
-    networks:
-      - internal
-      - traefik_public
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=traefik_public
-      - traefik.http.routers.chatsa.rule=Host(`chat.chatsa.adv.br`)
-      - traefik.http.routers.chatsa.entrypoints=websecure
-      - traefik.http.routers.chatsa.tls=true
-      - traefik.http.routers.chatsa.tls.certresolver=letsencryptresolver
-      - traefik.http.services.chatsa.loadbalancer.server.port=3000
-
-  sidekiq:
-    <<: *chatwoot
-    depends_on:
-      migrate:
-        condition: service_completed_successfully
-    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
-
-  postgres:
-    image: pgvector/pgvector:pg16
-    restart: always
-    volumes:
-      - chatsa_postgres:/var/lib/postgresql/data
+  # ---------------------- APP ---------------------- #
+  chatsa_app:
+    image: ghcr.io/andremosaiko/chatsa:latest
+    command:
+      - /bin/sh
+      - -c
+      - |
+        echo ">>> [1/3] Aguardando PostgreSQL responder..."
+        until bundle exec ruby -e "require 'pg'; PG.connect(host: ENV['POSTGRES_HOST'], port: 5432, user: ENV['POSTGRES_USERNAME'], password: ENV['POSTGRES_PASSWORD'], dbname: 'postgres').close" 2>/dev/null; do
+          echo ">>> PostgreSQL indisponivel. Nova tentativa em 10s..."
+          sleep 10
+        done
+        echo ">>> [2/3] PostgreSQL OK. Preparando o banco (db:chatwoot_prepare)..."
+        until bundle exec rails db:chatwoot_prepare; do
+          echo ">>> Falha ao preparar o banco. Nova tentativa em 20s..."
+          sleep 20
+        done
+        echo ">>> [3/3] ===== BANCO PRONTO — INICIANDO CHATSA ====="
+        exec bundle exec rails s -p 3000 -b 0.0.0.0
     environment:
-      POSTGRES_DB: chatwoot
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      <<: *cw-env
+      FORCE_SSL: "true"
+      RAILS_FORCE_SSL: "true"
+      ACTION_CABLE_URL: wss://chat.chatsa.adv.br/cable
+      WEB_CONCURRENCY: "2"
+      RAILS_MAX_THREADS: "8"
+      # Deixe "true" só até criar o primeiro admin, depois troque p/ false
+      ENABLE_ACCOUNT_SIGNUP: "true"
+    volumes:
+      - chatsa_storage:/app/storage
     networks:
-      - internal
+      - sadvnet
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      resources:
+        limits:
+          cpus: "1.5"
+          memory: 2048M
+        reservations:
+          cpus: "0.3"
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+        delay: 20s
+        max_attempts: 5
+        window: 300s
+      update_config:
+        parallelism: 1
+        delay: 20s
+        order: stop-first
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=sadvnet
+        - traefik.http.routers.chatsa.rule=Host(`chat.chatsa.adv.br`)
+        - traefik.http.routers.chatsa.entrypoints=websecure
+        - traefik.http.routers.chatsa.tls.certresolver=letsencryptresolver
+        - traefik.http.routers.chatsa.service=chatsa
+        - traefik.http.services.chatsa.loadbalancer.server.port=3000
+        - traefik.http.services.chatsa.loadbalancer.passHostHeader=true
 
-  redis:
-    image: redis:alpine
-    restart: always
-    command: ['sh', '-c', 'redis-server --requirepass "$$REDIS_PASSWORD"']
+  # ---------------------- SIDEKIQ ---------------------- #
+  chatsa_sidekiq:
+    image: ghcr.io/andremosaiko/chatsa:latest
+    command:
+      - /bin/sh
+      - -c
+      - |
+        echo ">>> Aguardando o banco ser preparado pelo chatsa_app..."
+        until bundle exec ruby -e "require 'pg'; c=PG.connect(host: ENV['POSTGRES_HOST'], port: 5432, user: ENV['POSTGRES_USERNAME'], password: ENV['POSTGRES_PASSWORD'], dbname: ENV['POSTGRES_DATABASE']); exit(c.exec(%{SELECT to_regclass('public.installation_configs')}).getvalue(0,0).nil? ? 1 : 0)" 2>/dev/null; do
+          echo ">>> Banco ainda nao preparado. Nova verificacao em 20s..."
+          sleep 20
+        done
+        echo ">>> ===== BANCO PRONTO — INICIANDO SIDEKIQ ====="
+        exec bundle exec sidekiq -C config/sidekiq.yml
+    environment:
+      <<: *cw-env
+      SIDEKIQ_CONCURRENCY: "8"
+    volumes:
+      - chatsa_storage:/app/storage
+    networks:
+      - sadvnet
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1024M
+        reservations:
+          cpus: "0.2"
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 20s
+        max_attempts: 5
+        window: 300s
+      update_config:
+        parallelism: 1
+        delay: 20s
+        order: stop-first
+
+  # ---------------------- REDIS ---------------------- #
+  chatsa_redis:
+    image: redis:7-alpine
+    command: ["sh", "-c", "redis-server --appendonly yes --requirepass \"$$REDIS_PASSWORD\" --maxmemory 384mb --maxmemory-policy noeviction"]
     environment:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
     volumes:
       - chatsa_redis:/data
     networks:
-      - internal
+      - sadvnet
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$$REDIS_PASSWORD\" ping | grep PONG"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 5
 
+  # ---------------------- POSTGRESQL (pgvector) ---------------------- #
+  chatsa_postgres:
+    image: pgvector/pgvector:pg16
+    command: >
+      postgres
+      -c max_connections=150
+      -c shared_buffers=384MB
+      -c effective_cache_size=1GB
+      -c maintenance_work_mem=96MB
+      -c work_mem=6MB
+      -c checkpoint_completion_target=0.9
+      -c wal_buffers=16MB
+      -c huge_pages=off
+      -c timezone=America/Sao_Paulo
+      -c log_timezone=America/Sao_Paulo
+      -c log_min_duration_statement=3000
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=chatsa
+      - TZ=America/Sao_Paulo
+      - PGTZ=America/Sao_Paulo
+    volumes:
+      - chatsa_postgres:/var/lib/postgresql/data
+    networks:
+      - sadvnet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1536M
+        reservations:
+          cpus: "0.3"
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 180s
+
+# ============================================================
+# Volumes novos (criados automaticamente no primeiro deploy)
 volumes:
   chatsa_storage:
-  chatsa_postgres:
+    name: chatsa_storage
   chatsa_redis:
+    name: chatsa_redis
+  chatsa_postgres:
+    name: chatsa_postgres
 
 networks:
-  internal:
-  traefik_public:
+  sadvnet:
     external: true
-
-# ---------------------------------------------------------------------------
-# OPCIONAL: se você NÃO tem Traefik rodando, crie antes a rede (docker network create traefik_public)
-# e suba o Traefik em uma stack separada com o serviço abaixo (troque o e-mail):
-#
-#  traefik:
-#    image: traefik:v3.1
-#    restart: always
-#    command:
-#      - --providers.docker=true
-#      - --providers.docker.exposedbydefault=false
-#      - --entrypoints.web.address=:80
-#      - --entrypoints.web.http.redirections.entrypoint.to=websecure
-#      - --entrypoints.websecure.address=:443
-#      - --certificatesresolvers.letsencryptresolver.acme.httpchallenge.entrypoint=web
-#      - --certificatesresolvers.letsencryptresolver.acme.email=seu@email.com
-#      - --certificatesresolvers.letsencryptresolver.acme.storage=/letsencrypt/acme.json
-#    ports: ['80:80', '443:443']
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock:ro
-#      - traefik_letsencrypt:/letsencrypt
-#    networks: [traefik_public]
+    name: sadvnet
