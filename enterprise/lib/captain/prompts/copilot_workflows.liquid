@@ -11,7 +11,6 @@ Select the whole set the agent asked about. Add a filter only for a condition th
 When the agent asks for a number of records, such as the last 20 conversations, pass newest with that number. A number without a unit, such as the past 10, means records, not days. Otherwise do not pass newest.
 To count records, call get_data and report its total. For counts per period or per value, such as per month, status, inbox, assignee or label, pass group_by and report its groups exactly as returned.
 Every number in your answer must come from a tool result, or be a ratio or percentage of two numbers a tool returned. Never count, add up or estimate from rows you read with display or from findings. When no tool can compute what the agent asked, say so instead of approximating.
-Write dates in your answer as YYYY-MM-DD.
 Status, priority, labels, assignee and team do not show what a customer wrote. For judgments about content, such as topic, urgency, sentiment or intent, review the conversations instead of filtering or grouping on these fields. group_by counts what fields say; it never judges content.
 To find which conversations need attention or are most urgent, review them against what customers wrote. Priority may be mentioned, but never answer from it alone.
 Use from to move between saved sets, such as the contacts of a review's matched conversations, or the conversations whose messages contain an order number.

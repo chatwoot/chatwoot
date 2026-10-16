@@ -31,7 +31,6 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
     with_copilot_trace(params[:span_name], params, turn: @run, input: @run.copilot_message.message['content']) do |span|
       save_trace_carrier
       outcome = complete_loop(llm)
-      outcome = complete_loop(llm) if outcome == :complete && ask_to_source_numbers(llm)
       next wait_for_background_run if outcome == :awaiting_background_run
 
       # Langfuse takes a trace's output from its first span. A turn that waited on a background run finishes in a later span.
@@ -148,30 +147,13 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
     @tool_call.summary
   end
 
-  def ask_to_source_numbers(llm)
-    note = unsourced_numbers.note_for(parse_json_response(llm.messages.last.content)['content'].to_s)
-    return false unless note
-
-    llm.add_message(role: :user, content: note)
-    @transcript.save(@token)
-    true
-  end
-
-  def unsourced_numbers
-    @unsourced_numbers ||= Captain::Copilot::UnsourcedNumbers.new(@run, @token)
-  end
-
-  # Numbers the model still could not source after the check stay in the answer with a visible note, and on the run.
   def finish(llm)
     @run.with_lease(@token) do
       response = parse_json_response(llm.messages.last.content).slice('content', 'reply_suggestion')
       response['content'] = response['content'].to_s
-      unsourced = unsourced_numbers.in_answer(response['content'])
-      response['content'] += "\n\n_#{I18n.t('captain.copilot.unsourced_numbers', numbers: unsourced.join(', '))}_" if unsourced.any?
       persist_message(response)
       @account.increment_response_usage
-      @run.update!(status: :completed, lease_token: nil, lease_until: nil, error: nil,
-                   context: @run.context.merge('unsourced_numbers_in_answer' => unsourced))
+      @run.update!(status: :completed, lease_token: nil, lease_until: nil, error: nil)
       response
     end
   end

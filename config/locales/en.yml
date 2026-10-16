@@ -498,7 +498,6 @@ en:
     disabled: 'Captain AI is disabled for this account.'
     api_key_missing: 'Captain AI API key is not configured.'
     copilot:
-      unsourced_numbers: 'Copilot could not match these numbers to the data it read: %{numbers}.'
       using_tool: 'Using tool %{function_name}'
       completed_tool_call: 'Completed %{function_name} tool call'
       invalid_tool_call: 'Invalid tool call'
