@@ -58,17 +58,6 @@ RSpec.describe Captain::Conversation::AutoTranslateService do
     expect(greeting.reload.content_attributes).to include('deleted' => true, 'translations' => { 'en' => 'Hello' })
   end
 
-  it 'returns a message above the size limit as settled without translating it' do
-    long_message = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'a' * 20_001)
-    allow(llm_service).to receive(:perform).and_return(message: ['Hello'])
-
-    settled = described_class.new(conversation: conversation, message_ids: [long_message.id, greeting.id], target_language: 'en').perform
-
-    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: ['Bonjour']))
-    expect(settled).to contain_exactly(greeting, long_message)
-    expect(long_message.reload.translations).to be_nil
-  end
-
   it 'leaves an email with an html body alone' do
     email = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Bonjour Camille',
                              content_attributes: { email: { html_content: { full: '<p>Bonjour <b>Camille</b></p>' } } })

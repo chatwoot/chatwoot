@@ -8,7 +8,7 @@ class Captain::Conversation::PendingTranslationService
   def perform
     return stamp_language if message.incoming?
 
-    follow_first_message if message.template? && conversation.language.blank?
+    follow_latest_incoming if message.template? && conversation.language.blank?
     translatable? ? translate_outgoing : store
   end
 
@@ -20,8 +20,7 @@ class Captain::Conversation::PendingTranslationService
 
   def translate_outgoing
     translated = translate(reply_text)
-    # Unchanged and undetectable, a short reply was already in the contact language; unchanged but detected, the model gave up.
-    return store if translated == reply_text && detected_language.blank?
+    return store if translated == reply_text && !written_in_another_language?
     return store(translation_failed: true) if translated.blank? || translated == reply_text
 
     store(content: with_quoted_history(translated), translations: { source_locale => agent_text }, source_language: conversation.language)
@@ -30,14 +29,14 @@ class Captain::Conversation::PendingTranslationService
   # The thread follows the contact's latest language, so replies go out in it.
   def stamp_language
     language = language_of(message)
-    store(**(language.present? ? { source_language: language } : {}))
+    store(source_language: language)
     follow(language)
   end
 
   # A greeting is created together with the first message of the thread, whose own job may still be stamping it.
-  def follow_first_message
-    first = conversation.messages.incoming.order(:id).last
-    follow(language_of(first)) if first
+  def follow_latest_incoming
+    latest = conversation.messages.incoming.order(:id).last
+    follow(language_of(latest)) if latest
   end
 
   def follow(language)
@@ -54,17 +53,20 @@ class Captain::Conversation::PendingTranslationService
     (incoming.text? || incoming.incoming_email?) && !incoming.auto_reply_email? && !incoming.html_email?
   end
 
-  # Bots and automations already write in the contact language.
   def translatable?
     return false if conversation.language.blank?
     return true if message.template?
 
-    message.outgoing? && message.text? && message.sender.is_a?(User) &&
-      message.content_attributes['forwarded_message_id'].blank? && message.additional_attributes.to_h['template_params'].blank?
+    message.text? && message.content_attributes['forwarded_message_id'].blank? && message.additional_attributes.to_h['template_params'].blank?
+  end
+
+  # The translator returns a reply already in the contact language unchanged, and now and then gives up on one that is not.
+  def written_in_another_language?
+    detected_language.present? && !Captain::Llm::MessageTranslationService.same_language?(detected_language, conversation.language)
   end
 
   def store(content: nil, **attributes)
-    content_attributes = message.content_attributes.except('translation_pending').merge(attributes.deep_stringify_keys)
+    content_attributes = message.content_attributes.except('translation_pending').merge(attributes.compact.deep_stringify_keys)
     return message.update!(content_attributes: content_attributes) if content.nil?
 
     content_attributes['email'] = email_content(content) if inbox.email?

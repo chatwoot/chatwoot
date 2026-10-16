@@ -1,12 +1,7 @@
 class Captain::Llm::LanguageDetectionService < Captain::BaseTaskService
-  # A greeting or a thank-you alone neither sets the thread language nor is worth a model call.
-  MIN_TEXT_BYTES = 10
-
   pattr_initialize [:account!, :text!]
 
   def perform
-    return {} if text.to_s.bytesize < MIN_TEXT_BYTES
-
     make_api_call(feature: 'language_detection', messages: messages, schema: Captain::Llm::LanguageDetectionSchema)
   end
 

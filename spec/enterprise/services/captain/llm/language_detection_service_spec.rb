@@ -30,14 +30,6 @@ RSpec.describe Captain::Llm::LanguageDetectionService do
     expect(service.language).to be_nil
   end
 
-  it 'skips a greeting or a thank-you without a model call' do
-    service = described_class.new(account: account, text: 'Gracias')
-    allow(service).to receive(:make_api_call)
-
-    expect(service.language).to be_nil
-    expect(service).not_to have_received(:make_api_call)
-  end
-
   it 'does not debit Captain responses' do
     allow(service).to receive(:make_api_call).and_return(message: { 'language' => 'en' })
     allow(account).to receive(:increment_response_usage)

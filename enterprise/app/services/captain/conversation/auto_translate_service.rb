@@ -1,6 +1,5 @@
 class Captain::Conversation::AutoTranslateService
   BATCH_LIMIT = 20
-  MAX_CONTENT_LENGTH = 20_000
   BOT_SENDERS = %w[AgentBot Captain::Assistant].freeze
 
   pattr_initialize [:conversation!, :message_ids!, :target_language!]
@@ -21,9 +20,8 @@ class Captain::Conversation::AutoTranslateService
                               .merge(Message.incoming.or(Message.where(sender_type: BOT_SENDERS))).reject(&:html_email?)
   end
 
-  # A message too long for the model is returned as it is, so the dashboard stops asking for it.
   def untranslated
-    @untranslated ||= messages.reject { |message| message.translations&.key?(target_language) || message.content.length > MAX_CONTENT_LENGTH }
+    @untranslated ||= messages.reject { |message| message.translations&.key?(target_language) }
   end
 
   def written_in_target?(message)
