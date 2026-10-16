@@ -183,6 +183,33 @@ describe WebhookListener do
     end
   end
 
+  describe '#conversation_viewed' do
+    let(:event_name) { :'conversation.viewed' }
+    let!(:conversation_viewed_event) do
+      Events::Base.new(event_name, Time.zone.now, conversation: conversation, viewed_by: user)
+    end
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.conversation_viewed(conversation_viewed_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook with the viewing agent' do
+        webhook = create(:webhook, inbox: inbox, account: account, subscriptions: %w[conversation_viewed])
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url,
+          conversation.webhook_data.merge(event: 'conversation_viewed', viewed_by_agent: user.webhook_data),
+          :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
+        listener.conversation_viewed(conversation_viewed_event)
+      end
+    end
+  end
+
   describe '#conversation_updated' do
     let(:custom_attributes) { { test: nil } }
     let!(:conversation_updated_event) do
