@@ -1,9 +1,7 @@
 class Captain::Llm::MessageTranslationService < Captain::BaseTaskService
   LANGUAGE_NAMES = YAML.load_file(Rails.root.join('config/languages/language_map.yml')).freeze
-  # Models occasionally answer a stray "<" or "&" with a control character, which Nokogiri and Postgres reject.
+  # Models occasionally answer a stray "<" or "&" with a control character, which Postgres rejects in jsonb.
   CONTROL_CHARACTERS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F]/
-  # A Captain that is disabled or has no key is a setup bug and must surface; a quota or model failure is for the caller to handle.
-  MISCONFIGURED_CODES = [401, 403].freeze
 
   pattr_initialize [:account!, :texts!, :target_language!, { conversation_display_id: nil }]
 
@@ -14,7 +12,6 @@ class Captain::Llm::MessageTranslationService < Captain::BaseTaskService
 
   def perform
     response = make_api_call(feature: 'message_translation', messages: messages, schema: Captain::Llm::MessageTranslationSchema)
-    raise StandardError, response[:error] if MISCONFIGURED_CODES.include?(response[:error_code])
     return response if response[:error]
 
     response.merge(message: response[:message]['translations'].map { |text| text.to_s.gsub(CONTROL_CHARACTERS, '') })

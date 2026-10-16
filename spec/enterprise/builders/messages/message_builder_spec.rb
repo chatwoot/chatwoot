@@ -93,13 +93,6 @@ RSpec.describe Messages::MessageBuilder do
     expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: ['Hi Camille']))
   end
 
-  it 'blocks the send when Captain is not configured' do
-    allow(llm_service).to receive(:perform).and_raise(StandardError, 'Captain AI API key is not configured.')
-
-    expect { described_class.new(user, conversation, params).perform }
-      .to raise_error(StandardError, 'Captain AI API key is not configured.')
-  end
-
   it 'sends the reply as written and flags it when the translator fails' do
     allow(llm_service).to receive(:perform).and_return(error: 'You are out of Copilot credits.', error_code: 429)
     message = described_class.new(user, conversation, params).perform

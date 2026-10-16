@@ -33,13 +33,6 @@ RSpec.describe Message do
     expect(message.translations).to be_nil
   end
 
-  it 'does not create the template when Captain is not configured' do
-    allow(llm_service).to receive(:perform).and_raise(StandardError, 'Captain AI API key is not configured.')
-
-    expect { create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :template, content: 'Hi there!') }
-      .to raise_error(StandardError, 'Captain AI API key is not configured.')
-  end
-
   it 'translates a template written in another language than the account' do
     allow(detection).to receive(:language).and_return('es')
     conversation.update!(additional_attributes: { 'conversation_language' => 'en' })
