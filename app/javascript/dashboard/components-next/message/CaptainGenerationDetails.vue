@@ -342,6 +342,13 @@ const onPopoverHide = () => {
         </div>
       </template>
     </Popover>
+    <div
+      v-if="$slots.default"
+      class="flex items-center"
+      :class="{ 'me-auto': showSparkle }"
+    >
+      <slot />
+    </div>
     <slot name="meta" />
   </div>
 </template>

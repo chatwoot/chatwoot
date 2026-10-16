@@ -1,4 +1,17 @@
-import { CONVERSATION_PRIORITY_ORDER } from 'shared/constants/messages';
+import {
+  CONVERSATION_PRIORITY_ORDER,
+  MESSAGE_TYPE,
+} from 'shared/constants/messages';
+
+export const languageCode = locale => locale?.split(/[-_]/)[0];
+
+const BOT_SENDERS = ['agent_bot', 'captain_assistant'];
+// A contact message, or a bot reply written in the contact language: both read in the agent language.
+export const isContactSide = (messageType, senderType) =>
+  messageType === MESSAGE_TYPE.INCOMING || BOT_SENDERS.includes(senderType);
+// Html mail keeps its markup: only plain text is translated for now.
+export const isHtmlEmail = message =>
+  !!message.content_attributes?.email?.html_content?.full;
 
 export const findPendingMessageIndex = (chat, message) => {
   const { echo_id: tempMessageId } = message;
