@@ -63,7 +63,7 @@ class AccountSamlSettings < ApplicationRecord
     self.certificate = certificates.join("\n")
   end
 
-  def refresh_metadata
+  def refresh_metadata_if_needed
     return if metadata_url.blank? || !certificate_expiring? || metadata_refreshed_at&.after?(METADATA_REFRESH_INTERVAL.ago)
 
     # Claim the refresh before fetching, so concurrent logins use the stored values instead of all waiting on the IdP
@@ -80,7 +80,7 @@ class AccountSamlSettings < ApplicationRecord
   end
 
   # Reads the metadata again right away, for the refresh button in the settings form
-  def refresh_metadata_now
+  def refresh_metadata
     if metadata_url.blank?
       errors.add(:metadata_url, :blank)
       return false

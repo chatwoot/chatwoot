@@ -168,7 +168,7 @@ RSpec.describe AccountSamlSettings, type: :model do
       end
     end
 
-    describe '#refresh_metadata' do
+    describe '#refresh_metadata_if_needed' do
       let(:settings) { described_class.create!(account: account, metadata_url: metadata_url) }
       let(:near_expiry) { OpenSSL::X509::Certificate.new(certificate).not_after - 10.minutes }
 
@@ -176,7 +176,7 @@ RSpec.describe AccountSamlSettings, type: :model do
 
       it 'does not fetch while the certificate is far from expiry' do
         travel_to(near_expiry - 1.day) do
-          settings.refresh_metadata
+          settings.refresh_metadata_if_needed
 
           expect(metadata_service).to have_received(:perform).once
         end
@@ -186,7 +186,7 @@ RSpec.describe AccountSamlSettings, type: :model do
         allow(metadata_service).to receive(:perform).and_return(metadata.merge(signing_certificates: [rotated_certificate]))
 
         travel_to(near_expiry) do
-          settings.refresh_metadata
+          settings.refresh_metadata_if_needed
 
           expect(settings.reload.certificate).to eq(rotated_certificate)
           expect(settings.metadata_refreshed_at).to be_within(1.second).of(Time.current)
@@ -195,8 +195,8 @@ RSpec.describe AccountSamlSettings, type: :model do
 
       it 'does not fetch again within the refresh interval' do
         travel_to(near_expiry) do
-          settings.refresh_metadata
-          settings.refresh_metadata
+          settings.refresh_metadata_if_needed
+          settings.refresh_metadata_if_needed
 
           expect(metadata_service).to have_received(:perform).twice
         end
@@ -205,7 +205,7 @@ RSpec.describe AccountSamlSettings, type: :model do
       it 'does not fetch when another request already claimed the refresh' do
         travel_to(near_expiry) do
           described_class.where(id: settings.id).update_all(metadata_refreshed_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
-          settings.refresh_metadata
+          settings.refresh_metadata_if_needed
 
           expect(metadata_service).to have_received(:perform).once
         end
@@ -215,7 +215,7 @@ RSpec.describe AccountSamlSettings, type: :model do
         allow(metadata_service).to receive(:perform).and_raise(Saml::IdpMetadataService::Error, 'boom')
 
         travel_to(near_expiry) do
-          settings.refresh_metadata
+          settings.refresh_metadata_if_needed
 
           expect(settings.reload.certificate).to eq(certificate)
           expect(settings.metadata_refreshed_at).to be_within(1.second).of(Time.current)
@@ -226,7 +226,7 @@ RSpec.describe AccountSamlSettings, type: :model do
         allow(metadata_service).to receive(:perform).and_return(metadata.merge(sso_url: nil))
 
         travel_to(near_expiry) do
-          settings.refresh_metadata
+          settings.refresh_metadata_if_needed
 
           expect(settings.sso_url).to eq(metadata[:sso_url])
           expect(settings.reload.sso_url).to eq(metadata[:sso_url])
@@ -236,7 +236,7 @@ RSpec.describe AccountSamlSettings, type: :model do
       it 'does nothing without a metadata URL' do
         manual_settings = create(:account_saml_settings, account: create(:account))
 
-        expect { manual_settings.refresh_metadata }.not_to(change { manual_settings.reload.updated_at })
+        expect { manual_settings.refresh_metadata_if_needed }.not_to(change { manual_settings.reload.updated_at })
       end
     end
 

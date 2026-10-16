@@ -23,7 +23,7 @@ SAML_SETUP_PROC = proc do |env|
     if settings
       # Refresh here instead of in a background job, so the login that triggers it already uses a rotated certificate.
       # Most logins skip the fetch: it runs only while a certificate is within 15 minutes of expiry, at most every 5 minutes.
-      settings.refresh_metadata
+      settings.refresh_metadata_if_needed
       # Configure the strategy options dynamically
       env['omniauth.strategy'].options[:idp_sso_service_url_runtime_params] = { RelayState: :RelayState }
       base_url = GlobalConfigService.load('FRONTEND_URL', 'http://localhost:3000')

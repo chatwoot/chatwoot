@@ -29,7 +29,7 @@ class Api::V1::Accounts::SamlSettingsController < Api::V1::Accounts::BaseControl
   end
 
   def refresh
-    if @saml_settings.refresh_metadata_now
+    if @saml_settings.refresh_metadata
       render :show
     else
       render json: { errors: @saml_settings.errors.full_messages }, status: :unprocessable_entity
