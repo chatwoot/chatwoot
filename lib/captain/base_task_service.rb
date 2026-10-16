@@ -1,6 +1,7 @@
 class Captain::BaseTaskService
   include Integrations::LlmInstrumentation
   include Captain::ToolInstrumentation
+  include Captain::UrlPreserver
   include Llm::ExceptionTrackable
 
   # gpt-4o-mini supports 128,000 tokens
