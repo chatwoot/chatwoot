@@ -229,13 +229,13 @@ const onPopoverHide = () => {
       <button
         v-tooltip="t('CONVERSATION.CAPTAIN_GENERATION.TITLE')"
         type="button"
-        class="inline-flex items-center gap-1 p-0 bg-transparent border-0 cursor-pointer"
+        class="inline-flex items-center gap-1 p-0 bg-transparent border-0 cursor-pointer min-w-0"
         :class="sparkleColorClass"
         @mouseenter="prefetch"
         @focus="prefetch"
       >
         <Icon icon="i-ph-sparkle-fill" class="size-3.5" />
-        <span class="text-xs whitespace-nowrap">
+        <span class="text-xs truncate">
           {{ t('CONVERSATION.CAPTAIN_GENERATION.GENERATED_BY') }}
         </span>
       </button>
@@ -344,7 +344,7 @@ const onPopoverHide = () => {
     </Popover>
     <div
       v-if="$slots.default"
-      class="flex items-center"
+      class="flex items-center min-w-0"
       :class="{ 'me-auto': showSparkle }"
     >
       <slot />
