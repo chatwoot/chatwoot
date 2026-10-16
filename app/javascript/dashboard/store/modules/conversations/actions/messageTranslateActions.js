@@ -2,7 +2,7 @@ import types from '../../../mutation-types';
 import MessageApi from '../../../../api/inbox/message';
 import { useAlert } from 'dashboard/composables';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
-import { isContactSide, isHtmlEmail, languageCode } from '../helpers';
+import { isForeign, isTranslatable } from '../helpers';
 
 const BATCH_SIZE = 20;
 
@@ -29,20 +29,14 @@ export default {
     }
 
     const attempted = state.autoTranslating[locale] ?? {};
-    const foreign = ({ content_attributes: attributes }) =>
-      !!attributes?.source_language &&
-      languageCode(attributes.source_language) !== languageCode(locale);
     const untranslated = (getters.getSelectedChat.messages ?? [])
       .filter(
         message =>
-          isContactSide(message.message_type, message.sender?.type) &&
-          message.content &&
-          !isHtmlEmail(message) &&
-          !message.content_attributes?.deleted &&
+          isTranslatable(message) &&
           !message.content_attributes?.translations?.[locale] &&
           attempted[message.id] === undefined &&
           (!sameLanguage ||
-            foreign(message) ||
+            isForeign(message, locale) ||
             !!message.content_attributes?.translations)
       )
       .map(message => message.id);

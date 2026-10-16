@@ -872,8 +872,6 @@ describe('#getters', () => {
         enabled: true,
         locale: 'en',
         sameLanguage: false,
-        translated: false,
-        active: true,
         language: 'French',
         agentLanguage: 'English',
       });
@@ -890,16 +888,16 @@ describe('#getters', () => {
 
       expect(
         getters.getAutoTranslate({}, chatIn('fr'), {}, switchedOff)
-      ).toMatchObject({ enabled: false, active: false });
+      ).toMatchObject({ enabled: false, language: '' });
     });
 
     it('is inactive for the agent language, an unknown language or a disabled flag', () => {
       expect(
         getters.getAutoTranslate({}, chatIn('en'), {}, rootGetters)
-      ).toMatchObject({ active: false, sameLanguage: true });
+      ).toMatchObject({ sameLanguage: true });
       expect(
         getters.getAutoTranslate({}, chatIn(undefined), {}, rootGetters)
-      ).toMatchObject({ active: false, language: '' });
+      ).toMatchObject({ language: '' });
       expect(
         getters.getAutoTranslate(
           {},
@@ -907,7 +905,7 @@ describe('#getters', () => {
           {},
           { ...rootGetters, 'accounts/isFeatureEnabledonAccount': () => false }
         )
-      ).toMatchObject({ enabled: false, active: false, language: '' });
+      ).toMatchObject({ enabled: false, language: '' });
     });
   });
 
@@ -918,11 +916,9 @@ describe('#getters', () => {
         {
           getAutoTranslate: {
             enabled: true,
-            active: true,
             locale: 'en',
             language: 'French',
             sameLanguage: false,
-            translated: true,
           },
           getSelectedChat: { messages },
         }
@@ -1037,17 +1033,21 @@ describe('#getters', () => {
           content: 'ok thanks',
           content_attributes: {},
         },
+        {
+          id: 2,
+          message_type: 0,
+          content: 'Bonjour',
+          content_attributes: { translations: { en: 'Hello' } },
+        },
       ];
       const translationState = getters.getMessageTranslationState(
         { autoTranslating: {} },
         {
           getAutoTranslate: {
             enabled: true,
-            active: false,
             locale: 'en',
             language: 'English',
             sameLanguage: true,
-            translated: true,
           },
           getSelectedChat: { messages },
         }

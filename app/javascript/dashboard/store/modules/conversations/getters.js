@@ -4,8 +4,8 @@ import languages from 'dashboard/components/widgets/conversation/advancedFilterI
 import {
   applyPageFilters,
   applyRoleFilter,
-  isContactSide,
-  isHtmlEmail,
+  isForeign,
+  isTranslatable,
   languageCode,
   sortComparator,
 } from './helpers';
@@ -203,69 +203,59 @@ const getters = {
   },
 
   getAutoTranslate: (_state, _getters, _rootState, rootGetters) => {
-    const account =
-      rootGetters['accounts/getAccount'](rootGetters.getCurrentAccountId) || {};
+    const accountId = rootGetters.getCurrentAccountId;
+    const account = rootGetters['accounts/getAccount'](accountId) || {};
     const locale = rootGetters.getUISettings?.locale || account.locale || 'en';
-    const chat = _getters.getSelectedChat;
-    const language = chat.additional_attributes?.conversation_language;
+    const language =
+      _getters.getSelectedChat.additional_attributes?.conversation_language;
     const isFeatureEnabled = feature =>
-      rootGetters['accounts/isFeatureEnabledonAccount'](
-        rootGetters.getCurrentAccountId,
-        feature
-      );
+      rootGetters['accounts/isFeatureEnabledonAccount'](accountId, feature);
     const enabled =
       isFeatureEnabled(FEATURE_FLAGS.AUTO_TRANSLATE) &&
       isFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS) &&
       account.settings?.auto_translate !== false;
-    const sameLanguage =
-      !!language && languageCode(language) === languageCode(locale);
 
     return {
       enabled,
       locale,
-      sameLanguage,
-      translated: !!chat.messages?.some(
-        message => message.content_attributes?.translations
-      ),
-      active: enabled && !!language && !sameLanguage,
+      sameLanguage:
+        !!language && languageCode(language) === languageCode(locale),
       language: enabled && language ? languageName(language) : '',
       agentLanguage: languageName(locale),
     };
   },
 
   getMessageTranslationState: (_state, _getters) => messageId => {
-    const { enabled, active, locale, language, sameLanguage, translated } =
+    const { enabled, locale, language, sameLanguage } =
       _getters.getAutoTranslate;
-    const message =
-      _getters.getSelectedChat.messages?.find(item => item.id === messageId) ??
-      {};
+    const messages = _getters.getSelectedChat.messages ?? [];
+    const message = messages.find(item => item.id === messageId) ?? {};
     const attributes = message.content_attributes ?? {};
-    const translations = attributes.translations ?? {};
-    const contactSide =
-      isContactSide(message.message_type, message.sender?.type) &&
-      !!message.content &&
-      !isHtmlEmail(message) &&
-      !attributes.deleted;
-    const waiting = contactSide
+    const translation = attributes.translations?.[locale];
+    const translatable = isTranslatable(message);
+    const foreign = isForeign(message, locale);
+    const waiting = translatable
       ? _state.autoTranslating[locale]?.[messageId] === true
       : message.status === MESSAGE_STATUS.PROGRESS && !message.private;
-
-    const untranslated = !translations[locale];
-    const sourceLanguage = attributes.source_language;
-    // Stored with another language, a message is translated even after the thread switched to the agent language.
-    const foreign =
-      !!sourceLanguage && languageCode(sourceLanguage) !== languageCode(locale);
-    // Once a translated thread switches to the agent language, its remaining messages need no translation either.
-    const writtenInAgentLanguage = untranslated
-      ? sameLanguage && translated
-      : translations[locale] === message.content;
+    // The own text stored as the translation marks a message already in the agent language; once a translated
+    // thread switched to the agent language, its untranslated messages are in it too.
+    const alreadyInAgentLanguage = translation
+      ? translation === message.content
+      : sameLanguage &&
+        messages.some(item => item.content_attributes?.translations);
 
     return {
-      pending: (active || (enabled && foreign)) && untranslated && waiting,
+      pending:
+        enabled &&
+        (foreign || (!!language && !sameLanguage)) &&
+        !translation &&
+        waiting,
       failed: enabled && !!attributes.translation_failed,
       sameLanguage:
-        enabled && contactSide && writtenInAgentLanguage && !foreign,
-      sourceLanguage: sourceLanguage ? languageName(sourceLanguage) : language,
+        enabled && translatable && !foreign && alreadyInAgentLanguage,
+      sourceLanguage: attributes.source_language
+        ? languageName(attributes.source_language)
+        : language,
     };
   },
 };
