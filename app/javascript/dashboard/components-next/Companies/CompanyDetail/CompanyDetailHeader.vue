@@ -9,6 +9,7 @@ import { useAdmin } from 'dashboard/composables/useAdmin';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { formatPhoneNumber } from 'shared/helpers/PhoneNumberHelper';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -63,6 +64,7 @@ const socialProfiles = computed(
 );
 
 const phone = computed(() => props.company.additionalAttributes?.phone);
+const formattedPhoneNumber = computed(() => formatPhoneNumber(phone.value));
 const enrichedAt = computed(() => {
   const value = props.company.additionalAttributes?.enriched_at;
   return value && dynamicTime(new Date(value).getTime() / 1000);
@@ -201,7 +203,7 @@ const handleDelete = () => {
             class="inline-flex items-center gap-1 text-n-slate-11 hover:text-n-slate-12"
           >
             <span class="i-lucide-phone size-3.5" />
-            <span dir="ltr">{{ phone }}</span>
+            <span dir="ltr">{{ formattedPhoneNumber }}</span>
           </a>
           <span
             v-if="

@@ -6,6 +6,7 @@ import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import { formatPhoneNumber } from 'shared/helpers/PhoneNumberHelper';
 
 const props = defineProps({
   call: {
@@ -59,6 +60,10 @@ const statusIcon = computed(() => {
   if (isOutgoing.value) return 'i-ph-phone-outgoing-bold';
   return 'i-ph-phone-incoming-bold';
 });
+
+const formattedPhoneNumber = computed(() =>
+  formatPhoneNumber(props.callInfo?.phoneNumber)
+);
 
 const statusLabel = computed(() => {
   if (isOngoing.value) return t('CONVERSATION.VOICE_WIDGET.CALL_IN_PROGRESS');
@@ -157,7 +162,7 @@ const channelIcon = computed(() => {
             v-if="callInfo.phoneNumber"
             class="text-sm text-n-call-widget-sub-text truncate mb-0 tracking-tight leading-tight"
           >
-            {{ callInfo.phoneNumber }}
+            {{ formattedPhoneNumber }}
           </p>
         </div>
 
