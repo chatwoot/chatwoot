@@ -1,4 +1,4 @@
-module TwilioWebhookVerification
+module Concerns::TwilioWebhookVerification
   private
 
   def verify_twilio_signature!(auth_token)

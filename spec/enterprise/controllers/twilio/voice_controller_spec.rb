@@ -19,6 +19,50 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
     post path, params: params, headers: { 'X-Twilio-Signature' => signature }
   end
 
+  %w[call status conference_status recording_status].product(%w[missing invalid tampered api_key_secret]).each do |endpoint, signature_type|
+    describe "signature verification for #{endpoint}" do
+      let!(:call) { create(:call, account: account, inbox: inbox) }
+      let(:path) { "/twilio/voice/#{endpoint}/#{digits}" }
+      let(:payload) do
+        {
+          'CallSid' => call.provider_call_id,
+          'From' => '+15550003333',
+          'To' => channel.phone_number,
+          'Direction' => 'inbound',
+          'CallStatus' => 'completed',
+          'StatusCallbackEvent' => 'participant-join',
+          'FriendlyName' => call.default_conference_sid,
+          'ConferenceSid' => 'CF_test_conference',
+          'RecordingStatus' => 'completed',
+          'RecordingSid' => 'RE_test_recording',
+          'RecordingUrl' => 'https://api.twilio.com/test-recording'
+        }
+      end
+
+      it "rejects a #{signature_type} signature without processing the callback" do
+        token = signature_type == 'api_key_secret' ? channel.api_key_secret : channel.auth_token
+        signature = Twilio::Security::RequestValidator.new(token).build_signature_for("http://www.example.com#{path}", payload)
+        headers = { 'X-Twilio-Signature' => signature }
+        headers = {} if signature_type == 'missing'
+        headers['X-Twilio-Signature'] = 'invalid' if signature_type == 'invalid'
+        request_payload = signature_type == 'tampered' ? payload.merge('CallStatus' => 'busy') : payload
+        original_attributes = call.attributes
+
+        expect(Voice::InboundCallBuilder).not_to receive(:perform!)
+        expect(Voice::StatusUpdateService).not_to receive(:new)
+        expect(Voice::Conference::Manager).not_to receive(:new)
+        expect(Voice::RecordingStatusService).not_to receive(:new)
+
+        expect do
+          post path, params: request_payload, headers: headers
+        end.not_to change(Call, :count)
+
+        expect(response).to have_http_status(:forbidden)
+        expect(call.reload.attributes).to eq(original_attributes)
+      end
+    end
+  end
+
   describe 'POST /twilio/voice/call/:phone' do
     let(:call_sid) { 'CA_test_call_sid_123' }
     let(:from_number) { '+15550003333' }
