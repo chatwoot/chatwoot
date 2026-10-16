@@ -56,7 +56,7 @@ const tailwindConfig = {
           css: {
             color: 'rgb(var(--slate-12))',
             lineHeight: '1.6',
-            fontSize: '14px',
+            fontSize: '0.875rem',
             '*': {
               '&:first-child': {
                 marginTop: '0',

@@ -44,6 +44,14 @@
         "TITLE": "Account ID",
         "NOTE": "This ID is required if you are building an API based integration"
       },
+      "AUTO_TRANSLATE": {
+        "TITLE": "Auto translate conversations",
+        "NOTE": "Show incoming messages in each agent's language and send replies in the contact's language, using Captain.",
+        "API": {
+          "SUCCESS": "Auto translate setting updated successfully",
+          "ERROR": "Failed to update auto translate setting"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Auto-resolve conversations",
         "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",

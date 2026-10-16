@@ -64,6 +64,10 @@ module Enterprise::Account
     interval_hours.hours
   end
 
+  def auto_translate_enabled?
+    feature_enabled?('auto_translate') && feature_enabled?('captain_tasks') && auto_translate == true
+  end
+
   def saml_enabled?
     saml_settings&.saml_enabled? || false
   end
