@@ -144,6 +144,7 @@ class Conversation < ApplicationRecord
   after_create_commit :load_attributes_created_by_db_triggers
   before_destroy :set_unread_count_deletion_data
   after_destroy_commit :notify_conversation_deletion
+  after_destroy_commit :delete_draft_message
 
   delegate :auto_resolve_after, to: :account
 
@@ -341,6 +342,10 @@ class Conversation < ApplicationRecord
     return if @unread_count_deletion_data.blank?
 
     Rails.configuration.dispatcher.dispatch(CONVERSATION_DELETED, Time.zone.now, conversation_data: @unread_count_deletion_data)
+  end
+
+  def delete_draft_message
+    Redis::Alfred.delete(format(Redis::Alfred::CONVERSATION_DRAFT_MESSAGE, id: id))
   end
 
   def notify_conversation_updation
