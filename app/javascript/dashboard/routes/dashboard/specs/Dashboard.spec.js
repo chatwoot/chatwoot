@@ -47,8 +47,8 @@ const createUpgradePageStub = paywalled => ({
   },
 });
 
-// ninja-keys binds cmd+k / ctrl+k when it connects and unbinds when it
-// disconnects, so the hotkey only works while the component stays mounted.
+// The command bar binds cmd+k / ctrl+k on mount and unbinds on unmount, so
+// the hotkey only works while the component stays mounted.
 const createCommandBarStub = tracker => ({
   name: 'CommandBar',
   props: { isPaywalled: { type: Boolean, default: false } },
