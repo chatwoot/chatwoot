@@ -1,0 +1,113 @@
+# Stack Portainer (Repository + build) para chat.chatsa.adv.br
+# Requer: Docker standalone (build não funciona em Swarm), Traefik v2/v3 rodando
+# com entrypoint "websecure" e certresolver "letsencryptresolver" na rede externa "traefik_public".
+# Variáveis (definir na aba "Environment variables" do Portainer):
+#   SECRET_KEY_BASE, POSTGRES_PASSWORD, REDIS_PASSWORD  (obrigatórias)
+#   demais (SMTP etc.) são opcionais.
+
+x-chatwoot: &chatwoot
+  image: chatsa/chatwoot:latest
+  build:
+    context: .
+    dockerfile: docker/Dockerfile
+  restart: always
+  environment: &chatwoot-env
+    NODE_ENV: production
+    RAILS_ENV: production
+    INSTALLATION_ENV: docker
+    FRONTEND_URL: https://chat.chatsa.adv.br
+    FORCE_SSL: 'true'
+    SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    POSTGRES_HOST: postgres
+    POSTGRES_PORT: 5432
+    POSTGRES_DATABASE: chatwoot
+    POSTGRES_USERNAME: postgres
+    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+    REDIS_PASSWORD: ${REDIS_PASSWORD}
+    ACTIVE_STORAGE_SERVICE: local
+    ENABLE_ACCOUNT_SIGNUP: 'false'
+    DEFAULT_LOCALE: pt_BR
+    RAILS_LOG_TO_STDOUT: 'true'
+    LOG_LEVEL: info
+    MAILER_SENDER_EMAIL: ${MAILER_SENDER_EMAIL:-Chatsa <contato@chatsa.adv.br>}
+    SMTP_ADDRESS: ${SMTP_ADDRESS:-}
+    SMTP_PORT: ${SMTP_PORT:-587}
+    SMTP_USERNAME: ${SMTP_USERNAME:-}
+    SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+    SMTP_AUTHENTICATION: ${SMTP_AUTHENTICATION:-login}
+    SMTP_ENABLE_STARTTLS_AUTO: 'true'
+  volumes:
+    - storage_data:/app/storage
+  networks:
+    - internal
+
+services:
+  # Roda uma vez: cria/migra o banco e encerra.
+  migrate:
+    <<: *chatwoot
+    restart: 'no'
+    depends_on:
+      - postgres
+      - redis
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 'db:chatwoot_prepare']
+
+  rails:
+    <<: *chatwoot
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    networks:
+      - internal
+      - traefik_public
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik_public
+      - traefik.http.routers.chatsa.rule=Host(`chat.chatsa.adv.br`)
+      - traefik.http.routers.chatsa.entrypoints=websecure
+      - traefik.http.routers.chatsa.tls=true
+      - traefik.http.routers.chatsa.tls.certresolver=letsencryptresolver
+      - traefik.http.services.chatsa.loadbalancer.server.port=3000
+
+  sidekiq:
+    <<: *chatwoot
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: chatwoot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - internal
+
+  redis:
+    image: redis:alpine
+    restart: always
+    command: ['sh', '-c', 'redis-server --requirepass "$$REDIS_PASSWORD"']
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+    networks:
+      - internal
+
+volumes:
+  storage_data:
+  postgres_data:
+  redis_data:
+
+networks:
+  internal:
+  traefik_public:
+    external: true
