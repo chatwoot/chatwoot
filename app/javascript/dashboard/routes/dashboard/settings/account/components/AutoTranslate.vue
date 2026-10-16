@@ -7,12 +7,12 @@ import Switch from 'next/switch/Switch.vue';
 
 const { t } = useI18n();
 const { currentAccount, updateAccount } = useAccount();
-const isEnabled = ref(false);
+const isEnabled = ref(true);
 
 watch(
   currentAccount,
   account => {
-    isEnabled.value = account?.settings?.auto_translate === true;
+    isEnabled.value = account?.settings?.auto_translate !== false;
   },
   { immediate: true, deep: true }
 );
