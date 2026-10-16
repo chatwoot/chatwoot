@@ -61,7 +61,7 @@ module Enterprise::SearchService
   end
 
   def enforce_time_limit(since_param)
-    max_lookback = Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS.days.ago
+    max_lookback = Limits.message_search_time_range_limit_days.days.ago
 
     if since_param.present?
       requested_time = Time.zone.at(since_param.to_i)
