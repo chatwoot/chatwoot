@@ -72,9 +72,7 @@ class Twilio::VoiceController < ApplicationController
 
   def twilio_call_sid = params[:CallSid]
 
-  def twilio_from
-    params[:From].to_s
-  end
+  def twilio_from = params[:From].to_s
 
   def twilio_to
     params[:To]
