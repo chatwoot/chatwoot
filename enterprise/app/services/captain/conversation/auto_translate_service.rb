@@ -6,13 +6,11 @@ class Captain::Conversation::AutoTranslateService
   pattr_initialize [:conversation!, :message_ids!, :target_language!]
 
   def perform
-    already_in_target, pending = untranslated.partition { |message| same_language?(message.content_attributes['source_language'], target_language) }
-    already_in_target.each { |message| store(message, message.content) }
-    translate(pending) if pending.any?
+    own_language, foreign = untranslated.partition { |message| written_in_target?(message) }
+    own_language.each { |message| store(message, message.content) }
+    translate(foreign) if foreign.any?
     detect_conversation_language if conversation.language.blank?
-
-    # Everything the server settled: translated, or too long to ever be.
-    messages.select { |message| settled?(message) }
+    messages
   end
 
   private
@@ -23,36 +21,29 @@ class Captain::Conversation::AutoTranslateService
                               .merge(Message.incoming.or(Message.where(sender_type: BOT_SENDERS))).reject(&:html_email?)
   end
 
+  # A message too long for the model is returned as it is, so the dashboard stops asking for it.
   def untranslated
-    @untranslated ||= messages.reject { |message| settled?(message) }
+    @untranslated ||= messages.reject { |message| message.translations&.key?(target_language) || message.content.length > MAX_CONTENT_LENGTH }
   end
 
-  def settled?(message)
-    message.translations&.key?(target_language) || message.content.length > MAX_CONTENT_LENGTH
+  def written_in_target?(message)
+    Captain::Llm::MessageTranslationService.same_language?(message.content_attributes['source_language'], target_language)
   end
 
   def translate(pending)
-    translations = translations_for(pending.map(&:content))
-    raise StandardError, I18n.t('captain.translation_incomplete') if translations.size != pending.size
-
-    pending.each_with_index { |message, index| store(message, translations[index]) }
-  end
-
-  def translations_for(texts)
     response = Captain::Llm::MessageTranslationService.new(
-      account: conversation.account, texts: texts, target_language: target_language, conversation_display_id: conversation.display_id
+      account: conversation.account, texts: pending.map(&:content), target_language: target_language, conversation_display_id: conversation.display_id
     ).perform
     raise StandardError, response[:error] if response[:error]
+    raise StandardError, I18n.t('captain.translation_incomplete') if response[:message].size != pending.size
 
-    response[:message]
+    pending.each_with_index { |message, index| store(message, response[:message][index]) }
   end
 
-  # Merged under the row lock: the model call takes seconds, and another agent's translation or a deletion
-  # may have landed on the message meanwhile.
-  def store(message, content)
+  # Under the row lock: another agent's translation or a deletion may have landed during the model call.
+  def store(message, text)
     message.with_lock do
-      translations = (message.translations || {}).merge(target_language => content)
-      message.update!(content_attributes: message.content_attributes.merge('translations' => translations))
+      message.update!(content_attributes: message.content_attributes.deep_merge('translations' => { target_language => text }))
     end
   end
 
@@ -62,9 +53,5 @@ class Captain::Conversation::AutoTranslateService
 
     language = Captain::Llm::LanguageDetectionService.new(account: conversation.account, text: untranslated.last.content).language
     conversation.update!(additional_attributes: conversation.additional_attributes.merge(conversation_language: language)) if language
-  end
-
-  def same_language?(first, second)
-    Captain::Llm::MessageTranslationService.same_language?(first, second)
   end
 end
