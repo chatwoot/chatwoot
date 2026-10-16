@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe BulkActionsJob do
-  params = {
-    type: 'Conversation',
-    fields: { status: 'snoozed' },
-    ids: Conversation.first(3).pluck(:display_id)
-  }
-
   subject(:job) { described_class.perform_later(account: account, params: params, user: agent) }
 
   let(:account) { create(:account) }
@@ -14,9 +8,11 @@ RSpec.describe BulkActionsJob do
   let!(:conversation_1) { create(:conversation, account_id: account.id, status: :open) }
   let!(:conversation_2) { create(:conversation, account_id: account.id, status: :open) }
   let!(:conversation_3) { create(:conversation, account_id: account.id, status: :open) }
+  let(:conversation_ids) { [conversation_1.display_id, conversation_2.display_id, conversation_3.display_id] }
+  let(:params) { { type: 'Conversation', fields: { status: 'snoozed' }, ids: conversation_ids } }
 
   before do
-    Conversation.all.find_each do |conversation|
+    [conversation_1, conversation_2, conversation_3].each do |conversation|
       create(:inbox_member, inbox: conversation.inbox, user: agent)
     end
   end
@@ -38,10 +34,10 @@ RSpec.describe BulkActionsJob do
       params = {
         type: 'Conversation',
         fields: { status: 'snoozed', assignee_id: agent.id },
-        ids: Conversation.first(3).pluck(:display_id)
+        ids: conversation_ids
       }
 
-      expect(Conversation.first.status).to eq('open')
+      expect(conversation_1.status).to eq('open')
 
       described_class.perform_now(account: account, params: params, user: agent)
 
@@ -54,32 +50,46 @@ RSpec.describe BulkActionsJob do
       params = {
         type: 'Conversation',
         fields: { status: 'snoozed', assignee_id: agent.id },
-        ids: Conversation.first(3).pluck(:display_id)
+        ids: conversation_ids
       }
 
-      expect(Conversation.first.assignee_id).to be_nil
+      expect(conversation_1.assignee_id).to be_nil
 
       described_class.perform_now(account: account, params: params, user: agent)
 
-      expect(Conversation.first.assignee_id).to eq(agent.id)
-      expect(Conversation.second.assignee_id).to eq(agent.id)
-      expect(Conversation.third.assignee_id).to eq(agent.id)
+      expect(conversation_1.reload.assignee_id).to eq(agent.id)
+      expect(conversation_2.reload.assignee_id).to eq(agent.id)
+      expect(conversation_3.reload.assignee_id).to eq(agent.id)
     end
 
     it 'bulk updates the snoozed_until' do
       params = {
         type: 'Conversation',
         fields: { status: 'snoozed', snoozed_until: Time.zone.now },
-        ids: Conversation.first(3).pluck(:display_id)
+        ids: conversation_ids
       }
 
-      expect(Conversation.first.snoozed_until).to be_nil
+      expect(conversation_1.snoozed_until).to be_nil
 
       described_class.perform_now(account: account, params: params, user: agent)
 
-      expect(Conversation.first.snoozed_until).to be_present
-      expect(Conversation.second.snoozed_until).to be_present
-      expect(Conversation.third.snoozed_until).to be_present
+      expect(conversation_1.reload.snoozed_until).to be_present
+      expect(conversation_2.reload.snoozed_until).to be_present
+      expect(conversation_3.reload.snoozed_until).to be_present
+    end
+
+    it 'skips conversations whose inbox the agent does not belong to' do
+      forbidden_conversation = create(:conversation, account_id: account.id, status: :open)
+      params = {
+        type: 'Conversation',
+        fields: { status: 'resolved' },
+        ids: [conversation_1.display_id, forbidden_conversation.display_id]
+      }
+
+      described_class.perform_now(account: account, params: params, user: agent)
+
+      expect(conversation_1.reload.status).to eq('resolved')
+      expect(forbidden_conversation.reload.status).to eq('open')
     end
   end
 end

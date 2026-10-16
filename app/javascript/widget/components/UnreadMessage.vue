@@ -60,8 +60,8 @@ export default {
     },
     agentName() {
       if (this.isSenderExist(this.sender)) {
-        const { available_name: availableName } = this.sender;
-        return availableName;
+        const { available_name: availableName, name } = this.sender;
+        return availableName || name || '';
       }
       if (this.useInboxAvatarForBot) {
         return this.channelConfig.websiteName;
@@ -102,8 +102,8 @@ export default {
           :status="availabilityStatus"
           rounded-full
         />
-        <span v-dompurify-html="agentName" class="agent--name" />
-        <span v-dompurify-html="companyName" class="company--name" />
+        <span class="agent--name">{{ agentName }}</span>
+        <span class="company--name">{{ companyName }}</span>
       </div>
       <div
         v-dompurify-html="formatMessage(message, false)"

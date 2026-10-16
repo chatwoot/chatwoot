@@ -34,18 +34,53 @@ RSpec.describe 'Public Articles API', type: :request do
     end
 
     it 'get all articles with searched text query' do
-      article2 = create(:article,
-                        account_id: account.id,
-                        portal: portal,
-                        category: category,
-                        author_id: agent.id,
-                        content: 'this is some test and funny content')
-      expect(article2.id).not_to be_nil
+      long_content = ([('intro ' * 30).strip, 'funny', ('tail ' * 30).strip].join(' ')).strip
+      create(:article,
+             account_id: account.id,
+             portal: portal,
+             category: category,
+             author_id: agent.id,
+             content: long_content)
 
       get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}/articles.json", params: { query: 'funny' }
       expect(response).to have_http_status(:success)
       response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
       expect(response_data.length).to eq(1)
+      expect(response_data[0].keys).to match_array(%i[id category_id title content link])
+      expect(response_data[0][:content]).to include('funny')
+      expect(response_data[0][:content].length).to be < long_content.length
+    end
+
+    it 'limits search results to the current locale' do
+      create(:article,
+             account_id: account.id,
+             portal: portal,
+             category: category,
+             author_id: agent.id,
+             title: 'English locale result',
+             content: 'shared-search-term in english')
+      create(:article,
+             account_id: account.id,
+             portal: portal,
+             category: category_2,
+             author_id: agent.id,
+             title: 'Spanish locale result',
+             content: 'shared-search-term in spanish')
+
+      get "/hc/#{portal.slug}/#{category.locale}/articles.json", params: { query: 'shared-search-term' }
+
+      expect(response).to have_http_status(:success)
+      response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
+      expect(response_data.pluck(:title)).to eq(['English locale result'])
+    end
+
+    it 'treats whitespace-only queries as empty searches' do
+      get "/hc/#{portal.slug}/#{category.locale}/articles.json", params: { query: '   ' }
+
+      expect(response).to have_http_status(:success)
+      response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
+      expect(response_data.length).to eq(3)
+      expect(response_data.first).to include(:description, :slug, :portal)
     end
 
     it 'get all popular articles if sort params is passed' do
@@ -105,6 +140,38 @@ RSpec.describe 'Public Articles API', type: :request do
       get "/hc/#{portal.slug}/articles/#{article_in_locale.slug}"
       expect(response).to have_http_status(:success)
     end
+
+    it 'resolves the locale from the article itself for an uncategorized article' do
+      uncategorized_article = create(:article, category: nil, locale: 'es', portal: portal,
+                                               account_id: account.id, author_id: agent.id)
+      get "/hc/#{portal.slug}/articles/#{uncategorized_article.slug}"
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('lang="es"')
+    end
+  end
+
+  describe 'GET /public/api/v1/portals/:slug/articles/:slug.md (markdown)' do
+    it 'serves the raw article markdown for a published article' do
+      get "/hc/#{portal.slug}/articles/#{article.slug}.md"
+
+      expect(response).to have_http_status(:success)
+      expect(response.headers['Content-Type']).to include('text/markdown')
+      expect(response.body).to eq(article.content)
+    end
+
+    it 'returns 404 for a draft article' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, account_id: account.id, author_id: agent.id)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}.md"
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'returns 404 if the article does not exist' do
+      get "/hc/#{portal.slug}/articles/non-existent-article.md"
+
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   describe 'GET /public/api/v1/portals/:slug/articles/:slug.png (tracking pixel)' do
@@ -142,6 +209,32 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response.headers['Cache-Control']).to include('max-age=86400')
       expect(response.headers['Cache-Control']).to include('private')
       expect(response.headers['Content-Type']).to eq('image/png')
+    end
+  end
+
+  describe 'documentation layout sidebar for a region-variant locale' do
+    let!(:th_portal) do
+      create(:portal, slug: 'th-portal', custom_domain: 'th.example.com',
+                      config: { allowed_locales: ['th_TH'], default_locale: 'th_TH', layout: 'documentation' })
+    end
+    let!(:th_category) do
+      create(:category, name: 'TH Category', portal: th_portal, account_id: account.id, locale: 'th_TH', slug: 'th-cat')
+    end
+    let!(:th_article) do
+      create(:article, category: th_category, portal: th_portal, account_id: account.id, author_id: agent.id, locale: 'th_TH')
+    end
+
+    before do
+      create(:article, category: th_category, portal: th_portal, account_id: account.id, author_id: agent.id,
+                       locale: 'th_TH', title: 'Sibling In Sidebar', status: :published)
+    end
+
+    it 'lists the category and sibling articles using the full portal locale' do
+      host! 'th.example.com'
+      get "/hc/#{th_portal.slug}/articles/#{th_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('Sibling In Sidebar')
     end
   end
 end

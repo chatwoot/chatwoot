@@ -17,7 +17,7 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Autentifica-te cu Google+",
-      "BUSINESS_ACCOUNTS_ONLY": "Vă rugăm să utilizați adresa de e-mail a companiei pentru a vă autentifica",
+      "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
       "NO_ACCOUNT_FOUND": "Nu am putut găsi un cont pentru adresa ta de e-mail."
     },
     "FORGOT_PASSWORD": "Ai uitat parola?",

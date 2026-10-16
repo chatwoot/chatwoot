@@ -30,8 +30,9 @@ RSpec.describe TriggerScheduledItemsJob do
     described_class.perform_now
   end
 
-  it 'triggers Notification::RemoveOldNotificationJob' do
-    expect(Notification::RemoveOldNotificationJob).to receive(:perform_later).once
+  it 'does not trigger the hourly WhatsApp health scheduler' do
+    expect(Channels::Whatsapp::HealthSyncSchedulerJob).not_to receive(:perform_later)
+
     described_class.perform_now
   end
 
@@ -43,6 +44,14 @@ RSpec.describe TriggerScheduledItemsJob do
       campaign = create(:campaign, inbox: twilio_inbox, account: account)
       create(:campaign, inbox: twilio_inbox, account: account, scheduled_at: 10.days.after)
       expect(Campaigns::TriggerOneoffCampaignJob).to receive(:perform_later).with(campaign).once
+      described_class.perform_now
+    end
+
+    it 'does not trigger campaigns that are already processing' do
+      create(:campaign, inbox: twilio_inbox, account: account, campaign_status: :processing)
+
+      expect(Campaigns::TriggerOneoffCampaignJob).not_to receive(:perform_later)
+
       described_class.perform_now
     end
   end

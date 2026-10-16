@@ -1,5 +1,8 @@
 {
   "DATE_PICKER": {
+    "PREVIOUS_PERIOD": "Previous period",
+    "NEXT_PERIOD": "Next period",
+    "WEEK_NUMBER": "Week #{weekNumber}",
     "APPLY_BUTTON": "Apply",
     "CLEAR_BUTTON": "Clear",
     "DATE_RANGE_INPUT": {
@@ -13,6 +16,8 @@
       "LAST_3_MONTHS": "Last 3 months",
       "LAST_6_MONTHS": "Last 6 months",
       "LAST_YEAR": "Last year",
+      "THIS_WEEK": "This week",
+      "MONTH_TO_DATE": "This month",
       "CUSTOM_RANGE": "Custom date range"
     }
   }

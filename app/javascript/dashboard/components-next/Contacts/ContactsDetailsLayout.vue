@@ -73,7 +73,7 @@ const closeMobileSidebar = () => {
 
 <template>
   <section
-    class="flex w-full h-full overflow-hidden justify-evenly bg-n-background"
+    class="flex w-full h-full overflow-hidden justify-evenly bg-n-surface-1"
   >
     <div
       class="flex flex-col w-full h-full transition-all duration-300 ltr:2xl:ml-56 rtl:2xl:mr-56"
@@ -107,11 +107,10 @@ const closeMobileSidebar = () => {
                 size="sm"
               />
               <ComposeConversation :contact-id="contactId">
-                <template #trigger="{ toggle }">
+                <template #trigger>
                   <Button
                     :label="$t('CONTACTS_LAYOUT.HEADER.SEND_MESSAGE')"
                     size="sm"
-                    @click="toggle"
                   />
                 </template>
               </ComposeConversation>
@@ -129,9 +128,14 @@ const closeMobileSidebar = () => {
     <!-- Desktop sidebar -->
     <div
       v-if="slots.sidebar"
-      class="hidden lg:block overflow-y-auto justify-end min-w-52 w-full py-6 max-w-md border-l border-n-weak bg-n-solid-2"
+      class="hidden lg:flex flex-col min-w-52 w-full max-w-md border-l border-n-weak bg-n-solid-2"
     >
-      <slot name="sidebar" />
+      <div class="shrink-0">
+        <slot name="sidebarHeader" />
+      </div>
+      <div class="flex-1 min-h-0 overflow-y-auto pb-6 pt-3">
+        <slot name="sidebar" />
+      </div>
     </div>
 
     <!-- Mobile sidebar container -->
@@ -180,9 +184,14 @@ const closeMobileSidebar = () => {
         <div
           v-if="isContactSidebarOpen"
           id="contact-sidebar-content"
-          class="order-2 w-[85%] sm:w-[50%] bg-n-solid-2 ltr:border-l rtl:border-r border-n-weak overflow-y-auto py-6 shadow-lg"
+          class="order-2 w-[85%] sm:w-[50%] flex flex-col bg-n-solid-2 ltr:border-l rtl:border-r border-n-weak shadow-lg"
         >
-          <slot name="sidebar" />
+          <div class="shrink-0">
+            <slot name="sidebarHeader" />
+          </div>
+          <div class="flex-1 min-h-0 overflow-y-auto pb-6 pt-3">
+            <slot name="sidebar" />
+          </div>
         </div>
       </Transition>
     </div>

@@ -25,29 +25,38 @@ class CustomAttributeDefinition < ApplicationRecord
   STANDARD_ATTRIBUTES = {
     :conversation => %w[status priority assignee_id inbox_id team_id display_id campaign_id labels browser_language country_code referer created_at
                         last_activity_at],
-    :contact => %w[name email phone_number identifier country_code city created_at last_activity_at referer blocked]
+    :contact => %w[name email phone_number identifier country_code city company_name created_at last_activity_at referer blocked],
+    :company => %w[name domain description contacts_count created_at updated_at last_activity_at]
   }.freeze
 
   scope :with_attribute_model, ->(attribute_model) { attribute_model.presence && where(attribute_model: attribute_model) }
   validates :attribute_display_name, presence: true
+  before_validation :normalize_attribute_fields
 
   validates :attribute_key,
             presence: true,
-            uniqueness: { scope: [:account_id, :attribute_model] }
+            uniqueness: { scope: [:account_id, :attribute_model] },
+            format: { with: /\A[\p{L}\p{N}_.\-]+\z/, message: I18n.t('errors.custom_attribute_definition.attribute_key_format') }
 
   validates :attribute_display_type, presence: true
   validates :attribute_model, presence: true
   validate :attribute_must_not_conflict, on: :create
 
-  enum attribute_model: { conversation_attribute: 0, contact_attribute: 1 }
+  enum attribute_model: { conversation_attribute: 0, contact_attribute: 1, company_attribute: 2 }
   enum attribute_display_type: { text: 0, number: 1, currency: 2, percent: 3, link: 4, date: 5, list: 6, checkbox: 7 }
 
   belongs_to :account
-  after_update :update_widget_pre_chat_custom_fields
-  after_destroy :sync_widget_pre_chat_custom_fields
-  after_destroy :cleanup_conversation_required_attributes
+  after_update :update_widget_pre_chat_custom_fields, unless: :company_attribute?
+  after_destroy :sync_widget_pre_chat_custom_fields, unless: :company_attribute?
+  after_update_commit :invalidate_filtered_unread_count_filters_update, if: :conversation_attribute_before_or_after?
+  after_destroy_commit :invalidate_filtered_unread_count_filters_destroy, if: :conversation_attribute?
 
   private
+
+  def normalize_attribute_fields
+    self.attribute_key = attribute_key.strip if attribute_key.present?
+    self.attribute_display_name = attribute_display_name.strip if attribute_display_name.present?
+  end
 
   def sync_widget_pre_chat_custom_fields
     ::Inboxes::SyncWidgetPreChatCustomFieldsJob.perform_later(account, attribute_key)
@@ -57,17 +66,35 @@ class CustomAttributeDefinition < ApplicationRecord
     ::Inboxes::UpdateWidgetPreChatCustomFieldsJob.perform_later(account, self)
   end
 
-  def cleanup_conversation_required_attributes
-    return unless conversation_attribute? && account.conversation_required_attributes&.include?(attribute_key)
+  def invalidate_filtered_unread_count_filters_update
+    invalidate_filtered_unread_count_filters
+  end
 
-    account.conversation_required_attributes = account.conversation_required_attributes - [attribute_key]
-    account.save!
+  def invalidate_filtered_unread_count_filters_destroy
+    invalidate_filtered_unread_count_filters
+  end
+
+  def invalidate_filtered_unread_count_filters
+    filters_changed = ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).custom_attribute_definition_changed!(self)
+    dispatch_account_cache_invalidated if filters_changed
+  end
+
+  def dispatch_account_cache_invalidated
+    Rails.configuration.dispatcher.dispatch(ACCOUNT_CACHE_INVALIDATED, Time.zone.now, account: account, cache_keys: account.cache_keys)
+  end
+
+  def conversation_attribute_before_or_after?
+    conversation_attribute? || attribute_model_previously_was == 'conversation_attribute'
   end
 
   def attribute_must_not_conflict
-    model_keys = attribute_model.to_sym == :conversation_attribute ? :conversation : :contact
-    return unless attribute_key.in?(STANDARD_ATTRIBUTES[model_keys])
+    model_keys = attribute_model.to_s.delete_suffix('_attribute').to_sym
+    standard_attributes = STANDARD_ATTRIBUTES[model_keys]
+    return if standard_attributes.blank?
+    return unless attribute_key.in?(standard_attributes)
 
     errors.add(:attribute_key, I18n.t('errors.custom_attribute_definition.key_conflict'))
   end
 end
+
+CustomAttributeDefinition.include_mod_with('Concerns::CustomAttributeDefinition')

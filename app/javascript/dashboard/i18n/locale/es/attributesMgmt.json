@@ -5,9 +5,13 @@
     "LOADING": "Obtener atributos personalizados",
     "DESCRIPTION": "Un atributo personalizado rastrea detalles adicionales sobre tus contactos o conversaciones, como el plan de suscripción o la fecha de su primera compra. Puede agregar diferentes tipos de atributos personalizados, como textos, listas o números, para capturar la información específica que necesita.",
     "LEARN_MORE": "Aprende más sobre los atributos personalizados",
+    "COUNT": "{n} attribute | {n} attributes",
+    "SEARCH_PLACEHOLDER": "Buscar atributos...",
+    "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Conversación",
-      "CONTACT": "Contacto"
+      "CONTACT": "Contacto",
+      "COMPANY": "Empresa"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Texto",
@@ -63,6 +67,10 @@
         },
         "ENABLE_REGEX": {
           "LABEL": "Habilitar validación regex"
+        },
+        "BADGES": {
+          "PRE_CHAT": "Pre-chat",
+          "RESOLUTION": "Resolución"
         }
       },
       "API": {
@@ -101,7 +109,8 @@
     "TABS": {
       "HEADER": "Atributos personalizados",
       "CONVERSATION": "Conversación",
-      "CONTACT": "Contacto"
+      "CONTACT": "Contacto",
+      "COMPANY": "Empresa"
     },
     "LIST": {
       "TABLE_HEADER": {

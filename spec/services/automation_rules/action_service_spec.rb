@@ -88,8 +88,31 @@ RSpec.describe AutomationRules::ActionService do
       end
     end
 
+    describe '#perform with remove assignment actions' do
+      let!(:team) { create(:team, account: account) }
+
+      before do
+        conversation.update!(assignee: agent, team: team)
+        rule.actions = [
+          { action_name: 'remove_assigned_agent', action_params: [] },
+          { action_name: 'remove_assigned_team', action_params: [] }
+        ]
+        rule.save!
+      end
+
+      it 'removes assignee and team from the conversation' do
+        described_class.new(rule, account, conversation).perform
+
+        expect(conversation.reload.assignee).to be_nil
+        expect(conversation.team).to be_nil
+      end
+    end
+
     describe '#perform with send_email_transcript action' do
       before do
+        allow(account).to receive(:email_transcript_enabled?).and_return(true)
+        allow(account).to receive(:within_email_rate_limit?).and_return(true)
+        allow(account).to receive(:increment_email_sent_count).and_return(true)
         rule.actions << { action_name: 'send_email_transcript', action_params: ['contact@example.com, agent@example.com,agent1@example.com'] }
         rule.save
       end
@@ -176,6 +199,22 @@ RSpec.describe AutomationRules::ActionService do
         conversation = create(:conversation, inbox: twitter_inbox, additional_attributes: { type: 'tweet' })
         expect(message_builder).not_to receive(:perform)
         described_class.new(rule, account, conversation).perform
+      end
+    end
+
+    describe '#perform with assign_agent action' do
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+        rule.actions << { action_name: 'assign_agent', action_params: ['last_responding_agent'] }
+      end
+
+      it 'assigns the conversation to the last responding agent' do
+        create(:message, message_type: :outgoing, account: account,
+                         inbox: conversation.inbox, conversation: conversation, sender: agent)
+
+        described_class.new(rule, account, conversation).perform
+
+        expect(conversation.reload.assignee).to eq(agent)
       end
     end
   end

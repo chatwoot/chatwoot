@@ -7,6 +7,37 @@
     "LEARN_MORE": "Saiba mais sobre os logs de auditoria",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
     "SIDEBAR_TXT": "<p><b>Logs de Auditoria</b> </p><p> Os Logs de Auditoria são rastros para eventos e ações em um Sistema Chatwoot. </p>",
+    "COUNT": "{n} evento | {n} eventos",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Pesquisar por nome ou e-mail",
+      "ALL_EVENTS": "Todos os eventos",
+      "DATE_RANGE": "Intervalo de datas",
+      "CLEAR_ALL": "Limpar filtros",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Acesso",
+        "AGENTS_TEAMS": "Agentes e times",
+        "CONFIGURATION": "Configuração",
+        "CONVERSATIONS": "Conversas"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Entrar / sair",
+        "AGENTS": "Agentes",
+        "TEAMS": "Times",
+        "TEAM_MEMBERS": "Membros do time",
+        "INBOX_MEMBERS": "Colaboradores da caixa de entrada",
+        "ACCOUNT": "Conta",
+        "INBOXES": "Caixas de Entrada",
+        "WEBHOOKS": "Webhooks",
+        "AUTOMATION_RULES": "Regras de automação",
+        "MACROS": "Macros",
+        "CONVERSATION_DELETIONS": "Exclusões de conversas",
+        "MESSAGE_DELETIONS": "Exclusões de mensagens"
+      },
+      "SORT": {
+        "NEWEST": "Mais recentes primeiro",
+        "OLDEST": "Mais antigos primeiro"
+      }
+    },
     "LIST": {
       "404": "Não há Logs de Auditoria disponíveis nesta conta.",
       "TITLE": "Gerenciar Logs de Auditoria",
@@ -18,7 +49,7 @@
       }
     },
     "API": {
-      "SUCCESS_MESSAGE": "AuditLogs recuperados com sucesso",
+      "SUCCESS_MESSAGE": "Logs de auditoria recuperados com sucesso",
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
     },
     "DEFAULT_USER": "Sistema",
@@ -41,7 +72,7 @@
       "DELETE": "{agentName} excluiu uma caixa de entrada (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "{agentName} criou um webhook (##{id})",
+      "ADD": "{agentName} criou um webhook (#{id})",
       "EDIT": "{agentName} atualizou um webhook (#{id})",
       "DELETE": "{agentName} excluiu um webhook (#{id})"
     },
@@ -72,6 +103,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} excluiu a conversa #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} excluiu uma mensagem na conversa #{conversationId}"
     }
   }
 }

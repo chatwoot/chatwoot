@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, defineModel } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
@@ -117,7 +117,7 @@ const onToggleDropdown = () => {
       :menu-sections="menuSections"
       show-search
       disable-local-filtering
-      class="mt-1 ltr:right-0 rtl:left-0 top-full w-64 max-h-80 overflow-y-auto"
+      class="mt-1 ltr:right-0 rtl:left-0 top-full w-64 max-h-80"
       @search="searchQuery = $event"
       @action="handleAction"
     />

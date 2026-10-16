@@ -18,6 +18,8 @@ RSpec.describe 'Enterprise SAML OmniAuth Callbacks', type: :request do
 
   before do
     allow(ChatwootApp).to receive(:enterprise?).and_return(true)
+    allow(GlobalConfigService).to receive(:load).and_call_original
+    allow(GlobalConfigService).to receive(:load).with('FRONTEND_URL', 'http://localhost:3000').and_return('http://www.example.com')
     account.enable_features!('saml')
     saml_settings
   end
@@ -29,11 +31,6 @@ RSpec.describe 'Enterprise SAML OmniAuth Callbacks', type: :request do
 
         get "/omniauth/saml/callback?account_id=#{account.id}"
 
-        # expect a 302 redirect to auth/saml/callback
-        expect(response).to redirect_to('http://www.example.com/auth/saml/callback')
-        follow_redirect!
-
-        # expect redirect to login with SSO token
         expect(response).to redirect_to(%r{/app/login\?email=.+&sso_auth_token=.+$})
 
         # verify user was created
@@ -50,11 +47,32 @@ RSpec.describe 'Enterprise SAML OmniAuth Callbacks', type: :request do
 
         get "/omniauth/saml/callback?account_id=#{account.id}"
 
-        # expect a 302 redirect to auth/saml/callback
-        expect(response).to redirect_to('http://www.example.com/auth/saml/callback')
-        follow_redirect!
-
         expect(response).to redirect_to(%r{/app/login\?email=.+&sso_auth_token=.+$})
+      end
+    end
+
+    it 'redirects mobile SAML login to the mobile deep link' do
+      with_modified_env FRONTEND_URL: 'http://www.example.com' do
+        create(:user, email: 'mobile@example.com', account: account)
+        set_saml_config('mobile@example.com')
+
+        get "/omniauth/saml/callback?account_id=#{account.id}&RelayState=mobile"
+
+        expect(response).to redirect_to(%r{\Achatwootapp://auth/saml\?email=.+&sso_auth_token=.+\z})
+      end
+    end
+
+    it 'rejects an existing user from another account' do
+      with_modified_env FRONTEND_URL: 'http://www.example.com' do
+        other_account = create(:account)
+        existing_user = create(:user, email: 'existing@example.com', account: other_account, provider: 'email')
+        set_saml_config('existing@example.com')
+
+        get "/omniauth/saml/callback?account_id=#{account.id}"
+
+        expect(response).to redirect_to('http://www.example.com/app/login?error=saml-authentication-failed')
+        expect(existing_user.reload.provider).to eq('email')
+        expect(existing_user.accounts).not_to include(account)
       end
     end
   end

@@ -64,7 +64,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     # may not be marked as unique, same with the phone number field
     # So we just use the update API if we already have a lead ID
     if lead_id.present?
-      @lead_client.update_lead(lead_data, lead_id)
+      with_stale_lead_recovery(contact, lead_id) { |id| @lead_client.update_lead(lead_data, id) }
     else
       new_lead_id = @lead_client.create_or_update_lead(lead_data)
       store_external_id(contact, new_lead_id)
@@ -82,18 +82,53 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     return if lead_id.blank?
 
     activity_code = get_activity_code(activity_code_key)
-    activity_id = @activity_client.post_activity(lead_id, activity_code, activity_note)
+    activity_id = with_stale_lead_recovery(conversation.contact, lead_id) do |id|
+      @activity_client.post_activity(id, activity_code, activity_note)
+    end
     return if activity_id.blank?
 
     metadata = {}
     metadata[metadata_key] = activity_id
     store_conversation_metadata(conversation, metadata)
   rescue Crm::Leadsquared::Api::BaseClient::ApiError => e
-    ChatwootExceptionTracker.new(e, account: @account).capture_exception
-    Rails.logger.error "LeadSquared API error in #{activity_type} activity: #{e.message}"
+    log_activity_error(e, activity_type, conversation, payload: { lead_id: lead_id, activity_code: activity_code, activity_note: activity_note })
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: @account).capture_exception
-    Rails.logger.error "Error creating #{activity_type} activity in LeadSquared: #{e.message}"
+    log_activity_error(e, activity_type, conversation)
+  end
+
+  # The cached lead id can become stale when the lead is deleted/merged in LeadSquared,
+  # making LeadSquared reject the call with "Lead not found". When that happens, clear the
+  # stored id, re-resolve the contact to a fresh lead, and run the operation again once.
+  def with_stale_lead_recovery(contact, lead_id)
+    yield(lead_id)
+  rescue Crm::Leadsquared::Api::BaseClient::ApiError => e
+    raise unless lead_not_found_error?(e)
+
+    Rails.logger.warn("LeadSquared stale lead #{lead_id} for contact ##{contact.id}, clearing and retrying")
+    clear_external_id(contact)
+    fresh_lead_id = get_lead_id(contact)
+    raise if fresh_lead_id.blank? || fresh_lead_id == lead_id
+
+    yield(fresh_lead_id)
+  end
+
+  def lead_not_found_error?(error)
+    return false if error.response.blank?
+
+    parsed = error.response.parsed_response
+    parsed.is_a?(Hash) && parsed['ExceptionType'] == 'MXInvalidEntityReferenceException'
+  rescue StandardError
+    false
+  end
+
+  def log_activity_error(error, activity_type, conversation, payload: nil)
+    ChatwootExceptionTracker.new(error, account: @account).capture_exception
+    context = "account_id=#{conversation.account_id}, conversation_display_id=#{conversation.display_id}"
+    if payload
+      context += ", http_status=#{error.code}, prospect_id=#{payload[:lead_id]}, " \
+                 "activity_event=#{payload[:activity_code]}, note_bytes=#{payload[:activity_note].to_s.bytesize}"
+    end
+    Rails.logger.error("LeadSquared #{activity_type} activity failed: #{error.message} (#{context})")
   end
 
   def get_activity_code(key)
@@ -108,7 +143,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
 
     unless identifiable_contact?(contact)
       Rails.logger.info("Contact not identifiable. Skipping activity for ##{contact.id}")
-      nil
+      return nil
     end
 
     lead_id = @lead_finder.find_or_create(contact)

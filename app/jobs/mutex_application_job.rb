@@ -14,6 +14,19 @@
 class MutexApplicationJob < ApplicationJob
   class LockAcquisitionError < StandardError; end
 
+  def self.retry_on_lock_conflict(wait:, attempts:, on_exhaustion: :raise)
+    retry_on LockAcquisitionError, wait: wait, attempts: attempts do |job, error|
+      raise error if on_exhaustion == :raise
+
+      job.public_send(on_exhaustion, *job.arguments)
+    end
+  end
+
+  # Redis::LockManager#unlock is not owner-checked. If a job runs past the TTL,
+  # Redis can expire the key, a newer job can acquire it, and the older job can
+  # then delete the newer job's lock on unlock. Current mutex users treat locks as
+  # short race dampeners, so this is acceptable for now. Future iterations should
+  # move Redis::LockManager to token-checked unlocks.
   def with_lock(lock_key, timeout = Redis::LockManager::LOCK_TIMEOUT)
     lock_manager = Redis::LockManager.new
 

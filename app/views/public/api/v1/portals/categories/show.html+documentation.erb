@@ -1,0 +1,25 @@
+<% content_for :head do %>
+  <%= render 'public/api/v1/portals/documentation_layout/categories/meta_head',
+             category: @category, portal: @portal, og_image_url: @og_image_url %>
+<% end %>
+
+<div class="px-6 md:px-10 py-8 md:py-10">
+  <%= render 'public/api/v1/portals/documentation_layout/breadcrumb',
+             portal: @portal, locale: @locale, category: @category %>
+
+  <%= render 'public/api/v1/portals/documentation_layout/categories/header',
+             category: @category, articles: @articles, category_authors: @category_authors %>
+
+  <% if @articles.empty? %>
+    <%= render 'public/api/v1/portals/documentation_layout/empty_state' %>
+  <% else %>
+    <div class="grid grid-cols-1 gap-4">
+      <% @articles.each do |article| %>
+        <%= render 'public/api/v1/portals/documentation_layout/article_card',
+                   portal: @portal,
+                   article: article,
+                   show_category: false %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,17 @@
+type: object
+properties:
+  id:
+    type: number
+    description: The ID of the label
+  title:
+    type: string
+    description: The title of the label
+  description:
+    type: string
+    description: The description of the label
+  color:
+    type: string
+    description: Hex color code for the label
+  show_on_sidebar:
+    type: boolean
+    description: Whether the label should appear in the sidebar

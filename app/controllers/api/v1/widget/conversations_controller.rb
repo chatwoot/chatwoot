@@ -19,7 +19,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   def process_update_contact
     @contact = ContactIdentifyAction.new(
       contact: @contact,
-      params: { email: contact_email, phone_number: contact_phone_number, name: contact_name },
+      params: { email: contact_email, phone_number: contact_phone_number, name: contact_name, custom_attributes: contact_custom_attributes },
       retain_original_contact_name: true,
       discard_invalid_attrs: true
     ).perform
@@ -35,12 +35,11 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def transcript
-    if conversation.present? && conversation.contact.present? && conversation.contact.email.present?
-      ConversationReplyMailer.with(account: conversation.account).conversation_transcript(
-        conversation,
-        conversation.contact.email
-      )&.deliver_later
-    end
+    return head :too_many_requests if conversation.blank?
+    return head :payment_required unless conversation.account.email_transcript_enabled?
+    return head :too_many_requests unless conversation.account.within_email_rate_limit?
+
+    send_transcript_email
     head :ok
   end
 
@@ -77,6 +76,16 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
   private
 
+  def send_transcript_email
+    return if conversation.contact&.email.blank?
+
+    ConversationReplyMailer.with(account: conversation.account).conversation_transcript(
+      conversation,
+      conversation.contact.email
+    )&.deliver_later
+    conversation.account.increment_email_sent_count
+  end
+
   def trigger_typing_event(event)
     Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: conversation, user: @contact)
   end
@@ -86,7 +95,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def permitted_params
-    params.permit(:id, :typing_status, :website_token, :email, contact: [:name, :email, :phone_number],
+    params.permit(:id, :typing_status, :website_token, :email, contact: [:name, :email, :phone_number, { custom_attributes: {} }],
                                                                message: [:content, :referer_url, :timestamp, :echo_id],
                                                                custom_attributes: {})
   end

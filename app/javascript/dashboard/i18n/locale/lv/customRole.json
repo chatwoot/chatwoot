@@ -3,8 +3,11 @@
     "HEADER": "Pielāgotas lomas",
     "LEARN_MORE": "Uzzināt vairāk par pielāgotām lomām",
     "DESCRIPTION": "Pielāgotas lomas ir lomas, kuras izveido konta īpašnieks vai administrators. Šīs lomas var piešķirt aģentiem, lai definētu viņu piekļuvi un atļaujas kontā. Pielāgotas lomas var izveidot ar īpašām atļaujām un piekļuves līmeņiem, lai tie atbilstu organizācijas prasībām.",
+    "COUNT": "{n} custom role | {n} custom roles",
     "HEADER_BTN_TXT": "Pievienot pielāgotu lomu",
     "LOADING": "Notiek pielāgotu lomu iegūšana...",
+    "SEARCH_PLACEHOLDER": "Search custom roles...",
+    "NO_RESULTS": "No custom roles found matching your search",
     "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu.",
     "PAYWALL": {
       "TITLE": "Pārejiet uz maksas versiju, lai izveidotu pielāgotas lomas",

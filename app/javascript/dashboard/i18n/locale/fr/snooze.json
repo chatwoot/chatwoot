@@ -1,0 +1,72 @@
+{
+  "SNOOZE_PARSER": {
+    "UNITS": {
+      "MINUTE": "minute",
+      "MINUTES": "minutes",
+      "HOUR": "heure",
+      "HOURS": "heures",
+      "DAY": "jour",
+      "DAYS": "jours",
+      "WEEK": "jour",
+      "WEEKS": "semaines",
+      "MONTH": "semaine",
+      "MONTHS": "mois",
+      "YEAR": "mois",
+      "YEARS": "ans"
+    },
+    "HALF": "moitié",
+    "NEXT": "suivant",
+    "THIS": "ce",
+    "AT": "à",
+    "IN": "dans",
+    "FROM_NOW": "dès maintenant",
+    "NEXT_YEAR": "l'année prochaine",
+    "MERIDIEM": {
+      "AM": "le matin",
+      "PM": "pm"
+    },
+    "RELATIVE": {
+      "TOMORROW": "demain",
+      "DAY_AFTER_TOMORROW": "après-demain",
+      "NEXT_WEEK": "semaine prochaine",
+      "NEXT_MONTH": "mois prochain",
+      "THIS_WEEKEND": "ce week-end",
+      "NEXT_WEEKEND": "le week-end prochain"
+    },
+    "TIME_OF_DAY": {
+      "MORNING": "matin",
+      "AFTERNOON": "après-midi",
+      "EVENING": "soir",
+      "NIGHT": "nuit",
+      "NOON": "midi",
+      "MIDNIGHT": "minuit"
+    },
+    "WORD_NUMBERS": {
+      "ONE": "un",
+      "TWO": "deux",
+      "THREE": "trois",
+      "FOUR": "quatre",
+      "FIVE": "cinq",
+      "SIX": "six",
+      "SEVEN": "sept",
+      "EIGHT": "huit",
+      "NINE": "neuf",
+      "TEN": "dix",
+      "TWELVE": "douze",
+      "FIFTEEN": "quinze",
+      "TWENTY": "vingt",
+      "THIRTY": "trente"
+    },
+    "ORDINALS": {
+      "FIRST": "premier",
+      "SECOND": "seconde",
+      "THIRD": "troisième",
+      "FOURTH": "quatrième",
+      "FIFTH": "cinquième"
+    },
+    "OF": "de",
+    "AFTER": "après",
+    "WEEK": "jour",
+    "DAY": "jour"
+  }
+}

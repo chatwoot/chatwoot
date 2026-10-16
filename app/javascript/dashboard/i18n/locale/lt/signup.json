@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Sukurti paskyrą",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "Registras",
     "TESTIMONIAL_HEADER": "Tereikia vieno žingsnio, kad judėtume į priekį",
     "TESTIMONIAL_CONTENT": "Liko vienas žingsnis, kad įtrauktumėte savo klientus, išlaikytumėte juos ir rastumėte naujų.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
     },
     "SUBMIT": "Sukurti paskyrą",
-    "HAVE_AN_ACCOUNT": "Jau turi prisijungimo paskyrą?"
+    "HAVE_AN_ACCOUNT": "Jau turi prisijungimo paskyrą?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Resend verification email",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

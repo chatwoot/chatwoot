@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
 
 const props = defineProps({
   type: {
@@ -18,11 +19,13 @@ const attributeConfig = {
     colorClass: 'text-n-blue-11',
     icon: 'i-lucide-message-circle',
     labelKey: 'ATTRIBUTES_MGMT.BADGES.PRE_CHAT',
+    color: 'slate',
   },
   resolution: {
     colorClass: 'text-n-teal-11',
     icon: 'i-lucide-circle-check-big',
     labelKey: 'ATTRIBUTES_MGMT.BADGES.RESOLUTION',
+    color: 'slate',
   },
 };
 const config = computed(
@@ -31,12 +34,9 @@ const config = computed(
 </script>
 
 <template>
-  <div
-    class="flex gap-1 justify-center items-center px-1.5 py-1 rounded-md shadow outline-1 outline outline-n-container bg-n-solid-2"
-  >
-    <Icon :icon="config.icon" class="size-4" :class="config.colorClass" />
-    <span class="text-xs" :class="config.colorClass">{{
-      t(config.labelKey)
-    }}</span>
-  </div>
+  <Label :label="t(config.labelKey)" :color="config.color" compact>
+    <template #icon>
+      <Icon :icon="config.icon" class="size-3.5 text-n-slate-12" />
+    </template>
+  </Label>
 </template>

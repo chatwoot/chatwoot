@@ -14,11 +14,47 @@ class Twilio::VoiceWebhookSetupService
     app_sid
   end
 
+  # Outbound calls dial through the TwiML app, so its voice_url must track the current host too.
+  def sync_twiml_app!
+    return create_twiml_app! if channel.twiml_app_sid.blank?
+
+    channel.client.applications(channel.twiml_app_sid).update(
+      voice_url: channel.voice_call_webhook_url,
+      voice_method: HTTP_METHOD
+    )
+    channel.twiml_app_sid
+  rescue StandardError => e
+    # The stored app was deleted in Twilio, so there is nothing to update; make a fresh one.
+    return create_twiml_app! if e.is_a?(Twilio::REST::RestError) && e.status_code == 404
+
+    log_twilio_error('TWIML_APP_UPDATE', e)
+    raise
+  end
+
+  def configure_number_webhooks!
+    numbers = channel.client.incoming_phone_numbers.list(phone_number: channel.phone_number)
+    if numbers.empty?
+      Rails.logger.warn "TWILIO_PHONE_NUMBER_NOT_FOUND: #{channel.phone_number}"
+      return
+    end
+
+    channel.client
+           .incoming_phone_numbers(numbers.first.sid)
+           .update(
+             voice_url: channel.voice_call_webhook_url,
+             voice_method: HTTP_METHOD,
+             status_callback: channel.voice_status_webhook_url,
+             status_callback_method: HTTP_METHOD
+           )
+  rescue StandardError => e
+    log_twilio_error('NUMBER_WEBHOOKS_UPDATE', e)
+    raise
+  end
+
   private
 
   def validate_token_credentials!
-    # Only validate Account SID + Auth Token
-    token_client.incoming_phone_numbers.list(limit: 1)
+    channel.client.incoming_phone_numbers.list(limit: 1)
   rescue StandardError => e
     log_twilio_error('AUTH_VALIDATION_TOKEN', e)
     raise
@@ -26,7 +62,7 @@ class Twilio::VoiceWebhookSetupService
 
   def create_twiml_app!
     friendly_name = "Chatwoot Voice #{channel.phone_number}"
-    app = api_key_client.applications.create(
+    app = channel.client.applications.create(
       friendly_name: friendly_name,
       voice_url: channel.voice_call_webhook_url,
       voice_method: HTTP_METHOD
@@ -35,40 +71,6 @@ class Twilio::VoiceWebhookSetupService
   rescue StandardError => e
     log_twilio_error('TWIML_APP_CREATE', e)
     raise
-  end
-
-  def configure_number_webhooks!
-    numbers = api_key_client.incoming_phone_numbers.list(phone_number: channel.phone_number)
-    if numbers.empty?
-      Rails.logger.warn "TWILIO_PHONE_NUMBER_NOT_FOUND: #{channel.phone_number}"
-      return
-    end
-
-    api_key_client
-      .incoming_phone_numbers(numbers.first.sid)
-      .update(
-        voice_url: channel.voice_call_webhook_url,
-        voice_method: HTTP_METHOD,
-        status_callback: channel.voice_status_webhook_url,
-        status_callback_method: HTTP_METHOD
-      )
-  rescue StandardError => e
-    log_twilio_error('NUMBER_WEBHOOKS_UPDATE', e)
-    raise
-  end
-
-  def api_key_client
-    @api_key_client ||= begin
-      cfg = channel.provider_config.with_indifferent_access
-      ::Twilio::REST::Client.new(cfg[:api_key_sid], cfg[:api_key_secret], cfg[:account_sid])
-    end
-  end
-
-  def token_client
-    @token_client ||= begin
-      cfg = channel.provider_config.with_indifferent_access
-      ::Twilio::REST::Client.new(cfg[:account_sid], cfg[:auth_token])
-    end
   end
 
   def log_twilio_error(context, error)
@@ -80,11 +82,10 @@ class Twilio::VoiceWebhookSetupService
   end
 
   def build_error_details(context, error)
-    cfg = channel.provider_config.with_indifferent_access
     {
       context: context,
       phone_number: channel.phone_number,
-      account_sid: cfg[:account_sid],
+      account_sid: channel.account_sid,
       error_class: error.class.to_s,
       message: error.message
     }

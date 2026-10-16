@@ -6,6 +6,7 @@ import { useToggle } from '@vueuse/core';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 
 const props = defineProps({
   id: {
@@ -19,6 +20,10 @@ const props = defineProps({
   icon: {
     type: String,
     required: true,
+  },
+  iconColor: {
+    type: String,
+    default: '',
   },
   description: {
     type: String,
@@ -55,10 +60,6 @@ const categoryMenuItems = [
   },
 ];
 
-const categoryTitleWithIcon = computed(() => {
-  return `${props.icon} ${props.title}`;
-});
-
 const description = computed(() => {
   return props.description ? props.description : 'No description added';
 });
@@ -83,10 +84,16 @@ const handleAction = ({ action, value }) => {
       <div class="flex justify-between w-full gap-2">
         <div class="flex items-center justify-start w-full min-w-0 gap-2">
           <span
-            class="text-base truncate cursor-pointer hover:underline underline-offset-2 hover:text-n-blue-text text-n-slate-12"
+            class="flex items-center gap-1.5 text-base truncate cursor-pointer hover:underline underline-offset-2 hover:text-n-blue-11 text-n-slate-12"
             @click="handleClick(slug)"
           >
-            {{ categoryTitleWithIcon }}
+            <EmojiIcon
+              v-if="icon"
+              :value="icon"
+              :color="iconColor"
+              class="shrink-0 size-4"
+            />
+            <span class="truncate">{{ title }}</span>
           </span>
           <span
             class="inline-flex items-center justify-center h-6 px-2 py-1 text-xs text-center border rounded-lg bg-n-slate-1 whitespace-nowrap shrink-0 text-n-slate-11 border-n-slate-4"

@@ -64,4 +64,51 @@ describe('#filterQueryGenerator', () => {
       filterQueryGenerator(testData).payload.every(i => Array.isArray(i.values))
     ).toBe(true);
   });
+
+  it('does not split content values on commas', () => {
+    const input = [
+      {
+        attribute_key: 'content',
+        filter_operator: 'contains',
+        values: 'hello, world',
+        query_operator: null,
+      },
+    ];
+    const result = filterQueryGenerator(input);
+    expect(result.payload[0].values).toEqual(['hello, world']);
+  });
+
+  it('passes content values through unchanged when already an array', () => {
+    const input = [
+      {
+        attribute_key: 'content',
+        filter_operator: 'contains',
+        values: ['hello, world'],
+        query_operator: null,
+      },
+    ];
+    const result = filterQueryGenerator(input);
+    expect(result.payload[0].values).toEqual(['hello, world']);
+  });
+
+  it('serializes a selected contact object to contact id', () => {
+    const result = filterQueryGenerator([
+      {
+        attribute_key: 'contact_id',
+        filter_operator: 'equal_to',
+        values: { id: 123, name: 'Jane Doe' },
+        query_operator: 'and',
+      },
+    ]);
+
+    expect(result).toMatchObject({
+      payload: [
+        {
+          attribute_key: 'contact_id',
+          filter_operator: 'equal_to',
+          values: [123],
+        },
+      ],
+    });
+  });
 });

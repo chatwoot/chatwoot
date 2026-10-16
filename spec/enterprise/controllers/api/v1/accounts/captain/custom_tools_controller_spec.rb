@@ -5,6 +5,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
 
+  before { account.enable_features!('custom_tools') }
+
   def json_response
     JSON.parse(response.body, symbolize_names: true)
   end
@@ -40,7 +42,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(json_response[:payload].length).to eq(5)
       end
 
-      it 'returns only enabled custom tools' do
+      it 'returns all custom tools including disabled' do
         create(:captain_custom_tool, account: account, enabled: true)
         create(:captain_custom_tool, account: account, enabled: false)
         get "/api/v1/accounts/#{account.id}/captain/custom_tools",
@@ -48,8 +50,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(json_response[:payload].length).to eq(1)
-        expect(json_response[:payload].first[:enabled]).to be(true)
+        expect(json_response[:payload].length).to eq(2)
       end
     end
   end
@@ -83,6 +84,21 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
         expect(response).to have_http_status(:not_found)
       end
+    end
+
+    it 'returns the number of enabled scenarios referencing the tool' do
+      custom_tool.update!(slug: 'custom_fetch-order')
+      assistant = create(:captain_assistant, account: account)
+      instruction = 'Use [@Fetch Order](tool://custom_fetch-order) to get order details'
+      create(:captain_scenario, assistant: assistant, account: account, instruction: instruction, enabled: true)
+      create(:captain_scenario, assistant: assistant, account: account, instruction: instruction, enabled: false)
+
+      get "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(json_response[:enabled_scenarios_count]).to eq(1)
     end
   end
 
@@ -217,6 +233,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         expect(response).to have_http_status(:success)
         expect(json_response[:title]).to eq('Updated Tool Title')
         expect(json_response[:enabled]).to be(false)
+        expect(custom_tool.reload.enabled).to be(false)
       end
 
       context 'with invalid parameters' do

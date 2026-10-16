@@ -7,6 +7,8 @@ class Public::Api::V1::Portals::BaseController < PublicController
   around_action :set_locale
   after_action :allow_iframe_requests
 
+  PORTAL_LAYOUTS = %w[classic documentation].freeze
+
   private
 
   def show_plain_layout
@@ -15,6 +17,18 @@ class Public::Api::V1::Portals::BaseController < PublicController
 
   def set_color_scheme
     @theme_from_params = params[:theme] if %w[dark light].include?(params[:theme])
+  end
+
+  def set_portal_layout
+    @portal_layout = PORTAL_LAYOUTS.include?(@portal&.layout) ? @portal.layout : 'classic'
+  end
+
+  def set_view_variant
+    request.variant = if @is_plain_layout_enabled
+                        :plain
+                      elsif @portal_layout == 'documentation'
+                        :documentation
+                      end
   end
 
   def portal
@@ -29,9 +43,11 @@ class Public::Api::V1::Portals::BaseController < PublicController
   end
 
   def switch_locale_with_portal(&)
-    @locale = validate_and_get_locale(params[:locale])
+    # Keep @locale as the portal's own locale code (e.g. th_TH) for content queries,
+    # while UI translations fall back to an available I18n locale (e.g. th).
+    @locale = params[:locale]
 
-    I18n.with_locale(@locale, &)
+    I18n.with_locale(validate_and_get_locale(@locale), &)
   end
 
   def switch_locale_with_article(&)
@@ -39,13 +55,12 @@ class Public::Api::V1::Portals::BaseController < PublicController
     Rails.logger.info "Article: not found for slug: #{params[:article_slug]}"
     render_404 && return if article.blank?
 
-    article_locale = if article.category.present?
-                       article.category.locale
-                     else
-                       article.portal.default_locale
-                     end
-    @locale = validate_and_get_locale(article_locale)
-    I18n.with_locale(@locale, &)
+    @locale = if article.category.present?
+                article.category.locale
+              else
+                article.locale
+              end
+    I18n.with_locale(validate_and_get_locale(@locale), &)
   end
 
   def allow_iframe_requests
@@ -54,6 +69,8 @@ class Public::Api::V1::Portals::BaseController < PublicController
 
   def render_404
     portal
+    # set_locale can render_404 before the child's set_view_variant runs; set it here so plain 404s stay chrome-less
+    set_view_variant
     render 'public/api/v1/portals/error/404', status: :not_found
   end
 

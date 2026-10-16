@@ -10,36 +10,8 @@ export const emptyMacro = {
   visibility: 'global',
 };
 
-export const resolveActionName = key => {
-  return macroActionTypes.find(i => i.key === key).label;
-};
-
-export const resolveTeamIds = (teams, ids) => {
-  return ids
-    .map(id => {
-      const team = teams.find(i => i.id === id);
-      return team ? team.name : '';
-    })
-    .join(', ');
-};
-
-export const resolveLabels = (labels, ids) => {
-  return ids
-    .map(id => {
-      const label = labels.find(i => i.title === id);
-      return label ? label.title : '';
-    })
-    .join(', ');
-};
-
-export const resolveAgents = (agents, ids) => {
-  return ids
-    .map(id => {
-      const agent = agents.find(i => i.id === id);
-      return agent ? agent.name : '';
-    })
-    .join(', ');
-};
+export const resolveActionName = key =>
+  macroActionTypes.find(i => i.key === key)?.label ?? key.toUpperCase();
 
 export const getFileName = (id, actionType, files) => {
   if (!id || !files) return '';

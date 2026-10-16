@@ -30,18 +30,37 @@ export const actions = {
       commit('setConversationUIFlag', { isCreating: false });
     }
   },
-  sendMessage: async ({ dispatch }, params) => {
+  sendMessage: async ({ dispatch, state: conversationState }, params) => {
     const { content, replyTo } = params;
     const message = createTemporaryMessage({ content, replyTo });
-    dispatch('sendMessageWithData', message);
+    const { pendingCustomAttributes, pendingLabels } = conversationState;
+    dispatch('sendMessageWithData', {
+      message,
+      pendingCustomAttributes,
+      pendingLabels,
+    });
   },
-  sendMessageWithData: async ({ commit }, message) => {
+  sendMessageWithData: async (
+    { commit },
+    { message, pendingCustomAttributes = {}, pendingLabels = [] }
+  ) => {
     const { id, content, replyTo, meta = {} } = message;
+    const hasPendingMetadata =
+      Object.keys(pendingCustomAttributes).length > 0 ||
+      pendingLabels.length > 0;
 
     commit('pushMessageToConversation', message);
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
     try {
-      const { data } = await sendMessageAPI(content, replyTo);
+      const { data } = await sendMessageAPI(content, replyTo, {
+        customAttributes: hasPendingMetadata
+          ? pendingCustomAttributes
+          : undefined,
+        labels: hasPendingMetadata ? pendingLabels : undefined,
+      });
+      if (hasPendingMetadata) {
+        commit('clearPendingConversationMetadata');
+      }
 
       // [VITE] Don't delete this manually, since `pushMessageToConversation` does the replacement for us anyway
       // commit('deleteMessage', message.id);
@@ -59,7 +78,7 @@ export const actions = {
     commit('setLastMessageId');
   },
 
-  sendAttachment: async ({ commit }, params) => {
+  sendAttachment: async ({ commit, state: conversationState }, params) => {
     const {
       attachment: { thumbUrl, fileType },
       meta = {},
@@ -74,9 +93,22 @@ export const actions = {
       attachments: [attachment],
       replyTo: params.replyTo,
     });
+    const { pendingCustomAttributes, pendingLabels } = conversationState;
+    const hasPendingMetadata =
+      Object.keys(pendingCustomAttributes).length > 0 ||
+      pendingLabels.length > 0;
+
     commit('pushMessageToConversation', tempMessage);
     try {
-      const { data } = await sendAttachmentAPI(params);
+      const { data } = await sendAttachmentAPI(params, {
+        customAttributes: hasPendingMetadata
+          ? pendingCustomAttributes
+          : undefined,
+        labels: hasPendingMetadata ? pendingLabels : undefined,
+      });
+      if (hasPendingMetadata) {
+        commit('clearPendingConversationMetadata');
+      }
       commit('updateAttachmentMessageStatus', {
         message: data,
         tempId: tempMessage.id,
@@ -180,7 +212,14 @@ export const actions = {
     await toggleStatus();
   },
 
-  setCustomAttributes: async (_, customAttributes = {}) => {
+  setCustomAttributes: async (
+    { commit, rootGetters },
+    customAttributes = {}
+  ) => {
+    if (!rootGetters['conversationAttributes/getConversationParams']?.id) {
+      commit('setPendingCustomAttributes', customAttributes);
+      return;
+    }
     try {
       await setCustomAttributes(customAttributes);
     } catch (error) {
@@ -188,7 +227,11 @@ export const actions = {
     }
   },
 
-  deleteCustomAttribute: async (_, customAttribute) => {
+  deleteCustomAttribute: async ({ commit, rootGetters }, customAttribute) => {
+    if (!rootGetters['conversationAttributes/getConversationParams']?.id) {
+      commit('removePendingCustomAttribute', customAttribute);
+      return;
+    }
     try {
       await deleteCustomAttribute(customAttribute);
     } catch (error) {

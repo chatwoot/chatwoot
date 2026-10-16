@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useAccount } from 'dashboard/composables/useAccount';
 import ChannelSelector from '../ChannelSelector.vue';
 
 const props = defineProps({
@@ -14,6 +15,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['channelItemClick']);
+const { isOnChatwootCloud } = useAccount();
 
 const hasFbConfigured = computed(() => {
   return window.chatwootConfig?.fbAppId;
@@ -52,7 +54,7 @@ const isActive = computed(() => {
     return props.enabledFeatures.channel_tiktok && hasTiktokConfigured.value;
   }
 
-  if (key === 'voice') {
+  if (key === 'voice' || key === 'whatsapp_call') {
     return props.enabledFeatures.channel_voice;
   }
 
@@ -77,7 +79,33 @@ const isComingSoon = computed(() => {
   return ['voice'].includes(key) && !isActive.value;
 });
 
+const isBeta = computed(() => {
+  return ['tiktok', 'voice', 'whatsapp_call'].includes(props.channel.key);
+});
+
+const canRequestTiktokAccess = computed(() => {
+  return (
+    props.channel.key === 'tiktok' &&
+    isOnChatwootCloud.value &&
+    hasTiktokConfigured.value &&
+    Object.keys(props.enabledFeatures).length > 0 &&
+    !props.enabledFeatures.channel_tiktok
+  );
+});
+
+const hasVoiceBadge = computed(() => {
+  return (
+    ['voice', 'whatsapp_call'].includes(props.channel.key) &&
+    !!props.enabledFeatures.channel_voice
+  );
+});
+
 const onItemClick = () => {
+  if (canRequestTiktokAccess.value) {
+    window.$chatwoot?.toggle();
+    return;
+  }
+
   if (isActive.value) {
     emit('channelItemClick', props.channel.key);
   }
@@ -90,7 +118,9 @@ const onItemClick = () => {
     :description="channel.description"
     :icon="channel.icon"
     :is-coming-soon="isComingSoon"
-    :disabled="!isActive"
+    :is-beta="isBeta"
+    :has-voice-badge="hasVoiceBadge"
+    :disabled="!isActive && !canRequestTiktokAccess"
     @click="onItemClick"
   />
 </template>

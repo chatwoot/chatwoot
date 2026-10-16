@@ -7,7 +7,9 @@ properties:
     type: string
     description: The name of the team
   description:
-    type: string
+    type:
+      - string
+      - 'null'
     description: The description about the team
   allow_auto_assign:
     type: boolean

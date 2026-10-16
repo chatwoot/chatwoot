@@ -103,7 +103,7 @@ const onMergeContacts = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-8 px-6 py-6">
+  <div class="flex flex-col gap-8 px-6">
     <div class="flex flex-col gap-2">
       <h4 class="text-base text-n-slate-12">
         {{ t('CONTACTS_LAYOUT.SIDEBAR.MERGE.TITLE') }}
@@ -130,7 +130,7 @@ const onMergeContacts = async () => {
         variant="faded"
         color="slate"
         :label="t('CONTACTS_LAYOUT.SIDEBAR.MERGE.BUTTONS.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-text hover:bg-n-alpha-3"
+        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
         @click="resetState"
       />
       <Button

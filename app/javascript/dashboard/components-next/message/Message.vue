@@ -3,12 +3,14 @@ import { onMounted, computed, ref, toRefs } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
+import { useMapGetter } from 'dashboard/composables/store';
 import { emitter } from 'shared/helpers/mitt';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   MESSAGE_TYPES,
@@ -29,6 +31,7 @@ import FileBubble from './bubbles/File.vue';
 import AudioBubble from './bubbles/Audio.vue';
 import VideoBubble from './bubbles/Video.vue';
 import EmbedBubble from './bubbles/Embed.vue';
+import FallbackBubble from './bubbles/Fallback.vue';
 import InstagramStoryBubble from './bubbles/InstagramStory.vue';
 import EmailBubble from './bubbles/Email/Index.vue';
 import UnsupportedBubble from './bubbles/Unsupported.vue';
@@ -38,9 +41,12 @@ import LocationBubble from './bubbles/Location.vue';
 import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
 import VoiceCallBubble from './bubbles/VoiceCall.vue';
+import WhatsappFlowResponseBubble from './bubbles/WhatsappFlowResponse.vue';
+import WhatsappReferral from './bubbles/Text/WhatsappReferral.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
+import { useBranding } from 'shared/composables/useBranding';
 
 /**
  * @typedef {Object} Attachment
@@ -110,6 +116,7 @@ const props = defineProps({
     validator: value => Object.values(MESSAGE_STATUS).includes(value),
   },
   attachments: { type: Array, default: () => [] },
+  call: { type: Object, default: null }, // eslint-disable-line vue/no-unused-properties
   content: { type: String, default: null },
   contentAttributes: { type: Object, default: () => ({}) },
   contentType: {
@@ -126,6 +133,7 @@ const props = defineProps({
   inReplyTo: { type: Object, default: null }, // eslint-disable-line vue/no-unused-properties
   isEmailInbox: { type: Boolean, default: false },
   private: { type: Boolean, default: false },
+  additionalAttributes: { type: Object, default: () => ({}) }, // eslint-disable-line vue/no-unused-properties
   sender: { type: Object, default: null },
   senderId: { type: Number, default: null },
   senderType: { type: String, default: null },
@@ -139,6 +147,15 @@ const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
 const { t } = useI18n();
 const route = useRoute();
+const inboxGetter = useMapGetter('inboxes/getInbox');
+const inbox = computed(() => inboxGetter.value(props.inboxId) || {});
+const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
+const { replaceInstallationName } = useBranding();
+
+const isCaptainMessage = computed(() => {
+  const senderType = props.sender?.type ?? props.senderType;
+  return senderType === SENDER_TYPES.CAPTAIN_ASSISTANT;
+});
 
 /**
  * Computes the message variant based on props
@@ -162,7 +179,14 @@ const variant = computed(() => {
   if (props.contentAttributes?.isUnsupported)
     return MESSAGE_VARIANTS.UNSUPPORTED;
 
-  const isBot = !props.sender || props.sender.type === SENDER_TYPES.AGENT_BOT;
+  if (props.contentAttributes?.externalEcho) {
+    return MESSAGE_VARIANTS.AGENT;
+  }
+
+  const isBot =
+    props.sender?.type === SENDER_TYPES.AGENT_BOT ||
+    props.senderType === SENDER_TYPES.AGENT_BOT ||
+    (!props.sender && !props.additionalAttributes?.senderName);
   if (isBot && props.messageType === MESSAGE_TYPES.OUTGOING) {
     return MESSAGE_VARIANTS.BOT;
   }
@@ -274,6 +298,10 @@ const componentToRender = computed(() => {
     if (emailInboxTypes.includes(props.messageType)) return EmailBubble;
   }
 
+  if (props.contentAttributes?.whatsappFlowResponse) {
+    return WhatsappFlowResponseBubble;
+  }
+
   if (props.contentType === CONTENT_TYPES.INPUT_CSAT) {
     return CSATBubble;
   }
@@ -303,6 +331,7 @@ const componentToRender = computed(() => {
   const instagramSharedTypes = [
     ATTACHMENT_TYPES.STORY_MENTION,
     ATTACHMENT_TYPES.IG_STORY,
+    ATTACHMENT_TYPES.IG_STORY_REPLY,
     ATTACHMENT_TYPES.IG_POST,
   ];
   if (instagramSharedTypes.includes(props.contentAttributes.imageType)) {
@@ -311,6 +340,8 @@ const componentToRender = computed(() => {
 
   if (Array.isArray(props.attachments) && props.attachments.length === 1) {
     const fileType = props.attachments[0].fileType;
+
+    if (fileType === ATTACHMENT_TYPES.FALLBACK) return FallbackBubble;
 
     if (!props.content) {
       if (fileType === ATTACHMENT_TYPES.IMAGE) return ImageBubble;
@@ -339,6 +370,12 @@ const isBubble = computed(() => {
 const isMessageDeleted = computed(() => {
   return props.contentAttributes?.deleted;
 });
+
+const shouldShowWhatsappReferral = computed(
+  () =>
+    variant.value === MESSAGE_VARIANTS.USER &&
+    !!props.contentAttributes?.referral
+);
 
 const payloadForContextMenu = computed(() => {
   return {
@@ -371,6 +408,10 @@ const contextMenuEnabledOptions = computed(() => {
       !props.private &&
       props.inboxSupportsReplyTo.outgoing &&
       !isFailedOrProcessing,
+    report:
+      isOnChatwootCloud.value &&
+      isCaptainMessage.value &&
+      !isMessageDeleted.value,
   };
 });
 
@@ -380,13 +421,21 @@ const shouldRenderMessage = computed(() => {
   const isUnsupported = props.contentAttributes?.isUnsupported;
   const isAnIntegrationMessage =
     props.contentType === CONTENT_TYPES.INTEGRATIONS;
+  const hasWhatsappFlowResponse =
+    !!props.contentAttributes?.whatsappFlowResponse;
+  const isFailedMessage = props.status === MESSAGE_STATUS.FAILED;
+  const hasExternalError = !!props.contentAttributes?.externalError;
 
   return (
     hasAttachments ||
     props.content ||
     isEmailContentType ||
     isUnsupported ||
-    isAnIntegrationMessage
+    isAnIntegrationMessage ||
+    hasWhatsappFlowResponse ||
+    shouldShowWhatsappReferral.value ||
+    isFailedMessage ||
+    hasExternalError
   );
 });
 
@@ -423,12 +472,26 @@ function handleReplyTo() {
 }
 
 const avatarInfo = computed(() => {
-  // If no sender, return bot info
-  if (!props.sender) {
+  if (props.contentAttributes?.externalEcho) {
+    const { name, avatar_url, channel_type, medium, voice_enabled } =
+      inbox.value;
+    const iconName = avatar_url
+      ? null
+      : getInboxIconByType(channel_type, medium, 'fill', voice_enabled);
     return {
-      name: t('CONVERSATION.BOT'),
-      src: '',
+      name: iconName ? '' : name || t('CONVERSATION.NATIVE_APP'),
+      src: avatar_url || '',
+      iconName,
     };
+  }
+
+  // If no sender, check for Slack (or other integration) sender info
+  if (!props.sender) {
+    const { senderName, senderAvatarUrl } = props.additionalAttributes || {};
+    if (senderName) {
+      return { name: senderName, src: senderAvatarUrl ?? '' };
+    }
+    return { name: t('CONVERSATION.BOT'), src: '' };
   }
 
   const { sender } = props;
@@ -450,6 +513,9 @@ const avatarInfo = computed(() => {
 });
 
 const avatarTooltip = computed(() => {
+  if (props.contentAttributes?.externalEcho) {
+    return replaceInstallationName(t('CONVERSATION.NATIVE_APP_ADVISORY'));
+  }
   if (avatarInfo.value.name === '') return '';
   return `${t('CONVERSATION.SENT_BY')} ${avatarInfo.value.name}`;
 });
@@ -483,7 +549,7 @@ provideMessageContext({
   <div
     v-if="shouldRenderMessage"
     :id="`message${props.id}`"
-    class="flex mb-2 w-full message-bubble-container"
+    class="flex w-full mb-2 message-bubble-container"
     :data-message-id="props.id"
     :class="[
       flexOrientationClass,
@@ -518,14 +584,18 @@ provideMessageContext({
         <Avatar v-bind="avatarInfo" :size="24" />
       </div>
       <div
-        class="[grid-area:bubble] flex"
+        class="[grid-area:bubble] flex min-w-0"
         :class="{
           'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
           'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
-          'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
+          'flex-col items-start gap-2': shouldShowWhatsappReferral,
         }"
         @contextmenu="openContextMenu($event)"
       >
+        <WhatsappReferral
+          v-if="shouldShowWhatsappReferral"
+          :referral="contentAttributes.referral"
+        />
         <Component :is="componentToRender" />
       </div>
       <MessageError

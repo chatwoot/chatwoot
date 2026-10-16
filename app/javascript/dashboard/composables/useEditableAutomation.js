@@ -1,8 +1,8 @@
 import useAutomationValues from './useAutomationValues';
 
 import {
-  getCustomAttributeInputType,
   filterCustomAttributes,
+  getCustomAttributeInputType,
   getStandardAttributeInputType,
   isCustomAttribute,
 } from 'dashboard/helper/automationHelper';
@@ -40,17 +40,35 @@ export function useEditableAutomation() {
           condition.attribute_key
         );
       }
-      if (inputType === 'plain_text' || inputType === 'date') {
-        return { ...condition, values: condition.values[0] };
-      }
-      if (inputType === 'comma_separated_plain_text') {
-        return { ...condition, values: condition.values.join(',') };
-      }
-      return {
+      const base = {
         ...condition,
         query_operator: condition.query_operator || 'and',
-        values: [...getConditionDropdownValues(condition.attribute_key)].filter(
-          item => [...condition.values].includes(item.id)
+      };
+
+      if (inputType === 'plain_text' || inputType === 'date') {
+        return { ...base, values: condition.values[0] };
+      }
+      if (inputType === 'multi_text') {
+        return { ...base, values: [...condition.values] };
+      }
+      const dropdownValues = getConditionDropdownValues(
+        condition.attribute_key
+      );
+      const hasBooleanOptions =
+        inputType === 'search_select' &&
+        dropdownValues.length &&
+        dropdownValues.every(item => typeof item.id === 'boolean');
+
+      if (hasBooleanOptions) {
+        return {
+          ...base,
+          values: dropdownValues.find(item => item.id === condition.values[0]),
+        };
+      }
+      return {
+        ...base,
+        values: [...dropdownValues].filter(item =>
+          [...condition.values].includes(item.id)
         ),
       };
     });

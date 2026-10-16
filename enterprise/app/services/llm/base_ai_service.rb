@@ -14,7 +14,11 @@ class Llm::BaseAiService
 
   attr_reader :model, :temperature
 
-  def initialize
+  def initialize(feature: nil, account: nil, fallback_model: nil)
+    @llm_feature = feature
+    @llm_account = account
+    @fallback_model = fallback_model
+
     Llm::Config.initialize!
     setup_model
     setup_temperature
@@ -34,11 +38,43 @@ class Llm::BaseAiService
 
   private
 
+  # Strips markdown code fences (```json ... ``` or ``` ... ```) that some
+  # LLM providers/gateways wrap around JSON responses despite response_format hints.
+  def sanitize_json_response(response)
+    return response if response.nil?
+
+    response.strip.sub(/\A```(?:\w*)\s*\n?/, '').sub(/\n?\s*```\s*\z/, '').strip
+  end
+
   def setup_model
-    provider = Llm::Config.provider
-    config_key = MODEL_CONFIG_KEYS[provider] || 'CAPTAIN_OPEN_AI_MODEL'
-    config_value = InstallationConfig.find_by(name: config_key)&.value
-    @model = (config_value.presence || Llm::Config.default_model_for_provider)
+    return @model = provider_model unless Llm::Config.provider == 'openai'
+
+    route = feature_route
+    return @model = route[:model] if account_override_route?(route) || captain_v2_assistant?
+
+    @model = @fallback_model.presence || installation_model.presence || route&.dig(:model) || DEFAULT_MODEL
+  end
+
+  def feature_route
+    return if @llm_feature.blank?
+
+    Llm::FeatureRouter.resolve(feature: @llm_feature, account: @llm_account)
+  end
+
+  def account_override_route?(route)
+    route&.dig(:source) == :account_override
+  end
+
+  def captain_v2_assistant?
+    @llm_feature.to_s == 'assistant' && @llm_account&.feature_enabled?('captain_integration_v2')
+  end
+
+  def installation_model
+    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value
+  end
+
+  def provider_model
+    InstallationConfig.find_by(name: MODEL_CONFIG_KEYS[Llm::Config.provider])&.value.presence || Llm::Config.default_model_for_provider
   end
 
   def setup_temperature

@@ -42,7 +42,7 @@ describe OnlineStatusTracker do
       described_class.update_presence(account.id, 'Contact', online_contact.id)
       # creating a stale record for offline contact presence
       Redis::Alfred.zadd(format(Redis::Alfred::ONLINE_PRESENCE_CONTACTS, account_id: account.id),
-                         (Time.zone.now - (OnlineStatusTracker::PRESENCE_DURATION + 20)).to_i, offline_contact.id)
+                         (Time.zone.now - (OnlineStatusTracker::CONTACT_PRESENCE_DURATION + 20)).to_i, offline_contact.id)
     end
 
     it 'returns only the online contact ids with presence' do

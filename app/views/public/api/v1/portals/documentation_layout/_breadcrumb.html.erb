@@ -1,0 +1,31 @@
+<%# locals: (portal:, locale:, category: nil, article: nil) %>
+<nav class="flex items-center gap-2 text-sm text-n-slate-11 mb-8 flex-wrap">
+  <a
+    href="<%= public_portal_locale_path(portal.slug, locale) %>"
+    class="inline-flex items-center gap-1.5 hover:text-n-slate-12 transition"
+  >
+    <span class="i-lucide-house size-3.5" aria-hidden="true"></span>
+    <%= I18n.t('public_portal.common.home') %>
+  </a>
+  <% if category %>
+    <span class="i-lucide-chevron-right size-3 text-n-slate-9" aria-hidden="true"></span>
+    <% if article %>
+      <a
+        href="<%= public_portal_category_path(portal.slug, category.locale, category.slug) %>"
+        class="inline-flex items-center gap-1.5 hover:text-n-slate-12 transition"
+      >
+        <% if category.icon.present? %><span><%= render_emoji_or_icon(category.icon, category.icon_color) %></span><% end %>
+        <%= category.name %>
+      </a>
+    <% else %>
+      <span class="inline-flex items-center gap-1.5 text-n-slate-12 font-medium truncate">
+        <% if category.icon.present? %><span class="inline-flex flex-shrink-0"><%= render_emoji_or_icon(category.icon, category.icon_color) %></span><% end %>
+        <%= category.name %>
+      </span>
+    <% end %>
+  <% end %>
+  <% if article %>
+    <span class="i-lucide-chevron-right size-3 text-n-slate-9" aria-hidden="true"></span>
+    <span class="text-n-slate-12 font-medium truncate"><%= article.title %></span>
+  <% end %>
+</nav>

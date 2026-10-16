@@ -33,7 +33,7 @@ const titleCase = computed(() => props.title.toLowerCase());
   <section class="mx-0 mb-3">
     <div
       v-if="showTitle"
-      class="sticky top-0 pt-2 py-3 z-50 bg-gradient-to-b from-n-background from-80% to-transparent mb-3 -mx-1.5 px-1.5"
+      class="sticky top-0 pt-2 py-3 z-20 bg-gradient-to-b from-n-surface-1 from-80% to-transparent mb-3 -mx-1.5 px-1.5"
     >
       <h3 class="text-sm text-n-slate-11">{{ title }}</h3>
     </div>

@@ -43,10 +43,6 @@ class Voice::Provider::Twilio::Adapter
   end
 
   def twilio_client
-    Twilio::REST::Client.new(config['account_sid'], config['auth_token'])
-  end
-
-  def config
-    @config ||= @channel.provider_config_hash
+    Twilio::REST::Client.new(@channel.account_sid, @channel.auth_token)
   end
 end

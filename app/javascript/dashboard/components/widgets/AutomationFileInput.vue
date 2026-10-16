@@ -79,7 +79,7 @@ input[type='file'] {
   @apply hidden;
 }
 .input-wrapper {
-  @apply flex h-9 bg-n-background py-1 px-2 items-center text-xs cursor-pointer rounded-sm border border-dashed border-n-strong;
+  @apply flex h-8 bg-n-background py-1 px-2 items-center text-xs cursor-pointer rounded-lg border border-dashed border-n-strong;
 }
 .success-icon {
   @apply text-n-teal-9 mr-2;

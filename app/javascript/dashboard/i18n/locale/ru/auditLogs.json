@@ -2,18 +2,49 @@
   "AUDIT_LOGS": {
     "HEADER": "Журнал аудита",
     "HEADER_BTN_TXT": "Добавить журнал аудита",
-    "LOADING": "Получение журнала аудита",
-    "DESCRIPTION": "Журнал аудита ведет запись действий в вашей учетной записи, позволяя отслеживать и проверять действия учетной записи, команды или сервисов.",
+    "LOADING": "Загрузка журнала аудита",
+    "DESCRIPTION": "Журнал аудита фиксирует действия в вашей учетной записи, позволяя отслеживать и проверять действия пользователей, команд и сервисов.",
     "LEARN_MORE": "Узнать больше о журнале аудита",
-    "SEARCH_404": "Нет элементов, соответствующих вашему запросу",
-    "SIDEBAR_TXT": "<p><b>Журнал аудита</b> </p><p>Журнал аудита — это следы событий и действий в системе Chatwoot. </p>",
+    "SEARCH_404": "По вашему запросу ничего не найдено",
+    "SIDEBAR_TXT": "<p><b>Журнал аудита</b> </p><p>Журнал аудита фиксирует события и действия в системе Chatwoot.</p>",
+    "COUNT": "{n} event | {n} events",
+    "FILTERS": {
+      "SEARCH_PLACEHOLDER": "Search by name or email",
+      "ALL_EVENTS": "All events",
+      "DATE_RANGE": "Date range",
+      "CLEAR_ALL": "Очистить фильтры",
+      "EVENT_TYPE_GROUPS": {
+        "ACCESS": "Access",
+        "AGENTS_TEAMS": "Agents & teams",
+        "CONFIGURATION": "Настройки",
+        "CONVERSATIONS": "Диалоги"
+      },
+      "EVENT_TYPES": {
+        "SIGN_IN_OUT": "Sign in / sign out",
+        "AGENTS": "Операторы",
+        "TEAMS": "Команды",
+        "TEAM_MEMBERS": "Team members",
+        "INBOX_MEMBERS": "Inbox collaborators",
+        "ACCOUNT": "Настройки аккаунта",
+        "INBOXES": "Источники",
+        "WEBHOOKS": "Webhooks",
+        "AUTOMATION_RULES": "Automation rules",
+        "MACROS": "Макрос",
+        "CONVERSATION_DELETIONS": "Conversation deletions",
+        "MESSAGE_DELETIONS": "Message deletions"
+      },
+      "SORT": {
+        "NEWEST": "Newest first",
+        "OLDEST": "Oldest first"
+      }
+    },
     "LIST": {
-      "404": "В этой учетной записи нет доступных журналов аудита.",
+      "404": "В этой учетной записи нет записей журнала аудита.",
       "TITLE": "Управление журналом аудита",
-      "DESC": "Журнал аудита — это следы событий и действий в системе Chatwoot.",
+      "DESC": "Журнал аудита фиксирует события и действия в системе Chatwoot.",
       "TABLE_HEADER": {
-        "ACTIVITY": "Пользователь",
-        "TIME": "Действия",
+        "ACTIVITY": "Действие",
+        "TIME": "Время",
         "IP_ADDRESS": "IP-адрес"
       }
     },
@@ -28,9 +59,9 @@
       "DELETE": "{agentName} удалил правило автоматизации (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "{agentName} Пригашен {invitee} права аккаунта {role}",
+      "ADD": "{agentName} пригласил {invitee} с ролью {role}",
       "EDIT": {
-        "SELF": "{agentName} изменить {attributes} на {values}",
+        "SELF": "{agentName} изменил {attributes} на {values}",
         "OTHER": "{agentName} изменил {attributes} пользователя {user} на {values}",
         "DELETED": "{agentName} изменил {attributes} удаленного пользователя на {values}"
       }
@@ -72,6 +103,9 @@
     },
     "CONVERSATION": {
       "DELETE": "{agentName} удалил диалог #{id}"
+    },
+    "MESSAGE": {
+      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
     }
   }
 }

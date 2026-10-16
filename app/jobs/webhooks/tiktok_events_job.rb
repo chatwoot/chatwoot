@@ -54,7 +54,7 @@ class Webhooks::TiktokEventsJob < MutexApplicationJob
   # Receive real-time notifications if you send a message to a user.
   def im_send_msg
     # This can be either an echo message or a message sent directly via tiktok application
-    ::Tiktok::MessageService.new(channel: channel, content: content).perform
+    ::Tiktok::MessageService.new(channel: channel, content: content, outgoing_echo: true).perform
   end
 
   # Receive real-time notifications if a user outside the European Economic Area (EEA), Switzerland, or the UK sends a message to you.

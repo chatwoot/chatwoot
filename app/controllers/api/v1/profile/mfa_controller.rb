@@ -2,8 +2,8 @@ class Api::V1::Profile::MfaController < Api::BaseController
   before_action :check_mfa_feature_available
   before_action :check_mfa_enabled, only: [:destroy, :backup_codes]
   before_action :check_mfa_disabled, only: [:create, :verify]
-  before_action :validate_otp, only: [:verify, :backup_codes, :destroy]
   before_action :validate_password, only: [:destroy]
+  before_action :validate_otp, only: [:verify, :backup_codes, :destroy]
 
   def show; end
 
@@ -48,7 +48,8 @@ class Api::V1::Profile::MfaController < Api::BaseController
   def validate_otp
     authenticated = Mfa::AuthenticationService.new(
       user: current_user,
-      otp_code: mfa_params[:otp_code]
+      otp_code: mfa_params[:otp_code],
+      backup_code: mfa_params[:backup_code]
     ).authenticate
 
     return if authenticated
@@ -63,6 +64,6 @@ class Api::V1::Profile::MfaController < Api::BaseController
   end
 
   def mfa_params
-    params.permit(:otp_code, :password)
+    params.permit(:otp_code, :backup_code, :password)
   end
 end

@@ -30,6 +30,14 @@ export const isOnUnattendedView = ({ route: { name: routeName } }) => {
   return UNATTENDED_ROUTES.includes(routeName);
 };
 
+export const isOnParticipatingView = ({ route: { name: routeName } }) => {
+  const PARTICIPATING_ROUTES = [
+    'conversation_participating',
+    'conversation_through_participating',
+  ];
+  return PARTICIPATING_ROUTES.includes(routeName);
+};
+
 export const isOnFoldersView = ({ route: { name: routeName } }) => {
   const FOLDER_ROUTES = [
     'folder_conversations',
@@ -42,11 +50,20 @@ export const buildConversationList = (
   context,
   requestPayload,
   responseData,
-  filterType
+  filterType,
+  { replaceExisting = false, countRequest } = {}
 ) => {
   const { payload: conversationList, meta: metaData } = responseData;
-  context.commit(types.SET_ALL_CONVERSATION, conversationList);
-  context.dispatch('conversationStats/set', metaData);
+  if (replaceExisting) {
+    context.dispatch('conversationPage/reset', null, { root: true });
+    context.commit(types.REPLACE_CONVERSATION_LIST, conversationList);
+  } else {
+    context.commit(types.SET_ALL_CONVERSATION, conversationList);
+  }
+  context.dispatch('conversationStats/set', {
+    meta: metaData,
+    request: countRequest,
+  });
   context.dispatch(
     'conversationLabels/setBulkConversationLabels',
     conversationList

@@ -51,6 +51,7 @@ export const conversationListPageURL = ({
   } else if (conversationType) {
     const urlMap = {
       mention: 'mentions/conversations',
+      participating: 'participating/conversations',
       unattended: 'unattended/conversations',
     };
     url = `accounts/${accountId}/${urlMap[conversationType]}`;
@@ -126,25 +127,8 @@ export const getHostNameFromURL = url => {
   }
 };
 
-/**
- * Extracts filename from a URL
- * @param {string} url - The URL to extract filename from
- * @returns {string} - The extracted filename or original URL if extraction fails
- */
-export const extractFilenameFromUrl = url => {
-  if (!url || typeof url !== 'string') return url;
-
-  try {
-    const urlObj = new URL(url);
-    const pathname = urlObj.pathname;
-    const filename = pathname.split('/').pop();
-    return filename || url;
-  } catch (error) {
-    // If URL parsing fails, try to extract filename using regex
-    const match = url.match(/\/([^/?#]+)(?:[?#]|$)/);
-    return match ? match[1] : url;
-  }
-};
+// Shared with the mobile app via @chatwoot/utils.
+export { extractFilenameFromUrl } from '@chatwoot/utils';
 
 /**
  * Normalizes a comma/newline separated list of domains

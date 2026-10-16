@@ -26,6 +26,7 @@ const onPortalCreate = ({ slug: portalSlug, locale }) => {
   <EmptyStateLayout
     :title="$t('HELP_CENTER.TITLE')"
     :subtitle="$t('HELP_CENTER.NEW_PAGE.DESCRIPTION')"
+    class="bg-n-surface-1"
   >
     <template #empty-state-item>
       <div class="grid grid-cols-2 gap-4 p-px">

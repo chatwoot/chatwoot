@@ -7,12 +7,14 @@ export const FORMATTING = {
     marks: ['strong', 'em', 'code', 'link'],
     nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote', 'image'],
     menu: [
+      'copilot',
       'strong',
       'em',
       'code',
       'link',
       'bulletList',
       'orderedList',
+      'imageUpload',
       'undo',
       'redo',
     ],
@@ -21,6 +23,7 @@ export const FORMATTING = {
     marks: ['strong', 'em', 'code', 'link', 'strike'],
     nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote', 'image'],
     menu: [
+      'copilot',
       'strong',
       'em',
       'code',
@@ -28,6 +31,7 @@ export const FORMATTING = {
       'strike',
       'bulletList',
       'orderedList',
+      'imageUpload',
       'undo',
       'redo',
     ],
@@ -35,12 +39,13 @@ export const FORMATTING = {
   'Channel::Api': {
     marks: ['strong', 'em'],
     nodes: [],
-    menu: ['strong', 'em', 'undo', 'redo'],
+    menu: ['copilot', 'strong', 'em', 'undo', 'redo'],
   },
   'Channel::FacebookPage': {
     marks: ['strong', 'em', 'code', 'strike'],
     nodes: ['bulletList', 'orderedList', 'codeBlock'],
     menu: [
+      'copilot',
       'strong',
       'em',
       'code',
@@ -70,6 +75,7 @@ export const FORMATTING = {
     marks: ['strong', 'em', 'code', 'strike'],
     nodes: ['bulletList', 'orderedList', 'codeBlock'],
     menu: [
+      'copilot',
       'strong',
       'em',
       'code',
@@ -83,17 +89,18 @@ export const FORMATTING = {
   'Channel::Line': {
     marks: ['strong', 'em', 'code', 'strike'],
     nodes: ['codeBlock'],
-    menu: ['strong', 'em', 'code', 'strike', 'undo', 'redo'],
+    menu: ['copilot', 'strong', 'em', 'code', 'strike', 'undo', 'redo'],
   },
   'Channel::Telegram': {
     marks: ['strong', 'em', 'link', 'code'],
     nodes: [],
-    menu: ['strong', 'em', 'link', 'code', 'undo', 'redo'],
+    menu: ['copilot', 'strong', 'em', 'link', 'code', 'undo', 'redo'],
   },
   'Channel::Instagram': {
     marks: ['strong', 'em', 'code', 'strike'],
     nodes: ['bulletList', 'orderedList'],
     menu: [
+      'copilot',
       'strong',
       'em',
       'code',
@@ -104,17 +111,28 @@ export const FORMATTING = {
       'redo',
     ],
   },
-  'Channel::Voice': {
-    marks: [],
-    nodes: [],
-    menu: [],
-  },
   'Channel::Tiktok': {
     marks: [],
     nodes: [],
     menu: [],
   },
   // Special contexts (not actual channels)
+  'Context::PrivateNote': {
+    marks: ['strong', 'em', 'code', 'link', 'strike'],
+    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote'],
+    menu: [
+      'copilot',
+      'strong',
+      'em',
+      'code',
+      'link',
+      'strike',
+      'bulletList',
+      'orderedList',
+      'undo',
+      'redo',
+    ],
+  },
   'Context::Default': {
     marks: ['strong', 'em', 'code', 'link', 'strike'],
     nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote'],
@@ -145,12 +163,18 @@ export const FORMATTING = {
     nodes: [],
     menu: [],
   },
+  'Context::NoToolbar': {
+    marks: ['strong', 'em', 'link'],
+    nodes: ['bulletList', 'orderedList'],
+    menu: [],
+  },
 };
 
 // Editor menu options for Full Editor
 export const ARTICLE_EDITOR_MENU_OPTIONS = [
   'strong',
   'em',
+  'strike',
   'link',
   'undo',
   'redo',
@@ -161,7 +185,33 @@ export const ARTICLE_EDITOR_MENU_OPTIONS = [
   'h3',
   'imageUpload',
   'code',
+  'insertTable',
+  'video',
+  'horizontalRule',
 ];
+
+// A markdown table cell holds inline content only; anything else is lost on save.
+export const MENU_OPTIONS_UNAVAILABLE_IN_TABLE = [
+  'h1',
+  'h2',
+  'h3',
+  'bulletList',
+  'orderedList',
+  'imageUpload',
+  'insertTable',
+  'horizontalRule',
+  'video',
+];
+
+// [text](url) -> "text: url" (drop label if it equals the URL). Keep serializer
+// escapes; the re-parse renders them literally, unescaping would crash it.
+const flattenLink = (_match, text, url) => {
+  const cleanUrl = url
+    .trim()
+    .replace(/\s+["'(].*$/, '')
+    .replace(/^<|>$/g, '');
+  return text === cleanUrl ? cleanUrl : `${text}: ${cleanUrl}`;
+};
 
 /**
  * Markdown formatting patterns for stripping unsupported formatting.
@@ -187,7 +237,7 @@ export const MARKDOWN_PATTERNS = [
   },
   {
     type: 'orderedList', // PM: ordered_list, eg: 1. item
-    patterns: [{ pattern: /^[\t ]*\d+\.\s+/gm, replacement: '' }],
+    patterns: [{ pattern: /^[\t ]*\d+[.)]\s+/gm, replacement: '' }],
   },
   {
     type: 'heading', // PM: heading, eg: ## Heading
@@ -239,29 +289,14 @@ export const MARKDOWN_PATTERNS = [
   {
     type: 'link', // PM: link
     patterns: [
-      { pattern: /\[([^\]]+)\]\([^)]+\)/g, replacement: '$1' }, // [text](url) -> text
+      // Escape-aware label + URL captures so a \] or \) can't cut the match
+      // short and leave link markup that crashes the re-parse.
+      {
+        pattern: /\[((?:\\.|[^\]\\])*)\]\(((?:\\.|[^)\\])*)\)/g,
+        replacement: flattenLink,
+      },
       { pattern: /<([a-zA-Z][a-zA-Z0-9+.-]*:[^\s>]+)>/g, replacement: '$1' }, // <https://...>, <mailto:...>, <tel:...>, <ftp://...>, etc
       { pattern: /<([^\s@]+@[^\s@>]+)>/g, replacement: '$1' }, // <user@example.com> -> user@example.com
     ],
-  },
-];
-
-// Editor image resize options for Message Editor
-export const MESSAGE_EDITOR_IMAGE_RESIZES = [
-  {
-    name: 'Small',
-    height: '24px',
-  },
-  {
-    name: 'Medium',
-    height: '48px',
-  },
-  {
-    name: 'Large',
-    height: '72px',
-  },
-  {
-    name: 'Original Size',
-    height: 'auto',
   },
 ];

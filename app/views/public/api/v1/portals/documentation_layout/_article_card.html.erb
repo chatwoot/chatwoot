@@ -1,0 +1,12 @@
+<%# locals: (portal:, article:, show_category: true) %>
+<a href="<%= public_portal_article_path(portal.slug, article.slug) %>"
+   class="group flex flex-col p-5 rounded-xl border border-solid border-n-weak hover:border-n-portal hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+  <% if show_category && article.category %>
+    <span class="inline-flex items-center gap-1 self-start text-xs font-medium text-n-slate-11 mb-3">
+      <% if article.category.icon.present? %><span><%= render_emoji_or_icon(article.category.icon, article.category.icon_color) %></span><% end %>
+      <%= article.category.name %>
+    </span>
+  <% end %>
+  <h3 class="text-base font-620 text-n-slate-12 group-hover:text-n-portal transition"><%= article.title %></h3>
+  <p class="mt-2 text-sm leading-relaxed text-n-slate-11 line-clamp-2"><%= render_category_content(article.content) %></p>
+</a>

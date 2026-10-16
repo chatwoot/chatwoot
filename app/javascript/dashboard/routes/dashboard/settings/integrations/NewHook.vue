@@ -63,6 +63,13 @@ export default {
     isIntegrationDialogflow() {
       return this.integration.id === 'dialogflow';
     },
+    submitButtonLabel() {
+      if (this.integration.id === 'openai' && this.uiFlags.isCreatingHook) {
+        return this.$t('INTEGRATION_APPS.ADD.FORM.VALIDATING_OPENAI');
+      }
+
+      return this.$t('INTEGRATION_APPS.ADD.FORM.SUBMIT');
+    },
   },
   methods: {
     onClose() {
@@ -154,7 +161,7 @@ export default {
         />
         <NextButton
           type="submit"
-          :label="$t('INTEGRATION_APPS.ADD.FORM.SUBMIT')"
+          :label="submitButtonLabel"
           :is-loading="uiFlags.isCreatingHook"
         />
       </div>

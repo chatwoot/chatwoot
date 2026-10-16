@@ -1,7 +1,4 @@
-import companyAPI, {
-  buildCompanyParams,
-  buildSearchParams,
-} from '../companies';
+import companyAPI from '../companies';
 import ApiClient from '../ApiClient';
 
 describe('#CompanyAPI', () => {
@@ -9,7 +6,6 @@ describe('#CompanyAPI', () => {
     expect(companyAPI).toBeInstanceOf(ApiClient);
     expect(companyAPI).toHaveProperty('get');
     expect(companyAPI).toHaveProperty('show');
-    expect(companyAPI).toHaveProperty('create');
     expect(companyAPI).toHaveProperty('update');
     expect(companyAPI).toHaveProperty('delete');
     expect(companyAPI).toHaveProperty('search');
@@ -32,111 +28,69 @@ describe('#CompanyAPI', () => {
       window.axios = originalAxios;
     });
 
-    it('#get with default params', () => {
+    it('#get includes pagination and sorting params', () => {
       companyAPI.get({});
       expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/companies?page=1&sort=name'
       );
     });
 
-    it('#get with page and sort params', () => {
-      companyAPI.get({ page: 2, sort: 'domain' });
-      expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/companies?page=2&sort=domain'
-      );
-    });
-
-    it('#get with descending sort', () => {
-      companyAPI.get({ page: 1, sort: '-created_at' });
-      expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/companies?page=1&sort=-created_at'
-      );
-    });
-
-    it('#search with query', () => {
-      companyAPI.search('acme', 1, 'name');
-      expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/companies/search?q=acme&page=1&sort=name'
-      );
-    });
-
-    it('#search with special characters in query', () => {
+    it('#search encodes query params', () => {
       companyAPI.search('acme & co', 2, 'domain');
       expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/companies/search?q=acme%20%26%20co&page=2&sort=domain'
+        '/api/v1/companies/search?q=acme+%26+co&page=2&sort=domain'
       );
     });
 
-    it('#search with descending sort', () => {
-      companyAPI.search('test', 1, '-created_at');
-      expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/companies/search?q=test&page=1&sort=-created_at'
-      );
-    });
-
-    it('#search with empty query', () => {
+    it('#search keeps empty query param for backend validation', () => {
       companyAPI.search('', 1, 'name');
       expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/companies/search?q=&page=1&sort=name'
       );
     });
-  });
-});
 
-describe('#buildCompanyParams', () => {
-  it('returns correct string with page only', () => {
-    expect(buildCompanyParams(1)).toBe('page=1');
-  });
+    it('#destroyAvatar deletes the company avatar endpoint', () => {
+      companyAPI.destroyAvatar(1);
+      expect(axiosMock.delete).toHaveBeenCalledWith(
+        '/api/v1/companies/1/avatar'
+      );
+    });
 
-  it('returns correct string with page and sort', () => {
-    expect(buildCompanyParams(1, 'name')).toBe('page=1&sort=name');
-  });
+    it('#listContacts fetches company contacts', () => {
+      companyAPI.listContacts(1, 2);
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/companies/1/contacts?page=2'
+      );
+    });
 
-  it('returns correct string with different page', () => {
-    expect(buildCompanyParams(3, 'domain')).toBe('page=3&sort=domain');
-  });
+    it('#searchContacts encodes contact search params', () => {
+      companyAPI.searchContacts(1, 'jane & co', 3);
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/companies/1/contacts/search?q=jane+%26+co&page=3'
+      );
+    });
 
-  it('returns correct string with descending sort', () => {
-    expect(buildCompanyParams(1, '-created_at')).toBe(
-      'page=1&sort=-created_at'
-    );
-  });
+    it('#createContact links a contact to the company', () => {
+      companyAPI.createContact(1, { contact_id: 2 });
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/companies/1/contacts',
+        { contact_id: 2 }
+      );
+    });
 
-  it('returns correct string without sort parameter', () => {
-    expect(buildCompanyParams(2, '')).toBe('page=2');
-  });
-});
+    it('#removeContact unlinks a contact from the company', () => {
+      companyAPI.removeContact(1, 2);
+      expect(axiosMock.delete).toHaveBeenCalledWith(
+        '/api/v1/companies/1/contacts/2'
+      );
+    });
 
-describe('#buildSearchParams', () => {
-  it('returns correct string with all parameters', () => {
-    expect(buildSearchParams('acme', 1, 'name')).toBe(
-      'q=acme&page=1&sort=name'
-    );
-  });
-
-  it('returns correct string with special characters', () => {
-    expect(buildSearchParams('acme & co', 2, 'domain')).toBe(
-      'q=acme%20%26%20co&page=2&sort=domain'
-    );
-  });
-
-  it('returns correct string with empty query', () => {
-    expect(buildSearchParams('', 1, 'name')).toBe('q=&page=1&sort=name');
-  });
-
-  it('returns correct string without sort parameter', () => {
-    expect(buildSearchParams('test', 1, '')).toBe('q=test&page=1');
-  });
-
-  it('returns correct string with descending sort', () => {
-    expect(buildSearchParams('company', 3, '-created_at')).toBe(
-      'q=company&page=3&sort=-created_at'
-    );
-  });
-
-  it('encodes special characters correctly', () => {
-    expect(buildSearchParams('test@example.com', 1, 'name')).toBe(
-      'q=test%40example.com&page=1&sort=name'
-    );
+    it('#destroyCustomAttributes removes company custom attributes', () => {
+      companyAPI.destroyCustomAttributes(1, ['plan']);
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/companies/1/destroy_custom_attributes',
+        { custom_attributes: ['plan'] }
+      );
+    });
   });
 });

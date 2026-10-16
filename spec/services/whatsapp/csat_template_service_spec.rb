@@ -119,7 +119,7 @@ RSpec.describe Whatsapp::CsatTemplateService do
       expect(result).to eq({
                              name: expected_template_name,
                              language: 'en',
-                             category: 'MARKETING',
+                             category: 'UTILITY',
                              components: [
                                {
                                  type: 'BODY',
@@ -169,7 +169,7 @@ RSpec.describe Whatsapp::CsatTemplateService do
       expected_body = {
         name: expected_template_name,
         language: 'en',
-        category: 'MARKETING',
+        category: 'UTILITY',
         components: [
           {
             type: 'BODY',

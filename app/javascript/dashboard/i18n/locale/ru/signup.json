@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Создать новый аккаунт",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "Регистрация",
     "TESTIMONIAL_HEADER": "Все, что нужно сделать, это один шаг для продвижения вперед",
     "TESTIMONIAL_CONTENT": "Вы находитесь на расстоянии всего одного шага от привлечения своих клиентов, удержав их и находя новые.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "Не удалось подключиться к Woot серверу. Пожалуйста, попробуйте еще раз."
     },
     "SUBMIT": "Создать новый аккаунт",
-    "HAVE_AN_ACCOUNT": "Уже есть аккаунт?"
+    "HAVE_AN_ACCOUNT": "Уже есть аккаунт?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Повторно отправить письмо с подтверждением",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

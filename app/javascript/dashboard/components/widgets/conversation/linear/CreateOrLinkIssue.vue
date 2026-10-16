@@ -60,7 +60,7 @@ const onClickTabChange = index => {
     <div class="flex flex-col h-auto overflow-auto">
       <div class="flex flex-col px-8 pb-4 mt-1">
         <woot-tabs
-          class="ltr:[&>ul]:pl-0 rtl:[&>ul]:pr-0"
+          class="ltr:[&>ul]:pl-0 rtl:[&>ul]:pr-0 h-10"
           :index="selectedTabIndex"
           @change="onClickTabChange"
         >

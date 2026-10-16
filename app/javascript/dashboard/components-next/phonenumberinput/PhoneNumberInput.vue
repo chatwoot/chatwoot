@@ -209,7 +209,7 @@ watch(
         v-if="showDropdown"
         :menu-items="filteredCountries"
         show-search
-        class="z-[100] w-48 mt-2 overflow-y-auto ltr:left-0 rtl:right-0 top-full max-h-52"
+        class="z-[100] w-48 mt-2 ltr:left-0 rtl:right-0 top-full max-h-52"
         @action="onSelectCountry"
       />
     </div>

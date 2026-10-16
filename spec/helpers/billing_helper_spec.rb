@@ -39,6 +39,12 @@ RSpec.describe BillingHelper do
       expect(helper.send(:non_web_inboxes, account)).to eq(1)
     end
 
+    it 'reads the period end from the subscription or its items, and tolerates neither being set' do
+      expect(helper.send(:subscription_period_end, { 'current_period_end' => 1_790_845_600 })).to eq(1_790_845_600)
+      expect(helper.send(:subscription_period_end, { 'items' => { 'data' => [{ 'current_period_end' => 1_790_845_600 }] } })).to eq(1_790_845_600)
+      expect(helper.send(:subscription_period_end, { 'cancel_at_period_end' => true })).to be_nil
+    end
+
     it 'returns true for the default plan name' do
       expect(helper.send(:default_plan?, account)).to be(true)
       account.custom_attributes['plan_name'] = 'Startups'

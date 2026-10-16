@@ -1,4 +1,15 @@
 module Enterprise::SuperAdmin::AccountsController
+  def create
+    manually_managed = params[:account]&.delete(:manually_managed_features)
+
+    super do |resource|
+      if manually_managed.present?
+        service = ::Internal::Accounts::InternalAttributesService.new(resource)
+        service.manually_managed_features = manually_managed
+      end
+    end
+  end
+
   def update
     # Handle manually managed features from form submission
     if params[:account] && params[:account][:manually_managed_features].present?

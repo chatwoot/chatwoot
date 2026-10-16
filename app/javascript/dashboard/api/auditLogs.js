@@ -7,9 +7,8 @@ class AuditLogs extends ApiClient {
     super('audit_logs', { accountScoped: true });
   }
 
-  get({ page }) {
-    const url = page ? `${this.url}?page=${page}` : this.url;
-    return axios.get(url);
+  get(filters = {}) {
+    return axios.get(this.url, { params: filters });
   }
 }
 

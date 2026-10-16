@@ -32,6 +32,7 @@ const convertToMinutes = newValue => {
 
 const transformedValue = computed({
   get() {
+    if (duration.value == null) return null;
     if (unit.value === DURATION_UNITS.MINUTES) return duration.value;
     if (unit.value === DURATION_UNITS.HOURS)
       return Math.floor(duration.value / 60);
@@ -41,11 +42,19 @@ const transformedValue = computed({
     return 0;
   },
   set(newValue) {
-    let minuteValue = convertToMinutes(newValue);
-
-    duration.value = Math.min(Math.max(minuteValue, props.min), props.max);
+    if (newValue == null || newValue === '') {
+      duration.value = null;
+      return;
+    }
+    duration.value = convertToMinutes(newValue);
   },
 });
+
+const normalizeDuration = () => {
+  if (duration.value == null) return;
+
+  duration.value = Math.min(Math.max(duration.value, props.min), props.max);
+};
 
 // when unit is changed set the nearest value to that unit
 // so if the minute is set to 900, and the user changes the unit to "days"
@@ -53,6 +62,7 @@ const transformedValue = computed({
 // this might create some confusion, especially when saving
 // this watcher fixes it by rounding the duration basically, to the nearest unit value
 watch(unit, () => {
+  if (duration.value == null) return;
   let adjustedValue = convertToMinutes(transformedValue.value);
   duration.value = Math.min(Math.max(adjustedValue, props.min), props.max);
 });
@@ -66,6 +76,8 @@ watch(unit, () => {
     :disabled="disabled"
     :placeholder="t('DURATION_INPUT.PLACEHOLDER')"
     class="flex-grow w-full disabled:"
+    @blur="normalizeDuration"
+    @keydown.enter="normalizeDuration"
   />
   <select
     v-model="unit"

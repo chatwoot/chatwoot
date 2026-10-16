@@ -1,7 +1,8 @@
-class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Integrations::BaseController
   include Shopify::IntegrationHelper
   before_action :setup_shopify_context, only: [:orders]
   before_action :fetch_hook, except: [:auth]
+  before_action :check_authorization, only: [:destroy]
   before_action :validate_contact, only: [:orders]
 
   def auth

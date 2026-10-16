@@ -1,4 +1,6 @@
 class Captain::Tools::BaseTool < RubyLLM::Tool
+  prepend Captain::Tools::Instrumentation
+
   attr_accessor :assistant
 
   def initialize(assistant, user: nil)

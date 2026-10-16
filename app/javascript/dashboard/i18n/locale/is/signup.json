@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Create an account",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "Nýskráning",
     "TESTIMONIAL_HEADER": "Það þarf aðeins eitt skref framávið",
     "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "Náði ekki að tengjast við netþjóna Woot, vinsamlegast reynið aftur"
     },
     "SUBMIT": "Create account",
-    "HAVE_AN_ACCOUNT": "Ertu nú þegar með aðgang?"
+    "HAVE_AN_ACCOUNT": "Ertu nú þegar með aðgang?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Resend verification email",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

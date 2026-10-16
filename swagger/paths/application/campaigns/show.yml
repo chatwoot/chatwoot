@@ -1,0 +1,20 @@
+tags:
+  - Campaigns
+operationId: get-campaign
+summary: Get a campaign
+security:
+  - userApiKey: []
+description: >-
+  Retrieve a campaign using its account-scoped ID.
+  Requires an account administrator and API access enabled for the account.
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/campaign'
+  '401':
+    description: Authentication failed or the user is not an account administrator
+  '403':
+    description: API access is disabled for the account

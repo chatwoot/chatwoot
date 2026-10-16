@@ -10,7 +10,8 @@ class Api::V1::Widget::Integrations::DyteController < Api::V1::Widget::BaseContr
 
     response = dyte_processor_service.add_participant_to_meeting(
       @message.content_attributes['data']['meeting_id'],
-      @conversation.contact
+      @conversation.contact,
+      @message
     )
     render_response(response)
   end

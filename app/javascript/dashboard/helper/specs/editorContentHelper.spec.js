@@ -2,14 +2,9 @@
 // the mock of chatwoot/prosemirror-schema is getting conflicted with other specs
 import { getContentNode } from '../editorHelper';
 import { MessageMarkdownTransformer } from '@chatwoot/prosemirror-schema';
-import { replaceVariablesInMessage } from '@chatwoot/utils';
 
 vi.mock('@chatwoot/prosemirror-schema', () => ({
   MessageMarkdownTransformer: vi.fn(),
-}));
-
-vi.mock('@chatwoot/utils', () => ({
-  replaceVariablesInMessage: vi.fn(),
 }));
 
 describe('getContentNode', () => {
@@ -61,8 +56,6 @@ describe('getContentNode', () => {
       // Mock the node that will be returned by parse
       const mockNode = { textContent: updatedMessage };
 
-      replaceVariablesInMessage.mockReturnValue(updatedMessage);
-
       // Mock MessageMarkdownTransformer instance with parse method
       const mockTransformer = {
         parse: vi.fn().mockReturnValue(mockNode),
@@ -77,10 +70,6 @@ describe('getContentNode', () => {
         variables
       );
 
-      expect(replaceVariablesInMessage).toHaveBeenCalledWith({
-        message: content,
-        variables,
-      });
       expect(MessageMarkdownTransformer).toHaveBeenCalledWith(
         editorView.state.schema
       );
@@ -91,19 +80,91 @@ describe('getContentNode', () => {
       expect(result.from).toBe(from);
       expect(result.to).toBe(to);
     });
+
+    it('should keep the placeholder for variables that have no value', () => {
+      const mockTransformer = { parse: vi.fn().mockReturnValue({}) };
+      MessageMarkdownTransformer.mockImplementation(() => mockTransformer);
+
+      getContentNode(
+        editorView,
+        'cannedResponse',
+        'Hi {{contact.name}}, your plan is {{contact.custom_attribute.plan}}',
+        { from: 0, to: 10 },
+        { 'contact.name': 'John' }
+      );
+
+      expect(mockTransformer.parse).toHaveBeenCalledWith(
+        'Hi John, your plan is {{contact.custom_attribute.plan}}'
+      );
+    });
+
+    it('should keep every placeholder when no variables are available', () => {
+      const mockTransformer = { parse: vi.fn().mockReturnValue({}) };
+      MessageMarkdownTransformer.mockImplementation(() => mockTransformer);
+
+      getContentNode(
+        editorView,
+        'cannedResponse',
+        'Hi {{contact.name}}',
+        { from: 0, to: 10 },
+        {}
+      );
+
+      expect(mockTransformer.parse).toHaveBeenCalledWith('Hi {{contact.name}}');
+    });
   });
 
   describe('getVariableNode', () => {
-    it('should create a variable node', () => {
-      const content = 'name';
-      const from = 0;
-      const to = 10;
-      getContentNode(editorView, 'variable', content, {
-        from,
-        to,
-      });
+    it('should render the resolved value directly when the variable has a value', () => {
+      getContentNode(
+        editorView,
+        'variable',
+        'contact.name',
+        { from: 0, to: 10 },
+        { 'contact.name': 'John' }
+      );
 
-      expect(editorView.state.schema.text).toHaveBeenCalledWith('{{name}}');
+      expect(editorView.state.schema.text).toHaveBeenCalledWith('John');
+    });
+
+    it('should resolve camelCase custom attributes and non-string values', () => {
+      getContentNode(
+        editorView,
+        'variable',
+        'contact.custom_attribute.cloudCustomer',
+        { from: 0, to: 10 },
+        { 'contact.custom_attribute.cloudCustomer': true }
+      );
+
+      expect(editorView.state.schema.text).toHaveBeenCalledWith('true');
+    });
+
+    it('should keep the placeholder when the variable has no value', () => {
+      getContentNode(
+        editorView,
+        'variable',
+        'contact.email',
+        { from: 0, to: 10 },
+        {}
+      );
+
+      expect(editorView.state.schema.text).toHaveBeenCalledWith(
+        '{{contact.email}}'
+      );
+    });
+
+    it('should keep the placeholder when the value contains Liquid syntax', () => {
+      getContentNode(
+        editorView,
+        'variable',
+        'contact.name',
+        { from: 0, to: 10 },
+        { 'contact.name': '{{agent.email}}' }
+      );
+
+      expect(editorView.state.schema.text).toHaveBeenCalledWith(
+        '{{contact.name}}'
+      );
     });
   });
 

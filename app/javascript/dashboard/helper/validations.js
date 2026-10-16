@@ -125,8 +125,10 @@ const validateSingleAction = action => {
     'mute_conversation',
     'snooze_conversation',
     'resolve_conversation',
+    'remove_assigned_agent',
     'remove_assigned_team',
     'open_conversation',
+    'pending_conversation',
   ];
 
   if (

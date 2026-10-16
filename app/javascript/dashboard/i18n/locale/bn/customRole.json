@@ -3,8 +3,11 @@
     "HEADER": "Custom Roles",
     "LEARN_MORE": "Learn more about custom roles",
     "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+    "COUNT": "{n} custom role | {n} custom roles",
     "HEADER_BTN_TXT": "Add custom role",
     "LOADING": "Fetching custom roles...",
+    "SEARCH_PLACEHOLDER": "Search custom roles...",
+    "NO_RESULTS": "No custom roles found matching your search",
     "SEARCH_404": "There are no items matching this query.",
     "PAYWALL": {
       "TITLE": "Upgrade to create custom roles",

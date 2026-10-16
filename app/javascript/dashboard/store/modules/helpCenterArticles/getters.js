@@ -22,6 +22,16 @@ export const getters = {
       .filter(article => article !== undefined);
     return articles;
   },
+  allArticlesSortedByPosition: (...getterArguments) => {
+    const [state, _getters] = getterArguments;
+    const articles = state.articles.allIds
+      .map(id => _getters.articleById(id))
+      .filter(article => article !== undefined);
+    // Sort by position so reordered articles stay in correct order after store updates
+    return articles.sort(
+      (a, b) => (a.position ?? Infinity) - (b.position ?? Infinity)
+    );
+  },
   articleStatus:
     (...getterArguments) =>
     articleId => {

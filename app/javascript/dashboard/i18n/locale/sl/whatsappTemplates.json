@@ -27,6 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Spremenljivke",
+      "HEADER_VARIABLES_LABEL": "Header variables",
       "LANGUAGE": "Jezik",
       "CATEGORY": "Kategorija",
       "VARIABLE_PLACEHOLDER": "Vnesi vrednost {variable}",

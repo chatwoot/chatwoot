@@ -18,6 +18,7 @@ import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 
 const props = defineProps({
   mode: {
@@ -49,8 +50,9 @@ const props = defineProps({
 
 const emit = defineEmits(['submit', 'cancel']);
 
-const EmojiInput = defineAsyncComponent(
-  () => import('shared/components/emoji/EmojiInput.vue')
+const EmojiIconPicker = defineAsyncComponent(
+  () =>
+    import('dashboard/components-next/emoji-icon-picker/EmojiIconPicker.vue')
 );
 
 const { t } = useI18n();
@@ -72,6 +74,7 @@ const state = reactive({
   id: '',
   name: '',
   icon: '',
+  iconColor: '',
   slug: '',
   description: '',
   locale: '',
@@ -109,8 +112,19 @@ const slugHelpText = computed(() => {
   });
 });
 
-const onClickInsertEmoji = emoji => {
-  state.icon = emoji;
+const onSelectIcon = ({ type, value, color }) => {
+  state.icon = value;
+  state.iconColor = type === 'icon' ? color : '';
+  isEmojiPickerOpen.value = false;
+};
+
+const onColorChange = color => {
+  state.iconColor = color;
+};
+
+const onRemoveIcon = () => {
+  state.icon = '';
+  state.iconColor = '';
   isEmojiPickerOpen.value = false;
 };
 
@@ -139,7 +153,14 @@ watch(
   newCategory => {
     if (props.mode === 'edit' && newCategory) {
       const { id, name, icon, slug, description } = newCategory;
-      Object.assign(state, { id, name, icon, slug, description });
+      Object.assign(state, {
+        id,
+        name,
+        icon,
+        iconColor: newCategory.icon_color || '',
+        slug,
+        description,
+      });
     }
   },
   { immediate: true }
@@ -197,19 +218,29 @@ defineExpose({ state, isSubmitDisabled });
           <template #prefix>
             <OnClickOutside @trigger="isEmojiPickerOpen = false">
               <Button
-                :label="state.icon"
-                color="slate"
-                size="sm"
                 type="button"
-                :icon="!state.icon ? 'i-lucide-smile-plus' : ''"
-                class="!h-[2.4rem] !w-[2.375rem] absolute top-[1.94rem] !outline-none !rounded-[0.438rem] border-0 ltr:left-px rtl:right-px ltr:!rounded-r-none rtl:!rounded-l-none"
+                variant="ghost"
+                color="slate"
+                class="!h-[2.38rem] !w-[2.375rem] !p-0 absolute top-[2rem] start-px ltr:!rounded-r-none rtl:!rounded-l-none"
                 @click="isEmojiPickerOpen = !isEmojiPickerOpen"
-              />
-              <EmojiInput
+              >
+                <EmojiIcon
+                  v-if="state.icon"
+                  :value="state.icon"
+                  :color="state.iconColor"
+                  class="size-5 text-xl !leading-5"
+                />
+                <span v-else class="i-lucide-smile-plus size-4" />
+              </Button>
+              <EmojiIconPicker
                 v-if="isEmojiPickerOpen"
                 class="left-0 top-16"
+                :value="state.icon"
+                :color="state.iconColor"
                 show-remove-button
-                :on-click="onClickInsertEmoji"
+                @select="onSelectIcon"
+                @color-change="onColorChange"
+                @remove="onRemoveIcon"
               />
             </OnClickOutside>
           </template>
@@ -246,7 +277,7 @@ defineExpose({ state, isSubmitDisabled });
           variant="faded"
           color="slate"
           :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_DIALOG.BUTTONS.CANCEL')"
-          class="w-full bg-n-alpha-2 text-n-blue-text hover:bg-n-alpha-3"
+          class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
           @click="handleCancel"
         />
         <Button

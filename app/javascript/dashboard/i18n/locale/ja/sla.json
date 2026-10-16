@@ -5,7 +5,12 @@
     "ADD_ACTION_LONG": "新しいSLAポリシーを作成",
     "DESCRIPTION": "サービス水準合意（SLA）は、チームと顧客間で明確な期待を定義する契約です。応答時間や解決時間の基準を設定し、責任を明確にし、一貫した高品質なサービス体験を提供します。",
     "LEARN_MORE": "SLAについて詳しく学ぶ",
+    "COUNT": "{n} SLA | {n} SLAs",
     "LOADING": "SLAを取得中",
+    "SEARCH_PLACEHOLDER": "Search SLA...",
+    "SEARCH": {
+      "NO_RESULTS": "No SLA found matching your search"
+    },
     "PAYWALL": {
       "TITLE": "アップグレードしてSLAを作成",
       "AVAILABLE_ON": "SLA機能はビジネスおよびエンタープライズプランのみで利用可能です。",
@@ -20,14 +25,18 @@
     },
     "LIST": {
       "404": "このアカウントには利用可能なSLAがありません。",
+      "TABLE_HEADER": {
+        "SLA": "SLA",
+        "BUSINESS_HOURS": "Business hours"
+      },
       "EMPTY": {
         "TITLE_1": "エンタープライズ P0",
         "DESC_1": "即時対応が必要なエンタープライズ顧客からの問題。",
         "TITLE_2": "エンタープライズ P1",
         "DESC_2": "迅速な承認が必要なエンタープライズ顧客からの問題。"
       },
-      "BUSINESS_HOURS_ON": "営業時間内",
-      "BUSINESS_HOURS_OFF": "営業時間外",
+      "BUSINESS_HOURS_ON": "Turned on",
+      "BUSINESS_HOURS_OFF": "Turned off",
       "RESPONSE_TYPES": {
         "FRT": "最初の応答時間の基準",
         "NRT": "次の応答時間の基準",

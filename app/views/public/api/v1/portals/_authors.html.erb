@@ -2,8 +2,11 @@
 <% if author_count > 0 %>
   <div class="flex flex-row items-center gap-1">
     <div class="flex items-center ltr:flex-row rtl:flex-row-reverse -space-x-2">
-      <% category.articles.published.order(position: :asc).map(&:author).uniq.take(3).each do |author| %>
-        <%= render "public/api/v1/portals/thumbnail", author: author, size: 5 %>
+      <% z_classes = %w[z-30 z-20 z-10] %>
+      <% category.articles.published.order(position: :asc).map(&:author).uniq.take(3).each_with_index do |author, idx| %>
+        <span class="relative <%= z_classes[idx] %>">
+          <%= render "public/api/v1/portals/thumbnail", author: author, size: 5 %>
+        </span>
       <% end %>
     </div>
 

@@ -5,8 +5,11 @@ import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { splitName } from '@chatwoot/utils';
 import countries from 'shared/constants/countries.js';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useAccount } from 'dashboard/composables/useAccount';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import CompanySelector from 'dashboard/components-next/Companies/CompanySelector.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import PhoneNumberInput from 'dashboard/components-next/phonenumberinput/PhoneNumberInput.vue';
 
@@ -28,6 +31,7 @@ const props = defineProps({
 const emit = defineEmits(['update']);
 
 const { t } = useI18n();
+const { currentAccount, isCloudFeatureEnabled } = useAccount();
 
 const FORM_CONFIG = {
   FIRST_NAME: { field: 'firstName' },
@@ -44,6 +48,8 @@ const SOCIAL_CONFIG = {
   LINKEDIN: 'i-ri-linkedin-box-fill',
   FACEBOOK: 'i-ri-facebook-circle-fill',
   INSTAGRAM: 'i-ri-instagram-line',
+  WHATSAPP: 'i-ri-whatsapp-line',
+  TELEGRAM: 'i-ri-telegram-fill',
   TIKTOK: 'i-ri-tiktok-fill',
   TWITTER: 'i-ri-twitter-x-fill',
   GITHUB: 'i-ri-github-fill',
@@ -53,6 +59,7 @@ const defaultState = {
   id: 0,
   name: '',
   email: '',
+  companyId: '',
   firstName: '',
   lastName: '',
   phoneNumber: '',
@@ -66,9 +73,11 @@ const defaultState = {
       facebook: '',
       github: '',
       instagram: '',
+      telegram: '',
       tiktok: '',
       linkedin: '',
       twitter: '',
+      whatsapp: '',
     },
   },
 };
@@ -83,6 +92,24 @@ const validationRules = {
 const v$ = useVuelidate(validationRules, state);
 
 const isFormInvalid = computed(() => v$.value.$invalid);
+const normalizeWhatsAppUsername = value => value?.toString().replace(/^@+/, '');
+const hasCompaniesFeature = computed(
+  () =>
+    currentAccount.value?.id && isCloudFeatureEnabled(FEATURE_FLAGS.COMPANIES)
+);
+const showCompanySelector = computed(
+  () =>
+    hasCompaniesFeature.value &&
+    (Boolean(state.companyId) || !state.additionalAttributes.companyName)
+);
+
+const emitContactUpdate = async () => {
+  const isFormValid = await v$.value.$validate();
+  if (!isFormValid) return;
+
+  const { firstName, lastName, ...stateWithoutNames } = state;
+  emit('update', stateWithoutNames);
+};
 
 const prepareStateBasedOnProps = () => {
   if (props.isNewContact) {
@@ -94,6 +121,7 @@ const prepareStateBasedOnProps = () => {
     name = '',
     email: emailAddress,
     phoneNumber,
+    companyId = '',
     additionalAttributes = {},
   } = props.contactData || {};
   const { firstName, lastName } = splitName(name || '');
@@ -103,12 +131,21 @@ const prepareStateBasedOnProps = () => {
     countryCode = '',
     country = '',
     city = '',
+    socialTelegramUserName = '',
+    socialWhatsappUserName = '',
     socialProfiles = {},
   } = additionalAttributes || {};
+
+  const telegramUsername =
+    socialProfiles?.telegram || socialTelegramUserName || '';
+  const whatsappUsername = normalizeWhatsAppUsername(
+    socialProfiles?.whatsapp || socialWhatsappUserName || ''
+  );
 
   Object.assign(state, {
     id,
     name,
+    companyId: companyId || '',
     firstName,
     lastName,
     email: emailAddress,
@@ -119,7 +156,11 @@ const prepareStateBasedOnProps = () => {
       countryCode,
       country,
       city,
-      socialProfiles,
+      socialProfiles: {
+        ...socialProfiles,
+        telegram: telegramUsername,
+        whatsapp: whatsappUsername,
+      },
     },
   });
 };
@@ -191,11 +232,7 @@ const getFormBinding = key => {
         }
       }
 
-      const isFormValid = await v$.value.$validate();
-      if (isFormValid) {
-        const { firstName, lastName, ...stateWithoutNames } = state;
-        emit('update', stateWithoutNames);
-      }
+      await emitContactUpdate();
     },
   });
 };
@@ -209,6 +246,22 @@ const getMessageType = key => {
 const handleCountrySelection = value => {
   const selectedCountry = countries.find(option => option.id === value);
   state.additionalAttributes.country = selectedCountry?.name || '';
+  emit('update', state);
+};
+
+const handleCompanySelection = async ({ id, name }) => {
+  state.companyId = id || '';
+  state.additionalAttributes.companyName = name || '';
+  await emitContactUpdate();
+};
+
+const handleSocialProfileInput = item => {
+  const key = item.key.toLowerCase();
+  if (key === 'whatsapp') {
+    state.additionalAttributes.socialProfiles[key] = normalizeWhatsAppUsername(
+      state.additionalAttributes.socialProfiles[key]
+    );
+  }
   emit('update', state);
 };
 
@@ -264,6 +317,13 @@ defineExpose({
             :placeholder="item.placeholder"
             :show-border="isDetailsView"
           />
+          <CompanySelector
+            v-else-if="item.key === 'COMPANY_NAME' && showCompanySelector"
+            :model-value="state.companyId"
+            :selected-name="state.additionalAttributes.companyName"
+            :is-details-view="isDetailsView"
+            @select="handleCompanySelection"
+          />
           <Input
             v-else
             v-model="getFormBinding(item.key).value"
@@ -312,7 +372,7 @@ defineExpose({
             class="w-auto min-w-[100px] text-sm bg-transparent outline-none reset-base text-n-slate-12 dark:text-n-slate-12 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10"
             :placeholder="item.placeholder"
             :size="item.placeholder.length"
-            @input="emit('update', state)"
+            @input="handleSocialProfileInput(item)"
           />
         </div>
       </div>

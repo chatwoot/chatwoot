@@ -167,7 +167,7 @@
 # ------------  Application API routes  ------------#
 
 # Accounts
-/api/v1/accounts/{id}:
+/api/v1/accounts/{account_id}:
   parameters:
     - $ref: '#/components/parameters/account_id'
   get:
@@ -367,6 +367,12 @@
     - $ref: '#/components/parameters/conversation_id'
   post:
     $ref: ./application/conversation/toggle_priority.yml
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/toggle_typing_status:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/toggle_typing_status.yml
 
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/custom_attributes:
   parameters:
@@ -374,6 +380,13 @@
     - $ref: '#/components/parameters/conversation_id'
   post:
     $ref: ./application/conversation/custom_attributes.yml
+
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/destroy_custom_attributes:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/destroy_custom_attributes.yml
 
 # Conversations Assignments
 
@@ -405,14 +418,14 @@
     $ref: ./application/conversation/reporting_events.yml
 
 # Inboxes
+/api/v1/accounts/{account_id}/branded_email_layout:
+  $ref: ./application/branded_email_layout.yml
 /api/v1/accounts/{account_id}/inboxes:
   $ref: ./application/inboxes/index.yml
-/api/v1/accounts/{account_id}/inboxes/{id}/:
-  $ref: ./application/inboxes/show.yml
-/api/v1/accounts/{account_id}/inboxes/:
-  $ref: ./application/inboxes/create.yml
 /api/v1/accounts/{account_id}/inboxes/{id}:
   $ref: ./application/inboxes/update.yml
+/api/v1/accounts/{account_id}/inboxes/{id}/message_templates:
+  $ref: ./application/inboxes/message_templates.yml
 /api/v1/accounts/{account_id}/inboxes/{id}/agent_bot:
   $ref: ./application/inboxes/get_agent_bot.yml
 /api/v1/accounts/{account_id}/inboxes/{id}/set_agent_bot:
@@ -436,6 +449,30 @@
   delete:
     $ref: ./application/inboxes/inbox_members/delete.yml
 
+# Labels
+/api/v1/accounts/{account_id}/labels:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/labels/index.yml
+  post:
+    $ref: ./application/labels/create.yml
+/api/v1/accounts/{account_id}/labels/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: number
+      description: ID of the label
+  get:
+    $ref: ./application/labels/show.yml
+  patch:
+    $ref: ./application/labels/update.yml
+  delete:
+    $ref: ./application/labels/delete.yml
+
 # Messages
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/messages:
   parameters:
@@ -450,6 +487,8 @@
     - $ref: '#/components/parameters/account_id'
     - $ref: '#/components/parameters/conversation_id'
     - $ref: '#/components/parameters/message_id'
+  patch:
+    $ref: ./application/conversation/messages/update.yml
   delete:
     $ref: ./application/conversation/messages/delete.yml
 
@@ -653,13 +692,139 @@
       schema:
         type: string
       description: The timestamp from where report should stop (Unix timestamp).
+  get:
+    $ref: './application/reports/channel_summary.yml'
+
+# Inbox summary report
+/api/v2/accounts/{account_id}/summary_reports/inbox:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
     - in: query
       name: business_hours
       schema:
         type: boolean
-      description: Whether to filter by business hours.
+      description: Whether to calculate metrics using business hours only.
   get:
-    $ref: './application/reports/channel_summary.yml'
+    $ref: './application/reports/inbox_summary.yml'
+
+# Agent summary report
+/api/v2/accounts/{account_id}/summary_reports/agent:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+    - in: query
+      name: business_hours
+      schema:
+        type: boolean
+      description: Whether to calculate metrics using business hours only.
+  get:
+    $ref: './application/reports/agent_summary.yml'
+
+# Team summary report
+/api/v2/accounts/{account_id}/summary_reports/team:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+    - in: query
+      name: business_hours
+      schema:
+        type: boolean
+      description: Whether to calculate metrics using business hours only.
+  get:
+    $ref: './application/reports/team_summary.yml'
+
+# First response time distribution report
+/api/v2/accounts/{account_id}/reports/first_response_time_distribution:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+  get:
+    $ref: './application/reports/first_response_time_distribution.yml'
+
+# Inbox-label matrix report
+/api/v2/accounts/{account_id}/reports/inbox_label_matrix:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+    - in: query
+      name: inbox_ids
+      schema:
+        type: array
+        items:
+          type: integer
+      description: Filter by specific inbox IDs.
+    - in: query
+      name: label_ids
+      schema:
+        type: array
+        items:
+          type: integer
+      description: Filter by specific label IDs.
+  get:
+    $ref: './application/reports/inbox_label_matrix.yml'
+
+# Outgoing messages count report
+/api/v2/accounts/{account_id}/reports/outgoing_messages_count:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+  get:
+    $ref: './application/reports/outgoing_messages_count.yml'
 
 # Conversations Messages
 /accounts/{account_id}/conversations/{conversation_id}/messages:
@@ -684,3 +849,27 @@
           application/json:
             schema:
               $ref: '#/components/schemas/conversation_messages'
+
+# Campaigns
+/api/v1/accounts/{account_id}/campaigns:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/campaigns/index.yml
+  post:
+    $ref: ./application/campaigns/create.yml
+/api/v1/accounts/{account_id}/campaigns/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: Account-scoped campaign ID returned by the campaign API.
+  get:
+    $ref: ./application/campaigns/show.yml
+  patch:
+    $ref: ./application/campaigns/update.yml
+  delete:
+    $ref: ./application/campaigns/delete.yml

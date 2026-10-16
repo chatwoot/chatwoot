@@ -13,9 +13,9 @@ set -euo pipefail
 # =============================================================================
 
 REPO_URL="https://github.com/valter-tonon/chatwoot.git"
-BRANCH="upgrade/v4.10.1"
+BRANCH="upgrade/v4.18.0"
 IMAGE_NAME="convertochat"
-IMAGE_TAG="v4.10.1"
+IMAGE_TAG="v4.18.0"
 COMPOSE_FILE="docker-compose.production.yaml"
 BACKUP_DIR="./backups"
 APP_DIR="$(pwd)"

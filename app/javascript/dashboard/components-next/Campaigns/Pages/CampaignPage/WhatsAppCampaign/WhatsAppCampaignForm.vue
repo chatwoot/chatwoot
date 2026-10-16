@@ -105,7 +105,7 @@ const formErrors = computed(() => ({
 }));
 
 const hasRequiredTemplateParams = computed(() => {
-  return templateParserRef.value?.v$?.$invalid === false || true;
+  return templateParserRef.value?.isFormInvalid === false;
 });
 
 const isSubmitDisabled = computed(
@@ -154,7 +154,7 @@ const prepareCampaignDetails = () => {
 
 const handleSubmit = async () => {
   const isFormValid = await v$.value.$validate();
-  if (!isFormValid) return;
+  if (!isFormValid || !hasRequiredTemplateParams.value) return;
 
   emit('submit', prepareCampaignDetails());
   resetState();
@@ -251,7 +251,7 @@ watch(
         color="slate"
         type="button"
         :label="t('CAMPAIGN.WHATSAPP.CREATE.FORM.BUTTONS.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-blue-text hover:bg-n-alpha-3"
+        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
         @click="handleCancel"
       />
       <Button

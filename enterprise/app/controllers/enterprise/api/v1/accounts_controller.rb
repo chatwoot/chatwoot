@@ -1,19 +1,42 @@
 class Enterprise::Api::V1::AccountsController < Api::BaseController
   include BillingHelper
+  SHOPIFY_BILLING_ACTIONS = %i[billing_summary checkout subscription select_billing_currency topup_checkout topup_options].freeze
+  STRIPE_ONLY_BILLING_ACTIONS = %i[subscription select_billing_currency topup_checkout topup_options].freeze
+
   before_action :fetch_account
+  before_action :validate_token_api_access, if: :authenticate_by_access_token?
   before_action :check_authorization
-  before_action :check_cloud_env, only: [:limits, :toggle_deletion]
+  before_action :check_cloud_env, only: [:limits, :toggle_deletion, :topup_options]
+  before_action :ensure_shopify_billing_available, only: SHOPIFY_BILLING_ACTIONS
+  before_action :ensure_stripe_billing_action, only: STRIPE_ONLY_BILLING_ACTIONS
+
+  def billing_summary
+    render json: Enterprise::Billing::SummaryService.new(account: @account).perform(refresh: ActiveModel::Type::Boolean.new.cast(params[:refresh]))
+  rescue Enterprise::Billing::SummaryService::RefreshError
+    render json: { error: I18n.t('errors.billing.shopify_verification_failed') }, status: :service_unavailable
+  end
 
   def subscription
-    if stripe_customer_id.blank? && @account.custom_attributes['is_creating_customer'].blank?
-      @account.update(custom_attributes: { is_creating_customer: true })
-      Enterprise::CreateStripeCustomerJob.perform_later(@account)
-    end
+    return render json: currency_selection_payload if @account.billing_currency_selection_required?
+
+    ensure_stripe_customer
+    head :no_content
+  end
+
+  def select_billing_currency
+    return render_could_not_create_error(I18n.t('errors.billing.currency_locked')) if currency_locked?
+    return render_could_not_create_error(I18n.t('errors.billing.invalid_currency')) unless @account.billing_currency_selection_required?
+
+    currency = Enterprise::Billing::Currencies.normalize(params[:currency])
+    return render_could_not_create_error(I18n.t('errors.billing.invalid_currency')) unless Enterprise::Billing::Currencies.supported?(currency)
+
+    @account.update!(custom_attributes: @account.custom_attributes.merge('billing_currency' => currency))
+    ensure_stripe_customer
     head :no_content
   end
 
   def limits
-    limits = if default_plan?(@account)
+    limits = if @account.billing_provider == Account::DEFAULT_BILLING_PROVIDER && default_plan?(@account)
                {
                  'conversation' => {
                    'allowed' => 500,
@@ -37,6 +60,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   def checkout
+    return create_shopify_billing_session if shopify_billing?
     return create_stripe_billing_session(stripe_customer_id) if stripe_customer_id.present?
 
     render_invalid_billing_details
@@ -71,10 +95,48 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     render_could_not_create_error(e.message)
   end
 
+  def topup_options
+    service = Enterprise::Billing::TopupCheckoutService.new(account: @account)
+    render json: { id: @account.id, currency: @account.billing_currency, options: service.available_options }
+  end
+
   private
+
+  def ensure_stripe_billing_action
+    return if @account.billing_provider == Account::DEFAULT_BILLING_PROVIDER
+
+    render_could_not_create_error(I18n.t('errors.billing.provider_action_unavailable'))
+  end
+
+  def validate_token_api_access
+    return if @account.api_and_webhooks_enabled?
+
+    render json: { error: 'API access is not enabled for this account' }, status: :forbidden
+  end
 
   def check_cloud_env
     render json: { error: 'Not found' }, status: :not_found unless ChatwootApp.chatwoot_cloud?
+  end
+
+  def ensure_stripe_customer
+    return if stripe_customer_id.present? || @account.custom_attributes['is_creating_customer'].present?
+
+    @account.update!(custom_attributes: @account.custom_attributes.merge('is_creating_customer' => true))
+    Enterprise::CreateStripeCustomerJob.perform_later(@account)
+  end
+
+  def ensure_shopify_billing_available
+    return unless shopify_billing?
+
+    render_not_found_error('Not found') unless @account.signup_source == 'shopify' && Shopify::FeatureGate.enabled?(account: @account)
+  end
+
+  def currency_selection_payload
+    {
+      currency_selection_required: true,
+      currency_options: Enterprise::Billing::Currencies::SUPPORTED,
+      suggested_currency: Enterprise::Billing::Currencies.for_locale(@account.locale)
+    }
   end
 
   def default_limits
@@ -98,10 +160,18 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     @account.custom_attributes['stripe_customer_id']
   end
 
+  # Currency is fixed once a customer exists or creation is already in flight,
+  # so a second click can't bill a different currency than setup started with.
+  def currency_locked?
+    stripe_customer_id.present? || @account.custom_attributes['is_creating_customer'].present?
+  end
+
   def mark_for_deletion
     reason = 'manual_deletion'
 
     if @account.mark_for_deletion(reason)
+      Enterprise::CancelCloudSubscriptionsJob.perform_later(@account)
+
       render json: { message: 'Account marked for deletion' }, status: :ok
     else
       render json: { message: @account.errors.full_messages.join(', ') }, status: :unprocessable_entity
@@ -124,6 +194,14 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     session = Enterprise::Billing::CreateSessionService.new.create_session(customer_id)
     render_redirect_url(session.url)
   end
+
+  def create_shopify_billing_session
+    render_redirect_url(Enterprise::Billing::ShopifyAppPricingUrl.new(account: @account).perform)
+  rescue Enterprise::Billing::ShopifyAppPricingUrl::Error, ActiveRecord::RecordNotFound
+    render_could_not_create_error(I18n.t('errors.billing.shopify_pricing_unavailable'))
+  end
+
+  def shopify_billing? = @account.billing_provider == 'shopify'
 
   def render_redirect_url(redirect_url)
     render json: { redirect_url: redirect_url }

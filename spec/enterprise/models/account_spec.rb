@@ -11,6 +11,132 @@ RSpec.describe Account, type: :model do
     it { is_expected.to have_many(:custom_roles).dependent(:destroy_async) }
   end
 
+  describe '#selected_feature_flags=' do
+    it 'keeps advanced assignment enabled when assignment v2 is selected for a business account' do
+      account = build(:account, custom_attributes: { 'plan_name' => 'Business' })
+
+      account.selected_feature_flags = [:feature_assignment_v2]
+
+      expect(account).to be_feature_assignment_v2
+      expect(account).to be_feature_advanced_assignment
+    end
+
+    it 'disables advanced assignment when assignment v2 is not selected' do
+      account = build(:account, custom_attributes: { 'plan_name' => 'Business' })
+      account.enable_features(:assignment_v2, :advanced_assignment)
+
+      account.selected_feature_flags = []
+
+      expect(account).not_to be_feature_assignment_v2
+      expect(account).not_to be_feature_advanced_assignment
+    end
+
+    it 'uses Shopify plan features when preserving advanced assignment' do
+      create(
+        :installation_config,
+        name: 'CHATWOOT_SHOPIFY_PLANS',
+        value: [
+          {
+            'name' => 'Shopify Pro',
+            'handle' => 'shopify-pro',
+            'features' => %w[advanced_assignment],
+            'limits' => { 'agents' => 10, 'inboxes' => 20 }
+          }
+        ],
+        locked: true
+      )
+      account = build(
+        :account,
+        internal_attributes: { 'billing_provider' => 'shopify' },
+        custom_attributes: { 'plan_name' => 'Shopify Pro' }
+      )
+
+      account.selected_feature_flags = [:feature_assignment_v2]
+
+      expect(account).to be_feature_assignment_v2
+      expect(account).to be_feature_advanced_assignment
+    end
+  end
+
+  describe '#api_and_webhooks_enabled?' do
+    let(:account) { create(:account) }
+
+    it 'is always enabled for self-hosted enterprise accounts' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+      account.disable_features!('api_and_webhooks')
+
+      expect(account.api_and_webhooks_enabled?).to be true
+    end
+
+    it 'uses the account feature flag on Chatwoot Cloud' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      account.disable_features!('api_and_webhooks')
+
+      expect(account.api_and_webhooks_enabled?).to be false
+
+      account.enable_features!('api_and_webhooks')
+
+      expect(account.api_and_webhooks_enabled?).to be true
+    end
+  end
+
+  describe 'billing identity' do
+    it 'defaults existing accounts to Stripe and Chatwoot signup' do
+      account = create(:account)
+
+      expect(account.billing_provider).to eq('stripe')
+      expect(account.signup_source).to eq('chatwoot')
+    end
+
+    it 'stores Shopify identity at account creation' do
+      account = create(
+        :account,
+        internal_attributes: {
+          'billing_provider' => 'shopify',
+          'signup_source' => 'shopify'
+        }
+      )
+
+      expect(account.billing_provider).to eq('shopify')
+      expect(account.signup_source).to eq('shopify')
+    end
+
+    it 'rejects unsupported billing providers and signup sources' do
+      account = build(:account)
+      account.billing_provider = 'unsupported'
+      account.signup_source = 'unsupported'
+
+      expect(account).not_to be_valid
+      expect(account.errors[:billing_provider]).to be_present
+      expect(account.errors[:signup_source]).to be_present
+    end
+
+    it 'does not allow billing identity to change after account creation' do
+      account = create(:account)
+
+      account.billing_provider = 'shopify'
+      account.signup_source = 'shopify'
+
+      expect(account.save).to be(false)
+      expect(account.errors[:billing_provider]).to include('cannot be changed after account creation')
+      expect(account.errors[:signup_source]).to include('cannot be changed after account creation')
+      expect(account.reload.billing_provider).to eq('stripe')
+      expect(account.signup_source).to eq('chatwoot')
+    end
+
+    it 'does not allow billing identity to change through symbol-keyed internal attributes' do
+      account = create(:account)
+
+      account.internal_attributes = account.internal_attributes.merge(billing_provider: 'shopify', signup_source: 'shopify')
+
+      expect(account.save).to be(false)
+      expect(account.errors[:billing_provider]).to include('cannot be changed after account creation')
+      expect(account.errors[:signup_source]).to include('cannot be changed after account creation')
+      expect(account.reload.billing_provider).to eq('stripe')
+      expect(account.signup_source).to eq('chatwoot')
+    end
+  end
+
   describe 'sla_policies' do
     let!(:account) { create(:account) }
     let!(:sla_policy) { create(:sla_policy, account: account) }
@@ -39,6 +165,7 @@ RSpec.describe Account, type: :model do
     let(:assistant) { create(:captain_assistant, account: account) }
 
     before do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
       create(:installation_config, name: 'ACCOUNT_AGENTS_LIMIT', value: 20)
     end
 
@@ -181,6 +308,71 @@ RSpec.describe Account, type: :model do
     end
   end
 
+  context 'with Shopify plan entitlements' do
+    let(:account) do
+      create(
+        :account,
+        internal_attributes: { 'billing_provider' => 'shopify' },
+        custom_attributes: {
+          'plan_name' => 'Shopify Basic',
+          'subscribed_quantity' => 100,
+          'captain_documents_usage' => 5,
+          'captain_responses_usage' => 10
+        }
+      )
+    end
+    let(:shopify_plan) do
+      {
+        'name' => 'Shopify Basic',
+        'handle' => 'shopify-basic',
+        'features' => %w[help_center campaigns],
+        'limits' => {
+          'agents' => 5,
+          'inboxes' => 10,
+          'emails' => 500,
+          'captain_documents' => 25,
+          'captain_responses' => 100
+        }
+      }
+    end
+
+    before do
+      create(:installation_config, name: 'CHATWOOT_SHOPIFY_PLANS', value: [shopify_plan], locked: true)
+    end
+
+    it 'uses fixed Shopify limits instead of Stripe subscription quantity or global limits' do
+      usage_limits = account.usage_limits
+
+      expect(usage_limits[:agents]).to eq(5)
+      expect(usage_limits[:inboxes]).to eq(10)
+      expect(usage_limits.dig(:captain, :documents)).to eq(
+        total_count: 25,
+        current_available: 20,
+        consumed: 5
+      )
+      expect(usage_limits.dig(:captain, :responses)).to eq(
+        total_count: 100,
+        current_available: 90,
+        consumed: 10
+      )
+      expect(account.email_rate_limit).to eq(500)
+    end
+
+    it 'reads subscribed features from the Shopify plan catalog' do
+      expect(account.subscribed_features).to eq(%w[help_center campaigns])
+      expect(account.email_transcript_enabled?).to be(true)
+    end
+
+    it 'fails closed when the stored Shopify plan is unknown' do
+      account.update!(custom_attributes: { 'plan_name' => 'Unknown' })
+
+      expect(account.usage_limits[:agents]).to eq(0)
+      expect(account.usage_limits[:inboxes]).to eq(0)
+      expect(account.subscribed_features).to eq([])
+      expect(account.email_transcript_enabled?).to be(false)
+    end
+  end
+
   describe 'subscribed_features' do
     let(:account) { create(:account) }
     let(:plan_features) do
@@ -219,6 +411,93 @@ RSpec.describe Account, type: :model do
 
         expect(account.subscribed_features).to be_nil
       end
+    end
+  end
+
+  describe 'default features' do
+    before do
+      InstallationConfig.find_or_initialize_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').update!(
+        value: Featurable::FEATURE_LIST,
+        locked: true
+      )
+    end
+
+    it 'enables Captain V2 for new paid self-hosted accounts' do
+      allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
+
+      account = create(:account)
+
+      expect(account).to be_feature_enabled('captain_integration')
+      expect(account).to be_feature_enabled('captain_integration_v2')
+      expect(account.captain_preferences[:models]['assistant']).to eq('gpt-5.2')
+      expect(account.captain_models).to be_nil
+    end
+  end
+
+  describe 'captain document sync cadence' do
+    let(:account) { create(:account) }
+
+    it 'has no cadence when installation config is missing' do
+      account.update!(custom_attributes: { plan_name: 'business' })
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'uses configured plan intervals from installation config' do
+      intervals = {
+        business: 48,
+        enterprise: 24
+      }
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: intervals.to_json)
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to eq(2.days)
+    end
+
+    it 'normalizes configured plan name casing' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { business: 24 }.to_json)
+      account.update!(custom_attributes: { plan_name: 'Business' })
+
+      expect(account.captain_document_sync_interval).to eq(1.day)
+    end
+
+    it 'uses the enterprise cadence for paid self-hosted installs without a plan_name' do
+      allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { enterprise: 6 }.to_json)
+      account.update!(custom_attributes: {})
+
+      expect(account.captain_document_sync_interval).to eq(6.hours)
+    end
+
+    it 'allows installation config to disable a plan cadence' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { business: nil }.to_json)
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'has no cadence when installation config is invalid' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: 'invalid-json')
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'treats invalid plan interval values as disabled' do
+      intervals = {
+        business: false,
+        enterprise: { hours: 6 },
+        startups: '168'
+      }
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: intervals.to_json)
+
+      account.update!(custom_attributes: { plan_name: 'business' })
+      expect(account.captain_document_sync_interval).to be_nil
+
+      account.update!(custom_attributes: { plan_name: 'enterprise' })
+      expect(account.captain_document_sync_interval).to be_nil
+
+      account.update!(custom_attributes: { plan_name: 'startups' })
+      expect(account.captain_document_sync_interval).to be_nil
     end
   end
 

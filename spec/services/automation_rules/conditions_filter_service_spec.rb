@@ -63,6 +63,26 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       end
     end
 
+    context 'when conditions check assignee presence' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+
+      before do
+        conversation.update!(ai_assignee: agent_bot)
+      end
+
+      it 'treats AgentBot ownership as present' do
+        rule.update!(conditions: [{ 'values': [], 'attribute_key': 'assignee_id', 'query_operator': nil, 'filter_operator': 'is_present' }])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+      end
+
+      it 'does not treat AgentBot ownership as absent' do
+        rule.update!(conditions: [{ 'values': [], 'attribute_key': 'assignee_id', 'query_operator': nil, 'filter_operator': 'is_not_present' }])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+      end
+    end
+
     context 'when conditions based on messages attributes' do
       context 'when filter_operator is equal_to' do
         before do
@@ -79,6 +99,27 @@ RSpec.describe AutomationRules::ConditionsFilterService do
 
         it 'will return false when conditions in rule does not match' do
           message.update!(message_type: :outgoing)
+          expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
+        end
+      end
+
+      context 'when filtering private notes' do
+        before do
+          rule.conditions = [
+            { 'values': [true], 'attribute_key': 'private_note', 'query_operator': nil, 'filter_operator': 'equal_to' }
+          ]
+          rule.save
+        end
+
+        it 'will return true when the message is a private note' do
+          message.update!(private: true)
+
+          expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
+        end
+
+        it 'will return false when the message is not a private note' do
+          message.update!(private: false)
+
           expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
         end
       end
@@ -174,7 +215,18 @@ RSpec.describe AutomationRules::ConditionsFilterService do
         end
 
         it 'will return false when conversation has the label' do
-          conversation.add_labels(['feature'])
+          conversation.update_labels(%w[bug feature])
+          expect(conversation.reload.label_list).to match_array(%w[bug feature])
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+        end
+
+        it 'will return false when conversation has any excluded label' do
+          rule.update!(conditions: [
+                         { 'values': %w[feature enterprise], 'attribute_key': 'labels', 'query_operator': nil,
+                           'filter_operator': 'not_equal_to' }
+                       ])
+          conversation.update_labels(%w[bug enterprise])
+
           expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
         end
       end

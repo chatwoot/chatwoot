@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "Loading editor...",
     "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
     "LEARN_MORE": "Learn about agent bots",
+    "COUNT": "{n} bot | {n} bots",
+    "SEARCH_PLACEHOLDER": "Search bots...",
+    "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "System bot",
     "GLOBAL_BOT_BADGE": "System",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "Fetching bots...",
       "TABLE_HEADER": {
         "DETAILS": "Bot Details",
-        "URL": "Webhook URL"
+        "URL": "Webhook URL",
+        "ACTIONS": "Actions"
       }
     },
     "DELETE": {
@@ -58,6 +62,16 @@
         "SUCCESS_MESSAGE": "Bot updated successfully.",
         "ERROR_MESSAGE": "Could not update bot. Please try again."
       }
+    },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "গোপন কোড ক্লিপবোর্ডে কপি করুন",
+      "COPY_SUCCESS": "গোপন কোড ক্লিপবোর্ডে কপি হয়েছে",
+      "TOGGLE": "গোপন কোডের দৃশ্যমানতা টগল করুন",
+      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
+      "DONE": "সম্পন্ন",
+      "RESET_SUCCESS": "Webhook secret regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
     },
     "ACCESS_TOKEN": {
       "TITLE": "Access Token",

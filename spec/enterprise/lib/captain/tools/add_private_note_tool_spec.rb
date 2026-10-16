@@ -114,6 +114,57 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
         expect(result).to eq('Conversation not found')
       end
     end
+
+    context 'when a playground call cannot add a note' do
+      let(:tool_context) do
+        Struct.new(:state).new({ source: 'playground', conversation: { id: conversation.id } })
+      end
+
+      it 'marks the result as an error for run details' do
+        result = tool.perform(tool_context, note: '')
+
+        expect(result).to eq('ERROR: Note content is required')
+      end
+    end
+  end
+
+  describe '#execute' do
+    let(:responding_to_message) do
+      create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming)
+    end
+    let(:tool_context) do
+      Struct.new(:state).new({ conversation: { id: conversation.id }, responding_to_message_id: responding_to_message.id })
+    end
+
+    before do
+      responding_to_message
+      create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming)
+    end
+
+    it 'keeps legacy public-tool side effects for Captain V1' do
+      expect do
+        result = tool.execute(tool_context, note: 'Keep the legacy side effect')
+        expect(result).to eq('Private note added successfully')
+      end.to change(Message, :count).by(1)
+    end
+
+    it 'skips stale public-tool side effects for Captain V2' do
+      account.enable_features!(:captain_integration_v2)
+
+      expect do
+        result = tool.execute(tool_context, note: 'Do not create this note')
+        expect(result).to eq('Tool skipped because a newer customer message arrived')
+      end.not_to change(Message, :count)
+    end
+
+    it 'marks a stale playground tool call as an error for run details' do
+      account.enable_features!(:captain_integration_v2)
+      tool_context.state[:source] = 'playground'
+
+      result = tool.execute(tool_context, note: 'Do not create this note')
+
+      expect(result).to eq('ERROR: Tool skipped because a newer customer message arrived')
+    end
   end
 
   describe '#active?' do

@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "创建新账户",
+    "GET_STARTED": "开始使用Chatwoot",
     "TITLE": "注册",
     "TESTIMONIAL_HEADER": "只差最后一步就可以了",
     "TESTIMONIAL_CONTENT": "您离吸引客户、留住客户和寻找新客户仅一步之遥。",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "无法与 Woot 服务器建立连接。请重试。"
     },
     "SUBMIT": "创建新账户",
-    "HAVE_AN_ACCOUNT": "已经有帐号？"
+    "HAVE_AN_ACCOUNT": "已经有帐号？",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "重新发送验证邮件",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

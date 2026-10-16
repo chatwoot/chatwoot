@@ -178,5 +178,85 @@ RSpec.describe MailPresenter do
         expect(decorated_mail.serialized_data[:auto_reply]).to be_falsey
       end
     end
+
+    describe 'malformed sender headers' do
+      let(:mail_with_malformed_from) do
+        Mail.new do
+          header['From'] = 'Kevin McDonald <info@example.com'
+          to 'Inbox <inbox@example.com>'
+          subject :header
+          body 'Hi'
+        end
+      end
+
+      let(:mail_with_malformed_reply_to) do
+        Mail.new do
+          from 'Sender <sender@example.com>'
+          to 'Inbox <inbox@example.com>'
+          subject :header
+          body 'Hi'
+          header['Reply-To'] = 'Reply User <reply@example.com'
+        end
+      end
+
+      let(:mail_with_original_sender_header) do
+        Mail.new do
+          from 'Sender <sender@example.com>'
+          to 'Inbox <inbox@example.com>'
+          subject :header
+          body 'Hi'
+          header['Reply-To'] = 'Reply User <reply@example.com'
+          header['X-Original-Sender'] = 'Forwarded Sender <forwarded.sender@example.com>'
+        end
+      end
+
+      let(:mail_with_invalid_original_sender_header) do
+        Mail.new do
+          from 'Sender <sender@example.com>'
+          to 'Inbox <inbox@example.com>'
+          subject :header
+          body 'Hi'
+          header['Reply-To'] = 'Reply User <reply@example.com'
+          header['X-Original-Sender'] = 'not an email address'
+        end
+      end
+
+      it 'returns nil sender values when from header is malformed' do
+        presenter = described_class.new(mail_with_malformed_from)
+
+        expect(presenter.original_sender).to be_nil
+        expect(presenter.sender_name).to be_nil
+        expect(presenter.notification_email_from_chatwoot?).to be(false)
+      end
+
+      it 'falls back to from header when reply_to is malformed' do
+        presenter = described_class.new(mail_with_malformed_reply_to)
+        expect(presenter.original_sender).to eq('sender@example.com')
+      end
+
+      it 'uses parsed X-Original-Sender value when available' do
+        presenter = described_class.new(mail_with_original_sender_header)
+        expect(presenter.original_sender).to eq('forwarded.sender@example.com')
+      end
+
+      it 'falls back to from when X-Original-Sender is invalid' do
+        presenter = described_class.new(mail_with_invalid_original_sender_header)
+        expect(presenter.original_sender).to eq('sender@example.com')
+      end
+
+      it 'matches notification sender emails case-insensitively' do
+        mail_with_uppercase_sender = Mail.new do
+          from 'Chatwoot <ACCOUNTS@CHATWOOT.COM>'
+          to 'Inbox <inbox@example.com>'
+          subject :header
+          body 'Hi'
+        end
+
+        with_modified_env MAILER_SENDER_EMAIL: 'Chatwoot <accounts@chatwoot.com>' do
+          presenter = described_class.new(mail_with_uppercase_sender)
+          expect(presenter.notification_email_from_chatwoot?).to be(true)
+        end
+      end
+    end
   end
 end

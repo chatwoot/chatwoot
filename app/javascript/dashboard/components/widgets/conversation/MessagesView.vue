@@ -1,17 +1,20 @@
 <script>
-import { ref, provide } from 'vue';
+import { ref, provide, useTemplateRef } from 'vue';
+import { useElementSize } from '@vueuse/core';
 // composable
-import { useConfig } from 'dashboard/composables/useConfig';
-import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useAI } from 'dashboard/composables/useAI';
+import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
+import { useContactConversationNavigation } from 'dashboard/composables/useContactConversationNavigation';
 
 // components
 import ReplyBox from './ReplyBox.vue';
 import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
+import ContactConversationLink from './ContactConversationLink.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
+import ReferralBubble from 'dashboard/components-next/Conversation/ReferralBubble.vue';
 
 // stores and apis
 import { mapGetters } from 'vuex';
@@ -33,7 +36,9 @@ import {
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
-import wootConstants from 'dashboard/constants/globals';
+import wootConstants, {
+  META_RESTRICTION_STATUS_URL,
+} from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
@@ -43,41 +48,44 @@ export default {
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
+    ContactConversationLink,
     Spinner,
+    ResizableEditorWrapper,
+    ReferralBubble,
   },
   mixins: [inboxMixin],
   setup() {
-    const isPopOutReplyBox = ref(false);
     const conversationPanelRef = ref(null);
-    const { isEnterprise } = useConfig();
-
-    const keyboardEvents = {
-      Escape: {
-        action: () => {
-          isPopOutReplyBox.value = false;
-        },
-      },
-    };
-
-    useKeyboardEvents(keyboardEvents);
+    const resizableEditorWrapperRef = ref(null);
+    const messagesViewRef = useTemplateRef('messagesViewRef');
+    const topBannerRef = useTemplateRef('topBannerRef');
+    const { height: containerHeight } = useElementSize(messagesViewRef);
+    const { height: topBannerHeight } = useElementSize(topBannerRef);
 
     const {
-      isAIIntegrationEnabled,
+      captainTasksEnabled,
       isLabelSuggestionFeatureEnabled,
-      fetchIntegrationsIfRequired,
-      fetchLabelSuggestions,
-    } = useAI();
+      getLabelSuggestions,
+    } = useLabelSuggestions();
+
+    const { olderConversation, newerConversation, buildConversationPath } =
+      useContactConversationNavigation();
 
     provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
-      isEnterprise,
-      isPopOutReplyBox,
-      isAIIntegrationEnabled,
+      captainTasksEnabled,
+      getLabelSuggestions,
       isLabelSuggestionFeatureEnabled,
-      fetchIntegrationsIfRequired,
-      fetchLabelSuggestions,
+      olderConversation,
+      newerConversation,
+      buildConversationPath,
       conversationPanelRef,
+      resizableEditorWrapperRef,
+      messagesViewRef,
+      topBannerRef,
+      containerHeight,
+      topBannerHeight,
     };
   },
   data() {
@@ -98,6 +106,7 @@ export default {
       currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
+      isMetaMessageSendingDisabled: 'globalConfig/isMetaMessageSendingDisabled',
     }),
     isOpen() {
       return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
@@ -105,8 +114,8 @@ export default {
     shouldShowLabelSuggestions() {
       return (
         this.isOpen &&
-        this.isEnterprise &&
-        this.isAIIntegrationEnabled &&
+        this.captainTasksEnabled &&
+        this.isLabelSuggestionFeatureEnabled &&
         !this.messageSentSinceOpened
       );
     },
@@ -142,6 +151,9 @@ export default {
       }
       return messages;
     },
+    referralData() {
+      return this.currentChat?.additional_attributes?.referral || null;
+    },
     readMessages() {
       return getReadMessages(
         this.getMessages,
@@ -175,7 +187,12 @@ export default {
         instagramInbox
       );
     },
-
+    isInstagramRestrictionBannerVisible() {
+      return this.isMetaMessageSendingDisabled && this.isAnInstagramChannel;
+    },
+    instagramRestrictionStatusUrl() {
+      return META_RESTRICTION_STATUS_URL;
+    },
     replyWindowBannerMessage() {
       if (this.isAWhatsAppChannel) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
@@ -259,6 +276,7 @@ export default {
       this.fetchAllAttachmentsFromCurrentChat();
       this.fetchSuggestions();
       this.messageSentSinceOpened = false;
+      this.resetReplyEditorHeight();
     },
   },
 
@@ -291,24 +309,15 @@ export default {
         return;
       }
 
-      if (!this.isEnterprise) {
-        return;
-      }
-
       // Early exit if conversation already has labels - no need to suggest more
       const existingLabels = this.currentChat?.labels || [];
       if (existingLabels.length > 0) return;
 
-      // method available in mixin, need to ensure that integrations are present
-      await this.fetchIntegrationsIfRequired();
-
-      if (!this.isLabelSuggestionFeatureEnabled) {
+      if (!this.captainTasksEnabled || !this.isLabelSuggestionFeatureEnabled) {
         return;
       }
 
-      this.labelSuggestions = await this.fetchLabelSuggestions({
-        conversationId: this.currentChat.id,
-      });
+      this.labelSuggestions = await this.getLabelSuggestions();
 
       // once the labels are fetched, we need to scroll to bottom
       // but we need to wait for the DOM to be updated
@@ -451,26 +460,45 @@ export default {
       const payload = useSnakeCase(message);
       await this.$store.dispatch('sendMessageWithData', payload);
     },
+    toggleReplyEditorSize() {
+      this.resizableEditorWrapperRef?.toggleEditorExpand?.();
+    },
+    resetReplyEditorHeight() {
+      this.resizableEditorWrapperRef?.resetEditorHeight?.();
+    },
   },
 };
 </script>
 
 <template>
-  <div class="flex flex-col justify-between flex-grow h-full min-w-0 m-0">
-    <Banner
-      v-if="!currentChat.can_reply"
-      color-scheme="alert"
-      class="mx-2 mt-2 overflow-hidden rounded-lg"
-      :banner-message="replyWindowBannerMessage"
-      :href-link="replyWindowLink"
-      :href-link-text="replyWindowLinkText"
-    />
-    <Banner
-      v-else-if="hasDuplicateInstagramInbox"
-      color-scheme="alert"
-      class="mx-2 mt-2 overflow-hidden rounded-lg"
-      :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
-    />
+  <div
+    ref="messagesViewRef"
+    class="flex flex-col justify-between flex-grow h-full min-w-0 m-0"
+  >
+    <div ref="topBannerRef">
+      <Banner
+        v-if="isInstagramRestrictionBannerVisible"
+        color-scheme="warning"
+        class="mx-2 mt-2 min-h-12 !h-auto rounded-lg"
+        :banner-message="$t('CONVERSATION.INSTAGRAM_RESTRICTION_BANNER')"
+        :href-link="instagramRestrictionStatusUrl"
+        :href-link-text="$t('CONVERSATION.INSTAGRAM_RESTRICTION_STATUS_LINK')"
+      />
+      <Banner
+        v-if="!currentChat.can_reply"
+        color-scheme="alert"
+        class="mx-2 mt-2 overflow-hidden rounded-lg"
+        :banner-message="replyWindowBannerMessage"
+        :href-link="replyWindowLink"
+        :href-link-text="replyWindowLinkText"
+      />
+      <Banner
+        v-if="hasDuplicateInstagramInbox"
+        color-scheme="alert"
+        class="mx-2 mt-2 overflow-hidden rounded-lg"
+        :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
+      />
+    </div>
     <MessageList
       ref="conversationPanelRef"
       class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
@@ -490,6 +518,13 @@ export default {
             <Spinner v-if="shouldShowSpinner" class="text-n-brand" />
           </li>
         </transition>
+        <ContactConversationLink
+          v-if="olderConversation && listLoadingStatus"
+          direction="older"
+          :conversation="olderConversation"
+          :to="buildConversationPath(olderConversation.id)"
+        />
+        <ReferralBubble v-if="referralData" :referral="referralData" />
       </template>
       <template #unreadBadge>
         <li
@@ -510,15 +545,15 @@ export default {
           :chat-labels="currentChat.labels"
           :conversation-id="currentChat.id"
         />
+        <ContactConversationLink
+          v-if="newerConversation"
+          direction="newer"
+          :conversation="newerConversation"
+          :to="buildConversationPath(newerConversation.id)"
+        />
       </template>
     </MessageList>
-    <div
-      class="flex relative flex-col"
-      :class="{
-        'modal-mask': isPopOutReplyBox,
-        'bg-n-background': !isPopOutReplyBox,
-      }"
-    >
+    <div class="flex relative flex-col bg-n-surface-1">
       <div
         v-if="isAnyoneTyping"
         class="absolute flex items-center w-full h-0 -top-7"
@@ -534,42 +569,12 @@ export default {
           />
         </div>
       </div>
-      <ReplyBox
-        :pop-out-reply-box="isPopOutReplyBox"
-        @update:pop-out-reply-box="isPopOutReplyBox = $event"
-      />
+      <ResizableEditorWrapper
+        ref="resizableEditorWrapperRef"
+        :container-height="Math.max(0, containerHeight - topBannerHeight)"
+      >
+        <ReplyBox @toggle-editor-size="toggleReplyEditorSize" />
+      </ResizableEditorWrapper>
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.modal-mask {
-  @apply fixed;
-
-  &::v-deep {
-    .ProseMirror-woot-style {
-      @apply max-h-[25rem];
-    }
-
-    .reply-box {
-      @apply border border-n-weak max-w-[75rem] w-[70%];
-
-      &.is-private {
-        @apply dark:border-n-amber-3/30 border-n-amber-12/5;
-      }
-    }
-
-    .reply-box .reply-box__top {
-      @apply relative min-h-[27.5rem];
-    }
-
-    .reply-box__top .input {
-      @apply min-h-[27.5rem];
-    }
-
-    .emoji-dialog {
-      @apply absolute ltr:left-auto rtl:right-auto bottom-1;
-    }
-  }
-}
-</style>

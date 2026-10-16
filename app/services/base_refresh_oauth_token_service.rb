@@ -23,6 +23,8 @@ class BaseRefreshOauthTokenService
   # Refresh the access tokens using the refresh token
   # Refer: https://github.com/microsoftgraph/msgraph-sample-rubyrailsapp/tree/b4a6869fe4a438cde42b161196484a929f1bee46
   def refresh_tokens
+    raise 'A refresh_token is not available' if provider_config[:refresh_token].blank?
+
     oauth_strategy = build_oauth_strategy
     token_service = build_token_service(oauth_strategy)
 

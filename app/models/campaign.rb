@@ -10,6 +10,8 @@
 #  enabled                            :boolean          default(TRUE)
 #  message                            :text             not null
 #  scheduled_at                       :datetime
+#  started_at                         :datetime
+#  completed_at                       :datetime
 #  template_params                    :jsonb
 #  title                              :string           not null
 #  trigger_only_during_business_hours :boolean          default(FALSE)
@@ -47,21 +49,45 @@ class Campaign < ApplicationRecord
 
   enum campaign_type: { ongoing: 0, one_off: 1 }
   # TODO : enabled attribute is unneccessary . lets move that to the campaign status with additional statuses like draft, disabled etc.
-  enum campaign_status: { active: 0, completed: 1 }
+  enum campaign_status: { active: 0, completed: 1, processing: 2 }
 
   has_many :conversations, dependent: :nullify, autosave: true
 
   before_validation :ensure_correct_campaign_attributes
+  before_update :set_completed_at, if: :marking_completed?
   after_commit :set_display_id, unless: :display_id?
+  after_destroy_commit :invalidate_filtered_unread_count_filters
 
   def trigger!
     return unless one_off?
-    return if completed?
+    return unless feature_enabled?
+    return unless mark_processing!
 
     execute_campaign
   end
 
   private
+
+  def feature_enabled?
+    inbox.inbox_type != 'Whatsapp' || account.feature_enabled?(:whatsapp_campaign)
+  end
+
+  def mark_processing!
+    # Multiple scheduler jobs can pick the same active campaign; lock before flipping status to avoid duplicate sends.
+    with_lock do
+      next if completed? || processing?
+
+      update!(campaign_status: :processing, started_at: Time.current)
+    end
+  end
+
+  def marking_completed?
+    will_save_change_to_campaign_status? && completed?
+  end
+
+  def set_completed_at
+    self.completed_at ||= Time.current
+  end
 
   def execute_campaign
     case inbox.inbox_type
@@ -70,8 +96,17 @@ class Campaign < ApplicationRecord
     when 'Sms'
       Sms::OneoffSmsCampaignService.new(campaign: self).perform
     when 'Whatsapp'
-      Whatsapp::OneoffCampaignService.new(campaign: self).perform if account.feature_enabled?(:whatsapp_campaign)
+      Whatsapp::OneoffCampaignService.new(campaign: self).perform
     end
+  end
+
+  def invalidate_filtered_unread_count_filters
+    filters_changed = ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).conversation_changed!
+    dispatch_account_cache_invalidated if filters_changed
+  end
+
+  def dispatch_account_cache_invalidated
+    Rails.configuration.dispatcher.dispatch(ACCOUNT_CACHE_INVALIDATED, Time.zone.now, account: account, cache_keys: account.cache_keys)
   end
 
   def set_display_id
@@ -129,3 +164,4 @@ class Campaign < ApplicationRecord
     "NEW.display_id := nextval('camp_dpid_seq_' || NEW.account_id);"
   end
 end
+Campaign.include_mod_with('Campaign')

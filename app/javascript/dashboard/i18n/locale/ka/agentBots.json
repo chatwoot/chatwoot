@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "Loading editor...",
     "DESCRIPTION": "აგენტ-ბოტები თქვენი გუნდის ყველაზე გამორჩეული წევრებივით არიან. მათ შეუძლიათ მოაგვარონ წვრილმანები, რათა თქვენ ყურადღება მიაქციოთ ნამდვილად მნიშვნელოვან საკითხებს. სცადეთ. შეგიძლიათ მართოთ თქვენი ბოტები ამ გვერდიდან ან შექმნათ ახალი ღილაკით „ბოტის დამატება“.",
     "LEARN_MORE": "Learn about agent bots",
+    "COUNT": "{n} bot | {n} bots",
+    "SEARCH_PLACEHOLDER": "Search bots...",
+    "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "სისტემური ბოტი",
     "GLOBAL_BOT_BADGE": "სისტემა",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "Fetching bots...",
       "TABLE_HEADER": {
         "DETAILS": "ბოტის დეტალები",
-        "URL": "ვებჰუკის URL"
+        "URL": "ვებჰუკის URL",
+        "ACTIONS": "Actions"
       }
     },
     "DELETE": {
@@ -58,6 +62,16 @@
         "SUCCESS_MESSAGE": "Bot updated successfully.",
         "ERROR_MESSAGE": "Could not update bot. Please try again."
       }
+    },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "საიდუმლოს კოპირება კლიპბორდზე",
+      "COPY_SUCCESS": "საიდუმლო კლიპბორდზე გადაწერილია",
+      "TOGGLE": "საიდუმლოს ხილვადობის გადართვა",
+      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
+      "DONE": "მზადაა",
+      "RESET_SUCCESS": "Webhook secret regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
     },
     "ACCESS_TOKEN": {
       "TITLE": "წვდომის ტოკენი",

@@ -19,7 +19,7 @@ const getters = {
     return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
   },
   getFilteredConversations: (
-    { allConversations, chatSortFilter, appliedFilters },
+    { allConversations, chatSortFilter, appliedFilters, appliedFiltersSortBy },
     _,
     __,
     rootGetters
@@ -46,7 +46,9 @@ const getters = {
 
         return matchesFilterResult && allowedForRole;
       })
-      .sort((a, b) => sortComparator(a, b, chatSortFilter));
+      .sort((a, b) =>
+        sortComparator(a, b, appliedFiltersSortBy || chatSortFilter)
+      );
   },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
     const selectedChat = allConversations.find(
@@ -57,6 +59,8 @@ const getters = {
   getSelectedChatAttachments: ({ selectedChatId, attachments }) => {
     return attachments[selectedChatId] || [];
   },
+  getSelectedChatAttachmentsLoaded: ({ selectedChatId, attachments }) =>
+    selectedChatId !== null && attachments[selectedChatId] !== undefined,
   getChatListFilters: ({ conversationFilters }) => conversationFilters,
   getLastEmailInSelectedChat: (stage, _getters) => {
     const selectedChat = _getters.getSelectedChat;
@@ -91,6 +95,12 @@ const getters = {
   getAppliedConversationFilters: _state => {
     return _state.appliedFilters;
   },
+  getAppliedContactFilter: ({ appliedFilters }) => {
+    const [filter, ...rest] = appliedFilters;
+    if (rest.length || filter?.attribute_key !== 'contact_id') return null;
+
+    return filter.values?.[0] ?? null;
+  },
   getAppliedConversationFiltersQuery: _state => {
     const hasAppliedFilters = _state.appliedFilters.length !== 0;
     return hasAppliedFilters ? filterQueryGenerator(_state.appliedFilters) : [];
@@ -100,6 +110,19 @@ const getters = {
       const isUnAssigned = !conversation.meta.assignee;
       const shouldFilter = applyPageFilters(conversation, activeFilters);
       return isUnAssigned && shouldFilter;
+    });
+  },
+  getParticipatingChats: (_state, _, __, rootGetters) => activeFilters => {
+    const currentUserId = rootGetters.getCurrentUser?.id;
+    const getWatchers = rootGetters['conversationWatchers/getByConversationId'];
+    return _state.allConversations.filter(conversation => {
+      const watchers = getWatchers(conversation.id);
+      // Watchers are only loaded for the conversation open in the detail
+      // panel. If loaded and current user is not in them, filter it out.
+      if (watchers && !watchers.some(w => w.id === currentUserId)) {
+        return false;
+      }
+      return applyPageFilters(conversation, activeFilters);
     });
   },
   getAllStatusChats: (_state, _, __, rootGetters) => activeFilters => {

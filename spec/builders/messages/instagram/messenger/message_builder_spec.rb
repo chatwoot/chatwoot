@@ -104,6 +104,7 @@ describe Messages::Instagram::Messenger::MessageBuilder do
     it 'creates message with for reply with story id' do
       messaging = instagram_story_reply_event[:entry][0]['messaging'][0]
       sender_id = messaging['sender']['id']
+      story_url = messaging['message']['reply_to']['story']['url']
 
       allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
       allow(fb_object).to receive(:get_object).and_return(
@@ -114,6 +115,8 @@ describe Messages::Instagram::Messenger::MessageBuilder do
           profile_pic: 'https://chatwoot-assets.local/sample.png'
         }.with_indifferent_access
       )
+      stub_request(:get, story_url)
+        .to_return(status: 200, body: 'image_data', headers: { 'Content-Type' => 'image/png' })
 
       create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
       described_class.new(messaging, instagram_messenger_inbox).perform
@@ -123,7 +126,10 @@ describe Messages::Instagram::Messenger::MessageBuilder do
       expect(message.content).to eq('This is the story reply')
       expect(message.content_attributes[:story_sender]).to eq(instagram_messenger_inbox.channel.instagram_id)
       expect(message.content_attributes[:story_id]).to eq('chatwoot-app-user-id-1')
-      expect(message.content_attributes[:story_url]).to eq('https://chatwoot-assets.local/sample.png')
+      expect(message.content_attributes[:story_url]).to eq(story_url)
+      expect(message.content_attributes[:image_type]).to eq('ig_story_reply')
+      expect(message.attachments.first.file_type).to eq('ig_story')
+      expect(message.attachments.first.external_url).to eq(story_url)
     end
 
     it 'creates message with for reply with mid' do

@@ -5,7 +5,7 @@ class Api::V1::Accounts::UploadController < Api::V1::Accounts::BaseController
              elsif params[:external_url].present?
                create_from_url
              else
-               render_error('No file or URL provided', :unprocessable_entity)
+               render_error(I18n.t('errors.upload.missing_input'), :unprocessable_entity)
              end
 
     render_success(result) if result.is_a?(ActiveStorage::Blob)
@@ -19,35 +19,21 @@ class Api::V1::Accounts::UploadController < Api::V1::Accounts::BaseController
   end
 
   def create_from_url
-    uri = parse_uri(params[:external_url])
-    return if performed?
-
-    fetch_and_process_file_from_uri(uri)
-  end
-
-  def parse_uri(url)
-    uri = URI.parse(url)
-    validate_uri(uri)
-    uri
-  rescue URI::InvalidURIError, SocketError
-    render_error('Invalid URL provided', :unprocessable_entity)
-    nil
-  end
-
-  def validate_uri(uri)
-    raise URI::InvalidURIError unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-  end
-
-  def fetch_and_process_file_from_uri(uri)
-    uri.open do |file|
-      create_and_save_blob(file, File.basename(uri.path), file.content_type)
+    SafeFetch.fetch(params[:external_url].to_s) do |result|
+      create_and_save_blob(result.tempfile, result.filename, result.content_type)
     end
-  rescue OpenURI::HTTPError => e
-    render_error("Failed to fetch file from URL: #{e.message}", :unprocessable_entity)
-  rescue SocketError
-    render_error('Invalid URL provided', :unprocessable_entity)
+  rescue SafeFetch::HttpError => e
+    render_error(I18n.t('errors.upload.fetch_failed_with_message', message: e.message), :unprocessable_entity)
+  rescue SafeFetch::FetchError
+    render_error(I18n.t('errors.upload.fetch_failed'), :unprocessable_entity)
+  rescue SafeFetch::FileTooLargeError
+    render_error(I18n.t('errors.upload.file_too_large'), :unprocessable_entity)
+  rescue SafeFetch::UnsupportedContentTypeError
+    render_error(I18n.t('errors.upload.unsupported_content_type'), :unprocessable_entity)
+  rescue SafeFetch::Error
+    render_error(I18n.t('errors.upload.invalid_url'), :unprocessable_entity)
   rescue StandardError
-    render_error('An unexpected error occurred', :internal_server_error)
+    render_error(I18n.t('errors.upload.unexpected'), :internal_server_error)
   end
 
   def create_and_save_blob(io, filename, content_type)

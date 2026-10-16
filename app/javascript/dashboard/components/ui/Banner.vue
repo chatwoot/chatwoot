@@ -1,3 +1,5 @@
+<!-- DEPRECIATED -->
+<!-- TODO: Replace this banner component with NextBanner "app/javascript/dashboard/components-next/banner/Banner.vue" -->
 <script>
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -106,6 +108,7 @@ export default {
       <NextButton
         v-if="hasCloseButton"
         xs
+        variant="ghost"
         icon="i-lucide-circle-x"
         :color="getButtonColor"
         :label="$t('GENERAL_SETTINGS.DISMISS')"

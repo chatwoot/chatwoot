@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Create an account",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "Đăng kí",
     "TESTIMONIAL_HEADER": "Tất cả chỉ cần một bước để tiến về phía trước",
     "TESTIMONIAL_CONTENT": "Bạn chỉ còn một bước nữa là có thể thu hút khách hàng của mình, giữ chân họ và tìm kiếm những khách hàng mới.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Create account",
-    "HAVE_AN_ACCOUNT": "Đã có tài khoản?"
+    "HAVE_AN_ACCOUNT": "Đã có tài khoản?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Resend verification email",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

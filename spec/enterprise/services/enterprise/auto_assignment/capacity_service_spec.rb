@@ -52,8 +52,9 @@ RSpec.describe Enterprise::AutoAssignment::CapacityService, type: :service do
                                                                              agent_at_capacity.id.to_s => 'online'
                                                                            })
 
-    # Enable assignment_v2 feature
-    allow(account).to receive(:feature_enabled?).with('assignment_v2').and_return(true)
+    # Enable assignment_v2 (base) and advanced_assignment (premium) features
+    account.enable_features('assignment_v2', 'advanced_assignment')
+    account.save!
 
     # Create existing assignments for agent_at_capacity (at limit)
     3.times do
@@ -82,6 +83,55 @@ RSpec.describe Enterprise::AutoAssignment::CapacityService, type: :service do
       expect(capacity_service.agent_has_capacity?(agent_with_capacity, inbox)).to be true
       expect(capacity_service.agent_has_capacity?(agent_without_capacity, inbox)).to be true
       expect(capacity_service.agent_has_capacity?(agent_at_capacity, inbox)).to be false
+    end
+  end
+
+  describe 'exclusion policy (zero conversation limit)' do
+    let(:excluded_agent) { create(:user, account: account, role: :agent, availability: :online) }
+    let(:exclusion_policy) { create(:agent_capacity_policy, account: account, name: 'Exclusion Policy') }
+
+    before do
+      create(:inbox_capacity_limit,
+             agent_capacity_policy: exclusion_policy,
+             inbox: inbox,
+             conversation_limit: 0)
+
+      excluded_agent.account_users.find_by(account: account)
+                    .update!(agent_capacity_policy: exclusion_policy)
+
+      create(:inbox_member, inbox: inbox, user: excluded_agent)
+
+      allow(OnlineStatusTracker).to receive(:get_available_users).and_return({
+                                                                               excluded_agent.id.to_s => 'online',
+                                                                               agent_with_capacity.id.to_s => 'online',
+                                                                               agent_without_capacity.id.to_s => 'online',
+                                                                               agent_at_capacity.id.to_s => 'online'
+                                                                             })
+    end
+
+    it 'always denies capacity for agents with zero limit' do
+      capacity_service = described_class.new
+      expect(capacity_service.agent_has_capacity?(excluded_agent, inbox)).to be false
+    end
+
+    it 'denies capacity even when agent has no existing conversations' do
+      capacity_service = described_class.new
+      # Agent has 0 open conversations but limit is 0, so 0 < 0 is false
+      expect(excluded_agent.assigned_conversations.where(inbox: inbox, status: :open).count).to eq(0)
+      expect(capacity_service.agent_has_capacity?(excluded_agent, inbox)).to be false
+    end
+
+    it 'excludes zero-limit agents from available agents list' do
+      capacity_service = described_class.new
+      online_agents = inbox.available_agents
+      filtered_agents = online_agents.select do |inbox_member|
+        capacity_service.agent_has_capacity?(inbox_member.user, inbox)
+      end
+      available_users = filtered_agents.map(&:user)
+
+      expect(available_users).not_to include(excluded_agent)
+      expect(available_users).to include(agent_with_capacity)
+      expect(available_users).to include(agent_without_capacity)
     end
   end
 

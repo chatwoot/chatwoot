@@ -2,13 +2,15 @@
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import { required, minLength } from '@vuelidate/validators';
-import { getRegexp } from 'shared/helpers/Validators';
+import { getRegexp, normalizeRegexPattern } from 'shared/helpers/Validators';
 import { ATTRIBUTE_TYPES } from './constants';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
 
 export default {
   components: {
     NextButton,
+    TagInput,
   },
   props: {
     selectedAttribute: {
@@ -35,21 +37,13 @@ export default {
       show: true,
       attributeKey: '',
       values: [],
-      options: [],
-      isTouched: true,
+      tagInputTouched: false,
     };
   },
   validations: {
-    displayName: {
-      required,
-    },
-    attributeType: {
-      required,
-    },
-    description: {
-      required,
-      minLength: minLength(1),
-    },
+    displayName: { required },
+    attributeType: { required },
+    description: { required, minLength: minLength(1) },
     attributeKey: {
       required,
       isKey(value) {
@@ -65,20 +59,19 @@ export default {
       }));
     },
     setAttributeListValue() {
-      return this.selectedAttribute.attribute_values.map(values => ({
-        name: values,
-      }));
+      return this.selectedAttribute.attribute_values || [];
     },
     updatedAttributeListValues() {
-      return this.values.map(item => item.name);
+      return this.values;
     },
     isButtonDisabled() {
-      return this.v$.description.$invalid || this.isMultiselectInvalid;
+      return this.v$.description.$invalid || this.isTagInputEmpty;
     },
-    isMultiselectInvalid() {
-      return (
-        this.isAttributeTypeList && this.isTouched && this.values.length === 0
-      );
+    isTagInputEmpty() {
+      return this.isAttributeTypeList && this.values.length === 0;
+    },
+    isTagInputInvalid() {
+      return this.tagInputTouched && this.isTagInputEmpty;
     },
 
     pageTitle() {
@@ -116,16 +109,9 @@ export default {
     onClose() {
       this.$emit('onClose');
     },
-    addTagValue(tagValue) {
-      const tag = {
-        name: tagValue,
-      };
-      this.values.push(tag);
-      this.$refs.tagInput.$el.focus();
-    },
     setFormValues() {
       const regexPattern = this.selectedAttribute.regex_pattern
-        ? getRegexp(this.selectedAttribute.regex_pattern).source
+        ? getRegexp(this.selectedAttribute.regex_pattern).toString()
         : null;
       this.displayName = this.selectedAttribute.attribute_display_name;
       this.description = this.selectedAttribute.attribute_description;
@@ -151,9 +137,7 @@ export default {
           attribute_description: this.description,
           attribute_display_name: this.displayName,
           attribute_values: this.updatedAttributeListValues,
-          regex_pattern: this.regexPattern
-            ? new RegExp(this.regexPattern).toString()
-            : null,
+          regex_pattern: normalizeRegexPattern(this.regexPattern),
           regex_cue: this.regexCue,
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.EDIT.API.SUCCESS_MESSAGE');
@@ -225,24 +209,25 @@ export default {
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.ERROR') }}
           </span>
         </label>
-        <div v-if="isAttributeTypeList" class="multiselect--wrap">
-          <label>
+        <div v-if="isAttributeTypeList" class="mb-4">
+          <label class="mb-1 block">
             {{ $t('ATTRIBUTES_MGMT.EDIT.TYPE.LIST.LABEL') }}
           </label>
-          <multiselect
-            ref="tagInput"
-            v-model="values"
-            :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.PLACEHOLDER')"
-            label="name"
-            track-by="name"
-            :class="{ invalid: isMultiselectInvalid }"
-            :options="options"
-            multiple
-            taggable
-            @tag="addTagValue"
-          />
+          <div
+            class="rounded-xl border px-3 py-2"
+            :class="isTagInputInvalid ? 'border-n-ruby-9' : 'border-n-weak'"
+          >
+            <TagInput
+              v-model="values"
+              :placeholder="
+                $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.PLACEHOLDER')
+              "
+              allow-create
+              @blur="tagInputTouched = true"
+            />
+          </div>
           <label
-            v-show="isMultiselectInvalid"
+            v-show="isTagInputInvalid"
             class="text-n-ruby-9 dark:text-n-ruby-9 text-sm font-normal mt-1"
           >
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
@@ -296,23 +281,5 @@ export default {
 .key-value {
   padding: 0 0.5rem 0.5rem 0;
   font-family: monospace;
-}
-
-.multiselect--wrap {
-  margin-bottom: 1rem;
-}
-
-::v-deep {
-  .multiselect {
-    margin-bottom: 0;
-  }
-
-  .multiselect__content-wrapper {
-    display: none;
-  }
-
-  .multiselect--active .multiselect__tags {
-    border-radius: 0.3125rem;
-  }
 }
 </style>

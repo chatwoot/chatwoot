@@ -21,6 +21,14 @@ module ChatwootApp
     enterprise? && GlobalConfig.get_value('DEPLOYMENT_ENV') == 'cloud'
   end
 
+  def self.self_hosted_enterprise?
+    enterprise? && !chatwoot_cloud? && GlobalConfig.get_value('INSTALLATION_PRICING_PLAN') == 'enterprise'
+  end
+
+  def self.self_hosted_paid?
+    enterprise? && !chatwoot_cloud? && %w[premium enterprise].include?(ChatwootHub.pricing_plan)
+  end
+
   def self.custom?
     @custom ||= root.join('custom').exist?
   end

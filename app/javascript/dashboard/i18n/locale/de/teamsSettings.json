@@ -5,6 +5,9 @@
     "LOADING": "Teams werden abgerufen",
     "DESCRIPTION": "Teams ermöglichen es Ihnen, Agenten basierend auf ihren Aufgaben in Gruppen zu organisieren. Ein Agent kann mehreren Teams angehören. Bei der Zusammenarbeit können Sie Unterhaltungen bestimmten Teams zuweisen.",
     "LEARN_MORE": "Erfahren Sie mehr über Teams",
+    "COUNT": "{n} team | {n} teams",
+    "SEARCH_PLACEHOLDER": "Teams suchen...",
+    "NO_RESULTS": "No teams found matching your search",
     "LIST": {
       "404": "Es wurden noch keine Teams auf diesem Konto erstellt.",
       "EDIT_TEAM": "Team bearbeiten",

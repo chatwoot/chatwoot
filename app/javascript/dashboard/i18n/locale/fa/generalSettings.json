@@ -139,37 +139,6 @@
       "SELECT": "انتخاب کنید"
     }
   },
-  "NOTIFICATIONS_PAGE": {
-    "HEADER": "اعلان ها",
-    "MARK_ALL_DONE": "همه را به انجام شده تغییر بده",
-    "DELETE_TITLE": "حذف شده",
-    "UNREAD_NOTIFICATION": {
-      "TITLE": "آگاه‌سازی‌های خوانده نشده",
-      "ALL_NOTIFICATIONS": "مشاهده همه آگاه‌سازی‌ها",
-      "LOADING_UNREAD_MESSAGE": "در حال بارگیری آگاه‌سازی‌های خوانده نشده...",
-      "EMPTY_MESSAGE": "شما هیچ آگاه‌سازی‌ خوانده نشده‌ای ندارید"
-    },
-    "LIST": {
-      "LOADING_MESSAGE": "در حال بارگیری اعلان ها...",
-      "404": "اعلانی وجود ندارد",
-      "TABLE_HEADER": [
-        "نام",
-        "شماره تلفن",
-        "گفتگوها",
-        "آخرین تماس"
-      ]
-    },
-    "TYPE_LABEL": {
-      "conversation_creation": "گفتگوی جدید",
-      "conversation_assignment": "مکالمه اختصاص داده شد",
-      "assigned_conversation_new_message": "پیام جدید",
-      "participating_conversation_new_message": "پیام جدید",
-      "conversation_mention": "اشاره",
-      "sla_missed_first_response": "SLA های از دست رفته",
-      "sla_missed_next_response": "SLA های از دست رفته",
-      "sla_missed_resolution": "SLA های از دست رفته"
-    }
-  },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "آفلاین",
@@ -182,6 +151,7 @@
   },
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "جستجو یا پرش به",
+    "SNOOZE_PLACEHOLDER": "Type a time e.g. tomorrow, 2 hours, next friday, jan 15...",
     "SECTIONS": {
       "GENERAL": "عمومی",
       "REPORTS": "گزارشات",
@@ -191,6 +161,7 @@
       "CHANGE_PRIORITY": "تغییر اولویت",
       "CHANGE_TEAM": "تیم را تغییر دهید",
       "SNOOZE_CONVERSATION": "به تعویق انداختن مکالمه",
+      "EXECUTE_MACRO": "Execute Macro",
       "ADD_LABEL": "برچسب را به مکالمه اضافه کنید",
       "REMOVE_LABEL": "برچسب را از مکالمه حذف کنید",
       "SETTINGS": "تنظیمات",
@@ -199,28 +170,44 @@
       "SNOOZE_NOTIFICATION": "به تعویق انداختن آگاه‌سازی"
     },
     "COMMANDS": {
+      "GO_TO_MY_INBOX": "Go to My Inbox",
       "GO_TO_CONVERSATION_DASHBOARD": "به داشبورد مکالمه بروید",
       "GO_TO_CONTACTS_DASHBOARD": "به داشبورد مخاطبین بروید",
+      "GO_TO_CAPTAIN": "Go to Captain",
+      "GO_TO_CALLS_DASHBOARD": "Go to Calls Dashboard",
+      "GO_TO_CAMPAIGNS": "Go to Campaigns",
+      "GO_TO_HELP_CENTER": "Go to Help Center",
       "GO_TO_REPORTS_OVERVIEW": "به نمای کلی گزارش ها بروید",
       "GO_TO_CONVERSATION_REPORTS": "به گزارش های گفتگو بروید",
       "GO_TO_AGENT_REPORTS": "به گزارش های اپراتور بروید",
       "GO_TO_LABEL_REPORTS": "به گزارش برچسب بروید",
       "GO_TO_INBOX_REPORTS": "به گزارش صندوق ورودی بروید",
       "GO_TO_TEAM_REPORTS": "به گزارش تیم بروید",
+      "GO_TO_CSAT_REPORTS": "Go to CSAT Reports",
+      "GO_TO_BOT_REPORTS": "Go to Bot Reports",
+      "GO_TO_SLA_REPORTS": "Go to SLA Reports",
       "GO_TO_SETTINGS_AGENTS": "به تنظیمات اپراتور بروید",
       "GO_TO_SETTINGS_TEAMS": "به تنظیمات تیم بروید",
       "GO_TO_SETTINGS_INBOXES": "به تنظیمات صندوق ورودی بروید",
+      "GO_TO_SETTINGS_TEMPLATES": "Go to Templates",
       "GO_TO_SETTINGS_LABELS": "به تنظیمات برچسب بروید",
+      "GO_TO_SETTINGS_CUSTOM_ATTRIBUTES": "Go to Custom Attributes",
+      "GO_TO_SETTINGS_AUTOMATION": "Go to Automation",
+      "GO_TO_SETTINGS_MACROS": "Go to Macros",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "به تنظیمات Canned Response بروید",
+      "GO_TO_SETTINGS_SLA": "Go to SLA Settings",
       "GO_TO_SETTINGS_APPLICATIONS": "به تنظیمات برنامه بروید",
+      "GO_TO_SETTINGS_DATA": "Go to Data",
+      "GO_TO_SETTINGS_AUDIT_LOGS": "Go to Audit Logs",
+      "GO_TO_SETTINGS_BILLING": "Go to Billing",
       "GO_TO_SETTINGS_ACCOUNT": "به تنظیمات حساب بروید",
       "GO_TO_SETTINGS_PROFILE": "به تنظیمات پروفایل بروید",
-      "GO_TO_NOTIFICATIONS": "به اعلان ها بروید",
       "ADD_LABELS_TO_CONVERSATION": "برچسب را به مکالمه اضافه کنید",
       "ASSIGN_AN_AGENT": "یک اپراتور تعیین کنید",
       "AI_ASSIST": "دستیار هوش مصنوعی",
       "ASSIGN_PRIORITY": "انتساب اولویت",
       "ASSIGN_A_TEAM": "یک تیم را تعیین کنید",
+      "EXECUTE_A_MACRO": "Execute a macro",
       "MUTE_CONVERSATION": "صدای گفتگو را قطع کن",
       "UNMUTE_CONVERSATION": "مکالمه را باصدا کنید",
       "REMOVE_LABEL_FROM_CONVERSATION": "برچسب را از مکالمه حذف کنید",

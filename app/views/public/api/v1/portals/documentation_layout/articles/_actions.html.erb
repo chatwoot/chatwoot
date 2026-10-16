@@ -1,0 +1,42 @@
+<%# locals: (portal:, article:) %>
+<%
+  markdown_url = public_portal_article_markdown_url(portal.slug, article.slug)
+  encoded_prompt = ERB::Util.url_encode(I18n.t('public_portal.article_actions.llm_prompt', url: markdown_url))
+  chatgpt_url = "https://chatgpt.com/?q=#{encoded_prompt}"
+  claude_url = "https://claude.ai/new?q=#{encoded_prompt}"
+%>
+<details class="relative group" data-close-on-clickaway>
+  <summary class="list-none inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-md cursor-pointer text-n-slate-11 hover:text-n-slate-12 hover:bg-n-alpha-2 border border-solid border-n-weak transition group-open:bg-n-alpha-2 group-open:text-n-slate-12 [&::-webkit-details-marker]:hidden">
+    <span class="i-lucide-message-square-text size-3" aria-hidden="true"></span>
+    <%= I18n.t('public_portal.article_actions.label') %>
+    <span class="i-lucide-chevron-down size-2.5 opacity-60 transition-transform group-open:rotate-180" aria-hidden="true"></span>
+  </summary>
+
+  <div class="absolute end-0 top-full mt-2 bg-n-slate-1 border border-solid border-n-weak rounded-lg shadow-lg p-1 min-w-64 z-30">
+    <a href="<%= markdown_url %>" target="_blank" rel="noopener"
+       class="w-full flex items-center gap-2.5 px-2.5 py-2 text-sm rounded-md text-n-slate-12 hover:bg-n-alpha-2 transition">
+      <span class="shrink-0 inline-flex items-center justify-center size-5 rounded bg-n-alpha-2 border border-solid border-n-weak text-n-slate-12">
+        <span class="i-lucide-file-text size-3" aria-hidden="true"></span>
+      </span>
+      <span class="flex-1"><%= I18n.t('public_portal.article_actions.view_markdown') %></span>
+      <span class="i-lucide-arrow-up-right size-3.5 text-n-slate-10" aria-hidden="true"></span>
+    </a>
+    <div class="my-1 h-px bg-n-weak" role="separator"></div>
+    <a href="<%= chatgpt_url %>" target="_blank" rel="noopener noreferrer"
+       class="w-full flex items-center gap-2.5 px-2.5 py-2 text-sm rounded-md text-n-slate-12 hover:bg-n-alpha-2 transition">
+      <span class="shrink-0 inline-flex items-center justify-center size-5 rounded bg-n-alpha-2 border border-solid border-n-weak text-n-slate-12">
+        <span class="i-ri-openai-fill size-3" aria-hidden="true"></span>
+      </span>
+      <span class="flex-1"><%= I18n.t('public_portal.article_actions.open_in_chatgpt') %></span>
+      <span class="i-lucide-arrow-up-right size-3.5 text-n-slate-10" aria-hidden="true"></span>
+    </a>
+    <a href="<%= claude_url %>" target="_blank" rel="noopener noreferrer"
+       class="w-full flex items-center gap-2.5 px-2.5 py-2 text-sm rounded-md text-n-slate-12 hover:bg-n-alpha-2 transition">
+      <span class="shrink-0 inline-flex items-center justify-center size-5 rounded bg-n-alpha-2 border border-solid border-n-weak text-n-slate-12">
+        <span class="i-ri-claude-fill size-3" aria-hidden="true"></span>
+      </span>
+      <span class="flex-1"><%= I18n.t('public_portal.article_actions.open_in_claude') %></span>
+      <span class="i-lucide-arrow-up-right size-3.5 text-n-slate-10" aria-hidden="true"></span>
+    </a>
+  </div>
+</details>

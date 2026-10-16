@@ -101,6 +101,20 @@ RSpec.describe 'Notifications API', type: :request do
         expect(response).to have_http_status(:success)
         expect(notification.reload.read_at).not_to eq('')
       end
+
+      it 'does not update a notification reached via a different account that the user belongs to' do
+        other_account = create(:account)
+        create(:account_user, account: other_account, user: admin, role: :administrator)
+        original_read_at = notification.read_at
+
+        patch "/api/v1/accounts/#{other_account.id}/notifications/#{notification.id}",
+              headers: admin.create_new_auth_token,
+              params: { read_at: true },
+              as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(notification.reload.read_at).to eq(original_read_at)
+      end
     end
   end
 
@@ -227,7 +241,7 @@ RSpec.describe 'Notifications API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'deletes all the read notifications' do
-        expect(Notification::DeleteNotificationJob).to receive(:perform_later).with(admin, type: :read)
+        expect(Notification::DeleteNotificationJob).to receive(:perform_later).with(admin, account, type: :read)
 
         post "/api/v1/accounts/#{account.id}/notifications/destroy_all",
              headers: admin.create_new_auth_token,
@@ -238,7 +252,7 @@ RSpec.describe 'Notifications API', type: :request do
       end
 
       it 'deletes all the notifications' do
-        expect(Notification::DeleteNotificationJob).to receive(:perform_later).with(admin, type: :all)
+        expect(Notification::DeleteNotificationJob).to receive(:perform_later).with(admin, account, type: :all)
 
         post "/api/v1/accounts/#{account.id}/notifications/destroy_all",
              headers: admin.create_new_auth_token,

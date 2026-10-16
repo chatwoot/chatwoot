@@ -2,12 +2,12 @@ require 'ruby_llm'
 
 module Llm::Config
   DEFAULT_MODELS = {
-    'openai' => 'gpt-4o-mini',
+    'openai' => 'gpt-4.1-mini',
     'gemini' => 'gemini-2.0-flash',
     'deepseek' => 'deepseek-chat'
   }.freeze
 
-  DEFAULT_MODEL = 'gpt-4o-mini'.freeze
+  DEFAULT_MODEL = 'gpt-4.1-mini'.freeze
 
   class << self
     def initialized?
@@ -34,6 +34,7 @@ module Llm::Config
     end
 
     def with_api_key(api_key, api_base: nil)
+      initialize!
       context = RubyLLM.context do |config|
         config.openai_api_key = api_key
         config.openai_api_base = api_base
@@ -49,6 +50,7 @@ module Llm::Config
         configure_openai(config)
         configure_gemini(config)
         configure_deepseek(config)
+        config.model_registry_file = Rails.root.join('config/llm_models.json').to_s
         config.logger = Rails.logger
       end
     end

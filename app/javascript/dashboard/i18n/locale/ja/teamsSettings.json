@@ -5,6 +5,9 @@
     "LOADING": "チームを取得中",
     "DESCRIPTION": "チームは担当者をその責務に基づいてグループ化することを可能にします。担当者は複数のチームに所属できます。共同作業では、会話を特定のチームに割り当てることができます。",
     "LEARN_MORE": "チームについて詳しく学ぶ",
+    "COUNT": "{n} team | {n} teams",
+    "SEARCH_PLACEHOLDER": "チームを検索...",
+    "NO_RESULTS": "No teams found matching your search",
     "LIST": {
       "404": "このアカウントにはまだ作成されたチームがありません。",
       "EDIT_TEAM": "チームを編集",

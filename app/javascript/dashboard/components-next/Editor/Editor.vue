@@ -28,7 +28,7 @@ const props = defineProps({
   medium: { type: String, default: '' },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'executeCopilotAction']);
 
 const slots = useSlots();
 
@@ -113,6 +113,9 @@ watch(
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
+        @execute-copilot-action="
+          (...args) => emit('executeCopilotAction', ...args)
+        "
       />
       <div
         v-if="showCharacterCount || slots.actions"
@@ -139,28 +142,26 @@ watch(
 
 <style lang="scss" scoped>
 .editor-wrapper {
-  ::v-deep {
-    .ProseMirror-menubar-wrapper {
-      .ProseMirror.ProseMirror-woot-style {
-        p {
-          @apply first:mt-0 !important;
-        }
-
-        .empty-node {
-          @apply m-0 !important;
-
-          &::before {
-            @apply text-n-slate-11 dark:text-n-slate-11;
-          }
-        }
+  :deep(.ProseMirror-menubar-wrapper) {
+    .ProseMirror.ProseMirror-woot-style {
+      p {
+        @apply first:mt-0 !important;
       }
 
-      .ProseMirror-menubar {
-        width: fit-content !important;
-        position: relative !important;
-        top: unset !important;
-        @apply ltr:left-[-0.188rem] rtl:right-[-0.188rem] !important;
+      .empty-node {
+        @apply m-0 !important;
+
+        &::before {
+          @apply text-n-slate-11 dark:text-n-slate-11;
+        }
       }
+    }
+
+    .ProseMirror-menubar {
+      width: fit-content !important;
+      position: relative !important;
+      top: unset !important;
+      @apply ltr:left-[-0.188rem] rtl:right-[-0.188rem] !important;
     }
   }
 }

@@ -19,6 +19,10 @@
       "OR": "ILI"
     },
     "INPUT_PLACEHOLDER": "Enter value",
+    "MULTI_VALUE_INPUT_PLACEHOLDER": "Type a value, then press Enter to add more",
+    "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Type a value",
+    "CONTACT_SEARCH_PLACEHOLDER": "Search contacts",
+    "CONTACT_FALLBACK": "Contact #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "Jednako sa",
       "not_equal_to": "Nije jednako sa",
@@ -49,6 +53,7 @@
       "ASSIGNEE_NAME": "Assignee name",
       "INBOX_NAME": "Naziv prijemnog sandučeta",
       "TEAM_NAME": "Naziv tima",
+      "CONTACT": "Kontakt",
       "CONVERSATION_IDENTIFIER": "Conversation identifier",
       "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "Oznake",

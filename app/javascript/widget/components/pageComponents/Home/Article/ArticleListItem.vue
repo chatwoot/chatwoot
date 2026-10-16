@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
 const props = defineProps({
   link: {
     type: String,
@@ -27,6 +26,6 @@ const onClick = () => {
     >
       {{ title }}
     </button>
-    <span class="i-lucide-chevron-right text-base shrink-0" />
+    <span class="i-lucide-chevron-right text-base shrink-0 rtl:rotate-180" />
   </div>
 </template>

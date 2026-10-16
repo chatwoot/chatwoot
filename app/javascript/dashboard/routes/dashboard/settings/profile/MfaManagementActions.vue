@@ -31,6 +31,8 @@ const backupCodesDialogRef = ref(null);
 // Form values
 const disablePassword = ref('');
 const disableOtpCode = ref('');
+const disableBackupCode = ref('');
+const useBackupCodeToDisable = ref(false);
 const regenerateOtpCode = ref('');
 
 // Utility functions
@@ -54,8 +56,15 @@ const downloadBackupCodes = () => {
 const handleDisableMfa = async () => {
   emit('disableMfa', {
     password: disablePassword.value,
-    otpCode: disableOtpCode.value,
+    otpCode: useBackupCodeToDisable.value ? '' : disableOtpCode.value,
+    backupCode: useBackupCodeToDisable.value ? disableBackupCode.value : '',
   });
+};
+
+const toggleDisableMethod = () => {
+  useBackupCodeToDisable.value = !useBackupCodeToDisable.value;
+  disableOtpCode.value = '';
+  disableBackupCode.value = '';
 };
 
 const handleRegenerateBackupCodes = async () => {
@@ -68,6 +77,8 @@ const handleRegenerateBackupCodes = async () => {
 const resetDisableForm = () => {
   disablePassword.value = '';
   disableOtpCode.value = '';
+  disableBackupCode.value = '';
+  useBackupCodeToDisable.value = false;
   disableDialogRef.value?.close();
 };
 
@@ -157,11 +168,31 @@ defineExpose({
           :label="$t('MFA_SETTINGS.DISABLE.PASSWORD')"
         />
         <Input
+          v-if="!useBackupCodeToDisable"
           v-model="disableOtpCode"
           type="text"
           maxlength="6"
           :label="$t('MFA_SETTINGS.DISABLE.OTP_CODE')"
           :placeholder="$t('MFA_SETTINGS.DISABLE.OTP_CODE_PLACEHOLDER')"
+        />
+        <Input
+          v-else
+          v-model="disableBackupCode"
+          type="text"
+          maxlength="8"
+          :label="$t('MFA_SETTINGS.DISABLE.BACKUP_CODE')"
+          :placeholder="$t('MFA_SETTINGS.DISABLE.BACKUP_CODE_PLACEHOLDER')"
+        />
+        <Button
+          link
+          sm
+          type="button"
+          :label="
+            useBackupCodeToDisable
+              ? $t('MFA_SETTINGS.DISABLE.USE_OTP_CODE')
+              : $t('MFA_SETTINGS.DISABLE.USE_BACKUP_CODE')
+          "
+          @click="toggleDisableMethod"
         />
       </div>
     </Dialog>
