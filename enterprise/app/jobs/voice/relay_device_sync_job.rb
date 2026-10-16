@@ -2,8 +2,8 @@ class Voice::RelayDeviceSyncJob < ApplicationJob
   queue_as :low
 
   retry_on(*ExceptionList::REST_CLIENT_EXCEPTIONS, RestClient::TooManyRequests, wait: :polynomially_longer, attempts: 5) do |job, error|
-    platform, token, = job.arguments
-    Voice::RelayDeviceSync.record_state(platform, token, error.is_a?(RestClient::Unauthorized) ? 'rejected' : 'failed')
+    platform, token, revision = job.arguments
+    Voice::RelayDeviceSync.record_state(platform, token, revision, error.is_a?(RestClient::Unauthorized) ? 'rejected' : 'failed')
   end
   # A phone another installation registered stays with it; the diagnostics show it as such
   discard_on RestClient::Conflict do |job, _error|

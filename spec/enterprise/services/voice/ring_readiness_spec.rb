@@ -90,7 +90,7 @@ RSpec.describe Voice::RingReadiness do
   it 'rings iPhones through the hub voice relay with its secret set' do
     config.delete('APNS_VOIP_KEY')
 
-    Voice::RelayDeviceSync.record_state('apple', 'voip-1', 'registered')
+    Voice::RelayDeviceSync.record_state('apple', 'voip-1', 1, 'registered')
 
     with_modified_env(CHATWOOT_VOICE_RELAY_SECRET: 'relay-secret') do
       expect(readiness.apple).to have_attributes(configured: true, relayed: true, problem: nil, relay_states: { 'registered' => 1 })
@@ -100,7 +100,7 @@ RSpec.describe Voice::RingReadiness do
 
   it 'does not count a phone the hub has not registered as ringing' do
     config.delete('APNS_VOIP_KEY')
-    Voice::RelayDeviceSync.record_state('apple', 'voip-1', 'conflict')
+    Voice::RelayDeviceSync.record_state('apple', 'voip-1', 1, 'conflict')
 
     with_modified_env(CHATWOOT_VOICE_RELAY_SECRET: 'relay-secret') do
       expect(readiness.apple).to have_attributes(configured: true, relay_states: { 'conflict' => 1 })

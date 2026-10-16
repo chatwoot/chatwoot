@@ -43,8 +43,19 @@ RSpec.describe Voice::RelayDeviceSync do
     expect(described_class.state('apple', 'apple-refused')).to eq('rejected')
   end
 
+  it 'keeps the outcome of a newer change when an older one finishes after it' do
+    subscribe('apns_voip', 'apple-1')
+    described_class.new(platform: 'apple', token: 'apple-1', revision: 30).perform
+    NotificationSubscription.destroy_all
+
+    described_class.new(platform: 'apple', token: 'apple-1', revision: 20).perform
+    described_class.record_state('apple', 'apple-1', 25, 'failed')
+
+    expect(described_class.state('apple', 'apple-1')).to eq('registered')
+  end
+
   it 'forgets the state of a token it removes' do
-    described_class.record_state('apple', 'apple-old', 'registered')
+    described_class.record_state('apple', 'apple-old', 0, 'registered')
     described_class.new(platform: 'apple', token: 'apple-old', revision: 1).perform
     expect(described_class.state('apple', 'apple-old')).to be_nil
   end

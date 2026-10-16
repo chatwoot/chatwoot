@@ -4,9 +4,13 @@
 # the last it applied, so requests that overtake each other settle on the latest change. The hub
 # refuses a token another installation registered, until the hub team releases it.
 #
-# The outcome of each phone's latest registration is kept for the Super Admin diagnostics.
+# The outcome of each phone's latest registration is kept for the Super Admin diagnostics, with
+# its revision, so an outcome for an older change arriving late does not replace a newer one.
 class Voice::RelayDeviceSync
   STATES_KEY = 'VOICE_RELAY_DEVICE_STATES'.freeze
+
+  # Attempts at writing an outcome while other writes to the states keep changing it
+  RECORD_ATTEMPTS = 3
 
   pattr_initialize [:platform!, :token!, :revision!]
 
@@ -20,10 +24,29 @@ class Voice::RelayDeviceSync
   def self.revision = (Time.current.to_r * 1_000_000).to_i
 
   # 'registered', 'conflict' when another installation holds the token, 'rejected' when the hub
-  # refused the relay secret, 'failed' when the hub could not be reached, or nil before the hub has answered
-  def self.state(platform, token) = Redis::Alfred.hget(STATES_KEY, state_field(platform, token))
+  # refused the relay secret, 'failed' when the hub could not be reached, or nil before the hub has
+  # answered and once the token is removed
+  def self.state(platform, token)
+    state = Redis::Alfred.hget(STATES_KEY, state_field(platform, token))&.split(':', 2)&.last
+    state unless state == 'removed'
+  end
 
-  def self.record_state(platform, token, state) = Redis::Alfred.hset(STATES_KEY, state_field(platform, token), state)
+  # Sets the token's field to "revision:state" unless it holds a newer revision, under WATCH so a
+  # write in between makes it read again
+  def self.record_state(platform, token, revision, state)
+    field = state_field(platform, token)
+    Redis::Alfred.with do |redis|
+      RECORD_ATTEMPTS.times do
+        written = redis.watch(STATES_KEY) do
+          current = redis.hget(STATES_KEY, field)
+          next redis.unwatch && :stale if current && current.to_i > revision.to_i
+
+          redis.multi { |transaction| transaction.hset(STATES_KEY, field, "#{revision}:#{state}") }
+        end
+        break unless written.nil?
+      end
+    end
+  end
 
   def self.state_field(platform, token) = "#{platform}:#{Digest::SHA256.hexdigest(token)}"
 
@@ -39,15 +62,15 @@ class Voice::RelayDeviceSync
 
   def register
     request(:put)
-    self.class.record_state(platform, token, 'registered')
+    self.class.record_state(platform, token, revision, 'registered')
   rescue RestClient::Conflict, RestClient::Unauthorized => e
-    self.class.record_state(platform, token, e.is_a?(RestClient::Conflict) ? 'conflict' : 'rejected')
+    self.class.record_state(platform, token, revision, e.is_a?(RestClient::Conflict) ? 'conflict' : 'rejected')
     raise
   end
 
   def remove
     request(:delete)
-    Redis::Alfred.with { |redis| redis.hdel(STATES_KEY, self.class.state_field(platform, token)) }
+    self.class.record_state(platform, token, revision, 'removed')
   end
 
   def request(method)
