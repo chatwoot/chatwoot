@@ -43,6 +43,14 @@ RSpec.describe AccountUser do
     end
   end
 
+  describe '#remove_user_from_account' do
+    it 'does not enqueue the cleanup job when the account is already gone' do
+      allow(account_user).to receive(:account).and_return(nil)
+
+      expect { account_user.remove_user_from_account }.not_to have_enqueued_job(Agents::DestroyJob)
+    end
+  end
+
   describe 'filtered unread count invalidation' do
     let(:account) { create(:account) }
     let(:user) { create(:user) }
