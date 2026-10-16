@@ -1,0 +1,134 @@
+require 'rails_helper'
+
+RSpec.describe Messages::MessageBuilder do
+  let(:account) { create(:account) }
+  let(:user) { create(:user, account: account) }
+  let(:inbox) { create(:inbox, account: account) }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox, additional_attributes: { 'conversation_language' => 'fr' }) }
+  let(:params) { ActionController::Parameters.new(content: 'Hello there') }
+  let(:llm_response) { { message: ['Bonjour'] } }
+  let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
+  let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: nil) }
+
+  before do
+    account.enable_features('auto_translate', 'captain_tasks')
+    account.auto_translate = true
+    account.save!
+    allow(Captain::Llm::MessageTranslationService).to receive(:new).and_return(llm_service)
+    allow(Captain::Llm::LanguageDetectionService).to receive(:new).and_return(detection)
+  end
+
+  it 'sends the reply in the contact language and keeps the typed text under the agent locale' do
+    message = described_class.new(user, conversation, params).perform
+
+    expect(message.content).to eq('Bonjour')
+    expect(message.translations).to eq('en' => 'Hello there')
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(
+      account: account, texts: ['Hello there'], target_language: 'fr', conversation_display_id: conversation.display_id
+    )
+  end
+
+  it 'keys the typed text by the agent profile language' do
+    user.update!(ui_settings: { 'locale' => 'pt_BR' })
+
+    expect(described_class.new(user, conversation, params).perform.translations).to eq('pt_BR' => 'Hello there')
+  end
+
+  it 'translates what the agent wrote even when the profile language matches the contact' do
+    allow(detection).to receive(:language).and_return('en')
+    user.update!(ui_settings: { 'locale' => 'fr' })
+    typed = ActionController::Parameters.new(content: 'This one takes four seconds to load before it is ready.')
+
+    message = described_class.new(user, conversation, typed).perform
+
+    expect(message.content).to eq('Bonjour')
+    expect(message.translations).to eq('en' => 'This one takes four seconds to load before it is ready.')
+  end
+
+  it 'sends a reply already written in the contact language as it is' do
+    allow(detection).to receive(:language).and_return('fr')
+    typed = ActionController::Parameters.new(content: 'Celui-ci met quatre secondes à charger.')
+
+    expect(described_class.new(user, conversation, typed).perform.content).to eq('Celui-ci met quatre secondes à charger.')
+    expect(Captain::Llm::MessageTranslationService).not_to have_received(:new)
+  end
+
+  it 'translates only the reply above the quoted history of an email and keeps the agent text as html' do
+    email_inbox = create(:inbox, account: account, channel: create(:channel_email, account: account))
+    email_conversation = create(:conversation, account: account, inbox: email_inbox, additional_attributes: { 'conversation_language' => 'fr' })
+    typed = ActionController::Parameters.new(content: "Hello there\n\n> On Wed, Oct 1 wrote:\n> Bonjour", message_type: 'outgoing')
+
+    message = described_class.new(user, email_conversation, typed).perform
+
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: ['Hello there']))
+    expect(message.content).to eq("Bonjour\n\n> On Wed, Oct 1 wrote:\n> Bonjour")
+    expect(message.translations['en']).to include('<p>Hello there</p>', '<blockquote>')
+  end
+
+  it 'leaves the message untouched when the translator returns the same text' do
+    allow(llm_service).to receive(:perform).and_return(message: ['Hello there'])
+    message = described_class.new(user, conversation, params).perform
+
+    expect(message.content).to eq('Hello there')
+    expect(message.translations).to be_nil
+  end
+
+  it 'renders liquid variables before translating and keeps the rendered text as the original' do
+    conversation.contact.update!(name: 'Camille')
+    allow(llm_service).to receive(:perform).and_return(message: ['Bonjour Camille'])
+    message = described_class.new(user, conversation, ActionController::Parameters.new(content: 'Hi {{contact.name}}')).perform
+
+    expect(message.content).to eq('Bonjour Camille')
+    expect(message.translations).to eq('en' => 'Hi Camille')
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: ['Hi Camille']))
+  end
+
+  it 'sends the reply as written and flags it when the translator fails' do
+    allow(llm_service).to receive(:perform).and_return(error: 'You are out of Copilot credits.', error_code: 429)
+    message = described_class.new(user, conversation, params).perform
+
+    expect(message.content).to eq('Hello there')
+    expect(message.content_attributes).to eq('translation_failed' => true)
+  end
+
+  it 'flags a reply the translator hands back unchanged although it is in another language' do
+    allow(detection).to receive(:language).and_return('en')
+    typed = ActionController::Parameters.new(content: 'This one takes four seconds to load before it is ready.')
+    allow(llm_service).to receive(:perform).and_return(message: ['This one takes four seconds to load before it is ready.'])
+    message = described_class.new(user, conversation, typed).perform
+
+    expect(message.content).to eq('This one takes four seconds to load before it is ready.')
+    expect(message.content_attributes).to eq('translation_failed' => true)
+  end
+
+  describe 'messages that are never translated' do
+    it 'skips when the feature is off' do
+      account.disable_features('auto_translate')
+      account.save!
+
+      expect(described_class.new(user, conversation, params).perform.content).to eq('Hello there')
+      expect(Captain::Llm::MessageTranslationService).not_to have_received(:new)
+    end
+
+    it 'skips when the contact language is unknown' do
+      conversation.update!(additional_attributes: {})
+
+      expect(described_class.new(user, conversation, params).perform.content).to eq('Hello there')
+      expect(Captain::Llm::MessageTranslationService).not_to have_received(:new)
+    end
+
+    it 'skips private notes, templates, interactive messages, custom html emails, bot replies and messages without an agent' do
+      agent_bot = create(:agent_bot, account: account)
+      [
+        ActionController::Parameters.new(content: 'Hello there', private: true),
+        ActionController::Parameters.new(content: 'Hello there', template_params: { name: 'order_update' }),
+        ActionController::Parameters.new(content: 'Hello there', content_type: 'input_select',
+                                         content_attributes: { items: [{ title: 'Yes', value: 'yes' }] }),
+        ActionController::Parameters.new(content: 'Hello there', email_html_content: '<p>Hello there</p>'),
+        ActionController::Parameters.new(content: 'Hello there', sender_type: 'AgentBot', sender_id: agent_bot.id)
+      ].each { |skipped| expect(described_class.new(user, conversation, skipped).perform.content).to eq('Hello there') }
+      expect(described_class.new(nil, conversation, params).perform.content).to eq('Hello there')
+      expect(Captain::Llm::MessageTranslationService).not_to have_received(:new)
+    end
+  end
+end
