@@ -16,15 +16,23 @@ module Enterprise::Api::V1::Accounts::Conversations::MessagesController
     return head :forbidden unless Current.account.auto_translate_enabled?
 
     message_ids = params.require(:message_ids)
-    return head :unprocessable_entity unless message_ids.is_a?(Array) && I18n.available_locales.map(&:to_s).include?(params[:target_language])
+    return render_could_not_create_error(I18n.t('errors.auto_translate.invalid_messages')) unless conversation_messages?(message_ids)
 
     Captain::Conversation::ContactMessageTranslationService.new(
-      conversation: @conversation, message_ids: message_ids, target_language: params[:target_language]
+      conversation: @conversation, message_ids: message_ids, target_language: agent_language
     ).perform
     head :accepted
   end
 
   private
+
+  def conversation_messages?(message_ids)
+    message_ids.is_a?(Array) && @conversation.messages.where(id: message_ids).count == message_ids.uniq.size
+  end
+
+  def agent_language
+    Current.user.ui_settings['locale'].presence || Current.account.locale
+  end
 
   # Snapshot the context before super soft-deletes the message.
   def message_deletion_audit_context(deleted_message)
