@@ -260,14 +260,6 @@ const tailwindConfig = {
         '0%': { backgroundPosition: '100% 0' },
         '100%': { backgroundPosition: '0% 0' },
       },
-      'text-dots': {
-        '0%': { backgroundPosition: '0% 0, 0 0' },
-        '100%': { backgroundPosition: '100% 0, 0.25rem 0.25rem' },
-      },
-      'text-solidify': {
-        '0%': { backgroundPosition: '100% 0, 0 0' },
-        '100%': { backgroundPosition: '0% 0, 0.25rem 0.25rem' },
-      },
       twinkle: {
         '0%, 100%': { transform: 'scale(1) rotate(0deg)', opacity: 1 },
         '50%': { transform: 'scale(1.25) rotate(20deg)', opacity: 0.7 },
@@ -301,8 +293,6 @@ const tailwindConfig = {
       shake: 'shake 0.3s ease-in-out 0s 2',
       shimmer: 'shimmer 1.4s ease-in-out infinite',
       'text-shimmer': 'text-shimmer 1.8s ease-in-out infinite',
-      'text-dots': 'text-dots 1.6s linear infinite',
-      'text-solidify': 'text-solidify 0.6s ease-out both',
       'pop-in': 'pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) backwards',
       twinkle: 'twinkle 0.9s ease-in-out infinite',
       'fade-in': 'fade-in 0.3s ease-out',
