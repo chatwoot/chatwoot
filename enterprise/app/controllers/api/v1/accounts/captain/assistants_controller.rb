@@ -131,7 +131,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
       :product_name, :feature_faq, :feature_memory, :feature_citation,
       :feature_contact_attributes, :welcome_message, :handoff_message,
       :resolution_message, :instructions, :temperature, :auto_resolve_mode,
-      :response_window
+      :response_window, :skip_instagram_stories
     ]
     assistant_config_attributes += [:auto_resolve_after, :send_inactivity_resolution_message]
 

@@ -305,6 +305,56 @@ RSpec.describe MessageTemplates::HookExecutionService do
     end
   end
 
+  context 'when the message is an Instagram story reply or mention' do
+    let(:inbox) { create(:channel_instagram, account: account).inbox }
+
+    def create_story_message(image_type)
+      create(:message, conversation: conversation, message_type: :incoming, account: account,
+                       content_attributes: { image_type: image_type })
+    end
+
+    context 'when skip_instagram_stories is enabled' do
+      before { assistant.update!(config: assistant.config.merge('skip_instagram_stories' => true)) }
+
+      it 'does not schedule captain response job for a story reply' do
+        expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+
+        create_story_message('ig_story_reply')
+
+        expect(conversation.reload).to be_pending
+      end
+
+      it 'does not schedule captain response job for a story mention' do
+        expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+
+        create_story_message('story_mention')
+      end
+
+      it 'does not schedule captain response job when image_type is written after create' do
+        expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
+
+        ActiveRecord::Base.transaction do
+          message = create(:message, conversation: conversation, message_type: :incoming, account: account)
+          Message.find(message.id).update!(content_attributes: { image_type: 'ig_story_reply' })
+        end
+      end
+
+      it 'still schedules captain response job for a regular direct message' do
+        expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant, kind_of(Integer))
+
+        create(:message, conversation: conversation, message_type: :incoming, account: account)
+      end
+    end
+
+    context 'when skip_instagram_stories is not enabled' do
+      it 'schedules captain response job for a story reply' do
+        expect(Captain::Conversation::ResponseBuilderJob).to receive(:perform_later).with(conversation, assistant, kind_of(Integer))
+
+        create_story_message('ig_story_reply')
+      end
+    end
+  end
+
   context 'when message is outgoing' do
     it 'does not schedule captain response job' do
       expect(Captain::Conversation::ResponseBuilderJob).not_to receive(:perform_later)
