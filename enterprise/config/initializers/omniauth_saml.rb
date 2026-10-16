@@ -21,8 +21,10 @@ SAML_SETUP_PROC = proc do |env|
     settings = AccountSamlSettings.find_by(account_id: account_id)
 
     if settings
-      # Refresh here instead of in a background job, so the login that triggers it already uses a rotated certificate.
-      # Most logins skip the fetch: it runs only while a certificate is within 15 minutes of expiry, at most every 5 minutes.
+      # Refreshes during login so the triggering login uses a rotated certificate. It fetches only within 15 minutes
+      # of certificate expiry, at most every 5 minutes, so earlier rotations need the "Refresh metadata" button.
+      # Future: move this to a scheduled job (config/schedule.yml) for all accounts with a metadata URL. That covers
+      # early rotations, keeps the fetch off logins, and removes the claim on metadata_refreshed_at.
       settings.refresh_metadata_if_needed
       # Configure the strategy options dynamically
       env['omniauth.strategy'].options[:idp_sso_service_url_runtime_params] = { RelayState: :RelayState }
