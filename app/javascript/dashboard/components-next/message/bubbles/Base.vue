@@ -145,7 +145,10 @@ const replyToPreview = computed(() => {
           @toggle="showingOriginal = !showingOriginal"
         />
         <template #meta>
-          <MessageMeta :class="[emailMetaClass, metaColorClass]" />
+          <MessageMeta
+            class="shrink-0 whitespace-nowrap"
+            :class="[emailMetaClass, metaColorClass]"
+          />
         </template>
       </CaptainGenerationDetails>
       <MessageMeta
