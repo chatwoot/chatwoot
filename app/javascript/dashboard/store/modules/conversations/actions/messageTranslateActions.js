@@ -20,8 +20,6 @@ export default {
     );
   },
 
-  // Untranslated incoming messages of the open conversation are requested whenever its messages change:
-  // on open, on every page scrolled into history and on every live message.
   async autoTranslateMessages({ state, commit, getters }, conversationId) {
     const { enabled, locale, sameLanguage } = getters.getAutoTranslate;
     if (!enabled || conversationId !== state.selectedChatId) {
