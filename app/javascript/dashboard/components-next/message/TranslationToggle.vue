@@ -64,7 +64,7 @@ const toggleLabel = computed(() => {
   <span
     v-if="visible"
     v-bind="$attrs"
-    class="text-xs text-n-slate-11 inline-flex items-center gap-1.5 select-none whitespace-nowrap"
+    class="text-xs text-n-slate-11 inline-flex items-center gap-1.5 select-none min-w-0"
   >
     <Icon
       v-if="state.failed"
@@ -79,7 +79,7 @@ const toggleLabel = computed(() => {
     />
     <span
       v-if="state.pending"
-      class="bg-clip-text text-transparent bg-gradient-to-r from-n-slate-11 from-40% via-n-iris-9 to-n-slate-11 to-60% bg-[length:300%_100%] animate-text-shimmer motion-reduce:animate-none"
+      class="bg-clip-text text-transparent bg-gradient-to-r from-n-slate-11 from-40% via-n-iris-9 to-n-slate-11 to-60% bg-[length:300%_100%] animate-text-shimmer motion-reduce:animate-none truncate"
     >
       {{
         isOutgoing
@@ -89,10 +89,10 @@ const toggleLabel = computed(() => {
           : $t('CONVERSATION.TRANSLATING')
       }}
     </span>
-    <span v-else-if="state.failed" class="text-n-amber-11">
+    <span v-else-if="state.failed" class="text-n-amber-11 truncate">
       {{ $t('CONVERSATION.TRANSLATION_FAILED') }}
     </span>
-    <span v-else-if="state.sameLanguage">
+    <span v-else-if="state.sameLanguage" class="truncate">
       {{
         $t('CONVERSATION.ALREADY_IN_LANGUAGE', {
           language: autoTranslate.agentLanguage,
@@ -101,7 +101,7 @@ const toggleLabel = computed(() => {
     </span>
     <span
       v-else
-      class="cursor-pointer hover:underline"
+      class="cursor-pointer hover:underline truncate"
       @click="$emit('toggle')"
     >
       {{ toggleLabel }}
