@@ -15,6 +15,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     channel_instagram
     captain_integration
     captain_document_auto_sync
+    auto_translate
     advanced_search_indexing
     advanced_search
     linear_integration
