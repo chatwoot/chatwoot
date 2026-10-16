@@ -29,6 +29,14 @@ class Contacts::FilterService < FilterService
     end
   end
 
+  def filter_operation(query_hash, current_index)
+    return super unless query_hash[:attribute_key] == 'country_code'
+
+    @filter_values["value_#{current_index}"] = CountryCodeNormalizer.filter_values(query_hash['values'][0])
+    operator = query_hash[:filter_operator] == 'equal_to' ? 'IN' : 'NOT IN'
+    "#{operator} (:value_#{current_index})"
+  end
+
   def base_relation
     @account.contacts.resolved_contacts(use_crm_v2: @account.feature_enabled?('crm_v2'))
   end

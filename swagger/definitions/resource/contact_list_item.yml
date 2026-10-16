@@ -1,5 +1,10 @@
 type: object
 properties:
+  country_code:
+    type:
+      - string
+      - 'null'
+    description: Normalized country code of the contact
   additional_attributes:
     type: object
     description: The object containing additional attributes related to the contact
@@ -64,4 +69,4 @@ properties:
     type: array
     description: List of inboxes associated with this contact
     items:
-      $ref: '#/components/schemas/contact_inbox' 
+      $ref: '#/components/schemas/contact_inbox'
