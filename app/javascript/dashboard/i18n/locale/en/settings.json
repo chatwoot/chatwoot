@@ -701,7 +701,7 @@
       },
       "METADATA_URL": {
         "LABEL": "Metadata URL",
-        "HELP": "The SSO URL, Entity ID and signing certificate are read from this URL and kept up to date when your identity provider rotates its certificate",
+        "HELP": "The SSO URL, Entity ID and signing certificate are read from this URL. They update automatically when your certificate is about to expire. If your identity provider changes them earlier, click Refresh metadata.",
         "PLACEHOLDER": "https://sso.example.com/saml/metadata"
       },
       "SSO_URL": {
