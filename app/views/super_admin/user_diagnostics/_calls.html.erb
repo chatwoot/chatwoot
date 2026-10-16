@@ -32,11 +32,16 @@
             </td>
             <td>
               <% if state.configured %>
-                <%= render "badge", label: t("#{calls}.configured"), tone: :success %>
+                <span class="inline-flex flex-wrap items-center gap-1.5">
+                  <%= render "badge", label: t("#{calls}.configured"), tone: :success %>
+                  <% if state.relayed %>
+                    <span class="text-label-small text-n-slate-11"><%= t("#{calls}.relayed") %></span>
+                  <% end %>
+                </span>
               <% else %>
                 <span class="inline-flex flex-wrap items-center gap-1.5">
                   <%= render "badge", label: t("#{calls}.not_configured"), tone: :danger %>
-                  <span class="text-label-small text-n-slate-11"><%= t(state.problem == "environment" ? "#{calls}.invalid_environment" : "#{calls}.credentials.#{platform}") %></span>
+                  <span class="text-label-small text-n-slate-11"><%= t({ "environment" => "#{calls}.invalid_environment", "relay_secret" => "#{calls}.relay_secret.#{platform}" }.fetch(state.problem, "#{calls}.credentials.#{platform}")) %></span>
                 </span>
               <% end %>
             </td>

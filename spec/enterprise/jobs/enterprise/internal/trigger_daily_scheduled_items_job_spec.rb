@@ -39,4 +39,14 @@ RSpec.describe Internal::TriggerDailyScheduledItemsJob do
     expect(Captain::Documents::ScheduleSyncsJob).not_to have_received(:perform_later).with('business')
     expect(Captain::Documents::ScheduleSyncsJob).not_to have_received(:perform_later).with('startups')
   end
+
+  it 'registers phones with the hub voice relay when the installation uses it' do
+    allow(Voice::RelayDeviceReconcileJob).to receive(:perform_later)
+
+    described_class.perform_now
+    expect(Voice::RelayDeviceReconcileJob).not_to have_received(:perform_later)
+
+    with_modified_env(CHATWOOT_VOICE_RELAY_SECRET: 'relay-secret') { described_class.perform_now }
+    expect(Voice::RelayDeviceReconcileJob).to have_received(:perform_later).once
+  end
 end
