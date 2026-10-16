@@ -38,7 +38,7 @@ x-chatwoot: &chatwoot
     SMTP_AUTHENTICATION: ${SMTP_AUTHENTICATION:-login}
     SMTP_ENABLE_STARTTLS_AUTO: 'true'
   volumes:
-    - storage_data:/app/storage
+    - chatsa_storage:/app/storage
   networks:
     - internal
 
@@ -83,7 +83,7 @@ services:
     image: pgvector/pgvector:pg16
     restart: always
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - chatsa_postgres:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: chatwoot
       POSTGRES_USER: postgres
@@ -98,14 +98,14 @@ services:
     environment:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
     volumes:
-      - redis_data:/data
+      - chatsa_redis:/data
     networks:
       - internal
 
 volumes:
-  storage_data:
-  postgres_data:
-  redis_data:
+  chatsa_storage:
+  chatsa_postgres:
+  chatsa_redis:
 
 networks:
   internal:
