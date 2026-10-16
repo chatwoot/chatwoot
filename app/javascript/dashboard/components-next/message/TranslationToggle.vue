@@ -64,7 +64,7 @@ const toggleLabel = computed(() => {
   <span
     v-if="visible"
     v-bind="$attrs"
-    class="text-xs text-n-slate-11 inline-flex items-center gap-1.5 select-none"
+    class="text-xs text-n-slate-11 inline-flex items-center gap-1.5 select-none whitespace-nowrap"
   >
     <Icon
       v-if="state.failed"
