@@ -43,7 +43,7 @@ defineEmits(['toggle', 'download']);
 
 <template>
   <section class="overflow-hidden rounded-xl border border-n-weak bg-n-solid-1">
-    <div class="flex items-center justify-between gap-3 px-4 py-3">
+    <div class="flex items-center justify-between gap-3 px-5 py-4">
       <button
         type="button"
         class="flex min-w-0 items-center gap-2 !p-0"
@@ -89,7 +89,7 @@ defineEmits(['toggle', 'download']);
           </p>
           <div v-else class="overflow-x-auto">
             <BaseTable
-              class="[&_td:first-child]:ps-4 [&_th:first-child]:ps-4 [&_th]:text-n-slate-11 [&_thead]:border-t-0"
+              class="min-w-[40rem] [&_td:first-child]:ps-5 [&_th:first-child]:ps-5 [&_th]:text-n-slate-11 [&_thead]:border-t-0"
               :headers="headers"
               :items="items"
             >
