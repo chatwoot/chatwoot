@@ -782,6 +782,8 @@ en:
         help_center_article_generation: 'Help center article generation'
         onboarding_content_generation: 'Onboarding content generation'
         help_center_query_translation: 'Help center query translation'
+        message_translation: 'Message translation'
+        language_detection: 'Language detection'
         audio_transcription: 'Audio transcription'
         help_center_search: 'Help center search'
     collection:
