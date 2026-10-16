@@ -81,6 +81,37 @@ RSpec.describe AutomationRules::ConditionsFilterService do
 
         expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
       end
+
+      context 'when the assignee condition is followed by a custom attribute condition' do
+        before do
+          create(:custom_attribute_definition,
+                 attribute_key: 'origin',
+                 account: account,
+                 attribute_model: 'conversation_attribute',
+                 attribute_display_type: 'text')
+          conversation.update!(ai_assignee: nil, custom_attributes: { origin: 'website' })
+        end
+
+        let(:conditions) do
+          [
+            { 'values': [], 'attribute_key': 'assignee_id', 'query_operator': 'and', 'filter_operator': 'is_not_present' },
+            { 'values': ['website'], 'attribute_key': 'origin', 'filter_operator': 'equal_to', 'custom_attribute_type': 'conversation_attribute' }
+          ]
+        end
+
+        it 'joins the assignee condition to the next one with the query operator' do
+          rule.update!(conditions: conditions)
+
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+        end
+
+        it 'does not match when the custom attribute differs' do
+          conversation.update!(custom_attributes: { origin: 'email' })
+          rule.update!(conditions: conditions)
+
+          expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+        end
+      end
     end
 
     context 'when conditions include a Captain condition' do
