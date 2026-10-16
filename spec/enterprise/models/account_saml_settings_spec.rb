@@ -174,6 +174,26 @@ RSpec.describe AccountSamlSettings, type: :model do
 
       before { settings }
 
+      it 'does not fetch while a newer certificate is stored next to an expired one' do
+        key = OpenSSL::PKey::RSA.new(2048)
+        expired = OpenSSL::X509::Certificate.new
+        expired.version = 2
+        expired.serial = 1
+        expired.subject = OpenSSL::X509::Name.parse('/CN=idp.example.com')
+        expired.issuer = expired.subject
+        expired.public_key = key.public_key
+        expired.not_before = 2.years.ago
+        expired.not_after = 1.year.ago
+        expired.sign(key, OpenSSL::Digest.new('SHA256'))
+        settings.update!(signing_certificates: [expired.to_pem.strip, certificate])
+
+        travel_to(1.day.from_now) do
+          settings.refresh_metadata_if_needed
+
+          expect(metadata_service).to have_received(:perform).once
+        end
+      end
+
       it 'does not fetch while the certificate is far from expiry' do
         travel_to(near_expiry - 1.day) do
           settings.refresh_metadata_if_needed

@@ -92,8 +92,9 @@ class AccountSamlSettings < ApplicationRecord
 
   private
 
+  # Uses the newest certificate, so an expired one the IdP still lists does not keep triggering refreshes
   def certificate_expiring?
-    signing_certificates.any? { |pem| OpenSSL::X509::Certificate.new(pem).not_after < CERTIFICATE_EXPIRY_WINDOW.from_now }
+    signing_certificates.map { |pem| OpenSSL::X509::Certificate.new(pem).not_after }.max < CERTIFICATE_EXPIRY_WINDOW.from_now
   end
 
   def idp_metadata
