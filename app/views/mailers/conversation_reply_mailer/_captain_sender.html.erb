@@ -1,0 +1,15 @@
+<% if message.sender_type == 'Captain::Assistant' %>
+  <table role="presentation" cellpadding="0" cellspacing="0" style="margin-bottom: 12px;">
+    <tr>
+      <% if message.sender %>
+        <td style="padding-right: 8px; vertical-align: middle;">
+          <%= image_tag message.sender.push_event_data[:avatar_url], width: 32, height: 32, alt: '', style: 'border-radius: 50%; display: block;' %>
+        </td>
+      <% end %>
+      <td style="font-family: Arial, sans-serif; font-size: 14px; vertical-align: middle;">
+        <strong><%= message.sender&.name %></strong><br>
+        <span style="font-size: 12px; color: #626b77;"><%= I18n.t('captain.ai_assistant') %></span>
+      </td>
+    </tr>
+  </table>
+<% end %>

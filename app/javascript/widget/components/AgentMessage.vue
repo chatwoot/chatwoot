@@ -82,6 +82,9 @@ export default {
 
       return this.$t('UNREAD_VIEW.BOT');
     },
+    isCaptain() {
+      return this.message.sender?.type === 'captain_assistant';
+    },
     avatarUrl() {
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
@@ -251,6 +254,9 @@ export default {
           class="agent-name text-n-slate-11"
         >
           {{ agentName }}
+          <span v-if="isCaptain" class="ms-1 text-xs">
+            {{ $t('AI_ASSISTANT') }}
+          </span>
         </p>
       </div>
     </div>

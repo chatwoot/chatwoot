@@ -342,6 +342,9 @@ const onPopoverHide = () => {
         </div>
       </template>
     </Popover>
+    <span v-if="!showSparkle" class="text-xs text-n-slate-11">
+      {{ t('CONVERSATION.CAPTAIN_GENERATION.GENERATED_BY') }}
+    </span>
     <slot name="meta" />
   </div>
 </template>

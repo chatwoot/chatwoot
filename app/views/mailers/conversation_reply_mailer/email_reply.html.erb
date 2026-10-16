@@ -1,3 +1,4 @@
+<%= render 'captain_sender', message: @message %>
 <% if @message.content_attributes.dig('email', 'html_content', 'reply').present? %>
 <%= @message.content_attributes.dig('email', 'html_content', 'reply').html_safe %>
 <% elsif @message.content %>

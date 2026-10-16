@@ -165,8 +165,11 @@ const handleUploadAvatar = () => {
   fileInput.value.click();
 };
 
+defineExpose({ openFilePicker: handleUploadAvatar });
+
 const handleImageUpload = event => {
   const [file] = event.target.files;
+  event.target.value = '';
   if (file) {
     emit('upload', {
       file,
