@@ -7,8 +7,11 @@ export const findPendingMessageIndex = (chat, message) => {
   );
 };
 
-export const filterByStatus = (chatStatus, filterStatus) =>
-  filterStatus === 'all' ? true : chatStatus === filterStatus;
+export const filterByStatus = (chatStatus, filterStatus, unreadCount = 0) => {
+  if (filterStatus === 'all') return true;
+  if (filterStatus === 'unread') return (unreadCount || 0) > 0;
+  return chatStatus === filterStatus;
+};
 
 export const filterByInbox = (shouldFilter, inboxId, chatInboxId) => {
   const isOnInbox = Number(inboxId) === chatInboxId;
@@ -44,11 +47,12 @@ export const applyPageFilters = (conversation, filters) => {
     meta = {},
     first_reply_created_at: firstReplyOn,
     waiting_since: waitingSince,
+    unread_count: unreadCount = 0,
   } = conversation;
   const team = meta.team || {};
   const { id: chatTeamId } = team;
 
-  let shouldFilter = filterByStatus(chatStatus, status);
+  let shouldFilter = filterByStatus(chatStatus, status, unreadCount);
   shouldFilter = filterByInbox(shouldFilter, inboxId, chatInboxId);
   shouldFilter = filterByTeam(shouldFilter, teamId, chatTeamId);
   shouldFilter = filterByLabel(shouldFilter, labels, chatLabels);
