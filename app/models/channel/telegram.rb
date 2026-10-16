@@ -22,6 +22,7 @@ class Channel::Telegram < ApplicationRecord
 
   self.table_name = 'channel_telegram'
   EDITABLE_ATTRS = [:bot_token].freeze
+  TELEGRAM_WEBHOOK_ALLOWED_PORTS = [80, 88, 443, 8443].freeze
 
   before_validation :ensure_valid_bot_token, on: :create
   validates :bot_token, presence: true, uniqueness: true
@@ -93,10 +94,16 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def setup_telegram_webhook
+    webhook_origin = Chatwoot::ConfiguredOrigin.from_env('TELEGRAM_WEBHOOK_BASE_URL')
+    if webhook_origin && TELEGRAM_WEBHOOK_ALLOWED_PORTS.exclude?(webhook_origin.port)
+      raise ArgumentError, 'TELEGRAM_WEBHOOK_BASE_URL uses a port unsupported by Telegram'
+    end
+
+    webhook_origin ||= ENV.fetch('FRONTEND_URL', nil)
     HTTParty.post("#{telegram_api_url}/deleteWebhook")
     response = HTTParty.post("#{telegram_api_url}/setWebhook",
                              body: {
-                               url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/telegram/#{bot_token}"
+                               url: "#{webhook_origin}/webhooks/telegram/#{bot_token}"
                              })
     errors.add(:bot_token, 'error setting up the webook') unless response.success?
   end
