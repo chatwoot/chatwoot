@@ -1,4 +1,6 @@
 module Tiktok::IntegrationHelper
+  include OauthStateTokenHelper
+
   # Generates a signed JWT token for Tiktok integration
   #
   # @param account_id [Integer] The account ID to encode in the token
@@ -7,10 +9,7 @@ module Tiktok::IntegrationHelper
   def generate_tiktok_token(account_id, return_to = nil)
     return if client_secret.blank?
 
-    JWT.encode(token_payload(account_id, return_to), client_secret, 'HS256')
-  rescue StandardError => e
-    Rails.logger.error("Failed to generate TikTok token: #{e.message}")
-    nil
+    generate_oauth_state_token('TikTok', client_secret, token_payload(account_id, return_to))
   end
 
   # Verifies and decodes a Tiktok JWT token
@@ -20,14 +19,14 @@ module Tiktok::IntegrationHelper
   def verify_tiktok_token(token)
     return if token.blank? || client_secret.blank?
 
-    decode_token(token, client_secret)&.dig('sub')
+    decode_oauth_state_token('Tiktok', token, client_secret)&.dig('sub')
   end
 
   # Reads the onboarding return hint from a Tiktok JWT token, if present.
   def tiktok_token_return_to(token)
     return if token.blank? || client_secret.blank?
 
-    decode_token(token, client_secret)&.dig('return_to')
+    decode_oauth_state_token('Tiktok', token, client_secret)&.dig('return_to')
   end
 
   private
@@ -40,15 +39,5 @@ module Tiktok::IntegrationHelper
     payload = { sub: account_id, iat: Time.current.to_i }
     payload[:return_to] = return_to if return_to.present?
     payload
-  end
-
-  def decode_token(token, secret)
-    JWT.decode(token, secret, true, {
-                 algorithm: 'HS256',
-                 verify_expiration: true
-               }).first
-  rescue StandardError => e
-    Rails.logger.error("Unexpected error verifying Tiktok token: #{e.message}")
-    nil
   end
 end
