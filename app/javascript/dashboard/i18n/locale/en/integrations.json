@@ -1424,7 +1424,9 @@
         "ERROR_MESSAGE": "Failed to create custom tool"
       },
       "VIEW": {
-        "TITLE": "Custom Tool Details"
+        "TITLE": "Custom Tool Details",
+        "REQUEST": "Request and response",
+        "INSTALLED_NOTE": "This tool is read-only because it was installed from the Tools Catalog."
       },
       "EDIT": {
         "TITLE": "Edit Custom Tool",
@@ -1477,6 +1479,11 @@
         },
         "AUTH_TYPE": {
           "LABEL": "Authentication Type"
+        },
+        "EMAIL_VERIFICATION": {
+          "LABEL": "Require email verification",
+          "DESCRIPTION": "Captain can use this tool only after the customer verifies their email with a one-time code.",
+          "IMPLIED": "A parameter takes the customer's verified email, so email verification is always required."
         },
         "AUTH_TYPES": {
           "NONE": "None",
@@ -1532,6 +1539,21 @@
         },
         "PARAM_REQUIRED": {
           "LABEL": "Required"
+        },
+        "RISK": {
+          "MEDIUM": "This tool may return customer data. Consider requiring email verification.",
+          "HIGH": "This tool looks like it reads or changes customer data. Require email verification so only a verified customer can use it.",
+          "TITLE": "Save without email verification?",
+          "GO_BACK": "Go back",
+          "SAVE_ANYWAY": "Save anyway",
+          "EMAIL_PARAM": "This email is not verified. A customer could type someone else's.",
+          "USE_VERIFIED_EMAIL": "Use verified email"
+        },
+        "VERIFIED_VALUES": {
+          "ADD": "Add verified email",
+          "EMAIL": "Contact email",
+          "EMAIL_DESCRIPTION": "The contact's verified email address",
+          "HELP": "Filled by Chatwoot from the email the contact confirmed with a one-time code. Captain cannot see or change it in customer conversations."
         },
         "REQUEST_TEMPLATE": {
           "LABEL": "Request Body Template (Optional)",
