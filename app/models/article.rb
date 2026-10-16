@@ -59,6 +59,7 @@ class Article < ApplicationRecord
 
   # Slugs that collide with help center routes (e.g. /hc/:slug/:locale/search)
   RESERVED_SLUGS = %w[search articles categories].freeze
+  SLUG_RANDOM_BYTES = 4
 
   validates :account_id, presence: true
   validates :author_id, presence: true
@@ -224,7 +225,13 @@ class Article < ApplicationRecord
   end
 
   def ensure_article_slug
-    self.slug ||= "#{Time.now.utc.to_i}-#{title.underscore.parameterize(separator: '-')}" if title.present?
+    return if slug.present? || title.blank?
+
+    timestamp = Time.current.to_i.to_s
+    random_suffix = SecureRandom.hex(SLUG_RANDOM_BYTES)
+    max_title_length = MAX_STRING_COLUMN_LENGTH - timestamp.length - random_suffix.length - 2
+    parameterized_title = title.underscore.parameterize(separator: '-').first(max_title_length)
+    self.slug = "#{timestamp}-#{parameterized_title}-#{random_suffix}"
   end
 end
 Article.include_mod_with('Concerns::Article')
