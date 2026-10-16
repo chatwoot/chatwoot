@@ -1,3 +1,3 @@
 class Captain::Llm::MessageTranslationSchema < Schematist::Schema
-  array :translations, of: :string, description: 'One translation per input message, in input order'
+  string :translation, description: 'The translated message'
 end

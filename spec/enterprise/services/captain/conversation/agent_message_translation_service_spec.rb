@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Captain::Conversation::PendingTranslationService do
+RSpec.describe Captain::Conversation::AgentMessageTranslationService do
   let(:account) { create(:account, settings: { auto_translate: true }) }
   let(:user) { create(:user, account: account) }
   let(:inbox) { create(:inbox, account: account) }
@@ -9,34 +9,13 @@ RSpec.describe Captain::Conversation::PendingTranslationService do
     create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :outgoing, sender: user, content: 'Hello there',
                      content_attributes: { translation_pending: true })
   end
-  let(:llm_response) { { message: ['Bonjour'] } }
+  let(:llm_response) { { message: 'Bonjour' } }
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
   let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: nil) }
 
   before do
     allow(Captain::Llm::MessageTranslationService).to receive(:new).and_return(llm_service)
     allow(Captain::Llm::LanguageDetectionService).to receive(:new).and_return(detection)
-  end
-
-  it 'stamps the language of an incoming message and the thread follows it' do
-    allow(detection).to receive(:language).and_return('de')
-    incoming = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Hallo',
-                                content_attributes: { translation_pending: true })
-
-    described_class.new(message: incoming).perform
-
-    expect(incoming.reload.content_attributes).to eq('source_language' => 'de')
-    expect(conversation.reload.language).to eq('de')
-  end
-
-  it 'only clears the flag of an incoming email with an html body' do
-    incoming = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Hallo',
-                                content_attributes: { translation_pending: true, email: { html_content: { full: '<p>Hallo</p>' } } })
-
-    described_class.new(message: incoming).perform
-
-    expect(Captain::Llm::LanguageDetectionService).not_to have_received(:new)
-    expect(incoming.reload.content_attributes).to eq('email' => { 'html_content' => { 'full' => '<p>Hallo</p>' } })
   end
 
   it 'stores the reply in the contact language and keeps the typed text under the agent locale' do
@@ -66,13 +45,13 @@ RSpec.describe Captain::Conversation::PendingTranslationService do
     expect(template.translations).to eq('en' => 'Hello there')
   end
 
-  it 'translates the greeting of a brand-new thread by following its first message' do
+  it 'detects the conversation language from the contact message the first time a reply needs it' do
     fresh = create(:conversation, account: account, inbox: inbox)
     create(:message, account: account, inbox: inbox, conversation: fresh, message_type: :incoming, content: 'Hola')
     greeting = create(:message, account: account, inbox: inbox, conversation: fresh, message_type: :template, content: 'Hello there',
                                 content_attributes: { translation_pending: true })
     allow(detection).to receive(:language).and_return('es', nil)
-    allow(llm_service).to receive(:perform).and_return(message: ['Hola'])
+    allow(llm_service).to receive(:perform).and_return(message: 'Hola')
 
     described_class.new(message: greeting).perform
 
@@ -81,8 +60,29 @@ RSpec.describe Captain::Conversation::PendingTranslationService do
     expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(target_language: 'es'))
   end
 
+  it 'follows the contact when they switch language midway' do
+    switched = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Hallo')
+    allow(detection).to receive(:language).and_return('de', nil)
+    allow(llm_service).to receive(:perform).and_return(message: 'Guten Tag')
+
+    described_class.new(message: message).perform
+
+    expect(switched.reload.content_attributes['source_language']).to eq('de')
+    expect(conversation.reload.language).to eq('de')
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(target_language: 'de'))
+  end
+
+  it 'does not detect a contact message again' do
+    create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Bonjour',
+                     content_attributes: { source_language: 'fr' })
+
+    described_class.new(message: message).perform
+
+    expect(Captain::Llm::LanguageDetectionService).to have_received(:new).once
+  end
+
   it 'leaves a reply already written in the contact language as it is' do
-    allow(llm_service).to receive(:perform).and_return(message: ['Hello there'])
+    allow(llm_service).to receive(:perform).and_return(message: 'Hello there')
     allow(detection).to receive(:language).and_return('fr')
 
     described_class.new(message: message).perform
@@ -100,7 +100,7 @@ RSpec.describe Captain::Conversation::PendingTranslationService do
 
     described_class.new(message: email).perform
 
-    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: ['Hello there']))
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(text: 'Hello there'))
     expect(email.reload.content).to eq("Bonjour\n\n> On Monday, Camille wrote:\n> Bonjour")
     expect(email.translations.values.first).to include('<p>Hello there</p>').and include('<blockquote>')
     expect(email.content_attributes.dig('email', 'html_content', 'reply')).to include('<p>Bonjour</p>').and include('<blockquote>')
@@ -116,7 +116,7 @@ RSpec.describe Captain::Conversation::PendingTranslationService do
   end
 
   it 'flags a reply the translator hands back unchanged although it is in another language' do
-    allow(llm_service).to receive(:perform).and_return(message: ['Hello there'])
+    allow(llm_service).to receive(:perform).and_return(message: 'Hello there')
     allow(detection).to receive(:language).and_return('en')
 
     described_class.new(message: message).perform

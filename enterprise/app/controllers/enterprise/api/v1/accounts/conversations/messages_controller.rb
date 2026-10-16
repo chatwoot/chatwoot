@@ -18,11 +18,10 @@ module Enterprise::Api::V1::Accounts::Conversations::MessagesController
     message_ids = params.require(:message_ids)
     return head :unprocessable_entity unless message_ids.is_a?(Array) && I18n.available_locales.map(&:to_s).include?(params[:target_language])
 
-    @messages = Captain::Conversation::AutoTranslateService.new(
+    Captain::Conversation::ContactMessageTranslationService.new(
       conversation: @conversation, message_ids: message_ids, target_language: params[:target_language]
     ).perform
-  rescue StandardError => e
-    render_could_not_create_error(e.message)
+    head :accepted
   end
 
   private

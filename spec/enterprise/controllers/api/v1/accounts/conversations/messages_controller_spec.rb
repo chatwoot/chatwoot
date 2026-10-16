@@ -10,7 +10,7 @@ RSpec.describe 'Auto translate messages API', type: :request do
                      content: 'Celui-ci met quatre secondes à charger.')
   end
   let(:url) { "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/auto_translate" }
-  let(:llm_response) { { message: ['This one takes four seconds to load.'] } }
+  let(:llm_response) { { message: 'This one takes four seconds to load.' } }
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
 
   before do
@@ -26,24 +26,12 @@ RSpec.describe 'Auto translate messages API', type: :request do
     expect(response).to have_http_status(:unauthorized)
   end
 
-  it 'translates the given messages and returns them' do
-    post url, params: { message_ids: [message.id], target_language: 'en' }, headers: agent.create_new_auth_token, as: :json
+  it 'queues the given messages for translation' do
+    expect do
+      post url, params: { message_ids: [message.id], target_language: 'en' }, headers: agent.create_new_auth_token, as: :json
+    end.to have_enqueued_job(Captain::Conversation::MessageTranslationJob).with(message, 'en')
 
-    expect(response).to have_http_status(:ok)
-    expect(response.parsed_body['payload'].first).to include(
-      'id' => message.id,
-      'content_attributes' => include('translations' => { 'en' => 'This one takes four seconds to load.' })
-    )
-    expect(conversation.reload.language).to eq('fr')
-  end
-
-  it 'returns the Captain error when translation fails' do
-    allow(llm_service).to receive(:perform).and_return(error: 'Captain AI is disabled for this account.')
-
-    post url, params: { message_ids: [message.id], target_language: 'en' }, headers: agent.create_new_auth_token, as: :json
-
-    expect(response).to have_http_status(422)
-    expect(response.parsed_body['error']).to eq('Captain AI is disabled for this account.')
+    expect(response).to have_http_status(:accepted)
   end
 
   it 'refuses when auto translate is not enabled for the account' do

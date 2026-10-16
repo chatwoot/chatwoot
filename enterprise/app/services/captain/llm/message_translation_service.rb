@@ -3,7 +3,7 @@ class Captain::Llm::MessageTranslationService < Captain::BaseTaskService
   # Models occasionally answer a stray "<" or "&" with a control character, which Postgres rejects in jsonb.
   CONTROL_CHARACTERS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F]/
 
-  pattr_initialize [:account!, :texts!, :target_language!, { conversation_display_id: nil }]
+  pattr_initialize [:account!, :text!, :target_language!, { conversation_display_id: nil }]
 
   # Locales ('pt_BR'), BCP 47 tags ('zh-CN') and detected codes ('fr') all compare by their base language.
   def self.same_language?(first, second)
@@ -14,7 +14,7 @@ class Captain::Llm::MessageTranslationService < Captain::BaseTaskService
     response = make_api_call(feature: 'message_translation', messages: messages, schema: Captain::Llm::MessageTranslationSchema)
     return response if response[:error]
 
-    response.merge(message: response[:message]['translations'].map { |text| text.to_s.gsub(CONTROL_CHARACTERS, '') })
+    response.merge(message: response[:message]['translation'].to_s.gsub(CONTROL_CHARACTERS, ''))
   end
 
   private
@@ -26,17 +26,16 @@ class Captain::Llm::MessageTranslationService < Captain::BaseTaskService
   def messages
     [
       { role: 'system', content: system_prompt },
-      { role: 'user', content: texts.to_json }
+      { role: 'user', content: text }
     ]
   end
 
   def system_prompt
     <<~SYSTEM_PROMPT_MESSAGE
-      You translate messages from a customer support conversation into #{language_name}.
-      The input is a JSON array of messages. Return one translation per message, in the same order.
+      You translate a message from a customer support conversation into #{language_name}.
       Keep the meaning, tone and formality of the original.
       Keep markdown, line breaks, URLs, emojis, numbers, names, product terms and template variables such as {{contact.name}} exactly as they are.
-      Return a message that is already written in #{language_name} unchanged.
+      Return the message unchanged when it is already written in #{language_name}.
     SYSTEM_PROMPT_MESSAGE
   end
 

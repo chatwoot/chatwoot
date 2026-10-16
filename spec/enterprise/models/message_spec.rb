@@ -100,37 +100,34 @@ RSpec.describe Message do
       conversation.account.update!(auto_translate: true)
     end
 
-    it 'marks incoming messages, templates and agent replies for the send job' do
-      incoming = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
-                                  content: 'Bonjour')
+    it 'marks templates and agent replies for the send job' do
       template = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :template,
                                   content: 'Hello')
       reply = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
                                sender: agent, content: 'Hello')
 
-      expect([incoming, template, reply].map { |message| message.content_attributes['translation_pending'] }).to eq([true, true, true])
+      expect([template, reply].map { |message| message.content_attributes['translation_pending'] }).to eq([true, true])
     end
 
-    it 'leaves private notes, bot replies, activity and replies in a thread without a language alone' do
+    it 'leaves contact messages, private notes, bot replies and activity alone' do
+      incoming = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
+                                  content: 'Bonjour')
       note = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
                               sender: agent, content: 'Hello', private: true)
       bot = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
                              sender: create(:agent_bot, account: conversation.account), content: 'Hello')
       activity = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :activity,
                                   content: 'Resolved')
-      other = create(:conversation, account: conversation.account)
-      unknown = create(:message, account: other.account, inbox: other.inbox, conversation: other, message_type: :outgoing, sender: agent,
-                                 content: 'Hello')
 
-      expect([note, bot, activity, unknown].map { |message| message.content_attributes.key?('translation_pending') }).to eq([false] * 4)
+      expect([incoming, note, bot, activity].map { |message| message.content_attributes.key?('translation_pending') }).to eq([false] * 4)
     end
 
     it 'does nothing while auto translate is off for the account' do
       conversation.account.update!(auto_translate: false)
-      incoming = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
-                                  content: 'Bonjour')
+      reply = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                               sender: agent, content: 'Hello')
 
-      expect(incoming.content_attributes).not_to have_key('translation_pending')
+      expect(reply.content_attributes).not_to have_key('translation_pending')
     end
   end
 end
