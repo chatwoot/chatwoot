@@ -11,12 +11,13 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
   end
 
   def initialize(run, token)
+    # Checked before super, which builds the instructions from the user's name.
+    raise ArgumentError, 'The user is no longer a member of this account' unless run.account.users.exists?(run.user_id)
+
     @run = run
     @token = token
     super(run.copilot_thread.assistant, user_id: run.user_id, copilot_thread_id: run.copilot_thread_id,
                                         conversation_id: run.context['conversation_id'])
-    raise ArgumentError, 'The user is no longer a member of this account' unless @user
-
     @tools.each { |tool| wrap_tool(tool) }
   end
 
@@ -30,7 +31,6 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
     with_copilot_trace(params[:span_name], params, turn: @run, input: @run.copilot_message.message['content']) do |span|
       save_trace_carrier
       outcome = complete_loop(llm)
-      outcome = complete_loop(llm) if outcome == :complete && ask_to_source_numbers(llm)
       next wait_for_background_run if outcome == :awaiting_background_run
 
       # Langfuse takes a trace's output from its first span. A turn that waited on a background run finishes in a later span.
@@ -101,7 +101,7 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
       next if @tool_call.completed?
 
       @tool_call.update!(status: :running, attempts: @tool_call.attempts + 1)
-      persist_message({ content: "Using #{call.name}", function_name: call.name, tool: @tool_call.summary }, 'assistant_thinking')
+      persist_message({ content: "Using #{call.name}", function_name: call.name }, 'assistant_thinking')
     end
   end
 
@@ -111,8 +111,8 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
       # The result keeps the whole error for the model; the column holds a summary within the string limit.
       @tool_call.update!(status: failure ? :failed : :completed, result: result,
                          error: failure.to_s.truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH).presence)
-      persist_message({ content: "#{failure ? 'Failed' : 'Completed'} #{@tool_call.name}", function_name: @tool_call.name,
-                        tool: @tool_call.summary }, 'assistant_thinking')
+      # The result is already on the tool call; the panel shows only the step.
+      persist_message({ content: "#{failure ? 'Failed' : 'Completed'} #{@tool_call.name}", function_name: @tool_call.name }, 'assistant_thinking')
     end
   end
 
@@ -147,30 +147,13 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
     @tool_call.summary
   end
 
-  def ask_to_source_numbers(llm)
-    note = unsourced_numbers.note_for(parse_json_response(llm.messages.last.content)['content'].to_s)
-    return false unless note
-
-    llm.add_message(role: :user, content: note)
-    @transcript.save(@token)
-    true
-  end
-
-  def unsourced_numbers
-    @unsourced_numbers ||= Captain::Copilot::UnsourcedNumbers.new(@run, @token)
-  end
-
-  # Numbers the model still could not source after the check stay in the answer with a visible note, and on the run.
   def finish(llm)
     @run.with_lease(@token) do
       response = parse_json_response(llm.messages.last.content).slice('content', 'reply_suggestion')
       response['content'] = response['content'].to_s
-      unsourced = unsourced_numbers.in_answer(response['content'])
-      response['content'] += "\n\n_#{I18n.t('captain.copilot.unsourced_numbers', numbers: unsourced.join(', '))}_" if unsourced.any?
       persist_message(response)
       @account.increment_response_usage
-      @run.update!(status: :completed, lease_token: nil, lease_until: nil, error: nil,
-                   context: @run.context.merge('unsourced_numbers_in_answer' => unsourced))
+      @run.update!(status: :completed, lease_token: nil, lease_until: nil, error: nil)
       response
     end
   end

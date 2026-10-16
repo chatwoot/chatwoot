@@ -12,7 +12,7 @@ class Captain::Copilot::Resources::Contacts < Captain::Copilot::Resources::BaseR
     'messages' => ->(ids) { Contact.where(id: Conversation.where(id: Message.where(id: ids).select(:conversation_id)).select(:contact_id)) }
   }.freeze
   COLUMNS = %w[Email Phone Company Labels].freeze
-  PRELOAD = [:company].freeze
+  PRELOAD = [:company, :labels].freeze
   GROUPS = %w[label country blocked].freeze
 
   # Contact details follow the same permission as the contacts page and the get_contact tool.
@@ -34,13 +34,14 @@ class Captain::Copilot::Resources::Contacts < Captain::Copilot::Resources::BaseR
   def counts_by(relation, group)
     case group
     when 'label' then label_counts(relation)
-    when 'country' then column_counts(relation, :country_code, none: 'No country')
+    # Contacts saved before country_code was synced from additional_attributes store a missing country as an empty string.
+    when 'country' then column_counts(relation, Arel.sql("NULLIF(contacts.country_code, '')"), none: 'No country')
     when 'blocked' then column_counts(relation, :blocked, none: 'Unknown')
     end
   end
 
   def row(contact)
     { label: contact.name.presence || "Contact ##{contact.id}", url: url("contacts/#{contact.id}"),
-      values: [contact.email, contact.phone_number, contact.company&.name, contact.label_list.join(', ')] }
+      values: [contact.email, contact.phone_number, contact.company&.name, contact.labels.map(&:name).join(', ')] }
   end
 end
