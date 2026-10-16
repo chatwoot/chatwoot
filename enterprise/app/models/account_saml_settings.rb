@@ -60,10 +60,15 @@ class AccountSamlSettings < ApplicationRecord
   def refresh_metadata
     return if metadata_url.blank? || metadata_refreshed_at&.after?(METADATA_REFRESH_INTERVAL.ago)
 
+    # Claim the refresh before fetching, so concurrent logins use the stored values instead of all waiting on the IdP
+    claimed = self.class.where(id: id)
+                  .where('metadata_refreshed_at IS NULL OR metadata_refreshed_at < ?', METADATA_REFRESH_INTERVAL.ago)
+                  .update_all(metadata_refreshed_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
+    return if claimed.zero?
+
     update!(idp_metadata)
   rescue Saml::IdpMetadataService::Error => e
     Rails.logger.warn "SAML metadata refresh failed for account #{account_id}: #{e.message}"
-    update!(metadata_refreshed_at: Time.current)
   end
 
   private

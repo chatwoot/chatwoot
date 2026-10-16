@@ -170,6 +170,15 @@ RSpec.describe AccountSamlSettings, type: :model do
         expect(metadata_service).to have_received(:perform).once
       end
 
+      it 'does not fetch when another request already claimed the refresh' do
+        travel_to((described_class::METADATA_REFRESH_INTERVAL + 1.second).from_now) do
+          described_class.where(id: settings.id).update_all(metadata_refreshed_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
+          settings.refresh_metadata
+
+          expect(metadata_service).to have_received(:perform).once
+        end
+      end
+
       it 'stores the rotated certificate after the refresh interval' do
         allow(metadata_service).to receive(:perform).and_return(metadata.merge(certificate: rotated_certificate))
 
