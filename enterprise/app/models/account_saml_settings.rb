@@ -75,6 +75,17 @@ class AccountSamlSettings < ApplicationRecord
     restore_attributes
   end
 
+  # Reads the metadata again right away, for the refresh button in the settings form
+  def refresh_metadata_now
+    if metadata_url.blank?
+      errors.add(:metadata_url, :blank)
+      return false
+    end
+
+    assign_idp_metadata
+    errors.empty? && save
+  end
+
   private
 
   def certificate_expiring?

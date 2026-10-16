@@ -295,4 +295,64 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/saml_settings/refresh' do
+    let(:metadata_url) { 'https://idp.example.com/saml/v2/metadata' }
+    let(:certificate) { build(:account_saml_settings).certificate.strip }
+    let(:rotated_certificate) { build(:account_saml_settings).certificate.strip }
+    let(:metadata) { { sso_url: 'https://idp.example.com/saml/v2/SSO', idp_entity_id: metadata_url, certificate: certificate } }
+    let(:metadata_service) { instance_double(Saml::IdpMetadataService, perform: metadata) }
+
+    before do
+      allow(Saml::IdpMetadataService).to receive(:new).with(metadata_url).and_return(metadata_service)
+      AccountSamlSettings.create!(account: account, metadata_url: metadata_url)
+    end
+
+    context 'when authenticated as administrator' do
+      it 'stores the certificate from the metadata' do
+        allow(metadata_service).to receive(:perform).and_return(metadata.merge(certificate: rotated_certificate))
+
+        post "/api/v1/accounts/#{account.id}/saml_settings/refresh",
+             headers: administrator.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response[:certificate]).to eq(rotated_certificate)
+        expect(account.saml_settings.reload.certificate).to eq(rotated_certificate)
+      end
+
+      it 'keeps the stored values when the metadata cannot be read' do
+        allow(metadata_service).to receive(:perform).and_raise(Saml::IdpMetadataService::Error, 'boom')
+
+        post "/api/v1/accounts/#{account.id}/saml_settings/refresh",
+             headers: administrator.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:errors].first).to start_with('Metadata url could not be read')
+        expect(account.saml_settings.reload.certificate).to eq(certificate)
+      end
+
+      it 'returns unprocessable entity without a metadata URL' do
+        account.saml_settings.update!(metadata_url: nil)
+
+        post "/api/v1/accounts/#{account.id}/saml_settings/refresh",
+             headers: administrator.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:errors]).to eq(["Metadata url can't be blank"])
+      end
+    end
+
+    context 'when authenticated as agent' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/saml_settings/refresh",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end

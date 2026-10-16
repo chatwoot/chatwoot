@@ -29,6 +29,8 @@ const spEntityId = ref('');
 const isEnabled = ref(false);
 const isSubmitting = ref(false);
 const isLoading = ref(true);
+const isRefreshing = ref(false);
+const savedMetadataUrl = ref('');
 const activeTab = ref(METADATA_URL_TAB);
 
 const formState = reactive({
@@ -88,6 +90,7 @@ const idpEntityIdError = computed(() =>
 
 const setIdpFields = settings => {
   formState.metadataUrl = settings.metadata_url || '';
+  savedMetadataUrl.value = formState.metadataUrl;
   formState.ssoUrl = settings.sso_url || '';
   formState.certificate = settings.certificate || '';
   formState.idpEntityId = settings.idp_entity_id || '';
@@ -165,6 +168,23 @@ const saveSamlSettings = async settings => {
     throw error;
   } finally {
     isSubmitting.value = false;
+  }
+};
+
+const refreshMetadata = async () => {
+  try {
+    isRefreshing.value = true;
+    const { data } = await samlSettingsAPI.refresh();
+    setIdpFields(data);
+    fingerprint.value = data.fingerprint || '';
+    useAlert(t('SECURITY_SETTINGS.SAML.API.REFRESH_SUCCESS'));
+  } catch (error) {
+    useAlert(
+      error.response?.data?.errors?.[0] ||
+        t('SECURITY_SETTINGS.SAML.API.REFRESH_ERROR')
+    );
+  } finally {
+    isRefreshing.value = false;
   }
 };
 
@@ -312,6 +332,15 @@ onMounted(() => {
             type="submit"
             :is-loading="isSubmitting"
             :label="t('SECURITY_SETTINGS.SAML.UPDATE_BUTTON')"
+          />
+          <NextButton
+            v-if="usesMetadataUrl && savedMetadataUrl"
+            slate
+            faded
+            type="button"
+            :is-loading="isRefreshing"
+            :label="t('SECURITY_SETTINGS.SAML.REFRESH_BUTTON')"
+            @click="refreshMetadata"
           />
         </div>
       </form>

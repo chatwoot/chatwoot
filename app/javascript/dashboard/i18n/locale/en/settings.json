@@ -730,8 +730,11 @@
         "PLACEHOLDER": "https://sso.example.com/saml"
       },
       "UPDATE_BUTTON": "Update SAML Settings",
+      "REFRESH_BUTTON": "Refresh metadata",
       "API": {
         "SUCCESS": "SAML settings updated successfully",
+        "REFRESH_SUCCESS": "Metadata refreshed from your identity provider",
+        "REFRESH_ERROR": "Failed to refresh metadata",
         "ERROR": "Failed to update SAML settings",
         "ERROR_LOADING": "Failed to load SAML settings",
         "DISABLED": "SAML settings disabled successfully"
