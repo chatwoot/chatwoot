@@ -38,6 +38,7 @@
 class Channel::Email < ApplicationRecord
   include Channelable
   include Reauthorizable
+  include BillingHelper
 
   AUTHORIZATION_ERROR_THRESHOLD = 10
 
@@ -71,6 +72,12 @@ class Channel::Email < ApplicationRecord
 
   def legacy_google?
     imap_enabled && imap_address == 'imap.gmail.com'
+  end
+
+  def imap_fetchable?
+    return false if account.suspended? || !imap_enabled? || reauthorization_required?
+
+    !ChatwootApp.chatwoot_cloud? || !default_plan?(account)
   end
 
   private
