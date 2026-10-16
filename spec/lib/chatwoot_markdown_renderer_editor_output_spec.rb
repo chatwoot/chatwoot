@@ -28,7 +28,7 @@ describe ChatwootMarkdownRenderer do
     break_then_list_text: { markdown: "intro\n- item", email_breaks: 0, whatsapp: "intro\n- item" },
     break_then_thematic: { markdown: "intro\n***", email_breaks: 0, whatsapp: 'intro' },
     empty_before_pasted_list_text: { markdown: "a\n\n\n- pasted", email_breaks: 0, whatsapp: "a\n\n\n- pasted" },
-    empty_before_list_node: { markdown: "a\n\n\n* item", email_breaks: 0, whatsapp: "a\n\n\n* item" },
+    empty_before_list_node: { markdown: "a\n\n\n* item", email_breaks: 0, whatsapp: "a\n\n\n- item" },
     empty_before_image: { markdown: "a\n\n![](https://example.com/logo.png)", email_breaks: 0, whatsapp: 'a' },
     trailing_breaks_no_signature: { markdown: 'hello', email_breaks: 0, whatsapp: 'hello' },
     dash_after_break: { markdown: "a\\\n\\-", email_breaks: 1, whatsapp: "a\n-" },
