@@ -54,6 +54,7 @@ const canChangeVerification = computed(
 );
 
 const verificationSetting = ref(false);
+const isSaving = ref(false);
 watch(
   () => props.tool.settings?.requires_email_verification,
   value => {
@@ -63,6 +64,7 @@ watch(
 );
 
 const saveVerification = async value => {
+  isSaving.value = true;
   try {
     await store.dispatch('captainCustomTools/update', {
       id: props.tool.id,
@@ -76,6 +78,8 @@ const saveVerification = async value => {
       parseAPIErrorResponse(error) ||
         t('CAPTAIN.CUSTOM_TOOLS.EDIT.ERROR_MESSAGE')
     );
+  } finally {
+    isSaving.value = false;
   }
 };
 
@@ -120,7 +124,7 @@ const requiresEmailVerification = computed({
       </span>
       <Switch
         v-model="requiresEmailVerification"
-        :disabled="!canChangeVerification"
+        :disabled="!canChangeVerification || isSaving"
         class="shrink-0"
       />
     </label>
