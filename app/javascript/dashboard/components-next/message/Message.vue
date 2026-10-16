@@ -167,7 +167,6 @@ const { translationContent } = useTranslations(
   computed(() => props.contentAttributes),
   contactSide
 );
-// Copy and canned responses take the text the bubble shows.
 const displayedContent = computed(() =>
   showingOriginal.value || !translationContent.value
     ? props.content

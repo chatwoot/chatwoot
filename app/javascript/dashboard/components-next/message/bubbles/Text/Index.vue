@@ -101,10 +101,10 @@ const morphHeight = () => {
       >
         <Transition
           mode="out-in"
-          enter-from-class="opacity-0 blur-[2px]"
+          enter-from-class="opacity-0 blur-[0.125rem]"
           enter-active-class="transition duration-300 ease-out motion-reduce:transition-none"
           leave-active-class="transition duration-150 ease-in motion-reduce:transition-none"
-          leave-to-class="opacity-0 blur-[2px]"
+          leave-to-class="opacity-0 blur-[0.125rem]"
           @before-leave="measureHeight"
           @enter="morphHeight"
         >

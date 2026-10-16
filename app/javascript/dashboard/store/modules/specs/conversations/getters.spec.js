@@ -1003,6 +1003,19 @@ describe('#getters', () => {
       expect(translationState(1).pending).toBe(true);
     });
 
+    it('keeps a reply pending until the send job has translated it', () => {
+      const translationState = stateFor([
+        {
+          id: 1,
+          message_type: 1,
+          content: 'Hello',
+          content_attributes: { translation_pending: true },
+        },
+      ]);
+
+      expect(translationState(1).pending).toBe(true);
+    });
+
     it('recognises a message already written in the agent language', () => {
       const translationState = stateFor([
         {
