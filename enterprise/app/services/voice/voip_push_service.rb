@@ -13,9 +13,8 @@
 # data message when the call leaves ringing.
 #
 # The agents and devices rung are kept on `call.ring_state` so a cancel goes only where
-# the ring went. Configuration lives in the installation config: APNS_VOIP_KEY (the .p8
-# contents), APNS_VOIP_KEY_ID, APNS_VOIP_TEAM_ID, APNS_VOIP_BUNDLE_ID,
-# APNS_VOIP_ENVIRONMENT, plus the existing FIREBASE_PROJECT_ID and FIREBASE_CREDENTIALS.
+# the ring went. Voice::VoipPushConfig decides how each platform is reached: with the
+# installation's own credentials, or through the Chatwoot Hub relay.
 class Voice::VoipPushService
   pattr_initialize [:call!]
 
@@ -47,7 +46,8 @@ class Voice::VoipPushService
   private
 
   def subscribed_user_ids
-    subscriptions = (configured?(:apple) ? apple_subscriptions.to_a : []) + (configured?(:android) ? android_subscriptions : [])
+    subscriptions = (push_config.configured?(:apple) ? apple_subscriptions.to_a : []) +
+                    (push_config.configured?(:android) ? android_subscriptions : [])
     subscriptions.select { |subscription| subscription.subscription_attributes['push_token'].present? }.map(&:user_id).uniq
   end
 
@@ -86,13 +86,13 @@ class Voice::VoipPushService
   # Each platform's client is set up on its own thread, so a slow Google token request does
   # not hold up the iPhones.
   def deliver_ring(apple, android)
-    settings = apple_settings if apple.any?
-    firebase = firebase_config if android.any?
+    apple_sender = platform_client('apple') { push_config.apple_sender(call_id: call.id, expiry_seconds: RING_EXPIRY_SECONDS) } if apple.any?
+    android_client = push_config.android_client_builder if android.any?
     payload = payloads.ring
     data = payloads.ring_data
     [
-      deliver_in_thread(apple) { apple_sender(settings)&.ring(apple, payload, proceed: -> { keep_ringing? }) },
-      deliver_in_thread(android) { fcm_sender(*firebase)&.deliver(android, data, 'ring', proceed: -> { keep_ringing? }) }
+      deliver_in_thread(apple) { apple_sender&.ring(apple, payload, proceed: -> { keep_ringing? }) },
+      deliver_in_thread(android) { fcm_sender(android_client)&.deliver(android, data, 'ring', proceed: -> { keep_ringing? }) }
     ].map(&:value)
   end
 
@@ -107,29 +107,28 @@ class Voice::VoipPushService
 
   def hold_ring_lease = merge_ring_state({ 'ring_started_at' => Time.zone.now.to_i }, reload: false) || true
 
-  # nil when the sender cannot be set up
-  def apple_sender(settings) = platform_client('apple') { Voice::ApnsVoipSender.new(settings: settings, call_id: call.id) }
-
   def devices_to_ring
-    apple_environment if configured?(:apple)
-    [configured?(:apple) ? apple_tokens : [], configured?(:android) ? android_tokens : []]
+    push_config.apple_environment if push_config.direct?(:apple)
+    [push_config.configured?(:apple) ? apple_tokens : [], push_config.configured?(:android) ? android_tokens : []]
   end
 
   def cancel(tokens = nil)
-    return forget_rung_devices if call.outgoing? || !configured?(:android)
+    return forget_rung_devices if call.outgoing? || !push_config.configured?(:android)
 
     tokens ||= rung_devices[ANDROID]
     forget_rung_devices
     return if tokens.blank?
 
     data = payloads.cancel_data
-    sender = fcm_sender(*firebase_config)
+    sender = fcm_sender(push_config.android_client_builder)
     return unless sender
 
     forget_devices(ANDROID, gone(with_rails { sender.deliver(tokens, data, 'cancel') }.to_h))
   end
 
   def payloads = (@payloads ||= Voice::VoipPushPayloads.new(call: call))
+
+  def push_config = (@push_config ||= Voice::VoipPushConfig.new)
 
   # A platform whose client cannot be set up, such as when Google's token request fails,
   # is not rung; the other platform still is
@@ -255,62 +254,12 @@ class Voice::VoipPushService
                             .destroy_all
   end
 
-  # MARK: Apple
-
-  APNS_ENVIRONMENTS = %w[development production].freeze
-
-  CREDENTIALS = {
-    apple: %w[APNS_VOIP_KEY APNS_VOIP_KEY_ID APNS_VOIP_TEAM_ID],
-    android: %w[FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS]
-  }.freeze
-
-  # A platform is rung only with every credential set. Some but not all set is a broken
-  # deployment rather than an opted-out one, so it is reported; the other platform still rings.
-  def configured?(platform)
-    @configured ||= {}
-    return @configured[platform] if @configured.key?(platform)
-
-    names = CREDENTIALS[platform]
-    missing = names.select { |name| config(name).blank? }
-    if missing.any? && missing.size < names.size
-      ChatwootExceptionTracker.new(ArgumentError.new("#{platform} push is partly configured; missing #{missing.join(', ')}")).capture_exception
-    end
-    @configured[platform] = missing.empty?
-  end
-
-  # A misspelt environment would quietly send App Store tokens to the sandbox, so it fails the job
-  def apple_environment
-    environment = config('APNS_VOIP_ENVIRONMENT', 'production')
-    return environment if APNS_ENVIRONMENTS.include?(environment)
-
-    raise ArgumentError, "APNS_VOIP_ENVIRONMENT must be one of #{APNS_ENVIRONMENTS.join(', ')}, got #{environment.inspect}"
-  end
-
-  # Everything the Apple sender needs, read from the configuration before the delivery
-  # threads start
-  def apple_settings
-    {
-      production: apple_environment == 'production',
-      key: config('APNS_VOIP_KEY'),
-      key_id: config('APNS_VOIP_KEY_ID'),
-      team_id: config('APNS_VOIP_TEAM_ID'),
-      # A cleared bundle ID falls back to the app's, as an unset one does
-      topic: "#{config('APNS_VOIP_BUNDLE_ID').presence || 'com.chatwoot.app'}.voip",
-      expiry_seconds: RING_EXPIRY_SECONDS
-    }
-  end
-
   # MARK: Android
 
-  def firebase_config = [config('FIREBASE_PROJECT_ID'), config('FIREBASE_CREDENTIALS')]
-
   # nil when the client cannot be set up
-  def fcm_sender(project_id, credentials)
+  def fcm_sender(client_builder)
     platform_client('android') do
-      client = Notification::FcmService.new(project_id, credentials).fcm_client
-      Voice::FcmVoipSender.new(client: client, call_id: call.id, expiry_seconds: RING_EXPIRY_SECONDS)
+      Voice::FcmVoipSender.new(client: client_builder.call, call_id: call.id, expiry_seconds: RING_EXPIRY_SECONDS)
     end
   end
-
-  def config(name, default = nil) = GlobalConfigService.load(name, default)
 end

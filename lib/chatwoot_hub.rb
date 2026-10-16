@@ -18,6 +18,10 @@ class ChatwootHub
     "#{base_url}/send_push"
   end
 
+  def self.voip_push_url
+    "#{base_url}/send_voip_push"
+  end
+
   def self.events_url
     "#{base_url}/events"
   end
@@ -113,9 +117,23 @@ class ChatwootHub
     ChatwootExceptionTracker.new(e).capture_exception
   end
 
-  def self.send_push_with_response(fcm_options)
+  def self.send_push_with_response(fcm_options, instance_info: instance_config)
     info = { fcm_options: fcm_options }
-    RestClient.post(push_notification_url, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
+    RestClient.post(push_notification_url, info.merge(instance_info).to_json, { content_type: :json, accept: :json })
+  end
+
+  # The token the hub issues to this installation on its daily sync, which its VoIP push
+  # relay requires
+  def self.push_relay_token
+    InstallationConfig.find_by(name: 'CHATWOOT_PUSH_RELAY_TOKEN')&.value
+  end
+
+  # Sends an APNs VoIP push to each token through the hub, which holds the app's Apple key.
+  # The response lists each token's APNs status.
+  def self.send_voip_push(tokens, payload, relay_token: push_relay_token, instance_info: instance_config)
+    info = { tokens: tokens, payload: payload }
+    RestClient.post(voip_push_url, info.merge(instance_info).to_json,
+                    { content_type: :json, accept: :json, authorization: "Bearer #{relay_token}" })
   end
 
   def self.emit_event(event_name, event_data)

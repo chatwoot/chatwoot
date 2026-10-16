@@ -5,8 +5,9 @@
 class Voice::RingReadiness
   pattr_initialize [:user!]
 
-  # problem: nil when the platform can be pushed to, otherwise 'credentials' or 'environment'
-  Platform = Struct.new(:problem, :devices, keyword_init: true) do
+  # problem: nil when the platform can be pushed to, otherwise 'credentials', 'relay_token' or
+  # 'environment'. relayed: whether its pushes go through the Chatwoot Hub relay.
+  Platform = Struct.new(:problem, :relayed, :devices, keyword_init: true) do
     def configured = problem.nil?
   end
   # voice_inboxes: inboxes whose calls ring the agent; assigned_only_inboxes: of those, the ones
@@ -15,11 +16,13 @@ class Voice::RingReadiness
                           keyword_init: true)
 
   def apple
-    @apple ||= Platform.new(problem: apple_problem, devices: user.notification_subscriptions.apns_voip.count)
+    @apple ||= Platform.new(problem: apple_problem, relayed: push_config.relayed?(:apple),
+                            devices: user.notification_subscriptions.apns_voip.count)
   end
 
   def android
-    @android ||= Platform.new(problem: credentials?(:android) ? nil : 'credentials', devices: android_devices)
+    @android ||= Platform.new(problem: push_config.configured?(:android) ? nil : 'credentials', relayed: push_config.relayed?(:android),
+                              devices: android_devices)
   end
 
   def memberships
@@ -69,16 +72,17 @@ class Voice::RingReadiness
     [apple, android].any? { |platform| platform.configured && platform.devices.positive? }
   end
 
-  # The checks the push itself makes: every credential set, and an environment it accepts
+  # The checks the push itself makes: every credential set and an environment it accepts, or
+  # the relay on with the token the hub requires
   def apple_problem
-    return 'credentials' unless credentials?(:apple)
+    return push_config.relay_enabled? ? 'relay_token' : 'credentials' unless push_config.configured?(:apple)
 
     environment = GlobalConfigService.load('APNS_VOIP_ENVIRONMENT', 'production')
-    'environment' unless Voice::VoipPushService::APNS_ENVIRONMENTS.include?(environment)
+    'environment' if push_config.direct?(:apple) && Voice::VoipPushConfig::APNS_ENVIRONMENTS.exclude?(environment)
   end
 
-  def credentials?(platform)
-    Voice::VoipPushService::CREDENTIALS.fetch(platform).all? { |name| GlobalConfigService.load(name, nil).present? }
+  def push_config
+    @push_config ||= Voice::VoipPushConfig.new(report_partial: false)
   end
 
   # Which calls in the inbox ring the agent, as Voice::RingRecipients decides for a real call:
