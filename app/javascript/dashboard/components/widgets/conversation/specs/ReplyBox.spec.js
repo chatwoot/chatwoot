@@ -4,6 +4,11 @@ import { nextTick } from 'vue';
 import { createStore } from 'vuex';
 import ReplyBox from '../ReplyBox.vue';
 import WhatsappTemplates from '../WhatsappTemplates/Modal.vue';
+import { prefetchCatalog } from 'dashboard/helper/whatsappCatalogCache';
+
+vi.mock('dashboard/helper/whatsappCatalogCache', () => ({
+  prefetchCatalog: vi.fn(),
+}));
 
 const CHANNELS = [
   { name: 'WhatsApp Cloud', inbox: { channel_type: 'Channel::Whatsapp' } },
@@ -475,6 +480,107 @@ describe('ReplyBox', () => {
       expect(onSendReply).toHaveBeenCalledTimes(1);
 
       wrapper.unmount();
+    });
+  });
+
+  describe('catalog button', () => {
+    const catalog = wrapper => bottomPanel(wrapper).enableWhatsappCatalog;
+
+    const cloud = {
+      channel_type: 'Channel::Whatsapp',
+      provider: 'whatsapp_cloud',
+    };
+
+    it('shows on WhatsApp Cloud and nowhere else', () => {
+      [{ name: 'WhatsApp Cloud', inbox: cloud }, ...CHANNELS.slice(1)].forEach(
+        ({ name, inbox }) => {
+          const { wrapper } = mountWith({ inbox });
+          expect(catalog(wrapper), name).toBe(name === 'WhatsApp Cloud');
+        }
+      );
+      const { wrapper } = mountWith({
+        inbox: { channel_type: 'Channel::Whatsapp', provider: 'default' },
+      });
+      expect(catalog(wrapper)).toBe(false);
+    });
+
+    it('passes the digits-only business number as the catalog link', () => {
+      const { wrapper } = mountWith({
+        inbox: { ...cloud, phone_number: '+57 300 123-4567' },
+      });
+      expect(
+        wrapper.findComponent({ name: 'WhatsappCatalogModal' }).props()
+          .catalogLink
+      ).toBe('https://wa.me/c/573001234567');
+    });
+
+    it('appends the catalog link to the editor text without sending', async () => {
+      const { wrapper } = mountWith({
+        inbox: { ...cloud, phone_number: '+573001234567' },
+        drafts: { 'draft-1-REPLY': 'previous text' },
+      });
+      await nextTick();
+      wrapper
+        .findComponent({ name: 'WhatsappCatalogModal' })
+        .vm.$emit('insertLink', 'https://wa.me/c/573001234567');
+      await nextTick();
+      expect(editor(wrapper).modelValue).toBe(
+        'previous text\nhttps://wa.me/c/573001234567'
+      );
+    });
+
+    it('inserts only the link when the editor is empty', async () => {
+      const { wrapper } = mountWith({
+        inbox: { ...cloud, phone_number: '+573001234567' },
+      });
+      wrapper
+        .findComponent({ name: 'WhatsappCatalogModal' })
+        .vm.$emit('insertLink', 'https://wa.me/c/573001234567');
+      await nextTick();
+      expect(editor(wrapper).modelValue).toBe('https://wa.me/c/573001234567');
+    });
+
+    it('clears the editor on sent without touching the attachments', async () => {
+      const { wrapper } = mountWith({
+        inbox: { ...cloud, phone_number: '+573001234567' },
+        drafts: { 'draft-1-REPLY': 'composer text' },
+      });
+      await nextTick();
+      const attachment = { resource: { name: 'a.png' } };
+      await wrapper.setData({ attachedFiles: [attachment] });
+      expect(editor(wrapper).modelValue).toBe('composer text');
+      wrapper.findComponent({ name: 'WhatsappCatalogModal' }).vm.$emit('sent');
+      await nextTick();
+      expect(editor(wrapper).modelValue).toBe('');
+      expect(wrapper.vm.attachedFiles).toEqual([attachment]);
+    });
+
+    it('prefetches the catalog only on WhatsApp Cloud', () => {
+      prefetchCatalog.mockClear();
+      [
+        ...CHANNELS.slice(1),
+        { inbox: { ...cloud, provider: 'default' } },
+      ].forEach(({ inbox }) => mountWith({ inbox }));
+      expect(prefetchCatalog).not.toHaveBeenCalled();
+
+      mountWith({ inbox: cloud });
+      expect(prefetchCatalog).toHaveBeenCalledTimes(1);
+      expect(prefetchCatalog).toHaveBeenCalledWith(1);
+    });
+
+    it('stays visible outside the 24h window and hides on private notes', async () => {
+      const { wrapper } = mountWith({
+        inbox: cloud,
+        chat: { can_reply: false },
+      });
+      expect(catalog(wrapper)).toBe(true);
+      expect(bottomPanel(wrapper).isEditorDisabled).toBe(true);
+
+      wrapper
+        .findComponent({ name: 'ReplyTopPanel' })
+        .vm.$emit('setReplyMode', REPLY_EDITOR_MODES.NOTE);
+      await nextTick();
+      expect(catalog(wrapper)).toBe(false);
     });
   });
 });

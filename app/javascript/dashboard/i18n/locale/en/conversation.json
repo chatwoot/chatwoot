@@ -604,5 +604,106 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  },
+  "CATALOG": {
+    "BUTTON": "Catalog",
+    "TOOLTIP": "Send products from your WhatsApp catalog",
+    "TITLE": "Send from catalog",
+    "SEARCH": {
+      "PLACEHOLDER": "Search products",
+      "NO_RESULTS": "No products match your search"
+    },
+    "FILTERS": {
+      "ALL": "All"
+    },
+    "STATES": {
+      "LOADING": "Loading catalog...",
+      "EMPTY": "No products found in this catalog",
+      "ERROR": "Could not load the catalog"
+    },
+    "SETUP_GUIDE": {
+      "OPEN_SETTINGS": "Open inbox settings",
+      "ADMIN_ONLY": "Ask an administrator to complete this setup.",
+      "NO_CATALOG": {
+        "TITLE": "No catalog connected",
+        "DESCRIPTION": "This WhatsApp number does not have a catalog linked yet.",
+        "STEPS": {
+          "ONE": "Create a catalog in Meta Commerce Manager",
+          "TWO": "Connect it to your WhatsApp Business account",
+          "THREE": "Come back and reopen this window, or paste the catalog ID in the inbox settings (Catalog ID (optional))"
+        }
+      },
+      "MISSING_PERMISSION": {
+        "TITLE": "Catalog permission missing",
+        "DESCRIPTION": "The access token of this WhatsApp number does not include the catalog_management permission, so the catalog cannot be read.",
+        "STEPS": {
+          "ONE": "Add the catalog_management permission to the token, or reconnect the number",
+          "TWO": "Or paste the catalog ID in the inbox settings, under Catalog ID (optional)",
+          "THREE": "Come back and reopen this window"
+        }
+      },
+      "ERROR": {
+        "TITLE": "Could not reach the catalog",
+        "DESCRIPTION": "Something went wrong while contacting WhatsApp.",
+        "STEPS": {
+          "ONE": "Check the inbox connection in its settings",
+          "TWO": "Try again in a few minutes"
+        }
+      }
+    },
+    "NO_COLLECTION": "No collection",
+    "ACTIONS": {
+      "SEND": "Send",
+      "BACK": "Back",
+      "NEXT": "Next",
+      "CLOSE": "Close",
+      "SELECT": "Select",
+      "SEE_MORE": "See more",
+      "REFRESH": "Refresh",
+      "CANCEL": "Cancel",
+      "INSERT_LINK": "Insert catalog link"
+    },
+    "PRODUCT": {
+      "VIEW": "View",
+      "VIEW_ITEMS": "View items",
+      "ITEMS_COUNT": "{count} items",
+      "DESCRIPTION": "Description",
+      "PHOTO_OF": "Photo {current} of {total}",
+      "DETAILS_TITLE": "Details"
+    },
+    "FORMATS": {
+      "CAROUSEL": {
+        "NAME": "Carousel",
+        "RULE": "From 2 to 10 products"
+      },
+      "PRODUCT": {
+        "NAME": "Single product",
+        "RULE": "1 product"
+      },
+      "PRODUCT_LIST": {
+        "NAME": "Product list",
+        "RULE": "From 1 to 30 products"
+      }
+    },
+    "COUNTER": "{count} / {max}",
+    "FIELDS": {
+      "HEADER": "Header",
+      "BODY": "Message text",
+      "FOOTER": "Footer",
+      "REQUIRED": "Required",
+      "OPTIONAL": "Optional",
+      "CHARACTERS": "{count} / {max} characters"
+    },
+    "ERRORS": {
+      "MIN_ITEMS": "Select at least {min} products",
+      "MAX_ITEMS": "Up to {max} product | Up to {max} products",
+      "REQUIRED": "This field is required",
+      "TOO_LONG": "The text is too long",
+      "SEND_FAILED": "Could not send the catalog message. Please try again."
+    },
+    "FORMAT": {
+      "LABEL": "Delivery format",
+      "UNAVAILABLE": "Not available: {reason}"
+    }
   }
 }
