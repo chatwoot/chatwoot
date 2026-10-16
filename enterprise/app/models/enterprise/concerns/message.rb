@@ -9,11 +9,6 @@ module Enterprise::Concerns::Message
     before_create :mark_for_translation, if: :translation_wanted?
   end
 
-  # Html mail keeps its markup: only plain text is translated for now.
-  def html_email?
-    content_attributes.dig('email', 'html_content', 'full').present?
-  end
-
   private
 
   def mark_for_translation
