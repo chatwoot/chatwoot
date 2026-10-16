@@ -174,13 +174,10 @@ const displayedContent = computed(() =>
 );
 
 const isAutoTranslated = computed(() => {
-  const { language, locale } = autoTranslate.value;
   const { pending, sameLanguage } = translationState.value(props.id);
   return (
-    !!language &&
-    (!!props.contentAttributes?.translations?.[locale] ||
-      pending ||
-      sameLanguage)
+    !!autoTranslate.value.language &&
+    (!!translationContent.value || pending || sameLanguage)
   );
 });
 
