@@ -47,6 +47,8 @@ RSpec.describe Campaigns::SendWhatsappBatchJob do
     campaign.processing!
     service = Whatsapp::OneoffCampaignService.new(campaign: campaign)
     allow(Whatsapp::OneoffCampaignService).to receive(:new).and_return(service)
+    expect(service).to receive(:process_contacts).with(contacts.first(2))
+    described_class.perform_now(campaign)
     expect(service).to receive(:process_contacts).with([])
 
     described_class.perform_now(campaign, contacts.second.id)
@@ -94,5 +96,36 @@ RSpec.describe Campaigns::SendWhatsappBatchJob do
     expect(campaign.reload).to be_completed
     expect { Whatsapp::OneoffCampaignService.new(campaign: create(:campaign, account: account, inbox: channel.inbox)).perform }
       .to raise_error('WhatsApp campaigns feature not enabled')
+  end
+
+  it 'does not process a campaign while another connection holds its batch lock' do
+    campaign.processing!
+    connection = PG.connect(ApplicationRecord.connection.raw_connection.conninfo_hash.compact_blank)
+    lock_id = described_class::LOCK_BASE + campaign.id
+    connection.exec("SELECT pg_advisory_lock(#{lock_id})")
+    expect(Whatsapp::OneoffCampaignService).not_to receive(:new)
+
+    described_class.perform_now(campaign)
+  ensure
+    connection&.exec("SELECT pg_advisory_unlock(#{lock_id})")
+    connection&.close
+  end
+
+  it 'releases the batch lock when processing fails so the next execution can continue' do
+    campaign.processing!
+    allow(Whatsapp::OneoffCampaignService).to receive(:new).and_return(sender)
+    allow(sender).to receive(:perform_batch).and_raise(StandardError, 'interrupted')
+    expect { described_class.perform_now(campaign) }.to raise_error(StandardError, 'interrupted')
+
+    connection = PG.connect(ApplicationRecord.connection.raw_connection.conninfo_hash.compact_blank)
+    lock_id = described_class::LOCK_BASE + campaign.id
+    expect(connection.exec("SELECT pg_try_advisory_lock(#{lock_id})").first.values).to eq(['t'])
+    connection.exec("SELECT pg_advisory_unlock(#{lock_id})")
+    allow(sender).to receive(:perform_batch).and_return(nil)
+    described_class.perform_now(campaign)
+
+    expect(campaign.reload).to be_completed
+  ensure
+    connection&.close
   end
 end

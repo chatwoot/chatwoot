@@ -137,4 +137,93 @@ RSpec.describe Enterprise::Whatsapp::OneoffCampaignService do
 
     expect(CampaignRecipient.find_by!(campaign: campaign, contact: contact)).to be_skipped
   end
+
+  describe 'interrupted campaign recovery' do
+    let(:service) { Whatsapp::OneoffCampaignService.new(campaign: campaign) }
+
+    it 'commits recovery eligibility before executing the campaign' do
+      allow(campaign).to receive(:execute_campaign).and_raise(Interrupt, 'worker terminated before enqueue')
+
+      expect { campaign.trigger! }.to raise_error(Interrupt, 'worker terminated before enqueue')
+      expect(campaign.reload).to have_attributes(campaign_status: 'processing', whatsapp_cursor: 0)
+      campaign.update!(updated_at: 16.minutes.ago)
+
+      expect { Campaigns::RecoverWhatsappCampaignsJob.perform_now }
+        .to have_enqueued_job(Campaigns::SendWhatsappBatchJob).with(campaign, 0)
+    end
+
+    it 'does not repeat an accepted send when the response is lost and continues untouched contacts' do
+      stub_const('Whatsapp::OneoffCampaignService::BATCH_SIZE', 2)
+      contacts = create_list(:contact, 3, :with_phone_number, account: account)
+      contacts.each { |contact| contact.update_labels([label.title]) }
+      destinations = []
+      allow(whatsapp_channel).to receive(:send_template) do |destination, _template, _message|
+        destinations << destination
+        raise Interrupt, 'response lost after acceptance' if destinations.one?
+
+        "wamid.#{destination}"
+      end
+      campaign.trigger!
+
+      expect { service.perform_batch(0) }.to raise_error(Interrupt, 'response lost after acceptance')
+      expect(campaign.reload.whatsapp_cursor).to eq(0)
+      interrupted = campaign.campaign_recipients.find_by!(contact: contacts.first)
+      expect(interrupted).to have_attributes(status: 'queued', source_id: nil, send_attempted_at: be_present)
+
+      Campaigns::SendWhatsappBatchJob.perform_now(campaign, 0)
+      Campaigns::SendWhatsappBatchJob.perform_now(campaign, 0)
+
+      expect(destinations).to eq(contacts.map(&:phone_number))
+      expect(campaign.reload).to be_completed
+      expect(campaign.campaign_recipients.sent.count).to eq(2)
+      expect(interrupted.reload.error_message).to include('Send outcome unknown')
+    end
+
+    it 'recovers a lost handoff using the saved cursor even when an old job is replayed' do
+      stub_const('Whatsapp::OneoffCampaignService::BATCH_SIZE', 1)
+      contacts = create_list(:contact, 2, :with_phone_number, account: account)
+      contacts.each { |contact| contact.update_labels([label.title]) }
+      allow(whatsapp_channel).to receive(:send_template).and_return('wamid.first', 'wamid.second')
+      campaign.trigger!
+      allow(Campaigns::SendWhatsappBatchJob).to receive(:perform_later).and_raise(StandardError, 'queue unavailable')
+
+      expect { Campaigns::SendWhatsappBatchJob.perform_now(campaign) }.to raise_error(StandardError, 'queue unavailable')
+      expect(campaign.reload.whatsapp_cursor).to eq(contacts.first.id)
+      campaign.update!(updated_at: 16.minutes.ago)
+      allow(Campaigns::SendWhatsappBatchJob).to receive(:perform_later).and_call_original
+
+      expect { Campaigns::RecoverWhatsappCampaignsJob.perform_now }
+        .to have_enqueued_job(Campaigns::SendWhatsappBatchJob).with(campaign, contacts.first.id)
+      Campaigns::SendWhatsappBatchJob.perform_now(campaign, 0)
+      Campaigns::SendWhatsappBatchJob.perform_now(campaign, 0)
+
+      expect(whatsapp_channel).to have_received(:send_template).exactly(2).times
+      expect(campaign.campaign_recipients.sent.count).to eq(2)
+      expect(campaign.reload).to be_completed
+    end
+
+    it 'excludes historical queued, sent and failed recipients when a legacy batch is retried' do
+      contacts = create_list(:contact, 4, :with_phone_number, account: account)
+      contacts.each { |contact| contact.update_labels([label.title]) }
+      campaign.processing!
+      campaign.update!(whatsapp_cursor: nil)
+      queued = campaign.campaign_recipients.create!(account: account, inbox: whatsapp_inbox, contact: contacts.first)
+      campaign.campaign_recipients.create!(account: account, inbox: whatsapp_inbox, contact: contacts.second, status: :failed)
+      campaign.campaign_recipients.create!(account: account, inbox: whatsapp_inbox, contact: contacts.third,
+                                           status: :sent, source_id: 'wamid.existing')
+      allow(whatsapp_channel).to receive(:send_template) do |destination, _template, _message|
+        "wamid.#{destination}"
+      end
+
+      Campaigns::SendWhatsappBatchJob.perform_now(campaign)
+
+      expect(whatsapp_channel).to have_received(:send_template).with(contacts.last.phone_number, anything, nil).once
+      expect(whatsapp_channel).to have_received(:send_template).once
+      expect(queued.reload).to have_attributes(status: 'queued', send_attempted_at: nil)
+      expect(queued.error_message).to include('Send outcome unknown')
+      expect(campaign.campaign_recipients.failed.count).to eq(1)
+      expect(campaign.campaign_recipients.sent.count).to eq(2)
+      expect(campaign.reload).to be_completed
+    end
+  end
 end

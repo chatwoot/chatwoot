@@ -1,11 +1,4 @@
 module Enterprise::Whatsapp::OneoffCampaignService
-  def perform
-    validate_campaign!
-    # A nullable checkpoint keeps campaigns started before this rollout out of automatic recovery.
-    campaign.update!(whatsapp_cursor: 0) if campaign.whatsapp_cursor.nil?
-    super
-  end
-
   def perform_batch(cursor)
     next_cursor = super(campaign.whatsapp_cursor || cursor)
     campaign.update!(whatsapp_cursor: next_cursor) if next_cursor && campaign.whatsapp_cursor.present?
@@ -17,7 +10,10 @@ module Enterprise::Whatsapp::OneoffCampaignService
   def process_contacts(contacts)
     contacts.each do |contact|
       recipient = recipient_for(contact)
-      next unless recipient.claim_send!
+      unless recipient.previously_new_record?
+        recipient.update!(error_message: 'Send outcome unknown after interruption; review before retrying') if recipient.queued?
+        next
+      end
 
       campaign.update!(updated_at: Time.current) if campaign.whatsapp_cursor.present?
       process_recipient(recipient)
@@ -28,6 +24,8 @@ module Enterprise::Whatsapp::OneoffCampaignService
     campaign.campaign_recipients.find_or_create_by!(contact: contact) do |recipient|
       recipient.account = campaign.account
       recipient.inbox = campaign.inbox
+      # The unique recipient insert is the send claim, committed before contacting WhatsApp.
+      recipient.send_attempted_at = Time.current
     end
   end
 
