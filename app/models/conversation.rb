@@ -65,6 +65,7 @@ class Conversation < ApplicationRecord
   include PushDataHelper
   include ConversationMuteHelpers
 
+  UNREAD_INCOMING_MESSAGES_LIMIT = 10
   CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS = %w[conversation_language].freeze
   FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS = %w[browser_language conversation_language mail_subject referer].freeze
   FILTERED_UNREAD_COUNT_UPDATE_KEYS = %w[
@@ -205,7 +206,15 @@ class Conversation < ApplicationRecord
   end
 
   def unread_incoming_messages
-    unread_messages.where(account_id: account_id).incoming.last(10)
+    unread_messages.where(account_id: account_id).incoming.last(UNREAD_INCOMING_MESSAGES_LIMIT)
+  end
+
+  attr_writer :message_summary
+
+  # Conversation lists set this for the whole page through Conversations::MessageSummaryLoader
+  def message_summary
+    Conversations::MessageSummaryLoader.new([self]).perform if @message_summary.nil?
+    @message_summary
   end
 
   def cached_label_list_array
