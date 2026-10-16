@@ -4,8 +4,9 @@ import ConversationApi from '../../api/conversations';
 import camelcaseKeys from 'camelcase-keys';
 
 export const createMessagePayload = (payload, message) => {
-  const { content, cc_emails, bcc_emails } = message;
+  const { content, to_emails, cc_emails, bcc_emails } = message;
   payload.append('message[content]', content);
+  if (to_emails) payload.append('message[to_emails]', to_emails);
   if (cc_emails) payload.append('message[cc_emails]', cc_emails);
   if (bcc_emails) payload.append('message[bcc_emails]', bcc_emails);
 };
