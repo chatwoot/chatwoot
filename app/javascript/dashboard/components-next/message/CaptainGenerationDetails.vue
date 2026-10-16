@@ -235,7 +235,7 @@ const onPopoverHide = () => {
         @focus="prefetch"
       >
         <Icon icon="i-ph-sparkle-fill" class="size-3.5" />
-        <span class="text-xs">
+        <span class="text-xs whitespace-nowrap">
           {{ t('CONVERSATION.CAPTAIN_GENERATION.GENERATED_BY') }}
         </span>
       </button>
