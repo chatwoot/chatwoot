@@ -150,4 +150,33 @@ RSpec.describe Message do
       expect(conversation.reload.language).to be_nil
     end
   end
+
+  describe 'reply translation' do
+    let(:conversation) { create(:conversation, additional_attributes: { 'conversation_language' => 'fr' }) }
+    let(:agent) { create(:user, account: conversation.account) }
+
+    before do
+      conversation.account.enable_features('auto_translate', 'captain_tasks')
+      conversation.account.update!(auto_translate: true)
+    end
+
+    it 'marks an agent reply for the send job to translate' do
+      message = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                                 sender: agent, content: 'Hello')
+
+      expect(message.content_attributes['translation_pending']).to be(true)
+    end
+
+    it 'leaves private notes, bot replies and threads without a language alone' do
+      note = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                              sender: agent, content: 'Hello', private: true)
+      bot = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                             sender: create(:agent_bot, account: conversation.account), content: 'Hello')
+      other = create(:conversation, account: conversation.account)
+      unknown = create(:message, account: other.account, inbox: other.inbox, conversation: other, message_type: :outgoing, sender: agent,
+                                 content: 'Hello')
+
+      expect([note, bot, unknown].map { |message| message.content_attributes.key?('translation_pending') }).to eq([false, false, false])
+    end
+  end
 end

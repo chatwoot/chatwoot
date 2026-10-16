@@ -1,11 +1,6 @@
 module Enterprise::Message
   def self.prepended(base)
     base.class_eval do
-      before_create :translate_template_content, if: :translate_template_content?
-      before_create :detect_language, if: :detect_language?
-      # After the insert: updating the conversation while a built message is still unsaved autosaves it a second time.
-      after_create :update_conversation_language, if: :detect_language?
-
       has_one :call, class_name: 'Call', foreign_key: :message_id, dependent: :nullify, inverse_of: :message
 
       scope :with_call, -> { includes(call: [:contact, { inbox: :channel }]) }
@@ -32,50 +27,7 @@ module Enterprise::Message
     self.class.captain_response_triggering.exists?(id: id)
   end
 
-  # Html mail keeps its markup: only plain text is translated for now.
-  def html_email?
-    content_attributes.dig('email', 'html_content', 'full').present?
-  end
-
   private
-
-  # Templates are translated before the insert because channels send the message as soon as it exists.
-  def translate_template_content?
-    template? && content.present? && account.auto_translate_enabled? && conversation.language.present? &&
-      !Captain::Llm::MessageTranslationService.same_language?(conversation.language, template_language)
-  end
-
-  def template_language
-    @template_language ||= Captain::Llm::LanguageDetectionService.new(account: account, text: content).language || account.locale
-  end
-
-  def translate_template_content
-    response = Captain::Llm::MessageTranslationService.new(
-      account: account, texts: [content], target_language: conversation.language, conversation_display_id: conversation.display_id
-    ).perform
-    translated_content = response[:message]&.first
-    return if response[:error] || translated_content.blank? || translated_content == content
-
-    self.translations = { template_language => content }
-    self.content = translated_content
-  end
-
-  def detect_language?
-    incoming? && (text? || incoming_email?) && !auto_reply_email? && !html_email? && account.auto_translate_enabled?
-  end
-
-  def detect_language
-    language = Captain::Llm::LanguageDetectionService.new(account: account, text: content).language
-    content_attributes['source_language'] = language if language.present?
-  end
-
-  # The thread follows the contact's latest language, so replies go out in it.
-  def update_conversation_language
-    language = content_attributes['source_language']
-    return if language.blank? || conversation.language == language
-
-    conversation.update!(additional_attributes: conversation.additional_attributes.merge(conversation_language: language))
-  end
 
   def reopen_resolved_conversation
     assistant = conversation.inbox.captain_assistant
