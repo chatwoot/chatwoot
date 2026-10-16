@@ -22,8 +22,6 @@ class AccountSamlSettings < ApplicationRecord
   # Some IdPs, such as ZITADEL, switch to a new certificate only minutes before the current one expires
   CERTIFICATE_EXPIRY_WINDOW = 15.minutes
   METADATA_REFRESH_INTERVAL = 5.minutes
-  PEM_CERTIFICATE_PATTERN = /-----BEGIN CERTIFICATE-----.+?-----END CERTIFICATE-----/m
-
   belongs_to :account
 
   validates :account_id, presence: true
@@ -56,7 +54,7 @@ class AccountSamlSettings < ApplicationRecord
 
   # Metadata can list more than one signing certificate while the IdP rotates its key.
   def signing_certificates
-    certificate.to_s.scan(PEM_CERTIFICATE_PATTERN)
+    parsed_certificates.map(&:to_pem)
   end
 
   def signing_certificates=(certificates)
@@ -92,7 +90,12 @@ class AccountSamlSettings < ApplicationRecord
 
   # Uses the newest certificate, so an expired one the IdP still lists does not keep triggering refreshes
   def certificate_expiring?
-    signing_certificates.map { |pem| OpenSSL::X509::Certificate.new(pem).not_after }.max < CERTIFICATE_EXPIRY_WINDOW.from_now
+    parsed_certificates.map(&:not_after).max < CERTIFICATE_EXPIRY_WINDOW.from_now
+  end
+
+  # Reads every certificate in the stored value, and raises if any block is malformed or none is found
+  def parsed_certificates
+    OpenSSL::X509::Certificate.load(certificate.to_s)
   end
 
   def assign_idp_metadata
@@ -125,9 +128,8 @@ class AccountSamlSettings < ApplicationRecord
   def certificate_must_be_valid_x509
     return if certificate.blank?
 
-    OpenSSL::X509::Certificate.new(certificate)
     # ruby-saml parses every block when the value holds more than one certificate
-    signing_certificates.each { |pem| OpenSSL::X509::Certificate.new(pem) }
+    parsed_certificates
   rescue OpenSSL::X509::CertificateError
     errors.add(:certificate, I18n.t('errors.account_saml_settings.invalid_certificate'))
   end

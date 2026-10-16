@@ -126,8 +126,8 @@ RSpec.describe AccountSamlSettings, type: :model do
 
   describe 'IdP metadata' do
     let(:metadata_url) { 'https://idp.example.com/saml/v2/metadata' }
-    let(:certificate) { build(:account_saml_settings).certificate.strip }
-    let(:rotated_certificate) { build(:account_saml_settings).certificate.strip }
+    let(:certificate) { build(:account_saml_settings).certificate }
+    let(:rotated_certificate) { build(:account_saml_settings).certificate }
     let(:metadata) { { sso_url: 'https://idp.example.com/saml/v2/SSO', idp_entity_id: metadata_url, signing_certificates: [certificate] } }
     let(:metadata_service) { instance_double(Saml::IdpMetadataService, perform: metadata) }
 
