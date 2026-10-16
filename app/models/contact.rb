@@ -72,20 +72,10 @@ class Contact < ApplicationRecord
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
   scope :order_on_last_activity_at, lambda { |direction|
-    order(
-      Arel::Nodes::SqlLiteral.new(
-        sanitize_sql_for_order("\"contacts\".\"last_activity_at\" #{direction}
-          NULLS LAST")
-      )
-    )
+    order(Arel::Nodes::SqlLiteral.new(sanitize_sql_for_order("\"contacts\".\"last_activity_at\" #{direction} NULLS LAST")))
   }
   scope :order_on_created_at, lambda { |direction|
-    order(
-      Arel::Nodes::SqlLiteral.new(
-        sanitize_sql_for_order("\"contacts\".\"created_at\" #{direction}
-          NULLS LAST")
-      )
-    )
+    order(Arel::Nodes::SqlLiteral.new(sanitize_sql_for_order("\"contacts\".\"created_at\" #{direction} NULLS LAST")))
   }
   scope :order_on_city, lambda { |direction|
     order(
@@ -119,6 +109,14 @@ class Contact < ApplicationRecord
            END #{direction}"
         )
       )
+    )
+  }
+
+  # Shared by contacts/search and the global search so both hit the same trigram-indexed shape
+  scope :search_by_term, lambda { |term|
+    where(
+      'contacts.name ILIKE :search OR contacts.email ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search',
+      search: "%#{term.to_s.strip}%"
     )
   }
 

@@ -179,7 +179,8 @@ export const prepareWhatsAppMessagePayload = ({
 };
 
 // API Calls
-const MIN_SEARCH_LENGTH = 2;
+// Below 3 characters the pattern has no trigram, so the search index can't narrow it
+const MIN_SEARCH_LENGTH = 3;
 
 export const createContactSearcher = () => {
   let controller = null;
@@ -201,7 +202,9 @@ export const createContactSearcher = () => {
     try {
       const {
         data: { payload },
-      } = await ContactAPI.search(trimmed, 1, 'name', '', { signal });
+      } = await ContactAPI.search(trimmed, 1, '-last_activity_at', '', {
+        signal,
+      });
 
       const camelCasedPayload = camelcaseKeys(payload, { deep: true });
       if (!reachableOnly) return camelCasedPayload || [];
