@@ -6,7 +6,6 @@ module Enterprise::Concerns::Message
     has_one :call, dependent: :nullify
     has_many :message_reports, class_name: 'Captain::MessageReport', dependent: :destroy_async
 
-    # SendReplyJob handles a flagged message right after the insert; the flag keeps the dashboard and the widget waiting.
     before_create :mark_for_translation, if: :translation_wanted?
   end
 
