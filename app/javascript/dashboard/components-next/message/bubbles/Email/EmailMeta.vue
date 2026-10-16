@@ -28,7 +28,8 @@ const ccEmail = computed(() => {
 
 const senderName = computed(() => {
   const fromEmailAddress = fromEmail.value[0] ?? '';
-  const senderEmail = sender.value.email ?? '';
+  // sender can be null (e.g. API-created or imported messages without a sender)
+  const senderEmail = sender.value?.email ?? '';
 
   if (!fromEmailAddress && !senderEmail) return null;
 
