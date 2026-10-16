@@ -40,24 +40,72 @@
       }
     },
     "DETAIL": {
-      "LOADING": "Cargando detalles de la empresa...",
       "EMPTY_STATE": {
         "TITLE": "Empresa no encontrada",
         "SUBTITLE": "Esta empresa puede haber sido eliminada o ya no está disponible en esta cuenta."
       },
-      "SIDEBAR": {
-        "TABS": {
-          "ATTRIBUTES": "Atributos",
-          "CONTACTS": "Contactos",
-          "HISTORY": "Historial",
-          "NOTES": "Notas"
+      "HEADER": {
+        "EDIT": "Editar",
+        "MORE": "Mostrar más",
+        "LESS": "Mostrar menos",
+        "OPEN_COUNT": "{count} open | {count} open",
+        "REFRESH_WITH_TIME": "Refresh profile (updated {time})"
+      },
+      "FACTS": {
+        "INDUSTRY": "Industria",
+        "SIZE": "Employees",
+        "LOCATION": "Based in",
+        "ADDED": "Added",
+        "UNKNOWN": "Unknown",
+        "YES": "Si",
+        "NO": "No"
+      },
+      "PEOPLE": {
+        "ADD": "Añadir",
+        "SEARCH": "Search people",
+        "EMPTY": "No one from this company yet.",
+        "NO_MATCHES": "No people match your search.",
+        "DIALOG_TITLE": "Add people to {name}"
+      },
+      "TABS": {
+        "CONVERSATIONS": "Conversaciones",
+        "NOTES": "Notas",
+        "PEOPLE": "People"
+      },
+      "ACTIVITY": {
+        "TODAY": "Hoy",
+        "YESTERDAY": "Ayer",
+        "UNKNOWN_AUTHOR": "Someone",
+        "EMPTY_CONVERSATIONS": "No conversations yet. They'll show up here when this company's people get in touch.",
+        "EMPTY_NOTES": "No notes yet. Notes added to this company's people show up here.",
+        "LOAD_MORE": "Cargar más",
+        "SEARCH_NOTES": "Search notes",
+        "NO_MATCHING_NOTES": "No notes match your search.",
+        "NO_MATCHING_CONVERSATIONS": "No conversations match these filters."
+      },
+      "EDIT": {
+        "TITLE": "Edit company",
+        "SAVE": "Guardar cambios",
+        "DESCRIPTION": "Descripción",
+        "DETAILS": "Detalles",
+        "CITY": "Ciudad",
+        "COUNTRY": "País",
+        "PHONE": "Teléfono",
+        "SOCIAL": {
+          "TITLE": "Social profiles",
+          "LINKEDIN": "LinkedIn",
+          "X": "X",
+          "FACEBOOK": "Facebook",
+          "INSTAGRAM": "Instagram",
+          "GITHUB": "GitHub",
+          "YOUTUBE": "YouTube"
+        },
+        "PLACEHOLDERS": {
+          "DOMAIN": "acme.com",
+          "INDUSTRY": "Software",
+          "EMPLOYEES": "51 to 200",
+          "USERNAME": "username"
         }
-      },
-      "HISTORY": {
-        "EMPTY": "Aún no se han encontrado conversaciones para los contactos de esta empresa."
-      },
-      "NOTES": {
-        "EMPTY": "Aún no se han encontrado notas para los contactos de esta empresa."
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Buscar atributos...",
@@ -69,11 +117,11 @@
           "UPDATE_ERROR": "No se pudo actualizar el atributo de la empresa.",
           "DELETE_SUCCESS": "Atributo de la empresa eliminado.",
           "DELETE_ERROR": "No se pudo eliminar el atributo de la empresa."
-        }
+        },
+        "TITLE": "Atributos personalizados"
       },
       "CONTACTS": {
         "LOADING": "Cargando contactos...",
-        "EMPTY": "Aún no hay contactos vinculados a esta empresa.",
         "UNNAMED_CONTACT": "Contacto sin nombre",
         "ACTIONS": {
           "ADD": "Añadir contacto",
@@ -111,16 +159,15 @@
         "DELETE_ERROR": "No se pudo eliminar el avatar de la empresa."
       },
       "PROFILE": {
-        "TITLE": "Editar detalles de la empresa",
-        "CREATED_AT": "Creado {date}",
-        "LAST_ACTIVE": "Última actividad {date}",
         "DESCRIPTION_PLACEHOLDER": "Añadir una breve descripción para esta empresa",
         "ACTIONS": {
-          "SAVE": "Actualizar empresa"
+          "REFRESH": "Refresh profile"
         },
         "MESSAGES": {
           "UPDATE_SUCCESS": "Empresa actualizada.",
-          "UPDATE_ERROR": "No se pudo actualizar la empresa."
+          "UPDATE_ERROR": "No se pudo actualizar la empresa.",
+          "REFRESH_SUCCESS": "Company profile refreshed.",
+          "REFRESH_ERROR": "Could not refresh the company profile."
         },
         "FIELDS": {
           "NAME": "Nombre",
@@ -128,8 +175,6 @@
         }
       },
       "DELETE": {
-        "SECTION_TITLE": "Zona de peligro",
-        "SECTION_DESCRIPTION": "Eliminar esta empresa y desvincular sus contactos. Los contactos permanecerán en la cuenta.",
         "BUTTON": "Eliminar empresa",
         "TITLE": "¿Eliminar compañía?",
         "DESCRIPTION": "Esto eliminará la empresa y desvinculará todos los contactos asociados. Se conservarán los propios contactos.",
@@ -139,10 +184,30 @@
           "SUCCESS": "Empresa eliminada.",
           "ERROR": "No se pudo eliminar la empresa."
         }
+      },
+      "CONVERSATION_FILTERS": {
+        "BUTTON": "Filtro",
+        "BUTTON_WITH_COUNT": "Filter ({count})",
+        "ANY": "Any"
+      },
+      "ENRICHMENT_UPGRADE": {
+        "TITLE": "Enrich company profiles on the Business plan",
+        "DESCRIPTION": "Automatically fill in a company's description, industry, size, location and social profiles from its domain. Available on the Business and Enterprise plans.",
+        "UPGRADE": "See plans"
       }
     },
     "EMPTY_STATE": {
       "TITLE": "No se encontraron empresas"
+    },
+    "CARD": {
+      "EMPLOYEES": "{count} employees"
+    },
+    "PAYWALL": {
+      "TITLE": "Upgrade to use Companies",
+      "AVAILABLE_ON": "Companies is not available on the free plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to group contacts by company, see every conversation with an account and keep company details in one place.",
+      "UPGRADE_NOW": "Actualizar ahora",
+      "CANCEL_ANYTIME": "Puede cambiar o cancelar su plan en cualquier momento"
     }
   },
   "COMPANIES_LAYOUT": {

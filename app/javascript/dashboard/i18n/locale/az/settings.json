@@ -262,6 +262,10 @@
     "EMAIL_VERIFICATION_PENDING": "Görünür, hələ e-poçt ünvanınızı təsdiqləməmisiniz. Zəhmət olmasa təsdiq e-poçtunu yoxlamaq üçün poçt qutunuzu yoxlayın.",
     "RESEND_VERIFICATION_MAIL": "Təsdiq e-poçtunu yenidən göndər",
     "EMAIL_VERIFICATION_SENT": "Təsdiq e-poçtu göndərildi. Zəhmət olmasa, poçt qutunuzu yoxlayın.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Hesab dayandırılıb",
       "MESSAGE": "Hesabınız dayandırılıb. Ətraflı məlumat üçün dəstək komandası ilə əlaqə saxlayın.",
@@ -278,7 +282,8 @@
     "CODE": {
       "BUTTON_TEXT": "Kopyala",
       "CODEPEN": "CodePen-də aç",
-      "COPY_SUCCESSFUL": "Lövhəyə kopyalandı"
+      "COPY_SUCCESSFUL": "Lövhəyə kopyalandı",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Daha çox göstər",
@@ -578,6 +583,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "Ödəniş",
     "DESCRIPTION": "Abunəliyinizi burada idarə edin, planınızı yüksəldin və komandanız üçün daha çox imkan əldə edin.",
     "CURRENT_PLAN": {
@@ -585,6 +594,7 @@
       "PLAN_NOTE": "Hal-hazırda **{plan}** planına və **{quantity}** lisenziyaya abunəsiniz",
       "SEAT_COUNT": "Oturacaq sayı",
       "RENEWS_ON": "Yenilənir",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {
@@ -618,6 +628,38 @@
       "BUTTON_TXT": "Bizimlə söhbət edin"
     },
     "NO_BILLING_USER": "Ödəniş hesabınız qurulur. Zəhmət olmasa səhifəni yeniləyin və yenidən cəhd edin.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "Status",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "Yenilənir",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "Pending",
+        "ACTIVE": "Active",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Daha çox kredit al",
       "MODAL_TITLE": "AI Kreditləri Al",
@@ -648,6 +690,7 @@
     "DESCRIPTION": "Hesabınızın təhlükəsizlik parametrlərini idarə edin.",
     "LINK_TEXT": "SAML SSO haqqında daha çox məlumat əldə edin",
     "SAML_DISABLED_MESSAGE": "SAML SSO hazırda deaktivdir. Bu funksiyanı aktivləşdirmək üçün administratorunuzla əlaqə saxlayın.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Hesabınız üçün SAML tək girişini qurun. İstifadəçilər e-poçt/şifrə yerinə şəxsiyyət təminatçınız vasitəsilə autentifikasiya olunacaqlar.",

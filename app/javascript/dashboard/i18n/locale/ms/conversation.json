@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "Mesej Belum Dibaca",
     "UNREAD_MESSAGE": "Mesej Belum Dibaca",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "Klik di sini",
     "LOADING_INBOXES": "Memuatkan peti masuk",
     "LOADING_CONVERSATIONS": "Memuatkan Perbualan",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "Perbualan ini tidak ditugaskan kepada anda. Adakah anda ingin menugaskan perbualan ini kepada diri anda?",
     "ASSIGN_TO_ME": "Tugaskan kepada saya",
     "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "a bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Take over",
     "BOT_HANDOFF_REOPEN_ACTION": "Tandakan perbualan terbuka",
     "BOT_HANDOFF_SUCCESS": "Perbualan telah diserahkan kepada anda",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "Mesej berjaya dipadam",
     "FAIL_DELETE_MESSSAGE": "Tidak dapat memadam mesej! Sila cuba lagi",
     "NO_RESPONSE": "Tiada respons",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "Respons",
     "RATING_TITLE": "Penilaian",
     "FEEDBACK_TITLE": "Maklum Balas",
@@ -198,6 +216,16 @@
       "TITLE": "Tangguhkan sehingga",
       "APPLY": "Tangguhkan",
       "CANCEL": "Batalkan"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "Accept",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "Dismiss",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "Keutamaan",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Sertakan benang emel yang dipetik",
-        "DISABLE_TOOLTIP": "Jangan sertakan benang emel yang dipetik",
-        "REMOVE_PREVIEW": "Alih keluar benang emel yang dipetik",
-        "COLLAPSE": "Kuncupkan pratonton",
-        "EXPAND": "Kembangkan pratonton"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "Nota Peribadi: Hanya boleh dilihat oleh anda dan pasukan anda",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "Salin",
       "REPLY_TO": "Balas mesej ini",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "Padamkan",
       "CREATE_A_CANNED_RESPONSE": "Tambah ke balasan sedia ada",
       "TRANSLATE": "Terjemah",
@@ -529,7 +556,16 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subjek",
+    "DATE": "Date",
     "EXPAND": "Kembangkan emel"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "To:",
+    "TO_PLACEHOLDER": "Enter at least 2 characters to search by email",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Peserta",

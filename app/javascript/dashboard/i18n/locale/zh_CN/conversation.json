@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "未读消息",
     "UNREAD_MESSAGE": "未读消息",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "点击这里",
     "LOADING_INBOXES": "正在加载收件箱",
     "LOADING_CONVERSATIONS": "加载更多对话",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "此对话未分配给您。您想要将此对话分配给自己吗？",
     "ASSIGN_TO_ME": "分配给我",
     "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "a bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Take over",
     "BOT_HANDOFF_REOPEN_ACTION": "标记对话已打开",
     "BOT_HANDOFF_SUCCESS": "对话已分配给您",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "已成功删除消息",
     "FAIL_DELETE_MESSSAGE": "无法删除消息，请重试！",
     "NO_RESPONSE": "无响应",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "回复",
     "RATING_TITLE": "评分",
     "FEEDBACK_TITLE": "Feedback",
@@ -198,6 +216,16 @@
       "TITLE": "推迟到",
       "APPLY": "推迟",
       "CANCEL": "取消"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "确认",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "取消",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "优先级",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "私人便签：仅对您和您的团队可见",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "复制",
       "REPLY_TO": "对这条消息进行回复",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "删除",
       "CREATE_A_CANNED_RESPONSE": "添加到预定义回复",
       "TRANSLATE": "翻译",
@@ -529,7 +556,16 @@
     "BCC": "密送",
     "CC": "抄送",
     "SUBJECT": "主题",
+    "DATE": "Date",
     "EXPAND": "展开邮箱"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "发送至:",
+    "TO_PLACEHOLDER": "Enter at least 2 characters to search by email",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "参与者",

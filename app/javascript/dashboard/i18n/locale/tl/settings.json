@@ -262,6 +262,10 @@
     "EMAIL_VERIFICATION_PENDING": "Mukhang hindi mo pa na-verify ang iyong email address. Paki-check ang iyong inbox para sa verification email.",
     "RESEND_VERIFICATION_MAIL": "Muling ipadala ang email ng beripikasyon",
     "EMAIL_VERIFICATION_SENT": "Naipadala na ang email ng beripikasyon. Pakisuri ang iyong inbox.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Na-suspend ang Account",
       "MESSAGE": "Na-suspend ang iyong account. Mangyaring makipag-ugnayan sa support team para sa karagdagang impormasyon.",
@@ -278,7 +282,8 @@
     "CODE": {
       "BUTTON_TEXT": "Kopyahin",
       "CODEPEN": "Buksan sa CodePen",
-      "COPY_SUCCESSFUL": "Nakopya sa clipboard"
+      "COPY_SUCCESSFUL": "Nakopya sa clipboard",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Ipakita Pa",
@@ -578,6 +583,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "Pagsingil",
     "DESCRIPTION": "Pamahalaan ang iyong subscription dito, i-upgrade ang iyong plano at makakuha ng higit pa para sa iyong koponan.",
     "CURRENT_PLAN": {
@@ -585,6 +594,7 @@
       "PLAN_NOTE": "Kasulukuyan kang naka-subscribe sa planong **{plan}** na may **{quantity}** lisensya",
       "SEAT_COUNT": "Bilang ng mga upuan",
       "RENEWS_ON": "Magre-renew sa",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {
@@ -618,6 +628,38 @@
       "BUTTON_TXT": "Makipag-chat sa amin"
     },
     "NO_BILLING_USER": "Inaayos pa ang iyong billing account. Pakipag-refresh ang pahina at subukang muli.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "Status",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "Magre-renew sa",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "Pending",
+        "ACTIVE": "Active",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Bumili ng karagdagang kredito",
       "MODAL_TITLE": "Bumili ng AI Credits",
@@ -648,6 +690,7 @@
     "DESCRIPTION": "Pamahalaan ang mga setting ng seguridad ng iyong account.",
     "LINK_TEXT": "Alamin pa tungkol sa SAML SSO",
     "SAML_DISABLED_MESSAGE": "Kasulukuyang naka-disable ang SAML SSO. Mangyaring kontakin ang iyong administrator upang paganahin ang tampok na ito.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "I-configure ang SAML single sign-on para sa iyong account. Magpapatunay ang mga user sa pamamagitan ng iyong identity provider sa halip na gumamit ng email/password.",

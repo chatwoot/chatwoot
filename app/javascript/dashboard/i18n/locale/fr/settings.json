@@ -262,6 +262,10 @@
     "EMAIL_VERIFICATION_PENDING": "Il semble que vous n'ayez pas encore vérifié votre adresse e-mail. Veuillez vérifier votre boîte de réception pour l'e-mail de vérification.",
     "RESEND_VERIFICATION_MAIL": "Renvoyer l'e-mail de vérification",
     "EMAIL_VERIFICATION_SENT": "Le courriel de vérification a été envoyé. Veuillez vérifier votre boîte de réception.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Compte Suspendu",
       "MESSAGE": "Votre compte est suspendu. Veuillez contacter le support pour plus d'informations.",
@@ -278,7 +282,8 @@
     "CODE": {
       "BUTTON_TEXT": "Copier",
       "CODEPEN": "Ouvrir dans CodePen",
-      "COPY_SUCCESSFUL": "Code copié dans le presse-papier avec succès"
+      "COPY_SUCCESSFUL": "Code copié dans le presse-papier avec succès",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Voir plus",
@@ -578,6 +583,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "Facturation",
     "DESCRIPTION": "Gérez votre abonnement ici, mettez à niveau votre plan et obtenez plus pour votre équipe.",
     "CURRENT_PLAN": {
@@ -585,6 +594,7 @@
       "PLAN_NOTE": "Vous êtes actuellement abonné à l'offre **{plan}** avec **{quantity}** licences",
       "SEAT_COUNT": "Nombre de sièges",
       "RENEWS_ON": "Renouvellement le",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Devise"
     },
     "CURRENCY": {
@@ -618,6 +628,38 @@
       "BUTTON_TXT": "Discutez avec nous"
     },
     "NO_BILLING_USER": "Votre compte de facturation est en cours de configuration. Veuillez actualiser la page et réessayer.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "État",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "Renouvellement le",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "En attente",
+        "ACTIVE": "Actif",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expiré",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Acheter plus de crédits",
       "MODAL_TITLE": "Acheter des crédits AI",
@@ -648,6 +690,7 @@
     "DESCRIPTION": "Gérer les paramètres de sécurité de votre compte.",
     "LINK_TEXT": "En savoir plus sur SAML SSO",
     "SAML_DISABLED_MESSAGE": "SAML SSO est actuellement désactivé. Veuillez contacter votre administrateur pour activer cette fonctionnalité.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SSO SAML",
       "NOTE": "Configurez l’authentification unique SAML pour votre compte. Les utilisateurs s’authentifieront par l’intermédiaire de votre fournisseur d’identité au lieu d’utiliser un email et un mot de passe.",

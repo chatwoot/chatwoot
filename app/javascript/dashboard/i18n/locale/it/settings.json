@@ -87,20 +87,20 @@
         "MFA_BUTTON": "Gestisci Autenticazione A Due Fattori"
       },
       "SESSIONS_SECTION": {
-        "TITLE": "Active Sessions",
-        "NOTE": "These are the devices currently logged in to your account.",
-        "CURRENT": "Current session",
-        "REVOKE": "Revoke",
-        "REVOKE_SUCCESS": "Session revoked successfully",
-        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
-        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
-        "LAST_ACTIVE": "Last active",
-        "UNKNOWN_DEVICE": "Unknown device"
+        "TITLE": "Sessioni attive",
+        "NOTE": "Questi sono i dispositivi attualmente collegati al tuo account.",
+        "CURRENT": "Sessione attuale",
+        "REVOKE": "Revoca",
+        "REVOKE_SUCCESS": "Sessione revocata",
+        "REVOKE_ERROR": "Impossibile revocare la sessione. Riprova.",
+        "FETCH_ERROR": "Impossibile caricare le sessioni. Riprova.",
+        "LAST_ACTIVE": "Ultima attività",
+        "UNKNOWN_DEVICE": "Dispositivo sconosciuto"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token di accesso",
         "NOTE": "Questo token può essere usato se stai costruendo un'integrazione basata su API",
-        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
+        "PAID_PLAN_NOTE": "I token di accesso API sono disponibili nei piani a pagamento.",
         "COPY": "Copia",
         "RESET": "Reset",
         "CONFIRM_RESET": "Sei sicuro?",
@@ -262,10 +262,14 @@
     "EMAIL_VERIFICATION_PENDING": "Sembra che tu non abbia ancora verificato il tuo indirizzo email. Controlla la tua casella di posta per l'email di verifica.",
     "RESEND_VERIFICATION_MAIL": "Invia nuovamente email di verifica",
     "EMAIL_VERIFICATION_SENT": "L'email di verifica è stata inviata. Controlla la tua casella di posta.",
+    "IMPERSONATION": {
+      "MESSAGE": "Stai impersonando {name} ({email}). Ogni tua azione risulterà fatta da questo utente.",
+      "STOP": "Termina l'impersonificazione"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Sospeso",
       "MESSAGE": "Il tuo account è sospeso. Contatta il team di supporto per ulteriori informazioni.",
-      "MANAGE_BILLING": "Manage billing"
+      "MANAGE_BILLING": "Gestisci la fatturazione"
     },
     "NO_ACCOUNTS": {
       "TITLE": "Nessun account trovato",
@@ -278,7 +282,8 @@
     "CODE": {
       "BUTTON_TEXT": "Copia",
       "CODEPEN": "Apri in CodePen",
-      "COPY_SUCCESSFUL": "Copiato negli appunti"
+      "COPY_SUCCESSFUL": "Copiato negli appunti",
+      "COPY_ERROR": "Impossibile copiare negli appunti. Riprova."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Mostra di più",
@@ -340,11 +345,11 @@
     "AGENT_BOTS": "Bots",
     "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Inbox",
-    "WHATSAPP_TEMPLATES": "Templates",
+    "WHATSAPP_TEMPLATES": "Modelli",
     "NOTIFICATIONS": "Notifiche",
     "CANNED_RESPONSES": "Risposte Predefinite",
     "INTEGRATIONS": "Integrazioni",
-    "DATA": "Data",
+    "DATA": "Dati",
     "PROFILE_SETTINGS": "Impostazioni Profilo",
     "ACCOUNT_SETTINGS": "Impostazioni Account",
     "APPLICATIONS": "Applicazioni",
@@ -399,17 +404,17 @@
     "SORT_TOOLTIP": "Ordina",
     "SORT_BY": "Ordina per",
     "SORT_GROUPS": {
-      "CREATED": "Sort by date of creation",
-      "ALPHABETICAL": "Sort in alphabetical order",
-      "UNREAD_COUNT": "Sort by unread count"
+      "CREATED": "Ordina per data di creazione",
+      "ALPHABETICAL": "Ordina in ordine alfabetico",
+      "UNREAD_COUNT": "Ordina per numero di non letti"
     },
     "SORT_OPTIONS": {
-      "CREATED_DESC": "Newest first",
-      "CREATED_ASC": "Oldest first",
-      "ALPHABETICAL_ASC": "Ascending (A - Z)",
-      "ALPHABETICAL_DESC": "Descending (Z - A)",
-      "UNREAD_COUNT_DESC": "Highest first",
-      "UNREAD_COUNT_ASC": "Lowest first"
+      "CREATED_DESC": "Prima i più recenti",
+      "CREATED_ASC": "Prima i meno recenti",
+      "ALPHABETICAL_ASC": "Crescente (A - Z)",
+      "ALPHABETICAL_DESC": "Decrescente (Z - A)",
+      "UNREAD_COUNT_DESC": "Prima i più alti",
+      "UNREAD_COUNT_ASC": "Prima i più bassi"
     },
     "DOCS": "Leggi i documenti",
     "SECURITY": "Sicurezza",
@@ -417,13 +422,13 @@
     "CONVERSATION_WORKFLOW": "Workflow Conversazione"
   },
   "DATA_IMPORTS": {
-    "HEADER": "Data",
-    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
-    "LOADING": "Fetching imports",
-    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "HEADER": "Dati",
+    "DESCRIPTION": "Porta in questo account i contatti e le conversazioni passate da un altro strumento di assistenza. Ogni importazione gira in background, così puoi continuare a lavorare mentre si completa, seguirne l'avanzamento e controllare cosa è stato saltato.",
+    "LOADING": "Caricamento delle importazioni",
+    "DEFAULT_IMPORT_NAME": "Importazione da Intercom",
     "DEFAULT_IMPORT_NAMES": {
-      "INTERCOM": "Intercom import",
-      "FRESHDESK": "Freshdesk import"
+      "INTERCOM": "Importazione da Intercom",
+      "FRESHDESK": "Importazione da Freshdesk"
     },
     "TABS": {
       "IMPORT": "Importa",
@@ -435,96 +440,96 @@
       "MESSAGES": "Messaggi"
     },
     "DRAWER": {
-      "TITLE": "New import",
-      "SOURCE": "Source",
-      "NAME": "Import name",
-      "NAME_PLACEHOLDER": "July support migration",
-      "ACCESS_KEY": "Intercom access key",
-      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
-      "INTERCOM_ACCESS_KEY": "Intercom access key",
-      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
-      "FRESHDESK_API_KEY": "Freshdesk API key",
-      "FRESHDESK_API_KEY_PLACEHOLDER": "Paste your Freshdesk API key",
-      "FRESHDESK_DOMAIN": "Freshdesk domain",
+      "TITLE": "Nuova importazione",
+      "SOURCE": "Fonte",
+      "NAME": "Nome dell'importazione",
+      "NAME_PLACEHOLDER": "Migrazione assistenza di luglio",
+      "ACCESS_KEY": "Chiave di accesso Intercom",
+      "ACCESS_KEY_PLACEHOLDER": "Incolla la tua chiave di accesso Intercom",
+      "INTERCOM_ACCESS_KEY": "Chiave di accesso Intercom",
+      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Incolla la tua chiave di accesso Intercom",
+      "FRESHDESK_API_KEY": "Chiave API Freshdesk",
+      "FRESHDESK_API_KEY_PLACEHOLDER": "Incolla la tua chiave API Freshdesk",
+      "FRESHDESK_DOMAIN": "Dominio Freshdesk",
       "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com",
-      "DATA_TYPES": "Data to import",
-      "VALIDATING": "Validating access key...",
-      "VALID_KEY": "Access key validated.",
-      "INVALID_KEY": "Could not validate this access key.",
-      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "DATA_TYPES": "Dati da importare",
+      "VALIDATING": "Verifica della chiave di accesso...",
+      "VALID_KEY": "Chiave di accesso verificata.",
+      "INVALID_KEY": "Impossibile verificare questa chiave di accesso.",
+      "ACTIVE_IMPORT": "Attendi la fine dell'importazione in corso prima di avviarne un'altra.",
       "CANCEL": "Annulla",
       "IMPORT": "Importa"
     },
     "EXPORT": {
-      "TITLE": "Exports are on the way",
-      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
+      "TITLE": "Le esportazioni sono in arrivo",
+      "DESCRIPTION": "Esporta i contatti e le conversazioni da questo account. Questa funzione arriverà presto.",
       "COMING_SOON": "In arrivo"
     },
     "TABLE": {
-      "TITLE": "Recent imports",
-      "EMPTY": "No imports yet",
-      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
+      "TITLE": "Importazioni recenti",
+      "EMPTY": "Ancora nessuna importazione",
+      "EMPTY_DESCRIPTION": "Avvia un'importazione per portare in questo account lo storico dei tuoi clienti.",
       "NEW_IMPORT": "Importa",
-      "COUNT": "{count} imports",
-      "UNNAMED": "Untitled import",
-      "IMPORTED_COUNT": "{count} imported",
-      "VIEW": "View import",
+      "COUNT": "{count} importazioni",
+      "UNNAMED": "Importazione senza nome",
+      "IMPORTED_COUNT": "{count} importati",
+      "VIEW": "Vedi importazione",
       "NAME": "Nome",
       "TYPE": "Tipo",
       "STATUS": "Stato",
-      "IMPORTED": "Imported",
+      "IMPORTED": "Importati",
       "CREATED": "Creato il",
       "RETRY": "Riprova",
-      "ABANDON": "Abandon"
+      "ABANDON": "Abbandona"
     },
     "DETAIL": {
-      "BACK": "Back to imports",
-      "ERRORS": "Errors",
-      "SKIP_LOGS": "Skip logs",
-      "SOURCE": "Source",
-      "IMPORT_TYPES": "Import types",
+      "BACK": "Torna alle importazioni",
+      "ERRORS": "Errori",
+      "SKIP_LOGS": "Registro dei saltati",
+      "SOURCE": "Fonte",
+      "IMPORT_TYPES": "Tipi di importazione",
       "CREATED": "Creato il",
       "DURATION": "Durata",
-      "INITIATED_BY": "Started by",
-      "PROGRESS": "Import progress",
-      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
-      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
-      "PROGRESS_OF_TOTAL": "of {total} imported",
-      "PROGRESS_IMPORTED": "imported",
+      "INITIATED_BY": "Avviata da",
+      "PROGRESS": "Avanzamento dell'importazione",
+      "PROGRESS_WITH_TOTAL": "{imported} di {total} importati",
+      "PROGRESS_WITHOUT_TOTAL": "{imported} importati",
+      "PROGRESS_OF_TOTAL": "di {total} importati",
+      "PROGRESS_IMPORTED": "importati",
       "LAST_UPDATED_TOOLTIP": "Ultimo aggiornamento {time}",
-      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
-      "DOWNLOAD_SKIP_LOGS": "Download CSV",
-      "DOWNLOAD_ERROR_LOGS": "Download CSV",
+      "NO_SKIP_LOGS": "Nessun elemento saltato o fallito registrato.",
+      "DOWNLOAD_SKIP_LOGS": "Scarica CSV",
+      "DOWNLOAD_ERROR_LOGS": "Scarica CSV",
       "ALL_SKIP_LOGS": "Tutte",
-      "KIND": "Kind",
-      "NO_ERRORS": "No errors recorded.",
+      "KIND": "Tipo",
+      "NO_ERRORS": "Nessun errore registrato.",
       "ERROR_CODE": "Code",
-      "SOURCE_OBJECT": "Source object",
+      "SOURCE_OBJECT": "Oggetto di origine",
       "MESSAGE": "Messaggio"
     },
     "MONITOR": {
-      "LIVE": "Live updates every {seconds}s",
+      "LIVE": "Aggiornamento in tempo reale ogni {seconds}s",
       "LAST_UPDATED": "Ultimo aggiornamento {time}",
       "REFRESH": "Aggiorna",
-      "REFRESHING": "Refreshing",
+      "REFRESHING": "Aggiornamento",
       "STAGES": {
-        "unknown": "Waiting for update",
-        "queued": "Queued",
-        "contacts": "Importing contacts",
-        "conversations": "Importing conversations",
-        "finalizing": "Finalizing import",
+        "unknown": "In attesa di aggiornamento",
+        "queued": "In coda",
+        "contacts": "Importazione dei contatti",
+        "conversations": "Importazione delle conversazioni",
+        "finalizing": "Completamento dell'importazione",
         "completed": "Completata",
-        "completed_with_errors": "Completed with errors",
+        "completed_with_errors": "Completata con errori",
         "failed": "Non Riuscito",
-        "abandoned": "Abandoned"
+        "abandoned": "Abbandonata"
       }
     },
     "ALERTS": {
-      "IMPORT_STARTED": "Import has started.",
-      "IMPORT_RETRIED": "Import has been queued to resume.",
-      "IMPORT_RETRY_FAILED": "Could not retry the import.",
-      "IMPORT_ABANDONED": "Import has been abandoned.",
-      "IMPORT_FAILED": "Could not start the import."
+      "IMPORT_STARTED": "Importazione avviata.",
+      "IMPORT_RETRIED": "Importazione messa in coda per la ripresa.",
+      "IMPORT_RETRY_FAILED": "Impossibile ritentare l'importazione.",
+      "IMPORT_ABANDONED": "Importazione abbandonata.",
+      "IMPORT_FAILED": "Impossibile avviare l'importazione."
     }
   },
   "CAPTAIN_SETTINGS": {
@@ -558,8 +563,8 @@
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "Trascrizione Audio",
         "DESCRIPTION": "Converte automaticamente i messaggi vocali e le registrazioni delle chiamate in trascrizioni di testo ricercabili.",
-        "MODEL_TITLE": "Audio Transcription Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
+        "MODEL_TITLE": "Modello di trascrizione audio",
+        "MODEL_DESCRIPTION": "Seleziona il modello AI da usare per trasformare i messaggi audio in trascrizioni di testo"
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "Indicizzazione Ricerca Help Center",
@@ -578,6 +583,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Il tuo pagamento è scaduto. Aggiorna il metodo di pagamento o paga la fattura in sospeso nel portale di fatturazione per mantenere attivo l'abbonamento.",
+      "ACTION": "Risolvi il pagamento"
+    },
     "TITLE": "Fatturazione",
     "DESCRIPTION": "Gestisci qui il tuo abbonamento, aggiorna il tuo piano e ottieni di più per il tuo team.",
     "CURRENT_PLAN": {
@@ -585,16 +594,17 @@
       "PLAN_NOTE": "Sei attualmente abbonato al piano **{plan}** con **{quantity}** licenze",
       "SEAT_COUNT": "Numero di seat",
       "RENEWS_ON": "Si rinnova il",
-      "CURRENCY": "Currency"
+      "CANCELS_ON": "Si disdice il",
+      "CURRENCY": "Valuta"
     },
     "CURRENCY": {
       "SELECT": {
-        "TITLE": "Choose your billing currency",
-        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+        "TITLE": "Scegli la valuta di fatturazione",
+        "DESCRIPTION": "Seleziona la valuta in cui vuoi essere fatturato. Non si può cambiare dopo la creazione dell'abbonamento."
       },
       "OPTIONS": {
-        "USD": "US Dollar (USD)",
-        "BRL": "Brazilian Real (BRL)"
+        "USD": "Dollaro USA (USD)",
+        "BRL": "Real brasiliano (BRL)"
       }
     },
     "VIEW_PRICING": "Visualizza Prezzi",
@@ -618,6 +628,38 @@
       "BUTTON_TXT": "Chatta con noi"
     },
     "NO_BILLING_USER": "Il tuo account di fatturazione è in fase di configurazione. Per favore aggiorna la pagina e riprova.",
+    "SHOPIFY": {
+      "TITLE": "Fatturazione tramite Shopify",
+      "DESCRIPTION": "Il tuo abbonamento Chatwoot è fatturato e gestito in modo sicuro tramite Shopify.",
+      "UNAVAILABLE": "La fatturazione Shopify non è disponibile in questo momento. Contatta l'assistenza se il problema continua.",
+      "LOADING": "Verifica del tuo abbonamento Shopify...",
+      "PLAN_TITLE": "Abbonamento Shopify",
+      "PLAN_DESCRIPTION": "Scegli o gestisci il tuo piano Chatwoot in modo sicuro su Shopify.",
+      "CURRENT_PLAN": "Piano attuale",
+      "SUBSCRIPTION_STATUS": "Stato",
+      "PRICE": "Prezzo",
+      "PER_MONTH": "{price} / mese",
+      "PER_YEAR": "{price} / anno",
+      "TRIAL_ENDS_ON": "La prova termina il",
+      "RENEWS_ON": "Si rinnova il",
+      "ACCESS_UNTIL": "Accesso fino al",
+      "LAST_VERIFIED": "Ultima verifica",
+      "VIEW_PLANS": "Vedi i piani su Shopify",
+      "MANAGE_PLAN": "Gestisci su Shopify",
+      "RETRY": "Riprova",
+      "ERROR_TITLE": "Non è stato possibile verificare il tuo abbonamento Shopify",
+      "ERROR_DESCRIPTION": "Riprova tra un momento. L'ultimo accesso verificato non è stato modificato.",
+      "STALE_TITLE": "Viene mostrato l'ultimo abbonamento verificato",
+      "STALE_DESCRIPTION": "Shopify non è raggiungibile. Il tuo accesso non è stato modificato.",
+      "STATUS": {
+        "PENDING": "In Sospeso",
+        "ACTIVE": "Attiva",
+        "TRIALING": "Prova",
+        "CANCELLED": "Disdetta programmata",
+        "EXPIRED": "Scaduto",
+        "MISSING": "Nessun piano attivo"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Acquista più crediti",
       "MODAL_TITLE": "Acquista Crediti AI",
@@ -648,6 +690,7 @@
     "DESCRIPTION": "Gestisci le impostazioni di sicurezza del tuo account.",
     "LINK_TEXT": "Ulteriori informazioni su SAML SSO",
     "SAML_DISABLED_MESSAGE": "SAML SSO è attualmente disabilitato. Contatta l'amministratore per abilitare questa funzionalità.",
+    "NO_SETTINGS_AVAILABLE": "Per questa installazione non sono disponibili impostazioni di sicurezza. Configura le chiavi di crittografia MFA per poter imporre l'autenticazione a due fattori.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configura SAML single sign-on per il tuo account. Gli utenti si autenticeranno tramite il tuo provider di identità invece di utilizzare email/password.",
@@ -934,8 +977,8 @@
           "DURATION": "Conversazioni per operatore ogni"
         },
         "EXCLUDE_OLDER_THAN": {
-          "LABEL": "Skip stale conversations",
-          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
+          "LABEL": "Salta le conversazioni vecchie",
+          "DESCRIPTION": "Salta le conversazioni non assegnate più vecchie di così. Il valore predefinito è 7 giorni; svuota il campo per disattivare."
         },
         "INBOXES": {
           "LABEL": "Inbox aggiunte",

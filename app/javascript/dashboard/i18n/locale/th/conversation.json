@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "ข้อความที่ยังไม่ได้อ่าน",
     "UNREAD_MESSAGE": "ข้อความที่ยังไม่ได้อ่าน",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "กดที่นี้",
     "LOADING_INBOXES": "กำลังโหลดกล่องข้อความ",
     "LOADING_CONVERSATIONS": "กำลังโหลดการสนทนา",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "การสนทนานี้ไม่ได้ถูกมอบหมายให้คุณ ต้องการที่จะจัดการด้วยตัวเองหรือไม่?",
     "ASSIGN_TO_ME": "มอบหมายให้ฉัน",
     "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "a bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Take over",
     "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "ลบข้อความสำเร็จเเล้ว",
     "FAIL_DELETE_MESSSAGE": "ไม่สามารถลบข้อความได้ โปรดลองใหม่อีกครั้ง",
     "NO_RESPONSE": "ไม่มีการตอบกลับ",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "Response",
     "RATING_TITLE": "การประเมิน",
     "FEEDBACK_TITLE": "ผลตอบรับ",
@@ -198,6 +216,16 @@
       "TITLE": "พักการสนทนาจนถึง",
       "APPLY": "Snooze",
       "CANCEL": "ยกเลิก"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "Accept",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "Dismiss",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "Priority",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "โน้ตส่วนตัว: มีเพียงคุณและทีมเท่านั้นที่มองเห็นได้",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "คัดลอก",
       "REPLY_TO": "Reply to this message",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "ลบ",
       "CREATE_A_CANNED_RESPONSE": "เพิ่มไปยังชุดคำตอบสำเร็จรูป",
       "TRANSLATE": "Translate",
@@ -529,7 +556,16 @@
     "BCC": "สำเนาลับ",
     "CC": "สำเนา",
     "SUBJECT": "หัวเรื่อง",
+    "DATE": "Date",
     "EXPAND": "Expand email"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "ถึง:",
+    "TO_PLACEHOLDER": "Enter at least 2 characters to search by email",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",

@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "Missatges no Llegits",
     "UNREAD_MESSAGE": "Missatge no Llegit",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "Clica aquí",
     "LOADING_INBOXES": "S'estan carregant les safates d'entrada",
     "LOADING_CONVERSATIONS": "S'estan carregant les converses",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "Aquesta conversa no està assignada a tu. Vols assignar-te-la?",
     "ASSIGN_TO_ME": "Assigna'm",
     "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "a bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Take over",
     "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "El missatge s'ha suprimit correctament",
     "FAIL_DELETE_MESSSAGE": "No s'ha pogut suprimir el missatge! Torna-ho a provar",
     "NO_RESPONSE": "Sense resposta",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "Response",
     "RATING_TITLE": "Valoració",
     "FEEDBACK_TITLE": "Comentaris",
@@ -198,6 +216,16 @@
       "TITLE": "Posposat fins a",
       "APPLY": "Posposat",
       "CANCEL": "Cancel·la"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "Accept",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "Descartar",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "Prioritat",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "Nota privada: Només és visible per tu i el vostre equip",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "Copia",
       "REPLY_TO": "Respon a aquest missatge",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "Esborrar",
       "CREATE_A_CANNED_RESPONSE": "Afegir a les respostes predeterminades",
       "TRANSLATE": "Tradueix",
@@ -529,7 +556,16 @@
     "BCC": "Cco",
     "CC": "Cc",
     "SUBJECT": "Assumpte",
+    "DATE": "Date",
     "EXPAND": "Expand email"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "Per:",
+    "TO_PLACEHOLDER": "Enter at least 2 characters to search by email",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participant",

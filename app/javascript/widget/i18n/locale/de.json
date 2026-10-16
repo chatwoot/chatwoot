@@ -20,18 +20,18 @@
   "TEAM_AVAILABILITY": {
     "ONLINE": "Wir sind online",
     "OFFLINE": "Wir sind momentan abwesend",
-    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+    "BACK_AS_SOON_AS_POSSIBLE": "Wir sind so bald wie möglich wieder erreichbar"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Wir antworten üblicherweise innerhalb weniger Minuten",
     "IN_A_FEW_HOURS": "Wir antworten üblicherweise innerhalb weniger Stunden",
     "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages",
-    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
-    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
-    "BACK_AT_TIME": "We will be back online at {time}",
-    "BACK_ON_DAY": "We will be back online on {day}",
-    "BACK_TOMORROW": "We will be back online tomorrow",
-    "BACK_IN_SOME_TIME": "We will be back online in some time"
+    "BACK_IN_HOURS": "Wir sind in {n} Stunde wieder online | Wir sind in {n} Stunden wieder online",
+    "BACK_IN_MINUTES": "Wir sind in {time} Minuten wieder online",
+    "BACK_AT_TIME": "Wir sind ab {time} wieder online",
+    "BACK_ON_DAY": "Wir sind am {day} wieder online",
+    "BACK_TOMORROW": "Wir sind morgen wieder online",
+    "BACK_IN_SOME_TIME": "Wir sind bald wieder online"
   },
   "DAY_NAMES": {
     "SUNDAY": "Sonntag",

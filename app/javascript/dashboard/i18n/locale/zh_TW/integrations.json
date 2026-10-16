@@ -11,10 +11,24 @@
         "LABEL": "商店網址",
         "PLACEHOLDER": "your-store.myshopify.com",
         "HELP": "請輸入您的 Shopify 商店的 myshopify.com 網址",
+        "INVALID_URL": "Please enter a valid Shopify store URL (e.g., your-store.myshopify.com)",
         "CANCEL": "取消",
         "SUBMIT": "連接商店"
       },
-      "ERROR": "連接 Shopify 時發生錯誤。請重試，若問題持續存在，請聯繫支援團隊。"
+      "HELP_TEXT": {
+        "TITLE": "How to use the Shopify Integration?",
+        "BODY": "With this integration, your Shopify store ***{storeDomain}*** is connected to your Chatwoot workspace. Here's what you can do:\n\n**Track orders in conversations:** When you open a conversation, the Shopify sidebar will automatically display recent orders for the customer based on their email address. This gives your support team instant context without switching tabs.\n\n**Access order details:** View order status, fulfillment status, and total amount directly within the conversation panel."
+      },
+      "ERROR": "連接 Shopify 時發生錯誤。請重試，若問題持續存在，請聯繫支援團隊。",
+      "PENDING_INSTALL": {
+        "SUCCESS": "Shopify store connected successfully.",
+        "ERROR": "Unable to complete the Shopify installation. Please try again."
+      },
+      "SELECT_ACCOUNT": {
+        "TITLE": "Choose a workspace",
+        "DESCRIPTION": "Select the workspace to connect to your Shopify store. To restore a previous connection, choose its original workspace.",
+        "UNAVAILABLE": "No eligible workspace or valid installation was found. Restart installation or sign in as a workspace administrator."
+      }
     },
     "HEADER": "整合",
     "DESCRIPTION": "Chatwoot 可與多種工具和服務整合，以提升團隊效率。請瀏覽以下列表來設定您常用的應用程式。",
@@ -432,6 +446,9 @@
         "DISMISS": "關閉"
       },
       "RANGES": {
+        "INSUFFICIENT_HISTORY": "Not enough reporting history yet",
+        "THIS_WEEK": "本週",
+        "LAST_WEEK": "Last week",
         "LAST_DAYS": "Last {count} days",
         "THIS_MONTH": "本月",
         "LAST_MONTH": "上個月"
@@ -493,6 +510,21 @@
         }
       },
       "V2": {
+        "DRILLDOWN": {
+          "HANDLED": "Episodes where Captain participated during the selected period.",
+          "RESOLVED": "Episodes resolved by Captain without a handoff or human reply before resolution.",
+          "HANDED_OFF": "Episodes handed off after Captain participated.",
+          "REOPENED": "Captain-resolved episodes that subsequently reopened.",
+          "DURABLE": "Captain-resolved episodes that remained closed for at least seven days.",
+          "CLOSED_WITH_TEAM": "Episodes where Captain participated but neither resolved autonomously nor handed off.",
+          "REOPENED_WITHIN_7_DAYS": "Captain-resolved episodes that reopened within seven days.",
+          "STAYED_CLOSED": "Captain-resolved episodes with no reopen recorded within seven days. Recent resolutions are included.",
+          "HANDOFF_REASON": "Episodes handed off for this reason: {reason}.",
+          "COUNT": "No episodes | 1 episode | {count} episodes",
+          "EPISODES_HINT": "A conversation can appear more than once if Captain handled it in separate episodes. Episodes are grouped by when they started.",
+          "STARTED_AT": "Episode started {time}",
+          "RETRY": "Try again"
+        },
         "EMPTY": "No data available for this period.",
         "SUMMARY": {
           "GREETING": "Hello, {name}!",
@@ -512,6 +544,7 @@
           },
           "DURABLE": {
             "LABEL": "Captain resolutions remained closed",
+            "NOT_APPLICABLE_HINT": "No resolutions in this period have seven days of follow-up yet. Durability is unavailable.",
             "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
             "NOTE": "Only resolutions old enough to observe for seven days are included."
           },
@@ -551,6 +584,9 @@
         },
         "RESOLUTION_TREND": {
           "TITLE": "Resolution trend",
+          "COMPARISON_LABEL": "Weekday-aligned comparison",
+          "COMPARISON_HINT": "Compare resolution rates on matching weekdays, such as Monday with Monday.",
+          "COMPARISON_NOTE": "Today is compared up to the same time of day.",
           "CONVERSATION_COUNT": "Conversation count",
           "RESOLUTION_RATE": "Resolution rate",
           "CURRENT_PERIOD": "Current period",
@@ -578,6 +614,7 @@
           "BUY_MORE": "購買更多點數"
         },
         "KNOWLEDGE": {
+          "SUGGESTED": "Suggested FAQs",
           "REVIEW": "Review FAQs"
         }
       }
@@ -628,9 +665,93 @@
       "USER": "您",
       "ASSISTANT": "助理",
       "MESSAGE_PLACEHOLDER": "輸入您的訊息...",
+      "SEND_MESSAGE": "傳送訊息",
       "HEADER": "Playground",
       "DESCRIPTION": "使用此 Playground 向您的助理傳送訊息，檢查其回應是否準確、快速且符合您期望的語氣。",
-      "CREDIT_NOTE": "在此傳送的訊息將計入您的 Captain 額度。"
+      "CREDIT_NOTE": "在此傳送的訊息將計入您的 Captain 額度。",
+      "CLEAR_CONVERSATION": "Clear conversation",
+      "RESPONSE_ERROR": "Captain could not complete this test run. Review the setup and try again.",
+      "SETUP": {
+        "TITLE": "Test setup",
+        "DESCRIPTION": "Changes here apply only to this playground session unless you explicitly save an item.",
+        "TOGGLE": "Toggle test setup",
+        "CLOSE": "Close test setup",
+        "RESET": "Reset test setup",
+        "TEMPORARY": "Temporary",
+        "SESSION_ONLY": "Session only",
+        "INCLUDE_IN_TEST": "Include in this test",
+        "ADD_TO_TEST": "Add to test (↵)",
+        "LOAD_ERROR": "The saved assistant setup could not be loaded.",
+        "INVALID_CONFIGURATION": "Complete or remove the included temporary scenarios before sending a message.",
+        "SAVE_SCENARIO_SUCCESS": "The scenario was saved and remains included in this test.",
+        "SAVE_SCENARIO_ERROR": "The scenario could not be saved.",
+        "SAVE_RULE_SUCCESS": "The rule was saved and remains included in this test.",
+        "SAVE_RULE_ERROR": "The rule could not be saved.",
+        "RULE_ALREADY_SAVED": "That exact rule is already saved, so no duplicate was created.",
+        "SCENARIOS": {
+          "TAB_TITLE": "情境",
+          "CREATE_TITLE": "Add a temporary scenario",
+          "CREATE_HINT": "Try a new behavior without changing the assistant configuration.",
+          "SAVED_SUMMARY": "Existing scenarios ({count})",
+          "ADD_PERMANENTLY": "Add scenario permanently",
+          "DISABLED": "已停用",
+          "EMPTY": "This assistant has no saved scenarios.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary scenario title...",
+          "COLLAPSE": "Collapse temporary scenario",
+          "EXPAND": "Expand temporary scenario",
+          "REMOVE": "Remove temporary scenario"
+        },
+        "GUIDELINES": {
+          "TAB_TITLE": "Guidelines",
+          "CREATE_TITLE": "Add a temporary guideline",
+          "CREATE_HINT": "Test a response preference before adding it to the assistant.",
+          "SAVED_SUMMARY": "Existing guidelines ({count})",
+          "ADD_PERMANENTLY": "Add guideline permanently",
+          "EMPTY": "This assistant has no saved response guidelines.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary guideline...",
+          "PLACEHOLDER": "新增回應準則",
+          "REMOVE": "Remove temporary response guideline"
+        },
+        "GUARDRAILS": {
+          "TAB_TITLE": "防護機制",
+          "CREATE_TITLE": "Add a temporary guardrail",
+          "CREATE_HINT": "Test a safety boundary before adding it to the assistant.",
+          "SAVED_SUMMARY": "Existing guardrails ({count})",
+          "ADD_PERMANENTLY": "Add guardrail permanently",
+          "EMPTY": "This assistant has no saved guardrails.",
+          "COMPOSER_PLACEHOLDER": "Type a temporary guardrail...",
+          "PLACEHOLDER": "新增防護機制",
+          "REMOVE": "Remove temporary guardrail"
+        },
+        "KNOWLEDGE": {
+          "TAB_TITLE": "Knowledge",
+          "AVAILABLE_TITLE": "Knowledge available to Captain",
+          "AVAILABLE_DESCRIPTION": "Saved sources are summarized here and managed outside the playground.",
+          "DOCUMENTS": "文件",
+          "FAQS": "常見問答",
+          "TEMPORARY_TITLE": "Temporary knowledge",
+          "ADD_PERMANENTLY": "Add document permanently",
+          "LABEL": "Reference text",
+          "PLACEHOLDER": "Paste or write new knowledge for this test",
+          "HINT": "This text is attached only to playground requests unless you add it as a document."
+        },
+        "SAVE_KNOWLEDGE_SUCCESS": "Knowledge added as a document.",
+        "SAVE_KNOWLEDGE_ERROR": "Unable to add knowledge as a document."
+      },
+      "RUN_DETAILS": {
+        "SUMMARY": "Run details · {duration}ms",
+        "HANDLER_VALUE": "Handled by: {handler}",
+        "SCENARIOS": "No scenarios | One scenario | {count} scenarios",
+        "RULES": "{count} rules",
+        "KNOWLEDGE_ATTACHED": "Temporary knowledge was attached to this run.",
+        "NO_EVENTS": "No tool calls or scenario handoffs were recorded.",
+        "HANDOFF": "{from} → {to}",
+        "STATUS": {
+          "RUNNING": "Running",
+          "COMPLETED": "已完成",
+          "FAILED": "失敗"
+        }
+      }
     },
     "PAYWALL": {
       "TITLE": "升級以使用 Captain AI",
@@ -659,7 +780,7 @@
       "ADD_NEW": "建立新助理",
       "DELETE": {
         "TITLE": "您確定要刪除此助理嗎？",
-        "DESCRIPTION": "此操作不可復原。刪除此助理將會從所有已連接的收件匣中移除，並永久清除所有已生成的知識。",
+        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase its custom tools and all generated knowledge.",
         "CONFIRM": "是，刪除",
         "SUCCESS_MESSAGE": "助理已成功刪除",
         "ERROR_MESSAGE": "刪除助理時發生錯誤，請重試。"
@@ -832,7 +953,7 @@
         },
         "DELETE": {
           "TITLE": "刪除助理",
-          "DESCRIPTION": "此操作不可復原。刪除此助理將會從所有已連接的收件匣中移除，並永久清除所有已生成的知識。",
+          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase its custom tools and all generated knowledge.",
           "BUTTON_TEXT": "刪除 {assistantName}"
         }
       },
@@ -1160,6 +1281,36 @@
     "CUSTOM_TOOLS": {
       "HEADER": "工具",
       "ADD_NEW": "建立新工具",
+      "INSTALL_MANIFEST": {
+        "TITLE": "Install a toolset",
+        "DESCRIPTION": "Install a toolset from the Captain tools catalog.",
+        "SOURCE_LABEL": "Toolset",
+        "SOURCE_PLACEHOLDER": "chatwoot/tools/folder",
+        "SOURCE_HELP": "Installs the latest version from the catalog.",
+        "VERSION_LABEL": "v{version} · {revision}",
+        "UPDATE_NOTE": "A different version is installed. Updating replaces its tools and keeps whether each one is enabled. Enter the secrets again.",
+        "TOOLS_LABEL": "工具",
+        "CONFIGURATION_LABEL": "設定檔",
+        "CONTINUE": "繼續",
+        "BACK": "返回",
+        "INSTALL": "Install",
+        "UPDATE": "更新",
+        "REINSTALL": "Reinstall",
+        "REINSTALL_NOTE": "Some tools from this toolset were deleted. Reinstalling adds them back and keeps whether each one is enabled. Enter the secrets again.",
+        "ALREADY_INSTALLED": "Already installed",
+        "SUCCESS_MESSAGE": "Toolset installed",
+        "ERROR_MESSAGE": "Could not install the toolset",
+        "PREVIEW_ERROR": "Could not load the toolset"
+      },
+      "ASSISTANT_TOOLS_BANNER": {
+        "MESSAGE": "Custom tools are now managed per assistant. Switch assistants to customize their tools.",
+        "LEARN_MORE": "瞭解更多",
+        "DISMISS": "Dismiss announcement",
+        "MODAL_TITLE": "Your assistants now have their own tools",
+        "MODAL_DESCRIPTION": "Each assistant now has a separate list of custom tools. We copied your existing tools to every assistant, so nothing is missing.",
+        "MODAL_INSTRUCTIONS": "When you add, edit, turn off, or delete a tool, the change applies only to the assistant you're currently viewing. Switch assistants at the top of the page to review or customize their tools.",
+        "ACKNOWLEDGE": "Got it"
+      },
       "SOFT_LIMIT_WARNING": "擁有超過 10 個工具可能會降低助理選擇正確工具的可靠性。建議移除未使用的工具以獲得更好的效果。",
       "EMPTY_STATE": {
         "TITLE": "沒有可用的自訂工具",
@@ -1172,6 +1323,7 @@
       "FORM_DESCRIPTION": "設定您的自訂工具以連接外部 API",
       "OPTIONS": {
         "EDIT_TOOL": "編輯工具",
+        "VIEW_TOOL": "View tool",
         "DELETE_TOOL": "刪除工具"
       },
       "STATUS": {
@@ -1194,6 +1346,9 @@
         "TITLE": "建立自訂工具",
         "SUCCESS_MESSAGE": "自訂工具已成功建立",
         "ERROR_MESSAGE": "建立自訂工具失敗"
+      },
+      "VIEW": {
+        "TITLE": "Custom Tool Details"
       },
       "EDIT": {
         "TITLE": "編輯自訂工具",
@@ -1264,6 +1419,19 @@
           "API_KEY_PLACEHOLDER": "X-API-Key",
           "API_VALUE": "Header 值",
           "API_VALUE_PLACEHOLDER": "請輸入 API Key 值"
+        },
+        "SECTIONS": {
+          "TEMPLATES": "Templates",
+          "TEMPLATES_HELP_TEXT": "Supports Liquid syntax, like {'{{'} order_id {'}}'} or {'{{'} response.status {'}}'}."
+        },
+        "HEADERS": {
+          "LABEL": "Headers",
+          "HELP_TEXT": "Static headers sent with every request. Values are sent exactly as entered; use Authentication for credentials.",
+          "NAME_PLACEHOLDER": "Header name (e.g., cal-api-version)",
+          "VALUE_PLACEHOLDER": "Header value",
+          "NAME_REQUIRED": "Header name is required",
+          "NAME_DUPLICATE": "Header names must be unique",
+          "ADD": "Add Header"
         },
         "PARAMETERS": {
           "LABEL": "參數",

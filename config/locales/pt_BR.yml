@@ -32,6 +32,7 @@ pt_BR:
     reset_password_saml_user: Esta conta usa autenticação SAML. A redefinição de senha não está disponível. Por favor, contate o administrador.
     login_saml_user: Esta conta usa autenticação SAML. Por favor, faça login através do provedor SAML da sua organização.
     saml_not_available: A autenticação SAML não está disponível nesta instalação.
+    mfa_sign_in_required: A autenticação de dois fatores é obrigatória para sua conta. Entre para continuar.
     inbox_deletetion_response: Seu pedido de exclusão da caixa de entrada será processado dentro de algum tempo.
   data_imports:
     intercom:
@@ -117,6 +118,13 @@ pt_BR:
         invalid: deve ser um nome de domínio válido
       search:
         query_missing: Especifique a string de busca com o parâmetro q
+      social_profiles:
+        invalid: Os links de perfis sociais devem começar com http:// ou https://
+      enrichment:
+        plan_required: O enriquecimento de empresas está disponível nos planos Business e Enterprise
+        not_configured: O enriquecimento de empresas não está configurado para esta instalação
+        domain_missing: Adicione um domínio à empresa antes de atualizar o perfil
+        not_found: Não foi possível encontrar informações de perfil para o domínio desta empresa
     messages:
       search:
         time_range_limit_exceeded: 'A pesquisa está limitada aos últimos %{days} dias'
@@ -142,6 +150,15 @@ pt_BR:
       phone_info_fetch_failed: 'Falha ao obter a informação do número de telefone. Por favor, tente novamente.'
       phone_number_already_exists: 'Já existe um canal para este número de telefone: %{phone_number}. Entre em contato com o suporte se o erro persistir'
       message_outside_messaging_window: 'A mensagem não foi enviada porque a janela de atendimento de 24 horas do WhatsApp foi encerrada e nenhum parâmetro de modelo foi fornecido. Envie uma mensagem de modelo aprovada.'
+      authentication_template_requires_phone: 'Os modelos de autenticação exigem um número de telefone do WhatsApp e não podem ser enviados a um contato que tenha apenas BSUID.'
+      template_category_required_for_bsuid: 'Não foi possível verificar a categoria do modelo para este contato que tem apenas BSUID.'
+      contact_info_request:
+        unsupported_provider: 'No momento, as solicitações de informações de contato estão disponíveis apenas para caixas de entrada do WhatsApp Cloud.'
+        phone_already_available: 'Este contato já tem um número de telefone.'
+        invalid_identifier: 'As informações de contato só podem ser solicitadas a um usuário do WhatsApp com escopo empresarial.'
+        outside_messaging_window: 'As informações de contato só podem ser solicitadas dentro da janela de atendimento ao cliente de 24 horas do WhatsApp.'
+        template_not_configured: 'Fora da janela de atendimento ao cliente de 24 horas, é necessário usar um modelo aprovado do WhatsApp com o botão Solicitar informações de contato.'
+        pending_request: 'Já existe uma solicitação de informações de contato pendente.'
       reauthorization:
         generic: 'Falha ao reautenticar o WhatsApp. Por favor, tente novamente.'
         not_supported: 'Reautenticação não é suportado por este tipo de canal WhatsApp.'
@@ -188,9 +205,24 @@ pt_BR:
       invalid_token: Token MFA inválido ou expirado
       invalid_credentials: Credenciais ou código de verificação inválidos
       feature_unavailable: O recurso MFA não está disponível. Por favor, configure as chaves de criptografia.
+      setup_required: Sua conta exige autenticação de dois fatores. Configure-a para continuar entrando.
+      enrollment_required: Esta conta exige autenticação de dois fatores. Configure-a nas configurações do seu perfil para restaurar o acesso à API.
+      interactive_session_required: As configurações de autenticação de dois fatores não podem ser gerenciadas com um token de acesso à API. Entre pelo painel.
+      enforced_cannot_disable: A autenticação de dois fatores é obrigatória para sua conta e não pode ser desativada.
+    device_verification:
+      invalid_token: Token de verificação inválido ou expirado. Entre novamente para receber um novo código
+      invalid_code: Código incorreto. Digite o código de 6 dígitos que enviamos para o seu e-mail.
+      expired: O código de verificação expirou. Entre novamente para receber outro
+      locked: Muitos códigos incorretos. Entre novamente para receber outro
+      stale: Sua conta foi alterada depois que este código foi emitido. Entre novamente
+      rate_limited: Muitas tentativas de verificação. Tente novamente mais tarde ou redefina sua senha
+      code_field_required: Digite o código de 6 dígitos enviado por e-mail no campo de código de verificação, não no campo de código de backup
     billing:
       invalid_currency: Moeda de faturamento inválida
       currency_locked: Moeda de faturamento não pode ser alterada após o faturamento ter sido configurado
+      provider_action_unavailable: Esta ação de cobrança não está disponível para contas faturadas pela Shopify
+      shopify_pricing_unavailable: Os preços do app da Shopify não estão disponíveis no momento
+      shopify_verification_failed: Não foi possível verificar a cobrança pela Shopify no momento
     topup:
       credits_required: A quantidade de créditos é obrigatória
       invalid_credits: Quantidade de créditos inválida
@@ -291,6 +323,7 @@ pt_BR:
         list_button_label: 'Escolha um item'
         call_permission_request_body: 'Gostaríamos de ligar para você em relação à sua conversa.'
         flow_response: 'Enviou uma resposta de um Flow'
+        request_contact_info: 'Gostaria de compartilhar seu número de telefone conosco?'
         unsupported_message: 'Esta mensagem não está disponível.'
       voice_call:
         twilio: 'Chamada de Voz'
@@ -368,6 +401,13 @@ pt_BR:
           reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: 'Novas mensagens nesta conversa'
       transcript_subject: 'Transcrição da conversa'
+      greeting: 'Olá, %{name},'
+      new_messages: 'Você tem novas mensagens em sua conversa.'
+      contact_label: 'Você'
+      bot_label: 'Robôs'
+      attachments: 'Anexos:'
+      rate_conversation_html: 'Clique em %{link} para avaliar a conversa.'
+      rate_conversation_link: 'aqui'
     survey:
       response: 'Por favor, classifique esta conversa, %{link}'
   contacts:
@@ -409,8 +449,8 @@ pt_BR:
       attachment_link_title: 'Conversa (#%{conversation_id}) com %{name}'
     notion:
       name: 'Notion'
-      short_description: 'Integre banco de dados, documentos e páginas diretamente com o Capitão.'
-      description: 'Conecte o seu espaço de trabalho Notion para permitir que o Capitão acesse e gere respostas inteligentes usando o conteúdo de seus bancos de dados, documentos e páginas para fornecer suporte ao cliente mais contextual.'
+      short_description: 'Integre banco de dados, documentos e páginas diretamente com o Captain.'
+      description: 'Conecte o seu espaço de trabalho Notion para permitir que o Captain acesse e gere respostas inteligentes usando o conteúdo de seus bancos de dados, documentos e páginas para fornecer suporte ao cliente mais contextual.'
     shopify:
       name: 'Shopify'
       short_description: 'Acessar detalhes do pedido e dados de clientes da sua loja Shopify.'
@@ -423,21 +463,25 @@ pt_BR:
     copilot_message_required: A mensagem é obrigatória
     copilot_error: 'Conecte com um assistente a esta caixa de entrada para usar Copilot'
     copilot_limit: 'Você está sem créditos de Copilot. Pode comprar mais créditos na seção de faturamento.'
-    upgrade: 'Atualize seu plano para habilitar o Capitão IA'
-    disabled: 'O Capitão IA está desativado para esta conta.'
-    api_key_missing: 'A chave de API do Capitão IA não está configurada.'
+    upgrade: 'Atualize seu plano para habilitar o Captain AI'
+    disabled: 'O Captain AI está desativado para esta conta.'
+    api_key_missing: 'A chave de API do Captain AI não está configurada.'
     copilot:
       using_tool: 'Usando a ferramenta %{function_name}'
       completed_tool_call: 'Uso da ferramenta %{function_name} concluída'
       invalid_tool_call: 'Ferramenta inválida'
       tool_not_available: 'Ferramenta indisponível'
-      reply_suggestion_discarded: 'A conversa foi alterada enquanto o Copiloto elaborava a resposta, por isso a sugestão foi descartada.'
-      reply_suggestion_failed: "O Copiloto não conseguiu gerar uma resposta. Tente novamente."
+      reply_suggestion_discarded: 'A conversa foi alterada enquanto o Copilot elaborava a resposta, por isso a sugestão foi descartada.'
+      reply_suggestion_failed: "O Copilot não conseguiu gerar uma resposta. Por favor, tente novamente."
     documents:
       limit_exceeded: 'Limite de documento excedido'
       pdf_format_error: 'Deve ser um arquivo PDF'
       pdf_size_error: 'Deve ser menor que 10 MB'
+      markdown_format_error: 'deve ser um arquivo Markdown'
+      markdown_size_error: 'deve ter no máximo 10.000 caracteres ou menos'
+      multiple_files_error: 'Um documento pode conter apenas um arquivo enviado'
       sync_not_supported_for_pdf: 'A sincronização não é suportada para documentos PDF'
+      sync_not_supported_for_file: 'A sincronização não é compatível com documentos enviados'
       sync_only_available_documents: 'A sincronização só está disponível para documentos processados'
       sync_already_in_progress: 'Sincronização de documentos já está em andamento'
       pdf_upload_failed: 'Falha ao enviar PDF para OpenAI'
@@ -458,7 +502,19 @@ pt_BR:
       page_processing_error: 'Erro ao processar as páginas %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Não foi possível gerar um slug único após 5 tentativas'
-      limit_exceeded: 'Você pode criar no máximo %{limit} ferramentas personalizadas por conta'
+      limit_exceeded: 'Você pode criar no máximo %{limit} ferramentas personalizadas por assistente'
+      installed_read_only: 'As ferramentas instaladas por meio de um manifesto são somente leitura; você só pode ativá-las ou desativá-las'
+      headers:
+        invalid: 'deve ser um objeto com nomes e valores de cabeçalhos'
+        too_many: 'não pode conter mais de %{limit} entradas'
+        duplicate: 'não é possível repetir o mesmo nome de cabeçalho'
+        invalid_name: '%{name} não é um nome de cabeçalho válido'
+        reserved: '%{name} é gerenciado pelo Chatwoot e não pode ser definido'
+        invalid_value: 'o valor de %{name} deve ser um texto fixo de até 1 KiB, sem placeholders nem caracteres de controle'
+    tools_manifest:
+      invalid_source: 'Insira um conjunto de ferramentas do catálogo de ferramentas do Captain no formato chatwoot/tools/folder'
+      invalid_configuration: 'Configuração inválida'
+      disabled: 'A instalação de ferramentas por meio de um manifesto não está habilitada'
   public_portal:
     search:
       search_placeholder: Pesquisar por artigo por título ou corpo...
@@ -588,7 +644,7 @@ pt_BR:
     analytics:
       invalid_configuration: 'Configuração de analytics inválida'
     articles:
-      captain_not_available: 'A tradução requer que o Capitão esteja ativado para esta conta'
+      captain_not_available: 'A tradução requer que o Captain esteja ativado para esta conta'
       locale_not_available: 'Localidade não disponível neste portal'
       category_not_found: 'Categoria não encontrada neste portal'
       no_articles_found: 'Nenhum artigo encontrado para processar'
@@ -616,6 +672,8 @@ pt_BR:
         suspended_at: 'Suspenso em'
         category: 'Categoria'
         reason: 'Motivo'
+        suspended_by: 'Suspenso por'
+        unknown_user: 'Usuário desconhecido'
         empty: 'Nenhum histórico de suspensão registrado.'
     captain_model_overrides:
       form:
@@ -636,7 +694,7 @@ pt_BR:
         conversation_completion: 'Avaliador de conclusão de conversas inativas'
         editor: 'Editores'
         assistant: 'Assistente'
-        copilot: 'Copiloto'
+        copilot: 'Copilot'
         label_suggestion: 'Sugestão de etiqueta'
         document_faq_generation: 'Geração de FAQs para documentos'
         conversation_faq_generation: 'Geração de FAQs para conversas'
@@ -654,7 +712,42 @@ pt_BR:
         one: "%{count} assinatura excluída. O dispositivo do usuário será registrado novamente na próxima vez que o aplicativo for iniciado."
         other: "%{count} assinaturas excluídas. Os dispositivos dos usuários serão registrados novamente na próxima vez que o aplicativo for iniciado."
     users:
+      impersonate: 'Personificar usuário'
+      copy_impersonation_link: 'Copiar link'
+      impersonation_link_copied: 'Copiado'
+      impersonation_link_failed: 'Falha ao copiar'
       resend_confirmation:
         button: 'Reenviar e-mail de confirmação'
         sent: 'E-mail de confirmação enviado.'
         already_confirmed: 'O usuário já está confirmado.'
+      email_suppression:
+        menu: 'E-mail'
+        check_button: 'Verificar entrega de e-mail'
+        clear_button: 'Desbloquear e-mail'
+        clear_dialog:
+          title: 'Desbloquear %{email}?'
+          body: '%{brand_name} voltará a enviar e-mails para este endereço. Se o próximo envio falhar, o endereço será bloqueado novamente.'
+          cancel: 'Cancelar'
+          confirm: 'Desbloquear'
+        complaint_hint: 'Bloqueado após uma denúncia de spam. Encaminhe para a equipe de engenharia.'
+        check_first_hint: 'Verifique primeiro a entrega de e-mail.'
+        not_blocked_hint: 'Os e-mails enviados para este endereço não estão bloqueados.'
+        test_email_blocked_hint:
+          bounce: 'Desbloqueie o endereço primeiro. E-mails enviados para endereços bloqueados são descartados.'
+          complaint: 'Bloqueado após uma denúncia de spam. E-mails enviados para este endereço são descartados.'
+        test_email_button: 'Enviar e-mail de teste'
+        pending:
+          check: 'Verificando…'
+          clear: 'Desbloqueando…'
+          send: 'Enviando…'
+        check:
+          not_suppressed: 'Os e-mails enviados para %{email} não estão bloqueados.'
+          bounce: 'Os e-mails enviados para %{email} estão bloqueados desde %{since} porque houve uma falha de entrega nesse endereço. Desbloqueie-o e peça ao usuário que tente novamente.'
+          complaint: 'Os e-mails enviados para %{email} estão bloqueados desde %{since} devido a uma denúncia de spam. Encaminhe para a equipe de engenharia.'
+          unavailable: "Não foi possível verificar a entrega para %{email}. Tente novamente ou encaminhe para a equipe de engenharia."
+        clear:
+          success: 'O endereço %{email} foi desbloqueado. Peça ao usuário que tente novamente ou envie um e-mail de teste para verificar a entrega.'
+          failed: "Não foi possível desbloquear %{email} (%{error}). Encaminhe para a equipe de engenharia."
+        test_email:
+          queued: 'O e-mail de teste está a caminho de %{email}. Peça ao usuário que verifique a caixa de entrada e a pasta de spam.'
+          subject: 'E-mail de teste do suporte de %{brand_name}'

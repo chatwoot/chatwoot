@@ -18,7 +18,8 @@
     "OAUTH": {
       "GOOGLE_LOGIN": "Bejelentkezés Google-el",
       "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
-      "NO_ACCOUNT_FOUND": "Nem található fiók az email címedhez."
+      "NO_ACCOUNT_FOUND": "Nem található fiók az email címedhez.",
+      "SHOPIFY_INSTALLATION_FAILED": "We couldn't complete your Shopify installation. Please restart installation from Shopify."
     },
     "FORGOT_PASSWORD": "Elfelejtetted a jelszavad?",
     "CREATE_NEW_ACCOUNT": "Új fiók létrehozása",

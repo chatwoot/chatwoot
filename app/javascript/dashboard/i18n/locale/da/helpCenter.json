@@ -45,14 +45,14 @@
         "TITLE": "Upload billede",
         "UPLOADING": "Uploader...",
         "SUCCESS": "Billede blev uploadet",
-        "UPLOAD_FAILED": "Upload failed",
-        "RATE_LIMITED": "Upload limit reached. Try again in a few minutes.",
-        "RETRY": "Retry",
+        "UPLOAD_FAILED": "Upload mislykkedes",
+        "RATE_LIMITED": "Upload grænse nået. Prøv igen om et par minutter.",
+        "RETRY": "Prøv igen",
         "REMOVE": "Fjern",
-        "CANCEL": "Cancel upload",
+        "CANCEL": "Annullér upload",
         "ERROR_FILE_SIZE": "Billedets størrelse skal være mindre end {size}MB",
-        "ERROR_ATTACHMENT_FILE_SIZE": "File size should be less than {size}MB",
-        "ERROR_UNSUPPORTED_TYPE": "This file type is not supported",
+        "ERROR_ATTACHMENT_FILE_SIZE": "Filstørrelse skal være mindre end {size}MB",
+        "ERROR_UNSUPPORTED_TYPE": "Denne filtype er ikke understøttet",
         "ERROR_FILE_FORMAT": "Billedformatet skal være jpg, jpeg eller png",
         "ERROR_FILE_DIMENSIONS": "Billeddimensioner skal være mindre end 2000 x 2000 px"
       }
@@ -536,7 +536,7 @@
             "PUBLISH": "Udgiv",
             "DRAFT": "Kladde",
             "ARCHIVE": "Archive",
-            "TRANSLATE": "Translate",
+            "TRANSLATE": "Oversæt",
             "DELETE": "Slet"
           },
           "STATUS": {
@@ -544,8 +544,8 @@
             "PUBLISHED": "Publiceret",
             "ARCHIVED": "Arkiveret"
           },
-          "PENDING_EDITS": "Unpublished edits",
-          "PENDING_EDITS_TOOLTIP": "This published article has unpublished edits",
+          "PENDING_EDITS": "Ikke-publicerede ændringer",
+          "PENDING_EDITS_TOOLTIP": "Denne publicerede artikel har ikke-publicerede ændringer",
           "CATEGORY": {
             "UNCATEGORISED": "Uncategorised"
           }
@@ -595,56 +595,56 @@
           "SUBTITLE": "Articles in this category will appear here"
         },
         "SEARCH": {
-          "TITLE": "No matching articles",
-          "SUBTITLE": "We couldn't find any articles matching your search. Try a different term."
+          "TITLE": "Ingen matchende artikler",
+          "SUBTITLE": "Vi kunne ikke finde nogen artikler, der matcher din søgning. Prøv et andet udtryk."
         }
       },
       "BULK_TRANSLATE": {
-        "TITLE": "Translate article | Translate {count} articles",
-        "DESCRIPTION": "Translate the selected article to another language. | Translate the selected articles to another language.",
-        "LOCALE_LABEL": "Target language",
-        "LOCALE_PLACEHOLDER": "Select a language",
-        "CATEGORY_LABEL": "Target category",
-        "CATEGORY_PLACEHOLDER": "Select a category",
-        "OPTIONAL": "(optional)",
-        "CONFIRM": "Translate",
-        "SELECT_ALL": "Select all ({count})",
-        "SELECTED_COUNT": "{count} selected",
-        "CLEAR_SELECTION": "Clear selection",
-        "TRANSLATE_BUTTON": "Translate",
-        "CONFIRM_OVERWRITE": "Overwrite and translate",
-        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
-        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
+        "TITLE": "Oversæt artikel | Oversæt {count} artikler",
+        "DESCRIPTION": "Oversæt den markerede artikel til et andet sprog. | Oversæt de markerede artikler til et andet sprog.",
+        "LOCALE_LABEL": "Målsprog",
+        "LOCALE_PLACEHOLDER": "Vælg et sprog",
+        "CATEGORY_LABEL": "Mål kategori",
+        "CATEGORY_PLACEHOLDER": "Vælg en kategori",
+        "OPTIONAL": "(valgfri)",
+        "CONFIRM": "Oversæt",
+        "SELECT_ALL": "Vælg alle ({count})",
+        "SELECTED_COUNT": "{count} valgt",
+        "CLEAR_SELECTION": "Ryd valg",
+        "TRANSLATE_BUTTON": "Oversæt",
+        "CONFIRM_OVERWRITE": "Overskriv og oversæt",
+        "DUPLICATE_WARNING": "Der findes allerede en oversættelse for denne artikel på det valgte sprog. | Oversættelser findes allerede for {count} artikler på det valgte sprog.",
+        "DUPLICATE_CONFIRM_HINT": "Klik på oversæt igen for at overskrive den eksisterende oversættelse.",
         "API": {
-          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
-          "ERROR_MESSAGE": "Failed to start translation. Please try again."
+          "SUCCESS_MESSAGE": "Oversættelse i gang. Artiklen vil fremstå som et udkast når den er klar.",
+          "ERROR_MESSAGE": "Kunne ikke starte oversættelsen. Prøv venligst igen."
         }
       },
       "BULK_ACTIONS": {
         "PUBLISH": "Udgiv",
         "DRAFT": "Kladde",
-        "ARCHIVE": "Archive",
-        "TRANSLATE": "Translate",
+        "ARCHIVE": "Arkivér",
+        "TRANSLATE": "Oversæt",
         "MOVE_TO_CATEGORY": "Kategori",
         "DELETE": "Slet",
-        "STATUS_SUCCESS": "Articles updated successfully",
-        "STATUS_ERROR": "Failed to update articles",
+        "STATUS_SUCCESS": "Artikler opdateret",
+        "STATUS_ERROR": "Opdatering af artikler mislykkedes",
         "STATUS_SKIPPED": "1 article with unpublished edits was skipped — open it to publish or discard. | {count} articles with unpublished edits were skipped — open them to publish or discard.",
-        "STATUS_SKIPPED_ALL": "These articles have unpublished edits — open each to publish or discard.",
-        "CATEGORY_SUCCESS": "Articles moved successfully",
-        "CATEGORY_ERROR": "Failed to move articles",
-        "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
-        "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
+        "STATUS_SKIPPED_ALL": "Disse artikler har ikke-offentliggjorte ændringer - åben dem for at publicere eller kassere.",
+        "CATEGORY_SUCCESS": "Artikler flyttet",
+        "CATEGORY_ERROR": "Flytning af artikler mislykkedes",
+        "DELETE_CONFIRM_TITLE": "Slet artikel | Slet {count} artikler",
+        "DELETE_CONFIRM_DESCRIPTION": "Dette vil permanent slette den valgte artikel. Denne handling kan ikke fortrydes. | Dette vil permanent slette {count} valgte artikler. Denne handling kan ikke fortrydes.",
         "DELETE_CONFIRM": "Slet",
-        "DELETE_SUCCESS": "Articles deleted successfully",
-        "DELETE_ERROR": "Failed to delete articles"
+        "DELETE_SUCCESS": "Artikler blev slettet",
+        "DELETE_ERROR": "Sletning af artikler mislykkedes"
       }
     },
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "Ny kategori",
         "EDIT_CATEGORY": "Rediger kategori",
-        "SEARCH_PLACEHOLDER": "Search categories...",
+        "SEARCH_PLACEHOLDER": "Søg i kategorier...",
         "CATEGORIES_COUNT": "{n} category | {n} categories",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "Categories ({localeCode})",
@@ -656,8 +656,8 @@
         "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
       },
       "SEARCH_EMPTY_STATE": {
-        "TITLE": "No matching categories",
-        "SUBTITLE": "We couldn't find any categories matching your search. Try a different term."
+        "TITLE": "Ingen matchende kategorier",
+        "SUBTITLE": "Vi kunne ikke finde nogen kategorier, der matcher din søgning. Prøv et andet udtryk."
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles"
@@ -716,10 +716,10 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
       "NEW_LOCALE_BUTTON_TEXT": "New locale",
-      "SEARCH_PLACEHOLDER": "Search locales...",
+      "SEARCH_PLACEHOLDER": "Søg efter sprog...",
       "SEARCH_EMPTY_STATE": {
-        "TITLE": "No matching locales",
-        "SUBTITLE": "We couldn't find any locales matching your search. Try a different term."
+        "TITLE": "Ingen matchene sprog",
+        "SUBTITLE": "Vi kunne ikke finde nogen sprog, der matcher din søgning. Prøv et andet term."
       },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles",
@@ -730,27 +730,27 @@
           "MAKE_DEFAULT": "Make default",
           "MOVE_TO_DRAFT": "Move to draft",
           "PUBLISH_LOCALE": "Publish locale",
-          "CUSTOMIZE_CONTENT": "Localize content",
-          "SELECT_POPULAR_CONTENT": "Select recommended content",
+          "CUSTOMIZE_CONTENT": "Oversæt indhold",
+          "SELECT_POPULAR_CONTENT": "Vælg anbefalet indhold",
           "DELETE": "Slet"
         }
       },
       "POPULAR_CONTENT_DIALOG": {
-        "TITLE": "Recommended content",
-        "DESCRIPTION": "Pick up to 3 categories and 6 articles to feature on this locale's help center home page. Drag them into the order you want visitors to see.",
-        "SEARCH": "Search...",
-        "EMPTY": "No matching results",
-        "ADD_ANOTHER": "Add another...",
-        "SLOTS_LEFT": "{count} slots left",
+        "TITLE": "Anbefalet indhold",
+        "DESCRIPTION": "Vælg op til 3 kategorier og 6 artikler som skal fremhæves på dette sprogs hjælpecenter hjemmeside. Træk dem ind i den rækkefølge, du vil have besøgende til at se.",
+        "SEARCH": "Søg...",
+        "EMPTY": "Ingen matchende resultater",
+        "ADD_ANOTHER": "Tilføj andre...",
+        "SLOTS_LEFT": "{count} pladser tilbage",
         "OVERRIDING_DEFAULTS": "Overriding defaults for this locale",
-        "CONFIRM": "Save recommendations",
+        "CONFIRM": "Gem anbefalinger",
         "CATEGORIES": {
-          "LABEL": "Recommended categories",
-          "ARTICLES_COUNT": "No articles | {count} article | {count} articles"
+          "LABEL": "Anbefalede kategorier",
+          "ARTICLES_COUNT": "Ingen artikler | {count} artikel | {count} artikler"
         },
         "ARTICLES": {
-          "LABEL": "Recommended articles",
-          "IN_CATEGORY": "in {category}",
+          "LABEL": "Anbefalede artikler",
+          "IN_CATEGORY": "i {category}",
           "UNCATEGORIZED": "Ikke Kategoriseret"
         },
         "API": {
@@ -759,16 +759,16 @@
         }
       },
       "CONTENT_DIALOG": {
-        "TITLE": "Localize content",
+        "TITLE": "Oversæt indhold",
         "DESCRIPTION": "Set values specific to this locale. Anything left blank falls back to the default locale.",
         "NAME": {
           "LABEL": "Navn"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page title"
+          "LABEL": "Side Titel"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header text"
+          "LABEL": "Header tekst"
         },
         "API": {
           "SUCCESS_MESSAGE": "Locale content updated successfully",
@@ -802,29 +802,30 @@
         },
         "PREVIEW": "Eksempelvisning",
         "PUBLISH": "Udgiv",
-        "PUBLISH_CHANGES": "Publish changes",
-        "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
-        "PUBLISH_CHANGES_ERROR": "Could not publish changes",
-        "SAVE_IN_PROGRESS": "Still saving your latest changes. Please try again in a moment.",
-        "UPLOAD_IN_PROGRESS": "A file upload is unfinished. Wait for it to finish or remove it first.",
-        "DISCARD_CHANGES": "Discard changes",
-        "DISCARD_CHANGES_SUCCESS": "Changes discarded",
-        "DISCARD_CHANGES_ERROR": "Could not discard changes",
-        "PENDING_CHANGES": "Pending changes",
-        "VIEW_CHANGES": "View unpublished changes",
+        "PUBLISH_CHANGES": "Publicér ændringer",
+        "PUBLISH_CHANGES_SUCCESS": "Ændringer publiceret",
+        "PUBLISH_CHANGES_ERROR": "Kunne ikke publicere ændringer",
+        "SAVE_IN_PROGRESS": "Gemmer stadig dine seneste ændringer. Prøv igen om et øjeblik.",
+        "UPLOAD_IN_PROGRESS": "En fil upload er ikke færdig. Vent på, at den er færdig eller fjern den først.",
+        "CREATE_IN_PROGRESS": "The article is still being created. Add files again in a moment.",
+        "DISCARD_CHANGES": "Kassér ændringer",
+        "DISCARD_CHANGES_SUCCESS": "Ændringer kasseret",
+        "DISCARD_CHANGES_ERROR": "Kunne ikke kassere ændringer",
+        "PENDING_CHANGES": "Afventende ændringer",
+        "VIEW_CHANGES": "Vis ikke-publicerede ændringer",
         "DRAFT": "Kladde",
         "ARCHIVE": "Archive",
         "BACK_TO_ARTICLES": "Back to articles"
       },
       "PENDING_CHANGES_POPOVER": {
-        "TITLE": "Unpublished changes",
-        "DESCRIPTION": "This article has draft changes that aren't live yet. Apply them before changing the status, or discard them?",
-        "APPLY": "Apply changes",
-        "DISCARD": "Discard changes"
+        "TITLE": "Ikke-publicerede ændringer",
+        "DESCRIPTION": "Denne artikel har udkast til ændringer, der ikke er live endnu. Anvend dem, før du ændrer status, eller kassér dem?",
+        "APPLY": "Anvend ændringer",
+        "DISCARD": "Kassér ændringer"
       },
       "DIFF_DIALOG": {
-        "TITLE": "Unpublished changes",
-        "DESCRIPTION": "Compare your draft against the version that's currently live.",
+        "TITLE": "Ikke-publicerede ændringer",
+        "DESCRIPTION": "Sammenlign dit udkast mod den version, der i øjeblikket er live.",
         "TITLE_LABEL": "Titel"
       },
       "EDIT_ARTICLE": {
@@ -839,7 +840,14 @@
         "META_TITLE": "Meta titel",
         "META_TITLE_PLACEHOLDER": "Add meta title",
         "META_TAGS": "Meta tags",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "META_TAGS_PLACEHOLDER": "Add meta tags",
+        "SLUG": "Snegl",
+        "SLUG_PLACEHOLDER": "Tilføj slug",
+        "SLUG_USE_TITLE": "Brug titel som slug",
+        "SLUG_WARNING": "Den aktuelle URL vil stoppe med at virke, og eksisterende links til den vil gå i stykker.",
+        "SLUG_UPDATE": "Opdater",
+        "SLUG_UPDATED": "Slug opdateret. Artiklen er nu tilgængelig på den nye URL.",
+        "SLUG_OPEN": "Åbn URL"
       },
       "API": {
         "ERROR": "Fejl under lagring af artikel"
@@ -957,23 +965,23 @@
         "EDIT_CONFIGURATION": "Edit configuration"
       },
       "LAYOUT_CONTENT": {
-        "HEADER": "Appearance",
-        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "HEADER": "Udseende",
+        "DESCRIPTION": "Vælg det layout, der passer til hvordan dine besøgende læser.",
         "LAYOUT": {
           "CLASSIC": {
-            "TITLE": "Classic",
+            "TITLE": "Klassisk",
             "DESCRIPTION": "A welcoming home page with search and featured topics."
           },
           "SIDEBAR": {
-            "TITLE": "Documentation",
+            "TITLE": "Dokumentation",
             "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
           }
         },
         "SOCIAL_LINKS": {
-          "HEADER": "Social links",
+          "HEADER": "Sociale links",
           "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
           "PLACEHOLDER": "handle",
-          "ADD": "Add social link",
+          "ADD": "Tilføj socialt link",
           "REMOVE": "Fjern"
         },
         "SAVE": "Save changes"
@@ -997,7 +1005,7 @@
         "GA4": {
           "TITLE": "Google Analytics 4",
           "DESCRIPTION": "Measure traffic and visitor behavior on your help center with Google Analytics.",
-          "PLACEHOLDER": "G-XXXXXXXXXX",
+          "PLACEHOLDER": "G-XXXXXXXX",
           "HELP": "Find the measurement ID under Admin → Data streams in Google Analytics. Leave empty to disable.",
           "INVALID": "Enter a valid measurement ID, for example G-XXXXXXXXXX."
         },
@@ -1041,7 +1049,7 @@
       "NAV": {
         "GENERAL": "Generelt",
         "DOMAIN": "Domæne",
-        "APPEARANCE": "Appearance",
+        "APPEARANCE": "Udseende",
         "INTEGRATIONS": "Integrationer"
       },
       "API": {

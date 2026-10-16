@@ -28,6 +28,19 @@
           "PLACEHOLDER": "Bitte auswählen",
           "ERROR": "Ereignis ist erforderlich"
         },
+        "MONITOR": {
+          "LABEL": "Monitor",
+          "PLACEHOLDER": "Select a live monitor",
+          "ERROR": "Select a live monitor",
+          "FETCH_FAILED": "Could not load monitors. Try again later.",
+          "API_UNAVAILABLE": "This monitor is no longer available. Select a live monitor and try again.",
+          "EMPTY": "No live monitors yet. Create or resume a monitor to use this event.",
+          "GO_TO_MONITORS": "Go to monitors",
+          "RETRY": "Erneut versuchen",
+          "UNAVAILABLE": "Unavailable monitor",
+          "UNAVAILABLE_HELP": "This monitor is unavailable for automation. Select a live monitor to activate this rule.",
+          "HELP": "Runs once when the monitor first matches a conversation from new live activity. Historical scans do not trigger actions."
+        },
         "RUN_TYPE": {
           "LABEL": "Wann soll diese Regel ausgeführt werden?",
           "OPTIONS": {
@@ -83,8 +96,7 @@
       "TABLE_HEADER": {
         "NAME": "Name",
         "ACTIVE": "Aktiv",
-        "CREATED_ON": "Erstellt am",
-        "ACTIONS": "Aktionen"
+        "CREATED_ON": "Erstellt am"
       },
       "404": "Keine Automatisierungsregeln gefunden",
       "404_DELAYED": "Noch keine Regeln zur Ausführung nach einer Wartezeit",
@@ -93,6 +105,9 @@
         "DELAYED": "Ausführung nach Wartezeit"
       },
       "DELAY_BADGE": "Wird nach {delay} ausgeführt",
+      "MONITOR_PAUSED": "Monitor paused",
+      "MONITOR_DELETED": "Monitor deleted",
+      "MONITOR_UNAVAILABLE": "Monitor feature unavailable",
       "DELAY_DISABLED_BANNER": "Die verzögerte Ausführung ist für dieses Konto deaktiviert. Daher sind die unten stehenden Regeln mit Wartezeit pausiert, bis sie wieder aktiviert wird."
     },
     "DELETE": {
@@ -136,7 +151,10 @@
     "CONDITION": {
       "DELETE_MESSAGE": "Du musst mindestens eine Bedingung zum Speichern haben",
       "CONTACT_CUSTOM_ATTR_LABEL": "Benutzerdefinierte Kontakt-Attribute",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Benutzerdefinierte Konversations-Attribute"
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Benutzerdefinierte Konversations-Attribute",
+      "PLACEHOLDERS": {
+        "CAPTAIN": "Describe what to look for, e.g. customer wants to cancel"
+      }
     },
     "ACTION": {
       "DELETE_MESSAGE": "Zum Speichern ist mindestens eine Aktion erforderlich",
@@ -181,7 +199,8 @@
       "CONVERSATION_UPDATED": "Konversation aktualisiert",
       "MESSAGE_CREATED": "Message Created",
       "CONVERSATION_RESOLVED": "Conversation Resolved",
-      "CONVERSATION_OPENED": "Conversation Opened"
+      "CONVERSATION_OPENED": "Conversation Opened",
+      "MONITOR_MATCHED": "Monitor Matched"
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "Assign to Agent",
@@ -232,7 +251,8 @@
       "ASSIGNEE_NAME": "Zugewiesener",
       "TEAM_NAME": "Team",
       "PRIORITY": "Priorität",
-      "LABELS": "Labels"
+      "LABELS": "Labels",
+      "CAPTAIN": "Kapitän"
     }
   }
 }

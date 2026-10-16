@@ -33,6 +33,8 @@
       "is_less_than": "Yra mažesnis nei",
       "days_before": "Yra prieš x dienų",
       "starts_with": "Prasideda nuo",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "Lygu",
       "notEqualTo": "Nelygu",
       "contains": "Sudėtyje yra",

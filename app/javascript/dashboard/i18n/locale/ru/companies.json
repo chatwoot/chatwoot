@@ -40,24 +40,72 @@
       }
     },
     "DETAIL": {
-      "LOADING": "Загрузка информации о компании...",
       "EMPTY_STATE": {
         "TITLE": "Компания не найдена",
         "SUBTITLE": "Возможно, эта компания была удалена или больше не доступна для этого аккаунта."
       },
-      "SIDEBAR": {
-        "TABS": {
-          "ATTRIBUTES": "Свойства",
-          "CONTACTS": "Контакты",
-          "HISTORY": "История",
-          "NOTES": "Заметки"
+      "HEADER": {
+        "EDIT": "Редактировать",
+        "MORE": "Show more",
+        "LESS": "Показать меньше",
+        "OPEN_COUNT": "{count} open | {count} open",
+        "REFRESH_WITH_TIME": "Refresh profile (updated {time})"
+      },
+      "FACTS": {
+        "INDUSTRY": "Индустрия",
+        "SIZE": "Employees",
+        "LOCATION": "Based in",
+        "ADDED": "Added",
+        "UNKNOWN": "Unknown",
+        "YES": "Да",
+        "NO": "Нет"
+      },
+      "PEOPLE": {
+        "ADD": "Добавить",
+        "SEARCH": "Search people",
+        "EMPTY": "No one from this company yet.",
+        "NO_MATCHES": "No people match your search.",
+        "DIALOG_TITLE": "Add people to {name}"
+      },
+      "TABS": {
+        "CONVERSATIONS": "Диалоги",
+        "NOTES": "Заметки",
+        "PEOPLE": "People"
+      },
+      "ACTIVITY": {
+        "TODAY": "Сегодня",
+        "YESTERDAY": "Вчера",
+        "UNKNOWN_AUTHOR": "Someone",
+        "EMPTY_CONVERSATIONS": "No conversations yet. They'll show up here when this company's people get in touch.",
+        "EMPTY_NOTES": "No notes yet. Notes added to this company's people show up here.",
+        "LOAD_MORE": "Загрузить ещё",
+        "SEARCH_NOTES": "Search notes",
+        "NO_MATCHING_NOTES": "No notes match your search.",
+        "NO_MATCHING_CONVERSATIONS": "No conversations match these filters."
+      },
+      "EDIT": {
+        "TITLE": "Edit company",
+        "SAVE": "Сохранить изменения",
+        "DESCRIPTION": "Описание",
+        "DETAILS": "Подробности",
+        "CITY": "Город",
+        "COUNTRY": "Страна",
+        "PHONE": "Телефон",
+        "SOCIAL": {
+          "TITLE": "Social profiles",
+          "LINKEDIN": "LinkedIn",
+          "X": "X",
+          "FACEBOOK": "Facebook",
+          "INSTAGRAM": "Instagram",
+          "GITHUB": "GitHub",
+          "YOUTUBE": "YouTube"
+        },
+        "PLACEHOLDERS": {
+          "DOMAIN": "acme.com",
+          "INDUSTRY": "Software",
+          "EMPLOYEES": "51 to 200",
+          "USERNAME": "имя пользователя"
         }
-      },
-      "HISTORY": {
-        "EMPTY": "Для контактов этой компании пока нет ни одной беседы."
-      },
-      "NOTES": {
-        "EMPTY": "Заметки для контактов этой компании еще не найдены."
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Поиск по атрибутам...",
@@ -69,11 +117,11 @@
           "UPDATE_ERROR": "Невозможно обновить атрибут компании.",
           "DELETE_SUCCESS": "Атрибут организации удален.",
           "DELETE_ERROR": "Не удалось удалить атрибут организации."
-        }
+        },
+        "TITLE": "Пользовательские атрибуты"
       },
       "CONTACTS": {
         "LOADING": "Загрузка контактов...",
-        "EMPTY": "Нет контактов связанных с этой компанией.",
         "UNNAMED_CONTACT": "Контакт без имени",
         "ACTIONS": {
           "ADD": "Добавить контакт",
@@ -111,16 +159,15 @@
         "DELETE_ERROR": "Невозможно удалить аватар компании."
       },
       "PROFILE": {
-        "TITLE": "Изменение данных компании",
-        "CREATED_AT": "Создано {date}",
-        "LAST_ACTIVE": "Последняя активность {date}",
         "DESCRIPTION_PLACEHOLDER": "Добавить краткое описание этой компании",
         "ACTIONS": {
-          "SAVE": "Обновить компанию"
+          "REFRESH": "Refresh profile"
         },
         "MESSAGES": {
           "UPDATE_SUCCESS": "Компания обновлена.",
-          "UPDATE_ERROR": "Невозможно обновить компанию."
+          "UPDATE_ERROR": "Невозможно обновить компанию.",
+          "REFRESH_SUCCESS": "Company profile refreshed.",
+          "REFRESH_ERROR": "Could not refresh the company profile."
         },
         "FIELDS": {
           "NAME": "Имя",
@@ -128,8 +175,6 @@
         }
       },
       "DELETE": {
-        "SECTION_TITLE": "Опасная зона",
-        "SECTION_DESCRIPTION": "Удалите эту компанию и отсоедините её контакты. Контакты останутся в учетной записи.",
         "BUTTON": "Удалить компанию",
         "TITLE": "Удалить компанию?",
         "DESCRIPTION": "Это удалит компанию и отсоединит все связанные с ней контакты. Контакты будут сохранены.",
@@ -139,10 +184,30 @@
           "SUCCESS": "Компания удалена.",
           "ERROR": "Не удалось удалить компанию."
         }
+      },
+      "CONVERSATION_FILTERS": {
+        "BUTTON": "Фильтр",
+        "BUTTON_WITH_COUNT": "Filter ({count})",
+        "ANY": "Any"
+      },
+      "ENRICHMENT_UPGRADE": {
+        "TITLE": "Enrich company profiles on the Business plan",
+        "DESCRIPTION": "Automatically fill in a company's description, industry, size, location and social profiles from its domain. Available on the Business and Enterprise plans.",
+        "UPGRADE": "See plans"
       }
     },
     "EMPTY_STATE": {
       "TITLE": "Компаний не найдено"
+    },
+    "CARD": {
+      "EMPLOYEES": "{count} employees"
+    },
+    "PAYWALL": {
+      "TITLE": "Upgrade to use Companies",
+      "AVAILABLE_ON": "Companies is not available on the free plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to group contacts by company, see every conversation with an account and keep company details in one place.",
+      "UPGRADE_NOW": "Обновить сейчас",
+      "CANCEL_ANYTIME": "Вы можете изменить или отменить ваш тарифный план в любое время"
     }
   },
   "COMPANIES_LAYOUT": {

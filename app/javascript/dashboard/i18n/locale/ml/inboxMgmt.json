@@ -140,7 +140,6 @@
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp ചാനൽ",
-        "DESC": "Twilio സംയോജിപ്പിച്ച് SMS അല്ലെങ്കിൽ WhatsApp വഴി നിങ്ങളുടെ ഉപഭോക്താക്കളെ പിന്തുണയ്ക്കാൻ ആരംഭിക്കുക.",
         "ACCOUNT_SID": {
           "LABEL": "അക്കൗണ്ട് എസ്ഐഡി",
           "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ട്വിലിയോ അക്കൗണ്ട് എസ്ഐഡി നൽകുക",
@@ -182,13 +181,13 @@
           "PLACEHOLDER": "ദയവായി സന്ദേശം അയയ്‌ക്കുന്ന ഫോൺ നമ്പർ നൽകുക.",
           "ERROR": "ദയവായി `+` ചിഹ്നത്തോടെ ആരംഭിക്കുന്ന, ഇടവേളകളില്ലാത്ത സാധുവായ ഫോൺ നമ്പർ നൽകുക."
         },
-        "API_CALLBACK": {
-          "TITLE": "കോൾബാക്ക് URL",
-          "SUBTITLE": "Twilio-യിൽ സന്ദേശം കോൾബാക്ക് URL ഇവിടെ നൽകിയ URL ഉപയോഗിച്ച് ക്രമീകരിക്കണം."
-        },
         "SUBMIT_BUTTON": "ട്വിലിയോ ചാനൽ സൃഷ്ടിക്കുക",
         "API": {
           "ERROR_MESSAGE": "ഞങ്ങൾക്ക് ട്വിലിയോ ക്രെഡൻഷ്യലുകൾ പ്രാമാണീകരിക്കാൻ കഴിഞ്ഞില്ല, ദയവായി വീണ്ടും ശ്രമിക്കുക"
+        },
+        "API_CALLBACK": {
+          "TITLE": "കോൾബാക്ക് URL",
+          "SUBTITLE": "Twilio-യിൽ സന്ദേശം കോൾബാക്ക് URL ഇവിടെ നൽകിയ URL ഉപയോഗിച്ച് ക്രമീകരിക്കണം."
         }
       },
       "SMS": {
@@ -426,9 +425,13 @@
           "MANUAL_LINK_TEXT": "മാനുവൽ സെറ്റപ്പ് ഫ്ലോ",
           "ACCESS_REQUEST": {
             "TITLE": "Meta ഉപയോഗിച്ച് വേഗത്തിലുള്ള ക്രമീകരണം",
-            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
-            "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
-            "BUTTON": "Request access"
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. Tell us what your business does and how you’ll use WhatsApp to enable this option.",
+            "BUTTON": "Request access",
+            "FORM_DESCRIPTION": "Tell us about your business and how you plan to use WhatsApp. Submit your use case to enable quick setup for your account.",
+            "USE_CASE_LABEL": "Business use case",
+            "USE_CASE_PLACEHOLDER": "For example, we sell home furnishings and use WhatsApp to answer product questions and help customers with their orders.",
+            "SUBMIT": "സമർപ്പിക്കുക",
+            "ERROR": "We couldn’t enable access. Please try again."
           },
           "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
           "STATUS_LINK": "View status updates",
@@ -676,6 +679,9 @@
       "MORE_SETTINGS": "കൂടുതൽ ക്രമീകരണങ്ങൾ",
       "WEBSITE_SUCCESS": "നിങ്ങൾ ഒരു വെബ്‌സൈറ്റ് ചാനൽ സൃഷ്ടിക്കുന്നത് വിജയകരമായി പൂർത്തിയാക്കി. ചുവടെ കാണിച്ചിരിക്കുന്ന കോഡ് പകർത്തി നിങ്ങളുടെ വെബ്‌സൈറ്റിൽ ചേർക്കുക. അടുത്ത തവണ ഒരു ഉപഭോക്താവ് തത്സമയ ചാറ്റ് ഉപയോഗിക്കുമ്പോൾ, സംഭാഷണം ഓട്ടോമാറ്റിക് ആയി  നിങ്ങളുടെ ഇൻ‌ബോക്സിൽ ദൃശ്യമാകും.",
       "WHATSAPP_QR_INSTRUCTION": "നിങ്ങളുടെ WhatsApp ഇൻബോക്സ് വേഗത്തിൽ പരിശോധിക്കാൻ മുകളിൽ കാണുന്ന QR കോഡ് സ്കാൻ ചെയ്യുക",
+      "SMS_QR_INSTRUCTION": "Scan the QR code above to quickly test your SMS inbox",
+      "SMS_QR_ALT": "QR code to test the SMS inbox",
+      "TWILIO_CALLBACK_FALLBACK": "Webhooks are configured automatically. If incoming messages do not arrive, use this callback URL in Twilio.",
       "MESSENGER_QR_INSTRUCTION": "നിങ്ങളുടെ Facebook Messenger ഇൻബോക്സ് വേഗത്തിൽ പരിശോധിക്കാൻ മുകളിൽ കാണുന്ന QR കോഡ് സ്കാൻ ചെയ്യുക",
       "TELEGRAM_QR_INSTRUCTION": "നിങ്ങളുടെ Telegram ഇൻബോക്സ് വേഗത്തിൽ പരിശോധിക്കാൻ മുകളിൽ കാണുന്ന QR കോഡ് സ്കാൻ ചെയ്യുക"
     },
@@ -806,6 +812,98 @@
     },
     "CHANNEL_PREFERENCES": "ചാനൽ മുൻഗണനകൾ",
     "WIDGET_FEATURES": "വിഡ്ജറ്റ് സവിശേഷതകൾ",
+    "TWILIO_HEALTH": {
+      "TITLE": "Manage your Twilio number",
+      "DESCRIPTION": "Review the Twilio account, sender and webhooks backing this inbox. Anything Chatwoot cannot receive is flagged here",
+      "GO_TO_SETTINGS": "Go to Twilio Console",
+      "NO_DATA": "ആരോഗ്യ ഡാറ്റ ലഭ്യമല്ല",
+      "LOADING": "Fetching health data from Twilio…",
+      "ERROR_TITLE": "Could not reach Twilio",
+      "STATUS": {
+        "HEALTHY": "All checks passed",
+        "MISCONFIGURED": "Needs attention"
+      },
+      "FIELDS": {
+        "ACCOUNT_NAME": {
+          "LABEL": "Twilio account",
+          "TOOLTIP": "The Twilio account these credentials belong to"
+        },
+        "ACCOUNT_STATUS": {
+          "LABEL": "Account status",
+          "TOOLTIP": "A suspended or closed Twilio account cannot send or receive anything"
+        },
+        "ACCOUNT_TYPE": {
+          "LABEL": "Account type",
+          "TOOLTIP": "Trial accounts can only message or call phone numbers you have verified with Twilio"
+        },
+        "SENDER": {
+          "LABEL": "അയച്ചയാൾ",
+          "TOOLTIP": "The phone number or messaging service that carries this inbox"
+        },
+        "CAPABILITIES": {
+          "LABEL": "Number capabilities",
+          "TOOLTIP": "Capabilities Twilio has enabled on this number. A capability this inbox needs but does not have will never work"
+        },
+        "VOICE_CALLING": {
+          "LABEL": "Voice calling",
+          "TOOLTIP": "Whether calling is turned on for this inbox"
+        }
+      },
+      "VALUES": {
+        "ACCOUNT_STATUSES": {
+          "ACTIVE": "സജീവമാണ്",
+          "SUSPENDED": "Suspended",
+          "CLOSED": "Closed"
+        },
+        "ACCOUNT_TYPES": {
+          "TRIAL": "Trial",
+          "FULL": "Full"
+        },
+        "CAPABILITIES": {
+          "SMS": "എസ്‌എം‌എസ്",
+          "VOICE": "വോയ്സ്"
+        },
+        "SENDER_TYPES": {
+          "PHONE_NUMBER": "ഫോൺ നമ്പർ",
+          "MESSAGING_SERVICE": "Messaging service"
+        },
+        "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
+        "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
+      },
+      "WEBHOOKS": {
+        "TITLE": "Webhooks",
+        "DESCRIPTION": "Twilio calls these URLs when a message or call arrives. Register them again after changing your installation URL",
+        "REGISTER_ALL": "Register webhooks",
+        "MESSAGING": "Messaging webhook",
+        "VOICE": "Voice webhook",
+        "VOICE_STATUS": "Voice status callback",
+        "VOICE_APP": "Outbound calling (TwiML app)"
+      },
+      "WEBHOOK": {
+        "CONFIGURED_SUCCESS": "Webhook വിജയകരമായി ക്രമീകരിച്ചു",
+        "NOT_SET": "not set",
+        "EXPECTED": "Expected",
+        "CURRENT": "Currently set to",
+        "REASONS": {
+          "NOT_SET": "Webhook ക്രമീകരിച്ചിട്ടില്ല",
+          "URL_MISMATCH": "Webhook URL പൊരുത്തക്കേട്",
+          "WRONG_HTTP_METHOD": "Webhook uses the wrong HTTP method",
+          "OVERRIDDEN_BY_NUMBER": "Messaging service defers to the number",
+          "OVERRIDDEN_BY_APPLICATION": "Overridden by a TwiML app",
+          "OVERRIDDEN_BY_TRUNK": "Overridden by a SIP trunk",
+          "MISSING_TWIML_APP": "TwiML app not created"
+        },
+        "HINTS": {
+          "NOT_SET": "Twilio has no webhook on this sender, so nothing reaches Chatwoot.",
+          "URL_MISMATCH": "Twilio is calling a different URL, so traffic goes elsewhere.",
+          "WRONG_HTTP_METHOD": "The URL is right but Twilio calls it with {method} instead of POST, and Chatwoot only answers POST.",
+          "OVERRIDDEN_BY_NUMBER": "This messaging service has \"Use webhook on number\" turned on, so Twilio ignores the service webhook.",
+          "OVERRIDDEN_BY_APPLICATION": "A TwiML app is attached to this number, and Twilio uses the app's URLs instead of the number's. Detach it in the Twilio Console.",
+          "OVERRIDDEN_BY_TRUNK": "This number is attached to a SIP trunk, so Twilio routes calls to the trunk and ignores voice webhooks entirely. Detach the trunk in the Twilio Console.",
+          "MISSING_TWIML_APP": "Chatwoot has no TwiML app for this number, so outbound calls cannot be placed."
+        }
+      }
+    },
     "ACCOUNT_HEALTH": {
       "TITLE": "നിങ്ങളുടെ WhatsApp അക്കൗണ്ട് നിയന്ത്രിക്കുക",
       "DESCRIPTION": "Review your WhatsApp phone number health, messaging capacity, and linked Meta business details.",
@@ -953,6 +1051,20 @@
         "MODES": {
           "SANDBOX": "സാൻഡ്‌ബോക്സ്",
           "LIVE": "ലൈവ്"
+        },
+        "QUALITY": {
+          "GREEN": "Green",
+          "YELLOW": "Yellow",
+          "RED": "Red"
+        },
+        "TIER_NAMES": {
+          "TIER_250": "Tier 250",
+          "TIER_1000": "Tier 1K",
+          "TIER_1K": "Tier 1K",
+          "TIER_2K": "Tier 2K",
+          "TIER_10K": "Tier 10K",
+          "TIER_100K": "Tier 100K",
+          "TIER_UNLIMITED": "Unlimited"
         }
       },
       "BUSINESS_PROFILE": {
@@ -999,7 +1111,18 @@
         "SECRET_KEY": "രഹസ്യ കീ",
         "VIEW_DOCS": "View documentation",
         "REQUIRE_LABEL": "Require identity validation for all conversations",
-        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected.",
+        "ROTATE": {
+          "BUTTON": "Rotate key",
+          "TITLE": "Rotate secret key?",
+          "WARNING": "The current key is revoked the instant you rotate it.",
+          "WARNING_DETAIL": "There is no overlap period and it cannot be restored.",
+          "IMPACT": "Your servers must sign users with the new key. Anyone still signed with the old one fails verification. If identity validation is required, they cannot start a conversation.",
+          "CONFIRM": "Rotate key",
+          "CANCEL": "റദ്ദാക്കുക",
+          "SUCCESS": "Secret key rotated successfully",
+          "ERROR": "Could not rotate the secret key, please try again"
+        }
       },
       "INBOX_AGENTS": "ഏജന്റുമാർ",
       "INBOX_AGENTS_SUB_TEXT": "ഈ ഇൻ‌ബോക്സിൽ നിന്ന് ഏജന്റുമാരെ ചേർക്കുക അല്ലെങ്കിൽ നീക്കംചെയ്യുക",
@@ -1332,7 +1455,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "നിങ്ങളുടെ IMAP വിശദാംശങ്ങൾ സജ്ജമാക്കുക",
-      "NOTE_TEXT": "SMTP സജ്ജമാക്കാൻ, ദയവായി IMAP ക്രമീകരിക്കുക.",
+      "NOTE_TEXT": "Configure IMAP to receive emails directly from your mailbox. Leave it disabled if you use email forwarding.",
       "UPDATE": "IMAP ക്രമീകരണങ്ങൾ അപ്ഡേറ്റ് ചെയ്യുക",
       "TOGGLE_AVAILABILITY": "ഈ ഇൻബോക്സിനായി IMAP കോൺഫിഗറേഷൻ സജീവമാക്കുക",
       "TOGGLE_HELP": "IMAP സജ്ജമാക്കുന്നത് ഉപയോക്താവിന് ഇമെയിൽ സ്വീകരിക്കാൻ സഹായിക്കും",

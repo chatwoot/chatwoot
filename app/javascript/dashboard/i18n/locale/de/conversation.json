@@ -34,6 +34,15 @@
     },
     "UNREAD_MESSAGES": "Ungelesene Nachrichten",
     "UNREAD_MESSAGE": "Ungelesene Nachricht",
+    "CONTACT_HISTORY": {
+      "OLDER": "Previous conversation",
+      "NEWER": "Next conversation",
+      "OLDER_WITH": "Previous conversation with {name} · {time}",
+      "NEWER_WITH": "Next conversation with {name} · {time}",
+      "CUSTOMER": "this customer",
+      "REPLY_TO_OLDER": "Reply to this older conversation",
+      "GO_TO_LATEST": "Go to latest conversation"
+    },
     "CLICK_HERE": "Hier klicken",
     "LOADING_INBOXES": "Posteingänge laden",
     "LOADING_CONVERSATIONS": "Gespräche laden",
@@ -44,7 +53,7 @@
     "NOT_ASSIGNED_TO_YOU": "Diese Konversation ist Ihnen nicht zugeordnet. Möchten Sie dieses Gespräch sich selbst zuordnen?",
     "ASSIGN_TO_ME": "Mir zuweisen",
     "BOT_HANDOFF_MESSAGE": "Diese Unterhaltung wird derzeit von {assigneeName} bearbeitet.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "einem Bot",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
     "BOT_HANDOFF_ACTION": "Übernehmen",
     "BOT_HANDOFF_REOPEN_ACTION": "Gespräch als geöffnet markieren",
     "BOT_HANDOFF_SUCCESS": "Die Unterhaltung wurde dir übergeben",
@@ -80,6 +89,15 @@
     "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
     "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuchen Sie es erneut",
     "NO_RESPONSE": "Keine Antwort",
+    "REQUEST_CONTACT_INFO": {
+      "ACTION": "Ask the customer to share their WhatsApp phone number",
+      "PENDING_ACTION": "Contact information request pending",
+      "STATES": {
+        "PENDING": "Waiting for contact information",
+        "SHARED": "Phone number shared",
+        "IDENTITY_CONFLICT": "Phone number needs review"
+      }
+    },
     "RESPONSE": "Antwort",
     "RATING_TITLE": "Bewertung",
     "FEEDBACK_TITLE": "Feedback",
@@ -198,6 +216,16 @@
       "TITLE": "Stummschalten bis",
       "APPLY": "Stummschalten",
       "CANCEL": "Abbrechen"
+    },
+    "SUGGESTIONS": {
+      "SUGGEST": "Suggest with Captain",
+      "EMPTY": "No new suggestions",
+      "ACCEPT": "Accept",
+      "APPLY_HINT": "Click to apply",
+      "REJECT": "Verwerfen",
+      "ACCEPT_ALL": "Accept all",
+      "ERROR": "Could not load suggestions. Please try again.",
+      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
     },
     "PRIORITY": {
       "TITLE": "Priorität",
@@ -318,11 +346,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Zitierten E-Mail-Thread einbeziehen",
-        "DISABLE_TOOLTIP": "Zitierten E-Mail-Thread nicht einbeziehen",
-        "REMOVE_PREVIEW": "Zitierte E-Mail-Themen entfernen",
-        "COLLAPSE": "Vorschau ausblenden",
-        "EXPAND": "Vorschau erweitern"
+        "SHOW_TOOLTIP": "Show trimmed content",
+        "HIDE_TOOLTIP": "Hide trimmed content",
+        "REMOVE": "Remove quoted text"
       }
     },
     "VISIBLE_TO_AGENTS": "Privater Hinweis: Nur für Sie und Ihr Team sichtbar",
@@ -352,6 +378,7 @@
     "CONTEXT_MENU": {
       "COPY": "Kopieren",
       "REPLY_TO": "Auf diese Nachricht antworten",
+      "FORWARD_EMAIL": "Forward email",
       "DELETE": "Löschen",
       "CREATE_A_CANNED_RESPONSE": "Zu vorgefertigten Antworten hinzufügen",
       "TRANSLATE": "Übersetzen",
@@ -529,7 +556,16 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Betreff",
+    "DATE": "Date",
     "EXPAND": "E-Mail erweitern"
+  },
+  "FORWARD_EMAIL": {
+    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "TO_LABEL": "An:",
+    "TO_PLACEHOLDER": "Enter at least 2 characters to search by email",
+    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
+    "FORWARDED_TO": "Forwarded to {emails}",
+    "CONTACT_CANNOT_SEE": "{name} cannot see this"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Zugewiesen",

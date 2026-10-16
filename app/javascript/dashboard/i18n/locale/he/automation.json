@@ -28,6 +28,19 @@
           "PLACEHOLDER": "אנא בחר אחד",
           "ERROR": "אירוע נדרש"
         },
+        "MONITOR": {
+          "LABEL": "Monitor",
+          "PLACEHOLDER": "Select a live monitor",
+          "ERROR": "Select a live monitor",
+          "FETCH_FAILED": "Could not load monitors. Try again later.",
+          "API_UNAVAILABLE": "This monitor is no longer available. Select a live monitor and try again.",
+          "EMPTY": "No live monitors yet. Create or resume a monitor to use this event.",
+          "GO_TO_MONITORS": "Go to monitors",
+          "RETRY": "נסה שוב",
+          "UNAVAILABLE": "Unavailable monitor",
+          "UNAVAILABLE_HELP": "This monitor is unavailable for automation. Select a live monitor to activate this rule.",
+          "HELP": "Runs once when the monitor first matches a conversation from new live activity. Historical scans do not trigger actions."
+        },
         "RUN_TYPE": {
           "LABEL": "When should this rule run?",
           "OPTIONS": {
@@ -83,8 +96,7 @@
       "TABLE_HEADER": {
         "NAME": "שם",
         "ACTIVE": "פעיל",
-        "CREATED_ON": "נוצר ב",
-        "ACTIONS": "פעולות"
+        "CREATED_ON": "נוצר ב"
       },
       "404": "לא נמצאו כללי אוטומציה",
       "404_DELAYED": "No rules run after a wait yet",
@@ -93,6 +105,9 @@
         "DELAYED": "Runs after a wait"
       },
       "DELAY_BADGE": "Runs after {delay}",
+      "MONITOR_PAUSED": "Monitor paused",
+      "MONITOR_DELETED": "Monitor deleted",
+      "MONITOR_UNAVAILABLE": "Monitor feature unavailable",
       "DELAY_DISABLED_BANNER": "Delayed execution is turned off for this account, so the rules below that run after a wait are paused until it is turned back on."
     },
     "DELETE": {
@@ -136,7 +151,10 @@
     "CONDITION": {
       "DELETE_MESSAGE": "אתה צריך לפחות תנאי אחד כדי לשמור",
       "CONTACT_CUSTOM_ATTR_LABEL": "מאפיינים מותאמים אישית של איש קשר",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "מאפיינים מותאמים אישית של שיחה"
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "מאפיינים מותאמים אישית של שיחה",
+      "PLACEHOLDERS": {
+        "CAPTAIN": "Describe what to look for, e.g. customer wants to cancel"
+      }
     },
     "ACTION": {
       "DELETE_MESSAGE": "אתה צריך לפחות פעולה אחת כדי לשמור",
@@ -181,7 +199,8 @@
       "CONVERSATION_UPDATED": "שיחה עודכנה",
       "MESSAGE_CREATED": "הודעה נוצרה",
       "CONVERSATION_RESOLVED": "שיחה נפתרה",
-      "CONVERSATION_OPENED": "שיחה נפתחה"
+      "CONVERSATION_OPENED": "שיחה נפתחה",
+      "MONITOR_MATCHED": "Monitor Matched"
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "הקצה לסוכן",
@@ -232,7 +251,8 @@
       "ASSIGNEE_NAME": "מוקצה",
       "TEAM_NAME": "צוות",
       "PRIORITY": "עדיפות",
-      "LABELS": "תוויות"
+      "LABELS": "תוויות",
+      "CAPTAIN": "קפטן"
     }
   }
 }

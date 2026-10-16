@@ -140,7 +140,6 @@
       },
       "TWILIO": {
         "TITLE": "Chaîne Twilio SMS/WhatsApp",
-        "DESC": "Intégrez Twilio et commencez à soutenir vos clients par SMS ou WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID du compte",
           "PLACEHOLDER": "Veuillez entrer le SID de votre compte Twilio",
@@ -182,13 +181,13 @@
           "PLACEHOLDER": "Veuillez entrer le numéro de téléphone à partir duquel le message sera envoyé.",
           "ERROR": "Veuillez fournir un numéro de téléphone valide qui commence par un signe `+` et ne contient aucun espace."
         },
-        "API_CALLBACK": {
-          "TITLE": "URL de rappel (callback)",
-          "SUBTITLE": "Vous devez configurer l'URL de rappel (callback) du message dans Twilio avec l'URL mentionnée ici."
-        },
         "SUBMIT_BUTTON": "Créer le canal Twilio",
         "API": {
           "ERROR_MESSAGE": "Nous n'avons pas pu authentifier les identifiants Twilio, veuillez réessayer"
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL de rappel (callback)",
+          "SUBTITLE": "Vous devez configurer l'URL de rappel (callback) du message dans Twilio avec l'URL mentionnée ici."
         }
       },
       "SMS": {
@@ -426,9 +425,13 @@
           "MANUAL_LINK_TEXT": "flux de configuration manuelle",
           "ACCESS_REQUEST": {
             "TITLE": "Configuration rapide avec Meta",
-            "DESCRIPTION": "Connecte un nouveau numéro ou un numéro existant à partir de l'application WhatsApp Business sans configuration manuelle. Pour demander cette option, dites à notre équipe ce que fait votre entreprise, comment vous utiliserez WhatsApp, et quel compte Chatwoot a besoin d'accès.",
-            "FOOTNOTE": "Nous examinerons votre demande et vous informerons si cette option peut être activée. Vous pouvez également poursuivre la configuration manuelle ci-dessous.",
-            "BUTTON": "Demander l'accès"
+            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. Tell us what your business does and how you’ll use WhatsApp to enable this option.",
+            "BUTTON": "Demander l'accès",
+            "FORM_DESCRIPTION": "Tell us about your business and how you plan to use WhatsApp. Submit your use case to enable quick setup for your account.",
+            "USE_CASE_LABEL": "Business use case",
+            "USE_CASE_PLACEHOLDER": "For example, we sell home furnishings and use WhatsApp to answer product questions and help customers with their orders.",
+            "SUBMIT": "Envoyer",
+            "ERROR": "We couldn’t enable access. Please try again."
           },
           "RESTRICTED_WARNING": "L’inscription intégrée WhatsApp est temporairement indisponible en raison d’un problème lié à l’API chez Meta, et non à Chatwoot. Vous pouvez utiliser la configuration manuelle pour les numéros admissibles à l’API WhatsApp Cloud. Nous travaillons en étroite collaboration avec Meta pour résoudre ce problème au plus vite.",
           "STATUS_LINK": "Voir les mises à jour de statut",
@@ -676,6 +679,9 @@
       "MORE_SETTINGS": "Plus de paramètres",
       "WEBSITE_SUCCESS": "Vous avez terminé avec succès la création d'un canal Web. Copiez le code affiché ci-dessous et collez-le sur votre site web. La prochaine fois qu'un client utilisera le chat en direct, la conversation apparaîtra automatiquement dans votre boîte de réception.",
       "WHATSAPP_QR_INSTRUCTION": "Scannez le code QR ci-dessus pour tester rapidement votre boîte de réception WhatsApp",
+      "SMS_QR_INSTRUCTION": "Scan the QR code above to quickly test your SMS inbox",
+      "SMS_QR_ALT": "QR code to test the SMS inbox",
+      "TWILIO_CALLBACK_FALLBACK": "Webhooks are configured automatically. If incoming messages do not arrive, use this callback URL in Twilio.",
       "MESSENGER_QR_INSTRUCTION": "Scannez le code QR ci-dessus pour tester rapidement votre boîte de réception Facebook Messenger",
       "TELEGRAM_QR_INSTRUCTION": "Scannez le code QR ci-dessus pour tester rapidement votre boîte de réception Telegram"
     },
@@ -806,6 +812,98 @@
     },
     "CHANNEL_PREFERENCES": "Préférences du canal",
     "WIDGET_FEATURES": "Fonctionnalités du widget",
+    "TWILIO_HEALTH": {
+      "TITLE": "Manage your Twilio number",
+      "DESCRIPTION": "Review the Twilio account, sender and webhooks backing this inbox. Anything Chatwoot cannot receive is flagged here",
+      "GO_TO_SETTINGS": "Go to Twilio Console",
+      "NO_DATA": "Les données de santé ne sont pas disponibles",
+      "LOADING": "Fetching health data from Twilio…",
+      "ERROR_TITLE": "Could not reach Twilio",
+      "STATUS": {
+        "HEALTHY": "All checks passed",
+        "MISCONFIGURED": "Needs attention"
+      },
+      "FIELDS": {
+        "ACCOUNT_NAME": {
+          "LABEL": "Twilio account",
+          "TOOLTIP": "The Twilio account these credentials belong to"
+        },
+        "ACCOUNT_STATUS": {
+          "LABEL": "Account status",
+          "TOOLTIP": "A suspended or closed Twilio account cannot send or receive anything"
+        },
+        "ACCOUNT_TYPE": {
+          "LABEL": "Account type",
+          "TOOLTIP": "Trial accounts can only message or call phone numbers you have verified with Twilio"
+        },
+        "SENDER": {
+          "LABEL": "Expéditeur",
+          "TOOLTIP": "The phone number or messaging service that carries this inbox"
+        },
+        "CAPABILITIES": {
+          "LABEL": "Number capabilities",
+          "TOOLTIP": "Capabilities Twilio has enabled on this number. A capability this inbox needs but does not have will never work"
+        },
+        "VOICE_CALLING": {
+          "LABEL": "Voice calling",
+          "TOOLTIP": "Whether calling is turned on for this inbox"
+        }
+      },
+      "VALUES": {
+        "ACCOUNT_STATUSES": {
+          "ACTIVE": "Actif",
+          "SUSPENDED": "Suspended",
+          "CLOSED": "Closed"
+        },
+        "ACCOUNT_TYPES": {
+          "TRIAL": "Trial",
+          "FULL": "Full"
+        },
+        "CAPABILITIES": {
+          "SMS": "SMS",
+          "VOICE": "Voix"
+        },
+        "SENDER_TYPES": {
+          "PHONE_NUMBER": "Numéro de téléphone",
+          "MESSAGING_SERVICE": "Messaging service"
+        },
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé"
+      },
+      "WEBHOOKS": {
+        "TITLE": "Webhooks",
+        "DESCRIPTION": "Twilio calls these URLs when a message or call arrives. Register them again after changing your installation URL",
+        "REGISTER_ALL": "Register webhooks",
+        "MESSAGING": "Messaging webhook",
+        "VOICE": "Voice webhook",
+        "VOICE_STATUS": "Voice status callback",
+        "VOICE_APP": "Outbound calling (TwiML app)"
+      },
+      "WEBHOOK": {
+        "CONFIGURED_SUCCESS": "Webhook configuré avec succès",
+        "NOT_SET": "not set",
+        "EXPECTED": "Expected",
+        "CURRENT": "Currently set to",
+        "REASONS": {
+          "NOT_SET": "Webhook non configuré",
+          "URL_MISMATCH": "L’URL du webhook ne correspond pas",
+          "WRONG_HTTP_METHOD": "Webhook uses the wrong HTTP method",
+          "OVERRIDDEN_BY_NUMBER": "Messaging service defers to the number",
+          "OVERRIDDEN_BY_APPLICATION": "Overridden by a TwiML app",
+          "OVERRIDDEN_BY_TRUNK": "Overridden by a SIP trunk",
+          "MISSING_TWIML_APP": "TwiML app not created"
+        },
+        "HINTS": {
+          "NOT_SET": "Twilio has no webhook on this sender, so nothing reaches Chatwoot.",
+          "URL_MISMATCH": "Twilio is calling a different URL, so traffic goes elsewhere.",
+          "WRONG_HTTP_METHOD": "The URL is right but Twilio calls it with {method} instead of POST, and Chatwoot only answers POST.",
+          "OVERRIDDEN_BY_NUMBER": "This messaging service has \"Use webhook on number\" turned on, so Twilio ignores the service webhook.",
+          "OVERRIDDEN_BY_APPLICATION": "A TwiML app is attached to this number, and Twilio uses the app's URLs instead of the number's. Detach it in the Twilio Console.",
+          "OVERRIDDEN_BY_TRUNK": "This number is attached to a SIP trunk, so Twilio routes calls to the trunk and ignores voice webhooks entirely. Detach the trunk in the Twilio Console.",
+          "MISSING_TWIML_APP": "Chatwoot has no TwiML app for this number, so outbound calls cannot be placed."
+        }
+      }
+    },
     "ACCOUNT_HEALTH": {
       "TITLE": "Gère ton compte WhatsApp",
       "DESCRIPTION": "Consultez l’état de votre numéro de téléphone WhatsApp, sa capacité de messagerie et les informations Meta Business associées.",
@@ -953,6 +1051,20 @@
         "MODES": {
           "SANDBOX": "Bac à sable",
           "LIVE": "En direct"
+        },
+        "QUALITY": {
+          "GREEN": "Vert",
+          "YELLOW": "Yellow",
+          "RED": "Rouge"
+        },
+        "TIER_NAMES": {
+          "TIER_250": "Tier 250",
+          "TIER_1000": "Tier 1K",
+          "TIER_1K": "Tier 1K",
+          "TIER_2K": "Tier 2K",
+          "TIER_10K": "Tier 10K",
+          "TIER_100K": "Tier 100K",
+          "TIER_UNLIMITED": "Unlimited"
         }
       },
       "BUSINESS_PROFILE": {
@@ -999,7 +1111,18 @@
         "SECRET_KEY": "Clé secrète",
         "VIEW_DOCS": "Voir la documentation",
         "REQUIRE_LABEL": "Exiger une validation d'identité pour toutes les conversations",
-        "REQUIRE_DESCRIPTION": "Lorsqu'il est activé, les utilisateurs doivent fournir un jeton d'identité valide pour démarrer les conversations. Les demandes sans jetons valides seront rejetées."
+        "REQUIRE_DESCRIPTION": "Lorsqu'il est activé, les utilisateurs doivent fournir un jeton d'identité valide pour démarrer les conversations. Les demandes sans jetons valides seront rejetées.",
+        "ROTATE": {
+          "BUTTON": "Rotate key",
+          "TITLE": "Rotate secret key?",
+          "WARNING": "The current key is revoked the instant you rotate it.",
+          "WARNING_DETAIL": "There is no overlap period and it cannot be restored.",
+          "IMPACT": "Your servers must sign users with the new key. Anyone still signed with the old one fails verification. If identity validation is required, they cannot start a conversation.",
+          "CONFIRM": "Rotate key",
+          "CANCEL": "Annuler",
+          "SUCCESS": "Secret key rotated successfully",
+          "ERROR": "Could not rotate the secret key, please try again"
+        }
       },
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Ajouter ou supprimer des agents de cette boîte de réception",
@@ -1332,7 +1455,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Définir vos détails IMAP",
-      "NOTE_TEXT": "Pour activer le SMTP, veuillez configurer IMAP.",
+      "NOTE_TEXT": "Configure IMAP to receive emails directly from your mailbox. Leave it disabled if you use email forwarding.",
       "UPDATE": "Modifier les paramètres IMAP",
       "TOGGLE_AVAILABILITY": "Activer la configuration IMAP pour cette boîte de réception",
       "TOGGLE_HELP": "Activer IMAP aidera l'utilisateur à recevoir des e-mails",

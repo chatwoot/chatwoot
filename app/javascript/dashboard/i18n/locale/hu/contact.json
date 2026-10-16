@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nincs megelőző beszélgetés ezzel a kontakttal.",
-      "TITLE": "Korábbi beszélgetések"
+      "TITLE": "Korábbi beszélgetések",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {
