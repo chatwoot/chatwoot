@@ -2,12 +2,15 @@
 import { computed } from 'vue';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 import BaseBubble from './Base.vue';
+import { useTimeFormat } from 'dashboard/composables/useTimeFormat';
 import { useMessageContext } from '../provider.js';
 
 const { content, createdAt } = useMessageContext();
 
+const { fullTimestampFormat } = useTimeFormat();
+
 const readableTime = computed(() =>
-  messageTimestamp(createdAt.value, 'LLL d, h:mm a')
+  messageTimestamp(createdAt.value, fullTimestampFormat.value)
 );
 </script>
 
