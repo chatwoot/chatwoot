@@ -51,7 +51,6 @@ import ForwardedEmailBanner from './forward/ForwardedEmailBanner.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import { useBranding } from 'shared/composables/useBranding';
 import { useTranslations } from 'dashboard/composables/useTranslations';
-import { EmailQuoteExtractor } from 'dashboard/helper/emailQuoteExtractor';
 
 /**
  * @typedef {Object} Attachment
@@ -168,19 +167,12 @@ const { translationContent } = useTranslations(
   computed(() => props.contentAttributes),
   contactSide
 );
-const displayedContent = computed(() => {
-  if (showingOriginal.value || !translationContent.value) return props.content;
-  if (!props.contentAttributes?.email?.htmlContent?.full) {
-    return translationContent.value;
-  }
-  // A translated email is html: copy and canned responses get the text the bubble shows.
-  const html = props.contentAttributes.forwardedMessageId
-    ? translationContent.value
-    : EmailQuoteExtractor.extractQuotes(translationContent.value);
-  return new DOMParser()
-    .parseFromString(html, 'text/html')
-    .body.textContent.trim();
-});
+// Copy and canned responses take the text the bubble shows.
+const displayedContent = computed(() =>
+  showingOriginal.value || !translationContent.value
+    ? props.content
+    : translationContent.value
+);
 
 const isAutoTranslated = computed(() => {
   const { language, locale } = autoTranslate.value;
