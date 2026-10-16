@@ -195,7 +195,7 @@ describe Whatsapp::FacebookApiClient do
         stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
-            body: { subscribed_fields: %w[messages smb_message_echoes] }.to_json
+            body: { subscribed_fields: %w[messages smb_message_echoes history] }.to_json
           )
           .to_return(
             status: 200,
