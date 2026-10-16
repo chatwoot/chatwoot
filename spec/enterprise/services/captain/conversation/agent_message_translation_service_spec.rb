@@ -9,13 +9,23 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :outgoing, sender: user, content: 'Hello there',
                      content_attributes: { translation_pending: true })
   end
-  let(:llm_response) { { message: 'Bonjour' } }
+  let(:llm_response) { { message: ['Bonjour'] } }
   let(:llm_service) { instance_double(Captain::Llm::MessageTranslationService, perform: llm_response) }
   let(:detection) { instance_double(Captain::Llm::LanguageDetectionService, language: nil) }
 
   before do
     allow(Captain::Llm::MessageTranslationService).to receive(:new).and_return(llm_service)
     allow(Captain::Llm::LanguageDetectionService).to receive(:new).and_return(detection)
+  end
+
+  it 'detects the language of a contact email from its reply, without the quoted history' do
+    create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content_type: :incoming_email,
+                     content: "Celui-ci met quatre secondes à charger.\n\nOn Thu, Oct 16, Support wrote:\n> Hello",
+                     content_attributes: { email: { text_content: { quoted: 'Celui-ci met quatre secondes à charger.' } } })
+
+    described_class.new(message: message).perform
+
+    expect(Captain::Llm::LanguageDetectionService).to have_received(:new).with(account: account, text: 'Celui-ci met quatre secondes à charger.')
   end
 
   it 'stores the reply in the contact language and keeps the typed text under the agent locale' do
@@ -51,7 +61,7 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     greeting = create(:message, account: account, inbox: inbox, conversation: fresh, message_type: :template, content: 'Hello there',
                                 content_attributes: { translation_pending: true })
     allow(detection).to receive(:language).and_return('es', nil)
-    allow(llm_service).to receive(:perform).and_return(message: 'Hola')
+    allow(llm_service).to receive(:perform).and_return(message: ['Hola'])
 
     described_class.new(message: greeting).perform
 
@@ -63,7 +73,7 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
   it 'follows the contact when they switch language midway' do
     switched = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Hallo')
     allow(detection).to receive(:language).and_return('de', nil)
-    allow(llm_service).to receive(:perform).and_return(message: 'Guten Tag')
+    allow(llm_service).to receive(:perform).and_return(message: ['Guten Tag'])
 
     described_class.new(message: message).perform
 
@@ -112,7 +122,7 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
 
     described_class.new(message: email).perform
 
-    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(text: 'Hello there'))
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(texts: ['Hello there']))
     expect(email.reload.content).to eq("Bonjour\n\n> On Monday, Camille wrote:\n> Bonjour")
     expect(email.translations.values.first).to include('<p>Hello there</p>').and include('<blockquote>')
     expect(email.content_attributes.dig('email', 'html_content', 'reply')).to include('<p>Bonjour</p>').and include('<blockquote>')
@@ -141,7 +151,7 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
   end
 
   it 'flags a reply the translator hands back unchanged although it is in another language' do
-    allow(llm_service).to receive(:perform).and_return(message: 'Hello there')
+    allow(llm_service).to receive(:perform).and_return(message: ['Hello there'])
     allow(detection).to receive(:language).and_return('en')
 
     described_class.new(message: message).perform

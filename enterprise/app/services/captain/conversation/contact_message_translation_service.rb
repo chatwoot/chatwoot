@@ -27,10 +27,15 @@ class Captain::Conversation::ContactMessageTranslationService
 
   def text_in_agent_language
     language = Captain::Conversation::MessageLanguageService.new(conversation: conversation, message: message).perform
-    return message.content if Captain::Llm::MessageTranslationService.same_language?(language, target_language)
+    return message_text.original if Captain::Llm::MessageTranslationService.same_language?(language, target_language)
 
-    Captain::Llm::MessageTranslationService.new(
-      account: message.account, text: message.content, target_language: target_language, conversation_display_id: conversation.display_id
-    ).perform[:message].presence
+    translations = Captain::Llm::MessageTranslationService.new(
+      account: message.account, texts: message_text.texts, target_language: target_language, conversation_display_id: conversation.display_id
+    ).perform[:message]
+    message_text.with(translations).presence if translations&.size == message_text.texts.size
+  end
+
+  def message_text
+    @message_text ||= Captain::Conversation::MessageText.new(message)
   end
 end

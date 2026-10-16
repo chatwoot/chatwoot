@@ -16,13 +16,16 @@ const TRANSLATABLE_CONTENT_TYPES = [
   CONTENT_TYPES.INCOMING_EMAIL,
 ];
 
-// Only text is translated: call bubbles, cards and forms carry fixed labels, and html mail keeps its markup.
+// Only text is translated: call bubbles, cards and forms carry fixed labels.
 export const isTranslatable = message =>
   isContactSide(message.message_type, message.sender?.type) &&
   TRANSLATABLE_CONTENT_TYPES.includes(message.content_type) &&
   !!message.content &&
-  !message.content_attributes?.deleted &&
-  !message.content_attributes?.email?.html_content?.full;
+  !message.content_attributes?.deleted;
+
+// Email content carries the quoted history; the trimmed reply is what gets translated.
+export const translatableText = message =>
+  message.content_attributes?.email?.text_content?.quoted || message.content;
 
 // Stored with another language, a message stays translated after the thread switched to the agent language.
 export const isForeign = (message, locale) => {
