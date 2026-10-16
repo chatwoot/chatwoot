@@ -49,9 +49,13 @@ const handleCopy = async e => {
 </script>
 
 <template>
-  <button
+  <div
+    role="button"
+    tabindex="0"
     class="flex flex-col w-full gap-1 px-2 py-1 border border-transparent border-solid rounded-md cursor-pointer hover:bg-n-slate-3 group focus:outline-none focus:bg-n-slate-3"
     @click="handlePreview"
+    @keydown.enter.prevent="handlePreview"
+    @keydown.space.prevent="handlePreview"
   >
     <h4
       class="w-full mb-0 -mx-1 text-sm rounded-sm ltr:text-left rtl:text-right text-n-slate-12 hover:underline group-hover:underline"
@@ -87,5 +91,5 @@ const handleCopy = async e => {
         />
       </div>
     </div>
-  </button>
+  </div>
 </template>
