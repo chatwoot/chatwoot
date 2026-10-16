@@ -3,19 +3,72 @@ import { computed, ref } from 'vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from './FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
+import TemplateButtons from './TemplateButtons.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
 import { MESSAGE_TYPES } from '../../constants';
 import { MESSAGE_STATUS } from 'shared/constants/messages';
 import { useMessageContext } from '../../provider.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
+import { useFunctionGetter } from 'dashboard/composables/store';
+import {
+  findComponentByType,
+  COMPONENT_TYPES,
+} from 'dashboard/helper/templateHelper';
 
-const { content, attachments, contentAttributes, messageType, status } =
-  useMessageContext();
+const {
+  content,
+  attachments,
+  contentAttributes,
+  additionalAttributes,
+  messageType,
+  status,
+  inboxId,
+} = useMessageContext();
 
 const { hasTranslations, translationContent } =
   useTranslations(contentAttributes);
 
 const renderOriginal = ref(false);
+
+const whatsAppTemplates = useFunctionGetter(
+  'inboxes/getFilteredWhatsAppTemplates',
+  inboxId
+);
+
+// `Messages::MessageBuilder` stores the template metadata under
+// `additional_attributes.template_params`, whether the message was saved as a
+// TEMPLATE or a plain OUTGOING message (templates sent from the composer are
+// outgoing). Messages are deep-camelcased in the dashboard, so we read
+// `templateParams` and fall back to the raw key. We key on the presence of
+// those params, and match the inbox template by name AND language so
+// localized variants render the right buttons.
+const templateParams = computed(() => {
+  const attributes = additionalAttributes?.value || {};
+  return attributes.templateParams || attributes.template_params || null;
+});
+
+const templateButtons = computed(() => {
+  const params = templateParams.value;
+  if (!params?.name) {
+    return [];
+  }
+
+  const template = whatsAppTemplates.value.find(candidate => {
+    if (candidate.name !== params.name) {
+      return false;
+    }
+    if (params.language && candidate.language) {
+      return candidate.language.toLowerCase() === params.language.toLowerCase();
+    }
+    return true;
+  });
+
+  const buttonComponent = template
+    ? findComponentByType(template, COMPONENT_TYPES.BUTTONS)
+    : null;
+
+  return buttonComponent?.buttons ?? [];
+});
 
 const renderContent = computed(() => {
   if (renderOriginal.value) {
@@ -88,6 +141,10 @@ const handleSeeOriginal = () => {
           {{ contentAttributes.submittedEmail }}
         </div>
       </template>
+      <TemplateButtons
+        v-if="templateButtons.length"
+        :buttons="templateButtons"
+      />
     </div>
   </BaseBubble>
 </template>
