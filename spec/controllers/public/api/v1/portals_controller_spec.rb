@@ -96,7 +96,11 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
       switchers.each do |switcher|
         options = switcher.css('option')
 
-        expect(options.map { |option| option['value'] }).to include('en', 'es', 'fr')
+        expect(options.map { |option| option['value'] }).to include(
+          "/hc/#{portal.slug}/en",
+          'es',
+          "/hc/#{portal.slug}/fr"
+        )
         expect(
           options.any? do |option|
             option['value'] == 'es' && option['selected'].present? && option['disabled'].present?
