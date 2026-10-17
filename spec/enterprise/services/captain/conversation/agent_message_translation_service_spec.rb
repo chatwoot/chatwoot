@@ -72,6 +72,18 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(target_language: 'de'))
   end
 
+  it 'keeps the conversation language when the latest contact message is a call' do
+    create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Bonjour',
+                     content_attributes: { source_language: 'fr' })
+    create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'WhatsApp Call',
+                     content_type: :voice_call)
+
+    described_class.new(message: message).perform
+
+    expect(conversation.reload.language).to eq('fr')
+    expect(Captain::Llm::LanguageDetectionService).to have_received(:new).once
+  end
+
   it 'does not detect a contact message again' do
     create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content: 'Bonjour',
                      content_attributes: { source_language: 'fr' })

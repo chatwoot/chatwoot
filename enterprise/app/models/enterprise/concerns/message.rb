@@ -15,7 +15,7 @@ module Enterprise::Concerns::Message
     content_attributes['translation_pending'] = true
   end
 
-  # Agent replies and templates; bots and automations already write in the contact language.
+  # Bots and automations already write in the contact language.
   def translation_enabled?
     account.auto_translate_enabled? && content.present? && !private? && (template? || translatable_agent_reply?)
   end

@@ -15,9 +15,8 @@ class Captain::Conversation::AgentMessageTranslationService
 
   delegate :conversation, :account, :inbox, to: :message
 
-  # Replies go out in the language of the contact's latest message.
   def detect_contact_language
-    contact_message = conversation.messages.incoming.where.not(content: [nil, '']).order(:id).last
+    contact_message = conversation.messages.incoming.where(content_type: %w[text incoming_email]).where.not(content: [nil, '']).order(:id).last
     Captain::Conversation::MessageLanguageService.new(conversation: conversation, message: contact_message).perform if contact_message
   end
 
@@ -28,12 +27,10 @@ class Captain::Conversation::AgentMessageTranslationService
     if translated.present? && translated != reply
       use_translation(translated)
     elsif translated.blank? || reply_language.present?
-      # The translator failed, or handed back unchanged text that was detected in another language.
       message.translation_failed = true
     end
   end
 
-  # The agent's own text is kept under translations before the content is replaced.
   def use_translation(translated)
     message.translations = { original_language => original_text }
     message.source_language = conversation.language
