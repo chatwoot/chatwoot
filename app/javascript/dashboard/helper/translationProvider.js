@@ -3,9 +3,5 @@ export const TRANSLATION_PROVIDERS = {
   GOOGLE: 'google_translate',
 };
 
-// Accounts that connected Google Translate before the setting existed keep using it.
-export const translationProvider = (settings, googleConnected) =>
-  settings?.translation_provider ||
-  (googleConnected
-    ? TRANSLATION_PROVIDERS.GOOGLE
-    : TRANSLATION_PROVIDERS.CAPTAIN);
+export const translationProvider = settings =>
+  settings?.translation_provider || TRANSLATION_PROVIDERS.CAPTAIN;

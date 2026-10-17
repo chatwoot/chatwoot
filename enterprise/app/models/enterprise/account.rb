@@ -68,9 +68,8 @@ module Enterprise::Account
     feature_enabled?('auto_translate') && auto_translate == true && translation_service_available?
   end
 
-  # Accounts that connected Google Translate before the setting existed keep using it.
   def translation_service
-    translation_provider.presence || (google_translate_hook.present? ? 'google_translate' : 'captain')
+    translation_provider.presence || 'captain'
   end
 
   def google_translate_hook

@@ -216,7 +216,7 @@ const getters = {
       rootGetters['accounts/isFeatureEnabledonAccount'](accountId, feature);
     const googleConnected =
       !!rootGetters['integrations/getIntegration']('google_translate').enabled;
-    const provider = translationProvider(account.settings, googleConnected);
+    const provider = translationProvider(account.settings);
     const serviceAvailable =
       provider === TRANSLATION_PROVIDERS.GOOGLE
         ? googleConnected

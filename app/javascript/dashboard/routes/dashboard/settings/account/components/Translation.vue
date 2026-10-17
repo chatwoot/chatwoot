@@ -32,7 +32,7 @@ const captainEnabled = computed(() =>
 const googleConnected = computed(() => !!googleIntegration.value.enabled);
 
 const provider = computed(() =>
-  translationProvider(currentAccount.value?.settings, googleConnected.value)
+  translationProvider(currentAccount.value?.settings)
 );
 const isCaptainSelected = computed(
   () => captainEnabled.value && provider.value === TRANSLATION_PROVIDERS.CAPTAIN
