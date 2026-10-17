@@ -32,7 +32,7 @@ class Captain::Conversation::AgentMessageTranslationService
   end
 
   def use_translation(translated)
-    message.translations = { original_language => original_text }
+    message.translations = { original_language => message.content }
     message.source_language = conversation.language
     message.content = with_quoted_history(translated)
     message.content_attributes['email'] = email_content(message.content) if inbox.email?
@@ -76,15 +76,11 @@ class Captain::Conversation::AgentMessageTranslationService
     quoted_history.blank? ? translated : "#{translated.strip}\n\n#{quoted_history}"
   end
 
-  # Kept as html like the sent mail, so the quoted thread stays collapsed in the dashboard.
-  def original_text
-    inbox.email? ? render_email_html(normalize_email_body(message.content)) : message.content
-  end
-
   # The mailer sends the stored html, so it is rendered again from the translated text.
+  # The renderer returns a SafeBuffer, which Sidekiq rejects in the message updated broadcast, so it is stored as a String.
   def email_content(content)
     text = normalize_email_body(content)
-    html = render_email_html(text)
+    html = String.new(render_email_html(text))
     message.content_attributes['email']
            .merge('html_content' => { 'full' => html, 'reply' => html }, 'text_content' => { 'full' => text, 'reply' => text })
   end
