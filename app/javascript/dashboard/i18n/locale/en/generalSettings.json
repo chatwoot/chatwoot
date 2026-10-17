@@ -55,7 +55,11 @@
           "TITLE": "Google Translate",
           "NOTE": "Quick, reliable translations from Google.",
           "NOT_CONNECTED": "Not connected",
-          "CONNECT": "Connect Google Translate"
+          "CONNECT": "Connect Google Translate",
+          "SETUP": {
+            "TITLE": "Want to use Google Translate?",
+            "NOTE": "Connect your Google Cloud project with the Cloud Translation API turned on. It takes a couple of minutes."
+          }
         },
         "AUTO_TRANSLATE": {
           "TITLE": "Auto-translate conversations",

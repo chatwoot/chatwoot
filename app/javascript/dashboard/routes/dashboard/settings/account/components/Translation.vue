@@ -12,6 +12,11 @@ import {
 } from 'dashboard/helper/translationProvider';
 import Switch from 'next/switch/Switch.vue';
 import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
+const GOOGLE_LOGO = '/dashboard/images/integrations/google_translate.png';
+const GOOGLE_LOGO_DARK =
+  '/dashboard/images/integrations/google_translate-dark.png';
 
 const { t } = useI18n();
 const store = useStore();
@@ -91,7 +96,15 @@ const toggleAutoTranslate = () =>
           :description="t('GENERAL_SETTINGS.FORM.TRANSLATION.CAPTAIN.NOTE')"
           :is-active="isCaptainSelected"
           @select="selectProvider"
-        />
+        >
+          <template #icon>
+            <span
+              class="flex flex-shrink-0 justify-center items-center rounded-lg size-12 bg-n-alpha-2"
+            >
+              <span class="i-woot-captain size-6 text-n-slate-12" />
+            </span>
+          </template>
+        </RadioCard>
         <RadioCard
           :id="TRANSLATION_PROVIDERS.GOOGLE"
           name="translation-provider"
@@ -104,18 +117,51 @@ const toggleAutoTranslate = () =>
             t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.NOT_CONNECTED')
           "
           @select="selectProvider"
-        />
+        >
+          <template #icon>
+            <span
+              class="flex flex-shrink-0 justify-center items-center rounded-lg size-12 bg-n-alpha-2"
+            >
+              <img
+                :src="GOOGLE_LOGO"
+                class="object-contain size-6 dark:hidden"
+                alt=""
+              />
+              <img
+                :src="GOOGLE_LOGO_DARK"
+                class="hidden object-contain size-6 dark:block"
+                alt=""
+              />
+            </span>
+          </template>
+        </RadioCard>
       </div>
-      <router-link
+      <div
         v-if="!googleConnected"
-        :to="{
-          name: 'settings_applications_integration',
-          params: { integration_id: TRANSLATION_PROVIDERS.GOOGLE },
-        }"
-        class="self-start text-body-main text-n-blue-11 hover:underline"
+        class="flex flex-col gap-3 justify-between items-start p-3 w-full rounded-xl border border-dashed border-n-weak sm:flex-row sm:items-center"
       >
-        {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.CONNECT') }}
-      </router-link>
+        <div class="flex flex-col gap-0.5 min-w-0">
+          <span class="text-body-main text-n-slate-12">
+            {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.SETUP.TITLE') }}
+          </span>
+          <span class="text-body-main text-n-slate-11">
+            {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.SETUP.NOTE') }}
+          </span>
+        </div>
+        <router-link
+          :to="{ name: 'settings_integrations_google_translate' }"
+          class="flex-shrink-0"
+        >
+          <NextButton
+            sm
+            faded
+            slate
+            trailing-icon
+            icon="i-lucide-arrow-right"
+            :label="t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.CONNECT')"
+          />
+        </router-link>
+      </div>
 
       <div
         class="flex gap-4 justify-between items-center p-3 w-full rounded-xl border border-n-weak bg-n-solid-1"
