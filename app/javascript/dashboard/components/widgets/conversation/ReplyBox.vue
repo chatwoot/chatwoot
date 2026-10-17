@@ -1215,6 +1215,10 @@ export default {
         private: this.isPrivate,
         sender: this.sender,
       };
+      if (messageWithQuote !== message) {
+        // The saved email shows the quoted history collapsed; until it arrives, show only what was typed.
+        messagePayload.pendingMessageContent = message;
+      }
       messagePayload = this.setReplyToInPayload(messagePayload);
 
       if (this.attachedFiles && this.attachedFiles.length) {
