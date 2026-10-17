@@ -118,6 +118,19 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     expect(email.content_attributes.dig('email', 'html_content', 'reply')).to include('<p>Bonjour</p>').and include('<blockquote>')
   end
 
+  it 'stores the rendered email html as plain strings so the update can be broadcast' do
+    email_inbox = create(:inbox, account: account, channel: create(:channel_email, account: account))
+    email_conversation = create(:conversation, account: account, inbox: email_inbox, additional_attributes: { 'conversation_language' => 'fr' })
+    email = create(:message, account: account, inbox: email_inbox, conversation: email_conversation, message_type: :outgoing, sender: user,
+                             content: 'Hello there', content_attributes: { translation_pending: true, email: { subject: 'Re: Commande' } })
+
+    described_class.new(message: email).perform
+
+    broadcast_attributes = email.previous_changes['content_attributes'].last
+    expect(broadcast_attributes['translations'].values.first).to be_an_instance_of(String)
+    expect(broadcast_attributes.dig('email', 'html_content', 'full')).to be_an_instance_of(String)
+  end
+
   it 'sends the reply as written and flags it when the translator fails' do
     allow(llm_service).to receive(:perform).and_return(error: 'quota')
 
