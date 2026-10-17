@@ -5,7 +5,8 @@ class Captain::Llm::MessageTranslationService < Captain::BaseTaskService
 
   pattr_initialize [:account!, :text!, :target_language!, { conversation_display_id: nil }]
 
-  # Locales ('pt_BR'), BCP 47 tags ('zh-CN') and detected codes ('fr') all compare by their base language.
+  # Compares only the base language, so variants of one language are never translated into each other:
+  # 'pt' and 'pt_BR', but also scripts such as Simplified and Traditional Chinese ('zh-CN' and 'zh_TW').
   def self.same_language?(first, second)
     first.to_s.split(/[-_]/).first == second.to_s.split(/[-_]/).first
   end
