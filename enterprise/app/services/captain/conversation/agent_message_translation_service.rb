@@ -24,7 +24,7 @@ class Captain::Conversation::AgentMessageTranslationService
   def translate_reply
     return if Captain::Llm::MessageTranslationService.same_language?(reply_language, conversation.language)
 
-    translated = translate(reply)
+    translated = translate
     if translated.present? && translated != reply
       use_translation(translated)
     elsif translated.blank? || reply_language.present?
@@ -41,11 +41,10 @@ class Captain::Conversation::AgentMessageTranslationService
     message.content_attributes['email'] = email_content(message.content) if inbox.email?
   end
 
-  def translate(text)
-    response = Captain::Llm::MessageTranslationService.new(account: account, text: text, target_language: conversation.language,
-                                                           conversation_display_id: conversation.display_id).perform
-    Rails.logger.warn("[AutoTranslate] reply sent as written in conversation #{conversation.display_id}: #{response[:error]}") if response[:error]
-    response[:message]
+  def translate
+    Captain::Llm::MessageTranslationService.new(
+      account: account, text: reply, target_language: conversation.language, conversation_display_id: conversation.display_id
+    ).perform[:message]
   end
 
   def original_language

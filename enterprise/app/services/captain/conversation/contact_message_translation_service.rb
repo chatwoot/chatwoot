@@ -2,17 +2,12 @@ class Captain::Conversation::ContactMessageTranslationService
   pattr_initialize [:message!, :target_language!]
 
   def perform
-    language = Captain::Conversation::MessageLanguageService.new(conversation: message.conversation, message: message).perform
+    language = Captain::Conversation::MessageLanguageService.new(conversation: conversation, message: message).perform
     # A message already in the agent's language is its own translation.
     translation = same_language?(language) ? message.content : translate
-    save_translation(translation)
-  end
 
-  private
-
-  # Two agents with different languages can open the same conversation, so two jobs may translate this message at once.
-  # with_lock reloads the message before saving, so the translation the other job saved is kept instead of overwritten.
-  def save_translation(translation)
+    # Two agents with different languages can open the same conversation, so two jobs may translate this message at once.
+    # with_lock reloads the message before saving, so the translation the other job saved is kept instead of overwritten.
     message.with_lock do
       next if message.deleted
 
@@ -26,18 +21,17 @@ class Captain::Conversation::ContactMessageTranslationService
     end
   end
 
+  private
+
+  delegate :conversation, to: :message
+
   def same_language?(language)
     Captain::Llm::MessageTranslationService.same_language?(language, target_language)
   end
 
   def translate
-    response = Captain::Llm::MessageTranslationService.new(
-      account: message.account,
-      text: message.content,
-      target_language: target_language,
-      conversation_display_id: message.conversation.display_id
-    ).perform
-    Rails.logger.warn("[AutoTranslate] message #{message.id} not translated: #{response[:error]}") if response[:error]
-    response[:message].presence
+    Captain::Llm::MessageTranslationService.new(
+      account: message.account, text: message.content, target_language: target_language, conversation_display_id: conversation.display_id
+    ).perform[:message].presence
   end
 end
