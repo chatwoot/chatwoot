@@ -31,13 +31,13 @@ RSpec.describe 'Auto translate messages API', type: :request do
 
     expect do
       post url, params: { message_ids: [message.id] }, headers: agent.create_new_auth_token, as: :json
-    end.to have_enqueued_job(Captain::Conversation::MessageTranslationJob).with(message, 'pt_BR')
+    end.to have_enqueued_job(Captain::Conversation::ContactMessageTranslationJob).with(message, 'pt_BR')
   end
 
   it 'falls back to the account language for an agent without a dashboard language' do
     expect do
       post url, params: { message_ids: [message.id] }, headers: agent.create_new_auth_token, as: :json
-    end.to have_enqueued_job(Captain::Conversation::MessageTranslationJob).with(message, 'en')
+    end.to have_enqueued_job(Captain::Conversation::ContactMessageTranslationJob).with(message, 'en')
 
     expect(response).to have_http_status(:accepted)
   end
@@ -58,7 +58,7 @@ RSpec.describe 'Auto translate messages API', type: :request do
 
     expect do
       post url, params: { message_ids: [message.id, elsewhere.id] }, headers: agent.create_new_auth_token, as: :json
-    end.not_to have_enqueued_job(Captain::Conversation::MessageTranslationJob)
+    end.not_to have_enqueued_job(Captain::Conversation::ContactMessageTranslationJob)
 
     expect(response).to have_http_status(422)
     expect(response.parsed_body['error']).to eq('Invalid messages')

@@ -81,12 +81,12 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     expect(Captain::Llm::LanguageDetectionService).to have_received(:new).once
   end
 
-  it 'leaves a reply already written in the contact language as it is' do
-    allow(llm_service).to receive(:perform).and_return(message: 'Hello there')
+  it 'sends a reply already written in the contact language without calling the translator' do
     allow(detection).to receive(:language).and_return('fr')
 
     described_class.new(message: message).perform
 
+    expect(Captain::Llm::MessageTranslationService).not_to have_received(:new)
     expect(message.reload.content).to eq('Hello there')
     expect(message.content_attributes).to eq({})
   end

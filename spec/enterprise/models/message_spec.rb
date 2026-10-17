@@ -109,9 +109,11 @@ RSpec.describe Message do
       expect([template, reply].map { |message| message.content_attributes['translation_pending'] }).to eq([true, true])
     end
 
-    it 'leaves contact messages, private notes, bot replies and activity alone' do
+    it 'leaves contact messages, private notes, bot replies, activity and forwarded replies alone' do
       incoming = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
                                   content: 'Bonjour')
+      forwarded = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                                   sender: agent, content: 'Hello', content_attributes: { forwarded_message_id: incoming.id })
       note = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
                               sender: agent, content: 'Hello', private: true)
       bot = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
@@ -119,7 +121,7 @@ RSpec.describe Message do
       activity = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :activity,
                                   content: 'Resolved')
 
-      expect([incoming, note, bot, activity].map { |message| message.content_attributes.key?('translation_pending') }).to eq([false] * 4)
+      expect([incoming, note, bot, activity, forwarded].map { |message| message.content_attributes.key?('translation_pending') }).to eq([false] * 5)
     end
 
     it 'does nothing while auto translate is off for the account' do

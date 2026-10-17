@@ -4,8 +4,8 @@ class Captain::Conversation::AgentMessageTranslationService
   pattr_initialize [:message!]
 
   def perform
-    update_conversation_language
-    translate_reply if translatable?
+    detect_contact_language
+    translate_reply if conversation.language.present?
 
     message.content_attributes.delete('translation_pending')
     message.save!
@@ -15,38 +15,20 @@ class Captain::Conversation::AgentMessageTranslationService
 
   delegate :conversation, :account, :inbox, to: :message
 
-  # The conversation language follows the contact's latest message, detected once per message, so a switch midway is picked up.
-  def update_conversation_language
+  # Replies go out in the language of the contact's latest message.
+  def detect_contact_language
     contact_message = conversation.messages.incoming.where.not(content: [nil, '']).order(:id).last
-    return if contact_message.blank? || contact_message.source_language.present?
-
-    language = detect(contact_message.content)
-    return if language.blank?
-
-    contact_message.update!(source_language: language)
-    return if language == conversation.language
-
-    conversation.update!(additional_attributes: conversation.additional_attributes.merge('conversation_language' => language))
-  end
-
-  def translatable?
-    return false if conversation.language.blank?
-    return true if message.template?
-
-    message.text? && message.content_attributes['forwarded_message_id'].blank? && message.additional_attributes.to_h['template_params'].blank?
-  end
-
-  # The translator hands back text already in the conversation language unchanged, but sometimes also text it gave up on.
-  def written_in_conversation_language?
-    reply_language.blank? || Captain::Llm::MessageTranslationService.same_language?(reply_language, conversation.language)
+    Captain::Conversation::MessageLanguageService.new(conversation: conversation, message: contact_message).perform if contact_message
   end
 
   def translate_reply
-    translated = translate(reply)
+    return if Captain::Llm::MessageTranslationService.same_language?(reply_language, conversation.language)
 
+    translated = translate(reply)
     if translated.present? && translated != reply
       use_translation(translated)
-    elsif translated.blank? || !written_in_conversation_language?
+    elsif translated.blank? || reply_language.present?
+      # The translator failed, or handed back unchanged text that was detected in another language.
       message.translation_failed = true
     end
   end

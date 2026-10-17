@@ -18,9 +18,9 @@ module Enterprise::Api::V1::Accounts::Conversations::MessagesController
     message_ids = params.require(:message_ids)
     return render_could_not_create_error(I18n.t('errors.auto_translate.invalid_messages')) unless conversation_messages?(message_ids)
 
-    Captain::Conversation::ContactMessageTranslationService.new(
-      conversation: @conversation, message_ids: message_ids, target_language: agent_language
-    ).perform
+    @conversation.messages.where(id: message_ids).find_each do |message|
+      Captain::Conversation::ContactMessageTranslationJob.perform_later(message, agent_language)
+    end
     head :accepted
   end
 
