@@ -29,5 +29,16 @@ RSpec.describe 'Public Categories API', type: :request do
 
       expect(response).to have_http_status(:success)
     end
+
+    it 'does not show the authors line when the only author has been deleted' do
+      category = portal.categories.first
+      article = create(:article, category: category, portal: portal, account_id: account.id)
+      article.author.destroy!
+
+      get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).not_to include("#{I18n.t('public_portal.common.by')} ")
+    end
   end
 end
