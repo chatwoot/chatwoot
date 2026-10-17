@@ -139,6 +139,9 @@ export default {
     hasReplyTo() {
       return this.replyTo && (this.replyTo.content || this.replyTo.attachments);
     },
+    isAwaitingTranslation() {
+      return !!this.messageContentAttributes.translation_pending;
+    },
   },
   watch: {
     message() {
@@ -203,6 +206,7 @@ export default {
               :message-id="message.id"
               :message-type="messageType"
               :message="message.content"
+              :translating="isAwaitingTranslation"
             />
             <div
               v-if="hasAttachments"

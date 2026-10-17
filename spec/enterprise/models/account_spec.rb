@@ -60,7 +60,7 @@ RSpec.describe Account, type: :model do
 
   describe '#auto_translate_enabled?' do
     it 'needs both the auto translate flag and Captain tasks' do
-      account = create(:account, settings: { auto_translate: true })
+      account = create(:account)
       account.enable_features('auto_translate')
       account.disable_features('captain_tasks')
 
@@ -69,8 +69,8 @@ RSpec.describe Account, type: :model do
       expect(account).to be_auto_translate_enabled
     end
 
-    it 'stays off until the account switches it on' do
-      account = create(:account)
+    it 'respects the account switch' do
+      account = create(:account, settings: { auto_translate: false })
       account.enable_features('auto_translate', 'captain_tasks')
 
       expect(account).not_to be_auto_translate_enabled
