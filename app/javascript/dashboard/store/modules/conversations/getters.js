@@ -228,6 +228,7 @@ const getters = {
 
     return {
       enabled,
+      provider,
       locale,
       sameLanguage:
         !!language && languageCode(language) === languageCode(locale),

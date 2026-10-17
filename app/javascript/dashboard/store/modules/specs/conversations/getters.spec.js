@@ -874,6 +874,7 @@ describe('#getters', () => {
         getters.getAutoTranslate({}, chatIn('fr'), {}, rootGetters)
       ).toEqual({
         enabled: true,
+        provider: 'captain',
         locale: 'en',
         sameLanguage: false,
         language: 'French',
