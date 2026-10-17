@@ -32,7 +32,7 @@ class Captain::Conversation::AgentMessageTranslationService
   end
 
   def use_translation(translated)
-    message.translations = { original_language => message.content }
+    message.translations = { original_language => original_text }
     message.source_language = conversation.language
     message.content = with_quoted_history(translated)
     message.content_attributes['email'] = email_content(message.content) if inbox.email?
@@ -74,6 +74,11 @@ class Captain::Conversation::AgentMessageTranslationService
 
   def with_quoted_history(translated)
     quoted_history.blank? ? translated : "#{translated.strip}\n\n#{quoted_history}"
+  end
+
+  # Kept as html like the sent mail, so the quoted thread stays collapsed in the dashboard.
+  def original_text
+    inbox.email? ? String.new(render_email_html(normalize_email_body(message.content))) : message.content
   end
 
   # The mailer sends the stored html, so it is rendered again from the translated text.
