@@ -7,7 +7,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ConversationRequiredAttributes from 'dashboard/components-next/ConversationWorkflow/ConversationRequiredAttributes.vue';
 import AutoResolve from 'dashboard/routes/dashboard/settings/account/components/AutoResolve.vue';
-import AutoTranslate from 'dashboard/routes/dashboard/settings/account/components/AutoTranslate.vue';
+import Translation from 'dashboard/routes/dashboard/settings/account/components/Translation.vue';
 
 const { accountId } = useAccount();
 const isFeatureEnabledonAccount = useMapGetter(
@@ -21,7 +21,7 @@ const showAutoResolutionConfig = computed(() => {
   );
 });
 
-const showAutoTranslate = computed(() => {
+const showTranslation = computed(() => {
   return isFeatureEnabledonAccount.value(
     accountId.value,
     FEATURE_FLAGS.AUTO_TRANSLATE
@@ -49,7 +49,7 @@ const showRequiredAttributes = computed(() => {
     <template #body>
       <div class="flex flex-col gap-6 mt-4">
         <AutoResolve v-if="showAutoResolutionConfig" />
-        <AutoTranslate v-if="showAutoTranslate" />
+        <Translation v-if="showTranslation" />
         <ConversationRequiredAttributes :is-enabled="showRequiredAttributes" />
       </div>
     </template>

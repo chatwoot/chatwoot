@@ -29,8 +29,7 @@ class Captain::Conversation::ContactMessageTranslationService
     language = Captain::Conversation::MessageLanguageService.new(conversation: conversation, message: message).perform
     return message.content if Captain::Llm::MessageTranslationService.same_language?(language, target_language)
 
-    Captain::Llm::MessageTranslationService.new(
-      account: message.account, text: message.content, target_language: target_language, conversation_display_id: conversation.display_id
-    ).perform[:message].presence
+    Captain::Conversation::TranslatorService.new(account: message.account, conversation_display_id: conversation.display_id)
+                                            .translate(message.content, target_language)
   end
 end

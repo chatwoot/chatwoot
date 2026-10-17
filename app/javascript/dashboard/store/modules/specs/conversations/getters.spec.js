@@ -861,6 +861,7 @@ describe('#getters', () => {
       }),
       getCurrentAccountId: 1,
       'accounts/isFeatureEnabledonAccount': () => true,
+      'integrations/getIntegration': () => ({}),
     };
     const chatIn = language => ({
       getSelectedChat: {

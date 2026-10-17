@@ -4,7 +4,7 @@ class Captain::Conversation::MessageLanguageService
   def perform
     return message.source_language if message.source_language.present?
 
-    language = Captain::Llm::LanguageDetectionService.new(account: conversation.account, text: message.content).language
+    language = Captain::Conversation::TranslatorService.new(account: conversation.account).language(message.content)
     return if language.blank?
 
     message.with_lock { message.update!(source_language: language) }
