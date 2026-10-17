@@ -8,8 +8,5 @@
     </span>
   <% end %>
   <h3 class="text-base font-620 text-n-slate-12 group-hover:text-n-portal transition"><%= article.title %></h3>
-  <% excerpt = render_category_content(article.content) %>
-  <% if excerpt.present? %>
-    <p class="mt-2 text-sm leading-relaxed text-n-slate-11 line-clamp-2"><%= excerpt %></p>
-  <% end %>
+  <p class="mt-2 text-sm leading-relaxed text-n-slate-11 line-clamp-2"><%= render_category_content(article.content) %></p>
 </a>

@@ -128,10 +128,10 @@ RSpec.describe ChatwootMarkdownRenderer do
     end
 
     context 'with a table' do
-      let(:markdown_content) { "Intro\n\n| Feature | Use |\n| --- | --- |\n| Captain | Replies |\n\nOutro" }
+      let(:markdown_content) { "Intro\n\n| Feature | Use |\n| --- | --- |\n| Captain | `replies` |\n\nOutro" }
 
-      it 'leaves the table out' do
-        expect(rendered_content).to eq("Intro\n\nOutro\n")
+      it 'keeps the cell text without the table syntax' do
+        expect(rendered_content).to eq("Intro\n\nFeature Use Captain replies\n\nOutro\n")
       end
     end
   end
