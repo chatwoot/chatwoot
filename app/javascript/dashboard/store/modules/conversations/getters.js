@@ -213,7 +213,7 @@ const getters = {
     const enabled =
       isFeatureEnabled(FEATURE_FLAGS.AUTO_TRANSLATE) &&
       isFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS) &&
-      account.settings?.auto_translate !== false;
+      account.settings?.auto_translate === true;
 
     return {
       enabled,

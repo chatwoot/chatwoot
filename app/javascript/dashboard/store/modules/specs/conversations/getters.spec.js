@@ -855,7 +855,10 @@ describe('#getters', () => {
   describe('#getAutoTranslate', () => {
     const rootGetters = {
       getUISettings: { locale: 'en' },
-      'accounts/getAccount': () => ({ locale: 'en' }),
+      'accounts/getAccount': () => ({
+        locale: 'en',
+        settings: { auto_translate: true },
+      }),
       getCurrentAccountId: 1,
       'accounts/isFeatureEnabledonAccount': () => true,
     };
@@ -877,17 +880,14 @@ describe('#getters', () => {
       });
     });
 
-    it('is off when the account switched it off', () => {
-      const switchedOff = {
+    it('stays off until the account switches it on', () => {
+      const notSwitchedOn = {
         ...rootGetters,
-        'accounts/getAccount': () => ({
-          locale: 'en',
-          settings: { auto_translate: false },
-        }),
+        'accounts/getAccount': () => ({ locale: 'en' }),
       };
 
       expect(
-        getters.getAutoTranslate({}, chatIn('fr'), {}, switchedOff)
+        getters.getAutoTranslate({}, chatIn('fr'), {}, notSwitchedOn)
       ).toMatchObject({ enabled: false, language: '' });
     });
 
