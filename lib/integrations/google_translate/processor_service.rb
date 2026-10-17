@@ -3,7 +3,6 @@ require 'google/cloud/translate/v3'
 class Integrations::GoogleTranslate::ProcessorService
   pattr_initialize [:hook!]
 
-  # Emails are translated from their html or plain text body, so formatting and quoted replies survive.
   def translate_message(message, target_language)
     content, mime_type = message_content(message)
     translate(content, target_language, mime_type: mime_type) if content.present?

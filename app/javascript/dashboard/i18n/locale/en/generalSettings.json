@@ -55,16 +55,18 @@
           "TITLE": "Google Translate",
           "NOTE": "Quick, reliable translations from Google.",
           "NOT_CONNECTED": "Not connected",
-          "CONNECT": "Connect Google Translate",
-          "SETUP": {
-            "TITLE": "Want to use Google Translate?",
-            "NOTE": "Connect your Google Cloud project with the Cloud Translation API turned on. It takes a couple of minutes."
-          }
+          "CONNECT": "Connect",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "Upgrade"
         },
         "AUTO_TRANSLATE": {
           "TITLE": "Auto-translate conversations",
           "NOTE": "Read every message in your language. Customers get replies in theirs.",
-          "LOCKED": "Choose a service to turn this on."
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
         },
         "API": {
           "SUCCESS": "Translation settings updated successfully",

@@ -1,4 +1,3 @@
-# Translation now defaults to Captain. Accounts that already connected Google Translate keep using it.
 class SetGoogleTranslateAsTranslationProvider < ActiveRecord::Migration[7.2]
   def up
     Account.where(id: Integrations::Hook.where(app_id: 'google_translate').select(:account_id)).find_each do |account|

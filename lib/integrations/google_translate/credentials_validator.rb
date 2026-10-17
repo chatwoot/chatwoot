@@ -1,4 +1,3 @@
-# Makes a test call to the Cloud Translation API with the hook's key before the hook is saved.
 module Integrations::GoogleTranslate::CredentialsValidator
   KEY_FIELDS = %w[client_email private_key].freeze
 

@@ -8,7 +8,7 @@ import {
   useStore,
 } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useTranslationPlan } from 'dashboard/composables/useTranslationPlan';
 import {
   TRANSLATION_PROVIDERS,
   translationProvider,
@@ -39,14 +39,9 @@ const integration = useFunctionGetter(
   INTEGRATION_ID
 );
 const uiFlags = useMapGetter('integrations/getUIFlags');
-const isFeatureEnabledonAccount = useMapGetter(
-  'accounts/isFeatureEnabledonAccount'
-);
-const { accountId, currentAccount } = useAccount();
+const { currentAccount } = useAccount();
 
-const isAutoTranslateAvailable = computed(() =>
-  isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.AUTO_TRANSLATE)
-);
+const { isAvailable: showTranslationService } = useTranslationPlan();
 const isGoogleSelected = computed(
   () =>
     translationProvider(currentAccount.value?.settings) ===
@@ -116,7 +111,7 @@ onMounted(() => store.dispatch('integrations/get', INTEGRATION_ID));
             </span>
           </div>
           <div
-            v-if="isAutoTranslateAvailable"
+            v-if="showTranslationService"
             class="flex gap-4 justify-between items-center px-6 py-4"
           >
             <div class="flex flex-col gap-0.5 min-w-0">

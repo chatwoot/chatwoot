@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useTranslationPlan } from 'dashboard/composables/useTranslationPlan';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -21,12 +22,8 @@ const showAutoResolutionConfig = computed(() => {
   );
 });
 
-const showTranslation = computed(() => {
-  return isFeatureEnabledonAccount.value(
-    accountId.value,
-    FEATURE_FLAGS.AUTO_TRANSLATE
-  );
-});
+const { isAvailable, needsUpgrade } = useTranslationPlan();
+const showTranslation = computed(() => isAvailable.value || needsUpgrade.value);
 
 const showRequiredAttributes = computed(() => {
   return isFeatureEnabledonAccount.value(

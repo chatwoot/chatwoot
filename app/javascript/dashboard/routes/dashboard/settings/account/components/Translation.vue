@@ -3,6 +3,8 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useTranslationPlan } from 'dashboard/composables/useTranslationPlan';
+import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import { useFunctionGetter, useMapGetter } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -19,6 +21,8 @@ const GOOGLE_LOGO_DARK =
   '/dashboard/images/integrations/google_translate-dark.png';
 
 const { t } = useI18n();
+const router = useRouter();
+const { needsUpgrade } = useTranslationPlan();
 const store = useStore();
 const { accountId, currentAccount, updateAccount } = useAccount();
 const isFeatureEnabledonAccount = useMapGetter(
@@ -45,15 +49,29 @@ const isCaptainSelected = computed(
 const isGoogleSelected = computed(
   () => googleConnected.value && provider.value === TRANSLATION_PROVIDERS.GOOGLE
 );
+const isAutoTranslateFeatureEnabled = computed(() =>
+  isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.AUTO_TRANSLATE)
+);
 const hasSelection = computed(
   () => isCaptainSelected.value || isGoogleSelected.value
 );
+const autoTranslateLockedReason = computed(() => {
+  if (!isAutoTranslateFeatureEnabled.value) {
+    return t('GENERAL_SETTINGS.FORM.TRANSLATION.AUTO_TRANSLATE.NOT_AVAILABLE');
+  }
+  if (!hasSelection.value) {
+    return t('GENERAL_SETTINGS.FORM.TRANSLATION.AUTO_TRANSLATE.LOCKED');
+  }
+  return '';
+});
 watch(
-  currentAccount,
-  account => {
-    isAutoTranslateOn.value = account?.settings?.auto_translate === true;
+  () =>
+    !autoTranslateLockedReason.value &&
+    currentAccount.value?.settings?.auto_translate === true,
+  isOn => {
+    isAutoTranslateOn.value = isOn;
   },
-  { immediate: true, deep: true }
+  { immediate: true }
 );
 
 onMounted(() => store.dispatch('integrations/get'));
@@ -85,7 +103,21 @@ const toggleAutoTranslate = () =>
       </p>
     </div>
 
-    <div class="flex flex-col gap-4 px-5 py-4">
+    <div
+      v-if="needsUpgrade"
+      class="flex flex-col gap-3 justify-between items-start px-5 py-4 sm:flex-row sm:items-center"
+    >
+      <p class="mb-0 text-body-main text-n-slate-11">
+        {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.UPGRADE.NOTE') }}
+      </p>
+      <NextButton
+        sm
+        :label="t('GENERAL_SETTINGS.FORM.TRANSLATION.UPGRADE.BUTTON')"
+        class="flex-shrink-0"
+        @click="router.push({ name: 'billing_settings_index' })"
+      />
+    </div>
+    <div v-else class="flex flex-col gap-4 px-5 py-4">
       <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
         <RadioCard
           v-if="captainEnabled"
@@ -105,62 +137,61 @@ const toggleAutoTranslate = () =>
             </span>
           </template>
         </RadioCard>
-        <RadioCard
-          :id="TRANSLATION_PROVIDERS.GOOGLE"
-          name="translation-provider"
-          class="h-full"
-          :label="t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.TITLE')"
-          :description="t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.NOTE')"
-          :is-active="isGoogleSelected"
-          :disabled="!googleConnected"
-          :disabled-label="
-            t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.NOT_CONNECTED')
-          "
-          @select="selectProvider"
-        >
-          <template #icon>
-            <span
-              class="flex flex-shrink-0 justify-center items-center rounded-lg size-12 bg-n-alpha-2"
-            >
-              <img
-                :src="GOOGLE_LOGO"
-                class="object-contain size-6 dark:hidden"
-                alt=""
-              />
-              <img
-                :src="GOOGLE_LOGO_DARK"
-                class="hidden object-contain size-6 dark:block"
-                alt=""
-              />
+        <div class="relative group">
+          <RadioCard
+            :id="TRANSLATION_PROVIDERS.GOOGLE"
+            name="translation-provider"
+            class="h-full"
+            :label="t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.TITLE')"
+            :description="t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.NOTE')"
+            :is-active="isGoogleSelected"
+            :disabled="!googleConnected"
+            :disabled-label="
+              t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.NOT_CONNECTED')
+            "
+            @select="selectProvider"
+          >
+            <template #icon>
+              <span
+                class="flex flex-shrink-0 justify-center items-center rounded-lg size-12 bg-n-alpha-2"
+              >
+                <img
+                  :src="GOOGLE_LOGO"
+                  class="object-contain size-6 dark:hidden"
+                  alt=""
+                />
+                <img
+                  :src="GOOGLE_LOGO_DARK"
+                  class="hidden object-contain size-6 dark:block"
+                  alt=""
+                />
+              </span>
+            </template>
+          </RadioCard>
+          <div
+            v-if="!googleConnected"
+            class="hidden absolute inset-0 gap-3 justify-between items-center px-4 rounded-xl group-hover:flex group-focus-within:flex bg-n-solid-1 outline outline-1 outline-n-weak"
+          >
+            <span class="text-body-main text-n-slate-12">
+              {{
+                t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.NOT_CONNECTED_HINT')
+              }}
             </span>
-          </template>
-        </RadioCard>
-      </div>
-      <div
-        v-if="!googleConnected"
-        class="flex flex-col gap-3 justify-between items-start p-3 w-full rounded-xl border border-dashed border-n-weak sm:flex-row sm:items-center"
-      >
-        <div class="flex flex-col gap-0.5 min-w-0">
-          <span class="text-body-main text-n-slate-12">
-            {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.SETUP.TITLE') }}
-          </span>
-          <span class="text-body-main text-n-slate-11">
-            {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.SETUP.NOTE') }}
-          </span>
+            <router-link
+              :to="{ name: 'settings_integrations_google_translate' }"
+              class="flex-shrink-0"
+            >
+              <NextButton
+                sm
+                faded
+                slate
+                trailing-icon
+                icon="i-lucide-arrow-right"
+                :label="t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.CONNECT')"
+              />
+            </router-link>
+          </div>
         </div>
-        <router-link
-          :to="{ name: 'settings_integrations_google_translate' }"
-          class="flex-shrink-0"
-        >
-          <NextButton
-            sm
-            faded
-            slate
-            trailing-icon
-            icon="i-lucide-arrow-right"
-            :label="t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.CONNECT')"
-          />
-        </router-link>
       </div>
 
       <div
@@ -172,18 +203,19 @@ const toggleAutoTranslate = () =>
           </span>
           <span
             class="text-body-main"
-            :class="hasSelection ? 'text-n-slate-11' : 'text-n-amber-11'"
+            :class="
+              autoTranslateLockedReason ? 'text-n-amber-11' : 'text-n-slate-11'
+            "
           >
             {{
-              hasSelection
-                ? t('GENERAL_SETTINGS.FORM.TRANSLATION.AUTO_TRANSLATE.NOTE')
-                : t('GENERAL_SETTINGS.FORM.TRANSLATION.AUTO_TRANSLATE.LOCKED')
+              autoTranslateLockedReason ||
+              t('GENERAL_SETTINGS.FORM.TRANSLATION.AUTO_TRANSLATE.NOTE')
             }}
           </span>
         </div>
         <Switch
           v-model="isAutoTranslateOn"
-          :disabled="!hasSelection"
+          :disabled="!!autoTranslateLockedReason"
           @change="toggleAutoTranslate"
         />
       </div>
