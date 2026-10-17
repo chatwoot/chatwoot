@@ -45,15 +45,15 @@ describe('#ConversationAPI', () => {
     });
   });
   describe('#autoTranslate', () => {
-    it('posts the message ids and the target language', () => {
+    it('posts the message ids', () => {
       const originalAxios = window.axios;
       window.axios = { post: vi.fn(() => Promise.resolve()) };
 
-      messageAPI.autoTranslate(12, [1, 2], 'fr');
+      messageAPI.autoTranslate(12, [1, 2]);
 
       expect(window.axios.post).toHaveBeenCalledWith(
         '/api/v1/conversations/12/messages/auto_translate',
-        { message_ids: [1, 2], target_language: 'fr' }
+        { message_ids: [1, 2] }
       );
       window.axios = originalAxios;
     });

@@ -1124,11 +1124,9 @@ describe('#addMentions', () => {
     };
     const state = { selectedChatId: 7, autoTranslating: { en: { 4: false } } };
 
-    it('translates the incoming messages that have no translation yet', async () => {
+    it('queues the incoming messages that have no translation yet and keeps them pending', async () => {
       const localCommit = vi.fn();
-      axios.post.mockResolvedValue({
-        data: { payload: [{ id: 1, conversation_id: 7 }] },
-      });
+      axios.post.mockResolvedValue({});
 
       await actions.autoTranslateMessages(
         { state, commit: localCommit, getters },
@@ -1137,26 +1135,18 @@ describe('#addMentions', () => {
 
       expect(axios.post).toHaveBeenCalledWith(
         expect.stringContaining('/conversations/7/messages/auto_translate'),
-        {
-          message_ids: [1],
-          target_language: 'en',
-        }
+        { message_ids: [1] }
       );
       expect(localCommit.mock.calls).toEqual([
         [
           types.SET_AUTO_TRANSLATING,
           { locale: 'en', messageIds: [1], translating: true },
         ],
-        [types.ADD_MESSAGE, { id: 1, conversation_id: 7 }],
-        [
-          types.SET_AUTO_TRANSLATING,
-          { locale: 'en', messageIds: [1], translating: false },
-        ],
       ]);
     });
 
     it('requests bot replies, which are written in the contact language, but not agent replies', async () => {
-      axios.post.mockResolvedValue({ data: { payload: [] } });
+      axios.post.mockResolvedValue({});
       const botMessages = [
         {
           id: 5,
@@ -1188,26 +1178,12 @@ describe('#addMentions', () => {
 
       expect(axios.post).toHaveBeenCalledWith(
         expect.stringContaining('/conversations/7/messages/auto_translate'),
-        { message_ids: [5], target_language: 'en' }
+        { message_ids: [5] }
       );
     });
 
-    it('does nothing for another conversation, the agent language or a disabled flag', async () => {
+    it('does nothing for another conversation or a disabled flag', async () => {
       await actions.autoTranslateMessages({ state, commit, getters }, 8);
-      await actions.autoTranslateMessages(
-        {
-          state,
-          commit,
-          getters: {
-            ...getters,
-            getAutoTranslate: {
-              ...getters.getAutoTranslate,
-              sameLanguage: true,
-            },
-          },
-        },
-        7
-      );
       await actions.autoTranslateMessages(
         {
           state,
@@ -1222,7 +1198,7 @@ describe('#addMentions', () => {
       expect(axios.post).not.toHaveBeenCalled();
     });
 
-    it('alerts and leaves the batch retryable when the request fails', async () => {
+    it('alerts and leaves the messages retryable when the request fails', async () => {
       const localCommit = vi.fn();
       const emit = vi.spyOn(emitter, 'emit');
       axios.post.mockRejectedValue({

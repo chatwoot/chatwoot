@@ -92,7 +92,11 @@ const toggleLabel = computed(() => {
       }}
     </span>
     <span v-else-if="state.failed" class="text-n-amber-11 truncate">
-      {{ $t('CONVERSATION.TRANSLATION_FAILED') }}
+      {{
+        isOutgoing
+          ? $t('CONVERSATION.TRANSLATION_FAILED')
+          : $t('CONVERSATION.CONTACT_TRANSLATION_FAILED')
+      }}
     </span>
     <span v-else-if="state.sameLanguage" class="truncate">
       {{
