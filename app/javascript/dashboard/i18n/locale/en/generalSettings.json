@@ -46,23 +46,22 @@
       },
       "TRANSLATION": {
         "TITLE": "Translation",
-        "NOTE": "Choose the service that translates messages in your conversations.",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
         "CAPTAIN": {
           "TITLE": "Captain",
-          "NOTE": "AI translation that keeps tone and formatting. Uses one Captain credit per translated message."
+          "NOTE": "AI translations that sound natural and keep your tone."
         },
         "GOOGLE": {
           "TITLE": "Google Translate",
-          "NOTE": "Uses your Google Cloud Translation integration, billed by Google.",
+          "NOTE": "Quick, reliable translations from Google.",
           "NOT_CONNECTED": "Not connected",
           "CONNECT": "Connect Google Translate"
         },
         "AUTO_TRANSLATE": {
-          "TITLE": "Auto translate conversations",
-          "NOTE": "Show incoming messages in each agent's language and send replies in the contact's language.",
-          "LOCKED": "Choose a translation service to turn this on."
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on."
         },
-        "SERVICE_NOTE": "The Translate action on any message uses {provider}.",
         "API": {
           "SUCCESS": "Translation settings updated successfully",
           "ERROR": "Failed to update translation settings"

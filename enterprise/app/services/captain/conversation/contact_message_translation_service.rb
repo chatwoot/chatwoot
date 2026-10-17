@@ -12,8 +12,10 @@ class Captain::Conversation::ContactMessageTranslationService
       next if message.deleted
 
       if translation
-        message.translations = message.translations.to_h.merge(target_language => translation)
-        message.translation_failed = nil
+        message.assign_attributes(
+          translations: message.translations.to_h.merge(target_language => translation), translation_provider: translator.provider,
+          translation_failed: nil
+        )
       else
         message.translation_failed = true
       end
@@ -29,7 +31,10 @@ class Captain::Conversation::ContactMessageTranslationService
     language = Captain::Conversation::MessageLanguageService.new(conversation: conversation, message: message).perform
     return message.content if Captain::Llm::MessageTranslationService.same_language?(language, target_language)
 
-    Captain::Conversation::TranslatorService.new(account: message.account, conversation_display_id: conversation.display_id)
-                                            .translate(message.content, target_language)
+    translator.translate(message.content, target_language)
+  end
+
+  def translator
+    @translator ||= Captain::Conversation::TranslatorService.new(account: message.account, conversation_display_id: conversation.display_id)
   end
 end

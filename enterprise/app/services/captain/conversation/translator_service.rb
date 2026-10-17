@@ -2,6 +2,10 @@
 class Captain::Conversation::TranslatorService
   pattr_initialize [:account!, { conversation_display_id: nil }]
 
+  def provider
+    account.translation_service
+  end
+
   def translate(text, target_language)
     return google.translate(text, target_language).presence if google?
 
@@ -25,10 +29,10 @@ class Captain::Conversation::TranslatorService
   private
 
   def google?
-    account.translation_service == 'google_translate'
+    provider == 'google_translate'
   end
 
   def google
-    @google ||= Integrations::GoogleTranslate::TextService.new(hook: account.google_translate_hook)
+    @google ||= Integrations::GoogleTranslate::ProcessorService.new(hook: account.google_translate_hook)
   end
 end

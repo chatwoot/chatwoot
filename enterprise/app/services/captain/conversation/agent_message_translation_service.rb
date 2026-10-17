@@ -34,6 +34,7 @@ class Captain::Conversation::AgentMessageTranslationService
   def use_translation(translated)
     message.translations = { original_language => original_text }
     message.source_language = conversation.language
+    message.translation_provider = translator.provider
     message.content = with_quoted_history(translated)
     message.content_attributes['email'] = email_content(message.content) if inbox.email?
   end

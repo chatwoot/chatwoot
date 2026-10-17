@@ -26,8 +26,12 @@ module Enterprise::Api::V1::Accounts::Conversations::MessagesController
 
   private
 
+  def translation_provider
+    Current.account.translation_service
+  end
+
   def translate_message
-    return super unless Current.account.translation_service == 'captain'
+    return super unless translation_provider == 'captain'
 
     Captain::Conversation::TranslatorService.new(account: Current.account, conversation_display_id: @conversation.display_id)
                                             .translate(message.content, permitted_params[:target_language])

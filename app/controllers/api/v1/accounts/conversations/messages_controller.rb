@@ -44,7 +44,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
       translations = {}
       translations[permitted_params[:target_language]] = translated_content
       translations = message.translations.merge!(translations) if message.translations.present?
-      message.update!(translations: translations)
+      message.update!(translations: translations, translation_provider: translation_provider)
     end
 
     render json: { content: translated_content }
@@ -55,8 +55,13 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   private
 
+  def translation_provider
+    'google_translate'
+  end
+
   def translate_message
-    Integrations::GoogleTranslate::ProcessorService.new(message: message, target_language: permitted_params[:target_language]).perform
+    hook = Current.account.hooks.find_by(app_id: 'google_translate')
+    Integrations::GoogleTranslate::ProcessorService.new(hook: hook).translate_message(message, permitted_params[:target_language]) if hook
   end
 
   def message

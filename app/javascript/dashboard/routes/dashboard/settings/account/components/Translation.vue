@@ -43,12 +43,6 @@ const isGoogleSelected = computed(
 const hasSelection = computed(
   () => isCaptainSelected.value || isGoogleSelected.value
 );
-const providerName = computed(() =>
-  isCaptainSelected.value
-    ? t('GENERAL_SETTINGS.FORM.TRANSLATION.CAPTAIN.TITLE')
-    : t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.TITLE')
-);
-
 watch(
   currentAccount,
   account => {
@@ -75,9 +69,9 @@ const toggleAutoTranslate = () =>
 
 <template>
   <div
-    class="flex flex-col gap-5 items-start px-5 py-4 w-full outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
+    class="flex flex-col w-full outline-1 outline outline-n-container rounded-xl bg-n-solid-2 divide-y divide-n-weak"
   >
-    <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-2 items-start px-5 py-4">
       <h3 class="text-heading-2 text-n-slate-12">
         {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.TITLE') }}
       </h3>
@@ -86,20 +80,22 @@ const toggleAutoTranslate = () =>
       </p>
     </div>
 
-    <div class="grid grid-cols-1 gap-3 w-full md:grid-cols-2">
-      <RadioCard
-        v-if="captainEnabled"
-        :id="TRANSLATION_PROVIDERS.CAPTAIN"
-        name="translation-provider"
-        :label="t('GENERAL_SETTINGS.FORM.TRANSLATION.CAPTAIN.TITLE')"
-        :description="t('GENERAL_SETTINGS.FORM.TRANSLATION.CAPTAIN.NOTE')"
-        :is-active="isCaptainSelected"
-        @select="selectProvider"
-      />
-      <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-4 px-5 py-4">
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+        <RadioCard
+          v-if="captainEnabled"
+          :id="TRANSLATION_PROVIDERS.CAPTAIN"
+          name="translation-provider"
+          class="h-full"
+          :label="t('GENERAL_SETTINGS.FORM.TRANSLATION.CAPTAIN.TITLE')"
+          :description="t('GENERAL_SETTINGS.FORM.TRANSLATION.CAPTAIN.NOTE')"
+          :is-active="isCaptainSelected"
+          @select="selectProvider"
+        />
         <RadioCard
           :id="TRANSLATION_PROVIDERS.GOOGLE"
           name="translation-provider"
+          class="h-full"
           :label="t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.TITLE')"
           :description="t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.NOTE')"
           :is-active="isGoogleSelected"
@@ -109,44 +105,42 @@ const toggleAutoTranslate = () =>
           "
           @select="selectProvider"
         />
-        <router-link
-          v-if="!googleConnected"
-          :to="{
-            name: 'settings_applications_integration',
-            params: { integration_id: TRANSLATION_PROVIDERS.GOOGLE },
-          }"
-          class="text-body-main text-n-blue-11 hover:underline"
-        >
-          {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.CONNECT') }}
-        </router-link>
+      </div>
+      <router-link
+        v-if="!googleConnected"
+        :to="{
+          name: 'settings_applications_integration',
+          params: { integration_id: TRANSLATION_PROVIDERS.GOOGLE },
+        }"
+        class="self-start text-body-main text-n-blue-11 hover:underline"
+      >
+        {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.GOOGLE.CONNECT') }}
+      </router-link>
+
+      <div
+        class="flex gap-4 justify-between items-center p-3 w-full rounded-xl border border-n-weak bg-n-solid-1"
+      >
+        <div class="flex flex-col gap-0.5 min-w-0">
+          <span class="text-body-main text-n-slate-12">
+            {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.AUTO_TRANSLATE.TITLE') }}
+          </span>
+          <span
+            class="text-body-main"
+            :class="hasSelection ? 'text-n-slate-11' : 'text-n-amber-11'"
+          >
+            {{
+              hasSelection
+                ? t('GENERAL_SETTINGS.FORM.TRANSLATION.AUTO_TRANSLATE.NOTE')
+                : t('GENERAL_SETTINGS.FORM.TRANSLATION.AUTO_TRANSLATE.LOCKED')
+            }}
+          </span>
+        </div>
+        <Switch
+          v-model="isAutoTranslateOn"
+          :disabled="!hasSelection"
+          @change="toggleAutoTranslate"
+        />
       </div>
     </div>
-
-    <div class="flex justify-between items-start gap-6 w-full">
-      <div class="flex flex-col gap-1 min-w-0">
-        <h4 class="text-heading-3 text-n-slate-12">
-          {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.AUTO_TRANSLATE.TITLE') }}
-        </h4>
-        <p class="mb-0 text-body-para text-n-slate-11">
-          {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.AUTO_TRANSLATE.NOTE') }}
-        </p>
-        <p v-if="!hasSelection" class="mb-0 text-body-para text-n-amber-11">
-          {{ t('GENERAL_SETTINGS.FORM.TRANSLATION.AUTO_TRANSLATE.LOCKED') }}
-        </p>
-      </div>
-      <Switch
-        v-model="isAutoTranslateOn"
-        :disabled="!hasSelection"
-        @change="toggleAutoTranslate"
-      />
-    </div>
-
-    <p v-if="hasSelection" class="mb-0 text-body-main text-n-slate-11">
-      {{
-        t('GENERAL_SETTINGS.FORM.TRANSLATION.SERVICE_NOTE', {
-          provider: providerName,
-        })
-      }}
-    </p>
   </div>
 </template>
