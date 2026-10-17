@@ -19,7 +19,9 @@ class ChatwootMarkdownRenderer
   end
 
   def render_markdown_to_plain_text
-    CommonMarker.render_doc(@content, :DEFAULT).to_plaintext
+    doc = CommonMarker.render_doc(@content, :DEFAULT, [:table])
+    doc.walk.select { |node| node.type == :table }.each(&:delete)
+    doc.to_plaintext
   end
 
   private
