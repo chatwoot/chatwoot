@@ -32,6 +32,16 @@ RSpec.describe Captain::Conversation::ContactMessageTranslationService do
     expect(message.reload.translations).to eq('en' => 'Bonjour')
   end
 
+  it 'does nothing for a message already translated into the target language' do
+    message.update!(translations: { 'en' => 'Hi' })
+
+    described_class.new(message: message, target_language: 'en').perform
+
+    expect(Captain::Llm::LanguageDetectionService).not_to have_received(:new)
+    expect(Captain::Llm::MessageTranslationService).not_to have_received(:new)
+    expect(message.reload.translations).to eq('en' => 'Hi')
+  end
+
   it 'does not detect a message again' do
     message.update!(source_language: 'fr')
 
