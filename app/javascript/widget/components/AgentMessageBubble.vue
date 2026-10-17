@@ -24,6 +24,7 @@ export default {
   props: {
     message: { type: String, default: null },
     translating: { type: Boolean, default: false },
+    translated: { type: Boolean, default: false },
     contentType: { type: String, default: null },
     messageType: { type: Number, default: null },
     messageId: { type: Number, default: null },
@@ -51,7 +52,7 @@ export default {
       return Object.values(translations)[0] || '';
     },
     hasOriginal() {
-      return !this.translating && !!this.originalText;
+      return this.translated && !this.translating && !!this.originalText;
     },
     displayedMessage() {
       return this.showingOriginal ? this.originalText : this.message;
