@@ -24,7 +24,7 @@ class Captain::Conversation::AgentMessageTranslationService
     return if Captain::Llm::MessageTranslationService.same_language?(reply_language, conversation.language)
 
     translated = translate
-    if translated.present? && translated != reply
+    if translated.present? && translated != message.content
       use_translation(translated)
     elsif translated.blank? || reply_language.present?
       message.translation_failed = true
@@ -34,13 +34,13 @@ class Captain::Conversation::AgentMessageTranslationService
   def use_translation(translated)
     message.translations = { original_language => message.content }
     message.source_language = conversation.language
-    message.content = with_quoted_history(translated)
+    message.content = translated
     message.content_attributes['email'] = email_content(message.content) if inbox.email?
   end
 
   def translate
     Captain::Llm::MessageTranslationService.new(
-      account: account, text: reply, target_language: conversation.language, conversation_display_id: conversation.display_id
+      account: account, text: message.content, target_language: conversation.language, conversation_display_id: conversation.display_id
     ).perform[:message]
   end
 
@@ -51,29 +51,11 @@ class Captain::Conversation::AgentMessageTranslationService
   def reply_language
     return @reply_language if defined?(@reply_language)
 
-    @reply_language = detect(reply)
-  end
-
-  def detect(text)
-    Captain::Llm::LanguageDetectionService.new(account: account, text: text).language
+    @reply_language = Captain::Llm::LanguageDetectionService.new(account: account, text: message.content).language
   end
 
   def agent_locale
     message.sender.ui_settings['locale'].presence if message.sender.is_a?(User)
-  end
-
-  # Email: the reply box appends the earlier thread as "> " lines. Only the text above them is translated.
-
-  def reply
-    @reply ||= quoted_history.blank? ? message.content : message.content.delete_suffix(quoted_history).strip
-  end
-
-  def quoted_history
-    @quoted_history ||= inbox.email? ? message.content[/^>.*\z/m].to_s : ''
-  end
-
-  def with_quoted_history(translated)
-    quoted_history.blank? ? translated : "#{translated.strip}\n\n#{quoted_history}"
   end
 
   # The mailer sends the stored html, so it is rendered again from the translated text.
