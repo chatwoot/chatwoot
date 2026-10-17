@@ -27,6 +27,7 @@
     "VIEW_TRANSLATED_IN": "View translated ({language})",
     "ALREADY_IN_LANGUAGE": "Already in {language}",
     "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"

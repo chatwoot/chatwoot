@@ -255,6 +255,7 @@ const getters = {
         enabled &&
         (foreign || (!!language && !sameLanguage)) &&
         !translation &&
+        !attributes.translation_failed &&
         waiting,
       failed: enabled && !!attributes.translation_failed,
       sameLanguage:
