@@ -1108,15 +1108,34 @@ describe('#addMentions', () => {
 
   describe('#autoTranslateMessages', () => {
     const messages = [
-      { id: 1, message_type: 0, content: 'Bonjour', content_attributes: {} },
+      {
+        id: 1,
+        message_type: 0,
+        content_type: 'text',
+        content: 'Bonjour',
+        content_attributes: {},
+      },
       {
         id: 2,
         message_type: 0,
+        content_type: 'text',
         content: 'Hello',
         content_attributes: { translations: { en: 'Hello' } },
       },
-      { id: 3, message_type: 1, content: 'Hi', content_attributes: {} },
-      { id: 4, message_type: 0, content: 'Merci', content_attributes: {} },
+      {
+        id: 3,
+        message_type: 1,
+        content_type: 'text',
+        content: 'Hi',
+        content_attributes: {},
+      },
+      {
+        id: 4,
+        message_type: 0,
+        content_type: 'text',
+        content: 'Merci',
+        content_attributes: {},
+      },
     ];
     const getters = {
       getAutoTranslate: { enabled: true, locale: 'en', sameLanguage: false },
@@ -1151,6 +1170,7 @@ describe('#addMentions', () => {
         {
           id: 5,
           message_type: 1,
+          content_type: 'text',
           content: 'Bonjour',
           sender: { type: 'captain_assistant' },
           content_attributes: {},
@@ -1158,6 +1178,7 @@ describe('#addMentions', () => {
         {
           id: 8,
           message_type: 1,
+          content_type: 'text',
           content: 'Bonjour',
           sender: { type: 'user' },
           content_attributes: {},
@@ -1171,6 +1192,43 @@ describe('#addMentions', () => {
           getters: {
             ...getters,
             getSelectedChat: { id: 7, messages: botMessages },
+          },
+        },
+        7
+      );
+
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/conversations/7/messages/auto_translate'),
+        { message_ids: [5] }
+      );
+    });
+
+    it('skips call bubbles and other non-text messages', async () => {
+      axios.post.mockResolvedValue({});
+      const chatMessages = [
+        {
+          id: 5,
+          message_type: 0,
+          content_type: 'text',
+          content: 'Bonjour',
+          content_attributes: {},
+        },
+        {
+          id: 6,
+          message_type: 0,
+          content_type: 'voice_call',
+          content: 'WhatsApp Call',
+          content_attributes: {},
+        },
+      ];
+
+      await actions.autoTranslateMessages(
+        {
+          state: { selectedChatId: 7, autoTranslating: {} },
+          commit,
+          getters: {
+            ...getters,
+            getSelectedChat: { id: 7, messages: chatMessages },
           },
         },
         7

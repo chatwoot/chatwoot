@@ -930,8 +930,8 @@ describe('#getters', () => {
           {
             id: 9,
             message_type: 1,
-            content: 'Bonjour',
             content_type: 'text',
+            content: 'Bonjour',
             sender: { type: 'captain_assistant' },
             content_attributes: {},
           },
@@ -948,13 +948,21 @@ describe('#getters', () => {
           {
             id: 1,
             message_type: 0,
+            content_type: 'text',
             content: 'Bonjour',
             content_attributes: {},
           },
-          { id: 2, message_type: 0, content: 'Merci', content_attributes: {} },
+          {
+            id: 2,
+            message_type: 0,
+            content_type: 'text',
+            content: 'Merci',
+            content_attributes: {},
+          },
           {
             id: 3,
             message_type: 1,
+            content_type: 'text',
             status: 'progress',
             content: 'Hi',
             content_attributes: {},
@@ -962,6 +970,7 @@ describe('#getters', () => {
           {
             id: 4,
             message_type: 1,
+            content_type: 'text',
             status: 'progress',
             content: 'Hi',
             private: true,
@@ -970,6 +979,7 @@ describe('#getters', () => {
           {
             id: 5,
             message_type: 1,
+            content_type: 'text',
             status: 'progress',
             content: 'Fwd: Hi',
             content_attributes: { forwarded_message_id: 3 },
@@ -993,6 +1003,7 @@ describe('#getters', () => {
           {
             id: 1,
             message_type: 0,
+            content_type: 'text',
             content: 'Bonjour',
             content_attributes: { translations: { es: 'Hola' } },
           },
@@ -1008,6 +1019,7 @@ describe('#getters', () => {
         {
           id: 1,
           message_type: 1,
+          content_type: 'text',
           content: 'Hello',
           content_attributes: { translation_pending: true },
         },
@@ -1021,12 +1033,14 @@ describe('#getters', () => {
         {
           id: 1,
           message_type: 0,
+          content_type: 'text',
           content: 'ok thanks',
           content_attributes: { translations: { en: 'ok thanks' } },
         },
         {
           id: 2,
           message_type: 0,
+          content_type: 'text',
           content: 'Bonjour',
           content_attributes: { translations: { en: 'Hello' } },
         },
@@ -1053,6 +1067,7 @@ describe('#getters', () => {
         {
           id: 1,
           message_type: 1,
+          content_type: 'text',
           content: 'Merci',
           content_attributes: {
             translations: { ml: 'നന്ദി' },
@@ -1072,12 +1087,14 @@ describe('#getters', () => {
         {
           id: 1,
           message_type: 0,
+          content_type: 'text',
           content: 'ok thanks',
           content_attributes: {},
         },
         {
           id: 2,
           message_type: 0,
+          content_type: 'text',
           content: 'Bonjour',
           content_attributes: { translations: { en: 'Hello' } },
         },
@@ -1106,6 +1123,7 @@ describe('#getters', () => {
         {
           id: 1,
           message_type: 1,
+          content_type: 'text',
           content: 'Hi',
           content_attributes: { translation_failed: true },
         },
@@ -1122,6 +1140,7 @@ describe('#getters', () => {
         {
           id: 1,
           message_type: 0,
+          content_type: 'text',
           content: '你好',
           content_attributes: {
             translations: { en: 'Hello' },

@@ -2,6 +2,7 @@ import {
   CONVERSATION_PRIORITY_ORDER,
   MESSAGE_TYPE,
 } from 'shared/constants/messages';
+import { CONTENT_TYPES } from 'dashboard/components-next/message/constants.js';
 
 export const languageCode = locale => locale?.split(/[-_]/)[0];
 
@@ -10,9 +11,15 @@ const BOT_SENDERS = ['agent_bot', 'captain_assistant'];
 export const isContactSide = (messageType, senderType) =>
   messageType === MESSAGE_TYPE.INCOMING || BOT_SENDERS.includes(senderType);
 
-// Html mail keeps its markup: only plain text is translated for now.
+const TRANSLATABLE_CONTENT_TYPES = [
+  CONTENT_TYPES.TEXT,
+  CONTENT_TYPES.INCOMING_EMAIL,
+];
+
+// Only text is translated: call bubbles, cards and forms carry fixed labels, and html mail keeps its markup.
 export const isTranslatable = message =>
   isContactSide(message.message_type, message.sender?.type) &&
+  TRANSLATABLE_CONTENT_TYPES.includes(message.content_type) &&
   !!message.content &&
   !message.content_attributes?.deleted &&
   !message.content_attributes?.email?.html_content?.full;
