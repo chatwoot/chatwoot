@@ -39,8 +39,11 @@ class Voice::InboundCallBuilder
       created = create_call!(contact, conversation)
       message = Voice::CallMessageBuilder.new(created).perform!
       created.update!(message_id: message.id)
-      record_ring_audience(created)
-      ring_phones(created)
+      # A call outside business hours ends as it arrives: nobody rings and nobody gets a missed-call notice
+      unless created.outside_working_hours?
+        record_ring_audience(created)
+        ring_phones(created)
+      end
       created
     end
   rescue ActiveRecord::RecordNotUnique
@@ -117,6 +120,8 @@ class Voice::InboundCallBuilder
     provider == :whatsapp
   end
 
+  # Business hours are decided once, as the call is created, and stored on it, so the caller's
+  # announcement and the ring can't disagree about a call arriving at closing time.
   def create_call!(contact, conversation)
     call = Call.create!(
       account: account,
@@ -125,12 +130,19 @@ class Voice::InboundCallBuilder
       contact: contact,
       provider: provider,
       direction: :incoming,
-      status: 'ringing',
       provider_call_id: call_sid,
-      meta: { 'initiated_at' => Time.zone.now.to_i }.merge(extra_meta.stringify_keys)
+      **initial_state
     )
     # `conference_sid` is a Twilio bridging concept; WhatsApp goes browser↔Meta.
     call.update!(conference_sid: call.default_conference_sid) if call.twilio?
     call
+  end
+
+  def initial_state
+    now = Time.zone.now.to_i
+    meta = { 'initiated_at' => now }.merge(extra_meta.stringify_keys)
+    return { status: 'ringing', meta: meta } unless inbox.closed_for_calls?
+
+    { status: 'no_answer', end_reason: Call::OUTSIDE_WORKING_HOURS, meta: meta.merge('ended_at' => now) }
   end
 end

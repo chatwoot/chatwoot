@@ -1,5 +1,6 @@
 module Enterprise::Channel::Whatsapp
   include Concerns::CallRecordingSettings
+  include Concerns::CallBusinessHoursSettings
 
   attr_reader :last_provider_error
 

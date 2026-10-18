@@ -7,6 +7,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CallRecordingSettings from './CallRecordingSettings.vue';
+import CallBusinessHoursSettings from './CallBusinessHoursSettings.vue';
 
 export default {
   components: {
@@ -16,6 +17,7 @@ export default {
     TextArea,
     Spinner,
     CallRecordingSettings,
+    CallBusinessHoursSettings,
   },
   props: {
     inbox: {
@@ -161,6 +163,8 @@ export default {
       </div>
 
       <CallRecordingSettings :inbox="inbox" />
+
+      <CallBusinessHoursSettings :inbox="inbox" />
 
       <SettingsFieldSection
         v-if="phoneNumber"

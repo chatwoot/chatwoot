@@ -262,6 +262,14 @@ export const actions = {
       throwErrorMessage(error);
     }
   },
+  // Commits the inbox the save returns, so the page shows the new message and recording at once
+  updateCallBusinessHours: async ({ commit }, { id, enabled, message }) => {
+    const response = await InboxesAPI.setCallBusinessHours(id, {
+      enabled,
+      message,
+    });
+    commit(types.default.EDIT_INBOXES, response.data);
+  },
   updateInboxIMAP: async ({ commit }, { id, ...inboxParams }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingIMAP: true });
     try {

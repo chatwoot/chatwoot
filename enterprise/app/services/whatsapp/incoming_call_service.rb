@@ -85,6 +85,7 @@ class Whatsapp::IncomingCallService
     sdp_offer = payload.dig(:session, :sdp)
     call = build_inbound_call(payload, sdp_offer)
 
+    return Voice::OutOfHoursAnnouncement.new(inbox: inbox).decline_whatsapp_call(call) if call.outside_working_hours?
     return if call.terminal? # terminated before pickup; no ringing widget to surface
 
     update_conversation(call)

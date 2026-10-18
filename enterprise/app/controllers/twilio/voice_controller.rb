@@ -27,6 +27,8 @@ class Twilio::VoiceController < ApplicationController
     return render xml: reject_twiml if reject_inbound?
 
     call = resolve_call
+    return render xml: Voice::OutOfHoursAnnouncement.new(inbox: inbox).twiml if call.outside_working_hours? && !agent_leg?(twilio_from)
+
     # The leg was answered after the call ended (e.g. hangup raced the cancel); don't strand it in an empty conference.
     return render xml: hangup_twiml unless open_leg?(call)
 

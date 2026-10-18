@@ -97,4 +97,8 @@ class InboxPolicy < ApplicationPolicy
   def set_call_recording?
     @account_user.administrator?
   end
+
+  def set_call_business_hours?
+    @account_user.administrator?
+  end
 end

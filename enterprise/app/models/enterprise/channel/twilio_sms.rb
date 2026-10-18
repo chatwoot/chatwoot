@@ -1,6 +1,7 @@
 module Enterprise::Channel::TwilioSms
   extend ActiveSupport::Concern
   include Concerns::CallRecordingSettings
+  include Concerns::CallBusinessHoursSettings
 
   def self.prepended(base)
     base.class_eval do
