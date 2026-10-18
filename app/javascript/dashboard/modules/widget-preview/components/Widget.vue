@@ -94,7 +94,7 @@ const widgetScript = computed(() => {
   const settings = t('INBOX_MGMT.WIDGET_BUILDER.SCRIPT_SETTINGS', {
     options: JSON.stringify(options),
   });
-  return props.webWidgetScript.replace('<script>', `<script>${settings}`);
+  return props.webWidgetScript.replace('<script>', () => `<script>${settings}`);
 });
 
 const replyTimeText = computed(() => {
