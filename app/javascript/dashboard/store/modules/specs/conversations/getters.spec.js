@@ -861,6 +861,7 @@ describe('#getters', () => {
       }),
       getCurrentAccountId: 1,
       'accounts/isFeatureEnabledonAccount': () => true,
+      'integrations/getIntegration': () => ({}),
     };
     const chatIn = language => ({
       getSelectedChat: {
@@ -873,6 +874,7 @@ describe('#getters', () => {
         getters.getAutoTranslate({}, chatIn('fr'), {}, rootGetters)
       ).toEqual({
         enabled: true,
+        provider: 'captain',
         locale: 'en',
         sameLanguage: false,
         language: 'French',

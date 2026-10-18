@@ -65,7 +65,19 @@ module Enterprise::Account
   end
 
   def auto_translate_enabled?
-    feature_enabled?('auto_translate') && feature_enabled?('captain_tasks') && auto_translate == true
+    feature_enabled?('auto_translate') && auto_translate == true && translation_service_available?
+  end
+
+  def translation_service
+    translation_provider.presence || 'captain'
+  end
+
+  def google_translate_hook
+    hooks.find_by(app_id: 'google_translate')
+  end
+
+  def translation_service_available?
+    translation_service == 'google_translate' ? google_translate_hook.present? : feature_enabled?('captain_tasks')
   end
 
   def saml_enabled?

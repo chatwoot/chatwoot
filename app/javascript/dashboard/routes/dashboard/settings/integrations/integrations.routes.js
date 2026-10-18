@@ -11,6 +11,7 @@ import Linear from './Linear.vue';
 import Stripe from './Stripe.vue';
 import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
+import GoogleTranslate from './GoogleTranslate.vue';
 
 export const redirectShopifyIfUnavailable = async (to, _from, next) => {
   const accountId = Number(to.params.accountId);
@@ -98,6 +99,15 @@ export default {
           name: 'settings_integrations_stripe',
           component: Stripe,
           meta: {
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'google_translate',
+          name: 'settings_integrations_google_translate',
+          component: GoogleTranslate,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['administrator'],
           },
         },

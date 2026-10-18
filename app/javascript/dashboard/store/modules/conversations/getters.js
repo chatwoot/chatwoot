@@ -10,6 +10,10 @@ import {
   sortComparator,
 } from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
+import {
+  TRANSLATION_PROVIDERS,
+  translationProvider,
+} from 'dashboard/helper/translationProvider';
 import { createFiltersMatcher } from './helpers/filterHelpers';
 import {
   getUserPermissions,
@@ -210,13 +214,21 @@ const getters = {
       _getters.getSelectedChat.additional_attributes?.conversation_language;
     const isFeatureEnabled = feature =>
       rootGetters['accounts/isFeatureEnabledonAccount'](accountId, feature);
+    const googleConnected =
+      !!rootGetters['integrations/getIntegration']('google_translate').enabled;
+    const provider = translationProvider(account.settings);
+    const serviceAvailable =
+      provider === TRANSLATION_PROVIDERS.GOOGLE
+        ? googleConnected
+        : isFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS);
     const enabled =
       isFeatureEnabled(FEATURE_FLAGS.AUTO_TRANSLATE) &&
-      isFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS) &&
-      account.settings?.auto_translate === true;
+      account.settings?.auto_translate === true &&
+      serviceAvailable;
 
     return {
       enabled,
+      provider,
       locale,
       sameLanguage:
         !!language && languageCode(language) === languageCode(locale),

@@ -24,7 +24,9 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     described_class.new(message: message).perform
 
     expect(message.reload.content).to eq('Bonjour')
-    expect(message.content_attributes).to eq('translations' => { 'en' => 'Hello there' }, 'source_language' => 'fr')
+    expect(message.content_attributes).to eq(
+      'translations' => { 'en' => 'Hello there' }, 'source_language' => 'fr', 'translation_provider' => 'captain'
+    )
   end
 
   it 'keys the typed text by the language it was written in' do

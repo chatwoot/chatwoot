@@ -3,6 +3,22 @@ import MessageApi from '../../../../api/inbox/message';
 import { useAlert } from 'dashboard/composables';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import { isTranslatable } from '../helpers';
+import { TRANSLATION_PROVIDERS } from 'dashboard/helper/translationProvider';
+
+let integrationsRequest = null;
+
+// Google Translate counts as available only once the integrations are loaded, and the dashboard
+// loads them lazily, so the first auto translate run waits for them.
+const loadIntegrations = (dispatch, rootGetters) => {
+  if (rootGetters['integrations/getAppIntegrations'].length) return null;
+
+  integrationsRequest ??= dispatch('integrations/get', null, {
+    root: true,
+  }).finally(() => {
+    integrationsRequest = null;
+  });
+  return integrationsRequest;
+};
 
 export default {
   async translateMessage(_, { conversationId, messageId, targetLanguage }) {
@@ -13,7 +29,14 @@ export default {
     );
   },
 
-  async autoTranslateMessages({ state, commit, getters }, conversationId) {
+  async autoTranslateMessages(
+    { state, commit, dispatch, getters, rootGetters },
+    conversationId
+  ) {
+    if (getters.getAutoTranslate.provider === TRANSLATION_PROVIDERS.GOOGLE) {
+      await loadIntegrations(dispatch, rootGetters);
+    }
+
     const { enabled, locale } = getters.getAutoTranslate;
     if (!enabled || conversationId !== state.selectedChatId) {
       return;

@@ -198,6 +198,8 @@ en:
         sdp_offer_required: 'sdp_offer is required'
         contact_phone_required: 'Contact phone number is required'
         permission_request_failed: 'Failed to send call permission request'
+    google_translate:
+      invalid_credentials: 'This Google Cloud key is not working. Check the project ID and key file and try again.'
     openai:
       invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
