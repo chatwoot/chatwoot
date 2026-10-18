@@ -61,27 +61,21 @@ class Channel::WebWidget < ApplicationRecord
     'Website'
   end
 
+  # The snippet is pasted into third-party sites, so it must not bake in
+  # ASSET_CDN_HOST: rotating the CDN would break every installed widget.
   def web_widget_script
-    base_url = ENV.fetch('FRONTEND_URL', '')
-    cdn_url = Cdn.host_or_empty
-    sdk_src = cdn_url.empty? ? 'BASE_URL+"/packs/js/sdk.js"' : "#{cdn_url}/packs/js/sdk.js".to_json
-    cdn_field = cdn_url.empty? ? '' : ",\n            cdnUrl: #{cdn_url.to_json}"
-    render_web_widget_script(base_url, sdk_src, cdn_field)
-  end
-
-  def render_web_widget_script(base_url, sdk_src, cdn_field)
     <<~SCRIPT
       <script>
         (function(d,t) {
-          var BASE_URL=#{base_url.to_json};
+          var BASE_URL=#{ENV.fetch('FRONTEND_URL', '').to_json};
           var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-          g.src=#{sdk_src};
+          g.src=BASE_URL+"/packs/js/sdk.js";
           g.async = true;
           s.parentNode.insertBefore(g,s);
           g.onload=function(){
             window.chatwootSDK.run({
               websiteToken: #{website_token.to_json},
-              baseUrl: BASE_URL#{cdn_field}
+              baseUrl: BASE_URL
             })
           }
         })(document,"script");

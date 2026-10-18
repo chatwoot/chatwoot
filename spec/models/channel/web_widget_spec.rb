@@ -29,12 +29,11 @@ RSpec.describe Channel::WebWidget do
     end
 
     context 'when ASSET_CDN_HOST is configured' do
-      it 'serves sdk.js from the CDN host and emits a cdnUrl field' do
+      it 'keeps sdk.js on BASE_URL so installed snippets survive CDN changes' do
         with_modified_env ASSET_CDN_HOST: 'https://cdn.example.com', FRONTEND_URL: 'https://app.example.com' do
           script = channel_widget.web_widget_script
-          expect(script).to include('g.src="https://cdn.example.com/packs/js/sdk.js"')
-          expect(script).to include('cdnUrl: "https://cdn.example.com"')
-          expect(script).to include('baseUrl: BASE_URL')
+          expect(script).to include('g.src=BASE_URL+"/packs/js/sdk.js"')
+          expect(script).not_to include('cdn.example.com')
         end
       end
     end
