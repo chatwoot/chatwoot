@@ -288,7 +288,7 @@ es:
       instagram_shared_post_content: 'Shared post'
       deleted: Este mensaje se ha eliminado
       whatsapp:
-        list_button_label: 'Choose an item'
+        list_button_label: 'Elige una opción'
         call_permission_request_body: 'Nos gustaría llamarte en relación con tu conversación.'
         flow_response: 'Envió una respuesta de flujo'
         unsupported_message: 'Este mensaje no está disponible.'
