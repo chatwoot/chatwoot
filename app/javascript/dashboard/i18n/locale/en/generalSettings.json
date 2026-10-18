@@ -44,12 +44,33 @@
         "TITLE": "Account ID",
         "NOTE": "This ID is required if you are building an API based integration"
       },
-      "AUTO_TRANSLATE": {
-        "TITLE": "Auto translate conversations",
-        "NOTE": "Show incoming messages in each agent's language and send replies in the contact's language, using Captain.",
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google Translate",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "Connect",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "Upgrade"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
         "API": {
-          "SUCCESS": "Auto translate setting updated successfully",
-          "ERROR": "Failed to update auto translate setting"
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
         }
       },
       "AUTO_RESOLVE": {
