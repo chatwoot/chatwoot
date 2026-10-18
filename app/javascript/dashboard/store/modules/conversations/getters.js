@@ -8,7 +8,6 @@ import {
   isTranslatable,
   languageCode,
   sortComparator,
-  translatableText,
 } from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import { createFiltersMatcher } from './helpers/filterHelpers';
@@ -244,10 +243,10 @@ const getters = {
         (message.status === MESSAGE_STATUS.PROGRESS &&
           !message.private &&
           !attributes.forwarded_message_id);
-    // The own text stored as the translation marks a message already in the agent language; once a translated
+    // A message detected in the agent language keeps its own text as the translation; once a translated
     // thread switched to the agent language, its untranslated messages are in it too.
     const alreadyInAgentLanguage = translation
-      ? translation === translatableText(message)
+      ? languageCode(attributes.source_language) === languageCode(locale)
       : sameLanguage &&
         messages.some(item => item.content_attributes?.translations);
 

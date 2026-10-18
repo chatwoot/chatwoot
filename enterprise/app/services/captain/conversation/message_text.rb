@@ -6,7 +6,9 @@ class Captain::Conversation::MessageText
   def initialize(message)
     html = message.content_attributes.dig('email', 'html_content', 'full')
     @document = Nokogiri::HTML(html) if html.present?
-    @text = message.content_attributes.dig('email', 'text_content', 'quoted').presence || message.content
+    # A forward sits entirely inside the quoted history; with no visible text left it is read as plain content.
+    @document = nil if @document && nodes.empty?
+    @text = message.content
   end
 
   def texts

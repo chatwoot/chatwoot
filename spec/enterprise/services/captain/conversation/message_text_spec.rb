@@ -21,12 +21,18 @@ RSpec.describe Captain::Conversation::MessageText do
       .to include('<p>Hello <b>Camille</b></p>').and include('<blockquote><p>Thanks</p></blockquote>').and include('<p>Ancien message</p>')
   end
 
-  it 'reads the trimmed reply of a text email and the content of any other message' do
-    reply = create(:message, account: account, conversation: conversation, message_type: :incoming, content: "Bonjour\n\n> Hello",
-                             content_attributes: { email: { text_content: { quoted: 'Bonjour' } } })
+  it 'reads a forward, whose text is all quoted history, as its content' do
+    forwarded_html = '<div class="gmail_quote"><p>Votre commande est confirmée.</p></div>'
+    forward = create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'Votre commande est confirmée.',
+                               content_attributes: { email: { html_content: { full: forwarded_html } } })
+
+    expect(described_class.new(forward).texts).to eq(['Votre commande est confirmée.'])
+  end
+
+  it 'reads the content of a message without an html body' do
     chat = create(:message, account: account, conversation: conversation, message_type: :incoming, content: 'Salut')
 
-    expect(described_class.new(reply).texts).to eq(['Bonjour'])
+    expect(described_class.new(chat).texts).to eq(['Salut'])
     expect(described_class.new(chat).with(['Hi'])).to eq('Hi')
   end
 end

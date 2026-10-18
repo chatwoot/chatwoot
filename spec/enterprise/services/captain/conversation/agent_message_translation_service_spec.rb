@@ -18,16 +18,6 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     allow(Captain::Llm::LanguageDetectionService).to receive(:new).and_return(detection)
   end
 
-  it 'detects the language of a contact email from its reply, without the quoted history' do
-    create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, content_type: :incoming_email,
-                     content: "Celui-ci met quatre secondes à charger.\n\nOn Thu, Oct 16, Support wrote:\n> Hello",
-                     content_attributes: { email: { text_content: { quoted: 'Celui-ci met quatre secondes à charger.' } } })
-
-    described_class.new(message: message).perform
-
-    expect(Captain::Llm::LanguageDetectionService).to have_received(:new).with(account: account, text: 'Celui-ci met quatre secondes à charger.')
-  end
-
   it 'stores the reply in the contact language and keeps the typed text under the agent locale' do
     user.update!(ui_settings: { locale: 'en' })
 

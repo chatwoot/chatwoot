@@ -23,10 +23,6 @@ export const isTranslatable = message =>
   !!message.content &&
   !message.content_attributes?.deleted;
 
-// Email content carries the quoted history; the trimmed reply is what gets translated.
-export const translatableText = message =>
-  message.content_attributes?.email?.text_content?.quoted || message.content;
-
 // Stored with another language, a message stays translated after the thread switched to the agent language.
 export const isForeign = (message, locale) => {
   const source = message.content_attributes?.source_language;

@@ -1035,14 +1035,31 @@ describe('#getters', () => {
           message_type: 0,
           content_type: 'text',
           content: 'ok thanks',
-          content_attributes: { translations: { en: 'ok thanks' } },
+          content_attributes: {
+            source_language: 'en',
+            translations: { en: 'ok thanks' },
+          },
         },
         {
           id: 2,
           message_type: 0,
           content_type: 'text',
           content: 'Bonjour',
-          content_attributes: { translations: { en: 'Hello' } },
+          content_attributes: {
+            source_language: 'fr',
+            translations: { en: 'Hello' },
+          },
+        },
+        {
+          id: 3,
+          message_type: 0,
+          content_type: 'incoming_email',
+          content: 'Hi team',
+          content_attributes: {
+            source_language: 'en',
+            translations: { en: '<html><body><p>Hi team</p></body></html>' },
+            email: { html_content: { full: '<p>Hi team</p>' } },
+          },
         },
       ]);
 
@@ -1050,9 +1067,10 @@ describe('#getters', () => {
         pending: false,
         failed: false,
         sameLanguage: true,
-        sourceLanguage: 'French',
+        sourceLanguage: 'English',
         originalLanguage: 'English',
       });
+      expect(translationState(3).sameLanguage).toBe(true);
       expect(translationState(2)).toEqual({
         pending: false,
         failed: false,
