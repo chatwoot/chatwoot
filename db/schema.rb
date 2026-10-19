@@ -1059,7 +1059,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_17_230231) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["copilot_run_id", "conversation_id"], name: "index_copilot_findings_on_run_and_conversation", unique: true
-    t.index ["copilot_run_id"], name: "index_copilot_review_findings_on_copilot_run_id"
   end
 
   create_table "copilot_runs", force: :cascade do |t|
@@ -1114,7 +1113,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_17_230231) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["copilot_run_id", "call_id"], name: "index_copilot_tool_calls_on_copilot_run_id_and_call_id", unique: true
-    t.index ["copilot_run_id"], name: "index_copilot_tool_calls_on_copilot_run_id"
     t.index ["status"], name: "index_copilot_tool_calls_running", where: "((status)::text = 'running'::text)"
   end
 

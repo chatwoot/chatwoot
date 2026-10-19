@@ -11,8 +11,8 @@ class Captain::Copilot::CollectionService
     raise ArgumentError, 'filters must be an object' unless filters.is_a?(Hash)
 
     selector = Captain::Copilot::Resources.build(resource, account: @run.account, user: @run.user)
-    filters = selector.normalize(filters)
     source = @run.copilot_thread.saved_set(from) if from
+    filters = selector.normalize(filters, source: source)
     as_of = Time.current
     matching = selector.matching(filters, as_of: as_of, source: source)
     ids = selector.selected_ids(matching, filters)
