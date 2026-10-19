@@ -62,7 +62,8 @@ class Llm::SpeechToTextService < Llm::LegacyBaseOpenAiService
   def fetch_audio_file
     temp_dir = Rails.root.join('tmp/uploads/audio-transcriptions')
     FileUtils.mkdir_p(temp_dir)
-    temp_file_name = "#{blob.key}-#{blob.filename}"
+    # OpenAI rejects .oga filenames even when the bytes contain valid Ogg audio.
+    temp_file_name = "#{blob.key}-#{blob.filename}".sub(/\.oga\z/i, '.ogg')
 
     if blob.filename.extension_without_delimiter.blank?
       extension = extension_from_content_type(blob.content_type)

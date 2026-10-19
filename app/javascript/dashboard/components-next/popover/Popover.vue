@@ -32,6 +32,8 @@ const props = defineProps({
 
 const emit = defineEmits(['show', 'hide']);
 
+defineOptions({ inheritAttrs: false });
+
 const isActive = ref(false);
 const triggerRef = ref(null);
 const popoverRef = ref(null);
@@ -132,7 +134,7 @@ defineExpose({ show, hide, toggle });
 </script>
 
 <template>
-  <span ref="triggerRef" class="inline-flex" @click="toggle">
+  <span ref="triggerRef" v-bind="$attrs" class="inline-flex" @click="toggle">
     <slot :is-open="isActive" />
   </span>
 

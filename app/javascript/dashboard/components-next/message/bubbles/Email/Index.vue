@@ -16,13 +16,19 @@ import { useMessageContext } from '../../provider.js';
 import { MESSAGE_TYPES } from 'next/message/constants.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
 
-const { content, contentAttributes, attachments, messageType } =
-  useMessageContext();
+const {
+  content,
+  contentAttributes,
+  attachments,
+  messageType,
+  contactSide,
+  showingOriginal,
+  isCaptainMessage,
+} = useMessageContext();
 
 const isExpandable = ref(false);
 const isExpanded = ref(false);
 const showQuotedMessage = ref(false);
-const renderOriginal = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
 onMounted(() => {
@@ -32,8 +38,13 @@ onMounted(() => {
 const isOutgoing = computed(() => messageType.value === MESSAGE_TYPES.OUTGOING);
 const isIncoming = computed(() => !isOutgoing.value);
 
-const { hasTranslations, translationContent } =
-  useTranslations(contentAttributes);
+const { hasTranslations, translationContent } = useTranslations(
+  contentAttributes,
+  contactSide
+);
+const showsTranslation = computed(
+  () => hasTranslations.value && !showingOriginal.value
+);
 
 const originalEmailText = computed(() => {
   const text =
@@ -54,32 +65,17 @@ const hasEmailContent = computed(() => {
   );
 });
 
-const messageContent = computed(() => {
-  // If translations exist and we're showing translations (not original)
-  if (hasTranslations.value && !renderOriginal.value) {
-    return translationContent.value;
-  }
-  // Otherwise show original content
-  return content.value;
-});
+const messageContent = computed(() =>
+  showsTranslation.value ? translationContent.value : content.value
+);
 
-const textToShow = computed(() => {
-  // If translations exist and we're showing translations (not original)
-  if (hasTranslations.value && !renderOriginal.value) {
-    return translationContent.value;
-  }
-  // Otherwise show original text
-  return originalEmailText.value;
-});
+const textToShow = computed(() =>
+  showsTranslation.value ? translationContent.value : originalEmailText.value
+);
 
-const fullHTML = computed(() => {
-  // If translations exist and we're showing translations (not original)
-  if (hasTranslations.value && !renderOriginal.value) {
-    return translationContent.value;
-  }
-  // Otherwise show original HTML
-  return originalEmailHtml.value;
-});
+const fullHTML = computed(() =>
+  showsTranslation.value ? translationContent.value : originalEmailHtml.value
+);
 
 const isForwarded = computed(
   () => !!contentAttributes.value?.forwardedMessageId
@@ -98,13 +94,13 @@ const hasQuotedMessage = computed(
 // Ensure unique keys for <Letter> when toggling between original and translated views.
 // This forces Vue to re-render the component and update content correctly.
 const translationKeySuffix = computed(() => {
-  if (renderOriginal.value) return 'original';
+  if (showingOriginal.value) return 'original';
   if (hasTranslations.value) return 'translated';
   return 'original';
 });
 
 const handleSeeOriginal = () => {
-  renderOriginal.value = !renderOriginal.value;
+  showingOriginal.value = !showingOriginal.value;
 };
 </script>
 
@@ -202,9 +198,9 @@ const handleSeeOriginal = () => {
       </div>
     </section>
     <TranslationToggle
-      v-if="hasTranslations"
+      v-if="!isCaptainMessage"
       class="py-2 px-3"
-      :showing-original="renderOriginal"
+      :showing-original="showingOriginal"
       @toggle="handleSeeOriginal"
     />
     <section
