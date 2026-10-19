@@ -26,6 +26,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hasNewerVersion: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
@@ -35,12 +39,8 @@ const emit = defineEmits([
   'setCategory',
   'previewArticle',
   'createArticle',
+  'reloadArticle',
 ]);
-
-const hasNewerVersion = defineModel('hasNewerVersion', {
-  type: Boolean,
-  default: false,
-});
 
 const { t } = useI18n();
 
@@ -107,11 +107,6 @@ const syncLocalState = () => {
   localTitle.value = effectiveTitle();
   localContent.value = effectiveContent();
   editorResets.value += 1;
-};
-
-const reloadArticle = () => {
-  syncLocalState();
-  hasNewerVersion.value = false;
 };
 
 const editorSessionId = computed(
@@ -202,6 +197,8 @@ const handleCreateArticle = event => {
   }
   emit('createArticle', { title, content: localContent.value });
 };
+
+defineExpose({ syncLocalState });
 </script>
 
 <template>
@@ -219,7 +216,7 @@ const handleCreateArticle = event => {
         @go-back="onClickGoBack"
         @preview-article="previewArticle"
         @show-diff="diffPanelRef?.open()"
-        @reload-article="reloadArticle"
+        @reload-article="emit('reloadArticle')"
       />
       <ArticleDiffPanel ref="diffPanelRef" :article="article" />
     </template>

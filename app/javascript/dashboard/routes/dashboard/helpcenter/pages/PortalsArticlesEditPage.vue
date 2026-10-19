@@ -11,6 +11,7 @@ import {
 } from 'dashboard/helper/portalHelper';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { rendersIdentically } from 'dashboard/helper/articleDiffHelper';
+import ArticlesAPI from 'dashboard/api/helpCenter/articles';
 
 import ArticleEditor from 'dashboard/components-next/HelpCenter/Pages/ArticleEditorPage/ArticleEditor.vue';
 
@@ -32,6 +33,7 @@ const portal = computed(() => portalBySlug.value(portalSlug));
 const isUpdating = ref(false);
 const isSaved = ref(false);
 const hasNewerVersion = ref(false);
+const articleEditorRef = ref(null);
 
 const articleLink = computed(() => {
   const { slug: categorySlug, locale: categoryLocale } = article.value.category;
@@ -144,21 +146,31 @@ const fetchArticleDetails = () => {
   });
 };
 
-const shownTitle = () => article.value?.draftTitle ?? article.value?.title;
-const shownContent = () =>
-  article.value?.draftContent ?? article.value?.content;
-
-// The editor keeps its own copy, so a refetch alone won't show remote edits.
-// Skip while our own save settles, or its response would look like one.
+// Compare without touching the store, which can reseed the editor before the
+// user asks. Draft autosaves skip updated_at, so the draft fields are compared
+// too. Skip while our own save settles, or it would look like a remote edit.
 const checkForNewerVersion = async () => {
   if (document.visibilityState !== 'visible') return;
   if (!article.value?.id || isUpdating.value) return;
-  const title = shownTitle();
-  const content = shownContent();
-  await store.dispatch('articles/show', { id: articleSlug, portalSlug });
-  if (title !== shownTitle() || content !== shownContent()) {
+  const { data } = await ArticlesAPI.getArticle({
+    id: articleSlug,
+    portalSlug,
+  });
+  const { updated_at, draft_title, draft_content } = data.payload;
+  const { updatedAt, draftTitle, draftContent } = article.value;
+  if (
+    updated_at !== updatedAt ||
+    draft_title !== draftTitle ||
+    draft_content !== draftContent
+  ) {
     hasNewerVersion.value = true;
   }
+};
+
+const loadLatestVersion = async () => {
+  await store.dispatch('articles/show', { id: articleSlug, portalSlug });
+  articleEditorRef.value.syncLocalState();
+  hasNewerVersion.value = false;
 };
 
 useEventListener(document, 'visibilitychange', checkForNewerVersion);
@@ -175,12 +187,14 @@ onMounted(fetchArticleDetails);
 
 <template>
   <ArticleEditor
-    v-model:has-newer-version="hasNewerVersion"
+    ref="articleEditorRef"
+    :has-newer-version="hasNewerVersion"
     :article="article"
     :is-updating="isUpdating"
     :is-saved="isSaved"
     @save-article="saveArticle"
     @preview-article="previewArticle"
     @go-back="goBackToArticles"
+    @reload-article="loadLatestVersion"
   />
 </template>
