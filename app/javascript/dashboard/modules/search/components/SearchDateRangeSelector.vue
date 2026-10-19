@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { vOnClickOutside } from '@vueuse/components';
 import {
   subDays,
@@ -31,11 +32,11 @@ const customFrom = ref('');
 const customTo = ref('');
 const rangeType = ref(DATE_RANGE_TYPES.BETWEEN);
 
-const searchWindowDays = window.chatwootConfig?.searchTimeRangeLimitDays || 90;
+const { searchTimeRangeLimitDays } = useConfig();
 
 // Calculate min date (start of the search window) for date inputs
 const minDate = computed(() =>
-  format(subDays(new Date(), searchWindowDays), 'yyyy-MM-dd')
+  format(subDays(new Date(), searchTimeRangeLimitDays), 'yyyy-MM-dd')
 );
 const maxDate = computed(() => format(new Date(), 'yyyy-MM-dd'));
 
@@ -93,7 +94,7 @@ const selectedValue = computed(() => {
 
 const menuItems = computed(() =>
   PRESET_RANGES.value
-    .filter(item => item.days <= searchWindowDays)
+    .filter(item => item.days <= searchTimeRangeLimitDays)
     .map(item => ({
       ...item,
       action: DATE_FILTER_ACTIONS.PRESET,
