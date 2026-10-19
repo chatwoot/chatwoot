@@ -57,7 +57,10 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   end
 
   def destroy
-    @hook.destroy!
+    Current.account.with_lock do
+      @hook.destroy!
+      Current.account.shopify_custom_app&.destroy!
+    end
     head :ok
   rescue StandardError => e
     render json: { error: e.message }, status: :unprocessable_entity

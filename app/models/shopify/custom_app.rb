@@ -1,4 +1,4 @@
-# Account-specific credentials are provisioned by operators, never through account APIs.
+# Account-specific credentials are encrypted and never returned through account APIs.
 class Shopify::CustomApp < ApplicationRecord
   self.table_name = 'shopify_custom_apps'
 
@@ -17,11 +17,11 @@ class Shopify::CustomApp < ApplicationRecord
   validate :preserve_existing_billing
 
   def callback_path
-    "/shopify/custom_apps/#{id}/callback"
+    "/shopify/accounts/#{account_id}/callback"
   end
 
   def webhook_path
-    "/webhooks/shopify/custom_apps/#{id}"
+    "/webhooks/shopify/accounts/#{account_id}"
   end
 
   def invalidate_authorizations!

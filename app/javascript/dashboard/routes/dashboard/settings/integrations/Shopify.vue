@@ -13,6 +13,7 @@ import { useBranding } from 'shared/composables/useBranding';
 import { isShopifyBillingAccount } from 'v3/helpers/AuthHelper';
 import shopifyAPI from 'dashboard/api/integrations/shopify';
 import Integration from './Integration.vue';
+import ShopifyCustomApp from './ShopifyCustomApp.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -168,6 +169,10 @@ onMounted(() => {
             />
           </template>
         </Integration>
+
+        <ShopifyCustomApp
+          v-if="!isShopifyBillingManaged && !integration.enabled"
+        />
 
         <Dialog
           ref="dialogRef"

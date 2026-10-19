@@ -4,6 +4,16 @@ For a small pilot, an operator can connect a customer's custom-distribution Shop
 
 The installation-wide Shopify configuration in Super Admin remains the main Chatwoot app configuration. Accounts without an enabled override continue using it. Custom app client secrets are encrypted using Active Record encryption and are not exposed by account APIs.
 
+## Dashboard setup
+
+Workspace administrators can open **Settings → Integrations → Shopify → Connect using your own Shopify app**. The advanced option guides them through creating a custom-distribution app, entering its store domain, client ID, client secret, and Shopify-generated installation link, then copying the generated callback and webhook URLs into Shopify. The app version must be released before selecting **Connect store in Shopify**.
+
+Saving creates a disabled configuration. Connecting activates it and starts the existing custom-app authorization flow. The dashboard never returns the client secret or signed installation link; updating credentials requires pasting the installation link again. Store domain and client ID cannot be changed on an existing configuration.
+
+Deleting the Shopify integration from the dashboard also deletes the workspace’s saved custom-app configuration and credentials. It does not delete the app in Shopify.
+
+The global and account Shopify feature flags and Active Record encryption must already be configured. Shopify-billed workspaces cannot use this option. It connects customer/order data and does not install the storefront chat widget.
+
 ## Provision a pilot account
 
 1. Deploy the migration and configure all three `ACTIVE_RECORD_ENCRYPTION_*` keys on the Rails and worker processes. Keep the existing global Shopify client credentials configured; the order reader uses those to initialize the SDK and the connection's own access token for requests.
@@ -37,7 +47,7 @@ The app must have the Shopify permissions needed for the customer and order fiel
 
 ## Isolation and cleanup
 
-The callback URL identifies the configuration, and the callback must match its store and HMAC secret. OAuth state is single-use and bound to the app. Uninstall invalidates pending authorizations, including authorizations started before a hook exists.
+The callback and webhook URLs use the workspace account ID and remain unchanged when its custom-app configuration is deleted and recreated. The callback URL identifies the account, and the callback must match its store and HMAC secret. OAuth state is single-use and bound to the app. Uninstall invalidates pending authorizations, including authorizations started before a hook exists.
 
 Connections record the custom app ID. Custom webhooks only clean up that app's connection on that account. Global app webhooks skip custom connections. Keep each custom app's webhook URL separate from `/webhooks/shopify`.
 

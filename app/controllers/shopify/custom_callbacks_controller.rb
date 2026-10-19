@@ -1,7 +1,7 @@
 # Custom apps attach only to the account/store provisioned by an operator. They never create accounts.
 class Shopify::CustomCallbacksController < Shopify::CallbacksController
   def show
-    @custom_app = Shopify::CustomApp.enabled.find(request.path_parameters.fetch(:custom_app_id))
+    @custom_app = Shopify::CustomApp.enabled.find_by!(account_id: request.path_parameters.fetch(:account_id))
     @account = @custom_app.account
     @account_id = @account.id
     validate_installation!

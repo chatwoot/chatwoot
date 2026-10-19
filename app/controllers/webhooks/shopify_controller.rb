@@ -82,10 +82,10 @@ class Webhooks::ShopifyController < ActionController::API
   end
 
   def custom_app
-    id = request.path_parameters[:custom_app_id]
-    return if id.blank?
+    account_id = request.path_parameters[:account_id]
+    return if account_id.blank?
 
-    @custom_app ||= Shopify::CustomApp.find(id)
+    @custom_app ||= Shopify::CustomApp.find_by!(account_id: account_id)
   end
 
   def shopify_hooks(shop_domain)
