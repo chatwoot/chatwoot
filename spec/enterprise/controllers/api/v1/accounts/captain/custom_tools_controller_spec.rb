@@ -519,7 +519,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
     end
     let(:tool_url) { "/api/v1/accounts/#{account.id}/captain/custom_tools/#{installed_tool.id}?assistant_id=#{assistant.id}" }
 
-    it 'rejects edits to anything other than enabled' do
+    it 'rejects edits to anything other than the account settings' do
       patch tool_url, params: { custom_tool: { title: 'Renamed', enabled: false } }, headers: admin.create_new_auth_token, as: :json
 
       expect(response).to have_http_status(:unprocessable_entity)
@@ -543,6 +543,14 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(installed_tool.reload.enabled).to be(false)
+    end
+
+    it 'allows choosing who can use the tool in Copilot' do
+      patch tool_url, params: { custom_tool: { copilot_permissions: ['agent'] } }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(json_response[:copilot_permissions]).to eq(['agent'])
+      expect(installed_tool.reload.copilot_permissions).to eq(['agent'])
     end
 
     it 'allows deleting' do
