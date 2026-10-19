@@ -38,6 +38,11 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   ].freeze
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
   PREMIUM_PLAN_FEATURES = (STARTUP_PLAN_FEATURES + BUSINESS_PLAN_FEATURES + ENTERPRISE_PLAN_FEATURES).freeze
+  # A trial without a card gets Business features except email and Captain, which unlock once a card is added.
+  CARD_REQUIRED_TRIAL_FEATURES = %w[
+    channel_email inbound_emails captain_integration captain_document_auto_sync captain_classifier custom_tools
+  ].freeze
+  NO_CARD_TRIAL_FEATURES = (STARTUP_PLAN_FEATURES + BUSINESS_PLAN_FEATURES - CARD_REQUIRED_TRIAL_FEATURES).freeze
   SHOPIFY_BASE_MANAGED_FEATURES = (PREMIUM_PLAN_FEATURES + %w[channel_tiktok]).freeze
 
   pattr_initialize [:account!, { shopify_lifecycle_cleanup: false }]
@@ -55,7 +60,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
   private
 
   def current_plan_features
-    return [] if default_plan?
+    return account.cloud_trial_state == 'no_card' ? NO_CARD_TRIAL_FEATURES : [] if default_plan?
     return Enterprise::Billing::PlanConfiguration.current_plan!(account).fetch('features') + PAID_PLAN_FEATURES if shopify_billing?
 
     case account.custom_attributes['plan_name']
