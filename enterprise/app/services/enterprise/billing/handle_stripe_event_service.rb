@@ -29,7 +29,11 @@ class Enterprise::Billing::HandleStripeEventService
     return unless stripe_billed_account?
 
     account.with_lock do
-      next if account.custom_attributes['last_stripe_event_at'].to_i > @event.created
+      last_applied = account.custom_attributes['last_stripe_event_at'].to_i
+      next if last_applied > @event.created
+
+      # Events created in the same second have no order, so these read Stripe's current copy of the subscription.
+      @subscription = Stripe::Subscription.retrieve(subscription.id) if last_applied == @event.created
 
       @event.type == 'customer.subscription.updated' ? process_subscription_updated : process_subscription_deleted
     end
@@ -189,10 +193,7 @@ class Enterprise::Billing::HandleStripeEventService
   def plan_changed?
     return false if previous_attributes['plan'].blank?
 
-    previous_plan_id = previous_attributes.dig('plan', 'id')
-    current_plan_id = subscription['plan']['id']
-
-    previous_plan_id != current_plan_id
+    previous_attributes.dig('plan', 'id') != subscription['plan']['id']
   end
 
   # A trial unlocks the plan without a payment, so the activation is tracked when it converts instead.

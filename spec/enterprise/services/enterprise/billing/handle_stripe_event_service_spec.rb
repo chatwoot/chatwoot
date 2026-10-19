@@ -41,6 +41,9 @@ describe Enterprise::Billing::HandleStripeEventService do
     allow(subscription).to receive(:[]).with('cancel_at_period_end').and_return(false)
     allow(subscription).to receive(:[]).with('trial_end').and_return(nil)
     allow(subscription).to receive(:customer).and_return('cus_123')
+    # Events here share a timestamp, so the service reads Stripe's current copy, which is the latest event's subscription.
+    allow(subscription).to receive(:id).and_return('sub_123')
+    allow(Stripe::Subscription).to receive(:retrieve).with('sub_123').and_return(subscription)
     allow(event).to receive(:created).and_return(account.created_at.to_i + 1.day.to_i)
     allow(event).to receive(:type).and_return('customer.subscription.updated')
   end

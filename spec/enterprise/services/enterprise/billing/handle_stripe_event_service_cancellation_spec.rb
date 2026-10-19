@@ -6,6 +6,7 @@ describe Enterprise::Billing::HandleStripeEventService do
   # Shape Stripe sends for a portal cancellation: the schedule lands on cancel_at, cancel_at_period_end stays false.
   let(:cancelling_subscription) do
     {
+      id: 'sub_123',
       customer: 'cus_123',
       status: 'active',
       quantity: 4,
@@ -27,6 +28,8 @@ describe Enterprise::Billing::HandleStripeEventService do
       created: Time.current.to_i,
       data: { object: cancelling_subscription.merge(overrides), previous_attributes: previous }
     )
+    # Events here share a timestamp, so the service reads Stripe's current copy, which is this event's subscription.
+    allow(Stripe::Subscription).to receive(:retrieve).and_return(event.data.object)
     described_class.new.perform(event: event)
     account.reload
   end

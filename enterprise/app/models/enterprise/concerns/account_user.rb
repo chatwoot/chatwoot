@@ -32,6 +32,8 @@ module Enterprise::Concerns::AccountUser
   end
 
   def earlier_administrators
-    account.account_users.administrator.where.not(id: id).where('updated_at < :at OR (updated_at = :at AND id < :id)', at: updated_at, id: id)
+    table = self.class.arel_table
+    earlier = table[:updated_at].lt(updated_at).or(table[:updated_at].eq(updated_at).and(table[:id].lt(id)))
+    account.account_users.administrator.where.not(id: id).where(earlier)
   end
 end
