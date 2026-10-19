@@ -35,7 +35,8 @@ class Enterprise::Billing::TrialService
     updated = Stripe::Subscription.update(
       subscription.id, items: [{ id: subscription.items.data.first.id, quantity: quantity }], proration_behavior: 'none'
     )
-    account.update!(custom_attributes: account.custom_attributes.merge('subscribed_quantity' => updated['quantity']))
+    # with_lock reloads first, so a webhook saved during the Stripe call isn't overwritten.
+    account.with_lock { account.update!(custom_attributes: account.custom_attributes.merge('subscribed_quantity' => updated['quantity'])) }
   end
 
   # Nothing is billed before a plan is chosen, but Stripe can't hold subscriptions in two currencies on one customer.

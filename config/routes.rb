@@ -136,8 +136,10 @@ Rails.application.routes.draw do
             end
           end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
-          resource :billing_trial, only: [:create, :update] do
-            post :switch_currency
+          if ChatwootApp.enterprise?
+            resource :billing_trial, only: [:create, :update] do
+              post :switch_currency
+            end
           end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
