@@ -467,8 +467,8 @@ describe SearchService do
         expect(search.send(:message_base_query)).not_to include(old_message)
       end
 
-      it 'includes older messages when MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS is raised' do
-        with_modified_env MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS: '180' do
+      it 'includes older messages when SEARCH_TIME_RANGE_LIMIT_DAYS is raised' do
+        with_modified_env SEARCH_TIME_RANGE_LIMIT_DAYS: '180' do
           expect(search.send(:message_base_query)).to include(old_message)
         end
       end
@@ -596,7 +596,7 @@ describe SearchService do
           'test',
           hash_including(
             where: hash_including(
-              created_at: hash_including(gte: be_within(1.second).of(Limits.message_search_time_range_limit_days.days.ago))
+              created_at: hash_including(gte: be_within(1.second).of(Limits.search_time_range_limit_days.days.ago))
             )
           )
         ).and_return([])
@@ -605,7 +605,7 @@ describe SearchService do
       end
 
       it 'silently caps since timestamp to 90 day limit when exceeded' do
-        since_timestamp = (Limits.message_search_time_range_limit_days * 2).days.ago.to_i
+        since_timestamp = (Limits.search_time_range_limit_days * 2).days.ago.to_i
         params = { q: 'test', since: since_timestamp }
         search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
 
@@ -613,7 +613,7 @@ describe SearchService do
           'test',
           hash_including(
             where: hash_including(
-              created_at: hash_including(gte: be_within(1.second).of(Limits.message_search_time_range_limit_days.days.ago))
+              created_at: hash_including(gte: be_within(1.second).of(Limits.search_time_range_limit_days.days.ago))
             )
           )
         ).and_return([])
@@ -621,7 +621,7 @@ describe SearchService do
         search_service.perform
       end
 
-      it 'uses MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS as the lookback limit when set' do
+      it 'uses SEARCH_TIME_RANGE_LIMIT_DAYS as the lookback limit when set' do
         since_timestamp = 150.days.ago.to_i
         params = { q: 'test', since: since_timestamp }
         search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
@@ -635,7 +635,7 @@ describe SearchService do
           )
         ).and_return([])
 
-        with_modified_env MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS: '180' do
+        with_modified_env SEARCH_TIME_RANGE_LIMIT_DAYS: '180' do
           search_service.perform
         end
       end

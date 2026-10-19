@@ -14,8 +14,8 @@ module Limits
     ENV.fetch('CONVERSATION_MESSAGE_PER_MINUTE_LIMIT', '200').to_i
   end
 
-  def self.message_search_time_range_limit_days
-    days = ENV.fetch('MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS', '90').to_i
+  def self.search_time_range_limit_days
+    days = ENV.fetch('SEARCH_TIME_RANGE_LIMIT_DAYS', '90').to_i
     days.positive? ? days : 90
   end
 end
