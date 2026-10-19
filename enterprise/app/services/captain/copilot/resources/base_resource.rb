@@ -48,7 +48,8 @@ class Captain::Copilot::Resources::BaseResource
     @user = user
   end
 
-  def normalize(filters)
+  # Resources that need more than the filters, such as the saved set a selection starts from, take it as a keyword.
+  def normalize(filters, **)
     filters = filters.deep_stringify_keys
     unless JSONSchemer.schema(self.class.filter_schema).valid?(filters)
       raise ArgumentError, "Invalid #{self.class::NAME} filters. Allowed: #{self.class.filters_help}"
@@ -136,11 +137,12 @@ class Captain::Copilot::Resources::BaseResource
     undated.positive? ? counts.merge('No date' => undated) : counts
   end
 
-  # Counts a column's values, naming IDs by the records they point to, e.g. an inbox's name instead of its ID.
-  def column_counts(relation, column, none:, names: nil)
+  # Counts a column's values, naming IDs by the records they point to, e.g. an inbox's name instead of its ID. Records
+  # with no value, such as conversations without an assignee, are counted as None.
+  def column_counts(relation, column, names: nil)
     counts = relation.group(column).count
     named = names ? names.where(id: counts.keys.compact).to_h { |record| [record.id, "#{record.name} (ID #{record.id})"] } : {}
-    counts.transform_keys { |key| key.nil? ? none : named.fetch(key) { key.to_s } }
+    counts.transform_keys { |key| key.nil? ? 'None' : named.fetch(key) { key.to_s } }
   end
 
   # A record with several labels counts once for each of them.

@@ -21,7 +21,8 @@ class CreateCopilotRuns < ActiveRecord::Migration[7.2]
     end
 
     create_table :copilot_tool_calls do |t|
-      t.references :copilot_run, null: false
+      # The unique index on [copilot_run_id, call_id] serves lookups by run.
+      t.references :copilot_run, null: false, index: false
       t.string :call_id, null: false
       t.string :name, null: false
       t.string :status, null: false, default: 'queued'
@@ -38,7 +39,8 @@ class CreateCopilotRuns < ActiveRecord::Migration[7.2]
     add_index :copilot_tool_calls, :status, where: "status = 'running'", name: 'index_copilot_tool_calls_running'
 
     create_table :copilot_review_findings do |t|
-      t.references :copilot_run, null: false
+      # The unique index on [copilot_run_id, conversation_id] serves lookups by run.
+      t.references :copilot_run, null: false, index: false
       t.bigint :conversation_id, null: false
       t.string :status, null: false
       t.boolean :matched, null: false, default: false

@@ -20,8 +20,7 @@
 #
 # Indexes
 #
-#  index_copilot_findings_on_run_and_conversation   (copilot_run_id,conversation_id) UNIQUE
-#  index_copilot_review_findings_on_copilot_run_id  (copilot_run_id)
+#  index_copilot_findings_on_run_and_conversation  (copilot_run_id,conversation_id) UNIQUE
 #
 class CopilotReviewFinding < ApplicationRecord
   belongs_to :copilot_run

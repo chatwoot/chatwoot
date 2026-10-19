@@ -16,7 +16,6 @@
 #
 # Indexes
 #
-#  index_copilot_tool_calls_on_copilot_run_id              (copilot_run_id)
 #  index_copilot_tool_calls_on_copilot_run_id_and_call_id  (copilot_run_id,call_id) UNIQUE
 #
 class CopilotToolCall < ApplicationRecord

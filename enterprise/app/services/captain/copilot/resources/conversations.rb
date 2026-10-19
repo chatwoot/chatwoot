@@ -27,10 +27,10 @@ class Captain::Copilot::Resources::Conversations < Captain::Copilot::Resources::
 
   def counts_by(relation, group)
     case group
-    when 'status', 'priority' then column_counts(relation, group, none: 'None')
-    when 'inbox' then column_counts(relation, :inbox_id, none: 'No inbox', names: @account.inboxes)
-    when 'assignee' then column_counts(relation, :assignee_id, none: 'Unassigned', names: @account.users)
-    when 'team' then column_counts(relation, :team_id, none: 'No team', names: @account.teams)
+    when 'status', 'priority' then column_counts(relation, group)
+    when 'inbox' then column_counts(relation, :inbox_id, names: @account.inboxes)
+    when 'assignee' then column_counts(relation, :assignee_id, names: @account.users)
+    when 'team' then column_counts(relation, :team_id, names: @account.teams)
     when 'label' then label_counts(relation)
     end
   end
