@@ -796,8 +796,13 @@
         "MESSAGE": {
           "LABEL": "Out-of-hours message",
           "PLACEHOLDER": "Our support team is available Monday through Friday, from 9 AM to 6 PM. Please call again during business hours.",
-          "TWILIO_HELP": "Captain records this message as audio when you save it. Callers hear it, then the call ends.",
+          "TWILIO_HELP": "Captain records this message as audio when you save it. Callers hear it before the call ends.",
           "WHATSAPP_HELP": "WhatsApp calls are declined and the caller gets this message in the chat."
+        },
+        "VOICEMAIL": {
+          "LABEL": "Let callers leave a voicemail",
+          "DESCRIPTION": "After your message, callers hear a beep and can record up to 2 minutes. The voicemail and its transcript appear on the call in the conversation. Mention it in your message, for example \"Leave a message after the beep.\"",
+          "NEEDS_RECORDING": "Turn on Record calls to take voicemails."
         },
         "READ_BY_TWILIO": "Captain isn't available, so callers will hear this message read by Twilio's voice.",
         "SAVE": "Save message",

@@ -4,7 +4,7 @@
 class Voice::BusinessHoursSettingsService
   MESSAGE_MAX_LENGTH = 1000
 
-  pattr_initialize [:inbox!, :enabled!, :message]
+  pattr_initialize [:inbox!, :enabled!, :message, { voicemail: false }]
 
   def perform
     @message = message.to_s.strip.presence
@@ -13,7 +13,8 @@ class Voice::BusinessHoursSettingsService
     channel = inbox.channel
     audio = recorded_audio if channel.is_a?(Channel::TwilioSms) && @message != channel.out_of_hours_call_message
     channel.provider_config = (channel.provider_config || {}).merge('business_hours_calls_enabled' => enabled,
-                                                                    'out_of_hours_call_message' => @message)
+                                                                    'out_of_hours_call_message' => @message,
+                                                                    'voicemail_enabled' => channel.is_a?(Channel::TwilioSms) && voicemail)
     channel.save!(validate: false)
     store_audio(audio) unless audio.nil?
   end

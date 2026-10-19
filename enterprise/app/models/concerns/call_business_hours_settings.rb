@@ -9,4 +9,9 @@ module Concerns::CallBusinessHoursSettings
   def out_of_hours_call_message
     provider_config['out_of_hours_call_message']
   end
+
+  # Twilio only: after the out-of-hours message the caller can leave a voicemail
+  def voicemail_enabled?
+    provider_config['voicemail_enabled'] == true
+  end
 end

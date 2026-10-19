@@ -171,7 +171,9 @@ const subtext = computed(() => {
       return t('CONVERSATION.VOICE_CALL.NO_ANSWER_OUTBOUND_SUBTEXT');
     }
     if (endReason.value === VOICE_CALL_END_REASON.OUTSIDE_WORKING_HOURS) {
-      return t('CONVERSATION.VOICE_CALL.MISSED_CALL_OUTSIDE_HOURS');
+      return call.value?.recordingUrl
+        ? t('CONVERSATION.VOICE_CALL.VOICEMAIL_LEFT')
+        : t('CONVERSATION.VOICE_CALL.MISSED_CALL_OUTSIDE_HOURS');
     }
     if (wasDeclinedByAgent.value && displayAgentName.value) {
       return t('CONVERSATION.VOICE_CALL.MISSED_CALL_DECLINED_BY', {

@@ -263,10 +263,14 @@ export const actions = {
     }
   },
   // Commits the inbox the save returns, so the page shows the new message and recording at once
-  updateCallBusinessHours: async ({ commit }, { id, enabled, message }) => {
+  updateCallBusinessHours: async (
+    { commit },
+    { id, enabled, message, voicemail }
+  ) => {
     const response = await InboxesAPI.setCallBusinessHours(id, {
       enabled,
       message,
+      voicemail,
     });
     commit(types.default.EDIT_INBOXES, response.data);
   },

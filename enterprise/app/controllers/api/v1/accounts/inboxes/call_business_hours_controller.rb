@@ -5,7 +5,8 @@ class Api::V1::Accounts::Inboxes::CallBusinessHoursController < Api::V1::Account
     Voice::BusinessHoursSettingsService.new(
       inbox: @inbox,
       enabled: ActiveModel::Type::Boolean.new.cast(params[:business_hours_calls_enabled]),
-      message: params[:out_of_hours_call_message]
+      message: params[:out_of_hours_call_message],
+      voicemail: ActiveModel::Type::Boolean.new.cast(params[:voicemail_enabled]) == true
     ).perform
     @inbox.update_account_cache # bump inbox cache key so the cached inbox list refetches the new settings
     render 'api/v1/accounts/inboxes/show'
