@@ -328,6 +328,15 @@ RSpec.describe Account do
         account.settings = { auto_resolve_after: nil }
         expect(account).to be_valid
       end
+
+      it 'keeps a saved value valid after the minimum is raised' do
+        with_modified_env AUTO_RESOLVE_MIN_MINUTES: '5' do
+          account.update!(auto_resolve_after: 5)
+        end
+
+        expect(account.reload.update(name: 'Renamed')).to be(true)
+        expect(account.update(auto_resolve_after: 6)).to be(false)
+      end
     end
 
     context 'when auto_resolve_message' do
