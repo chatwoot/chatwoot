@@ -1,9 +1,14 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
+import { useStore } from 'dashboard/composables/store';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 
 import classicLayoutPreview from './classic-layout-preview.svg?raw';
 import documentationLayoutPreview from './documentation-layout-preview.svg?raw';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -17,6 +22,9 @@ const props = defineProps({
 const emit = defineEmits(['updatePortalConfiguration']);
 
 const { t } = useI18n();
+const store = useStore();
+
+const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 
 const PORTAL_LAYOUTS = {
   CLASSIC: 'classic',
@@ -75,6 +83,8 @@ const portalConfig = computed(() => props.activePortal?.config || {});
 const state = reactive({
   layout: PORTAL_LAYOUTS.CLASSIC,
   socialProfiles: {},
+  darkLogoUrl: '',
+  darkLogoBlobId: '',
 });
 const visiblePlatforms = ref([]);
 const showAddMenu = ref(false);
@@ -93,7 +103,11 @@ const buildSocialProfiles = () =>
   }, {});
 
 const snapshot = () =>
-  JSON.stringify({ layout: state.layout, social: buildSocialProfiles() });
+  JSON.stringify({
+    layout: state.layout,
+    social: buildSocialProfiles(),
+    darkLogoBlobId: state.darkLogoBlobId,
+  });
 
 const resetFromPortal = () => {
   const savedProfiles = portalConfig.value.social_profiles || {};
@@ -105,6 +119,8 @@ const resetFromPortal = () => {
   visiblePlatforms.value = SOCIAL_PLATFORMS.map(p => p.key).filter(key =>
     (savedProfiles[key] || '').trim()
   );
+  state.darkLogoUrl = props.activePortal.dark_logo?.file_url || '';
+  state.darkLogoBlobId = '';
   originalSnapshot = snapshot();
 };
 
@@ -137,10 +153,47 @@ const removePlatform = key => {
   state.socialProfiles[key] = '';
 };
 
+const handleDarkLogoUpload = async file => {
+  if (!checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+    useAlert(
+      t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_UPLOAD_SIZE_ERROR', {
+        size: MAXIMUM_FILE_UPLOAD_SIZE,
+      })
+    );
+    return;
+  }
+  try {
+    const { fileUrl, blobId } = await uploadFile(file.file);
+    state.darkLogoUrl = fileUrl;
+    state.darkLogoBlobId = blobId;
+    useAlert(t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_UPLOAD_SUCCESS'));
+  } catch (error) {
+    useAlert(t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_UPLOAD_ERROR'));
+  }
+};
+
+const handleDarkLogoDelete = async () => {
+  try {
+    await store.dispatch('portals/deleteLogo', {
+      portalSlug: props.activePortal.slug,
+      isDarkLogo: true,
+    });
+    state.darkLogoUrl = '';
+    state.darkLogoBlobId = '';
+    useAlert(t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_DELETE_SUCCESS'));
+  } catch (error) {
+    useAlert(
+      error?.message ||
+        t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.IMAGE_DELETE_ERROR')
+    );
+  }
+};
+
 const handleSave = () => {
   emit('updatePortalConfiguration', {
     id: props.activePortal.id,
     slug: props.activePortal.slug,
+    dark_logo_blob_id: state.darkLogoBlobId,
     config: {
       layout: state.layout,
       social_profiles: buildSocialProfiles(),
@@ -203,6 +256,32 @@ const handleSave = () => {
           </div>
         </RadioCard>
       </div>
+    </section>
+
+    <section class="flex flex-col gap-3">
+      <div class="flex flex-col gap-1">
+        <h6 class="text-sm font-medium text-n-slate-12">
+          {{ t('HELP_CENTER.PORTAL_SETTINGS.LAYOUT_CONTENT.DARK_MODE.HEADER') }}
+        </h6>
+        <span class="text-sm text-n-slate-11">
+          {{
+            t(
+              'HELP_CENTER.PORTAL_SETTINGS.LAYOUT_CONTENT.DARK_MODE.DESCRIPTION'
+            )
+          }}
+        </span>
+      </div>
+      <Avatar
+        :src="state.darkLogoUrl"
+        :name="activePortal.name"
+        :size="72"
+        allow-upload
+        icon-name="i-lucide-building-2"
+        class="dark"
+        :class="{ '[&_[role=img]]:bg-n-solid-1': state.darkLogoUrl }"
+        @upload="handleDarkLogoUpload"
+        @delete="handleDarkLogoDelete"
+      />
     </section>
 
     <section

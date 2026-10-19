@@ -30,6 +30,7 @@ if portal.channel_web_widget
 end
 
 json.logo portal.file_base_data if portal.logo.present?
+json.dark_logo portal.file_base_data(portal.dark_logo) if portal.dark_logo.present?
 
 json.meta do
   json.all_articles_count articles.try(:size)

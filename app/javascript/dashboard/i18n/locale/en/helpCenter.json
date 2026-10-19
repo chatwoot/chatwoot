@@ -984,6 +984,10 @@
           "ADD": "Add social link",
           "REMOVE": "Remove"
         },
+        "DARK_MODE": {
+          "HEADER": "Dark mode",
+          "DESCRIPTION": "Logo shown to visitors who use dark mode. If empty, the logo from General is used."
+        },
         "SAVE": "Save changes"
       },
       "INTEGRATIONS": {
