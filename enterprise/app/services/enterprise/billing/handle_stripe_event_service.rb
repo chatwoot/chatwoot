@@ -12,10 +12,8 @@ class Enterprise::Billing::HandleStripeEventService
     @event = event
 
     case @event.type
-    when 'customer.subscription.updated'
-      process_subscription_updated unless stale_event?
-    when 'customer.subscription.deleted'
-      process_subscription_deleted unless stale_event?
+    when 'customer.subscription.updated', 'customer.subscription.deleted'
+      process_subscription_event
     when 'customer.subscription.trial_will_end'
       Enterprise::Billing::TrialService.new(account: account).notify_ending(subscription) if stripe_billed_account?
     else
@@ -25,6 +23,18 @@ class Enterprise::Billing::HandleStripeEventService
 
   private
 
+  # Stripe doesn't guarantee delivery order, so an event older than the last one applied would undo newer billing state.
+  # The account lock serializes webhooks for one account, so the stale check and the billing writes act as one step.
+  def process_subscription_event
+    return unless stripe_billed_account?
+
+    account.with_lock do
+      next if account.custom_attributes['last_stripe_event_at'].to_i > @event.created
+
+      @event.type == 'customer.subscription.updated' ? process_subscription_updated : process_subscription_deleted
+    end
+  end
+
   def process_subscription_updated
     # A cancelled subscription keeps emitting updates that still carry its old plan.
     # Acting on one re-applies that plan over the downgrade customer.subscription.deleted
@@ -33,8 +43,7 @@ class Enterprise::Billing::HandleStripeEventService
 
     plan = find_plan(subscription['plan']['product']) if subscription['plan'].present?
 
-    # skipping self hosted plan events
-    return if plan.blank? || !stripe_billed_account?
+    return if plan.blank?
 
     previous_usage = capture_previous_usage
     sync_account_plan(plan)
@@ -118,9 +127,6 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def process_subscription_deleted
-    # skipping self hosted plan events
-    return unless stripe_billed_account?
-
     previous_monthly_credits = current_plan_credits[:responses]
     return unless Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
 
@@ -212,11 +218,6 @@ class Enterprise::Billing::HandleStripeEventService
 
   def account
     @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", subscription.customer).first
-  end
-
-  # Stripe doesn't guarantee delivery order, so an event older than the last one applied would undo newer billing state.
-  def stale_event?
-    account.present? && account.custom_attributes['last_stripe_event_at'].to_i > @event.created
   end
 
   def stripe_billed_account?

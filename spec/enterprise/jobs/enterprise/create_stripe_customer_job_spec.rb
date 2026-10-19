@@ -16,12 +16,12 @@ RSpec.describe Enterprise::CreateStripeCustomerJob, type: :job do
     create_stripe_customer_service = double
     allow(Enterprise::Billing::CreateStripeCustomerService)
       .to receive(:new)
-      .with(account: account, trial_end: nil)
+      .with(account: account)
       .and_return(create_stripe_customer_service)
     allow(create_stripe_customer_service).to receive(:perform)
 
     perform_enqueued_jobs { job }
 
-    expect(Enterprise::Billing::CreateStripeCustomerService).to have_received(:new).with(account: account, trial_end: nil)
+    expect(Enterprise::Billing::CreateStripeCustomerService).to have_received(:new).with(account: account)
   end
 end

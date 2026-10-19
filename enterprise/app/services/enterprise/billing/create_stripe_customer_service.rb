@@ -1,8 +1,8 @@
 class Enterprise::Billing::CreateStripeCustomerService
   include BillingHelper
 
-  # trial_end is set only when an account is created, or when a trial moves to a new currency; the billing page
-  # and the fallback after a cancelled plan create the free plan without a trial.
+  # A trial is created when the account's first administrator claimed one (trial_pending, kept until setup succeeds so a
+  # retry still gets it) or when a trial moves to a new currency (trial_end). Otherwise this sets up the free plan.
   pattr_initialize [:account!, { trial_end: nil, quantity: nil }]
 
   DEFAULT_QUANTITY = 2
@@ -15,7 +15,7 @@ class Enterprise::Billing::CreateStripeCustomerService
     subscription = active_sub || create_subscription(customer_id)
     custom_attributes = build_custom_attributes(customer_id, subscription)
     custom_attributes['trial_started_at'] ||= Time.current if trial_end && active_sub.nil?
-    custom_attributes.except!('is_creating_customer')
+    custom_attributes.except!('is_creating_customer', 'trial_pending')
 
     account.update!(custom_attributes: custom_attributes)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
@@ -23,6 +23,10 @@ class Enterprise::Billing::CreateStripeCustomerService
   end
 
   private
+
+  def trial_end
+    @trial_end ||= (Enterprise::Billing::TrialService::TRIAL_DAYS.days.from_now.to_i if account.custom_attributes['trial_pending'])
+  end
 
   def create_subscription(customer_id)
     params = { customer: customer_id, items: [{ price: price_id, quantity: quantity || default_quantity }] }
