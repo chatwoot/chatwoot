@@ -30,6 +30,16 @@ module Labelable::Persistence
   # label_list.add/remove edits, which mutate the list without calling its setter.
   # It prevents unrelated saves from overwriting labels; it does not coordinate
   # two workers that both intentionally edit labels.
+  #
+  # Gotcha: this assumes nobody reuses a record instance after one of its saves
+  # rolled back. The remembered list follows the database on a rollback, so an
+  # instance that edits labels again after a rollback can have that edit skipped.
+  # The same applies to a dup, which inherits the source record's remembered list.
+  # No current caller does either. Load a fresh record instead of reusing one.
+  #
+  # TODO: remove this concern once Chatwoot runs Rails 8 and acts-as-taggable-on
+  # ships a release with upstream commit cbd83ad, which does this in the gem.
+  # The author declined to backport it to 13.x, and gem master needs Rails 8.
   included do
     after_commit :forget_tag_lists_before_transaction
     after_rollback :restore_tag_lists_before_transaction
