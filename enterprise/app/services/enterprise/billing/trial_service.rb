@@ -21,9 +21,34 @@ class Enterprise::Billing::TrialService
     )
   end
 
+  # Stripe sends trial_will_end three days before a trial ends. A cancelled plan won't start, so it gets the no-plan copy.
+  def notify_ending(trialing_subscription)
+    return unless claim_ending_notice(trialing_subscription['trial_end'])
+
+    plan_name = account.custom_attributes['plan_name']
+    cancelled = trialing_subscription['cancel_at'].present? || trialing_subscription['cancel_at_period_end']
+    meta = {
+      'account_name' => account.name,
+      'trial_ends_on' => Time.zone.at(trialing_subscription['trial_end']).strftime('%B %d, %Y'),
+      'has_plan' => plan_name != default_plan['name'] && !cancelled,
+      'plan_name' => plan_name,
+      'free_plan_name' => default_plan['name']
+    }
+    AdministratorNotifications::AccountNotificationMailer.with(account: account).trial_ending(meta).deliver_later
+  end
+
   private
 
   def default_plan
     Enterprise::Billing::PlanConfiguration.default_plan
+  end
+
+  # Stripe can deliver an event more than once, so one reminder is sent per trial end date.
+  def claim_ending_notice(trial_end)
+    account.with_lock do
+      next false if account.custom_attributes['trial_ending_notified_for'] == trial_end
+
+      account.update!(custom_attributes: account.custom_attributes.merge('trial_ending_notified_for' => trial_end))
+    end
   end
 end

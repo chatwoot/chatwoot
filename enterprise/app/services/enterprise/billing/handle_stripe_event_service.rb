@@ -16,6 +16,8 @@ class Enterprise::Billing::HandleStripeEventService
       process_subscription_updated
     when 'customer.subscription.deleted'
       process_subscription_deleted
+    when 'customer.subscription.trial_will_end'
+      Enterprise::Billing::TrialService.new(account: account).notify_ending(subscription) if stripe_billed_account?
     else
       Rails.logger.debug { "Unhandled event type: #{event.type}" }
     end
