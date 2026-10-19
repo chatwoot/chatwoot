@@ -14,7 +14,7 @@ RSpec.describe 'Public Articles API', type: :request do
   before do
     ENV['HELPCENTER_URL'] = ENV.fetch('FRONTEND_URL', nil)
     create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, views: 15)
-    create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: article.id, views: 1)
+    create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, views: 1)
     create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: article.id, views: 5)
     create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, views: 4)
     create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, status: :draft)
@@ -173,16 +173,18 @@ RSpec.describe 'Public Articles API', type: :request do
     end
 
     it 'links to the root article when the current translation has a nested association' do
+      portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
       source_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, slug: 'source-article')
       parent_translation = create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id,
                                             slug: 'parent-translation', associated_article_id: source_article.id)
-      nested_translation = create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id,
+      nested_translation = create(:article, category: nil, locale: 'fr', portal: portal, account_id: account.id, author_id: agent.id,
                                             slug: 'nested-translation', associated_article_id: parent_translation.id)
 
       get "/hc/#{portal.slug}/articles/#{nested_translation.slug}"
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{source_article.slug}\"")
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{parent_translation.slug}\"")
 
       get "/hc/#{portal.slug}/articles/#{source_article.slug}"
 
@@ -198,6 +200,53 @@ RSpec.describe 'Public Articles API', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{source_article.slug}\"")
+    end
+
+    it 'returns not found for an article in another portal' do
+      foreign_article = create(:article)
+
+      get "/hc/#{portal.slug}/articles/#{foreign_article.slug}"
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'does not follow translation parents outside the portal' do
+      foreign_parent = create(:article, associated_article_id: article.id)
+      source_article = create(:article, portal: portal, author: agent, associated_article_id: foreign_parent.id)
+
+      get "/hc/#{portal.slug}/articles/#{source_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      switchers = Nokogiri::HTML(response.body).css('select.locale-switcher')
+      expect(switchers.size).to eq(2)
+      switchers.each do |switcher|
+        expect(switcher.css('option').map { |option| option['value'] }).to include("/hc/#{portal.slug}/es")
+      end
+    end
+
+    it 'links to the locale home when the matching translation is archived' do
+      source_article = create(:article, category: category, portal: portal, author: agent)
+      archived_translation = create(:article, category: category_2, portal: portal, author: agent,
+                                              status: :archived, associated_article_id: source_article.id)
+
+      get "/hc/#{portal.slug}/articles/#{source_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/es\"")
+      expect(response.body).not_to include("/hc/#{portal.slug}/articles/#{archived_translation.slug}")
+    end
+
+    it 'links to the matching article in the documentation layout' do
+      source_article = create(:article, category: category, portal: portal, author: agent)
+      translated_article = create(:article, category: category_2, portal: portal, author: agent,
+                                            associated_article_id: source_article.id)
+      portal.update!(config: portal.config.merge('layout' => 'documentation'))
+
+      get "/hc/#{portal.slug}/articles/#{source_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      links = Nokogiri::HTML(response.body).css('header details a').map { |link| link['href'] }
+      expect(links).to include("/hc/#{portal.slug}/articles/#{translated_article.slug}")
     end
   end
 

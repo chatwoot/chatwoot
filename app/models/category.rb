@@ -79,7 +79,7 @@ class Category < ApplicationRecord
 
     while current_category.associated_category_id.present? && visited_ids.exclude?(current_category.id)
       visited_ids << current_category.id
-      root_category = current_category.root_category
+      root_category = category.portal.categories.find_by(id: current_category.associated_category_id)
       break if root_category.nil?
 
       current_category = root_category

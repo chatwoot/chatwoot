@@ -53,16 +53,18 @@ RSpec.describe 'Public Categories API', type: :request do
     end
 
     it 'links to the root category when the current translation has a nested association' do
+      portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
       category = portal.categories.first
       parent_translation = create(:category, slug: 'parent-translation', locale: 'es', portal: portal,
                                              account_id: account.id, associated_category_id: category.id)
-      nested_translation = create(:category, slug: 'nested-translation', locale: 'es', portal: portal,
+      nested_translation = create(:category, slug: 'nested-translation', locale: 'fr', portal: portal,
                                              account_id: account.id, associated_category_id: parent_translation.id)
 
       get "/hc/#{portal.slug}/#{nested_translation.locale}/categories/#{nested_translation.slug}"
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include("value=\"/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}\"")
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/es/categories/#{parent_translation.slug}\"")
 
       get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}"
 
@@ -91,6 +93,23 @@ RSpec.describe 'Public Categories API', type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).to include("href=\"/hc/#{portal.slug}/es/categories/#{translated_category.slug}\"")
     end
+
+    it 'does not follow translation parents outside the portal' do
+      category = portal.categories.first
+      create(:category, slug: 'unrelated-translation', locale: 'es', portal: portal, associated_category_id: category.id)
+      foreign_parent = create(:category, associated_category_id: category.id)
+      source_category = create(:category, slug: 'source-category', portal: portal, associated_category_id: foreign_parent.id)
+
+      get "/hc/#{portal.slug}/en/categories/#{source_category.slug}"
+
+      expect(response).to have_http_status(:success)
+      switchers = Nokogiri::HTML(response.body).css('select.locale-switcher')
+      expect(switchers.size).to eq(2)
+      switchers.each do |switcher|
+        expect(switcher.css('option').map { |option| option['value'] }).to include("/hc/#{portal.slug}/es")
+      end
+    end
+
     it 'does not show the authors line when the only author has been deleted' do
       category = portal.categories.first
       article = create(:article, category: category, portal: portal, account_id: account.id)

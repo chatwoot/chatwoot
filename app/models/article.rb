@@ -131,7 +131,7 @@ class Article < ApplicationRecord
 
     while current_article.associated_article_id.present? && visited_ids.exclude?(current_article.id)
       visited_ids << current_article.id
-      root_article = current_article.root_article
+      root_article = article.portal.articles.find_by(id: current_article.associated_article_id)
       break if root_article.nil?
 
       current_article = root_article
