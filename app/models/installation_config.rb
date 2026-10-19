@@ -30,6 +30,7 @@ class InstallationConfig < ApplicationRecord
 
   MOBILE_APP_VERSION_CONFIG_KEYS = %w[MOBILE_APP_MIN_IOS_VERSION MOBILE_APP_MIN_ANDROID_VERSION].freeze
   # MAJOR.MINOR.PATCH without leading zeros, as semantic versioning requires.
+  # Valid: 4.9.12, 10.0.0. Invalid: 4.9, 4.09.1, v4.9.12, 4.9.12-beta.
   MOBILE_APP_VERSION_FORMAT = /\A(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)\z/
 
   # https://stackoverflow.com/questions/72970170/upgrading-to-rails-6-1-6-1-causes-psychdisallowedclass-tried-to-load-unspecif
