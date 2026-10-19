@@ -25,7 +25,6 @@
     "TRANSLATING_TO": "Translating to {language}…",
     "VIEW_ORIGINAL_IN": "View original ({language})",
     "VIEW_TRANSLATED_IN": "View translated ({language})",
-    "ALREADY_IN_LANGUAGE": "Already in {language}",
     "TRANSLATION_FAILED": "Could not translate, sent as typed",
     "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
