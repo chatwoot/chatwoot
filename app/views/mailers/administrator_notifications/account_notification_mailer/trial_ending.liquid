@@ -1,0 +1,15 @@
+<p>Hello there,</p>
+
+<p>The free trial for your Chatwoot account <strong>{{ meta.account_name }}</strong> ends on <strong>{{ meta.trial_ends_on }}</strong>.</p>
+
+{% if meta.has_plan %}
+<p>Your <strong>{{ meta.plan_name }}</strong> plan starts that day, and the first payment is charged to the card you added. If you don't want to continue, cancel before then and you won't be charged.</p>
+
+<p><a href="{{ action_url }}">Review your plan or cancel</a></p>
+{% else %}
+<p>To keep your paid features, choose a plan and add a card before then. You won't be charged until the trial ends. If you don't choose a plan, your account moves to the free {{ meta.free_plan_name }} plan.</p>
+
+<p><a href="{{ action_url }}">Choose a plan</a></p>
+{% endif %}
+
+<p>— The Chatwoot Team</p>
