@@ -5,7 +5,10 @@ import { format } from 'date-fns';
 import ButtonV4 from 'next/button/Button.vue';
 import Input from 'next/input/Input.vue';
 import { useTrialStatus } from 'dashboard/composables/useTrialStatus';
-import { getCurrencyConfig } from 'dashboard/constants/billing';
+import {
+  getCurrencyConfig,
+  TRIAL_MAX_SEATS,
+} from 'dashboard/constants/billing';
 
 const props = defineProps({
   isManaging: {
@@ -141,6 +144,7 @@ const description = computed(() => {
         v-model="seatCount"
         type="number"
         min="1"
+        :max="String(TRIAL_MAX_SEATS)"
         size="sm"
         class="w-24"
         :label="t('BILLING_SETTINGS.TRIAL.STATUS.SEATS.LABEL')"

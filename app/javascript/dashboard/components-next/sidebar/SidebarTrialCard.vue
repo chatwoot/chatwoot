@@ -41,7 +41,13 @@ const title = computed(() =>
 );
 
 const description = computed(() => {
-  if (isTrialWithoutCard.value) return t('SIDEBAR.TRIAL.DESCRIPTION_NO_CARD');
+  if (isTrialWithoutCard.value) {
+    return isTrialEndingSoon.value
+      ? t('SIDEBAR.TRIAL.DESCRIPTION_NO_CARD_ENDING', {
+          date: format(trialEndsAt.value, 'dd MMM'),
+        })
+      : t('SIDEBAR.TRIAL.DESCRIPTION_NO_CARD');
+  }
   return trialCancelsAt.value
     ? t('SIDEBAR.TRIAL.DESCRIPTION_CANCELLED', {
         plan: trialPlanName.value,

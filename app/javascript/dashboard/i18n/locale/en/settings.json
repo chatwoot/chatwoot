@@ -318,6 +318,7 @@
       "TITLE": "{plan} trial ends today | {plan} trial: {days} day left | {plan} trial: {days} days left",
       "TITLE_NO_CARD": "Free trial ends today | Free trial: {days} day left | Free trial: {days} days left",
       "DESCRIPTION_NO_CARD": "Add a card to unlock email and Captain.",
+      "DESCRIPTION_NO_CARD_ENDING": "Choose a plan before {date} to keep paid features. Otherwise you move to the free plan.",
       "DESCRIPTION": "Your paid plan starts on {date}.",
       "DESCRIPTION_CANCELLED": "Cancelled. You can use {plan} until {date}.",
       "ACTION": "View billing"
