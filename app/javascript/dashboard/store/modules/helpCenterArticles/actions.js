@@ -65,8 +65,10 @@ export const actions = {
       commit(types.ADD_ARTICLE, payload);
       commit(types.ADD_ARTICLE_ID, articleId);
       commit(types.SET_UI_FLAG, { isFetching: false });
+      return articleId;
     } catch (error) {
       commit(types.SET_UI_FLAG, { isFetching: false });
+      return null;
     }
   },
 

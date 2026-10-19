@@ -146,9 +146,9 @@ const fetchArticleDetails = () => {
   });
 };
 
-// Compare without touching the store, which can reseed the editor before the
-// user asks. Draft autosaves skip updated_at, so the draft fields are compared
-// too. Skip while our own save settles, or it would look like a remote edit.
+// Compare without touching the store, which can reseed the editor early.
+// updated_at has second precision and skips draft autosaves, hence the text
+// fields. Skip while our own save settles, or it would read as a remote edit.
 const checkForNewerVersion = async () => {
   if (document.visibilityState !== 'visible') return;
   if (!article.value?.id || isUpdating.value) return;
@@ -156,19 +156,29 @@ const checkForNewerVersion = async () => {
     id: articleSlug,
     portalSlug,
   });
-  const { updated_at, draft_title, draft_content } = data.payload;
-  const { updatedAt, draftTitle, draftContent } = article.value;
+  const { title, content, draft_title, draft_content, updated_at } =
+    data.payload;
+  const current = article.value;
   if (
-    updated_at !== updatedAt ||
-    draft_title !== draftTitle ||
-    draft_content !== draftContent
+    title !== current.title ||
+    content !== current.content ||
+    draft_title !== current.draftTitle ||
+    draft_content !== current.draftContent ||
+    updated_at !== current.updatedAt
   ) {
     hasNewerVersion.value = true;
   }
 };
 
 const loadLatestVersion = async () => {
-  await store.dispatch('articles/show', { id: articleSlug, portalSlug });
+  const articleId = await store.dispatch('articles/show', {
+    id: articleSlug,
+    portalSlug,
+  });
+  if (!articleId) {
+    useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.NEWER_VERSION.LOAD_ERROR'));
+    return;
+  }
   articleEditorRef.value.syncLocalState();
   hasNewerVersion.value = false;
 };

@@ -819,7 +819,8 @@
       },
       "NEWER_VERSION": {
         "LABEL": "Load latest version",
-        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version."
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Unpublished changes",
