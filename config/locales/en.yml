@@ -201,6 +201,8 @@ en:
         sdp_offer_required: 'sdp_offer is required'
         contact_phone_required: 'Contact phone number is required'
         permission_request_failed: 'Failed to send call permission request'
+    google_translate:
+      invalid_credentials: 'This Google Cloud key is not working. Check the project ID and key file and try again.'
     openai:
       invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
@@ -238,6 +240,8 @@ en:
       enrollment_required: This account requires two-factor authentication. Set it up in your profile settings to restore API access.
       interactive_session_required: Two-factor authentication settings cannot be managed with an API access token. Sign in to the dashboard instead.
       enforced_cannot_disable: Two-factor authentication is required by your account and cannot be disabled.
+    auto_translate:
+      invalid_messages: Invalid messages
     device_verification:
       invalid_token: Invalid or expired verification token, sign in again to get a new code
       invalid_code: Incorrect code. Enter the 6-digit code we sent to your email.
@@ -539,7 +543,7 @@ en:
     custom_tool:
       slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
       limit_exceeded: 'You can create a maximum of %{limit} custom tools per assistant'
-      installed_read_only: 'Tools installed from a manifest are read-only; you can only enable or disable them'
+      installed_read_only: 'Tools installed from a manifest are read-only. You can only enable or disable them, or change email verification.'
       headers:
         invalid: 'must be an object of header names and values'
         too_many: 'cannot contain more than %{limit} entries'
@@ -783,6 +787,8 @@ en:
         help_center_article_generation: 'Help center article generation'
         onboarding_content_generation: 'Onboarding content generation'
         help_center_query_translation: 'Help center query translation'
+        message_translation: 'Message translation'
+        language_detection: 'Language detection'
         audio_transcription: 'Audio transcription'
         help_center_search: 'Help center search'
     collection:
