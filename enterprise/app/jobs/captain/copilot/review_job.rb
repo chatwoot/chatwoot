@@ -1,17 +1,21 @@
 class Captain::Copilot::ReviewJob < ApplicationJob
+  include Captain::Copilot::LeasedJob
   include Captain::Copilot::ConversationAccess
 
-  queue_as :default
+  # A batch makes up to 50 model calls in a row, so it runs on low with Captain's other long jobs instead of holding the
+  # workers that handle incoming messages.
+  queue_as :low
 
   BATCH_SIZE = 25
   MAX_ATTEMPTS = 2
   MAX_RUN_FAILURES = 3
 
-  def perform(run_id)
+  # watched_token is set on the checks LeasedJob schedules.
+  def perform(run_id, watched_token = nil)
     run = CopilotRun.review.claimable.find_by(id: run_id)
     return unless run
 
-    token = claim(run)
+    token = claim(run, watched_token)
     return unless token
 
     process_batch(run, token)
@@ -26,12 +30,6 @@ class Captain::Copilot::ReviewJob < ApplicationJob
 
   private
 
-  def claim(run)
-    token = run.claim
-    self.class.set(wait_until: (run.lease_until || Time.current) + 30.seconds).perform_later(run.id)
-    token
-  end
-
   def process_batch(run, token)
     conversations = Captain::Copilot::ScreeningService.new(run, token).screen(accessible_batch(run, token))
     run.with_lease(token) { run.publish_progress } if run.question.present?
@@ -43,7 +41,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
     run.with_lease(token) { run.publish_progress } if conversations.any?
     return finalize(run, token) if run.remaining_ids.empty? || run.left_this_turn <= 0
 
-    run.with_lease(token) { run.update!(status: :queued, lease_token: nil, lease_until: nil) }
+    run.with_lease(token) { run.release!(:queued) }
     self.class.perform_later(run.id)
   end
 
@@ -89,8 +87,8 @@ class Captain::Copilot::ReviewJob < ApplicationJob
   # The turn that started this review is parked on its tool call; the summary becomes that call's result.
   def finalize(run, token, error: nil)
     summary = run.with_lease(token) do
-      incomplete = error || run.findings.failed.exists? || run.context['selection_truncated'] || run.remaining_ids.any?
-      run.update!(status: incomplete ? :incomplete : :completed, lease_token: nil, lease_until: nil, error: error)
+      incomplete = error || run.findings.failed.exists? || run.selection_truncated? || run.remaining_ids.any?
+      run.release!(incomplete ? :incomplete : :completed, error: error)
       run.summary
     end
     tool_call = run.copilot_tool_call
@@ -104,7 +102,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
     # Outside the lease transaction, so the parent's wake-up is committed before its job can run.
     return finalize(run, token, error: exception.class.name) if attempts >= MAX_RUN_FAILURES
 
-    run.with_lease(token) { run.update!(status: :queued, lease_token: nil, lease_until: nil) }
+    run.with_lease(token) { run.release!(:queued) }
     self.class.set(wait: 10.seconds).perform_later(run.id)
   rescue Captain::Copilot::LeaseLostError
     nil

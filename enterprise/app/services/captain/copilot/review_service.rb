@@ -10,12 +10,6 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   FIRST_PASS = { opening: 3, latest: 5, characters: 12_000 }.freeze
   DEEP_PASS = { opening: 10, latest: 40, characters: 75_000 }.freeze
 
-  # A role instead of the sender's class, so a bot's name such as Captain::Assistant is not read as conversation content.
-  # Screening and the messages resource use the same roles.
-  def self.sender_role(message)
-    { 'Contact' => 'customer', 'User' => 'agent' }.fetch(message.sender_type, message.sender_type ? 'bot' : 'system')
-  end
-
   def initialize(run, token)
     @run = run
     @token = token
@@ -26,7 +20,7 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   def review(conversation, deep: false)
     @run.ensure_can_continue!
     evidence = conversation_for_review(conversation, deep)
-    prompt = { product: @run.copilot_thread.assistant.config['product_name'], request: @run.context['request'], question: @run.question,
+    prompt = { product: @run.copilot_thread.assistant.config['product_name'], request: @run.request, question: @run.question,
                criteria: @run.criteria, as_of: @run.as_of.iso8601, conversation: evidence }.compact.to_json
     input = { conversation_id: conversation.id, deep: deep }
     content = with_copilot_trace('llm.captain.copilot_review', trace_params(conversation), turn: @run.turn, input: input) do
@@ -66,12 +60,10 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
       messages: messages.zip(contents, excerpts).map { |message, content, text| message_for_review(message, text, text != content) } }
   end
 
-  # Customer and agent messages, private notes included, as screening reads them. Activity messages and emails an agent
-  # forwarded elsewhere are left out.
-  # reorder, because Message's default scope sorts oldest first and order would only add a second sort key.
+  # The oldest and newest of the messages screening also reads. reorder, because Message's default scope sorts oldest
+  # first and order would only add a second sort key.
   def window_messages(conversation, window)
-    scope = conversation.messages.where(message_type: %w[incoming outgoing]).not_forwarded
-                        .where(Message.arel_table[:created_at].lteq(@run.as_of))
+    scope = Captain::Copilot::ReadableMessages.scope(conversation.messages, as_of: @run.as_of)
     opening = scope.reorder(created_at: :asc, id: :asc).limit(window[:opening]).to_a
     latest = scope.reorder(created_at: :desc, id: :desc).limit(window[:latest]).to_a.reverse
     messages = (opening + latest).uniq(&:id)
@@ -99,8 +91,8 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   end
 
   def message_for_review(message, content, truncated)
-    { id: message.id, at: message.created_at, type: message.message_type, private: message.private?, sender: self.class.sender_role(message),
-      content: content, content_truncated: truncated }
+    { id: message.id, at: message.created_at, type: message.message_type, private: message.private?,
+      sender: Captain::Copilot::ReadableMessages.sender_role(message), content: content, content_truncated: truncated }
   end
 
   def parse_result(row, evidence, deep)

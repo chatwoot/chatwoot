@@ -29,7 +29,7 @@ module Captain::Copilot::Tracing
   end
 
   def turn_trace_context(turn)
-    carrier = turn.context['trace_carrier']
+    carrier = turn.trace_carrier
     carrier.present? ? OpenTelemetry.propagation.extract(carrier) : OpenTelemetry::Context.current
   end
 

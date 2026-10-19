@@ -22,6 +22,13 @@ class Captain::Copilot::Resources::Contacts < Captain::Copilot::Resources::BaseR
     @account.contacts
   end
 
+  # Contacts asked about directly are the ones the contacts page lists, so counts match it. Contacts reached from
+  # conversations or messages keep anonymous visitors, because they are the customers in those conversations.
+  def matching(filters, as_of:, source: nil)
+    relation = super
+    source ? relation : relation.resolved_contacts(use_crm_v2: @account.feature_enabled?('crm_v2'))
+  end
+
   def filter(relation, filters)
     relation = relation.where(filters.slice('company_id', 'country_code', 'blocked'))
     relation = relation.tagged_with(filters['labels'], any: true) if filters['labels'].present?

@@ -1,24 +1,34 @@
-class Captain::Copilot::TurnService < Captain::Copilot::ChatService
+# Answers an agent's Copilot message with the workflow tools. Each step is saved on the turn's run, so a retried or resumed
+# turn continues where it stopped. Captain::Copilot::ChatService answers when the copilot_workflows flag is off, with the
+# same base prompt.
+class Captain::Copilot::TurnService < Llm::BaseAiService
+  include Captain::ChatHelper
+  include Captain::Copilot::ConversationAccess
   include Captain::Copilot::Tracing
 
   MAX_MODEL_CALLS = 12
-
-  # search_conversation dumps full transcripts into context; get_data and review_conversations replace it here.
-  def self.tool_inventory(assistant:, user:)
-    workflow_tools = [Captain::Tools::Copilot::GetDataService, Captain::Tools::Copilot::ReviewConversationsService,
-                      Captain::Tools::Copilot::ContinueReviewService, Captain::Tools::Copilot::DisplayService]
-    super.grep_v(Captain::Tools::Copilot::SearchConversationsService) + workflow_tools.map { |tool| tool.new(assistant, user: user) }
-  end
+  # Copilot's tools without search_conversation, which dumps full transcripts into context; get_data and review_conversations replace it.
+  TOOLS = [Captain::Tools::SearchDocumentationService, Captain::Tools::Copilot::GetConversationService,
+           Captain::Tools::Copilot::GetContactService, Captain::Tools::Copilot::GetArticleService,
+           Captain::Tools::Copilot::SearchArticlesService, Captain::Tools::Copilot::SearchContactsService,
+           Captain::Tools::Copilot::SearchLinearIssuesService].freeze
+  WORKFLOW_TOOLS = [Captain::Tools::Copilot::GetDataService, Captain::Tools::Copilot::ReviewConversationsService,
+                    Captain::Tools::Copilot::ContinueReviewService, Captain::Tools::Copilot::DisplayService].freeze
 
   def initialize(run, token)
-    # Checked before super, which builds the instructions from the user's name.
-    raise ArgumentError, 'The user is no longer a member of this account' unless run.account.users.exists?(run.user_id)
-
+    # Workflows have their own model setting, so the copilot_workflows flag leaves Copilot unchanged for other accounts.
+    super(feature: 'copilot_workflows', account: run.account)
     @run = run
     @token = token
-    super(run.copilot_thread.assistant, user_id: run.user_id, copilot_thread_id: run.copilot_thread_id,
-                                        conversation_id: run.context['conversation_id'])
-    @tools.each { |tool| wrap_tool(tool) }
+    @account = run.account
+    @assistant = run.copilot_thread.assistant
+    @user = @account.users.find_by(id: run.user_id)
+    raise ArgumentError, 'The user is no longer a member of this account' unless @user
+
+    @conversation = accessible_conversation(account: @account, user: @user, display_id: run.conversation_id) if run.conversation_id.present?
+    @conversation_id = @conversation&.display_id
+    @tools = build_tools
+    @messages = [system_message, account_message, viewed_conversation_message].compact
   end
 
   def generate_response
@@ -40,25 +50,37 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
 
   private
 
-  # Workflows have their own model setting, so the copilot_workflows flag leaves Copilot unchanged for other accounts.
-  def llm_feature
-    'copilot_workflows'
+  def build_tools
+    tools = TOOLS.map { |tool| tool.new(@assistant, user: @user) } +
+            WORKFLOW_TOOLS.map { |tool| tool.new(@assistant, user: @user, run: @run, lease_token: @token) }
+    tools.select(&:active?).each { |tool| wrap_tool(tool) }
   end
 
-  def setup_message_history(_config)
-    @copilot_thread = @run.copilot_thread
-    @previous_history = []
-  end
-
+  # Copilot's base prompt and tool list, then the workflow instructions. They explain Chatwoot's fields, because without
+  # them the model treats status and priority as content. The current time is the turn's own, so a retried or resumed turn
+  # reads the same dates.
   def system_message
-    message = super
-    # The prompt explains Chatwoot's fields, because without them the model treats status and priority as content. The
-    # current time is the turn's own, so a retried or resumed turn reads the same dates.
+    tools = @tools.map { |tool| "- #{tool.class.name}: #{tool.class.description}" }.join("\n")
+    base = Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'], tools, @assistant.config)
     instructions = Captain::PromptRenderer.render('copilot_workflows', conversations_per_turn: CopilotRun::CONVERSATIONS_PER_TURN,
                                                                        user_name: @user.name, user_id: @user.id,
                                                                        current_time: @run.created_at.iso8601)
-    message[:content] += "\n\n#{instructions}"
-    message
+    { role: 'system', content: "#{base}\n\n#{instructions}" }
+  end
+
+  def account_message
+    { role: 'system', content: "The current account id is #{@account.id}. The account is using #{@account.locale_english_name} as the language." }
+  end
+
+  def viewed_conversation_message
+    return if @conversation.blank?
+
+    { role: 'system', content: "You are currently viewing the conversation with the following details:\n" \
+                               "Conversation ID: #{@conversation_id}\nContact ID: #{@conversation.contact_id}" }
+  end
+
+  def feature_name
+    'copilot'
   end
 
   def setup_event_handlers(llm)
@@ -73,9 +95,9 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
   end
 
   def save_trace_carrier
-    return if !ChatwootApp.otel_enabled? || @run.context.key?('trace_carrier')
+    return if !ChatwootApp.otel_enabled? || @run.trace_carrier
 
-    @run.with_lease(@token) { @run.update!(context: @run.context.merge('trace_carrier' => current_trace_carrier)) }
+    @run.with_lease(@token) { @run.update!(trace_carrier: current_trace_carrier) }
   end
 
   def complete_loop(llm)
@@ -125,8 +147,6 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
   end
 
   def wrap_tool(tool)
-    tool.run = @run if tool.respond_to?(:run=)
-    tool.lease_token = @token if tool.respond_to?(:lease_token=)
     original = tool.method(:call)
     execution = self
     tool.define_singleton_method(:call) do |tool_call: nil, **arguments|
@@ -139,7 +159,7 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
   def wait_for_background_run
     finished = @run.with_lease(@token) do
       done = @tool_call.reload.completed?
-      @run.update!(status: done ? :queued : :awaiting_background_run, lease_token: nil, lease_until: nil)
+      @run.release!(done ? :queued : :awaiting_background_run)
       persist_message({ content: "Waiting for #{@tool_call.name} to finish" }, 'assistant_thinking') unless done
       done
     end
@@ -153,13 +173,13 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
       response['content'] = response['content'].to_s
       persist_message(response)
       @account.increment_response_usage
-      @run.update!(status: :completed, lease_token: nil, lease_until: nil, error: nil)
+      @run.release!(:completed, error: nil)
       response
     end
   end
 
   def persist_message(message, message_type = 'assistant')
-    super(message.merge('run_id' => @run.id), message_type)
+    @run.copilot_thread.copilot_messages.create!(message: message.merge('run_id' => @run.id), message_type: message_type)
   end
 
   # A started run parks the turn until it finishes: wait_for_background_run and resume_with check the tool call under the
@@ -179,7 +199,7 @@ class Captain::Copilot::TurnService < Captain::Copilot::ChatService
     return @tool_call.result if @tool_call.completed?
 
     tool.tool_call = @tool_call if tool.respond_to?(:tool_call=)
-    started_run_result(instrument_tool_call(@tool_call.name, arguments) { original.call(tool_call: tool_call, **arguments) })
+    started_run_result(original.call(tool_call: tool_call, **arguments))
   rescue Captain::Copilot::LeaseLostError, Captain::Copilot::BackgroundRunPending
     raise
   rescue ArgumentError, ActiveRecord::RecordNotFound => e

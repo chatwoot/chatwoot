@@ -1,4 +1,6 @@
 class Captain::Copilot::TurnJob < ApplicationJob
+  include Captain::Copilot::LeasedJob
+
   # A new thread creates its first turn inside a transaction. Enqueued before the commit, the job can find no run and
   # leave the turn to the recovery job minutes later.
   self.enqueue_after_transaction_commit = true
@@ -7,19 +9,22 @@ class Captain::Copilot::TurnJob < ApplicationJob
 
   MAX_ATTEMPTS = 3
 
-  def perform(run_id)
+  # watched_token is set on the checks LeasedJob schedules.
+  def perform(run_id, watched_token = nil)
     run = CopilotRun.turn.claimable.find_by(id: run_id)
     return unless run
 
     return self.class.set(wait: 5.seconds).perform_later(run.id) if run.behind_earlier_turn?
 
-    token = run.claim
-    self.class.set(wait_until: (run.lease_until || Time.current) + 30.seconds).perform_later(run.id)
+    token = claim(run, watched_token)
     return unless token
 
     Captain::Copilot::TurnService.new(run, token).generate_response
   rescue Captain::Copilot::LeaseLostError
     nil
+  rescue Captain::Copilot::LimitExceededError => e
+    # Turning workflows off, running out of credits and the model-call limit are expected stops, so they are not reported.
+    handle_failure(run, token, e)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: run&.account).capture_exception
     handle_failure(run, token, e)
@@ -33,7 +38,7 @@ class Captain::Copilot::TurnJob < ApplicationJob
     run.with_lease(token) do
       attempts = run.attempts + 1
       failed = terminal_failure?(attempts, exception)
-      run.update!(status: failed ? :failed : :queued, attempts: attempts, error: exception.class.name, lease_token: nil, lease_until: nil)
+      run.release!(failed ? :failed : :queued, attempts: attempts, error: exception.class.name)
       if failed
         persist_failure(run, exception)
       else
