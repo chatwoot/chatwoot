@@ -45,7 +45,7 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
   def request_approval(saved_set_id, action, arguments, targets)
     action_run = run.copilot_thread.copilot_runs.create!(
       account: run.account, user: run.user, copilot_tool_call: tool_call, source_run_id: saved_set_id, kind: :action, status: :awaiting_approval,
-      context: { action: action, arguments: arguments, target_ids: targets[:ids], approval_expires_at: CopilotRun::APPROVAL_TTL.from_now.iso8601 }
+      context: { action: action, arguments: arguments, target_ids: targets[:ids] }
     )
     card = approval_card(action_run, targets)
     action_run.update!(context: action_run.context.merge('approval_message_id' => card.id))

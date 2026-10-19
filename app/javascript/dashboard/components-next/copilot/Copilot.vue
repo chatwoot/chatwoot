@@ -124,13 +124,11 @@ const isLastMessageFromAssistant = computed(() => {
 });
 
 // An approval card waits on the agent, not on Copilot, so the loader stays hidden until they decide.
-const decidedRunIds = ref([]);
 const isCopilotWorking = computed(() => {
   const hasApprovalAwaitingDecision = props.messages.some(
     message =>
       message.message_type === 'assistant_approval' &&
-      message.message.approval.status === 'awaiting_approval' &&
-      !decidedRunIds.value.includes(message.message.run_id)
+      message.message.approval.status === 'awaiting_approval'
   );
   return !isLastMessageFromAssistant.value && !hasApprovalAwaitingDecision;
 });
@@ -260,7 +258,6 @@ watch(
           <CopilotApprovalMessage
             v-else-if="item.message_type === 'assistant_approval'"
             :message="item.message"
-            @decided="runId => decidedRunIds.push(runId)"
           />
           <CopilotThinkingGroup
             v-else
