@@ -16,6 +16,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import SidebarChangelogCard from './SidebarChangelogCard.vue';
+import SidebarTrialCard from './SidebarTrialCard.vue';
 import SidebarChangelogButton from './SidebarChangelogButton.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
@@ -1086,6 +1087,7 @@ const menuItems = computed(() => {
       <div
         class="pointer-events-none absolute inset-x-0 -top-[1.938rem] h-8 bg-gradient-to-t from-n-background to-transparent"
       />
+      <SidebarTrialCard v-if="isOnChatwootCloud && !isEffectivelyCollapsed" />
       <SidebarChangelogCard
         v-if="
           isOnChatwootCloud &&

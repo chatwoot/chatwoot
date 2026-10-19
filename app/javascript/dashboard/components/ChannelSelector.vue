@@ -28,6 +28,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  needsCard: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const { t } = useI18n();
@@ -66,6 +70,12 @@ const { t } = useI18n();
           v-tooltip.top="t('GENERAL.BETA_DESCRIPTION')"
           :label="t('GENERAL.BETA')"
           color="blue"
+          compact
+        />
+        <Label
+          v-if="needsCard"
+          :label="t('CHANNEL_SELECTOR.NEEDS_CARD')"
+          color="amber"
           compact
         />
       </div>
