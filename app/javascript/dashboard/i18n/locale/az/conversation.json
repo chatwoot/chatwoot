@@ -1,5 +1,12 @@
 {
   "CONVERSATION": {
+    "REFERRAL": {
+      "AD_LABEL": "Ad",
+      "POST_LABEL": "Post",
+      "VIEW_AD": "View ad",
+      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
+      "REPLIED_BELOW": "Customer replied below"
+    },
     "SELECT_A_CONVERSATION": "Zəhmət olmasa, soldakı paneldən bir söhbət seçin",
     "CSAT_REPLY_MESSAGE": "Zəhmət olmasa söhbəti qiymətləndirin",
     "404": "Bağışlayın, söhbəti tapa bilmirik. Zəhmət olmasa, yenidən cəhd edin",
@@ -67,6 +74,9 @@
     "UNSUPPORTED_MESSAGE_TIKTOK": "Bu mesaj dəstəklənmir. Bu mesajı TikTok tətbiqində görə bilərsiniz.",
     "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "WHATSAPP_REFERRAL": {
+      "AD": "Ad"
+    },
     "SUCCESS_DELETE_MESSAGE": "Mesaj uğurla silindi",
     "FAIL_DELETE_MESSSAGE": "Mesajı silmək mümkün olmadı! Yenidən cəhd edin",
     "NO_RESPONSE": "Cavab yoxdur",
@@ -155,6 +165,34 @@
     "MENTION": {
       "AGENTS": "Agentlər",
       "TEAMS": "Komandalar"
+    },
+    "PICKER": {
+      "VARIABLE": {
+        "SEARCH_PLACEHOLDER": "Search variables",
+        "DESCRIPTION": "Description",
+        "VALUE": "Value",
+        "NO_VALUE": "No value for this conversation"
+      },
+      "EMOJI": {
+        "SEARCH_PLACEHOLDER": "Search emojis",
+        "EMPTY_STATE": "Type to search emojis"
+      },
+      "MACRO": {
+        "SEARCH_PLACEHOLDER": "Search macros",
+        "ACTION_COUNT": "1 action | {count} actions"
+      },
+      "MENTION": {
+        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "FILTER": {
+          "ALL": "All"
+        },
+        "AVAILABILITY": "Mövcudluq",
+        "ROLE": "Role",
+        "AUTO_ASSIGN": "Auto assign",
+        "ENABLED": "Aktiv",
+        "DISABLED": "Deaktiv",
+        "YOU_ARE_A_MEMBER": "You are a member of this team"
+      }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Gecikdirmə müddəti",
@@ -502,7 +540,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} digər",
     "TOTAL_PARTICIPANTS_TEXT": "{count} nəfər iştirak edir.",
     "TOTAL_PARTICIPANT_TEXT": "{count} nəfər iştirak edir.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "NO_PARTICIPANTS_TEXT": "No one is participating!",
     "WATCH_CONVERSATION": "Söhbətə qoşulun",
     "YOU_ARE_WATCHING": "Siz iştirak edirsiniz",
     "API": {

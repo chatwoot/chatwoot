@@ -143,7 +143,8 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Mesajınızı buraya yazınız",
       "TEAM_DROPDOWN_PLACEHOLDER": "Takımları seçin",
       "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "URL_INPUT_PLACEHOLDER": "Enter URL",
+      "INSERT_CONTACT_EMAIL": "Use contact's email"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Otomasyon Kuralını Etkinleştir",
@@ -217,7 +218,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Mesaj Türü",
       "PRIVATE_NOTE": "Özel Not",
-      "MESSAGE_CONTAINS": "Mesaj İçerir",
+      "MESSAGE_CONTAINS": "Message Content",
       "EMAIL": "E-Posta",
       "INBOX": "Gelen Kutusu",
       "CONVERSATION_LANGUAGE": "Sohbet Dili",

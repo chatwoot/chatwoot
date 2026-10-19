@@ -28,6 +28,15 @@ describe CustomMarkdownRenderer do
     end
   end
 
+  describe '#html' do
+    it 'omits raw HTML' do
+      rendered = render_markdown('<script>alert("xss")</script>')
+
+      expect(rendered).to include('<!-- raw HTML omitted -->')
+      expect(rendered).not_to include('<script>')
+    end
+  end
+
   describe 'broken ^ usage' do
     it 'does not convert text that only starts with ^' do
       markdown = 'This is an example with ^broken superscript.'
@@ -125,6 +134,15 @@ describe CustomMarkdownRenderer do
       it 'renders a normal link' do
         output = render_markdown_link(normal_url)
         expect(output).to include('<a href="https://example.com">')
+      end
+    end
+
+    context 'when link uses an unsafe URL' do
+      it 'blanks the URL' do
+        output = render_markdown_link('jav&#x61;script:alert(1)')
+
+        expect(output).to include('<a href="">link</a>')
+        expect(output).not_to include('javascript:')
       end
     end
 
@@ -347,6 +365,13 @@ describe CustomMarkdownRenderer do
     it 'ignores a non-numeric width' do
       markdown = '![Sample](https://example.com/image.jpg?cw_image_width=auto)'
       expect(render_markdown(markdown)).not_to include('style=')
+    end
+
+    it 'blanks unsafe sources' do
+      output = render_markdown('![Sample](vbscript:alert(1))')
+
+      expect(output).to include('<img src=""')
+      expect(output).not_to include('vbscript:')
     end
   end
 end

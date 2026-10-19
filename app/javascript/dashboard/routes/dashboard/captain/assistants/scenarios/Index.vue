@@ -1,5 +1,5 @@
 <script setup>
-import { computed, h, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { picoSearch } from '@chatwoot/pico-search';
@@ -32,12 +32,6 @@ const searchQuery = ref('');
 
 const LINK_INSTRUCTION_CLASS =
   '[&_a[href^="tool://"]]:text-n-iris-11 [&_a:not([href^="tool://"])]:text-n-slate-12 [&_a]:pointer-events-none [&_a]:cursor-default';
-
-const renderInstruction = instruction => () =>
-  h('span', {
-    class: `text-sm text-n-slate-12 py-4 prose prose-sm min-w-0 break-words ${LINK_INSTRUCTION_CLASS}`,
-    innerHTML: instruction,
-  });
 
 // Suggested example scenarios for quick add
 const scenariosExample = [
@@ -217,8 +211,17 @@ onMounted(() => {
   store.dispatch('captainScenarios/get', {
     assistantId: assistantId.value,
   });
-  store.dispatch('captainTools/getTools');
 });
+
+watch(
+  assistantId,
+  id => {
+    store.dispatch('captainTools/getTools', {
+      assistantId: id,
+    });
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
@@ -260,8 +263,12 @@ onMounted(() => {
               <span class="text-sm text-n-slate-11 mt-2">
                 {{ item.description }}
               </span>
-              <component
-                :is="renderInstruction(formatMessage(item.instruction, false))"
+              <span
+                v-dompurify-html:toolLinks="
+                  formatMessage(item.instruction, false)
+                "
+                class="text-sm text-n-slate-12 py-4 prose prose-sm min-w-0 break-words"
+                :class="LINK_INSTRUCTION_CLASS"
               />
               <span class="text-sm text-n-slate-11 font-medium mb-1">
                 {{ t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.SUGGESTED.TOOLS_USED') }}

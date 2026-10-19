@@ -6,6 +6,7 @@ import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsTo
 import NextInput from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import CallRecordingSettings from './CallRecordingSettings.vue';
 
 export default {
   components: {
@@ -14,6 +15,7 @@ export default {
     NextInput,
     NextButton,
     Spinner,
+    CallRecordingSettings,
   },
   props: {
     inbox: {
@@ -27,14 +29,12 @@ export default {
       inboundCallsEnabled: this.inbox.inbound_calls_enabled !== false,
       apiKeySid: this.inbox.api_key_sid || '',
       apiKeySecret: '',
+      authToken: '',
       isUpdating: false,
       isTogglingInbound: false,
     };
   },
   computed: {
-    isVoiceConfigured() {
-      return !!this.inbox.voice_configured;
-    },
     hasApiKeySid() {
       return !!this.inbox.api_key_sid;
     },
@@ -42,10 +42,13 @@ export default {
       return this.hasApiKeySid && !!this.inbox.has_api_key_secret;
     },
     needsCredentials() {
+      return this.voiceEnabled && !this.hasExistingCredentials;
+    },
+    needsAccountAuthToken() {
       return (
         this.voiceEnabled &&
-        !this.isVoiceConfigured &&
-        !this.hasExistingCredentials
+        this.hasApiKeySid &&
+        !this.inbox.account_auth_token_configured
       );
     },
     needsApiKeySid() {
@@ -53,6 +56,7 @@ export default {
     },
     isSubmitDisabled() {
       if (!this.voiceEnabled) return false;
+      if (this.needsAccountAuthToken && !this.authToken) return true;
       if (this.needsCredentials) {
         if (this.needsApiKeySid && !this.apiKeySid) return true;
         return !this.apiKeySecret;
@@ -88,10 +92,34 @@ export default {
         this.isTogglingInbound = false;
       }
     },
+    // SMS upgrades collect the account token separately from API key credentials.
+    async handleVoiceToggle(newValue) {
+      if (this.isUpdating) return;
+      const previousValue = this.voiceEnabled;
+      this.voiceEnabled = newValue;
+
+      if (this.needsAccountAuthToken || this.needsCredentials) return;
+
+      try {
+        await this.updateVoiceSettings();
+      } catch (_) {
+        this.voiceEnabled = previousValue;
+      }
+    },
+    async submitVoiceCredentials() {
+      try {
+        await this.updateVoiceSettings();
+      } catch (_) {
+        this.voiceEnabled = this.inbox.voice_enabled || false;
+      }
+    },
     async updateVoiceSettings() {
       this.isUpdating = true;
       try {
         const channelPayload = { voice_enabled: this.voiceEnabled };
+        if (this.needsAccountAuthToken) {
+          channelPayload.auth_token = this.authToken;
+        }
 
         if (this.needsCredentials) {
           if (this.needsApiKeySid) {
@@ -106,9 +134,11 @@ export default {
           channel: channelPayload,
         });
         this.apiKeySecret = '';
+        this.authToken = '';
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+        throw error;
       } finally {
         this.isUpdating = false;
       }
@@ -119,15 +149,29 @@ export default {
 
 <template>
   <div class="flex flex-col gap-6">
-    <SettingsToggleSection
-      v-model="voiceEnabled"
-      :header="$t('INBOX_MGMT.VOICE_CONFIGURATION.ENABLE_VOICE.LABEL')"
-      :description="
-        $t('INBOX_MGMT.VOICE_CONFIGURATION.ENABLE_VOICE.DESCRIPTION')
-      "
-    />
+    <div
+      class="relative"
+      :class="{ 'pointer-events-none opacity-60': isUpdating }"
+    >
+      <SettingsToggleSection
+        :model-value="voiceEnabled"
+        :header="$t('INBOX_MGMT.VOICE_CONFIGURATION.ENABLE_VOICE.LABEL')"
+        :description="
+          $t('INBOX_MGMT.VOICE_CONFIGURATION.ENABLE_VOICE.DESCRIPTION')
+        "
+        :hide-toggle="isUpdating"
+        @update:model-value="handleVoiceToggle"
+      >
+        <template v-if="isUpdating" #hiddenToggle>
+          <Spinner class="size-4 text-n-slate-11" />
+        </template>
+      </SettingsToggleSection>
+    </div>
 
-    <div v-if="voiceEnabled && needsCredentials" class="flex flex-col gap-4">
+    <div
+      v-if="needsAccountAuthToken || needsCredentials"
+      class="flex flex-col gap-4"
+    >
       <p class="text-sm text-n-slate-11">
         {{ $t('INBOX_MGMT.VOICE_CONFIGURATION.CREDENTIALS.DESCRIPTION') }}
       </p>
@@ -138,6 +182,14 @@ export default {
         :placeholder="$t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.PLACEHOLDER')"
       />
       <NextInput
+        v-if="needsAccountAuthToken"
+        v-model="authToken"
+        type="password"
+        :label="$t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.LABEL')"
+        :placeholder="$t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.PLACEHOLDER')"
+      />
+      <NextInput
+        v-if="needsCredentials"
         v-model="apiKeySecret"
         type="password"
         :label="$t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.LABEL')"
@@ -165,6 +217,8 @@ export default {
       </SettingsToggleSection>
     </div>
 
+    <CallRecordingSettings v-if="inbox.voice_enabled" :inbox="inbox" />
+
     <div v-if="inbox.voice_enabled && inbox.voice_call_webhook_url">
       <SettingsFieldSection
         :label="$t('INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_VOICE_URL_TITLE')"
@@ -186,12 +240,12 @@ export default {
       </SettingsFieldSection>
     </div>
 
-    <div>
+    <div v-if="needsAccountAuthToken || needsCredentials">
       <NextButton
         :disabled="isSubmitDisabled"
         :is-loading="isUpdating"
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-        @click="updateVoiceSettings"
+        @click="submitVoiceCredentials"
       />
     </div>
   </div>

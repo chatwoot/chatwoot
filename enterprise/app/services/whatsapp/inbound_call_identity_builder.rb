@@ -35,7 +35,14 @@ class Whatsapp::InboundCallIdentityBuilder
     return { name: name } unless phone.to_s.match?(/\A\d{1,15}\z/)
 
     formatted = "+#{phone}"
-    { name: name == phone ? formatted : name, phone_number: formatted }
+    attributes = { name: name == phone ? formatted : name, phone_number: formatted }
+    candidates = phone_number_normalization_service.phone_number_candidates(phone.to_s).drop(1).map { |candidate| "+#{candidate}" }
+    attributes[:phone_number_candidates] = candidates if candidates.present?
+    attributes
+  end
+
+  def phone_number_normalization_service
+    @phone_number_normalization_service ||= Whatsapp::PhoneNumberNormalizationService.new(inbox)
   end
 
   # Match the contacts entry to THIS caller so batched payloads don't borrow another's identity.

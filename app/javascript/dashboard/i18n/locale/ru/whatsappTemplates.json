@@ -27,7 +27,7 @@
     },
     "PARSER": {
       "VARIABLES_LABEL": "Переменные",
-      "HEADER_VARIABLES_LABEL": "Header variables",
+      "HEADER_VARIABLES_LABEL": "Переменные заголовка",
       "LANGUAGE": "Язык",
       "CATEGORY": "Категория",
       "VARIABLE_PLACEHOLDER": "Введите значение {variable}",

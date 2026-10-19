@@ -95,7 +95,9 @@ pt_BR:
     saml:
       feature_not_enabled: SAML não está habilitado para esta conta
       sso_not_enabled: O SSO via SAML não está habilitado para esta instalação
+      multi_account_invitation_not_allowed: Usuários associados a outra conta não podem ser adicionados enquanto o SAML estiver habilitado
     conversations:
+      resolved: A conversa está resolvida e não aceita novas mensagens
       unread_counts:
         feature_not_enabled: O recurso de contagem de conversas não lidas não está habilitado para esta conta
     data_import:
@@ -148,6 +150,7 @@ pt_BR:
         already_ended: 'Esta chamada já terminou'
         already_accepted: 'Chamada já aceita por outro agente'
         no_recording: 'Nenhum arquivo de gravação fornecido'
+        recording_disabled: 'A gravação de chamadas está desabilitada para esta caixa de entrada'
         no_message: 'A chamada não possui mensagem associada'
         sdp_offer_required: 'sdp_offer é obrigatório'
         contact_phone_required: 'Número de telefone do contato é obrigatório'
@@ -428,6 +431,8 @@ pt_BR:
       completed_tool_call: 'Uso da ferramenta %{function_name} concluída'
       invalid_tool_call: 'Ferramenta inválida'
       tool_not_available: 'Ferramenta indisponível'
+      reply_suggestion_discarded: 'A conversa foi alterada enquanto o Copiloto elaborava a resposta, por isso a sugestão foi descartada.'
+      reply_suggestion_failed: "O Copiloto não conseguiu gerar uma resposta. Tente novamente."
     documents:
       limit_exceeded: 'Limite de documento excedido'
       pdf_format_error: 'Deve ser um arquivo PDF'
@@ -614,16 +619,21 @@ pt_BR:
         empty: 'Nenhum histórico de suspensão registrado.'
     captain_model_overrides:
       form:
-        helper_text: 'Deixe um modelo em branco para usar o padrão definido no YAML para esse recurso de IA.'
+        helper_text: 'Deixe o modelo em branco para usar o roteamento padrão desse recurso de IA.'
+        customer_features: 'Funcionalidades do cliente'
+        internal_features: 'Funcionalidades internas'
         use_default: 'Usar padrão: %{model} (%{model_id})'
+        use_installation_model: 'Usar modelo da instalação: %{model} (%{model_id})'
       show:
         summary: 'Ver roteamento de modelo'
         provider: 'Fornecedor'
         model: 'Modelo'
       sources:
         account_override: 'Sobrescrever para esta conta'
+        installation_override: 'Configuração da instalação'
         default: 'Padrão'
       features:
+        conversation_completion: 'Avaliador de conclusão de conversas inativas'
         editor: 'Editores'
         assistant: 'Assistente'
         copilot: 'Copiloto'
@@ -640,4 +650,11 @@ pt_BR:
       user_not_found: 'Usuário não encontrado.'
       no_subscriptions_to_test: 'Selecione pelo menos uma assinatura para teste.'
       no_subscriptions_to_delete: 'Selecione pelo menos uma assinatura para excluir.'
-      subscriptions_deleted: "Excluída(s) %{count} inscrição(ões). O(s) dispositivo(s) do usuário será(ão) registrado(s) novamente na próxima inicialização do aplicativo."
+      subscriptions_deleted:
+        one: "%{count} assinatura excluída. O dispositivo do usuário será registrado novamente na próxima vez que o aplicativo for iniciado."
+        other: "%{count} assinaturas excluídas. Os dispositivos dos usuários serão registrados novamente na próxima vez que o aplicativo for iniciado."
+    users:
+      resend_confirmation:
+        button: 'Reenviar e-mail de confirmação'
+        sent: 'E-mail de confirmação enviado.'
+        already_confirmed: 'O usuário já está confirmado.'

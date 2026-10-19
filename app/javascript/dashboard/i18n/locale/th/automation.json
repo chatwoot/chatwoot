@@ -143,7 +143,8 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Geben Sie hier Ihre Nachricht ein",
       "TEAM_DROPDOWN_PLACEHOLDER": "Teams auswählen",
       "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "URL_INPUT_PLACEHOLDER": "Enter URL",
+      "INSERT_CONTACT_EMAIL": "Use contact's email"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "เปิดใช้เงื่อนไขอัตโนมัติ",
@@ -217,7 +218,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
       "PRIVATE_NOTE": "โน้ตส่วนตัว",
-      "MESSAGE_CONTAINS": "Message Contains",
+      "MESSAGE_CONTAINS": "Message Content",
       "EMAIL": "อีเมล์",
       "INBOX": "กล่องข้อความ",
       "CONVERSATION_LANGUAGE": "Conversation Language",

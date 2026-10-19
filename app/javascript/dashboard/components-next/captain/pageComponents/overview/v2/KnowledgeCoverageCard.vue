@@ -26,7 +26,7 @@ const stats = computed(() => [
   },
   {
     key: 'suggestions',
-    label: t('CAPTAIN.OVERVIEW.KNOWLEDGE.SUGGESTIONS'),
+    label: t('CAPTAIN.OVERVIEW.V2.KNOWLEDGE.SUGGESTED'),
     value: suggestions.value,
   },
 ]);
@@ -46,6 +46,7 @@ const stats = computed(() => [
     <div class="flex flex-col gap-5 p-5">
       <ProgressMetric
         :label="$t('CAPTAIN.OVERVIEW.KNOWLEDGE.TITLE')"
+        :show-label="false"
         :used="approved"
         :total="total"
         :usage-label="
@@ -61,9 +62,13 @@ const stats = computed(() => [
         :loading="loading"
       />
       <div class="grid grid-cols-2 gap-4">
-        <div v-for="stat in stats" :key="stat.key" class="flex flex-col gap-1">
-          <span class="text-xs text-n-slate-11">{{ stat.label }}</span>
-          <span class="text-2xl font-medium tabular-nums text-n-slate-12">
+        <div
+          v-for="stat in stats"
+          :key="stat.key"
+          class="flex flex-col gap-2 last:text-end"
+        >
+          <span class="text-body-main text-n-slate-11">{{ stat.label }}</span>
+          <span class="text-heading-1 tabular-nums text-n-slate-12">
             {{ stat.value.toLocaleString() }}
           </span>
         </div>

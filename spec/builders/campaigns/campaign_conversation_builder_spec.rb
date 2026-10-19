@@ -19,6 +19,15 @@ describe Campaigns::CampaignConversationBuilder do
       expect(campaign_conversation.messages.first.additional_attributes['campaign_id']).to eq(campaign.id)
     end
 
+    it 'marks a visitor contact as a lead' do
+      visitor = create(:contact, account: account)
+      visitor_contact_inbox = create(:contact_inbox, contact: visitor, inbox: inbox)
+
+      described_class.new(contact_inbox_id: visitor_contact_inbox.id, campaign_display_id: campaign.display_id).perform
+
+      expect(visitor.reload).to be_lead
+    end
+
     it 'will not create a conversation with campaign id if another conversation exists' do
       create(:conversation, contact_inbox_id: contact_inbox.id, inbox: inbox, account: account)
       campaign_conversation = described_class.new(

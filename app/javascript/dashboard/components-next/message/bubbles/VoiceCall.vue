@@ -243,6 +243,16 @@ const handleJoinCall = async () => {
     });
   }
 
+  // The store skips calls that rang while the agent was away or were dismissed; register it so joinCall picks the right provider.
+  callsStore.addCall({
+    callSid: callSid.value,
+    callId: call.value?.id,
+    provider: call.value?.provider,
+    conversationId: conversationId.value,
+    inboxId: inboxId.value,
+    callDirection: VOICE_CALL_DIRECTION.INBOUND,
+  });
+
   await joinCall({
     conversationId: conversationId.value,
     inboxId: inboxId.value,

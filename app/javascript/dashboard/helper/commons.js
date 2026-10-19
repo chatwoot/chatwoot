@@ -84,6 +84,15 @@ export const convertToPortalSlug = text => {
     .replace(/ +/g, '-');
 };
 
+export const convertToArticleSlug = text => {
+  return text
+    .normalize('NFKD')
+    .replace(/\p{Diacritic}/gu, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+};
+
 /**
  * Strip curly braces, commas and leading/trailing whitespace from a search key.
  * Eg. "{{contact.name}}," => "contact.name"

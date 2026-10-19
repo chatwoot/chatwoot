@@ -95,7 +95,9 @@ tr:
     saml:
       feature_not_enabled: Bu hesap için SAML özelliği etkinleştirilmemiş
       sso_not_enabled: SAML SSO bu kurulum için etkinleştirilmemiş
+      multi_account_invitation_not_allowed: SAML etkin durumdayken başka bir hesapla ilişkili kullanıcılar eklenemez
     conversations:
+      resolved: Conversation is resolved and does not accept new messages
       unread_counts:
         feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
@@ -144,14 +146,15 @@ tr:
         generic: 'WhatsApp''ı yeniden yetkilendirme işlemi başarısız oldu. Lütfen tekrar deneyin.'
         not_supported: 'Bu tür WhatsApp kanalları için yeniden yetkilendirme desteklenmemektedir.'
       calls:
-        not_enabled: 'Calling is not enabled for this inbox'
-        already_ended: 'This call has already ended'
-        already_accepted: 'Call already accepted by another agent'
-        no_recording: 'No recording file provided'
-        no_message: 'Call has no associated message'
-        sdp_offer_required: 'sdp_offer is required'
-        contact_phone_required: 'Contact phone number is required'
-        permission_request_failed: 'Failed to send call permission request'
+        not_enabled: 'Bu gelen kutusu için arama etkinleştirilmedi'
+        already_ended: 'Bu arama zaten sonlandı'
+        already_accepted: 'Arama zaten başka bir temsilci tarafından kabul edildi'
+        no_recording: 'Herhangi bir kayıt dosyası sağlanmadı'
+        recording_disabled: 'Call recording is disabled for this inbox'
+        no_message: 'Aramayla ilişkili bir mesaj bulunmuyor'
+        sdp_offer_required: 'sdp_offer gereklidir'
+        contact_phone_required: 'Kişinin telefon numarası gereklidir'
+        permission_request_failed: 'Arama izni isteği gönderilemedi'
     openai:
       invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
@@ -287,7 +290,7 @@ tr:
       whatsapp:
         list_button_label: 'Bir öğe seçin'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
-        flow_response: 'Submitted a flow response'
+        flow_response: 'Akış yanıtı gönderildi'
         unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
@@ -297,8 +300,8 @@ tr:
     activity:
       captain:
         resolved: 'Konuşma, %{user_name} tarafından etkinlik olmadığı için çözüldü olarak işaretlendi'
-        resolved_with_reason: 'Conversation was marked resolved by %{user_name} (%{reason})'
-        resolved_by_tool: 'Conversation was marked resolved by %{user_name}: %{reason}'
+        resolved_with_reason: 'Konuşma, %{user_name} tarafından çözüldü olarak işaretlendi (%{reason})'
+        resolved_by_tool: 'Konuşma, %{user_name} tarafından çözüldü olarak işaretlendi: %{reason}'
         open: 'Konuşma, %{user_name} tarafından açık olarak işaretlendi'
         open_with_reason: 'Conversation was marked open by %{user_name} (%{reason})'
         auto_opened_after_agent_reply: 'Conversation was marked open automatically after an agent reply'
@@ -428,6 +431,8 @@ tr:
       completed_tool_call: '%{function_name} aracı çağrısı tamamlandı'
       invalid_tool_call: 'Geçersiz araç çağrısı'
       tool_not_available: 'Araç mevcut değil'
+      reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
+      reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
     documents:
       limit_exceeded: 'Belge sınırı aşıldı'
       pdf_format_error: 'PDF dosyası olmalıdır'
@@ -475,15 +480,15 @@ tr:
       theme: Theme
       open_sidebar: Kenar Çubuğunu Aç
       close_sidebar: Kenar Çubuğunu Kapat
-      browse: Browse
-      back_to_category: Back to %{name}
-      browse_by_topic: Browse by topic
-      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
-      popular_articles: Popular articles
-      popular_articles_subtitle: What other people are reading right now.
-      recommended: Recommended articles
+      browse: Göz at
+      back_to_category: '%{name}''e geri dön'
+      browse_by_topic: Konuya göre göz at
+      browse_by_topic_subtitle: Kategoriye göre düzenlenmiş rehberleri, öğreticileri ve yanıtları bulun.
+      popular_articles: Popüler makaleler
+      popular_articles_subtitle: Şu anda diğer insanlar ne okuyor.
+      recommended: Önerilen makaleler
       recommended_subtitle: Hand-picked articles to get you started.
-      popular_label: 'Popular topics:'
+      popular_label: 'Popüler konular:'
       recommended_label: 'Recommended topics:'
       authors_others: "%{names} and %{count} others"
       primary_nav: Primary
@@ -504,10 +509,10 @@ tr:
       previous: Önceki
       next: Sonraki
     article_actions:
-      label: Open in
-      view_markdown: View as Markdown
-      open_in_chatgpt: Open in ChatGPT
-      open_in_claude: Open in Claude
+      label: Şurada aç
+      view_markdown: Markdown Olarak Görüntüle
+      open_in_chatgpt: ChatGPT'de aç
+      open_in_claude: Claude'da aç
       llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: İle yapılmıştır
@@ -520,7 +525,7 @@ tr:
         light: Açık Mod
         dark: Koyu Mod
       featured_articles: Öne Çıkan Makaleler
-      recommended: Recommended articles
+      recommended: Önerilen makaleler
       uncategorized: Kategorize Edilmemiş
     404:
       title: Sayfa bulunamadı
@@ -601,10 +606,10 @@ tr:
       categories:
         spam: 'Spam'
         non_payment: 'Non-payment'
-        other: 'Other'
+        other: 'Diğer'
       form:
         category: 'Suspension category'
-        category_prompt: 'Select a category'
+        category_prompt: 'Bir kategori seçin'
         reason: 'Suspension reason'
         reason_hint: 'Enter a reason of up to 256 characters.'
       history:
@@ -614,16 +619,21 @@ tr:
         empty: 'No suspension history recorded.'
     captain_model_overrides:
       form:
-        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        helper_text: 'Leave a model blank to use the default routing for that AI feature.'
+        customer_features: 'Customer features'
+        internal_features: 'Internal features'
         use_default: 'Use default: %{model} (%{model_id})'
+        use_installation_model: 'Use installation model: %{model} (%{model_id})'
       show:
         summary: 'View model routing'
         provider: 'Provider'
         model: 'Model'
       sources:
         account_override: 'Account override'
+        installation_override: 'Installation setting'
         default: 'Varsayılan'
       features:
+        conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: 'Asistan'
         copilot: 'Copilot'
@@ -640,4 +650,11 @@ tr:
       user_not_found: 'User not found.'
       no_subscriptions_to_test: 'Select at least one subscription to test.'
       no_subscriptions_to_delete: 'Select at least one subscription to delete.'
-      subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."
+      subscriptions_deleted:
+        one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
+        other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
+    users:
+      resend_confirmation:
+        button: 'Resend confirmation email'
+        sent: 'Confirmation email sent.'
+        already_confirmed: 'User is already confirmed.'

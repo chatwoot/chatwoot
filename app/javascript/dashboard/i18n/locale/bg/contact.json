@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Не е наличен",
     "EMAIL_ADDRESS": "Имейл адрес",
     "PHONE_NUMBER": "Телефон",
+    "WHATSAPP_USERNAME": "WhatsApp username",
     "IDENTIFIER": "Идентификатор",
     "COPY_SUCCESSFUL": "Успешно копиране в клипборда",
     "COMPANY": "Фирма",
@@ -460,6 +461,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "WHATSAPP": {
+            "PLACEHOLDER": "Add WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"

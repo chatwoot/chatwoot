@@ -1,5 +1,6 @@
 module Enterprise::Channel::TwilioSms
   extend ActiveSupport::Concern
+  include Concerns::CallRecordingSettings
 
   def self.prepended(base)
     base.class_eval do
@@ -12,12 +13,25 @@ module Enterprise::Channel::TwilioSms
     end
   end
 
+  def account_auth_token_configured?
+    provider_config['account_auth_token_configured'] == true
+  end
+
   def initiate_call(to:, conference_sid: nil, agent_id: nil)
     Voice::Provider::Twilio::Adapter.new(self).initiate_call(
       to: to,
       conference_sid: conference_sid,
       agent_id: agent_id
     )
+  end
+
+  # Re-points the TwiML app and the number at our voice webhooks, reusing the existing app.
+  def reprovision_voice_webhooks!
+    return unless voice_enabled?
+
+    service = ::Twilio::VoiceWebhookSetupService.new(channel: self)
+    update!(twiml_app_sid: service.sync_twiml_app!)
+    service.configure_number_webhooks!
   end
 
   def voice_call_webhook_url
@@ -34,6 +48,14 @@ module Enterprise::Channel::TwilioSms
   def client
     if api_key_sid.present? && api_key_secret.present?
       Twilio::REST::Client.new(api_key_sid, api_key_secret, account_sid)
+    else
+      super
+    end
+  end
+
+  def basic_auth_credentials
+    if api_key_sid.present? && api_key_secret.present?
+      [api_key_sid, api_key_secret]
     else
       super
     end

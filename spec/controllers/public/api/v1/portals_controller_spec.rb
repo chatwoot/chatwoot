@@ -81,6 +81,15 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
       expect(response).to have_http_status(:success)
     end
 
+    it 'links the header logo to the current locale' do
+      portal.update!(config: { allowed_locales: %w[en es], default_locale: 'en' })
+
+      get "/hc/#{portal.slug}/es"
+
+      expect(response.body).to include(%(href="/hc/#{portal.slug}/es"))
+      expect(response.body).not_to include(%(href="/hc/#{portal.slug}/en"))
+    end
+
     it 'shows the active drafted locale in the switcher state on direct locale access' do
       portal.update!(config: { allowed_locales: %w[en es fr], draft_locales: ['es'], default_locale: 'en' })
 

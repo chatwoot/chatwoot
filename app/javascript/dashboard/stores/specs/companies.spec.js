@@ -168,7 +168,7 @@ describe('companies store', () => {
     expect(CompanyAPI.createContact).toHaveBeenCalledWith(1, {
       contact_id: 2,
     });
-    expect(CompanyAPI.listContacts).toHaveBeenCalledWith(1, 1);
+    expect(CompanyAPI.listContacts).toHaveBeenCalledWith(1, 1, undefined);
     expect(companiesStore.companyContacts).toEqual([
       expect.objectContaining({
         id: 2,

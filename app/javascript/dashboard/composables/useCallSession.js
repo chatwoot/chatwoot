@@ -133,6 +133,7 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
           callId: call.callId,
           sdpOffer: call.sdpOffer,
           iceServers: call.iceServers,
+          recordingEnabled: call.recordingEnabled,
         });
         callsStore.setCallActive(callSid);
         globalDurationTimer?.start();
@@ -148,16 +149,20 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
       // (mirrors useWhatsappCallSession's activeCallId).
       markLocalCall(callSid);
 
+      // Names the connection this join opens, so the server tells it from an earlier one
+      const attemptId = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
       const joinResponse = await VoiceAPI.joinConference({
         conversationId,
         inboxId,
         callSid,
+        attemptId,
       });
 
       await TwilioVoiceClient.joinClientCall({
         to: joinResponse?.conference_sid,
         conversationId,
         callSid,
+        attemptId,
       });
 
       callsStore.setCallActive(callSid);

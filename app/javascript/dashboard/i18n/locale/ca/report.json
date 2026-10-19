@@ -23,12 +23,14 @@
         "NAME": "Primer Temps de Resposta",
         "DESC": "( Promig )",
         "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "El temps de primera resposta (FRT) és {metricValue} (basat en {conversationCount} converses)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
         "DESC": "( Promig )",
         "INFO_TEXT": "Nombre total de converses utilitzades per al càlcul:",
+        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
         "TOOLTIP_TEXT": "El temps de resolució (RT) és {metricValue} (basat en {conversationCount} converses)"
       },
       "RESOLUTION_COUNT": {
@@ -45,6 +47,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Temps d'espera del client",
+        "TOOLTIP_LABEL": "Waiting time",
+        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
         "TOOLTIP_TEXT": "El temps d'espera és {metricValue} (basat en {conversationCount} respostes)",
         "DESC": ""
       }
@@ -544,6 +548,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Resum",
     "LIVE": "En directe",
+    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Obrir converses",
       "LOADING_MESSAGE": "S'estan carregant les mètriques de les converses...",

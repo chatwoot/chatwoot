@@ -143,7 +143,8 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "여기에 메시지를 입력하십시오",
       "TEAM_DROPDOWN_PLACEHOLDER": "팀 선택",
       "EMAIL_INPUT_PLACEHOLDER": "이메일 입력",
-      "URL_INPUT_PLACEHOLDER": "URL 입력"
+      "URL_INPUT_PLACEHOLDER": "URL 입력",
+      "INSERT_CONTACT_EMAIL": "Use contact's email"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "자동화 규칙 활성화",
@@ -217,7 +218,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "메시지 유형",
       "PRIVATE_NOTE": "개인 노트",
-      "MESSAGE_CONTAINS": "메시지 포함",
+      "MESSAGE_CONTAINS": "Message Content",
       "EMAIL": "이메일",
       "INBOX": "받은 메시지함",
       "CONVERSATION_LANGUAGE": "대화 언어",

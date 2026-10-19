@@ -946,6 +946,14 @@ describe('FullEditor', () => {
       expect(alerts).toHaveLength(1);
     });
 
+    it('holds files back with an alert while the parent blocks uploads', async () => {
+      mountEditor({ uploadsBlockedMessage: 'article is being created' });
+      await selectFile(fileOfSize(1));
+
+      expect(attachImage).not.toHaveBeenCalled();
+      expect(alerts).toEqual(['article is being created']);
+    });
+
     it('keeps the preview with retry and remove controls when the upload fails', async () => {
       mountEditor();
       attachImage.mockRejectedValue(new Error('nope'));

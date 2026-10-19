@@ -22,6 +22,7 @@ import {
   auditLogFiltersFromQuery,
   buildAuditLogRouteQuery,
 } from 'dashboard/helper/auditlogHelper';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const SEARCH_DEBOUNCE_DELAY = 500;
 const MIN_SEARCH_LENGTH = 3;
@@ -97,11 +98,20 @@ const generateLogText = auditLogItem => {
   return t(translationKey, mergedPayload);
 };
 
+const showsRawIpAddress = computed(() =>
+  getters['accounts/isFeatureEnabledonAccount'].value(
+    getters.getCurrentAccountId.value,
+    FEATURE_FLAGS.AUDIT_LOG_IP_ADDRESS
+  )
+);
+
 const tableHeaders = computed(() => {
   return [
     t('AUDIT_LOGS.LIST.TABLE_HEADER.ACTIVITY'),
     t('AUDIT_LOGS.LIST.TABLE_HEADER.TIME'),
-    t('AUDIT_LOGS.LIST.TABLE_HEADER.IP_ADDRESS'),
+    showsRawIpAddress.value
+      ? t('AUDIT_LOGS.LIST.TABLE_HEADER.IP_ADDRESS')
+      : t('AUDIT_LOGS.LIST.TABLE_HEADER.LOCATION'),
   ];
 });
 
@@ -216,7 +226,7 @@ onMounted(() => {
 
                 <BaseTableCell class="w-36">
                   <span class="text-body-main text-n-slate-11">
-                    {{ auditLogItem.remote_address }}
+                    {{ auditLogItem.location || auditLogItem.remote_address }}
                   </span>
                 </BaseTableCell>
               </template>

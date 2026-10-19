@@ -17,7 +17,7 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Prijavite se z Googlom",
-      "BUSINESS_ACCOUNTS_ONLY": "Prosimo, da za prijavo uporabite e-poštni naslov vašega podjetja",
+      "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
       "NO_ACCOUNT_FOUND": "Nismo mogli najti računa za vaš e-poštni naslov."
     },
     "FORGOT_PASSWORD": "Ste pozabili geslo?",

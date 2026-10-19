@@ -3,7 +3,7 @@ class Whatsapp::IdentifierSyncService
 
   def perform(source_ids: [], username: nil, phone_number: nil)
     create_contact_inboxes(source_ids)
-    update_contact(username, phone_number)
+    update_contact(source_ids, username, phone_number)
   end
 
   private
@@ -21,11 +21,12 @@ class Whatsapp::IdentifierSyncService
     end
   end
 
-  def update_contact(username, phone_number)
+  def update_contact(source_ids, username, phone_number)
     return if synced_contact.blank?
 
     update_contact_phone_number(phone_number)
     update_contact_username(username)
+    update_contact_type_for_bsuid_identity(source_ids)
   end
 
   def update_contact_phone_number(phone_number)
@@ -41,6 +42,17 @@ class Whatsapp::IdentifierSyncService
     return if username.blank?
 
     synced_contact.update!(additional_attributes: additional_attributes_with_username(username))
+  end
+
+  def update_contact_type_for_bsuid_identity(source_ids)
+    return unless synced_contact.visitor?
+    return unless source_ids.any? { |source_id| whatsapp_bsuid_source_id?(source_id) }
+
+    synced_contact.update!(contact_type: :lead)
+  end
+
+  def whatsapp_bsuid_source_id?(source_id)
+    source_id.to_s.delete_prefix('whatsapp:').match?(RegexHelper::WHATSAPP_BSUID_REGEX)
   end
 
   def synced_contact

@@ -105,6 +105,7 @@
       "MUTE_CONVERSATION": "Þagga Samtal",
       "SNOOZE_CONVERSATION": "Fresta Samtali",
       "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
       "CHANGE_PRIORITY": "Change Priority",
