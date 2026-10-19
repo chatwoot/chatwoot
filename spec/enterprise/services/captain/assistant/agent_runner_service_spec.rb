@@ -49,6 +49,9 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     allow(mock_runner).to receive(:on_run_complete).and_return(mock_runner)
     allow(mock_agent).to receive(:register_handoffs)
     allow(mock_scenario_agent).to receive(:register_handoffs)
+    # The runner adds the email verification tools with clone, so the doubles return themselves
+    allow(mock_agent).to receive_messages(tools: [], clone: mock_agent)
+    allow(mock_scenario_agent).to receive_messages(tools: [], clone: mock_scenario_agent)
   end
 
   describe '#initialize' do
@@ -112,11 +115,51 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(service.send(:build_and_wire_agents)).to eq([mock_agent, mock_scenario_agent])
     end
 
+    context 'with a tool that has a verified parameter' do
+      before do
+        email_param = { 'name' => 'email', 'type' => 'string', 'description' => 'Email', 'source' => 'verified.email' }
+        create(:captain_custom_tool, account: account, assistant: assistant, endpoint_url: 'https://example.com/c?email={{ email }}',
+                                     param_schema: [email_param])
+        allow(assistant).to receive(:agent).and_call_original
+        allow(assistant).to receive(:scenarios).and_return(instance_double(Captain::Scenario, enabled: []))
+      end
+
+      def http_tool_for(source)
+        service = described_class.new(assistant: assistant, conversation: conversation, run_options: run_options(source: source))
+        service.send(:build_and_wire_agents).first.tools.find { |tool| tool.is_a?(Captain::Tools::HttpTool) }
+      end
+
+      def email_parameters(source)
+        http_tool_for(source).class.declared_parameters.keys
+      end
+
+      it 'uses the customer tool in a customer conversation' do
+        expect(http_tool_for(nil)).to be_a(Captain::Tools::PublicHttpTool)
+      end
+
+      it 'uses the Copilot tool where an admin or an agent is the user' do
+        expect(http_tool_for('playground')).to be_a(Captain::Tools::CopilotHttpTool)
+      end
+
+      it 'gives the model no email parameter in a customer conversation' do
+        expect(email_parameters(nil)).to be_empty
+      end
+
+      it 'gives the model an email parameter in the playground' do
+        expect(email_parameters('playground')).to contain_exactly(:email)
+      end
+
+      it 'gives the model an email parameter for a reply suggestion' do
+        expect(email_parameters('copilot_reply_suggestion')).to contain_exactly(:email)
+      end
+    end
+
     it 'keeps only reply-safe tools and excludes scenarios in reply suggestion mode' do
       faq_tool = Captain::Tools::FaqLookupTool.new(assistant)
       handoff_tool = Captain::Tools::HandoffTool.new(assistant)
-      get_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'GET'))
-      post_tool = Captain::Tools::HttpTool.new(assistant, create(:captain_custom_tool, account: account, http_method: 'POST'))
+      get_custom_tool = create(:captain_custom_tool, account: account, http_method: 'GET')
+      get_tool = get_custom_tool.tool(assistant)
+      post_tool = create(:captain_custom_tool, account: account, http_method: 'POST').tool(assistant)
       private_note_tool = Captain::Tools::AddPrivateNoteTool.new(assistant)
       assistant_agent = Agents::Agent.new(name: 'assistant', tools: [faq_tool, handoff_tool, get_tool, post_tool, private_note_tool])
       service = described_class.new(
@@ -130,7 +173,10 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       configured_assistant = service.send(:build_and_wire_agents).sole
 
-      expect(configured_assistant.tools).to contain_exactly(faq_tool, get_tool)
+      expect(configured_assistant.tools.first).to be(faq_tool)
+      expect(configured_assistant.tools.second).to be_a(Captain::Tools::CopilotHttpTool)
+      expect(configured_assistant.tools.second.custom_tool).to eq(get_custom_tool)
+      expect(configured_assistant.tools.size).to eq(2)
       expect(configured_assistant.handoff_agents).to be_empty
     end
 
@@ -1006,6 +1052,24 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         name: contact.name,
         email: contact.email
       )
+    end
+
+    it 'lets Captain verify the customer when an enabled tool needs a verified email' do
+      create(:captain_custom_tool, account: account, assistant: assistant, settings: { 'requires_email_verification' => true })
+
+      expect(service.send(:build_state)[:can_verify_email]).to be(true)
+    end
+
+    it 'does not let Captain verify the customer when no tool needs a verified email' do
+      expect(service.send(:build_state)[:can_verify_email]).to be(false)
+    end
+
+    it 'does not let Captain verify anyone where an admin or an agent is the user' do
+      create(:captain_custom_tool, account: account, assistant: assistant, settings: { 'requires_email_verification' => true })
+      service = described_class.new(assistant: assistant, conversation: conversation,
+                                    run_options: described_class::RunOptions.new(source: 'playground'))
+
+      expect(service.send(:build_state)[:can_verify_email]).to be(false)
     end
 
     it 'does not include campaign when conversation has no campaign' do

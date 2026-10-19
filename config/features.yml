@@ -309,3 +309,8 @@
   enabled: true
   hidden: true
   column: feature_flags_ext_1
+- name: auto_translate
+  display_name: Auto Translate
+  enabled: false
+  premium: true
+  column: feature_flags_ext_1
