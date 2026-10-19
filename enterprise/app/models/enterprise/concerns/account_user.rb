@@ -20,14 +20,18 @@ module Enterprise::Concerns::AccountUser
     Enterprise::CreateStripeCustomerJob.perform_later(account)
   end
 
-  # The row lock makes the check and the is_creating_customer claim atomic, so concurrent callbacks queue one job.
+  # The row lock makes the check and the claim atomic, so concurrent callbacks queue one job.
   # The administrator who became one first claims it (ties go to the lower id), so admins added together still elect one.
+  # A locale with its own currency picks it or USD on the billing page first; that choice creates the customer with the trial.
   def claim_cloud_trial
     account.with_lock do
-      next false if account.custom_attributes.values_at('stripe_customer_id', 'is_creating_customer').any?(&:present?)
+      next false if account.custom_attributes.values_at('stripe_customer_id', 'is_creating_customer', 'trial_pending').any?(&:present?)
       next false if earlier_administrators.exists?
 
-      account.update!(custom_attributes: account.custom_attributes.merge('is_creating_customer' => true, 'trial_pending' => true))
+      claim = { 'trial_pending' => true }
+      claim['is_creating_customer'] = true unless account.billing_currency_selection_required?
+      account.update!(custom_attributes: account.custom_attributes.merge(claim))
+      claim.key?('is_creating_customer')
     end
   end
 
