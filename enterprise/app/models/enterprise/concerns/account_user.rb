@@ -21,12 +21,17 @@ module Enterprise::Concerns::AccountUser
   end
 
   # The row lock makes the check and the is_creating_customer claim atomic, so concurrent callbacks queue one job.
+  # The administrator who became one first claims it (ties go to the lower id), so admins added together still elect one.
   def claim_cloud_trial
     account.with_lock do
       next false if account.custom_attributes.values_at('stripe_customer_id', 'is_creating_customer').any?(&:present?)
-      next false if account.account_users.administrator.where.not(id: id).exists?
+      next false if earlier_administrators.exists?
 
       account.update!(custom_attributes: account.custom_attributes.merge('is_creating_customer' => true))
     end
+  end
+
+  def earlier_administrators
+    account.account_users.administrator.where.not(id: id).where('updated_at < :at OR (updated_at = :at AND id < :id)', at: updated_at, id: id)
   end
 end

@@ -13,9 +13,9 @@ class Enterprise::Billing::HandleStripeEventService
 
     case @event.type
     when 'customer.subscription.updated'
-      process_subscription_updated
+      process_subscription_updated unless stale_event?
     when 'customer.subscription.deleted'
-      process_subscription_deleted
+      process_subscription_deleted unless stale_event?
     when 'customer.subscription.trial_will_end'
       Enterprise::Billing::TrialService.new(account: account).notify_ending(subscription) if stripe_billed_account?
     else
@@ -83,7 +83,8 @@ class Enterprise::Billing::HandleStripeEventService
         'subscription_ends_on' => subscription_ends_on(subscription),
         'subscription_cancels_on' => subscription_cancels_on(subscription),
         'trial_ends_at' => subscription['trial_end'].present? ? Time.zone.at(subscription['trial_end']) : nil,
-        'billing_currency' => billing_currency_for(subscription, plan)
+        'billing_currency' => billing_currency_for(subscription, plan),
+        'last_stripe_event_at' => @event.created
       )
     )
   end
@@ -126,6 +127,7 @@ class Enterprise::Billing::HandleStripeEventService
     account.with_lock do
       previous_usage = { responses: account.custom_attributes['captain_responses_usage'].to_i, monthly: previous_monthly_credits }
       adjust_captain_credits(previous_usage, new_plan_credits: 0)
+      account.update!(custom_attributes: account.custom_attributes.merge('last_stripe_event_at' => @event.created))
       account.reset_response_usage
     end
     broadcast_billing_updated
@@ -210,6 +212,11 @@ class Enterprise::Billing::HandleStripeEventService
 
   def account
     @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", subscription.customer).first
+  end
+
+  # Stripe doesn't guarantee delivery order, so an event older than the last one applied would undo newer billing state.
+  def stale_event?
+    account.present? && account.custom_attributes['last_stripe_event_at'].to_i > @event.created
   end
 
   def stripe_billed_account?

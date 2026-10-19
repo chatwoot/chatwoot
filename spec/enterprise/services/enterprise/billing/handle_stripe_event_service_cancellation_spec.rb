@@ -24,6 +24,7 @@ describe Enterprise::Billing::HandleStripeEventService do
   def handle(overrides = {}, previous: {}, type: 'customer.subscription.updated')
     event = Stripe::Event.construct_from(
       type: type,
+      created: Time.current.to_i,
       data: { object: cancelling_subscription.merge(overrides), previous_attributes: previous }
     )
     described_class.new.perform(event: event)
