@@ -12,6 +12,8 @@ module AccountSettingsSchema
         'auto_resolve_message': { 'type': %w[string null] },
         'auto_resolve_ignore_waiting': { 'type': %w[boolean null] },
         'audio_transcriptions': { 'type': %w[boolean null] },
+        'auto_translate': { 'type': %w[boolean null] },
+        'translation_provider': { 'type': %w[string null], 'enum': ['captain', 'google_translate', nil] },
         'auto_resolve_label': { 'type': %w[string null] },
         'enforce_mfa': { 'type': %w[boolean null] },
         'keep_pending_on_bot_failure': { 'type': %w[boolean null] },

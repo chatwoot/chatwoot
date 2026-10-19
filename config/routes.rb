@@ -191,6 +191,7 @@ Rails.application.routes.draw do
             scope module: :conversations do
               resources :campaign_history, only: [:index] if ChatwootApp.enterprise?
               resources :messages, only: [:index, :create, :destroy, :update] do
+                post :auto_translate, on: :collection if ChatwootApp.enterprise?
                 member do
                   post :translate
                   post :retry
@@ -721,6 +722,7 @@ Rails.application.routes.draw do
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
   post 'webhooks/shopify/accounts/:account_id', to: 'webhooks/shopify#events'
+  post 'webhooks/stripe_app', to: 'webhooks/stripe_app#events'
   post 'webhooks/shopify', to: 'webhooks/shopify#events'
 
   namespace :twitter do

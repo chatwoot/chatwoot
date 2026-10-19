@@ -106,7 +106,7 @@ class SearchService
   end
 
   def message_base_query
-    query = current_account.messages.where('created_at >= ?', 3.months.ago)
+    query = current_account.messages.where('created_at >= ?', search_window_start)
     query = query.where(inbox_id: accessable_inbox_ids) unless should_skip_inbox_filtering?
     query
   end
@@ -190,12 +190,15 @@ class SearchService
     query
   end
 
+  def search_window_start
+    Limits.search_time_range_limit_days.days.ago
+  end
+
   def cap_since_time(since_param)
-    max_lookback = 90.days.ago
     requested_time = Time.zone.at(since_param.to_i)
 
-    # Silently cap to max_lookback if requested time is too far back
-    [requested_time, max_lookback].max
+    # Silently cap to the search window start if requested time is too far back
+    [requested_time, search_window_start].max
   end
 
   def cap_until_time(until_param)

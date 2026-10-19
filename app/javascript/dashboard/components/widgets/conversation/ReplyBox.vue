@@ -53,6 +53,8 @@ import ConversationResolveAttributesModal from 'dashboard/components-next/Conver
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { isFileTypeAllowedForChannel } from 'shared/helpers/FileHelper';
 import { isAIAssigneeType } from 'dashboard/helper/agentHelper';
+import { getLastMessage } from 'dashboard/helper/conversationHelper';
+import { CONTENT_TYPES } from 'dashboard/components-next/message/constants';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -249,6 +251,13 @@ export default {
         this.isWithinMessagingWindow &&
         !this.isAIOwnedPendingConversation &&
         !this.isInstagramReplyRestricted
+      );
+    },
+    isVoiceCallConversation() {
+      if (!this.currentChat.messages) return false;
+      return (
+        getLastMessage(this.currentChat)?.content_type ===
+        CONTENT_TYPES.VOICE_CALL
       );
     },
     isInstagramReplyRestricted() {
@@ -541,6 +550,11 @@ export default {
         this.subject = '';
         // Reset Copilot editor state (includes cancelling ongoing generation)
         this.copilot.reset();
+        // Default to a note on calls so a reply is not sent as SMS by accident.
+        // Only on open, so an agent who switches to reply keeps it.
+        if (this.isVoiceCallConversation) {
+          this.replyType = REPLY_EDITOR_MODES.NOTE;
+        }
       }
 
       if (this.isInstagramReplyRestricted) {
@@ -596,7 +610,7 @@ export default {
   },
 
   mounted() {
-    if (this.isInstagramReplyRestricted) {
+    if (this.isInstagramReplyRestricted || this.isVoiceCallConversation) {
       this.replyType = REPLY_EDITOR_MODES.NOTE;
     }
 

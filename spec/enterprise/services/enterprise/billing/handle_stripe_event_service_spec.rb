@@ -70,6 +70,7 @@ describe Enterprise::Billing::HandleStripeEventService do
     it 'resets captain usage on billing period renewal' do
       # Prime the account with some usage
       5.times { account.increment_response_usage }
+      account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage_alerted' => true))
       expect(account.custom_attributes['captain_responses_usage']).to eq(5)
 
       # Setup for any plan
@@ -83,7 +84,10 @@ describe Enterprise::Billing::HandleStripeEventService do
       stripe_event_service.new.perform(event: event)
 
       # Verify usage was reset
-      expect(account.reload.custom_attributes['captain_responses_usage']).to eq(0)
+      expect(account.reload.custom_attributes).to include(
+        'captain_responses_usage' => 0,
+        'captain_responses_usage_alerted' => false
+      )
     end
   end
 
