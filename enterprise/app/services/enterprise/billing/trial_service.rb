@@ -70,6 +70,8 @@ class Enterprise::Billing::TrialService
 
   # Stripe sends trial_will_end three days before a trial ends. A cancelled plan won't start, so it gets the no-plan copy.
   def notify_ending(trialing_subscription)
+    return unless claim_ending_notice(trialing_subscription['trial_end'])
+
     plan_name = account.custom_attributes['plan_name']
     cancelled = trialing_subscription['cancel_at'].present? || trialing_subscription['cancel_at_period_end']
     meta = {
@@ -88,8 +90,20 @@ class Enterprise::Billing::TrialService
     Enterprise::Billing::PlanConfiguration.default_plan
   end
 
+  # The stored state lags the portal by a webhook, so the live subscription must still be the free plan's trial too.
   def ensure_trial_without_card!
-    raise Error, I18n.t('errors.billing.trial.not_eligible') unless account.cloud_trial_state == 'no_card'
+    live_free_trial = account.cloud_trial_state == 'no_card' && subscription['status'] == 'trialing' &&
+                      Enterprise::Billing::PlanConfiguration.plan_contains_product_id?(default_plan, subscription['plan']['product'])
+    raise Error, I18n.t('errors.billing.trial.not_eligible') unless live_free_trial
+  end
+
+  # Stripe can deliver an event more than once, so one reminder is sent per trial end date.
+  def claim_ending_notice(trial_end)
+    account.with_lock do
+      next false if account.custom_attributes['trial_ending_notified_for'] == trial_end
+
+      account.update!(custom_attributes: account.custom_attributes.merge('trial_ending_notified_for' => trial_end))
+    end
   end
 
   def subscription
