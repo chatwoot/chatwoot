@@ -53,23 +53,8 @@ module Enterprise::SearchService
     where_conditions[:created_at] = time_conditions if time_conditions.any?
   end
 
-  def cap_until_time(until_param)
-    max_future = 90.days.from_now
-    requested_time = Time.zone.at(until_param.to_i)
-
-    [requested_time, max_future].min
-  end
-
   def enforce_time_limit(since_param)
-    max_lookback = Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS.days.ago
-
-    if since_param.present?
-      requested_time = Time.zone.at(since_param.to_i)
-      # Silently cap to max_lookback if requested time is too far back
-      [requested_time, max_lookback].max
-    else
-      max_lookback
-    end
+    since_param.present? ? cap_since_time(since_param) : search_window_start
   end
 
   def apply_inbox_filter(where_conditions)

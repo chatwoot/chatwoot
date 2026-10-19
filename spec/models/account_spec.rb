@@ -183,7 +183,9 @@ RSpec.describe Account do
         feature_conversation_monitors: 1 << 8,
         feature_campaign_analytics: 1 << 9,
         feature_company_enrichment: 1 << 10,
-        feature_stripe_integration: 1 << 11
+        feature_stripe_integration: 1 << 11,
+        feature_mobile_voice_push: 1 << 12,
+        feature_auto_translate: 1 << 13
       )
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)
@@ -325,6 +327,15 @@ RSpec.describe Account do
       it 'allows null values' do
         account.settings = { auto_resolve_after: nil }
         expect(account).to be_valid
+      end
+
+      it 'keeps a saved value valid after the minimum is raised' do
+        with_modified_env AUTO_RESOLVE_MIN_MINUTES: '5' do
+          account.update!(auto_resolve_after: 5)
+        end
+
+        expect(account.reload.update(name: 'Renamed')).to be(true)
+        expect(account.update(auto_resolve_after: 6)).to be(false)
       end
     end
 
