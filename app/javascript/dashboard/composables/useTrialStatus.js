@@ -1,10 +1,16 @@
 import { computed } from 'vue';
 import { differenceInCalendarDays } from 'date-fns';
+import { useNow } from '@vueuse/core';
 import { useAccount } from './useAccount';
-import { TRIAL_ENDING_SOON_DAYS } from 'dashboard/constants/billing';
+import {
+  TRIAL_ENDING_SOON_DAYS,
+  TRIAL_CLOCK_INTERVAL_MS,
+} from 'dashboard/constants/billing';
 
 export function useTrialStatus() {
   const { currentAccount } = useAccount();
+  // A ticking clock, so the countdown advances while the dashboard stays open.
+  const now = useNow({ interval: TRIAL_CLOCK_INTERVAL_MS });
 
   const customAttributes = computed(
     () => currentAccount.value?.custom_attributes || {}
@@ -32,7 +38,7 @@ export function useTrialStatus() {
     if (!trialEndsAt.value || !startedAt) return 0;
     const start = new Date(startedAt).getTime();
     const total = trialEndsAt.value.getTime() - start;
-    const used = Date.now() - start;
+    const used = now.value.getTime() - start;
     return Math.min(Math.max((used / total) * 100, 0), 100);
   });
 
@@ -44,7 +50,7 @@ export function useTrialStatus() {
 
   const trialDaysLeft = computed(() => {
     if (!trialEndsAt.value) return 0;
-    return Math.max(differenceInCalendarDays(trialEndsAt.value, new Date()), 0);
+    return Math.max(differenceInCalendarDays(trialEndsAt.value, now.value), 0);
   });
 
   const isTrialEndingSoon = computed(

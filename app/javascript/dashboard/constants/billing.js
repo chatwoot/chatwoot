@@ -37,5 +37,8 @@ export const formatCurrencyAmount = (amount, code, options = {}) => {
 // Free trial: the sidebar trial card turns urgent this many days before the trial ends.
 export const TRIAL_ENDING_SOON_DAYS = 3;
 
+// Free trial: how often the trial countdown re-reads the clock.
+export const TRIAL_CLOCK_INTERVAL_MS = 60 * 1000;
+
 // Free trial: seats a trial without a card can have; matches TrialService::MAX_SEATS.
 export const TRIAL_MAX_SEATS = 25;

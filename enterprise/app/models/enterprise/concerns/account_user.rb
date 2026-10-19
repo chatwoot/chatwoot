@@ -15,10 +15,18 @@ module Enterprise::Concerns::AccountUser
   # or an agent is promoted.
   def start_cloud_trial
     return unless Enterprise::Billing::TrialService.enabled? && account.billing_provider == Account::DEFAULT_BILLING_PROVIDER
-    return if account.custom_attributes.values_at('stripe_customer_id', 'is_creating_customer').any?(&:present?)
-    return if account.account_users.administrator.where.not(id: id).exists?
+    return unless claim_cloud_trial
 
-    account.update!(custom_attributes: account.custom_attributes.merge('is_creating_customer' => true))
     Enterprise::CreateStripeCustomerJob.perform_later(account, trial_end: Enterprise::Billing::TrialService::TRIAL_DAYS.days.from_now.to_i)
+  end
+
+  # The row lock makes the check and the is_creating_customer claim atomic, so concurrent callbacks queue one job.
+  def claim_cloud_trial
+    account.with_lock do
+      next false if account.custom_attributes.values_at('stripe_customer_id', 'is_creating_customer').any?(&:present?)
+      next false if account.account_users.administrator.where.not(id: id).exists?
+
+      account.update!(custom_attributes: account.custom_attributes.merge('is_creating_customer' => true))
+    end
   end
 end
