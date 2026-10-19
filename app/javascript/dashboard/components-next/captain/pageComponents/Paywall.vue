@@ -28,7 +28,8 @@ const { te } = useI18n();
 // During a trial without a card, the locked features unlock once a card is added, not by upgrading.
 const i18nKey = computed(() => {
   if (!isOnChatwootCloud.value) return 'ENTERPRISE_PAYWALL';
-  const hasTrialCopy = te(`${props.featurePrefix}.TRIAL_PAYWALL.AVAILABLE_ON`);
+  const trialKey = `${props.featurePrefix}.TRIAL_PAYWALL.AVAILABLE_ON`;
+  const hasTrialCopy = te(trialKey) || te(trialKey, 'en');
   return isTrialWithoutCard.value && hasTrialCopy ? 'TRIAL_PAYWALL' : 'PAYWALL';
 });
 const openBilling = () => {

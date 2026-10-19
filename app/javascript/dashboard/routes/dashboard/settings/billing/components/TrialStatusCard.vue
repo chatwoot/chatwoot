@@ -190,12 +190,15 @@ const description = computed(() => {
         }}
       </ButtonV4>
     </div>
-    <div class="h-1.5 rounded-full bg-n-slate-4 overflow-hidden">
-      <div
-        class="h-full rounded-full"
-        :class="isTrialEndingSoon ? 'bg-n-amber-9' : 'bg-n-brand'"
-        :style="{ width: `${trialProgress}%` }"
-      />
-    </div>
+    <progress
+      :value="trialProgress"
+      max="100"
+      class="block w-full h-1.5 overflow-hidden rounded-full appearance-none bg-n-slate-4 [&::-webkit-progress-bar]:bg-n-slate-4"
+      :class="
+        isTrialEndingSoon
+          ? '[&::-webkit-progress-value]:bg-n-amber-9 [&::-moz-progress-bar]:bg-n-amber-9'
+          : '[&::-webkit-progress-value]:bg-n-brand [&::-moz-progress-bar]:bg-n-brand'
+      "
+    />
   </div>
 </template>

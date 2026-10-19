@@ -31,10 +31,9 @@ class Enterprise::Billing::TrialService
 
   def update_seats(quantity)
     ensure_trial_without_card!
-    raise Error, I18n.t('errors.billing.trial.invalid_seats', max: MAX_SEATS) unless quantity.to_i.between?(1, MAX_SEATS)
 
     updated = Stripe::Subscription.update(
-      subscription.id, items: [{ id: subscription.items.data.first.id, quantity: quantity.to_i }], proration_behavior: 'none'
+      subscription.id, items: [{ id: subscription.items.data.first.id, quantity: quantity }], proration_behavior: 'none'
     )
     account.update!(custom_attributes: account.custom_attributes.merge('subscribed_quantity' => updated['quantity']))
   end

@@ -5,13 +5,14 @@ module Enterprise::Concerns::AccountUser
     belongs_to :custom_role, optional: true
     belongs_to :agent_capacity_policy, optional: true
 
-    after_create_commit :start_cloud_trial, if: :administrator?
+    after_commit :start_cloud_trial, on: [:create, :update], if: -> { administrator? && saved_change_to_role? }
   end
 
   private
 
   # A Stripe-billed cloud account starts its trial when it gets its first administrator, the person it bills. At signup
-  # that is the moment the account is created; for Super Admin and Platform API accounts it is when an admin is added.
+  # that is the moment the account is created; for Super Admin and Platform API accounts it is when an admin is added
+  # or an agent is promoted.
   def start_cloud_trial
     return unless Enterprise::Billing::TrialService.enabled? && account.billing_provider == Account::DEFAULT_BILLING_PROVIDER
     return if account.custom_attributes.values_at('stripe_customer_id', 'is_creating_customer').any?(&:present?)

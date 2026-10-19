@@ -8,7 +8,12 @@ class Api::V1::Accounts::BillingTrialsController < Api::V1::Accounts::BaseContro
   end
 
   def update
-    trial_service.update_seats(params.require(:quantity))
+    quantity = params.require(:quantity)
+    unless quantity.is_a?(Integer) && quantity.between?(1, Enterprise::Billing::TrialService::MAX_SEATS)
+      return render_could_not_create_error(I18n.t('errors.billing.trial.invalid_seats', max: Enterprise::Billing::TrialService::MAX_SEATS))
+    end
+
+    trial_service.update_seats(quantity)
     head :ok
   end
 
