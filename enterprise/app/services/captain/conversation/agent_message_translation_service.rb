@@ -36,7 +36,7 @@ class Captain::Conversation::AgentMessageTranslationService
     message.source_language = conversation.language
     message.translation_provider = translator.provider
     message.content = with_quoted_history(translated)
-    message.content_attributes['email'] = email_content(message.content) if inbox.email?
+    message.content_attributes['email'] = email_content(message.content) if inbox.email? && message.email
   end
 
   def translate
@@ -81,10 +81,11 @@ class Captain::Conversation::AgentMessageTranslationService
 
   # Kept as html like the sent mail, so the quoted thread stays collapsed in the dashboard.
   def original_text
-    inbox.email? ? String.new(render_email_html(normalize_email_body(message.content))) : message.content
+    inbox.email? && message.email ? String.new(render_email_html(normalize_email_body(message.content))) : message.content
   end
 
   # The mailer sends the stored html, so it is rendered again from the translated text.
+  # Templates skip the builder and have none; the mailer renders their content instead.
   # The renderer returns a SafeBuffer, which Sidekiq rejects in the message updated broadcast, so it is stored as a String.
   def email_content(content)
     text = normalize_email_body(content)

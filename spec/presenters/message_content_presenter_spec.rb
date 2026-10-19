@@ -52,6 +52,15 @@ RSpec.describe MessageContentPresenter do
           expect(presenter.outgoing_content).to eq(expected_content)
         end
       end
+
+      it 'returns the translated content when auto translate rewrote the survey for the contact' do
+        with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
+          allow(message.inbox).to receive(:csat_config).and_return({ 'message' => 'Custom CSAT message' })
+          message.update!(content: 'Évaluez votre expérience', source_language: 'fr')
+          expected_url = "https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
+          expect(presenter.outgoing_content).to eq("<p>Évaluez votre expérience #{expected_url}</p>\n")
+        end
+      end
     end
   end
 
