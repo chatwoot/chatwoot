@@ -1,6 +1,15 @@
 {
   "MONITORS": {
     "TITLE": "Monitors",
+    "AUTOMATIONS": {
+      "TITLE": "Automations",
+      "DESCRIPTION": "Run actions when this monitor first matches a conversation from new live activity.",
+      "CREATE": "Create automation",
+      "EMPTY": "No automations are linked to this monitor yet.",
+      "ACTIVE": "Active",
+      "DISABLED": "Disabled",
+      "FETCH_FAILED": "Could not load linked automations."
+    },
     "LIST": {
       "CONVERSATIONS_COUNT": "{count} conversation | {count} conversations",
       "CONVERSATIONS_HELP": "Count of conversations matching this monitor in the last 7 days.",

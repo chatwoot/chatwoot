@@ -1,21 +1,42 @@
-import { nextTick, reactive } from 'vue';
-import { shallowMount } from '@vue/test-utils';
+import { nextTick, reactive, ref } from 'vue';
+import { flushPromises, shallowMount } from '@vue/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import AutomationRuleForm from './AutomationRuleForm.vue';
 import AutomationInstantTrigger from './components/AutomationInstantTrigger.vue';
+import AutomationMonitorSelect from './components/AutomationMonitorSelect.vue';
 import AutomationRunTypeSelector from './components/AutomationRunTypeSelector.vue';
 import AutomationWaitCondition from './components/AutomationWaitCondition.vue';
+import MonitorsAPI from 'dashboard/api/monitors';
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
 }));
 
-const { isCloudFeatureEnabled } = vi.hoisted(() => ({
-  isCloudFeatureEnabled: vi.fn(() => true),
+const featureState = vi.hoisted(() => ({
+  enabled: new Set([
+    'reports',
+    'conversation_monitors',
+    'automations',
+    'delayed_automations',
+    'captain_classifier',
+  ]),
+  cloud: { value: true },
 }));
 
 vi.mock('dashboard/composables/useAccount', () => ({
-  useAccount: () => ({ isCloudFeatureEnabled }),
+  useAccount: () => ({
+    accountId: ref(1),
+    isCloudFeatureEnabled: feature => featureState.enabled.has(feature),
+    isOnChatwootCloud: featureState.cloud,
+  }),
+}));
+
+vi.mock('dashboard/composables/useConfig', () => ({
+  useConfig: () => ({ isEnterprise: false }),
+}));
+
+vi.mock('dashboard/api/monitors', () => ({
+  default: { get: vi.fn() },
 }));
 
 vi.mock('dashboard/components-next/filter/operators', () => ({
@@ -55,8 +76,8 @@ const captainAutomationTypes = {
 };
 
 const triggerStub = {
-  props: ['filterTypes'],
-  template: '<div />',
+  props: ['events', 'filterTypes'],
+  template: '<div><slot /></div>',
   methods: {
     resetValidation: vi.fn(),
     validate: vi.fn(() => true),
@@ -159,6 +180,17 @@ const selectRunType = async (wrapper, isDelayed) => {
 describe('AutomationRuleForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    featureState.enabled = new Set([
+      'reports',
+      'conversation_monitors',
+      'automations',
+      'delayed_automations',
+      'captain_classifier',
+    ]);
+    featureState.cloud.value = true;
+    MonitorsAPI.get.mockResolvedValue({
+      data: { payload: [{ id: 7, name: 'Refunds' }], meta: { total_count: 1 } },
+    });
   });
 
   it('opens a rule whose conditions hold reactive dropdown options', async () => {
@@ -193,7 +225,7 @@ describe('AutomationRuleForm', () => {
   });
 
   it('hides the Captain condition without the classifier feature', () => {
-    isCloudFeatureEnabled.mockReturnValue(false);
+    featureState.enabled.delete('captain_classifier');
     const wrapper = mountComponent({
       mode: 'create',
       automation: buildAutomation(),
@@ -208,7 +240,7 @@ describe('AutomationRuleForm', () => {
   });
 
   it('keeps a saved Captain condition renderable but not selectable without the classifier feature', () => {
-    isCloudFeatureEnabled.mockReturnValue(false);
+    featureState.enabled.delete('captain_classifier');
     const automation = buildAutomation();
     automation.conditions = [
       {
@@ -273,5 +305,62 @@ describe('AutomationRuleForm', () => {
     expect(
       wrapper.findComponent(AutomationWaitCondition).props('isSavedWait')
     ).toBe(true);
+  });
+
+  it('accepts a monitor match without extra conditions and loads live monitors', async () => {
+    const automation = {
+      ...buildAutomation(),
+      event_name: 'monitor_matched',
+      monitor_id: 7,
+      conditions: [],
+      actions: [{ action_name: 'resolve_conversation', action_params: [] }],
+    };
+    const wrapper = mountComponent({ mode: 'create', automation });
+    wrapper.vm.open();
+    await flushPromises();
+
+    expect(MonitorsAPI.get).toHaveBeenCalledWith(
+      { active: 'true', page: 1 },
+      expect.any(AbortSignal)
+    );
+    expect(
+      wrapper.findComponent(AutomationMonitorSelect).props('options')
+    ).toEqual([{ id: 7, name: 'Refunds' }]);
+  });
+
+  it('hides the monitor event when reports is disabled and skips monitor loading', async () => {
+    featureState.enabled.delete('reports');
+    const wrapper = mountComponent({
+      mode: 'create',
+      automation: buildAutomation(),
+    });
+    wrapper.vm.open();
+    await flushPromises();
+
+    expect(
+      wrapper
+        .findComponent(AutomationInstantTrigger)
+        .props('events')
+        .some(event => event.key === 'monitor_matched')
+    ).toBe(false);
+    expect(MonitorsAPI.get).not.toHaveBeenCalled();
+  });
+
+  it('hides the monitor event on a community installation', async () => {
+    featureState.cloud.value = false;
+    const wrapper = mountComponent({
+      mode: 'create',
+      automation: buildAutomation(),
+    });
+    wrapper.vm.open();
+    await flushPromises();
+
+    expect(
+      wrapper
+        .findComponent(AutomationInstantTrigger)
+        .props('events')
+        .some(event => event.key === 'monitor_matched')
+    ).toBe(false);
+    expect(MonitorsAPI.get).not.toHaveBeenCalled();
   });
 });

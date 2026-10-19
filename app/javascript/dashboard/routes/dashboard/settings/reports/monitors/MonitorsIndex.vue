@@ -4,6 +4,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import MonitorsAPI from 'dashboard/api/monitors';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -24,8 +25,17 @@ const PAGE_SIZE = 20;
 const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
-const { accountId, accountScopedRoute } = useAccount();
+const { accountId, currentAccount, accountScopedRoute, isCloudFeatureEnabled } =
+  useAccount();
 const { isAdmin } = useAdmin();
+const canCreateAutomation = computed(
+  () =>
+    isAdmin.value &&
+    currentAccount.value &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.REPORTS) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.CONVERSATION_MONITORS) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.AUTOMATIONS)
+);
 const { run, isPending } = useAbortableRequest();
 const monitors = ref([]);
 
@@ -224,6 +234,7 @@ watch(
             :key="monitor.id"
             :monitor="monitor"
             :show-actions="isAdmin"
+            :can-create-automation="canCreateAutomation"
             @action="action => actionDialog.open(action, monitor)"
           />
         </div>

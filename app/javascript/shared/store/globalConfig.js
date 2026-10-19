@@ -7,6 +7,7 @@ const {
   APP_VERSION: appVersion,
   AZURE_APP_ID: azureAppId,
   BRAND_NAME: brandName,
+  CAPTAIN_TOOLS_CATALOG_URL: captainToolsCatalogURL,
   CAPTAIN_TOOLS_MANIFEST_ENABLED: captainToolsManifestEnabled,
   CHATWOOT_INBOX_TOKEN: chatwootInboxToken,
   CREATE_NEW_ACCOUNT_FROM_DASHBOARD: createNewAccountFromDashboard,
@@ -21,6 +22,7 @@ const {
   LOGO_DARK: logoDark,
   PRIVACY_URL: privacyURL,
   IS_ENTERPRISE: isEnterprise,
+  IS_COMPANY_ENRICHMENT_ENABLED: isCompanyEnrichmentEnabled,
   TERMS_URL: termsURL,
   WIDGET_BRAND_URL: widgetBrandURL,
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
@@ -28,6 +30,7 @@ const {
   DISABLE_META_MESSAGE_SENDING: disableMetaMessageSending,
   DEPLOYMENT_ENV: deploymentEnv,
   ACTIVE_PLATFORM_BANNERS: activePlatformBanners,
+  ACTIVE_FEATURE_ANNOUNCEMENTS: activeFeatureAnnouncements,
 } = window.globalConfig || {};
 
 const state = {
@@ -36,6 +39,7 @@ const state = {
   appVersion,
   azureAppId,
   brandName,
+  captainToolsCatalogURL,
   captainToolsManifestEnabled: parseBoolean(captainToolsManifestEnabled),
   chatwootInboxToken,
   deploymentEnv,
@@ -56,7 +60,9 @@ const state = {
   termsURL,
   widgetBrandURL,
   isEnterprise: parseBoolean(isEnterprise),
+  isCompanyEnrichmentEnabled: parseBoolean(isCompanyEnrichmentEnabled),
   activePlatformBanners: activePlatformBanners || [],
+  activeFeatureAnnouncements: activeFeatureAnnouncements || [],
 };
 
 export const getters = {

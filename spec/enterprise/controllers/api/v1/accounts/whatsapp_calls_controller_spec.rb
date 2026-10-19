@@ -34,6 +34,16 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       expect(body['provider']).to eq('whatsapp')
     end
 
+    it 'identifies the accepted answer by its digest, not its content' do
+      call.update!(meta: { 'sdp_answer' => 'v=0 answer' })
+
+      get "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}", headers: agent.create_new_auth_token
+
+      body = response.parsed_body
+      expect(body['answer_digest']).to eq(Digest::SHA256.hexdigest('v=0 answer'))
+      expect(response.body).not_to include('v=0 answer')
+    end
+
     it 'returns 401 when unauthenticated' do
       get "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}"
       expect(response).to have_http_status(:unauthorized)

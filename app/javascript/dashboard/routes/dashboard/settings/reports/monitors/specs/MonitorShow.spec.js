@@ -3,6 +3,7 @@ import { computed, reactive, ref } from 'vue';
 import { createI18n } from 'vue-i18n';
 import MonitorShow from '../MonitorShow.vue';
 import MonitorsAPI from 'dashboard/api/monitors';
+import AutomationAPI from 'dashboard/api/automation';
 import report from 'dashboard/i18n/locale/en/report.json';
 
 const state = vi.hoisted(() => ({
@@ -23,6 +24,7 @@ vi.mock('dashboard/composables/useAccount', () => ({
     accountId: computed(() => Number(state.route.params.accountId)),
     currentAccount: computed(() => state.account),
     accountScopedRoute: name => ({ name }),
+    isCloudFeatureEnabled: () => true,
   }),
 }));
 vi.mock('dashboard/composables/useAdmin', () => ({
@@ -52,6 +54,9 @@ vi.mock('dashboard/api/monitors', () => ({
     resume: vi.fn(),
     retry: vi.fn(),
   },
+}));
+vi.mock('dashboard/api/automation', () => ({
+  default: { linkedToMonitor: vi.fn() },
 }));
 
 const responseFor = (params, count = 2) => ({
@@ -96,6 +101,8 @@ describe('MonitorShow', () => {
     state.router = { push: vi.fn(), replace: vi.fn() };
     state.i18n = { t: key => key, te: () => true, locale: ref('en') };
     MonitorsAPI.timeseries.mockReset();
+    AutomationAPI.linkedToMonitor.mockReset();
+    AutomationAPI.linkedToMonitor.mockResolvedValue({ data: { payload: [] } });
     MonitorsAPI.update.mockReset();
     MonitorsAPI.resume.mockReset();
     MonitorsAPI.retry.mockReset();
@@ -257,6 +264,21 @@ describe('MonitorShow', () => {
       interval: 'hour',
       timezone: 'UTC',
     });
+  });
+
+  it('shows linked automations under the monitor report', async () => {
+    AutomationAPI.linkedToMonitor.mockResolvedValue({
+      data: { payload: [{ id: 25, name: 'Route refunds', active: true }] },
+    });
+    wrapper = shallowMount(MonitorShow, mountOptions);
+    await flushPromises();
+
+    expect(AutomationAPI.linkedToMonitor).toHaveBeenCalledWith(
+      '10',
+      expect.any(AbortSignal)
+    );
+    expect(wrapper.text()).toContain('Route refunds');
+    expect(wrapper.text()).toContain('MONITORS.AUTOMATIONS.TITLE');
   });
 
   it('clears the deleted monitor and leaves its detail route on a tombstone event', async () => {

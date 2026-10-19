@@ -117,6 +117,18 @@ RSpec.describe 'Api::V1::Accounts::Captain::ToolsManifests', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/captain/tools_manifest/installed' do
+    it 'lists the toolsets installed on the assistant with their version' do
+      Captain::ToolsManifest::InstallService.new(assistant: assistant, source: source, configuration: configuration.deep_stringify_keys).perform
+      create(:captain_custom_tool, account: account, assistant: assistant)
+
+      get "#{base_url}/installed", params: { assistant_id: assistant.id }, headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(json_response).to eq([{ repository: 'chatwoot/tools', path: 'shopify', version: '1.2.0' }])
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/captain/tools_manifest/install' do
     it 'rejects agents' do
       post "#{base_url}/install", params: { assistant_id: assistant.id, source: source, configuration: configuration },

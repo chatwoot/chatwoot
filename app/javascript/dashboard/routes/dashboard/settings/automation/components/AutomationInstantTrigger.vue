@@ -83,6 +83,7 @@ defineExpose({ validate, resetValidation });
         {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
       </p>
     </div>
+    <slot />
     <section>
       <label>
         {{ $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL') }}
