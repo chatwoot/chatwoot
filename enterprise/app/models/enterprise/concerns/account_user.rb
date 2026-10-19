@@ -17,7 +17,14 @@ module Enterprise::Concerns::AccountUser
     return unless Enterprise::Billing::TrialService.enabled? && account.billing_provider == Account::DEFAULT_BILLING_PROVIDER
     return unless claim_cloud_trial
 
-    Enterprise::CreateStripeCustomerJob.perform_later(account)
+    begin
+      Enterprise::CreateStripeCustomerJob.perform_later(account)
+    rescue StandardError
+      # Only the job clears is_creating_customer, so release it here; trial_pending stays, so the billing page's setup
+      # retry still creates the trial.
+      account.update!(custom_attributes: account.reload.custom_attributes.except('is_creating_customer'))
+      raise
+    end
   end
 
   # The row lock makes the check and the is_creating_customer claim atomic, so concurrent callbacks queue one job.

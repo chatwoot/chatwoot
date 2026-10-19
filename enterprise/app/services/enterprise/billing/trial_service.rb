@@ -53,7 +53,7 @@ class Enterprise::Billing::TrialService
       account.update!(custom_attributes: account.custom_attributes.except('stripe_customer_id').merge('billing_currency' => currency))
       Enterprise::Billing::CreateStripeCustomerService.new(account: account, trial_end: trial.trial_end, quantity: trial.quantity).perform
     end
-    Stripe::Customer.delete(old_customer_id)
+    delete_customer(old_customer_id)
   end
 
   # Seats added during a trial without a card go back to the free plan's seats once it ends.
@@ -69,22 +69,38 @@ class Enterprise::Billing::TrialService
   end
 
   # Stripe sends trial_will_end three days before a trial ends. A cancelled plan won't start, so it gets the no-plan copy.
+  # Stripe can deliver an event more than once, so one reminder is sent per trial end date. The marker is saved under the
+  # account lock only once the email is queued, so a failed enqueue leaves the retried webhook free to send it.
   def notify_ending(trialing_subscription)
-    return unless claim_ending_notice(trialing_subscription['trial_end'])
+    trial_end = trialing_subscription['trial_end']
+    account.with_lock do
+      next if account.custom_attributes['trial_ending_notified_for'] == trial_end
 
+      AdministratorNotifications::AccountNotificationMailer.with(account: account).trial_ending(ending_meta(trialing_subscription)).deliver_later
+      account.update!(custom_attributes: account.custom_attributes.merge('trial_ending_notified_for' => trial_end))
+    end
+  end
+
+  private
+
+  def ending_meta(trialing_subscription)
     plan_name = account.custom_attributes['plan_name']
     cancelled = trialing_subscription['cancel_at'].present? || trialing_subscription['cancel_at_period_end']
-    meta = {
+    {
       'account_name' => account.name,
       'trial_ends_on' => Time.zone.at(trialing_subscription['trial_end']).strftime('%B %d, %Y'),
       'has_plan' => plan_name != default_plan['name'] && !cancelled,
       'plan_name' => plan_name,
       'free_plan_name' => default_plan['name']
     }
-    AdministratorNotifications::AccountNotificationMailer.with(account: account).trial_ending(meta).deliver_later
   end
 
-  private
+  # The switch is already saved; the old customer only holds a free trial with no card, so a failed delete is logged.
+  def delete_customer(customer_id)
+    Stripe::Customer.delete(customer_id)
+  rescue Stripe::StripeError => e
+    Rails.logger.error("Failed to delete Stripe customer #{customer_id} for account=#{account.id}: #{e.message}")
+  end
 
   def default_plan
     Enterprise::Billing::PlanConfiguration.default_plan
@@ -95,15 +111,6 @@ class Enterprise::Billing::TrialService
     live_free_trial = account.cloud_trial_state == 'no_card' && subscription['status'] == 'trialing' &&
                       Enterprise::Billing::PlanConfiguration.plan_contains_product_id?(default_plan, subscription['plan']['product'])
     raise Error, I18n.t('errors.billing.trial.not_eligible') unless live_free_trial
-  end
-
-  # Stripe can deliver an event more than once, so one reminder is sent per trial end date.
-  def claim_ending_notice(trial_end)
-    account.with_lock do
-      next false if account.custom_attributes['trial_ending_notified_for'] == trial_end
-
-      account.update!(custom_attributes: account.custom_attributes.merge('trial_ending_notified_for' => trial_end))
-    end
   end
 
   def subscription
