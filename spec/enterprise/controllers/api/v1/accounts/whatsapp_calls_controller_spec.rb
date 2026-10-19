@@ -198,7 +198,7 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
              params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
              headers: agent.create_new_auth_token
 
-        # Controller deliberately returns 422 so clients can't mistake the permission-template path for a successful dial.
+        # Controller deliberately returns 422 so clients can't mistake the permission-request path for a successful dial.
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['status']).to eq('permission_requested')
         attrs = initiate_conversation.reload.additional_attributes

@@ -182,14 +182,14 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     # accepts the send and fails it later, silently.
     return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_window_closed')) unless permission_window_open?
 
-    # Raised mid-dial, so a fresh contact has no thread yet — open one for the opt-in template to land in.
+    # Raised mid-dial, so a fresh contact has no thread yet — open one for the permission request to land in.
     @conversation = open_conversation!
     status = Whatsapp::CallPermissionRequestService.new(conversation: @conversation, recipient: call_recipient).perform
 
     return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_request_failed')) if status == 'failed'
 
     # 422 (not 200) so any client treating 2xx as "call placed" can't mistake
-    # the permission-template path for a successful dial. The FE composable
+    # the permission-request path for a successful dial. The FE composable
     # detects this status and surfaces the banner instead of throwing.
     render json: { status: status, conversation_id: @conversation.display_id }, status: :unprocessable_entity
   end
