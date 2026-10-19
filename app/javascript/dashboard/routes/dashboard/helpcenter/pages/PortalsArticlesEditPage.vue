@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useEventListener } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
@@ -30,6 +31,7 @@ const portal = computed(() => portalBySlug.value(portalSlug));
 
 const isUpdating = ref(false);
 const isSaved = ref(false);
+const hasNewerVersion = ref(false);
 
 const articleLink = computed(() => {
   const { slug: categorySlug, locale: categoryLocale } = article.value.category;
@@ -142,6 +144,25 @@ const fetchArticleDetails = () => {
   });
 };
 
+const shownTitle = () => article.value?.draftTitle ?? article.value?.title;
+const shownContent = () =>
+  article.value?.draftContent ?? article.value?.content;
+
+// The editor keeps its own copy, so a refetch alone won't show remote edits.
+// Skip while our own save settles, or its response would look like one.
+const checkForNewerVersion = async () => {
+  if (document.visibilityState !== 'visible') return;
+  if (!article.value?.id || isUpdating.value) return;
+  const title = shownTitle();
+  const content = shownContent();
+  await store.dispatch('articles/show', { id: articleSlug, portalSlug });
+  if (title !== shownTitle() || content !== shownContent()) {
+    hasNewerVersion.value = true;
+  }
+};
+
+useEventListener(document, 'visibilitychange', checkForNewerVersion);
+
 const previewArticle = () => {
   window.open(articleLink.value, '_blank');
   useTrack(PORTALS_EVENTS.PREVIEW_ARTICLE, {
@@ -154,6 +175,7 @@ onMounted(fetchArticleDetails);
 
 <template>
   <ArticleEditor
+    v-model:has-newer-version="hasNewerVersion"
     :article="article"
     :is-updating="isUpdating"
     :is-saved="isSaved"

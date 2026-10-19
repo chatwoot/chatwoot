@@ -37,6 +37,11 @@ const emit = defineEmits([
   'createArticle',
 ]);
 
+const hasNewerVersion = defineModel('hasNewerVersion', {
+  type: Boolean,
+  default: false,
+});
+
 const { t } = useI18n();
 
 const isNewArticle = computed(() => !props.article?.id);
@@ -102,6 +107,11 @@ const syncLocalState = () => {
   localTitle.value = effectiveTitle();
   localContent.value = effectiveContent();
   editorResets.value += 1;
+};
+
+const reloadArticle = () => {
+  syncLocalState();
+  hasNewerVersion.value = false;
 };
 
 const editorSessionId = computed(
@@ -205,9 +215,11 @@ const handleCreateArticle = event => {
         :pending-changes="hasPendingChanges"
         :is-saving="isSaving"
         :has-pending-uploads="hasPendingUploads"
+        :has-newer-version="hasNewerVersion"
         @go-back="onClickGoBack"
         @preview-article="previewArticle"
         @show-diff="diffPanelRef?.open()"
+        @reload-article="reloadArticle"
       />
       <ArticleDiffPanel ref="diffPanelRef" :article="article" />
     </template>

@@ -817,6 +817,10 @@
         "ARCHIVE": "Archive",
         "BACK_TO_ARTICLES": "Back to articles"
       },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version."
+      },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Unpublished changes",
         "DESCRIPTION": "This article has draft changes that aren't live yet. Apply them before changing the status, or discard them?",
