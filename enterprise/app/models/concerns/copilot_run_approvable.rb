@@ -1,9 +1,18 @@
-# An action run waits on an approval card and writes nothing until the agent approves it.
+# An action run holds one proposed change and the records it targets. It waits on an approval card and writes nothing until
+# the agent approves it.
 module Concerns::CopilotRunApprovable
   extend ActiveSupport::Concern
 
   # The approval card shows a fixed set of conversations. After this long that set may be stale, so the agent has to ask again.
   APPROVAL_TTL = 5.minutes
+
+  def action
+    Captain::Copilot::Actions.build(context.fetch('action'), account: account, user: user, arguments: context.fetch('arguments'))
+  end
+
+  def target_ids
+    context.fetch('target_ids', [])
+  end
 
   # Approving starts the action. Returns false when the action was already decided, or has expired, which also closes it.
   def approve
@@ -29,7 +38,7 @@ module Concerns::CopilotRunApprovable
     turn = copilot_tool_call.copilot_run
     turn.with_lock do
       copilot_tool_call.update!(status: :completed, result: summary)
-      turn.update!(status: :incomplete, lease_token: nil, lease_until: nil) if turn.awaiting_background_run?
+      turn.release!(:incomplete) if turn.awaiting_background_run?
     end
     true
   end
@@ -52,6 +61,21 @@ module Concerns::CopilotRunApprovable
   end
 
   private
+
+  def action_summary
+    counts = action_items.group(:status).count
+    { action: context['action'], arguments: context['arguments'], targets: target_ids.size, applied: counts['applied'].to_i,
+      skipped: counts['skipped'].to_i, failed: counts['failed'].to_i, not_processed: not_processed(counts),
+      decision_reason: context['decision_reason'] }.compact
+  end
+
+  # Targets an approved change never reached, such as when workflows were turned off partway through.
+  def not_processed(counts)
+    return unless completed? || incomplete?
+
+    missing = target_ids.size - counts.values_at('applied', 'skipped', 'failed').sum(&:to_i)
+    missing if missing.positive?
+  end
 
   # Closing hands the decision back to the waiting tool call, so the turn continues without the change.
   def close(new_status, reason)

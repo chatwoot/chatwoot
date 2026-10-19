@@ -43,6 +43,9 @@ class Captain::Copilot::Resources::BaseResource
     end.join(', ')
   end
 
+  # A fact about the selection the agent must hear, such as a date range normalize chose because none was given.
+  attr_reader :note
+
   def initialize(account:, user:)
     @account = account
     @user = user

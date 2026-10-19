@@ -15,9 +15,6 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
   PRELOAD = [:conversation].freeze
   GROUPS = %w[sender private].freeze
   EXCERPT_LENGTH = 160
-  # The roles of Captain::Copilot::ReviewService.sender_role, computed by the database for filters and counts.
-  SENDER_ROLE = Arel.sql("CASE WHEN messages.sender_type = 'Contact' THEN 'customer' WHEN messages.sender_type = 'User' THEN 'agent' " \
-                         "WHEN messages.sender_type IS NULL THEN 'system' ELSE 'bot' END")
 
   # Searching the text of every message an account has is slow when the text is common, so like the dashboard's message
   # search, contains covers the last 3 months unless dates are given. A selection from a saved set is already small and
@@ -26,18 +23,19 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
     filters = super(filters)
     return filters if source || filters['contains'].blank? || filters.key?('since') || filters.key?('before')
 
-    filters.merge('since' => TEXT_SEARCH_WINDOW.ago.iso8601)
+    since = TEXT_SEARCH_WINDOW.ago
+    @note = "Only messages sent since #{since.to_date.iso8601} were searched, because no dates were given. Earlier messages were not checked."
+    filters.merge('since' => since.iso8601)
   end
 
-  # Customer and agent messages in conversations the user can open. Activity and template messages, and emails an agent
-  # forwarded elsewhere, are left out.
+  # The messages Copilot reads, in conversations the user can open.
   def scope
-    @account.messages.where(conversation_id: accessible_conversations(account: @account, user: @user).select(:id),
-                            message_type: %w[incoming outgoing]).not_forwarded
+    conversations = accessible_conversations(account: @account, user: @user).select(:id)
+    Captain::Copilot::ReadableMessages.scope(@account.messages.where(conversation_id: conversations))
   end
 
   def filter(relation, filters)
-    relation = relation.where("#{SENDER_ROLE} = ?", filters['sender']) if filters['sender']
+    relation = relation.where("#{Captain::Copilot::ReadableMessages::ROLE_SQL} = ?", filters['sender']) if filters['sender']
     relation = relation.where(private: filters['private']) unless filters['private'].nil?
     return relation if filters['contains'].blank?
 
@@ -47,12 +45,13 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
   def counts_by(relation, group)
     return column_counts(relation, :private) if group == 'private'
 
-    relation.group(SENDER_ROLE).count
+    relation.group(Captain::Copilot::ReadableMessages::ROLE_SQL).count
   end
 
   def row(message)
     display_id = message.conversation.display_id
+    sender = Captain::Copilot::ReadableMessages.sender_role(message)
     { label: "##{display_id}", url: url("conversations/#{display_id}"),
-      values: [Captain::Copilot::ReviewService.sender_role(message), message.created_at.to_date, message.content.to_s.squish.first(EXCERPT_LENGTH)] }
+      values: [sender, message.created_at.to_date, message.content.to_s.squish.first(EXCERPT_LENGTH)] }
   end
 end

@@ -2,7 +2,9 @@ class Captain::Copilot::ReviewJob < ApplicationJob
   include Captain::Copilot::BackgroundRunJob
   include Captain::Copilot::ConversationAccess
 
-  queue_as :default
+  # A batch makes up to 50 model calls in a row, so it runs on low with Captain's other long jobs instead of holding the
+  # workers that handle incoming messages.
+  queue_as :low
 
   RUN_KIND = :review
   MAX_ATTEMPTS = 2
@@ -64,6 +66,6 @@ class Captain::Copilot::ReviewJob < ApplicationJob
   end
 
   def incomplete?(run)
-    run.findings.failed.exists? || run.context['selection_truncated']
+    run.findings.failed.exists? || run.selection_truncated?
   end
 end
