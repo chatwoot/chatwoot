@@ -275,6 +275,20 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       end
     end
 
+    it 'sends a permission request when the contact answered an outbound call within the last 24 hours' do
+      create(:call, conversation: initiate_conversation, provider: :whatsapp, direction: :outgoing, status: 'completed',
+                    started_at: 2.hours.ago)
+      allow(provider_service).to receive(:initiate_call).and_raise(Voice::CallErrors::NoCallPermission)
+      allow(provider_service).to receive(:send_call_permission_request).and_return({ 'messages' => [{ 'id' => 'wamid.req_call' }] })
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+           headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['status']).to eq('permission_requested')
+    end
+
     context 'when the contact has not messaged within the last 24 hours' do
       before { allow(provider_service).to receive(:initiate_call).and_raise(Voice::CallErrors::NoCallPermission) }
 
@@ -292,6 +306,18 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['error']).to eq(I18n.t('errors.whatsapp.calls.permission_window_closed'))
         expect(initiate_conversation.reload.additional_attributes).not_to have_key('call_permission_request_message_id')
+      end
+
+      it 'refuses the permission request when a recent outbound call went unanswered' do
+        create(:call, conversation: initiate_conversation, provider: :whatsapp, direction: :outgoing, status: 'no_answer')
+        expect(provider_service).not_to receive(:send_call_permission_request)
+
+        post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+             params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+             headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.whatsapp.calls.permission_window_closed'))
       end
 
       it 'refuses a contact-level request when only a BSUID thread has recent messages' do
