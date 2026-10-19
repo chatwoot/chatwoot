@@ -36,9 +36,6 @@ const unsupportedMessageKey = computed(() => {
       <p class="mt-2 mb-0">
         {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE_WHATSAPP') }}
       </p>
-      <p class="mt-2 mb-0">
-        {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE_WHATSAPP_VIEW_IN_APP') }}
-      </p>
       <I18nT
         keypath="CONVERSATION.UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS"
         tag="p"
