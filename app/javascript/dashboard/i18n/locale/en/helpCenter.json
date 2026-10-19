@@ -985,8 +985,8 @@
           "REMOVE": "Remove"
         },
         "DARK_MODE": {
-          "HEADER": "Dark mode",
-          "DESCRIPTION": "Logo shown to visitors who use dark mode. If empty, the logo from General is used."
+          "HEADER": "Dark mode logo",
+          "DESCRIPTION": "Shown when visitors view your help center in dark mode. If you leave it empty, your main logo is used."
         },
         "SAVE": "Save changes"
       },
