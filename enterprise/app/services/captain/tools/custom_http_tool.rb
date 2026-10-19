@@ -4,7 +4,7 @@
 # making it incompatible with V1's RubyLLM pipeline that calls execute(**keyword_args).
 #
 # This class bridges the gap: it inherits from BaseTool (RubyLLM::Tool) for V1 compatibility
-# and delegates the actual HTTP execution to HttpTool#perform.
+# and delegates the actual HTTP execution to CopilotHttpTool#perform, because an agent is the user.
 class Captain::Tools::CustomHttpTool < Captain::Tools::BaseTool
   # BaseTool prepends Instrumentation, but our execute() shadows it in the MRO.
   # Re-prepend so Langfuse captures tool call input/output/timing.
@@ -28,7 +28,7 @@ class Captain::Tools::CustomHttpTool < Captain::Tools::BaseTool
   end
 
   def execute(**params)
-    http_tool = Captain::Tools::HttpTool.new(assistant, @custom_tool)
+    http_tool = Captain::Tools::CopilotHttpTool.new(assistant, @custom_tool)
     http_tool.perform(build_tool_context, **params)
   end
 

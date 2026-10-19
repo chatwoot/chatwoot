@@ -4,12 +4,12 @@ class Captain::Tools::SendEmailVerificationCodeTool < Captain::Tools::BasePublic
   parameter :email, type: 'string', description: 'The email address the customer confirmed they want the code sent to'
 
   def perform(tool_context, email:)
-    contact_inbox = find_contact_inbox(tool_context.state)
-    return failure_result('Email verification is not available in this conversation', tool_context.state) unless contact_inbox
+    conversation = find_conversation(tool_context.state)
+    return failure_result('Email verification is not available in this conversation', tool_context.state) unless conversation
 
-    log_tool_usage('send_email_verification_code', { contact_inbox_id: contact_inbox.id })
+    log_tool_usage('send_email_verification_code', { conversation_id: conversation.id })
 
-    case Captain::EmailVerification.new(contact_inbox).send_code(email)
+    case Captain::EmailVerification.new(conversation).send_code(email)
     when :sent then sent_message(email)
     when :already_verified then 'This email address is already verified for this customer. No code was sent. Continue with their request.'
     when :unavailable then 'Email verification is not available right now. Do not try again. Ask whether the customer wants a support agent.'

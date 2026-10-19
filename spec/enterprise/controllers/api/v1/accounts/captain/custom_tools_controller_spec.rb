@@ -527,13 +527,15 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
       expect(installed_tool.reload).to have_attributes(title: 'Get Order', enabled: true)
     end
 
-    it 'rejects turning email verification off' do
-      installed_tool.update!(settings: { 'requires_email_verification' => true })
+    it 'allows turning email verification on and off' do
+      patch tool_url, params: { custom_tool: { settings: { requires_email_verification: true } } }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(installed_tool.reload.requires_email_verification?).to be(true)
 
       patch tool_url, params: { custom_tool: { settings: { requires_email_verification: false } } }, headers: admin.create_new_auth_token, as: :json
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(installed_tool.reload.requires_email_verification?).to be(true)
+      expect(installed_tool.reload.requires_email_verification?).to be(false)
     end
 
     it 'allows enabling and disabling' do

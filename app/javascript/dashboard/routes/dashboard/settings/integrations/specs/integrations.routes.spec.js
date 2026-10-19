@@ -31,6 +31,7 @@ vi.mock('../Stripe.vue', () => ({ default: {} }));
 vi.mock('../Linear.vue', () => ({ default: {} }));
 vi.mock('../Notion.vue', () => ({ default: {} }));
 vi.mock('../Shopify.vue', () => ({ default: {} }));
+vi.mock('../GoogleTranslate.vue', () => ({ default: {} }));
 
 describe('integration settings routes', () => {
   beforeEach(() => {
