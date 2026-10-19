@@ -23,7 +23,9 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
     filters = super(filters)
     return filters if source || filters['contains'].blank? || filters.key?('since') || filters.key?('before')
 
-    filters.merge('since' => TEXT_SEARCH_WINDOW.ago.iso8601)
+    since = TEXT_SEARCH_WINDOW.ago
+    @note = "Only messages sent since #{since.to_date.iso8601} were searched, because no dates were given. Earlier messages were not checked."
+    filters.merge('since' => since.iso8601)
   end
 
   # The messages Copilot reads, in conversations the user can open.

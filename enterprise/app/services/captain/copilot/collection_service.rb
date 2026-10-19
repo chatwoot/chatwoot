@@ -19,12 +19,17 @@ class Captain::Copilot::CollectionService
     counted = filters['newest'] ? matching.where(id: ids) : matching
     groups = selector.group_counts(counted, filters, as_of, group_by) if group_by
     collection = persist_collection(resource, filters, ids, as_of, source)
-    result = collection.summary.merge(collection_id: collection.id, resource: resource, as_of: collection.as_of.iso8601,
-                                      total: counted.count)
+    result = collection_result(collection, resource, counted.count, selector.note)
     groups ? result.merge(group_by: group_by, groups: groups) : result
   end
 
   private
+
+  # The resource's note, such as a date range it chose because none was given, goes to the model with the total.
+  def collection_result(collection, resource, total, note)
+    result = collection.summary.merge(collection_id: collection.id, resource: resource, as_of: collection.as_of.iso8601, total: total)
+    note ? result.merge(note: note) : result
+  end
 
   def persist_collection(resource, filters, ids, as_of, source)
     @run.with_lease(@token) do
