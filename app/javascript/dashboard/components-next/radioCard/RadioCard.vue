@@ -62,30 +62,43 @@ const handleChange = () => {
       !disabled && !isActive ? 'hover:outline-n-strong' : '',
     ]"
   >
-    <div class="flex flex-col gap-2 items-start">
-      <div class="flex items-center justify-between w-full gap-3">
-        <div class="flex items-center gap-2">
-          <h3 class="text-heading-3 text-n-slate-12">
-            {{ label }}
-          </h3>
-          <Label v-if="disabled" :label="disabledLabel" color="amber" compact />
-          <Label v-if="beta" :label="t('GENERAL.BETA')" color="blue" compact />
+    <div class="flex gap-3 items-center">
+      <slot name="icon" />
+      <div class="flex flex-col flex-1 gap-2 items-start min-w-0">
+        <div class="flex items-center justify-between w-full gap-3">
+          <div class="flex items-center gap-2">
+            <h3 class="text-heading-3 text-n-slate-12">
+              {{ label }}
+            </h3>
+            <Label
+              v-if="disabled"
+              :label="disabledLabel"
+              color="amber"
+              compact
+            />
+            <Label
+              v-if="beta"
+              :label="t('GENERAL.BETA')"
+              color="blue"
+              compact
+            />
+          </div>
+          <input
+            :id="`${id}`"
+            :checked="isActive"
+            :value="id"
+            :name="name || id"
+            :disabled="disabled"
+            type="radio"
+            class="shadow cursor-pointer grid place-items-center border-2 border-n-strong appearance-none rounded-full w-5 h-5 checked:bg-n-brand before:content-[''] before:bg-n-brand before:border-4 before:rounded-full before:border-n-strong checked:before:w-[18px] checked:before:h-[18px] checked:border checked:border-n-brand"
+            @change="handleChange"
+          />
         </div>
-        <input
-          :id="`${id}`"
-          :checked="isActive"
-          :value="id"
-          :name="name || id"
-          :disabled="disabled"
-          type="radio"
-          class="shadow cursor-pointer grid place-items-center border-2 border-n-strong appearance-none rounded-full w-5 h-5 checked:bg-n-brand before:content-[''] before:bg-n-brand before:border-4 before:rounded-full before:border-n-strong checked:before:w-[18px] checked:before:h-[18px] checked:border checked:border-n-brand"
-          @change="handleChange"
-        />
+        <p class="text-body-main text-n-slate-11">
+          {{ disabled && disabledMessage ? disabledMessage : description }}
+        </p>
+        <slot />
       </div>
-      <p class="text-body-main text-n-slate-11">
-        {{ disabled && disabledMessage ? disabledMessage : description }}
-      </p>
-      <slot />
     </div>
   </label>
 </template>
