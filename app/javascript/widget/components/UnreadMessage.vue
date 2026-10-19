@@ -1,6 +1,7 @@
 <script>
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import TranslatingContent from 'widget/components/TranslatingContent.vue';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import {
@@ -11,7 +12,7 @@ import { emitter } from 'shared/helpers/mitt';
 
 export default {
   name: 'UnreadMessage',
-  components: { Avatar },
+  components: { Avatar, TranslatingContent },
   mixins: [configMixin],
   props: {
     message: {
@@ -29,6 +30,14 @@ export default {
     campaignId: {
       type: Number,
       default: null,
+    },
+    translating: {
+      type: Boolean,
+      default: false,
+    },
+    translated: {
+      type: Boolean,
+      default: false,
     },
   },
   setup() {
@@ -105,10 +114,12 @@ export default {
         <span class="agent--name">{{ agentName }}</span>
         <span class="company--name">{{ companyName }}</span>
       </div>
-      <div
-        v-dompurify-html="formatMessage(message, false)"
-        class="message-content"
-      />
+      <TranslatingContent :translating="translating" :translated="translated">
+        <div
+          v-dompurify-html="formatMessage(message, false)"
+          class="message-content"
+        />
+      </TranslatingContent>
     </button>
   </div>
 </template>

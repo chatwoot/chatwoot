@@ -437,6 +437,13 @@
   type: secret
   description: 'Use the app developer live secret key for Live mode, or the app managed sandbox secret key for Sandbox. Active Record encryption is required. Changing environments requires reconnecting existing accounts.'
 
+- name: STRIPE_APP_WEBHOOK_SECRET
+  display_title: 'Stripe App Webhook Signing Secret'
+  value:
+  locked: false
+  type: secret
+  description: 'Signing secret for the Stripe App connected-account webhook endpoint at /webhooks/stripe_app. Subscribe to account.application.deauthorized to disconnect uninstalled accounts.'
+
 ## ------ Configs added for Linear ------ ##
 - name: LINEAR_CLIENT_ID
   display_title: 'Linear Client ID'

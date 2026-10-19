@@ -13,6 +13,9 @@ class Captain::Assistant::AgentRunnerService
   attr_reader :last_run_result
 
   REPLY_SUGGESTION_SOURCE = 'copilot_reply_suggestion'.freeze
+  EMAIL_VERIFICATION_TOOLS = [Captain::Tools::SendEmailVerificationCodeTool, Captain::Tools::VerifyEmailCodeTool].freeze
+  # Runs where an admin or an agent is the user. The playground runs a tool the way Copilot would. Everywhere else a customer is.
+  COPILOT_SOURCES = %w[playground copilot_reply_suggestion].freeze
   RunOptions = Data.define(:callbacks, :source, :responding_to_message_id, :runtime_configuration) do
     def initialize(callbacks: {}, source: nil, responding_to_message_id: nil, runtime_configuration: nil)
       super
@@ -149,17 +152,42 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def wire_agents(assistant_agent, scenario_agents)
+    assistant_agent = with_tools_for_user(assistant_agent)
+    scenario_agents = scenario_agents.map { |agent| with_tools_for_user(agent) }
     assistant_agent.register_handoffs(*scenario_agents) if scenario_agents.any?
     scenario_agents.each { |scenario_agent| scenario_agent.register_handoffs(assistant_agent) }
 
     [assistant_agent] + scenario_agents
   end
 
+  def with_tools_for_user(agent)
+    return agent.clone(tools: copilot_tools(agent.tools)) if COPILOT_SOURCES.include?(@source)
+
+    with_email_verification_tools(agent)
+  end
+
+  # Custom tools are built for customers by default. Here an admin or an agent is the user, so they are rebuilt for Copilot.
+  def copilot_tools(tools)
+    tools.map { |tool| tool.is_a?(Captain::Tools::HttpTool) ? tool.custom_tool.tool(@assistant, base_class: Captain::Tools::CopilotHttpTool) : tool }
+  end
+
+  # Every agent in a customer conversation can verify the customer, so whichever one is asked for account data can do it
+  def with_email_verification_tools(agent)
+    return agent unless can_verify_email?
+
+    agent.clone(tools: agent.tools + EMAIL_VERIFICATION_TOOLS.map { |tool_class| tool_class.new(@assistant) })
+  end
+
+  # A customer is the user, and a tool needs their verified email. The prompt reads this from the state.
+  def can_verify_email?
+    @conversation.present? && COPILOT_SOURCES.exclude?(@source) && @assistant.custom_tools.enabled.any?(&:requires_email_verification?)
+  end
+
   def reply_suggestion_agent
     agent = @assistant.agent
     agent.clone(
       instructions: ->(context) { @assistant.agent_instructions(context, prompt_template: 'copilot_reply_suggestion') },
-      tools: agent.tools.select { |tool| available_in_reply_suggestion?(tool) }
+      tools: copilot_tools(agent.tools.select { |tool| available_in_reply_suggestion?(tool) })
     )
   end
 

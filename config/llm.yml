@@ -28,6 +28,10 @@ models:
     display_name: 'GPT-6 Luna'
     credit_multiplier: 1
     reasoning_effort: none
+  gpt-6.1-sol:
+    provider: openai
+    display_name: 'GPT-6.1 Sol'
+    credit_multiplier: 2
   claude-haiku-4.5:
     provider: anthropic
     display_name: 'Claude Haiku 4.5'
@@ -171,6 +175,12 @@ features:
   help_center_query_translation:
     models: [gpt-6-luna, gpt-5-mini]
     default: gpt-6-luna
+  message_translation:
+    models: [gpt-6-luna, gpt-6.1-sol, gpt-5.2, gpt-5-mini]
+    default: gpt-6-luna
+  language_detection:
+    models: [gpt-5-mini, gpt-5-nano]
+    default: gpt-5-mini
   audio_transcription:
     models: [gpt-transcribe]
     default: gpt-transcribe
