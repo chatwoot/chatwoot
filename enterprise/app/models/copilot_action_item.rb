@@ -13,7 +13,6 @@
 #
 # Indexes
 #
-#  index_copilot_action_items_on_copilot_run_id                (copilot_run_id)
 #  index_copilot_action_items_on_copilot_run_id_and_record_id  (copilot_run_id,record_id) UNIQUE
 #
 # One target of an approved action and what happened to it, so a retried job skips records that are already done.

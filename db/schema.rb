@@ -1041,7 +1041,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_17_230231) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["copilot_run_id", "record_id"], name: "index_copilot_action_items_on_copilot_run_id_and_record_id", unique: true
-    t.index ["copilot_run_id"], name: "index_copilot_action_items_on_copilot_run_id"
   end
 
   create_table "copilot_messages", force: :cascade do |t|

@@ -36,9 +36,10 @@ class Captain::Copilot::ActionJob < ApplicationJob
     nil
   end
 
+  # The change and its item commit together, so a worker stopped in between saves neither, and the retry makes the change
+  # instead of finding it done and counting it as skipped.
   def apply(run, token, action, id, record)
-    status = record ? action.perform(record) : :failed
-    run.with_lease(token) { save_item(run, id, status, record ? nil : 'Record is no longer accessible') }
+    run.with_lease(token) { save_item(run, id, record ? action.perform(record) : :failed, record ? nil : 'Record is no longer accessible') }
   rescue Captain::Copilot::LeaseLostError
     raise
   rescue StandardError => e

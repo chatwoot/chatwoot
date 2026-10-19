@@ -73,7 +73,7 @@ module Concerns::CopilotRunApprovable
   def not_processed(counts)
     return unless completed? || incomplete?
 
-    missing = target_ids.size - counts.values_at('applied', 'skipped', 'failed').sum(&:to_i)
+    missing = target_ids.size - counts.values_at(*CopilotActionItem::FINISHED_STATUSES).sum(&:to_i)
     missing if missing.positive?
   end
 

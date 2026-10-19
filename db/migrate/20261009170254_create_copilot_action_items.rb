@@ -1,7 +1,8 @@
 class CreateCopilotActionItems < ActiveRecord::Migration[7.2]
   def change
     create_table :copilot_action_items do |t|
-      t.references :copilot_run, null: false
+      # The unique index on [copilot_run_id, record_id] serves lookups by run.
+      t.references :copilot_run, null: false, index: false
       t.bigint :record_id, null: false
       t.string :status, null: false
       t.string :error
