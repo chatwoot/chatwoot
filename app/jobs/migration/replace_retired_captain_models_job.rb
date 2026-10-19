@@ -29,10 +29,11 @@ class Migration::ReplaceRetiredCaptainModelsJob < ApplicationJob
   end
 
   def replace_account_models
-    Account.where("settings ->> 'captain_models' SIMILAR TO ?", '%(gpt-4|whisper-1)%').find_each do |account|
-      models = account.captain_models.transform_values { |model| RETIRED_MODELS.fetch(model, model) }
-      # Writes only the remapped settings; full validation would block on unrelated account data.
-      account.update_columns(settings: account.settings.merge('captain_models' => models)) # rubocop:disable Rails/SkipsModelValidations
+    Account.find_each do |account|
+      models = account.captain_models
+      next unless models&.values&.any? { |model| RETIRED_MODELS.key?(model) }
+
+      account.update!(captain_models: models.transform_values { |model| RETIRED_MODELS.fetch(model, model) })
     end
   end
 end
