@@ -17,7 +17,7 @@ class Captain::Copilot::RecoverRunsJob < ApplicationJob
 
   # An approval whose expiry job was lost would keep its turn waiting until the agent answered the card or wrote again.
   def expire_overdue_approvals
-    CopilotRun.action.awaiting_approval.find_each { |run| run.expire if run.approval_expired? }
+    CopilotRun.action.awaiting_approval.where(created_at: ..CopilotRun::APPROVAL_TTL.ago).find_each(&:expire)
   end
 
   # A review or action that finished without waking the turn parked on its tool call.

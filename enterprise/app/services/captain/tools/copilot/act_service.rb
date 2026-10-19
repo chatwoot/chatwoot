@@ -43,8 +43,7 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
   # The target IDs are frozen here, so the agent approves exactly the records counted and linked on the approval card.
   def request_approval(source, proposed, arguments, target_ids)
     context = { action: proposed.class::NAME, arguments: arguments, target_ids: target_ids,
-                proposal_states: proposed.proposal_states(target_ids).presence,
-                approval_expires_at: CopilotRun::APPROVAL_TTL.from_now.iso8601 }.compact
+                proposal_states: proposed.proposal_states(target_ids).presence }.compact
     action_run = run.copilot_thread.copilot_runs.create!(
       account: run.account, user: run.user, copilot_tool_call: tool_call, source_run: source, kind: :action, status: :awaiting_approval,
       context: context

@@ -13,7 +13,9 @@ class Captain::Copilot::ActionJob < ApplicationJob
   def process_batch(run, token)
     run.ensure_can_continue!(credits: false)
     Current.user = run.user
-    action = run.action
+    action = build_action(run, token)
+    return unless action
+
     resource = Captain::Copilot::Resources.build(action.class::RESOURCE, account: run.account, user: run.user)
     run.remaining_ids.first(BATCH_SIZE).each do |id|
       run.renew_lease(token)
@@ -24,6 +26,15 @@ class Captain::Copilot::ActionJob < ApplicationJob
     continue_or_finalize(run, token)
   ensure
     Current.reset
+  end
+
+  # The action validates its arguments against the account again, e.g. a label deleted after approval. Retrying cannot
+  # fix that, so the run stops with the reason the model can tell the agent.
+  def build_action(run, token)
+    run.action
+  rescue ArgumentError => e
+    finalize(run, token, error: e.message.truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH))
+    nil
   end
 
   # A change that is not safe to repeat is marked applying before it runs. If the worker dies before the outcome is saved,

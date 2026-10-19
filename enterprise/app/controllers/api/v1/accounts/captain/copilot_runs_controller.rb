@@ -5,13 +5,13 @@ class Api::V1::Accounts::Captain::CopilotRunsController < Api::V1::Accounts::Bas
     return render_disabled unless Current.account.feature_enabled?('copilot_workflows')
     return render_already_decided unless @action_run.approve
 
-    render json: @action_run.summary
+    render json: @action_run.approval_card.push_event_data
   end
 
   def reject
     return render_already_decided unless @action_run.reject(I18n.t('captain.copilot.approval_rejected'))
 
-    render json: @action_run.summary
+    render json: @action_run.approval_card.push_event_data
   end
 
   private
@@ -27,10 +27,10 @@ class Api::V1::Accounts::Captain::CopilotRunsController < Api::V1::Accounts::Bas
     render_already_decided(I18n.t('captain.copilot_workflows_disabled'))
   end
 
-  # The status lets the approval card show what actually happened, e.g. that the change expired.
+  # The saved card lets the panel show what actually happened, e.g. that the change expired.
   def render_already_decided(error = nil)
     @action_run.reload
     error ||= @action_run.expired? ? I18n.t('captain.copilot.approval_expired_notice') : I18n.t('captain.copilot.approval_already_decided')
-    render json: { error: error, status: @action_run.approval_status }, status: :unprocessable_content
+    render json: { error: error, message: @action_run.approval_card.push_event_data }, status: :unprocessable_content
   end
 end

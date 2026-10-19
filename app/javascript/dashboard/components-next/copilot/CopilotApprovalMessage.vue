@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { CONVERSATION_PRIORITY } from 'shared/constants/messages';
+import { useStore } from 'dashboard/composables/store';
 import CopilotRunsAPI from 'dashboard/api/captain/copilotRuns';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -13,13 +14,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['decided']);
+const store = useStore();
 const { t } = useI18n();
-const decision = ref(null);
 const isSubmitting = ref(false);
 
 const approval = computed(() => props.message.approval);
-const status = computed(() => decision.value || approval.value.status);
+const status = computed(() => approval.value.status);
 const isAwaitingApproval = computed(() => status.value === 'awaiting_approval');
 const statusLabel = computed(() => {
   if (status.value === 'approved') {
@@ -89,16 +89,12 @@ const coverage = computed(() => approval.value.coverage);
 const decide = async choice => {
   isSubmitting.value = true;
   try {
-    await CopilotRunsAPI[choice](props.message.run_id);
-    decision.value = choice === 'approve' ? 'approved' : 'rejected';
-    emit('decided', props.message.run_id);
+    const { data } = await CopilotRunsAPI[choice](props.message.run_id);
+    store.dispatch('copilotMessages/upsert', data);
   } catch (error) {
-    // A change that expired or was already decided reports its current status.
-    const currentStatus = error?.response?.data?.status;
-    if (currentStatus) {
-      decision.value = currentStatus;
-      emit('decided', props.message.run_id);
-    }
+    // A change that expired or was already decided returns its saved card.
+    const card = error?.response?.data?.message;
+    if (card) store.dispatch('copilotMessages/upsert', card);
     useAlert(
       error?.response?.data?.error || t('CAPTAIN.COPILOT.APPROVAL.ERROR')
     );
