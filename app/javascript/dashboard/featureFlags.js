@@ -4,6 +4,7 @@ export const FEATURE_FLAGS = {
   ASSIGNMENT_V2: 'assignment_v2',
   ADVANCED_ASSIGNMENT: 'advanced_assignment',
   AUTO_RESOLVE_CONVERSATIONS: 'auto_resolve_conversations',
+  AUTO_TRANSLATE: 'auto_translate',
   AUTOMATIONS: 'automations',
   CAMPAIGNS: 'campaigns',
   CAMPAIGN_ANALYTICS: 'campaign_analytics',

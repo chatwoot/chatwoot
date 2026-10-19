@@ -256,6 +256,10 @@ const tailwindConfig = {
         '0%': { transform: 'translateX(-100%)' },
         '100%': { transform: 'translateX(100%)' },
       },
+      'text-shimmer': {
+        '0%': { backgroundPosition: '100% 0' },
+        '100%': { backgroundPosition: '0% 0' },
+      },
       twinkle: {
         '0%, 100%': { transform: 'scale(1) rotate(0deg)', opacity: 1 },
         '50%': { transform: 'scale(1.25) rotate(20deg)', opacity: 0.7 },
@@ -288,6 +292,7 @@ const tailwindConfig = {
       'card-select': 'card-select 0.25s ease-in-out',
       shake: 'shake 0.3s ease-in-out 0s 2',
       shimmer: 'shimmer 1.4s ease-in-out infinite',
+      'text-shimmer': 'text-shimmer 1.8s ease-in-out infinite',
       'pop-in': 'pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) backwards',
       twinkle: 'twinkle 0.9s ease-in-out infinite',
       'fade-in': 'fade-in 0.3s ease-out',
