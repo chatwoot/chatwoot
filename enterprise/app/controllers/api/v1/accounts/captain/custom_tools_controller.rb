@@ -1,7 +1,7 @@
 class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::BaseController
   RESULTS_PER_PAGE = 25
   # Settings the account owns, which stay editable on tools installed from a manifest
-  ACCOUNT_SETTINGS = %w[enabled copilot_permissions].freeze
+  ACCOUNT_SETTINGS = %w[enabled settings copilot_permissions].freeze
 
   before_action :ensure_custom_tools_enabled
   before_action -> { check_authorization(Captain::CustomTool) }
