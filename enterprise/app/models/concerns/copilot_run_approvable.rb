@@ -44,7 +44,7 @@ module Concerns::CopilotRunApprovable
   end
 
   def approval_expired?
-    Time.iso8601(context.fetch('approval_expires_at')).past?
+    created_at <= APPROVAL_TTL.ago
   end
 
   def approval_card
@@ -64,7 +64,7 @@ module Concerns::CopilotRunApprovable
     with_lock do
       next false unless awaiting_approval?
 
-      update!(status: new_status, context: context.merge('decided_at' => Time.current.iso8601, 'decision_reason' => reason).compact)
+      update!(status: new_status, context: context.merge('decision_reason' => reason).compact)
       card = approval_card
       card.update!(message: card.message.deep_merge('approval' => { 'status' => approval_status }))
     end
