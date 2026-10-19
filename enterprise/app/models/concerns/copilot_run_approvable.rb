@@ -47,6 +47,10 @@ module Concerns::CopilotRunApprovable
     Time.iso8601(context.fetch('approval_expires_at')).past?
   end
 
+  def approval_card
+    copilot_thread.copilot_messages.find(context.fetch('approval_message_id'))
+  end
+
   private
 
   # Closing hands the decision back to the waiting tool call, so the turn continues without the change.
@@ -61,7 +65,7 @@ module Concerns::CopilotRunApprovable
       next false unless awaiting_approval?
 
       update!(status: new_status, context: context.merge('decided_at' => Time.current.iso8601, 'decision_reason' => reason).compact)
-      card = copilot_thread.copilot_messages.find(context.fetch('approval_message_id'))
+      card = approval_card
       card.update!(message: card.message.deep_merge('approval' => { 'status' => approval_status }))
     end
   end
