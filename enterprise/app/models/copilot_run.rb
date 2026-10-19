@@ -154,7 +154,7 @@ class CopilotRun < ApplicationRecord
     decided.order(:conversation_id).pluck(:conversation_id)
   end
 
-  # Moves an unfinished review to the tool call that continues it, with room for the next batch.
+  # Moves an unfinished review to the tool call that continues it, with room for what is left of that turn's limit.
   def continue_review(tool_call)
     with_lock do
       return if copilot_tool_call_id == tool_call.id
@@ -162,9 +162,20 @@ class CopilotRun < ApplicationRecord
       raise ArgumentError, 'The review has no conversations left to review' if remaining_ids.empty?
       raise ArgumentError, 'This turn already reviewed a batch. Ask the agent before continuing.' if turn.id == tool_call.copilot_run_id
 
+      start = processed_count
       update!(copilot_tool_call: tool_call, status: :queued, error: nil,
-              context: context.merge('turn_limit' => processed_count + CONVERSATIONS_PER_TURN))
+              context: context.merge('turn_start' => start, 'turn_limit' => start + tool_call.copilot_run.review_budget!))
     end
+  end
+
+  # A turn reviews at most CONVERSATIONS_PER_TURN conversations across all its reviews, so a later review in the same turn
+  # gets only what is left. A continued review counts from where this turn took it.
+  def review_budget!
+    reviews = CopilotRun.review.joins(:copilot_tool_call).where(copilot_tool_calls: { copilot_run_id: id }).to_a
+    left = CONVERSATIONS_PER_TURN - reviews.sum { |review| review.processed_count - review.context.fetch('turn_start', 0) }
+    return left if left.positive?
+
+    raise ArgumentError, "This turn already reviewed #{CONVERSATIONS_PER_TURN} conversations. Ask the agent before reviewing more."
   end
 
   def left_this_turn
