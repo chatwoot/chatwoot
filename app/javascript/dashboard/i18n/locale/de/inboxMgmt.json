@@ -775,7 +775,7 @@
         "DESCRIPTION": "Aktiviere Sprachanrufe für diesen Posteingang. Agenten können dann Anrufe tätigen und entgegennehmen."
       },
       "CREDENTIALS": {
-        "DESCRIPTION": "Für Sprachanrufe sind Anmeldedaten für den Twilio API Key erforderlich. Damit werden Tokens für die Sprachverbindungen der Agenten erzeugt."
+        "DESCRIPTION": "Voice calling requires an Account Auth Token for webhook verification and API key credentials for calls."
       },
       "INBOUND": {
         "LABEL": "Eingehende Anrufe zulassen",
