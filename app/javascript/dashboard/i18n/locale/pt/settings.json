@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações por email quando uma nova mensagem é criada numa conversa em que está a participar",
         "SLA_MISSED_FIRST_RESPONSE": "Enviar notificações por e-mail quando uma conversa perder a primeira resposta SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações por email quando uma conversa falhar a SLA de primeira resposta",
-        "SLA_MISSED_RESOLUTION": "Enviar notificações por email quando uma conversa falhar a SLA de resolução"
+        "SLA_MISSED_RESOLUTION": "Enviar notificações por email quando uma conversa falhar a SLA de resolução",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Preferências de notificação",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Foi criada uma nova mensagem numa conversa em que está a participar",
           "SLA_MISSED_FIRST_RESPONSE": "Uma conversa perdeu a primeira resposta SLA",
           "SLA_MISSED_NEXT_RESPONSE": "Uma conversa perdeu a a próxima resposta SLA",
-          "SLA_MISSED_RESOLUTION": "Uma conversa falhou a SLA de resolução"
+          "SLA_MISSED_RESOLUTION": "Uma conversa falhou a SLA de resolução",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Ative as notificações Push do seu navegador para que as possa receber"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Ativar notificações Push",
         "SLA_MISSED_FIRST_RESPONSE": "Enviar uma notificação Push quando uma conversa falhar a SLA de primeira resposta",
         "SLA_MISSED_NEXT_RESPONSE": "Enviar uma notificação Push quando uma conversa falhar a SLA de resposta seguinte",
-        "SLA_MISSED_RESOLUTION": "Enviar uma notificação Push quando uma conversa falhar a SLA de resolução"
+        "SLA_MISSED_RESOLUTION": "Enviar uma notificação Push quando uma conversa falhar a SLA de resolução",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Imagem do perfil"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
         "DESCRIPTION": "Use AI for context aware search inside your help center articles."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
       }
     },
     "API": {
