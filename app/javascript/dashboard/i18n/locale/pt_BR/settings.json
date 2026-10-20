@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações por email quando uma nova mensagem é criada em uma conversa que você participa",
         "SLA_MISSED_FIRST_RESPONSE": "Enviar notificações por e-mail quando uma conversa perder a primeira resposta SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações por e-mail quando uma conversa perder o próximo SLA de resposta",
-        "SLA_MISSED_RESOLUTION": "Enviar notificações por e-mail quando uma conversa perder o SLA de resolução"
+        "SLA_MISSED_RESOLUTION": "Enviar notificações por e-mail quando uma conversa perder o SLA de resolução",
+        "VOICE_CALL_MISSED": "Enviar notificações por e-mail quando você perder uma chamada"
       },
       "NOTIFICATIONS": {
         "TITLE": "Preferências de notificação",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Uma nova mensagem foi criada em uma conversa que você participa",
           "SLA_MISSED_FIRST_RESPONSE": "Uma conversa perde o SLA de primeira resposta",
           "SLA_MISSED_NEXT_RESPONSE": "Uma conversa perde o SLA da próxima resposta",
-          "SLA_MISSED_RESOLUTION": "Uma conversa perde o SLA de resolução"
+          "SLA_MISSED_RESOLUTION": "Uma conversa perde o SLA de resolução",
+          "VOICE_CALL_MISSED": "Você perdeu uma chamada"
         },
         "BROWSER_PERMISSION": "Ative notificações push em seu navegador para poder recebê-las"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Habilitar notificações push",
         "SLA_MISSED_FIRST_RESPONSE": "Enviar notificações quando uma conversa perder a primeira resposta SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações quando uma conversa perder a próxima resposta SLA",
-        "SLA_MISSED_RESOLUTION": "Enviar notificações quando uma conversa perder resolução de resolução SLA"
+        "SLA_MISSED_RESOLUTION": "Enviar notificações quando uma conversa perder resolução de resolução SLA",
+        "VOICE_CALL_MISSED": "Enviar notificações push quando você perder uma chamada"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Imagem do Perfil"
@@ -216,7 +219,7 @@
         },
         "SET_AVAILABILITY_SUCCESS": "Disponibilidade foi definida com sucesso",
         "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente",
-        "IMPERSONATING_ERROR": "Não é possível alterar a disponibilidade enquanto personifica um usuário"
+        "IMPERSONATING_ERROR": "Não é possível alterar a disponibilidade enquanto estiver representando um usuário"
       },
       "EMAIL": {
         "LABEL": "Seu e-mail",
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Indexação de Pesquisa da Central de Ajuda",
         "DESCRIPTION": "Use IA para realizar buscas com reconhecimento de contexto nos artigos da sua central de ajuda."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Sugestão de Etiquetas",
-        "DESCRIPTION": "Sugere automaticamente rótulos e etiquetas relevantes para as conversas, com base na análise de conteúdo e no contexto.",
-        "MODEL_TITLE": "Modelo de Sugestão de Etiquetas",
-        "MODEL_DESCRIPTION": "Selecione o modelo de IA a ser utilizado para analisar as conversas e sugerir etiquetas apropriadas"
       }
     },
     "API": {
