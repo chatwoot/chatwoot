@@ -11,11 +11,14 @@ RSpec.describe 'Public Articles API', type: :request do
                      content: 'This is a *test* content with ^markdown^', views: 0)
   end
 
+  let!(:translated_article) do
+    create(:article, category: category_2, portal: portal, author: agent, associated_article_id: article.id, views: 5)
+  end
+
   before do
     ENV['HELPCENTER_URL'] = ENV.fetch('FRONTEND_URL', nil)
     create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, views: 15)
-    create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: article.id, views: 1)
-    create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, associated_article_id: article.id, views: 5)
+    create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, views: 1)
     create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, views: 4)
     create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id, status: :draft)
   end
@@ -147,6 +150,89 @@ RSpec.describe 'Public Articles API', type: :request do
       get "/hc/#{portal.slug}/articles/#{uncategorized_article.slug}"
       expect(response).to have_http_status(:success)
       expect(response.body).to include('lang="es"')
+    end
+
+    it 'links to the matching published translation from the locale switcher' do
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include(%(value="/hc/#{portal.slug}/articles/#{translated_article.slug}"))
+    end
+
+    %i[draft archived].each do |status|
+      it "falls back to the locale home for a #{status} translation" do
+        translated_article.update!(status: status)
+
+        get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(%(value="/hc/#{portal.slug}/es"))
+        expect(response.body).not_to include("/hc/#{portal.slug}/articles/#{translated_article.slug}")
+      end
+    end
+
+    it 'links to the original article and sibling translations from a translated article' do
+      portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
+      french_article = create(:article, locale: 'fr', portal: portal, author: agent, associated_article_id: article.id)
+
+      get "/hc/#{portal.slug}/articles/#{french_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include(
+        %(value="/hc/#{portal.slug}/articles/#{article.slug}"),
+        %(value="/hc/#{portal.slug}/articles/#{translated_article.slug}"),
+        %(value="/hc/#{portal.slug}/articles/#{french_article.slug}")
+      )
+    end
+
+    it 'returns not found for an article in another portal' do
+      foreign_article = create(:article)
+
+      get "/hc/#{portal.slug}/articles/#{foreign_article.slug}"
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'excludes translations from other portals' do
+      portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
+      foreign_portal = create(:portal, config: { allowed_locales: ['fr'] })
+      foreign_article = create(:article, portal: foreign_portal, locale: 'fr', associated_article_id: article.id)
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include(%(value="/hc/#{portal.slug}/fr"))
+      expect(response.body).not_to include(foreign_article.slug)
+    end
+
+    it 'links to the matching article in the documentation layout' do
+      portal.update!(config: portal.config.merge('layout' => 'documentation'))
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      links = Nokogiri::HTML(response.body).css('header details a').map { |link| link['href'] }
+      expect(links).to include("/hc/#{portal.slug}/articles/#{translated_article.slug}")
+    end
+
+    it 'uses the category locale after a translated category changes language' do
+      portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
+      admin = create(:user, account: portal.account, role: :administrator)
+
+      put "/api/v1/accounts/#{portal.account_id}/portals/#{portal.slug}/categories/#{category_2.id}",
+          params: { category: { locale: 'fr' } }, headers: admin.create_new_auth_token
+
+      expect(response).to have_http_status(:success)
+      expect([category_2.reload.locale, translated_article.reload.locale]).to eq(%w[fr es])
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      switchers = Nokogiri::HTML(response.body).css('select.locale-switcher')
+      expect(switchers.size).to eq(2)
+      switchers.each do |switcher|
+        options = switcher.css('option').to_h { |option| [option.text, option['value']] }
+        expect(options).to include('Spanish (es)' => "/hc/#{portal.slug}/es",
+                                   'French (fr)' => "/hc/#{portal.slug}/articles/#{translated_article.slug}")
+      end
     end
   end
 

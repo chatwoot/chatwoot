@@ -25,9 +25,7 @@ class AutomationRules::ActionService < ActionService
   def send_attachment(blob_ids)
     return if conversation_a_tweet?
 
-    return unless @rule.files.attached?
-
-    blobs = ActiveStorage::Blob.where(id: blob_ids)
+    blobs = @rule.files.blobs.where(id: blob_ids)
 
     return if blobs.blank?
 

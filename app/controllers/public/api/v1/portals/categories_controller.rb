@@ -16,6 +16,7 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
   end
 
   def show
+    set_locale_switch_urls
     @og_image_url = helpers.set_og_image_url(@portal.name, @category.name)
   end
 
@@ -26,6 +27,19 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
 
     Rails.logger.info "Category: not found for slug: #{params[:category_slug]}"
     render_404 && return if @category.blank?
+  end
+
+  def set_locale_switch_urls
+    @locale_switch_urls = @category.translation_family.to_h do |category|
+      url = helpers.generate_category_link(
+        portal_slug: @portal.slug,
+        category_locale: category.locale,
+        category_slug: category.slug,
+        theme: @theme_from_params,
+        is_plain_layout_enabled: @is_plain_layout_enabled
+      )
+      [category.locale, url]
+    end
   end
 
   def load_category_articles
