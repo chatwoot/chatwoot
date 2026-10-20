@@ -30,16 +30,16 @@
         },
         "MONITOR": {
           "LABEL": "Monitor",
-          "PLACEHOLDER": "Select a live monitor",
-          "ERROR": "Select a live monitor",
-          "FETCH_FAILED": "Could not load monitors. Try again later.",
-          "API_UNAVAILABLE": "This monitor is no longer available. Select a live monitor and try again.",
-          "EMPTY": "No live monitors yet. Create or resume a monitor to use this event.",
-          "GO_TO_MONITORS": "Go to monitors",
+          "PLACEHOLDER": "Seleziona un monitor attivo",
+          "ERROR": "Seleziona un monitor attivo",
+          "FETCH_FAILED": "Impossibile caricare i monitor. Riprova più tardi.",
+          "API_UNAVAILABLE": "Questo monitor non è più disponibile. Seleziona un monitor attivo e riprova.",
+          "EMPTY": "Ancora nessun monitor attivo. Crea o riprendi un monitor per usare questo evento.",
+          "GO_TO_MONITORS": "Vai ai monitor",
           "RETRY": "Riprova",
-          "UNAVAILABLE": "Unavailable monitor",
-          "UNAVAILABLE_HELP": "This monitor is unavailable for automation. Select a live monitor to activate this rule.",
-          "HELP": "Runs once when the monitor first matches a conversation from new live activity. Historical scans do not trigger actions."
+          "UNAVAILABLE": "Monitor non disponibile",
+          "UNAVAILABLE_HELP": "Questo monitor non è disponibile per le automazioni. Seleziona un monitor attivo per attivare questa regola.",
+          "HELP": "Si esegue una sola volta, quando il monitor rileva per la prima volta una conversazione da una nuova attività. Le scansioni dello storico non attivano azioni."
         },
         "RUN_TYPE": {
           "LABEL": "Quando deve essere eseguita questa regola?",
@@ -105,9 +105,9 @@
         "DELAYED": "Eseguite dopo un'attesa"
       },
       "DELAY_BADGE": "Eseguita dopo {delay}",
-      "MONITOR_PAUSED": "Monitor paused",
-      "MONITOR_DELETED": "Monitor deleted",
-      "MONITOR_UNAVAILABLE": "Monitor feature unavailable",
+      "MONITOR_PAUSED": "Monitor in pausa",
+      "MONITOR_DELETED": "Monitor eliminato",
+      "MONITOR_UNAVAILABLE": "Funzione Monitor non disponibile",
       "DELAY_DISABLED_BANNER": "L'esecuzione ritardata è disattivata per questo account, quindi le regole qui sotto che si eseguono dopo un'attesa sono in pausa finché non viene riattivata."
     },
     "DELETE": {
@@ -200,7 +200,7 @@
       "MESSAGE_CREATED": "Messaggio Creato",
       "CONVERSATION_RESOLVED": "Conversazione Risolta",
       "CONVERSATION_OPENED": "Conversazione Aperta",
-      "MONITOR_MATCHED": "Monitor Matched"
+      "MONITOR_MATCHED": "Rilevato dal monitor"
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "Assegna a un Operatore",
