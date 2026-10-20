@@ -94,11 +94,28 @@ class Inboxes extends CacheEnabledApiClient {
     });
   }
 
-  setCallBusinessHours(inboxId, { enabled, message }) {
-    return axios.patch(`${this.url}/${inboxId}/call_business_hours`, {
-      business_hours_calls_enabled: enabled,
-      out_of_hours_call_message: message,
+  // kind: 'out_of_hours' | 'greeting'
+  setCallAnnouncement(inboxId, kind, { enabled, message }) {
+    return axios.patch(`${this.url}/${inboxId}/call_announcements/${kind}`, {
+      enabled,
+      message,
     });
+  }
+
+  setCallJoinBeep(inboxId, enabled) {
+    return axios.patch(`${this.url}/${inboxId}/call_waiting`, {
+      join_beep_enabled: enabled,
+    });
+  }
+
+  uploadCallWaitingAudio(inboxId, file) {
+    const formData = new FormData();
+    formData.append('audio', file);
+    return axios.put(`${this.url}/${inboxId}/call_waiting/audio`, formData);
+  }
+
+  removeCallWaitingAudio(inboxId) {
+    return axios.delete(`${this.url}/${inboxId}/call_waiting/audio`);
   }
 }
 

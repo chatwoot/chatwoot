@@ -17,8 +17,9 @@ module Enterprise::Channel::TwilioSms
     provider_config['business_hours_calls_enabled'] == true
   end
 
-  def out_of_hours_call_message
-    provider_config['out_of_hours_call_message']
+  # The caller hears a beep when an agent joins unless turned off
+  def call_join_beep_enabled?
+    provider_config['call_join_beep_enabled'] != false
   end
 
   def account_auth_token_configured?
