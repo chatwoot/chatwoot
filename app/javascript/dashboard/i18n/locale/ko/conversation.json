@@ -574,7 +574,7 @@
   "FORWARD_EMAIL": {
     "HEADER_TITLE": "---------- Forwarded message ---------",
     "TO_LABEL": "받는 사람:",
-    "TO_PLACEHOLDER": "이메일 주소로 연락처 검색",
+    "TO_PLACEHOLDER": "이메일로 검색하려면 2자 이상 입력하세요",
     "MESSAGE_PLACEHOLDER": "Add a message (optional)",
     "FORWARDED_TO": "Forwarded to {emails}",
     "CONTACT_CANNOT_SEE": "{name} cannot see this"

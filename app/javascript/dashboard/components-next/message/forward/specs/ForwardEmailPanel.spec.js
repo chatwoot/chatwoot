@@ -23,7 +23,7 @@ vi.mock(
   })
 );
 
-withFullI18n();
+const i18n = withFullI18n();
 
 Object.defineProperty(HTMLElement.prototype, 'innerText', {
   configurable: true,
@@ -48,7 +48,7 @@ const stubs = {
   InboxSelector: stub('InboxSelector', ['targetInbox', 'removable']),
   RecipientsInput: stub(
     'RecipientsInput',
-    ['modelValue', 'contacts', 'showDropdown', 'isLoading'],
+    ['modelValue', 'contacts', 'showDropdown', 'isLoading', 'placeholder'],
     ['update:modelValue', 'input', 'onClickOutside']
   ),
   MessageEditor: stub(
@@ -154,6 +154,7 @@ describe('ForwardEmailPanel', () => {
   let searchContacts;
 
   beforeEach(() => {
+    i18n.global.locale.value = 'en';
     document.execCommand = vi.fn();
     searchContacts = vi.fn().mockResolvedValue([]);
     createContactSearcher.mockReturnValue(searchContacts);
@@ -322,11 +323,14 @@ describe('ForwardEmailPanel', () => {
   });
 
   it('searches contacts once two characters are typed', async () => {
+    i18n.global.locale.value = 'ko';
     vi.useFakeTimers();
     const contacts = [{ id: 1, name: 'Vendor', email: 'vendor@example.com' }];
     searchContacts.mockResolvedValue(contacts);
     const { wrapper } = mountPanel();
     const recipients = find(wrapper, 'RecipientsInput');
+
+    expect(recipients.props('placeholder')).toContain('2자 이상');
 
     await recipients.vm.$emit('input', 'v');
     vi.advanceTimersByTime(400);
