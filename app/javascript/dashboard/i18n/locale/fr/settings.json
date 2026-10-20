@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications par courriel lorsqu'un nouveau message est créé dans une conversation assignée",
         "SLA_MISSED_FIRST_RESPONSE": "Envoyer des notifications par e-mail lorsqu'une conversation manque un SLA de première réponse",
         "SLA_MISSED_NEXT_RESPONSE": "Envoyer des notifications par e-mail lorsqu'une conversation manque la réponse prochaine SLA",
-        "SLA_MISSED_RESOLUTION": "Envoyer des notifications par e-mail lorsqu'une conversation manque de résolution de SLA"
+        "SLA_MISSED_RESOLUTION": "Envoyer des notifications par e-mail lorsqu'une conversation manque de résolution de SLA",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Préférences de notification",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Un nouveau message est créé dans une conversation participante",
           "SLA_MISSED_FIRST_RESPONSE": "Une conversation manque la première réponse SLA",
           "SLA_MISSED_NEXT_RESPONSE": "Une conversation manque le SLA de réponse suivante",
-          "SLA_MISSED_RESOLUTION": "Une conversation manque la résolution du SLA"
+          "SLA_MISSED_RESOLUTION": "Une conversation manque la résolution du SLA",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Activez les notifications push pour votre navigateur afin que vous puissiez les recevoir"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Activer les notifications push",
         "SLA_MISSED_FIRST_RESPONSE": "Envoyer des notifications push lorsque le délai SLA de première réponse n’est pas respecté",
         "SLA_MISSED_NEXT_RESPONSE": "Envoyer des notifications push lorsque le délai SLA de réponse suivante n’est pas respecté",
-        "SLA_MISSED_RESOLUTION": "Envoyer des notifications push lorsque le délai SLA de résolution n’est pas respecté"
+        "SLA_MISSED_RESOLUTION": "Envoyer des notifications push lorsque le délai SLA de résolution n’est pas respecté",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Image de profil"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Indexation de la recherche du centre d'aide",
         "DESCRIPTION": "Utilisez AI pour effectuer une recherche contextuelle dans les articles de votre centre d'aide."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Suggestion d'étiquette",
-        "DESCRIPTION": "Suggérer automatiquement des étiquettes pertinentes pour les conversations à partir de leur contenu et de leur contexte.",
-        "MODEL_TITLE": "Modèle de suggestion d'étiquette",
-        "MODEL_DESCRIPTION": "Sélectionnez le modèle IA à utiliser pour analyser les conversations et suggérer des étiquettes appropriées"
       }
     },
     "API": {
