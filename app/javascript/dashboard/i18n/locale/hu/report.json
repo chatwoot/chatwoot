@@ -1,4 +1,170 @@
 {
+  "MONITORS": {
+    "TITLE": "Figyelők",
+    "AUTOMATIONS": {
+      "TITLE": "Automatizációk",
+      "DESCRIPTION": "Futtasson műveleteket, amikor ez a figyelő először találkozik egy beszélgetéssel az új élő tevékenységek között.",
+      "CREATE": "Automatizálás létrehozása",
+      "EMPTY": "Ehhez a figyelőhöz még nincs automatizálás rendelve.",
+      "ACTIVE": "Aktív",
+      "DISABLED": "Letiltva",
+      "FETCH_FAILED": "Nem sikerült betölteni a kapcsolódó automatizálásokat."
+    },
+    "LIST": {
+      "CONVERSATIONS_COUNT": "{count} beszélgetés | {count} beszélgetés",
+      "CONVERSATIONS_HELP": "Az elmúlt 7 napban a figyelőnek megfelelő beszélgetések száma.",
+      "RUNNING": "Folyamatban",
+      "FETCH_FAILED": "Nem sikerült betölteni a figyelőket. Próbálja újra.",
+      "PAGINATION": "{totalItems} figyelő közül {startItem}–{endItem} megjelenítése | {totalItems} figyelő közül {startItem}–{endItem} megjelenítése"
+    },
+    "DESCRIPTION": "Kövesse nyomon az ügyfelekkel folytatott beszélgetések fontos témáit. Írja le egyszerűen a témát, a figyelő pedig diagramon jeleníti meg az egyező beszélgetéseket, ahogy új ügyfélüzenetek érkeznek.",
+    "CREATE": "Figyelő létrehozása",
+    "PREVIEW": "Találatok előnézete",
+    "PREVIEW_COOLDOWN": "Újabb előnézet {count} másodperc múlva kérhető | Újabb előnézet {count} másodperc múlva kérhető",
+    "PREVIEW_FAILED": "Nem sikerült előnézetet készíteni a találatokról. Próbálja újra.",
+    "PREVIEW_HELP": "{count} találat {sampled} friss beszélgetés mintájában ({excluded} beszélgetés használható kontextus nélkül). A minta nem teljes körű elemzés eredménye. | {count} találat {sampled} friss beszélgetés mintájában ({excluded} beszélgetés használható kontextus nélkül). A minta nem teljes körű elemzés eredménye.",
+    "NAME": "Név",
+    "NAME_PLACEHOLDER": "Visszatérítéssel kapcsolatos beszélgetések",
+    "CHOOSE_ICON": "Ikon vagy emoji kiválasztása",
+    "CONDITION": "Milyen beszélgetéseket keressen ez a figyelő?",
+    "CONDITION_PLACEHOLDER": "Minden beszélgetés, amelyben visszatérítésről esik szó",
+    "CREATE_HELP": "A rendszer ellenőrzi az elmúlt hét napban létrehozott beszélgetéseket, majd figyeli az új ügyfélüzeneteket is. A nyilvános válaszokat és a beállított ügyfélattribútumokat is figyelembe veszi. A belső megjegyzéseket kihagyja.",
+    "SECTIONS": {
+      "YOUR_MONITORS": "Saját figyelők",
+      "TEMPLATES": "Sablonok"
+    },
+    "TEMPLATES": {
+      "TITLE": "Kezdés sablonnal",
+      "USE_NAMED": "{name} sablon használata",
+      "EDIT_HINT": "{name} sablonból. Létrehozás előtt bármit módosíthat.",
+      "ADMIN_HELP": "Kérjen meg egy rendszergazdát, hogy hozzon létre figyelőt sablonból.",
+      "LOGIN_PROBLEMS": {
+        "NAME": "Bejelentkezési problémák",
+        "AUDIENCE": "Ügyfélszolgálati csapatoknak",
+        "SUMMARY": "Kövesse nyomon, ha megszaporodnak a bejelentkezéssel kapcsolatos panaszok.",
+        "CONDITION": "Az ügyfél nem tud bejelentkezni a fiókjába. Ide tartoznak a sikertelen jelszó-visszaállítások és a meg nem érkező ellenőrző kódok. Hagyja ki azokat a kérdéseket, amelyekben az ügyfél már bejelentkezett, és a jelszava módosításáról érdeklődik."
+      },
+      "MISSING_ORDER_UPDATES": {
+        "NAME": "Hiányzó rendelési értesítések",
+        "AUDIENCE": "Üzemeltetési csapatoknak",
+        "SUMMARY": "Kövesse nyomon a visszatérő kézbesítési problémákat.",
+        "CONDITION": "Az ügyfél nem kapta meg a rendelés visszaigazolását, a szállítási értesítést vagy a kézbesítésről szóló tájékoztatást, esetleg rossz rendeléshez kapott értesítést. Hagyja ki azokat a kérdéseket, amelyekben az ügyfél a csomag helyéről érdeklődik, de megkapta a nyomkövetési e-mailt."
+      },
+      "COMPETITOR_MENTIONS": {
+        "NAME": "Versenytársak említése",
+        "AUDIENCE": "Alapítóknak és értékesítési csapatoknak",
+        "SUMMARY": "Keresse meg azokat a beszélgetéseket, amelyekben érdemes utánkövetést végezni.",
+        "CONDITION": "Az ügyfél összehasonlítja a termékünket egy versenytárséval, fontolgatja egy másik termék kipróbálását, vagy jelzi, hogy esetleg váltani fog. Hagyja ki azokat az ügyfeleket, akik versenytárstól váltottak hozzánk, és az adataik importálásáról kérdeznek."
+      },
+      "FEATURE_REQUESTS": {
+        "NAME": "Funkcióigények",
+        "AUDIENCE": "Termékfejlesztési csapatoknak",
+        "SUMMARY": "Kövesse nyomon azokat a beszélgetéseket, amelyekben az ügyfelek hiányzó funkciókat említenek.",
+        "CONDITION": "Az ügyfél olyan lehetőséget kér, amelyet a termék jelenleg nem kínál, vagy arról érdeklődik, hogy megoldható-e valami, ami nem lehetséges. Hagyja ki azokat a kérdéseket, amelyek egy már meglévő funkció használatára vonatkoznak."
+      },
+      "REFUND_REQUESTS": {
+        "NAME": "Visszatérítési kérelmek",
+        "AUDIENCE": "Pénzügyi csapatoknak",
+        "SUMMARY": "Egységesen számolja a heti visszatérítési kérelmeket.",
+        "CONDITION": "Az ügyfél vissza szeretné kapni egy már teljesített fizetés összegét. Ide tartoznak a kétszer levont összegek és a lemondás utáni visszatérítések is. Hagyja ki a visszatérítési szabályzatra vonatkozó kérdéseket és a kedvezménykéréseket."
+      },
+      "CANCELLATION_INTENT": {
+        "NAME": "Lemondási szándék",
+        "AUDIENCE": "Ügyfélkapcsolati menedzsereknek",
+        "SUMMARY": "Keresse meg azokat az ügyfeleket, akikkel érdemes beszélni, mielőtt távoznának.",
+        "CONDITION": "Az ügyfél le szeretné mondani a szolgáltatást, nem kívánja megújítani az előfizetését, vagy abba akarja hagyni a termék használatát. Hagyja ki a csomag visszaminősítésére vagy a felhasználói helyek számának csökkentésére irányuló kéréseket, valamint azokat a lemondásokat, amelyeket az ügyfél ugyanabban a beszélgetésben visszavon."
+      },
+      "PAYMENT_FAILURES": {
+        "NAME": "Sikertelen fizetések",
+        "AUDIENCE": "Számlázási és ügyfélszolgálati csapatoknak",
+        "SUMMARY": "Azonosítsa azokat az ügyfeleket, akik nem tudnak fizetni.",
+        "CONDITION": "Az ügyfél jelzi, hogy a fizetés, a pénztárfolyamat vagy a számlafizetés sikertelen volt, illetve elutasították a bankkártyáját. Hagyja ki a visszatérítési kérelmeket, a sikeresen teljesített terhelésekkel kapcsolatos vitákat és a fizetési módokra vonatkozó általános kérdéseket."
+      },
+      "PRODUCT_ERRORS": {
+        "NAME": "Termékhibák",
+        "AUDIENCE": "Ügyfélszolgálati és fejlesztőcsapatoknak",
+        "SUMMARY": "Kövesse nyomon, ha egyre több hiba és összeomlás fordul elő.",
+        "CONDITION": "Az ügyfél olyan hibáról, összeomlásról, elérhetetlen szolgáltatásról vagy súlyos lassulásról számol be, amely megakadályozza egy feladat elvégzésében. Hagyja ki a bejelentkezési problémákat és a működő funkciók használatára vonatkozó kérdéseket."
+      },
+      "ISSUE_STILL_UNRESOLVED": {
+        "NAME": "Megoldatlan probléma",
+        "AUDIENCE": "Ügyfélszolgálati vezetőknek",
+        "SUMMARY": "Keresse meg azokat a beszélgetéseket, amelyek további utánkövetést igényelnek.",
+        "CONDITION": "Az ügyfél jelzi, hogy a javasolt megoldás nem működött, a probléma ismét jelentkezett, vagy az ügy továbbra is fennáll annak ellenére, hogy az ügyfélszolgálat megoldottnak jelölte. Hagyja ki az első alkalommal bejelentett problémákat és azokat a kéréseket, amelyek csak az állapot felől érdeklődnek."
+      },
+      "ESCALATION_REQUESTS": {
+        "NAME": "Eszkalációs kérelmek",
+        "AUDIENCE": "Ügyfélszolgálati vezetőknek",
+        "SUMMARY": "Emelje ki a gyors figyelmet igénylő kéréseket.",
+        "CONDITION": "Az ügyfél kifejezetten ügyintézőt, vezetőt, szakértőt vagy magasabb szintű ügyfélszolgálati segítséget kér, mert a problémája nem oldódott meg. Hagyja ki a szokásos átirányításokat és az értékesítési megkereséseket."
+      }
+    },
+    "MATCHING_CONVERSATIONS": "Létrejött egyező beszélgetések",
+    "LAST_DAYS": "Elmúlt {count} nap | Elmúlt {count} nap",
+    "LAST_DAYS_BEFORE_PAUSE": "{count} nap a szüneteltetésig | {count} nap a szüneteltetésig",
+    "GROUP_BY": "Csoportosítás időköz szerint: {interval}",
+    "INTERVALS": {
+      "HOUR": "1 óra",
+      "SIX_HOURS": "6 óra",
+      "DAY": "1 nap"
+    },
+    "EDIT": "Szerkesztés",
+    "UPDATE": "Frissítés",
+    "MONITOR_DESCRIPTION": "Leírás",
+    "EDIT_HELP": "A leírás határozza meg, mely beszélgetések számítanak egyezőnek. Módosításakor a meglévő találatok törlődnek, a korábban ellenőrzött beszélgetéseket pedig a rendszer újra megvizsgálja. A kihagyott időszakok továbbra is kimaradnak. Ha a figyelő szünetel, az újbóli ellenőrzés a folytatáskor indul el.",
+    "DUPLICATE": "Másolat készítése",
+    "PAUSE": "Szüneteltetés",
+    "RESUME": "Folytatás",
+    "RESUME_HELP": "Válassza ki, honnan folytassa a figyelő működését. A korábbi találatok továbbra is elérhetők maradnak.",
+    "RESUME_CATCH_UP": "A szüneteltetés időszakának ellenőrzése",
+    "RESUME_CATCH_UP_HELP": "Ellenőrizze a szüneteltetés kezdete óta mostanáig létrejött beszélgetéseket és az ügyfelektől érkezett üzeneteket, majd folytassa az élő frissítéseket.",
+    "RESUME_FROM_NOW": "Folytatás mostantól",
+    "RESUME_FROM_NOW_HELP": "Mostantól csak az új ügyfélüzeneteket és beszélgetéseket ellenőrizze. A szüneteltetés időszakát ne vizsgálja át.",
+    "DELETE": "Törlés",
+    "DELETE_HELP": "Törli ezt a figyelőt és az eredményeit? A beszélgetések nem törlődnek.",
+    "PAUSE_HELP": "Szünetelteti ezt a figyelőt? Az eredményei továbbra is elérhetők maradnak, de az üzenetek és beszélgetések ellenőrzése leáll.",
+    "PAUSED_HELP": "Szüneteltetés kezdete: {time}. A korábbi eredmények továbbra is elérhetők. Az új üzenetek és beszélgetések ellenőrzése szünetel.",
+    "COLLECTED_UNTIL": "Eddig gyűjtött eredmények: {time}.",
+    "RETRY": "Újrapróbálás",
+    "RESULTS_UPDATED": "Új eredmények érhetők el. A diagram frissült; válasszon ki egy oszlopot a hozzá tartozó friss beszélgetések megtekintéséhez.",
+    "TIME_BASIS_HELP": "Minden beszélgetés csak egyszer, a létrehozásának napján számít bele. Egy új egyezés egy korábbi oszlop értékét is módosíthatja.",
+    "COVERAGE_HELP": "Ez az időszak olyan szakaszokat is tartalmaz, amelyeket a rendszer nem ellenőrzött teljesen. A számok hiányosak lehetnek.",
+    "REFRESHED": "Utolsó frissítés: {time}. Az adatok automatikusan frissülnek.",
+    "USAGE": {
+      "LIMIT_REACHED": "Fiókja ebben a hónapban felhasználta mind a {limit} figyelőhívást.",
+      "RESETS": "Az új kiértékelések és előnézetek szünetelnek eddig: {time}. A meglévő eredmények továbbra is elérhetők.",
+      "REACHED_AT": "Korlát elérve: {time}."
+    },
+    "STATES": {
+      "SCANNING": "Friss beszélgetések ellenőrzése",
+      "PROCESSING": "Beszélgetések ellenőrzése",
+      "RECHECKING": "Beszélgetések újraellenőrzése a módosított leírás alapján",
+      "LIVE": "Naprakész",
+      "DELAYED": "A frissítések késnek",
+      "NEEDS_ATTENTION": "Figyelmet igényel",
+      "PAUSED": "Szüneteltetve",
+      "CATCHING_UP": "A szüneteltetés időszakának ellenőrzése"
+    },
+    "ERRORS": {
+      "FETCH_FAILED": "Nem sikerült betölteni ezt a figyelőt. Frissítse az oldalt az újrapróbálkozáshoz.",
+      "SAVE_FAILED": "Nem sikerült menteni a figyelőt. Ellenőrizze a nevét és a feltételt, majd próbálja újra.",
+      "NOT_CONFIGURED": "Állítsa be az OpenRouter kapcsolatot, majd kattintson az Újrapróbálás gombra.",
+      "CREDENTIALS_INVALID": "Az OpenRouter kapcsolat beállításai figyelmet igényelnek. Kérje meg a telepítés rendszergazdáját, hogy ellenőrizze a hitelesítési adatokat.",
+      "PROVIDER_CREDITS_EXHAUSTED": "Az OpenRouter fiókján nincs elegendő kredit. Kérje meg a telepítés rendszergazdáját, hogy ellenőrizze az egyenleget, majd próbálja újra.",
+      "INVALID_REQUEST": "A kiértékelési kéréssel probléma merült fel. Forduljon a telepítés rendszergazdájához.",
+      "INVALID_RESPONSE": "A kiértékelési szolgáltató hiányos eredményt adott vissza. Az érintett beszélgetések nem kerültek bele a számításba.",
+      "PROVIDER_BUSY": "A kiértékelési szolgáltató foglalt. A függőben lévő beszélgetéseket újra kell értékelni.",
+      "PROVIDER_UNAVAILABLE": "A kiértékelési szolgáltató átmenetileg nem érhető el. A frissítések késhetnek.",
+      "BUDGET_LIMIT": "Elérte a napi kiértékelési keretet. A függőben lévő feladatok a keret visszaállítása után folytatódnak.",
+      "MONTHLY_LIMIT": "Fiókja elérte a figyelőkre vonatkozó havi keretet. A függőben lévő kiértékelések a következő hónapban folytatódnak.",
+      "CONTEXT_LIMIT": "Néhány beszélgetés túl hosszú a teljes kiértékeléshez, ezért ezek kimaradnak az eredményekből.",
+      "INVALID_PARAMETERS": "Ellenőrizze a nevet, a feltételt, a dátumtartományt és az időközt.",
+      "TOO_MANY_BUCKETS": "Válasszon rövidebb dátumtartományt vagy hosszabb időközt. A diagram legfeljebb 744 oszlopot jeleníthet meg.",
+      "MONITOR_LIMIT": "Fiókja elérte az aktív figyelők megengedett számát. Újabb létrehozása előtt szüneteltessen egy figyelőt.",
+      "MONITOR_PAUSED": "Ez a figyelő szünetel, ezért már nem ellenőrzi a beszélgetéseket.",
+      "MONITOR_CHANGED": "Ez a figyelő egy másik munkamenetben módosult. Az aktuális állapot frissült. Próbálja újra."
+    }
+  },
   "REPORT": {
     "HEADER": "Beszélgetések",
     "LOADING_CHART": "Táblázat adatok betöltése...",
@@ -23,14 +189,14 @@
         "NAME": "Első reakció idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
+        "TOOLTIP_DESCRIPTION": "{count} beszélgetés alapján | {count} beszélgetés alapján",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Megoldási idő",
         "DESC": "( Átlag )",
         "INFO_TEXT": "A számításhoz felhasznált beszélgetések száma:",
-        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
+        "TOOLTIP_DESCRIPTION": "{count} beszélgetés alapján | {count} beszélgetés alapján",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
@@ -47,8 +213,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Vevő várakozási idő",
-        "TOOLTIP_LABEL": "Waiting time",
-        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
+        "TOOLTIP_LABEL": "Várakozási idő",
+        "TOOLTIP_DESCRIPTION": "{count} válasz alapján | {count} válasz alapján",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
@@ -126,23 +292,24 @@
       "EMPTY_LIST": "Nincs találat"
     },
     "DRILLDOWN": {
-      "TITLE": "{metric} details",
-      "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations",
-      "RESULT_COUNT_MESSAGE": "{count} message | {count} messages",
-      "EMPTY": "No records found for this bar.",
-      "ERROR": "Could not load records. Please try again.",
-      "ADMIN_ONLY": "Only administrators can drill down into report records.",
+      "TITLE": "{metric} részletei",
+      "RESULT_COUNT_CONVERSATION": "{count} beszélgetés | {count} beszélgetés",
+      "RESULT_COUNT_MESSAGE": "{count} üzenet | {count} üzenet",
+      "EMPTY": "Ehhez az oszlophoz nem található adat.",
+      "ERROR": "Nem sikerült betölteni az adatokat. Próbálja újra.",
+      "ADMIN_ONLY": "A jelentés adatainak részleteit csak rendszergazdák tekinthetik meg.",
       "LOAD_MORE": "Load more",
-      "PREVIOUS_BUCKET": "Previous bar",
-      "NEXT_BUCKET": "Next bar",
-      "UNKNOWN_CONTACT": "Unknown contact",
-      "UNKNOWN_INBOX": "Unknown inbox",
+      "PREVIOUS_BUCKET": "Előző oszlop",
+      "NEXT_BUCKET": "Következő oszlop",
+      "VIEW_ALL": "Összes megtekintése",
+      "UNKNOWN_CONTACT": "Ismeretlen kontakt",
+      "UNKNOWN_INBOX": "Ismeretlen postaláda",
       "UNASSIGNED_AGENT": "Gazdátlan",
-      "NO_MESSAGE_CONTENT": "No message content",
-      "MESSAGE_CREATED_AT": "Message created at {time}",
-      "EVENT_OCCURRED_AT": "Event occurred at {time}",
-      "INCOMING_MESSAGE": "Incoming message",
-      "OUTGOING_MESSAGE": "Outgoing message"
+      "NO_MESSAGE_CONTENT": "Nincs üzenettartalom",
+      "MESSAGE_CREATED_AT": "Üzenet létrehozása: {time}",
+      "EVENT_OCCURRED_AT": "Esemény időpontja: {time}",
+      "INCOMING_MESSAGE": "Beérkező üzenet",
+      "OUTGOING_MESSAGE": "Kimenő üzenet"
     },
     "PAGINATION": {
       "RESULTS": "Showing {start} to {end} of {total} results",
@@ -548,7 +715,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Áttekintés",
     "LIVE": "Élő",
-    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
+    "HEATMAP_ARIA_LABEL": "{metric} nap és óra szerinti bontásban",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Beszélgetések megnyitása",
       "LOADING_MESSAGE": "Beszélgetési metrikák betöltése...",

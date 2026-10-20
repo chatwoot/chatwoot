@@ -45,7 +45,8 @@
       "TABLE_HEADER": {
         "ACTIVITY": "User",
         "TIME": "Action",
-        "IP_ADDRESS": "IP 地址"
+        "IP_ADDRESS": "IP 地址",
+        "LOCATION": "位置"
       }
     },
     "API": {
