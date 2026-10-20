@@ -32,11 +32,11 @@
           "LABEL": "Monitor",
           "PLACEHOLDER": "Select a live monitor",
           "ERROR": "Select a live monitor",
-          "FETCH_FAILED": "Could not load monitors. Try again later.",
+          "FETCH_FAILED": "Kunne ikke indlæse overvågninger. Prøv igen senere.",
           "API_UNAVAILABLE": "This monitor is no longer available. Select a live monitor and try again.",
           "EMPTY": "No live monitors yet. Create or resume a monitor to use this event.",
           "GO_TO_MONITORS": "Go to monitors",
-          "RETRY": "Retry",
+          "RETRY": "Prøv igen",
           "UNAVAILABLE": "Unavailable monitor",
           "UNAVAILABLE_HELP": "This monitor is unavailable for automation. Select a live monitor to activate this rule.",
           "HELP": "Runs once when the monitor first matches a conversation from new live activity. Historical scans do not trigger actions."
