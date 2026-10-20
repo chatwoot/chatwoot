@@ -8,20 +8,20 @@
       "EMPTY": "No automations are linked to this monitor yet.",
       "ACTIVE": "Aktiv",
       "DISABLED": "Deaktiveret",
-      "FETCH_FAILED": "Could not load linked automations."
+      "FETCH_FAILED": "Kunne ikke indlæse forbundne automatiseringer."
     },
     "LIST": {
       "CONVERSATIONS_COUNT": "{count} conversation | {count} conversations",
       "CONVERSATIONS_HELP": "Count of conversations matching this monitor in the last 7 days.",
       "RUNNING": "Running",
-      "FETCH_FAILED": "Could not load monitors. Please try again.",
+      "FETCH_FAILED": "Kunne ikke indlæse overvågninger. Prøv venligst igen.",
       "PAGINATION": "Showing {startItem} – {endItem} of {totalItems} monitor | Showing {startItem} – {endItem} of {totalItems} monitors"
     },
     "DESCRIPTION": "Follow the themes that matter across your customer conversations. Describe a topic in plain English, and a monitor charts matching conversations as new customer messages arrive.",
     "CREATE": "Create monitor",
     "PREVIEW": "Preview matches",
     "PREVIEW_COOLDOWN": "You can preview again in {count} second. | You can preview again in {count} seconds.",
-    "PREVIEW_FAILED": "Could not preview matches. Please try again.",
+    "PREVIEW_FAILED": "Kunne ikke forhåndsvise matches. Prøv venligst igen.",
     "PREVIEW_HELP": "{count} match in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan. | {count} matches in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan.",
     "NAME": "Navn",
     "NAME_PLACEHOLDER": "Refund conversations",
@@ -42,7 +42,7 @@
         "NAME": "Login problems",
         "AUDIENCE": "For support teams",
         "SUMMARY": "See when login complaints start increasing.",
-        "CONDITION": "A customer says they cannot sign in to their account, including failed password resets and verification codes that never arrive. Exclude questions about changing a password while already signed in."
+        "CONDITION": "En kunde siger, at de ikke kan logge ind på deres konto, herunder mislykkede adgangskodenulstillinger og bekræftelseskoder, der aldrig ankommer. Udeluk spørgsmål om at ændre en adgangskode, mens du allerede er logget ind."
       },
       "MISSING_ORDER_UPDATES": {
         "NAME": "Missing order updates",
@@ -78,7 +78,7 @@
         "NAME": "Payment failures",
         "AUDIENCE": "For billing and support teams",
         "SUMMARY": "Spot customers who are blocked from paying.",
-        "CONDITION": "A customer says a payment, checkout, or invoice payment failed, or their card was declined. Exclude refund requests, disputes about completed charges, and general questions about payment methods."
+        "CONDITION": "En kunde siger en betaling, kassen eller faktura betaling mislykkedes, eller deres kort blev afvist. Udeluk anmodninger om tilbagebetaling, uenighed om gennemførte gebyrer og generelle spørgsmål om betalingsmetoder."
       },
       "PRODUCT_ERRORS": {
         "NAME": "Product errors",
@@ -125,7 +125,7 @@
     "PAUSE_HELP": "Pause this monitor? Its results will remain available, and it will stop checking messages and conversations.",
     "PAUSED_HELP": "Paused on {time}. Historical results remain available. New messages and conversations are not being checked.",
     "COLLECTED_UNTIL": "Results collected until {time}.",
-    "RETRY": "Retry",
+    "RETRY": "Prøv igen",
     "RESULTS_UPDATED": "New results are available. The chart has been refreshed; select a bar to view its updated conversations.",
     "TIME_BASIS_HELP": "Each conversation counts once, on the date it was created. A new match can update an earlier bar.",
     "COVERAGE_HELP": "This range includes periods that were not fully checked. Counts may be incomplete.",
@@ -141,13 +141,13 @@
       "RECHECKING": "Rechecking conversations with the updated description",
       "LIVE": "Up to date",
       "DELAYED": "Updates are delayed",
-      "NEEDS_ATTENTION": "Needs attention",
+      "NEEDS_ATTENTION": "Kræver opmærksomhed",
       "PAUSED": "Paused",
       "CATCHING_UP": "Checking the paused period"
     },
     "ERRORS": {
-      "FETCH_FAILED": "Could not load this monitor. Refresh to try again.",
-      "SAVE_FAILED": "Could not save the monitor. Check the name and condition, then try again.",
+      "FETCH_FAILED": "Kunne ikke indlæse denne overvågning. Opdater for at prøve igen.",
+      "SAVE_FAILED": "Kunne ikke gemme overvågningen. Tjek navn og betingelse, og prøv igen.",
       "NOT_CONFIGURED": "Configure the OpenRouter connection, then click Retry.",
       "CREDENTIALS_INVALID": "The OpenRouter connection needs attention. Ask your installation administrator to check its credentials.",
       "PROVIDER_CREDITS_EXHAUSTED": "The OpenRouter account has insufficient credits. Ask your installation administrator to check its balance, then retry.",
