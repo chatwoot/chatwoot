@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Magpadala ng email na abiso kapag may bagong mensahe sa isang kalahok na pag-uusap",
         "SLA_MISSED_FIRST_RESPONSE": "Magpadala ng mga email na abiso kapag ang isang pag-uusap ay hindi nakasunod sa unang tugon na SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Magpadala ng mga email na abiso kapag ang isang pag-uusap ay hindi nakasunod sa susunod na tugon na SLA",
-        "SLA_MISSED_RESOLUTION": "Magpadala ng mga email na abiso kapag ang isang pag-uusap ay hindi nakasunod sa resolusyon na SLA"
+        "SLA_MISSED_RESOLUTION": "Magpadala ng mga email na abiso kapag ang isang pag-uusap ay hindi nakasunod sa resolusyon na SLA",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Mga kagustuhan sa abiso",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "May bagong mensahe sa isang kalahok na pag-uusap",
           "SLA_MISSED_FIRST_RESPONSE": "Hindi naabot ng pag-uusap ang unang tugon na SLA",
           "SLA_MISSED_NEXT_RESPONSE": "Hindi naabot ng pag-uusap ang susunod na tugon na SLA",
-          "SLA_MISSED_RESOLUTION": "Hindi naabot ng pag-uusap ang resolusyon na SLA"
+          "SLA_MISSED_RESOLUTION": "Hindi naabot ng pag-uusap ang resolusyon na SLA",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Paganahin ang push notifications para sa iyong browser upang matanggap mo ang mga ito"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "I-enable ang push notifications",
         "SLA_MISSED_FIRST_RESPONSE": "Magpadala ng mga push na abiso kapag ang isang pag-uusap ay hindi nakasunod sa unang tugon na SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Magpadala ng mga push na abiso kapag ang isang pag-uusap ay hindi nakasunod sa susunod na tugon na SLA",
-        "SLA_MISSED_RESOLUTION": "Magpadala ng push notification kapag ang isang pag-uusap ay hindi naabot ang resolution SLA"
+        "SLA_MISSED_RESOLUTION": "Magpadala ng push notification kapag ang isang pag-uusap ay hindi naabot ang resolution SLA",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Larawan ng Profile"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Pag-index ng Paghahanap sa Help Center",
         "DESCRIPTION": "Gamitin ang AI para sa kontekstuwal na paghahanap sa loob ng iyong mga artikulo sa help center."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Mungkahi ng Label",
-        "DESCRIPTION": "Awtomatikong magmungkahi ng mga kaugnay na label at tag para sa mga pag-uusap batay sa pagsusuri ng nilalaman at konteksto.",
-        "MODEL_TITLE": "Modelo ng Mungkahi ng Label",
-        "MODEL_DESCRIPTION": "Piliin ang AI na modelo na gagamitin para sa pagsusuri ng mga pag-uusap at pagmumungkahi ng angkop na mga label"
       }
     },
     "API": {
