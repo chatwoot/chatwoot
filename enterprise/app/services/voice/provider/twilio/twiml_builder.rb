@@ -41,21 +41,28 @@ class Voice::Provider::Twilio::TwimlBuilder
     end.to_s
   end
 
-  # What an inbound caller hears until an agent joins: the greeting once, then the inbox's waiting
-  # audio or Twilio's own playlist, which loops itself
+  # What an inbound caller hears until an agent joins: the greeting once, then the waiting audio
   def wait
     greeting = Voice::CallAnnouncement.new(inbox, :greeting)
     Twilio::TwiML::VoiceResponse.new do |response|
       greeting.speak(response) if greeting.enabled?
-      if inbox.call_waiting_audio.attached?
-        response.play(url: url_helpers.rails_blob_url(inbox.call_waiting_audio), loop: 0)
-      else
-        response.redirect(DEFAULT_WAIT_URL, method: 'GET')
-      end
+      waiting_audio(response)
     end.to_s
   end
 
+  # What a caller on hold hears: the waiting audio, without the greeting
+  def hold = Twilio::TwiML::VoiceResponse.new { |response| waiting_audio(response) }.to_s
+
   private
+
+  # The inbox's waiting audio, or Twilio's own playlist, which loops itself
+  def waiting_audio(response)
+    if inbox.call_waiting_audio.attached?
+      response.play(url: url_helpers.rails_blob_url(inbox.call_waiting_audio), loop: 0)
+    else
+      response.redirect(DEFAULT_WAIT_URL, method: 'GET')
+    end
+  end
 
   def agent_leg? = from.start_with?('client:')
 

@@ -30,10 +30,12 @@ class Voice::Provider::Twilio::ConferenceService
     in_progress_conferences.any? { |conf| other_agent_present?(conf.sid, leaving_call_sid) }
   end
 
-  # Holds or resumes the contact's leg in the conference: on hold they hear Twilio's hold music and
-  # nobody hears them. A refusal propagates, so the dashboard never shows a hold Twilio did not make.
+  # Holds or resumes the contact's leg in the conference: on hold they hear the inbox's waiting
+  # audio, which starts sooner than Twilio's own playlist, and nobody hears them. A refusal
+  # propagates, so the dashboard never shows a hold Twilio did not make.
   def hold_contact(on_hold)
-    client.conferences(call.twilio_conference_sid).participants(call.provider_call_id).update(hold: on_hold)
+    participant = client.conferences(call.twilio_conference_sid).participants(call.provider_call_id)
+    on_hold ? participant.update(hold: true, hold_url: hold_url, hold_method: 'GET') : participant.update(hold: false)
   rescue Twilio::REST::RestError => e
     Rails.logger.error("[VOICE] call #{call.id}: hold=#{on_hold} failed: #{e.class}: #{e.message}")
     raise Voice::CallErrors::CallFailed, I18n.t('errors.voice.hold_failed')
@@ -79,6 +81,10 @@ class Voice::Provider::Twilio::ConferenceService
 
   def in_progress_conferences
     client.conferences.list(friendly_name: call.conference_sid, status: 'in-progress')
+  end
+
+  def hold_url
+    Rails.application.routes.url_helpers.twilio_voice_hold_url(phone: call.inbox.channel.phone_number.delete_prefix('+'))
   end
 
   def other_agent_present?(conference_sid, leaving_call_sid)

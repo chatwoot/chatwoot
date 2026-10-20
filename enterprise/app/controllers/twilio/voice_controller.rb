@@ -40,6 +40,11 @@ class Twilio::VoiceController < ApplicationController
     render xml: twiml.wait
   end
 
+  # Fetched by Twilio for a caller an agent put on hold
+  def hold_twiml
+    render xml: twiml.hold
+  end
+
   def conference_status
     event = mapped_conference_event
     if event.nil?

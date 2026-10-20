@@ -388,6 +388,28 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
     end
   end
 
+  describe 'GET /twilio/voice/hold/:phone' do
+    def elements = Nokogiri::XML(response.body).at_xpath('/Response').elements
+
+    it 'loops the uploaded waiting audio for a caller on hold, without the greeting' do
+      channel.update!(provider_config: channel.provider_config.merge('call_greeting_enabled' => true, 'call_greeting_message' => 'Welcome'))
+      inbox.call_waiting_audio.attach(io: StringIO.new('music'), filename: 'music.mp3', content_type: 'audio/mpeg')
+
+      get "/twilio/voice/hold/#{digits}"
+
+      expect(elements.map(&:name)).to eq(['Play'])
+      expect(elements.first.text).to end_with('/music.mp3')
+      expect(elements.first['loop']).to eq('0')
+    end
+
+    it "hands a caller on hold to Twilio's playlist when no waiting audio is uploaded" do
+      get "/twilio/voice/hold/#{digits}"
+
+      expect(elements.map(&:name)).to eq(['Redirect'])
+      expect(elements.first.text).to eq('https://s3.amazonaws.com/com.twilio.sounds.music/index.xml')
+    end
+  end
+
   describe 'POST /twilio/voice/status/:phone' do
     let(:call_sid) { 'CA_status_sid_456' }
 
