@@ -45,6 +45,19 @@ describe Sms::OneoffSmsCampaignService do
       expect(campaign.reload.completed?).to be true
     end
 
+    it 'marks the campaign completed after processing the audience' do
+      contact = create(:contact, :with_phone_number, account: account)
+      contact.update_labels([label1.title])
+
+      expect(sms_channel).to receive(:send_text_message) do
+        expect(campaign.reload.completed?).to be false
+      end
+
+      sms_campaign_service.perform
+
+      expect(campaign.reload.completed?).to be true
+    end
+
     it 'uses liquid template service to process campaign message' do
       contact = create(:contact, :with_phone_number, account: account)
       contact.update_labels([label1.title])

@@ -9,6 +9,7 @@ FactoryBot.define do
     param_schema { [] }
     enabled { true }
     association :account
+    assistant { association :captain_assistant, account: account }
 
     trait :with_post do
       http_method { 'POST' }
@@ -27,7 +28,7 @@ FactoryBot.define do
 
     trait :with_api_key do
       auth_type { 'api_key' }
-      auth_config { { key: 'test_api_key', location: 'header', name: 'X-API-Key' } }
+      auth_config { { key: 'test_api_key', name: 'X-API-Key' } }
     end
 
     trait :with_templates do

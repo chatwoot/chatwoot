@@ -5,6 +5,8 @@ RSpec.describe Sla::ProcessAppliedSlaJob do
     let(:account) { create(:account) }
     let(:applied_sla) { create(:applied_sla, account: account) }
 
+    before { account.enable_features!('sla') }
+
     it 'enqueues the job' do
       expect { described_class.perform_later(applied_sla) }.to have_enqueued_job(described_class)
         .with(applied_sla)
@@ -13,7 +15,14 @@ RSpec.describe Sla::ProcessAppliedSlaJob do
 
     it 'calls the EvaluateAppliedSlaService' do
       expect(Sla::EvaluateAppliedSlaService).to receive(:new).with(applied_sla: applied_sla).and_call_original
-      described_class.perform_now(applied_sla)
+      described_class.perform_now(applied_sla.reload)
+    end
+
+    it 'does not call the EvaluateAppliedSlaService when the sla feature is disabled' do
+      account.disable_features!('sla')
+
+      expect(Sla::EvaluateAppliedSlaService).not_to receive(:new)
+      described_class.perform_now(applied_sla.reload)
     end
   end
 end

@@ -5,7 +5,10 @@ class Inboxes::FetchImapEmailInboxesJob < ApplicationJob
   def perform
     email_inboxes = Inbox.where(channel_type: 'Channel::Email')
     email_inboxes.find_each(batch_size: 100) do |inbox|
-      ::Inboxes::FetchImapEmailsJob.perform_later(inbox.channel) if should_fetch_emails?(inbox)
+      next unless should_fetch_emails?(inbox)
+
+      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Enqueuing fetch job for inbox #{inbox.id}"
+      ::Inboxes::FetchImapEmailsJob.perform_later(inbox.channel)
     end
   end
 

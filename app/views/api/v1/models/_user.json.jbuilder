@@ -1,5 +1,11 @@
-json.access_token resource.access_token.token
-json.account_id resource.active_account_user&.account_id
+# loaded once here; per-row lookups below would otherwise cost a query per membership
+account_users = resource.account_users.includes(:account)
+account_users = account_users.includes(:custom_role) if ChatwootApp.enterprise?
+# full-precision timestamps, nils last, matching ORDER BY active_at DESC NULLS LAST
+active_account_user = account_users.max_by { |account_user| [account_user.active_at ? 1 : 0, account_user.active_at || Time.at(0).utc] }
+
+json.access_token resource.accounts.any?(&:api_and_webhooks_enabled?) ? resource.access_token.token : ''
+json.account_id active_account_user&.account_id
 json.available_name resource.available_name
 json.avatar_url resource.avatar_url
 json.confirmed resource.confirmed?
@@ -8,21 +14,30 @@ json.message_signature resource.message_signature
 json.email resource.email
 json.hmac_identifier resource.hmac_identifier if GlobalConfig.get('CHATWOOT_INBOX_HMAC_KEY')['CHATWOOT_INBOX_HMAC_KEY'].present?
 json.id resource.id
-json.inviter_id resource.active_account_user&.inviter_id
+json.inviter_id active_account_user&.inviter_id
 json.name resource.name
 json.provider resource.provider
 json.pubsub_token resource.pubsub_token
 json.custom_attributes resource.custom_attributes if resource.custom_attributes.present?
-json.role resource.active_account_user&.role
+json.role active_account_user&.role
 json.ui_settings resource.ui_settings
 json.uid resource.uid
 json.type resource.type
+shopify_account_ids = if Shopify::FeatureGate.globally_enabled?
+                        Integrations::Hook.where(app_id: 'shopify', account_id: account_users.map(&:account_id)).pluck(:account_id).to_set
+                      else
+                        Set.new
+                      end
 json.accounts do
-  json.array! resource.account_users do |account_user|
+  json.array! account_users do |account_user|
+    account = account_user.account
     json.id account_user.account_id
-    json.name account_user.account.name
-    json.status account_user.account.status
-    json.onboarding_step account_user.account.onboarding_step
+    json.name account.name
+    json.status account.status
+    json.onboarding_step account.onboarding_step
+    json.shopify_integration Shopify::FeatureGate.enabled?(account: account)
+    json.shopify_connected shopify_account_ids.include?(account.id)
+    json.partial! 'enterprise/api/v1/models/account_billing', account: account if ChatwootApp.enterprise?
     json.active_at account_user.active_at
     json.role account_user.role
     json.permissions account_user.permissions
@@ -31,6 +46,7 @@ json.accounts do
     # availability derived from presence
     json.availability_status account_user.availability_status
     json.auto_offline account_user.auto_offline
+    json.api_and_webhooks account_user.account.feature_enabled?('api_and_webhooks')
     json.partial! 'api/v1/models/account_user', account_user: account_user if ChatwootApp.enterprise?
   end
 end

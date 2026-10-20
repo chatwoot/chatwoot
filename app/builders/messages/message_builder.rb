@@ -7,12 +7,13 @@ class Messages::MessageBuilder
 
   def initialize(user, conversation, params)
     @params = params
-    @private = params[:private] || false
+    @private = ActiveModel::Type::Boolean.new.cast(params[:private]) || false
     @conversation = conversation
     @user = user
     @account = conversation.account
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
+    @is_voice_message = ActiveModel::Type::Boolean.new.cast(params[:is_voice_message])
     @automation_rule = content_attributes&.dig(:automation_rule_id)
     return unless params.instance_of?(ActionController::Parameters)
 
@@ -48,25 +49,52 @@ class Messages::MessageBuilder
   end
 
   def process_attachments
-    return if @attachments.blank?
-
-    @attachments.each do |uploaded_attachment|
+    (Array(@attachments) + forwarded_attachments).each do |uploaded_attachment|
       attachment = @message.attachments.build(
         account_id: @message.account_id,
         file: uploaded_attachment
       )
 
-      attachment.file_type = if uploaded_attachment.is_a?(String)
-                               file_type_by_signed_id(
-                                 uploaded_attachment
-                               )
-                             else
-                               file_type(uploaded_attachment&.content_type)
-                             end
+      attachment.file_type = attachment_file_type(uploaded_attachment)
+      tag_voice_message(attachment)
     end
   end
 
+  def attachment_file_type(uploaded_attachment)
+    if uploaded_attachment.is_a?(String)
+      file_type_by_signed_id(uploaded_attachment)
+    else
+      file_type(uploaded_attachment&.content_type)
+    end
+  end
+
+  def tag_voice_message(attachment)
+    return unless @is_voice_message && attachment.file_type == 'audio'
+
+    attachment.meta = (attachment.meta || {}).merge('is_voice_message' => true)
+  end
+
+  def forwarded_message_id
+    content_attributes[:forwarded_message_id]
+  end
+
+  def forwarded_attachments
+    return [] if forwarded_message_id.blank?
+
+    forwarded_message = @conversation.messages.find(forwarded_message_id)
+    forwarded_message.attachments.where(id: @params[:forwarded_attachment_ids]).map { |attachment| attachment.file.blob }
+  end
+
+  def validate_forward
+    return if forwarded_message_id.blank?
+
+    raise StandardError, 'Forwarded emails need an email inbox' unless @conversation.inbox.email?
+    raise StandardError, 'Forwarded emails cannot be private' if @private
+    raise StandardError, 'Forwarded emails need a recipient' if process_email_string(@params[:to_emails]).empty?
+  end
+
   def process_emails
+    validate_forward
     return unless @conversation.inbox&.inbox_type == 'Email'
 
     cc_emails = process_email_string(@params[:cc_emails])
@@ -79,6 +107,7 @@ class Messages::MessageBuilder
     @message.content_attributes[:cc_emails] = cc_emails
     @message.content_attributes[:bcc_emails] = bcc_emails
     @message.content_attributes[:to_emails] = to_emails
+    @message.content_attributes[:email] = { subject: @params[:subject] } if @params[:subject].present? && !@private
   end
 
   def process_email_content

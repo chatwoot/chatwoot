@@ -85,6 +85,17 @@ RSpec.describe 'Enterprise Portal API', type: :request do
         json_response = response.parsed_body
         expect(json_response['name']).to eq('updated_portal')
       end
+
+      it 'ignores analytics config for knowledge_base_manage users' do
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: { portal: { name: 'updated_portal', config: { analytics: { ga4_measurement_id: 'G-KBMANAGER1' } } } },
+            headers: agent_with_role.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(portal.reload.name).to eq('updated_portal')
+        expect(portal.config['analytics']).to be_blank
+      end
     end
   end
 

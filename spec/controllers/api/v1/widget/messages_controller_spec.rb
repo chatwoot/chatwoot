@@ -42,6 +42,39 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   end
 
   describe 'POST /api/v1/widget/messages' do
+    context 'when the conversation is resolved and the inbox does not allow messages after resolved' do
+      before do
+        web_widget.inbox.update!(allow_messages_after_resolved: false)
+        conversation.resolved!
+      end
+
+      it 'rejects the message and does not create a new conversation' do
+        expect do
+          post api_v1_widget_messages_url,
+               params: { website_token: web_widget.website_token, message: { content: 'hello world' } },
+               headers: { 'X-Auth-Token' => token },
+               as: :json
+        end.to not_change(Conversation, :count).and not_change(Message, :count)
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.conversations.resolved'))
+      end
+
+      it 'accepts the message when the inbox allows messages after resolved' do
+        web_widget.inbox.update!(allow_messages_after_resolved: true)
+
+        expect do
+          post api_v1_widget_messages_url,
+               params: { website_token: web_widget.website_token, message: { content: 'hello world' } },
+               headers: { 'X-Auth-Token' => token },
+               as: :json
+        end.not_to change(Conversation, :count)
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.messages.last.content).to eq('hello world')
+      end
+    end
+
     context 'when post request is made' do
       it 'creates message in conversation' do
         conversation.destroy! # Test all params
@@ -202,7 +235,8 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
             account_id: conversation.account_id,
             inbox_id: conversation.inbox_id,
             message_type: :activity,
-            content: "Conversation was resolved by #{contact.name}"
+            content: "Conversation was resolved by #{contact.name}",
+            content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
           }
         )
         expect(response).to have_http_status(:success)

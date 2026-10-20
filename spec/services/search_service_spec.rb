@@ -138,6 +138,24 @@ describe SearchService do
         end
       end
 
+      context 'when ordering results' do
+        # created_at alone is not unique, so without an id tiebreaker rows can
+        # swap positions between page fetches and duplicate across pages
+        it 'orders with id as tiebreaker in LIKE search' do
+          allow(account).to receive(:feature_enabled?).and_call_original
+          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
+          search = described_class.new(current_user: user, current_account: account, params: { q: 'phoenix' }, search_type: 'Message')
+          expect(search.perform[:messages].to_sql).to include('ORDER BY messages.created_at DESC, messages.id DESC')
+        end
+
+        it 'orders with id as tiebreaker in GIN search' do
+          allow(account).to receive(:feature_enabled?).and_call_original
+          allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(true)
+          search = described_class.new(current_user: user, current_account: account, params: { q: 'phoenix' }, search_type: 'Message')
+          expect(search.perform[:messages].to_sql).to include('ORDER BY messages.created_at DESC, messages.id DESC')
+        end
+      end
+
       # rubocop:disable RSpec/MultipleMemoizedHelpers
       context 'when filtering messages with time, sender, and inbox', :opensearch do
         let!(:agent) { create(:user, account: account) }
@@ -258,6 +276,16 @@ describe SearchService do
         params = { q: new_converstion.display_id }
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
         expect(search.perform[:conversations].map(&:id)).to include new_converstion.id
+      end
+
+      it 'searches across conversations with email subject' do
+        random = create(:contact, account_id: account.id, name: 'random', email: 'random@random.test', identifier: 'random')
+        email_conversation = create(:conversation, contact: random, inbox: inbox, account: account,
+                                                   additional_attributes: { mail_subject: 'Order on hold for review' })
+        create(:conversation, contact: random, inbox: inbox, account: account, additional_attributes: { mail_subject: 'Size update' })
+        params = { q: 'order ON HOLD' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
+        expect(search.perform[:conversations].map(&:id)).to eq([email_conversation.id])
       end
     end
 
@@ -431,6 +459,20 @@ describe SearchService do
         end
       end
     end
+
+    context 'with the search time window' do
+      let!(:old_message) { create(:message, account: account, inbox: inbox, content: 'old test message', created_at: 120.days.ago) }
+
+      it 'excludes messages older than the default window' do
+        expect(search.send(:message_base_query)).not_to include(old_message)
+      end
+
+      it 'includes older messages when SEARCH_TIME_RANGE_LIMIT_DAYS is raised' do
+        with_modified_env SEARCH_TIME_RANGE_LIMIT_DAYS: '180' do
+          expect(search.send(:message_base_query)).to include(old_message)
+        end
+      end
+    end
   end
 
   describe '#use_gin_search' do
@@ -473,6 +515,21 @@ describe SearchService do
         search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
 
         expect(search_service).not_to receive(:advanced_search)
+        search_service.perform
+      end
+    end
+
+    context 'when ordering results' do
+      it 'orders by created_at desc with id as tiebreaker' do
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            order: { created_at: :desc, id: { order: :desc, unmapped_type: 'long' } }
+          )
+        ).and_return([])
+
         search_service.perform
       end
     end
@@ -539,7 +596,7 @@ describe SearchService do
           'test',
           hash_including(
             where: hash_including(
-              created_at: hash_including(gte: be_within(1.second).of(Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS.days.ago))
+              created_at: hash_including(gte: be_within(1.second).of(Limits.search_time_range_limit_days.days.ago))
             )
           )
         ).and_return([])
@@ -548,7 +605,7 @@ describe SearchService do
       end
 
       it 'silently caps since timestamp to 90 day limit when exceeded' do
-        since_timestamp = (Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS * 2).days.ago.to_i
+        since_timestamp = (Limits.search_time_range_limit_days * 2).days.ago.to_i
         params = { q: 'test', since: since_timestamp }
         search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
 
@@ -556,12 +613,31 @@ describe SearchService do
           'test',
           hash_including(
             where: hash_including(
-              created_at: hash_including(gte: be_within(1.second).of(Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS.days.ago))
+              created_at: hash_including(gte: be_within(1.second).of(Limits.search_time_range_limit_days.days.ago))
             )
           )
         ).and_return([])
 
         search_service.perform
+      end
+
+      it 'uses SEARCH_TIME_RANGE_LIMIT_DAYS as the lookback limit when set' do
+        since_timestamp = 150.days.ago.to_i
+        params = { q: 'test', since: since_timestamp }
+        search_service = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+
+        expect(Message).to receive(:search).with(
+          'test',
+          hash_including(
+            where: hash_including(
+              created_at: hash_including(gte: Time.zone.at(since_timestamp))
+            )
+          )
+        ).and_return([])
+
+        with_modified_env SEARCH_TIME_RANGE_LIMIT_DAYS: '180' do
+          search_service.perform
+        end
       end
 
       it 'filters messages since timestamp when within 90 day limit' do

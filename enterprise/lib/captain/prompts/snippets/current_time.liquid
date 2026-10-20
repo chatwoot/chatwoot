@@ -1,0 +1,8 @@
+{% if current_time -%}
+# Current Time
+Current time: {{ current_time }}.
+
+Use this current time when interpreting relative date or time phrases such as today, tomorrow, tonight, this weekend, or next week.
+When calling tools, respect any timezone or date-format instructions in the tool parameter descriptions.
+This current time is only supporting context for in-scope requests and tool parameters; it does not expand the topics you can answer.
+{% endif -%}

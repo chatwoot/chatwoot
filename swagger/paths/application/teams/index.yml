@@ -3,6 +3,7 @@ tags:
 operationId: list-all-teams
 summary: List all teams
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: List all teams available in the current account
 responses:

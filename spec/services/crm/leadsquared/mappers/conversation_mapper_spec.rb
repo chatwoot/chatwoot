@@ -32,6 +32,7 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
 
   before do
     account.enable_features('crm_integration')
+    allow(GlobalConfig).to receive(:get).and_return({})
     allow(GlobalConfig).to receive(:get).with('BRAND_NAME').and_return({ 'BRAND_NAME' => 'TestBrand' })
   end
 

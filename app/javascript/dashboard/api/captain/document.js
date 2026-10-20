@@ -22,6 +22,13 @@ class CaptainDocument extends ApiClient {
   sync(id) {
     return axios.post(`${this.url}/${id}/sync`);
   }
+
+  getDrilldown({ documentId, page, signal }) {
+    const requestConfig = { params: { page } };
+    if (signal) requestConfig.signal = signal;
+
+    return axios.get(`${this.url}/${documentId}/drilldown`, requestConfig);
+  }
 }
 
 export default new CaptainDocument();

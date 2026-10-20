@@ -63,6 +63,21 @@
     "CODE": "Code",
     "BULLET_LIST": "Bullet List",
     "ORDERED_LIST": "Ordered List",
-    "TABLE": "Table"
+    "TABLE": "Table",
+    "IMAGE": "Imagen",
+    "VIDEO": "Vídeo",
+    "DIVIDER": "Divisor"
+  },
+  "VIDEO_EMBED": {
+    "TAB_EMBED": "Enlace para insertar",
+    "TAB_UPLOAD": "Subir",
+    "PLACEHOLDER": "Pega un enlace de vídeo",
+    "HINT": "Compatible con enlaces de YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen, GuideJar y archivos mp4",
+    "ERROR": "No parece un enlace de vídeo compatible",
+    "UPLOAD_LABEL": "Elegir un archivo de vídeo",
+    "UPLOAD_HINT": "MP4 · hasta {size}MB · o suéltelo aquí",
+    "UPLOAD_ERROR": "Sólo se pueden subir archivos MP4",
+    "ADD": "Insertar",
+    "CANCEL": "Cancelar"
   }
 }

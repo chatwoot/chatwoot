@@ -48,7 +48,7 @@ const updateCurrentPage = page => {
           current-page-info="COMPANIES_LAYOUT.PAGINATION_FOOTER.SHOWING"
           :current-page="currentPage"
           :total-items="totalItems"
-          :items-per-page="25"
+          :items-per-page="50"
           class="max-w-[67rem]"
           @update:current-page="updateCurrentPage"
         />

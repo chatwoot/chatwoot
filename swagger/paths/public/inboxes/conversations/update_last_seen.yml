@@ -1,8 +1,11 @@
 tags:
   - Conversations API
 operationId: update-last-seen
-summary: Update last seen
-description: Updates the last seen time of the contact in a conversation
+summary: Update last seen and mark messages read
+description: |
+  Updates the contact's last seen time for the conversation and marks agent messages
+  sent before that time as read. Use this to send read receipts from a custom client
+  built on the API channel, so agents can see when the contact has read their messages.
 security: []
 responses:
   '200':

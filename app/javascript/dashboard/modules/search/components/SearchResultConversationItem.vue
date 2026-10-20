@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 
@@ -42,6 +43,8 @@ const props = defineProps({
     default: '',
   },
 });
+
+const exactTimestamp = useExactTimestamp();
 
 const { inbox } = useInbox(props.inbox?.id);
 
@@ -87,8 +90,8 @@ const inboxName = computed(() => props.inbox?.name);
 
 const inboxIcon = computed(() => {
   if (!inbox.value) return null;
-  const { channelType, medium } = inbox.value;
-  return getInboxIconByType(channelType, medium);
+  const { channelType, medium, voiceEnabled } = inbox.value;
+  return getInboxIconByType(channelType, medium, 'fill', voiceEnabled);
 });
 </script>
 
@@ -129,6 +132,10 @@ const inboxIcon = computed(() => {
         </div>
         <span
           v-if="createdAtTime"
+          v-tooltip.top="{
+            content: exactTimestamp(createdAt),
+            delay: { show: 500, hide: 0 },
+          }"
           class="text-sm font-normal min-w-0 truncate text-n-slate-11"
         >
           {{ createdAtTime }}

@@ -1,20 +1,21 @@
 <script>
-/* eslint-env browser */
-/* global FB */
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
-import { useAccount } from 'dashboard/composables/useAccount';
+import { useFacebookPageConnect } from 'dashboard/composables/useFacebookPageConnect';
 import { required } from '@vuelidate/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
-import ChannelApi from '../../../../../api/channels';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
 import { useBranding } from 'shared/composables/useBranding';
+import { useAccount } from 'dashboard/composables/useAccount';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
-import { loadScript } from 'dashboard/helper/DOMHelpers';
 import * as Sentry from '@sentry/vue';
 
 export default {
@@ -23,13 +24,19 @@ export default {
     PageHeader,
     NextButton,
     ComboBox,
+    Banner,
+    Icon,
   },
   setup() {
-    const { accountId } = useAccount();
     const { replaceInstallationName } = useBranding();
+    const { isMetaInboxCreationDisabled } = useAccount();
+    const { preloadSdk, loginAndFetchPages } = useFacebookPageConnect();
     return {
-      accountId,
       replaceInstallationName,
+      isMetaInboxCreationDisabled,
+      preloadSdk,
+      loginAndFetchPages,
+      META_RESTRICTION_STATUS_URL,
       v$: useVuelidate(),
     };
   },
@@ -37,9 +44,7 @@ export default {
     return {
       isCreating: false,
       hasError: false,
-      omniauth_token: '',
       user_access_token: '',
-      channel: 'facebook',
       selectedPage: { name: null, id: null },
       pageName: '',
       pageList: [],
@@ -75,27 +80,39 @@ export default {
         label: name,
       }));
     },
+    isFacebookConnectionDisabled() {
+      return this.isMetaInboxCreationDisabled;
+    },
   },
 
   mounted() {
-    window.fbAsyncInit = this.runFBInit;
+    // Warm the SDK so the login click opens its popup within the gesture's
+    // activation window (see useFacebookPageConnect).
+    if (!this.isFacebookConnectionDisabled) {
+      this.preloadSdk();
+    }
   },
 
   methods: {
     async startLogin() {
+      if (this.isFacebookConnectionDisabled) return;
+
       this.hasLoginStarted = true;
       try {
-        // this will load the SDK in a promise, and resolve it when the sdk is loaded
-        // in case the SDK is already present, it will resolve immediately
-        await this.loadFBsdk();
-        this.runFBInit(); // run init anyway, `tryFBlogin` won't wait for `fbAsyncInit` otherwise.
-        this.tryFBlogin(); // make an attempt to login
+        const result = await this.loginAndFetchPages();
+        if (!result) {
+          // Cancelled popup / not authorized — surface a generic auth error.
+          this.hasError = true;
+          this.errorStateMessage = this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH');
+          this.errorStateDescription = '';
+          return;
+        }
+        this.pageList = result.pages;
+        this.user_access_token = result.userAccessToken;
       } catch (error) {
         if (error.name === 'ScriptLoaderError') {
-          // if the error was related to script loading, we show a toast
           useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_LOADING'));
         } else {
-          // if the error was anything else, we capture it and show a toast
           Sentry.captureException(error);
           useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
         }
@@ -112,81 +129,6 @@ export default {
         this.pageName = '';
       }
       this.v$.selectedPage.$touch();
-    },
-
-    initChannelAuth(channel) {
-      if (channel === 'facebook') {
-        this.loadFBsdk();
-      }
-    },
-
-    runFBInit() {
-      FB.init({
-        appId: window.chatwootConfig.fbAppId,
-        xfbml: true,
-        version: window.chatwootConfig.fbApiVersion,
-        status: true,
-      });
-      window.fbSDKLoaded = true;
-      FB.AppEvents.logPageView();
-    },
-
-    async loadFBsdk() {
-      return loadScript('https://connect.facebook.net/en_US/sdk.js', {
-        id: 'facebook-jssdk',
-      });
-    },
-
-    tryFBlogin() {
-      FB.login(
-        response => {
-          this.hasError = false;
-          if (response.status === 'connected') {
-            this.fetchPages(response.authResponse.accessToken);
-          } else if (response.status === 'not_authorized') {
-            // eslint-disable-next-line no-console
-            console.error('FACEBOOK AUTH ERROR', response);
-            this.hasError = true;
-            // The person is logged into Facebook, but not your app.
-            this.errorStateMessage = this.$t(
-              'INBOX_MGMT.DETAILS.ERROR_FB_UNAUTHORIZED'
-            );
-            this.errorStateDescription = this.$t(
-              'INBOX_MGMT.DETAILS.ERROR_FB_UNAUTHORIZED_HELP'
-            );
-          } else {
-            // eslint-disable-next-line no-console
-            console.error('FACEBOOK AUTH ERROR', response);
-            this.hasError = true;
-            // The person is not logged into Facebook, so we're not sure if
-            // they are logged into this app or not.
-            this.errorStateMessage = this.$t(
-              'INBOX_MGMT.DETAILS.ERROR_FB_AUTH'
-            );
-            this.errorStateDescription = '';
-          }
-        },
-        {
-          scope:
-            'pages_manage_metadata,business_management,pages_messaging,instagram_basic,pages_show_list,pages_read_engagement,instagram_manage_messages',
-        }
-      );
-    },
-
-    async fetchPages(_token) {
-      try {
-        const response = await ChannelApi.fetchFacebookPages(
-          _token,
-          this.accountId
-        );
-        const {
-          data: { data },
-        } = response;
-        this.pageList = data.page_details;
-        this.user_access_token = data.user_access_token;
-      } catch (error) {
-        // Ignore error
-      }
     },
 
     channelParams() {
@@ -211,7 +153,13 @@ export default {
               params: { page: 'new', inbox_id: data.id },
             });
           })
-          .catch(() => {
+          .catch(error => {
+            const errorMessage = parseAPIErrorResponse(error);
+            useAlert(
+              typeof errorMessage === 'string'
+                ? errorMessage
+                : this.$t('INBOX_MGMT.DETAILS.ERROR_CHANNEL_CREATION')
+            );
             this.isCreating = false;
           });
       }
@@ -226,16 +174,48 @@ export default {
       v-if="!hasLoginStarted"
       class="flex flex-col items-center justify-center h-full text-center"
     >
-      <a href="#" @click="startLogin()">
-        <img
-          class="w-auto h-10 rounded-md"
-          src="~dashboard/assets/images/channels/facebook_login.png"
-          alt="Facebook-logo"
-        />
-      </a>
-      <p class="py-6">
-        {{ replaceInstallationName($t('INBOX_MGMT.ADD.FB.HELP')) }}
-      </p>
+      <div class="flex flex-col items-center w-full max-w-2xl">
+        <button
+          type="button"
+          :disabled="isFacebookConnectionDisabled"
+          :class="{
+            'cursor-not-allowed opacity-50': isFacebookConnectionDisabled,
+          }"
+          @click="startLogin()"
+        >
+          <img
+            class="w-auto h-10 rounded-md"
+            src="~dashboard/assets/images/channels/facebook_login.png"
+            alt="Facebook-logo"
+          />
+        </button>
+        <p class="py-6">
+          {{ replaceInstallationName($t('INBOX_MGMT.ADD.FB.HELP')) }}
+        </p>
+        <Banner
+          v-if="isFacebookConnectionDisabled"
+          color="amber"
+          class="w-full"
+        >
+          <div class="flex items-start gap-3 text-start">
+            <Icon
+              icon="i-lucide-triangle-alert"
+              class="flex-shrink-0 size-4 mt-0.5"
+            />
+            <span>
+              {{ $t('INBOX_MGMT.ADD.FB.RESTRICTED_WARNING') }}
+              <a
+                :href="META_RESTRICTION_STATUS_URL"
+                class="link underline"
+                rel="noopener noreferrer nofollow"
+                target="_blank"
+              >
+                {{ $t('INBOX_MGMT.ADD.FB.STATUS_LINK') }}
+              </a>
+            </span>
+          </div>
+        </Banner>
+      </div>
     </div>
     <div v-else>
       <div v-if="hasError" class="max-w-lg mx-auto text-center">

@@ -19,7 +19,9 @@ class Integrations::Facebook::MessageParser
   end
 
   def content
-    @messaging.dig('message', 'text')
+    # Messenger postbacks arrive outside the `message` payload, so we fall back
+    # to the visible title first and then to the raw payload identifier.
+    @messaging.dig('message', 'text') || postback_title || postback_payload
   end
 
   def sequence
@@ -31,7 +33,15 @@ class Integrations::Facebook::MessageParser
   end
 
   def identifier
-    @messaging.dig('message', 'mid')
+    @messaging.dig('message', 'mid') || @messaging.dig('postback', 'mid')
+  end
+
+  def postback_title
+    @messaging.dig('postback', 'title')
+  end
+
+  def postback_payload
+    @messaging.dig('postback', 'payload')
   end
 
   def delivery
@@ -54,14 +64,12 @@ class Integrations::Facebook::MessageParser
     @messaging.dig('message', 'is_echo')
   end
 
-  # TODO : i don't think the payload contains app_id. if not remove
   def app_id
     @messaging.dig('message', 'app_id')
   end
 
-  # TODO : does this work ?
   def sent_from_chatwoot_app?
-    app_id && app_id == GlobalConfigService.load('FB_APP_ID', '').to_i
+    app_id.present? && app_id.to_s == GlobalConfigService.load('FB_APP_ID', '').to_s
   end
 
   def in_reply_to_external_id

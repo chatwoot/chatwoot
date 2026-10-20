@@ -8,4 +8,5 @@ module Voice::CallErrors
   class CallFailed < StandardError; end
   class NotRinging < StandardError; end
   class AlreadyAccepted < StandardError; end
+  class CallAlreadyEnded < StandardError; end
 end

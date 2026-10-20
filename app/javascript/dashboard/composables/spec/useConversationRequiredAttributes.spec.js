@@ -304,19 +304,21 @@ describe('useConversationRequiredAttributes', () => {
       expect(result.missing[0].value).toBe('category');
     });
 
-    it('should consider undefined checkbox values as present when key exists', () => {
+    it('should detect missing checkbox when the key exists without a value', () => {
       const { checkMissingAttributes } = useConversationRequiredAttributes();
 
-      const customAttributes = {
-        priority: 'High',
-        category: 'Bug Report',
-        is_urgent: undefined, // key exists but value is undefined - still considered "filled" for checkbox
-      };
+      // The backend reads nil as missing, so the prompt has to open for it too.
+      [null, undefined].forEach(unset => {
+        const result = checkMissingAttributes({
+          priority: 'High',
+          category: 'Bug Report',
+          is_urgent: unset,
+        });
 
-      const result = checkMissingAttributes(customAttributes);
-
-      expect(result.hasMissing).toBe(false);
-      expect(result.missing).toEqual([]);
+        expect(result.hasMissing).toBe(true);
+        expect(result.missing).toHaveLength(1);
+        expect(result.missing[0].value).toBe('is_urgent');
+      });
     });
 
     it('should return no missing when no attributes are required', () => {

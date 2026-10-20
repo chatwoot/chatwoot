@@ -1,69 +1,60 @@
-<%#
-# Show
-
-This view is the template for the show page.
-It renders the attributes of a resource,
-as well as a link to its edit page.
-
-## Local variables:
-
-- `page`:
-  An instance of [Administrate::Page::Show][1].
-  Contains methods for accessing the resource to be displayed on the page,
-  as well as helpers for describing how each attribute of the resource
-  should be displayed.
-
-[1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Show
-%>
+<%# The user page: a hero with the key facts, then one tab per concern. `page` is an Administrate::Page::Show. %>
 
 <% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
+<% content_for(:commands) { render "command_group", label: page.page_title, commands: record_commands(page.resource) } %>
+<%
+  user = page.resource
+  fields = page.attributes.values.flatten.index_by(&:name)
+  accounts_count = fields["account_users"].data.size
+  mfa_status = user.mfa_enabled? ? t("super_admin.users.mfa_enabled") : t("super_admin.users.mfa_disabled")
+  tabs = [
+    { key: "overview", label: t("super_admin.record.overview"), icon: "i-lucide-layout-list" },
+    { key: "accounts", label: t("super_admin.users.accounts"), icon: "i-lucide-building-2", count: accounts_count }
+  ]
+  active = active_tab(tabs)
+  badges = capture do
+%>
+  <%= render_field fields["type"] %>
+  <% if user.confirmed? %>
+    <%= render "badge", label: t("super_admin.users.confirmed"), tone: :success %>
+  <% else %>
+    <%= render "badge", label: t("super_admin.users.unconfirmed"), tone: :warning %>
+  <% end %>
+<% end %>
 
-<header class="main-content__header" role="banner">
-  <h1 class="main-content__page-title">
-    <%= content_for(:title) %>
-  </h1>
+<%= render "hero",
+           title: user.name,
+           back: display_resource_name(page.resource_name),
+           avatar: fields["avatar_url"].avatar_url,
+           badges: badges,
+           details: { "i-lucide-hash" => user.id, "i-lucide-mail" => user.email },
+           facts: [
+             { label: t("super_admin.users.accounts"), value: number_with_delimiter(accounts_count), icon: "i-lucide-building-2 text-n-blue-10" },
+             { label: t("super_admin.users.mfa"), value: mfa_status, icon: "i-lucide-shield-check text-n-teal-10" },
+             { label: t("super_admin.record.created"), value: l(user.created_at.to_date, format: "%b %-d, %Y"), icon: "i-lucide-calendar text-n-iris-10" },
+             { label: t("super_admin.record.last_updated"), value: t("super_admin.record.time_ago", time: time_ago_in_words(user.updated_at)).upcase_first, icon: "i-lucide-history text-n-amber-11" }
+           ] do %>
+  <%= render("button", label: t("administrate.actions.edit"), url: [:edit, namespace, user.becomes(User)]) if authorized_action? user, :edit %>
+  <%= render "more_actions", user: user %>
+<% end %>
 
-  <div>
-    <%= link_to(
-            t("administrate.actions.edit"),
-            [:edit, namespace,  page.resource.becomes(User)],
-            class: "button",
-          ) if authorized_action? page.resource, :edit %>
-  </div>
-</header>
+<%= render "tabs", tabs: tabs, active: active %>
 
-<section class="main-content__body">
-  <dl>
-    <% page.attributes.each do |title, attributes| %>
-      <fieldset class="<%= "field-unit--nested" if title.present? %>">
-        <% if title.present? %>
-          <legend><%= t "helpers.label.#{page.resource_name}.#{title}", default: title %></legend>
+<div role="tabpanel" id="panel-overview" aria-labelledby="tab-overview" data-tab-panel="overview" <%= "hidden" unless active == "overview" %>>
+  <div class="space-y-6 pt-6">
+    <%= render "card", title: t("super_admin.record.profile") do %>
+      <%= render "attributes", page: page, attributes: fields.values_at("id", "name", "display_name", "email", "unconfirmed_email", "type", "confirmed_at", "created_at", "updated_at") do %>
+        <%= render "attribute", label: t("super_admin.users.mfa") do %>
+          <%= render "badge", label: mfa_status, tone: (user.mfa_enabled? ? :success : :neutral) %>
         <% end %>
-
-        <% attributes.each do |attribute| %>
-          <dt class="attribute-label" id="<%= attribute.name %>">
-          <%= t(
-            "helpers.label.#{resource_name}.#{attribute.name}",
-            default: page.resource.class.human_attribute_name(attribute.name),
-          ) %>
-          </dt>
-
-          <dd class="attribute-data attribute-data--<%=attribute.html_class%>"
-              ><%= render_field attribute, page: page %></dd>
-        <% end %>
-      </fieldset>
+      <% end %>
     <% end %>
+  </div>
+</div>
 
-    <dt class="attribute-label" id="mfa_enabled">MFA</dt>
-    <dd class="attribute-data attribute-data--string">
-      <% mfa_enabled = page.resource.mfa_enabled? %>
-      <span class="<%= mfa_enabled ? 'bg-green-100/70 text-green-800' : 'bg-slate-100 text-slate-700' %> inline-flex items-center px-2 h-4 leading-4 rounded-xl text-xxs font-medium">
-        <%= mfa_enabled ? 'Enabled' : 'Disabled' %>
-      </span>
-    </dd>
-  </dl>
-</section>
-
-<%= render 'super_admin/shared/account_user_form', page: page, namespace: namespace, resource_type: 'user' %>
-
-<%= render partial: "impersonate", locals: {page: page} %>
+<div role="tabpanel" id="panel-accounts" aria-labelledby="tab-accounts" data-tab-panel="accounts" <%= "hidden" unless active == "accounts" %>>
+  <div class="space-y-6 pt-6">
+    <%= render_field fields["account_users"], page: page %>
+    <%= render "super_admin/shared/account_user_form", page: page, resource_type: "user" %>
+  </div>
+</div>

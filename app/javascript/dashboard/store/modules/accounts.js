@@ -1,8 +1,10 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import AccountAPI from '../../api/account';
+import OnboardingAPI from '../../api/onboarding';
 import { differenceInDays } from 'date-fns';
 import EnterpriseAccountAPI from '../../api/enterprise/account';
+import WhatsappChannel from '../../api/channel/whatsappChannel';
 import { throwErrorMessage } from '../utils/api';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
@@ -54,12 +56,23 @@ export const getters = {
 };
 
 export const actions = {
-  get: async ({ commit }, { silent } = {}) => {
+  requestWhatsappEmbeddedSignupAccess: async (
+    { commit, state: accountState, rootState },
+    useCase
+  ) => {
+    const accountId = rootState.route.params.accountId;
+    const { data } = await WhatsappChannel.requestEmbeddedSignupAccess(useCase);
+    commit(types.default.EDIT_ACCOUNT, {
+      ...findRecordById(accountState, accountId),
+      features: data.features,
+    });
+  },
+  get: async ({ commit }, { silent, accountId } = {}) => {
     if (!silent) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: true });
     }
     try {
-      const response = await AccountAPI.get();
+      const response = await AccountAPI.get(accountId);
       commit(types.default.ADD_ACCOUNT, response.data);
     } catch {
       // silent failure
@@ -81,6 +94,15 @@ export const actions = {
     } catch (error) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
       throw new Error(error);
+    }
+  },
+  finishOnboarding: async ({ commit }, payload) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await OnboardingAPI.update(payload);
+      commit(types.default.EDIT_ACCOUNT, response.data);
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
     }
   },
   delete: async ({ commit }, { id }) => {
@@ -134,7 +156,20 @@ export const actions = {
   subscription: async ({ commit }) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
     try {
-      await EnterpriseAccountAPI.subscription();
+      const response = await EnterpriseAccountAPI.subscription();
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      return null;
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
+    }
+  },
+
+  selectBillingCurrency: async ({ commit }, currency) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
+    try {
+      await EnterpriseAccountAPI.selectBillingCurrency(currency);
     } catch (error) {
       throwErrorMessage(error);
     } finally {

@@ -1,0 +1,20 @@
+{
+  "id": 1001,
+  "active": true,
+  "email": "customer@example.com",
+  "name": "Customer Example",
+  "mobile": "+15551234567",
+  "phone": null,
+  "created_at": "2024-01-01T09:00:00Z",
+  "updated_at": "2024-01-04T12:30:00Z",
+  "other_emails": [
+    "billing@example.com"
+  ],
+  "unique_external_id": "customer-1001",
+  "custom_fields": {
+    "support_plan": "growth"
+  },
+  "tags": [
+    "priority"
+  ]
+}

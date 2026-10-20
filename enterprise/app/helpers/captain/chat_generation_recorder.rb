@@ -10,6 +10,7 @@ module Captain::ChatGenerationRecorder
     # Create a generation span with model and token info for Langfuse cost calculation.
     # Note: span duration will be near-zero since we create and end it immediately, but token counts are what Langfuse uses for cost calculation.
     tracer.in_span("llm.captain.#{feature_name}.generation") do |span|
+      apply_current_langfuse_attributes(span)
       set_generation_span_attributes(span, chat, message)
     end
   rescue StandardError => e
@@ -33,15 +34,30 @@ module Captain::ChatGenerationRecorder
     {
       ATTR_GEN_AI_PROVIDER => determine_provider(model),
       ATTR_GEN_AI_REQUEST_MODEL => model,
-      ATTR_GEN_AI_REQUEST_TEMPERATURE => temperature,
-      ATTR_GEN_AI_USAGE_INPUT_TOKENS => message.input_tokens,
-      ATTR_GEN_AI_USAGE_OUTPUT_TOKENS => message.respond_to?(:output_tokens) ? message.output_tokens : nil,
+      ATTR_GEN_AI_REQUEST_TEMPERATURE => chat.temperature,
+      ATTR_GEN_AI_USAGE_INPUT_TOKENS => message.tokens.input,
+      ATTR_GEN_AI_USAGE_OUTPUT_TOKENS => message.tokens.output,
+      ATTR_GEN_AI_USAGE_REASONING_OUTPUT_TOKENS => message.tokens.thinking,
       ATTR_LANGFUSE_OBSERVATION_INPUT => format_input_messages(chat),
-      ATTR_LANGFUSE_OBSERVATION_OUTPUT => message.respond_to?(:content) ? message.content.to_s : nil
-    }
+      ATTR_LANGFUSE_OBSERVATION_OUTPUT => message.respond_to?(:content) ? message.content.to_s : nil,
+      format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'generation_stage') => generation_stage(message)
+    }.merge(Captain::ResponsesConfig.metadata(chat, protocol: llm_protocol).transform_keys do |key|
+      format(ATTR_LANGFUSE_OBSERVATION_METADATA, key)
+    end.transform_values(&:to_s))
   end
 
   def format_input_messages(chat)
     chat.messages[0...-1].map { |m| { role: m.role.to_s, content: m.content.to_s } }.to_json
+  end
+
+  def generation_stage(message)
+    message_has_tool_calls?(message) ? 'tool_call' : 'final_response'
+  end
+
+  def message_has_tool_calls?(message)
+    return false unless message.respond_to?(:tool_calls)
+
+    tool_calls = message.tool_calls
+    tool_calls.respond_to?(:any?) && tool_calls.any?
   end
 end

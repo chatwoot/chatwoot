@@ -31,7 +31,21 @@ RSpec.describe 'TikTok Authorization API', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
 
+      it 'returns unauthorized when TikTok is disabled for the account' do
+        account.disable_features!('channel_tiktok')
+
+        with_modified_env TIKTOK_APP_ID: 'tiktok-app-id', TIKTOK_APP_SECRET: 'tiktok-app-secret' do
+          post "/api/v1/accounts/#{account.id}/tiktok/authorization",
+               headers: administrator.create_new_auth_token,
+               as: :json
+        end
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
       it 'creates a new authorization and returns the redirect url' do
+        account.enable_features!('channel_tiktok')
+
         travel_to Time.zone.parse('2025-01-01 00:00:00 UTC') do
           with_modified_env TIKTOK_APP_ID: 'tiktok-app-id', TIKTOK_APP_SECRET: 'tiktok-app-secret' do
             post "/api/v1/accounts/#{account.id}/tiktok/authorization",

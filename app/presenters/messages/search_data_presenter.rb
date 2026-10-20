@@ -20,6 +20,7 @@ class Messages::SearchDataPresenter < SimpleDelegator
 
   def message_attributes
     {
+      id: id,
       account_id: account_id,
       inbox_id: inbox_id,
       conversation_id: conversation_id,
@@ -56,3 +57,5 @@ class Messages::SearchDataPresenter < SimpleDelegator
     }
   end
 end
+
+Messages::SearchDataPresenter.prepend_mod_with('Messages::SearchDataPresenter')

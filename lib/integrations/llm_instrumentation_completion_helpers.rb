@@ -10,7 +10,6 @@ module Integrations::LlmInstrumentationCompletionHelpers
     span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model])
     span.set_attribute('embedding.input_length', params[:input]&.length || 0)
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:input].to_s)
-    set_common_span_metadata(span, params)
   end
 
   def set_audio_transcription_span_attributes(span, params)
@@ -18,7 +17,6 @@ module Integrations::LlmInstrumentationCompletionHelpers
     span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model] || 'whisper-1')
     span.set_attribute('audio.duration_seconds', params[:duration]) if params[:duration]
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:file_path].to_s) if params[:file_path]
-    set_common_span_metadata(span, params)
   end
 
   def set_moderation_span_attributes(span, params)
@@ -26,12 +24,6 @@ module Integrations::LlmInstrumentationCompletionHelpers
     span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model] || 'text-moderation-latest')
     span.set_attribute('moderation.input_length', params[:input]&.length || 0)
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:input].to_s)
-    set_common_span_metadata(span, params)
-  end
-
-  def set_common_span_metadata(span, params)
-    span.set_attribute(ATTR_LANGFUSE_USER_ID, params[:account_id].to_s) if params[:account_id]
-    span.set_attribute(ATTR_LANGFUSE_TAGS, [params[:feature_name]].to_json) if params[:feature_name]
   end
 
   def set_embedding_result_attributes(span, result)
@@ -62,20 +54,30 @@ module Integrations::LlmInstrumentationCompletionHelpers
   end
 
   def set_completion_message(span, result)
-    message = result[:message] || result.dig('choices', 0, 'message', 'content')
+    message = completion_text(result)
     return if message.blank?
 
     span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, 'assistant')
     span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, message.is_a?(String) ? message : message.to_json)
   end
 
+  def completion_text(result)
+    result[:message] || result.dig('choices', 0, 'message', 'content') ||
+      result.fetch('output', []).select { |item| item['type'] == 'message' }
+            .flat_map { |item| item.fetch('content', []) }
+            .select { |item| item['type'] == 'output_text' }.pluck('text').join.presence
+  end
+
   def set_usage_metrics(span, result)
     usage = result[:usage] || result['usage']
     return if usage.blank?
 
-    span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, usage['prompt_tokens']) if usage['prompt_tokens']
-    span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, usage['completion_tokens']) if usage['completion_tokens']
-    span.set_attribute(ATTR_GEN_AI_USAGE_TOTAL_TOKENS, usage['total_tokens']) if usage['total_tokens']
+    {
+      ATTR_GEN_AI_USAGE_INPUT_TOKENS => usage['prompt_tokens'] || usage['input_tokens'],
+      ATTR_GEN_AI_USAGE_OUTPUT_TOKENS => usage['completion_tokens'] || usage['output_tokens'],
+      ATTR_GEN_AI_USAGE_TOTAL_TOKENS => usage['total_tokens'],
+      ATTR_GEN_AI_USAGE_REASONING_OUTPUT_TOKENS => usage['reasoning_tokens'] || usage.dig('output_tokens_details', 'reasoning_tokens')
+    }.compact.each { |key, value| span.set_attribute(key, value) }
   end
 
   def set_error_attributes(span, result)

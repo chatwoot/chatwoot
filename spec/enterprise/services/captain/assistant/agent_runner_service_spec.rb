@@ -13,7 +13,17 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
   let(:mock_runner) { instance_double(Agents::AgentRunner) }
   let(:mock_agent) { instance_double(Agents::Agent) }
   let(:mock_scenario_agent) { instance_double(Agents::Agent) }
-  let(:mock_result) { instance_double(Agents::RunResult, output: { 'response' => 'Test response' }, context: nil) }
+  let(:mock_result) do
+    instance_double(
+      Agents::RunResult,
+      output: {
+        'response_parts' => [{ 'text' => 'Test response', 'citation_indexes' => [] }],
+        'reasoning' => 'Test reasoning'
+      },
+      context: nil,
+      error: nil
+    )
+  end
 
   let(:message_history) do
     [
@@ -21,6 +31,10 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       { role: 'assistant', content: 'Hi! How can I help you?', agent_name: 'Assistant' },
       { role: 'user', content: 'I need help with my account' }
     ]
+  end
+
+  def run_options(**attributes)
+    described_class::RunOptions.new(**attributes)
   end
 
   before do
@@ -35,6 +49,9 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     allow(mock_runner).to receive(:on_run_complete).and_return(mock_runner)
     allow(mock_agent).to receive(:register_handoffs)
     allow(mock_scenario_agent).to receive(:register_handoffs)
+    # The runner adds the email verification tools with clone, so the doubles return themselves
+    allow(mock_agent).to receive_messages(tools: [], clone: mock_agent)
+    allow(mock_scenario_agent).to receive_messages(tools: [], clone: mock_scenario_agent)
   end
 
   describe '#initialize' do
@@ -48,9 +65,139 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
     it 'accepts callbacks parameter' do
       callbacks = { on_agent_thinking: proc { |x| x } }
-      service = described_class.new(assistant: assistant, callbacks: callbacks)
+      service = described_class.new(assistant: assistant, run_options: run_options(callbacks: callbacks))
 
       expect(service.instance_variable_get(:@callbacks)).to eq(callbacks)
+    end
+
+    it 'accepts the message id it is responding to' do
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(responding_to_message_id: 123)
+      )
+
+      expect(service.instance_variable_get(:@responding_to_message_id)).to eq(123)
+    end
+
+    it 'accepts reply suggestion mode' do
+      service = described_class.new(
+        assistant: assistant,
+        run_options: run_options(source: described_class::REPLY_SUGGESTION_SOURCE)
+      )
+
+      expect(service.instance_variable_get(:@source)).to eq('copilot_reply_suggestion')
+      expect(service.send(:trace_config)).to include(
+        name: 'llm.captain.copilot.agent',
+        tags: ['copilot']
+      )
+    end
+  end
+
+  describe '#build_and_wire_agents' do
+    it 'builds the graph from the selected runtime scenarios' do
+      runtime_configuration = instance_double(
+        Captain::Playground::Configuration,
+        scenarios: [scenario],
+        agent_name_for: 'scenario_runtime_agent'
+      )
+      service = described_class.new(
+        assistant: assistant,
+        run_options: run_options(runtime_configuration: runtime_configuration)
+      )
+
+      expect(assistant).to receive(:agent).with(runtime_configuration: runtime_configuration).and_return(mock_agent)
+      expect(scenario).to receive(:agent).with(
+        runtime_configuration: runtime_configuration,
+        runtime_agent_name: 'scenario_runtime_agent'
+      ).and_return(mock_scenario_agent)
+
+      expect(service.send(:build_and_wire_agents)).to eq([mock_agent, mock_scenario_agent])
+    end
+
+    context 'with a tool that has a verified parameter' do
+      before do
+        email_param = { 'name' => 'email', 'type' => 'string', 'description' => 'Email', 'source' => 'verified.email' }
+        create(:captain_custom_tool, account: account, assistant: assistant, endpoint_url: 'https://example.com/c?email={{ email }}',
+                                     param_schema: [email_param])
+        allow(assistant).to receive(:agent).and_call_original
+        allow(assistant).to receive(:scenarios).and_return(instance_double(Captain::Scenario, enabled: []))
+      end
+
+      def http_tool_for(source)
+        service = described_class.new(assistant: assistant, conversation: conversation, run_options: run_options(source: source))
+        service.send(:build_and_wire_agents).first.tools.find { |tool| tool.is_a?(Captain::Tools::HttpTool) }
+      end
+
+      def email_parameters(source)
+        http_tool_for(source).class.declared_parameters.keys
+      end
+
+      it 'uses the customer tool in a customer conversation' do
+        expect(http_tool_for(nil)).to be_a(Captain::Tools::PublicHttpTool)
+      end
+
+      it 'uses the Copilot tool where an admin or an agent is the user' do
+        expect(http_tool_for('playground')).to be_a(Captain::Tools::CopilotHttpTool)
+      end
+
+      it 'gives the model no email parameter in a customer conversation' do
+        expect(email_parameters(nil)).to be_empty
+      end
+
+      it 'gives the model an email parameter in the playground' do
+        expect(email_parameters('playground')).to contain_exactly(:email)
+      end
+
+      it 'gives the model an email parameter for a reply suggestion' do
+        expect(email_parameters('copilot_reply_suggestion')).to contain_exactly(:email)
+      end
+    end
+
+    it 'keeps only reply-safe tools and excludes scenarios in reply suggestion mode' do
+      faq_tool = Captain::Tools::FaqLookupTool.new(assistant)
+      handoff_tool = Captain::Tools::HandoffTool.new(assistant)
+      get_custom_tool = create(:captain_custom_tool, account: account, http_method: 'GET')
+      get_tool = get_custom_tool.tool(assistant)
+      post_tool = create(:captain_custom_tool, account: account, http_method: 'POST').tool(assistant)
+      private_note_tool = Captain::Tools::AddPrivateNoteTool.new(assistant)
+      assistant_agent = Agents::Agent.new(name: 'assistant', tools: [faq_tool, handoff_tool, get_tool, post_tool, private_note_tool])
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(source: described_class::REPLY_SUGGESTION_SOURCE)
+      )
+
+      allow(assistant).to receive(:agent).and_return(assistant_agent)
+      expect(assistant).not_to receive(:scenarios)
+
+      configured_assistant = service.send(:build_and_wire_agents).sole
+
+      expect(configured_assistant.tools.first).to be(faq_tool)
+      expect(configured_assistant.tools.second).to be_a(Captain::Tools::CopilotHttpTool)
+      expect(configured_assistant.tools.second.custom_tool).to eq(get_custom_tool)
+      expect(configured_assistant.tools.size).to eq(2)
+      expect(configured_assistant.handoff_agents).to be_empty
+    end
+
+    it 'uses the Copilot prompt without changing the Assistant prompt path' do
+      assistant_agent = Agents::Agent.new(name: 'assistant')
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(source: described_class::REPLY_SUGGESTION_SOURCE)
+      )
+      context = instance_double(Agents::RunContext)
+
+      allow(assistant).to receive(:agent).and_return(assistant_agent)
+      expect(assistant).not_to receive(:scenarios)
+      expect(assistant).to receive(:agent_instructions)
+        .with(context, prompt_template: 'copilot_reply_suggestion')
+        .and_return('Copilot instructions')
+
+      configured_assistant = service.send(:build_and_wire_agents).first
+
+      expect(configured_assistant.instructions.call(context)).to eq('Copilot instructions')
     end
   end
 
@@ -93,7 +240,23 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(mock_runner).to receive(:run).with(
         'I need help with my account',
         context: expected_context,
-        max_turns: 100
+        max_turns: 10
+      )
+
+      service.generate_response(message_history: message_history)
+    end
+
+    it 'adds the responding message id to the runner state' do
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(responding_to_message_id: 123)
+      )
+
+      expect(mock_runner).to receive(:run).with(
+        'I need help with my account',
+        context: hash_including(state: hash_including(responding_to_message_id: 123)),
+        max_turns: 10
       )
 
       service.generate_response(message_history: message_history)
@@ -115,11 +278,9 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       it 'passes image attachments to the runner input' do
         expect(mock_runner).to receive(:run) do |input, context:, max_turns:|
-          expect(input).to be_a(RubyLLM::Content)
-          expect(input.text).to eq('What does this error mean?')
-          expect(input.attachments.first.source.to_s).to eq('https://example.com/error.png')
+          expect(input).to eq(multimodal_message_history.last[:content])
           expect(context[:conversation_history]).to eq([{ role: :assistant, content: 'Please share a screenshot', agent_name: nil }])
-          expect(max_turns).to eq(100)
+          expect(max_turns).to eq(10)
         end
 
         service.generate_response(message_history: multimodal_message_history)
@@ -147,7 +308,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
             { type: 'text', text: 'Here is my error screenshot' },
             { type: 'image_url', image_url: { url: 'https://example.com/error.png' } }
           )
-          expect(max_turns).to eq(100)
+          expect(max_turns).to eq(10)
         end
 
         service.generate_response(message_history: history_with_prior_image)
@@ -157,7 +318,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(mock_runner).to receive(:run) do |_input, context:, max_turns:|
           expect(context[:captain_v2_trace_input]).to include('image_url')
           expect(context[:captain_v2_trace_current_input]).to include('image_url')
-          expect(max_turns).to eq(100)
+          expect(max_turns).to eq(10)
         end
 
         service.generate_response(message_history: multimodal_message_history)
@@ -167,13 +328,192 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     it 'processes and formats agent result' do
       result = service.generate_response(message_history: message_history)
 
-      expect(result).to eq({ 'response' => 'Test response', 'agent_name' => nil, 'handoff_tool_called' => false })
+      expect(result).to eq({
+                             'response_parts' => [{ 'text' => 'Test response', 'citation_indexes' => [] }],
+                             'response' => 'Test response',
+                             'reasoning' => 'Test reasoning',
+                             'agent_name' => nil,
+                             'handoff_tool_called' => false
+                           })
+    end
+
+    it 'exposes the raw run result via last_run_result' do
+      service.generate_response(message_history: message_history)
+
+      expect(service.last_run_result).to eq(mock_result)
+    end
+
+    context 'when the runner returns an error result' do
+      let(:error) { StandardError.new('Agent run failed') }
+      let(:mock_result) { instance_double(Agents::RunResult, output: nil, context: nil, error: error) }
+
+      before do
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(
+          instance_double(ChatwootExceptionTracker, capture_exception: true)
+        )
+      end
+
+      it 'returns an error response instead of formatting an empty output' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(result).to include(
+          'response' => 'conversation_handoff',
+          'error' => true,
+          'error_reason' => 'standard_error'
+        )
+        expect(result['reasoning']).to eq('Error occurred: Agent run failed')
+      end
+    end
+
+    context 'when the model writes a tool call as reply text' do
+      let(:leaked_text) { '{"commentary":null}' }
+      let(:leaked_result) do
+        instance_double(
+          Agents::RunResult,
+          output: { 'response_parts' => [{ 'text' => leaked_text, 'citation_indexes' => [] }], 'reasoning' => 'Use faq_lookup' },
+          context: nil,
+          error: nil
+        )
+      end
+
+      before do
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(
+          instance_double(ChatwootExceptionTracker, capture_exception: true)
+        )
+      end
+
+      it 'retries and returns the clean reply' do
+        allow(mock_runner).to receive(:run).and_return(leaked_result, mock_result)
+
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['response']).to eq('Test response')
+      end
+
+      it 'retries when the tool call is one part before the answer' do
+        leaked_before_answer = instance_double(
+          Agents::RunResult,
+          output: {
+            'response_parts' => [
+              { 'text' => '{"query":"inventory scan mode"}', 'citation_indexes' => [] },
+              { 'text' => 'In scan mode you can count items by barcode.', 'citation_indexes' => [] }
+            ],
+            'reasoning' => 'Use faq_lookup'
+          },
+          context: nil,
+          error: nil
+        )
+        allow(mock_runner).to receive(:run).and_return(leaked_before_answer, mock_result)
+
+        result = service.generate_response(message_history: message_history)
+
+        expect(mock_runner).to have_received(:run).twice
+        expect(result['response']).to eq('Test response')
+      end
+
+      it 'hands off without retrying when a tool already ran' do
+        tool_complete_callbacks = []
+        allow(mock_runner).to receive(:on_tool_complete) do |&callback|
+          tool_complete_callbacks << callback
+          mock_runner
+        end
+        allow(mock_runner).to receive(:run) do
+          tool_complete_callbacks.each { |callback| callback.call('captain--tools--create_order', 'Order created', nil) }
+          leaked_result
+        end
+
+        result = service.generate_response(message_history: message_history)
+
+        expect(mock_runner).to have_received(:run).once
+        expect(result).to include('response' => 'conversation_handoff', 'error' => true)
+      end
+
+      it 'does not retry when a newer customer message discarded the turn' do
+        responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+        service = described_class.new(
+          assistant: assistant,
+          conversation: conversation,
+          run_options: run_options(responding_to_message_id: responding_to_message.id)
+        )
+        run_complete_callbacks = []
+        allow(mock_runner).to receive(:on_run_complete) do |&callback|
+          run_complete_callbacks << callback
+          mock_runner
+        end
+        allow(mock_runner).to receive(:run) do
+          create(:message, conversation: conversation, message_type: :incoming)
+          run_complete_callbacks.each { |callback| callback.call('assistant', leaked_result, nil) }
+          leaked_result
+        end
+
+        service.generate_response(message_history: message_history)
+
+        expect(mock_runner).to have_received(:run).once
+        expect(service.response_discarded?).to be true
+      end
+
+      [
+        '{"commentary":null}',
+        '{"commentary":""}',
+        '{"query":"dar baixa em títulos a receber a pagar retroativo"}',
+        '{"tool_call": "functions.captain--tools--faq_lookup", "parameters": {"query": "baixa"}}',
+        '{"commentary to=functions.captain--tools--faq_lookup 日日啪  strict":{'
+      ].each do |text|
+        context "when the retry also returns #{text}" do
+          let(:leaked_text) { text }
+
+          it 'hands off instead of sending it' do
+            allow(mock_runner).to receive(:run).and_return(leaked_result)
+
+            result = service.generate_response(message_history: message_history)
+
+            expect(mock_runner).to have_received(:run).twice
+            expect(result).to include(
+              'response' => 'conversation_handoff',
+              'error' => true,
+              'error_reason' => 'captain_assistant_agent_runner_service_leaked_tool_call_error'
+            )
+          end
+        end
+      end
+    end
+
+    context 'when a normal reply includes JSON' do
+      let(:response_parts) do
+        [
+          { 'text' => 'Send {"plate": "ABC1234"} in the request body, like this:', 'citation_indexes' => [] },
+          { 'text' => "```json\n{\"plate\": \"ABC1234\"}\n```", 'citation_indexes' => [] }
+        ]
+      end
+      let(:mock_result) do
+        instance_double(
+          Agents::RunResult,
+          output: { 'response_parts' => response_parts, 'reasoning' => 'Answer from FAQ' },
+          context: nil,
+          error: nil
+        )
+      end
+
+      it 'sends the reply without retrying' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(mock_runner).to have_received(:run).once
+        expect(result['response_parts']).to eq(response_parts)
+      end
     end
 
     context 'when handoff tool was called during agent execution' do
       let(:runner_context) { { captain_v2_handoff_tool_called: true } }
       let(:mock_result) do
-        instance_double(Agents::RunResult, output: { 'response' => 'Let me connect you' }, context: runner_context)
+        instance_double(
+          Agents::RunResult,
+          output: {
+            'response_parts' => [{ 'text' => 'Let me connect you', 'citation_indexes' => [] }],
+            'reasoning' => 'A human is needed'
+          },
+          context: runner_context,
+          error: nil
+        )
       end
 
       it 'includes handoff_tool_called flag in response' do
@@ -181,6 +521,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
         expect(result).to eq({
                                'response' => 'Let me connect you',
+                               'response_parts' => [{ 'text' => 'Let me connect you', 'citation_indexes' => [] }],
+                               'reasoning' => 'A human is needed',
                                'agent_name' => nil,
                                'handoff_tool_called' => true
                              })
@@ -203,17 +545,163 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     context 'when agent result is a string' do
-      let(:mock_result) { instance_double(Agents::RunResult, output: 'Simple string response', context: nil) }
+      let(:mock_result) { instance_double(Agents::RunResult, output: 'Simple string response', context: nil, error: nil) }
 
       it 'formats string response correctly' do
         result = service.generate_response(message_history: message_history)
 
         expect(result).to eq({
                                'response' => 'Simple string response',
+                               'response_parts' => [{ 'text' => 'Simple string response', 'citation_indexes' => [] }],
                                'reasoning' => 'Processed by agent',
                                'agent_name' => nil,
                                'handoff_tool_called' => false
                              })
+      end
+    end
+
+    context 'when structured response parts contain invalid values' do
+      let(:assistant) { create(:captain_assistant, account: account, config: { 'feature_citation' => true }) }
+      let(:mock_result) do
+        instance_double(
+          Agents::RunResult,
+          output: {
+            'response_parts' => [
+              { 'text' => '  First part  ', 'citation_indexes' => [2, 2, 0, '1', 'https://model.example/source'] },
+              { 'text' => '   ', 'citation_indexes' => [1] },
+              'invalid',
+              { 'text' => 'Second part', 'citation_indexes' => [1] }
+            ],
+            'reasoning' => 'Test reasoning'
+          },
+          context: nil,
+          error: nil
+        )
+      end
+
+      it 'keeps valid ordered parts and derives the compatibility response string' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['response_parts']).to eq(
+          [
+            { 'text' => 'First part', 'citation_indexes' => [2] },
+            { 'text' => 'Second part', 'citation_indexes' => [1] }
+          ]
+        )
+        expect(result['response']).to eq("First part\n\nSecond part")
+      end
+    end
+
+    context 'when citations are disabled' do
+      let(:mock_result) do
+        instance_double(
+          Agents::RunResult,
+          output: {
+            'response_parts' => [{ 'text' => 'FAQ-backed response', 'citation_indexes' => [1] }],
+            'reasoning' => 'Test reasoning'
+          },
+          context: nil,
+          error: nil
+        )
+      end
+
+      it 'discards model-provided citation indexes' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['response_parts']).to eq(
+          [{ 'text' => 'FAQ-backed response', 'citation_indexes' => [] }]
+        )
+      end
+    end
+
+    context 'when a structured response exceeds the channel limit' do
+      let(:channel_limit_rewrite) do
+        original_model_output = {
+          'response_parts' => [
+            { 'text' => 'The first answer has more detail than this channel can accept.', 'citation_indexes' => [2] },
+            { 'text' => 'The second answer also has more detail than this channel can accept.', 'citation_indexes' => [1] }
+          ],
+          'reasoning' => 'Used two FAQ results'
+        }
+        rewritten_model_output = {
+          'response_parts' => [
+            { 'text' => 'Short first answer.', 'citation_indexes' => [2] },
+            { 'text' => 'Short second answer.', 'citation_indexes' => [1] }
+          ],
+          'reasoning' => 'Shortened both parts'
+        }
+        runner_context = {
+          session_id: "#{account.id}_#{conversation.display_id}",
+          state: { Captain::Assistant::CITATION_SOURCES_STATE_KEY => { 1 => 101, 2 => 202 } },
+          conversation_history: [{ role: :assistant, content: original_model_output }]
+        }
+        runner_messages = [{ role: :assistant, content: original_model_output }]
+
+        {
+          original_run_result: Agents::RunResult.new(output: original_model_output, messages: runner_messages, context: runner_context),
+          rewrite_run_result: Agents::RunResult.new(output: rewritten_model_output, messages: [], context: {}),
+          citation_urls: {
+            1 => 'https://help.example.com/first',
+            2 => 'https://help.example.com/second'
+          },
+          runner_context: runner_context
+        }
+      end
+      let(:mock_result) { channel_limit_rewrite[:original_run_result] }
+
+      before do
+        allow(assistant).to receive(:config).and_return('feature_citation' => true)
+        allow(assistant).to receive(:customer_visible_citation_urls).and_return(channel_limit_rewrite[:citation_urls])
+        allow(Captain::MessageLengthLimit).to receive(:for).with(conversation).and_return(140)
+        allow(mock_runner).to receive(:run).and_return(mock_result, channel_limit_rewrite[:rewrite_run_result])
+      end
+
+      it 'reserves space for rendered citations and restores their original indexes' do
+        original_response_parts = Captain::Assistant::ResponseParts.from_response(mock_result.output)
+        original_customer_message = original_response_parts.customer_message_content(citation_urls: channel_limit_rewrite[:citation_urls])
+        citation_markup_length = original_customer_message.length - original_response_parts.plain_text.length
+        response_text_limit = 140 - citation_markup_length
+
+        expect(original_response_parts.plain_text.length).to be < 140
+        expect(original_customer_message.length).to be > 140
+
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['response_parts']).to eq(
+          [
+            { 'text' => 'Short first answer.', 'citation_indexes' => [2] },
+            { 'text' => 'Short second answer.', 'citation_indexes' => [1] }
+          ]
+        )
+        expect(channel_limit_rewrite[:runner_context][:conversation_history].last[:content]['response_parts']).to eq(result['response_parts'])
+        expect(
+          Captain::Assistant::ResponseParts.from_response(result).customer_message_content(
+            citation_urls: channel_limit_rewrite[:citation_urls]
+          ).length
+        ).to be <= 140
+        expect(mock_runner).to have_received(:run).with(
+          include(
+            "must be at most #{response_text_limit} characters",
+            'Keep the same number and order of response parts',
+            '"citation_indexes":[2]',
+            '"citation_indexes":[1]'
+          ),
+          context: hash_including(state: channel_limit_rewrite[:runner_context][:state]),
+          max_turns: 1
+        )
+        expect(mock_runner).not_to have_received(:run).with(include('help.example.com'), any_args)
+      end
+
+      it 'rejects a rewrite that changes the response part citation order' do
+        channel_limit_rewrite[:rewrite_run_result].output['response_parts'].reverse!
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(
+          instance_double(ChatwootExceptionTracker, capture_exception: true)
+        )
+
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['response']).to eq('conversation_handoff')
+        expect(result['reasoning']).to eq('Error occurred: Captain response rewrite changed the response part citation order')
       end
     end
 
@@ -234,7 +722,10 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
         expect(result).to eq({
                                'response' => 'conversation_handoff',
+                               'response_parts' => [{ 'text' => 'conversation_handoff', 'citation_indexes' => [] }],
                                'reasoning' => 'Error occurred: Test error',
+                               'error' => true,
+                               'error_reason' => 'standard_error',
                                'handoff_tool_called' => false
                              })
       end
@@ -244,6 +735,12 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(Rails.logger).to receive(:error).with(kind_of(String))
 
         service.generate_response(message_history: message_history)
+      end
+
+      it 'leaves last_run_result nil' do
+        service.generate_response(message_history: message_history)
+
+        expect(service.last_run_result).to be_nil
       end
 
       context 'when conversation is nil' do
@@ -256,7 +753,10 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
           expect(result).to eq({
                                  'response' => 'conversation_handoff',
+                                 'response_parts' => [{ 'text' => 'conversation_handoff', 'citation_indexes' => [] }],
                                  'reasoning' => 'Error occurred: Test error',
+                                 'error' => true,
+                                 'error_reason' => 'standard_error',
                                  'handoff_tool_called' => false
                                })
         end
@@ -280,7 +780,10 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
           expect(result).to eq({
                                  'response' => 'conversation_handoff',
+                                 'response_parts' => [{ 'text' => 'conversation_handoff', 'citation_indexes' => [] }],
                                  'reasoning' => 'Error occurred: Test error',
+                                 'error' => true,
+                                 'error_reason' => 'standard_error',
                                  'handoff_tool_called' => true
                                })
         end
@@ -348,9 +851,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       result = service.send(:extract_last_user_message, multimodal_message_history)
 
-      expect(result).to be_a(RubyLLM::Content)
-      expect(result.text).to eq('Can you check this screenshot?')
-      expect(result.attachments.first.source.to_s).to eq('https://example.com/image.jpg')
+      expect(result).to eq(multimodal_message_history.first[:content])
     end
   end
 
@@ -368,6 +869,18 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       result = service.send(:extract_text_from_content, content)
 
       expect(result).to eq('Hash response')
+    end
+
+    it 'joins structured response parts from hash content' do
+      content = {
+        'response_parts' => [
+          { 'text' => 'First response part', 'citation_indexes' => [1] },
+          { 'text' => 'Second response part', 'citation_indexes' => [] }
+        ]
+      }
+      result = service.send(:extract_text_from_content, content)
+
+      expect(result).to eq("First response part\n\nSecond response part")
     end
 
     it 'extracts text from multimodal array content' do
@@ -405,6 +918,88 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
   end
 
+  describe 'InstrumentationAttributeProvider' do
+    subject(:provider) { Captain::Assistant::InstrumentationAttributeProvider.new(service) }
+
+    let(:service) { described_class.new(assistant: assistant, conversation: conversation) }
+    let(:llm_context) { RubyLLM.context { |config| config.openai_api_key = 'test-key' } }
+    let(:chat) { llm_context.chat(model: 'gpt-5.2', protocol: :responses).with_thinking(effort: :low) }
+
+    it 'delegates root trace attributes to the service' do
+      context = {
+        state: {
+          account_id: account.id,
+          assistant_id: assistant.id,
+          conversation: { id: conversation.id, display_id: conversation.display_id }
+        }
+      }
+      context_wrapper = Struct.new(:context).new(context)
+
+      attributes = provider.call(context_wrapper)
+
+      expect(attributes).to include(
+        'langfuse.user.id' => account.id.to_s,
+        'langfuse.trace.metadata.assistant_id' => assistant.id.to_s
+      )
+    end
+
+    it 'marks final response generations for observation-level evaluators' do
+      message = instance_double(RubyLLM::Message, tool_calls: {})
+      context_wrapper = Struct.new(:context).new(
+        { __otel_tracing: { request_attributes: { protocol: :responses } } }
+      )
+
+      attributes = provider.generation_attributes(context_wrapper, chat, message)
+
+      expect(attributes).to include(
+        'langfuse.observation.metadata.generation_stage' => 'final_response',
+        'langfuse.observation.metadata.api_protocol' => 'responses',
+        'langfuse.observation.metadata.reasoning_effort' => 'low'
+      )
+      expect(attributes).not_to have_key('langfuse.observation.metadata.discarded')
+    end
+
+    it 'marks a protected generation as not discarded when no newer message has arrived' do
+      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+      runner_service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(responding_to_message_id: responding_to_message.id)
+      )
+      attribute_provider = Captain::Assistant::InstrumentationAttributeProvider.new(runner_service)
+      message = instance_double(RubyLLM::Message, tool_calls: {})
+
+      attributes = attribute_provider.generation_attributes(nil, chat, message)
+
+      expect(attributes['langfuse.observation.metadata.discarded']).to eq('false')
+    end
+
+    it 'marks tool call generations separately from final responses' do
+      tool_call = instance_double(RubyLLM::ToolCall)
+      message = instance_double(RubyLLM::Message, tool_calls: { 'call_1' => tool_call })
+
+      attributes = provider.generation_attributes(nil, chat, message)
+
+      expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('tool_call')
+    end
+
+    it 'marks a generation as discarded when a newer message has arrived' do
+      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+      runner_service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(responding_to_message_id: responding_to_message.id)
+      )
+      attribute_provider = Captain::Assistant::InstrumentationAttributeProvider.new(runner_service)
+      message = instance_double(RubyLLM::Message, tool_calls: {})
+      create(:message, conversation: conversation, message_type: :incoming)
+
+      attributes = attribute_provider.generation_attributes(nil, chat, message)
+
+      expect(attributes['langfuse.observation.metadata.discarded']).to eq('true')
+    end
+  end
+
   describe '#build_state' do
     subject(:service) { described_class.new(assistant: assistant, conversation: conversation) }
 
@@ -430,6 +1025,16 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(state[:channel_type]).to eq(inbox.channel_type)
     end
 
+    it 'includes labels from a persisted conversation' do
+      conversation.label_list.add('lang_en')
+      conversation.save!
+      conversation.reload
+
+      state = service.send(:build_state)
+
+      expect(state.dig(:conversation, :label_list)).to contain_exactly('lang_en')
+    end
+
     it 'includes contact inbox attributes when conversation is present' do
       state = service.send(:build_state)
 
@@ -447,6 +1052,24 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         name: contact.name,
         email: contact.email
       )
+    end
+
+    it 'lets Captain verify the customer when an enabled tool needs a verified email' do
+      create(:captain_custom_tool, account: account, assistant: assistant, settings: { 'requires_email_verification' => true })
+
+      expect(service.send(:build_state)[:can_verify_email]).to be(true)
+    end
+
+    it 'does not let Captain verify the customer when no tool needs a verified email' do
+      expect(service.send(:build_state)[:can_verify_email]).to be(false)
+    end
+
+    it 'does not let Captain verify anyone where an admin or an agent is the user' do
+      create(:captain_custom_tool, account: account, assistant: assistant, settings: { 'requires_email_verification' => true })
+      service = described_class.new(assistant: assistant, conversation: conversation,
+                                    run_options: described_class::RunOptions.new(source: 'playground'))
+
+      expect(service.send(:build_state)[:can_verify_email]).to be(false)
     end
 
     it 'does not include campaign when conversation has no campaign' do
@@ -522,7 +1145,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       tool_complete_callback.call(Captain::Tools::HandoffTool.new(assistant).name, 'ok', context_wrapper)
 
       expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
-      run_complete_callback.call('assistant', nil, context_wrapper)
+      run_complete_callback.call('assistant', mock_result, context_wrapper)
     end
 
     it 'registers handoff tracking callback when OTEL is disabled' do
@@ -535,22 +1158,63 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         tool_complete_callback = block
         runner
       end
+      allow(runner).to receive(:on_run_complete).and_return(runner)
 
       service.send(:add_usage_metadata_callback, runner)
 
-      context_wrapper = Struct.new(:context).new({})
+      context_wrapper = Struct.new(:context).new({ state: { captain_v2_handoff_tool_completed: true } })
 
       expect(tool_complete_callback).not_to be_nil
       tool_complete_callback.call(Captain::Tools::HandoffTool.new(assistant).name, 'ok', context_wrapper)
 
       expect(context_wrapper.context[:captain_v2_handoff_tool_called]).to be true
+      expect(service.handoff_completed?).to be true
     end
 
-    it 'does not register OTEL run callback when OTEL is disabled' do
+    it 'tracks discarded responses when OTEL is disabled' do
+      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(responding_to_message_id: responding_to_message.id)
+      )
+      runner = instance_double(Agents::AgentRunner)
+      run_complete_callback = nil
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      allow(runner).to receive(:on_run_complete) do |&block|
+        run_complete_callback = block
+        runner
+      end
+
+      service.send(:add_usage_metadata_callback, runner)
+      create(:message, conversation: conversation, message_type: :incoming)
+      run_complete_callback.call('assistant', mock_result, Struct.new(:context).new({}))
+
+      expect(service.response_discarded?).to be true
+    end
+
+    it 'does not register a run callback when OTEL and burst protection are disabled' do
       service = described_class.new(assistant: assistant, conversation: conversation)
       runner = instance_double(Agents::AgentRunner)
 
       allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      expect(runner).not_to receive(:on_run_complete)
+
+      service.send(:add_usage_metadata_callback, runner)
+    end
+
+    it 'leaves final credit and discard metadata to the reply suggestion service' do
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(source: described_class::REPLY_SUGGESTION_SOURCE)
+      )
+      runner = instance_double(Agents::AgentRunner)
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
       allow(runner).to receive(:on_tool_complete).and_return(runner)
       expect(runner).not_to receive(:on_run_complete)
 
@@ -577,7 +1241,66 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       service.send(:add_usage_metadata_callback, runner)
 
       expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'true')
-      run_complete_callback.call('assistant', nil, context_wrapper)
+      run_complete_callback.call('assistant', mock_result, context_wrapper)
+    end
+
+    it 'sets credit_used=false when the reply is leaked tool call text' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      runner = instance_double(Agents::AgentRunner)
+      run_complete_callback = nil
+      span_class = Class.new do
+        def set_attribute(*); end
+      end
+      root_span = instance_double(span_class)
+      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
+      leaked_result = instance_double(
+        Agents::RunResult,
+        output: { 'response_parts' => [{ 'text' => '{"query":"refund policy"}', 'citation_indexes' => [] }], 'reasoning' => 'Use faq_lookup' }
+      )
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      allow(runner).to receive(:on_run_complete) do |&block|
+        run_complete_callback = block
+        runner
+      end
+
+      service.send(:add_usage_metadata_callback, runner)
+
+      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
+      run_complete_callback.call('assistant', leaked_result, context_wrapper)
+    end
+
+    it 'marks the trace discarded and does not use credit when a newer message arrived' do
+      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(responding_to_message_id: responding_to_message.id)
+      )
+      runner = instance_double(Agents::AgentRunner)
+      run_complete_callback = nil
+      span_class = Class.new do
+        def set_attribute(*); end
+      end
+      root_span = instance_double(span_class)
+      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      allow(runner).to receive(:on_run_complete) do |&block|
+        run_complete_callback = block
+        runner
+      end
+
+      service.send(:add_usage_metadata_callback, runner)
+      create(:message, conversation: conversation, message_type: :incoming)
+
+      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.discarded', 'true')
+      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
+      run_complete_callback.call('assistant', mock_result, context_wrapper)
+
+      expect(service.response_discarded?).to be true
     end
   end
 

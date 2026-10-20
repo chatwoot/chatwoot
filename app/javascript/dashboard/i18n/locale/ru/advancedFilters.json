@@ -19,6 +19,10 @@
       "OR": "ИЛИ"
     },
     "INPUT_PLACEHOLDER": "Введите значение",
+    "MULTI_VALUE_INPUT_PLACEHOLDER": "Type a value, then press Enter to add more",
+    "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Type a value",
+    "CONTACT_SEARCH_PLACEHOLDER": "Поиск контактов",
+    "CONTACT_FALLBACK": "Контакт #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "Равно",
       "not_equal_to": "Не равно",
@@ -49,6 +53,7 @@
       "ASSIGNEE_NAME": "Имя назначенного",
       "INBOX_NAME": "Имя источника",
       "TEAM_NAME": "Название команды",
+      "CONTACT": "Контакт",
       "CONVERSATION_IDENTIFIER": "Идентификатор беседы",
       "CAMPAIGN_NAME": "Название кампании",
       "LABELS": "Категории",

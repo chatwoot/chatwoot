@@ -105,11 +105,11 @@ export default {
     const keyboardEvents = {
       'Alt+KeyP': {
         action: () => handleNoteClick(),
-        allowOnFocusedInput: true,
+        allowOnFocusedInput: false,
       },
       'Alt+KeyL': {
         action: () => handleReplyClick(),
-        allowOnFocusedInput: true,
+        allowOnFocusedInput: false,
       },
     };
     useKeyboardEvents(keyboardEvents);

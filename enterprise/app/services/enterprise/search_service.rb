@@ -7,7 +7,9 @@ module Enterprise::SearchService
       search_query,
       fields: %w[content attachments.transcribed_text content_attributes.email.subject],
       where: where_conditions,
-      order: { created_at: :desc },
+      # id breaks created_at ties so results stay stable across page fetches;
+      # unmapped_type covers documents indexed before id was added
+      order: { created_at: :desc, id: { order: :desc, unmapped_type: 'long' } },
       page: params[:page] || 1,
       per_page: 15
     )
@@ -51,23 +53,8 @@ module Enterprise::SearchService
     where_conditions[:created_at] = time_conditions if time_conditions.any?
   end
 
-  def cap_until_time(until_param)
-    max_future = 90.days.from_now
-    requested_time = Time.zone.at(until_param.to_i)
-
-    [requested_time, max_future].min
-  end
-
   def enforce_time_limit(since_param)
-    max_lookback = Limits::MESSAGE_SEARCH_TIME_RANGE_LIMIT_DAYS.days.ago
-
-    if since_param.present?
-      requested_time = Time.zone.at(since_param.to_i)
-      # Silently cap to max_lookback if requested time is too far back
-      [requested_time, max_lookback].max
-    else
-      max_lookback
-    end
+    since_param.present? ? cap_since_time(since_param) : search_window_start
   end
 
   def apply_inbox_filter(where_conditions)

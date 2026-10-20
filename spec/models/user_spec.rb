@@ -87,6 +87,42 @@ RSpec.describe User do
       user.invalidate_sso_auth_token(sso_auth_token)
       expect(user.valid_sso_auth_token?(sso_auth_token)).to be false
     end
+
+    it 'stores impersonation tokens in the format older servers read' do
+      sso_auth_token = user.generate_sso_auth_token(impersonated_by: create(:super_admin))
+      key = format(Redis::RedisKeys::USER_SSO_AUTH_TOKEN, user_id: user.id, token: sso_auth_token)
+
+      expect(Redis::Alfred.get(key)).to eq('impersonation')
+    end
+
+    it 'clears the impersonating super admin when the token is invalidated' do
+      sso_auth_token = user.generate_sso_auth_token(impersonated_by: create(:super_admin))
+      user.invalidate_sso_auth_token(sso_auth_token)
+
+      expect(user.sso_auth_token_impersonator_id(sso_auth_token)).to be_nil
+    end
+
+    it 'consumes a token only once' do
+      sso_auth_token = user.generate_sso_auth_token
+
+      expect(user.consume_sso_auth_token(sso_auth_token)).to be true
+      expect(user.consume_sso_auth_token(sso_auth_token)).to be false
+    end
+
+    it 'records the super admin who minted an impersonation token' do
+      super_admin = create(:super_admin)
+      sso_auth_token = user.generate_sso_auth_token(impersonated_by: super_admin)
+
+      expect(user.sso_auth_token_impersonator_id(sso_auth_token)).to eq(super_admin.id)
+    end
+
+    it 'does not treat a regular sso token as impersonation' do
+      sso_auth_token = user.generate_sso_auth_token
+
+      expect(user.sso_auth_token_impersonation?(sso_auth_token)).to be false
+
+      expect(user.sso_auth_token_impersonator_id(sso_auth_token)).to be_nil
+    end
   end
 
   describe 'access token' do
@@ -117,6 +153,26 @@ RSpec.describe User do
     end
 
     let(:user) { create(:user, password: 'Test@123456') }
+
+    describe '#mfa_enforcement_pending?' do
+      let(:account) { create(:account) }
+      let(:user) { create(:user, password: 'Test@123456', account: account) }
+
+      it 'is false when no account enforces mfa' do
+        expect(user.mfa_enforcement_pending?).to be false
+      end
+
+      it 'is true when an account enforces and user not enrolled' do
+        account.update!(enforce_mfa: true)
+        expect(user.reload.mfa_enforcement_pending?).to be true
+      end
+
+      it 'is false when user already enrolled' do
+        account.update!(enforce_mfa: true)
+        user.update!(otp_required_for_login: true)
+        expect(user.mfa_enforcement_pending?).to be false
+      end
+    end
 
     describe '#enable_two_factor!' do
       it 'generates OTP secret for 2FA setup' do
@@ -252,6 +308,39 @@ RSpec.describe User do
       it 'still prioritizes accounts with timestamps' do
         expect(user.active_account_user.account_id).to eq(account2.id)
       end
+    end
+  end
+
+  describe 'sync_user_sessions callback' do
+    let(:user_with_tokens) do
+      u = create(:user)
+      u.tokens = {
+        'client-a' => { 'token' => 'x', 'expiry' => 1.month.from_now.to_i },
+        'client-b' => { 'token' => 'x', 'expiry' => 1.month.from_now.to_i }
+      }
+      u.save!
+      u.user_sessions.create!(client_id: 'client-a', last_activity_at: Time.current)
+      u.user_sessions.create!(client_id: 'client-b', last_activity_at: Time.current)
+      u
+    end
+
+    it 'destroys user_sessions whose client_id is no longer in tokens' do
+      user_with_tokens.tokens = user_with_tokens.tokens.except('client-a')
+
+      expect { user_with_tokens.save! }.to change(user_with_tokens.user_sessions, :count).by(-1)
+      expect(user_with_tokens.user_sessions.pluck(:client_id)).to eq(['client-b'])
+    end
+
+    it 'leaves user_sessions alone when tokens did not change' do
+      user_with_tokens.update!(name: 'New Name')
+
+      expect(user_with_tokens.user_sessions.count).to eq(2)
+    end
+
+    it 'destroys all user_sessions when tokens is cleared' do
+      user_with_tokens.tokens = {}
+
+      expect { user_with_tokens.save! }.to change(user_with_tokens.user_sessions, :count).by(-2)
     end
   end
 end

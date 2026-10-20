@@ -51,6 +51,22 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(json_response['error']).to eq('Validation failed: Content is too long (maximum is 150000 characters)')
       end
 
+      it 'returns a customer-safe error when the database query is canceled' do
+        message_builder = instance_double(Messages::MessageBuilder)
+        allow(Messages::MessageBuilder).to receive(:new).and_return(message_builder)
+        allow(message_builder).to receive(:perform)
+          .and_raise(ActiveRecord::QueryCanceled, 'PG::QueryCanceled: ERROR: canceling statement due to statement timeout')
+
+        post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { content: 'test-message', private: true },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.database.query_canceled'))
+        expect(response.parsed_body['error']).not_to include('PG::QueryCanceled')
+      end
+
       it 'creates an outgoing text message with a specific bot sender' do
         agent_bot = create(:agent_bot)
         time_stamp = Time.now.utc.to_s
@@ -82,6 +98,63 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.last.attachments.first.file_type).to eq('image')
       end
 
+      context 'when forwarding an email' do
+        let(:inbox) { create(:channel_email, account: account).inbox }
+        let(:forwarded_message) { create(:message, conversation: conversation, account: account, message_type: :incoming) }
+        let(:forwarded_attachment) do
+          attachment = forwarded_message.attachments.new(account_id: account.id, file_type: :image)
+          attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+          attachment.save!
+          attachment
+        end
+
+        it 'creates the forward with the edited html, recipients and reused attachments' do
+          params = {
+            content: 'Please handle this',
+            to_emails: 'vendor@example.com',
+            email_html_content: '<p>Please handle this</p><p>Edited body</p>',
+            content_attributes: { forwarded_message_id: forwarded_message.id }.to_json,
+            forwarded_attachment_ids: [forwarded_attachment.id]
+          }
+
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: params,
+               headers: agent.create_new_auth_token
+
+          expect(response).to have_http_status(:success)
+          forward = conversation.messages.outgoing.last
+          expect(forward.content).to eq('Please handle this')
+          expect(forward.content_attributes['forwarded_message_id']).to eq(forwarded_message.id)
+          expect(forward.content_attributes['to_emails']).to eq(['vendor@example.com'])
+          expect(forward.content_attributes.dig('email', 'html_content', 'reply')).to eq('<p>Please handle this</p><p>Edited body</p>')
+          expect(forward.attachments.map { |attachment| attachment.file.blob }).to eq([forwarded_attachment.file.blob])
+        end
+
+        it 'rejects a forwarded message that belongs to another conversation' do
+          other_message = create(:message, account: account)
+
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'Please handle this', content_attributes: { forwarded_message_id: other_message.id } },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to include('Couldn\'t find Message')
+          expect(conversation.messages.outgoing).to be_empty
+        end
+
+        it 'rejects a forward without a recipient' do
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'Please handle this', content_attributes: { forwarded_message_id: forwarded_message.id } },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to eq('Forwarded emails need a recipient')
+          expect(conversation.messages.outgoing).to be_empty
+        end
+      end
+
       context 'when api inbox' do
         let(:api_channel) { create(:channel_api, account: account) }
         let(:api_inbox) { create(:inbox, channel: api_channel, account: account) }
@@ -103,7 +176,13 @@ RSpec.describe 'Conversation Messages API', type: :request do
           expect(Conversations::ActivityMessageJob)
             .to(have_been_enqueued.at_least(:once)
               .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                    content: 'System reopened the conversation due to a new incoming message.' }))
+                                    content: 'System reopened the conversation due to a new incoming message.',
+                                    content_attributes: {
+                                      activity: {
+                                        type: 'conversation_status_changed',
+                                        status: 'open'
+                                      }
+                                    } }))
         end
       end
     end
@@ -127,7 +206,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
       it 'creates a new outgoing input select message' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
-        select_item1 = build(:bot_message_select)
+        select_item1 = build(:bot_message_select).merge(description: 'First option description')
         select_item2 = build(:bot_message_select)
         params = { content_type: 'input_select', content_attributes: { items: [select_item1, select_item2] } }
 
@@ -140,6 +219,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.count).to eq(1)
         expect(conversation.messages.first.content_type).to eq(params[:content_type])
         expect(conversation.messages.first.content).to be_nil
+        expect(conversation.messages.first.content_attributes['items'].first['description']).to eq('First option description')
       end
 
       it 'creates a new outgoing cards message' do
@@ -218,6 +298,16 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(message.reload.content_attributes['bcc_emails']).to be_nil
       end
 
+      it 'keeps the forward marker on a deleted forwarded email' do
+        message.update!(content_attributes: { forwarded_message_id: 1, to_emails: ['vendor@example.com'] })
+
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(message.reload.content_attributes).to eq('forwarded_message_id' => 1, 'deleted' => true)
+      end
+
       it 'deletes interactive messages' do
         interactive_message = create(
           :message, message_type: :outgoing, content: 'test', content_type: 'input_select',
@@ -252,7 +342,9 @@ RSpec.describe 'Conversation Messages API', type: :request do
   end
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/:conversation_id/messages/:id/retry' do
-    let(:message) { create(:message, account: account, status: :failed, content_attributes: { external_error: 'error' }) }
+    let(:message) do
+      create(:message, account: account, status: :failed, content_attributes: { external_error: 'error', to_emails: ['vendor@example.com'] })
+    end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -268,14 +360,15 @@ RSpec.describe 'Conversation Messages API', type: :request do
         create(:inbox_member, inbox: message.conversation.inbox, user: agent)
       end
 
-      it 'retries the message' do
+      it 'retries the message and keeps its delivery details' do
         post "/api/v1/accounts/#{account.id}/conversations/#{message.conversation.display_id}/messages/#{message.id}/retry",
              headers: agent.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:success)
         expect(message.reload.status).to eq('sent')
-        expect(message.reload.content_attributes['external_error']).to be_nil
+        expect(message.content_attributes['external_error']).to be_nil
+        expect(message.content_attributes['to_emails']).to eq(['vendor@example.com'])
       end
     end
 

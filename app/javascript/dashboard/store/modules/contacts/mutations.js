@@ -58,7 +58,15 @@ export const mutations = {
   },
 
   [types.EDIT_CONTACT]: ($state, data) => {
-    $state.records[data.id] = data;
+    const existingAttachments = $state.records[data.id]?.attachments;
+    $state.records[data.id] = existingAttachments
+      ? { ...data, attachments: existingAttachments }
+      : data;
+  },
+
+  [types.SET_CONTACT_ATTACHMENTS]: ($state, { id, data }) => {
+    if (!$state.records[id]) $state.records[id] = {};
+    $state.records[id].attachments = data;
   },
 
   [types.DELETE_CONTACT]: ($state, id) => {

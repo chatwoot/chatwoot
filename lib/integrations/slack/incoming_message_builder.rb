@@ -68,7 +68,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def process_message_payload?
-    thread_timestamp_available? && supported_message? && integration_hook
+    thread_timestamp_available? && supported_message? && integration_hook.present? && !integration_hook.slack_alert_mode?
   end
 
   def link_shared?

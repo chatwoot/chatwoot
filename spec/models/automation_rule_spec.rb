@@ -137,4 +137,276 @@ RSpec.describe AutomationRule do
       end
     end
   end
+
+  describe 'Captain conditions' do
+    let(:account) { create(:account) }
+    let(:rule) do
+      build(:automation_rule, account: account, conditions: [
+              { 'attribute_key' => 'captain_condition', 'filter_operator' => 'detects',
+                'values' => ['the customer wants a refund'], 'query_operator' => nil }
+            ])
+    end
+
+    it 'is allowed when the account has the Captain Classifier feature' do
+      account.enable_features!('captain_classifier')
+
+      expect(rule).to be_valid
+    end
+
+    it 'is rejected without the feature' do
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions require the Captain Classifier feature.')
+    end
+
+    it 'is rejected with an operator Captain does not support' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['filter_operator'] = 'contains'
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions support only the detects and does_not_detect operators.')
+    end
+
+    it 'is rejected without a description of what to detect' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = ['']
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions need exactly one description of what to detect.')
+    end
+
+    it 'is rejected when the description is not given as a list' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = 'the customer wants a refund'
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions need exactly one description of what to detect.')
+    end
+
+    it 'is rejected with more than one description' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = ['the customer wants a refund', 'the customer is angry']
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions need exactly one description of what to detect.')
+    end
+
+    it 'is rejected when the description is not text' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = [42]
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain conditions need exactly one description of what to detect.')
+    end
+
+    it 'accepts a description at the length limit' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = ['a' * 500]
+
+      expect(rule).to be_valid
+    end
+
+    it 'is rejected with a description over the length limit' do
+      account.enable_features!('captain_classifier')
+      rule.conditions.first['values'] = ['a' * 501]
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:conditions]).to include('Captain condition descriptions can have at most 500 characters.')
+    end
+
+    context 'when the feature is revoked after the rule was saved' do
+      let(:status_condition) do
+        { 'attribute_key' => 'status', 'filter_operator' => 'equal_to', 'values' => ['open'], 'query_operator' => 'AND' }
+      end
+
+      before do
+        account.enable_features!('captain_classifier')
+        rule.save!
+        account.disable_features!('captain_classifier')
+      end
+
+      it 'can still be deactivated' do
+        expect(rule.update(active: false)).to be(true)
+      end
+
+      it 'keeps its Captain condition while the rest of the rule changes' do
+        rule.assign_attributes(name: 'Renamed', conditions: [status_condition, rule.conditions.first])
+
+        expect(rule).to be_valid
+      end
+
+      it 'can drop its Captain condition' do
+        rule.conditions = [status_condition.merge('query_operator' => nil)]
+
+        expect(rule).to be_valid
+      end
+
+      it 'cannot change what Captain detects' do
+        rule.conditions = [rule.conditions.first.merge('values' => ['the customer is angry'])]
+
+        expect(rule).not_to be_valid
+        expect(rule.errors[:conditions]).to include('Captain conditions require the Captain Classifier feature.')
+      end
+
+      it 'cannot gain another Captain condition' do
+        rule.conditions = [rule.conditions.first.merge('query_operator' => 'OR'),
+                           rule.conditions.first.merge('values' => ['the customer is angry'])]
+
+        expect(rule).not_to be_valid
+      end
+
+      it 'cannot gain a copy of its saved Captain condition' do
+        rule.conditions = [rule.conditions.first.merge('query_operator' => 'OR'), rule.conditions.first]
+
+        expect(rule).not_to be_valid
+        expect(rule.errors[:conditions]).to include('Captain conditions require the Captain Classifier feature.')
+      end
+    end
+  end
+
+  describe 'execution_delay validations' do
+    let(:rule) { build(:automation_rule, account: create(:account)) }
+
+    it 'allows nil (immediate execution)' do
+      rule.execution_delay = nil
+      expect(rule).to be_valid
+    end
+
+    it 'allows delays between 10 minutes and 30 days' do
+      rule.execution_delay = 240
+      expect(rule).to be_valid
+    end
+
+    it 'rejects delays below 10 minutes' do
+      rule.execution_delay = 5
+      expect(rule).not_to be_valid
+      expect(rule.errors[:execution_delay]).to be_present
+    end
+
+    it 'rejects delays above 30 days' do
+      rule.execution_delay = 43_201
+      expect(rule).not_to be_valid
+    end
+
+    it 'rejects non-integer delays' do
+      rule.execution_delay = 10.5
+      expect(rule).not_to be_valid
+    end
+
+    it 'rejects a delay combined with an attribute_changed condition' do
+      rule.execution_delay = 60
+      rule.conditions = [{ 'attribute_key' => 'status', 'filter_operator' => 'attribute_changed',
+                           'values' => { 'from' => ['open'], 'to' => ['pending'] }, 'query_operator' => nil }]
+      expect(rule).not_to be_valid
+      expect(rule.errors[:execution_delay]).to include('cannot be used with attribute_changed conditions.')
+    end
+
+    it 'allows a delayed message rule with a label condition' do
+      rule.event_name = 'message_created'
+      rule.execution_delay = 60
+      rule.conditions = [{ 'attribute_key' => 'labels', 'filter_operator' => 'equal_to',
+                           'values' => ['feature'], 'query_operator' => nil }]
+
+      expect(rule).to be_valid
+    end
+
+    it 'rejects a delayed conversation-level rule with a label condition' do
+      rule.event_name = 'conversation_updated'
+      rule.execution_delay = 60
+      rule.conditions = [{ 'attribute_key' => 'labels', 'filter_operator' => 'equal_to',
+                           'values' => ['feature'], 'query_operator' => nil }]
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:execution_delay]).to include('only supports status and inbox conditions for conversation-level events.')
+    end
+
+    it 'rejects a delayed conversation-level rule with a mutable non-status condition' do
+      rule.event_name = 'conversation_updated'
+      rule.execution_delay = 60
+      rule.conditions = [{ 'attribute_key' => 'priority', 'filter_operator' => 'equal_to', 'values' => ['urgent'], 'query_operator' => nil }]
+      expect(rule).not_to be_valid
+      expect(rule.errors[:execution_delay]).to include('only supports status and inbox conditions for conversation-level events.')
+    end
+
+    it 'allows a delayed conversation-level rule with only status conditions' do
+      rule.event_name = 'conversation_updated'
+      rule.execution_delay = 60
+      rule.conditions = [{ 'attribute_key' => 'status', 'filter_operator' => 'equal_to', 'values' => ['pending'], 'query_operator' => nil }]
+      expect(rule).to be_valid
+    end
+
+    it 'allows a delayed conversation_created rule (arms on creation)' do
+      rule.event_name = 'conversation_created'
+      rule.execution_delay = 10
+      rule.conditions = [{ 'attribute_key' => 'status', 'filter_operator' => 'equal_to', 'values' => ['open'], 'query_operator' => nil }]
+      expect(rule).to be_valid
+    end
+
+    it 'allows a delayed conversation-level rule scoped by status and inbox (immutable)' do
+      rule.event_name = 'conversation_updated'
+      rule.execution_delay = 60
+      rule.conditions = [{ 'attribute_key' => 'status', 'filter_operator' => 'equal_to', 'values' => ['pending'], 'query_operator' => 'AND' },
+                         { 'attribute_key' => 'inbox_id', 'filter_operator' => 'equal_to', 'values' => [1], 'query_operator' => nil }]
+      expect(rule).to be_valid
+    end
+
+    it 'allows a delayed message_created rule with a non-status condition' do
+      rule.event_name = 'message_created'
+      rule.execution_delay = 60
+      rule.conditions = [{ 'attribute_key' => 'message_type', 'filter_operator' => 'equal_to', 'values' => ['outgoing'], 'query_operator' => nil }]
+      expect(rule).to be_valid
+    end
+  end
+
+  describe 'discarding stale pending executions on edit' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account, status: :pending) }
+    let(:status_condition) { { 'attribute_key' => 'status', 'filter_operator' => 'equal_to', 'values' => ['pending'], 'query_operator' => nil } }
+    let(:rule) do
+      create(:automation_rule, account: account, event_name: 'conversation_updated', execution_delay: 60,
+                               conditions: [status_condition], actions: [{ 'action_name' => 'add_label', 'action_params' => ['stale'] }])
+    end
+
+    before { AutomationRulePendingExecution.schedule(rule: rule, conversation: conversation) }
+
+    it 'discards armed rows when the actions change' do
+      rule.update!(actions: [{ 'action_name' => 'add_label', 'action_params' => ['urgent'] }])
+      expect(rule.pending_executions.pending).to be_empty
+    end
+
+    it 'discards armed rows when the delay changes' do
+      rule.update!(execution_delay: 120)
+      expect(rule.pending_executions.pending).to be_empty
+    end
+
+    it 'discards armed rows when the rule is deactivated, so reactivating cannot resurrect them' do
+      rule.update!(active: false)
+      expect(rule.pending_executions.armed).to be_empty
+
+      rule.update!(active: true)
+      expect(rule.pending_executions.armed).to be_empty
+    end
+
+    it 'discards a stale processing row that the sweep would otherwise reclaim' do
+      rule.pending_executions.first.update!(status: :processing)
+      rule.update!(actions: [{ 'action_name' => 'add_label', 'action_params' => ['urgent'] }])
+      expect(rule.pending_executions.armed).to be_empty
+    end
+
+    it 'leaves an executing row alone because its actions are already in flight' do
+      rule.pending_executions.first.update!(status: :executing)
+      rule.update!(actions: [{ 'action_name' => 'add_label', 'action_params' => ['urgent'] }])
+      expect(rule.pending_executions.executing.count).to eq(1)
+    end
+
+    it 'frees the episode slot so the new definition re-arms for the same episode' do
+      rule.update!(actions: [{ 'action_name' => 'add_label', 'action_params' => ['urgent'] }])
+      AutomationRulePendingExecution.schedule(rule: rule, conversation: conversation)
+      expect(rule.pending_executions.pending.count).to eq(1)
+    end
+
+    it 'leaves armed rows untouched on a name-only edit' do
+      rule.update!(name: 'Renamed rule')
+      expect(rule.pending_executions.pending.count).to eq(1)
+    end
+  end
 end

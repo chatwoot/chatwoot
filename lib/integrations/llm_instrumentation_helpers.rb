@@ -2,6 +2,7 @@
 
 module Integrations::LlmInstrumentationHelpers
   include Integrations::LlmInstrumentationConstants
+  include Integrations::LlmInstrumentationContext
   include Integrations::LlmInstrumentationCompletionHelpers
 
   def determine_provider(model_name)
@@ -28,6 +29,13 @@ module Integrations::LlmInstrumentationHelpers
     if result.respond_to?(:content)
       span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, result.role.to_s) if result.respond_to?(:role)
       span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, result.content.to_s)
+      if result.respond_to?(:tokens)
+        set_usage_metrics(span, usage: {
+                            'prompt_tokens' => result.tokens.input,
+                            'completion_tokens' => result.tokens.output,
+                            'reasoning_tokens' => result.tokens.thinking
+                          })
+      end
     elsif result.is_a?(Hash)
       set_completion_attributes(span, result)
     end
@@ -51,15 +59,55 @@ module Integrations::LlmInstrumentationHelpers
   end
 
   def set_metadata_attributes(span, params)
-    session_id = params[:conversation_id].present? ? "#{params[:account_id]}_#{params[:conversation_id]}" : nil
-    span.set_attribute(ATTR_LANGFUSE_USER_ID, params[:account_id].to_s) if params[:account_id]
-    span.set_attribute(ATTR_LANGFUSE_SESSION_ID, session_id) if session_id.present?
-    span.set_attribute(ATTR_LANGFUSE_TAGS, [params[:feature_name]].to_json)
+    set_langfuse_attributes(span, current_langfuse_attributes.merge(propagated_langfuse_attributes(params)))
+    set_langfuse_attributes(span, current_observation_metadata_attributes.merge(propagated_observation_metadata_attributes(params)))
+  end
 
-    return unless params[:metadata].is_a?(Hash)
+  def propagated_langfuse_attributes(params)
+    attrs = {}
+    session_id = params[:conversation_id].present? ? "#{params[:account_id]}_#{params[:conversation_id]}" : nil
+
+    attrs[ATTR_LANGFUSE_USER_ID] = params[:account_id].to_s if params[:account_id]
+    attrs[ATTR_LANGFUSE_SESSION_ID] = session_id if session_id.present?
+    attrs[ATTR_LANGFUSE_TAGS] = [params[:feature_name].to_s] if params[:feature_name].present?
+
+    return attrs unless params[:metadata].is_a?(Hash)
 
     params[:metadata].each do |key, value|
-      span.set_attribute(format(ATTR_LANGFUSE_METADATA, key), value.to_s)
+      attrs[format(ATTR_LANGFUSE_METADATA, key)] = value.to_s
+    end
+
+    attrs
+  end
+
+  def propagated_observation_metadata_attributes(params)
+    attrs = {}
+    session_id = params[:conversation_id].present? ? "#{params[:account_id]}_#{params[:conversation_id]}" : nil
+
+    add_observation_metadata(attrs, 'user_id', params[:account_id])
+    add_observation_metadata(attrs, 'account_id', params[:account_id])
+    add_observation_metadata(attrs, 'session_id', session_id)
+    add_observation_metadata(attrs, 'trace_tags', [params[:feature_name]].to_json)
+    add_observation_metadata(attrs, 'feature_name', params[:feature_name])
+
+    return attrs unless params[:metadata].is_a?(Hash)
+
+    params[:metadata].each do |key, value|
+      add_observation_metadata(attrs, key, value)
+    end
+
+    attrs
+  end
+
+  def add_observation_metadata(attrs, key, value)
+    return if value.blank?
+
+    attrs[format(ATTR_LANGFUSE_OBSERVATION_METADATA, key)] = value.to_s
+  end
+
+  def set_langfuse_attributes(span, attrs)
+    attrs.each do |key, value|
+      span.set_attribute(key, value)
     end
   end
 end

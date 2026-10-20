@@ -18,9 +18,9 @@ RSpec.describe Captain::Tools::Copilot::SearchContactsService do
     end
   end
 
-  describe '#parameters' do
+  describe '#parameters_schema' do
     it 'defines email, phone_number, and name parameters' do
-      expect(service.parameters.keys).to contain_exactly(:email, :phone_number, :name)
+      expect(service.parameters_schema.fetch('properties').keys).to contain_exactly('email', 'phone_number', 'name')
     end
   end
 

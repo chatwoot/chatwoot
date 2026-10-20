@@ -12,12 +12,16 @@ import parsePhoneNumber from 'libphonenumber-js';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import CompanySelector from 'dashboard/components-next/Companies/CompanySelector.vue';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     NextButton,
     Avatar,
     ComboBox,
+    CompanySelector,
   },
   props: {
     contact: {
@@ -41,6 +45,7 @@ export default {
     return {
       countries: countries,
       companyName: '',
+      companyId: '',
       description: '',
       email: '',
       name: '',
@@ -66,6 +71,7 @@ export default {
         { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
         { key: 'github', prefixURL: 'https://github.com/' },
         { key: 'telegram', prefixURL: 'https://t.me/' },
+        { key: 'whatsapp', prefixURL: '@' },
         { key: 'tiktok', prefixURL: 'https://tiktok.com/@' },
       ],
     };
@@ -83,6 +89,15 @@ export default {
     bio: {},
   },
   computed: {
+    ...mapGetters({
+      isFeatureEnabledOnAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
+    hasCompaniesFeature() {
+      return this.isFeatureEnabledOnAccount(
+        Number(this.$route.params.accountId),
+        FEATURE_FLAGS.COMPANIES
+      );
+    },
     parsePhoneNumber() {
       return parsePhoneNumber(this.phoneNumber);
     },
@@ -126,6 +141,9 @@ export default {
     this.setDialCode();
   },
   methods: {
+    normalizeWhatsAppUsername(value) {
+      return value?.toString().replace(/^@+/, '') || '';
+    },
     onCancel() {
       this.$emit('cancel');
     },
@@ -142,6 +160,10 @@ export default {
       this.country = selected
         ? { id: selected.id, name: selected.name }
         : { id: '', name: '' };
+    },
+    onCompanySelect({ id, name }) {
+      this.companyId = id;
+      this.companyName = name;
     },
     setDialCode() {
       if (
@@ -165,6 +187,7 @@ export default {
       this.email = emailAddress || '';
       this.phoneNumber = phoneNumber || '';
       this.companyName = additionalAttributes.company_name || '';
+      this.companyId = this.contact.company_id || '';
       this.country = {
         id: additionalAttributes.country_code || '',
         name:
@@ -178,8 +201,10 @@ export default {
         social_profiles: socialProfiles = {},
         screen_name: twitterScreenName,
         social_telegram_user_name: telegramUserName,
+        social_whatsapp_user_name: whatsappUserName,
       } = additionalAttributes;
       this.socialProfileUserNames = {
+        ...socialProfiles,
         twitter: socialProfiles.twitter || twitterScreenName || '',
         facebook: socialProfiles.facebook || '',
         linkedin: socialProfiles.linkedin || '',
@@ -187,6 +212,9 @@ export default {
         telegram: socialProfiles.telegram || telegramUserName || '',
         instagram: socialProfiles.instagram || '',
         tiktok: socialProfiles.tiktok || '',
+        whatsapp: this.normalizeWhatsAppUsername(
+          socialProfiles.whatsapp || whatsappUserName || ''
+        ),
       };
     },
     getContactObject() {
@@ -196,6 +224,12 @@ export default {
           name: '',
         };
       }
+      const socialProfileUserNames = {
+        ...this.socialProfileUserNames,
+        whatsapp: this.normalizeWhatsAppUsername(
+          this.socialProfileUserNames.whatsapp
+        ),
+      };
       const contactObject = {
         id: this.contact.id,
         name: this.name,
@@ -212,9 +246,13 @@ export default {
               ? ''
               : this.country.name,
           city: this.city,
-          social_profiles: this.socialProfileUserNames,
+          social_profiles: socialProfileUserNames,
         },
       };
+      if (this.hasCompaniesFeature) {
+        contactObject.company_id = this.companyId;
+        contactObject.resolve_legacy_company = true;
+      }
       if (this.avatarFile) {
         contactObject.avatar = this.avatarFile;
         contactObject.isFormData = true;
@@ -369,7 +407,16 @@ export default {
         </div>
       </div>
     </div>
+    <div v-if="hasCompaniesFeature" class="w-full mb-4">
+      <label>{{ $t('CONTACT_FORM.FORM.COMPANY_NAME.LABEL') }}</label>
+      <CompanySelector
+        :model-value="companyId"
+        :selected-name="companyName"
+        @select="onCompanySelect"
+      />
+    </div>
     <woot-input
+      v-else
       v-model="companyName"
       class="w-full"
       :label="$t('CONTACT_FORM.FORM.COMPANY_NAME.LABEL')"

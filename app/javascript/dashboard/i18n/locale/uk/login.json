@@ -17,7 +17,7 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Увійти через Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Будь ласка, використовуйте робочу адресу електронної пошти для входу",
+      "BUSINESS_ACCOUNTS_ONLY": "You can't create a new account with a personal email address. Please sign up using your work email.",
       "NO_ACCOUNT_FOUND": "Ми не змогли знайти аккаунт для вашої адреси електронної пошти."
     },
     "FORGOT_PASSWORD": "Забули пароль?",

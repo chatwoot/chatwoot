@@ -1,11 +1,6 @@
 {
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "Обрано {conversationCount} розмов",
-    "AGENT_SELECT_LABEL": "Виберіть агента",
-    "ASSIGN_CONFIRMATION_LABEL": "Ви впевнені, що хочете призначити {conversationCount} {conversationLabel} до",
-    "UNASSIGN_CONFIRMATION_LABEL": "Ви впевнені, що хочете скасувати призначення {conversationCount} {conversationLabel}?",
-    "GO_BACK_LABEL": "Повернутися назад",
-    "ASSIGN_LABEL": "Призначити",
     "NONE": "Нічого",
     "CLEAR_SELECTION": "Очистити",
     "ASSIGN_AGENT_CONFIRMATION_LABEL": "Ви впевнені, що хочете призначити {n} діалог агенту {agentName}? | Ви впевнені, що хочете призначити {n} діалогів агенту {agentName}?",
@@ -20,7 +15,6 @@
     "RESOLVE_SUCCESFUL": "Розмови успішно закриті.",
     "RESOLVE_FAILED": "Не вдалося закрити розмови, будь ласка, спробуйте ще раз.",
     "ALL_CONVERSATIONS_SELECTED_ALERT": "Розмови, які відображаються на цій сторінці, обрані.",
-    "AGENT_LIST_LOADING": "Завантаження агентів",
     "UPDATE": {
       "CHANGE_STATUS": "Змінити статус",
       "SNOOZE_UNTIL": "Відкласти",
@@ -33,16 +27,16 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Призначити мітки",
-      "NO_LABELS_FOUND": "Міток не знайдено",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "Призначити вибрані мітки",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "Мітки додано успішно.",
-      "ASSIGN_FAILED": "Не вдалося призначити мітки, будь ласка, спробуйте ще раз."
+      "ASSIGN_FAILED": "Не вдалося призначити мітки, будь ласка, спробуйте ще раз.",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
-      "TEAM_SELECT_LABEL": "Виберіть команду",
       "NONE": "Нiчого",
-      "NO_TEAMS_AVAILABLE": "Цей акаунт ще не доданий до жодної команди.",
-      "ASSIGN_SELECTED_TEAMS": "Призначити обрану команду.",
       "ASSIGN_TEAM_CONFIRMATION_LABEL": "Ви впевнені, що хочете призначити {n} діалог команді {teamName}? | Ви впевнені, що хочете призначити {n} діалогів команді {teamName}?",
       "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Ви впевнені, що хочете відкріпити {n} діалог? | Ви впевнені, що хочете відкріпити {n} діалогів?",
       "ASSIGN_SUCCESFUL": "Teams assigned successfully.",

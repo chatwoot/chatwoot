@@ -17,6 +17,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
     let(:call_sid) { 'CA_test_call_sid_123' }
     let(:from_number) { '+15550003333' }
     let(:to_number) { channel.phone_number }
+    let(:inbound_call_params) { { 'CallSid' => call_sid, 'From' => from_number, 'To' => to_number, 'Direction' => 'inbound' } }
 
     it 'invokes Voice::InboundCallBuilder for inbound calls and renders conference TwiML' do
       conversation = create(:conversation, account: account, inbox: inbox)
@@ -33,8 +34,8 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
 
       expect(Voice::InboundCallBuilder).to receive(:perform!).with(
         inbox: inbox,
-        from_number: from_number,
-        call_sid: call_sid
+        call_sid: call_sid,
+        caller: { source_ids: [from_number], contact_attributes: { name: from_number, phone_number: from_number } }
       ).and_return(call)
 
       post "/twilio/voice/call/#{digits}", params: {
@@ -48,6 +49,28 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(response.body).to include('<Response>')
       expect(response.body).to include('<Dial>')
       expect(response.body).to include(call.conference_sid)
+    end
+
+    # An inbox that predates the setting carries no key in provider_config and must keep recording.
+    it 'records the conference from the start when the call was created with recording on' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact, provider_call_id: call_sid)
+      allow(Voice::InboundCallBuilder).to receive(:perform!).and_return(call)
+
+      post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+      expect(response.body).to include('record="record-from-start"')
+    end
+
+    it 'does not record the conference when the call was created with recording off' do
+      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact, provider_call_id: call_sid)
+      allow(Voice::InboundCallBuilder).to receive(:perform!).and_return(call)
+
+      post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+      expect(response.body).to include('record="do-not-record"')
     end
 
     it 'looks up the Call when Twilio sends the outbound-api PSTN leg' do
@@ -73,6 +96,60 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(call.conference_sid)
       expect(call.reload.parent_call_sid).to be_nil
+    end
+
+    it 'hangs up an outbound PSTN leg answered after the call already ended' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(
+        :call,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        contact: conversation.contact,
+        direction: :outgoing,
+        provider_call_id: call_sid,
+        status: 'rejected'
+      )
+
+      post "/twilio/voice/call/#{digits}", params: {
+        'CallSid' => call_sid,
+        'From' => to_number,
+        'To' => from_number,
+        'Direction' => 'outbound-api'
+      }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('<Hangup/>')
+      expect(response.body).not_to include('<Dial>')
+      expect(call.reload.conference_sid).to be_nil
+    end
+
+    it 'records the agent leg as on its way in' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
+                           provider_call_id: call_sid, status: 'ringing')
+
+      post "/twilio/voice/call/#{digits}", params: {
+        'CallSid' => 'CA_agent_leg', 'From' => "client:agent-1-account-#{account.id}", 'To' => to_number,
+        'Direction' => 'inbound', 'call_sid' => call_sid
+      }
+
+      expect(response.body).to include('<Dial>')
+      expect(call.reload.agent_legs.dig('CA_agent_leg', 'state')).to eq('joining')
+    end
+
+    it 'hangs up an agent leg for a call that has ended, without recording it' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
+                           provider_call_id: call_sid, status: 'no_answer')
+
+      post "/twilio/voice/call/#{digits}", params: {
+        'CallSid' => 'CA_agent_leg', 'From' => "client:agent-1-account-#{account.id}", 'To' => to_number,
+        'Direction' => 'inbound', 'call_sid' => call_sid
+      }
+
+      expect(response.body).to include('<Hangup/>')
+      expect(call.reload.agent_legs).to be_empty
     end
 
     it 'records the parent call SID when syncing outbound-dial legs' do
@@ -102,6 +179,20 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(call.reload.parent_call_sid).to eq(parent_sid)
     end
 
+    it 'keeps a provider status written while the parent call sid is recorded' do
+      parent_sid = 'CA_PARENT_RACE'
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
+                           direction: :outgoing, provider_call_id: parent_sid)
+      call.update!(conference_sid: call.default_conference_sid)
+      stale_copy = Call.find(call.id)
+      Call.where(id: call.id).update_all("meta = meta || '{\"provider_status\": \"ringing\"}'::jsonb") # rubocop:disable Rails/SkipsModelValidations
+
+      stale_copy.merge_meta!('parent_call_sid' => parent_sid)
+
+      expect(call.reload).to have_attributes(parent_call_sid: parent_sid, provider_status: 'ringing')
+    end
+
     it 'raises not found when inbox is not present' do
       expect(Voice::InboundCallBuilder).not_to receive(:perform!)
       post '/twilio/voice/call/19998887777', params: {
@@ -111,6 +202,23 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         'Direction' => 'inbound'
       }
       expect(response).to have_http_status(:not_found)
+    end
+
+    it 'rejects the inbound contact leg without building a call when inbound calls are disabled' do
+      channel.update!(provider_config: { 'inbound_calls_enabled' => false })
+      expect(Voice::InboundCallBuilder).not_to receive(:perform!)
+
+      expect do
+        post "/twilio/voice/call/#{digits}", params: {
+          'CallSid' => call_sid,
+          'From' => from_number,
+          'To' => to_number,
+          'Direction' => 'inbound'
+        }
+      end.not_to change(Call, :count)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('<Reject')
     end
   end
 

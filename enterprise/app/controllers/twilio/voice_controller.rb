@@ -24,7 +24,12 @@ class Twilio::VoiceController < ApplicationController
       "TWILIO_VOICE_TWIML account=#{current_account.id} call_sid=#{twilio_call_sid} from=#{twilio_from} direction=#{twilio_direction}"
     )
 
+    return render xml: reject_twiml if reject_inbound?
+
     call = resolve_call
+    # The leg was answered after the call ended (e.g. hangup raced the cancel); don't strand it in an empty conference.
+    return render xml: hangup_twiml unless open_leg?(call)
+
     render xml: conference_twiml(call)
   end
 
@@ -43,7 +48,9 @@ class Twilio::VoiceController < ApplicationController
     Voice::Conference::Manager.new(
       call: call,
       event: event,
-      participant_label: participant_label
+      participant_label: participant_label,
+      participant_call_sid: twilio_call_sid,
+      leave_reason: params[:ReasonParticipantLeft]
     ).process
 
     head :no_content
@@ -60,9 +67,7 @@ class Twilio::VoiceController < ApplicationController
 
   private
 
-  def twilio_call_sid
-    params[:CallSid]
-  end
+  def twilio_call_sid = params[:CallSid]
 
   def twilio_from
     params[:From].to_s
@@ -88,6 +93,20 @@ class Twilio::VoiceController < ApplicationController
     from_number.start_with?('client:')
   end
 
+  # A fresh contact-initiated leg on an inbox with inbound calls turned off.
+  # Reject it so no conference, conversation, or Call row is created.
+  def reject_inbound?
+    twilio_direction == 'inbound' && !agent_leg?(twilio_from) && !inbox.channel.inbound_calls_enabled?
+  end
+
+  def reject_twiml
+    Twilio::TwiML::VoiceResponse.new(&:reject).to_s
+  end
+
+  def hangup_twiml
+    Twilio::TwiML::VoiceResponse.new(&:hangup).to_s
+  end
+
   def resolve_call
     return find_call_for_agent if agent_leg?(twilio_from)
 
@@ -95,8 +114,8 @@ class Twilio::VoiceController < ApplicationController
     when 'inbound'
       Voice::InboundCallBuilder.perform!(
         inbox: inbox,
-        from_number: twilio_from,
-        call_sid: twilio_call_sid
+        call_sid: twilio_call_sid,
+        caller: { source_ids: [twilio_from], contact_attributes: { name: twilio_from, phone_number: twilio_from } }
       )
     when 'outbound-api', 'outbound-dial'
       sync_outbound_leg(call_sid: twilio_call_sid, direction: twilio_direction)
@@ -104,6 +123,9 @@ class Twilio::VoiceController < ApplicationController
       raise ArgumentError, "Unsupported Twilio direction: #{twilio_direction}"
     end
   end
+
+  # An agent's connection is recorded as on its way in, unless the call has ended
+  def open_leg?(call) = agent_leg?(twilio_from) ? call.open_agent_leg!(twilio_call_sid, attempt: params[:attempt_id]) : !call.terminal?
 
   def find_call_for_agent
     sid = params[:call_sid].presence
@@ -117,7 +139,7 @@ class Twilio::VoiceController < ApplicationController
     lookup_sid = direction == 'outbound-dial' ? parent_sid || call_sid : call_sid
     call = inbox_calls.find_by!(provider_call_id: lookup_sid)
 
-    call.update!(parent_call_sid: parent_sid) if parent_sid.present? && call.parent_call_sid != parent_sid
+    call.merge_meta!('parent_call_sid' => parent_sid) if parent_sid.present? && call.parent_call_sid != parent_sid
     call
   end
 
@@ -134,7 +156,7 @@ class Twilio::VoiceController < ApplicationController
           conference_sid,
           start_conference_on_enter: agent_leg?(twilio_from),
           end_conference_on_exit: false,
-          record: 'record-from-start',
+          record: call.recording_enabled? ? 'record-from-start' : 'do-not-record',
           recording_status_callback: recording_status_callback_url,
           recording_status_callback_event: 'completed',
           recording_status_callback_method: 'POST',
@@ -150,7 +172,7 @@ class Twilio::VoiceController < ApplicationController
   def ensure_conference_sid!(call)
     return call.conference_sid if call.conference_sid.present?
 
-    call.update!(conference_sid: call.default_conference_sid)
+    call.merge_meta!('conference_sid' => call.default_conference_sid)
     call.conference_sid
   end
 
@@ -183,7 +205,7 @@ class Twilio::VoiceController < ApplicationController
     return if sid.blank?
     return if call.twilio_conference_sid == sid
 
-    call.update!(twilio_conference_sid: sid)
+    call.merge_meta!('twilio_conference_sid' => sid)
   end
 
   def set_inbox!

@@ -1,4 +1,4 @@
-<%= render 'public/api/v1/portals/documentation_layout/hero', portal: @portal, popular_topics: @popular_topics %>
+<%= render 'public/api/v1/portals/documentation_layout/hero', portal: @portal, popular_topics: @popular_topics, recommended: @recommended_categories.present? %>
 
 <section class="px-6 md:px-10 py-8 md:py-10">
   <%= render 'public/api/v1/portals/documentation_layout/section_header',
@@ -19,14 +19,15 @@
   <% end %>
 </section>
 
-<% if @featured.any? %>
+<% home_articles = @recommended_articles.presence || @featured %>
+<% if home_articles.any? %>
   <section class="px-6 md:px-10 py-8 md:py-10 border-t border-n-weak">
     <%= render 'public/api/v1/portals/documentation_layout/section_header',
-               title: I18n.t('public_portal.sidebar.popular_articles'),
-               subtitle: I18n.t('public_portal.sidebar.popular_articles_subtitle'),
+               title: @recommended_articles.present? ? I18n.t('public_portal.sidebar.recommended') : I18n.t('public_portal.sidebar.popular_articles'),
+               subtitle: @recommended_articles.present? ? I18n.t('public_portal.sidebar.recommended_subtitle') : I18n.t('public_portal.sidebar.popular_articles_subtitle'),
                subtitle_class: 'mt-1.5 text-base text-n-slate-11' %>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <% @featured.each do |article| %>
+      <% home_articles.each do |article| %>
         <%= render 'public/api/v1/portals/documentation_layout/article_card', portal: @portal, article: article %>
       <% end %>
     </div>

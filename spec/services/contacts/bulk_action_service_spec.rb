@@ -34,5 +34,19 @@ RSpec.describe Contacts::BulkActionService do
         service.perform
       end
     end
+
+    context 'when labels are removed' do
+      let(:params) { { ids: [10, 20], labels: { remove: %w[vip] }, extra: 'ignored' } }
+
+      it 'delegates to the bulk remove labels service with permitted params' do
+        bulk_remove_service = instance_double(Contacts::BulkRemoveLabelsService, perform: true)
+
+        expect(Contacts::BulkRemoveLabelsService).to receive(:new)
+          .with(account: account, contact_ids: [10, 20], labels: %w[vip])
+          .and_return(bulk_remove_service)
+
+        service.perform
+      end
+    end
   end
 end

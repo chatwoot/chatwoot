@@ -6,6 +6,11 @@ class Messages::Messenger::MessageBuilder
     return if unsupported_file_type?(attachment['type'])
 
     params = attachment_params(attachment)
+    # During Meta's sticker webhook transition, a sticker message carries both an `image`
+    # and a `sticker` attachment pointing to the same URL. Skip the redundant sticker so it
+    # isn't attached twice, while still storing legitimate duplicate attachments of other types.
+    return if duplicate_sticker?(attachment, params[:external_url])
+
     attachment_obj = @message.attachments.new(params.except(:remote_file_url))
     attachment_obj.save!
     if facebook_reel?(attachment)
@@ -13,10 +18,14 @@ class Messages::Messenger::MessageBuilder
     elsif params[:remote_file_url]
       attach_file(attachment_obj, params[:remote_file_url])
     end
+    fetch_attachment_links(attachment_obj)
+    update_attachment_file_type(attachment_obj)
+  end
+
+  def fetch_attachment_links(attachment_obj)
     fetch_story_link(attachment_obj) if attachment_obj.file_type == 'story_mention'
     fetch_ig_story_link(attachment_obj) if attachment_obj.file_type == 'ig_story'
     fetch_ig_post_link(attachment_obj) if attachment_obj.file_type == 'ig_post'
-    update_attachment_file_type(attachment_obj)
   end
 
   def attach_file(attachment, file_url)
@@ -111,11 +120,18 @@ class Messages::Messenger::MessageBuilder
 
   # Facebook may send attachment types that don't directly match our file_type enum.
   # Map known aliases to their canonical enum values.
-  FACEBOOK_FILE_TYPE_MAP = { reel: :ig_reel }.freeze
+  FACEBOOK_FILE_TYPE_MAP = { reel: :ig_reel, sticker: :image }.freeze
 
   def normalize_file_type(type)
     sym = type.to_sym
     FACEBOOK_FILE_TYPE_MAP.fetch(sym, sym)
+  end
+
+  def duplicate_sticker?(attachment, url)
+    return false unless attachment['type'].to_sym == :sticker
+    return false if url.blank?
+
+    @message.attachments.any? { |existing| existing.external_url == url }
   end
 
   # Facebook sends reel URLs as webpage links (facebook.com/reel/...) rather than

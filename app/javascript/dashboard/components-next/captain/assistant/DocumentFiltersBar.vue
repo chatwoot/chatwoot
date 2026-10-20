@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -16,8 +17,10 @@ const props = defineProps({
 const emit = defineEmits(['selectSource', 'selectStatus', 'selectSort']);
 
 const { t } = useI18n();
+const { checkPermissions } = usePolicy();
 
 const openMenu = ref(null);
+const canViewUsage = computed(() => checkPermissions(['administrator']));
 
 const MENU_CONFIG = [
   {
@@ -73,6 +76,11 @@ const MENU_CONFIG = [
         value: 'recently_created',
         icon: 'i-lucide-clock',
       },
+      {
+        labelKey: 'SORT.MOST_USED',
+        value: 'most_used',
+        icon: 'i-lucide-messages-square',
+      },
     ],
   },
 ];
@@ -82,13 +90,15 @@ const filterMenus = computed(() =>
     menu => !(menu.key === 'status' && props.activeSourceFilter === 'pdf')
   ).map(menu => {
     const active = props[menu.activeKey];
-    const items = menu.options.map(opt => ({
-      label: t(`CAPTAIN.DOCUMENTS.FILTERS.${opt.labelKey}`),
-      value: opt.value,
-      icon: opt.icon,
-      action: menu.key,
-      isSelected: opt.value === active,
-    }));
+    const items = menu.options
+      .filter(option => option.value !== 'most_used' || canViewUsage.value)
+      .map(opt => ({
+        label: t(`CAPTAIN.DOCUMENTS.FILTERS.${opt.labelKey}`),
+        value: opt.value,
+        icon: opt.icon,
+        action: menu.key,
+        isSelected: opt.value === active,
+      }));
     return {
       ...menu,
       items,

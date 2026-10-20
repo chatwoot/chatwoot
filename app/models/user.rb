@@ -69,7 +69,7 @@ class User < ApplicationRecord
 
   # TODO: remove in a future version once online status is moved to account users
   # remove the column availability from users
-  enum availability: { online: 0, offline: 1, busy: 2 }
+  enum :availability, { online: 0, offline: 1, busy: 2 }
 
   # The validation below has been commented out as it does not
   # work because :validatable in devise overrides this.
@@ -78,7 +78,7 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true
 
-  serialize :otp_backup_codes, type: Array
+  serialize :otp_backup_codes, coder: YAML, type: Array
 
   # Encrypt sensitive MFA fields
   encrypts :otp_secret, deterministic: true
@@ -89,7 +89,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :account_users
 
   has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify, inverse_of: :assignee
-  alias_attribute :conversations, :assigned_conversations
+  alias conversations assigned_conversations
   has_many :csat_survey_responses, foreign_key: 'assigned_agent_id', dependent: :nullify, inverse_of: :assigned_agent
   has_many :reviewed_csat_survey_responses, foreign_key: 'review_notes_updated_by_id', class_name: 'CsatSurveyResponse',
                                             dependent: :nullify, inverse_of: :review_notes_updated_by
@@ -101,6 +101,7 @@ class User < ApplicationRecord
   has_many :messages, as: :sender, dependent: :nullify
   has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', source: :inviter, dependent: :nullify
 
+  has_many :user_sessions, dependent: :destroy
   has_many :custom_filters, dependent: :destroy_async
   has_many :dashboard_apps, dependent: :nullify
   has_many :mentions, dependent: :destroy_async
@@ -118,6 +119,7 @@ class User < ApplicationRecord
 
   before_validation :set_password_and_uid, on: :create
   after_destroy :remove_macros
+  after_save :sync_user_sessions, if: :saved_change_to_tokens?
 
   scope :order_by_full_name, -> { order('lower(name) ASC') }
 
@@ -126,8 +128,34 @@ class User < ApplicationRecord
   end
 
   def send_devise_notification(notification, *)
-    devise_mailer.with(account: Current.account).send(notification, self, *).deliver_later
+    mailer_params = { account: Current.account }
+    mailer_params[:redirect_url] = @confirmation_redirect_url if notification == :confirmation_instructions && @confirmation_redirect_url.present?
+    devise_mailer.with(mailer_params).send(notification, self, *).deliver_later
   end
+
+  def send_confirmation_instructions_with_redirect(redirect_url:)
+    @confirmation_redirect_url = redirect_url
+    send_confirmation_instructions
+  ensure
+    @confirmation_redirect_url = nil
+  end
+
+  def send_reset_password_instructions(redirect_url: nil, sso_account_id: nil)
+    @reset_password_account_id = sso_account_id
+    @reset_password_redirect_url = redirect_url
+    super()
+  ensure
+    @reset_password_account_id = nil
+    @reset_password_redirect_url = nil
+  end
+
+  def send_reset_password_instructions_notification(token)
+    devise_mailer
+      .with(account: Current.account, redirect_url: @reset_password_redirect_url, sso_account_id: @reset_password_account_id)
+      .reset_password_instructions(self, token)
+      .deliver_later
+  end
+  private :send_reset_password_instructions_notification
 
   def set_password_and_uid
     self.uid = email
@@ -193,6 +221,14 @@ class User < ApplicationRecord
     Chatwoot.mfa_enabled?
   end
 
+  def mfa_enforced?
+    mfa_feature_available? && accounts.any?(&:enforce_mfa?)
+  end
+
+  def mfa_enforcement_pending?
+    !mfa_enabled? && mfa_enforced?
+  end
+
   # Workaround for Devise 4.9.x race condition vulnerability (GHSA-57hq-95w6-v4fc).
   #
   # The Confirmable module's reconfirmable flow has a race condition where concurrent
@@ -213,6 +249,11 @@ class User < ApplicationRecord
   end
 
   private
+
+  def sync_user_sessions
+    active_client_ids = (tokens || {}).keys
+    user_sessions.where.not(client_id: active_client_ids).destroy_all
+  end
 
   def remove_macros
     macros.personal.destroy_all
