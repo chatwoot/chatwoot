@@ -1,18 +1,12 @@
 class Campaigns::SendWhatsappBatchJob < ApplicationJob
   queue_as :low
 
-  LOCK_BASE = 1_597_000_000_000
+  LOCK_TIMEOUT = 15.minutes
 
   def perform(campaign, cursor = 0)
-    ApplicationRecord.connection_pool.with_connection do |connection|
-      lock_id = LOCK_BASE + campaign.id
-      next unless connection.select_value("SELECT pg_try_advisory_lock(#{lock_id})")
-
-      begin
-        send_batch(campaign.reload, cursor)
-      ensure
-        connection.execute("SELECT pg_advisory_unlock(#{lock_id})")
-      end
+    key = format(Redis::Alfred::WHATSAPP_CAMPAIGN_MUTEX, campaign_id: campaign.id)
+    Redis::LockManager.new.with_lock(key, LOCK_TIMEOUT) do
+      send_batch(campaign.reload, cursor)
     end
   end
 

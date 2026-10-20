@@ -1,7 +1,11 @@
 module Enterprise::Whatsapp::OneoffCampaignService
   def perform_batch(cursor)
     next_cursor = super(campaign.whatsapp_cursor || cursor)
-    campaign.update!(whatsapp_cursor: next_cursor) if next_cursor && campaign.whatsapp_cursor.present?
+    if next_cursor && campaign.whatsapp_cursor.present?
+      campaign.with_lock do
+        campaign.update!(whatsapp_cursor: next_cursor) if !campaign.completed? && next_cursor > campaign.whatsapp_cursor
+      end
+    end
     next_cursor
   end
 

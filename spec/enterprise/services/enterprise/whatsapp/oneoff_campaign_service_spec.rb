@@ -202,6 +202,55 @@ RSpec.describe Enterprise::Whatsapp::OneoffCampaignService do
       expect(campaign.reload).to be_completed
     end
 
+    it 'does not resend an in-flight recipient when another worker acquires an expired lease' do
+      stub_const('Whatsapp::OneoffCampaignService::BATCH_SIZE', 2)
+      contacts = create_list(:contact, 3, :with_phone_number, account: account)
+      contacts.each { |contact| contact.update_labels([label.title]) }
+      destinations = []
+      campaign.trigger!
+      allow(whatsapp_channel).to receive(:send_template) do |destination, _template, _message|
+        destinations << destination
+        if destinations.one?
+          key = format(Redis::Alfred::WHATSAPP_CAMPAIGN_MUTEX, campaign_id: campaign.id)
+          Redis::Alfred.expire(key, 0)
+          Campaigns::SendWhatsappBatchJob.perform_now(Campaign.find(campaign.id))
+        end
+        "wamid.#{destination}"
+      end
+
+      Campaigns::SendWhatsappBatchJob.perform_now(campaign)
+      Campaigns::SendWhatsappBatchJob.perform_now(campaign)
+
+      expect(destinations).to eq(contacts.map(&:phone_number))
+      expect(campaign.campaign_recipients.sent.count).to eq(3)
+      expect(campaign.campaign_recipients.queued).to be_empty
+      expect(campaign.reload).to be_completed
+    end
+
+    it 'does not rewind the checkpoint when a worker finishes after its lease expires' do
+      stub_const('Whatsapp::OneoffCampaignService::BATCH_SIZE', 1)
+      contacts = create_list(:contact, 2, :with_phone_number, account: account)
+      contacts.each { |contact| contact.update_labels([label.title]) }
+      campaign.trigger!
+      allow(whatsapp_channel).to receive(:send_template).and_return('wamid.first', 'wamid.second')
+      replacement = Campaign.find(campaign.id)
+      replacement_service = Whatsapp::OneoffCampaignService.new(campaign: replacement)
+      allow(service).to receive(:process_contacts).and_wrap_original do |process, batch|
+        process.call(batch)
+        key = format(Redis::Alfred::WHATSAPP_CAMPAIGN_MUTEX, campaign_id: campaign.id)
+        Redis::Alfred.expire(key, 0)
+        replacement.update!(whatsapp_cursor: contacts.first.id)
+        Campaigns::SendWhatsappBatchJob.perform_now(replacement, contacts.first.id)
+      end
+      allow(Whatsapp::OneoffCampaignService).to receive(:new).and_return(service, replacement_service)
+
+      Campaigns::SendWhatsappBatchJob.perform_now(campaign)
+
+      expect(campaign.reload.whatsapp_cursor).to eq(contacts.last.id)
+      expect(whatsapp_channel).to have_received(:send_template).exactly(2).times
+      expect(campaign.campaign_recipients.sent.count).to eq(2)
+    end
+
     it 'excludes historical queued, sent and failed recipients when a legacy batch is retried' do
       contacts = create_list(:contact, 4, :with_phone_number, account: account)
       contacts.each { |contact| contact.update_labels([label.title]) }
