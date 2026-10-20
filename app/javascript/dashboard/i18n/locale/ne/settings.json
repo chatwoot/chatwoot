@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "सहभागी कुराकानीमा नयाँ सन्देश सिर्जना हुँदा इमेल सूचनाहरू पठाउनु",
         "SLA_MISSED_FIRST_RESPONSE": "कुनै कुराकानीले पहिलो प्रतिक्रिया SLA छुटाउँदा इमेल सूचनाहरू पठाउनु",
         "SLA_MISSED_NEXT_RESPONSE": "कुनै कुराकानीले अर्को प्रतिक्रिया SLA छुटाउँदा इमेल सूचनाहरू पठाउनु",
-        "SLA_MISSED_RESOLUTION": "कुनै कुराकानीले समाधान SLA छुटाउँदा इमेल सूचनाहरू पठाउनु"
+        "SLA_MISSED_RESOLUTION": "कुनै कुराकानीले समाधान SLA छुटाउँदा इमेल सूचनाहरू पठाउनु",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "सूचना प्राथमिकताहरू",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "भाग लिइरहेको कुराकानीमा नयाँ सन्देश सिर्जना भयो",
           "SLA_MISSED_FIRST_RESPONSE": "कुराकानीले पहिलो प्रतिक्रिया SLA छुटायो",
           "SLA_MISSED_NEXT_RESPONSE": "कुराकानीले अर्को प्रतिक्रिया SLA छुटायो",
-          "SLA_MISSED_RESOLUTION": "कुराकानीले समाधान SLA छुटायो"
+          "SLA_MISSED_RESOLUTION": "कुराकानीले समाधान SLA छुटायो",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "तपाईंको ब्राउजरका लागि पुश सूचनाहरू सक्षम गर्नुहोस् ताकि तपाईं तिनीहरू प्राप्त गर्न सक्नुहुन्छ"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "पुष सूचनाहरू सक्षम गर्नुहोस्",
         "SLA_MISSED_FIRST_RESPONSE": "कुनै कुराकानीले पहिलो प्रतिक्रिया SLA छुटाउँदा पुश सूचनाहरू पठाउनु",
         "SLA_MISSED_NEXT_RESPONSE": "कुनै कुराकानीले अर्को प्रतिक्रिया SLA छुटाउँदा पुश सूचनाहरू पठाउनु",
-        "SLA_MISSED_RESOLUTION": "कुनै कुराकानीले समाधान SLA छुटाउँदा पुश सूचनाहरू पठाउनु"
+        "SLA_MISSED_RESOLUTION": "कुनै कुराकानीले समाधान SLA छुटाउँदा पुश सूचनाहरू पठाउनु",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "प्रोफाइल छवि"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "हेल्प सेन्टर खोज अनुक्रमणिका",
         "DESCRIPTION": "तपाईंका हेल्प सेन्टर लेखहरूमा सन्दर्भअनुसार खोजका लागि एआई प्रयोग गर्नुहोस्।"
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "लेबल सुझाव",
-        "DESCRIPTION": "सामग्री विश्लेषण र सन्दर्भका आधारमा संवादका लागि उपयुक्त लेबल र ट्यागहरू स्वचालित रूपमा सुझाव दिनुहोस्।",
-        "MODEL_TITLE": "लेबल सुझाव मोडेल",
-        "MODEL_DESCRIPTION": "संवाद विश्लेषण र उपयुक्त लेबल सुझावका लागि प्रयोग हुने एआई मोडेल चयन गर्नुहोस्"
       }
     },
     "API": {
