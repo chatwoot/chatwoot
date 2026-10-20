@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "Cerca messaggi nelle conversazioni",
     "VIEW_ORIGINAL": "Visualizza originale",
     "VIEW_TRANSLATED": "Visualizza traduzione",
+    "TRANSLATING": "Traduzione in corso…",
+    "TRANSLATING_TO": "Traduzione in {language}…",
+    "VIEW_ORIGINAL_IN": "Vedi originale ({language})",
+    "VIEW_TRANSLATED_IN": "Vedi tradotto ({language})",
+    "TRANSLATION_FAILED": "Impossibile tradurre, inviato come scritto",
+    "CONTACT_TRANSLATION_FAILED": "Impossibile tradurre",
     "EMPTY_STATE": {
       "CMD_BAR": "per aprire il menu dei comandi",
       "KEYBOARD_SHORTCUTS": "per visualizzare le scorciatoie da tastiera"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app TikTok.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "Questo messaggio non è supportato. Puoi visualizzare questo messaggio sull'app WhatsApp.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Ha inviato una risposta a un flusso",
     "WHATSAPP_REFERRAL": {
       "AD": "Annuncio"
@@ -325,7 +334,6 @@
       "COPILOT_THINKING": "Copilot sta pensando",
       "EMAIL_HEAD": {
         "TO": "A",
-        "ADD_BCC": "Aggiungi Ccn",
         "CC": {
           "LABEL": "Cc",
           "PLACEHOLDER": "Email separate da virgole",
@@ -335,6 +343,10 @@
           "LABEL": "Ccn",
           "PLACEHOLDER": "Email separate da virgole",
           "ERROR": "Inserisci indirizzi email validi"
+        },
+        "SUBJECT": {
+          "LABEL": "Oggetto",
+          "PLACEHOLDER": "Inserisci un oggetto"
         }
       },
       "UNDEFINED_VARIABLES": {
@@ -378,7 +390,7 @@
     "CONTEXT_MENU": {
       "COPY": "Copia",
       "REPLY_TO": "Rispondi a questo messaggio",
-      "FORWARD_EMAIL": "Forward email",
+      "FORWARD_EMAIL": "Inoltra email",
       "DELETE": "Elimina",
       "CREATE_A_CANNED_RESPONSE": "Aggiungi alle Risposte Predefinite",
       "TRANSLATE": "Traduci",
@@ -560,12 +572,12 @@
     "EXPAND": "Espandi email"
   },
   "FORWARD_EMAIL": {
-    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "HEADER_TITLE": "---------- Messaggio inoltrato ---------",
     "TO_LABEL": "A:",
     "TO_PLACEHOLDER": "Inserisci almeno 2 caratteri per cercare via email",
-    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
-    "FORWARDED_TO": "Forwarded to {emails}",
-    "CONTACT_CANNOT_SEE": "{name} cannot see this"
+    "MESSAGE_PLACEHOLDER": "Aggiungi un messaggio (facoltativo)",
+    "FORWARDED_TO": "Inoltrato a {emails}",
+    "CONTACT_CANNOT_SEE": "{name} non può vederlo"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Partecipate",
