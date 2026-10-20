@@ -334,7 +334,6 @@
       "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "To",
-        "ADD_BCC": "Add bcc",
         "CC": {
           "LABEL": "Cc",
           "PLACEHOLDER": "Emails separated by commas",
