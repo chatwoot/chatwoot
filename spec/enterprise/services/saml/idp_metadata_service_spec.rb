@@ -71,7 +71,9 @@ RSpec.describe Saml::IdpMetadataService do
       let(:metadata_xml) { '<html><body>Not found</body></html>' }
 
       it 'raises an error' do
-        expect { described_class.new(metadata_url).perform }.to raise_error(described_class::Error)
+        expect { described_class.new(metadata_url).perform }.to raise_error(described_class::Error) { |error|
+          expect(error.reason).to eq(:not_metadata)
+        }
       end
     end
 
@@ -79,7 +81,7 @@ RSpec.describe Saml::IdpMetadataService do
       let(:http_url) { 'http://idp.example.com/saml/v2/metadata' }
 
       it 'raises an error without fetching the URL' do
-        expect { described_class.new(http_url).perform }.to raise_error(described_class::Error)
+        expect { described_class.new(http_url).perform }.to raise_error(described_class::Error) { |error| expect(error.reason).to eq(:invalid_url) }
         expect(a_request(:get, http_url)).not_to have_been_made
       end
     end
@@ -88,7 +90,9 @@ RSpec.describe Saml::IdpMetadataService do
       before { stub_request(:get, metadata_url).to_return(status: 500) }
 
       it 'raises an error' do
-        expect { described_class.new(metadata_url).perform }.to raise_error(described_class::Error)
+        expect { described_class.new(metadata_url).perform }.to raise_error(described_class::Error) { |error|
+          expect(error.reason).to eq(:http_error)
+        }
       end
     end
 
@@ -96,7 +100,9 @@ RSpec.describe Saml::IdpMetadataService do
       before { allow(Resolv).to receive(:getaddresses).with('idp.example.com').and_return(['10.0.0.5']) }
 
       it 'raises an error' do
-        expect { described_class.new(metadata_url).perform }.to raise_error(described_class::Error)
+        expect { described_class.new(metadata_url).perform }.to raise_error(described_class::Error) { |error|
+          expect(error.reason).to eq(:blocked_address)
+        }
       end
     end
   end

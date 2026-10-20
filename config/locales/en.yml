@@ -85,7 +85,13 @@ en:
   errors:
     account_saml_settings:
       invalid_certificate: must be a valid X.509 certificate in PEM format
-      invalid_metadata_url: could not be read. Use an HTTPS URL that returns your identity provider's metadata
+      metadata_url:
+        invalid_url: must be a valid HTTPS URL
+        blocked_address: points to an address that cannot be reached. Use a public host name for your identity provider
+        http_error: returned an error. Check that it is the metadata URL from your identity provider
+        unreachable: could not be reached. Check that your identity provider is online and has a valid TLS certificate
+        too_large: returned a response too large to be SAML metadata
+        not_metadata: did not return SAML identity provider metadata
     notification_subscription:
       voip_attributes_required: A VoIP push subscription needs a device_id and a push_token
     account:

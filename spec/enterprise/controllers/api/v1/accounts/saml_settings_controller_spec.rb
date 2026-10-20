@@ -153,7 +153,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
         end
 
         it 'returns unprocessable entity when the metadata cannot be read' do
-          allow(metadata_service).to receive(:perform).and_raise(Saml::IdpMetadataService::Error, 'boom')
+          allow(metadata_service).to receive(:perform).and_raise(Saml::IdpMetadataService::Error.new(:unreachable))
 
           post "/api/v1/accounts/#{account.id}/saml_settings",
                params: { saml_settings: { metadata_url: metadata_url } },
@@ -161,7 +161,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
                as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(json_response[:errors].first).to start_with('Metadata url could not be read. Use an HTTPS URL')
+          expect(json_response[:errors].first).to start_with('Metadata url could not be reached')
         end
       end
 
@@ -322,14 +322,14 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
       end
 
       it 'keeps the stored values when the metadata cannot be read' do
-        allow(metadata_service).to receive(:perform).and_raise(Saml::IdpMetadataService::Error, 'boom')
+        allow(metadata_service).to receive(:perform).and_raise(Saml::IdpMetadataService::Error.new(:unreachable))
 
         post "/api/v1/accounts/#{account.id}/saml_settings/refresh",
              headers: administrator.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(json_response[:errors].first).to start_with('Metadata url could not be read')
+        expect(json_response[:errors].first).to start_with('Metadata url could not be reached')
         expect(account.saml_settings.reload.certificate).to eq(certificate)
       end
 

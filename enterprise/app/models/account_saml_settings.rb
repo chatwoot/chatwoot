@@ -106,8 +106,8 @@ class AccountSamlSettings < ApplicationRecord
 
   def assign_idp_metadata
     assign_attributes(Saml::IdpMetadataService.new(metadata_url).perform.merge(metadata_refreshed_at: Time.current))
-  rescue Saml::IdpMetadataService::Error
-    errors.add(:metadata_url, I18n.t('errors.account_saml_settings.invalid_metadata_url'))
+  rescue Saml::IdpMetadataService::Error => e
+    errors.add(:metadata_url, I18n.t("errors.account_saml_settings.metadata_url.#{e.reason}"))
   end
 
   def set_sp_entity_id

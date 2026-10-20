@@ -161,11 +161,11 @@ RSpec.describe AccountSamlSettings, type: :model do
       end
 
       it 'adds an error when the metadata cannot be read' do
-        allow(metadata_service).to receive(:perform).and_raise(Saml::IdpMetadataService::Error, 'boom')
+        allow(metadata_service).to receive(:perform).and_raise(Saml::IdpMetadataService::Error.new(:unreachable))
         settings = described_class.new(account: account, metadata_url: metadata_url)
 
         expect(settings).not_to be_valid
-        expect(settings.errors[:metadata_url]).to include("could not be read. Use an HTTPS URL that returns your identity provider's metadata")
+        expect(settings.errors[:metadata_url]).to include(I18n.t('errors.account_saml_settings.metadata_url.unreachable'))
       end
 
       it 'adds a certificate error when the metadata has a malformed certificate' do
@@ -249,7 +249,7 @@ RSpec.describe AccountSamlSettings, type: :model do
       end
 
       it 'keeps the stored values when the fetch fails' do
-        allow(metadata_service).to receive(:perform).and_raise(Saml::IdpMetadataService::Error, 'boom')
+        allow(metadata_service).to receive(:perform).and_raise(Saml::IdpMetadataService::Error.new(:unreachable))
 
         travel_to(near_expiry) do
           settings.refresh_metadata_if_needed
