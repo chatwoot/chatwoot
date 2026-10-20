@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "Поиск по сообщениям в диалогах",
     "VIEW_ORIGINAL": "View original",
     "VIEW_TRANSLATED": "View translated",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "открыть меню команд",
       "KEYBOARD_SHORTCUTS": "для просмотра быстрых клавиш"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении TikTok.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
@@ -324,17 +333,20 @@
       "STOP_AUDIO_RECORDING": "Остановить запись аудио",
       "COPILOT_THINKING": "Copilot думает",
       "EMAIL_HEAD": {
-        "TO": "ДО",
-        "ADD_BCC": "Добавить bcc",
+        "TO": "Кому",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Cc",
           "PLACEHOLDER": "Письма, разделенные запятыми",
           "ERROR": "Пожалуйста, введите действительный адрес электронной почты"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "Bcc",
           "PLACEHOLDER": "Письма, разделенные запятыми",
           "ERROR": "Пожалуйста, введите действительный адрес электронной почты"
+        },
+        "SUBJECT": {
+          "LABEL": "Тема",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
