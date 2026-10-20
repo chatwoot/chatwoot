@@ -75,7 +75,7 @@
       "ACTIVITY": {
         "TODAY": "היום",
         "YESTERDAY": "אתמול",
-        "UNKNOWN_AUTHOR": "Someone",
+        "SYSTEM_AUTHOR": "מערכת",
         "EMPTY_CONVERSATIONS": "No conversations yet. They'll show up here when this company's people get in touch.",
         "EMPTY_NOTES": "No notes yet. Notes added to this company's people show up here.",
         "LOAD_MORE": "טען עוד",
