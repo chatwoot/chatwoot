@@ -643,7 +643,7 @@
           "ARIA_LABEL": "Flow of handled conversations through Captain and team outcomes",
           "NODES": {
             "HANDLED": "Håndteret",
-            "RESOLVED_BY_CAPTAIN": "Løst af Captajn",
+            "RESOLVED_BY_CAPTAIN": "Løst af Captain",
             "HANDED_OFF": "Handed off",
             "CLOSED_WITH_TEAM": "Closed with team",
             "REOPENED": "Reopened in 7d",
@@ -673,7 +673,7 @@
           "CURRENT_PERIOD": "Current period",
           "PREVIOUS_PERIOD": "Previous period",
           "HANDLED": "Håndteret",
-          "RESOLVED": "Løst af Captajn",
+          "RESOLVED": "Løst af Captain",
           "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period",
           "RATE_ARIA_LABEL": "Current and previous Captain resolution rates"
         },
