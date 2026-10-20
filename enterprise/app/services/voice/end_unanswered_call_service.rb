@@ -16,7 +16,7 @@ class Voice::EndUnansweredCallService
     call.with_lock do
       next unless call.ring_state['timing_out_at'] == @attempt_at
 
-      caller_gone && (call.ringing? || call.accepted_by_agent_id.nil?) ? finalize : clear_mark
+      caller_gone && unanswered? ? finalize : clear_mark
     end
     nil
   rescue StandardError
@@ -57,6 +57,9 @@ class Voice::EndUnansweredCallService
   end
 
   def agent_on_call? = Voice::Provider::Twilio::ConferenceService.new(call: call).agents_remain?(leaving_call_sid: nil)
+
+  # Still ringing, or ended by the move's own webhooks with no agent ever on it
+  def unanswered? = call.ringing? || call.accepted_by_agent_id.nil?
 
   def announcement_twiml = Voice::Provider::Twilio::TwimlBuilder.new(inbox: call.inbox).announcement(:unanswered)
 
