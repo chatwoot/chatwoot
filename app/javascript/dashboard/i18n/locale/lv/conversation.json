@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "Meklēt ziņojumus sarunās",
     "VIEW_ORIGINAL": "Skatīt oriģinālu",
     "VIEW_TRANSLATED": "Skatīt tulkoto",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "lai atvērtu komandu izvēlni",
       "KEYBOARD_SHORTCUTS": "lai skatītu klaviatūras īsinājumtaustiņus"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Šis ziņojums netiek atbalstīts. Šo ziņojumu Jūs varat apskatīt lietotnē Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Šis ziņojums netiek atbalstīts. Šo ziņojumu Jūs varat apskatīt lietotnē Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
@@ -324,17 +333,20 @@
       "STOP_AUDIO_RECORDING": "Apturēt audio ierakstīšanu",
       "COPILOT_THINKING": "Copilot domā",
       "EMAIL_HEAD": {
-        "TO": "KAM",
-        "ADD_BCC": "Pievienot bcc",
+        "TO": "Kam",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Cc",
           "PLACEHOLDER": "E-pasta adreses, atdalītas ar komatiem",
           "ERROR": "Lūdzu, ievadiet derīgas e-pasta adreses"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "Bcc",
           "PLACEHOLDER": "E-pasta adreses, atdalītas ar komatiem",
           "ERROR": "Lūdzu, ievadiet derīgas e-pasta adreses"
+        },
+        "SUBJECT": {
+          "LABEL": "Tēma",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
