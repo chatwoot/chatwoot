@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "Söhbətlərdə mesajları axtarın",
     "VIEW_ORIGINAL": "Orijinalı göstər",
     "VIEW_TRANSLATED": "Tərcüməni göstər",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "əmr menyusunu açmaq üçün",
       "KEYBOARD_SHORTCUTS": "klaviatura qısa yollarını görmək üçün"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Bu mesaj dəstəklənmir. Bu mesajı Facebook Messenger tətbiqində görə bilərsiniz.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Bu mesaj dəstəklənmir. Bu mesajı Instagram tətbiqində görə bilərsiniz.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "Bu mesaj dəstəklənmir. Bu mesajı TikTok tətbiqində görə bilərsiniz.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
@@ -324,17 +333,20 @@
       "STOP_AUDIO_RECORDING": "Səs yazısını dayandırın",
       "COPILOT_THINKING": "Copilot düşünür",
       "EMAIL_HEAD": {
-        "TO": "KİMƏ",
-        "ADD_BCC": "Gizli nüsxə əlavə et",
+        "TO": "Kimə",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Nüsxə",
           "PLACEHOLDER": "Vergüllə ayrılmış elektron poçtlar",
           "ERROR": "Zəhmət olmasa düzgün elektron poçt ünvanları daxil edin"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "Gizli nüsxə",
           "PLACEHOLDER": "Vergüllə ayrılmış e-poçtlar",
           "ERROR": "Zəhmət olmasa, düzgün e-poçt ünvanları daxil edin"
+        },
+        "SUBJECT": {
+          "LABEL": "Mövzu",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
