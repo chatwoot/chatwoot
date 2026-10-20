@@ -775,7 +775,7 @@
         "DESCRIPTION": "Включить голосовой вызов для этого ящика. Сотрудники смогут совершать и принимать телефонные звонки."
       },
       "CREDENTIALS": {
-        "DESCRIPTION": "Голосовой вызов требует учетные данные Twilio API Key. Они используются для генерации токенов для голосовых подключений агентов."
+        "DESCRIPTION": "Voice calling requires an Account Auth Token for webhook verification and API key credentials for calls."
       },
       "INBOUND": {
         "LABEL": "Allow incoming calls",
