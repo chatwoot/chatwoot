@@ -15,6 +15,16 @@ RSpec.describe Category do
     it { is_expected.to have_many(:related_categories) }
   end
 
+  describe '#public_path' do
+    it 'builds the public category path with its locale and optional display parameters' do
+      category = described_class.new(portal: Portal.new(slug: 'help'), locale: 'es', slug: 'getting-started')
+      path = '/hc/help/es/categories/getting-started'
+
+      expect(category.public_path).to eq(path)
+      expect(category.public_path(show_plain_layout: true, theme: 'dark')).to eq("#{path}?show_plain_layout=true&theme=dark")
+    end
+  end
+
   describe 'validations' do
     let!(:account) { create(:account) }
     let(:user) { create(:user, account_ids: [account.id], role: :agent) }

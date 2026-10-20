@@ -30,16 +30,10 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
   end
 
   def set_locale_switch_urls
-    @locale_switch_urls = @category.translation_family.index_by(&:locale)
+    categories = @category.translation_family.includes(:portal)
 
-    @locale_switch_urls.transform_values! do |category|
-      helpers.generate_category_link(
-        portal_slug: @portal.slug,
-        category_locale: category.locale,
-        category_slug: category.slug,
-        theme: @theme_from_params,
-        is_plain_layout_enabled: @is_plain_layout_enabled
-      )
+    @locale_switch_urls = categories.to_h do |category|
+      [category.locale, category.public_path(**locale_switch_url_options)]
     end
   end
 

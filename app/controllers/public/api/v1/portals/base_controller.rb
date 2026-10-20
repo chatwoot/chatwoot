@@ -35,6 +35,12 @@ class Public::Api::V1::Portals::BaseController < PublicController
     @portal ||= Portal.find_by!(slug: params[:slug], archived: false)
   end
 
+  def locale_switch_url_options
+    return {} unless @is_plain_layout_enabled
+
+    { show_plain_layout: true, theme: @theme_from_params }.compact
+  end
+
   def set_locale(&)
     switch_locale_with_portal(&) if params[:locale].present?
     switch_locale_with_article(&) if params[:article_slug].present?
@@ -55,11 +61,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
     Rails.logger.info "Article: not found for slug: #{params[:article_slug]}"
     render_404 && return if article.blank?
 
-    @locale = if article.category.present?
-                article.category.locale
-              else
-                article.locale
-              end
+    @locale = article.public_locale
     I18n.with_locale(validate_and_get_locale(@locale), &)
   end
 
