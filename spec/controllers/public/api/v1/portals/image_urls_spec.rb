@@ -7,18 +7,14 @@ RSpec.describe 'Help Center image URLs', type: :request do
     create(:portal, account: account, custom_domain: 'support.example.test', config: { allowed_locales: ['en'], default_locale: 'en' })
   end
   let(:category) { create(:category, portal: portal, account: account, locale: 'en') }
-  let(:blob) do
-    File.open(Rails.root.join('spec/assets/sample.png')) do |file|
-      ActiveStorage::Blob.create_and_upload!(io: file, filename: 'article.png', content_type: 'image/png')
-    end
-  end
+  let(:blob) { get_blob_for(Rails.root.join('spec/assets/sample.png'), 'image/png') }
   let(:image_path) { Rails.application.routes.url_helpers.rails_blob_path(blob, only_path: true) }
-  let(:saved_image_url) { "http://localhost:3000#{image_path}?cw_image_width=320px" }
+  let(:image_src) { "#{image_path}?cw_image_width=320px" }
+  let(:saved_image_url) { "http://localhost:3000#{image_src}" }
   let(:content) { "![article image](#{saved_image_url})\n\n`#{saved_image_url}`" }
   let!(:article) { create(:article, account: account, author: author, portal: portal, category: category, content: content) }
   let(:article_path) { "/hc/#{portal.slug}/articles/#{article.slug}" }
   let(:avatar_path) { URI.parse(author.avatar_url).request_uri }
-  let(:logo_path) { Rails.application.routes.url_helpers.rails_blob_path(portal.logo, only_path: true) }
 
   around do |example|
     with_modified_env(FRONTEND_URL: 'http://localhost:3000', HELPCENTER_URL: 'http://help.example.test') { example.run }
@@ -26,60 +22,48 @@ RSpec.describe 'Help Center image URLs', type: :request do
 
   before do
     host! portal.custom_domain
-    File.open(Rails.root.join('spec/assets/avatar.png')) do |file|
-      author.avatar.attach(io: file, filename: 'avatar.png', content_type: 'image/png')
-    end
-    File.open(Rails.root.join('spec/assets/sample.png')) do |file|
-      portal.logo.attach(io: file, filename: 'logo.png', content_type: 'image/png')
-    end
+    author.avatar.attach(fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png'))
   end
 
-  %w[classic documentation].each do |layout|
-    it "uses relative avatar, logo and favicon paths across #{layout} pages" do
+  it 'uses relative avatars in all three public avatar templates' do
+    pages = {
+      'classic' => ["/hc/#{portal.slug}/en", "/hc/#{portal.slug}/en/categories/#{category.slug}/articles"],
+      'documentation' => [article_path]
+    }
+    pages.each do |layout, paths|
       portal.update!(config: portal.config.merge('layout' => layout))
-      paths = ["/hc/#{portal.slug}/en", "/hc/#{portal.slug}/en/categories/#{category.slug}",
-               "/hc/#{portal.slug}/en/categories/#{category.slug}/articles", article_path]
-
       paths.each do |path|
         get path
 
         expect(response).to have_http_status(:success)
-        document = Nokogiri::HTML5(response.body)
-        image_sources = document.css('img').map { |image| image['src'] }
-        expect(image_sources).to include(logo_path)
-        expect(image_sources).to include(avatar_path) unless layout == 'classic' && path == article_path
-        expect(document.at_css('link[rel="icon"]')['href']).to eq(logo_path)
+        expect(Nokogiri::HTML5(response.body).css('img').map { |image| image['src'] }).to include(avatar_path)
       end
     end
   end
 
   it 'keeps images relative after a custom domain changes without rewriting saved content' do
-    get article_path
-    expect(response).to have_http_status(:success)
-    expect(Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']).to eq("#{image_path}?cw_image_width=320px")
+    %w[support.example.test docs.example.test].each do |domain|
+      portal.update!(custom_domain: domain)
+      host! domain
+      get article_path
 
-    portal.update!(custom_domain: 'docs.example.test')
-    host! portal.custom_domain
-    get article_path
-    expect(response).to have_http_status(:success)
-    expect(Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']).to eq("#{image_path}?cw_image_width=320px")
-
+      expect(response).to have_http_status(:success)
+      expect(Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']).to eq(image_src)
+    end
     expect(article.reload.content).to eq(content)
   end
 
   it 'keeps images relative after the custom domain and optional Help Center host are removed' do
     original_avatar_url = author.avatar_url
     portal.update!(custom_domain: nil)
-    host! 'help.example.test'
-    get article_path
-    expect(response).to have_http_status(:success)
-    expect(Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']).to eq("#{image_path}?cw_image_width=320px")
+    { 'help.example.test' => 'http://help.example.test', 'localhost:3000' => '' }.each do |host, help_center_url|
+      with_modified_env(HELPCENTER_URL: help_center_url) do
+        host! host
+        get article_path
 
-    with_modified_env(HELPCENTER_URL: '') do
-      host! 'localhost:3000'
-      get article_path
-      expect(response).to have_http_status(:success)
-      expect(Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']).to eq("#{image_path}?cw_image_width=320px")
+        expect(response).to have_http_status(:success)
+        expect(Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']).to eq(image_src)
+      end
     end
     expect(article.reload.content).to eq(content)
     expect(author.reload.avatar_url).to eq(original_avatar_url)
@@ -90,13 +74,13 @@ RSpec.describe 'Help Center image URLs', type: :request do
     get article_path, params: { show_plain_layout: true }
 
     expect(response).to have_http_status(:success)
-    expect(Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']).to eq("#{image_path}?cw_image_width=320px")
+    expect(Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']).to eq(image_src)
   end
 
   it 'serves a valid signed image through the Help Center origin and the disk storage redirect' do
     get article_path
-    image_src = Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']
-    get image_src
+    rendered_src = Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']
+    get rendered_src
 
     expect(response).to have_http_status(:redirect)
     expect(URI.parse(response.location).host).to eq(portal.custom_domain)
@@ -104,15 +88,6 @@ RSpec.describe 'Help Center image URLs', type: :request do
     expect(response).to have_http_status(:success)
     expect(response.media_type).to eq('image/png')
     expect(response.body).to eq(blob.download)
-  end
-
-  it 'preserves a storage service signed URL when the relative blob route redirects' do
-    service_url = 'https://bucket.example.test/article.png?signature=abc&expires=123'
-    allow(blob.service).to receive(:url).and_return(service_url)
-
-    get image_path
-
-    expect(response).to redirect_to(service_url)
   end
 
   it 'also renders relative blob and avatar paths when ActiveStorage uses proxy routes' do

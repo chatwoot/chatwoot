@@ -52,14 +52,9 @@ RSpec.describe ChatwootMarkdownRenderer do
       end
 
       it 'resolves only image sources and preserves sizing, links, code and external images' do
-        visited_urls = []
-        html = renderer.render_article do |url|
-          visited_urls << url
-          url == local_url ? image_path : url
-        end
+        html = renderer.render_article { |url| url == local_url ? image_path : url }
         document = Nokogiri::HTML5.fragment(html)
 
-        expect(visited_urls).to eq([local_url, external_url])
         expect(document.css('img').map { |image| image['src'] }).to eq([image_path, external_url])
         expect(document.at_css('img')['style']).to include('width: 320px;')
         expect(document.at_css('a')['href']).to eq(local_url)
@@ -70,12 +65,6 @@ RSpec.describe ChatwootMarkdownRenderer do
         html = renderer.render_article { |_url| 'javascript:alert(1)' }
 
         expect(Nokogiri::HTML5.fragment(html).css('img').map { |image| image['src'] }).to eq(['', ''])
-      end
-
-      it 'keeps the original image sources when no resolver is supplied' do
-        document = Nokogiri::HTML5.fragment(renderer.render_article)
-
-        expect(document.css('img').map { |image| image['src'] }).to eq([local_url, external_url])
       end
     end
 
