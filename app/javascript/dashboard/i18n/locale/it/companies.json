@@ -48,43 +48,43 @@
         "EDIT": "Modifica",
         "MORE": "Mostra di più",
         "LESS": "Mostra meno",
-        "OPEN_COUNT": "{count} open | {count} open",
-        "REFRESH_WITH_TIME": "Refresh profile (updated {time})"
+        "OPEN_COUNT": "{count} aperta | {count} aperte",
+        "REFRESH_WITH_TIME": "Aggiorna profilo (aggiornato {time})"
       },
       "FACTS": {
         "INDUSTRY": "Settore",
-        "SIZE": "Employees",
-        "LOCATION": "Based in",
-        "ADDED": "Added",
-        "UNKNOWN": "Unknown",
+        "SIZE": "Dipendenti",
+        "LOCATION": "Sede",
+        "ADDED": "Aggiunta",
+        "UNKNOWN": "Sconosciuto",
         "YES": "Sì",
         "NO": "No"
       },
       "PEOPLE": {
         "ADD": "Aggiungi",
-        "SEARCH": "Search people",
-        "EMPTY": "No one from this company yet.",
-        "NO_MATCHES": "No people match your search.",
-        "DIALOG_TITLE": "Add people to {name}"
+        "SEARCH": "Cerca persone",
+        "EMPTY": "Ancora nessuno di questa azienda.",
+        "NO_MATCHES": "Nessuna persona corrisponde alla ricerca.",
+        "DIALOG_TITLE": "Aggiungi persone a {name}"
       },
       "TABS": {
         "CONVERSATIONS": "Conversazioni",
         "NOTES": "Note",
-        "PEOPLE": "People"
+        "PEOPLE": "Persone"
       },
       "ACTIVITY": {
         "TODAY": "Oggi",
         "YESTERDAY": "Ieri",
-        "UNKNOWN_AUTHOR": "Someone",
-        "EMPTY_CONVERSATIONS": "No conversations yet. They'll show up here when this company's people get in touch.",
-        "EMPTY_NOTES": "No notes yet. Notes added to this company's people show up here.",
+        "SYSTEM_AUTHOR": "System",
+        "EMPTY_CONVERSATIONS": "Ancora nessuna conversazione. Compariranno qui quando le persone di questa azienda si metteranno in contatto.",
+        "EMPTY_NOTES": "Ancora nessuna nota. Qui compaiono le note aggiunte alle persone di questa azienda.",
         "LOAD_MORE": "Carica altro",
-        "SEARCH_NOTES": "Search notes",
-        "NO_MATCHING_NOTES": "No notes match your search.",
-        "NO_MATCHING_CONVERSATIONS": "No conversations match these filters."
+        "SEARCH_NOTES": "Cerca note",
+        "NO_MATCHING_NOTES": "Nessuna nota corrisponde alla ricerca.",
+        "NO_MATCHING_CONVERSATIONS": "Nessuna conversazione corrisponde a questi filtri."
       },
       "EDIT": {
-        "TITLE": "Edit company",
+        "TITLE": "Modifica azienda",
         "SAVE": "Salva modifiche",
         "DESCRIPTION": "Descrizione",
         "DETAILS": "Dettagli",
@@ -92,7 +92,7 @@
         "COUNTRY": "Paese",
         "PHONE": "Telefono",
         "SOCIAL": {
-          "TITLE": "Social profiles",
+          "TITLE": "Profili social",
           "LINKEDIN": "LinkedIn",
           "X": "X",
           "FACEBOOK": "Facebook",
@@ -103,7 +103,7 @@
         "PLACEHOLDERS": {
           "DOMAIN": "acme.com",
           "INDUSTRY": "Software",
-          "EMPLOYEES": "51 to 200",
+          "EMPLOYEES": "da 51 a 200",
           "USERNAME": "nome Utente"
         }
       },
@@ -161,13 +161,13 @@
       "PROFILE": {
         "DESCRIPTION_PLACEHOLDER": "Aggiungi una breve descrizione per questa azienda",
         "ACTIONS": {
-          "REFRESH": "Refresh profile"
+          "REFRESH": "Aggiorna profilo"
         },
         "MESSAGES": {
           "UPDATE_SUCCESS": "Azienda aggiornata.",
           "UPDATE_ERROR": "Impossibile aggiornare l'azienda.",
-          "REFRESH_SUCCESS": "Company profile refreshed.",
-          "REFRESH_ERROR": "Could not refresh the company profile."
+          "REFRESH_SUCCESS": "Profilo aziendale aggiornato.",
+          "REFRESH_ERROR": "Impossibile aggiornare il profilo aziendale."
         },
         "FIELDS": {
           "NAME": "Nome",
@@ -187,25 +187,25 @@
       },
       "CONVERSATION_FILTERS": {
         "BUTTON": "Filtro",
-        "BUTTON_WITH_COUNT": "Filter ({count})",
-        "ANY": "Any"
+        "BUTTON_WITH_COUNT": "Filtro ({count})",
+        "ANY": "Qualsiasi"
       },
       "ENRICHMENT_UPGRADE": {
-        "TITLE": "Enrich company profiles on the Business plan",
-        "DESCRIPTION": "Automatically fill in a company's description, industry, size, location and social profiles from its domain. Available on the Business and Enterprise plans.",
-        "UPGRADE": "See plans"
+        "TITLE": "Arricchisci i profili aziendali con il piano Business",
+        "DESCRIPTION": "Compila automaticamente descrizione, settore, dimensioni, sede e profili social di un'azienda a partire dal suo dominio. Disponibile nei piani Business ed Enterprise.",
+        "UPGRADE": "Vedi i piani"
       }
     },
     "EMPTY_STATE": {
       "TITLE": "Nessuna azienda trovata"
     },
     "CARD": {
-      "EMPLOYEES": "{count} employees"
+      "EMPLOYEES": "{count} dipendenti"
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Companies",
-      "AVAILABLE_ON": "Companies is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to group contacts by company, see every conversation with an account and keep company details in one place.",
+      "TITLE": "Passa a un piano superiore per usare Aziende",
+      "AVAILABLE_ON": "Aziende non è disponibile nel piano gratuito.",
+      "UPGRADE_PROMPT": "Passa a un piano superiore per raggruppare i contatti per azienda, vedere ogni conversazione con un cliente e tenere i dati aziendali in un unico posto.",
       "UPGRADE_NOW": "Aggiorna ora",
       "CANCEL_ANYTIME": "Puoi modificare o annullare il tuo piano in qualsiasi momento"
     }
