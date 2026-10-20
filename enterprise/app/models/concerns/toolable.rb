@@ -2,10 +2,13 @@ module Concerns::Toolable
   extend ActiveSupport::Concern
 
   # Isolated namespace for user-defined custom tool classes.
-  # Keeps them separate from built-in classes in Captain::Tools (e.g., HttpTool, CustomHttpTool).
+  # Keeps them separate from built-in classes in Captain::Tools (e.g., HttpTool).
   module CustomTools; end
 
-  def tool(assistant, base_class: Captain::Tools::HttpTool, **)
+  # A parameter with a source is filled by Chatwoot from what the customer verified, so the model does not see it.
+  # The base class says whether the model fills it instead, for runs where an admin or an agent is the user.
+  # Builds the customer-facing tool unless told otherwise, so a caller that does not choose gets the gate
+  def tool(assistant, base_class: Captain::Tools::PublicHttpTool, **) # rubocop:disable Metrics/AbcSize
     custom_tool_record = self
     class_name = custom_tool_record.slug.underscore.camelize
 
@@ -19,10 +22,12 @@ module Concerns::Toolable
       define_method(:name) { tool_slug }
 
       custom_tool_record.param_schema.each do |param_def|
+        next if param_def['source'].present? && !base_class.model_fills_verified_values?
+
         parameter param_def['name'].to_sym,
                   type: param_def['type'],
                   description: param_def['description'],
-                  required: param_def.fetch('required', true)
+                  required: param_def['source'].present? || param_def.fetch('required', true)
       end
     end
 

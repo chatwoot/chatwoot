@@ -78,7 +78,8 @@
                 <% elsif readiness.rings?(membership) %>
                   <%= render "badge", label: t("#{calls}.rings"), tone: :success %>
                 <% else %>
-                  <%= render "badge", label: t("#{calls}.app_open_only"), tone: :warning %>
+                  <% blocker = readiness.blocker(membership) %>
+                  <%= render "badge", label: t("#{calls}.blockers.#{blocker}"), tone: blocker == "push_unavailable" ? :warning : :neutral %>
                 <% end %>
               </td>
             </tr>

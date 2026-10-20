@@ -43,20 +43,6 @@
       "DELETE": "删除",
       "CANCEL": "取消操作"
     },
-    "SUGGESTIONS": {
-      "TOOLTIP": {
-        "SINGLE_SUGGESTION": "将标签添加到对话",
-        "MULTIPLE_SUGGESTION": "选择此标签",
-        "DESELECT": "取消选择标签",
-        "DISMISS": "忽略建议"
-      },
-      "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "取消",
-      "ADD_SELECTED_LABELS": "添加选定的标签",
-      "ADD_SELECTED_LABEL": "添加选定的标签",
-      "ADD_ALL_LABELS": "添加所有标签",
-      "SUGGESTED_LABELS": "建议的标签"
-    },
     "ADD": {
       "TITLE": "添加标签",
       "DESC": "标记可以让您将对话集中起来。",

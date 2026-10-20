@@ -45,7 +45,8 @@
       "TABLE_HEADER": {
         "ACTIVITY": "User",
         "TIME": "Action",
-        "IP_ADDRESS": "Διεύθυνση IP"
+        "IP_ADDRESS": "Διεύθυνση IP",
+        "LOCATION": "Θέση"
       }
     },
     "API": {

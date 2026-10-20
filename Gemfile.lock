@@ -960,10 +960,6 @@ GEM
     sorbet-runtime (0.5.11934)
     speedshop-cloudwatch (0.2.1)
       aws-sdk-cloudwatch (>= 1.81.0)
-    spring (4.1.1)
-    spring-watcher-listen (2.1.0)
-      listen (>= 2.7, < 4.0)
-      spring (>= 4)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -985,9 +981,6 @@ GEM
       rack (>= 2.0)
       rails (>= 7.1.0)
     tilt (2.3.0)
-    time_diff (0.3.0)
-      activesupport
-      i18n
     timeout (0.6.1)
     trailblazer-option (0.1.2)
     tsort (0.2.0)
@@ -1197,8 +1190,6 @@ DEPENDENCIES
   skooma
   slack-ruby-client (~> 2.7.0)
   speedshop-cloudwatch (~> 0.2.1)
-  spring
-  spring-watcher-listen
   squasher
   ssrf_filter (~> 1.5)
   stackprof
@@ -1206,7 +1197,6 @@ DEPENDENCIES
   telephone_number
   test-prof
   tidewave
-  time_diff
   twilio-ruby
   twitty (~> 0.1.5)
   tzinfo-data

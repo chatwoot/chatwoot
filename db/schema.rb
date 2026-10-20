@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_08_090132) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -222,6 +222,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_08_090132) do
     t.index ["account_id"], name: "index_articles_on_account_id"
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
+    t.index ["category_id"], name: "index_articles_on_category_id"
     t.index ["portal_id"], name: "index_articles_on_portal_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
     t.index ["status"], name: "index_articles_on_status"
@@ -463,6 +464,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_08_090132) do
     t.bigint "assistant_id"
     t.jsonb "headers", default: {}, null: false
     t.jsonb "source_metadata"
+    t.jsonb "settings", default: {}, null: false
     t.index ["account_id"], name: "index_captain_custom_tools_on_account_id"
     t.index ["assistant_id", "slug"], name: "index_captain_custom_tools_on_assistant_id_and_slug", unique: true
   end
