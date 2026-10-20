@@ -775,7 +775,7 @@
         "DESCRIPTION": "Abilita le chiamate vocali su questa inbox. Gli operatori saranno in grado di effettuare e ricevere chiamate."
       },
       "CREDENTIALS": {
-        "DESCRIPTION": "Le chiamate vocali richiedono credenziali API di Twilio. Queste vengono usate per generare token per le connessioni voce."
+        "DESCRIPTION": "Le chiamate vocali richiedono un Account Auth Token per la verifica dei webhook e credenziali API key per le chiamate."
       },
       "INBOUND": {
         "LABEL": "Consenti le chiamate in entrata",
