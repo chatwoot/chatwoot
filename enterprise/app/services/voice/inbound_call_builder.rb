@@ -39,9 +39,10 @@ class Voice::InboundCallBuilder
       created = create_call!(contact, conversation)
       message = Voice::CallMessageBuilder.new(created).perform!
       created.update!(message_id: message.id)
-      unless created.outside_working_hours?
+      unless created.terminal?
         record_ring_audience(created)
         ring_phones(created)
+        end_unanswered_in_time(created)
       end
       created
     end
@@ -71,6 +72,15 @@ class Voice::InboundCallBuilder
   # The job runs once the call row is visible to the worker, which otherwise finds nothing
   # to ring for.
   def ring_phones(call) = self.class.queue_ring(call)
+
+  # The caller is told nobody answered once the inbox's ring time is up; a call answered or
+  # ended before then is left alone. See Voice::EndUnansweredCallService.
+  def end_unanswered_in_time(call)
+    return unless call.twilio? && inbox.channel.unanswered_calls_enabled?
+
+    timeout = inbox.channel.unanswered_call_timeout_seconds
+    ActiveRecord.after_all_transactions_commit { Voice::EndUnansweredCallJob.set(wait: timeout.seconds).perform_later(call.id) }
+  end
 
   def find_existing_call
     Call.where(account_id: account.id, inbox_id: inbox.id)
@@ -128,18 +138,28 @@ class Voice::InboundCallBuilder
       provider: provider,
       direction: :incoming,
       provider_call_id: call_sid,
-      **initial_state
+      **initial_state(conversation)
     )
     # `conference_sid` is a Twilio bridging concept; WhatsApp goes browser↔Meta.
     call.update!(conference_sid: call.default_conference_sid) if call.twilio?
     call
   end
 
-  def initial_state
+  def initial_state(conversation)
     now = Time.zone.now.to_i
     meta = { 'initiated_at' => now }.merge(extra_meta.stringify_keys)
-    return { status: 'ringing', meta: meta } unless provider == :twilio && inbox.closed_for_calls?
+    reason = unrung_end_reason(conversation) if provider == :twilio
+    return { status: 'ringing', meta: meta } unless reason
 
-    { status: 'no_answer', end_reason: Call::OUTSIDE_WORKING_HOURS, meta: meta.merge('ended_at' => now) }
+    { status: 'no_answer', end_reason: reason, meta: meta.merge('ended_at' => now) }
+  end
+
+  # A Twilio call nobody is rung for ends as it starts, with the caller told why: the inbox is
+  # closed for calls, or unanswered calls end and no agent is there to ring
+  def unrung_end_reason(conversation)
+    return Call::OUTSIDE_WORKING_HOURS if inbox.closed_for_calls?
+    return unless inbox.channel.unanswered_calls_enabled? && Voice::RingRecipients.new(inbox: inbox, conversation: conversation).agents.empty?
+
+    Call::NO_AGENTS_AVAILABLE
   end
 end

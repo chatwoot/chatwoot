@@ -22,6 +22,15 @@ module Enterprise::Channel::TwilioSms
     provider_config['call_join_beep_enabled'] != false
   end
 
+  # A call nobody answers within the ring time ends with the no-answer announcement
+  def unanswered_calls_enabled?
+    provider_config['unanswered_calls_enabled'] == true
+  end
+
+  def unanswered_call_timeout_seconds
+    provider_config['unanswered_call_timeout_seconds']
+  end
+
   def account_auth_token_configured?
     provider_config['account_auth_token_configured'] == true
   end

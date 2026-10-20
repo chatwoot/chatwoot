@@ -30,6 +30,26 @@ RSpec.describe 'Call announcements API', type: :request do
                                             'business_hours_calls_enabled' => false)
   end
 
+  it 'saves the no-answer announcement with its ring time' do
+    patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/call_announcements/unanswered",
+          headers: admin.create_new_auth_token, params: { enabled: true, message: 'Nobody is available.', timeout_seconds: 45 }, as: :json
+
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body).to include('unanswered_calls_enabled' => true, 'unanswered_call_message' => 'Nobody is available.',
+                                            'unanswered_call_timeout_seconds' => 45)
+  end
+
+  ['45', 5, 301, 45.5, nil].each do |timeout|
+    it "rejects a ring time of #{timeout.inspect}" do
+      patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/call_announcements/unanswered",
+            headers: admin.create_new_auth_token, params: { enabled: true, message: 'Nobody is available.', timeout_seconds: timeout }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq('Ring time must be a whole number of seconds between 10 and 300')
+      expect(channel.reload.unanswered_calls_enabled?).to be(false)
+    end
+  end
+
   it 'is not found for an announcement that does not exist' do
     patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/call_announcements/voicemail",
           headers: admin.create_new_auth_token, params: params, as: :json

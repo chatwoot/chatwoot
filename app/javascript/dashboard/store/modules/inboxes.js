@@ -264,11 +264,12 @@ export const actions = {
   },
   updateCallAnnouncement: async (
     { commit },
-    { id, kind, enabled, message }
+    { id, kind, enabled, message, timeoutSeconds }
   ) => {
     const response = await InboxesAPI.setCallAnnouncement(id, kind, {
       enabled,
       message,
+      timeoutSeconds,
     });
     commit(types.default.EDIT_INBOXES, response.data);
   },

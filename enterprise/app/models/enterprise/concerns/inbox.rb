@@ -12,6 +12,13 @@ module Enterprise::Concerns::Inbox
     has_one_attached :out_of_hours_call_audio
     has_one_attached :call_greeting_audio
     has_one_attached :call_waiting_audio
+    has_one_attached :unanswered_call_audio
+
+    # The audio callers hear, preloaded for inbox listings
+    scope :with_call_audio, lambda {
+      with_attached_out_of_hours_call_audio.with_attached_call_greeting_audio
+                                           .with_attached_call_waiting_audio.with_attached_unanswered_call_audio
+    }
 
     before_create :ensure_create_permitted
   end

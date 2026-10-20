@@ -172,6 +172,7 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
       json.set! "#{announcement.audio_name}_url", announcement.audio.attached? ? rails_blob_path(announcement.audio, only_path: true) : nil
     end
     json.call_waiting_audio_url resource.call_waiting_audio.attached? ? rails_blob_path(resource.call_waiting_audio, only_path: true) : nil
+    json.unanswered_call_timeout_seconds resource.channel.unanswered_call_timeout_seconds
   end
   json.account_auth_token_configured resource.channel.try(:account_auth_token_configured?) == true
   json.voice_configured resource.channel.try(:twiml_app_sid).present?

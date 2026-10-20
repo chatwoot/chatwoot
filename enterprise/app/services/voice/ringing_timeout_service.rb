@@ -6,7 +6,7 @@ class Voice::RingingTimeoutService
 
   # Meta's carrier ring lasts up to about 60 s, so a call is never ended here while the
   # caller still hears it ring. A Twilio caller waits on hold music until they hang up or
-  # an agent joins, as on the web, so Twilio calls have no timeout here.
+  # an agent joins, unless the inbox ends unanswered calls; see Voice::EndUnansweredCallService.
   RING_TIMEOUT_SECONDS = { 'whatsapp' => 60 }.freeze
   # A timeout attempt older than this is taken to have died, and another may start
   ATTEMPT_TTL_SECONDS = 120
@@ -63,7 +63,7 @@ class Voice::RingingTimeoutService
 
   # A Twilio caller is still waiting for the conference to start; Meta has already given up
   def finalize
-    call.update!(status: 'no_answer', end_reason: 'ring_timeout', meta: (call.meta || {}).merge('ended_at' => Time.zone.now.to_i))
+    call.update!(status: 'no_answer', end_reason: Call::RING_TIMEOUT, meta: (call.meta || {}).merge('ended_at' => Time.zone.now.to_i))
     Voice::CallMessageBuilder.new(call).update_status!(status: 'no_answer')
     call.conversation.update!(
       additional_attributes: (call.conversation.additional_attributes || {}).merge('call_status' => call.display_status)

@@ -121,6 +121,58 @@ describe('CallAnnouncementSettings', () => {
     });
   });
 
+  it('saves the ring time with a no-answer announcement, within its bounds', async () => {
+    dispatch.mockResolvedValue();
+    const wrapper = mountComponent(
+      {
+        kind: 'unanswered',
+        i18nKey: 'UNANSWERED',
+        message: 'Nobody is available.',
+        audioUrl: '',
+        timeoutSeconds: 60,
+      },
+      { NextInput: false }
+    );
+    const ringTime = wrapper.find('input[type="number"]');
+    const saveButton = () =>
+      wrapper.findComponent(NextButton).find('button').element;
+
+    await ringTime.setValue('301');
+    expect(saveButton().disabled).toBe(true);
+
+    await ringTime.setValue('45');
+    expect(saveButton().disabled).toBe(false);
+    wrapper.findComponent(NextButton).vm.$emit('click');
+    await flushPromises();
+
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateCallAnnouncement', {
+      id: 387,
+      kind: 'unanswered',
+      enabled: true,
+      message: 'Nobody is available.',
+      timeoutSeconds: 45,
+    });
+  });
+
+  it('sends no ring time for announcements without one', async () => {
+    dispatch.mockResolvedValue();
+    const wrapper = mountComponent();
+    expect(wrapper.find('input[type="number"]').exists()).toBe(false);
+
+    wrapper
+      .findComponent(SettingsToggleSection)
+      .vm.$emit('update:modelValue', false);
+    await flushPromises();
+
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateCallAnnouncement', {
+      id: 387,
+      kind: 'out_of_hours',
+      enabled: false,
+      message: 'Call again tomorrow.',
+      timeoutSeconds: undefined,
+    });
+  });
+
   it('preserves unsaved text when an unrelated inbox refresh arrives', async () => {
     const wrapper = mountComponent();
     wrapper

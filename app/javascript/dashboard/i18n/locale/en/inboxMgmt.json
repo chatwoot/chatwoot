@@ -812,6 +812,18 @@
           "PLACEHOLDER": "Thank you for calling. Please hold while we connect you to the next available agent."
         }
       },
+      "UNANSWERED": {
+        "LABEL": "End unanswered calls",
+        "DESCRIPTION": "If nobody answers within the ring time, the caller hears your message and the call ends as missed. When no agent is online to ring, the caller hears it right away.",
+        "TIMEOUT": {
+          "LABEL": "Ring time",
+          "HELP": "Seconds, between 10 and 300."
+        },
+        "MESSAGE": {
+          "LABEL": "No-answer message",
+          "PLACEHOLDER": "Sorry, nobody is available to take your call right now. Please try again later."
+        }
+      },
       "WAITING_AUDIO": {
         "LABEL": "Waiting music",
         "DESCRIPTION": "Played to incoming callers until an agent answers. Without a file, callers hear Twilio's default music.",

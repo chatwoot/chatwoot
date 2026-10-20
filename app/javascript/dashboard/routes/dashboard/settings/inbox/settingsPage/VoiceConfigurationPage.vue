@@ -10,6 +10,9 @@ import CallRecordingSettings from './CallRecordingSettings.vue';
 import CallAnnouncementSettings from './CallAnnouncementSettings.vue';
 import CallWaitingSettings from './CallWaitingSettings.vue';
 
+// Ring time offered before an inbox saves its own
+const DEFAULT_UNANSWERED_TIMEOUT = 60;
+
 export default {
   components: {
     SettingsFieldSection,
@@ -29,6 +32,7 @@ export default {
   },
   data() {
     return {
+      DEFAULT_UNANSWERED_TIMEOUT,
       voiceEnabled: this.inbox.voice_enabled || false,
       inboundCallsEnabled: this.inbox.inbound_calls_enabled !== false,
       apiKeySid: this.inbox.api_key_sid || '',
@@ -251,6 +255,19 @@ export default {
       :enabled="!!inbox.call_greeting_enabled"
       :message="inbox.call_greeting_message || ''"
       :audio-url="inbox.call_greeting_audio_url || ''"
+    />
+
+    <CallAnnouncementSettings
+      v-if="inbox.voice_enabled"
+      :inbox="inbox"
+      kind="unanswered"
+      i18n-key="UNANSWERED"
+      :enabled="!!inbox.unanswered_calls_enabled"
+      :message="inbox.unanswered_call_message || ''"
+      :audio-url="inbox.unanswered_call_audio_url || ''"
+      :timeout-seconds="
+        inbox.unanswered_call_timeout_seconds || DEFAULT_UNANSWERED_TIMEOUT
+      "
     />
 
     <CallWaitingSettings v-if="inbox.voice_enabled" :inbox="inbox" />

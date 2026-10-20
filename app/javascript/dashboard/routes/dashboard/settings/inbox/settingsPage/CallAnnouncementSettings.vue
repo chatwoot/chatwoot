@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
+import NextInput from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -34,26 +35,57 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  // The ring time saved with the no-answer announcement; null for announcements without one
+  timeoutSeconds: {
+    type: Number,
+    default: null,
+  },
 });
 
 const MESSAGE_MAX_LENGTH = 1000;
+const TIMEOUT_SECONDS = { min: 10, max: 300 };
 const store = useStore();
 const { t } = useI18n();
 const isEnabled = ref(props.enabled);
 const draft = ref(props.message);
+const timeout = ref(props.timeoutSeconds);
 const isSaving = ref(false);
-const isDirty = computed(() => draft.value.trim() !== props.message);
+const hasTimeout = computed(() => props.timeoutSeconds !== null);
+const isTimeoutValid = computed(() => {
+  if (!hasTimeout.value) return true;
+  const seconds = Number(timeout.value);
+  return (
+    Number.isInteger(seconds) &&
+    seconds >= TIMEOUT_SECONDS.min &&
+    seconds <= TIMEOUT_SECONDS.max
+  );
+});
+const isDirty = computed(
+  () =>
+    draft.value.trim() !== props.message ||
+    (hasTimeout.value && Number(timeout.value) !== props.timeoutSeconds)
+);
 const canSave = computed(
-  () => !isSaving.value && !!draft.value.trim() && isDirty.value
+  () =>
+    !isSaving.value &&
+    !!draft.value.trim() &&
+    isTimeoutValid.value &&
+    isDirty.value
 );
 const label = key =>
   t(`INBOX_MGMT.VOICE_CONFIGURATION.${props.i18nKey}.${key}`);
 
 watch(
-  [() => props.inbox.id, () => props.enabled, () => props.message],
-  ([, savedEnabled, savedMessage]) => {
+  [
+    () => props.inbox.id,
+    () => props.enabled,
+    () => props.message,
+    () => props.timeoutSeconds,
+  ],
+  ([, savedEnabled, savedMessage, savedTimeout]) => {
     isEnabled.value = savedEnabled;
     draft.value = savedMessage;
+    timeout.value = savedTimeout;
   }
 );
 
@@ -66,6 +98,9 @@ const save = async (nextEnabled = isEnabled.value, useDraft = true) => {
       kind: props.kind,
       enabled: nextEnabled,
       message: useDraft ? draft.value.trim() : props.message,
+      timeoutSeconds: hasTimeout.value
+        ? Number(useDraft ? timeout.value : props.timeoutSeconds)
+        : undefined,
     });
     useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
   } catch (error) {
@@ -95,6 +130,18 @@ const toggle = value => {
       <template v-if="isEnabled" #editor>
         <div class="flex flex-col gap-3">
           <slot name="notice" />
+          <NextInput
+            v-if="hasTimeout"
+            :id="`call-announcement-${kind}-timeout-${inbox.id}`"
+            v-model="timeout"
+            type="number"
+            :label="label('TIMEOUT.LABEL')"
+            :message="label('TIMEOUT.HELP')"
+            :min="String(TIMEOUT_SECONDS.min)"
+            :max="String(TIMEOUT_SECONDS.max)"
+            :disabled="isSaving"
+            class="max-w-xs"
+          />
           <TextArea
             :id="`call-announcement-${kind}-${inbox.id}`"
             v-model="draft"

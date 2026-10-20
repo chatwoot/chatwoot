@@ -35,6 +35,10 @@ class Call < ApplicationRecord
   STATUSES = %w[ringing in_progress completed no_answer failed rejected].freeze
   TERMINAL_STATUSES = %w[completed no_answer failed rejected].freeze
   OUTSIDE_WORKING_HOURS = 'outside_working_hours'.freeze
+  NO_AGENTS_AVAILABLE = 'no_agents_available'.freeze
+  RING_TIMEOUT = 'ring_timeout'.freeze
+  # Calls ended before anyone was rung, and the announcement that tells the caller why
+  ANNOUNCED_END_REASONS = { OUTSIDE_WORKING_HOURS => :out_of_hours, NO_AGENTS_AVAILABLE => :unanswered }.freeze
 
   store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at,
                  :accepted_broadcast_at, :recording_enabled, :provider_status
@@ -77,9 +81,7 @@ class Call < ApplicationRecord
     find_by(provider: provider, provider_call_id: sid)
   end
 
-  def outside_working_hours?
-    end_reason == OUTSIDE_WORKING_HOURS
-  end
+  def announcement_kind = ANNOUNCED_END_REASONS[end_reason]
 
   # An inbound call nobody answered, however it ended: unanswered, or completed or failed
   # with no agent on it, as when the caller hangs up during the ring and the provider
