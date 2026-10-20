@@ -140,6 +140,18 @@ class Article < ApplicationRecord
     current_article.id
   end
 
+  def translation_family
+    article_ids = [self.class.find_root_article_id(self)]
+    parent_ids = article_ids
+
+    while parent_ids.any?
+      parent_ids = portal.articles.where(associated_article_id: parent_ids).where.not(id: article_ids).pluck(:id)
+      article_ids.concat(parent_ids)
+    end
+
+    portal.articles.where(id: article_ids)
+  end
+
   def draft!
     update(status: :draft)
   end

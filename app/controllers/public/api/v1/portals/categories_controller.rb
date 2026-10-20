@@ -30,11 +30,7 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
   end
 
   def set_locale_switch_urls
-    root_category_id = Category.find_root_category_id(@category)
-    categories = @portal.categories
-    category_ids = translation_family_ids(categories, root_category_id, :associated_category_id)
-
-    @locale_switch_urls = categories.where(id: category_ids).index_by(&:locale)
+    @locale_switch_urls = @category.translation_family.index_by(&:locale)
 
     @locale_switch_urls.transform_values! do |category|
       helpers.generate_category_link(

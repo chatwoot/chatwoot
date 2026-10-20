@@ -88,6 +88,18 @@ class Category < ApplicationRecord
     current_category.id
   end
 
+  def translation_family
+    category_ids = [self.class.find_root_category_id(self)]
+    parent_ids = category_ids
+
+    while parent_ids.any?
+      parent_ids = portal.categories.where(associated_category_id: parent_ids).where.not(id: category_ids).pluck(:id)
+      category_ids.concat(parent_ids)
+    end
+
+    portal.categories.where(id: category_ids)
+  end
+
   def self.update_positions(portal:, positions_hash:)
     return if positions_hash.blank?
 
