@@ -775,7 +775,7 @@
         "DESCRIPTION": "Habilite chamadas de voz nesta caixa de entrada. Agentes poderão fazer e receber chamadas telefônicas."
       },
       "CREDENTIALS": {
-        "DESCRIPTION": "Chamada de voz requer credenciais de chave da API Twilio. Elas são usadas para gerar tokens para conexões de voz do agente."
+        "DESCRIPTION": "Chamadas de voz exigem um Token de Autenticação da Conta para verificação do webhook e credenciais de chave de API para realizar chamadas."
       },
       "INBOUND": {
         "LABEL": "Permitir chamadas de entrada",
