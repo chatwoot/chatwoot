@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "Buscar mensajes en conversaciones",
     "VIEW_ORIGINAL": "View original",
     "VIEW_TRANSLATED": "View translated",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "para abrir el menú de comandos",
       "KEYBOARD_SHORTCUTS": "para ver los atajos del teclado"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Este mensaje no es compatible. Puedes ver este mensaje en la aplicación de Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Este mensaje no es compatible. Puedes ver este mensaje en la aplicación de Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "Este mensaje no es compatible. Puedes ver este mensaje en la aplicación de WhatsApp.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Envió una respuesta de flujo",
     "WHATSAPP_REFERRAL": {
       "AD": "Publicidad"
@@ -324,17 +333,20 @@
       "STOP_AUDIO_RECORDING": "Detener grabación de audio",
       "COPILOT_THINKING": "Copilot está pensando",
       "EMAIL_HEAD": {
-        "TO": "A",
-        "ADD_BCC": "Añadir bcc",
+        "TO": "Para",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Cc",
           "PLACEHOLDER": "Correos separados por comas",
           "ERROR": "Por favor, introduzca correo válido"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "Bcc",
           "PLACEHOLDER": "Correos separados por comas",
           "ERROR": "Por favor, introduzca correo válido"
+        },
+        "SUBJECT": {
+          "LABEL": "Asunto",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
