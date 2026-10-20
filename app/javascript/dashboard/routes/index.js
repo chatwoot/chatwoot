@@ -113,6 +113,14 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     isActive &&
     !needsShopifyBilling;
 
+  if (to.name === 'captain_toolset_install_link') {
+    return next({
+      name: 'captain_toolset_install',
+      params: { accountId: routeAccountId },
+      query: to.query,
+    });
+  }
+
   if (to.name === 'no_accounts' || !to.name) {
     if (billingRedirect) {
       return next(frontendURL(`accounts/${routeAccountId}/${billingRedirect}`));

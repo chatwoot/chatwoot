@@ -6,7 +6,14 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
-const emit = defineEmits(['remove']);
+defineProps({
+  suggestVerifiedEmail: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const emit = defineEmits(['remove', 'useVerifiedEmail']);
 const { t } = useI18n();
 const showErrors = ref(false);
 
@@ -104,6 +111,19 @@ defineExpose({ validate });
         />
       </div>
     </div>
+    <p
+      v-if="suggestVerifiedEmail"
+      class="flex flex-wrap items-center gap-1 mt-1 mb-0 text-sm text-n-amber-11"
+    >
+      {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.RISK.EMAIL_PARAM') }}
+      <Button
+        type="button"
+        link
+        xs
+        :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.RISK.USE_VERIFIED_EMAIL')"
+        @click="emit('useVerifiedEmail')"
+      />
+    </p>
     <span
       v-if="showErrors && validationError"
       class="block mt-1 text-sm text-n-ruby-11"

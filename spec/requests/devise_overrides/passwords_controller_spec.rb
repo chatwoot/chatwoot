@@ -18,10 +18,16 @@ RSpec.describe 'Passwords API', type: :request do
     end
 
     it 'issues session tokens on successful reset' do
+      account.enable_features!(:api_and_webhooks)
       reset_password(reset_token_for(user))
 
       expect(response).to have_http_status(:success)
       expect(response.headers['access-token']).to be_present
+      expect(response.parsed_body.fetch('data')).to include(
+        'access_token' => user.access_token.token,
+        'pubsub_token' => user.reload.pubsub_token
+      )
+      expect(Current.user).to be_nil
     end
 
     context 'when account enforces MFA' do

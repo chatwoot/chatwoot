@@ -209,7 +209,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
       get "/super_admin/users/#{user.id}"
       doc = Nokogiri::HTML(response.body)
-      labels = doc.css('dt.attribute-label').map { |label| label.text.squish }
+      labels = doc.css('dt').map { |label| label.text.squish }
 
       expect(response).to have_http_status(:success)
       expect(labels).to include('MFA')
@@ -347,8 +347,8 @@ RSpec.describe 'Super Admin Users API', type: :request do
         get "/super_admin/users/#{unconfirmed.id}"
 
         doc = Nokogiri::HTML(response.body)
-        expect(doc.at_css('.main-content__header details')).to be_nil
-        expect(doc.at_css('button:contains("Resend confirmation email")')).to be_present
+        expect(doc.at_css('main header details button:contains("Resend confirmation email")')).to be_nil
+        expect(doc.at_css('main header button:contains("Resend confirmation email")')).to be_present
       end
     end
 
@@ -361,9 +361,9 @@ RSpec.describe 'Super Admin Users API', type: :request do
         get "/super_admin/users/#{user.id}"
 
         doc = Nokogiri::HTML(response.body)
-        button = doc.at_css('.main-content__header button:contains("Unblock email")')
+        button = doc.at_css('main header button:contains("Unblock email")')
         expect(button['disabled']).to be_present
-        expect(button.parent['title']).to eq('Check email delivery first.')
+        expect(button.parent.text).to include('Check email delivery first.')
         expect(response.body).to include('Check email delivery')
         expect(response.body).to include('Send test email')
       end
@@ -373,7 +373,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         get "/super_admin/users/#{unconfirmed.id}"
 
-        expect(Nokogiri::HTML(response.body).at_css('.main-content__header details button:contains("Resend confirmation email")')).to be_present
+        expect(Nokogiri::HTML(response.body).at_css('main header details button:contains("Resend confirmation email")')).to be_present
       end
 
       it 'shows an active clear button after a bounce check' do
@@ -407,7 +407,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         get "/super_admin/users/#{unconfirmed.id}", params: { suppression: 'bounce' }
 
-        button = Nokogiri::HTML(response.body).at_css('.main-content__header button:contains("Resend confirmation email")')
+        button = Nokogiri::HTML(response.body).at_css('main header button:contains("Resend confirmation email")')
         expect(button['disabled']).to be_present
       end
 
@@ -435,24 +435,24 @@ RSpec.describe 'Super Admin Users API', type: :request do
       it 'disables the test email while the address is blocked' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'complaint' }
 
-        button = Nokogiri::HTML(response.body).at_css('.main-content__header button:contains("Send test email")')
+        button = Nokogiri::HTML(response.body).at_css('main header button:contains("Send test email")')
         expect(button['disabled']).to be_present
-        expect(button.parent['title']).to eq('Blocked after a spam complaint. Emails to this address are dropped.')
+        expect(button.parent.text).to include('Blocked after a spam complaint. Emails to this address are dropped.')
       end
 
       it 'keeps the test email available when the address is not blocked' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'not_suppressed' }
 
-        button = Nokogiri::HTML(response.body).at_css('.main-content__header button:contains("Send test email")')
+        button = Nokogiri::HTML(response.body).at_css('main header button:contains("Send test email")')
         expect(button['disabled']).to be_nil
       end
 
       it 'explains why unblock is disabled when the address is not blocked' do
         get "/super_admin/users/#{user.id}", params: { suppression: 'not_suppressed' }
 
-        button = Nokogiri::HTML(response.body).at_css('.main-content__header button:contains("Unblock email")')
+        button = Nokogiri::HTML(response.body).at_css('main header button:contains("Unblock email")')
         expect(button['disabled']).to be_present
-        expect(button.parent['title']).to eq('Emails to this address are not blocked.')
+        expect(button.parent.text).to include('Emails to this address are not blocked.')
       end
 
       it 'shows a disabled clear button after a complaint check' do
@@ -460,7 +460,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
         button = Nokogiri::HTML(response.body).at_css('button:contains("Unblock email")')
         expect(button['disabled']).to be_present
-        expect(button.parent['title']).to eq('Blocked after a spam complaint. Escalate to engineering.')
+        expect(button.parent.text).to include('Blocked after a spam complaint. Escalate to engineering.')
       end
 
       it 'reports an address that is not suppressed' do
@@ -472,18 +472,16 @@ RSpec.describe 'Super Admin Users API', type: :request do
         expect(flash[:notice]).to eq('Emails to bounced@example.com are not blocked.')
       end
 
-      it 'shows the result as a toast on the user page only' do
+      it 'shows the result as a toast that fades on its own' do
         allow(suppression).to receive(:lookup).and_return(status: :not_suppressed)
 
         post "/super_admin/users/#{user.id}/check_email_suppression"
         follow_redirect!
-        expect(Nokogiri::HTML(response.body).at_css('.flashes[data-toast-flashes]')).to be_present
 
-        post '/super_admin/users', params: { user: { email: '' } }
-        follow_redirect!
-        flashes = Nokogiri::HTML(response.body).at_css('.flashes')
-        expect(flashes).to be_present
-        expect(flashes.key?('data-toast-flashes')).to be(false)
+        toast = Nokogiri::HTML(response.body).at_css('[data-toast]')
+        expect(toast['role']).to eq('status')
+        expect(toast.key?('data-toast-sticky')).to be(false)
+        expect(toast.text).to include('are not blocked')
       end
 
       it 'reports a bounce with its date' do

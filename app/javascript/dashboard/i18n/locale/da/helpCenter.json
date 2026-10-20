@@ -1005,9 +1005,9 @@
         "GA4": {
           "TITLE": "Google Analytics 4",
           "DESCRIPTION": "Mål trafik og besøgsadfærd på dit hjælpecenter med Google Analytics.",
-          "PLACEHOLDER": "G-XXXXXXXX",
+          "PLACEHOLDER": "G-XXXXXXXXXX",
           "HELP": "Find måle-ID'et under Admin → Datastrømme i Google Analytics. Lad feltet stå tomt for at deaktivere.",
-          "INVALID": "Angiv et gyldigt måle-ID, for eksempel G-XXXXXXXXXXXX."
+          "INVALID": "Angiv et gyldigt måle-ID, for eksempel G-XXXXXXXXXX."
         },
         "HOTJAR": {
           "TITLE": "Hotjar",

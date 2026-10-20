@@ -23,6 +23,7 @@ const props = defineProps({
 const emit = defineEmits(['loadMore']);
 
 const NOTE_CLAMP_LENGTH = 240;
+const SYSTEM_AUTHOR_ICON = 'i-lucide-settings';
 
 const { t } = useI18n();
 const router = useRouter();
@@ -59,7 +60,7 @@ const noteHtml = note => {
 const noteAuthor = note =>
   note.user?.id === currentUser.value.id
     ? t('CONTACTS_LAYOUT.SIDEBAR.NOTES.YOU')
-    : note.user?.name || t('COMPANIES.DETAIL.ACTIVITY.UNKNOWN_AUTHOR');
+    : note.user?.name || t('COMPANIES.DETAIL.ACTIVITY.SYSTEM_AUTHOR');
 
 const noteContactName = note =>
   note.contact?.name || t('COMPANIES.DETAIL.CONTACTS.UNNAMED_CONTACT');
@@ -96,6 +97,7 @@ const groups = computed(() => groupByDay(props.notes, 'createdAt', t));
               <Avatar
                 :name="noteAuthor(note)"
                 :src="note.user?.thumbnail"
+                :icon-name="note.user ? null : SYSTEM_AUTHOR_ICON"
                 :size="40"
                 hide-offline-status
                 class="shrink-0"

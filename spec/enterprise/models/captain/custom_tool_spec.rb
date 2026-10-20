@@ -288,6 +288,91 @@ RSpec.describe Captain::CustomTool, type: :model do
     end
   end
 
+  describe 'settings' do
+    let(:account) { create(:account) }
+
+    it 'does not require email verification by default' do
+      tool = create(:captain_custom_tool, account: account)
+
+      expect(tool.settings).to eq({})
+      expect(tool.requires_email_verification?).to be(false)
+    end
+
+    it 'requires email verification when the setting is true' do
+      tool = create(:captain_custom_tool, account: account, settings: { 'requires_email_verification' => true })
+
+      expect(tool.reload.requires_email_verification?).to be(true)
+    end
+
+    it 'does not require email verification when the setting is false' do
+      tool = create(:captain_custom_tool, account: account, settings: { 'requires_email_verification' => false })
+
+      expect(tool.requires_email_verification?).to be(false)
+    end
+
+    it 'is invalid when the setting is not a boolean' do
+      tool = build(:captain_custom_tool, account: account, settings: { 'requires_email_verification' => 'false' })
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid with unknown settings' do
+      tool = build(:captain_custom_tool, account: account, settings: { 'require_verification' => true })
+
+      expect(tool).not_to be_valid
+    end
+  end
+
+  describe 'verified parameters' do
+    let(:account) { create(:account) }
+    let(:email_param) { { 'name' => 'email', 'type' => 'string', 'description' => 'Customer email', 'source' => 'verified.email' } }
+    let(:order_param) { { 'name' => 'order_id', 'type' => 'string', 'description' => 'Order ID' } }
+
+    it 'accepts the verified email as a source' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [email_param])
+
+      expect(tool).to be_valid
+      expect(tool.verified_email_param).to eq('email')
+    end
+
+    it 'is invalid when a parameter that takes a verified value is not a string' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [email_param.merge('type' => 'number')])
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'is invalid with an unknown source' do
+      %w[verified.identifier verified.phone].each do |source|
+        expect(build(:captain_custom_tool, account: account, param_schema: [email_param.merge('source' => source)])).not_to be_valid
+      end
+    end
+
+    it 'is invalid with a source that is not text' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [email_param.merge('source' => true)])
+
+      expect(tool).not_to be_valid
+    end
+
+    it 'requires email verification when a parameter takes the verified email' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [email_param])
+
+      expect(tool.requires_email_verification?).to be(true)
+    end
+
+    it 'requires email verification for a verified email parameter with a blank name' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [email_param.merge('name' => '')])
+
+      expect(tool.requires_email_verification?).to be(true)
+    end
+
+    it 'has no verified email parameter when every parameter comes from the model' do
+      tool = build(:captain_custom_tool, account: account, param_schema: [order_param])
+
+      expect(tool.verified_email_param).to be_nil
+      expect(tool.requires_email_verification?).to be(false)
+    end
+  end
+
   describe 'scopes' do
     let(:account) { create(:account) }
 
@@ -433,6 +518,27 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(tool.build_request_url({ order_id: '12345' })).to eq('https://api.example.com/orders/12345')
       end
 
+      it 'accepts Liquid tags in the endpoint and renders them when called' do
+        tool = create(:captain_custom_tool, account: account,
+                                            endpoint_url: '{% assign kind = kind | downcase %}https://api.example.com/{{ kind }}/{{ id }}')
+
+        expect(tool.build_request_url({ kind: 'Orders', id: '7' })).to eq('https://api.example.com/orders/7')
+      end
+
+      it 'renders an endpoint that only uses Liquid tags' do
+        tool = create(:captain_custom_tool, account: account,
+                                            endpoint_url: 'https://api.example.com/{% if verbose %}details{% else %}summary{% endif %}')
+
+        expect(tool.build_request_url({ verbose: true })).to eq('https://api.example.com/details')
+      end
+
+      it 'still checks the URL around Liquid tags' do
+        tool = build(:captain_custom_tool, account: account, endpoint_url: '{% if id %}http://api.example.com/{{ id }}{% endif %}')
+
+        expect(tool).not_to be_valid
+        expect(tool.errors[:endpoint_url]).to include('must use HTTPS protocol')
+      end
+
       it 'handles multiple template variables' do
         tool = create(:captain_custom_tool, account: account,
                                             endpoint_url: 'https://api.example.com/{{ resource }}/{{ id }}?details={{ show_details }}')
@@ -455,6 +561,19 @@ RSpec.describe Captain::CustomTool, type: :model do
 
         result = tool.build_request_body({ order_id: '12345' })
         expect(result).to eq('{ "order_id": "12345", "source": "chatwoot" }')
+      end
+
+      it 'skips optional params the model did not send' do
+        tool = create(:captain_custom_tool, account: account,
+                                            request_template: '{ "order_id": "{{ order_id }}"{% if note %}, "note": "{{ note }}"{% endif %} }')
+
+        expect(tool.build_request_body({ order_id: '12345' })).to eq('{ "order_id": "12345" }')
+      end
+
+      it 'raises on invalid Liquid syntax' do
+        tool = build(:captain_custom_tool, account: account, request_template: '{ "order_id": "{{ order_id | }}" }')
+
+        expect { tool.build_request_body({ order_id: '12345' }) }.to raise_error(/Template rendering failed/)
       end
     end
 
@@ -530,6 +649,21 @@ RSpec.describe Captain::CustomTool, type: :model do
 
         result = tool.format_response(raw_response)
         expect(result).to eq('Response: plain text response')
+      end
+
+      it 'branches on optional response fields' do
+        template = '{% if response.error %}Failed: {{ response.error }}{% else %}Status: {{ response.status }}{% endif %}'
+        tool = create(:captain_custom_tool, account: account, response_template: template)
+
+        expect(tool.format_response('{"status": "shipped"}')).to eq('Status: shipped')
+        expect(tool.format_response('{"error": "not found"}')).to eq('Failed: not found')
+      end
+
+      it 'falls back to defaults for missing response fields' do
+        tool = create(:captain_custom_tool, account: account,
+                                            response_template: 'Tracking: {{ response.tracking | default: "not available" }}')
+
+        expect(tool.format_response('{"status": "shipped"}')).to eq('Tracking: not available')
       end
     end
 
@@ -700,7 +834,7 @@ RSpec.describe Captain::CustomTool, type: :model do
         tool = create(:captain_custom_tool, :with_params, account: account)
 
         tool_instance = tool.tool(assistant)
-        params = tool_instance.parameters
+        params = tool_instance.class.declared_parameters
 
         expect(params.keys).to contain_exactly(:order_id, :include_details)
         expect(params[:order_id].name).to eq(:order_id)
@@ -712,11 +846,33 @@ RSpec.describe Captain::CustomTool, type: :model do
         expect(params[:include_details].required).to be false
       end
 
+      context 'when a parameter takes a verified value' do
+        let(:bound_tool) do
+          create(:captain_custom_tool, account: account, param_schema: [
+                   { 'name' => 'email', 'type' => 'string', 'description' => 'Customer email', 'source' => 'verified.email', 'required' => false },
+                   { 'name' => 'order_id', 'type' => 'string', 'description' => 'Order ID' }
+                 ])
+        end
+
+        it 'hides the parameter from the model in a customer conversation' do
+          expect(bound_tool.tool(assistant).class.declared_parameters.keys).to contain_exactly(:order_id)
+        end
+
+        it 'shows the parameter as required to a tool class where the model fills verified values' do
+          model_filled_class = Class.new(Captain::Tools::HttpTool) { def self.model_fills_verified_values? = true }
+
+          params = bound_tool.tool(assistant, base_class: model_filled_class).class.declared_parameters
+
+          expect(params.keys).to contain_exactly(:email, :order_id)
+          expect(params[:email].required).to be true
+        end
+      end
+
       it 'works with empty param_schema' do
         tool = create(:captain_custom_tool, account: account, param_schema: [])
 
         tool_instance = tool.tool(assistant)
-        expect(tool_instance.parameters).to be_empty
+        expect(tool_instance.class.declared_parameters).to be_empty
       end
     end
   end

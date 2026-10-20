@@ -408,6 +408,14 @@ describe Whatsapp::IncomingCallService do
       expect(Rails.logger).to have_received(:info).with(/Duplicate inbound connect/)
       expect(ActionCable.server).not_to have_received(:broadcast)
     end
+
+    it 'queues the ring of a call that recorded who it rings but never rang them' do
+      call.update!(ring_state: { 'ring_recipient_ids' => [1] })
+      params = call_payload(event: 'connect', session: { sdp: 'sdp_x', sdp_type: 'offer' })
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to have_enqueued_job(Voice::VoipPushJob).with(call.id, 'ring')
+    end
   end
 
   describe 'connect arriving after terminal status' do
