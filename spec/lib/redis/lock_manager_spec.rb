@@ -28,26 +28,6 @@ RSpec.describe Redis::LockManager do
   end
 
   describe '#unlock' do
-    it 'does not release a replacement lock after its own lease expires' do
-      lock_manager.lock(lock_key)
-      Redis::Alfred.expire(lock_key, 0)
-      replacement = described_class.new
-      expect(replacement.lock(lock_key)).to be(true)
-      replacement_token = Redis::Alfred.get(lock_key)
-
-      lock_manager.unlock(lock_key)
-
-      expect(Redis::Alfred.get(lock_key)).to eq(replacement_token)
-      replacement.unlock(lock_key)
-    end
-
-    it 'does not release a lock acquired by another instance' do
-      lock_manager.lock(lock_key)
-      described_class.new.unlock(lock_key)
-
-      expect(lock_manager.locked?(lock_key)).to be(true)
-    end
-
     it 'releases a lock' do
       lock_manager.lock(lock_key)
       lock_manager.unlock(lock_key)

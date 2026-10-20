@@ -22,7 +22,6 @@ class MutexApplicationJob < ApplicationJob
     end
   end
 
-  # The lock manager only releases locks owned by this instance, including after lease expiry.
   def with_lock(lock_key, timeout = Redis::LockManager::LOCK_TIMEOUT)
     lock_manager = Redis::LockManager.new
 

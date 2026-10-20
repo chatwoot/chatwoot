@@ -17,10 +17,6 @@ class Redis::LockManager
   # This helps to avoid deadlocks in case the process holding the lock crashes or fails to release it.
   LOCK_TIMEOUT = 1.second
 
-  def initialize
-    @tokens = {}
-  end
-
   # Attempts to acquire a lock for the given key.
   #
   # If the lock is successfully acquired, the method returns true. If the key is
@@ -34,11 +30,9 @@ class Redis::LockManager
   # * +true+ if the lock was successfully acquired.
   # * +false+ if the lock was not acquired.
   def lock(key, timeout = LOCK_TIMEOUT)
-    token = SecureRandom.uuid
-    return false unless Redis::Alfred.set(key, token, nx: true, ex: timeout)
-
-    @tokens[key] = token
-    true
+    value = Time.now.to_f.to_s
+    # nx: true means set the key only if it does not exist
+    Redis::Alfred.set(key, value, nx: true, ex: timeout) ? true : false
   end
 
   # Releases a lock for the given key.
@@ -51,8 +45,7 @@ class Redis::LockManager
   #
   # Note: If the key wasn't locked, this operation will have no effect.
   def unlock(key)
-    token = @tokens.delete(key)
-    Redis::Alfred.delete_if_equals(key, token) if token
+    Redis::Alfred.delete(key)
     true
   end
 
