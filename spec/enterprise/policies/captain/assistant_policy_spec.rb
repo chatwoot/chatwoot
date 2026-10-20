@@ -35,7 +35,7 @@ RSpec.describe Captain::AssistantPolicy, type: :policy do
 
     context 'when Captain V2 is enabled' do
       before do
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
       end
 
       context 'when administrator' do

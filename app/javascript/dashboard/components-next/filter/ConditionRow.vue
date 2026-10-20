@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { debounce } from '@chatwoot/utils';
 import Button from 'next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
+import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import FilterSelect from './inputs/FilterSelect.vue';
 import MultiSelect from './inputs/MultiSelect.vue';
 import SingleSelect from './inputs/SingleSelect.vue';
@@ -73,6 +74,8 @@ const getInputType = (operator, filter) =>
 const inputType = computed(() =>
   getInputType(currentOperator.value, currentFilter.value)
 );
+
+const isLongText = computed(() => inputType.value === 'longText');
 
 const queryOperatorOptions = computed(() => {
   return [
@@ -213,7 +216,7 @@ defineExpose({ validate, resetValidation });
       />
       <div
         :class="
-          currentOperator?.hasInput
+          currentOperator?.hasInput && !isLongText
             ? 'flex items-start gap-2 min-w-0'
             : 'contents'
         "
@@ -256,12 +259,24 @@ defineExpose({ validate, resetValidation });
                 : t('FILTER.MULTI_VALUE_INPUT_PLACEHOLDER')
             "
           />
+          <TextArea
+            v-else-if="isLongText"
+            v-model="values"
+            auto-height
+            show-character-count
+            class="order-last basis-full"
+            :max-length="currentFilter.maxLength"
+            :placeholder="currentFilter.placeholder"
+          />
           <Input
             v-else
             v-model="values"
             :type="inputFieldType"
+            :maxlength="currentFilter?.maxLength"
             class="[&>input]:h-8 [&>input]:py-1.5 [&>input]:outline-offset-0"
-            :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
+            :placeholder="
+              currentFilter?.placeholder || t('FILTER.INPUT_PLACEHOLDER')
+            "
           />
         </template>
         <Button

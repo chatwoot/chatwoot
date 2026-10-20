@@ -4,6 +4,7 @@ operationId: update-agents-in-inbox
 summary: Update Agents in Inbox
 description: All agents except the one passed in params will be removed
 security:
+  - userBearerAuth: []
   - userApiKey: []
 requestBody:
   required: true

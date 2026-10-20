@@ -3,6 +3,7 @@ tags:
 operationId: list-all-messages
 summary: Get messages
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: List all messages of a conversation
 parameters:

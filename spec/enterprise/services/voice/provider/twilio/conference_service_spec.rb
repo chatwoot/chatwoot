@@ -44,6 +44,30 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect(call.reload.accepted_by_agent_id).to eq(agent.id)
     end
 
+    it 'holds a place for the connection of the attempt the agent names' do
+      agent = create(:user, account: account)
+
+      service.mark_agent_joined(user: agent, attempt: 'attempt-1')
+
+      expect(call.reload.agent_legs.dig(Call.pending_agent_leg('attempt-1'), 'state')).to eq('joining')
+    end
+
+    it 'replaces the place an earlier attempt held, which may never have reached Twilio' do
+      agent = create(:user, account: account)
+      call.with_lock { call.record_agent_leg!('CA-live', 'joined') }
+      service.mark_agent_joined(user: agent, attempt: 'attempt-1')
+
+      service.mark_agent_joined(user: agent, attempt: 'attempt-2')
+
+      expect(call.reload.agent_legs.keys).to contain_exactly('CA-live', Call.pending_agent_leg('attempt-2'))
+    end
+
+    it 'holds no place for a client that names no attempt' do
+      service.mark_agent_joined(user: create(:user, account: account))
+
+      expect(call.reload.agent_legs).to be_empty
+    end
+
     it 'keeps an existing AgentBot conversation owner' do
       agent = create(:user, account: account)
       agent_bot = create(:agent_bot, account: account)
@@ -76,6 +100,82 @@ describe Voice::Provider::Twilio::ConferenceService do
       allow(twilio_client).to receive(:conferences)
       service.end_conference
       expect(twilio_client).not_to have_received(:conferences)
+    end
+  end
+
+  describe '#agents_remain?' do
+    let(:conferences_proxy) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceList) }
+    let(:conf_instance) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceInstance, sid: 'CF123') }
+    let(:conf_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext, update: nil) }
+    let(:participants_proxy) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::ParticipantList) }
+
+    def participant(label, call_sid)
+      instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::ParticipantInstance, label: label, call_sid: call_sid)
+    end
+
+    before do
+      call.update!(conference_sid: 'CF123_FRIENDLY')
+      allow(twilio_client).to receive(:conferences).with(no_args).and_return(conferences_proxy)
+      allow(conferences_proxy).to receive(:list).with(friendly_name: 'CF123_FRIENDLY', status: 'in-progress').and_return([conf_instance])
+      allow(twilio_client).to receive(:conferences).with('CF123').and_return(conf_context)
+      allow(conf_context).to receive(:participants).and_return(participants_proxy)
+    end
+
+    it 'is false when only the contact is left' do
+      allow(participants_proxy).to receive(:list).and_return([participant('contact', 'CA-contact'), participant('agent-1-account-1', 'CA-agent-1')])
+
+      expect(service.agents_remain?(leaving_call_sid: 'CA-agent-1')).to be(false)
+    end
+
+    it 'is true when another agent is still on the call' do
+      allow(participants_proxy).to receive(:list)
+        .and_return([participant('agent-1-account-1', 'CA-agent-1'), participant('agent-2-account-1', 'CA-agent-2')])
+
+      expect(service.agents_remain?(leaving_call_sid: 'CA-agent-1')).to be(true)
+    end
+
+    it 'is true when the same agent reconnected on a new leg' do
+      allow(participants_proxy).to receive(:list).and_return([participant('contact', 'CA-contact'), participant('agent-1-account-1', 'CA-agent-1b')])
+
+      expect(service.agents_remain?(leaving_call_sid: 'CA-agent-1')).to be(true)
+    end
+
+    it 'is false when call has no conference_sid' do
+      call.update!(conference_sid: nil)
+
+      expect(service.agents_remain?(leaving_call_sid: 'CA-agent-1')).to be(false)
+      expect(conferences_proxy).not_to have_received(:list)
+    end
+  end
+
+  describe '#terminate_call' do
+    let(:call_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext, update: true) }
+
+    before { allow(twilio_client).to receive(:calls).and_return(call_context) }
+
+    it 'hangs up the provider call leg with status completed' do
+      service.terminate_call
+
+      expect(twilio_client).to have_received(:calls).with(call.provider_call_id).once
+      expect(call_context).to have_received(:update).with(status: 'completed').once
+    end
+
+    it 'also hangs up the parent call leg when it differs from the provider call' do
+      call.update!(parent_call_sid: 'CA_parent')
+
+      service.terminate_call
+
+      expect(twilio_client).to have_received(:calls).with(call.provider_call_id)
+      expect(twilio_client).to have_received(:calls).with('CA_parent')
+      expect(call_context).to have_received(:update).with(status: 'completed').twice
+    end
+
+    it 'hangs up a leg only once when the parent call is the provider call' do
+      call.update!(parent_call_sid: call.provider_call_id)
+
+      service.terminate_call
+
+      expect(call_context).to have_received(:update).with(status: 'completed').once
     end
   end
 end

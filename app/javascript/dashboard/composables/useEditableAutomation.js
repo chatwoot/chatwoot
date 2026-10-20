@@ -45,7 +45,7 @@ export function useEditableAutomation() {
         query_operator: condition.query_operator || 'and',
       };
 
-      if (inputType === 'plain_text' || inputType === 'date') {
+      if (['plain_text', 'long_text', 'date'].includes(inputType)) {
         return { ...base, values: condition.values[0] };
       }
       if (inputType === 'multi_text') {

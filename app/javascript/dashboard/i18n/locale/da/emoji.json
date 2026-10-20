@@ -6,30 +6,30 @@
   },
   "EMOJI_ICON_PICKER": {
     "TABS": {
-      "ICONS": "Icons",
+      "ICONS": "Ikoner",
       "EMOJIS": "Emojis"
     },
-    "SEARCH_EMOJI": "Search emoji…",
-    "SEARCH_ICON": "Search icons…",
-    "FREQUENTLY_USED": "Frequently used",
+    "SEARCH_EMOJI": "Søg efter emoji…",
+    "SEARCH_ICON": "Søg efter ikoner…",
+    "FREQUENTLY_USED": "Ofte anvendt",
     "NO_EMOJI": "Ingen emoji matcher din søgning",
-    "NO_ICON": "No icons match your search",
+    "NO_ICON": "Ingen ikoner matcher din søgning",
     "REMOVE": "Fjern",
     "STYLE": {
-      "OUTLINE": "Outline icons",
-      "FILLED": "Filled icons"
+      "OUTLINE": "Omridsikoner",
+      "FILLED": "Fyldte ikoner"
     },
     "COLORS": {
       "SLATE": "Slate",
-      "RED": "Red",
+      "RED": "Rød",
       "ORANGE": "Orange",
-      "AMBER": "Amber",
-      "GREEN": "Green",
-      "TEAL": "Teal",
-      "BLUE": "Blue",
+      "AMBER": "Rav",
+      "GREEN": "Grøn",
+      "TEAL": "Blågrøn",
+      "BLUE": "Blå",
       "INDIGO": "Indigo",
       "VIOLET": "Violet",
-      "PINK": "Pink"
+      "PINK": "Lyserød"
     }
   }
 }

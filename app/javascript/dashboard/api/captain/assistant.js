@@ -24,10 +24,12 @@ class CaptainAssistant extends ApiClient {
     messageContent,
     messageHistory,
     playgroundConfig,
+    requestId,
   }) {
     const payload = {
       message_content: messageContent,
       message_history: messageHistory,
+      request_id: requestId,
     };
     if (playgroundConfig) payload.playground_config = playgroundConfig;
 

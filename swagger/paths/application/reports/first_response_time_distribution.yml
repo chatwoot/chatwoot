@@ -3,6 +3,7 @@ tags:
 operationId: get-first-response-time-distribution
 summary: Get first response time distribution by channel
 security:
+  - userBearerAuth: []
   - userApiKey: []
 description: |
   Get the distribution of first response times grouped by channel type.

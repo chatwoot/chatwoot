@@ -10,18 +10,18 @@ RSpec.describe Captain::ReplySuggestionService do
   let(:captured_messages) { [] }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_API_KEY').update!(value: 'test-key')
     create(:message, conversation: conversation, message_type: :incoming, content: 'I need help')
     allow(account).to receive(:feature_enabled?).and_call_original
     allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
 
-    mock_response = instance_double(RubyLLM::Message, content: 'Sure, I can help!', input_tokens: 50, output_tokens: 20)
+    mock_response = instance_double(RubyLLM::Message, content: 'Sure, I can help!', tokens: RubyLLM::Tokens.new(input: 50, output: 20))
     mock_chat = instance_double(RubyLLM::Chat)
     mock_context = instance_double(RubyLLM::Context, chat: mock_chat)
 
     allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
-    allow(mock_chat).to receive(:with_tool).and_return(mock_chat)
-    allow(mock_chat).to receive(:on_end_message).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_tools).and_return(mock_chat)
+    allow(mock_chat).to receive(:after_message).and_return(mock_chat)
     allow(mock_chat).to receive(:with_instructions) { |msg| captured_messages << { role: 'system', content: msg } }
     allow(mock_chat).to receive(:add_message) { |args| captured_messages << args }
     allow(mock_chat).to receive(:ask) do |msg|

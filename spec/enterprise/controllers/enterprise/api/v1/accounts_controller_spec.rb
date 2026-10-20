@@ -51,6 +51,35 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
     end
   end
 
+  describe 'API token access when the account enforces MFA' do
+    before do
+      skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      account.enable_features!('api_and_webhooks')
+      account.update!(enforce_mfa: true)
+    end
+
+    it 'blocks api_access_token requests from non-enrolled users' do
+      get "/enterprise/api/v1/accounts/#{account.id}/limits",
+          headers: { api_access_token: admin.access_token.token },
+          as: :json
+
+      expect(response).to have_http_status(:forbidden)
+      expect(response.parsed_body['error_code']).to eq('mfa_enrollment_required')
+    end
+
+    it 'allows enrolled users' do
+      admin.enable_two_factor!
+      admin.update!(otp_required_for_login: true)
+
+      get "/enterprise/api/v1/accounts/#{account.id}/limits",
+          headers: { api_access_token: admin.access_token.token },
+          as: :json
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
   describe 'POST /enterprise/api/v1/accounts/{account.id}/subscription' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -111,9 +140,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           )
           shopify_admin = create(:user, account: shopify_account, role: :administrator)
           shopify_account.enable_features!('shopify_integration')
-          allow(GlobalConfigService).to receive(:load)
-            .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-            .and_return(true)
+          create(:installation_config, name: 'ENABLE_SHOPIFY_INTEGRATION', value: true)
 
           expect do
             post "/enterprise/api/v1/accounts/#{shopify_account.id}/subscription",
@@ -139,9 +166,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           )
           shopify_admin = create(:user, account: shopify_account, role: :administrator)
           shopify_account.enable_features!('shopify_integration')
-          allow(GlobalConfigService).to receive(:load)
-            .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-            .and_return(true)
+          create(:installation_config, name: 'ENABLE_SHOPIFY_INTEGRATION', value: true)
 
           expect(Enterprise::Billing::CreateSessionService).not_to receive(:new)
 

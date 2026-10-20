@@ -1,12 +1,17 @@
 class DeviseOverrides::PasswordsController < Devise::PasswordsController
   include AuthHelper
+  include MfaAuthenticationHelper
 
   skip_before_action :require_no_authentication, raise: false
   skip_before_action :authenticate_user!, raise: false
 
   def create
+    unless params[:redirect_url].nil? || params[:redirect_url].is_a?(String)
+      return render json: { error: 'Invalid redirect_url' }, status: :unprocessable_entity
+    end
+
     @user = User.from_email(params[:email])
-    @user&.send_reset_password_instructions
+    @user&.send_reset_password_instructions(redirect_url: params[:redirect_url], sso_account_id: params.permit(:sso_account_id)[:sso_account_id])
     build_response(I18n.t('messages.reset_password'), 200)
   end
 
@@ -16,6 +21,8 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
     reset_password_token = Devise.token_generator.digest(self, :reset_password_token, original_token)
     @recoverable = User.find_by(reset_password_token: reset_password_token)
     if @recoverable && reset_password_and_confirmation(@recoverable)
+      return render_mfa_sign_in_required if mfa_sign_in_required?(@recoverable)
+
       send_auth_headers(@recoverable)
       render partial: 'devise/auth', formats: [:json], locals: { resource: @recoverable }
     else

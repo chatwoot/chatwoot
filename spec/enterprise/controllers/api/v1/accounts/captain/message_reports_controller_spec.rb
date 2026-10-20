@@ -34,7 +34,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::MessageReports', type: :request do
     end
 
     context 'when the installation is not on Chatwoot cloud' do
-      before { InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_initialize.update!(value: 'self_hosted') }
+      before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false) }
 
       it 'returns not found' do
         post "/api/v1/accounts/#{account.id}/captain/message_reports",
@@ -52,7 +52,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::MessageReports', type: :request do
     end
 
     context 'when on Chatwoot cloud' do
-      before { InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_initialize.update!(value: 'cloud') }
+      before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true) }
 
       it 'creates a message report for the reporting agent' do
         expect do

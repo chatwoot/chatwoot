@@ -4,6 +4,7 @@ operationId: update-custom-attribute-in-account
 summary: Update custom attribute in Account
 description: Update a custom attribute in account
 security:
+  - userBearerAuth: []
   - userApiKey: []
 parameters:
   - in: path

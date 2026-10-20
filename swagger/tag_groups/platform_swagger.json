@@ -29,6 +29,9 @@
         "description": "Create an Account",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -81,6 +84,9 @@
         "description": "Get the details of an account",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -125,6 +131,9 @@
         "summary": "Update an account",
         "description": "Update an account's attributes",
         "security": [
+          {
+            "platformAppBearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -171,6 +180,9 @@
         "description": "Delete an Account",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -216,6 +228,9 @@
         "description": "List all account users",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -250,6 +265,9 @@
         "summary": "Create an Account User",
         "description": "Create an Account User",
         "security": [
+          {
+            "platformAppBearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -310,6 +328,9 @@
         "description": "Delete an Account User",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -350,6 +371,9 @@
         "description": "List all agent bots available",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -388,6 +412,9 @@
         "summary": "Create an Agent Bot",
         "description": "Create an agent bot",
         "security": [
+          {
+            "platformAppBearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -441,6 +468,9 @@
         "description": "Get the details of an agent bot",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -485,6 +515,9 @@
         "summary": "Update an agent bot",
         "description": "Update an agent bot's attributes",
         "security": [
+          {
+            "platformAppBearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -531,6 +564,9 @@
         "description": "Delete an AgentBot",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -570,6 +606,9 @@
         "summary": "Create a User",
         "description": "Create a User",
         "security": [
+          {
+            "platformAppBearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -623,6 +662,9 @@
         "description": "Get the details of an user",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -667,6 +709,9 @@
         "summary": "Update a user",
         "description": "Update a user's attributes",
         "security": [
+          {
+            "platformAppBearerAuth": []
+          },
           {
             "platformAppApiKey": []
           }
@@ -713,6 +758,9 @@
         "description": "Delete a User",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -758,6 +806,9 @@
         "description": "Get the sso link of a user",
         "security": [
           {
+            "platformAppBearerAuth": []
+          },
+          {
             "platformAppApiKey": []
           }
         ],
@@ -797,6 +848,85 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/platform/api/v1/users/{id}/token": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/platform_user_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "post-user-token",
+        "summary": "Get User Access Token",
+        "description": "Get the access token of a user",
+        "security": [
+          {
+            "platformAppBearerAuth": []
+          },
+          {
+            "platformAppApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string",
+                      "description": "Access token of the user"
+                    },
+                    "expiry": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "description": "Expiry timestamp"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "User ID"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "User's full name"
+                        },
+                        "display_name": {
+                          "type": "string",
+                          "description": "User's display name"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "User's email address"
+                        },
+                        "pubsub_token": {
+                          "type": "string",
+                          "description": "User's pubsub token"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The given user does not exist"
           }
         }
       }
@@ -2611,6 +2741,14 @@
             "type": "boolean",
             "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
           },
+          "icon": {
+            "type": "string",
+            "description": "An emoji or icon shown next to the team"
+          },
+          "icon_color": {
+            "type": "string",
+            "description": "The color used for the team icon"
+          },
           "account_id": {
             "type": "number",
             "description": "The ID of the account with the team is a part of"
@@ -2731,8 +2869,11 @@
             "description": "The type of the audited object (e.g., Conversation, Contact, User)"
           },
           "auditable": {
-            "type": "object",
-            "description": "The audited object data"
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "The audited object data. Null for message deletion entries, which are served without the message payload."
           },
           "associated_id": {
             "type": "integer",
@@ -2791,7 +2932,14 @@
               "string",
               "null"
             ],
-            "description": "IP address from which the action was performed"
+            "description": "IP address from which the action was performed. Masked to the network portion (for example 203.0.113.x) unless the account has the audit_log_ip_address feature enabled, in which case the full address is returned."
+          },
+          "location": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "City and country resolved from remote_address, present only when the account has the ip_lookup feature enabled and the address has been resolved. Omitted when the account returns full IP addresses."
           }
         }
       },
@@ -5231,6 +5379,16 @@
             "type": "boolean",
             "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team",
             "example": true
+          },
+          "icon": {
+            "type": "string",
+            "description": "An emoji or icon shown next to the team",
+            "example": "🚀"
+          },
+          "icon_color": {
+            "type": "string",
+            "description": "The color used for the team icon",
+            "example": "#6C5CE7"
           }
         }
       },
@@ -7996,23 +8154,38 @@
       }
     },
     "securitySchemes": {
+      "userBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticate with `Authorization: Bearer <token>` using a user API token from **Profile Settings**. Available in Chatwoot `v4.19.0` and later."
+      },
+      "agentBotBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticate with `Authorization: Bearer <token>` using an agent bot token from **Settings → Agent Bots**. Available in Chatwoot `v4.19.0` and later."
+      },
+      "platformAppBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Authenticate with `Authorization: Bearer <token>` using a platform app token from **Super Admin**. Available in Chatwoot `v4.19.0` and later."
+      },
       "userApiKey": {
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token can be obtained by visiting the profile page or via rails console. Provides access to  endpoints based on the user permissions levels. This token can be saved by an external system when user is created via API, to perform activities on behalf of the user."
+        "description": "Find your API token in **Profile Settings**. The `api_access_token` header remains supported, but will be deprecated in a future release. For new integrations, use Bearer authentication."
       },
       "agentBotApiKey": {
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token should be provided by system admin or obtained via rails console. This token can be used to build bot integrations and can only access limited apis."
+        "description": "Find your agent bot token in **Settings → Agent Bots**. For new integrations, use Bearer authentication in Chatwoot `v4.19.0` and later. Agent bot tokens can access only bot-permitted APIs."
       },
       "platformAppApiKey": {
         "type": "apiKey",
         "in": "header",
         "name": "api_access_token",
-        "description": "This token can be obtained by the system admin after creating a platformApp. This token should be used to provision agent bots, accounts, users and their roles."
+        "description": "Create a platform app in **Super Admin** to get its token. For new integrations, use Bearer authentication in Chatwoot `v4.19.0` and later. Platform app tokens can provision agent bots, accounts, users, and roles."
       }
     }
   },

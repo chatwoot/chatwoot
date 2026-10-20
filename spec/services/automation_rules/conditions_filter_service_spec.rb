@@ -83,6 +83,151 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       end
     end
 
+    context 'when conditions include a Captain condition' do
+      let(:captain_condition) do
+        { 'values': ['the customer wants a refund'], 'attribute_key': 'captain_condition', 'query_operator': nil, 'filter_operator': 'detects' }
+      end
+      let(:captain_answers) { { 1 => true } }
+
+      before do
+        account.enable_features!('captain_classifier')
+        allow(Captain::AutomationConditionService).to receive(:new)
+          .and_return(instance_double(Captain::AutomationConditionService, perform: captain_answers))
+      end
+
+      it 'passes the rule conditions and the message to Captain' do
+        rule.update!(conditions: [captain_condition])
+
+        described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform
+
+        expect(Captain::AutomationConditionService).to have_received(:new)
+          .with(conditions: rule.conditions, conversation: conversation, message: message)
+      end
+
+      it 'does not ask Captain when another condition already rules the match out' do
+        rule.update!(conditions: [
+                       { 'values': ['resolved'], 'attribute_key': 'status', 'query_operator': 'AND', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+        expect(Captain::AutomationConditionService).not_to have_received(:new)
+      end
+
+      it 'does not ask Captain when another condition already decides the match' do
+        rule.update!(conditions: [
+                       { 'values': ['open'], 'attribute_key': 'status', 'query_operator': 'OR', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+        expect(Captain::AutomationConditionService).not_to have_received(:new)
+      end
+
+      it 'does not ask Captain about an agent reply when the rule is for customer messages' do
+        message.update!(message_type: :outgoing)
+        rule.update!(conditions: [
+                       { 'values': ['incoming'], 'attribute_key': 'message_type', 'query_operator': 'AND', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+
+        expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
+        expect(Captain::AutomationConditionService).not_to have_received(:new)
+      end
+
+      it 'combines a detected condition with the other conditions using AND' do
+        rule.update!(conditions: [
+                       { 'values': ['open'], 'attribute_key': 'status', 'query_operator': 'AND', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+      end
+
+      it 'does not match when Captain does not detect the condition' do
+        rule.update!(conditions: [
+                       { 'values': ['open'], 'attribute_key': 'status', 'query_operator': 'AND', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+        captain_answers[1] = false
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
+      end
+
+      it 'lets a detected condition satisfy an OR chain on its own' do
+        rule.update!(conditions: [
+                       { 'values': ['resolved'], 'attribute_key': 'status', 'query_operator': 'OR', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+      end
+    end
+
+    context 'when Captain cannot judge a Captain condition' do
+      let(:endpoint) { 'https://openrouter.example/v1/systemone' }
+      let(:captain_condition) do
+        { 'values': ['the customer wants a refund'], 'attribute_key': 'captain_condition', 'query_operator': nil, 'filter_operator': 'detects' }
+      end
+
+      before do
+        account.enable_features!('captain_classifier')
+        allow(GlobalConfigService).to receive(:load).and_call_original
+        allow(GlobalConfigService).to receive(:load).with('CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT', nil).and_return('https://openrouter.example')
+        allow(GlobalConfigService).to receive(:load).with('CAPTAIN_OPENROUTER_API_KEY', nil).and_return('secret-key')
+        stub_request(:post, endpoint).to_return(status: 200, body: { answers: { '0' => { 'noul' => 0.9 }, '1' => { 'noul' => 0.9 } } }.to_json,
+                                                headers: { 'Content-Type' => 'application/json' })
+      end
+
+      it 'matches through another condition without needing Captain, even while Captain is failing' do
+        stub_request(:post, endpoint).to_return(status: 500, body: 'upstream error')
+        rule.update!(conditions: [
+                       { 'values': ['open'], 'attribute_key': 'status', 'query_operator': 'OR', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+
+        expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
+        expect(a_request(:post, endpoint)).not_to have_been_made
+      end
+
+      it 'does not match when the rule depends on Captain and the request fails' do
+        stub_request(:post, endpoint).to_return(status: 500, body: 'upstream error')
+        rule.update!(conditions: [captain_condition])
+
+        expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
+        expect(a_request(:post, endpoint)).to have_been_made.once
+      end
+
+      it 'does not match a private note and never sends it to Captain' do
+        rule.update!(conditions: [captain_condition])
+        message.update!(private: true)
+
+        expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
+        expect(a_request(:post, endpoint)).not_to have_been_made
+      end
+
+      it 'still lets the other conditions of the rule decide for a private note' do
+        rule.update!(conditions: [
+                       { 'values': [true], 'attribute_key': 'private_note', 'query_operator': 'OR', 'filter_operator': 'equal_to' },
+                       captain_condition
+                     ])
+        message.update!(private: true)
+
+        expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
+        expect(a_request(:post, endpoint)).not_to have_been_made
+      end
+
+      it 'pauses the Captain condition when the feature is revoked, keeping the rule active' do
+        rule.update!(conditions: [captain_condition])
+        account.disable_features!('captain_classifier')
+
+        expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
+        expect(a_request(:post, endpoint)).not_to have_been_made
+        expect(rule.reload).to be_active
+        expect(rule.authorization_error_count).to eq(0)
+      end
+    end
+
     context 'when conditions based on messages attributes' do
       context 'when filter_operator is equal_to' do
         before do
