@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "Pesquisar por mensagens nas conversas",
     "VIEW_ORIGINAL": "Ver original",
     "VIEW_TRANSLATED": "Ver traduzido",
+    "TRANSLATING": "Traduzindo…",
+    "TRANSLATING_TO": "Traduzindo para {language}…",
+    "VIEW_ORIGINAL_IN": "Ver original ({language})",
+    "VIEW_TRANSLATED_IN": "Ver tradução ({language})",
+    "TRANSLATION_FAILED": "Não foi possível traduzir; foi enviada como digitada",
+    "CONTACT_TRANSLATION_FAILED": "Não foi possível traduzir",
     "EMPTY_STATE": {
       "CMD_BAR": "para abrir o menu de comando",
       "KEYBOARD_SHORTCUTS": "para ver os atalhos de teclado"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo do Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "Esta mensagem não é compatível. Você pode visualizá-la no aplicativo do TikTok.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "Esta mensagem não é suportada. Você pode visualizar esta mensagem no aplicativo do WhatsApp.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Conteúdo da mensagem indisponível",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "Não foi possível exibir esta mensagem porque a Meta não forneceu seu conteúdo. Isso pode acontecer em configurações de Coexistência do WhatsApp. Para visualizar a mensagem, por favor verifique-a no aplicativo WhatsApp Business.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "Para mais detalhes, consulte {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Documentação da Meta",
     "WHATSAPP_FLOW_RESPONSE": "Enviou uma resposta de um Flow",
     "WHATSAPP_REFERRAL": {
       "AD": "Anúncio"
@@ -325,16 +334,19 @@
       "COPILOT_THINKING": "O Copilot está pensando",
       "EMAIL_HEAD": {
         "TO": "Para",
-        "ADD_BCC": "Adicionar cco",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Cc",
           "PLACEHOLDER": "E-mails separados por vírgulas",
           "ERROR": "Por favor, insira endereços de e-mail válidos"
         },
         "BCC": {
-          "LABEL": "Cco",
+          "LABEL": "CCO",
           "PLACEHOLDER": "E-mails separados por vírgulas",
           "ERROR": "Por favor, insira endereços de e-mail válidos"
+        },
+        "SUBJECT": {
+          "LABEL": "Assunto",
+          "PLACEHOLDER": "Insira um assunto"
         }
       },
       "UNDEFINED_VARIABLES": {
