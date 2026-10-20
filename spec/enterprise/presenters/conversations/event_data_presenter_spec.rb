@@ -9,6 +9,32 @@ RSpec.describe Conversations::EventDataPresenter do
   let!(:sla_event) { create(:sla_event, conversation: conversation, applied_sla: applied_sla) }
 
   describe '#push_data' do
+    context 'when the caller is anonymous' do
+      let(:channel) { create(:channel_twilio_sms, :with_voice) }
+      let(:contact_inbox) do
+        create(:contact_inbox, inbox: channel.inbox, source_id: "anonymous:CA#{SecureRandom.hex(16)}")
+      end
+      let(:conversation) do
+        create(:conversation, account: channel.account, inbox: channel.inbox, contact: contact_inbox.contact, contact_inbox: contact_inbox)
+      end
+
+      [true, false].each do |sla_enabled|
+        it "marks live events as anonymous and non-replyable with SLA enabled: #{sla_enabled}" do
+          if sla_enabled
+            conversation.account.enable_features!('sla')
+          else
+            conversation.account.disable_features!('sla')
+          end
+
+          expect(presenter.push_data).to include(anonymous_caller: true, can_reply: false)
+        end
+      end
+    end
+
+    it 'keeps normal conversations replyable in live events' do
+      expect(presenter.push_data).to include(anonymous_caller: false, can_reply: true)
+    end
+
     it 'returns push event payload with applied sla & sla events if the feature is enabled' do
       conversation.account.enable_features!('sla')
 

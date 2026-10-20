@@ -99,6 +99,20 @@ describe('#mutations', () => {
   });
 
   describe('#SET_CONVERSATION_CAN_REPLY', () => {
+    it('keeps anonymous callers non-replyable when an incoming message enables replies', () => {
+      const state = {
+        allConversations: [{ id: 1, anonymous_caller: true, can_reply: false }],
+      };
+
+      mutations[types.SET_CONVERSATION_CAN_REPLY](state, {
+        conversationId: 1,
+        canReply: true,
+      });
+
+      expect(state.allConversations[0].can_reply).toBe(false);
+      expect(state.allConversations[0].anonymous_caller).toBe(true);
+    });
+
     it('set canReply flag', () => {
       const state = { allConversations: [{ id: 1, can_reply: false }] };
       mutations[types.SET_CONVERSATION_CAN_REPLY](state, {

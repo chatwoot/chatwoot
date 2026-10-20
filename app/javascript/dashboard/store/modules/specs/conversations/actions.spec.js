@@ -389,6 +389,36 @@ describe('#actions', () => {
   });
 
   describe('#addMessage', () => {
+    it.each([true, false])(
+      'preserves live conversation reply eligibility when anonymous_caller is %s',
+      anonymousCaller => {
+        const state = { allConversations: [], selectedChatId: null };
+        mutations[types.ADD_CONVERSATION](state, {
+          id: 1,
+          anonymous_caller: anonymousCaller,
+          can_reply: !anonymousCaller,
+          messages: [],
+        });
+        const localCommit = (type, payload) => mutations[type](state, payload);
+
+        actions.addMessage(
+          { commit: localCommit, dispatch: vi.fn() },
+          {
+            id: 1,
+            message_type: 0,
+            content_type: 'voice_call',
+            conversation_id: 1,
+          }
+        );
+
+        expect(state.allConversations[0].can_reply).toBe(!anonymousCaller);
+        expect(state.allConversations[0].anonymous_caller).toBe(
+          anonymousCaller
+        );
+        expect(state.allConversations[0].messages).toHaveLength(1);
+      }
+    );
+
     it('sends correct mutations if message is incoming', () => {
       const message = {
         id: 1,
