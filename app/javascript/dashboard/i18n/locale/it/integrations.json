@@ -1,4 +1,54 @@
 {
+  "STRIPE_INTEGRATION": {
+    "UNAVAILABLE": "Stripe non è disponibile per questo account. Contatta l'amministratore per verificare la configurazione dell'integrazione.",
+    "TITLE": "Stripe",
+    "DESCRIPTION": "Visualizza dettagli cliente, abbonamenti e fatture accanto alle tue conversazioni.",
+    "CONNECT": "Connetti",
+    "DISCONNECT": "Disconnetti da Chatwoot",
+    "DISCONNECT_NOTE": "La disconnessione rimuove le credenziali salvate da Chatwoot. Disinstalla l'app in Stripe per revocarne l'accesso anche lì.",
+    "CONNECTED": "Collegato",
+    "RECONNECT": "Ricollega Stripe",
+    "REAUTHORIZATION_REQUIRED": "Ricollegamento necessario",
+    "ACCOUNT": "Account collegato",
+    "ACCOUNT_ID": "ID Account",
+    "ENVIRONMENT": "Ambiente",
+    "SANDBOX": "Sandbox",
+    "LIVE": "Live",
+    "CONNECTED_ON": "Collegato il",
+    "OPEN_STRIPE": "Apri la dashboard di Stripe",
+    "ERROR": "Impossibile caricare Stripe. Riprova o ricollega l'integrazione.",
+    "EMPTY": "Nessun cliente Stripe corrisponde all'email di questo contatto.",
+    "NO_EMAIL": "Aggiungi un'email a questo contatto per cercare i clienti Stripe.",
+    "SELECT": "Seleziona un cliente corrispondente",
+    "CUSTOMER_OPTION": "{name} — {id}",
+    "MORE": "Vengono mostrati i primi 100 clienti corrispondenti. Affina l'email del contatto se il cliente non è nell'elenco.",
+    "SUBSCRIPTIONS": "Ultimi cinque abbonamenti",
+    "SUBSCRIPTION": "Abbonamento",
+    "VIEW_SUBSCRIPTION": "Visualizza i dettagli dell'abbonamento {name}",
+    "COPY_ID": "Copia ID",
+    "COPIED": "Copiato",
+    "QUANTITY": "Quantità: {count}",
+    "PRICE_INTERVAL": "{amount} / {interval}",
+    "INTERVAL": {
+      "day": "giorno | {count} giorni",
+      "week": "settimana | {count} settimane",
+      "month": "mese | {count} mesi",
+      "year": "anno | {count} anni"
+    },
+    "VARIABLE_PRICE": "Prezzo a consumo o a scaglioni",
+    "RENEWS": "Si rinnova il {date}",
+    "PERIOD_START": "Il periodo inizia il {date}",
+    "PERIOD_END": "Il periodo termina il {date}",
+    "TRIAL_ENDS": "La prova termina il {date}",
+    "CANCELS": "Si annulla il {date}",
+    "CANCELS_AT_PERIOD_END": "Si annulla alla fine del periodo di fatturazione",
+    "CANCELED_ON": "Annullato il {date}",
+    "MORE_ITEMS": "Le altre voci dell'abbonamento non sono mostrate.",
+    "PRICE_NOTE": "I prezzi sono unitari, prima di sconti e imposte. Non sono una stima della prossima fattura.",
+    "INVOICES": "Fatture recenti",
+    "NO_SUBSCRIPTIONS": "Nessun abbonamento trovato.",
+    "NO_INVOICES": "Nessuna fattura trovata."
+  },
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
       "HEADER": "Shopify",
@@ -21,13 +71,13 @@
       },
       "ERROR": "Si è verificato un errore nella connessione a Shopify. Si prega di riprovare o contattare il supporto se il problema persiste.",
       "PENDING_INSTALL": {
-        "SUCCESS": "Shopify store connected successfully.",
-        "ERROR": "Unable to complete the Shopify installation. Please try again."
+        "SUCCESS": "Negozio Shopify collegato correttamente.",
+        "ERROR": "Impossibile completare l'installazione di Shopify. Riprova."
       },
       "SELECT_ACCOUNT": {
-        "TITLE": "Choose a workspace",
-        "DESCRIPTION": "Select the workspace to connect to your Shopify store. To restore a previous connection, choose its original workspace.",
-        "UNAVAILABLE": "No eligible workspace or valid installation was found. Restart installation or sign in as a workspace administrator."
+        "TITLE": "Scegli uno spazio di lavoro",
+        "DESCRIPTION": "Seleziona lo spazio di lavoro da collegare al tuo negozio Shopify. Per ripristinare un collegamento precedente, scegli lo spazio di lavoro originale.",
+        "UNAVAILABLE": "Nessuno spazio di lavoro idoneo o installazione valida trovati. Riavvia l'installazione o accedi come amministratore dello spazio di lavoro."
       }
     },
     "HEADER": "Integrazioni",
@@ -416,6 +466,37 @@
         "BUTTON_TEXT": "Connetti workspace Linear"
       }
     },
+    "GOOGLE_TRANSLATE": {
+      "HEADER": "Google Translate",
+      "DELETE_MESSAGE": "Gli operatori non potranno più tradurre i messaggi con Google Translate. Se Google Translate è il tuo servizio di traduzione, la traduzione automatica si ferma finché non ne scegli un altro.",
+      "SETUP": {
+        "TITLE": "Configura Google Translate",
+        "DESCRIPTION": "Ti servirà un progetto Google Cloud. Ci vogliono circa cinque minuti.",
+        "STEPS": {
+          "ENABLE_API": {
+            "TITLE": "Attiva la Cloud Translation API",
+            "DESCRIPTION": "Scegli un progetto nella console Google Cloud e abilita la Cloud Translation API. Annota l'ID del progetto.",
+            "LINK": "Apri Cloud Translation API"
+          },
+          "CREATE_KEY": {
+            "TITLE": "Crea una chiave dell'account di servizio",
+            "DESCRIPTION": "Crea un account di servizio con il ruolo Cloud Translation API User. Poi aprilo, vai su Chiavi e aggiungi una chiave JSON.",
+            "LINK": "Apri gli account di servizio"
+          },
+          "CONNECT": {
+            "TITLE": "Collegalo qui",
+            "DESCRIPTION": "Clicca Connetti, inserisci l'ID del progetto e incolla il file della chiave. Prima di salvare la verifichiamo con Google."
+          }
+        }
+      },
+      "DETAILS": {
+        "PROJECT": "Progetto Google Cloud",
+        "SERVICE": "Servizio di traduzione",
+        "SERVICE_GOOGLE": "Google Translate gestisce tutte le traduzioni nelle tue conversazioni. Con la traduzione automatica attiva, traduce i messaggi in arrivo nella lingua di ciascun operatore e invia le risposte nella lingua del cliente. Gli operatori lo usano anche quando traducono un messaggio dal suo menu.",
+        "SERVICE_OTHER": "Captain è selezionato come servizio di traduzione, quindi al momento Google Translate non viene usato. La traduzione automatica e l'azione Traduci sui messaggi passano entrambe da Captain. Imposta Google Translate come servizio per usare invece questa integrazione.",
+        "CHANGE": "Cambia"
+      }
+    },
     "NOTION": {
       "HEADER": "Notion",
       "DELETE": {
@@ -636,6 +717,12 @@
       "YOU": "Tu",
       "USE": "Usa questo",
       "RESET": "Reimposta",
+      "NEW_CHAT": "Nuova chat",
+      "HISTORY": "Chat precedenti",
+      "NO_HISTORY": "Le tue chat precedenti con Copilot compariranno qui.",
+      "LOAD_MORE": "Carica altre chat",
+      "LOADING_CHAT": "Caricamento chat...",
+      "LOADING_HISTORY": "Caricamento chat precedenti...",
       "SHOW_STEPS": "Mostra i passaggi",
       "SELECT_ASSISTANT": "Seleziona Assistente",
       "PROMPTS": {
@@ -1281,26 +1368,46 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Strumenti",
       "ADD_NEW": "Crea un nuovo strumento",
+      "CATALOG": {
+        "BUTTON": "Catalogo strumenti",
+        "HEADER": "Catalogo strumenti",
+        "DESCRIPTION": "Sfoglia i set di strumenti del catalogo strumenti di Captain e installali su questo assistente.",
+        "ALL": "Tutte",
+        "EMPTY": "Ancora nessun set di strumenti in questa categoria.",
+        "LOAD_ERROR": "Impossibile caricare il catalogo strumenti. Controlla l'URL del catalogo nelle impostazioni di Captain.",
+        "TOOL_COUNT": "{n} strumento | {n} strumenti",
+        "VERSION": "v{version}",
+        "UPDATED": "Aggiornato {time}",
+        "REPOSITORY": "Repository",
+        "MANIFEST": "Manifest",
+        "CONFIGURATION": "Configurazione",
+        "REQUIRED": "Richiesto",
+        "DETAILS_ERROR": "Impossibile caricare i dettagli del set di strumenti.",
+        "INSTALLED": "Installato",
+        "UPDATE_AVAILABLE": "Aggiornamento disponibile"
+      },
+      "INSTALL_LINK": {
+        "TITLE": "Scegli un assistente",
+        "DESCRIPTION": "Scegli l'assistente su cui installare questo set di strumenti.",
+        "PLACEHOLDER": "Seleziona un assistente",
+        "LOAD_ERROR": "Impossibile caricare i tuoi assistenti. Ricarica la pagina per riprovare."
+      },
       "INSTALL_MANIFEST": {
-        "TITLE": "Install a toolset",
-        "DESCRIPTION": "Install a toolset from the Captain tools catalog.",
-        "SOURCE_LABEL": "Toolset",
-        "SOURCE_PLACEHOLDER": "chatwoot/tools/folder",
-        "SOURCE_HELP": "Installs the latest version from the catalog.",
+        "TITLE": "Installa un set di strumenti",
+        "DESCRIPTION": "Installa un set di strumenti dal catalogo strumenti di Captain.",
         "VERSION_LABEL": "v{version} · {revision}",
-        "UPDATE_NOTE": "A different version is installed. Updating replaces its tools and keeps whether each one is enabled. Enter the secrets again.",
+        "UPDATE_NOTE": "È installata una versione diversa. L'aggiornamento ne sostituisce gli strumenti e mantiene lo stato di attivazione di ciascuno. Inserisci di nuovo i segreti.",
         "TOOLS_LABEL": "Strumenti",
         "CONFIGURATION_LABEL": "Configurazione",
         "CONTINUE": "Continua",
-        "BACK": "Indietro",
-        "INSTALL": "Install",
+        "INSTALL": "Installa",
         "UPDATE": "Aggiorna",
-        "REINSTALL": "Reinstall",
-        "REINSTALL_NOTE": "Some tools from this toolset were deleted. Reinstalling adds them back and keeps whether each one is enabled. Enter the secrets again.",
-        "ALREADY_INSTALLED": "Already installed",
-        "SUCCESS_MESSAGE": "Toolset installed",
-        "ERROR_MESSAGE": "Could not install the toolset",
-        "PREVIEW_ERROR": "Could not load the toolset"
+        "REINSTALL": "Reinstalla",
+        "REINSTALL_NOTE": "Alcuni strumenti di questo set sono stati eliminati. La reinstallazione li aggiunge di nuovo e mantiene lo stato di attivazione di ciascuno. Inserisci di nuovo i segreti.",
+        "ALREADY_INSTALLED": "Già installato",
+        "SUCCESS_MESSAGE": "Set di strumenti installato",
+        "ERROR_MESSAGE": "Impossibile installare il set di strumenti",
+        "PREVIEW_ERROR": "Impossibile caricare il set di strumenti"
       },
       "ASSISTANT_TOOLS_BANNER": {
         "MESSAGE": "Gli strumenti personalizzati ora si gestiscono per singolo assistente. Cambia assistente per personalizzarne gli strumenti.",
@@ -1323,7 +1430,7 @@
       "FORM_DESCRIPTION": "Configura il tuo strumento personalizzato per connetterti con API esterne",
       "OPTIONS": {
         "EDIT_TOOL": "Modifica strumento",
-        "VIEW_TOOL": "View tool",
+        "VIEW_TOOL": "Visualizza strumento",
         "DELETE_TOOL": "Elimina strumento"
       },
       "STATUS": {
@@ -1348,7 +1455,9 @@
         "ERROR_MESSAGE": "Impossibile creare uno strumento personalizzato"
       },
       "VIEW": {
-        "TITLE": "Custom Tool Details"
+        "TITLE": "Dettagli strumento personalizzato",
+        "REQUEST": "Richiesta e risposta",
+        "INSTALLED_NOTE": "Questo strumento è di sola lettura perché è stato installato dal Catalogo strumenti."
       },
       "EDIT": {
         "TITLE": "Modifica Strumento Personalizzato",
@@ -1402,6 +1511,11 @@
         "AUTH_TYPE": {
           "LABEL": "Tipo di Autenticazione"
         },
+        "EMAIL_VERIFICATION": {
+          "LABEL": "Richiedi la verifica dell'email",
+          "DESCRIPTION": "Captain può usare questo strumento solo dopo che il cliente ha verificato la propria email con un codice monouso.",
+          "IMPLIED": "Un parametro riceve l'email verificata del cliente, quindi la verifica dell'email è sempre richiesta."
+        },
         "AUTH_TYPES": {
           "NONE": "Nessuno",
           "BEARER": "Bearer Token",
@@ -1422,16 +1536,16 @@
         },
         "SECTIONS": {
           "TEMPLATES": "Modelli",
-          "TEMPLATES_HELP_TEXT": "Supports Liquid syntax, like {'{{'} order_id {'}}'} or {'{{'} response.status {'}}'}."
+          "TEMPLATES_HELP_TEXT": "Supporta la sintassi Liquid, ad esempio {'{{'} order_id {'}}'} o {'{{'} response.status {'}}'}."
         },
         "HEADERS": {
-          "LABEL": "Headers",
-          "HELP_TEXT": "Static headers sent with every request. Values are sent exactly as entered; use Authentication for credentials.",
-          "NAME_PLACEHOLDER": "Header name (e.g., cal-api-version)",
-          "VALUE_PLACEHOLDER": "Header value",
-          "NAME_REQUIRED": "Header name is required",
-          "NAME_DUPLICATE": "Header names must be unique",
-          "ADD": "Add Header"
+          "LABEL": "Intestazioni",
+          "HELP_TEXT": "Intestazioni fisse inviate con ogni richiesta. I valori vengono inviati esattamente come inseriti; per le credenziali usa Autenticazione.",
+          "NAME_PLACEHOLDER": "Nome intestazione (es. cal-api-version)",
+          "VALUE_PLACEHOLDER": "Valore intestazione",
+          "NAME_REQUIRED": "Il nome dell'intestazione è obbligatorio",
+          "NAME_DUPLICATE": "I nomi delle intestazioni devono essere univoci",
+          "ADD": "Aggiungi intestazione"
         },
         "PARAMETERS": {
           "LABEL": "Parametri",
@@ -1456,6 +1570,21 @@
         },
         "PARAM_REQUIRED": {
           "LABEL": "Richiesto"
+        },
+        "RISK": {
+          "MEDIUM": "Questo strumento potrebbe restituire dati dei clienti. Valuta di richiedere la verifica dell'email.",
+          "HIGH": "Questo strumento sembra leggere o modificare dati dei clienti. Richiedi la verifica dell'email in modo che solo un cliente verificato possa usarlo.",
+          "TITLE": "Salvare senza verifica dell'email?",
+          "GO_BACK": "Torna indietro",
+          "SAVE_ANYWAY": "Salva comunque",
+          "EMAIL_PARAM": "Questa email non è verificata. Un cliente potrebbe inserire quella di qualcun altro.",
+          "USE_VERIFIED_EMAIL": "Usa email verificata"
+        },
+        "VERIFIED_VALUES": {
+          "ADD": "Aggiungi email verificata",
+          "EMAIL": "Email del contatto",
+          "EMAIL_DESCRIPTION": "L'indirizzo email verificato del contatto",
+          "HELP": "Compilato da Chatwoot con l'email che il contatto ha confermato con un codice monouso. Captain non può vederlo né modificarlo nelle conversazioni con i clienti."
         },
         "REQUEST_TEMPLATE": {
           "LABEL": "Request Body Template (Opzionale)",
