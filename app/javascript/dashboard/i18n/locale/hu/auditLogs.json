@@ -45,7 +45,8 @@
       "TABLE_HEADER": {
         "ACTIVITY": "User",
         "TIME": "Action",
-        "IP_ADDRESS": "IP cím"
+        "IP_ADDRESS": "IP cím",
+        "LOCATION": "Hely"
       }
     },
     "API": {
