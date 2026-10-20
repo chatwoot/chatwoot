@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "কথোপকথনে বার্তা অনুসন্ধান করুন",
     "VIEW_ORIGINAL": "মূল দেখুন",
     "VIEW_TRANSLATED": "অনুবাদ দেখুন",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "কমান্ড মেনু খুলতে",
       "KEYBOARD_SHORTCUTS": "কীবোর্ড শর্টকাট দেখতে"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "এই বার্তাটি সমর্থিত নয়। আপনি Facebook Messenger অ্যাপে এই বার্তাটি দেখতে পারেন।",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "এই বার্তাটি সমর্থিত নয়। আপনি Instagram অ্যাপে এই বার্তাটি দেখতে পারেন।",
     "UNSUPPORTED_MESSAGE_TIKTOK": "এই বার্তাটি সমর্থিত নয়। TikTok অ্যাপে এই বার্তাটি দেখতে পারেন।",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
@@ -324,17 +333,20 @@
       "STOP_AUDIO_RECORDING": "অডিও রেকর্ডিং বন্ধ করুন",
       "COPILOT_THINKING": "Copilot ভাবছে",
       "EMAIL_HEAD": {
-        "TO": "TO",
-        "ADD_BCC": "বিসিসি যোগ করুন",
+        "TO": "প্রাপক",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "সিসি",
           "PLACEHOLDER": "কমা দিয়ে আলাদা ইমেইল",
           "ERROR": "সঠিক ইমেইল ঠিকানা দিন"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "বিসিসি",
           "PLACEHOLDER": "কমা দিয়ে আলাদা ইমেইল",
           "ERROR": "বৈধ ইমেইল ঠিকানা দিন"
+        },
+        "SUBJECT": {
+          "LABEL": "বিষয়",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
