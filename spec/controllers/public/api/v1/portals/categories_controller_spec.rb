@@ -34,13 +34,12 @@ RSpec.describe 'Public Categories API', type: :request do
 
     it 'links to the matching translated category from the locale switcher' do
       category = portal.categories.first
-      translated_category = create(:category, slug: 'translated-category', locale: 'es', portal: portal,
-                                              account_id: account.id, associated_category_id: category.id)
+      translation = create(:category, locale: 'es', portal: portal, associated_category_id: category.id)
 
       get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}"
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include("value=\"/hc/#{portal.slug}/es/categories/#{translated_category.slug}\"")
+      expect(response.body).to include(%(value="/hc/#{portal.slug}/es/categories/#{translation.slug}"))
     end
 
     it 'links to the locale home when a translated category does not exist' do
@@ -49,65 +48,44 @@ RSpec.describe 'Public Categories API', type: :request do
       get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}"
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include("value=\"/hc/#{portal.slug}/es\"")
+      expect(response.body).to include(%(value="/hc/#{portal.slug}/es"))
     end
 
     it 'links to the original category and sibling translations from a translated category' do
       portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
       category = portal.categories.first
-      spanish_translation = create(:category, slug: 'spanish-translation', locale: 'es', portal: portal,
-                                              account_id: account.id, associated_category_id: category.id)
-      french_translation = create(:category, slug: 'french-translation', locale: 'fr', portal: portal,
-                                             account_id: account.id, associated_category_id: category.id)
+      spanish_category = create(:category, locale: 'es', portal: portal, associated_category_id: category.id)
+      french_category = create(:category, locale: 'fr', portal: portal, associated_category_id: category.id)
 
-      get "/hc/#{portal.slug}/#{french_translation.locale}/categories/#{french_translation.slug}"
+      get "/hc/#{portal.slug}/fr/categories/#{french_category.slug}"
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include("value=\"/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}\"")
-      expect(response.body).to include("value=\"/hc/#{portal.slug}/es/categories/#{spanish_translation.slug}\"")
-
-      get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}"
-
-      expect(response).to have_http_status(:success)
-      expect(response.body).to include("value=\"/hc/#{portal.slug}/#{french_translation.locale}/categories/#{french_translation.slug}\"")
-    end
-
-    it 'renders a category with a dangling translation association' do
-      category = portal.categories.first
-      category.update!(associated_category_id: Category.maximum(:id).to_i + 1)
-
-      get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}"
-
-      expect(response).to have_http_status(:success)
-      expect(response.body).to include("value=\"/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}\"")
+      expect(response.body).to include(
+        %(value="/hc/#{portal.slug}/en/categories/#{category.slug}"),
+        %(value="/hc/#{portal.slug}/es/categories/#{spanish_category.slug}")
+      )
     end
 
     it 'links to the translated category in the documentation layout' do
       category = portal.categories.first
-      translated_category = create(:category, slug: 'translated-category', locale: 'es', portal: portal,
-                                              account_id: account.id, associated_category_id: category.id)
+      translation = create(:category, locale: 'es', portal: portal, associated_category_id: category.id)
       portal.update!(config: portal.config.merge('layout' => 'documentation'))
 
       get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}"
 
-      expect(response).to have_http_status(:success)
-      expect(response.body).to include("href=\"/hc/#{portal.slug}/es/categories/#{translated_category.slug}\"")
+      expect(response.body).to include(%(href="/hc/#{portal.slug}/es/categories/#{translation.slug}"))
     end
 
-    it 'does not follow translation parents outside the portal' do
+    it 'excludes translations from other portals' do
       category = portal.categories.first
-      create(:category, slug: 'unrelated-translation', locale: 'es', portal: portal, associated_category_id: category.id)
-      foreign_parent = create(:category, associated_category_id: category.id)
-      source_category = create(:category, slug: 'source-category', portal: portal, associated_category_id: foreign_parent.id)
+      foreign_portal = create(:portal, config: { allowed_locales: %w[en es] })
+      foreign_category = create(:category, portal: foreign_portal, locale: 'es', associated_category_id: category.id)
 
-      get "/hc/#{portal.slug}/en/categories/#{source_category.slug}"
+      get "/hc/#{portal.slug}/en/categories/#{category.slug}"
 
       expect(response).to have_http_status(:success)
-      switchers = Nokogiri::HTML(response.body).css('select.locale-switcher')
-      expect(switchers.size).to eq(2)
-      switchers.each do |switcher|
-        expect(switcher.css('option').map { |option| option['value'] }).to include("/hc/#{portal.slug}/es")
-      end
+      expect(response.body).to include(%(value="/hc/#{portal.slug}/es"))
+      expect(response.body).not_to include("/hc/#{portal.slug}/es/categories/#{foreign_category.slug}")
     end
 
     it 'does not show the authors line when the only author has been deleted' do

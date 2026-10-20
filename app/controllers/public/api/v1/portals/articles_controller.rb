@@ -75,10 +75,11 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def set_locale_switch_urls
-    articles = @article.translation_family.published.includes(:category, :portal)
+    articles = @article.translation_family.published.includes(:category)
 
     @locale_switch_urls = articles.to_h do |article|
-      [article.public_locale, helpers.public_article_path(article, **locale_switch_url_options)]
+      url = helpers.generate_article_link(@portal.slug, article.slug, @theme_from_params, @is_plain_layout_enabled)
+      [article.public_locale, url]
     end
   end
 
