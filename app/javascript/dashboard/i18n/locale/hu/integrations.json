@@ -1536,7 +1536,7 @@
         },
         "SECTIONS": {
           "TEMPLATES": "Sablonok",
-          "TEMPLATES_HELP_TEXT": "A Liquid szintaxist is támogatja, például: {{ order_id }} vagy {{ response.status }}."
+          "TEMPLATES_HELP_TEXT": "A Liquid szintaxist is támogatja, például: {'{{'} order_id {'}}'} vagy {'{{'} response.status {'}}'}."
         },
         "HEADERS": {
           "LABEL": "Fejlécek",
