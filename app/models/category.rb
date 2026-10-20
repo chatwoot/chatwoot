@@ -75,31 +75,11 @@ class Category < ApplicationRecord
     params[:page] || 1
   end
 
-  def self.find_root_category_id(category)
-    current_category = category
-    visited_ids = []
-
-    while current_category.associated_category_id.present? && visited_ids.exclude?(current_category.id)
-      visited_ids << current_category.id
-      root_category = category.portal.categories.find_by(id: current_category.associated_category_id)
-      break if root_category.nil?
-
-      current_category = root_category
-    end
-
-    current_category.id
-  end
-
   def translation_family
-    category_ids = [self.class.find_root_category_id(self)]
-    parent_ids = category_ids
+    root_id = associated_category_id || id
+    categories = portal.categories
 
-    while parent_ids.any?
-      parent_ids = portal.categories.where(associated_category_id: parent_ids).where.not(id: category_ids).pluck(:id)
-      category_ids.concat(parent_ids)
-    end
-
-    portal.categories.where(id: category_ids)
+    categories.where(id: root_id).or(categories.where(associated_category_id: root_id))
   end
 
   def public_path(**query_params)

@@ -127,30 +127,14 @@ class Article < ApplicationRecord
   end
 
   def self.find_root_article_id(article)
-    current_article = article
-    visited_ids = []
-
-    while current_article.associated_article_id.present? && visited_ids.exclude?(current_article.id)
-      visited_ids << current_article.id
-      root_article = article.portal.articles.find_by(id: current_article.associated_article_id)
-      break if root_article.nil?
-
-      current_article = root_article
-    end
-
-    current_article.id
+    article.associated_article_id || article.id
   end
 
   def translation_family
-    article_ids = [self.class.find_root_article_id(self)]
-    parent_ids = article_ids
+    root_id = associated_article_id || id
+    articles = portal.articles
 
-    while parent_ids.any?
-      parent_ids = portal.articles.where(associated_article_id: parent_ids).where.not(id: article_ids).pluck(:id)
-      article_ids.concat(parent_ids)
-    end
-
-    portal.articles.where(id: article_ids)
+    articles.where(id: root_id).or(articles.where(associated_article_id: root_id))
   end
 
   def public_locale

@@ -52,24 +52,24 @@ RSpec.describe 'Public Categories API', type: :request do
       expect(response.body).to include("value=\"/hc/#{portal.slug}/es\"")
     end
 
-    it 'links to the root category when the current translation has a nested association' do
+    it 'links to the original category and sibling translations from a translated category' do
       portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
       category = portal.categories.first
-      parent_translation = create(:category, slug: 'parent-translation', locale: 'es', portal: portal,
+      spanish_translation = create(:category, slug: 'spanish-translation', locale: 'es', portal: portal,
+                                              account_id: account.id, associated_category_id: category.id)
+      french_translation = create(:category, slug: 'french-translation', locale: 'fr', portal: portal,
                                              account_id: account.id, associated_category_id: category.id)
-      nested_translation = create(:category, slug: 'nested-translation', locale: 'fr', portal: portal,
-                                             account_id: account.id, associated_category_id: parent_translation.id)
 
-      get "/hc/#{portal.slug}/#{nested_translation.locale}/categories/#{nested_translation.slug}"
+      get "/hc/#{portal.slug}/#{french_translation.locale}/categories/#{french_translation.slug}"
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include("value=\"/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}\"")
-      expect(response.body).to include("value=\"/hc/#{portal.slug}/es/categories/#{parent_translation.slug}\"")
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/es/categories/#{spanish_translation.slug}\"")
 
       get "/hc/#{portal.slug}/#{category.locale}/categories/#{category.slug}"
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include("value=\"/hc/#{portal.slug}/#{nested_translation.locale}/categories/#{nested_translation.slug}\"")
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/#{french_translation.locale}/categories/#{french_translation.slug}\"")
     end
 
     it 'renders a category with a dangling translation association' do

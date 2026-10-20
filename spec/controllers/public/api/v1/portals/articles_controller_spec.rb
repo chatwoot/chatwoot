@@ -172,24 +172,24 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response.body).not_to include("/hc/#{portal.slug}/articles/#{draft_translation.slug}")
     end
 
-    it 'links to the root article when the current translation has a nested association' do
+    it 'links to the original article and sibling translations from a translated article' do
       portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
       source_article = create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, slug: 'source-article')
-      parent_translation = create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id,
-                                            slug: 'parent-translation', associated_article_id: source_article.id)
-      nested_translation = create(:article, category: nil, locale: 'fr', portal: portal, account_id: account.id, author_id: agent.id,
-                                            slug: 'nested-translation', associated_article_id: parent_translation.id)
+      spanish_translation = create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id,
+                                             slug: 'spanish-translation', associated_article_id: source_article.id)
+      french_translation = create(:article, category: nil, locale: 'fr', portal: portal, account_id: account.id, author_id: agent.id,
+                                            slug: 'french-translation', associated_article_id: source_article.id)
 
-      get "/hc/#{portal.slug}/articles/#{nested_translation.slug}"
+      get "/hc/#{portal.slug}/articles/#{french_translation.slug}"
 
       expect(response).to have_http_status(:success)
       expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{source_article.slug}\"")
-      expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{parent_translation.slug}\"")
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{spanish_translation.slug}\"")
 
       get "/hc/#{portal.slug}/articles/#{source_article.slug}"
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{nested_translation.slug}\"")
+      expect(response.body).to include("value=\"/hc/#{portal.slug}/articles/#{french_translation.slug}\"")
     end
 
     it 'renders an article with a dangling translation association' do
