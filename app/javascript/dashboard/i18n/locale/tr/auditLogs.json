@@ -45,7 +45,8 @@
       "TABLE_HEADER": {
         "ACTIVITY": "Etkinlik",
         "TIME": "Zaman",
-        "IP_ADDRESS": "IP Adresi"
+        "IP_ADDRESS": "IP Adresi",
+        "LOCATION": "Yer"
       }
     },
     "API": {
