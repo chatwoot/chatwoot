@@ -18,6 +18,14 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 pt_BR:
   hello: 'Olá, mundo'
+  administrator_notifications:
+    captain:
+      response_usage_alert:
+        subject: 'Seus créditos do Captain estão acabando'
+        greeting: 'Olá,'
+        usage_html: '%{account_name} usou mais de 80% dos créditos de respostas de IA do período de faturamento atual.'
+        balance: '%{consumed} créditos foram usados e %{remaining} créditos ainda estão disponíveis.'
+        action: 'Ver uso e adicionar créditos'
   inbox:
     reauthorization:
       success: 'Canal reautenticado com sucesso'
@@ -59,6 +67,8 @@ pt_BR:
     sessions:
       cannot_revoke_current: Você não pode revogar a sessão atual.
   errors:
+    notification_subscription:
+      voip_attributes_required: Uma assinatura push VoIP precisa de um device_id e um push_token
     account:
       not_authorized: Você não está autorizado a acessar esta conta
       email_limit_exceeded: O limite diário de envio de e-mails desta conta foi atingido
@@ -172,6 +182,8 @@ pt_BR:
         sdp_offer_required: 'sdp_offer é obrigatório'
         contact_phone_required: 'Número de telefone do contato é obrigatório'
         permission_request_failed: 'Falha ao enviar solicitação de permissão de chamada'
+    google_translate:
+      invalid_credentials: 'Esta chave do Google Cloud não está funcionando. Verifique o ID do projeto e o arquivo da chave e tente novamente.'
     openai:
       invalid_api_key: 'A chave da API da OpenAI é inválida ou revogada. Por favor, verifique sua chave no seu painel da OpenAI.'
     inboxes:
@@ -209,6 +221,8 @@ pt_BR:
       enrollment_required: Esta conta exige autenticação de dois fatores. Configure-a nas configurações do seu perfil para restaurar o acesso à API.
       interactive_session_required: As configurações de autenticação de dois fatores não podem ser gerenciadas com um token de acesso à API. Entre pelo painel.
       enforced_cannot_disable: A autenticação de dois fatores é obrigatória para sua conta e não pode ser desativada.
+    auto_translate:
+      invalid_messages: Mensagens inválidas
     device_verification:
       invalid_token: Token de verificação inválido ou expirado. Entre novamente para receber um novo código
       invalid_code: Código incorreto. Digite o código de 6 dígitos que enviamos para o seu e-mail.
@@ -308,6 +322,7 @@ pt_BR:
       sla_missed_first_response: 'Meta de SLA de Primeira Resposta não alcançada para a conversa (#%{display_id})'
       sla_missed_next_response: 'Meta de SLA de Próxima Resposta não alcançada para a conversa (#%{display_id})'
       sla_missed_resolution: 'Meta de SLA de Resolução não alcançada para a conversa (#%{display_id})'
+      voice_call_missed: 'Chamada perdida · %{inbox_name}'
     attachment: 'Anexo'
     no_content: 'Sem conteúdo'
   conversations:
@@ -394,7 +409,6 @@ pt_BR:
           from_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} de %{business_name} <%{from_email}>'
-          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
           reply_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
@@ -414,6 +428,10 @@ pt_BR:
     online:
       delete: '%{contact_name} está Online, por favor, tente novamente mais tarde'
   integration_apps:
+    stripe:
+      name: 'Stripe'
+      short_description: 'Veja os detalhes de cobrança do cliente nas conversas.'
+      description: 'Veja os detalhes, as assinaturas e as faturas recentes do cliente no Stripe junto às suas conversas.'
     #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: 'Painel de Aplicativos'
@@ -441,7 +459,7 @@ pt_BR:
     openai:
       name: 'OpenAI'
       short_description: 'Sugestões, resumos e aprimoramento de mensagem e resposta com IA.'
-      description: 'Aproveite o poder dos grandes modelos de linguagem do OpenAI com recursos como sugestões de resposta, resumo, reformulação de mensagens, verificação ortográfica e classificação de rótulos.'
+      description: 'Aproveite o poder dos grandes modelos de linguagem da OpenAI com recursos como sugestões de resposta, resumos, reformulação de mensagens e verificação ortográfica.'
     linear:
       name: 'Linear'
       short_description: 'Crie e vincule issues do Linear diretamente de conversas.'
@@ -500,10 +518,15 @@ pt_BR:
       processing_pages: 'Processando páginas %{start}-%{end} (iteração %{iteration})'
       chunk_generated: 'Bloco gerado com %{chunk_faqs} FAQs. Total até agora: %{total_faqs}'
       page_processing_error: 'Erro ao processar as páginas %{start}-%{end}: %{error}'
+    email_verification:
+      subject: 'Seu código de verificação de %{inbox_name}'
+      heading: 'Seu código de verificação'
+      instructions: 'Digite este código no seu chat com %{inbox_name} para confirmar este endereço de e-mail. Ele expira em %{minutes} minutos.'
+      ignore: 'Se você não solicitou este código, ignore este e-mail. Não compartilhe o código com ninguém.'
     custom_tool:
       slug_generation_failed: 'Não foi possível gerar um slug único após 5 tentativas'
       limit_exceeded: 'Você pode criar no máximo %{limit} ferramentas personalizadas por assistente'
-      installed_read_only: 'As ferramentas instaladas por meio de um manifesto são somente leitura; você só pode ativá-las ou desativá-las'
+      installed_read_only: 'As ferramentas instaladas por meio de um manifesto são somente leitura. Você só pode ativá-las, desativá-las ou alterar a verificação de e-mail.'
       headers:
         invalid: 'deve ser um objeto com nomes e valores de cabeçalhos'
         too_many: 'não pode conter mais de %{limit} entradas'
@@ -511,6 +534,12 @@ pt_BR:
         invalid_name: '%{name} não é um nome de cabeçalho válido'
         reserved: '%{name} é gerenciado pelo Chatwoot e não pode ser definido'
         invalid_value: 'o valor de %{name} deve ser um texto fixo de até 1 KiB, sem placeholders nem caracteres de controle'
+      param_schema:
+        invalid: 'deve listar os parâmetros com campos conhecidos e valores simples'
+      settings:
+        invalid: 'deve ser um objeto'
+        unknown: 'possui configurações desconhecidas: %{names}'
+        not_boolean: 'os valores devem ser verdadeiro ou falso'
     tools_manifest:
       invalid_source: 'Insira um conjunto de ferramentas do catálogo de ferramentas do Captain no formato chatwoot/tools/folder'
       invalid_configuration: 'Configuração inválida'
@@ -657,6 +686,19 @@ pt_BR:
       subject: 'Termine de configurar %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Domínio personalizado não está configurado'
+  installation:
+    onboarding:
+      heading: 'Olá, boas-vindas ao Chatwoot 👋'
+      name: 'Nome'
+      name_placeholder: 'Digite seu nome completo. Ex.: Bruce Wayne'
+      company: 'Nome da empresa'
+      company_placeholder: 'Digite o nome da sua empresa. Ex.: Wayne Enterprises'
+      email: 'E-mail de trabalho'
+      email_placeholder: 'Digite seu endereço de e-mail profissional. Ex.: bruce@wayne.enterprises'
+      password: 'Senha'
+      password_placeholder: 'Digite uma senha com 6 caracteres ou mais.'
+      subscribe: 'Assine as notas de versão e newsletters e participe de pesquisas de opinião sobre o produto.'
+      submit: 'Concluir Configuração'
   super_admin:
     account_suspension:
       categories:
@@ -675,6 +717,32 @@ pt_BR:
         suspended_by: 'Suspenso por'
         unknown_user: 'Usuário desconhecido'
         empty: 'Nenhum histórico de suspensão registrado.'
+    accounts:
+      users: 'Usuários'
+      conversations: 'Conversas'
+      maintenance: 'Manutenção'
+      general: 'Geral'
+      limits: 'Limites'
+      suspension_history: 'Histórico de suspensões'
+      custom_attributes: 'Atributos personalizados'
+      manually_managed_features: 'Recursos gerenciados manualmente'
+      captain_models: 'Modelos do Captain'
+      add_user: 'Adicionar um usuário a esta conta'
+      seed_data: 'Gerar dados iniciais'
+      reset_cache: 'Limpar cache do frontend'
+      reset_cache_description: 'Isso limpará do Redis as chaves de cache do IndexedDB. No próximo carregamento, os dados serão buscados no backend.'
+      reset_cache_button: 'Limpar Cache do Frontend'
+      seed_data_description: 'Clique no botão para gerar dados de exemplo nesta conta para demonstrações.'
+      seed_data_warning: 'Observação: isso limpará todos os dados existentes nesta conta.'
+      seed_data_button: 'Gerar Dados Iniciais'
+    actions:
+      save_changes: 'Salvar Alterações'
+      select_all: 'Selecionar tudo'
+      clear: 'Limpar'
+      close: 'Fechar'
+      more: 'Mais'
+      copy: 'Copiar'
+      toggle_secret: 'Mostrar ou ocultar'
     captain_model_overrides:
       form:
         helper_text: 'Deixe o modelo em branco para usar o roteamento padrão desse recurso de IA.'
@@ -695,27 +763,296 @@ pt_BR:
         editor: 'Editores'
         assistant: 'Assistente'
         copilot: 'Copilot'
-        label_suggestion: 'Sugestão de etiqueta'
         document_faq_generation: 'Geração de FAQs para documentos'
         conversation_faq_generation: 'Geração de FAQs para conversas'
         conversation_faq_matching: 'Correspondência de FAQs da conversa'
         help_center_article_generation: 'Geração de artigos da central de ajuda'
         onboarding_content_generation: 'Geração de conteúdo de onboarding'
         help_center_query_translation: 'Tradução de consultas da central de ajuda'
+        message_translation: 'Tradução de mensagens'
+        language_detection: 'Detecção de idioma'
         audio_transcription: 'Transcrição de áudio'
         help_center_search: 'Pesquisa na central de ajuda'
-    push_diagnostics:
+    collection:
+      actions: 'Ações'
+      empty: 'Nenhum %{resource} encontrado.'
+      showing: 'Exibindo %{from}–%{to} de %{total}'
+    command_bar:
+      label: 'Barra de comandos'
+      trigger: 'Pesquisar'
+      placeholder: 'Pesquisar ou executar um comando'
+      empty: 'Nenhum resultado encontrado.'
+      go_to: 'Ir para'
+      create: 'Criar'
+      open: 'Abrir'
+      see_all: 'Ver todos os %{resource} correspondentes'
+      navigate: 'Navegar'
+      select: 'Selecionar'
+    dashboard:
+      description: 'Contas, usuários e volume de conversas nesta instalação.'
+      new_user: 'Novo usuário'
+      new_account: 'Nova conta'
+      installation: 'Instalação'
+      version: 'Versão'
+      plan: 'Plano'
+      shortcuts: 'Atalhos'
+    features:
+      title: 'Funcionalidades'
+      premium: 'Recursos premium'
+      filter: 'Filtrar recursos'
+      no_match: 'Nenhum recurso corresponde a este filtro.'
+      enabled: 'Ativado'
+      disabled: 'Desativado'
+      enabled_count: '%{enabled} de %{total} habilitados'
+      selected: 'Selecionado'
+      not_selected: 'Não selecionado'
+      selected_count: '%{selected} de %{total} selecionados'
+      help_article: 'Artigo de ajuda'
+      manually_managed_hint: 'Recursos que permanecem habilitados mesmo quando o plano da conta é rebaixado'
+      manually_managed_empty: 'Nenhum recurso gerenciado manualmente configurado'
+    filters:
+      label: 'Filtrar por'
+      all: 'Todos'
+    instance_status:
+      description: 'Versões e status da conexão dos serviços nos quais esta instalação é executada.'
+      details: 'Detalhes'
+    login:
+      heading: 'Olá, admin 👋'
+      email: 'Endereço de e-mail'
+      email_placeholder: 'E-mail: alguem@exemplo.com'
+      password: 'Senha'
+      password_placeholder: 'Senha'
+      submit: 'Entrar'
+    navigation:
+      label: 'Super Administrador'
+      suffix: 'Console do Super Administrador'
+      back: 'Anterior'
+      groups:
+        manage: 'Gerenciar'
+        instance: 'Instância'
+      release_notes: 'Notas de versão'
+      update_available: 'A versão v%{version} está disponível'
+      dashboard: 'Painel'
+      settings: 'Configurações'
+      monitor: 'Monitor'
+      more: 'Mais'
+      agent_dashboard: 'Painel do Agente'
+      account: 'Conta'
+      profile: 'Perfil'
+      logout: 'Sair'
+      overview: 'Visão geral'
+      instance_health: 'Integridade da Instância'
+      user_diagnostics: 'Diagnóstico do Usuário'
+      sidekiq_dashboard: 'Painel do Sidekiq'
+      tabs:
+        agent_bots: 'Robôs'
+        platform_apps: 'Aplicativos'
+        platform_banners: 'Banners'
+      settings_groups:
+        product: 'Produto'
+        channels: 'Canais'
+        authentication: 'Autenticação'
+        integrations: 'Integrações'
+      theme:
+        label: 'Tema'
+        system: 'Usar configuração do sistema'
+        light: 'Claro'
+        dark: 'Escuro'
+    user_diagnostics:
+      description: 'Localize um usuário para solucionar um problema relatado por ele. Cada aba abrange uma parte da configuração.'
       user_not_found: 'Usuário não encontrado.'
-      no_subscriptions_to_test: 'Selecione pelo menos uma assinatura para teste.'
-      no_subscriptions_to_delete: 'Selecione pelo menos uma assinatura para excluir.'
-      subscriptions_deleted:
-        one: "%{count} assinatura excluída. O dispositivo do usuário será registrado novamente na próxima vez que o aplicativo for iniciado."
-        other: "%{count} assinaturas excluídas. Os dispositivos dos usuários serão registrados novamente na próxima vez que o aplicativo for iniciado."
+      tabs:
+        label: 'Seções de diagnóstico'
+        mobile: 'Aplicativo móvel'
+        push: 'Entrega de notificações push'
+        web: 'Web'
+      search:
+        title: 'Localizar usuário'
+        placeholder: 'usuario@exemplo.com ou ID numérico do usuário'
+        submit: 'Buscar'
+        not_found: 'Nenhum usuário encontrado para "%{query}".'
+      user:
+        id: 'ID %{id}'
+        accounts: 'Contas'
+        details_link: 'Detalhes do usuário'
+      sessions:
+        heading: 'Sessões no aplicativo móvel'
+        description: 'Preenchido com base nos cabeçalhos X-Chatwoot-* que o aplicativo envia a cada solicitação, refletindo a versão atualmente instalada no dispositivo.'
+        empty:
+          title: 'Nenhuma sessão no aplicativo móvel registrada.'
+          description: 'Este usuário não entrou pelo aplicativo para iOS ou Android.'
+        legacy_build: 'build legado'
+        legacy_note: '"build legado" significa que a sessão é anterior à versão 4.8.0 do aplicativo, quando o aplicativo começou a enviar X-Chatwoot-Client-Version. O build exato é desconhecido.'
+        columns:
+          app_version: 'Versão do aplicativo'
+          platform: 'Plataforma'
+          os_version: 'Versão do SO'
+          device: 'Dispositivo'
+          first_seen: 'Visto pela primeira vez'
+          last_active: 'Última atividade'
+      web_sessions:
+        heading: 'Sessões da Web'
+        description: 'Obtido do user agent do navegador no login e atualizado conforme o usuário utiliza o sistema, refletindo o navegador em uso. Apenas as sessões que ainda estão conectadas são listadas.'
+        empty:
+          title: 'Nenhuma sessão da Web registrada.'
+          description: 'Este usuário não está conectado por um navegador.'
+        columns:
+          browser: 'Navegador'
+          browser_version: 'Versão'
+          os: 'Sistema operacional'
+          os_version: 'Versão do SO'
+          first_seen: 'Visto pela primeira vez'
+          last_active: 'Última atividade'
+      devices:
+        heading: 'Dispositivos registrados'
+        empty:
+          title: 'Nenhum dispositivo registrado.'
+          description: 'Este usuário não tem nenhum dispositivo registrado para receber notificações push.'
+        build_number_note: 'buildNumber aqui é o número do build nativo, não a versão do aplicativo exibida na aba Aplicativo móvel.'
+        columns:
+          id: 'ID'
+          type: 'Tipo'
+          device: 'Dispositivo'
+          token: 'Token'
+          details: 'Detalhes do dispositivo'
+          registered: 'Registrado'
+          last_updated: 'Última atualização'
+      push_settings:
+        heading: 'Configurações de notificações push'
+        description: 'Definidas por conta e verificadas uma vez antes de qualquer tentativa de envio para uma assinatura. Com todos os tipos desativados, o usuário não recebe notificações push em nenhum dispositivo, mesmo que os registros abaixo pareçam íntegros.'
+        review_link: 'Revisar configurações de notificações push →'
+        empty:
+          title: 'Nenhuma configuração de notificação registrada.'
+          description: 'Este usuário não pertence a nenhuma conta.'
+        notification_type: 'Tipo de notificação'
+        unnamed_account: 'Conta %{id}'
+        sla_unavailable: 'O SLA não está habilitado nesta conta'
+        calls_unavailable: 'O Canal de Voz e as Chamadas no celular não estão ambos habilitados nesta conta'
+        none_enabled:
+          one: 'Nenhum tipo de notificação push está habilitado para %{names}. Este usuário não recebe notificações push dessa conta.'
+          other: 'Nenhum tipo de notificação push está habilitado para %{names}. Este usuário não recebe notificações push dessas contas.'
+      calls:
+        heading: 'Chamadas recebidas'
+        description: 'Define se uma chamada toca no telefone deste usuário enquanto o aplicativo está em segundo plano ou fechado. Com o aplicativo aberto, as chamadas tocam pela conexão ativa.'
+        accounts_heading: 'Contas'
+        setup:
+          heading: 'Configuração de push'
+          columns:
+            platform: 'Plataforma'
+            installation: 'Instalação'
+            devices: 'Dispositivos registrados para chamadas'
+        platforms:
+          apple: 'iPhone'
+          android: 'Android'
+        configured: 'Configurado'
+        not_configured: 'Não configurado'
+        credentials:
+          apple: 'Requer APNS_VOIP_KEY, APNS_VOIP_KEY_ID e APNS_VOIP_TEAM_ID'
+          android: 'Requer FIREBASE_PROJECT_ID e FIREBASE_CREDENTIALS'
+        invalid_environment: 'APNS_VOIP_ENVIRONMENT deve ser development ou production'
+        account_columns:
+          account: 'Conta'
+          voice: 'Canal de Voz'
+          ringing: 'Chamadas no celular'
+          inboxes: 'Caixas de entrada de voz'
+          status: 'Status'
+          rings: 'Telefone toca'
+        'on': 'Ativado'
+        'off': 'Desativado'
+        availability:
+          online: 'Online'
+          busy: 'Ocupado'
+          offline: 'Offline'
+        rings: 'Sim'
+        blockers:
+          voice_off: 'Não, o Canal de Voz está desativado'
+          ringing_off: 'Não, as Chamadas no celular estão desativadas'
+          no_inboxes: 'Não, não há caixas de entrada de voz'
+          not_online: 'Não, não está online'
+          no_device: 'Não, nenhum telefone registrado'
+          push_unavailable: 'Somente com o aplicativo aberto'
+        assigned_only: 'Chamadas atribuídas ao usuário'
+      push_types:
+        conversation_creation: 'Uma nova conversa foi criada'
+        conversation_assignment: 'Uma conversa é atribuída ao usuário'
+        conversation_mention: 'O usuário é mencionado em uma conversa'
+        assigned_conversation_new_message: 'Uma nova mensagem foi criada e atribuída'
+        participating_conversation_new_message: 'Uma nova mensagem foi criada em uma conversa que você participa'
+        sla_missed_first_response: 'Uma conversa perde o SLA de primeira resposta'
+        sla_missed_next_response: 'Uma conversa perde o SLA da próxima resposta'
+        sla_missed_resolution: 'Uma conversa perde o SLA de resolução'
+        voice_call_missed: 'Uma chamada que tocou para o usuário foi perdida'
+      push:
+        real_push_warning: 'Isso envia uma notificação push real para cada dispositivo selecionado. Use somente ao diagnosticar um problema relatado.'
+        title_label: 'Título'
+        body_label: 'Corpo'
+        body_hint: 'Os clientes verão este texto como uma notificação push real no dispositivo.'
+        send_test: 'Enviar Notificação Push de Teste aos Selecionados'
+        delete_selected: 'Excluir Assinaturas Selecionadas'
+        delete_confirm: "Excluir as assinaturas selecionadas? O usuário não receberá notificações push nesses dispositivos até que o aplicativo seja registrado novamente."
+        no_subscriptions_to_test: 'Selecione pelo menos uma assinatura para teste.'
+        no_subscriptions_to_delete: 'Selecione pelo menos uma assinatura para excluir.'
+        subscriptions_deleted:
+          one: "%{count} assinatura excluída. O dispositivo do usuário será registrado novamente na próxima vez que o aplicativo for iniciado."
+          other: "%{count} assinaturas excluídas. Os dispositivos dos usuários serão registrados novamente na próxima vez que o aplicativo for iniciado."
+        results_heading: 'Resultados'
+        results_columns:
+          id: 'ID da assinatura'
+          type: 'Tipo'
+          device: 'Dispositivo'
+          token: 'Token push'
+          status: 'Status'
+          details: 'Detalhes'
+    record:
+      overview: 'Visão geral'
+      profile: 'Perfil'
+      created: 'Criado'
+      last_updated: 'Última atualização'
+      time_ago: 'Há %{time}'
+    settings:
+      pages:
+        general: 'Geral'
+        internal: 'Interno'
+        internal_description: 'Chaves e opções usadas pelo Chatwoot Cloud'
+      configure: 'Configurar'
+      enterprise_badge: 'EE'
+      included: 'Incluído'
+      locked: 'Bloqueado'
+      installation_identifier_description: 'ID exclusivo desta instalação.'
+      default_description: 'Opções para toda a instância'
+      description: 'Atualize as configurações da instância e acesse o portal de cobrança'
+      configure_title: 'Definir Configurações - %{config}'
+      alert: 'Alerta!'
+      unauthorized_changes: 'Foram detectadas alterações não autorizadas em recursos premium do Chatwoot. Para continuar usando-as, faça upgrade do seu plano.'
+      contact_for_help: 'Entre em contato para obter ajuda:'
+      agents_over_limit: 'Você tem %{count} agentes. Adicione mais licenças para adicionar mais usuários.'
+      current_plan: 'Plano atual'
+      refresh: 'Atualizar'
+      manage: 'Gerenciar'
+      installation_identifier: 'Identificador da Instalação'
+      need_help: 'Precisa de ajuda?'
+      need_help_description: 'Está enfrentando algum problema? Estamos aqui para ajudar.'
+      community_support: 'Suporte da Comunidade'
+      chat_support: 'Suporte por Chat'
+      switch_to_enterprise: 'Mudar para a edição Enterprise'
+      upgrade_now: 'Atualizar agora'
     users:
-      impersonate: 'Personificar usuário'
+      impersonate: 'Acessar como usuário'
       copy_impersonation_link: 'Copiar link'
       impersonation_link_copied: 'Copiado'
       impersonation_link_failed: 'Falha ao copiar'
+      support: 'Suporte'
+      impersonate_dialog:
+        title: 'Acessar como %{name}?'
+        private_window_hint: 'Isso conecta seu navegador ao painel como este usuário e substitui sua sessão atual. Para mantê-la, copie o link e abra-o em uma janela anônima.'
+      impersonate_caution: 'Todas as ações realizadas enquanto você estiver conectado como esse usuário serão exibidas como se tivessem sido realizadas por %{name}.'
+      accounts: 'Contas'
+      confirmed: 'Confirmados'
+      unconfirmed: 'Não confirmados'
+      mfa: 'MFA'
+      mfa_enabled: 'Ativado'
+      mfa_disabled: 'Desativado'
+      add_account: 'Adicionar este usuário a uma conta'
       resend_confirmation:
         button: 'Reenviar e-mail de confirmação'
         sent: 'E-mail de confirmação enviado.'
