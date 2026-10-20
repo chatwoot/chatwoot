@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "Sohbetlerde ara",
     "VIEW_ORIGINAL": "View original",
     "VIEW_TRANSLATED": "View translated",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "komut menüsünü açmak için",
       "KEYBOARD_SHORTCUTS": "klavye kısayollarını görmek için"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Bu mesaj desteklenmiyor. Bu mesajı Facebook Messenger uygulamasında görüntüleyebilirsiniz.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Bu mesaj desteklenmiyor. Bu mesajı Instagram uygulamasında görüntüleyebilirsiniz.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "Bu mesaj desteklenmiyor. Bu mesajı WhatsApp uygulamasında görüntüleyebilirsiniz.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Akış yanıtı gönderildi",
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
@@ -324,17 +333,20 @@
       "STOP_AUDIO_RECORDING": "Ses kaydını durdur",
       "COPILOT_THINKING": "Copilot düşünüyor",
       "EMAIL_HEAD": {
-        "TO": "TO",
-        "ADD_BCC": "Bcc ekle",
+        "TO": "Kime",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Kopya",
           "PLACEHOLDER": "Virgülle ayrılmış e-postalar",
           "ERROR": "Lütfen geçerli bir e-posta adresi girin"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "Gizli Kopya",
           "PLACEHOLDER": "Virgülle ayrılmış e-postalar",
           "ERROR": "Lütfen geçerli bir e-posta adresi girin"
+        },
+        "SUBJECT": {
+          "LABEL": "Konu",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
