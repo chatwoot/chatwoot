@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Saada e-posti teavitus, kui osalevas vestluses luuakse uus sõnum",
         "SLA_MISSED_FIRST_RESPONSE": "Saada e-kiri, kui vestlusel jääb esimese vastuse SLA täitmata",
         "SLA_MISSED_NEXT_RESPONSE": "Saada e-kiri, kui vestlusel jääb järgmise vastuse SLA täitmata",
-        "SLA_MISSED_RESOLUTION": "Saada e-kiri, kui vestlusel jääb lahenduse SLA täitmata"
+        "SLA_MISSED_RESOLUTION": "Saada e-kiri, kui vestlusel jääb lahenduse SLA täitmata",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Teavituste eelistused",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Osalevas vestluses luuakse uus sõnum",
           "SLA_MISSED_FIRST_RESPONSE": "Vestlus ei vasta esimesele SLA vastusele",
           "SLA_MISSED_NEXT_RESPONSE": "Vestlus ei vasta järgmisele SLA vastusele",
-          "SLA_MISSED_RESOLUTION": "Vestlus ei vasta lahenduse SLA nõuetele"
+          "SLA_MISSED_RESOLUTION": "Vestlus ei vasta lahenduse SLA nõuetele",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Luba brauseri tõuketeavitused, et neid vastu võtta"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Luba tõukemärguanded",
         "SLA_MISSED_FIRST_RESPONSE": "Saada push-teavitus, kui vestlusel jääb esimese vastuse SLA täitmata",
         "SLA_MISSED_NEXT_RESPONSE": "Saada push-teavitus, kui vestlusel jääb järgmise vastuse SLA täitmata",
-        "SLA_MISSED_RESOLUTION": "Saada push-teavitus, kui vestlusel jääb lahenduse SLA täitmata"
+        "SLA_MISSED_RESOLUTION": "Saada push-teavitus, kui vestlusel jääb lahenduse SLA täitmata",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profiilipilt"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Abi keskuse otsingu indekseerimine",
         "DESCRIPTION": "Use AI for context aware search inside your help center articles."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Sildi soovitus",
-        "DESCRIPTION": "Paku automaatselt vestluste sisu analüüsi ja konteksti põhjal asjakohaseid silte ja märgendeid.",
-        "MODEL_TITLE": "Sildi soovituse mudel",
-        "MODEL_DESCRIPTION": "Vali AI mudel vestluste analüüsimiseks ja sobivate siltide soovitamiseks"
       }
     },
     "API": {
