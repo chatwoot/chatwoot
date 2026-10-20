@@ -3,12 +3,12 @@
     "TITLE": "Monitor",
     "AUTOMATIONS": {
       "TITLE": "Automazioni",
-      "DESCRIPTION": "Run actions when this monitor first matches a conversation from new live activity.",
-      "CREATE": "Create automation",
-      "EMPTY": "No automations are linked to this monitor yet.",
+      "DESCRIPTION": "Esegui azioni quando questo monitor rileva per la prima volta una conversazione da una nuova attività.",
+      "CREATE": "Crea automazione",
+      "EMPTY": "Nessuna automazione è ancora collegata a questo monitor.",
       "ACTIVE": "Attiva",
       "DISABLED": "Disabilitato",
-      "FETCH_FAILED": "Could not load linked automations."
+      "FETCH_FAILED": "Impossibile caricare le automazioni collegate."
     },
     "LIST": {
       "CONVERSATIONS_COUNT": "{count} conversazione | {count} conversazioni",
