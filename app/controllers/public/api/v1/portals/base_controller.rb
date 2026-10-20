@@ -61,7 +61,11 @@ class Public::Api::V1::Portals::BaseController < PublicController
     Rails.logger.info "Article: not found for slug: #{params[:article_slug]}"
     render_404 && return if article.blank?
 
-    @locale = article.public_locale
+    @locale = if article.category.present?
+                article.category.locale
+              else
+                article.locale
+              end
     I18n.with_locale(validate_and_get_locale(@locale), &)
   end
 
