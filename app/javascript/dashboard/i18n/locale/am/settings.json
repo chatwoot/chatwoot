@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "በተሳታፊ ውይይት ውስጥ አዲስ መልእክት ሲፈጠር የኢሜል ማስታወቂያዎችን ላክ",
         "SLA_MISSED_FIRST_RESPONSE": "በውይይት ውስጥ የመጀመሪያ ምላሽ SLA ሲጎድል የኢሜል ማስታወቂያዎችን ላክ",
         "SLA_MISSED_NEXT_RESPONSE": "በውይይት ውስጥ የቀጣዩ ምላሽ SLA ሲጎድል የኢሜል ማስታወቂያዎችን ላክ",
-        "SLA_MISSED_RESOLUTION": "በውይይት ውስጥ የመፍታት ስርዓት SLA ሲጎድል የኢሜል ማስታወቂያዎችን ላክ"
+        "SLA_MISSED_RESOLUTION": "በውይይት ውስጥ የመፍታት ስርዓት SLA ሲጎድል የኢሜል ማስታወቂያዎችን ላክ",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "የማስታወቂያ ቅንብሮች",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "በተሳታፊ ውይይት ውስጥ አዲስ መልእክት ተፈጥሯል",
           "SLA_MISSED_FIRST_RESPONSE": "ውይይት የመጀመሪያ ምላሽ SLA አልተጠበቀም",
           "SLA_MISSED_NEXT_RESPONSE": "ውይይት የቀጣዩ ምላሽ SLA አልተጠበቀም",
-          "SLA_MISSED_RESOLUTION": "ውይይት የመፍታት ስርዓት SLA አልተጠበቀም"
+          "SLA_MISSED_RESOLUTION": "ውይይት የመፍታት ስርዓት SLA አልተጠበቀም",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "ለአሳሽ በሚሰጥዎት አሳሽ ማስታወቂያዎች እንዲቀበሉ ፑሽ ማስታወቂያዎችን አንቀሳቅስ"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "ፓሽ ማስታወቂያዎችን አንቀሳቅስ",
         "SLA_MISSED_FIRST_RESPONSE": "በውይይት ውስጥ የመጀመሪያ ምላሽ SLA ሲጎድል የፑሽ ማስታወቂያዎችን ላክ",
         "SLA_MISSED_NEXT_RESPONSE": "በውይይት ውስጥ የቀጣዩ ምላሽ SLA ሲጎድል የፑሽ ማስታወቂያዎችን ላክ",
-        "SLA_MISSED_RESOLUTION": "በውይይት ውስጥ የመፍታት ስርዓት SLA ሲጎድል የፑሽ ማስታወቂያዎችን ላክ"
+        "SLA_MISSED_RESOLUTION": "በውይይት ውስጥ የመፍታት ስርዓት SLA ሲጎድል የፑሽ ማስታወቂያዎችን ላክ",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "የመገለጫ ምስል"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "የእርዳታ ማዕከል ፍለጋ መደበኛ እና መረጃ ማውጫ",
         "DESCRIPTION": "በእርዳታ ማዕከል ጽሑፍ ውስጥ ለማስፈለጊያ ፍለጋ ለማድረግ AI ይጠቀሙ።."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "የመለያ ምክር",
-        "DESCRIPTION": "በውይይት ውስጥ በይዘት ትንተናና በሁኔታ በመሠረት ተዛማጅ ሌብሎችና መለያዎችን በራስሰር ይጠቅሙ።.",
-        "MODEL_TITLE": "የመለያ ምክር ሞዴል",
-        "MODEL_DESCRIPTION": "ለውይይቶች ትንተናና ለተስማሚ መለያዎች ለማቅረብ የሚጠቀሙትን AI ሞዴል ይምረጡ"
       }
     },
     "API": {
