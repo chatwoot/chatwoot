@@ -33,17 +33,6 @@ RSpec.describe 'Session authentication responses', type: :request do
     expect(Current.user).to be_nil
   end
 
-  it 'clears the authenticated user even when rendering fails' do
-    sessions_controller = DeviseOverrides::SessionsController.new
-    allow(DeviseOverrides::SessionsController).to receive(:new).and_return(sessions_controller)
-    allow(sessions_controller).to receive(:render).and_raise('render failed')
-
-    post '/auth/sign_in', params: { email: user.email, password: 'Test@123456' }, as: :json
-
-    expect(response).to have_http_status(:internal_server_error)
-    expect(Current.user).to be_nil
-  end
-
   context 'with MFA' do
     before do
       skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?

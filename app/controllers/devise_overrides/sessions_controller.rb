@@ -27,7 +27,6 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def render_create_success
-    Current.user = @resource
     track_user_session unless @impersonation
     if @backup_codes.present?
       render 'devise_overrides/sessions/create_with_backup_codes', formats: [:json]
