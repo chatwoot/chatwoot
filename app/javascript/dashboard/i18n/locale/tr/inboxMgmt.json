@@ -775,7 +775,7 @@
         "DESCRIPTION": "Bu gelen kutusunda sesli aramayı etkinleştirin. Temsilciler telefon aramaları yapabilecek ve alabileceklerdir."
       },
       "CREDENTIALS": {
-        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+        "DESCRIPTION": "Voice calling requires an Account Auth Token for webhook verification and API key credentials for calls."
       },
       "INBOUND": {
         "LABEL": "Gelen aramalara izin ver",
