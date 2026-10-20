@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Envia notificacions per correu electrònic quan es crea un missatge nou en una conversa participant",
         "SLA_MISSED_FIRST_RESPONSE": "Envia notificacions per correu electrònic quan una conversa no compleixi un SLA de primera resposta",
         "SLA_MISSED_NEXT_RESPONSE": "Envia notificacions per correu electrònic quan una conversa es perdi la següent resposta SLA",
-        "SLA_MISSED_RESOLUTION": "Envia notificacions per correu electrònic quan una conversa no resol un SLA"
+        "SLA_MISSED_RESOLUTION": "Envia notificacions per correu electrònic quan una conversa no resol un SLA",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Preferències de notificació",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Es crea un missatge nou en una conversa participant",
           "SLA_MISSED_FIRST_RESPONSE": "Una conversa no té un SLA de primera resposta",
           "SLA_MISSED_NEXT_RESPONSE": "SLA de la següent resposta no és una conversa",
-          "SLA_MISSED_RESOLUTION": "Una conversa no resol un SLA"
+          "SLA_MISSED_RESOLUTION": "Una conversa no resol un SLA",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Activa les notificacions push en el teu navegador perquè puguis rebre-les"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Activa les notificacions",
         "SLA_MISSED_FIRST_RESPONSE": "Envia notificacions automàtiques quan una conversa no tingui un SLA de primera resposta",
         "SLA_MISSED_NEXT_RESPONSE": "Envia notificacions automàtiques quan una conversa no s'aconsegueixi la següent resposta SLA",
-        "SLA_MISSED_RESOLUTION": "Envia notificacions quan una conversa no resol el SLA"
+        "SLA_MISSED_RESOLUTION": "Envia notificacions quan una conversa no resol el SLA",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Imatge del Perfil"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
         "DESCRIPTION": "Use AI for context aware search inside your help center articles."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
       }
     },
     "API": {
