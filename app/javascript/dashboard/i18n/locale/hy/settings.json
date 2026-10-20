@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Էլեկտրոնային փոստով ծանուցումներ ուղարկել, երբ մասնակցող զրույցում նոր հաղորդագրություն է ստեղծվում",
         "SLA_MISSED_FIRST_RESPONSE": "Էլեկտրոնային փոստով ծանուցումներ ուղարկել, երբ զրույցը բաց է թողնում առաջին պատասխանման SLA-ն",
         "SLA_MISSED_NEXT_RESPONSE": "Էլեկտրոնային փոստով ծանուցումներ ուղարկել, երբ զրույցը բաց է թողնում հաջորդ պատասխանման SLA-ն",
-        "SLA_MISSED_RESOLUTION": "Էլեկտրոնային փոստով ծանուցումներ ուղարկել, երբ զրույցը բաց է թողնում լուծման SLA-ն"
+        "SLA_MISSED_RESOLUTION": "Էլեկտրոնային փոստով ծանուցումներ ուղարկել, երբ զրույցը բաց է թողնում լուծման SLA-ն",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Ծանուցումների նախընտրություններ",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Մասնակցող զրույցում ստեղծվել է նոր հաղորդագրություն",
           "SLA_MISSED_FIRST_RESPONSE": "Զրույցը բաց է թողնում առաջին պատասխանման SLA-ն",
           "SLA_MISSED_NEXT_RESPONSE": "Զրույցը բաց է թողնում հաջորդ պատասխանման SLA-ն",
-          "SLA_MISSED_RESOLUTION": "Զրույցը բաց է թողնում լուծման SLA-ն"
+          "SLA_MISSED_RESOLUTION": "Զրույցը բաց է թողնում լուծման SLA-ն",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Միացրեք push ծանուցումները ձեր դիտարկչի համար, որպեսզի կարողանաք դրանք ստանալ"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Ակտիվացնել push ծանուցումները",
         "SLA_MISSED_FIRST_RESPONSE": "Push ծանուցումներ ուղարկել, երբ զրույցը բաց է թողնում առաջին պատասխանման SLA-ն",
         "SLA_MISSED_NEXT_RESPONSE": "Push ծանուցումներ ուղարկել, երբ զրույցը բաց է թողնում հաջորդ պատասխանման SLA-ն",
-        "SLA_MISSED_RESOLUTION": "Push ծանուցումներ ուղարկել, երբ զրույցը բաց է թողնում լուծման SLA-ն"
+        "SLA_MISSED_RESOLUTION": "Push ծանուցումներ ուղարկել, երբ զրույցը բաց է թողնում լուծման SLA-ն",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Պրոֆիլի պատկեր"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Օգնության կենտրոնի որոնման ինդեքսավորում",
         "DESCRIPTION": "Օգտագործեք AI-ն՝ ձեր օգնության կենտրոնի հոդվածների համատեքստային որոնման համար։"
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Լեյբլի առաջարկ",
-        "DESCRIPTION": "Ավտոմատ առաջարկում է համապատասխան լեյբլներ և թեգեր զրույցների բովանդակության վերլուծության և համատեքստի հիման վրա։",
-        "MODEL_TITLE": "Լեյբլի առաջարկի մոդել",
-        "MODEL_DESCRIPTION": "Ընտրեք AI մոդելը՝ զրույցների վերլուծության և համապատասխան լեյբլների առաջարկման համար"
       }
     },
     "API": {
