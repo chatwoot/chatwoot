@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "在對話中搜尋訊息",
     "VIEW_ORIGINAL": "檢視原文",
     "VIEW_TRANSLATED": "檢視翻譯",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "開啟指令選單",
       "KEYBOARD_SHORTCUTS": "檢視鍵盤快捷鍵"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "此訊息不受支援。您可以在 Facebook Messenger 應用程式中檢視此訊息。",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "此訊息不受支援。您可以在 Instagram 應用程式中檢視此訊息。",
     "UNSUPPORTED_MESSAGE_TIKTOK": "此訊息不受支援。您可以在 TikTok 應用程式中檢視此訊息。",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
@@ -325,7 +334,6 @@
       "COPILOT_THINKING": "Copilot 正在思考",
       "EMAIL_HEAD": {
         "TO": "收件人",
-        "ADD_BCC": "新增密件副本",
         "CC": {
           "LABEL": "副本",
           "PLACEHOLDER": "以半形逗號分隔電子郵件地址",
@@ -335,6 +343,10 @@
           "LABEL": "密件副本",
           "PLACEHOLDER": "以半形逗號分隔電子郵件地址",
           "ERROR": "請輸入有效的電子郵件地址"
+        },
+        "SUBJECT": {
+          "LABEL": "主旨",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
