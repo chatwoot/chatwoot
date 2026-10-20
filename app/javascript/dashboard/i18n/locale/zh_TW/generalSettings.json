@@ -44,6 +44,35 @@
         "TITLE": "帳戶 ID",
         "NOTE": "如果您正在建立基於 API 的整合，將需要此 ID"
       },
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google 翻譯",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "連接",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "升級"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
+        "API": {
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "自動解決對話",
         "NOTE": "此設定可讓您在一段時間無活動後自動解決對話。",
@@ -51,7 +80,7 @@
           "LABEL": "無活動持續時間",
           "HELP": "對話在無活動多久後自動解決",
           "PLACEHOLDER": "30",
-          "ERROR": "自動解決時間應介於 10 分鐘至 999 天之間",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "已成功更新自動解決設定",
             "ERROR": "無法更新自動解決設定"
