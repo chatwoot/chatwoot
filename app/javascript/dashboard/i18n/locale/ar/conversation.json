@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "ابحث عن رسائل في المحادثات",
     "VIEW_ORIGINAL": "View original",
     "VIEW_TRANSLATED": "View translated",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "لفتح قائمة الأوامر",
       "KEYBOARD_SHORTCUTS": "لعرض اختصارات لوحة المفاتيح"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "هذه الرسالة غير مدعومة، يمكنك مشاهدة هذه الرسالة على تطبيق فيسبوك (Messenger).",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "هذه الرسالة غير مدعومة، يمكنك عرض هذه الرسالة على تطبيق Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "هذه الرسالة غير مدعومة. يمكنك مشاهدة هذه الرسالة على تطبيق TikTok.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
@@ -325,16 +334,19 @@
       "COPILOT_THINKING": "Copilot يفكر",
       "EMAIL_HEAD": {
         "TO": "إلى",
-        "ADD_BCC": "إضافة bcc",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "نسخة من البريد",
           "PLACEHOLDER": "عناوين البريد الإلكتروني مفصولة بفاصلة",
           "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "نسخة خفية من البريد",
           "PLACEHOLDER": "عناوين البريد الإلكتروني مفصولة بفاصلة",
           "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
+        },
+        "SUBJECT": {
+          "LABEL": "الموضوع",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
