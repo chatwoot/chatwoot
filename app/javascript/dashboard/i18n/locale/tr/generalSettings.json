@@ -44,6 +44,35 @@
         "TITLE": "Hesap Kimliği",
         "NOTE": "API tabanlı bir entegrasyon oluşturuyorsanız bu kimlik gereklidir"
       },
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google Çeviri",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "Bağlan",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "Yükselt"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
+        "API": {
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Konuşmaları Otomatik Çöz",
         "NOTE": "Bu yapılandırma, belirli bir hareketsizlik süresinden sonra konuşmayı otomatik olarak çözümlemenize olanak tanır.",
@@ -51,7 +80,7 @@
           "LABEL": "Hareketsizlik süresi",
           "HELP": "Konuşmanın otomatik olarak çözümlenmesinden önceki hareketsizlik süresi",
           "PLACEHOLDER": "30",
-          "ERROR": "Otomatik çözme süresi 10 dakika ile 999 gün arasında olmalıdır",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "Otomatik çözme ayarları başarıyla güncellendi",
             "ERROR": "Otomatik çözme ayarları güncellenemedi"
