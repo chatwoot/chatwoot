@@ -33,7 +33,7 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
     categories = @category.translation_family.includes(:portal)
 
     @locale_switch_urls = categories.to_h do |category|
-      [category.locale, category.public_path(**locale_switch_url_options)]
+      [category.locale, helpers.public_category_path(category, **locale_switch_url_options)]
     end
   end
 

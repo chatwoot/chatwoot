@@ -225,6 +225,26 @@ describe PortalHelper do
     end
   end
 
+  describe '#public_article_path' do
+    it 'builds the public article path with optional display parameters' do
+      article = Article.new(portal: Portal.new(slug: 'help'), slug: 'welcome')
+      path = '/hc/help/articles/welcome'
+
+      expect(helper.public_article_path(article)).to eq(path)
+      expect(helper.public_article_path(article, show_plain_layout: true, theme: 'dark')).to eq("#{path}?show_plain_layout=true&theme=dark")
+    end
+  end
+
+  describe '#public_category_path' do
+    it 'builds the public category path with its locale and optional display parameters' do
+      category = Category.new(portal: Portal.new(slug: 'help'), locale: 'es', slug: 'getting-started')
+      path = '/hc/help/es/categories/getting-started'
+
+      expect(helper.public_category_path(category)).to eq(path)
+      expect(helper.public_category_path(category, show_plain_layout: true, theme: 'dark')).to eq("#{path}?show_plain_layout=true&theme=dark")
+    end
+  end
+
   describe '#render_category_content' do
     let(:markdown_content) { 'This is a *test* markdown content' }
     let(:plain_text_content) { 'This is a test markdown content' }

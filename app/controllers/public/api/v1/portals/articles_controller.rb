@@ -78,7 +78,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
     articles = @article.translation_family.published.includes(:category, :portal)
 
     @locale_switch_urls = articles.to_h do |article|
-      [article.public_locale, article.public_path(**locale_switch_url_options)]
+      [article.public_locale, helpers.public_article_path(article, **locale_switch_url_options)]
     end
   end
 

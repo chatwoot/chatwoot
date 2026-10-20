@@ -36,16 +36,6 @@ RSpec.describe Article do
     it { is_expected.to belong_to(:author) }
   end
 
-  describe '#public_path' do
-    it 'builds the public article path with optional display parameters' do
-      article = described_class.new(portal: portal_1, slug: 'welcome')
-      path = "/hc/#{portal_1.slug}/articles/welcome"
-
-      expect(article.public_path).to eq(path)
-      expect(article.public_path(show_plain_layout: true, theme: 'dark')).to eq("#{path}?show_plain_layout=true&theme=dark")
-    end
-  end
-
   # This validation happens in ApplicationRecord
   describe 'length validations' do
     let(:article) do

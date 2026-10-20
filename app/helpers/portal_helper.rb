@@ -53,11 +53,10 @@ module PortalHelper
   end
 
   def generate_home_link(portal_slug, portal_locale, theme, is_plain_layout_enabled)
-    if is_plain_layout_enabled
-      "/hc/#{portal_slug}/#{portal_locale}#{portal_query_string(theme, is_plain_layout_enabled)}"
-    else
-      "/hc/#{portal_slug}/#{portal_locale}"
-    end
+    path = "/hc/#{portal_slug}/#{portal_locale}"
+    return path unless is_plain_layout_enabled
+
+    "#{path}#{portal_query_string(theme, is_plain_layout_enabled)}"
   end
 
   def generate_category_link(params)
@@ -67,19 +66,25 @@ module PortalHelper
     theme = params[:theme]
     is_plain_layout_enabled = params[:is_plain_layout_enabled]
 
-    if is_plain_layout_enabled
-      "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}#{portal_query_string(theme, is_plain_layout_enabled)}"
-    else
-      "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}"
-    end
+    path = "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}"
+    return path unless is_plain_layout_enabled
+
+    "#{path}#{portal_query_string(theme, is_plain_layout_enabled)}"
   end
 
   def generate_article_link(portal_slug, article_slug, theme, is_plain_layout_enabled)
-    if is_plain_layout_enabled
-      "/hc/#{portal_slug}/articles/#{article_slug}#{portal_query_string(theme, is_plain_layout_enabled)}"
-    else
-      "/hc/#{portal_slug}/articles/#{article_slug}"
-    end
+    path = "/hc/#{portal_slug}/articles/#{article_slug}"
+    return path unless is_plain_layout_enabled
+
+    "#{path}#{portal_query_string(theme, is_plain_layout_enabled)}"
+  end
+
+  def public_article_path(article, **query_params)
+    public_portal_article_path(slug: article.portal.slug, article_slug: article.slug, **query_params)
+  end
+
+  def public_category_path(category, **query_params)
+    public_portal_category_path(slug: category.portal.slug, locale: category.locale, category_slug: category.slug, **query_params)
   end
 
   def generate_portal_brand_url(brand_url, referer)

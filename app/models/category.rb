@@ -25,8 +25,6 @@
 #  index_categories_on_slug_and_locale_and_portal_id  (slug,locale,portal_id) UNIQUE
 #
 class Category < ApplicationRecord
-  include Rails.application.routes.url_helpers
-
   paginates_per Limits::CATEGORIES_PER_PAGE
   belongs_to :account
   belongs_to :portal
@@ -80,10 +78,6 @@ class Category < ApplicationRecord
     categories = portal.categories
 
     categories.where(id: root_id).or(categories.where(associated_category_id: root_id))
-  end
-
-  def public_path(**query_params)
-    public_portal_category_path(slug: portal.slug, locale: locale, category_slug: slug, **query_params)
   end
 
   def self.update_positions(portal:, positions_hash:)

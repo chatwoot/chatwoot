@@ -35,7 +35,6 @@
 #  index_articles_on_views                  (views)
 #
 class Article < ApplicationRecord
-  include Rails.application.routes.url_helpers
   include PgSearch::Model
   include LlmFormattable
 
@@ -139,10 +138,6 @@ class Article < ApplicationRecord
 
   def public_locale
     category&.locale || locale
-  end
-
-  def public_path(**query_params)
-    public_portal_article_path(slug: portal.slug, article_slug: slug, **query_params)
   end
 
   def draft!
