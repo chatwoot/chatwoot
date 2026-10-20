@@ -788,6 +788,42 @@
       "TRANSCRIPTION": {
         "LABEL": "Transcribe recordings",
         "DESCRIPTION": "Turn each recording into a text transcript. Uses Captain and requires audio transcription to be enabled for the account."
+      },
+      "ANNOUNCEMENT": {
+        "TWILIO_HELP": "Saving generates the spoken announcement using one Captain response credit. You can listen to the saved audio below.",
+        "READ_BY_TWILIO": "Captain isn't available. You can save the text for Twilio to read.",
+        "ACTIVE": "Current announcement",
+        "SAVE": "Save announcement"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Apply business hours to calls",
+        "DESCRIPTION": "Outside this inbox's business hours, incoming calls don't ring agents. The caller gets your out-of-hours message, and the call is logged as missed.",
+        "HOURS_NOT_ENABLED": "Business hours are turned off for this inbox, so calls keep ringing. Turn them on in the Business Hours tab.",
+        "MESSAGE": {
+          "LABEL": "Out-of-hours message",
+          "PLACEHOLDER": "Our support team is available Monday through Friday, from 9 AM to 6 PM. Please call again during business hours."
+        }
+      },
+      "GREETING": {
+        "LABEL": "Play a greeting",
+        "DESCRIPTION": "Incoming callers hear this once before the waiting music, while agents are already being rung. An agent who answers during the greeting cuts it short.",
+        "MESSAGE": {
+          "LABEL": "Greeting",
+          "PLACEHOLDER": "Thank you for calling. Please hold while we connect you to the next available agent."
+        }
+      },
+      "WAITING_AUDIO": {
+        "LABEL": "Waiting music",
+        "DESCRIPTION": "Played to incoming callers until an agent answers. Without a file, callers hear Twilio's default music.",
+        "CURRENT": "Current waiting music",
+        "HELP": "MP3 or WAV, up to 10 MB.",
+        "UPLOAD": "Upload audio",
+        "REPLACE": "Replace audio",
+        "REMOVE": "Remove"
+      },
+      "JOIN_BEEP": {
+        "LABEL": "Beep when an agent joins",
+        "DESCRIPTION": "The caller hears a short beep when an agent answers. This doesn't change the ringtone agents hear."
       }
     },
     "WHATSAPP_CALLING": {

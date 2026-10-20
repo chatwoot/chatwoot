@@ -19,6 +19,127 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
     let(:to_number) { channel.phone_number }
     let(:inbound_call_params) { { 'CallSid' => call_sid, 'From' => from_number, 'To' => to_number, 'Direction' => 'inbound' } }
 
+    context 'when outside business hours' do
+      before do
+        inbox.update!(working_hours_enabled: true, timezone: 'America/Los_Angeles')
+        inbox.working_hours.each { |hours| hours.update!(closed_all_day: true, open_all_day: false) }
+        channel.update!(provider_config: channel.provider_config.merge(
+          'business_hours_calls_enabled' => true,
+          'out_of_hours_call_message' => 'Please call during business hours.'
+        ))
+      end
+
+      it 'announces closure and hangs up without ringing agents, including on retries' do
+        account.enable_features!('channel_voice', 'mobile_voice_push')
+        expect(Voice::VoipPushService).not_to receive(:recipients_for)
+
+        2.times { post "/twilio/voice/call/#{digits}", params: inbound_call_params }
+
+        xml = Nokogiri::XML(response.body)
+        expect(xml.at_xpath('//Say').text).to eq('Please call during business hours.')
+        expect(xml.at_xpath('//Hangup')).to be_present
+        expect(xml.at_xpath('//Dial')).to be_nil
+        call = inbox.calls.sole
+        expect(call).to have_attributes(status: 'no_answer', end_reason: 'outside_working_hours', ring_state: {})
+        expect(Voice::VoipPushJob).not_to have_been_enqueued
+        expect(Voice::MissedCallNotificationJob).not_to have_been_enqueued
+      end
+
+      it 'plays the saved generated audio before hanging up' do
+        inbox.out_of_hours_call_audio.attach(io: StringIO.new('audio'), filename: 'announcement.mp3', content_type: 'audio/mpeg')
+
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+        xml = Nokogiri::XML(response.body)
+        expect(xml.at_xpath('//Play').text).to include('announcement.mp3')
+        expect(xml.at_xpath('//Hangup')).to be_present
+        expect(xml.at_xpath('//Say')).to be_nil
+      end
+
+      it 'rings normally when applying business hours to calls is disabled' do
+        channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => false))
+
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+        expect(Nokogiri::XML(response.body).at_xpath('//Conference')).to be_present
+        expect(inbox.calls.sole).to have_attributes(status: 'ringing', end_reason: nil)
+      end
+
+      it 'rings normally during business hours in the inbox timezone' do
+        travel_to Time.utc(2026, 10, 19, 19) do
+          inbox.working_hours.find_by!(day_of_week: 1).update!(closed_all_day: false, open_hour: 9, open_minutes: 0,
+                                                               close_hour: 17, close_minutes: 0)
+
+          post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+          expect(Nokogiri::XML(response.body).at_xpath('//Conference')).to be_present
+          expect(inbox.calls.sole).to be_ringing
+        end
+      end
+    end
+
+    context 'with the audio callers and agents hear' do
+      let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+      let(:call) do
+        create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact, provider_call_id: call_sid)
+      end
+      let(:agent_leg_params) do
+        { 'CallSid' => 'CA_agent_leg', 'From' => "client:agent-1-account-#{account.id}", 'To' => to_number, 'Direction' => 'inbound',
+          'call_sid' => call_sid }
+      end
+
+      before { allow(Voice::InboundCallBuilder).to receive(:perform!).and_return(call) }
+
+      def conference = Nokogiri::XML(response.body).at_xpath('/Response/Dial/Conference')
+
+      it 'leaves Twilio defaults on every leg when nothing is set up' do
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+        expect(conference.attributes.keys).not_to include('waitUrl', 'waitMethod', 'beep')
+
+        post "/twilio/voice/call/#{digits}", params: agent_leg_params
+        expect(conference.attributes.keys).not_to include('waitUrl', 'waitMethod', 'beep')
+      end
+
+      it 'sends an inbound caller to the wait document when a greeting is on, and not the agent' do
+        channel.update!(provider_config: channel.provider_config.merge('call_greeting_enabled' => true, 'call_greeting_message' => 'Welcome'))
+
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+        expect(conference['waitUrl']).to eq("http://localhost:3000/twilio/voice/wait/#{digits}")
+        expect(conference['waitMethod']).to eq('GET')
+
+        post "/twilio/voice/call/#{digits}", params: agent_leg_params
+        expect(conference.attributes.keys).not_to include('waitUrl')
+      end
+
+      it 'sends an inbound caller to the wait document when waiting audio is uploaded' do
+        inbox.call_waiting_audio.attach(io: StringIO.new('music'), filename: 'music.mp3', content_type: 'audio/mpeg')
+
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+        expect(conference['waitUrl']).to eq("http://localhost:3000/twilio/voice/wait/#{digits}")
+      end
+
+      it 'keeps the default wait on the contact leg of an outbound call' do
+        channel.update!(provider_config: channel.provider_config.merge('call_greeting_enabled' => true, 'call_greeting_message' => 'Welcome'))
+        call.update!(direction: :outgoing, conference_sid: call.default_conference_sid)
+
+        post "/twilio/voice/call/#{digits}",
+             params: { 'CallSid' => call_sid, 'From' => to_number, 'To' => from_number, 'Direction' => 'outbound-api' }
+
+        expect(conference.attributes.keys).not_to include('waitUrl')
+      end
+
+      it 'silences the join beep on agent legs when it is turned off' do
+        channel.update!(provider_config: channel.provider_config.merge('call_join_beep_enabled' => false))
+
+        post "/twilio/voice/call/#{digits}", params: agent_leg_params
+        expect(conference['beep']).to eq('false')
+
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+        expect(conference.attributes.keys).not_to include('beep')
+      end
+    end
+
     it 'invokes Voice::InboundCallBuilder for inbound calls and renders conference TwiML' do
       conversation = create(:conversation, account: account, inbox: inbox)
       contact = conversation.contact
@@ -219,6 +340,51 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('<Reject')
+    end
+  end
+
+  describe 'GET /twilio/voice/wait/:phone' do
+    def elements = Nokogiri::XML(response.body).at_xpath('/Response').elements
+
+    it 'hands a caller over to the playlist Twilio plays by default when nothing is set up' do
+      get "/twilio/voice/wait/#{digits}"
+
+      expect(response).to have_http_status(:ok)
+      expect(elements.map(&:name)).to eq(['Redirect'])
+      expect(elements.first.text).to eq('https://s3.amazonaws.com/com.twilio.sounds.music/index.xml')
+      expect(elements.first['method']).to eq('GET')
+    end
+
+    it 'reads the greeting once, then hands over to the default playlist' do
+      channel.update!(provider_config: channel.provider_config.merge('call_greeting_enabled' => true, 'call_greeting_message' => 'Welcome to Acme'))
+
+      get "/twilio/voice/wait/#{digits}"
+
+      expect(elements.map(&:name)).to eq(%w[Say Redirect])
+      expect(elements.first.text).to eq('Welcome to Acme')
+    end
+
+    it 'plays the generated greeting once, then loops the uploaded waiting audio' do
+      channel.update!(provider_config: channel.provider_config.merge('call_greeting_enabled' => true, 'call_greeting_message' => 'Welcome'))
+      inbox.call_greeting_audio.attach(io: StringIO.new('hello'), filename: 'greeting.mp3', content_type: 'audio/mpeg')
+      inbox.call_waiting_audio.attach(io: StringIO.new('music'), filename: 'music.mp3', content_type: 'audio/mpeg')
+
+      get "/twilio/voice/wait/#{digits}"
+
+      expect(elements.map(&:name)).to eq(%w[Play Play])
+      expect(elements.map(&:text)).to all(start_with('http://localhost:3000/rails/active_storage/'))
+      expect(elements.first.text).to end_with('/greeting.mp3')
+      expect(elements.first['loop']).to be_nil
+      expect(elements.last.text).to end_with('/music.mp3')
+      expect(elements.last['loop']).to eq('0')
+    end
+
+    it 'skips a greeting that is turned off' do
+      channel.update!(provider_config: channel.provider_config.merge('call_greeting_enabled' => false, 'call_greeting_message' => 'Welcome'))
+
+      get "/twilio/voice/wait/#{digits}"
+
+      expect(elements.map(&:name)).to eq(['Redirect'])
     end
   end
 

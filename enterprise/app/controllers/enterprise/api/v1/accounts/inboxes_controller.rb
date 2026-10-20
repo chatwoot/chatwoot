@@ -64,6 +64,8 @@ module Enterprise::Api::V1::Accounts::InboxesController
 
   private
 
+  def inbox_scope = super.with_attached_out_of_hours_call_audio.with_attached_call_greeting_audio.with_attached_call_waiting_audio
+
   def ensure_whatsapp_calling_supported
     channel = @inbox.channel
     return true if channel.is_a?(Channel::Whatsapp) && channel.voice_calling_supported?

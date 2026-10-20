@@ -7,6 +7,8 @@ import NextInput from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CallRecordingSettings from './CallRecordingSettings.vue';
+import CallAnnouncementSettings from './CallAnnouncementSettings.vue';
+import CallWaitingSettings from './CallWaitingSettings.vue';
 
 export default {
   components: {
@@ -16,6 +18,8 @@ export default {
     NextButton,
     Spinner,
     CallRecordingSettings,
+    CallAnnouncementSettings,
+    CallWaitingSettings,
   },
   props: {
     inbox: {
@@ -218,6 +222,38 @@ export default {
     </div>
 
     <CallRecordingSettings v-if="inbox.voice_enabled" :inbox="inbox" />
+
+    <CallAnnouncementSettings
+      v-if="inbox.voice_enabled"
+      :inbox="inbox"
+      kind="out_of_hours"
+      i18n-key="BUSINESS_HOURS"
+      :enabled="!!inbox.business_hours_calls_enabled"
+      :message="inbox.out_of_hours_call_message || ''"
+      :audio-url="inbox.out_of_hours_call_audio_url || ''"
+    >
+      <template v-if="!inbox.working_hours_enabled" #notice>
+        <p class="text-body-main text-n-amber-11">
+          {{
+            $t(
+              'INBOX_MGMT.VOICE_CONFIGURATION.BUSINESS_HOURS.HOURS_NOT_ENABLED'
+            )
+          }}
+        </p>
+      </template>
+    </CallAnnouncementSettings>
+
+    <CallAnnouncementSettings
+      v-if="inbox.voice_enabled"
+      :inbox="inbox"
+      kind="greeting"
+      i18n-key="GREETING"
+      :enabled="!!inbox.call_greeting_enabled"
+      :message="inbox.call_greeting_message || ''"
+      :audio-url="inbox.call_greeting_audio_url || ''"
+    />
+
+    <CallWaitingSettings v-if="inbox.voice_enabled" :inbox="inbox" />
 
     <div v-if="inbox.voice_enabled && inbox.voice_call_webhook_url">
       <SettingsFieldSection

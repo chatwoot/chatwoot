@@ -13,6 +13,15 @@ module Enterprise::Channel::TwilioSms
     end
   end
 
+  def business_hours_calls_enabled?
+    provider_config['business_hours_calls_enabled'] == true
+  end
+
+  # The caller hears a beep when an agent joins unless turned off
+  def call_join_beep_enabled?
+    provider_config['call_join_beep_enabled'] != false
+  end
+
   def account_auth_token_configured?
     provider_config['account_auth_token_configured'] == true
   end

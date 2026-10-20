@@ -262,6 +262,28 @@ export const actions = {
       throwErrorMessage(error);
     }
   },
+  updateCallAnnouncement: async (
+    { commit },
+    { id, kind, enabled, message }
+  ) => {
+    const response = await InboxesAPI.setCallAnnouncement(id, kind, {
+      enabled,
+      message,
+    });
+    commit(types.default.EDIT_INBOXES, response.data);
+  },
+  updateCallJoinBeep: async ({ commit }, { id, enabled }) => {
+    const response = await InboxesAPI.setCallJoinBeep(id, enabled);
+    commit(types.default.EDIT_INBOXES, response.data);
+  },
+  uploadCallWaitingAudio: async ({ commit }, { id, file }) => {
+    const response = await InboxesAPI.uploadCallWaitingAudio(id, file);
+    commit(types.default.EDIT_INBOXES, response.data);
+  },
+  removeCallWaitingAudio: async ({ commit }, { id }) => {
+    const response = await InboxesAPI.removeCallWaitingAudio(id);
+    commit(types.default.EDIT_INBOXES, response.data);
+  },
   updateInboxIMAP: async ({ commit }, { id, ...inboxParams }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingIMAP: true });
     try {

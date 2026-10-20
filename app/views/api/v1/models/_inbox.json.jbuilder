@@ -163,6 +163,16 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
   json.inbound_calls_enabled resource.channel.inbound_calls_enabled?
   json.recording_enabled resource.channel.try(:recording_enabled?)
   json.transcription_enabled resource.channel.try(:transcription_enabled?)
+  if ChatwootApp.enterprise?
+    json.call_join_beep_enabled resource.channel.call_join_beep_enabled?
+    Voice::CallAnnouncement::KINDS.each_key do |kind|
+      announcement = Voice::CallAnnouncement.new(resource, kind)
+      json.set! announcement.enabled_key, announcement.enabled?
+      json.set! announcement.message_key, announcement.message
+      json.set! "#{announcement.audio_name}_url", announcement.audio.attached? ? rails_blob_path(announcement.audio, only_path: true) : nil
+    end
+    json.call_waiting_audio_url resource.call_waiting_audio.attached? ? rails_blob_path(resource.call_waiting_audio, only_path: true) : nil
+  end
   json.account_auth_token_configured resource.channel.try(:account_auth_token_configured?) == true
   json.voice_configured resource.channel.try(:twiml_app_sid).present?
   json.has_api_key_secret resource.channel.try(:api_key_secret).present?
