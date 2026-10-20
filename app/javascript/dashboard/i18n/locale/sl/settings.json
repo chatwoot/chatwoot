@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Pošlji e-poštna obvestila, ko je v sodelujočem pogovoru ustvarjeno novo sporočilo",
         "SLA_MISSED_FIRST_RESPONSE": "Pošlji e-poštna obvestila, ko pogovor ne doseže SLA za prvi odgovor",
         "SLA_MISSED_NEXT_RESPONSE": "Pošlji e-poštna obvestila, ko pogovor ne doseže SLA za naslednji odgovor",
-        "SLA_MISSED_RESOLUTION": "Pošlji e-poštna obvestila, ko pogovor ne doseže SLA za rešitev"
+        "SLA_MISSED_RESOLUTION": "Pošlji e-poštna obvestila, ko pogovor ne doseže SLA za rešitev",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Nastavitve obvestil",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "V sodelujočem pogovoru je ustvarjeno novo sporočilo",
           "SLA_MISSED_FIRST_RESPONSE": "Pogovor ni izpolnil SLA za prvi odgovor",
           "SLA_MISSED_NEXT_RESPONSE": "Pogovor ni izpolnil SLA za naslednji odgovor",
-          "SLA_MISSED_RESOLUTION": "Pogovor ni izpolnil SLA za rešitev"
+          "SLA_MISSED_RESOLUTION": "Pogovor ni izpolnil SLA za rešitev",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Omogočite potisna obvestila za vaš brskalnik, da jih boste lahko prejemali"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Omogoči potisna obvestila",
         "SLA_MISSED_FIRST_RESPONSE": "Pošlji potisna obvestila, ko pogovor ne doseže SLA za prvi odgovor",
         "SLA_MISSED_NEXT_RESPONSE": "Pošlji potisna obvestila, ko pogovor ne doseže SLA za naslednji odgovor",
-        "SLA_MISSED_RESOLUTION": "Pošlji potisna obvestila, ko pogovor ne doseže SLA za rešitev"
+        "SLA_MISSED_RESOLUTION": "Pošlji potisna obvestila, ko pogovor ne doseže SLA za rešitev",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilna slika"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
         "DESCRIPTION": "Use AI for context aware search inside your help center articles."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
       }
     },
     "API": {
