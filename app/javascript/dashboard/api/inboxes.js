@@ -93,6 +93,13 @@ class Inboxes extends CacheEnabledApiClient {
       transcription_enabled: transcriptionEnabled,
     });
   }
+
+  setCallBusinessHours(inboxId, { enabled, message }) {
+    return axios.patch(`${this.url}/${inboxId}/call_business_hours`, {
+      business_hours_calls_enabled: enabled,
+      out_of_hours_call_message: message,
+    });
+  }
 }
 
 export default new Inboxes();

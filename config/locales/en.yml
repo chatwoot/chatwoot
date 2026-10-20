@@ -44,6 +44,11 @@ en:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+    call_business_hours:
+      unsupported_inbox: 'Business hours for calls require a Twilio voice inbox'
+      invalid_settings: 'Provide a boolean for business hours and text for the announcement'
+      message_required: 'Add the message callers hear outside business hours'
+      message_too_long: 'The out-of-hours message must be 1000 characters or fewer'
   auth:
     saml:
       invalid_email: 'Please enter a valid email address'
