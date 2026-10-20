@@ -1,4 +1,12 @@
 module Enterprise::Api::V1::Accounts::Conversations::MessagesController
+  def create
+    if @conversation.contact_inbox.anonymous_caller? && !ActiveModel::Type::Boolean.new.cast(params[:private])
+      return render_could_not_create_error(I18n.t('errors.conversations.anonymous_caller_reply'))
+    end
+
+    super
+  end
+
   def destroy
     audited_message = message
 
