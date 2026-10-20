@@ -9,6 +9,7 @@ RSpec.describe 'Integration Hooks API', type: :request do
 
   describe 'Stripe hooks' do
     before do
+      account.enable_features!('stripe_integration')
       allow(Integrations::Stripe::Oauth).to receive(:configured?).and_return(true)
     end
 

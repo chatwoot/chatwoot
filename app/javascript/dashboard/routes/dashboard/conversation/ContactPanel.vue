@@ -302,7 +302,9 @@ onMounted(() => {
           </div>
           <div
             v-else-if="
-              element.name === 'stripe_customer' && stripeIntegration.enabled
+              element.name === 'stripe_customer' &&
+              isCloudFeatureEnabled(FEATURE_FLAGS.STRIPE) &&
+              stripeIntegration.enabled
             "
           >
             <AccordionItem

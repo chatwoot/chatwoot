@@ -18,6 +18,7 @@ RSpec.describe 'Stripe OAuth callback', type: :request do
   end
 
   before do
+    account.enable_features!('stripe_integration')
     allow(Integrations::Stripe::Oauth).to receive_messages(configured?: true, client: client, livemode?: false)
     allow(Integrations::Stripe::Oauth).to receive(:authorize_url).and_return("https://marketplace.stripe.com/oauth/v2/authorize?state=#{state}")
     post "/api/v1/accounts/#{account.id}/integrations/stripe/auth", headers: admin.create_new_auth_token
