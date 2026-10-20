@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "Cerca missatges a les converses",
     "VIEW_ORIGINAL": "View original",
     "VIEW_TRANSLATED": "View translated",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "per obrir el menú d'ordres",
       "KEYBOARD_SHORTCUTS": "per veure les dreceres del teclat"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Aquest missatge no està suportat. Pots veure aquest missatge a l'aplicació Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Aquest missatge no està suportat. Pots veure aquest missatge a l'aplicació d'Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
@@ -324,17 +333,20 @@
       "STOP_AUDIO_RECORDING": "Atura la gravació d'àudio",
       "COPILOT_THINKING": "Copilot està pensant",
       "EMAIL_HEAD": {
-        "TO": "A",
-        "ADD_BCC": "Afegeix cco",
+        "TO": "Per",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Cc",
           "PLACEHOLDER": "Correus electrònics separats per comes",
           "ERROR": "Introduïu adreces de correu electrònic vàlides"
         },
         "BCC": {
-          "LABEL": "CCO",
+          "LABEL": "Cco",
           "PLACEHOLDER": "Correus electrònics separats per comes",
           "ERROR": "Introduïu adreces de correu electrònic vàlides"
+        },
+        "SUBJECT": {
+          "LABEL": "Assumpte",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
