@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "當參與中的對話有新訊息時發送電子郵件通知",
         "SLA_MISSED_FIRST_RESPONSE": "當對話未達首次回應 SLA 時發送電子郵件通知",
         "SLA_MISSED_NEXT_RESPONSE": "當對話未達下次回應 SLA 時發送電子郵件通知",
-        "SLA_MISSED_RESOLUTION": "當對話未達解決 SLA 時發送電子郵件通知"
+        "SLA_MISSED_RESOLUTION": "當對話未達解決 SLA 時發送電子郵件通知",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "通知偏好設定",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "參與中的對話有新訊息",
           "SLA_MISSED_FIRST_RESPONSE": "對話未達首次回應 SLA",
           "SLA_MISSED_NEXT_RESPONSE": "對話未達下次回應 SLA",
-          "SLA_MISSED_RESOLUTION": "對話未達解決 SLA"
+          "SLA_MISSED_RESOLUTION": "對話未達解決 SLA",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "請啟用瀏覽器推播通知，以便接收通知"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "啟用推播通知",
         "SLA_MISSED_FIRST_RESPONSE": "當對話未達首次回應 SLA 時發送推播通知",
         "SLA_MISSED_NEXT_RESPONSE": "當對話未達下次回應 SLA 時發送推播通知",
-        "SLA_MISSED_RESOLUTION": "當對話未達解決 SLA 時發送推播通知"
+        "SLA_MISSED_RESOLUTION": "當對話未達解決 SLA 時發送推播通知",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "個人頭像"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "幫助中心搜尋索引",
         "DESCRIPTION": "使用 AI 在您的幫助中心文章中進行情境感知搜尋。"
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "標籤建議",
-        "DESCRIPTION": "根據內容分析和情境，自動建議對話的相關標籤。",
-        "MODEL_TITLE": "標籤建議模型",
-        "MODEL_DESCRIPTION": "選擇用於分析對話並建議適當標籤的 AI 模型"
       }
     },
     "API": {
