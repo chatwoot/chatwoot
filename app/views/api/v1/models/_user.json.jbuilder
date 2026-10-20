@@ -4,7 +4,7 @@ account_users = account_users.includes(:custom_role) if ChatwootApp.enterprise?
 # full-precision timestamps, nils last, matching ORDER BY active_at DESC NULLS LAST
 active_account_user = account_users.max_by { |account_user| [account_user.active_at ? 1 : 0, account_user.active_at || Time.at(0).utc] }
 
-authenticated_resource = resource == Current.user || resource == current_user
+authenticated_resource = local_assigns.fetch(:authenticated_resource, resource == Current.user)
 json.access_token resource.accounts.any?(&:api_and_webhooks_enabled?) ? resource.access_token.token : '' if authenticated_resource
 json.account_id active_account_user&.account_id
 json.available_name resource.available_name
