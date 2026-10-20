@@ -775,7 +775,7 @@
         "DESCRIPTION": "Activar llamadas de voz en esta bandeja de entrada. Los agentes podrán hacer y recibir llamadas telefónicas."
       },
       "CREDENTIALS": {
-        "DESCRIPTION": "Llamada de voz requiere credenciales de Clave de Twilio API. Estas se utilizan para generar tokens para las conexiones de voz del agente."
+        "DESCRIPTION": "Voice calling requires an Account Auth Token for webhook verification and API key credentials for calls."
       },
       "INBOUND": {
         "LABEL": "Permitir llamadas entrantes",
