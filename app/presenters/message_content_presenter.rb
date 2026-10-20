@@ -16,8 +16,7 @@ class MessageContentPresenter < SimpleDelegator
   def content_with_survey_link
     if should_append_survey_link?
       survey_link = survey_url(conversation.uuid)
-      # Auto translate rewrites the content into the contact's language and records it as source_language.
-      custom_message = source_language.present? ? content : inbox.csat_config&.dig('message')
+      custom_message = inbox.csat_config&.dig('message')
       custom_message.present? ? "#{custom_message} #{survey_link}" : I18n.t('conversations.survey.response', link: survey_link)
     else
       content
