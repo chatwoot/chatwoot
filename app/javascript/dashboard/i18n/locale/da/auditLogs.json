@@ -34,8 +34,8 @@
         "MESSAGE_DELETIONS": "Message deletions"
       },
       "SORT": {
-        "NEWEST": "Newest first",
-        "OLDEST": "Oldest first"
+        "NEWEST": "Nyeste først",
+        "OLDEST": "Ældste først"
       }
     },
     "LIST": {
