@@ -33,7 +33,7 @@
       "ASSIGN_SUCCESFUL": "Etiketter tildelt med succes.",
       "ASSIGN_FAILED": "Failed to assign labels. Please try again.",
       "REMOVE_SUCCESFUL": "Labels removed successfully.",
-      "REMOVE_FAILED": "Failed to remove labels. Please try again."
+      "REMOVE_FAILED": "Kunne ikke fjerne etiketter. Prøv venligst igen."
     },
     "TEAMS": {
       "NONE": "Ingen",
