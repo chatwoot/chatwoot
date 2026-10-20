@@ -44,6 +44,35 @@
         "TITLE": "Account ID",
         "NOTE": "Diese ID ist erforderlich, wenn Sie eine API-basierte Integration erstellen"
       },
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Kapitän",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google Übersetzer",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "Verbinden",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "Upgrade durchführen"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
+        "API": {
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Unterhaltungen automatisch auflösen",
         "NOTE": "Diese Konfiguration würde es Ihnen ermöglichen, die Unterhaltung nach einer gewissen Zeit der Inaktivität automatisch zu beenden.",
@@ -51,7 +80,7 @@
           "LABEL": "Dauer der Inaktivität",
           "HELP": "Zeit der Inaktivität, nach der die Unterhaltung automatisch gelöst wird",
           "PLACEHOLDER": "30",
-          "ERROR": "Automatische Auflösungsdauer sollte zwischen 10 Minuten und 999 Tagen liegen",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "Auto resolve settings updated successfully",
             "ERROR": "Failed to update auto resolve settings"
