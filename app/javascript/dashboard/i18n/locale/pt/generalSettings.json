@@ -44,6 +44,35 @@
         "TITLE": "ID da conta",
         "NOTE": "Este ID é necessário para integrações via API"
       },
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google Tradutor",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "Conectar",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "Atualizar"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
+        "API": {
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Auto-resolver conversas",
         "NOTE": "Esta configuração permite-lhe resolver automaticamente a conversa após um determinado período de inatividade.",
@@ -51,7 +80,7 @@
           "LABEL": "Duração da inatividade",
           "HELP": "Período de inatividade após o qual a conversa é automaticamente resolvida",
           "PLACEHOLDER": "30",
-          "ERROR": "A duração de auto-resolução deve ser entre 10 minutos e 999 dias",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "Definições de auto-resolução atualizadas",
             "ERROR": "Falha ao atualizar as definições de auto-resolução"
