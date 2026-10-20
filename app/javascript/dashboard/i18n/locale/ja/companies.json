@@ -75,7 +75,7 @@
       "ACTIVITY": {
         "TODAY": "今日",
         "YESTERDAY": "昨日",
-        "UNKNOWN_AUTHOR": "Someone",
+        "SYSTEM_AUTHOR": "システム",
         "EMPTY_CONVERSATIONS": "No conversations yet. They'll show up here when this company's people get in touch.",
         "EMPTY_NOTES": "No notes yet. Notes added to this company's people show up here.",
         "LOAD_MORE": "さらに読み込む",
