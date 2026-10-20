@@ -17,6 +17,7 @@ class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
     return render_mfa_sign_in_required if mfa_sign_in_required?(@confirmable)
 
     send_auth_headers(@confirmable)
+    Current.user = @confirmable
     render partial: 'devise/auth', formats: [:json], locals: { resource: @confirmable }
   end
 

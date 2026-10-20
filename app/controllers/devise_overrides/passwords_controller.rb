@@ -24,6 +24,7 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
       return render_mfa_sign_in_required if mfa_sign_in_required?(@recoverable)
 
       send_auth_headers(@recoverable)
+      Current.user = @recoverable
       render partial: 'devise/auth', formats: [:json], locals: { resource: @recoverable }
     else
       render json: { message: 'Invalid token', redirect_url: '/' }, status: :unprocessable_entity

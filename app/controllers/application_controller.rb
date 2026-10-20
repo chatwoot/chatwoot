@@ -7,11 +7,18 @@ class ApplicationController < ActionController::Base
 
   skip_before_action :verify_authenticity_token
 
+  prepend_around_action :reset_current, if: :devise_controller?
   before_action :set_current_user, unless: :devise_controller?
   around_action :switch_locale
   around_action :handle_with_exception, unless: :devise_controller?
 
   private
+
+  def reset_current
+    yield
+  ensure
+    Current.reset
+  end
 
   def set_current_user
     @user ||= current_user
