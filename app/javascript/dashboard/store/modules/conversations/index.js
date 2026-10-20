@@ -376,7 +376,7 @@ export const mutations = {
   [types.SET_CONVERSATION_CAN_REPLY](_state, { conversationId, canReply }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     if (chat) {
-      chat.can_reply = chat.anonymous_caller ? false : canReply;
+      chat.can_reply = canReply;
     }
   },
 
