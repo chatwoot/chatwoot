@@ -41,11 +41,11 @@
     "TAG_BUTTON": "tag"
   },
   "FEATURE_ANNOUNCEMENT": {
-    "BADGE": "New",
+    "BADGE": "Novità",
     "DISMISS": "Got it",
     "PREVIOUS": "Precedente",
     "NEXT": "Successivo",
-    "DISMISS_HINT": "Press {key} to close",
+    "DISMISS_HINT": "Premi {key} per chiudere",
     "ESCAPE_KEY": "Esc",
     "CLOSE": "Chiudi"
   },
