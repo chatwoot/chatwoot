@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Sūtīt e-pasta paziņojumus, kad sarunā tiek izveidots jauns ziņojums",
         "SLA_MISSED_FIRST_RESPONSE": "Nosūtīt e-pasta paziņojumus, ja sarunā tiek nokavēts pirmās atbildes SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Nosūtīt e-pasta paziņojumus, ja sarunā tiek nokavēts nākamās atbildes SLA",
-        "SLA_MISSED_RESOLUTION": "Nosūtīt e-pasta paziņojumus, ja sarunā tiek nokavēts atrisināšanas SLA"
+        "SLA_MISSED_RESOLUTION": "Nosūtīt e-pasta paziņojumus, ja sarunā tiek nokavēts atrisināšanas SLA",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Paziņojumu preferences",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Dalības sarunā ir izveidots jauns ziņojums",
           "SLA_MISSED_FIRST_RESPONSE": "Sarunā ir nokavēts pirmās atbildes SLA",
           "SLA_MISSED_NEXT_RESPONSE": "Sarunā ir nokavēts nākamās atbildes SLA",
-          "SLA_MISSED_RESOLUTION": "Sarunā ir nokavēts atrisināšanas SLA"
+          "SLA_MISSED_RESOLUTION": "Sarunā ir nokavēts atrisināšanas SLA",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Iespējojiet push paziņojumus savā pārlūkprogrammā, lai varētu tos saņemt"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Iespējot push paziņojumus",
         "SLA_MISSED_FIRST_RESPONSE": "Nosūtīt push paziņojumus, ja sarunā tiek nokavēts pirmās atbildes SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Nosūtīt push paziņojumus, ja sarunā tiek nokavēts nākamās atbildes SLA",
-        "SLA_MISSED_RESOLUTION": "Nosūtīt push paziņojumus, ja sarunā tiek nokavēts atrisināšanas SLA"
+        "SLA_MISSED_RESOLUTION": "Nosūtīt push paziņojumus, ja sarunā tiek nokavēts atrisināšanas SLA",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profila Attēls"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
         "DESCRIPTION": "Use AI for context aware search inside your help center articles."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
       }
     },
     "API": {
