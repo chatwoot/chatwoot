@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "שלח הודעות דחיפה כאשר נוצרת הודעה חדשה בשיחה המיועדת עבורי",
         "SLA_MISSED_FIRST_RESPONSE": "שלח התראות בדוא\"ל כאשר שיחה לא עומדת בהסכם תנאי השירות (SLA) של התגובה הראשונה",
         "SLA_MISSED_NEXT_RESPONSE": "שלח התראות בדוא\"ל כאשר שיחה לא עומדת ב-הסכם תנאי השירות (SLA) של התגובה הבאה",
-        "SLA_MISSED_RESOLUTION": "שלח התראות דוא\"ל כאשר שיחה מחמיצה SLA סגירה"
+        "SLA_MISSED_RESOLUTION": "שלח התראות דוא\"ל כאשר שיחה מחמיצה SLA סגירה",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "העדפות התראות",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "נוצרה הודעה חדשה בשיחה שבה אתה משתתף",
           "SLA_MISSED_FIRST_RESPONSE": "שיחה מחמיצה SLA תגובה ראשונה",
           "SLA_MISSED_NEXT_RESPONSE": "שיחה מחמיצה SLA תגובה הבאה",
-          "SLA_MISSED_RESOLUTION": "שיחה מחמיצה SLA סגירה"
+          "SLA_MISSED_RESOLUTION": "שיחה מחמיצה SLA סגירה",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "אפשר הודעות דחיפה",
         "SLA_MISSED_FIRST_RESPONSE": "שלח התראות דחיפה כאשר שיחה מחמיצה SLA תגובה ראשונה",
         "SLA_MISSED_NEXT_RESPONSE": "שלח התראות דחיפה כאשר שיחה מחמיצה SLA תגובה הבאה",
-        "SLA_MISSED_RESOLUTION": "שלח התראות דחיפה כאשר שיחה מחמיצה SLA סגירה"
+        "SLA_MISSED_RESOLUTION": "שלח התראות דחיפה כאשר שיחה מחמיצה SLA סגירה",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "תמונת פרופיל"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
         "DESCRIPTION": "Use AI for context aware search inside your help center articles."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
       }
     },
     "API": {
