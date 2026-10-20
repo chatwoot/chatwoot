@@ -93,6 +93,7 @@ const toggle = value => {
             }}
           </p>
           <TextArea
+            :id="`out-of-hours-call-message-${inbox.id}`"
             v-model="message"
             :label="
               $t('INBOX_MGMT.VOICE_CONFIGURATION.BUSINESS_HOURS.MESSAGE.LABEL')

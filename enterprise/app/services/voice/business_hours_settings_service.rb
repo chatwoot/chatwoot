@@ -8,7 +8,7 @@ class Voice::BusinessHoursSettingsService
     changed = message != channel.out_of_hours_call_message
     audio = recorded_audio(changed)
 
-    channel.transaction do
+    channel.with_lock do
       # Register the attachment change before the channel touches a second Inbox instance.
       if audio
         inbox.out_of_hours_call_audio.attach(io: StringIO.new(audio), filename: "out-of-hours-#{inbox.id}.mp3", content_type: 'audio/mpeg')

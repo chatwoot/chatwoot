@@ -22,7 +22,7 @@ const inbox = {
   out_of_hours_call_audio_url: '/announcement.mp3',
 };
 
-const mountComponent = overrides =>
+const mountComponent = (overrides, stubs = {}) =>
   mount(CallBusinessHoursSettings, {
     props: { inbox: { ...inbox, ...overrides } },
     global: {
@@ -30,6 +30,7 @@ const mountComponent = overrides =>
         TextArea: true,
         Spinner: true,
         Icon: true,
+        ...stubs,
         SettingsToggleSection: {
           props: ['modelValue', 'header', 'description'],
           template: '<section><slot name="editor" /></section>',
@@ -40,6 +41,16 @@ const mountComponent = overrides =>
 
 describe('CallBusinessHoursSettings', () => {
   beforeEach(() => vi.clearAllMocks());
+
+  it('associates the announcement label with an inbox-specific textarea', () => {
+    const wrapper = mountComponent({}, { TextArea: false });
+    const textarea = wrapper.find('textarea');
+
+    expect(textarea.attributes('id')).toBe('out-of-hours-call-message-387');
+    expect(wrapper.find('label').attributes('for')).toBe(
+      textarea.attributes('id')
+    );
+  });
 
   it('keeps playback of the saved announcement while editing', async () => {
     const wrapper = mountComponent();
