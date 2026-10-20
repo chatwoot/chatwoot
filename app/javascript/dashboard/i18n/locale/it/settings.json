@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Invia notifiche email quando un nuovo messaggio viene creato in una conversazione partecipata",
         "SLA_MISSED_FIRST_RESPONSE": "Invia notifiche email quando una conversazione manca il tempo di risposta SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Invia notifiche email quando una conversazione manca il tempo di prossima risposta SLA",
-        "SLA_MISSED_RESOLUTION": "Invia notifiche email quando una conversazione manca il tempo di risoluzione SLA"
+        "SLA_MISSED_RESOLUTION": "Invia notifiche email quando una conversazione manca il tempo di risoluzione SLA",
+        "VOICE_CALL_MISSED": "Invia notifiche email quando perdi una chiamata"
       },
       "NOTIFICATIONS": {
         "TITLE": "Preferenze di notifica",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Un nuovo messaggio è stato creato in una conversazione partecipata",
           "SLA_MISSED_FIRST_RESPONSE": "Una conversazione manca il tempo di prima risposta SLA",
           "SLA_MISSED_NEXT_RESPONSE": "Una conversazione manca il tempo di risposta successiva SLA",
-          "SLA_MISSED_RESOLUTION": "Una conversazione manca il tempo di risoluzione SLA"
+          "SLA_MISSED_RESOLUTION": "Una conversazione manca il tempo di risoluzione SLA",
+          "VOICE_CALL_MISSED": "Perdi una chiamata"
         },
         "BROWSER_PERMISSION": "Abilita le notifiche push per il browser"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Abilita notifiche push",
         "SLA_MISSED_FIRST_RESPONSE": "Invia notifiche push quando una conversazione manca il tempo di prima risposta SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Invia notifiche push quando una conversazione manca il tempo di risposta successiva SLA",
-        "SLA_MISSED_RESOLUTION": "Invia notifiche push quando una conversazione manca il tempo di risoluzione SLA"
+        "SLA_MISSED_RESOLUTION": "Invia notifiche push quando una conversazione manca il tempo di risoluzione SLA",
+        "VOICE_CALL_MISSED": "Invia notifiche push quando perdi una chiamata"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Immagine del Profilo"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Indicizzazione Ricerca Help Center",
         "DESCRIPTION": "Usa l'AI per effettuare una ricerca contestualizzata tra gli articoli dell'help center."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Suggerimento Etichette",
-        "DESCRIPTION": "Suggerisce automaticamente etichette e tag rilevanti per le conversazioni in base all'analisi e al contesto dei contenuti.",
-        "MODEL_TITLE": "Modello Di Suggerimento Etichette",
-        "MODEL_DESCRIPTION": "Seleziona il modello AI da utilizzare per analizzare le conversazioni e suggerire etichette appropriate"
       }
     },
     "API": {
