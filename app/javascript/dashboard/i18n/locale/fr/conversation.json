@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "Rechercher des messages dans les conversations",
     "VIEW_ORIGINAL": "Voir l'original",
     "VIEW_TRANSLATED": "Voir la traduction",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "pour ouvrir le menu de commande",
       "KEYBOARD_SHORTCUTS": "pour afficher les raccourcis clavier"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Ce message n'est pas pris en charge. Vous pouvez voir ce message sur l'application Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ce message n'est pas pris en charge. Vous pouvez voir ce message sur l'application Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "Ce message n'est pas pris en charge. Vous pouvez voir ce message sur l'application TikTok.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "Ce type de message n’est pas pris en charge. Vous pouvez le consulter dans l’application WhatsApp.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "A soumis une réponse de flux",
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
@@ -325,16 +334,19 @@
       "COPILOT_THINKING": "Copilot réfléchit",
       "EMAIL_HEAD": {
         "TO": "À",
-        "ADD_BCC": "Ajouter cci",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Cc",
           "PLACEHOLDER": "E-mails séparés par des virgules",
           "ERROR": "Veuillez saisir une adresse de courriel valide"
         },
         "BCC": {
-          "LABEL": "CCI",
+          "LABEL": "Cci",
           "PLACEHOLDER": "E-mails séparés par des virgules",
           "ERROR": "Veuillez saisir une adresse de courriel valide"
+        },
+        "SUBJECT": {
+          "LABEL": "Objet",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
