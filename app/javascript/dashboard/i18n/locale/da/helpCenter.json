@@ -629,7 +629,7 @@
         "DELETE": "Slet",
         "STATUS_SUCCESS": "Artikler opdateret",
         "STATUS_ERROR": "Opdatering af artikler mislykkedes",
-        "STATUS_SKIPPED": "1 article with unpublished edits was skipped — open it to publish or discard. | {count} articles with unpublished edits were skipped — open them to publish or discard.",
+        "STATUS_SKIPPED": "1 artikel med ikke-offentliggjorte redigeringer blev sprunget over - åbn den for at publicere eller kassere. | {count} artikler med ikke-offentliggjorte redigeringer blev sprunget over - åbn dem for at publicere eller kassere dem.",
         "STATUS_SKIPPED_ALL": "Disse artikler har ikke-offentliggjorte ændringer - åben dem for at publicere eller kassere.",
         "CATEGORY_SUCCESS": "Artikler flyttet",
         "CATEGORY_ERROR": "Flytning af artikler mislykkedes",
@@ -742,7 +742,7 @@
         "EMPTY": "Ingen matchende resultater",
         "ADD_ANOTHER": "Tilføj andre...",
         "SLOTS_LEFT": "{count} pladser tilbage",
-        "OVERRIDING_DEFAULTS": "Overriding defaults for this locale",
+        "OVERRIDING_DEFAULTS": "Tilsidesættelse af standarder for denne landestandard",
         "CONFIRM": "Gem anbefalinger",
         "CATEGORIES": {
           "LABEL": "Anbefalede kategorier",
@@ -754,13 +754,13 @@
           "UNCATEGORIZED": "Ikke Kategoriseret"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Recommended content updated successfully",
-          "ERROR_MESSAGE": "Unable to update recommended content. Try again."
+          "SUCCESS_MESSAGE": "Anbefalet indhold opdateret",
+          "ERROR_MESSAGE": "Det anbefalede indhold kunne ikke opdateres. Prøv igen."
         }
       },
       "CONTENT_DIALOG": {
         "TITLE": "Oversæt indhold",
-        "DESCRIPTION": "Set values specific to this locale. Anything left blank falls back to the default locale.",
+        "DESCRIPTION": "Sæt værdier specifikke for denne landestandard. Alt, hvad der er tomt, falder tilbage til standard landestandarden.",
         "NAME": {
           "LABEL": "Navn"
         },
@@ -771,8 +771,8 @@
           "LABEL": "Header tekst"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale content updated successfully",
-          "ERROR_MESSAGE": "Unable to update locale content. Try again."
+          "SUCCESS_MESSAGE": "Landestandard indhold opdateret",
+          "ERROR_MESSAGE": "Kan ikke opdatere landestandard indhold. Prøv igen."
         }
       },
       "ADD_LOCALE_DIALOG": {
@@ -807,7 +807,7 @@
         "PUBLISH_CHANGES_ERROR": "Kunne ikke publicere ændringer",
         "SAVE_IN_PROGRESS": "Gemmer stadig dine seneste ændringer. Prøv igen om et øjeblik.",
         "UPLOAD_IN_PROGRESS": "En fil upload er ikke færdig. Vent på, at den er færdig eller fjern den først.",
-        "CREATE_IN_PROGRESS": "The article is still being created. Add files again in a moment.",
+        "CREATE_IN_PROGRESS": "Artiklen oprettes stadig. Tilføj filer igen om et øjeblik.",
         "DISCARD_CHANGES": "Kassér ændringer",
         "DISCARD_CHANGES_SUCCESS": "Ændringer kasseret",
         "DISCARD_CHANGES_ERROR": "Kunne ikke kassere ændringer",
@@ -970,17 +970,17 @@
         "LAYOUT": {
           "CLASSIC": {
             "TITLE": "Klassisk",
-            "DESCRIPTION": "A welcoming home page with search and featured topics."
+            "DESCRIPTION": "En indbydende startside med søgning og fremhævede emner."
           },
           "SIDEBAR": {
             "TITLE": "Dokumentation",
-            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+            "DESCRIPTION": "Side-by-side navigation, der holder hver guide et klik væk."
           }
         },
         "SOCIAL_LINKS": {
           "HEADER": "Sociale links",
-          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
-          "PLACEHOLDER": "handle",
+          "DESCRIPTION": "Tilføj brugernavnet for hvert netværk, så sammensætter dit hjælpecenter det fulde link. Vises i sidefoden i dokumentationslayoutet.",
+          "PLACEHOLDER": "brugernavn",
           "ADD": "Tilføj socialt link",
           "REMOVE": "Fjern"
         },
@@ -988,61 +988,61 @@
       },
       "INTEGRATIONS": {
         "HEADER": "Integrationer",
-        "DESCRIPTION": "Connect tools that extend what your help center can do.",
+        "DESCRIPTION": "Tilslut værktøjer, der udvider, hvad din hjælpecenter kan gøre.",
         "LIVE_CHAT": {
-          "TITLE": "Live chat with Chatwoot",
-          "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
+          "TITLE": "Live chat med Chatwoot",
+          "DESCRIPTION": "Vis en live chat widget på dit hjælpecenter, så besøgende kan nå dig, mens de læser.",
           "PLACEHOLDER": "Select live chat widget",
           "NONE_OPTION": "No widget"
         },
         "GTM": {
           "TITLE": "Google Tag Manager",
-          "DESCRIPTION": "Add analytics and marketing tags by connecting your Tag Manager container.",
+          "DESCRIPTION": "Tilføj analytics og marketing tags ved at tilslutte din Tag Manager container.",
           "PLACEHOLDER": "GTM-XXXXXXX",
-          "HELP": "Find this in your Google Tag Manager workspace. Leave empty to disable.",
-          "INVALID": "Enter a valid container ID, for example GTM-XXXXXXX."
+          "HELP": "Find dette i dit Google Tag Manager-arbejdsområde. Lad være tomt for at deaktivere.",
+          "INVALID": "Indtast et gyldigt container ID, for eksempel GTM-XXXXXXX."
         },
         "GA4": {
           "TITLE": "Google Analytics 4",
-          "DESCRIPTION": "Measure traffic and visitor behavior on your help center with Google Analytics.",
+          "DESCRIPTION": "Mål trafik og besøgsadfærd på dit hjælpecenter med Google Analytics.",
           "PLACEHOLDER": "G-XXXXXXXX",
-          "HELP": "Find the measurement ID under Admin → Data streams in Google Analytics. Leave empty to disable.",
-          "INVALID": "Enter a valid measurement ID, for example G-XXXXXXXXXX."
+          "HELP": "Find måle-ID'et under Admin → Datastrømme i Google Analytics. Lad feltet stå tomt for at deaktivere.",
+          "INVALID": "Angiv et gyldigt måle-ID, for eksempel G-XXXXXXXXXXXX."
         },
         "HOTJAR": {
           "TITLE": "Hotjar",
-          "DESCRIPTION": "Understand how visitors use your help center with heatmaps and session recordings.",
+          "DESCRIPTION": "Forstå, hvordan besøgende bruger dit hjælpecenter med heatmaps og sessionsoptagelser.",
           "PLACEHOLDER": "1234567",
-          "HELP": "Find your site ID under Sites & organizations in Hotjar. Leave empty to disable.",
-          "INVALID": "Enter a numeric Hotjar site ID."
+          "HELP": "Find dit websted ID under Websteder & organisationer i Hotjar. Efterlad blank for at deaktivere.",
+          "INVALID": "Indtast et numerisk Hotjar websteds-ID."
         },
         "PLAUSIBLE": {
           "TITLE": "Plausible",
-          "DESCRIPTION": "Track help center traffic with privacy-friendly Plausible Analytics.",
+          "DESCRIPTION": "Spor trafikken til hjælpecentret med det privatlivsvenlige Plausible Analytics.",
           "PLACEHOLDER": "example.com",
-          "HELP": "Enter the domain configured in your Plausible site settings. Leave empty to disable.",
-          "INVALID": "Enter a valid domain, for example example.com."
+          "HELP": "Indtast det domæne, der er konfigureret i dine Plausible webstedsindstillinger. Lad feltet stå tomt for at deaktivere.",
+          "INVALID": "Indtast et gyldigt domæne, for eksempel eksempel.dk."
         },
         "AMPLITUDE": {
           "TITLE": "Amplitude",
-          "DESCRIPTION": "Analyze visitor behavior on your help center with Amplitude.",
+          "DESCRIPTION": "Analyser besøgendes adfærd på dit hjælpecenter med Amplitude.",
           "PLACEHOLDER": "0123456789abcdef0123456789abcdef",
-          "HELP": "Find the API key in your Amplitude project settings. Leave empty to disable.",
-          "INVALID": "Enter a valid Amplitude API key."
+          "HELP": "Find API-nøglen i dine Amplitude projektindstillinger. Lad feltet stå tomt for at deaktivere.",
+          "INVALID": "Indtast en gyldig Amplitude API-nøgle."
         },
         "CLARITY": {
           "TITLE": "Microsoft Clarity",
-          "DESCRIPTION": "Capture heatmaps and session recordings with Microsoft Clarity.",
+          "DESCRIPTION": "Optag heatmaps og sessionsoptagelser med Microsoft Clarity.",
           "PLACEHOLDER": "abcd1234ef",
-          "HELP": "Find the project ID in your Clarity project settings. Leave empty to disable.",
-          "INVALID": "Enter a valid Clarity project ID."
+          "HELP": "Find projekt-id'et i dine Clarity-projektindstillinger. Lad feltet være tomt for at deaktivere.",
+          "INVALID": "Indtast et gyldigt Clarity projekt-ID."
         },
         "META_PIXEL": {
           "TITLE": "Meta Pixel",
-          "DESCRIPTION": "Measure ad conversions and build audiences from help center visits with Meta Pixel.",
+          "DESCRIPTION": "Mål annoncekonverteringer og opbyg publikum fra besøg i hjælpecentret med Meta Pixel.",
           "PLACEHOLDER": "123456789012345",
-          "HELP": "Find the pixel ID in Meta Events Manager. Leave empty to disable.",
-          "INVALID": "Enter a numeric pixel ID."
+          "HELP": "Find pixel ID i Meta Events Manager. Efterlad tom for at deaktivere.",
+          "INVALID": "Indtast et numerisk pixel ID."
         },
         "SAVE": "Save changes"
       },
