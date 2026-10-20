@@ -27,7 +27,8 @@ class Saml::IdpMetadataService
   private
 
   def fetch_metadata
-    # Chatwoot does not check the metadata signature, so only TLS protects the certificates it returns
+    # Chatwoot does not check the metadata signature, so only TLS protects the certificates it returns.
+    # This checks only the entered URL. SafeFetch follows redirects, including to HTTP, and has no option to stop that.
     raise Error, 'metadata URL must use HTTPS' unless URI.parse(@metadata_url).is_a?(URI::HTTPS)
 
     SafeFetch.fetch(@metadata_url, validate_content_type: false, max_bytes: MAX_METADATA_BYTES, read_timeout: READ_TIMEOUT) do |result|
