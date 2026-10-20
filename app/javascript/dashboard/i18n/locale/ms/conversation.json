@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "Cari mesej dalam perbualan",
     "VIEW_ORIGINAL": "Lihat asal",
     "VIEW_TRANSLATED": "Lihat terjemahan",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "untuk buka menu arahan",
       "KEYBOARD_SHORTCUTS": "untuk lihat pintasan papan kekunci"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Mesej ini tidak disokong. Anda boleh melihat mesej ini di aplikasi Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Mesej ini tidak disokong. Anda boleh melihat mesej ini di aplikasi Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "Mesej ini tidak disokong. Anda boleh melihat mesej ini di aplikasi TikTok.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
@@ -324,17 +333,20 @@
       "STOP_AUDIO_RECORDING": "Hentikan rakaman audio",
       "COPILOT_THINKING": "Copilot sedang berfikir",
       "EMAIL_HEAD": {
-        "TO": "TO",
-        "ADD_BCC": "Tambah bcc",
+        "TO": "To",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Cc",
           "PLACEHOLDER": "Emel dipisahkan dengan koma",
           "ERROR": "Sila masukkan alamat emel yang sah"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "Bcc",
           "PLACEHOLDER": "Emel dipisahkan dengan koma",
           "ERROR": "Sila masukkan alamat emel yang sah"
+        },
+        "SUBJECT": {
+          "LABEL": "Subjek",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
