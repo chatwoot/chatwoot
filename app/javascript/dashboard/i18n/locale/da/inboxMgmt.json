@@ -906,7 +906,7 @@
     },
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
-      "DESCRIPTION": "Gennemgå tilstanden af ​​dit WhatsApp-telefonnummer, beskedkapaciteten og de tilknyttede Meta-virksomhedsoplysninger.",
+      "DESCRIPTION": "Gennemgå tilstanden af dit WhatsApp-telefonnummer, beskedkapaciteten og de tilknyttede Meta-virksomhedsoplysninger.",
       "GO_TO_SETTINGS": "Go to Meta Business Manager",
       "NO_DATA": "Health data is not available",
       "ERRORS": {

@@ -12,6 +12,8 @@ import DurationInput from 'next/input/DurationInput.vue';
 import SingleSelect from 'dashboard/components-next/filter/inputs/SingleSelect.vue';
 import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 
+const MIN_AUTO_RESOLVE_DURATION_MINUTES = 10;
+
 const { t } = useI18n();
 const duration = ref(0);
 const unit = ref(DURATION_UNITS.MINUTES);
@@ -93,8 +95,12 @@ const updateAccountSettings = async settings => {
 };
 
 const handleSubmit = async () => {
-  if (duration.value < 10) {
-    useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.ERROR'));
+  if (duration.value < MIN_AUTO_RESOLVE_DURATION_MINUTES) {
+    useAlert(
+      t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.ERROR', {
+        minDuration: MIN_AUTO_RESOLVE_DURATION_MINUTES,
+      })
+    );
     return Promise.resolve();
   }
 

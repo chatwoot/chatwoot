@@ -41,7 +41,7 @@
     "PERIOD_END": "Periode slutter {date}",
     "TRIAL_ENDS": "Prøveperioden slutter {date}",
     "CANCELS": "Opsiges den {date}",
-    "CANCELS_AT_PERIOD_END": "Opsiges ved udgangen af ​​faktureringsperioden",
+    "CANCELS_AT_PERIOD_END": "Opsiges ved udgangen af faktureringsperioden",
     "CANCELED_ON": "Opsagt den {date}",
     "MORE_ITEMS": "Yderligere abonnementsprodukter vises ikke.",
     "PRICE_NOTE": "Priserne er pr. enhed, før rabatter og afgifter. De udgør ikke et estimat af den næste faktura.",

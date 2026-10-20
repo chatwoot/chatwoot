@@ -425,6 +425,7 @@ en:
           from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} from %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
       channel_email:
         header:
           reply_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
@@ -875,6 +876,13 @@ en:
         system: 'Match system'
         light: 'Light'
         dark: 'Dark'
+    push_diagnostics:
+      user_not_found: 'User not found.'
+      no_subscriptions_to_test: 'Select at least one subscription to test.'
+      no_subscriptions_to_delete: 'Select at least one subscription to delete.'
+      subscriptions_deleted:
+        one: "Deleted %{count} subscription. The user's device will re-register on next app launch."
+        other: "Deleted %{count} subscriptions. The users' devices will re-register on next app launch."
     user_diagnostics:
       description: 'Look up a user to troubleshoot an issue they have reported. Each tab covers one part of their setup.'
       user_not_found: 'User not found.'
