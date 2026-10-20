@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "Nachrichten in Unterhaltungen suchen",
     "VIEW_ORIGINAL": "View original",
     "VIEW_TRANSLATED": "View translated",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "zum Öffnen des Kommandomenüs",
       "KEYBOARD_SHORTCUTS": "um Tastenkürzel anzuzeigen"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Facebook-Messenger-App sehen.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Instagram-App sehen.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "Diese Nachricht wird nicht unterstützt. Du kannst sie in der WhatsApp-App ansehen.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Flow-Antwort übermittelt",
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
@@ -325,16 +334,19 @@
       "COPILOT_THINKING": "Copilot denkt",
       "EMAIL_HEAD": {
         "TO": "An",
-        "ADD_BCC": "BCC hinzufügen",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "Cc",
           "PLACEHOLDER": "E-Mails, durch Kommas getrennt",
           "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "Bcc",
           "PLACEHOLDER": "E-Mails, durch Kommas getrennt",
           "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+        },
+        "SUBJECT": {
+          "LABEL": "Betreff",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
