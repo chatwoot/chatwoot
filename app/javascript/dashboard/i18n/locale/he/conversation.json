@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "חפש הודעות בשיחות",
     "VIEW_ORIGINAL": "הצג מקור",
     "VIEW_TRANSLATED": "הצג מתורגם",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "לפתיחת תפריט פקודות",
       "KEYBOARD_SHORTCUTS": "להצגת קיצורי מקלדת"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "הודעה זו אינה נתמכת. תוכל לצפות בהודעה זו באפליקציית Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "הודעה זו אינה נתמכת. תוכל לצפות בהודעה זו באפליקציית Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
@@ -325,7 +334,6 @@
       "COPILOT_THINKING": "Copilot חושב",
       "EMAIL_HEAD": {
         "TO": "אל",
-        "ADD_BCC": "הוסף bcc",
         "CC": {
           "LABEL": "עותק",
           "PLACEHOLDER": "אימיילים מופרדים בפסיקים",
@@ -335,6 +343,10 @@
           "LABEL": "עותק מוסתר",
           "PLACEHOLDER": "אימיילים מופרדים בפסיקים",
           "ERROR": "בבקשה הכנס כתוכת אימייל"
+        },
+        "SUBJECT": {
+          "LABEL": "נושא",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
