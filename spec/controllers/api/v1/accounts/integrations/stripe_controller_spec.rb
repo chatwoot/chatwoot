@@ -10,7 +10,6 @@ RSpec.describe 'Stripe Integration API', type: :request do
   let(:summary) { instance_double(Integrations::Stripe::CustomerSummary, perform: { customers: [] }) }
 
   before do
-    account.enable_features!('stripe_integration')
     allow(Integrations::Stripe::Oauth).to receive(:configured?).and_return(true)
   end
 
@@ -69,8 +68,8 @@ RSpec.describe 'Stripe Integration API', type: :request do
     expect(hook.reload).to be_present
   end
 
-  it 'exposes administrator cleanup without enabling billing when the feature is disabled' do
-    account.disable_features!('stripe_integration')
+  it 'exposes administrator cleanup without enabling billing when Stripe is not configured' do
+    allow(Integrations::Stripe::Oauth).to receive(:configured?).and_return(false)
     get "/api/v1/accounts/#{account.id}/integrations/apps", headers: admin.create_new_auth_token
     stripe = response.parsed_body.fetch('payload').find { |app| app['id'] == 'stripe' }
     expect(stripe).to include('cleanup_only' => true, 'enabled' => false)

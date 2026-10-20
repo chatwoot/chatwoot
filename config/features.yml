@@ -302,7 +302,8 @@
   column: feature_flags_ext_1
 - name: stripe_integration
   display_name: Stripe Integration
-  enabled: false
+  enabled: true
+  deprecated: true
   column: feature_flags_ext_1
 - name: mobile_voice_push
   display_name: Calls on mobile
