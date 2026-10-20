@@ -15,6 +15,7 @@ class Public::Api::V1::PortalsController < Public::Api::V1::Portals::BaseControl
   end
 
   def sitemap
+    @articles = @portal.search_indexing_disabled? ? Article.none : @portal.articles.published.search_indexable
     @help_center_url = @portal.custom_domain || ChatwootApp.help_center_root
     # if help_center_url does not contain a protocol, prepend it with https
     @help_center_url = "https://#{@help_center_url}" unless @help_center_url.include?('://')
