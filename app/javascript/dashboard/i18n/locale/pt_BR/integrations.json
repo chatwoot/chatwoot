@@ -1,4 +1,54 @@
 {
+  "STRIPE_INTEGRATION": {
+    "UNAVAILABLE": "O Stripe não está disponível para esta conta. Entre em contato com o administrador para verificar a configuração da integração.",
+    "TITLE": "Stripe",
+    "DESCRIPTION": "Veja detalhes, assinaturas e faturas do cliente junto às conversas.",
+    "CONNECT": "Conectar",
+    "DISCONNECT": "Desconectar do Chatwoot",
+    "DISCONNECT_NOTE": "A desconexão remove as credenciais salvas do Chatwoot. Desinstale o aplicativo no Stripe para revogar o acesso por lá.",
+    "CONNECTED": "Conectado",
+    "RECONNECT": "Reconectar ao Stripe",
+    "REAUTHORIZATION_REQUIRED": "É necessário reconectar",
+    "ACCOUNT": "Conta conectada",
+    "ACCOUNT_ID": "ID da Conta",
+    "ENVIRONMENT": "Ambiente",
+    "SANDBOX": "Sandbox",
+    "LIVE": "Em tempo real",
+    "CONNECTED_ON": "Conectado em",
+    "OPEN_STRIPE": "Abrir painel do Stripe",
+    "ERROR": "Não foi possível carregar o Stripe. Por favor, tente novamente ou reconecte a integração.",
+    "EMPTY": "Nenhum cliente do Stripe corresponde ao e-mail deste contato.",
+    "NO_EMAIL": "Adicione um e-mail a este contato para procurar clientes no Stripe.",
+    "SELECT": "Selecione um cliente correspondente",
+    "CUSTOMER_OPTION": "{name} — {id}",
+    "MORE": "Exibindo os primeiros 100 clientes correspondentes. Refine o e-mail do contato se o cliente não estiver na lista.",
+    "SUBSCRIPTIONS": "Últimas cinco assinaturas",
+    "SUBSCRIPTION": "Assinatura",
+    "VIEW_SUBSCRIPTION": "Ver detalhes da assinatura {name}",
+    "COPY_ID": "Copiar ID",
+    "COPIED": "Copiado",
+    "QUANTITY": "Quantidade: {count}",
+    "PRICE_INTERVAL": "{amount} / {interval}",
+    "INTERVAL": {
+      "day": "dia | {count} dias",
+      "week": "semana | {count} semanas",
+      "month": "mês | {count} meses",
+      "year": "ano | {count} anos"
+    },
+    "VARIABLE_PRICE": "Preço por uso ou por níveis",
+    "RENEWS": "Renova em {date}",
+    "PERIOD_START": "Período começa em {date}",
+    "PERIOD_END": "Período termina em {date}",
+    "TRIAL_ENDS": "Período de teste termina em {date}",
+    "CANCELS": "Cancela em {date}",
+    "CANCELS_AT_PERIOD_END": "Cancela ao final do período de cobrança",
+    "CANCELED_ON": "Cancelada em {date}",
+    "MORE_ITEMS": "Itens adicionais da assinatura não são exibidos.",
+    "PRICE_NOTE": "Os preços são por unidade, antes de descontos e impostos. Eles não são uma estimativa da próxima fatura.",
+    "INVOICES": "Faturas recentes",
+    "NO_SUBSCRIPTIONS": "Nenhuma assinatura encontrada.",
+    "NO_INVOICES": "Nenhuma fatura encontrada."
+  },
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
       "HEADER": "Shopify",
@@ -416,6 +466,37 @@
         "BUTTON_TEXT": "Conectar espaço de trabalho do Linear"
       }
     },
+    "GOOGLE_TRANSLATE": {
+      "HEADER": "Tradutor do Google",
+      "DELETE_MESSAGE": "Os agentes não poderão mais traduzir mensagens com o Google Translate. Se o Google Translate for seu serviço de tradução, a tradução automática será interrompida até que você escolha outro serviço.",
+      "SETUP": {
+        "TITLE": "Configurar o Google Translate",
+        "DESCRIPTION": "Você precisará de um projeto do Google Cloud. Isso leva cerca de cinco minutos.",
+        "STEPS": {
+          "ENABLE_API": {
+            "TITLE": "Ativar a Cloud Translation API",
+            "DESCRIPTION": "Escolha um projeto no console do Google Cloud e ative a Cloud Translation API. Anote o ID do projeto.",
+            "LINK": "Abrir a Cloud Translation API"
+          },
+          "CREATE_KEY": {
+            "TITLE": "Criar uma chave de conta de serviço",
+            "DESCRIPTION": "Crie uma conta de serviço com a função Cloud Translation API User. Depois, abra a conta, acesse Chaves e adicione uma chave JSON.",
+            "LINK": "Abrir contas de serviço"
+          },
+          "CONNECT": {
+            "TITLE": "Conectar aqui",
+            "DESCRIPTION": "Clique em Conectar, insira o ID do projeto e cole o arquivo da chave. Faremos a verificação com o Google antes de salvar."
+          }
+        }
+      },
+      "DETAILS": {
+        "PROJECT": "Projeto do Google Cloud",
+        "SERVICE": "Serviço de tradução",
+        "SERVICE_GOOGLE": "O Google Translate processa todas as traduções das suas conversas. Quando a tradução automática está ativada, ele traduz as mensagens recebidas para o idioma de cada agente e envia as respostas no idioma do cliente. Os agentes também o utilizam ao traduzir uma mensagem pelo menu da mensagem.",
+        "SERVICE_OTHER": "O Captain está selecionado como seu serviço de tradução, por isso o Google Translate não está sendo usado no momento. Tanto a tradução automática quanto a ação Traduzir nas mensagens são processadas pelo Captain. Altere o serviço para o Google Translate para usar esta integração.",
+        "CHANGE": "Trocar"
+      }
+    },
     "NOTION": {
       "HEADER": "Notion",
       "DELETE": {
@@ -636,6 +717,12 @@
       "YOU": "Você",
       "USE": "Use isto",
       "RESET": "Reiniciar",
+      "NEW_CHAT": "Novo chat",
+      "HISTORY": "Chats anteriores",
+      "NO_HISTORY": "Seus chats anteriores com o Copilot aparecerão aqui.",
+      "LOAD_MORE": "Carregar mais chats",
+      "LOADING_CHAT": "Carregando chat...",
+      "LOADING_HISTORY": "Carregando chats anteriores...",
       "SHOW_STEPS": "Mostrar etapas",
       "SELECT_ASSISTANT": "Selecione o Assistente",
       "PROMPTS": {
@@ -1281,18 +1368,38 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Ferramentas",
       "ADD_NEW": "Criar ferramenta",
+      "CATALOG": {
+        "BUTTON": "Catálogo de Ferramentas",
+        "HEADER": "Catálogo de Ferramentas",
+        "DESCRIPTION": "Explore conjuntos de ferramentas do catálogo de ferramentas do Captain e instale-os neste assistente.",
+        "ALL": "Todos",
+        "EMPTY": "Ainda não há conjuntos de ferramentas nesta categoria.",
+        "LOAD_ERROR": "Não foi possível carregar o catálogo de ferramentas. Verifique a URL do catálogo nas configurações do Captain.",
+        "TOOL_COUNT": "{n} ferramenta | {n} ferramentas",
+        "VERSION": "v{version}",
+        "UPDATED": "Atualizado em {time}",
+        "REPOSITORY": "Repositório",
+        "MANIFEST": "Manifesto",
+        "CONFIGURATION": "Configuração",
+        "REQUIRED": "Obrigatório",
+        "DETAILS_ERROR": "Não foi possível carregar os detalhes do conjunto de ferramentas.",
+        "INSTALLED": "Instalado",
+        "UPDATE_AVAILABLE": "Atualização disponível"
+      },
+      "INSTALL_LINK": {
+        "TITLE": "Escolha um assistente",
+        "DESCRIPTION": "Selecione o assistente no qual deseja instalar este conjunto de ferramentas.",
+        "PLACEHOLDER": "Selecione um assistente",
+        "LOAD_ERROR": "Não foi possível carregar seus assistentes. Recarregue a página para tentar novamente."
+      },
       "INSTALL_MANIFEST": {
         "TITLE": "Instalar um conjunto de ferramentas",
         "DESCRIPTION": "Instale um conjunto de ferramentas do catálogo de ferramentas do Captain.",
-        "SOURCE_LABEL": "Conjunto de ferramentas",
-        "SOURCE_PLACEHOLDER": "chatwoot/tools/folder",
-        "SOURCE_HELP": "Instala a versão mais recente do catálogo.",
         "VERSION_LABEL": "v{version} · {revision}",
         "UPDATE_NOTE": "Uma versão diferente está instalada. A atualização substitui as ferramentas e mantém o estado de ativação de cada uma. Insira os segredos novamente.",
         "TOOLS_LABEL": "Ferramentas",
         "CONFIGURATION_LABEL": "Configuração",
         "CONTINUE": "Continuar",
-        "BACK": "Anterior",
         "INSTALL": "Instalar",
         "UPDATE": "Atualizar",
         "REINSTALL": "Reinstalar",
@@ -1348,7 +1455,9 @@
         "ERROR_MESSAGE": "Falha ao criar a ferramenta personalizada"
       },
       "VIEW": {
-        "TITLE": "Detalhes da ferramenta personalizada"
+        "TITLE": "Detalhes da ferramenta personalizada",
+        "REQUEST": "Requisição e resposta",
+        "INSTALLED_NOTE": "Esta ferramenta é somente leitura porque foi instalada a partir do Catálogo de Ferramentas."
       },
       "EDIT": {
         "TITLE": "Editar Ferramenta Personalizada",
@@ -1401,6 +1510,11 @@
         },
         "AUTH_TYPE": {
           "LABEL": "Tipo de Autenticação"
+        },
+        "EMAIL_VERIFICATION": {
+          "LABEL": "Exigir verificação de e-mail",
+          "DESCRIPTION": "O Captain só pode usar esta ferramenta depois que o cliente verificar o e-mail com um código de uso único.",
+          "IMPLIED": "Um parâmetro recebe o e-mail verificado do cliente, portanto a verificação de e-mail é sempre obrigatória."
         },
         "AUTH_TYPES": {
           "NONE": "Nenhuma",
@@ -1456,6 +1570,21 @@
         },
         "PARAM_REQUIRED": {
           "LABEL": "Obrigatório"
+        },
+        "RISK": {
+          "MEDIUM": "Esta ferramenta pode retornar dados do cliente. Considere exigir a verificação de e-mail.",
+          "HIGH": "Esta ferramenta parece ler ou alterar dados do cliente. Exija a verificação de e-mail para que apenas um cliente verificado possa usá-la.",
+          "TITLE": "Salvar sem verificação de e-mail?",
+          "GO_BACK": "Voltar atrás",
+          "SAVE_ANYWAY": "Salvar mesmo assim",
+          "EMAIL_PARAM": "Este e-mail não foi verificado. Um cliente pode informar o e-mail de outra pessoa.",
+          "USE_VERIFIED_EMAIL": "Usar e-mail verificado"
+        },
+        "VERIFIED_VALUES": {
+          "ADD": "Adicionar e-mail verificado",
+          "EMAIL": "E-mail do contato",
+          "EMAIL_DESCRIPTION": "O endereço de e-mail verificado do contato",
+          "HELP": "Preenchido pelo Chatwoot com o e-mail que o contato confirmou por meio de um código de uso único. O Captain não pode vê-lo nem alterá-lo nas conversas com clientes."
         },
         "REQUEST_TEMPLATE": {
           "LABEL": "Modelo do Corpo da Requisição (Opcional)",
