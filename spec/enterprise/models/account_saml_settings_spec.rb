@@ -122,6 +122,23 @@ RSpec.describe AccountSamlSettings, type: :model do
       expect(fingerprint).to match(/^[A-F0-9:]+$/)
       expect(fingerprint.count(':')).to eq(19) # 20 bytes = 19 colons
     end
+
+    it 'returns the fingerprint of the certificate that expires last when several are stored' do
+      key = OpenSSL::PKey::RSA.new(2048)
+      rotated = OpenSSL::X509::Certificate.new
+      rotated.version = 2
+      rotated.serial = 2
+      rotated.subject = OpenSSL::X509::Name.parse('/CN=rotated.example.com')
+      rotated.issuer = rotated.subject
+      rotated.public_key = key.public_key
+      rotated.not_before = Time.zone.now
+      rotated.not_after = 2.years.from_now
+      rotated.sign(key, OpenSSL::Digest.new('SHA256'))
+      settings = build(:account_saml_settings, account: account)
+      settings.signing_certificates = [valid_cert_pem.strip, rotated.to_pem.strip]
+
+      expect(settings.certificate_fingerprint).to eq(OpenSSL::Digest::SHA1.hexdigest(rotated.to_der).upcase.scan(/../).join(':'))
+    end
   end
 
   describe 'IdP metadata' do

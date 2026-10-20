@@ -40,12 +40,13 @@ class AccountSamlSettings < ApplicationRecord
     sso_url.present? && certificate.present?
   end
 
+  # Admins compare this with the IdP to confirm a refresh picked up a rotated certificate.
+  # When the IdP lists several certificates, it shows the newest one, the same certificate certificate_expiring? uses.
   def certificate_fingerprint
     return nil if certificate.blank?
 
     begin
-      cert = OpenSSL::X509::Certificate.new(certificate)
-      OpenSSL::Digest::SHA1.new(cert.to_der).hexdigest
+      OpenSSL::Digest::SHA1.new(newest_certificate.to_der).hexdigest
                            .upcase.gsub(/(.{2})(?=.)/, '\1:')
     rescue OpenSSL::X509::CertificateError
       nil
@@ -88,9 +89,14 @@ class AccountSamlSettings < ApplicationRecord
 
   private
 
-  # Uses the newest certificate, so an expired one the IdP still lists does not keep triggering refreshes
   def certificate_expiring?
-    parsed_certificates.map(&:not_after).max < CERTIFICATE_EXPIRY_WINDOW.from_now
+    newest_certificate.not_after < CERTIFICATE_EXPIRY_WINDOW.from_now
+  end
+
+  # During a rotation the IdP lists the outgoing and incoming certificates in no fixed order, so the newest is the
+  # one picked by expiry date. An expired certificate the IdP still lists then does not keep triggering refreshes.
+  def newest_certificate
+    parsed_certificates.max_by(&:not_after)
   end
 
   # Reads every certificate in the stored value, and raises if any block is malformed or none is found
