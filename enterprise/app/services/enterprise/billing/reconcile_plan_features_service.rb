@@ -48,7 +48,6 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
 
     account.disable_features(*managed_plan_features)
     account.enable_features(*current_plan_features)
-    account.enable_features('stripe_integration')
     account.enable_features(*manually_managed_features)
     update_shopify_managed_features
     account.save!
