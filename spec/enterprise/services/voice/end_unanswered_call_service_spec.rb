@@ -36,6 +36,17 @@ RSpec.describe Voice::EndUnansweredCallService do
     expect(call.ended_at).to be_present
   end
 
+  it "records the ring time's outcome when the move's own webhooks end the call first" do
+    allow(twilio_call).to receive(:update) do
+      Voice::CallStatus::Manager.new(call: Call.find(call.id)).process_status_update('completed', timestamp: Time.zone.now.to_i)
+    end
+
+    expect(service.perform).to be_nil
+
+    expect(call.reload).to have_attributes(status: 'no_answer', end_reason: 'ring_timeout')
+    expect(call.message.reload.content_attributes.dig('data', 'status')).to eq('no-answer')
+  end
+
   it 'updates the call message and tells the dashboards the call ended' do
     service.perform
 

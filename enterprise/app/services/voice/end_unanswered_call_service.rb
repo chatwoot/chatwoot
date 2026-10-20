@@ -4,7 +4,10 @@
 class Voice::EndUnansweredCallService
   pattr_initialize [:call!]
 
-  # Returns the seconds to wait when an agent's connection is still on its way in, else nil
+  # Returns the seconds to wait when an agent's connection is still on its way in, else nil.
+  # Moving the caller out makes Twilio report their leave and the conference's end within
+  # moments, so those webhooks can end the call before this lock is taken; a call nobody
+  # answered still gets the ring time's outcome.
   def perform
     marked = mark_timing_out
     return marked unless marked == :marked
@@ -13,7 +16,7 @@ class Voice::EndUnansweredCallService
     call.with_lock do
       next unless call.ring_state['timing_out_at'] == @attempt_at
 
-      caller_gone && call.ringing? ? finalize : clear_mark
+      caller_gone && (call.ringing? || call.accepted_by_agent_id.nil?) ? finalize : clear_mark
     end
     nil
   rescue StandardError
@@ -57,9 +60,11 @@ class Voice::EndUnansweredCallService
 
   def announcement_twiml = Voice::Provider::Twilio::TwimlBuilder.new(inbox: call.inbox).announcement(:unanswered)
 
+  # The status manager stamps the end when the call is still ringing; a call the move's own
+  # webhooks ended first, as completed, is corrected to the ring time's outcome
   def finalize
-    call.update!(end_reason: Call::RING_TIMEOUT)
     Voice::CallStatus::Manager.new(call: call).process_status_update('no_answer', timestamp: Time.zone.now.to_i)
+    call.update!(status: 'no_answer', end_reason: Call::RING_TIMEOUT)
     Voice::CallMessageBuilder.new(call).update_status!(status: 'no_answer')
     call.broadcast_voice_call_event(:ended, status: call.display_status)
   end
