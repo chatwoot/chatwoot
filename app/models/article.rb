@@ -130,6 +130,17 @@ class Article < ApplicationRecord
     article.associated_article_id || article.id
   end
 
+  def translation_family
+    root_id = associated_article_id || id
+    articles = portal.articles
+
+    articles.where(id: root_id).or(articles.where(associated_article_id: root_id))
+  end
+
+  def public_locale
+    category.present? ? category.locale : locale
+  end
+
   def draft!
     update(status: :draft)
   end
