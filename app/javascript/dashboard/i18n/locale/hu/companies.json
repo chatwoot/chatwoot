@@ -26,8 +26,8 @@
       "CREATE": "Cég létrehozása"
     },
     "SELECTOR": {
-      "PLACEHOLDER": "Select company",
-      "CREATE_OPTION": "Add \"{name}\""
+      "PLACEHOLDER": "Cég kiválasztása",
+      "CREATE_OPTION": "\"{name}\" hozzáadása"
     },
     "CREATE": {
       "TITLE": "Cég létrehozása",
@@ -46,53 +46,53 @@
       },
       "HEADER": {
         "EDIT": "Szerkesztés",
-        "MORE": "Show more",
+        "MORE": "Továbbiak megjelenítése",
         "LESS": "Kevesebb mutatása",
-        "OPEN_COUNT": "{count} open | {count} open",
-        "REFRESH_WITH_TIME": "Refresh profile (updated {time})"
+        "OPEN_COUNT": "{count} nyitott | {count} nyitott",
+        "REFRESH_WITH_TIME": "Profil frissítése (frissítve: {time})"
       },
       "FACTS": {
         "INDUSTRY": "Iparág",
-        "SIZE": "Employees",
-        "LOCATION": "Based in",
-        "ADDED": "Added",
-        "UNKNOWN": "Unknown",
+        "SIZE": "Alkalmazottak",
+        "LOCATION": "Székhely",
+        "ADDED": "Hozzáadva",
+        "UNKNOWN": "Ismeretlen",
         "YES": "Igen",
         "NO": "Nem"
       },
       "PEOPLE": {
         "ADD": "Hozzáadás",
-        "SEARCH": "Search people",
-        "EMPTY": "No one from this company yet.",
-        "NO_MATCHES": "No people match your search.",
-        "DIALOG_TITLE": "Add people to {name}"
+        "SEARCH": "Kontaktok keresése",
+        "EMPTY": "Ehhez a céghez még nem tartozik kontakt.",
+        "NO_MATCHES": "Nem található a keresésnek megfelelő kontakt.",
+        "DIALOG_TITLE": "Kontaktok hozzáadása a céghez: {name}"
       },
       "TABS": {
         "CONVERSATIONS": "Beszélgetések",
         "NOTES": "Megjegyzések",
-        "PEOPLE": "People"
+        "PEOPLE": "Kontaktok"
       },
       "ACTIVITY": {
         "TODAY": "Ma",
         "YESTERDAY": "Tegnap",
-        "UNKNOWN_AUTHOR": "Someone",
-        "EMPTY_CONVERSATIONS": "No conversations yet. They'll show up here when this company's people get in touch.",
-        "EMPTY_NOTES": "No notes yet. Notes added to this company's people show up here.",
+        "SYSTEM_AUTHOR": "Rendszer",
+        "EMPTY_CONVERSATIONS": "Még nincsenek beszélgetések. Itt jelennek meg, amikor a céghez tartozó kontaktok kapcsolatba lépnek Önnel.",
+        "EMPTY_NOTES": "Még nincsenek jegyzetek. Itt jelennek meg a cég kontaktjaihoz hozzáadott jegyzetek.",
         "LOAD_MORE": "Load more",
-        "SEARCH_NOTES": "Search notes",
-        "NO_MATCHING_NOTES": "No notes match your search.",
-        "NO_MATCHING_CONVERSATIONS": "No conversations match these filters."
+        "SEARCH_NOTES": "Jegyzetek keresése",
+        "NO_MATCHING_NOTES": "Nincs a keresésnek megfelelő jegyzet.",
+        "NO_MATCHING_CONVERSATIONS": "Egyik beszélgetés sem felel meg ezeknek a szűrőknek."
       },
       "EDIT": {
-        "TITLE": "Edit company",
+        "TITLE": "Cég szerkesztése",
         "SAVE": "Save changes",
         "DESCRIPTION": "Leírás",
-        "DETAILS": "Details",
+        "DETAILS": "Részletek",
         "CITY": "Város",
         "COUNTRY": "Ország",
         "PHONE": "Telefon",
         "SOCIAL": {
-          "TITLE": "Social profiles",
+          "TITLE": "Közösségi profilok",
           "LINKEDIN": "LinkedIn",
           "X": "X",
           "FACEBOOK": "Facebook",
@@ -102,8 +102,8 @@
         },
         "PLACEHOLDERS": {
           "DOMAIN": "acme.com",
-          "INDUSTRY": "Software",
-          "EMPLOYEES": "51 to 200",
+          "INDUSTRY": "Szoftver",
+          "EMPLOYEES": "51–200",
           "USERNAME": "username"
         }
       },
@@ -152,22 +152,22 @@
         }
       },
       "AVATAR": {
-        "UPDATING": "Updating company avatar...",
-        "UPLOAD_SUCCESS": "Company avatar updated.",
-        "UPLOAD_ERROR": "Could not update the company avatar.",
-        "DELETE_SUCCESS": "Company avatar removed.",
+        "UPDATING": "Cég profilképének frissítése...",
+        "UPLOAD_SUCCESS": "A cég profilképe frissült.",
+        "UPLOAD_ERROR": "Nem sikerült frissíteni a cég profilképét.",
+        "DELETE_SUCCESS": "A cég profilképe eltávolítva.",
         "DELETE_ERROR": "Nem sikerült eltávolítani a cég profilképét."
       },
       "PROFILE": {
         "DESCRIPTION_PLACEHOLDER": "Adj hozzá egy rövid leírást ehhez a céghez",
         "ACTIONS": {
-          "REFRESH": "Refresh profile"
+          "REFRESH": "Profil frissítése"
         },
         "MESSAGES": {
           "UPDATE_SUCCESS": "Cég frissítve.",
           "UPDATE_ERROR": "Nem sikerült frissíteni a céget.",
-          "REFRESH_SUCCESS": "Company profile refreshed.",
-          "REFRESH_ERROR": "Could not refresh the company profile."
+          "REFRESH_SUCCESS": "A cég profilja frissült.",
+          "REFRESH_ERROR": "Nem sikerült frissíteni a cég profilját."
         },
         "FIELDS": {
           "NAME": "Név",
@@ -187,25 +187,25 @@
       },
       "CONVERSATION_FILTERS": {
         "BUTTON": "Szűrő",
-        "BUTTON_WITH_COUNT": "Filter ({count})",
-        "ANY": "Any"
+        "BUTTON_WITH_COUNT": "Szűrés ({count})",
+        "ANY": "Bármelyik"
       },
       "ENRICHMENT_UPGRADE": {
-        "TITLE": "Enrich company profiles on the Business plan",
-        "DESCRIPTION": "Automatically fill in a company's description, industry, size, location and social profiles from its domain. Available on the Business and Enterprise plans.",
-        "UPGRADE": "See plans"
+        "TITLE": "Cégprofilok kiegészítése Business csomaggal",
+        "DESCRIPTION": "A domain alapján automatikusan kitölti a cég leírását, iparágát, méretét, helyét és közösségi profiljait. Business és Enterprise csomagban érhető el.",
+        "UPGRADE": "Csomagok megtekintése"
       }
     },
     "EMPTY_STATE": {
       "TITLE": "No companies found"
     },
     "CARD": {
-      "EMPLOYEES": "{count} employees"
+      "EMPLOYEES": "{count} alkalmazott"
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Companies",
-      "AVAILABLE_ON": "Companies is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to group contacts by company, see every conversation with an account and keep company details in one place.",
+      "TITLE": "Váltson magasabb csomagra a Cégek funkció használatához",
+      "AVAILABLE_ON": "A Cégek funkció nem érhető el az ingyenes csomagban.",
+      "UPGRADE_PROMPT": "Váltson magasabb csomagra, hogy cégek szerint csoportosíthassa a kontaktokat, megtekinthesse a céghez tartozó összes beszélgetést, és egy helyen kezelhesse a cég adatait.",
       "UPGRADE_NOW": "Upgrade now",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     }
