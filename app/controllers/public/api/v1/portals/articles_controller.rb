@@ -77,10 +77,9 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   def set_locale_switch_urls
     root_article_id = Article.find_root_article_id(@article)
     article_ids = translation_family_ids(@portal.articles, root_article_id, :associated_article_id)
-    @locale_switch_urls = @portal.articles.published.where(id: article_ids).index_by(&:locale)
-
-    @locale_switch_urls.transform_values! do |article|
-      helpers.generate_article_link(@portal.slug, article.slug, @theme_from_params, @is_plain_layout_enabled)
+    @locale_switch_urls = @portal.articles.published.where(id: article_ids).includes(:category).to_h do |article|
+      locale = article.category&.locale || article.locale
+      [locale, helpers.generate_article_link(@portal.slug, article.slug, @theme_from_params, @is_plain_layout_enabled)]
     end
   end
 

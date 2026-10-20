@@ -248,6 +248,36 @@ RSpec.describe 'Public Articles API', type: :request do
       links = Nokogiri::HTML(response.body).css('header details a').map { |link| link['href'] }
       expect(links).to include("/hc/#{portal.slug}/articles/#{translated_article.slug}")
     end
+
+    it 'uses the category locale after a translated category changes language' do
+      portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
+      source_article = create(:article, category: category, portal: portal, author: agent)
+      translated_article = create(:article, category: category_2, portal: portal, author: agent,
+                                            associated_article_id: source_article.id)
+      admin = create(:user, account: portal.account, role: :administrator)
+
+      put "/api/v1/accounts/#{portal.account_id}/portals/#{portal.slug}/categories/#{category_2.id}",
+          params: { category: { locale: 'fr' } }, headers: admin.create_new_auth_token
+
+      expect(response).to have_http_status(:success)
+      expect([category_2.reload.locale, translated_article.reload.locale]).to eq(%w[fr es])
+
+      get "/hc/#{portal.slug}/articles/#{translated_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(Nokogiri::HTML(response.body).at_css('html')['lang']).to eq('fr')
+
+      get "/hc/#{portal.slug}/articles/#{source_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      switchers = Nokogiri::HTML(response.body).css('select.locale-switcher')
+      expect(switchers.size).to eq(2)
+      switchers.each do |switcher|
+        options = switcher.css('option').to_h { |option| [option.text, option['value']] }
+        expect(options).to include('Spanish (es)' => "/hc/#{portal.slug}/es",
+                                   'French (fr)' => "/hc/#{portal.slug}/articles/#{translated_article.slug}")
+      end
+    end
   end
 
   describe 'GET /public/api/v1/portals/:slug/articles/:slug.md (markdown)' do
