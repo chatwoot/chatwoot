@@ -33,6 +33,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isOnHold: {
+    type: Boolean,
+    default: false,
+  },
+  showHold: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 defineEmits([
@@ -40,6 +48,7 @@ defineEmits([
   'reject',
   'end',
   'toggleMute',
+  'toggleHold',
   'goToConversation',
   'dismiss',
 ]);
@@ -55,16 +64,26 @@ const isOutgoing = computed(
 );
 
 const statusIcon = computed(() => {
-  if (isOngoing.value) return 'i-ph-phone-call-bold';
+  if (isOngoing.value) {
+    return props.isOnHold ? 'i-ph-pause-circle-bold' : 'i-ph-phone-call-bold';
+  }
   if (isOutgoing.value) return 'i-ph-phone-outgoing-bold';
   return 'i-ph-phone-incoming-bold';
 });
 
 const statusLabel = computed(() => {
-  if (isOngoing.value) return t('CONVERSATION.VOICE_WIDGET.CALL_IN_PROGRESS');
+  if (isOngoing.value) {
+    return props.isOnHold
+      ? t('CONVERSATION.VOICE_WIDGET.ON_HOLD')
+      : t('CONVERSATION.VOICE_WIDGET.CALL_IN_PROGRESS');
+  }
   if (isOutgoing.value) return t('CONVERSATION.VOICE_WIDGET.OUTGOING_CALL');
   return t('CONVERSATION.VOICE_WIDGET.INCOMING_CALL');
 });
+
+const statusColorClass = computed(() =>
+  isOngoing.value && props.isOnHold ? 'text-n-amber-11' : 'text-n-teal-9'
+);
 
 const channelIcon = computed(() => {
   if (props.call?.provider === VOICE_CALL_PROVIDERS.WHATSAPP)
@@ -83,8 +102,15 @@ const channelIcon = computed(() => {
       <div class="flex items-center gap-2 px-4">
         <!-- Ongoing: status badge on left -->
         <div v-if="isOngoing" class="flex items-center gap-1.5 shrink-0">
-          <Icon :icon="statusIcon" class="size-3.5 text-n-teal-9 shrink-0" />
-          <span class="text-xs font-medium text-n-teal-9 tracking-tight">
+          <Icon
+            :icon="statusIcon"
+            class="size-3.5 shrink-0"
+            :class="statusColorClass"
+          />
+          <span
+            class="text-xs font-medium tracking-tight"
+            :class="statusColorClass"
+          >
             {{ statusLabel }}
           </span>
         </div>
@@ -163,6 +189,21 @@ const channelIcon = computed(() => {
 
         <!-- Actions -->
         <div class="flex items-center gap-2 shrink-0">
+          <!-- Hold / resume (Twilio ongoing only); separate from muting the mic -->
+          <NextButton
+            v-if="isOngoing && showHold"
+            v-tooltip.top="
+              isOnHold
+                ? $t('CONVERSATION.VOICE_WIDGET.RESUME')
+                : $t('CONVERSATION.VOICE_WIDGET.HOLD')
+            "
+            :icon="isOnHold ? 'i-ph-play-bold' : 'i-ph-pause-bold'"
+            :variant="isOnHold ? 'solid' : 'faded'"
+            :color="isOnHold ? 'amber' : 'teal'"
+            class="!rounded-full"
+            @click="$emit('toggleHold')"
+          />
+
           <!-- Mute toggle (WhatsApp ongoing only) -->
           <NextButton
             v-if="isOngoing && showMute"

@@ -105,6 +105,9 @@ en:
       failed: Signup failed
     voice:
       call_already_accepted: '%{agent_name} is already handling the call.'
+      invalid_hold: 'Provide a boolean for hold'
+      not_handling_agent: 'Only the agent on the call can hold or resume it.'
+      hold_failed: 'Could not update the hold. Please try again.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:

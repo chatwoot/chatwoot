@@ -30,6 +30,15 @@ class Voice::Provider::Twilio::ConferenceService
     in_progress_conferences.any? { |conf| other_agent_present?(conf.sid, leaving_call_sid) }
   end
 
+  # Holds or resumes the contact's leg in the conference: on hold they hear Twilio's hold music and
+  # nobody hears them. A refusal propagates, so the dashboard never shows a hold Twilio did not make.
+  def hold_contact(on_hold)
+    client.conferences(call.twilio_conference_sid).participants(call.provider_call_id).update(hold: on_hold)
+  rescue Twilio::REST::RestError => e
+    Rails.logger.error("[VOICE] call #{call.id}: hold=#{on_hold} failed: #{e.class}: #{e.message}")
+    raise Voice::CallErrors::CallFailed, I18n.t('errors.voice.hold_failed')
+  end
+
   # Hangs up legs that never joined the conference (e.g. a PSTN leg still ringing). `completed` ends
   # queued, ringing and in-progress legs alike (`canceled` skips in-progress); Twilio 200s on an ended leg.
   def terminate_call

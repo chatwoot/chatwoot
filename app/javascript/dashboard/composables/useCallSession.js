@@ -230,7 +230,20 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     callsStore.dismissCall(callSid);
   };
 
-  return { endCall, joinCall, rejectIncomingCall, dismissCall };
+  // Twilio only: the caller is held in the conference, apart from the agent's mic mute
+  const holdCall = async ({ conversationId, inboxId, callSid, hold }) => {
+    try {
+      await VoiceAPI.setHold({ inboxId, conversationId, callSid, hold });
+      callsStore.setCallOnHold(callSid, hold);
+    } catch (error) {
+      useAlert(
+        error?.response?.data?.error ||
+          t('CONVERSATION.VOICE_WIDGET.HOLD_FAILED')
+      );
+    }
+  };
+
+  return { endCall, joinCall, rejectIncomingCall, dismissCall, holdCall };
 };
 
 const buildReactiveSurface = callsStore => {

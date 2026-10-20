@@ -27,6 +27,7 @@ const {
   endCall: endCallSession,
   rejectIncomingCall,
   dismissCall,
+  holdCall,
   formattedCallDuration,
 } = useCallSession();
 
@@ -36,6 +37,21 @@ const isMuted = ref(false);
 const isWhatsappActive = computed(
   () => activeCall.value?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
 );
+
+// Hold lives in the Twilio conference, so only Twilio calls offer it
+const isOnHold = computed(() => !!activeCall.value?.onHold);
+const showHold = computed(() => hasActiveCall.value && !isWhatsappActive.value);
+
+const toggleHold = () => {
+  const call = activeCall.value;
+  if (!call) return;
+  holdCall({
+    conversationId: call.conversationId,
+    inboxId: call.inboxId,
+    callSid: call.callSid,
+    hold: !call.onHold,
+  });
+};
 
 const primaryIncomingCall = computed(() =>
   hasActiveCall.value ? null : incomingCalls.value[0] || null
@@ -262,11 +278,14 @@ onBeforeUnmount(stopRingtone);
       :duration="hasActiveCall ? formattedCallDuration : ''"
       :is-muted="isMuted"
       :show-mute="hasActiveCall"
+      :is-on-hold="isOnHold"
+      :show-hold="showHold"
       @accept="handleJoinCall(primaryIncomingCall)"
       @reject="rejectIncomingCall(primaryIncomingCall?.callSid)"
       @dismiss="dismissCall(primaryIncomingCall?.callSid)"
       @end="handleEndCall"
       @toggle-mute="toggleMute"
+      @toggle-hold="toggleHold"
       @go-to-conversation="goToConversation(activeCall || primaryIncomingCall)"
     />
   </div>

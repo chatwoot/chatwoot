@@ -30,6 +30,16 @@ class VoiceAPI extends ApiClient {
       .then(r => r.data);
   }
 
+  setHold({ inboxId, conversationId, callSid, hold }) {
+    return axios
+      .patch(`${this.baseUrl()}/inboxes/${inboxId}/conference/hold`, {
+        conversation_id: conversationId,
+        call_sid: callSid,
+        hold,
+      })
+      .then(r => r.data);
+  }
+
   getToken(inboxId) {
     if (!inboxId) return Promise.reject(new Error('Inbox ID is required'));
     return axios

@@ -148,6 +148,35 @@ describe Voice::Provider::Twilio::ConferenceService do
     end
   end
 
+  describe '#hold_contact' do
+    let(:participant) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext::ParticipantContext, update: true) }
+    let(:conference_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::ConferenceContext) }
+
+    before do
+      call.update!(twilio_conference_sid: 'CF_TWILIO')
+      allow(twilio_client).to receive(:conferences).with('CF_TWILIO').and_return(conference_context)
+      allow(conference_context).to receive(:participants).with(call.provider_call_id).and_return(participant)
+    end
+
+    it 'holds the contact leg in the conference' do
+      service.hold_contact(true)
+
+      expect(participant).to have_received(:update).with(hold: true)
+    end
+
+    it 'resumes the contact leg' do
+      service.hold_contact(false)
+
+      expect(participant).to have_received(:update).with(hold: false)
+    end
+
+    it 'raises a call error when Twilio refuses, so no hold is shown' do
+      allow(participant).to receive(:update).and_raise(Twilio::REST::RestError.new('not found', Twilio::Response.new(404, '{}')))
+
+      expect { service.hold_contact(true) }.to raise_error(Voice::CallErrors::CallFailed, 'Could not update the hold. Please try again.')
+    end
+  end
+
   describe '#terminate_call' do
     let(:call_context) { instance_double(Twilio::REST::Api::V2010::AccountContext::CallContext, update: true) }
 

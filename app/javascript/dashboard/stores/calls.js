@@ -74,7 +74,14 @@ export const useCallsStore = defineStore('calls', {
       this.calls = this.calls.map(call => ({
         ...call,
         isActive: call.callSid === callSid,
+        onHold: false,
       }));
+    },
+
+    // Flipped only after Twilio confirmed the hold, so the card never shows a hold that failed
+    setCallOnHold(callSid, onHold) {
+      const call = this.calls.find(c => c.callSid === callSid);
+      if (call) call.onHold = onHold;
     },
 
     clearActiveCall() {
