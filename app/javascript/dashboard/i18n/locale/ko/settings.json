@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "참여 중인 대화에서 새 메시지가 생성될 때 이메일 알림 보내기",
         "SLA_MISSED_FIRST_RESPONSE": "대화가 첫 응답 SLA를 놓쳤을 때 이메일 알림 보내기",
         "SLA_MISSED_NEXT_RESPONSE": "대화가 다음 응답 SLA를 놓쳤을 때 이메일 알림 보내기",
-        "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓쳤을 때 이메일 알림 보내기"
+        "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓쳤을 때 이메일 알림 보내기",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "알림 기본 설정",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "참여 중인 대화에서 새 메시지가 생성됨",
           "SLA_MISSED_FIRST_RESPONSE": "대화가 첫 응답 SLA를 놓침",
           "SLA_MISSED_NEXT_RESPONSE": "대화가 다음 응답 SLA를 놓침",
-          "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓침"
+          "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓침",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "브라우저의 푸시 알림을 활성화하여 알림을 받을 수 있도록 하십시오"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "푸시 알림 활성화",
         "SLA_MISSED_FIRST_RESPONSE": "대화가 첫 응답 SLA를 놓쳤을 때 푸시 알림 보내기",
         "SLA_MISSED_NEXT_RESPONSE": "대화가 다음 응답 SLA를 놓쳤을 때 푸시 알림 보내기",
-        "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓쳤을 때 푸시 알림 보내기"
+        "SLA_MISSED_RESOLUTION": "대화가 해결 SLA를 놓쳤을 때 푸시 알림 보내기",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "프로필 이미지"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "도움말 센터 검색 인덱싱",
         "DESCRIPTION": "도움말 센터 게시물 내에서 맥락 인식 검색을 위해 AI를 사용합니다."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "라벨 제안",
-        "DESCRIPTION": "콘텐츠 분석 및 맥락에 기반하여 대화에 대한 관련 라벨과 태그를 자동으로 제안합니다.",
-        "MODEL_TITLE": "라벨 제안 모델",
-        "MODEL_DESCRIPTION": "대화 분석 및 적절한 라벨 제안에 사용할 AI 모델을 선택합니다"
       }
     },
     "API": {
