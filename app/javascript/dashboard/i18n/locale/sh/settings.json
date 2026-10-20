@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Pošalji obavijesti e-poštom kada je u konverzaciji u kojoj sudjelujete kreirana nova poruka",
         "SLA_MISSED_FIRST_RESPONSE": "Pošalji obavijesti e-poštom kada konverzacija ne ispuni SLA za prvi odgovor",
         "SLA_MISSED_NEXT_RESPONSE": "Pošalji obavijesti e-poštom kada konverzacija ne ispuni SLA za sljedeći odgovor",
-        "SLA_MISSED_RESOLUTION": "Pošalji obavijesti e-poštom kada konverzacija ne ispuni SLA za rješenje"
+        "SLA_MISSED_RESOLUTION": "Pošalji obavijesti e-poštom kada konverzacija ne ispuni SLA za rješenje",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Postavke obavijesti",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "U novoj poruci u razgovoru u kojem sudjelujete",
           "SLA_MISSED_FIRST_RESPONSE": "Razgovor nije ispunio SLA za prvi odgovor",
           "SLA_MISSED_NEXT_RESPONSE": "Razgovor nije ispunio SLA za sljedeći odgovor",
-          "SLA_MISSED_RESOLUTION": "Razgovor nije ispunio SLA za rješenje"
+          "SLA_MISSED_RESOLUTION": "Razgovor nije ispunio SLA za rješenje",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Enable push notifications",
         "SLA_MISSED_FIRST_RESPONSE": "Šalji push obavijesti kada razgovor ne ispuni SLA za prvi odgovor",
         "SLA_MISSED_NEXT_RESPONSE": "Šalji push obavijesti kada razgovor ne ispuni SLA za sljedeći odgovor",
-        "SLA_MISSED_RESOLUTION": "Šalji push obavijesti kada razgovor ne ispuni SLA za rješenje"
+        "SLA_MISSED_RESOLUTION": "Šalji push obavijesti kada razgovor ne ispuni SLA za rješenje",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilna slika"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Indeksiranje pretraživanja centra za pomoć",
         "DESCRIPTION": "Koristi umjetnu inteligenciju za kontekstualno pretraživanje unutar članaka centra za pomoć."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Prijedlog oznake",
-        "DESCRIPTION": "Automatski predlaži relevantne oznake i tagove za razgovore na temelju analize sadržaja i konteksta.",
-        "MODEL_TITLE": "Model prijedloga oznake",
-        "MODEL_DESCRIPTION": "Odaberite AI model za analizu razgovora i predlaganje odgovarajućih oznaka"
       }
     },
     "API": {
