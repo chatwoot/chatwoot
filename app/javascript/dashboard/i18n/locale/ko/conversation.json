@@ -21,6 +21,12 @@
     "SEARCH_MESSAGES": "대화에서 메시지 검색",
     "VIEW_ORIGINAL": "원본 보기",
     "VIEW_TRANSLATED": "번역 보기",
+    "TRANSLATING": "Translating…",
+    "TRANSLATING_TO": "Translating to {language}…",
+    "VIEW_ORIGINAL_IN": "View original ({language})",
+    "VIEW_TRANSLATED_IN": "View translated ({language})",
+    "TRANSLATION_FAILED": "Could not translate, sent as typed",
+    "CONTACT_TRANSLATION_FAILED": "Could not translate",
     "EMPTY_STATE": {
       "CMD_BAR": "명령 메뉴를 열려면",
       "KEYBOARD_SHORTCUTS": "키보드 단축키를 보려면"
@@ -81,7 +87,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "이 메시지는 지원되지 않습니다. Facebook Messenger 앱에서 이 메시지를 확인할 수 있습니다.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "이 메시지는 지원되지 않습니다. Instagram 앱에서 이 메시지를 확인할 수 있습니다.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "이 메시지는 지원되지 않습니다. TikTok 앱에서 이 메시지를 확인할 수 있습니다.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
     "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
     "WHATSAPP_REFERRAL": {
       "AD": "Ad"
@@ -325,16 +334,19 @@
       "COPILOT_THINKING": "Copilot이 생각하고 있습니다",
       "EMAIL_HEAD": {
         "TO": "받는 사람",
-        "ADD_BCC": "숨은 참조 추가",
         "CC": {
-          "LABEL": "CC",
+          "LABEL": "참조",
           "PLACEHOLDER": "이메일 주소를 쉼표로 구분하여 입력하십시오",
           "ERROR": "올바른 이메일 주소를 입력하십시오"
         },
         "BCC": {
-          "LABEL": "BCC",
+          "LABEL": "숨은 참조",
           "PLACEHOLDER": "이메일 주소를 쉼표로 구분하여 입력하십시오",
           "ERROR": "올바른 이메일 주소를 입력하십시오"
+        },
+        "SUBJECT": {
+          "LABEL": "제목",
+          "PLACEHOLDER": "Enter a subject"
         }
       },
       "UNDEFINED_VARIABLES": {
