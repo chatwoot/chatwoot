@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "İştirak etdiyiniz söhbətdə yeni mesaj yaradıldıqda e-poçt bildirişi göndərin",
         "SLA_MISSED_FIRST_RESPONSE": "Danışıq ilk cavab SLA-sını qaçırdıqda e-poçt bildirişi göndər",
         "SLA_MISSED_NEXT_RESPONSE": "Danışıq növbəti cavab SLA-sını qaçırdıqda e-poçt bildirişi göndər",
-        "SLA_MISSED_RESOLUTION": "Danışıq həll SLA-sını qaçırdıqda e-poçt bildirişi göndər"
+        "SLA_MISSED_RESOLUTION": "Danışıq həll SLA-sını qaçırdıqda e-poçt bildirişi göndər",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Bildiriş üstünlükləri",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "İştirak etdiyiniz söhbətdə yeni mesaj yaradıldı",
           "SLA_MISSED_FIRST_RESPONSE": "Söhbət ilk cavab SLA-sını qaçırdı",
           "SLA_MISSED_NEXT_RESPONSE": "Söhbət növbəti cavab SLA-sını qaçırdı",
-          "SLA_MISSED_RESOLUTION": "Söhbət həll SLA-sını qaçırdı"
+          "SLA_MISSED_RESOLUTION": "Söhbət həll SLA-sını qaçırdı",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Brauzerinizdə push bildirişlərini aktiv edin ki, onları ala biləsiniz"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Push bildirişlərini aktiv et",
         "SLA_MISSED_FIRST_RESPONSE": "Danışıq ilk cavab SLA-sını qaçırdıqda push bildirişi göndər",
         "SLA_MISSED_NEXT_RESPONSE": "Danışıq növbəti cavab SLA-sını qaçırdıqda push bildirişi göndər",
-        "SLA_MISSED_RESOLUTION": "Danışıq həll müddətinin SLA-sını keçdikdə push bildirişi göndər"
+        "SLA_MISSED_RESOLUTION": "Danışıq həll müddətinin SLA-sını keçdikdə push bildirişi göndər",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profil Şəkli"
@@ -569,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Kömək Mərkəzi Axtarış İndeksləşdirilməsi",
         "DESCRIPTION": "Kömək mərkəzi məqalələrinizdə kontekstə uyğun axtarış üçün AI istifadə edin."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Etiket Tövsiyəsi",
-        "DESCRIPTION": "Məzmun analizi və kontekstə əsaslanaraq söhbətlər üçün avtomatik olaraq uyğun etiketlər və təqlər təklif edin.",
-        "MODEL_TITLE": "Etiket Tövsiyəsi Modeli",
-        "MODEL_DESCRIPTION": "Söhbətləri təhlil etmək və uyğun etiketlər təklif etmək üçün istifadə olunacaq AI modelini seçin"
       }
     },
     "API": {
