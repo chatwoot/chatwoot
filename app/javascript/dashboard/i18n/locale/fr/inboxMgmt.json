@@ -775,7 +775,7 @@
         "DESCRIPTION": "Activer les appels vocaux sur cette boîte de réception. Les agents pourront passer et recevoir des appels téléphoniques."
       },
       "CREDENTIALS": {
-        "DESCRIPTION": "Les appels vocaux nécessitent des identifiants de clé API Twilio. Ils servent à générer les jetons utilisés pour les connexions vocales des agents."
+        "DESCRIPTION": "Voice calling requires an Account Auth Token for webhook verification and API key credentials for calls."
       },
       "INBOUND": {
         "LABEL": "Autoriser les appels entrants",
