@@ -75,7 +75,7 @@
       "ACTIVITY": {
         "TODAY": "I dag",
         "YESTERDAY": "I går",
-        "UNKNOWN_AUTHOR": "Nogen",
+        "SYSTEM_AUTHOR": "System",
         "EMPTY_CONVERSATIONS": "Ingen samtaler endnu. De vil dukke op her, når denne virksomheds personer kommer i kontakt.",
         "EMPTY_NOTES": "Ingen noter endnu. Noter tilføjet til denne virksomheds personer vises her.",
         "LOAD_MORE": "Indlæs mere",
@@ -143,31 +143,31 @@
           }
         },
         "MESSAGES": {
-          "ADD_SUCCESS": "Contact linked to company.",
-          "ADD_ERROR": "Could not link contact to company.",
-          "REASSIGN_SUCCESS": "Contact reassigned to company.",
-          "REASSIGN_ERROR": "Could not reassign contact to company.",
-          "REMOVE_SUCCESS": "Contact removed from company.",
-          "REMOVE_ERROR": "Could not remove contact from company."
+          "ADD_SUCCESS": "Kontakt linket til virksomheden.",
+          "ADD_ERROR": "Kunne ikke linke kontakt til virksomheden.",
+          "REASSIGN_SUCCESS": "Kontakt omdelt til virksomhed.",
+          "REASSIGN_ERROR": "Kunne ikke tildele kontakt til virksomheden.",
+          "REMOVE_SUCCESS": "Kontakt fjernet fra virksomheden.",
+          "REMOVE_ERROR": "Kunne ikke fjerne kontakt fra virksomheden."
         }
       },
       "AVATAR": {
-        "UPDATING": "Updating company avatar...",
-        "UPLOAD_SUCCESS": "Company avatar updated.",
-        "UPLOAD_ERROR": "Could not update the company avatar.",
-        "DELETE_SUCCESS": "Company avatar removed.",
-        "DELETE_ERROR": "Could not remove the company avatar."
+        "UPDATING": "Opdaterer virksomhedens avatar...",
+        "UPLOAD_SUCCESS": "Virksomhedens avatar opdateret.",
+        "UPLOAD_ERROR": "Kunne ikke opdatere virksomhedens avatar.",
+        "DELETE_SUCCESS": "Virksomhedens avatar fjernet.",
+        "DELETE_ERROR": "Kunne ikke fjerne virksomhedens avatar."
       },
       "PROFILE": {
-        "DESCRIPTION_PLACEHOLDER": "Add a short description for this company",
+        "DESCRIPTION_PLACEHOLDER": "Tilføj en kort beskrivelse for denne virksomhed",
         "ACTIONS": {
-          "REFRESH": "Refresh profile"
+          "REFRESH": "Opdatér profil"
         },
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company updated.",
-          "UPDATE_ERROR": "Could not update the company.",
-          "REFRESH_SUCCESS": "Company profile refreshed.",
-          "REFRESH_ERROR": "Could not refresh the company profile."
+          "UPDATE_SUCCESS": "Virksomhed opdateret.",
+          "UPDATE_ERROR": "Kunne ikke opdatere virksomheden.",
+          "REFRESH_SUCCESS": "Virksomhedsprofil opdateret.",
+          "REFRESH_ERROR": "Kunne ikke opdatere virksomhedens profil."
         },
         "FIELDS": {
           "NAME": "Navn",
@@ -175,37 +175,37 @@
         }
       },
       "DELETE": {
-        "BUTTON": "Delete company",
-        "TITLE": "Delete company?",
-        "DESCRIPTION": "This will remove the company and unlink all associated contacts. Contacts themselves will be preserved.",
-        "DESCRIPTION_WITH_NAME": "This will remove {companyName} and unlink all associated contacts. Contacts themselves will be preserved.",
-        "CONFIRM": "Delete company",
+        "BUTTON": "Slet virksomhed",
+        "TITLE": "Slet virksomhed?",
+        "DESCRIPTION": "Dette vil fjerne virksomheden og fjerne linket til alle tilknyttede kontakter. Kontakterne selv vil blive bevaret.",
+        "DESCRIPTION_WITH_NAME": "Dette vil fjerne {companyName} og fjerne linket til alle tilknyttede kontakter. Kontakterne selv vil blive bevaret.",
+        "CONFIRM": "Slet virksomhed",
         "MESSAGES": {
-          "SUCCESS": "Company deleted.",
-          "ERROR": "Could not delete the company."
+          "SUCCESS": "Virksomhed slettet.",
+          "ERROR": "Kunne ikke slette virksomheden."
         }
       },
       "CONVERSATION_FILTERS": {
         "BUTTON": "Filtrer",
-        "BUTTON_WITH_COUNT": "Filter ({count})",
-        "ANY": "Any"
+        "BUTTON_WITH_COUNT": "Filtrer ({count})",
+        "ANY": "Alle"
       },
       "ENRICHMENT_UPGRADE": {
-        "TITLE": "Enrich company profiles on the Business plan",
-        "DESCRIPTION": "Automatically fill in a company's description, industry, size, location and social profiles from its domain. Available on the Business and Enterprise plans.",
-        "UPGRADE": "See plans"
+        "TITLE": "Berig virksomhedsprofiler på forretningsplanen",
+        "DESCRIPTION": "Udfyld automatisk en virksomheds beskrivelse, branche, størrelse, placering og sociale profiler fra dens domæne. Tilgængelig på Business og Enterprise planer.",
+        "UPGRADE": "Se abonnementer"
       }
     },
     "EMPTY_STATE": {
       "TITLE": "No companies found"
     },
     "CARD": {
-      "EMPLOYEES": "{count} employees"
+      "EMPLOYEES": "{count} ansatte"
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Companies",
-      "AVAILABLE_ON": "Companies is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to group contacts by company, see every conversation with an account and keep company details in one place.",
+      "TITLE": "Opgradér for at bruge Virksomheder",
+      "AVAILABLE_ON": "Virksomheder er ikke tilgængelige på den gratis plan.",
+      "UPGRADE_PROMPT": "Opgrader din plan til at gruppere kontakter for virksomheden, se alle samtaler med en konto og opbevar virksomhedsoplysninger på ét sted.",
       "UPGRADE_NOW": "Opgradér nu",
       "CANCEL_ANYTIME": "Du kan ændre eller annullere dit abonnement når som helst"
     }
