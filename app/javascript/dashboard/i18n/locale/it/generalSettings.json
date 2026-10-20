@@ -44,6 +44,35 @@
         "TITLE": "ID Account",
         "NOTE": "Questo ID è utile per costruire integrazioni basate su API"
       },
+      "TRANSLATION": {
+        "TITLE": "Traduzione",
+        "NOTE": "Parla la lingua di ogni cliente, qualunque lingua conosca il tuo team.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "Traduzioni con l'IA dal suono naturale, che mantengono il tuo tono."
+        },
+        "GOOGLE": {
+          "TITLE": "Google Translate",
+          "NOTE": "Traduzioni rapide e affidabili di Google.",
+          "NOT_CONNECTED": "Non connesso",
+          "CONNECT": "Connetti",
+          "NOT_CONNECTED_HINT": "Google Translate non è ancora connesso."
+        },
+        "UPGRADE": {
+          "NOTE": "Passa a un piano a pagamento per tradurre le conversazioni con Captain o Google Translate.",
+          "BUTTON": "Aggiorna"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Traduci automaticamente le conversazioni",
+          "NOTE": "Leggi ogni messaggio nella tua lingua. I clienti ricevono le risposte nella loro.",
+          "LOCKED": "Scegli un servizio per attivarla.",
+          "NOT_AVAILABLE": "La traduzione automatica non è ancora abilitata per questo account."
+        },
+        "API": {
+          "SUCCESS": "Impostazioni di traduzione aggiornate correttamente",
+          "ERROR": "Impossibile aggiornare le impostazioni di traduzione"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Risoluzione automatica delle conversazioni",
         "NOTE": "Questa configurazione consente di risolvere automaticamente la conversazione dopo un certo periodo d'inattività.",
@@ -51,7 +80,7 @@
           "LABEL": "Durata inattività",
           "HELP": "Periodo d'inattività dopo il quale la conversazione è risolta automaticamente",
           "PLACEHOLDER": "30",
-          "ERROR": "La durata della risoluzione automatica deve essere compresa tra 10 minuti e 999 giorni",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "Impostazioni di risoluzione automatica aggiornate con successo",
             "ERROR": "Impossibile aggiornare le impostazioni di risoluzione automatica"
