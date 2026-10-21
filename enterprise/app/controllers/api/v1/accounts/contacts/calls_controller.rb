@@ -5,6 +5,7 @@ class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseCont
   def create
     authorize contact, :show?
     authorize voice_inbox, :show?
+    return render_could_not_create_error(I18n.t('errors.whatsapp.calls.contact_phone_required')) if contact.phone_number.blank?
 
     call = Voice::OutboundCallBuilder.perform!(
       account: Current.account,

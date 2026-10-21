@@ -25,7 +25,8 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "پیام جدید در گفتگویی که در آن شرکت داشته اید",
       "SLA_MISSED_FIRST_RESPONSE": "سیاست SLA مربوط به اولین پاسخ در گفتگوی نقض شده",
       "SLA_MISSED_NEXT_RESPONSE": "سیاست SLA مربوط به پاسخ بعدی در گفتگوی نقض شده",
-      "SLA_MISSED_RESOLUTION": "سیاست SLA مربوط به زمان حل موضوع در گفتگوی نقض شده"
+      "SLA_MISSED_RESOLUTION": "سیاست SLA مربوط به زمان حل موضوع در گفتگوی نقض شده",
+      "VOICE_CALL_MISSED": "Missed call"
     },
     "TYPES_NEXT": {
       "CONVERSATION_MENTION": "Mentioned",
@@ -36,6 +37,7 @@
       "SLA_MISSED_RESOLUTION": "SLA breach",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "پیام جدید",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "پیام جدید",
+      "VOICE_CALL_MISSED": "Missed call",
       "SNOOZED_UNTIL": "Snoozed for {time}",
       "SNOOZED_ENDS": "Snooze ended"
     },

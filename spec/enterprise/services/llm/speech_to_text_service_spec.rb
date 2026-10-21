@@ -69,6 +69,19 @@ RSpec.describe Llm::SpeechToTextService, type: :service do
   end
 
   describe '#fetch_audio_file' do
+    it 'normalizes .oga uploads without changing the audio bytes or stored filename' do
+      audio_path = Rails.root.join('spec/assets/sample.ogg')
+      attachment.file.attach(io: File.open(audio_path), filename: 'voice.oga', content_type: 'audio/ogg')
+
+      temp_file_path = service.send(:fetch_audio_file)
+
+      expect(File.extname(temp_file_path)).to eq('.ogg')
+      expect(File.binread(temp_file_path)).to eq(File.binread(audio_path))
+      expect(attachment.file.blob.filename.to_s).to eq('voice.oga')
+    ensure
+      FileUtils.rm_f(temp_file_path) if temp_file_path.present?
+    end
+
     it 'adds extension from content type when filename has no extension' do
       temp_file_path = service.send(:fetch_audio_file)
 
