@@ -124,6 +124,7 @@ en:
       sso_not_enabled: SAML SSO is not enabled for this installation
       multi_account_invitation_not_allowed: Users associated with another account cannot be added while SAML is enabled
     conversations:
+      anonymous_caller_reply: 'Messages cannot be sent because this caller’s phone number is unavailable.'
       resolved: Conversation is resolved and does not accept new messages
       unread_counts:
         feature_not_enabled: Conversation unread counts feature not enabled for this account
@@ -357,6 +358,7 @@ en:
         request_contact_info: 'Would you like to share your phone number with us?'
         unsupported_message: 'This message is unavailable.'
       voice_call:
+        unknown_caller: 'Unknown caller'
         twilio: 'Voice Call'
         whatsapp: 'WhatsApp Call'
       delivery_status:
