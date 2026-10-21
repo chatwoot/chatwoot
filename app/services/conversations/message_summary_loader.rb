@@ -10,12 +10,16 @@ class Conversations::MessageSummaryLoader
   def perform
     return @conversations if @conversations_by_id.empty?
 
-    rows = Conversation.where(id: @conversations_by_id.keys).pluck(:id, last_message_id, last_non_activity_message_id, unread_count)
-    messages = load_messages(rows.flat_map { |_, last_id, last_non_activity_id, _| [last_id, last_non_activity_id] }.compact.uniq)
+    rows = Conversation.where(id: @conversations_by_id.keys)
+                       .pluck(:id, last_message_id, last_non_activity_message_id, unread_count)
+                       .index_by(&:first)
+    messages = load_messages(rows.values.flat_map { |_, last_id, last_non_activity_id, _| [last_id, last_non_activity_id] }.compact.uniq)
 
-    rows.each do |id, last_id, last_non_activity_id, unread_count|
-      @conversations_by_id[id].message_summary = Conversations::MessageSummary.new(
-        last_message: messages[last_id], last_non_activity_message: messages[last_non_activity_id], unread_count: unread_count
+    @conversations_by_id.each do |id, conversation|
+      # A conversation deleted after its page loaded has no row, so it renders without messages
+      _, last_id, last_non_activity_id, unread_count = rows[id]
+      conversation.message_summary = Conversations::MessageSummary.new(
+        last_message: messages[last_id], last_non_activity_message: messages[last_non_activity_id], unread_count: unread_count || 0
       )
     end
     @conversations
@@ -33,14 +37,18 @@ class Conversations::MessageSummaryLoader
 
   def unread_count
     unread_messages = Message.unscoped
-                             .where(Conversation.unread_messages_condition(Message.arel_table, Conversation.arel_table))
+                             .where(Conversation.unread_messages_condition(messages_table, conversations_table))
                              .limit(Conversation::UNREAD_INCOMING_MESSAGES_LIMIT)
-    Arel.sql("(SELECT COUNT(*) FROM (#{unread_messages.select('1').to_sql}) unread_messages)")
+                             .select(:id)
+    count = Arel::SelectManager.new.project(Arel.star.count).from(unread_messages.arel.as('unread_messages'))
+    Arel::Nodes::Grouping.new(count.ast)
   end
 
   # Messages of the conversation row in the outer query
   def conversation_messages
-    Message.unscoped.where('messages.conversation_id = conversations.id AND messages.account_id = conversations.account_id')
+    Message.unscoped.where(
+      messages_table[:conversation_id].eq(conversations_table[:id]).and(messages_table[:account_id].eq(conversations_table[:account_id]))
+    )
   end
 
   # The dashboard seeds the message thread from the latest message and then paginates BACKWARD
@@ -49,7 +57,15 @@ class Conversations::MessageSummaryLoader
   # created alongside activity messages during an auto-resolve burst) could resolve to a
   # lower-id activity, and backward pagination would then never load the higher-id survey.
   def latest_id(messages)
-    Arel.sql("(#{messages.reorder(created_at: :desc, id: :desc).limit(1).select(:id).to_sql})")
+    Arel::Nodes::Grouping.new(messages.reorder(created_at: :desc, id: :desc).limit(1).select(:id).arel.ast)
+  end
+
+  def messages_table
+    Message.arel_table
+  end
+
+  def conversations_table
+    Conversation.arel_table
   end
 
   def load_messages(ids)
