@@ -1,8 +1,6 @@
 class Conversations::FilterService < FilterService
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
   USER_LINK_TABLES = { 'participant_id' => 'conversation_participants', 'mentioned_user_id' => 'mentions' }.freeze
-  # Same condition as Conversation.unattended
-  UNATTENDED_CONDITION = '(conversations.first_reply_created_at IS NULL OR conversations.waiting_since IS NOT NULL)'.freeze
 
   def initialize(params, user, account)
     @account = account
@@ -73,6 +71,7 @@ class Conversations::FilterService < FilterService
 
   # Matches conversations that the given users are linked to through a join table, such as participants or mentions.
   def user_link_filter_query(table_name, query_hash, current_index)
+    @filter_values["value_#{current_index}"] = query_hash[:values]
     user_link_query = "SELECT 1 FROM #{table_name} WHERE #{table_name}.conversation_id = conversations.id " \
                       "AND #{table_name}.user_id IN (:value_#{current_index})"
     exists_operator = query_hash[:filter_operator] == 'not_equal_to' ? 'NOT EXISTS' : 'EXISTS'
@@ -87,7 +86,7 @@ class Conversations::FilterService < FilterService
     end
 
     unattended = values.first == (query_hash[:filter_operator] == 'equal_to')
-    "#{'NOT ' unless unattended}#{UNATTENDED_CONDITION} #{query_hash[:query_operator]}"
+    "#{'NOT ' unless unattended}#{Conversation::UNATTENDED_CONDITION} #{query_hash[:query_operator]}"
   end
 
   # The planner hint only pays off when the label condition positively narrows the
