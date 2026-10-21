@@ -51,10 +51,11 @@ class Saml::IdpMetadataService
     raise Error.new(FETCH_ERROR_REASONS.fetch(e.class), e.message)
   end
 
-  # ruby-saml raises ArgumentError when the document has no IDPSSODescriptor
+  # ruby-saml raises ArgumentError when the document has no IDPSSODescriptor.
+  # It raises CertificateError when it fingerprints a lone signing certificate that OpenSSL cannot read.
   def parse_metadata(xml)
     OneLogin::RubySaml::IdpMetadataParser.new.parse_to_hash(xml, sso_binding: [OneLogin::RubySaml::Utils::BINDINGS[:redirect]])
-  rescue REXML::ParseException, ArgumentError => e
+  rescue REXML::ParseException, ArgumentError, OpenSSL::X509::CertificateError => e
     raise Error.new(:not_metadata, e.message)
   end
 end

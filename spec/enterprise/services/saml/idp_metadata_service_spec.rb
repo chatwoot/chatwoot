@@ -67,6 +67,16 @@ RSpec.describe Saml::IdpMetadataService do
       end
     end
 
+    context 'when the only signing certificate cannot be read' do
+      let(:key_descriptors) { key_descriptor("-----BEGIN CERTIFICATE-----\nbm90IGEgY2VydGlmaWNhdGU=\n-----END CERTIFICATE-----\n") }
+
+      it 'raises an error' do
+        expect { described_class.new(metadata_url).perform }.to raise_error(described_class::Error) { |error|
+          expect(error.reason).to eq(:not_metadata)
+        }
+      end
+    end
+
     context 'when the response is not IdP metadata' do
       let(:metadata_xml) { '<html><body>Not found</body></html>' }
 
