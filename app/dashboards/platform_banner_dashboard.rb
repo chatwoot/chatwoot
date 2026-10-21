@@ -16,6 +16,13 @@ class PlatformBannerDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[id banner_type title banner_message video_url active created_at updated_at].freeze
   FORM_ATTRIBUTES = %i[banner_type title banner_message video_url active].freeze
 
+  COLLECTION_FILTERS = {
+    info: ->(resources) { resources.where(banner_type: :info) },
+    warning: ->(resources) { resources.where(banner_type: :warning) },
+    error: ->(resources) { resources.where(banner_type: :error) },
+    feature_announcement: ->(resources) { resources.where(banner_type: :feature_announcement) }
+  }.freeze
+
   def display_resource(platform_banner)
     "Banner ##{platform_banner.id} (#{platform_banner.banner_type})"
   end

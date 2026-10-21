@@ -1,0 +1,5 @@
+<%# locals: (label:, stacked: false, centered: false) -%>
+<div class="<%= class_names("flex min-w-0 gap-4 border-b border-n-weak py-2.5", stacked ? "col-span-full flex-col gap-2" : (centered ? "items-center" : "items-baseline")) %>">
+  <%= tag.dt label, class: class_names("text-body-main text-n-slate-11", "w-32 shrink-0" => !stacked) %>
+  <dd class="min-w-0 flex-1 break-words text-body-main text-n-slate-12 [&_a:not([class])]:text-n-blue-11 hover:[&_a:not([class])]:underline"><%= yield %></dd>
+</div>

@@ -11,6 +11,13 @@ class Api::V1::Accounts::Captain::ToolsManifestsController < Api::V1::Accounts::
   rescue_from(InstallError) { |error| render_install_error(error, 'invalid_configuration') }
   rescue_from(Captain::CustomTool::LimitExceededError) { |error| render json: { error: error.message }, status: :unprocessable_content }
 
+  # Lets the catalog mark the toolsets this assistant already has
+  def installed
+    @installed_toolsets = @assistant.custom_tools.where("source_metadata->>'source' = 'github'").distinct.pluck(
+      Arel.sql("source_metadata->>'repository'"), Arel.sql("source_metadata->>'path'"), Arel.sql("source_metadata->>'version'")
+    )
+  end
+
   def preview
     @github_source = Captain::ToolsManifest::GithubSource.new(params[:source])
     @revision = @github_source.latest_revision

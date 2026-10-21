@@ -31,3 +31,5 @@ class CompanyPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 end
+
+CompanyPolicy.prepend_mod_with('CompanyPolicy')

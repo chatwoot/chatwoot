@@ -29,14 +29,12 @@ export default {
       inboundCallsEnabled: this.inbox.inbound_calls_enabled !== false,
       apiKeySid: this.inbox.api_key_sid || '',
       apiKeySecret: '',
+      authToken: '',
       isUpdating: false,
       isTogglingInbound: false,
     };
   },
   computed: {
-    isVoiceConfigured() {
-      return !!this.inbox.voice_configured;
-    },
     hasApiKeySid() {
       return !!this.inbox.api_key_sid;
     },
@@ -44,10 +42,13 @@ export default {
       return this.hasApiKeySid && !!this.inbox.has_api_key_secret;
     },
     needsCredentials() {
+      return this.voiceEnabled && !this.hasExistingCredentials;
+    },
+    needsAccountAuthToken() {
       return (
         this.voiceEnabled &&
-        !this.isVoiceConfigured &&
-        !this.hasExistingCredentials
+        this.hasApiKeySid &&
+        !this.inbox.account_auth_token_configured
       );
     },
     needsApiKeySid() {
@@ -55,6 +56,7 @@ export default {
     },
     isSubmitDisabled() {
       if (!this.voiceEnabled) return false;
+      if (this.needsAccountAuthToken && !this.authToken) return true;
       if (this.needsCredentials) {
         if (this.needsApiKeySid && !this.apiKeySid) return true;
         return !this.apiKeySecret;
@@ -90,14 +92,13 @@ export default {
         this.isTogglingInbound = false;
       }
     },
-    // Saves on toggle, except when enabling still needs API key credentials: then we
-    // reveal the inputs and wait for the user to submit them.
+    // SMS upgrades collect the account token separately from API key credentials.
     async handleVoiceToggle(newValue) {
       if (this.isUpdating) return;
       const previousValue = this.voiceEnabled;
       this.voiceEnabled = newValue;
 
-      if (this.needsCredentials) return;
+      if (this.needsAccountAuthToken || this.needsCredentials) return;
 
       try {
         await this.updateVoiceSettings();
@@ -109,13 +110,16 @@ export default {
       try {
         await this.updateVoiceSettings();
       } catch (_) {
-        this.voiceEnabled = false;
+        this.voiceEnabled = this.inbox.voice_enabled || false;
       }
     },
     async updateVoiceSettings() {
       this.isUpdating = true;
       try {
         const channelPayload = { voice_enabled: this.voiceEnabled };
+        if (this.needsAccountAuthToken) {
+          channelPayload.auth_token = this.authToken;
+        }
 
         if (this.needsCredentials) {
           if (this.needsApiKeySid) {
@@ -130,6 +134,7 @@ export default {
           channel: channelPayload,
         });
         this.apiKeySecret = '';
+        this.authToken = '';
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
@@ -163,7 +168,10 @@ export default {
       </SettingsToggleSection>
     </div>
 
-    <div v-if="voiceEnabled && needsCredentials" class="flex flex-col gap-4">
+    <div
+      v-if="needsAccountAuthToken || needsCredentials"
+      class="flex flex-col gap-4"
+    >
       <p class="text-sm text-n-slate-11">
         {{ $t('INBOX_MGMT.VOICE_CONFIGURATION.CREDENTIALS.DESCRIPTION') }}
       </p>
@@ -174,6 +182,14 @@ export default {
         :placeholder="$t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.PLACEHOLDER')"
       />
       <NextInput
+        v-if="needsAccountAuthToken"
+        v-model="authToken"
+        type="password"
+        :label="$t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.LABEL')"
+        :placeholder="$t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.PLACEHOLDER')"
+      />
+      <NextInput
+        v-if="needsCredentials"
         v-model="apiKeySecret"
         type="password"
         :label="$t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.LABEL')"
@@ -224,7 +240,7 @@ export default {
       </SettingsFieldSection>
     </div>
 
-    <div v-if="needsCredentials">
+    <div v-if="needsAccountAuthToken || needsCredentials">
       <NextButton
         :disabled="isSubmitDisabled"
         :is-loading="isUpdating"
