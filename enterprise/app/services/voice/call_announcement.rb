@@ -7,6 +7,11 @@ class Voice::CallAnnouncement
     'out_of_hours' => { enabled: 'business_hours_calls_enabled', message: 'out_of_hours_call_message', audio: :out_of_hours_call_audio },
     'greeting' => { enabled: 'call_greeting_enabled', message: 'call_greeting_message', audio: :call_greeting_audio }
   }.freeze
+  # Languages supported by Twilio's basic voices. Other account languages retain the English default.
+  LANGUAGES = {
+    'en' => 'en-US', 'en-GB' => 'en-GB', 'de' => 'de-DE',
+    'es' => 'es-ES', 'fr' => 'fr-FR', 'it' => 'it-IT'
+  }.freeze
 
   attr_reader :inbox, :kind
 
@@ -20,7 +25,7 @@ class Voice::CallAnnouncement
   def audio = inbox.public_send(KINDS.fetch(kind)[:audio])
 
   def speak(twiml)
-    audio.attached? ? twiml.play(url: Rails.application.routes.url_helpers.rails_blob_url(audio)) : twiml.say(message: message)
+    audio.attached? ? twiml.play(url: Rails.application.routes.url_helpers.rails_blob_url(audio)) : twiml.say(message: message, language: language)
   end
 
   # Regenerates the audio when the text changed
@@ -29,6 +34,8 @@ class Voice::CallAnnouncement
     generated = generated_audio(enabled, message, changed)
 
     channel.with_lock do
+      changed = message != self.message
+      inbox.reload
       # Register the attachment change before the channel touches a second Inbox instance.
       if generated
         audio.attach(io: StringIO.new(generated), filename: "#{kind.dasherize}-#{inbox.id}.mp3", content_type: 'audio/mpeg')
@@ -44,6 +51,11 @@ class Voice::CallAnnouncement
   def channel = inbox.channel
   def enabled_key = KINDS.fetch(kind)[:enabled]
   def message_key = KINDS.fetch(kind)[:message]
+
+  def language
+    locale = inbox.account.locale.tr('_', '-')
+    LANGUAGES.fetch(locale) { LANGUAGES.fetch(locale.split('-').first, 'en-US') }
+  end
 
   def generated_audio(enabled, message, changed)
     return unless enabled && Llm::TextToSpeechService.available_for?(inbox.account)
