@@ -72,8 +72,9 @@ const fetchSessions = async () => {
     const { data } = await authAPI.getSessions();
     sessions.value = data;
   } catch {
+    // The error is surfaced inline in the template via hasError,
+    // so we avoid showing a duplicate toast here.
     hasError.value = true;
-    useAlert(t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.FETCH_ERROR'));
   } finally {
     loading.value = false;
   }
