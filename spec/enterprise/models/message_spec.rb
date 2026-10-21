@@ -24,6 +24,44 @@ RSpec.describe Message do
     expect(conversation.waiting_since).to be_nil
   end
 
+  describe 'anonymous caller replies' do
+    let(:channel) { create(:channel_twilio_sms, :with_voice) }
+    let(:contact_inbox) do
+      create(:contact_inbox, inbox: channel.inbox, source_id: "anonymous:CA#{SecureRandom.hex(16)}")
+    end
+    let(:conversation) do
+      create(:conversation, account: channel.account, inbox: channel.inbox, contact: contact_inbox.contact, contact_inbox: contact_inbox)
+    end
+
+    [:outgoing, :template].each do |message_type|
+      it "rejects public #{message_type} messages" do
+        message = build(:message, conversation: conversation, message_type: message_type)
+
+        expect(message).not_to be_valid
+        expect(message.errors[:base]).to include(I18n.t('errors.conversations.anonymous_caller_reply'))
+      end
+    end
+
+    it 'allows private notes' do
+      expect(build(:message, conversation: conversation, message_type: :outgoing, private: true)).to be_valid
+    end
+
+    it 'allows voice call messages' do
+      expect(build(:message, conversation: conversation, message_type: :outgoing, content_type: :voice_call)).to be_valid
+    end
+
+    it 'allows incoming messages' do
+      expect(build(:message, conversation: conversation, message_type: :incoming)).to be_valid
+    end
+
+    it 'allows public replies to numbered callers' do
+      contact_inbox.update!(source_id: '+14157047320')
+
+      expect(build(:message, conversation: conversation, message_type: :outgoing)).to be_valid
+      expect(conversation.can_reply?).to be true
+    end
+  end
+
   describe '#mark_pending_conversation_as_open_for_human_response' do
     let(:conversation) { create(:conversation, status: :pending) }
     let(:captain_assistant) { create(:captain_assistant, account: conversation.account) }

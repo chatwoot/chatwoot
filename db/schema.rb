@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_10_19_130302) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_19_143116) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -37,6 +37,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_19_130302) do
     t.json "role_mappings", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "metadata_url"
+    t.datetime "metadata_refreshed_at"
     t.index ["account_id"], name: "index_account_saml_settings_on_account_id"
   end
 
@@ -223,6 +225,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_19_130302) do
     t.index ["account_id"], name: "index_articles_on_account_id"
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
+    t.index ["category_id"], name: "index_articles_on_category_id"
     t.index ["portal_id"], name: "index_articles_on_portal_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
     t.index ["status"], name: "index_articles_on_status"
@@ -369,6 +372,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_19_130302) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "contact_inbox_id"
+    t.datetime "send_attempted_at"
     t.index ["account_id", "campaign_id"], name: "index_campaign_recipients_on_account_id_and_campaign_id"
     t.index ["account_id"], name: "index_campaign_recipients_on_account_id"
     t.index ["campaign_id", "contact_id"], name: "index_campaign_recipients_on_campaign_id_and_contact_id", unique: true
@@ -400,6 +404,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_19_130302) do
     t.jsonb "template_params"
     t.datetime "started_at"
     t.datetime "completed_at"
+    t.bigint "whatsapp_cursor"
     t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["campaign_status"], name: "index_campaigns_on_campaign_status"
     t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"

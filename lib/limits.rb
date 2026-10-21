@@ -18,4 +18,9 @@ module Limits
     days = ENV.fetch('SEARCH_TIME_RANGE_LIMIT_DAYS', '90').to_i
     days.positive? ? days : 90
   end
+
+  def self.auto_resolve_min_minutes
+    minutes = ENV.fetch('AUTO_RESOLVE_MIN_MINUTES', '10').to_i
+    minutes.positive? ? minutes : 10
+  end
 end
