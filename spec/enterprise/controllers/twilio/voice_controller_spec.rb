@@ -51,6 +51,43 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(response.body).to include(call.conference_sid)
     end
 
+    context 'when the caller withholds their number' do
+      let(:call_sid) { "CA#{SecureRandom.hex(16)}" }
+      let(:from_number) { 'anonymous' }
+
+      it 'answers with conference TwiML and a phone-less contact' do
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+        call = Call.find_by!(provider_call_id: call_sid)
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('<Dial>', call.conference_sid)
+        expect(call.contact).to have_attributes(name: 'Unknown caller', phone_number: nil)
+        expect(call.conversation.can_reply?).to be false
+      end
+
+      it 'creates separate contacts and conversations for separate calls' do
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+        first = Call.find_by!(provider_call_id: call_sid)
+        second_sid = "CA#{SecureRandom.hex(16)}"
+
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params.merge('CallSid' => second_sid)
+        second = Call.find_by!(provider_call_id: second_sid)
+
+        expect(response).to have_http_status(:ok)
+        expect(second.contact).not_to eq(first.contact)
+        expect(second.conversation).not_to eq(first.conversation)
+      end
+
+      it 'reuses the call, contact and conversation when Twilio retries' do
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+        expect do
+          post "/twilio/voice/call/#{digits}", params: inbound_call_params
+        end.not_to(change { [Call.count, Contact.count, Conversation.count] })
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
     # An inbox that predates the setting carries no key in provider_config and must keep recording.
     it 'records the conference from the start when the call was created with recording on' do
       conversation = create(:conversation, account: account, inbox: inbox)

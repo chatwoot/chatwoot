@@ -157,50 +157,88 @@
           "ON": "於"
         }
       },
-      "CREATE": {
-        "TITLE": "建立 WhatsApp 活動",
-        "CANCEL_BUTTON_TEXT": "取消",
-        "CREATE_BUTTON_TEXT": "建立",
-        "FORM": {
-          "TITLE": {
+      "FORM": {
+        "CREATE_TITLE": "建立活動",
+        "LIVE_TEST": "Live test",
+        "LIVE_TEST_TOOLTIP": "Live test will be available soon",
+        "SCHEDULE": "Schedule campaign",
+        "SCHEDULED_FOR": "Scheduled for {date}",
+        "RESCHEDULE": "Reschedule",
+        "DISCARD": "Discard changes",
+        "SAVE": "儲存變更",
+        "BASIC_SETTINGS": {
+          "TITLE": "基本設定",
+          "NAME": {
             "LABEL": "標題",
-            "PLACEHOLDER": "請輸入活動標題",
-            "ERROR": "標題為必填"
+            "PLACEHOLDER": "Enter the title of the campaign"
           },
           "INBOX": {
-            "LABEL": "選擇收件匣",
-            "PLACEHOLDER": "選擇收件匣",
-            "ERROR": "收件匣為必填"
-          },
-          "TEMPLATE": {
-            "LABEL": "WhatsApp 範本",
-            "PLACEHOLDER": "選擇範本",
-            "INFO": "選擇此活動要使用的範本。",
-            "ERROR": "範本為必填",
-            "PREVIEW_TITLE": "處理 {templateName}",
-            "LANGUAGE": "語言",
-            "CATEGORY": "類別",
-            "VARIABLES_LABEL": "變數",
-            "VARIABLE_PLACEHOLDER": "輸入 {variable} 的值"
-          },
-          "AUDIENCE": {
-            "LABEL": "受眾",
-            "PLACEHOLDER": "選擇客戶標籤",
-            "ERROR": "受眾為必填"
-          },
-          "SCHEDULED_AT": {
-            "LABEL": "排程時間",
-            "PLACEHOLDER": "請選擇時間",
-            "ERROR": "排程時間為必填"
-          },
-          "BUTTONS": {
-            "CREATE": "建立",
-            "CANCEL": "取消"
-          },
-          "API": {
-            "SUCCESS_MESSAGE": "WhatsApp 活動建立成功",
-            "ERROR_MESSAGE": "發生錯誤，請重試。"
+            "LABEL": "收件匣",
+            "PLACEHOLDER": "請選擇一個收件匣"
           }
+        },
+        "AUDIENCE": {
+          "TITLE": "受眾",
+          "TIER_DESCRIPTION": "Your WhatsApp account can message up to {tier}.",
+          "TIER_UNKNOWN": "Select an inbox to see the messaging limit of your WhatsApp account.",
+          "LEARN_MORE": "瞭解更多",
+          "LABELS": {
+            "LABEL": "標籤",
+            "PLACEHOLDER": "選擇客戶標籤"
+          },
+          "SELECTED_COUNT": "{count} contacts selected",
+          "VIEW": "查看",
+          "EMPTY_STATE": "Select at least one label to build the audience.",
+          "CONTACTS": {
+            "TITLE": "聯絡人",
+            "TAGGED_WITH": "標記為",
+            "SEARCH_PLACEHOLDER": "Search by name, email or phone number",
+            "EMPTY_STATE": "找不到聯絡人"
+          }
+        },
+        "TEMPLATE": {
+          "TITLE": "Template",
+          "SELECT": {
+            "LABEL": "Template",
+            "PLACEHOLDER": "選擇範本"
+          },
+          "EMPTY_STATE": "Select an inbox to load its approved templates",
+          "NO_TEMPLATES": "This inbox has no approved templates that can be used in a campaign",
+          "HEADER_LABEL": "標題",
+          "INVALID_MEDIA_URL": "Enter a valid HTTP or HTTPS URL.",
+          "HEADER_PLACEHOLDER": "Enter {type} header",
+          "DOCUMENT_NAME_PLACEHOLDER": "Enter document name",
+          "BODY_LABEL": "內文",
+          "BUTTONS_LABEL": "按鈕",
+          "VARIABLE_PLACEHOLDER": "Enter variable {variable}",
+          "BUTTON_PLACEHOLDER": "Enter parameter for button {index}"
+        },
+        "ACCOUNT_INFORMATION": {
+          "TITLE": "Account information",
+          "MESSAGING_TIER": "Messaging tier",
+          "ACCOUNT_STATUS": "Account status",
+          "ACCOUNT_HEALTH": "Account health",
+          "STATUS_DESCRIPTION": "Current mode of this WhatsApp number",
+          "HEALTH_DESCRIPTION": "Quality rating assigned by Meta",
+          "EMPTY_STATE": "Select an inbox to see its WhatsApp account information.",
+          "UNAVAILABLE": "不可用",
+          "OPEN": "Open in WhatsApp Manager"
+        },
+        "PREVIEW": {
+          "TITLE": "訊息預覽",
+          "EMPTY_STATE": "Select a template to preview the message.",
+          "FOOTNOTE": "This may vary slightly per OS. Perform a live test to confirm. Default values for the highlighted variables will be stored upon saving."
+        },
+        "SCHEDULE_POPOVER": {
+          "LABEL": "Schedule",
+          "CANCEL": "取消",
+          "CREATE": "建立"
+        },
+        "API": {
+          "CREATE_SUCCESS": "WhatsApp 活動建立成功",
+          "CREATE_ERROR": "發生錯誤，請重試。",
+          "UPDATE_SUCCESS": "WhatsApp campaign updated successfully",
+          "UPDATE_ERROR": "發生錯誤，請重試。"
         }
       },
       "ANALYTICS": {
@@ -222,16 +260,7 @@
             "DESCRIPTION": "No delivery data was recorded for this campaign. This can happen for campaigns sent before campaign analytics were introduced."
           }
         },
-        "PROCESSING_BANNER": {
-          "DEFAULT": "This campaign is still processing. Analytics will update automatically.",
-          "BOTH": "This campaign is still processing. {queued} messages are queued, and {awaitingUpdate} are awaiting a delivery update from WhatsApp.",
-          "BOTH_SINGLE": "This campaign is still processing. {queued} message is queued, and {awaitingUpdate} is awaiting a delivery update from WhatsApp.",
-          "BOTH_QUEUED_SINGLE": "This campaign is still processing. {queued} message is queued, and {awaitingUpdate} are awaiting a delivery update from WhatsApp.",
-          "BOTH_AWAITING_SINGLE": "This campaign is still processing. {queued} messages are queued, and {awaitingUpdate} is awaiting a delivery update from WhatsApp.",
-          "QUEUED": "This campaign is still processing. {count} message is queued. | This campaign is still processing. {count} messages are queued.",
-          "AWAITING_UPDATE": "This campaign is still processing. {count} message is awaiting a delivery update from WhatsApp. | This campaign is still processing. {count} messages are awaiting a delivery update from WhatsApp.",
-          "COMPLETING": "This campaign is completing. Analytics will update automatically."
-        },
+        "PROCESSING_NOTICE": "This campaign is still sending. Counts, percentages, and delivery records are partial and include only contacts processed so far. More contacts will appear as sending continues.",
         "RATE": "{value}% of audience",
         "SENT_ON": "Sent on {date}",
         "PAGE_INFO": "顯示第 {startItem} - {endItem} 筆，共 {totalItems} 位聯絡人 | 顯示第 {startItem} - {endItem} 筆，共 {totalItems} 位聯絡人",
@@ -295,12 +324,29 @@
           "MESSAGE_NOT_GENERATED": "Not generated",
           "REASON": "Reason",
           "ERROR_CODE": "Code {code}"
+        },
+        "PAYWALL": {
+          "TITLE": "Unlock campaign analytics",
+          "AVAILABLE_ON": "Campaign analytics is available on Business and Enterprise plans.",
+          "UPGRADE_PROMPT": "Upgrade to track campaign delivery, read status, and failed messages.",
+          "UPGRADE_NOW": "View plans",
+          "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+        },
+        "ENTERPRISE_PAYWALL": {
+          "AVAILABLE_ON": "Campaign analytics is available on paid self-hosted plans.",
+          "UPGRADE_PROMPT": "Upgrade your installation to track campaign delivery, read status, and failed messages.",
+          "ASK_ADMIN": "Contact your instance administrator to upgrade."
         }
       }
+    },
+    "HISTORY": {
+      "LABEL": "Campaign",
+      "LOAD_MORE": "Load earlier campaigns"
     },
     "CONFIRM_DELETE": {
       "TITLE": "確定要刪除嗎？",
       "DESCRIPTION": "刪除操作是永久性的，無法復原。",
+      "WHATSAPP_DESCRIPTION": "Deleting this campaign will also remove its saved message history and delivery details. Messages already sent on WhatsApp will remain. This cannot be undone.",
       "CONFIRM": "刪除",
       "API": {
         "SUCCESS_MESSAGE": "活動刪除成功",
