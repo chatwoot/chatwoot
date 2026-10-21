@@ -1069,7 +1069,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
     t.bigint "copilot_message_id"
     t.bigint "copilot_tool_call_id"
     t.bigint "source_run_id"
-    t.string "kind", null: false
+    t.string "type", null: false
     t.string "status", default: "queued", null: false
     t.jsonb "context", default: {}, null: false
     t.jsonb "transcript", default: {}, null: false

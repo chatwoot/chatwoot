@@ -18,7 +18,7 @@
 class CopilotMessage < ApplicationRecord
   belongs_to :copilot_thread
   belongs_to :account
-  has_one :copilot_run, dependent: :destroy
+  has_one :copilot_run, class_name: 'CopilotRun::Turn', dependent: :destroy
 
   enum message_type: { user: 0, assistant: 1, assistant_thinking: 2 }
 
@@ -40,10 +40,10 @@ class CopilotMessage < ApplicationRecord
 
   def enqueue_response_job(conversation_id, user_id)
     if account.feature_enabled?('copilot_workflows')
-      run = copilot_thread.copilot_runs.create_or_find_by!(copilot_message: self) do |record|
+      run = CopilotRun::Turn.create_or_find_by!(copilot_message: self) do |record|
+        record.copilot_thread = copilot_thread
         record.account = account
         record.user = copilot_thread.user
-        record.kind = :turn
         record.context = { conversation_id: conversation_id }
       end
       return Captain::Copilot::TurnJob.perform_later(run.id)

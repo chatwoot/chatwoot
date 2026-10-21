@@ -7,7 +7,7 @@ class Captain::Tools::Copilot::ContinueReviewService < Captain::Tools::Copilot::
   parameter :review_id, type: :integer, description: 'ID of a review whose summary reports remaining conversations'
 
   def execute(review_id:)
-    review = run.copilot_thread.saved_set(review_id, kind: :review)
+    review = run.copilot_thread.saved_set(review_id, types: [CopilotRun::Review])
     run.with_lease(lease_token) { review.continue_review(tool_call) }
     Captain::Copilot::ReviewJob.perform_later(review.id)
     review.summary

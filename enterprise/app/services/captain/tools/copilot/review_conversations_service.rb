@@ -29,15 +29,15 @@ class Captain::Tools::Copilot::ReviewConversationsService < Captain::Tools::Copi
   def create_review(collection, criteria, question)
     context = { 'request' => run.copilot_message.message['content'], 'criteria' => criteria, 'question' => question }.compact
     run.with_lease(lease_token) do
-      tool_call.background_run || run.copilot_thread.copilot_runs.create!(
-        copilot_tool_call: tool_call, account: run.account, user: run.user, source_run: collection, kind: :review,
+      tool_call.background_run || CopilotRun::Review.create!(
+        copilot_thread: run.copilot_thread, copilot_tool_call: tool_call, account: run.account, user: run.user, source_run: collection,
         context: context.merge('turn_start' => 0, 'turn_limit' => run.review_budget!)
       )
     end
   end
 
   def review_source(collection_id)
-    collection = run.copilot_thread.saved_set(collection_id, kind: :collection)
+    collection = run.copilot_thread.saved_set(collection_id, types: [CopilotRun::Collection])
     return collection if collection.resource == 'conversations'
 
     raise ArgumentError, "Reviews read conversations. Call get_data with resource conversations and from #{collection.id} first."

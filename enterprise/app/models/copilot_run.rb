@@ -7,12 +7,12 @@
 #  context              :jsonb            not null
 #  cost_complete        :boolean          default(TRUE), not null
 #  error                :string
-#  kind                 :string           not null
 #  lease_token          :string
 #  lease_until          :datetime
 #  status               :string           default("queued"), not null
-#  total_cost_usd       :decimal(16, 10)   default(0.0), not null
+#  total_cost_usd       :decimal(16, 10)  default(0.0), not null
 #  transcript           :jsonb            not null
+#  type                 :string           not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  account_id           :bigint           not null
@@ -31,18 +31,18 @@
 #  index_copilot_runs_on_source_run_id         (source_run_id)
 #  index_copilot_runs_on_user_id               (user_id)
 #
+# What every Copilot run shares: the lease a job holds while it works, the credit check and the cost. Each kind of run is
+# a subclass stored in this table, and the type column names it: CopilotRun::Turn, CopilotRun::Collection or
+# CopilotRun::Review.
 class CopilotRun < ApplicationRecord
   belongs_to :account
   belongs_to :user
   belongs_to :copilot_thread
-  belongs_to :copilot_message, optional: true
   # The tool call that started this run. A turn has none; it starts from the agent's message.
   belongs_to :copilot_tool_call, optional: true, inverse_of: :background_run
   # The saved set this run reads: a collection's from set, or the collection a review reads.
   belongs_to :source_run, class_name: 'CopilotRun', optional: true
   has_many :derived_runs, class_name: 'CopilotRun', foreign_key: :source_run_id, dependent: :destroy, inverse_of: :source_run
-  has_many :tool_calls, class_name: 'CopilotToolCall', dependent: :delete_all
-  has_many :findings, class_name: 'CopilotReviewFinding', dependent: :delete_all
 
   FINISHED_STATUSES = %w[completed incomplete failed].freeze
   MAX_SELECTION = 5000
@@ -51,13 +51,10 @@ class CopilotRun < ApplicationRecord
 
   LEASE_DURATION = 2.minutes
 
-  enum :kind, { turn: 'turn', collection: 'collection', review: 'review' }, validate: true
+  # Each kind allows only some of these. Its STATUSES constant lists them.
   # awaiting_background_run: a turn parked until a background run started by one of its tool calls finishes.
   enum :status, { queued: 'queued', running: 'running', awaiting_background_run: 'awaiting_background_run', completed: 'completed',
                   incomplete: 'incomplete', failed: 'failed' }, validate: true
-  # request: the agent's message a review follows. conversation_id: the display ID of the conversation the agent had open.
-  # trace_carrier: the turn's trace context, which later jobs join.
-  store_accessor :context, :request, :conversation_id, :trace_carrier
 
   # Runs a job may pick up: waiting for a worker, or held by one whose lease may have expired.
   scope :claimable, -> { where(status: %i[queued running]) }
@@ -103,24 +100,9 @@ class CopilotRun < ApplicationRecord
     raise Captain::Copilot::LimitExceededError, I18n.t('captain.copilot_limit')
   end
 
-  # Turns run in order; a message sent while an earlier turn waits on its review is answered after that turn.
-  def behind_earlier_turn?
-    copilot_thread.copilot_runs.turn.unfinished.where(CopilotRun.arel_table[:copilot_message_id].lt(copilot_message_id)).exists?
-  end
-
-  # Called when a background run finishes. This run may not have parked yet; it checks the tool call under this same lock
-  # before parking, so exactly one side re-queues it.
-  def resume_with(tool_call, result)
-    resumed = with_lock do
-      tool_call.update!(status: :completed, result: result)
-      awaiting_background_run? && update!(status: :queued)
-    end
-    Captain::Copilot::TurnJob.perform_later(id) if resumed
-  end
-
   # The turn this run belongs to. Collections and reviews are started by one of its tool calls.
   def turn
-    turn? ? self : copilot_tool_call.copilot_run
+    copilot_tool_call.copilot_run
   end
 
   # Provider costs are stored on the user turn, including calls made by its background review.
@@ -136,111 +118,8 @@ class CopilotRun < ApplicationRecord
     end
   end
 
-  def selected_ids
-    selection.fetch('selected_ids', [])
-  end
-
-  # A saved set is a collection from get_data or a finished review. A review's records are always conversations.
-  def resource
-    collection? ? context.fetch('resource', 'conversations') : 'conversations'
-  end
-
-  # For a review, the matched conversations or every conversation it decided on, including those screened out.
-  def record_ids(only_matched: true)
-    return selected_ids if collection?
-    raise ArgumentError, 'The review has not finished yet' unless finished?
-
-    decided = only_matched ? findings.reviewed.where(matched: true) : findings.where(status: %i[reviewed screened_out])
-    decided.order(:conversation_id).pluck(:conversation_id)
-  end
-
-  # Moves an unfinished review to the tool call that continues it, with room for what is left of that turn's limit.
-  def continue_review(tool_call)
-    with_lock do
-      return if copilot_tool_call_id == tool_call.id
-      raise ArgumentError, 'The review is still running' unless finished?
-      raise ArgumentError, 'The review has no conversations left to review' if remaining_ids.empty?
-      raise ArgumentError, 'This turn already reviewed a batch. Ask the agent before continuing.' if turn.id == tool_call.copilot_run_id
-
-      start = processed_count
-      update!(copilot_tool_call: tool_call, status: :queued, error: nil,
-              context: context.merge('turn_start' => start, 'turn_limit' => start + tool_call.copilot_run.review_budget!))
-    end
-  end
-
-  # A turn reviews at most CONVERSATIONS_PER_TURN conversations across all its reviews, so a later review in the same turn
-  # gets only what is left. A continued review counts from where this turn took it.
-  def review_budget!
-    reviews = CopilotRun.review.joins(:copilot_tool_call).where(copilot_tool_calls: { copilot_run_id: id }).to_a
-    left = CONVERSATIONS_PER_TURN - reviews.sum { |review| review.processed_count - review.context.fetch('turn_start', 0) }
-    return left if left.positive?
-
-    raise ArgumentError, "This turn already reviewed #{CONVERSATIONS_PER_TURN} conversations. Ask the agent before reviewing more."
-  end
-
-  def left_this_turn
-    context.fetch('turn_limit') - processed_count
-  end
-
-  def as_of
-    Time.iso8601(selection.fetch('as_of'))
-  end
-
-  def criteria
-    context.fetch('criteria')
-  end
-
-  def question
-    context['question']
-  end
-
-  def filters
-    selection.fetch('filters', {})
-  end
-
-  def selection_truncated?
-    selection['selection_truncated'] == true
-  end
-
-  def remaining_ids
-    selected_ids - findings.finished.pluck(:conversation_id)
-  end
-
+  # The fields every summary starts with. Collections and reviews add their own counts.
   def summary
-    { run_id: id, status: status, error: error }.merge(collection? ? collection_summary : review_summary)
-  end
-
-  # A collection is a saved selection, so it has no review counts.
-  def collection_summary
-    { resource: resource, filters: filters, selected: selected_ids.size, selection_truncated: selection_truncated? }
-  end
-
-  def review_summary
-    counts = findings.group(:status).count
-    selected = selected_ids.size
-    processed = counts.values_at(*CopilotReviewFinding::FINISHED_STATUSES).sum(&:to_i)
-    { filters: filters, question: question, selected: selected, processed: processed, remaining: selected - processed,
-      screened_out: counts['screened_out'].to_i, reviewed: counts['reviewed'].to_i, matched: findings.where(matched: true).count,
-      failed: counts['failed'].to_i, selection_truncated: selection_truncated? }
-  end
-
-  def processed_count
-    findings.finished.count
-  end
-
-  def publish_progress
-    progress = summary
-    return if copilot_thread.copilot_messages.assistant_thinking.last&.message&.dig('progress') == progress.as_json
-
-    content = "Processed #{progress[:processed]} of #{progress[:selected]} conversations: #{progress[:matched]} matched, " \
-              "#{progress[:screened_out]} screened out, #{progress[:failed]} failed."
-    copilot_thread.copilot_messages.create!(message_type: :assistant_thinking, message: { content: content, progress: progress })
-  end
-
-  private
-
-  # A review reads the selection saved on the collection it reviews instead of keeping its own copy.
-  def selection
-    review? ? source_run.context : context
+    { run_id: id, status: status, error: error }
   end
 end

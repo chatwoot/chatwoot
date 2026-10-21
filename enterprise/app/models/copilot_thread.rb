@@ -36,8 +36,8 @@ class CopilotThread < ApplicationRecord
   end
 
   # A collection or review saved in this thread, which a Copilot tool call can read from.
-  def saved_set(id, kind: %i[collection review])
-    copilot_runs.where(account: account, user: user, kind: kind).find(id)
+  def saved_set(id, types: [CopilotRun::Collection, CopilotRun::Review])
+    copilot_runs.where(account: account, user: user, type: types.map(&:sti_name)).find(id)
   end
 
   def previous_history

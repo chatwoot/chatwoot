@@ -12,7 +12,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
 
   # watched_token is set on the checks LeasedJob schedules.
   def perform(run_id, watched_token = nil)
-    run = CopilotRun.review.claimable.find_by(id: run_id)
+    run = CopilotRun::Review.claimable.find_by(id: run_id)
     return unless run
 
     token = claim(run, watched_token)

@@ -16,7 +16,7 @@ class CreateCopilotRuns < ActiveRecord::Migration[7.2]
       t.references :copilot_message, index: { unique: true }
       t.references :copilot_tool_call, index: { unique: true }
       t.references :source_run
-      t.string :kind, null: false
+      t.string :type, null: false
       t.string :status, null: false, default: 'queued'
       t.jsonb :context, null: false, default: {}
       t.jsonb :transcript, null: false, default: {}

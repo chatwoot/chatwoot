@@ -11,7 +11,7 @@ class Captain::Copilot::TurnJob < ApplicationJob
 
   # watched_token is set on the checks LeasedJob schedules.
   def perform(run_id, watched_token = nil)
-    run = CopilotRun.turn.claimable.find_by(id: run_id)
+    run = CopilotRun::Turn.claimable.find_by(id: run_id)
     return unless run
 
     return self.class.set(wait: 5.seconds).perform_later(run.id) if run.behind_earlier_turn?
