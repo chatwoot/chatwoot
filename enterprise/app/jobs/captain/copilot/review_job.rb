@@ -14,7 +14,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
   def process_batch(run, token)
     conversations = Captain::Copilot::ScreeningService.new(run, token).screen(accessible_batch(run, token))
     run.with_lease(token) { run.publish_progress } if run.question.present?
-    service = Captain::Copilot::ReviewService.new(run, token)
+    service = Captain::Copilot::ReviewService.new(run)
     conversations.each do |conversation|
       run.renew_lease(token)
       review(run, token, service, conversation)
