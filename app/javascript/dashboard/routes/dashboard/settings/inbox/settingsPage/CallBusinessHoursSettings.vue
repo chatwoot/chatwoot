@@ -25,7 +25,10 @@ const isDirty = computed(
 );
 const audioUrl = computed(() => props.inbox.out_of_hours_call_audio_url);
 const canSave = computed(
-  () => !isSaving.value && !!message.value.trim() && isDirty.value
+  () =>
+    !isSaving.value &&
+    !!message.value.trim() &&
+    (isDirty.value || !audioUrl.value)
 );
 
 watch(

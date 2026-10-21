@@ -106,6 +106,26 @@ describe('CallBusinessHoursSettings', () => {
     expect(dispatch).not.toHaveBeenCalled();
   });
 
+  it('allows saving unchanged text when audio is missing and disables saving once audio exists', async () => {
+    dispatch.mockResolvedValue();
+    const wrapper = mountComponent({ out_of_hours_call_audio_url: null });
+    const button = wrapper.findComponent(NextButton).find('button');
+
+    expect(button.element.disabled).toBe(false);
+    await button.trigger('click');
+    await flushPromises();
+
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateCallBusinessHours', {
+      id: 387,
+      enabled: true,
+      message: inbox.out_of_hours_call_message,
+    });
+
+    await wrapper.setProps({ inbox: { ...inbox } });
+
+    expect(button.element.disabled).toBe(true);
+  });
+
   it('restores the saved toggle after a failed update', async () => {
     dispatch.mockRejectedValue(new Error('Update failed'));
     const wrapper = mountComponent();
