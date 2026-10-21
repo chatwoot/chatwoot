@@ -65,12 +65,13 @@ const isDirty = computed(
     draft.value.trim() !== props.message ||
     (hasTimeout.value && Number(timeout.value) !== props.timeoutSeconds)
 );
+// Unchanged text can be re-saved while its audio is missing, to generate it
 const canSave = computed(
   () =>
     !isSaving.value &&
     !!draft.value.trim() &&
     isTimeoutValid.value &&
-    isDirty.value
+    (isDirty.value || !props.audioUrl)
 );
 const label = key =>
   t(`INBOX_MGMT.VOICE_CONFIGURATION.${props.i18nKey}.${key}`);

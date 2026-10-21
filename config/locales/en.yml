@@ -44,14 +44,14 @@ en:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+    voice_settings:
+      unsupported_inbox: 'This setting requires a Twilio voice inbox'
     call_announcements:
-      unsupported_inbox: 'Call announcements require a Twilio voice inbox'
       invalid_settings: 'Provide a boolean for enabled and text for the announcement'
       message_required: 'Add the message callers hear'
       message_too_long: 'The announcement must be 1000 characters or fewer'
       invalid_timeout: 'Ring time must be a whole number of seconds between %{min} and %{max}'
     call_waiting:
-      unsupported_inbox: 'Call waiting settings require a Twilio voice inbox'
       invalid_join_beep: 'Provide a boolean for the join beep'
       invalid_file: 'Upload an MP3 or WAV file'
       too_large: 'The audio file must be 10 MB or smaller'

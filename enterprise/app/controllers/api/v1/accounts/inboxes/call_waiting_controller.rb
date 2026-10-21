@@ -31,7 +31,7 @@ class Api::V1::Accounts::Inboxes::CallWaitingController < Api::V1::Accounts::Bas
     authorize @inbox, :update?
     return if @inbox.twilio? && @inbox.channel.voice_enabled?
 
-    render_could_not_create_error(I18n.t('inbox.call_waiting.unsupported_inbox'))
+    render_could_not_create_error(I18n.t('inbox.voice_settings.unsupported_inbox'))
   end
 
   def validate_join_beep
@@ -42,13 +42,12 @@ class Api::V1::Accounts::Inboxes::CallWaitingController < Api::V1::Accounts::Bas
 
   def validate_audio
     audio = params[:audio]
-    return render_could_not_create_error(I18n.t('inbox.call_waiting.invalid_file')) unless uploaded_audio?(audio)
+    valid = audio.is_a?(ActionDispatch::Http::UploadedFile) && CONTENT_TYPES.include?(audio.content_type)
+    return render_could_not_create_error(I18n.t('inbox.call_waiting.invalid_file')) unless valid
     return unless audio.size > MAX_SIZE
 
     render_could_not_create_error(I18n.t('inbox.call_waiting.too_large'))
   end
-
-  def uploaded_audio?(audio) = audio.is_a?(ActionDispatch::Http::UploadedFile) && CONTENT_TYPES.include?(audio.content_type)
 
   def render_inbox
     @inbox.update_account_cache

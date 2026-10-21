@@ -34,7 +34,7 @@ class Api::V1::Accounts::Inboxes::CallAnnouncementsController < Api::V1::Account
     authorize @inbox, :update?
     return if @inbox.twilio? && @inbox.channel.voice_enabled?
 
-    render_could_not_create_error(I18n.t('inbox.call_announcements.unsupported_inbox'))
+    render_could_not_create_error(I18n.t('inbox.voice_settings.unsupported_inbox'))
   end
 
   def set_announcement

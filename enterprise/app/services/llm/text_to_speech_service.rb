@@ -5,7 +5,8 @@ class Llm::TextToSpeechService < Llm::LegacyBaseOpenAiService
 
   def self.available_for?(account)
     account.feature_enabled?('captain_integration') &&
-      account.usage_limits[:captain][:responses][:current_available].positive?
+      account.usage_limits[:captain][:responses][:current_available].positive? &&
+      InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value.present?
   end
 
   def initialize(text:, account:)

@@ -16,13 +16,9 @@ class Voice::CallAnnouncement
     @kind = kind.to_s
   end
 
-  def enabled_key = KINDS.fetch(kind)[:enabled]
-  def message_key = KINDS.fetch(kind)[:message]
-  def audio_name = KINDS.fetch(kind)[:audio]
-
   def enabled? = channel.provider_config[enabled_key] == true
   def message = channel.provider_config[message_key]
-  def audio = inbox.public_send(audio_name)
+  def audio = inbox.public_send(KINDS.fetch(kind)[:audio])
 
   def speak(twiml)
     audio.attached? ? twiml.play(url: Rails.application.routes.url_helpers.rails_blob_url(audio)) : twiml.say(message: message)
@@ -47,6 +43,8 @@ class Voice::CallAnnouncement
   private
 
   def channel = inbox.channel
+  def enabled_key = KINDS.fetch(kind)[:enabled]
+  def message_key = KINDS.fetch(kind)[:message]
 
   def generated_audio(enabled, message, changed)
     return unless enabled && Llm::TextToSpeechService.available_for?(inbox.account)
