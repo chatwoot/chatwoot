@@ -33,14 +33,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  isOnHold: {
-    type: Boolean,
-    default: false,
-  },
-  showHold: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 defineEmits([
@@ -63,9 +55,15 @@ const isOutgoing = computed(
   () => props.state === VOICE_CALL_DIRECTION.OUTGOING
 );
 
+const isWhatsapp = computed(
+  () => props.call?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
+);
+// Hold lives in the Twilio conference, so only Twilio calls offer it
+const isOnHold = computed(() => isOngoing.value && !!props.call?.onHold);
+
 const statusIcon = computed(() => {
   if (isOngoing.value) {
-    return props.isOnHold ? 'i-ph-pause-circle-bold' : 'i-ph-phone-call-bold';
+    return isOnHold.value ? 'i-ph-pause-circle-bold' : 'i-ph-phone-call-bold';
   }
   if (isOutgoing.value) return 'i-ph-phone-outgoing-bold';
   return 'i-ph-phone-incoming-bold';
@@ -73,7 +71,7 @@ const statusIcon = computed(() => {
 
 const statusLabel = computed(() => {
   if (isOngoing.value) {
-    return props.isOnHold
+    return isOnHold.value
       ? t('CONVERSATION.VOICE_WIDGET.ON_HOLD')
       : t('CONVERSATION.VOICE_WIDGET.CALL_IN_PROGRESS');
   }
@@ -82,14 +80,12 @@ const statusLabel = computed(() => {
 });
 
 const statusColorClass = computed(() =>
-  isOngoing.value && props.isOnHold ? 'text-n-amber-11' : 'text-n-teal-9'
+  isOnHold.value ? 'text-n-amber-11' : 'text-n-teal-9'
 );
 
-const channelIcon = computed(() => {
-  if (props.call?.provider === VOICE_CALL_PROVIDERS.WHATSAPP)
-    return 'i-ri-whatsapp-fill';
-  return 'i-ph-phone-bold';
-});
+const channelIcon = computed(() =>
+  isWhatsapp.value ? 'i-ri-whatsapp-fill' : 'i-ph-phone-bold'
+);
 </script>
 
 <template>
@@ -191,7 +187,7 @@ const channelIcon = computed(() => {
         <div class="flex items-center gap-2 shrink-0">
           <!-- Hold / resume (Twilio ongoing only); separate from muting the mic -->
           <NextButton
-            v-if="isOngoing && showHold"
+            v-if="isOngoing && !isWhatsapp"
             v-tooltip.top="
               isOnHold
                 ? $t('CONVERSATION.VOICE_WIDGET.RESUME')

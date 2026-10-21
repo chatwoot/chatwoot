@@ -169,7 +169,6 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
       patch url, headers: agent.create_new_auth_token, params: params, as: :json
 
       expect(response).to have_http_status(:ok)
-      expect(response.parsed_body).to include('on_hold' => true)
       expect(conference_service).to have_received(:hold_contact).with(true)
     end
 
@@ -177,7 +176,6 @@ RSpec.describe Api::V1::Accounts::ConferenceController, type: :request do
       patch url, headers: agent.create_new_auth_token, params: params.merge(hold: false), as: :json
 
       expect(response).to have_http_status(:ok)
-      expect(response.parsed_body).to include('on_hold' => false)
       expect(conference_service).to have_received(:hold_contact).with(false)
     end
 

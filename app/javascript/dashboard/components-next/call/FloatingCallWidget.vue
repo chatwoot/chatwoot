@@ -38,13 +38,8 @@ const isWhatsappActive = computed(
   () => activeCall.value?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
 );
 
-// Hold lives in the Twilio conference, so only Twilio calls offer it
-const isOnHold = computed(() => !!activeCall.value?.onHold);
-const showHold = computed(() => hasActiveCall.value && !isWhatsappActive.value);
-
 const toggleHold = () => {
   const call = activeCall.value;
-  if (!call) return;
   holdCall({
     conversationId: call.conversationId,
     inboxId: call.inboxId,
@@ -278,8 +273,6 @@ onBeforeUnmount(stopRingtone);
       :duration="hasActiveCall ? formattedCallDuration : ''"
       :is-muted="isMuted"
       :show-mute="hasActiveCall"
-      :is-on-hold="isOnHold"
-      :show-hold="showHold"
       @accept="handleJoinCall(primaryIncomingCall)"
       @reject="rejectIncomingCall(primaryIncomingCall?.callSid)"
       @dismiss="dismissCall(primaryIncomingCall?.callSid)"

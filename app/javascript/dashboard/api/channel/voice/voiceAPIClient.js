@@ -31,13 +31,11 @@ class VoiceAPI extends ApiClient {
   }
 
   setHold({ inboxId, conversationId, callSid, hold }) {
-    return axios
-      .patch(`${this.baseUrl()}/inboxes/${inboxId}/conference/hold`, {
-        conversation_id: conversationId,
-        call_sid: callSid,
-        hold,
-      })
-      .then(r => r.data);
+    return axios.patch(`${this.baseUrl()}/inboxes/${inboxId}/conference/hold`, {
+      conversation_id: conversationId,
+      call_sid: callSid,
+      hold,
+    });
   }
 
   getToken(inboxId) {
