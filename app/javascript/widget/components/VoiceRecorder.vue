@@ -18,7 +18,6 @@ const mediaStream = ref(null);
 const chunks = ref([]);
 const elapsed = ref(0);
 const isCancelled = ref(false);
-const isUnmounted = ref(false);
 let timer = null;
 
 const formattedTime = () => {
@@ -61,34 +60,44 @@ const startRecording = async () => {
     return;
   }
 
-  // The permission prompt is async: the user may have cancelled or the
-  // component may have unmounted while it was open. Release and bail out
-  // before we start capturing.
-  if (isCancelled.value || isUnmounted.value) {
+  // The permission prompt is async: the recording may have been cancelled
+  // (including by unmounting) while it was open. Release and bail out before
+  // we start capturing.
+  if (isCancelled.value) {
     stream.getTracks().forEach(track => track.stop());
     return;
   }
 
   mediaStream.value = stream;
   const mimeType = pickMimeType();
-  mediaRecorder.value = new MediaRecorder(stream, mimeType ? { mimeType } : {});
+  try {
+    mediaRecorder.value = new MediaRecorder(
+      stream,
+      mimeType ? { mimeType } : {}
+    );
 
-  mediaRecorder.value.addEventListener('dataavailable', event => {
-    if (event.data.size > 0) chunks.value.push(event.data);
-  });
+    mediaRecorder.value.addEventListener('dataavailable', event => {
+      if (event.data.size > 0) chunks.value.push(event.data);
+    });
 
-  mediaRecorder.value.addEventListener('stop', () => {
+    mediaRecorder.value.addEventListener('stop', () => {
+      releaseStream();
+      if (isCancelled.value) return;
+
+      const type = mediaRecorder.value.mimeType || 'audio/webm';
+      const blob = new Blob(chunks.value, { type });
+      const extension = MIME_EXTENSION_MAP[type.split(';')[0]] || 'webm';
+      const file = new File([blob], `${getUuid()}.${extension}`, { type });
+      emit('finish', file);
+    });
+
+    mediaRecorder.value.start();
+  } catch (error) {
     releaseStream();
-    if (isCancelled.value) return;
+    emit('error', error);
+    return;
+  }
 
-    const type = mediaRecorder.value.mimeType || 'audio/webm';
-    const blob = new Blob(chunks.value, { type });
-    const extension = MIME_EXTENSION_MAP[type.split(';')[0]] || 'webm';
-    const file = new File([blob], `${getUuid()}.${extension}`, { type });
-    emit('finish', file);
-  });
-
-  mediaRecorder.value.start();
   timer = setInterval(() => {
     elapsed.value += 1;
   }, 1000);
@@ -108,8 +117,10 @@ const cancelRecording = () => {
 };
 
 onMounted(startRecording);
+// Unmounting (e.g. the visitor closes the widget) discards the recording.
 onUnmounted(() => {
-  isUnmounted.value = true;
+  isCancelled.value = true;
+  stopRecording();
   releaseStream();
 });
 </script>

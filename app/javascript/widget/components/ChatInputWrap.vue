@@ -87,6 +87,10 @@ export default {
     isWidgetOpen(isWidgetOpen) {
       if (isWidgetOpen) {
         this.focusInput();
+      } else {
+        // Closing the widget keeps this view mounted, so stop an in-progress
+        // recording here to release the microphone instead of capturing on.
+        this.isRecording = false;
       }
     },
   },
