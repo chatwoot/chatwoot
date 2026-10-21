@@ -1,4 +1,8 @@
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import FileUpload from 'vue-upload-component';
+import { DirectUpload } from 'activestorage';
 
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
@@ -8,122 +12,106 @@ vi.mock('shared/helpers/mitt', () => ({
   emitter: { emit: vi.fn() },
 }));
 
+vi.mock('activestorage', () => ({
+  DirectUpload: vi.fn(function MockDirectUpload(file) {
+    this.create = callback => callback(null, { signed_id: file.name });
+  }),
+}));
+
 const createUpload = ({ name, type = 'image/png', size = 1024 } = {}) => ({
   file: { name, type, size },
   type,
 });
 
+const mountAttachment = ({ directUploadsEnabled = false } = {}) => {
+  const onAttach = vi.fn().mockResolvedValue();
+  const store = createStore({
+    modules: {
+      globalConfig: {
+        namespaced: true,
+        getters: {
+          get: () => ({ maximumFileUploadSize: 1, directUploadsEnabled }),
+        },
+      },
+    },
+  });
+  const wrapper = shallowMount(ChatAttachment, {
+    props: { onAttach },
+    global: { plugins: [store] },
+  });
+  const addFiles = files =>
+    files.forEach(file =>
+      wrapper.findComponent(FileUpload).vm.$emit('inputFile', file)
+    );
+
+  return { onAttach, addFiles };
+};
+
 describe('ChatAttachment', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    window.URL.createObjectURL = vi.fn(file => `blob:${file.name}`);
+    window.chatwootWebChannel = { websiteToken: 'website-token' };
   });
 
-  describe('getUploadableFiles', () => {
-    it('filters empty, unsupported, and oversized files independently', () => {
-      const validFile = createUpload({ name: 'valid.png' });
-      const emptyFile = createUpload({ name: 'empty.png', size: 0 });
-      const unsupportedFile = createUpload({
-        name: 'script.exe',
-        type: 'application/x-msdownload',
-      });
-      const oversizedFile = createUpload({
-        name: 'large.png',
-        size: 2 * 1024 * 1024,
-      });
-      const context = {
-        fileUploadSizeLimit: 1,
-        $t: vi.fn(key => key),
-      };
+  it('filters empty, unsupported, and oversized files independently', async () => {
+    const { onAttach, addFiles } = mountAttachment();
+    const validFile = createUpload({ name: 'valid.png' });
 
-      const result = ChatAttachment.methods.getUploadableFiles.call(context, [
-        validFile,
-        emptyFile,
-        unsupportedFile,
-        oversizedFile,
-      ]);
+    addFiles([
+      validFile,
+      createUpload({ name: 'empty.png', size: 0 }),
+      createUpload({ name: 'script.exe', type: 'application/x-msdownload' }),
+      createUpload({ name: 'large.png', size: 2 * 1024 * 1024 }),
+    ]);
 
-      expect(result).toEqual([validFile]);
-      expect(emitter.emit).toHaveBeenCalledWith(BUS_EVENTS.SHOW_ALERT, {
-        message: 'FILE_TYPE_NOT_SUPPORTED',
-      });
-      expect(emitter.emit).toHaveBeenCalledWith(BUS_EVENTS.SHOW_ALERT, {
-        message: 'FILE_SIZE_LIMIT',
-      });
+    await vi.waitFor(() => expect(onAttach).toHaveBeenCalledTimes(1));
+    expect(onAttach).toHaveBeenCalledWith([
+      expect.objectContaining({ file: validFile.file }),
+    ]);
+    expect(emitter.emit).toHaveBeenCalledWith(BUS_EVENTS.SHOW_ALERT, {
+      message: 'FILE_TYPE_NOT_SUPPORTED',
+    });
+    expect(emitter.emit).toHaveBeenCalledWith(BUS_EVENTS.SHOW_ALERT, {
+      message: 'FILE_SIZE_LIMIT',
     });
   });
 
-  describe('splitIntoUploadBatches', () => {
-    it('preserves every attachment in ordered batches of 15', () => {
-      const attachments = Array.from({ length: 32 }, (_, index) => index);
+  it('preserves every attachment in ordered messages of 15', async () => {
+    const { onAttach, addFiles } = mountAttachment();
+    const files = Array.from({ length: 32 }, (_, index) =>
+      createUpload({ name: `${index}.png` })
+    );
 
-      expect(
-        ChatAttachment.methods.splitIntoUploadBatches(attachments)
-      ).toEqual([
-        attachments.slice(0, 15),
-        attachments.slice(15, 30),
-        attachments.slice(30),
-      ]);
-    });
+    addFiles(files);
+
+    await vi.waitFor(() => expect(onAttach).toHaveBeenCalledTimes(3));
+    expect(
+      onAttach.mock.calls.map(([batch]) => batch.map(({ file }) => file.name))
+    ).toEqual([
+      files.slice(0, 15).map(({ file }) => file.name),
+      files.slice(15, 30).map(({ file }) => file.name),
+      files.slice(30).map(({ file }) => file.name),
+    ]);
   });
 
-  describe('onIndirectFileUpload', () => {
-    it('sends overflow files as additional messages', async () => {
-      const files = Array.from({ length: 17 }, (_, index) =>
+  it('uploads directly and sends overflow files in additional messages', async () => {
+    const { onAttach, addFiles } = mountAttachment({
+      directUploadsEnabled: true,
+    });
+
+    addFiles(
+      Array.from({ length: 17 }, (_, index) =>
         createUpload({ name: `${index}.png` })
-      );
-      const context = {
-        getUploadableFiles: vi.fn(() => files),
-        splitIntoUploadBatches: ChatAttachment.methods.splitIntoUploadBatches,
-        processBatchesSequentially:
-          ChatAttachment.methods.processBatchesSequentially,
-        getLocalFileAttributes: vi.fn(file => ({
-          thumbUrl: file.file.name,
-          fileType: 'image',
-        })),
-        startUploadBatch: vi.fn(),
-        finishUploadBatch: vi.fn(),
-        attachFiles: vi.fn().mockResolvedValue(),
-      };
+      )
+    );
 
-      await ChatAttachment.methods.onIndirectFileUpload.call(context, files);
-
-      expect(context.attachFiles).toHaveBeenCalledTimes(2);
-      expect(context.attachFiles.mock.calls[0][0]).toHaveLength(15);
-      expect(context.attachFiles.mock.calls[1][0]).toHaveLength(2);
-      expect(
-        context.attachFiles.mock.calls.flatMap(([batch]) => batch)
-      ).toHaveLength(17);
-    });
-  });
-
-  describe('onDirectFileUpload', () => {
-    it('uploads and sends overflow files in additional messages', async () => {
-      const files = Array.from({ length: 17 }, (_, index) =>
-        createUpload({ name: `${index}.png` })
-      );
-      const context = {
-        getUploadableFiles: vi.fn(() => files),
-        splitIntoUploadBatches: ChatAttachment.methods.splitIntoUploadBatches,
-        processBatchesSequentially:
-          ChatAttachment.methods.processBatchesSequentially,
-        uploadFileDirectly: vi.fn(file =>
-          Promise.resolve({
-            file: file.file.name,
-            thumbUrl: file.file.name,
-            fileType: 'image',
-          })
-        ),
-        startUploadBatch: vi.fn(),
-        finishUploadBatch: vi.fn(),
-        attachFiles: vi.fn().mockResolvedValue(),
-      };
-
-      await ChatAttachment.methods.onDirectFileUpload.call(context, files);
-
-      expect(context.uploadFileDirectly).toHaveBeenCalledTimes(17);
-      expect(context.attachFiles).toHaveBeenCalledTimes(2);
-      expect(context.attachFiles.mock.calls[0][0]).toHaveLength(15);
-      expect(context.attachFiles.mock.calls[1][0]).toHaveLength(2);
-    });
+    await vi.waitFor(() => expect(onAttach).toHaveBeenCalledTimes(2));
+    expect(DirectUpload).toHaveBeenCalledTimes(17);
+    expect(onAttach.mock.calls[0][0]).toHaveLength(15);
+    expect(onAttach.mock.calls[1][0]).toHaveLength(2);
+    expect(onAttach.mock.calls[0][0][0]).toEqual(
+      expect.objectContaining({ file: '0.png', fileType: 'image' })
+    );
   });
 });
