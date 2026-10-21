@@ -28051,11 +28051,11 @@
     "metadata": {
       "object": "model",
       "owned_by": "system",
-      "source": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+      "source": "models.dev",
       "provider_id": "openai",
       "open_weights": false,
       "attachment": true,
-      "temperature": true,
+      "temperature": false,
       "last_updated": "2026-09-22",
       "tool_call": true,
       "structured_output": true,
@@ -28070,8 +28070,7 @@
             "high",
             "xhigh",
             "max"
-          ],
-          "default": "medium"
+          ]
         }
       ],
       "cost": {

@@ -28,6 +28,8 @@ models:
     display_name: 'GPT-6 Luna'
     credit_multiplier: 1
     reasoning_effort: none
+    # models.dev lists temperature as unsupported, but Luna accepts it at reasoning effort none.
+    temperature: true
   gpt-6.1-sol:
     provider: openai
     display_name: 'GPT-6.1 Sol'
