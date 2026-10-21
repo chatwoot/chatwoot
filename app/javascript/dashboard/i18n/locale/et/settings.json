@@ -157,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Saada e-posti teavitus, kui osalevas vestluses luuakse uus sõnum",
         "SLA_MISSED_FIRST_RESPONSE": "Saada e-kiri, kui vestlusel jääb esimese vastuse SLA täitmata",
         "SLA_MISSED_NEXT_RESPONSE": "Saada e-kiri, kui vestlusel jääb järgmise vastuse SLA täitmata",
-        "SLA_MISSED_RESOLUTION": "Saada e-kiri, kui vestlusel jääb lahenduse SLA täitmata"
+        "SLA_MISSED_RESOLUTION": "Saada e-kiri, kui vestlusel jääb lahenduse SLA täitmata",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Teavituste eelistused",
@@ -172,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Osalevas vestluses luuakse uus sõnum",
           "SLA_MISSED_FIRST_RESPONSE": "Vestlus ei vasta esimesele SLA vastusele",
           "SLA_MISSED_NEXT_RESPONSE": "Vestlus ei vasta järgmisele SLA vastusele",
-          "SLA_MISSED_RESOLUTION": "Vestlus ei vasta lahenduse SLA nõuetele"
+          "SLA_MISSED_RESOLUTION": "Vestlus ei vasta lahenduse SLA nõuetele",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Luba brauseri tõuketeavitused, et neid vastu võtta"
       },
@@ -192,7 +194,8 @@
         "REQUEST_PUSH": "Luba tõukemärguanded",
         "SLA_MISSED_FIRST_RESPONSE": "Saada push-teavitus, kui vestlusel jääb esimese vastuse SLA täitmata",
         "SLA_MISSED_NEXT_RESPONSE": "Saada push-teavitus, kui vestlusel jääb järgmise vastuse SLA täitmata",
-        "SLA_MISSED_RESOLUTION": "Saada push-teavitus, kui vestlusel jääb lahenduse SLA täitmata"
+        "SLA_MISSED_RESOLUTION": "Saada push-teavitus, kui vestlusel jääb lahenduse SLA täitmata",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profiilipilt"
@@ -262,6 +265,10 @@
     "EMAIL_VERIFICATION_PENDING": "Tundub, et sa pole oma e-posti aadressi veel kinnitanud. Palun kontrolli oma postkasti kinnituskirja.",
     "RESEND_VERIFICATION_MAIL": "Saada kinnituskiri uuesti",
     "EMAIL_VERIFICATION_SENT": "Kinnituskiri on saadetud. Palun kontrolli oma postkasti.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Konto peatatud",
       "MESSAGE": "Teie konto on peatatud. Lisateabe saamiseks võtke ühendust tugimeeskonnaga.",
@@ -278,7 +285,8 @@
     "CODE": {
       "BUTTON_TEXT": "Kopeeri",
       "CODEPEN": "Ava CodePenis",
-      "COPY_SUCCESSFUL": "Kopeeritud lõikelauale"
+      "COPY_SUCCESSFUL": "Kopeeritud lõikelauale",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Näita rohkem",
@@ -564,12 +572,6 @@
       "HELP_CENTER_SEARCH": {
         "TITLE": "Abi keskuse otsingu indekseerimine",
         "DESCRIPTION": "Use AI for context aware search inside your help center articles."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Sildi soovitus",
-        "DESCRIPTION": "Paku automaatselt vestluste sisu analüüsi ja konteksti põhjal asjakohaseid silte ja märgendeid.",
-        "MODEL_TITLE": "Sildi soovituse mudel",
-        "MODEL_DESCRIPTION": "Vali AI mudel vestluste analüüsimiseks ja sobivate siltide soovitamiseks"
       }
     },
     "API": {
@@ -578,6 +580,10 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "Arveldamine",
     "DESCRIPTION": "Halda siin oma tellimust, uuenda plaani ja saa meeskonnale rohkem.",
     "CURRENT_PLAN": {
@@ -585,6 +591,7 @@
       "PLAN_NOTE": "Oled hetkel tellinud **{plan}** plaani **{quantity}** litsentsiga",
       "SEAT_COUNT": "Istmete arv",
       "RENEWS_ON": "Uueneb kuupäeval",
+      "CANCELS_ON": "Cancels on",
       "CURRENCY": "Currency"
     },
     "CURRENCY": {
@@ -618,6 +625,38 @@
       "BUTTON_TXT": "Vestle meiega"
     },
     "NO_BILLING_USER": "Sinu arvelduskonto seadistatakse. Palun värskenda lehte ja proovi uuesti.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "Status",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "Uueneb kuupäeval",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "Pending",
+        "ACTIVE": "Active",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Osta rohkem krediite",
       "MODAL_TITLE": "Osta AI krediite",
@@ -648,6 +687,7 @@
     "DESCRIPTION": "Halda oma konto turvaseadeid.",
     "LINK_TEXT": "Loe SAML SSO kohta lisaks",
     "SAML_DISABLED_MESSAGE": "SAML SSO on hetkel keelatud. Palun võtke ühendust oma administraatoriga, et see funktsioon lubada.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",

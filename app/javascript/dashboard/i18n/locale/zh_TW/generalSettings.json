@@ -44,6 +44,35 @@
         "TITLE": "帳戶 ID",
         "NOTE": "如果您正在建立基於 API 的整合，將需要此 ID"
       },
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google 翻譯",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "連接",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "升級"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
+        "API": {
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "自動解決對話",
         "NOTE": "此設定可讓您在一段時間無活動後自動解決對話。",
@@ -51,7 +80,7 @@
           "LABEL": "無活動持續時間",
           "HELP": "對話在無活動多久後自動解決",
           "PLACEHOLDER": "30",
-          "ERROR": "自動解決時間應介於 10 分鐘至 999 天之間",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "已成功更新自動解決設定",
             "ERROR": "無法更新自動解決設定"
@@ -104,6 +133,14 @@
           "ERROR": "無法更新語音轉文字設定"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Enforce two-factor authentication",
+        "NOTE": "Require every member of this account to set up two-factor authentication. Members without it will be asked to set it up at their next password sign-in. Sign-ins through Google or SAML are exempt. API access tokens of members who have not set up two-factor authentication stop working for this account until they enrol.",
+        "API": {
+          "SUCCESS": "Two-factor authentication enforcement updated successfully",
+          "ERROR": "Failed to update two-factor authentication enforcement"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "無活動自動解決時間",
         "HELP": "對話在無活動多久後應自動解決",
@@ -125,7 +162,8 @@
     },
     "UPDATE_CHATWOOT": "Chatwoot 有新版本 {latestChatwootVersion} 可供更新，請更新您的執行個體。",
     "LEARN_MORE": "瞭解更多",
-    "PAYMENT_PENDING": "您的付款尚未完成，請更新付款資訊以繼續使用 Chatwoot",
+    "PAYMENT_PENDING": "Your account payment is past due. Please update your payment information to avoid subscription cancellation.",
+    "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
     "UPGRADE": "升級以繼續使用 Chatwoot",
     "LIMITS_UPGRADE": "您的帳戶已超過使用量上限，請升級方案以繼續使用 Chatwoot",
     "OPEN_BILLING": "開啟帳單"

@@ -25,7 +25,6 @@ const mountToggle = ({
   messageType = MESSAGE_TYPES.INCOMING,
   contactSide = messageType === MESSAGE_TYPES.INCOMING,
   hasTranslations = false,
-  groupedWithNext = false,
   language = 'French',
   state = {},
   showingOriginal = false,
@@ -48,7 +47,6 @@ const mountToggle = ({
         contentAttributes: ref({}),
         messageType: ref(messageType),
         contactSide: ref(contactSide),
-        shouldGroupWithNext: ref(groupedWithNext),
       });
     },
     template: `<TranslationToggle :showing-original="${showingOriginal}" />`,
@@ -108,23 +106,13 @@ describe('TranslationToggle', () => {
     expect(outgoing.text()).toContain('CONVERSATION.TRANSLATING_TO');
   });
 
-  it('says when a message is already in the agent language', () => {
+  it('shows nothing for a message already in the agent language', () => {
     const wrapper = mountToggle({
       hasTranslations: true,
       state: { sameLanguage: true },
     });
 
-    expect(wrapper.text()).toContain('CONVERSATION.ALREADY_IN_LANGUAGE');
-    expect(wrapper.text()).not.toContain('CONVERSATION.VIEW_ORIGINAL');
-  });
-
-  it('shows the same-language line only on the last message of a group', () => {
-    const grouped = mountToggle({
-      state: { sameLanguage: true },
-      groupedWithNext: true,
-    });
-
-    expect(grouped.find('span').exists()).toBe(false);
+    expect(wrapper.find('span').exists()).toBe(false);
   });
 
   it('warns when a reply could not be translated', () => {
