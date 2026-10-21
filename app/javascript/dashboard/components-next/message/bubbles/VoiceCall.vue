@@ -266,6 +266,7 @@ const handleJoinCall = async () => {
 const canCallBack = computed(
   () =>
     isMissedInbound.value &&
+    (isWhatsapp.value || !!sender.value?.phoneNumber) &&
     !!inboxId.value &&
     !!conversationId.value &&
     !hasActiveCall.value &&

@@ -51,6 +51,24 @@ RSpec.describe Voice::CallAnnouncement do
       expect(inbox.reload.out_of_hours_call_audio).not_to be_attached
     end
 
+    it 'removes audio saved by another request when restoring older text while disabling calls' do
+      channel.update!(provider_config: { 'out_of_hours_call_message' => message })
+      inbox.out_of_hours_call_audio.attach(io: StringIO.new('old audio'), filename: 'old.mp3', content_type: 'audio/mpeg')
+      inbox.out_of_hours_call_audio.blob
+      allow(channel).to receive(:with_lock).and_wrap_original do |method, &block|
+        other_channel = Channel::TwilioSms.find(channel.id)
+        other_channel.inbox.out_of_hours_call_audio.attach(io: StringIO.new('new audio'), filename: 'new.mp3', content_type: 'audio/mpeg')
+        other_channel.update!(provider_config: { 'out_of_hours_call_message' => 'New announcement.' })
+        method.call(&block)
+      end
+
+      announcement.save!(enabled: false, message: message)
+
+      expect(channel.reload.out_of_hours_call_message).to eq(message)
+      expect(channel).not_to be_business_hours_calls_enabled
+      expect(inbox.reload.out_of_hours_call_audio).not_to be_attached
+    end
+
     it 'keeps existing audio without generating again when only the toggle changes' do
       channel.update!(provider_config: { 'out_of_hours_call_message' => message })
       inbox.out_of_hours_call_audio.attach(io: StringIO.new('audio'), filename: 'saved.mp3', content_type: 'audio/mpeg')
