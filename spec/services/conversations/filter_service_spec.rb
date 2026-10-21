@@ -1087,6 +1087,16 @@ describe Conversations::FilterService do
       expect(result[:count][:all_count]).to eq 3
     end
 
+    it 'rejects non-integer participant and mention values' do
+      %w[participant_id mentioned_user_id].each do |attribute_key|
+        params[:payload] = [
+          { attribute_key: attribute_key, filter_operator: 'equal_to', values: ['abc'], query_operator: nil }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(params, user_1, account).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidValue)
+      end
+    end
+
     it 'filters unattended conversations' do
       en_conversation_1.update!(first_reply_created_at: Time.current, waiting_since: nil)
       params[:payload] = [

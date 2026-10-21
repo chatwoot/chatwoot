@@ -1,6 +1,5 @@
 class Conversations::FilterService < FilterService
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
-  USER_LINK_TABLES = { 'participant_id' => 'conversation_participants', 'mentioned_user_id' => 'mentions' }.freeze
 
   def initialize(params, user, account)
     @account = account
@@ -61,22 +60,23 @@ class Conversations::FilterService < FilterService
   private
 
   def handle_standard_attributes(current_filter, query_hash, current_index, filter_operator_value)
-    return unattended_filter_query(query_hash) if query_hash[:attribute_key] == 'unattended'
-
-    user_link_table = USER_LINK_TABLES[query_hash[:attribute_key]]
-    return user_link_filter_query(user_link_table, query_hash, current_index) if user_link_table
-
-    super
+    case query_hash[:attribute_key]
+    when 'unattended' then unattended_filter_query(query_hash)
+    when 'participant_id' then user_link_filter_query(ConversationParticipant, query_hash)
+    when 'mentioned_user_id' then user_link_filter_query(Mention, query_hash)
+    else super
+    end
   end
 
-  # Matches conversations that the given users are linked to through a join table, such as participants or mentions.
-  def user_link_filter_query(table_name, query_hash, current_index)
-    @filter_values["value_#{current_index}"] = query_hash[:values]
-    user_link_query = "SELECT 1 FROM #{table_name} WHERE #{table_name}.conversation_id = conversations.id " \
-                      "AND #{table_name}.user_id IN (:value_#{current_index})"
-    exists_operator = query_hash[:filter_operator] == 'not_equal_to' ? 'NOT EXISTS' : 'EXISTS'
+  # Matches conversations that the given users are linked to through a join model, such as participants or mentions.
+  def user_link_filter_query(link_model, query_hash)
+    user_ids = Array.wrap(query_hash[:values])
+    raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash[:attribute_key]) unless user_ids.all?(Integer)
 
-    "#{exists_operator} (#{user_link_query}) #{query_hash[:query_operator]}"
+    linked_conversation_ids = link_model.where(user_id: user_ids).select(:conversation_id)
+    conversations = Conversation.where(id: linked_conversation_ids)
+    conversations = conversations.invert_where if query_hash[:filter_operator] == 'not_equal_to'
+    "#{condition_sql(conversations)} #{query_hash[:query_operator]}"
   end
 
   def unattended_filter_query(query_hash)
@@ -86,9 +86,13 @@ class Conversations::FilterService < FilterService
     end
 
     unattended = values.first == (query_hash[:filter_operator] == 'equal_to')
-    # Filter conditions are joined as SQL strings, so render the scope's condition instead of restating it.
-    unattended_condition = Conversation.unattended.where_clause.ast.to_sql
-    "#{'NOT ' unless unattended}#{unattended_condition} #{query_hash[:query_operator]}"
+    "#{'NOT ' unless unattended}#{condition_sql(Conversation.unattended)} #{query_hash[:query_operator]}"
+  end
+
+  # Filter conditions are joined as SQL strings, so render a relation's condition with its values inlined.
+  def condition_sql(relation)
+    connection = relation.connection
+    connection.unprepared_statement { connection.to_sql(relation.where_clause.ast) }
   end
 
   # The planner hint only pays off when the label condition positively narrows the
