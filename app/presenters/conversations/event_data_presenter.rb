@@ -16,14 +16,15 @@ class Conversations::EventDataPresenter < SimpleDelegator
       unread_count: unread_incoming_messages.count,
       first_reply_created_at: first_reply_created_at,
       priority: priority,
-      waiting_since: waiting_since.to_i,
+      **push_membership_ids,
       **push_timestamps
     }
   end
 
   # Like #push_data but with message text normalized for external integrations (webhooks).
+  # Participant and mention ids are for dashboard list filtering, not part of the webhook contract.
   def webhook_data
-    push_data.merge(
+    push_data.except(:participant_ids, :mentioned_user_ids).merge(
       account: account.webhook_data,
       messages: webhook_push_messages
     )
@@ -49,6 +50,15 @@ class Conversations::EventDataPresenter < SimpleDelegator
     }
   end
 
+  # Queried on every call: the same conversation object can send several events, and a cached
+  # association would repeat ids from before a participant or mention changed.
+  def push_membership_ids
+    {
+      participant_ids: conversation_participants.where(account_id: account_id).pluck(:user_id),
+      mentioned_user_ids: mentions.where(account_id: account_id).pluck(:user_id)
+    }
+  end
+
   def push_timestamps
     {
       agent_last_seen_at: agent_last_seen_at.to_i,
@@ -56,7 +66,8 @@ class Conversations::EventDataPresenter < SimpleDelegator
       last_activity_at: last_activity_at.to_i,
       timestamp: last_activity_at.to_i,
       created_at: created_at.to_i,
-      updated_at: updated_at.to_f
+      updated_at: updated_at.to_f,
+      waiting_since: waiting_since.to_i
     }
   end
 end

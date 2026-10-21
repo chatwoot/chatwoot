@@ -43,9 +43,22 @@ RSpec.describe Conversations::EventDataPresenter do
       # the exceptions are the values that would be added in enterprise edition.
       expect(presenter.push_data.except(:applied_sla, :sla_events)).to include(expected_data)
     end
+
+    it 'includes the participant and mentioned user ids' do
+      agent = create(:user, account: conversation.account)
+      create(:inbox_member, user: agent, inbox: conversation.inbox)
+      create(:conversation_participant, conversation: conversation, account: conversation.account, user: agent)
+      create(:mention, conversation: conversation, account: conversation.account, user: agent)
+
+      expect(presenter.push_data).to include(participant_ids: [agent.id], mentioned_user_ids: [agent.id])
+    end
   end
 
   describe '#webhook_data' do
+    it 'leaves out the participant and mentioned user ids' do
+      expect(presenter.webhook_data.keys).not_to include(:participant_ids, :mentioned_user_ids)
+    end
+
     it 'includes account details for webhook consumers' do
       expect(presenter.webhook_data[:account]).to eq(conversation.account.webhook_data)
     end
