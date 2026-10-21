@@ -15,6 +15,10 @@ class ShopifyAPI extends ApiClient {
     return axios[exists ? 'patch' : 'post'](`${this.url}_custom_app`, data);
   }
 
+  deleteCustomApp() {
+    return axios.delete(`${this.url}_custom_app`);
+  }
+
   connect(shopDomain) {
     return axios.post(`${this.url}/auth`, { shop_domain: shopDomain });
   }

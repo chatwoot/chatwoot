@@ -71,6 +71,23 @@ const save = async () => {
   }
 };
 
+const reset = async () => {
+  saving.value = true;
+  error.value = '';
+  try {
+    await shopifyAPI.deleteCustomApp();
+    configuration.value = null;
+    editing.value = false;
+    Object.keys(form).forEach(key => {
+      form[key] = '';
+    });
+  } catch {
+    error.value = t('INTEGRATION_SETTINGS.SHOPIFY.CUSTOM_APP.RESET_ERROR');
+  } finally {
+    saving.value = false;
+  }
+};
+
 const connect = async () => {
   saving.value = true;
   error.value = '';
@@ -157,12 +174,22 @@ const connect = async () => {
             {{ t('INTEGRATION_SETTINGS.SHOPIFY.CUSTOM_APP.DETAILS_SAVED') }}
           </p>
         </div>
-        <Button
-          faded
-          slate
-          :label="t('INTEGRATION_SETTINGS.SHOPIFY.CUSTOM_APP.EDIT')"
-          @click="editing = true"
-        />
+        <div class="flex gap-2">
+          <Button
+            faded
+            slate
+            :label="t('INTEGRATION_SETTINGS.SHOPIFY.CUSTOM_APP.EDIT')"
+            :disabled="saving"
+            @click="editing = true"
+          />
+          <Button
+            faded
+            ruby
+            :label="t('INTEGRATION_SETTINGS.SHOPIFY.CUSTOM_APP.RESET')"
+            :disabled="saving"
+            @click="reset"
+          />
+        </div>
       </div>
       <form v-else class="flex flex-col gap-4" @submit.prevent="save">
         <h3 class="m-0 text-base font-medium text-n-slate-12">

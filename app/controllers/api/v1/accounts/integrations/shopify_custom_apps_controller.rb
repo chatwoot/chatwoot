@@ -29,6 +29,15 @@ class Api::V1::Accounts::Integrations::ShopifyCustomAppsController < Api::V1::Ac
     render_configuration(custom_app)
   end
 
+  def destroy
+    Current.account.with_lock do
+      return head :conflict if Current.account.hooks.exists?(app_id: 'shopify')
+
+      Current.account.shopify_custom_app&.destroy!
+    end
+    head :ok
+  end
+
   private
 
   def ensure_shopify_enabled

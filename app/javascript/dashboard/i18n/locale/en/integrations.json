@@ -112,6 +112,8 @@
         "SAVE_ERROR": "Could not save the app details. Check the store domain, credentials, and Shopify-generated installation link. The workspace must use non-Shopify billing.",
         "CONNECT_ERROR": "Could not connect your app. Check that its version is active and its installation link is current, then try again.",
         "EDIT": "Edit app details",
+        "RESET": "Reset setup",
+        "RESET_ERROR": "Could not reset the app details. Please try again.",
         "DETAILS_SAVED": "App details saved. Complete the Shopify settings below to connect."
       }
     },

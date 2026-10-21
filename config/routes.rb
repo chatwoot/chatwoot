@@ -451,7 +451,7 @@ Rails.application.routes.draw do
                 post :add_participant_to_meeting
               end
             end
-            resource :shopify_custom_app, controller: 'shopify_custom_apps', only: [:show, :create, :update]
+            resource :shopify_custom_app, controller: 'shopify_custom_apps', only: [:show, :create, :update, :destroy]
             resource :shopify, controller: 'shopify', only: [:destroy] do
               collection do
                 post :auth
