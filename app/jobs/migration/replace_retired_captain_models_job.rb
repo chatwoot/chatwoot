@@ -34,6 +34,8 @@ class Migration::ReplaceRetiredCaptainModelsJob < ApplicationJob
       next unless models&.values&.any? { |model| RETIRED_MODELS.key?(model) }
 
       account.update!(captain_models: models.transform_values { |model| RETIRED_MODELS.fetch(model, model) })
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.error("[retired-captain-models] account_id=#{account.id} #{e.record.errors.full_messages.to_sentence}")
     end
   end
 end

@@ -87,6 +87,13 @@ RSpec.describe CaptainFeaturable do
       it 'falls back to default model' do
         expect(account.captain_editor_model).to eq(Llm::Models.default_model_for('editor'))
       end
+
+      it 'rejects the change but still saves other attributes once stored' do
+        expect(account).not_to be_valid
+
+        account.save(validate: false)
+        expect(account.reload.update(name: 'Renamed')).to be(true)
+      end
     end
 
     context 'when captain_models is nil' do
