@@ -9,11 +9,13 @@ import AnalyticsHelper from 'dashboard/helper/AnalyticsHelper';
 import { SESSION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const { t } = useI18n();
 const exactTimestamp = useExactTimestamp();
 const sessions = ref([]);
 const loading = ref(false);
+const hasError = ref(false);
 
 const relativeTime = dateStr => {
   if (!dateStr) return '';
@@ -65,10 +67,12 @@ const locationLabel = session => {
 
 const fetchSessions = async () => {
   loading.value = true;
+  hasError.value = false;
   try {
     const { data } = await authAPI.getSessions();
     sessions.value = data;
   } catch {
+    hasError.value = true;
     useAlert(t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.FETCH_ERROR'));
   } finally {
     loading.value = false;
@@ -91,56 +95,70 @@ onMounted(fetchSessions);
 
 <template>
   <div class="flex flex-col gap-3">
-    <div
-      v-for="session in sessions"
-      :key="session.id"
-      class="flex items-center justify-between gap-4 rounded-xl border border-n-slate-4 bg-n-background p-4"
+    <div v-if="loading" class="flex justify-center p-3">
+      <Spinner class="size-5" />
+    </div>
+    <p v-else-if="hasError" class="p-3 text-sm text-center text-n-slate-11">
+      {{ t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.FETCH_ERROR') }}
+    </p>
+    <p
+      v-else-if="!sessions.length"
+      class="p-3 text-sm text-center text-n-slate-11"
     >
-      <div class="flex items-start gap-3">
-        <Icon
-          :icon="deviceIcon(session)"
-          class="size-5 mt-0.5 text-n-slate-10 flex-shrink-0"
-        />
-        <div class="flex flex-col gap-1">
-          <div class="flex items-center gap-2">
-            <span class="text-heading-3 text-n-slate-12">
-              {{ sessionLabel(session) }}
+      {{ t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.EMPTY') }}
+    </p>
+    <div v-else class="flex flex-col gap-3">
+      <div
+        v-for="session in sessions"
+        :key="session.id"
+        class="flex items-center justify-between gap-4 rounded-xl border border-n-slate-4 bg-n-background p-4"
+      >
+        <div class="flex items-start gap-3">
+          <Icon
+            :icon="deviceIcon(session)"
+            class="size-5 mt-0.5 text-n-slate-10 flex-shrink-0"
+          />
+          <div class="flex flex-col gap-1">
+            <div class="flex items-center gap-2">
+              <span class="text-heading-3 text-n-slate-12">
+                {{ sessionLabel(session) }}
+              </span>
+              <span
+                v-if="session.current"
+                class="rounded-full bg-n-teal-3 px-2 py-0.5 text-caption text-n-teal-11"
+              >
+                {{ $t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.CURRENT') }}
+              </span>
+            </div>
+            <span
+              v-if="locationLabel(session)"
+              class="text-body-b3 text-n-slate-11"
+            >
+              {{ locationLabel(session) }}
             </span>
             <span
-              v-if="session.current"
-              class="rounded-full bg-n-teal-3 px-2 py-0.5 text-caption text-n-teal-11"
+              v-if="session.last_activity_at"
+              v-tooltip.top="{
+                content: exactTime(session.last_activity_at),
+                delay: { show: 500, hide: 0 },
+              }"
+              class="text-body-b3 text-n-slate-10"
             >
-              {{ $t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.CURRENT') }}
+              {{ $t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.LAST_ACTIVE') }}
+              {{ relativeTime(session.last_activity_at) }}
             </span>
           </div>
-          <span
-            v-if="locationLabel(session)"
-            class="text-body-b3 text-n-slate-11"
-          >
-            {{ locationLabel(session) }}
-          </span>
-          <span
-            v-if="session.last_activity_at"
-            v-tooltip.top="{
-              content: exactTime(session.last_activity_at),
-              delay: { show: 500, hide: 0 },
-            }"
-            class="text-body-b3 text-n-slate-10"
-          >
-            {{ $t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.LAST_ACTIVE') }}
-            {{ relativeTime(session.last_activity_at) }}
-          </span>
         </div>
+        <Button
+          v-if="!session.current"
+          type="button"
+          faded
+          xs
+          :label="$t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.REVOKE')"
+          color="ruby"
+          @click="revokeSession(session)"
+        />
       </div>
-      <Button
-        v-if="!session.current"
-        type="button"
-        faded
-        xs
-        :label="$t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.REVOKE')"
-        color="ruby"
-        @click="revokeSession(session)"
-      />
     </div>
   </div>
 </template>
