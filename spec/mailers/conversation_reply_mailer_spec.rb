@@ -79,6 +79,23 @@ RSpec.describe ConversationReplyMailer do
         expect(cc_mail.cc.first).to eq(cc_message.content_attributes[:cc_emails])
         expect(cc_mail.bcc.first).to eq(cc_message.content_attributes[:bcc_emails])
       end
+
+      it 'renders the greeting and sender labels' do
+        create(:message, message_type: 'outgoing', account: account, conversation: conversation, sender: agent)
+
+        body = mail.body.decoded
+        expect(body).to include("Hi #{conversation.contact.name},")
+        expect(body).to include('You have new messages on your conversation.')
+        expect(body).to include('<b>You</b>')
+        expect(body).to include("<b>#{agent.available_name}</b>")
+      end
+
+      it 'renders the csat survey prompt as a link' do
+        create(:message, message_type: 'template', content_type: 'input_csat', account: account, conversation: conversation, sender: agent)
+
+        body = mail.body.decoded
+        expect(body).to include(%(Click <a target="_blank" href="#{conversation.csat_survey_link}">here</a> to rate the conversation.))
+      end
     end
 
     context 'without assignee' do
@@ -450,6 +467,24 @@ RSpec.describe ConversationReplyMailer do
         end
       end
 
+      context 'when the conversation has a subject' do
+        before do
+          conversation.update!(additional_attributes: { 'mail_subject': 'Mail Subject' })
+          create(:message, conversation: conversation, account: account, message_type: 'incoming',
+                           content_attributes: { email: { subject: 'Mail Subject' } })
+        end
+
+        it 'replies with the conversation subject when the message has no subject' do
+          expect(mail.subject).to eq 'Re: Mail Subject'
+        end
+
+        it 'uses the subject of the message as is when it has one' do
+          message.update!(content_attributes: { email: { subject: 'Refund approved' } })
+
+          expect(mail.subject).to eq 'Refund approved'
+        end
+      end
+
       context 'when forwarding an email' do
         let(:forwarded_message) do
           create(:message, conversation: conversation, account: account, message_type: 'incoming',
@@ -766,6 +801,15 @@ RSpec.describe ConversationReplyMailer do
           mail = described_class.email_reply(message)
 
           expect(mail['from'].value).to eq "#{conversation.inbox.business_name} <#{smtp_channel.email}>"
+        end
+
+        it 'quotes a business_name containing a comma so the sender parses to a single address' do
+          conversation.inbox.update(business_name: 'Care Team, Billing')
+
+          mail = described_class.email_reply(message)
+
+          expect(mail['from'].value).to eq "\"Care Team, Billing\" <#{smtp_channel.email}>"
+          expect(mail.smtp_envelope_from).to eq smtp_channel.email
         end
       end
     end

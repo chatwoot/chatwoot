@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Companies API', type: :request do
   let(:account) { create(:account) }
+  let(:per_page) { Api::V1::Accounts::CompaniesController::RESULTS_PER_PAGE }
 
   before { account.enable_features!(:companies) }
 
@@ -29,7 +30,7 @@ RSpec.describe 'Companies API', type: :request do
       end
 
       it 'returns companies with pagination' do
-        create_list(:company, 30, account: account)
+        create_list(:company, per_page + 5, account: account)
 
         get "/api/v1/accounts/#{account.id}/companies",
             params: { page: 1 },
@@ -38,13 +39,13 @@ RSpec.describe 'Companies API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body['payload'].size).to eq(25)
-        expect(response_body['meta']['total_count']).to eq(32)
+        expect(response_body['payload'].size).to eq(per_page)
+        expect(response_body['meta']['total_count']).to eq(per_page + 7)
         expect(response_body['meta']['page']).to eq(1)
       end
 
       it 'returns second page of companies' do
-        create_list(:company, 30, account: account)
+        create_list(:company, per_page + 5, account: account)
         get "/api/v1/accounts/#{account.id}/companies",
             params: { page: 2 },
             headers: admin.create_new_auth_token,
@@ -52,7 +53,7 @@ RSpec.describe 'Companies API', type: :request do
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
         expect(response_body['payload'].size).to eq(7)
-        expect(response_body['meta']['total_count']).to eq(32)
+        expect(response_body['meta']['total_count']).to eq(per_page + 7)
         expect(response_body['meta']['page']).to eq(2)
       end
 
