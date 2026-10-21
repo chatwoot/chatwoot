@@ -34,7 +34,7 @@ const store = useStore();
 const { isCloudFeatureEnabled } = useAccount();
 const isCustomAppSetupEnabled = computed(
   () =>
-    isCloudFeatureEnabled(FEATURE_FLAGS.SHOPIFY) &&
+    !isCloudFeatureEnabled(FEATURE_FLAGS.SHOPIFY) &&
     isCloudFeatureEnabled(FEATURE_FLAGS.SHOPIFY_CUSTOM_APPS)
 );
 const integrationLoaded = ref(false);
@@ -149,13 +149,18 @@ onMounted(() => {
       <BaseSettingsHeader
         :title="$t('INTEGRATION_SETTINGS.SHOPIFY.HEADER')"
         description=""
-        feature-name="shopify_integration"
+        :feature-name="
+          isCustomAppSetupEnabled
+            ? FEATURE_FLAGS.SHOPIFY_CUSTOM_APPS
+            : FEATURE_FLAGS.SHOPIFY
+        "
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       />
     </template>
     <template #body>
       <div class="flex flex-col gap-6">
         <Integration
+          v-if="!isCustomAppSetupEnabled || integration.enabled"
           :integration-id="integration.id"
           :integration-logo="integration.logo"
           :integration-name="integration.name"

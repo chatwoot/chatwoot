@@ -6,6 +6,8 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const { t } = useI18n();
+const SHOPIFY_LOGO = '/dashboard/images/integrations/shopify.png';
+const SHOPIFY_DARK_LOGO = '/dashboard/images/integrations/shopify-dark.png';
 const configuration = ref(null);
 const expanded = ref(false);
 const editing = ref(false);
@@ -88,22 +90,38 @@ const connect = async () => {
   <section
     class="[&_p]:whitespace-normal [&_p]:overflow-visible rounded-xl border border-n-weak bg-n-solid-1 p-6"
   >
-    <button
-      type="button"
-      class="flex w-full items-center justify-between gap-3 border-0 bg-transparent p-0 text-start"
-      :aria-expanded="expanded"
-      @click="expanded = !expanded"
-    >
-      <span class="text-base font-medium text-n-slate-12">{{
-        t('INTEGRATION_SETTINGS.SHOPIFY.CUSTOM_APP.TITLE')
-      }}</span>
-      <span class="text-sm text-n-blue-11">{{
-        t('INTEGRATION_SETTINGS.SHOPIFY.CUSTOM_APP.ADVANCED')
-      }}</span>
-    </button>
-    <p class="mb-0 mt-2 text-sm text-n-slate-11">
-      {{ t('INTEGRATION_SETTINGS.SHOPIFY.CUSTOM_APP.DESCRIPTION') }}
-    </p>
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-center">
+      <div class="flex h-16 w-16 shrink-0 items-center justify-center">
+        <img
+          :src="SHOPIFY_LOGO"
+          alt=""
+          class="block max-w-full rounded-md border border-n-weak bg-n-alpha-3 shadow-sm dark:hidden"
+        />
+        <img
+          :src="SHOPIFY_DARK_LOGO"
+          alt=""
+          class="hidden max-w-full rounded-md border border-n-weak bg-n-alpha-2 shadow-sm dark:block"
+        />
+      </div>
+      <div class="min-w-0 flex-1">
+        <button
+          type="button"
+          class="flex w-full items-center justify-between gap-3 border-0 bg-transparent p-0 text-start"
+          :aria-expanded="expanded"
+          @click="expanded = !expanded"
+        >
+          <span class="text-base font-medium text-n-slate-12">{{
+            t('INTEGRATION_SETTINGS.SHOPIFY.CUSTOM_APP.TITLE')
+          }}</span>
+          <span class="text-sm text-n-blue-11">{{
+            t('INTEGRATION_SETTINGS.SHOPIFY.CUSTOM_APP.ADVANCED')
+          }}</span>
+        </button>
+        <p class="mb-0 mt-2 text-sm text-n-slate-11">
+          {{ t('INTEGRATION_SETTINGS.SHOPIFY.CUSTOM_APP.DESCRIPTION') }}
+        </p>
+      </div>
+    </div>
     <div v-if="expanded" class="mt-6 flex flex-col gap-6">
       <div class="rounded-lg bg-n-alpha-2 p-4 text-sm text-n-slate-11">
         {{ t('INTEGRATION_SETTINGS.SHOPIFY.CUSTOM_APP.BEFORE_START') }}

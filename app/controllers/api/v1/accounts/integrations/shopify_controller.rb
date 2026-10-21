@@ -12,8 +12,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
       return render json: { error: 'Invalid Shopify shop domain' }, status: :unprocessable_entity
     end
 
-    custom_app = Shopify::CustomApp.enabled.find_by(account: Current.account)
-    return authorize_custom_app(custom_app, shop_domain) if custom_app
+    return authorize_custom_app(shop_domain) if Shopify::FeatureGate.custom_apps_enabled?(account: Current.account)
 
     state = generate_shopify_token(Current.account.id)
     raise 'Shopify OAuth is not configured' if client_id.blank? || state.blank?
@@ -68,8 +67,9 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
 
   private
 
-  def authorize_custom_app(custom_app, shop_domain)
-    return head :not_found unless Shopify::FeatureGate.custom_apps_enabled?(account: Current.account)
+  def authorize_custom_app(shop_domain)
+    custom_app = Current.account.shopify_custom_app
+    return head :not_found unless custom_app&.enabled?
 
     unless Shopify::ShopDomain.normalize(shop_domain) == custom_app.shop_domain
       return render json: { error: 'This account is configured for a different Shopify store' }, status: :unprocessable_entity
@@ -82,7 +82,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   end
 
   def ensure_shopify_enabled
-    head :not_found unless Shopify::FeatureGate.enabled?(account: Current.account)
+    head :not_found unless Shopify::FeatureGate.available?(account: Current.account)
   end
 
   def contact

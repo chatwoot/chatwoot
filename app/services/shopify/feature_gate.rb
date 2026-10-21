@@ -8,8 +8,12 @@ class Shopify::FeatureGate
     account.nil? || account.feature_enabled?(ACCOUNT_FEATURE)
   end
 
+  def self.available?(account:)
+    enabled?(account: account) || custom_apps_enabled?(account: account)
+  end
+
   def self.custom_apps_enabled?(account:)
-    enabled?(account: account) && account.feature_enabled?('shopify_custom_apps')
+    globally_enabled? && !account.feature_enabled?(ACCOUNT_FEATURE) && account.feature_enabled?('shopify_custom_apps')
   end
 
   def self.globally_enabled?

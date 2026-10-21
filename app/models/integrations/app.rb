@@ -140,7 +140,7 @@ class Integrations::App
   end
 
   def shopify_enabled?(account)
-    Shopify::FeatureGate.enabled?(account: account) &&
+    Shopify::FeatureGate.available?(account: account) &&
       GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?
   end
 
