@@ -76,7 +76,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_19_143116) do
     t.jsonb "internal_attributes", default: {}, null: false
     t.jsonb "settings", default: {}
     t.bigint "feature_flags_ext_1", default: 0, null: false
-    t.index "((custom_attributes #>> '{shopify_subscription_snapshot,shop_domain}'::text[]))", name: "index_shopify_accounts_on_snapshot_shop_domain", where: "(((internal_attributes ->> 'billing_provider'::text) = 'shopify'::text) AND ((internal_attributes ->> 'signup_source'::text) = 'shopify'::text))"
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -1311,8 +1310,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_19_143116) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "settings", default: {}
-    t.index "lower((reference_id)::text)", name: "index_shopify_hooks_on_lower_reference_id", where: "((app_id)::text = 'shopify'::text)"
-    t.index ["account_id"], name: "index_shopify_hooks_on_account_id", where: "((app_id)::text = 'shopify'::text)"
   end
 
   create_table "labels", force: :cascade do |t|
