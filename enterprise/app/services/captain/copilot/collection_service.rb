@@ -31,12 +31,14 @@ class Captain::Copilot::CollectionService
     note ? result.merge(note: note) : result
   end
 
+  # A selection made from a cut-off saved set is cut off too, because the records the saved set left out were never checked.
   def persist_collection(resource, filters, ids, as_of, source)
+    truncated = ids.size > CopilotRun::MAX_SELECTION || (source.present? && source.selection_truncated?)
     @run.with_lease(@token) do
       @run.copilot_thread.copilot_runs.create_or_find_by!(copilot_tool_call: @tool_call) do |record|
         record.assign_attributes(account: @run.account, user: @run.user, source_run: source, kind: :collection, status: :completed,
                                  context: { resource: resource, filters: filters, selected_ids: ids.first(CopilotRun::MAX_SELECTION),
-                                            as_of: as_of.iso8601(6), selection_truncated: ids.size > CopilotRun::MAX_SELECTION })
+                                            as_of: as_of.iso8601(6), selection_truncated: truncated })
       end
     end
   end

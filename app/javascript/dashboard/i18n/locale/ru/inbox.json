@@ -25,7 +25,8 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Новое сообщение в диалоге, в котором вы участвуете",
       "SLA_MISSED_FIRST_RESPONSE": "Не выполнен целевой срок разрешения по SLA для разговора",
       "SLA_MISSED_NEXT_RESPONSE": "Не выполнен целевой срок следующего ответа по SLA для разговора",
-      "SLA_MISSED_RESOLUTION": "Не выполнен целевой срок первого ответа по SLA для разговора"
+      "SLA_MISSED_RESOLUTION": "Не выполнен целевой срок первого ответа по SLA для разговора",
+      "VOICE_CALL_MISSED": "Пропущенный звонок"
     },
     "TYPES_NEXT": {
       "CONVERSATION_MENTION": "Упоминания",
@@ -36,6 +37,7 @@
       "SLA_MISSED_RESOLUTION": "Нарушение SLA",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Новое сообщение",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Новое сообщение",
+      "VOICE_CALL_MISSED": "Пропущенный звонок",
       "SNOOZED_UNTIL": "Отложено до {time}",
       "SNOOZED_ENDS": "Отсрочка закончилась"
     },

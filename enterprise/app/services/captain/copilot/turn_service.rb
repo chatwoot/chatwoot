@@ -200,7 +200,8 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
     return @tool_call.result if @tool_call.completed?
 
     tool.tool_call = @tool_call if tool.respond_to?(:tool_call=)
-    started_run_result(original.call(tool_call: tool_call, **arguments))
+    # Traced here because each tool defines its own execute, which shadows the Instrumentation BaseTool prepends.
+    started_run_result(instrument_tool_call(@tool_call.name, arguments) { original.call(tool_call: tool_call, **arguments) })
   rescue Captain::Copilot::LeaseLostError, Captain::Copilot::BackgroundRunPending
     raise
   rescue ArgumentError, ActiveRecord::RecordNotFound => e

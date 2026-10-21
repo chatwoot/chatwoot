@@ -60,14 +60,14 @@
             <div class="flex items-center gap-3 py-2 cursor-pointer stroke-slate-800 dark:stroke-slate-100">
             <%= render partial: 'icons/globe' %>
               <select
-                data-portal-slug="<%= @portal.slug %>"
                 class="flex-1 bg-transparent text-lg font-medium cursor-pointer focus:outline-none locale-switcher text-slate-800 dark:text-slate-100 hover:text-slate-700 dark:hover:text-slate-200"
               >
                 <% if @portal.draft_locale?(@locale) %>
                   <option selected disabled value="<%= @locale %>"><%= "#{language_name(@locale)} (#{@locale})" %></option>
                 <% end %>
                 <% @portal.public_locale_codes.each do |locale| %>
-                  <option <%= locale == @locale ? 'selected': '' %> value="<%= locale %>"><%= "#{language_name(locale)} (#{locale})" %></option>
+                  <% switch_url = @locale_switch_urls&.[](locale) || generate_home_link(@portal.slug, locale, @theme_from_params, @is_plain_layout_enabled) %>
+                  <option <%= locale == @locale ? 'selected': '' %> value="<%= switch_url %>"><%= "#{language_name(locale)} (#{locale})" %></option>
                 <% end %>
               </select>
             </div>

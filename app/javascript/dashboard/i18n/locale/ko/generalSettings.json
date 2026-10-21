@@ -44,6 +44,35 @@
         "TITLE": "계정 ID",
         "NOTE": "API 기반 통합을 구축하는 경우 이 ID가 필요합니다"
       },
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google Translate",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "연결",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "업그레이드"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
+        "API": {
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "대화 자동 해결",
         "NOTE": "이 설정을 사용하면 일정 기간 비활성 후 대화를 자동으로 해결할 수 있습니다.",
@@ -51,7 +80,7 @@
           "LABEL": "비활성 기간",
           "HELP": "대화가 자동 해결되기까지의 비활성 기간",
           "PLACEHOLDER": "30",
-          "ERROR": "자동 해결 기간은 10분에서 999일 사이여야 합니다",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "자동 해결 설정이 성공적으로 업데이트되었습니다",
             "ERROR": "자동 해결 설정을 업데이트하지 못했습니다"
@@ -104,6 +133,14 @@
           "ERROR": "음성 변환 설정을 업데이트하지 못했습니다"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Enforce two-factor authentication",
+        "NOTE": "Require every member of this account to set up two-factor authentication. Members without it will be asked to set it up at their next password sign-in. Sign-ins through Google or SAML are exempt. API access tokens of members who have not set up two-factor authentication stop working for this account until they enrol.",
+        "API": {
+          "SUCCESS": "Two-factor authentication enforcement updated successfully",
+          "ERROR": "Failed to update two-factor authentication enforcement"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "해결을 위한 비활성 기간",
         "HELP": "활동이 없을 경우 대화를 자동 해결하는 기간",
@@ -125,7 +162,8 @@
     },
     "UPDATE_CHATWOOT": "Chatwoot에 대한 {latestChatwootVersion} 업데이트를 사용할 수 있습니다. 인스턴스를 업데이트하십시오.",
     "LEARN_MORE": "자세히 알아보기",
-    "PAYMENT_PENDING": "결제가 보류 중입니다. Chatwoot을 계속 사용하려면 결제 정보를 업데이트하십시오",
+    "PAYMENT_PENDING": "Your account payment is past due. Please update your payment information to avoid subscription cancellation.",
+    "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
     "UPGRADE": "Chatwoot을 계속 사용하려면 업그레이드하십시오",
     "LIMITS_UPGRADE": "계정이 사용 제한을 초과했습니다. Chatwoot을 계속 사용하려면 플랜을 업그레이드하십시오",
     "OPEN_BILLING": "청구서 열기"

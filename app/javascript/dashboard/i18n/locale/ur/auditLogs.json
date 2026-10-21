@@ -45,7 +45,8 @@
       "TABLE_HEADER": {
         "ACTIVITY": "User",
         "TIME": "Action",
-        "IP_ADDRESS": "آئی پی ایڈریس"
+        "IP_ADDRESS": "آئی پی ایڈریس",
+        "LOCATION": "مقام"
       }
     },
     "API": {

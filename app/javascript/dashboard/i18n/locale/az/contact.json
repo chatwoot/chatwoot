@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Bu əlaqə ilə bağlı əvvəlki söhbətlər yoxdur.",
-      "TITLE": "Əvvəlki Söhbətlər"
+      "TITLE": "Əvvəlki Söhbətlər",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

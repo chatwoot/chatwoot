@@ -1,5 +1,14 @@
 class CreateCopilotRuns < ActiveRecord::Migration[7.2]
-  def change # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def change
+    create_copilot_runs
+    create_copilot_tool_calls
+    create_copilot_review_findings
+    add_recovery_indexes
+  end
+
+  private
+
+  def create_copilot_runs
     create_table :copilot_runs do |t|
       t.references :account, null: false
       t.references :user, null: false
@@ -19,7 +28,9 @@ class CreateCopilotRuns < ActiveRecord::Migration[7.2]
       t.string :error
       t.timestamps
     end
+  end
 
+  def create_copilot_tool_calls
     create_table :copilot_tool_calls do |t|
       # The unique index on [copilot_run_id, call_id] serves lookups by run.
       t.references :copilot_run, null: false, index: false
@@ -33,11 +44,9 @@ class CreateCopilotRuns < ActiveRecord::Migration[7.2]
       t.timestamps
     end
     add_index :copilot_tool_calls, [:copilot_run_id, :call_id], unique: true
-    # Captain::Copilot::RecoverRunsJob checks every account for unfinished runs and running tool calls, a small part of
-    # tables that keep growing.
-    add_index :copilot_runs, :status, where: "status IN ('queued', 'running')", name: 'index_copilot_runs_claimable'
-    add_index :copilot_tool_calls, :status, where: "status = 'running'", name: 'index_copilot_tool_calls_running'
+  end
 
+  def create_copilot_review_findings
     create_table :copilot_review_findings do |t|
       # The unique index on [copilot_run_id, conversation_id] serves lookups by run.
       t.references :copilot_run, null: false, index: false
@@ -55,5 +64,12 @@ class CreateCopilotRuns < ActiveRecord::Migration[7.2]
       t.timestamps
     end
     add_index :copilot_review_findings, [:copilot_run_id, :conversation_id], unique: true, name: 'index_copilot_findings_on_run_and_conversation'
+  end
+
+  # Captain::Copilot::RecoverRunsJob checks every account for unfinished runs and running tool calls, a small part of
+  # tables that keep growing.
+  def add_recovery_indexes
+    add_index :copilot_runs, :status, where: "status IN ('queued', 'running')", name: 'index_copilot_runs_claimable'
+    add_index :copilot_tool_calls, :status, where: "status = 'running'", name: 'index_copilot_tool_calls_running'
   end
 end
