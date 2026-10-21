@@ -10,9 +10,8 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
   FIRST_PASS = { opening: 3, latest: 5, characters: 12_000 }.freeze
   DEEP_PASS = { opening: 10, latest: 40, characters: 75_000 }.freeze
 
-  def initialize(run, token)
+  def initialize(run)
     @run = run
-    @token = token
     super(feature: 'copilot_workflows', account: run.account)
   end
 
