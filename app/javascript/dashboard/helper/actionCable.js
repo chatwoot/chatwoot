@@ -437,11 +437,11 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onVoiceCallIncoming = data => {
     if (data?.provider !== VOICE_CALL_PROVIDERS.WHATSAPP) return;
-    // Defense in depth: the server already filters to online agent streams,
-    // but if anything ever broadcasts to a broader stream (e.g. account-wide),
-    // an agent who's set availability=offline/busy shouldn't ring.
-    const availability = this.app.$store.getters.getCurrentUserAvailability;
-    if (availability !== 'online') return;
+    // Defense in depth: the server already filters to online agent streams that
+    // take calls, but if anything ever broadcasts to a broader stream (e.g.
+    // account-wide), an agent who is not online or has turned calls off
+    // shouldn't ring.
+    if (!this.app.$store.getters.getCurrentUserReceivesCalls) return;
 
     useCallsStore().addCall({
       callSid: data.call_id,
