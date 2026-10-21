@@ -17,6 +17,7 @@ class Api::V1::Accounts::Contacts::ConversationsController < Api::V1::Accounts::
     conversations = Current.account.conversations.includes(
       :assignee, :contact, :taggings, :contact_inbox
     ).preload(
+      :conversation_participants, :mentions,
       inbox: :channel,
       ai_assignee: { avatar_attachment: [:blob] }
     ).where(contact_id: @contact.id)

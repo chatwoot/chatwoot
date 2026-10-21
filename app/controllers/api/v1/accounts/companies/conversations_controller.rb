@@ -5,7 +5,7 @@ class Api::V1::Accounts::Companies::ConversationsController < Api::V1::Accounts:
   def index
     @conversations = Conversations::SortService.apply(company_conversations, params[:sort_by])
                                                .includes(:assignee, :contact, :inbox, :taggings)
-                                               .preload(ai_assignee: { avatar_attachment: [:blob] })
+                                               .preload(:conversation_participants, :mentions, ai_assignee: { avatar_attachment: [:blob] })
                                                .page(params[:page] || 1)
   end
 

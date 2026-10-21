@@ -212,6 +212,16 @@ class Conversation < ApplicationRecord
     (cached_label_list || '').split(',').map(&:strip)
   end
 
+  # Reads through the association so list endpoints can preload it.
+  def participant_ids
+    conversation_participants.map(&:user_id)
+  end
+
+  # Reads through the association so list endpoints can preload it.
+  def mentioned_user_ids
+    mentions.map(&:user_id)
+  end
+
   def notifiable_assignee_change?
     return false unless saved_change_to_assignee_id?
     return false if assignee_id.blank?

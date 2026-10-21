@@ -33,6 +33,7 @@ class Conversations::FilterService < FilterService
       :taggings, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team,
       :contact_inbox
     ).preload(
+      :conversation_participants, :mentions,
       inbox: :channel,
       ai_assignee: { avatar_attachment: [:blob] }
     )

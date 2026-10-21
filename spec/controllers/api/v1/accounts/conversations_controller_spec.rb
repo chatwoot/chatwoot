@@ -35,6 +35,19 @@ RSpec.describe 'Conversations API', type: :request do
         expect(body[:data][:payload].first[:messages].first[:id]).to eq(message.id)
       end
 
+      it 'returns the participant and mentioned user ids of each conversation' do
+        create(:conversation_participant, conversation: conversation, account: account, user: agent)
+        create(:mention, conversation: conversation, account: account, user: agent)
+
+        get "/api/v1/accounts/#{account.id}/conversations",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to conform_schema(200)
+        conversation_data = JSON.parse(response.body, symbolize_names: true)[:data][:payload].first
+        expect(conversation_data).to include(participant_ids: [agent.id], mentioned_user_ids: [agent.id])
+      end
+
       it 'lists a conversation whose assignee no longer exists as unassigned' do
         assigned = create(:conversation, account: account, inbox: conversation.inbox, assignee: agent)
         conversation.update_column(:assignee_id, User.maximum(:id) + 1000) # rubocop:disable Rails/SkipsModelValidations
