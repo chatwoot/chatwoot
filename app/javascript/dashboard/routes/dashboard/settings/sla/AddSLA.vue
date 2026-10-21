@@ -1,38 +1,28 @@
-<script>
+<script setup>
+import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useAutomationRoute } from 'dashboard/composables/useAutomationRoute';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SlaForm from './SlaForm.vue';
 
-export default {
-  components: {
-    NextButton,
-    SlaForm,
-  },
-  emits: ['close'],
-  setup() {
-    const { createAutomation } = useAutomationRoute();
-    return { createAutomation };
-  },
-  data() {
-    return {
-      createdSla: null,
-    };
-  },
-  methods: {
-    onClose() {
-      this.$emit('close');
-    },
-    async addSLA(payload) {
-      try {
-        this.createdSla = await this.$store.dispatch('sla/create', payload);
-      } catch (error) {
-        const errorMessage =
-          error.message || this.$t('SLA.ADD.API.ERROR_MESSAGE');
-        useAlert(errorMessage);
-      }
-    },
-  },
+const emit = defineEmits(['close']);
+
+const { t } = useI18n();
+const store = useStore();
+const { createAutomation } = useAutomationRoute();
+
+const createdSla = ref(null);
+
+const onClose = () => emit('close');
+
+const addSLA = async payload => {
+  try {
+    createdSla.value = await store.dispatch('sla/create', payload);
+  } catch (error) {
+    useAlert(error.message || t('SLA.ADD.API.ERROR_MESSAGE'));
+  }
 };
 </script>
 
