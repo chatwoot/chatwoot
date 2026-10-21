@@ -1,5 +1,7 @@
 class AutomationRules::ConditionValidationService
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
+  # ConditionsFilterService reads standard keys as conversation columns, and these keys are not columns.
+  UNSUPPORTED_CONVERSATION_FILTERS = %w[participant_id mentioned_user_id unattended].freeze
 
   def initialize(rule)
     @rule = rule
@@ -15,6 +17,7 @@ class AutomationRules::ConditionValidationService
 
   def perform
     @rule.conditions.each do |condition|
+      return false if UNSUPPORTED_CONVERSATION_FILTERS.include?(condition['attribute_key'])
       return false unless valid_condition?(condition) && valid_query_operator?(condition)
     end
 

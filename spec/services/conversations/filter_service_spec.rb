@@ -1034,4 +1034,99 @@ describe Conversations::FilterService do
       expect(result[:conversations].count).to eq 1
     end
   end
+
+  describe '#perform on conversation membership filters' do
+    let(:params) { { payload: [], page: 1 } }
+
+    it 'filters conversations by participant' do
+      create(:conversation_participant, account: account, conversation: en_conversation_1, user: user_2)
+      params[:payload] = [
+        { attribute_key: 'participant_id', filter_operator: 'equal_to', values: [user_2.id], query_operator: nil }.with_indifferent_access
+      ]
+
+      result = filter_service.new(params, user_1, account).perform
+
+      expect(result[:conversations]).to contain_exactly(en_conversation_1)
+      expect(result[:count][:all_count]).to eq 1
+    end
+
+    it 'excludes conversations by participant with not_equal_to' do
+      create(:conversation_participant, account: account, conversation: en_conversation_1, user: user_2)
+      params[:payload] = [
+        { attribute_key: 'participant_id', filter_operator: 'not_equal_to', values: [user_2.id], query_operator: nil }.with_indifferent_access
+      ]
+
+      result = filter_service.new(params, user_1, account).perform
+
+      expect(result[:conversations]).not_to include(en_conversation_1)
+      expect(result[:count][:all_count]).to eq 3
+    end
+
+    it 'filters conversations by mentioned user combined with another condition' do
+      create(:mention, account: account, conversation: en_conversation_2, user: user_2)
+      create(:mention, account: account, conversation: user_2_assigned_conversation, user: user_2)
+      params[:payload] = [
+        { attribute_key: 'mentioned_user_id', filter_operator: 'equal_to', values: [user_2.id], query_operator: 'AND' }.with_indifferent_access,
+        { attribute_key: 'status', filter_operator: 'equal_to', values: ['pending'], query_operator: nil }.with_indifferent_access
+      ]
+
+      result = filter_service.new(params, user_1, account).perform
+
+      expect(result[:conversations]).to contain_exactly(en_conversation_2)
+    end
+
+    it 'excludes conversations by mentioned user with not_equal_to' do
+      create(:mention, account: account, conversation: en_conversation_2, user: user_2)
+      params[:payload] = [
+        { attribute_key: 'mentioned_user_id', filter_operator: 'not_equal_to', values: [user_2.id], query_operator: nil }.with_indifferent_access
+      ]
+
+      result = filter_service.new(params, user_1, account).perform
+
+      expect(result[:conversations]).not_to include(en_conversation_2)
+      expect(result[:count][:all_count]).to eq 3
+    end
+
+    it 'filters unattended conversations' do
+      en_conversation_1.update!(first_reply_created_at: Time.current, waiting_since: nil)
+      params[:payload] = [
+        { attribute_key: 'unattended', filter_operator: 'equal_to', values: [true], query_operator: nil }.with_indifferent_access
+      ]
+
+      result = filter_service.new(params, user_1, account).perform
+
+      expect(result[:conversations]).not_to include(en_conversation_1)
+      expect(result[:count][:all_count]).to eq 3
+    end
+
+    it 'filters attended conversations' do
+      en_conversation_1.update!(first_reply_created_at: Time.current, waiting_since: nil)
+      params[:payload] = [
+        { attribute_key: 'unattended', filter_operator: 'equal_to', values: [false], query_operator: nil }.with_indifferent_access
+      ]
+
+      result = filter_service.new(params, user_1, account).perform
+
+      expect(result[:conversations]).to contain_exactly(en_conversation_1)
+    end
+
+    it 'negates the unattended condition with not_equal_to' do
+      en_conversation_1.update!(first_reply_created_at: Time.current, waiting_since: nil)
+      params[:payload] = [
+        { attribute_key: 'unattended', filter_operator: 'not_equal_to', values: [true], query_operator: nil }.with_indifferent_access
+      ]
+
+      result = filter_service.new(params, user_1, account).perform
+
+      expect(result[:conversations]).to contain_exactly(en_conversation_1)
+    end
+
+    it 'rejects a non-boolean unattended value' do
+      params[:payload] = [
+        { attribute_key: 'unattended', filter_operator: 'equal_to', values: ['yes'], query_operator: nil }.with_indifferent_access
+      ]
+
+      expect { filter_service.new(params, user_1, account).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidValue)
+    end
+  end
 end

@@ -1,5 +1,8 @@
 class Conversations::FilterService < FilterService
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
+  USER_LINK_TABLES = { 'participant_id' => 'conversation_participants', 'mentioned_user_id' => 'mentions' }.freeze
+  # Same condition as Conversation.unattended
+  UNATTENDED_CONDITION = '(conversations.first_reply_created_at IS NULL OR conversations.waiting_since IS NOT NULL)'.freeze
 
   def initialize(params, user, account)
     @account = account
@@ -58,6 +61,34 @@ class Conversations::FilterService < FilterService
   end
 
   private
+
+  def handle_standard_attributes(current_filter, query_hash, current_index, filter_operator_value)
+    return unattended_filter_query(query_hash) if query_hash[:attribute_key] == 'unattended'
+
+    user_link_table = USER_LINK_TABLES[query_hash[:attribute_key]]
+    return user_link_filter_query(user_link_table, query_hash, current_index) if user_link_table
+
+    super
+  end
+
+  # Matches conversations that the given users are linked to through a join table, such as participants or mentions.
+  def user_link_filter_query(table_name, query_hash, current_index)
+    user_link_query = "SELECT 1 FROM #{table_name} WHERE #{table_name}.conversation_id = conversations.id " \
+                      "AND #{table_name}.user_id IN (:value_#{current_index})"
+    exists_operator = query_hash[:filter_operator] == 'not_equal_to' ? 'NOT EXISTS' : 'EXISTS'
+
+    "#{exists_operator} (#{user_link_query}) #{query_hash[:query_operator]}"
+  end
+
+  def unattended_filter_query(query_hash)
+    values = Array.wrap(query_hash[:values])
+    unless values.length == 1 && values.first.in?([true, false])
+      raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash[:attribute_key])
+    end
+
+    unattended = values.first == (query_hash[:filter_operator] == 'equal_to')
+    "#{'NOT ' unless unattended}#{UNATTENDED_CONDITION} #{query_hash[:query_operator]}"
+  end
 
   # The planner hint only pays off when the label condition positively narrows the
   # result set: `equal_to` joined by AND. Negative/presence operators or an OR in the

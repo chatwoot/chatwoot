@@ -58,6 +58,20 @@ RSpec.describe AutomationRules::ConditionValidationService do
       end
     end
 
+    context 'with conversation filters that automations do not support' do
+      it 'rejects participant, mention and unattended conditions' do
+        [
+          { 'values' => [1], 'attribute_key' => 'participant_id', 'query_operator' => nil, 'filter_operator' => 'equal_to' },
+          { 'values' => [1], 'attribute_key' => 'mentioned_user_id', 'query_operator' => nil, 'filter_operator' => 'equal_to' },
+          { 'values' => [true], 'attribute_key' => 'unattended', 'query_operator' => nil, 'filter_operator' => 'equal_to' }
+        ].each do |condition|
+          rule.conditions = [condition]
+
+          expect(described_class.new(rule).perform).to be(false)
+        end
+      end
+    end
+
     context 'with a Captain condition' do
       it 'accepts the Captain operators' do
         rule.conditions = [
