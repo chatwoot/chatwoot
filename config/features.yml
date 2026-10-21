@@ -164,6 +164,7 @@
 - name: shopify_integration
   display_name: Shopify Integration
   enabled: false
+  chatwoot_internal: true
 - name: search_with_gin
   display_name: Search messages with GIN
   enabled: false
@@ -316,4 +317,5 @@
 - name: shopify_custom_apps
   display_name: Shopify Custom Apps
   enabled: false
+  chatwoot_internal: true
   column: feature_flags_ext_1

@@ -2,15 +2,11 @@ class Agents::DestroyJob < ApplicationJob
   queue_as :low
 
   def perform(account, user)
-    account.with_lock do
-      next if account.account_users.exists?(user_id: user.id)
-
-      ActiveRecord::Base.transaction do
-        destroy_notification_setting(account, user)
-        remove_user_from_teams(account, user)
-        remove_user_from_inboxes(account, user)
-        unassign_conversations(account, user)
-      end
+    ActiveRecord::Base.transaction do
+      destroy_notification_setting(account, user)
+      remove_user_from_teams(account, user)
+      remove_user_from_inboxes(account, user)
+      unassign_conversations(account, user)
     end
   end
 

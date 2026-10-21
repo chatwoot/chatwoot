@@ -25,8 +25,9 @@ class Shopify::CustomApp < ApplicationRecord
   end
 
   def invalidate_authorizations!
-    # Cleanup must revoke pending authorizations even if the account's configuration no longer passes validation.
-    increment!(:installation_generation) # rubocop:disable Rails/SkipsModelValidations
+    with_lock do
+      update!(installation_generation: installation_generation + 1)
+    end
   end
 
   private
