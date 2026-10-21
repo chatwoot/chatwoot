@@ -96,10 +96,10 @@ RSpec.describe Voice::RingingTimeoutService do
       expect(ActionCable.server).not_to have_received(:broadcast)
     end
 
-    it 'leaves a call alone while another sweep is hanging it up' do
+    it 'leaves a call alone while another sweep is hanging it up, and waits out its mark' do
       call.update!(ring_state: { 'timing_out_at' => 10.seconds.ago.to_i })
 
-      described_class.new(call: call).perform
+      expect(described_class.new(call: call).perform).to be_within(1).of(110)
 
       expect(call.reload.status).to eq('ringing')
       expect(ActionCable.server).not_to have_received(:broadcast)

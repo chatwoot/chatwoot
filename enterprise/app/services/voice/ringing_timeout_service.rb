@@ -28,7 +28,8 @@ class Voice::RingingTimeoutService
   # claims are refused meanwhile, see ConferenceService#claim_call!. A Twilio caller is then
   # moved out of the conference to the no-answer announcement. The call is ended only if nobody
   # answered; one answered meanwhile has this attempt's mark cleared.
-  # Returns the seconds to wait when an agent's connection is still on its way in, else nil.
+  # Returns the seconds to wait when an agent's connection is still on its way in, or another
+  # attempt's mark is still fresh (its worker may have died), else nil.
   def perform
     started = start_timeout
     return started unless started == true
@@ -50,9 +51,9 @@ class Voice::RingingTimeoutService
   # An agent connection still on its way in is given its time to join first
   def start_timeout
     call.with_lock do
-      next unless call.ringing? && call.incoming? && due? && !call.ring_timeout_in_progress?
+      next unless call.ringing? && call.incoming? && due?
 
-      wait = call.agent_leg_join_wait
+      wait = call.ring_timeout_wait || call.agent_leg_join_wait
       next wait if wait
 
       @attempt_at = Time.zone.now.to_i

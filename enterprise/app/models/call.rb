@@ -220,9 +220,15 @@ class Call < ApplicationRecord
 
   # The ring timeout is hanging the caller up. A mark left by an attempt that died long ago
   # no longer counts, so a later sweep can finish the job.
-  def ring_timeout_in_progress?
+  def ring_timeout_in_progress? = ring_timeout_wait.present?
+
+  # Seconds until the ring timeout's mark goes stale, or nil when no attempt is in progress
+  def ring_timeout_wait
     started_at = ring_state['timing_out_at']
-    started_at.present? && started_at > Voice::RingingTimeoutService::ATTEMPT_TTL_SECONDS.seconds.ago.to_i
+    return if started_at.blank?
+
+    wait = started_at + Voice::RingingTimeoutService::ATTEMPT_TTL_SECONDS - Time.zone.now.to_i
+    wait if wait.positive?
   end
 
   def display_status

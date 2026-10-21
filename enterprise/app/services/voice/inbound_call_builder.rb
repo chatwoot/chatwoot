@@ -28,9 +28,7 @@ class Voice::InboundCallBuilder
 
   def perform!
     existing = find_existing_call
-    # A retry of the inbound event queues the ring again if the call recorded who it rings
-    # but its ring never went out
-    return existing.tap { |call| self.class.queue_ring(call) } if existing
+    return requeue(existing) if existing
 
     ActiveRecord::Base.transaction do
       contact_inbox = ensure_contact_inbox!
@@ -57,6 +55,14 @@ class Voice::InboundCallBuilder
     inbox.account
   end
 
+  # A retry of the inbound event queues the ring again if the call recorded who it rings
+  # but its ring never went out, and its ring time again in case that job was lost too
+  def requeue(call)
+    self.class.queue_ring(call)
+    end_unanswered_in_time(call)
+    call
+  end
+
   # Phones without a live socket learn about the call through a push. The agents rung are
   # recorded in the transaction that creates the call, so the push and a missed-call notice
   # go to the same agents even when the conversation is reassigned before the job runs, and
@@ -76,10 +82,10 @@ class Voice::InboundCallBuilder
   # The caller is told nobody answered once the inbox's ring time is up; a call answered or
   # ended before then is left alone. See Voice::RingingTimeoutService.
   def end_unanswered_in_time(call)
-    return unless call.twilio? && inbox.channel.unanswered_calls_enabled?
+    return unless call.twilio? && call.ringing? && inbox.channel.unanswered_calls_enabled?
 
-    timeout = inbox.channel.unanswered_call_timeout_seconds
-    ActiveRecord.after_all_transactions_commit { Voice::EndUnansweredCallJob.set(wait: timeout.seconds).perform_later(call.id) }
+    ends_at = call.created_at + inbox.channel.unanswered_call_timeout_seconds.seconds
+    ActiveRecord.after_all_transactions_commit { Voice::EndUnansweredCallJob.set(wait_until: ends_at).perform_later(call.id) }
   end
 
   def find_existing_call
