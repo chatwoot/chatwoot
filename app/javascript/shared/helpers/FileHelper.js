@@ -69,7 +69,8 @@ export const isFileTypeAllowedForChannel = (file, options = {}) => {
 
   // Convert to array and validate
   const allowedTypesArray = allowedFileTypes.split(',').map(t => t.trim());
-  const fileExtension = `.${file.name.split('.').pop()}`;
+  // The backend downcases extensions, so match `.PFX` against `.pfx`.
+  const fileExtension = `.${file.name.split('.').pop()}`.toLowerCase();
 
   return allowedTypesArray.some(allowedType => {
     // Check for exact file extension match
