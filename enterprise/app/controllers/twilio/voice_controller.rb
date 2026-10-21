@@ -115,7 +115,7 @@ class Twilio::VoiceController < ApplicationController
       Voice::InboundCallBuilder.perform!(
         inbox: inbox,
         call_sid: twilio_call_sid,
-        caller: { source_ids: [twilio_from], contact_attributes: { name: twilio_from, phone_number: twilio_from } }
+        caller: Voice::Provider::Twilio::InboundCaller.new(from: twilio_from, call_sid: twilio_call_sid, account: current_account).build
       )
     when 'outbound-api', 'outbound-dial'
       sync_outbound_leg(call_sid: twilio_call_sid, direction: twilio_direction)
