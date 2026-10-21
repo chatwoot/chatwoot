@@ -29,12 +29,23 @@ module Llm::Config
       yield context
     end
 
+    # CAPTAIN_OPEN_AI_ENDPOINT may be saved with or without a trailing `/v1`.
+    # Strip it so callers can append the API version without producing `/v1/v1`.
+    def openai_base_url
+      endpoint = openai_endpoint.presence || LlmConstants::OPENAI_API_ENDPOINT
+      endpoint.chomp('/').delete_suffix('/v1')
+    end
+
+    def openai_api_base
+      "#{openai_base_url}/v1"
+    end
+
     private
 
     def configure_ruby_llm
       RubyLLM.configure do |config|
         config.openai_api_key = system_api_key if system_api_key.present?
-        config.openai_api_base = "#{openai_endpoint.chomp('/')}/v1" if openai_endpoint.present?
+        config.openai_api_base = openai_api_base if openai_endpoint.present?
         config.model_registry_file = Rails.root.join('config/llm_models.json').to_s
         config.openai_protocol = :chat_completions
         config.logger = Rails.logger

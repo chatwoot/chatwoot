@@ -26,8 +26,7 @@ module Llm::FeatureRouter
     end
 
     def standard_openai_endpoint?
-      endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value
-      endpoint.blank? || endpoint.chomp('/') == LlmConstants::OPENAI_API_ENDPOINT
+      Llm::Config.openai_base_url == LlmConstants::OPENAI_API_ENDPOINT
     end
 
     private
