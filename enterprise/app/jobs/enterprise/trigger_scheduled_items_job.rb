@@ -5,6 +5,8 @@ module Enterprise::TriggerScheduledItemsJob
     ## Triggers Enterprise specific jobs
     ####################################
 
+    Campaigns::RecoverWhatsappCampaignsJob.perform_later
+
     # Triggers Account Sla jobs
     Sla::TriggerSlasForAccountsJob.perform_later
   end
