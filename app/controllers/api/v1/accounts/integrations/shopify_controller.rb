@@ -69,6 +69,8 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   private
 
   def authorize_custom_app(custom_app, shop_domain)
+    return head :not_found unless Shopify::FeatureGate.custom_apps_enabled?(account: Current.account)
+
     unless Shopify::ShopDomain.normalize(shop_domain) == custom_app.shop_domain
       return render json: { error: 'This account is configured for a different Shopify store' }, status: :unprocessable_entity
     end

@@ -84,6 +84,6 @@ class Shopify::CustomCallbacksController < Shopify::CallbacksController
   end
 
   def ensure_shopify_enabled!(account: nil)
-    raise 'Shopify integration is disabled' unless Shopify::FeatureGate.enabled?(account: account)
+    raise 'Shopify custom apps are disabled' unless Shopify::FeatureGate.custom_apps_enabled?(account: account)
   end
 end

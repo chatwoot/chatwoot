@@ -32,7 +32,7 @@ class Api::V1::Accounts::Integrations::ShopifyCustomAppsController < Api::V1::Ac
   private
 
   def ensure_shopify_enabled
-    return head :not_found unless Shopify::FeatureGate.enabled?(account: Current.account)
+    return head :not_found unless Shopify::FeatureGate.custom_apps_enabled?(account: Current.account)
     return unless Current.account.internal_attributes['billing_provider'] == 'shopify'
 
     render json: { error: 'Shopify billing cannot use a custom app' }, status: :unprocessable_entity

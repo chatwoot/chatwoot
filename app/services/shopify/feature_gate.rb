@@ -8,6 +8,10 @@ class Shopify::FeatureGate
     account.nil? || account.feature_enabled?(ACCOUNT_FEATURE)
   end
 
+  def self.custom_apps_enabled?(account:)
+    enabled?(account: account) && account.feature_enabled?('shopify_custom_apps')
+  end
+
   def self.globally_enabled?
     configured_value = ENV.fetch(GLOBAL_CONFIG) { GlobalConfig.get(GLOBAL_CONFIG)[GLOBAL_CONFIG] }
     ActiveModel::Type::Boolean.new.cast(configured_value)

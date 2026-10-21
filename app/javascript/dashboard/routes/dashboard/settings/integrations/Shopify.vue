@@ -12,6 +12,8 @@ import { useAlert } from 'dashboard/composables';
 import { useBranding } from 'shared/composables/useBranding';
 import { isShopifyBillingAccount } from 'v3/helpers/AuthHelper';
 import shopifyAPI from 'dashboard/api/integrations/shopify';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import Integration from './Integration.vue';
 import ShopifyCustomApp from './ShopifyCustomApp.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -29,6 +31,12 @@ defineProps({
 });
 
 const store = useStore();
+const { isCloudFeatureEnabled } = useAccount();
+const isCustomAppSetupEnabled = computed(
+  () =>
+    isCloudFeatureEnabled(FEATURE_FLAGS.SHOPIFY) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.SHOPIFY_CUSTOM_APPS)
+);
 const integrationLoaded = ref(false);
 const dialogRef = ref(null);
 const storeUrl = ref('');
@@ -171,7 +179,11 @@ onMounted(() => {
         </Integration>
 
         <ShopifyCustomApp
-          v-if="!isShopifyBillingManaged && !integration.enabled"
+          v-if="
+            isCustomAppSetupEnabled &&
+            !isShopifyBillingManaged &&
+            !integration.enabled
+          "
         />
 
         <Dialog

@@ -12,7 +12,7 @@ Saving creates a disabled configuration. Connecting activates it and starts the 
 
 Deleting the Shopify integration from the dashboard also deletes the workspace’s saved custom-app configuration and credentials. It does not delete the app in Shopify.
 
-The global and account Shopify feature flags and Active Record encryption must already be configured. Shopify-billed workspaces cannot use this option. It connects customer/order data and does not install the storefront chat widget.
+The global Shopify setting, account `shopify_integration` flag, account `shopify_custom_apps` flag, and Active Record encryption must already be configured. `shopify_custom_apps` is disabled by default and must be enabled for each pilot workspace. Disabling it hides custom setup and blocks configuration and new custom-app authorizations; existing order access and webhook cleanup remain available. Shopify-billed workspaces cannot use this option. It connects customer/order data and does not install the storefront chat widget.
 
 ## Provision a pilot account
 
@@ -23,7 +23,7 @@ The global and account Shopify feature flags and Active Record encryption must a
 
 ```ruby
 account = Account.find(ENV.fetch('PILOT_ACCOUNT_ID'))
-account.enable_features!('shopify_integration')
+account.enable_features!('shopify_integration', 'shopify_custom_apps')
 custom_app = Shopify::CustomApp.create!(
   account: account,
   shop_domain: ENV.fetch('PILOT_SHOP_DOMAIN'),
