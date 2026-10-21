@@ -1912,6 +1912,11 @@
                           },
                           "description": "array of the attribute values to filter"
                         },
+                        "timezone": {
+                          "type": "string",
+                          "description": "IANA timezone for created_at and last_activity_at date comparisons, including days_before. Omit to retain UTC behavior. Date-only custom attributes are not converted.",
+                          "example": "America/Sao_Paulo"
+                        },
                         "query_operator": {
                           "type": "string",
                           "description": "query operator name",
@@ -3442,6 +3447,11 @@
                             "type": "string"
                           },
                           "description": "array of the attribute values to filter"
+                        },
+                        "timezone": {
+                          "type": "string",
+                          "description": "IANA timezone for created_at and last_activity_at date comparisons, including days_before. Omit to retain UTC behavior. Date-only custom attributes are not converted.",
+                          "example": "America/Sao_Paulo"
                         },
                         "query_operator": {
                           "type": "string",
@@ -9759,6 +9769,20 @@
               "null"
             ],
             "description": "The time at which the conversation was waiting"
+          },
+          "participant_ids": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": "IDs of the agents participating in the conversation"
+          },
+          "mentioned_user_ids": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": "IDs of the agents mentioned in the conversation"
           },
           "sla_policy_id": {
             "type": [
