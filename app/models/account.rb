@@ -49,6 +49,8 @@ class Account < ApplicationRecord
   validates_with JsonSchemaValidator,
                  schema: SETTINGS_PARAMS_SCHEMA,
                  attribute_resolver: ->(record) { record.settings }
+  validates :auto_resolve_after, numericality: { greater_than_or_equal_to: ->(_account) { Limits.auto_resolve_min_minutes } },
+                                 allow_nil: true, if: :auto_resolve_after_changed?
   validate :validate_reporting_timezone
   validate :validate_support_email_format, if: :will_save_change_to_support_email?
 
