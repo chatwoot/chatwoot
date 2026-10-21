@@ -5,9 +5,9 @@ class Voice::EndUnansweredCallJob < ApplicationJob
 
   def perform(call_id)
     call = Call.find_by(id: call_id)
-    return if call.blank? || !call.twilio?
+    return if call.blank?
 
-    wait = Voice::EndUnansweredCallService.new(call: call).perform
+    wait = Voice::RingingTimeoutService.new(call: call).perform
     self.class.set(wait: wait.seconds).perform_later(call.id) if wait
   end
 end

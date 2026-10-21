@@ -51,15 +51,6 @@ const draft = ref(props.message);
 const timeout = ref(props.timeoutSeconds);
 const isSaving = ref(false);
 const hasTimeout = computed(() => props.timeoutSeconds !== null);
-const isTimeoutValid = computed(() => {
-  if (!hasTimeout.value) return true;
-  const seconds = Number(timeout.value);
-  return (
-    Number.isInteger(seconds) &&
-    seconds >= TIMEOUT_SECONDS.min &&
-    seconds <= TIMEOUT_SECONDS.max
-  );
-});
 const isDirty = computed(
   () =>
     draft.value.trim() !== props.message ||
@@ -70,7 +61,6 @@ const canSave = computed(
   () =>
     !isSaving.value &&
     !!draft.value.trim() &&
-    isTimeoutValid.value &&
     (isDirty.value || !props.audioUrl)
 );
 const label = key =>

@@ -1,6 +1,10 @@
 module Enterprise::Channel::TwilioSms
   extend ActiveSupport::Concern
+
   include Concerns::CallRecordingSettings
+
+  # The ring time offered before an inbox saves its own
+  DEFAULT_RING_TIMEOUT_SECONDS = 60
 
   def self.prepended(base)
     base.class_eval do
@@ -28,7 +32,7 @@ module Enterprise::Channel::TwilioSms
   end
 
   def unanswered_call_timeout_seconds
-    provider_config['unanswered_call_timeout_seconds']
+    provider_config.fetch('unanswered_call_timeout_seconds', DEFAULT_RING_TIMEOUT_SECONDS)
   end
 
   def account_auth_token_configured?

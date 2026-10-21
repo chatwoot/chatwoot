@@ -5,12 +5,12 @@ RSpec.describe Voice::EndUnansweredCallJob do
   let(:channel) { create(:channel_twilio_sms, :with_voice, account: account, phone_number: '+15551239999') }
   let(:conversation) { create(:conversation, account: account, inbox: channel.inbox) }
   let(:call) { create(:call, conversation: conversation) }
-  let(:service) { instance_double(Voice::EndUnansweredCallService, perform: nil) }
+  let(:service) { instance_double(Voice::RingingTimeoutService, perform: nil) }
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
       .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
-    allow(Voice::EndUnansweredCallService).to receive(:new).with(call: call).and_return(service)
+    allow(Voice::RingingTimeoutService).to receive(:new).with(call: call).and_return(service)
   end
 
   it 'ends the unanswered call' do
@@ -30,13 +30,5 @@ RSpec.describe Voice::EndUnansweredCallJob do
     allow(service).to receive(:perform).and_raise(Twilio::REST::TwilioError)
 
     expect { described_class.perform_now(call.id) }.to have_enqueued_job(described_class).with(call.id)
-  end
-
-  it 'leaves WhatsApp calls to their own timeout' do
-    call.update!(provider: :whatsapp)
-
-    described_class.perform_now(call.id)
-
-    expect(service).not_to have_received(:perform)
   end
 end

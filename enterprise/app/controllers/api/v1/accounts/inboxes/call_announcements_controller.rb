@@ -8,7 +8,7 @@ class Api::V1::Accounts::Inboxes::CallAnnouncementsController < Api::V1::Account
   before_action :validate_timeout, if: -> { @announcement.kind == 'unanswered' }
 
   def update
-    @announcement.save!(enabled: params[:enabled], message: @message, config: timeout_config)
+    @announcement.save!(enabled: params[:enabled], message: @message, config: @config.to_h)
     @inbox.update_account_cache
     render 'api/v1/accounts/inboxes/show'
   end
@@ -18,15 +18,11 @@ class Api::V1::Accounts::Inboxes::CallAnnouncementsController < Api::V1::Account
   # The ring time is saved with the no-answer announcement, whether or not it is on
   def validate_timeout
     timeout = params[:timeout_seconds]
-    return if timeout.is_a?(Integer) && TIMEOUT_SECONDS.cover?(timeout)
+    unless timeout.is_a?(Integer) && TIMEOUT_SECONDS.cover?(timeout)
+      return render_could_not_create_error(I18n.t('inbox.call_announcements.invalid_timeout', min: TIMEOUT_SECONDS.min, max: TIMEOUT_SECONDS.max))
+    end
 
-    render_could_not_create_error(I18n.t('inbox.call_announcements.invalid_timeout', min: TIMEOUT_SECONDS.min, max: TIMEOUT_SECONDS.max))
-  end
-
-  def timeout_config
-    return {} unless @announcement.kind == 'unanswered'
-
-    { 'unanswered_call_timeout_seconds' => params[:timeout_seconds] }
+    @config = { 'unanswered_call_timeout_seconds' => timeout }
   end
 
   def fetch_inbox

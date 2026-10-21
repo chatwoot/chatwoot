@@ -74,7 +74,7 @@ class Voice::InboundCallBuilder
   def ring_phones(call) = self.class.queue_ring(call)
 
   # The caller is told nobody answered once the inbox's ring time is up; a call answered or
-  # ended before then is left alone. See Voice::EndUnansweredCallService.
+  # ended before then is left alone. See Voice::RingingTimeoutService.
   def end_unanswered_in_time(call)
     return unless call.twilio? && inbox.channel.unanswered_calls_enabled?
 
