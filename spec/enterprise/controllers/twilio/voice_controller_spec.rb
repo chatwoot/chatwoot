@@ -56,6 +56,25 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         expect(xml.at_xpath('//Say')).to be_nil
       end
 
+      it 'reads the text fallback using the account language' do
+        account.update!(locale: 'de')
+        channel.update!(provider_config: channel.provider_config.merge('out_of_hours_call_message' => 'Bitte rufen Sie morgen an.'))
+
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+        announcement = Nokogiri::XML(response.body).at_xpath('//Say')
+        expect(announcement.text).to eq('Bitte rufen Sie morgen an.')
+        expect(announcement['language']).to eq('de-DE')
+      end
+
+      it 'uses a supported default for account languages unavailable in the basic Twilio voice' do
+        account.update!(locale: 'ml')
+
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+        expect(Nokogiri::XML(response.body).at_xpath('//Say')['language']).to eq('en-US')
+      end
+
       it 'rings normally when applying business hours to calls is disabled' do
         channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => false))
 
