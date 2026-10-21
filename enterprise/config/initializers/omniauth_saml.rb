@@ -21,6 +21,11 @@ SAML_SETUP_PROC = proc do |env|
     settings = AccountSamlSettings.find_by(account_id: account_id)
 
     if settings
+      # Refreshes during login so the triggering login uses a rotated certificate. It fetches only within 15 minutes
+      # of certificate expiry, at most every 5 minutes, so earlier rotations need the "Refresh metadata" button.
+      # Future: move this to a scheduled job (config/schedule.yml) for all accounts with a metadata URL. That covers
+      # early rotations, keeps the fetch off logins, and removes the claim on metadata_refreshed_at.
+      settings.refresh_metadata_if_needed
       # Configure the strategy options dynamically
       env['omniauth.strategy'].options[:idp_sso_service_url_runtime_params] = { RelayState: :RelayState }
       base_url = GlobalConfigService.load('FRONTEND_URL', 'http://localhost:3000')
@@ -29,6 +34,8 @@ SAML_SETUP_PROC = proc do |env|
       env['omniauth.strategy'].options[:idp_entity_id] = settings.idp_entity_id
       env['omniauth.strategy'].options[:idp_sso_service_url] = settings.sso_url
       env['omniauth.strategy'].options[:idp_cert] = settings.certificate
+      signing_certificates = settings.signing_certificates
+      env['omniauth.strategy'].options[:idp_cert_multi] = { signing: signing_certificates } if signing_certificates.many?
       env['omniauth.strategy'].options[:name_identifier_format] = 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
     else
       # Set a dummy certificate to avoid the error
