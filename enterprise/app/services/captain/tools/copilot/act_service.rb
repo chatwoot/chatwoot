@@ -43,13 +43,13 @@ class Captain::Tools::Copilot::ActService < Captain::Tools::Copilot::WorkflowToo
 
   # The target IDs are frozen here, so the agent approves exactly the records counted and linked on the approval card.
   def request_approval(saved_set_id, action, arguments, targets)
-    action_run = run.copilot_thread.copilot_runs.create!(
-      account: run.account, user: run.user, copilot_tool_call: tool_call, source_run_id: saved_set_id, kind: :action, status: :awaiting_approval,
-      context: { action: action, arguments: arguments, target_ids: targets[:ids] }
+    action_run = CopilotRun::Action.create!(
+      copilot_thread: run.copilot_thread, account: run.account, user: run.user, copilot_tool_call: tool_call, source_run_id: saved_set_id,
+      status: :awaiting_approval, context: { action: action, arguments: arguments, target_ids: targets[:ids] }
     )
     card = approval_card(action_run, targets)
     action_run.update!(context: action_run.context.merge('approval_message_id' => card.id))
-    Captain::Copilot::ApprovalExpiryJob.set(wait: CopilotRun::APPROVAL_TTL).perform_later(action_run.id)
+    Captain::Copilot::ApprovalExpiryJob.set(wait: CopilotRun::Action::APPROVAL_TTL).perform_later(action_run.id)
     action_run
   end
 

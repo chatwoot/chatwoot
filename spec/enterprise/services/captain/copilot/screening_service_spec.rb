@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Captain::Copilot::ScreeningService do
   let(:account) { instance_double(Account) }
-  let(:run) { instance_double(CopilotRun, account_id: 1, account: account, question: 'Is this about billing?') }
+  let(:run) { instance_double(CopilotRun::Review, account_id: 1, account: account, question: 'Is this about billing?') }
   let(:client) { instance_double(Captain::JevClient) }
   let(:conversation) { instance_double(Conversation) }
   let(:service) { described_class.new(run, 'lease-token') }

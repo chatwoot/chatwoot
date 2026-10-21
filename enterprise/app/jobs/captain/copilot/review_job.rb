@@ -6,7 +6,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
   # workers that handle incoming messages.
   queue_as :low
 
-  RUN_KIND = :review
+  RUN_CLASS = CopilotRun::Review
   MAX_ATTEMPTS = 2
 
   private

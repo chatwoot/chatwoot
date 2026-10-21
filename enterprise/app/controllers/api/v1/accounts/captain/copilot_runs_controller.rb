@@ -18,7 +18,7 @@ class Api::V1::Accounts::Captain::CopilotRunsController < Api::V1::Accounts::Bas
 
   # Only the agent who asked Copilot for the change can decide it.
   def set_action_run
-    @action_run = CopilotRun.action.find_by!(id: params[:id], account: Current.account, user: Current.user)
+    @action_run = CopilotRun::Action.find_by!(id: params[:id], account: Current.account, user: Current.user)
   end
 
   # Turning the feature off rejects a change awaiting approval instead of applying it.

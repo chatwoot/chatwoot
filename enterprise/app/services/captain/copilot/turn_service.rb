@@ -188,7 +188,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   # queued one. A collection is saved before the tool returns and never resumes the turn.
   def started_run_result(result)
     background_run = @tool_call.reload.background_run
-    return result if background_run.nil? || background_run.collection?
+    return result if background_run.nil? || background_run.is_a?(CopilotRun::Collection)
     raise Captain::Copilot::BackgroundRunPending unless background_run.finished?
 
     background_run.summary

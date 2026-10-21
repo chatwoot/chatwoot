@@ -3,7 +3,7 @@ class Captain::Copilot::ActionJob < ApplicationJob
 
   queue_as :default
 
-  RUN_KIND = :action
+  RUN_CLASS = CopilotRun::Action
   MAX_ATTEMPTS = 2
 
   private

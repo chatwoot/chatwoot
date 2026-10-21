@@ -1,6 +1,6 @@
 # Lifecycle shared by the background runs a Copilot turn waits on, such as reviews and approved actions. Each job claims
 # the run's lease, works through one batch of records, re-queues itself until no records remain, and then hands its
-# summary back to the waiting tool call. Including jobs set RUN_KIND and implement process_batch and incomplete?.
+# summary back to the waiting tool call. Including jobs set RUN_CLASS and implement process_batch and incomplete?.
 module Captain::Copilot::BackgroundRunJob
   include Captain::Copilot::LeasedJob
 
@@ -9,7 +9,7 @@ module Captain::Copilot::BackgroundRunJob
 
   # watched_token is set on the checks LeasedJob schedules.
   def perform(run_id, watched_token = nil)
-    run = CopilotRun.where(kind: self.class::RUN_KIND).claimable.find_by(id: run_id)
+    run = self.class::RUN_CLASS.claimable.find_by(id: run_id)
     return unless run
 
     token = claim(run, watched_token)

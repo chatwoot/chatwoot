@@ -13,7 +13,7 @@ class Captain::Copilot::ResultTable
     raise ArgumentError, 'page must be a positive integer' unless number.is_a?(Integer) && number.positive?
     raise ArgumentError, 'matched_only must be a boolean' unless [true, false].include?(matched_only)
 
-    @run.collection? ? collection_page(number) : review_page(number, matched_only)
+    @run.is_a?(CopilotRun::Collection) ? collection_page(number) : review_page(number, matched_only)
   end
 
   private
