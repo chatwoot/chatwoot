@@ -86,7 +86,9 @@ class Conversations::FilterService < FilterService
     end
 
     unattended = values.first == (query_hash[:filter_operator] == 'equal_to')
-    "#{'NOT ' unless unattended}#{Conversation::UNATTENDED_CONDITION} #{query_hash[:query_operator]}"
+    # Filter conditions are joined as SQL strings, so render the scope's condition instead of restating it.
+    unattended_condition = Conversation.unattended.where_clause.ast.to_sql
+    "#{'NOT ' unless unattended}#{unattended_condition} #{query_hash[:query_operator]}"
   end
 
   # The planner hint only pays off when the label condition positively narrows the

@@ -92,10 +92,7 @@ class Conversation < ApplicationRecord
   scope :sort_on_unread, lambda { |_direction|
     order(unread_messages_count_arel.desc).sort_on_last_activity_at('desc')
   }
-  # Shared with Conversations::FilterService, which builds filter conditions as SQL strings.
-  UNATTENDED_CONDITION = '(conversations.first_reply_created_at IS NULL OR conversations.waiting_since IS NOT NULL)'.freeze
-
-  scope :unattended, -> { where(UNATTENDED_CONDITION) }
+  scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
   scope :resolvable_not_waiting, lambda { |auto_resolve_after|
     return none if auto_resolve_after.to_i.zero?
 
