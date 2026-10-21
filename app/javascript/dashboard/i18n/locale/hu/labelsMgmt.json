@@ -43,20 +43,6 @@
       "DELETE": "Törlés",
       "CANCEL": "Mégse"
     },
-    "SUGGESTIONS": {
-      "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Címke hozzáadása a beszélgetéshez",
-        "MULTIPLE_SUGGESTION": "Válassza ki ezt a címkét",
-        "DESELECT": "Címke kijelölésének megszüntetése",
-        "DISMISS": "Javaslatok kihagyása"
-      },
-      "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "Elutasítás",
-      "ADD_SELECTED_LABELS": "Kijelölt címkék hozzáadása",
-      "ADD_SELECTED_LABEL": "Kijelölt címke hozzáadása",
-      "ADD_ALL_LABELS": "Minden címke hozzáadása",
-      "SUGGESTED_LABELS": "Suggested labels"
-    },
     "ADD": {
       "TITLE": "Cimke hozzáadása",
       "DESC": "A cimkék a beszélgetések csoportokba rendezését segítik.",

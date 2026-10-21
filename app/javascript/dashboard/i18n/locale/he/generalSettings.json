@@ -44,6 +44,35 @@
         "TITLE": "מזהה חשבון",
         "NOTE": "מזהה זה נדרש אם אתה בונה אינטגרציה מבוססת API"
       },
+      "TRANSLATION": {
+        "TITLE": "Translation",
+        "NOTE": "Speak every customer's language, whatever languages your team knows.",
+        "CAPTAIN": {
+          "TITLE": "Captain",
+          "NOTE": "AI translations that sound natural and keep your tone."
+        },
+        "GOOGLE": {
+          "TITLE": "Google Translate",
+          "NOTE": "Quick, reliable translations from Google.",
+          "NOT_CONNECTED": "Not connected",
+          "CONNECT": "התחבר",
+          "NOT_CONNECTED_HINT": "Google Translate isn't connected yet."
+        },
+        "UPGRADE": {
+          "NOTE": "Upgrade to a paid plan to translate conversations with Captain or Google Translate.",
+          "BUTTON": "שדרג"
+        },
+        "AUTO_TRANSLATE": {
+          "TITLE": "Auto-translate conversations",
+          "NOTE": "Read every message in your language. Customers get replies in theirs.",
+          "LOCKED": "Choose a service to turn this on.",
+          "NOT_AVAILABLE": "Auto-translate isn't enabled for this account yet."
+        },
+        "API": {
+          "SUCCESS": "Translation settings updated successfully",
+          "ERROR": "Failed to update translation settings"
+        }
+      },
       "AUTO_RESOLVE": {
         "TITLE": "Auto-resolve conversations",
         "NOTE": "הגדרה זו תאפשר לך לסגור אוטומטית את השיחה לאחר תקופה מסוימת של חוסר פעילות.",
@@ -51,7 +80,7 @@
           "LABEL": "משך חוסר פעילות",
           "HELP": "Time period of inactivity after which conversation is auto-resolved",
           "PLACEHOLDER": "30",
-          "ERROR": "משך הסגירה האוטומטית צריך להיות בין 10 דקות ל-999 ימים",
+          "ERROR": "Auto resolve duration should be between {minDuration} minutes and 999 days",
           "API": {
             "SUCCESS": "הגדרות הסגירה האוטומטית עודכנו בהצלחה",
             "ERROR": "העדכון של הגדרות הסגירה האוטומטית נכשל"
@@ -104,6 +133,14 @@
           "ERROR": "העדכון של הגדרת תמלול שמע נכשל"
         }
       },
+      "ENFORCE_MFA": {
+        "TITLE": "Enforce two-factor authentication",
+        "NOTE": "Require every member of this account to set up two-factor authentication. Members without it will be asked to set it up at their next password sign-in. Sign-ins through Google or SAML are exempt. API access tokens of members who have not set up two-factor authentication stop working for this account until they enrol.",
+        "API": {
+          "SUCCESS": "Two-factor authentication enforcement updated successfully",
+          "ERROR": "Failed to update two-factor authentication enforcement"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "משך חוסר פעילות לסגירה",
         "HELP": "משך הזמן שלאחריו שיחה תיסגר אוטומטית אם אין פעילות",
@@ -125,7 +162,8 @@
     },
     "UPDATE_CHATWOOT": "עדכון {latestChatwootVersion} עבור Chatwoot זמין. אנא עדכן את המופע שלך.",
     "LEARN_MORE": "למד עוד",
-    "PAYMENT_PENDING": "התשלום שלך ממתין. אנא עדכן את פרטי התשלום שלך כדי להמשיך להשתמש ב-Chatwoot",
+    "PAYMENT_PENDING": "Your account payment is past due. Please update your payment information to avoid subscription cancellation.",
+    "PAYMENT_PENDING_AGENT": "Your account payment is past due. Please contact your administrator to resolve it.",
     "UPGRADE": "שדרג כדי להמשיך להשתמש ב-Chatwoot",
     "LIMITS_UPGRADE": "החשבון שלך חרג ממגבלות השימוש. אנא שדרג את המינוי שלך כדי להמשיך להשתמש ב-צ'אטווט",
     "OPEN_BILLING": "פתח חיוב"
