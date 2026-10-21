@@ -236,6 +236,9 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
       await VoiceAPI.setHold({ inboxId, conversationId, callSid, hold });
       callsStore.setCallOnHold(callSid, hold);
     } catch (error) {
+      // With no response the hold may have reached Twilio, so offer the opposite action;
+      // the request sets the state, so a repeat in either direction is safe
+      if (!error?.response) callsStore.setCallOnHold(callSid, hold);
       useAlert(
         error?.response?.data?.error ||
           t('CONVERSATION.VOICE_WIDGET.HOLD_FAILED')
