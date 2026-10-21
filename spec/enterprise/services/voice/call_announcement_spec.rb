@@ -64,8 +64,7 @@ RSpec.describe Voice::CallAnnouncement do
 
       announcement.save!(enabled: false, message: message)
 
-      expect(channel.reload.out_of_hours_call_message).to eq(message)
-      expect(channel).not_to be_business_hours_calls_enabled
+      expect(channel.reload.provider_config).to include('business_hours_calls_enabled' => false, 'out_of_hours_call_message' => message)
       expect(inbox.reload.out_of_hours_call_audio).not_to be_attached
     end
 
