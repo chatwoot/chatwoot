@@ -43,8 +43,12 @@ const isEnabled = ref(props.enabled);
 const draft = ref(props.message);
 const isSaving = ref(false);
 const isDirty = computed(() => draft.value.trim() !== props.message);
+// Unchanged text can be re-saved while its audio is missing, to generate it
 const canSave = computed(
-  () => !isSaving.value && !!draft.value.trim() && isDirty.value
+  () =>
+    !isSaving.value &&
+    !!draft.value.trim() &&
+    (isDirty.value || !props.audioUrl)
 );
 const label = key =>
   t(`INBOX_MGMT.VOICE_CONFIGURATION.${props.i18nKey}.${key}`);

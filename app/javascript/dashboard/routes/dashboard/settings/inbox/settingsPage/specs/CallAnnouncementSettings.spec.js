@@ -135,6 +135,27 @@ describe('CallAnnouncementSettings', () => {
     expect(dispatch).not.toHaveBeenCalled();
   });
 
+  it('allows saving unchanged text while its audio is missing', async () => {
+    dispatch.mockResolvedValue();
+    const wrapper = mountComponent({ audioUrl: '' });
+    const button = wrapper.findComponent(NextButton).find('button');
+
+    expect(button.element.disabled).toBe(false);
+    await button.trigger('click');
+    await flushPromises();
+
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateCallAnnouncement', {
+      id: 387,
+      kind: 'out_of_hours',
+      enabled: true,
+      message: 'Call again tomorrow.',
+    });
+
+    await wrapper.setProps({ audioUrl: '/announcement.mp3' });
+
+    expect(button.element.disabled).toBe(true);
+  });
+
   it('restores the saved toggle after a failed update', async () => {
     dispatch.mockRejectedValue(new Error('Update failed'));
     const wrapper = mountComponent();
