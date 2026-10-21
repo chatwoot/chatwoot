@@ -1,8 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useStore } from 'dashboard/composables/store';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAutomation } from 'dashboard/composables/useAutomation';
+import { useEditableAutomation } from 'dashboard/composables/useEditableAutomation';
 import AutomationRuleForm from './AutomationRuleForm.vue';
+import { AUTOMATION_ACTION_TYPES } from './constants';
 
 const emit = defineEmits(['saveAutomation']);
 
@@ -29,6 +31,7 @@ const START_VALUE = {
 };
 
 const store = useStore();
+const allCustomAttributes = useMapGetter('attributes/getAttributes');
 const formRef = ref(null);
 
 const {
@@ -45,24 +48,19 @@ const {
   manifestCustomAttributes,
 } = useAutomation(START_VALUE);
 
-const open = (executionDelay = null, monitorId = null, slaPolicyId = null) => {
-  automation.value = structuredClone(START_VALUE);
-  if (monitorId) {
-    automation.value.event_name = 'monitor_matched';
-    automation.value.monitor_id = Number(monitorId);
-    automation.value.conditions = [];
-  }
-  if (slaPolicyId) {
-    automation.value.actions = [
-      {
-        action_name: 'add_sla',
-        action_params: getActionDropdownValues('add_sla').filter(
-          ({ id }) => id === Number(slaPolicyId)
-        ),
-      },
-    ];
-  }
+const { formatAutomation } = useEditableAutomation();
+
+// `seed` is a partial automation in saved shape (ids, not dropdown options).
+const open = (executionDelay = null, seed = null) => {
   manifestCustomAttributes();
+  automation.value = seed
+    ? formatAutomation(
+        { ...structuredClone(START_VALUE), ...seed },
+        allCustomAttributes.value,
+        automationTypes,
+        AUTOMATION_ACTION_TYPES
+      )
+    : structuredClone(START_VALUE);
   formRef.value?.open(executionDelay);
 };
 const close = () => formRef.value?.close();

@@ -162,18 +162,18 @@ onMounted(() => {
   store.dispatch('automations/get');
 });
 
-const openAddPopup = (monitorId = null, slaPolicyId = null) => {
-  creationSourceMonitorId.value = monitorId;
+const ensureOptionsLoaded = async () => {
+  if (!isSLAEnabled.value) return;
+  slaFetchPromise ||= store.dispatch('sla/get');
+  await slaFetchPromise;
+};
+
+const openAddPopup = async (seed = null) => {
+  creationSourceMonitorId.value = seed?.monitor_id ?? null;
+  await ensureOptionsLoaded();
   const startsWithWait =
-    !monitorId &&
-    !slaPolicyId &&
-    isDelayedAutomationsEnabled.value &&
-    activeTab.value === 'delayed';
-  addDialogRef.value?.open(
-    startsWithWait ? DEFAULT_DELAY_MINUTES : null,
-    monitorId,
-    slaPolicyId
-  );
+    !seed && isDelayedAutomationsEnabled.value && activeTab.value === 'delayed';
+  addDialogRef.value?.open(startsWithWait ? DEFAULT_DELAY_MINUTES : null, seed);
 };
 
 const hideAddPopup = () => {
@@ -183,10 +183,7 @@ const hideAddPopup = () => {
 const openEditPopup = async response => {
   selectedAutomation.value = { ...response };
   await until(() => accountUiFlags.value.isFetchingItem).toBe(false);
-  if (isSLAEnabled.value) {
-    slaFetchPromise ||= store.dispatch('sla/get');
-    await slaFetchPromise;
-  }
+  await ensureOptionsLoaded();
   editDialogRef.value?.open(response);
 };
 const hideEditPopup = () => {
@@ -197,12 +194,18 @@ onAutomationQuery({
   rules: records,
   create: async ({ monitorId, slaPolicyId }) => {
     activeTab.value = 'instant';
-    if (slaPolicyId) {
-      slaFetchPromise ||= store.dispatch('sla/get');
-      await slaFetchPromise;
-    }
     await nextTick();
-    openAddPopup(monitorId, slaPolicyId);
+    openAddPopup(
+      monitorId
+        ? {
+            event_name: 'monitor_matched',
+            monitor_id: monitorId,
+            conditions: [],
+          }
+        : {
+            actions: [{ action_name: 'add_sla', action_params: [slaPolicyId] }],
+          }
+    );
   },
   edit: async ruleId => {
     const rule = records.value.find(item => item.id === ruleId);
