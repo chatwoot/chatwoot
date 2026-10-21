@@ -1,6 +1,7 @@
 <script setup>
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useAutomationRoute } from 'dashboard/composables/useAutomationRoute';
 import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { getCaptainConditionUsage } from 'dashboard/helper/automationHelper';
 import AddAutomationRule from './AddAutomationRule.vue';
@@ -8,7 +9,7 @@ import EditAutomationRule from './EditAutomationRule.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { until } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import {
@@ -27,9 +28,9 @@ const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
 const confirmDialog = ref(null);
-const route = useRoute();
 const router = useRouter();
 const { accountScopedRoute } = useAccount();
+const { onAutomationQuery } = useAutomationRoute();
 
 const loading = ref({});
 const addDialogRef = ref(null);
@@ -161,29 +162,19 @@ onMounted(() => {
   store.dispatch('automations/get');
 });
 
-const openAddPopup = (monitorId = null) => {
+const openAddPopup = (monitorId = null, slaPolicyId = null) => {
   creationSourceMonitorId.value = monitorId;
   const startsWithWait =
     !monitorId &&
+    !slaPolicyId &&
     isDelayedAutomationsEnabled.value &&
     activeTab.value === 'delayed';
   addDialogRef.value?.open(
     startsWithWait ? DEFAULT_DELAY_MINUTES : null,
-    monitorId
+    monitorId,
+    slaPolicyId
   );
 };
-
-watch(
-  () => route.query.monitor_id,
-  async monitorId => {
-    if (typeof monitorId !== 'string' || !/^\d+$/.test(monitorId)) return;
-    activeTab.value = 'instant';
-    await nextTick();
-    openAddPopup(Number(monitorId));
-    router.replace({ query: { ...route.query, monitor_id: undefined } });
-  },
-  { immediate: true }
-);
 
 const hideAddPopup = () => {
   addDialogRef.value?.close();
@@ -202,18 +193,25 @@ const hideEditPopup = () => {
   editDialogRef.value?.close();
 };
 
-watch(
-  [() => route.query.edit_id, records],
-  async ([editId, rules]) => {
-    if (typeof editId !== 'string') return;
-    const rule = rules.find(item => String(item.id) === editId);
-    if (!rule) return;
+onAutomationQuery({
+  rules: records,
+  create: async ({ monitorId, slaPolicyId }) => {
+    activeTab.value = 'instant';
+    if (slaPolicyId) {
+      slaFetchPromise ||= store.dispatch('sla/get');
+      await slaFetchPromise;
+    }
+    await nextTick();
+    openAddPopup(monitorId, slaPolicyId);
+  },
+  edit: async ruleId => {
+    const rule = records.value.find(item => item.id === ruleId);
+    if (!rule) return false;
     await nextTick();
     openEditPopup(rule);
-    router.replace({ query: { ...route.query, edit_id: undefined } });
+    return true;
   },
-  { immediate: true }
-);
+});
 
 const openDeletePopup = response => {
   showDeleteConfirmationPopup.value = true;

@@ -45,12 +45,22 @@ const {
   manifestCustomAttributes,
 } = useAutomation(START_VALUE);
 
-const open = (executionDelay = null, monitorId = null) => {
+const open = (executionDelay = null, monitorId = null, slaPolicyId = null) => {
   automation.value = structuredClone(START_VALUE);
   if (monitorId) {
     automation.value.event_name = 'monitor_matched';
     automation.value.monitor_id = Number(monitorId);
     automation.value.conditions = [];
+  }
+  if (slaPolicyId) {
+    automation.value.actions = [
+      {
+        action_name: 'add_sla',
+        action_params: getActionDropdownValues('add_sla').filter(
+          ({ id }) => id === Number(slaPolicyId)
+        ),
+      },
+    ];
   }
   manifestCustomAttributes();
   formRef.value?.open(executionDelay);
