@@ -180,7 +180,8 @@ class Call < ApplicationRecord
   def open_agent_leg!(sid, attempt: nil)
     with_lock do
       leg_state = agent_legs.dig(sid.to_s, 'state')
-      next false if terminal? || leg_state == 'gone'
+      # A ring timeout under way is moving the caller out, so a late leg would find nobody
+      next false if terminal? || leg_state == 'gone' || (ringing? && ring_timeout_in_progress?)
 
       if attempt.present?
         self.class.where(id: id).update_all(['meta = meta #- ARRAY[?, ?]', 'agent_legs', self.class.pending_agent_leg(attempt)]) # rubocop:disable Rails/SkipsModelValidations

@@ -178,6 +178,17 @@ RSpec.describe Voice::RingingTimeoutService do
       expect(call.message.reload.content_attributes.dig('data', 'status')).to eq('no-answer')
     end
 
+    it 'records the missed call when a claim whose leg never joined is ended by the move' do
+      call.update!(accepted_by_agent: create(:user, account: account))
+      allow(twilio_call).to receive(:update) do
+        Voice::CallStatus::Manager.new(call: Call.find(call.id)).process_status_update('completed', timestamp: Time.zone.now.to_i)
+      end
+
+      service.perform
+
+      expect(call.reload).to have_attributes(status: 'no_answer', end_reason: 'ring_timeout')
+    end
+
     it 'updates the call message and tells the dashboards the call ended' do
       service.perform
 

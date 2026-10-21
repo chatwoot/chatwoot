@@ -88,8 +88,9 @@ class Voice::RingingTimeoutService
   end
 
   # Moving a Twilio caller out makes their leave and the conference's end reach the row within
-  # moments, possibly as completed with no agent on it; the ring time's outcome still stands
-  def unanswered? = call.ringing? || (call.twilio? && call.accepted_by_agent_id.nil?)
+  # moments, possibly as completed with no agent on it, or claimed by one whose leg never
+  # joined; the ring time's outcome still stands
+  def unanswered? = call.ringing? || (call.twilio? && !call.answered_by_agent?)
 
   def clear_timeout_mark
     call.update_columns(ring_state: call.ring_state.except('timing_out_at')) # rubocop:disable Rails/SkipsModelValidations
