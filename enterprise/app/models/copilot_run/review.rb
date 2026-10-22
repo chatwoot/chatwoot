@@ -34,6 +34,8 @@
 # Reads the conversations of a collection in batches and saves a finding for each. A turn reviews at most
 # CONVERSATIONS_PER_TURN of them, and the agent asks to continue for the rest.
 class CopilotRun::Review < CopilotRun
+  include Concerns::CopilotRunProgress
+
   # A review that hits errors still hands its findings to the turn, so it ends incomplete rather than failed.
   STATUSES = %w[queued running completed incomplete].freeze
 
@@ -96,13 +98,11 @@ class CopilotRun::Review < CopilotRun
                 failed: counts['failed'].to_i, selection_truncated: selection_truncated?)
   end
 
-  def publish_progress
-    progress = summary
-    return if copilot_thread.copilot_messages.assistant_thinking.last&.message&.dig('progress') == progress.as_json
+  private
 
+  def progress_text(progress)
     not_matched = progress[:screened_out] + progress[:reviewed] - progress[:matched]
-    content = "Processed #{progress[:processed]} of #{progress[:selected]} conversations: #{progress[:matched]} matched, " \
-              "#{not_matched} didn't match, #{progress[:failed]} couldn't be reviewed."
-    copilot_thread.copilot_messages.create!(message_type: :assistant_thinking, message: { content: content, progress: progress })
+    "Processed #{progress[:processed]} of #{progress[:selected]} conversations: #{progress[:matched]} matched, " \
+      "#{not_matched} didn't match, #{progress[:failed]} couldn't be reviewed."
   end
 end

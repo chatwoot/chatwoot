@@ -34,7 +34,8 @@
 # Answers one message from the agent. A turn parks while a review started by one of its tool calls runs, and it carries
 # the cost of everything it started.
 class CopilotRun::Turn < CopilotRun
-  STATUSES = %w[queued running awaiting_background_run completed failed].freeze
+  # A turn whose proposed change was superseded by a newer message ends incomplete.
+  STATUSES = %w[queued running awaiting_background_run completed incomplete failed].freeze
 
   belongs_to :copilot_message, optional: true
   has_many :tool_calls, class_name: 'CopilotToolCall', dependent: :delete_all, inverse_of: :copilot_run
