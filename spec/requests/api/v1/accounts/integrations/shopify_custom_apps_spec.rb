@@ -73,10 +73,10 @@ RSpec.describe 'Shopify custom app setup', type: :request do
     create(:integrations_hook, :shopify, account: account, reference_id: shop_domain,
                                          access_token: 'custom-token', settings: { custom_app_id: custom_app.id })
     contact = create(:contact, account: account, email: 'customer@example.com')
-    stub_request(:get, %r{https://test-store.myshopify.com/admin/api/[^/]+/customers/search.json})
+    stub_request(:get, %r{\Ahttps://test-store\.myshopify\.com/admin/api/[^/]+/customers/search\.json(?:\?|\z)})
       .with(headers: { 'X-Shopify-Access-Token' => 'custom-token' })
       .to_return(body: { customers: [{ id: 123 }] }.to_json, headers: { 'Content-Type' => 'application/json' })
-    stub_request(:get, %r{https://test-store.myshopify.com/admin/api/[^/]+/orders.json})
+    stub_request(:get, %r{\Ahttps://test-store\.myshopify\.com/admin/api/[^/]+/orders\.json(?:\?|\z)})
       .with(headers: { 'X-Shopify-Access-Token' => 'custom-token' })
       .to_return(body: { orders: [{ id: 456 }] }.to_json, headers: { 'Content-Type' => 'application/json' })
 
