@@ -47,7 +47,7 @@ class CopilotRun < ApplicationRecord
   FINISHED_STATUSES = %w[completed incomplete failed].freeze
   MAX_SELECTION = 5000
   # Conversations a review finishes per turn. The rest wait until the agent asks to continue.
-  CONVERSATIONS_PER_TURN = 100
+  CONVERSATIONS_PER_TURN = 300
 
   LEASE_DURATION = 2.minutes
 

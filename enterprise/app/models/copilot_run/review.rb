@@ -100,8 +100,9 @@ class CopilotRun::Review < CopilotRun
     progress = summary
     return if copilot_thread.copilot_messages.assistant_thinking.last&.message&.dig('progress') == progress.as_json
 
+    not_matched = progress[:screened_out] + progress[:reviewed] - progress[:matched]
     content = "Processed #{progress[:processed]} of #{progress[:selected]} conversations: #{progress[:matched]} matched, " \
-              "#{progress[:screened_out]} screened out, #{progress[:failed]} failed."
+              "#{not_matched} didn't match, #{progress[:failed]} couldn't be reviewed."
     copilot_thread.copilot_messages.create!(message_type: :assistant_thinking, message: { content: content, progress: progress })
   end
 end
