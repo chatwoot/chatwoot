@@ -11,7 +11,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
     set_article_count
 
-    @articles = @articles.search(list_params)
+    @articles = @articles.search(list_params).includes(:category, author: [:account_users, { avatar_attachment: :blob }])
 
     @articles = if list_params[:category_slug].present?
                   @articles.order_by_position.page(@current_page)
