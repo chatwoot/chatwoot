@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils';
+import { flushPromises, shallowMount } from '@vue/test-utils';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import { nextTick } from 'vue';
 import { createStore } from 'vuex';
@@ -40,6 +40,7 @@ const buildStore = ({
   drafts = {},
   inboxes,
   isMetaMessageSendingDisabled = false,
+  uiSettings = {},
 }) =>
   createStore({
     state: {
@@ -68,7 +69,7 @@ const buildStore = ({
       getCurrentUser: () => ({ id: 7, name: 'Agent', accounts: [] }),
       getCurrentAccountId: () => 1,
       getMessageSignature: () => '',
-      getUISettings: () => ({}),
+      getUISettings: () => uiSettings,
       getLastEmailInSelectedChat: () => null,
       'globalConfig/get': () => ({}),
       'globalConfig/isMetaMessageSendingDisabled': () =>
@@ -95,6 +96,7 @@ const mountWith = ({
   drafts,
   inboxes,
   isMetaMessageSendingDisabled,
+  uiSettings,
 }) => {
   const store = buildStore({
     inbox,
@@ -103,6 +105,7 @@ const mountWith = ({
     drafts,
     inboxes,
     isMetaMessageSendingDisabled,
+    uiSettings,
   });
   const wrapper = shallowMount(ReplyBox, {
     global: {
@@ -445,6 +448,33 @@ describe('ReplyBox', () => {
       expect(store.getters['draftMessages/getReplyEditorMode']).toBe(
         REPLY_EDITOR_MODES.NOTE
       );
+    });
+  });
+
+  describe('send shortcut', () => {
+    const pressEnter = init =>
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', ...init })
+      );
+
+    it('ignores Enter while an IME composition is active', async () => {
+      const { wrapper } = mountWith({
+        inbox: { channel_type: 'Channel::WebWidget' },
+        uiSettings: { editor_message_key: 'enter' },
+      });
+      await flushPromises();
+      wrapper.vm.isFocused = true;
+      const onSendReply = vi
+        .spyOn(wrapper.vm, 'onSendReply')
+        .mockImplementation(() => {});
+
+      pressEnter({ key: 'Process', isComposing: true });
+      expect(onSendReply).not.toHaveBeenCalled();
+
+      pressEnter({});
+      expect(onSendReply).toHaveBeenCalledTimes(1);
+
+      wrapper.unmount();
     });
   });
 });

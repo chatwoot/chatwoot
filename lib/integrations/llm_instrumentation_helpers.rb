@@ -29,6 +29,13 @@ module Integrations::LlmInstrumentationHelpers
     if result.respond_to?(:content)
       span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, result.role.to_s) if result.respond_to?(:role)
       span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, result.content.to_s)
+      if result.respond_to?(:tokens)
+        set_usage_metrics(span, usage: {
+                            'prompt_tokens' => result.tokens.input,
+                            'completion_tokens' => result.tokens.output,
+                            'reasoning_tokens' => result.tokens.thinking
+                          })
+      end
     elsif result.is_a?(Hash)
       set_completion_attributes(span, result)
     end

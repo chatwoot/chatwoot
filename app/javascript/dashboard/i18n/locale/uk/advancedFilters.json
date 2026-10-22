@@ -33,6 +33,8 @@
       "is_less_than": "Менше ніж",
       "days_before": "X днів до",
       "starts_with": "Починається з",
+      "detects": "Detects",
+      "does_not_detect": "Does not detect",
       "equalTo": "Дорівнює",
       "notEqualTo": "Не дорівнює",
       "contains": "Містить",

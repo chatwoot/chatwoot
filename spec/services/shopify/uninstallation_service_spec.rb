@@ -20,9 +20,7 @@ RSpec.describe Shopify::UninstallationService do
   before do
     account.enable_features!('shopify_integration')
     allow(GlobalConfigService).to receive(:load).and_call_original
-    allow(GlobalConfigService).to receive(:load)
-      .with('ENABLE_SHOPIFY_INTEGRATION', 'false')
-      .and_return(true)
+    InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
   end
 
   it 'removes the integration for the current installation' do
