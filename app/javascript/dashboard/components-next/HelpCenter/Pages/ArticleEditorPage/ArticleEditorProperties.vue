@@ -62,7 +62,8 @@ const selectableArticleOptions = computed(() => {
 });
 
 const fetchArticles = async query => {
-  const searchId = ++articleSearchId;
+  articleSearchId += 1;
+  const searchId = articleSearchId;
 
   try {
     const {
