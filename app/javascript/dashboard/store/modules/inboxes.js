@@ -27,26 +27,22 @@ export const state = {
 };
 
 // `camelcaseKeys(records, { deep: true })` walks every key of every inbox record, and a WhatsApp
-// inbox carries its whole `message_templates` array — thousands of entries and megabytes of JSON on
-// a large account. Two costs followed from doing that inside the getter: the walk itself, and the
+// inbox carries its whole `message_templates` array — on a large account, thousands of entries and
+// megabytes of JSON. Two costs followed from doing that inside the getter: the walk itself, and the
 // fact that every inbox mutation (unread count, mark-as-read, agent availability) re-ran it on the
-// main thread. On an account with a large template catalogue (order of thousands), one click in the
-// conversation list spent seconds inside map-obj's deep walk, before any request was dispatched.
+// main thread. Profiling such an account showed a single conversation-list click spending seconds
+// inside map-obj's deep walk before any request was dispatched.
 //
-// The template list does not need converting — its keys are already single-word/camelCase and every
+// The template list does not need converting: its keys are already single-word/camelCase and every
 // consumer reads it in snake_case straight off the record (`getWhatsAppTemplates`). So keep the array
-// out of the deep walk, and cache the converted remainder per record.
-const camelCasedInboxCache = new WeakMap();
+// out of the deep walk; the remainder is a small flat object, so converting it per call stays cheap
+// and — unlike a record-identity cache — cannot go stale when a record is mutated in place.
 const toCamelCasedInbox = record => {
   if (!record || typeof record !== 'object') return record;
-  let cached = camelCasedInboxCache.get(record);
-  if (!cached) {
-    const { message_templates: messageTemplates, ...rest } = record;
-    cached = camelcaseKeys(rest, { deep: true });
-    if (messageTemplates) cached.messageTemplates = messageTemplates;
-    camelCasedInboxCache.set(record, cached);
-  }
-  return cached;
+  const { message_templates: messageTemplates, ...rest } = record;
+  const converted = camelcaseKeys(rest, { deep: true });
+  if (messageTemplates) converted.messageTemplates = messageTemplates;
+  return converted;
 };
 
 export const getters = {

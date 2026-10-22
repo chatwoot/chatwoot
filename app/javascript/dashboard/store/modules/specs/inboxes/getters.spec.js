@@ -430,15 +430,18 @@ describe('getAllInboxes', () => {
     expect(converted.channelType).toEqual('Channel::Whatsapp');
   });
 
-  it('converts each record once and reuses the result', () => {
+  it('reflects in-place changes to the record', () => {
+    // Regression guard: `Settings.vue` binds the raw record with v-model, so an inbox can be
+    // mutated without being replaced. A record-identity cache served stale values here.
     const record = {
       id: 1,
       name: 'Website',
       channel_type: 'Channel::WebWidget',
+      widget_color: '#111111',
     };
     const state = { records: [record] };
-    expect(getters.getAllInboxes(state)[0]).toBe(
-      getters.getAllInboxes(state)[0]
-    );
+    expect(getters.getAllInboxes(state)[0].widgetColor).toEqual('#111111');
+    record.widget_color = '#222222';
+    expect(getters.getAllInboxes(state)[0].widgetColor).toEqual('#222222');
   });
 });
