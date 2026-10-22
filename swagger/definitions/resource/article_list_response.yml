@@ -1,0 +1,27 @@
+type: object
+properties:
+  payload:
+    type: array
+    items:
+      $ref: '#/components/schemas/article'
+  meta:
+    type: object
+    description: Counts for the article list filters. All counts except all_articles_count apply the locale, category and query filters.
+    properties:
+      all_articles_count:
+        type: integer
+        description: Number of articles in the portal.
+      archived_articles_count:
+        type: integer
+      articles_count:
+        type: integer
+      current_page:
+        type:
+          - string
+          - integer
+      draft_articles_count:
+        type: integer
+      mine_articles_count:
+        type: integer
+      published_count:
+        type: integer

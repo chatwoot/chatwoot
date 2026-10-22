@@ -325,8 +325,24 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
             headers: admin.create_new_auth_token,
             params: {}
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         json_response = response.parsed_body
         expect(json_response['payload'].count).to be 2
+      end
+
+      it 'returns translations with identifying fields only' do
+        translation = create(:article, slug: 'translation-fr', locale: 'fr', category: nil, portal: portal, account_id: account.id,
+                                       author_id: agent.id, associated_article_id: article.id)
+
+        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+            headers: admin.create_new_auth_token,
+            params: { locale: article.locale }
+
+        expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
+        associated_article = response.parsed_body['payload'].first['associated_articles'].first
+        expect(associated_article).to include('id' => translation.id, 'locale' => 'fr')
+        expect(associated_article.keys).not_to include('content', 'portal', 'author')
       end
 
       it 'get all articles with uncategorized articles' do
