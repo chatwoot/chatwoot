@@ -35,6 +35,7 @@ class CopilotMessage < ApplicationRecord
       message: message,
       message_type: message_type,
       created_at: created_at.to_i,
+      updated_at: updated_at.to_f,
       copilot_thread: copilot_thread.push_event_data
     }
   end
