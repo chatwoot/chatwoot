@@ -32,6 +32,7 @@ class Contacts::SyncAttributes
     contact.country_code = code
 
     # Keep legacy writers and filters consistent with the canonical column during migration.
+    attributes['country_code'] = code if root_changed
     sync_legacy_country(attributes, previous_attributes, code, changed_key)
   end
 

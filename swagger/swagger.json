@@ -13638,6 +13638,11 @@
             "description": "phone number of the contact",
             "example": "+123456789"
           },
+          "country_code": {
+            "type": "string",
+            "description": "Country code of the contact. Use an empty string to clear it.",
+            "example": "US"
+          },
           "avatar": {
             "type": "string",
             "format": "binary",
@@ -13690,6 +13695,11 @@
             "type": "string",
             "description": "phone number of the contact",
             "example": "+123456789"
+          },
+          "country_code": {
+            "type": "string",
+            "description": "Country code of the contact. Use an empty string to clear it.",
+            "example": "US"
           },
           "avatar": {
             "type": "string",
