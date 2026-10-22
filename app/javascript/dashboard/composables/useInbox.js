@@ -1,6 +1,6 @@
+import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
-import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import {
   INBOX_TYPES,
   isVoiceCallEnabled,
@@ -48,7 +48,10 @@ export const useInbox = (inboxId = null) => {
 
     if (!targetInboxId) return null;
 
-    return useCamelCase(inboxGetter.value(targetInboxId), { deep: true });
+    // getInboxById already returns a camelCased record, so a deep pass here only re-walked it —
+    // including a WhatsApp inbox's whole message_templates array — on every re-evaluation of this
+    // computed (i.e. on every conversation change). Keep the (cheap) shallow pass for safety.
+    return useCamelCase(inboxGetter.value(targetInboxId));
   });
 
   const channelType = computed(() => {
