@@ -19,6 +19,8 @@ if article.root_article.present?
     json.title article.root_article.title
     json.locale article.root_article.public_locale
   end
+else
+  json.root_article nil
 end
 
 json.category do

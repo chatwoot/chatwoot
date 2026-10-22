@@ -35,6 +35,7 @@ const { t } = useI18n();
 const route = useRoute();
 
 const articleOptions = ref([]);
+let articleSearchId = 0;
 
 const articleLabel = article => {
   const locale = article.locale ? ` (${article.locale})` : '';
@@ -61,6 +62,8 @@ const selectableArticleOptions = computed(() => {
 });
 
 const fetchArticles = async query => {
+  const searchId = ++articleSearchId;
+
   try {
     const {
       data: { payload },
@@ -69,14 +72,20 @@ const fetchArticles = async query => {
       query,
     });
 
-    articleOptions.value = camelcaseKeys(payload || [])
+    const options = camelcaseKeys(payload || [])
       .filter(article => article.id !== props.article.id)
       .map(article => ({
         label: articleLabel(article),
         value: article.id,
       }));
+
+    if (searchId === articleSearchId) {
+      articleOptions.value = options;
+    }
   } catch {
-    articleOptions.value = [];
+    if (searchId === articleSearchId) {
+      articleOptions.value = [];
+    }
   }
 };
 
