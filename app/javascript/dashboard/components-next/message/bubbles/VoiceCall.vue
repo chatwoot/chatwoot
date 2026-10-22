@@ -170,6 +170,9 @@ const subtext = computed(() => {
     if (isOutbound.value) {
       return t('CONVERSATION.VOICE_CALL.NO_ANSWER_OUTBOUND_SUBTEXT');
     }
+    if (endReason.value === VOICE_CALL_END_REASON.OUTSIDE_WORKING_HOURS) {
+      return t('CONVERSATION.VOICE_CALL.MISSED_CALL_OUTSIDE_HOURS');
+    }
     if (wasDeclinedByAgent.value && displayAgentName.value) {
       return t('CONVERSATION.VOICE_CALL.MISSED_CALL_DECLINED_BY', {
         agentName: displayAgentName.value,
