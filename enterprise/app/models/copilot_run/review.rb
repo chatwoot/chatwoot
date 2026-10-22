@@ -101,7 +101,8 @@ class CopilotRun::Review < CopilotRun
   private
 
   def progress_text(progress)
+    not_matched = progress[:screened_out] + progress[:reviewed] - progress[:matched]
     "Processed #{progress[:processed]} of #{progress[:selected]} conversations: #{progress[:matched]} matched, " \
-      "#{progress[:screened_out]} screened out, #{progress[:failed]} failed."
+      "#{not_matched} didn't match, #{progress[:failed]} couldn't be reviewed."
   end
 end

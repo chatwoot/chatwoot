@@ -2,8 +2,9 @@ class Captain::Copilot::ResultTable
   include Captain::Copilot::ConversationAccess
 
   PAGE_SIZE = 20
-  # A review page holds a whole review batch, so an answer about the matches never rests on part of them.
-  REVIEW_PAGE_SIZE = CopilotRun::CONVERSATIONS_PER_TURN
+  # Matched findings come first, so the first page holds the matches of most reviews without sending every finding to the
+  # model on each follow-up question.
+  REVIEW_PAGE_SIZE = 100
 
   def initialize(run)
     @run = run
@@ -49,11 +50,12 @@ class Captain::Copilot::ResultTable
       content: markdown(findings, display_ids, page, total, matched_only) }
   end
 
-  # Matched findings come first, so they fill the first page when a continued review holds more than one page.
+  # Matched findings come first, then the rest in the order the review picked them, newest first. The review creates
+  # findings in that order, so their IDs follow it.
   def visible_findings(visible, matched_only)
     scope = @run.findings.where(conversation_id: visible.select(:id)).where.not(status: %i[awaiting_review screened_out])
     scope = scope.where(matched: true) if matched_only
-    scope.order(matched: :desc, conversation_id: :asc)
+    scope.order(matched: :desc, id: :asc)
   end
 
   # The table is the only copy of the findings the model gets. A table of every finding says which ones matched.

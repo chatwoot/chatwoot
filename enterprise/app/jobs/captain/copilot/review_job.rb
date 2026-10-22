@@ -13,13 +13,13 @@ class Captain::Copilot::ReviewJob < ApplicationJob
 
   def process_batch(run, token)
     conversations = Captain::Copilot::ScreeningService.new(run, token).screen(accessible_batch(run, token))
-    run.with_lease(token) { run.publish_progress } if run.question.present?
     service = Captain::Copilot::ReviewService.new(run)
     conversations.each do |conversation|
       run.renew_lease(token)
       review(run, token, service, conversation)
     end
-    run.with_lease(token) { run.publish_progress } if conversations.any?
+    # One update per batch, after screening and review, so the counts move in even steps.
+    run.with_lease(token) { run.publish_progress }
     # A review stops at its turn limit; continue_review raises it when the agent asks for the next batch.
     return finalize(run, token) if run.left_this_turn <= 0
 
