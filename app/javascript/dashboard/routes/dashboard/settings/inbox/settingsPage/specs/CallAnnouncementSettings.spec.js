@@ -105,7 +105,7 @@ describe('CallAnnouncementSettings', () => {
       i18nKey: 'GREETING',
       enabled: false,
       message: 'Welcome',
-      audioUrl: '',
+      audioUrl: null,
     });
 
     wrapper
@@ -128,7 +128,7 @@ describe('CallAnnouncementSettings', () => {
         kind: 'unanswered',
         i18nKey: 'UNANSWERED',
         message: 'Nobody is available.',
-        audioUrl: '',
+        audioUrl: null,
         timeoutSeconds: 60,
       },
       { NextInput: false }
@@ -164,6 +164,21 @@ describe('CallAnnouncementSettings', () => {
       message: 'Call again tomorrow.',
       timeoutSeconds: undefined,
     });
+  });
+
+  it('shows no Captain audio for a text-only announcement', () => {
+    const wrapper = mountComponent({
+      kind: 'greeting',
+      i18nKey: 'GREETING',
+      message: 'Welcome',
+      audioUrl: null,
+    });
+
+    expect(wrapper.text()).not.toContain('Captain');
+    expect(wrapper.find('audio').exists()).toBe(false);
+    expect(
+      wrapper.findComponent(NextButton).find('button').element.disabled
+    ).toBe(true);
   });
 
   it('preserves unsaved text when an unrelated inbox refresh arrives', async () => {

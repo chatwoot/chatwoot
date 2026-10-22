@@ -21,11 +21,6 @@ module Enterprise::Channel::TwilioSms
     provider_config['business_hours_calls_enabled'] == true
   end
 
-  # The caller hears a beep when an agent joins unless turned off
-  def call_join_beep_enabled?
-    provider_config['call_join_beep_enabled'] != false
-  end
-
   # A call nobody answers within the ring time ends with the no-answer announcement
   def unanswered_calls_enabled?
     provider_config['unanswered_calls_enabled'] == true

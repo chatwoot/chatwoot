@@ -157,14 +157,6 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         expect(conference.attributes.keys).not_to include('waitUrl')
       end
 
-      it 'sends an inbound caller to the wait document when waiting audio is uploaded' do
-        inbox.call_waiting_audio.attach(io: StringIO.new('music'), filename: 'music.mp3', content_type: 'audio/mpeg')
-
-        post "/twilio/voice/call/#{digits}", params: inbound_call_params
-
-        expect(conference['waitUrl']).to eq("http://localhost:3000/twilio/voice/wait/#{digits}")
-      end
-
       it 'keeps the default wait on the contact leg of an outbound call' do
         channel.update!(provider_config: channel.provider_config.merge('call_greeting_enabled' => true, 'call_greeting_message' => 'Welcome'))
         call.update!(direction: :outgoing, conference_sid: call.default_conference_sid)
@@ -173,16 +165,6 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
              params: { 'CallSid' => call_sid, 'From' => to_number, 'To' => from_number, 'Direction' => 'outbound-api' }
 
         expect(conference.attributes.keys).not_to include('waitUrl')
-      end
-
-      it 'silences the join beep on agent legs when it is turned off' do
-        channel.update!(provider_config: channel.provider_config.merge('call_join_beep_enabled' => false))
-
-        post "/twilio/voice/call/#{digits}", params: agent_leg_params
-        expect(conference['beep']).to eq('false')
-
-        post "/twilio/voice/call/#{digits}", params: inbound_call_params
-        expect(conference.attributes.keys).not_to include('beep')
       end
     end
 
@@ -445,21 +427,6 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
 
       expect(elements.map(&:name)).to eq(%w[Say Redirect])
       expect(elements.first.text).to eq('Welcome to Acme')
-    end
-
-    it 'plays the generated greeting once, then loops the uploaded waiting audio' do
-      channel.update!(provider_config: channel.provider_config.merge('call_greeting_enabled' => true, 'call_greeting_message' => 'Welcome'))
-      inbox.call_greeting_audio.attach(io: StringIO.new('hello'), filename: 'greeting.mp3', content_type: 'audio/mpeg')
-      inbox.call_waiting_audio.attach(io: StringIO.new('music'), filename: 'music.mp3', content_type: 'audio/mpeg')
-
-      get "/twilio/voice/wait/#{digits}"
-
-      expect(elements.map(&:name)).to eq(%w[Play Play])
-      expect(elements.map(&:text)).to all(start_with('http://localhost:3000/rails/active_storage/'))
-      expect(elements.first.text).to end_with('/greeting.mp3')
-      expect(elements.first['loop']).to be_nil
-      expect(elements.last.text).to end_with('/music.mp3')
-      expect(elements.last['loop']).to eq('0')
     end
 
     it 'skips a greeting that is turned off' do

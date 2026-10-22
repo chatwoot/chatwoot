@@ -823,19 +823,6 @@
           "LABEL": "No-answer message",
           "PLACEHOLDER": "Sorry, nobody is available to take your call right now. Please try again later."
         }
-      },
-      "WAITING_AUDIO": {
-        "LABEL": "Waiting music",
-        "DESCRIPTION": "Played to incoming callers until an agent answers. Without a file, callers hear Twilio's default music.",
-        "CURRENT": "Current waiting music",
-        "HELP": "MP3 or WAV, up to 10 MB.",
-        "UPLOAD": "Upload audio",
-        "REPLACE": "Replace audio",
-        "REMOVE": "Remove"
-      },
-      "JOIN_BEEP": {
-        "LABEL": "Beep when an agent joins",
-        "DESCRIPTION": "The caller hears a short beep when an agent answers. This doesn't change the ringtone agents hear."
       }
     },
     "WHATSAPP_CALLING": {

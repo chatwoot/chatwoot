@@ -196,15 +196,6 @@ RSpec.describe Voice::RingingTimeoutService do
       expect(ActionCable.server).to have_received(:broadcast).with("account_#{account.id}", hash_including(event: 'voice_call.ended'))
     end
 
-    it 'plays the generated announcement audio when there is one' do
-      inbox.unanswered_call_audio.attach(io: StringIO.new('audio'), filename: 'unanswered.mp3', content_type: 'audio/mpeg')
-
-      service.perform
-
-      play = Nokogiri::XML(sent_twiml.sole).at_xpath('/Response/Play')
-      expect(play.text).to start_with('http://localhost:3000/rails/active_storage/').and end_with('/unanswered.mp3')
-    end
-
     it 'gives an agent connection on its way in its time to join before deciding' do
       call.with_lock { call.record_agent_leg!(Call.pending_agent_leg('attempt-1'), 'joining') }
 

@@ -90,19 +90,17 @@ RSpec.describe Voice::CallAnnouncement do
       )
     end
 
-    it 'keeps each kind of announcement in its own settings and audio' do
+    it 'saves a greeting as text only, in its own settings' do
       greeting = described_class.new(inbox, :greeting)
       allow(Llm::TextToSpeechService).to receive(:available_for?).and_return(true)
-      allow(Llm::TextToSpeechService).to receive(:new).and_return(instance_double(Llm::TextToSpeechService, perform: 'hello audio'))
+      expect(Llm::TextToSpeechService).not_to receive(:new)
 
       greeting.save!(enabled: true, message: 'Welcome')
 
       expect(channel.reload.provider_config).to eq('call_greeting_enabled' => true, 'call_greeting_message' => 'Welcome')
       expect(greeting).to be_enabled
       expect(greeting.message).to eq('Welcome')
-      expect(inbox.call_greeting_audio.filename.to_s).to eq("greeting-#{inbox.id}.mp3")
       expect(announcement).not_to be_enabled
-      expect(inbox.out_of_hours_call_audio).not_to be_attached
     end
   end
 
@@ -118,12 +116,23 @@ RSpec.describe Voice::CallAnnouncement do
       expect(play.text).to start_with('http://localhost:3000/rails/active_storage/').and end_with('/announcement.mp3')
     end
 
-    it 'has Twilio read the text when no audio was generated' do
+    it 'has Twilio read the text in the account language when no audio was generated' do
       channel.update!(provider_config: { 'out_of_hours_call_message' => message })
+      inbox.account.update!(locale: 'de')
 
       announcement.speak(twiml)
 
-      expect(Nokogiri::XML(twiml.to_s).at_xpath('/Response/Say').text).to eq(message)
+      say = Nokogiri::XML(twiml.to_s).at_xpath('/Response/Say')
+      expect(say.text).to eq(message)
+      expect(say['language']).to eq('de-DE')
+    end
+
+    it 'has Twilio read a greeting' do
+      channel.update!(provider_config: { 'call_greeting_message' => 'Welcome' })
+
+      described_class.new(inbox, :greeting).speak(twiml)
+
+      expect(Nokogiri::XML(twiml.to_s).at_xpath('/Response/Say').text).to eq('Welcome')
     end
   end
 end
