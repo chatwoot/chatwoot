@@ -24,6 +24,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     api_and_webhooks
     data_import
     companies
+    auto_translate
   ] + PAID_PLAN_FEATURES).freeze
 
   BUSINESS_PLAN_FEATURES = %w[
