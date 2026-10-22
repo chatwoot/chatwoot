@@ -26,12 +26,25 @@ export const state = {
   },
 };
 
+// Deep-camelCasing an inbox record walks every key it carries, and a WhatsApp inbox carries its
+// whole `message_templates` array — thousands of entries and megabytes of JSON on a large account.
+// The template list does not need converting: its keys are already single-word/camelCase and its
+// consumers read it in snake_case straight off the record (`getWhatsAppTemplates`). Keep it out of
+// the walk; the remainder of a record is small and flat, so converting per call stays cheap.
+export const toCamelCasedInbox = record => {
+  if (!record || typeof record !== 'object') return record;
+  const { message_templates: messageTemplates, ...rest } = record;
+  const converted = camelcaseKeys(rest, { deep: true });
+  if (messageTemplates) converted.messageTemplates = messageTemplates;
+  return converted;
+};
+
 export const getters = {
   getInboxes($state) {
     return $state.records;
   },
   getAllInboxes($state) {
-    return camelcaseKeys($state.records, { deep: true });
+    return $state.records.map(toCamelCasedInbox);
   },
   getWhatsAppTemplates: $state => inboxId => {
     const [inbox] = $state.records.filter(
@@ -93,7 +106,7 @@ export const getters = {
     const [inbox] = $state.records.filter(
       record => record.id === Number(inboxId)
     );
-    return camelcaseKeys(inbox || {}, { deep: true });
+    return toCamelCasedInbox(inbox || {});
   },
   getUIFlags($state) {
     return $state.uiFlags;
