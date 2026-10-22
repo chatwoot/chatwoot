@@ -38,14 +38,22 @@ const isWhatsappActive = computed(
   () => activeCall.value?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
 );
 
-const toggleHold = () => {
+// One hold or resume at a time, so a stale request can't land after a newer one
+const isHoldPending = ref(false);
+const toggleHold = async () => {
+  if (isHoldPending.value) return;
   const call = activeCall.value;
-  holdCall({
-    conversationId: call.conversationId,
-    inboxId: call.inboxId,
-    callSid: call.callSid,
-    hold: !call.onHold,
-  });
+  isHoldPending.value = true;
+  try {
+    await holdCall({
+      conversationId: call.conversationId,
+      inboxId: call.inboxId,
+      callSid: call.callSid,
+      hold: !call.onHold,
+    });
+  } finally {
+    isHoldPending.value = false;
+  }
 };
 
 const primaryIncomingCall = computed(() =>
