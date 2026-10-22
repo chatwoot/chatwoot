@@ -1,7 +1,7 @@
 <script setup>
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { useAutomationRoute } from 'dashboard/composables/useAutomationRoute';
+import { AUTOMATION_QUERY } from 'dashboard/composables/useAutomationRoute';
 import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { getCaptainConditionUsage } from 'dashboard/helper/automationHelper';
 import AddAutomationRule from './AddAutomationRule.vue';
@@ -9,7 +9,7 @@ import EditAutomationRule from './EditAutomationRule.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { until } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import {
@@ -28,9 +28,9 @@ const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
 const confirmDialog = ref(null);
+const route = useRoute();
 const router = useRouter();
 const { accountScopedRoute } = useAccount();
-const { onAutomationQuery } = useAutomationRoute();
 
 const loading = ref({});
 const addDialogRef = ref(null);
@@ -190,9 +190,26 @@ const hideEditPopup = () => {
   editDialogRef.value?.close();
 };
 
-onAutomationQuery({
-  rules: records,
-  create: async ({ monitorId, slaPolicyId }) => {
+const parseId = value =>
+  typeof value === 'string' && /^\d+$/.test(value) ? Number(value) : null;
+
+const clearQuery = keys =>
+  router.replace({
+    query: {
+      ...route.query,
+      ...Object.fromEntries(keys.map(key => [key, undefined])),
+    },
+  });
+
+watch(
+  () => [
+    route.query[AUTOMATION_QUERY.MONITOR_ID],
+    route.query[AUTOMATION_QUERY.SLA_POLICY_ID],
+  ],
+  async ([rawMonitorId, rawSlaPolicyId]) => {
+    const monitorId = parseId(rawMonitorId);
+    const slaPolicyId = parseId(rawSlaPolicyId);
+    if (!monitorId && !slaPolicyId) return;
     activeTab.value = 'instant';
     await nextTick();
     openAddPopup(
@@ -206,15 +223,24 @@ onAutomationQuery({
             actions: [{ action_name: 'add_sla', action_params: [slaPolicyId] }],
           }
     );
+    clearQuery([AUTOMATION_QUERY.MONITOR_ID, AUTOMATION_QUERY.SLA_POLICY_ID]);
   },
-  edit: async ruleId => {
-    const rule = records.value.find(item => item.id === ruleId);
-    if (!rule) return false;
+  { immediate: true }
+);
+
+// Rules may load after the route, so retry when they change.
+watch(
+  [() => route.query[AUTOMATION_QUERY.EDIT_ID], records],
+  async ([rawRuleId, rules]) => {
+    const ruleId = parseId(rawRuleId);
+    const rule = ruleId && rules.find(item => item.id === ruleId);
+    if (!rule) return;
     await nextTick();
     openEditPopup(rule);
-    return true;
+    clearQuery([AUTOMATION_QUERY.EDIT_ID]);
   },
-});
+  { immediate: true }
+);
 
 const openDeletePopup = response => {
   showDeleteConfirmationPopup.value = true;
