@@ -1,32 +1,13 @@
 class Captain::Copilot::ReviewJob < ApplicationJob
-  include Captain::Copilot::LeasedJob
+  include Captain::Copilot::BackgroundRunJob
   include Captain::Copilot::ConversationAccess
 
   # A batch makes up to 50 model calls in a row, so it runs on low with Captain's other long jobs instead of holding the
   # workers that handle incoming messages.
   queue_as :low
 
-  BATCH_SIZE = 25
+  RUN_CLASS = CopilotRun::Review
   MAX_ATTEMPTS = 2
-  MAX_RUN_FAILURES = 3
-
-  # watched_token is set on the checks LeasedJob schedules.
-  def perform(run_id, watched_token = nil)
-    run = CopilotRun::Review.claimable.find_by(id: run_id)
-    return unless run
-
-    token = claim(run, watched_token)
-    return unless token
-
-    process_batch(run, token)
-  rescue Captain::Copilot::LeaseLostError
-    nil
-  rescue Captain::Copilot::LimitExceededError => e
-    finalize(run, token, error: e.message)
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: run&.account).capture_exception
-    handle_failure(run, token, e)
-  end
 
   private
 
@@ -39,10 +20,10 @@ class Captain::Copilot::ReviewJob < ApplicationJob
     end
     # One update per batch, after screening and review, so the counts move in even steps.
     run.with_lease(token) { run.publish_progress }
-    return finalize(run, token) if run.remaining_ids.empty? || run.left_this_turn <= 0
+    # A review stops at its turn limit; continue_review raises it when the agent asks for the next batch.
+    return finalize(run, token) if run.left_this_turn <= 0
 
-    run.with_lease(token) { run.release!(:queued) }
-    self.class.perform_later(run.id)
+    continue_or_finalize(run, token)
   end
 
   def accessible_batch(run, token)
@@ -84,27 +65,7 @@ class Captain::Copilot::ReviewJob < ApplicationJob
     finding.update!(status: attempts >= MAX_ATTEMPTS ? :failed : :awaiting_retry, error: error, attempts: attempts)
   end
 
-  # The turn that started this review is parked on its tool call; the summary becomes that call's result.
-  def finalize(run, token, error: nil)
-    summary = run.with_lease(token) do
-      incomplete = error || run.findings.failed.exists? || run.selection_truncated? || run.remaining_ids.any?
-      run.release!(incomplete ? :incomplete : :completed, error: error)
-      run.summary
-    end
-    tool_call = run.copilot_tool_call
-    tool_call.copilot_run.resume_with(tool_call, summary)
-  end
-
-  def handle_failure(run, token, exception)
-    return unless run && token
-
-    attempts = run.with_lease(token) { run.update!(attempts: run.attempts + 1, error: exception.class.name) && run.attempts }
-    # Outside the lease transaction, so the parent's wake-up is committed before its job can run.
-    return finalize(run, token, error: exception.class.name) if attempts >= MAX_RUN_FAILURES
-
-    run.with_lease(token) { run.release!(:queued) }
-    self.class.set(wait: 10.seconds).perform_later(run.id)
-  rescue Captain::Copilot::LeaseLostError
-    nil
+  def incomplete?(run)
+    run.findings.failed.exists? || run.selection_truncated?
   end
 end

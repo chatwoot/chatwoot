@@ -13,7 +13,8 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
            Captain::Tools::Copilot::SearchArticlesService, Captain::Tools::Copilot::SearchContactsService,
            Captain::Tools::Copilot::SearchLinearIssuesService].freeze
   WORKFLOW_TOOLS = [Captain::Tools::Copilot::GetDataService, Captain::Tools::Copilot::ReviewConversationsService,
-                    Captain::Tools::Copilot::ContinueReviewService, Captain::Tools::Copilot::DisplayService].freeze
+                    Captain::Tools::Copilot::ContinueReviewService, Captain::Tools::Copilot::DisplayService,
+                    Captain::Tools::Copilot::ActService].freeze
 
   def initialize(run, token)
     # Workflows have their own model setting, so the copilot_workflows flag leaves Copilot unchanged for other accounts.
