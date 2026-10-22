@@ -259,6 +259,12 @@ export const actions = {
     }
   },
 
+  setCurrentUserWorkPreferences({ commit }, preferences) {
+    if (preferences) {
+      commit(types.SET_CURRENT_USER_WORK_PREFERENCES, preferences);
+    }
+  },
+
   setActiveAccount: async (_, { accountId }) => {
     try {
       await authAPI.setActiveAccount({ accountId });

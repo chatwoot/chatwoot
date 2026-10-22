@@ -103,6 +103,10 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('contacts/updatePresence', data.contacts);
     this.app.$store.dispatch('agents/updatePresence', data.users);
     this.app.$store.dispatch('setCurrentUserAvailability', data.users);
+    this.app.$store.dispatch(
+      'setCurrentUserWorkPreferences',
+      data.work_preferences
+    );
   };
 
   onConversationContactChange = payload => {
