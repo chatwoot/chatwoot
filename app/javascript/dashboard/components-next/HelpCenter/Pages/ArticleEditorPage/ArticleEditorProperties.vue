@@ -35,6 +35,7 @@ const { t } = useI18n();
 const route = useRoute();
 
 const articleOptions = ref([]);
+const associationSelectionKey = ref(0);
 let articleSearchId = 0;
 
 const articleLabel = article => {
@@ -96,6 +97,7 @@ const handleArticleSearch = useDebounceFn(query => {
 
 const handleAssociationChange = articleId => {
   emit('saveAssociation', articleId ? Number(articleId) : null);
+  associationSelectionKey.value += 1;
 };
 
 const state = reactive({
@@ -166,6 +168,7 @@ onMounted(() => {
             }}
           </label>
           <ComboBox
+            :key="associationSelectionKey"
             :model-value="rootArticleId"
             :options="selectableArticleOptions"
             :display-label="rootArticleTitle"
