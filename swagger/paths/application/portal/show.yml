@@ -8,7 +8,7 @@ security:
   - userApiKey: []
 parameters:
   - $ref: '#/components/parameters/account_id'
-  - $ref: '#/components/parameters/portal_id'
+  - $ref: '#/components/parameters/portal_slug'
 responses:
   '200':
     description: Success
@@ -72,7 +72,7 @@ responses:
         schema:
           $ref: '#/components/schemas/bad_request_error'
   '404':
-    description: The given portal ID does not exist in the account
+    description: The given portal slug does not exist in the account
     content:
       application/json:
         schema:

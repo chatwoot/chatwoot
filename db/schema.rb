@@ -37,6 +37,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
     t.json "role_mappings", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "metadata_url"
+    t.datetime "metadata_refreshed_at"
     t.index ["account_id"], name: "index_account_saml_settings_on_account_id"
   end
 

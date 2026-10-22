@@ -13,6 +13,14 @@ module Enterprise::Channel::TwilioSms
     end
   end
 
+  def business_hours_calls_enabled?
+    provider_config['business_hours_calls_enabled'] == true
+  end
+
+  def out_of_hours_call_message
+    provider_config['out_of_hours_call_message']
+  end
+
   def account_auth_token_configured?
     provider_config['account_auth_token_configured'] == true
   end

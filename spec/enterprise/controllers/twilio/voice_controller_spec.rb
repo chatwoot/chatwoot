@@ -19,6 +19,84 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
     let(:to_number) { channel.phone_number }
     let(:inbound_call_params) { { 'CallSid' => call_sid, 'From' => from_number, 'To' => to_number, 'Direction' => 'inbound' } }
 
+    context 'when outside business hours' do
+      before do
+        inbox.update!(working_hours_enabled: true, timezone: 'America/Los_Angeles')
+        inbox.working_hours.each { |hours| hours.update!(closed_all_day: true, open_all_day: false) }
+        channel.update!(provider_config: channel.provider_config.merge(
+          'business_hours_calls_enabled' => true,
+          'out_of_hours_call_message' => 'Please call during business hours.'
+        ))
+      end
+
+      it 'announces closure and hangs up without ringing agents, including on retries' do
+        account.enable_features!('channel_voice', 'mobile_voice_push')
+        expect(Voice::VoipPushService).not_to receive(:recipients_for)
+
+        2.times { post "/twilio/voice/call/#{digits}", params: inbound_call_params }
+
+        xml = Nokogiri::XML(response.body)
+        expect(xml.at_xpath('//Say').text).to eq('Please call during business hours.')
+        expect(xml.at_xpath('//Hangup')).to be_present
+        expect(xml.at_xpath('//Dial')).to be_nil
+        call = inbox.calls.sole
+        expect(call).to have_attributes(status: 'no_answer', end_reason: 'outside_working_hours', ring_state: {})
+        expect(Voice::VoipPushJob).not_to have_been_enqueued
+        expect(Voice::MissedCallNotificationJob).not_to have_been_enqueued
+      end
+
+      it 'plays the saved generated audio before hanging up' do
+        inbox.out_of_hours_call_audio.attach(io: StringIO.new('audio'), filename: 'announcement.mp3', content_type: 'audio/mpeg')
+
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+        xml = Nokogiri::XML(response.body)
+        expect(xml.at_xpath('//Play').text).to include('announcement.mp3')
+        expect(xml.at_xpath('//Hangup')).to be_present
+        expect(xml.at_xpath('//Say')).to be_nil
+      end
+
+      it 'reads the text fallback using the account language' do
+        account.update!(locale: 'de')
+        channel.update!(provider_config: channel.provider_config.merge('out_of_hours_call_message' => 'Bitte rufen Sie morgen an.'))
+
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+        announcement = Nokogiri::XML(response.body).at_xpath('//Say')
+        expect(announcement.text).to eq('Bitte rufen Sie morgen an.')
+        expect(announcement['language']).to eq('de-DE')
+      end
+
+      it 'uses a supported default for account languages unavailable in the basic Twilio voice' do
+        account.update!(locale: 'ml')
+
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+        expect(Nokogiri::XML(response.body).at_xpath('//Say')['language']).to eq('en-US')
+      end
+
+      it 'rings normally when applying business hours to calls is disabled' do
+        channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => false))
+
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+        expect(Nokogiri::XML(response.body).at_xpath('//Conference')).to be_present
+        expect(inbox.calls.sole).to have_attributes(status: 'ringing', end_reason: nil)
+      end
+
+      it 'rings normally during business hours in the inbox timezone' do
+        travel_to Time.utc(2026, 10, 19, 19) do
+          inbox.working_hours.find_by!(day_of_week: 1).update!(closed_all_day: false, open_hour: 9, open_minutes: 0,
+                                                               close_hour: 17, close_minutes: 0)
+
+          post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+          expect(Nokogiri::XML(response.body).at_xpath('//Conference')).to be_present
+          expect(inbox.calls.sole).to be_ringing
+        end
+      end
+    end
+
     it 'invokes Voice::InboundCallBuilder for inbound calls and renders conference TwiML' do
       conversation = create(:conversation, account: account, inbox: inbox)
       contact = conversation.contact
