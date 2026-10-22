@@ -41,17 +41,12 @@ class Voice::Provider::Twilio::TwimlBuilder
     end.to_s
   end
 
-  # What an inbound caller hears until an agent joins: the greeting once, then the inbox's waiting
-  # audio or Twilio's own playlist, which loops itself
+  # What an inbound caller hears until an agent joins: the greeting once, then Twilio's own
+  # playlist, which loops itself
   def wait
-    greeting = Voice::CallAnnouncement.new(inbox, :greeting)
     Twilio::TwiML::VoiceResponse.new do |response|
       greeting.speak(response) if greeting.enabled?
-      if inbox.call_waiting_audio.attached?
-        response.play(url: url_helpers.rails_blob_url(inbox.call_waiting_audio), loop: 0)
-      else
-        response.redirect(DEFAULT_WAIT_URL, method: 'GET')
-      end
+      response.redirect(DEFAULT_WAIT_URL, method: 'GET')
     end.to_s
   end
 
@@ -61,19 +56,15 @@ class Voice::Provider::Twilio::TwimlBuilder
 
   def participant_label = agent_leg? ? from.delete_prefix('client:') : 'contact'
 
-  # An agent's join beep can be turned off. An inbound caller waits with the inbox's greeting or
-  # waiting audio when either is set up; otherwise Twilio's defaults apply, as on every other leg.
+  # An inbound caller hears the inbox's greeting first when one is on; otherwise Twilio's
+  # default wait applies, as on every other leg
   def leg_audio_options(call)
-    if agent_leg?
-      inbox.channel.call_join_beep_enabled? ? {} : { beep: false }
-    elsif call.incoming? && custom_wait?
-      { wait_url: url_helpers.twilio_voice_wait_url(phone: phone_digits), wait_method: 'GET' }
-    else
-      {}
-    end
+    return {} if agent_leg? || !call.incoming? || !greeting.enabled?
+
+    { wait_url: url_helpers.twilio_voice_wait_url(phone: phone_digits), wait_method: 'GET' }
   end
 
-  def custom_wait? = Voice::CallAnnouncement.new(inbox, :greeting).enabled? || inbox.call_waiting_audio.attached?
+  def greeting = (@greeting ||= Voice::CallAnnouncement.new(inbox, :greeting))
 
   def phone_digits = inbox.channel.phone_number.delete_prefix('+')
 

@@ -30,9 +30,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  // The saved recording of an announcement Captain records (out of hours); null for text-only ones
   audioUrl: {
     type: String,
-    default: '',
+    default: null,
   },
 });
 
@@ -43,12 +44,13 @@ const isEnabled = ref(props.enabled);
 const draft = ref(props.message);
 const isSaving = ref(false);
 const isDirty = computed(() => draft.value.trim() !== props.message);
+const recordsAudio = computed(() => props.audioUrl !== null);
 // Unchanged text can be re-saved while its audio is missing, to generate it
 const canSave = computed(
   () =>
     !isSaving.value &&
     !!draft.value.trim() &&
-    (isDirty.value || !props.audioUrl)
+    (isDirty.value || (recordsAudio.value && !props.audioUrl))
 );
 const label = key =>
   t(`INBOX_MGMT.VOICE_CONFIGURATION.${props.i18nKey}.${key}`);
@@ -109,14 +111,21 @@ const toggle = value => {
             show-character-count
             auto-height
           />
-          <p class="text-body-main text-n-slate-11">
-            {{ $t('INBOX_MGMT.VOICE_CONFIGURATION.ANNOUNCEMENT.TWILIO_HELP') }}
-          </p>
-          <p v-if="message && !audioUrl" class="text-body-main text-n-slate-11">
-            {{
-              $t('INBOX_MGMT.VOICE_CONFIGURATION.ANNOUNCEMENT.READ_BY_TWILIO')
-            }}
-          </p>
+          <template v-if="recordsAudio">
+            <p class="text-body-main text-n-slate-11">
+              {{
+                $t('INBOX_MGMT.VOICE_CONFIGURATION.ANNOUNCEMENT.TWILIO_HELP')
+              }}
+            </p>
+            <p
+              v-if="message && !audioUrl"
+              class="text-body-main text-n-slate-11"
+            >
+              {{
+                $t('INBOX_MGMT.VOICE_CONFIGURATION.ANNOUNCEMENT.READ_BY_TWILIO')
+              }}
+            </p>
+          </template>
           <template v-if="audioUrl">
             <span class="text-body-main text-n-slate-12">{{
               $t('INBOX_MGMT.VOICE_CONFIGURATION.ANNOUNCEMENT.ACTIVE')

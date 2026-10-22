@@ -164,7 +164,6 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
   json.recording_enabled resource.channel.try(:recording_enabled?)
   json.transcription_enabled resource.channel.try(:transcription_enabled?)
   if ChatwootApp.enterprise?
-    json.call_join_beep_enabled resource.channel.call_join_beep_enabled?
     out_of_hours = Voice::CallAnnouncement.new(resource, :out_of_hours)
     json.business_hours_calls_enabled out_of_hours.enabled?
     json.out_of_hours_call_message out_of_hours.message
@@ -172,8 +171,6 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
     greeting = Voice::CallAnnouncement.new(resource, :greeting)
     json.call_greeting_enabled greeting.enabled?
     json.call_greeting_message greeting.message
-    json.call_greeting_audio_url greeting.audio.attached? ? rails_blob_path(greeting.audio, only_path: true) : nil
-    json.call_waiting_audio_url resource.call_waiting_audio.attached? ? rails_blob_path(resource.call_waiting_audio, only_path: true) : nil
   end
   json.account_auth_token_configured resource.channel.try(:account_auth_token_configured?) == true
   json.voice_configured resource.channel.try(:twiml_app_sid).present?

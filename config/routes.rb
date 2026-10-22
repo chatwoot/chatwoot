@@ -350,10 +350,6 @@ Rails.application.routes.draw do
               post :set_inbound_calls, on: :member
               post :set_call_recording, on: :member
               resources :call_announcements, only: [:update], param: :kind, controller: 'inboxes/call_announcements'
-              resource :call_waiting, only: [:update], controller: 'inboxes/call_waiting' do
-                put :audio, action: :upload_audio
-                delete :audio, action: :remove_audio
-              end
             end
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do
