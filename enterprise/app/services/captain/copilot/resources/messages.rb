@@ -3,10 +3,10 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
   DATE_FIELDS = %w[created_at].freeze
   # contains uses the trigram index on messages.content, so exact text such as an order number or error code stays fast.
   FILTERS = {
-    contains: { type: 'string', minLength: 3, description: 'Text to find. Without since, before or from, searches the last 3 months' },
+    contains: { type: 'string', minLength: 3,
+                description: "Text to find. Without since, before or from, searches the last #{Limits.search_time_range_limit_days} days" },
     sender: { type: 'string', enum: %w[customer agent bot system] }, private: { type: 'boolean' }
   }.freeze
-  TEXT_SEARCH_WINDOW = 3.months
   SOURCES = {
     'conversations' => ->(ids) { Message.where(conversation_id: ids) },
     'messages' => ->(ids) { Message.where(id: ids) }
@@ -16,14 +16,14 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
   GROUPS = %w[sender private].freeze
   EXCERPT_LENGTH = 160
 
-  # Searching the text of every message an account has is slow when the text is common, so like the dashboard's message
-  # search, contains covers the last 3 months unless dates are given. A selection from a saved set is already small and
+  # Searching the text of every message an account has is slow when the text is common, so contains covers the same
+  # window as the dashboard's message search unless dates are given. A selection from a saved set is already small and
   # keeps every date.
   def normalize(filters, source: nil)
     filters = super(filters)
     return filters if source || filters['contains'].blank? || filters.key?('since') || filters.key?('before')
 
-    since = TEXT_SEARCH_WINDOW.ago
+    since = Limits.search_time_range_limit_days.days.ago
     @note = "Only messages sent since #{since.to_date.iso8601} were searched, because no dates were given. Earlier messages were not checked."
     filters.merge('since' => since.iso8601)
   end
@@ -35,7 +35,7 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
   end
 
   def filter(relation, filters)
-    relation = relation.where("#{Captain::Copilot::ReadableMessages::ROLE_SQL} = ?", filters['sender']) if filters['sender']
+    relation = Captain::Copilot::ReadableMessages.with_role(relation, filters['sender']) if filters['sender']
     relation = relation.where(private: filters['private']) unless filters['private'].nil?
     return relation if filters['contains'].blank?
 
@@ -45,7 +45,9 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
   def counts_by(relation, group)
     return column_counts(relation, :private) if group == 'private'
 
-    relation.group(Captain::Copilot::ReadableMessages::ROLE_SQL).count
+    relation.group(:sender_type).count.each_with_object(Hash.new(0)) do |(type, count), counts|
+      counts[Captain::Copilot::ReadableMessages.role_for(type)] += count
+    end
   end
 
   def row(message)

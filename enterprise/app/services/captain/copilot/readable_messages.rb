@@ -4,18 +4,25 @@
 module Captain::Copilot::ReadableMessages
   # A role instead of the sender's class, so a bot's name such as Captain::Assistant is not read as conversation content.
   ROLES = { 'Contact' => 'customer', 'User' => 'agent' }.freeze
-  # The same roles computed by the database, for filters and counts.
-  ROLE_SQL = Arel.sql("CASE #{ROLES.map { |type, role| "WHEN messages.sender_type = '#{type}' THEN '#{role}'" }.join(' ')} " \
-                      "WHEN messages.sender_type IS NULL THEN 'system' ELSE 'bot' END")
-  # A deleted message keeps its row with placeholder text, so it would otherwise be read as content.
-  NOT_DELETED = Arel.sql("((messages.content_attributes #>> '{}')::jsonb ->> 'deleted') IS DISTINCT FROM 'true'")
-
   def self.scope(messages, as_of: nil)
-    messages = messages.where(message_type: %w[incoming outgoing]).not_forwarded.where(NOT_DELETED)
+    messages = messages.where(message_type: %w[incoming outgoing]).not_forwarded.not_deleted
     as_of ? messages.where(Message.arel_table[:created_at].lteq(as_of)) : messages
   end
 
+  def self.role_for(sender_type)
+    ROLES.fetch(sender_type) { sender_type ? 'bot' : 'system' }
+  end
+
   def self.sender_role(message)
-    ROLES.fetch(message.sender_type, message.sender_type ? 'bot' : 'system')
+    role_for(message.sender_type)
+  end
+
+  # The messages a role sent, for the sender filter.
+  def self.with_role(messages, role)
+    case role
+    when 'system' then messages.where(sender_type: nil)
+    when 'bot' then messages.where.not(sender_type: [*ROLES.keys, nil])
+    else messages.where(sender_type: ROLES.key(role))
+    end
   end
 end
