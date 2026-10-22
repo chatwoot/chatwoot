@@ -5,6 +5,7 @@
 # - Captain::Llm::PdfProcessingService (files.upload for assistants)
 # - Captain::Llm::PaginatedFaqGeneratorService (uses file_id from uploaded files)
 # - Llm::SpeechToTextService (audio.transcribe)
+# - Llm::TextToSpeechService (audio.speech)
 #
 # For all other LLM operations, use Llm::BaseAiService with RubyLLM instead.
 class Llm::LegacyBaseOpenAiService
