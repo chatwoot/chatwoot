@@ -35,7 +35,7 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
   end
 
   def filter(relation, filters)
-    relation = relation.where("#{Captain::Copilot::ReadableMessages::ROLE_SQL} = ?", filters['sender']) if filters['sender']
+    relation = Captain::Copilot::ReadableMessages.with_role(relation, filters['sender']) if filters['sender']
     relation = relation.where(private: filters['private']) unless filters['private'].nil?
     return relation if filters['contains'].blank?
 
@@ -45,7 +45,9 @@ class Captain::Copilot::Resources::Messages < Captain::Copilot::Resources::BaseR
   def counts_by(relation, group)
     return column_counts(relation, :private) if group == 'private'
 
-    relation.group(Captain::Copilot::ReadableMessages::ROLE_SQL).count
+    relation.group(:sender_type).count.each_with_object(Hash.new(0)) do |(type, count), counts|
+      counts[Captain::Copilot::ReadableMessages.role_for(type)] += count
+    end
   end
 
   def row(message)
