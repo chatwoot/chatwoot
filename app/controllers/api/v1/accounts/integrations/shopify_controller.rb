@@ -1,8 +1,8 @@
 class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Integrations::BaseController
   include Shopify::IntegrationHelper
   before_action :ensure_shopify_enabled
-  before_action -> { Shopify::ApiContext.setup! }, only: [:orders]
   before_action :fetch_hook, except: [:auth, :complete_install]
+  before_action -> { Shopify::ApiContext.setup!(custom_app: @hook.shopify_custom_app) }, only: [:orders]
   before_action :check_authorization, only: [:auth, :complete_install, :destroy]
   before_action :validate_contact, only: [:orders]
 

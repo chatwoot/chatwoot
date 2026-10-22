@@ -50,6 +50,10 @@ class Integrations::Hook < ApplicationRecord
 
   enum hook_type: { account: 0, inbox: 1 }
 
+  def shopify_custom_app
+    account.shopify_custom_app if app_id == 'shopify' && settings['custom_app_id'].present?
+  end
+
   scope :account_hooks, -> { where(hook_type: 'account') }
   scope :inbox_hooks, -> { where(hook_type: 'inbox') }
 

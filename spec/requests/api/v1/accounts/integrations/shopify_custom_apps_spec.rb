@@ -56,6 +56,36 @@ RSpec.describe 'Shopify custom app setup', type: :request do
     expect(response.parsed_body.fetch('custom_app')).to eq(saved_configuration)
   end
 
+  it 'shows custom setup and retrieves orders without public app credentials' do
+    skip('encryption keys missing; see run_mfa_spec workflow') unless Chatwoot.encryption_configured?
+
+    allow(GlobalConfigService).to receive(:load).and_call_original
+    allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_ID', nil).and_return(nil)
+    allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_SECRET', nil).and_return(nil)
+    get api_v1_account_integrations_apps_url(account), headers: headers, as: :json
+    expect(response.parsed_body.fetch('payload').pluck('id')).to include('shopify')
+    get api_v1_account_integrations_app_url(account_id: account.id, id: 'shopify'), headers: headers, as: :json
+    expect(response).to have_http_status(:ok)
+
+    post configuration_url, params: configuration, headers: headers, as: :json
+    expect(response).to have_http_status(:ok)
+    custom_app = account.reload.shopify_custom_app
+    create(:integrations_hook, :shopify, account: account, reference_id: shop_domain,
+                                         access_token: 'custom-token', settings: { custom_app_id: custom_app.id })
+    contact = create(:contact, account: account, email: 'customer@example.com')
+    stub_request(:get, %r{https://test-store.myshopify.com/admin/api/[^/]+/customers/search.json})
+      .with(headers: { 'X-Shopify-Access-Token' => 'custom-token' })
+      .to_return(body: { customers: [{ id: 123 }] }.to_json, headers: { 'Content-Type' => 'application/json' })
+    stub_request(:get, %r{https://test-store.myshopify.com/admin/api/[^/]+/orders.json})
+      .with(headers: { 'X-Shopify-Access-Token' => 'custom-token' })
+      .to_return(body: { orders: [{ id: 456 }] }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+    get "#{integration_url}/orders", params: { contact_id: contact.id }, headers: headers, as: :json
+
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body.fetch('orders').first.fetch('id')).to eq(456)
+  end
+
   context 'with a supported development store' do
     let(:shop_domain) { 'test-store.myshopify.io' }
 
