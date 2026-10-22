@@ -20,6 +20,7 @@ RSpec.describe CopilotRun do
     it 'refuses a status that belongs to another kind of run' do
       expect(review.update(status: :awaiting_background_run)).to be false
       expect(collection.update(status: :running)).to be false
+      expect(turn.update(status: :awaiting_approval)).to be false
     end
 
     it 'requires the details each kind of run reads' do
@@ -27,11 +28,14 @@ RSpec.describe CopilotRun do
                                                        context: { turn_start: 0 })
       collection_without_date = CopilotRun::Collection.new(account: account, user: user, copilot_thread: thread, status: :completed,
                                                            context: { resource: 'conversations' })
+      action_without_change = CopilotRun::Action.new(account: account, user: user, copilot_thread: thread, status: :awaiting_approval)
 
       expect(review_without_criteria).not_to be_valid
       expect(review_without_criteria.errors.attribute_names).to contain_exactly(:criteria, :turn_limit)
       expect(collection_without_date).not_to be_valid
       expect(collection_without_date.errors.attribute_names).to contain_exactly(:as_of)
+      expect(action_without_change).not_to be_valid
+      expect(action_without_change.errors.attribute_names).to contain_exactly(:action, :target_ids)
     end
   end
 

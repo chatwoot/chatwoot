@@ -1037,6 +1037,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
     t.index ["waiting_since"], name: "index_conversations_on_waiting_since"
   end
 
+  create_table "copilot_action_items", force: :cascade do |t|
+    t.bigint "copilot_run_id", null: false
+    t.bigint "record_id", null: false
+    t.string "status", null: false
+    t.string "error"
+    t.integer "attempts", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["copilot_run_id", "record_id"], name: "index_copilot_action_items_on_copilot_run_id_and_record_id", unique: true
+  end
+
   create_table "copilot_messages", force: :cascade do |t|
     t.bigint "copilot_thread_id", null: false
     t.bigint "account_id", null: false
@@ -1090,6 +1101,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
     t.index ["copilot_thread_id"], name: "index_copilot_runs_on_copilot_thread_id"
     t.index ["copilot_tool_call_id"], name: "index_copilot_runs_on_copilot_tool_call_id", unique: true
     t.index ["source_run_id"], name: "index_copilot_runs_on_source_run_id"
+    t.index ["status"], name: "index_copilot_runs_awaiting_approval", where: "((status)::text = 'awaiting_approval'::text)"
     t.index ["status"], name: "index_copilot_runs_claimable", where: "((status)::text = ANY ((ARRAY['queued'::character varying, 'running'::character varying])::text[]))"
     t.index ["user_id"], name: "index_copilot_runs_on_user_id"
   end

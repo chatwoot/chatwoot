@@ -46,8 +46,8 @@ class CopilotRun::Collection < CopilotRun
     context.fetch('selected_ids', [])
   end
 
-  # Every record in the collection. A review gives only the conversations it matched.
-  def record_ids
+  # Every record in the collection. A collection has no matches, so it ignores only_matched, which a review uses.
+  def record_ids(**)
     selected_ids
   end
 

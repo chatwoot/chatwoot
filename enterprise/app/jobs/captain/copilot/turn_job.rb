@@ -18,6 +18,7 @@ class Captain::Copilot::TurnJob < ApplicationJob
 
     token = claim(run, watched_token)
     return unless token
+    raise Captain::Copilot::LeaseExpiredError if run.taken_over?
 
     Captain::Copilot::TurnService.new(run, token).generate_response
   rescue Captain::Copilot::LeaseLostError
