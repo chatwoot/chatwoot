@@ -34,15 +34,15 @@
 # Reads the conversations of a collection in batches and saves a finding for each. A turn reviews at most
 # CONVERSATIONS_PER_TURN of them, and the agent asks to continue for the rest.
 class CopilotRun::Review < CopilotRun
-  include Concerns::CopilotRunProgress
-
   # A review that hits errors still hands its findings to the turn, so it ends incomplete rather than failed.
   STATUSES = %w[queued running completed incomplete].freeze
 
   has_many :findings, class_name: 'CopilotReviewFinding', dependent: :delete_all, inverse_of: :copilot_run
   # request: the agent's message the review follows. turn_start and turn_limit: where the current turn took the review,
-  # and how far it may go.
-  store_accessor :context, :request, :criteria, :question, :turn_start, :turn_limit
+  # and how far it may go. turn_start_matched and turn_start_failed: the counts when the turn took it.
+  # progress_message_id: the current turn's progress card.
+  store_accessor :context, :request, :criteria, :question, :turn_start, :turn_limit, :turn_start_matched, :turn_start_failed,
+                 :progress_message_id
 
   validates :status, inclusion: { in: STATUSES }
   validates :source_run_id, :criteria, :turn_start, :turn_limit, presence: true
@@ -63,7 +63,8 @@ class CopilotRun::Review < CopilotRun
     decided.order(:conversation_id).pluck(:conversation_id)
   end
 
-  # Moves an unfinished review to the tool call that continues it, with room for what is left of that turn's limit.
+  # Moves an unfinished review to the tool call that continues it, with room for what is left of that turn's limit. The
+  # new turn gets its own progress card, so the earlier turn's card keeps its counts.
   def continue_review(tool_call)
     with_lock do
       return if copilot_tool_call_id == tool_call.id
@@ -72,9 +73,21 @@ class CopilotRun::Review < CopilotRun
       raise ArgumentError, 'This turn already reviewed a batch. Ask the agent before continuing.' if turn.id == tool_call.copilot_run_id
 
       start = processed_count
-      update!(copilot_tool_call: tool_call, status: :queued, error: nil,
-              turn_start: start, turn_limit: start + tool_call.copilot_run.review_budget!)
+      update!(copilot_tool_call: tool_call, status: :queued, error: nil, progress_message_id: nil, turn_start: start,
+              turn_start_matched: findings.where(matched: true).count, turn_start_failed: findings.failed.count,
+              turn_limit: start + tool_call.copilot_run.review_budget!)
     end
+  end
+
+  # Creates the turn's progress card, then updates it in place. Skips an update that changes nothing.
+  def publish_progress
+    progress = turn_progress.as_json
+    card = copilot_thread.copilot_messages.find_by(id: progress_message_id)
+    return if card&.message&.dig('progress') == progress
+    return card.update!(message: card.message.merge('progress' => progress)) if card
+
+    card = copilot_thread.copilot_messages.create!(message_type: :assistant_thinking, message: { run_id: id, progress: progress })
+    update!(progress_message_id: card.id)
   end
 
   def left_this_turn
@@ -100,9 +113,10 @@ class CopilotRun::Review < CopilotRun
 
   private
 
-  def progress_text(progress)
-    not_matched = progress[:screened_out] + progress[:reviewed] - progress[:matched]
-    "Processed #{progress[:processed]} of #{progress[:selected]} conversations: #{progress[:matched]} matched, " \
-      "#{not_matched} didn't match, #{progress[:failed]} couldn't be reviewed."
+  # Counts only the current turn's work, so every card's bar starts empty and ends full.
+  def turn_progress
+    progress = summary
+    { status: status, done: progress[:processed] - turn_start, total: [turn_limit, progress[:selected]].min - turn_start,
+      matched: progress[:matched] - turn_start_matched, failed: progress[:failed] - turn_start_failed }
   end
 end

@@ -34,8 +34,6 @@
 # One proposed change and the records it targets. It waits on an approval card and writes nothing until the agent
 # approves it. ActionJob then applies it in batches.
 class CopilotRun::Action < CopilotRun
-  include Concerns::CopilotRunProgress
-
   STATUSES = %w[awaiting_approval queued running completed incomplete rejected expired].freeze
   # The approval card shows a fixed set of conversations. After this long that set may be stale, so the agent has to ask again.
   APPROVAL_TTL = 5.minutes
@@ -111,14 +109,26 @@ class CopilotRun::Action < CopilotRun
     copilot_thread.copilot_messages.find(context.fetch('approval_message_id'))
   end
 
+  # The approval card shows the approved change's progress. Skips an update that changes nothing.
+  def publish_progress
+    progress = card_progress.as_json
+    card = approval_card
+    return if card.message.dig('approval', 'progress') == progress
+
+    card.update!(message: card.message.deep_merge('approval' => { 'progress' => progress }))
+  end
+
   private
 
   def action_name_present
     errors.add(:action, :blank) if context['action'].blank?
   end
 
-  def progress_text(progress)
-    "Applied #{progress[:applied]} of #{progress[:targets]} changes: #{progress[:skipped]} already done, #{progress[:failed]} failed."
+  # Records that already had the change count as applied, because they end up as the agent approved.
+  def card_progress
+    progress = summary
+    { status: status, done: progress.values_at(:applied, :skipped, :failed).sum, total: progress[:targets],
+      applied: progress[:applied] + progress[:skipped], failed: progress[:failed] }
   end
 
   # Targets an approved change never reached, such as when workflows were turned off partway through.

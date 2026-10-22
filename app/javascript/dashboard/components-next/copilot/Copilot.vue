@@ -9,6 +9,7 @@ import CopilotLoader from './CopilotLoader.vue';
 import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
 import CopilotApprovalMessage from './CopilotApprovalMessage.vue';
+import CopilotReviewProgress from './CopilotReviewProgress.vue';
 import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
 import CopilotEmptyState from './CopilotEmptyState.vue';
@@ -88,11 +89,15 @@ const scrollToBottom = async () => {
   }
 };
 
+// A review's progress card is a step of its own, so it splits the steps around it into separate groups.
 const groupedMessages = computed(() => {
   const result = [];
   let thinkingGroup = [];
   props.messages.forEach(message => {
-    if (message.message_type === 'assistant_thinking') {
+    if (
+      message.message_type === 'assistant_thinking' &&
+      !message.message.progress
+    ) {
       thinkingGroup.push(message);
     } else {
       if (thinkingGroup.length > 0) {
@@ -259,10 +264,17 @@ watch(
             v-else-if="item.message_type === 'assistant_approval'"
             :message="item.message"
           />
+          <CopilotReviewProgress
+            v-else-if="item.message_type === 'assistant_thinking'"
+            :progress="item.message.progress"
+          />
           <CopilotThinkingGroup
             v-else
             :messages="item.messages"
             :default-collapsed="isLastMessageFromAssistant"
+            :is-active="
+              isCopilotWorking && index === groupedMessages.length - 1
+            "
           />
         </template>
 

@@ -31,7 +31,7 @@ class Captain::Tools::Copilot::ReviewConversationsService < Captain::Tools::Copi
     run.with_lease(lease_token) do
       tool_call.background_run || CopilotRun::Review.create!(
         copilot_thread: run.copilot_thread, copilot_tool_call: tool_call, account: run.account, user: run.user, source_run: collection,
-        context: context.merge('turn_start' => 0, 'turn_limit' => run.review_budget!)
+        context: context.merge('turn_start' => 0, 'turn_start_matched' => 0, 'turn_start_failed' => 0, 'turn_limit' => run.review_budget!)
       )
     end
   end

@@ -124,7 +124,9 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
       next if @tool_call.completed?
 
       @tool_call.update!(status: :running, attempts: @tool_call.attempts + 1)
-      persist_message({ content: "Using #{call.name}", function_name: call.name }, 'assistant_thinking')
+      # Reviews and changes show their own card, so en.yml has no step for them. Nor for a tool the turn does not have.
+      step = I18n.t("captain.copilot.steps.#{call.name}", default: nil)
+      persist_message({ content: step, function_name: call.name }, 'assistant_thinking') if step
     end
   end
 
@@ -134,8 +136,11 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
       # The result keeps the whole error for the model; the column holds a summary within the string limit.
       @tool_call.update!(status: failure ? :failed : :completed, result: result,
                          error: failure.to_s.truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH).presence)
-      # The result is already on the tool call; the panel shows only the step.
-      persist_message({ content: "#{failure ? 'Failed' : 'Completed'} #{@tool_call.name}", function_name: @tool_call.name }, 'assistant_thinking')
+      # The result is already on the tool call. The panel marks a step done once anything follows it, so only a failure
+      # needs a line.
+      next unless failure
+
+      persist_message({ content: I18n.t('captain.copilot.step_failed'), function_name: @tool_call.name, status: 'failed' }, 'assistant_thinking')
     end
   end
 
@@ -161,7 +166,6 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
     finished = @run.with_lease(@token) do
       done = @tool_call.reload.completed?
       @run.release!(done ? :queued : :awaiting_background_run)
-      persist_message({ content: "Waiting for #{@tool_call.name} to finish" }, 'assistant_thinking') unless done
       done
     end
     Captain::Copilot::TurnJob.perform_later(@run.id) if finished
