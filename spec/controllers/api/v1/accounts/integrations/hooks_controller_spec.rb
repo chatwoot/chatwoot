@@ -122,13 +122,14 @@ RSpec.describe 'Integration Hooks API', type: :request do
           expect(hook.reload.settings['project_id']).to eq('test')
         end
 
-        it 'allows saving unchanged Dialogflow settings' do
+        it 'rejects saving unchanged Dialogflow settings' do
           patch api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
                 params: { hook: { settings: hook.settings } },
                 headers: admin.create_new_auth_token,
                 as: :json
 
-          expect(response).to have_http_status(:success)
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['message']).to include('Disconnect Agent Bot before connecting Dialogflow')
         end
 
         it 'allows editing Dialogflow settings while disabling the hook' do

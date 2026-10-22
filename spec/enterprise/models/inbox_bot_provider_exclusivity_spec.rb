@@ -80,15 +80,16 @@ RSpec.describe Inbox do
     expect { connection.active! }.to raise_error(ActiveRecord::RecordInvalid, /Disconnect Captain before connecting Agent Bot/)
   end
 
-  it 'rejects replacing an Agent Bot on a legacy mixed-provider inbox' do
+  it 'rejects saving active providers on a legacy mixed-provider inbox' do
     connection = create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot, status: :inactive)
-    create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+    captain_connection = create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
     # Model validation prevents new mixed-provider inboxes; this reproduces an existing one.
     connection.update_column(:status, AgentBotInbox.statuses[:active]) # rubocop:disable Rails/SkipsModelValidations
-    connection.agent_bot = create(:agent_bot, account: account)
 
     expect(connection).not_to be_valid
     expect(connection.errors[:base]).to include('Disconnect Captain before connecting Agent Bot')
+    expect(captain_connection).not_to be_valid
+    expect(captain_connection.errors[:base]).to include('Disconnect Agent Bot before connecting Captain')
   end
 
   it 'ignores a Captain connection whose assistant was deleted' do
