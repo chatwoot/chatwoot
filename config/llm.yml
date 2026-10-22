@@ -7,18 +7,6 @@ providers:
     display_name: 'Gemini'
 
 models:
-  gpt-4.1:
-    provider: openai
-    display_name: 'GPT-4.1'
-    credit_multiplier: 3
-  gpt-4.1-mini:
-    provider: openai
-    display_name: 'GPT-4.1 Mini'
-    credit_multiplier: 1
-  gpt-4.1-nano:
-    provider: openai
-    display_name: 'GPT-4.1 Nano'
-    credit_multiplier: 1
   gpt-5.1:
     provider: openai
     display_name: 'GPT-5.1'
@@ -39,6 +27,9 @@ models:
     provider: openai
     display_name: 'GPT-6 Luna'
     credit_multiplier: 1
+    reasoning_effort: none
+    # models.dev lists temperature as unsupported, but Luna accepts it at reasoning effort none.
+    temperature: true
   gpt-6.1-sol:
     provider: openai
     display_name: 'GPT-6.1 Sol'
@@ -63,13 +54,9 @@ models:
     display_name: 'Gemini 3 Pro'
     coming_soon: true
     credit_multiplier: 3
-  whisper-1:
+  gpt-transcribe:
     provider: openai
-    display_name: 'Whisper'
-    credit_multiplier: 1
-  gpt-4o-mini-transcribe:
-    provider: openai
-    display_name: 'GPT-4o Mini Transcribe'
+    display_name: 'GPT Transcribe'
     credit_multiplier: 1
   gpt-4o-mini-tts-2025-12-15:
     provider: openai
@@ -84,35 +71,31 @@ features:
   conversation_completion:
     models:
       [
-        gpt-4.1-mini,
+        gpt-6-luna,
         gpt-5-mini,
-        gpt-4.1,
         gpt-5.1,
         gpt-5.2,
       ]
-    default: gpt-4.1
+    default: gpt-6-luna
     internal: true
   editor:
     models:
       [
-        gpt-4.1-mini,
-        gpt-4.1-nano,
+        gpt-6-luna,
         gpt-5-mini,
-        gpt-4.1,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-4.1-mini
+    default: gpt-6-luna
   assistant:
     reasoning_effort: none
     models:
       [
-        gpt-4.1-mini,
+        gpt-6-luna,
         gpt-5-mini,
-        gpt-4.1,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -120,14 +103,13 @@ features:
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-4.1
+    default: gpt-6-luna
   copilot:
     reasoning_effort: none
     models:
       [
-        gpt-4.1-mini,
+        gpt-6-luna,
         gpt-5-mini,
-        gpt-4.1,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -135,13 +117,13 @@ features:
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-4.1
+    default: gpt-5.2
   document_faq_generation:
+    reasoning_effort: medium
     models:
       [
-        gpt-4.1-mini,
+        gpt-6-luna,
         gpt-5-mini,
-        gpt-4.1,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -149,13 +131,12 @@ features:
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-4.1-mini
+    default: gpt-6-luna
   conversation_faq_generation:
     models:
       [
-        gpt-4.1-mini,
+        gpt-6-luna,
         gpt-5-mini,
-        gpt-4.1,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -167,9 +148,8 @@ features:
   conversation_faq_matching:
     models:
       [
-        gpt-4.1-mini,
+        gpt-6-luna,
         gpt-5-mini,
-        gpt-4.1,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -177,16 +157,15 @@ features:
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-4.1-mini
+    default: gpt-6-luna
   pdf_faq_generation:
-    models: [gpt-4.1-mini, gpt-5-mini, gpt-4.1, gpt-5.1, gpt-5.2]
-    default: gpt-4.1-mini
+    models: [gpt-6-luna, gpt-5-mini, gpt-5.1, gpt-5.2]
+    default: gpt-6-luna
   help_center_article_generation:
     models:
       [
-        gpt-4.1-mini,
+        gpt-6-luna,
         gpt-5-mini,
-        gpt-4.1,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -197,20 +176,20 @@ features:
     default: gpt-5.2
   onboarding_content_generation:
     models:
-      [gpt-4.1, gpt-4.1-mini, gpt-5-mini, gpt-5.1, gpt-5.2]
-    default: gpt-4.1
+      [gpt-6-luna, gpt-5-mini, gpt-5.1, gpt-5.2]
+    default: gpt-6-luna
   help_center_query_translation:
-    models: [gpt-4.1-nano, gpt-4.1-mini, gpt-5-mini]
-    default: gpt-4.1-nano
+    models: [gpt-6-luna, gpt-5-mini]
+    default: gpt-6-luna
   message_translation:
-    models: [gpt-6-luna, gpt-6.1-sol, gpt-5.2, gpt-5-mini, gpt-4.1-mini]
+    models: [gpt-6-luna, gpt-6.1-sol, gpt-5.2, gpt-5-mini]
     default: gpt-6-luna
   language_detection:
     models: [gpt-5-mini, gpt-5-nano]
     default: gpt-5-mini
   audio_transcription:
-    models: [gpt-4o-mini-transcribe, whisper-1]
-    default: gpt-4o-mini-transcribe
+    models: [gpt-transcribe]
+    default: gpt-transcribe
   call_announcement:
     models: [gpt-4o-mini-tts-2025-12-15]
     default: gpt-4o-mini-tts-2025-12-15

@@ -23,6 +23,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
     allow(Captain::Llm::EmbeddingService).to receive(:new).and_return(embedding_service)
     allow(RubyLLM).to receive(:chat).and_return(mock_chat)
     allow(mock_chat).to receive(:with_temperature).and_return(mock_chat)
+    allow(mock_chat).to receive(:with_thinking).and_return(mock_chat)
     allow(mock_chat).to receive(:with_provider_options).and_return(mock_chat)
     allow(mock_chat).to receive(:add_message).with(role: :user, content: 'Respond with valid JSON.')
     allow(mock_chat).to receive(:with_instructions).and_return(mock_chat)
@@ -44,7 +45,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
 
       it 'uses the conversation FAQ default ahead of the legacy global installation model' do
-        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-4.1-mini')
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5-mini')
 
         expect(RubyLLM).to receive(:chat).with(
           model: Llm::Models.default_model_for('conversation_faq_generation'), protocol: :responses
@@ -54,10 +55,10 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
 
       it 'keeps account conversation FAQ model overrides ahead of the feature default' do
-        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-4.1')
-        conversation.account.update!(captain_models: { 'conversation_faq_generation' => 'gpt-4.1-mini' })
+        InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-5.1')
+        conversation.account.update!(captain_models: { 'conversation_faq_generation' => 'gpt-5-mini' })
 
-        expect(RubyLLM).to receive(:chat).with(model: 'gpt-4.1-mini', protocol: :responses).and_return(mock_chat)
+        expect(RubyLLM).to receive(:chat).with(model: 'gpt-5-mini', protocol: :responses).and_return(mock_chat)
 
         described_class.new(captain_assistant, conversation).generate_suggestions
       end

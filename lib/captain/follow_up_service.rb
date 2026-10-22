@@ -47,6 +47,8 @@ class Captain::FollowUpService < Captain::BaseTaskService
       You just performed a #{action_context} action for a customer support agent.
       Your job now is to help them refine the result based on their feedback.
       Be concise and focused on their specific request.
+      Change only what the agent asks for. Keep all other content, facts, and any signature exactly as in the previous result.
+      Do not shorten, summarize, or drop sentences unless the agent asks.
       Output only the reply, no preamble, tags, or explanation.
     PROMPT
   end
