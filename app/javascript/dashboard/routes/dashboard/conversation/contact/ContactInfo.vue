@@ -83,19 +83,13 @@ export default {
       return this.contact.additional_attributes || {};
     },
     location() {
-      const {
-        country = '',
-        city = '',
-        country_code: countryCode,
-      } = this.additionalAttributes;
-      const canonicalCountryCode =
-        this.contact.country_code || this.contact.countryCode || countryCode;
+      const { country = '', city = '' } = this.additionalAttributes;
       const cityAndCountry = [city, country].filter(item => !!item).join(', ');
 
       if (!cityAndCountry) {
         return '';
       }
-      return this.findCountryFlag(canonicalCountryCode, cityAndCountry);
+      return this.findCountryFlag(this.contact.country_code, cityAndCountry);
     },
     socialProfiles() {
       const {

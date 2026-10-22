@@ -116,7 +116,7 @@ const prepareStateBasedOnProps = () => {
     name = '',
     email: emailAddress,
     phoneNumber,
-    countryCode: contactCountryCode = '',
+    countryCode = '',
     companyId = '',
     additionalAttributes = {},
   } = props.contactData || {};
@@ -124,7 +124,6 @@ const prepareStateBasedOnProps = () => {
   const {
     description = '',
     companyName = '',
-    countryCode = '',
     country = '',
     city = '',
     socialTelegramUserName = '',
@@ -149,7 +148,7 @@ const prepareStateBasedOnProps = () => {
     additionalAttributes: {
       description,
       companyName,
-      countryCode: contactCountryCode || countryCode,
+      countryCode,
       country,
       city,
       socialProfiles: {

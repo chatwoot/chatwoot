@@ -66,14 +66,8 @@ const countriesMap = computed(() => {
 });
 
 const countryDetails = computed(() => {
-  const attributes = props.additionalAttributes || {};
-  const { country, countryCode: additionalCountryCode, city } = attributes;
-  const countryCode = props.countryCode || additionalCountryCode;
-
-  if (!country && !countryCode) return null;
-
-  const activeCountry =
-    countriesMap.value[countryCode] || countriesMap.value[country];
+  const { city } = props.additionalAttributes || {};
+  const activeCountry = countriesMap.value[props.countryCode];
 
   if (!activeCountry) return null;
 

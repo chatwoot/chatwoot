@@ -67,17 +67,8 @@ const updatedAtTime = computed(() => {
 });
 
 const countryDetails = computed(() => {
-  const {
-    country,
-    countryCode: additionalCountryCode,
-    city,
-  } = props.additionalAttributes;
-  const countryCode = props.countryCode || additionalCountryCode;
-
-  if (!country && !countryCode) return null;
-
-  const activeCountry =
-    countriesMap.value[countryCode] || countriesMap.value[country];
+  const { city } = props.additionalAttributes;
+  const activeCountry = countriesMap.value[props.countryCode];
 
   if (!activeCountry) return null;
 
