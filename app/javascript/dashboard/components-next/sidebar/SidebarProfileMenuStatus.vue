@@ -5,7 +5,6 @@ import wootConstants from 'dashboard/constants/globals';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { useImpersonation } from 'dashboard/composables/useImpersonation';
-import { isVoiceCallEnabled } from 'dashboard/helper/inbox';
 
 import {
   DropdownContainer,
@@ -17,6 +16,10 @@ import Icon from 'next/icon/Icon.vue';
 import Button from 'next/button/Button.vue';
 import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 
+const props = defineProps({
+  hasVoiceInbox: { type: Boolean, default: false },
+});
+
 const { t } = useI18n();
 const store = useStore();
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
@@ -26,7 +29,6 @@ const currentUserAcceptsConversations = useMapGetter(
   'getCurrentUserAcceptsConversations'
 );
 const currentUserAcceptsCalls = useMapGetter('getCurrentUserAcceptsCalls');
-const inboxes = useMapGetter('inboxes/getInboxes');
 
 const { isImpersonating } = useImpersonation();
 
@@ -66,9 +68,16 @@ const autoOfflineToggle = computed({
 });
 
 const isOnline = computed(() => currentUserAvailability.value === 'online');
-const hasVoiceInbox = computed(() => inboxes.value.some(isVoiceCallEnabled));
+
+const blockedWhileImpersonating = () => {
+  if (isImpersonating.value) {
+    useAlert(t('PROFILE_SETTINGS.FORM.AVAILABILITY.IMPERSONATING_ERROR'));
+  }
+  return isImpersonating.value;
+};
 
 const updateWorkPreferences = preferences => {
+  if (blockedWhileImpersonating()) return;
   store.dispatch('updateWorkPreferences', {
     accountId: currentAccountId.value,
     ...preferences,
@@ -86,16 +95,13 @@ const acceptsCallsToggle = computed({
 });
 
 const pausedNote = computed(() =>
-  hasVoiceInbox.value
+  props.hasVoiceInbox
     ? t('SIDEBAR.WORK_PAUSED.CONVERSATIONS_AND_CALLS')
     : t('SIDEBAR.WORK_PAUSED.CONVERSATIONS')
 );
 
 function changeAvailabilityStatus(availability) {
-  if (isImpersonating.value) {
-    useAlert(t('PROFILE_SETTINGS.FORM.AVAILABILITY.IMPERSONATING_ERROR'));
-    return;
-  }
+  if (blockedWhileImpersonating()) return;
   try {
     store.dispatch('updateAvailability', {
       availability,

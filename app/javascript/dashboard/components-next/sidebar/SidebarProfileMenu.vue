@@ -208,7 +208,7 @@ const allowedMenuItems = computed(() => {
       </button>
     </template>
     <DropdownBody class="bottom-12 z-50 mb-2 w-80 ltr:left-0 rtl:right-0">
-      <SidebarProfileMenuStatus />
+      <SidebarProfileMenuStatus :has-voice-inbox="hasVoiceInbox" />
       <DropdownSeparator />
       <template v-for="item in allowedMenuItems" :key="item.label">
         <CustomBrandPolicyWrapper

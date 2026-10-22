@@ -52,20 +52,12 @@ export const getters = {
     return currentAccount.auto_offline;
   },
 
-  getCurrentUserAcceptsConversations($state, $getters) {
-    const { accounts = [] } = $state.currentUser;
-    const [currentAccount = {}] = accounts.filter(
-      account => account.id === $getters.getCurrentAccountId
-    );
-    return currentAccount.accepts_conversations;
+  getCurrentUserAcceptsConversations(_, $getters) {
+    return $getters.getCurrentAccount.accepts_conversations;
   },
 
-  getCurrentUserAcceptsCalls($state, $getters) {
-    const { accounts = [] } = $state.currentUser;
-    const [currentAccount = {}] = accounts.filter(
-      account => account.id === $getters.getCurrentAccountId
-    );
-    return currentAccount.accepts_calls;
+  getCurrentUserAcceptsCalls(_, $getters) {
+    return $getters.getCurrentAccount.accepts_calls;
   },
 
   getCurrentUserReceivesCalls($state, $getters) {
