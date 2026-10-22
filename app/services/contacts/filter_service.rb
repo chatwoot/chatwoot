@@ -29,12 +29,17 @@ class Contacts::FilterService < FilterService
     end
   end
 
-  def filter_operation(query_hash, current_index)
+  def build_condition_query_string(current_filter, query_hash, current_index)
     return super unless query_hash[:attribute_key] == 'country_code'
 
-    @filter_values["value_#{current_index}"] = CountryCodeNormalizer.filter_values(query_hash['values'][0])
-    operator = query_hash[:filter_operator] == 'equal_to' ? 'IN' : 'NOT IN'
-    "#{operator} (:value_#{current_index})"
+    @filter_values['country_codes'] = CountryCodeNormalizer.country_codes_by_value.to_json
+    value = query_hash['values'][0]
+    @filter_values["value_#{current_index}"] = CountryCodeNormalizer.normalize(value) || value.to_s.strip.upcase
+    sources = ['contacts.country_code', "contacts.additional_attributes ->> 'country_code'", "contacts.additional_attributes ->> 'country'"]
+    # Resolve each source independently so invalid values do not hide a valid fallback.
+    normalized_sources = sources.map { |source| "CAST(:country_codes AS jsonb) ->> LOWER(BTRIM(#{source}))" }
+    operator = query_hash[:filter_operator] == 'equal_to' ? '=' : '!='
+    "COALESCE(#{normalized_sources.join(', ')}) #{operator} :value_#{current_index} #{query_hash[:query_operator]}"
   end
 
   def base_relation

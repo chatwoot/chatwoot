@@ -71,12 +71,10 @@ class CountryCodeNormalizer
       country_by_code[code]&.name
     end
 
-    def filter_values(value)
-      code = normalize(value)
-      return [normalized_name(value)] unless code
-
-      names = country_by_name.merge(COUNTRY_ALIASES).select { |_, country_code| country_code == code }.keys
-      [normalized_name(value), code.downcase, *names].uniq
+    def country_codes_by_value
+      # Include the retired code still emitted by the country selector.
+      codes = (country_by_code.keys + ['AN']).index_by(&:downcase)
+      country_by_name.merge(COUNTRY_ALIASES).merge(codes)
     end
 
     private
