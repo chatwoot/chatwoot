@@ -7,6 +7,7 @@ import NextInput from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CallRecordingSettings from './CallRecordingSettings.vue';
+import CallBusinessHoursSettings from './CallBusinessHoursSettings.vue';
 
 export default {
   components: {
@@ -16,6 +17,7 @@ export default {
     NextButton,
     Spinner,
     CallRecordingSettings,
+    CallBusinessHoursSettings,
   },
   props: {
     inbox: {
@@ -218,6 +220,8 @@ export default {
     </div>
 
     <CallRecordingSettings v-if="inbox.voice_enabled" :inbox="inbox" />
+
+    <CallBusinessHoursSettings v-if="inbox.voice_enabled" :inbox="inbox" />
 
     <div v-if="inbox.voice_enabled && inbox.voice_call_webhook_url">
       <SettingsFieldSection
