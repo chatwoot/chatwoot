@@ -13,6 +13,8 @@ export default createStore({
     },
   },
   actions: mutationTypes => ({
+    // Merges by ID, so a saved approval status and any message the panel missed replace what it holds, and other
+    // threads stay as they are.
     async fetchThread({ commit }, { threadId }) {
       try {
         const messages = [];

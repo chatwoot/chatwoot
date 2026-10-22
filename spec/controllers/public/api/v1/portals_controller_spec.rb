@@ -25,6 +25,17 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
       expect(response).to have_http_status(:success)
     end
 
+    it 'does not set the session cookie' do
+      previous = ActionController::Base.allow_forgery_protection
+      ActionController::Base.allow_forgery_protection = true
+
+      get "/hc/#{portal.slug}/en"
+
+      expect(response.headers['Set-Cookie'].to_s).not_to include('_chatwoot_session')
+    ensure
+      ActionController::Base.allow_forgery_protection = previous
+    end
+
     it 'Throws unauthorised error for unknown domain' do
       portal.update(custom_domain: 'www.something.com')
 
