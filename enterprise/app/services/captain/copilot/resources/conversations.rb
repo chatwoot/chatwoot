@@ -10,7 +10,7 @@ class Captain::Copilot::Resources::Conversations < Captain::Copilot::Resources::
   SOURCES = {
     'conversations' => ->(ids) { Conversation.where(id: ids) },
     'contacts' => ->(ids) { Conversation.where(contact_id: ids) },
-    'messages' => ->(ids) { Conversation.where(id: Message.where(id: ids).select(:conversation_id)) }
+    'messages' => ->(ids) { Conversation.of_messages(ids) }
   }.freeze
   COLUMNS = ['Status', 'Labels', 'Last activity'].freeze
   PRELOAD = [].freeze
