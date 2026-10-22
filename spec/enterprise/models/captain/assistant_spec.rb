@@ -20,17 +20,15 @@ RSpec.describe Captain::Assistant, type: :model do
 
   describe 'inactive conversation settings' do
     it 'uses safe defaults when settings are unavailable' do
-      assistant.account.enable_features('captain_integration_v2')
       assistant.auto_resolve_after = nil
 
       expect(assistant.inactivity_threshold_minutes).to eq(60)
 
       assistant.auto_resolve_after = 5
       assistant.send_inactivity_resolution_message = false
-      assistant.account.disable_features('captain_integration_v2')
 
-      expect(assistant.inactivity_threshold_minutes).to eq(60)
-      expect(assistant.send_inactivity_resolution_message?).to be(true)
+      expect(assistant.inactivity_threshold_minutes).to eq(5)
+      expect(assistant.send_inactivity_resolution_message?).to be(false)
     end
 
     it 'validates the inactivity timer range' do
@@ -280,7 +278,7 @@ RSpec.describe Captain::Assistant, type: :model do
 
   describe '#agent_tools' do
     it 'includes enabled custom tools from the assistant account' do
-      custom_tool = create(:captain_custom_tool, account: account)
+      custom_tool = create(:captain_custom_tool, account: account, assistant: assistant)
 
       tools = assistant.send(:agent_tools)
 
@@ -289,7 +287,7 @@ RSpec.describe Captain::Assistant, type: :model do
     end
 
     it 'excludes disabled custom tools' do
-      custom_tool = create(:captain_custom_tool, :disabled, account: account)
+      custom_tool = create(:captain_custom_tool, :disabled, account: account, assistant: assistant)
 
       tools = assistant.send(:agent_tools)
 
@@ -304,6 +302,15 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(tools.map(&:name)).not_to include(custom_tool.slug)
     end
 
+    it 'excludes the same slug enabled on another assistant in the account' do
+      create(:captain_custom_tool, :disabled, account: account, assistant: assistant, slug: 'custom_fetch-order')
+      create(:captain_custom_tool, account: account, assistant: create(:captain_assistant, account: account), slug: 'custom_fetch-order')
+
+      tools = assistant.send(:agent_tools)
+
+      expect(tools.map(&:name)).not_to include('custom_fetch-order')
+    end
+
     it 'keeps the built-in FAQ lookup and handoff tools' do
       tools = assistant.send(:agent_tools)
 
@@ -316,8 +323,8 @@ RSpec.describe Captain::Assistant, type: :model do
 
   describe '#available_tool_ids' do
     it 'excludes disabled custom tools' do
-      enabled_tool = create(:captain_custom_tool, account: account)
-      disabled_tool = create(:captain_custom_tool, :disabled, account: account)
+      enabled_tool = create(:captain_custom_tool, account: account, assistant: assistant)
+      disabled_tool = create(:captain_custom_tool, :disabled, account: account, assistant: assistant)
 
       expect(assistant.available_tool_ids).to include(enabled_tool.slug)
       expect(assistant.available_tool_ids).not_to include(disabled_tool.slug)
@@ -326,9 +333,15 @@ RSpec.describe Captain::Assistant, type: :model do
 
   describe '#known_tool_ids' do
     it 'includes disabled custom tools as valid references' do
-      disabled_tool = create(:captain_custom_tool, :disabled, account: account)
+      disabled_tool = create(:captain_custom_tool, :disabled, account: account, assistant: assistant)
 
       expect(assistant.known_tool_ids).to include(disabled_tool.slug)
+    end
+
+    it 'excludes custom tools from other assistants in the account' do
+      other_tool = create(:captain_custom_tool, account: account, assistant: create(:captain_assistant, account: account))
+
+      expect(assistant.known_tool_ids).not_to include(other_tool.slug)
     end
   end
 
@@ -355,6 +368,55 @@ RSpec.describe Captain::Assistant, type: :model do
         'Never add citation numbers or footnotes.'
       )
       expect(instructions).not_to include('# Human Handoff Protocol', scenario.title, "handoff_to_#{scenario.handoff_key}")
+    end
+
+    it 'names the verified address even when contact information is not allowed' do
+      state = { channel_type: 'Channel::WebWidget', contact_inbox: { id: 1, hmac_verified: false }, verified_email: 'jane@example.com',
+                contact: { id: 1, name: 'Jane Doe', email: 'jane@example.com' }, assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions).to include('Email verified by one-time code: Yes, jane@example.com')
+      expect(instructions).not_to include('# Contact Information', 'Jane Doe')
+    end
+
+    it 'tells Captain to use only IDs found for the verified email' do
+      state = { channel_type: 'Channel::WebWidget', conversation: { id: 1 }, verified_email: 'jane@example.com', assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions).to include('use only an ID that a tool returned in this conversation for jane@example.com')
+    end
+
+    it 'leaves out the ID rule before the customer verifies' do
+      state = { channel_type: 'Channel::WebWidget', conversation: { id: 1 }, can_verify_email: true, assistant_config: {} }
+
+      expect(assistant.agent_instructions(Struct.new(:context).new({ state: state }))).not_to include('use only an ID that a tool returned')
+    end
+
+    it 'gives the steps to verify on a messaging channel, without any HMAC status' do
+      state = { channel_type: 'Channel::Whatsapp', conversation: { id: 1 }, contact_inbox: { id: 1, hmac_verified: true }, can_verify_email: true,
+                assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions).to include('Email verified by one-time code: No', 'captain--tools--send_email_verification_code')
+      expect(instructions).not_to include('HMAC')
+    end
+
+    it 'gives the steps to verify in an email conversation too' do
+      state = { channel_type: 'Channel::Email', conversation: { id: 1 }, contact_inbox: { id: 1, hmac_verified: false }, can_verify_email: true,
+                assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions).to include('Email verified by one-time code: No', 'captain--tools--send_email_verification_code')
+    end
+
+    it 'leaves out the verification steps when Captain cannot verify the customer' do
+      state = { channel_type: 'Channel::WebWidget', conversation: { id: 1 }, assistant_config: {} }
+
+      expect(assistant.agent_instructions(Struct.new(:context).new({ state: state }))).not_to include('# Customer Identity')
     end
   end
 end

@@ -35,6 +35,8 @@ export const FILTER_OPS = {
   IS_LESS_THAN: 'is_less_than',
   DAYS_BEFORE: 'days_before',
   STARTS_WITH: 'starts_with',
+  DETECTS: 'detects',
+  DOES_NOT_DETECT: 'does_not_detect',
 };
 
 const NO_INPUT_OPTS = [FILTER_OPS.IS_PRESENT, FILTER_OPS.IS_NOT_PRESENT];
@@ -57,6 +59,8 @@ const filterOperatorIcon = {
   [FILTER_OPS.IS_LESS_THAN]: 'i-ph-less-than-bold',
   [FILTER_OPS.DAYS_BEFORE]: 'i-ph-calendar-minus-bold',
   [FILTER_OPS.STARTS_WITH]: 'i-ph-caret-line-right-bold',
+  [FILTER_OPS.DETECTS]: 'i-ph-sparkle-bold',
+  [FILTER_OPS.DOES_NOT_DETECT]: 'i-ph-prohibit-bold',
 };
 
 /**

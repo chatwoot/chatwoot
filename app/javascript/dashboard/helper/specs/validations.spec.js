@@ -41,6 +41,31 @@ describe('validateSingleFilter', () => {
 });
 
 describe('validateAutomation', () => {
+  it('allows a monitor trigger without extra conditions and requires its monitor', () => {
+    const rule = {
+      name: 'Route refunds',
+      description: 'Match refunds',
+      event_name: 'monitor_matched',
+      monitor_id: 7,
+      conditions: [],
+      actions: [{ action_name: 'resolve_conversation', action_params: [] }],
+    };
+
+    expect(validateAutomation(rule)).toEqual({});
+    expect(validateAutomation({ ...rule, monitor_id: null })).toEqual({
+      monitor_id: 'MONITOR_REQUIRED',
+    });
+    expect(
+      validateAutomation({
+        ...rule,
+        id: 42,
+        active: false,
+        monitor_id: null,
+        monitor_availability: 'deleted',
+      })
+    ).toEqual({});
+  });
+
   it('should return no errors for a valid automation', () => {
     const validAutomation = {
       name: 'Test Automation',

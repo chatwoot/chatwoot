@@ -1,4 +1,4 @@
-class Captain::AssistantMigration::InstructionAuditorSchema < RubyLLM::Schema
+class Captain::AssistantMigration::InstructionAuditorSchema < Schematist::Schema
   STRING_ARRAYS = {
     response_guidelines: ['Missing active behavior to append to the generated response guidelines.', 10],
     guardrails: ['Missing active boundaries or prohibitions to append to the generated guardrails.', 10],
@@ -6,7 +6,7 @@ class Captain::AssistantMigration::InstructionAuditorSchema < RubyLLM::Schema
   }.freeze
 
   def self.for(available_additions)
-    Class.new(RubyLLM::Schema).tap do |schema|
+    Class.new(Schematist::Schema).tap do |schema|
       add_string_arrays(schema, available_additions)
       add_scenarios(schema, available_additions[:scenario_candidates])
       add_faqs(schema, available_additions[:faq_document_candidates])

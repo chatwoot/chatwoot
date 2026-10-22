@@ -21,7 +21,7 @@ const { isCloudFeatureEnabled } = useAccount();
 const isOpen = ref(false);
 
 const showSparkle = computed(() =>
-  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_V2)
+  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN)
 );
 
 const session = computed(() =>
@@ -222,6 +222,7 @@ const onPopoverHide = () => {
   <div class="flex items-center gap-1.5" :class="rowLayoutClass">
     <Popover
       v-if="showSparkle"
+      class="min-w-0"
       :align="popoverAlign"
       @show="onPopoverShow"
       @hide="onPopoverHide"
@@ -229,13 +230,13 @@ const onPopoverHide = () => {
       <button
         v-tooltip="t('CONVERSATION.CAPTAIN_GENERATION.TITLE')"
         type="button"
-        class="inline-flex items-center gap-1 p-0 bg-transparent border-0 cursor-pointer"
+        class="inline-flex items-center gap-1 p-0 bg-transparent border-0 cursor-pointer min-w-0"
         :class="sparkleColorClass"
         @mouseenter="prefetch"
         @focus="prefetch"
       >
         <Icon icon="i-ph-sparkle-fill" class="size-3.5" />
-        <span class="text-xs">
+        <span class="text-xs truncate">
           {{ t('CONVERSATION.CAPTAIN_GENERATION.GENERATED_BY') }}
         </span>
       </button>
@@ -342,6 +343,13 @@ const onPopoverHide = () => {
         </div>
       </template>
     </Popover>
+    <div
+      v-if="$slots.default"
+      class="flex items-center min-w-0"
+      :class="{ 'me-auto': showSparkle }"
+    >
+      <slot />
+    </div>
     <slot name="meta" />
   </div>
 </template>

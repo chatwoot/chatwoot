@@ -574,6 +574,13 @@ RSpec.describe 'Contacts API', type: :request do
         expect(json_response['payload']['contact']['custom_attributes']).to eq({ 'test' => 'test', 'test1' => 'test1' })
       end
 
+      it 'creates the contact as a lead' do
+        post "/api/v1/accounts/#{account.id}/contacts", headers: admin.create_new_auth_token,
+                                                        params: valid_params
+
+        expect(account.contacts.last).to be_lead
+      end
+
       it 'does not create the contact' do
         valid_params[:name] = 'test' * 999
 

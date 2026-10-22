@@ -43,6 +43,9 @@
 
 ## General Guidelines
 
+- **Database foreign keys**: Prefer Rails associations and callbacks over database foreign-key constraints. Add a database foreign key only when there is a clear need and after checking deletion behavior and production migration/locking risks. Existing foreign keys alone are not a reason to add new ones.
+- **Migrations**: Create migrations with `bundle exec rails g migration <Name>` so the version is a real timestamp. Never hand-write or round the version (e.g. `20260925000000`); rounded versions collide across branches and break `db:migrate`.
+- **No custom SQL**: Write queries and data migrations in Ruby with ActiveRecord (`where`, `find_each`, `update!`). Do not use `execute`, SQL heredocs or raw SQL strings.
 - Prefer the smallest production-ready change that solves the current problem.
 - Build for the expected production path first. Do not add speculative guards, fallbacks, retries, or edge-case handling unless the caller can actually hit that case or production has proven it necessary.
 - Enforce eligibility and exclusivity rules at the earliest shared entry point. Do not repeat backup guards across downstream jobs, callbacks, services, or writes unless a proven independent path bypasses that point.
@@ -54,6 +57,9 @@
 - Prefer existing repo dependencies/client libraries over hand-rolled protocol code for auth, signing, parsing, or API plumbing.
 - Avoid one-use private helpers unless they hide real complexity or make the main flow meaningfully easier to read.
 - Prefer minimal, readable code over elaborate abstractions; clarity beats cleverness
+- Optimize for human-readable, idiomatic Rails code. Prefer clear model methods, associations, scopes, and named route helpers over dense controller chains or manually assembled paths.
+- Keep record relationships, association traversal, and reusable database queries in models or model scopes. Return an ActiveRecord relation when callers need to filter or order the result.
+- Controllers should coordinate requests and prepare responses. Keep request-specific URL generation and presentation logic in controllers or view helpers. Before finalizing controller changes, check that relationship and traversal logic lives in the model layer.
 - Break down complex tasks into small, testable units
 - Iterate after confirmation
 - Avoid writing specs unless explicitly asked

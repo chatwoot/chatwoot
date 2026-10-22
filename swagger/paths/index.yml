@@ -63,6 +63,11 @@
     - $ref: '#/components/parameters/platform_user_id'
   get:
     $ref: './platform/users/login.yml'
+/platform/api/v1/users/{id}/token:
+  parameters:
+    - $ref: '#/components/parameters/platform_user_id'
+  post:
+    $ref: './platform/users/token.yml'
 
 # ---------------- end of platform path -----------#
 
@@ -314,26 +319,28 @@
     $ref: ./application/portal/create.yml
   get:
     $ref: ./application/portal/index.yml
-/api/v1/accounts/{account_id}/portals/{id}:
+/api/v1/accounts/{account_id}/portals/{portal_slug}:
   parameters:
     - $ref: '#/components/parameters/account_id'
-    - $ref: '#/components/parameters/portal_id'
+    - $ref: '#/components/parameters/portal_slug'
+  get:
+    $ref: ./application/portal/show.yml
   patch:
     $ref: ./application/portal/update.yml
 
 # Help Center category
-/api/v1/accounts/{account_id}/portals/{id}/categories:
+/api/v1/accounts/{account_id}/portals/{portal_slug}/categories:
   parameters:
     - $ref: '#/components/parameters/account_id'
-    - $ref: '#/components/parameters/portal_id'
+    - $ref: '#/components/parameters/portal_slug'
   post:
     $ref: ./application/category/create.yml
 
 # Help Center article
-/api/v1/accounts/{account_id}/portals/{id}/articles:
+/api/v1/accounts/{account_id}/portals/{portal_slug}/articles:
   parameters:
     - $ref: '#/components/parameters/account_id'
-    - $ref: '#/components/parameters/portal_id'
+    - $ref: '#/components/parameters/portal_slug'
   post:
     $ref: ./application/article/create.yml
 
@@ -373,6 +380,12 @@
     - $ref: '#/components/parameters/conversation_id'
   post:
     $ref: ./application/conversation/toggle_typing_status.yml
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/update_last_seen:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  post:
+    $ref: ./application/conversation/update_last_seen.yml
 
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/custom_attributes:
   parameters:

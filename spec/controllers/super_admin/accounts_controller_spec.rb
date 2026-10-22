@@ -43,7 +43,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(summaries).not_to include('All features', 'Captain models')
         expect(routing_panel.text.squish).to include('Customer features', 'Internal features')
         expect(completion_card.text.squish).to include('Inactive conversation completion evaluator', 'GPT-5.2', 'Account override')
-        expect(response.body).to include('Editor', 'OpenAI', 'openai', 'gpt-4.1', 'Label suggestion', 'Default')
+        expect(response.body).to include('Editor', 'OpenAI', 'openai', 'gpt-4.1', 'Help center query translation', 'Default')
       end
 
       it 'shows the installation model for internal routing on self-hosted Enterprise', if: ChatwootApp.enterprise? do
@@ -96,8 +96,17 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(completion_select.css('option').pluck('value')).to eq([''] + Llm::Models.models_for('conversation_completion'))
       end
 
+      it 'leaves Calls on mobile out of the feature list', if: ChatwootApp.enterprise? do
+        sign_in(super_admin, scope: :super_admin)
+
+        get "/super_admin/accounts/#{account.id}/edit"
+
+        expect(response.body).to include('enabled_features[feature_channel_voice]')
+        expect(response.body).not_to include('enabled_features[feature_mobile_voice_push]')
+      end
+
       it 'shows the Captain V2 assistant default in the model selector', if: ChatwootApp.enterprise? do
-        account.enable_features!('captain_integration_v2')
+        account.enable_features!('captain_integration')
         sign_in(super_admin, scope: :super_admin)
 
         get "/super_admin/accounts/#{account.id}/edit"
@@ -144,6 +153,35 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(account.keep_pending_on_bot_failure).to be true
       end
 
+      context 'with a hidden feature' do
+        before { sign_in(super_admin, scope: :super_admin) }
+
+        def update_with_voice_channel
+          patch "/super_admin/accounts/#{account.id}",
+                params: {
+                  account: { name: account.name, locale: account.locale, status: account.status },
+                  enabled_features: { feature_channel_voice: true }
+                }
+        end
+
+        it 'keeps Calls on mobile on when the form is saved' do
+          account.enable_features!('mobile_voice_push')
+
+          update_with_voice_channel
+
+          expect(account.reload.feature_enabled?('channel_voice')).to be true
+          expect(account.feature_enabled?('mobile_voice_push')).to be true
+        end
+
+        it 'keeps Calls on mobile off when the form is saved' do
+          account.disable_features!('mobile_voice_push')
+
+          update_with_voice_channel
+
+          expect(account.reload.feature_enabled?('mobile_voice_push')).to be false
+        end
+      end
+
       it 'rejects invalid Captain model overrides' do
         sign_in(super_admin, scope: :super_admin)
         existing_captain_models = account.captain_models
@@ -155,13 +193,13 @@ RSpec.describe 'Super Admin accounts API', type: :request do
                   locale: account.locale,
                   status: account.status,
                   captain_models: {
-                    label_suggestion: 'gpt-5.1'
+                    help_center_query_translation: 'gpt-5.1'
                   }
                 }
               }
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to include('not a valid model for label_suggestion')
+        expect(response.body).to include('not a valid model for help_center_query_translation')
         expect(account.reload.captain_models).to eq(existing_captain_models)
       end
     end

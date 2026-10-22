@@ -51,6 +51,43 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(response.body).to include(call.conference_sid)
     end
 
+    context 'when the caller withholds their number' do
+      let(:call_sid) { "CA#{SecureRandom.hex(16)}" }
+      let(:from_number) { 'anonymous' }
+
+      it 'answers with conference TwiML and a phone-less contact' do
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+        call = Call.find_by!(provider_call_id: call_sid)
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('<Dial>', call.conference_sid)
+        expect(call.contact).to have_attributes(name: 'Unknown caller', phone_number: nil)
+        expect(call.conversation.can_reply?).to be false
+      end
+
+      it 'creates separate contacts and conversations for separate calls' do
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+        first = Call.find_by!(provider_call_id: call_sid)
+        second_sid = "CA#{SecureRandom.hex(16)}"
+
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params.merge('CallSid' => second_sid)
+        second = Call.find_by!(provider_call_id: second_sid)
+
+        expect(response).to have_http_status(:ok)
+        expect(second.contact).not_to eq(first.contact)
+        expect(second.conversation).not_to eq(first.conversation)
+      end
+
+      it 'reuses the call, contact and conversation when Twilio retries' do
+        post "/twilio/voice/call/#{digits}", params: inbound_call_params
+
+        expect do
+          post "/twilio/voice/call/#{digits}", params: inbound_call_params
+        end.not_to(change { [Call.count, Contact.count, Conversation.count] })
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
     # An inbox that predates the setting carries no key in provider_config and must keep recording.
     it 'records the conference from the start when the call was created with recording on' do
       conversation = create(:conversation, account: account, inbox: inbox)
@@ -98,6 +135,60 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(call.reload.parent_call_sid).to be_nil
     end
 
+    it 'hangs up an outbound PSTN leg answered after the call already ended' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(
+        :call,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        contact: conversation.contact,
+        direction: :outgoing,
+        provider_call_id: call_sid,
+        status: 'rejected'
+      )
+
+      post "/twilio/voice/call/#{digits}", params: {
+        'CallSid' => call_sid,
+        'From' => to_number,
+        'To' => from_number,
+        'Direction' => 'outbound-api'
+      }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('<Hangup/>')
+      expect(response.body).not_to include('<Dial>')
+      expect(call.reload.conference_sid).to be_nil
+    end
+
+    it 'records the agent leg as on its way in' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
+                           provider_call_id: call_sid, status: 'ringing')
+
+      post "/twilio/voice/call/#{digits}", params: {
+        'CallSid' => 'CA_agent_leg', 'From' => "client:agent-1-account-#{account.id}", 'To' => to_number,
+        'Direction' => 'inbound', 'call_sid' => call_sid
+      }
+
+      expect(response.body).to include('<Dial>')
+      expect(call.reload.agent_legs.dig('CA_agent_leg', 'state')).to eq('joining')
+    end
+
+    it 'hangs up an agent leg for a call that has ended, without recording it' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
+                           provider_call_id: call_sid, status: 'no_answer')
+
+      post "/twilio/voice/call/#{digits}", params: {
+        'CallSid' => 'CA_agent_leg', 'From' => "client:agent-1-account-#{account.id}", 'To' => to_number,
+        'Direction' => 'inbound', 'call_sid' => call_sid
+      }
+
+      expect(response.body).to include('<Hangup/>')
+      expect(call.reload.agent_legs).to be_empty
+    end
+
     it 'records the parent call SID when syncing outbound-dial legs' do
       parent_sid = 'CA_parent'
       child_sid = 'CA_child'
@@ -123,6 +214,20 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(call.reload.parent_call_sid).to eq(parent_sid)
+    end
+
+    it 'keeps a provider status written while the parent call sid is recorded' do
+      parent_sid = 'CA_PARENT_RACE'
+      conversation = create(:conversation, account: account, inbox: inbox)
+      call = create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact,
+                           direction: :outgoing, provider_call_id: parent_sid)
+      call.update!(conference_sid: call.default_conference_sid)
+      stale_copy = Call.find(call.id)
+      Call.where(id: call.id).update_all("meta = meta || '{\"provider_status\": \"ringing\"}'::jsonb") # rubocop:disable Rails/SkipsModelValidations
+
+      stale_copy.merge_meta!('parent_call_sid' => parent_sid)
+
+      expect(call.reload).to have_attributes(parent_call_sid: parent_sid, provider_status: 'ringing')
     end
 
     it 'raises not found when inbox is not present' do

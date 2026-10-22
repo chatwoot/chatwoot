@@ -40,6 +40,15 @@
   "LABEL": {
     "TAG_BUTTON": "标签"
   },
+  "FEATURE_ANNOUNCEMENT": {
+    "BADGE": "New",
+    "DISMISS": "Got it",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next",
+    "DISMISS_HINT": "Press {key} to close",
+    "ESCAPE_KEY": "Esc",
+    "CLOSE": "关闭"
+  },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "了解更多",
     "WATCH_VIDEO": "观看视频"

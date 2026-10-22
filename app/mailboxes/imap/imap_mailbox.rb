@@ -18,6 +18,8 @@ class Imap::ImapMailbox
     return unless incoming_email_from_valid_email?
 
     ActiveRecord::Base.transaction do
+      next if duplicate_email?
+
       find_or_create_contact
       find_or_create_conversation
       create_message
@@ -39,15 +41,27 @@ class Imap::ImapMailbox
     @processed_mail = MailPresenter.new(@inbound_mail, @account)
   end
 
+  # Fetch jobs for an inbox can overlap and hold the same email, long after their own duplicate check ran.
+  # The advisory lock makes a job wait while another job saves the same email. Postgres releases it when the transaction ends.
+  # Waiting, instead of skipping, means a reply later in the batch can find this email's conversation.
+  # The check after the lock sees the copy the other job committed. It bypasses the query cache,
+  # which can still hold the result of the same query from the fetch-stage check.
+  def duplicate_email?
+    source_id = sanitize_mailbox_value(@processed_mail.message_id)
+    lock_key = Digest::SHA256.digest(source_id).unpack1('l>')
+    ActiveRecord::Base.connection.select_value("SELECT pg_advisory_xact_lock(#{@inbox.id}, #{lock_key})")
+
+    Message.uncached { @inbox.messages.exists?(source_id: source_id) }
+  end
+
+  # Replies to a forwarded email stay in the forward recipient's own conversation
   def find_conversation_by_in_reply_to
     return if in_reply_to.blank?
 
     message = @inbox.messages.find_by(source_id: in_reply_to)
-    if message.nil?
-      @inbox.conversations.find_by("additional_attributes->>'in_reply_to' = ?", in_reply_to)
-    else
-      @inbox.conversations.find(message.conversation_id)
-    end
+    return @inbox.conversations.find(message.conversation_id) if message.present? && !message.forwarded?
+
+    @contact.conversations.where(inbox: @inbox).find_by("additional_attributes->>'in_reply_to' = ?", in_reply_to)
   end
 
   def find_conversation_by_reference_ids
@@ -81,7 +95,7 @@ class Imap::ImapMailbox
 
     references.each do |message_id|
       message = @inbox.messages.find_by(source_id: message_id)
-      message_to_return = message if message.present?
+      message_to_return = message if message.present? && !message.forwarded?
     end
     message_to_return
   end

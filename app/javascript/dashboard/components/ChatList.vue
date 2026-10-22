@@ -45,7 +45,7 @@ import {
   getUserPermissions,
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
-import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers';
+import { createFiltersMatcher } from '../store/modules/conversations/helpers/filterHelpers';
 import { sortComparator } from '../store/modules/conversations/helpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
@@ -66,7 +66,8 @@ const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
-const { buildConversationListPath } = useConversationRoutePath();
+const { buildConversationPath, buildConversationListPath } =
+  useConversationRoutePath();
 
 const resolveAttributesModalRef = ref(null);
 
@@ -337,9 +338,9 @@ const conversationList = computed(() => {
 
   if (activeFolder.value) {
     const { payload } = activeFolder.value.query;
-    localConversationList = localConversationList.filter(conversation => {
-      return matchesFilters(conversation, payload);
-    });
+    localConversationList = localConversationList.filter(
+      createFiltersMatcher(payload)
+    );
   }
 
   if (
@@ -548,6 +549,7 @@ function initializeFolderToFilterModal(newActiveFolder) {
 
     return {
       attributeKey: transformed.attributeKey,
+      timezone: transformed.timezone,
       attributeModel: transformed.attributeModel,
       customAttributeType: transformed.customAttributeType,
       filterOperator: transformed.filterOperator,
@@ -601,6 +603,18 @@ function resetAndFetchData() {
     return;
   }
   fetchConversations();
+}
+
+// Leaving a contact's history lands on its latest conversation; the expanded list has no open thread.
+function resetFilters() {
+  const latestConversation =
+    appliedContactFilter.value &&
+    !props.isOnExpandedLayout &&
+    chatLists.value[0];
+  if (latestConversation) {
+    router.push(buildConversationPath(latestConversation.id));
+  }
+  resetAndFetchData();
 }
 
 function loadMoreConversations() {
@@ -910,7 +924,7 @@ watch(appliedFilters, () => resetBulkActions());
       @add-folders="onClickOpenAddFoldersModal"
       @delete-folders="onClickOpenDeleteFoldersModal"
       @filters-modal="onToggleAdvanceFiltersModal"
-      @reset-filters="resetAndFetchData"
+      @reset-filters="resetFilters"
       @basic-filter-change="onBasicFilterChange"
     />
 

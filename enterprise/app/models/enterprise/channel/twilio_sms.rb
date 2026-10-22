@@ -13,6 +13,10 @@ module Enterprise::Channel::TwilioSms
     end
   end
 
+  def account_auth_token_configured?
+    provider_config['account_auth_token_configured'] == true
+  end
+
   def initiate_call(to:, conference_sid: nil, agent_id: nil)
     Voice::Provider::Twilio::Adapter.new(self).initiate_call(
       to: to,
@@ -44,6 +48,14 @@ module Enterprise::Channel::TwilioSms
   def client
     if api_key_sid.present? && api_key_secret.present?
       Twilio::REST::Client.new(api_key_sid, api_key_secret, account_sid)
+    else
+      super
+    end
+  end
+
+  def basic_auth_credentials
+    if api_key_sid.present? && api_key_secret.present?
+      [api_key_sid, api_key_secret]
     else
       super
     end

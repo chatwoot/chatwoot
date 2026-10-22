@@ -40,24 +40,72 @@
       }
     },
     "DETAIL": {
-      "LOADING": "正在加载公司详情...",
       "EMPTY_STATE": {
         "TITLE": "未找到公司",
         "SUBTITLE": "该公司可能已被删除或在此账户中不再可用。"
       },
-      "SIDEBAR": {
-        "TABS": {
-          "ATTRIBUTES": "属性",
-          "CONTACTS": "联系人",
-          "HISTORY": "历史记录",
-          "NOTES": "备注"
+      "HEADER": {
+        "EDIT": "编辑",
+        "MORE": "Show more",
+        "LESS": "Show less",
+        "OPEN_COUNT": "{count} open | {count} open",
+        "REFRESH_WITH_TIME": "Refresh profile (updated {time})"
+      },
+      "FACTS": {
+        "INDUSTRY": "Industry",
+        "SIZE": "Employees",
+        "LOCATION": "Based in",
+        "ADDED": "Added",
+        "UNKNOWN": "Unknown",
+        "YES": "是",
+        "NO": "否"
+      },
+      "PEOPLE": {
+        "ADD": "添加",
+        "SEARCH": "Search people",
+        "EMPTY": "No one from this company yet.",
+        "NO_MATCHES": "No people match your search.",
+        "DIALOG_TITLE": "Add people to {name}"
+      },
+      "TABS": {
+        "CONVERSATIONS": "会话",
+        "NOTES": "备注",
+        "PEOPLE": "People"
+      },
+      "ACTIVITY": {
+        "TODAY": "今天",
+        "YESTERDAY": "昨天",
+        "SYSTEM_AUTHOR": "系统",
+        "EMPTY_CONVERSATIONS": "No conversations yet. They'll show up here when this company's people get in touch.",
+        "EMPTY_NOTES": "No notes yet. Notes added to this company's people show up here.",
+        "LOAD_MORE": "加载更多",
+        "SEARCH_NOTES": "Search notes",
+        "NO_MATCHING_NOTES": "No notes match your search.",
+        "NO_MATCHING_CONVERSATIONS": "No conversations match these filters."
+      },
+      "EDIT": {
+        "TITLE": "Edit company",
+        "SAVE": "保存更改",
+        "DESCRIPTION": "描述信息",
+        "DETAILS": "详情",
+        "CITY": "城市",
+        "COUNTRY": "国家",
+        "PHONE": "手机号码",
+        "SOCIAL": {
+          "TITLE": "Social profiles",
+          "LINKEDIN": "领英",
+          "X": "X",
+          "FACEBOOK": "Facebook",
+          "INSTAGRAM": "Instagram",
+          "GITHUB": "GitHub",
+          "YOUTUBE": "YouTube"
+        },
+        "PLACEHOLDERS": {
+          "DOMAIN": "acme.com",
+          "INDUSTRY": "Software",
+          "EMPLOYEES": "51 to 200",
+          "USERNAME": "username"
         }
-      },
-      "HISTORY": {
-        "EMPTY": "暂未找到该公司联系人的对话。"
-      },
-      "NOTES": {
-        "EMPTY": "暂未找到该公司联系人的备注。"
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "搜索属性...",
@@ -69,11 +117,11 @@
           "UPDATE_ERROR": "无法更新公司属性。",
           "DELETE_SUCCESS": "公司属性已删除。",
           "DELETE_ERROR": "无法删除公司属性。"
-        }
+        },
+        "TITLE": "自定义属性"
       },
       "CONTACTS": {
         "LOADING": "正在加载联系人列表...",
-        "EMPTY": "暂无与此公司关联的联系人。",
         "UNNAMED_CONTACT": "未命名联系人",
         "ACTIONS": {
           "ADD": "添加联系人",
@@ -111,16 +159,15 @@
         "DELETE_ERROR": "无法删除公司头像。"
       },
       "PROFILE": {
-        "TITLE": "编辑公司详情",
-        "CREATED_AT": "创建于 {date}",
-        "LAST_ACTIVE": "上次活动于 {date}",
         "DESCRIPTION_PLACEHOLDER": "为该公司添加简短描述",
         "ACTIONS": {
-          "SAVE": "更新公司"
+          "REFRESH": "Refresh profile"
         },
         "MESSAGES": {
           "UPDATE_SUCCESS": "公司已更新。",
-          "UPDATE_ERROR": "无法更新公司。"
+          "UPDATE_ERROR": "无法更新公司。",
+          "REFRESH_SUCCESS": "Company profile refreshed.",
+          "REFRESH_ERROR": "Could not refresh the company profile."
         },
         "FIELDS": {
           "NAME": "公司名称",
@@ -128,8 +175,6 @@
         }
       },
       "DELETE": {
-        "SECTION_TITLE": "危险区域",
-        "SECTION_DESCRIPTION": "删除此公司并解除其联系人的关联，联系人将保留在账户中。",
         "BUTTON": "删除公司",
         "TITLE": "删除公司？",
         "DESCRIPTION": "这将删除该公司并解除所有关联联系人的链接，联系人本身将被保留。",
@@ -139,10 +184,30 @@
           "SUCCESS": "公司已删除。",
           "ERROR": "无法删除公司。"
         }
+      },
+      "CONVERSATION_FILTERS": {
+        "BUTTON": "过滤器",
+        "BUTTON_WITH_COUNT": "Filter ({count})",
+        "ANY": "Any"
+      },
+      "ENRICHMENT_UPGRADE": {
+        "TITLE": "Enrich company profiles on the Business plan",
+        "DESCRIPTION": "Automatically fill in a company's description, industry, size, location and social profiles from its domain. Available on the Business and Enterprise plans.",
+        "UPGRADE": "See plans"
       }
     },
     "EMPTY_STATE": {
       "TITLE": "没有找到公司"
+    },
+    "CARD": {
+      "EMPLOYEES": "{count} employees"
+    },
+    "PAYWALL": {
+      "TITLE": "Upgrade to use Companies",
+      "AVAILABLE_ON": "Companies is not available on the free plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to group contacts by company, see every conversation with an account and keep company details in one place.",
+      "UPGRADE_NOW": "立即升级",
+      "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
     }
   },
   "COMPANIES_LAYOUT": {

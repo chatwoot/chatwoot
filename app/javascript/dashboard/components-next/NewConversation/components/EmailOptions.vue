@@ -2,9 +2,9 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
+import RecipientsInput from './RecipientsInput.vue';
 
 const props = defineProps({
   contacts: { type: Array, required: true },
@@ -43,19 +43,6 @@ const bccEmailsArray = computed(() =>
   props.bccEmails ? props.bccEmails.split(',').map(email => email.trim()) : []
 );
 
-const contactEmailsList = computed(() => {
-  return props.contacts
-    ?.filter(contact => contact.email)
-    .map(({ name, id, email }) => ({
-      id,
-      label: email,
-      email,
-      thumbnail: { name: name, src: '' },
-      value: id,
-      action: 'email',
-    }));
-});
-
 // Handle updates from TagInput and convert array back to string
 const handleCcUpdate = value => {
   ccEmails.value = value.join(',');
@@ -83,59 +70,38 @@ const inputClass = computed(() => {
         :custom-input-class="inputClass"
       />
     </div>
-    <div class="flex items-baseline flex-1 w-full gap-3 px-4 py-3 min-h-8">
-      <label
-        class="mb-0.5 text-sm font-medium whitespace-nowrap text-n-slate-11"
-      >
-        {{ t(`${i18nPrefix}.CC_LABEL`) }}
-      </label>
-      <div class="flex items-center w-full gap-3 min-h-7">
-        <TagInput
-          :model-value="ccEmailsArray"
-          :placeholder="t(`${i18nPrefix}.CC_PLACEHOLDER`)"
-          :menu-items="contactEmailsList"
-          :show-dropdown="showCcEmailsDropdown"
-          :is-loading="isLoading"
-          type="email"
-          allow-create
-          class="flex-1 min-h-7"
-          @input="emit('searchCcEmails', $event)"
-          @on-click-outside="emit('updateDropdown', 'cc', false)"
-          @update:model-value="handleCcUpdate"
-        />
-        <Button
-          :label="t(`${i18nPrefix}.BCC_BUTTON`)"
-          variant="ghost"
-          size="sm"
-          color="slate"
-          class="flex-shrink-0"
-          @click="toggleBccInput"
-        />
-      </div>
-    </div>
-    <div
-      v-if="showBccInput"
-      class="flex items-baseline flex-1 w-full gap-3 px-4 py-3 min-h-8"
+    <RecipientsInput
+      :model-value="ccEmailsArray"
+      :label="t(`${i18nPrefix}.CC_LABEL`)"
+      :placeholder="t(`${i18nPrefix}.CC_PLACEHOLDER`)"
+      :contacts="contacts"
+      :show-dropdown="showCcEmailsDropdown"
+      :is-loading="isLoading"
+      @input="emit('searchCcEmails', $event)"
+      @on-click-outside="emit('updateDropdown', 'cc', false)"
+      @update:model-value="handleCcUpdate"
     >
-      <label
-        class="mb-0.5 text-sm font-medium whitespace-nowrap text-n-slate-11"
-      >
-        {{ t(`${i18nPrefix}.BCC_LABEL`) }}
-      </label>
-      <TagInput
-        :model-value="bccEmailsArray"
-        :placeholder="t(`${i18nPrefix}.BCC_PLACEHOLDER`)"
-        :menu-items="contactEmailsList"
-        :show-dropdown="showBccEmailsDropdown"
-        :is-loading="isLoading"
-        type="email"
-        allow-create
-        class="flex-1 min-h-7"
-        focus-on-mount
-        @input="emit('searchBccEmails', $event)"
-        @on-click-outside="emit('updateDropdown', 'bcc', false)"
-        @update:model-value="handleBccUpdate"
+      <Button
+        :label="t(`${i18nPrefix}.BCC_BUTTON`)"
+        variant="ghost"
+        size="sm"
+        color="slate"
+        class="flex-shrink-0"
+        @click="toggleBccInput"
       />
-    </div>
+    </RecipientsInput>
+    <RecipientsInput
+      v-if="showBccInput"
+      :model-value="bccEmailsArray"
+      :label="t(`${i18nPrefix}.BCC_LABEL`)"
+      :placeholder="t(`${i18nPrefix}.BCC_PLACEHOLDER`)"
+      :contacts="contacts"
+      :show-dropdown="showBccEmailsDropdown"
+      :is-loading="isLoading"
+      focus-on-mount
+      @input="emit('searchBccEmails', $event)"
+      @on-click-outside="emit('updateDropdown', 'bcc', false)"
+      @update:model-value="handleBccUpdate"
+    />
   </div>
 </template>
