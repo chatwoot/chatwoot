@@ -1037,6 +1037,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
     t.index ["waiting_since"], name: "index_conversations_on_waiting_since"
   end
 
+  create_table "copilot_action_items", force: :cascade do |t|
+    t.bigint "copilot_run_id", null: false
+    t.bigint "record_id", null: false
+    t.string "status", null: false
+    t.string "error"
+    t.integer "attempts", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["copilot_run_id", "record_id"], name: "index_copilot_action_items_on_copilot_run_id_and_record_id", unique: true
+  end
+
   create_table "copilot_messages", force: :cascade do |t|
     t.bigint "copilot_thread_id", null: false
     t.bigint "account_id", null: false
@@ -1046,6 +1057,53 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
     t.integer "message_type", default: 0
     t.index ["account_id"], name: "index_copilot_messages_on_account_id"
     t.index ["copilot_thread_id"], name: "index_copilot_messages_on_copilot_thread_id"
+  end
+
+  create_table "copilot_review_findings", force: :cascade do |t|
+    t.bigint "copilot_run_id", null: false
+    t.bigint "conversation_id", null: false
+    t.string "status", null: false
+    t.boolean "matched", default: false, null: false
+    t.string "category"
+    t.text "reason"
+    t.float "screening_score"
+    t.jsonb "evidence_message_ids", default: [], null: false
+    t.jsonb "reviewed_message_ids", default: [], null: false
+    t.boolean "history_truncated", default: false, null: false
+    t.integer "attempts", default: 0, null: false
+    t.string "error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["copilot_run_id", "conversation_id"], name: "index_copilot_findings_on_run_and_conversation", unique: true
+  end
+
+  create_table "copilot_runs", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "copilot_thread_id", null: false
+    t.bigint "copilot_message_id"
+    t.bigint "copilot_tool_call_id"
+    t.bigint "source_run_id"
+    t.string "type", null: false
+    t.string "status", default: "queued", null: false
+    t.jsonb "context", default: {}, null: false
+    t.jsonb "transcript", default: {}, null: false
+    t.decimal "total_cost_usd", precision: 16, scale: 10, default: "0.0", null: false
+    t.boolean "cost_complete", default: true, null: false
+    t.datetime "lease_until"
+    t.string "lease_token"
+    t.integer "attempts", default: 0, null: false
+    t.string "error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_copilot_runs_on_account_id"
+    t.index ["copilot_message_id"], name: "index_copilot_runs_on_copilot_message_id", unique: true
+    t.index ["copilot_thread_id"], name: "index_copilot_runs_on_copilot_thread_id"
+    t.index ["copilot_tool_call_id"], name: "index_copilot_runs_on_copilot_tool_call_id", unique: true
+    t.index ["source_run_id"], name: "index_copilot_runs_on_source_run_id"
+    t.index ["status"], name: "index_copilot_runs_awaiting_approval", where: "((status)::text = 'awaiting_approval'::text)"
+    t.index ["status"], name: "index_copilot_runs_claimable", where: "((status)::text = ANY ((ARRAY['queued'::character varying, 'running'::character varying])::text[]))"
+    t.index ["user_id"], name: "index_copilot_runs_on_user_id"
   end
 
   create_table "copilot_threads", force: :cascade do |t|
@@ -1058,6 +1116,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_19_143116) do
     t.index ["account_id"], name: "index_copilot_threads_on_account_id"
     t.index ["assistant_id"], name: "index_copilot_threads_on_assistant_id"
     t.index ["user_id"], name: "index_copilot_threads_on_user_id"
+  end
+
+  create_table "copilot_tool_calls", force: :cascade do |t|
+    t.bigint "copilot_run_id", null: false
+    t.string "call_id", null: false
+    t.string "name", null: false
+    t.string "status", default: "queued", null: false
+    t.jsonb "arguments", default: {}, null: false
+    t.jsonb "result"
+    t.integer "attempts", default: 0, null: false
+    t.string "error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["copilot_run_id", "call_id"], name: "index_copilot_tool_calls_on_copilot_run_id_and_call_id", unique: true
+    t.index ["status"], name: "index_copilot_tool_calls_running", where: "((status)::text = 'running'::text)"
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|
