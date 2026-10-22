@@ -405,3 +405,40 @@ describe('#getters', () => {
     });
   });
 });
+
+describe('getAllInboxes', () => {
+  it('camelCases the records', () => {
+    const state = { records: inboxList };
+    const [first] = getters.getAllInboxes(state);
+    expect(first.channelType).toEqual(inboxList[0].channel_type);
+    expect(first.name).toEqual(inboxList[0].name);
+  });
+
+  it('leaves message_templates out of the deep conversion', () => {
+    const messageTemplates = [
+      { name: 'order_update', language: 'en', status: 'APPROVED' },
+    ];
+    const record = {
+      id: 9,
+      name: 'WhatsApp',
+      channel_type: 'Channel::Whatsapp',
+      message_templates: messageTemplates,
+    };
+    const [converted] = getters.getAllInboxes({ records: [record] });
+    // same reference: the array is neither copied nor walked
+    expect(converted.messageTemplates).toBe(messageTemplates);
+    expect(converted.channelType).toEqual('Channel::Whatsapp');
+  });
+
+  it('converts each record once and reuses the result', () => {
+    const record = {
+      id: 1,
+      name: 'Website',
+      channel_type: 'Channel::WebWidget',
+    };
+    const state = { records: [record] };
+    expect(getters.getAllInboxes(state)[0]).toBe(
+      getters.getAllInboxes(state)[0]
+    );
+  });
+});

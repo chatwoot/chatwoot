@@ -26,12 +26,35 @@ export const state = {
   },
 };
 
+// `camelcaseKeys(records, { deep: true })` walks every key of every inbox record, and a WhatsApp
+// inbox carries its whole `message_templates` array — thousands of entries and megabytes of JSON on
+// a large account. Two costs followed from doing that inside the getter: the walk itself, and the
+// fact that every inbox mutation (unread count, mark-as-read, agent availability) re-ran it on the
+// main thread. Measured on an account with ~2.7k templates: one click in the conversation list spent
+// seconds inside map-obj's deep walk, before any request was dispatched.
+//
+// The template list does not need converting — its keys are already single-word/camelCase and every
+// consumer reads it in snake_case straight off the record (`getWhatsAppTemplates`). So keep the array
+// out of the deep walk, and cache the converted remainder per record.
+const camelCasedInboxCache = new WeakMap();
+const toCamelCasedInbox = record => {
+  if (!record || typeof record !== 'object') return record;
+  let cached = camelCasedInboxCache.get(record);
+  if (!cached) {
+    const { message_templates: messageTemplates, ...rest } = record;
+    cached = camelcaseKeys(rest, { deep: true });
+    if (messageTemplates) cached.messageTemplates = messageTemplates;
+    camelCasedInboxCache.set(record, cached);
+  }
+  return cached;
+};
+
 export const getters = {
   getInboxes($state) {
     return $state.records;
   },
   getAllInboxes($state) {
-    return camelcaseKeys($state.records, { deep: true });
+    return $state.records.map(toCamelCasedInbox);
   },
   getWhatsAppTemplates: $state => inboxId => {
     const [inbox] = $state.records.filter(
