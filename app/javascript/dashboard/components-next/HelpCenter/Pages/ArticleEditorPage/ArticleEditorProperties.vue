@@ -50,10 +50,7 @@ const selectableArticleOptions = computed(() => {
   const options = [...articleOptions.value];
   const rootArticle = props.article.rootArticle;
 
-  if (
-    rootArticle &&
-    !options.some(option => option.value === rootArticle.id)
-  ) {
+  if (rootArticle && !options.some(option => option.value === rootArticle.id)) {
     options.unshift({
       label: articleLabel(rootArticle),
       value: rootArticle.id,
