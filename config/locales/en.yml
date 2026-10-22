@@ -50,10 +50,6 @@ en:
       invalid_settings: 'Provide a boolean for enabled and text for the announcement'
       message_required: 'Add the message callers hear'
       message_too_long: 'The announcement must be 1000 characters or fewer'
-    call_waiting:
-      invalid_join_beep: 'Provide a boolean for the join beep'
-      invalid_file: 'Upload an MP3 or WAV file'
-      too_large: 'The audio file must be 10 MB or smaller'
   auth:
     saml:
       invalid_email: 'Please enter a valid email address'
@@ -519,6 +515,7 @@ en:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    copilot_workflows_disabled: 'Copilot workflows are turned off for this account.'
     upgrade: 'Upgrade your plan to enable Captain AI'
     disabled: 'Captain AI is disabled for this account.'
     api_key_missing: 'Captain AI API key is not configured.'
@@ -802,6 +799,7 @@ en:
         editor: 'Editor'
         assistant: 'Assistant'
         copilot: 'Copilot'
+        copilot_workflows: 'Copilot workflows'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
         conversation_faq_matching: 'Conversation FAQ matching'

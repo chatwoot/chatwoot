@@ -8,7 +8,6 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CallRecordingSettings from './CallRecordingSettings.vue';
 import CallAnnouncementSettings from './CallAnnouncementSettings.vue';
-import CallWaitingSettings from './CallWaitingSettings.vue';
 
 export default {
   components: {
@@ -19,7 +18,6 @@ export default {
     Spinner,
     CallRecordingSettings,
     CallAnnouncementSettings,
-    CallWaitingSettings,
   },
   props: {
     inbox: {
@@ -250,10 +248,7 @@ export default {
       i18n-key="GREETING"
       :enabled="!!inbox.call_greeting_enabled"
       :message="inbox.call_greeting_message || ''"
-      :audio-url="inbox.call_greeting_audio_url || ''"
     />
-
-    <CallWaitingSettings v-if="inbox.voice_enabled" :inbox="inbox" />
 
     <div v-if="inbox.voice_enabled && inbox.voice_call_webhook_url">
       <SettingsFieldSection

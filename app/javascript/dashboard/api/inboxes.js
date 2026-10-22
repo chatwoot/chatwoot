@@ -101,22 +101,6 @@ class Inboxes extends CacheEnabledApiClient {
       message,
     });
   }
-
-  setCallJoinBeep(inboxId, enabled) {
-    return axios.patch(`${this.url}/${inboxId}/call_waiting`, {
-      join_beep_enabled: enabled,
-    });
-  }
-
-  uploadCallWaitingAudio(inboxId, file) {
-    const formData = new FormData();
-    formData.append('audio', file);
-    return axios.put(`${this.url}/${inboxId}/call_waiting/audio`, formData);
-  }
-
-  removeCallWaitingAudio(inboxId) {
-    return axios.delete(`${this.url}/${inboxId}/call_waiting/audio`);
-  }
 }
 
 export default new Inboxes();

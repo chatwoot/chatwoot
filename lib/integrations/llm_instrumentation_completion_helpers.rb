@@ -14,7 +14,7 @@ module Integrations::LlmInstrumentationCompletionHelpers
 
   def set_audio_transcription_span_attributes(span, params)
     span.set_attribute(ATTR_GEN_AI_PROVIDER, 'openai')
-    span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model] || 'whisper-1')
+    span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model])
     span.set_attribute('audio.duration_seconds', params[:duration]) if params[:duration]
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:file_path].to_s) if params[:file_path]
   end

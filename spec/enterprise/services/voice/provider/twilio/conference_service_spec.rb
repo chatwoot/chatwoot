@@ -158,11 +158,10 @@ describe Voice::Provider::Twilio::ConferenceService do
       allow(conference_context).to receive(:participants).with(call.provider_call_id).and_return(participant)
     end
 
-    it "holds the contact leg in the conference with the inbox's hold audio" do
+    it 'holds the contact leg in the conference' do
       service.hold_contact(true)
 
-      expect(participant).to have_received(:update)
-        .with(hold: true, hold_url: "http://localhost:3000/twilio/voice/hold/#{channel.phone_number.delete_prefix('+')}", hold_method: 'GET')
+      expect(participant).to have_received(:update).with(hold: true)
     end
 
     it 'resumes the contact leg' do

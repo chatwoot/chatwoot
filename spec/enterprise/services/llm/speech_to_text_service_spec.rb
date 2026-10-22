@@ -9,7 +9,7 @@ RSpec.describe Llm::SpeechToTextService, type: :service do
 
   before do
     InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_API_KEY') { |config| config.value = 'test-api-key' }
-    InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_MODEL') { |config| config.value = 'gpt-4o-mini' }
+    InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_MODEL') { |config| config.value = 'gpt-6-luna' }
 
     attachment.file.attach(
       io: File.open(Rails.public_path.join('audio/widget/ding.mp3')),
@@ -108,7 +108,7 @@ RSpec.describe Llm::SpeechToTextService, type: :service do
 
     it 'uses the audio transcription feature model' do
       expect(audio_api).to receive(:transcribe).with(
-        parameters: hash_including(model: 'gpt-4o-mini-transcribe', temperature: 0.0)
+        parameters: hash_including(model: 'gpt-transcribe', temperature: 0.0)
       ).and_return({ 'text' => 'Audio transcript' })
 
       expect(service.perform).to eq('Audio transcript')
