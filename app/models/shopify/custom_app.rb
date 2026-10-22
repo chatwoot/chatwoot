@@ -16,6 +16,11 @@ class Shopify::CustomApp < ApplicationRecord
   validate :require_encryption
   validate :preserve_existing_billing
 
+  def connected?
+    hook = account.hooks.enabled.find_by(app_id: 'shopify', reference_id: shop_domain)
+    hook&.access_token.present? && hook.settings['custom_app_id'] == id
+  end
+
   def callback_path
     "/shopify/accounts/#{account_id}/callback"
   end
