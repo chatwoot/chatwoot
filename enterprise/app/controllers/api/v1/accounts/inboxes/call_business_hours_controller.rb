@@ -2,6 +2,10 @@ class Api::V1::Accounts::Inboxes::CallBusinessHoursController < Api::V1::Account
   before_action :fetch_inbox
   before_action :validate_settings
 
+  rescue_from CustomExceptions::InvalidAnnouncementAudio do |error|
+    render json: { error: error.message }, status: error.http_status
+  end
+
   def update
     Voice::BusinessHoursSettingsService.new(
       inbox: @inbox, enabled: params[:business_hours_calls_enabled], message: @message

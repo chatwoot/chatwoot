@@ -30,7 +30,11 @@ class Llm::TextToSpeechService < Llm::LegacyBaseOpenAiService
                              audio: { voice: VOICE, format: 'mp3' },
                              messages: [{ role: 'system', content: INSTRUCTIONS }, { role: 'user', content: text }]
                            })
-    audio = Base64.strict_decode64(response.fetch('choices').fetch(0).fetch('message').fetch('audio').fetch('data'))
+    generated = response.fetch('choices').fetch(0).fetch('message').fetch('audio')
+    transcript = generated['transcript']
+    raise CustomExceptions::InvalidAnnouncementAudio.new({}) unless transcript.is_a?(String) && transcript.squish == text.squish
+
+    audio = Base64.strict_decode64(generated.fetch('data'))
     account.increment_response_usage
     audio
   end

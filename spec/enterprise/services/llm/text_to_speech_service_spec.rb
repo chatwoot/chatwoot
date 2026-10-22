@@ -16,7 +16,7 @@ RSpec.describe Llm::TextToSpeechService do
                 messages: [{ role: 'system', content: described_class::INSTRUCTIONS }, { role: 'user', content: text }]
               }.to_json)
               .to_return(status: 200, body: {
-                choices: [{ message: { audio: { data: Base64.strict_encode64('generated audio') } } }]
+                choices: [{ message: { audio: { data: Base64.strict_encode64('generated audio'), transcript: "  #{text}\n" } } }]
               }.to_json, headers: { 'Content-Type' => 'application/json' })
     expect(account).to receive(:increment_response_usage).once
 
@@ -29,6 +29,20 @@ RSpec.describe Llm::TextToSpeechService do
     expect(account).not_to receive(:increment_response_usage)
 
     expect { service.perform }.to(raise_error { |error| expect(error.class.name).to eq('Faraday::ServerError') })
+  end
+
+  ['Please call.', nil].each do |transcript|
+    it "rejects a #{transcript.nil? ? 'missing' : 'mismatched'} transcript without consuming a response" do
+      stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+        .to_return(status: 200, body: {
+          choices: [{ message: { audio: { data: Base64.strict_encode64('generated audio'), transcript: transcript } } }]
+        }.to_json, headers: { 'Content-Type' => 'application/json' })
+      expect(account).not_to receive(:increment_response_usage)
+
+      expect { service.perform }.to(raise_error do |error|
+        expect(error.class.name).to eq('CustomExceptions::InvalidAnnouncementAudio')
+      end)
+    end
   end
 
   it 'requires Captain and available response credits' do
