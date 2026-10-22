@@ -51,6 +51,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  canUseReply: {
+    type: Boolean,
+    default: true,
+  },
   onSendMessage: {
     type: Function,
     required: true,
@@ -238,6 +242,7 @@ watch(
             v-else-if="item.message_type === 'assistant'"
             :message="item.message"
             :is-last-message="index === groupedMessages.length - 1"
+            :can-use-reply="canUseReply"
           />
           <CopilotThinkingGroup
             v-else
