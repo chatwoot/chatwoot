@@ -5887,7 +5887,10 @@
                 "description": "City of the contact"
               },
               "country": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Country of the contact"
               },
               "country_code": {
@@ -6278,7 +6281,10 @@
                 "description": "City of the contact"
               },
               "country": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Country of the contact"
               },
               "country_code": {

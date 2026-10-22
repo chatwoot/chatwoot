@@ -13,7 +13,9 @@ properties:
         type: string
         description: City of the contact
       country:
-        type: string
+        type:
+          - string
+          - 'null'
         description: Country of the contact
       country_code:
         type:
