@@ -196,7 +196,8 @@ RSpec.describe 'Public Articles API', type: :request do
     it 'excludes translations from other portals' do
       portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr]))
       foreign_portal = create(:portal, config: { allowed_locales: ['fr'] })
-      foreign_article = create(:article, portal: foreign_portal, locale: 'fr', associated_article_id: article.id)
+      foreign_article = create(:article, portal: foreign_portal, locale: 'fr')
+      foreign_article.update_column(:associated_article_id, article.id) # rubocop:disable Rails/SkipsModelValidations
 
       get "/hc/#{portal.slug}/articles/#{article.slug}"
 

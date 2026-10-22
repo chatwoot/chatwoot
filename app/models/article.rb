@@ -184,7 +184,8 @@ class Article < ApplicationRecord
     return if associated_article_id.blank?
 
     linked_article = portal.articles.find(associated_article_id)
-    self.associated_article_id = self.class.find_root_article_id(linked_article)
+    root_article_id = self.class.find_root_article_id(linked_article)
+    self.associated_article_id = root_article_id == id ? nil : root_article_id
   end
 
   def category_id_changed_action
