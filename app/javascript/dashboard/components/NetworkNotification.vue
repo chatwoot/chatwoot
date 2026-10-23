@@ -75,6 +75,8 @@ const handleReconnectionCompleted = () => {
 
 const handleReconnecting = () => {
   if (isInAnyOfTheRoutes(route.name)) {
+    // The socket is back; a slow data refresh shouldn't surface the banner
+    clearTimeout(disconnectedBannerTimeout);
     isReconnecting.value = true;
     isReconnected.value = false;
   } else {
