@@ -58,9 +58,9 @@ models:
     provider: openai
     display_name: 'GPT Transcribe'
     credit_multiplier: 1
-  gpt-4o-mini-tts-2025-12-15:
+  gpt-audio-1.5:
     provider: openai
-    display_name: 'GPT-4o Mini TTS'
+    display_name: 'GPT-Audio 1.5'
     credit_multiplier: 1
   text-embedding-3-small:
     provider: openai
@@ -208,8 +208,8 @@ features:
     models: [gpt-transcribe]
     default: gpt-transcribe
   call_announcement:
-    models: [gpt-4o-mini-tts-2025-12-15]
-    default: gpt-4o-mini-tts-2025-12-15
+    models: [gpt-audio-1.5]
+    default: gpt-audio-1.5
   help_center_search:
     models: [text-embedding-3-small]
     default: text-embedding-3-small
