@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import WhatsappLocationsAPI from 'dashboard/api/whatsappLocations';
@@ -15,13 +15,15 @@ const { t } = useI18n();
 
 const dialogRef = ref(null);
 const isSending = ref(false);
+// Identifies the capture in progress; any newer value makes older ones stale.
+let operationId = 0;
 
 const hasLocations = computed(() => props.locations.length > 0);
 
-const send = async payload => {
+const send = async (conversationId, payload) => {
   isSending.value = true;
   try {
-    await WhatsappLocationsAPI.sendMessage(props.conversationId, payload);
+    await WhatsappLocationsAPI.sendMessage(conversationId, payload);
     dialogRef.value.close();
   } catch (error) {
     useAlert(
@@ -39,15 +41,31 @@ const sendCurrentLocation = () => {
     return;
   }
   isSending.value = true;
+  operationId += 1;
+  const currentOperation = operationId;
+  const { conversationId } = props;
   navigator.geolocation.getCurrentPosition(
-    ({ coords }) =>
-      send({ latitude: coords.latitude, longitude: coords.longitude }),
+    ({ coords }) => {
+      if (currentOperation !== operationId) return;
+      send(conversationId, {
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+      });
+    },
     () => {
+      if (currentOperation !== operationId) return;
       isSending.value = false;
       useAlert(t('WHATSAPP_LOCATIONS.SELECTOR.PERMISSION_DENIED'));
     }
   );
 };
+
+const cancelPendingLocation = () => {
+  operationId += 1;
+  isSending.value = false;
+};
+
+watch(() => props.conversationId, cancelPendingLocation);
 
 defineExpose({ open: () => dialogRef.value.open() });
 </script>
@@ -57,6 +75,7 @@ defineExpose({ open: () => dialogRef.value.open() });
     ref="dialogRef"
     :title="t('WHATSAPP_LOCATIONS.SELECTOR.TITLE')"
     :show-confirm-button="false"
+    @close="cancelPendingLocation"
   >
     <ul class="flex flex-col gap-1 m-0 list-none max-h-80 overflow-y-auto">
       <li>
@@ -82,7 +101,7 @@ defineExpose({ open: () => dialogRef.value.open() });
           type="button"
           class="flex gap-3 items-center px-3 py-2 w-full rounded-lg text-start hover:bg-n-alpha-2 disabled:opacity-50"
           :disabled="isSending"
-          @click="send({ location_id: location.id })"
+          @click="send(conversationId, { location_id: location.id })"
         >
           <Icon icon="i-lucide-map-pin" class="size-5 text-n-slate-11" />
           <span class="flex flex-col min-w-0">
