@@ -46,6 +46,7 @@ const closeNotification = () => {
   showNotification.value = false;
   isReconnected.value = false;
   clearTimeout(reconnectTimeout);
+  clearTimeout(disconnectedBannerTimeout);
 };
 
 const isInAnyOfTheRoutes = routeName => {
