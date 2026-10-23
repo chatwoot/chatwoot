@@ -1,4 +1,5 @@
 import types from '../../../mutation-types';
+import wootConstants from 'dashboard/constants/globals';
 
 export const setPageFilter = ({ dispatch, filter, page, markEndReached }) => {
   dispatch('conversationPage/setCurrentPage', { filter, page }, { root: true });
@@ -36,6 +37,23 @@ export const isOnParticipatingView = ({ route: { name: routeName } }) => {
     'conversation_through_participating',
   ];
   return PARTICIPATING_ROUTES.includes(routeName);
+};
+
+// The Participating and Mentions views list only conversations the agent takes part in or is mentioned in.
+// Uses the same conversationType signal as the UPDATE_CONVERSATION mutation.
+export const belongsToMembershipView = (
+  conversationType,
+  conversation,
+  userId
+) => {
+  const { MENTION, PARTICIPATING } = wootConstants.CONVERSATION_TYPE;
+  if (conversationType === PARTICIPATING) {
+    return conversation.participant_ids?.includes(userId);
+  }
+  if (conversationType === MENTION) {
+    return conversation.mentioned_user_ids?.includes(userId);
+  }
+  return false;
 };
 
 export const isOnFoldersView = ({ route: { name: routeName } }) => {

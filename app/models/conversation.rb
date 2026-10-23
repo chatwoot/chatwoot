@@ -244,6 +244,11 @@ class Conversation < ApplicationRecord
     ai_assignee || assignee
   end
 
+  # Tells agents that participant or mention ids changed. Call it once per operation, not once per row.
+  def dispatch_membership_changed
+    Rails.configuration.dispatcher.dispatch(Events::Types::CONVERSATION_MEMBERSHIP_CHANGED, Time.zone.now, conversation: self)
+  end
+
   def tweet?
     inbox.inbox_type == 'Twitter' && additional_attributes['type'] == 'tweet'
   end

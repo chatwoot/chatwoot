@@ -20,5 +20,6 @@ class Conversations::UserMentionJob < ApplicationJob
         mention.update(mentioned_at: Time.zone.now)
       end
     end
+    Conversation.find(conversation_id).dispatch_membership_changed
   end
 end

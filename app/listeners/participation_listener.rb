@@ -5,7 +5,8 @@ class ParticipationListener < BaseListener
     conversation, _account = extract_conversation_and_account(event)
     return if conversation.assignee_id.blank?
 
-    conversation.conversation_participants.find_or_create_by!(user_id: conversation.assignee_id)
+    participant = conversation.conversation_participants.find_or_create_by!(user_id: conversation.assignee_id)
+    conversation.dispatch_membership_changed if participant.previously_new_record?
   # We have observed race conditions triggering these errors
   # example: Assignment happening via automation, while auto assignment is also configured.
   rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid

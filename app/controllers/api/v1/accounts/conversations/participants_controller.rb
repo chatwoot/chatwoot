@@ -13,7 +13,7 @@ class Api::V1::Accounts::Conversations::ParticipantsController < Api::V1::Accoun
     ActiveRecord::Base.transaction do
       @participants = participant_ids_to_add.map { |user_id| @conversation.conversation_participants.find_or_create_by!(user_id: user_id) }
     end
-    notify_unread_count_change if participant_ids_to_add.any?
+    notify_participants_changed if participant_ids_to_add.any?
   end
 
   def update
@@ -25,7 +25,7 @@ class Api::V1::Accounts::Conversations::ParticipantsController < Api::V1::Accoun
       participant_ids_to_add.each { |user_id| @conversation.conversation_participants.find_or_create_by!(user_id: user_id) }
       participant_ids_to_remove.each { |user_id| @conversation.conversation_participants.find_by(user_id: user_id)&.destroy }
     end
-    notify_unread_count_change if changed_participant_ids.any?
+    notify_participants_changed if changed_participant_ids.any?
     @participants = @conversation.conversation_participants.reload
     render action: 'show'
   end
@@ -36,7 +36,7 @@ class Api::V1::Accounts::Conversations::ParticipantsController < Api::V1::Accoun
     ActiveRecord::Base.transaction do
       params[:user_ids].map { |user_id| @conversation.conversation_participants.find_by(user_id: user_id)&.destroy }
     end
-    notify_unread_count_change if participant_ids_to_remove.any?
+    notify_participants_changed if participant_ids_to_remove.any?
     head :ok
   end
 
@@ -63,6 +63,11 @@ class Api::V1::Accounts::Conversations::ParticipantsController < Api::V1::Accoun
     return if invalid_ids.empty?
 
     render json: { error: 'Invalid participant IDs' }, status: :unprocessable_entity
+  end
+
+  def notify_participants_changed
+    @conversation.dispatch_membership_changed
+    notify_unread_count_change
   end
 
   def notify_unread_count_change

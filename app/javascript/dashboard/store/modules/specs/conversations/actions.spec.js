@@ -223,7 +223,12 @@ describe('#actions', () => {
         labels: ['support'],
       };
       actions.updateConversation(
-        { commit, rootState: { route: { name: 'home' } }, dispatch },
+        {
+          commit,
+          state: { allConversations: [], conversationFilters: {} },
+          rootGetters: { getCurrentUserID: 1 },
+          dispatch,
+        },
         conversation
       );
       expect(commit.mock.calls).toEqual([
@@ -242,6 +247,53 @@ describe('#actions', () => {
             name: 'john-doe',
           },
         ],
+      ]);
+    });
+  });
+
+  describe('#updateConversation on the Participating and Mentions views', () => {
+    const context = conversationType => ({
+      commit,
+      state: {
+        allConversations: [],
+        conversationFilters: { conversationType },
+      },
+      rootGetters: { getCurrentUserID: 1 },
+      dispatch,
+    });
+
+    it('adds a conversation the current agent now participates in', () => {
+      const conversation = { id: 1, meta: {}, participant_ids: [1] };
+
+      actions.updateConversation(context('participating'), conversation);
+
+      expect(commit.mock.calls).toEqual([
+        [types.ADD_CONVERSATION, conversation],
+      ]);
+    });
+
+    it('adds a conversation the current agent is now mentioned in', () => {
+      const conversation = { id: 1, meta: {}, mentioned_user_ids: [1] };
+
+      actions.updateConversation(context('mention'), conversation);
+
+      expect(commit.mock.calls).toEqual([
+        [types.ADD_CONVERSATION, conversation],
+      ]);
+    });
+
+    it('does not add a conversation the current agent has no part in', () => {
+      const conversation = {
+        id: 1,
+        meta: {},
+        participant_ids: [2],
+        mentioned_user_ids: [2],
+      };
+
+      actions.updateConversation(context('participating'), conversation);
+
+      expect(commit.mock.calls).toEqual([
+        [types.UPDATE_CONVERSATION, conversation],
       ]);
     });
   });
@@ -1094,7 +1146,12 @@ describe('#addMentions', () => {
       const localDispatch = vi.fn();
 
       actions.updateConversation(
-        { commit: vi.fn(), dispatch: localDispatch, rootGetters: {} },
+        {
+          commit: vi.fn(),
+          dispatch: localDispatch,
+          state: { allConversations: [], conversationFilters: {} },
+          rootGetters: {},
+        },
         {
           id: 7,
           labels: [],
