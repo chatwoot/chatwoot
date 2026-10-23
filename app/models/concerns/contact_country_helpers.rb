@@ -20,7 +20,7 @@ module ContactCountryHelpers
 
     attributes.merge(
       'country_code' => code,
-      'country' => canonical_country_name || attributes['country']
+      'country' => CountryCodeNormalizer.name_for(code)
     )
   end
 end

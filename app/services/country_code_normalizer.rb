@@ -54,14 +54,7 @@ class CountryCodeNormalizer
 
   class << self
     def normalize(value)
-      return if value.blank?
-
-      value = value.to_s.strip
-      code = value.upcase
-      # AN is retired but remains a supported value in Chatwoot's country selector.
-      return code if country_by_code.key?(code) || code == 'AN'
-
-      country_by_name[normalized_name(value)] || COUNTRY_ALIASES[normalized_name(value)]
+      country_codes_by_value[normalized_name(value)]
     end
 
     def name_for(code)
@@ -72,9 +65,11 @@ class CountryCodeNormalizer
     end
 
     def country_codes_by_value
-      # Include the retired code still emitted by the country selector.
-      codes = (country_by_code.keys + ['AN']).index_by(&:downcase)
-      country_by_name.merge(COUNTRY_ALIASES).merge(codes)
+      @country_codes_by_value ||= begin
+        # Include the retired code still emitted by the country selector.
+        codes = (country_by_code.keys + ['AN']).index_by(&:downcase)
+        country_by_name.merge(COUNTRY_ALIASES).merge(codes)
+      end
     end
 
     private
