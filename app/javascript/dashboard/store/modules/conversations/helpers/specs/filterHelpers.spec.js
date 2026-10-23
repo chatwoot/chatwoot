@@ -171,6 +171,92 @@ describe('filterHelpers', () => {
     });
 
     // Standard attribute tests - assignee_id
+    describe('participant, mention and unattended conditions', () => {
+      const conversation = {
+        participant_ids: [1, 2],
+        mentioned_user_ids: [3],
+        first_reply_created_at: 0,
+        waiting_since: 0,
+      };
+      const condition = (attributeKey, filterOperator, values) => [
+        {
+          attribute_key: attributeKey,
+          filter_operator: filterOperator,
+          values,
+          query_operator: 'and',
+        },
+      ];
+
+      it('matches a picked agent against participant_ids', () => {
+        expect(
+          matchesFilters(
+            conversation,
+            condition('participant_id', 'equal_to', { id: 1, name: 'A' })
+          )
+        ).toBe(true);
+        expect(
+          matchesFilters(
+            conversation,
+            condition('participant_id', 'equal_to', { id: 5, name: 'B' })
+          )
+        ).toBe(false);
+        expect(
+          matchesFilters(
+            conversation,
+            condition('participant_id', 'not_equal_to', { id: 5, name: 'B' })
+          )
+        ).toBe(true);
+        expect(
+          matchesFilters(
+            conversation,
+            condition('participant_id', 'equal_to', [2])
+          )
+        ).toBe(true);
+      });
+
+      it('matches a picked agent against mentioned_user_ids', () => {
+        expect(
+          matchesFilters(
+            conversation,
+            condition('mentioned_user_id', 'equal_to', { id: 3, name: 'C' })
+          )
+        ).toBe(true);
+        expect(
+          matchesFilters(
+            conversation,
+            condition('mentioned_user_id', 'not_equal_to', { id: 3, name: 'C' })
+          )
+        ).toBe(false);
+      });
+
+      it('treats a conversation without a first reply or with a waiting time as unattended', () => {
+        const unattended = condition('unattended', 'equal_to', { id: true });
+        expect(matchesFilters(conversation, unattended)).toBe(true);
+        expect(
+          matchesFilters(
+            { ...conversation, first_reply_created_at: 100 },
+            unattended
+          )
+        ).toBe(false);
+        expect(
+          matchesFilters(
+            {
+              ...conversation,
+              first_reply_created_at: 100,
+              waiting_since: 200,
+            },
+            unattended
+          )
+        ).toBe(true);
+        expect(
+          matchesFilters(
+            { ...conversation, first_reply_created_at: 100 },
+            condition('unattended', 'equal_to', [false])
+          )
+        ).toBe(true);
+      });
+    });
+
     it('should match conversation with equal_to operator for assignee_id', () => {
       const conversation = { meta: { assignee: { id: 1 } } };
       const filters = [
