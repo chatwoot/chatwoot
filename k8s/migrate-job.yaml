@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: chatwoot-migrate
+  namespace: staging
+spec:
+  backoffLimit: 1
+  activeDeadlineSeconds: 900
+  ttlSecondsAfterFinished: 3600
+  template:
+    metadata:
+      labels:
+        app: chatwoot-migrate
+    spec:
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: acr-pull-secret
+      containers:
+        - name: chatwoot-migrate
+          image: IMAGE_PLACEHOLDER
+          imagePullPolicy: Always
+          command:
+            - bundle
+            - exec
+            - rails
+            - db:chatwoot_prepare
+          envFrom:
+            - configMapRef:
+                name: chatwoot-config
+            - secretRef:
+                name: chatwoot-env
