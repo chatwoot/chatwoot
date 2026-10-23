@@ -167,7 +167,7 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
     out_of_hours = Voice::CallAnnouncement.new(resource, :out_of_hours)
     json.business_hours_calls_enabled out_of_hours.enabled?
     json.out_of_hours_call_message out_of_hours.message
-    json.out_of_hours_call_audio_url out_of_hours.audio.attached? ? rails_blob_path(out_of_hours.audio, only_path: true) : nil
+    json.out_of_hours_call_audio_url out_of_hours.audio.attached? ? url_for(out_of_hours.audio) : nil
     greeting = Voice::CallAnnouncement.new(resource, :greeting)
     json.call_greeting_enabled greeting.enabled?
     json.call_greeting_message greeting.message
