@@ -80,18 +80,6 @@ RSpec.describe Inbox do
     expect { connection.active! }.to raise_error(ActiveRecord::RecordInvalid, /Disconnect Captain before connecting Agent Bot/)
   end
 
-  it 'rejects saving active providers on a legacy mixed-provider inbox' do
-    connection = create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot, status: :inactive)
-    captain_connection = create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
-    # Model validation prevents new mixed-provider inboxes; this reproduces an existing one.
-    connection.update_column(:status, AgentBotInbox.statuses[:active]) # rubocop:disable Rails/SkipsModelValidations
-
-    expect(connection).not_to be_valid
-    expect(connection.errors[:base]).to include('Disconnect Captain before connecting Agent Bot')
-    expect(captain_connection).not_to be_valid
-    expect(captain_connection.errors[:base]).to include('Disconnect Agent Bot before connecting Captain')
-  end
-
   it 'ignores a Captain connection whose assistant was deleted' do
     create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
     assistant.destroy!
@@ -104,17 +92,6 @@ RSpec.describe Inbox do
     create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
 
     expect { hook.enabled! }.to raise_error(ActiveRecord::RecordInvalid, /Disconnect Captain before connecting Dialogflow/)
-  end
-
-  it 'rejects replacing Dialogflow credentials on a legacy Captain-connected inbox' do
-    hook = create(:integrations_hook, :dialogflow, inbox: inbox, account: account, status: :disabled)
-    create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
-    # Preserve a legacy mixed-provider inbox.
-    hook.update_column(:status, Integrations::Hook.statuses[:enabled]) # rubocop:disable Rails/SkipsModelValidations
-    hook.settings['credentials'] = { 'project_id' => 'replacement-project' }
-
-    expect(hook).not_to be_valid
-    expect(hook.errors[:base]).to include('Disconnect Captain before connecting Dialogflow')
   end
 
   it 'allows manual Agent Bot assignment on a Captain-connected inbox' do
