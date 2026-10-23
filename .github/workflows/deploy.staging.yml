@@ -1,13 +1,12 @@
 name: Deploy Chatwoot to AKS Staging
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - staging
-    paths:
-      - "k8s/**"
-      - ".github/workflows/deploy.staging.yml"
+  workflow_call:
+    inputs:
+      environment:
+        description: "GitHub deployment environment"
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -34,10 +33,13 @@ jobs:
       - name: Set image name
         id: image
         shell: bash
+        env:
+          ACR_NAME: ${{ vars.ACR_NAME }}
         run: |
           set -euo pipefail
+          test -n "$ACR_NAME"
 
-          IMAGE="${{ vars.ACR_NAME }}.azurecr.io/chatwoot/chatwoot:${GITHUB_SHA}"
+          IMAGE="${ACR_NAME}.azurecr.io/chatwoot/chatwoot:${GITHUB_SHA}"
           echo "image=$IMAGE" >> "$GITHUB_OUTPUT"
 
       - name: Log in to Azure Container Registry
@@ -76,6 +78,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-push
 
+    environment: ${{ inputs.environment }}
+
     env:
       IMAGE: ${{ needs.build-and-push.outputs.image }}
 
@@ -112,7 +116,6 @@ jobs:
              "$RUNNER_TEMP/chatwoot.env"
 
           chmod 600 "$RUNNER_TEMP/chatwoot.env"
-
           test -s "$RUNNER_TEMP/chatwoot.env"
 
       - name: Get AKS credentials
