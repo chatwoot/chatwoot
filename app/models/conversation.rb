@@ -93,6 +93,8 @@ class Conversation < ApplicationRecord
     order(unread_messages_count_arel.desc).sort_on_last_activity_at('desc')
   }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
+  # Preloads what the conversation list payload reads for participant_ids and mentioned_user_ids.
+  scope :with_membership_ids, -> { preload(:conversation_participants, :mentions) }
   scope :resolvable_not_waiting, lambda { |auto_resolve_after|
     return none if auto_resolve_after.to_i.zero?
 
