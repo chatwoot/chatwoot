@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import WhatsappLocationsAPI from 'dashboard/api/whatsappLocations';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
@@ -12,6 +13,7 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
+const store = useStore();
 
 const dialogRef = ref(null);
 const isSending = ref(false);
@@ -23,7 +25,11 @@ const hasLocations = computed(() => props.locations.length > 0);
 const send = async (conversationId, payload) => {
   isSending.value = true;
   try {
-    await WhatsappLocationsAPI.sendMessage(conversationId, payload);
+    const { data } = await WhatsappLocationsAPI.sendMessage(
+      conversationId,
+      payload
+    );
+    store.dispatch('addMessage', data);
     dialogRef.value.close();
   } catch (error) {
     useAlert(
