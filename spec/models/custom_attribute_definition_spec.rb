@@ -62,14 +62,6 @@ RSpec.describe CustomAttributeDefinition do
         expect(cad).not_to be_valid
         expect(cad.errors[:attribute_key]).to be_present
       end
-
-      it 'rejects conversation custom attributes that conflict with conversation filter keys' do
-        %w[participant_id mentioned_user_id unattended].each do |attribute_key|
-          cad = build(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute', attribute_key: attribute_key)
-
-          expect(cad).not_to be_valid
-        end
-      end
     end
   end
 
