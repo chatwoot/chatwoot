@@ -45,16 +45,26 @@ const mountComponent = (overrides, stubs = {}) =>
 describe('CallAnnouncementSettings', () => {
   beforeEach(() => vi.clearAllMocks());
 
-  it('associates the announcement label with a textarea specific to the kind and inbox', () => {
-    const wrapper = mountComponent({}, { TextArea: false });
-    const textarea = wrapper.find('textarea');
+  it('opens the message under its checkbox and saves when it is unchecked', async () => {
+    dispatch.mockResolvedValue();
+    const wrapper = mountComponent({ checkbox: true }, { TextArea: false });
+    const checkbox = wrapper.find('input[type="checkbox"]');
 
-    expect(textarea.attributes('id')).toBe(
+    expect(checkbox.element.checked).toBe(true);
+    expect(wrapper.find('textarea').attributes('id')).toBe(
       'call-announcement-out_of_hours-387'
     );
-    expect(wrapper.find('label').attributes('for')).toBe(
-      textarea.attributes('id')
-    );
+
+    await checkbox.setValue(false);
+    await flushPromises();
+
+    expect(wrapper.find('textarea').exists()).toBe(false);
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateCallAnnouncement', {
+      id: 387,
+      kind: 'out_of_hours',
+      enabled: false,
+      message: 'Call again tomorrow.',
+    });
   });
 
   it('keeps playback of the saved announcement while editing', async () => {

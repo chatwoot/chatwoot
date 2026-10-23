@@ -6,6 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import SettingsCheckboxOption from './SettingsCheckboxOption.vue';
 
 const props = defineProps({
   inbox: {
@@ -35,6 +36,11 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  // Renders a one-line checkbox instead of a toggle card
+  checkbox: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const MESSAGE_MAX_LENGTH = 1000;
@@ -54,6 +60,11 @@ const canSave = computed(
 );
 const label = key =>
   t(`INBOX_MGMT.VOICE_CONFIGURATION.${props.i18nKey}.${key}`);
+const shell = computed(() =>
+  props.checkbox
+    ? { header: label('LABEL') }
+    : { header: label('LABEL'), description: label('DESCRIPTION') }
+);
 
 watch(
   [() => props.inbox.id, () => props.enabled, () => props.message],
@@ -92,20 +103,19 @@ const toggle = value => {
 
 <template>
   <div :class="{ 'pointer-events-none opacity-60': isSaving }">
-    <SettingsToggleSection
+    <component
+      :is="checkbox ? SettingsCheckboxOption : SettingsToggleSection"
+      v-bind="shell"
       :model-value="isEnabled"
-      :header="label('LABEL')"
-      :description="label('DESCRIPTION')"
       @update:model-value="toggle"
     >
       <template v-if="isEnabled" #editor>
-        <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-3" :class="{ 'pt-1': !checkbox }">
           <slot name="notice" />
           <TextArea
             :id="`call-announcement-${kind}-${inbox.id}`"
             v-model="draft"
-            :label="label('MESSAGE.LABEL')"
-            :placeholder="label('MESSAGE.PLACEHOLDER')"
+            :placeholder="label('PLACEHOLDER')"
             :max-length="MESSAGE_MAX_LENGTH"
             :disabled="isSaving"
             show-character-count
@@ -140,16 +150,17 @@ const toggle = value => {
               "
             />
           </template>
-          <div>
+          <div class="flex items-center justify-end gap-3">
             <NextButton
               :label="$t('INBOX_MGMT.VOICE_CONFIGURATION.ANNOUNCEMENT.SAVE')"
               :is-loading="isSaving"
               :disabled="!canSave"
+              sm
               @click="save()"
             />
           </div>
         </div>
       </template>
-    </SettingsToggleSection>
+    </component>
   </div>
 </template>
