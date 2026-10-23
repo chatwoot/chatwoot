@@ -16,12 +16,16 @@ const { t } = useI18n();
 const route = useRoute();
 
 const RECONNECTED_BANNER_TIMEOUT = 2000;
+// ActionCable reopens the socket when a background tab becomes visible again,
+// so only surface the banner when the connection stays down longer than this.
+const DISCONNECTED_BANNER_DELAY = 3000;
 
 const showNotification = ref(!navigator.onLine);
 const isDisconnected = ref(false);
 const isReconnecting = ref(false);
 const isReconnected = ref(false);
 let reconnectTimeout = null;
+let disconnectedBannerTimeout = null;
 
 const bannerText = computed(() => {
   if (isReconnecting.value) return t('NETWORK.NOTIFICATION.RECONNECTING');
@@ -52,14 +56,19 @@ const isInAnyOfTheRoutes = routeName => {
 
 const updateWebsocketStatus = () => {
   isDisconnected.value = true;
-  showNotification.value = true;
+  clearTimeout(disconnectedBannerTimeout);
+  disconnectedBannerTimeout = setTimeout(() => {
+    showNotification.value = true;
+  }, DISCONNECTED_BANNER_DELAY);
 };
 
 const handleReconnectionCompleted = () => {
+  clearTimeout(disconnectedBannerTimeout);
   isDisconnected.value = false;
   isReconnecting.value = false;
+  // A quick reconnect never showed the banner, so there is nothing to confirm
+  if (!showNotification.value) return;
   isReconnected.value = true;
-  showNotification.value = true;
   reconnectTimeout = setTimeout(closeNotification, RECONNECTED_BANNER_TIMEOUT);
 };
 
@@ -67,7 +76,6 @@ const handleReconnecting = () => {
   if (isInAnyOfTheRoutes(route.name)) {
     isReconnecting.value = true;
     isReconnected.value = false;
-    showNotification.value = true;
   } else {
     handleReconnectionCompleted();
   }
@@ -101,6 +109,7 @@ useEmitter(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
 
 onBeforeUnmount(() => {
   clearTimeout(reconnectTimeout);
+  clearTimeout(disconnectedBannerTimeout);
 });
 </script>
 
