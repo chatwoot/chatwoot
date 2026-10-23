@@ -214,6 +214,7 @@ en:
         invalid_longitude: 'item %{position} must have a longitude between -180 and 180'
       location_message:
         cloud_inbox_required: 'Location messages require a WhatsApp Cloud inbox'
+        outside_messaging_window: 'Locations can only be sent within the WhatsApp 24-hour customer service window.'
         not_found: 'Location not found'
         invalid_coordinates: 'latitude must be between -90 and 90 and longitude between -180 and 180'
         single_mode_required: 'Send either location_id or latitude and longitude, not both'

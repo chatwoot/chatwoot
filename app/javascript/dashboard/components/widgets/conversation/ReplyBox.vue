@@ -242,7 +242,11 @@ export default {
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
     },
     showWhatsappLocation() {
-      return this.isAWhatsAppCloudChannel && !this.isPrivate;
+      return (
+        this.isAWhatsAppCloudChannel &&
+        !this.isPrivate &&
+        !!this.currentChat?.can_reply
+      );
     },
     isWithinMessagingWindow() {
       return !!(
