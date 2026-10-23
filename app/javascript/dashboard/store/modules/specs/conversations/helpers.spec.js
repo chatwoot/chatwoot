@@ -5,6 +5,7 @@ import {
   filterByTeam,
   filterByLabel,
   filterByUnattended,
+  isUnattended,
 } from '../../conversations/helpers';
 
 const conversationList = [
@@ -158,6 +159,14 @@ describe('#filterByLabel', () => {
     const labels = ['dev', 'cs', 'sales'];
     const chatLabels = ['cs', 'sales'];
     expect(filterByLabel(true, labels, chatLabels)).toEqual(false);
+  });
+});
+
+describe('#isUnattended', () => {
+  it('is unattended without a first reply or while waiting for a reply', () => {
+    expect(isUnattended(0, 0)).toBe(true);
+    expect(isUnattended(100, 0)).toBe(false);
+    expect(isUnattended(100, 200)).toBe(true);
   });
 });
 

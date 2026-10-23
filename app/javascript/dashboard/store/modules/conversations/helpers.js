@@ -54,6 +54,10 @@ export const filterByLabel = (shouldFilter, labels, chatLabels) => {
   const isOnLabel = labels.every(label => chatLabels.includes(label));
   return labels.length ? isOnLabel && shouldFilter : shouldFilter;
 };
+// Same rule as Conversation.unattended. The payload sends both timestamps as 0 when unset.
+export const isUnattended = (firstReplyOn, waitingSince) =>
+  !firstReplyOn || !!waitingSince;
+
 export const filterByUnattended = (
   shouldFilter,
   conversationType,
@@ -61,7 +65,7 @@ export const filterByUnattended = (
   waitingSince
 ) => {
   return conversationType === 'unattended'
-    ? (!firstReplyOn || !!waitingSince) && shouldFilter
+    ? isUnattended(firstReplyOn, waitingSince) && shouldFilter
     : shouldFilter;
 };
 

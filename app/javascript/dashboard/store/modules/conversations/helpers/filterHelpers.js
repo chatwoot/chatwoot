@@ -49,6 +49,7 @@
 import { coerceToDate } from '@chatwoot/utils';
 import jsonLogic from 'json-logic-js';
 import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+import { isUnattended } from '../helpers';
 
 const TIMESTAMP_ATTRIBUTES = ['created_at', 'last_activity_at'];
 const TIMESTAMP_BOUNDARY = 'timestampBoundary';
@@ -95,9 +96,9 @@ const getValueFromConversation = (conversation, attributeKey) => {
     case 'mentioned_user_id':
       return conversation.mentioned_user_ids;
     case 'unattended':
-      // Same rule as Conversation.unattended. The payload sends both timestamps as 0 when unset.
-      return (
-        !conversation.first_reply_created_at || !!conversation.waiting_since
+      return isUnattended(
+        conversation.first_reply_created_at,
+        conversation.waiting_since
       );
     default:
       return conversation.custom_attributes?.[attributeKey] ?? null;
