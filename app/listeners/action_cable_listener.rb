@@ -63,10 +63,7 @@ class ActionCableListener < BaseListener
   end
 
   def conversation_created(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
-
-    broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
+    broadcast_to_agents_and_contact(event, CONVERSATION_CREATED)
   end
 
   def conversation_bot_handoff(event)
@@ -78,17 +75,11 @@ class ActionCableListener < BaseListener
   end
 
   def conversation_status_changed(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
-
-    broadcast(account, tokens, CONVERSATION_STATUS_CHANGED, conversation.push_event_data)
+    broadcast_to_agents_and_contact(event, CONVERSATION_STATUS_CHANGED)
   end
 
   def conversation_updated(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
-
-    broadcast(account, tokens, CONVERSATION_UPDATED, conversation.push_event_data)
+    broadcast_to_agents_and_contact(event, CONVERSATION_UPDATED)
   end
 
   def conversation_unread_count_changed(event)
@@ -176,7 +167,7 @@ class ActionCableListener < BaseListener
     conversation, account = extract_conversation_and_account(event)
     user = event.data[:user]
 
-    broadcast(account, [user.pubsub_token], CONVERSATION_MENTIONED, conversation.push_event_data)
+    broadcast(account, [user.pubsub_token], CONVERSATION_MENTIONED, conversation.dashboard_push_event_data)
   end
 
   private
@@ -184,7 +175,15 @@ class ActionCableListener < BaseListener
   def broadcast_to_inbox_members(event, event_name, **metadata)
     conversation, account = extract_conversation_and_account(event)
 
-    broadcast(account, user_tokens(account, conversation.inbox.members), event_name, conversation.push_event_data.merge(metadata))
+    broadcast(account, user_tokens(account, conversation.inbox.members), event_name, conversation.dashboard_push_event_data.merge(metadata))
+  end
+
+  # Agents get the dashboard payload. The contact gets the base payload, without participant and mention ids.
+  def broadcast_to_agents_and_contact(event, event_name)
+    conversation, account = extract_conversation_and_account(event)
+
+    broadcast(account, user_tokens(account, conversation.inbox.members), event_name, conversation.dashboard_push_event_data)
+    broadcast(account, contact_inbox_tokens(conversation.contact_inbox), event_name, conversation.push_event_data)
   end
 
   def account_token(account)

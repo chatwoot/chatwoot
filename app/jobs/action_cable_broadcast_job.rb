@@ -27,7 +27,9 @@ class ActionCableBroadcastJob < ApplicationJob
 
     account = Account.find(data[:account_id])
     conversation = account.conversations.find_by!(display_id: data[:id])
-    broadcast_data = conversation.push_event_data.merge(account_id: data[:account_id])
+    # Agent payloads carry participant ids and contact payloads don't, so rebuild the same kind.
+    conversation_data = data.key?(:participant_ids) ? conversation.dashboard_push_event_data : conversation.push_event_data
+    broadcast_data = conversation_data.merge(account_id: data[:account_id])
     if event_name == ASSIGNEE_CHANGED
       # Keep the original assignment together even when the conversation is
       # refreshed. The dashboard checks its identity against the current owner.

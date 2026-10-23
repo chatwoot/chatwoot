@@ -16,15 +16,20 @@ class Conversations::EventDataPresenter < SimpleDelegator
       unread_count: unread_incoming_messages.count,
       first_reply_created_at: first_reply_created_at,
       priority: priority,
-      **push_membership_ids,
+      waiting_since: waiting_since.to_i,
       **push_timestamps
     }
   end
 
+  # Like #push_data plus the ids the dashboard filters conversation lists by. Only agents receive it.
+  # Contacts, notifications and webhooks get #push_data, so they never see who was mentioned in a private note.
+  def dashboard_push_data
+    push_data.merge(participant_ids: participant_ids, mentioned_user_ids: mentioned_user_ids)
+  end
+
   # Like #push_data but with message text normalized for external integrations (webhooks).
-  # Participant and mention ids are for dashboard list filtering, not part of the webhook contract.
   def webhook_data
-    push_data.except(:participant_ids, :mentioned_user_ids).merge(
+    push_data.merge(
       account: account.webhook_data,
       messages: webhook_push_messages
     )
@@ -50,10 +55,6 @@ class Conversations::EventDataPresenter < SimpleDelegator
     }
   end
 
-  def push_membership_ids
-    { participant_ids: participant_ids, mentioned_user_ids: mentioned_user_ids }
-  end
-
   def push_timestamps
     {
       agent_last_seen_at: agent_last_seen_at.to_i,
@@ -61,8 +62,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       last_activity_at: last_activity_at.to_i,
       timestamp: last_activity_at.to_i,
       created_at: created_at.to_i,
-      updated_at: updated_at.to_f,
-      waiting_since: waiting_since.to_i
+      updated_at: updated_at.to_f
     }
   end
 end

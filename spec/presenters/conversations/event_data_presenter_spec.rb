@@ -44,13 +44,20 @@ RSpec.describe Conversations::EventDataPresenter do
       expect(presenter.push_data.except(:applied_sla, :sla_events)).to include(expected_data)
     end
 
-    it 'includes the participant and mentioned user ids' do
+    it 'leaves out the participant and mentioned user ids' do
+      expect(presenter.push_data.keys).not_to include(:participant_ids, :mentioned_user_ids)
+    end
+  end
+
+  describe '#dashboard_push_data' do
+    it 'adds the participant and mentioned user ids to the push payload' do
       agent = create(:user, account: conversation.account)
       create(:inbox_member, user: agent, inbox: conversation.inbox)
       create(:conversation_participant, conversation: conversation, account: conversation.account, user: agent)
       create(:mention, conversation: conversation, account: conversation.account, user: agent)
+      presenter = described_class.new(conversation.reload)
 
-      expect(described_class.new(conversation.reload).push_data).to include(participant_ids: [agent.id], mentioned_user_ids: [agent.id])
+      expect(presenter.dashboard_push_data).to eq(presenter.push_data.merge(participant_ids: [agent.id], mentioned_user_ids: [agent.id]))
     end
   end
 
