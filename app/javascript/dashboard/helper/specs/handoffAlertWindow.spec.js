@@ -38,7 +38,6 @@ describe('handoff event → conversation store → audible alert', () => {
         ...conversationModule.state,
         allConversations: [],
         conversationFilters: {},
-        route: { name: 'home' },
       },
       getters: {
         ...conversationModule.getters,

@@ -29,7 +29,6 @@ class ConversationParticipant < ApplicationRecord
 
   before_validation :ensure_account_id
   after_commit :invalidate_filtered_unread_count_visibility, on: [:create, :destroy]
-  after_commit :dispatch_participants_changed, on: [:create, :destroy]
 
   private
 
@@ -39,13 +38,6 @@ class ConversationParticipant < ApplicationRecord
 
   def ensure_inbox_access
     errors.add(:user, 'must have inbox access') if conversation && conversation.inbox.assignable_agents.exclude?(user)
-  end
-
-  # The conversation is gone when its participants are destroyed with it.
-  def dispatch_participants_changed
-    return if conversation.blank?
-
-    Rails.configuration.dispatcher.dispatch(Events::Types::CONVERSATION_PARTICIPANTS_CHANGED, Time.zone.now, conversation: conversation)
   end
 
   def invalidate_filtered_unread_count_visibility

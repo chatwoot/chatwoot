@@ -158,11 +158,10 @@ class ActionCableListener < BaseListener
     user = event.data[:user]
 
     broadcast(account, [user.pubsub_token], CONVERSATION_MENTIONED, conversation.dashboard_push_event_data, dashboard: true)
-    broadcast_to_inbox_members(event, CONVERSATION_UPDATED)
   end
 
-  # Sent as a conversation update so the dashboard refreshes participant_ids through its usual handler.
-  def conversation_participants_changed(event) = broadcast_to_inbox_members(event, CONVERSATION_UPDATED)
+  # Sent as a conversation update so the dashboard refreshes participant and mention ids through its usual handler.
+  def conversation_membership_changed(event) = broadcast_to_inbox_members(event, CONVERSATION_UPDATED)
 
   private
 

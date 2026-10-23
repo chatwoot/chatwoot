@@ -21,6 +21,24 @@ describe ParticipationListener do
       expect(conversation.conversation_participants.map(&:user_id)).to include(agent.id)
     end
 
+    it 'dispatches a membership changed event when it adds the assignee' do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      listener.assignee_changed(event)
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(Events::Types::CONVERSATION_MEMBERSHIP_CHANGED, anything, conversation: conversation)
+    end
+
+    it 'does not dispatch a membership changed event when the assignee already participates' do
+      conversation.conversation_participants.create!(user: agent)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      listener.assignee_changed(event)
+
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONVERSATION_MEMBERSHIP_CHANGED, any_args)
+    end
+
     it 'does not fail if the conversation participant already exists' do
       conversation.conversation_participants.create!(user: agent)
       expect { listener.assignee_changed(event) }.not_to raise_error

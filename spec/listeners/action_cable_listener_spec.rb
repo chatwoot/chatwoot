@@ -304,8 +304,8 @@ describe ActionCableListener do
     end
   end
 
-  describe '#conversation_participants_changed' do
-    let(:event) { Events::Base.new(:'conversation.participants_changed', Time.zone.now, conversation: conversation) }
+  describe '#conversation_membership_changed' do
+    let(:event) { Events::Base.new(:'conversation.membership_changed', Time.zone.now, conversation: conversation) }
 
     it 'sends the dashboard payload to inbox agents and admins as a conversation update' do
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
@@ -315,22 +315,16 @@ describe ActionCableListener do
         dashboard: true
       )
 
-      listener.conversation_participants_changed(event)
+      listener.conversation_membership_changed(event)
     end
   end
 
   describe '#conversation_mentioned' do
     let(:event) { Events::Base.new(:'conversation.mentioned', Time.zone.now, conversation: conversation, user: agent) }
 
-    it 'notifies the mentioned agent and sends the conversation update to inbox agents and admins' do
-      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+    it 'notifies only the mentioned agent' do
+      expect(ActionCableBroadcastJob).to receive(:perform_later).once.with(
         [agent.pubsub_token], 'conversation.mentioned', conversation.dashboard_push_event_data.merge(account_id: account.id), dashboard: true
-      )
-      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
-        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token),
-        'conversation.updated',
-        conversation.dashboard_push_event_data.merge(account_id: account.id),
-        dashboard: true
       )
 
       listener.conversation_mentioned(event)

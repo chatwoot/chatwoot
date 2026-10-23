@@ -154,6 +154,19 @@ RSpec.describe 'Conversation Participants API', type: :request do
         expect(conversation.conversation_participants.reload.pluck(:user_id)).to eq([participant.id])
       end
 
+      it 'dispatches one membership changed event for the whole update' do
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+        create(:conversation_participant, conversation: conversation, user: participant_to_be_removed)
+
+        put api_v1_account_conversation_participants_url(account_id: account.id, conversation_id: conversation.display_id),
+            params: { user_ids: [participant.id, participant_to_be_added.id] },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+          .with(Events::Types::CONVERSATION_MEMBERSHIP_CHANGED, anything, conversation: conversation).once
+      end
+
       it 'notifies unread counts when participant membership changes' do
         account.enable_features!(:conversation_unread_counts, :unread_count_for_filters)
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
