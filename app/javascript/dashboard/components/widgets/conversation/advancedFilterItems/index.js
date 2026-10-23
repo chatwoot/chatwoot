@@ -23,6 +23,32 @@ const filterTypes = [
     attributeModel: 'standard',
   },
   {
+    attributeKey: 'participant_id',
+    attributeI18nKey: 'PARTICIPANT_NAME',
+    inputType: 'search_select',
+    dataType: 'number',
+    filterOperators: OPERATOR_TYPES_1,
+    attributeModel: 'standard',
+  },
+  {
+    attributeKey: 'mentioned_user_id',
+    attributeI18nKey: 'MENTIONED_USER_NAME',
+    inputType: 'search_select',
+    dataType: 'number',
+    filterOperators: OPERATOR_TYPES_1,
+    attributeModel: 'standard',
+  },
+  {
+    attributeKey: 'unattended',
+    attributeI18nKey: 'UNATTENDED',
+    inputType: 'search_select',
+    dataType: 'boolean',
+    filterOperators: OPERATOR_TYPES_1.filter(
+      ({ value }) => value === 'equal_to'
+    ),
+    attributeModel: 'standard',
+  },
+  {
     attributeKey: 'priority',
     attributeI18nKey: 'PRIORITY',
     inputType: 'multi_select',
@@ -132,6 +158,18 @@ export const filterAttributeGroups = [
       {
         key: 'assignee_id',
         i18nKey: 'ASSIGNEE_NAME',
+      },
+      {
+        key: 'participant_id',
+        i18nKey: 'PARTICIPANT_NAME',
+      },
+      {
+        key: 'mentioned_user_id',
+        i18nKey: 'MENTIONED_USER_NAME',
+      },
+      {
+        key: 'unattended',
+        i18nKey: 'UNATTENDED',
       },
       {
         key: 'inbox_id',

@@ -26,6 +26,9 @@ const ATTRIBUTE_ICONS = {
   campaign_id: 'i-lucide-megaphone',
   browser_language: 'i-lucide-globe',
   referer: 'i-lucide-link',
+  participant_id: 'i-lucide-users',
+  mentioned_user_id: 'i-lucide-at-sign',
+  unattended: 'i-lucide-hourglass',
   // Automation attributes
   message_type: 'i-lucide-message-square',
   private_note: 'i-lucide-sticky-note',

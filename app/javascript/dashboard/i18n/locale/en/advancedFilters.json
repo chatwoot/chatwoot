@@ -69,7 +69,10 @@
       "CUSTOM_ATTRIBUTE_LINK": "Link",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Created at",
-      "LAST_ACTIVITY": "Last activity"
+      "LAST_ACTIVITY": "Last activity",
+      "PARTICIPANT_NAME": "Participant",
+      "MENTIONED_USER_NAME": "Mentioned agent",
+      "UNATTENDED": "Unattended"
     },
     "ERRORS": {
       "VALUE_REQUIRED": "Value is required",

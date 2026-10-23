@@ -205,6 +205,43 @@ describe('customViewsHelper', () => {
   });
 
   describe('#generateValuesForEditCustomViews', () => {
+    it('maps saved participant and mention ids back to agents', () => {
+      const params = {
+        filterTypes: advancedFilterTypes,
+        allCustomAttributes: [],
+        agents: [{ id: 1, name: 'test' }],
+      };
+
+      ['participant_id', 'mentioned_user_id'].forEach(attributeKey => {
+        const filter = {
+          attribute_key: attributeKey,
+          filter_operator: 'equal_to',
+          values: [1],
+        };
+        expect(generateValuesForEditCustomViews(filter, params)).toEqual({
+          id: 1,
+          name: 'test',
+        });
+      });
+    });
+
+    it('restores a saved unattended value as a selectable option', () => {
+      const filter = {
+        attribute_key: 'unattended',
+        filter_operator: 'equal_to',
+        values: [false],
+      };
+      const params = {
+        filterTypes: advancedFilterTypes,
+        allCustomAttributes: [],
+      };
+
+      expect(generateValuesForEditCustomViews(filter, params)).toEqual({
+        id: false,
+        name: false,
+      });
+    });
+
     it('should return id and name if inboxType is multi_select or search_select', () => {
       const filter = {
         attribute_key: 'assignee_id',

@@ -21,6 +21,9 @@ export const CONVERSATION_ATTRIBUTES = {
   REFERER: 'referer',
   CREATED_AT: 'created_at',
   LAST_ACTIVITY_AT: 'last_activity_at',
+  PARTICIPANT_ID: 'participant_id',
+  MENTIONED_USER_ID: 'mentioned_user_id',
+  UNATTENDED: 'unattended',
 };
 
 export const CONTACT_ATTRIBUTES = {
