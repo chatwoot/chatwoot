@@ -621,6 +621,24 @@ describe('#actions', () => {
     });
   });
 
+  describe('#fetchAllConversations', () => {
+    it('clears loading and records an error if the request fails', async () => {
+      axios.get.mockRejectedValue(new Error('Request failed'));
+
+      await actions.fetchAllConversations({
+        commit,
+        dispatch,
+        state: { conversationFilters: { status: 'open' } },
+      });
+
+      expect(commit.mock.calls).toEqual([
+        ['SET_LIST_LOADING_STATUS'],
+        ['CLEAR_LIST_LOADING_STATUS'],
+        ['SET_LIST_FETCH_ERROR', true],
+      ]);
+    });
+  });
+
   describe('#fetchFilteredConversations', () => {
     it('ignores an older open-list response after applying an all-status filter', async () => {
       let resolveOpenResponse;
@@ -694,10 +712,11 @@ describe('#actions', () => {
         },
         dataToSend
       );
-      expect(commit).toHaveBeenCalledTimes(4);
+      expect(commit).toHaveBeenCalledTimes(5);
       expect(commit.mock.calls).toEqual([
         ['SET_LIST_LOADING_STATUS'],
         ['SET_ALL_CONVERSATION', dataReceived.payload],
+        ['SET_LIST_FETCH_ERROR', false],
         ['CLEAR_LIST_LOADING_STATUS'],
         [
           `contacts/${types.SET_CONTACTS}`,
@@ -734,6 +753,7 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         ['SET_LIST_LOADING_STATUS'],
         ['CLEAR_LIST_LOADING_STATUS'],
+        ['SET_LIST_FETCH_ERROR', true],
       ]);
     });
   });
