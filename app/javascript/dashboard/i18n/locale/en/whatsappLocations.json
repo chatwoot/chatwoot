@@ -1,0 +1,37 @@
+{
+  "WHATSAPP_LOCATIONS": {
+    "TAB": "Locations",
+    "DESCRIPTION": "Save the places your agents can send to customers in WhatsApp conversations.",
+    "FORM": {
+      "NAME": {
+        "LABEL": "Name",
+        "PLACEHOLDER": "Main store"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACEHOLDER": "123 Main St, City"
+      },
+      "LATITUDE": {
+        "LABEL": "Latitude",
+        "PLACEHOLDER": "4.710989"
+      },
+      "LONGITUDE": {
+        "LABEL": "Longitude",
+        "PLACEHOLDER": "-74.072092"
+      },
+      "ADD": "Add location",
+      "SAVE": "Save locations",
+      "DELETE": "Delete location",
+      "EMPTY_STATE": "No locations saved yet.",
+      "ERRORS": {
+        "REQUIRED": "This field is required",
+        "LATITUDE_RANGE": "Latitude must be between -90 and 90",
+        "LONGITUDE_RANGE": "Longitude must be between -180 and 180"
+      }
+    },
+    "API": {
+      "SAVE_SUCCESS": "Locations saved successfully",
+      "SAVE_ERROR": "Could not save the locations. Please try again."
+    }
+  }
+}
