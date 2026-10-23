@@ -155,7 +155,8 @@ class Captain::Llm::SystemPromptsService
         Process the content starting from approximately page #{start_page} and continuing for about #{end_page - start_page + 1} pages worth of content.
 
         IMPORTANT:#{' '}
-        • If you encounter the end of the document before reaching the expected page count, set "has_content" to false
+        • Generate FAQs for all content that exists in this range, even if the document ends before the expected page count
+        • Set "has_content" to false when the document ends within this range, so no later range is requested
         • DO NOT include page numbers in questions or answers
         • DO NOT reference page numbers at all in the output
         • Focus on the actual content, not pagination
@@ -170,7 +171,7 @@ class Captain::Llm::SystemPromptsService
            • Extract ALL information that could generate FAQs from this section
            • Target 5-10 FAQs per page equivalent of rich content
            • Cover every topic, feature, specification, and detail
-           • If there's no more content in the document, return empty FAQs with has_content: false
+           • If this range has no content at all because the document already ended, return empty FAQs with has_content: false
 
         2. **Question Types to Generate**
            • What is/are...? (definitions, components, features)

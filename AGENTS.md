@@ -101,6 +101,7 @@
   - Backend i18n → `en.yml`, Frontend i18n → `en.json`
 - **Frontend**:
   - Use `components-next/` for message bubbles (the rest is being deprecated)
+- **AI models**: Before adding or changing an OpenAI model in `config/llm.yml` or code, check the deprecations page (https://developers.openai.com/api/docs/deprecations). Do not use a model that has a shutdown date; use the replacement the page recommends. Pick models through `config/llm.yml` and `Llm::FeatureRouter`, not hard-coded names.
 
 ## Ruby Best Practices
 

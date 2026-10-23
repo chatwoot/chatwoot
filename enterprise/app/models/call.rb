@@ -34,6 +34,7 @@
 class Call < ApplicationRecord
   STATUSES = %w[ringing in_progress completed no_answer failed rejected].freeze
   TERMINAL_STATUSES = %w[completed no_answer failed rejected].freeze
+  OUTSIDE_WORKING_HOURS = 'outside_working_hours'.freeze
 
   store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at,
                  :accepted_broadcast_at, :recording_enabled, :provider_status
@@ -74,6 +75,10 @@ class Call < ApplicationRecord
 
   def self.find_by_provider_call_id(provider, sid)
     find_by(provider: provider, provider_call_id: sid)
+  end
+
+  def outside_working_hours?
+    end_reason == OUTSIDE_WORKING_HOURS
   end
 
   # An inbound call nobody answered, however it ended: unanswered, or completed or failed

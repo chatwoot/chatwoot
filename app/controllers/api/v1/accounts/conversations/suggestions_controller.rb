@@ -21,3 +21,5 @@ class Api::V1::Accounts::Conversations::SuggestionsController < Api::V1::Account
     Captain::ConversationClassifierService.new(conversation: @conversation)
   end
 end
+
+Api::V1::Accounts::Conversations::SuggestionsController.prepend_mod_with('Api::V1::Accounts::Conversations::SuggestionsController')
