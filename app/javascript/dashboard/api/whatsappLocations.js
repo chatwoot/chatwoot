@@ -11,6 +11,13 @@ class WhatsappLocations extends ApiClient {
       locations,
     });
   }
+
+  sendMessage(conversationId, payload) {
+    return axios.post(
+      `${this.baseUrl()}/conversations/${conversationId}/location_message`,
+      payload
+    );
+  }
 }
 
 export default new WhatsappLocations();
