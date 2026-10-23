@@ -50,7 +50,7 @@ RSpec.describe Conversations::EventDataPresenter do
       create(:conversation_participant, conversation: conversation, account: conversation.account, user: agent)
       create(:mention, conversation: conversation, account: conversation.account, user: agent)
 
-      expect(presenter.push_data).to include(participant_ids: [agent.id], mentioned_user_ids: [agent.id])
+      expect(described_class.new(conversation.reload).push_data).to include(participant_ids: [agent.id], mentioned_user_ids: [agent.id])
     end
   end
 

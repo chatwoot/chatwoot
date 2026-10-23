@@ -50,13 +50,8 @@ class Conversations::EventDataPresenter < SimpleDelegator
     }
   end
 
-  # Queried on every call: the same conversation object can send several events, and a cached
-  # association would repeat ids from before a participant or mention changed.
   def push_membership_ids
-    {
-      participant_ids: conversation_participants.where(account_id: account_id).pluck(:user_id),
-      mentioned_user_ids: mentions.where(account_id: account_id).pluck(:user_id)
-    }
+    { participant_ids: participant_ids, mentioned_user_ids: mentioned_user_ids }
   end
 
   def push_timestamps
