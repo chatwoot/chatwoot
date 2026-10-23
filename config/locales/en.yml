@@ -201,6 +201,17 @@ en:
         outside_messaging_window: 'Contact information can only be requested within the WhatsApp 24-hour customer service window.'
         template_not_configured: 'An approved WhatsApp template with a Request contact info button is required outside the 24-hour customer service window.'
         pending_request: 'A contact information request is already pending.'
+      locations:
+        cloud_inbox_required: 'Locations are only available for WhatsApp Cloud inboxes'
+        invalid_locations: 'locations must be a list of objects'
+        not_a_list: 'must be a list'
+        too_many: "can't have more than %{max} items"
+        not_an_object: 'item %{position} must be an object'
+        invalid_id: 'item %{position} must have an id'
+        invalid_name: 'item %{position} must have a name of up to 100 characters'
+        invalid_address: 'item %{position} must have an address of up to 300 characters'
+        invalid_latitude: 'item %{position} must have a latitude between -90 and 90'
+        invalid_longitude: 'item %{position} must have a longitude between -180 and 180'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
