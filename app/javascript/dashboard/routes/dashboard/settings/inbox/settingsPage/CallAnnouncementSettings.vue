@@ -5,8 +5,8 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
-import NextInput from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import SettingsCheckboxOption from './SettingsCheckboxOption.vue';
 
 const props = defineProps({
   inbox: {
@@ -41,6 +41,11 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  // Renders a one-line checkbox instead of a toggle card
+  checkbox: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const MESSAGE_MAX_LENGTH = 1000;
@@ -67,6 +72,11 @@ const canSave = computed(
 );
 const label = key =>
   t(`INBOX_MGMT.VOICE_CONFIGURATION.${props.i18nKey}.${key}`);
+const shell = computed(() =>
+  props.checkbox
+    ? { header: label('LABEL') }
+    : { header: label('LABEL'), description: label('DESCRIPTION') }
+);
 
 watch(
   [
@@ -114,32 +124,19 @@ const toggle = value => {
 
 <template>
   <div :class="{ 'pointer-events-none opacity-60': isSaving }">
-    <SettingsToggleSection
+    <component
+      :is="checkbox ? SettingsCheckboxOption : SettingsToggleSection"
+      v-bind="shell"
       :model-value="isEnabled"
-      :header="label('LABEL')"
-      :description="label('DESCRIPTION')"
       @update:model-value="toggle"
     >
       <template v-if="isEnabled" #editor>
-        <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-3" :class="{ 'pt-1': !checkbox }">
           <slot name="notice" />
-          <NextInput
-            v-if="hasTimeout"
-            :id="`call-announcement-${kind}-timeout-${inbox.id}`"
-            v-model="timeout"
-            type="number"
-            :label="label('TIMEOUT.LABEL')"
-            :message="label('TIMEOUT.HELP')"
-            :min="String(TIMEOUT_SECONDS.min)"
-            :max="String(TIMEOUT_SECONDS.max)"
-            :disabled="isSaving"
-            class="max-w-xs"
-          />
           <TextArea
             :id="`call-announcement-${kind}-${inbox.id}`"
             v-model="draft"
-            :label="label('MESSAGE.LABEL')"
-            :placeholder="label('MESSAGE.PLACEHOLDER')"
+            :placeholder="label('PLACEHOLDER')"
             :max-length="MESSAGE_MAX_LENGTH"
             :disabled="isSaving"
             show-character-count
@@ -174,16 +171,43 @@ const toggle = value => {
               "
             />
           </template>
-          <div>
+          <div class="flex items-center justify-end gap-3">
+            <label
+              v-if="hasTimeout"
+              :for="`call-announcement-${kind}-timeout-${inbox.id}`"
+              class="flex items-center gap-2 mb-0 me-auto text-body-main text-n-slate-12"
+            >
+              <span
+                class="flex items-center gap-2 h-8 px-3 rounded-lg bg-n-alpha-black2 outline outline-1 -outline-offset-1 outline-n-weak focus-within:outline-n-brand"
+              >
+                <input
+                  :id="`call-announcement-${kind}-timeout-${inbox.id}`"
+                  v-model="timeout"
+                  type="number"
+                  :min="TIMEOUT_SECONDS.min"
+                  :max="TIMEOUT_SECONDS.max"
+                  :disabled="isSaving"
+                  class="w-10 reset-base !mb-0 !p-0 !border-0 !bg-transparent text-sm text-n-slate-12"
+                />
+                <span class="text-sm text-n-slate-11">
+                  {{ label('TIMEOUT.UNIT') }}
+                </span>
+              </span>
+              {{ label('TIMEOUT.LABEL') }}
+              <span class="ps-2 border-s border-n-weak text-n-slate-11">
+                {{ label('TIMEOUT.RANGE') }}
+              </span>
+            </label>
             <NextButton
               :label="$t('INBOX_MGMT.VOICE_CONFIGURATION.ANNOUNCEMENT.SAVE')"
               :is-loading="isSaving"
               :disabled="!canSave"
+              sm
               @click="save()"
             />
           </div>
         </div>
       </template>
-    </SettingsToggleSection>
+    </component>
   </div>
 </template>

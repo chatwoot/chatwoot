@@ -771,11 +771,16 @@
     },
     "VOICE_CONFIGURATION": {
       "ENABLE_VOICE": {
-        "LABEL": "Enable Voice Calling",
-        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+        "LABEL": "Enable voice calling",
+        "DESCRIPTION": "Agents can make and receive phone calls on this inbox."
       },
       "CREDENTIALS": {
         "DESCRIPTION": "Voice calling requires an Account Auth Token for webhook verification and API key credentials for calls."
+      },
+      "OPTIONS": {
+        "INBOUND": "Allow incoming calls to this number; when off, they're declined but agents can still call out",
+        "RECORDING": "Record calls and attach the recording to the conversation",
+        "TRANSCRIPTION": "Transcribe call recordings into text using Captain"
       },
       "INBOUND": {
         "LABEL": "Allow incoming calls",
@@ -796,32 +801,23 @@
         "SAVE": "Save announcement"
       },
       "BUSINESS_HOURS": {
-        "LABEL": "Apply business hours to calls",
-        "DESCRIPTION": "Outside this inbox's business hours, incoming calls don't ring agents. The caller gets your out-of-hours message, and the call is logged as missed.",
+        "LABEL": "Apply business hours, so calls outside them don't ring agents and are logged as missed",
         "HOURS_NOT_ENABLED": "Business hours are turned off for this inbox, so calls keep ringing. Turn them on in the Business Hours tab.",
-        "MESSAGE": {
-          "LABEL": "Out-of-hours message",
-          "PLACEHOLDER": "Our support team is available Monday through Friday, from 9 AM to 6 PM. Please call again during business hours."
-        }
+        "PLACEHOLDER": "Our support team is available Monday through Friday, from 9 AM to 6 PM. Please call again during business hours."
       },
       "GREETING": {
         "LABEL": "Play a greeting",
-        "DESCRIPTION": "Incoming callers hear this once before the waiting music, while agents are already being rung. An agent who answers during the greeting cuts it short.",
-        "MESSAGE": {
-          "LABEL": "Greeting",
-          "PLACEHOLDER": "Thank you for calling. Please hold while we connect you to the next available agent."
-        }
+        "DESCRIPTION": "Plays once while agents are being rung, and stops when one answers.",
+        "PLACEHOLDER": "Thank you for calling. Please hold while we connect you to the next available agent."
       },
       "UNANSWERED": {
-        "LABEL": "End unanswered calls",
-        "DESCRIPTION": "If nobody answers within the ring time, the caller hears your message and the call ends as missed. When no agent is online to ring, the caller hears it right away.",
+        "LABEL": "Play a message when unanswered",
+        "DESCRIPTION": "Plays if no one answers in time or no agent is online, then the call ends as missed.",
+        "PLACEHOLDER": "Sorry, nobody is available to take your call right now. Please try again later.",
         "TIMEOUT": {
           "LABEL": "Ring time",
-          "HELP": "Seconds, between 10 and 300."
-        },
-        "MESSAGE": {
-          "LABEL": "No-answer message",
-          "PLACEHOLDER": "Sorry, nobody is available to take your call right now. Please try again later."
+          "UNIT": "sec",
+          "RANGE": "10–300 sec"
         }
       }
     },
