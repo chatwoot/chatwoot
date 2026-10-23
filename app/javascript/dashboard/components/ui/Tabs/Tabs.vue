@@ -80,7 +80,9 @@ watch(
       ref="tabsList"
       class="border-r-0 border-l-0 border-t-0 flex min-w-[6.25rem] py-0 px-4 list-none mb-0"
       :class="
-        hasScroll ? 'overflow-hidden py-0 px-1 max-w-[calc(100%-64px)]' : ''
+        hasScroll
+          ? 'overflow-x-auto py-0 px-1 max-w-[calc(100%-64px)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
+          : ''
       "
     >
       <slot />
