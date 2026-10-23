@@ -46,7 +46,7 @@ class Channel::Whatsapp < ApplicationRecord
   validates :provider, inclusion: { in: PROVIDERS }
   validates :phone_number, presence: true, uniqueness: true
   # Saving only the locations must not re-check the credentials against Meta.
-  validate :validate_provider_config, unless: -> { persisted? && changed == ['locations'] }
+  validate :validate_provider_config, unless: -> { persisted? && (changed - ['locations']).empty? }
   validate :validate_locations
 
   after_create :sync_templates
