@@ -89,7 +89,9 @@ class Twilio::VoiceController < ApplicationController
     @twilio_direction ||= (params['Direction'] || params['CallDirection']).to_s
   end
 
-  def twiml = (@twiml ||= Voice::Provider::Twilio::TwimlBuilder.new(inbox: inbox, from: twilio_from))
+  def twiml
+    @twiml ||= Voice::Provider::Twilio::TwimlBuilder.new(inbox: inbox, from: twilio_from)
+  end
 
   def mapped_conference_event
     event = params[:StatusCallbackEvent].to_s
@@ -110,7 +112,9 @@ class Twilio::VoiceController < ApplicationController
   end
 
   # A caller outside business hours is told so instead of waiting for a conference nobody is rung for
-  def announce_closure?(call) = call.outside_working_hours? && !agent_leg?(twilio_from)
+  def announce_closure?(call)
+    call.outside_working_hours? && !agent_leg?(twilio_from)
+  end
 
   def resolve_call
     return find_call_for_agent if agent_leg?(twilio_from)

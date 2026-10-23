@@ -6,9 +6,13 @@ class Voice::Provider::Twilio::TwimlBuilder
 
   pattr_initialize [:inbox!, { from: '' }]
 
-  def reject = Twilio::TwiML::VoiceResponse.new(&:reject).to_s
+  def reject
+    Twilio::TwiML::VoiceResponse.new(&:reject).to_s
+  end
 
-  def hangup = Twilio::TwiML::VoiceResponse.new(&:hangup).to_s
+  def hangup
+    Twilio::TwiML::VoiceResponse.new(&:hangup).to_s
+  end
 
   # Told to the caller in place of the conference, before the call ends
   def announcement(kind)
@@ -52,9 +56,13 @@ class Voice::Provider::Twilio::TwimlBuilder
 
   private
 
-  def agent_leg? = from.start_with?('client:')
+  def agent_leg?
+    from.start_with?('client:')
+  end
 
-  def participant_label = agent_leg? ? from.delete_prefix('client:') : 'contact'
+  def participant_label
+    agent_leg? ? from.delete_prefix('client:') : 'contact'
+  end
 
   # An inbound caller hears the inbox's greeting first when one is on; otherwise Twilio's
   # default wait applies, as on every other leg
@@ -64,9 +72,15 @@ class Voice::Provider::Twilio::TwimlBuilder
     { wait_url: url_helpers.twilio_voice_wait_url(phone: phone_digits), wait_method: 'GET' }
   end
 
-  def greeting = (@greeting ||= Voice::CallAnnouncement.new(inbox, :greeting))
+  def greeting
+    @greeting ||= Voice::CallAnnouncement.new(inbox, :greeting)
+  end
 
-  def phone_digits = inbox.channel.phone_number.delete_prefix('+')
+  def phone_digits
+    inbox.channel.phone_number.delete_prefix('+')
+  end
 
-  def url_helpers = Rails.application.routes.url_helpers
+  def url_helpers
+    Rails.application.routes.url_helpers
+  end
 end

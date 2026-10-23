@@ -3,6 +3,10 @@ class Api::V1::Accounts::Inboxes::CallAnnouncementsController < Api::V1::Account
   before_action :set_announcement
   before_action :validate_settings
 
+  rescue_from CustomExceptions::InvalidAnnouncementAudio do |error|
+    render json: { error: error.message }, status: error.http_status
+  end
+
   def update
     @announcement.save!(enabled: params[:enabled], message: @message)
     @inbox.update_account_cache
