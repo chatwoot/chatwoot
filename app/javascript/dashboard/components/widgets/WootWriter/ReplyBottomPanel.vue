@@ -98,6 +98,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    enableWhatsappLocation: {
+      type: Boolean,
+      default: false,
+    },
     conversationId: {
       type: Number,
       required: true,
@@ -128,6 +132,7 @@ export default {
     'toggleInsertArticle',
     'selectWhatsappTemplate',
     'selectContentTemplate',
+    'selectLocation',
     'requestContactInfoTemplate',
   ],
   setup(props) {
@@ -344,6 +349,15 @@ export default {
       <RequestContactInfoButton
         v-if="!isOnPrivateNote"
         @request-template="$emit('requestContactInfoTemplate')"
+      />
+      <NextButton
+        v-if="enableWhatsappLocation"
+        v-tooltip.top-end="$t('WHATSAPP_LOCATIONS.SELECTOR.TOOLTIP')"
+        icon="i-lucide-map-pin"
+        slate
+        faded
+        sm
+        @click="$emit('selectLocation')"
       />
       <NextButton
         v-if="enableContentTemplates"
