@@ -8,8 +8,8 @@ class Captain::Copilot::Resources::Contacts < Captain::Copilot::Resources::BaseR
   }.freeze
   SOURCES = {
     'contacts' => ->(ids) { Contact.where(id: ids) },
-    'conversations' => ->(ids) { Contact.where(id: Conversation.where(id: ids).select(:contact_id)) },
-    'messages' => ->(ids) { Contact.where(id: Conversation.where(id: Message.where(id: ids).select(:conversation_id)).select(:contact_id)) }
+    'conversations' => ->(ids) { Contact.of_conversations(ids) },
+    'messages' => ->(ids) { Contact.of_messages(ids) }
   }.freeze
   COLUMNS = %w[Email Phone Company Labels].freeze
   PRELOAD = [:company, :labels].freeze

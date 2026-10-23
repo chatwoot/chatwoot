@@ -30,12 +30,12 @@ RSpec.describe Captain::Llm::ArticleTranslationService do
     end
 
     it 'uses the installation model when no account override is configured' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-5-mini')
 
       expect(service).to receive(:make_api_call).with(
         hash_including(
           feature: 'help_center_article_generation',
-          model: 'gpt-4.1-nano'
+          model: 'gpt-5-mini'
         )
       ).and_return(message: 'Primeros pasos')
 
