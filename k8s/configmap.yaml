@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chatwoot-config
+  namespace: staging
+data:
+  RAILS_ENV: "production"
+  NODE_ENV: "production"
+  INSTALLATION_ENV: "docker"
+  RAILS_LOG_TO_STDOUT: "true"
+  RAILS_SERVE_STATIC_FILES: "true"
+  ACTIVE_STORAGE_SERVICE: "local"
+  ENABLE_ACCOUNT_SIGNUP: "false"
