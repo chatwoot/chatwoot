@@ -20,7 +20,8 @@ describe ActionCableListener do
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token),
         'conversation.bot_handoff',
-        conversation.dashboard_push_event_data.merge(account_id: account.id)
+        conversation.dashboard_push_event_data.merge(account_id: account.id),
+        dashboard: true
       )
 
       listener.conversation_bot_handoff(event)
@@ -31,7 +32,8 @@ describe ActionCableListener do
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token),
         'conversation.bot_handoff',
-        conversation.dashboard_push_event_data.merge(account_id: account.id, performer: agent.push_event_data)
+        conversation.dashboard_push_event_data.merge(account_id: account.id, performer: agent.push_event_data),
+        dashboard: true
       )
 
       listener.conversation_bot_handoff(event)
@@ -264,7 +266,8 @@ describe ActionCableListener do
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         [agent.pubsub_token, admin.pubsub_token],
         'conversation.updated',
-        conversation.dashboard_push_event_data.merge(account_id: account.id)
+        conversation.dashboard_push_event_data.merge(account_id: account.id),
+        dashboard: true
       )
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         [conversation.contact_inbox.pubsub_token],
@@ -274,13 +277,23 @@ describe ActionCableListener do
       listener.conversation_updated(event)
     end
 
+    it 'builds the conversation payload once for agents and the contact' do
+      allow(Conversations::EventDataPresenter).to receive(:new).and_call_original
+      allow(ActionCableBroadcastJob).to receive(:perform_later)
+
+      listener.conversation_updated(event)
+
+      expect(Conversations::EventDataPresenter).to have_received(:new).once
+    end
+
     it 'broadcast event with label data' do
       expect(conversation.reload.push_event_data[:labels]).to eq(conversation.labels.pluck(:name))
 
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         [agent.pubsub_token, admin.pubsub_token],
         'conversation.updated',
-        conversation.dashboard_push_event_data.merge(account_id: account.id)
+        conversation.dashboard_push_event_data.merge(account_id: account.id),
+        dashboard: true
       )
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         [conversation.contact_inbox.pubsub_token],

@@ -1,4 +1,7 @@
 class Conversations::EventDataPresenter < SimpleDelegator
+  # Keys that only agents receive. Contact broadcasts remove them from the dashboard payload.
+  DASHBOARD_ONLY_KEYS = %i[participant_ids mentioned_user_ids].freeze
+
   def push_data
     {
       additional_attributes: additional_attributes,

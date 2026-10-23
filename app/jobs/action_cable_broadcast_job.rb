@@ -10,10 +10,11 @@ class ActionCableBroadcastJob < ApplicationJob
     CONVERSATION_STATUS_CHANGED
   ].freeze
 
-  def perform(members, event_name, data)
+  # dashboard: true marks an agent broadcast, whose refreshed payload carries the dashboard-only keys.
+  def perform(members, event_name, data, dashboard: false)
     return if members.blank?
 
-    broadcast_data = prepare_broadcast_data(event_name, data)
+    broadcast_data = prepare_broadcast_data(event_name, data, dashboard)
     broadcast_to_members(members, event_name, broadcast_data)
   end
 
@@ -22,13 +23,12 @@ class ActionCableBroadcastJob < ApplicationJob
   # Ensures that only the latest available data is sent to prevent UI issues
   # caused by out-of-order events during high-traffic periods. This prevents
   # the conversation job from processing outdated data.
-  def prepare_broadcast_data(event_name, data)
+  def prepare_broadcast_data(event_name, data, dashboard)
     return data unless CONVERSATION_UPDATE_EVENTS.include?(event_name)
 
     account = Account.find(data[:account_id])
     conversation = account.conversations.find_by!(display_id: data[:id])
-    # Agent payloads carry participant ids and contact payloads don't, so rebuild the same kind.
-    conversation_data = data.key?(:participant_ids) ? conversation.dashboard_push_event_data : conversation.push_event_data
+    conversation_data = dashboard ? conversation.dashboard_push_event_data : conversation.push_event_data
     broadcast_data = conversation_data.merge(account_id: data[:account_id])
     if event_name == ASSIGNEE_CHANGED
       # Keep the original assignment together even when the conversation is
