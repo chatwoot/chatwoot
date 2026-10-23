@@ -29,6 +29,13 @@ module Integrations::LlmInstrumentationHelpers
     if result.respond_to?(:content)
       span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, result.role.to_s) if result.respond_to?(:role)
       span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, result.content.to_s)
+      if result.respond_to?(:tokens)
+        set_usage_metrics(span, usage: {
+                            'prompt_tokens' => result.tokens.input,
+                            'completion_tokens' => result.tokens.output,
+                            'reasoning_tokens' => result.tokens.thinking
+                          })
+      end
     elsif result.is_a?(Hash)
       set_completion_attributes(span, result)
     end
@@ -58,7 +65,7 @@ module Integrations::LlmInstrumentationHelpers
 
   def propagated_langfuse_attributes(params)
     attrs = {}
-    session_id = params[:conversation_id].present? ? "#{params[:account_id]}_#{params[:conversation_id]}" : nil
+    session_id = langfuse_session_id(params)
 
     attrs[ATTR_LANGFUSE_USER_ID] = params[:account_id].to_s if params[:account_id]
     attrs[ATTR_LANGFUSE_SESSION_ID] = session_id if session_id.present?
@@ -73,9 +80,16 @@ module Integrations::LlmInstrumentationHelpers
     attrs
   end
 
+  # Features that are not about one conversation, such as Copilot threads, pass their own session_id.
+  def langfuse_session_id(params)
+    return params[:session_id] if params[:session_id].present?
+
+    "#{params[:account_id]}_#{params[:conversation_id]}" if params[:conversation_id].present?
+  end
+
   def propagated_observation_metadata_attributes(params)
     attrs = {}
-    session_id = params[:conversation_id].present? ? "#{params[:account_id]}_#{params[:conversation_id]}" : nil
+    session_id = langfuse_session_id(params)
 
     add_observation_metadata(attrs, 'user_id', params[:account_id])
     add_observation_metadata(attrs, 'account_id', params[:account_id])

@@ -1,4 +1,54 @@
 {
+  "STRIPE_INTEGRATION": {
+    "UNAVAILABLE": "Stripe is unavailable for this account. Contact your administrator to check the integration configuration.",
+    "TITLE": "Stripe",
+    "DESCRIPTION": "View customer details, subscriptions, and invoices alongside your conversations.",
+    "CONNECT": "Connect",
+    "DISCONNECT": "Disconnect from Chatwoot",
+    "DISCONNECT_NOTE": "Disconnecting removes the saved credentials from Chatwoot. Uninstall the app in Stripe to revoke its access there.",
+    "CONNECTED": "Connected",
+    "RECONNECT": "Reconnect Stripe",
+    "REAUTHORIZATION_REQUIRED": "Reconnect required",
+    "ACCOUNT": "Connected account",
+    "ACCOUNT_ID": "Account ID",
+    "ENVIRONMENT": "Environment",
+    "SANDBOX": "Sandbox",
+    "LIVE": "Live",
+    "CONNECTED_ON": "Connected on",
+    "OPEN_STRIPE": "Open Stripe dashboard",
+    "ERROR": "Unable to load Stripe. Please try again or reconnect the integration.",
+    "EMPTY": "No Stripe customer matches this contact's email.",
+    "NO_EMAIL": "Add an email to this contact to look up Stripe customers.",
+    "SELECT": "Select a matching customer",
+    "CUSTOMER_OPTION": "{name} — {id}",
+    "MORE": "Showing the first 100 matching customers. Refine the contact email if the customer is not listed.",
+    "SUBSCRIPTIONS": "Latest five subscriptions",
+    "SUBSCRIPTION": "Subscription",
+    "VIEW_SUBSCRIPTION": "View {name} subscription details",
+    "COPY_ID": "Copy ID",
+    "COPIED": "Copied",
+    "QUANTITY": "Quantity: {count}",
+    "PRICE_INTERVAL": "{amount} / {interval}",
+    "INTERVAL": {
+      "day": "day | {count} days",
+      "week": "week | {count} weeks",
+      "month": "month | {count} months",
+      "year": "year | {count} years"
+    },
+    "VARIABLE_PRICE": "Usage-based or tiered pricing",
+    "RENEWS": "Renews {date}",
+    "PERIOD_START": "Period starts {date}",
+    "PERIOD_END": "Period ends {date}",
+    "TRIAL_ENDS": "Trial ends {date}",
+    "CANCELS": "Cancels {date}",
+    "CANCELS_AT_PERIOD_END": "Cancels at the end of the billing period",
+    "CANCELED_ON": "Canceled {date}",
+    "MORE_ITEMS": "Additional subscription items are not shown.",
+    "PRICE_NOTE": "Prices are per unit, before discounts and taxes. They are not an estimate of the next invoice.",
+    "INVOICES": "Recent invoices",
+    "NO_SUBSCRIPTIONS": "No subscriptions found.",
+    "NO_INVOICES": "No invoices found."
+  },
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
       "HEADER": "Shopify",
@@ -19,7 +69,16 @@
         "TITLE": "How to use the Shopify Integration?",
         "BODY": "With this integration, your Shopify store ***{storeDomain}*** is connected to your Chatwoot workspace. Here's what you can do:\n\n**Track orders in conversations:** When you open a conversation, the Shopify sidebar will automatically display recent orders for the customer based on their email address. This gives your support team instant context without switching tabs.\n\n**Access order details:** View order status, fulfillment status, and total amount directly within the conversation panel."
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists.",
+      "PENDING_INSTALL": {
+        "SUCCESS": "Shopify store connected successfully.",
+        "ERROR": "Unable to complete the Shopify installation. Please try again."
+      },
+      "SELECT_ACCOUNT": {
+        "TITLE": "Choose a workspace",
+        "DESCRIPTION": "Select the workspace to connect to your Shopify store. To restore a previous connection, choose its original workspace.",
+        "UNAVAILABLE": "No eligible workspace or valid installation was found. Restart installation or sign in as a workspace administrator."
+      }
     },
     "HEADER": "Integrations",
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
@@ -407,6 +466,37 @@
         "BUTTON_TEXT": "Connect Linear workspace"
       }
     },
+    "GOOGLE_TRANSLATE": {
+      "HEADER": "Google Translate",
+      "DELETE_MESSAGE": "Agents won't be able to translate messages with Google Translate anymore. If Google Translate is your translation service, auto-translate stops until you pick another one.",
+      "SETUP": {
+        "TITLE": "Set up Google Translate",
+        "DESCRIPTION": "You'll need a Google Cloud project. It takes about five minutes.",
+        "STEPS": {
+          "ENABLE_API": {
+            "TITLE": "Turn on the Cloud Translation API",
+            "DESCRIPTION": "Pick a project in the Google Cloud console and enable the Cloud Translation API. Note the project ID.",
+            "LINK": "Open Cloud Translation API"
+          },
+          "CREATE_KEY": {
+            "TITLE": "Create a service account key",
+            "DESCRIPTION": "Create a service account with the Cloud Translation API User role. Then open it, go to Keys, and add a JSON key.",
+            "LINK": "Open service accounts"
+          },
+          "CONNECT": {
+            "TITLE": "Connect it here",
+            "DESCRIPTION": "Click Connect, enter the project ID and paste the key file. We check it with Google before saving."
+          }
+        }
+      },
+      "DETAILS": {
+        "PROJECT": "Google Cloud project",
+        "SERVICE": "Translation service",
+        "SERVICE_GOOGLE": "Google Translate handles all translation in your conversations. When auto-translate is on, it translates incoming messages into each agent's language and sends replies in the customer's language. Agents also use it when they translate a message from its menu.",
+        "SERVICE_OTHER": "Captain is selected as your translation service, so Google Translate isn't used right now. Auto-translate and the Translate action on messages both go through Captain. Switch the service to Google Translate to use this integration instead.",
+        "CHANGE": "Change"
+      }
+    },
     "NOTION": {
       "HEADER": "Notion",
       "DELETE": {
@@ -627,6 +717,12 @@
       "YOU": "You",
       "USE": "Use this",
       "RESET": "Reset",
+      "NEW_CHAT": "New chat",
+      "HISTORY": "Past chats",
+      "NO_HISTORY": "Your past Copilot chats will appear here.",
+      "LOAD_MORE": "Load more chats",
+      "LOADING_CHAT": "Loading chat...",
+      "LOADING_HISTORY": "Loading past chats...",
       "SHOW_STEPS": "Show steps",
       "SELECT_ASSISTANT": "Select Assistant",
       "PROMPTS": {
@@ -649,6 +745,22 @@
         "LIST_CONTACTS": {
           "LABEL": "List contacts",
           "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+        }
+      },
+      "APPROVAL": {
+        "TITLE": "Approve this change?",
+        "APPROVE": "Approve",
+        "REJECT": "Reject",
+        "ERROR": "Could not save your decision. Please try again.",
+        "MORE_TARGETS": "and {count} more",
+        "ACTIONS": {
+          "ADD_LABELS": "Add {labels} to {count} conversation | Add {labels} to {count} conversations",
+          "OTHER": "Run {action} on {count} conversation | Run {action} on {count} conversations"
+        },
+        "STATUS": {
+          "APPROVED": "Approved",
+          "REJECTED": "Rejected",
+          "EXPIRED": "Expired. Ask Copilot to propose it again."
         }
       }
     },
@@ -1252,7 +1364,6 @@
         "SUCCESS_MESSAGE": "The document has been successfully deleted",
         "ERROR_MESSAGE": "There was an error deleting the document, please try again."
       },
-
       "OPTIONS": {
         "VIEW_DETAILS": "View details",
         "SYNC_NOW": "Refresh now",
@@ -1273,18 +1384,38 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "CATALOG": {
+        "BUTTON": "Tools Catalog",
+        "HEADER": "Tools Catalog",
+        "DESCRIPTION": "Browse toolsets from the Captain tools catalog and install them on this assistant.",
+        "ALL": "All",
+        "EMPTY": "No toolsets in this category yet.",
+        "LOAD_ERROR": "Could not load the tools catalog. Check the catalog URL in the Captain settings.",
+        "TOOL_COUNT": "{n} tool | {n} tools",
+        "VERSION": "v{version}",
+        "UPDATED": "Updated {time}",
+        "REPOSITORY": "Repository",
+        "MANIFEST": "Manifest",
+        "CONFIGURATION": "Configuration",
+        "REQUIRED": "Required",
+        "DETAILS_ERROR": "Could not load the toolset details.",
+        "INSTALLED": "Installed",
+        "UPDATE_AVAILABLE": "Update available"
+      },
+      "INSTALL_LINK": {
+        "TITLE": "Choose an assistant",
+        "DESCRIPTION": "Pick the assistant to install this toolset on.",
+        "PLACEHOLDER": "Select an assistant",
+        "LOAD_ERROR": "Could not load your assistants. Reload the page to try again."
+      },
       "INSTALL_MANIFEST": {
         "TITLE": "Install a toolset",
         "DESCRIPTION": "Install a toolset from the Captain tools catalog.",
-        "SOURCE_LABEL": "Toolset",
-        "SOURCE_PLACEHOLDER": "chatwoot/tools/folder",
-        "SOURCE_HELP": "Installs the latest version from the catalog.",
         "VERSION_LABEL": "v{version} · {revision}",
         "UPDATE_NOTE": "A different version is installed. Updating replaces its tools and keeps whether each one is enabled. Enter the secrets again.",
         "TOOLS_LABEL": "Tools",
         "CONFIGURATION_LABEL": "Configuration",
         "CONTINUE": "Continue",
-        "BACK": "Back",
         "INSTALL": "Install",
         "UPDATE": "Update",
         "REINSTALL": "Reinstall",
@@ -1340,7 +1471,9 @@
         "ERROR_MESSAGE": "Failed to create custom tool"
       },
       "VIEW": {
-        "TITLE": "Custom Tool Details"
+        "TITLE": "Custom Tool Details",
+        "REQUEST": "Request and response",
+        "INSTALLED_NOTE": "This tool is read-only because it was installed from the Tools Catalog."
       },
       "EDIT": {
         "TITLE": "Edit Custom Tool",
@@ -1393,6 +1526,11 @@
         },
         "AUTH_TYPE": {
           "LABEL": "Authentication Type"
+        },
+        "EMAIL_VERIFICATION": {
+          "LABEL": "Require email verification",
+          "DESCRIPTION": "Captain can use this tool only after the customer verifies their email with a one-time code.",
+          "IMPLIED": "A parameter takes the customer's verified email, so email verification is always required."
         },
         "AUTH_TYPES": {
           "NONE": "None",
@@ -1448,6 +1586,21 @@
         },
         "PARAM_REQUIRED": {
           "LABEL": "Required"
+        },
+        "RISK": {
+          "MEDIUM": "This tool may return customer data. Consider requiring email verification.",
+          "HIGH": "This tool looks like it reads or changes customer data. Require email verification so only a verified customer can use it.",
+          "TITLE": "Save without email verification?",
+          "GO_BACK": "Go back",
+          "SAVE_ANYWAY": "Save anyway",
+          "EMAIL_PARAM": "This email is not verified. A customer could type someone else's.",
+          "USE_VERIFIED_EMAIL": "Use verified email"
+        },
+        "VERIFIED_VALUES": {
+          "ADD": "Add verified email",
+          "EMAIL": "Contact email",
+          "EMAIL_DESCRIPTION": "The contact's verified email address",
+          "HELP": "Filled by Chatwoot from the email the contact confirmed with a one-time code. Captain cannot see or change it in customer conversations."
         },
         "REQUEST_TEMPLATE": {
           "LABEL": "Request Body Template (Optional)",

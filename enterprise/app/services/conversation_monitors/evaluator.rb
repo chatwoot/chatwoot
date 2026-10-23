@@ -2,6 +2,7 @@ class ConversationMonitors::Evaluator
   LEASE_DURATION = 2.minutes
   MAX_ATTEMPTS = 5
   QUESTIONS_PER_REQUEST = 20
+  LIMIT_RETRY_JITTER = 4.hours
 
   def initialize(work)
     @work = work
@@ -163,11 +164,13 @@ class ConversationMonitors::Evaluator
   end
 
   def next_retry_error
-    @errors.find { |error| error.code == 'monthly_limit' } || @errors.find(&:retryable?)
+    @errors.find { |error| error.code == 'monthly_limit' } ||
+      @errors.find { |error| error.code == 'budget_limit' } ||
+      @errors.find(&:retryable?)
   end
 
   def update_progress(error)
-    if error&.code == 'monthly_limit'
+    if %w[monthly_limit budget_limit].include?(error&.code)
       @work.full_history_revision = @work.revision
     elsif @errors.empty?
       @work.processed_revision = @snapshot[:revision]
@@ -175,14 +178,18 @@ class ConversationMonitors::Evaluator
   end
 
   def next_due(newer_input, error)
-    return error.retry_after.seconds.from_now if error&.code == 'monthly_limit'
+    return (retry_delay + rand(LIMIT_RETRY_JITTER.to_i)).seconds.from_now if %w[monthly_limit budget_limit].include?(error&.code)
 
     return 3.seconds.from_now if newer_input
     return unless error
-    return if @work.attempts + 1 >= MAX_ATTEMPTS && error.code != 'budget_limit'
+    return if @work.attempts + 1 >= MAX_ATTEMPTS
 
-    delay = [error.retry_after.to_i, (5 * (2**[@work.attempts, 8].min)) + rand(5)].max
-    delay.seconds.from_now
+    retry_delay.seconds.from_now
+  end
+
+  def retry_delay
+    retry_after = @errors.select(&:retryable?).map { |batch_error| batch_error.retry_after.to_i }.max.to_i
+    [retry_after, (5 * (2**[@work.attempts, 8].min)) + rand(5)].max
   end
 
   def newer_input?

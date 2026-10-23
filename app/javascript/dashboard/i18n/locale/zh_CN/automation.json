@@ -28,6 +28,19 @@
           "PLACEHOLDER": "请选择一个",
           "ERROR": "事件是必填项"
         },
+        "MONITOR": {
+          "LABEL": "Monitor",
+          "PLACEHOLDER": "Select a live monitor",
+          "ERROR": "Select a live monitor",
+          "FETCH_FAILED": "Could not load monitors. Try again later.",
+          "API_UNAVAILABLE": "This monitor is no longer available. Select a live monitor and try again.",
+          "EMPTY": "No live monitors yet. Create or resume a monitor to use this event.",
+          "GO_TO_MONITORS": "Go to monitors",
+          "RETRY": "重试",
+          "UNAVAILABLE": "Unavailable monitor",
+          "UNAVAILABLE_HELP": "This monitor is unavailable for automation. Select a live monitor to activate this rule.",
+          "HELP": "Runs once when the monitor first matches a conversation from new live activity. Historical scans do not trigger actions."
+        },
         "RUN_TYPE": {
           "LABEL": "When should this rule run?",
           "OPTIONS": {
@@ -83,8 +96,7 @@
       "TABLE_HEADER": {
         "NAME": "姓名：",
         "ACTIVE": "状态",
-        "CREATED_ON": "创建时间",
-        "ACTIONS": "操作"
+        "CREATED_ON": "创建时间"
       },
       "404": "未找到自动化规则",
       "404_DELAYED": "No rules run after a wait yet",
@@ -93,6 +105,9 @@
         "DELAYED": "Runs after a wait"
       },
       "DELAY_BADGE": "Runs after {delay}",
+      "MONITOR_PAUSED": "Monitor paused",
+      "MONITOR_DELETED": "Monitor deleted",
+      "MONITOR_UNAVAILABLE": "Monitor feature unavailable",
       "DELAY_DISABLED_BANNER": "Delayed execution is turned off for this account, so the rules below that run after a wait are paused until it is turned back on."
     },
     "DELETE": {
@@ -136,7 +151,10 @@
     "CONDITION": {
       "DELETE_MESSAGE": "保存时至少需要一个条件",
       "CONTACT_CUSTOM_ATTR_LABEL": "联系人自定义属性",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "对话自定义属性"
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "对话自定义属性",
+      "PLACEHOLDERS": {
+        "CAPTAIN": "Describe what to look for, e.g. customer wants to cancel"
+      }
     },
     "ACTION": {
       "DELETE_MESSAGE": "保存时至少需要一个操作",
@@ -181,7 +199,8 @@
       "CONVERSATION_UPDATED": "对话已更新",
       "MESSAGE_CREATED": "消息已创建",
       "CONVERSATION_RESOLVED": "Conversation Resolved",
-      "CONVERSATION_OPENED": "对话已打开"
+      "CONVERSATION_OPENED": "对话已打开",
+      "MONITOR_MATCHED": "Monitor Matched"
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "分配客服",
@@ -232,7 +251,8 @@
       "ASSIGNEE_NAME": "负责人",
       "TEAM_NAME": "团队",
       "PRIORITY": "优先级",
-      "LABELS": "标签"
+      "LABELS": "标签",
+      "CAPTAIN": "Captain"
     }
   }
 }

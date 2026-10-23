@@ -35,6 +35,23 @@ RSpec.describe 'Conversations API', type: :request do
         expect(body[:data][:payload].first[:messages].first[:id]).to eq(message.id)
       end
 
+      it 'lists a conversation whose assignee no longer exists as unassigned' do
+        assigned = create(:conversation, account: account, inbox: conversation.inbox, assignee: agent)
+        conversation.update_column(:assignee_id, User.maximum(:id) + 1000) # rubocop:disable Rails/SkipsModelValidations
+
+        get "/api/v1/accounts/#{account.id}/conversations",
+            headers: agent.create_new_auth_token,
+            params: { assignee_type: 'all' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        payload = JSON.parse(response.body, symbolize_names: true)[:data][:payload].index_by { |item| item[:id] }
+        expect(payload.keys).to contain_exactly(conversation.display_id, assigned.display_id)
+        expect(payload[conversation.display_id][:meta]).not_to include(:assignee, :assignee_type)
+        expect(payload[assigned.display_id][:meta][:assignee][:id]).to eq(agent.id)
+        expect(payload[assigned.display_id][:meta][:assignee_type]).to eq('User')
+      end
+
       it 'returns conversations with empty messages array for conversations with out messages' do
         get "/api/v1/accounts/#{account.id}/conversations",
             headers: agent.create_new_auth_token,
@@ -519,6 +536,32 @@ RSpec.describe 'Conversations API', type: :request do
           response_data = JSON.parse(response.body, symbolize_names: true)
           expect(response_data[:meta][:assignee][:name]).to eq(agent.name)
           expect(response_data[:meta][:team][:name]).to eq(team.name)
+        end
+
+        it 'does not create a conversation with an assignee from another account' do
+          other_user = create(:user, account: create(:account))
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/conversations",
+                 headers: agent.create_new_auth_token,
+                 params: { source_id: contact_inbox.source_id, assignee_id: other_user.id },
+                 as: :json
+          end.not_to change(Conversation, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'does not create a conversation with a team from another account' do
+          other_team = create(:team, account: create(:account))
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/conversations",
+                 headers: agent.create_new_auth_token,
+                 params: { source_id: contact_inbox.source_id, team_id: other_team.id },
+                 as: :json
+          end.not_to change(Conversation, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
         end
       end
     end
