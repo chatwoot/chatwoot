@@ -6,7 +6,10 @@ class Twilio::VoiceController < ApplicationController
     /conference-end/i => 'end'
   }.freeze
 
+  include Concerns::TwilioWebhookVerification
+
   before_action :set_inbox!
+  before_action { verify_twilio_signature!(inbox_channel.auth_token) }
 
   def status
     Voice::StatusUpdateService.new(
@@ -76,9 +79,7 @@ class Twilio::VoiceController < ApplicationController
 
   def twilio_call_sid = params[:CallSid]
 
-  def twilio_from
-    params[:From].to_s
-  end
+  def twilio_from = params[:From].to_s
 
   def twilio_to
     params[:To]
@@ -88,7 +89,9 @@ class Twilio::VoiceController < ApplicationController
     @twilio_direction ||= (params['Direction'] || params['CallDirection']).to_s
   end
 
-  def twiml = (@twiml ||= Voice::Provider::Twilio::TwimlBuilder.new(inbox: inbox, from: twilio_from))
+  def twiml
+    @twiml ||= Voice::Provider::Twilio::TwimlBuilder.new(inbox: inbox, from: twilio_from)
+  end
 
   def mapped_conference_event
     event = params[:StatusCallbackEvent].to_s
@@ -109,7 +112,9 @@ class Twilio::VoiceController < ApplicationController
   end
 
   # A caller nobody was rung for is told why instead of waiting for a conference; see Call::ANNOUNCED_END_REASONS
-  def announce_end?(call) = call.announcement_kind.present? && !agent_leg?(twilio_from)
+  def announce_end?(call)
+    call.announcement_kind.present? && !agent_leg?(twilio_from)
+  end
 
   def resolve_call
     return find_call_for_agent if agent_leg?(twilio_from)

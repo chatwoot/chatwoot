@@ -21,8 +21,13 @@ class Voice::CallAnnouncement
     @kind = kind.to_s
   end
 
-  def enabled? = channel.provider_config[enabled_key] == true
-  def message = channel.provider_config[message_key]
+  def enabled?
+    channel.provider_config[enabled_key] == true
+  end
+
+  def message
+    channel.provider_config[message_key]
+  end
 
   # The recorded audio, for an announcement that has one
   def audio
@@ -56,9 +61,17 @@ class Voice::CallAnnouncement
 
   private
 
-  def channel = inbox.channel
-  def enabled_key = KINDS.fetch(kind)[:enabled]
-  def message_key = KINDS.fetch(kind)[:message]
+  def channel
+    inbox.channel
+  end
+
+  def enabled_key
+    KINDS.fetch(kind)[:enabled]
+  end
+
+  def message_key
+    KINDS.fetch(kind)[:message]
+  end
 
   def language
     locale = inbox.account.locale.tr('_', '-')
