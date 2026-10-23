@@ -30,6 +30,33 @@ RSpec.describe ConversationParticipant do
     end
   end
 
+  describe 'participant change events' do
+    let(:conversation) { create(:conversation) }
+    let(:user) { create(:user, account: conversation.account) }
+
+    before { create(:inbox_member, user: user, inbox: conversation.inbox) }
+
+    it 'dispatches a participants changed event when a participant is added or removed' do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      participant = create(:conversation_participant, conversation: conversation, user: user)
+      participant.destroy!
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(Events::Types::CONVERSATION_PARTICIPANTS_CHANGED, anything, conversation: conversation).twice
+    end
+
+    it 'skips the event when the conversation was deleted first' do
+      participant = create(:conversation_participant, conversation: conversation, user: user)
+      conversation.delete
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      participant.reload.destroy!
+
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONVERSATION_PARTICIPANTS_CHANGED, any_args)
+    end
+  end
+
   describe 'filtered unread count invalidation' do
     let(:account) { create(:account) }
     let(:conversation) { create(:conversation, account: account) }
