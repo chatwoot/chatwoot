@@ -1,7 +1,6 @@
 <script setup>
 import Icon from '../../components-next/icon/Icon.vue';
 import Spinner from '../../components-next/spinner/Spinner.vue';
-// status is set only for Copilot workflows steps. The old Copilot's steps leave it empty and keep the sparkles icon.
 defineProps({
   content: {
     type: String,
@@ -10,6 +9,7 @@ defineProps({
   status: {
     type: String,
     default: null,
+    validator: value => ['active', 'done', 'failed'].includes(value),
   },
 });
 </script>

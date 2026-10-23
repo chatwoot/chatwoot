@@ -89,15 +89,11 @@ const scrollToBottom = async () => {
   }
 };
 
-// A review's progress card is a step of its own, so it splits the steps around it into separate groups.
 const groupedMessages = computed(() => {
   const result = [];
   let thinkingGroup = [];
   props.messages.forEach(message => {
-    if (
-      message.message_type === 'assistant_thinking' &&
-      !message.message.progress
-    ) {
+    if (message.message_type === 'assistant_thinking') {
       thinkingGroup.push(message);
     } else {
       if (thinkingGroup.length > 0) {
@@ -265,7 +261,7 @@ watch(
             :message="item.message"
           />
           <CopilotReviewProgress
-            v-else-if="item.message_type === 'assistant_thinking'"
+            v-else-if="item.message_type === 'assistant_progress'"
             :progress="item.message.progress"
           />
           <CopilotThinkingGroup

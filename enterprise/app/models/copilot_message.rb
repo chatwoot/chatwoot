@@ -20,7 +20,7 @@ class CopilotMessage < ApplicationRecord
   belongs_to :account
   has_one :copilot_run, class_name: 'CopilotRun::Turn', dependent: :destroy
 
-  enum message_type: { user: 0, assistant: 1, assistant_thinking: 2, assistant_approval: 3 }
+  enum message_type: { user: 0, assistant: 1, assistant_thinking: 2, assistant_approval: 3, assistant_progress: 4 }
 
   validates :message_type, presence: true
   validates :message, presence: true

@@ -763,7 +763,7 @@
         },
         "PROGRESS": "Applying {done} of {total}",
         "APPLIED": "Applied to {count}",
-        "FAILED": "{count} failed"
+        "NOT_CHANGED": "{count} not changed"
       },
       "REVIEW": {
         "RUNNING": "Reviewing conversations",

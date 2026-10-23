@@ -1,24 +1,20 @@
 <script setup>
-import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import CopilotProgressBar from './CopilotProgressBar.vue';
 
 // The review job updates this card in place. It counts only the current turn's conversations.
-const props = defineProps({
+defineProps({
   progress: { type: Object, required: true },
 });
 
 const { t } = useI18n();
-const isFinished = computed(() =>
-  ['completed', 'incomplete'].includes(props.progress.status)
-);
 </script>
 
 <template>
   <div
     class="flex flex-col gap-2 p-3 rounded-xl outline outline-1 outline-n-weak bg-n-alpha-1 text-n-slate-12"
   >
-    <template v-if="isFinished">
+    <template v-if="progress.finished">
       <span class="font-medium">
         {{
           t(

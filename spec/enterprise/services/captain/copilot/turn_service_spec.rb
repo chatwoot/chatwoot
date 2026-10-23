@@ -14,13 +14,15 @@ RSpec.describe Captain::Copilot::TurnService do
   end
 
   # RubyLLM calls these around every tool call.
-  it 'writes one plain line per step, and a warning line only when a step fails' do
+  it 'writes one plain line per step, marks a failed step, and adds a warning line for a failed tool without a step line' do
     service.send(:start_tool_call, RubyLLM::ToolCall.new(id: 'call-1', name: 'search_contacts', arguments: {}))
     service.send(:finish_tool_call, { contacts: [] })
     service.send(:start_tool_call, RubyLLM::ToolCall.new(id: 'call-2', name: 'get_contact', arguments: { contact_id: 1 }))
     service.send(:finish_tool_call, { error: 'Contact not found' })
+    service.send(:start_tool_call, RubyLLM::ToolCall.new(id: 'call-3', name: 'act', arguments: {}))
+    service.send(:finish_tool_call, { error: 'There are no records to change' })
 
-    expect(steps).to eq([{ 'content' => 'Searching contacts' }, { 'content' => 'Looking up a contact' },
+    expect(steps).to eq([{ 'content' => 'Searching contacts' }, { 'content' => 'Looking up a contact', 'status' => 'failed' },
                          { 'content' => "Couldn't finish this step", 'status' => 'failed' }])
   end
 

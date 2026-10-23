@@ -33,7 +33,15 @@ RSpec.describe Captain::Copilot::ActionJob do
     expect(unlabeled.reload.label_list).to eq(['billing'])
     expect(card.reload.message['approval']).to include(
       'status' => 'approved',
-      'progress' => { 'status' => 'completed', 'done' => 2, 'total' => 2, 'applied' => 2, 'failed' => 0 }
+      'progress' => { 'finished' => true, 'done' => 2, 'total' => 2, 'applied' => 2, 'not_changed' => 0 }
     )
+  end
+
+  it 'counts the records a stopped change never reached as not changed' do
+    account.labels.find_by!(title: 'billing').destroy!
+
+    described_class.perform_now(action_run.id)
+
+    expect(card.reload.message.dig('approval', 'progress')).to include('finished' => true, 'applied' => 0, 'not_changed' => 2)
   end
 end

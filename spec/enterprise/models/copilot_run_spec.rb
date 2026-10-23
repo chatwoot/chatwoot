@@ -67,7 +67,7 @@ RSpec.describe CopilotRun do
       CopilotRun::Turn.create!(account: account, user: user, copilot_thread: thread,
                                copilot_message: create(:captain_copilot_message, account: account, copilot_thread: thread))
     end
-    let(:cards) { thread.copilot_messages.assistant_thinking.order(:id) }
+    let(:cards) { thread.copilot_messages.assistant_progress.order(:id) }
 
     it 'updates one card per turn, and a continued review starts a new card that counts only its own turn' do
       review.update!(status: :running)
@@ -77,14 +77,14 @@ RSpec.describe CopilotRun do
       review.publish_progress
 
       expect(cards.reload.map { |card| card.message['progress'] }).to eq(
-        [{ 'status' => 'running', 'done' => 2, 'total' => 3, 'matched' => 1, 'failed' => 1 }]
+        [{ 'finished' => false, 'done' => 2, 'total' => 3, 'matched' => 1, 'failed' => 1 }]
       )
 
       review.update!(status: :incomplete)
       review.continue_review(next_turn.tool_calls.create!(call_id: 'continue-1', name: 'continue_review'))
       review.update!(status: :running)
       review.publish_progress
-      expect(cards.reload.last.message['progress']).to eq('status' => 'running', 'done' => 0, 'total' => 2, 'matched' => 0, 'failed' => 0)
+      expect(cards.reload.last.message['progress']).to eq('finished' => false, 'done' => 0, 'total' => 2, 'matched' => 0, 'failed' => 0)
 
       review.findings.create!(conversation_id: 3, status: :reviewed, matched: true)
       review.publish_progress

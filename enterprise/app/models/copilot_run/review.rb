@@ -72,10 +72,11 @@ class CopilotRun::Review < CopilotRun
       raise ArgumentError, 'The review has no conversations left to review' if remaining_ids.empty?
       raise ArgumentError, 'This turn already reviewed a batch. Ask the agent before continuing.' if turn.id == tool_call.copilot_run_id
 
-      start = processed_count
-      update!(copilot_tool_call: tool_call, status: :queued, error: nil, progress_message_id: nil, turn_start: start,
-              turn_start_matched: findings.where(matched: true).count, turn_start_failed: findings.failed.count,
-              turn_limit: start + tool_call.copilot_run.review_budget!)
+      # The same counts turn_progress subtracts from, so a continued turn's card starts at 0.
+      base = summary
+      update!(copilot_tool_call: tool_call, status: :queued, error: nil, progress_message_id: nil, turn_start: base[:processed],
+              turn_start_matched: base[:matched], turn_start_failed: base[:failed],
+              turn_limit: base[:processed] + tool_call.copilot_run.review_budget!)
     end
   end
 
@@ -86,7 +87,7 @@ class CopilotRun::Review < CopilotRun
     return if card&.message&.dig('progress') == progress
     return card.update!(message: card.message.merge('progress' => progress)) if card
 
-    card = copilot_thread.copilot_messages.create!(message_type: :assistant_thinking, message: { run_id: id, progress: progress })
+    card = copilot_thread.copilot_messages.create!(message_type: :assistant_progress, message: { run_id: id, progress: progress })
     update!(progress_message_id: card.id)
   end
 
@@ -116,7 +117,7 @@ class CopilotRun::Review < CopilotRun
   # Counts only the current turn's work, so every card's bar starts empty and ends full.
   def turn_progress
     progress = summary
-    { status: status, done: progress[:processed] - turn_start, total: [turn_limit, progress[:selected]].min - turn_start,
+    { finished: finished?, done: progress[:processed] - turn_start, total: [turn_limit, progress[:selected]].min - turn_start,
       matched: progress[:matched] - turn_start_matched, failed: progress[:failed] - turn_start_failed }
   end
 end

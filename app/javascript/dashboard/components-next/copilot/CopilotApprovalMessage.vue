@@ -25,9 +25,6 @@ const isAwaitingApproval = computed(() => status.value === 'awaiting_approval');
 const progress = computed(
   () => approval.value.progress || { done: 0, total: approval.value.count }
 );
-const isApplied = computed(() =>
-  ['completed', 'incomplete'].includes(progress.value.status)
-);
 const statusLabel = computed(() => {
   if (status.value === 'expired') {
     return t('CAPTAIN.COPILOT.APPROVAL.STATUS.EXPIRED');
@@ -114,14 +111,18 @@ const decide = async choice => {
       />
     </div>
     <template v-else-if="status === 'approved'">
-      <div v-if="isApplied" class="flex flex-col">
+      <div v-if="progress.finished" class="flex flex-col">
         <span class="text-n-slate-11">
           {{
             t('CAPTAIN.COPILOT.APPROVAL.APPLIED', { count: progress.applied })
           }}
         </span>
-        <span v-if="progress.failed > 0" class="text-n-amber-11">
-          {{ t('CAPTAIN.COPILOT.APPROVAL.FAILED', { count: progress.failed }) }}
+        <span v-if="progress.not_changed > 0" class="text-n-amber-11">
+          {{
+            t('CAPTAIN.COPILOT.APPROVAL.NOT_CHANGED', {
+              count: progress.not_changed,
+            })
+          }}
         </span>
       </div>
       <div v-else class="flex flex-col gap-2">

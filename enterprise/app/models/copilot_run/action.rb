@@ -124,11 +124,12 @@ class CopilotRun::Action < CopilotRun
     errors.add(:action, :blank) if context['action'].blank?
   end
 
-  # Records that already had the change count as applied, because they end up as the agent approved.
+  # Records that already had the change count as applied, because they end up as the agent approved. Records a stopped
+  # change never reached count with the failed ones, so the card's numbers add up to what the agent approved.
   def card_progress
     progress = summary
-    { status: status, done: progress.values_at(:applied, :skipped, :failed).sum, total: progress[:targets],
-      applied: progress[:applied] + progress[:skipped], failed: progress[:failed] }
+    { finished: finished?, done: progress.values_at(:applied, :skipped, :failed).sum, total: progress[:targets],
+      applied: progress[:applied] + progress[:skipped], not_changed: progress[:failed] + progress[:not_processed].to_i }
   end
 
   # Targets an approved change never reached, such as when workflows were turned off partway through.
