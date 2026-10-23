@@ -1,11 +1,12 @@
-# What callers hear in one situation: out of hours, or as a greeting. The text lives in the
-# channel's provider_config and Twilio reads it in the account's language. The out-of-hours
-# text is also recorded as audio on the inbox by Captain when it is available.
+# What callers hear in one situation: out of hours, as a greeting, or when nobody answers. The
+# text lives in the channel's provider_config and Twilio reads it in the account's language. The
+# out-of-hours text is also recorded as audio on the inbox by Captain when it is available.
 class Voice::CallAnnouncement
   MESSAGE_MAX_LENGTH = 1000
   KINDS = {
     'out_of_hours' => { enabled: 'business_hours_calls_enabled', message: 'out_of_hours_call_message', audio: :out_of_hours_call_audio },
-    'greeting' => { enabled: 'call_greeting_enabled', message: 'call_greeting_message' }
+    'greeting' => { enabled: 'call_greeting_enabled', message: 'call_greeting_message' },
+    'unanswered' => { enabled: 'unanswered_calls_enabled', message: 'unanswered_call_message' }
   }.freeze
   # Languages supported by Twilio's basic voices. Other account languages retain the English default.
   LANGUAGES = {
@@ -40,8 +41,8 @@ class Voice::CallAnnouncement
     twiml.say(message: message, language: language)
   end
 
-  # Regenerates the audio when the text changed
-  def save!(enabled:, message:)
+  # Regenerates the audio when the text changed; `config` carries settings saved in the same write
+  def save!(enabled:, message:, config: {})
     changed = message != self.message
     generated = generated_audio(enabled, message, changed) if audio
 
@@ -54,7 +55,7 @@ class Voice::CallAnnouncement
       elsif changed
         audio&.purge_later
       end
-      channel.update!(provider_config: channel.provider_config.merge(enabled_key => enabled, message_key => message))
+      channel.update!(provider_config: channel.provider_config.merge(config, enabled_key => enabled, message_key => message))
     end
   end
 

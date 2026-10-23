@@ -269,6 +269,16 @@ export default {
       :message="inbox.call_greeting_message || ''"
     />
 
+    <CallAnnouncementSettings
+      v-if="inbox.voice_enabled"
+      :inbox="inbox"
+      kind="unanswered"
+      i18n-key="UNANSWERED"
+      :enabled="!!inbox.unanswered_calls_enabled"
+      :message="inbox.unanswered_call_message || ''"
+      :timeout-seconds="inbox.unanswered_call_timeout_seconds"
+    />
+
     <div
       v-if="inbox.voice_enabled && inbox.voice_call_webhook_url"
       class="flex flex-col outline outline-1 -outline-offset-1 outline-n-weak rounded-xl divide-y divide-n-weak"

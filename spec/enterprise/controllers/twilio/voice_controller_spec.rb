@@ -152,6 +152,33 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       end
     end
 
+    context 'when unanswered calls end and nobody is online to ring' do
+      before do
+        channel.update!(provider_config: channel.provider_config.merge(
+          'unanswered_calls_enabled' => true, 'unanswered_call_timeout_seconds' => 30, 'unanswered_call_message' => 'Nobody is available right now.'
+        ))
+      end
+
+      it 'tells the caller nobody is available and hangs up, without a conference' do
+        post_twilio_webhook("/twilio/voice/call/#{digits}", params: inbound_call_params)
+
+        xml = Nokogiri::XML(response.body)
+        expect(xml.at_xpath('//Say').text).to eq('Nobody is available right now.')
+        expect(xml.at_xpath('//Hangup')).to be_present
+        expect(xml.at_xpath('//Dial')).to be_nil
+        expect(inbox.calls.sole).to have_attributes(status: 'no_answer', end_reason: 'no_agents_available')
+      end
+
+      it 'rings an online agent and times the ring instead' do
+        agent = create(:user, account: account, role: :agent)
+        create(:inbox_member, inbox: inbox, user: agent)
+
+        expect { post_twilio_webhook("/twilio/voice/call/#{digits}", params: inbound_call_params) }.to have_enqueued_job(Voice::EndUnansweredCallJob)
+        expect(Nokogiri::XML(response.body).at_xpath('//Conference')).to be_present
+        expect(inbox.calls.sole).to be_ringing
+      end
+    end
+
     context 'with the audio callers and agents hear' do
       let(:conversation) { create(:conversation, account: account, inbox: inbox) }
       let(:call) do

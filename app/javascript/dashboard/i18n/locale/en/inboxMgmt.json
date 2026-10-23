@@ -809,6 +809,16 @@
         "LABEL": "Play a greeting",
         "DESCRIPTION": "Plays once while agents are being rung, and stops when one answers.",
         "PLACEHOLDER": "Thank you for calling. Please hold while we connect you to the next available agent."
+      },
+      "UNANSWERED": {
+        "LABEL": "Play a message when unanswered",
+        "DESCRIPTION": "Plays if no one answers in time or no agent is online, then the call ends as missed.",
+        "PLACEHOLDER": "Sorry, nobody is available to take your call right now. Please try again later.",
+        "TIMEOUT": {
+          "LABEL": "Ring time",
+          "UNIT": "sec",
+          "RANGE": "10–300 sec"
+        }
       }
     },
     "WHATSAPP_CALLING": {

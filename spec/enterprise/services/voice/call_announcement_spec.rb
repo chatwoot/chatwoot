@@ -81,6 +81,15 @@ RSpec.describe Voice::CallAnnouncement do
       expect(inbox.reload.out_of_hours_call_audio.blob).to eq(old_blob)
     end
 
+    it 'saves settings given with the announcement in the same write' do
+      described_class.new(inbox, :unanswered)
+                     .save!(enabled: true, message: 'Nobody is available.', config: { 'unanswered_call_timeout_seconds' => 45 })
+
+      expect(channel.reload.provider_config).to include(
+        'unanswered_calls_enabled' => true, 'unanswered_call_message' => 'Nobody is available.', 'unanswered_call_timeout_seconds' => 45
+      )
+    end
+
     it 'saves a greeting as text only, in its own settings' do
       greeting = described_class.new(inbox, :greeting)
       allow(Llm::TextToSpeechService).to receive(:available_for?).and_return(true)
