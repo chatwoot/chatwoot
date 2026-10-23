@@ -186,7 +186,8 @@ RSpec.describe Inbox do
         agent_bot.destroy!
 
         expect(AgentBotInbox.exists?(inbox_id: inbox.id)).to be(true)
-        expect(build(:captain_inbox, inbox: inbox.reload, captain_assistant: assistant)).to be_valid
+        expect(inbox.reload.external_bot_active?).to be(false)
+        expect(build(:captain_inbox, inbox: inbox, captain_assistant: assistant)).to be_valid
       end
     end
 
