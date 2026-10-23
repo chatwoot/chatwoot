@@ -1,5 +1,8 @@
 class Conversations::FilterService < FilterService
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
+  # Restates Conversation.unattended, because filter conditions are joined as SQL strings.
+  # Rendering the scope's own condition would need Relation#where_clause, which is not a public Rails API.
+  UNATTENDED_CONDITION = '(conversations.first_reply_created_at IS NULL OR conversations.waiting_since IS NOT NULL)'.freeze
 
   def initialize(params, user, account)
     @account = account
@@ -58,6 +61,33 @@ class Conversations::FilterService < FilterService
   end
 
   private
+
+  def handle_standard_attributes(current_filter, query_hash, current_index, filter_operator_value)
+    case query_hash[:attribute_key]
+    when 'unattended' then unattended_filter_query(query_hash)
+    when 'participant_id' then user_link_filter_query(ConversationParticipant, query_hash)
+    when 'mentioned_user_id' then user_link_filter_query(Mention, query_hash)
+    else super
+    end
+  end
+
+  # Matches conversations that the given users are linked to through a join model, such as participants or mentions.
+  def user_link_filter_query(link_model, query_hash)
+    user_ids = Array.wrap(query_hash[:values])
+    raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash[:attribute_key]) unless user_ids.all?(Integer)
+
+    linked_conversation_ids = link_model.where(user_id: user_ids).select(:conversation_id).to_sql
+    "conversations.id #{'NOT ' if query_hash[:filter_operator] == 'not_equal_to'}IN (#{linked_conversation_ids}) #{query_hash[:query_operator]}"
+  end
+
+  def unattended_filter_query(query_hash)
+    values = Array.wrap(query_hash[:values])
+    unless values.length == 1 && values.first.in?([true, false])
+      raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash[:attribute_key])
+    end
+
+    "#{'NOT ' unless values.first}#{UNATTENDED_CONDITION} #{query_hash[:query_operator]}"
+  end
 
   # The planner hint only pays off when the label condition positively narrows the
   # result set: `equal_to` joined by AND. Negative/presence operators or an OR in the

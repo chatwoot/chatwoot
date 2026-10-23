@@ -314,6 +314,21 @@ RSpec.describe 'Conversations API', type: :request do
         response_data = JSON.parse(response.body, symbolize_names: true)
         expect(response_data[:error]).to eq('Invalid operator. The allowed operators for status are [equal_to,not_equal_to].')
       end
+
+      it 'returns error if a participant filter value is not an integer' do
+        post "/api/v1/accounts/#{account.id}/conversations/filter",
+             headers: agent.create_new_auth_token,
+             params: {
+               payload: [{
+                 attribute_key: 'participant_id',
+                 filter_operator: 'equal_to',
+                 values: ['abc']
+               }]
+             },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
     end
   end
 
