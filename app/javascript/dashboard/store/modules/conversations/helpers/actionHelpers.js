@@ -38,6 +38,17 @@ export const isOnParticipatingView = ({ route: { name: routeName } }) => {
   return PARTICIPATING_ROUTES.includes(routeName);
 };
 
+// The Participating and Mentions views list only conversations the agent takes part in or is mentioned in.
+export const belongsToMembershipView = (rootState, conversation, userId) => {
+  if (isOnParticipatingView(rootState)) {
+    return conversation.participant_ids?.includes(userId);
+  }
+  if (isOnMentionsView(rootState)) {
+    return conversation.mentioned_user_ids?.includes(userId);
+  }
+  return false;
+};
+
 export const isOnFoldersView = ({ route: { name: routeName } }) => {
   const FOLDER_ROUTES = [
     'folder_conversations',

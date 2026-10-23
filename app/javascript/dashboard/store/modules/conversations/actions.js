@@ -10,6 +10,7 @@ import {
   buildConversationList,
   isOnMentionsView,
   isOnParticipatingView,
+  belongsToMembershipView,
   isOnUnattendedView,
   isOnFoldersView,
 } from './helpers/actionHelpers';
@@ -548,10 +549,23 @@ const actions = {
     }
   },
 
-  updateConversation({ commit, dispatch, rootGetters }, conversation) {
+  updateConversation(
+    { commit, dispatch, state, rootGetters, rootState },
+    conversation
+  ) {
     const sender = conversation.meta?.sender;
+    const isNewToView =
+      !state.allConversations.some(({ id }) => id === conversation.id) &&
+      belongsToMembershipView(
+        rootState,
+        conversation,
+        rootGetters.getCurrentUserID
+      );
 
-    commit(types.UPDATE_CONVERSATION, conversation);
+    commit(
+      isNewToView ? types.ADD_CONVERSATION : types.UPDATE_CONVERSATION,
+      conversation
+    );
     syncConversationCallVisibility(conversation, rootGetters?.getCurrentUserID);
     // The contact language can change after a message arrived; the action skips anything already handled.
     dispatch('autoTranslateMessages', conversation.id);
