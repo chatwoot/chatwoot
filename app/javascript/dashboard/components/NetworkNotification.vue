@@ -118,10 +118,7 @@ onBeforeUnmount(() => {
 
 <template>
   <transition name="network-notification-fade" tag="div">
-    <div
-      v-show="showNotification"
-      class="fixed z-50 bottom-4 left-1/2 -translate-x-1/2 group"
-    >
+    <div v-show="showNotification" class="fixed z-50 top-2 left-2 group">
       <div
         class="relative flex items-center justify-between w-full px-2 py-1 bg-n-amber-4 dark:bg-n-amber-8 rounded-lg shadow-lg"
       >
