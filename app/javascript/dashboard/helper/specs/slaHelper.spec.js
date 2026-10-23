@@ -422,6 +422,22 @@ describe('#SLA Helpers', () => {
         });
       });
 
+      it('ignores a first reply made after a hit SLA was completed', () => {
+        const appliedSla = {
+          sla_status: 'hit',
+          sla_completed_at: currentTimestamp - 7200,
+          sla_frt_due_at: currentTimestamp - 3600,
+        };
+        const chat = {
+          status: 'open',
+          first_reply_created_at: currentTimestamp - 600,
+        };
+
+        const result = evaluateSLAStatus({ appliedSla, chat });
+
+        expect(result.type).toBe('');
+      });
+
       it('freezes an overdue FRT while SLA event processing is pending', () => {
         const appliedSla = {
           sla_status: 'active',

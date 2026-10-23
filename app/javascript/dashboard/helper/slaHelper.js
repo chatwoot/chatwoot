@@ -95,6 +95,11 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
   const firstReplyCreatedAt = toUnixTimestamp(conversation.firstReplyCreatedAt);
   const shouldCheckFirstResponse =
     !firstReplyCreatedAt || firstReplyCreatedAt > sla.slaFrtDueAt;
+  const firstResponseEndTime =
+    firstReplyCreatedAt &&
+    (!isCompleted || (completionTime && firstReplyCreatedAt <= completionTime))
+      ? firstReplyCreatedAt
+      : null;
 
   events.forEach(event => {
     const type = event.eventType?.toUpperCase();
@@ -105,8 +110,8 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
     if (!missedAt) return;
 
     const endTime =
-      type === 'FRT' && firstReplyCreatedAt
-        ? firstReplyCreatedAt
+      type === 'FRT' && firstResponseEndTime
+        ? firstResponseEndTime
         : evaluationTime;
 
     slaStatuses.push({
@@ -128,7 +133,7 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
       ? completionTime
       : null;
   const firstResponseEvaluationTime =
-    firstReplyCreatedAt ||
+    firstResponseEndTime ||
     (isCompleted ? completedFirstResponseEvaluationTime : currentTime);
 
   // Check FRT until the first reply is made on time. When resolution reaches
