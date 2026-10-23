@@ -100,7 +100,7 @@ describe('#SLA Helpers', () => {
         const result = evaluateSLAStatus({ appliedSla, chat });
 
         expect(result.type).toBe('FRT');
-        expect(result.threshold).toBe('10m');
+        expect(result.threshold).toBe('5m');
         expect(result.icon).toBe('flame');
         expect(result.isSlaMissed).toBe(true);
       });
@@ -120,7 +120,7 @@ describe('#SLA Helpers', () => {
         const result = evaluateSLAStatus({ appliedSla, chat });
 
         expect(result.type).toBe('FRT');
-        expect(result.threshold).toBe('10m');
+        expect(result.threshold).toBe('5m');
         expect(result.icon).toBe('flame');
         expect(result.isSlaMissed).toBe(true);
       });
@@ -395,6 +395,29 @@ describe('#SLA Helpers', () => {
         expect(result).toMatchObject({
           type: 'FRT',
           threshold: '1h',
+          isSlaMissed: true,
+        });
+      });
+
+      it('measures a recorded FRT miss until the late first reply', () => {
+        const appliedSla = {
+          sla_status: 'missed',
+          sla_completed_at: currentTimestamp,
+          sla_frt_due_at: currentTimestamp - 7200,
+        };
+        const chat = {
+          status: 'resolved',
+          first_reply_created_at: currentTimestamp - 6900,
+        };
+        const slaEvents = [
+          { event_type: 'frt', created_at: currentTimestamp - 7180 },
+        ];
+
+        const result = evaluateSLAStatus({ appliedSla, chat, slaEvents });
+
+        expect(result).toMatchObject({
+          type: 'FRT',
+          threshold: '5m',
           isSlaMissed: true,
         });
       });

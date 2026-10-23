@@ -104,9 +104,14 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
       type === 'NRT' ? event.createdAt : dueAtByType[type] || event.createdAt;
     if (!missedAt) return;
 
+    const endTime =
+      type === 'FRT' && firstReplyCreatedAt
+        ? firstReplyCreatedAt
+        : evaluationTime;
+
     slaStatuses.push({
       type,
-      threshold: evaluationTime ? missedAt - evaluationTime : null,
+      threshold: endTime ? missedAt - endTime : null,
       icon: 'flame',
       isSlaMissed: true,
     });
@@ -122,9 +127,9 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
     sla.slaFrtDueAt <= completionTime
       ? completionTime
       : null;
-  const firstResponseEvaluationTime = isCompleted
-    ? completedFirstResponseEvaluationTime
-    : currentTime;
+  const firstResponseEvaluationTime =
+    firstReplyCreatedAt ||
+    (isCompleted ? completedFirstResponseEvaluationTime : currentTime);
 
   // Check FRT until the first reply is made on time. When resolution reaches
   // the client before SLA processing, use completion time to preserve the miss.
