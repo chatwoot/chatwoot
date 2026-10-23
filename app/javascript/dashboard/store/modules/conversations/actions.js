@@ -549,15 +549,12 @@ const actions = {
     }
   },
 
-  updateConversation(
-    { commit, dispatch, state, rootGetters, rootState },
-    conversation
-  ) {
+  updateConversation({ commit, dispatch, state, rootGetters }, conversation) {
     const sender = conversation.meta?.sender;
     const isNewToView =
       !state.allConversations.some(({ id }) => id === conversation.id) &&
       belongsToMembershipView(
-        rootState,
+        state.conversationFilters.conversationType,
         conversation,
         rootGetters.getCurrentUserID
       );

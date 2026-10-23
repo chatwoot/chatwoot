@@ -225,9 +225,8 @@ describe('#actions', () => {
       actions.updateConversation(
         {
           commit,
-          state: { allConversations: [] },
+          state: { allConversations: [], conversationFilters: {} },
           rootGetters: { getCurrentUserID: 1 },
-          rootState: { route: { name: 'home' } },
           dispatch,
         },
         conversation
@@ -253,21 +252,20 @@ describe('#actions', () => {
   });
 
   describe('#updateConversation on the Participating and Mentions views', () => {
-    const context = routeName => ({
+    const context = conversationType => ({
       commit,
-      state: { allConversations: [] },
+      state: {
+        allConversations: [],
+        conversationFilters: { conversationType },
+      },
       rootGetters: { getCurrentUserID: 1 },
-      rootState: { route: { name: routeName } },
       dispatch,
     });
 
     it('adds a conversation the current agent now participates in', () => {
       const conversation = { id: 1, meta: {}, participant_ids: [1] };
 
-      actions.updateConversation(
-        context('conversation_participating'),
-        conversation
-      );
+      actions.updateConversation(context('participating'), conversation);
 
       expect(commit.mock.calls).toEqual([
         [types.ADD_CONVERSATION, conversation],
@@ -277,10 +275,7 @@ describe('#actions', () => {
     it('adds a conversation the current agent is now mentioned in', () => {
       const conversation = { id: 1, meta: {}, mentioned_user_ids: [1] };
 
-      actions.updateConversation(
-        context('conversation_mentions'),
-        conversation
-      );
+      actions.updateConversation(context('mention'), conversation);
 
       expect(commit.mock.calls).toEqual([
         [types.ADD_CONVERSATION, conversation],
@@ -295,10 +290,7 @@ describe('#actions', () => {
         mentioned_user_ids: [2],
       };
 
-      actions.updateConversation(
-        context('conversation_participating'),
-        conversation
-      );
+      actions.updateConversation(context('participating'), conversation);
 
       expect(commit.mock.calls).toEqual([
         [types.UPDATE_CONVERSATION, conversation],
@@ -1157,9 +1149,8 @@ describe('#addMentions', () => {
         {
           commit: vi.fn(),
           dispatch: localDispatch,
-          state: { allConversations: [] },
+          state: { allConversations: [], conversationFilters: {} },
           rootGetters: {},
-          rootState: { route: { name: 'home' } },
         },
         {
           id: 7,
