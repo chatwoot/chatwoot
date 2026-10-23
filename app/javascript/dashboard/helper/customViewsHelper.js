@@ -97,6 +97,8 @@ export const getValuesForFilter = (filter, params) => {
     case 'status':
       return getValuesForStatus(values);
     case 'assignee_id':
+    case 'participant_id':
+    case 'mentioned_user_id':
       return getValuesName(values, agents, 'id', 'name');
     case 'inbox_id':
       return getValuesName(values, inboxes, 'id', 'name');

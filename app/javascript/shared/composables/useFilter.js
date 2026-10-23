@@ -173,9 +173,37 @@ export const useFilter = ({ filteri18nKey, attributeModel }) => {
     return filters;
   };
 
+  // The Participating, Mentions and Unattended views keep their scope as a visible condition, like inbox and team.
+  const initializeConversationTypeFilterToModal = (
+    conversationType,
+    currentUserDetails
+  ) => {
+    const { PARTICIPATING, MENTION, UNATTENDED } =
+      wootConstants.CONVERSATION_TYPE;
+    const conditionForType = {
+      [PARTICIPATING]: { key: 'participant_id', values: currentUserDetails },
+      [MENTION]: { key: 'mentioned_user_id', values: currentUserDetails },
+      [UNATTENDED]: {
+        key: 'unattended',
+        values: { id: true, name: $t('FILTER.ATTRIBUTE_LABELS.TRUE') },
+      },
+    }[conversationType];
+    if (!conditionForType) return null;
+
+    return {
+      attribute_key: conditionForType.key,
+      attribute_model: 'standard',
+      filter_operator: 'equal_to',
+      values: conditionForType.values,
+      query_operator: 'and',
+      custom_attribute_type: '',
+    };
+  };
+
   return {
     setFilterAttributes,
     initializeStatusAndAssigneeFilterToModal,
     initializeInboxTeamAndLabelFilterToModal,
+    initializeConversationTypeFilterToModal,
   };
 };

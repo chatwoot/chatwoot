@@ -1,6 +1,6 @@
 import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useOperators } from './operators';
+import { useOperators, FILTER_OPS } from './operators';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useChannelIcon } from 'next/icon/provider';
 import { createContactSearcher } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
@@ -64,6 +64,7 @@ export function useConversationFilterContext() {
   const campaigns = useMapGetter('campaigns/getAllCampaigns');
 
   const {
+    operators,
     equalityOperators,
     presenceOperators,
     containmentOperators,
@@ -156,6 +157,39 @@ export function useConversationFilterContext() {
       }),
       dataType: 'text',
       filterOperators: presenceOperators.value,
+      attributeModel: 'standard',
+    },
+    {
+      attributeKey: CONVERSATION_ATTRIBUTES.PARTICIPANT_ID,
+      value: CONVERSATION_ATTRIBUTES.PARTICIPANT_ID,
+      attributeName: t('FILTER.ATTRIBUTES.PARTICIPANT_NAME'),
+      label: t('FILTER.ATTRIBUTES.PARTICIPANT_NAME'),
+      inputType: 'searchSelect',
+      options: agents.value.map(({ id, name }) => ({ id, name })),
+      dataType: 'number',
+      filterOperators: equalityOperators.value,
+      attributeModel: 'standard',
+    },
+    {
+      attributeKey: CONVERSATION_ATTRIBUTES.MENTIONED_USER_ID,
+      value: CONVERSATION_ATTRIBUTES.MENTIONED_USER_ID,
+      attributeName: t('FILTER.ATTRIBUTES.MENTIONED_USER_NAME'),
+      label: t('FILTER.ATTRIBUTES.MENTIONED_USER_NAME'),
+      inputType: 'searchSelect',
+      options: agents.value.map(({ id, name }) => ({ id, name })),
+      dataType: 'number',
+      filterOperators: equalityOperators.value,
+      attributeModel: 'standard',
+    },
+    {
+      attributeKey: CONVERSATION_ATTRIBUTES.UNATTENDED,
+      value: CONVERSATION_ATTRIBUTES.UNATTENDED,
+      attributeName: t('FILTER.ATTRIBUTES.UNATTENDED'),
+      label: t('FILTER.ATTRIBUTES.UNATTENDED'),
+      inputType: 'booleanSelect',
+      dataType: 'boolean',
+      // "is not true" means "is false", so one operator covers both.
+      filterOperators: [operators.value[FILTER_OPS.EQUAL_TO]],
       attributeModel: 'standard',
     },
     {

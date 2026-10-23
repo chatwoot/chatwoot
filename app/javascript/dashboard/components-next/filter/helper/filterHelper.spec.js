@@ -202,6 +202,46 @@ describe('useConversationFilterContext', () => {
     ).toEqual(['equal_to', 'not_equal_to']);
   });
 
+  it('exposes participant, mentioned agent and unattended filters', () => {
+    useMapGetter.mockImplementation(key =>
+      key === 'agents/getAgents'
+        ? ref([{ id: 1, name: 'Agent One' }])
+        : storeValues[key] || ref([])
+    );
+    const { filterTypes } = useConversationFilterContext();
+    const filterFor = key =>
+      filterTypes.value.find(filter => filter.attributeKey === key);
+    const operatorsFor = key =>
+      filterFor(key).filterOperators.map(operator => operator.value);
+
+    expect(filterFor('participant_id')).toMatchObject({
+      label: 'FILTER.ATTRIBUTES.PARTICIPANT_NAME',
+      inputType: 'searchSelect',
+      options: [{ id: 1, name: 'Agent One' }],
+      attributeModel: 'standard',
+    });
+    expect(operatorsFor('participant_id')).toEqual([
+      'equal_to',
+      'not_equal_to',
+    ]);
+    expect(filterFor('mentioned_user_id')).toMatchObject({
+      label: 'FILTER.ATTRIBUTES.MENTIONED_USER_NAME',
+      inputType: 'searchSelect',
+      options: [{ id: 1, name: 'Agent One' }],
+      attributeModel: 'standard',
+    });
+    expect(operatorsFor('mentioned_user_id')).toEqual([
+      'equal_to',
+      'not_equal_to',
+    ]);
+    expect(filterFor('unattended')).toMatchObject({
+      label: 'FILTER.ATTRIBUTES.UNATTENDED',
+      inputType: 'booleanSelect',
+      attributeModel: 'standard',
+    });
+    expect(operatorsFor('unattended')).toEqual(['equal_to']);
+  });
+
   it('uses the existing contact search API for contact filter options', async () => {
     ContactAPI.search.mockResolvedValue({
       data: {

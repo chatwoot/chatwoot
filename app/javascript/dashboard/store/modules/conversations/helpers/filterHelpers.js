@@ -49,6 +49,7 @@
 import { coerceToDate } from '@chatwoot/utils';
 import jsonLogic from 'json-logic-js';
 import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+import { isUnattended } from '../helpers';
 
 const TIMESTAMP_ATTRIBUTES = ['created_at', 'last_activity_at'];
 const TIMESTAMP_BOUNDARY = 'timestampBoundary';
@@ -90,6 +91,15 @@ const getValueFromConversation = (conversation, attributeKey) => {
     case 'browser_language':
     case 'referer':
       return conversation.additional_attributes?.[attributeKey];
+    case 'participant_id':
+      return conversation.participant_ids;
+    case 'mentioned_user_id':
+      return conversation.mentioned_user_ids;
+    case 'unattended':
+      return isUnattended(
+        conversation.first_reply_created_at,
+        conversation.waiting_since
+      );
     default:
       return conversation.custom_attributes?.[attributeKey] ?? null;
   }
@@ -143,6 +153,11 @@ const equalTo = (filterValue, conversationValue) => {
     if (!Array.isArray(conversationValue)) {
       return filterValue.includes(conversationValue);
     }
+  }
+
+  // A single picked value against an array, like one agent against participant_ids.
+  if (Array.isArray(conversationValue)) {
+    return conversationValue.includes(filterValue);
   }
 
   return conversationValue === filterValue;
