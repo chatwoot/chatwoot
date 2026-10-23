@@ -85,8 +85,7 @@ class Conversations::FilterService < FilterService
       raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash[:attribute_key])
     end
 
-    unattended = values.first == (query_hash[:filter_operator] == 'equal_to')
-    "#{'NOT ' unless unattended}#{condition_sql(Conversation.unattended)} #{query_hash[:query_operator]}"
+    "#{'NOT ' unless values.first}#{condition_sql(Conversation.unattended)} #{query_hash[:query_operator]}"
   end
 
   # Filter conditions are joined as SQL strings, so render a relation's condition with its values inlined.

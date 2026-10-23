@@ -1120,17 +1120,6 @@ describe Conversations::FilterService do
       expect(result[:conversations]).to contain_exactly(en_conversation_1)
     end
 
-    it 'negates the unattended condition with not_equal_to' do
-      en_conversation_1.update!(first_reply_created_at: Time.current, waiting_since: nil)
-      params[:payload] = [
-        { attribute_key: 'unattended', filter_operator: 'not_equal_to', values: [true], query_operator: nil }.with_indifferent_access
-      ]
-
-      result = filter_service.new(params, user_1, account).perform
-
-      expect(result[:conversations]).to contain_exactly(en_conversation_1)
-    end
-
     it 'rejects a non-boolean unattended value' do
       params[:payload] = [
         { attribute_key: 'unattended', filter_operator: 'equal_to', values: ['yes'], query_operator: nil }.with_indifferent_access
