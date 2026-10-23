@@ -1107,6 +1107,7 @@ describe Conversations::FilterService do
 
       expect(result[:conversations]).not_to include(en_conversation_1)
       expect(result[:count][:all_count]).to eq 3
+      expect(result[:conversations].map(&:id)).to match_array(account.conversations.unattended.ids)
     end
 
     it 'filters attended conversations' do

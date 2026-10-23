@@ -1,5 +1,8 @@
 class Conversations::FilterService < FilterService
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
+  # Restates Conversation.unattended, because filter conditions are joined as SQL strings.
+  # Rendering the scope's own condition would need Relation#where_clause, which is not a public Rails API.
+  UNATTENDED_CONDITION = '(conversations.first_reply_created_at IS NULL OR conversations.waiting_since IS NOT NULL)'.freeze
 
   def initialize(params, user, account)
     @account = account
@@ -73,10 +76,8 @@ class Conversations::FilterService < FilterService
     user_ids = Array.wrap(query_hash[:values])
     raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash[:attribute_key]) unless user_ids.all?(Integer)
 
-    linked_conversation_ids = link_model.where(user_id: user_ids).select(:conversation_id)
-    conversations = Conversation.where(id: linked_conversation_ids)
-    conversations = conversations.invert_where if query_hash[:filter_operator] == 'not_equal_to'
-    "#{condition_sql(conversations)} #{query_hash[:query_operator]}"
+    linked_conversation_ids = link_model.where(user_id: user_ids).select(:conversation_id).to_sql
+    "conversations.id #{'NOT ' if query_hash[:filter_operator] == 'not_equal_to'}IN (#{linked_conversation_ids}) #{query_hash[:query_operator]}"
   end
 
   def unattended_filter_query(query_hash)
@@ -85,13 +86,7 @@ class Conversations::FilterService < FilterService
       raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash[:attribute_key])
     end
 
-    "#{'NOT ' unless values.first}#{condition_sql(Conversation.unattended)} #{query_hash[:query_operator]}"
-  end
-
-  # Filter conditions are joined as SQL strings, so render a relation's condition with its values inlined.
-  def condition_sql(relation)
-    connection = relation.connection
-    connection.unprepared_statement { connection.to_sql(relation.where_clause.ast) }
+    "#{'NOT ' unless values.first}#{UNATTENDED_CONDITION} #{query_hash[:query_operator]}"
   end
 
   # The planner hint only pays off when the label condition positively narrows the
