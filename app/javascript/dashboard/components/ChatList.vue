@@ -127,6 +127,7 @@ const {
 const {
   initializeStatusAndAssigneeFilterToModal,
   initializeInboxTeamAndLabelFilterToModal,
+  initializeConversationTypeFilterToModal,
 } = useFilter({
   filteri18nKey: 'FILTER',
   attributeModel: 'conversation_attribute',
@@ -526,6 +527,17 @@ function initializeExistingFilterToModal() {
   ).map(useCamelCase);
 
   appliedFilter.value = [...appliedFilter.value, ...otherFilters];
+
+  const conversationTypeFilter = initializeConversationTypeFilterToModal(
+    props.conversationType,
+    currentUserDetails.value
+  );
+  if (conversationTypeFilter) {
+    appliedFilter.value = [
+      ...appliedFilter.value,
+      useCamelCase(conversationTypeFilter),
+    ];
+  }
 }
 
 function initializeFolderToFilterModal(newActiveFolder) {

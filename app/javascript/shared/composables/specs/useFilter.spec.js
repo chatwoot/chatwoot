@@ -89,6 +89,50 @@ describe('useFilter', () => {
     });
   });
 
+  describe('initializeConversationTypeFilterToModal', () => {
+    const currentUser = { id: 1, name: 'Agent One' };
+
+    it.each([
+      ['participating', 'participant_id', currentUser],
+      ['mention', 'mentioned_user_id', currentUser],
+      [
+        'unattended',
+        'unattended',
+        { id: true, name: 'FILTER.ATTRIBUTE_LABELS.TRUE' },
+      ],
+    ])(
+      'pre-fills the %s view condition',
+      (conversationType, attributeKey, values) => {
+        const { initializeConversationTypeFilterToModal } = useFilter({
+          filteri18nKey: 'TEST',
+          attributeModel: 'conversation',
+        });
+
+        expect(
+          initializeConversationTypeFilterToModal(conversationType, currentUser)
+        ).toEqual({
+          attribute_key: attributeKey,
+          attribute_model: 'standard',
+          filter_operator: 'equal_to',
+          values,
+          query_operator: 'and',
+          custom_attribute_type: '',
+        });
+      }
+    );
+
+    it('returns null for other views', () => {
+      const { initializeConversationTypeFilterToModal } = useFilter({
+        filteri18nKey: 'TEST',
+        attributeModel: 'conversation',
+      });
+
+      expect(
+        initializeConversationTypeFilterToModal('', currentUser)
+      ).toBeNull();
+    });
+  });
+
   describe('initializeInboxTeamAndLabelFilterToModal', () => {
     it('should return filters for inbox, team, and label when provided', () => {
       const { initializeInboxTeamAndLabelFilterToModal } = useFilter({
