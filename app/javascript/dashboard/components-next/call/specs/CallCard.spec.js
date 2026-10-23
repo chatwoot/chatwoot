@@ -16,7 +16,13 @@ const callInfo = {
 const mountCard = call =>
   mount(CallCard, {
     props: {
-      call: { callSid: 'CA1', provider: 'twilio', conversationId: 12, ...call },
+      call: {
+        callSid: 'CA1',
+        provider: 'twilio',
+        conversationId: 12,
+        status: 'in-progress',
+        ...call,
+      },
       callInfo,
       state: 'ongoing',
       duration: '00:10',
@@ -50,6 +56,12 @@ describe('CallCard hold controls', () => {
     expect(wrapper.text()).toContain('On hold');
     expect(wrapper.text()).not.toContain('Call in progress');
     expect(holdButton(wrapper).attributes('icon')).toBe('i-ph-play-bold');
+  });
+
+  it('has no hold control while an outbound call still rings the contact', () => {
+    const wrapper = mountCard({ status: 'ringing' });
+
+    expect(holdButton(wrapper)).toBeUndefined();
   });
 
   it('has no hold control on a WhatsApp call', () => {

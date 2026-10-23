@@ -1,7 +1,10 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
+import {
+  VOICE_CALL_DIRECTION,
+  VOICE_CALL_STATUS,
+} from 'dashboard/components-next/message/constants';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -60,6 +63,13 @@ const isWhatsapp = computed(
 );
 // Hold lives in the Twilio conference, so only Twilio calls offer it
 const isOnHold = computed(() => isOngoing.value && !!props.call?.onHold);
+// Only once the contact is connected: the agent's leg is live while an outbound call still rings
+const canHold = computed(
+  () =>
+    isOngoing.value &&
+    !isWhatsapp.value &&
+    props.call?.status === VOICE_CALL_STATUS.IN_PROGRESS
+);
 
 const statusIcon = computed(() => {
   if (isOngoing.value) {
@@ -185,9 +195,9 @@ const channelIcon = computed(() =>
 
         <!-- Actions -->
         <div class="flex items-center gap-2 shrink-0">
-          <!-- Hold / resume (Twilio ongoing only); separate from muting the mic -->
+          <!-- Hold / resume (connected Twilio calls only); separate from muting the mic -->
           <NextButton
-            v-if="isOngoing && !isWhatsapp"
+            v-if="canHold"
             v-tooltip.top="
               isOnHold
                 ? $t('CONVERSATION.VOICE_WIDGET.RESUME')

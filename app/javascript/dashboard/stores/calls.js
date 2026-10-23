@@ -26,9 +26,12 @@ export const useCallsStore = defineStore('calls', {
 
   actions: {
     handleCallStatusChanged({ callSid, status }) {
-      if (!TERMINAL_STATUSES.includes(status)) return;
-
       const call = this.calls.find(c => c.callSid === callSid);
+      if (!TERMINAL_STATUSES.includes(status)) {
+        if (call) call.status = status;
+        return;
+      }
+
       // WhatsApp recordings live in the in-memory recorder until voice_call.ended
       // uploads them; tearing down here would race-wipe those chunks.
       if (call?.provider === 'whatsapp') {
