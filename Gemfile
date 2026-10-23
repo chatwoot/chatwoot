@@ -161,6 +161,8 @@ gem 'procore-sift'
 
 # parse email
 gem 'email_reply_trimmer'
+# extract files from Outlook TNEF (winmail.dat) attachments
+gem 'tnef'
 
 gem 'html2text'
 
