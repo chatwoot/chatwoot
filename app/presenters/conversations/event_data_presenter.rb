@@ -1,4 +1,7 @@
 class Conversations::EventDataPresenter < SimpleDelegator
+  # Keys that only agents receive. Contact broadcasts remove them from the dashboard payload.
+  DASHBOARD_ONLY_KEYS = %i[participant_ids mentioned_user_ids].freeze
+
   def push_data
     {
       additional_attributes: additional_attributes,
@@ -19,6 +22,12 @@ class Conversations::EventDataPresenter < SimpleDelegator
       waiting_since: waiting_since.to_i,
       **push_timestamps
     }
+  end
+
+  # Like #push_data plus the ids the dashboard filters conversation lists by. Only agents receive it.
+  # Contacts, notifications and webhooks get #push_data, so they never see who was mentioned in a private note.
+  def dashboard_push_data
+    push_data.merge(participant_ids: participant_ids, mentioned_user_ids: mentioned_user_ids)
   end
 
   # Like #push_data but with message text normalized for external integrations (webhooks).

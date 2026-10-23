@@ -751,6 +751,20 @@
             ],
             "description": "The time at which the conversation was waiting"
           },
+          "participant_ids": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": "IDs of the agents participating in the conversation"
+          },
+          "mentioned_user_ids": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": "IDs of the agents mentioned in the conversation"
+          },
           "sla_policy_id": {
             "type": [
               "number",

@@ -5,6 +5,10 @@ module PushDataHelper
     Conversations::EventDataPresenter.new(self).push_data
   end
 
+  def dashboard_push_event_data
+    Conversations::EventDataPresenter.new(self).dashboard_push_data
+  end
+
   def lock_event_data
     Conversations::EventDataPresenter.new(self).lock_data
   end

@@ -35,7 +35,7 @@ class Conversations::FilterService < FilterService
     ).preload(
       inbox: :channel,
       ai_assignee: { avatar_attachment: [:blob] }
-    )
+    ).with_membership_ids
 
     Conversations::PermissionFilterService.new(
       conversations,

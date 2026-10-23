@@ -37,6 +37,17 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/conversations', type:
 
           expect(json_response['payload'].length).to eq 4
         end
+
+        it 'returns the participant and mentioned user ids of each conversation' do
+          conversation = account.conversations.find_by(inbox: inbox_1)
+          create(:conversation_participant, conversation: conversation, account: account, user: agent)
+          create(:mention, conversation: conversation, account: account, user: agent)
+
+          get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/conversations", headers: admin.create_new_auth_token
+
+          conversation_data = response.parsed_body['payload'].find { |item| item['id'] == conversation.display_id }
+          expect(conversation_data).to include('participant_ids' => [agent.id], 'mentioned_user_ids' => [agent.id])
+        end
       end
 
       context 'with user as agent' do

@@ -19,7 +19,7 @@ class Api::V1::Accounts::Contacts::ConversationsController < Api::V1::Accounts::
     ).preload(
       inbox: :channel,
       ai_assignee: { avatar_attachment: [:blob] }
-    ).where(contact_id: @contact.id)
+    ).with_membership_ids.where(contact_id: @contact.id)
 
     Conversations::PermissionFilterService.new(
       conversations,

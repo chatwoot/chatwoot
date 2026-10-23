@@ -35,6 +35,37 @@ RSpec.describe 'Conversations API', type: :request do
         expect(body[:data][:payload].first[:messages].first[:id]).to eq(message.id)
       end
 
+      it 'returns the participant and mentioned user ids of each conversation' do
+        create(:conversation_participant, conversation: conversation, account: account, user: agent)
+        create(:mention, conversation: conversation, account: account, user: agent)
+
+        get "/api/v1/accounts/#{account.id}/conversations",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to conform_schema(200)
+        conversation_data = JSON.parse(response.body, symbolize_names: true)[:data][:payload].first
+        expect(conversation_data).to include(participant_ids: [agent.id], mentioned_user_ids: [agent.id])
+      end
+
+      it 'loads participants and mentions with one query each for the whole page' do
+        3.times do
+          listed = create(:conversation, account: account, inbox: conversation.inbox)
+          create(:conversation_participant, conversation: listed, account: account, user: agent)
+          create(:mention, conversation: listed, account: account, user: agent)
+        end
+        membership_queries = []
+        record_query = ->(*, payload) { membership_queries << payload[:sql] if payload[:sql].match?(/FROM "(conversation_participants|mentions)"/) }
+
+        ActiveSupport::Notifications.subscribed(record_query, 'sql.active_record') do
+          get "/api/v1/accounts/#{account.id}/conversations", headers: agent.create_new_auth_token, as: :json
+        end
+
+        expect(response).to have_http_status(:success)
+        expect(membership_queries.count { |sql| sql.include?('FROM "conversation_participants"') }).to eq(1)
+        expect(membership_queries.count { |sql| sql.include?('FROM "mentions"') }).to eq(1)
+      end
+
       it 'lists a conversation whose assignee no longer exists as unassigned' do
         assigned = create(:conversation, account: account, inbox: conversation.inbox, assignee: agent)
         conversation.update_column(:assignee_id, User.maximum(:id) + 1000) # rubocop:disable Rails/SkipsModelValidations
