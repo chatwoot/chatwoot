@@ -153,6 +153,12 @@ class Channel::Whatsapp < ApplicationRecord
     Whatsapp::Providers::WhatsappCloudContactInfoRequestService.perform(self, identifier, message)
   end
 
+  def send_location_message(identifier, message)
+    raise NotImplementedError, 'Location messages require a WhatsApp Cloud provider' unless provider == 'whatsapp_cloud'
+
+    provider_service.send_location_message(identifier, message)
+  end
+
   def setup_webhooks(is_coexistence: nil)
     perform_webhook_setup(is_coexistence: is_coexistence)
   rescue StandardError => e

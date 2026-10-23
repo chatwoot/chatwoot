@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
     @message = message
@@ -9,6 +10,23 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     else
       send_text_message(phone_number, message)
     end
+  end
+
+  def send_location_message(phone_number, message)
+    location = message.content_attributes['whatsapp_location']
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        context: whatsapp_reply_context(message),
+        **recipient_params(phone_number),
+        type: 'location',
+        location: location.slice('latitude', 'longitude', 'name', 'address')
+      }.to_json
+    )
+
+    process_response(response, message)
   end
 
   def send_template(phone_number, template_info, message)
@@ -259,3 +277,4 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 end
 
 Whatsapp::Providers::WhatsappCloudService.prepend_mod_with('Whatsapp::Providers::WhatsappCloudService')
+# rubocop:enable Metrics/ClassLength

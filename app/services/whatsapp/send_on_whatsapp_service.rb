@@ -51,8 +51,13 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
   end
 
   def send_session_message
-    message_id = channel.send_message(message.conversation.contact_inbox.source_id, message)
+    source_id = message.conversation.contact_inbox.source_id
+    message_id = location_message? ? channel.send_location_message(source_id, message) : channel.send_message(source_id, message)
     message.update!(source_id: message_id) if message_id.present?
+  end
+
+  def location_message?
+    message.content_attributes['whatsapp_location'].present?
   end
 
   def template_params
