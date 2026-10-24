@@ -60,6 +60,9 @@ class Attachment < ApplicationRecord
 
   # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
   def download_url
+    external_origin = Chatwoot::ConfiguredOrigin.from_env('EXTERNAL_MEDIA_BASE_URL')
+    return with_external_media_url_options(external_origin) { file.attached? ? file.blob.url : '' } if external_origin
+
     ActiveStorage::Current.url_options = Rails.application.routes.default_url_options if ActiveStorage::Current.url_options.blank?
     file.attached? ? file.blob.url : ''
   end
@@ -80,6 +83,12 @@ class Attachment < ApplicationRecord
   end
 
   private
+
+  def with_external_media_url_options(origin, &)
+    url_options = { host: origin.host, protocol: origin.scheme }
+    url_options[:port] = origin.port unless origin.port == origin.default_port
+    ActiveStorage::Current.set(url_options: url_options, &)
+  end
 
   def metadata_for_file_type
     case file_type.to_sym
