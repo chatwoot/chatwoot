@@ -73,6 +73,21 @@ RSpec.describe Captain::FollowUpService do
         expect(result[:follow_up_context]['conversation_history'][-2]['content']).to eq('Make it more concise')
         expect(result[:follow_up_context]['conversation_history'][-1]['content']).to eq('Refined response')
       end
+
+      it 'preserves URL identity in the response and history' do
+        follow_up_context['original_context'] = 'Use https://chatwoot.com/billing'
+        follow_up_context['last_response'] = 'Billing: https://chatwoot.com/billing Support: https://chatwoot.com/support'
+        allow(service).to receive(:make_api_call) do |args|
+          expect(args[:messages].pluck(:content).join).not_to include('https://chatwoot.com')
+          { message: 'Support: __CHATWOOT_URL_1__ Billing: __CHATWOOT_URL_0__' }
+        end
+
+        result = service.perform
+
+        expect(result[:message]).to eq('Support: https://chatwoot.com/support Billing: https://chatwoot.com/billing')
+        expect(result[:follow_up_context]['last_response']).to eq(result[:message])
+        expect(result[:follow_up_context]['conversation_history'].last['content']).to eq(result[:message])
+      end
     end
 
     context 'when follow-up context is missing' do
