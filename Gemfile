@@ -279,3 +279,5 @@ group :development, :test do
   gem 'simplecov', '>= 0.21', require: false
   gem 'skooma'
 end
+
+gem "dockerfile-rails", ">= 1.7", group: :development

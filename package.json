@@ -21,7 +21,8 @@
     "story:dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview",
-    "sync:i18n": "bin/sync_i18n_file_change"
+    "sync:i18n": "bin/sync_i18n_file_change",
+    "build": "vite build --outDir public"
   },
   "size-limit": [
     {
