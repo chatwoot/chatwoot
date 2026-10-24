@@ -404,4 +404,44 @@ describe('#getters', () => {
       expect(result[0].name).toBe('fallback_template');
     });
   });
+
+  describe('getInboxById', () => {
+    it('camelCases the record', () => {
+      const state = { records: inboxList };
+      expect(getters.getInboxById(state)(1).channelType).toEqual(
+        inboxList[0].channel_type
+      );
+    });
+
+    it('leaves message_templates out of the deep conversion', () => {
+      const messageTemplates = [
+        { name: 'order_update', language: 'en', status: 'APPROVED' },
+      ];
+      const record = {
+        id: 9,
+        name: 'WhatsApp',
+        channel_type: 'Channel::Whatsapp',
+        message_templates: messageTemplates,
+      };
+      const converted = getters.getInboxById({ records: [record] })(9);
+      // same reference: the array is neither copied nor walked
+      expect(converted.messageTemplates).toBe(messageTemplates);
+      expect(converted.channelType).toEqual('Channel::Whatsapp');
+    });
+
+    it('reflects in-place changes to the record', () => {
+      // `Settings.vue` binds the raw record with v-model, so an inbox can be mutated without
+      // being replaced; the getter must not serve a cached copy.
+      const record = {
+        id: 1,
+        name: 'Website',
+        channel_type: 'Channel::WebWidget',
+        widget_color: '#111111',
+      };
+      const state = { records: [record] };
+      expect(getters.getInboxById(state)(1).widgetColor).toEqual('#111111');
+      record.widget_color = '#222222';
+      expect(getters.getInboxById(state)(1).widgetColor).toEqual('#222222');
+    });
+  });
 });
