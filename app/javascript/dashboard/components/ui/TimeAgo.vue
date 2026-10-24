@@ -37,11 +37,18 @@ export default {
     };
   },
   computed: {
+    currentLocale() {
+      return this.$i18n?.locale?.replace(/_/g, '-') || 'en';
+    },
     lastActivityTime() {
-      return shortTimestamp(this.lastActivityAtTimeAgo);
+      return shortTimestamp(
+        this.lastActivityAtTimeAgo,
+        false,
+        this.currentLocale
+      );
     },
     createdAtTime() {
-      return shortTimestamp(this.createdAtTimeAgo);
+      return shortTimestamp(this.createdAtTimeAgo, false, this.currentLocale);
     },
     createdAt() {
       return `${this.$t(
