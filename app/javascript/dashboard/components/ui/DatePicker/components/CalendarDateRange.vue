@@ -16,7 +16,7 @@ const setDateRange = range => {
 </script>
 
 <template>
-  <div class="w-[200px] flex flex-col items-start">
+  <div class="w-full lg:w-[200px] flex flex-col items-start">
     <h4
       class="w-full px-5 py-4 text-xs font-bold capitalize text-start text-n-slate-10"
     >
