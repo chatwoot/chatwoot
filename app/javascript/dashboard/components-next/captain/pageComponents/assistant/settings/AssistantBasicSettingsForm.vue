@@ -28,6 +28,7 @@ const initialState = {
     memories: false,
     citations: false,
     contactAttributes: false,
+    skipInstagramStories: false,
   },
 };
 
@@ -61,6 +62,7 @@ const updateStateFromAssistant = assistant => {
     memories: config.feature_memory || false,
     citations: config.feature_citation || false,
     contactAttributes: config.feature_contact_attributes || false,
+    skipInstagramStories: config.skip_instagram_stories || false,
   };
 };
 
@@ -82,6 +84,7 @@ const handleBasicInfoUpdate = async () => {
       feature_memory: state.features.memories,
       feature_citation: state.features.citations,
       feature_contact_attributes: state.features.contactAttributes,
+      skip_instagram_stories: state.features.skipInstagramStories,
     },
   };
 
@@ -145,6 +148,13 @@ watch(
         <label class="flex items-center gap-2">
           <input v-model="state.features.contactAttributes" type="checkbox" />
           {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CONTACT_ATTRIBUTES') }}
+        </label>
+        <label class="flex items-center gap-2">
+          <input
+            v-model="state.features.skipInstagramStories"
+            type="checkbox"
+          />
+          {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.SKIP_INSTAGRAM_STORIES') }}
         </label>
       </div>
     </div>
