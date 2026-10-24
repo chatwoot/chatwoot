@@ -505,17 +505,43 @@
             "type": "integer"
           },
           "content": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The text content."
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "draft_title": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Unpublished title staged in the editor."
+          },
+          "draft_content": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Unpublished content staged in the editor."
           },
           "meta": {
             "type": "object"
           },
           "position": {
-            "type": "integer"
+            "type": [
+              "integer",
+              "null"
+            ]
           },
           "status": {
-            "type": "integer",
+            "type": "string",
             "enum": [
               "draft",
               "published",
@@ -529,7 +555,14 @@
             "type": "string"
           },
           "views": {
-            "type": "integer"
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "updated_at": {
+            "type": "integer",
+            "description": "Unix timestamp of the last update."
           },
           "portal_id": {
             "type": "integer"
@@ -549,6 +582,144 @@
           "associated_article_id": {
             "type": "integer",
             "description": "To associate similar articles to each other, e.g to provide the link for the reference."
+          },
+          "category": {
+            "type": "object",
+            "description": "The category of the article. All fields are null for an uncategorized article.",
+            "properties": {
+              "id": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "slug": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "locale": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "icon": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "icon_color": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "author": {
+            "$ref": "#/components/schemas/agent"
+          },
+          "associated_articles": {
+            "type": "array",
+            "description": "Translations of this article. Only a root article has translations.",
+            "items": {
+              "$ref": "#/components/schemas/associated_article"
+            }
+          }
+        }
+      },
+      "associated_article": {
+        "type": "object",
+        "description": "A translation of an article. It carries identifying fields only. Fetch the article to read its content.",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "category_id": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ]
+          },
+          "locale": {
+            "type": "string"
+          },
+          "account_id": {
+            "type": "integer"
+          },
+          "views": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        }
+      },
+      "article_list_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/article"
+            }
+          },
+          "meta": {
+            "type": "object",
+            "description": "Counts for the article list filters. All counts except all_articles_count apply the locale, category and query filters.",
+            "properties": {
+              "all_articles_count": {
+                "type": "integer",
+                "description": "Number of articles in the portal."
+              },
+              "archived_articles_count": {
+                "type": "integer"
+              },
+              "articles_count": {
+                "type": "integer"
+              },
+              "current_page": {
+                "type": [
+                  "string",
+                  "integer"
+                ]
+              },
+              "draft_articles_count": {
+                "type": "integer"
+              },
+              "mine_articles_count": {
+                "type": "integer"
+              },
+              "published_count": {
+                "type": "integer"
+              }
+            }
           }
         }
       },
