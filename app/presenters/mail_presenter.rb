@@ -71,7 +71,7 @@ class MailPresenter < SimpleDelegator
   end
 
   # check content disposition check
-  # if inline, upload to AWS and and take the URL
+  # if inline, upload to AWS and take the URL
   def attachments
     # ref : https://github.com/gorails-screencasts/action-mailbox-action-text/blob/master/app/mailboxes/posts_mailbox.rb
     mail.attachments.map do |attachment|
