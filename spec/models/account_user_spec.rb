@@ -81,4 +81,16 @@ RSpec.describe AccountUser do
       expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id).twice
     end
   end
+
+  describe 'inbox cache invalidation' do
+    it 'updates the inbox cache key when the role changes' do
+      expect(account_user.account).to receive(:update_cache_key).with('inbox')
+      account_user.update!(role: :administrator)
+    end
+
+    it 'does not update the inbox cache key when the role is unchanged' do
+      expect(account_user.account).not_to receive(:update_cache_key)
+      account_user.update!(availability: :busy)
+    end
+  end
 end

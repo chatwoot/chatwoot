@@ -91,7 +91,16 @@ class AccountUser < ApplicationRecord
   end
 
   def invalidate_filtered_unread_count_visibility_update
-    dispatch_account_cache_invalidated if invalidate_filtered_unread_count_visibility
+    filtered_counts_invalidated = invalidate_filtered_unread_count_visibility
+
+    # The inbox list depends on the role (administrators see every inbox, agents only the ones
+    # they are members of) and clients cache it until the account's inbox cache key changes.
+    # update_cache_key dispatches account.cache_invalidated itself, so dispatch only once.
+    if previous_changes.key?('role')
+      account.update_cache_key('inbox')
+    elsif filtered_counts_invalidated
+      dispatch_account_cache_invalidated
+    end
   end
 
   def dispatch_account_cache_invalidated
