@@ -5,11 +5,11 @@
     "ADD_ACTION_LONG": "创建一个新的服务协议",
     "DESCRIPTION": "服务级别协议（SLA）是定义团队与客户之间明确期望的合同。它们为响应和解决时间设定了标准，创建了一个责任框架，并确保了一致的高质量体验。",
     "LEARN_MORE": "了解更多关于SLA的信息",
-    "COUNT": "{n} SLA | {n} SLAs",
+    "COUNT": "{n} 个 SLA",
     "LOADING": "正在获取SLA",
-    "SEARCH_PLACEHOLDER": "Search SLA...",
+    "SEARCH_PLACEHOLDER": "搜索 SLA...",
     "SEARCH": {
-      "NO_RESULTS": "No SLA found matching your search"
+      "NO_RESULTS": "未找到符合搜索条件的 SLA"
     },
     "PAYWALL": {
       "TITLE": "升级以创建SLA",
@@ -27,7 +27,7 @@
       "404": "此账户中没有可用的SLA。",
       "TABLE_HEADER": {
         "SLA": "SLA",
-        "BUSINESS_HOURS": "Business hours"
+        "BUSINESS_HOURS": "工作时间"
       },
       "EMPTY": {
         "TITLE_1": "企业 P1",
@@ -35,8 +35,8 @@
         "TITLE_2": "企业P1",
         "DESC_2": "由企业客户提出的需要快速确认的问题。"
       },
-      "BUSINESS_HOURS_ON": "Turned on",
-      "BUSINESS_HOURS_OFF": "Turned off",
+      "BUSINESS_HOURS_ON": "已开启",
+      "BUSINESS_HOURS_OFF": "已关闭",
       "RESPONSE_TYPES": {
         "FRT": "首次响应时间阈值",
         "NRT": "下次响应时间阈值",
