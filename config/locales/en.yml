@@ -44,6 +44,11 @@ en:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+    call_business_hours:
+      unsupported_inbox: 'Business hours for calls require a Twilio voice inbox'
+      invalid_settings: 'Provide a boolean for business hours and text for the announcement'
+      message_required: 'Add the message callers hear outside business hours'
+      message_too_long: 'The out-of-hours message must be 1000 characters or fewer'
   auth:
     saml:
       invalid_email: 'Please enter a valid email address'
@@ -83,6 +88,15 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
+      metadata_url:
+        invalid_url: must be a valid HTTPS URL
+        blocked_address: points to an address that cannot be reached. Use a public host name for your identity provider
+        http_error: returned an error. Check that it is the metadata URL from your identity provider
+        unreachable: could not be reached. Check that your identity provider is online and has a valid TLS certificate
+        too_large: returned a response too large to be SAML metadata
+        not_metadata: did not return SAML identity provider metadata
     notification_subscription:
       voip_attributes_required: A VoIP push subscription needs a device_id and a push_token
     account:
@@ -105,6 +119,7 @@ en:
       failed: Signup failed
     voice:
       call_already_accepted: '%{agent_name} is already handling the call.'
+      announcement_audio_mismatch: 'Generated audio did not match the announcement text. Your saved announcement has not changed. Please try again.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
@@ -124,6 +139,7 @@ en:
       sso_not_enabled: SAML SSO is not enabled for this installation
       multi_account_invitation_not_allowed: Users associated with another account cannot be added while SAML is enabled
     conversations:
+      anonymous_caller_reply: 'Messages cannot be sent because this caller’s phone number is unavailable.'
       resolved: Conversation is resolved and does not accept new messages
       unread_counts:
         feature_not_enabled: Conversation unread counts feature not enabled for this account
@@ -203,6 +219,7 @@ en:
     openai:
       invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
+      bot_provider_conflict: 'Disconnect %{current_provider} before connecting %{requested_provider}'
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
         no_response_error: Please check the IMAP credentials and try again.
@@ -266,8 +283,6 @@ en:
     mfa:
       enabled: MFA enabled successfully
       disabled: MFA disabled successfully
-    account_saml_settings:
-      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
@@ -357,6 +372,7 @@ en:
         request_contact_info: 'Would you like to share your phone number with us?'
         unsupported_message: 'This message is unavailable.'
       voice_call:
+        unknown_caller: 'Unknown caller'
         twilio: 'Voice Call'
         whatsapp: 'WhatsApp Call'
       delivery_status:
@@ -497,11 +513,17 @@ en:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    copilot_workflows_disabled: 'Copilot workflows are turned off for this account.'
     upgrade: 'Upgrade your plan to enable Captain AI'
     disabled: 'Captain AI is disabled for this account.'
     api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: 'Using tool %{function_name}'
+      approval_superseded: 'The agent sent a new message instead of approving this change.'
+      approval_rejected: 'The agent rejected this change.'
+      approval_already_decided: 'This change has already been approved or rejected.'
+      approval_expired: 'The agent did not approve this change within %{minutes} minutes.'
+      approval_expired_notice: 'This change expired. Ask Copilot to propose it again.'
       completed_tool_call: 'Completed %{function_name} tool call'
       invalid_tool_call: 'Invalid tool call'
       tool_not_available: 'Tool not available'
@@ -780,6 +802,7 @@ en:
         editor: 'Editor'
         assistant: 'Assistant'
         copilot: 'Copilot'
+        copilot_workflows: 'Copilot workflows'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
         conversation_faq_matching: 'Conversation FAQ matching'

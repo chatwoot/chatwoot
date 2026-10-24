@@ -788,6 +788,19 @@
       "TRANSCRIPTION": {
         "LABEL": "Transcribe recordings",
         "DESCRIPTION": "Turn each recording into a text transcript. Uses Captain and requires audio transcription to be enabled for the account."
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Apply business hours to calls",
+        "DESCRIPTION": "Outside this inbox's business hours, incoming calls don't ring agents. The caller gets your out-of-hours message, and the call is logged as missed.",
+        "HOURS_NOT_ENABLED": "Business hours are turned off for this inbox, so calls keep ringing. Turn them on in the Business Hours tab.",
+        "MESSAGE": {
+          "LABEL": "Out-of-hours message",
+          "PLACEHOLDER": "Our support team is available Monday through Friday, from 9 AM to 6 PM. Please call again during business hours.",
+          "TWILIO_HELP": "Saving generates the spoken announcement using one Captain response credit. You can listen to the saved audio below."
+        },
+        "READ_BY_TWILIO": "Captain isn't available. You can save the text for Twilio to read.",
+        "ACTIVE": "Current announcement",
+        "SAVE": "Save announcement"
       }
     },
     "WHATSAPP_CALLING": {
@@ -1311,7 +1324,10 @@
         "BALANCED": "Balanced assignment"
       },
       "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
+      "SELF_HOSTED_PROMPT": "Custom assignment policies are available on the Premium plan",
+      "FEATURE_DISABLED_PROMPT": "Custom assignment policies are not enabled for this account.",
       "UPGRADE_TO_BUSINESS": "Upgrade to Business",
+      "UPGRADE_TO_PREMIUM": "Upgrade to Premium",
       "DEFAULT_POLICY_LINKED": "Default policy linked",
       "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
       "LINK_EXISTING_POLICY": "Link existing policy",

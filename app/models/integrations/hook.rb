@@ -35,6 +35,7 @@ class Integrations::Hook < ApplicationRecord
             if: :shopify?
   validate :validate_settings_json_schema
   validate :ensure_feature_enabled
+  validate :ensure_exclusive_bot_provider, if: -> { dialogflow? && enabled? }
   validate :validate_openai_api_key, if: :validate_openai_api_key?
   validate :validate_cloudflare_realtimekit_credentials, if: :validate_cloudflare_realtimekit_credentials?
   validate :validate_google_translate_credentials, on: :create, if: :google_translate?
@@ -111,6 +112,11 @@ class Integrations::Hook < ApplicationRecord
   end
 
   private
+
+  def ensure_exclusive_bot_provider
+    provider = inbox&.conflicting_bot_provider(:dialogflow)
+    errors.add(:base, I18n.t('errors.inboxes.bot_provider_conflict', current_provider: provider, requested_provider: 'Dialogflow')) if provider
+  end
 
   def ensure_feature_enabled
     return if shopify? && disabled?

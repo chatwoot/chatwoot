@@ -8,7 +8,7 @@ RSpec.describe Integrations::LlmBaseService do
   let(:event) { { 'name' => 'summarize', 'data' => { 'conversation_display_id' => conversation.display_id } } }
   let(:service) { described_class.new(hook: hook, event: event) }
   let(:error) { StandardError.new('API Error') }
-  let(:body) { { model: 'gpt-4', messages: [{ role: 'user', content: 'Hello' }] }.to_json }
+  let(:body) { { model: 'gpt-6-luna', messages: [{ role: 'user', content: 'Hello' }] }.to_json }
 
   before { allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true) }
 
