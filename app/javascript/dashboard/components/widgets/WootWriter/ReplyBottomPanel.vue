@@ -98,6 +98,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    enableWhatsappCatalog: {
+      type: Boolean,
+      default: false,
+    },
     conversationId: {
       type: Number,
       required: true,
@@ -128,6 +132,7 @@ export default {
     'toggleInsertArticle',
     'selectWhatsappTemplate',
     'selectContentTemplate',
+    'selectCatalog',
     'requestContactInfoTemplate',
   ],
   setup(props) {
@@ -340,6 +345,16 @@ export default {
         faded
         sm
         @click="$emit('selectWhatsappTemplate')"
+      />
+      <NextButton
+        v-if="enableWhatsappCatalog"
+        v-tooltip.top-end="$t('CATALOG.TOOLTIP')"
+        icon="i-lucide-store"
+        slate
+        faded
+        sm
+        :disabled="isEditorDisabled"
+        @click="$emit('selectCatalog')"
       />
       <RequestContactInfoButton
         v-if="!isOnPrivateNote"

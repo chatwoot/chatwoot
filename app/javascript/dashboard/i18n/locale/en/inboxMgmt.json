@@ -1145,6 +1145,11 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
+      "WHATSAPP_CATALOG_ID": {
+        "LABEL": "Catalog ID (optional)",
+        "PLACEHOLDER": "e.g. 123456789012345",
+        "HELP_TEXT": "Leave empty to detect the connected catalog automatically. Use it if the token does not have the catalog_management permission or the account has several catalogs."
+      },
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
