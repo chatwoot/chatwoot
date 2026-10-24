@@ -1,0 +1,28 @@
+{
+  "name": "playwright",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "playwright:open": "npx playwright test --ui",
+    "playwright:run": "npx playwright test",
+    "playwright:codegen": "npx playwright codegen"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
+    "@playwright/mcp": "^0.0.48",
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.10.1",
+    "@types/uuid": "^10.0.0",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "dotenv": "^17.2.3",
+    "genson-js": "^0.0.8",
+    "pg": "^8.16.3",
+    "playwright": "^1.56.1",
+    "uuid": "^13.0.0"
+  }
+}
