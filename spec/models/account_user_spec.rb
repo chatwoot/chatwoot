@@ -17,6 +17,26 @@ RSpec.describe AccountUser do
     end
   end
 
+  describe 'availability change' do
+    before { allow(AutoAssignment::TeamAssignmentRetryJob).to receive(:enqueue_for_account) }
+
+    it 'retries team assignment when the agent comes online' do
+      account_user.update!(availability: :offline)
+      account_user.update!(availability: :online)
+
+      expect(AutoAssignment::TeamAssignmentRetryJob).to have_received(:enqueue_for_account).with(account_user.account).once
+    end
+
+    it 'does not retry team assignment on creation, on other updates, or when the agent goes offline or busy' do
+      create(:account_user, account: account_user.account, availability: :online)
+      account_user.update!(active_at: Time.current)
+      account_user.update!(availability: :offline)
+      account_user.update!(availability: :busy)
+
+      expect(AutoAssignment::TeamAssignmentRetryJob).not_to have_received(:enqueue_for_account)
+    end
+  end
+
   describe 'permissions' do
     it 'returns the right permissions' do
       expect(account_user.permissions).to eq(['agent'])
