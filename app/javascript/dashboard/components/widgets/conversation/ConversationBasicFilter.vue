@@ -48,6 +48,10 @@ const chatStatusOptions = computed(() => [
     value: 'open',
   },
   {
+    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.unread.TEXT'),
+    value: 'unread',
+  },
+  {
     label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT'),
     value: 'resolved',
   },
