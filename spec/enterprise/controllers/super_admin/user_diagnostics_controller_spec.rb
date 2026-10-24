@@ -18,6 +18,7 @@ RSpec.describe 'Super Admin User diagnostics incoming calls', type: :request do
 
     expect(response.body).to include('Incoming calls')
     expect(response.body).to include('Needs APNS_VOIP_KEY, APNS_VOIP_KEY_ID and APNS_VOIP_TEAM_ID')
+    expect(response.body).to include('or CHATWOOT_VOICE_RELAY_SECRET from Chatwoot Hub')
     expect(response.body).to include('No, no voice inboxes')
   end
 

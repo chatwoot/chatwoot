@@ -118,6 +118,18 @@ class ChatwootHub
     RestClient.post(push_notification_url, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   end
 
+  # The secret Chatwoot Hub issues when it approves this installation for its voice relay
+  def self.voice_relay_secret
+    ENV.fetch('CHATWOOT_VOICE_RELAY_SECRET', nil).presence
+  end
+
+  # A request to the hub's voice relay, bounded so a ring is never left waiting on it
+  def self.voice_relay_request(method, path, body, read_timeout: 10)
+    RestClient::Request.execute(method: method, url: "#{base_url}/voice_relay/#{path}", payload: body.to_json,
+                                headers: { content_type: :json, accept: :json, authorization: "Bearer #{voice_relay_secret}" },
+                                open_timeout: 5, read_timeout: read_timeout)
+  end
+
   def self.emit_event(event_name, event_data)
     return if ENV['DISABLE_TELEMETRY']
 

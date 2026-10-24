@@ -989,6 +989,16 @@ en:
           apple: 'Needs APNS_VOIP_KEY, APNS_VOIP_KEY_ID and APNS_VOIP_TEAM_ID'
           android: 'Needs FIREBASE_PROJECT_ID and FIREBASE_CREDENTIALS'
         invalid_environment: 'APNS_VOIP_ENVIRONMENT must be development or production'
+        relayed: 'Through the Chatwoot Hub voice relay'
+        relay_states:
+          registered: '%{count} registered with the hub'
+          pending: '%{count} not registered with the hub yet'
+          conflict: '%{count} registered to another installation on the hub'
+          rejected: '%{count} refused: the hub did not accept the relay secret'
+          failed: '%{count} could not be registered: the hub was unreachable'
+        relay_secret:
+          apple: 'Needs APNS_VOIP_KEY, APNS_VOIP_KEY_ID and APNS_VOIP_TEAM_ID, or CHATWOOT_VOICE_RELAY_SECRET from Chatwoot Hub'
+          android: 'Needs FIREBASE_PROJECT_ID and FIREBASE_CREDENTIALS, or CHATWOOT_VOICE_RELAY_SECRET from Chatwoot Hub'
         account_columns:
           account: 'Account'
           voice: 'Voice Channel'
