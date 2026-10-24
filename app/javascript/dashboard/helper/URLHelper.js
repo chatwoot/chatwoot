@@ -60,10 +60,12 @@ export const conversationListPageURL = ({
 };
 
 export const isValidURL = value => {
-  /* eslint-disable no-useless-escape */
-  const URL_REGEX =
-    /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/gm;
-  return URL_REGEX.test(value);
+  try {
+    const { protocol } = new URL(value);
+    return protocol === 'http:' || protocol === 'https:';
+  } catch {
+    return false;
+  }
 };
 
 export const getArticleSearchURL = ({
