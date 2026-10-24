@@ -60,6 +60,16 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include('<link rel="icon" href=')
       end
+
+      it 'swaps to the dark mode logo in dark mode' do
+        portal.logo.attach(io: Rails.root.join('spec/assets/sample.png').open, filename: 'sample.png', content_type: 'image/png')
+        portal.dark_logo.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+
+        get "/hc/#{portal.slug}/en"
+
+        expect(response.body).to match(/sample\.png" class="[^"]*dark:hidden"/)
+        expect(response.body).to match(/avatar\.png" class="[^"]*hidden dark:block"/)
+      end
     end
 
     context 'when portal has no logo' do
