@@ -93,8 +93,8 @@ class Webhooks::ShopifyController < ActionController::API
     return Integrations::Hook.none unless Shopify::ShopDomain.valid?(normalized_domain)
 
     hooks = Integrations::Hook.where(app_id: 'shopify', reference_id: normalized_domain)
-    return hooks.where(account_id: custom_app.account_id).where("settings ->> 'custom_app_id' = ?", custom_app.id.to_s) if custom_app
+    return hooks.where(account_id: custom_app.account_id).with_shopify_custom_app_id(custom_app.id) if custom_app
 
-    hooks.where("settings ->> 'custom_app_id' IS NULL")
+    hooks.with_shopify_custom_app_id(nil)
   end
 end

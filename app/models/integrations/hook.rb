@@ -55,6 +55,11 @@ class Integrations::Hook < ApplicationRecord
     account.shopify_custom_app if app_id == 'shopify' && settings['custom_app_id'].present?
   end
 
+  scope :with_shopify_custom_app_id, lambda { |custom_app_id|
+    app_id = Arel::Nodes::InfixOperation.new('->>', arel_table[:settings], Arel::Nodes.build_quoted('custom_app_id'))
+    where(app_id.eq(custom_app_id&.to_s))
+  }
+
   scope :account_hooks, -> { where(hook_type: 'account') }
   scope :inbox_hooks, -> { where(hook_type: 'inbox') }
 
