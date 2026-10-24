@@ -119,6 +119,7 @@ en:
       failed: Signup failed
     voice:
       call_already_accepted: '%{agent_name} is already handling the call.'
+      announcement_audio_mismatch: 'Generated audio did not match the announcement text. Your saved announcement has not changed. Please try again.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:

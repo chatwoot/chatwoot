@@ -6,7 +6,10 @@ class Twilio::VoiceController < ApplicationController
     /conference-end/i => 'end'
   }.freeze
 
+  include Concerns::TwilioWebhookVerification
+
   before_action :set_inbox!
+  before_action { verify_twilio_signature!(inbox_channel.auth_token) }
 
   def status
     Voice::StatusUpdateService.new(
@@ -71,9 +74,7 @@ class Twilio::VoiceController < ApplicationController
 
   def twilio_call_sid = params[:CallSid]
 
-  def twilio_from
-    params[:From].to_s
-  end
+  def twilio_from = params[:From].to_s
 
   def twilio_to
     params[:To]
