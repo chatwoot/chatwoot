@@ -19,6 +19,7 @@ import {
 import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
+import { useCommandBar } from '@bysivin/jumpbar';
 
 const store = useStore();
 const getters = useStoreGetters();
@@ -76,10 +77,8 @@ const getConversationParams = () => {
   };
 };
 
-const openSnoozeModal = () => {
-  const ninja = document.querySelector('ninja-keys');
-  ninja.open({ parent: 'snooze_conversation' });
-};
+const openSnoozeModal = () =>
+  useCommandBar().open({ page: 'snooze_conversation' });
 
 const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
   closeDropdown();

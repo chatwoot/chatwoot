@@ -1,4 +1,4 @@
-import { useAppearanceHotKeys } from '../useAppearanceHotKeys';
+import { useAppearanceCommands } from '../useAppearanceCommands';
 import { useI18n } from 'vue-i18n';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
@@ -8,7 +8,7 @@ vi.mock('vue-i18n');
 vi.mock('shared/helpers/localStorage');
 vi.mock('dashboard/helper/themeHelper.js');
 
-describe('useAppearanceHotKeys', () => {
+describe('useAppearanceCommands', () => {
   beforeEach(() => {
     useI18n.mockReturnValue({
       t: vi.fn(key => key),
@@ -17,45 +17,44 @@ describe('useAppearanceHotKeys', () => {
     window.matchMedia = vi.fn().mockReturnValue({ matches: false });
   });
 
-  it('should return goToAppearanceHotKeys computed property', () => {
-    const { goToAppearanceHotKeys } = useAppearanceHotKeys();
-    expect(goToAppearanceHotKeys.value).toBeDefined();
+  it('should return appearanceCommands computed property', () => {
+    const { appearanceCommands } = useAppearanceCommands();
+    expect(appearanceCommands.value).toBeDefined();
   });
 
   it('should have the correct number of appearance options', () => {
-    const { goToAppearanceHotKeys } = useAppearanceHotKeys();
-    expect(goToAppearanceHotKeys.value.length).toBe(4); // 1 parent + 3 theme options
+    const { appearanceCommands } = useAppearanceCommands();
+    expect(appearanceCommands.value.length).toBe(4); // 1 parent + 3 theme options
   });
 
   it('should have the correct parent option', () => {
-    const { goToAppearanceHotKeys } = useAppearanceHotKeys();
-    const parentOption = goToAppearanceHotKeys.value.find(
+    const { appearanceCommands } = useAppearanceCommands();
+    const parentOption = appearanceCommands.value.find(
       option => option.id === 'appearance_settings'
     );
-    expect(parentOption).toBeDefined();
-    expect(parentOption.children.length).toBe(3);
+    expect(parentOption.page).toBe(true);
   });
 
   it('should have the correct theme options', () => {
-    const { goToAppearanceHotKeys } = useAppearanceHotKeys();
-    const themeOptions = goToAppearanceHotKeys.value.filter(
+    const { appearanceCommands } = useAppearanceCommands();
+    const themeOptions = appearanceCommands.value.filter(
       option => option.parent === 'appearance_settings'
     );
     expect(themeOptions.length).toBe(3);
     expect(themeOptions.map(option => option.id)).toEqual([
-      'light',
-      'dark',
-      'auto',
+      'appearance-light',
+      'appearance-dark',
+      'appearance-auto',
     ]);
   });
 
   it('should call setAppearance when a theme option is selected', () => {
-    const { goToAppearanceHotKeys } = useAppearanceHotKeys();
-    const lightThemeOption = goToAppearanceHotKeys.value.find(
-      option => option.id === 'light'
+    const { appearanceCommands } = useAppearanceCommands();
+    const lightThemeOption = appearanceCommands.value.find(
+      option => option.id === 'appearance-light'
     );
 
-    lightThemeOption.handler();
+    lightThemeOption.run();
 
     expect(LocalStorage.set).toHaveBeenCalledWith(
       LOCAL_STORAGE_KEYS.COLOR_SCHEME,
@@ -67,12 +66,12 @@ describe('useAppearanceHotKeys', () => {
   it('should handle system dark mode preference', () => {
     window.matchMedia = vi.fn().mockReturnValue({ matches: true });
 
-    const { goToAppearanceHotKeys } = useAppearanceHotKeys();
-    const autoThemeOption = goToAppearanceHotKeys.value.find(
-      option => option.id === 'auto'
+    const { appearanceCommands } = useAppearanceCommands();
+    const autoThemeOption = appearanceCommands.value.find(
+      option => option.id === 'appearance-auto'
     );
 
-    autoThemeOption.handler();
+    autoThemeOption.run();
 
     expect(LocalStorage.set).toHaveBeenCalledWith(
       LOCAL_STORAGE_KEYS.COLOR_SCHEME,

@@ -163,7 +163,6 @@ module.exports = {
           '^multiselect',
           '^router-link',
           '^router-view',
-          '^ninja-keys',
           '^FormulateForm',
           '^FormulateInput',
           '^highlightjs',
