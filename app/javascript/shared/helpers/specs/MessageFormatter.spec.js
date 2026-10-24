@@ -23,6 +23,31 @@ describe('#MessageFormatter', () => {
         '<p>Hey {{customer.name}}, check https://chatwoot.com</p>'
       );
     });
+    it('should format bare URL followed by hard break correctly without adding backslash to URL (#15731)', () => {
+      const message = 'https://example.com/trip/\\\nNext line';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p><a href="https://example.com/trip/" class="link" rel="noreferrer noopener nofollow" target="_blank">https://example.com/trip/</a> <br />\nNext line</p>'
+      );
+    });
+    it('should not alter URL lines inside a fenced code block', () => {
+      const message = '```sh\nhttps://example.com/api\\\nnext\n```';
+      const result = new MessageFormatter(message).formattedMessage;
+      expect(result).not.toMatch('api \\');
+      expect(result).toContain('https://example.com/api\\');
+    });
+    it.each([
+      ['indented code', '    https://example.com/api\\\n    next'],
+      [
+        'quoted fenced code',
+        '> ```sh\n> https://example.com/api\\\n> next\n> ```',
+      ],
+      ['inline code', '`https://example.com/api\\\nnext`'],
+    ])('preserves the URL backslash in %s', (_name, message) => {
+      const result = new MessageFormatter(message).formattedMessage;
+      expect(result).not.toContain('https://example.com/api \\');
+      expect(result).toContain('https://example.com/api\\');
+      expect(result).not.toContain('<a ');
+    });
   });
 
   describe('parses heading to strong', () => {
