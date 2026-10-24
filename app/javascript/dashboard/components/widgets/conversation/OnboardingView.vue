@@ -3,9 +3,11 @@ import OnboardingFeatureCard from './OnboardingFeatureCard.vue';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters } from 'dashboard/composables/store';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
 const getters = useStoreGetters();
 const { t } = useI18n();
+const assetUrl = useAssetUrl();
 const globalConfig = computed(() => getters['globalConfig/get'].value);
 const currentUser = computed(() => getters.getCurrentUser.value);
 
@@ -45,7 +47,9 @@ const greetingMessage = computed(() => {
       </p>
     </div>
     <OnboardingFeatureCard
-      image-src="/dashboard/images/onboarding/omnichannel-inbox.png"
+      :image-src="
+        assetUrl('/dashboard/images/onboarding/omnichannel-inbox.png')
+      "
       image-alt="Omnichannel"
       to="settings_inbox_new"
       :title="$t('ONBOARDING.ALL_CONVERSATION.TITLE')"
@@ -53,7 +57,7 @@ const greetingMessage = computed(() => {
       :link-text="$t('ONBOARDING.ALL_CONVERSATION.NEW_LINK')"
     />
     <OnboardingFeatureCard
-      image-src="/dashboard/images/onboarding/teams.png"
+      :image-src="assetUrl('/dashboard/images/onboarding/teams.png')"
       image-alt="Teams"
       to="settings_teams_new"
       :title="$t('ONBOARDING.TEAM_MEMBERS.TITLE')"
@@ -61,7 +65,7 @@ const greetingMessage = computed(() => {
       :link-text="$t('ONBOARDING.TEAM_MEMBERS.NEW_LINK')"
     />
     <OnboardingFeatureCard
-      image-src="/dashboard/images/onboarding/canned-responses.png"
+      :image-src="assetUrl('/dashboard/images/onboarding/canned-responses.png')"
       image-alt="Canned responses"
       to="canned_list"
       :title="$t('ONBOARDING.CANNED_RESPONSES.TITLE')"
@@ -69,7 +73,7 @@ const greetingMessage = computed(() => {
       :link-text="$t('ONBOARDING.CANNED_RESPONSES.NEW_LINK')"
     />
     <OnboardingFeatureCard
-      image-src="/dashboard/images/onboarding/labels.png"
+      :image-src="assetUrl('/dashboard/images/onboarding/labels.png')"
       image-alt="Labels"
       to="labels_list"
       :title="$t('ONBOARDING.LABELS.TITLE')"

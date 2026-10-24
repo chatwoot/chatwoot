@@ -4,6 +4,7 @@ import { useStoreGetters } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { useBranding } from 'shared/composables/useBranding';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Label from 'dashboard/components-next/label/Label.vue';
@@ -32,6 +33,7 @@ const accountId = getters.getCurrentAccountId;
 
 const { t } = useI18n();
 const { replaceInstallationName } = useBranding();
+const assetUrl = useAssetUrl();
 
 const integrationStatus = computed(() =>
   props.enabled
@@ -58,7 +60,9 @@ const actionURL = computed(() =>
     <div class="flex items-start justify-between">
       <div class="flex h-12 w-12 mb-2">
         <img
-          :src="`/dashboard/images/integrations/${id}.${logoExtension}`"
+          :src="
+            assetUrl(`/dashboard/images/integrations/${id}.${logoExtension}`)
+          "
           :alt="name"
           class="rounded-md border border-n-weak shadow-sm block dark:hidden"
           :class="
@@ -66,7 +70,11 @@ const actionURL = computed(() =>
           "
         />
         <img
-          :src="`/dashboard/images/integrations/${id}-dark.${logoExtension}`"
+          :src="
+            assetUrl(
+              `/dashboard/images/integrations/${id}-dark.${logoExtension}`
+            )
+          "
           :alt="name"
           class="rounded-md border border-n-weak shadow-sm hidden dark:block"
           :class="
