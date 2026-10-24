@@ -4,6 +4,7 @@ import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
+import { AsYouType } from 'libphonenumber-js';
 
 export default {
   components: {
@@ -28,6 +29,10 @@ export default {
       type: String,
       default: '',
     },
+    displayValue: {
+      type: String,
+      default: '',
+    },
     showCopy: {
       type: Boolean,
       default: false,
@@ -48,6 +53,26 @@ export default {
       editValue: '',
     };
   },
+  computed: {
+    renderedValue() {
+      return this.displayValue || this.value;
+    },
+  },
+  watch: {
+    editValue(val) {
+      if (this.displayValue && val && val.startsWith('+')) {
+        // Prevent AsYouType from dropping non-digit characters on unsupported inputs (e.g. +1 800 FLOWERS)
+        if (!/^[\d\s()+-]*$/.test(val)) {
+          return;
+        }
+        const formatter = new AsYouType();
+        const formatted = formatter.input(val);
+        if (formatted !== val) {
+          this.editValue = formatted;
+        }
+      }
+    },
+  },
   methods: {
     async onCopy(e) {
       e.preventDefault();
@@ -59,7 +84,7 @@ export default {
       this.editValue = this.value || '';
       this.isEditing = true;
       this.$nextTick(() => {
-        this.$refs.editInput?.focus();
+        this.$refs.editInput?.focus?.();
       });
     },
     saveEdit() {
@@ -110,11 +135,11 @@ export default {
         class="flex-shrink-0 ltr:ml-1 rtl:mr-1"
       />
       <span
-        v-if="value"
+        v-if="renderedValue"
         class="overflow-hidden text-sm whitespace-nowrap text-ellipsis"
-        :title="value"
+        :title="renderedValue"
       >
-        {{ value }}
+        {{ renderedValue }}
       </span>
       <span v-else class="text-sm text-n-slate-11">
         {{ $t('CONTACT_PANEL.NOT_AVAILABLE') }}
@@ -148,8 +173,8 @@ export default {
         class="flex-shrink-0 ltr:ml-1 rtl:mr-1"
       />
       <span
-        v-if="value"
-        v-dompurify-html="value"
+        v-if="renderedValue"
+        v-dompurify-html="renderedValue"
         class="overflow-hidden text-sm whitespace-nowrap text-ellipsis"
       />
       <span v-else class="text-sm text-n-slate-11">
