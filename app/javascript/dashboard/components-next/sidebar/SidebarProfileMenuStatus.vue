@@ -16,11 +16,19 @@ import Icon from 'next/icon/Icon.vue';
 import Button from 'next/button/Button.vue';
 import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 
+const props = defineProps({
+  hasVoiceInbox: { type: Boolean, default: false },
+});
+
 const { t } = useI18n();
 const store = useStore();
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
 const currentAccountId = useMapGetter('getCurrentAccountId');
 const currentUserAutoOffline = useMapGetter('getCurrentUserAutoOffline');
+const currentUserAcceptsConversations = useMapGetter(
+  'getCurrentUserAcceptsConversations'
+);
+const currentUserAcceptsCalls = useMapGetter('getCurrentUserAcceptsCalls');
 
 const { isImpersonating } = useImpersonation();
 
@@ -59,11 +67,41 @@ const autoOfflineToggle = computed({
   },
 });
 
-function changeAvailabilityStatus(availability) {
+const isOnline = computed(() => currentUserAvailability.value === 'online');
+
+const blockedWhileImpersonating = () => {
   if (isImpersonating.value) {
     useAlert(t('PROFILE_SETTINGS.FORM.AVAILABILITY.IMPERSONATING_ERROR'));
-    return;
   }
+  return isImpersonating.value;
+};
+
+const updateWorkPreferences = preferences => {
+  if (blockedWhileImpersonating()) return;
+  store.dispatch('updateWorkPreferences', {
+    accountId: currentAccountId.value,
+    ...preferences,
+  });
+};
+
+const acceptsConversationsToggle = computed({
+  get: () => currentUserAcceptsConversations.value,
+  set: value => updateWorkPreferences({ accepts_conversations: value }),
+});
+
+const acceptsCallsToggle = computed({
+  get: () => currentUserAcceptsCalls.value,
+  set: value => updateWorkPreferences({ accepts_calls: value }),
+});
+
+const pausedNote = computed(() =>
+  props.hasVoiceInbox
+    ? t('SIDEBAR.WORK_PAUSED.CONVERSATIONS_AND_CALLS')
+    : t('SIDEBAR.WORK_PAUSED.CONVERSATIONS')
+);
+
+function changeAvailabilityStatus(availability) {
+  if (blockedWhileImpersonating()) return;
   try {
     store.dispatch('updateAvailability', {
       availability,
@@ -114,7 +152,41 @@ function changeAvailabilityStatus(availability) {
           </DropdownBody>
         </DropdownContainer>
       </DropdownItem>
-      <DropdownItem>
+      <div v-if="isOnline" class="grid mb-1 ms-2 ps-3 border-s border-n-weak">
+        <DropdownItem preserve-open>
+          <div class="flex-grow min-w-0">
+            {{ $t('SIDEBAR.ACCEPT_CONVERSATIONS.TEXT') }}
+            <Icon
+              v-tooltip.top="$t('SIDEBAR.ACCEPT_CONVERSATIONS.INFO_SHORT')"
+              icon="i-lucide-info"
+              class="inline-block align-middle ms-1 size-4 text-n-slate-10"
+            />
+          </div>
+          <ToggleSwitch v-model="acceptsConversationsToggle" />
+        </DropdownItem>
+        <DropdownItem v-if="hasVoiceInbox" preserve-open>
+          <div class="flex-grow min-w-0">
+            {{ $t('SIDEBAR.ACCEPT_CALLS.TEXT') }}
+            <Icon
+              v-tooltip.top="$t('SIDEBAR.ACCEPT_CALLS.INFO_SHORT')"
+              icon="i-lucide-info"
+              class="inline-block align-middle ms-1 size-4 text-n-slate-10"
+            />
+          </div>
+          <ToggleSwitch v-model="acceptsCallsToggle" />
+        </DropdownItem>
+      </div>
+      <div
+        v-else
+        class="flex gap-2 items-start px-2.5 py-2 mb-0.5 text-sm rounded-lg bg-n-amber-3 text-n-amber-11"
+      >
+        <Icon
+          icon="i-lucide-circle-pause"
+          class="flex-shrink-0 mt-0.5 size-4"
+        />
+        <span>{{ pausedNote }}</span>
+      </div>
+      <DropdownItem preserve-open>
         <div class="flex-grow min-w-0">
           {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
           <Icon

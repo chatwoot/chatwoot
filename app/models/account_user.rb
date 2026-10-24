@@ -3,6 +3,8 @@
 # Table name: account_users
 #
 #  id                       :bigint           not null, primary key
+#  accepts_calls            :boolean          default(TRUE), not null
+#  accepts_conversations    :boolean          default(TRUE), not null
 #  active_at                :datetime
 #  auto_offline             :boolean          default(TRUE), not null
 #  availability             :integer          default("online"), not null
