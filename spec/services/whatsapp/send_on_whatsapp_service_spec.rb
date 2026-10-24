@@ -502,5 +502,29 @@ describe Whatsapp::SendOnWhatsappService do
         described_class.new(message: message_b).perform
       end
     end
+
+    context 'when the message carries a catalog' do
+      let(:channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false) }
+      let(:contact_inbox) { create(:contact_inbox, inbox: channel.inbox, source_id: '123456789') }
+      let(:conversation) do
+        create(:conversation, account: channel.account, inbox: channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact)
+      end
+      let(:catalog_message) do
+        create(:message, account: channel.account, conversation: conversation, inbox: channel.inbox, message_type: :outgoing,
+                         content: 'Take a look',
+                         content_attributes: { whatsapp_catalog: { kind: 'product', catalog_id: 'catalog_1', items: [{ retailer_id: 'sku-1' }] } })
+      end
+
+      before { create(:message, account: channel.account, conversation: conversation, inbox: channel.inbox, message_type: :incoming) }
+
+      it 'delivers it through the catalog service and stores the source id' do
+        allow(Whatsapp::Providers::WhatsappCloudCatalogService).to receive(:perform).and_return('catalog_message_id')
+
+        described_class.new(message: catalog_message).perform
+
+        expect(Whatsapp::Providers::WhatsappCloudCatalogService).to have_received(:perform).with(channel, '123456789', catalog_message)
+        expect(catalog_message.reload.source_id).to eq 'catalog_message_id'
+      end
+    end
   end
 end
