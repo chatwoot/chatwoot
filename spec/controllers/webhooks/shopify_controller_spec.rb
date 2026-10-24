@@ -82,14 +82,13 @@ RSpec.describe Webhooks::ShopifyController, type: :request do
   it 'raises a retryable failure when a matching hook appears during cleanup' do
     hook
     inserted_hook = nil
-    app_hooks = Integrations::Hook.where(app_id: 'shopify')
-    hooks = app_hooks.where('LOWER(reference_id) = ?', shop_domain)
+    hooks = Integrations::Hook.where(app_id: 'shopify', reference_id: shop_domain)
 
     allow(Integrations::Hook).to receive(:where)
-      .with(app_id: 'shopify')
-      .and_return(app_hooks)
-    allow(app_hooks).to receive(:where)
-      .with('LOWER(reference_id) = ?', shop_domain)
+      .with(app_id: 'shopify', reference_id: shop_domain)
+      .and_return(hooks)
+    allow(hooks).to receive(:where)
+      .with("settings ->> 'custom_app_id' IS NULL")
       .and_return(hooks)
     allow(hooks).to receive(:find_each) do |&block|
       block.call(hook)
