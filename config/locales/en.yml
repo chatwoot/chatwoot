@@ -119,6 +119,7 @@ en:
       failed: Signup failed
     voice:
       call_already_accepted: '%{agent_name} is already handling the call.'
+      announcement_audio_mismatch: 'Generated audio did not match the announcement text. Your saved announcement has not changed. Please try again.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
@@ -218,6 +219,7 @@ en:
     openai:
       invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
+      bot_provider_conflict: 'Disconnect %{current_provider} before connecting %{requested_provider}'
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
         no_response_error: Please check the IMAP credentials and try again.
