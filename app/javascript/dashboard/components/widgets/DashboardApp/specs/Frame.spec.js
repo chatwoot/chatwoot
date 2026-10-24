@@ -107,6 +107,48 @@ describe('DashboardAppFrame', () => {
     ]);
   });
 
+  it('keeps the frame and context unchanged when reopened', async () => {
+    await wrapper.setProps({ isVisible: true });
+    const frame = wrapper.find('iframe');
+    const frameElement = frame.element;
+    const postMessage = vi.fn();
+    Object.defineProperty(frame.element, 'contentWindow', {
+      value: { postMessage },
+    });
+    await frame.trigger('load');
+    postMessage.mockClear();
+
+    await wrapper.setProps({ isVisible: false });
+    await wrapper.setProps({ isVisible: true });
+
+    expect(wrapper.find('iframe').element).toBe(frameElement);
+    expect(postMessage).not.toHaveBeenCalled();
+  });
+
+  it('resends context changed while the app was hidden', async () => {
+    await wrapper.setProps({ isVisible: true });
+    const frame = wrapper.find('iframe');
+    const postMessage = vi.fn();
+    Object.defineProperty(frame.element, 'contentWindow', {
+      value: { postMessage },
+    });
+    await frame.trigger('load');
+    postMessage.mockClear();
+
+    await wrapper.setProps({ isVisible: false });
+    store.commit('setCustomAttributes', [{ attribute_key: 'customer_plan' }]);
+    await nextTick();
+    expect(postMessage).not.toHaveBeenCalled();
+
+    await wrapper.setProps({ isVisible: true });
+
+    expect(postMessage).toHaveBeenCalledOnce();
+    const payload = JSON.parse(postMessage.mock.calls[0][0]);
+    expect(payload.data.customAttributes).toEqual([
+      { attribute_key: 'customer_plan' },
+    ]);
+  });
+
   it('notifies the embedded app when the resolved theme changes', async () => {
     await wrapper.setProps({ isVisible: true });
     const frame = wrapper.find('iframe');
