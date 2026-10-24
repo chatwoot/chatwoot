@@ -35,11 +35,15 @@ const {
   contentAttributes,
 } = useMessageContext();
 
-const readableTime = computed(() =>
-  messageTimestamp(createdAt.value, 'LLL d, h:mm a')
+const displayTimestamp = computed(
+  () => contentAttributes.value?.externalCreatedAt || createdAt.value
 );
 
-const exactTime = computed(() => exactTimestamp(createdAt.value));
+const readableTime = computed(() =>
+  messageTimestamp(displayTimestamp.value, 'LLL d, h:mm a')
+);
+
+const exactTime = computed(() => exactTimestamp(displayTimestamp.value));
 
 const showStatusIndicator = computed(() => {
   if (isPrivate.value) return false;
