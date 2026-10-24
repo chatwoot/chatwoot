@@ -38,6 +38,17 @@ class NotificationFinder
 
   def find_all_notifications
     @notifications = current_user.notifications.where(account_id: @current_account.id)
+    exclude_notifications_with_missing_primary_actor
+  end
+
+  # A notification whose conversation has been deleted (e.g. by a contact merge) is an
+  # orphan: its primary_actor no longer exists and rendering it raises, which takes down
+  # the whole notifications index for the user. Keep such rows out of the feed and counts.
+  def exclude_notifications_with_missing_primary_actor
+    @notifications = @notifications.where(
+      "NOT (notifications.primary_actor_type = 'Conversation' AND NOT EXISTS " \
+      '(SELECT 1 FROM conversations WHERE conversations.id = notifications.primary_actor_id))'
+    )
   end
 
   def filter_snoozed_notifications
