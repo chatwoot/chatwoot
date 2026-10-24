@@ -86,6 +86,7 @@ module Redis::RedisKeys
   TIKTOK_MESSAGE_MUTEX = 'TIKTOK_MESSAGE_CREATE_LOCK::%<business_id>s::%<conversation_id>s'.freeze
   TIKTOK_REFRESH_TOKEN_MUTEX = 'TIKTOK_REFRESH_TOKEN_LOCK::%<channel_id>s'.freeze
   SLACK_MESSAGE_MUTEX = 'SLACK_MESSAGE_LOCK::%<conversation_id>s::%<reference_id>s'.freeze
+  LINE_MESSAGE_MUTEX = 'LINE_MESSAGE_CREATE_LOCK::%<line_channel_id>s'.freeze
   EMAIL_MESSAGE_MUTEX = 'EMAIL_CHANNEL_LOCK::%<inbox_id>s'.freeze
   WHATSAPP_MESSAGE_MUTEX = 'WHATSAPP_MESSAGE_CREATE_LOCK::%<inbox_id>s::%<sender_id>s'.freeze
   WHATSAPP_CAMPAIGN_MUTEX = 'WHATSAPP_CAMPAIGN_LOCK::%<campaign_id>s'.freeze
