@@ -38,6 +38,38 @@ RSpec.describe AutomationRules::ConditionsFilterService do
       end
     end
 
+    context 'when conditions based on filter_operator attribute_changed' do
+      let(:changed_attributes) { { company_name: %w[DC Marvel] } }
+
+      def build_conditions(query_operator)
+        [
+          { 'values': { 'from': ['DC'], 'to': ['Marvel'] }, 'attribute_key': 'company_name', 'query_operator': query_operator,
+            'filter_operator': 'attribute_changed' },
+          { 'values': ['snoozed'], 'attribute_key': 'status', 'query_operator': nil, 'filter_operator': 'equal_to' }
+        ]
+      end
+
+      before { conversation.update!(status: :open) }
+
+      it 'intersects with the other conditions when the query operator is AND' do
+        rule.update!(conditions: build_conditions('AND'))
+
+        expect(described_class.new(rule, conversation, { changed_attributes: changed_attributes }).perform).to be(false)
+      end
+
+      it 'intersects with the other conditions when the query operator is lowercase and' do
+        rule.update!(conditions: build_conditions('and'))
+
+        expect(described_class.new(rule, conversation, { changed_attributes: changed_attributes }).perform).to be(false)
+      end
+
+      it 'unions with the other conditions when the query operator is lowercase or' do
+        rule.update!(conditions: build_conditions('or'))
+
+        expect(described_class.new(rule, conversation, { changed_attributes: changed_attributes }).perform).to be(true)
+      end
+    end
+
     context 'when conditions based on filter_operator start_with' do
       before do
         contact = conversation.contact
