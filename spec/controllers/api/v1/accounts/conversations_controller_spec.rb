@@ -695,6 +695,19 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.status).to eq('snoozed')
         expect(conversation.reload.snoozed_until.to_i).to eq(snoozed_until)
       end
+
+      it 'clears the previous deadline when re-snoozed until the next reply' do
+        conversation.update!(status: 'snoozed', snoozed_until: 2.days.from_now)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
+             headers: agent.create_new_auth_token,
+             params: { status: 'snoozed', snoozed_until: nil },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.status).to eq('snoozed')
+        expect(conversation.reload.snoozed_until).to be_nil
+      end
     end
 
     context 'when it is an authenticated bot' do
