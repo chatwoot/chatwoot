@@ -4,14 +4,25 @@ import { useI18n } from 'vue-i18n';
 import Icon from '../icon/Icon.vue';
 import CopilotThinkingBlock from './CopilotThinkingBlock.vue';
 
+// A step is done once anything follows it. isActive means Copilot is still working on the newest step.
 const props = defineProps({
   messages: { type: Array, required: true },
   defaultCollapsed: { type: Boolean, default: false },
+  isActive: { type: Boolean, default: false },
 });
 const { t } = useI18n();
 const isExpanded = ref(!props.defaultCollapsed);
 
 const thinkingCount = computed(() => props.messages.length);
+
+// Only Copilot workflows saves a run ID on its steps, so the old Copilot's steps get no status.
+const stepStatus = (copilotMessage, index) => {
+  if (!copilotMessage.message.run_id) return null;
+  if (copilotMessage.message.status === 'failed') return 'failed';
+  return props.isActive && index === props.messages.length - 1
+    ? 'active'
+    : 'done';
+};
 
 watch(
   () => props.defaultCollapsed,
@@ -51,10 +62,11 @@ watch(
       }"
     >
       <CopilotThinkingBlock
-        v-for="copilotMessage in messages"
+        v-for="(copilotMessage, index) in messages"
         :key="copilotMessage.id"
         :content="copilotMessage.message.content"
         :reasoning="copilotMessage.message.reasoning"
+        :status="stepStatus(copilotMessage, index)"
       />
     </div>
   </div>

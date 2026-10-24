@@ -4,6 +4,9 @@ import Copilot from '../Copilot.vue';
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import ToggleCopilotAssistant from '../ToggleCopilotAssistant.vue';
 import CopilotInput from '../CopilotInput.vue';
+import CopilotThinkingGroup from '../CopilotThinkingGroup.vue';
+import CopilotReviewProgress from '../CopilotReviewProgress.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
@@ -81,6 +84,48 @@ describe('Copilot', () => {
     });
 
     expect(wrapper.findComponent(ToggleCopilotAssistant).exists()).toBe(false);
+  });
+
+  it('shows a review progress card between the steps groups', () => {
+    const progress = { finished: false, done: 5, total: 300, matched: 1 };
+    const step = (id, content) => ({
+      id,
+      message_type: 'assistant_thinking',
+      message: { content },
+    });
+    const wrapper = mountComponent({
+      messages: [
+        step(1, 'Finding matching records'),
+        { id: 2, message_type: 'assistant_progress', message: { progress } },
+        step(3, 'Preparing the results'),
+      ],
+    });
+
+    const groups = wrapper.findAllComponents(CopilotThinkingGroup);
+    expect(groups.map(group => group.props('messages').map(m => m.id))).toEqual(
+      [[1], [3]]
+    );
+    expect(groups.map(group => group.props('isActive'))).toEqual([false, true]);
+    expect(
+      wrapper.findComponent(CopilotReviewProgress).props('progress')
+    ).toEqual(progress);
+  });
+
+  it('keeps the old Copilot step icon and marks workflow steps', () => {
+    const wrapper = mount(CopilotThinkingGroup, {
+      props: {
+        isActive: true,
+        messages: [
+          { id: 1, message: { content: 'Using search_documentation' } },
+          { id: 2, message: { content: 'Searching contacts', run_id: 9 } },
+          { id: 3, message: { content: 'Reading an article', run_id: 9 } },
+        ],
+      },
+    });
+
+    expect(wrapper.findAll('.i-lucide-sparkles')).toHaveLength(1);
+    expect(wrapper.findAll('.i-lucide-check')).toHaveLength(1);
+    expect(wrapper.findAllComponents(Spinner)).toHaveLength(1);
   });
 
   it('preserves a draft while a saved chat is loading', async () => {

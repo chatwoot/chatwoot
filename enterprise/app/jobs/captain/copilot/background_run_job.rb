@@ -39,6 +39,7 @@ module Captain::Copilot::BackgroundRunJob
     summary = run.with_lease(token) do
       incomplete = error || run.remaining_ids.any? || incomplete?(run)
       run.release!(incomplete ? :incomplete : :completed, error: error)
+      run.publish_progress
       run.summary
     end
     tool_call = run.copilot_tool_call
