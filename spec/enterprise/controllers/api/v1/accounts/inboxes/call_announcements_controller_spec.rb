@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe 'Call business hours API', type: :request do
+RSpec.describe 'Call announcements API', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:channel) { create(:channel_twilio_sms, :with_voice, account: account) }
   let(:inbox) { channel.inbox }
-  let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/call_business_hours" }
-  let(:params) { { business_hours_calls_enabled: true, out_of_hours_call_message: ' Call again tomorrow. ' } }
+  let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/call_announcements/out_of_hours" }
+  let(:params) { { enabled: true, message: ' Call again tomorrow. ' } }
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
@@ -21,6 +21,22 @@ RSpec.describe 'Call business hours API', type: :request do
     expect(response.parsed_body).to include('business_hours_calls_enabled' => true, 'out_of_hours_call_message' => 'Call again tomorrow.')
   end
 
+  it 'saves the greeting callers hear while they wait' do
+    patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/call_announcements/greeting",
+          headers: admin.create_new_auth_token, params: { enabled: true, message: 'Welcome to Acme' }, as: :json
+
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body).to include('call_greeting_enabled' => true, 'call_greeting_message' => 'Welcome to Acme',
+                                            'business_hours_calls_enabled' => false)
+  end
+
+  it 'is not found for an announcement that does not exist' do
+    patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/call_announcements/voicemail",
+          headers: admin.create_new_auth_token, params: params, as: :json
+
+    expect(response).to have_http_status(:not_found)
+  end
+
   it 'generates and saves audio with the edited text in one request' do
     allow(Llm::TextToSpeechService).to receive(:available_for?).and_return(true)
     generator = instance_double(Llm::TextToSpeechService, perform: 'new audio')
@@ -31,7 +47,7 @@ RSpec.describe 'Call business hours API', type: :request do
     expect(response).to have_http_status(:ok)
     expect(inbox.reload.out_of_hours_call_audio.download).to eq('new audio')
     expect(response.parsed_body.fetch('out_of_hours_call_audio_url')).to include('.mp3')
-    expect(channel.reload.out_of_hours_call_message).to eq('Call again tomorrow.')
+    expect(channel.reload.provider_config['out_of_hours_call_message']).to eq('Call again tomorrow.')
   end
 
   it 'preserves active audio when generation fails' do
@@ -89,10 +105,10 @@ RSpec.describe 'Call business hours API', type: :request do
   end
 
   [
-    { business_hours_calls_enabled: 'true' },
-    { out_of_hours_call_message: ['message'] },
-    { out_of_hours_call_message: ' ' },
-    { out_of_hours_call_message: 'a' * 1001 }
+    { enabled: 'true' },
+    { message: ['message'] },
+    { message: ' ' },
+    { message: 'a' * 1001 }
   ].each do |invalid|
     it "rejects invalid settings #{invalid.keys.join(', ')} with #{invalid.values.first.class}" do
       patch url, headers: admin.create_new_auth_token, params: params.merge(invalid), as: :json
