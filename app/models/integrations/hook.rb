@@ -56,8 +56,8 @@ class Integrations::Hook < ApplicationRecord
   end
 
   scope :with_shopify_custom_app_id, lambda { |custom_app_id|
-    app_id = Arel::Nodes::InfixOperation.new('->>', arel_table[:settings], Arel::Nodes.build_quoted('custom_app_id'))
-    where(app_id.eq(custom_app_id&.to_s))
+    custom_app_id_field = Arel::Nodes::InfixOperation.new('->>', arel_table[:settings], Arel::Nodes.build_quoted('custom_app_id'))
+    where(custom_app_id_field.eq(custom_app_id&.to_s))
   }
 
   scope :account_hooks, -> { where(hook_type: 'account') }
