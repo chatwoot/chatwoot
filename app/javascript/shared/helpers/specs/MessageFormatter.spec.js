@@ -1,5 +1,4 @@
 import MessageFormatter from '../MessageFormatter';
-
 describe('#MessageFormatter', () => {
   describe('content with links', () => {
     it('should format correctly', () => {
@@ -65,6 +64,47 @@ describe('#MessageFormatter', () => {
       expect(new MessageFormatter(message).formattedMessage).toMatch(
         '<p>Chatwoot is an opensource tool. <img src="http://chatwoot.com/chatwoot.png" alt="" /></p>'
       );
+    });
+  });
+  describe('image URL handling', () => {
+    it('renders relative image URLs without throwing', () => {
+      const message = '![Test](/uploads/image.png)';
+      const formatter = new MessageFormatter(message);
+
+      expect(() => formatter.formatMessage()).not.toThrow();
+      expect(formatter.formattedMessage).toContain('src="/uploads/image.png"');
+    });
+
+    it('applies width to relative image URLs', () => {
+      const message = '![Test](/uploads/image.png?cw_image_width=300px)';
+
+      const result = new MessageFormatter(message).formattedMessage;
+
+      expect(result).toContain('width: 300px');
+      expect(result).toContain('max-width: 100%');
+    });
+
+    it('applies height to relative image URLs', () => {
+      const message = '![Test](/uploads/image.png?cw_image_height=200px)';
+
+      const result = new MessageFormatter(message).formattedMessage;
+
+      expect(result).toContain('height: 200px');
+    });
+
+    it('preserves existing absolute URL sizing', () => {
+      const message =
+        '![Test](https://example.com/image.png?cw_image_width=250px)';
+
+      const result = new MessageFormatter(message).formattedMessage;
+
+      expect(result).toContain('width: 250px');
+    });
+
+    it('does not crash on malformed URLs', () => {
+      const message = '![Test](http://[)';
+
+      expect(() => new MessageFormatter(message).formatMessage()).not.toThrow();
     });
   });
 

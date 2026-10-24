@@ -5,8 +5,18 @@ import mentionPlugin from './markdownIt/link';
 const setImageSizing = inlineToken => {
   const imgSrc = inlineToken.attrGet('src');
   if (!imgSrc) return;
-  const url = new URL(imgSrc);
+
+  let url;
+
+  try {
+    url = new URL(imgSrc, 'https://example.com');
+  } catch {
+    // Invalid URLs should not interrupt message rendering.
+    return;
+  }
+
   const width = url.searchParams.get('cw_image_width');
+
   if (width) {
     inlineToken.attrSet(
       'style',
@@ -14,8 +24,12 @@ const setImageSizing = inlineToken => {
     );
     return;
   }
+
   const height = url.searchParams.get('cw_image_height');
-  if (height) inlineToken.attrSet('style', `height: ${height};`);
+
+  if (height) {
+    inlineToken.attrSet('style', `height: ${height};`);
+  }
 };
 
 const processInlineToken = blockToken => {
