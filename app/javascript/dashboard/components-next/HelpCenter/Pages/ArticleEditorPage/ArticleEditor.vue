@@ -26,6 +26,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hasNewerVersion: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
@@ -35,6 +39,7 @@ const emit = defineEmits([
   'setCategory',
   'previewArticle',
   'createArticle',
+  'reloadArticle',
 ]);
 
 const { t } = useI18n();
@@ -200,6 +205,8 @@ const handleCreateArticle = event => {
   }
   emit('createArticle', { title, content: localContent.value });
 };
+
+defineExpose({ syncLocalState });
 </script>
 
 <template>
@@ -213,9 +220,11 @@ const handleCreateArticle = event => {
         :pending-changes="hasPendingChanges"
         :is-saving="isSaving"
         :has-pending-uploads="hasPendingUploads"
+        :has-newer-version="hasNewerVersion"
         @go-back="onClickGoBack"
         @preview-article="previewArticle"
         @show-diff="diffPanelRef?.open()"
+        @reload-article="emit('reloadArticle')"
       />
       <ArticleDiffPanel ref="diffPanelRef" :article="article" />
     </template>
