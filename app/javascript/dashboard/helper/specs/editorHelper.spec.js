@@ -1479,3 +1479,26 @@ describe('createVariableInputRule', () => {
     view.destroy();
   });
 });
+
+describe('Telegram canned responses with lists', () => {
+  const { marks, nodes } = FORMATTING['Channel::Telegram'];
+  const telegramSchema = buildMessageSchema(marks, nodes);
+  const insert = md =>
+    new MessageMarkdownTransformer(telegramSchema).parse(
+      stripUnsupportedFormatting(md, telegramSchema)
+    );
+
+  it('keeps ordered list numbering', () => {
+    const doc = insert('1. Withdrawal number\n2. TXID of the withdrawal');
+
+    expect(doc.firstChild.type.name).toBe('ordered_list');
+    expect(doc.firstChild.childCount).toBe(2);
+  });
+
+  it('keeps bullet list markers', () => {
+    const doc = insert('- Withdrawal number\n- TXID of the withdrawal');
+
+    expect(doc.firstChild.type.name).toBe('bullet_list');
+    expect(doc.firstChild.childCount).toBe(2);
+  });
+});
