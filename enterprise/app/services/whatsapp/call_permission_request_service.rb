@@ -1,4 +1,4 @@
-# Meta error 138006 means the contact hasn't opted in to calls yet; send the opt-in template.
+# Meta error 138006 means the contact hasn't opted in to calls yet; send a free-form (non-template) permission request.
 class Whatsapp::CallPermissionRequestService
   THROTTLE = 5.minutes
   REQUESTS_KEY = 'call_permission_requests'.freeze
@@ -7,7 +7,7 @@ class Whatsapp::CallPermissionRequestService
 
   pattr_initialize [:conversation!, :recipient!]
 
-  # Locked so two agents calling the same contact can't both send the template.
+  # Locked so two agents calling the same contact can't both send a request.
   def perform
     conversation.with_lock do
       next 'permission_pending' if throttled?
