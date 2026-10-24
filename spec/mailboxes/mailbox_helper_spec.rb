@@ -256,6 +256,7 @@ RSpec.describe MailboxHelper do
     context 'when the attachments are packed in an Outlook TNEF (winmail.dat) part' do
       let(:conversation) { create(:conversation, inbox: create(:inbox, channel: create(:channel_email))) }
       let(:winmail) { Rails.root.join('spec/fixtures/files/winmail.dat').binread }
+      let(:tnef_mime_type) { 'application/ms-tnef' }
       let(:mail) do
         message = Mail.new
         message.from = 'Sender <sender@example.com>'
@@ -263,7 +264,7 @@ RSpec.describe MailboxHelper do
         message.subject = 'Sent from Outlook'
         message.message_id = '<tnef-attachments@example.com>'
         message.body = 'See the attached files.'
-        message.attachments['winmail.dat'] = { mime_type: 'application/ms-tnef', encoding: 'base64', content: Base64.encode64(winmail) }
+        message.attachments['winmail.dat'] = { mime_type: tnef_mime_type, encoding: 'base64', content: Base64.encode64(winmail) }
         Mail.new(message.to_s)
       end
 
@@ -274,6 +275,24 @@ RSpec.describe MailboxHelper do
 
         expect(attachments.map { |attachment| attachment.file.filename.to_s }).to contain_exactly('quarterly-report.txt', 'avatar.png')
         expect(attachments.find { |attachment| attachment.file.filename.to_s == 'avatar.png' }.file_type).to eq('image')
+      end
+
+      it 'purges the stored winmail.dat blob once its files are attached' do
+        helper_instance.send(:add_attachments_to_message)
+
+        expect(ActiveStorage::Blob.where(filename: 'winmail.dat')).to be_empty
+      end
+
+      context 'when the part uses the vnd.ms-tnef media type in capitals' do
+        let(:tnef_mime_type) { 'Application/Vnd.Ms-Tnef' }
+
+        it 'still extracts the files' do
+          helper_instance.send(:add_attachments_to_message)
+
+          names = conversation.messages[0].attachments.map { |attachment| attachment.file.filename.to_s }
+
+          expect(names).to contain_exactly('quarterly-report.txt', 'avatar.png')
+        end
       end
 
       context 'when the TNEF data cannot be read' do

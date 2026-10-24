@@ -1,14 +1,26 @@
 module MailboxTnefHelper
   private
 
+  TNEF_MIME_TYPES = %w[application/ms-tnef application/vnd.ms-tnef].freeze
+
   # Outlook can wrap the real attachments in a single winmail.dat (TNEF) part.
   # Replace it with the files it contains; keep it as is when nothing can be extracted.
   def expand_tnef_attachments(attachments)
-    attachments.flat_map do |mail_attachment|
-      next mail_attachment unless mail_attachment[:original].mime_type == 'application/ms-tnef'
+    expanded = attachments.flat_map { |mail_attachment| expand_tnef_attachment(mail_attachment) }
+    limit = Message::NUMBER_OF_PERMITTED_ATTACHMENTS
+    expanded.first([expanded.size - limit, 0].max).each { |mail_attachment| mail_attachment[:blob].purge }
+    expanded.last(limit)
+  end
 
-      extract_tnef_files(mail_attachment[:blob]).presence || mail_attachment
-    end.last(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
+  def expand_tnef_attachment(mail_attachment)
+    return [mail_attachment] unless TNEF_MIME_TYPES.include?(mail_attachment[:original].mime_type.to_s.downcase)
+
+    files = extract_tnef_files(mail_attachment[:blob])
+    return [mail_attachment] if files.empty?
+
+    # the winmail.dat blob was stored by MailPresenter and is no longer attached anywhere
+    mail_attachment[:blob].purge
+    files
   end
 
   # Runs the tnef binary shipped with the gem. Tnef.unpack changes the working directory
