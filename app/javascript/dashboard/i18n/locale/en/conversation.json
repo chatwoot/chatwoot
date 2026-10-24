@@ -1,5 +1,13 @@
 {
   "CONVERSATION": {
+    "IMAGE_OPTIMIZATION": {
+      "OPTIMIZING": "Optimizing image...",
+      "UNSUPPORTED": "Your browser can't optimize images. Try a smaller image or a different browser.",
+      "UNSUPPORTED_USING_ORIGINAL": "Your browser can't optimize images. The original will be sent.",
+      "FAILED": "We couldn't optimize this image.",
+      "FAILED_USING_ORIGINAL": "We couldn't optimize this image. The original will be sent.",
+      "TOO_LARGE": "We couldn't reduce this image enough to send it. Try a smaller image."
+    },
     "REFERRAL": {
       "AD_LABEL": "Ad",
       "POST_LABEL": "Post",
@@ -325,6 +333,7 @@
       "REPLYING_TO": "Replying to:",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
+      "TIP_HD_ATTACHMENT": "Send in HD quality",
       "TIP_AUDIORECORDER_ICON": "Record audio",
       "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
       "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
