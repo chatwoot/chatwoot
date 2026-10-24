@@ -13,6 +13,9 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
   require 'singleton'
   include Singleton
 
+  # The resolver instance is shared across threads, so per-lookup state is passed around instead of kept in ivars
+  Lookup =Struct.new(:name, :prefix, :template_type, :locale, keyword_init: true)
+
   # Instantiate Resolver by passing a model.
   def self.using(model, options = {})
     class_variable_set(:@@model, model)
@@ -33,15 +36,18 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
   # details contain local info which we can leverage in future
   # cause of codeclimate issue with 4 args, relying on (*args)
   def find_templates(name, prefix, partial, *args)
-    @template_name = name
-    @template_type = prefix.to_s.include?('layout') ? 'layout' : 'content'
-    @prefix = prefix
-    @details = args.first if args.first.is_a?(Hash)
-    @db_template = find_db_template
+    details = args.first if args.first.is_a?(Hash)
+    lookup = Lookup.new(
+      name: name,
+      prefix: prefix,
+      template_type: prefix.to_s.include?('layout') ? 'layout' : 'content',
+      locale: Array(details&.dig(:locale)).first
+    )
+    db_template = find_db_template(lookup)
 
-    return [] if @db_template.blank?
+    return [] if db_template.blank?
 
-    path = build_path(prefix)
+    path = build_path(lookup)
     handler = ActionView::Template.registered_template_handler(:liquid)
 
     template_details = {
@@ -50,48 +56,48 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
       virtual_path: virtual_path(path, partial)
     }
 
-    [ActionView::Template.new(@db_template.body, "DB Template - #{@db_template.id}", handler, **template_details)]
+    [ActionView::Template.new(db_template.body, "DB Template - #{db_template.id}", handler, **template_details)]
   end
 
   private
 
-  def find_db_template
-    find_inbox_template || find_account_template || find_installation_template
+  def find_db_template(lookup)
+    find_inbox_template(lookup) || find_account_template(lookup) || find_installation_template(lookup)
   end
 
-  def find_inbox_template
-    return unless email_inbox_layout_lookup? && branded_email_templates_enabled?
+  def find_inbox_template(lookup)
+    return unless email_inbox_layout_lookup?(lookup) && branded_email_templates_enabled?
 
-    find_template_for(@@model.where(inbox: Current.inbox))
+    find_template_for(@@model.where(inbox: Current.inbox), lookup)
   end
 
-  def find_account_template
+  def find_account_template(lookup)
     return unless Current.account
-    return if account_layout_lookup? && !branded_email_templates_enabled?
+    return if account_layout_lookup?(lookup) && !branded_email_templates_enabled?
 
-    find_template_for(@@model.where(account: Current.account, inbox: nil))
+    find_template_for(@@model.where(account: Current.account, inbox: nil), lookup)
   end
 
-  def find_installation_template
-    find_template_for(@@model.where(account: nil, inbox: nil))
+  def find_installation_template(lookup)
+    find_template_for(@@model.where(account: nil, inbox: nil), lookup)
   end
 
-  def account_layout_lookup?
-    @template_type == 'layout' && Current.account.present?
+  def account_layout_lookup?(lookup)
+    lookup.template_type == 'layout' && Current.account.present?
   end
 
-  def email_inbox_layout_lookup?
-    account_layout_lookup? && Current.inbox&.email?
+  def email_inbox_layout_lookup?(lookup)
+    account_layout_lookup?(lookup) && Current.inbox&.email?
   end
 
   def branded_email_templates_enabled?
     Current.account&.feature_enabled?(:branded_email_templates)
   end
 
-  def find_template_for(relation)
-    locale_candidates.each do |locale|
-      template_names.each do |name|
-        template = relation.find_by(name: name, template_type: @template_type, locale: locale)
+  def find_template_for(relation, lookup)
+    locale_candidates(lookup).each do |locale|
+      template_names(lookup).each do |name|
+        template = relation.find_by(name: name, template_type: lookup.template_type, locale: locale)
         return template if template.present?
       end
     end
@@ -99,24 +105,23 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
     nil
   end
 
-  def locale_candidates
-    locale = Array(@details&.dig(:locale)).first
-    EmailTemplate.locale_candidates(locale.presence || EmailTemplate::DEFAULT_LOCALE)
+  def locale_candidates(lookup)
+    EmailTemplate.locale_candidates(lookup.locale.presence || EmailTemplate::DEFAULT_LOCALE)
   end
 
-  def template_names
-    [db_template_name, @template_name].uniq
+  def template_names(lookup)
+    [db_template_name(lookup), lookup.name].uniq
   end
 
-  def db_template_name
-    return @template_name if @template_type == 'layout'
+  def db_template_name(lookup)
+    return lookup.name if lookup.template_type == 'layout'
 
-    build_path(@prefix)
+    build_path(lookup)
   end
 
   # Build path with eventual prefix
-  def build_path(prefix)
-    prefix.present? ? "#{prefix}/#{@template_name}" : @template_name
+  def build_path(lookup)
+    lookup.prefix.present? ? "#{lookup.prefix}/#{lookup.name}" : lookup.name
   end
 
   # returns a path depending if its a partial or template
