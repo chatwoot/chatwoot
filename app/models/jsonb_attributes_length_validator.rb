@@ -1,4 +1,6 @@
 class JsonbAttributesLengthValidator < ActiveModel::EachValidator
+  MAX_STRING_LENGTH = 1500
+
   def validate_each(record, attribute, value)
     return if value.empty?
 
@@ -13,7 +15,7 @@ class JsonbAttributesLengthValidator < ActiveModel::EachValidator
   def validate_keys(key, attribute_value)
     case attribute_value.class.name
     when 'String'
-      @record.errors.add @attribute, "#{key} length should be < 1500" if attribute_value.length > 1500
+      @record.errors.add @attribute, "#{key} length should be < #{MAX_STRING_LENGTH}" if attribute_value.length > MAX_STRING_LENGTH
     when 'Integer'
       @record.errors.add @attribute, "#{key} value should be < 9999999999" if attribute_value > 9_999_999_999
     end
