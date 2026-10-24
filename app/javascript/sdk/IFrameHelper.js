@@ -249,11 +249,13 @@ export const IFrameHelper = {
         IFrameHelper.pushEvent('webwidget.triggered');
       }
     },
-    onLocationChange: ({ referrerURL, referrerHost }) => {
-      IFrameHelper.sendMessage('change-url', {
+    onLocationChange: ({ referrerURL, referrerHost, pageContext }) => {
+      const message = {
         referrerURL,
         referrerHost,
-      });
+      };
+      if (pageContext) message.pageContext = pageContext;
+      IFrameHelper.sendMessage('change-url', message);
     },
     updateIframeHeight: message => {
       const { extraHeight = 0, isFixedHeight } = message;

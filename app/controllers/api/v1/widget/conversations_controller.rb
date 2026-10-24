@@ -1,6 +1,7 @@
 class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
-  before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
+  before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes,
+                                                       :update_current_page]
 
   def index
     @conversation = conversation
@@ -14,6 +15,8 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
       # TODO: Temporary fix for message type cast issue, since message_type is returning as string instead of integer
       conversation.reload
     end
+  rescue Widget::PageContext::InvalidError => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def process_update_contact
@@ -32,6 +35,13 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     conversation.save!
     ::Conversations::UpdateMessageStatusJob.perform_later(conversation.id, conversation.contact_last_seen_at)
     head :ok
+  end
+
+  def update_current_page
+    Widget::PageContext.new(conversation: conversation, current_page: permitted_params[:current_page]).perform
+    head :ok
+  rescue Widget::PageContext::InvalidError => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def transcript
@@ -97,6 +107,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   def permitted_params
     params.permit(:id, :typing_status, :website_token, :email, contact: [:name, :email, :phone_number, { custom_attributes: {} }],
                                                                message: [:content, :referer_url, :timestamp, :echo_id],
+                                                               current_page: [:url, :title, :tab_id, :sequence],
                                                                custom_attributes: {})
   end
 end
