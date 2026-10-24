@@ -2,6 +2,9 @@ class AutoAssignment::AssignmentJob < ApplicationJob
   queue_as :default
 
   IN_FLIGHT_TTL = 5.minutes
+  # Let automation rules (assign_team runs on its own async dispatcher) land first, so the
+  # batch snapshot already carries team_id and filter_agents_by_team can do its job.
+  ENQUEUE_DELAY = 15.seconds
 
   # Coalesce per inbox: at most one AssignmentJob per inbox is in-flight
   # (queued or running) at any time. The marker carries a token so a job only
@@ -11,7 +14,7 @@ class AutoAssignment::AssignmentJob < ApplicationJob
     token = SecureRandom.uuid
     return false unless ::Redis::Alfred.set(key, token, nx: true, ex: IN_FLIGHT_TTL)
 
-    return true if perform_later(inbox_id: inbox_id, token: token)
+    return true if set(wait: ENQUEUE_DELAY).perform_later(inbox_id: inbox_id, token: token)
 
     # Enqueue was halted; release our own claim so the inbox isn't gated until the TTL.
     ::Redis::Alfred.delete_if_equals(key, token)
