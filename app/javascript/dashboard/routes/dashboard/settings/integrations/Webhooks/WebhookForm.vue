@@ -4,6 +4,7 @@ import { required, url, minLength } from '@vuelidate/validators';
 import wootConstants from 'dashboard/constants/globals';
 import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { isLocalWebhookUrl } from 'shared/helpers/Validators';
 import { useAlert } from 'dashboard/composables';
 import { useConfig } from 'dashboard/composables/useConfig';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -49,7 +50,10 @@ export default {
     url: {
       required,
       minLength: minLength(7),
-      url,
+      // Standard URL validation rejects local addresses (e.g. 192.168.1.10:8000),
+      // so allow IP literals and localhost explicitly for self-hosted setups.
+      validWebhookUrl: value =>
+        url.$validator(value) || isLocalWebhookUrl(value),
     },
     subscriptions: {
       required,
