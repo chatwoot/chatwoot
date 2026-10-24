@@ -11,7 +11,7 @@ class DataImports::RetryService
       @data_import.with_lock do
         next :not_stalled unless @data_import.stalled?
         next :active_import_exists if another_active_import?
-        next :access_token_missing if @data_import.access_token.blank?
+        next :access_token_missing unless @data_import.source_available?
 
         @data_import.assign_active_import_run_id
         @data_import.update!(status: :pending)
@@ -23,6 +23,6 @@ class DataImports::RetryService
   private
 
   def another_active_import?
-    @account.data_imports.active_integrations.where.not(id: @data_import.id).exists?
+    @account.data_imports.active_imports.where.not(id: @data_import.id).exists?
   end
 end

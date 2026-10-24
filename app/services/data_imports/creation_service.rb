@@ -12,27 +12,40 @@ class DataImports::CreationService
     return if active_import?
 
     totals = validate_source
+    blob = upload_file if @provider == 'csv'
     @account.with_lock do
       next if active_import?
 
       @account.data_imports.new(attributes(totals)).tap do |data_import|
         data_import.assign_active_import_run_id
+        data_import.import_file.attach(blob) if blob
         data_import.save!
       end
     end
+  ensure
+    purge_unattached_blob(blob)
   end
 
   private
 
+  def purge_unattached_blob(blob)
+    blob.purge_later if blob && !blob.attachments.exists?
+  end
+
   def validate_source
-    @source_class.credentials_validator(source_params: @source_params, import_types: import_types).perform
+    DataImports::Source.validate_source(@provider, @source_params, import_types)
+  end
+
+  def upload_file
+    file = @source_params.fetch(:import_file)
+    ActiveStorage::Blob.create_and_upload!(io: file.tempfile, filename: file.original_filename, content_type: 'text/csv')
   end
 
   def attributes(totals)
     {
       name: @source_params[:name].presence || @source_class.default_import_name,
-      data_type: @provider,
-      source_type: 'api',
+      data_type: @provider == 'csv' ? 'contacts' : @provider,
+      source_type: @provider == 'csv' ? 'file' : 'api',
       source_provider: @provider,
       import_types: import_types,
       initiated_by: @initiated_by,
@@ -43,9 +56,9 @@ class DataImports::CreationService
   end
 
   def import_types
-    return DataImports::Importer::DEFAULT_IMPORT_TYPES unless @source_params.key?(:import_types)
+    return DataImports::Source.import_types(@provider) unless @source_params.key?(:import_types)
 
-    Array(@source_params[:import_types]).compact_blank
+    @source_params[:import_types]
   end
 
   def initial_stats(totals)
@@ -60,6 +73,6 @@ class DataImports::CreationService
   end
 
   def active_import?
-    @account.data_imports.active_integrations.exists?
+    @account.data_imports.active_imports.exists?
   end
 end
