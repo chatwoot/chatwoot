@@ -142,6 +142,88 @@ RSpec.describe Captain::Tools::PublicHttpTool, type: :model do
       end
     end
 
+    context 'with stored values' do
+      let(:inbox) { create(:inbox, account: account) }
+      let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: create(:contact, account: account)) }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact) }
+      let(:tool_context) { Struct.new(:state).new({ account_id: account.id, conversation: { id: conversation.id } }) }
+      let(:source_metadata) do
+        { 'source' => 'github', 'repository' => 'chatwoot/tools', 'path' => 'stripe', 'tool_id' => 'find_customer', 'revision' => 'a' * 40,
+          'version' => '1.0.0', 'manifest_digest' => "sha256:#{'b' * 64}", 'installation_id' => SecureRandom.uuid }
+      end
+      let(:email_param) { { 'name' => 'email', 'type' => 'string', 'description' => 'Email', 'source' => 'verified.email' } }
+      let(:customer_param) { { 'name' => 'customer', 'type' => 'string', 'description' => 'Customer', 'source' => 'stored.customer_id' } }
+      let(:find_tool) do
+        create(:captain_custom_tool, account: account, assistant: assistant, source_metadata: source_metadata, response_template: nil,
+                                     endpoint_url: 'https://example.com/customers?email={{ email | url_encode }}',
+                                     param_schema: [email_param], stores: { 'customer_id' => 'data[*].id' })
+      end
+      let(:list_tool) do
+        create(:captain_custom_tool, account: account, assistant: assistant, response_template: nil,
+                                     source_metadata: source_metadata.merge('tool_id' => 'list_invoices'),
+                                     endpoint_url: 'https://example.com/invoices?customer={{ customer }}', param_schema: [customer_param])
+      end
+      let(:customers) { [{ id: 'cus_jane' }] }
+
+      before do
+        allow(Captain::EmailVerification).to receive(:new).with(conversation)
+                                                          .and_return(instance_double(Captain::EmailVerification, verified_email: 'jane@example.com'))
+        stub_request(:get, %r{\Ahttps://example.com/customers}).to_return(status: 200, body: { data: customers }.to_json)
+        stub_request(:get, %r{\Ahttps://example.com/invoices}).to_return(status: 200, body: '{"data": []}')
+      end
+
+      it 'refuses a stored value parameter before the lookup has run, and names the tool that looks it up' do
+        find_tool
+        result = described_class.new(assistant, list_tool).perform(tool_context, customer: 'cus_jane')
+
+        expect(result).to include('No customer_id has been found for this customer yet', "Call #{find_tool.slug} first")
+        expect(WebMock).not_to have_requested(:get, %r{\Ahttps://example.com/invoices})
+      end
+
+      it 'fills the one stored value' do
+        described_class.new(assistant, find_tool).perform(tool_context)
+
+        described_class.new(assistant, list_tool).perform(tool_context)
+
+        expect(WebMock).to have_requested(:get, 'https://example.com/invoices?customer=cus_jane')
+      end
+
+      it 'refuses a value that was not stored for this customer' do
+        described_class.new(assistant, find_tool).perform(tool_context)
+
+        result = described_class.new(assistant, list_tool).perform(tool_context, customer: 'cus_bob')
+
+        expect(result).to include('customer must be one of: cus_jane')
+        expect(WebMock).not_to have_requested(:get, %r{\Ahttps://example.com/invoices})
+      end
+
+      context 'when the lookup returns several values' do
+        let(:customers) { [{ id: 'cus_jane' }, { id: 'cus_jane_2' }] }
+
+        it 'takes the one the model picks' do
+          described_class.new(assistant, find_tool).perform(tool_context)
+
+          described_class.new(assistant, list_tool).perform(tool_context, customer: 'cus_jane_2')
+
+          expect(WebMock).to have_requested(:get, 'https://example.com/invoices?customer=cus_jane_2')
+        end
+
+        it 'asks the model to pick one when it passes none' do
+          described_class.new(assistant, find_tool).perform(tool_context)
+
+          expect(described_class.new(assistant, list_tool).perform(tool_context)).to include('customer must be one of: cus_jane, cus_jane_2')
+        end
+      end
+
+      it 'does not store values from a tool that takes a value from the model' do
+        # Skips validation on purpose, to check the guard that runs when a response comes back
+        find_tool.update_columns(param_schema: [email_param, { 'name' => 'query', 'type' => 'string', 'description' => 'Search' }]) # rubocop:disable Rails/SkipsModelValidations
+        described_class.new(assistant, find_tool.reload).perform(tool_context, query: 'bob')
+
+        expect(described_class.new(assistant, list_tool).perform(tool_context)).to include('No customer_id has been found')
+      end
+    end
+
     it 'ignores a run state that says an admin or an agent is the user' do
       custom_tool.update!(settings: { 'requires_email_verification' => true })
       stub_request(:get, %r{\Ahttps://example.com}).to_return(status: 200, body: '{}')

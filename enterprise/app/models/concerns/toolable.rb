@@ -5,8 +5,9 @@ module Concerns::Toolable
   # Keeps them separate from built-in classes in Captain::Tools (e.g., HttpTool).
   module CustomTools; end
 
-  # A parameter with a source is filled by Chatwoot from what the customer verified, so the model does not see it.
-  # The base class says whether the model fills it instead, for runs where an admin or an agent is the user.
+  # Chatwoot fills the verified email, so the model does not see that parameter. The base class says whether the model
+  # fills it instead, for runs where an admin or an agent is the user. A stored value stays visible, so the model can
+  # pick one of the customer's own records, and Chatwoot checks the pick.
   # Builds the customer-facing tool unless told otherwise, so a caller that does not choose gets the gate
   def tool(assistant, base_class: Captain::Tools::PublicHttpTool, **) # rubocop:disable Metrics/AbcSize
     custom_tool_record = self
@@ -22,7 +23,7 @@ module Concerns::Toolable
       define_method(:name) { tool_slug }
 
       custom_tool_record.param_schema.each do |param_def|
-        next if param_def['source'].present? && !base_class.model_fills_verified_values?
+        next if param_def['source'] == 'verified.email' && !base_class.model_fills_verified_values?
 
         parameter param_def['name'].to_sym,
                   type: param_def['type'],
