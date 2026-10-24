@@ -3,12 +3,12 @@ import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useLoadWithRetry } from 'dashboard/composables/loadWithRetry';
+import { useFileDownload } from 'dashboard/composables/useFileDownload';
 import BaseBubble from './Base.vue';
 import Button from 'next/button/Button.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useMessageContext } from '../provider.js';
-import { downloadFile } from '@chatwoot/utils';
 
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 
@@ -31,11 +31,13 @@ onMounted(() => {
   }
 });
 
+const { download } = useFileDownload();
+
 const downloadAttachment = async () => {
   const { fileType, dataUrl, extension } = attachment.value;
   try {
     isDownloading.value = true;
-    await downloadFile({ url: dataUrl, type: fileType, extension });
+    await download({ url: dataUrl, type: fileType, extension });
   } catch (error) {
     useAlert(t('GALLERY_VIEW.ERROR_DOWNLOADING'));
   } finally {
