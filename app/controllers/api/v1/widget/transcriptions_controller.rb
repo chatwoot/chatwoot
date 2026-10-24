@@ -1,7 +1,7 @@
 class Api::V1::Widget::TranscriptionsController < Api::V1::Widget::BaseController
   def create
     return render_unavailable unless @web_widget.audio_transcription_enabled?
-    return render_error('No audio provided', :unprocessable_entity) if params[:audio].blank?
+    return render_error('No audio provided', :unprocessable_entity) unless params[:audio].is_a?(ActionDispatch::Http::UploadedFile)
 
     result = Messages::WidgetAudioTranscriptionService.new(params[:audio]).perform
 

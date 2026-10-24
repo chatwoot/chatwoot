@@ -143,8 +143,9 @@ onUnmounted(() => {
         <FluentIcon icon="dismiss" />
       </button>
       <button
-        class="flex items-center justify-center min-h-8 min-w-8 text-n-brand"
+        class="flex items-center justify-center min-h-8 min-w-8 text-n-brand disabled:opacity-50"
         :aria-label="$t('VOICE_RECORDER.STOP')"
+        :disabled="!mediaRecorder"
         @click="stopRecording"
       >
         <FluentIcon icon="send" />
