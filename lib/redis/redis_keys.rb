@@ -78,6 +78,8 @@ module Redis::RedisKeys
   OPENAI_CONVERSATION_KEY = 'OPEN_AI_CONVERSATION_KEY::V1::%<event_name>s::%<conversation_id>d::%<updated_at>d'.freeze
   # Bridges a WhatsApp call `terminate` that overtook its `connect` so the later connect can finalize it.
   WHATSAPP_CALL_TERMINATE_TOMBSTONE = 'WHATSAPP_CALL_TERMINATE_TOMBSTONE::%<call_id>s'.freeze
+  # Bridges a WhatsApp message revoke that overtook its original so the original is tombstoned once stored.
+  WHATSAPP_REVOKE_TOMBSTONE = 'WHATSAPP_REVOKE_TOMBSTONE::%<inbox_id>s::%<source_id>s'.freeze
 
   ## Sempahores / Locks
   # We don't want to process messages from the same sender concurrently to prevent creating double conversations
