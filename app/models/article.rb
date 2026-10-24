@@ -57,6 +57,7 @@ class Article < ApplicationRecord
   before_validation :ensure_account_id
   before_validation :ensure_article_slug
   before_validation :ensure_locale_in_article
+  before_validation :associate_with_root_article, if: :will_save_change_to_associated_article_id?
 
   # Slugs that collide with help center routes (e.g. /hc/:slug/:locale/search)
   RESERVED_SLUGS = %w[search articles categories].freeze
@@ -114,16 +115,6 @@ class Article < ApplicationRecord
 
     records = records.text_search(params[:query]) if params[:query].present?
     records
-  end
-
-  def associate_root_article(associated_article_id)
-    article = portal.articles.find(associated_article_id) if associated_article_id.present?
-
-    return if article.nil?
-
-    root_article_id = self.class.find_root_article_id(article)
-
-    update(associated_article_id: root_article_id) if root_article_id.present?
   end
 
   # Make sure we always associate the parent's associated id to avoid the deeper associations od articles.
@@ -189,6 +180,14 @@ class Article < ApplicationRecord
   private_class_method :rebalance_positions, :resequence_category
 
   private
+
+  def associate_with_root_article
+    return if associated_article_id.blank?
+
+    linked_article = portal.articles.find(associated_article_id)
+    root_article_id = self.class.find_root_article_id(linked_article)
+    self.associated_article_id = root_article_id == id ? nil : root_article_id
+  end
 
   def category_id_changed_action
     # We need to update the position of the article in the new category
