@@ -66,8 +66,15 @@ export default {
     clearTimeout(this.transcriptCooldownTimer);
   },
   methods: {
-    ...mapActions('conversation', ['sendMessage', 'sendAttachment']),
-    ...mapActions('conversationAttributes', ['getAttributes']),
+    ...mapActions('conversation', [
+      'sendMessage',
+      'sendAttachment',
+      'clearConversations',
+    ]),
+    ...mapActions('conversationAttributes', [
+      'getAttributes',
+      'clearConversationAttributes',
+    ]),
     async handleSendMessage(content) {
       await this.sendMessage({
         content,
@@ -88,6 +95,8 @@ export default {
       this.inReplyTo = null;
     },
     startNewConversation() {
+      this.clearConversations();
+      this.clearConversationAttributes();
       this.router.replace({ name: 'prechat-form' });
       IFrameHelper.sendMessage({
         event: 'onEvent',
