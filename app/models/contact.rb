@@ -44,6 +44,7 @@
 class Contact < ApplicationRecord
   include Avatarable
   include AvailabilityStatusable
+  include ContactCountryHelpers
   include Labelable
   include LlmFormattable
 
@@ -140,7 +141,8 @@ class Contact < ApplicationRecord
 
   def push_event_data
     data = {
-      additional_attributes: additional_attributes,
+      additional_attributes: additional_attributes_with_canonical_country,
+      country_code: canonical_country_code,
       custom_attributes: custom_attributes,
       email: email,
       id: id,
