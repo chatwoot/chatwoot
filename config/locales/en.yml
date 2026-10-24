@@ -528,6 +528,7 @@ en:
       tool_not_available: 'Tool not available'
       reply_suggestion_discarded: 'The conversation changed while Copilot was drafting, so the suggestion was discarded.'
       reply_suggestion_failed: "Copilot couldn't generate a reply. Please try again."
+      tool_call_limit_reached: "Copilot couldn't finish this after %{count} lookups. Try a narrower question."
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
