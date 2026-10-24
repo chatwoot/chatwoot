@@ -252,5 +252,41 @@ RSpec.describe MailboxHelper do
         expect(message.content_attributes[:email][:html_content][:full]).to include('<attachment id="image001.jpg@test">')
       end
     end
+
+    context 'when the attachments are packed in an Outlook TNEF (winmail.dat) part' do
+      let(:conversation) { create(:conversation, inbox: create(:inbox, channel: create(:channel_email))) }
+      let(:winmail) { Rails.root.join('spec/fixtures/files/winmail.dat').binread }
+      let(:mail) do
+        message = Mail.new
+        message.from = 'Sender <sender@example.com>'
+        message.to = 'Inbox <inbox@example.com>'
+        message.subject = 'Sent from Outlook'
+        message.message_id = '<tnef-attachments@example.com>'
+        message.body = 'See the attached files.'
+        message.attachments['winmail.dat'] = { mime_type: 'application/ms-tnef', encoding: 'base64', content: Base64.encode64(winmail) }
+        Mail.new(message.to_s)
+      end
+
+      it 'attaches the files inside the TNEF part instead of winmail.dat' do
+        helper_instance.send(:add_attachments_to_message)
+
+        attachments = conversation.messages[0].attachments
+
+        expect(attachments.map { |attachment| attachment.file.filename.to_s }).to contain_exactly('quarterly-report.txt', 'avatar.png')
+        expect(attachments.find { |attachment| attachment.file.filename.to_s == 'avatar.png' }.file_type).to eq('image')
+      end
+
+      context 'when the TNEF data cannot be read' do
+        let(:winmail) { 'not a tnef file' }
+
+        it 'keeps winmail.dat' do
+          helper_instance.send(:add_attachments_to_message)
+
+          attachments = conversation.messages[0].attachments
+
+          expect(attachments.map { |attachment| attachment.file.filename.to_s }).to eq(['winmail.dat'])
+        end
+      end
+    end
   end
 end
