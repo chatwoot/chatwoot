@@ -34,6 +34,41 @@ RSpec.describe Webhooks::TelegramEventsJob do
       described_class.perform_now(params.with_indifferent_access)
     end
 
+    it 'processes a business connection update from a symbol-keyed payload' do
+      connection = { id: 'connection-1', is_enabled: true }
+      business_connection_service = instance_double(Telegram::BusinessConnectionService, observe_update: nil, process: nil)
+      business_params = { bot_token: telegram_channel.bot_token, telegram: { update_id: 42, business_connection: connection } }
+
+      allow(Telegram::BusinessConnectionService).to receive(:new).with(channel: telegram_channel).and_return(business_connection_service)
+      expect(business_connection_service).to receive(:process).with(connection.with_indifferent_access, update_id: 42).ordered
+      expect(business_connection_service).to receive(:observe_update).with(42).ordered
+      expect(Telegram::IncomingMessageService).not_to receive(:new)
+
+      described_class.perform_now(business_params)
+    end
+
+    it 'syncs a business connection before processing a business message' do
+      business_connection_service = instance_double(Telegram::BusinessConnectionService, observe_update: nil, sync: nil)
+      incoming_message_service = instance_double(Telegram::IncomingMessageService, perform: nil)
+      telegram_params = { update_id: 42, business_message: { business_connection_id: 'connection-1' } }
+      business_params = { bot_token: telegram_channel.bot_token }
+      business_params['telegram'] = telegram_params
+
+      allow(Telegram::BusinessConnectionService).to receive(:new).with(channel: telegram_channel).and_return(business_connection_service)
+      allow(Telegram::IncomingMessageService).to receive(:new)
+        .with(inbox: telegram_channel.inbox, params: telegram_params.with_indifferent_access)
+        .and_return(incoming_message_service)
+
+      expect(business_connection_service).to receive(:sync).with('connection-1', update_id: 42).ordered
+      expect(incoming_message_service).to receive(:perform).ordered
+      expect(business_connection_service).to receive(:observe_update).with(42).ordered.and_raise(StandardError, 'lock timeout')
+      expect(Rails.logger).to receive(:error)
+        .with("Failed to record Telegram update ID for channel #{telegram_channel.id}: lock timeout")
+        .ordered
+
+      described_class.perform_now(business_params)
+    end
+
     it 'logs a warning and does not process events if account is suspended' do
       account = telegram_channel.account
       account.update!(status: :suspended)
