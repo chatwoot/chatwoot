@@ -110,6 +110,7 @@ export default {
       selectedInboxName: '',
       channelWebsiteUrl: '',
       webhookUrl: '',
+      catalogId: '',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
@@ -556,6 +557,7 @@ export default {
       this.avatarUrl = this.inbox.avatar_url;
       this.selectedInboxName = this.inbox.name;
       this.webhookUrl = this.inbox.webhook_url;
+      this.catalogId = this.inbox.provider_config?.catalog_id || '';
       this.greetingEnabled = this.inbox.greeting_enabled || false;
       this.greetingMessage = this.inbox.greeting_message || '';
       this.emailCollectEnabled = this.inbox.enable_email_collect;
@@ -719,6 +721,22 @@ export default {
           payload.avatar = this.avatarFile;
         }
         await this.$store.dispatch('inboxes/updateInbox', payload);
+        if (this.isAWhatsAppCloudChannel) {
+          const { catalog_id: previous, ...otherConfig } =
+            this.inbox.provider_config || {};
+          const catalogId = this.catalogId?.trim();
+          if ((previous || '') !== (catalogId || '')) {
+            await this.$store.dispatch('inboxes/updateInbox', {
+              id: this.currentInboxId,
+              formData: false,
+              channel: {
+                provider_config: catalogId
+                  ? { ...otherConfig, catalog_id: catalogId }
+                  : otherConfig,
+              },
+            });
+          }
+        }
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
         this.showBusinessNameInput = false;
       } catch (error) {
@@ -983,6 +1001,25 @@ export default {
                 type="text"
                 disabled
                 class="!mb-0"
+              />
+            </SettingsFieldSection>
+
+            <SettingsFieldSection
+              v-if="isAWhatsAppCloudChannel"
+              :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CATALOG_ID.LABEL')"
+              :help-text="
+                $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CATALOG_ID.HELP_TEXT')
+              "
+            >
+              <input
+                v-model="catalogId"
+                type="text"
+                class="!mb-0"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CATALOG_ID.PLACEHOLDER'
+                  )
+                "
               />
             </SettingsFieldSection>
 
