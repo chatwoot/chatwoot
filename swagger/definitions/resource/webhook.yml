@@ -15,6 +15,7 @@ properties:
       type: string
       enum: [
         "conversation_created",
+        "conversation_viewed",
         "conversation_status_changed",
         "conversation_updated",
         "contact_created",
