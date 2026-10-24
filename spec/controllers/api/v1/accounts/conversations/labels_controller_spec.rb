@@ -57,6 +57,8 @@ RSpec.describe 'Conversation Label API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       before do
+        create(:label, account: account, title: 'label3')
+        create(:label, account: account, title: 'label4')
         conversation.update_labels('label1, label2')
         create(:inbox_member, inbox: conversation.inbox, user: agent)
       end
@@ -70,6 +72,16 @@ RSpec.describe 'Conversation Label API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include('label3')
         expect(response.body).to include('label4')
+      end
+
+      it 'returns unprocessable entity when non-existent labels are provided' do
+        post api_v1_account_conversation_labels_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { labels: %w[nonexistent_label] },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include('nonexistent_label')
       end
     end
   end
