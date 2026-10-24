@@ -271,6 +271,8 @@
         "NEXT_WEEK": "Gelecek haftaya kadar"
       },
       "ASSIGN_AGENT": "Temsilci ata",
+      "SEARCH_AGENTS": "Temsilcileri ara",
+      "NO_AGENTS_FOUND": "Temsilci bulunamadı",
       "ASSIGN_LABEL": "Etiket ata",
       "SEARCH_LABELS": "Etiketleri ara",
       "NO_LABELS_FOUND": "Etiket bulunamadı",
