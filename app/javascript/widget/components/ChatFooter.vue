@@ -7,7 +7,7 @@ import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
 import { useRouter } from 'vue-router';
-import { IFrameHelper } from '../helpers/utils';
+import { IFrameHelper, isMultipleConversationsEnabled } from '../helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 import { emitter } from 'shared/helpers/mitt';
 
@@ -87,7 +87,10 @@ export default {
       });
       this.inReplyTo = null;
     },
-    startNewConversation() {
+    async startNewConversation() {
+      if (isMultipleConversationsEnabled()) {
+        await this.$store.dispatch('conversationList/startNew');
+      }
       this.router.replace({ name: 'prechat-form' });
       IFrameHelper.sendMessage({
         event: 'onEvent',

@@ -17,7 +17,7 @@ const onClick = () => {
 
 <template>
   <div
-    class="flex items-center justify-between rounded cursor-pointer text-n-slate-11 hover:text-n-slate-12 gap-2"
+    class="flex items-center justify-between gap-2 px-2 py-2 rounded-lg cursor-pointer text-n-slate-12 transition-colors hover:bg-n-alpha-2"
     role="button"
     @click="onClick"
   >

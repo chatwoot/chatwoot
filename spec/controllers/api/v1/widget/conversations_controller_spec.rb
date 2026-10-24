@@ -61,6 +61,98 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
     end
   end
 
+  describe 'GET /api/v1/widget/conversations/list' do
+    let!(:older_conversation) do
+      create(:conversation, contact: contact, account: account, inbox: web_widget.inbox, contact_inbox: contact_inbox,
+                            status: :resolved, last_activity_at: 2.days.ago)
+    end
+
+    before do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+      create(:message, account: account, inbox: web_widget.inbox, conversation: conversation, content: 'visitor question')
+      create(:message, account: account, inbox: web_widget.inbox, conversation: conversation, content: 'agent reply', message_type: :outgoing)
+      create(:message, account: account, inbox: web_widget.inbox, conversation: conversation, content: 'private note',
+                       message_type: :outgoing, private: true)
+      create(:message, account: account, inbox: web_widget.inbox, conversation: older_conversation, content: 'old reply', message_type: :outgoing)
+      # Message creation bumps last_activity_at, so pin the order after the messages exist.
+      older_conversation.update!(contact_last_seen_at: Time.current, last_activity_at: 2.days.ago)
+    end
+
+    it 'lists only the visitor conversations, most recently active first' do
+      create(:conversation, account: account, inbox: web_widget.inbox)
+
+      get '/api/v1/widget/conversations/list',
+          headers: { 'X-Auth-Token' => token },
+          params: { website_token: web_widget.website_token },
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['payload'].pluck('id')).to eq([conversation.display_id, older_conversation.display_id])
+      expect(response.parsed_body['payload'].pluck('status')).to eq(%w[open resolved])
+      expect(response.parsed_body['meta']['has_next_page']).to be(false)
+    end
+
+    it 'includes the unread count and the last visible message of each conversation' do
+      get '/api/v1/widget/conversations/list',
+          headers: { 'X-Auth-Token' => token },
+          params: { website_token: web_widget.website_token },
+          as: :json
+
+      latest, older = response.parsed_body['payload']
+      expect(latest['unread_count']).to eq(1)
+      expect(latest['last_message']['content']).to eq('agent reply')
+      expect(older['unread_count']).to eq(0)
+      expect(older['last_message']['content']).to eq('old reply')
+    end
+
+    it 'skips deleted messages like the widget thread does' do
+      create(:message, account: account, inbox: web_widget.inbox, conversation: conversation, content: 'This message was deleted',
+                       message_type: :outgoing, content_attributes: { deleted: true })
+
+      get '/api/v1/widget/conversations/list',
+          headers: { 'X-Auth-Token' => token },
+          params: { website_token: web_widget.website_token },
+          as: :json
+
+      latest = response.parsed_body['payload'].first
+      expect(latest['unread_count']).to eq(1)
+      expect(latest['last_message']['content']).to eq('agent reply')
+    end
+
+    it 'counts the conversations with unread messages across all pages' do
+      stub_const('Api::V1::Widget::ConversationsController::RESULTS_PER_PAGE', 1)
+
+      get '/api/v1/widget/conversations/list',
+          headers: { 'X-Auth-Token' => token },
+          params: { website_token: web_widget.website_token, page: 2 },
+          as: :json
+
+      expect(response.parsed_body['meta']['unread_count']).to eq(1)
+    end
+
+    it 'paginates the list' do
+      stub_const('Api::V1::Widget::ConversationsController::RESULTS_PER_PAGE', 1)
+
+      get '/api/v1/widget/conversations/list',
+          headers: { 'X-Auth-Token' => token },
+          params: { website_token: web_widget.website_token, page: 2 },
+          as: :json
+
+      expect(response.parsed_body['payload'].pluck('id')).to eq([older_conversation.display_id])
+      expect(response.parsed_body['meta']['has_next_page']).to be(false)
+    end
+
+    it 'returns an empty list for a session without conversations' do
+      get '/api/v1/widget/conversations/list',
+          headers: { 'X-Auth-Token' => token_without_conversation },
+          params: { website_token: web_widget.website_token },
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['payload']).to be_empty
+    end
+  end
+
   describe 'POST /api/v1/widget/conversations' do
     it 'creates a conversation with correct details' do
       post '/api/v1/widget/conversations',

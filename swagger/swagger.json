@@ -14429,7 +14429,8 @@
                 "emoji_picker",
                 "end_conversation",
                 "use_inbox_avatar_for_bot",
-                "allow_mobile_webview"
+                "allow_mobile_webview",
+                "multiple_conversations"
               ]
             },
             "example": [
@@ -14874,7 +14875,8 @@
                 "emoji_picker",
                 "end_conversation",
                 "use_inbox_avatar_for_bot",
-                "allow_mobile_webview"
+                "allow_mobile_webview",
+                "multiple_conversations"
               ]
             },
             "example": [
