@@ -383,7 +383,7 @@ export default {
         </div>
       </SettingsFieldSection>
     </div>
-    <ImapSettings v-if="!isForwardingEmailInbox" :inbox="inbox" />
+    <ImapSettings :inbox="inbox" />
     <SmtpSettings
       :inbox="inbox"
       :class="{

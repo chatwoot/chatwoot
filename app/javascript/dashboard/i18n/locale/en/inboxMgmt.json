@@ -526,7 +526,7 @@
           }
         },
         "FINISH_MESSAGE_FORWARDING": "Your email inbox is ready. Set up a forwarding rule in your email provider to start receiving conversations in Chatwoot.",
-        "FINISH_MESSAGE_IMAP_SMTP": "Your email inbox is connected. Chatwoot will fetch new emails from your mailbox and use the SMTP settings for replies.",
+        "FINISH_MESSAGE_IMAP_SMTP": "Your email inbox is connected. Chatwoot will fetch new emails from your mailbox.",
         "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
         "FORWARDING_RULE_HELP": "Use this address as the destination when you create the forwarding rule in your mailbox.",
         "CONFIGURE_EMAIL_SETTINGS_LINK": "Open email settings",

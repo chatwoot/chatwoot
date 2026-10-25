@@ -2,6 +2,8 @@ import { shallowMount } from '@vue/test-utils';
 import { ref } from 'vue';
 import Email from '../Email.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
+import PageHeader from '../../../SettingsSubPageHeader.vue';
+import inboxMgmt from 'dashboard/i18n/locale/en/inboxMgmt.json';
 
 const account = ref({ features: { inbound_emails: true }, domain: '' });
 const globalConfig = ref({ inboundEmailDomainPresent: false });
@@ -21,6 +23,22 @@ vi.mock('dashboard/composables/store', () => ({
 describe('Email provider selection', () => {
   beforeEach(() => {
     window.chatwootConfig = {};
+  });
+
+  it('uses the installation name in the provider description', () => {
+    globalConfig.value = { installationName: 'Acme Support' };
+    const wrapper = shallowMount(Email, {
+      global: {
+        mocks: {
+          $t: key =>
+            key.split('.').reduce((value, part) => value[part], inboxMgmt),
+        },
+      },
+    });
+
+    expect(wrapper.findComponent(PageHeader).props('headerContent')).toBe(
+      'Connect a provider, use IMAP/SMTP, or forward emails to Acme Support.'
+    );
   });
 
   it.each([

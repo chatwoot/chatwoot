@@ -56,7 +56,7 @@ describe('ConfigurationPage', () => {
   });
 
   it.each([true, false])(
-    'keeps forwarding-only controls when forwarding availability is %s',
+    'keeps IMAP setup available for unconfigured inboxes when forwarding availability is %s',
     forwardingEnabled => {
       const wrapper = mountComponent({
         channel_type: 'Channel::Email',
@@ -66,7 +66,7 @@ describe('ConfigurationPage', () => {
       });
 
       expect(wrapper.findComponent({ name: 'ImapSettings' }).exists()).toBe(
-        false
+        true
       );
       expect(wrapper.findComponent({ name: 'SmtpSettings' }).exists()).toBe(
         true

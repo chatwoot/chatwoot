@@ -91,7 +91,9 @@ function onClick(emailProvider) {
     <PageHeader
       class="max-w-4xl"
       :header-title="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.TITLE')"
-      :header-content="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.DESCRIPTION')"
+      :header-content="
+        replaceInstallationName($t('INBOX_MGMT.ADD.EMAIL_PROVIDER.DESCRIPTION'))
+      "
     />
     <div class="grid max-w-3xl grid-cols-4 gap-6 mx-0 mt-6">
       <ChannelSelector

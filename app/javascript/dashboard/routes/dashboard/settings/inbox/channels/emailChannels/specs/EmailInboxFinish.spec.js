@@ -13,6 +13,26 @@ vi.mock('dashboard/composables/store.js', () => ({
 
 describe('EmailInboxFinish', () => {
   it.each([true, false])(
+    'describes incoming mail without promising SMTP when SMTP is %s',
+    smtpEnabled => {
+      const wrapper = shallowMount(EmailInboxFinish, {
+        props: {
+          inbox: { imap_enabled: true, smtp_enabled: smtpEnabled },
+          inboxId: 1,
+        },
+        global: {
+          mocks: { $t: translate },
+          stubs: ['router-link', 'woot-code'],
+        },
+      });
+
+      expect(wrapper.find('p').text()).toBe(
+        'Your email inbox is connected. Acme Support will fetch new emails from your mailbox.'
+      );
+    }
+  );
+
+  it.each([true, false])(
     'brands the completion message with IMAP enabled: %s',
     imapEnabled => {
       const wrapper = shallowMount(EmailInboxFinish, {
