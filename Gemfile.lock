@@ -103,6 +103,10 @@ GEM
     annotaterb (4.20.0)
       activerecord (>= 6.0.0)
       activesupport (>= 6.0.0)
+    apnotic (1.8.0)
+      base64
+      connection_pool (>= 2, < 4)
+      net-http2 (>= 0.18.3, < 2)
     ast (2.4.3)
     attr_extras (7.1.0)
     audited (5.4.1)
@@ -180,7 +184,7 @@ GEM
     crack (1.0.0)
       bigdecimal
       rexml
-    crass (1.0.7)
+    crass (1.0.8)
     cronex (0.15.0)
       tzinfo
       unicode (>= 0.4.4.5)
@@ -424,6 +428,7 @@ GEM
       logger
     html2text (0.4.0)
       nokogiri (>= 1.0, < 2.0)
+    http-2 (1.2.3)
     http (5.1.1)
       addressable (~> 2.8)
       http-cookie (~> 1.0)
@@ -567,6 +572,8 @@ GEM
       activerecord (>= 5.2)
     net-http (0.9.1)
       uri (>= 0.11.1)
+    net-http2 (0.19.0)
+      http-2 (>= 1.0)
     net-imap (0.6.4.1)
       date
       net-protocol
@@ -953,10 +960,6 @@ GEM
     sorbet-runtime (0.5.11934)
     speedshop-cloudwatch (0.2.1)
       aws-sdk-cloudwatch (>= 1.81.0)
-    spring (4.1.1)
-    spring-watcher-listen (2.1.0)
-      listen (>= 2.7, < 4.0)
-      spring (>= 4)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -978,9 +981,6 @@ GEM
       rack (>= 2.0)
       rails (>= 7.1.0)
     tilt (2.3.0)
-    time_diff (0.3.0)
-      activesupport
-      i18n
     timeout (0.6.1)
     trailblazer-option (0.1.2)
     tsort (0.2.0)
@@ -1066,6 +1066,7 @@ DEPENDENCIES
   administrate-field-belongs_to_search (>= 0.10.0)
   ai-agents (~> 0.13.0)
   annotaterb
+  apnotic (~> 1.8)
   attr_extras
   audited (~> 5.4, >= 5.4.1)
   aws-actionmailbox-ses (~> 0)
@@ -1189,8 +1190,6 @@ DEPENDENCIES
   skooma
   slack-ruby-client (~> 2.7.0)
   speedshop-cloudwatch (~> 0.2.1)
-  spring
-  spring-watcher-listen
   squasher
   ssrf_filter (~> 1.5)
   stackprof
@@ -1198,7 +1197,6 @@ DEPENDENCIES
   telephone_number
   test-prof
   tidewave
-  time_diff
   twilio-ruby
   twitty (~> 0.1.5)
   tzinfo-data

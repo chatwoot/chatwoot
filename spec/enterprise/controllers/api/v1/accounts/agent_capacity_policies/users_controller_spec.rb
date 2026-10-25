@@ -6,6 +6,8 @@ RSpec.describe 'Agent Capacity Policy Users API', type: :request do
   let!(:user) { create(:user, account: account, role: :agent) }
   let(:administrator) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
+  let(:other_account) { create(:account) }
+  let(:external_user) { create(:user, account: other_account, role: :administrator) }
 
   describe 'GET /api/v1/accounts/{account.id}/agent_capacity_policies/{policy_id}/users' do
     context 'when admin' do
@@ -39,6 +41,20 @@ RSpec.describe 'Agent Capacity Policy Users API', type: :request do
         expect(user_ids).to contain_exactly(user.id, agent.id)
         expect(user_ids.uniq).to eq(user_ids) # No duplicates
       end
+
+      it 'does not expose credentials for a user from another account' do
+        external_account_user = create(:account_user, account: account, user: external_user)
+        external_account_user.update!(agent_capacity_policy: agent_capacity_policy)
+
+        get "/api/v1/accounts/#{account.id}/agent_capacity_policies/#{agent_capacity_policy.id}/users",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        external_user_response = response.parsed_body.find { |item| item['id'] == external_user.id }
+        expect(external_user_response).not_to have_key('access_token')
+        expect(external_user_response).not_to have_key('pubsub_token')
+      end
     end
   end
 
@@ -63,6 +79,19 @@ RSpec.describe 'Agent Capacity Policy Users API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(user.account_users.first.reload.agent_capacity_policy).to eq(agent_capacity_policy)
+      end
+
+      it 'does not expose credentials when assigning a user from another account' do
+        create(:account_user, account: account, user: external_user)
+
+        post "/api/v1/accounts/#{account.id}/agent_capacity_policies/#{agent_capacity_policy.id}/users",
+             params: { user_id: external_user.id },
+             headers: administrator.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body).not_to have_key('access_token')
+        expect(response.parsed_body).not_to have_key('pubsub_token')
       end
     end
   end

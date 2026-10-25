@@ -44,6 +44,12 @@ RSpec.describe Voice::OutboundCallBuilder do
       end
     end
 
+    it 'reads the provider status once the call is committed' do
+      call = described_class.perform!(account: account, inbox: inbox, user: user, contact: contact)
+
+      expect(Voice::SyncProviderStatusJob).to have_been_enqueued.with(call.id)
+    end
+
     it 'assigns the conversation to the agent placing the call' do
       call = described_class.perform!(
         account: account,

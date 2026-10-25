@@ -17,6 +17,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotMessagesController', type: :r
         json_response = response.parsed_body
         expect(json_response['payload'].length).to eq(1)
         expect(json_response['payload'][0]['id']).to eq(copilot_message.id)
+        expect(json_response['meta']).to eq('total_count' => 1, 'page' => 1)
       end
     end
 

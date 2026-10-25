@@ -20,7 +20,6 @@ gem 'kaminari'
 gem 'responders', '>= 3.1.1'
 gem 'rest-client'
 gem 'telephone_number'
-gem 'time_diff'
 gem 'tzinfo-data'
 gem 'valid_email2'
 gem 'email-provider-info'
@@ -145,6 +144,8 @@ gem 'speedshop-cloudwatch', '~> 0.2.1', require: false
 
 ##-- Push notification service --##
 gem 'fcm'
+# APNs VoIP pushes that ring iPhones through CallKit
+gem 'apnotic', '~> 1.8'
 gem 'web-push', '>= 3.0.1'
 
 ##-- geocoding / parse location from ip --##
@@ -277,6 +278,4 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'simplecov', '>= 0.21', require: false
   gem 'skooma'
-  gem 'spring'
-  gem 'spring-watcher-listen'
 end

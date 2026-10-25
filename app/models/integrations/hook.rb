@@ -35,8 +35,10 @@ class Integrations::Hook < ApplicationRecord
             if: :shopify?
   validate :validate_settings_json_schema
   validate :ensure_feature_enabled
+  validate :ensure_exclusive_bot_provider, if: -> { dialogflow? && enabled? }
   validate :validate_openai_api_key, if: :validate_openai_api_key?
   validate :validate_cloudflare_realtimekit_credentials, if: :validate_cloudflare_realtimekit_credentials?
+  validate :validate_google_translate_credentials, on: :create, if: :google_translate?
   validates :app_id, uniqueness: { scope: [:account_id], unless: -> { app.present? && app.params[:allow_multiple_hooks].present? } }
 
   # TODO: This seems to be only used for slack at the moment
@@ -86,6 +88,10 @@ class Integrations::Hook < ApplicationRecord
     app_id == 'shopify'
   end
 
+  def google_translate?
+    app_id == 'google_translate'
+  end
+
   def disable
     update(status: 'disabled')
   end
@@ -106,6 +112,11 @@ class Integrations::Hook < ApplicationRecord
   end
 
   private
+
+  def ensure_exclusive_bot_provider
+    provider = inbox&.conflicting_bot_provider(:dialogflow)
+    errors.add(:base, I18n.t('errors.inboxes.bot_provider_conflict', current_provider: provider, requested_provider: 'Dialogflow')) if provider
+  end
 
   def ensure_feature_enabled
     return if shopify? && disabled?
@@ -171,6 +182,12 @@ class Integrations::Hook < ApplicationRecord
     return if result.success?
 
     errors.add(:base, I18n.t("errors.cloudflare.realtimekit.#{result.error}"))
+  end
+
+  def validate_google_translate_credentials
+    return if Integrations::GoogleTranslate::CredentialsValidator.valid?(self)
+
+    errors.add(:base, I18n.t('errors.google_translate.invalid_credentials'))
   end
 
   def settings_api_key(value)

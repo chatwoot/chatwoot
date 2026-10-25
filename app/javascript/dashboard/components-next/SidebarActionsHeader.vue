@@ -29,6 +29,7 @@ const handleButtonClick = button => {
           v-for="button in buttons"
           :key="button.key"
           v-tooltip="button.tooltip"
+          :aria-label="button.tooltip"
           :icon="button.icon"
           ghost
           sm
@@ -36,6 +37,7 @@ const handleButtonClick = button => {
         />
         <Button
           v-tooltip="$t('GENERAL.CLOSE')"
+          :aria-label="$t('GENERAL.CLOSE')"
           icon="i-lucide-x"
           ghost
           sm
