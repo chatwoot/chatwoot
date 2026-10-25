@@ -586,37 +586,54 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.body).to include('test@test.com')
       end
 
-      it 'creates an IMAP inbox and queues the default fetch' do
-        imap_connection = instance_double(Net::IMAP, disconnected?: false)
+      [1, 7, 30].each do |import_window|
+        it "creates an IMAP inbox with import window #{import_window.inspect}" do
+          imap_connection = instance_double(Net::IMAP, disconnected?: false)
 
-        allow(Net::IMAP).to receive(:new).and_return(imap_connection)
-        allow(imap_connection).to receive(:login)
-        allow(imap_connection).to receive(:disconnect)
+          allow(Net::IMAP).to receive(:new).and_return(imap_connection)
+          allow(imap_connection).to receive(:login)
+          allow(imap_connection).to receive(:disconnect)
 
-        expect do
-          post "/api/v1/accounts/#{account.id}/inboxes",
-               headers: admin.create_new_auth_token,
-               params: {
-                 name: 'Support',
-                 channel: {
-                   type: 'email',
-                   email: 'support@example.com',
-                   imap_enabled: true,
-                   imap_address: 'imap.example.com',
-                   imap_port: 993,
-                   imap_login: 'support@example.com',
-                   imap_password: 'imap-password',
-                   imap_enable_ssl: true,
-                   imap_authentication: 'login'
-                 }
-               },
-               as: :json
-        end.to have_enqueued_job(Inboxes::FetchImapEmailsJob).with(a_kind_of(Channel::Email))
+          expect do
+            post "/api/v1/accounts/#{account.id}/inboxes",
+                 headers: admin.create_new_auth_token,
+                 params: {
+                   name: 'Support',
+                   imap_fetch_interval: import_window,
+                   channel: {
+                     type: 'email',
+                     email: 'support@example.com',
+                     imap_enabled: true,
+                     imap_address: 'imap.example.com',
+                     imap_port: 993,
+                     imap_login: 'support@example.com',
+                     imap_password: 'imap-password',
+                     imap_enable_ssl: true,
+                     imap_authentication: 'login'
+                   }
+                 },
+                 as: :json
+          end.to have_enqueued_job(Inboxes::FetchImapEmailsJob).with(a_kind_of(Channel::Email), import_window)
 
-        expect(response).to have_http_status(:success)
-        channel = Channel::Email.find_by!(email: 'support@example.com')
-        expect(channel.imap_enabled).to be true
-        expect(channel.smtp_enabled).to be false
+          expect(response).to have_http_status(:success)
+          channel = Channel::Email.find_by!(email: 'support@example.com')
+          expect(channel.imap_enabled).to be true
+          expect(channel.smtp_enabled).to be false
+        end
+      end
+
+      [nil, 90, '7days', '7', 30.5, [], {}].each do |import_window|
+        it "rejects invalid import window #{import_window.inspect} before creating the inbox" do
+          expect do
+            post "/api/v1/accounts/#{account.id}/inboxes",
+                 headers: admin.create_new_auth_token,
+                 params: { name: 'Support', imap_fetch_interval: import_window,
+                           channel: { type: 'email', email: 'support@example.com' } }, as: :json
+          end.not_to change(Inbox, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(Inboxes::FetchImapEmailsJob).not_to have_been_enqueued
+        end
       end
 
       it 'does not create an inbox or enqueue an import when the IMAP connection fails' do
@@ -649,7 +666,7 @@ RSpec.describe 'Inboxes API', type: :request do
           post "/api/v1/accounts/#{account.id}/inboxes",
                headers: admin.create_new_auth_token,
                params: {
-                 name: 'Support',
+                 name: 'Support', imap_fetch_interval: 30,
                  channel: {
                    type: 'email', email: 'support@example.com', imap_enabled: true,
                    imap_address: 'imap.example.com', imap_port: 993,
@@ -797,13 +814,13 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(twitter_channel.reload.tweets_enabled).to be(false)
       end
 
-      it 'updates email inbox when administrator' do
+      it 'updates email inbox without persisting the creation-only import window' do
         email_channel = create(:channel_email, account: account)
         email_inbox = create(:inbox, channel: email_channel, account: account)
 
         patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
               headers: admin.create_new_auth_token,
-              params: { enable_auto_assignment: false, channel: { email: 'emailtest@email.test' } },
+              params: { enable_auto_assignment: false, imap_fetch_interval: 30, channel: { email: 'emailtest@email.test' } },
               as: :json
 
         expect(response).to have_http_status(:success)

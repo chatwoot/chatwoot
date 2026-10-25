@@ -47,6 +47,7 @@ const state = reactive({
   imapPassword: '',
   imapEnableSSL: true,
   imapAuthentication: 'plain',
+  imapFetchInterval: 1,
   smtpAddress: '',
   smtpPort: 587,
   smtpLogin: '',
@@ -59,6 +60,21 @@ const state = reactive({
 
 const selectOptions = options =>
   options.map(value => ({ label: value, value }));
+
+const importWindowOptions = computed(() => [
+  {
+    value: 1,
+    label: t('INBOX_MGMT.ADD.EMAIL_CHANNEL.IMPORT_OPTIONS.ONE_DAY'),
+  },
+  {
+    value: 7,
+    label: t('INBOX_MGMT.ADD.EMAIL_CHANNEL.IMPORT_OPTIONS.SEVEN_DAYS'),
+  },
+  {
+    value: 30,
+    label: t('INBOX_MGMT.ADD.EMAIL_CHANNEL.IMPORT_OPTIONS.THIRTY_DAYS'),
+  },
+]);
 
 const isSMTPConfigured = computed(() =>
   [
@@ -126,6 +142,7 @@ async function createChannel() {
   try {
     const emailChannel = await store.dispatch('inboxes/createChannel', {
       name: state.channelName.trim(),
+      imap_fetch_interval: state.imapFetchInterval,
       channel: buildChannelPayload(),
     });
 
@@ -230,6 +247,15 @@ async function createChannel() {
             <Select
               v-model="state.imapAuthentication"
               :options="selectOptions(IMAP_AUTH_OPTIONS)"
+            />
+          </label>
+          <label class="flex flex-col gap-1">
+            <span class="text-heading-3 text-n-slate-12">
+              {{ t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FETCH_EMAILS_FROM') }}
+            </span>
+            <Select
+              v-model="state.imapFetchInterval"
+              :options="importWindowOptions"
             />
           </label>
         </div>
