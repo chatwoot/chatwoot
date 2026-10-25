@@ -73,7 +73,7 @@ module Enterprise::Message
     Current.executed_by = nil
 
     begin
-      conversation.ai_assignee = nil if conversation.ai_assignee_type == 'Captain::Assistant'
+      clear_captain_assignee
       conversation.open!
       return unless conversation.saved_change_to_status?
 
