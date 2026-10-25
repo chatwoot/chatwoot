@@ -38,13 +38,27 @@ module Enterprise::Message
     errors.add(:base, I18n.t('errors.conversations.anonymous_caller_reply'))
   end
 
-  def reopen_resolved_conversation
-    assistant = conversation.inbox.captain_assistant
-
-    return super if assistant.blank? || conversation.inbox.external_bot_active?
-    return conversation.open! unless assistant.engages?(conversation.contact, conversation)
+  def reopen_conversation
+    clear_captain_assignee if incoming? && !conversation.muted? && conversation.snoozed?
 
     super
+  end
+
+  def reopen_resolved_conversation
+    assistant = conversation.inbox.captain_assistant
+    return super if conversation.inbox.external_bot_active?
+
+    engages = assistant&.engages?(conversation.contact, conversation)
+    clear_captain_assignee unless engages && conversation.inbox.captain_active?
+
+    return super if assistant.blank?
+    return conversation.open! unless engages
+
+    super
+  end
+
+  def clear_captain_assignee
+    conversation.ai_assignee = nil if conversation.ai_assignee_type == 'Captain::Assistant'
   end
 
   def mark_pending_conversation_as_open_for_human_response

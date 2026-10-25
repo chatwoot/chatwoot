@@ -5,6 +5,29 @@ RSpec.describe Conversation, type: :model do
     it { is_expected.to belong_to(:sla_policy).optional }
   end
 
+  describe 'Captain assignment on creation' do
+    let(:account) { create(:account, limits: { 'captain_responses' => 10 }) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:assistant) { create(:captain_assistant, account: account) }
+
+    before do
+      create(:captain_inbox, inbox: inbox, captain_assistant: assistant)
+    end
+
+    it 'does not assign Captain when the entitlement is disabled' do
+      conversation = create(:conversation, account: account, inbox: inbox)
+
+      expect(conversation).to have_attributes(status: 'open', ai_assignee: nil)
+    end
+
+    it 'assigns Captain when the entitlement is enabled' do
+      account.enable_features!('captain_integration')
+      conversation = create(:conversation, account: account, inbox: inbox)
+
+      expect(conversation).to have_attributes(status: 'pending', ai_assignee: assistant)
+    end
+  end
+
   describe 'SLA policy updates' do
     let(:conversation) { create(:conversation) }
     let!(:sla_policy) { create(:sla_policy, account: conversation.account) }
