@@ -30,7 +30,8 @@ module MailboxTnefHelper
       _output, error, status = Open3.capture3(Tnef::Executable.path, '--number-backups', '-K', '-C', dir, stdin_data: blob.download, binmode: true)
       raise IOError, error unless status.success?
 
-      Dir.children(dir).sort.map do |name|
+      # only the files that can still be attached are uploaded
+      Dir.children(dir).sort.last(Message::NUMBER_OF_PERMITTED_ATTACHMENTS).map do |name|
         File.open(File.join(dir, name)) { |file| { blob: ActiveStorage::Blob.create_and_upload!(io: file, filename: name) } }
       end
     end

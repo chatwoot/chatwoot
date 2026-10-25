@@ -295,6 +295,25 @@ RSpec.describe MailboxHelper do
         end
       end
 
+      context 'when the TNEF part holds more files than a message can carry' do
+        let(:file_count) { Message::NUMBER_OF_PERMITTED_ATTACHMENTS + 3 }
+
+        before do
+          allow(Open3).to receive(:capture3) do |*_args, **_opts|
+            dir = _args[_args.index('-C') + 1]
+            file_count.times { |index| File.write(File.join(dir, format('file-%02d.txt', index)), 'x') }
+            ['', '', instance_double(Process::Status, success?: true)]
+          end
+        end
+
+        it 'uploads only the files that are attached' do
+          expect { helper_instance.send(:add_attachments_to_message) }
+            .to change { ActiveStorage::Blob.where('filename LIKE ?', 'file-%').count }.by(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
+
+          expect(conversation.messages[0].attachments.count).to eq(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
+        end
+      end
+
       context 'when the TNEF data cannot be read' do
         let(:winmail) { 'not a tnef file' }
 
