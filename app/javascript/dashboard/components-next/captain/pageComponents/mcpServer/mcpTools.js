@@ -15,7 +15,6 @@ export const POPULAR_SERVERS = [
   { name: 'Calendly', url: 'https://mcp.calendly.com' },
   { name: 'Cal.com', url: 'https://mcp.cal.com/mcp' },
   { name: 'Notion', url: 'https://mcp.notion.com/mcp' },
-  { name: 'Supabase', url: 'https://mcp.supabase.com/mcp' },
 ];
 
 // The URL field starts with this, since every MCP server Captain connects to uses HTTPS
