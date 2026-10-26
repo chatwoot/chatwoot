@@ -4,26 +4,30 @@ RSpec.describe Captain::Copilot::Resources::Table do
   let(:account) { create(:account) }
   let(:admin) { create(:user, :administrator, account: account) }
 
-  it 'has one resource per listed table, and lists only columns that exist, so a renamed column fails here instead of hiding' do
+  it 'has one resource per listed table, and excludes only columns that exist, so a renamed column fails here instead of showing' do
     tables = Captain::Copilot::Resources::Columns::TABLES
     resources = Captain::Copilot::Resources.all
 
-    expect(resources.map { |resource| resource::MODEL.table_name }).to match_array(tables.keys)
-    resources.each do |resource|
-      entry = tables[resource::MODEL.table_name]
-      expect(resource::MODEL.column_names).to include(*entry['columns'], *entry.fetch('json', []))
+    missing = resources.flat_map do |resource|
+      tables[resource::MODEL.table_name].fetch('exclude', []).map { |column| "#{resource::MODEL.table_name}.#{column}" } -
+        resource::MODEL.column_names.map { |column| "#{resource::MODEL.table_name}.#{column}" }
     end
+
+    expect(resources.map { |resource| resource::MODEL.table_name }).to match_array(tables.keys)
+    expect(missing).to eq([])
   end
 
-  it 'reads only the listed tables and columns' do
+  it 'reads only listed tables, and every column of them except the excluded ones' do
     names = Captain::Copilot::Resources.all.map { |resource| resource::NAME }
-    agent_bots = Captain::Copilot::Resources.all.find { |resource| resource::NAME == 'agent_bots' }
+    columns = Captain::Copilot::Resources::Columns
 
     expect(names).to include('campaigns', 'reporting_events', 'inbox_members')
     expect(names).not_to include('notifications', 'custom_filters', 'webhooks', 'copilot_runs')
     expect(names.count('conversations')).to eq(1)
-    expect(agent_bots.filter_schema['properties'].keys).to include('name')
-    expect(agent_bots.filter_schema['properties'].keys).not_to include('secret', 'bot_config', 'outgoing_url')
+    expect(columns.names(AgentBot)).to include('name')
+    expect(columns.names(AgentBot) + columns.json(AgentBot)).not_to include('secret', 'bot_config', 'outgoing_url', 'account_id')
+    expect(columns.names(Conversation)).to include('cached_label_list')
+    expect(columns.names(Message)).not_to include('sender_id', 'sender_type')
   end
 
   it 'reads tables that belong to the account through another record, such as inbox members' do
