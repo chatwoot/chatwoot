@@ -84,6 +84,7 @@ Rails.application.routes.draw do
             resource :preferences, only: [:show, :update]
             resources :assistants do
               member do
+                delete :avatar
                 post :playground
                 get :metrics
                 get :faq_stats

@@ -15,11 +15,13 @@ export const createTemporaryMessage = ({ attachments, content, replyTo }) => {
   };
 };
 
-const getSenderName = message => (message.sender ? message.sender.name : '');
+// Compare type and id, not name, so a person and an assistant with the same name stay in separate groups.
+const getSenderIdentity = ({ sender }) =>
+  sender ? `${sender.type}:${sender.id}` : '';
 
 const shouldShowAvatar = (message, nextMessage) => {
-  const currentSender = getSenderName(message);
-  const nextSender = getSenderName(nextMessage);
+  const currentSender = getSenderIdentity(message);
+  const nextSender = getSenderIdentity(nextMessage);
 
   return (
     currentSender !== nextSender ||

@@ -1,6 +1,7 @@
 <script>
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import { SENDER_TYPES } from 'dashboard/components-next/message/constants';
 import TranslatingContent from 'widget/components/TranslatingContent.vue';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
@@ -77,6 +78,10 @@ export default {
       }
       return this.$t('UNREAD_VIEW.BOT');
     },
+    aiAssistantLabel() {
+      if (this.sender?.type !== SENDER_TYPES.CAPTAIN_ASSISTANT) return '';
+      return `· ${this.$t('AI_ASSISTANT')}`;
+    },
     availabilityStatus() {
       if (this.isSenderExist(this.sender)) {
         const { availability_status: availabilityStatus } = this.sender;
@@ -111,8 +116,13 @@ export default {
           :status="availabilityStatus"
           rounded-full
         />
-        <span class="agent--name">{{ agentName }}</span>
-        <span class="company--name">{{ companyName }}</span>
+        <span>
+          <span class="agent--name">{{ agentName }}</span>
+          <span v-if="aiAssistantLabel" class="company--name">
+            {{ aiAssistantLabel }}
+          </span>
+          <span class="company--name">{{ companyName }}</span>
+        </span>
       </div>
       <TranslatingContent :translating="translating" :translated="translated">
         <div

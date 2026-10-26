@@ -73,4 +73,27 @@ describe('agent identity rendering', () => {
     expect(companyName.text()).toContain(maliciousCompanyName);
     expect(companyName.find('strong').exists()).toBe(false);
   });
+
+  it('marks Captain replies as AI next to the sender name', () => {
+    const wrapper = shallowMount(AgentMessage, {
+      props: {
+        message: {
+          id: 2,
+          attachments: [],
+          content: 'Hello',
+          content_attributes: {},
+          content_type: 'text',
+          message_type: 1,
+          sender: {
+            name: 'Support',
+            avatar_url: 'https://example.com/logo.png',
+            type: 'captain_assistant',
+          },
+          showAvatar: true,
+        },
+      },
+    });
+
+    expect(wrapper.find('.agent-name').text()).toBe('Support · AI_ASSISTANT');
+  });
 });
