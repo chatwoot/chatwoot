@@ -1,8 +1,10 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
+import Icon from '../icon/Icon.vue';
+import Spinner from '../spinner/Spinner.vue';
 import CopilotProgressBar from './CopilotProgressBar.vue';
 
-// The review job updates this card in place. It counts only the current turn's conversations.
+// The review job updates this line in place. It counts only the current turn's conversations.
 defineProps({
   progress: { type: Object, required: true },
 });
@@ -11,44 +13,55 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div
-    class="flex flex-col gap-2 p-3 rounded-xl outline outline-1 outline-n-weak bg-n-alpha-1 text-n-slate-12"
-  >
-    <template v-if="progress.finished">
-      <span class="font-medium">
+  <div class="flex flex-col gap-1.5 text-xs text-n-slate-11 tabular-nums">
+    <div class="flex items-center gap-2 -ms-3">
+      <Spinner
+        v-if="!progress.finished"
+        :size="16"
+        class="flex-shrink-0 text-n-slate-9"
+      />
+      <!-- A review stopped by errors or credits finishes before it reaches every conversation in this turn. -->
+      <Icon
+        v-else-if="progress.done < progress.total"
+        icon="i-lucide-triangle-alert"
+        class="size-4 flex-shrink-0 text-n-amber-11"
+      />
+      <Icon
+        v-else
+        icon="i-lucide-check"
+        class="size-4 flex-shrink-0 text-n-teal-10"
+      />
+      <span class="text-n-slate-12">
         {{
-          t(
-            'CAPTAIN.COPILOT.REVIEW.FINISHED',
-            { count: progress.done },
-            progress.done
-          )
+          progress.finished
+            ? t(
+                'CAPTAIN.COPILOT.REVIEW.FINISHED',
+                { count: progress.done },
+                progress.done
+              )
+            : t('CAPTAIN.COPILOT.REVIEW.RUNNING')
         }}
       </span>
-      <div class="flex flex-col">
-        <span class="text-n-slate-11">
-          {{ t('CAPTAIN.COPILOT.REVIEW.MATCHED', { count: progress.matched }) }}
-        </span>
-        <span v-if="progress.failed > 0" class="text-n-amber-11">
-          {{ t('CAPTAIN.COPILOT.REVIEW.FAILED', { count: progress.failed }) }}
-        </span>
-      </div>
-    </template>
-    <template v-else>
-      <span class="font-medium">{{ t('CAPTAIN.COPILOT.REVIEW.RUNNING') }}</span>
-      <CopilotProgressBar :done="progress.done" :total="progress.total" />
-      <div class="flex justify-between gap-2 text-n-slate-11 tabular-nums">
-        <span>
-          {{
-            t('CAPTAIN.COPILOT.REVIEW.PROGRESS', {
-              done: progress.done,
-              total: progress.total,
-            })
-          }}
-        </span>
-        <span>
-          {{ t('CAPTAIN.COPILOT.REVIEW.MATCHED', { count: progress.matched }) }}
-        </span>
-      </div>
-    </template>
+      <span v-if="!progress.finished">
+        {{
+          t('CAPTAIN.COPILOT.REVIEW.PROGRESS', {
+            done: progress.done,
+            total: progress.total,
+          })
+        }}
+      </span>
+      <span class="ms-auto">
+        {{ t('CAPTAIN.COPILOT.REVIEW.MATCHED', { count: progress.matched }) }}
+      </span>
+    </div>
+    <CopilotProgressBar
+      v-if="!progress.finished"
+      :done="progress.done"
+      :total="progress.total"
+      class="ms-3"
+    />
+    <span v-else-if="progress.failed > 0" class="ms-3 text-n-amber-11">
+      {{ t('CAPTAIN.COPILOT.REVIEW.FAILED', { count: progress.failed }) }}
+    </span>
   </div>
 </template>
