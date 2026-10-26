@@ -43,6 +43,10 @@ const token = ref('');
 const authHeader = ref('');
 const showHeaderField = ref(false);
 const liveTools = ref([]);
+// Approved tools the server no longer lists
+const missingTools = ref([]);
+// The changed tool whose approved and live versions are shown side by side
+const reviewingTool = ref(null);
 const isBusy = ref(false);
 const isLoadingTools = ref(false);
 // Saving after a failed load would send an empty list and remove every approved tool
@@ -88,6 +92,8 @@ const resetState = () => {
   authHeader.value = '';
   showHeaderField.value = false;
   liveTools.value = [];
+  missingTools.value = [];
+  reviewingTool.value = null;
   Object.keys(selections).forEach(name => delete selections[name]);
 };
 
@@ -114,6 +120,7 @@ const loadTools = async () => {
       assistantId: props.assistantId,
     });
     liveTools.value = data.payload;
+    missingTools.value = data.missing;
     buildSelections();
   } catch (error) {
     toolsLoadFailed.value = true;
@@ -278,6 +285,24 @@ const save = () =>
     emit('saved');
     close();
   }, 'CAPTAIN.MCP_SERVERS.DIALOG.SAVE_ERROR');
+
+const schemaChanged = tool =>
+  JSON.stringify(approvedTool(tool.name)?.input_schema) !==
+  JSON.stringify(tool.input_schema);
+
+const approveChange = tool =>
+  runBusy(async () => {
+    const { data } = await McpServersAPI.approveTool({
+      id: server.value.id,
+      assistantId: props.assistantId,
+      name: tool.name,
+    });
+    server.value = data;
+    reviewingTool.value = null;
+    useAlert(t('CAPTAIN.MCP_SERVERS.DIALOG.CHANGE_APPROVED'));
+    emit('saved');
+    await loadTools();
+  }, 'CAPTAIN.MCP_SERVERS.DIALOG.APPROVE_ERROR');
 
 const back = () => {
   const index = visibleSteps.value.indexOf(step.value);
@@ -483,8 +508,71 @@ defineExpose({ open });
             <span v-if="!tool.read_only" class="text-xs text-n-amber-11">
               {{ t('CAPTAIN.MCP_SERVERS.DIALOG.WRITE_BLOCKED') }}
             </span>
+            <button
+              v-if="tool.changed && reviewingTool !== tool.name"
+              type="button"
+              class="p-0 text-xs underline text-n-blue-11 text-start"
+              @click.prevent="reviewingTool = tool.name"
+            >
+              {{ t('CAPTAIN.MCP_SERVERS.DIALOG.REVIEW_CHANGE') }}
+            </button>
+            <span
+              v-if="tool.changed && reviewingTool === tool.name"
+              class="flex flex-col gap-2 p-3 rounded-lg bg-n-alpha-1"
+              @click.prevent
+            >
+              <span class="grid gap-2 sm:grid-cols-2">
+                <span class="flex flex-col gap-0.5 text-sm text-n-slate-11">
+                  <span class="text-xs text-n-slate-10">
+                    {{ t('CAPTAIN.MCP_SERVERS.DIALOG.APPROVED_VERSION') }}
+                  </span>
+                  {{ approvedTool(tool.name)?.description }}
+                </span>
+                <span class="flex flex-col gap-0.5 text-sm text-n-slate-12">
+                  <span class="text-xs text-n-slate-10">
+                    {{ t('CAPTAIN.MCP_SERVERS.DIALOG.LIVE_VERSION') }}
+                  </span>
+                  {{ tool.description }}
+                </span>
+              </span>
+              <span v-if="schemaChanged(tool)" class="text-xs text-n-slate-11">
+                {{ t('CAPTAIN.MCP_SERVERS.DIALOG.PARAMETERS_CHANGED') }}
+              </span>
+              <span class="text-xs text-n-amber-11">
+                {{ t('CAPTAIN.MCP_SERVERS.DIALOG.CHANGE_WARNING') }}
+              </span>
+              <span class="flex justify-end gap-2">
+                <Button
+                  type="button"
+                  size="sm"
+                  faded
+                  slate
+                  :label="t('CAPTAIN.MCP_SERVERS.DIALOG.KEEP_OFF')"
+                  :disabled="isBusy"
+                  @click="reviewingTool = null"
+                />
+                <Button
+                  type="button"
+                  size="sm"
+                  :label="t('CAPTAIN.MCP_SERVERS.DIALOG.APPROVE_CHANGE')"
+                  :is-loading="isBusy"
+                  :disabled="isBusy || !tool.read_only"
+                  @click="approveChange(tool)"
+                />
+              </span>
+            </span>
           </label>
         </template>
+        <p
+          v-if="missingTools.length"
+          class="text-xs mb-0 px-3 py-2 rounded-lg bg-n-amber-2 text-n-amber-11"
+        >
+          {{
+            t('CAPTAIN.MCP_SERVERS.DIALOG.MISSING_TOOLS', {
+              names: missingTools.join(', '),
+            })
+          }}
+        </p>
       </template>
 
       <template v-else-if="step === 'PARAMETERS'">

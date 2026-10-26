@@ -1780,8 +1780,19 @@
         "SAVE_ERROR": "Could not save the tools.",
         "CHECK_ERROR": "Could not check the server.",
         "TOOLS_ERROR": "Could not load the tools of the server.",
-        "FIXED_VALUE_MISSING": "Enter a fixed value for {param} in {tool}."
-      }
+        "FIXED_VALUE_MISSING": "Enter a fixed value for {param} in {tool}.",
+        "REVIEW_CHANGE": "Review change",
+        "APPROVED_VERSION": "Approved",
+        "LIVE_VERSION": "Now on the server",
+        "PARAMETERS_CHANGED": "The parameters changed too.",
+        "CHANGE_WARNING": "Captain does not use this tool until you approve the change. A server can use a description to steer Captain. Approve only text you would write yourself.",
+        "APPROVE_CHANGE": "Approve change",
+        "KEEP_OFF": "Keep turned off",
+        "CHANGE_APPROVED": "Change approved.",
+        "APPROVE_ERROR": "Could not approve the change.",
+        "MISSING_TOOLS": "The server no longer lists these approved tools. Saving removes them: {names}"
+      },
+      "NEEDS_REVIEW": "Needs review"
     },
     "RESPONSES": {
       "HEADER": "FAQs",

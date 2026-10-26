@@ -75,6 +75,20 @@ class Captain::McpServer < ApplicationRecord
     available_tools.any?(&:requires_email_verification?)
   end
 
+  # Approved tools whose live definition differs from the approved one, or that the server no longer lists
+  def changed_tool_names(live_definitions)
+    live = live_definitions.index_by { |definition| definition['name'] }
+    tools.reject { |tool| live[tool.name] && tool.approval_current?(live[tool.name]) }.map(&:name)
+  end
+
+  # Records when a change first appeared, and clears it once no approved tool differs
+  def record_tool_changes(live_definitions)
+    changed = changed_tool_names(live_definitions).any?
+    return if changed == tools_changed_at.present?
+
+    update_columns(tools_changed_at: changed ? Time.current : nil) # rubocop:disable Rails/SkipsModelValidations
+  end
+
   private
 
   def validate_auth_header

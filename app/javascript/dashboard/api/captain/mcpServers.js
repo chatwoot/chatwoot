@@ -49,6 +49,13 @@ class CaptainMcpServers extends ApiClient {
     });
   }
 
+  approveTool({ id, assistantId, name }) {
+    return axios.post(`${this.url}/${id}/approve_tool`, {
+      assistant_id: assistantId,
+      name,
+    });
+  }
+
   authorizationUrl({ id, assistantId }) {
     return axios.get(`${this.url}/${id}/authorization_url`, {
       params: { assistant_id: assistantId },
