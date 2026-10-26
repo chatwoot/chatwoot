@@ -5,16 +5,18 @@ module Captain::Copilot::Chart
   MARKER = /\[copilot-chart:(\d+)\]/
   DATE_AT_END = /\d{4}-\d{2}-\d{2}\z/
 
-  # Each chart is a hash of title, label and points, a point being a category and a value. Charts with nothing to compare
-  # are left out, and without any chart the result has no marker.
+  # Each chart is a hash of title, label and points, a point being a category and a value. The agent asked for the chart,
+  # so a single bar is drawn. A chart with no value above zero is left out, and without any chart the result says why, so
+  # the model explains instead of writing out the data.
   def self.for(tool_call, charts)
     data = charts.filter_map { |chart| data_for(**chart) }
-    data.any? ? { chart: "[copilot-chart:#{tool_call.id}]", chart_data: data } : {}
+    return { chart: "[copilot-chart:#{tool_call.id}]", chart_data: data } if data.any?
+
+    { chart_note: 'No chart was drawn, because no value in the range is above zero.' }
   end
 
-  # A chart needs at least two bars, one of them above zero.
   def self.data_for(title:, label:, points:)
-    return if points.size < 2 || points.none? { |_, value| value.to_f.positive? }
+    return if points.none? { |_, value| value.to_f.positive? }
 
     title, categories = labels(title, points.map(&:first))
     { title: title, categories: categories, series: [{ id: 'value', label: label, data: points.map(&:last) }] }

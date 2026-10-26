@@ -68,10 +68,19 @@ RSpec.describe Captain::Tools::Copilot::GetReportService do
                                                      { period: '2026-09-13 to 2026-09-13', partial: true, value: 0 }])
     end
 
-    it 'returns the summary for each agent with activity' do
-      result = service.execute(by: 'agent', **week)
+    it 'returns the summary for each agent with activity, counts the others, and charts a single agent when asked' do
+      result = service.execute(by: 'agent', metrics: %w[conversations_count], chart: true, **week)
 
       expect(result[:rows]).to contain_exactly(include(id: agent.id, name: agent.name, conversations: 3))
+      expect(result[:without_activity]).to eq(1)
+      expect(result[:chart_data].first[:series].first[:data]).to eq([3])
+    end
+
+    it 'says why no chart was drawn when every value is zero' do
+      result = service.execute(by: 'agent', metrics: %w[resolutions_count], chart: true, **week)
+
+      expect(result).to include(chart_note: include('no value in the range is above zero'))
+      expect(result).not_to include(:chart)
     end
 
     it 'breaks a metric down per period for each agent with activity' do
