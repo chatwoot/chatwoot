@@ -102,6 +102,13 @@ const hasFilteredUnreadCounts = computed(() => {
   );
 });
 
+const hasCaptainMcpServers = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.CAPTAIN_MCP_SERVERS
+  );
+});
+
 const hasDataImport = computed(() => {
   return isFeatureEnabledonAccount.value(
     accountId.value,
@@ -567,7 +574,9 @@ const menuItems = computed(() => {
         },
         {
           name: 'Tools',
-          label: t('SIDEBAR.CAPTAIN_TOOLS'),
+          label: hasCaptainMcpServers.value
+            ? t('SIDEBAR.CAPTAIN_TOOLS_AND_MCP')
+            : t('SIDEBAR.CAPTAIN_TOOLS'),
           activeOn: [
             'captain_tools_index',
             'captain_tools_explore',
