@@ -25,7 +25,8 @@ const props = defineProps({
   assistantId: { type: [String, Number], required: true },
 });
 
-const emit = defineEmits(['saved']);
+// signIn: an OAuth server was saved, and the page starts its sign-in
+const emit = defineEmits(['saved', 'signIn']);
 
 const { t } = useI18n();
 
@@ -160,14 +161,6 @@ const check = () =>
     authType.value = data.auth_type;
   }, 'CAPTAIN.MCP_SERVERS.DIALOG.CHECK_ERROR');
 
-const startSignIn = async savedServer => {
-  const { data } = await McpServersAPI.authorizationUrl({
-    id: savedServer.id,
-    assistantId: props.assistantId,
-  });
-  window.location.href = data.url;
-};
-
 const connect = () =>
   runBusy(async () => {
     const isToken = authType.value === AUTH_TYPES.TOKEN;
@@ -191,8 +184,10 @@ const connect = () =>
       }),
     });
     emit('saved');
+    // The server is saved, so a failed sign-in start is retried from its card, not by connecting again
     if (authType.value === AUTH_TYPES.OAUTH) {
-      await startSignIn(data);
+      close();
+      emit('signIn', data);
       return;
     }
     server.value = data;

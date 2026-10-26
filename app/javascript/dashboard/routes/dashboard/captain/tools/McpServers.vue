@@ -201,6 +201,7 @@ watch(
     ref="connectDialogRef"
     :assistant-id="assistantId"
     @saved="fetchServers"
+    @sign-in="startSignIn"
   />
 
   <Dialog
