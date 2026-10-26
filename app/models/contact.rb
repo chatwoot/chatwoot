@@ -180,6 +180,7 @@ class Contact < ApplicationRecord
   end
 
   def discard_invalid_attrs
+    prepare_phone_number_attribute
     phone_number_format
     email_format
   end
@@ -210,7 +211,18 @@ class Contact < ApplicationRecord
 
   def prepare_contact_attributes
     prepare_email_attribute
+    prepare_phone_number_attribute
     prepare_jsonb_attributes
+  end
+
+  def prepare_phone_number_attribute
+    return if phone_number.blank?
+
+    clean_digits = phone_number.delete_prefix('+')
+    normalizer = Whatsapp::PhoneNormalizers::BrazilPhoneNormalizer.new
+    if normalizer.handles_country?(clean_digits)
+      self.phone_number = "+#{normalizer.normalize(clean_digits)}"
+    end
   end
 
   def prepare_email_attribute

@@ -66,7 +66,10 @@ class ContactIdentifyAction
   def existing_phone_number_contact
     return if params[:phone_number].blank?
 
-    @existing_phone_number_contact ||= account.contacts.find_by(phone_number: params[:phone_number])
+    @existing_phone_number_contact ||= begin
+      candidates = Whatsapp::PhoneNumberNormalizationService.phone_number_candidates(params[:phone_number])
+      account.contacts.where(phone_number: candidates).first
+    end
   end
 
   def merge_contacts?(existing_contact, key)

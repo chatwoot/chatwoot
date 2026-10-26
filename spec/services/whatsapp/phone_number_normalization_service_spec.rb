@@ -123,4 +123,35 @@ describe Whatsapp::PhoneNumberNormalizationService do
       end
     end
   end
+
+  describe '.phone_number_candidates' do
+    it 'returns all candidates for Brazil mobile numbers' do
+      candidates = described_class.phone_number_candidates('+5541988887777')
+      expect(candidates).to contain_exactly('+5541988887777', '+554188887777', '5541988887777', '554188887777')
+    end
+
+    it 'returns only the original number for unsupported countries' do
+      expect(described_class.phone_number_candidates('+1234567890')).to eq(['+1234567890'])
+    end
+
+    it 'does not add 9th digit candidates for Brazil landline numbers' do
+      candidates = described_class.phone_number_candidates('+554132345678')
+      expect(candidates).to contain_exactly('+554132345678', '554132345678')
+    end
+  end
+
+  describe '.normalize' do
+    it 'normalizes Brazil mobile number without 9th digit to include 9' do
+      expect(described_class.normalize('+554188887777')).to eq('+5541988887777')
+      expect(described_class.normalize('554188887777')).to eq('5541988887777')
+    end
+
+    it 'preserves Brazil mobile number that already includes 9' do
+      expect(described_class.normalize('+5541988887777')).to eq('+5541988887777')
+    end
+
+    it 'leaves Brazil landline numbers unchanged' do
+      expect(described_class.normalize('+554132345678')).to eq('+554132345678')
+    end
+  end
 end
