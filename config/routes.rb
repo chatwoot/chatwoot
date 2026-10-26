@@ -486,6 +486,7 @@ Rails.application.routes.draw do
             member do
               patch :archive
               delete :logo
+              delete :remove_locale
               post :send_instructions
               get :ssl_status
             end

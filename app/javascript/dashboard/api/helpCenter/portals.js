@@ -22,6 +22,12 @@ class PortalsAPI extends ApiClient {
     return axios.delete(`${this.url}/${portalSlug}/logo`);
   }
 
+  removeLocale(portalSlug, locale) {
+    return axios.delete(`${this.url}/${portalSlug}/remove_locale`, {
+      params: { locale },
+    });
+  }
+
   sendCnameInstructions(portalSlug, email) {
     return axios.post(`${this.url}/${portalSlug}/send_instructions`, { email });
   }

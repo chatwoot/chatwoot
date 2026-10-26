@@ -727,6 +727,8 @@ en:
       subject: 'Finish setting up %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
+    remove_locale:
+      default_locale: 'The default locale cannot be removed'
   installation:
     onboarding:
       heading: 'Howdy, Welcome to Chatwoot 👋'

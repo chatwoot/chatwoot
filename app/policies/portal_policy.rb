@@ -27,6 +27,10 @@ class PortalPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def remove_locale?
+    @account_user.administrator?
+  end
+
   def send_instructions?
     @account_user.administrator?
   end
