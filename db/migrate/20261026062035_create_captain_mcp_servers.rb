@@ -15,7 +15,6 @@ class CreateCaptainMcpServers < ActiveRecord::Migration[7.2]
       t.text :last_error
       t.datetime :tools_changed_at
       t.boolean :enabled, null: false, default: true
-      t.integer :lock_version, null: false, default: 0
       t.timestamps
       t.index [:assistant_id, :url], unique: true
     end

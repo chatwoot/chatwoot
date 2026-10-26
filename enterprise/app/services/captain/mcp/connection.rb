@@ -31,7 +31,7 @@ class Captain::Mcp::Connection
     @server = server
   end
 
-  # Runs a request and records the result on the server. Status columns skip the lock, so a check never conflicts with an admin edit.
+  # Runs a request and records the result on the server. Only the status columns are written, so a check never overwrites an admin edit.
   def track_status
     result = yield
     @server.update_columns(status: :active, last_checked_at: Time.current, last_error: nil, # rubocop:disable Rails/SkipsModelValidations

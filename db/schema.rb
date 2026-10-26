@@ -552,7 +552,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_062039) do
     t.text "last_error"
     t.datetime "tools_changed_at"
     t.boolean "enabled", default: true, null: false
-    t.integer "lock_version", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_captain_mcp_servers_on_account_id"

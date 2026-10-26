@@ -35,8 +35,6 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
     @mcp_server.assign_attributes(server_params.except(:url, :auth_type))
     @mcp_server.tools = approved_tools if params[:mcp_server].key?(:tools)
     @mcp_server.save!
-  rescue ActiveRecord::StaleObjectError
-    render_could_not_create_error(I18n.t('captain.mcp_server.stale'))
   end
 
   def destroy
