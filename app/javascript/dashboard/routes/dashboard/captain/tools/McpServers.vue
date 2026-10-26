@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
@@ -48,9 +48,12 @@ const fetchServers = async () => {
     const response = await run(signal =>
       McpServersAPI.get({ assistantId: assistantId.value, signal })
     );
-    if (response) servers.value = response.data.payload;
+    if (!response) return false;
+    servers.value = response.data.payload;
+    return true;
   } catch {
     useAlert(t('CAPTAIN.MCP_SERVERS.LOAD_ERROR'));
+    return false;
   }
 };
 
@@ -140,19 +143,16 @@ const handleSignInResult = async () => {
   if (server) connectDialogRef.value.open(server);
 };
 
+// On a full reload, account features load after mount, so the page waits for access before it fetches.
+// The sign-in result is handled after that first fetch, so the picker opens for the server that just signed in.
 watch(
   [assistantId, showPaywall],
-  () => {
-    if (!showPaywall.value) fetchServers();
+  async () => {
+    if (showPaywall.value) return;
+    if (await fetchServers()) handleSignInResult();
   },
   { immediate: true }
 );
-
-onMounted(async () => {
-  if (showPaywall.value || !route.query.sign_in) return;
-  await fetchServers();
-  handleSignInResult();
-});
 </script>
 
 <template>
