@@ -585,6 +585,7 @@ en:
         unknown: 'has unknown settings: %{names}'
         not_boolean: 'values must be true or false'
     mcp_server:
+      disabled: 'MCP servers are not enabled for this account'
       token_rejected: 'The server rejected the token. Check the token and the header name.'
       not_oauth: 'This server does not use OAuth sign-in'
       stale: 'Someone else changed this server. Reload the page and try again.'

@@ -5,7 +5,7 @@ class Captain::McpCallbacksController < ApplicationController
 
   def show
     server = Captain::Mcp::Connection.server_for_oauth_state(params[:state])
-    return redirect_to("#{ENV.fetch('FRONTEND_URL', '')}/app") unless server
+    return redirect_to("#{ENV.fetch('FRONTEND_URL', '')}/app") unless server&.account&.feature_enabled?(Captain::McpServer::FEATURE_FLAG)
 
     redirect_to servers_page_url(server, sign_in_result(server))
   end

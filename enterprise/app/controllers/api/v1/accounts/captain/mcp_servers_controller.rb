@@ -2,7 +2,7 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
   DEFAULT_SELECTION = { 'param_sources' => {}, 'settings' => {}, 'enabled' => true }.freeze
   SELECTION_FIELDS = %w[name param_sources settings enabled].freeze
 
-  before_action :ensure_custom_tools_enabled
+  before_action :ensure_mcp_servers_enabled
   before_action -> { check_authorization(Captain::McpServer) }
   before_action :set_mcp_server, only: [:show, :update, :destroy, :available_tools, :authorization_url]
 
@@ -59,10 +59,10 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
 
   private
 
-  def ensure_custom_tools_enabled
-    return if Current.account.feature_enabled?('custom_tools') || Current.account.feature_enabled?('captain_integration')
+  def ensure_mcp_servers_enabled
+    return if Current.account.feature_enabled?(Captain::McpServer::FEATURE_FLAG)
 
-    render json: { error: 'Custom tools are not enabled for this account' }, status: :forbidden
+    render json: { error: I18n.t('captain.mcp_server.disabled') }, status: :forbidden
   end
 
   def set_mcp_server
