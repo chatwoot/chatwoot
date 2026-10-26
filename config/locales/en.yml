@@ -592,6 +592,7 @@ en:
       tools:
         duplicate: 'cannot list the same tool twice'
         not_read_only: '%{tool} is not a read tool. Captain can only use read tools.'
+        missing: 'The server no longer offers %{tool}.'
         unknown_param: '%{tool} has no parameters named %{names}'
         one_verified_email: '%{tool} can have one verified email parameter only'
         verified_email_type: '%{tool} parameter %{name} must be a string to take the verified email'
