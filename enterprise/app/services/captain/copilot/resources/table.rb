@@ -6,6 +6,8 @@ class Captain::Copilot::Resources::Table < Captain::Copilot::Resources::BaseReso
   EXCERPT_LENGTH = 120
   # Long enough for settings such as a macro's actions; a longer value says where it was cut.
   JSON_EXCERPT_LENGTH = 4000
+  # Settings shown whole, such as an automation rule's actions, drop keys with these names as a last check.
+  SECRET_KEY = /(\A|_)(token|secret|password|key|credential|otp|salt|digest|certificate)s?(_|\z)/
   # Rows the dashboard shows only to some administrators.
   VISIBLE = {
     # The macros page lists the global macros and the user's own personal ones.
@@ -100,7 +102,15 @@ class Captain::Copilot::Resources::Table < Captain::Copilot::Resources::BaseReso
   def display_value(value)
     return value.to_s.squish.first(EXCERPT_LENGTH) unless value.is_a?(Hash) || value.is_a?(Array)
 
-    json = Captain::Copilot::Resources::Columns.without_secrets(value).to_json
+    json = without_secrets(value).to_json
     json.length > JSON_EXCERPT_LENGTH ? "#{json.first(JSON_EXCERPT_LENGTH)} [cut at #{JSON_EXCERPT_LENGTH} of #{json.length} characters]" : json
+  end
+
+  def without_secrets(value)
+    case value
+    when Hash then value.reject { |key, _| key.to_s.match?(SECRET_KEY) }.transform_values { |item| without_secrets(item) }
+    when Array then value.map { |item| without_secrets(item) }
+    else value
+    end
   end
 end

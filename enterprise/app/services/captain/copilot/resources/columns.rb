@@ -1,38 +1,44 @@
-# The columns of a model Copilot may read, as listed in enterprise/config/copilot_tables.yml. A key inside a listed JSON
-# column is a field too, written column.key, such as additional_attributes.country.
+# The columns of a table listed in enterprise/config/copilot_tables.yml that Copilot may read: every column of a type
+# it can read, except the ones excluded there and the ones excluded for every table. A key inside a JSON column is a
+# field too, written column.key, such as additional_attributes.country.
 module Captain::Copilot::Resources::Columns
   TABLES = YAML.load_file(Rails.root.join('enterprise/config/copilot_tables.yml')).freeze
-  # Settings shown whole, such as an automation rule's actions, drop keys with these names as a last check.
-  SECRET_KEY = /(\A|_)(token|secret|password|key|credential|otp|salt|digest|certificate)s?(_|\z)/
+  SCALAR_TYPES = %i[integer float decimal string text boolean datetime date].freeze
+  JSON_TYPES = %i[json jsonb].freeze
   DATE_TYPES = %i[datetime date].freeze
   NUMBER_TYPES = %i[integer float decimal].freeze
   # describe lists the keys found in at most this many JSON values, and at most MAX_KEYS of them.
   KEY_SAMPLE = 1000
   MAX_KEYS = 40
 
-  def self.listed?(model)
-    TABLES.key?(model.table_name)
-  end
-
-  # id and the listed columns, in the table's own order.
+  # The scalar columns Copilot may read, in the table's own order. JSON columns are in json.
   def self.readable(model)
-    names = ['id'] + TABLES.fetch(model.table_name).fetch('columns')
-    model.columns.select { |column| names.include?(column.name) }
+    allowed(model, SCALAR_TYPES)
   end
 
-  def self.names(model, types = nil)
-    columns = readable(model)
-    columns = columns.select { |column| types.include?(column.type) } if types
-    columns.map(&:name)
+  def self.json(model)
+    allowed(model, JSON_TYPES).map(&:name)
+  end
+
+  def self.allowed(model, types)
+    excluded = excluded(model)
+    model.columns.select { |column| types.include?(column.type) && excluded.exclude?(column.name) }
+  end
+
+  # account_id; polymorphic keys and their type columns, because the same value names records in different tables;
+  # encrypted columns; and the table's own exclusions.
+  def self.excluded(model)
+    polymorphic = model.reflect_on_all_associations(:belongs_to).select(&:polymorphic?).flat_map { |link| [link.foreign_key, link.foreign_type] }
+    ['account_id', *polymorphic.map(&:to_s), *Array(model.encrypted_attributes).map(&:to_s), *TABLES.fetch(model.table_name).fetch('exclude', [])]
+  end
+
+  def self.names(model, types = SCALAR_TYPES)
+    readable(model).select { |column| types.include?(column.type) }.map(&:name)
   end
 
   # Enums are stored as numbers, but their codes are not quantities, so they are left out.
   def self.numbers(model)
     names(model, NUMBER_TYPES) - model.defined_enums.keys
-  end
-
-  def self.json(model)
-    TABLES.fetch(model.table_name).fetch('json', [])
   end
 
   # created_at first, so it is the default date when a resource names none.
@@ -130,14 +136,5 @@ module Captain::Copilot::Resources::Columns
     value = relation.klass.arel_table[column]
     objects = relation.where(Arel::Nodes::NamedFunction.new("#{function}_typeof", [value]).eq('object'))
     objects.limit(KEY_SAMPLE).pluck(Arel::Nodes::NamedFunction.new("#{function}_object_keys", [value])).uniq.first(MAX_KEYS)
-  end
-
-  # A JSON value as compact text with secret-named keys removed, for display.
-  def self.without_secrets(value)
-    case value
-    when Hash then value.reject { |key, _| key.to_s.match?(SECRET_KEY) }.transform_values { |item| without_secrets(item) }
-    when Array then value.map { |item| without_secrets(item) }
-    else value
-    end
   end
 end
