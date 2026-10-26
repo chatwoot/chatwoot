@@ -42,8 +42,8 @@ class CaptainMcpServers extends ApiClient {
     });
   }
 
-  availableTools({ id, assistantId, signal }) {
-    return axios.get(`${this.url}/${id}/available_tools`, {
+  liveTools({ id, assistantId, signal }) {
+    return axios.get(`${this.url}/${id}/live_tools`, {
       params: { assistant_id: assistantId },
       signal,
     });
