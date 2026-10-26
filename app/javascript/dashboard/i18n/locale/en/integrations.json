@@ -1708,6 +1708,18 @@
         "VERIFIED": "Verified customers",
         "ANYONE": "Any customer"
       },
+      "SUGGESTIONS": {
+        "TITLE": "Popular servers",
+        "RECOMMENDED": "Suggested",
+        "CONNECTED": "Connected",
+        "SHOW_ALL": "Show all",
+        "SHOW_LESS": "Show fewer",
+        "STORE_LABEL": "Store name",
+        "STORE_PLACEHOLDER": "your-store",
+        "STORE_HINT": "The part before .myshopify.com in your store address.",
+        "USE": "Use",
+        "PASTE_HINT": "Paste the MCP server URL from your {name} account below."
+      },
       "DIALOG": {
         "CONNECT_TITLE": "Connect an MCP server",
         "MANAGE_TITLE": "Manage tools of {name}",

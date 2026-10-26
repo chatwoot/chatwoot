@@ -5,6 +5,26 @@ export const PARAM_SOURCES = {
   FIXED: 'fixed',
 };
 
+// Icons for the suggested servers. Services without a brand icon in the icon sets use a generic one.
+export const SUGGESTION_ICONS = {
+  shopify: 'i-logos-shopify',
+  stripe: 'i-logos-stripe',
+  paypal: 'i-logos-paypal',
+  hubspot: 'i-logos-hubspot',
+  calendly: 'i-lucide-calendar-check',
+  cal_com: 'i-lucide-calendar-days',
+  notion: 'i-logos-notion-icon',
+  supabase: 'i-logos-supabase-icon',
+  n8n: 'i-lucide-workflow',
+  zapier: 'i-logos-zapier-icon',
+  make: 'i-lucide-workflow',
+};
+export const DEFAULT_SUGGESTION_ICON = 'i-lucide-server';
+// The suggestions shown before "Show all"
+export const VISIBLE_SUGGESTIONS = 6;
+// The part of a URL template the admin fills in, such as the Shopify store name
+export const STORE_PLACEHOLDER = '{store}';
+
 const DIGEST_PREFIX = 'sha256:';
 const FINGERPRINT_LENGTH = 8;
 const EMAIL_PARAM_PATTERN = /email/i;

@@ -19,6 +19,10 @@ import {
   sourceOf,
   usesVerifiedEmail,
   requiresVerification,
+  SUGGESTION_ICONS,
+  DEFAULT_SUGGESTION_ICON,
+  VISIBLE_SUGGESTIONS,
+  STORE_PLACEHOLDER,
 } from './mcpTools';
 
 const props = defineProps({
@@ -48,6 +52,11 @@ const missingTools = ref([]);
 // The changed tool whose approved and live versions are shown side by side
 const reviewingTool = ref(null);
 const isBusy = ref(false);
+const suggestions = ref([]);
+const showAllSuggestions = ref(false);
+// A suggestion whose URL the admin still has to complete or paste
+const pendingSuggestion = ref(null);
+const storeName = ref('');
 const isLoadingTools = ref(false);
 // Saving after a failed load would send an empty list and remove every approved tool
 const toolsLoadFailed = ref(false);
@@ -133,12 +142,35 @@ const loadTools = async () => {
   }
 };
 
+const visibleSuggestions = computed(() =>
+  showAllSuggestions.value
+    ? suggestions.value
+    : suggestions.value.slice(0, VISIBLE_SUGGESTIONS)
+);
+
+// Suggestions only help a new connection, and the page works without them
+const loadSuggestions = async () => {
+  try {
+    const { data } = await McpServersAPI.suggestions({
+      assistantId: props.assistantId,
+    });
+    suggestions.value = data.payload;
+  } catch {
+    suggestions.value = [];
+  }
+};
+
 const open = existingServer => {
   resetState();
   server.value = existingServer;
+  pendingSuggestion.value = null;
+  storeName.value = '';
+  showAllSuggestions.value = false;
   if (existingServer) {
     step.value = 'TOOLS';
     loadTools();
+  } else {
+    loadSuggestions();
   }
   dialogRef.value.open();
 };
@@ -167,6 +199,27 @@ const check = () =>
     discovery.value = data;
     authType.value = data.auth_type;
   }, 'CAPTAIN.MCP_SERVERS.DIALOG.CHECK_ERROR');
+
+const pickSuggestion = suggestion => {
+  storeName.value = '';
+  if (suggestion.url) {
+    pendingSuggestion.value = null;
+    url.value = suggestion.url;
+    check();
+    return;
+  }
+  pendingSuggestion.value = suggestion;
+  url.value = '';
+  discovery.value = null;
+};
+
+const useStoreName = () => {
+  url.value = pendingSuggestion.value.url_template.replace(
+    STORE_PLACEHOLDER,
+    storeName.value.trim()
+  );
+  check();
+};
 
 const connect = () =>
   runBusy(async () => {
@@ -336,6 +389,86 @@ defineExpose({ open });
 
     <div class="flex flex-col gap-4 mt-5">
       <template v-if="step === 'SERVER'">
+        <div v-if="suggestions.length" class="flex flex-col gap-2">
+          <span class="text-sm font-medium text-n-slate-12">
+            {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.TITLE') }}
+          </span>
+          <div class="grid grid-cols-2 gap-2">
+            <button
+              v-for="suggestion in visibleSuggestions"
+              :key="suggestion.id"
+              type="button"
+              class="flex items-center gap-2 px-3 py-2 rounded-lg border text-start text-sm text-n-slate-12 disabled:opacity-60"
+              :class="
+                pendingSuggestion?.id === suggestion.id ||
+                (suggestion.url && suggestion.url === url)
+                  ? 'border-n-brand'
+                  : 'border-n-weak hover:border-n-slate-6'
+              "
+              :disabled="isBusy || suggestion.connected"
+              @click="pickSuggestion(suggestion)"
+            >
+              <i
+                class="size-4 shrink-0"
+                :class="
+                  SUGGESTION_ICONS[suggestion.id] || DEFAULT_SUGGESTION_ICON
+                "
+              />
+              <span class="flex-1 truncate">{{ suggestion.name }}</span>
+              <span
+                v-if="suggestion.connected"
+                class="text-xs text-n-slate-11 shrink-0"
+              >
+                {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.CONNECTED') }}
+              </span>
+              <span
+                v-else-if="suggestion.recommended"
+                class="text-xs px-1.5 py-0.5 rounded-full bg-n-teal-3 text-n-teal-11 shrink-0"
+              >
+                {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.RECOMMENDED') }}
+              </span>
+            </button>
+          </div>
+          <button
+            v-if="suggestions.length > VISIBLE_SUGGESTIONS"
+            type="button"
+            class="p-0 text-xs underline text-n-blue-11 text-start"
+            @click="showAllSuggestions = !showAllSuggestions"
+          >
+            {{
+              showAllSuggestions
+                ? t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.SHOW_LESS')
+                : t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.SHOW_ALL')
+            }}
+          </button>
+          <div
+            v-if="pendingSuggestion?.url_template"
+            class="flex items-end gap-2"
+          >
+            <Input
+              v-model="storeName"
+              class="flex-1"
+              :label="t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.STORE_LABEL')"
+              :placeholder="
+                t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.STORE_PLACEHOLDER')
+              "
+              :message="t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.STORE_HINT')"
+              @enter="useStoreName"
+            />
+            <Button
+              :label="t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.USE')"
+              :disabled="!storeName.trim() || isBusy"
+              @click="useStoreName"
+            />
+          </div>
+          <p v-else-if="pendingSuggestion" class="text-xs mb-0 text-n-slate-11">
+            {{
+              t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.PASTE_HINT', {
+                name: pendingSuggestion.name,
+              })
+            }}
+          </p>
+        </div>
         <div class="flex items-end gap-2">
           <Input
             v-model="url"
