@@ -15,7 +15,6 @@ export const createTemporaryMessage = ({ attachments, content, replyTo }) => {
   };
 };
 
-// Compare type and id, not name, so a person and an assistant with the same name stay in separate groups.
 const getSenderIdentity = ({ sender }) =>
   sender ? `${sender.type}:${sender.id}` : '';
 
