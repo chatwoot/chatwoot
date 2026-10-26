@@ -105,6 +105,31 @@ shared_examples_for 'auto_assignment_handler' do
         .with(described_class::CONVERSATION_OPENED, kind_of(Time), hash_including(conversation: stale))
     end
 
+    context 'with assignment v2' do
+      before do
+        account.enable_features!('assignment_v2')
+        allow(AutoAssignment::AssignmentJob).to receive(:enqueue_for_inbox)
+      end
+
+      it 'enqueues the assignment job only after the creating transaction commits' do
+        ActiveRecord::Base.transaction do
+          create(:conversation, account: account, inbox: inbox, assignee: nil)
+          expect(AutoAssignment::AssignmentJob).not_to have_received(:enqueue_for_inbox)
+        end
+
+        expect(AutoAssignment::AssignmentJob).to have_received(:enqueue_for_inbox).with(inbox.id).once
+      end
+
+      it 'does not enqueue the assignment job when the transaction rolls back' do
+        ActiveRecord::Base.transaction do
+          create(:conversation, account: account, inbox: inbox, assignee: nil)
+          raise ActiveRecord::Rollback
+        end
+
+        expect(AutoAssignment::AssignmentJob).not_to have_received(:enqueue_for_inbox)
+      end
+    end
+
     it 'gets triggered on update only when status changes to open' do
       conversation.status = 'resolved'
       conversation.save!

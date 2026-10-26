@@ -1,5 +1,6 @@
 module Enterprise::Api::V1::Accounts::InboxesController
   extend ActiveSupport::Concern
+  include Concerns::TwilioVoiceCredentials
 
   def inbox_attributes
     super + ee_inbox_attributes
@@ -63,6 +64,8 @@ module Enterprise::Api::V1::Accounts::InboxesController
 
   private
 
+  def inbox_scope = super.with_attached_out_of_hours_call_audio
+
   def ensure_whatsapp_calling_supported
     channel = @inbox.channel
     return true if channel.is_a?(Channel::Whatsapp) && channel.voice_calling_supported?
@@ -123,6 +126,7 @@ module Enterprise::Api::V1::Accounts::InboxesController
       api_key_sid: config[:api_key_sid],
       api_key_secret: config[:api_key_secret],
       medium: :sms,
+      provider_config: { 'account_auth_token_configured' => true },
       voice_enabled: true
     )
 

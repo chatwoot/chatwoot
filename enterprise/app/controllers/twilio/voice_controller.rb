@@ -6,7 +6,10 @@ class Twilio::VoiceController < ApplicationController
     /conference-end/i => 'end'
   }.freeze
 
+  include Concerns::TwilioWebhookVerification
+
   before_action :set_inbox!
+  before_action { verify_twilio_signature!(inbox_channel.auth_token) }
 
   def status
     Voice::StatusUpdateService.new(
@@ -24,13 +27,20 @@ class Twilio::VoiceController < ApplicationController
       "TWILIO_VOICE_TWIML account=#{current_account.id} call_sid=#{twilio_call_sid} from=#{twilio_from} direction=#{twilio_direction}"
     )
 
-    return render xml: reject_twiml if reject_inbound?
+    return render xml: twiml.reject if reject_inbound?
 
     call = resolve_call
-    # The leg was answered after the call ended (e.g. hangup raced the cancel); don't strand it in an empty conference.
-    return render xml: hangup_twiml if call.terminal?
+    return render xml: twiml.announcement(call.announcement_kind) if announce_end?(call)
 
-    render xml: conference_twiml(call)
+    # The leg was answered after the call ended (e.g. hangup raced the cancel); don't strand it in an empty conference.
+    return render xml: twiml.hangup unless open_leg?(call)
+
+    render xml: twiml.conference(call)
+  end
+
+  # Fetched by Twilio for an inbound caller waiting in the conference
+  def wait_twiml
+    render xml: twiml.wait
   end
 
   def conference_status
@@ -48,7 +58,9 @@ class Twilio::VoiceController < ApplicationController
     Voice::Conference::Manager.new(
       call: call,
       event: event,
-      participant_label: participant_label
+      participant_label: participant_label,
+      participant_call_sid: twilio_call_sid,
+      leave_reason: params[:ReasonParticipantLeft]
     ).process
 
     head :no_content
@@ -65,13 +77,9 @@ class Twilio::VoiceController < ApplicationController
 
   private
 
-  def twilio_call_sid
-    params[:CallSid]
-  end
+  def twilio_call_sid = params[:CallSid]
 
-  def twilio_from
-    params[:From].to_s
-  end
+  def twilio_from = params[:From].to_s
 
   def twilio_to
     params[:To]
@@ -79,6 +87,10 @@ class Twilio::VoiceController < ApplicationController
 
   def twilio_direction
     @twilio_direction ||= (params['Direction'] || params['CallDirection']).to_s
+  end
+
+  def twiml
+    @twiml ||= Voice::Provider::Twilio::TwimlBuilder.new(inbox: inbox, from: twilio_from)
   end
 
   def mapped_conference_event
@@ -99,12 +111,9 @@ class Twilio::VoiceController < ApplicationController
     twilio_direction == 'inbound' && !agent_leg?(twilio_from) && !inbox.channel.inbound_calls_enabled?
   end
 
-  def reject_twiml
-    Twilio::TwiML::VoiceResponse.new(&:reject).to_s
-  end
-
-  def hangup_twiml
-    Twilio::TwiML::VoiceResponse.new(&:hangup).to_s
+  # A caller nobody was rung for is told why instead of waiting for a conference; see Call::ANNOUNCED_END_REASONS
+  def announce_end?(call)
+    call.announcement_kind.present? && !agent_leg?(twilio_from)
   end
 
   def resolve_call
@@ -115,7 +124,7 @@ class Twilio::VoiceController < ApplicationController
       Voice::InboundCallBuilder.perform!(
         inbox: inbox,
         call_sid: twilio_call_sid,
-        caller: { source_ids: [twilio_from], contact_attributes: { name: twilio_from, phone_number: twilio_from } }
+        caller: Voice::Provider::Twilio::InboundCaller.new(from: twilio_from, call_sid: twilio_call_sid, account: current_account).build
       )
     when 'outbound-api', 'outbound-dial'
       sync_outbound_leg(call_sid: twilio_call_sid, direction: twilio_direction)
@@ -124,75 +133,29 @@ class Twilio::VoiceController < ApplicationController
     end
   end
 
+  # An agent's connection is recorded as on its way in, unless the call has ended
+  def open_leg?(call) = agent_leg?(twilio_from) ? call.open_agent_leg!(twilio_call_sid, attempt: params[:attempt_id]) : !call.terminal?
+
   def find_call_for_agent
     sid = params[:call_sid].presence
     raise ArgumentError, 'call_sid is required for agent leg' if sid.blank?
 
-    inbox_calls.find_by!(provider_call_id: sid)
+    inbox.calls.twilio.find_by!(provider_call_id: sid)
   end
 
   def sync_outbound_leg(call_sid:, direction:)
     parent_sid = params['ParentCallSid'].presence
     lookup_sid = direction == 'outbound-dial' ? parent_sid || call_sid : call_sid
-    call = inbox_calls.find_by!(provider_call_id: lookup_sid)
+    call = inbox.calls.twilio.find_by!(provider_call_id: lookup_sid)
 
-    call.update!(parent_call_sid: parent_sid) if parent_sid.present? && call.parent_call_sid != parent_sid
+    call.merge_meta!('parent_call_sid' => parent_sid) if parent_sid.present? && call.parent_call_sid != parent_sid
     call
-  end
-
-  def inbox_calls
-    Call.where(inbox_id: inbox.id, provider: :twilio)
-  end
-
-  def conference_twiml(call)
-    conference_sid = ensure_conference_sid!(call)
-
-    Twilio::TwiML::VoiceResponse.new.tap do |response|
-      response.dial do |dial|
-        dial.conference(
-          conference_sid,
-          start_conference_on_enter: agent_leg?(twilio_from),
-          end_conference_on_exit: false,
-          record: call.recording_enabled? ? 'record-from-start' : 'do-not-record',
-          recording_status_callback: recording_status_callback_url,
-          recording_status_callback_event: 'completed',
-          recording_status_callback_method: 'POST',
-          status_callback: conference_status_callback_url,
-          status_callback_event: 'start end join leave',
-          status_callback_method: 'POST',
-          participant_label: participant_label_for(twilio_from)
-        )
-      end
-    end.to_s
-  end
-
-  def ensure_conference_sid!(call)
-    return call.conference_sid if call.conference_sid.present?
-
-    call.update!(conference_sid: call.default_conference_sid)
-    call.conference_sid
-  end
-
-  def participant_label_for(from_number)
-    return from_number.delete_prefix('client:') if from_number.start_with?('client:')
-
-    'contact'
-  end
-
-  def conference_status_callback_url
-    phone_digits = inbox_channel.phone_number.delete_prefix('+')
-    Rails.application.routes.url_helpers.twilio_voice_conference_status_url(phone: phone_digits)
-  end
-
-  def recording_status_callback_url
-    phone_digits = inbox_channel.phone_number.delete_prefix('+')
-    Rails.application.routes.url_helpers.twilio_voice_recording_status_url(phone: phone_digits)
   end
 
   def find_call_for_conference!(friendly_name, call_sid)
     name = friendly_name.to_s
-    call = inbox_calls.by_conference_sid(name).first if name.present?
-    call || inbox_calls.find_by!(provider_call_id: call_sid)
+    call = inbox.calls.twilio.by_conference_sid(name).first if name.present?
+    call || inbox.calls.twilio.find_by!(provider_call_id: call_sid)
   end
 
   # Twilio's recording webhook only sends its internal ConferenceSid (CF...),
@@ -202,7 +165,7 @@ class Twilio::VoiceController < ApplicationController
     return if sid.blank?
     return if call.twilio_conference_sid == sid
 
-    call.update!(twilio_conference_sid: sid)
+    call.merge_meta!('twilio_conference_sid' => sid)
   end
 
   def set_inbox!

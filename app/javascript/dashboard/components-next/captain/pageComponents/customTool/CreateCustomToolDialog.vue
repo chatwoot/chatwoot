@@ -9,6 +9,7 @@ import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import CustomToolForm from './CustomToolForm.vue';
+import CustomToolDetails from './CustomToolDetails.vue';
 
 const props = defineProps({
   selectedTool: {
@@ -85,11 +86,19 @@ defineExpose({ dialogRef });
   <SidePanel
     ref="dialogRef"
     width="2xl"
-    :title="$t(`${i18nKey}.TITLE`)"
-    :description="$t('CAPTAIN.CUSTOM_TOOLS.FORM_DESCRIPTION')"
+    :title="type === 'view' ? selectedTool.title : $t(`${i18nKey}.TITLE`)"
+    :description="
+      type === 'view' ? '' : $t('CAPTAIN.CUSTOM_TOOLS.FORM_DESCRIPTION')
+    "
     @after-leave="handleClose"
   >
-    <CustomToolForm :mode="type" :tool="selectedTool" @submit="handleSubmit" />
+    <CustomToolDetails v-if="type === 'view'" :tool="selectedTool" />
+    <CustomToolForm
+      v-else
+      :mode="type"
+      :tool="selectedTool"
+      @submit="handleSubmit"
+    />
     <template #footer>
       <div class="flex gap-3 justify-end">
         <Button

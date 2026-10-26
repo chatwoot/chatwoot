@@ -25,7 +25,8 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "您参与的对话中有新消息",
       "SLA_MISSED_FIRST_RESPONSE": "对话的首次响应SLA目标未达成",
       "SLA_MISSED_NEXT_RESPONSE": "对话的下次响应SLA目标未达成",
-      "SLA_MISSED_RESOLUTION": "对话的解决SLA目标未达成"
+      "SLA_MISSED_RESOLUTION": "对话的解决SLA目标未达成",
+      "VOICE_CALL_MISSED": "未接来电"
     },
     "TYPES_NEXT": {
       "CONVERSATION_MENTION": "被提及",
@@ -36,6 +37,7 @@
       "SLA_MISSED_RESOLUTION": "SLA违约",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "新消息",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "新消息",
+      "VOICE_CALL_MISSED": "未接来电",
       "SNOOZED_UNTIL": "推迟至{time}",
       "SNOOZED_ENDS": "推迟结束"
     },
