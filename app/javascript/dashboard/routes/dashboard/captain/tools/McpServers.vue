@@ -191,6 +191,7 @@ watch(
   <ConnectMcpServerDialog
     ref="connectDialogRef"
     :assistant-id="assistantId"
+    :connected-urls="servers.map(server => server.url)"
     @saved="fetchServers"
     @sign-in="startSignIn"
     @connected="openManagePanel"

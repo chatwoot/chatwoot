@@ -8,6 +8,16 @@ export const PARAM_SOURCES = {
 // How a server asks to be signed in to, as the API reports it
 export const AUTH_TYPES = { NONE: 'none', OAUTH: 'oauth', TOKEN: 'token' };
 
+// Remote MCP servers with one fixed URL, so picking one always fills a URL that works
+export const POPULAR_SERVERS = [
+  { name: 'PayPal', url: 'https://mcp.paypal.com/mcp' },
+  { name: 'HubSpot', url: 'https://mcp.hubspot.com' },
+  { name: 'Calendly', url: 'https://mcp.calendly.com' },
+  { name: 'Cal.com', url: 'https://mcp.cal.com/mcp' },
+  { name: 'Notion', url: 'https://mcp.notion.com/mcp' },
+  { name: 'Supabase', url: 'https://mcp.supabase.com/mcp' },
+];
+
 // The URL field starts with this, since every MCP server Captain connects to uses HTTPS
 export const URL_PREFIX = 'https://';
 

@@ -1735,8 +1735,7 @@
         "ANYONE": "Any customer"
       },
       "SUGGESTIONS": {
-        "TITLE": "Popular servers",
-        "RECOMMENDED": "Suggested for this account"
+        "TITLE": "Popular servers"
       },
       "DIALOG": {
         "CONNECT_TITLE": "Connect an MCP server",

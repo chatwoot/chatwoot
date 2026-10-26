@@ -14,11 +14,6 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
 
   def show; end
 
-  def suggestions
-    @suggestions = Captain::Mcp::SuggestionsService.new(Current.account).perform
-    @connected_urls = assistant_mcp_servers.pluck(:url)
-  end
-
   def discover
     @result = Captain::Mcp::DiscoveryService.new(url: params.require(:url), token: params[:token].presence,
                                                  auth_header: params[:auth_header].presence).perform
