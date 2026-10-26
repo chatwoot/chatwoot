@@ -54,7 +54,7 @@
       "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "MESSAGE": "Are you sure you want to delete the Shopify integration? Any saved custom app configuration and credentials for this workspace will also be deleted."
       },
       "STORE_URL": {
         "TITLE": "Connect Shopify Store",
@@ -78,6 +78,43 @@
         "TITLE": "Choose a workspace",
         "DESCRIPTION": "Select the workspace to connect to your Shopify store. To restore a previous connection, choose its original workspace.",
         "UNAVAILABLE": "No eligible workspace or valid installation was found. Restart installation or sign in as a workspace administrator."
+      },
+      "CUSTOM_APP": {
+        "TITLE": "Connect using your own Shopify app",
+        "ADVANCED": "Advanced setup",
+        "DESCRIPTION": "Connect your store to view customer orders alongside conversations using an app you create in Shopify.",
+        "BEFORE_START": "You need administrator access to this workspace and permission to create and install apps for your Shopify store. This connects order data; it does not install a live chat widget or change your subscription.",
+        "CREATE_TITLE": "1. Create your app in Shopify",
+        "CREATE_HELP": "Open the Shopify Dev Dashboard → Apps → Create app → Start from Dev Dashboard. Name your app, then open Settings → Credentials. Keep Shopify open while you complete this setup.",
+        "OPEN_SHOPIFY": "Open Shopify Dev Dashboard ↗",
+        "DISTRIBUTION_HELP": "Create and release an initial app version with embedding turned off. If Shopify requires an App URL, use https://shopify.dev/apps/default-app-home temporarily. Choose Custom distribution, restrict it to your store, and copy the generated installation link. You will replace the App URL in step 3.",
+        "DETAILS_TITLE": "2. Copy your app details here",
+        "STORE": "Shopify store domain",
+        "STORE_HELP": "Use your permanent .myshopify.com address, without https:// or a path. Find it in your Shopify store settings.",
+        "CLIENT_ID": "Client ID",
+        "CREDENTIALS_HELP": "Copy the Client ID from your app’s Settings → Credentials in Shopify.",
+        "SECRET": "Client secret",
+        "SECRET_HELP": "Copy the Client secret from the same Credentials section. It is stored encrypted and will not be displayed again.",
+        "SECRET_SAVED": "A secret is already saved. Leave this blank to keep it, or paste a replacement from Shopify.",
+        "INSTALL_URL": "Shopify installation link",
+        "INSTALL_HELP": "Paste the full install link from your app’s Custom distribution page. It must belong to this app and store. To update saved details, paste the install link again.",
+        "SAVE": "Save and get setup URLs",
+        "UPDATE": "Update app details",
+        "CONFIGURE_TITLE": "3. Finish setup in Shopify",
+        "URL_HELP": "In your Shopify app version, set both App URL and Allowed redirect URL to the URL below. Turn off embedding the app in Shopify admin.",
+        "SCOPES_HELP": "Add these Admin API access scopes to the app version:",
+        "WEBHOOK_HELP": "Configure app/uninstalled and the applicable privacy webhook subscriptions to send events to this webhook URL:",
+        "RELEASE_HELP": "Save and release the app version in Shopify. Confirm it is active and includes the URLs and permissions above. Then connect your store and approve access in Shopify.",
+        "CONNECT": "Connect store in Shopify",
+        "VERIFY_HELP": "After approval, return here and open a conversation with a matching Shopify customer email to check their orders.",
+        "DOCUMENTATION": "Read Shopify’s app creation guide ↗",
+        "LOAD_ERROR": "Could not load your app configuration. Refresh the page before continuing.",
+        "SAVE_ERROR": "Could not save the app details. Check the store domain, credentials, and Shopify-generated installation link. The workspace must use non-Shopify billing.",
+        "CONNECT_ERROR": "Could not connect your app. Check that its version is active and its installation link is current, then try again.",
+        "EDIT": "Edit app details",
+        "RESET": "Reset setup",
+        "RESET_ERROR": "Could not reset the app details. Please try again.",
+        "DETAILS_SAVED": "App details saved. Complete the Shopify settings below to connect."
       }
     },
     "HEADER": "Integrations",
