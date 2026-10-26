@@ -86,7 +86,10 @@ const assistantRoutes = [
     path: frontendURL('accounts/:accountId/captain/:assistantId/tools/mcp'),
     component: McpServersIndex,
     name: 'captain_mcp_servers_index',
-    meta: metaCustomTools,
+    meta: {
+      ...metaCustomTools,
+      featureFlag: FEATURE_FLAGS.CAPTAIN_MCP_SERVERS,
+    },
   },
   {
     path: frontendURL('accounts/:accountId/captain/toolsets/install'),
