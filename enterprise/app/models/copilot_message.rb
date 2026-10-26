@@ -85,7 +85,7 @@ class CopilotMessage < ApplicationRecord
   def validate_message_attributes
     return if message.blank?
 
-    allowed_keys = %w[content reasoning function_name reply_suggestion tool progress run_id approval status]
+    allowed_keys = %w[content reasoning function_name reply_suggestion tool progress run_id approval status charts]
     invalid_keys = message.keys - allowed_keys
 
     errors.add(:message, "contains invalid attributes: #{invalid_keys.join(', ')}") if invalid_keys.any?

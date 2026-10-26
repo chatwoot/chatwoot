@@ -539,6 +539,8 @@ en:
         search_linear_issues: 'Searching Linear issues'
         get_data: 'Finding matching records'
         display: 'Preparing the results'
+        get_report: 'Reading the reports'
+        get_account_directory: 'Looking up agents, inboxes and teams'
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'

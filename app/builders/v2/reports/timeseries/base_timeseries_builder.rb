@@ -31,6 +31,7 @@ class V2::Reports::Timeseries::BaseTimeseriesBuilder
       range: range,
       group_by: group_by,
       timezone_offset: params[:timezone_offset],
+      timezone: params[:timezone],
       business_hours: params[:business_hours]
     )
   end
@@ -55,8 +56,10 @@ class V2::Reports::Timeseries::BaseTimeseriesBuilder
     @group_by ||= %w[day week month year hour].include?(params[:group_by]) ? params[:group_by] : DEFAULT_GROUP_BY
   end
 
+  # A zone name, when given, wins over the offset, which matches the first zone with that offset today and can differ
+  # from the caller's zone on dates with another daylight saving offset.
   def timezone
-    @timezone ||= timezone_name_from_offset(params[:timezone_offset])
+    @timezone ||= params[:timezone].presence || timezone_name_from_offset(params[:timezone_offset])
   end
 
   private
