@@ -3,7 +3,8 @@ class Api::V1::Accounts::Captain::ToolsManifestsController < Api::V1::Accounts::
   CONFIGURATION_SECTIONS = Captain::ToolsManifest::InstallService::CONFIGURATION_SECTIONS
 
   before_action :ensure_custom_tools_enabled
-  before_action :ensure_tools_manifest_enabled
+  # Removing installed tools stays possible after installing is turned off
+  before_action :ensure_tools_manifest_enabled, except: :uninstall
   before_action -> { check_authorization(Captain::CustomTool) }
   before_action :set_assistant
 
@@ -33,6 +34,13 @@ class Api::V1::Accounts::Captain::ToolsManifestsController < Api::V1::Accounts::
     @custom_tools = Captain::ToolsManifest::InstallService.new(
       assistant: @assistant, source: params[:source], revision: revision_param, configuration: configuration_param
     ).perform
+  end
+
+  # Removes every tool this assistant installed from the toolset
+  def uninstall
+    github_source = Captain::ToolsManifest::GithubSource.new(params[:source])
+    @assistant.custom_tools.from_github(github_source.repository, github_source.path).destroy_all
+    head :no_content
   end
 
   private

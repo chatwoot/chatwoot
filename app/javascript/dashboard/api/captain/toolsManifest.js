@@ -29,6 +29,12 @@ class CaptainToolsManifest extends ApiClient {
       configuration,
     });
   }
+
+  uninstall({ assistantId, source }) {
+    return axios.delete(`${this.url}/uninstall`, {
+      params: { assistant_id: assistantId, source },
+    });
+  }
 }
 
 export default new CaptainToolsManifest();
