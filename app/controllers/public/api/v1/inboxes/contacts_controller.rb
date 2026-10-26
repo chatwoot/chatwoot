@@ -1,4 +1,6 @@
 class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesController
+  include BusinessManagedAttributes
+
   before_action :contact_inbox, except: [:create]
   before_action :process_hmac
 
@@ -48,6 +50,7 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
   end
 
   def permitted_params
-    params.permit(:identifier, :identifier_hash, :email, :name, :avatar_url, :phone_number, custom_attributes: {})
+    permitted = params.permit(:identifier, :identifier_hash, :email, :name, :avatar_url, :phone_number, custom_attributes: {})
+    without_business_managed_attributes(@inbox_channel.account, permitted)
   end
 end

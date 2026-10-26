@@ -1,6 +1,7 @@
 class Api::V1::Widget::BaseController < ApplicationController
   include SwitchLocale
   include WebsiteTokenHelper
+  include BusinessManagedAttributes
 
   before_action :set_web_widget
   before_action :set_contact
@@ -59,7 +60,7 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def contact_custom_attributes
-    permitted_params.dig(:contact, :custom_attributes)&.to_h
+    permitted_params.dig(:contact, :custom_attributes)&.to_h&.except(*business_managed_attribute_keys(inbox.account))
   end
 
   def browser_params
