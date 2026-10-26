@@ -178,11 +178,14 @@ describe('Captain custom tools', () => {
       expect.anything()
     );
     expect(mocks.dialogOpen).toHaveBeenCalledOnce();
-    expect(wrapper.findComponent(DialogStub).props('description')).toBe(
+    const disableDialog = wrapper
+      .findAllComponents(DialogStub)
+      .find(dialog => dialog.props('title') === 'Disable Order lookup?');
+    expect(disableDialog.props('description')).toBe(
       'This tool is used by 2 enabled scenarios.'
     );
 
-    await wrapper.get('[data-test="confirm"]').trigger('click');
+    await disableDialog.get('[data-test="confirm"]').trigger('click');
     await flushPromises();
 
     expect(mocks.dispatch).toHaveBeenCalledWith('captainCustomTools/update', {
