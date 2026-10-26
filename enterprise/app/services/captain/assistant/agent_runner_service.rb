@@ -166,9 +166,16 @@ class Captain::Assistant::AgentRunnerService
     with_email_verification_tools(agent)
   end
 
-  # Custom tools are built for customers by default. Here an admin or an agent is the user, so they are rebuilt for Copilot.
+  # Custom tools and MCP tools are built for customers by default. Here an admin or an agent is the user, so they are rebuilt for Copilot.
   def copilot_tools(tools)
-    tools.map { |tool| tool.is_a?(Captain::Tools::HttpTool) ? tool.custom_tool.tool(@assistant, base_class: Captain::Tools::CopilotHttpTool) : tool }
+    tools.map do |tool|
+      case tool
+      when Captain::Tools::HttpTool then tool.custom_tool.tool(@assistant, base_class: Captain::Tools::CopilotHttpTool)
+      when Captain::Tools::McpTool
+        Captain::Mcp::AgentTools.build(@assistant, tool.mcp_server, tool.mcp_tool, tool.connection, base_class: Captain::Tools::CopilotMcpTool)
+      else tool
+      end
+    end
   end
 
   # Every agent in a customer conversation can verify the customer, so whichever one is asked for account data can do it
@@ -178,9 +185,10 @@ class Captain::Assistant::AgentRunnerService
     agent.clone(tools: agent.tools + EMAIL_VERIFICATION_TOOLS.map { |tool_class| tool_class.new(@assistant) })
   end
 
-  # A customer is the user, and a tool needs their verified email. The prompt reads this from the state.
+  # A customer is the user, and a custom tool or an MCP tool needs their verified email. The prompt reads this from the state.
   def can_verify_email?
-    @conversation.present? && COPILOT_SOURCES.exclude?(@source) && @assistant.custom_tools.enabled.any?(&:requires_email_verification?)
+    @conversation.present? && COPILOT_SOURCES.exclude?(@source) &&
+      (@assistant.custom_tools.enabled.any?(&:requires_email_verification?) || @assistant.mcp_servers.enabled.any?(&:requires_email_verification?))
   end
 
   def reply_suggestion_agent
@@ -194,7 +202,7 @@ class Captain::Assistant::AgentRunnerService
   def available_in_reply_suggestion?(tool)
     return true if tool.is_a?(Captain::Tools::FaqLookupTool)
 
-    tool.is_a?(Captain::Tools::HttpTool) && tool.available_in_reply_suggestion?
+    (tool.is_a?(Captain::Tools::HttpTool) || tool.is_a?(Captain::Tools::McpTool)) && tool.available_in_reply_suggestion?
   end
 
   def reply_suggestion? = @source == REPLY_SUGGESTION_SOURCE

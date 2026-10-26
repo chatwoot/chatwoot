@@ -66,6 +66,15 @@ class Captain::McpServer < ApplicationRecord
     enabled? ? tools.where(enabled: true) : Captain::McpTool.none
   end
 
+  # Scenarios list and reference these tools by their Captain name
+  def tool_metadata
+    available_tools.map { |tool| { id: tool.captain_name, title: tool.name, description: tool.description, mcp: true } }
+  end
+
+  def requires_email_verification?
+    available_tools.any?(&:requires_email_verification?)
+  end
+
   private
 
   def validate_auth_header
