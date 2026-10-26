@@ -45,6 +45,16 @@ const AUDIO_EXTENSION_MAP = {
   'audio/webm': 'webm',
 };
 
+const getAudioExtension = mimeType => {
+  if (!mimeType) return 'mp3';
+  const cleanMimeType = mimeType.split(';')[0].trim();
+  return (
+    AUDIO_EXTENSION_MAP[cleanMimeType] ||
+    AUDIO_EXTENSION_MAP[mimeType] ||
+    'mp3'
+  );
+};
+
 const getRecordPluginOptions = audioFormat => {
   const options = {
     scrollingWaveform: true,
@@ -90,7 +100,7 @@ const initWaveSurfer = () => {
       // back to MP3 instead of OGG). This keeps the filename, content type, and
       // voice-note flag consistent with the real bytes.
       const audioType = audioBlob.type || props.audioRecordFormat;
-      const ext = AUDIO_EXTENSION_MAP[audioType] || 'mp3';
+      const ext = getAudioExtension(audioType);
       const fileName = `${getUuid()}.${ext}`;
       const file = new File([audioBlob], fileName, {
         type: audioType,
