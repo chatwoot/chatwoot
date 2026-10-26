@@ -1,21 +1,12 @@
 # MCP servers suggested on the connect panel, in their default order.
 # Captain uses read tools in customer conversations, so each server holds data a customer conversation can use.
-#
-# A server is either at a fixed `url`, at a `url_template` the admin completes ({store} is the Shopify store name),
-# or at a URL the admin pastes (`input: url`), for services that give each user their own URL.
+# Only servers with one fixed URL are listed, so picking a suggestion always fills a URL that works.
 #
 # Signals move a server to the top for accounts that match any of them:
 # - hooks: integration hooks the account connected
 # - hosts: text found in the hosts of the account's webhooks, API channel callbacks or custom tool endpoints
 # - industries / subindustries: the onboarding industry, or the industries in brand_info from onboarding enrichment
 # - attribute_keywords: text found in the keys of the account's custom attribute definitions
-- id: shopify
-  name: Shopify
-  url_template: 'https://{store}.myshopify.com/api/mcp'
-  signals:
-    hooks: [shopify]
-    industries: ['Retail & E-commerce', 'Consumer Packaged Goods (CPG)']
-    attribute_keywords: [shopify, order, tracking]
 - id: stripe
   name: Stripe
   url: 'https://mcp.stripe.com'
@@ -57,18 +48,3 @@
   url: 'https://mcp.supabase.com/mcp'
   signals:
     hosts: [supabase.co]
-- id: n8n
-  name: n8n
-  input: url
-  signals:
-    hosts: [n8n]
-- id: zapier
-  name: Zapier
-  input: url
-  signals:
-    hosts: [zapier.com]
-- id: make
-  name: Make
-  input: url
-  signals:
-    hosts: [make.com, integromat.com]
