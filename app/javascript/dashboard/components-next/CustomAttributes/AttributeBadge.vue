@@ -8,7 +8,8 @@ const props = defineProps({
   type: {
     type: String,
     default: 'resolution',
-    validator: value => ['pre-chat', 'resolution'].includes(value),
+    validator: value =>
+      ['pre-chat', 'resolution', 'business-managed'].includes(value),
   },
 });
 
@@ -25,6 +26,11 @@ const attributeConfig = {
     colorClass: 'text-n-teal-11',
     icon: 'i-lucide-circle-check-big',
     labelKey: 'ATTRIBUTES_MGMT.BADGES.RESOLUTION',
+    color: 'slate',
+  },
+  'business-managed': {
+    icon: 'i-lucide-lock',
+    labelKey: 'ATTRIBUTES_MGMT.BADGES.BUSINESS_MANAGED',
     color: 'slate',
   },
 };
