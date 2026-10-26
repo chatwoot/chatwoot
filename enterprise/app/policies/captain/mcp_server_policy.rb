@@ -7,7 +7,7 @@ class Captain::McpServerPolicy < ApplicationPolicy
     true
   end
 
-  def available_tools?
+  def live_tools?
     true
   end
 
