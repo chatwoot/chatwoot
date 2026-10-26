@@ -134,6 +134,30 @@ const isCopilotWorking = computed(() => {
   return !isLastMessageFromAssistant.value && !hasApprovalAwaitingDecision;
 });
 
+// Only Copilot workflows saves a run ID on its steps. The old Copilot writes "Using X" and then "Completed X", so its
+// steps get no live line and keep the loader.
+const hasLiveStep = (item, index) =>
+  isCopilotWorking.value &&
+  index === groupedMessages.value.length - 1 &&
+  Boolean(item.messages.at(-1).message.run_id);
+
+// A live step line, a running review or a change being applied already shows that Copilot is working.
+const showLoader = computed(() => {
+  if (!isCopilotWorking.value) return false;
+  const index = groupedMessages.value.length - 1;
+  const item = groupedMessages.value[index];
+  if (item.message_type === 'thinking_group') return !hasLiveStep(item, index);
+  if (item.message_type === 'assistant_progress') {
+    return item.message.progress.finished;
+  }
+  // An approved change shows its own bar until it is applied; it saves no progress before the first batch.
+  const { approval } = item.message;
+  if (approval?.status === 'approved') {
+    return Boolean(approval.progress?.finished);
+  }
+  return true;
+});
+
 const { updateUISettings } = useUISettings();
 
 const closeCopilotPanel = () => {
@@ -267,14 +291,11 @@ watch(
           <CopilotThinkingGroup
             v-else
             :messages="item.messages"
-            :default-collapsed="isLastMessageFromAssistant"
-            :is-active="
-              isCopilotWorking && index === groupedMessages.length - 1
-            "
+            :is-active="hasLiveStep(item, index)"
           />
         </template>
 
-        <CopilotLoader v-if="isCopilotWorking" />
+        <CopilotLoader v-if="showLoader" />
       </div>
       <CopilotEmptyState
         v-else

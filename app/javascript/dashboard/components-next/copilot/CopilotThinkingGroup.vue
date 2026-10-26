@@ -1,73 +1,88 @@
 <script setup>
-import { ref, watch, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Icon from '../icon/Icon.vue';
-import CopilotThinkingBlock from './CopilotThinkingBlock.vue';
+import Spinner from '../spinner/Spinner.vue';
 
-// A step is done once anything follows it. isActive means Copilot is still working on the newest step.
+// isActive means Copilot is still working on the newest step. That step then shows on one line under the earlier ones.
 const props = defineProps({
   messages: { type: Array, required: true },
-  defaultCollapsed: { type: Boolean, default: false },
   isActive: { type: Boolean, default: false },
 });
 const { t } = useI18n();
-const isExpanded = ref(!props.defaultCollapsed);
+const isExpanded = ref(false);
 
-const thinkingCount = computed(() => props.messages.length);
-
-// Only Copilot workflows saves a run ID on its steps, so the old Copilot's steps get no status.
-const stepStatus = (copilotMessage, index) => {
-  if (!copilotMessage.message.run_id) return null;
-  if (copilotMessage.message.status === 'failed') return 'failed';
-  return props.isActive && index === props.messages.length - 1
-    ? 'active'
-    : 'done';
-};
-
-watch(
-  () => props.defaultCollapsed,
-  newValue => {
-    if (newValue) {
-      isExpanded.value = false;
-    }
-  }
+// A repeated step shows once, at the place it last ran, so the newest step stays at the end.
+const steps = computed(() => {
+  const byKey = new Map();
+  props.messages.forEach(({ message }) => {
+    const key = `${message.status}:${message.content}`;
+    byKey.delete(key);
+    byKey.set(key, { key, ...message });
+  });
+  return [...byKey.values()];
+});
+const listedSteps = computed(() =>
+  props.isActive ? steps.value.slice(0, -1) : steps.value
 );
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="flex flex-col gap-1.5 text-xs text-n-slate-11">
     <button
-      class="group flex items-center gap-2 text-xs text-n-slate-10 hover:text-n-slate-11 transition-colors duration-200 -ml-3"
+      class="flex items-center gap-2 -ms-3 text-xs text-start hover:text-n-slate-12 transition-colors duration-200"
+      :class="{ 'order-last': isActive }"
+      :aria-expanded="isExpanded"
       @click="isExpanded = !isExpanded"
     >
-      <Icon
-        :icon="isExpanded ? 'i-lucide-chevron-down' : 'i-lucide-chevron-right'"
-        class="w-4 h-4 transition-transform duration-200 group-hover:scale-110"
-      />
-      <span class="flex items-center gap-2">
+      <template v-if="isActive">
+        <Icon
+          v-if="steps.at(-1).status === 'failed'"
+          icon="i-lucide-triangle-alert"
+          class="size-4 flex-shrink-0 text-n-amber-11"
+        />
+        <Spinner v-else :size="16" class="flex-shrink-0 text-n-slate-9" />
+        <span class="truncate">{{ steps.at(-1).content }}</span>
+      </template>
+      <template v-else>
+        <Icon
+          :icon="
+            isExpanded ? 'i-lucide-chevron-down' : 'i-lucide-chevron-right'
+          "
+          class="size-4 flex-shrink-0"
+        />
         {{ t('CAPTAIN.COPILOT.SHOW_STEPS') }}
         <span
-          class="inline-flex items-center justify-center h-4 min-w-4 px-1 text-xs font-medium rounded-full bg-n-solid-3 text-n-slate-11"
+          class="inline-flex items-center justify-center h-4 min-w-4 px-1 font-medium rounded-full bg-n-solid-3"
         >
-          {{ thinkingCount }}
+          {{ steps.length }}
         </span>
-      </span>
+      </template>
     </button>
-    <div
-      v-show="isExpanded"
-      class="space-y-3 transition-all duration-200"
-      :class="{
-        'opacity-100': isExpanded,
-        'opacity-0 max-h-0 overflow-hidden': !isExpanded,
-      }"
-    >
-      <CopilotThinkingBlock
-        v-for="(copilotMessage, index) in messages"
-        :key="copilotMessage.id"
-        :content="copilotMessage.message.content"
-        :reasoning="copilotMessage.message.reasoning"
-        :status="stepStatus(copilotMessage, index)"
-      />
-    </div>
+    <template v-if="isExpanded">
+      <div
+        v-for="step in listedSteps"
+        :key="step.key"
+        class="flex items-center gap-2 -ms-3"
+      >
+        <!-- Only Copilot workflows saves a run ID on its steps, so the old Copilot's steps get no status. -->
+        <Icon
+          v-if="!step.run_id"
+          icon="i-lucide-sparkles"
+          class="size-4 flex-shrink-0 text-n-slate-9"
+        />
+        <Icon
+          v-else-if="step.status === 'failed'"
+          icon="i-lucide-triangle-alert"
+          class="size-4 flex-shrink-0 text-n-amber-11"
+        />
+        <Icon
+          v-else
+          icon="i-lucide-check"
+          class="size-4 flex-shrink-0 text-n-teal-10"
+        />
+        <span class="truncate">{{ step.content }}</span>
+      </div>
+    </template>
   </div>
 </template>
