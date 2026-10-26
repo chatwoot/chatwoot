@@ -5,7 +5,7 @@ import { useAlert } from 'dashboard/composables';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import McpServersAPI from 'dashboard/api/captain/mcpServers';
 
-import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
@@ -289,12 +289,11 @@ defineExpose({ open });
 </script>
 
 <template>
-  <Dialog
+  <SidePanel
     ref="dialogRef"
     width="2xl"
     :title="title"
-    :show-cancel-button="false"
-    :show-confirm-button="false"
+    :close-on-click-outside="false"
   >
     <ol class="flex flex-wrap gap-1 p-0 m-0 list-none">
       <li
@@ -311,9 +310,7 @@ defineExpose({ open });
       </li>
     </ol>
 
-    <div
-      class="flex flex-col gap-4 max-h-[min(32rem,calc(100vh-18rem))] overflow-y-auto px-1 -mx-1"
-    >
+    <div class="flex flex-col gap-4 mt-5">
       <template v-if="step === 'SERVER'">
         <div class="flex items-end gap-2">
           <Input
@@ -650,5 +647,5 @@ defineExpose({ open });
         />
       </div>
     </template>
-  </Dialog>
+  </SidePanel>
 </template>
