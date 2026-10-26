@@ -343,9 +343,6 @@ const onPopoverHide = () => {
         </div>
       </template>
     </Popover>
-    <span v-else class="text-xs text-n-slate-11">
-      {{ t('CONVERSATION.CAPTAIN_GENERATION.GENERATED_BY') }}
-    </span>
     <div
       v-if="$slots.default"
       class="flex items-center min-w-0"
