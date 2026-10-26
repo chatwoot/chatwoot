@@ -27,7 +27,7 @@ class Captain::Tools::Copilot::GetReportService < Captain::Tools::BaseTool
               "Metrics:\n#{METRICS.map { |name, meaning| "- #{name}: #{meaning}" }.join("\n")}"
   parameters type: 'object', required: %w[by since before], additionalProperties: false,
              properties: {
-               by: { type: 'string', enum: [Captain::Copilot::ReportService::RANGE] + Captain::Copilot::ReportService::PERIODS.keys +
+               by: { type: 'string', enum: [Captain::Copilot::ReportService::RANGE] + Captain::Copilot::ReportService::PERIODS +
                                            Captain::Copilot::ReportService::SUMMARY_BUILDERS.keys },
                metrics: { type: 'array', items: { type: 'string', enum: METRICS.keys }, minItems: 1, uniqueItems: true,
                           description: 'Required by range or period. Every metric the request needs, in one call' },

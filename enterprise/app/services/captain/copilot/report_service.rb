@@ -2,7 +2,7 @@
 # A period (day, week, month or year) gives metrics over time for the account or one agent, inbox, team or label. A
 # dimension (agent, inbox, team or label) gives the summary the reports pages list for each of them.
 class Captain::Copilot::ReportService
-  PERIODS = Captain::Copilot::Resources::BaseResource::PERIODS
+  PERIODS = Captain::Copilot::Aggregation::PERIODS
   DIMENSION_FILTERS = { 'agent' => 'agent_id', 'inbox' => 'inbox_id', 'team' => 'team_id', 'label' => 'label' }.freeze
   SUMMARY_BUILDERS = {
     'agent' => V2::Reports::AgentSummaryBuilder, 'inbox' => V2::Reports::InboxSummaryBuilder,
@@ -41,7 +41,7 @@ class Captain::Copilot::ReportService
     @before = Time.iso8601(before).in_time_zone(@time_zone)
     raise ArgumentError, 'since must be earlier than before' if @since >= @before
 
-    return summary(by, metrics) unless PERIODS.key?(by) || by == RANGE
+    return summary(by, metrics) unless PERIODS.include?(by) || by == RANGE
     raise ArgumentError, 'metrics is required to report by range, day, week, month or year' if metrics.blank?
     return range_totals(metrics, filters) if by == RANGE
 
@@ -105,7 +105,7 @@ class Captain::Copilot::ReportService
   # Only the agents, inboxes, teams or labels with activity in the range, busiest first.
   def summary_rows(dimension)
     builder = SUMMARY_BUILDERS.fetch(dimension) do
-      raise ArgumentError, "by must be one of: #{([RANGE] + PERIODS.keys + SUMMARY_BUILDERS.keys).join(', ')}"
+      raise ArgumentError, "by must be one of: #{([RANGE] + PERIODS + SUMMARY_BUILDERS.keys).join(', ')}"
     end
     names = dimension_names(dimension)
     rows = builder.new(account: @account, params: params.merge(type: dimension.to_sym)).build

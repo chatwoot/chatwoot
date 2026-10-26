@@ -1,0 +1,146 @@
+# The account tables and columns Copilot may read. A table or column that is not listed here stays hidden, including
+# any a later migration adds, so exposing data is a reviewed change to this file.
+#
+# Each table lists:
+#   columns  the columns Copilot may filter, group and show; id is always readable
+#   json     JSON columns Copilot may read whole and filter by key, written column.key
+#   through  for a table without account_id, the belongs_to association that leads to a record with one
+#
+# Polymorphic foreign keys, such as messages.sender_id, are left out, because the same value names records in different
+# tables. Tables the dashboard shows each user only for themselves, such as notifications and custom filters, are left out.
+#
+# conversations, contacts, messages, csat_survey_responses and articles have their own resource classes with their own
+# permission rules. Every other table here is read by administrators only, through Captain::Copilot::Resources::Table.
+
+conversations:
+  columns: [display_id, inbox_id, status, priority, assignee_id, team_id, contact_id, campaign_id, sla_policy_id, created_at,
+            updated_at, last_activity_at, first_reply_created_at, waiting_since, snoozed_until, status_changed_at,
+            contact_last_seen_at, agent_last_seen_at, assignee_last_seen_at]
+  json: [additional_attributes, custom_attributes]
+contacts:
+  columns: [name, middle_name, last_name, email, phone_number, identifier, contact_type, location, country_code, blocked, company_id,
+            created_at, updated_at, last_activity_at]
+  json: [additional_attributes, custom_attributes]
+messages:
+  columns: [content, conversation_id, inbox_id, message_type, content_type, private, status, created_at, updated_at]
+csat_survey_responses:
+  columns: [rating, feedback_message, conversation_id, message_id, contact_id, assigned_agent_id, created_at, updated_at]
+articles:
+  columns: [title, description, content, status, views, locale, slug, position, portal_id, category_id, folder_id, author_id,
+            created_at, updated_at]
+
+account_users:
+  columns: [user_id, role, availability, auto_offline, custom_role_id, agent_capacity_policy_id, inviter_id, active_at, created_at,
+            updated_at]
+agent_bot_inboxes:
+  columns: [inbox_id, agent_bot_id, status, created_at, updated_at]
+agent_bots:
+  columns: [name, description, bot_type, created_at, updated_at]
+agent_capacity_policies:
+  columns: [name, description, created_at, updated_at]
+  json: [exclusion_rules]
+applied_slas:
+  columns: [sla_policy_id, conversation_id, sla_status, completed_at, created_at, updated_at]
+assignment_policies:
+  columns: [name, description, assignment_order, conversation_priority, fair_distribution_limit, fair_distribution_window, enabled,
+            exclude_older_than_hours, created_at, updated_at]
+attachments:
+  columns: [message_id, file_type, extension, fallback_title, created_at, updated_at]
+automation_rules:
+  columns: [name, description, event_name, active, execution_delay, created_at, updated_at]
+  json: [conditions, actions]
+calls:
+  columns: [inbox_id, conversation_id, contact_id, message_id, accepted_by_agent_id, provider, direction, status, started_at,
+            duration_seconds, end_reason, created_at, updated_at]
+campaign_recipients:
+  columns: [campaign_id, contact_id, inbox_id, status, error_code, error_title, error_message, sent_at, delivered_at, read_at, failed_at,
+            send_attempted_at, created_at, updated_at]
+campaigns:
+  columns: [display_id, title, description, message, sender_id, inbox_id, enabled, campaign_type, campaign_status, scheduled_at,
+            trigger_only_during_business_hours, started_at, completed_at, created_at, updated_at]
+  json: [trigger_rules, audience]
+canned_responses:
+  columns: [short_code, content, created_at, updated_at]
+captain_assistant_responses:
+  columns: [question, answer, assistant_id, status, edited, created_at, updated_at]
+captain_assistants:
+  columns: [name, description, created_at, updated_at]
+  json: [config, response_guidelines, guardrails]
+captain_documents:
+  columns: [name, external_link, assistant_id, status, sync_status, last_synced_at, last_sync_attempted_at, created_at, updated_at]
+captain_faq_suggestions:
+  columns: [question, answer, assistant_id, language, source_count, status, created_at, updated_at]
+captain_inboxes:
+  columns: [captain_assistant_id, inbox_id, created_at, updated_at]
+  through: captain_assistant
+captain_scenarios:
+  columns: [title, description, instruction, enabled, assistant_id, created_at, updated_at]
+  json: [tools]
+categories:
+  columns: [name, description, locale, slug, position, icon, portal_id, parent_category_id, associated_category_id, created_at,
+            updated_at]
+companies:
+  columns: [name, domain, description, contacts_count, last_activity_at, created_at, updated_at]
+  json: [additional_attributes, custom_attributes]
+conversation_outcomes:
+  columns: [assistant_id, conversation_id, inbox_id, episode_trigger, started_at, ended_at, first_captain_reply_at,
+            last_captain_reply_at, captain_reply_count, first_human_reply_at, handoff_at, handoff_reason_category, resolved_at,
+            csat_rating, csat_received_at, created_at, updated_at]
+conversation_participants:
+  columns: [user_id, conversation_id, created_at, updated_at]
+custom_attribute_definitions:
+  columns: [attribute_display_name, attribute_key, attribute_display_type, attribute_model, attribute_description, default_value,
+            regex_pattern, regex_cue, created_at, updated_at]
+  json: [attribute_values]
+custom_roles:
+  columns: [name, description, permissions, created_at, updated_at]
+email_templates:
+  columns: [name, template_type, locale, inbox_id, created_at, updated_at]
+folders:
+  columns: [name, category_id, created_at, updated_at]
+inbox_assignment_policies:
+  columns: [inbox_id, assignment_policy_id, created_at, updated_at]
+  through: inbox
+inbox_capacity_limits:
+  columns: [agent_capacity_policy_id, inbox_id, conversation_limit, created_at, updated_at]
+  through: agent_capacity_policy
+inbox_members:
+  columns: [user_id, inbox_id, created_at, updated_at]
+  through: inbox
+inboxes:
+  columns: [name, channel_type, email_address, business_name, timezone, enable_auto_assignment, greeting_enabled, greeting_message,
+            working_hours_enabled, out_of_office_message, enable_email_collect, csat_survey_enabled, allow_messages_after_resolved,
+            lock_to_single_conversation, sender_name_type, portal_id, created_at, updated_at]
+  json: [auto_assignment_config, csat_config]
+labels:
+  columns: [title, description, color, show_on_sidebar, created_at, updated_at]
+macros:
+  columns: [name, visibility, created_by_id, updated_by_id, created_at, updated_at]
+  json: [actions]
+mentions:
+  columns: [user_id, conversation_id, mentioned_at, created_at, updated_at]
+notes:
+  columns: [content, contact_id, user_id, created_at, updated_at]
+portals:
+  columns: [name, slug, custom_domain, color, homepage_link, page_title, header_text, archived, created_at, updated_at]
+  json: [config]
+related_categories:
+  columns: [category_id, related_category_id, created_at, updated_at]
+  through: category
+reporting_events:
+  columns: [name, value, value_in_business_hours, inbox_id, user_id, conversation_id, event_start_time, event_end_time, created_at,
+            updated_at]
+sla_events:
+  columns: [applied_sla_id, conversation_id, sla_policy_id, inbox_id, event_type, created_at, updated_at]
+  json: [meta]
+sla_policies:
+  columns: [name, description, first_response_time_threshold, next_response_time_threshold, resolution_time_threshold,
+            only_during_business_hours, created_at, updated_at]
+team_members:
+  columns: [team_id, user_id, created_at, updated_at]
+  through: team
+teams:
+  columns: [name, description, allow_auto_assign, created_at, updated_at]
+working_hours:
+  columns: [inbox_id, day_of_week, closed_all_day, open_all_day, open_hour, open_minutes, close_hour, close_minutes, created_at,
+            updated_at]
