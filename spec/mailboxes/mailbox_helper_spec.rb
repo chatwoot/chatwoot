@@ -299,8 +299,8 @@ RSpec.describe MailboxHelper do
         let(:file_count) { Message::NUMBER_OF_PERMITTED_ATTACHMENTS + 3 }
 
         before do
-          allow(Open3).to receive(:capture3) do |*_args, **_opts|
-            dir = _args[_args.index('-C') + 1]
+          allow(Open3).to receive(:capture3) do |*args, **_opts|
+            dir = args[args.index('-C') + 1]
             file_count.times { |index| File.write(File.join(dir, format('file-%02d.txt', index)), 'x') }
             ['', '', instance_double(Process::Status, success?: true)]
           end
