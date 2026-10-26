@@ -1,0 +1,74 @@
+# MCP servers suggested on the connect panel, in their default order.
+# Captain uses read tools in customer conversations, so each server holds data a customer conversation can use.
+#
+# A server is either at a fixed `url`, at a `url_template` the admin completes ({store} is the Shopify store name),
+# or at a URL the admin pastes (`input: url`), for services that give each user their own URL.
+#
+# Signals move a server to the top for accounts that match any of them:
+# - hooks: integration hooks the account connected
+# - hosts: text found in the hosts of the account's webhooks, API channel callbacks or custom tool endpoints
+# - industries / subindustries: the onboarding industry, or the industries in brand_info from onboarding enrichment
+# - attribute_keywords: text found in the keys of the account's custom attribute definitions
+- id: shopify
+  name: Shopify
+  url_template: 'https://{store}.myshopify.com/api/mcp'
+  signals:
+    hooks: [shopify]
+    industries: ['Retail & E-commerce', 'Consumer Packaged Goods (CPG)']
+    attribute_keywords: [shopify, order, tracking]
+- id: stripe
+  name: Stripe
+  url: 'https://mcp.stripe.com'
+  signals:
+    hooks: [stripe]
+    industries: ['Retail & E-commerce']
+    subindustries: ['Software (B2B)', 'Software (B2C)', 'Online Marketplaces', 'eCommerce & Marketplace Platforms']
+    attribute_keywords: [stripe, invoice, subscription, payment]
+- id: paypal
+  name: PayPal
+  url: 'https://mcp.paypal.com/mcp'
+  signals:
+    subindustries: ['Online Marketplaces', 'eCommerce & Marketplace Platforms']
+    attribute_keywords: [paypal]
+- id: hubspot
+  name: HubSpot
+  url: 'https://mcp.hubspot.com'
+  signals:
+    industries: ['Professional Services & Agencies']
+    subindustries: ['Marketing & Advertising Agencies']
+    attribute_keywords: [hubspot, lead, deal]
+- id: calendly
+  name: Calendly
+  url: 'https://mcp.calendly.com'
+  signals:
+    industries: ['Healthcare', 'Hospitality & Tourism', 'Education']
+    attribute_keywords: [calendly, appointment, booking]
+- id: cal_com
+  name: Cal.com
+  url: 'https://mcp.cal.com/mcp'
+  signals:
+    industries: ['Healthcare', 'Hospitality & Tourism', 'Education']
+    attribute_keywords: [appointment, booking]
+- id: notion
+  name: Notion
+  url: 'https://mcp.notion.com/mcp'
+- id: supabase
+  name: Supabase
+  url: 'https://mcp.supabase.com/mcp'
+  signals:
+    hosts: [supabase.co]
+- id: n8n
+  name: n8n
+  input: url
+  signals:
+    hosts: [n8n]
+- id: zapier
+  name: Zapier
+  input: url
+  signals:
+    hosts: [zapier.com]
+- id: make
+  name: Make
+  input: url
+  signals:
+    hosts: [make.com, integromat.com]
