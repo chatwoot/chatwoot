@@ -73,6 +73,7 @@ class Captain::McpServer < ApplicationRecord
   validates :name, presence: true
   validates_with JsonSchemaValidator, schema: TOOLS_VALIDATION, attribute_resolver: ->(record) { record.tools }
   validate :validate_auth_header
+  validate :validate_token
   validate :validate_tool_entries
 
   scope :enabled, -> { where(enabled: true) }
@@ -133,11 +134,14 @@ class Captain::McpServer < ApplicationRecord
   def validate_auth_header
     return if auth_header.nil?
     return errors.add(:auth_header, :invalid) unless Captain::CustomTool::HEADER_NAME_PATTERN.match?(auth_header)
-
-    name = auth_header.downcase
-    return unless Captain::CustomTool::RESERVED_HEADERS.include?(name) || name.start_with?(Captain::CustomTool::RESERVED_HEADER_PREFIX)
+    return unless Captain::CustomTool.reserved_header?(auth_header)
 
     errors.add(:auth_header, I18n.t('captain.custom_tool.headers.reserved', name: auth_header))
+  end
+
+  # The token is sent as a header value, so control characters would break the request
+  def validate_token
+    errors.add(:auth_config, :invalid) if auth_config['token'].to_s.match?(/[[:cntrl:]]/)
   end
 
   def validate_tool_entries
