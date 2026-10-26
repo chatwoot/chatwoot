@@ -71,6 +71,17 @@ class CopilotRun::Collection < CopilotRun
     filters['newest'].nil? && filters['sample'].nil?
   end
 
+  # How the records were chosen, earliest step first. The screener and the reviewer read it as already true, so a
+  # condition only the database can see, such as a rating or a date, never rules a conversation out.
+  def selection
+    own = "#{resource} with filters #{filters.to_json}"
+    case source_run
+    when CopilotRun::Collection then "#{source_run.selection}, then the #{own} linked to them"
+    when CopilotRun::Review then "the conversations an earlier review matched (#{source_run.question || source_run.criteria}), then #{own}"
+    else own
+    end
+  end
+
   # The saved set whose linked records this collection left out, from get_data's exclude_from.
   def excluded_run
     copilot_thread.saved_set(context['excluded_run_id']) if context['excluded_run_id']

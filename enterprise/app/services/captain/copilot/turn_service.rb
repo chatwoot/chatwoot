@@ -5,6 +5,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   include Captain::ChatHelper
   include Captain::Copilot::ConversationAccess
   include Captain::Copilot::Tracing
+  include Captain::Copilot::NumberChecking
 
   MAX_MODEL_CALLS = 20
   # Copilot's tools without search_conversation, which dumps full transcripts into context; get_data and review_conversations replace it.
@@ -44,7 +45,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
     params = instrumentation_params
     with_copilot_trace(params[:span_name], params, turn: @run, input: @run.copilot_message.message['content']) do |span|
       save_trace_carrier
-      outcome = complete_loop(llm)
+      outcome = complete_with_number_check(llm)
       next wait_for_background_run if outcome == :awaiting_background_run
 
       # Langfuse takes a trace's output from its first span. A turn that waited on a background run finishes in a later span.
@@ -109,7 +110,6 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   def complete_loop(llm)
     until llm.complete?
       @run.renew_lease(@token)
-      model_calls = @run.transcript.fetch('messages', []).count { |message| message['role'] == 'assistant' }
       raise Captain::Copilot::LimitExceededError, 'The turn reached its model-call limit' if model_calls > MAX_MODEL_CALLS
 
       llm.with_tool_options(choice: :none) if model_calls == MAX_MODEL_CALLS

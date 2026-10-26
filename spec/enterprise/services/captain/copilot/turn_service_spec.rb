@@ -26,6 +26,17 @@ RSpec.describe Captain::Copilot::TurnService do
                          { 'content' => "Couldn't finish this step", 'status' => 'failed' }])
   end
 
+  it 'sends numbers no tool result supports back to the model once, as its own check' do
+    run.tool_calls.create!(call_id: 'call-1', name: 'get_data', status: :completed, result: { groups: [{ value: 10 }, { value: 20 }] })
+    draft = RubyLLM::Message.new(role: :assistant, content: { content: 'Email takes 10 hours, chat 20, and 15 on average.' }.to_json)
+    llm = instance_double(RubyLLM::Chat, messages: [draft], add_message: nil)
+    service.instance_variable_set(:@transcript, instance_double(Captain::Copilot::TurnTranscript, save: nil))
+
+    expect(service.send(:revise_numbers?, llm)).to be(true)
+    expect(llm).to have_received(:add_message).with(role: :user, content: include('- 15 in: Email takes 10 hours, chat 20, and 15 on average.'))
+    expect(service.send(:revise_numbers?, llm)).to be(false)
+  end
+
   it 'writes no line for a review, which shows its own card, or while the turn waits for it' do
     service.send(:start_tool_call, RubyLLM::ToolCall.new(id: 'call-1', name: 'review_conversations', arguments: {}))
     service.send(:wait_for_background_run)

@@ -5,6 +5,7 @@ class Captain::Copilot::ResultTable
   # Matched findings come first, so the first page holds the matches of most reviews without sending every finding to the
   # model on each follow-up question.
   REVIEW_PAGE_SIZE = 100
+  CATEGORY_COUNTS = 20
 
   def initialize(run)
     @run = run
@@ -30,7 +31,9 @@ class Captain::Copilot::ResultTable
 
   def collection_markdown(resource, rows, page, total)
     lines = ["Collection ##{@run.id}: #{total} #{@run.resource}.", "Filters: #{escape(@run.filters.to_json)}."]
-    lines << 'The selection limit was reached. Narrow the filters to cover the rest.' if @run.selection_truncated?
+    if @run.selection_truncated?
+      lines << "Display and reviews cover the first #{CopilotRun::MAX_SELECTION} records. get_data from this collection still covers every record."
+    end
     return (lines + ['No records on this page.']).join("\n\n") if rows.empty?
 
     (lines + [collection_rows_table(resource, rows), "Page #{page} of #{total} #{@run.resource}. Ask for another page to see more."]).join("\n\n")
@@ -49,10 +52,10 @@ class Captain::Copilot::ResultTable
   def review_page(page, matched_only)
     visible = accessible_conversations(account: @run.account, user: @run.user)
     findings = visible_findings(visible, matched_only).page(page).per(REVIEW_PAGE_SIZE)
-    display_ids = visible.where(id: findings.map(&:conversation_id)).pluck(:id, :display_id).to_h
+    conversations = visible.where(id: findings.map(&:conversation_id)).includes(:assignee).index_by(&:id)
     total = findings.total_count
     { run: @run.summary, type: 'table', page: page, total: total, has_more: page * REVIEW_PAGE_SIZE < total,
-      content: markdown(findings, display_ids, page, total, matched_only) }
+      content: markdown(findings, conversations, page, total, matched_only) }
   end
 
   # Matched findings come first, then the rest in the order the review picked them, newest first. The review creates
@@ -63,16 +66,18 @@ class Captain::Copilot::ResultTable
     scope.order(matched: :desc, id: :asc)
   end
 
-  # The table is the only copy of the findings the model gets. A table of every finding says which ones matched.
-  def markdown(findings, display_ids, page, total, matched_only)
+  # The table is the only copy of the findings the model gets. A table of every finding says which ones matched. The
+  # assignee is shown so the agent can see who handled each finding without opening the conversations.
+  def markdown(findings, conversations, page, total, matched_only)
     lines = summary_lines
     return (lines + ['No saved findings on this page.']).join("\n\n") if findings.empty?
 
-    header = matched_only ? %w[Conversation Category Finding] : %w[Conversation Matched Category Finding]
+    header = matched_only ? %w[Conversation Assignee Category Finding] : %w[Conversation Assignee Matched Category Finding]
     cells = findings.map do |finding|
-      display_id = display_ids.fetch(finding.conversation_id)
-      link = "[##{display_id}](/app/accounts/#{@run.account_id}/conversations/#{display_id})"
-      [link, (matched_cell(finding) unless matched_only), escape(finding.category), escape(finding_text(finding))].compact
+      conversation = conversations.fetch(finding.conversation_id)
+      link = "[##{conversation.display_id}](/app/accounts/#{@run.account_id}/conversations/#{conversation.display_id})"
+      [link, escape(conversation.assignee&.name || 'Unassigned'), (matched_cell(finding) unless matched_only), escape(finding.category),
+       escape(finding_text(finding))].compact
     end
     (lines + [markdown_table(header, cells), page_note(page, findings.size, total)]).join("\n\n")
   end
@@ -105,7 +110,25 @@ class Captain::Copilot::ResultTable
              "#{summary[:screened_out]} screened out, #{summary[:reviewed]} reviewed, #{summary[:matched]} matched, #{summary[:failed]} failed.",
              "Filters: #{escape(@run.filters.to_json)}."]
     lines << "Screening question: #{escape(@run.question)}" if @run.question.present?
-    lines + coverage_gaps(summary) + ['The opening and newest messages were reviewed. Attachment contents were not reviewed.']
+    lines + coverage_gaps(summary) + covered_dates + category_counts +
+      ['The opening and newest messages were reviewed. Attachment contents were not reviewed.']
+  end
+
+  # The dates the processed conversations span, so a review that stopped partway says which part of the period it read.
+  def covered_dates
+    field = @run.filters['date_field'] || 'last_activity_at'
+    column = Conversation.arel_table[field]
+    first, last = Conversation.where(id: @run.findings.select(:conversation_id)).pick(column.minimum, column.maximum)
+    first ? ["Processed conversations span #{field} #{first.to_date.iso8601} to #{last.to_date.iso8601}."] : []
+  end
+
+  # Counted by the database over every reviewed conversation, so the most common categories never depend on the model
+  # tallying findings.
+  def category_counts
+    counts = @run.findings.reviewed.group(:category).order(Arel.star.count.desc).limit(CATEGORY_COUNTS).count
+    return [] if counts.empty?
+
+    ["Categories of reviewed conversations: #{counts.map { |category, count| "#{escape(category)} (#{count})" }.join(', ')}."]
   end
 
   def coverage_gaps(summary)

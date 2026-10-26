@@ -40,9 +40,10 @@ class CopilotRun::Review < CopilotRun
   has_many :findings, class_name: 'CopilotReviewFinding', dependent: :delete_all, inverse_of: :copilot_run
   # request: the agent's message the review follows. turn_start and turn_limit: where the current turn took the review,
   # and how far it may go. turn_start_matched and turn_start_failed: the counts when the turn took it.
-  # progress_message_id: the current turn's progress card.
+  # progress_message_id: the current turn's progress card. reference: the material every conversation is judged against,
+  # when the turn gave it.
   store_accessor :context, :request, :criteria, :question, :turn_start, :turn_limit, :turn_start_matched, :turn_start_failed,
-                 :progress_message_id
+                 :progress_message_id, :reference
 
   validates :status, inclusion: { in: STATUSES }
   validates :source_run_id, :criteria, :turn_start, :turn_limit, presence: true
