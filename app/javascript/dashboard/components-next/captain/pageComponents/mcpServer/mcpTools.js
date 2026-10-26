@@ -15,6 +15,16 @@ export const SERVER_ACTIONS = {
   DELETE: 'delete',
 };
 
+// Remote MCP servers with one fixed URL, so picking one always fills a URL that works
+export const POPULAR_SERVERS = [
+  { name: 'PayPal', url: 'https://mcp.paypal.com/mcp' },
+  { name: 'HubSpot', url: 'https://mcp.hubspot.com' },
+  { name: 'Calendly', url: 'https://mcp.calendly.com' },
+  { name: 'Cal.com', url: 'https://mcp.cal.com/mcp' },
+  { name: 'Notion', url: 'https://mcp.notion.com/mcp' },
+  { name: 'Supabase', url: 'https://mcp.supabase.com/mcp' },
+];
+
 // The URL field starts with this, since every MCP server Captain connects to uses HTTPS
 export const URL_PREFIX = 'https://';
 
