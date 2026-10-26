@@ -1736,64 +1736,23 @@
       },
       "SUGGESTIONS": {
         "TITLE": "Popular servers",
-        "RECOMMENDED": "Suggested",
-        "CONNECTED": "Connected",
-        "SHOW_ALL": "Show all",
-        "SHOW_LESS": "Show fewer",
-        "STORE_LABEL": "Store name",
-        "STORE_PLACEHOLDER": "your-store",
-        "STORE_HINT": "The part before .myshopify.com in your store address.",
-        "USE": "Use",
-        "PASTE_HINT": "Paste the MCP server URL from your {name} account below.",
-        "OR_URL": "Or enter a server URL",
-        "NEEDS_STORE": "Needs your store name",
-        "NEEDS_URL": "Needs the MCP URL from your account",
-        "DESCRIPTIONS": {
-          "STRIPE": "Customers, invoices and subscriptions",
-          "PAYPAL": "Transactions, invoices and disputes",
-          "HUBSPOT": "Contacts, companies and deals",
-          "CALENDLY": "Event types, bookings and availability",
-          "CAL_COM": "Bookings, event types and availability",
-          "NOTION": "Pages and databases in your workspace",
-          "SUPABASE": "Tables in your Supabase project"
-        }
+        "RECOMMENDED": "Suggested for this account"
       },
       "DIALOG": {
         "CONNECT_TITLE": "Connect an MCP server",
         "MANAGE_TITLE": "Manage tools of {name}",
         "STEPS": {
-          "SERVER": "Server",
           "TOOLS": "Tools",
           "PARAMETERS": "Parameters",
           "REVIEW": "Review"
         },
-        "URL_LABEL": "Server URL",
-        "URL_PLACEHOLDER": "https://",
-        "CHECK": "Check",
-        "SERVER_LABEL": "Server",
-        "VERSION": "v{version}",
-        "SIGN_IN_LABEL": "Sign-in",
-        "NO_SIGN_IN": "No sign-in needed",
-        "OAUTH_NOTE": "You sign in to the server on the next page.",
         "TOKEN_LABEL": "Access token",
-        "HEADER_LABEL": "Header name",
-        "HEADER_PLACEHOLDER": "X-API-Key",
-        "DEFAULT_HEADER": "Chatwoot sends the token as Authorization: Bearer.",
-        "CUSTOM_HEADER": "Send in a different header",
-        "USE_TOKEN": "Use a token instead",
-        "USE_OAUTH": "Sign in with OAuth instead",
-        "SHARED_CREDENTIAL": "This sign-in belongs to your business. All customers share it, so the server sees every call as coming from your business.",
-        "TOOLS_TITLE": "Choose the tools Captain can use",
-        "TOOLS_DESCRIPTION": "Captain can use only the tools you select. Chatwoot saves a fingerprint of each tool. If the server changes a tool later, Captain stops using it until you approve the change.",
-        "WRITTEN_BY_SERVER": "Written by the server",
-        "READ": "Read",
-        "WRITE": "Write",
-        "WRITE_BLOCKED": "Captain can use read tools only.",
+        "WRITE": "Changes data",
         "CHANGED": "Changed by the server",
         "NO_LIVE_TOOLS": "The server lists no tools.",
         "PARAMS_TITLE": "Decide who fills each parameter",
         "PARAMS_DESCRIPTION": "Captain fills parameters from the conversation. Captain does not see a parameter that Chatwoot fills, so a customer cannot change it.",
-        "NO_PARAMS": "This tool has no parameters.",
+        "NO_PARAMS": "No parameters. Captain calls this tool as it is.",
         "REQUIRED": "required",
         "SOURCES": {
           "MODEL": "Captain fills it",
@@ -1811,17 +1770,12 @@
         "USE_VERIFIED_EMAIL": "Use verified email",
         "REQUIRE_VERIFICATION": "Require a verified email before this tool runs",
         "REQUIRE_VERIFICATION_LOCKED": "On because a parameter takes the verified email.",
-        "REVIEW_TITLE": "Review",
         "REVIEW_COLUMNS": {
-          "TOOL": "Tool",
-          "WHO": "Who can use it",
-          "PARAMETERS": "Parameters",
           "FINGERPRINT": "Fingerprint"
         },
         "SOURCE_SUMMARY": {
           "MODEL": "Captain",
-          "VERIFIED_EMAIL": "verified email",
-          "FIXED": "fixed value {value}"
+          "VERIFIED_EMAIL": "verified email"
         },
         "BACK": "Back",
         "CONTINUE": "Continue",
@@ -1841,7 +1795,36 @@
         "CHANGE_APPROVED": "Change approved.",
         "APPROVE_ERROR": "Could not approve the change.",
         "MISSING_TOOLS": "The server no longer lists these approved tools. Saving removes them: {names}",
-        "STEP_PROGRESS": "Step {current} of {total}: {name}"
+        "SERVER": {
+          "DESCRIPTION": "Paste the URL of a remote MCP server, or pick a popular one.",
+          "URL_LABEL": "Server URL",
+          "HEADER_PLACEHOLDER": "Header name, such as X-API-Key",
+          "URL_PLACEHOLDER": "mcp.example.com/mcp",
+          "NEEDS_TOKEN": "This server needs an access token.",
+          "TOKEN_HELP": "Chatwoot stores it encrypted. Every customer conversation uses this one sign-in, so the server sees calls as coming from your business.",
+          "CUSTOM_HEADER": "Send it in a custom header",
+          "CONNECT": "Connect",
+          "CONTINUE_TO": "Continue to {name}",
+          "REDIRECT_HINT": "You sign in on {name}, then return here."
+        },
+        "TOOLS": {
+          "TITLE": "Choose tools",
+          "DESCRIPTION": "Captain uses only the tools you pick. Each one is pinned to the definition you see here. Descriptions come from the server.",
+          "SELECTED": "{selected} of {total} selected",
+          "SELECT_ALL_READ": "Select all read tools",
+          "CLEAR": "Clear selection",
+          "SEARCH": "Search tools"
+        },
+        "REVIEW": {
+          "TITLE": "Review",
+          "DESCRIPTION": "Captain starts using these tools in conversations as soon as you save.",
+          "NO_TOOLS": "No tools selected. Saving removes every tool from this server."
+        },
+        "ACTIONS": {
+          "REVIEW": "Review",
+          "SAVE": "Save {n} tool | Save {n} tools"
+        },
+        "PARAMS_NONE_SELECTED": "Go back and pick at least one tool."
       },
       "NEEDS_REVIEW": "Needs review"
     },

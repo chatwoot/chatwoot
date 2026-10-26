@@ -1,174 +1,74 @@
 <script setup>
-import { computed, reactive, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useDebounceFn } from '@vueuse/core';
 import { useAlert } from 'dashboard/composables';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import McpServersAPI from 'dashboard/api/captain/mcpServers';
 
-import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import Input from 'dashboard/components-next/input/Input.vue';
-import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
-import Switch from 'dashboard/components-next/switch/Switch.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import McpParamRow from './McpParamRow.vue';
-import {
-  PARAM_SOURCES,
-  fingerprintLabel,
-  schemaParams,
-  sourceOf,
-  usesVerifiedEmail,
-  requiresVerification,
-  VISIBLE_SUGGESTIONS,
-  STORE_PLACEHOLDER,
-} from './mcpTools';
+import { AUTH_TYPES, URL_PREFIX } from './mcpTools';
 
 const props = defineProps({
   assistantId: { type: [String, Number], required: true },
 });
 
+// connected: the server is saved and needs no sign-in, so its tools can be picked now
 // signIn: an OAuth server was saved, and the page starts its sign-in
-const emit = defineEmits(['saved', 'signIn']);
+const emit = defineEmits(['saved', 'connected', 'signIn']);
 
 const { t } = useI18n();
+const { run: runCheck } = useAbortableRequest();
 
-const STEPS = ['SERVER', 'TOOLS', 'PARAMETERS', 'REVIEW'];
-const AUTH_TYPES = { NONE: 'none', OAUTH: 'oauth', TOKEN: 'token' };
+// The URL is checked this long after the user stops typing
+const CHECK_DELAY_MS = 500;
+// The field shows only what follows https://, which stays fixed in front.
+// A pasted URL loses its own scheme, so the address never doubles it.
+const SCHEME_PATTERN = /^\s*https?:\/\//i;
 
 const dialogRef = ref(null);
-const step = ref('SERVER');
-const server = ref(null);
-const url = ref('');
-const discovery = ref(null);
-const authType = ref(AUTH_TYPES.NONE);
+const url = ref(URL_PREFIX);
+// The token fields show only when the server answers that it needs a token
+const showHeader = ref(false);
+const needsToken = ref(false);
 const token = ref('');
 const authHeader = ref('');
-const showHeaderField = ref(false);
-const liveTools = ref([]);
-// Approved tools the server no longer lists
-const missingTools = ref([]);
-// The changed tool whose approved and live versions are shown side by side
-const reviewingTool = ref(null);
-const isBusy = ref(false);
 const suggestions = ref([]);
-const showAllSuggestions = ref(false);
-// A suggestion whose URL the admin still has to complete or paste
-const pendingSuggestion = ref(null);
-const storeName = ref('');
-const isLoadingTools = ref(false);
-// Saving after a failed load would send an empty list and remove every approved tool
-const toolsLoadFailed = ref(false);
-// Selections by tool name: whether the tool is selected, its parameter sources, and its verification setting
-const selections = reactive({});
+const isBusy = ref(false);
+// The last answer from the server, for the URL it was checked with
+const check = ref(null);
 
-const isConnecting = computed(() => !server.value?.id);
-const title = computed(() =>
-  isConnecting.value
-    ? t('CAPTAIN.MCP_SERVERS.DIALOG.CONNECT_TITLE')
-    : t('CAPTAIN.MCP_SERVERS.DIALOG.MANAGE_TITLE', { name: server.value.name })
-);
-const visibleSteps = computed(() =>
-  isConnecting.value ? STEPS : STEPS.filter(name => name !== 'SERVER')
-);
+const serverUrl = computed(() => url.value.trim());
+// A token typed for another URL is kept but not sent
+const tokenValue = computed(() => (needsToken.value ? token.value.trim() : ''));
+const canConnect = computed(() => serverUrl.value !== URL_PREFIX);
 
-const approvedTool = name =>
-  server.value?.tools.find(tool => tool.name === name);
-
-// An approved tool keeps its approved schema. A new tool uses the live one.
-const toolSchema = tool =>
-  approvedTool(tool.name)?.input_schema || tool.input_schema;
-const toolDigest = tool =>
-  approvedTool(tool.name)?.approved_digest || tool.digest;
-
-const selectedTools = computed(() =>
-  liveTools.value.filter(tool => selections[tool.name]?.selected)
-);
-
-const canContinueFromServer = computed(() => {
-  if (!discovery.value) return false;
-  if (authType.value === AUTH_TYPES.TOKEN) return !!token.value.trim();
-  return true;
+const address = computed({
+  get: () => url.value.slice(URL_PREFIX.length),
+  set: value => {
+    url.value = URL_PREFIX + value.replace(SCHEME_PATTERN, '').trim();
+  },
 });
 
-const resetState = () => {
-  step.value = 'SERVER';
-  url.value = '';
-  discovery.value = null;
-  authType.value = AUTH_TYPES.NONE;
-  token.value = '';
-  authHeader.value = '';
-  showHeaderField.value = false;
-  liveTools.value = [];
-  missingTools.value = [];
-  reviewingTool.value = null;
-  Object.keys(selections).forEach(name => delete selections[name]);
-};
-
-const buildSelections = () => {
-  liveTools.value.forEach(tool => {
-    const approved = approvedTool(tool.name);
-    selections[tool.name] = {
-      selected: !!approved,
-      paramSources: { ...(approved?.param_sources || {}) },
-      settings: {
-        requires_email_verification:
-          approved?.settings?.requires_email_verification === true,
-      },
-    };
-  });
-};
-
-const loadTools = async () => {
-  isLoadingTools.value = true;
-  toolsLoadFailed.value = false;
-  try {
-    const { data } = await McpServersAPI.liveTools({
-      id: server.value.id,
-      assistantId: props.assistantId,
-    });
-    liveTools.value = data.payload;
-    missingTools.value = data.missing;
-    buildSelections();
-  } catch (error) {
-    toolsLoadFailed.value = true;
-    useAlert(
-      parseAPIErrorResponse(error) ||
-        t('CAPTAIN.MCP_SERVERS.DIALOG.TOOLS_ERROR')
-    );
-  } finally {
-    isLoadingTools.value = false;
+// Pasting a full URL, or typing https:// or http://, leaves only the address in the field
+const onAddressInput = event => {
+  address.value = event.target.value;
+  if (event.target.value !== address.value) {
+    event.target.value = address.value;
   }
 };
 
-const stepProgress = computed(() =>
-  t('CAPTAIN.MCP_SERVERS.DIALOG.STEP_PROGRESS', {
-    current: visibleSteps.value.indexOf(step.value) + 1,
-    total: visibleSteps.value.length,
-    name: t(`CAPTAIN.MCP_SERVERS.DIALOG.STEPS.${step.value}`),
-  })
+// Suggestions the assistant does not have yet
+const openSuggestions = computed(() =>
+  suggestions.value.filter(suggestion => !suggestion.connected)
+);
+const hasRecommended = computed(() =>
+  openSuggestions.value.some(suggestion => suggestion.recommended)
 );
 
-// A server that needs more input says so instead of describing its data
-const suggestionDescription = suggestion => {
-  if (suggestion.url_template)
-    return t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.NEEDS_STORE');
-  if (!suggestion.url) return t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.NEEDS_URL');
-  return t(
-    `CAPTAIN.MCP_SERVERS.SUGGESTIONS.DESCRIPTIONS.${suggestion.id.toUpperCase()}`
-  );
-};
-
-const isPicked = suggestion =>
-  pendingSuggestion.value?.id === suggestion.id ||
-  (!!suggestion.url && suggestion.url === url.value);
-
-const visibleSuggestions = computed(() =>
-  showAllSuggestions.value
-    ? suggestions.value
-    : suggestions.value.slice(0, VISIBLE_SUGGESTIONS)
-);
-
-// Suggestions only help a new connection, and the page works without them
+// Suggestions only help a new connection, and the dialog works without them
 const loadSuggestions = async () => {
   try {
     const { data } = await McpServersAPI.suggestions({
@@ -180,720 +80,290 @@ const loadSuggestions = async () => {
   }
 };
 
-const open = existingServer => {
-  resetState();
-  server.value = existingServer;
-  pendingSuggestion.value = null;
-  storeName.value = '';
-  showAllSuggestions.value = false;
-  if (existingServer) {
-    step.value = 'TOOLS';
-    loadTools();
-  } else {
-    loadSuggestions();
+// A server that names itself only after sign-in takes the name of the suggestion it came from
+const serverName = (checkedUrl, data) => {
+  const suggestion = suggestions.value.find(item => item.url === checkedUrl);
+  return suggestion && data.name === new URL(checkedUrl).host
+    ? suggestion.name
+    : data.name;
+};
+
+const discover = async checkedUrl => {
+  const response = await runCheck(signal =>
+    McpServersAPI.discover({
+      assistantId: props.assistantId,
+      url: checkedUrl,
+      signal,
+    })
+  );
+  if (!response) return null;
+  check.value = {
+    url: checkedUrl,
+    authType: response.data.auth_type,
+    name: serverName(checkedUrl, response.data),
+  };
+  needsToken.value = check.value.authType === AUTH_TYPES.TOKEN;
+  return check.value;
+};
+
+const currentCheck = computed(() =>
+  check.value?.url === serverUrl.value ? check.value : null
+);
+
+// The background check only sets the button label. Continue checks again if this one failed.
+const checkInBackground = async () => {
+  if (!canConnect.value || currentCheck.value) return;
+  try {
+    await discover(serverUrl.value);
+  } catch {
+    check.value = null;
   }
+};
+const checkLater = useDebounceFn(checkInBackground, CHECK_DELAY_MS);
+
+watch(serverUrl, () => {
+  needsToken.value = false;
+  checkLater();
+});
+
+const pickSuggestion = suggestion => {
+  url.value = suggestion.url;
+  checkInBackground();
+};
+const isPicked = suggestion => suggestion.url === serverUrl.value;
+
+const open = () => {
+  url.value = URL_PREFIX;
+  showHeader.value = false;
+  needsToken.value = false;
+  token.value = '';
+  authHeader.value = '';
+  check.value = null;
+  loadSuggestions();
   dialogRef.value.open();
 };
 
 const close = () => dialogRef.value.close();
 
-const runBusy = async (action, fallbackKey) => {
+const connectWithToken = async () => {
+  const { data } = await McpServersAPI.discover({
+    assistantId: props.assistantId,
+    url: serverUrl.value,
+    token: tokenValue.value,
+    authHeader: authHeader.value.trim() || undefined,
+  });
+  return McpServersAPI.create({
+    assistantId: props.assistantId,
+    url: serverUrl.value,
+    name: serverName(serverUrl.value, data),
+    auth_type: AUTH_TYPES.TOKEN,
+    auth_header: authHeader.value.trim() || null,
+    auth_config: { token: tokenValue.value },
+  });
+};
+
+// Continue never leaves Chatwoot without saying so first. If the check has not
+// answered yet and the server uses OAuth, the button changes to name the sign-in, and the next click redirects.
+const connect = async () => {
+  if (!canConnect.value || isBusy.value) return;
   isBusy.value = true;
   try {
-    return await action();
+    if (tokenValue.value) {
+      const { data: saved } = await connectWithToken();
+      emit('saved');
+      close();
+      emit('connected', saved);
+      return;
+    }
+
+    const known = currentCheck.value;
+    const result = known || (await discover(serverUrl.value));
+    if (!result || result.authType === AUTH_TYPES.TOKEN) return;
+    if (!known && result.authType === AUTH_TYPES.OAUTH) return;
+
+    const { data: saved } = await McpServersAPI.create({
+      assistantId: props.assistantId,
+      url: result.url,
+      name: result.name,
+      auth_type: result.authType,
+    });
+    emit('saved');
+    close();
+    // The server is saved, so a failed sign-in start is retried from its card, not by connecting again
+    if (result.authType === AUTH_TYPES.OAUTH) {
+      emit('signIn', saved);
+    } else {
+      emit('connected', saved);
+    }
   } catch (error) {
-    useAlert(parseAPIErrorResponse(error) || t(fallbackKey));
-    return null;
+    useAlert(
+      parseAPIErrorResponse(error) ||
+        t('CAPTAIN.MCP_SERVERS.DIALOG.CHECK_ERROR')
+    );
   } finally {
     isBusy.value = false;
   }
 };
 
-const check = () =>
-  runBusy(async () => {
-    discovery.value = null;
-    const { data } = await McpServersAPI.discover({
-      assistantId: props.assistantId,
-      url: url.value.trim(),
-    });
-    discovery.value = data;
-    authType.value = data.auth_type;
-  }, 'CAPTAIN.MCP_SERVERS.DIALOG.CHECK_ERROR');
+const redirectsTo = computed(() =>
+  !tokenValue.value && currentCheck.value?.authType === AUTH_TYPES.OAUTH
+    ? currentCheck.value.name
+    : null
+);
 
-const pickSuggestion = suggestion => {
-  storeName.value = '';
-  if (suggestion.url) {
-    pendingSuggestion.value = null;
-    url.value = suggestion.url;
-    check();
-    return;
-  }
-  pendingSuggestion.value = suggestion;
-  url.value = '';
-  discovery.value = null;
-};
-
-const useStoreName = () => {
-  url.value = pendingSuggestion.value.url_template.replace(
-    STORE_PLACEHOLDER,
-    storeName.value.trim()
-  );
-  check();
-};
-
-const connect = () =>
-  runBusy(async () => {
-    const isToken = authType.value === AUTH_TYPES.TOKEN;
-    // A token is checked before the server is saved, so a wrong token never lands in a saved server
-    if (isToken) {
-      await McpServersAPI.discover({
-        assistantId: props.assistantId,
-        url: url.value.trim(),
-        token: token.value.trim(),
-        authHeader: authHeader.value.trim(),
-      });
-    }
-    const { data } = await McpServersAPI.create({
-      assistantId: props.assistantId,
-      url: url.value.trim(),
-      name: discovery.value.name,
-      auth_type: authType.value,
-      ...(isToken && {
-        auth_header: authHeader.value.trim() || null,
-        auth_config: { token: token.value.trim() },
+// The button names what happens next: a sign-in on the server's site, a connection, or a check
+const primaryAction = computed(() => {
+  if (redirectsTo.value) {
+    return {
+      label: t('CAPTAIN.MCP_SERVERS.DIALOG.SERVER.CONTINUE_TO', {
+        name: redirectsTo.value,
       }),
-    });
-    emit('saved');
-    // The server is saved, so a failed sign-in start is retried from its card, not by connecting again
-    if (authType.value === AUTH_TYPES.OAUTH) {
-      close();
-      emit('signIn', data);
-      return;
-    }
-    server.value = data;
-    step.value = 'TOOLS';
-    await loadTools();
-  }, 'CAPTAIN.MCP_SERVERS.DIALOG.CHECK_ERROR');
-
-const updateSource = (tool, param, source) => {
-  const sources = selections[tool.name].paramSources;
-  if (source === PARAM_SOURCES.MODEL) {
-    delete sources[param.name];
-    return;
+      icon: 'i-lucide-external-link',
+    };
   }
-  sources[param.name] =
-    source === PARAM_SOURCES.FIXED
-      ? { source, value: sources[param.name]?.value || '' }
-      : { source };
-};
-
-const updateFixedValue = (tool, param, value) => {
-  selections[tool.name].paramSources[param.name] = {
-    source: PARAM_SOURCES.FIXED,
-    value,
-  };
-};
-
-const toolRequiresVerification = tool =>
-  requiresVerification({
-    paramSources: selections[tool.name].paramSources,
-    settings: selections[tool.name].settings,
-  });
-
-const setRequiresVerification = (tool, value) => {
-  selections[tool.name].settings.requires_email_verification = value;
-};
-
-const missingFixedValue = () => {
-  const tool = selectedTools.value.find(item =>
-    Object.values(selections[item.name].paramSources).some(
-      entry => entry.source === PARAM_SOURCES.FIXED && !entry.value?.trim()
-    )
-  );
-  if (!tool) return null;
-  const param = Object.entries(selections[tool.name].paramSources).find(
-    ([, entry]) => entry.source === PARAM_SOURCES.FIXED && !entry.value?.trim()
-  )[0];
-  return { tool: tool.name, param };
-};
-
-const goToReview = () => {
-  const missing = missingFixedValue();
-  if (missing) {
-    useAlert(t('CAPTAIN.MCP_SERVERS.DIALOG.FIXED_VALUE_MISSING', missing));
-    return;
+  if (tokenValue.value || currentCheck.value?.authType === AUTH_TYPES.NONE) {
+    return { label: t('CAPTAIN.MCP_SERVERS.DIALOG.SERVER.CONNECT') };
   }
-  step.value = 'REVIEW';
-};
-
-const sourceSummary = tool =>
-  schemaParams(toolSchema(tool))
-    .map(param => {
-      const entry = selections[tool.name].paramSources[param.name];
-      const source = sourceOf(selections[tool.name].paramSources, param.name);
-      const label =
-        source === PARAM_SOURCES.FIXED
-          ? t('CAPTAIN.MCP_SERVERS.DIALOG.SOURCE_SUMMARY.FIXED', {
-              value: entry.value,
-            })
-          : t(
-              `CAPTAIN.MCP_SERVERS.DIALOG.SOURCE_SUMMARY.${source === PARAM_SOURCES.VERIFIED_EMAIL ? 'VERIFIED_EMAIL' : 'MODEL'}`
-            );
-      return `${param.name}: ${label}`;
-    })
-    .join(', ');
-
-const save = () =>
-  runBusy(async () => {
-    await McpServersAPI.update(server.value.id, {
-      assistantId: props.assistantId,
-      tools: selectedTools.value.map(tool => ({
-        name: tool.name,
-        enabled: approvedTool(tool.name)?.enabled ?? true,
-        param_sources: selections[tool.name].paramSources,
-        settings: selections[tool.name].settings,
-      })),
-    });
-    useAlert(t('CAPTAIN.MCP_SERVERS.DIALOG.SAVED'));
-    emit('saved');
-    close();
-  }, 'CAPTAIN.MCP_SERVERS.DIALOG.SAVE_ERROR');
-
-const schemaChanged = tool =>
-  JSON.stringify(approvedTool(tool.name)?.input_schema) !==
-  JSON.stringify(tool.input_schema);
-
-const approveChange = tool =>
-  runBusy(async () => {
-    const { data } = await McpServersAPI.approveTool({
-      id: server.value.id,
-      assistantId: props.assistantId,
-      name: tool.name,
-    });
-    server.value = data;
-    reviewingTool.value = null;
-    useAlert(t('CAPTAIN.MCP_SERVERS.DIALOG.CHANGE_APPROVED'));
-    emit('saved');
-    await loadTools();
-  }, 'CAPTAIN.MCP_SERVERS.DIALOG.APPROVE_ERROR');
-
-const back = () => {
-  const index = visibleSteps.value.indexOf(step.value);
-  step.value = visibleSteps.value[index - 1];
-};
+  return { label: t('CAPTAIN.MCP_SERVERS.DIALOG.CONTINUE') };
+});
 
 defineExpose({ open });
 </script>
 
 <template>
-  <SidePanel
+  <Dialog
     ref="dialogRef"
-    width="2xl"
-    :title="title"
-    :description="stepProgress"
-    :close-on-click-outside="false"
+    :title="t('CAPTAIN.MCP_SERVERS.DIALOG.CONNECT_TITLE')"
+    :description="t('CAPTAIN.MCP_SERVERS.DIALOG.SERVER.DESCRIPTION')"
+    @confirm="connect"
   >
-    <div class="flex flex-col gap-5">
-      <template v-if="step === 'SERVER'">
-        <section v-if="suggestions.length" class="flex flex-col gap-2">
-          <h4 class="m-0 text-sm font-medium text-n-slate-12">
-            {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.TITLE') }}
-          </h4>
-          <ul
-            class="m-0 overflow-hidden list-none divide-y rounded-xl outline outline-1 outline-n-weak divide-n-weak"
-          >
-            <li v-for="suggestion in visibleSuggestions" :key="suggestion.id">
-              <button
-                type="button"
-                class="flex items-center w-full gap-3 px-4 py-3 text-start disabled:cursor-not-allowed"
-                :class="
-                  isPicked(suggestion) ? 'bg-n-alpha-2' : 'hover:bg-n-alpha-1'
-                "
-                :disabled="isBusy || suggestion.connected"
-                @click="pickSuggestion(suggestion)"
-              >
-                <span class="flex flex-col flex-1 min-w-0 gap-0.5">
-                  <span class="text-sm font-medium text-n-slate-12">
-                    {{ suggestion.name }}
-                  </span>
-                  <span class="text-xs text-n-slate-11">
-                    {{ suggestionDescription(suggestion) }}
-                  </span>
-                </span>
-                <span
-                  v-if="suggestion.connected"
-                  class="text-xs text-n-slate-11 shrink-0"
-                >
-                  {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.CONNECTED') }}
-                </span>
-                <span
-                  v-else-if="suggestion.recommended"
-                  class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0 bg-n-teal-3 text-n-teal-11"
-                >
-                  {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.RECOMMENDED') }}
-                </span>
-                <i
-                  v-else
-                  class="i-lucide-chevron-right size-4 shrink-0 text-n-slate-10"
-                />
-              </button>
-              <div
-                v-if="pendingSuggestion?.id === suggestion.id"
-                class="px-4 pb-3 bg-n-alpha-2"
-              >
-                <div
-                  v-if="suggestion.url_template"
-                  class="flex items-end gap-2"
-                >
-                  <Input
-                    v-model="storeName"
-                    class="flex-1"
-                    :label="t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.STORE_LABEL')"
-                    :placeholder="
-                      t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.STORE_PLACEHOLDER')
-                    "
-                    :message="t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.STORE_HINT')"
-                    @enter="useStoreName"
-                  />
-                  <Button
-                    :label="t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.USE')"
-                    :disabled="!storeName.trim() || isBusy"
-                    @click="useStoreName"
-                  />
-                </div>
-                <p v-else class="m-0 text-xs text-n-slate-11">
-                  {{
-                    t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.PASTE_HINT', {
-                      name: suggestion.name,
-                    })
-                  }}
-                </p>
-              </div>
-            </li>
-          </ul>
-          <button
-            v-if="suggestions.length > VISIBLE_SUGGESTIONS"
-            type="button"
-            class="self-start p-0 text-xs font-medium text-n-blue-11 hover:underline"
-            @click="showAllSuggestions = !showAllSuggestions"
-          >
-            {{
-              showAllSuggestions
-                ? t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.SHOW_LESS')
-                : t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.SHOW_ALL')
-            }}
-          </button>
-        </section>
-
-        <div
-          v-if="suggestions.length"
-          class="flex items-center gap-3 text-xs text-n-slate-11"
+    <div class="flex flex-col gap-6">
+      <section class="flex flex-col gap-3">
+        <label
+          class="flex items-center h-11 px-3.5 rounded-xl bg-n-alpha-1 outline outline-1 -outline-offset-1 outline-n-weak transition-colors focus-within:outline-n-brand"
         >
-          <span class="flex-1 h-px bg-n-weak" />
-          {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.OR_URL') }}
-          <span class="flex-1 h-px bg-n-weak" />
-        </div>
-
-        <div class="flex items-end gap-2">
-          <Input
-            v-model="url"
-            class="flex-1"
-            :label="t('CAPTAIN.MCP_SERVERS.DIALOG.URL_LABEL')"
-            :placeholder="t('CAPTAIN.MCP_SERVERS.DIALOG.URL_PLACEHOLDER')"
+          <span class="text-sm select-none shrink-0 text-n-slate-10">
+            {{ URL_PREFIX }}
+          </span>
+          <input
+            :value="address"
+            type="text"
+            spellcheck="false"
+            autocomplete="off"
+            :aria-label="t('CAPTAIN.MCP_SERVERS.DIALOG.SERVER.URL_LABEL')"
+            :placeholder="
+              t('CAPTAIN.MCP_SERVERS.DIALOG.SERVER.URL_PLACEHOLDER')
+            "
             :disabled="isBusy"
-            @enter="check"
+            class="flex-1 min-w-0 !p-0 !m-0 !h-auto text-sm !bg-transparent !border-0 !shadow-none !outline-none !ring-0 text-n-slate-12 placeholder:text-n-slate-10"
+            @input="onAddressInput"
           />
-          <Button
-            :label="t('CAPTAIN.MCP_SERVERS.DIALOG.CHECK')"
-            :is-loading="isBusy && !discovery"
-            :disabled="!url.trim() || isBusy"
-            @click="check"
+        </label>
+
+        <div v-if="needsToken" class="flex flex-col gap-2">
+          <input
+            v-model="token"
+            type="password"
+            autocomplete="off"
+            :placeholder="t('CAPTAIN.MCP_SERVERS.DIALOG.TOKEN_LABEL')"
+            :disabled="isBusy"
+            class="!h-11 !px-3.5 !m-0 text-sm !rounded-xl !bg-n-alpha-1 !border-0 !shadow-none outline outline-1 -outline-offset-1 focus:outline-n-brand text-n-slate-12 placeholder:text-n-slate-10"
+            :class="tokenValue ? 'outline-n-weak' : 'outline-n-amber-7'"
           />
-        </div>
-
-        <div
-          v-if="discovery"
-          class="flex flex-col gap-3 p-3 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
-        >
-          <div class="flex flex-col gap-0.5">
-            <span class="text-xs text-n-slate-11">
-              {{ t('CAPTAIN.MCP_SERVERS.DIALOG.SERVER_LABEL') }}
-            </span>
-            <span class="text-sm font-medium text-n-slate-12">
-              {{ discovery.name }}
-              <span v-if="discovery.version" class="text-n-slate-11">
-                {{
-                  t('CAPTAIN.MCP_SERVERS.DIALOG.VERSION', {
-                    version: discovery.version,
-                  })
-                }}
-              </span>
-            </span>
-          </div>
-
-          <div class="flex flex-col gap-1.5">
-            <span class="text-xs text-n-slate-11">
-              {{ t('CAPTAIN.MCP_SERVERS.DIALOG.SIGN_IN_LABEL') }}
-            </span>
-            <span
-              v-if="authType === AUTH_TYPES.NONE"
-              class="text-sm text-n-slate-12"
-            >
-              {{ t('CAPTAIN.MCP_SERVERS.DIALOG.NO_SIGN_IN') }}
-            </span>
-            <template v-else-if="authType === AUTH_TYPES.OAUTH">
-              <span class="text-sm text-n-slate-12">
-                {{ t('CAPTAIN.MCP_SERVERS.DIALOG.OAUTH_NOTE') }}
-              </span>
-              <button
-                type="button"
-                class="p-0 text-xs underline text-n-blue-11 text-start"
-                @click="authType = AUTH_TYPES.TOKEN"
-              >
-                {{ t('CAPTAIN.MCP_SERVERS.DIALOG.USE_TOKEN') }}
-              </button>
-            </template>
-            <template v-else>
-              <Input
-                v-model="token"
-                type="password"
-                :label="t('CAPTAIN.MCP_SERVERS.DIALOG.TOKEN_LABEL')"
-              />
-              <Input
-                v-if="showHeaderField"
-                v-model="authHeader"
-                :label="t('CAPTAIN.MCP_SERVERS.DIALOG.HEADER_LABEL')"
-                :placeholder="
-                  t('CAPTAIN.MCP_SERVERS.DIALOG.HEADER_PLACEHOLDER')
-                "
-              />
-              <span v-else class="text-xs text-n-slate-11">
-                {{ t('CAPTAIN.MCP_SERVERS.DIALOG.DEFAULT_HEADER') }}
-                <button
-                  type="button"
-                  class="p-0 underline text-n-blue-11"
-                  @click="showHeaderField = true"
-                >
-                  {{ t('CAPTAIN.MCP_SERVERS.DIALOG.CUSTOM_HEADER') }}
-                </button>
-              </span>
-              <button
-                v-if="discovery.auth_type === AUTH_TYPES.OAUTH"
-                type="button"
-                class="p-0 text-xs underline text-n-blue-11 text-start"
-                @click="authType = AUTH_TYPES.OAUTH"
-              >
-                {{ t('CAPTAIN.MCP_SERVERS.DIALOG.USE_OAUTH') }}
-              </button>
-            </template>
-          </div>
-
-          <p
-            v-if="authType !== AUTH_TYPES.NONE"
-            class="text-xs mb-0 px-3 py-2 rounded-lg bg-n-alpha-2 text-n-slate-11"
-          >
-            {{ t('CAPTAIN.MCP_SERVERS.DIALOG.SHARED_CREDENTIAL') }}
-          </p>
-        </div>
-      </template>
-
-      <template v-else-if="step === 'TOOLS'">
-        <div class="flex flex-col gap-1">
-          <h4 class="text-sm font-medium text-n-slate-12 m-0">
-            {{ t('CAPTAIN.MCP_SERVERS.DIALOG.TOOLS_TITLE') }}
-          </h4>
-          <p class="text-xs text-n-slate-11 mb-0">
-            {{ t('CAPTAIN.MCP_SERVERS.DIALOG.TOOLS_DESCRIPTION') }}
-          </p>
-        </div>
-        <div v-if="isLoadingTools" class="flex justify-center py-8">
-          <Spinner />
-        </div>
-        <p v-else-if="toolsLoadFailed" class="text-sm text-n-ruby-11 mb-0">
-          {{ t('CAPTAIN.MCP_SERVERS.DIALOG.TOOLS_ERROR') }}
-        </p>
-        <p v-else-if="!liveTools.length" class="text-sm text-n-slate-11 mb-0">
-          {{ t('CAPTAIN.MCP_SERVERS.DIALOG.NO_LIVE_TOOLS') }}
-        </p>
-        <template v-else>
-          <label
-            v-for="tool in liveTools"
-            :key="tool.name"
-            class="flex flex-col gap-2 p-3 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
-            :class="{ 'opacity-60': !tool.read_only }"
-          >
-            <span class="flex items-center justify-between gap-3">
-              <span class="flex items-center gap-2 min-w-0">
-                <Checkbox
-                  v-model="selections[tool.name].selected"
-                  :disabled="!tool.read_only"
-                />
-                <code class="text-sm text-n-slate-12 truncate">
-                  {{ tool.name }}
-                </code>
-              </span>
-              <span class="flex items-center gap-1.5 shrink-0">
-                <span
-                  v-if="tool.changed"
-                  class="text-xs px-2 py-0.5 rounded-full bg-n-amber-3 text-n-amber-11"
-                >
-                  {{ t('CAPTAIN.MCP_SERVERS.DIALOG.CHANGED') }}
-                </span>
-                <span
-                  class="text-xs px-2 py-0.5 rounded-full"
-                  :class="
-                    tool.read_only
-                      ? 'bg-n-alpha-2 text-n-slate-11'
-                      : 'bg-n-amber-3 text-n-amber-11'
-                  "
-                >
-                  {{
-                    tool.read_only
-                      ? t('CAPTAIN.MCP_SERVERS.DIALOG.READ')
-                      : t('CAPTAIN.MCP_SERVERS.DIALOG.WRITE')
-                  }}
-                </span>
-              </span>
-            </span>
-            <span
-              class="flex flex-col gap-0.5 ps-3 border-s-2 border-n-weak text-sm text-n-slate-11"
-            >
-              <span class="text-xs text-n-slate-10">
-                {{ t('CAPTAIN.MCP_SERVERS.DIALOG.WRITTEN_BY_SERVER') }}
-              </span>
-              {{ tool.description }}
-            </span>
-            <span v-if="!tool.read_only" class="text-xs text-n-amber-11">
-              {{ t('CAPTAIN.MCP_SERVERS.DIALOG.WRITE_BLOCKED') }}
-            </span>
+          <input
+            v-if="showHeader"
+            v-model="authHeader"
+            type="text"
+            autocomplete="off"
+            :placeholder="
+              t('CAPTAIN.MCP_SERVERS.DIALOG.SERVER.HEADER_PLACEHOLDER')
+            "
+            :disabled="isBusy"
+            class="!h-11 !px-3.5 !m-0 text-sm !rounded-xl !bg-n-alpha-1 !border-0 !shadow-none outline outline-1 -outline-offset-1 outline-n-weak focus:outline-n-brand text-n-slate-12 placeholder:text-n-slate-10"
+          />
+          <p class="m-0 text-xs text-n-slate-11">
+            {{ t('CAPTAIN.MCP_SERVERS.DIALOG.SERVER.NEEDS_TOKEN') }}
+            {{ t('CAPTAIN.MCP_SERVERS.DIALOG.SERVER.TOKEN_HELP') }}
             <button
-              v-if="tool.changed && reviewingTool !== tool.name"
+              v-if="!showHeader"
               type="button"
-              class="p-0 text-xs underline text-n-blue-11 text-start"
-              @click.prevent="reviewingTool = tool.name"
+              class="p-0 font-medium text-n-blue-11 hover:underline"
+              @click="showHeader = true"
             >
-              {{ t('CAPTAIN.MCP_SERVERS.DIALOG.REVIEW_CHANGE') }}
+              {{ t('CAPTAIN.MCP_SERVERS.DIALOG.SERVER.CUSTOM_HEADER') }}
             </button>
-            <span
-              v-if="tool.changed && reviewingTool === tool.name"
-              class="flex flex-col gap-2 p-3 rounded-lg bg-n-alpha-1"
-              @click.prevent
-            >
-              <span class="grid gap-2 sm:grid-cols-2">
-                <span class="flex flex-col gap-0.5 text-sm text-n-slate-11">
-                  <span class="text-xs text-n-slate-10">
-                    {{ t('CAPTAIN.MCP_SERVERS.DIALOG.APPROVED_VERSION') }}
-                  </span>
-                  {{ approvedTool(tool.name)?.description }}
-                </span>
-                <span class="flex flex-col gap-0.5 text-sm text-n-slate-12">
-                  <span class="text-xs text-n-slate-10">
-                    {{ t('CAPTAIN.MCP_SERVERS.DIALOG.LIVE_VERSION') }}
-                  </span>
-                  {{ tool.description }}
-                </span>
-              </span>
-              <span v-if="schemaChanged(tool)" class="text-xs text-n-slate-11">
-                {{ t('CAPTAIN.MCP_SERVERS.DIALOG.PARAMETERS_CHANGED') }}
-              </span>
-              <span class="text-xs text-n-amber-11">
-                {{ t('CAPTAIN.MCP_SERVERS.DIALOG.CHANGE_WARNING') }}
-              </span>
-              <span class="flex justify-end gap-2">
-                <Button
-                  type="button"
-                  size="sm"
-                  faded
-                  slate
-                  :label="t('CAPTAIN.MCP_SERVERS.DIALOG.KEEP_OFF')"
-                  :disabled="isBusy"
-                  @click="reviewingTool = null"
-                />
-                <Button
-                  type="button"
-                  size="sm"
-                  :label="t('CAPTAIN.MCP_SERVERS.DIALOG.APPROVE_CHANGE')"
-                  :is-loading="isBusy"
-                  :disabled="isBusy || !tool.read_only"
-                  @click="approveChange(tool)"
-                />
-              </span>
-            </span>
-          </label>
-        </template>
-        <p
-          v-if="missingTools.length"
-          class="text-xs mb-0 px-3 py-2 rounded-lg bg-n-amber-2 text-n-amber-11"
-        >
-          {{
-            t('CAPTAIN.MCP_SERVERS.DIALOG.MISSING_TOOLS', {
-              names: missingTools.join(', '),
-            })
-          }}
-        </p>
-      </template>
-
-      <template v-else-if="step === 'PARAMETERS'">
-        <div class="flex flex-col gap-1">
-          <h4 class="text-sm font-medium text-n-slate-12 m-0">
-            {{ t('CAPTAIN.MCP_SERVERS.DIALOG.PARAMS_TITLE') }}
-          </h4>
-          <p class="text-xs text-n-slate-11 mb-0">
-            {{ t('CAPTAIN.MCP_SERVERS.DIALOG.PARAMS_DESCRIPTION') }}
           </p>
         </div>
-        <div
-          v-for="tool in selectedTools"
-          :key="tool.name"
-          class="flex flex-col gap-3 p-3 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
-        >
-          <code class="text-sm font-medium text-n-slate-12">
-            {{ tool.name }}
-          </code>
-          <p
-            v-if="!schemaParams(toolSchema(tool)).length"
-            class="text-sm text-n-slate-11 mb-0"
+      </section>
+
+      <section v-if="openSuggestions.length" class="flex flex-col gap-2.5">
+        <div class="flex items-center justify-between gap-3">
+          <span class="text-xs font-medium text-n-slate-11">
+            {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.TITLE') }}
+          </span>
+          <span
+            v-if="hasRecommended"
+            class="inline-flex items-center gap-1.5 text-xs text-n-slate-10"
           >
-            {{ t('CAPTAIN.MCP_SERVERS.DIALOG.NO_PARAMS') }}
-          </p>
-          <McpParamRow
-            v-for="param in schemaParams(toolSchema(tool))"
-            :key="param.name"
-            :param="param"
-            :source="sourceOf(selections[tool.name].paramSources, param.name)"
-            :fixed-value="
-              selections[tool.name].paramSources[param.name]?.value || ''
+            <span class="rounded-full size-1.5 bg-n-teal-9" />
+            {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.RECOMMENDED') }}
+          </span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button
+            v-for="suggestion in openSuggestions"
+            :key="suggestion.id"
+            type="button"
+            class="inline-flex items-center gap-1.5 h-8 px-3 text-sm rounded-full outline outline-1 -outline-offset-1 transition-colors disabled:opacity-50"
+            :class="
+              isPicked(suggestion)
+                ? 'outline-n-brand bg-n-blue-2 text-n-blue-11'
+                : 'outline-n-weak bg-n-solid-1 text-n-slate-12 hover:bg-n-alpha-2'
             "
-            :verified-email-taken="
-              usesVerifiedEmail(selections[tool.name].paramSources) &&
-              sourceOf(selections[tool.name].paramSources, param.name) !==
-                PARAM_SOURCES.VERIFIED_EMAIL
-            "
-            @update:source="updateSource(tool, param, $event)"
-            @update:fixed-value="updateFixedValue(tool, param, $event)"
-          />
-          <div class="flex flex-col gap-1 pt-3 border-t border-n-weak">
-            <label class="flex items-center gap-2 text-sm text-n-slate-12">
-              <Switch
-                :model-value="toolRequiresVerification(tool)"
-                :disabled="
-                  usesVerifiedEmail(selections[tool.name].paramSources)
-                "
-                @update:model-value="setRequiresVerification(tool, $event)"
-              />
-              {{ t('CAPTAIN.MCP_SERVERS.DIALOG.REQUIRE_VERIFICATION') }}
-            </label>
+            :disabled="isBusy"
+            @click="pickSuggestion(suggestion)"
+          >
             <span
-              v-if="usesVerifiedEmail(selections[tool.name].paramSources)"
-              class="text-xs text-n-slate-11"
-            >
-              {{ t('CAPTAIN.MCP_SERVERS.DIALOG.REQUIRE_VERIFICATION_LOCKED') }}
-            </span>
-          </div>
+              v-if="suggestion.recommended"
+              class="rounded-full size-1.5 bg-n-teal-9"
+            />
+            {{ suggestion.name }}
+          </button>
         </div>
-      </template>
-
-      <template v-else>
-        <h4 class="text-sm font-medium text-n-slate-12 m-0">
-          {{ t('CAPTAIN.MCP_SERVERS.DIALOG.REVIEW_TITLE') }}
-        </h4>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead>
-              <tr class="text-xs text-n-slate-11 text-start">
-                <th class="py-2 pe-3 font-medium text-start">
-                  {{ t('CAPTAIN.MCP_SERVERS.DIALOG.REVIEW_COLUMNS.TOOL') }}
-                </th>
-                <th class="py-2 pe-3 font-medium text-start">
-                  {{ t('CAPTAIN.MCP_SERVERS.DIALOG.REVIEW_COLUMNS.WHO') }}
-                </th>
-                <th class="py-2 pe-3 font-medium text-start">
-                  {{
-                    t('CAPTAIN.MCP_SERVERS.DIALOG.REVIEW_COLUMNS.PARAMETERS')
-                  }}
-                </th>
-                <th class="py-2 font-medium text-start">
-                  {{
-                    t('CAPTAIN.MCP_SERVERS.DIALOG.REVIEW_COLUMNS.FINGERPRINT')
-                  }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="tool in selectedTools"
-                :key="tool.name"
-                class="border-t border-n-weak align-top"
-              >
-                <td class="py-2 pe-3">
-                  <code>{{ tool.name }}</code>
-                </td>
-                <td class="py-2 pe-3 text-n-slate-11">
-                  {{
-                    toolRequiresVerification(tool)
-                      ? t('CAPTAIN.MCP_SERVERS.WHO.VERIFIED')
-                      : t('CAPTAIN.MCP_SERVERS.WHO.ANYONE')
-                  }}
-                </td>
-                <td class="py-2 pe-3 text-xs text-n-slate-11">
-                  {{ sourceSummary(tool) }}
-                </td>
-                <td class="py-2 font-mono text-xs text-n-slate-11">
-                  {{ fingerprintLabel(toolDigest(tool)) }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </template>
+      </section>
     </div>
 
     <template #footer>
-      <div class="flex items-center justify-between w-full gap-3">
-        <Button
-          v-if="step !== visibleSteps[0]"
-          type="button"
-          faded
-          slate
-          :label="t('CAPTAIN.MCP_SERVERS.DIALOG.BACK')"
-          class="w-full"
-          :disabled="isBusy"
-          @click="back"
-        />
-        <Button
-          v-if="step === 'SERVER'"
-          type="button"
-          class="w-full"
-          :label="t('CAPTAIN.MCP_SERVERS.DIALOG.CONTINUE')"
-          :is-loading="isBusy && !!discovery"
-          :disabled="!canContinueFromServer || isBusy"
-          @click="connect"
-        />
-        <Button
-          v-else-if="step === 'TOOLS'"
-          type="button"
-          class="w-full"
-          :label="t('CAPTAIN.MCP_SERVERS.DIALOG.CONTINUE')"
-          :disabled="isLoadingTools || toolsLoadFailed"
-          @click="step = 'PARAMETERS'"
-        />
-        <Button
-          v-else-if="step === 'PARAMETERS'"
-          type="button"
-          class="w-full"
-          :label="t('CAPTAIN.MCP_SERVERS.DIALOG.CONTINUE')"
-          @click="goToReview"
-        />
-        <Button
-          v-else
-          type="button"
-          class="w-full"
-          :label="t('CAPTAIN.MCP_SERVERS.DIALOG.SAVE')"
-          :is-loading="isBusy"
-          :disabled="isBusy"
-          @click="save"
-        />
+      <!-- The hint shares the row with the buttons, so showing it does not change the dialog height -->
+      <div class="flex items-center gap-4">
+        <p class="flex-1 min-w-0 m-0 text-xs line-clamp-2 text-n-slate-11">
+          <template v-if="redirectsTo">
+            {{
+              t('CAPTAIN.MCP_SERVERS.DIALOG.SERVER.REDIRECT_HINT', {
+                name: redirectsTo,
+              })
+            }}
+          </template>
+        </p>
+        <div class="flex items-center gap-3 shrink-0">
+          <Button
+            type="button"
+            faded
+            slate
+            :label="t('DIALOG.BUTTONS.CANCEL')"
+            :disabled="isBusy"
+            @click="close"
+          />
+          <Button
+            type="submit"
+            :label="primaryAction.label"
+            :icon="primaryAction.icon"
+            :trailing-icon="!!primaryAction.icon"
+            :is-loading="isBusy"
+            :disabled="!canConnect || isBusy"
+          />
+        </div>
       </div>
     </template>
-  </SidePanel>
+  </Dialog>
 </template>

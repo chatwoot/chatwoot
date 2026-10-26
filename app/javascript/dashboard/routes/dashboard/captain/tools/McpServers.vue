@@ -13,6 +13,7 @@ import ToolsPageLayout from 'dashboard/components-next/captain/pageComponents/to
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import McpServerCard from 'dashboard/components-next/captain/pageComponents/mcpServer/McpServerCard.vue';
 import ConnectMcpServerDialog from 'dashboard/components-next/captain/pageComponents/mcpServer/ConnectMcpServerDialog.vue';
+import ManageMcpServerPanel from 'dashboard/components-next/captain/pageComponents/mcpServer/ManageMcpServerPanel.vue';
 
 const SIGN_IN_RESULTS = { SUCCESS: 'success', FAILED: 'failed' };
 
@@ -25,6 +26,7 @@ const { run, isPending } = useAbortableRequest();
 const assistantId = computed(() => route.params.assistantId);
 const servers = ref([]);
 const connectDialogRef = ref(null);
+const managePanelRef = ref(null);
 const layoutRef = ref(null);
 const deleteDialogRef = ref(null);
 const serverToDelete = ref(null);
@@ -50,7 +52,8 @@ const fetchServers = async () => {
   }
 };
 
-const openConnectDialog = () => connectDialogRef.value.open(null);
+const openConnectDialog = () => connectDialogRef.value.open();
+const openManagePanel = server => managePanelRef.value.open(server);
 
 const startSignIn = async server => {
   try {
@@ -67,7 +70,7 @@ const startSignIn = async server => {
 };
 
 const handleAction = ({ action, server }) => {
-  if (action === 'manage') connectDialogRef.value.open(server);
+  if (action === 'manage') openManagePanel(server);
   if (action === 'sign_in') startSignIn(server);
   if (action === 'delete') {
     serverToDelete.value = server;
@@ -133,7 +136,7 @@ const handleSignInResult = async () => {
 
   useAlert(t('CAPTAIN.MCP_SERVERS.SIGN_IN.SUCCESS'));
   const server = servers.value.find(item => item.id === Number(serverId));
-  if (server) connectDialogRef.value.open(server);
+  if (server) openManagePanel(server);
 };
 
 // On a full reload, account features load after mount, so the page waits for access before it fetches.
@@ -190,6 +193,13 @@ watch(
     :assistant-id="assistantId"
     @saved="fetchServers"
     @sign-in="startSignIn"
+    @connected="openManagePanel"
+  />
+
+  <ManageMcpServerPanel
+    ref="managePanelRef"
+    :assistant-id="assistantId"
+    @saved="fetchServers"
   />
 
   <Dialog

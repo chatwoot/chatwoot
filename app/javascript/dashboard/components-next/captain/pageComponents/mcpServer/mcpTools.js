@@ -5,10 +5,11 @@ export const PARAM_SOURCES = {
   FIXED: 'fixed',
 };
 
-// The suggestions shown before "Show all"
-export const VISIBLE_SUGGESTIONS = 6;
-// The part of a URL template the admin fills in, such as the Shopify store name
-export const STORE_PLACEHOLDER = '{store}';
+// How a server asks to be signed in to, as the API reports it
+export const AUTH_TYPES = { NONE: 'none', OAUTH: 'oauth', TOKEN: 'token' };
+
+// The URL field starts with this, since every MCP server Captain connects to uses HTTPS
+export const URL_PREFIX = 'https://';
 
 const DIGEST_PREFIX = 'sha256:';
 const FINGERPRINT_LENGTH = 8;
