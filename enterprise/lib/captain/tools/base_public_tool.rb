@@ -1,6 +1,9 @@
 require 'agents'
 
 class Captain::Tools::BasePublicTool < Agents::Tool
+  UNTRUSTED_RESULT_START = '<tool_result trust="untrusted">'.freeze
+  UNTRUSTED_RESULT_END = '</tool_result>'.freeze
+
   def initialize(assistant)
     @assistant = assistant
     super()
@@ -52,6 +55,18 @@ class Captain::Tools::BasePublicTool < Agents::Tool
 
   def safe_to_run_after_new_customer_message?
     false
+  end
+
+  # Read from stored data on every call, never from the run state the model can influence
+  def stored_verified_email(state)
+    conversation = find_conversation(state)
+    conversation && Captain::EmailVerification.new(conversation).verified_email
+  end
+
+  # Text from an outside system goes to the model inside markers. The prompt tells the model to treat it as data only.
+  # The closing marker is removed from the text, so the text cannot end the block early.
+  def untrusted_result(text)
+    "#{UNTRUSTED_RESULT_START}\n#{text.to_s.gsub(UNTRUSTED_RESULT_END, '')}\n#{UNTRUSTED_RESULT_END}"
   end
 
   def newer_customer_message_arrived?(state)

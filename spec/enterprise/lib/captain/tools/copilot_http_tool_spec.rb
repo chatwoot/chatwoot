@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
+  let(:untrusted) do
+    ->(text) { "#{Captain::Tools::BasePublicTool::UNTRUSTED_RESULT_START}\n#{text}\n#{Captain::Tools::BasePublicTool::UNTRUSTED_RESULT_END}" }
+  end
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
@@ -31,12 +34,12 @@ RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
       result = tool.perform(tool_context, email: 'typed@example.com')
 
       expect(WebMock).to have_requested(:get, 'https://example.com/customers?email=typed%40example.com')
-      expect(result).to start_with('{"found": true}')
+      expect(result).to start_with(untrusted.call('{"found": true}'))
       expect(result).to include('was not verified by the customer')
     end
 
     it 'adds no note when the email passed is what the customer verified' do
-      expect(tool.perform(tool_context, email: 'Jane@example.com')).to eq('{"found": true}')
+      expect(tool.perform(tool_context, email: 'Jane@example.com')).to eq(untrusted.call('{"found": true}'))
     end
 
     it 'says an empty email is not verified when the customer has verified none' do
@@ -57,7 +60,7 @@ RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
       custom_tool.update!(param_schema: [], endpoint_url: 'https://example.com/customers', settings: { 'requires_email_verification' => true })
       allow(Captain::EmailVerification).to receive(:new).and_return(instance_double(Captain::EmailVerification, verified_email: nil))
 
-      expect(tool.perform(tool_context)).to eq('{"found": true}')
+      expect(tool.perform(tool_context)).to eq(untrusted.call('{"found": true}'))
     end
 
     it 'runs with another email the agent passes for a reply suggestion' do
