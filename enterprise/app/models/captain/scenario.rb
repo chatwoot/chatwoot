@@ -123,6 +123,8 @@ class Captain::Scenario < ApplicationRecord
     if tool_metadata[:custom]
       custom_tool = assistant.custom_tools.enabled.find_by(slug: tool_id)
       custom_tool&.tool(assistant)
+    elsif tool_metadata[:mcp]
+      assistant.mcp_agent_tools.tool(tool_id)
     else
       tool_class = self.class.resolve_tool_class(tool_id)
       tool_class&.new(assistant)

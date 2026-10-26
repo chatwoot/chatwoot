@@ -89,6 +89,15 @@ class Captain::McpServer < ApplicationRecord
     enabled? ? tools.where(enabled: true) : Captain::McpTool.none
   end
 
+  # Scenarios list and reference these tools by their Captain name
+  def tool_metadata
+    available_tools.map { |tool| { id: tool.captain_name, title: tool.name, description: tool.description, mcp: true } }
+  end
+
+  def requires_email_verification?
+    available_tools.any?(&:requires_email_verification?)
+  end
+
   # The two status changes after create write only when the value changes, with update_columns and not save:
   # - ServerUpdateService sends a request after it assigns the admin's edit and before it saves it. A save here would
   #   store that edit before the service saves the tool selection in the same transaction.
