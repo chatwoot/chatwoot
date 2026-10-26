@@ -89,7 +89,8 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
 
       live_tools ||= connection.track_status { connection.tool_definitions }.index_by { |tool| tool['name'] }
       definition = live_tools[selection['name']]
-      raise ActiveRecord::RecordInvalid, invalid_tool(selection['name']) unless definition&.dig('read_only')
+      raise ActiveRecord::RecordInvalid, invalid_tool(selection['name'], :missing) unless definition
+      raise ActiveRecord::RecordInvalid, invalid_tool(selection['name'], :not_read_only) unless definition['read_only']
 
       Captain::McpServer.approved_entry(definition, **selection.slice('param_sources', 'settings', 'enabled').symbolize_keys)
     end
@@ -104,8 +105,8 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
     end
   end
 
-  def invalid_tool(name)
-    @mcp_server.errors.add(:tools, I18n.t('captain.mcp_server.tools.not_read_only', tool: name))
+  def invalid_tool(name, reason)
+    @mcp_server.errors.add(:tools, I18n.t("captain.mcp_server.tools.#{reason}", tool: name))
     @mcp_server
   end
 end
