@@ -15,10 +15,8 @@ export const SERVER_ACTIONS = {
   DELETE: 'delete',
 };
 
-// The suggestions shown before "Show all"
-export const VISIBLE_SUGGESTIONS = 6;
-// The part of a URL template the admin fills in, such as the Shopify store name
-export const STORE_PLACEHOLDER = '{store}';
+// The URL field starts with this, since every MCP server Captain connects to uses HTTPS
+export const URL_PREFIX = 'https://';
 
 const DIGEST_PREFIX = 'sha256:';
 const FINGERPRINT_LENGTH = 8;
