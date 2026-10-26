@@ -72,7 +72,7 @@ vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: translate }),
 }));
 
-const PageLayoutStub = {
+const ToolsPageLayoutStub = {
   inheritAttrs: false,
   emits: ['click'],
   template: '<div><slot name="body" /></div>',
@@ -111,10 +111,11 @@ const DialogStub = {
 
 const mountIndex = () =>
   shallowMount(Index, {
+    props: { source: 'custom' },
     global: {
       mocks: { $t: translate },
       stubs: {
-        PageLayout: PageLayoutStub,
+        ToolsPageLayout: ToolsPageLayoutStub,
         CaptainPaywall: true,
         CustomToolsPageEmptyState: true,
         CreateCustomToolDialog: true,
@@ -147,7 +148,7 @@ describe('Captain custom tools', () => {
 
     expect(mocks.dispatch).toHaveBeenCalledWith(
       'captainCustomTools/get',
-      expect.objectContaining({ assistantId: '1', page: 1 })
+      expect.objectContaining({ assistantId: '1', source: 'custom', page: 1 })
     );
   });
 
