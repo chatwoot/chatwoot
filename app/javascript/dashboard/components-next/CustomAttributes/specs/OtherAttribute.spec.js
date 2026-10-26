@@ -61,6 +61,15 @@ describe('OtherAttribute', () => {
     expect(wrapper.text()).toContain(PLACEHOLDER);
   });
 
+  it('does not show the placeholder when the value is false', () => {
+    const wrapper = mountAttribute({
+      attributeDisplayType: 'text',
+      value: false,
+    });
+
+    expect(wrapper.text()).not.toContain(PLACEHOLDER);
+  });
+
   it('keeps 0 in the editor when the value is opened for editing', async () => {
     const wrapper = mountAttribute({
       attributeDisplayType: 'number',
