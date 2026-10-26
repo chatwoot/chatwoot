@@ -232,6 +232,8 @@ GEM
     digest-crc (0.6.5)
       rake (>= 12.0.0, < 14.0.0)
     docile (1.4.1)
+    dockerfile-rails (1.7.10)
+      rails (>= 3.0.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (3.1.2)
@@ -321,7 +323,6 @@ GEM
     fcm (1.0.8)
       faraday (>= 1.0.0, < 3.0)
       googleauth (~> 1)
-    ffi (1.17.2)
     ffi (1.17.2-arm64-darwin)
     ffi (1.17.2-x86_64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
@@ -403,9 +404,6 @@ GEM
       signet (>= 0.16, < 2.a)
     groupdate (6.2.1)
       activesupport (>= 5.2)
-    grpc (1.72.0)
-      google-protobuf (>= 3.25, < 5.0)
-      googleapis-common-protos-types (~> 1.0)
     grpc (1.72.0-arm64-darwin)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
@@ -515,8 +513,6 @@ GEM
     libdatadog (36.0.0.1.0)
     libdatadog (36.0.0.1.0-arm64-darwin)
     libdatadog (36.0.0.1.0-x86_64-linux)
-    libddwaf (1.30.0.0.2)
-      ffi (~> 1.0)
     libddwaf (1.30.0.0.2-arm64-darwin)
       ffi (~> 1.0)
     libddwaf (1.30.0.0.2-x86_64-darwin)
@@ -558,7 +554,6 @@ GEM
     mime-types-data (3.2023.0218.1)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.9)
     minitest (5.27.0)
     mock_redis (0.36.0)
       ruby2_keywords
@@ -590,9 +585,6 @@ GEM
     newrelic_rpm (9.6.0)
       base64
     nio4r (2.7.5)
-    nokogiri (1.19.4)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.19.4-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.19.4-x86_64-darwin)
@@ -1050,7 +1042,6 @@ PLATFORMS
   arm64-darwin-20
   arm64-darwin-21
   arm64-darwin-22
-  ruby
   x86_64-darwin-18
   x86_64-darwin-20
   x86_64-darwin-21
@@ -1091,6 +1082,7 @@ DEPENDENCIES
   devise-secure_password (= 2.2.1)
   devise-two-factor (>= 5.0.0)
   devise_token_auth (>= 1.2.3)
+  dockerfile-rails (>= 1.7)
   dotenv-rails (>= 3.0.0)
   down
   elastic-apm
@@ -1213,4 +1205,4 @@ RUBY VERSION
    ruby 3.4.4p34
 
 BUNDLED WITH
-   2.5.16
+   2.6.7
