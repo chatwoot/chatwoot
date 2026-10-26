@@ -1,19 +1,15 @@
 <script setup>
-import { computed } from 'vue';
-
-const props = defineProps({
+// A native progress bar needs no inline width, and it shows an empty bar when total is 0.
+defineProps({
   done: { type: Number, required: true },
   total: { type: Number, required: true },
 });
-
-const percent = computed(() => Math.round((props.done / props.total) * 100));
 </script>
 
 <template>
-  <div class="h-1.5 w-full overflow-hidden rounded-full bg-n-alpha-2">
-    <div
-      class="h-full rounded-full bg-n-brand transition-all duration-500"
-      :style="{ width: `${percent}%` }"
-    />
-  </div>
+  <progress
+    :value="done"
+    :max="total"
+    class="block w-auto h-1 overflow-hidden border-0 rounded-full appearance-none bg-n-alpha-2 [&::-webkit-progress-bar]:bg-n-alpha-2 [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-value]:bg-n-brand [&::-webkit-progress-value]:transition-all [&::-webkit-progress-value]:duration-500 [&::-moz-progress-bar]:rounded-full [&::-moz-progress-bar]:bg-n-brand"
+  />
 </template>
