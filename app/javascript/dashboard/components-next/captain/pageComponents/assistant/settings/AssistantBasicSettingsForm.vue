@@ -5,6 +5,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
@@ -100,22 +101,28 @@ watch(
 <template>
   <div class="flex flex-col gap-6">
     <div class="flex flex-col gap-2">
-      <span class="text-sm font-medium text-n-slate-12">
-        {{ t('CAPTAIN.ASSISTANTS.FORM.AVATAR.LABEL') }}
-      </span>
+      <div class="flex items-center gap-1">
+        <span class="text-sm font-medium text-n-slate-12">
+          {{ t('CAPTAIN.ASSISTANTS.FORM.AVATAR.LABEL') }}
+        </span>
+        <Icon
+          v-tooltip.right="{
+            content: t('CAPTAIN.ASSISTANTS.FORM.AVATAR.HELP_TEXT'),
+            popperClass: 'max-w-80',
+          }"
+          icon="i-lucide-info"
+          class="size-3.5 text-n-slate-11"
+        />
+      </div>
       <Avatar
         :src="assistant.avatar_url || ''"
         :name="assistant.name || ''"
         :size="72"
         icon-name="i-woot-captain"
         allow-upload
-        rounded-full
         @upload="emit('uploadAvatar', $event)"
         @delete="emit('deleteAvatar')"
       />
-      <span class="text-sm text-n-slate-11">
-        {{ t('CAPTAIN.ASSISTANTS.FORM.AVATAR.HELP_TEXT') }}
-      </span>
     </div>
 
     <Input
