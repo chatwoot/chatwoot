@@ -60,7 +60,7 @@ class Captain::McpServer < ApplicationRecord
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
   # RubyLLM stores the OAuth tokens of this server with the server as their owner
-  has_many :oauth_credentials, as: :owner, class_name: 'RubyLLM::ActiveRecord::MCPCredential', dependent: :delete_all
+  has_many :oauth_credentials, as: :owner, class_name: 'Captain::McpCredential', dependent: :delete_all
 
   enum :auth_type, %w[none oauth token].index_by(&:itself), prefix: :auth, validate: true
   enum :status, %w[active needs_sign_in error].index_by(&:itself), validate: true

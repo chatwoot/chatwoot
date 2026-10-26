@@ -8,6 +8,7 @@ class Captain::Mcp::Connection
   def self.context
     @context ||= RubyLLM.context do |config|
       config.faraday_adapter = SafeFetch::FaradayAdapter
+      config.mcp_credential_store = Captain::McpCredential
       config.mcp_client_name = GlobalConfigService.load('INSTALLATION_NAME', 'Chatwoot')
     end
   end
