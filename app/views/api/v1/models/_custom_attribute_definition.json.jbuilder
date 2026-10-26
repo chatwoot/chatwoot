@@ -7,6 +7,7 @@ json.regex_pattern resource.regex_pattern
 json.regex_cue resource.regex_cue
 json.attribute_values resource.attribute_values
 json.attribute_model resource.attribute_model
+json.business_managed resource.business_managed
 json.default_value resource.default_value
 json.created_at resource.created_at
 json.updated_at resource.updated_at

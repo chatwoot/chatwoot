@@ -9,6 +9,7 @@
 #  attribute_key          :string
 #  attribute_model        :integer          default("conversation_attribute")
 #  attribute_values       :jsonb
+#  business_managed       :boolean          default(FALSE), not null
 #  default_value          :integer
 #  regex_cue              :string
 #  regex_pattern          :string
@@ -33,6 +34,8 @@ class CustomAttributeDefinition < ApplicationRecord
   AUTOMATION_ATTRIBUTES = [Captain::AutomationConditionService::ATTRIBUTE_KEY].freeze
 
   scope :with_attribute_model, ->(attribute_model) { attribute_model.presence && where(attribute_model: attribute_model) }
+  # Contact attributes only the account API and the dashboard can set, so tools can trust the values
+  scope :business_managed, -> { contact_attribute.where(business_managed: true) }
   validates :attribute_display_name, presence: true
   before_validation :normalize_attribute_fields
 
@@ -44,6 +47,7 @@ class CustomAttributeDefinition < ApplicationRecord
   validates :attribute_display_type, presence: true
   validates :attribute_model, presence: true
   validate :attribute_must_not_conflict, on: :create
+  validate :business_managed_only_on_contacts
 
   enum attribute_model: { conversation_attribute: 0, contact_attribute: 1, company_attribute: 2 }
   enum attribute_display_type: { text: 0, number: 1, currency: 2, percent: 3, link: 4, date: 5, list: 6, checkbox: 7 }
@@ -88,6 +92,13 @@ class CustomAttributeDefinition < ApplicationRecord
 
   def conversation_attribute_before_or_after?
     conversation_attribute? || attribute_model_previously_was == 'conversation_attribute'
+  end
+
+  # Only contact attributes are protected from customer writes
+  def business_managed_only_on_contacts
+    return if !business_managed? || contact_attribute?
+
+    errors.add(:business_managed, I18n.t('errors.custom_attribute_definition.business_managed_contact_only'))
   end
 
   def attribute_must_not_conflict
