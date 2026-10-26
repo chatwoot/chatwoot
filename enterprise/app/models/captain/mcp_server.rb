@@ -5,6 +5,7 @@ class Captain::McpServer < ApplicationRecord
 
   self.table_name = 'captain_mcp_servers'
 
+  FEATURE_FLAG = 'captain_mcp_servers'.freeze
   TOOL_NAME_PREFIX = 'mcp'.freeze
   # OpenAI function names allow these characters only, and at most 64 of them
   INVALID_TOOL_NAME_CHARACTERS = /[^a-zA-Z0-9_-]/
