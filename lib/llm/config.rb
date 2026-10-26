@@ -39,6 +39,8 @@ module Llm::Config
         config.openai_protocol = :chat_completions
         config.logger = Rails.logger
       end
+      # RubyLLM's Rails integration records usage in ruby_llm_usages, a table Chatwoot does not have
+      RubyLLM::Accounting::Usage.ledger = nil
     end
 
     def system_api_key
