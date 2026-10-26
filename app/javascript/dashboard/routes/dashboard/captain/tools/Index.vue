@@ -97,6 +97,15 @@ const openCatalog = () =>
     },
   });
 
+const openMcpServers = () =>
+  router.push({
+    name: 'captain_mcp_servers_index',
+    params: {
+      accountId: route.params.accountId,
+      assistantId: assistantId.value,
+    },
+  });
+
 const openCreateDialog = () => {
   dialogType.value = 'create';
   selectedTool.value = null;
@@ -254,6 +263,15 @@ watch(
     @click="openCreateDialog"
   >
     <template #headerActions>
+      <Button
+        v-if="!shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)"
+        :label="$t('CAPTAIN.MCP_SERVERS.BUTTON')"
+        icon="i-lucide-server"
+        size="sm"
+        faded
+        slate
+        @click="openMcpServers"
+      />
       <Policy
         v-if="
           globalConfig.captainToolsManifestEnabled &&
