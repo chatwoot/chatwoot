@@ -170,10 +170,12 @@ onMounted(() => {
               @change="state.noindex = !state.noindex"
             />
           </div>
-          <span v-if="isPortalHiddenFromSearch" class="text-sm text-n-slate-11">
+          <span class="text-sm text-n-slate-11">
             {{
               t(
-                'HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE'
+                isPortalHiddenFromSearch
+                  ? 'HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE'
+                  : 'HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.SEARCH_ENGINE_VISIBILITY_DESCRIPTION'
               )
             }}
           </span>
