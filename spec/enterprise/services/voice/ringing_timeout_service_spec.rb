@@ -238,6 +238,15 @@ RSpec.describe Voice::RingingTimeoutService do
       expect(call.ring_state).not_to have_key('timing_out_at')
     end
 
+    it 'keeps its mark when recording the missed call fails after the caller was moved, so no agent joins an empty call' do
+      allow(call).to receive(:broadcast_voice_call_event).and_raise(ActiveRecord::StatementInvalid)
+
+      expect { service.perform }.to raise_error(ActiveRecord::StatementInvalid)
+      expect(sent_twiml).to be_present
+      expect(call.reload.ring_state).to have_key('timing_out_at')
+      expect(call).to be_ring_timeout_in_progress
+    end
+
     it 'leaves the caller waiting when the inbox does not end unanswered calls' do
       channel.update!(provider_config: channel.provider_config.merge('unanswered_calls_enabled' => false))
 

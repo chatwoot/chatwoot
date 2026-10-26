@@ -27,23 +27,27 @@ class Voice::RingingTimeoutService
   # provider's own status for the hang-up, leave the call alone while the mark is fresh; agent
   # claims are refused meanwhile, see ConferenceService#claim_call!. A Twilio caller is then
   # moved out of the conference to the no-answer announcement. The call is ended only if nobody
-  # answered; one answered meanwhile has this attempt's mark cleared.
+  # answered; one answered meanwhile has this attempt's mark cleared. A failure before the caller
+  # is moved clears the mark so an agent can still answer; one after keeps it, so claims stay
+  # refused until the retry, which waits out the mark, records the missed call.
   # Returns the seconds to wait when an agent's connection is still on its way in, or another
   # attempt's mark is still fresh (its worker may have died), else nil.
   def perform
     started = start_timeout
     return started unless started == true
 
-    caller_gone = caller_gone?
+    caller_gone = begin
+      caller_gone?
+    rescue StandardError
+      call.with_lock { clear_timeout_mark if call.ring_state['timing_out_at'] == @attempt_at }
+      raise
+    end
     call.with_lock do
       next unless call.ring_state['timing_out_at'] == @attempt_at
 
       caller_gone && unanswered? ? finalize : clear_timeout_mark
     end
     nil
-  rescue StandardError
-    call.with_lock { clear_timeout_mark if call.ring_state['timing_out_at'] == @attempt_at }
-    raise
   end
 
   private
