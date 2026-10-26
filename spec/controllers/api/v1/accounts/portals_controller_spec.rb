@@ -421,4 +421,25 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
       end
     end
   end
+
+  describe 'config.disable_search_indexing' do
+    let(:portal_url) { "/api/v1/accounts/#{account.id}/portals/#{portal.slug}" }
+
+    it 'hides the portal from search engines' do
+      put portal_url, params: { portal: { config: { disable_search_indexing: true } } },
+                      headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body.dig('config', 'disable_search_indexing')).to be(true)
+      expect(portal.reload.search_indexing_disabled?).to be(true)
+    end
+
+    it 'rejects a non-boolean value' do
+      put portal_url, params: { portal: { config: { disable_search_indexing: 'true' } } },
+                      headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(portal.reload.search_indexing_disabled?).to be(false)
+    end
+  end
 end
