@@ -127,7 +127,7 @@ Rails.application.routes.draw do
             resources :mcp_servers, only: [:index, :show, :create, :update, :destroy] do
               post :discover, on: :collection
               member do
-                get :available_tools
+                get :live_tools
                 get :authorization_url
               end
             end
