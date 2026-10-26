@@ -33,6 +33,14 @@ module SafeFetch
     raise UnsafeUrlError, e.message
   end
 
+  # Returns an address of the hostname that is safe to connect to.
+  # ssrf_filter keeps its address check private, but it is the same check SafeFetch.fetch applies.
+  def self.safe_address(hostname)
+    addresses = SsrfFilter::DEFAULT_RESOLVER.call(hostname)
+    addresses = addresses.reject { |address| SsrfFilter.send(:unsafe_ip_address?, address) } unless allow_private_network?
+    addresses.sample || raise(UnsafeUrlError, "#{hostname} does not resolve to a public address")
+  end
+
   def self.allow_private_network?
     ActiveModel::Type::Boolean.new.cast(ENV.fetch('SAFE_FETCH_ALLOW_PRIVATE_NETWORK', false))
   end
