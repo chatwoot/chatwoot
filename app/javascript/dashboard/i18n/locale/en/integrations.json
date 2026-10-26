@@ -1426,12 +1426,31 @@
         }
       }
     },
+    "TOOLS_NAV": {
+      "INSTALLED": "Installed",
+      "CUSTOM": "Custom tools",
+      "MCP_SERVERS": "MCP servers",
+      "CATALOG": "Tools catalog"
+    },
+    "TOOLS_PAGES": {
+      "INSTALLED": {
+        "HEADING": "Installed",
+        "DESCRIPTION": "Toolsets installed from the tools catalog. Their tools are read-only, but you can turn each tool on or off.",
+        "EMPTY": "No toolsets installed on this assistant yet."
+      },
+      "CUSTOM": {
+        "HEADING": "Custom tools",
+        "DESCRIPTION": "Tools you define yourself. Each one calls an API endpoint you configure."
+      },
+      "MCP_SERVERS": {
+        "DESCRIPTION": "MCP servers connected to this assistant, and the read tools Captain can use from each."
+      }
+    },
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
       "CATALOG": {
         "BUTTON": "Tools Catalog",
-        "HEADER": "Tools Catalog",
         "DESCRIPTION": "Browse toolsets from the Captain tools catalog and install them on this assistant.",
         "ALL": "All",
         "EMPTY": "No toolsets in this category yet.",
@@ -1662,7 +1681,6 @@
     },
     "MCP_SERVERS": {
       "HEADER": "MCP servers",
-      "BUTTON": "MCP servers",
       "CONNECT": "Connect server",
       "EMPTY_STATE": {
         "TITLE": "No MCP servers yet",

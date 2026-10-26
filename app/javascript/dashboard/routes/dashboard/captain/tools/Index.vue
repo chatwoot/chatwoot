@@ -9,8 +9,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 
-import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
-import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
+import ToolsPageLayout from 'dashboard/components-next/captain/pageComponents/tools/ToolsPageLayout.vue';
 import CustomToolsPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/CustomToolsPageEmptyState.vue';
 import CreateCustomToolDialog from 'dashboard/components-next/captain/pageComponents/customTool/CreateCustomToolDialog.vue';
 import CustomToolCard from 'dashboard/components-next/captain/pageComponents/customTool/CustomToolCard.vue';
@@ -20,22 +19,48 @@ import ToolsetInstallFlow from 'dashboard/components-next/captain/pageComponents
 import AssistantToolsBanner from 'dashboard/components-next/captain/pageComponents/customTool/AssistantToolsBanner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Policy from 'dashboard/components/policy.vue';
+import { TOOL_SOURCES } from './constants';
+
+const props = defineProps({
+  source: {
+    type: String,
+    required: true,
+    validator: value => Object.values(TOOL_SOURCES).includes(value),
+  },
+});
 
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
 const assistantId = computed(() => route.params.assistantId);
 const { t } = useI18n();
-const { shouldShowPaywall, isFeatureFlagEnabled } = usePolicy();
+const { shouldShowPaywall } = usePolicy();
 const { isAdmin } = useAdmin();
 
 const uiFlags = useMapGetter('captainCustomTools/getUIFlags');
 const globalConfig = useMapGetter('globalConfig/get');
 const { run, isPending: isFetchingTools } = useAbortableRequest();
 const records = useMapGetter('captainCustomTools/getRecords');
+const isInstalledPage = computed(() => props.source === TOOL_SOURCES.INSTALLED);
 const customTools = computed(() =>
-  records.value.filter(tool => tool.assistant_id === Number(assistantId.value))
+  records.value.filter(
+    tool =>
+      tool.assistant_id === Number(assistantId.value) &&
+      !!tool.source_metadata === isInstalledPage.value
+  )
 );
+// Installed tools are grouped by the toolset they came from
+const toolsets = computed(() => {
+  const groups = new Map();
+  customTools.value.forEach(tool => {
+    const { repository, path, version } = tool.source_metadata;
+    const key = `${repository}/${path}`;
+    if (!groups.has(key)) groups.set(key, { key, path, version, tools: [] });
+    groups.get(key).tools.push(tool);
+  });
+  return [...groups.values()];
+});
+const layoutRef = ref(null);
 const isFetching = computed(
   () => uiFlags.value.fetchingList || isFetchingTools.value
 );
@@ -81,6 +106,7 @@ const fetchCustomTools = (page = 1) =>
   run(signal =>
     store.dispatch('captainCustomTools/get', {
       assistantId: assistantId.value,
+      source: props.source,
       page,
       signal,
     })
@@ -91,15 +117,6 @@ const onPageChange = page => fetchCustomTools(page);
 const openCatalog = () =>
   router.push({
     name: 'captain_tools_explore',
-    params: {
-      accountId: route.params.accountId,
-      assistantId: assistantId.value,
-    },
-  });
-
-const openMcpServers = () =>
-  router.push({
-    name: 'captain_mcp_servers_index',
     params: {
       accountId: route.params.accountId,
       assistantId: assistantId.value,
@@ -206,16 +223,21 @@ const handleDialogClose = () => {
   selectedTool.value = null;
 };
 
-const handleToolCreated = () => fetchCustomTools();
+const handleToolCreated = () => {
+  fetchCustomTools();
+  layoutRef.value?.refreshCounts();
+};
 
 // Install links land here with ?install=<source>; another assistant's tools load when the route changes
 const onToolsetInstalled = installedAssistantId => {
-  if (installedAssistantId === Number(assistantId.value)) fetchCustomTools();
+  if (installedAssistantId !== Number(assistantId.value)) return;
+  fetchCustomTools();
+  layoutRef.value?.refreshCounts();
 };
 
 const finishToolsetInstall = installedAssistantId =>
   router.replace({
-    name: 'captain_tools_index',
+    name: 'captain_tools_installed',
     params: {
       accountId: route.params.accountId,
       assistantId: installedAssistantId,
@@ -224,6 +246,7 @@ const finishToolsetInstall = installedAssistantId =>
 
 const onDeleteSuccess = () => {
   selectedTool.value = null;
+  layoutRef.value?.refreshCounts();
   if (customTools.value.length === 0 && customToolsMeta.value.page > 1) {
     onPageChange(customToolsMeta.value.page - 1);
   } else {
@@ -239,7 +262,7 @@ const showPaywall = computed(() =>
 );
 
 watch(
-  [assistantId, showPaywall],
+  [assistantId, showPaywall, () => props.source],
   () => {
     if (!showPaywall.value) fetchCustomTools();
   },
@@ -248,32 +271,31 @@ watch(
 </script>
 
 <template>
-  <PageLayout
-    :header-title="$t('CAPTAIN.CUSTOM_TOOLS.HEADER')"
-    :button-label="$t('CAPTAIN.CUSTOM_TOOLS.ADD_NEW')"
-    :button-policy="['administrator']"
-    :feature-flag="FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS"
+  <ToolsPageLayout
+    ref="layoutRef"
+    :heading="
+      isInstalledPage
+        ? $t('CAPTAIN.TOOLS_PAGES.INSTALLED.HEADING')
+        : $t('CAPTAIN.TOOLS_PAGES.CUSTOM.HEADING')
+    "
+    :description="
+      isInstalledPage
+        ? $t('CAPTAIN.TOOLS_PAGES.INSTALLED.DESCRIPTION')
+        : $t('CAPTAIN.TOOLS_PAGES.CUSTOM.DESCRIPTION')
+    "
+    :button-label="isInstalledPage ? '' : $t('CAPTAIN.CUSTOM_TOOLS.ADD_NEW')"
     :total-count="customToolsMeta.totalCount"
     :current-page="customToolsMeta.page"
     :show-pagination-footer="!isFetching && !!customTools.length"
     :is-fetching="isFetching"
     :is-empty="!customTools.length"
-    :show-know-more="false"
     @update:current-page="onPageChange"
     @click="openCreateDialog"
   >
     <template #headerActions>
-      <Button
-        v-if="isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN_MCP_SERVERS)"
-        :label="$t('CAPTAIN.MCP_SERVERS.BUTTON')"
-        icon="i-lucide-server"
-        size="sm"
-        faded
-        slate
-        @click="openMcpServers"
-      />
       <Policy
         v-if="
+          isInstalledPage &&
           globalConfig.captainToolsManifestEnabled &&
           !shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
         "
@@ -290,30 +312,73 @@ watch(
       </Policy>
     </template>
 
-    <template #paywall>
-      <CaptainPaywall feature-prefix="CAPTAIN.CUSTOM_TOOLS" />
-    </template>
-
     <template #emptyState>
-      <CustomToolsPageEmptyState @click="openCreateDialog" />
+      <div
+        v-if="isInstalledPage"
+        class="flex flex-col items-start gap-3 p-6 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
+      >
+        <span class="text-sm text-n-slate-11">
+          {{ $t('CAPTAIN.TOOLS_PAGES.INSTALLED.EMPTY') }}
+        </span>
+        <Button
+          v-if="globalConfig.captainToolsManifestEnabled"
+          :label="$t('CAPTAIN.CUSTOM_TOOLS.CATALOG.BUTTON')"
+          icon="i-lucide-blocks"
+          size="sm"
+          @click="openCatalog"
+        />
+      </div>
+      <CustomToolsPageEmptyState v-else @click="openCreateDialog" />
     </template>
 
     <template #controls>
-      <AssistantToolsBanner />
+      <AssistantToolsBanner v-if="!isInstalledPage" />
     </template>
 
     <template #body>
-      <div class="flex flex-col gap-4">
+      <div v-if="isInstalledPage" class="flex flex-col gap-6">
+        <section
+          v-for="toolset in toolsets"
+          :key="toolset.key"
+          class="flex flex-col gap-3"
+        >
+          <div class="flex items-baseline gap-2">
+            <h3 class="m-0 text-sm font-medium text-n-slate-12">
+              {{ toolset.path }}
+            </h3>
+            <span class="text-xs text-n-slate-11">
+              {{
+                $t('CAPTAIN.CUSTOM_TOOLS.CATALOG.VERSION', {
+                  version: toolset.version,
+                })
+              }}
+            </span>
+          </div>
+          <CustomToolCard
+            v-for="tool in toolset.tools"
+            :id="tool.id"
+            :key="tool.id"
+            :title="tool.title"
+            :description="tool.description"
+            :auth-type="tool.auth_type"
+            :enabled="tool.enabled"
+            :source-metadata="tool.source_metadata"
+            :is-updating="pendingToggleIds.has(tool.id)"
+            :created-at="tool.created_at"
+            :updated-at="tool.updated_at"
+            @action="handleAction"
+            @toggle="toggleCustomTool"
+          />
+        </section>
+      </div>
+      <div v-else class="flex flex-col gap-4">
         <CustomToolCard
           v-for="tool in customTools"
           :id="tool.id"
           :key="tool.id"
           :title="tool.title"
           :description="tool.description"
-          :endpoint-url="tool.endpoint_url"
-          :http-method="tool.http_method"
           :auth-type="tool.auth_type"
-          :param-schema="tool.param_schema"
           :enabled="tool.enabled"
           :source-metadata="tool.source_metadata"
           :is-updating="pendingToggleIds.has(tool.id)"
@@ -324,10 +389,10 @@ watch(
         />
       </div>
     </template>
-  </PageLayout>
+  </ToolsPageLayout>
 
   <ToolsetInstallFlow
-    v-if="isAdmin && !showPaywall && route.query.install"
+    v-if="isInstalledPage && isAdmin && !showPaywall && route.query.install"
     :source="route.query.install"
     :assistant-id="assistantId"
     @installed="onToolsetInstalled"
