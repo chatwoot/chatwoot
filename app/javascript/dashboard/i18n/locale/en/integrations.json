@@ -1718,7 +1718,19 @@
         "STORE_PLACEHOLDER": "your-store",
         "STORE_HINT": "The part before .myshopify.com in your store address.",
         "USE": "Use",
-        "PASTE_HINT": "Paste the MCP server URL from your {name} account below."
+        "PASTE_HINT": "Paste the MCP server URL from your {name} account below.",
+        "OR_URL": "Or enter a server URL",
+        "NEEDS_STORE": "Needs your store name",
+        "NEEDS_URL": "Needs the MCP URL from your account",
+        "DESCRIPTIONS": {
+          "STRIPE": "Customers, invoices and subscriptions",
+          "PAYPAL": "Transactions, invoices and disputes",
+          "HUBSPOT": "Contacts, companies and deals",
+          "CALENDLY": "Event types, bookings and availability",
+          "CAL_COM": "Bookings, event types and availability",
+          "NOTION": "Pages and databases in your workspace",
+          "SUPABASE": "Tables in your Supabase project"
+        }
       },
       "DIALOG": {
         "CONNECT_TITLE": "Connect an MCP server",
@@ -1802,7 +1814,8 @@
         "KEEP_OFF": "Keep turned off",
         "CHANGE_APPROVED": "Change approved.",
         "APPROVE_ERROR": "Could not approve the change.",
-        "MISSING_TOOLS": "The server no longer lists these approved tools. Saving removes them: {names}"
+        "MISSING_TOOLS": "The server no longer lists these approved tools. Saving removes them: {names}",
+        "STEP_PROGRESS": "Step {current} of {total}: {name}"
       },
       "NEEDS_REVIEW": "Needs review"
     },

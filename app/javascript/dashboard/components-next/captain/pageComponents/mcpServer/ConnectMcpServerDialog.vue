@@ -19,8 +19,6 @@ import {
   sourceOf,
   usesVerifiedEmail,
   requiresVerification,
-  SUGGESTION_ICONS,
-  DEFAULT_SUGGESTION_ICON,
   VISIBLE_SUGGESTIONS,
   STORE_PLACEHOLDER,
 } from './mcpTools';
@@ -141,6 +139,28 @@ const loadTools = async () => {
     isLoadingTools.value = false;
   }
 };
+
+const stepProgress = computed(() =>
+  t('CAPTAIN.MCP_SERVERS.DIALOG.STEP_PROGRESS', {
+    current: visibleSteps.value.indexOf(step.value) + 1,
+    total: visibleSteps.value.length,
+    name: t(`CAPTAIN.MCP_SERVERS.DIALOG.STEPS.${step.value}`),
+  })
+);
+
+// A server that needs more input says so instead of describing its data
+const suggestionDescription = suggestion => {
+  if (suggestion.url_template)
+    return t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.NEEDS_STORE');
+  if (!suggestion.url) return t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.NEEDS_URL');
+  return t(
+    `CAPTAIN.MCP_SERVERS.SUGGESTIONS.DESCRIPTIONS.${suggestion.id.toUpperCase()}`
+  );
+};
+
+const isPicked = suggestion =>
+  pendingSuggestion.value?.id === suggestion.id ||
+  (!!suggestion.url && suggestion.url === url.value);
 
 const visibleSuggestions = computed(() =>
   showAllSuggestions.value
@@ -370,69 +390,91 @@ defineExpose({ open });
     ref="dialogRef"
     width="2xl"
     :title="title"
+    :description="stepProgress"
     :close-on-click-outside="false"
   >
-    <ol class="flex flex-wrap gap-1 p-0 m-0 list-none">
-      <li
-        v-for="(name, index) in visibleSteps"
-        :key="name"
-        class="text-xs px-2.5 py-1 rounded-full"
-        :class="
-          name === step
-            ? 'bg-n-brand text-white'
-            : 'bg-n-alpha-2 text-n-slate-11'
-        "
-      >
-        {{ index + 1 }}. {{ t(`CAPTAIN.MCP_SERVERS.DIALOG.STEPS.${name}`) }}
-      </li>
-    </ol>
-
-    <div class="flex flex-col gap-4 mt-5">
+    <div class="flex flex-col gap-5">
       <template v-if="step === 'SERVER'">
-        <div v-if="suggestions.length" class="flex flex-col gap-2">
-          <span class="text-sm font-medium text-n-slate-12">
+        <section v-if="suggestions.length" class="flex flex-col gap-2">
+          <h4 class="m-0 text-sm font-medium text-n-slate-12">
             {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.TITLE') }}
-          </span>
-          <div class="grid grid-cols-2 gap-2">
-            <button
-              v-for="suggestion in visibleSuggestions"
-              :key="suggestion.id"
-              type="button"
-              class="flex items-center gap-2 px-3 py-2 rounded-lg border text-start text-sm text-n-slate-12 disabled:opacity-60"
-              :class="
-                pendingSuggestion?.id === suggestion.id ||
-                (suggestion.url && suggestion.url === url)
-                  ? 'border-n-brand'
-                  : 'border-n-weak hover:border-n-slate-6'
-              "
-              :disabled="isBusy || suggestion.connected"
-              @click="pickSuggestion(suggestion)"
-            >
-              <i
-                class="size-4 shrink-0"
+          </h4>
+          <ul
+            class="m-0 overflow-hidden list-none divide-y rounded-xl outline outline-1 outline-n-weak divide-n-weak"
+          >
+            <li v-for="suggestion in visibleSuggestions" :key="suggestion.id">
+              <button
+                type="button"
+                class="flex items-center w-full gap-3 px-4 py-3 text-start disabled:cursor-not-allowed"
                 :class="
-                  SUGGESTION_ICONS[suggestion.id] || DEFAULT_SUGGESTION_ICON
+                  isPicked(suggestion) ? 'bg-n-alpha-2' : 'hover:bg-n-alpha-1'
                 "
-              />
-              <span class="flex-1 truncate">{{ suggestion.name }}</span>
-              <span
-                v-if="suggestion.connected"
-                class="text-xs text-n-slate-11 shrink-0"
+                :disabled="isBusy || suggestion.connected"
+                @click="pickSuggestion(suggestion)"
               >
-                {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.CONNECTED') }}
-              </span>
-              <span
-                v-else-if="suggestion.recommended"
-                class="text-xs px-1.5 py-0.5 rounded-full bg-n-teal-3 text-n-teal-11 shrink-0"
+                <span class="flex flex-col flex-1 min-w-0 gap-0.5">
+                  <span class="text-sm font-medium text-n-slate-12">
+                    {{ suggestion.name }}
+                  </span>
+                  <span class="text-xs text-n-slate-11">
+                    {{ suggestionDescription(suggestion) }}
+                  </span>
+                </span>
+                <span
+                  v-if="suggestion.connected"
+                  class="text-xs text-n-slate-11 shrink-0"
+                >
+                  {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.CONNECTED') }}
+                </span>
+                <span
+                  v-else-if="suggestion.recommended"
+                  class="text-xs font-medium px-2 py-0.5 rounded-full shrink-0 bg-n-teal-3 text-n-teal-11"
+                >
+                  {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.RECOMMENDED') }}
+                </span>
+                <i
+                  v-else
+                  class="i-lucide-chevron-right size-4 shrink-0 text-n-slate-10"
+                />
+              </button>
+              <div
+                v-if="pendingSuggestion?.id === suggestion.id"
+                class="px-4 pb-3 bg-n-alpha-2"
               >
-                {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.RECOMMENDED') }}
-              </span>
-            </button>
-          </div>
+                <div
+                  v-if="suggestion.url_template"
+                  class="flex items-end gap-2"
+                >
+                  <Input
+                    v-model="storeName"
+                    class="flex-1"
+                    :label="t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.STORE_LABEL')"
+                    :placeholder="
+                      t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.STORE_PLACEHOLDER')
+                    "
+                    :message="t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.STORE_HINT')"
+                    @enter="useStoreName"
+                  />
+                  <Button
+                    :label="t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.USE')"
+                    :disabled="!storeName.trim() || isBusy"
+                    @click="useStoreName"
+                  />
+                </div>
+                <p v-else class="m-0 text-xs text-n-slate-11">
+                  {{
+                    t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.PASTE_HINT', {
+                      name: suggestion.name,
+                    })
+                  }}
+                </p>
+              </div>
+            </li>
+          </ul>
           <button
             v-if="suggestions.length > VISIBLE_SUGGESTIONS"
             type="button"
-            class="p-0 text-xs underline text-n-blue-11 text-start"
+            class="self-start p-0 text-xs font-medium text-n-blue-11 hover:underline"
             @click="showAllSuggestions = !showAllSuggestions"
           >
             {{
@@ -441,34 +483,17 @@ defineExpose({ open });
                 : t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.SHOW_ALL')
             }}
           </button>
-          <div
-            v-if="pendingSuggestion?.url_template"
-            class="flex items-end gap-2"
-          >
-            <Input
-              v-model="storeName"
-              class="flex-1"
-              :label="t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.STORE_LABEL')"
-              :placeholder="
-                t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.STORE_PLACEHOLDER')
-              "
-              :message="t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.STORE_HINT')"
-              @enter="useStoreName"
-            />
-            <Button
-              :label="t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.USE')"
-              :disabled="!storeName.trim() || isBusy"
-              @click="useStoreName"
-            />
-          </div>
-          <p v-else-if="pendingSuggestion" class="text-xs mb-0 text-n-slate-11">
-            {{
-              t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.PASTE_HINT', {
-                name: pendingSuggestion.name,
-              })
-            }}
-          </p>
+        </section>
+
+        <div
+          v-if="suggestions.length"
+          class="flex items-center gap-3 text-xs text-n-slate-11"
+        >
+          <span class="flex-1 h-px bg-n-weak" />
+          {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.OR_URL') }}
+          <span class="flex-1 h-px bg-n-weak" />
         </div>
+
         <div class="flex items-end gap-2">
           <Input
             v-model="url"
@@ -488,7 +513,7 @@ defineExpose({ open });
 
         <div
           v-if="discovery"
-          class="flex flex-col gap-3 p-3 rounded-lg border border-n-weak"
+          class="flex flex-col gap-3 p-3 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
         >
           <div class="flex flex-col gap-0.5">
             <span class="text-xs text-n-slate-11">
@@ -594,7 +619,7 @@ defineExpose({ open });
           <label
             v-for="tool in liveTools"
             :key="tool.name"
-            class="flex flex-col gap-2 p-3 rounded-lg border border-n-weak"
+            class="flex flex-col gap-2 p-3 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
             :class="{ 'opacity-60': !tool.read_only }"
           >
             <span class="flex items-center justify-between gap-3">
@@ -720,7 +745,7 @@ defineExpose({ open });
         <div
           v-for="tool in selectedTools"
           :key="tool.name"
-          class="flex flex-col gap-3 p-3 rounded-lg border border-n-weak"
+          class="flex flex-col gap-3 p-3 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
         >
           <code class="text-sm font-medium text-n-slate-12">
             {{ tool.name }}
