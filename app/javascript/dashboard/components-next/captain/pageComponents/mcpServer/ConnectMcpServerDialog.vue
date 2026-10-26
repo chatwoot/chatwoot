@@ -108,7 +108,7 @@ const loadTools = async () => {
   isLoadingTools.value = true;
   toolsLoadFailed.value = false;
   try {
-    const { data } = await McpServersAPI.availableTools({
+    const { data } = await McpServersAPI.liveTools({
       id: server.value.id,
       assistantId: props.assistantId,
     });
