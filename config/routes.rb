@@ -124,6 +124,13 @@ Rails.application.routes.draw do
             resources :custom_tools do
               post :test, on: :collection
             end
+            resources :mcp_servers, only: [:index, :show, :create, :update, :destroy] do
+              post :discover, on: :collection
+              member do
+                get :available_tools
+                get :authorization_url
+              end
+            end
             resource :tools_manifest, only: [] do
               get :installed
               post :preview
@@ -767,6 +774,7 @@ Rails.application.routes.draw do
   get 'instagram/callback', to: 'instagram/callbacks#show'
   get 'tiktok/callback', to: 'tiktok/callbacks#show'
   get 'notion/callback', to: 'notion/callbacks#show'
+  get 'captain/mcp/callback', to: 'captain/mcp_callbacks#show' if ChatwootApp.enterprise?
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'
