@@ -147,9 +147,18 @@ class Captain::McpServer < ApplicationRecord
   def validate_tool_entries
     return unless tools.is_a?(Array) && tools.all?(Hash)
 
-    names = tools.pluck('name')
-    errors.add(:tools, I18n.t('captain.mcp_server.tools.duplicate')) if names.uniq.size != names.size
+    names_error = tool_names_error(tools.pluck('name'))
+    return errors.add(:tools, names_error) if names_error
+
     tools.each { |tool| validate_param_sources(tool) }
+  end
+
+  def tool_names_error(names)
+    return I18n.t('captain.mcp_server.tools.duplicate') if names.uniq.size != names.size
+
+    # Captain names replace unsupported characters and cut long names, so two server names can become one
+    clashing = names.group_by { |name| captain_tool_name(name) }.values.find { |group| group.size > 1 }
+    I18n.t('captain.mcp_server.tools.name_clash', names: clashing.join(', ')) if clashing
   end
 
   def validate_param_sources(tool)
