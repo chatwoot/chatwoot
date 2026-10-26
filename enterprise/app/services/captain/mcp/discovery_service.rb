@@ -1,7 +1,8 @@
-# Checks an MCP server URL before it is saved: which sign-in the server wants, its name, and its tools.
+# Checks an MCP server URL before it is saved: which sign-in the server wants, and its name.
+# The tools are listed later, when the admin picks them.
 # Without a token, a server that answers 401 needs OAuth if it publishes OAuth metadata, and a token otherwise.
 class Captain::Mcp::DiscoveryService
-  Result = Data.define(:auth_type, :name, :version, :tools)
+  Result = Data.define(:auth_type, :name, :version)
   OAUTH_METADATA_PATHS = ['/.well-known/oauth-protected-resource%<path>s', '/.well-known/oauth-authorization-server'].freeze
   MAX_METADATA_BYTES = 64.kilobytes
 
@@ -14,11 +15,11 @@ class Captain::Mcp::DiscoveryService
   def perform
     connection = Captain::Mcp::Connection.new(probe_server)
     Result.new(auth_type: probe_server.auth_type, name: connection.server_name.presence || host,
-               version: connection.server_version, tools: connection.tool_definitions)
+               version: connection.server_version)
   rescue RubyLLM::UnauthorizedError => e
     raise if @token.present?
 
-    Result.new(auth_type: oauth?(e.response) ? 'oauth' : 'token', name: host, version: nil, tools: nil)
+    Result.new(auth_type: oauth?(e.response) ? 'oauth' : 'token', name: host, version: nil)
   end
 
   private
