@@ -1,7 +1,7 @@
 class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::BaseController
   before_action :ensure_mcp_servers_enabled
   before_action -> { check_authorization(Captain::McpServer) }
-  before_action :set_mcp_server, only: [:show, :update, :destroy, :live_tools, :authorization_url]
+  before_action :set_mcp_server, only: [:show, :update, :destroy, :live_tools, :authorization_url, :approve_tool]
 
   # A failing or unreachable MCP server is the admin's input to fix, not a Chatwoot error
   rescue_from(*Captain::Mcp::Connection::ERRORS) { |error| render_could_not_create_error(error.message) }
@@ -37,6 +37,12 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
   # The live tools, marked with whether an admin approved each one and whether it changed since
   def live_tools
     @live_tools = connection.track_status { connection.tool_definitions }
+    @mcp_server.record_tool_changes(@live_tools)
+  end
+
+  def approve_tool
+    @mcp_server.approve_tool(params.require(:name), connection.track_status { connection.tool_definitions })
+    render :show
   end
 
   def authorization_url

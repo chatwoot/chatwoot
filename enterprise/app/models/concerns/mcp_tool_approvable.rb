@@ -35,6 +35,36 @@ module Concerns::McpToolApprovable
     { tools: compared, missing: approved.keys - live_definitions.pluck('name') }
   end
 
+  # Approved tools whose live definition differs from the approved one, or that the server no longer lists
+  def changed_tool_names(live_definitions)
+    comparison = compare_live_tools(live_definitions)
+    comparison[:tools].select { |entry| entry[:changed] }.map { |entry| entry[:definition]['name'] } + comparison[:missing]
+  end
+
+  # Records when a change first appeared, and clears it once no approved tool differs.
+  # The hourly check and the tools page call this. update_columns writes only tools_changed_at: a server saved under
+  # older rules, such as an earlier URL check, may fail today's validations, and that must not stop Chatwoot from
+  # flagging a changed tool.
+  def record_tool_changes(live_definitions)
+    changed = changed_tool_names(live_definitions).any?
+    return if changed == tools_changed_at.present?
+
+    update_columns(tools_changed_at: changed ? Time.current : nil) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  # Pins an approved tool to its live definition after an admin reviewed the change. Parameter sources stay,
+  # so a parameter the server removed must lose its source first, and a new parameter is filled by Captain.
+  def approve_tool(name, live_definitions)
+    definition = live_definitions.find { |live| live['name'] == name }
+    tool = tools.find_by(name: name)
+    invalid_tool!(name, :missing) unless definition && tool
+    invalid_tool!(name, :not_read_only) unless definition['read_only']
+
+    tool.approve(definition)
+    tool.save!
+    record_tool_changes(live_definitions)
+  end
+
   # Adds the error to the server and raises, so the API answers 422 with the reason
   def invalid_tool!(name, reason)
     errors.add(:tools, I18n.t("captain.mcp_server.tools.#{reason}", tool: name))
