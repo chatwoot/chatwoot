@@ -131,6 +131,51 @@ describe('CallAnnouncementSettings', () => {
     });
   });
 
+  it('saves the ring time with a no-answer announcement', async () => {
+    dispatch.mockResolvedValue();
+    const wrapper = mountComponent(
+      {
+        kind: 'unanswered',
+        i18nKey: 'UNANSWERED',
+        message: 'Nobody is available.',
+        audioUrl: null,
+        timeoutSeconds: 60,
+      },
+      { NextInput: false }
+    );
+
+    await wrapper.find('input[type="number"]').setValue('45');
+    wrapper.findComponent(NextButton).vm.$emit('click');
+    await flushPromises();
+
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateCallAnnouncement', {
+      id: 387,
+      kind: 'unanswered',
+      enabled: true,
+      message: 'Nobody is available.',
+      timeoutSeconds: 45,
+    });
+  });
+
+  it('sends no ring time for announcements without one', async () => {
+    dispatch.mockResolvedValue();
+    const wrapper = mountComponent();
+    expect(wrapper.find('input[type="number"]').exists()).toBe(false);
+
+    wrapper
+      .findComponent(SettingsToggleSection)
+      .vm.$emit('update:modelValue', false);
+    await flushPromises();
+
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateCallAnnouncement', {
+      id: 387,
+      kind: 'out_of_hours',
+      enabled: false,
+      message: 'Call again tomorrow.',
+      timeoutSeconds: undefined,
+    });
+  });
+
   it('shows no Captain audio for a text-only announcement', () => {
     const wrapper = mountComponent({
       kind: 'greeting',

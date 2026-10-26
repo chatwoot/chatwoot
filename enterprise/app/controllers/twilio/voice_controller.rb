@@ -30,7 +30,7 @@ class Twilio::VoiceController < ApplicationController
     return render xml: twiml.reject if reject_inbound?
 
     call = resolve_call
-    return render xml: twiml.announcement(:out_of_hours) if announce_closure?(call)
+    return render xml: twiml.announcement(call.announcement_kind) if announce_end?(call)
 
     # The leg was answered after the call ended (e.g. hangup raced the cancel); don't strand it in an empty conference.
     return render xml: twiml.hangup unless open_leg?(call)
@@ -111,9 +111,9 @@ class Twilio::VoiceController < ApplicationController
     twilio_direction == 'inbound' && !agent_leg?(twilio_from) && !inbox.channel.inbound_calls_enabled?
   end
 
-  # A caller outside business hours is told so instead of waiting for a conference nobody is rung for
-  def announce_closure?(call)
-    call.outside_working_hours? && !agent_leg?(twilio_from)
+  # A caller nobody was rung for is told why instead of waiting for a conference; see Call::ANNOUNCED_END_REASONS
+  def announce_end?(call)
+    call.announcement_kind.present? && !agent_leg?(twilio_from)
   end
 
   def resolve_call

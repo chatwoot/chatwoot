@@ -171,6 +171,10 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
     greeting = Voice::CallAnnouncement.new(resource, :greeting)
     json.call_greeting_enabled greeting.enabled?
     json.call_greeting_message greeting.message
+    unanswered = Voice::CallAnnouncement.new(resource, :unanswered)
+    json.unanswered_calls_enabled unanswered.enabled?
+    json.unanswered_call_message unanswered.message
+    json.unanswered_call_timeout_seconds resource.channel.unanswered_call_timeout_seconds
   end
   json.account_auth_token_configured resource.channel.try(:account_auth_token_configured?) == true
   json.voice_configured resource.channel.try(:twiml_app_sid).present?

@@ -50,6 +50,7 @@ en:
       invalid_settings: 'Provide a boolean for enabled and text for the announcement'
       message_required: 'Add the message callers hear'
       message_too_long: 'The announcement must be 1000 characters or fewer'
+      invalid_timeout: 'Ring time must be a whole number of seconds between %{min} and %{max}'
   auth:
     saml:
       invalid_email: 'Please enter a valid email address'
@@ -121,6 +122,7 @@ en:
     voice:
       call_already_accepted: '%{agent_name} is already handling the call.'
       announcement_audio_mismatch: 'Generated audio did not match the announcement text. Your saved announcement has not changed. Please try again.'
+      call_timed_out: 'The call timed out before you could join.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
