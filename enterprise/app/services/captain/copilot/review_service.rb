@@ -18,32 +18,13 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
 
   # Reviews one conversation per model call, so a response can never omit or mix up conversations.
   def review(conversation, deep: false)
-    finish(ask(prepare(conversation, deep: deep)))
-  end
-
-  # A review in three steps, so Captain::Copilot::ReviewJob can send several requests at once. prepare and finish read and
-  # write the database and run on the job's own thread. ask only calls the model, so it can run on another thread without
-  # taking a database connection from the pool.
-  def prepare(conversation, deep: false)
     @run.ensure_can_continue!
-    @turn ||= @run.turn
     evidence = conversation_for_review(conversation, deep)
-    { conversation: conversation, deep: deep, evidence: evidence, chat: build_chat, prompt: review_prompt(evidence),
-      trace: trace_params(conversation) }
-  end
-
-  def ask(request)
-    input = { conversation_id: request[:conversation].id, deep: request[:deep] }
-    content = with_copilot_trace('llm.captain.copilot_review', request[:trace], turn: @turn, input: input) do
-      request[:chat].ask(request[:prompt]).content
+    input = { conversation_id: conversation.id, deep: deep }
+    content = with_copilot_trace('llm.captain.copilot_review', trace_params(conversation), turn: @run.turn, input: input) do
+      build_chat.ask(review_prompt(evidence)).content
     end
-    request.merge(content: content)
-  end
-
-  # The cost is recorded here, not as the model answers, because recording it writes to the database.
-  def finish(request)
-    record_generation_cost(@run, request[:chat].messages.last)
-    parse_result(JSON.parse(sanitize_json_response(request[:content])), request[:evidence], request[:deep])
+    parse_result(JSON.parse(sanitize_json_response(content)), evidence, deep)
   end
 
   private
@@ -71,8 +52,11 @@ class Captain::Copilot::ReviewService < Llm::BaseAiService
     @llm_protocol = options[:protocol]
     llm = chat(model: @model, **options).with_instructions(Captain::PromptRenderer.render('copilot_review'))
                                         .with_schema(Captain::Copilot::ReviewResponseSchema)
-    # The credit is charged once for the turn's answer, not for each conversation reviewed.
-    llm.after_message { |message| record_llm_generation(llm, message) }
+    llm.after_message do |message|
+      record_llm_generation(llm, message)
+      # The credit is charged once for the turn's answer, not for each conversation reviewed.
+      record_generation_cost(@run, message)
+    end
     llm
   end
 

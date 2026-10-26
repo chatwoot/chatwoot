@@ -19,30 +19,56 @@ RSpec.describe Captain::Copilot::ReviewJob do
                                context: { request: 'Which ones ask about billing?', criteria: 'Asks about billing', turn_start: 0,
                                           turn_limit: 10, turn_start_matched: 0, turn_start_failed: 0 })
   end
-  let(:service) { Captain::Copilot::ReviewService.new(review) }
+  let(:service) { instance_double(Captain::Copilot::ReviewService) }
+  let(:verdict) do
+    { status: :reviewed, matched: true, category: 'Billing', reason: 'Asks about an invoice', evidence_message_ids: [],
+      reviewed_message_ids: [], history_truncated: false }
+  end
 
   before do
-    InstallationConfig.find_or_create_by(name: 'CAPTAIN_OPEN_AI_API_KEY') { |config| config.value = 'test-key' }
     account.enable_features!('copilot_workflows')
-    conversations.each { |conversation| create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming) }
     allow(Captain::Copilot::ReviewService).to receive(:new).and_return(service)
   end
 
-  it 'reviews the conversations of a batch at once and saves each result, failing only the one whose model call failed' do
+  it 'hands each conversation of a batch to its own job, and the last one hands the run back for the next batch' do
     failing = conversations.first
-    allow(service).to receive(:ask) do |request|
-      raise Faraday::TimeoutError, 'timed out' if request[:conversation] == failing
+    allow(service).to receive(:review) do |conversation, **|
+      raise Faraday::TimeoutError, 'timed out' if conversation == failing
 
-      verdict = { matched: true, needs_more_history: false, category: 'Billing', reason: 'Asks about an invoice',
-                  evidence_message_ids: [request[:evidence][:messages].first[:id]] }
-      request.merge(content: verdict.to_json)
+      verdict
     end
 
     described_class.perform_now(review.id)
 
+    expect(review.reload).to be_reviewing
+    expect(review.pending_ids).to match_array(conversations.map(&:id))
+    conversations.each { |conversation| Captain::Copilot::ReviewConversationJob.perform_now(review.id, conversation.id) }
+
     findings = review.findings.index_by(&:conversation_id)
-    expect(findings.values_at(*conversations.drop(1).map(&:id)).map { |finding| [finding.status, finding.error] })
-      .to eq([['reviewed', nil], ['reviewed', nil]])
+    expect(conversations.drop(1).map { |conversation| findings[conversation.id].status }).to eq(%w[reviewed reviewed])
     expect(findings[failing.id]).to have_attributes(status: 'awaiting_retry', error: 'Review failed (Faraday::TimeoutError)')
+    expect(review.reload).to be_queued
+    expect(described_class).to have_been_enqueued.with(review.id)
+  end
+
+  it 'saves nothing from a repeated job' do
+    allow(service).to receive(:review).and_return(verdict)
+    described_class.perform_now(review.id)
+    Captain::Copilot::ReviewConversationJob.perform_now(review.id, conversations.first.id)
+
+    Captain::Copilot::ReviewConversationJob.perform_now(review.id, conversations.first.id)
+
+    expect(service).to have_received(:review).once
+    expect(review.reload.pending_ids).to match_array(conversations.drop(1).map(&:id))
+  end
+
+  it 'takes back a batch whose jobs stopped coming back, so its conversations go into the next batch' do
+    allow(service).to receive(:review).and_return(verdict)
+    described_class.perform_now(review.id)
+
+    travel(10.minutes) { Captain::Copilot::RecoverRunsJob.perform_now }
+
+    expect(review.reload).to have_attributes(status: 'queued', pending_ids: [])
+    expect(described_class).to have_been_enqueued.with(review.id)
   end
 end

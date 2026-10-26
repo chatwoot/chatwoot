@@ -11,6 +11,7 @@ class Captain::Copilot::RecoverRunsJob < ApplicationJob
     stale = CopilotRun.where(updated_at: ...STALE_AFTER.ago)
     expire_overdue_approvals
     resume_turns_of_finished_runs(stale)
+    take_back_stalled_reviews(stale)
     requeue_runs(stale)
   end
 
@@ -26,6 +27,15 @@ class Captain::Copilot::RecoverRunsJob < ApplicationJob
     stale.where(type: [CopilotRun::Review, CopilotRun::Action].map(&:sti_name)).finished.joins(:copilot_tool_call)
          .merge(CopilotToolCall.running).find_each do |run|
       run.copilot_tool_call.copilot_run.resume_with(run.copilot_tool_call, run.summary)
+    end
+  end
+
+  # A review whose conversation jobs stopped coming back, such as after a worker crashed. Every finished job updates the
+  # run, so one untouched for STALE_AFTER has lost a job. The conversations not reviewed yet go into the next batch.
+  def take_back_stalled_reviews(stale)
+    stale.where(type: CopilotRun::Review.sti_name).reviewing.find_each do |run|
+      run.take_back_reviews!
+      Captain::Copilot::ReviewJob.perform_later(run.id)
     end
   end
 
