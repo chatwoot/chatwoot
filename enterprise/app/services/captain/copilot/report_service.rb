@@ -80,7 +80,7 @@ class Captain::Copilot::ReportService
   def breakdown(metrics, period, dimension)
     raise ArgumentError, 'each takes one metric' if metrics.size > 1
 
-    active = summary_rows(dimension)
+    active = active(summary_rows(dimension))
     rows = active.first(MAX_EACH).map do |row|
       { name: row[:name], id: row[:id], **metric_series(metrics.first, period, dimension, row[:id]).except(:metric) }
     end
@@ -88,10 +88,12 @@ class Captain::Copilot::ReportService
     active.size > MAX_EACH ? result.merge(note: "Showing the #{MAX_EACH} busiest of #{active.size}.") : result
   end
 
-  # The summary lists counts and average times; it can chart its two counts.
+  # The summary lists counts and average times; it can chart its two counts. The agents, inboxes, teams or labels with no
+  # activity are counted, so an answer about the others is a number, not a guess.
   def summary(dimension, metrics)
-    rows = summary_rows(dimension)
-    result = { by: dimension, rows: rows, time_zone: @time_zone }
+    all = summary_rows(dimension)
+    rows = active(all)
+    result = { by: dimension, rows: rows, without_activity: all.size - rows.size, time_zone: @time_zone }
     missing = metrics - SUMMARY_METRICS
     if missing.any?
       result[:note] = "The summary has no #{missing.join(', ')}. For them per #{dimension}, call get_report by day, week, month or " \
@@ -102,15 +104,19 @@ class Captain::Copilot::ReportService
     result.merge(Captain::Copilot::Chart.for(@tool_call, (metrics & SUMMARY_COUNTS.keys).map { |metric| summary_chart(dimension, metric, rows) }))
   end
 
-  # Only the agents, inboxes, teams or labels with activity in the range, busiest first.
+  # Every agent, inbox, team or label the builder lists, busiest first.
   def summary_rows(dimension)
     builder = SUMMARY_BUILDERS.fetch(dimension) do
       raise ArgumentError, "by must be one of: #{([RANGE] + PERIODS.keys + SUMMARY_BUILDERS.keys).join(', ')}"
     end
     names = dimension_names(dimension)
     rows = builder.new(account: @account, params: params.merge(type: dimension.to_sym)).build
-    rows = rows.select { |row| row[:conversations_count].positive? || row[:resolved_conversations_count].positive? }
     rows.sort_by { |row| -row[:conversations_count] }.map { |row| summary_row(row, names) }
+  end
+
+  # The rows with conversations or resolutions in the range.
+  def active(rows)
+    rows.select { |row| row[:conversations].positive? || row[:resolved].positive? }
   end
 
   def params
