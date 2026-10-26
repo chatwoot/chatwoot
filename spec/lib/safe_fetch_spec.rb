@@ -564,5 +564,20 @@ RSpec.describe SafeFetch do
       end
     end
   end
+
+  # Calls ssrf_filter's private address check, so a gem update that renames it fails here
+  describe '.safe_address' do
+    it 'returns a public address of the host' do
+      expect(described_class.safe_address('example.com').to_s).to eq('93.184.216.34')
+    end
+
+    it 'raises UnsafeUrlError when the host resolves only to private addresses' do
+      allow(Resolv).to receive(:getaddresses).with('internal.example.com').and_return(['10.0.0.5'])
+
+      expect { described_class.safe_address('internal.example.com') }.to raise_error do |error|
+        expect(error.class.name).to eq('SafeFetch::UnsafeUrlError')
+      end
+    end
+  end
 end
 # rubocop:enable Style/RedundantFetchBlock
