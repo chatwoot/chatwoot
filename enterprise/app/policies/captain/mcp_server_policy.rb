@@ -12,10 +12,6 @@ class Captain::McpServerPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
-  def suggestions?
-    @account_user.administrator?
-  end
-
   def discover?
     @account_user.administrator?
   end

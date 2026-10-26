@@ -9,10 +9,12 @@ import McpServersAPI from 'dashboard/api/captain/mcpServers';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import { AUTH_TYPES, URL_PREFIX } from './mcpTools';
+import { AUTH_TYPES, POPULAR_SERVERS, URL_PREFIX } from './mcpTools';
 
 const props = defineProps({
   assistantId: { type: [String, Number], required: true },
+  // URLs of the servers the assistant already has
+  connectedUrls: { type: Array, default: () => [] },
 });
 
 // connected: the server is saved and needs no sign-in, so its tools can be picked now
@@ -35,7 +37,6 @@ const showHeader = ref(false);
 const needsToken = ref(false);
 const token = ref('');
 const authHeader = ref('');
-const suggestions = ref([]);
 const isBusy = ref(false);
 // The last answer from the server, for the URL it was checked with
 const check = ref(null);
@@ -60,31 +61,16 @@ const onAddressInput = event => {
   }
 };
 
-// Suggestions the assistant does not have yet
+// Popular servers the assistant does not have yet
 const openSuggestions = computed(() =>
-  suggestions.value.filter(suggestion => !suggestion.connected)
-);
-const hasRecommended = computed(() =>
-  openSuggestions.value.some(suggestion => suggestion.recommended)
+  POPULAR_SERVERS.filter(server => !props.connectedUrls.includes(server.url))
 );
 
-// Suggestions only help a new connection, and the dialog works without them
-const loadSuggestions = async () => {
-  try {
-    const { data } = await McpServersAPI.suggestions({
-      assistantId: props.assistantId,
-    });
-    suggestions.value = data.payload;
-  } catch {
-    suggestions.value = [];
-  }
-};
-
-// A server that names itself only after sign-in takes the name of the suggestion it came from
+// A server that names itself only after sign-in takes the name of the popular server it came from
 const serverName = (checkedUrl, data) => {
-  const suggestion = suggestions.value.find(item => item.url === checkedUrl);
-  return suggestion && data.name === new URL(checkedUrl).host
-    ? suggestion.name
+  const popular = POPULAR_SERVERS.find(server => server.url === checkedUrl);
+  return popular && data.name === new URL(checkedUrl).host
+    ? popular.name
     : data.name;
 };
 
@@ -139,7 +125,6 @@ const open = () => {
   token.value = '';
   authHeader.value = '';
   check.value = null;
-  loadSuggestions();
   dialogRef.value.open();
 };
 
@@ -297,24 +282,15 @@ defineExpose({ open });
       </section>
 
       <section v-if="openSuggestions.length" class="flex flex-col gap-2.5">
-        <div class="flex items-center justify-between gap-3">
-          <span class="text-xs font-medium text-n-slate-11">
-            {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.TITLE') }}
-          </span>
-          <span
-            v-if="hasRecommended"
-            class="inline-flex items-center gap-1.5 text-xs text-n-slate-10"
-          >
-            <span class="rounded-full size-1.5 bg-n-teal-9" />
-            {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.RECOMMENDED') }}
-          </span>
-        </div>
+        <span class="text-xs font-medium text-n-slate-11">
+          {{ t('CAPTAIN.MCP_SERVERS.SUGGESTIONS.TITLE') }}
+        </span>
         <div class="flex flex-wrap gap-2">
           <button
             v-for="suggestion in openSuggestions"
-            :key="suggestion.id"
+            :key="suggestion.url"
             type="button"
-            class="inline-flex items-center gap-1.5 h-8 px-3 text-sm rounded-full outline outline-1 -outline-offset-1 transition-colors disabled:opacity-50"
+            class="inline-flex items-center h-8 px-3 text-sm rounded-full outline outline-1 -outline-offset-1 transition-colors disabled:opacity-50"
             :class="
               isPicked(suggestion)
                 ? 'outline-n-brand bg-n-blue-2 text-n-blue-11'
@@ -323,10 +299,6 @@ defineExpose({ open });
             :disabled="isBusy"
             @click="pickSuggestion(suggestion)"
           >
-            <span
-              v-if="suggestion.recommended"
-              class="rounded-full size-1.5 bg-n-teal-9"
-            />
             {{ suggestion.name }}
           </button>
         </div>
