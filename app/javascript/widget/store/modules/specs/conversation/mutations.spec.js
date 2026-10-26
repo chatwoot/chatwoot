@@ -169,14 +169,26 @@ describe('#mutations', () => {
   });
 
   describe('#clearConversations', () => {
-    it('clears conversations and pending metadata', () => {
+    it('clears conversations, the typing indicator and pending metadata', () => {
       const state = {
         conversations: { 1: { id: 1 } },
+        lastMessageId: 1,
+        uiFlags: {
+          allMessagesLoaded: true,
+          isAgentTyping: true,
+          isCreating: true,
+          isAwaitingCampaign: true,
+        },
         pendingCustomAttributes: { plan: 'enterprise' },
         pendingLabels: ['vip'],
       };
       mutations.clearConversations(state);
       expect(state.conversations).toEqual({});
+      expect(state.lastMessageId).toBe(null);
+      expect(state.uiFlags.allMessagesLoaded).toBe(false);
+      expect(state.uiFlags.isAgentTyping).toBe(false);
+      expect(state.uiFlags.isCreating).toBe(false);
+      expect(state.uiFlags.isAwaitingCampaign).toBe(false);
       expect(state.pendingCustomAttributes).toEqual({});
       expect(state.pendingLabels).toEqual([]);
     });

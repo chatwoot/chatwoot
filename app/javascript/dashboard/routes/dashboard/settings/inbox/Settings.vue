@@ -1281,6 +1281,19 @@ export default {
                       {{ $t('INBOX_MGMT.FEATURES.USE_INBOX_AVATAR_FOR_BOT') }}
                     </label>
                   </div>
+                  <div class="flex gap-2 py-0.5">
+                    <input
+                      v-model="selectedFeatureFlags"
+                      type="checkbox"
+                      value="multiple_conversations"
+                      @input="handleFeatureFlag"
+                    />
+                    <label for="multiple_conversations">
+                      {{
+                        $t('INBOX_MGMT.FEATURES.ALLOW_MULTIPLE_CONVERSATIONS')
+                      }}
+                    </label>
+                  </div>
                 </div>
               </SettingsFieldSection>
             </SettingsAccordion>

@@ -112,7 +112,7 @@ export default {
       v-if="
         !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
       "
-      class="chat-bubble agent bg-n-background dark:bg-n-solid-3 text-n-slate-12"
+      class="chat-bubble agent bg-n-solid-1 dark:bg-n-solid-3 text-n-slate-12"
     >
       <TranslatingContent :translating="translating" :translated="hasOriginal">
         <div
