@@ -5,7 +5,6 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :set_current_page, only: [:index]
   before_action :validate_author, only: [:create]
   before_action :discard_invalid_author, only: [:update]
-  before_action :validate_noindex, only: [:create, :update]
 
   def index
     @portal_articles = @portal.articles
@@ -82,12 +81,6 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
     return if author_belongs_to_account?(author_id)
 
     submitted_article_params.delete(:author_id)
-  end
-
-  def validate_noindex
-    return if [nil, true, false].include?(params.dig(:article, :meta, :noindex))
-
-    render_could_not_create_error(I18n.t('errors.articles.meta.noindex_not_boolean'))
   end
 
   def author_belongs_to_account?(author_id)
