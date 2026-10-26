@@ -578,6 +578,9 @@ en:
         invalid_value: 'value for %{name} must be fixed text up to 1 KiB, without placeholders or control characters'
       param_schema:
         invalid: 'must list parameters with known fields and plain values'
+      param_sources:
+        unknown: '%{source} is not a source Chatwoot can fill'
+        not_business_managed: '%{key} must be a business managed contact attribute'
       settings:
         invalid: 'must be an object'
         unknown: 'has unknown settings: %{names}'
