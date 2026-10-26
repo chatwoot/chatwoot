@@ -456,6 +456,7 @@ Rails.application.routes.draw do
                 post :add_participant_to_meeting
               end
             end
+            resource :shopify_custom_app, controller: 'shopify_custom_apps', only: [:show, :create, :update, :destroy]
             resource :shopify, controller: 'shopify', only: [:destroy] do
               collection do
                 post :auth
@@ -727,6 +728,7 @@ Rails.application.routes.draw do
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
+  post 'webhooks/shopify/accounts/:account_id', to: 'webhooks/shopify#events'
   post 'webhooks/stripe_app', to: 'webhooks/stripe_app#events'
   post 'webhooks/shopify', to: 'webhooks/shopify#events'
 
@@ -742,6 +744,7 @@ Rails.application.routes.draw do
   end
 
   namespace :shopify do
+    get 'accounts/:account_id/callback', to: 'custom_callbacks#show'
     resource :callback, only: [:show]
   end
 
