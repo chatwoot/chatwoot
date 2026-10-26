@@ -526,9 +526,6 @@ GEM
     line-bot-api (1.28.0)
     lint_roller (1.1.0)
     liquid (5.4.0)
-    listen (3.8.0)
-      rb-fsevent (~> 0.10, >= 0.10.3)
-      rb-inotify (~> 0.9, >= 0.9.10)
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
@@ -1129,7 +1126,6 @@ DEPENDENCIES
   letter_opener
   line-bot-api
   liquid
-  listen
   lograge (~> 0.14.0)
   maxminddb
   meta_request (>= 0.8.3)
