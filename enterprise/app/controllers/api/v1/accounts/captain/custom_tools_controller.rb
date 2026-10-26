@@ -10,10 +10,17 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   before_action :validate_param_schema_param, only: [:create, :update]
 
   PARAM_FIELDS = %w[name type description required source].freeze
+  # The Tools pages list installed and user-defined tools apart
+  SOURCE_SCOPES = { 'installed' => :installed, 'custom' => :user_defined }.freeze
 
   def index
-    @custom_tools_count = assistant_custom_tools.count
-    @custom_tools = assistant_custom_tools.order(id: :desc).page(@current_page).per(RESULTS_PER_PAGE)
+    return render_could_not_create_error(I18n.t('captain.custom_tool.invalid_source')) if invalid_source?
+
+    tools = params[:source] ? assistant_custom_tools.public_send(SOURCE_SCOPES[params[:source]]) : assistant_custom_tools
+    @custom_tools_count = tools.count
+    @installed_count = assistant_custom_tools.installed.count
+    @user_defined_count = assistant_custom_tools.user_defined.count
+    @custom_tools = tools.order(id: :desc).page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   def show; end
@@ -52,6 +59,10 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   end
 
   private
+
+  def invalid_source?
+    params[:source].present? && SOURCE_SCOPES.exclude?(params[:source])
+  end
 
   def set_current_page
     @current_page = params.fetch(:page, 1).to_i
