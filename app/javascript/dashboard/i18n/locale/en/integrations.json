@@ -1436,7 +1436,15 @@
       "INSTALLED": {
         "HEADING": "Installed",
         "DESCRIPTION": "Toolsets installed from the tools catalog. Their tools are read-only, but you can turn each tool on or off.",
-        "EMPTY": "No toolsets installed on this assistant yet."
+        "EMPTY": "No toolsets installed on this assistant yet.",
+        "REMOVE": {
+          "BUTTON": "Remove",
+          "TITLE": "Remove {name}?",
+          "DESCRIPTION": "This removes its {count} tools from this assistant. Scenarios that use them stop calling them. You can install it again from the tools catalog.",
+          "CONFIRM": "Remove",
+          "SUCCESS": "{name} removed.",
+          "ERROR": "Could not remove the toolset."
+        }
       },
       "CUSTOM": {
         "HEADING": "Custom tools",

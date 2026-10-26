@@ -10,6 +10,7 @@ import { usePolicy } from 'dashboard/composables/usePolicy';
 import ToolsManifestAPI from 'dashboard/api/captain/toolsManifest';
 import {
   fetchToolsCatalog,
+  installedToolsetKey,
   isChatwootAuthor,
 } from 'dashboard/api/captain/toolsCatalog';
 
@@ -92,8 +93,7 @@ const loadInstalled = async () => {
 };
 
 const installStatus = toolset => {
-  const [owner, repository, ...folder] = toolset.source.split('/');
-  const key = `${owner}/${repository}`.toLowerCase() + `/${folder.join('/')}`;
+  const key = installedToolsetKey(toolset.source);
   if (!installedVersions.value.has(key)) return null;
   // The catalog can lag behind GitHub, so a newer install than the catalog lists is not an update
   return semver.gt(toolset.version, installedVersions.value.get(key))
