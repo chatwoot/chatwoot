@@ -1,5 +1,5 @@
 import { mount, flushPromises } from '@vue/test-utils';
-import CallBusinessHoursSettings from '../CallBusinessHoursSettings.vue';
+import CallAnnouncementSettings from '../CallAnnouncementSettings.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
@@ -14,17 +14,20 @@ vi.mock('vuex', async importOriginal => ({
   useStore: () => ({ dispatch }),
 }));
 vi.mock('dashboard/composables', () => ({ useAlert: alert }));
-const inbox = {
-  id: 387,
-  working_hours_enabled: true,
-  business_hours_calls_enabled: true,
-  out_of_hours_call_message: 'Call again tomorrow.',
-  out_of_hours_call_audio_url: '/announcement.mp3',
+
+const inbox = { id: 387 };
+const props = {
+  inbox,
+  kind: 'out_of_hours',
+  i18nKey: 'BUSINESS_HOURS',
+  enabled: true,
+  message: 'Call again tomorrow.',
+  audioUrl: '/announcement.mp3',
 };
 
 const mountComponent = (overrides, stubs = {}) =>
-  mount(CallBusinessHoursSettings, {
-    props: { inbox: { ...inbox, ...overrides } },
+  mount(CallAnnouncementSettings, {
+    props: { ...props, ...overrides },
     global: {
       stubs: {
         TextArea: true,
@@ -39,17 +42,29 @@ const mountComponent = (overrides, stubs = {}) =>
     },
   });
 
-describe('CallBusinessHoursSettings', () => {
+describe('CallAnnouncementSettings', () => {
   beforeEach(() => vi.clearAllMocks());
 
-  it('associates the announcement label with an inbox-specific textarea', () => {
-    const wrapper = mountComponent({}, { TextArea: false });
-    const textarea = wrapper.find('textarea');
+  it('opens the message under its checkbox and saves when it is unchecked', async () => {
+    dispatch.mockResolvedValue();
+    const wrapper = mountComponent({ checkbox: true }, { TextArea: false });
+    const checkbox = wrapper.find('input[type="checkbox"]');
 
-    expect(textarea.attributes('id')).toBe('out-of-hours-call-message-387');
-    expect(wrapper.find('label').attributes('for')).toBe(
-      textarea.attributes('id')
+    expect(checkbox.element.checked).toBe(true);
+    expect(wrapper.find('textarea').attributes('id')).toBe(
+      'call-announcement-out_of_hours-387'
     );
+
+    await checkbox.setValue(false);
+    await flushPromises();
+
+    expect(wrapper.find('textarea').exists()).toBe(false);
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateCallAnnouncement', {
+      id: 387,
+      kind: 'out_of_hours',
+      enabled: false,
+      message: 'Call again tomorrow.',
+    });
   });
 
   it('keeps playback of the saved announcement while editing', async () => {
@@ -64,7 +79,7 @@ describe('CallBusinessHoursSettings', () => {
     expect(wrapper.find('audio').attributes('src')).toBe('/announcement.mp3');
   });
 
-  it('saves edited text with one button and disables editing until saving completes', async () => {
+  it('saves edited text for its kind and disables editing until saving completes', async () => {
     let finish;
     dispatch.mockReturnValue(
       new Promise(resolve => {
@@ -79,8 +94,9 @@ describe('CallBusinessHoursSettings', () => {
     wrapper.findComponent(NextButton).vm.$emit('click');
     await wrapper.vm.$nextTick();
 
-    expect(dispatch).toHaveBeenCalledWith('inboxes/updateCallBusinessHours', {
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateCallAnnouncement', {
       id: 387,
+      kind: 'out_of_hours',
       enabled: true,
       message: 'Updated announcement',
     });
@@ -90,6 +106,44 @@ describe('CallBusinessHoursSettings', () => {
     ).toBe(true);
     finish();
     await flushPromises();
+  });
+
+  it('turns a greeting on with its saved text under its own kind', async () => {
+    dispatch.mockResolvedValue();
+    const wrapper = mountComponent({
+      kind: 'greeting',
+      i18nKey: 'GREETING',
+      enabled: false,
+      message: 'Welcome',
+      audioUrl: null,
+    });
+
+    wrapper
+      .findComponent(SettingsToggleSection)
+      .vm.$emit('update:modelValue', true);
+    await flushPromises();
+
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateCallAnnouncement', {
+      id: 387,
+      kind: 'greeting',
+      enabled: true,
+      message: 'Welcome',
+    });
+  });
+
+  it('shows no Captain audio for a text-only announcement', () => {
+    const wrapper = mountComponent({
+      kind: 'greeting',
+      i18nKey: 'GREETING',
+      message: 'Welcome',
+      audioUrl: null,
+    });
+
+    expect(wrapper.text()).not.toContain('Captain');
+    expect(wrapper.find('audio').exists()).toBe(false);
+    expect(
+      wrapper.findComponent(NextButton).find('button').element.disabled
+    ).toBe(true);
   });
 
   it('preserves unsaved text when an unrelated inbox refresh arrives', async () => {
@@ -106,22 +160,23 @@ describe('CallBusinessHoursSettings', () => {
     expect(dispatch).not.toHaveBeenCalled();
   });
 
-  it('allows saving unchanged text when audio is missing and disables saving once audio exists', async () => {
+  it('allows saving unchanged text while its audio is missing', async () => {
     dispatch.mockResolvedValue();
-    const wrapper = mountComponent({ out_of_hours_call_audio_url: null });
+    const wrapper = mountComponent({ audioUrl: '' });
     const button = wrapper.findComponent(NextButton).find('button');
 
     expect(button.element.disabled).toBe(false);
     await button.trigger('click');
     await flushPromises();
 
-    expect(dispatch).toHaveBeenCalledWith('inboxes/updateCallBusinessHours', {
+    expect(dispatch).toHaveBeenCalledWith('inboxes/updateCallAnnouncement', {
       id: 387,
+      kind: 'out_of_hours',
       enabled: true,
-      message: inbox.out_of_hours_call_message,
+      message: 'Call again tomorrow.',
     });
 
-    await wrapper.setProps({ inbox: { ...inbox } });
+    await wrapper.setProps({ audioUrl: '/announcement.mp3' });
 
     expect(button.element.disabled).toBe(true);
   });

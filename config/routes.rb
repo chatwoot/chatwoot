@@ -353,7 +353,7 @@ Rails.application.routes.draw do
               post :disable_whatsapp_calling, on: :member
               post :set_inbound_calls, on: :member
               post :set_call_recording, on: :member
-              resource :call_business_hours, only: [:update], controller: 'inboxes/call_business_hours'
+              resources :call_announcements, only: [:update], param: :kind, controller: 'inboxes/call_announcements'
             end
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do
@@ -754,6 +754,7 @@ Rails.application.routes.draw do
 
     if ChatwootApp.enterprise?
       post 'voice/call/:phone', to: 'voice#call_twiml', as: :voice_call
+      get 'voice/wait/:phone', to: 'voice#wait_twiml', as: :voice_wait
       post 'voice/status/:phone', to: 'voice#status', as: :voice_status
       post 'voice/conference_status/:phone', to: 'voice#conference_status', as: :voice_conference_status
       post 'voice/recording_status/:phone', to: 'voice#recording_status', as: :voice_recording_status

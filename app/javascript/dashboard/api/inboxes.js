@@ -94,10 +94,11 @@ class Inboxes extends CacheEnabledApiClient {
     });
   }
 
-  setCallBusinessHours(inboxId, { enabled, message }) {
-    return axios.patch(`${this.url}/${inboxId}/call_business_hours`, {
-      business_hours_calls_enabled: enabled,
-      out_of_hours_call_message: message,
+  // kind: 'out_of_hours' | 'greeting'
+  setCallAnnouncement(inboxId, kind, { enabled, message }) {
+    return axios.patch(`${this.url}/${inboxId}/call_announcements/${kind}`, {
+      enabled,
+      message,
     });
   }
 }
