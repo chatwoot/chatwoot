@@ -41,7 +41,7 @@ class Shopify::ShopIdentity
   end
 
   def client
-    Shopify::ApiContext.setup!
+    Shopify::ApiContext.setup!(custom_app: hook.shopify_custom_app)
     session = ShopifyAPI::Auth::Session.new(shop: hook.reference_id, access_token: hook.access_token)
     ShopifyAPI::Clients::Graphql::Admin.new(session: session, api_version: Shopify::ApiContext::API_VERSION)
   end
