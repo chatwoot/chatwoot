@@ -14,7 +14,7 @@ const { t } = useI18n();
 
 <template>
   <div class="flex flex-col gap-1.5 text-xs text-n-slate-11 tabular-nums">
-    <div class="flex items-center gap-2 -ms-3">
+    <div class="flex items-center gap-2">
       <Spinner
         v-if="!progress.finished"
         :size="16"
@@ -58,9 +58,9 @@ const { t } = useI18n();
       v-if="!progress.finished"
       :done="progress.done"
       :total="progress.total"
-      class="ms-3"
+      class="ms-6"
     />
-    <span v-else-if="progress.failed > 0" class="ms-3 text-n-amber-11">
+    <span v-else-if="progress.failed > 0" class="ms-6 text-n-amber-11">
       {{ t('CAPTAIN.COPILOT.REVIEW.FAILED', { count: progress.failed }) }}
     </span>
   </div>

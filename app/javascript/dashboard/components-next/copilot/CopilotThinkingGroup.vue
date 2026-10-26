@@ -30,7 +30,7 @@ const listedSteps = computed(() =>
 <template>
   <div class="flex flex-col gap-1.5 text-xs text-n-slate-11">
     <button
-      class="flex items-center gap-2 -ms-3 text-xs text-start hover:text-n-slate-12 transition-colors duration-200"
+      class="flex items-center gap-2 p-0 text-xs text-start hover:text-n-slate-12 transition-colors duration-200"
       :class="{ 'order-last': isActive }"
       :aria-expanded="isExpanded"
       @click="isExpanded = !isExpanded"
@@ -63,7 +63,7 @@ const listedSteps = computed(() =>
       <div
         v-for="step in listedSteps"
         :key="step.key"
-        class="flex items-center gap-2 -ms-3"
+        class="flex items-center gap-2"
       >
         <!-- Only Copilot workflows saves a run ID on its steps, so the old Copilot's steps get no status. -->
         <Icon
