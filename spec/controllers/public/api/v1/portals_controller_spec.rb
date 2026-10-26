@@ -240,4 +240,37 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
       end
     end
   end
+
+  describe 'search engine visibility' do
+    it 'leaves articles hidden from search out of the sitemap' do
+      portal.articles.published.first.update!(meta: { 'noindex' => true })
+
+      get "/hc/#{portal.slug}/sitemap.xml"
+
+      doc = Nokogiri::XML(response.body)
+      doc.remove_namespaces!
+      expect(doc.xpath('//url/loc').length).to eq(2)
+    end
+
+    it 'returns an empty sitemap and a noindex header when the portal is hidden' do
+      portal.update!(config: portal.config.merge('disable_search_indexing' => true))
+
+      get "/hc/#{portal.slug}/sitemap.xml"
+
+      doc = Nokogiri::XML(response.body)
+      doc.remove_namespaces!
+      expect(doc.xpath('//url')).to be_empty
+      expect(response.headers['X-Robots-Tag']).to eq('noindex')
+    end
+
+    it 'sends a noindex header on portal pages only when the portal is hidden' do
+      get "/hc/#{portal.slug}/en"
+      expect(response.headers['X-Robots-Tag']).to be_nil
+
+      portal.update!(config: portal.config.merge('disable_search_indexing' => true))
+
+      get "/hc/#{portal.slug}/en"
+      expect(response.headers['X-Robots-Tag']).to eq('noindex')
+    end
+  end
 end

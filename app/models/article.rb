@@ -68,6 +68,7 @@ class Article < ApplicationRecord
   validates :content, presence: true, if: :published?
   validates :slug, exclusion: { in: RESERVED_SLUGS }
   validates :slug, uniqueness: true, format: { with: /\A[a-zA-Z0-9_-]+\z/ }, if: :will_save_change_to_slug?
+  validate :noindex_must_be_boolean
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
@@ -131,6 +132,10 @@ class Article < ApplicationRecord
     article.associated_article_id || article.id
   end
 
+  def noindex?
+    meta['noindex'] == true
+  end
+
   def translation_family
     root_id = associated_article_id || id
     articles = portal.articles
@@ -189,6 +194,12 @@ class Article < ApplicationRecord
   private_class_method :rebalance_positions, :resequence_category
 
   private
+
+  def noindex_must_be_boolean
+    return if [nil, true, false].include?(meta['noindex'])
+
+    errors.add(:meta, I18n.t('errors.articles.meta.noindex_not_boolean'))
+  end
 
   def category_id_changed_action
     # We need to update the position of the article in the new category
