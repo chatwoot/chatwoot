@@ -55,6 +55,11 @@ class Captain::McpServer < ApplicationRecord
 
   scope :enabled, -> { where(enabled: true) }
 
+  # The servers Captain may use for an assistant: none while the account does not have MCP servers turned on
+  def self.usable_for(assistant)
+    assistant.account.feature_enabled?(FEATURE_FLAG) ? assistant.mcp_servers.enabled : none
+  end
+
   # The name Captain sees. The server ID keeps names apart across servers, and the double underscore
   # keeps server 1's tool "2_x" apart from server 12's tool "x".
   def captain_tool_name(server_tool_name)
