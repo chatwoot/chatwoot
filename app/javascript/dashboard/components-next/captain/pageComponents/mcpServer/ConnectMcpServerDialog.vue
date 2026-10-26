@@ -44,6 +44,8 @@ const showHeaderField = ref(false);
 const liveTools = ref([]);
 const isBusy = ref(false);
 const isLoadingTools = ref(false);
+// Saving after a failed load would send an empty list and remove every approved tool
+const toolsLoadFailed = ref(false);
 // Selections by tool name: whether the tool is selected, its parameter sources, and its verification setting
 const selections = reactive({});
 
@@ -104,6 +106,7 @@ const buildSelections = () => {
 
 const loadTools = async () => {
   isLoadingTools.value = true;
+  toolsLoadFailed.value = false;
   try {
     const { data } = await McpServersAPI.availableTools({
       id: server.value.id,
@@ -112,6 +115,7 @@ const loadTools = async () => {
     liveTools.value = data.payload;
     buildSelections();
   } catch (error) {
+    toolsLoadFailed.value = true;
     useAlert(
       parseAPIErrorResponse(error) ||
         t('CAPTAIN.MCP_SERVERS.DIALOG.TOOLS_ERROR')
@@ -427,6 +431,9 @@ defineExpose({ open });
         <div v-if="isLoadingTools" class="flex justify-center py-8">
           <Spinner />
         </div>
+        <p v-else-if="toolsLoadFailed" class="text-sm text-n-ruby-11 mb-0">
+          {{ t('CAPTAIN.MCP_SERVERS.DIALOG.TOOLS_ERROR') }}
+        </p>
         <p v-else-if="!liveTools.length" class="text-sm text-n-slate-11 mb-0">
           {{ t('CAPTAIN.MCP_SERVERS.DIALOG.NO_LIVE_TOOLS') }}
         </p>
@@ -626,7 +633,7 @@ defineExpose({ open });
           type="button"
           class="w-full"
           :label="t('CAPTAIN.MCP_SERVERS.DIALOG.CONTINUE')"
-          :disabled="isLoadingTools"
+          :disabled="isLoadingTools || toolsLoadFailed"
           @click="step = 'PARAMETERS'"
         />
         <Button
