@@ -6,6 +6,9 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
   before_action -> { check_authorization(Captain::McpServer) }
   before_action :set_mcp_server, only: [:show, :update, :destroy, :available_tools, :authorization_url]
 
+  # A failing or unreachable MCP server is the admin's input to fix, not a Chatwoot error
+  rescue_from(*Captain::Mcp::Connection::ERRORS) { |error| render_could_not_create_error(error.message) }
+
   def index
     @mcp_servers = assistant_mcp_servers.order(id: :desc)
   end
@@ -17,7 +20,8 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
                                                  auth_header: params[:auth_header].presence).perform
   rescue RubyLLM::UnauthorizedError
     render_could_not_create_error(I18n.t('captain.mcp_server.token_rejected'))
-  rescue *Captain::Mcp::Connection::ERRORS, ArgumentError, URI::InvalidURIError => e
+  # RubyLLM raises ArgumentError for a URL that is not HTTPS
+  rescue ArgumentError, URI::InvalidURIError => e
     render_could_not_create_error(e.message)
   end
 
@@ -33,8 +37,6 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
     @mcp_server.save!
   rescue ActiveRecord::StaleObjectError
     render_could_not_create_error(I18n.t('captain.mcp_server.stale'))
-  rescue *Captain::Mcp::Connection::ERRORS => e
-    render_could_not_create_error(e.message)
   end
 
   def destroy
@@ -45,16 +47,12 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
   # The live tools, marked with whether an admin approved each one and whether it changed since
   def available_tools
     @live_tools = connection.track_status { connection.tool_definitions }
-  rescue *Captain::Mcp::Connection::ERRORS => e
-    render_could_not_create_error(e.message)
   end
 
   def authorization_url
     return render_could_not_create_error(I18n.t('captain.mcp_server.not_oauth')) unless @mcp_server.auth_oauth?
 
     render json: { url: connection.authorization_url }
-  rescue *Captain::Mcp::Connection::ERRORS => e
-    render_could_not_create_error(e.message)
   end
 
   private
