@@ -843,7 +843,7 @@
         "META_TAGS_PLACEHOLDER": "Add meta tags",
         "SEARCH_ENGINE_VISIBILITY": "Show in search results",
         "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
-        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Hidden because this help center is hidden from search results. Change it in Settings → SEO.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
         "SLUG": "Slug",
         "SLUG_PLACEHOLDER": "Add slug",
         "SLUG_USE_TITLE": "Use title as slug",
