@@ -187,8 +187,10 @@ class Captain::Assistant::AgentRunnerService
 
   # A customer is the user, and a custom tool or an MCP tool needs their verified email. The prompt reads this from the state.
   def can_verify_email?
-    @conversation.present? && COPILOT_SOURCES.exclude?(@source) &&
-      (@assistant.custom_tools.enabled.any?(&:requires_email_verification?) || @assistant.mcp_servers.enabled.any?(&:requires_email_verification?))
+    return false unless @conversation.present? && COPILOT_SOURCES.exclude?(@source)
+
+    @assistant.custom_tools.enabled.any?(&:requires_email_verification?) ||
+      Captain::McpServer.usable_for(@assistant).any?(&:requires_email_verification?)
   end
 
   def reply_suggestion_agent

@@ -130,7 +130,7 @@ class Captain::Assistant < ApplicationRecord
     tools = self.class.built_in_agent_tools.dup
 
     tools.concat(custom_tools.enabled.map(&:to_tool_metadata))
-    tools.concat(mcp_servers.enabled.flat_map(&:tool_metadata))
+    tools.concat(Captain::McpServer.usable_for(self).flat_map(&:tool_metadata))
 
     tools
   end

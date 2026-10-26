@@ -70,6 +70,11 @@ class Captain::McpServer < ApplicationRecord
 
   scope :enabled, -> { where(enabled: true) }
 
+  # The servers Captain may use for an assistant: none while the account does not have MCP servers turned on
+  def self.usable_for(assistant)
+    assistant.account.feature_enabled?(FEATURE_FLAG) ? assistant.mcp_servers.enabled : none
+  end
+
   # Returns the server an OAuth sign-in with this state started for, once. Every server shares one callback URL, so the
   # state is the only way to find the server, and a used state is deleted so a repeated callback finds nothing.
   def self.for_oauth_state(state)
