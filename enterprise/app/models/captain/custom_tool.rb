@@ -154,6 +154,12 @@ class Captain::CustomTool < ApplicationRecord
     assistant.scenarios.enabled.where('tools @> ?', [slug].to_json).count
   end
 
+  # Headers Chatwoot sets itself, which a configured header would overwrite. MCP servers share this rule.
+  def self.reserved_header?(name)
+    name = name.downcase
+    RESERVED_HEADERS.include?(name) || name.start_with?(RESERVED_HEADER_PREFIX)
+  end
+
   private
 
   def validate_headers
@@ -181,21 +187,17 @@ class Captain::CustomTool < ApplicationRecord
   # HttpTool sets reserved headers after auth, so they would overwrite the key. Authorization is the credential's own header.
   def validate_api_key_name(name)
     return errors.add(:auth_config, I18n.t('captain.custom_tool.headers.invalid_name', name: name)) unless HEADER_NAME_PATTERN.match?(name)
-    return if name.casecmp?('authorization') || !reserved_header?(name.downcase)
+    return if name.casecmp?('authorization') || !self.class.reserved_header?(name)
 
     errors.add(:auth_config, I18n.t('captain.custom_tool.headers.reserved', name: name))
   end
 
   def validate_header(name, value)
     return errors.add(:headers, I18n.t('captain.custom_tool.headers.invalid_name', name: name)) unless HEADER_NAME_PATTERN.match?(name)
-    return errors.add(:headers, I18n.t('captain.custom_tool.headers.reserved', name: name)) if reserved_header?(name.downcase)
+    return errors.add(:headers, I18n.t('captain.custom_tool.headers.reserved', name: name)) if self.class.reserved_header?(name)
     return if value.is_a?(String) && value.bytesize <= MAX_HEADER_VALUE_BYTES && !INVALID_HEADER_VALUE_PATTERN.match?(value)
 
     errors.add(:headers, I18n.t('captain.custom_tool.headers.invalid_value', name: name))
-  end
-
-  def reserved_header?(name)
-    RESERVED_HEADERS.include?(name) || name.start_with?(RESERVED_HEADER_PREFIX)
   end
 
   def ensure_within_limit
