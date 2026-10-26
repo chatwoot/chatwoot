@@ -83,6 +83,12 @@ class Portal < ApplicationRecord
     config_value('disable_search_indexing') == true
   end
 
+  def search_indexable_articles
+    return [] if search_indexing_disabled?
+
+    articles.published.reject(&:noindex?)
+  end
+
   # Max number of recommended categories/articles shown per locale.
   POPULAR_CATEGORY_LIMIT = 3
   POPULAR_ARTICLE_LIMIT = 6
