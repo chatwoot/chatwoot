@@ -933,6 +933,14 @@
       },
       "FORM": {
         "UPDATE": "Update",
+        "AVATAR": {
+          "LABEL": "Avatar",
+          "HELP_TEXT": "Shown next to this assistant's replies. Use a square JPEG, PNG, GIF or WebP image.",
+          "UPLOAD_SUCCESS": "Avatar updated",
+          "UPLOAD_ERROR": "Could not update the avatar. Please try again.",
+          "DELETE_SUCCESS": "Avatar removed",
+          "DELETE_ERROR": "Could not remove the avatar. Please try again."
+        },
         "SECTIONS": {
           "BASIC_INFO": "Basic Information",
           "SYSTEM_MESSAGES": "System Messages",
