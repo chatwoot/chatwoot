@@ -590,6 +590,7 @@ en:
       not_oauth: 'This server does not use OAuth sign-in'
       tools:
         duplicate: 'cannot list the same tool twice'
+        invalid_selection: 'Each tool selection must be an object with the tool name'
         not_read_only: '%{tool} is not a read tool. Captain can only use read tools.'
         missing: 'The server no longer offers %{tool}.'
         name_clash: 'Captain cannot tell these tools apart: %{names}. Select only one of them.'

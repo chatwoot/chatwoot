@@ -104,7 +104,9 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
   # which drops unknown or nested values without an error.
   def tool_selections
     Array(params[:mcp_server][:tools]).map do |selection|
-      selection = selection.respond_to?(:to_unsafe_h) ? selection.to_unsafe_h : selection.to_h
+      selection = selection.to_unsafe_h if selection.respond_to?(:to_unsafe_h)
+      raise ActiveRecord::RecordInvalid, invalid_tool(nil, :invalid_selection) unless selection.is_a?(Hash)
+
       DEFAULT_SELECTION.merge(selection.slice(*SELECTION_FIELDS))
     end
   end
