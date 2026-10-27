@@ -15,6 +15,9 @@ const teardownByProvider = call => {
 export const useCallsStore = defineStore('calls', {
   state: () => ({
     calls: [],
+    // Statuses that arrived before their call was added, e.g. an outbound call
+    // answered before its created event; addCall applies them
+    pendingStatuses: {},
   }),
 
   getters: {
@@ -29,8 +32,10 @@ export const useCallsStore = defineStore('calls', {
       const call = this.calls.find(c => c.callSid === callSid);
       if (!TERMINAL_STATUSES.includes(status)) {
         if (call) call.status = status;
+        else this.pendingStatuses[callSid] = status;
         return;
       }
+      delete this.pendingStatuses[callSid];
 
       // WhatsApp recordings live in the in-memory recorder until voice_call.ended
       // uploads them; tearing down here would race-wipe those chunks.
@@ -57,10 +62,13 @@ export const useCallsStore = defineStore('calls', {
         return;
       }
 
+      const status = this.pendingStatuses[callData.callSid];
+      delete this.pendingStatuses[callData.callSid];
       // Prepend so the newest call surfaces as the primary card (incomingCalls[0])
       // and older calls drop into the stack below it.
       this.calls.unshift({
         ...callData,
+        ...(status && { status }),
         isActive: false,
       });
     },
