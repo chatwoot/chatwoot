@@ -332,7 +332,21 @@ RSpec.describe Captain::CustomTool, type: :model do
       tool = build(:captain_custom_tool, account: account, param_schema: [email_param])
 
       expect(tool).to be_valid
-      expect(tool.verified_email_param).to eq('email')
+      expect(tool.param_sources.keys).to eq(['email'])
+    end
+
+    it 'accepts a business managed contact attribute as a source' do
+      create(:custom_attribute_definition, account: account, attribute_model: :contact_attribute, attribute_key: 'billing_id', business_managed: true)
+      tool = build(:captain_custom_tool, account: account, param_schema: [order_param.merge('source' => 'verified.contact.attributes.billing_id')])
+
+      expect(tool).to be_valid
+    end
+
+    it 'is invalid with a contact attribute customers can write' do
+      create(:custom_attribute_definition, account: account, attribute_model: :contact_attribute, attribute_key: 'billing_id')
+      tool = build(:captain_custom_tool, account: account, param_schema: [order_param.merge('source' => 'verified.contact.attributes.billing_id')])
+
+      expect(tool).not_to be_valid
     end
 
     it 'is invalid when a parameter that takes a verified value is not a string' do
@@ -356,20 +370,20 @@ RSpec.describe Captain::CustomTool, type: :model do
     it 'requires email verification when a parameter takes the verified email' do
       tool = build(:captain_custom_tool, account: account, param_schema: [email_param])
 
-      expect(tool.requires_email_verification?).to be(true)
+      expect(tool.requires_verified_customer?).to be(true)
     end
 
     it 'requires email verification for a verified email parameter with a blank name' do
       tool = build(:captain_custom_tool, account: account, param_schema: [email_param.merge('name' => '')])
 
-      expect(tool.requires_email_verification?).to be(true)
+      expect(tool.requires_verified_customer?).to be(true)
     end
 
     it 'has no verified email parameter when every parameter comes from the model' do
       tool = build(:captain_custom_tool, account: account, param_schema: [order_param])
 
-      expect(tool.verified_email_param).to be_nil
-      expect(tool.requires_email_verification?).to be(false)
+      expect(tool.param_sources).to be_empty
+      expect(tool.requires_verified_customer?).to be(false)
     end
   end
 

@@ -1,18 +1,10 @@
-# A custom tool in a conversation where a customer is the user. A tool that requires email verification runs only
-# for a customer who verified an email, and a verified email parameter always carries that email.
+# A custom tool in a conversation where a customer is the user. Parameters with a source always carry the value
+# Chatwoot read from what the customer proved, and the tool does not run when that value is missing.
 class Captain::Tools::PublicHttpTool < Captain::Tools::HttpTool
-  EMAIL_REQUIRED = 'This tool needs a verified email, and this customer has not verified an email yet. ' \
-                   'Verify their email with a one-time code first, then call this tool again. ' \
-                   'If that is not possible, ask whether they want to talk to a support agent.'.freeze
-
   def perform(tool_context, **params)
-    return super unless @custom_tool.requires_email_verification?
-
-    verified_email = stored_verified_email(tool_context.state)
-    return failure_result(EMAIL_REQUIRED, tool_context.state) unless verified_email
-
-    # Set last, so a value from the model can never replace the verified email
-    email_param = @custom_tool.verified_email_param
-    super(tool_context, **(email_param ? params.merge(email_param.to_sym => verified_email) : params))
+    arguments = Captain::ToolArguments.new(@custom_tool, find_conversation(tool_context.state)).fill(params)
+    super(tool_context, **arguments)
+  rescue Captain::ParamSources::Unavailable => e
+    failure_result(e.message, tool_context.state)
   end
 end

@@ -254,7 +254,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
              params: attributes, headers: admin.create_new_auth_token, as: :json
 
         expect(response).to have_http_status(:success)
-        expect(Captain::CustomTool.last.verified_email_param).to eq('email')
+        expect(Captain::CustomTool.last.param_sources.keys).to eq(['email'])
       end
 
       context 'with invalid parameters' do
@@ -443,7 +443,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CustomTools', type: :request do
         get "/api/v1/accounts/#{account.id}/captain/custom_tools/#{custom_tool.id}?assistant_id=#{assistant.id}",
             headers: admin.create_new_auth_token, as: :json
 
-        expect(custom_tool.reload.requires_email_verification?).to be(true)
+        expect(custom_tool.reload.requires_verified_customer?).to be(true)
         expect(json_response[:settings]).to eq({ requires_email_verification: false })
       end
 

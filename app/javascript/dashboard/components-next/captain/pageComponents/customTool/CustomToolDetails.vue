@@ -2,13 +2,14 @@
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'dashboard/composables/store';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import ToolFormSection from './ToolFormSection.vue';
+import { contactAttributeKey } from './paramSources';
 
 const props = defineProps({
   tool: {
@@ -43,14 +44,29 @@ const params = computed(() => props.tool.param_schema || []);
 const headers = computed(() => Object.entries(props.tool.headers || {}));
 const hasRequestBody = computed(() => props.tool.http_method !== 'GET');
 const showRequest = ref(false);
-const usesVerifiedEmail = computed(() =>
-  params.value.some(param => param.source === 'verified.email')
+// A parameter Chatwoot fills from what the customer proved means the tool cannot run without that proof
+const usesVerifiedValue = computed(() =>
+  params.value.some(param => param.source)
 );
+
+const getAttributesByModel = useMapGetter('attributes/getAttributesByModel');
+const sourceLabel = source => {
+  const key = contactAttributeKey(source);
+  if (key === null) return t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.EMAIL');
+  const attribute = getAttributesByModel
+    .value('contact_attribute')
+    .find(item => item.attribute_key === key);
+  return attribute?.attribute_display_name || key;
+};
+const sourceHelp = source =>
+  contactAttributeKey(source) === null
+    ? t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.HELP')
+    : t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.ATTRIBUTE_HELP');
 
 // Admins can change email verification on an installed tool. It saves as soon as it changes.
 const canChangeVerification = computed(
   () =>
-    isAdmin.value && !!props.tool.source_metadata && !usesVerifiedEmail.value
+    isAdmin.value && !!props.tool.source_metadata && !usesVerifiedValue.value
 );
 
 const verificationSetting = ref(false);
@@ -84,7 +100,7 @@ const saveVerification = async value => {
 };
 
 const requiresEmailVerification = computed({
-  get: () => usesVerifiedEmail.value || verificationSetting.value,
+  get: () => usesVerifiedValue.value || verificationSetting.value,
   set: value => {
     verificationSetting.value = value;
     saveVerification(value);
@@ -116,7 +132,7 @@ const requiresEmailVerification = computed({
         </span>
         <span class="text-sm text-n-slate-11">
           {{
-            usesVerifiedEmail
+            usesVerifiedValue
               ? t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.IMPLIED')
               : t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.DESCRIPTION')
           }}
@@ -159,7 +175,7 @@ const requiresEmailVerification = computed({
             </code>
             <span v-if="param.source" class="text-xs text-n-slate-11">
               <i class="i-lucide-lock size-3 align-[-0.125rem]" />
-              {{ t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.EMAIL') }}
+              {{ sourceLabel(param.source) }}
             </span>
             <template v-else>
               <span class="text-xs text-n-slate-11">
@@ -174,11 +190,7 @@ const requiresEmailVerification = computed({
             v-if="param.source || param.description"
             class="mb-0 text-xs text-n-slate-11"
           >
-            {{
-              param.source
-                ? t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.HELP')
-                : param.description
-            }}
+            {{ param.source ? sourceHelp(param.source) : param.description }}
           </p>
         </li>
       </ul>

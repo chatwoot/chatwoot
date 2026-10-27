@@ -18,6 +18,7 @@ import AuthConfig from './AuthConfig.vue';
 import HeadersConfig from './HeadersConfig.vue';
 import ToolFormSection from './ToolFormSection.vue';
 import { toolRiskLevel, isEmailLikeParam, RISK_LEVELS } from './toolRisk';
+import { VERIFIED_EMAIL_SOURCE, contactAttributeSource } from './paramSources';
 
 const props = defineProps({
   mode: {
@@ -76,14 +77,17 @@ watch(
   { immediate: true }
 );
 
-// A parameter that takes the verified email means the tool cannot run without one
 const usesVerifiedEmail = computed(() =>
-  state.param_schema.some(param => param.source === 'verified.email')
+  state.param_schema.some(param => param.source === VERIFIED_EMAIL_SOURCE)
+);
+// A parameter Chatwoot fills from what the customer proved means the tool cannot run without that proof
+const usesVerifiedValue = computed(() =>
+  state.param_schema.some(param => param.source)
 );
 
 const requiresEmailVerification = computed({
   get: () =>
-    usesVerifiedEmail.value || state.settings.requires_email_verification,
+    usesVerifiedValue.value || state.settings.requires_email_verification,
   set: value => {
     state.settings.requires_email_verification = value;
   },
@@ -197,7 +201,7 @@ const useVerifiedEmail = param => {
   Object.assign(param, {
     type: 'string',
     required: true,
-    source: 'verified.email',
+    source: VERIFIED_EMAIL_SOURCE,
   });
 };
 
@@ -209,7 +213,20 @@ const addVerifiedEmailParam = () => {
       'CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.EMAIL_DESCRIPTION'
     ),
     required: true,
-    source: 'verified.email',
+    source: VERIFIED_EMAIL_SOURCE,
+  });
+};
+
+// The admin picks the attribute in the row
+const addContactAttributeParam = () => {
+  state.param_schema.push({
+    name: '',
+    type: 'string',
+    description: t(
+      'CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.ATTRIBUTE_DESCRIPTION'
+    ),
+    required: true,
+    source: contactAttributeSource(''),
   });
 };
 
@@ -334,7 +351,7 @@ const handleTest = async () => {
         </span>
         <span class="text-sm text-n-slate-11">
           {{
-            usesVerifiedEmail
+            usesVerifiedValue
               ? t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.IMPLIED')
               : t('CAPTAIN.CUSTOM_TOOLS.FORM.EMAIL_VERIFICATION.DESCRIPTION')
           }}
@@ -342,7 +359,7 @@ const handleTest = async () => {
       </span>
       <Switch
         v-model="requiresEmailVerification"
-        :disabled="usesVerifiedEmail"
+        :disabled="usesVerifiedValue"
         class="shrink-0"
       />
     </label>
@@ -369,6 +386,7 @@ const handleTest = async () => {
               v-if="param.source"
               ref="paramsRef"
               v-model:name="param.name"
+              v-model:source="param.source"
               @remove="removeParam(index)"
             />
             <ParamRow
@@ -403,6 +421,17 @@ const handleTest = async () => {
             icon="i-lucide-mail-check"
             :label="t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.ADD')"
             @click="addVerifiedEmailParam"
+          />
+          <Button
+            type="button"
+            sm
+            ghost
+            blue
+            icon="i-lucide-user-check"
+            :label="
+              t('CAPTAIN.CUSTOM_TOOLS.FORM.VERIFIED_VALUES.ADD_ATTRIBUTE')
+            "
+            @click="addContactAttributeParam"
           />
         </div>
       </ToolFormSection>
