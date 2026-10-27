@@ -229,6 +229,11 @@ describe('CallAnnouncementSettings', () => {
     await wrapper.setProps({ enabled: false });
     await wrapper.vm.$nextTick();
 
+    wrapper
+      .findComponent(SettingsToggleSection)
+      .vm.$emit('update:modelValue', true);
+    await flushPromises();
+
     expect(wrapper.findComponent(TextArea).props('modelValue')).toBe(
       'Unsaved announcement'
     );
