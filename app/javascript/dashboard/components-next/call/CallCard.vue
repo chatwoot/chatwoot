@@ -43,7 +43,6 @@ defineEmits([
   'reject',
   'end',
   'toggleMute',
-  'toggleHold',
   'goToConversation',
   'dismiss',
 ]);
@@ -61,14 +60,14 @@ const isOutgoing = computed(
 const isWhatsapp = computed(
   () => props.call?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
 );
-// Hold lives in the Twilio conference, so only Twilio calls offer it
+// Muting a Twilio call holds the caller in the conference, where they hear hold music
 const isOnHold = computed(() => isOngoing.value && !!props.call?.onHold);
-// Only once the contact is connected: the agent's leg is live while an outbound call still rings
-const canHold = computed(
+// A Twilio caller can be held only once connected; an outbound call still rings before that
+const canMute = computed(
   () =>
     isOngoing.value &&
-    !isWhatsapp.value &&
-    props.call?.status === VOICE_CALL_STATUS.IN_PROGRESS
+    props.showMute &&
+    (isWhatsapp.value || props.call?.status === VOICE_CALL_STATUS.IN_PROGRESS)
 );
 
 const statusIcon = computed(() => {
@@ -195,24 +194,9 @@ const channelIcon = computed(() =>
 
         <!-- Actions -->
         <div class="flex items-center gap-2 shrink-0">
-          <!-- Hold / resume (connected Twilio calls only); separate from muting the mic -->
+          <!-- Mute toggle: WhatsApp mutes the mic, Twilio holds the caller with music -->
           <NextButton
-            v-if="canHold"
-            v-tooltip.top="
-              isOnHold
-                ? $t('CONVERSATION.VOICE_WIDGET.RESUME')
-                : $t('CONVERSATION.VOICE_WIDGET.HOLD')
-            "
-            :icon="isOnHold ? 'i-ph-play-bold' : 'i-ph-pause-bold'"
-            :variant="isOnHold ? 'solid' : 'faded'"
-            :color="isOnHold ? 'amber' : 'teal'"
-            class="!rounded-full"
-            @click="$emit('toggleHold')"
-          />
-
-          <!-- Mute toggle (WhatsApp ongoing only) -->
-          <NextButton
-            v-if="isOngoing && showMute"
+            v-if="canMute"
             v-tooltip.top="
               isMuted
                 ? $t('CONVERSATION.VOICE_WIDGET.UNMUTE')
