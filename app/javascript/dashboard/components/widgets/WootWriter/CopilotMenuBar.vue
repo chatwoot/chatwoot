@@ -115,6 +115,23 @@ const menuItems = computed(() => {
         icon: 'i-fluent-flow-sparkle-24-regular',
       }
     );
+  } else if (!props.conversationId) {
+    items.push(
+      {
+        label: t(
+          'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.CHANGE_TONE.TITLE'
+        ),
+        key: 'change_tone',
+        icon: 'i-fluent-sound-wave-circle-sparkle-24-regular',
+        disabled: true,
+      },
+      {
+        label: t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.GRAMMAR'),
+        key: 'fix_spelling_grammar',
+        icon: 'i-fluent-flow-sparkle-24-regular',
+        disabled: true,
+      }
+    );
   }
   return items;
 });
@@ -185,6 +202,7 @@ const selectionMenuStyle = computed(() => {
 });
 
 const handleMenuItemClick = item => {
+  if (item.disabled) return;
   // For items with submenus, do nothing on click (hover will show submenu)
   if (!item.subMenuItems) {
     emit('executeCopilotAction', item.key);
@@ -198,7 +216,6 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
 
 <template>
   <DropdownBody
-    v-if="hasAnyMenuItems"
     ref="menuRef"
     class="min-w-56 [&>ul]:gap-3 z-50 [&>ul]:px-4 [&>ul]:py-3.5"
     :class="{ 'selection-menu': hasSelection && isEditorMenuPopover }"
@@ -213,6 +230,7 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
         <Button
           :label="item.label"
           :icon="item.icon"
+          :disabled="item.disabled"
           slate
           link
           sm
@@ -232,7 +250,7 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
 
         <!-- Hover Submenu -->
         <DropdownBody
-          v-if="item.subMenuItems"
+          v-if="item.subMenuItems && !item.disabled"
           class="group-hover/submenu:block hidden [&>ul]:gap-2 [&>ul]:px-3 [&>ul]:py-2.5 [&>ul]:dark:!border-n-strong max-h-[15rem] min-w-32 z-10 top-0"
           :class="submenuPosition"
         >
