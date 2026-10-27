@@ -81,7 +81,7 @@ class Captain::Mcp::Connection
   # Each server has its own context, because RubyLLM reads the credential store from the context config
   def context
     RubyLLM.context do |config|
-      config.faraday_adapter = SafeFetch::FaradayAdapter
+      config.faraday_adapter = Captain::Mcp::SafeFaradayAdapter
       config.mcp_credential_store = Captain::Mcp::CredentialStore.new(@server)
       config.mcp_client_name = GlobalConfigService.load('INSTALLATION_NAME', 'Chatwoot')
     end
