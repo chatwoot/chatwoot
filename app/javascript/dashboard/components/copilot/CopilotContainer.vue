@@ -121,7 +121,8 @@ const shouldShowCopilotPanel = computed(() => {
   );
 });
 
-// Expanded, the panel covers the conversation area. It opens at its normal width every time.
+// Expanded, the panel covers the conversation area. It opens at its normal width every time. It stays below the
+// sidebar's z-40, so the sidebar menus open over it.
 const isExpanded = ref(false);
 watch(shouldShowCopilotPanel, isOpen => {
   if (!isOpen) isExpanded.value = false;
@@ -310,7 +311,7 @@ onMounted(() => {
         'md:hidden': !shouldShowCopilotPanel,
       },
       isExpanded
-        ? 'md:absolute md:inset-0 md:max-w-none'
+        ? 'md:absolute md:inset-0 md:max-w-none md:z-30'
         : 'md:static md:w-[320px] md:min-w-[320px] 2xl:min-w-[360px] 2xl:w-[360px]',
     ]"
   >
