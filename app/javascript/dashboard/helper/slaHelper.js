@@ -125,11 +125,12 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
     !isTerminalSLAStatus(sla.slaStatus) &&
     !hasRecordedFirstResponseMiss &&
     sla.slaFrtDueAt <= completionTime
-      ? completionTime
+      ? firstReplyCreatedAt || completionTime
       : null;
-  const firstResponseEvaluationTime =
-    firstReplyCreatedAt ||
-    (isCompleted ? completedFirstResponseEvaluationTime : currentTime);
+  const firstResponseEvaluationTime = isTerminalSLAStatus(sla.slaStatus)
+    ? null
+    : firstReplyCreatedAt ||
+      (isCompleted ? completedFirstResponseEvaluationTime : currentTime);
 
   // Check FRT until the first reply is made on time. When resolution reaches
   // the client before SLA processing, use completion time to preserve the miss.
