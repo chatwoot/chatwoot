@@ -297,18 +297,16 @@ RSpec.describe MailboxHelper do
 
       context 'when the TNEF part holds more files than a message can carry' do
         let(:file_count) { Message::NUMBER_OF_PERMITTED_ATTACHMENTS + 3 }
+        let(:file_names) { Array.new(file_count) { |index| format('file-%02d.txt', index) } }
 
         before do
-          allow(Open3).to receive(:capture3) do |*args, **_opts|
-            dir = args[args.index('-C') + 1]
-            file_count.times { |index| File.write(File.join(dir, format('file-%02d.txt', index)), 'x') }
-            ['', '', instance_double(Process::Status, success?: true)]
-          end
+          entries = file_names.map { |name| TnefReader::Entry.new(name, 'x') }
+          allow(TnefReader).to receive(:files).and_return(entries)
         end
 
         it 'uploads only the files that are attached' do
           expect { helper_instance.send(:add_attachments_to_message) }
-            .to change { ActiveStorage::Blob.where('filename LIKE ?', 'file-%').count }.by(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
+            .to change { ActiveStorage::Blob.where(filename: file_names).count }.by(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
 
           expect(conversation.messages[0].attachments.count).to eq(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
         end

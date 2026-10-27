@@ -1,7 +1,7 @@
 module MailboxTnefHelper
-  private
-
   TNEF_MIME_TYPES = %w[application/ms-tnef application/vnd.ms-tnef].freeze
+
+  private
 
   # Outlook can wrap the real attachments in a single winmail.dat (TNEF) part.
   # Replace it with the files it contains; keep it as is when nothing can be extracted.
@@ -23,19 +23,12 @@ module MailboxTnefHelper
     files
   end
 
-  # Runs the tnef binary shipped with the gem. Tnef.unpack changes the working directory
-  # of the whole process, which is not safe with concurrent Sidekiq threads.
   def extract_tnef_files(blob)
-    Dir.mktmpdir do |dir|
-      _output, error, status = Open3.capture3(Tnef::Executable.path, '--number-backups', '-K', '-C', dir, stdin_data: blob.download, binmode: true)
-      raise IOError, error unless status.success?
-
-      # only the files that can still be attached are uploaded
-      Dir.children(dir).sort.last(Message::NUMBER_OF_PERMITTED_ATTACHMENTS).map do |name|
-        File.open(File.join(dir, name)) { |file| { blob: ActiveStorage::Blob.create_and_upload!(io: file, filename: name) } }
-      end
+    # only the files that can still be attached are uploaded
+    TnefReader.files(blob.download).last(Message::NUMBER_OF_PERMITTED_ATTACHMENTS).map do |file|
+      { blob: ActiveStorage::Blob.create_and_upload!(io: StringIO.new(file.data), filename: file.name) }
     end
-  rescue IOError, SystemCallError => e
+  rescue TnefReader::Error => e
     Rails.logger.error "[MailboxHelper] Could not extract TNEF attachment for message with ID: #{processed_mail.message_id}: #{e.message}"
     []
   end

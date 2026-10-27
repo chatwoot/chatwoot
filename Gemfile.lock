@@ -982,7 +982,6 @@ GEM
       rails (>= 7.1.0)
     tilt (2.3.0)
     timeout (0.6.1)
-    tnef (1.0.2)
     trailblazer-option (0.1.2)
     tsort (0.2.0)
     twilio-ruby (7.6.0)
@@ -1198,7 +1197,6 @@ DEPENDENCIES
   telephone_number
   test-prof
   tidewave
-  tnef
   twilio-ruby
   twitty (~> 0.1.5)
   tzinfo-data
