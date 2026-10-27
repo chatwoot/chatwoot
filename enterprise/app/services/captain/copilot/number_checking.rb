@@ -30,10 +30,11 @@ module Captain::Copilot::NumberChecking
   end
 
   # Every tool result in the thread, and the thread's messages, since an answer may repeat a number an earlier turn found.
+  # JSON.generate keeps characters such as & as they are, where to_json escapes them, so links match their tool results.
   def known_texts
     results = CopilotToolCall.joins(:copilot_run).where(copilot_runs: { copilot_thread_id: @run.copilot_thread_id }).pluck(:result)
     messages = @run.copilot_thread.copilot_messages.where(message_type: %w[user assistant]).pluck(:message)
-    (results + messages).map(&:to_json)
+    (results + messages).map { |value| JSON.generate(value) }
   end
 
   def number_note(gaps)
