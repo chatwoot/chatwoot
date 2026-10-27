@@ -3,6 +3,7 @@
 # Without a token, a server that answers 401 needs OAuth if it publishes OAuth metadata, and a token otherwise.
 class Captain::Mcp::DiscoveryService
   Result = Data.define(:auth_type, :name)
+  InvalidUrlError = Class.new(StandardError)
   # Where a server that sends no resource_metadata in its 401 can still publish OAuth metadata:
   # - Protected resource metadata (RFC 9728) at a .well-known path, which newer MCP revisions allow.
   # - Authorization server metadata (RFC 8414) at the server's origin, as servers from the 2025-03-26 revision do.
@@ -17,6 +18,7 @@ class Captain::Mcp::DiscoveryService
   end
 
   def perform
+    validate_url!
     connection = Captain::Mcp::Connection.new(probe_server)
     Result.new(auth_type: probe_server.auth_type, name: connection.server_name.presence || host)
   rescue RubyLLM::UnauthorizedError => e
@@ -26,6 +28,14 @@ class Captain::Mcp::DiscoveryService
   end
 
   private
+
+  # The URL gets the same check as a saved server before Chatwoot connects to it. Only URL errors count, because
+  # the probe has no name, account or assistant.
+  def validate_url!
+    probe_server.validate
+    url_errors = probe_server.errors.full_messages_for(:endpoint_url)
+    raise InvalidUrlError, url_errors.to_sentence if url_errors.any?
+  end
 
   def probe_server
     @probe_server ||= Captain::McpServer.new(url: @url, auth_type: @token.present? ? 'token' : 'none',

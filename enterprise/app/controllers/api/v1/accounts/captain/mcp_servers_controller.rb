@@ -20,8 +20,7 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
                                                  auth_header: params[:auth_header].presence).perform
   rescue RubyLLM::UnauthorizedError
     render_could_not_create_error(I18n.t('captain.mcp_server.token_rejected'))
-  # RubyLLM raises ArgumentError for a URL that is not HTTPS
-  rescue ArgumentError, URI::InvalidURIError => e
+  rescue Captain::Mcp::DiscoveryService::InvalidUrlError => e
     render_could_not_create_error(e.message)
   end
 
