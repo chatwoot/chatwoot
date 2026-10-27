@@ -26,6 +26,7 @@ import FaqSuggestionsIndex from './responses/FaqSuggestions.vue';
 import CustomToolsIndex from './tools/Index.vue';
 import CustomToolsExplore from './tools/Explore.vue';
 import CustomToolsInstall from './tools/Install.vue';
+import McpServersIndex from './tools/McpServers.vue';
 
 const meta = {
   permissions: ['administrator', 'agent'],
@@ -80,6 +81,15 @@ const assistantRoutes = [
     component: CustomToolsExplore,
     name: 'captain_tools_explore',
     meta: metaCustomTools,
+  },
+  {
+    path: frontendURL('accounts/:accountId/captain/:assistantId/tools/mcp'),
+    component: McpServersIndex,
+    name: 'captain_mcp_servers_index',
+    meta: {
+      ...metaCustomTools,
+      featureFlag: FEATURE_FLAGS.CAPTAIN_MCP_SERVERS,
+    },
   },
   {
     path: frontendURL('accounts/:accountId/captain/toolsets/install'),
