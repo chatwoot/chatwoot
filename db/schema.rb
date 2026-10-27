@@ -545,10 +545,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_062035) do
     t.string "auth_type", default: "none", null: false
     t.string "auth_header"
     t.jsonb "auth_config", default: {}
-    t.jsonb "server_info", default: {}, null: false
     t.jsonb "tools", default: [], null: false
     t.string "status", default: "active", null: false
-    t.datetime "last_checked_at"
     t.text "last_error"
     t.datetime "tools_changed_at"
     t.boolean "enabled", default: true, null: false

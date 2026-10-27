@@ -2,7 +2,7 @@
 # The tools are listed later, when the admin picks them.
 # Without a token, a server that answers 401 needs OAuth if it publishes OAuth metadata, and a token otherwise.
 class Captain::Mcp::DiscoveryService
-  Result = Data.define(:auth_type, :name, :version)
+  Result = Data.define(:auth_type, :name)
   OAUTH_METADATA_PATHS = ['/.well-known/oauth-protected-resource%<path>s', '/.well-known/oauth-authorization-server'].freeze
   MAX_METADATA_BYTES = 64.kilobytes
 
@@ -14,12 +14,11 @@ class Captain::Mcp::DiscoveryService
 
   def perform
     connection = Captain::Mcp::Connection.new(probe_server)
-    Result.new(auth_type: probe_server.auth_type, name: connection.server_name.presence || host,
-               version: connection.server_version)
+    Result.new(auth_type: probe_server.auth_type, name: connection.server_name.presence || host)
   rescue RubyLLM::UnauthorizedError => e
     raise if @token.present?
 
-    Result.new(auth_type: oauth?(e.response) ? 'oauth' : 'token', name: host, version: nil)
+    Result.new(auth_type: oauth?(e.response) ? 'oauth' : 'token', name: host)
   end
 
   private

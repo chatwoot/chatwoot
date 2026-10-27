@@ -26,12 +26,11 @@ class Captain::Mcp::Connection
   # Runs a request and records the result on the server. Only the status columns are written, so a check never overwrites an admin edit.
   def track_status
     result = yield
-    @server.update_columns(status: :active, last_checked_at: Time.current, last_error: nil, # rubocop:disable Rails/SkipsModelValidations
-                           server_info: { 'name' => server_name, 'version' => server_version }.compact)
+    @server.update_columns(status: :active, last_error: nil) # rubocop:disable Rails/SkipsModelValidations
     result
   rescue *ERRORS => e
     status = e.is_a?(RubyLLM::UnauthorizedError) ? :needs_sign_in : :error
-    @server.update_columns(status: status, last_checked_at: Time.current, last_error: e.message) # rubocop:disable Rails/SkipsModelValidations
+    @server.update_columns(status: status, last_error: e.message) # rubocop:disable Rails/SkipsModelValidations
     raise
   end
 
@@ -50,10 +49,6 @@ class Captain::Mcp::Connection
   # RubyLLM exposes the server's name only through its private server info
   def server_name
     mcp.send(:server_info)['name']
-  end
-
-  def server_version
-    mcp.version
   end
 
   def call(server_tool_name, arguments)

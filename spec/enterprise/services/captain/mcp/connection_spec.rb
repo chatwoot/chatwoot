@@ -11,7 +11,6 @@ RSpec.describe Captain::Mcp::Connection do
       allow(connection.mcp).to receive(:client).and_return(client)
 
       expect(connection.server_name).to eq('Example')
-      expect(connection.server_version).to eq('1.2')
     end
   end
 end

@@ -5,11 +5,7 @@ json.url mcp_server.url
 json.name mcp_server.name
 json.auth_type mcp_server.auth_type
 json.auth_header mcp_server.auth_header
-# The token itself never leaves the server
-json.has_token mcp_server.auth_config['token'].present?
-json.server_info mcp_server.server_info
 json.status mcp_server.status
-json.last_checked_at mcp_server.last_checked_at&.to_i
 json.last_error mcp_server.last_error
 json.tools_changed_at mcp_server.tools_changed_at&.to_i
 json.enabled mcp_server.enabled

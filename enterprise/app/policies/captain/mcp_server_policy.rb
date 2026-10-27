@@ -7,8 +7,9 @@ class Captain::McpServerPolicy < ApplicationPolicy
     true
   end
 
+  # Lists tools by calling the remote server, which only admins need while they pick tools
   def live_tools?
-    true
+    @account_user.administrator?
   end
 
   def discover?
