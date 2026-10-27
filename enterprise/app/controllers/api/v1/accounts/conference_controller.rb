@@ -1,7 +1,7 @@
 class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseController
   before_action :set_voice_inbox_for_conference
   before_action :validate_hold, :ensure_handling_agent, only: :hold
-  rescue_from CustomExceptions::CallAlreadyAccepted, with: :render_call_already_accepted
+  rescue_from CustomExceptions::CallAlreadyAccepted, Voice::CallErrors::CallAlreadyEnded, with: :render_call_conflict
   rescue_from Voice::CallErrors::CallFailed, with: :render_call_failed
 
   def token
@@ -103,7 +103,8 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
     conversation
   end
 
-  def render_call_already_accepted(error)
+  # Another agent has the call, or it is ending unanswered; the client drops its ringing card
+  def render_call_conflict(error)
     render json: { error: error.message }, status: :conflict
   end
 

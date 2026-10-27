@@ -36,6 +36,11 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  // The ring time saved with the no-answer announcement; null for announcements without one
+  timeoutSeconds: {
+    type: Number,
+    default: null,
+  },
   // Renders a one-line checkbox instead of a toggle card
   checkbox: {
     type: Boolean,
@@ -44,12 +49,19 @@ const props = defineProps({
 });
 
 const MESSAGE_MAX_LENGTH = 1000;
+const TIMEOUT_SECONDS = { min: 10, max: 300 };
 const store = useStore();
 const { t } = useI18n();
 const isEnabled = ref(props.enabled);
 const draft = ref(props.message);
+const timeout = ref(props.timeoutSeconds);
 const isSaving = ref(false);
-const isDirty = computed(() => draft.value.trim() !== props.message);
+const hasTimeout = computed(() => props.timeoutSeconds !== null);
+const isDirty = computed(
+  () =>
+    draft.value.trim() !== props.message ||
+    (hasTimeout.value && Number(timeout.value) !== props.timeoutSeconds)
+);
 const recordsAudio = computed(() => props.audioUrl !== null);
 // Unchanged text can be re-saved while its audio is missing, to generate it
 const canSave = computed(
@@ -67,10 +79,16 @@ const shell = computed(() =>
 );
 
 watch(
-  [() => props.inbox.id, () => props.enabled, () => props.message],
-  ([, savedEnabled, savedMessage]) => {
+  [
+    () => props.inbox.id,
+    () => props.enabled,
+    () => props.message,
+    () => props.timeoutSeconds,
+  ],
+  ([, savedEnabled, savedMessage, savedTimeout]) => {
     isEnabled.value = savedEnabled;
     draft.value = savedMessage;
+    timeout.value = savedTimeout;
   }
 );
 
@@ -83,6 +101,9 @@ const save = async (nextEnabled = isEnabled.value, useDraft = true) => {
       kind: props.kind,
       enabled: nextEnabled,
       message: useDraft ? draft.value.trim() : props.message,
+      timeoutSeconds: hasTimeout.value
+        ? Number(useDraft ? timeout.value : props.timeoutSeconds)
+        : undefined,
     });
     useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
   } catch (error) {
@@ -151,6 +172,32 @@ const toggle = value => {
             />
           </template>
           <div class="flex items-center justify-end gap-3">
+            <label
+              v-if="hasTimeout"
+              :for="`call-announcement-${kind}-timeout-${inbox.id}`"
+              class="flex items-center gap-2 mb-0 me-auto text-body-main text-n-slate-12"
+            >
+              <span
+                class="flex items-center gap-2 h-8 px-3 rounded-lg bg-n-alpha-black2 outline outline-1 -outline-offset-1 outline-n-weak focus-within:outline-n-brand"
+              >
+                <input
+                  :id="`call-announcement-${kind}-timeout-${inbox.id}`"
+                  v-model="timeout"
+                  type="number"
+                  :min="TIMEOUT_SECONDS.min"
+                  :max="TIMEOUT_SECONDS.max"
+                  :disabled="isSaving"
+                  class="w-10 reset-base !mb-0 !p-0 !border-0 !bg-transparent text-sm text-n-slate-12"
+                />
+                <span class="text-sm text-n-slate-11">
+                  {{ label('TIMEOUT.UNIT') }}
+                </span>
+              </span>
+              {{ label('TIMEOUT.LABEL') }}
+              <span class="ps-2 border-s border-n-weak text-n-slate-11">
+                {{ label('TIMEOUT.RANGE') }}
+              </span>
+            </label>
             <NextButton
               :label="$t('INBOX_MGMT.VOICE_CONFIGURATION.ANNOUNCEMENT.SAVE')"
               :is-loading="isSaving"

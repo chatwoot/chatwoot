@@ -44,6 +44,22 @@ describe Voice::Provider::Twilio::ConferenceService do
       expect(call.reload.accepted_by_agent_id).to eq(agent.id)
     end
 
+    it 'refuses a claim while the ring time is ending the call' do
+      call.update!(ring_state: { 'timing_out_at' => Time.zone.now.to_i })
+
+      expect { service.mark_agent_joined(user: create(:user, account: account)) }
+        .to raise_error(Voice::CallErrors::CallAlreadyEnded, 'The call timed out before you could join.')
+      expect(call.reload.accepted_by_agent_id).to be_nil
+    end
+
+    it 'refuses a claim when the move has ended the call before the ring time records it' do
+      call.update!(status: 'completed', ring_state: { 'timing_out_at' => Time.zone.now.to_i })
+
+      expect { service.mark_agent_joined(user: create(:user, account: account)) }
+        .to raise_error(Voice::CallErrors::CallAlreadyEnded, 'The call timed out before you could join.')
+      expect(call.reload.accepted_by_agent_id).to be_nil
+    end
+
     it 'holds a place for the connection of the attempt the agent names' do
       agent = create(:user, account: account)
 

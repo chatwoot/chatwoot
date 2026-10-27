@@ -94,11 +94,12 @@ class Inboxes extends CacheEnabledApiClient {
     });
   }
 
-  // kind: 'out_of_hours' | 'greeting'
-  setCallAnnouncement(inboxId, kind, { enabled, message }) {
+  // kind: 'out_of_hours' | 'greeting' | 'unanswered'; only 'unanswered' carries a ring time
+  setCallAnnouncement(inboxId, kind, { enabled, message, timeoutSeconds }) {
     return axios.patch(`${this.url}/${inboxId}/call_announcements/${kind}`, {
       enabled,
       message,
+      timeout_seconds: timeoutSeconds,
     });
   }
 }

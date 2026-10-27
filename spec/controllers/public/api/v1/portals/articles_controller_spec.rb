@@ -323,4 +323,30 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response.body).to include('Sibling In Sidebar')
     end
   end
+
+  describe 'search engine visibility' do
+    it 'does not send a noindex header for a visible article' do
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.headers['X-Robots-Tag']).to be_nil
+    end
+
+    it 'sends a noindex header for an article hidden from search' do
+      article.update!(meta: { 'noindex' => true })
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      expect(response).to have_http_status(:success)
+      expect(response.headers['X-Robots-Tag']).to eq('noindex')
+    end
+
+    it 'sends a noindex header for every article when the portal is hidden' do
+      portal.update!(config: portal.config.merge('disable_search_indexing' => true))
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+
+      expect(response.headers['X-Robots-Tag']).to eq('noindex')
+    end
+  end
 end
