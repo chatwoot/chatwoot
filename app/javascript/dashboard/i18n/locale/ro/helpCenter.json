@@ -807,6 +807,7 @@
         "PUBLISH_CHANGES_ERROR": "Could not publish changes",
         "SAVE_IN_PROGRESS": "Still saving your latest changes. Please try again in a moment.",
         "UPLOAD_IN_PROGRESS": "A file upload is unfinished. Wait for it to finish or remove it first.",
+        "CREATE_IN_PROGRESS": "The article is still being created. Add files again in a moment.",
         "DISCARD_CHANGES": "Discard changes",
         "DISCARD_CHANGES_SUCCESS": "Changes discarded",
         "DISCARD_CHANGES_ERROR": "Could not discard changes",
@@ -839,7 +840,14 @@
         "META_TITLE": "Titlu meta",
         "META_TITLE_PLACEHOLDER": "Add meta title",
         "META_TAGS": "Etichete meta",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "META_TAGS_PLACEHOLDER": "Add meta tags",
+        "SLUG": "Slug",
+        "SLUG_PLACEHOLDER": "Add slug",
+        "SLUG_USE_TITLE": "Use title as slug",
+        "SLUG_WARNING": "The current URL will stop working, and existing links to it will break.",
+        "SLUG_UPDATE": "Actualizare",
+        "SLUG_UPDATED": "Slug updated. The article is now available at the new URL.",
+        "SLUG_OPEN": "Open URL"
       },
       "API": {
         "ERROR": "Eroare la salvarea articolului"

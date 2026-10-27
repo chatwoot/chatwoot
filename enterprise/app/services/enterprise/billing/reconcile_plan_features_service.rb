@@ -18,11 +18,13 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     advanced_search_indexing
     advanced_search
     linear_integration
+    stripe_integration
     channel_voice
     whatsapp_embedded_signup_inbox_creation
     api_and_webhooks
     data_import
     companies
+    auto_translate
   ] + PAID_PLAN_FEATURES).freeze
 
   BUSINESS_PLAN_FEATURES = %w[

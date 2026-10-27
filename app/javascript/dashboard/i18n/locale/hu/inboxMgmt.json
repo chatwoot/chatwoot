@@ -4,7 +4,7 @@
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
     "COUNT": "{n} inbox | {n} inboxes",
-    "SEARCH_PLACEHOLDER": "Search inbox name, channel, or identifier...",
+    "SEARCH_PLACEHOLDER": "Postafiók neve, csatorna vagy azonosító keresése...",
     "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
@@ -50,8 +50,8 @@
         "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Válassz értéket",
         "CREATE_INBOX": "Fiók létrehozása",
-        "RESTRICTED_WARNING": "Facebook inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
-        "STATUS_LINK": "View status updates"
+        "RESTRICTED_WARNING": "A Facebook-postafiók létrehozása átmenetileg nem érhető el a Meta API-jának hibája miatt. A problémát nem a Chatwoot okozza. A Meta csapatával együttműködve dolgozunk a mielőbbi megoldáson.",
+        "STATUS_LINK": "Állapotfrissítések megtekintése"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
@@ -61,9 +61,9 @@
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
         "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
         "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore.",
-        "RESTRICTED_WARNING": "Instagram inbox creation is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. We’re working closely with Meta to resolve it as quickly as possible.",
-        "SETTINGS_RESTRICTED_WARNING": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
-        "STATUS_LINK": "View status updates"
+        "RESTRICTED_WARNING": "Az Instagram-postafiók létrehozása átmenetileg nem érhető el a Meta API-jának hibája miatt. A problémát nem a Chatwoot okozza. A Meta csapatával együttműködve dolgozunk a mielőbbi megoldáson.",
+        "SETTINGS_RESTRICTED_WARNING": "Az Instagramon zajló üzenetküldést jelenleg a Meta oldalán fellépő API szintű probléma érinti, nem a Chatwoot hibája. Egyes üzenetek vagy műveletek késhetnek vagy átmenetileg nem érhetők el. A hiba mielőbbi elhárításán szorosan együttműködünk a Metával.",
+        "STATUS_LINK": "Állapotfrissítések megtekintése"
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
@@ -71,7 +71,7 @@
         "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
         "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again",
-        "NORTH_AMERICA_WARNING": "TikTok connections for North American accounts are temporarily unavailable while we wait for an update from the TikTok team."
+        "NORTH_AMERICA_WARNING": "Az észak-amerikai fiókok TikTok-kapcsolatai átmenetileg nem érhetők el, amíg választ várunk a TikTok csapatától."
       },
       "TWITTER": {
         "HELP": "Ahhoz hogy hozzáadd a twitter profilodat egy csatornaként, azonosítanod kell a Twitter fiókodat a 'Belépés Twitterrel' gomb megnyomásával ",
@@ -140,7 +140,6 @@
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/Whatsapp csatorna",
-        "DESC": "Twilio integrálása és ügyfelek támogatása SMS-en vagy a WhatsAppon keresztül",
         "ACCOUNT_SID": {
           "LABEL": "Fiók SID",
           "PLACEHOLDER": "Kérjük add meg a Twilio fiók SID-t",
@@ -182,13 +181,13 @@
           "PLACEHOLDER": "Kérjük add meg a telefonszámot, amire az üzeneteket küldjük.",
           "ERROR": "Adj meg egy telefonszámot ami +-al kezdődik és nem tartalmaz szóközöket"
         },
-        "API_CALLBACK": {
-          "TITLE": "Visszahívás URL",
-          "SUBTITLE": "Be kell állítanod az üzenet visszahívás URL-t a Twilion az itt megadott URL alapján."
-        },
         "SUBMIT_BUTTON": "Twilio csatorna létrehozása",
         "API": {
           "ERROR_MESSAGE": "Nem tudtuk hitelesíteni a Twilio fiókodat, kérjük próbáld később"
+        },
+        "API_CALLBACK": {
+          "TITLE": "Visszahívás URL",
+          "SUBTITLE": "Be kell állítanod az üzenet visszahívás URL-t a Twilion az itt megadott URL alapján."
         }
       },
       "SMS": {
@@ -252,14 +251,14 @@
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
-          "WHATSAPP_CLOUD_MANUAL_SETUP_DESC": "Manual setup with Cloud API credentials",
+          "WHATSAPP_CLOUD_MANUAL_SETUP_DESC": "Manuális beállítás Cloud API-hitelesítő adatokkal",
           "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
           "TITLE": "Select your API provider",
           "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials.",
-          "RESTRICTION_DESCRIPTION": "Choose your WhatsApp provider. You can connect WhatsApp Cloud manually using your Cloud API credentials, or connect through Twilio using your account credentials."
+          "RESTRICTION_DESCRIPTION": "Válassza ki a WhatsApp-szolgáltatót. A WhatsApp Cloud manuálisan, a Cloud API-hitelesítő adataival is összekapcsolható, vagy a Twilión keresztül, a fiók hitelesítő adataival."
         },
         "INBOX_NAME": {
           "LABEL": "Fiók név",
@@ -300,104 +299,104 @@
         },
         "MANUAL_SETUP": {
           "HEADER": {
-            "TITLE": "Connect WhatsApp manually",
-            "DESCRIPTION": "Follow these steps to prepare your Meta account and connect your number to Chatwoot."
+            "TITLE": "WhatsApp manuális összekapcsolása",
+            "DESCRIPTION": "Kövesse az alábbi lépéseket Meta-fiókja előkészítéséhez és telefonszáma Chatwoothoz kapcsolásához."
           },
           "APP": {
-            "TITLE": "Create or select a Meta app",
-            "DESCRIPTION": "Your WhatsApp number must belong to a Meta app with the WhatsApp use case enabled.",
-            "ITEM_1": "Open {metaDevelopers} and sign in with an administrator account.",
+            "TITLE": "Meta-alkalmazás létrehozása vagy kiválasztása",
+            "DESCRIPTION": "A WhatsApp-számnak olyan Meta-alkalmazáshoz kell tartoznia, amelynél engedélyezve van a WhatsApp használati eset.",
+            "ITEM_1": "Nyissa meg a(z) {metaDevelopers} oldalt, és jelentkezzen be rendszergazdai fiókkal.",
             "META_DEVELOPERS": "Meta Developers",
-            "ITEM_2": "Create a new app, or select the app you already use for this WhatsApp number.",
-            "ITEM_3": "Choose the option to connect with customers through WhatsApp.",
-            "ITEM_4": "Select the business portfolio that owns, or will own, the WhatsApp number.",
-            "VIDEO_TITLE": "Watch: Create a Meta app",
-            "VIDEO_DESCRIPTION": "This short walkthrough shows where to start a new app in Meta Developers."
+            "ITEM_2": "Hozzon létre új alkalmazást, vagy válassza ki azt, amelyet már használ ehhez a WhatsApp-számhoz.",
+            "ITEM_3": "Válassza a WhatsAppon keresztüli ügyfélkapcsolat lehetőségét.",
+            "ITEM_4": "Válassza ki azt az üzleti portfóliót, amelyhez a WhatsApp-szám tartozik, vagy tartozni fog.",
+            "VIDEO_TITLE": "Videó: Meta-alkalmazás létrehozása",
+            "VIDEO_DESCRIPTION": "Ez a rövid útmutató bemutatja, hol kezdheti el új alkalmazás létrehozását a Meta Developers felületén."
           },
           "NUMBER": {
-            "TITLE": "Add your phone number and get its IDs",
-            "DESCRIPTION": "Add and verify the production number in your Meta app, then copy the two identifiers shown in API Setup.",
-            "ITEM_1": "Open the WhatsApp use case in your Meta app and choose API Setup.",
-            "ITEM_2": "In the Send and receive messages section, open the From selector.",
-            "ITEM_3": "Select an existing production number, or choose Add phone number.",
-            "ITEM_4": "Complete the WhatsApp business profile requested by Meta.",
-            "ITEM_5": "Verify the phone number using the OTP sent by SMS or voice call.",
-            "ITEM_6": "Copy the Phone Number ID and WhatsApp Business Account ID shown in API Setup.",
-            "VIDEO_TITLE": "Watch: Add a phone number and find its IDs",
-            "VIDEO_DESCRIPTION": "This walkthrough shows how to add or select a production number and copy the identifiers from Meta."
+            "TITLE": "Telefonszám hozzáadása és azonosítóinak lekérése",
+            "DESCRIPTION": "Adja hozzá és erősítse meg az éles telefonszámot Meta-alkalmazásában, majd másolja ki az API Setup oldalon megjelenő két azonosítót.",
+            "ITEM_1": "Nyissa meg a WhatsApp használati esetet a Meta-alkalmazásban, majd válassza az API Setup lehetőséget.",
+            "ITEM_2": "A Send and receive messages szakaszban nyissa meg a From választómezőt.",
+            "ITEM_3": "Válasszon ki egy meglévő éles telefonszámot, vagy válassza a telefonszám hozzáadását.",
+            "ITEM_4": "Töltse ki a Meta által kért WhatsApp üzleti profilt.",
+            "ITEM_5": "Erősítse meg a telefonszámot SMS-ben vagy hanghívásban kapott egyszer használatos kóddal.",
+            "ITEM_6": "Másolja ki az API Setup oldalon látható telefonszám-azonosítót és WhatsApp üzletifiók-azonosítót.",
+            "VIDEO_TITLE": "Videó: Telefonszám hozzáadása és azonosítóinak lekérése",
+            "VIDEO_DESCRIPTION": "Az útmutató bemutatja, hogyan adhat hozzá vagy választhat ki éles telefonszámot, és hogyan másolhatja ki az azonosítókat a Metából."
           },
           "TOKEN": {
-            "TITLE": "Generate a permanent access token",
-            "DESCRIPTION": "Create a Meta system user with access to your app and WhatsApp Business Account.",
-            "ITEM_1": "Open Meta Business Settings and go to Users → System users.",
-            "ITEM_2": "Create an admin system user, or select an existing one.",
-            "ITEM_3": "Assign your Meta app and WhatsApp Business Account to the system user.",
-            "ITEM_4": "Grant full control for the assigned WhatsApp assets.",
-            "ITEM_5": "Generate a token for your Meta app and set its expiration to Never.",
-            "ITEM_6": "Select whatsapp_business_management and whatsapp_business_messaging, then copy the token.",
-            "VIDEO_TITLE": "Watch: Generate a permanent access token",
-            "VIDEO_DESCRIPTION": "This walkthrough shows how to select your Meta app, choose a non-expiring token, and grant the required WhatsApp permissions.",
-            "WARNING": "Meta shows the token only once. Copy it before closing the dialog."
+            "TITLE": "Állandó hozzáférési token létrehozása",
+            "DESCRIPTION": "Hozzon létre Meta-rendszerfelhasználót, és adjon neki hozzáférést az alkalmazáshoz és a WhatsApp üzleti fiókhoz.",
+            "ITEM_1": "Nyissa meg a Meta üzleti beállításait, majd válassza a Felhasználók → Rendszerfelhasználók lehetőséget.",
+            "ITEM_2": "Hozzon létre rendszergazdai rendszerfelhasználót, vagy válasszon ki egy meglévőt.",
+            "ITEM_3": "Rendelje hozzá Meta-alkalmazását és WhatsApp üzleti fiókját a rendszerfelhasználóhoz.",
+            "ITEM_4": "Adjon teljes körű hozzáférést a hozzárendelt WhatsApp-eszközökhöz.",
+            "ITEM_5": "Hozzon létre tokent Meta-alkalmazásához, és állítsa a lejáratát Soha értékre.",
+            "ITEM_6": "Válassza ki a whatsapp_business_management és a whatsapp_business_messaging jogosultságot, majd másolja ki a tokent.",
+            "VIDEO_TITLE": "Videó: Állandó hozzáférési token létrehozása",
+            "VIDEO_DESCRIPTION": "Az útmutató bemutatja, hogyan választhatja ki Meta-alkalmazását, állíthat be nem lejáró tokent, és adhatja meg a szükséges WhatsApp-jogosultságokat.",
+            "WARNING": "A Meta csak egyszer jeleníti meg a tokent. Az ablak bezárása előtt másolja ki."
           },
           "DETAILS": {
-            "WABA_LABEL": "WhatsApp Business Account ID",
-            "WABA_PLACEHOLDER": "Enter WABA ID",
-            "PHONE_ID_LABEL": "Phone Number ID",
-            "PHONE_ID_PLACEHOLDER": "Enter Phone Number ID",
-            "TOKEN_LABEL": "Permanent access token",
-            "TOKEN_PLACEHOLDER": "Paste access token"
+            "WABA_LABEL": "WhatsApp üzletifiók-azonosító",
+            "WABA_PLACEHOLDER": "Adja meg a WhatsApp üzletifiók-azonosítóját",
+            "PHONE_ID_LABEL": "Telefonszám-azonosító",
+            "PHONE_ID_PLACEHOLDER": "Adja meg a telefonszám-azonosítót",
+            "TOKEN_LABEL": "Állandó hozzáférési token",
+            "TOKEN_PLACEHOLDER": "Illessze be a hozzáférési tokent"
           },
           "REVIEW": {
-            "TITLE": "Create your WhatsApp inbox",
-            "DESCRIPTION": "Review the number details and choose a name for the inbox.",
-            "VERIFIED": "Your Meta number and access token are valid.",
+            "TITLE": "WhatsApp-postafiók létrehozása",
+            "DESCRIPTION": "Ellenőrizze a telefonszám adatait, és adjon nevet a postafióknak.",
+            "VERIFIED": "A Meta-telefonszám és a hozzáférési token érvényes.",
             "BUSINESS_NAME": "Business name",
             "PHONE_NUMBER": "Telefonszám",
-            "PHONE_ID": "Phone Number ID",
-            "WABA_ID": "WhatsApp Business Account ID",
+            "PHONE_ID": "Telefonszám-azonosító",
+            "WABA_ID": "WhatsApp üzletifiók-azonosító",
             "INBOX_NAME": "Fiók név",
-            "INBOX_NAME_HELP": "We generated this name from your verified Meta business name. You can change it."
+            "INBOX_NAME_HELP": "Ezt a nevet ellenőrzött Meta-vállalkozásneve alapján állítottuk elő. Módosíthatja."
           },
           "VERIFY": {
-            "TITLE": "Verify your connection",
-            "DESCRIPTION": "Chatwoot is checking number access and configuring your Meta webhook.",
-            "NUMBER_ACCESS": "Number access",
-            "TEMPLATE_ACCESS": "Template access",
-            "CALLBACK": "Webhook callback",
-            "SUBSCRIPTION": "Webhook subscription",
-            "WEBHOOK_URL": "Webhook URL",
+            "TITLE": "Kapcsolat ellenőrzése",
+            "DESCRIPTION": "A Chatwoot ellenőrzi a telefonszámhoz való hozzáférést, és beállítja a Meta webhookot.",
+            "NUMBER_ACCESS": "Telefonszám-hozzáférés",
+            "TEMPLATE_ACCESS": "Sablonhozzáférés",
+            "CALLBACK": "Webhook visszahívási URL",
+            "SUBSCRIPTION": "Webhook-feliratkozás",
+            "WEBHOOK_URL": "Webhook URL-cím",
             "COPY": "Másolás",
-            "COPY_SUCCESS": "Webhook URL copied to clipboard",
+            "COPY_SUCCESS": "Webhook-URL a vágólapra másolva",
             "COMPLETE": "Megerősített",
             "PENDING": "Függőben lévő",
-            "SUCCESS": "Your WhatsApp number is connected and ready for agent assignment.",
-            "RETRY_SUCCESS": "Webhook setup retried successfully.",
-            "RETRY_ERROR": "We could not retry the webhook setup. Try again."
+            "SUCCESS": "A WhatsApp-telefonszám csatlakoztatva van, és készen áll az ügynökhöz rendelésre.",
+            "RETRY_SUCCESS": "A webhook beállításának ismételt próbája sikerült.",
+            "RETRY_ERROR": "Nem sikerült újra megpróbálni a webhook beállítását. Próbálja újra."
           },
           "ACTIONS": {
             "BACK": "Vissza",
-            "OPEN_META_APPS": "Open Meta Apps",
-            "APP_READY": "My Meta app is ready",
+            "OPEN_META_APPS": "Meta alkalmazások megnyitása",
+            "APP_READY": "Saját Meta alkalmazásom készen áll",
             "NEXT": "Next",
-            "OPEN_BUSINESS_SETTINGS": "Open Meta Business Settings",
-            "SHOW_TOKEN": "Show token",
-            "HIDE_TOKEN": "Hide token",
-            "VERIFY_DETAILS": "Verify details",
+            "OPEN_BUSINESS_SETTINGS": "Meta üzleti beállítások megnyitása",
+            "SHOW_TOKEN": "Token megjelenítése",
+            "HIDE_TOKEN": "Token elrejtése",
+            "VERIFY_DETAILS": "Adatok ellenőrzése",
             "CONNECT": "Fiók létrehozása",
-            "RETRY_WEBHOOK": "Retry webhook setup",
-            "CONTINUE": "Continue to add agents"
+            "RETRY_WEBHOOK": "Webhook beállításának újrapróbálása",
+            "CONTINUE": "Folytatás az ügynökök hozzáadásához"
           },
           "ERRORS": {
-            "IDS_REQUIRED": "Enter the Phone Number ID and WhatsApp Business Account ID.",
-            "REQUIRED": "Enter the Phone Number ID, WhatsApp Business Account ID, and permanent access token.",
-            "INVALID_TOKEN": "This access token is invalid or expired. Generate a new permanent token and try again.",
-            "GENERIC": "We could not complete the WhatsApp setup. Check your details and try again."
+            "IDS_REQUIRED": "Adja meg a telefonszám azonosítóját és a WhatsApp üzleti fiók azonosítóját.",
+            "REQUIRED": "Adja meg a telefonszám azonosítóját, a WhatsApp üzleti fiók azonosítóját és az állandó hozzáférési tokent.",
+            "INVALID_TOKEN": "Ez a hozzáférési token érvénytelen vagy lejárt. Hozzon létre új állandó tokent, és próbálja újra.",
+            "GENERIC": "Nem sikerült befejezni a WhatsApp beállítását. Ellenőrizze az adatokat, és próbálja újra."
           }
         },
         "SUBMIT_BUTTON": "WhatsApp cstorna létrehozása",
         "EMBEDDED_SIGNUP": {
           "TITLE": "Quick setup with Meta",
-          "DESC": "Use Quick setup with Meta to connect a new number or an existing number from the WhatsApp Business app. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "DESC": "A Meta gyorsbeállításával új telefonszámot vagy a WhatsApp Business alkalmazásban már használt számot csatlakoztathat. A rendszer átirányítja a Metára, ahol bejelentkezhet WhatsApp üzleti fiókjába. A rendszergazdai hozzáférés megkönnyíti a beállítást.",
           "BENEFITS": {
             "TITLE": "Benefits of Embedded Signup:",
             "EASY_SETUP": "No manual configuration required",
@@ -405,20 +404,20 @@
             "AUTO_CONFIG": "Automatic webhook and phone number configuration"
           },
           "LEARN_MORE": {
-            "TEXT": "To learn more about quick setup, pricing, and limitations, visit {link}.",
+            "TEXT": "További információért a gyorsbeállításról, az árakról és a korlátozásokról keresse fel ezt az oldalt: {link}.",
             "LINK_TEXT": "this link"
           },
           "SUBMIT_BUTTON": "Connect with WhatsApp Business",
           "AUTH_PROCESSING": "Authenticating with Meta",
           "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
           "PROCESSING": "Setting up your WhatsApp Business Account",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
+          "ENABLING_CALLING": "WhatsApp-hívás engedélyezése ezen a telefonszámon…",
           "LOADING_SDK": "Loading Facebook SDK...",
           "CANCELLED": "WhatsApp Signup was cancelled",
           "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
           "WAITING_FOR_AUTH": "Waiting for authentication...",
           "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
-          "UNSUPPORTED_COMPLETION": "The Meta setup finished without a WhatsApp phone number that can be connected. Please run the setup again and add a phone number.",
+          "UNSUPPORTED_COMPLETION": "A Meta beállítása telefonszám csatlakoztatása nélkül fejeződött be. Indítsa el újra a beállítást, és adjon hozzá egy telefonszámot.",
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
@@ -426,18 +425,22 @@
           "MANUAL_LINK_TEXT": "manual setup flow",
           "ACCESS_REQUEST": {
             "TITLE": "Quick setup with Meta",
-            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. To request this option, tell our team what your business does, how you’ll use WhatsApp, and which Chatwoot account needs access.",
-            "FOOTNOTE": "We’ll review your request and let you know if this option can be enabled. You can also continue with manual setup below.",
-            "BUTTON": "Request access"
+            "DESCRIPTION": "Manuális beállítás nélkül csatlakoztathat új telefonszámot, vagy a WhatsApp Business alkalmazásban már használt számot. A lehetőség engedélyezéséhez írja le vállalkozása tevékenységét és azt, hogyan használná a WhatsAppot.",
+            "BUTTON": "Hozzáférés kérése",
+            "FORM_DESCRIPTION": "Írja le vállalkozását és a WhatsApp tervezett használatát. A gyorsbeállítás engedélyezéséhez adja meg a fiók felhasználási esetét.",
+            "USE_CASE_LABEL": "Üzleti felhasználási eset",
+            "USE_CASE_PLACEHOLDER": "Például lakberendezési termékeket árulunk, és a WhatsAppot termékeinkkel kapcsolatos kérdések megválaszolására, valamint a vásárlói rendelések kezelésére használjuk.",
+            "SUBMIT": "Elküldés",
+            "ERROR": "Nem sikerült engedélyezni a hozzáférést. Próbálja újra."
           },
-          "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
-          "STATUS_LINK": "View status updates",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "RESTRICTED_WARNING": "A WhatsApp beágyazott regisztrációja átmenetileg nem érhető el egy, a Meta oldalán fellépett API-hiba miatt; a Chatwoottal nincs probléma. A jogosult Cloud API-számokhoz manuális beállítás használható. A hiba mielőbbi elhárításán szorosan együttműködünk a Metával.",
+          "STATUS_LINK": "Állapotfrissítések megtekintése",
+          "CALLING_ENABLE_FAILED": "WhatsApp-postafiókja készen áll, de a hanghívást nem sikerült bekapcsolni, mert ez a szám még nincs regisztrálva a WhatsApp Business Calling API-ban. Vegye fel a kapcsolatot a Metával vagy a WhatsApp üzleti megoldásszolgáltatójával a regisztrációhoz, majd kapcsolja be a hívást a postafiók Hívások beállításainál."
         },
         "API": {
           "ERROR_MESSAGE": "Nem tudtuk elmenteni a WhatsApp csatornát",
-          "MANUAL_RESTRICTION_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. Manual setup works only for numbers already connected to WhatsApp Cloud API. Numbers using WhatsApp Business app coexistence are not supported in this flow yet. We’re working closely with Meta to resolve the issue as quickly as possible. Thanks for your patience.",
-          "STATUS_LINK": "View status updates"
+          "MANUAL_RESTRICTION_WARNING": "A WhatsApp beágyazott regisztrációja átmenetileg nem érhető el egy, a Meta oldalán fellépett API-hiba miatt; a Chatwoottal nincs probléma. Manuális beállítás csak a WhatsApp Cloud API-hoz már csatlakoztatott telefonszámoknál használható. A WhatsApp Business alkalmazással együtt használt számok ebben a folyamatban még nem támogatottak. A hiba mielőbbi elhárításán szorosan együttműködünk a Metával. Köszönjük türelmét.",
+          "STATUS_LINK": "Állapotfrissítések megtekintése"
         }
       },
       "VOICE": {
@@ -583,8 +586,8 @@
             "DESCRIPTION": "Support your customers on WhatsApp"
           },
           "WHATSAPP_CALL": {
-            "TITLE": "WhatsApp Call",
-            "DESCRIPTION": "Take voice calls on your WhatsApp number"
+            "TITLE": "WhatsApp hívás",
+            "DESCRIPTION": "Hívásfogadás WhatsApp-telefonszámán"
           },
           "EMAIL": {
             "TITLE": "E-mail",
@@ -613,7 +616,7 @@
           "TIKTOK": {
             "TITLE": "TikTok",
             "DESCRIPTION": "Connect your TikTok account",
-            "ACCESS_REQUEST_DESCRIPTION": "Contact our support team to request TikTok access"
+            "ACCESS_REQUEST_DESCRIPTION": "Lépjen kapcsolatba ügyfélszolgálatunkkal a TikTok-hozzáférés igényléséhez"
           },
           "VOICE": {
             "TITLE": "Voice",
@@ -660,7 +663,7 @@
       "ERROR_FB_AUTH": "Valami elromlott, kérjük töltsd újra az oldalt...",
       "ERROR_FB_UNAUTHORIZED": "Nincs jogosultsága erre a tevékenységre. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Bizonyosodjon meg, hogy teljes hozzáférése van a Facebook oldalhoz. Bővebb információt <a href=\" https://www.facebook.com/help/187316341316631\">itt talál</a>.",
-      "ERROR_CHANNEL_CREATION": "We were unable to create the inbox. Please try again.",
+      "ERROR_CHANNEL_CREATION": "Nem sikerült létrehozni a postafiókot. Próbálja újra.",
       "CREATING_CHANNEL": "Inbox létrehozása...",
       "TITLE": "Inbox részletek beállítása",
       "DESC": ""
@@ -676,6 +679,9 @@
       "MORE_SETTINGS": "További beállítások",
       "WEBSITE_SUCCESS": "Sikeresen létrehoztad a website csatornát. Másold az itt látható kódot és helyezd el a weboldaladon. Legközelebb, mikor egy ügyfél az élő chatben van, a beszélgetés automatikusan megjelenik az inboxodban.",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "SMS_QR_INSTRUCTION": "Olvassa be a fenti QR-kódot az SMS-postafiók gyors teszteléséhez",
+      "SMS_QR_ALT": "Az SMS-postafiók tesztelésére szolgáló QR-kód",
+      "TWILIO_CALLBACK_FALLBACK": "A webhookok beállítása automatikusan történik. Ha nem érkeznek meg a bejövő üzenetek, használja ezt a visszahívási URL-t a Twilióban.",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
@@ -761,163 +767,255 @@
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT",
       "VOICE": "Voice",
-      "CALLS": "Calls"
+      "CALLS": "Hívások"
     },
     "VOICE_CONFIGURATION": {
       "ENABLE_VOICE": {
-        "LABEL": "Enable Voice Calling",
-        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+        "LABEL": "Hanghívás engedélyezése",
+        "DESCRIPTION": "Engedélyezze a hanghívást ebben a postafiókban. Az ügynökök telefonhívásokat kezdeményezhetnek és fogadhatnak."
       },
       "CREDENTIALS": {
-        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+        "DESCRIPTION": "A hanghívások webhookjának ellenőrzéséhez fiókhitelesítési tokenre, a hívások lebonyolításához pedig API-kulcs hitelesítő adataira van szükség."
       },
       "INBOUND": {
-        "LABEL": "Allow incoming calls",
-        "DESCRIPTION": "Let customers call this number. When turned off, incoming calls are declined automatically — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
+        "LABEL": "Bejövő hívások engedélyezése",
+        "DESCRIPTION": "Engedélyezze, hogy az ügyfelek felhívhassák ezt a számot. Kikapcsolt állapotban a rendszer automatikusan elutasítja a bejövő hívásokat, nem értesíti az ügynököket, és nem hoz létre beszélgetést. Az ügynökök továbbra is kezdeményezhetnek kimenő hívásokat."
       },
       "RECORDING": {
-        "LABEL": "Record calls",
-        "DESCRIPTION": "Record calls and attach the recording to the conversation. Turn this off where recording calls isn't permitted."
+        "LABEL": "Hívások rögzítése",
+        "DESCRIPTION": "Rögzítse a hívásokat, és csatolja a felvételt a beszélgetéshez. Kapcsolja ki ezt a beállítást ott, ahol a hívások rögzítése nem engedélyezett."
       },
       "TRANSCRIPTION": {
-        "LABEL": "Transcribe recordings",
-        "DESCRIPTION": "Turn each recording into a text transcript. Uses Captain and requires audio transcription to be enabled for the account."
+        "LABEL": "Felvételek átírása szöveggé",
+        "DESCRIPTION": "Minden felvételből szöveges átirat készül. A funkció a Captaint használja, és csak akkor működik, ha a fióknál engedélyezve van a hangátírás."
       }
     },
     "WHATSAPP_CALLING": {
       "ENABLE": {
-        "LABEL": "Enable WhatsApp Calling",
-        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+        "LABEL": "WhatsApp-hívások engedélyezése",
+        "DESCRIPTION": "Engedélyezze, hogy az ügynökök WhatsApp Cloud-hívásokat fogadhassanak és indíthassanak ebben a postafiókban. Az ügyfelek közvetlenül a WhatsAppon hívhatják ezt az üzleti telefonszámot."
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "Nem sikerült bekapcsolni a hanghívást ehhez a számhoz, mert még nincs regisztrálva a WhatsApp Business Calling API-ban. A regisztrációhoz forduljon a Metához vagy a WhatsApp üzleti megoldásszolgáltatójához, majd próbálja újra.",
       "PHONE_NUMBER": {
-        "LABEL": "Business phone number",
-        "HELP_TEXT": "WhatsApp number that customers will call."
+        "LABEL": "Üzleti telefonszám",
+        "HELP_TEXT": "Az a WhatsApp-szám, amelyet az ügyfelek hívhatnak."
       },
       "HOW_IT_WORKS": {
-        "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "LABEL": "Működés",
+        "DESCRIPTION": "A hívások közvetlenül az ügynök böngészője és a Meta között zajlanak, nincs szükség további hitelesítő adatokra. Győződjön meg róla, hogy az ügynök böngészőjében engedélyezve van a mikrofon használata ezen a webhelyen."
       },
       "PERMISSION_REQUEST_BODY": {
-        "LABEL": "Call permission request message",
-        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
-        "PLACEHOLDER": "We would like to call you regarding your conversation."
+        "LABEL": "Hívásengedélyezési üzenet",
+        "HELP_TEXT": "Ez az üzenet jelenik meg a kontaktnak, ha még nem járult hozzá a hívások fogadásához. Hagyja üresen az alapértelmezett szöveg használatához.",
+        "PLACEHOLDER": "Szeretnénk felhívni a beszélgetéssel kapcsolatban."
       }
     },
     "CHANNEL_PREFERENCES": "Channel Preferences",
     "WIDGET_FEATURES": "Widget features",
+    "TWILIO_HEALTH": {
+      "TITLE": "Twilio-szám kezelése",
+      "DESCRIPTION": "Ellenőrizze a postafiókhoz tartozó Twilio-fiókot, küldőt és webhookokat. Itt jelöljük azokat az adatokat, amelyeket a Chatwoot nem tud fogadni.",
+      "GO_TO_SETTINGS": "Ugrás a Twilio Console felületére",
+      "NO_DATA": "Health data is not available",
+      "LOADING": "Twilio állapotadatainak lekérése…",
+      "ERROR_TITLE": "Nem sikerült csatlakozni a Twilióhoz",
+      "STATUS": {
+        "HEALTHY": "Minden ellenőrzés sikeres",
+        "MISCONFIGURED": "Figyelmet igényel"
+      },
+      "FIELDS": {
+        "ACCOUNT_NAME": {
+          "LABEL": "Twilio-fiók",
+          "TOOLTIP": "Az a Twilio-fiók, amelyhez ezek a hitelesítő adatok tartoznak"
+        },
+        "ACCOUNT_STATUS": {
+          "LABEL": "Fiók állapota",
+          "TOOLTIP": "A felfüggesztett vagy lezárt Twilio-fiók sem üzenetet küldeni, sem fogadni nem tud"
+        },
+        "ACCOUNT_TYPE": {
+          "LABEL": "Fióktípus",
+          "TOOLTIP": "A próbaidőszakos fiókok csak azokra a telefonszámokra küldhetnek üzenetet vagy indíthatnak hívást, amelyeket Twilióban igazolt"
+        },
+        "SENDER": {
+          "LABEL": "Küldő",
+          "TOOLTIP": "Az a telefonszám vagy üzenetküldő szolgáltatás, amely ezt a postafiókot kezeli"
+        },
+        "CAPABILITIES": {
+          "LABEL": "Telefonszám funkciói",
+          "TOOLTIP": "A Twilio által engedélyezett funkciók ezen a telefonszámon. A postafiók nem fogja tudni használni azokat a funkciókat, amelyek nincsenek engedélyezve"
+        },
+        "VOICE_CALLING": {
+          "LABEL": "Hanghívás",
+          "TOOLTIP": "Be van-e kapcsolva a hívás ebben a postafiókban"
+        }
+      },
+      "VALUES": {
+        "ACCOUNT_STATUSES": {
+          "ACTIVE": "Aktív",
+          "SUSPENDED": "Felfüggesztve",
+          "CLOSED": "Lezárva"
+        },
+        "ACCOUNT_TYPES": {
+          "TRIAL": "Próbaidőszakos",
+          "FULL": "Teljes"
+        },
+        "CAPABILITIES": {
+          "SMS": "SMS",
+          "VOICE": "Voice"
+        },
+        "SENDER_TYPES": {
+          "PHONE_NUMBER": "Telefonszám",
+          "MESSAGING_SERVICE": "Üzenetküldő szolgáltatás"
+        },
+        "ENABLED": "Engedélyezve",
+        "DISABLED": "Letiltva"
+      },
+      "WEBHOOKS": {
+        "TITLE": "Webhook",
+        "DESCRIPTION": "A Twilio ezeket az URL-eket hívja meg, amikor üzenet vagy hívás érkezik. A telepítési URL módosítása után regisztrálja újra őket",
+        "REGISTER_ALL": "Webhookok regisztrálása",
+        "MESSAGING": "Üzenetküldési webhook",
+        "VOICE": "Hanghívási webhook",
+        "VOICE_STATUS": "Hanghívás állapotának visszahívása",
+        "VOICE_APP": "Kimenő hívás (TwiML-alkalmazás)"
+      },
+      "WEBHOOK": {
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "NOT_SET": "nincs beállítva",
+        "EXPECTED": "Elvárt",
+        "CURRENT": "Jelenlegi beállítás",
+        "REASONS": {
+          "NOT_SET": "Webhook not configured",
+          "URL_MISMATCH": "Webhook URL mismatch",
+          "WRONG_HTTP_METHOD": "A webhook nem megfelelő HTTP-metódust használ",
+          "OVERRIDDEN_BY_NUMBER": "Az üzenetküldő szolgáltatás felülírja a telefonszám beállítását",
+          "OVERRIDDEN_BY_APPLICATION": "TwiML-alkalmazás írja felül",
+          "OVERRIDDEN_BY_TRUNK": "SIP-trunk írja felül",
+          "MISSING_TWIML_APP": "Nincs létrehozva TwiML-alkalmazás"
+        },
+        "HINTS": {
+          "NOT_SET": "A Twiliohoz nincs webhook beállítva ehhez a küldőhöz, ezért semmi sem érkezik meg a Chatwoothoz.",
+          "URL_MISMATCH": "A Twilio egy másik URL-t hív meg, ezért a forgalom máshová érkezik.",
+          "WRONG_HTTP_METHOD": "Az URL megfelelő, de a Twilio {method} metódussal hívja meg POST helyett, a Chatwoot pedig csak POST-kérésekre válaszol.",
+          "OVERRIDDEN_BY_NUMBER": "Ennél az üzenetküldő szolgáltatásnál be van kapcsolva a „Webhook használata a telefonszámon” beállítás, ezért a Twilio figyelmen kívül hagyja a szolgáltatás webhookját.",
+          "OVERRIDDEN_BY_APPLICATION": "Ehhez a telefonszámhoz TwiML-alkalmazás van rendelve, ezért a Twilio az alkalmazás URL-jeit használja a telefonszám URL-jei helyett. Válassza le a Twilio Console-ban.",
+          "OVERRIDDEN_BY_TRUNK": "Ez a telefonszám SIP-trunkhoz van rendelve, ezért a Twilio azon keresztül irányítja a hívásokat, és teljesen figyelmen kívül hagyja a hanghívási webhookokat. Válassza le a trunkot a Twilio Console-ban.",
+          "MISSING_TWIML_APP": "Ehhez a telefonszámhoz nincs TwiML-alkalmazás rendelve a Chatwootban, ezért nem lehet kimenő hívást indítani."
+        }
+      }
+    },
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
-      "DESCRIPTION": "Review your WhatsApp phone number health, messaging capacity, and linked Meta business details.",
+      "DESCRIPTION": "Ellenőrizze WhatsApp-telefonszámának állapotát, üzenetküldési kapacitását és a kapcsolt Meta üzleti adatokat.",
       "GO_TO_SETTINGS": "Go to Meta Business Manager",
       "NO_DATA": "Health data is not available",
       "ERRORS": {
         "AUTHORIZATION": {
-          "EMBEDDED_TITLE": "WhatsApp connection needs to be refreshed",
-          "EMBEDDED_DESCRIPTION": "Meta could not validate the connection for this inbox. Go to Configuration to reconfigure it using Embedded Signup.",
-          "MANUAL_TITLE": "WhatsApp access token needs attention",
-          "MANUAL_DESCRIPTION": "Meta could not validate the access token for this inbox. Go to Configuration to verify or replace it."
+          "EMBEDDED_TITLE": "Frissíteni kell a WhatsApp-kapcsolatot",
+          "EMBEDDED_DESCRIPTION": "A Meta nem tudta ellenőrizni a postafiók kapcsolatát. Nyissa meg a konfigurációt, és állítsa be újra a beágyazott regisztrációval.",
+          "MANUAL_TITLE": "Ellenőrizni kell a WhatsApp hozzáférési tokent",
+          "MANUAL_DESCRIPTION": "A Meta nem tudta ellenőrizni a postafiók hozzáférési tokenjét. Nyissa meg a konfigurációt az ellenőrzéshez vagy a token cseréjéhez."
         },
-        "GENERIC_TITLE": "WhatsApp health data is unavailable",
-        "GENERIC_DESCRIPTION": "Meta could not return the current health details. Review the error below and try again later.",
-        "GO_TO_CONFIGURATION": "Go to Configuration"
+        "GENERIC_TITLE": "A WhatsApp állapotadatai nem érhetők el",
+        "GENERIC_DESCRIPTION": "A Meta nem tudta lekérni az aktuális állapotadatokat. Tekintse át az alábbi hibát, majd próbálja újra később.",
+        "GO_TO_CONFIGURATION": "Ugrás a konfigurációhoz"
       },
       "SECTIONS": {
-        "BUSINESS_PROFILE": "Business profile",
+        "BUSINESS_PROFILE": "Üzleti profil",
         "PHONE_NUMBER": "Telefonszám",
-        "HEALTH_AND_CAPACITY": "Health and capacity",
-        "BUSINESS_ACCOUNT": "Business account"
+        "HEALTH_AND_CAPACITY": "Állapot és kapacitás",
+        "BUSINESS_ACCOUNT": "Üzleti fiók"
       },
       "FIELDS": {
         "PROFILE_DESCRIPTION": {
           "LABEL": "Leírás",
-          "TOOLTIP": "Description shown to customers in the WhatsApp business profile"
+          "TOOLTIP": "A WhatsApp üzleti profilban megjelenő leírás"
         },
         "PROFILE_ADDRESS": {
           "LABEL": "Cím",
-          "TOOLTIP": "Business address shown in the WhatsApp business profile"
+          "TOOLTIP": "A WhatsApp üzleti profilban megjelenő üzleti cím"
         },
         "PROFILE_EMAIL": {
           "LABEL": "E-mail",
-          "TOOLTIP": "Contact email shown in the WhatsApp business profile"
+          "TOOLTIP": "A WhatsApp üzleti profilban megjelenő kapcsolati e-mail-cím"
         },
         "PROFILE_WEBSITES": {
-          "LABEL": "Websites",
-          "TOOLTIP": "Website links shown in the WhatsApp business profile"
+          "LABEL": "Webhelyek",
+          "TOOLTIP": "A WhatsApp üzleti profilban megjelenő webhelyhivatkozások"
         },
         "DISPLAY_PHONE_NUMBER": {
           "LABEL": "Display phone number",
           "TOOLTIP": "Phone number displayed to customers"
         },
         "VERIFIED_NAME": {
-          "LABEL": "WhatsApp display name",
-          "TOOLTIP": "Display name associated with this phone number on WhatsApp"
+          "LABEL": "WhatsApp megjelenített név",
+          "TOOLTIP": "A WhatsAppon ehhez a telefonszámhoz tartozó megjelenített név"
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Telefonszám ID",
-          "TOOLTIP": "Meta identifier for this WhatsApp phone number"
+          "TOOLTIP": "A WhatsApp-telefonszám Meta-azonosítója"
         },
         "COEXISTENCE": {
-          "LABEL": "Coexistence",
-          "TOOLTIP": "This number is connected to both the WhatsApp Business app and Cloud API"
+          "LABEL": "Együttélés",
+          "TOOLTIP": "Ez a telefonszám a WhatsApp Business alkalmazáshoz és a Cloud API-hoz is csatlakozik"
         },
         "DISPLAY_NAME_STATUS": {
           "LABEL": "Display name status",
-          "TOOLTIP": "Whether Meta has reviewed and approved the WhatsApp display name",
+          "TOOLTIP": "A Meta ellenőrizte és jóváhagyta-e a WhatsApp megjelenített nevet",
           "DESCRIPTIONS": {
-            "APPROVED": "The display name is approved and can appear at the top of WhatsApp chats. A name saved by the recipient can appear instead.",
-            "AVAILABLE_WITHOUT_REVIEW": "The display name is saved to your WhatsApp profile, but recipients may see the phone number until Meta reviews and approves it. Meta starts this review after your business reaches a higher messaging limit.",
-            "PENDING_REVIEW": "Meta is reviewing the display name. No action is needed unless Meta requests more information.",
-            "REJECTED": "Meta did not approve the display name. Review the display name guidelines, then update the name or appeal in Meta.",
-            "DECLINED": "Meta did not approve the display name. Review the display name guidelines, then update the name or appeal in Meta.",
-            "EXPIRED": "The phone number's certificate has expired, so this number cannot be registered for API use.",
-            "UNKNOWN": "Meta did not return a display name review status."
+            "APPROVED": "A megjelenített nevet jóváhagyták, így megjelenhet a WhatsApp-beszélgetések tetején. A címzett által elmentett név is megjelenhet.",
+            "AVAILABLE_WITHOUT_REVIEW": "A megjelenített név mentve van a WhatsApp-profilban, de a címzettek a telefonszámot láthatják, amíg a Meta nem ellenőrzi és hagyja jóvá. A Meta az ellenőrzést az üzleti fiók magasabb üzenetküldési korlátjának elérése után kezdi meg.",
+            "PENDING_REVIEW": "A Meta ellenőrzi a megjelenített nevet. Nincs teendője, kivéve, ha a Meta további adatokat kér.",
+            "REJECTED": "A Meta nem hagyta jóvá a megjelenített nevet. Tekintse át a névre vonatkozó irányelveket, majd módosítsa a nevet, vagy nyújtson be fellebbezést a Metánál.",
+            "DECLINED": "A Meta nem hagyta jóvá a megjelenített nevet. Tekintse át a névre vonatkozó irányelveket, majd módosítsa a nevet, vagy nyújtson be fellebbezést a Metánál.",
+            "EXPIRED": "A telefonszám tanúsítványa lejárt, ezért a szám nem regisztrálható API-használatra.",
+            "UNKNOWN": "A Meta nem küldött visszajelzést a megjelenített név ellenőrzési állapotáról."
           }
         },
         "LAST_ONBOARDED_TIME": {
-          "LABEL": "Last onboarded",
-          "TOOLTIP": "Most recent time Meta onboarded this phone number"
+          "LABEL": "Legutóbbi regisztráció",
+          "TOOLTIP": "A legutóbbi időpont, amikor a Meta regisztrálta ezt a telefonszámot"
         },
         "PHONE_NUMBER_STATUS": {
-          "LABEL": "Phone number status",
-          "TOOLTIP": "Current connection status of this phone number on WhatsApp"
+          "LABEL": "Telefonszám állapota",
+          "TOOLTIP": "A telefonszám aktuális kapcsolati állapota a WhatsAppon"
         },
         "QUALITY_RATING": {
           "LABEL": "Quality rating",
-          "TOOLTIP": "Quality rating Meta assigns to this phone number based on recent messaging signals"
+          "TOOLTIP": "A Meta által a közelmúlt üzenetküldési adatai alapján ehhez a telefonszámhoz rendelt minősítés"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Business messaging limit",
-          "TOOLTIP": "Number of unique customers your business can message outside the customer service window in a rolling 24-hour period",
-          "DESCRIPTION": "This limit is shared by all WhatsApp phone numbers in the business portfolio."
+          "LABEL": "Üzleti üzenetküldési korlát",
+          "TOOLTIP": "Az egyedi ügyfelek száma, akiknek a vállalkozás az ügyfélszolgálati időablakon kívül, gördülő 24 órás időszakban üzenetet küldhet",
+          "DESCRIPTION": "Ez a korlát az üzleti portfólió összes WhatsApp-telefonszámára érvényes."
         },
         "ACCOUNT_MODE": {
           "LABEL": "Account mode",
-          "TOOLTIP": "Current operating mode of this WhatsApp phone number"
+          "TOOLTIP": "A WhatsApp-telefonszám aktuális működési módja"
         },
         "CODE_VERIFICATION_STATUS": {
-          "LABEL": "Code verification",
-          "TOOLTIP": "Verification-code status reported by Meta for this phone number"
+          "LABEL": "Kódellenőrzés",
+          "TOOLTIP": "A Meta által ehhez a telefonszámhoz jelentett ellenőrzőkód-állapot"
         },
         "THROUGHPUT_LEVEL": {
-          "LABEL": "Throughput",
-          "TOOLTIP": "Message throughput level assigned to this phone number"
+          "LABEL": "Üzenetküldési kapacitás",
+          "TOOLTIP": "Az ehhez a telefonszámhoz rendelt üzenetküldési kapacitás"
         },
         "BUSINESS_ACCOUNT_NAME": {
-          "LABEL": "WhatsApp Business Account name",
-          "TOOLTIP": "Name of the WhatsApp Business Account linked to this phone number"
+          "LABEL": "WhatsApp üzleti fiók neve",
+          "TOOLTIP": "Az ehhez a telefonszámhoz kapcsolt WhatsApp üzleti fiók neve"
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "WhatsApp Business Account ID",
-          "TOOLTIP": "Meta identifier for the linked WhatsApp Business Account"
+          "LABEL": "WhatsApp üzleti fiók azonosítója",
+          "TOOLTIP": "A kapcsolt WhatsApp üzleti fiók Meta-azonosítója"
         },
         "BUSINESS_PORTFOLIO_NAME": {
-          "LABEL": "Business portfolio name",
-          "TOOLTIP": "Name of the Meta business portfolio that owns the WhatsApp Business Account"
+          "LABEL": "Üzleti portfólió neve",
+          "TOOLTIP": "A WhatsApp üzleti fiók tulajdonosának Meta üzleti portfólióneve"
         },
         "BUSINESS_PORTFOLIO_ID": {
-          "LABEL": "Business portfolio ID",
-          "TOOLTIP": "Meta identifier for the business portfolio that owns the WhatsApp Business Account"
+          "LABEL": "Üzleti portfólió azonosítója",
+          "TOOLTIP": "A WhatsApp üzleti fiók tulajdonosának Meta üzleti portfólióazonosítója"
         }
       },
       "VALUES": {
@@ -926,7 +1024,7 @@
           "TIER_250": "250 customers per 24h",
           "TIER_1000": "1K customers per 24h",
           "TIER_1K": "1K customers per 24h",
-          "TIER_2K": "2K customers per 24h",
+          "TIER_2K": "2K ügyfél 24 óránként",
           "TIER_10K": "10K customers per 24h",
           "TIER_100K": "100K customers per 24h",
           "TIER_UNLIMITED": "Unlimited customers per 24h",
@@ -934,29 +1032,43 @@
         },
         "STATUSES": {
           "APPROVED": "Approved",
-          "CONNECTED": "Connected",
+          "CONNECTED": "Kapcsolódva",
           "VERIFIED": "Megerősített",
           "STANDARD": "Standard",
           "ACTIVE": "Aktív",
-          "EXPIRED": "Expired",
-          "FLAGGED": "Flagged",
-          "RESTRICTED": "Restricted",
-          "BANNED": "Banned",
-          "DISCONNECTED": "Disconnected",
+          "EXPIRED": "Lejárt",
+          "FLAGGED": "Megjelölve",
+          "RESTRICTED": "Korlátozva",
+          "BANNED": "Letiltva",
+          "DISCONNECTED": "Leválasztva",
           "UNKNOWN": "Not available",
-          "PENDING_REVIEW": "Under review",
-          "AVAILABLE_WITHOUT_REVIEW": "Not reviewed yet",
-          "REJECTED": "Not approved",
-          "DECLINED": "Not approved",
+          "PENDING_REVIEW": "Ellenőrzés alatt",
+          "AVAILABLE_WITHOUT_REVIEW": "Még nem ellenőrizték",
+          "REJECTED": "Nem hagyták jóvá",
+          "DECLINED": "Elutasítva",
           "NON_EXISTS": "Non exists"
         },
         "MODES": {
           "SANDBOX": "Sandbox",
           "LIVE": "Élő"
+        },
+        "QUALITY": {
+          "GREEN": "Zöld",
+          "YELLOW": "Sárga",
+          "RED": "Piros"
+        },
+        "TIER_NAMES": {
+          "TIER_250": "250-es szint",
+          "TIER_1000": "1K-es szint",
+          "TIER_1K": "1K-es szint",
+          "TIER_2K": "2K-es szint",
+          "TIER_10K": "10K-es szint",
+          "TIER_100K": "100K-es szint",
+          "TIER_UNLIMITED": "Korlátlan"
         }
       },
       "BUSINESS_PROFILE": {
-        "PREVIEW_LABEL": "WhatsApp business profile"
+        "PREVIEW_LABEL": "WhatsApp üzleti profil"
       },
       "WEBHOOK": {
         "TITLE": "Webhook Configuration",
@@ -967,10 +1079,10 @@
         "REGISTER_ERROR": "Failed to register webhook. Please try again.",
         "CONFIGURED_SUCCESS": "Webhook configured successfully",
         "URL_MISMATCH": "Webhook URL mismatch",
-        "CONFIGURED_URL": "Configured URL",
-        "EXPECTED_URL": "Expected URL",
-        "COPY_URL": "Copy webhook URL",
-        "COPY_SUCCESS": "Webhook URL copied to clipboard"
+        "CONFIGURED_URL": "Beállított URL",
+        "EXPECTED_URL": "Elvárt URL",
+        "COPY_URL": "Webhook-URL másolása",
+        "COPY_SUCCESS": "Webhook-URL a vágólapra másolva"
       }
     },
     "SETTINGS": "Beállítások",
@@ -999,7 +1111,18 @@
         "SECRET_KEY": "Secret Key",
         "VIEW_DOCS": "View documentation",
         "REQUIRE_LABEL": "Require identity validation for all conversations",
-        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected.",
+        "ROTATE": {
+          "BUTTON": "Kulcs cseréje",
+          "TITLE": "Titkos kulcs cseréje?",
+          "WARNING": "A jelenlegi kulcs cseréjekor azonnal érvénytelenné válik.",
+          "WARNING_DETAIL": "Nincs átfedési időszak, és a kulcs nem állítható vissza.",
+          "IMPACT": "A szervereknek az új kulccsal kell aláírniuk a felhasználókat. A régi kulccsal aláírt felhasználók ellenőrzése sikertelen lesz. Ha kötelező a személyazonosság ellenőrzése, nem indíthatnak beszélgetést.",
+          "CONFIRM": "Kulcs cseréje",
+          "CANCEL": "Mégse",
+          "SUCCESS": "A titkos kulcs cseréje sikerült",
+          "ERROR": "Nem sikerült lecserélni a titkos kulcsot. Próbálja újra"
+        }
       },
       "INBOX_AGENTS": "Ügynökök",
       "INBOX_AGENTS_SUB_TEXT": "Ügynökök hosszáadása vagy eltávolítása az inboxból",
@@ -1013,7 +1136,7 @@
       "SENDER_NAME_SECTION_TEXT": "Az ügynök nevének megjelenítésének engedélyezése/letiltása az e-mailben, ha le van tiltva, akkor a cég neve jelenik meg",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Beszélgetés folytatásának engedélyezése emailen keresztül",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "A beszélgetések e-mailben folytatódnak, ha elérhető a kapcsolattartási e-mail cím.",
-      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "Ez a funkció fizetős csomagban érhető el. Frissítsen, ha e-mailben szeretné folytatni a beszélgetéseket.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Fiókbeállítások",
@@ -1037,29 +1160,29 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "API-kulcs frissítése",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Add meg az új API kulcsot",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Frissítés",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Add Business Management Token",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Replace Business Management Token",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Business management token configured",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Provide a token with access to this WhatsApp Business Account when Chatwoot cannot retrieve its message templates. Chatwoot uses this token only for template synchronization.",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Enter the business management token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Üzleti fiók kezelési token hozzáadása",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Üzleti fiók kezelési token cseréje",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Az üzleti fiók kezelési token beállítva",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUBHEADER": "Adjon meg olyan tokent, amely hozzáfér ehhez a WhatsApp üzleti fiókhoz, ha a Chatwoot nem tudja lekérni az üzenetsablonokat. A Chatwoot ezt a tokent kizárólag a sablonok szinkronizálásához használja.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_PLACEHOLDER": "Adja meg az üzleti fiók kezelési tokent",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_BUTTON": "Hozzáadás",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Replace",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUCCESS": "WhatsApp business management token updated successfully.",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR": "Could not update the business management token. Verify its WhatsApp Business Management permission and account access, then try again.",
-      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_LINK": "Learn how to generate a WhatsApp Business Management token",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_BUTTON": "Csere",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_SUCCESS": "A WhatsApp üzleti fiók kezelési token frissítése sikerült.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_UPDATE_ERROR": "Nem sikerült frissíteni az üzleti fiók kezelési tokenjét. Ellenőrizze a WhatsApp Business Management jogosultságot és a fiókhozzáférést, majd próbálja újra.",
+      "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_GUIDE_LINK": "Ismerje meg az üzleti fiók kezelési token létrehozásának módját",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
       "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
-      "WHATSAPP_MANUAL_TRANSFER_TITLE": "Switch to Manual Setup",
-      "WHATSAPP_MANUAL_TRANSFER_SUBHEADER": "This inbox was connected through WhatsApp embedded signup, which is no longer supported. Enter the WhatsApp Cloud API credentials from your own Meta app to switch this inbox to a manual setup. Configure the webhook in your Meta app using the verification token above before switching.",
-      "WHATSAPP_MANUAL_TRANSFER_PHONE_NUMBER_ID_LABEL": "Phone Number ID",
+      "WHATSAPP_MANUAL_TRANSFER_TITLE": "Váltás manuális beállításra",
+      "WHATSAPP_MANUAL_TRANSFER_SUBHEADER": "Ez a postafiók a WhatsApp beágyazott regisztrációjával lett összekapcsolva, amely már nem támogatott. A manuális beállításhoz adja meg a saját Meta-alkalmazásából származó WhatsApp Cloud API-hitelesítő adatokat. A váltás előtt állítsa be a webhookot a Meta-alkalmazásban a fenti ellenőrző tokennel.",
+      "WHATSAPP_MANUAL_TRANSFER_PHONE_NUMBER_ID_LABEL": "Telefonszám-azonosító",
       "WHATSAPP_MANUAL_TRANSFER_BUSINESS_ACCOUNT_ID_LABEL": "Üzleti azonosító",
       "WHATSAPP_MANUAL_TRANSFER_API_KEY_LABEL": "API kulcs",
-      "WHATSAPP_MANUAL_TRANSFER_API_KEY_PLACEHOLDER": "Enter a permanent access token from your Meta app",
-      "WHATSAPP_MANUAL_TRANSFER_BUTTON": "Switch to Manual Setup",
-      "WHATSAPP_MANUAL_TRANSFER_SUCCESS": "Inbox switched to manual setup successfully.",
-      "WHATSAPP_MANUAL_TRANSFER_ERROR": "Could not switch to manual setup. Please verify the credentials and try again.",
+      "WHATSAPP_MANUAL_TRANSFER_API_KEY_PLACEHOLDER": "Adja meg a Meta-alkalmazásából származó állandó hozzáférési tokent",
+      "WHATSAPP_MANUAL_TRANSFER_BUTTON": "Váltás manuális beállításra",
+      "WHATSAPP_MANUAL_TRANSFER_SUCCESS": "A postafiók átváltása manuális beállításra sikerült.",
+      "WHATSAPP_MANUAL_TRANSFER_ERROR": "Nem sikerült átváltani manuális beállításra. Ellenőrizze a hitelesítő adatokat, majd próbálja újra.",
       "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
       "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
       "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
@@ -1079,71 +1202,71 @@
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "WHATSAPP_MANUAL_MIGRATION": {
         "BANNER": {
-          "TITLE": "Manual setup recommended",
-          "DESCRIPTION": "This inbox connects through the shared Meta app used for embedded signup, which recent Meta restrictions have affected. To avoid similar issues in the future, we recommend reconnecting it with your own Meta app.",
-          "START": "Start manual migration",
-          "GUIDE": "View guide"
+          "TITLE": "Manuális beállítás javasolt",
+          "DESCRIPTION": "Ez a postafiók a beágyazott regisztrációhoz használt közös Meta-alkalmazáson keresztül csatlakozik, amelyet érintenek a Meta legutóbbi korlátozásai. A hasonló problémák megelőzése érdekében javasoljuk, hogy kapcsolja újra a postafiókot saját Meta-alkalmazásával.",
+          "START": "Manuális átállás indítása",
+          "GUIDE": "Útmutató megtekintése"
         },
         "DIALOG": {
-          "EYEBROW": "WhatsApp manual migration",
-          "TITLE": "Reconnect WhatsApp inbox",
+          "EYEBROW": "WhatsApp manuális átállítása",
+          "TITLE": "WhatsApp-postafiók újracsatlakoztatása",
           "CLOSE": "Bezárás",
-          "ACTION_REQUIRED_TITLE": "Reconnect with your own Meta app",
-          "ACTION_REQUIRED_DESCRIPTION": "Inboxes connected through your own Meta app are not affected by restrictions on the shared embedded signup app. This guided flow updates the WhatsApp API connection without creating a new inbox.",
-          "GUIDE_LINK": "Open the manual setup guide",
-          "PRESERVED_TITLE": "Preserved",
-          "PRESERVED_DESCRIPTION": "Conversations, contacts, collaborators, routing, business hours, and inbox settings.",
-          "UPDATED_TITLE": "Updated",
-          "UPDATED_DESCRIPTION": "WABA ID, phone number ID, access token, and webhook configuration.",
-          "WABA_ID": "WABA ID",
-          "WABA_PLACEHOLDER": "Enter WABA ID",
-          "WABA_HELP": "The WhatsApp Business Account that owns this phone number.",
-          "PHONE_NUMBER_ID": "Phone Number ID",
-          "PHONE_NUMBER_PLACEHOLDER": "Enter Phone Number ID",
-          "PHONE_NUMBER_HELP": "Meta's unique ID for the WhatsApp number connected to this inbox.",
+          "ACTION_REQUIRED_TITLE": "Újracsatlakoztatás saját Meta-alkalmazással",
+          "ACTION_REQUIRED_DESCRIPTION": "A saját Meta-alkalmazáson keresztül csatlakozó postafiókokat nem érintik a közös, beágyazott regisztrációs alkalmazásra vonatkozó korlátozások. Ezzel a lépésről lépésre vezető folyamattal új postafiók létrehozása nélkül frissítheti a WhatsApp API-kapcsolatot.",
+          "GUIDE_LINK": "Manuális beállítási útmutató megnyitása",
+          "PRESERVED_TITLE": "Megmarad",
+          "PRESERVED_DESCRIPTION": "Beszélgetések, kontaktok, közreműködők, útválasztás, nyitvatartás és postafiókbeállítások.",
+          "UPDATED_TITLE": "Frissül",
+          "UPDATED_DESCRIPTION": "WABA-azonosító, telefonszám-azonosító, hozzáférési token és webhookbeállítás.",
+          "WABA_ID": "WABA-azonosító",
+          "WABA_PLACEHOLDER": "Adja meg a WABA-azonosítót",
+          "WABA_HELP": "A WhatsApp üzleti fiók, amelyhez ez a telefonszám tartozik.",
+          "PHONE_NUMBER_ID": "Telefonszám-azonosító",
+          "PHONE_NUMBER_PLACEHOLDER": "Adja meg a telefonszám-azonosítót",
+          "PHONE_NUMBER_HELP": "A Meta egyedi azonosítója a postafiókhoz kapcsolt WhatsApp-számhoz.",
           "DISPLAY_PHONE_NUMBER": "Display phone number",
-          "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "Enter display phone number",
-          "DISPLAY_PHONE_NUMBER_HELP": "The customer-facing WhatsApp number. This cannot be changed during migration.",
-          "ACCESS_TOKEN": "Permanent access token or system user token",
-          "ACCESS_TOKEN_PLACEHOLDER": "Paste access token",
-          "TOKEN_HELP_PREFIX": "The token must include",
+          "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "Adja meg a megjelenített telefonszámot",
+          "DISPLAY_PHONE_NUMBER_HELP": "Az ügyfelek számára látható WhatsApp-szám. Az átállás során nem módosítható.",
+          "ACCESS_TOKEN": "Állandó hozzáférési token vagy rendszerfelhasználói token",
+          "ACCESS_TOKEN_PLACEHOLDER": "Illessze be a hozzáférési tokent",
+          "TOKEN_HELP_PREFIX": "A tokennek a következő jogosultságokkal kell rendelkeznie",
           "TOKEN_HELP_MIDDLE": "Hozzáadás",
-          "TOKEN_HELP_SUFFIX": "for template sync and template management.",
+          "TOKEN_HELP_SUFFIX": "a sablonok szinkronizálásához és kezeléséhez.",
           "MESSAGING_PERMISSION": "whatsapp_business_messaging.",
           "MANAGEMENT_PERMISSION": "whatsapp_business_management",
-          "REVIEW_TITLE": "Review before reconnecting",
+          "REVIEW_TITLE": "Ellenőrzés az újracsatlakoztatás előtt",
           "INBOX": "Fiók",
           "PHONE_NUMBER": "Telefonszám",
-          "NOT_ENTERED": "Not entered",
-          "VERIFY_NOTICE": "Chatwoot will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
+          "NOT_ENTERED": "Nincs megadva",
+          "VERIFY_NOTICE": "A Chatwoot a módosítások alkalmazása előtt ellenőrzi ezeket a hitelesítő adatokat a Metánál. Sikertelen ellenőrzés esetén a jelenlegi beállítások változatlanok maradnak.",
           "BACK": "Vissza",
           "CANCEL": "Mégse",
           "CONTINUE": "Continue",
-          "REVIEW_MIGRATION": "Review migration",
-          "RECONNECT": "Reconnect WhatsApp inbox"
+          "REVIEW_MIGRATION": "Átállás áttekintése",
+          "RECONNECT": "WhatsApp-postafiók újracsatlakoztatása"
         },
         "STEPS": {
           "BEFORE_YOU_START": {
-            "TITLE": "Before you start",
-            "DESCRIPTION": "This reconnects the WhatsApp API details for this inbox. Conversations, collaborators, routing, business hours, CSAT, and bot settings will be preserved."
+            "TITLE": "Mielőtt elkezdené",
+            "DESCRIPTION": "Ezzel frissíti a postafiók WhatsApp API-adatait. A beszélgetések, közreműködők, útválasztás, nyitvatartás, CSAT- és botbeállítások megmaradnak."
           },
           "BUSINESS_DETAILS": {
-            "TITLE": "Business details",
-            "DESCRIPTION": "Enter the WhatsApp assets from the customer Meta Business account."
+            "TITLE": "Üzleti adatok",
+            "DESCRIPTION": "Adja meg az ügyfél Meta üzleti fiókjához tartozó WhatsApp-eszközöket."
           },
           "ACCESS_TOKEN": {
-            "TITLE": "Access token",
-            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions."
+            "TITLE": "Hozzáférési token",
+            "DESCRIPTION": "Illesszen be állandó hozzáférési tokent vagy WhatsApp-jogosultságokkal rendelkező rendszerfelhasználói tokent."
           },
           "REVIEW_MIGRATION": {
-            "TITLE": "Review migration",
-            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. Chatwoot will verify the token, WABA, and phone number with Meta before applying changes."
+            "TITLE": "Átállás áttekintése",
+            "DESCRIPTION": "A postafiók újracsatlakoztatása előtt ellenőrizze a kapcsolat adatait. A módosítások alkalmazása előtt a Chatwoot ellenőrzi a tokent, a WABA-t és a telefonszámot a Metánál."
           }
         }
       },
       "WHATSAPP_CALLING_ENABLED": {
-        "LABEL": "Enable voice calling",
-        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+        "LABEL": "Hanghívás engedélyezése",
+        "DESCRIPTION": "Engedélyezze, hogy az ügynökök WhatsApp-hívásokat indítsanak és fogadjanak ebben a postafiókban. Ez csak olyan, beágyazott regisztrációval létrehozott WhatsApp Cloud-csatornákon érhető el, amelyeknél a Meta engedélyezte a hívást."
       },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Csevegés előtti űrlap beállításainak frissítése"
     },
@@ -1332,7 +1455,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "IMAP hozzáférés beállítása",
-      "NOTE_TEXT": "Az SMTP engedélyezéséhez konfigurálja az IMAP-et.",
+      "NOTE_TEXT": "Állítsa be az IMAP-ot, hogy közvetlenül a postafiókjából fogadhasson e-maileket. Hagyja kikapcsolva, ha e-mail-továbbítást használ.",
       "UPDATE": "IMAP beállítások frissítése",
       "TOGGLE_AVAILABILITY": "Engedélyezze az IMAP-konfigurációt ehhez a fiókhoz",
       "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",

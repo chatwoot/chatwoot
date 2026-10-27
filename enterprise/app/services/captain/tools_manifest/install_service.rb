@@ -3,7 +3,7 @@
 # The toolset is pinned to a commit: the given revision, or the latest commit on the
 # default branch. Installing the same commit again is a no-op once every tool is
 # present. Otherwise the existing tools are updated in place, matched by manifest
-# tool id so slugs and the user-owned enabled flag stay, and missing ones are added.
+# tool id so slugs and the user-owned enabled flag and settings stay, and missing ones are added.
 class Captain::ToolsManifest::InstallService
   class InstallError < StandardError; end
 
@@ -135,10 +135,14 @@ class Captain::ToolsManifest::InstallService
   def save_tool!(existing_tool, tool, attributes)
     return existing_tool.tap { |record| record.update!(attributes) } if existing_tool
 
-    @assistant.custom_tools.create!(attributes.merge(account: @assistant.account, enabled: tool['enabled']))
+    @assistant.custom_tools.create!(
+      attributes.merge(account: @assistant.account, enabled: tool['enabled'],
+                       settings: { 'requires_email_verification' => tool['requires_email_verification'] })
+    )
   end
 
-  # Everything except enabled comes from the manifest; enabled belongs to the user once a tool exists
+  # Everything except enabled and settings comes from the manifest. Those belong to the user once a tool exists.
+  # The manifest keeps tool options flat. They are stored together in settings.
   def tool_attributes(tool, manifest, values, metadata)
     {
       title: tool['title'],

@@ -19,7 +19,16 @@ class ChatwootMarkdownRenderer
   end
 
   def render_markdown_to_plain_text
-    CommonMarker.render_doc(@content, :DEFAULT).to_plaintext
+    doc = CommonMarker.render_doc(@content, :DEFAULT, [:table])
+    doc.walk.select { |node| node.type == :table }.each do |table|
+      text = CommonMarker::Node.new(:text)
+      text.string_content = table.walk.select { |node| node.type.in?([:text, :code]) }.map(&:string_content).join(' ')
+      paragraph = CommonMarker::Node.new(:paragraph)
+      paragraph.append_child(text)
+      table.insert_before(paragraph)
+      table.delete
+    end
+    doc.to_plaintext
   end
 
   private

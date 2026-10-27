@@ -771,11 +771,16 @@
     },
     "VOICE_CONFIGURATION": {
       "ENABLE_VOICE": {
-        "LABEL": "Enable Voice Calling",
-        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+        "LABEL": "Enable voice calling",
+        "DESCRIPTION": "Agents can make and receive phone calls on this inbox."
       },
       "CREDENTIALS": {
-        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+        "DESCRIPTION": "Voice calling requires an Account Auth Token for webhook verification and API key credentials for calls."
+      },
+      "OPTIONS": {
+        "INBOUND": "Allow incoming calls to this number; when off, they're declined but agents can still call out",
+        "RECORDING": "Record calls and attach the recording to the conversation",
+        "TRANSCRIPTION": "Transcribe call recordings into text using Captain"
       },
       "INBOUND": {
         "LABEL": "Allow incoming calls",
@@ -788,6 +793,32 @@
       "TRANSCRIPTION": {
         "LABEL": "Transcribe recordings",
         "DESCRIPTION": "Turn each recording into a text transcript. Uses Captain and requires audio transcription to be enabled for the account."
+      },
+      "ANNOUNCEMENT": {
+        "TWILIO_HELP": "Saving generates the spoken announcement using one Captain response credit. You can listen to the saved audio below.",
+        "READ_BY_TWILIO": "Captain isn't available. You can save the text for Twilio to read.",
+        "ACTIVE": "Current announcement",
+        "SAVE": "Save announcement"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Apply business hours, so calls outside them don't ring agents and are logged as missed",
+        "HOURS_NOT_ENABLED": "Business hours are turned off for this inbox, so calls keep ringing. Turn them on in the Business Hours tab.",
+        "PLACEHOLDER": "Our support team is available Monday through Friday, from 9 AM to 6 PM. Please call again during business hours."
+      },
+      "GREETING": {
+        "LABEL": "Play a greeting",
+        "DESCRIPTION": "Plays once while agents are being rung, and stops when one answers.",
+        "PLACEHOLDER": "Thank you for calling. Please hold while we connect you to the next available agent."
+      },
+      "UNANSWERED": {
+        "LABEL": "Play a message when unanswered",
+        "DESCRIPTION": "Plays if no one answers in time or no agent is online, then the call ends as missed.",
+        "PLACEHOLDER": "Sorry, nobody is available to take your call right now. Please try again later.",
+        "TIMEOUT": {
+          "LABEL": "Ring time",
+          "UNIT": "sec",
+          "RANGE": "10–300 sec"
+        }
       }
     },
     "WHATSAPP_CALLING": {
@@ -1311,7 +1342,10 @@
         "BALANCED": "Balanced assignment"
       },
       "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
+      "SELF_HOSTED_PROMPT": "Custom assignment policies are available on the Premium plan",
+      "FEATURE_DISABLED_PROMPT": "Custom assignment policies are not enabled for this account.",
       "UPGRADE_TO_BUSINESS": "Upgrade to Business",
+      "UPGRADE_TO_PREMIUM": "Upgrade to Premium",
       "DEFAULT_POLICY_LINKED": "Default policy linked",
       "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
       "LINK_EXISTING_POLICY": "Link existing policy",
