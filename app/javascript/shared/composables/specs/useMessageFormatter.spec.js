@@ -109,5 +109,14 @@ describe('useMessageFormatter', () => {
         'Caf\u00e9 <span class="highlight">Ola</span>'
       );
     });
+
+    it('should skip highlighting when an accent has no combined form', () => {
+      const result = messageFormatter.highlightContent(
+        'g\u0303 ola',
+        'ola',
+        'highlight'
+      );
+      expect(result.trim()).toBe('g\u0303 ola');
+    });
   });
 });

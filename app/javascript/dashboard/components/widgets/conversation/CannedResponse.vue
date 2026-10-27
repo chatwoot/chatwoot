@@ -49,8 +49,11 @@ const searchTerm = computed(() => searchQuery.value.trim());
 const normalizedTerm = computed(() => normalizeForSearch(searchTerm.value));
 
 const buildSnippet = text => {
-  const index = normalizeForSearch(text).indexOf(normalizedTerm.value);
-  if (index <= SNIPPET_LEAD) return text;
+  const normalizedText = normalizeForSearch(text);
+  const index = normalizedText.indexOf(normalizedTerm.value);
+  if (index <= SNIPPET_LEAD || normalizedText.length !== text.length) {
+    return text;
+  }
 
   return `…${text.slice(index - SNIPPET_LEAD)}`;
 };

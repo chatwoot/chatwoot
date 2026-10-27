@@ -79,13 +79,15 @@ export const useMessageFormatter = () => {
   ) => {
     const plainTextContent = getPlainText(content).normalize('NFC');
     const term = normalizeForSearch(searchTerm);
-    if (!term) return plainTextContent;
+    const normalizedContent = normalizeForSearch(plainTextContent);
+    // Accents NFC can't combine (like "g\u0303") shorten the text, so its indexes would be off
+    if (!term || normalizedContent.length !== plainTextContent.length) {
+      return plainTextContent;
+    }
 
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
     const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const matches = normalizeForSearch(plainTextContent).matchAll(
-      new RegExp(escapedTerm, 'g')
-    );
+    const matches = normalizedContent.matchAll(new RegExp(escapedTerm, 'g'));
 
     return [...matches].reduceRight((text, { index }) => {
       const end = index + term.length;
