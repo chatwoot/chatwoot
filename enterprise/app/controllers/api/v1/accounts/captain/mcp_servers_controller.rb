@@ -3,7 +3,7 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
 
   before_action :ensure_mcp_servers_enabled
   before_action -> { check_authorization(Captain::McpServer) }
-  before_action :set_mcp_server, only: [:show, :update, :destroy, :live_tools, :authorization_url]
+  before_action :set_mcp_server, only: [:show, :update, :destroy, :live_tools, :authorization_url, :approve_tool]
 
   # A failing or unreachable MCP server is the admin's input to fix, not a Chatwoot error
   rescue_from(*Captain::Mcp::Connection::ERRORS) { |error| render_could_not_create_error(error.message) }
@@ -44,6 +44,23 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
   # The live tools, marked with whether an admin approved each one and whether it changed since
   def live_tools
     @live_tools = connection.track_status { connection.tool_definitions }
+    @mcp_server.record_tool_changes(@live_tools)
+  end
+
+  # Pins an approved tool to its live definition after an admin reviewed the change. Parameter sources stay,
+  # so a parameter the server removed must lose its source first, and a new parameter is filled by Captain.
+  def approve_tool
+    name = params.require(:name)
+    live_tools = connection.track_status { connection.tool_definitions }
+    definition = live_tools.find { |tool| tool['name'] == name }
+    mcp_tool = @mcp_server.tools.find_by(name: name)
+    raise ActiveRecord::RecordInvalid, invalid_tool(name, :missing) unless definition && mcp_tool
+    raise ActiveRecord::RecordInvalid, invalid_tool(name, :not_read_only) unless definition['read_only']
+
+    mcp_tool.approve(definition)
+    mcp_tool.save!
+    @mcp_server.record_tool_changes(live_tools)
+    render :show
   end
 
   def authorization_url

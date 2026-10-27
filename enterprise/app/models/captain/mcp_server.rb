@@ -55,6 +55,11 @@ class Captain::McpServer < ApplicationRecord
 
   scope :enabled, -> { where(enabled: true) }
 
+  # The servers Captain may use for an assistant: none while the account does not have MCP servers turned on
+  def self.usable_for(assistant)
+    assistant.account.feature_enabled?(FEATURE_FLAG) ? assistant.mcp_servers.enabled : none
+  end
+
   # The name Captain sees. The server ID keeps names apart across servers, and the double underscore
   # keeps server 1's tool "2_x" apart from server 12's tool "x".
   def captain_tool_name(server_tool_name)
@@ -64,6 +69,32 @@ class Captain::McpServer < ApplicationRecord
   # Approved tools Captain may use. The runtime still checks each digest against the live definition.
   def available_tools
     enabled? ? tools.where(enabled: true) : Captain::McpTool.none
+  end
+
+  # Scenarios list and reference these tools by their Captain name
+  def tool_metadata
+    available_tools.map { |tool| { id: tool.captain_name, title: tool.name, description: tool.description, mcp: true } }
+  end
+
+  def requires_email_verification?
+    available_tools.any?(&:requires_email_verification?)
+  end
+
+  # Approved tools whose live definition differs from the approved one, or that the server no longer lists
+  def changed_tool_names(live_definitions)
+    live = live_definitions.index_by { |definition| definition['name'] }
+    tools.reject { |tool| live[tool.name] && tool.approval_current?(live[tool.name]) }.map(&:name)
+  end
+
+  # Records when a change first appeared, and clears it once no approved tool differs.
+  # The hourly check and the tools page call this. update_columns writes only tools_changed_at: a server saved under
+  # older rules, such as an earlier URL check, may fail today's validations, and that must not stop Chatwoot from
+  # flagging a changed tool.
+  def record_tool_changes(live_definitions)
+    changed = changed_tool_names(live_definitions).any?
+    return if changed == tools_changed_at.present?
+
+    update_columns(tools_changed_at: changed ? Time.current : nil) # rubocop:disable Rails/SkipsModelValidations
   end
 
   private

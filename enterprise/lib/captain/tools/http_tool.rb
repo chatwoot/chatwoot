@@ -33,13 +33,7 @@ class Captain::Tools::HttpTool < Captain::Tools::BasePublicTool
   def request(tool_context, params)
     url = @custom_tool.build_request_url(params)
     body = @custom_tool.build_request_body(params)
-    @custom_tool.format_response(execute_http_request(url, body, tool_context))
-  end
-
-  # Read from stored data on every call, never from the run state the model can influence
-  def stored_verified_email(state)
-    conversation = find_conversation(state)
-    conversation && Captain::EmailVerification.new(conversation).verified_email
+    untrusted_result(@custom_tool.format_response(execute_http_request(url, body, tool_context)))
   end
 
   def safe_to_run_after_new_customer_message?
