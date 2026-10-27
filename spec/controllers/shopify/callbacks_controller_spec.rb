@@ -93,6 +93,43 @@ RSpec.describe Shopify::CallbacksController, type: :request do
         expect(response).to redirect_to(shopify_redirect_uri)
       end
 
+      [true, false].each do |same_account|
+        it "allows public authorization with unfinished custom setup in #{same_account ? 'the same' : 'another'} account" do
+          skip('encryption keys missing; see run_mfa_spec workflow') unless Chatwoot.encryption_configured?
+
+          custom_account = same_account ? account : create(:account)
+          Shopify::CustomApp.create!(
+            account: custom_account, shop_domain: shop, client_id: 'custom-client', client_secret: 'custom-secret', enabled: true,
+            install_url: 'https://admin.shopify.com/store/my-store/oauth/install_custom_app?client_id=custom-client&signature=unverified'
+          )
+          params = { code: code, host: host, state: state, shop: shop }
+          params[:hmac] = compute_hmac(params, client_secret)
+
+          expect { get shopify_callback_path, params: params }.to change(Integrations::Hook, :count).by(1)
+          expect(response).to redirect_to(shopify_redirect_uri)
+          expect(account.hooks.find_by!(app_id: 'shopify').access_token).to eq(access_token)
+        end
+      end
+
+      it 'preserves a connected custom app when the public callback is used' do
+        skip('encryption keys missing; see run_mfa_spec workflow') unless Chatwoot.encryption_configured?
+
+        custom_app = Shopify::CustomApp.create!(
+          account: account, shop_domain: shop, client_id: 'custom-client', client_secret: 'custom-secret', enabled: true,
+          install_url: 'https://admin.shopify.com/store/my-store/oauth/install_custom_app?client_id=custom-client&signature=verified'
+        )
+        hook = create(:integrations_hook, :shopify, account: account, reference_id: shop,
+                                                    access_token: 'custom-token', settings: { custom_app_id: custom_app.id })
+        params = { code: code, host: host, state: state, shop: shop }
+        params[:hmac] = compute_hmac(params, client_secret)
+
+        get shopify_callback_path, params: params
+
+        expect(response).to redirect_to("#{shopify_redirect_uri}?error=true")
+        expect(auth_code_strategy).not_to have_received(:get_token)
+        expect(hook.reload.access_token).to eq('custom-token')
+      end
+
       it 'reconnects a retained hook and ignores an older uninstall' do
         hook = create(:integrations_hook, app_id: 'shopify', account: account, reference_id: shop)
         hook.update!(status: :disabled, access_token: nil, settings: {})

@@ -7,6 +7,18 @@ class ShopifyAPI extends ApiClient {
     super('integrations/shopify', { accountScoped: true });
   }
 
+  getCustomApp() {
+    return axios.get(`${this.url}_custom_app`);
+  }
+
+  saveCustomApp(data, exists) {
+    return axios[exists ? 'patch' : 'post'](`${this.url}_custom_app`, data);
+  }
+
+  deleteCustomApp() {
+    return axios.delete(`${this.url}_custom_app`);
+  }
+
   connect(shopDomain) {
     return axios.post(`${this.url}/auth`, { shop_domain: shopDomain });
   }
