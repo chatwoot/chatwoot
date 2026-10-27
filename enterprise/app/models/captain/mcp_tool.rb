@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: captain_mcp_tools
+#
+#  id                  :bigint           not null, primary key
+#  approved_definition :jsonb            not null
+#  approved_digest     :string           not null
+#  captain_name        :string           not null
+#  enabled             :boolean          default(TRUE), not null
+#  name                :string           not null
+#  param_sources       :jsonb            not null
+#  settings            :jsonb            not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  account_id          :bigint           not null
+#  mcp_server_id       :bigint           not null
+#
+# Indexes
+#
+#  index_captain_mcp_tools_on_account_id              (account_id)
+#  index_captain_mcp_tools_on_captain_name            (captain_name) UNIQUE
+#  index_captain_mcp_tools_on_mcp_server_id_and_name  (mcp_server_id,name) UNIQUE
+#
 # A tool on an MCP server that an admin approved for Captain, pinned to the definition the admin reviewed.
 # Captain uses it only while the server's live definition still matches approved_digest.
 class Captain::McpTool < ApplicationRecord

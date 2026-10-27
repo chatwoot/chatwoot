@@ -1,3 +1,28 @@
+# == Schema Information
+#
+# Table name: captain_mcp_servers
+#
+#  id                :bigint           not null, primary key
+#  auth_config       :jsonb
+#  auth_header       :string
+#  auth_type         :string           default("none"), not null
+#  enabled           :boolean          default(TRUE), not null
+#  last_error        :text
+#  name              :string           not null
+#  oauth_credentials :jsonb
+#  status            :string           default("active"), not null
+#  tools_changed_at  :datetime
+#  url               :text             not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  account_id        :bigint           not null
+#  assistant_id      :bigint           not null
+#
+# Indexes
+#
+#  index_captain_mcp_servers_on_account_id            (account_id)
+#  index_captain_mcp_servers_on_assistant_id_and_url  (assistant_id,url) UNIQUE
+#
 # An MCP server connected to an assistant, with the tools an admin approved.
 # Captain uses only approved read tools, and only while the live definition still matches the approved digest.
 class Captain::McpServer < ApplicationRecord
