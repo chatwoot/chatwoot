@@ -176,6 +176,9 @@ en:
     categories:
       locale:
         unique: should be unique in the category and portal
+    articles:
+      meta:
+        noindex_not_boolean: noindex must be true or false
     dyte:
       invalid_message_type: 'Invalid message type. Action not permitted'
       realtimekit_credentials_required: 'Cloudflare RealtimeKit credentials are required. Delete the existing Dyte integration and create it again with Cloudflare RealtimeKit credentials.'
