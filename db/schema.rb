@@ -545,6 +545,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_062035) do
     t.string "auth_type", default: "none", null: false
     t.string "auth_header"
     t.jsonb "auth_config", default: {}
+    t.jsonb "oauth_credentials", default: {}
     t.jsonb "tools", default: [], null: false
     t.string "status", default: "active", null: false
     t.text "last_error"

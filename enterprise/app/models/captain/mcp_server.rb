@@ -19,7 +19,8 @@ class Captain::McpServer < ApplicationRecord
   enum :auth_type, %w[none oauth token].index_by(&:itself), prefix: :auth, validate: true
   enum :status, %w[active needs_sign_in error].index_by(&:itself), validate: true
 
-  encrypts :auth_config if Chatwoot.encryption_configured?
+  # oauth_credentials holds what RubyLLM stores for OAuth sign-in. The admin's token stays in auth_config.
+  encrypts :auth_config, :oauth_credentials if Chatwoot.encryption_configured?
 
   alias_attribute :endpoint_url, :url
 
