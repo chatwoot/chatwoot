@@ -5,6 +5,19 @@ export const PARAM_SOURCES = {
   FIXED: 'fixed',
 };
 
+// How a server asks to be signed in to, as the API reports it
+export const AUTH_TYPES = { NONE: 'none', OAUTH: 'oauth', TOKEN: 'token' };
+
+// Remote MCP servers with one fixed URL, so picking one always fills a URL that works
+export const POPULAR_SERVERS = [
+  { name: 'Calendly', url: 'https://mcp.calendly.com' },
+  { name: 'Cal.com', url: 'https://mcp.cal.com/mcp' },
+  { name: 'Notion', url: 'https://mcp.notion.com/mcp' },
+];
+
+// The URL field starts with this, since every MCP server Captain connects to uses HTTPS
+export const URL_PREFIX = 'https://';
+
 const DIGEST_PREFIX = 'sha256:';
 const FINGERPRINT_LENGTH = 8;
 const EMAIL_PARAM_PATTERN = /email/i;

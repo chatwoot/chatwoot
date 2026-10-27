@@ -9,11 +9,11 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import McpServersAPI from 'dashboard/api/captain/mcpServers';
 
-import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
-import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
+import ToolsPageLayout from 'dashboard/components-next/captain/pageComponents/tools/ToolsPageLayout.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import McpServerCard from 'dashboard/components-next/captain/pageComponents/mcpServer/McpServerCard.vue';
 import ConnectMcpServerDialog from 'dashboard/components-next/captain/pageComponents/mcpServer/ConnectMcpServerDialog.vue';
+import ManageMcpServerPanel from 'dashboard/components-next/captain/pageComponents/mcpServer/ManageMcpServerPanel.vue';
 
 const SIGN_IN_RESULTS = { SUCCESS: 'success', FAILED: 'failed' };
 
@@ -26,6 +26,8 @@ const { run, isPending } = useAbortableRequest();
 const assistantId = computed(() => route.params.assistantId);
 const servers = ref([]);
 const connectDialogRef = ref(null);
+const managePanelRef = ref(null);
+const layoutRef = ref(null);
 const deleteDialogRef = ref(null);
 const serverToDelete = ref(null);
 const isDeleting = ref(false);
@@ -35,14 +37,6 @@ const showPaywall = computed(() =>
   shouldShowPaywall(FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS)
 );
 
-const backUrl = computed(() => ({
-  name: 'captain_tools_index',
-  params: {
-    accountId: route.params.accountId,
-    assistantId: assistantId.value,
-  },
-}));
-
 const fetchServers = async () => {
   try {
     const response = await run(signal =>
@@ -50,6 +44,7 @@ const fetchServers = async () => {
     );
     if (!response) return false;
     servers.value = response.data.payload;
+    layoutRef.value?.refreshCounts();
     return true;
   } catch {
     useAlert(t('CAPTAIN.MCP_SERVERS.LOAD_ERROR'));
@@ -57,7 +52,8 @@ const fetchServers = async () => {
   }
 };
 
-const openConnectDialog = () => connectDialogRef.value.open(null);
+const openConnectDialog = () => connectDialogRef.value.open();
+const openManagePanel = server => managePanelRef.value.open(server);
 
 const startSignIn = async server => {
   try {
@@ -74,7 +70,7 @@ const startSignIn = async server => {
 };
 
 const handleAction = ({ action, server }) => {
-  if (action === 'manage') connectDialogRef.value.open(server);
+  if (action === 'manage') openManagePanel(server);
   if (action === 'sign_in') startSignIn(server);
   if (action === 'delete') {
     serverToDelete.value = server;
@@ -140,7 +136,7 @@ const handleSignInResult = async () => {
 
   useAlert(t('CAPTAIN.MCP_SERVERS.SIGN_IN.SUCCESS'));
   const server = servers.value.find(item => item.id === Number(serverId));
-  if (server) connectDialogRef.value.open(server);
+  if (server) openManagePanel(server);
 };
 
 // On a full reload, account features load after mount, so the page waits for access before it fetches.
@@ -156,24 +152,19 @@ watch(
 </script>
 
 <template>
-  <PageLayout
-    :header-title="$t('CAPTAIN.MCP_SERVERS.HEADER')"
+  <ToolsPageLayout
+    ref="layoutRef"
+    :heading="$t('CAPTAIN.MCP_SERVERS.HEADER')"
+    :description="$t('CAPTAIN.TOOLS_PAGES.MCP_SERVERS.DESCRIPTION')"
     :button-label="$t('CAPTAIN.MCP_SERVERS.CONNECT')"
-    :button-policy="['administrator']"
-    :back-url="backUrl"
-    :feature-flag="FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS"
     :is-fetching="isPending && !servers.length"
     :is-empty="!servers.length"
-    :show-pagination-footer="false"
-    :show-know-more="false"
     @click="openConnectDialog"
   >
-    <template #paywall>
-      <CaptainPaywall feature-prefix="CAPTAIN.CUSTOM_TOOLS" />
-    </template>
-
     <template #emptyState>
-      <div class="flex flex-col items-center gap-2 py-16 text-center">
+      <div
+        class="flex flex-col items-center gap-2 py-12 text-center rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
+      >
         <span class="text-base font-medium text-n-slate-12">
           {{ $t('CAPTAIN.MCP_SERVERS.EMPTY_STATE.TITLE') }}
         </span>
@@ -195,13 +186,21 @@ watch(
         />
       </div>
     </template>
-  </PageLayout>
+  </ToolsPageLayout>
 
   <ConnectMcpServerDialog
     ref="connectDialogRef"
     :assistant-id="assistantId"
+    :connected-urls="servers.map(server => server.url)"
     @saved="fetchServers"
     @sign-in="startSignIn"
+    @connected="openManagePanel"
+  />
+
+  <ManageMcpServerPanel
+    ref="managePanelRef"
+    :assistant-id="assistantId"
+    @saved="fetchServers"
   />
 
   <Dialog

@@ -579,6 +579,8 @@ const menuItems = computed(() => {
             : t('SIDEBAR.CAPTAIN_TOOLS'),
           activeOn: [
             'captain_tools_index',
+            'captain_tools_installed',
+            'captain_tools_custom',
             'captain_tools_explore',
             'captain_mcp_servers_index',
           ],

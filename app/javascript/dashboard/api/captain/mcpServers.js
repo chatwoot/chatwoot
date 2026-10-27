@@ -13,13 +13,12 @@ class CaptainMcpServers extends ApiClient {
     });
   }
 
-  discover({ assistantId, url, token, authHeader }) {
-    return axios.post(`${this.url}/discover`, {
-      assistant_id: assistantId,
-      url,
-      token,
-      auth_header: authHeader,
-    });
+  discover({ assistantId, url, token, authHeader, signal }) {
+    return axios.post(
+      `${this.url}/discover`,
+      { assistant_id: assistantId, url, token, auth_header: authHeader },
+      { signal }
+    );
   }
 
   create({ assistantId, ...data }) {

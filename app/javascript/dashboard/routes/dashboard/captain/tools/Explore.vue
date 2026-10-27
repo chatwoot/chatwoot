@@ -10,11 +10,11 @@ import { usePolicy } from 'dashboard/composables/usePolicy';
 import ToolsManifestAPI from 'dashboard/api/captain/toolsManifest';
 import {
   fetchToolsCatalog,
+  installedToolsetKey,
   isChatwootAuthor,
 } from 'dashboard/api/captain/toolsCatalog';
 
-import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
-import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
+import ToolsPageLayout from 'dashboard/components-next/captain/pageComponents/tools/ToolsPageLayout.vue';
 import InstallManifestDialog from 'dashboard/components-next/captain/pageComponents/customTool/InstallManifestDialog.vue';
 import ToolsetCatalogCard from 'dashboard/components-next/captain/pageComponents/customTool/ToolsetCatalogCard.vue';
 import ToolsetDetailsPanel from 'dashboard/components-next/captain/pageComponents/customTool/ToolsetDetailsPanel.vue';
@@ -40,7 +40,7 @@ const selectedCategory = ref(null);
 const installedVersions = ref(new Map());
 
 const toolsRoute = computed(() => ({
-  name: 'captain_tools_index',
+  name: 'captain_tools_installed',
   params: {
     accountId: route.params.accountId,
     assistantId: assistantId.value,
@@ -93,8 +93,7 @@ const loadInstalled = async () => {
 };
 
 const installStatus = toolset => {
-  const [owner, repository, ...folder] = toolset.source.split('/');
-  const key = `${owner}/${repository}`.toLowerCase() + `/${folder.join('/')}`;
+  const key = installedToolsetKey(toolset.source);
   if (!installedVersions.value.has(key)) return null;
   // The catalog can lag behind GitHub, so a newer install than the catalog lists is not an update
   return semver.gt(toolset.version, installedVersions.value.get(key))
@@ -135,23 +134,12 @@ watch(
 </script>
 
 <template>
-  <PageLayout
-    :header-title="t('CAPTAIN.CUSTOM_TOOLS.CATALOG.HEADER')"
-    :back-url="toolsRoute"
-    :feature-flag="FEATURE_FLAGS.CAPTAIN_CUSTOM_TOOLS"
-    :show-know-more="false"
-    :show-pagination-footer="false"
+  <ToolsPageLayout
+    :heading="t('CAPTAIN.TOOLS_NAV.CATALOG')"
+    :description="t('CAPTAIN.CUSTOM_TOOLS.CATALOG.DESCRIPTION')"
   >
-    <template #paywall>
-      <CaptainPaywall feature-prefix="CAPTAIN.CUSTOM_TOOLS" />
-    </template>
-
     <template #body>
       <div class="flex flex-col gap-6">
-        <p class="mb-0 text-sm text-n-slate-11">
-          {{ t('CAPTAIN.CUSTOM_TOOLS.CATALOG.DESCRIPTION') }}
-        </p>
-
         <div v-if="isLoading" class="flex justify-center py-10">
           <Spinner />
         </div>
@@ -195,7 +183,7 @@ watch(
         </template>
       </div>
     </template>
-  </PageLayout>
+  </ToolsPageLayout>
 
   <ToolsetDetailsPanel ref="detailsPanelRef" @install="installToolset" />
 

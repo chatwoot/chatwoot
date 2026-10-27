@@ -125,6 +125,9 @@ class Captain::CustomTool < ApplicationRecord
   validate :validate_auth_config
 
   scope :enabled, -> { where(enabled: true) }
+  # Installed from the tools catalog, or written by the user
+  scope :installed, -> { where.not(source_metadata: nil) }
+  scope :user_defined, -> { where(source_metadata: nil) }
   scope :from_github, lambda { |repository, path|
     where("source_metadata->>'source' = 'github'")
       .where("source_metadata->>'repository' = ? AND source_metadata->>'path' = ?", repository, path)
