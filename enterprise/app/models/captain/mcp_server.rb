@@ -86,7 +86,9 @@ class Captain::McpServer < ApplicationRecord
     tools.reject { |tool| live[tool.name] && tool.approval_current?(live[tool.name]) }.map(&:name)
   end
 
-  # Records when a change first appeared, and clears it once no approved tool differs
+  # Records when a change first appeared, and clears it once no approved tool differs.
+  # The hourly check and the tools page call this. update_columns writes only tools_changed_at: the server may hold
+  # approved tools that today's validations reject, and that must not stop Chatwoot from flagging a changed tool.
   def record_tool_changes(live_definitions)
     changed = changed_tool_names(live_definitions).any?
     return if changed == tools_changed_at.present?
