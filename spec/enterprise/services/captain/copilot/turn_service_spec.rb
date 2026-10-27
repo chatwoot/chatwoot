@@ -37,6 +37,19 @@ RSpec.describe Captain::Copilot::TurnService do
     expect(service.send(:revise_numbers?, llm)).to be(false)
   end
 
+  it 'keeps the links a tool returned and removes the links it made up' do
+    guide = 'https://help.example.com/hc/docs/articles/refunds?lang=en&ref=copilot'
+    run.tool_calls.create!(call_id: 'call-1', name: 'get_data', status: :completed,
+                           result: { rows: [{ url: '/app/accounts/1/conversations/5' }], article: guide })
+    answer = "See [#5](/app/accounts/1/conversations/5), [the guide](#{guide}) and [pricing](https://example.com/pricing)."
+    llm = instance_double(RubyLLM::Chat, messages: [RubyLLM::Message.new(role: :assistant, content: { content: answer }.to_json)])
+
+    service.send(:finish, llm)
+
+    expect(thread.copilot_messages.assistant.last.message['content'])
+      .to eq("See [#5](/app/accounts/1/conversations/5), [the guide](#{guide}) and pricing.")
+  end
+
   it 'writes no line for a review, which shows its own card, or while the turn waits for it' do
     service.send(:start_tool_call, RubyLLM::ToolCall.new(id: 'call-1', name: 'review_conversations', arguments: {}))
     service.send(:wait_for_background_run)
