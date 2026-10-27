@@ -115,7 +115,7 @@ const menuItems = computed(() => {
         icon: 'i-fluent-flow-sparkle-24-regular',
       }
     );
-  } else if (!props.conversationId) {
+  } else {
     items.push(
       {
         label: t(
@@ -216,6 +216,7 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
 
 <template>
   <DropdownBody
+    v-if="hasAnyMenuItems"
     ref="menuRef"
     class="min-w-56 [&>ul]:gap-3 z-50 [&>ul]:px-4 [&>ul]:py-3.5"
     :class="{ 'selection-menu': hasSelection && isEditorMenuPopover }"
