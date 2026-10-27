@@ -23,7 +23,12 @@ class Captain::Mcp::Connection
     @server = server
   end
 
-  # Runs a request and records the result on the server. Only the status columns are written, so a check never overwrites an admin edit.
+  # Runs a request and records the result on the server.
+  # The status is written with update_columns, not save, for two reasons:
+  # - The update action calls this after it assigns the admin's edit and before it validates it. A save here would store
+  #   that edit early, without the checks the action runs after the call.
+  # - Agent runs, the OAuth callback and the hourly check record the status too. A validation on an unrelated column must
+  #   not stop Chatwoot from recording that a server is down or needs sign-in.
   def track_status
     result = yield
     @server.update_columns(status: :active, last_error: nil) # rubocop:disable Rails/SkipsModelValidations
