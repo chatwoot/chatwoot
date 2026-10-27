@@ -1,0 +1,152 @@
+name: Build Fazaa Chatwoot Staging Image
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-fazaa-chatwoot-staging
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: eu-west-1
+  ECR_REPOSITORY: fazaa-chatwoot
+  TARGET_SHA: 2fd3acb372d26f13e0dd5cbf8db2e4bde92745b4
+  IMAGE_TAG: 2fd3acb
+
+jobs:
+  build:
+    name: Build ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            platform: linux/amd64
+            runner: ubuntu-latest
+          - arch: arm64
+            platform: linux/arm64
+            runner: ubuntu-24.04-arm
+
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+      - name: Checkout exact tested Chatwoot revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_SHA }}
+          fetch-depth: 1
+
+      - name: Verify source revision and Enterprise code
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          ACTUAL_SHA="$(git rev-parse HEAD)"
+
+          if [ "$ACTUAL_SHA" != "$TARGET_SHA" ]; then
+            echo "Expected $TARGET_SHA but checked out $ACTUAL_SHA"
+            exit 1
+          fi
+
+          test -d enterprise
+
+          echo "Building exact Chatwoot revision: $ACTUAL_SHA"
+          echo "Enterprise source directory: present"
+
+      - name: Set Chatwoot Enterprise edition
+        shell: bash
+        run: |
+          echo -en '\nENV CW_EDITION="ee"\n' >> docker/Dockerfile
+          tail -3 docker/Dockerfile
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.ECR_ACCESS_ID_DEVOPS }}
+          aws-secret-access-key: ${{ secrets.ECR_ACCESS_KEY_DEVOPS }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push architecture image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          platforms: ${{ matrix.platform }}
+          push: true
+          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}-${{ matrix.arch }}
+          cache-from: type=gha,scope=fazaa-chatwoot-${{ matrix.arch }}
+          cache-to: type=gha,mode=max,scope=fazaa-chatwoot-${{ matrix.arch }}
+
+  manifest:
+    name: Publish multi-arch image
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.ECR_ACCESS_ID_DEVOPS }}
+          aws-secret-access-key: ${{ secrets.ECR_ACCESS_KEY_DEVOPS }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Create multi-arch manifest
+        shell: bash
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          set -euo pipefail
+
+          IMAGE="${ECR_REGISTRY}/${ECR_REPOSITORY}"
+
+          docker buildx imagetools create \
+            --tag "${IMAGE}:${IMAGE_TAG}" \
+            "${IMAGE}:${IMAGE_TAG}-amd64" \
+            "${IMAGE}:${IMAGE_TAG}-arm64"
+
+          docker buildx imagetools inspect "${IMAGE}:${IMAGE_TAG}"
+
+      - name: Record final ECR digest
+        shell: bash
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          set -euo pipefail
+
+          DIGEST="$(
+            aws ecr describe-images \
+              --region "$AWS_REGION" \
+              --repository-name "$ECR_REPOSITORY" \
+              --image-ids imageTag="$IMAGE_TAG" \
+              --query 'imageDetails[0].imageDigest' \
+              --output text
+          )"
+
+          echo "Image: ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}"
+          echo "Digest: ${DIGEST}"
+
+          {
+            echo "### Fazaa Chatwoot staging image"
+            echo
+            echo "- Source SHA: \`${TARGET_SHA}\`"
+            echo "- Edition: \`ee\`"
+            echo "- Image: \`${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}\`"
+            echo "- Digest: \`${DIGEST}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
