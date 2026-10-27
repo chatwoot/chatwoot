@@ -10,11 +10,10 @@ class Captain::McpServer < ApplicationRecord
   # OpenAI function names allow these characters only, and at most 64 of them
   INVALID_TOOL_NAME_CHARACTERS = /[^a-zA-Z0-9_-]/
   MAX_TOOL_NAME_LENGTH = Captain::CustomTool::MAX_SLUG_LENGTH
-  PARAM_SOURCE_VERIFIED_EMAIL = 'verified.email'.freeze
-  PARAM_SOURCE_FIXED = 'fixed'.freeze
 
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
+  has_many :tools, -> { order(:id) }, class_name: 'Captain::McpTool', inverse_of: :mcp_server, dependent: :delete_all
 
   enum :auth_type, %w[none oauth token].index_by(&:itself), prefix: :auth, validate: true
   enum :status, %w[active needs_sign_in error].index_by(&:itself), validate: true
@@ -26,37 +25,10 @@ class Captain::McpServer < ApplicationRecord
 
   validates :url, presence: true, uniqueness: { scope: :assistant_id }
   validates :name, presence: true
-  validates_with Captain::McpServerToolsValidator
   validate :validate_auth_header
   validate :validate_token
 
   scope :enabled, -> { where(enabled: true) }
-
-  # Keys are sorted first, so the same definition always has the same digest. The name is stored beside it.
-  def self.definition_digest(definition)
-    "sha256:#{Digest::SHA256.hexdigest(JSON.generate(sorted_keys(definition.deep_stringify_keys.except('name'))))}"
-  end
-
-  # The tool entry an admin approves, pinned to the live definition
-  def self.approved_entry(definition, param_sources:, settings:, enabled:)
-    {
-      'name' => definition['name'],
-      'approved_definition' => definition.except('name'),
-      'approved_digest' => definition_digest(definition),
-      'param_sources' => param_sources,
-      'settings' => settings,
-      'enabled' => enabled
-    }
-  end
-
-  def self.sorted_keys(value)
-    case value
-    when Hash then value.sort.to_h.transform_values { |child| sorted_keys(child) }
-    when Array then value.map { |child| sorted_keys(child) }
-    else value
-    end
-  end
-  private_class_method :sorted_keys
 
   # The name Captain sees. The server ID keeps names apart across servers, and the double underscore
   # keeps server 1's tool "2_x" apart from server 12's tool "x".
@@ -66,21 +38,7 @@ class Captain::McpServer < ApplicationRecord
 
   # Approved tools Captain may use. The runtime still checks each digest against the live definition.
   def available_tools
-    return [] unless enabled?
-
-    tools.select { |tool| tool['enabled'] && tool.dig('approved_definition', 'read_only') }
-  end
-
-  def approved_tool(server_tool_name)
-    tools.find { |tool| tool['name'] == server_tool_name }
-  end
-
-  def self.requires_email_verification?(tool)
-    tool.dig('settings', 'requires_email_verification') == true || verified_email_param(tool).present?
-  end
-
-  def self.verified_email_param(tool)
-    tool['param_sources'].find { |_name, source| source['source'] == PARAM_SOURCE_VERIFIED_EMAIL }&.first
+    enabled? ? tools.where(enabled: true) : Captain::McpTool.none
   end
 
   private

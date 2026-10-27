@@ -1,6 +1,5 @@
 class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::BaseController
-  DEFAULT_SELECTION = { 'param_sources' => {}, 'settings' => {}, 'enabled' => true }.freeze
-  SELECTION_FIELDS = %w[name param_sources settings enabled].freeze
+  SELECTION_FIELDS = %w[param_sources settings enabled].freeze
 
   before_action :ensure_mcp_servers_enabled
   before_action -> { check_authorization(Captain::McpServer) }
@@ -10,7 +9,7 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
   rescue_from(*Captain::Mcp::Connection::ERRORS) { |error| render_could_not_create_error(error.message) }
 
   def index
-    @mcp_servers = assistant_mcp_servers.order(id: :desc)
+    @mcp_servers = assistant_mcp_servers.includes(:tools).order(id: :desc)
   end
 
   def show; end
@@ -31,9 +30,10 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
   end
 
   def update
-    @mcp_server.assign_attributes(update_params)
-    @mcp_server.tools = approved_tools if params[:mcp_server].key?(:tools)
-    @mcp_server.save!
+    Captain::McpServer.transaction do
+      @mcp_server.update!(update_params)
+      sync_tools(tool_selections) if params[:mcp_server].key?(:tools)
+    end
   end
 
   def destroy
@@ -82,32 +82,49 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
     attributes[:auth_config].to_h['token'].blank? ? attributes.except(:auth_config) : attributes
   end
 
-  # A tool that is already approved keeps its approved definition, so editing its parameters never approves a change
-  # the server made. A newly selected tool is pinned to its live definition, which must be read-only.
-  def approved_tools
+  # Makes the approved tools match the selection. A tool that is already approved keeps its approved definition, so
+  # editing its parameters never approves a change the server made, and fields the selection leaves out keep their
+  # values. A newly selected tool is pinned to its live definition, which must be read-only.
+  def sync_tools(selections)
+    approved = @mcp_server.tools.index_by(&:name)
+    @mcp_server.tools.where.not(name: selections.keys).delete_all
     live_tools = nil
-    tool_selections.map do |selection|
-      approved = @mcp_server.approved_tool(selection['name'])
-      next approved.merge(selection.slice('param_sources', 'settings', 'enabled')) if approved
-
-      live_tools ||= connection.track_status { connection.tool_definitions }.index_by { |tool| tool['name'] }
-      definition = live_tools[selection['name']]
-      raise ActiveRecord::RecordInvalid, invalid_tool(selection['name'], :missing) unless definition
-      raise ActiveRecord::RecordInvalid, invalid_tool(selection['name'], :not_read_only) unless definition['read_only']
-
-      Captain::McpServer.approved_entry(definition, **selection.slice('param_sources', 'settings', 'enabled').symbolize_keys)
+    selections.each do |name, fields|
+      tool = approved[name] || begin
+        live_tools ||= connection.track_status { connection.tool_definitions }.index_by { |definition| definition['name'] }
+        new_tool(name, live_tools[name])
+      end
+      tool.update!(fields)
     end
+    # The loaded list still holds the deleted tools, and the response renders it
+    @mcp_server.tools.reset
   end
 
-  # The model validates every field against a strict schema, so the selections are read as sent instead of through permit,
-  # which drops unknown or nested values without an error.
-  def tool_selections
-    Array(params[:mcp_server][:tools]).map do |selection|
-      selection = selection.to_unsafe_h if selection.respond_to?(:to_unsafe_h)
-      raise ActiveRecord::RecordInvalid, invalid_tool(nil, :invalid_selection) unless selection.is_a?(Hash)
+  def new_tool(name, definition)
+    raise ActiveRecord::RecordInvalid, invalid_tool(name, :missing) unless definition
+    raise ActiveRecord::RecordInvalid, invalid_tool(name, :not_read_only) unless definition['read_only']
 
-      DEFAULT_SELECTION.merge(selection.slice(*SELECTION_FIELDS))
+    @mcp_server.tools.new(account: @mcp_server.account, name: name).tap { |tool| tool.approve(definition) }
+  end
+
+  # The tool model validates every field against a strict schema, so the selections are read as sent instead of
+  # through permit, which drops unknown or nested values without an error. Returns the fields of each tool by name.
+  def tool_selections
+    selections = Array(params[:mcp_server][:tools]).map do |selection|
+      selection = selection.to_unsafe_h if selection.respond_to?(:to_unsafe_h)
+      raise ActiveRecord::RecordInvalid, invalid_tool(nil, :invalid_selection) unless valid_selection?(selection)
+
+      selection
     end
+    names = selections.pluck('name')
+    raise ActiveRecord::RecordInvalid, invalid_tool(nil, :duplicate) if names.uniq.size != names.size
+
+    selections.to_h { |selection| [selection['name'], selection.slice(*SELECTION_FIELDS)] }
+  end
+
+  # JsonSchemaValidator cannot name the attribute when a whole value has the wrong type, so the request rejects it here
+  def valid_selection?(selection)
+    selection.is_a?(Hash) && selection['name'].present? && selection.slice('param_sources', 'settings').values.all?(Hash)
   end
 
   def invalid_tool(name, reason)
