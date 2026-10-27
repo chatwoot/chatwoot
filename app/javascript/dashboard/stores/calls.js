@@ -1,6 +1,7 @@
 import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
 import { cleanupWhatsappSession } from 'dashboard/composables/useWhatsappCallSession';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
+import { VOICE_CALL_STATUS } from 'dashboard/components-next/message/constants';
 import { TERMINAL_STATUSES } from 'dashboard/helper/voice';
 import { defineStore } from 'pinia';
 
@@ -31,6 +32,13 @@ export const useCallsStore = defineStore('calls', {
     handleCallStatusChanged({ callSid, status }) {
       const call = this.calls.find(c => c.callSid === callSid);
       if (!TERMINAL_STATUSES.includes(status)) {
+        // A connected call never rings again, so a late ringing update is stale
+        const current = call ? call.status : this.pendingStatuses[callSid];
+        if (
+          status === VOICE_CALL_STATUS.RINGING &&
+          current === VOICE_CALL_STATUS.IN_PROGRESS
+        )
+          return;
         if (call) call.status = status;
         else this.pendingStatuses[callSid] = status;
         return;

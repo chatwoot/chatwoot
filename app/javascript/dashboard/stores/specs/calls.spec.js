@@ -25,4 +25,14 @@ describe('calls store', () => {
 
     expect(store.calls[0].status).toBeUndefined();
   });
+
+  it('ignores a late ringing update on a connected call', () => {
+    const store = useCallsStore();
+    store.addCall({ callSid: 'CA1', conversationId: 12 });
+
+    store.handleCallStatusChanged({ callSid: 'CA1', status: 'in-progress' });
+    store.handleCallStatusChanged({ callSid: 'CA1', status: 'ringing' });
+
+    expect(store.calls[0].status).toBe('in-progress');
+  });
 });
