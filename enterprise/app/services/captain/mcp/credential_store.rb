@@ -28,7 +28,9 @@ class Captain::Mcp::CredentialStore
     @server.auth_config.fetch('oauth', {})
   end
 
-  # Only auth_config is written, so storing a token never overwrites an admin edit
+  # RubyLLM writes here during the OAuth callback and when it refreshes a token in an agent run. update_columns writes
+  # only auth_config: a save would also store any unsaved change on the server, and a validation on another column,
+  # such as the token header, would drop a token the authorization server already issued.
   def save(oauth)
     @server.update_columns(auth_config: @server.auth_config.merge('oauth' => oauth)) # rubocop:disable Rails/SkipsModelValidations
   end
