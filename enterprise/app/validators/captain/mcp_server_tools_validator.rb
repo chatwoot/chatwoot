@@ -46,11 +46,12 @@ class Captain::McpServerToolsValidator < ActiveModel::Validator
   }.to_json.freeze
 
   def validate(server)
+    errors_before = server.errors.size
     JsonSchemaValidator.new(schema: SCHEMA, attribute_resolver: ->(record) { record.tools }).validate(server)
+    # The checks below read the shape the schema guarantees, so they run only when it passed
+    return if server.errors.size > errors_before
 
     tools = server.tools
-    return unless tools.is_a?(Array) && tools.all?(Hash)
-
     names_error = tool_names_error(server, tools.pluck('name'))
     return server.errors.add(:tools, names_error) if names_error
 
