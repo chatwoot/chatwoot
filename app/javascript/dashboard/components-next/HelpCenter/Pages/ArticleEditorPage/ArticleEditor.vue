@@ -136,7 +136,13 @@ const scheduleSave = () => {
 const pendingCreate = ref(false);
 
 const retryPendingCreate = () => {
-  if (!pendingCreate.value || hasPendingUploads()) return;
+  if (
+    !isNewArticle.value ||
+    props.isUpdating ||
+    !pendingCreate.value ||
+    hasPendingUploads()
+  )
+    return;
   pendingCreate.value = false;
   if (!localTitle.value.trim()) return;
   emit('createArticle', {
@@ -189,7 +195,7 @@ const previewArticle = () => {
 };
 
 const handleCreateArticle = event => {
-  if (!isNewArticle.value) return;
+  if (!isNewArticle.value || props.isUpdating) return;
   const title = event?.target?.value || '';
   if (!title.trim()) return;
   // Creating navigates to the edit route, which would unmount mid-upload.
@@ -198,6 +204,7 @@ const handleCreateArticle = event => {
     useAlert(t('HELP_CENTER.EDIT_ARTICLE_PAGE.HEADER.UPLOAD_IN_PROGRESS'));
     return;
   }
+  pendingCreate.value = false;
   emit('createArticle', { title, content: localContent.value });
 };
 </script>
