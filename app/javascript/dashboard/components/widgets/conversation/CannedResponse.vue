@@ -64,8 +64,7 @@ const resolveContent = message =>
     props.schema
   );
 
-// Search runs on the raw content, so the current contact's variable values never decide
-// which responses match or how they rank; variables are resolved only in the preview
+// Raw content, so the open conversation's contact never changes the results
 const records = computed(() =>
   cannedResponses.value.map(({ id, short_code: shortCode, content }) => {
     const plainText = getPlainText(content)

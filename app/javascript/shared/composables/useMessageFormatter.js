@@ -52,8 +52,7 @@ export const useMessageFormatter = () => {
   };
 
   /**
-   * Lowercases text and strips its accents, so "ola" matches "Olá". NFC input keeps its
-   * length, so an index found in the result points at the same characters in the input.
+   * Lowercases text and strips accents. NFC input keeps its length, so indexes carry over.
    *
    * @param {string} text - The text to normalize.
    * @returns {string} - The normalized text.
