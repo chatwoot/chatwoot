@@ -30,13 +30,14 @@ module Captain::Copilot::Resources
   # The records of a saved set, as a relation. A collection is rebuilt from its filters, so a step that starts from it
   # sees every matching record, not only the IDs it saved, and a chain of steps is one database query. Records created
   # after the collection was taken stay out, so a chain reads the data as it was then. A collection that picked
-  # particular records, with newest or sample, and the matches of a review are lists of IDs.
+  # particular records, with newest or sample, and the matches of a review are lists of IDs. Callers nest the relation
+  # as a subquery that selects one column, so the columns a filter selected, such as tagged_with's, are dropped.
   def self.records(set)
     resource = build(set.resource, account: set.account, user: set.user)
     model = resource.class::MODEL
     return model.where(id: set.record_ids) unless set.is_a?(CopilotRun::Collection) && set.query?
 
     relation = resource.matching(set.filters, as_of: set.as_of, source: set.source_run, excluded: set.excluded_run)
-    relation.where(model.arel_table[:created_at].lteq(set.as_of))
+    relation.where(model.arel_table[:created_at].lteq(set.as_of)).unscope(:select)
   end
 end
