@@ -12,50 +12,6 @@ class Captain::McpServer < ApplicationRecord
   MAX_TOOL_NAME_LENGTH = Captain::CustomTool::MAX_SLUG_LENGTH
   PARAM_SOURCE_VERIFIED_EMAIL = 'verified.email'.freeze
   PARAM_SOURCE_FIXED = 'fixed'.freeze
-  TOOLS_VALIDATION = {
-    'type': 'array',
-    'items': {
-      'type': 'object',
-      'properties': {
-        'name': { 'type': 'string', 'minLength': 1 },
-        'approved_definition': {
-          'type': 'object',
-          'properties': {
-            'description': { 'type': %w[string null] },
-            'input_schema': { 'type': 'object' },
-            # Captain uses read tools only, so a write tool can never be approved
-            'read_only': { 'const': true }
-          },
-          'required': %w[input_schema read_only],
-          'additionalProperties': false
-        },
-        'approved_digest': { 'type': 'string', 'pattern': '^sha256:[0-9a-f]{64}$' },
-        'param_sources': {
-          'type': 'object',
-          'additionalProperties': {
-            'oneOf': [
-              {
-                'type': 'object',
-                'properties': { 'source': { 'const': PARAM_SOURCE_VERIFIED_EMAIL } },
-                'required': %w[source],
-                'additionalProperties': false
-              },
-              {
-                'type': 'object',
-                'properties': { 'source': { 'const': PARAM_SOURCE_FIXED }, 'value': { 'type': 'string', 'minLength': 1 } },
-                'required': %w[source value],
-                'additionalProperties': false
-              }
-            ]
-          }
-        },
-        'settings': JSON.parse(Captain::CustomTool::SETTINGS_VALIDATION),
-        'enabled': { 'type': 'boolean' }
-      },
-      'required': %w[name approved_definition approved_digest param_sources settings enabled],
-      'additionalProperties': false
-    }
-  }.to_json.freeze
 
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
@@ -69,10 +25,9 @@ class Captain::McpServer < ApplicationRecord
 
   validates :url, presence: true, uniqueness: { scope: :assistant_id }
   validates :name, presence: true
-  validates_with JsonSchemaValidator, schema: TOOLS_VALIDATION, attribute_resolver: ->(record) { record.tools }
+  validates_with Captain::McpServerToolsValidator
   validate :validate_auth_header
   validate :validate_token
-  validate :validate_tool_entries
 
   scope :enabled, -> { where(enabled: true) }
 
@@ -140,40 +95,5 @@ class Captain::McpServer < ApplicationRecord
   # The token is sent as a header value, so control characters would break the request
   def validate_token
     errors.add(:auth_config, :invalid) if auth_config['token'].to_s.match?(/[[:cntrl:]]/)
-  end
-
-  def validate_tool_entries
-    return unless tools.is_a?(Array) && tools.all?(Hash)
-
-    names_error = tool_names_error(tools.pluck('name'))
-    return errors.add(:tools, names_error) if names_error
-
-    tools.each { |tool| validate_param_sources(tool) }
-  end
-
-  def tool_names_error(names)
-    return I18n.t('captain.mcp_server.tools.duplicate') if names.uniq.size != names.size
-
-    # Captain names replace unsupported characters and cut long names, so two server names can become one
-    clashing = names.group_by { |name| captain_tool_name(name) }.values.find { |group| group.size > 1 }
-    I18n.t('captain.mcp_server.tools.name_clash', names: clashing.join(', ')) if clashing
-  end
-
-  def validate_param_sources(tool)
-    properties = tool.dig('approved_definition', 'input_schema', 'properties') || {}
-    sources = tool['param_sources'] || {}
-    unknown = sources.keys - properties.keys
-    return errors.add(:tools, I18n.t('captain.mcp_server.tools.unknown_param', tool: tool['name'], names: unknown.join(', '))) if unknown.any?
-
-    validate_verified_email_param(tool['name'], sources, properties)
-  end
-
-  def validate_verified_email_param(tool_name, sources, properties)
-    verified = sources.select { |_name, source| source['source'] == PARAM_SOURCE_VERIFIED_EMAIL }.keys
-    return errors.add(:tools, I18n.t('captain.mcp_server.tools.one_verified_email', tool: tool_name)) if verified.size > 1
-    # Verified values are text, so a parameter that takes one must be a string
-    return if verified.none? || properties.dig(verified.first, 'type') == 'string'
-
-    errors.add(:tools, I18n.t('captain.mcp_server.tools.verified_email_type', tool: tool_name, name: verified.first))
   end
 end
