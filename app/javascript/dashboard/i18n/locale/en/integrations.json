@@ -935,7 +935,7 @@
         "UPDATE": "Update",
         "AVATAR": {
           "LABEL": "Avatar",
-          "HELP_TEXT": "Shown next to this assistant's replies. Use a square JPEG, PNG, GIF or WebP image. Customers will still see an AI label.",
+          "HELP_TEXT": "Shown next to this assistant's replies. Use a square JPEG, PNG, GIF or WebP image.",
           "UPLOAD_SUCCESS": "Avatar updated",
           "UPLOAD_ERROR": "Could not update the avatar. Please try again.",
           "DELETE_SUCCESS": "Avatar removed",

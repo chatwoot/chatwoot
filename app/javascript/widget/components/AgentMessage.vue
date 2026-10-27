@@ -7,7 +7,6 @@ import ImageBubble from 'widget/components/ImageBubble.vue';
 import VideoBubble from 'widget/components/VideoBubble.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
-import { SENDER_TYPES } from 'dashboard/components-next/message/constants';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { isAutoTranslatedReply } from 'widget/helpers/translations';
 import configMixin from '../mixins/configMixin';
@@ -83,11 +82,6 @@ export default {
       }
 
       return this.$t('UNREAD_VIEW.BOT');
-    },
-    aiAssistantLabel() {
-      if (this.message.sender?.type !== SENDER_TYPES.CAPTAIN_ASSISTANT)
-        return '';
-      return `· ${this.$t('AI_ASSISTANT')}`;
     },
     avatarUrl() {
       const displayImage = this.useInboxAvatarForBot
@@ -266,9 +260,6 @@ export default {
           class="agent-name text-n-slate-11"
         >
           {{ agentName }}
-          <span v-if="aiAssistantLabel" class="font-normal">
-            {{ aiAssistantLabel }}
-          </span>
         </p>
       </div>
     </div>
