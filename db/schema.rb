@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_10_26_062039) do
+ActiveRecord::Schema[7.1].define(version: 2026_10_26_062035) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1650,17 +1650,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_10_26_062039) do
     t.index ["account_id", "date", "dimension_type", "dimension_id", "metric"], name: "index_rollup_unique_key", unique: true
     t.index ["account_id", "dimension_type", "date"], name: "index_rollup_summary"
     t.index ["account_id", "metric", "date"], name: "index_rollup_timeseries"
-  end
-
-  create_table "ruby_llm_mcp_credentials", force: :cascade do |t|
-    t.string "owner_type"
-    t.bigint "owner_id"
-    t.string "key", null: false
-    t.text "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["key"], name: "index_ruby_llm_mcp_credentials_on_key", unique: true
-    t.index ["owner_type", "owner_id"], name: "index_ruby_llm_mcp_credentials_on_owner"
   end
 
   create_table "shopify_custom_apps", force: :cascade do |t|
