@@ -40,6 +40,17 @@ RSpec.describe Captain::Copilot::CollectionService do
     expect(linked[:total]).to eq(10)
   end
 
+  it 'starts from a set filtered by label' do
+    conversations.first(2).each { |conversation| conversation.update!(label_list: ['billing']) }
+    create(:message, conversation: conversations.first, account: account, inbox: inbox, message_type: :incoming)
+    labelled = collect(resource: 'conversations', filters: { 'labels' => ['billing'] })
+
+    messages = collect('data-2', resource: 'messages', filters: {}, from: labelled[:collection_id])
+
+    expect(labelled[:total]).to eq(2)
+    expect(messages[:total]).to eq(1)
+  end
+
   it 'keeps only the records not linked to an excluded set, such as inboxes without members' do
     empty_inbox = create(:inbox, account: account)
     create(:inbox_member, user: admin, inbox: inbox)
