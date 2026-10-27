@@ -85,10 +85,17 @@ watch(
     () => props.message,
     () => props.timeoutSeconds,
   ],
-  ([, savedEnabled, savedMessage, savedTimeout]) => {
+  (
+    [newInboxId, savedEnabled, savedMessage, savedTimeout],
+    [oldInboxId, , oldMessage, oldTimeout] = []
+  ) => {
     isEnabled.value = savedEnabled;
-    draft.value = savedMessage;
-    timeout.value = savedTimeout;
+    if (newInboxId !== oldInboxId || savedMessage !== oldMessage) {
+      draft.value = savedMessage;
+    }
+    if (newInboxId !== oldInboxId || savedTimeout !== oldTimeout) {
+      timeout.value = savedTimeout;
+    }
   }
 );
 
@@ -117,7 +124,7 @@ const save = async (nextEnabled = isEnabled.value, useDraft = true) => {
 };
 const toggle = value => {
   isEnabled.value = value;
-  if (value && !props.message) return;
+  if (value ? !props.message : !props.enabled) return;
   save(value, false);
 };
 </script>
