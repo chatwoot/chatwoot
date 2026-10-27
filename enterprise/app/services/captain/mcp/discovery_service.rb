@@ -3,6 +3,10 @@
 # Without a token, a server that answers 401 needs OAuth if it publishes OAuth metadata, and a token otherwise.
 class Captain::Mcp::DiscoveryService
   Result = Data.define(:auth_type, :name)
+  # Where a server that sends no resource_metadata in its 401 can still publish OAuth metadata:
+  # - Protected resource metadata (RFC 9728) at a .well-known path, which newer MCP revisions allow.
+  # - Authorization server metadata (RFC 8414) at the server's origin, as servers from the 2025-03-26 revision do.
+  # RubyLLM signs in to both kinds, so a server found here can use OAuth.
   OAUTH_METADATA_PATHS = ['/.well-known/oauth-protected-resource%<path>s', '/.well-known/oauth-authorization-server'].freeze
   MAX_METADATA_BYTES = 64.kilobytes
 
@@ -28,6 +32,9 @@ class Captain::Mcp::DiscoveryService
                                              auth_header: @auth_header.presence, auth_config: { 'token' => @token })
   end
 
+  # The resource_metadata challenge is enough when the server sends it. Without it, the paths above are probed, so a
+  # server that wants OAuth is not reported as needing a token, which the admin would not have. Each probe goes through
+  # SafeFetch and reads at most MAX_METADATA_BYTES, and probes run only on discover, after a 401 without the challenge.
   def oauth?(response)
     challenge = response&.headers&.fetch('www-authenticate', nil)
     return true if challenge.to_s.include?('resource_metadata')
