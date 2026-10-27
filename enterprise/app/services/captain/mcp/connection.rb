@@ -5,14 +5,6 @@ class Captain::Mcp::Connection
   # Matches how long RubyLLM keeps a pending OAuth sign-in
   OAUTH_STATE_TTL = 10.minutes
 
-  def self.context
-    @context ||= RubyLLM.context do |config|
-      config.faraday_adapter = SafeFetch::FaradayAdapter
-      config.mcp_credential_store = Captain::McpCredential
-      config.mcp_client_name = GlobalConfigService.load('INSTALLATION_NAME', 'Chatwoot')
-    end
-  end
-
   def self.oauth_redirect_uri
     "#{ENV.fetch('FRONTEND_URL', '')}/captain/mcp/callback"
   end
@@ -80,11 +72,20 @@ class Captain::Mcp::Connection
   end
 
   def mcp
-    @mcp ||= self.class.context.mcp(url: @server.url, name: "#{Captain::McpServer::TOOL_NAME_PREFIX}_#{@server.id}",
-                                    timeout: TIMEOUT, **auth_settings)
+    @mcp ||= context.mcp(url: @server.url, name: "#{Captain::McpServer::TOOL_NAME_PREFIX}_#{@server.id}",
+                         timeout: TIMEOUT, **auth_settings)
   end
 
   private
+
+  # Each server has its own context, because RubyLLM reads the credential store from the context config
+  def context
+    RubyLLM.context do |config|
+      config.faraday_adapter = SafeFetch::FaradayAdapter
+      config.mcp_credential_store = Captain::Mcp::CredentialStore.new(@server)
+      config.mcp_client_name = GlobalConfigService.load('INSTALLATION_NAME', 'Chatwoot')
+    end
+  end
 
   def auth_settings
     case @server.auth_type
