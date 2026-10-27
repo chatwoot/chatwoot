@@ -56,6 +56,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  isExpanded: {
+    type: Boolean,
+    default: false,
+  },
   onSendMessage: {
     type: Function,
     required: true,
@@ -67,6 +71,7 @@ const emit = defineEmits([
   'setAssistant',
   'selectThread',
   'loadMoreThreads',
+  'toggleExpand',
 ]);
 
 const { t } = useI18n();
@@ -149,11 +154,14 @@ const handleSidebarAction = action => {
     showHistory.value = false;
   } else if (action === 'history') {
     showHistory.value = !showHistory.value;
+  } else if (action === 'expand') {
+    emit('toggleExpand');
   }
 };
 
 const hasAssistants = computed(() => props.assistants.length > 0);
 const hasMessages = computed(() => props.messages.length > 0);
+// The panel already fills the screen below md, so the toggle only shows on wider screens.
 const copilotButtons = computed(() => [
   {
     key: 'history',
@@ -164,6 +172,14 @@ const copilotButtons = computed(() => [
     key: 'new',
     icon: 'i-lucide-square-pen',
     tooltip: t('CAPTAIN.COPILOT.NEW_CHAT'),
+  },
+  {
+    key: 'expand',
+    icon: props.isExpanded ? 'i-lucide-minimize-2' : 'i-lucide-maximize-2',
+    tooltip: props.isExpanded
+      ? t('CAPTAIN.COPILOT.SHRINK')
+      : t('CAPTAIN.COPILOT.EXPAND'),
+    class: 'hidden md:inline-flex',
   },
 ]);
 const openThread = thread => {
