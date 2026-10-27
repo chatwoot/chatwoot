@@ -312,6 +312,31 @@ RSpec.describe MailboxHelper do
         end
       end
 
+      context 'when several TNEF parts each hold more files than a message can carry' do
+        let(:mail) do
+          message = Mail.new
+          message.from = 'Sender <sender@example.com>'
+          message.to = 'Inbox <inbox@example.com>'
+          message.subject = 'Sent from Outlook'
+          message.message_id = '<tnef-several@example.com>'
+          message.body = 'See the attached files.'
+          3.times do |index|
+            message.attachments["winmail#{index}.dat"] = { mime_type: tnef_mime_type, encoding: 'base64', content: Base64.encode64(winmail) }
+          end
+          Mail.new(message.to_s)
+        end
+        let(:file_names) { Array.new(20) { |index| format('file-%02d.txt', index) } }
+
+        before { allow(TnefReader).to receive(:files).and_return(file_names.map { |name| TnefReader::Entry.new(name, 'x') }) }
+
+        it 'uploads no more files than are attached' do
+          expect { helper_instance.send(:add_attachments_to_message) }
+            .to change { ActiveStorage::Blob.where(filename: file_names).count }.by(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
+
+          expect(conversation.messages[0].attachments.count).to eq(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
+        end
+      end
+
       context 'when the TNEF data cannot be read' do
         let(:winmail) { 'not a tnef file' }
 

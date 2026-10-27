@@ -17,8 +17,26 @@ RSpec.describe TnefReader do
       expect(described_class.files(header + rend_data + file_data).map(&:name)).to eq(['attachment-1'])
     end
 
+    it 'decodes the attachment title with the code page the stream declares' do
+      body = [850, 0].pack('VV')
+      codepage = [1, described_class::ATT_OEM_CODEPAGE, body.bytesize, body, body.sum].pack('CVVa*v')
+      title = "r\x82sum\x82.pdf\0".b
+      title_attribute = [2, described_class::ATT_ATTACH_TITLE, title.bytesize, title, title.sum].pack('CVVa*v')
+
+      files = described_class.files(header + codepage + rend_data + title_attribute + file_data)
+
+      expect(files.map(&:name)).to eq(['résumé.pdf'])
+    end
+
     it 'ignores attachment data that has no attachment to belong to' do
       expect(described_class.files(header + file_data)).to be_empty
+    end
+
+    it 'raises when the stream holds too many attachment records' do
+      records = rend_data * (described_class::MAX_ATTACHMENTS + 1)
+
+      expect { described_class.files(header + records) }
+        .to raise_error(described_class::Error, "more than #{described_class::MAX_ATTACHMENTS} attachments")
     end
 
     it 'raises when the data is not a TNEF stream' do
