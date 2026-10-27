@@ -38,13 +38,21 @@ class Whatsapp::IncomingMessageBaseService
     return if find_message_by_source_id(messages_data.first[:id])
     return unless lock_message_source_id!
 
-    set_contact
-    return unless @contact
-    return if @contact.blocked? && !outgoing_echo
+    begin
+      set_contact
+      unless @contact
+        release_message_source_id!
+        return
+      end
+      return if @contact.blocked? && !outgoing_echo
 
-    ActiveRecord::Base.transaction do
-      set_conversation
-      create_messages
+      ActiveRecord::Base.transaction do
+        set_conversation
+        create_messages
+      end
+    rescue StandardError
+      release_message_source_id!
+      raise
     end
   end
 
