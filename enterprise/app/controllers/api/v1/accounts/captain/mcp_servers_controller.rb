@@ -32,7 +32,7 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
   end
 
   def update
-    @mcp_server.assign_attributes(server_params.except(:url, :auth_type))
+    @mcp_server.assign_attributes(update_params)
     @mcp_server.tools = approved_tools if params[:mcp_server].key?(:tools)
     @mcp_server.save!
   end
@@ -75,6 +75,12 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
 
   def server_params
     params.require(:mcp_server).permit(:url, :name, :auth_type, :auth_header, :enabled, auth_config: [:token])
+  end
+
+  # The API never returns the token, so an edit without a new token keeps the stored one
+  def update_params
+    attributes = server_params.except(:url, :auth_type)
+    attributes[:auth_config].to_h['token'].blank? ? attributes.except(:auth_config) : attributes
   end
 
   # A tool that is already approved keeps its approved definition, so editing its parameters never approves a change

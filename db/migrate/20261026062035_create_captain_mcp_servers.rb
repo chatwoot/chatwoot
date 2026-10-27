@@ -8,6 +8,7 @@ class CreateCaptainMcpServers < ActiveRecord::Migration[7.2]
       t.string :auth_type, null: false, default: 'none'
       t.string :auth_header
       t.jsonb :auth_config, default: {}
+      t.jsonb :oauth_credentials, default: {}
       t.jsonb :tools, null: false, default: []
       t.string :status, null: false, default: 'active'
       t.text :last_error
