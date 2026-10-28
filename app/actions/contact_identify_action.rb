@@ -41,6 +41,7 @@ class ContactIdentifyAction
 
   def merge_if_existing_phone_number_contact
     return unless merge_contacts?(existing_phone_number_contact, :phone_number)
+    return unless mergable_phone_contact?
 
     process_contact_merge(existing_phone_number_contact)
   end
@@ -71,12 +72,30 @@ class ContactIdentifyAction
   def merge_contacts?(existing_contact, key)
     return if existing_contact.blank?
 
-    return true if existing_contact.id == @contact.id || key == :identifier
+    return true if existing_contact.id == @contact.id
 
-    # Visitor-supplied email and phone numbers do not prove ownership of another
-    # contact. Keep the current identity and avoid assigning a duplicate value.
+    if existing_contact.identifier.present?
+      return true if existing_contact.identifier == params[:identifier].to_s
+    elsif !existing_contact.verified_contact_inboxes?
+      return true
+    end
+
+    # Email and phone matches cannot claim an identified or verified contact.
     @attributes_to_update.delete(key)
     false
+  end
+
+  # case: contact 1: email: 1@test.com, phone: 123456789
+  # params: email: 2@test.com, phone: 123456789
+  # we don't want to overwrite 1@test.com since email parameter takes higer priority
+  def mergable_phone_contact?
+    return true if params[:email].blank?
+
+    if existing_phone_number_contact.email.present? && existing_phone_number_contact.email != params[:email]
+      @attributes_to_update.delete(:phone_number)
+      return false
+    end
+    true
   end
 
   def update_contact
@@ -86,6 +105,7 @@ class ContactIdentifyAction
     # blank identifier or email will throw unique index error
     # TODO: replace reject { |_k, v| v.blank? } with compact_blank when rails is upgraded
     @contact.discard_invalid_attrs if discard_invalid_attrs
+    @contact.reset_hmac_verification! if @contact.will_save_change_to_identifier?
     @contact.save! if @contact.changed?
     enqueue_avatar_job
   end
@@ -100,6 +120,7 @@ class ContactIdentifyAction
   def merge_contact(base_contact, merge_contact)
     return base_contact if base_contact.id == merge_contact.id
 
+    merge_contact.reset_hmac_verification!
     ContactMergeAction.new(
       account: account,
       base_contact: base_contact,

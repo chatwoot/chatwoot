@@ -29,9 +29,9 @@ describe ContactIdentifyAction do
     end
 
     it 'merge deeply nested additional attributes' do
-      create(:contact, account: account, identifier: 'existing-id', email: 'test@test.com',
+      create(:contact, account: account, identifier: '', email: 'test@test.com',
                        additional_attributes: { location: 'Bengaulru', company_name: 'Meta', social_profiles: { linkedin: 'saras' } })
-      params = { identifier: 'existing-id', email: 'test@test.com', additional_attributes: { social_profiles: { twitter: 'saras' } } }
+      params = { email: 'test@test.com', additional_attributes: { social_profiles: { twitter: 'saras' } } }
       result = described_class.new(contact: contact, params: params).perform
       expect(result.additional_attributes['social_profiles']).to eq({ 'linkedin' => 'saras', 'twitter' => 'saras' })
     end
@@ -59,14 +59,13 @@ describe ContactIdentifyAction do
     end
 
     context 'when contact with same email exists' do
-      it 'does not merge contacts based only on an email address' do
+      it 'merges the current contact to email contact' do
         existing_email_contact = create(:contact, account: account, email: 'test@test.com', name: 'old name')
         params = { name: 'new name', email: 'test@test.com' }
         result = described_class.new(contact: contact, params: params).perform
-        expect(result.id).to eq contact.id
+        expect(result.id).to eq existing_email_contact.id
         expect(result.name).to eq 'new name'
-        expect(result.email).to be_nil
-        expect(existing_email_contact.reload.name).to eq 'old name'
+        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it 'will not merge the current contact to email contact if identifier of email contact is different' do
@@ -77,25 +76,16 @@ describe ContactIdentifyAction do
         expect(result.identifier).to eq params[:identifier]
         expect(result.email).to be_nil
       end
-
-      it 'does not merge into an identified contact when the identifier is omitted' do
-        existing_contact = create(:contact, account: account, identifier: 'victim', email: 'victim@test.com', name: 'Victim')
-        result = described_class.new(contact: contact, params: { email: existing_contact.email, name: 'Attacker' }).perform
-
-        expect(result.id).to eq contact.id
-        expect(result.email).to be_nil
-        expect(existing_contact.reload.name).to eq 'Victim'
-      end
     end
 
     context 'when contact with same phone_number exists' do
-      it 'does not merge contacts based only on a phone number' do
+      it 'merges the current contact to phone_number contact' do
         existing_phone_number_contact = create(:contact, account: account, phone_number: '+919999888877')
         params = { phone_number: '+919999888877' }
         result = described_class.new(contact: contact, params: params).perform
-        expect(result.id).to eq contact.id
-        expect(result.phone_number).to be_nil
-        expect(existing_phone_number_contact.reload.phone_number).to eq '+919999888877'
+        expect(result.id).to eq existing_phone_number_contact.id
+        expect(result.name).to eq existing_phone_number_contact.name
+        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it 'will not merge the current contact to phone contact if identifier of phone contact is different' do
@@ -129,25 +119,12 @@ describe ContactIdentifyAction do
 
     context 'when retain_original_contact_name is set to true' do
       it 'will not update the name of the existing contact' do
-        existing_email_contact = create(:contact, account: account, identifier: 'existing-id', name: 'old name', email: 'test@test.com')
-        params = { identifier: 'existing-id', email: 'test@test.com', name: 'new name' }
+        existing_email_contact = create(:contact, account: account, name: 'old name', email: 'test@test.com')
+        params = { email: 'test@test.com', name: 'new name' }
         result = described_class.new(contact: contact, params: params, retain_original_contact_name: true).perform
         expect(result.id).to eq existing_email_contact.id
         expect(result.name).to eq 'old name'
         expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
-
-    context 'when an identified contact updates its own profile without an identifier' do
-      it 'keeps its email and phone number while updating other attributes' do
-        contact.update!(identifier: 'own-id', email: 'own@test.com', phone_number: '+919999888877')
-        params = { email: contact.email, phone_number: contact.phone_number, name: 'Updated' }
-        result = described_class.new(contact: contact, params: params).perform
-
-        expect(result.id).to eq contact.id
-        expect(result.email).to eq 'own@test.com'
-        expect(result.phone_number).to eq '+919999888877'
-        expect(result.name).to eq 'Updated'
       end
     end
 
@@ -192,6 +169,56 @@ describe ContactIdentifyAction do
 
         expect(Avatar::AvatarFromUrlJob).to receive(:perform_later).with(contact, params[:avatar_url]).once
         described_class.new(contact: contact, params: params).perform
+      end
+    end
+
+    context 'when resolving a verified identity' do
+      [:email, :phone_number].each do |key|
+        it "does not merge into an identified contact through #{key} without its identifier" do
+          target = create(:contact, account: account, identifier: 'target-id', email: 'target@test.com', phone_number: '+14155550123')
+          result = described_class.new(contact: contact, params: { key => target.public_send(key) }).perform
+
+          expect(result.id).to eq(contact.id)
+          expect(result.public_send(key)).to be_nil
+          expect(target.reload.identifier).to eq('target-id')
+        end
+      end
+
+      it 'does not merge into a contact with a verified session and no identifier' do
+        target = create(:contact, account: account, email: 'target@test.com')
+        create(:contact_inbox, contact: target, hmac_verified: true)
+        result = described_class.new(contact: contact, params: { email: target.email }).perform
+
+        expect(result.id).to eq(contact.id)
+        expect(result.email).to be_nil
+      end
+
+      it 'clears verification on every moved session while preserving anonymous contact matching' do
+        target = create(:contact, account: account, email: 'target@test.com')
+        sessions = create_list(:contact_inbox, 2, contact: contact, hmac_verified: true)
+        result = described_class.new(contact: contact, params: { email: target.email }).perform
+
+        expect(result.id).to eq(target.id)
+        expect(ContactInbox.where(id: sessions.map(&:id)).pluck(:contact_id)).to eq([target.id, target.id])
+        expect(ContactInbox.where(id: sessions.map(&:id)).pluck(:hmac_verified)).to eq([false, false])
+      end
+
+      it 'clears verification when the contact identifier changes in place' do
+        session = create(:contact_inbox, contact: contact, hmac_verified: true)
+        described_class.new(contact: contact, params: { identifier: 'new-id' }).perform
+
+        expect(contact.reload.identifier).to eq('new-id')
+        expect(session.reload).not_to be_hmac_verified
+      end
+
+      it 'keeps verification for an update to the same identified contact' do
+        contact.update!(identifier: 'own-id', email: 'own@test.com')
+        session = create(:contact_inbox, contact: contact, hmac_verified: true)
+        result = described_class.new(contact: contact, params: { email: contact.email, name: 'Updated' }).perform
+
+        expect(result.id).to eq(contact.id)
+        expect(result.name).to eq('Updated')
+        expect(session.reload).to be_hmac_verified
       end
     end
   end

@@ -303,6 +303,102 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
     end
+
+    context 'with a numeric identifier' do
+      let(:params) { { website_token: web_widget.website_token, identifier: 123 } }
+
+      it 'verifies a first-time sign-in using the stored identifier representation' do
+        patch '/api/v1/widget/contact/set_user',
+              params: params.merge(identifier_hash: correct_identifier_hash),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.identifier).to eq('123')
+        expect(contact_inbox.reload).to be_hmac_verified
+      end
+
+      it 'restores an existing identified contact using the numeric identifier' do
+        target = create(:contact, account: account, identifier: '123')
+        patch '/api/v1/widget/contact/set_user',
+              params: params.merge(identifier_hash: correct_identifier_hash),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact_inbox.reload.contact_id).to eq(target.id)
+        expect(contact_inbox).to be_hmac_verified
+      end
+    end
+
+    context 'when a verified user changes identity' do
+      let!(:target) { create(:contact, account: account, identifier: params[:identifier], email: 'target@test.com') }
+      let!(:target_session) { create(:contact_inbox, contact: target, inbox: web_widget.inbox, hmac_verified: true) }
+      let!(:target_conversation) do
+        create(:conversation, account: account, inbox: web_widget.inbox, contact: target, contact_inbox: target_session)
+      end
+      let!(:target_message) do
+        create(:message, account: account, inbox: web_widget.inbox, conversation: target_conversation, content: 'Target history')
+      end
+      let!(:original_message) do
+        original_conversation = create(:conversation, account: account, inbox: web_widget.inbox, contact: contact, contact_inbox: contact_inbox)
+        create(:message, account: account, inbox: web_widget.inbox, conversation: original_conversation, content: 'Original history')
+      end
+
+      before do
+        contact.update!(identifier: 'original-id')
+        contact_inbox.update!(hmac_verified: true)
+      end
+
+      it 'uses a fresh session for a signed identifier change through the update endpoint' do
+        patch '/api/v1/widget/contact',
+              params: params.merge(identifier_hash: correct_identifier_hash),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        new_token = response.parsed_body['widget_auth_token']
+        expect(new_token).to be_present
+        expect(contact_inbox.reload.contact_id).to eq(contact.id)
+        expect(target.reload.identifier).to eq(params[:identifier])
+
+        get '/api/v1/widget/messages', params: { website_token: web_widget.website_token }, headers: { 'X-Auth-Token' => new_token }, as: :json
+
+        expect(response.parsed_body['payload'].pluck('id')).to include(target_message.id)
+        expect(response.parsed_body['payload'].pluck('id')).not_to include(original_message.id)
+      end
+
+      it 'does not carry verification into an unsigned identifier change on an optional-hmac inbox' do
+        web_widget.update!(hmac_mandatory: false)
+        patch '/api/v1/widget/contact', params: params, headers: { 'X-Auth-Token' => token }, as: :json
+
+        expect(response).to have_http_status(:success)
+        new_token = response.parsed_body['widget_auth_token']
+        new_source_id = Widget::TokenService.new(token: new_token).decode_token[:source_id]
+        expect(web_widget.inbox.contact_inboxes.find_by!(source_id: new_source_id)).not_to be_hmac_verified
+        expect(contact_inbox.reload.contact_id).to eq(contact.id)
+
+        get '/api/v1/widget/messages', params: { website_token: web_widget.website_token }, headers: { 'X-Auth-Token' => new_token }, as: :json
+
+        expect(response.parsed_body['payload']).to be_empty
+      end
+    end
+
+    context 'when signing in from an anonymous session' do
+      it 'verifies only the current session after merging into an existing identified contact' do
+        target = create(:contact, account: account, identifier: params[:identifier])
+        other_session = create(:contact_inbox, contact: contact, inbox: web_widget.inbox, hmac_verified: true)
+        patch '/api/v1/widget/contact/set_user',
+              params: params.merge(identifier_hash: correct_identifier_hash),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact_inbox.reload.contact_id).to eq(target.id)
+        expect(contact_inbox).to be_hmac_verified
+        expect(other_session.reload).not_to be_hmac_verified
+      end
+    end
   end
 
   describe 'POST /api/v1/widget/destroy_custom_attributes' do

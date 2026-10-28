@@ -7,6 +7,8 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   def show; end
 
   def update
+    return set_user if permitted_params[:identifier].present?
+
     identify_contact(@contact)
   end
 
@@ -20,9 +22,8 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
       contact = @contact
     end
 
-    @contact_inbox.update(hmac_verified: true) if should_verify_hmac?
-
     identify_contact(contact)
+    render :set_user
   end
 
   # TODO : clean up this with proper routes delete contacts/custom_attributes
@@ -41,10 +42,12 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
       discard_invalid_attrs: true
     )
     @contact = contact_identify_action.perform
+    @contact_inbox.reload
+    @contact_inbox.update!(hmac_verified: true) if @verified_identifier.present? && @contact.identifier == @verified_identifier
   end
 
   def a_different_contact?
-    @contact.identifier.present? && @contact.identifier != permitted_params[:identifier]
+    (@contact.identifier.present? || @contact_inbox.hmac_verified?) && @contact.identifier != permitted_params[:identifier].to_s
   end
 
   # The plain update endpoint is also used for anonymous prechat updates
@@ -60,7 +63,11 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   def validate_hmac
     return unless should_verify_hmac?
 
-    render json: { error: 'HMAC failed: Invalid Identifier Hash Provided' }, status: :unauthorized unless valid_hmac?
+    if valid_hmac?
+      @verified_identifier = params[:identifier].to_s
+    else
+      render json: { error: 'HMAC failed: Invalid Identifier Hash Provided' }, status: :unauthorized
+    end
   end
 
   def should_verify_hmac?
@@ -73,6 +80,8 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   end
 
   def valid_hmac?
+    return false if params[:identifier].blank?
+
     expected_hash = OpenSSL::HMAC.hexdigest(
       'sha256',
       @web_widget.hmac_token,
