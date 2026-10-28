@@ -171,9 +171,9 @@ onMounted(() => {
           @save-slug="slug => emit('saveSlug', slug)"
           @preview-article="emit('previewArticle')"
         />
-        <div class="flex justify-between w-full gap-4 py-2">
+        <div class="flex items-center w-full gap-3 py-2">
           <label
-            class="text-sm font-medium whitespace-nowrap min-w-[7.5rem] text-n-slate-12"
+            class="mb-0.5 text-sm font-medium whitespace-nowrap min-w-[7.5rem] text-n-slate-12"
           >
             {{
               t(
@@ -202,7 +202,7 @@ onMounted(() => {
               )
             "
             use-api-results
-            class="w-[14rem] [&>div>div_ul]:max-h-56"
+            class="flex-1 [&>div>button]:!h-6 [&>div>button]:!px-0 [&>div>button]:!py-0 [&>div>button:not(.focused)]:!outline-transparent [&>div>div_ul]:max-h-56"
             @open="fetchArticles('')"
             @search="handleArticleSearch"
             @update:model-value="handleAssociationChange"
