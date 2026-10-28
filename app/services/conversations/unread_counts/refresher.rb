@@ -111,12 +111,14 @@ class Conversations::UnreadCounts::Refresher
   end
 
   def current_status_and_last_seen
-    @current_status_and_last_seen ||= begin
-      if conversation.try(:id).present?
-        Conversation.where(id: conversation.id).pick(:status, :agent_last_seen_at) || [conversation.status, conversation.agent_last_seen_at]
-      else
-        [conversation.status, conversation.agent_last_seen_at]
-      end
+    @current_status_and_last_seen ||= fetch_current_status_and_last_seen
+  end
+
+  def fetch_current_status_and_last_seen
+    if conversation.try(:id).present?
+      Conversation.where(id: conversation.id).pick(:status, :agent_last_seen_at) || [conversation.status, conversation.agent_last_seen_at]
+    else
+      [conversation.status, conversation.agent_last_seen_at]
     end
   end
 
