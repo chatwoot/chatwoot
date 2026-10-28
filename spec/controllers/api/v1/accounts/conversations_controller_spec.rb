@@ -1109,7 +1109,7 @@ RSpec.describe 'Conversations API', type: :request do
 
         allow(Conversations::UnreadCounts::Notifier).to receive(:new).with(conversation).and_return(notifier)
         allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).with(account).and_return(invalidator)
-        expect(notifier).to receive(:perform).and_return(true)
+        expect(notifier).to receive(:perform).with(reconcile_only: true).and_return(true)
         expect(invalidator).to receive(:conversation_changed!).and_return(true)
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",

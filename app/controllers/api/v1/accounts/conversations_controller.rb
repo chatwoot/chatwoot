@@ -164,7 +164,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def reconcile_unread_counts_if_needed
-    reconciled = ::Conversations::UnreadCounts::Notifier.new(@conversation).perform
+    reconciled = ::Conversations::UnreadCounts::Notifier.new(@conversation).perform(reconcile_only: true)
     ::Conversations::UnreadCounts::FilteredCountInvalidator.new(Current.account).conversation_changed! if reconciled
   end
 
