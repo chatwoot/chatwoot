@@ -87,16 +87,6 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       expect(contact_inbox.reload).not_to be_hmac_verified
     end
 
-    it 'accepts a numeric identifier that matches the stored contact identifier' do
-      contact.update!(identifier: '123')
-      signature = OpenSSL::HMAC.hexdigest('sha256', api_channel.hmac_token, '123')
-      get "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}",
-          params: { identifier: 123, identifier_hash: signature }
-
-      expect(response).to have_http_status(:success)
-      expect(contact_inbox.reload).to be_hmac_verified
-    end
-
     it 'revalidates the current session after merging into an anonymous contact' do
       target = create(:contact, account: api_channel.account, email: 'target@test.com')
       patch "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}",

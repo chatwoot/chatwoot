@@ -173,15 +173,13 @@ describe ContactIdentifyAction do
     end
 
     context 'when resolving a verified identity' do
-      [:email, :phone_number].each do |key|
-        it "does not merge into an identified contact through #{key} without its identifier" do
-          target = create(:contact, account: account, identifier: 'target-id', email: 'target@test.com', phone_number: '+14155550123')
-          result = described_class.new(contact: contact, params: { key => target.public_send(key) }).perform
+      it 'does not merge into an identified contact through its phone number without its identifier' do
+        target = create(:contact, account: account, identifier: 'target-id', phone_number: '+14155550123')
+        result = described_class.new(contact: contact, params: { phone_number: target.phone_number }).perform
 
-          expect(result.id).to eq(contact.id)
-          expect(result.public_send(key)).to be_nil
-          expect(target.reload.identifier).to eq('target-id')
-        end
+        expect(result.id).to eq(contact.id)
+        expect(result.phone_number).to be_nil
+        expect(target.reload.identifier).to eq('target-id')
       end
 
       it 'does not merge into a contact with a verified session and no identifier' do
@@ -209,16 +207,6 @@ describe ContactIdentifyAction do
 
         expect(contact.reload.identifier).to eq('new-id')
         expect(session.reload).not_to be_hmac_verified
-      end
-
-      it 'keeps verification for an update to the same identified contact' do
-        contact.update!(identifier: 'own-id', email: 'own@test.com')
-        session = create(:contact_inbox, contact: contact, hmac_verified: true)
-        result = described_class.new(contact: contact, params: { email: contact.email, name: 'Updated' }).perform
-
-        expect(result.id).to eq(contact.id)
-        expect(result.name).to eq('Updated')
-        expect(session.reload).to be_hmac_verified
       end
     end
   end

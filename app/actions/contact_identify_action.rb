@@ -74,12 +74,16 @@ class ContactIdentifyAction
 
     return true if existing_contact.id == @contact.id
 
-    return true if existing_contact.identifier.present? && existing_contact.identifier == params[:identifier].to_s
     return true if existing_contact.identifier.blank? && !existing_contact.verified_contact_inboxes?
 
-    # Email and phone matches cannot claim an identified or verified contact.
-    @attributes_to_update.delete(key)
-    false
+    # we want to prevent merging contacts with different identifiers
+    if existing_contact.identifier.blank? || existing_contact.identifier != params[:identifier].to_s
+      # we will remove attribute from update list
+      @attributes_to_update.delete(key)
+      return false
+    end
+
+    true
   end
 
   # case: contact 1: email: 1@test.com, phone: 123456789
