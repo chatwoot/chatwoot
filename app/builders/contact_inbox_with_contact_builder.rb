@@ -65,9 +65,11 @@ class ContactInboxWithContactBuilder
   end
 
   def find_contact
+    # Email isn't unique per account once phone numbers differ (see ContactEmailIdentity), so an
+    # exact phone match wins, and the email fallback skips contacts with a conflicting phone.
     contact = find_contact_by_identifier(contact_attributes[:identifier])
-    contact ||= find_contact_by_email(contact_attributes[:email])
     contact ||= find_contact_by_phone_numbers
+    contact ||= find_contact_by_email(contact_attributes[:email])
     contact ||= find_contact_by_instagram_source_id(source_id) if instagram_channel?
 
     contact
@@ -104,7 +106,7 @@ class ContactInboxWithContactBuilder
   def find_contact_by_email(email)
     return if email.blank?
 
-    account.contacts.from_email(email)
+    account.contacts.from_email_and_phone_number(email, contact_attributes[:phone_number])
   end
 
   def find_contact_by_phone_numbers

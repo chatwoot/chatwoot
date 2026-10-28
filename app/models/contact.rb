@@ -35,7 +35,8 @@
 #  index_contacts_on_nonempty_fields                     (account_id,email,phone_number,identifier) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
 #  index_contacts_on_phone_number_and_account_id         (phone_number,account_id)
 #  index_resolved_contact_account_id                     (account_id) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
-#  uniq_email_per_account_contact                        (email,account_id) UNIQUE
+#  uniq_email_per_account_contact_without_phone          (account_id,email) UNIQUE WHERE ((phone_number IS NULL) OR ((phone_number)::text = ''::text))
+#  uniq_email_phone_per_account_contact                  (account_id,email,phone_number) UNIQUE WHERE (((phone_number)::text IS NOT NULL) AND ((phone_number)::text <> ''::text))
 #  uniq_identifier_per_account_contact                   (identifier,account_id) UNIQUE
 #
 
@@ -46,14 +47,16 @@ class Contact < ApplicationRecord
   include AvailabilityStatusable
   include Labelable
   include LlmFormattable
+  include ContactEmailIdentity
+
+  PHONE_NUMBER_FORMAT = /\A\+[1-9]\d{1,14}\z/
 
   validates :account_id, presence: true
-  validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
-                    format: { with: Devise.email_regexp, message: I18n.t('errors.contacts.email.invalid') }
+  validates :email, allow_blank: true, format: { with: Devise.email_regexp, message: I18n.t('errors.contacts.email.invalid') }
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
-            format: { with: /\A\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
+            format: { with: PHONE_NUMBER_FORMAT, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   belongs_to :account
   has_many :conversations, dependent: :destroy_async
@@ -199,7 +202,7 @@ class Contact < ApplicationRecord
   def phone_number_format
     return if phone_number.blank?
 
-    self.phone_number = phone_number_was unless phone_number.match?(/\A\+[1-9]\d{1,14}\z/)
+    self.phone_number = phone_number_was unless phone_number.match?(PHONE_NUMBER_FORMAT)
   end
 
   def email_format

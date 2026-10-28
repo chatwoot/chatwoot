@@ -76,6 +76,95 @@ describe ContactIdentifyAction do
         expect(result.identifier).to eq params[:identifier]
         expect(result.email).to be_nil
       end
+
+      it 'retains the submitted email and phone number when phone numbers differ, even if identifiers differ too' do
+        existing_email_contact = create(:contact, account: account, identifier: '1', email: 'shared@test.com', phone_number: '+10000000001')
+        params = { identifier: '2', email: 'shared@test.com', phone_number: '+10000000002' }
+        result = described_class.new(contact: contact, params: params).perform
+        expect(result.id).not_to eq existing_email_contact.id
+        expect(result.identifier).to eq '2'
+        expect(result.email).to eq 'shared@test.com'
+        expect(result.phone_number).to eq '+10000000002'
+      end
+
+      it 'does not merge into a different contact sharing the email when the current contact already has a different phone number on file' do
+        contact.update!(phone_number: '+10000000001')
+        existing_email_contact = create(:contact, account: account, email: 'shared@test.com', phone_number: '+10000000002')
+        params = { email: 'shared@test.com', name: 'new name' }
+        result = described_class.new(contact: contact, params: params, retain_original_contact_name: true).perform
+        expect(result.id).to eq contact.id
+        expect(result.id).not_to eq existing_email_contact.id
+        expect(result.email).to eq 'shared@test.com'
+        expect(result.phone_number).to eq '+10000000001'
+      end
+
+      it 'merges into the email contact when the submitted phone number already belongs to a contact with another email' do
+        existing_email_contact = create(:contact, account: account, email: 'shared@test.com', phone_number: '+10000000001')
+        phone_contact = create(:contact, account: account, email: 'other@test.com', phone_number: '+10000000002')
+        params = { name: 'new name', email: 'shared@test.com', phone_number: '+10000000002' }
+        result = described_class.new(contact: contact, params: params, retain_original_contact_name: true, discard_invalid_attrs: true).perform
+        expect(result.id).to eq existing_email_contact.id
+        expect(result.phone_number).to eq '+10000000001'
+        expect(phone_contact.reload.email).to eq 'other@test.com'
+      end
+
+      it 'does not fail when the submitted email and phone belong to an identified contact sharing that email' do
+        email_contact = create(:contact, account: account, email: 'shared@test.com', phone_number: '+10000000001')
+        identified = create(:contact, account: account, identifier: 'b', email: 'shared@test.com', phone_number: '+10000000002')
+        params = { name: 'new name', email: 'shared@test.com', phone_number: '+10000000002' }
+        result = described_class.new(contact: contact, params: params, retain_original_contact_name: true, discard_invalid_attrs: true).perform
+        expect(result.id).to eq contact.id
+        expect(result.email).to be_nil
+        expect(identified.reload).to have_attributes(email: 'shared@test.com', phone_number: '+10000000002')
+        expect(email_contact.reload.phone_number).to eq '+10000000001'
+      end
+
+      it 'merges into the email contact when the submitted phone belongs to an identified contact without that email' do
+        email_contact = create(:contact, account: account, email: 'shared@test.com', phone_number: '+10000000001')
+        create(:contact, account: account, identifier: 'b', phone_number: '+10000000002')
+        params = { name: 'new name', email: 'shared@test.com', phone_number: '+10000000002' }
+        result = described_class.new(contact: contact, params: params, retain_original_contact_name: true, discard_invalid_attrs: true).perform
+        expect(result.id).to eq email_contact.id
+        expect(result.phone_number).to eq '+10000000001'
+      end
+
+      it 'merges into the email contact when the submitted phone is malformed and gets discarded' do
+        email_contact = create(:contact, account: account, email: 'shared@test.com', phone_number: '+10000000001')
+        params = { name: 'new name', email: 'shared@test.com', phone_number: 'not a phone' }
+        result = described_class.new(contact: contact, params: params, retain_original_contact_name: true, discard_invalid_attrs: true).perform
+        expect(result.id).to eq email_contact.id
+        expect(result.phone_number).to eq '+10000000001'
+      end
+
+      it 'still merges when the email contact has no phone number on file' do
+        existing_email_contact = create(:contact, account: account, email: 'shared@test.com', name: 'old name')
+        params = { name: 'new name', email: 'shared@test.com', phone_number: '+12312312321' }
+        result = described_class.new(contact: contact, params: params).perform
+        expect(result.id).to eq existing_email_contact.id
+        expect(result.phone_number).to eq '+12312312321'
+        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+
+      it 'still merges when neither contact provides a phone number' do
+        existing_email_contact = create(:contact, account: account, email: 'shared@test.com', name: 'old name')
+        params = { name: 'new name', email: 'shared@test.com' }
+        result = described_class.new(contact: contact, params: params).perform
+        expect(result.id).to eq existing_email_contact.id
+        expect(result.name).to eq 'new name'
+      end
+
+      it 'keeps them as separate contacts when a different, non-blank phone number is submitted for the shared email' do
+        existing_email_contact = create(:contact, account: account, email: 'shared@test.com', name: 'Alice', phone_number: '+12312312321')
+        params = { name: 'Bob', email: 'shared@test.com', phone_number: '+19999999999' }
+        result = described_class.new(contact: contact, params: params, retain_original_contact_name: true, discard_invalid_attrs: true).perform
+
+        expect(result.id).to eq contact.id
+        expect(result.id).not_to eq existing_email_contact.id
+        expect(result.name).to eq 'Bob'
+        expect(result.email).to eq 'shared@test.com'
+        expect(result.phone_number).to eq '+19999999999'
+        expect(existing_email_contact.reload.phone_number).to eq '+12312312321'
+      end
     end
 
     context 'when contact with same phone_number exists' do

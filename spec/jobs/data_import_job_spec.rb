@@ -57,12 +57,13 @@ RSpec.describe DataImportJob do
 
     context 'when the data contains errors' do
       it 'imports erroneous data into the account, skipping invalid records' do
-        # Last record is invalid because of duplicate email
+        # Last record is invalid because of a duplicate email with the same phone number
+        # as the first record (a differing phone number would now make it a separate contact)
         invalid_data = [
           %w[id first_name last_name email phone_number],
           ['1', 'Clarice', 'Uzzell', 'cuzzell0@mozilla.org', '+918484848484'],
           ['2', 'Marieann', 'Creegan', 'mcreegan1@cornell.edu', '+918484848485'],
-          ['3', 'Nancey', 'Windibank', 'cuzzell0@mozilla.org', '+91848484848']
+          ['3', 'Nancey', 'Windibank', 'cuzzell0@mozilla.org', '+918484848484']
         ]
 
         invalid_data_import = create(:data_import, import_file: generate_csv_file(invalid_data))
@@ -73,6 +74,17 @@ RSpec.describe DataImportJob do
         expect(invalid_data_import.account.contacts.count).to eq(csv_length - 1)
         expect(invalid_data_import.reload.total_records).to eq(csv_length)
         expect(invalid_data_import.reload.processed_records).to eq(csv_length)
+      end
+
+      it 'creates a separate contact instead of overwriting the phone of an existing contact with the same email' do
+        csv = generate_csv_file([%w[email phone_number], ['cuzzell0@mozilla.org', '+918484848485']])
+        import = create(:data_import, import_file: csv)
+        existing = create(:contact, account: import.account, email: 'cuzzell0@mozilla.org', phone_number: '+918484848484')
+
+        described_class.perform_now(import)
+
+        expect(import.account.contacts.where(email: 'cuzzell0@mozilla.org').count).to eq 2
+        expect(existing.reload.phone_number).to eq '+918484848484'
       end
 
       it 'will preserve emojis' do
