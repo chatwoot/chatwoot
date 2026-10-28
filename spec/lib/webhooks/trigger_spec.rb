@@ -93,6 +93,16 @@ describe Webhooks::Trigger do
       expect(message.reload.status).to eq('read')
     end
 
+    it 'updates message status to failed when message has legacy nil status' do
+      message.update_column(:status, nil)
+      payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
+
+      expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('500 Internal Server Error'))
+
+      expect { trigger.execute(url, payload, webhook_type) }.to change { message.reload.status }.from(nil).to('failed')
+      expect(message.reload.external_error).to eq('500 Internal Server Error')
+    end
+
     it 'treats blocked private webhook URLs as failures' do
       payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
 

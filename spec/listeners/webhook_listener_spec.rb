@@ -152,11 +152,32 @@ describe WebhookListener do
           Time.zone.now,
           message: message,
           previous_changes: {
-            'external_error' => ['502 Bad Gateway', '504 Gateway Timeout'],
+            'content_attributes' => [
+              { 'external_error' => '502 Bad Gateway' },
+              { 'external_error' => '504 Gateway Timeout' }
+            ],
             'updated_at' => [Time.zone.now, Time.zone.now]
           }
         )
         expect(WebhookJob).not_to receive(:perform_later)
+        listener.message_updated(event)
+      end
+
+      it 'triggers webhook event when other content_attributes change' do
+        webhook = create(:webhook, inbox: inbox, account: account)
+        event = Events::Base.new(
+          event_name,
+          Time.zone.now,
+          message: message,
+          previous_changes: {
+            'content_attributes' => [
+              { 'external_error' => '502 Bad Gateway', 'translations' => nil },
+              { 'external_error' => '502 Bad Gateway', 'translations' => { 'en' => 'hello' } }
+            ],
+            'updated_at' => [Time.zone.now, Time.zone.now]
+          }
+        )
+        expect(WebhookJob).to receive(:perform_later).once
         listener.message_updated(event)
       end
     end
@@ -172,7 +193,10 @@ describe WebhookListener do
           Time.zone.now,
           message: api_message,
           previous_changes: {
-            'external_error' => ['502 Bad Gateway', '504 Gateway Timeout'],
+            'content_attributes' => [
+              { 'external_error' => '502 Bad Gateway' },
+              { 'external_error' => '504 Gateway Timeout' }
+            ],
             'updated_at' => [Time.zone.now, Time.zone.now]
           }
         )
