@@ -36,6 +36,7 @@ module PortalConfigSchema
       # TODO: unused reserved key; remove with a migration that scrubs it from existing portals' config
       'website_token' => { 'type' => %w[string null] },
       'social_profiles' => { 'type' => %w[object null] },
+      'disable_search_indexing' => { 'type' => %w[boolean null] },
       'locale_translations' => {
         'type' => %w[object null],
         'additionalProperties' => LOCALE_TRANSLATION_SCHEMA

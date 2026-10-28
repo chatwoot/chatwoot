@@ -41,7 +41,7 @@ const isReel = computed(() => {
       </div>
       <video
         controls
-        class="rounded-lg skip-context-menu"
+        class="rounded-lg skip-context-menu max-h-[min(24rem,40vh)] w-auto"
         :src="attachment.dataUrl"
         :class="{
           'max-w-48': isReel,
