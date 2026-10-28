@@ -1,8 +1,7 @@
 class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   include WidgetHelper
 
-  before_action :validate_hmac, only: [:set_user]
-  before_action :validate_hmac_for_identified_update, only: [:update]
+  before_action :validate_hmac, only: [:set_user, :update], if: -> { action_name == 'set_user' || params[:identifier].present? }
 
   def show; end
 
@@ -13,16 +12,8 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   end
 
   def set_user
-    contact = nil
-
-    if a_different_contact?
-      @contact_inbox, @widget_auth_token = build_contact_inbox_with_token(@web_widget)
-      contact = @contact_inbox.contact
-    else
-      contact = @contact
-    end
-
-    identify_contact(contact)
+    @contact_inbox, @widget_auth_token = build_contact_inbox_with_token(@web_widget) if a_different_contact?
+    identify_contact(@contact_inbox.contact)
     render :set_user
   end
 
@@ -50,33 +41,12 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     (@contact.identifier.present? || @contact_inbox.hmac_verified?) && @contact.identifier != permitted_params[:identifier].to_s
   end
 
-  # The plain update endpoint is also used for anonymous prechat updates
-  # (name/email/phone/custom_attributes with no identifier), which must keep
-  # working on hmac_mandatory inboxes. Only the identity-binding path, where an
-  # identifier is supplied and the contact can be rebound, requires HMAC.
-  def validate_hmac_for_identified_update
-    return if params[:identifier].blank?
-
-    validate_hmac
-  end
-
   def validate_hmac
-    return unless should_verify_hmac?
+    return if params[:identifier_hash].blank? && !@web_widget.hmac_mandatory
+    return if params[:custom_attributes].present? && params[:identifier].blank?
+    return render json: { error: 'HMAC failed: Invalid Identifier Hash Provided' }, status: :unauthorized unless valid_hmac?
 
-    if valid_hmac?
-      @verified_identifier = params[:identifier].to_s
-    else
-      render json: { error: 'HMAC failed: Invalid Identifier Hash Provided' }, status: :unauthorized
-    end
-  end
-
-  def should_verify_hmac?
-    return false if params[:identifier_hash].blank? && !@web_widget.hmac_mandatory
-
-    # Taking an extra caution that the hmac is triggered whenever identifier is present
-    return false if params[:custom_attributes].present? && params[:identifier].blank?
-
-    true
+    @verified_identifier = params[:identifier].to_s
   end
 
   def valid_hmac?
