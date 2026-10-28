@@ -13,17 +13,14 @@ class ConversationMonitors::DecisionService
     body = request_body(state, monitors)
     raise CustomExceptions::MonitorEvaluationError, 'context_limit' if body.bytesize > ConversationMonitors::Configuration::MAX_REQUEST_BYTES
 
-    usage = ConversationMonitors::Usage.new(@account_id)
-    usage.reserve!(body.bytesize)
     started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     data = request_decision(body)
-    reconcile_usage(usage, body.bytesize, data.fetch('usage').fetch('input_tokens'))
     instrument(data, started, monitors.size)
     data
   rescue Captain::JevClient::HTTPError => e
-    # Rejected requests do not reach the model, but still consume a monthly call credit.
-    reconcile_usage(usage, body.bytesize, 0) if e.status.between?(400, 499)
     raise monitor_error(e)
+  rescue CustomExceptions::JevQuotaError => e
+    raise CustomExceptions::MonitorEvaluationError.new(e.code, retry_after: e.retry_after)
   rescue JSON::ParserError
     raise CustomExceptions::MonitorEvaluationError, 'invalid_response'
   rescue Faraday::Error
@@ -42,13 +39,6 @@ class ConversationMonitors::DecisionService
   end
 
   private
-
-  def reconcile_usage(usage, reserved, used)
-    usage.reconcile!(reserved, used)
-  rescue Redis::BaseError, ConnectionPool::TimeoutError => e
-    # Keep the successful response without retrying or refunding an uncertain token adjustment.
-    Rails.logger.warn("Conversation monitor token reconciliation failed: account_id=#{@account_id} error=#{e.class.name}")
-  end
 
   def request_body(state, monitors)
     model = self.class.resolve_model(monitors.first.model)

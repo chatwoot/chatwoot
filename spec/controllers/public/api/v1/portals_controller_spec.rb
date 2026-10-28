@@ -25,6 +25,17 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
       expect(response).to have_http_status(:success)
     end
 
+    it 'does not set the session cookie' do
+      previous = ActionController::Base.allow_forgery_protection
+      ActionController::Base.allow_forgery_protection = true
+
+      get "/hc/#{portal.slug}/en"
+
+      expect(response.headers['Set-Cookie'].to_s).not_to include('_chatwoot_session')
+    ensure
+      ActionController::Base.allow_forgery_protection = previous
+    end
+
     it 'Throws unauthorised error for unknown domain' do
       portal.update(custom_domain: 'www.something.com')
 
@@ -81,6 +92,15 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
       expect(response).to have_http_status(:success)
     end
 
+    it 'links the header logo to the current locale' do
+      portal.update!(config: { allowed_locales: %w[en es], default_locale: 'en' })
+
+      get "/hc/#{portal.slug}/es"
+
+      expect(response.body).to include(%(href="/hc/#{portal.slug}/es"))
+      expect(response.body).not_to include(%(href="/hc/#{portal.slug}/en"))
+    end
+
     it 'shows the active drafted locale in the switcher state on direct locale access' do
       portal.update!(config: { allowed_locales: %w[en es fr], draft_locales: ['es'], default_locale: 'en' })
 
@@ -96,7 +116,11 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
       switchers.each do |switcher|
         options = switcher.css('option')
 
-        expect(options.map { |option| option['value'] }).to include('en', 'es', 'fr')
+        expect(options.map { |option| option['value'] }).to include(
+          "/hc/#{portal.slug}/en",
+          'es',
+          "/hc/#{portal.slug}/fr"
+        )
         expect(
           options.any? do |option|
             option['value'] == 'es' && option['selected'].present? && option['disabled'].present?
@@ -214,6 +238,39 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
           match(%r{\Ahttps://www\.example\.com/hc/#{Regexp.escape(portal.slug)}/articles/\d+})
         )
       end
+    end
+  end
+
+  describe 'search engine visibility' do
+    it 'leaves articles hidden from search out of the sitemap' do
+      portal.articles.published.first.update!(meta: { 'noindex' => true })
+
+      get "/hc/#{portal.slug}/sitemap.xml"
+
+      doc = Nokogiri::XML(response.body)
+      doc.remove_namespaces!
+      expect(doc.xpath('//url/loc').length).to eq(2)
+    end
+
+    it 'returns an empty sitemap and a noindex header when the portal is hidden' do
+      portal.update!(config: portal.config.merge('disable_search_indexing' => true))
+
+      get "/hc/#{portal.slug}/sitemap.xml"
+
+      doc = Nokogiri::XML(response.body)
+      doc.remove_namespaces!
+      expect(doc.xpath('//url')).to be_empty
+      expect(response.headers['X-Robots-Tag']).to eq('noindex')
+    end
+
+    it 'sends a noindex header on portal pages only when the portal is hidden' do
+      get "/hc/#{portal.slug}/en"
+      expect(response.headers['X-Robots-Tag']).to be_nil
+
+      portal.update!(config: portal.config.merge('disable_search_indexing' => true))
+
+      get "/hc/#{portal.slug}/en"
+      expect(response.headers['X-Robots-Tag']).to eq('noindex')
     end
   end
 end

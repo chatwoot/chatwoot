@@ -8,6 +8,7 @@ import VideoBubble from 'widget/components/VideoBubble.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
+import { isAutoTranslatedReply } from 'widget/helpers/translations';
 import configMixin from '../mixins/configMixin';
 import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
@@ -139,6 +140,12 @@ export default {
     hasReplyTo() {
       return this.replyTo && (this.replyTo.content || this.replyTo.attachments);
     },
+    isAwaitingTranslation() {
+      return !!this.messageContentAttributes.translation_pending;
+    },
+    isAutoTranslated() {
+      return isAutoTranslatedReply(this.message);
+    },
   },
   watch: {
     message() {
@@ -203,6 +210,8 @@ export default {
               :message-id="message.id"
               :message-type="messageType"
               :message="message.content"
+              :translating="isAwaitingTranslation"
+              :translated="isAutoTranslated"
             />
             <div
               v-if="hasAttachments"

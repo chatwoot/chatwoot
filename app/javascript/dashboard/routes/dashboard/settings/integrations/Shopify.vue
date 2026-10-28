@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import {
   useFunctionGetter,
   useMapGetter,
@@ -7,9 +8,14 @@ import {
 } from 'dashboard/composables/store';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import { useBranding } from 'shared/composables/useBranding';
+import { isShopifyBillingAccount } from 'v3/helpers/AuthHelper';
 import shopifyAPI from 'dashboard/api/integrations/shopify';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import Integration from './Integration.vue';
+import ShopifyCustomApp from './ShopifyCustomApp.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -25,21 +31,34 @@ defineProps({
 });
 
 const store = useStore();
+const { isCloudFeatureEnabled } = useAccount();
+const isCustomAppSetupEnabled = computed(
+  () =>
+    !isCloudFeatureEnabled(FEATURE_FLAGS.SHOPIFY) &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.SHOPIFY_CUSTOM_APPS)
+);
 const integrationLoaded = ref(false);
 const dialogRef = ref(null);
 const storeUrl = ref('');
 const storeUrlError = ref('');
 const isSubmitting = ref(false);
+const route = useRoute();
+const router = useRouter();
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
 const { replaceInstallationName } = useBranding();
 const integration = useFunctionGetter('integrations/getIntegration', 'shopify');
 const uiFlags = useMapGetter('integrations/getUIFlags');
+const currentAccount = useMapGetter('getCurrentAccount');
+const isShopifyBillingManaged = computed(() =>
+  isShopifyBillingAccount(currentAccount.value)
+);
+
 const integrationAction = computed(() => {
   if (integration.value.enabled) {
     return 'disconnect';
   }
-  return 'connect';
+  return integration.value.action;
 });
 
 const hook = computed(() => {
@@ -89,9 +108,34 @@ const connectStore = async () => {
   }
 };
 
+const clearPendingInstallToken = async () => {
+  const query = { ...route.query };
+  delete query.shopify_pending_install;
+  await router.replace({ query });
+};
+
+const completePendingInstall = async token => {
+  try {
+    await shopifyAPI.completeInstall(token);
+    await store.dispatch('integrations/get', 'shopify');
+    useAlert(t('INTEGRATION_SETTINGS.SHOPIFY.PENDING_INSTALL.SUCCESS'));
+    await clearPendingInstallToken();
+  } catch (error) {
+    useAlert(t('INTEGRATION_SETTINGS.SHOPIFY.PENDING_INSTALL.ERROR'));
+    if (error.response?.status === 422) {
+      await clearPendingInstallToken();
+    }
+  }
+};
+
 const initializeShopifyIntegration = async () => {
   await store.dispatch('integrations/get', 'shopify');
   integrationLoaded.value = true;
+
+  const pendingInstallToken = route.query.shopify_pending_install;
+  if (pendingInstallToken) {
+    await completePendingInstall(pendingInstallToken);
+  }
 };
 
 onMounted(() => {
@@ -105,25 +149,31 @@ onMounted(() => {
       <BaseSettingsHeader
         :title="$t('INTEGRATION_SETTINGS.SHOPIFY.HEADER')"
         description=""
-        feature-name="shopify_integration"
+        :feature-name="
+          isCustomAppSetupEnabled
+            ? FEATURE_FLAGS.SHOPIFY_CUSTOM_APPS
+            : FEATURE_FLAGS.SHOPIFY
+        "
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       />
     </template>
     <template #body>
       <div class="flex flex-col gap-6">
         <Integration
+          v-if="!isCustomAppSetupEnabled || integration.enabled"
           :integration-id="integration.id"
           :integration-logo="integration.logo"
           :integration-name="integration.name"
           :integration-description="integration.description"
           :integration-enabled="integration.enabled"
           :integration-action="integrationAction"
+          :hide-enabled-action="isShopifyBillingManaged"
           :delete-confirmation-text="{
             title: t('INTEGRATION_SETTINGS.SHOPIFY.DELETE.TITLE'),
             message: t('INTEGRATION_SETTINGS.SHOPIFY.DELETE.MESSAGE'),
           }"
         >
-          <template #action>
+          <template v-if="!isShopifyBillingManaged" #action>
             <Button
               faded
               blue
@@ -132,6 +182,14 @@ onMounted(() => {
             />
           </template>
         </Integration>
+
+        <ShopifyCustomApp
+          v-if="
+            isCustomAppSetupEnabled &&
+            !isShopifyBillingManaged &&
+            !integration.enabled
+          "
+        />
 
         <Dialog
           ref="dialogRef"

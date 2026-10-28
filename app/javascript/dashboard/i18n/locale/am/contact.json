@@ -29,7 +29,8 @@
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "ከዚህ እውነተኛ ግንኙነት ጋር የተያያዙ ያለፉ ውይይቶች አልተገኙም።.",
-      "TITLE": "የቀድሞ ውይይቶች"
+      "TITLE": "የቀድሞ ውይይቶች",
+      "VIEW_ALL": "View all conversations"
     },
     "LABELS": {
       "CONTACT": {

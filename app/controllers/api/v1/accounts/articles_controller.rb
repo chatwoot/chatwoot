@@ -110,6 +110,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
       :title, :slug, :position, :content, :description, :category_id, :author_id, :associated_article_id, :status,
       :locale, :draft_title, :draft_content, meta: [:title,
                                                     :description,
+                                                    :noindex,
                                                     { tags: [] }]
     )
   end
