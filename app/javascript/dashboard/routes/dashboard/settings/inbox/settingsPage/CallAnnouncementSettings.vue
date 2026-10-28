@@ -13,7 +13,7 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  // The announcement this edits, as the API names it: 'out_of_hours' | 'greeting'
+  // The announcement this edits: 'out_of_hours' | 'greeting' | 'unanswered'
   kind: {
     type: String,
     required: true,
@@ -31,7 +31,7 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  // The saved recording of an announcement Captain records (out of hours); null for text-only ones
+  // The saved recording; an empty string allows generating missing audio
   audioUrl: {
     type: String,
     default: null,
@@ -56,6 +56,7 @@ const isEnabled = ref(props.enabled);
 const draft = ref(props.message);
 const timeout = ref(props.timeoutSeconds);
 const isSaving = ref(false);
+const saveError = ref('');
 const hasTimeout = computed(() => props.timeoutSeconds !== null);
 const isDirty = computed(
   () =>
@@ -101,6 +102,7 @@ watch(
 
 const save = async (nextEnabled = isEnabled.value, useDraft = true) => {
   if (isSaving.value) return;
+  saveError.value = '';
   isSaving.value = true;
   try {
     await store.dispatch('inboxes/updateCallAnnouncement', {
@@ -114,17 +116,19 @@ const save = async (nextEnabled = isEnabled.value, useDraft = true) => {
     });
     useAlert(t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
   } catch (error) {
-    isEnabled.value = props.enabled;
-    useAlert(
-      error?.response?.data?.error || t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
-    );
+    if (!useDraft) isEnabled.value = props.enabled;
+    saveError.value =
+      error?.response?.data?.error || t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE');
+    useAlert(saveError.value);
   } finally {
     isSaving.value = false;
   }
 };
 const toggle = value => {
   isEnabled.value = value;
-  if (value ? !props.message : !props.enabled) return;
+  if (value && (!props.message || (recordsAudio.value && !props.audioUrl)))
+    return;
+  if (!value && !props.enabled) return;
   save(value, false);
 };
 </script>
@@ -140,6 +144,13 @@ const toggle = value => {
       <template v-if="isEnabled" #editor>
         <div class="flex flex-col gap-3" :class="{ 'pt-1': !checkbox }">
           <slot name="notice" />
+          <p
+            v-if="saveError"
+            role="alert"
+            class="text-body-main text-n-ruby-11"
+          >
+            {{ saveError }}
+          </p>
           <TextArea
             :id="`call-announcement-${kind}-${inbox.id}`"
             v-model="draft"
