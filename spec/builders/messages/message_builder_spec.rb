@@ -127,11 +127,28 @@ describe Messages::MessageBuilder do
 
     let(:params) { ActionController::Parameters.new({ content: 'test', client_message_id: '01JD8Z9Q6F7' }) }
 
-    # Rows created here are committed, so they have to be removed again. Installation config
-    # is seeded once per database and the rest of the suite reads it.
+    around do |example|
+      unrelated_account = create(:account)
+      begin
+        example.run
+        # Reload after teardown to detect deletion of another example's fixture.
+        unrelated_account.reload
+      ensure
+        unrelated_account.destroy!
+      end
+    end
+
+    # These rows are committed so both connections can see them. Destroy only this
+    # example's records, including dependent records, while their account still exists.
     after do
-      tables = ActiveRecord::Base.connection.tables - %w[schema_migrations ar_internal_metadata installation_configs]
-      ActiveRecord::Base.connection.execute("TRUNCATE #{tables.join(', ')} CASCADE")
+      perform_enqueued_jobs(only: ActiveRecord::DestroyAssociationAsyncJob) do
+        account.conversations.destroy_all
+        account.contacts.destroy_all
+        account.inboxes.destroy_all
+        account.web_widgets.destroy_all
+        user.destroy!
+        account.destroy!
+      end
     end
 
     it 'creates one message and answers both callers with it' do
