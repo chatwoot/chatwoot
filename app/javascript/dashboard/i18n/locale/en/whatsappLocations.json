@@ -1,0 +1,47 @@
+{
+  "WHATSAPP_LOCATIONS": {
+    "TAB": "Locations",
+    "DESCRIPTION": "Save the places your agents can send to customers in WhatsApp conversations.",
+    "CURRENT_LOCATION": "Current location",
+    "FORM": {
+      "NAME": {
+        "LABEL": "Name",
+        "PLACEHOLDER": "Main store"
+      },
+      "ADDRESS": {
+        "LABEL": "Address",
+        "PLACEHOLDER": "123 Main St, City"
+      },
+      "LATITUDE": {
+        "LABEL": "Latitude",
+        "PLACEHOLDER": "4.710989"
+      },
+      "LONGITUDE": {
+        "LABEL": "Longitude",
+        "PLACEHOLDER": "-74.072092"
+      },
+      "ADD": "Add location",
+      "SAVE": "Save locations",
+      "DELETE": "Delete location",
+      "EMPTY_STATE": "No locations saved yet.",
+      "ERRORS": {
+        "REQUIRED": "This field is required",
+        "LATITUDE_RANGE": "Latitude must be between -90 and 90",
+        "LONGITUDE_RANGE": "Longitude must be between -180 and 180"
+      }
+    },
+    "API": {
+      "SAVE_SUCCESS": "Locations saved successfully",
+      "SAVE_ERROR": "Could not save the locations. Please try again."
+    },
+    "SELECTOR": {
+      "TOOLTIP": "Send a location",
+      "TITLE": "Send a location",
+      "CURRENT_LOCATION_HINT": "Share your current position using your browser",
+      "SEND_ERROR": "Could not send the location. Please try again.",
+      "PERMISSION_DENIED": "Could not get your location. Allow location access in your browser and try again.",
+      "UNSUPPORTED": "Your browser does not support geolocation.",
+      "EMPTY_SAVED": "No saved locations. Add them in the inbox settings."
+    }
+  }
+}

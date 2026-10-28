@@ -4,6 +4,7 @@
 #
 #  id                             :bigint           not null, primary key
 #  business_management_token      :text
+#  locations                      :jsonb            default([])
 #  message_templates              :jsonb
 #  message_templates_last_updated :datetime
 #  phone_number                   :string           not null
@@ -32,11 +33,21 @@ class Channel::Whatsapp < ApplicationRecord
 
   # default at the moment is 360dialog lets change later.
   PROVIDERS = %w[default whatsapp_cloud].freeze
+  MAX_LOCATIONS = 50
+  LOCATION_RULES = {
+    'id' => ->(value) { value.is_a?(String) && value.present? },
+    'name' => ->(value) { value.is_a?(String) && value.present? && value.size <= 100 },
+    'address' => ->(value) { value.is_a?(String) && value.present? && value.size <= 300 },
+    'latitude' => ->(value) { value.is_a?(Numeric) && value.between?(-90, 90) },
+    'longitude' => ->(value) { value.is_a?(Numeric) && value.between?(-180, 180) }
+  }.freeze
   before_validation :ensure_webhook_verify_token
 
   validates :provider, inclusion: { in: PROVIDERS }
   validates :phone_number, presence: true, uniqueness: true
-  validate :validate_provider_config
+  # Saving only the locations must not re-check the credentials against Meta.
+  validate :validate_provider_config, unless: -> { persisted? && (changed - ['locations']).empty? }
+  validate :validate_locations
 
   after_create :sync_templates
   after_update_commit :log_credentials_transfer, if: :saved_change_to_provider_config?
@@ -142,6 +153,12 @@ class Channel::Whatsapp < ApplicationRecord
     Whatsapp::Providers::WhatsappCloudContactInfoRequestService.perform(self, identifier, message)
   end
 
+  def send_location_message(identifier, message)
+    raise NotImplementedError, 'Location messages require a WhatsApp Cloud provider' unless provider == 'whatsapp_cloud'
+
+    Whatsapp::Providers::WhatsappCloudLocationService.perform(self, identifier, message)
+  end
+
   def setup_webhooks(is_coexistence: nil)
     perform_webhook_setup(is_coexistence: is_coexistence)
   rescue StandardError => e
@@ -157,6 +174,27 @@ class Channel::Whatsapp < ApplicationRecord
 
   def validate_provider_config
     errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
+  end
+
+  def validate_locations
+    return errors.add(:locations, location_message('not_a_list')) unless locations.is_a?(Array)
+    return errors.add(:locations, location_message('too_many', max: MAX_LOCATIONS)) if locations.size > MAX_LOCATIONS
+
+    locations.each_with_index do |location, index|
+      error = location_error(location, index + 1)
+      errors.add(:locations, error) if error
+    end
+  end
+
+  def location_error(location, position)
+    return location_message('not_an_object', position: position) unless location.is_a?(Hash)
+
+    invalid_key = LOCATION_RULES.find { |key, valid| !valid.call(location[key]) }&.first
+    location_message("invalid_#{invalid_key}", position: position) if invalid_key
+  end
+
+  def location_message(key, **)
+    I18n.t("errors.whatsapp.locations.#{key}", **)
   end
 
   # Logs only the embedded signup → manual migration (the save drops the
