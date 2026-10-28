@@ -90,6 +90,45 @@ RSpec.describe Contact do
     end
   end
 
+  context 'when email uniqueness' do
+    it 'will throw error when another contact in the account has the same email and no phone number' do
+      account = create(:account)
+      create(:contact, account: account, email: 'shared@test.com')
+      contact = build(:contact, account: account, email: 'shared@test.com')
+      expect(contact).not_to be_valid
+      expect(contact.errors[:email]).to be_present
+    end
+
+    it 'will throw error when another contact in the account has the same email and the same phone number' do
+      account = create(:account)
+      create(:contact, account: account, email: 'shared@test.com', phone_number: '+12312312321')
+      contact = build(:contact, account: account, email: 'shared@test.com', phone_number: '+12312312321')
+      expect(contact).not_to be_valid
+      expect(contact.errors[:email]).to be_present
+    end
+
+    it 'will throw error when this contact has a phone number but the existing contact with the same email has none' do
+      account = create(:account)
+      create(:contact, account: account, email: 'shared@test.com')
+      contact = build(:contact, account: account, email: 'shared@test.com', phone_number: '+12312312321')
+      expect(contact).not_to be_valid
+      expect(contact.errors[:email]).to be_present
+    end
+
+    it 'allows two contacts in the same account to share an email when their phone numbers differ' do
+      account = create(:account)
+      create(:contact, account: account, email: 'shared@test.com', phone_number: '+12312312321')
+      contact = build(:contact, account: account, email: 'shared@test.com', phone_number: '+19999999999')
+      expect(contact).to be_valid
+    end
+
+    it 'allows two contacts in different accounts to share the same email' do
+      create(:contact, email: 'shared@test.com')
+      contact = build(:contact, email: 'shared@test.com')
+      expect(contact).to be_valid
+    end
+  end
+
   context 'when city and country code passed in additional attributes' do
     it 'updates location and country code' do
       contact = create(:contact, additional_attributes: { city: 'New York', country: 'US' })
