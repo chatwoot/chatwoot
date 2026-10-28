@@ -11,12 +11,14 @@ import {
   DropdownBody,
   DropdownSection,
   DropdownItem,
+  DropdownSeparator,
 } from 'next/dropdown-menu/base';
 import Icon from 'next/icon/Icon.vue';
 import Button from 'next/button/Button.vue';
 import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
-const props = defineProps({
+defineProps({
   hasVoiceInbox: { type: Boolean, default: false },
 });
 
@@ -84,21 +86,15 @@ const updateWorkPreferences = preferences => {
   });
 };
 
-const acceptsConversationsToggle = computed({
+const acceptsConversations = computed({
   get: () => currentUserAcceptsConversations.value,
   set: value => updateWorkPreferences({ accepts_conversations: value }),
 });
 
-const acceptsCallsToggle = computed({
+const acceptsCalls = computed({
   get: () => currentUserAcceptsCalls.value,
   set: value => updateWorkPreferences({ accepts_calls: value }),
 });
-
-const pausedNote = computed(() =>
-  props.hasVoiceInbox
-    ? t('SIDEBAR.WORK_PAUSED.CONVERSATIONS_AND_CALLS')
-    : t('SIDEBAR.WORK_PAUSED.CONVERSATIONS')
-);
 
 function changeAvailabilityStatus(availability) {
   if (blockedWhileImpersonating()) return;
@@ -117,8 +113,9 @@ function changeAvailabilityStatus(availability) {
   <DropdownSection class="[&>ul]:overflow-visible">
     <div class="grid gap-0">
       <DropdownItem preserve-open class="gap-1">
-        <div class="flex-grow flex items-center gap-1 min-w-0">
-          {{ $t('SIDEBAR.SET_YOUR_AVAILABILITY') }}
+        <div class="flex flex-grow gap-3 items-center min-w-0">
+          <Icon icon="i-lucide-user-check" class="flex-shrink-0 size-4" />
+          {{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}
         </div>
         <DropdownContainer class="shrink-0">
           <template #trigger="{ toggle }">
@@ -152,47 +149,57 @@ function changeAvailabilityStatus(availability) {
           </DropdownBody>
         </DropdownContainer>
       </DropdownItem>
-      <div v-if="isOnline" class="grid mb-1 ms-2 ps-3 border-s border-n-weak">
-        <DropdownItem preserve-open>
-          <div class="flex-grow min-w-0">
-            {{ $t('SIDEBAR.ACCEPT_CONVERSATIONS.TEXT') }}
-            <Icon
-              v-tooltip.top="$t('SIDEBAR.ACCEPT_CONVERSATIONS.INFO_SHORT')"
-              icon="i-lucide-info"
-              class="inline-block align-middle ms-1 size-4 text-n-slate-10"
-            />
-          </div>
-          <ToggleSwitch v-model="acceptsConversationsToggle" />
-        </DropdownItem>
-        <DropdownItem v-if="hasVoiceInbox" preserve-open>
-          <div class="flex-grow min-w-0">
-            {{ $t('SIDEBAR.ACCEPT_CALLS.TEXT') }}
-            <Icon
-              v-tooltip.top="$t('SIDEBAR.ACCEPT_CALLS.INFO_SHORT')"
-              icon="i-lucide-info"
-              class="inline-block align-middle ms-1 size-4 text-n-slate-10"
-            />
-          </div>
-          <ToggleSwitch v-model="acceptsCallsToggle" />
-        </DropdownItem>
-      </div>
-      <div
-        v-else
-        class="flex gap-2 items-start px-2.5 py-2 mb-0.5 text-sm rounded-lg bg-n-amber-3 text-n-amber-11"
-      >
-        <Icon
-          icon="i-lucide-circle-pause"
-          class="flex-shrink-0 mt-0.5 size-4"
-        />
-        <span>{{ pausedNote }}</span>
-      </div>
+      <template v-if="hasVoiceInbox">
+        <div v-if="isOnline" class="grid">
+          <DropdownItem preserve-open>
+            <label class="flex flex-grow gap-3 items-center min-w-0">
+              <Checkbox
+                v-model="acceptsConversations"
+                :disabled="!acceptsCalls"
+              />
+              {{ $t('SIDEBAR.ACCEPT_CONVERSATIONS.TEXT') }}
+              <Icon
+                v-tooltip.top="$t('SIDEBAR.ACCEPT_CONVERSATIONS.INFO_SHORT')"
+                icon="i-lucide-info"
+                class="flex-shrink-0 -ms-1 size-4 text-n-slate-10"
+              />
+            </label>
+          </DropdownItem>
+          <DropdownItem preserve-open>
+            <label class="flex flex-grow gap-3 items-center min-w-0">
+              <Checkbox
+                v-model="acceptsCalls"
+                :disabled="!acceptsConversations"
+              />
+              {{ $t('SIDEBAR.ACCEPT_CALLS.TEXT') }}
+              <Icon
+                v-tooltip.top="$t('SIDEBAR.ACCEPT_CALLS.INFO_SHORT')"
+                icon="i-lucide-info"
+                class="flex-shrink-0 -ms-1 size-4 text-n-slate-10"
+              />
+            </label>
+          </DropdownItem>
+        </div>
+        <div
+          v-else
+          class="flex gap-2 items-start px-2.5 py-2 mb-0.5 text-sm rounded-lg bg-n-amber-3 text-n-amber-11"
+        >
+          <Icon
+            icon="i-lucide-circle-pause"
+            class="flex-shrink-0 mt-0.5 size-4"
+          />
+          <span>{{ $t('SIDEBAR.WORK_PAUSED') }}</span>
+        </div>
+      </template>
+      <DropdownSeparator class="my-1" />
       <DropdownItem preserve-open>
-        <div class="flex-grow min-w-0">
+        <div class="flex flex-grow gap-3 items-center min-w-0">
+          <Icon icon="i-lucide-timer-off" class="flex-shrink-0 size-4" />
           {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
           <Icon
             v-tooltip.top="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_SHORT')"
             icon="i-lucide-info"
-            class="inline-block align-middle ms-1 size-4 text-n-slate-10"
+            class="flex-shrink-0 -ms-1 size-4 text-n-slate-10"
           />
         </div>
         <ToggleSwitch v-model="autoOfflineToggle" />

@@ -16,22 +16,27 @@ vi.mock('dashboard/composables', () => ({
   useAlert: vi.fn(),
 }));
 
-const ToggleSwitchStub = {
-  props: ['modelValue'],
+const CheckboxStub = {
+  props: ['modelValue', 'disabled'],
   emits: ['update:modelValue'],
   template:
-    '<button class="toggle" @click="$emit(\'update:modelValue\', !modelValue)" />',
+    '<input type="checkbox" class="preference" :checked="modelValue" :disabled="disabled" @click="$emit(\'update:modelValue\', !modelValue)" />',
 };
 
-const mountStatus = ({ availability = 'online', hasVoiceInbox = true }) => {
+const mountStatus = ({
+  availability = 'online',
+  hasVoiceInbox = true,
+  acceptsConversations = true,
+  acceptsCalls = true,
+}) => {
   const dispatch = vi.fn();
   const store = createStore({
     getters: {
       getCurrentUserAvailability: () => availability,
       getCurrentAccountId: () => 1,
       getCurrentUserAutoOffline: () => true,
-      getCurrentUserAcceptsConversations: () => true,
-      getCurrentUserAcceptsCalls: () => true,
+      getCurrentUserAcceptsConversations: () => acceptsConversations,
+      getCurrentUserAcceptsCalls: () => acceptsCalls,
     },
   });
   store.dispatch = dispatch;
@@ -45,7 +50,8 @@ const mountStatus = ({ availability = 'online', hasVoiceInbox = true }) => {
         DropdownContainer: { template: '<div />' },
         DropdownItem: { template: '<div class="item"><slot /></div>' },
         Icon: true,
-        ToggleSwitch: ToggleSwitchStub,
+        ToggleSwitch: true,
+        Checkbox: CheckboxStub,
       },
     },
   });
@@ -58,21 +64,22 @@ describe('SidebarProfileMenuStatus', () => {
     impersonation.isImpersonating.value = false;
   });
 
-  it('shows the conversations and calls toggles when online with a voice inbox', () => {
+  it('shows the conversations and calls choices when online with a voice inbox', () => {
     const { wrapper } = mountStatus({});
 
     expect(wrapper.text()).toContain('Receive conversations');
-    expect(wrapper.text()).toContain('Receive calls');
+    expect(wrapper.text()).toContain('Receive voice calls');
   });
 
-  it('hides the calls toggle without a voice inbox', () => {
+  it('shows no choices or paused note without a voice inbox', () => {
     const { wrapper } = mountStatus({ hasVoiceInbox: false });
 
-    expect(wrapper.text()).toContain('Receive conversations');
-    expect(wrapper.text()).not.toContain('Receive calls');
+    expect(wrapper.text()).not.toContain('Receive conversations');
+    expect(wrapper.text()).not.toContain('Receive voice calls');
+    expect(wrapper.text()).not.toContain("You won't get new conversations");
   });
 
-  it('shows a paused note instead of the toggles when not online', () => {
+  it('shows a paused note instead of the choices when not online', () => {
     const { wrapper } = mountStatus({ availability: 'busy' });
 
     expect(wrapper.text()).not.toContain('Receive conversations');
@@ -81,21 +88,18 @@ describe('SidebarProfileMenuStatus', () => {
     );
   });
 
-  it('mentions only conversations in the paused note without a voice inbox', () => {
-    const { wrapper } = mountStatus({
-      availability: 'offline',
-      hasVoiceInbox: false,
-    });
+  it('keeps the only checked choice from being unchecked', () => {
+    const { wrapper } = mountStatus({ acceptsCalls: false });
+    const [conversations, calls] = wrapper.findAll('.preference');
 
-    expect(wrapper.text()).toContain(
-      "You won't get new conversations until you're back Online."
-    );
+    expect(conversations.element.disabled).toBe(true);
+    expect(calls.element.disabled).toBe(false);
   });
 
-  it('saves the calls preference when its toggle changes', async () => {
+  it('saves the calls preference when its checkbox changes', async () => {
     const { wrapper, dispatch } = mountStatus({});
 
-    await wrapper.findAll('.toggle')[1].trigger('click');
+    await wrapper.findAll('.preference')[1].trigger('click');
 
     expect(dispatch).toHaveBeenCalledWith('updateWorkPreferences', {
       accountId: 1,
@@ -107,7 +111,7 @@ describe('SidebarProfileMenuStatus', () => {
     impersonation.isImpersonating.value = true;
     const { wrapper, dispatch } = mountStatus({});
 
-    await wrapper.findAll('.toggle')[1].trigger('click');
+    await wrapper.findAll('.preference')[1].trigger('click');
 
     expect(dispatch).not.toHaveBeenCalledWith(
       'updateWorkPreferences',

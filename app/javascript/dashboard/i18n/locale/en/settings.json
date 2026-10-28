@@ -404,23 +404,10 @@
       "INFO_SHORT": "Get new conversations assigned to you automatically."
     },
     "ACCEPT_CALLS": {
-      "TEXT": "Receive calls",
+      "TEXT": "Receive voice calls",
       "INFO_SHORT": "Receive incoming calls on web and mobile."
     },
-    "WORK_PAUSED": {
-      "CONVERSATIONS_AND_CALLS": "You won't get new conversations or calls until you're back Online.",
-      "CONVERSATIONS": "You won't get new conversations until you're back Online."
-    },
-    "AVAILABILITY_SUMMARY": {
-      "CONVERSATIONS_AND_CALLS": "Online · Conversations and calls",
-      "CONVERSATIONS_ONLY": "Online · Conversations only",
-      "CALLS_ONLY": "Online · Calls only",
-      "NONE": "Online · Conversations and calls off",
-      "PAUSED": "{status} · Conversations and calls paused",
-      "CONVERSATIONS": "Online · Conversations",
-      "CONVERSATIONS_OFF": "Online · Conversations off",
-      "CONVERSATIONS_PAUSED": "{status} · Conversations paused"
-    },
+    "WORK_PAUSED": "You won't get new conversations or calls until you're back Online.",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Mark offline automatically",
       "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",

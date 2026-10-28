@@ -34,7 +34,12 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def work_preferences
-    @user.account_users.find_by!(account_id: work_preferences_params[:account_id]).update!(work_preferences_params.except(:account_id))
+    preferences = work_preferences_params.except(:account_id)
+    unless preferences.values.all? { |value| [true, false].include?(value) }
+      return render_could_not_create_error(I18n.t('errors.account_user.invalid_work_preference'))
+    end
+
+    @user.account_users.find_by!(account_id: work_preferences_params[:account_id]).update!(preferences)
   end
 
   def set_active_account

@@ -16,7 +16,7 @@ import {
 } from 'next/dropdown-menu/base';
 import CustomBrandPolicyWrapper from '../../components/CustomBrandPolicyWrapper.vue';
 
-const props = defineProps({
+defineProps({
   isCollapsed: { type: Boolean, default: false },
 });
 
@@ -30,10 +30,6 @@ const { t } = useI18n();
 
 const currentUser = useMapGetter('getCurrentUser');
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
-const currentUserAcceptsConversations = useMapGetter(
-  'getCurrentUserAcceptsConversations'
-);
-const currentUserAcceptsCalls = useMapGetter('getCurrentUserAcceptsCalls');
 const inboxes = useMapGetter('inboxes/getInboxes');
 const accountId = useMapGetter('getCurrentAccountId');
 const globalConfig = useMapGetter('globalConfig/get');
@@ -42,45 +38,6 @@ const isFeatureEnabledonAccount = useMapGetter(
 );
 
 const hasVoiceInbox = computed(() => inboxes.value.some(isVoiceCallEnabled));
-
-const availabilitySummary = computed(() => {
-  const status = currentUserAvailability.value;
-  if (!status) return '';
-
-  if (status !== 'online') {
-    const label =
-      status === 'busy'
-        ? t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.BUSY')
-        : t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.OFFLINE');
-    return hasVoiceInbox.value
-      ? t('SIDEBAR.AVAILABILITY_SUMMARY.PAUSED', { status: label })
-      : t('SIDEBAR.AVAILABILITY_SUMMARY.CONVERSATIONS_PAUSED', {
-          status: label,
-        });
-  }
-
-  const conversations = currentUserAcceptsConversations.value;
-  if (!hasVoiceInbox.value) {
-    return conversations
-      ? t('SIDEBAR.AVAILABILITY_SUMMARY.CONVERSATIONS')
-      : t('SIDEBAR.AVAILABILITY_SUMMARY.CONVERSATIONS_OFF');
-  }
-
-  const calls = currentUserAcceptsCalls.value;
-  if (conversations && calls) {
-    return t('SIDEBAR.AVAILABILITY_SUMMARY.CONVERSATIONS_AND_CALLS');
-  }
-  if (conversations)
-    return t('SIDEBAR.AVAILABILITY_SUMMARY.CONVERSATIONS_ONLY');
-  if (calls) return t('SIDEBAR.AVAILABILITY_SUMMARY.CALLS_ONLY');
-  return t('SIDEBAR.AVAILABILITY_SUMMARY.NONE');
-});
-
-const avatarTooltip = computed(() =>
-  props.isCollapsed
-    ? `${currentUser.value.available_name} · ${availabilitySummary.value}`
-    : availabilitySummary.value
-);
 
 const showChatSupport = computed(() => {
   return (
@@ -187,10 +144,10 @@ const allowedMenuItems = computed(() => {
           { 'bg-n-alpha-1': isOpen },
           isCollapsed ? 'justify-center' : 'w-full',
         ]"
+        :title="isCollapsed ? currentUser.available_name : undefined"
         @click="toggle"
       >
         <Avatar
-          v-tooltip.top="avatarTooltip"
           :size="32"
           :name="currentUser.available_name"
           :src="currentUser.avatar_url"
