@@ -145,8 +145,8 @@ describe WebhookListener do
         listener.message_updated(event)
       end
 
-      it 'does not trigger webhook event when only external_error changes' do
-        create(:webhook, inbox: inbox, account: account)
+      it 'triggers account webhook event when only external_error changes' do
+        webhook = create(:webhook, inbox: inbox, account: account)
         event = Events::Base.new(
           event_name,
           Time.zone.now,
@@ -159,7 +159,10 @@ describe WebhookListener do
             'updated_at' => [Time.zone.now, Time.zone.now]
           }
         )
-        expect(WebhookJob).not_to receive(:perform_later)
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url, message.webhook_data.merge(event: 'message_updated'), :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        )
         listener.message_updated(event)
       end
 

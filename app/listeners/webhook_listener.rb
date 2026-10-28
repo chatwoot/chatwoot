@@ -37,10 +37,10 @@ class WebhookListener < BaseListener
     inbox = message.inbox
 
     return unless message.webhook_sendable?
-    return if only_external_error_changed?(event)
 
     payload = message.webhook_data.merge(event: __method__.to_s)
-    deliver_webhook_payloads(payload, inbox)
+    deliver_account_webhooks(payload, inbox.account)
+    deliver_api_inbox_webhooks(payload, inbox) unless only_external_error_changed?(event)
   end
 
   def webwidget_triggered(event)
