@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class Conversations::UnreadCounts::Refresher
   attr_reader :conversation, :changed_attributes
 
@@ -117,7 +118,7 @@ class Conversations::UnreadCounts::Refresher
   end
 
   def verify_and_reconcile_concurrent_updates
-    return unless conversation.try(:id).present?
+    return if conversation.try(:id).blank?
 
     latest_status, latest_last_seen_at = fetch_current_status_and_last_seen
     initial_status, initial_last_seen_at = current_status_and_last_seen
@@ -225,3 +226,4 @@ class Conversations::UnreadCounts::Refresher
     ::Conversations::UnreadCounts::Store
   end
 end
+# rubocop:enable Metrics/ClassLength
