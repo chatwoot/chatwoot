@@ -27,7 +27,8 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
 
   # TODO : clean up this with proper routes delete contacts/custom_attributes
   def destroy_custom_attributes
-    @contact.custom_attributes = @contact.custom_attributes.excluding(params[:custom_attributes])
+    keys = Array(params[:custom_attributes]) - business_managed_attribute_keys(@web_widget.account)
+    @contact.custom_attributes = @contact.custom_attributes.excluding(keys)
     @contact.save!
     render json: @contact
   end
@@ -37,7 +38,7 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   def identify_contact(contact)
     contact_identify_action = ContactIdentifyAction.new(
       contact: contact,
-      params: permitted_params.to_h.deep_symbolize_keys,
+      params: without_business_managed_attributes(@web_widget.account, permitted_params).to_h.deep_symbolize_keys,
       discard_invalid_attrs: true
     )
     @contact = contact_identify_action.perform

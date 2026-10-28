@@ -30,6 +30,9 @@ properties:
   default_value:
     type: string
     description: Attribute default value
+  business_managed:
+    type: boolean
+    description: When true, only the account API and the dashboard can set the value
   created_at:
     type: string
     description: The date and time when the custom attribute was created

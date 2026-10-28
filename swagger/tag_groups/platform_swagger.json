@@ -1043,6 +1043,10 @@
             "type": "string",
             "description": "Attribute default value"
           },
+          "business_managed": {
+            "type": "boolean",
+            "description": "When true, only the account API and the dashboard can set the value"
+          },
           "created_at": {
             "type": "string",
             "description": "The date and time when the custom attribute was created"
@@ -3770,6 +3774,11 @@
             "type": "string",
             "description": "Regex cue message (Only applicable for type- text). The cue message is shown when the regex pattern is not matched.",
             "example": "Please enter a valid value"
+          },
+          "business_managed": {
+            "type": "boolean",
+            "description": "Only for contact attributes. When true, only the account API and the dashboard can set the value. The widget and the public API ignore it.",
+            "example": false
           }
         }
       },

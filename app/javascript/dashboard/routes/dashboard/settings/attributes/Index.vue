@@ -144,6 +144,10 @@ const buildBadges = attribute => {
     });
   }
 
+  if (attribute.business_managed) {
+    badges.push({ type: 'business-managed' });
+  }
+
   return badges;
 };
 

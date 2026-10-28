@@ -71,6 +71,11 @@
         "BADGES": {
           "PRE_CHAT": "Pre-chat",
           "RESOLUTION": "Resolution"
+        },
+        "BUSINESS_MANAGED": {
+          "LABEL": "Only your team and API can set this",
+          "HELP": "Customers cannot set or change it from the chat widget or the public API, so Captain tools can trust its value.",
+          "EXISTING_VALUES": "Customers may have set some of the current values. Check them before a tool relies on this attribute."
         }
       },
       "API": {
@@ -141,7 +146,8 @@
     },
     "BADGES": {
       "PRE_CHAT": "Pre-chat",
-      "RESOLUTION": "Resolution"
+      "RESOLUTION": "Resolution",
+      "BUSINESS_MANAGED": "Business managed"
     }
   }
 }
