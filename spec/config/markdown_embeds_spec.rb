@@ -5,14 +5,25 @@ describe 'Markdown Embeds Configuration' do
   # rubocop:enable RSpec/DescribeClass
   let(:config) { YAML.load_file(Rails.root.join('config/markdown_embeds.yml')) }
 
+  let(:embeds) { config['embeds'] }
+
   describe 'YAML structure' do
     it 'loads valid YAML' do
       expect(config).to be_a(Hash)
       expect(config).not_to be_empty
     end
 
+    it 'keeps the trusted iframe host allow-list outside the embeds map' do
+      expect(config).to have_key('trusted_iframe_hosts')
+      expect(config['trusted_iframe_hosts']).to be_an(Array)
+      expect(embeds).not_to have_key('trusted_iframe_hosts')
+    end
+
     it 'has required keys for each embed type' do
-      config.each do |embed_type, embed_config|
+      expect(embeds).to be_a(Hash)
+      expect(embeds).not_to be_empty
+
+      embeds.each do |embed_type, embed_config|
         expect(embed_config).to have_key('regex'), "#{embed_type} missing regex"
         expect(embed_config).to have_key('template'), "#{embed_type} missing template"
         expect(embed_config['regex']).to be_a(String), "#{embed_type} regex should be string"
@@ -22,7 +33,7 @@ describe 'Markdown Embeds Configuration' do
 
     it 'contains expected embed types' do
       expected_types = %w[youtube loom vimeo mp4 arcade_tab arcade wistia bunny codepen guidejar github_gist]
-      expect(config.keys).to match_array(expected_types)
+      expect(embeds.keys).to match_array(expected_types)
     end
   end
 
@@ -89,7 +100,7 @@ describe 'Markdown Embeds Configuration' do
 
     it 'correctly captures named groups for all embed types' do
       test_cases.each do |embed_type, cases|
-        regex = Regexp.new(config[embed_type]['regex'])
+        regex = Regexp.new(embeds[embed_type]['regex'])
 
         cases.each do |test_case|
           match = regex.match(test_case[:url])
@@ -101,7 +112,7 @@ describe 'Markdown Embeds Configuration' do
     end
 
     it 'validates that template variables match capture group names' do
-      config.each do |embed_type, embed_config|
+      embeds.each do |embed_type, embed_config|
         regex = Regexp.new(embed_config['regex'])
         template = embed_config['template']
 
