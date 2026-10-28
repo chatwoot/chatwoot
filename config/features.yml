@@ -319,3 +319,7 @@
   enabled: false
   premium: true
   column: feature_flags_ext_1
+- name: shopify_custom_apps
+  display_name: Shopify Custom Apps
+  enabled: false
+  column: feature_flags_ext_1

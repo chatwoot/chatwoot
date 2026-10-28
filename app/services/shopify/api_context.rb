@@ -2,9 +2,9 @@ class Shopify::ApiContext
   API_VERSION = ShopifyAPI::LATEST_SUPPORTED_ADMIN_VERSION
   class ConfigurationError < StandardError; end
 
-  def self.setup!
-    api_key = GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).to_s
-    api_secret_key = GlobalConfigService.load('SHOPIFY_CLIENT_SECRET', nil).to_s
+  def self.setup!(custom_app: nil)
+    api_key = (custom_app ? custom_app.client_id : GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil)).to_s
+    api_secret_key = (custom_app ? custom_app.client_secret : GlobalConfigService.load('SHOPIFY_CLIENT_SECRET', nil)).to_s
     raise ConfigurationError, 'Shopify API credentials are unavailable' if api_key.blank? || api_secret_key.blank?
 
     ShopifyAPI::Context.setup(
