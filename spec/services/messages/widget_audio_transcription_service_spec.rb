@@ -4,6 +4,7 @@ RSpec.describe Messages::WidgetAudioTranscriptionService, type: :service do
   let(:audio_file) do
     Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/sample.mp3'), 'audio/mpeg')
   end
+  let(:account) { create(:account) }
   let(:openai_client) { instance_double(OpenAI::Client) }
   let(:audio_api) { double }
 
@@ -18,7 +19,7 @@ RSpec.describe Messages::WidgetAudioTranscriptionService, type: :service do
   end
 
   describe '#perform' do
-    subject(:service) { described_class.new(audio_file) }
+    subject(:service) { described_class.new(audio_file, account: account) }
 
     it 'returns the transcribed text' do
       expect(service.perform).to eq({ success: true, transcription: 'Hello world' })
@@ -54,7 +55,7 @@ RSpec.describe Messages::WidgetAudioTranscriptionService, type: :service do
   end
 
   describe '#stage_audio_file' do
-    subject(:service) { described_class.new(audio_file) }
+    subject(:service) { described_class.new(audio_file, account: account) }
 
     context 'when the upload has no filename extension' do
       let(:audio_file) do

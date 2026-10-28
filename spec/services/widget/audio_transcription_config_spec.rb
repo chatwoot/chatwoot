@@ -18,4 +18,16 @@ RSpec.describe Widget::AudioTranscriptionConfig do
       expect(described_class.endpoint).to eq(described_class::DEFAULT_ENDPOINT)
     end
   end
+
+  it 'uses the routed audio transcription model by default' do
+    with_modified_env(WIDGET_TRANSCRIPTION_OPENAI_MODEL: nil) do
+      expect(described_class.model(create(:account))).to eq(Llm::Models.default_model_for('audio_transcription'))
+    end
+  end
+
+  it 'prefers an explicit model for self-hosted OpenAI-compatible servers' do
+    with_modified_env(WIDGET_TRANSCRIPTION_OPENAI_MODEL: 'whisper-1') do
+      expect(described_class.model(create(:account))).to eq('whisper-1')
+    end
+  end
 end

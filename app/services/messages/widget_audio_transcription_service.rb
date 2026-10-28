@@ -1,14 +1,14 @@
 # Transcribes a standalone audio upload coming from the web widget microphone
-# and returns the text, without persisting a message. Driven entirely by ENV
-# (see Widget::AudioTranscriptionConfig) so it does not depend on Captain.
+# and returns the text, without persisting a message. Configured through
+# Widget::AudioTranscriptionConfig so it does not depend on Captain.
 class Messages::WidgetAudioTranscriptionService
-  TRANSCRIPTION_MODEL = Widget::AudioTranscriptionConfig::DEFAULT_MODEL
   # OpenAI's transcription endpoint hard limit is 25 MB decimal (25_000_000),
   # not binary — using the binary form leaks the 25.0-26.2 MB range as 413s.
   TRANSCRIPTION_BYTE_LIMIT = 25_000_000
 
-  def initialize(audio_file)
+  def initialize(audio_file, account:)
     @audio_file = audio_file
+    @account = account
   end
 
   def perform
@@ -48,7 +48,7 @@ class Messages::WidgetAudioTranscriptionService
 
   def transcription_parameters(file)
     {
-      model: Widget::AudioTranscriptionConfig.model,
+      model: Widget::AudioTranscriptionConfig.model(@account),
       file: file,
       # temperature: 0.0 minimises hallucinations on silence / near-silent audio.
       temperature: 0.0,
