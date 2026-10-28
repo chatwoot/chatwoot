@@ -30,6 +30,13 @@ RSpec.describe Message do
       expect(message.errors[:content_attributes]).to include('whatsapp_cta_url is missing url')
     end
 
+    it 'is invalid when both body and content are blank' do
+      message.content = nil
+      message.content_attributes = { whatsapp_cta_url: { display_text: 'See menu', url: 'https://example.com/menu' } }
+      expect(message).not_to be_valid
+      expect(message.errors[:content_attributes]).to include('whatsapp_cta_url is missing body')
+    end
+
     it 'is invalid when it is not a hash' do
       message.content_attributes = { whatsapp_cta_url: 'https://example.com/menu' }
       expect(message).not_to be_valid

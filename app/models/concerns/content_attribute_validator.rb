@@ -32,7 +32,9 @@ class ContentAttributeValidator < ActiveModel::Validator
     cta = record.content_attributes['whatsapp_cta_url']
     return record.errors.add(:content_attributes, 'whatsapp_cta_url should be a hash.') unless cta.is_a?(Hash)
 
-    missing_keys = REQUIRED_CTA_URL_KEYS.select { |key| cta.with_indifferent_access[key].blank? }
+    cta = cta.with_indifferent_access
+    missing_keys = REQUIRED_CTA_URL_KEYS.select { |key| cta[key].blank? }
+    missing_keys << 'body' if cta[:body].blank? && record.content.blank?
     record.errors.add(:content_attributes, "whatsapp_cta_url is missing #{missing_keys.join(', ')}") if missing_keys.present?
   end
 
