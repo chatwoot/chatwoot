@@ -2,8 +2,11 @@ import articlesAPI from 'dashboard/api/helpCenter/articles';
 import { uploadExternalImage, uploadFile } from 'dashboard/helper/uploadHelper';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 import camelcaseKeys from 'camelcase-keys';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 
 import types from '../../mutation-types';
+const articleListRequest = useAbortableRequest();
+
 export const actions = {
   index: async (
     { commit },
@@ -11,27 +14,36 @@ export const actions = {
   ) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
-      const { data } = await articlesAPI.getArticles({
-        pageNumber,
-        portalSlug,
-        locale,
-        status,
-        authorId,
-        categorySlug,
-        query,
+      return await articleListRequest.run(async signal => {
+        try {
+          const { data } = await articlesAPI.getArticles({
+            pageNumber,
+            portalSlug,
+            locale,
+            status,
+            authorId,
+            categorySlug,
+            query,
+            signal,
+          });
+          if (signal.aborted) return null;
+
+          const payload = camelcaseKeys(data.payload);
+          const meta = camelcaseKeys(data.meta);
+          const articleIds = payload.map(article => article.id);
+          commit(types.CLEAR_ARTICLES);
+          commit(types.ADD_MANY_ARTICLES, payload);
+          commit(types.SET_ARTICLES_META, meta);
+          commit(types.ADD_MANY_ARTICLES_ID, articleIds);
+          return articleIds;
+        } finally {
+          if (!signal.aborted) {
+            commit(types.SET_UI_FLAG, { isFetching: false });
+          }
+        }
       });
-      const payload = camelcaseKeys(data.payload);
-      const meta = camelcaseKeys(data.meta);
-      const articleIds = payload.map(article => article.id);
-      commit(types.CLEAR_ARTICLES);
-      commit(types.ADD_MANY_ARTICLES, payload);
-      commit(types.SET_ARTICLES_META, meta);
-      commit(types.ADD_MANY_ARTICLES_ID, articleIds);
-      return articleIds;
     } catch (error) {
       return throwErrorMessage(error);
-    } finally {
-      commit(types.SET_UI_FLAG, { isFetching: false });
     }
   },
 

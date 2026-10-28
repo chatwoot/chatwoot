@@ -50,6 +50,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  authorId: {
+    type: String,
+    default: '',
+  },
   isCategoryArticles: {
     type: Boolean,
     default: false,
@@ -135,11 +139,14 @@ const updateRoute = newParams => {
     params: {
       portalSlug,
       locale: newParams.locale ?? locale,
-      tab: newParams.tab ?? tab,
+      tab: newParams.tab ?? (tab === ARTICLE_TABS.MINE ? '' : tab),
       categorySlug: newParams.categorySlug ?? categorySlug,
       ...newParams,
     },
-    query: route.query,
+    query: {
+      ...route.query,
+      author_id: props.authorId || undefined,
+    },
   });
 };
 
@@ -150,9 +157,10 @@ const articlesCount = computed(() => {
     '': meta.articlesCount,
     mine: meta.mineArticlesCount,
     draft: meta.draftArticlesCount,
+    published: meta.publishedCount,
     archived: meta.archivedArticlesCount,
   };
-  return Number(countMap[tab] || countMap['']);
+  return Number(countMap[tab] ?? countMap[''] ?? 0);
 });
 
 const totalPages = computed(() => Math.ceil(articlesCount.value / 25) || 1);
@@ -171,6 +179,11 @@ const getEmptyStateText = type => {
   if (isSearching.value) {
     return t(`HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.SEARCH.${type}`);
   }
+  if (props.authorId) {
+    return type === 'TITLE'
+      ? t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.AUTHOR.TITLE')
+      : t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.AUTHOR.SUBTITLE');
+  }
   if (props.isCategoryArticles) {
     return t(`HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.CATEGORY.${type}`);
   }
@@ -187,11 +200,28 @@ const handleTabChange = tab =>
 const handleCategoryAction = value =>
   updateRoute({ categorySlug: value === CATEGORY_ALL ? '' : value });
 
+const handleAuthorAction = authorId => {
+  router.push({
+    params: {
+      ...route.params,
+      tab: route.params.tab === ARTICLE_TABS.MINE ? '' : route.params.tab,
+    },
+    query: { ...route.query, author_id: authorId || undefined },
+  });
+};
+
 const handleLocaleAction = value => {
   updateRoute({ locale: value, categorySlug: '' });
   emit('fetchPortal', value);
 };
 const handlePageChange = page => emit('pageChange', page);
+
+watch(
+  () => route.query.search,
+  value => {
+    searchQuery.value = value || '';
+  }
+);
 
 const navigateToNewArticlePage = () => {
   const { categorySlug, locale } = route.params;
@@ -368,9 +398,11 @@ watch(
           :categories="categories"
           :allowed-locales="allowedLocales"
           :meta="meta"
+          :author-id="authorId"
           @tab-change="handleTabChange"
           @locale-change="handleLocaleAction"
           @category-change="handleCategoryAction"
+          @author-change="handleAuthorAction"
           @new-article="navigateToNewArticlePage"
         />
         <CategoryHeaderControls
@@ -497,6 +529,7 @@ watch(
           :current-page="Number(meta.currentPage)"
           :total-pages="totalPages"
           class="relative z-0"
+          @refresh-articles="emit('refreshArticles')"
           @translate-article="handleTranslateArticle"
           @toggle-select="handleToggleSelect"
           @navigate-page="handlePageChange"

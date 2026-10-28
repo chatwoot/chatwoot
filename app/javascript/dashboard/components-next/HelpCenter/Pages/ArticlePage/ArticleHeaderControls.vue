@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { OnClickOutside } from '@vueuse/components';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useMapGetter } from 'dashboard/composables/store';
 import {
   ARTICLE_TABS,
   CATEGORY_ALL,
@@ -28,12 +29,17 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  authorId: {
+    type: String,
+    default: '',
+  },
 });
 
 const emit = defineEmits([
   'tabChange',
   'localeChange',
   'categoryChange',
+  'authorChange',
   'newArticle',
 ]);
 
@@ -43,6 +49,44 @@ const { updateUISettings } = useUISettings();
 
 const isCategoryMenuOpen = ref(false);
 const isLocaleMenuOpen = ref(false);
+const isAuthorMenuOpen = ref(false);
+const agents = useMapGetter('agents/getAgents');
+const currentUserId = useMapGetter('getCurrentUserID');
+
+const authorMenuItems = computed(() => {
+  const items = [
+    {
+      label: t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.AUTHOR.ALL'),
+      value: '',
+      icon: 'i-lucide-users',
+    },
+    {
+      label: t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.AUTHOR.ME'),
+      value: String(currentUserId.value),
+      icon: 'i-lucide-user',
+    },
+    ...agents.value
+      .filter(agent => agent.id !== currentUserId.value)
+      .map(({ name, id, thumbnail }) => ({
+        label: name,
+        value: String(id),
+        thumbnail: { name, src: thumbnail },
+      }))
+      .toSorted((a, b) => a.label.localeCompare(b.label)),
+  ];
+
+  return items.map(item => ({
+    ...item,
+    action: 'filter',
+    isSelected: item.value === props.authorId,
+  }));
+});
+
+const activeAuthorName = computed(
+  () =>
+    authorMenuItems.value.find(item => item.value === props.authorId)?.label ||
+    t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.AUTHOR.SELECTED')
+);
 
 const countKey = tab => {
   if (tab.value === 'all') {
@@ -60,7 +104,10 @@ const tabs = computed(() => {
 });
 
 const activeTabIndex = computed(() => {
-  const tabParam = route.params.tab || ARTICLE_TABS.ALL;
+  const tabParam =
+    route.params.tab === ARTICLE_TABS.MINE
+      ? ARTICLE_TABS.ALL
+      : route.params.tab || ARTICLE_TABS.ALL;
   return tabs.value.findIndex(tab => tab.value === tabParam);
 });
 
@@ -125,6 +172,11 @@ const handleCategoryAction = ({ value }) => {
   isCategoryMenuOpen.value = false;
 };
 
+const handleAuthorAction = ({ value }) => {
+  emit('authorChange', value);
+  isAuthorMenuOpen.value = false;
+};
+
 const handleNewArticle = () => {
   emit('newArticle');
 };
@@ -142,7 +194,7 @@ const handleTabChange = value => {
       @tab-changed="handleTabChange"
     />
     <div class="flex items-start justify-between w-full gap-2">
-      <div class="flex items-center gap-2">
+      <div class="flex flex-wrap items-center gap-2">
         <div class="relative group">
           <OnClickOutside @trigger="isLocaleMenuOpen = false">
             <Button
@@ -190,6 +242,37 @@ const handleTabChange = value => {
               show-search
               class="left-0 w-48 mt-2 xl:right-0 top-full max-h-60"
               @action="handleCategoryAction"
+            />
+          </OnClickOutside>
+        </div>
+        <div class="relative group">
+          <OnClickOutside @trigger="isAuthorMenuOpen = false">
+            <Button
+              :label="activeAuthorName"
+              :aria-label="
+                t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.AUTHOR.LABEL', {
+                  author: activeAuthorName,
+                })
+              "
+              :aria-expanded="isAuthorMenuOpen"
+              size="sm"
+              icon="i-lucide-chevron-down"
+              color="slate"
+              trailing-icon
+              class="max-w-48"
+              @click="isAuthorMenuOpen = !isAuthorMenuOpen"
+            />
+            <DropdownMenu
+              v-if="isAuthorMenuOpen"
+              :menu-items="authorMenuItems"
+              :search-placeholder="
+                t(
+                  'HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.AUTHOR.SEARCH_PLACEHOLDER'
+                )
+              "
+              show-search
+              class="start-0 w-56 mt-2 top-full max-h-60"
+              @action="handleAuthorAction"
             />
           </OnClickOutside>
         </div>

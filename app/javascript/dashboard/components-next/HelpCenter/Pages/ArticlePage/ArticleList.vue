@@ -47,6 +47,7 @@ const emit = defineEmits([
   'toggleSelect',
   'navigatePage',
   'dragging',
+  'refreshArticles',
 ]);
 
 const { ARTICLE_STATUS_TYPES } = wootConstants;
@@ -90,6 +91,7 @@ const openArticle = id => {
     router.push({
       name: 'portals_categories_articles_edit',
       params: { articleSlug: id },
+      query: route.query,
     });
   } else {
     router.push({
@@ -100,6 +102,7 @@ const openArticle = id => {
         categorySlug,
         locale,
       },
+      query: route.query,
     });
   }
 };
@@ -141,16 +144,8 @@ const updatePortalMeta = () => {
   return store.dispatch('portals/show', { portalSlug, locale });
 };
 
-const updateArticlesMeta = () => {
-  const { portalSlug, locale } = route.params;
-  return store.dispatch('articles/updateArticleMeta', {
-    portalSlug,
-    locale,
-  });
-};
-
 const refreshArticleMeta = async () => {
-  await updateArticlesMeta();
+  emit('refreshArticles');
   await updatePortalMeta();
 };
 

@@ -559,6 +559,13 @@
           "PUBLISHED": "Published",
           "ARCHIVED": "Archived"
         },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "Me",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
+        },
         "CATEGORY": {
           "ALL": "All categories"
         },
@@ -573,6 +580,10 @@
           "TITLE": "Write an article",
           "SUBTITLE": "Write a rich article, let’s get started!",
           "BUTTON_LABEL": "New article"
+        },
+        "AUTHOR": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "MINE": {
           "TITLE": "You haven't written any articles here",
