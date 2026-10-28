@@ -22,6 +22,9 @@ class Captain::Copilot::ReportService
   }.freeze
   # One total or average per metric over exactly since to before, for comparing date ranges.
   RANGE = 'range'.freeze
+  # The options each kind of report leaves out. Passing one is an error, so the model never reads numbers that skip it.
+  IGNORED_OPTIONS = { summary: ['each', *DIMENSION_FILTERS.values], range: %w[each chart],
+                      breakdown: [*DIMENSION_FILTERS.values, 'chart'] }.freeze
 
   def self.permitted?(account:, user:)
     account_user = account.account_users.find_by(user_id: user.id)
@@ -41,11 +44,13 @@ class Captain::Copilot::ReportService
     @before = Time.iso8601(before).in_time_zone(@time_zone)
     raise ArgumentError, 'since must be earlier than before' if @since >= @before
 
-    return summary(by, metrics) unless PERIODS.key?(by) || by == RANGE
+    kind = report_kind(by, filters)
+    reject_ignored_options(kind, by, filters)
+    return summary(by, metrics) if kind == :summary
     raise ArgumentError, 'metrics is required to report by range, day, week, month or year' if metrics.blank?
-    return range_totals(metrics, filters) if by == RANGE
+    return range_totals(metrics, filters) if kind == :range
 
-    filters['each'] ? breakdown(metrics, by, filters['each']) : timeseries(metrics, by, filters)
+    kind == :breakdown ? breakdown(metrics, by, filters['each']) : timeseries(metrics, by, filters)
   end
 
   private
@@ -91,6 +96,10 @@ class Captain::Copilot::ReportService
   # The summary lists counts and average times; it can chart its two counts. The agents, inboxes, teams or labels with no
   # activity are counted, so an answer about the others is a number, not a guess.
   def summary(dimension, metrics)
+    if @chart && !metrics.intersect?(SUMMARY_COUNTS.keys)
+      raise ArgumentError, "A chart by #{dimension} needs conversations_count or resolutions_count in metrics"
+    end
+
     all = summary_rows(dimension)
     rows = active(all)
     result = { by: dimension, rows: rows, without_activity: all.size - rows.size, time_zone: @time_zone }
@@ -126,6 +135,18 @@ class Captain::Copilot::ReportService
   # The time series builders bucket periods in the zone name; the offset is for builders that take only an offset.
   def offset
     ActiveSupport::TimeZone[@time_zone].now.utc_offset / 3600.0
+  end
+
+  def report_kind(by, filters)
+    return :range if by == RANGE
+    return :summary unless PERIODS.key?(by)
+
+    filters['each'] ? :breakdown : :timeseries
+  end
+
+  def reject_ignored_options(kind, by, filters)
+    ignored = IGNORED_OPTIONS.fetch(kind, []).select { |option| option == 'chart' ? @chart : filters[option].present? }
+    raise ArgumentError, "by #{by}#{' with each' if kind == :breakdown} does not take #{ignored.join(', ')}" if ignored.any?
   end
 
   # At most one of agent, inbox, team or label, as on the reports pages. Labels are named, the rest are IDs.
