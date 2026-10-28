@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import allLocales from 'shared/constants/locales.js';
@@ -10,7 +10,6 @@ const route = useRoute();
 const router = useRouter();
 const store = useStore();
 
-const pageNumber = ref(1);
 const searchQuery = computed(() => route.query.search || '');
 
 const allArticles = useMapGetter('articles/allArticles');
@@ -70,9 +69,9 @@ const articles = computed(() =>
   isCategoryArticles.value ? articlesSortedByPosition.value : allArticles.value
 );
 
-const fetchArticles = ({ pageNumber: pageNumberParam } = {}) => {
+const fetchArticles = (pageNumber = 1) =>
   store.dispatch('articles/index', {
-    pageNumber: pageNumberParam || pageNumber.value,
+    pageNumber,
     portalSlug: selectedPortalSlug.value,
     locale: activeLocale.value,
     status: status.value,
@@ -80,12 +79,6 @@ const fetchArticles = ({ pageNumber: pageNumberParam } = {}) => {
     categorySlug: selectedCategorySlug.value,
     query: searchQuery.value || undefined,
   });
-};
-
-const onPageChange = pageNumberParam => {
-  pageNumber.value = pageNumberParam;
-  fetchArticles();
-};
 
 const onSearch = query => {
   router.replace({
@@ -104,14 +97,10 @@ const fetchPortalAndItsCategories = async locale => {
   store.dispatch('agents/get');
 };
 
-watch(
-  [() => route.params, author, searchQuery],
-  () => {
-    pageNumber.value = 1;
-    fetchArticles();
-  },
-  { deep: true, immediate: true }
-);
+watch([() => route.params, author, searchQuery], () => fetchArticles(), {
+  deep: true,
+  immediate: true,
+});
 </script>
 
 <template>
@@ -126,7 +115,7 @@ watch(
       :author-id="author"
       :portal-meta="portalMeta"
       :is-category-articles="isCategoryArticles"
-      @page-change="onPageChange"
+      @page-change="fetchArticles"
       @search="onSearch"
       @fetch-portal="fetchPortalAndItsCategories"
       @refresh-articles="fetchArticles"

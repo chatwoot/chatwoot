@@ -86,25 +86,13 @@ const getCategory = categoryId => {
 };
 
 const openArticle = id => {
-  const { tab, categorySlug, locale } = route.params;
-  if (props.isCategoryArticles) {
-    router.push({
-      name: 'portals_categories_articles_edit',
-      params: { articleSlug: id },
-      query: route.query,
-    });
-  } else {
-    router.push({
-      name: 'portals_articles_edit',
-      params: {
-        articleSlug: id,
-        tab,
-        categorySlug,
-        locale,
-      },
-      query: route.query,
-    });
-  }
+  router.push({
+    name: props.isCategoryArticles
+      ? 'portals_categories_articles_edit'
+      : 'portals_articles_edit',
+    params: { ...route.params, articleSlug: id },
+    query: route.query,
+  });
 };
 
 const onReorder = async positionsHash => {
@@ -139,20 +127,16 @@ const getStatusMessage = (status, isSuccess) => {
     : '';
 };
 
-const updatePortalMeta = () => {
+const refreshArticles = () => {
   const { portalSlug, locale } = route.params;
-  return store.dispatch('portals/show', { portalSlug, locale });
-};
-
-const refreshArticleMeta = async () => {
   emit('refreshArticles');
-  await updatePortalMeta();
+  return store.dispatch('portals/show', { portalSlug, locale });
 };
 
 // The card's pending-changes popover applies the status itself; surface the result.
 const onDraftResolved = status => {
   useAlert(getStatusMessage(status, true));
-  refreshArticleMeta();
+  refreshArticles();
 };
 
 const onDraftFailed = error => {
@@ -193,7 +177,7 @@ const handleArticleAction = async (action, { status, id }) => {
         useTrack(PORTALS_EVENTS.PUBLISH_ARTICLE);
       }
     }
-    await refreshArticleMeta();
+    await refreshArticles();
   } catch (error) {
     const fallbackMessage =
       {

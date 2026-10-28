@@ -132,20 +132,21 @@ const shouldShowPaginationFooter = computed(() => {
   return !(isFetching.value || isSwitchingPortal.value || hasNoArticles.value);
 });
 
-const updateRoute = newParams => {
+const updateRoute = (newParams, newQuery = {}) => {
   const { portalSlug, locale, tab, categorySlug } = route.params;
   router.push({
     name: 'portals_articles_index',
     params: {
       portalSlug,
-      locale: newParams.locale ?? locale,
-      tab: newParams.tab ?? (tab === ARTICLE_TABS.MINE ? '' : tab),
-      categorySlug: newParams.categorySlug ?? categorySlug,
+      locale,
+      tab: tab === ARTICLE_TABS.MINE ? '' : tab,
+      categorySlug,
       ...newParams,
     },
     query: {
       ...route.query,
       author_id: props.authorId || undefined,
+      ...newQuery,
     },
   });
 };
@@ -200,15 +201,8 @@ const handleTabChange = tab =>
 const handleCategoryAction = value =>
   updateRoute({ categorySlug: value === CATEGORY_ALL ? '' : value });
 
-const handleAuthorAction = authorId => {
-  router.push({
-    params: {
-      ...route.params,
-      tab: route.params.tab === ARTICLE_TABS.MINE ? '' : route.params.tab,
-    },
-    query: { ...route.query, author_id: authorId || undefined },
-  });
-};
+const handleAuthorAction = authorId =>
+  updateRoute({}, { author_id: authorId || undefined });
 
 const handleLocaleAction = value => {
   updateRoute({ locale: value, categorySlug: '' });

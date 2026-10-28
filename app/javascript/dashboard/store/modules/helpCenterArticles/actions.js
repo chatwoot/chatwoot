@@ -5,6 +5,7 @@ import camelcaseKeys from 'camelcase-keys';
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 
 import types from '../../mutation-types';
+
 const articleListRequest = useAbortableRequest();
 
 export const actions = {
@@ -133,21 +134,6 @@ export const actions = {
       draft_title: null,
       draft_content: null,
     }),
-
-  updateArticleMeta: async ({ commit }, { portalSlug, locale }) => {
-    try {
-      const { data } = await articlesAPI.getArticles({
-        pageNumber: 1,
-        portalSlug,
-        locale,
-      });
-      const meta = camelcaseKeys(data.meta);
-      const { currentPage, ...metaWithoutCurrentPage } = meta;
-      commit(types.SET_ARTICLES_META, metaWithoutCurrentPage);
-    } catch (error) {
-      throwErrorMessage(error);
-    }
-  },
 
   delete: async ({ commit }, { portalSlug, articleId }) => {
     commit(types.UPDATE_ARTICLE_FLAG, {
