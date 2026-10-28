@@ -5,6 +5,9 @@ class ContentAttributeValidator < ActiveModel::Validator
   ALLOWED_FORM_ITEM_KEYS = [:type, :placeholder, :label, :name, :options, :default, :required, :pattern, :title, :pattern_error].freeze
   ALLOWED_ARTICLE_KEYS = [:title, :description, :link].freeze
   REQUIRED_CTA_URL_KEYS = %w[display_text url].freeze
+  OPTIONAL_CTA_URL_KEYS = %w[body header footer header_image].freeze
+  CTA_URL_LINK_KEYS = %w[url header_image].freeze
+  HTTP_URL_REGEX = URI::DEFAULT_PARSER.make_regexp(%w[http https])
 
   def validate(record)
     validate_cta_url!(record) if record.content_attributes.key?('whatsapp_cta_url')
@@ -31,11 +34,32 @@ class ContentAttributeValidator < ActiveModel::Validator
   def validate_cta_url!(record)
     cta = record.content_attributes['whatsapp_cta_url']
     return record.errors.add(:content_attributes, 'whatsapp_cta_url should be a hash.') unless cta.is_a?(Hash)
+    return record.errors.add(:content_attributes, 'whatsapp_cta_url is only supported on WhatsApp Cloud inboxes') unless cta_url_inbox?(record)
+    return record.errors.add(:content_attributes, 'whatsapp_cta_url cannot be sent with attachments') if record.attachments.present?
+    return record.errors.add(:content_attributes, 'whatsapp_cta_url requires message content') if record.content.blank?
 
-    cta = cta.with_indifferent_access
-    missing_keys = REQUIRED_CTA_URL_KEYS.select { |key| cta[key].blank? }
-    missing_keys << 'body' if cta[:body].blank? && record.content.blank?
+    validate_cta_url_fields!(record, cta.with_indifferent_access)
+  end
+
+  def cta_url_inbox?(record)
+    record.inbox&.channel.try(:provider) == 'whatsapp_cloud'
+  end
+
+  def validate_cta_url_fields!(record, cta)
+    missing_keys = REQUIRED_CTA_URL_KEYS.reject { |key| present_string?(cta[key]) }
     record.errors.add(:content_attributes, "whatsapp_cta_url is missing #{missing_keys.join(', ')}") if missing_keys.present?
+
+    invalid_keys = invalid_cta_url_keys(cta)
+    record.errors.add(:content_attributes, "whatsapp_cta_url has invalid #{invalid_keys.join(', ')}") if invalid_keys.present?
+  end
+
+  def invalid_cta_url_keys(cta)
+    OPTIONAL_CTA_URL_KEYS.select { |key| cta[key].present? && !cta[key].is_a?(String) } +
+      CTA_URL_LINK_KEYS.select { |key| present_string?(cta[key]) && !cta[key].match?(HTTP_URL_REGEX) }
+  end
+
+  def present_string?(value)
+    value.is_a?(String) && value.present?
   end
 
   def validate_items!(record)

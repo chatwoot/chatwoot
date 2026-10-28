@@ -17,10 +17,17 @@ RSpec.describe Message do
   end
 
   describe 'whatsapp_cta_url validations' do
-    let(:message) { build(:message) }
+    let(:whatsapp_channel) do
+      create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+    end
+    let(:message) do
+      build(:message, inbox: whatsapp_channel.inbox, account: whatsapp_channel.account,
+                      conversation: create(:conversation, inbox: whatsapp_channel.inbox, account: whatsapp_channel.account))
+    end
+    let(:cta) { { display_text: 'See menu', url: 'https://example.com/menu' } }
 
     it 'is valid with display_text and url' do
-      message.content_attributes = { whatsapp_cta_url: { display_text: 'See menu', url: 'https://example.com/menu' } }
+      message.content_attributes = { whatsapp_cta_url: cta.merge(header_image: 'https://example.com/menu.jpg', footer: 'Open') }
       expect(message).to be_valid
     end
 
@@ -30,11 +37,30 @@ RSpec.describe Message do
       expect(message.errors[:content_attributes]).to include('whatsapp_cta_url is missing url')
     end
 
-    it 'is invalid when both body and content are blank' do
+    it 'is invalid without message content' do
       message.content = nil
-      message.content_attributes = { whatsapp_cta_url: { display_text: 'See menu', url: 'https://example.com/menu' } }
+      message.content_attributes = { whatsapp_cta_url: cta.merge(body: 'Check out our menu') }
       expect(message).not_to be_valid
-      expect(message.errors[:content_attributes]).to include('whatsapp_cta_url is missing body')
+      expect(message.errors[:content_attributes]).to include('whatsapp_cta_url requires message content')
+    end
+
+    it 'is invalid when optional fields or urls have the wrong shape' do
+      message.content_attributes = { whatsapp_cta_url: cta.merge(url: 'menu', footer: 123, header_image: { url: 'https://example.com' }) }
+      expect(message).not_to be_valid
+      expect(message.errors[:content_attributes]).to include('whatsapp_cta_url has invalid footer, header_image, url')
+    end
+
+    it 'is invalid with attachments' do
+      message.attachments.new(account_id: message.account_id, file_type: :image)
+      message.content_attributes = { whatsapp_cta_url: cta }
+      expect(message).not_to be_valid
+      expect(message.errors[:content_attributes]).to include('whatsapp_cta_url cannot be sent with attachments')
+    end
+
+    it 'is invalid outside WhatsApp Cloud inboxes' do
+      message = build(:message, content_attributes: { whatsapp_cta_url: cta })
+      expect(message).not_to be_valid
+      expect(message.errors[:content_attributes]).to include('whatsapp_cta_url is only supported on WhatsApp Cloud inboxes')
     end
 
     it 'is invalid when it is not a hash' do
