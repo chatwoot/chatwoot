@@ -103,16 +103,23 @@ export default {
 <template>
   <div class="chat-bubble-wrap">
     <button class="chat-bubble agent bg-white" @click="onClickMessage">
-      <div v-if="showSender" class="row--agent-block">
+      <div
+        v-if="showSender"
+        class="row--agent-block flex items-center pb-2 text-xs text-start"
+      >
         <Avatar
           :src="avatarUrl"
-          :size="20"
+          :size="16"
           :name="agentName"
           :status="availabilityStatus"
           rounded-full
         />
-        <span class="agent--name">{{ agentName }}</span>
-        <span class="company--name">{{ companyName }}</span>
+        <span class="ms-1">
+          <span class="agent--name font-medium">{{ agentName }}</span>
+          <span class="company--name ms-1 text-n-slate-11 dark:text-n-slate-10">
+            {{ companyName }}
+          </span>
+        </span>
       </div>
       <TranslatingContent :translating="translating" :translated="translated">
         <div
@@ -127,17 +134,5 @@ export default {
 <style lang="scss" scoped>
 .chat-bubble {
   @apply max-w-[85%] cursor-pointer p-4;
-}
-
-.row--agent-block {
-  @apply items-center flex text-left pb-2 text-xs;
-
-  .agent--name {
-    @apply font-medium ml-1;
-  }
-
-  .company--name {
-    @apply text-n-slate-11 dark:text-n-slate-10 ml-1;
-  }
 }
 </style>
