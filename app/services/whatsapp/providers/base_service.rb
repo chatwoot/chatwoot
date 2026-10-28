@@ -131,6 +131,31 @@ class Whatsapp::Providers::BaseService
     json_hash = { :button => I18n.t('conversations.messages.whatsapp.list_button_label'), 'sections' => sections }
     create_payload('list', message.outgoing_content, JSON.generate(json_hash))
   end
+
+  def cta_url_message?(message)
+    message.content_attributes['whatsapp_cta_url'].is_a?(Hash)
+  end
+
+  def create_cta_url_payload(message)
+    cta = message.content_attributes['whatsapp_cta_url'].with_indifferent_access
+    payload = {
+      type: 'cta_url',
+      body: { text: cta[:body].presence || message.outgoing_content },
+      action: { name: 'cta_url', parameters: { display_text: cta[:display_text], url: cta[:url] } }
+    }
+    header = cta_url_header(cta)
+    payload[:header] = header if header.present?
+    payload[:footer] = { text: cta[:footer] } if cta[:footer].present?
+    payload
+  end
+
+  def cta_url_header(cta)
+    if cta[:header_image].present?
+      { type: 'image', image: { link: cta[:header_image] } }
+    elsif cta[:header].present?
+      { type: 'text', text: cta[:header] }
+    end
+  end
 end
 
 Whatsapp::Providers::BaseService.prepend_mod_with('Whatsapp::Providers::BaseService')
