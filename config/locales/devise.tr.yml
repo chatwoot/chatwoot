@@ -15,6 +15,7 @@ tr:
       timeout: "Oturumunuzun süresi doldu. Devam etmek için lütfen tekrar oturum açın."
       unauthenticated: "Devam etmeden önce oturum açmanız veya kaydolmanız gerekiyor."
       unconfirmed: "Devam etmeden önce e-posta adresinizi onaylamalısınız."
+      suspended: "Hesabınız askıya alınmıştır. Lütfen yöneticinizle iletişime geçin."
     mailer:
       confirmation_instructions:
         subject: "Onay Talimatları"
