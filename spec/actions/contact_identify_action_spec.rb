@@ -97,6 +97,15 @@ describe ContactIdentifyAction do
         expect(result.email).to be_nil
       end
 
+      it 'does not merge into an identified contact through its phone number without its identifier' do
+        target = create(:contact, account: account, identifier: 'target-id', phone_number: '+14155550123')
+        result = described_class.new(contact: contact, params: { phone_number: target.phone_number }).perform
+
+        expect(result.id).to eq(contact.id)
+        expect(result.phone_number).to be_nil
+        expect(target.reload.identifier).to eq('target-id')
+      end
+
       it 'will not overide the phone contacts email when params contains different email' do
         existing_phone_number_contact = create(:contact, account: account, email: '1@test.com', phone_number: '+919999888877')
         params = { email: '2@test.com', phone_number: '+919999888877' }
@@ -169,44 +178,6 @@ describe ContactIdentifyAction do
 
         expect(Avatar::AvatarFromUrlJob).to receive(:perform_later).with(contact, params[:avatar_url]).once
         described_class.new(contact: contact, params: params).perform
-      end
-    end
-
-    context 'when resolving a verified identity' do
-      it 'does not merge into an identified contact through its phone number without its identifier' do
-        target = create(:contact, account: account, identifier: 'target-id', phone_number: '+14155550123')
-        result = described_class.new(contact: contact, params: { phone_number: target.phone_number }).perform
-
-        expect(result.id).to eq(contact.id)
-        expect(result.phone_number).to be_nil
-        expect(target.reload.identifier).to eq('target-id')
-      end
-
-      it 'does not merge into a contact with a verified session and no identifier' do
-        target = create(:contact, account: account, email: 'target@test.com')
-        create(:contact_inbox, contact: target, hmac_verified: true)
-        result = described_class.new(contact: contact, params: { email: target.email }).perform
-
-        expect(result.id).to eq(contact.id)
-        expect(result.email).to be_nil
-      end
-
-      it 'clears verification on every moved session while preserving anonymous contact matching' do
-        target = create(:contact, account: account, email: 'target@test.com')
-        sessions = create_list(:contact_inbox, 2, contact: contact, hmac_verified: true)
-        result = described_class.new(contact: contact, params: { email: target.email }).perform
-
-        expect(result.id).to eq(target.id)
-        expect(ContactInbox.where(id: sessions.map(&:id)).pluck(:contact_id)).to eq([target.id, target.id])
-        expect(ContactInbox.where(id: sessions.map(&:id)).pluck(:hmac_verified)).to eq([false, false])
-      end
-
-      it 'clears verification when the contact identifier changes in place' do
-        session = create(:contact_inbox, contact: contact, hmac_verified: true)
-        described_class.new(contact: contact, params: { identifier: 'new-id' }).perform
-
-        expect(contact.reload.identifier).to eq('new-id')
-        expect(session.reload).not_to be_hmac_verified
       end
     end
   end

@@ -74,10 +74,8 @@ class ContactIdentifyAction
 
     return true if existing_contact.id == @contact.id
 
-    return true if existing_contact.identifier.blank? && !existing_contact.verified_contact_inboxes?
-
     # we want to prevent merging contacts with different identifiers
-    if existing_contact.identifier.blank? || existing_contact.identifier != params[:identifier].to_s
+    if existing_contact.identifier.present? && existing_contact.identifier != params[:identifier]
       # we will remove attribute from update list
       @attributes_to_update.delete(key)
       return false
@@ -106,7 +104,6 @@ class ContactIdentifyAction
     # blank identifier or email will throw unique index error
     # TODO: replace reject { |_k, v| v.blank? } with compact_blank when rails is upgraded
     @contact.discard_invalid_attrs if discard_invalid_attrs
-    @contact.reset_hmac_verification! if @contact.will_save_change_to_identifier?
     @contact.save! if @contact.changed?
     enqueue_avatar_job
   end
@@ -121,7 +118,6 @@ class ContactIdentifyAction
   def merge_contact(base_contact, merge_contact)
     return base_contact if base_contact.id == merge_contact.id
 
-    merge_contact.reset_hmac_verification!
     ContactMergeAction.new(
       account: account,
       base_contact: base_contact,

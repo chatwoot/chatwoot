@@ -138,14 +138,6 @@ class Contact < ApplicationRecord
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
   end
 
-  def verified_contact_inboxes?
-    contact_inboxes.exists?(hmac_verified: true)
-  end
-
-  def reset_hmac_verification!
-    contact_inboxes.where(hmac_verified: true).update!(hmac_verified: false)
-  end
-
   def push_event_data
     data = {
       additional_attributes: additional_attributes,
