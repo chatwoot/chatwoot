@@ -1,5 +1,5 @@
 class Whatsapp::CallService
-  pattr_initialize [:call!, :agent!, :sdp_answer]
+  pattr_initialize [:call!, :agent!, :sdp_answer, :client]
 
   def accept
     raise Voice::CallErrors::CallFailed, 'sdp_answer is required' if sdp_answer.blank?
@@ -56,7 +56,7 @@ class Whatsapp::CallService
 
     forward_answer_to_meta!
     call.update!(status: 'in_progress', accepted_by_agent_id: agent.id, started_at: Time.current,
-                 meta: (call.meta || {}).merge('sdp_answer' => sdp_answer))
+                 meta: (call.meta || {}).merge('sdp_answer' => sdp_answer, 'agent_client' => client))
   end
 
   def forward_answer_to_meta!

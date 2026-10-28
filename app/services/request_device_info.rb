@@ -22,6 +22,13 @@ class RequestDeviceInfo
     to_h[:browser_name]
   end
 
+  # web, or the platform the Chatwoot mobile app reports (ios or android)
+  def client_platform
+    return 'web' if @request.headers['X-Chatwoot-Client-Name'].blank?
+
+    @request.headers['X-Chatwoot-Platform']
+  end
+
   # A clean "on X" label: the device for mobile clients, the OS for desktop browsers.
   def platform_label
     @mobile ? to_h[:device_name] : to_h[:platform_name]

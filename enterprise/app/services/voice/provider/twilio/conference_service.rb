@@ -10,8 +10,8 @@ class Voice::Provider::Twilio::ConferenceService
 
   # `attempt` identifies the connection the agent is about to open, which passes the same id
   # to Twilio; a client that sends none holds no place for it
-  def mark_agent_joined(user:, attempt: nil)
-    claim_call!(user, attempt)
+  def mark_agent_joined(user:, client:, attempt: nil)
+    claim_call!(user, client, attempt)
     assign_conversation!(user)
   end
 
@@ -79,7 +79,7 @@ class Voice::Provider::Twilio::ConferenceService
   end
 
   # The agent's connection is on its way from here, before Twilio asks for its instructions
-  def claim_call!(user, attempt)
+  def claim_call!(user, client, attempt)
     call.with_lock do
       # The ring time is up and the caller is being told so; a join now would find nobody. The mark is checked on
       # its own, since the move's webhooks can end the call before the timeout records it as unanswered.
@@ -87,6 +87,7 @@ class Voice::Provider::Twilio::ConferenceService
 
       raise_already_accepted!(call.accepted_by_agent) if claimed_by_other_agent?(user)
       call.update!(accepted_by_agent: user) if call.accepted_by_agent_id != user.id
+      call.merge_meta!('agent_client' => client)
       next if attempt.blank?
 
       # A newer attempt replaces older ones, which may never have reached Twilio
