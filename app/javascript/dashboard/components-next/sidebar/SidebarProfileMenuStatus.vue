@@ -152,9 +152,17 @@ function changeAvailabilityStatus(availability) {
       <template v-if="hasVoiceInbox">
         <div v-if="isOnline" class="grid">
           <DropdownItem preserve-open>
-            <label class="flex flex-grow gap-3 items-center min-w-0">
+            <label
+              class="flex flex-grow gap-3 items-center min-w-0"
+              :class="
+                acceptsCalls
+                  ? 'cursor-pointer'
+                  : 'cursor-not-allowed text-n-slate-11'
+              "
+            >
               <Checkbox
                 v-model="acceptsConversations"
+                class="[&>input:disabled:checked]:border-n-slate-8 [&>input:disabled:checked]:bg-n-slate-8 [&>input:disabled]:cursor-not-allowed"
                 :disabled="!acceptsCalls"
               />
               {{ $t('SIDEBAR.ACCEPT_CONVERSATIONS.TEXT') }}
@@ -166,9 +174,17 @@ function changeAvailabilityStatus(availability) {
             </label>
           </DropdownItem>
           <DropdownItem preserve-open>
-            <label class="flex flex-grow gap-3 items-center min-w-0">
+            <label
+              class="flex flex-grow gap-3 items-center min-w-0"
+              :class="
+                acceptsConversations
+                  ? 'cursor-pointer'
+                  : 'cursor-not-allowed text-n-slate-11'
+              "
+            >
               <Checkbox
                 v-model="acceptsCalls"
+                class="[&>input:disabled:checked]:border-n-slate-8 [&>input:disabled:checked]:bg-n-slate-8 [&>input:disabled]:cursor-not-allowed"
                 :disabled="!acceptsConversations"
               />
               {{ $t('SIDEBAR.ACCEPT_CALLS.TEXT') }}
