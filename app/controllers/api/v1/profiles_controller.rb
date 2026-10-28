@@ -15,7 +15,8 @@ class Api::V1::ProfilesController < Api::BaseController
       @user.update!(password_params.except(:current_password))
     end
 
-    @user.assign_attributes(profile_params)
+    @user.assign_attributes(profile_params.except(:ui_settings))
+    merge_ui_settings
     @user.custom_attributes.merge!(custom_attributes_params)
     @user.save!
   end
@@ -60,6 +61,16 @@ class Api::V1::ProfilesController < Api::BaseController
 
   def auto_offline_params
     params.require(:profile).permit(:account_id, :auto_offline)
+  end
+
+  # The dashboard sends the whole ui_settings hash on every change, and it can
+  # send one before the user's saved settings have loaded (e.g. the layout save
+  # on page load). Merge instead of replace, so a partial or empty hash cannot
+  # erase settings saved earlier, such as the conversation status filter.
+  def merge_ui_settings
+    return unless profile_params.key?(:ui_settings)
+
+    @user.ui_settings = (@user.ui_settings || {}).merge(profile_params[:ui_settings].to_h)
   end
 
   def profile_params

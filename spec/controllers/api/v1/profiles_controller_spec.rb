@@ -234,6 +234,34 @@ RSpec.describe 'Profile API', type: :request do
         json_response = response.parsed_body
         expect(json_response['ui_settings']['is_contact_sidebar_open']).to be(false)
       end
+
+      it 'keeps saved ui settings that the request does not include' do
+        agent.update!(ui_settings: { 'conversations_filter_by' => { 'status' => 'all' }, 'is_contact_sidebar_open' => true })
+
+        put '/api/v1/profile',
+            params: { profile: { ui_settings: { conversation_display_type: 'expanded' } } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(agent.reload.ui_settings).to eq(
+          'conversations_filter_by' => { 'status' => 'all' },
+          'is_contact_sidebar_open' => true,
+          'conversation_display_type' => 'expanded'
+        )
+      end
+
+      it 'does not erase saved ui settings when the request sends an empty hash' do
+        agent.update!(ui_settings: { 'conversations_filter_by' => { 'status' => 'all' } })
+
+        put '/api/v1/profile',
+            params: { profile: { ui_settings: {} } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(agent.reload.ui_settings).to eq('conversations_filter_by' => { 'status' => 'all' })
+      end
     end
 
     context 'when an authenticated user updates email' do
