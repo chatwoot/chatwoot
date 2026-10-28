@@ -124,6 +124,42 @@ RSpec.describe Voice::InboundCallBuilder do
     end
   end
 
+  context 'when the inbox ends unanswered calls' do
+    before do
+      channel.update!(provider_config: channel.provider_config.merge(
+        'unanswered_calls_enabled' => true, 'unanswered_call_timeout_seconds' => 45, 'unanswered_call_message' => 'Nobody is available.'
+      ))
+    end
+
+    it 'ends the call as it starts when no agent is online to ring' do
+      account.enable_features!('channel_voice', 'mobile_voice_push')
+
+      call = nil
+      expect { call = perform_builder }.not_to have_enqueued_job(Voice::EndUnansweredCallJob)
+
+      expect(call).to have_attributes(status: 'no_answer', end_reason: 'no_agents_available', ring_state: {})
+      expect(call.ended_at).to be_present
+      expect(Voice::VoipPushJob).not_to have_been_enqueued
+    end
+
+    it 'rings, and ends the call after the ring time, when an online agent can be rung' do
+      agent = create(:user, account: account, role: :agent)
+      create(:inbox_member, inbox: inbox, user: agent)
+
+      call = nil
+      expect { call = perform_builder }
+        .to have_enqueued_job(Voice::EndUnansweredCallJob).with(kind_of(Integer)).at(a_value_within(2.seconds).of(45.seconds.from_now))
+      expect(call).to be_ringing
+    end
+
+    it 'lets the ring go on when ending unanswered calls is off' do
+      channel.update!(provider_config: channel.provider_config.merge('unanswered_calls_enabled' => false))
+
+      expect { perform_builder }.not_to have_enqueued_job(Voice::EndUnansweredCallJob)
+      expect(Call.sole).to be_ringing
+    end
+  end
+
   context 'when a Call already exists for the call_sid' do
     let(:existing_call) do
       conversation = create(:conversation, account: account, inbox: inbox)
@@ -153,6 +189,14 @@ RSpec.describe Voice::InboundCallBuilder do
       existing_call.update!(status: 'ringing', ring_state: { 'ring_recipient_ids' => [1], 'rung_user_ids' => [1] })
 
       expect { perform_builder }.to have_enqueued_job(Voice::VoipPushJob).with(existing_call.id, 'ring')
+    end
+
+    it 'queues the ring time again, from when the call began, when the inbox ends unanswered calls' do
+      channel.update!(provider_config: channel.provider_config.merge('unanswered_calls_enabled' => true, 'unanswered_call_timeout_seconds' => 45))
+      existing_call.update!(status: 'ringing', created_at: 10.seconds.ago)
+
+      expect { perform_builder }
+        .to have_enqueued_job(Voice::EndUnansweredCallJob).with(existing_call.id).at(a_value_within(2.seconds).of(35.seconds.from_now))
     end
 
     it 'does not queue another ring once the ring has an outcome' do
