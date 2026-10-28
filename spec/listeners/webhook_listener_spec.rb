@@ -126,6 +126,63 @@ describe WebhookListener do
     end
   end
 
+  describe '#message_updated' do
+    let(:event_name) { :'message.updated' }
+
+    context 'when webhook is configured' do
+      it 'triggers the webhook event when message content or status updates' do
+        webhook = create(:webhook, inbox: inbox, account: account)
+        event = Events::Base.new(
+          event_name,
+          Time.zone.now,
+          message: message,
+          previous_changes: { 'content' => %w[old new], 'updated_at' => [Time.zone.now, Time.zone.now] }
+        )
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url, message.webhook_data.merge(event: 'message_updated'), :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
+        listener.message_updated(event)
+      end
+
+      it 'does not trigger webhook event when only external_error changes' do
+        create(:webhook, inbox: inbox, account: account)
+        event = Events::Base.new(
+          event_name,
+          Time.zone.now,
+          message: message,
+          previous_changes: {
+            'external_error' => ['502 Bad Gateway', '504 Gateway Timeout'],
+            'updated_at' => [Time.zone.now, Time.zone.now]
+          }
+        )
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.message_updated(event)
+      end
+    end
+
+    context 'when inbox is an API Channel' do
+      it 'does not trigger webhook when only external_error changes' do
+        channel_api = create(:channel_api, account: account)
+        api_inbox = channel_api.inbox
+        api_conversation = create(:conversation, account: account, inbox: api_inbox, assignee: user)
+        api_message = create(:message, message_type: 'outgoing', account: account, inbox: api_inbox, conversation: api_conversation)
+        api_event = Events::Base.new(
+          event_name,
+          Time.zone.now,
+          message: api_message,
+          previous_changes: {
+            'external_error' => ['502 Bad Gateway', '504 Gateway Timeout'],
+            'updated_at' => [Time.zone.now, Time.zone.now]
+          }
+        )
+
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.message_updated(api_event)
+      end
+    end
+  end
+
   describe '#conversation_created' do
     let(:event_name) { :'conversation.created' }
 

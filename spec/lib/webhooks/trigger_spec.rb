@@ -62,6 +62,37 @@ describe Webhooks::Trigger do
       expect { trigger.execute(url, payload, webhook_type) }.to change { message.reload.status }.from('sent').to('failed')
     end
 
+    it 'does not update message status or error if message is already failed' do
+      message.update!(status: 'failed', external_error: '502 Bad Gateway')
+      payload = { event: 'message_updated', conversation: { id: conversation.id }, id: message.id }
+
+      expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('504 Gateway Timeout'))
+
+      expect { trigger.execute(url, payload, webhook_type) }.not_to(change { message.reload.external_error })
+      expect(message.reload.status).to eq('failed')
+      expect(message.reload.external_error).to eq('502 Bad Gateway')
+    end
+
+    it 'does not update message status if message was already marked delivered' do
+      message.update!(status: 'delivered')
+      payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
+
+      expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('500 Internal Server Error'))
+
+      expect { trigger.execute(url, payload, webhook_type) }.not_to(change { message.reload.status })
+      expect(message.reload.status).to eq('delivered')
+    end
+
+    it 'does not update message status if message was already marked read' do
+      message.update!(status: 'read')
+      payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
+
+      expect(SafeFetch).to receive(:fetch).and_raise(SafeFetch::HttpError.new('500 Internal Server Error'))
+
+      expect { trigger.execute(url, payload, webhook_type) }.not_to(change { message.reload.status })
+      expect(message.reload.status).to eq('read')
+    end
+
     it 'treats blocked private webhook URLs as failures' do
       payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
 

@@ -37,6 +37,7 @@ class WebhookListener < BaseListener
     inbox = message.inbox
 
     return unless message.webhook_sendable?
+    return if only_external_error_changed?(event)
 
     payload = message.webhook_data.merge(event: __method__.to_s)
     deliver_webhook_payloads(payload, inbox)
@@ -130,5 +131,13 @@ class WebhookListener < BaseListener
   def deliver_webhook_payloads(payload, inbox)
     deliver_account_webhooks(payload, inbox.account)
     deliver_api_inbox_webhooks(payload, inbox)
+  end
+
+  def only_external_error_changed?(event)
+    previous_changes = event.data[:previous_changes] || event.data['previous_changes']
+    return false if previous_changes.blank?
+
+    changed_keys = previous_changes.keys.map(&:to_s) - ['updated_at']
+    changed_keys == ['external_error']
   end
 end
