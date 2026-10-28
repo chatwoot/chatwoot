@@ -8,8 +8,10 @@ RSpec.describe PortalImageHelper do
       with_modified_env(FRONTEND_URL: 'https://app.example.test', HELPCENTER_URL: 'https://help.example.test') { example.run }
     end
 
-    it 'preserves the signed path, query and fragment while removing the installation origin' do
-      expect(helper.portal_image_src("https://app.example.test#{image_path}")).to eq(image_path)
+    it 'preserves signed paths, queries and fragments for redirect and proxy URLs' do
+      [image_path, image_path.sub('/redirect/', '/proxy/')].each do |path|
+        expect(helper.portal_image_src("https://app.example.test#{path}")).to eq(path)
+      end
     end
 
     it 'also accepts the configured Help Center origin' do
