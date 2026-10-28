@@ -272,12 +272,12 @@ export function useCallSession() {
   const seedCallsFromHydratedMessages = () => {
     const conversations = store.getters.getAllConversations || [];
     const currentUserId = store.getters.getCurrentUserID;
-    const currentUserAvailability = store.getters.getCurrentUserAvailability;
+    const receivesCalls = store.getters.getCurrentUserReceivesCalls;
     conversations.forEach(conv => {
       (conv.messages || []).forEach(msg => {
         if (msg.content_type !== CONTENT_TYPES.VOICE_CALL) return;
         if (msg.call?.status !== VOICE_CALL_STATUS.RINGING) return;
-        handleVoiceCallCreated(msg, currentUserId, currentUserAvailability);
+        handleVoiceCallCreated(msg, currentUserId, receivesCalls);
       });
     });
   };
