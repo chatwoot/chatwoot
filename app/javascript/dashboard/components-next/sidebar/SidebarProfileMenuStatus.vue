@@ -86,14 +86,26 @@ const updateWorkPreferences = preferences => {
   });
 };
 
-const acceptsConversations = computed({
-  get: () => currentUserAcceptsConversations.value,
-  set: value => updateWorkPreferences({ accepts_conversations: value }),
-});
-
-const acceptsCalls = computed({
-  get: () => currentUserAcceptsCalls.value,
-  set: value => updateWorkPreferences({ accepts_calls: value }),
+const workPreferences = computed(() => {
+  const preferences = [
+    {
+      key: 'accepts_conversations',
+      value: currentUserAcceptsConversations.value,
+      label: t('SIDEBAR.ACCEPT_CONVERSATIONS.TEXT'),
+      info: t('SIDEBAR.ACCEPT_CONVERSATIONS.INFO_SHORT'),
+    },
+    {
+      key: 'accepts_calls',
+      value: currentUserAcceptsCalls.value,
+      label: t('SIDEBAR.ACCEPT_CALLS.TEXT'),
+      info: t('SIDEBAR.ACCEPT_CALLS.INFO_SHORT'),
+    },
+  ];
+  const enabledCount = preferences.filter(({ value }) => value).length;
+  return preferences.map(preference => ({
+    ...preference,
+    isLocked: preference.value && enabledCount === 1,
+  }));
 });
 
 function changeAvailabilityStatus(availability) {
@@ -151,45 +163,30 @@ function changeAvailabilityStatus(availability) {
       </DropdownItem>
       <template v-if="hasVoiceInbox">
         <div v-if="isOnline" class="grid">
-          <DropdownItem preserve-open>
+          <DropdownItem
+            v-for="preference in workPreferences"
+            :key="preference.key"
+            preserve-open
+          >
             <label
               class="flex flex-grow gap-3 items-center min-w-0"
               :class="
-                acceptsCalls
-                  ? 'cursor-pointer'
-                  : 'cursor-not-allowed text-n-slate-11'
+                preference.isLocked
+                  ? 'cursor-not-allowed text-n-slate-11'
+                  : 'cursor-pointer'
               "
             >
               <Checkbox
-                v-model="acceptsConversations"
+                :model-value="preference.value"
                 class="[&>input:disabled:checked]:border-n-slate-8 [&>input:disabled:checked]:bg-n-slate-8 [&>input:disabled]:cursor-not-allowed"
-                :disabled="!acceptsCalls"
+                :disabled="preference.isLocked"
+                @update:model-value="
+                  value => updateWorkPreferences({ [preference.key]: value })
+                "
               />
-              {{ $t('SIDEBAR.ACCEPT_CONVERSATIONS.TEXT') }}
+              {{ preference.label }}
               <Icon
-                v-tooltip.top="$t('SIDEBAR.ACCEPT_CONVERSATIONS.INFO_SHORT')"
-                icon="i-lucide-info"
-                class="flex-shrink-0 -ms-1 size-4 text-n-slate-10"
-              />
-            </label>
-          </DropdownItem>
-          <DropdownItem preserve-open>
-            <label
-              class="flex flex-grow gap-3 items-center min-w-0"
-              :class="
-                acceptsConversations
-                  ? 'cursor-pointer'
-                  : 'cursor-not-allowed text-n-slate-11'
-              "
-            >
-              <Checkbox
-                v-model="acceptsCalls"
-                class="[&>input:disabled:checked]:border-n-slate-8 [&>input:disabled:checked]:bg-n-slate-8 [&>input:disabled]:cursor-not-allowed"
-                :disabled="!acceptsConversations"
-              />
-              {{ $t('SIDEBAR.ACCEPT_CALLS.TEXT') }}
-              <Icon
-                v-tooltip.top="$t('SIDEBAR.ACCEPT_CALLS.INFO_SHORT')"
+                v-tooltip.top="preference.info"
                 icon="i-lucide-info"
                 class="flex-shrink-0 -ms-1 size-4 text-n-slate-10"
               />
