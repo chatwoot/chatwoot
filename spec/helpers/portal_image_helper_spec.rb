@@ -26,6 +26,14 @@ RSpec.describe PortalImageHelper do
       end
     end
 
+    it 'leaves external images unchanged when the optional Help Center URL has no scheme' do
+      url = 'https://external.example.test/rails/active_storage/blobs/redirect/id/image.png'
+
+      with_modified_env(HELPCENTER_URL: 'help.example.test') do
+        expect(helper.portal_image_src(url)).to eq(url)
+      end
+    end
+
     [
       'https://external.example.test/rails/active_storage/blobs/redirect/id/image.png',
       'https://app.example.test.evil.test/rails/active_storage/blobs/redirect/id/image.png',

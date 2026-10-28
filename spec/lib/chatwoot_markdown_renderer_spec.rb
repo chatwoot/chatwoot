@@ -27,7 +27,7 @@ RSpec.describe ChatwootMarkdownRenderer do
       expect(rendered_content).to be_html_safe
     end
 
-    context 'with an image URL resolver' do
+    context 'with installation image URLs' do
       let(:local_url) { 'https://app.example.test/rails/active_storage/blobs/redirect/id/image.png?cw_image_width=320px' }
       let(:external_url) { 'https://external.example.test/rails/active_storage/blobs/redirect/id/image.png' }
       let(:image_path) { '/rails/active_storage/blobs/redirect/id/image.png?cw_image_width=320px' }
@@ -51,8 +51,12 @@ RSpec.describe ChatwootMarkdownRenderer do
         allow(CustomMarkdownRenderer).to receive(:new).and_call_original
       end
 
+      around do |example|
+        with_modified_env(FRONTEND_URL: 'https://app.example.test', HELPCENTER_URL: 'https://help.example.test') { example.run }
+      end
+
       it 'resolves only image sources and preserves sizing, links, code and external images' do
-        html = renderer.render_article { |url| url == local_url ? image_path : url }
+        html = renderer.render_article
         document = Nokogiri::HTML5.fragment(html)
 
         expect(document.css('img').map { |image| image['src'] }).to eq([image_path, external_url])
@@ -61,10 +65,10 @@ RSpec.describe ChatwootMarkdownRenderer do
         expect(document.css('code').map(&:text)).to eq([local_url, "<img src=\"#{local_url}\">\n"])
       end
 
-      it 'sanitizes resolved sources before rendering' do
-        html = renderer.render_article { |_url| 'javascript:alert(1)' }
+      it 'sanitizes unsafe image sources before rendering' do
+        html = described_class.new('![unsafe](javascript:alert(1))').render_article
 
-        expect(Nokogiri::HTML5.fragment(html).css('img').map { |image| image['src'] }).to eq(['', ''])
+        expect(Nokogiri::HTML5.fragment(html).at_css('img')['src']).to eq('')
       end
     end
 

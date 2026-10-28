@@ -1,4 +1,5 @@
 module PortalImageHelper
+  # Relative paths follow the Help Center's current domain without changing saved content.
   def portal_image_src(url)
     begin
       source = URI.parse(url)
@@ -17,7 +18,7 @@ module PortalImageHelper
     installation_urls = [ENV.fetch('FRONTEND_URL', nil), ENV.fetch('HELPCENTER_URL', nil)].filter_map(&:presence)
     installation_urls.any? do |value|
       base = URI.parse(value)
-      [source.scheme, source.host&.downcase, source.port] == [base.scheme, base.host.downcase, base.port]
+      [source.scheme, source.host&.downcase, source.port] == [base.scheme, base.host&.downcase, base.port]
     end
   end
 end

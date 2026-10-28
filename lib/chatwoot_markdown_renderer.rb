@@ -10,8 +10,8 @@ class ChatwootMarkdownRenderer
     render_as_html_safe(html)
   end
 
-  def render_article(&)
-    markdown_renderer = CustomMarkdownRenderer.new(&)
+  def render_article
+    markdown_renderer = CustomMarkdownRenderer.new
     doc = CommonMarker.render_doc(@content, :DEFAULT, [:table])
     html = markdown_renderer.render(doc)
 
