@@ -123,8 +123,8 @@ RSpec.describe Contact do
     end
 
     it 'allows two contacts in different accounts to share the same email' do
-      create(:contact, email: 'shared@test.com')
-      contact = build(:contact, email: 'shared@test.com')
+      create(:contact, account: create(:account), email: 'shared@test.com')
+      contact = build(:contact, account: create(:account), email: 'shared@test.com')
       expect(contact).to be_valid
     end
   end

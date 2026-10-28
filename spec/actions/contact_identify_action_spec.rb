@@ -77,6 +77,27 @@ describe ContactIdentifyAction do
         expect(result.email).to be_nil
       end
 
+      it 'retains the submitted email and phone number when phone numbers differ, even if identifiers differ too' do
+        existing_email_contact = create(:contact, account: account, identifier: '1', email: 'shared@test.com', phone_number: '+10000000001')
+        params = { identifier: '2', email: 'shared@test.com', phone_number: '+10000000002' }
+        result = described_class.new(contact: contact, params: params).perform
+        expect(result.id).not_to eq existing_email_contact.id
+        expect(result.identifier).to eq '2'
+        expect(result.email).to eq 'shared@test.com'
+        expect(result.phone_number).to eq '+10000000002'
+      end
+
+      it 'does not merge into a different contact sharing the email when the current contact already has a different phone number on file' do
+        contact.update!(phone_number: '+10000000001')
+        existing_email_contact = create(:contact, account: account, email: 'shared@test.com', phone_number: '+10000000002')
+        params = { email: 'shared@test.com', name: 'new name' }
+        result = described_class.new(contact: contact, params: params, retain_original_contact_name: true).perform
+        expect(result.id).to eq contact.id
+        expect(result.id).not_to eq existing_email_contact.id
+        expect(result.email).to eq 'shared@test.com'
+        expect(result.phone_number).to eq '+10000000001'
+      end
+
       it 'still merges when the email contact has no phone number on file' do
         existing_email_contact = create(:contact, account: account, email: 'shared@test.com', name: 'old name')
         params = { name: 'new name', email: 'shared@test.com', phone_number: '+12312312321' }

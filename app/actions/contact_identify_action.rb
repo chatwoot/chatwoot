@@ -34,7 +34,11 @@ class ContactIdentifyAction
   end
 
   def merge_if_existing_email_contact
-    return unless merge_contacts?(existing_email_contact, :email)
+    # A differing phone number already means these are kept as separate contacts (see
+    # mergable_email_contact? below), so an identifier mismatch shouldn't also strip :email
+    # from the update list in that case - there's no contact being taken over, so the current
+    # contact is still allowed to record its own email alongside its own phone number.
+    return unless merge_contacts?(existing_email_contact, :email, strip_on_mismatch: mergable_email_contact?)
     return unless mergable_email_contact?
 
     process_contact_merge(existing_email_contact)
@@ -70,7 +74,7 @@ class ContactIdentifyAction
     @existing_phone_number_contact ||= account.contacts.find_by(phone_number: params[:phone_number])
   end
 
-  def merge_contacts?(existing_contact, key)
+  def merge_contacts?(existing_contact, key, strip_on_mismatch: true)
     return if existing_contact.blank?
 
     # Never merge into a contact that already owns an identifier unless the request
@@ -79,8 +83,10 @@ class ContactIdentifyAction
     # matching its email or phone_number. Merges into non-identified contacts
     # (anonymous dedup) are still allowed.
     if existing_contact.identifier.present? && existing_contact.identifier != params[:identifier]
-      # we will remove attribute from update list
-      @attributes_to_update.delete(key)
+      # we will remove attribute from update list, unless the caller already knows this
+      # attribute is safe to keep on the current contact regardless (see
+      # merge_if_existing_email_contact)
+      @attributes_to_update.delete(key) if strip_on_mismatch
       return false
     end
 
@@ -92,10 +98,18 @@ class ContactIdentifyAction
   # a different, non-blank phone number submitted alongside an email that already belongs to
   # another contact means this is a different person sharing that email (a shared family or
   # company inbox, say). Keep them as separate contacts instead of merging into contact 1.
+  #
+  # Falls back to the current contact's own stored phone number when the request doesn't
+  # submit one (e.g. the widget's email-collection prompt only sends email+name): a contact
+  # that already has a phone number shouldn't lose it to a merge just because this particular
+  # request happened not to repeat it.
   def mergable_email_contact?
-    return true if params[:phone_number].blank?
+    return true if existing_email_contact.blank?
 
-    existing_email_contact.phone_number.blank? || existing_email_contact.phone_number == params[:phone_number]
+    phone_number = params[:phone_number].presence || @contact.phone_number
+    return true if phone_number.blank?
+
+    existing_email_contact.phone_number.blank? || existing_email_contact.phone_number == phone_number
   end
 
   # case: contact 1: email: 1@test.com, phone: 123456789
